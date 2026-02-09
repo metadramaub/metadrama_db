@@ -1,0 +1,391 @@
+// ============================================
+// BASE DE DATOS: Métrica del teatro áureo
+// Proyecto METADRAMA
+// Versión: 3.1 - Comentarios internos + Análisis
+// ============================================
+
+
+
+
+// ============================================
+// EDITORES (vinculado a Supabase Auth)
+// ============================================
+
+
+
+Table editores {
+  user_id uuid [pk, note: 'Referencia a auth.users(id) de Supabase']
+  nombre_completo varchar(200) [not null, note: 'Nombre del editor']
+  email varchar(255) [not null, unique, note: 'Email (sincronizado con auth.users)']
+  
+  // PERMISOS Y ROL
+  role uuid [not null, ref: > vocabularios.termino_id, note: 'UUID de vocabulario categoría role_editor: editor, revisor, admin, IP']
+  activo bool [default: true, note: 'FALSE = desactivado temporalmente']
+  
+  // PERFIL ACADÉMICO
+  institucion varchar(200) [note: 'Universidad o centro de investigación']
+  orcid varchar(20) [note: 'ORCID ID del investigador']
+  
+  // METADATOS
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  last_login timestamp [note: 'Última vez que inició sesión']
+  
+  indexes {
+    email
+    role
+    activo
+  }
+  
+  Note: 'user_id debe coincidir con auth.users(id). Supabase Auth gestiona contraseñas y autenticación'
+}
+
+
+
+
+// ============================================
+// AUTORES
+// ============================================
+
+
+
+Table autores {
+  autor_id uuid [pk]
+  nombre_completo varchar(200) [not null, note: 'Nombre canónico: "Juan Bautista Diamante"']
+  nombre_normalizado varchar(200) [note: 'Para ordenación: "Diamante, Juan Bautista"']
+  variantes_nombre text[] [note: 'Array de variantes: ["Diamante", "J.B. Diamante"]']
+  bnedatos_id varchar(20) [note: 'BNEDatos ID']
+  viaf_id varchar(20) [note: 'Virtual International Authority File']
+  wikidata_id varchar(20) [note: 'Wikidata ID (Q...)']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  indexes {
+    nombre_normalizado
+  }
+}
+
+
+
+
+// ============================================
+// OBRAS
+// ============================================
+
+
+
+Table obras {
+  obra_id uuid [pk]
+  
+  // TÍTULO
+  titulo text [not null, note: 'Título principal para mostrar: "La dama boba"']
+  titulo_normalizado text [note: 'Título con artículo al final para ordenación: "dama boba, La"']
+  variantes_titulo text[] [note: 'Array de títulos alternativos históricos']
+  
+  // DATACIÓN TRADICIONAL
+  fecha_inicio_trad int [note: 'Año inicio del rango de datación tradicional: 1613']
+  fecha_fin_trad int [note: 'Año fin del rango de datación tradicional: 1617']
+  fuente_fecha text [note: 'Referencia bibliográfica de la datación: "Morley & Bruerton (1968)"']
+  
+  // DATACIÓN PROYECTO METADRAMA
+  fecha_inicio_metadrama int [note: 'Año inicio propuesto por proyecto (NULL hasta tener datos)']
+  fecha_fin_metadrama int [note: 'Año fin propuesto por proyecto (NULL hasta tener datos)']
+  
+  // EDICIÓN BASE
+  edicion text [note: 'Edición usada por el editor: "Parte IX (1617), ed. Profeti (2007)"']
+  
+  // AUTORÍA (se declara en tablas rangos + rangos_autores)
+  autoria text[] [note: 'Array calculado de nombres de autores (para mostrar en listados). Se genera automáticamente desde rangos_autores']
+  url_informe_autoria text [note: 'URL externa a análisis estilométrico ETSO que justifica las decisiones de autoría (TAB: Autoría)']
+  
+  // ASIGNACIÓN Y GESTIÓN
+  editor_asignado uuid [ref: > editores.user_id, note: 'Editor responsable de esta obra']
+  fecha_asignacion timestamp [note: 'Cuándo se asignó al editor actual']
+  
+  // ESTADOS Y VISIBILIDAD (TAB: Revisión)
+  estado uuid [not null, ref: > vocabularios.termino_id, note: 'UUID de vocabulario: borrador, pendiente, en_revision, validado, publicado']
+  visible_publico bool [default: false, note: 'TRUE = visible en web pública sin login (solo admin/IP)']
+  fecha_cambio_estado timestamp [note: 'Última vez que cambió el estado']
+  
+  // ANÁLISIS Y BIBLIOGRAFÍA (TAB: Análisis)
+  analisis_editor text [note: 'Análisis público del editor con formato rico/markdown. Visible en web pública']
+  bibliografia text [note: 'Referencias bibliográficas generales sobre la obra. Texto largo']
+  
+  // METADATOS GENERALES
+  genero_id uuid [ref: > vocabularios.termino_id, note: 'UUID del término: comedia, tragedia, auto sacramental']
+  total_versos int [note: 'Calculado: MAX(v_fin) de la última jornada de la obra']
+  
+  // TIMESTAMPS
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  indexes {
+    titulo_normalizado
+    estado
+    visible_publico
+    editor_asignado
+  }
+  
+  Note: 'Comentarios internos de trabajo ahora en tabla comentarios_internos (historial con usuario y fecha)'
+}
+
+
+
+
+// ============================================
+// COMENTARIOS INTERNOS (nuevo - historial)
+// ============================================
+
+
+
+Table comentarios_internos {
+  comentario_id uuid [pk]
+  obra_id uuid [ref: > obras.obra_id, note: 'Obra a la que pertenece el comentario']
+  user_id uuid [ref: > editores.user_id, note: 'Editor/revisor que escribió el comentario']
+  comentario text [not null, note: 'Texto del comentario interno']
+  created_at timestamp [default: `now()`, note: 'Fecha de creación del comentario']
+  
+  indexes {
+    obra_id
+    user_id
+    created_at [note: 'DESC para mostrar más recientes primero']
+  }
+  
+  Note: 'Historial de comentarios internos entre editores y revisores. NO visible en web pública. Reemplaza campo observaciones_internas de obras'
+}
+
+
+
+
+// ============================================
+// JORNADAS (estructura de obra)
+// ============================================
+
+
+
+Table jornadas {
+  jornada_id uuid [pk]
+  obra_id uuid [ref: > obras.obra_id, note: 'Jornada pertenece a obra']
+  jornada_num int [not null, note: 'Número de jornada: 1, 2, 3...']
+  v_ini int [not null, note: 'Verso inicial de la jornada']
+  v_fin int [not null, note: 'Verso final de la jornada']
+  
+  indexes {
+    (obra_id, jornada_num) [unique]
+    obra_id
+  }
+  
+  Note: 'División estructural formal de la obra. Autoría se declara en rangos/rangos_autores'
+}
+
+
+
+
+// ============================================
+// CUADROS (divisiones dramáticas)
+// ============================================
+
+
+
+Table cuadros {
+  cuadro_id uuid [pk]
+  jornada_id uuid [ref: > jornadas.jornada_id, note: 'Cuadro pertenece a jornada']
+  cuadro_num int [not null, note: 'Número de cuadro dentro de jornada: 1, 2, 3...']
+  v_ini int [not null, note: 'Verso inicial del cuadro']
+  v_fin int [not null, note: 'Verso final del cuadro']
+  descripcion text [note: 'Texto libre: espacio, acción ("Jardín nocturno", "Escena de engaño")']
+  certeza_editor uuid [not null, ref: > vocabularios.termino_id, note: 'UUID de vocabulario: baja, media, alta']
+  
+  indexes {
+    (jornada_id, cuadro_num) [unique]
+    jornada_id
+  }
+  
+  Note: 'Se revisa junto con la obra, sin estado independiente'
+}
+
+
+
+
+// ============================================
+// SECUENCIAS MÉTRICAS (unidad de análisis)
+// ============================================
+
+
+
+Table secuencias_metricas {
+  secuencia_id uuid [pk]
+  obra_id uuid [ref: > obras.obra_id]
+  
+  // LOCALIZACIÓN (jornada/cuadro se infieren desde v_ini/v_fin)
+  v_ini int [not null, note: 'Verso inicial']
+  v_fin int [not null, note: 'Verso final']
+  n_versos int [not null, note: 'Calculado: v_fin - v_ini + 1']
+  
+  // CLASIFICACIÓN MÉTRICA (metros se declaran en secuencias_metros)
+  estrofa_tipo_id uuid [ref: > vocabularios.termino_id, note: 'romance, quintilla (ababa), redondilla, combinación_libre']
+  
+  // ESPACIO DRAMÁTICO
+  inaugura_espacio bool [default: false, note: 'TRUE si hay cambio de lugar físico']
+  
+  // PERSONAJES
+  personajes_genero varchar(20) [not null, default: 'mixto', note: 'mixto, solo_masculino, solo_femenino']
+  personajes_donaire varchar(20) [not null, default: 'ausente', note: 'ausente, solo, con_otros']
+  personajes_sobrenatural varchar(20) [not null, default: 'ausente', note: 'ausente, solo, con_otros']
+  
+  // ESTADOS Y REVISIÓN
+  estado_revision uuid [not null, ref: > vocabularios.termino_id, note: 'UUID de vocabulario: borrador, pendiente, en_revision, validado']
+  certeza_editor uuid [not null, ref: > vocabularios.termino_id, note: 'UUID de vocabulario: baja, media, alta - obligatorio']
+  
+  // OBSERVACIONES
+  observaciones text [note: 'Observaciones públicas: variantes, contexto dramático']
+  notas_internas text [note: 'Problemas por revisar, dudas del editor - NO públicas']
+  
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  indexes {
+    obra_id
+    v_ini
+    estado_revision
+    estrofa_tipo_id
+  }
+  
+  Note: 'Unidad de análisis métrico. Autoría se consulta desde rangos/rangos_autores por overlap de versos. Metros se declaran en secuencias_metros'
+}
+
+
+
+
+// ============================================
+// RANGOS DE VERSOS (autoría)
+// ============================================
+
+
+
+Table rangos {
+  rango_id uuid [pk]
+  obra_id uuid [ref: > obras.obra_id]
+  v_ini int [not null, note: 'Verso inicial del rango']
+  v_fin int [not null, note: 'Verso final del rango']
+  notas text [note: 'Observaciones del editor sobre este rango (opcional)']
+  
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  indexes {
+    obra_id
+    (obra_id, v_ini, v_fin)
+  }
+  
+  Note: 'Rangos continuos de versos con la misma autoría. Un rango puede tener 1 autor (único) o múltiples (colaborada sin determinar). Los editores NO ven la palabra "rango", solo definen autoría por obra completa/por jornadas/personalizado'
+}
+
+
+
+
+// ============================================
+// AUTORES DE CADA RANGO
+// ============================================
+
+
+
+Table rangos_autores {
+  rango_id uuid [ref: > rangos.rango_id]
+  autor_id uuid [ref: > autores.autor_id]
+  
+  indexes {
+    (rango_id, autor_id) [pk]
+    rango_id
+    autor_id
+  }
+  
+  Note: '1 fila por rango = autoría única. 2+ filas por rango = autoría múltiple (obra colaborada sin determinar quién escribió cada parte)'
+}
+
+
+
+
+// ============================================
+// METROS DE SECUENCIAS
+// ============================================
+
+
+
+Table secuencias_metros {
+  secuencia_id uuid [ref: > secuencias_metricas.secuencia_id]
+  metro_id uuid [ref: > vocabularios.termino_id, note: 'UUID de vocabulario: octosílabo, endecasílabo, heptasílabo, etc.']
+  
+  indexes {
+    (secuencia_id, metro_id) [pk]
+    secuencia_id
+    metro_id
+  }
+  
+  Note: '1 fila = metro único. 2+ filas = combinación (ej: heptasílabos + endecasílabos en silva)'
+}
+
+
+
+
+// ============================================
+// VARIACIONES DENTRO DE SECUENCIAS
+// ============================================
+
+
+
+Table secuencias_variaciones {
+  variacion_id uuid [pk]
+  secuencia_id uuid [ref: > secuencias_metricas.secuencia_id]
+  tipo_variacion varchar(20) [not null, note: 'cantado, (otros tipos a definir)']
+  v_ini int [not null, note: 'Verso inicial de la variación']
+  v_fin int [not null, note: 'Verso final de la variación']
+  observaciones text
+  
+  indexes {
+    secuencia_id
+    tipo_variacion
+  }
+  
+  Note: 'Para marcar versos cantados u otras variaciones dentro de secuencias'
+}
+
+
+
+
+// ============================================
+// VOCABULARIOS CONTROLADOS (con jerarquía)
+// ============================================
+
+
+
+Table vocabularios {
+  termino_id uuid [pk]
+  categoria varchar(50) [not null, note: 'metro, estrofa_tipo, genero, estado, estado_revision, certeza_editor, personajes_genero, personajes_donaire, personajes_sobrenatural, role_editor']
+  termino varchar(100) [not null, note: 'Término preferido']
+  
+  // JERARQUÍA (solo para términos que la necesiten)
+  termino_padre_id uuid [ref: > vocabularios.termino_id, note: 'NULL si no tiene padre']
+  nivel int [note: 'NULL o 1=raíz, 2=variante']
+  patron_especifico varchar(50) [note: 'NULL si no aplica. Ej: "ababa", "e-o"']
+  
+  // METADATOS
+  definicion text
+  ejemplo text
+  equivalencias text[] [note: 'Array de sinónimos o variantes']
+  orden int [note: 'Para ordenar en dropdowns']
+  activo boolean [default: true]
+  bibliografia text
+  
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  indexes {
+    (categoria, termino) [unique]
+    categoria
+    termino_padre_id
+    activo
+  }
+  
+  Note: 'Vocabulario único con jerarquía opcional. Incluye role_editor para roles del sistema'
+}

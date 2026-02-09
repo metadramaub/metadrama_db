@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--background: #f7f2e9;
+	--foreground: #132332;
+	--muted: #e8dfd3;
+	--muted-foreground: #425968;
+	--border: #cfbfaa;
+	--primary: #8d1f2d;
+	--primary-foreground: #fffaf2;
+	--accent: #2a556f;
+	--success: #1f6d4a;
+	--warning: #af6a11;
+	--danger: #a52828;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	background: radial-gradient(circle at 0% 0%, #fff8ee 0%, var(--background) 40%, #efe2d0 100%);
+	color: var(--foreground);
+	font-family: 'IBM Plex Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: 'Source Serif 4', serif;
+}
+
+a {
+	color: var(--accent);
+}
+
+.card {
+	@apply rounded-xl border border-[color:var(--border)] bg-white/90 shadow-sm;
+}

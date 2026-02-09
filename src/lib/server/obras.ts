@@ -1,0 +1,116 @@
+import { error } from '@sveltejs/kit';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database, Tables } from '$lib/types/database.types';
+
+type Rango = Pick<
+	Tables<'jornadas'> | Tables<'cuadros'> | Tables<'secuencias_metricas'>,
+	'v_ini' | 'v_fin'
+>;
+
+export function hasOverlap(ranges: Rango[], input: Rango, excludeBy?: Rango): boolean {
+	return ranges.some((current) => {
+		if (excludeBy && current.v_ini === excludeBy.v_ini && current.v_fin === excludeBy.v_fin) {
+			return false;
+		}
+		return input.v_ini <= current.v_fin && input.v_fin >= current.v_ini;
+	});
+}
+
+export async function getEstadoTerm(
+	supabase: SupabaseClient<Database>,
+	estadoId: string
+): Promise<string> {
+	const { data } = await supabase
+		.from('vocabularios')
+		.select('termino')
+		.eq('termino_id', estadoId)
+		.eq('categoria', 'estado')
+		.single();
+
+	return (data?.termino ?? 'borrador').trim().toLowerCase();
+}
+
+export async function getEstadoRevisionTerm(
+	supabase: SupabaseClient<Database>,
+	estadoId: string
+): Promise<string> {
+	const { data } = await supabase
+		.from('vocabularios')
+		.select('termino')
+		.eq('termino_id', estadoId)
+		.eq('categoria', 'estado_revision')
+		.single();
+
+	return (data?.termino ?? 'borrador').trim().toLowerCase();
+}
+
+export async function getObraOrFail(
+	supabase: SupabaseClient<Database>,
+	obraId: string
+): Promise<Tables<'obras'>> {
+	const { data, error: obraError } = await supabase
+		.from('obras')
+		.select('*')
+		.eq('obra_id', obraId)
+		.single();
+	const obra = (data ?? null) as Tables<'obras'> | null;
+	if (obraError || !obra) {
+		throw error(404, 'Obra no encontrada');
+	}
+	return obra;
+}
+
+export async function computeObraProgress(
+	supabase: SupabaseClient<Database>,
+	obra: Tables<'obras'>
+) {
+	const flags = {
+		datos: Boolean(obra.titulo?.trim() && obra.genero_id && obra.edicion?.trim()),
+		estructura: false,
+		secuencias: false,
+		autoria: false,
+		analisis: Boolean((obra.analisis_editor ?? '').trim().length > 100),
+		bibliografia: Boolean((obra.bibliografia ?? '').trim().length > 0)
+	};
+
+	const [jornadasResp, secuenciasResp, rangosResp] = await Promise.all([
+		supabase
+			.from('jornadas')
+			.select('jornada_id', { count: 'exact', head: true })
+			.eq('obra_id', obra.obra_id),
+		supabase
+			.from('secuencias_metricas')
+			.select('estado_revision')
+			.eq('obra_id', obra.obra_id)
+			.limit(1000),
+		supabase
+			.from('rangos')
+			.select('rango_id', { count: 'exact', head: true })
+			.eq('obra_id', obra.obra_id)
+	]);
+
+	flags.estructura = (jornadasResp.count ?? 0) > 0;
+	const secuencias = (secuenciasResp.data ?? []) as Array<
+		Pick<Tables<'secuencias_metricas'>, 'estado_revision'>
+	>;
+	if (secuencias.length > 0) {
+		const estadoIds = [...new Set(secuencias.map((row) => row.estado_revision))];
+		const { data: estados } = await supabase
+			.from('vocabularios')
+			.select('termino_id, termino')
+			.in('termino_id', estadoIds)
+			.eq('categoria', 'estado_revision');
+
+		const validatedIds = new Set(
+			(estados ?? [])
+				.filter((item) => item.termino.trim().toLowerCase() === 'validado')
+				.map((item) => item.termino_id)
+		);
+		flags.secuencias = secuencias.every((row) => validatedIds.has(row.estado_revision));
+	}
+	flags.autoria = (rangosResp.count ?? 0) > 0;
+
+	const values = Object.values(flags);
+	const completed = values.filter(Boolean).length;
+	return Math.round((completed / values.length) * 100);
+}
