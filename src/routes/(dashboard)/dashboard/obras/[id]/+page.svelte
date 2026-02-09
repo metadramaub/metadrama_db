@@ -24,9 +24,9 @@
 		{ id: 'datos', label: 'Datos de la obra' },
 		{ id: 'estructura', label: 'Estructura' },
 		{ id: 'secuencias', label: 'Secuencias' },
-		{ id: 'autoria', label: 'Autoría' },
-		{ id: 'analisis', label: 'Análisis' },
-		{ id: 'revision', label: 'Revisión' }
+		{ id: 'autoria', label: 'Autoria' },
+		{ id: 'analisis', label: 'Analisis' },
+		{ id: 'revision', label: 'Revision' }
 	];
 
 	const vocabByCategory = $derived.by(() => {
@@ -46,6 +46,7 @@
 	});
 
 	const generoOptions = $derived(vocabByCategory.get('genero') ?? []);
+	const estadoOptions = $derived(vocabByCategory.get('estado') ?? []);
 	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
 	const estadoRevisionOptions = $derived(vocabByCategory.get('estado_revision') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
@@ -55,15 +56,19 @@
 	const jornadaIds = $derived(
 		new Set((data.jornadas as Tables<'jornadas'>[]).map((jornada) => jornada.jornada_id))
 	);
+	const rangoIds = $derived(new Set((data.rangos as Tables<'rangos'>[]).map((rango) => rango.rango_id)));
 
-	function onExternalChange(payload: { table: string; jornada_id?: string | null }) {
+	function onExternalChange(payload: { table: string; jornada_id?: string | null; rango_id?: string | null }) {
 		const dirty = get(currentObraStore).dirty;
 		if (payload.table === 'cuadros' && payload.jornada_id && !jornadaIds.has(payload.jornada_id)) {
 			return;
 		}
+		if (payload.table === 'rangos_autores' && payload.rango_id && !rangoIds.has(payload.rango_id)) {
+			return;
+		}
 		if (dirty) {
 			setConflict(true);
-			pushToast('info', 'Otro editor guardó cambios; tu próximo guardado sobrescribirá.');
+			pushToast('info', 'Otro editor guardo cambios; tu proximo guardado sobrescribira.');
 			return;
 		}
 		void invalidateAll();
@@ -100,10 +105,30 @@
 				{
 					event: '*',
 					schema: 'public',
+					table: 'rangos',
+					filter: `obra_id=eq.${data.obra.obra_id}`
+				},
+				() => onExternalChange({ table: 'rangos' })
+			)
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
 					table: 'secuencias_metricas',
 					filter: `obra_id=eq.${data.obra.obra_id}`
 				},
 				() => onExternalChange({ table: 'secuencias_metricas' })
+			)
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'comentarios_internos',
+					filter: `obra_id=eq.${data.obra.obra_id}`
+				},
+				() => onExternalChange({ table: 'comentarios_internos' })
 			)
 			.on(
 				'postgres_changes',
@@ -118,6 +143,22 @@
 						jornada_id:
 							(payload.new as { jornada_id?: string } | null)?.jornada_id ??
 							(payload.old as { jornada_id?: string } | null)?.jornada_id ??
+							null
+					})
+			)
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'rangos_autores'
+				},
+				(payload) =>
+					onExternalChange({
+						table: 'rangos_autores',
+						rango_id:
+							(payload.new as { rango_id?: string } | null)?.rango_id ??
+							(payload.old as { rango_id?: string } | null)?.rango_id ??
 							null
 					})
 			)
@@ -170,10 +211,32 @@
 			certezaOptions={certezaOptions}
 		/>
 	{:else if currentTab === 'autoria'}
-		<AutoriaTab />
+		<AutoriaTab
+			obraId={data.obra.obra_id}
+			obra={data.obra}
+			jornadas={data.jornadas}
+			rangosInitial={data.rangos}
+			rangosAutoresInitial={data.rangosAutores}
+			autoresInitial={data.autores}
+		/>
 	{:else if currentTab === 'analisis'}
-		<AnalisisTab />
+		<AnalisisTab
+			obraId={data.obra.obra_id}
+			analisisInitial={data.obra.analisis_editor ?? ''}
+			bibliografiaInitial={data.obra.bibliografia ?? ''}
+		/>
 	{:else}
-		<RevisionTab />
+		<RevisionTab
+			obraId={data.obra.obra_id}
+			obra={data.obra}
+			profile={data.profile}
+			estadoTerm={data.estadoTerm}
+			estadoOptions={estadoOptions}
+			estadoRevisionOptions={estadoRevisionOptions}
+			jornadas={data.jornadas}
+			cuadros={data.cuadros}
+			secuencias={data.secuencias}
+			rangos={data.rangos}
+		/>
 	{/if}
 </section>

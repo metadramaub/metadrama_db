@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		requireEdit: false
 	});
 
-	const [jornadasResp, cuadrosResp, secuenciasResp, secuenciasMetrosResp, vocabResp] =
+	const [jornadasResp, cuadrosResp, secuenciasResp, secuenciasMetrosResp, vocabResp, rangosResp, autoresResp] =
 		await Promise.all([
 			locals.supabase.from('jornadas').select('*').eq('obra_id', obra.obra_id).order('v_ini'),
 			locals.supabase.from('cuadros').select('*').order('v_ini'),
@@ -31,7 +31,12 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 					'personajes_genero',
 					'personajes_donaire',
 					'personajes_sobrenatural'
-				])
+				]),
+			locals.supabase.from('rangos').select('*').eq('obra_id', obra.obra_id).order('v_ini'),
+			locals.supabase
+				.from('autores')
+				.select('autor_id,nombre_completo,nombre_normalizado')
+				.order('nombre_normalizado')
 		]);
 
 	const jornadas = (jornadasResp.data ?? []) as Tables<'jornadas'>[];
@@ -44,6 +49,14 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		(secuenciasMetrosResp.data ?? []) as Tables<'secuencias_metros'>[]
 	).filter((item) => secuenciaIds.includes(item.secuencia_id));
 
+	const rangos = (rangosResp.data ?? []) as Tables<'rangos'>[];
+	const rangoIds = rangos.map((row) => row.rango_id);
+	const rangosAutoresResp =
+		rangoIds.length > 0
+			? await locals.supabase.from('rangos_autores').select('*').in('rango_id', rangoIds)
+			: { data: [] };
+	const rangosAutores = (rangosAutoresResp.data ?? []) as Tables<'rangos_autores'>[];
+
 	return {
 		profile,
 		obra,
@@ -52,6 +65,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		cuadros,
 		secuencias,
 		secuenciasMetros,
+		rangos,
+		rangosAutores,
+		autores: autoresResp.data ?? [],
 		vocabularios: vocabResp.data ?? []
 	};
 };

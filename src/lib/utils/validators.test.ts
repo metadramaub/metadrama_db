@@ -3,7 +3,10 @@ import {
 	obraDatosPatchSchema,
 	jornadaInputSchema,
 	secuenciaInputSchema,
-	comentarioInputSchema
+	comentarioInputSchema,
+	autoriaInputSchema,
+	analisisInputSchema,
+	visibilidadInputSchema
 } from './validators';
 
 describe('validators', () => {
@@ -58,5 +61,42 @@ describe('validators', () => {
 	it('rejects blank internal comment', () => {
 		const result = comentarioInputSchema.safeParse({ comentario: '' });
 		expect(result.success).toBe(false);
+	});
+
+	it('accepts autoria obra completa payload', () => {
+		const result = autoriaInputSchema.safeParse({
+			mode: 'obra_completa',
+			url_informe_autoria: 'https://example.com/informe',
+			autor_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'],
+			notas: 'Colaboracion no determinada'
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('rejects autoria custom range with invalid verse order', () => {
+		const result = autoriaInputSchema.safeParse({
+			mode: 'rango_personalizado',
+			url_informe_autoria: null,
+			items: [
+				{
+					v_ini: 100,
+					v_fin: 90,
+					autor_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'],
+					notas: null
+				}
+			]
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it('normalizes empty analysis text to null', () => {
+		const result = analisisInputSchema.parse({ analisis_editor: '   ', bibliografia: '' });
+		expect(result.analisis_editor).toBeNull();
+		expect(result.bibliografia).toBeNull();
+	});
+
+	it('accepts visibility toggle payload', () => {
+		const result = visibilidadInputSchema.safeParse({ visible_publico: true });
+		expect(result.success).toBe(true);
 	});
 });

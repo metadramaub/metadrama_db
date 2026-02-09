@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { canTransitionState, canReadAllObras, canEditByState, normalizeRole } from './permissions';
+import {
+	canTransitionState,
+	canReadAllObras,
+	canEditByState,
+	canToggleVisibility,
+	normalizeRole
+} from './permissions';
 
 describe('permissions', () => {
 	it('normalizes role names', () => {
@@ -35,5 +41,12 @@ describe('permissions', () => {
 		expect(canEditByState('editor', 'borrador')).toBe(true);
 		expect(canEditByState('editor', 'pendiente')).toBe(true);
 		expect(canEditByState('editor', 'validado')).toBe(false);
+	});
+
+	it('limits visibility toggle to admin/IP', () => {
+		expect(canToggleVisibility('admin')).toBe(true);
+		expect(canToggleVisibility('ip')).toBe(true);
+		expect(canToggleVisibility('editor')).toBe(false);
+		expect(canToggleVisibility('revisor')).toBe(false);
 	});
 });
