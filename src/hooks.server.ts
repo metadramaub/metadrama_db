@@ -1,11 +1,13 @@
 import { createServerClient } from '@supabase/ssr';
 import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database.types';
+import { env as publicEnv } from '$env/dynamic/public';
+import { env as privateEnv } from '$env/dynamic/private';
 
 function readSupabaseEnv() {
-	const supabaseUrl = process.env.PUBLIC_SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
+	const supabaseUrl = publicEnv.PUBLIC_SUPABASE_URL ?? privateEnv.VITE_SUPABASE_URL;
 	const supabaseAnonKey =
-		process.env.PUBLIC_SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY;
+		publicEnv.PUBLIC_SUPABASE_ANON_KEY ?? privateEnv.VITE_SUPABASE_ANON_KEY;
 
 	if (!supabaseUrl || !supabaseAnonKey) {
 		throw new Error(
