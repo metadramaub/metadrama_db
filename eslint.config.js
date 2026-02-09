@@ -4,7 +4,14 @@ import tsPlugin from '@typescript-eslint/eslint-plugin';
 
 export default [
 	{
-		ignores: ['.svelte-kit/**', 'build/**', 'coverage/**', 'node_modules/**', '**/*.svelte']
+		ignores: [
+			'.svelte-kit/**',
+			'build/**',
+			'coverage/**',
+			'node_modules/**',
+			'**/*.svelte',
+			'src/lib/types/database.types.ts'
+		]
 	},
 	js.configs.recommended,
 	{
