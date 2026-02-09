@@ -3,6 +3,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
+	import { currentObraStore, patchCurrentObra } from '$lib/stores/currentObra';
 	import type { Tables } from '$lib/types/database.types';
 	import type { EditorProfile } from '$lib/types/obra.types';
 
@@ -22,6 +23,8 @@
 		rangos: Tables<'rangos'>[];
 	}>();
 
+	const obraLive = $derived(($currentObraStore.obra ?? props.obra) as Tables<'obras'>);
+
 	let currentEstadoId = $state(props.obra.estado);
 	let currentEstadoTerm = $state(props.estadoTerm);
 	let estadoComentario = $state('');
@@ -31,10 +34,9 @@
 	let comments = $state<ComentarioRow[]>([]);
 	let commentsLoading = $state(false);
 	let postingComment = $state(false);
-	let newComment = $state('');
-
 	let stateSaving = $state(false);
 	let visibilitySaving = $state(false);
+	let newComment = $state('');
 
 	const canToggleVisible = $derived(['admin', 'ip'].includes(props.profile.roleTerm));
 	const canReviewPanel = $derived(['admin', 'ip', 'revisor'].includes(props.profile.roleTerm));
@@ -63,7 +65,7 @@
 		return [
 			{
 				label: 'Datos basicos completos',
-				done: Boolean(props.obra.titulo?.trim() && props.obra.genero_id && props.obra.edicion?.trim()),
+				done: Boolean(obraLive.titulo?.trim() && obraLive.genero_id && obraLive.edicion?.trim()),
 				detail: ''
 			},
 			{
@@ -78,18 +80,18 @@
 			},
 			{
 				label: 'Autoria asignada',
-				done: props.rangos.length > 0,
-				detail: `${props.rangos.length} rangos`
+				done: (obraLive.autoria ?? []).length > 0,
+				detail: `${(obraLive.autoria ?? []).length} autores`
 			},
 			{
 				label: 'Analisis de obra',
-				done: (props.obra.analisis_editor ?? '').trim().length > 100,
-				detail: `${(props.obra.analisis_editor ?? '').trim().length} caracteres`
+				done: (obraLive.analisis_editor ?? '').trim().length > 100,
+				detail: `${(obraLive.analisis_editor ?? '').trim().length} caracteres`
 			},
 			{
 				label: 'Bibliografia anadida',
-				done: (props.obra.bibliografia ?? '').trim().length > 0,
-				detail: ''
+				done: (obraLive.bibliografia ?? '').trim().length > 0,
+				detail: `${(obraLive.bibliografia ?? '').trim().length} caracteres`
 			}
 		];
 	});
@@ -114,6 +116,21 @@
 		comments = payload.items ?? [];
 	}
 
+	async function postInternalComment(text: string) {
+		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ comentario: text })
+		});
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo publicar comentario.');
+			return false;
+		}
+		await loadComments();
+		return true;
+	}
+
 	async function saveEstado(targetEstadoId: string, comentario: string) {
 		if (stateSaving) return;
 		stateSaving = true;
@@ -134,6 +151,10 @@
 		currentEstadoId = payload.obra.estado;
 		currentEstadoTerm = payload.estadoTerm ?? estadoTermById.get(payload.obra.estado) ?? currentEstadoTerm;
 		estadoComentario = '';
+		patchCurrentObra({
+			estado: payload.obra.estado,
+			updated_at: payload.obra.updated_at ?? obraLive.updated_at
+		});
 		pushToast('success', 'Estado actualizado');
 		await loadComments();
 		return true;
@@ -152,26 +173,6 @@
 		await saveEstado(pendingId, estadoComentario || 'Enviado a revision');
 	}
 
-	async function onDevolverEditor() {
-		const pendingId = findEstadoIdByTerm('pendiente');
-		if (!pendingId) {
-			pushToast('error', 'No existe estado pendiente en vocabularios.');
-			return;
-		}
-		const ok = await saveEstado(pendingId, reviewerComentario || 'Devuelto a editor');
-		if (ok) reviewerComentario = '';
-	}
-
-	async function onValidarAprobar() {
-		const validadoId = findEstadoIdByTerm('validado');
-		if (!validadoId) {
-			pushToast('error', 'No existe estado validado en vocabularios.');
-			return;
-		}
-		const ok = await saveEstado(validadoId, reviewerComentario || 'Validado por revisor');
-		if (ok) reviewerComentario = '';
-	}
-
 	async function onGuardarVisibilidad() {
 		if (visibilitySaving || !canToggleVisible) return;
 		visibilitySaving = true;
@@ -187,6 +188,12 @@
 			pushToast('error', body.message ?? 'No se pudo actualizar visibilidad.');
 			return;
 		}
+
+		const payload = await response.json();
+		patchCurrentObra({
+			visible_publico: payload.obra.visible_publico,
+			updated_at: payload.obra.updated_at ?? obraLive.updated_at
+		});
 		pushToast('success', 'Visibilidad actualizada');
 	}
 
@@ -196,24 +203,26 @@
 			pushToast('error', 'Escribe un comentario antes de publicar.');
 			return;
 		}
-
 		postingComment = true;
-		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ comentario: newComment })
-		});
+		const ok = await postInternalComment(newComment.trim());
 		postingComment = false;
+		if (!ok) return;
+		newComment = '';
+		pushToast('success', 'Comentario publicado');
+	}
 
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo publicar comentario.');
+	async function onPublicarRevision() {
+		if (postingComment) return;
+		if (!reviewerComentario.trim()) {
+			pushToast('error', 'Escribe un comentario de revisor.');
 			return;
 		}
-
-		newComment = '';
-		await loadComments();
-		pushToast('success', 'Comentario publicado');
+		postingComment = true;
+		const ok = await postInternalComment(`[Revision] ${reviewerComentario.trim()}`);
+		postingComment = false;
+		if (!ok) return;
+		reviewerComentario = '';
+		pushToast('success', 'Comentario de revision publicado');
 	}
 
 	onMount(() => {
@@ -222,58 +231,6 @@
 </script>
 
 <section class="space-y-4">
-	<div class="card p-4">
-		<h2 class="mb-3 text-xl font-semibold">Estado y visibilidad</h2>
-		<div class="grid gap-3 md:grid-cols-2">
-			<label class="text-sm">
-				<span class="mb-1 block">Estado de la obra</span>
-				<select
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					bind:value={currentEstadoId}
-				>
-					{#each props.estadoOptions as option}
-						<option value={option.termino_id}>{option.termino}</option>
-					{/each}
-				</select>
-			</label>
-			<div class="rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
-				<div><strong>Editor asignado:</strong> {props.obra.editor_asignado ?? 'Sin asignar'}</div>
-				<div><strong>Ultima modificacion:</strong> {formatRelative(props.obra.updated_at)}</div>
-				<div><strong>Estado actual:</strong> {currentEstadoTerm}</div>
-			</div>
-		</div>
-
-		<label class="mt-3 block text-sm">
-			<span class="mb-1 block">Comentario de cambio de estado (opcional)</span>
-			<textarea
-				rows={3}
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				bind:value={estadoComentario}
-			></textarea>
-		</label>
-
-		<div class="mt-3 flex flex-wrap gap-2">
-			<Button onclick={onGuardarEstado} disabled={stateSaving}>{stateSaving ? 'Guardando...' : 'Guardar estado'}</Button>
-			{#if currentEstadoTerm === 'borrador'}
-				<Button variant="secondary" onclick={onEnviarRevision} disabled={stateSaving}>Enviar a revision</Button>
-			{/if}
-		</div>
-
-		{#if canToggleVisible}
-			<div class="mt-4 rounded-md border border-[color:var(--border)] bg-white p-3">
-				<label class="flex items-center gap-2 text-sm">
-					<input type="checkbox" bind:checked={visiblePublico} />
-					Visible en web publica
-				</label>
-				<div class="mt-2">
-					<Button variant="ghost" onclick={onGuardarVisibilidad} disabled={visibilitySaving}>
-						{visibilitySaving ? 'Guardando...' : 'Guardar visibilidad'}
-					</Button>
-				</div>
-			</div>
-		{/if}
-	</div>
-
 	<div class="card p-4">
 		<h3 class="mb-3 text-lg font-semibold">Checklist de completitud</h3>
 		<div class="space-y-2 text-sm">
@@ -328,7 +285,10 @@
 
 	{#if canReviewPanel}
 		<div class="card p-4">
-			<h3 class="mb-3 text-lg font-semibold">Panel de validacion</h3>
+			<h3 class="mb-3 text-lg font-semibold">Panel de revisor</h3>
+			<p class="mb-2 text-sm text-[color:var(--muted-foreground)]">
+				Este panel solo publica comentarios de revision en el historial interno.
+			</p>
 			<label class="block text-sm">
 				<span class="mb-1 block">Comentario del revisor</span>
 				<textarea
@@ -337,10 +297,63 @@
 					bind:value={reviewerComentario}
 				></textarea>
 			</label>
-			<div class="mt-3 flex flex-wrap gap-2">
-				<Button variant="secondary" onclick={onDevolverEditor} disabled={stateSaving}>Devolver a editor</Button>
-				<Button onclick={onValidarAprobar} disabled={stateSaving}>Validar y aprobar</Button>
+			<div class="mt-3 flex justify-end">
+				<Button onclick={onPublicarRevision} disabled={postingComment}>
+					{postingComment ? 'Publicando...' : 'Publicar comentario de revision'}
+				</Button>
 			</div>
 		</div>
 	{/if}
+
+	<div class="card p-4">
+		<h2 class="mb-3 text-xl font-semibold">Estado y visibilidad</h2>
+		<div class="grid gap-3 md:grid-cols-2">
+			<label class="text-sm">
+				<span class="mb-1 block">Estado de la obra</span>
+				<select
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					bind:value={currentEstadoId}
+				>
+					{#each props.estadoOptions as option}
+						<option value={option.termino_id}>{option.termino}</option>
+					{/each}
+				</select>
+			</label>
+			<div class="rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
+				<div><strong>Editor asignado:</strong> {obraLive.editor_asignado ?? 'Sin asignar'}</div>
+				<div><strong>Ultima modificacion:</strong> {formatRelative(obraLive.updated_at)}</div>
+				<div><strong>Estado actual:</strong> {currentEstadoTerm}</div>
+			</div>
+		</div>
+
+		<label class="mt-3 block text-sm">
+			<span class="mb-1 block">Comentario de cambio de estado (opcional)</span>
+			<textarea
+				rows={3}
+				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				bind:value={estadoComentario}
+			></textarea>
+		</label>
+
+		<div class="mt-3 flex flex-wrap gap-2">
+			<Button onclick={onGuardarEstado} disabled={stateSaving}>{stateSaving ? 'Guardando...' : 'Guardar estado'}</Button>
+			{#if currentEstadoTerm === 'borrador'}
+				<Button variant="secondary" onclick={onEnviarRevision} disabled={stateSaving}>Enviar a revision</Button>
+			{/if}
+		</div>
+
+		{#if canToggleVisible}
+			<div class="mt-4 rounded-md border border-[color:var(--border)] bg-white p-3">
+				<label class="flex items-center gap-2 text-sm">
+					<input type="checkbox" bind:checked={visiblePublico} />
+					Visible en web publica
+				</label>
+				<div class="mt-2">
+					<Button variant="ghost" onclick={onGuardarVisibilidad} disabled={visibilitySaving}>
+						{visibilitySaving ? 'Guardando...' : 'Guardar visibilidad'}
+					</Button>
+				</div>
+			</div>
+		{/if}
+	</div>
 </section>
