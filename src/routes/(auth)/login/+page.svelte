@@ -15,20 +15,24 @@
 		event.preventDefault();
 		loading = true;
 		errorMessage = null;
+		try {
+			const supabase = getSupabaseBrowserClient();
+			const { error } = await supabase.auth.signInWithPassword({
+				email,
+				password
+			});
 
-		const supabase = getSupabaseBrowserClient();
-		const { error } = await supabase.auth.signInWithPassword({
-			email,
-			password
-		});
+			if (error) {
+				errorMessage = error.message;
+				return;
+			}
 
-		loading = false;
-		if (error) {
-			errorMessage = error.message;
-			return;
+			await goto(data.redirectTo);
+		} catch (error) {
+			errorMessage = error instanceof Error ? error.message : 'No se pudo iniciar sesion.';
+		} finally {
+			loading = false;
 		}
-
-		await goto(data.redirectTo);
 	}
 </script>
 
