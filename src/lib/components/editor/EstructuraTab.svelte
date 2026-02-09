@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -12,193 +12,318 @@
 
 	let jornadas = $state([...props.jornadasInitial]);
 	let cuadros = $state([...props.cuadrosInitial]);
-	let showJornadaForm = $state(false);
-	const initialJornadaNum = props.jornadasInitial.length + 1;
-	let newJornada = $state({ jornada_num: initialJornadaNum, v_ini: 1, v_fin: 1 });
-
 	const defaultCerteza = props.certezaOptions.at(0)?.termino_id ?? '';
 
+	type SidebarMode = 'jornada-new' | 'jornada-edit' | 'cuadro-new' | 'cuadro-edit' | null;
+	type DeleteTarget = {
+		kind: 'jornada' | 'cuadro';
+		id: string;
+		title: string;
+		description: string;
+	};
+
+	let sidebarMode = $state<SidebarMode>(null);
+	let editingJornadaId = $state<string | null>(null);
+	let editingCuadroId = $state<string | null>(null);
+	let deleteTarget = $state<DeleteTarget | null>(null);
+
+	let jornadaForm = $state({
+		jornada_num: props.jornadasInitial.length + 1,
+		v_ini: 1,
+		v_fin: 2
+	});
+
+	let cuadroForm = $state({
+		jornada_id: props.jornadasInitial[0]?.jornada_id ?? '',
+		cuadro_num: 1,
+		v_ini: props.jornadasInitial[0]?.v_ini ?? 1,
+		v_fin: props.jornadasInitial[0]?.v_fin ?? 2,
+		descripcion: '',
+		certeza_editor: defaultCerteza
+	});
+
+	function sortByVIni<T extends { v_ini: number }>(items: T[]): T[] {
+		return [...items].sort((a, b) => a.v_ini - b.v_ini);
+	}
+
+	function getJornadaById(jornadaId: string) {
+		return jornadas.find((item) => item.jornada_id === jornadaId) ?? null;
+	}
+
 	function getCuadros(jornadaId: string) {
-		return cuadros.filter((item) => item.jornada_id === jornadaId).sort((a, b) => a.v_ini - b.v_ini);
+		return sortByVIni(cuadros.filter((item) => item.jornada_id === jornadaId));
 	}
 
-	async function addJornada() {
-		const response = await fetch(`/api/obras/${props.obraId}/estructura/jornadas`, {
-			method: 'POST',
+	function resetJornadaForm() {
+		jornadaForm = {
+			jornada_num: jornadas.length + 1,
+			v_ini: 1,
+			v_fin: 2
+		};
+	}
+
+	function resetCuadroForm(jornadaId?: string) {
+		const selectedJornadaId = jornadaId ?? jornadas[0]?.jornada_id ?? '';
+		const selectedJornada = getJornadaById(selectedJornadaId);
+		cuadroForm = {
+			jornada_id: selectedJornadaId,
+			cuadro_num: selectedJornadaId ? getCuadros(selectedJornadaId).length + 1 : 1,
+			v_ini: selectedJornada?.v_ini ?? 1,
+			v_fin: selectedJornada?.v_fin ?? 2,
+			descripcion: '',
+			certeza_editor: defaultCerteza
+		};
+	}
+
+	function onCuadroJornadaChange(nextJornadaId: string) {
+		const nextJornada = getJornadaById(nextJornadaId);
+		cuadroForm = {
+			...cuadroForm,
+			jornada_id: nextJornadaId,
+			cuadro_num: nextJornadaId ? getCuadros(nextJornadaId).length + 1 : 1,
+			v_ini: nextJornada?.v_ini ?? cuadroForm.v_ini,
+			v_fin: nextJornada?.v_fin ?? cuadroForm.v_fin
+		};
+	}
+
+	function openNewJornada() {
+		editingJornadaId = null;
+		resetJornadaForm();
+		sidebarMode = 'jornada-new';
+	}
+
+	function openEditJornada(jornada: Tables<'jornadas'>) {
+		editingJornadaId = jornada.jornada_id;
+		jornadaForm = {
+			jornada_num: jornada.jornada_num,
+			v_ini: jornada.v_ini,
+			v_fin: jornada.v_fin
+		};
+		sidebarMode = 'jornada-edit';
+	}
+
+	function openNewCuadro(jornada: Tables<'jornadas'>) {
+		editingCuadroId = null;
+		resetCuadroForm(jornada.jornada_id);
+		sidebarMode = 'cuadro-new';
+	}
+
+	function openEditCuadro(cuadro: Tables<'cuadros'>) {
+		editingCuadroId = cuadro.cuadro_id;
+		cuadroForm = {
+			jornada_id: cuadro.jornada_id,
+			cuadro_num: cuadro.cuadro_num,
+			v_ini: cuadro.v_ini,
+			v_fin: cuadro.v_fin,
+			descripcion: cuadro.descripcion ?? '',
+			certeza_editor: cuadro.certeza_editor
+		};
+		sidebarMode = 'cuadro-edit';
+	}
+
+	function closeSidebar() {
+		sidebarMode = null;
+		editingJornadaId = null;
+		editingCuadroId = null;
+	}
+
+	function openDeleteJornada(jornada: Tables<'jornadas'>) {
+		deleteTarget = {
+			kind: 'jornada',
+			id: jornada.jornada_id,
+			title: `Eliminar Jornada ${jornada.jornada_num}`,
+			description: 'Se eliminaran tambien los cuadros asociados.'
+		};
+	}
+
+	function openDeleteCuadro(cuadro: Tables<'cuadros'>) {
+		deleteTarget = {
+			kind: 'cuadro',
+			id: cuadro.cuadro_id,
+			title: `Eliminar Cuadro ${cuadro.cuadro_num}`,
+			description: 'Esta accion no se puede deshacer.'
+		};
+	}
+
+	function parseJornadaPayload() {
+		return {
+			jornada_num: Number(jornadaForm.jornada_num),
+			v_ini: Number(jornadaForm.v_ini),
+			v_fin: Number(jornadaForm.v_fin)
+		};
+	}
+
+	function parseCuadroPayload() {
+		return {
+			jornada_id: cuadroForm.jornada_id,
+			cuadro_num: Number(cuadroForm.cuadro_num),
+			v_ini: Number(cuadroForm.v_ini),
+			v_fin: Number(cuadroForm.v_fin),
+			descripcion: cuadroForm.descripcion.trim() || null,
+			certeza_editor: cuadroForm.certeza_editor
+		};
+	}
+
+	function validateJornadaForm() {
+		const payload = parseJornadaPayload();
+		if (!Number.isFinite(payload.jornada_num) || payload.jornada_num < 1) {
+			pushToast('error', 'Jornada invalida');
+			return false;
+		}
+		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
+			pushToast('error', 'Rango de versos invalido');
+			return false;
+		}
+		return true;
+	}
+
+	function validateCuadroForm() {
+		const payload = parseCuadroPayload();
+		if (!payload.jornada_id) {
+			pushToast('error', 'Selecciona una jornada');
+			return false;
+		}
+		if (!payload.certeza_editor) {
+			pushToast('error', 'Selecciona certeza');
+			return false;
+		}
+		if (!Number.isFinite(payload.cuadro_num) || payload.cuadro_num < 1) {
+			pushToast('error', 'Cuadro invalido');
+			return false;
+		}
+		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
+			pushToast('error', 'Rango de versos invalido');
+			return false;
+		}
+		return true;
+	}
+
+	async function saveJornada() {
+		if (!validateJornadaForm()) return;
+		const payload = parseJornadaPayload();
+		const endpoint = editingJornadaId
+			? `/api/obras/${props.obraId}/estructura/jornadas/${editingJornadaId}`
+			: `/api/obras/${props.obraId}/estructura/jornadas`;
+		const method = editingJornadaId ? 'PATCH' : 'POST';
+
+		const response = await fetch(endpoint, {
+			method,
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(newJornada)
+			body: JSON.stringify(payload)
 		});
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo crear la jornada');
+			pushToast('error', body.message ?? 'No se pudo guardar la jornada');
 			return;
 		}
 
-		const created = await response.json();
-		jornadas = [...jornadas, created.jornada].sort((a, b) => a.v_ini - b.v_ini);
-		showJornadaForm = false;
-		newJornada = { jornada_num: jornadas.length + 1, v_ini: 1, v_fin: 1 };
-		pushToast('success', 'Jornada creada');
+		const result = await response.json();
+		if (editingJornadaId) {
+			jornadas = sortByVIni(
+				jornadas.map((item) => (item.jornada_id === editingJornadaId ? result.jornada : item))
+			);
+			pushToast('success', 'Jornada actualizada');
+		} else {
+			jornadas = sortByVIni([...jornadas, result.jornada]);
+			pushToast('success', 'Jornada creada');
+		}
+		closeSidebar();
 	}
 
-	async function editJornada(jornada: Tables<'jornadas'>) {
-		const vIni = Number(prompt('Verso inicial', `${jornada.v_ini}`) ?? jornada.v_ini);
-		const vFin = Number(prompt('Verso final', `${jornada.v_fin}`) ?? jornada.v_fin);
-		if (!Number.isFinite(vIni) || !Number.isFinite(vFin)) return;
+	async function saveCuadro() {
+		if (!validateCuadroForm()) return;
+		const payload = parseCuadroPayload();
+		const endpoint = editingCuadroId
+			? `/api/obras/${props.obraId}/estructura/cuadros/${editingCuadroId}`
+			: `/api/obras/${props.obraId}/estructura/cuadros`;
+		const method = editingCuadroId ? 'PATCH' : 'POST';
 
-		const response = await fetch(`/api/obras/${props.obraId}/estructura/jornadas/${jornada.jornada_id}`, {
-			method: 'PATCH',
+		const response = await fetch(endpoint, {
+			method,
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ jornada_num: jornada.jornada_num, v_ini: vIni, v_fin: vFin })
+			body: JSON.stringify(payload)
 		});
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo actualizar la jornada');
+			pushToast('error', body.message ?? 'No se pudo guardar el cuadro');
 			return;
 		}
-		const payload = await response.json();
-		jornadas = jornadas.map((row) => (row.jornada_id === jornada.jornada_id ? payload.jornada : row));
-		pushToast('success', 'Jornada actualizada');
+
+		const result = await response.json();
+		if (editingCuadroId) {
+			cuadros = sortByVIni(
+				cuadros.map((item) => (item.cuadro_id === editingCuadroId ? result.cuadro : item))
+			);
+			pushToast('success', 'Cuadro actualizado');
+		} else {
+			cuadros = sortByVIni([...cuadros, result.cuadro]);
+			pushToast('success', 'Cuadro creado');
+		}
+		closeSidebar();
 	}
 
-	async function removeJornada(jornadaId: string) {
-		if (!confirm('¿Eliminar jornada y sus cuadros?')) return;
-		const response = await fetch(`/api/obras/${props.obraId}/estructura/jornadas/${jornadaId}`, {
-			method: 'DELETE'
-		});
-		if (!response.ok) {
-			pushToast('error', 'No se pudo eliminar la jornada');
+	async function saveSidebar() {
+		if (sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit') {
+			await saveJornada();
 			return;
 		}
-		jornadas = jornadas.filter((jornada) => jornada.jornada_id !== jornadaId);
-		cuadros = cuadros.filter((cuadro) => cuadro.jornada_id !== jornadaId);
-		pushToast('success', 'Jornada eliminada');
+		await saveCuadro();
 	}
 
-	async function addCuadro(jornada: Tables<'jornadas'>) {
-		const cuadro_num = getCuadros(jornada.jornada_id).length + 1;
-		const v_ini = Number(prompt('Verso inicial', `${jornada.v_ini}`) ?? jornada.v_ini);
-		const v_fin = Number(prompt('Verso final', `${jornada.v_fin}`) ?? jornada.v_fin);
-		const descripcion = prompt('Descripción (opcional)', '') ?? '';
-		if (!Number.isFinite(v_ini) || !Number.isFinite(v_fin)) return;
+	async function confirmDelete() {
+		if (!deleteTarget) return;
+		const target = deleteTarget;
 
-		const response = await fetch(`/api/obras/${props.obraId}/estructura/cuadros`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				jornada_id: jornada.jornada_id,
-				cuadro_num,
-				v_ini,
-				v_fin,
-				descripcion,
-				certeza_editor: defaultCerteza
-			})
-		});
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo crear el cuadro');
-			return;
+		if (target.kind === 'jornada') {
+			const response = await fetch(`/api/obras/${props.obraId}/estructura/jornadas/${target.id}`, {
+				method: 'DELETE'
+			});
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar la jornada');
+				return;
+			}
+			jornadas = jornadas.filter((item) => item.jornada_id !== target.id);
+			cuadros = cuadros.filter((item) => item.jornada_id !== target.id);
+			pushToast('success', 'Jornada eliminada');
+		} else {
+			const response = await fetch(`/api/obras/${props.obraId}/estructura/cuadros/${target.id}`, {
+				method: 'DELETE'
+			});
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar el cuadro');
+				return;
+			}
+			cuadros = cuadros.filter((item) => item.cuadro_id !== target.id);
+			pushToast('success', 'Cuadro eliminado');
 		}
-		const payload = await response.json();
-		cuadros = [...cuadros, payload.cuadro].sort((a, b) => a.v_ini - b.v_ini);
-		pushToast('success', 'Cuadro creado');
-	}
 
-	async function editCuadro(cuadro: Tables<'cuadros'>) {
-		const vIni = Number(prompt('Verso inicial', `${cuadro.v_ini}`) ?? cuadro.v_ini);
-		const vFin = Number(prompt('Verso final', `${cuadro.v_fin}`) ?? cuadro.v_fin);
-		const descripcion = prompt('Descripción', cuadro.descripcion ?? '') ?? cuadro.descripcion ?? '';
-
-		const response = await fetch(`/api/obras/${props.obraId}/estructura/cuadros/${cuadro.cuadro_id}`, {
-			method: 'PATCH',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				jornada_id: cuadro.jornada_id,
-				cuadro_num: cuadro.cuadro_num,
-				v_ini: vIni,
-				v_fin: vFin,
-				descripcion,
-				certeza_editor: cuadro.certeza_editor
-			})
-		});
-
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo editar el cuadro');
-			return;
-		}
-		const payload = await response.json();
-		cuadros = cuadros.map((row) => (row.cuadro_id === cuadro.cuadro_id ? payload.cuadro : row));
-		pushToast('success', 'Cuadro actualizado');
-	}
-
-	async function removeCuadro(cuadroId: string) {
-		if (!confirm('¿Eliminar cuadro?')) return;
-		const response = await fetch(`/api/obras/${props.obraId}/estructura/cuadros/${cuadroId}`, {
-			method: 'DELETE'
-		});
-		if (!response.ok) {
-			pushToast('error', 'No se pudo eliminar el cuadro');
-			return;
-		}
-		cuadros = cuadros.filter((row) => row.cuadro_id !== cuadroId);
-		pushToast('success', 'Cuadro eliminado');
+		deleteTarget = null;
 	}
 </script>
 
 <section class="space-y-4">
 	<div class="flex items-center justify-between">
 		<h2 class="text-xl font-semibold">Jornadas y cuadros</h2>
-		<Button variant="secondary" onclick={() => (showJornadaForm = !showJornadaForm)}>Añadir jornada</Button>
+		<Button variant="secondary" onclick={openNewJornada}>Anadir jornada</Button>
 	</div>
 
-	{#if showJornadaForm}
-		<div class="card grid gap-3 p-4 md:grid-cols-4">
-			<label class="text-sm">
-				<span class="mb-1 block">Jornada #</span>
-				<input
-					type="number"
-					bind:value={newJornada.jornada_num}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				/>
-			</label>
-			<label class="text-sm">
-				<span class="mb-1 block">V. inicio</span>
-				<input
-					type="number"
-					bind:value={newJornada.v_ini}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				/>
-			</label>
-			<label class="text-sm">
-				<span class="mb-1 block">V. fin</span>
-				<input
-					type="number"
-					bind:value={newJornada.v_fin}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				/>
-			</label>
-			<div class="flex items-end">
-				<Button class="w-full" onclick={addJornada}>Guardar jornada</Button>
-			</div>
-		</div>
-	{/if}
-
-	{#each [...jornadas].sort((a, b) => a.v_ini - b.v_ini) as jornada}
+	{#each sortByVIni(jornadas) as jornada}
 		<article class="card p-4">
 			<div class="mb-3 flex items-center justify-between gap-2">
 				<h3 class="text-lg font-semibold">
 					Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
 				</h3>
 				<div class="flex gap-2">
-					<Button variant="ghost" onclick={() => editJornada(jornada)}>Editar</Button>
-					<Button variant="danger" onclick={() => removeJornada(jornada.jornada_id)}>Eliminar</Button>
+					<Button variant="ghost" onclick={() => openEditJornada(jornada)}>Editar</Button>
+					<Button variant="danger" onclick={() => openDeleteJornada(jornada)}>Eliminar</Button>
 				</div>
 			</div>
 
 			<div class="mb-2 flex items-center justify-between">
 				<div class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">Cuadros</div>
-				<Button variant="secondary" onclick={() => addCuadro(jornada)}>Añadir cuadro</Button>
+				<Button variant="secondary" onclick={() => openNewCuadro(jornada)}>Anadir cuadro</Button>
 			</div>
 
 			<div class="space-y-2">
@@ -217,8 +342,8 @@
 									{/if}
 								</div>
 								<div class="flex gap-2">
-									<Button variant="ghost" onclick={() => editCuadro(cuadro)}>Editar</Button>
-									<Button variant="danger" onclick={() => removeCuadro(cuadro.cuadro_id)}>Eliminar</Button>
+									<Button variant="ghost" onclick={() => openEditCuadro(cuadro)}>Editar</Button>
+									<Button variant="danger" onclick={() => openDeleteCuadro(cuadro)}>Eliminar</Button>
 								</div>
 							</div>
 						</div>
@@ -228,3 +353,128 @@
 		</article>
 	{/each}
 </section>
+
+{#if sidebarMode}
+	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[#fffaf4] p-5 shadow-xl">
+		<div class="mb-4 flex items-center justify-between">
+			<h3 class="text-lg font-semibold">
+				{#if sidebarMode === 'jornada-new'}Nueva jornada{/if}
+				{#if sidebarMode === 'jornada-edit'}Editar jornada{/if}
+				{#if sidebarMode === 'cuadro-new'}Nuevo cuadro{/if}
+				{#if sidebarMode === 'cuadro-edit'}Editar cuadro{/if}
+			</h3>
+			<Button variant="ghost" onclick={closeSidebar}>Cerrar</Button>
+		</div>
+
+		<div class="grid gap-3">
+			{#if sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit'}
+				<div class="grid gap-3 sm:grid-cols-3">
+					<label class="text-sm">
+						<span class="mb-1 block">Jornada #</span>
+						<input
+							type="number"
+							bind:value={jornadaForm.jornada_num}
+							min="1"
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+					<label class="text-sm">
+						<span class="mb-1 block">Verso inicial</span>
+						<input
+							type="number"
+							bind:value={jornadaForm.v_ini}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+					<label class="text-sm">
+						<span class="mb-1 block">Verso final</span>
+						<input
+							type="number"
+							bind:value={jornadaForm.v_fin}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+				</div>
+			{:else}
+				<label class="text-sm">
+					<span class="mb-1 block">Jornada</span>
+					<select
+						bind:value={cuadroForm.jornada_id}
+						onchange={(event) => onCuadroJornadaChange((event.currentTarget as HTMLSelectElement).value)}
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					>
+						{#each sortByVIni(jornadas) as jornada}
+							<option value={jornada.jornada_id}>
+								Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
+							</option>
+						{/each}
+					</select>
+				</label>
+				<div class="grid gap-3 sm:grid-cols-3">
+					<label class="text-sm">
+						<span class="mb-1 block">Cuadro #</span>
+						<input
+							type="number"
+							bind:value={cuadroForm.cuadro_num}
+							min="1"
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+					<label class="text-sm">
+						<span class="mb-1 block">Verso inicial</span>
+						<input
+							type="number"
+							bind:value={cuadroForm.v_ini}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+					<label class="text-sm">
+						<span class="mb-1 block">Verso final</span>
+						<input
+							type="number"
+							bind:value={cuadroForm.v_fin}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+				</div>
+				<label class="text-sm">
+					<span class="mb-1 block">Certeza</span>
+					<select
+						bind:value={cuadroForm.certeza_editor}
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					>
+						{#each props.certezaOptions as option}
+							<option value={option.termino_id}>{option.termino}</option>
+						{/each}
+					</select>
+				</label>
+				<label class="text-sm">
+					<span class="mb-1 block">Descripcion</span>
+					<textarea
+						rows={3}
+						bind:value={cuadroForm.descripcion}
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					></textarea>
+				</label>
+			{/if}
+		</div>
+
+		<div class="mt-4 flex justify-end gap-2">
+			<Button variant="ghost" onclick={closeSidebar}>Cancelar</Button>
+			<Button onclick={saveSidebar}>Guardar</Button>
+		</div>
+	</aside>
+{/if}
+
+{#if deleteTarget}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-md p-5">
+			<h3 class="text-lg font-semibold">{deleteTarget.title}</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{deleteTarget.description}</p>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="ghost" onclick={() => (deleteTarget = null)}>Cancelar</Button>
+				<Button variant="danger" onclick={confirmDelete}>Eliminar</Button>
+			</div>
+		</div>
+	</div>
+{/if}
