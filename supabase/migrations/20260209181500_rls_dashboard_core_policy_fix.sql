@@ -43,7 +43,7 @@ using (
 		where e.user_id = auth.uid()
 			and coalesce(e.activo, true)
 			and (
-				lower(vr.termino) in ('admin', 'ip')
+				lower(vr.termino) in ('admin', 'ip', 'revisor')
 				or (lower(vr.termino) = 'editor' and obras.editor_asignado = e.user_id)
 			)
 	)
@@ -56,7 +56,7 @@ with check (
 		where e.user_id = auth.uid()
 			and coalesce(e.activo, true)
 			and (
-				lower(vr.termino) in ('admin', 'ip')
+				lower(vr.termino) in ('admin', 'ip', 'revisor')
 				or (lower(vr.termino) = 'editor' and obras.editor_asignado = e.user_id)
 			)
 	)
