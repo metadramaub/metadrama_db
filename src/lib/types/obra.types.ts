@@ -66,6 +66,52 @@ export interface ComentarioInput {
 	comentario: string;
 }
 
+export interface AutoriaObraCompletaInput {
+	mode: 'obra_completa';
+	url_informe_autoria: string | null;
+	autor_ids: string[];
+	notas: string | null;
+}
+
+export interface AutoriaPorJornadaItemInput {
+	jornada_id: string;
+	autor_ids: string[];
+	notas: string | null;
+}
+
+export interface AutoriaPorJornadasInput {
+	mode: 'por_jornadas';
+	url_informe_autoria: string | null;
+	items: AutoriaPorJornadaItemInput[];
+}
+
+export interface AutoriaRangoPersonalizadoItemInput {
+	v_ini: number;
+	v_fin: number;
+	autor_ids: string[];
+	notas: string | null;
+}
+
+export interface AutoriaRangoPersonalizadoInput {
+	mode: 'rango_personalizado';
+	url_informe_autoria: string | null;
+	items: AutoriaRangoPersonalizadoItemInput[];
+}
+
+export type AutoriaInput =
+	| AutoriaObraCompletaInput
+	| AutoriaPorJornadasInput
+	| AutoriaRangoPersonalizadoInput;
+
+export interface AnalisisInput {
+	analisis_editor: string | null;
+	bibliografia: string | null;
+}
+
+export interface VisibilidadInput {
+	visible_publico: boolean;
+}
+
 export interface SecuenciaWithMetros extends Tables<'secuencias_metricas'> {
 	metros: Tables<'vocabularios'>[];
 }

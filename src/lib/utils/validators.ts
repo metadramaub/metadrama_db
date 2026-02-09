@@ -5,17 +5,35 @@ const nullableYear = z
 	.optional()
 	.transform((value) => value ?? null);
 
+const nullableText = (max: number) =>
+	z
+		.union([z.string().max(max), z.null(), z.undefined()])
+		.transform((value) => {
+			if (typeof value !== 'string') return null;
+			const trimmed = value.trim();
+			return trimmed.length > 0 ? trimmed : null;
+		});
+
+const nullableUrl = z
+	.string()
+	.trim()
+	.url('URL invalida')
+	.or(z.literal(''))
+	.optional()
+	.nullable()
+	.transform((value) => (value ? value : null));
+
 export const obraDatosPatchSchema = z
 	.object({
-		titulo: z.string().trim().min(1, 'El título es obligatorio'),
+		titulo: z.string().trim().min(1, 'El titulo es obligatorio'),
 		variantes_titulo: z.array(z.string().trim().min(1)).default([]),
-		genero_id: z.string().uuid('Género inválido'),
+		genero_id: z.string().uuid('Genero invalido'),
 		fecha_inicio_trad: nullableYear,
 		fecha_fin_trad: nullableYear,
 		fuente_fecha: z.string().trim().max(2000).nullable().optional().default(null),
 		fecha_inicio_metadrama: nullableYear,
 		fecha_fin_metadrama: nullableYear,
-		edicion: z.string().trim().min(1, 'La edición base es obligatoria')
+		edicion: z.string().trim().min(1, 'La edicion base es obligatoria')
 	})
 	.superRefine((data, ctx) => {
 		if (
@@ -96,6 +114,61 @@ export const comentarioInputSchema = z.object({
 	comentario: z.string().trim().min(1).max(4000)
 });
 
+const autorIdsSchema = z
+	.array(z.string().uuid())
+	.min(1, 'Debe seleccionar al menos un autor')
+	.transform((ids) => [...new Set(ids)]);
+
+const notasSchema = nullableText(4000);
+
+const autoriaObraCompletaSchema = z.object({
+	mode: z.literal('obra_completa'),
+	url_informe_autoria: nullableUrl,
+	autor_ids: autorIdsSchema,
+	notas: notasSchema
+});
+
+const autoriaPorJornadasItemSchema = z.object({
+	jornada_id: z.string().uuid(),
+	autor_ids: autorIdsSchema,
+	notas: notasSchema
+});
+
+const autoriaRangoItemSchema = z
+	.object({
+		v_ini: z.number().int().positive(),
+		v_fin: z.number().int().positive(),
+		autor_ids: autorIdsSchema,
+		notas: notasSchema
+	})
+	.refine((input) => input.v_ini < input.v_fin, {
+		message: 'El verso inicial debe ser menor que el final',
+		path: ['v_ini']
+	});
+
+export const autoriaInputSchema = z.discriminatedUnion('mode', [
+	autoriaObraCompletaSchema,
+	z.object({
+		mode: z.literal('por_jornadas'),
+		url_informe_autoria: nullableUrl,
+		items: z.array(autoriaPorJornadasItemSchema).min(1, 'Debe definir al menos una jornada')
+	}),
+	z.object({
+		mode: z.literal('rango_personalizado'),
+		url_informe_autoria: nullableUrl,
+		items: z.array(autoriaRangoItemSchema).min(1, 'Debe definir al menos un rango')
+	})
+]);
+
+export const analisisInputSchema = z.object({
+	analisis_editor: nullableText(60000),
+	bibliografia: nullableText(20000)
+});
+
+export const visibilidadInputSchema = z.object({
+	visible_publico: z.boolean()
+});
+
 export const queryFilterSchema = z.object({
 	q: z.string().optional(),
 	estado: z.string().uuid().optional(),
@@ -110,3 +183,6 @@ export type CuadroInputParsed = z.infer<typeof cuadroInputSchema>;
 export type SecuenciaInputParsed = z.infer<typeof secuenciaInputSchema>;
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
+export type AutoriaInputParsed = z.infer<typeof autoriaInputSchema>;
+export type AnalisisInputParsed = z.infer<typeof analisisInputSchema>;
+export type VisibilidadInputParsed = z.infer<typeof visibilidadInputSchema>;
