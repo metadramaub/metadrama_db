@@ -2,7 +2,8 @@
 	import { onDestroy } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { markSaved, setDirty, setSaving } from '$lib/stores/currentObra';
+	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
+	import { renderMarkdown } from '$lib/utils/markdown';
 
 	const props = $props<{
 		obraId: string;
@@ -16,8 +17,13 @@
 	let savingNow = $state(false);
 	let timer: ReturnType<typeof setTimeout> | null = null;
 	let analisisRef = $state<HTMLTextAreaElement | null>(null);
+	let bibliografiaRef = $state<HTMLTextAreaElement | null>(null);
+	let activeEditor = $state<'analisis' | 'bibliografia'>('analisis');
 
 	const analisisLength = $derived(analisis.trim().length);
+	const bibliografiaLength = $derived(bibliografia.trim().length);
+	const previewAnalisisHtml = $derived(renderMarkdown(analisis));
+	const previewBibliografiaHtml = $derived(renderMarkdown(bibliografia));
 
 	function queueSave() {
 		setDirty(true);
@@ -25,25 +31,44 @@
 		timer = setTimeout(() => void save(), 10_000);
 	}
 
+	function getActiveRef(): HTMLTextAreaElement | null {
+		return activeEditor === 'analisis' ? analisisRef : bibliografiaRef;
+	}
+
+	function getActiveValue(): string {
+		return activeEditor === 'analisis' ? analisis : bibliografia;
+	}
+
+	function setActiveValue(value: string) {
+		if (activeEditor === 'analisis') {
+			analisis = value;
+			return;
+		}
+		bibliografia = value;
+	}
+
 	function applyFormat(prefix: string, suffix = prefix) {
-		if (!analisisRef) {
-			analisis = `${analisis}${prefix}${suffix}`;
+		const targetRef = getActiveRef();
+		const currentValue = getActiveValue();
+		if (!targetRef) {
+			setActiveValue(`${currentValue}${prefix}${suffix}`);
 			queueSave();
 			return;
 		}
 
-		const start = analisisRef.selectionStart;
-		const end = analisisRef.selectionEnd;
-		const selected = analisis.slice(start, end);
-		const next = `${analisis.slice(0, start)}${prefix}${selected}${suffix}${analisis.slice(end)}`;
-		analisis = next;
+		const start = targetRef.selectionStart;
+		const end = targetRef.selectionEnd;
+		const selected = currentValue.slice(start, end);
+		const nextValue = `${currentValue.slice(0, start)}${prefix}${selected}${suffix}${currentValue.slice(end)}`;
+		setActiveValue(nextValue);
 		queueSave();
 
 		requestAnimationFrame(() => {
-			if (!analisisRef) return;
+			const ref = getActiveRef();
+			if (!ref) return;
 			const cursor = end + prefix.length + suffix.length;
-			analisisRef.focus();
-			analisisRef.setSelectionRange(cursor, cursor);
+			ref.focus();
+			ref.setSelectionRange(cursor, cursor);
 		});
 	}
 
@@ -65,12 +90,18 @@
 		if (!response.ok) {
 			setSaving(false);
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar el analisis.');
+			pushToast('error', body.message ?? 'No se pudo guardar analisis y bibliografia.');
 			return;
 		}
 
+		const payload = await response.json();
+		patchCurrentObra({
+			analisis_editor: payload.obra.analisis_editor,
+			bibliografia: payload.obra.bibliografia,
+			updated_at: payload.obra.updated_at
+		});
 		markSaved();
-		pushToast('success', 'Analisis guardado');
+		pushToast('success', 'Analisis y bibliografia guardados');
 	}
 
 	onDestroy(() => {
@@ -82,12 +113,17 @@
 	<div class="card p-4">
 		<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 			<div>
-				<h2 class="text-xl font-semibold">Analisis del editor</h2>
+				<h2 class="text-xl font-semibold">Analisis y bibliografia</h2>
 				<p class="text-sm text-[color:var(--muted-foreground)]">
-					Este texto se mostrara en la web publica en iteraciones futuras.
+					Editor markdown. El guardado aplica a ambos campos.
 				</p>
 			</div>
-			<div class="text-sm text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</div>
+			<div class="flex items-center gap-2">
+				<Button variant="secondary" onclick={() => (preview = !preview)}>{preview ? 'Editar' : 'Vista previa'}</Button>
+				<Button onclick={save} disabled={savingNow}>
+					{savingNow ? 'Guardando...' : 'Guardar analisis y bibliografia'}
+				</Button>
+			</div>
 		</div>
 
 		<div class="mb-3 flex flex-wrap gap-2">
@@ -99,39 +135,51 @@
 			<Button variant="ghost" onclick={() => applyFormat('\n## ', '')}>H2</Button>
 		</div>
 
-		<div class="mb-3 flex justify-end gap-2">
-			<Button variant="secondary" onclick={() => (preview = !preview)}>{preview ? 'Editar' : 'Vista previa'}</Button>
-			<Button onclick={save} disabled={savingNow}>{savingNow ? 'Guardando...' : 'Guardar'}</Button>
-		</div>
-
 		{#if preview}
-			<pre class="min-h-64 whitespace-pre-wrap rounded-md border border-[color:var(--border)] bg-[#fffdf8] p-3 text-sm">{analisis || 'Sin contenido.'}</pre>
+			<div class="grid gap-4 lg:grid-cols-2">
+				<div class="rounded-md border border-[color:var(--border)] bg-[#fffdf8] p-3">
+					<div class="mb-2 text-sm font-semibold">Vista previa - Analisis ({analisisLength} caracteres)</div>
+					<div class="prose max-w-none space-y-2" style="--tw-prose-body: var(--foreground);">{@html previewAnalisisHtml}</div>
+				</div>
+				<div class="rounded-md border border-[color:var(--border)] bg-[#fffdf8] p-3">
+					<div class="mb-2 text-sm font-semibold">Vista previa - Bibliografia ({bibliografiaLength} caracteres)</div>
+					<div class="prose max-w-none space-y-2" style="--tw-prose-body: var(--foreground);">{@html previewBibliografiaHtml}</div>
+				</div>
+			</div>
 		{:else}
-			<textarea
-				bind:this={analisisRef}
-				rows={14}
-				class="min-h-64 w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				value={analisis}
-				oninput={(event) => {
-					analisis = event.currentTarget.value;
-					queueSave();
-				}}
-			></textarea>
-		{/if}
-	</div>
+			<div class="grid gap-4 lg:grid-cols-2">
+				<label class="block text-sm">
+					<span class="mb-1 block text-base font-semibold">Analisis del editor</span>
+					<textarea
+						bind:this={analisisRef}
+						rows={14}
+						class="min-h-64 w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						value={analisis}
+						onfocus={() => (activeEditor = 'analisis')}
+						oninput={(event) => {
+							analisis = event.currentTarget.value;
+							queueSave();
+						}}
+					></textarea>
+					<span class="mt-1 block text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</span>
+				</label>
 
-	<div class="card p-4">
-		<label class="block text-sm">
-			<span class="mb-1 block text-base font-semibold">Bibliografia general</span>
-			<textarea
-				rows={8}
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				value={bibliografia}
-				oninput={(event) => {
-					bibliografia = event.currentTarget.value;
-					queueSave();
-				}}
-			></textarea>
-		</label>
+				<label class="block text-sm">
+					<span class="mb-1 block text-base font-semibold">Bibliografia general</span>
+					<textarea
+						bind:this={bibliografiaRef}
+						rows={14}
+						class="min-h-64 w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						value={bibliografia}
+						onfocus={() => (activeEditor = 'bibliografia')}
+						oninput={(event) => {
+							bibliografia = event.currentTarget.value;
+							queueSave();
+						}}
+					></textarea>
+					<span class="mt-1 block text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</span>
+				</label>
+			</div>
+		{/if}
 	</div>
 </section>

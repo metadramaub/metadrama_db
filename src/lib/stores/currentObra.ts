@@ -28,6 +28,19 @@ export function setCurrentObra(obra: Tables<'obras'> | null) {
 	}));
 }
 
+export function patchCurrentObra(patch: Partial<Tables<'obras'>>) {
+	currentObraStore.update((state) => {
+		if (!state.obra) return state;
+		return {
+			...state,
+			obra: {
+				...state.obra,
+				...patch
+			}
+		};
+	});
+}
+
 export function setDirty(dirty: boolean) {
 	currentObraStore.update((state) => ({ ...state, dirty }));
 }

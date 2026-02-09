@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import AuthorSelector from '$lib/components/editor/AuthorSelector.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { markSaved, setDirty, setSaving } from '$lib/stores/currentObra';
+	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 	import type { Tables } from '$lib/types/database.types';
 
 	type Mode = 'obra_completa' | 'por_jornadas' | 'rango_personalizado';
 	type JornadaAssignment = {
 		jornada_id: string;
 		autor_ids: string[];
-		notas: string;
 	};
 	type CustomRange = {
 		temp_id: string;
@@ -27,7 +27,6 @@
 		rangosAutoresInitial: Tables<'rangos_autores'>[];
 		autoresInitial: Array<Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>>;
 	}>();
-	type AutorOption = (typeof props.autoresInitial)[number];
 	type JornadaOption = (typeof props.jornadas)[number];
 
 	let rangos = $state([...props.rangosInitial]);
@@ -35,7 +34,6 @@
 	const initialMode = inferMode(props.rangosInitial);
 	let mode = $state<Mode>(initialMode);
 	let urlInforme = $state(props.obra.url_informe_autoria ?? '');
-	let authorSearch = $state('');
 	let savingNow = $state(false);
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
@@ -48,14 +46,6 @@
 
 	initializeForms(props.rangosInitial, props.rangosAutoresInitial, initialMode);
 
-	const filteredAutores = $derived.by(() => {
-		const term = authorSearch.trim().toLowerCase();
-		if (!term) return props.autoresInitial;
-		return props.autoresInitial.filter((autor: AutorOption) =>
-			autor.nombre_completo.toLowerCase().includes(term)
-		);
-	});
-
 	const jornadaMap = $derived(
 		new Map(
 			props.jornadas.map((jornada: JornadaOption) => [
@@ -63,6 +53,13 @@
 				`Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
 			])
 		)
+	);
+
+	const authorOptions = $derived(
+		props.autoresInitial.map((author: (typeof props.autoresInitial)[number]) => ({
+			autor_id: author.autor_id,
+			nombre_completo: author.nombre_completo
+		}))
 	);
 
 	function inferMode(rangosInput: Tables<'rangos'>[]): Mode {
@@ -119,8 +116,7 @@
 			);
 			return {
 				jornada_id: jornada.jornada_id,
-				autor_ids: match ? [...(authorIdsByRange.get(match.rango_id) ?? [])] : [],
-				notas: match?.notas ?? ''
+				autor_ids: match ? [...(authorIdsByRange.get(match.rango_id) ?? [])] : []
 			};
 		});
 
@@ -141,42 +137,29 @@
 		timer = setTimeout(() => void save(), 10_000);
 	}
 
-	function readMultiSelectValues(select: HTMLSelectElement): string[] {
-		return Array.from(select.selectedOptions).map((option) => option.value);
-	}
-
 	function setMode(nextMode: Mode) {
 		mode = nextMode;
 		queueSave();
 	}
 
-	function setObraCompletaAuthors(select: HTMLSelectElement) {
+	function setObraCompletaAuthors(ids: string[]) {
 		obraCompleta = {
 			...obraCompleta,
-			autor_ids: readMultiSelectValues(select)
+			autor_ids: ids
 		};
 		queueSave();
 	}
 
-	function setJornadaAuthors(jornadaId: string, select: HTMLSelectElement) {
-		const values = readMultiSelectValues(select);
+	function setJornadaAuthors(jornadaId: string, ids: string[]) {
 		jornadaAssignments = jornadaAssignments.map((item) =>
-			item.jornada_id === jornadaId ? { ...item, autor_ids: values } : item
+			item.jornada_id === jornadaId ? { ...item, autor_ids: ids } : item
 		);
 		queueSave();
 	}
 
-	function setCustomRangeAuthors(tempId: string, select: HTMLSelectElement) {
-		const values = readMultiSelectValues(select);
+	function setCustomRangeAuthors(tempId: string, ids: string[]) {
 		customRanges = customRanges.map((item) =>
-			item.temp_id === tempId ? { ...item, autor_ids: values } : item
-		);
-		queueSave();
-	}
-
-	function updateJornadaNotas(jornadaId: string, notas: string) {
-		jornadaAssignments = jornadaAssignments.map((item) =>
-			item.jornada_id === jornadaId ? { ...item, notas } : item
+			item.temp_id === tempId ? { ...item, autor_ids: ids } : item
 		);
 		queueSave();
 	}
@@ -193,7 +176,13 @@
 		const nextStart = (sorted.at(-1)?.v_fin ?? 0) + 1;
 		customRanges = [
 			...customRanges,
-			{ temp_id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, v_ini: nextStart, v_fin: nextStart + 10, autor_ids: [], notas: '' }
+			{
+				temp_id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+				v_ini: nextStart,
+				v_fin: nextStart + 10,
+				autor_ids: [],
+				notas: ''
+			}
 		];
 		queueSave();
 	}
@@ -221,7 +210,7 @@
 				items: jornadaAssignments.map((item) => ({
 					jornada_id: item.jornada_id,
 					autor_ids: item.autor_ids,
-					notas: item.notas.trim() || null
+					notas: null
 				}))
 			};
 		}
@@ -278,12 +267,16 @@
 	function applyServerState(payload: {
 		rangos: Tables<'rangos'>[];
 		rangosAutores: Tables<'rangos_autores'>[];
-		obra: { url_informe_autoria: string | null };
+		obra: { url_informe_autoria: string | null; autoria?: string[] | null };
 		mode: Mode;
 	}) {
 		rangos = [...payload.rangos];
 		rangosAutores = [...payload.rangosAutores];
 		urlInforme = payload.obra.url_informe_autoria ?? '';
+		patchCurrentObra({
+			url_informe_autoria: payload.obra.url_informe_autoria,
+			autoria: payload.obra.autoria ?? null
+		});
 		initializeForms(rangos, rangosAutores, payload.mode);
 	}
 
@@ -343,7 +336,12 @@
 
 		<div class="grid gap-2 sm:grid-cols-3">
 			<label class="flex items-center gap-2 rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
-				<input type="radio" name="autoria-mode" checked={mode === 'obra_completa'} onchange={() => setMode('obra_completa')} />
+				<input
+					type="radio"
+					name="autoria-mode"
+					checked={mode === 'obra_completa'}
+					onchange={() => setMode('obra_completa')}
+				/>
 				Obra completa
 			</label>
 			<label class="flex items-center gap-2 rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
@@ -376,30 +374,18 @@
 	</div>
 
 	<div class="card p-4">
-		<div class="mb-3 flex items-center justify-between gap-2">
-			<h3 class="text-lg font-semibold">Autores</h3>
-			<input
-				class="rounded-md border border-[color:var(--border)] px-3 py-2 text-sm"
-				placeholder="Filtrar autores"
-				value={authorSearch}
-				oninput={(event) => (authorSearch = event.currentTarget.value)}
-			/>
-		</div>
+		<h3 class="mb-3 text-lg font-semibold">Autores</h3>
 
 		{#if mode === 'obra_completa'}
 			<div class="space-y-3">
 				<label class="block text-sm">
 					<span class="mb-1 block">Autores de la obra</span>
-					<select
-						multiple
-						size="8"
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						onchange={(event) => setObraCompletaAuthors(event.currentTarget as HTMLSelectElement)}
-					>
-						{#each filteredAutores as autor}
-							<option value={autor.autor_id} selected={obraCompleta.autor_ids.includes(autor.autor_id)}>{autor.nombre_completo}</option>
-						{/each}
-					</select>
+					<AuthorSelector
+						authors={authorOptions}
+						selectedIds={obraCompleta.autor_ids}
+						onChange={setObraCompletaAuthors}
+						placeholder="Escribe y selecciona autores"
+					/>
 				</label>
 
 				<label class="block text-sm">
@@ -420,33 +406,15 @@
 				{#each jornadaAssignments as assignment}
 					<article class="rounded-md border border-[color:var(--border)] bg-white p-3">
 						<div class="mb-2 text-sm font-medium">{jornadaMap.get(assignment.jornada_id) ?? assignment.jornada_id}</div>
-						<div class="grid gap-3 md:grid-cols-2">
-							<label class="block text-sm">
-								<span class="mb-1 block">Autores</span>
-								<select
-									multiple
-									size="7"
-									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-									onchange={(event) =>
-										setJornadaAuthors(assignment.jornada_id, event.currentTarget as HTMLSelectElement)}
-								>
-									{#each filteredAutores as autor}
-										<option value={autor.autor_id} selected={assignment.autor_ids.includes(autor.autor_id)}>
-											{autor.nombre_completo}
-										</option>
-									{/each}
-								</select>
-							</label>
-							<label class="block text-sm">
-								<span class="mb-1 block">Notas</span>
-								<textarea
-									rows={3}
-									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-									value={assignment.notas}
-									oninput={(event) => updateJornadaNotas(assignment.jornada_id, event.currentTarget.value)}
-								></textarea>
-							</label>
-						</div>
+						<label class="block text-sm">
+							<span class="mb-1 block">Autores</span>
+							<AuthorSelector
+								authors={authorOptions}
+								selectedIds={assignment.autor_ids}
+								onChange={(ids) => setJornadaAuthors(assignment.jornada_id, ids)}
+								placeholder="Escribe y selecciona autores"
+							/>
+						</label>
 					</article>
 				{/each}
 			</div>
@@ -468,7 +436,8 @@
 											type="number"
 											class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 											value={range.v_ini}
-											oninput={(event) => updateCustomRange(range.temp_id, { v_ini: Number(event.currentTarget.value) })}
+											oninput={(event) =>
+												updateCustomRange(range.temp_id, { v_ini: Number(event.currentTarget.value) })}
 										/>
 									</label>
 									<label class="text-sm">
@@ -477,7 +446,8 @@
 											type="number"
 											class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 											value={range.v_fin}
-											oninput={(event) => updateCustomRange(range.temp_id, { v_fin: Number(event.currentTarget.value) })}
+											oninput={(event) =>
+												updateCustomRange(range.temp_id, { v_fin: Number(event.currentTarget.value) })}
 										/>
 									</label>
 								</div>
@@ -487,19 +457,12 @@
 							<div class="grid gap-3 md:grid-cols-2">
 								<label class="block text-sm">
 									<span class="mb-1 block">Autores</span>
-									<select
-										multiple
-										size="7"
-										class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-										onchange={(event) =>
-											setCustomRangeAuthors(range.temp_id, event.currentTarget as HTMLSelectElement)}
-									>
-										{#each filteredAutores as autor}
-											<option value={autor.autor_id} selected={range.autor_ids.includes(autor.autor_id)}>
-												{autor.nombre_completo}
-											</option>
-										{/each}
-									</select>
+									<AuthorSelector
+										authors={authorOptions}
+										selectedIds={range.autor_ids}
+										onChange={(ids) => setCustomRangeAuthors(range.temp_id, ids)}
+										placeholder="Escribe y selecciona autores"
+									/>
 								</label>
 								<label class="block text-sm">
 									<span class="mb-1 block">Notas</span>
@@ -507,7 +470,8 @@
 										rows={3}
 										class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 										value={range.notas}
-										oninput={(event) => updateCustomRange(range.temp_id, { notas: event.currentTarget.value })}
+										oninput={(event) =>
+											updateCustomRange(range.temp_id, { notas: event.currentTarget.value })}
 									></textarea>
 								</label>
 							</div>
