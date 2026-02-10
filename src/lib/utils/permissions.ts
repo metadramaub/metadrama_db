@@ -7,6 +7,7 @@ const workflowRevisor = new Set([
 	'en_revision:validado',
 	'validado:en_revision'
 ]);
+const protectedVocabularyCategories = new Set(['role_editor', 'estado', 'estado_revision']);
 
 export function normalizeRole(rawRole: string | null | undefined): EditorRole {
 	if (!rawRole) {
@@ -53,6 +54,15 @@ export function canTransitionState(role: EditorRole, from: string, to: string): 
 	return false;
 }
 
+export function canTransitionReviewerWorkflow(from: string, to: string): boolean {
+	const fromTerm = from.trim().toLowerCase();
+	const toTerm = to.trim().toLowerCase();
+	if (fromTerm === toTerm) {
+		return true;
+	}
+	return workflowRevisor.has(`${fromTerm}:${toTerm}`);
+}
+
 export function canEditByState(role: EditorRole, estado: string): boolean {
 	const current = estado.trim().toLowerCase();
 	if (role === 'admin' || role === 'ip') {
@@ -62,4 +72,16 @@ export function canEditByState(role: EditorRole, estado: string): boolean {
 		return current === 'borrador' || current === 'pendiente';
 	}
 	return false;
+}
+
+export function canManageReviewAssignments(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
+export function canManageVocabularios(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
+export function isProtectedVocabularyCategory(category: string): boolean {
+	return protectedVocabularyCategories.has(category.trim().toLowerCase());
 }

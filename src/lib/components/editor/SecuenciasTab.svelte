@@ -11,6 +11,8 @@
 		metroOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		estadoRevisionOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		readOnly?: boolean;
+		canComment?: boolean;
 	}>();
 
 	type FormState = {
@@ -24,7 +26,6 @@
 		estado_revision: string;
 		certeza_editor: string;
 		observaciones: string;
-		notas_internas: string;
 		metro_ids: string[];
 	};
 
@@ -35,6 +36,11 @@
 	let filtroEstrofa = $state('');
 	let filtroEstado = $state('');
 	let filtroCerteza = $state('');
+	let deleteTargetId = $state<string | null>(null);
+	let commentTargetId = $state<string | null>(null);
+	let commentType = $state<'general' | 'revision' | 'tecnico'>('general');
+	let commentText = $state('');
+	let commentSaving = $state(false);
 
 	const defaultEstado = props.estadoRevisionOptions[0]?.termino_id ?? '';
 	const defaultCerteza = props.certezaOptions[0]?.termino_id ?? '';
@@ -51,7 +57,6 @@
 		estado_revision: defaultEstado,
 		certeza_editor: defaultCerteza,
 		observaciones: '',
-		notas_internas: '',
 		metro_ids: []
 	});
 
@@ -62,8 +67,8 @@
 	}
 
 	function termById(options: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>, id: string | null) {
-		if (!id) return '—';
-		return options.find((option) => option.termino_id === id)?.termino ?? '—';
+		if (!id) return '--';
+		return options.find((option) => option.termino_id === id)?.termino ?? '--';
 	}
 
 	const filteredSecuencias = $derived.by(() => {
@@ -75,6 +80,7 @@
 	});
 
 	function openNew() {
+		if (props.readOnly) return;
 		editingId = null;
 		form = {
 			v_ini: 1,
@@ -87,13 +93,13 @@
 			estado_revision: defaultEstado,
 			certeza_editor: defaultCerteza,
 			observaciones: '',
-			notas_internas: '',
 			metro_ids: []
 		};
 		sidebarOpen = true;
 	}
 
 	function openEdit(secuencia: Tables<'secuencias_metricas'>) {
+		if (props.readOnly) return;
 		editingId = secuencia.secuencia_id;
 		form = {
 			v_ini: secuencia.v_ini,
@@ -106,13 +112,13 @@
 			estado_revision: secuencia.estado_revision,
 			certeza_editor: secuencia.certeza_editor,
 			observaciones: secuencia.observaciones ?? '',
-			notas_internas: secuencia.notas_internas ?? '',
 			metro_ids: metrosForSecuencia(secuencia.secuencia_id)
 		};
 		sidebarOpen = true;
 	}
 
 	function toggleMetro(metroId: string) {
+		if (props.readOnly) return;
 		if (form.metro_ids.includes(metroId)) {
 			form = { ...form, metro_ids: form.metro_ids.filter((id) => id !== metroId) };
 			return;
@@ -121,6 +127,7 @@
 	}
 
 	async function save() {
+		if (props.readOnly) return;
 		const endpoint = editingId
 			? `/api/obras/${props.obraId}/secuencias/${editingId}`
 			: `/api/obras/${props.obraId}/secuencias`;
@@ -161,8 +168,13 @@
 		sidebarOpen = false;
 	}
 
+	function openDelete(secuenciaId: string) {
+		if (props.readOnly) return;
+		deleteTargetId = secuenciaId;
+	}
+
 	async function remove(secuenciaId: string) {
-		if (!confirm('¿Eliminar secuencia?')) return;
+		if (props.readOnly) return;
 		const response = await fetch(`/api/obras/${props.obraId}/secuencias/${secuenciaId}`, {
 			method: 'DELETE'
 		});
@@ -173,16 +185,59 @@
 		secuencias = secuencias.filter((row) => row.secuencia_id !== secuenciaId);
 		secuenciaMetros = secuenciaMetros.filter((row) => row.secuencia_id !== secuenciaId);
 		pushToast('success', 'Secuencia eliminada');
+		deleteTargetId = null;
+	}
+
+	function openComment(secuenciaId: string) {
+		if (!props.canComment) return;
+		commentTargetId = secuenciaId;
+		commentType = 'general';
+		commentText = '';
+	}
+
+	function commentTargetLabel() {
+		if (!commentTargetId) return '';
+		const secuencia = secuencias.find((item) => item.secuencia_id === commentTargetId);
+		if (!secuencia) return 'Secuencia';
+		return `Secuencia vv. ${secuencia.v_ini}-${secuencia.v_fin}`;
+	}
+
+	async function saveComment() {
+		if (!props.canComment) return;
+		if (!commentTargetId || commentSaving) return;
+		if (!commentText.trim()) {
+			pushToast('error', 'Escribe un comentario interno.');
+			return;
+		}
+		commentSaving = true;
+		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				comentario: commentText.trim(),
+				tipo_comentario: commentType,
+				secuencia_id: commentTargetId
+			})
+		});
+		commentSaving = false;
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo guardar el comentario.');
+			return;
+		}
+		pushToast('success', 'Comentario interno guardado');
+		commentTargetId = null;
+		commentText = '';
 	}
 </script>
 
 <section class="space-y-4">
 	<div class="flex items-end justify-between gap-4">
 		<div>
-			<h2 class="text-xl font-semibold">Secuencias métricas</h2>
+			<h2 class="text-xl font-semibold">Secuencias metricas</h2>
 			<p class="text-sm text-[color:var(--muted-foreground)]">Ordenadas por verso inicial.</p>
 		</div>
-		<Button onclick={openNew}>Nueva secuencia</Button>
+		<Button onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
 	</div>
 
 	<div class="card grid gap-3 p-4 md:grid-cols-3">
@@ -254,8 +309,18 @@
 							<td class="px-3 py-2">{termById(props.estadoRevisionOptions, secuencia.estado_revision)}</td>
 							<td class="px-3 py-2">
 								<div class="flex gap-2">
-									<Button variant="ghost" onclick={() => openEdit(secuencia)}>Editar</Button>
-									<Button variant="danger" onclick={() => remove(secuencia.secuencia_id)}>Eliminar</Button>
+									<Button variant="ghost" onclick={() => openEdit(secuencia)} disabled={props.readOnly}
+										>Editar</Button
+									>
+									<Button
+										variant="ghost"
+										onclick={() => openComment(secuencia.secuencia_id)}
+										disabled={!props.canComment}
+										>Comentar</Button
+									>
+									<Button variant="danger" onclick={() => openDelete(secuencia.secuencia_id)} disabled={props.readOnly}
+										>Eliminar</Button
+									>
 								</div>
 							</td>
 						</tr>
@@ -282,6 +347,7 @@
 					<input
 						type="number"
 						bind:value={form.v_ini}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
@@ -290,6 +356,7 @@
 					<input
 						type="number"
 						bind:value={form.v_fin}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
@@ -299,6 +366,7 @@
 				<span class="mb-1 block">Estrofa *</span>
 				<select
 					bind:value={form.estrofa_tipo_id}
+					disabled={props.readOnly}
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				>
 					{#each props.estrofaOptions as opt}
@@ -315,6 +383,7 @@
 							<input
 								type="checkbox"
 								checked={form.metro_ids.includes(metro.termino_id)}
+								disabled={props.readOnly}
 								onchange={() => toggleMetro(metro.termino_id)}
 							/>
 							{metro.termino}
@@ -325,9 +394,10 @@
 
 			<div class="grid gap-3 sm:grid-cols-2">
 				<label class="text-sm">
-					<span class="mb-1 block">Personajes género</span>
+					<span class="mb-1 block">Personajes genero</span>
 					<select
 						bind:value={form.personajes_genero}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					>
 						<option value="mixto">mixto</option>
@@ -339,6 +409,7 @@
 					<span class="mb-1 block">Donaire</span>
 					<select
 						bind:value={form.personajes_donaire}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					>
 						<option value="ausente">ausente</option>
@@ -350,6 +421,7 @@
 					<span class="mb-1 block">Sobrenatural</span>
 					<select
 						bind:value={form.personajes_sobrenatural}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					>
 						<option value="ausente">ausente</option>
@@ -358,9 +430,10 @@
 					</select>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Estado revisión</span>
+					<span class="mb-1 block">Estado revision</span>
 					<select
 						bind:value={form.estado_revision}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					>
 						{#each props.estadoRevisionOptions as opt}
@@ -372,6 +445,7 @@
 					<span class="mb-1 block">Certeza</span>
 					<select
 						bind:value={form.certeza_editor}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					>
 						{#each props.certezaOptions as opt}
@@ -382,18 +456,11 @@
 			</div>
 
 			<label class="text-sm">
-				<span class="mb-1 block">Observaciones públicas</span>
+				<span class="mb-1 block">Observaciones publicas</span>
 				<textarea
 					rows={3}
 					bind:value={form.observaciones}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				></textarea>
-			</label>
-			<label class="text-sm">
-				<span class="mb-1 block">Notas internas</span>
-				<textarea
-					rows={3}
-					bind:value={form.notas_internas}
+					disabled={props.readOnly}
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				></textarea>
 			</label>
@@ -401,7 +468,68 @@
 
 		<div class="mt-4 flex justify-end gap-2">
 			<Button variant="ghost" onclick={() => (sidebarOpen = false)}>Cancelar</Button>
-			<Button onclick={save}>Guardar</Button>
+			<Button onclick={save} disabled={props.readOnly}>Guardar</Button>
 		</div>
 	</aside>
+{/if}
+
+{#if deleteTargetId}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-md p-5">
+			<h3 class="text-lg font-semibold">Eliminar secuencia</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta accion no se puede deshacer.</p>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="ghost" onclick={() => (deleteTargetId = null)}>Cancelar</Button>
+				<Button
+					variant="danger"
+					disabled={props.readOnly}
+					onclick={() => {
+						if (!deleteTargetId) return;
+						void remove(deleteTargetId);
+					}}
+				>
+					Eliminar
+				</Button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if commentTargetId}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-xl p-5">
+			<h3 class="text-lg font-semibold">Comentario interno</h3>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">{commentTargetLabel()}</p>
+
+			<label class="mt-3 block text-sm">
+				<span class="mb-1 block">Tipo</span>
+				<select
+					bind:value={commentType}
+					disabled={!props.canComment}
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				>
+					<option value="general">general</option>
+					<option value="revision">revision</option>
+					<option value="tecnico">tecnico</option>
+				</select>
+			</label>
+
+			<label class="mt-3 block text-sm">
+				<span class="mb-1 block">Comentario</span>
+				<textarea
+					rows={4}
+					bind:value={commentText}
+					disabled={!props.canComment}
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				></textarea>
+			</label>
+
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="ghost" onclick={() => (commentTargetId = null)}>Cancelar</Button>
+				<Button onclick={saveComment} disabled={commentSaving || !props.canComment}>
+					{commentSaving ? 'Guardando...' : 'Guardar comentario'}
+				</Button>
+			</div>
+		</div>
+	</div>
 {/if}

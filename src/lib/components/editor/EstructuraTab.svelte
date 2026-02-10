@@ -8,6 +8,8 @@
 		jornadasInitial: Tables<'jornadas'>[];
 		cuadrosInitial: Tables<'cuadros'>[];
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		readOnly?: boolean;
+		canComment?: boolean;
 	}>();
 
 	let jornadas = $state([...props.jornadasInitial]);
@@ -21,11 +23,20 @@
 		title: string;
 		description: string;
 	};
+	type CommentTarget = {
+		kind: 'jornada' | 'cuadro';
+		id: string;
+		label: string;
+	};
 
 	let sidebarMode = $state<SidebarMode>(null);
 	let editingJornadaId = $state<string | null>(null);
 	let editingCuadroId = $state<string | null>(null);
 	let deleteTarget = $state<DeleteTarget | null>(null);
+	let commentTarget = $state<CommentTarget | null>(null);
+	let commentType = $state<'general' | 'revision' | 'tecnico'>('general');
+	let commentText = $state('');
+	let commentSaving = $state(false);
 
 	let jornadaForm = $state({
 		jornada_num: props.jornadasInitial.length + 1,
@@ -87,12 +98,14 @@
 	}
 
 	function openNewJornada() {
+		if (props.readOnly) return;
 		editingJornadaId = null;
 		resetJornadaForm();
 		sidebarMode = 'jornada-new';
 	}
 
 	function openEditJornada(jornada: Tables<'jornadas'>) {
+		if (props.readOnly) return;
 		editingJornadaId = jornada.jornada_id;
 		jornadaForm = {
 			jornada_num: jornada.jornada_num,
@@ -103,12 +116,14 @@
 	}
 
 	function openNewCuadro(jornada: Tables<'jornadas'>) {
+		if (props.readOnly) return;
 		editingCuadroId = null;
 		resetCuadroForm(jornada.jornada_id);
 		sidebarMode = 'cuadro-new';
 	}
 
 	function openEditCuadro(cuadro: Tables<'cuadros'>) {
+		if (props.readOnly) return;
 		editingCuadroId = cuadro.cuadro_id;
 		cuadroForm = {
 			jornada_id: cuadro.jornada_id,
@@ -128,6 +143,7 @@
 	}
 
 	function openDeleteJornada(jornada: Tables<'jornadas'>) {
+		if (props.readOnly) return;
 		deleteTarget = {
 			kind: 'jornada',
 			id: jornada.jornada_id,
@@ -137,12 +153,35 @@
 	}
 
 	function openDeleteCuadro(cuadro: Tables<'cuadros'>) {
+		if (props.readOnly) return;
 		deleteTarget = {
 			kind: 'cuadro',
 			id: cuadro.cuadro_id,
 			title: `Eliminar Cuadro ${cuadro.cuadro_num}`,
 			description: 'Esta accion no se puede deshacer.'
 		};
+	}
+
+	function openCommentForJornada(jornada: Tables<'jornadas'>) {
+		if (!props.canComment) return;
+		commentTarget = {
+			kind: 'jornada',
+			id: jornada.jornada_id,
+			label: `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
+		};
+		commentType = 'general';
+		commentText = '';
+	}
+
+	function openCommentForCuadro(cuadro: Tables<'cuadros'>) {
+		if (!props.canComment) return;
+		commentTarget = {
+			kind: 'cuadro',
+			id: cuadro.cuadro_id,
+			label: `Cuadro ${cuadro.cuadro_num} (vv. ${cuadro.v_ini}-${cuadro.v_fin})`
+		};
+		commentType = 'general';
+		commentText = '';
 	}
 
 	function parseJornadaPayload() {
@@ -199,6 +238,7 @@
 	}
 
 	async function saveJornada() {
+		if (props.readOnly) return;
 		if (!validateJornadaForm()) return;
 		const payload = parseJornadaPayload();
 		const endpoint = editingJornadaId
@@ -231,6 +271,7 @@
 	}
 
 	async function saveCuadro() {
+		if (props.readOnly) return;
 		if (!validateCuadroForm()) return;
 		const payload = parseCuadroPayload();
 		const endpoint = editingCuadroId
@@ -271,6 +312,7 @@
 	}
 
 	async function confirmDelete() {
+		if (props.readOnly) return;
 		if (!deleteTarget) return;
 		const target = deleteTarget;
 
@@ -301,12 +343,44 @@
 
 		deleteTarget = null;
 	}
+
+	async function submitComment() {
+		if (!props.canComment) return;
+		if (!commentTarget || commentSaving) return;
+		if (!commentText.trim()) {
+			pushToast('error', 'Escribe un comentario interno antes de guardar.');
+			return;
+		}
+		commentSaving = true;
+		const contextPayload =
+			commentTarget.kind === 'jornada'
+				? { jornada_id: commentTarget.id }
+				: { cuadro_id: commentTarget.id };
+		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				comentario: commentText.trim(),
+				tipo_comentario: commentType,
+				...contextPayload
+			})
+		});
+		commentSaving = false;
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo guardar el comentario interno.');
+			return;
+		}
+		pushToast('success', 'Comentario interno guardado');
+		commentTarget = null;
+		commentText = '';
+	}
 </script>
 
 <section class="space-y-4">
 	<div class="flex items-center justify-between">
 		<h2 class="text-xl font-semibold">Jornadas y cuadros</h2>
-		<Button variant="secondary" onclick={openNewJornada}>Anadir jornada</Button>
+		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Anadir jornada</Button>
 	</div>
 
 	{#each sortByVIni(jornadas) as jornada}
@@ -316,14 +390,26 @@
 					Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
 				</h3>
 				<div class="flex gap-2">
-					<Button variant="ghost" onclick={() => openEditJornada(jornada)}>Editar</Button>
-					<Button variant="danger" onclick={() => openDeleteJornada(jornada)}>Eliminar</Button>
+					<Button variant="ghost" onclick={() => openEditJornada(jornada)} disabled={props.readOnly}
+						>Editar</Button
+					>
+					<Button
+						variant="ghost"
+						onclick={() => openCommentForJornada(jornada)}
+						disabled={!props.canComment}
+						>Comentar</Button
+					>
+					<Button variant="danger" onclick={() => openDeleteJornada(jornada)} disabled={props.readOnly}
+						>Eliminar</Button
+					>
 				</div>
 			</div>
 
 			<div class="mb-2 flex items-center justify-between">
 				<div class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">Cuadros</div>
-				<Button variant="secondary" onclick={() => openNewCuadro(jornada)}>Anadir cuadro</Button>
+				<Button variant="secondary" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
+					>Anadir cuadro</Button
+				>
 			</div>
 
 			<div class="space-y-2">
@@ -342,8 +428,18 @@
 									{/if}
 								</div>
 								<div class="flex gap-2">
-									<Button variant="ghost" onclick={() => openEditCuadro(cuadro)}>Editar</Button>
-									<Button variant="danger" onclick={() => openDeleteCuadro(cuadro)}>Eliminar</Button>
+									<Button variant="ghost" onclick={() => openEditCuadro(cuadro)} disabled={props.readOnly}
+										>Editar</Button
+									>
+									<Button
+										variant="ghost"
+										onclick={() => openCommentForCuadro(cuadro)}
+										disabled={!props.canComment}
+										>Comentar</Button
+									>
+									<Button variant="danger" onclick={() => openDeleteCuadro(cuadro)} disabled={props.readOnly}
+										>Eliminar</Button
+									>
 								</div>
 							</div>
 						</div>
@@ -375,6 +471,7 @@
 							type="number"
 							bind:value={jornadaForm.jornada_num}
 							min="1"
+							disabled={props.readOnly}
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
@@ -383,6 +480,7 @@
 						<input
 							type="number"
 							bind:value={jornadaForm.v_ini}
+							disabled={props.readOnly}
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
@@ -391,6 +489,7 @@
 						<input
 							type="number"
 							bind:value={jornadaForm.v_fin}
+							disabled={props.readOnly}
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
@@ -400,6 +499,7 @@
 					<span class="mb-1 block">Jornada</span>
 					<select
 						bind:value={cuadroForm.jornada_id}
+						disabled={props.readOnly}
 						onchange={(event) => onCuadroJornadaChange((event.currentTarget as HTMLSelectElement).value)}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					>
@@ -417,6 +517,7 @@
 							type="number"
 							bind:value={cuadroForm.cuadro_num}
 							min="1"
+							disabled={props.readOnly}
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
@@ -425,6 +526,7 @@
 						<input
 							type="number"
 							bind:value={cuadroForm.v_ini}
+							disabled={props.readOnly}
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
@@ -433,6 +535,7 @@
 						<input
 							type="number"
 							bind:value={cuadroForm.v_fin}
+							disabled={props.readOnly}
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
@@ -441,6 +544,7 @@
 					<span class="mb-1 block">Certeza</span>
 					<select
 						bind:value={cuadroForm.certeza_editor}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					>
 						{#each props.certezaOptions as option}
@@ -453,6 +557,7 @@
 					<textarea
 						rows={3}
 						bind:value={cuadroForm.descripcion}
+						disabled={props.readOnly}
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					></textarea>
 				</label>
@@ -461,7 +566,7 @@
 
 		<div class="mt-4 flex justify-end gap-2">
 			<Button variant="ghost" onclick={closeSidebar}>Cancelar</Button>
-			<Button onclick={saveSidebar}>Guardar</Button>
+			<Button onclick={saveSidebar} disabled={props.readOnly}>Guardar</Button>
 		</div>
 	</aside>
 {/if}
@@ -473,7 +578,46 @@
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{deleteTarget.description}</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="ghost" onclick={() => (deleteTarget = null)}>Cancelar</Button>
-				<Button variant="danger" onclick={confirmDelete}>Eliminar</Button>
+				<Button variant="danger" onclick={confirmDelete} disabled={props.readOnly}>Eliminar</Button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if commentTarget}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-xl p-5">
+			<h3 class="text-lg font-semibold">Comentario interno</h3>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">{commentTarget.label}</p>
+
+			<label class="mt-3 block text-sm">
+				<span class="mb-1 block">Tipo</span>
+				<select
+					bind:value={commentType}
+					disabled={!props.canComment}
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				>
+					<option value="general">general</option>
+					<option value="revision">revision</option>
+					<option value="tecnico">tecnico</option>
+				</select>
+			</label>
+
+			<label class="mt-3 block text-sm">
+				<span class="mb-1 block">Comentario</span>
+				<textarea
+					rows={4}
+					bind:value={commentText}
+					disabled={!props.canComment}
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				></textarea>
+			</label>
+
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="ghost" onclick={() => (commentTarget = null)}>Cancelar</Button>
+				<Button onclick={submitComment} disabled={commentSaving || !props.canComment}>
+					{commentSaving ? 'Guardando...' : 'Guardar comentario'}
+				</Button>
 			</div>
 		</div>
 	</div>

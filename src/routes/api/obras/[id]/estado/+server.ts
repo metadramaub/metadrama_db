@@ -9,7 +9,7 @@ import { getEstadoTerm } from '$lib/server/obras';
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	const user = await requireAuthenticated({ locals });
 	const { obra, profile, estadoTerm } = await getObraContext({ locals }, params.id, {
-		requireEdit: false
+		requireChangeState: true
 	});
 	const body = await request.json().catch(() => ({}));
 	const parsed = estadoInputSchema.safeParse(body);
@@ -48,11 +48,21 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 
-	if (comentario?.trim()) {
+	const { data: tipoEstado } = await locals.supabase
+		.from('vocabularios')
+		.select('termino_id')
+		.eq('categoria', 'tipo_comentario')
+		.eq('termino', 'estado')
+		.eq('activo', true)
+		.maybeSingle();
+	const tipoComentarioId = tipoEstado?.termino_id;
+	if (tipoComentarioId) {
+		const extra = comentario?.trim() ? ` ${comentario.trim()}` : '';
 		await locals.supabase.from('comentarios_internos').insert({
 			obra_id: obra.obra_id,
 			user_id: user.id,
-			comentario: `[Cambio de estado ${estadoTerm} -> ${targetTerm}] ${comentario.trim()}`
+			comentario: `[Cambio de estado ${estadoTerm} -> ${targetTerm}]${extra}`,
+			tipo_comentario_id: tipoComentarioId
 		});
 	}
 

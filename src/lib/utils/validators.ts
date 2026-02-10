@@ -97,7 +97,6 @@ export const secuenciaInputSchema = z
 		estado_revision: z.string().uuid(),
 		certeza_editor: z.string().uuid(),
 		observaciones: z.string().trim().nullable().optional().default(null),
-		notas_internas: z.string().trim().nullable().optional().default(null),
 		metro_ids: z.array(z.string().uuid()).min(1, 'Debe seleccionar al menos un metro')
 	})
 	.refine((input) => input.v_ini < input.v_fin, {
@@ -111,7 +110,24 @@ export const estadoInputSchema = z.object({
 });
 
 export const comentarioInputSchema = z.object({
-	comentario: z.string().trim().min(1).max(4000)
+	comentario: z.string().trim().min(1).max(4000),
+	tipo_comentario: z
+		.enum(['general', 'revision', 'tecnico', 'estado'])
+		.optional()
+		.default('general'),
+	secuencia_id: z.string().uuid().optional(),
+	jornada_id: z.string().uuid().optional(),
+	cuadro_id: z.string().uuid().optional(),
+	rango_id: z.string().uuid().optional()
+}).superRefine((data, ctx) => {
+	const refs = [data.secuencia_id, data.jornada_id, data.cuadro_id, data.rango_id].filter(Boolean);
+	if (refs.length > 1) {
+		ctx.addIssue({
+			code: z.ZodIssueCode.custom,
+			message: 'Solo se puede asociar un contexto por comentario.',
+			path: ['secuencia_id']
+		});
+	}
 });
 
 const autorIdsSchema = z
@@ -119,27 +135,22 @@ const autorIdsSchema = z
 	.min(1, 'Debe seleccionar al menos un autor')
 	.transform((ids) => [...new Set(ids)]);
 
-const notasSchema = nullableText(4000);
-
 const autoriaObraCompletaSchema = z.object({
 	mode: z.literal('obra_completa'),
 	url_informe_autoria: nullableUrl,
-	autor_ids: autorIdsSchema,
-	notas: notasSchema
+	autor_ids: autorIdsSchema
 });
 
 const autoriaPorJornadasItemSchema = z.object({
 	jornada_id: z.string().uuid(),
-	autor_ids: autorIdsSchema,
-	notas: notasSchema
+	autor_ids: autorIdsSchema
 });
 
 const autoriaRangoItemSchema = z
 	.object({
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
-		autor_ids: autorIdsSchema,
-		notas: notasSchema
+		autor_ids: autorIdsSchema
 	})
 	.refine((input) => input.v_ini < input.v_fin, {
 		message: 'El verso inicial debe ser menor que el final',
@@ -169,6 +180,42 @@ export const visibilidadInputSchema = z.object({
 	visible_publico: z.boolean()
 });
 
+export const obraCreateSchema = z.object({
+	titulo: z.string().trim().min(1, 'El titulo es obligatorio').max(300),
+	editor_asignado: z.string().uuid('Editor asignado invalido'),
+	genero_id: z.string().uuid().optional().nullable().default(null)
+});
+
+export const obraReviewersInputSchema = z.object({
+	reviewer_ids: z
+		.array(z.string().uuid())
+		.default([])
+		.transform((ids) => [...new Set(ids)])
+});
+
+export const vocabularioCreateSchema = z.object({
+	categoria: z.string().trim().min(1).max(80),
+	termino: z.string().trim().min(1).max(200),
+	termino_padre_id: z.string().uuid().optional().nullable().default(null),
+	nivel: z.number().int().optional().nullable().default(null),
+	orden: z.number().int().optional().nullable().default(null),
+	patron_especifico: z.string().trim().max(2000).optional().nullable().default(null),
+	activo: z.boolean().optional().default(true)
+});
+
+export const vocabularioPatchSchema = z
+	.object({
+		termino: z.string().trim().min(1).max(200).optional(),
+		termino_padre_id: z.string().uuid().optional().nullable(),
+		nivel: z.number().int().optional().nullable(),
+		orden: z.number().int().optional().nullable(),
+		patron_especifico: z.string().trim().max(2000).optional().nullable(),
+		activo: z.boolean().optional()
+	})
+	.refine((payload) => Object.keys(payload).length > 0, {
+		message: 'No hay campos para actualizar'
+	});
+
 export const queryFilterSchema = z.object({
 	q: z.string().optional(),
 	estado: z.string().uuid().optional(),
@@ -186,3 +233,7 @@ export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
 export type AutoriaInputParsed = z.infer<typeof autoriaInputSchema>;
 export type AnalisisInputParsed = z.infer<typeof analisisInputSchema>;
 export type VisibilidadInputParsed = z.infer<typeof visibilidadInputSchema>;
+export type ObraCreateParsed = z.infer<typeof obraCreateSchema>;
+export type ObraReviewersInputParsed = z.infer<typeof obraReviewersInputSchema>;
+export type VocabularioCreateParsed = z.infer<typeof vocabularioCreateSchema>;
+export type VocabularioPatchParsed = z.infer<typeof vocabularioPatchSchema>;

@@ -6,8 +6,17 @@
 		selectedIds: string[];
 		onChange: (ids: string[]) => void;
 		placeholder?: string;
+		disabled?: boolean;
 	}>();
 	type AuthorOption = (typeof props.authors)[number];
+
+	function normalizeText(value: string): string {
+		return value
+			.normalize('NFD')
+			.replaceAll(/\p{M}/gu, '')
+			.trim()
+			.toLowerCase();
+	}
 
 	let query = $state('');
 	let open = $state(false);
@@ -21,18 +30,18 @@
 	});
 
 	const suggestions = $derived.by(() => {
-		const term = query.trim().toLowerCase();
-		if (!term) return [] as Array<{ autor_id: string; nombre_completo: string }>;
+		const term = normalizeText(query);
 		return props.authors
 			.filter(
 				(author: AuthorOption) =>
-					author.nombre_completo.toLowerCase().includes(term) &&
+					(!term || normalizeText(author.nombre_completo).includes(term)) &&
 					!props.selectedIds.includes(author.autor_id)
 			)
 			.slice(0, 10);
 	});
 
 	function addAuthor(authorId: string) {
+		if (props.disabled) return;
 		if (props.selectedIds.includes(authorId)) return;
 		props.onChange([...props.selectedIds, authorId]);
 		query = '';
@@ -40,6 +49,7 @@
 	}
 
 	function removeAuthor(authorId: string) {
+		if (props.disabled) return;
 		props.onChange(props.selectedIds.filter((id: string) => id !== authorId));
 	}
 
@@ -64,7 +74,13 @@
 			{#each selectedAuthors as author}
 				<span class="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-[#fffdf8] px-3 py-1 text-sm">
 					{author.nombre_completo}
-					<Button variant="ghost" class="h-6 px-2 py-0" onclick={() => removeAuthor(author.autor_id)}>Quitar</Button>
+					<Button
+						variant="ghost"
+						class="h-6 px-2 py-0"
+						disabled={props.disabled}
+						onclick={() => removeAuthor(author.autor_id)}
+						>Quitar</Button
+					>
 				</span>
 			{/each}
 		{/if}
@@ -74,6 +90,7 @@
 		<input
 			type="text"
 			class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+			disabled={props.disabled}
 			placeholder={props.placeholder ?? 'Escribe para buscar autores'}
 			value={query}
 			onfocus={() => (open = true)}
@@ -89,7 +106,7 @@
 				}
 			}}
 		/>
-		{#if open && query.trim()}
+		{#if open}
 			<div class="absolute z-20 mt-1 max-h-48 w-full overflow-auto rounded-md border border-[color:var(--border)] bg-white shadow">
 				{#if suggestions.length === 0}
 					<div class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">Sin coincidencias.</div>

@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
 	canTransitionState,
+	canTransitionReviewerWorkflow,
 	canReadAllObras,
 	canEditByState,
 	canToggleVisibility,
+	canManageReviewAssignments,
+	canManageVocabularios,
+	isProtectedVocabularyCategory,
 	normalizeRole
 } from './permissions';
 
@@ -48,5 +52,26 @@ describe('permissions', () => {
 		expect(canToggleVisibility('ip')).toBe(true);
 		expect(canToggleVisibility('editor')).toBe(false);
 		expect(canToggleVisibility('revisor')).toBe(false);
+	});
+
+	it('supports reviewer workflow helper for assigned reviewers', () => {
+		expect(canTransitionReviewerWorkflow('pendiente', 'en_revision')).toBe(true);
+		expect(canTransitionReviewerWorkflow('en_revision', 'validado')).toBe(true);
+		expect(canTransitionReviewerWorkflow('validado', 'publicado')).toBe(false);
+	});
+
+	it('limits management actions to admin/IP', () => {
+		expect(canManageReviewAssignments('admin')).toBe(true);
+		expect(canManageReviewAssignments('ip')).toBe(true);
+		expect(canManageReviewAssignments('editor')).toBe(false);
+
+		expect(canManageVocabularios('admin')).toBe(true);
+		expect(canManageVocabularios('revisor')).toBe(false);
+	});
+
+	it('protects immutable vocabulary categories', () => {
+		expect(isProtectedVocabularyCategory('estado')).toBe(true);
+		expect(isProtectedVocabularyCategory('role_editor')).toBe(true);
+		expect(isProtectedVocabularyCategory('genero')).toBe(false);
 	});
 });

@@ -3,9 +3,13 @@ import { getObraContext } from '$lib/server/auth';
 import type { Tables } from '$lib/types/database.types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-	const { obra, profile, estadoTerm } = await getObraContext({ locals }, params.id, {
+	const { obra, profile, estadoTerm, assignedReviewer, capabilities } = await getObraContext(
+		{ locals },
+		params.id,
+		{
 		requireEdit: false
-	});
+		}
+	);
 
 	const [jornadasResp, cuadrosResp, secuenciasResp, secuenciasMetrosResp, vocabResp, rangosResp, autoresResp] =
 		await Promise.all([
@@ -56,11 +60,21 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			? await locals.supabase.from('rangos_autores').select('*').in('rango_id', rangoIds)
 			: { data: [] };
 	const rangosAutores = (rangosAutoresResp.data ?? []) as Tables<'rangos_autores'>[];
+	const editorAsignadoResp = obra.editor_asignado
+		? await locals.supabase
+				.from('editores')
+				.select('nombre_completo')
+				.eq('user_id', obra.editor_asignado)
+				.maybeSingle()
+		: { data: null };
 
 	return {
 		profile,
 		obra,
 		estadoTerm,
+		assignedReviewer,
+		capabilities,
+		editorAsignadoNombre: editorAsignadoResp.data?.nombre_completo ?? null,
 		jornadas,
 		cuadros,
 		secuencias,

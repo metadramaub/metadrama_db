@@ -51,6 +51,9 @@
 	const estadoRevisionOptions = $derived(vocabByCategory.get('estado_revision') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
 	const metroOptions = $derived(vocabByCategory.get('metro') ?? []);
+	const obraLive = $derived(($currentObraStore.obra ?? data.obra) as Tables<'obras'>);
+	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
+	const canComment = $derived(Boolean(data.capabilities?.canComment));
 
 	let channel: RealtimeChannel | null = null;
 	const jornadaIds = $derived(
@@ -75,7 +78,6 @@
 	}
 
 	onMount(() => {
-		setCurrentObra(data.obra);
 		if (!browser) return;
 		const supabase = getSupabaseBrowserClient();
 		channel = supabase
@@ -165,6 +167,10 @@
 			.subscribe();
 	});
 
+	$effect(() => {
+		setCurrentObra(data.obra);
+	});
+
 	onDestroy(() => {
 		if (!channel) return;
 		const supabase = getSupabaseBrowserClient();
@@ -175,11 +181,21 @@
 
 <section>
 	<div class="mb-4">
-		<h1 class="text-3xl font-semibold">{data.obra.titulo}</h1>
+		<h1 class="text-3xl font-semibold">{obraLive.titulo}</h1>
 		<p class="text-sm text-[color:var(--muted-foreground)]">
-			Estado actual: {data.estadoTerm}. ID obra: {data.obra.obra_id}
+			Estado actual: {data.estadoTerm}. ID obra: {obraLive.obra_id}
 		</p>
 	</div>
+
+	{#if !canEditContent}
+		<div class="mb-4 rounded-md border border-[color:var(--border)] bg-[#fff8eb] px-3 py-2 text-sm">
+			{#if canComment}
+				Modo revision: contenido en solo lectura. Puedes comentar desde la pestana Revision.
+			{:else}
+				Modo solo lectura: no tienes permisos de edicion ni revision en esta obra.
+			{/if}
+		</div>
+	{/if}
 
 	{#if $currentObraStore.conflict}
 		<div class="mb-4 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
@@ -192,43 +208,49 @@
 	</div>
 
 	{#if currentTab === 'datos'}
-		<DatosObraTab obra={data.obra} generoOptions={generoOptions} />
+		<DatosObraTab obra={obraLive} generoOptions={generoOptions} readOnly={!canEditContent} />
 	{:else if currentTab === 'estructura'}
 		<EstructuraTab
-			obraId={data.obra.obra_id}
+			obraId={obraLive.obra_id}
 			jornadasInitial={data.jornadas}
 			cuadrosInitial={data.cuadros}
 			certezaOptions={certezaOptions}
+			readOnly={!canEditContent}
+			canComment={canComment}
 		/>
 	{:else if currentTab === 'secuencias'}
 		<SecuenciasTab
-			obraId={data.obra.obra_id}
+			obraId={obraLive.obra_id}
 			secuenciasInitial={data.secuencias}
 			secuenciasMetrosInitial={data.secuenciasMetros}
 			estrofaOptions={estrofaOptions}
 			metroOptions={metroOptions}
 			estadoRevisionOptions={estadoRevisionOptions}
 			certezaOptions={certezaOptions}
+			readOnly={!canEditContent}
+			canComment={canComment}
 		/>
 	{:else if currentTab === 'autoria'}
 		<AutoriaTab
-			obraId={data.obra.obra_id}
-			obra={data.obra}
+			obraId={obraLive.obra_id}
+			obra={obraLive}
 			jornadas={data.jornadas}
 			rangosInitial={data.rangos}
 			rangosAutoresInitial={data.rangosAutores}
 			autoresInitial={data.autores}
+			readOnly={!canEditContent}
 		/>
 	{:else if currentTab === 'analisis'}
 		<AnalisisTab
-			obraId={data.obra.obra_id}
-			analisisInitial={data.obra.analisis_editor ?? ''}
-			bibliografiaInitial={data.obra.bibliografia ?? ''}
+			obraId={obraLive.obra_id}
+			analisisInitial={obraLive.analisis_editor ?? ''}
+			bibliografiaInitial={obraLive.bibliografia ?? ''}
+			readOnly={!canEditContent}
 		/>
 	{:else}
 		<RevisionTab
-			obraId={data.obra.obra_id}
-			obra={data.obra}
+			obraId={obraLive.obra_id}
+			obra={obraLive}
 			profile={data.profile}
 			estadoTerm={data.estadoTerm}
 			estadoOptions={estadoOptions}
@@ -237,6 +259,9 @@
 			cuadros={data.cuadros}
 			secuencias={data.secuencias}
 			rangos={data.rangos}
+			editorAsignadoNombre={data.editorAsignadoNombre}
+			assignedReviewer={data.assignedReviewer}
+			capabilities={data.capabilities}
 		/>
 	{/if}
 </section>

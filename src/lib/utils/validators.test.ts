@@ -6,7 +6,11 @@ import {
 	comentarioInputSchema,
 	autoriaInputSchema,
 	analisisInputSchema,
-	visibilidadInputSchema
+	visibilidadInputSchema,
+	obraCreateSchema,
+	obraReviewersInputSchema,
+	vocabularioCreateSchema,
+	vocabularioPatchSchema
 } from './validators';
 
 describe('validators', () => {
@@ -52,7 +56,6 @@ describe('validators', () => {
 			estado_revision: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			observaciones: null,
-			notas_internas: null,
 			metro_ids: []
 		});
 		expect(result.success).toBe(false);
@@ -63,12 +66,20 @@ describe('validators', () => {
 		expect(result.success).toBe(false);
 	});
 
+	it('rejects comments with more than one context reference', () => {
+		const result = comentarioInputSchema.safeParse({
+			comentario: 'Comentario interno',
+			secuencia_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+			jornada_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7'
+		});
+		expect(result.success).toBe(false);
+	});
+
 	it('accepts autoria obra completa payload', () => {
 		const result = autoriaInputSchema.safeParse({
 			mode: 'obra_completa',
 			url_informe_autoria: 'https://example.com/informe',
-			autor_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'],
-			notas: 'Colaboracion no determinada'
+			autor_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7']
 		});
 		expect(result.success).toBe(true);
 	});
@@ -81,8 +92,7 @@ describe('validators', () => {
 				{
 					v_ini: 100,
 					v_fin: 90,
-					autor_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'],
-					notas: null
+					autor_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7']
 				}
 			]
 		});
@@ -98,5 +108,43 @@ describe('validators', () => {
 	it('accepts visibility toggle payload', () => {
 		const result = visibilidadInputSchema.safeParse({ visible_publico: true });
 		expect(result.success).toBe(true);
+	});
+
+	it('requires title and assigned editor on obra creation', () => {
+		const invalid = obraCreateSchema.safeParse({
+			titulo: '',
+			editor_asignado: 'not-uuid'
+		});
+		expect(invalid.success).toBe(false);
+
+		const valid = obraCreateSchema.safeParse({
+			titulo: 'Nueva obra',
+			editor_asignado: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'
+		});
+		expect(valid.success).toBe(true);
+	});
+
+	it('deduplicates reviewer ids', () => {
+		const result = obraReviewersInputSchema.parse({
+			reviewer_ids: [
+				'4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+				'4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'
+			]
+		});
+		expect(result.reviewer_ids).toHaveLength(1);
+	});
+
+	it('validates vocabulario create and patch payloads', () => {
+		const createResult = vocabularioCreateSchema.safeParse({
+			categoria: 'genero',
+			termino: 'comedia'
+		});
+		expect(createResult.success).toBe(true);
+
+		const emptyPatch = vocabularioPatchSchema.safeParse({});
+		expect(emptyPatch.success).toBe(false);
+
+		const patchResult = vocabularioPatchSchema.safeParse({ activo: false });
+		expect(patchResult.success).toBe(true);
 	});
 });
