@@ -16,6 +16,16 @@ export interface DashboardObraCard {
 	progreso: number;
 }
 
+export interface ObraAccessFlags {
+	canRead: boolean;
+	canEditContent: boolean;
+	canComment: boolean;
+	canReview: boolean;
+	canChangeState: boolean;
+	canManageReviewers: boolean;
+	canToggleVisibility: boolean;
+}
+
 export interface ObraDatosPatch {
 	titulo: string;
 	variantes_titulo: string[];
@@ -54,7 +64,6 @@ export interface SecuenciaInput {
 	estado_revision: string;
 	certeza_editor: string;
 	observaciones: string | null;
-	notas_internas: string | null;
 }
 
 export interface CambioEstadoInput {
@@ -64,19 +73,22 @@ export interface CambioEstadoInput {
 
 export interface ComentarioInput {
 	comentario: string;
+	tipo_comentario?: 'general' | 'revision' | 'tecnico' | 'estado';
+	secuencia_id?: string;
+	jornada_id?: string;
+	cuadro_id?: string;
+	rango_id?: string;
 }
 
 export interface AutoriaObraCompletaInput {
 	mode: 'obra_completa';
 	url_informe_autoria: string | null;
 	autor_ids: string[];
-	notas: string | null;
 }
 
 export interface AutoriaPorJornadaItemInput {
 	jornada_id: string;
 	autor_ids: string[];
-	notas: string | null;
 }
 
 export interface AutoriaPorJornadasInput {
@@ -89,7 +101,6 @@ export interface AutoriaRangoPersonalizadoItemInput {
 	v_ini: number;
 	v_fin: number;
 	autor_ids: string[];
-	notas: string | null;
 }
 
 export interface AutoriaRangoPersonalizadoInput {
@@ -114,4 +125,33 @@ export interface VisibilidadInput {
 
 export interface SecuenciaWithMetros extends Tables<'secuencias_metricas'> {
 	metros: Tables<'vocabularios'>[];
+}
+
+export interface ObraCreateInput {
+	titulo: string;
+	editor_asignado: string;
+	genero_id?: string | null;
+}
+
+export interface ObraReviewersInput {
+	reviewer_ids: string[];
+}
+
+export interface VocabularioCreateInput {
+	categoria: string;
+	termino: string;
+	termino_padre_id?: string | null;
+	nivel?: number | null;
+	orden?: number | null;
+	patron_especifico?: string | null;
+	activo?: boolean;
+}
+
+export interface VocabularioPatchInput {
+	termino?: string;
+	termino_padre_id?: string | null;
+	nivel?: number | null;
+	orden?: number | null;
+	patron_especifico?: string | null;
+	activo?: boolean;
 }

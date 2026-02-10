@@ -9,10 +9,25 @@
 		estadoTerm: string;
 		editorNombre: string;
 		updated_at: string | null;
+		canEditContent?: boolean;
+		canComment?: boolean;
+		canReview?: boolean;
+		canChangeState?: boolean;
 	}
 
 	const props = $props<{ obras: ObraRow[] }>();
 	const dispatch = createEventDispatcher<{ open: string }>();
+	function actionLabel(obra: ObraRow) {
+		if (obra.canEditContent) return 'Editar';
+		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Revisar';
+		return 'Ver';
+	}
+
+	function actionHint(obra: ObraRow) {
+		if (obra.canEditContent) return '';
+		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Solo revision';
+		return 'Solo lectura';
+	}
 </script>
 
 <div class="card overflow-x-auto">
@@ -43,7 +58,14 @@
 						<td class="px-3 py-2">{obra.editorNombre}</td>
 						<td class="px-3 py-2">{formatRelative(obra.updated_at)}</td>
 						<td class="px-3 py-2">
-							<Button variant="ghost" onclick={() => dispatch('open', obra.obra_id)}>Editar</Button>
+							<div class="flex items-center gap-2">
+								<Button variant="ghost" onclick={() => dispatch('open', obra.obra_id)}>
+									{actionLabel(obra)}
+								</Button>
+								{#if actionHint(obra)}
+									<span class="text-xs text-[color:var(--muted-foreground)]">{actionHint(obra)}</span>
+								{/if}
+							</div>
 						</td>
 					</tr>
 				{/each}

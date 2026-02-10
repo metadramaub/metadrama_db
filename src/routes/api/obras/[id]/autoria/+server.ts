@@ -9,7 +9,6 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 type RangeDraft = {
 	v_ini: number;
 	v_fin: number;
-	notas: string | null;
 	autor_ids: string[];
 };
 
@@ -104,7 +103,6 @@ function normalizeDraftsFromPayload(
 				{
 					v_ini: 1,
 					v_fin: totalVersos,
-					notas: payload.notas,
 					autor_ids: payload.autor_ids
 				}
 			]
@@ -130,7 +128,6 @@ function normalizeDraftsFromPayload(
 			return {
 				v_ini: jornada.v_ini,
 				v_fin: jornada.v_fin,
-				notas: entry.notas,
 				autor_ids: entry.autor_ids
 			};
 		});
@@ -141,7 +138,6 @@ function normalizeDraftsFromPayload(
 	const drafts = payload.items.map((item) => ({
 		v_ini: item.v_ini,
 		v_fin: item.v_fin,
-		notas: item.notas,
 		autor_ids: item.autor_ids
 	}));
 
@@ -293,7 +289,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 				obra_id: obra.obra_id,
 				v_ini: draft.v_ini,
 				v_fin: draft.v_fin,
-				notas: draft.notas
+				notas: null
 			})
 			.select('*')
 			.single();

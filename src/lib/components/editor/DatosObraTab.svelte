@@ -1,12 +1,13 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { markSaved, setDirty, setSaving } from '$lib/stores/currentObra';
+	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 
 	const props = $props<{
 		obra: Tables<'obras'>;
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		readOnly?: boolean;
 	}>();
 
 	type FormState = {
@@ -37,22 +38,26 @@
 	let savingNow = $state(false);
 
 	function mutateField<T extends keyof FormState>(key: T, value: FormState[T]) {
+		if (props.readOnly) return;
 		form = { ...form, [key]: value };
 		queueSave();
 	}
 
 	function queueSave() {
+		if (props.readOnly) return;
 		setDirty(true);
 		if (timer) clearTimeout(timer);
 		timer = setTimeout(() => save(), 10_000);
 	}
 
 	function addVariante() {
+		if (props.readOnly) return;
 		form = { ...form, variantes_titulo: [...form.variantes_titulo, ''] };
 		queueSave();
 	}
 
 	function removeVariante(index: number) {
+		if (props.readOnly) return;
 		form = {
 			...form,
 			variantes_titulo: form.variantes_titulo.filter((_, idx) => idx !== index)
@@ -61,10 +66,10 @@
 	}
 
 	async function save() {
-		if (savingNow) return;
+		if (props.readOnly || savingNow) return;
 		savingNow = true;
 		setSaving(true);
-		const payload = {
+		const requestPayload = {
 			...form,
 			variantes_titulo: form.variantes_titulo.map((item) => item.trim()).filter(Boolean)
 		};
@@ -72,7 +77,7 @@
 		const response = await fetch(`/api/obras/${props.obra.obra_id}/datos`, {
 			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(payload)
+			body: JSON.stringify(requestPayload)
 		});
 		savingNow = false;
 
@@ -83,6 +88,8 @@
 			return;
 		}
 
+		const responsePayload = await response.json();
+		patchCurrentObra(responsePayload.obra);
 		pushToast('success', 'Guardado');
 		markSaved();
 	}
@@ -91,26 +98,28 @@
 <section class="space-y-5">
 	<div class="card p-4">
 		<div class="mb-2 text-sm text-[color:var(--muted-foreground)]">
-			Guardado automático cada 10 segundos si hay cambios.
+			Guardado automatico cada 10 segundos si hay cambios.
 		</div>
 		<div class="grid gap-4 md:grid-cols-2">
 			<label class="text-sm">
-				<span class="mb-1 block">Título principal *</span>
+				<span class="mb-1 block">Titulo principal *</span>
 				<input
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={props.readOnly}
 					value={form.titulo}
 					oninput={(event) => mutateField('titulo', event.currentTarget.value)}
 				/>
 			</label>
 
 			<label class="text-sm">
-				<span class="mb-1 block">Género *</span>
+				<span class="mb-1 block">Genero *</span>
 				<select
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={props.readOnly}
 					value={form.genero_id}
 					onchange={(event) => mutateField('genero_id', event.currentTarget.value)}
 				>
-					<option value="">Selecciona género</option>
+					<option value="">Selecciona genero</option>
 					{#each props.generoOptions as genero}
 						<option value={genero.termino_id}>{genero.termino}</option>
 					{/each}
@@ -122,6 +131,7 @@
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={props.readOnly}
 					value={form.fecha_inicio_trad ?? ''}
 					oninput={(event) =>
 						mutateField(
@@ -135,6 +145,7 @@
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={props.readOnly}
 					value={form.fecha_fin_trad ?? ''}
 					oninput={(event) =>
 						mutateField('fecha_fin_trad', event.currentTarget.value ? Number(event.currentTarget.value) : null)}
@@ -143,10 +154,11 @@
 		</div>
 
 		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Fuente bibliográfica</span>
+			<span class="mb-1 block">Fuente bibliografica</span>
 			<textarea
 				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				rows={3}
+				disabled={props.readOnly}
 				oninput={(event) => mutateField('fuente_fecha', event.currentTarget.value || null)}
 			>{form.fuente_fecha ?? ''}</textarea>
 		</label>
@@ -157,6 +169,7 @@
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={props.readOnly}
 					value={form.fecha_inicio_metadrama ?? ''}
 					oninput={(event) =>
 						mutateField(
@@ -171,6 +184,7 @@
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={props.readOnly}
 					value={form.fecha_fin_metadrama ?? ''}
 					oninput={(event) =>
 						mutateField(
@@ -182,10 +196,11 @@
 		</div>
 
 		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Edición base utilizada *</span>
+			<span class="mb-1 block">Edicion base utilizada *</span>
 			<textarea
 				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				rows={4}
+				disabled={props.readOnly}
 				oninput={(event) => mutateField('edicion', event.currentTarget.value)}
 			>{form.edicion}</textarea>
 		</label>
@@ -193,17 +208,18 @@
 
 	<div class="card p-4">
 		<div class="mb-3 flex items-center justify-between">
-			<h3 class="text-lg font-semibold">Variantes de título</h3>
-			<Button variant="secondary" onclick={addVariante}>Añadir variante</Button>
+			<h3 class="text-lg font-semibold">Variantes de titulo</h3>
+			<Button variant="secondary" onclick={addVariante} disabled={props.readOnly}>Anadir variante</Button>
 		</div>
 		<div class="space-y-2">
 			{#if form.variantes_titulo.length === 0}
-				<p class="text-sm text-[color:var(--muted-foreground)]">No hay variantes añadidas.</p>
+				<p class="text-sm text-[color:var(--muted-foreground)]">No hay variantes anadidas.</p>
 			{:else}
 				{#each form.variantes_titulo as variante, idx}
 					<div class="flex gap-2">
 						<input
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+							disabled={props.readOnly}
 							value={variante}
 							oninput={(event) => {
 								const updated = [...form.variantes_titulo];
@@ -211,7 +227,9 @@
 								mutateField('variantes_titulo', updated);
 							}}
 						/>
-						<Button variant="danger" onclick={() => removeVariante(idx)}>Eliminar</Button>
+						<Button variant="danger" onclick={() => removeVariante(idx)} disabled={props.readOnly}
+							>Eliminar</Button
+						>
 					</div>
 				{/each}
 			{/if}
@@ -219,6 +237,8 @@
 	</div>
 
 	<div class="flex justify-end">
-		<Button onclick={save} disabled={savingNow}>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button>
+		<Button onclick={save} disabled={savingNow || props.readOnly}
+			>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button
+		>
 	</div>
 </section>

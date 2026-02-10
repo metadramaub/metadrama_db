@@ -16,7 +16,6 @@
 		v_ini: number;
 		v_fin: number;
 		autor_ids: string[];
-		notas: string;
 	};
 
 	const props = $props<{
@@ -26,6 +25,7 @@
 		rangosInitial: Tables<'rangos'>[];
 		rangosAutoresInitial: Tables<'rangos_autores'>[];
 		autoresInitial: Array<Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>>;
+		readOnly?: boolean;
 	}>();
 	type JornadaOption = (typeof props.jornadas)[number];
 
@@ -38,8 +38,7 @@
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
 	let obraCompleta = $state({
-		autor_ids: [] as string[],
-		notas: ''
+		autor_ids: [] as string[]
 	});
 	let jornadaAssignments = $state<JornadaAssignment[]>([]);
 	let customRanges = $state<CustomRange[]>([]);
@@ -106,8 +105,7 @@
 		const firstRange = sortedRanges[0];
 
 		obraCompleta = {
-			autor_ids: firstRange ? [...(authorIdsByRange.get(firstRange.rango_id) ?? [])] : [],
-			notas: firstRange?.notas ?? ''
+			autor_ids: firstRange ? [...(authorIdsByRange.get(firstRange.rango_id) ?? [])] : []
 		};
 
 		jornadaAssignments = props.jornadas.map((jornada: JornadaOption) => {
@@ -124,14 +122,14 @@
 			temp_id: range.rango_id,
 			v_ini: range.v_ini,
 			v_fin: range.v_fin,
-			autor_ids: [...(authorIdsByRange.get(range.rango_id) ?? [])],
-			notas: range.notas ?? ''
+			autor_ids: [...(authorIdsByRange.get(range.rango_id) ?? [])]
 		}));
 
 		mode = nextMode;
 	}
 
 	function queueSave() {
+		if (props.readOnly) return;
 		setDirty(true);
 		if (timer) clearTimeout(timer);
 		timer = setTimeout(() => void save(), 10_000);
@@ -180,8 +178,7 @@
 				temp_id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
 				v_ini: nextStart,
 				v_fin: nextStart + 10,
-				autor_ids: [],
-				notas: ''
+				autor_ids: []
 			}
 		];
 		queueSave();
@@ -198,8 +195,7 @@
 			return {
 				mode,
 				url_informe_autoria: normalizedUrl,
-				autor_ids: obraCompleta.autor_ids,
-				notas: obraCompleta.notas.trim() || null
+				autor_ids: obraCompleta.autor_ids
 			};
 		}
 
@@ -209,8 +205,7 @@
 				url_informe_autoria: normalizedUrl,
 				items: jornadaAssignments.map((item) => ({
 					jornada_id: item.jornada_id,
-					autor_ids: item.autor_ids,
-					notas: null
+					autor_ids: item.autor_ids
 				}))
 			};
 		}
@@ -221,8 +216,7 @@
 			items: customRanges.map((item) => ({
 				v_ini: Number(item.v_ini),
 				v_fin: Number(item.v_fin),
-				autor_ids: item.autor_ids,
-				notas: item.notas.trim() || null
+				autor_ids: item.autor_ids
 			}))
 		};
 	}
@@ -281,6 +275,7 @@
 	}
 
 	async function save() {
+		if (props.readOnly) return;
 		if (savingNow) return;
 		const clientError = validateClientPayload();
 		if (clientError) {
@@ -331,7 +326,9 @@
 					Define como se distribuye la autoria de la obra.
 				</p>
 			</div>
-			<Button onclick={save} disabled={savingNow}>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button>
+			<Button onclick={save} disabled={savingNow || props.readOnly}
+				>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button
+			>
 		</div>
 
 		<div class="grid gap-2 sm:grid-cols-3">
@@ -339,19 +336,27 @@
 				<input
 					type="radio"
 					name="autoria-mode"
+					disabled={props.readOnly}
 					checked={mode === 'obra_completa'}
 					onchange={() => setMode('obra_completa')}
 				/>
 				Obra completa
 			</label>
 			<label class="flex items-center gap-2 rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
-				<input type="radio" name="autoria-mode" checked={mode === 'por_jornadas'} onchange={() => setMode('por_jornadas')} />
+				<input
+					type="radio"
+					name="autoria-mode"
+					disabled={props.readOnly}
+					checked={mode === 'por_jornadas'}
+					onchange={() => setMode('por_jornadas')}
+				/>
 				Por jornadas
 			</label>
 			<label class="flex items-center gap-2 rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
 				<input
 					type="radio"
 					name="autoria-mode"
+					disabled={props.readOnly}
 					checked={mode === 'rango_personalizado'}
 					onchange={() => setMode('rango_personalizado')}
 				/>
@@ -364,6 +369,7 @@
 			<input
 				type="url"
 				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				disabled={props.readOnly}
 				value={urlInforme}
 				oninput={(event) => {
 					urlInforme = event.currentTarget.value;
@@ -385,20 +391,8 @@
 						selectedIds={obraCompleta.autor_ids}
 						onChange={setObraCompletaAuthors}
 						placeholder="Escribe y selecciona autores"
+						disabled={props.readOnly}
 					/>
-				</label>
-
-				<label class="block text-sm">
-					<span class="mb-1 block">Notas</span>
-					<textarea
-						rows={3}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						value={obraCompleta.notas}
-						oninput={(event) => {
-							obraCompleta = { ...obraCompleta, notas: event.currentTarget.value };
-							queueSave();
-						}}
-					></textarea>
 				</label>
 			</div>
 		{:else if mode === 'por_jornadas'}
@@ -413,6 +407,7 @@
 								selectedIds={assignment.autor_ids}
 								onChange={(ids) => setJornadaAuthors(assignment.jornada_id, ids)}
 								placeholder="Escribe y selecciona autores"
+								disabled={props.readOnly}
 							/>
 						</label>
 					</article>
@@ -421,7 +416,9 @@
 		{:else}
 			<div class="space-y-3">
 				<div class="flex justify-end">
-					<Button variant="secondary" onclick={addCustomRange}>Anadir rango</Button>
+					<Button variant="secondary" onclick={addCustomRange} disabled={props.readOnly}
+						>Anadir rango</Button
+					>
 				</div>
 				{#if customRanges.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">No hay rangos definidos.</p>
@@ -435,6 +432,7 @@
 										<input
 											type="number"
 											class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+											disabled={props.readOnly}
 											value={range.v_ini}
 											oninput={(event) =>
 												updateCustomRange(range.temp_id, { v_ini: Number(event.currentTarget.value) })}
@@ -445,13 +443,16 @@
 										<input
 											type="number"
 											class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+											disabled={props.readOnly}
 											value={range.v_fin}
 											oninput={(event) =>
 												updateCustomRange(range.temp_id, { v_fin: Number(event.currentTarget.value) })}
 										/>
 									</label>
 								</div>
-								<Button variant="danger" onclick={() => removeCustomRange(range.temp_id)}>Eliminar</Button>
+								<Button variant="danger" onclick={() => removeCustomRange(range.temp_id)} disabled={props.readOnly}
+									>Eliminar</Button
+								>
 							</div>
 
 							<div class="grid gap-3 md:grid-cols-2">
@@ -462,17 +463,8 @@
 										selectedIds={range.autor_ids}
 										onChange={(ids) => setCustomRangeAuthors(range.temp_id, ids)}
 										placeholder="Escribe y selecciona autores"
+										disabled={props.readOnly}
 									/>
-								</label>
-								<label class="block text-sm">
-									<span class="mb-1 block">Notas</span>
-									<textarea
-										rows={3}
-										class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-										value={range.notas}
-										oninput={(event) =>
-											updateCustomRange(range.temp_id, { notas: event.currentTarget.value })}
-									></textarea>
 								</label>
 							</div>
 						</article>

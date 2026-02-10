@@ -6,7 +6,9 @@ import { validationErrorResponse, forbiddenResponse } from '$lib/server/http';
 import { canToggleVisibility } from '$lib/utils/permissions';
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
-	const { profile, obra } = await getObraContext({ locals }, params.id, { requireEdit: false });
+	const { profile, obra } = await getObraContext({ locals }, params.id, {
+		requireToggleVisibility: true
+	});
 	if (!canToggleVisibility(profile.roleTerm)) {
 		return forbiddenResponse('Solo admin o IP pueden cambiar la visibilidad publica.');
 	}
