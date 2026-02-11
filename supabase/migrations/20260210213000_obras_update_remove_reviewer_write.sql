@@ -1,4 +1,4 @@
-﻿-- Enforce review-only behavior for assigned reviewers on obras.
+-- Enforce review-only behavior for assigned reviewers on obras.
 -- Reviewers can comment, but they cannot update obras rows directly.
 
 -- Remove reviewer-specific update policy introduced in Iteration 2.
