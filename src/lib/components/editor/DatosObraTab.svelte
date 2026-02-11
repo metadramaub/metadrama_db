@@ -45,7 +45,7 @@
 
 	function queueSave() {
 		if (props.readOnly) return;
-		setDirty(true);
+		setDirty(true, 'datos');
 		if (timer) clearTimeout(timer);
 		timer = setTimeout(() => save(), 10_000);
 	}
@@ -68,7 +68,7 @@
 	async function save() {
 		if (props.readOnly || savingNow) return;
 		savingNow = true;
-		setSaving(true);
+		setSaving(true, 'datos');
 		const requestPayload = {
 			...form,
 			variantes_titulo: form.variantes_titulo.map((item) => item.trim()).filter(Boolean)
@@ -82,16 +82,17 @@
 		savingNow = false;
 
 		if (!response.ok) {
-			setSaving(false);
+			setSaving(false, 'datos');
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar los datos de la obra');
+			const detail = Array.isArray(body?.details) ? body.details[0]?.message : null;
+			pushToast('error', detail ?? body.message ?? 'No se pudo guardar los datos de la obra');
 			return;
 		}
 
 		const responsePayload = await response.json();
 		patchCurrentObra(responsePayload.obra);
 		pushToast('success', 'Guardado');
-		markSaved();
+		markSaved('datos');
 	}
 </script>
 
@@ -102,7 +103,7 @@
 		</div>
 		<div class="grid gap-4 md:grid-cols-2">
 			<label class="text-sm">
-				<span class="mb-1 block">Titulo principal *</span>
+				<span class="mb-1 block">Titulo principal</span>
 				<input
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
@@ -112,7 +113,7 @@
 			</label>
 
 			<label class="text-sm">
-				<span class="mb-1 block">Genero *</span>
+				<span class="mb-1 block">Genero</span>
 				<select
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
@@ -196,7 +197,7 @@
 		</div>
 
 		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Edicion base utilizada *</span>
+			<span class="mb-1 block">Edicion base utilizada</span>
 			<textarea
 				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				rows={4}

@@ -14,6 +14,14 @@ const nullableText = (max: number) =>
 			return trimmed.length > 0 ? trimmed : null;
 		});
 
+const nullableUuid = z
+	.union([z.string().uuid(), z.literal(''), z.null(), z.undefined()])
+	.transform((value) => {
+		if (typeof value !== 'string') return null;
+		const trimmed = value.trim();
+		return trimmed.length > 0 ? trimmed : null;
+	});
+
 const nullableUrl = z
 	.string()
 	.trim()
@@ -25,15 +33,18 @@ const nullableUrl = z
 
 export const obraDatosPatchSchema = z
 	.object({
-		titulo: z.string().trim().min(1, 'El titulo es obligatorio'),
-		variantes_titulo: z.array(z.string().trim().min(1)).default([]),
-		genero_id: z.string().uuid('Genero invalido'),
+		titulo: nullableText(2000),
+		variantes_titulo: z
+			.array(z.string().trim())
+			.default([])
+			.transform((items) => items.map((item) => item.trim()).filter(Boolean)),
+		genero_id: nullableUuid,
 		fecha_inicio_trad: nullableYear,
 		fecha_fin_trad: nullableYear,
 		fuente_fecha: z.string().trim().max(2000).nullable().optional().default(null),
 		fecha_inicio_metadrama: nullableYear,
 		fecha_fin_metadrama: nullableYear,
-		edicion: z.string().trim().min(1, 'La edicion base es obligatoria')
+		edicion: nullableText(20000)
 	})
 	.superRefine((data, ctx) => {
 		if (
@@ -137,6 +148,9 @@ const autorIdsSchema = z
 
 const autoriaObraCompletaSchema = z.object({
 	mode: z.literal('obra_completa'),
+	source_mode: z.enum(['obra_completa', 'por_jornadas', 'rango_personalizado']),
+	confirm_mode_change: z.boolean().optional().default(false),
+	confirm_reassign: z.boolean().optional().default(false),
 	url_informe_autoria: nullableUrl,
 	autor_ids: autorIdsSchema
 });
@@ -161,11 +175,17 @@ export const autoriaInputSchema = z.discriminatedUnion('mode', [
 	autoriaObraCompletaSchema,
 	z.object({
 		mode: z.literal('por_jornadas'),
+		source_mode: z.enum(['obra_completa', 'por_jornadas', 'rango_personalizado']),
+		confirm_mode_change: z.boolean().optional().default(false),
+		confirm_reassign: z.boolean().optional().default(false),
 		url_informe_autoria: nullableUrl,
 		items: z.array(autoriaPorJornadasItemSchema).min(1, 'Debe definir al menos una jornada')
 	}),
 	z.object({
 		mode: z.literal('rango_personalizado'),
+		source_mode: z.enum(['obra_completa', 'por_jornadas', 'rango_personalizado']),
+		confirm_mode_change: z.boolean().optional().default(false),
+		confirm_reassign: z.boolean().optional().default(false),
 		url_informe_autoria: nullableUrl,
 		items: z.array(autoriaRangoItemSchema).min(1, 'Debe definir al menos un rango')
 	})

@@ -33,7 +33,7 @@
 
 	function queueSave() {
 		if (props.readOnly) return;
-		setDirty(true);
+		setDirty(true, 'analisis');
 		if (timer) clearTimeout(timer);
 		timer = setTimeout(() => void save(), 10_000);
 	}
@@ -79,7 +79,7 @@
 		if (props.readOnly) return;
 		if (savingNow) return;
 		savingNow = true;
-		setSaving(true);
+		setSaving(true, 'analisis');
 
 		const response = await fetch(`/api/obras/${props.obraId}/analisis`, {
 			method: 'PATCH',
@@ -92,7 +92,7 @@
 		savingNow = false;
 
 		if (!response.ok) {
-			setSaving(false);
+			setSaving(false, 'analisis');
 			const body = await response.json().catch(() => ({}));
 			pushToast('error', body.message ?? 'No se pudo guardar analisis y bibliografia.');
 			return;
@@ -106,7 +106,7 @@
 			bibliografia: payload.obra.bibliografia,
 			updated_at: payload.obra.updated_at
 		});
-		markSaved();
+		markSaved('analisis');
 		pushToast('success', 'Analisis y bibliografia guardados');
 	}
 

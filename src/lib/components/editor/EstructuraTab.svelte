@@ -10,6 +10,10 @@
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		readOnly?: boolean;
 		canComment?: boolean;
+		onStructureChange?: (payload: {
+			jornadas: Tables<'jornadas'>[];
+			cuadros: Tables<'cuadros'>[];
+		}) => void;
 	}>();
 
 	let jornadas = $state([...props.jornadasInitial]);
@@ -63,6 +67,13 @@
 
 	function getCuadros(jornadaId: string) {
 		return sortByVIni(cuadros.filter((item) => item.jornada_id === jornadaId));
+	}
+
+	function emitStructureChange() {
+		props.onStructureChange?.({
+			jornadas: [...jornadas],
+			cuadros: [...cuadros]
+		});
 	}
 
 	function resetJornadaForm() {
@@ -267,6 +278,7 @@
 			jornadas = sortByVIni([...jornadas, result.jornada]);
 			pushToast('success', 'Jornada creada');
 		}
+		emitStructureChange();
 		closeSidebar();
 	}
 
@@ -300,6 +312,7 @@
 			cuadros = sortByVIni([...cuadros, result.cuadro]);
 			pushToast('success', 'Cuadro creado');
 		}
+		emitStructureChange();
 		closeSidebar();
 	}
 
@@ -342,6 +355,7 @@
 		}
 
 		deleteTarget = null;
+		emitStructureChange();
 	}
 
 	async function submitComment() {

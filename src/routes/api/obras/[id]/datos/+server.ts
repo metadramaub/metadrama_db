@@ -9,7 +9,7 @@ function normalizeTitulo(titulo: string) {
 }
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
-	await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { obra } = await getObraContext({ locals }, params.id, { requireEdit: true });
 
 	const body = await request.json().catch(() => ({}));
 	const parsed = obraDatosPatchSchema.safeParse(body);
@@ -18,12 +18,13 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const payload = parsed.data;
+	const tituloToPersist = payload.titulo ?? obra.titulo;
 
 	const { data, error } = await locals.supabase
 		.from('obras')
 		.update({
-			titulo: payload.titulo,
-			titulo_normalizado: normalizeTitulo(payload.titulo),
+			titulo: tituloToPersist,
+			titulo_normalizado: normalizeTitulo(tituloToPersist),
 			variantes_titulo: payload.variantes_titulo,
 			genero_id: payload.genero_id,
 			fecha_inicio_trad: payload.fecha_inicio_trad,

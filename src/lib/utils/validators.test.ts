@@ -14,14 +14,14 @@ import {
 } from './validators';
 
 describe('validators', () => {
-	it('requires title, genre and edition in obra data', () => {
+	it('allows draft obra data with optional fields', () => {
 		const result = obraDatosPatchSchema.safeParse({
 			titulo: '',
 			variantes_titulo: [],
-			genero_id: 'not-a-uuid',
+			genero_id: '',
 			edicion: ''
 		});
-		expect(result.success).toBe(false);
+		expect(result.success).toBe(true);
 	});
 
 	it('accepts valid obra payload', () => {
@@ -78,6 +78,7 @@ describe('validators', () => {
 	it('accepts autoria obra completa payload', () => {
 		const result = autoriaInputSchema.safeParse({
 			mode: 'obra_completa',
+			source_mode: 'obra_completa',
 			url_informe_autoria: 'https://example.com/informe',
 			autor_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7']
 		});
@@ -87,6 +88,7 @@ describe('validators', () => {
 	it('rejects autoria custom range with invalid verse order', () => {
 		const result = autoriaInputSchema.safeParse({
 			mode: 'rango_personalizado',
+			source_mode: 'rango_personalizado',
 			url_informe_autoria: null,
 			items: [
 				{
@@ -97,6 +99,22 @@ describe('validators', () => {
 			]
 		});
 		expect(result.success).toBe(false);
+	});
+
+	it('defaults confirm_mode_change to false in autoria payload', () => {
+		const result = autoriaInputSchema.parse({
+			mode: 'por_jornadas',
+			source_mode: 'por_jornadas',
+			url_informe_autoria: null,
+			items: [
+				{
+					jornada_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+					autor_ids: ['ef18f734-8cf5-4586-b5ca-0df411a8f4d7']
+				}
+			]
+		});
+		expect(result.confirm_mode_change).toBe(false);
+		expect(result.confirm_reassign).toBe(false);
 	});
 
 	it('normalizes empty analysis text to null', () => {
