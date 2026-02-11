@@ -1,9 +1,33 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import favicon from '$lib/assets/favicon.svg';
 	import Toast from '$lib/components/ui/toast.svelte';
 	import '../app.css';
 
 	let { children } = $props();
+
+	const ACCESS_KEY = 'metadrama_preview_access';
+	const ACCESS_PASSWORD = 'metadrama*ub';
+
+	let unlocked = $state(false);
+	let password = $state('');
+	let accessError = $state('');
+
+	onMount(() => {
+		unlocked = window.sessionStorage.getItem(ACCESS_KEY) === 'ok';
+	});
+
+	function submitAccess(event: SubmitEvent) {
+		event.preventDefault();
+		if (password === ACCESS_PASSWORD) {
+			unlocked = true;
+			accessError = '';
+			password = '';
+			window.sessionStorage.setItem(ACCESS_KEY, 'ok');
+			return;
+		}
+		accessError = 'Contraseña incorrecta.';
+	}
 </script>
 
 <svelte:head>
@@ -17,4 +41,36 @@
 </svelte:head>
 
 {@render children()}
+
+{#if !unlocked}
+	<div class="fixed inset-0 z-[100] flex items-center justify-center bg-[color:var(--gray-950)] p-4">
+		<section class="w-full max-w-md border border-[color:var(--border)] bg-white p-6">
+			<h1 class="font-display text-2xl text-[color:var(--gray-900)]">WEB EN CONSTRUCCIÓN</h1>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Introduce contraseña para continuar.</p>
+
+			<form class="mt-5 space-y-3" onsubmit={submitAccess}>
+				<label class="block text-sm">
+					<span class="mb-1 block">Contraseña</span>
+					<input
+						type="password"
+						bind:value={password}
+						class="w-full border border-[color:var(--border)] bg-white px-3 py-2"
+						autocomplete="off"
+						required
+					/>
+				</label>
+				{#if accessError}
+					<p class="text-sm text-[color:var(--danger)]">{accessError}</p>
+				{/if}
+				<button
+					type="submit"
+					class="w-full border border-[color:var(--primary)] bg-[color:var(--primary)] px-3 py-2 text-sm font-semibold text-[color:var(--primary-foreground)]"
+				>
+					Entrar
+				</button>
+			</form>
+		</section>
+	</div>
+{/if}
+
 <Toast />
