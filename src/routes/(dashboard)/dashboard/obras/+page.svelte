@@ -51,7 +51,7 @@
 	async function createObra() {
 		if (creating) return;
 		if (!newObraTitle.trim()) {
-			pushToast('error', 'Indica un titulo para la nueva obra.');
+			pushToast('error', 'Indica un título para la nueva obra.');
 			return;
 		}
 		if (!newObraEditor) {
@@ -87,8 +87,8 @@
 <section>
 	<div class="mb-4 flex items-end justify-between gap-4">
 		<div>
-			<h1 class="text-3xl font-semibold">Obras</h1>
-			<p class="text-sm text-[color:var(--muted-foreground)]">Listado de obras disponibles para edicion.</p>
+			<h1 class="font-display text-3xl">OBRAS</h1>
+			<p class="text-sm text-[color:var(--muted-foreground)]">Listado de obras disponibles para edición.</p>
 		</div>
 		{#if canCreate}
 			<Button variant="secondary" onclick={() => (createModalOpen = true)}>Crear nueva obra</Button>
@@ -112,11 +112,11 @@
 
 	<form class="card mb-4 grid gap-3 p-4 md:grid-cols-4" onsubmit={applyFilters}>
 		<label class="text-sm">
-			<span class="mb-1 block">Buscar titulo</span>
+			<span class="mb-1 block">Buscar título</span>
 			<input
 				type="text"
 				bind:value={q}
-				class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
+				class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 			/>
 		</label>
 
@@ -124,7 +124,7 @@
 			<span class="mb-1 block">Estado</span>
 			<select
 				bind:value={estado}
-				class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
+				class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 			>
 				<option value="">Todos</option>
 				{#each data.estadoOptions as opt}
@@ -138,7 +138,7 @@
 			<select
 				bind:value={editor}
 				disabled={!canReadAll}
-				class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm disabled:bg-[color:var(--muted)]"
+				class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm disabled:bg-[color:var(--muted)]"
 			>
 				<option value="">Todos</option>
 				{#each data.editorOptions as opt}
@@ -163,16 +163,16 @@
 		<div class="card w-full max-w-lg p-5">
 			<h3 class="text-lg font-semibold">Crear obra</h3>
 			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-				Se creara en estado borrador y se abrira el editor inmediatamente.
+				Se creará en estado borrador y se abrirá el editor inmediatamente.
 			</p>
 
 			<div class="mt-4 space-y-3">
 				<label class="block text-sm">
-					<span class="mb-1 block">Titulo *</span>
+					<span class="mb-1 block">Título *</span>
 					<input
 						type="text"
 						bind:value={newObraTitle}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 
@@ -180,7 +180,7 @@
 					<span class="mb-1 block">Editor asignado *</span>
 					<select
 						bind:value={newObraEditor}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					>
 						{#each data.editorOptions as opt}
 							<option value={opt.user_id}>{opt.nombre_completo}</option>
@@ -198,3 +198,4 @@
 		</div>
 	</div>
 {/if}
+

@@ -81,11 +81,11 @@
 			<span class="text-sm text-[color:var(--muted-foreground)]">Sin autores seleccionados.</span>
 		{:else}
 			{#each selectedAuthors as author}
-				<span class="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-[#fffdf8] px-3 py-1 text-sm">
+				<span class="inline-flex items-center gap-2 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-1 text-sm">
 					<span class="pointer-events-none">{author.nombre_completo}</span>
 					<button
 						type="button"
-						class="inline-flex h-5 w-5 items-center justify-center rounded border border-[color:var(--border)] text-xs hover:bg-[#efe5d7] disabled:cursor-not-allowed disabled:opacity-50"
+						class="inline-flex h-5 w-5 items-center justify-center border border-[color:var(--border)] text-xs hover:bg-[color:var(--muted)] disabled:cursor-not-allowed disabled:opacity-50"
 						disabled={props.disabled}
 						onclick={(event) => {
 							event.stopPropagation();
@@ -122,14 +122,14 @@
 			}}
 		/>
 		{#if open}
-			<div class="absolute z-20 mt-1 max-h-48 w-full overflow-auto rounded-md border border-[color:var(--border)] bg-white shadow">
+			<div class="absolute z-20 mt-1 max-h-48 w-full overflow-auto border border-[color:var(--border)] bg-white">
 				{#if suggestions.length === 0}
 					<div class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">Sin coincidencias.</div>
 				{:else}
 					{#each suggestions as suggestion}
 						<button
 							type="button"
-							class="block w-full px-3 py-2 text-left text-sm hover:bg-[#f5ede0]"
+							class="block w-full px-3 py-2 text-left text-sm hover:bg-[color:var(--muted)]"
 							onclick={() => addAuthor(suggestion.autor_id)}
 						>
 							{suggestion.nombre_completo}

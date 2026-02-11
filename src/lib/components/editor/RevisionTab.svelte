@@ -92,7 +92,7 @@
 		).length;
 		return [
 			{
-				label: 'Datos basicos completos',
+				label: 'Datos básicos completos',
 				done: Boolean(obraLive.titulo?.trim() && obraLive.genero_id && obraLive.edicion?.trim()),
 				detail: ''
 			},
@@ -102,22 +102,22 @@
 				detail: `${props.jornadas.length} jornadas, ${props.cuadros.length} cuadros`
 			},
 			{
-				label: 'Secuencias metricas validadas',
+				label: 'Secuencias métricas validadas',
 				done: props.secuencias.length > 0 && secuenciasValidadas === props.secuencias.length,
 				detail: `${secuenciasValidadas}/${props.secuencias.length}`
 			},
 			{
-				label: 'Autoria asignada',
+				label: 'Autoría asignada',
 				done: (obraLive.autoria ?? []).length > 0,
 				detail: `${(obraLive.autoria ?? []).length} autores`
 			},
 			{
-				label: 'Analisis de obra',
+				label: 'Análisis de obra',
 				done: (obraLive.analisis_editor ?? '').trim().length > 100,
 				detail: `${(obraLive.analisis_editor ?? '').trim().length} caracteres`
 			},
 			{
-				label: 'Bibliografia anadida',
+				label: 'Bibliografía añadida',
 				done: (obraLive.bibliografia ?? '').trim().length > 0,
 				detail: `${(obraLive.bibliografia ?? '').trim().length} caracteres`
 			}
@@ -148,7 +148,7 @@
 			return jor ? `Jornada ${jor.jornada_num}` : 'Jornada';
 		}
 		if (comment.rango_id) {
-			return 'Rango de autoria';
+			return 'Rango de autoría';
 		}
 		return null;
 	}
@@ -233,7 +233,7 @@
 			pushToast('error', 'No existe estado pendiente en vocabularios.');
 			return;
 		}
-		await saveEstado(pendingId, estadoComentario || 'Enviado a revision');
+		await saveEstado(pendingId, estadoComentario || 'Enviado a revisión');
 	}
 
 	async function onGuardarVisibilidad() {
@@ -299,7 +299,7 @@
 		const payload = await response.json();
 		assignedReviewers = payload.assigned ?? [];
 		reviewerCandidates = payload.candidates ?? [];
-		pushToast('success', 'Asignacion de revisores actualizada');
+		pushToast('success', 'Asignación de revisores actualizada');
 	}
 
 	onMount(() => {
@@ -313,7 +313,7 @@
 		<h3 class="mb-3 text-lg font-semibold">Checklist de completitud</h3>
 		<div class="space-y-2 text-sm">
 			{#each checklist as item}
-				<div class="flex items-start justify-between gap-3 rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+				<div class="flex items-start justify-between gap-3 border border-[color:var(--border)] bg-white px-3 py-2">
 					<div>
 						<span class={item.done ? 'font-medium text-[color:var(--success)]' : 'font-medium text-[color:var(--danger)]'}>
 							{item.done ? '[OK]' : '[PEND]'} {item.label}
@@ -339,20 +339,20 @@
 		{#if commentsLoading}
 			<p class="text-sm text-[color:var(--muted-foreground)]">Cargando comentarios...</p>
 		{:else if comments.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">No hay comentarios aun.</p>
+			<p class="text-sm text-[color:var(--muted-foreground)]">No hay comentarios aún.</p>
 		{:else}
 			<div class="mb-3 space-y-2">
 				{#each visibleComments as comment}
-					<div class="rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
+					<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
 						<div class="mb-1 text-xs text-[color:var(--muted-foreground)]">
 							{comment.nombre_editor ?? 'Editor'} - {formatRelative(comment.created_at)}
 						</div>
 						<div class="mb-1 flex flex-wrap gap-2">
-							<span class="rounded-full bg-[color:var(--muted)] px-2 py-0.5 text-xs">
+							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
 								{comment.tipo_comentario_term ?? 'general'}
 							</span>
 							{#if commentContextLabel(comment)}
-								<span class="rounded-full bg-[#fff0d7] px-2 py-0.5 text-xs">{commentContextLabel(comment)}</span>
+								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">{commentContextLabel(comment)}</span>
 							{/if}
 						</div>
 						<div class="whitespace-pre-wrap">{comment.comentario}</div>
@@ -361,7 +361,7 @@
 			</div>
 		{/if}
 
-		<div class="rounded-md border border-[color:var(--border)] bg-white p-3">
+		<div class="border border-[color:var(--border)] bg-white p-3">
 			<label class="block text-sm">
 				<span class="mb-1 block">Tipo de comentario</span>
 				<select
@@ -370,8 +370,8 @@
 					bind:value={newCommentType}
 				>
 					<option value="general">general</option>
-					<option value="revision">revision</option>
-					<option value="tecnico">tecnico</option>
+					<option value="revision">revisión</option>
+					<option value="tecnico">técnico</option>
 					<option value="estado">estado</option>
 				</select>
 			</label>
@@ -393,10 +393,10 @@
 	</div>
 
 	<div class="card p-4">
-		<h3 class="mb-3 text-lg font-semibold">Panel de revision y asignacion</h3>
+		<h3 class="mb-3 text-lg font-semibold">Panel de revisión y asignación</h3>
 		{#if props.assignedReviewer}
 			<p class="mb-2 text-sm text-[color:var(--muted-foreground)]">
-				Tienes esta obra asignada para revision.
+				Tienes esta obra asignada para revisión.
 			</p>
 		{/if}
 		{#if reviewersLoading}
@@ -421,7 +421,7 @@
 			</div>
 
 			{#if canManageAssignments}
-				<div class="rounded-md border border-[color:var(--border)] bg-white p-3">
+				<div class="border border-[color:var(--border)] bg-white p-3">
 					<div class="mb-2 text-sm font-medium">Asignar revisores</div>
 					<div class="grid gap-1 sm:grid-cols-2">
 						{#each reviewerCandidates as candidate}
@@ -460,9 +460,9 @@
 					{/each}
 				</select>
 			</label>
-			<div class="rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
+			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
 				<div><strong>Editor asignado:</strong> {props.editorAsignadoNombre ?? 'Sin asignar'}</div>
-				<div><strong>Ultima modificacion:</strong> {formatRelative(obraLive.updated_at)}</div>
+				<div><strong>Última modificación:</strong> {formatRelative(obraLive.updated_at)}</div>
 				<div><strong>Estado actual:</strong> {currentEstadoTerm}</div>
 			</div>
 		</div>
@@ -483,16 +483,16 @@
 			</Button>
 			{#if currentEstadoTerm === 'borrador' && canChangeState}
 				<Button variant="secondary" onclick={onEnviarRevision} disabled={stateSaving || !canChangeState}>
-					Enviar a revision
+					Enviar a revisión
 				</Button>
 			{/if}
 		</div>
 
 		{#if canToggleVisible}
-			<div class="mt-4 rounded-md border border-[color:var(--border)] bg-white p-3">
+			<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
 				<label class="flex items-center gap-2 text-sm">
 					<input type="checkbox" bind:checked={visiblePublico} />
-					Visible en web publica
+					Visible en web pública
 				</label>
 				<div class="mt-2">
 					<Button variant="ghost" onclick={onGuardarVisibilidad} disabled={visibilitySaving}>

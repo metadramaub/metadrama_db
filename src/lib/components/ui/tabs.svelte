@@ -10,7 +10,7 @@
 	{#each props.tabs as tab}
 		<button
 			type="button"
-			class={`rounded-md px-3 py-2 text-sm ${props.active === tab.id ? 'bg-[color:var(--primary)] text-[color:var(--primary-foreground)]' : 'bg-white text-[color:var(--foreground)] border border-[color:var(--border)]'}`}
+			class={`border px-3 py-2 text-sm ${props.active === tab.id ? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)]' : 'border-[color:var(--border)] bg-white text-[color:var(--foreground)]'}`}
 			onclick={() => props.onChange(tab.id)}
 		>
 			{tab.label}

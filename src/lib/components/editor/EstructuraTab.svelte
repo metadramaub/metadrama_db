@@ -159,7 +159,7 @@
 			kind: 'jornada',
 			id: jornada.jornada_id,
 			title: `Eliminar Jornada ${jornada.jornada_num}`,
-			description: 'Se eliminaran tambien los cuadros asociados.'
+			description: 'Se eliminarán también los cuadros asociados.'
 		};
 	}
 
@@ -169,7 +169,7 @@
 			kind: 'cuadro',
 			id: cuadro.cuadro_id,
 			title: `Eliminar Cuadro ${cuadro.cuadro_num}`,
-			description: 'Esta accion no se puede deshacer.'
+			description: 'Esta acción no se puede deshacer.'
 		};
 	}
 
@@ -217,11 +217,11 @@
 	function validateJornadaForm() {
 		const payload = parseJornadaPayload();
 		if (!Number.isFinite(payload.jornada_num) || payload.jornada_num < 1) {
-			pushToast('error', 'Jornada invalida');
+			pushToast('error', 'Jornada inválida');
 			return false;
 		}
 		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
-			pushToast('error', 'Rango de versos invalido');
+			pushToast('error', 'Rango de versos inválido');
 			return false;
 		}
 		return true;
@@ -238,11 +238,11 @@
 			return false;
 		}
 		if (!Number.isFinite(payload.cuadro_num) || payload.cuadro_num < 1) {
-			pushToast('error', 'Cuadro invalido');
+			pushToast('error', 'Cuadro inválido');
 			return false;
 		}
 		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
-			pushToast('error', 'Rango de versos invalido');
+			pushToast('error', 'Rango de versos inválido');
 			return false;
 		}
 		return true;
@@ -394,7 +394,7 @@
 <section class="space-y-4">
 	<div class="flex items-center justify-between">
 		<h2 class="text-xl font-semibold">Jornadas y cuadros</h2>
-		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Anadir jornada</Button>
+		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Añadir jornada</Button>
 	</div>
 
 	{#each sortByVIni(jornadas) as jornada}
@@ -422,7 +422,7 @@
 			<div class="mb-2 flex items-center justify-between">
 				<div class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">Cuadros</div>
 				<Button variant="secondary" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
-					>Anadir cuadro</Button
+					>Añadir cuadro</Button
 				>
 			</div>
 
@@ -431,7 +431,7 @@
 					<p class="text-sm text-[color:var(--muted-foreground)]">Sin cuadros en esta jornada.</p>
 				{:else}
 					{#each getCuadros(jornada.jornada_id) as cuadro}
-						<div class="rounded-md border border-[color:var(--border)] bg-white p-3">
+						<div class="border border-[color:var(--border)] bg-white p-3">
 							<div class="flex items-start justify-between gap-2">
 								<div>
 									<div class="font-medium">
@@ -465,7 +465,7 @@
 </section>
 
 {#if sidebarMode}
-	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[#fffaf4] p-5 shadow-xl">
+	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
 		<div class="mb-4 flex items-center justify-between">
 			<h3 class="text-lg font-semibold">
 				{#if sidebarMode === 'jornada-new'}Nueva jornada{/if}
@@ -567,7 +567,7 @@
 					</select>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Descripcion</span>
+					<span class="mb-1 block">Descripción</span>
 					<textarea
 						rows={3}
 						bind:value={cuadroForm.descripcion}
@@ -612,8 +612,8 @@
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				>
 					<option value="general">general</option>
-					<option value="revision">revision</option>
-					<option value="tecnico">tecnico</option>
+					<option value="revision">revisión</option>
+					<option value="tecnico">técnico</option>
 				</select>
 			</label>
 

@@ -40,7 +40,7 @@ async function syncObraTotalVersosAndSimpleAutoria(
 		.eq('obra_id', obraId)
 		.order('v_ini');
 	if (rangosError) {
-		return rangosError.message ?? 'No se pudo revisar autoria para autoajuste';
+		return rangosError.message ?? 'No se pudo revisar autoría para autoajuste';
 	}
 
 	if (!rangos || rangos.length !== 1) {
@@ -57,7 +57,7 @@ async function syncObraTotalVersosAndSimpleAutoria(
 		.update({ v_fin: totalVersos })
 		.eq('rango_id', singleRange.rango_id);
 	if (rangeUpdateError) {
-		return rangeUpdateError.message ?? 'No se pudo extender el rango de autoria';
+		return rangeUpdateError.message ?? 'No se pudo extender el rango de autoría';
 	}
 
 	return null;

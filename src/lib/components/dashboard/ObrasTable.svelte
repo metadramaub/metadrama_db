@@ -17,6 +17,7 @@
 
 	const props = $props<{ obras: ObraRow[] }>();
 	const dispatch = createEventDispatcher<{ open: string }>();
+
 	function actionLabel(obra: ObraRow) {
 		if (obra.canEditContent) return 'Editar';
 		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Revisar';
@@ -25,7 +26,7 @@
 
 	function actionHint(obra: ObraRow) {
 		if (obra.canEditContent) return '';
-		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Solo revision';
+		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Solo revisión';
 		return 'Solo lectura';
 	}
 </script>
@@ -53,7 +54,7 @@
 					<tr class="border-t border-[color:var(--border)]">
 						<td class="px-3 py-2">{obra.titulo}</td>
 						<td class="px-3 py-2">
-							<span class="rounded-full bg-[color:var(--muted)] px-2 py-1 text-xs">{obra.estadoTerm}</span>
+							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">{obra.estadoTerm}</span>
 						</td>
 						<td class="px-3 py-2">{obra.editorNombre}</td>
 						<td class="px-3 py-2">{formatRelative(obra.updated_at)}</td>

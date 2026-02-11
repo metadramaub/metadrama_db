@@ -17,10 +17,10 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		.eq('termino_id', params.id)
 		.maybeSingle();
 	if (!current) {
-		return json({ error: 'not_found', message: 'Termino no encontrado.' }, { status: 404 });
+		return json({ error: 'not_found', message: 'Término no encontrado.' }, { status: 404 });
 	}
 	if (isProtectedVocabularyCategory(current.categoria)) {
-		return forbiddenResponse('Esta categoria esta protegida y es de solo lectura.');
+		return forbiddenResponse('Esta categoría está protegida y es de solo lectura.');
 	}
 
 	const body = await request.json().catch(() => ({}));
@@ -38,7 +38,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		.single();
 	if (error || !data) {
 		return json(
-			{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar el termino.' },
+			{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar el término.' },
 			{ status: 500 }
 		);
 	}

@@ -66,7 +66,7 @@
 	async function createTerm() {
 		if (!data.canManage || createSaving) return;
 		if (!creating.categoria.trim() || !creating.termino.trim()) {
-			pushToast('error', 'Categoria y termino son obligatorios.');
+			pushToast('error', 'Categoría y término son obligatorios.');
 			return;
 		}
 		createSaving = true;
@@ -82,10 +82,10 @@
 		createSaving = false;
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo crear el termino.');
+			pushToast('error', body.message ?? 'No se pudo crear el término.');
 			return;
 		}
-		pushToast('success', 'Termino creado');
+		pushToast('success', 'Término creado');
 		createOpen = false;
 		creating = { categoria: '', termino: '', orden: '' };
 		await invalidateAll();
@@ -108,10 +108,10 @@
 		editSaving = false;
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo actualizar el termino.');
+			pushToast('error', body.message ?? 'No se pudo actualizar el término.');
 			return;
 		}
-		pushToast('success', 'Termino actualizado');
+		pushToast('success', 'Término actualizado');
 		closeEdit();
 		await invalidateAll();
 	}
@@ -120,13 +120,13 @@
 <section>
 	<div class="mb-4 flex items-end justify-between gap-4">
 		<div>
-			<h1 class="text-2xl font-semibold">Vocabularios</h1>
+			<h1 class="font-display text-3xl">VOCABULARIOS</h1>
 			<p class="text-sm text-[color:var(--muted-foreground)]">
-				CRUD basico de terminos. Las categorias protegidas son de solo lectura.
+				CRUD básico de términos. Las categorías protegidas son de solo lectura.
 			</p>
 		</div>
 		{#if data.canManage}
-			<Button variant="secondary" onclick={() => (createOpen = true)}>Nuevo termino</Button>
+			<Button variant="secondary" onclick={() => (createOpen = true)}>Nuevo término</Button>
 		{/if}
 	</div>
 
@@ -136,14 +136,14 @@
 			<input
 				type="text"
 				bind:value={search}
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				class="w-full border border-[color:var(--border)] px-3 py-2"
 			/>
 		</label>
 		<label class="text-sm">
-			<span class="mb-1 block">Categoria</span>
+			<span class="mb-1 block">Categoría</span>
 			<select
 				bind:value={categoryFilter}
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				class="w-full border border-[color:var(--border)] px-3 py-2"
 			>
 				<option value="">Todas</option>
 				{#each categories as category}
@@ -157,8 +157,8 @@
 		<table class="min-w-full text-left text-sm">
 			<thead class="bg-[color:var(--muted)]">
 				<tr>
-					<th class="px-3 py-2">Categoria</th>
-					<th class="px-3 py-2">Termino</th>
+					<th class="px-3 py-2">Categoría</th>
+					<th class="px-3 py-2">Término</th>
 					<th class="px-3 py-2">Orden</th>
 					<th class="px-3 py-2">Activo</th>
 					<th class="px-3 py-2">Acciones</th>
@@ -177,7 +177,7 @@
 							<td class="px-3 py-2">{row.categoria}</td>
 							<td class="px-3 py-2">{row.termino}</td>
 							<td class="px-3 py-2">{row.orden ?? '-'}</td>
-							<td class="px-3 py-2">{row.activo ? 'si' : 'no'}</td>
+							<td class="px-3 py-2">{row.activo ? 'sí' : 'no'}</td>
 							<td class="px-3 py-2">
 								{#if data.canManage && !isProtectedCategory(row.categoria)}
 									<Button variant="ghost" onclick={() => openEdit(row)}>Editar</Button>
@@ -196,22 +196,22 @@
 {#if createOpen}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-lg p-5">
-			<h3 class="text-lg font-semibold">Nuevo termino</h3>
+			<h3 class="text-lg font-semibold">Nuevo término</h3>
 			<div class="mt-3 grid gap-3">
 				<label class="text-sm">
-					<span class="mb-1 block">Categoria</span>
+					<span class="mb-1 block">Categoría</span>
 					<input
 						type="text"
 						bind:value={creating.categoria}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Termino</span>
+					<span class="mb-1 block">Término</span>
 					<input
 						type="text"
 						bind:value={creating.termino}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 				<label class="text-sm">
@@ -219,7 +219,7 @@
 					<input
 						type="number"
 						bind:value={creating.orden}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 			</div>
@@ -234,23 +234,23 @@
 {#if editingRow}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-lg p-5">
-			<h3 class="text-lg font-semibold">Editar termino</h3>
+			<h3 class="text-lg font-semibold">Editar término</h3>
 			<div class="mt-3 grid gap-3">
 				<label class="text-sm">
-					<span class="mb-1 block">Categoria</span>
+					<span class="mb-1 block">Categoría</span>
 					<input
 						type="text"
 						value={editingRow.categoria}
 						disabled
-						class="w-full rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2"
 					/>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Termino</span>
+					<span class="mb-1 block">Término</span>
 					<input
 						type="text"
 						bind:value={editing.termino}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 				<label class="text-sm">
@@ -258,7 +258,7 @@
 					<input
 						type="number"
 						bind:value={editing.orden}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 				<label class="text-sm">
@@ -266,15 +266,15 @@
 					<input
 						type="number"
 						bind:value={editing.nivel}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Patron especifico</span>
+					<span class="mb-1 block">Patrón específico</span>
 					<textarea
 						rows={3}
 						bind:value={editing.patron_especifico}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						class="w-full border border-[color:var(--border)] px-3 py-2"
 					></textarea>
 				</label>
 				<label class="flex items-center gap-2 text-sm">
@@ -289,3 +289,4 @@
 		</div>
 	</div>
 {/if}
+

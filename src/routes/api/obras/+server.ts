@@ -127,7 +127,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		return json(
 			{
 				error: 'validation_error',
-				details: [{ path: 'editor_asignado', message: 'Editor asignado invalido o inactivo.' }]
+				details: [{ path: 'editor_asignado', message: 'Editor asignado inválido o inactivo.' }]
 			},
 			{ status: 422 }
 		);
@@ -142,7 +142,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		.maybeSingle();
 	if (!estadoBorrador?.termino_id) {
 		return json(
-			{ error: 'db_error', message: 'No existe termino borrador en vocabularios.estado.' },
+			{ error: 'db_error', message: 'No existe término borrador en vocabularios.estado.' },
 			{ status: 500 }
 		);
 	}

@@ -31,9 +31,9 @@
 		{ id: 'datos', label: 'Datos de la obra' },
 		{ id: 'estructura', label: 'Estructura' },
 		{ id: 'secuencias', label: 'Secuencias' },
-		{ id: 'autoria', label: 'Autoria' },
-		{ id: 'analisis', label: 'Analisis' },
-		{ id: 'revision', label: 'Revision' }
+		{ id: 'autoria', label: 'Autoría' },
+		{ id: 'analisis', label: 'Análisis' },
+		{ id: 'revision', label: 'Revisión' }
 	];
 
 	const vocabByCategory = $derived.by(() => {
@@ -65,7 +65,7 @@
 	let cuadrosLive = $state<Tables<'cuadros'>[]>([]);
 
 	let channel: RealtimeChannel | null = null;
-	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestana.';
+	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestaña.';
 	let showUnsavedChangesModal = $state(false);
 	let pendingTabChange: string | null = null;
 	let pendingRouteChange: string | null = null;
@@ -153,7 +153,7 @@
 		}
 		if (dirty) {
 			setConflict(true);
-			pushToast('info', 'Otro editor guardo cambios; tu proximo guardado sobrescribira.');
+			pushToast('info', 'Otro editor guardó cambios; tu próximo guardado sobrescribirá.');
 			return;
 		}
 		void invalidateAll();
@@ -309,17 +309,17 @@
 	</div>
 
 	{#if !canEditContent}
-		<div class="mb-4 rounded-md border border-[color:var(--border)] bg-[#fff8eb] px-3 py-2 text-sm">
+		<div class="mb-4 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2 text-sm">
 			{#if canComment}
-				Modo revision: contenido en solo lectura. Puedes comentar desde la pestana Revision.
+				Modo revisión: contenido en solo lectura. Puedes comentar desde la pestaña Revisión.
 			{:else}
-				Modo solo lectura: no tienes permisos de edicion ni revision en esta obra.
+				Modo solo lectura: no tienes permisos de edición ni revisión en esta obra.
 			{/if}
 		</div>
 	{/if}
 
 	{#if $currentObraStore.conflict}
-		<div class="mb-4 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+		<div class="mb-4 border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
 			Se detectaron cambios externos en esta obra.
 		</div>
 	{/if}
@@ -390,19 +390,19 @@
 			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{UNSAVED_CHANGES_MESSAGE}</p>
 			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-				Si continuas, perderas los cambios no guardados.
+				Si continúas, perderás los cambios no guardados.
 			</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<button
 					type="button"
-					class="rounded-md border border-[color:var(--border)] px-3 py-2 text-sm"
+					class="border border-[color:var(--border)] px-3 py-2 text-sm"
 					onclick={cancelUnsavedChangesModal}
 				>
 					Seguir editando
 				</button>
 				<button
 					type="button"
-					class="rounded-md bg-[color:var(--danger)] px-3 py-2 text-sm text-[color:var(--danger-foreground)]"
+					class="border border-[color:var(--danger)] bg-[color:var(--danger)] px-3 py-2 text-sm text-[color:var(--danger-foreground)]"
 					onclick={() => void confirmUnsavedChangesModal()}
 				>
 					Salir sin guardar
@@ -411,3 +411,4 @@
 		</div>
 	</div>
 {/if}
+

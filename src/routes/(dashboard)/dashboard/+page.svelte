@@ -10,10 +10,11 @@
 </script>
 
 <section>
-	<h1 class="text-3xl font-semibold">Hola, {data.profile.nombreCompleto}</h1>
+	<h1 class="font-display text-3xl">PANEL DE TRABAJO</h1>
+	<p class="mt-1 text-sm">Hola, {data.profile.nombreCompleto}</p>
 	<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 		{data.cardsScope === 'all'
-			? 'Estas son las obras mas recientes del repositorio.'
+			? 'Estas son las obras más recientes del repositorio.'
 			: 'Estas son tus obras activas y su estado.'}
 	</p>
 
@@ -27,22 +28,22 @@
 				<article class="card p-4">
 					<div class="mb-2 flex items-start justify-between gap-2">
 						<h2 class="text-lg font-semibold">{card.titulo}</h2>
-						<span class="rounded-full bg-[color:var(--muted)] px-2 py-1 text-xs">{card.estadoTerm}</span>
+						<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">{card.estadoTerm}</span>
 					</div>
 					<p class="mb-2 text-xs text-[color:var(--muted-foreground)]">
-						Ultima modificacion: {formatRelative(card.updatedAt)}
+						Última modificación: {formatRelative(card.updatedAt)}
 					</p>
 					<div class="mb-3">
 						<div class="mb-1 flex items-center justify-between text-xs">
 							<span>Completitud</span>
 							<span>{card.progreso}%</span>
 						</div>
-						<div class="h-2 rounded-full bg-[color:var(--muted)]">
-							<div class="h-2 rounded-full bg-[color:var(--primary)]" style={`width: ${card.progreso}%`}></div>
+						<div class="h-2 border border-[color:var(--border)] bg-[color:var(--muted)]">
+							<div class="h-full bg-[color:var(--primary)]" style={`width: ${card.progreso}%`}></div>
 						</div>
 					</div>
 					<Button class="w-full" onclick={() => goto(`/dashboard/obras/${card.obraId}`)}>
-						Continuar edicion
+						Continuar edición
 					</Button>
 				</article>
 			{/each}
@@ -52,7 +53,7 @@
 
 {#if showAlerts}
 	<section class="mt-8">
-		<h2 class="mb-3 text-xl font-semibold">Alertas de revision</h2>
+		<h2 class="mb-3 text-xl font-semibold">Alertas de revisión</h2>
 		<div class="grid gap-4 lg:grid-cols-3">
 			<article class="card p-4">
 				<h3 class="mb-2 font-semibold">Comentarios recientes (72h)</h3>
@@ -95,7 +96,7 @@
 			</article>
 
 			<article class="card p-4">
-				<h3 class="mb-2 font-semibold">Cambios de estado (7 dias)</h3>
+				<h3 class="mb-2 font-semibold">Cambios de estado (7 días)</h3>
 				{#if data.alerts.recentStateChanges.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">Sin cambios recientes.</p>
 				{:else}
@@ -129,7 +130,7 @@
 			<table class="min-w-full text-left text-sm">
 				<thead class="bg-[color:var(--muted)]">
 					<tr>
-						<th class="px-3 py-2">Titulo</th>
+						<th class="px-3 py-2">Título</th>
 						<th class="px-3 py-2">Estado</th>
 						<th class="px-3 py-2">Actualizado</th>
 					</tr>
@@ -147,3 +148,4 @@
 		</div>
 	</section>
 {/if}
+

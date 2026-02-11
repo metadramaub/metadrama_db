@@ -116,7 +116,7 @@ function inferAutoriaIntegrity(
 	}
 
 	if (hasOverlap(sorted)) {
-		details.push('Los rangos de autoria se solapan.');
+		details.push('Los rangos de autoría se solapan.');
 		return {
 			effective_total_versos: effectiveTotalVersos,
 			status: 'coverage_overlap',
@@ -130,10 +130,10 @@ function inferAutoriaIntegrity(
 	if (hasCoverageGap(sorted, effectiveTotalVersos)) {
 		if (effectiveTotalVersos) {
 			details.push(
-				`La estructura actual llega hasta vv. ${effectiveTotalVersos}, pero la autoria no cubre ese total de forma continua.`
+				`La estructura actual llega hasta vv. ${effectiveTotalVersos}, pero la autoría no cubre ese total de forma continua.`
 			);
 		} else {
-			details.push('La autoria tiene huecos o limites incoherentes.');
+			details.push('La autoría tiene huecos o límites incoherentes.');
 		}
 		return {
 			effective_total_versos: effectiveTotalVersos,
@@ -146,7 +146,7 @@ function inferAutoriaIntegrity(
 	}
 
 	if (isLikelyPerJornadaDistribution(sorted, jornadas) && !matchesJornadas) {
-		details.push('La autoria parece distribuida por jornadas, pero no coincide con los versos actuales de jornadas.');
+		details.push('La autoría parece distribuida por jornadas, pero no coincide con los versos actuales de jornadas.');
 		return {
 			effective_total_versos: effectiveTotalVersos,
 			status: 'jornadas_mismatch',
@@ -227,7 +227,7 @@ function normalizeDraftsFromPayload(
 			return {
 				drafts: [],
 				validationMessage:
-					'No se puede asignar autoria de obra completa sin total_versos (o estructura/secuencias con v_fin).'
+					'No se puede asignar autoría de obra completa sin total_versos (o estructura/secuencias con v_fin).'
 			};
 		}
 		return {
@@ -391,7 +391,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 		return json(
 			{
 				error: 'forbidden',
-				message: 'Tu rol no puede guardar autoria en rangos personalizados.'
+				message: 'Tu rol no puede guardar autoría en rangos personalizados.'
 			},
 			{ status: 403 }
 		);
@@ -403,15 +403,15 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 				error: 'conflict',
 				message:
 					currentBlocking.blockingReason === 'custom_mode_restricted'
-						? 'Tu rol no puede editar la autoria actual en rangos personalizados. Reasigna autoria antes de guardar.'
-						: 'La autoria actual no coincide con la estructura. Reasigna autoria antes de guardar.',
+						? 'Tu rol no puede editar la autoría actual en rangos personalizados. Reasigna autoría antes de guardar.'
+						: 'La autoría actual no coincide con la estructura. Reasigna autoría antes de guardar.',
 				integrity: currentIntegrity,
 				blocking_reason: currentBlocking.blockingReason,
 				requires_reassign: true,
 				details: [
 					{
 						path: 'confirm_reassign',
-						message: 'Debes confirmar la reasignacion de autoria para aplicar cambios.'
+						message: 'Debes confirmar la reasignación de autoría para aplicar cambios.'
 					}
 				]
 			},
@@ -426,7 +426,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 				error: 'conflict',
 				message: 'Debes confirmar el cambio de modo antes de guardar.',
 				current_mode: currentMode,
-				details: [{ path: 'confirm_mode_change', message: 'Falta confirmacion para cambio de modo.' }]
+				details: [{ path: 'confirm_mode_change', message: 'Falta confirmación para cambio de modo.' }]
 			},
 			{ status: 409 }
 		);
@@ -436,12 +436,12 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 		return json(
 			{
 				error: 'conflict',
-				message: 'Guardar en obra completa reemplaza los rangos actuales. Confirma primero la conversion.',
+				message: 'Guardar en obra completa reemplaza los rangos actuales. Confirma primero la conversión.',
 				current_mode: currentMode,
 				details: [
 					{
 						path: 'confirm_mode_change',
-						message: 'Se requiere confirmacion explicita para convertir a obra completa.'
+						message: 'Se requiere confirmación explícita para convertir a obra completa.'
 					}
 				]
 			},
@@ -459,7 +459,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 
 	const drafts = sortByRange(normalized.drafts);
 	if (hasOverlap(drafts)) {
-		return conflictResponse('Los rangos de autoria se solapan.');
+		return conflictResponse('Los rangos de autoría se solapan.');
 	}
 
 	if (totalVersos && drafts.some((draft) => draft.v_fin > totalVersos)) {
@@ -487,7 +487,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 		return json(
 			{
 				error: 'validation_error',
-				details: [{ path: 'autor_ids', message: 'Uno o varios autores no existen en catalogo.' }]
+				details: [{ path: 'autor_ids', message: 'Uno o varios autores no existen en catálogo.' }]
 			},
 			{ status: 422 }
 		);
@@ -532,7 +532,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 
 		if (rangoError || !rango) {
 			return json(
-				{ error: 'db_error', message: rangoError?.message ?? 'No se pudo insertar rango de autoria.' },
+				{ error: 'db_error', message: rangoError?.message ?? 'No se pudo insertar rango de autoría.' },
 				{ status: 500 }
 			);
 		}
@@ -566,7 +566,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 		.single();
 	if (obraUpdateError || !obraUpdated) {
 		return json(
-			{ error: 'db_error', message: obraUpdateError?.message ?? 'No se pudo actualizar obra.autoria.' },
+			{ error: 'db_error', message: obraUpdateError?.message ?? 'No se pudo actualizar obra.autoría.' },
 			{ status: 500 }
 		);
 	}

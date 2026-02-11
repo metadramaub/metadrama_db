@@ -5,12 +5,12 @@
 <div class="pointer-events-none fixed bottom-4 right-4 z-50 flex w-96 max-w-[90vw] flex-col gap-2">
 	{#each $toastStore as item (item.id)}
 		<div
-			class={`pointer-events-auto rounded-md border px-3 py-2 text-left text-sm shadow ${
+			class={`pointer-events-auto border px-3 py-2 text-left text-sm ${
 				item.type === 'success'
-					? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+					? 'border-emerald-700 bg-emerald-50 text-emerald-900'
 					: item.type === 'error'
-						? 'border-rose-200 bg-rose-50 text-rose-900'
-						: 'border-slate-200 bg-white text-slate-900'
+						? 'border-rose-700 bg-rose-50 text-rose-900'
+						: 'border-[color:var(--border)] bg-white text-[color:var(--foreground)]'
 			}`}
 		>
 			<div class="flex items-center justify-between gap-2">
@@ -20,7 +20,7 @@
 				{#if item.actionLabel && item.onAction}
 					<button
 						type="button"
-						class="shrink-0 rounded border border-current px-2 py-1 text-xs font-medium hover:opacity-80"
+						class="shrink-0 border border-current px-2 py-1 text-xs font-medium hover:opacity-80"
 						onclick={() => runToastAction(item.id)}
 					>
 						{item.actionLabel}
