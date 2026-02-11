@@ -3,39 +3,62 @@
 @tailwind utilities;
 
 :root {
-	--background: #f7f2e9;
-	--foreground: #132332;
-	--muted: #e8dfd3;
-	--muted-foreground: #425968;
-	--border: #cfbfaa;
-	--primary: #8d1f2d;
-	--primary-foreground: #fffaf2;
-	--accent: #2a556f;
-	--success: #1f6d4a;
-	--warning: #af6a11;
-	--danger: #a52828;
+	--gray-50: #fafafa;
+	--gray-100: #f5f5f5;
+	--gray-200: #e6e6e6;
+	--gray-300: #d3d3d3;
+	--gray-400: #a3a3a3;
+	--gray-500: #808080;
+	--gray-600: #535353;
+	--gray-700: #404040;
+	--gray-800: #272727;
+	--gray-900: #1a1a1a;
+	--gray-950: #0b0b0b;
+	--background: var(--gray-50);
+	--foreground: var(--gray-900);
+	--muted: var(--gray-100);
+	--muted-foreground: var(--gray-600);
+	--border: var(--gray-200);
+	--primary: #cba44a;
+	--primary-foreground: var(--gray-50);
+	--accent: #cba44a;
+	--success: #166534;
+	--warning: #a16207;
+	--danger: #b91c1c;
+	--danger-foreground: #ffffff;
 }
 
 html,
 body {
 	margin: 0;
 	min-height: 100%;
-	background: radial-gradient(circle at 0% 0%, #fff8ee 0%, var(--background) 40%, #efe2d0 100%);
+	background: var(--background);
 	color: var(--foreground);
-	font-family: 'IBM Plex Sans', sans-serif;
-}
-
-h1,
-h2,
-h3,
-h4 {
-	font-family: 'Source Serif 4', serif;
+	font-family: 'Inter', sans-serif;
 }
 
 a {
-	color: var(--accent);
+	color: inherit;
+	text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+.font-display {
+	font-family: 'Bona Nova', serif;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
 }
 
 .card {
-	@apply rounded-xl border border-[color:var(--border)] bg-white/90 shadow-sm;
+	@apply border border-[color:var(--border)] bg-white;
+}
+
+* {
+	border-radius: 0 !important;
 }

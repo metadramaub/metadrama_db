@@ -10,7 +10,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		requireToggleVisibility: true
 	});
 	if (!canToggleVisibility(profile.roleTerm)) {
-		return forbiddenResponse('Solo admin o IP pueden cambiar la visibilidad publica.');
+		return forbiddenResponse('Solo admin o IP pueden cambiar la visibilidad pública.');
 	}
 
 	const body = await request.json().catch(() => ({}));

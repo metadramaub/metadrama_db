@@ -26,7 +26,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	if (error || !data) {
 		return json(
-			{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar el analisis.' },
+			{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar el análisis.' },
 			{ status: 500 }
 		);
 	}

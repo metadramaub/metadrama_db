@@ -234,7 +234,7 @@
 <section class="space-y-4">
 	<div class="flex items-end justify-between gap-4">
 		<div>
-			<h2 class="text-xl font-semibold">Secuencias metricas</h2>
+			<h2 class="text-xl font-semibold">Secuencias métricas</h2>
 			<p class="text-sm text-[color:var(--muted-foreground)]">Ordenadas por verso inicial.</p>
 		</div>
 		<Button onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
@@ -332,7 +332,7 @@
 </section>
 
 {#if sidebarOpen}
-	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[#fffaf4] p-5 shadow-xl">
+	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
 		<div class="mb-4 flex items-center justify-between">
 			<h3 class="text-lg font-semibold">
 				{#if editingId}Editar secuencia{:else}Nueva secuencia{/if}
@@ -375,7 +375,7 @@
 				</select>
 			</label>
 
-			<div class="rounded-md border border-[color:var(--border)] bg-white p-3">
+			<div class="border border-[color:var(--border)] bg-white p-3">
 				<div class="mb-2 text-sm font-medium">Metros *</div>
 				<div class="grid gap-1 sm:grid-cols-2">
 					{#each props.metroOptions as metro}
@@ -394,7 +394,7 @@
 
 			<div class="grid gap-3 sm:grid-cols-2">
 				<label class="text-sm">
-					<span class="mb-1 block">Personajes genero</span>
+					<span class="mb-1 block">Personajes género</span>
 					<select
 						bind:value={form.personajes_genero}
 						disabled={props.readOnly}
@@ -430,7 +430,7 @@
 					</select>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Estado revision</span>
+					<span class="mb-1 block">Estado revisión</span>
 					<select
 						bind:value={form.estado_revision}
 						disabled={props.readOnly}
@@ -456,7 +456,7 @@
 			</div>
 
 			<label class="text-sm">
-				<span class="mb-1 block">Observaciones publicas</span>
+				<span class="mb-1 block">Observaciones públicas</span>
 				<textarea
 					rows={3}
 					bind:value={form.observaciones}
@@ -477,7 +477,7 @@
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Eliminar secuencia</h3>
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta accion no se puede deshacer.</p>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="ghost" onclick={() => (deleteTargetId = null)}>Cancelar</Button>
 				<Button
@@ -509,8 +509,8 @@
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				>
 					<option value="general">general</option>
-					<option value="revision">revision</option>
-					<option value="tecnico">tecnico</option>
+					<option value="revision">revisión</option>
+					<option value="tecnico">técnico</option>
 				</select>
 			</label>
 

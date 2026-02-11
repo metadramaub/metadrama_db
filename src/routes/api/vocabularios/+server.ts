@@ -52,7 +52,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	const payload = parsed.data;
 	if (isProtectedVocabularyCategory(payload.categoria)) {
-		return forbiddenResponse('La categoria indicada esta protegida y no admite escritura.');
+		return forbiddenResponse('La categoría indicada está protegida y no admite escritura.');
 	}
 
 	const { data, error } = await locals.supabase
@@ -72,7 +72,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	if (error || !data) {
 		const status = error?.message?.toLowerCase().includes('duplicate') ? 409 : 500;
 		return json(
-			{ error: status === 409 ? 'conflict' : 'db_error', message: error?.message ?? 'No se pudo crear el termino.' },
+			{ error: status === 409 ? 'conflict' : 'db_error', message: error?.message ?? 'No se pudo crear el término.' },
 			{ status }
 		);
 	}

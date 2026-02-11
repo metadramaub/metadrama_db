@@ -90,16 +90,16 @@
 
 	function blockingTitle(reason: AutoriaBlockingReason): string {
 		if (reason === 'custom_mode_restricted') {
-			return 'Esta autoria necesita reasignacion por permisos';
+			return 'Esta autoría necesita reasignación por permisos';
 		}
-		return 'La estructura ha cambiado, vuelve a asignar la autoria';
+		return 'La estructura ha cambiado, vuelve a asignar la autoría';
 	}
 
 	function blockingText(reason: AutoriaBlockingReason): string {
 		if (reason === 'custom_mode_restricted') {
-			return 'Tu rol no puede editar rangos personalizados. Reasigna la autoria para continuar.';
+			return 'Tu rol no puede editar rangos personalizados. Reasigna la autoría para continuar.';
 		}
-		return 'Se detecto un desajuste entre la estructura y los rangos de autoria guardados.';
+		return 'Se detectó un desajuste entre la estructura y los rangos de autoría guardados.';
 	}
 
 	function getAuthorIdsByRange(rangosAutoresInput: Tables<'rangos_autores'>[]): Map<string, string[]> {
@@ -375,11 +375,11 @@
 
 	function validateClientPayload() {
 		if (requiresReassign && !reassignPrepared) {
-			return 'La estructura ha cambiado o el modo actual no es editable para tu rol. Pulsa "Reasignar autoria" antes de guardar.';
+			return 'La estructura ha cambiado o el modo actual no es editable para tu rol. Pulsa "Reasignar autoría" antes de guardar.';
 		}
 
 		if (modeHasChanged() && !modeChangeConfirmed) {
-			return 'Confirma el cambio de opcion antes de guardar.';
+			return 'Confirma el cambio de opción antes de guardar.';
 		}
 
 		if (mode === 'rango_personalizado' && !canUseCustomRanges) {
@@ -395,7 +395,7 @@
 
 		if (mode === 'por_jornadas') {
 			if (jornadaAssignments.length === 0) {
-				return 'No hay jornadas disponibles para asignar autoria.';
+				return 'No hay jornadas disponibles para asignar autoría.';
 			}
 			for (const jornada of jornadaAssignments) {
 				if (jornada.autor_ids.length === 0) {
@@ -410,7 +410,7 @@
 		}
 		for (const range of customRanges) {
 			if (!Number.isFinite(range.v_ini) || !Number.isFinite(range.v_fin) || range.v_ini >= range.v_fin) {
-				return 'Hay rangos con versos invalidos.';
+				return 'Hay rangos con versos inválidos.';
 			}
 			if (range.autor_ids.length === 0) {
 				return 'Todos los rangos deben tener al menos un autor.';
@@ -473,9 +473,9 @@
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			loadError = body?.message ?? 'No se pudo cargar la autoria actual de la obra.';
+			loadError = body?.message ?? 'No se pudo cargar la autoría actual de la obra.';
 			if (!silent) {
-				pushToast('error', loadError ?? 'No se pudo cargar la autoria actual de la obra.');
+				pushToast('error', loadError ?? 'No se pudo cargar la autoría actual de la obra.');
 			}
 			return;
 		}
@@ -520,18 +520,18 @@
 			if (response.status === 409) {
 				pushToast(
 					'error',
-					detail ?? body.message ?? 'La autoria cambio en paralelo o requiere confirmacion antes de guardar.'
+					detail ?? body.message ?? 'La autoría cambió en paralelo o requiere confirmación antes de guardar.'
 				);
 				return;
 			}
-			pushToast('error', detail ?? body.message ?? 'No se pudo guardar la autoria.');
+			pushToast('error', detail ?? body.message ?? 'No se pudo guardar la autoría.');
 			return;
 		}
 
 		const payload = (await response.json()) as AutoriaApiPayload;
 		applyServerState(payload);
 		markSaved('autoria');
-		pushToast('success', 'Autoria guardada');
+		pushToast('success', 'Autoría guardada');
 	}
 
 	onMount(() => {
@@ -547,9 +547,9 @@
 	{#if loadingAutoria}
 		<div class="card p-4">
 			<div class="animate-pulse space-y-3">
-				<div class="h-5 w-40 rounded bg-[color:var(--muted)]"></div>
-				<div class="h-10 rounded bg-[color:var(--muted)]"></div>
-				<div class="h-10 rounded bg-[color:var(--muted)]"></div>
+				<div class="h-5 w-40 border border-[color:var(--border)] bg-[color:var(--muted)]"></div>
+				<div class="h-10 border border-[color:var(--border)] bg-[color:var(--muted)]"></div>
+				<div class="h-10 border border-[color:var(--border)] bg-[color:var(--muted)]"></div>
 			</div>
 		</div>
 	{:else if loadError}
@@ -565,7 +565,7 @@
 		<div class="card p-4">
 			<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 				<div>
-					<h2 class="text-xl font-semibold">Autoria</h2>
+					<h2 class="text-xl font-semibold">Autoría</h2>
 				</div>
 				<Button onclick={save} disabled={savingNow || props.readOnly || loadingFromServer || editingBlocked}
 					>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button
@@ -573,11 +573,11 @@
 			</div>
 
 			{#if editingBlocked}
-				<div class="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+				<div class="border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
 					<p class="font-medium">{blockingTitle(blockingReason)}</p>
 					<p class="mt-1">{blockingText(blockingReason)}</p>
 					<p class="mt-2">
-						Distribucion detectada en DB: <strong>{modeLabel(sourceMode)}</strong>
+						Distribución detectada en DB: <strong>{modeLabel(sourceMode)}</strong>
 					</p>
 					{#if integrity && integrity.details.length > 0}
 						<ul class="mt-2 list-disc pl-5">
@@ -589,14 +589,14 @@
 					{#if !props.readOnly}
 						<div class="mt-3">
 							<Button variant="secondary" onclick={openReassignModal} disabled={loadingFromServer}>
-								Reasignar autoria
+								Reasignar autoría
 							</Button>
 						</div>
 					{/if}
 				</div>
 			{:else}
 				<label class="block text-sm">
-					<span class="mb-1 block">Autoria: Define como se distribuye la autoria en la obra</span>
+					<span class="mb-1 block">Autoría: Define cómo se distribuye la autoría en la obra</span>
 					<select
 						class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 						disabled={props.readOnly || loadingFromServer}
@@ -650,7 +650,7 @@
 							<p class="text-sm text-[color:var(--muted-foreground)]">No hay jornadas definidas.</p>
 						{:else}
 							{#each jornadaAssignments as assignment}
-								<article class="rounded-md border border-[color:var(--border)] bg-white p-3">
+								<article class="border border-[color:var(--border)] bg-white p-3">
 									<div class="mb-2 text-sm font-medium">
 										{jornadaMap.get(assignment.jornada_id) ?? assignment.jornada_id}
 									</div>
@@ -672,14 +672,14 @@
 					<div class="space-y-3">
 						<div class="flex flex-wrap justify-end gap-2">
 							<Button variant="secondary" onclick={addCustomRange} disabled={props.readOnly || loadingFromServer}>
-								Anadir rango
+								Añadir rango
 							</Button>
 						</div>
 						{#if customRanges.length === 0}
 							<p class="text-sm text-[color:var(--muted-foreground)]">No hay rangos definidos.</p>
 						{:else}
 							{#each customRanges as range}
-								<article class="rounded-md border border-[color:var(--border)] bg-white p-3">
+								<article class="border border-[color:var(--border)] bg-white p-3">
 									<div class="mb-3 flex justify-between gap-2">
 										<div class="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
 											<label class="text-sm">
@@ -738,13 +738,13 @@
 
 {#if showModeChangeModal && pendingMode}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
-		<div class="w-full max-w-lg rounded-lg border border-[color:var(--border)] bg-white p-4 shadow-lg">
-			<h3 class="text-lg font-semibold">Confirmar cambio de opcion</h3>
+		<div class="w-full max-w-lg border border-[color:var(--border)] bg-white p-4">
+			<h3 class="text-lg font-semibold">Confirmar cambio de opción</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-				Cambiar de opcion borrara la asignacion actual de autores/rangos en el formulario.
+				Cambiar de opción borrará la asignación actual de autores/rangos en el formulario.
 			</p>
 			<p class="mt-2 text-sm">
-				Nueva opcion: <strong>{modeLabel(pendingMode)}</strong>
+				Nueva opción: <strong>{modeLabel(pendingMode)}</strong>
 			</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={cancelModeChange}>Cancelar</Button>
@@ -756,12 +756,12 @@
 
 {#if showReassignModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
-		<div class="w-full max-w-lg rounded-lg border border-[color:var(--border)] bg-white p-4 shadow-lg">
-			<h3 class="text-lg font-semibold">Reasignar autoria</h3>
+		<div class="w-full max-w-lg border border-[color:var(--border)] bg-white p-4">
+			<h3 class="text-lg font-semibold">Reasignar autoría</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{blockingTitle(blockingReason)}</p>
 			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">{blockingText(blockingReason)}</p>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-				Se limpiara el borrador local y se abrira <strong>{modeLabel(defaultReassignMode)}</strong> para volver a asignar.
+				Se limpiará el borrador local y se abrirá <strong>{modeLabel(defaultReassignMode)}</strong> para volver a asignar.
 			</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={cancelReassign}>Ahora no</Button>

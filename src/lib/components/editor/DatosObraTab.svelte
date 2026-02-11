@@ -85,7 +85,7 @@
 			setSaving(false, 'datos');
 			const body = await response.json().catch(() => ({}));
 			const detail = Array.isArray(body?.details) ? body.details[0]?.message : null;
-			pushToast('error', detail ?? body.message ?? 'No se pudo guardar los datos de la obra');
+			pushToast('error', detail ?? body.message ?? 'No se pudieron guardar los datos de la obra');
 			return;
 		}
 
@@ -99,11 +99,11 @@
 <section class="space-y-5">
 	<div class="card p-4">
 		<div class="mb-2 text-sm text-[color:var(--muted-foreground)]">
-			Guardado automatico cada 10 segundos si hay cambios.
+			Guardado automático cada 10 segundos si hay cambios.
 		</div>
 		<div class="grid gap-4 md:grid-cols-2">
 			<label class="text-sm">
-				<span class="mb-1 block">Titulo principal</span>
+				<span class="mb-1 block">Título principal</span>
 				<input
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
@@ -113,14 +113,14 @@
 			</label>
 
 			<label class="text-sm">
-				<span class="mb-1 block">Genero</span>
+				<span class="mb-1 block">Género</span>
 				<select
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
 					value={form.genero_id}
 					onchange={(event) => mutateField('genero_id', event.currentTarget.value)}
 				>
-					<option value="">Selecciona genero</option>
+					<option value="">Selecciona género</option>
 					{#each props.generoOptions as genero}
 						<option value={genero.termino_id}>{genero.termino}</option>
 					{/each}
@@ -155,7 +155,7 @@
 		</div>
 
 		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Fuente bibliografica</span>
+			<span class="mb-1 block">Fuente bibliográfica</span>
 			<textarea
 				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				rows={3}
@@ -197,7 +197,7 @@
 		</div>
 
 		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Edicion base utilizada</span>
+			<span class="mb-1 block">Edición base utilizada</span>
 			<textarea
 				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				rows={4}
@@ -209,12 +209,12 @@
 
 	<div class="card p-4">
 		<div class="mb-3 flex items-center justify-between">
-			<h3 class="text-lg font-semibold">Variantes de titulo</h3>
-			<Button variant="secondary" onclick={addVariante} disabled={props.readOnly}>Anadir variante</Button>
+			<h3 class="text-lg font-semibold">Variantes de título</h3>
+			<Button variant="secondary" onclick={addVariante} disabled={props.readOnly}>Añadir variante</Button>
 		</div>
 		<div class="space-y-2">
 			{#if form.variantes_titulo.length === 0}
-				<p class="text-sm text-[color:var(--muted-foreground)]">No hay variantes anadidas.</p>
+				<p class="text-sm text-[color:var(--muted-foreground)]">No hay variantes añadidas.</p>
 			{:else}
 				{#each form.variantes_titulo as variante, idx}
 					<div class="flex gap-2">

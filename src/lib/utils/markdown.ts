@@ -23,7 +23,10 @@ function renderInline(markdown: string): string {
 	});
 	output = output.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 	output = output.replace(/\*(.+?)\*/g, '<em>$1</em>');
-	output = output.replace(/`(.+?)`/g, '<code class="rounded bg-[#f2e8d8] px-1 py-0.5 text-sm">$1</code>');
+	output = output.replace(
+		/`(.+?)`/g,
+		'<code class="border border-[color:var(--border)] bg-[color:var(--muted)] px-1 py-0.5 text-sm">$1</code>'
+	);
 
 	return output;
 }

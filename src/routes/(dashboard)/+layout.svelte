@@ -13,14 +13,14 @@
 	);
 </script>
 
-<div class="grid min-h-screen grid-cols-[18rem_1fr]">
+<div class="grid min-h-screen md:grid-cols-[18rem_1fr]">
 	<Sidebar profile={data.profile} misObrasCount={data.misObrasCount} />
-	<main class="min-w-0 p-6">
-		<div class="mb-4 text-sm text-[color:var(--muted-foreground)]">
+	<main class="min-w-0 bg-[color:var(--background)] p-6">
+		<div class="mb-4 border-b border-[color:var(--border)] pb-3 text-xs font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
 			{#if breadcrumbs.length === 0}
-				dashboard
+				DASHBOARD
 			{:else}
-				{breadcrumbs.join(' / ')}
+				{breadcrumbs.join(' / ').toUpperCase()}
 			{/if}
 		</div>
 		{@render children()}

@@ -94,7 +94,7 @@
 		if (!response.ok) {
 			setSaving(false, 'analisis');
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar analisis y bibliografia.');
+			pushToast('error', body.message ?? 'No se pudo guardar análisis y bibliografía.');
 			return;
 		}
 
@@ -107,7 +107,7 @@
 			updated_at: payload.obra.updated_at
 		});
 		markSaved('analisis');
-		pushToast('success', 'Analisis y bibliografia guardados');
+		pushToast('success', 'Análisis y bibliografía guardados');
 	}
 
 	onDestroy(() => {
@@ -119,20 +119,20 @@
 	<div class="card p-4">
 		<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 			<div>
-				<h2 class="text-xl font-semibold">Analisis y bibliografia</h2>
+				<h2 class="text-xl font-semibold">Análisis y bibliografía</h2>
 				<p class="text-sm text-[color:var(--muted-foreground)]">
 					Editor markdown con guardado conjunto para ambos bloques.
 				</p>
 			</div>
 			<Button onclick={save} disabled={savingNow || props.readOnly}>
-				{savingNow ? 'Guardando...' : 'Guardar seccion'}
+				{savingNow ? 'Guardando...' : 'Guardar sección'}
 			</Button>
 		</div>
 
-		<article class="rounded-md border border-[color:var(--border)] bg-white p-4">
+		<article class="border border-[color:var(--border)] bg-white p-4">
 			<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
 				<div>
-					<h3 class="text-lg font-semibold">Analisis del editor</h3>
+					<h3 class="text-lg font-semibold">Análisis del editor</h3>
 					<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</p>
 				</div>
 				<Button variant="secondary" onclick={() => (analisisPreview = !analisisPreview)}>
@@ -165,14 +165,14 @@
 			</div>
 
 			{#if analisisPreview}
-				<div class="prose max-w-none rounded-md border border-[color:var(--border)] bg-[#fffdf8] p-3" style="--tw-prose-body: var(--foreground);">
+				<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
 					{@html previewAnalisisHtml}
 				</div>
 			{:else}
 				<textarea
 					bind:this={analisisRef}
 					rows={12}
-					class="min-h-64 w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					class="min-h-64 w-full border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
 					bind:value={analisis}
 					oninput={queueSave}
@@ -180,10 +180,10 @@
 			{/if}
 		</article>
 
-		<article class="mt-4 rounded-md border border-[color:var(--border)] bg-white p-4">
+		<article class="mt-4 border border-[color:var(--border)] bg-white p-4">
 			<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
 				<div>
-					<h3 class="text-lg font-semibold">Bibliografia general</h3>
+					<h3 class="text-lg font-semibold">Bibliografía general</h3>
 					<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
 				</div>
 				<Button variant="secondary" onclick={() => (bibliografiaPreview = !bibliografiaPreview)}>
@@ -219,14 +219,14 @@
 			</div>
 
 			{#if bibliografiaPreview}
-				<div class="prose max-w-none rounded-md border border-[color:var(--border)] bg-[#fffdf8] p-3" style="--tw-prose-body: var(--foreground);">
+				<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
 					{@html previewBibliografiaHtml}
 				</div>
 			{:else}
 				<textarea
 					bind:this={bibliografiaRef}
 					rows={12}
-					class="min-h-56 w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					class="min-h-56 w-full border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
 					bind:value={bibliografia}
 					oninput={queueSave}
