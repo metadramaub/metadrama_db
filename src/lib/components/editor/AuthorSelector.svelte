@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/button.svelte';
+	import { pushToast } from '$lib/stores/toast';
 
 	const props = $props<{
 		authors: Array<{ autor_id: string; nombre_completo: string }>;
@@ -50,7 +50,16 @@
 
 	function removeAuthor(authorId: string) {
 		if (props.disabled) return;
+		const removed = props.authors.find((author: AuthorOption) => author.autor_id === authorId);
 		props.onChange(props.selectedIds.filter((id: string) => id !== authorId));
+		pushToast('info', `Autor eliminado: ${removed?.nombre_completo ?? 'desconocido'}`, 5000, {
+			actionLabel: 'Deshacer',
+			onAction: () => {
+				if (props.disabled) return;
+				if (props.selectedIds.includes(authorId)) return;
+				props.onChange([...props.selectedIds, authorId]);
+			}
+		});
 	}
 
 	function addFirstMatch() {
@@ -73,14 +82,20 @@
 		{:else}
 			{#each selectedAuthors as author}
 				<span class="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-[#fffdf8] px-3 py-1 text-sm">
-					{author.nombre_completo}
-					<Button
-						variant="ghost"
-						class="h-6 px-2 py-0"
+					<span class="pointer-events-none">{author.nombre_completo}</span>
+					<button
+						type="button"
+						class="inline-flex h-5 w-5 items-center justify-center rounded border border-[color:var(--border)] text-xs hover:bg-[#efe5d7] disabled:cursor-not-allowed disabled:opacity-50"
 						disabled={props.disabled}
-						onclick={() => removeAuthor(author.autor_id)}
-						>Quitar</Button
+						onclick={(event) => {
+							event.stopPropagation();
+							removeAuthor(author.autor_id);
+						}}
+						title={`Quitar ${author.nombre_completo}`}
+						aria-label={`Quitar ${author.nombre_completo}`}
 					>
+						x
+					</button>
 				</span>
 			{/each}
 		{/if}

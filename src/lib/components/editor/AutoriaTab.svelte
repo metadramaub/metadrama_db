@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import AuthorSelector from '$lib/components/editor/AuthorSelector.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 	import type { Tables } from '$lib/types/database.types';
+	import type { AutoriaApiPayload, AutoriaBlockingReason, AutoriaIntegrity } from '$lib/types/obra.types';
 
-	type Mode = 'obra_completa' | 'por_jornadas' | 'rango_personalizado';
+	type Mode = AutoriaApiPayload['mode'];
+	type JornadaOption = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
+	type AuthorOption = Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo'>;
 	type JornadaAssignment = {
 		jornada_id: string;
 		autor_ids: string[];
@@ -21,69 +24,85 @@
 	const props = $props<{
 		obraId: string;
 		obra: Tables<'obras'>;
-		jornadas: Tables<'jornadas'>[];
-		rangosInitial: Tables<'rangos'>[];
-		rangosAutoresInitial: Tables<'rangos_autores'>[];
-		autoresInitial: Array<Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>>;
 		readOnly?: boolean;
 	}>();
-	type JornadaOption = (typeof props.jornadas)[number];
 
-	let rangos = $state([...props.rangosInitial]);
-	let rangosAutores = $state([...props.rangosAutoresInitial]);
-	const initialMode = inferMode(props.rangosInitial);
-	let mode = $state<Mode>(initialMode);
-	let urlInforme = $state(props.obra.url_informe_autoria ?? '');
+	let loadingAutoria = $state(true);
+	let loadingFromServer = $state(false);
+	let loadError = $state<string | null>(null);
 	let savingNow = $state(false);
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
-	let obraCompleta = $state({
-		autor_ids: [] as string[]
-	});
+	let jornadasCurrent = $state<JornadaOption[]>([]);
+	let autoresCurrent = $state<AuthorOption[]>([]);
+	let rangos = $state<Tables<'rangos'>[]>([]);
+	let rangosAutores = $state<Tables<'rangos_autores'>[]>([]);
+	let integrity = $state<AutoriaIntegrity | null>(null);
+
+	let canUseCustomRanges = $state(true);
+	let requiresReassign = $state(false);
+	let blockingReason = $state<AutoriaBlockingReason>(null);
+	let defaultReassignMode = $state<Mode>('obra_completa');
+
+	let sourceMode = $state<Mode>('obra_completa');
+	let mode = $state<Mode>('obra_completa');
+	let modeChangeConfirmed = $state(false);
+	let reassignPrepared = $state(false);
+	let pendingMode = $state<Mode | null>(null);
+	let showModeChangeModal = $state(false);
+	let showReassignModal = $state(false);
+	let urlInforme = $state('');
+
+	let obraCompleta = $state({ autor_ids: [] as string[] });
 	let jornadaAssignments = $state<JornadaAssignment[]>([]);
 	let customRanges = $state<CustomRange[]>([]);
+	let baselineSnapshot = $state('');
 
-	initializeForms(props.rangosInitial, props.rangosAutoresInitial, initialMode);
-
+	const editingBlocked = $derived(requiresReassign && !reassignPrepared);
 	const jornadaMap = $derived(
 		new Map(
-			props.jornadas.map((jornada: JornadaOption) => [
+			jornadasCurrent.map((jornada: JornadaOption) => [
 				jornada.jornada_id,
 				`Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
 			])
 		)
 	);
-
 	const authorOptions = $derived(
-		props.autoresInitial.map((author: (typeof props.autoresInitial)[number]) => ({
+		autoresCurrent.map((author) => ({
 			autor_id: author.autor_id,
 			nombre_completo: author.nombre_completo
 		}))
 	);
 
-	function inferMode(rangosInput: Tables<'rangos'>[]): Mode {
-		if (rangosInput.length === 0) return 'obra_completa';
-		if (rangosInput.length === 1 && rangosInput[0].v_ini === 1) {
-			if (!props.obra.total_versos || rangosInput[0].v_fin === props.obra.total_versos) {
-				return 'obra_completa';
-			}
-		}
-		if (props.jornadas.length > 0 && rangosInput.length === props.jornadas.length) {
-			const signatures = new Set(rangosInput.map((rango) => `${rango.v_ini}:${rango.v_fin}`));
-			if (
-				props.jornadas.every((jornada: JornadaOption) =>
-					signatures.has(`${jornada.v_ini}:${jornada.v_fin}`)
-				)
-			) {
-				return 'por_jornadas';
-			}
-		}
-		return 'rango_personalizado';
+	function normalizeAuthorIds(ids: string[]): string[] {
+		return [...new Set(ids)].sort((a, b) => a.localeCompare(b));
 	}
 
-	function getAuthorIdsByRange(
-		rangosAutoresInput: Tables<'rangos_autores'>[]
-	): Map<string, string[]> {
+	function normalizeUrl(url: string): string {
+		return url.trim();
+	}
+
+	function modeLabel(value: Mode): string {
+		if (value === 'obra_completa') return 'Obra completa';
+		if (value === 'por_jornadas') return 'Por jornadas';
+		return 'Rangos personalizados';
+	}
+
+	function blockingTitle(reason: AutoriaBlockingReason): string {
+		if (reason === 'custom_mode_restricted') {
+			return 'Esta autoria necesita reasignacion por permisos';
+		}
+		return 'La estructura ha cambiado, vuelve a asignar la autoria';
+	}
+
+	function blockingText(reason: AutoriaBlockingReason): string {
+		if (reason === 'custom_mode_restricted') {
+			return 'Tu rol no puede editar rangos personalizados. Reasigna la autoria para continuar.';
+		}
+		return 'Se detecto un desajuste entre la estructura y los rangos de autoria guardados.';
+	}
+
+	function getAuthorIdsByRange(rangosAutoresInput: Tables<'rangos_autores'>[]): Map<string, string[]> {
 		const map = new Map<string, string[]>();
 		for (const row of rangosAutoresInput) {
 			const current = map.get(row.rango_id) ?? [];
@@ -108,7 +127,7 @@
 			autor_ids: firstRange ? [...(authorIdsByRange.get(firstRange.rango_id) ?? [])] : []
 		};
 
-		jornadaAssignments = props.jornadas.map((jornada: JornadaOption) => {
+		jornadaAssignments = jornadasCurrent.map((jornada: JornadaOption) => {
 			const match = sortedRanges.find(
 				(range) => range.v_ini === jornada.v_ini && range.v_fin === jornada.v_fin
 			);
@@ -128,16 +147,136 @@
 		mode = nextMode;
 	}
 
-	function queueSave() {
+	function resetModeData(nextMode: Mode) {
+		if (nextMode === 'obra_completa') {
+			obraCompleta = { autor_ids: [] };
+			return;
+		}
+		if (nextMode === 'por_jornadas') {
+			jornadaAssignments = jornadasCurrent.map((jornada: JornadaOption) => ({
+				jornada_id: jornada.jornada_id,
+				autor_ids: []
+			}));
+			return;
+		}
+		customRanges = [];
+	}
+
+	function modeHasChanged() {
+		return mode !== sourceMode;
+	}
+
+	function clearQueuedSave() {
+		if (timer) {
+			clearTimeout(timer);
+			timer = null;
+		}
+	}
+
+	function buildComparableSnapshot(): string {
+		const base = {
+			mode,
+			url_informe_autoria: normalizeUrl(urlInforme)
+		};
+
+		if (mode === 'obra_completa') {
+			return JSON.stringify({
+				...base,
+				autor_ids: normalizeAuthorIds(obraCompleta.autor_ids)
+			});
+		}
+
+		if (mode === 'por_jornadas') {
+			const items = [...jornadaAssignments]
+				.map((item) => ({
+					jornada_id: item.jornada_id,
+					autor_ids: normalizeAuthorIds(item.autor_ids)
+				}))
+				.sort((a, b) => a.jornada_id.localeCompare(b.jornada_id));
+			return JSON.stringify({ ...base, items });
+		}
+
+		const items = [...customRanges]
+			.map((item) => ({
+				v_ini: Number(item.v_ini),
+				v_fin: Number(item.v_fin),
+				autor_ids: normalizeAuthorIds(item.autor_ids)
+			}))
+			.sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
+		return JSON.stringify({ ...base, items });
+	}
+
+	function syncDirtyAndAutosave() {
 		if (props.readOnly) return;
-		setDirty(true);
-		if (timer) clearTimeout(timer);
+		clearQueuedSave();
+		const dirtyNow = buildComparableSnapshot() !== baselineSnapshot;
+		setDirty(dirtyNow, 'autoria');
+		if (!dirtyNow) {
+			setSaving(false, 'autoria');
+			return;
+		}
+		if (modeHasChanged() && !modeChangeConfirmed) {
+			return;
+		}
+		if (requiresReassign && !reassignPrepared) {
+			return;
+		}
 		timer = setTimeout(() => void save(), 10_000);
 	}
 
-	function setMode(nextMode: Mode) {
-		mode = nextMode;
-		queueSave();
+	function requestModeChange(nextMode: Mode) {
+		if (props.readOnly || loadingAutoria || loadingFromServer || editingBlocked) return;
+		if (nextMode === mode) return;
+		if (nextMode === 'rango_personalizado' && !canUseCustomRanges) return;
+		if (nextMode === sourceMode) {
+			mode = sourceMode;
+			modeChangeConfirmed = false;
+			reassignPrepared = false;
+			pendingMode = null;
+			showModeChangeModal = false;
+			initializeForms(rangos, rangosAutores, sourceMode);
+			syncDirtyAndAutosave();
+			return;
+		}
+		pendingMode = nextMode;
+		showModeChangeModal = true;
+	}
+
+	function cancelModeChange() {
+		pendingMode = null;
+		showModeChangeModal = false;
+	}
+
+	function confirmModeChange() {
+		if (props.readOnly || !pendingMode) return;
+		mode = pendingMode;
+		resetModeData(pendingMode);
+		modeChangeConfirmed = true;
+		if (requiresReassign) {
+			reassignPrepared = true;
+		}
+		showModeChangeModal = false;
+		pendingMode = null;
+		syncDirtyAndAutosave();
+	}
+
+	function openReassignModal() {
+		if (props.readOnly || loadingAutoria || loadingFromServer) return;
+		showReassignModal = true;
+	}
+
+	function cancelReassign() {
+		showReassignModal = false;
+	}
+
+	function confirmReassign() {
+		if (props.readOnly) return;
+		mode = defaultReassignMode;
+		resetModeData(defaultReassignMode);
+		modeChangeConfirmed = defaultReassignMode !== sourceMode;
+		reassignPrepared = true;
+		showReassignModal = false;
+		syncDirtyAndAutosave();
 	}
 
 	function setObraCompletaAuthors(ids: string[]) {
@@ -145,28 +284,28 @@
 			...obraCompleta,
 			autor_ids: ids
 		};
-		queueSave();
+		syncDirtyAndAutosave();
 	}
 
 	function setJornadaAuthors(jornadaId: string, ids: string[]) {
 		jornadaAssignments = jornadaAssignments.map((item) =>
 			item.jornada_id === jornadaId ? { ...item, autor_ids: ids } : item
 		);
-		queueSave();
+		syncDirtyAndAutosave();
 	}
 
 	function setCustomRangeAuthors(tempId: string, ids: string[]) {
 		customRanges = customRanges.map((item) =>
 			item.temp_id === tempId ? { ...item, autor_ids: ids } : item
 		);
-		queueSave();
+		syncDirtyAndAutosave();
 	}
 
 	function updateCustomRange(tempId: string, patch: Partial<CustomRange>) {
 		customRanges = customRanges.map((item) =>
 			item.temp_id === tempId ? { ...item, ...patch } : item
 		);
-		queueSave();
+		syncDirtyAndAutosave();
 	}
 
 	function addCustomRange() {
@@ -181,19 +320,26 @@
 				autor_ids: []
 			}
 		];
-		queueSave();
+		syncDirtyAndAutosave();
 	}
 
 	function removeCustomRange(tempId: string) {
 		customRanges = customRanges.filter((item) => item.temp_id !== tempId);
-		queueSave();
+		syncDirtyAndAutosave();
 	}
 
 	function buildPayload() {
-		const normalizedUrl = urlInforme.trim() || null;
+		const normalizedUrl = normalizeUrl(urlInforme) || null;
+		const modeChanged = modeHasChanged();
+		const confirmModeChangePayload = modeChanged ? modeChangeConfirmed : false;
+		const confirmReassignPayload = requiresReassign ? reassignPrepared : false;
+
 		if (mode === 'obra_completa') {
 			return {
 				mode,
+				source_mode: sourceMode,
+				confirm_mode_change: confirmModeChangePayload,
+				confirm_reassign: confirmReassignPayload,
 				url_informe_autoria: normalizedUrl,
 				autor_ids: obraCompleta.autor_ids
 			};
@@ -202,6 +348,9 @@
 		if (mode === 'por_jornadas') {
 			return {
 				mode,
+				source_mode: sourceMode,
+				confirm_mode_change: confirmModeChangePayload,
+				confirm_reassign: confirmReassignPayload,
 				url_informe_autoria: normalizedUrl,
 				items: jornadaAssignments.map((item) => ({
 					jornada_id: item.jornada_id,
@@ -212,6 +361,9 @@
 
 		return {
 			mode,
+			source_mode: sourceMode,
+			confirm_mode_change: confirmModeChangePayload,
+			confirm_reassign: confirmReassignPayload,
 			url_informe_autoria: normalizedUrl,
 			items: customRanges.map((item) => ({
 				v_ini: Number(item.v_ini),
@@ -222,6 +374,18 @@
 	}
 
 	function validateClientPayload() {
+		if (requiresReassign && !reassignPrepared) {
+			return 'La estructura ha cambiado o el modo actual no es editable para tu rol. Pulsa "Reasignar autoria" antes de guardar.';
+		}
+
+		if (modeHasChanged() && !modeChangeConfirmed) {
+			return 'Confirma el cambio de opcion antes de guardar.';
+		}
+
+		if (mode === 'rango_personalizado' && !canUseCustomRanges) {
+			return 'Tu rol no puede usar rangos personalizados.';
+		}
+
 		if (mode === 'obra_completa') {
 			if (obraCompleta.autor_ids.length === 0) {
 				return 'Selecciona al menos un autor para la obra completa.';
@@ -230,6 +394,9 @@
 		}
 
 		if (mode === 'por_jornadas') {
+			if (jornadaAssignments.length === 0) {
+				return 'No hay jornadas disponibles para asignar autoria.';
+			}
 			for (const jornada of jornadaAssignments) {
 				if (jornada.autor_ids.length === 0) {
 					return `Faltan autores en ${jornadaMap.get(jornada.jornada_id) ?? 'una jornada'}.`;
@@ -258,34 +425,78 @@
 		return null;
 	}
 
-	function applyServerState(payload: {
-		rangos: Tables<'rangos'>[];
-		rangosAutores: Tables<'rangos_autores'>[];
-		obra: { url_informe_autoria: string | null; autoria?: string[] | null };
-		mode: Mode;
-	}) {
+	function applyServerState(payload: AutoriaApiPayload) {
+		jornadasCurrent = [...payload.jornadas];
+		autoresCurrent = payload.autores.map((author) => ({
+			autor_id: author.autor_id,
+			nombre_completo: author.nombre_completo
+		}));
 		rangos = [...payload.rangos];
 		rangosAutores = [...payload.rangosAutores];
 		urlInforme = payload.obra.url_informe_autoria ?? '';
+		sourceMode = payload.mode;
+		mode = payload.mode;
+		modeChangeConfirmed = false;
+		reassignPrepared = false;
+		pendingMode = null;
+		showModeChangeModal = false;
+		integrity = payload.integrity;
+		canUseCustomRanges = payload.can_use_custom_ranges;
+		requiresReassign = payload.requires_reassign;
+		blockingReason = payload.blocking_reason;
+		defaultReassignMode = payload.default_reassign_mode;
+
 		patchCurrentObra({
+			total_versos: payload.obra.total_versos ?? null,
 			url_informe_autoria: payload.obra.url_informe_autoria,
 			autoria: payload.obra.autoria ?? null
 		});
-		initializeForms(rangos, rangosAutores, payload.mode);
+
+		initializeForms(payload.rangos, payload.rangosAutores, payload.mode);
+		baselineSnapshot = buildComparableSnapshot();
+		setDirty(false, 'autoria');
+		setSaving(false, 'autoria');
+
+		if (requiresReassign && !props.readOnly) {
+			showReassignModal = true;
+		} else {
+			showReassignModal = false;
+		}
+	}
+
+	async function refreshFromServer(silent = false) {
+		if (loadingFromServer) return;
+		loadingFromServer = true;
+		const response = await fetch(`/api/obras/${props.obraId}/autoria`);
+		loadingFromServer = false;
+		loadingAutoria = false;
+
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			loadError = body?.message ?? 'No se pudo cargar la autoria actual de la obra.';
+			if (!silent) {
+				pushToast('error', loadError ?? 'No se pudo cargar la autoria actual de la obra.');
+			}
+			return;
+		}
+
+		loadError = null;
+		const payload = (await response.json()) as AutoriaApiPayload;
+		applyServerState(payload);
 	}
 
 	async function save() {
-		if (props.readOnly) return;
+		if (props.readOnly || loadingAutoria || loadingFromServer || editingBlocked) return;
 		if (savingNow) return;
 		const clientError = validateClientPayload();
 		if (clientError) {
 			pushToast('error', clientError);
-			setSaving(false);
+			setSaving(false, 'autoria');
 			return;
 		}
 
 		savingNow = true;
-		setSaving(true);
+		setSaving(true, 'autoria');
 		const response = await fetch(`/api/obras/${props.obraId}/autoria`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
@@ -294,183 +505,268 @@
 		savingNow = false;
 
 		if (!response.ok) {
-			setSaving(false);
+			setSaving(false, 'autoria');
 			const body = await response.json().catch(() => ({}));
 			const detail = Array.isArray(body?.details) ? body.details[0]?.message : null;
+			if (body?.integrity) {
+				integrity = body.integrity as AutoriaIntegrity;
+			}
+			if (typeof body?.requires_reassign === 'boolean') {
+				requiresReassign = body.requires_reassign;
+			}
+			if (typeof body?.blocking_reason === 'string' || body?.blocking_reason === null) {
+				blockingReason = body.blocking_reason as AutoriaBlockingReason;
+			}
+			if (response.status === 409) {
+				pushToast(
+					'error',
+					detail ?? body.message ?? 'La autoria cambio en paralelo o requiere confirmacion antes de guardar.'
+				);
+				return;
+			}
 			pushToast('error', detail ?? body.message ?? 'No se pudo guardar la autoria.');
 			return;
 		}
 
-		const payload = await response.json();
-		applyServerState({
-			rangos: payload.rangos,
-			rangosAutores: payload.rangosAutores,
-			obra: payload.obra,
-			mode: payload.mode
-		});
-		markSaved();
+		const payload = (await response.json()) as AutoriaApiPayload;
+		applyServerState(payload);
+		markSaved('autoria');
 		pushToast('success', 'Autoria guardada');
 	}
 
+	onMount(() => {
+		void refreshFromServer(true);
+	});
+
 	onDestroy(() => {
-		if (timer) clearTimeout(timer);
+		clearQueuedSave();
 	});
 </script>
 
 <section class="space-y-4">
-	<div class="card p-4">
-		<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
-			<div>
-				<h2 class="text-xl font-semibold">Autoria</h2>
-				<p class="text-sm text-[color:var(--muted-foreground)]">
-					Define como se distribuye la autoria de la obra.
-				</p>
+	{#if loadingAutoria}
+		<div class="card p-4">
+			<div class="animate-pulse space-y-3">
+				<div class="h-5 w-40 rounded bg-[color:var(--muted)]"></div>
+				<div class="h-10 rounded bg-[color:var(--muted)]"></div>
+				<div class="h-10 rounded bg-[color:var(--muted)]"></div>
 			</div>
-			<Button onclick={save} disabled={savingNow || props.readOnly}
-				>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button
-			>
 		</div>
-
-		<div class="grid gap-2 sm:grid-cols-3">
-			<label class="flex items-center gap-2 rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
-				<input
-					type="radio"
-					name="autoria-mode"
-					disabled={props.readOnly}
-					checked={mode === 'obra_completa'}
-					onchange={() => setMode('obra_completa')}
-				/>
-				Obra completa
-			</label>
-			<label class="flex items-center gap-2 rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
-				<input
-					type="radio"
-					name="autoria-mode"
-					disabled={props.readOnly}
-					checked={mode === 'por_jornadas'}
-					onchange={() => setMode('por_jornadas')}
-				/>
-				Por jornadas
-			</label>
-			<label class="flex items-center gap-2 rounded-md border border-[color:var(--border)] bg-white p-3 text-sm">
-				<input
-					type="radio"
-					name="autoria-mode"
-					disabled={props.readOnly}
-					checked={mode === 'rango_personalizado'}
-					onchange={() => setMode('rango_personalizado')}
-				/>
-				Rango personalizado
-			</label>
+	{:else if loadError}
+		<div class="card p-4">
+			<p class="text-sm text-[color:var(--danger)]">{loadError}</p>
+			<div class="mt-3">
+				<Button variant="secondary" onclick={() => void refreshFromServer(false)} disabled={loadingFromServer}>
+					Reintentar
+				</Button>
+			</div>
 		</div>
+	{:else}
+		<div class="card p-4">
+			<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+				<div>
+					<h2 class="text-xl font-semibold">Autoria</h2>
+				</div>
+				<Button onclick={save} disabled={savingNow || props.readOnly || loadingFromServer || editingBlocked}
+					>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button
+				>
+			</div>
 
-		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">URL informe ETSO</span>
-			<input
-				type="url"
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				disabled={props.readOnly}
-				value={urlInforme}
-				oninput={(event) => {
-					urlInforme = event.currentTarget.value;
-					queueSave();
-				}}
-			/>
-		</label>
-	</div>
-
-	<div class="card p-4">
-		<h3 class="mb-3 text-lg font-semibold">Autores</h3>
-
-		{#if mode === 'obra_completa'}
-			<div class="space-y-3">
+			{#if editingBlocked}
+				<div class="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+					<p class="font-medium">{blockingTitle(blockingReason)}</p>
+					<p class="mt-1">{blockingText(blockingReason)}</p>
+					<p class="mt-2">
+						Distribucion detectada en DB: <strong>{modeLabel(sourceMode)}</strong>
+					</p>
+					{#if integrity && integrity.details.length > 0}
+						<ul class="mt-2 list-disc pl-5">
+							{#each integrity.details as detail}
+								<li>{detail}</li>
+							{/each}
+						</ul>
+					{/if}
+					{#if !props.readOnly}
+						<div class="mt-3">
+							<Button variant="secondary" onclick={openReassignModal} disabled={loadingFromServer}>
+								Reasignar autoria
+							</Button>
+						</div>
+					{/if}
+				</div>
+			{:else}
 				<label class="block text-sm">
-					<span class="mb-1 block">Autores de la obra</span>
-					<AuthorSelector
-						authors={authorOptions}
-						selectedIds={obraCompleta.autor_ids}
-						onChange={setObraCompletaAuthors}
-						placeholder="Escribe y selecciona autores"
-						disabled={props.readOnly}
+					<span class="mb-1 block">Autoria: Define como se distribuye la autoria en la obra</span>
+					<select
+						class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
+						disabled={props.readOnly || loadingFromServer}
+						value={mode}
+						onchange={(event) => requestModeChange(event.currentTarget.value as Mode)}
+					>
+						<option value="obra_completa">Obra completa</option>
+						<option value="por_jornadas">Por jornadas</option>
+						{#if canUseCustomRanges}
+							<option value="rango_personalizado">Rangos personalizados</option>
+						{/if}
+					</select>
+				</label>
+
+				<label class="mt-4 block text-sm">
+					<span class="mb-1 block">URL informe ETSO</span>
+					<input
+						type="url"
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						disabled={props.readOnly || loadingFromServer}
+						value={urlInforme}
+						oninput={(event) => {
+							urlInforme = event.currentTarget.value;
+							syncDirtyAndAutosave();
+						}}
 					/>
 				</label>
-			</div>
-		{:else if mode === 'por_jornadas'}
-			<div class="space-y-3">
-				{#each jornadaAssignments as assignment}
-					<article class="rounded-md border border-[color:var(--border)] bg-white p-3">
-						<div class="mb-2 text-sm font-medium">{jornadaMap.get(assignment.jornada_id) ?? assignment.jornada_id}</div>
-						<label class="block text-sm">
-							<span class="mb-1 block">Autores</span>
+			{/if}
+		</div>
+
+		{#if !editingBlocked}
+			<div class="card p-4">
+				<h3 class="mb-3 text-lg font-semibold">Autores</h3>
+
+				{#if mode === 'obra_completa'}
+					<div class="space-y-3">
+						<div class="block text-sm">
+							<span class="mb-1 block">Autores de la obra</span>
 							<AuthorSelector
 								authors={authorOptions}
-								selectedIds={assignment.autor_ids}
-								onChange={(ids) => setJornadaAuthors(assignment.jornada_id, ids)}
+								selectedIds={obraCompleta.autor_ids}
+								onChange={setObraCompletaAuthors}
 								placeholder="Escribe y selecciona autores"
-								disabled={props.readOnly}
+								disabled={props.readOnly || loadingFromServer}
 							/>
-						</label>
-					</article>
-				{/each}
-			</div>
-		{:else}
-			<div class="space-y-3">
-				<div class="flex justify-end">
-					<Button variant="secondary" onclick={addCustomRange} disabled={props.readOnly}
-						>Anadir rango</Button
-					>
-				</div>
-				{#if customRanges.length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">No hay rangos definidos.</p>
+						</div>
+					</div>
+				{:else if mode === 'por_jornadas'}
+					<div class="space-y-3">
+						{#if jornadaAssignments.length === 0}
+							<p class="text-sm text-[color:var(--muted-foreground)]">No hay jornadas definidas.</p>
+						{:else}
+							{#each jornadaAssignments as assignment}
+								<article class="rounded-md border border-[color:var(--border)] bg-white p-3">
+									<div class="mb-2 text-sm font-medium">
+										{jornadaMap.get(assignment.jornada_id) ?? assignment.jornada_id}
+									</div>
+									<div class="block text-sm">
+										<span class="mb-1 block">Autores</span>
+										<AuthorSelector
+											authors={authorOptions}
+											selectedIds={assignment.autor_ids}
+											onChange={(ids) => setJornadaAuthors(assignment.jornada_id, ids)}
+											placeholder="Escribe y selecciona autores"
+											disabled={props.readOnly || loadingFromServer}
+										/>
+									</div>
+								</article>
+							{/each}
+						{/if}
+					</div>
 				{:else}
-					{#each customRanges as range}
-						<article class="rounded-md border border-[color:var(--border)] bg-white p-3">
-							<div class="mb-3 flex justify-between gap-2">
-								<div class="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
-									<label class="text-sm">
-										<span class="mb-1 block">V_ini</span>
-										<input
-											type="number"
-											class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-											disabled={props.readOnly}
-											value={range.v_ini}
-											oninput={(event) =>
-												updateCustomRange(range.temp_id, { v_ini: Number(event.currentTarget.value) })}
-										/>
-									</label>
-									<label class="text-sm">
-										<span class="mb-1 block">V_fin</span>
-										<input
-											type="number"
-											class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-											disabled={props.readOnly}
-											value={range.v_fin}
-											oninput={(event) =>
-												updateCustomRange(range.temp_id, { v_fin: Number(event.currentTarget.value) })}
-										/>
-									</label>
-								</div>
-								<Button variant="danger" onclick={() => removeCustomRange(range.temp_id)} disabled={props.readOnly}
-									>Eliminar</Button
-								>
-							</div>
+					<div class="space-y-3">
+						<div class="flex flex-wrap justify-end gap-2">
+							<Button variant="secondary" onclick={addCustomRange} disabled={props.readOnly || loadingFromServer}>
+								Anadir rango
+							</Button>
+						</div>
+						{#if customRanges.length === 0}
+							<p class="text-sm text-[color:var(--muted-foreground)]">No hay rangos definidos.</p>
+						{:else}
+							{#each customRanges as range}
+								<article class="rounded-md border border-[color:var(--border)] bg-white p-3">
+									<div class="mb-3 flex justify-between gap-2">
+										<div class="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
+											<label class="text-sm">
+												<span class="mb-1 block">V_ini</span>
+												<input
+													type="number"
+													class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+													disabled={props.readOnly || loadingFromServer}
+													value={range.v_ini}
+													oninput={(event) =>
+														updateCustomRange(range.temp_id, { v_ini: Number(event.currentTarget.value) })}
+												/>
+											</label>
+											<label class="text-sm">
+												<span class="mb-1 block">V_fin</span>
+												<input
+													type="number"
+													class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+													disabled={props.readOnly || loadingFromServer}
+													value={range.v_fin}
+													oninput={(event) =>
+														updateCustomRange(range.temp_id, { v_fin: Number(event.currentTarget.value) })}
+												/>
+											</label>
+										</div>
+										<Button
+											variant="danger"
+											onclick={() => removeCustomRange(range.temp_id)}
+											disabled={props.readOnly || loadingFromServer}
+										>
+											Eliminar
+										</Button>
+									</div>
 
-							<div class="grid gap-3 md:grid-cols-2">
-								<label class="block text-sm">
-									<span class="mb-1 block">Autores</span>
-									<AuthorSelector
-										authors={authorOptions}
-										selectedIds={range.autor_ids}
-										onChange={(ids) => setCustomRangeAuthors(range.temp_id, ids)}
-										placeholder="Escribe y selecciona autores"
-										disabled={props.readOnly}
-									/>
-								</label>
-							</div>
-						</article>
-					{/each}
+									<div class="grid gap-3 md:grid-cols-2">
+										<div class="block text-sm">
+											<span class="mb-1 block">Autores</span>
+											<AuthorSelector
+												authors={authorOptions}
+												selectedIds={range.autor_ids}
+												onChange={(ids) => setCustomRangeAuthors(range.temp_id, ids)}
+												placeholder="Escribe y selecciona autores"
+												disabled={props.readOnly || loadingFromServer}
+											/>
+										</div>
+									</div>
+								</article>
+							{/each}
+						{/if}
+					</div>
 				{/if}
 			</div>
 		{/if}
-	</div>
+	{/if}
 </section>
+
+{#if showModeChangeModal && pendingMode}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
+		<div class="w-full max-w-lg rounded-lg border border-[color:var(--border)] bg-white p-4 shadow-lg">
+			<h3 class="text-lg font-semibold">Confirmar cambio de opcion</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+				Cambiar de opcion borrara la asignacion actual de autores/rangos en el formulario.
+			</p>
+			<p class="mt-2 text-sm">
+				Nueva opcion: <strong>{modeLabel(pendingMode)}</strong>
+			</p>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="secondary" onclick={cancelModeChange}>Cancelar</Button>
+				<Button variant="danger" onclick={confirmModeChange}>Confirmar cambio</Button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if showReassignModal}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
+		<div class="w-full max-w-lg rounded-lg border border-[color:var(--border)] bg-white p-4 shadow-lg">
+			<h3 class="text-lg font-semibold">Reasignar autoria</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{blockingTitle(blockingReason)}</p>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">{blockingText(blockingReason)}</p>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+				Se limpiara el borrador local y se abrira <strong>{modeLabel(defaultReassignMode)}</strong> para volver a asignar.
+			</p>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="secondary" onclick={cancelReassign}>Ahora no</Button>
+				<Button variant="danger" onclick={confirmReassign}>Reasignar</Button>
+			</div>
+		</div>
+	</div>
+{/if}

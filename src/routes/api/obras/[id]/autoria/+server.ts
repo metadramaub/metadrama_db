@@ -1,9 +1,10 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getObraContext } from '$lib/server/auth';
+import { canUseCustomAutoriaRanges, getObraContext } from '$lib/server/auth';
 import { conflictResponse, validationErrorResponse } from '$lib/server/http';
 import { autoriaInputSchema, type AutoriaInputParsed } from '$lib/utils/validators';
 import type { Database, Tables } from '$lib/types/database.types';
+import type { AutoriaBlockingReason, AutoriaIntegrity } from '$lib/types/obra.types';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 type RangeDraft = {
@@ -13,6 +14,15 @@ type RangeDraft = {
 };
 
 type AutoriaMode = AutoriaInputParsed['mode'];
+type RangeBounds = Pick<Tables<'rangos'>, 'v_ini' | 'v_fin'>;
+type JornadaBounds = Pick<Tables<'jornadas'>, 'v_ini' | 'v_fin'>;
+
+type BlockingState = {
+	canUseCustomRanges: boolean;
+	requiresReassign: boolean;
+	blockingReason: AutoriaBlockingReason;
+	defaultReassignMode: 'obra_completa';
+};
 
 function sortByRange<T extends { v_ini: number; v_fin: number }>(items: T[]): T[] {
 	return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
@@ -28,8 +38,137 @@ function hasOverlap(ranges: Array<Pick<RangeDraft, 'v_ini' | 'v_fin'>>): boolean
 	return false;
 }
 
+function matchesJornadasExactly(
+	rangos: RangeBounds[],
+	jornadas: JornadaBounds[]
+): boolean {
+	if (jornadas.length === 0 || rangos.length !== jornadas.length) {
+		return false;
+	}
+	const signatures = new Set(rangos.map((range) => `${range.v_ini}:${range.v_fin}`));
+	return jornadas.every((jornada) => signatures.has(`${jornada.v_ini}:${jornada.v_fin}`));
+}
+
+function hasCoverageGap(rangos: RangeBounds[], totalVersos: number | null): boolean {
+	if (rangos.length === 0 || !totalVersos || totalVersos < 1) {
+		return false;
+	}
+	const sorted = sortByRange(rangos);
+	if (sorted[0].v_ini > 1) {
+		return true;
+	}
+	for (let i = 1; i < sorted.length; i += 1) {
+		if (sorted[i].v_ini > sorted[i - 1].v_fin + 1) {
+			return true;
+		}
+	}
+	if (sorted[sorted.length - 1].v_fin < totalVersos) {
+		return true;
+	}
+	if (sorted[sorted.length - 1].v_fin > totalVersos) {
+		return true;
+	}
+	return false;
+}
+
+function isLikelyPerJornadaDistribution(
+	rangos: RangeBounds[],
+	jornadas: JornadaBounds[]
+): boolean {
+	if (jornadas.length < 2 || rangos.length !== jornadas.length || rangos.length <= 1) {
+		return false;
+	}
+	const sorted = sortByRange(rangos);
+	if (hasOverlap(sorted)) {
+		return false;
+	}
+	for (let i = 1; i < sorted.length; i += 1) {
+		if (sorted[i].v_ini !== sorted[i - 1].v_fin + 1) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function inferAutoriaIntegrity(
+	rangos: RangeBounds[],
+	jornadas: JornadaBounds[],
+	effectiveTotalVersos: number | null
+): AutoriaIntegrity {
+	const sorted = sortByRange(rangos);
+	const matchesJornadas = matchesJornadasExactly(sorted, jornadas);
+	const hasSingleRange = sorted.length === 1 && sorted[0].v_ini === 1;
+	const isSingleFullRange = Boolean(
+		hasSingleRange &&
+			(effectiveTotalVersos === null || sorted[0].v_fin === effectiveTotalVersos)
+	);
+	const details: string[] = [];
+
+	if (sorted.length === 0) {
+		return {
+			effective_total_versos: effectiveTotalVersos,
+			status: 'aligned',
+			details,
+			matches_jornadas_exactly: matchesJornadas,
+			is_single_full_range: false,
+			requires_reassign: false
+		};
+	}
+
+	if (hasOverlap(sorted)) {
+		details.push('Los rangos de autoria se solapan.');
+		return {
+			effective_total_versos: effectiveTotalVersos,
+			status: 'coverage_overlap',
+			details,
+			matches_jornadas_exactly: matchesJornadas,
+			is_single_full_range: isSingleFullRange,
+			requires_reassign: true
+		};
+	}
+
+	if (hasCoverageGap(sorted, effectiveTotalVersos)) {
+		if (effectiveTotalVersos) {
+			details.push(
+				`La estructura actual llega hasta vv. ${effectiveTotalVersos}, pero la autoria no cubre ese total de forma continua.`
+			);
+		} else {
+			details.push('La autoria tiene huecos o limites incoherentes.');
+		}
+		return {
+			effective_total_versos: effectiveTotalVersos,
+			status: 'coverage_gap',
+			details,
+			matches_jornadas_exactly: matchesJornadas,
+			is_single_full_range: isSingleFullRange,
+			requires_reassign: true
+		};
+	}
+
+	if (isLikelyPerJornadaDistribution(sorted, jornadas) && !matchesJornadas) {
+		details.push('La autoria parece distribuida por jornadas, pero no coincide con los versos actuales de jornadas.');
+		return {
+			effective_total_versos: effectiveTotalVersos,
+			status: 'jornadas_mismatch',
+			details,
+			matches_jornadas_exactly: matchesJornadas,
+			is_single_full_range: isSingleFullRange,
+			requires_reassign: true
+		};
+	}
+
+	return {
+		effective_total_versos: effectiveTotalVersos,
+		status: 'aligned',
+		details,
+		matches_jornadas_exactly: matchesJornadas,
+		is_single_full_range: isSingleFullRange,
+		requires_reassign: false
+	};
+}
+
 function inferAutoriaMode(
-	rangos: Tables<'rangos'>[],
+	rangos: Array<Pick<Tables<'rangos'>, 'v_ini' | 'v_fin'>>,
 	jornadas: Array<Pick<Tables<'jornadas'>, 'v_ini' | 'v_fin'>>,
 	totalVersos: number | null
 ): AutoriaMode {
@@ -45,11 +184,8 @@ function inferAutoriaMode(
 		return 'obra_completa';
 	}
 
-	if (jornadas.length > 0 && rangos.length === jornadas.length) {
-		const signatures = new Set(rangos.map((range) => `${range.v_ini}:${range.v_fin}`));
-		if (jornadas.every((jornada) => signatures.has(`${jornada.v_ini}:${jornada.v_fin}`))) {
-			return 'por_jornadas';
-		}
+	if (matchesJornadasExactly(rangos, jornadas)) {
+		return 'por_jornadas';
 	}
 
 	return 'rango_personalizado';
@@ -60,10 +196,6 @@ async function resolveTotalVersos(
 	obraId: string,
 	declaredTotal: number | null
 ): Promise<number | null> {
-	if (declaredTotal && declaredTotal > 0) {
-		return declaredTotal;
-	}
-
 	const [jornadasResp, secuenciasResp] = await Promise.all([
 		supabase
 			.from('jornadas')
@@ -81,7 +213,7 @@ async function resolveTotalVersos(
 
 	const fromJornadas = jornadasResp.data?.[0]?.v_fin ?? null;
 	const fromSecuencias = secuenciasResp.data?.[0]?.v_fin ?? null;
-	const resolved = Math.max(fromJornadas ?? 0, fromSecuencias ?? 0);
+	const resolved = Math.max(declaredTotal ?? 0, fromJornadas ?? 0, fromSecuencias ?? 0);
 	return resolved > 0 ? resolved : null;
 }
 
@@ -147,8 +279,9 @@ function normalizeDraftsFromPayload(
 async function loadAutoriaData(
 	supabase: SupabaseClient<Database>,
 	obraId: string,
-	totalVersos: number | null
+	declaredTotalVersos: number | null
 ) {
+	const effectiveTotalVersos = await resolveTotalVersos(supabase, obraId, declaredTotalVersos);
 	const [rangosResp, jornadasResp, autoresResp] = await Promise.all([
 		supabase.from('rangos').select('*').eq('obra_id', obraId).order('v_ini'),
 		supabase.from('jornadas').select('jornada_id,jornada_num,v_ini,v_fin').eq('obra_id', obraId).order('jornada_num'),
@@ -175,27 +308,56 @@ async function loadAutoriaData(
 		rangosAutores,
 		autores,
 		jornadas,
-		mode: inferAutoriaMode(rangos, jornadas, totalVersos)
+		mode: inferAutoriaMode(rangos, jornadas, effectiveTotalVersos),
+		integrity: inferAutoriaIntegrity(rangos, jornadas, effectiveTotalVersos)
+	};
+}
+
+function resolveBlockingState(
+	roleTerm: string,
+	mode: AutoriaMode,
+	integrity: AutoriaIntegrity
+): BlockingState {
+	const canUseCustomRanges = canUseCustomAutoriaRanges(roleTerm);
+	const customModeRestricted = mode === 'rango_personalizado' && !canUseCustomRanges;
+	const requiresReassign = integrity.requires_reassign || customModeRestricted;
+	const blockingReason: AutoriaBlockingReason = customModeRestricted
+		? 'custom_mode_restricted'
+		: integrity.requires_reassign
+			? 'structure_changed'
+			: null;
+
+	return {
+		canUseCustomRanges,
+		requiresReassign,
+		blockingReason,
+		defaultReassignMode: 'obra_completa'
 	};
 }
 
 export const GET: RequestHandler = async ({ locals, params }) => {
-	const { obra } = await getObraContext({ locals }, params.id, { requireEdit: false });
+	const { obra, profile } = await getObraContext({ locals }, params.id, { requireEdit: false });
 	const data = await loadAutoriaData(locals.supabase, obra.obra_id, obra.total_versos);
+	const blocking = resolveBlockingState(profile.roleTerm, data.mode, data.integrity);
 
 	return json({
+		loaded_at: new Date().toISOString(),
 		obra: {
 			obra_id: obra.obra_id,
 			total_versos: obra.total_versos,
 			autoria: obra.autoria,
 			url_informe_autoria: obra.url_informe_autoria
 		},
+		can_use_custom_ranges: blocking.canUseCustomRanges,
+		requires_reassign: blocking.requiresReassign,
+		blocking_reason: blocking.blockingReason,
+		default_reassign_mode: blocking.defaultReassignMode,
 		...data
 	});
 };
 
 export const PUT: RequestHandler = async ({ locals, params, request }) => {
-	const { obra } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { obra, profile } = await getObraContext({ locals }, params.id, { requireEdit: true });
 
 	const body = await request.json().catch(() => ({}));
 	const parsed = autoriaInputSchema.safeParse(body);
@@ -212,6 +374,81 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 	const jornadas = (jornadasResp.data ?? []) as Pick<Tables<'jornadas'>, 'jornada_id' | 'v_ini' | 'v_fin'>[];
 
 	const totalVersos = await resolveTotalVersos(locals.supabase, obra.obra_id, obra.total_versos);
+	const existingResp = await locals.supabase
+		.from('rangos')
+		.select('rango_id,v_ini,v_fin')
+		.eq('obra_id', obra.obra_id)
+		.order('v_ini');
+	const existingRanges = (existingResp.data ?? []) as Pick<
+		Tables<'rangos'>,
+		'rango_id' | 'v_ini' | 'v_fin'
+	>[];
+	const currentMode = inferAutoriaMode(existingRanges, jornadas, totalVersos);
+	const currentIntegrity = inferAutoriaIntegrity(existingRanges, jornadas, totalVersos);
+	const currentBlocking = resolveBlockingState(profile.roleTerm, currentMode, currentIntegrity);
+
+	if (payload.mode === 'rango_personalizado' && !currentBlocking.canUseCustomRanges) {
+		return json(
+			{
+				error: 'forbidden',
+				message: 'Tu rol no puede guardar autoria en rangos personalizados.'
+			},
+			{ status: 403 }
+		);
+	}
+
+	if (currentBlocking.requiresReassign && payload.confirm_reassign !== true) {
+		return json(
+			{
+				error: 'conflict',
+				message:
+					currentBlocking.blockingReason === 'custom_mode_restricted'
+						? 'Tu rol no puede editar la autoria actual en rangos personalizados. Reasigna autoria antes de guardar.'
+						: 'La autoria actual no coincide con la estructura. Reasigna autoria antes de guardar.',
+				integrity: currentIntegrity,
+				blocking_reason: currentBlocking.blockingReason,
+				requires_reassign: true,
+				details: [
+					{
+						path: 'confirm_reassign',
+						message: 'Debes confirmar la reasignacion de autoria para aplicar cambios.'
+					}
+				]
+			},
+			{ status: 409 }
+		);
+	}
+
+	const modeChanged = payload.mode !== currentMode;
+	if (modeChanged && payload.confirm_mode_change !== true) {
+		return json(
+			{
+				error: 'conflict',
+				message: 'Debes confirmar el cambio de modo antes de guardar.',
+				current_mode: currentMode,
+				details: [{ path: 'confirm_mode_change', message: 'Falta confirmacion para cambio de modo.' }]
+			},
+			{ status: 409 }
+		);
+	}
+
+	if (currentMode !== 'obra_completa' && payload.mode === 'obra_completa' && payload.confirm_mode_change !== true) {
+		return json(
+			{
+				error: 'conflict',
+				message: 'Guardar en obra completa reemplaza los rangos actuales. Confirma primero la conversion.',
+				current_mode: currentMode,
+				details: [
+					{
+						path: 'confirm_mode_change',
+						message: 'Se requiere confirmacion explicita para convertir a obra completa.'
+					}
+				]
+			},
+			{ status: 409 }
+		);
+	}
+
 	const normalized = normalizeDraftsFromPayload(payload, jornadas, totalVersos);
 	if (normalized.validationMessage) {
 		return json(
@@ -256,8 +493,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 
-	const existingResp = await locals.supabase.from('rangos').select('rango_id').eq('obra_id', obra.obra_id);
-	const existingIds = (existingResp.data ?? []).map((row) => row.rango_id);
+	const existingIds = existingRanges.map((row) => row.rango_id);
 	if (existingIds.length > 0) {
 		const { error: unlinkError } = await locals.supabase
 			.from('rangos_autores')
@@ -336,8 +572,14 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const data = await loadAutoriaData(locals.supabase, obra.obra_id, obraUpdated.total_versos);
+	const blocking = resolveBlockingState(profile.roleTerm, data.mode, data.integrity);
 	return json({
+		loaded_at: new Date().toISOString(),
 		obra: obraUpdated,
+		can_use_custom_ranges: blocking.canUseCustomRanges,
+		requires_reassign: blocking.requiresReassign,
+		blocking_reason: blocking.blockingReason,
+		default_reassign_mode: blocking.defaultReassignMode,
 		...data
 	});
 };

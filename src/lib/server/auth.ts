@@ -68,6 +68,10 @@ function isAdminOrIp(roleTerm: string): boolean {
 	return roleTerm === 'admin' || roleTerm === 'ip';
 }
 
+export function canUseCustomAutoriaRanges(roleTerm: string): boolean {
+	return roleTerm === 'admin';
+}
+
 export function buildObraCapabilities(
 	profile: EditorProfile,
 	obra: Pick<Tables<'obras'>, 'editor_asignado'>,
