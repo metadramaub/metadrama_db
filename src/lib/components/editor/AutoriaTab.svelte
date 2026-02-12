@@ -596,7 +596,7 @@
 				</div>
 			{:else}
 				<label class="block text-sm">
-					<span class="mb-1 block">Autoría: Define cómo se distribuye la autoría en la obra</span>
+					<span class="mb-1 block">Selecciona cómo se distribuye la autoría en la obra</span>
 					<select
 						class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 						disabled={props.readOnly || loadingFromServer}

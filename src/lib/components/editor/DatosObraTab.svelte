@@ -155,7 +155,7 @@
 		</div>
 
 		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Fuente bibliográfica</span>
+			<span class="mb-1 block">Fuente bibliográfica para la fecha</span>
 			<textarea
 				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 				rows={3}

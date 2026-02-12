@@ -24,6 +24,7 @@ export interface ObraAccessFlags {
 	canChangeState: boolean;
 	canManageReviewers: boolean;
 	canToggleVisibility: boolean;
+	canDeleteObra: boolean;
 }
 
 export interface ObraDatosPatch {

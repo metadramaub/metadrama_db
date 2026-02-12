@@ -120,9 +120,6 @@
 		<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 			<div>
 				<h2 class="text-xl font-semibold">Análisis y bibliografía</h2>
-				<p class="text-sm text-[color:var(--muted-foreground)]">
-					Editor markdown con guardado conjunto para ambos bloques.
-				</p>
 			</div>
 			<Button onclick={save} disabled={savingNow || props.readOnly}>
 				{savingNow ? 'Guardando...' : 'Guardar sección'}
