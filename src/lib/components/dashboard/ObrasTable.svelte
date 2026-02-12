@@ -17,6 +17,39 @@
 
 	const props = $props<{ obras: ObraRow[] }>();
 	const dispatch = createEventDispatcher<{ open: string }>();
+	type SortField = 'titulo' | 'updated_at';
+	type SortDirection = 'asc' | 'desc';
+	let sortField = $state<SortField>('updated_at');
+	let sortDirection = $state<SortDirection>('desc');
+
+	const sortedObras = $derived.by(() => {
+		const rows = [...props.obras];
+		rows.sort((a, b) => {
+			if (sortField === 'titulo') {
+				const comparison = a.titulo.localeCompare(b.titulo, 'es', { sensitivity: 'base' });
+				return sortDirection === 'asc' ? comparison : -comparison;
+			}
+			const aTs = a.updated_at ? Date.parse(a.updated_at) : 0;
+			const bTs = b.updated_at ? Date.parse(b.updated_at) : 0;
+			const comparison = aTs - bTs;
+			return sortDirection === 'asc' ? comparison : -comparison;
+		});
+		return rows;
+	});
+
+	function toggleSort(field: SortField) {
+		if (sortField === field) {
+			sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+			return;
+		}
+		sortField = field;
+		sortDirection = field === 'titulo' ? 'asc' : 'desc';
+	}
+
+	function sortIndicator(field: SortField): string {
+		if (sortField !== field) return '';
+		return sortDirection === 'asc' ? ' ↑' : ' ↓';
+	}
 
 	function actionLabel(obra: ObraRow) {
 		if (obra.canEditContent) return 'Editar';
@@ -35,22 +68,30 @@
 	<table class="min-w-full text-left text-sm">
 		<thead class="bg-[color:var(--muted)]">
 			<tr>
-				<th class="px-3 py-2">Título</th>
+				<th class="px-3 py-2">
+					<button class="underline-offset-2 hover:underline" onclick={() => toggleSort('titulo')}>
+						Título{sortIndicator('titulo')}
+					</button>
+				</th>
 				<th class="px-3 py-2">Estado</th>
 				<th class="px-3 py-2">Editor</th>
-				<th class="px-3 py-2">Última modificación</th>
+				<th class="px-3 py-2">
+					<button class="underline-offset-2 hover:underline" onclick={() => toggleSort('updated_at')}>
+						Última modificación{sortIndicator('updated_at')}
+					</button>
+				</th>
 				<th class="px-3 py-2">Acciones</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#if props.obras.length === 0}
+			{#if sortedObras.length === 0}
 				<tr>
 					<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={5}>
 						No hay obras para mostrar.
 					</td>
 				</tr>
 			{:else}
-				{#each props.obras as obra}
+				{#each sortedObras as obra}
 					<tr class="border-t border-[color:var(--border)]">
 						<td class="px-3 py-2">{obra.titulo}</td>
 						<td class="px-3 py-2">

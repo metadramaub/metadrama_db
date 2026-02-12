@@ -16,7 +16,6 @@ insert into public.vocabularios (
 values
 	-- role_editor
 	('df0b4c28-7c01-4229-95f6-3f592335d7fa', 'role_editor', 'editor', null, 1, null, 10, true, now(), now()),
-	('f3f31ea5-5329-4ca1-b5ff-32f7355d80be', 'role_editor', 'revisor', null, 1, null, 20, true, now(), now()),
 	('a1d0369c-1dd0-48d9-aec2-8a4a6f4bf37d', 'role_editor', 'admin', null, 1, null, 30, true, now(), now()),
 	('74574b9e-6a26-46e3-8eb7-938dd6f083f6', 'role_editor', 'IP', null, 1, null, 40, true, now(), now()),
 

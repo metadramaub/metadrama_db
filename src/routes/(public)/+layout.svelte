@@ -139,8 +139,8 @@
 		<div class="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 md:grid-cols-[1.5fr_1fr_1fr_1fr] md:px-6">
 			<div>
 				<img src="/Logo.svg" alt="MetaDrama" class="h-12 w-auto" />
-				<p class="mt-3 max-w-sm text-sm text-[color:var(--muted-foreground)]">
-					Proyecto académico para el análisis métrico del teatro áureo.
+				<p class="font-display mt-3 max-w-sm text-sm text-[color:var(--muted-foreground)]">
+					CATÁLOGO MÉTRICO DEL TEATRO ÁUREO
 				</p>
 			</div>
 

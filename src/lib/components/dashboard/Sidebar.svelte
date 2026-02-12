@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowLeft, BookOpenText, DoorOpen, Home, LibraryBig } from 'lucide-svelte';
+	import { ArrowLeft, Bell, BookOpenText, DoorOpen, Home, LibraryBig } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import Button from '$lib/components/ui/button.svelte';
@@ -8,6 +8,7 @@
 	const props = $props<{
 		profile: EditorProfile;
 		misObrasCount?: number;
+		notificationsUnreadCount?: number;
 	}>();
 
 	let loggingOut = $state(false);
@@ -50,6 +51,18 @@
 				class="ml-auto border border-[color:var(--primary)] bg-[color:var(--primary)] px-2 py-0.5 text-xs text-[color:var(--primary-foreground)]"
 			>
 				{props.misObrasCount ?? 0}
+			</span>
+		</a>
+		<a
+			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"
+			href="/dashboard/notificaciones"
+		>
+			<Bell size={16} />
+			Actividad reciente
+			<span
+				class="ml-auto border border-[color:var(--primary)] bg-[color:var(--primary)] px-2 py-0.5 text-xs text-[color:var(--primary-foreground)]"
+			>
+				{props.notificationsUnreadCount ?? 0}
 			</span>
 		</a>
 		<a

@@ -1,4 +1,5 @@
 <script lang="ts">
+import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -62,11 +63,16 @@
 	let reviewersSaving = $state(false);
 	let assignedReviewers = $state<AssignedReviewer[]>([]);
 	let reviewerCandidates = $state<ReviewerCandidate[]>([]);
+	let deletingObra = $state(false);
+	let deleteConfirmText = $state('');
+	let showDeleteModal = $state(false);
 
 	const canToggleVisible = $derived(Boolean(props.capabilities.canToggleVisibility));
 	const canManageAssignments = $derived(Boolean(props.capabilities.canManageReviewers));
 	const canComment = $derived(Boolean(props.capabilities.canComment));
 	const canChangeState = $derived(Boolean(props.capabilities.canChangeState));
+	const canDeleteObra = $derived(Boolean(props.capabilities.canDeleteObra));
+	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
 	const visibleComments = $derived(showAllComments ? comments : comments.slice(0, 5));
 
 	const estadoTermById = $derived(
@@ -302,6 +308,43 @@
 		pushToast('success', 'Asignación de revisores actualizada');
 	}
 
+	async function onDeleteObra() {
+		if (!canDeleteObra || deletingObra || !deleteConfirmed) return;
+		deletingObra = true;
+		const response = await fetch(`/api/obras/${props.obraId}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
+		});
+		deletingObra = false;
+
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo eliminar la obra.');
+			return;
+		}
+
+		showDeleteModal = false;
+		deleteConfirmText = '';
+		if (typeof window !== 'undefined') {
+			window.dispatchEvent(new CustomEvent('dashboard-obras-updated'));
+		}
+		pushToast('success', 'Obra eliminada correctamente.');
+		await goto('/dashboard/obras?scope=all', { invalidateAll: true });
+	}
+
+	function onOpenDeleteModal() {
+		if (!canDeleteObra || deletingObra) return;
+		deleteConfirmText = '';
+		showDeleteModal = true;
+	}
+
+	function onCloseDeleteModal() {
+		if (deletingObra) return;
+		showDeleteModal = false;
+		deleteConfirmText = '';
+	}
+
 	onMount(() => {
 		void loadComments();
 		void loadReviewers();
@@ -501,5 +544,52 @@
 				</div>
 			</div>
 		{/if}
+
+		{#if canDeleteObra}
+			<div class="mt-4 border border-[color:var(--danger)] bg-white p-3">
+				<div class="mb-2 text-sm font-semibold text-[color:var(--danger)]">Zona de peligro</div>
+				<p class="text-sm text-[color:var(--muted-foreground)]">
+					Esta accion elimina la obra y sus datos relacionados de forma irreversible.
+				</p>
+				<div class="mt-3 flex justify-end">
+					<Button
+						variant="danger"
+						onclick={onOpenDeleteModal}
+						disabled={deletingObra}
+					>
+						Eliminar obra
+					</Button>
+				</div>
+			</div>
+		{/if}
 	</div>
 </section>
+
+{#if showDeleteModal}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-md p-5">
+			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminacion</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+				Esta accion es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
+			</p>
+			<label class="mt-3 block text-sm">
+				<span class="mb-1 block">Confirmacion</span>
+				<input
+					type="text"
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					bind:value={deleteConfirmText}
+					autocomplete="off"
+					spellcheck={false}
+				/>
+			</label>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="ghost" onclick={onCloseDeleteModal} disabled={deletingObra}>
+					Cancelar
+				</Button>
+				<Button variant="danger" onclick={onDeleteObra} disabled={deletingObra || !deleteConfirmed}>
+					{deletingObra ? 'Eliminando...' : 'Eliminar'}
+				</Button>
+			</div>
+		</div>
+	</div>
+{/if}

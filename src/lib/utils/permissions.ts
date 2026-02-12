@@ -1,4 +1,4 @@
-export type EditorRole = 'editor' | 'revisor' | 'admin' | 'ip' | string;
+export type EditorRole = 'editor' | 'admin' | 'ip' | string;
 
 const workflowEditor = new Set(['borrador:pendiente', 'pendiente:borrador']);
 const workflowRevisor = new Set([
@@ -17,14 +17,17 @@ export function normalizeRole(rawRole: string | null | undefined): EditorRole {
 	if (normalized === 'ip') {
 		return 'ip';
 	}
-	if (normalized === 'editor' || normalized === 'revisor' || normalized === 'admin') {
+	if (normalized === 'revisor') {
+		return 'editor';
+	}
+	if (normalized === 'editor' || normalized === 'admin') {
 		return normalized;
 	}
 	return normalized;
 }
 
 export function canReadAllObras(role: EditorRole): boolean {
-	return role === 'admin' || role === 'ip' || role === 'revisor';
+	return role === 'admin' || role === 'ip';
 }
 
 export function canEditAssignedContent(role: EditorRole): boolean {
@@ -32,6 +35,10 @@ export function canEditAssignedContent(role: EditorRole): boolean {
 }
 
 export function canToggleVisibility(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
+export function canDeleteObras(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }
 
@@ -47,9 +54,6 @@ export function canTransitionState(role: EditorRole, from: string, to: string): 
 	}
 	if (role === 'editor') {
 		return workflowEditor.has(key);
-	}
-	if (role === 'revisor') {
-		return workflowRevisor.has(key);
 	}
 	return false;
 }

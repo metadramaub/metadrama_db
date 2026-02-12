@@ -2,6 +2,7 @@ import { error, type RequestEvent } from '@sveltejs/kit';
 import type { Tables } from '$lib/types/database.types';
 import {
 	canEditByState,
+	canDeleteObras,
 	canManageReviewAssignments,
 	canToggleVisibility,
 	normalizeRole
@@ -17,6 +18,7 @@ type ObraContextOptions = {
 	requireChangeState?: boolean;
 	requireManageReviewers?: boolean;
 	requireToggleVisibility?: boolean;
+	requireDelete?: boolean;
 	// Backward compatibility for existing handlers while refactoring.
 	requireAssignment?: boolean;
 };
@@ -90,7 +92,8 @@ export function buildObraCapabilities(
 			canReview: true,
 			canChangeState: true,
 			canManageReviewers: canManageReviewAssignments(profile.roleTerm),
-			canToggleVisibility: canToggleVisibility(profile.roleTerm)
+			canToggleVisibility: canToggleVisibility(profile.roleTerm),
+			canDeleteObra: canDeleteObras(profile.roleTerm)
 		};
 	}
 
@@ -104,7 +107,8 @@ export function buildObraCapabilities(
 			canReview: true,
 			canChangeState: canEditInCurrentState,
 			canManageReviewers: false,
-			canToggleVisibility: false
+			canToggleVisibility: false,
+			canDeleteObra: false
 		};
 	}
 
@@ -117,7 +121,8 @@ export function buildObraCapabilities(
 			canReview: true,
 			canChangeState: false,
 			canManageReviewers: false,
-			canToggleVisibility: false
+			canToggleVisibility: false,
+			canDeleteObra: false
 		};
 	}
 
@@ -129,7 +134,8 @@ export function buildObraCapabilities(
 		canReview: false,
 		canChangeState: false,
 		canManageReviewers: false,
-		canToggleVisibility: false
+		canToggleVisibility: false,
+		canDeleteObra: false
 	};
 }
 
@@ -166,6 +172,12 @@ function assertCanManageReviewers(capabilities: ObraAccessFlags) {
 function assertCanToggleVisibility(capabilities: ObraAccessFlags) {
 	if (!capabilities.canToggleVisibility) {
 		throw error(403, 'No tienes permisos para cambiar la visibilidad');
+	}
+}
+
+function assertCanDelete(capabilities: ObraAccessFlags) {
+	if (!capabilities.canDeleteObra) {
+		throw error(403, 'No tienes permisos para eliminar esta obra');
 	}
 }
 
@@ -206,6 +218,9 @@ export async function getObraContext(
 	}
 	if (options.requireToggleVisibility) {
 		assertCanToggleVisibility(capabilities);
+	}
+	if (options.requireDelete) {
+		assertCanDelete(capabilities);
 	}
 
 	return {

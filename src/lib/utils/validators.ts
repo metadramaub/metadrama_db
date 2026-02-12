@@ -206,6 +206,13 @@ export const obraCreateSchema = z.object({
 	genero_id: z.string().uuid().optional().nullable().default(null)
 });
 
+export const obraDeleteSchema = z.object({
+	confirmText: z
+		.string()
+		.trim()
+		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
+});
+
 export const obraReviewersInputSchema = z.object({
 	reviewer_ids: z
 		.array(z.string().uuid())
@@ -254,6 +261,7 @@ export type AutoriaInputParsed = z.infer<typeof autoriaInputSchema>;
 export type AnalisisInputParsed = z.infer<typeof analisisInputSchema>;
 export type VisibilidadInputParsed = z.infer<typeof visibilidadInputSchema>;
 export type ObraCreateParsed = z.infer<typeof obraCreateSchema>;
+export type ObraDeleteParsed = z.infer<typeof obraDeleteSchema>;
 export type ObraReviewersInputParsed = z.infer<typeof obraReviewersInputSchema>;
 export type VocabularioCreateParsed = z.infer<typeof vocabularioCreateSchema>;
 export type VocabularioPatchParsed = z.infer<typeof vocabularioPatchSchema>;

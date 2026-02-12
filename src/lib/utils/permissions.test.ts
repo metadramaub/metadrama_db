@@ -5,6 +5,7 @@ import {
 	canReadAllObras,
 	canEditByState,
 	canToggleVisibility,
+	canDeleteObras,
 	canManageReviewAssignments,
 	canManageVocabularios,
 	isProtectedVocabularyCategory,
@@ -15,12 +16,13 @@ describe('permissions', () => {
 	it('normalizes role names', () => {
 		expect(normalizeRole('IP')).toBe('ip');
 		expect(normalizeRole(' admin ')).toBe('admin');
+		expect(normalizeRole('revisor')).toBe('editor');
 	});
 
 	it('validates read access scope', () => {
 		expect(canReadAllObras('admin')).toBe(true);
 		expect(canReadAllObras('ip')).toBe(true);
-		expect(canReadAllObras('revisor')).toBe(true);
+		expect(canReadAllObras('revisor')).toBe(false);
 		expect(canReadAllObras('editor')).toBe(false);
 	});
 
@@ -28,12 +30,6 @@ describe('permissions', () => {
 		expect(canTransitionState('editor', 'borrador', 'pendiente')).toBe(true);
 		expect(canTransitionState('editor', 'pendiente', 'borrador')).toBe(true);
 		expect(canTransitionState('editor', 'pendiente', 'validado')).toBe(false);
-	});
-
-	it('enforces revisor state transitions', () => {
-		expect(canTransitionState('revisor', 'pendiente', 'en_revision')).toBe(true);
-		expect(canTransitionState('revisor', 'en_revision', 'validado')).toBe(true);
-		expect(canTransitionState('revisor', 'validado', 'publicado')).toBe(false);
 	});
 
 	it('allows admin/ip to transition any state', () => {
@@ -52,6 +48,13 @@ describe('permissions', () => {
 		expect(canToggleVisibility('ip')).toBe(true);
 		expect(canToggleVisibility('editor')).toBe(false);
 		expect(canToggleVisibility('revisor')).toBe(false);
+	});
+
+	it('limits obra deletion to admin/IP', () => {
+		expect(canDeleteObras('admin')).toBe(true);
+		expect(canDeleteObras('ip')).toBe(true);
+		expect(canDeleteObras('editor')).toBe(false);
+		expect(canDeleteObras('revisor')).toBe(false);
 	});
 
 	it('supports reviewer workflow helper for assigned reviewers', () => {

@@ -4,6 +4,7 @@
 	import type { RealtimeChannel } from '@supabase/supabase-js';
 	import { onDestroy, onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import type { Tables } from '$lib/types/database.types';
 	import Tabs from '$lib/components/ui/tabs.svelte';
@@ -26,7 +27,24 @@
 
 	let { data } = $props<{ data: PageData }>();
 
-	let currentTab = $state('datos');
+	const TAB_IDS = ['datos', 'estructura', 'secuencias', 'autoria', 'analisis', 'revision'] as const;
+	type TabId = (typeof TAB_IDS)[number];
+	const validTabs = new Set<string>(TAB_IDS);
+
+	function resolveTab(rawValue: string | null | undefined): TabId {
+		if (!rawValue) return 'datos';
+		const normalized = rawValue.trim().toLowerCase();
+		return validTabs.has(normalized) ? (normalized as TabId) : 'datos';
+	}
+
+	function syncTabInUrl(tab: TabId) {
+		if (!browser) return;
+		const url = new URL(window.location.href);
+		url.searchParams.set('tab', tab);
+		window.history.replaceState(window.history.state, '', url.toString());
+	}
+
+	let currentTab = $state<TabId>(resolveTab(get(page).url.searchParams.get('tab')));
 	const tabs = [
 		{ id: 'datos', label: 'Datos de la obra' },
 		{ id: 'estructura', label: 'Estructura' },
@@ -109,7 +127,9 @@
 			openUnsavedChangesModal({ tabChange: nextTab });
 			return;
 		}
-		currentTab = nextTab;
+		const resolved = resolveTab(nextTab);
+		currentTab = resolved;
+		syncTabInUrl(resolved);
 	}
 
 	function cancelUnsavedChangesModal() {
@@ -130,7 +150,9 @@
 		cancelUnsavedChangesModal();
 
 		if (nextTab) {
-			currentTab = nextTab;
+			const resolved = resolveTab(nextTab);
+			currentTab = resolved;
+			syncTabInUrl(resolved);
 			return;
 		}
 		if (!nextRoute) return;
@@ -288,6 +310,10 @@
 	});
 
 	$effect(() => {
+		currentTab = resolveTab($page.url.searchParams.get('tab'));
+	});
+
+	$effect(() => {
 		jornadasLive = [...data.jornadas];
 		cuadrosLive = [...data.cuadros];
 	});
@@ -303,9 +329,13 @@
 <section>
 	<div class="mb-4">
 		<h1 class="text-3xl font-semibold">{obraLive.titulo}</h1>
-		<p class="text-sm text-[color:var(--muted-foreground)]">
-			Estado actual: {data.estadoTerm}. ID obra: {obraLive.obra_id}
-		</p>
+		<div class="mt-2 flex flex-wrap items-center gap-2 text-sm text-[color:var(--muted-foreground)]">
+			<span>Estado actual:</span>
+			<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">
+				{data.estadoTerm}
+			</span>
+			<span class="text-xs">ID obra: {obraLive.obra_id}</span>
+		</div>
 	</div>
 
 	{#if !canEditContent}
