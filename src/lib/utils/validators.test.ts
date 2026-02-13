@@ -4,10 +4,13 @@ import {
 	jornadaInputSchema,
 	secuenciaInputSchema,
 	comentarioInputSchema,
+	comentarioPatchSchema,
+	comentarioListQuerySchema,
 	autoriaInputSchema,
 	analisisInputSchema,
 	visibilidadInputSchema,
 	obraCreateSchema,
+	obraAssignmentsInputSchema,
 	obraReviewersInputSchema,
 	vocabularioCreateSchema,
 	vocabularioPatchSchema
@@ -69,6 +72,28 @@ describe('validators', () => {
 	it('rejects comments with more than one context reference', () => {
 		const result = comentarioInputSchema.safeParse({
 			comentario: 'Comentario interno',
+			secuencia_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+			jornada_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7'
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it('rejects patching internal comment type estado', () => {
+		const result = comentarioPatchSchema.safeParse({
+			comentario: 'Actualizado',
+			tipo_comentario: 'estado'
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it('applies defaults for comment list query pagination', () => {
+		const parsed = comentarioListQuerySchema.parse({});
+		expect(parsed.limit).toBe(1000);
+		expect(parsed.offset).toBe(0);
+	});
+
+	it('rejects comment list query with more than one context reference', () => {
+		const result = comentarioListQuerySchema.safeParse({
 			secuencia_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			jornada_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7'
 		});
@@ -150,6 +175,40 @@ describe('validators', () => {
 			]
 		});
 		expect(result.reviewer_ids).toHaveLength(1);
+	});
+
+	it('accepts combined editor and reviewers assignments payload', () => {
+		const result = obraAssignmentsInputSchema.parse({
+			editor_asignado: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+			reviewer_ids: [
+				'4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+				'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+				'ef18f734-8cf5-4586-b5ca-0df411a8f4d7'
+			]
+		});
+		expect(result.editor_asignado).toBe('4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7');
+		expect(result.reviewer_ids).toEqual([
+			'4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+			'ef18f734-8cf5-4586-b5ca-0df411a8f4d7'
+		]);
+	});
+
+	it('normalizes blank combined assignments fields', () => {
+		const result = obraAssignmentsInputSchema.parse({
+			editor_asignado: '  ',
+			reviewer_ids: ['', '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7', '  ']
+		});
+		expect(result.editor_asignado).toBeUndefined();
+		expect(result.reviewer_ids).toEqual(['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7']);
+	});
+
+	it('accepts non uuid identifiers in combined assignments payload', () => {
+		const result = obraAssignmentsInputSchema.parse({
+			editor_asignado: 'editor-externo-123',
+			reviewer_ids: ['revisor-01', 'revisor-01']
+		});
+		expect(result.editor_asignado).toBe('editor-externo-123');
+		expect(result.reviewer_ids).toEqual(['revisor-01']);
 	});
 
 	it('validates vocabulario create and patch payloads', () => {

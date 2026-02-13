@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 
 	const props = $props<{
@@ -37,28 +39,36 @@
 	let filtroEstado = $state('');
 	let filtroCerteza = $state('');
 	let deleteTargetId = $state<string | null>(null);
-	let commentTargetId = $state<string | null>(null);
-	let commentType = $state<'general' | 'revision' | 'tecnico'>('general');
-	let commentText = $state('');
-	let commentSaving = $state(false);
+	let showCloseWithoutSavingModal = $state(false);
+
+	let sidebarSaving = $state(false);
+	let sidebarDirty = $state(false);
+	let sidebarBaselineSnapshot = $state('');
+	let autosaveErrorShown = $state(false);
+	let lastSidebarSnapshot = $state('');
+	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
 
 	const defaultEstado = props.estadoRevisionOptions[0]?.termino_id ?? '';
 	const defaultCerteza = props.certezaOptions[0]?.termino_id ?? '';
 	const defaultEstrofa = props.estrofaOptions[0]?.termino_id ?? '';
 
-	let form = $state<FormState>({
-		v_ini: 1,
-		v_fin: 2,
-		estrofa_tipo_id: defaultEstrofa,
-		inaugura_espacio: false,
-		personajes_genero: 'mixto',
-		personajes_donaire: 'ausente',
-		personajes_sobrenatural: 'ausente',
-		estado_revision: defaultEstado,
-		certeza_editor: defaultCerteza,
-		observaciones: '',
-		metro_ids: []
-	});
+	function initialForm(): FormState {
+		return {
+			v_ini: 1,
+			v_fin: 2,
+			estrofa_tipo_id: defaultEstrofa,
+			inaugura_espacio: false,
+			personajes_genero: 'mixto',
+			personajes_donaire: 'ausente',
+			personajes_sobrenatural: 'ausente',
+			estado_revision: defaultEstado,
+			certeza_editor: defaultCerteza,
+			observaciones: '',
+			metro_ids: []
+		};
+	}
+
+	let form = $state<FormState>(initialForm());
 
 	function metrosForSecuencia(secuenciaId: string): string[] {
 		return secuenciaMetros
@@ -79,27 +89,88 @@
 			.sort((a, b) => a.v_ini - b.v_ini);
 	});
 
+	function clearAutosaveTimer() {
+		if (!autosaveTimer) return;
+		clearTimeout(autosaveTimer);
+		autosaveTimer = null;
+	}
+
+	function sidebarSnapshot(): string {
+		return JSON.stringify({
+			sidebarOpen,
+			id: editingId,
+			v_ini: Number(form.v_ini),
+			v_fin: Number(form.v_fin),
+			estrofa_tipo_id: form.estrofa_tipo_id,
+			inaugura_espacio: Boolean(form.inaugura_espacio),
+			personajes_genero: form.personajes_genero,
+			personajes_donaire: form.personajes_donaire,
+			personajes_sobrenatural: form.personajes_sobrenatural,
+			estado_revision: form.estado_revision,
+			certeza_editor: form.certeza_editor,
+			observaciones: form.observaciones.trim(),
+			metro_ids: [...form.metro_ids].sort((a, b) => a.localeCompare(b))
+		});
+	}
+
+	function setSidebarBaselineFromCurrent() {
+		sidebarBaselineSnapshot = sidebarSnapshot();
+		sidebarDirty = false;
+		autosaveErrorShown = false;
+		lastSidebarSnapshot = sidebarBaselineSnapshot;
+	}
+
+	function refreshSidebarDirty() {
+		if (!sidebarOpen) {
+			sidebarDirty = false;
+			return false;
+		}
+		const current = sidebarSnapshot();
+		sidebarDirty = current !== sidebarBaselineSnapshot;
+		return sidebarDirty;
+	}
+
+	function validateForm(showToast = true) {
+		if (!Number.isFinite(Number(form.v_ini)) || !Number.isFinite(Number(form.v_fin)) || Number(form.v_ini) >= Number(form.v_fin)) {
+			if (showToast) pushToast('error', 'Rango de versos invalido');
+			return false;
+		}
+		if (!form.estrofa_tipo_id) {
+			if (showToast) pushToast('error', 'Selecciona estrofa');
+			return false;
+		}
+		if (!form.estado_revision) {
+			if (showToast) pushToast('error', 'Selecciona estado de revision');
+			return false;
+		}
+		if (!form.certeza_editor) {
+			if (showToast) pushToast('error', 'Selecciona certeza');
+			return false;
+		}
+		if (form.metro_ids.length === 0) {
+			if (showToast) pushToast('error', 'Selecciona al menos un metro');
+			return false;
+		}
+		return true;
+	}
+
+	function handleAutosaveError(message: string) {
+		if (autosaveErrorShown) return;
+		autosaveErrorShown = true;
+		pushToast('error', message);
+	}
+
 	function openNew() {
 		if (props.readOnly) return;
 		editingId = null;
-		form = {
-			v_ini: 1,
-			v_fin: 2,
-			estrofa_tipo_id: defaultEstrofa,
-			inaugura_espacio: false,
-			personajes_genero: 'mixto',
-			personajes_donaire: 'ausente',
-			personajes_sobrenatural: 'ausente',
-			estado_revision: defaultEstado,
-			certeza_editor: defaultCerteza,
-			observaciones: '',
-			metro_ids: []
-		};
+		form = initialForm();
 		sidebarOpen = true;
+		showCloseWithoutSavingModal = false;
+		setSidebarBaselineFromCurrent();
 	}
 
 	function openEdit(secuencia: Tables<'secuencias_metricas'>) {
-		if (props.readOnly) return;
+		if (props.readOnly && !props.canComment) return;
 		editingId = secuencia.secuencia_id;
 		form = {
 			v_ini: secuencia.v_ini,
@@ -115,6 +186,8 @@
 			metro_ids: metrosForSecuencia(secuencia.secuencia_id)
 		};
 		sidebarOpen = true;
+		showCloseWithoutSavingModal = false;
+		setSidebarBaselineFromCurrent();
 	}
 
 	function toggleMetro(metroId: string) {
@@ -126,46 +199,104 @@
 		form = { ...form, metro_ids: [...form.metro_ids, metroId] };
 	}
 
-	async function save() {
-		if (props.readOnly) return;
-		const endpoint = editingId
-			? `/api/obras/${props.obraId}/secuencias/${editingId}`
+	function performCloseSidebar() {
+		clearAutosaveTimer();
+		sidebarOpen = false;
+		editingId = null;
+		sidebarDirty = false;
+		sidebarBaselineSnapshot = '';
+		lastSidebarSnapshot = '';
+		autosaveErrorShown = false;
+		showCloseWithoutSavingModal = false;
+	}
+
+	function requestCloseSidebar() {
+		if (props.readOnly) {
+			performCloseSidebar();
+			return;
+		}
+		if (!refreshSidebarDirty()) {
+			performCloseSidebar();
+			return;
+		}
+		showCloseWithoutSavingModal = true;
+	}
+
+	function cancelCloseWithoutSaving() {
+		showCloseWithoutSavingModal = false;
+	}
+
+	function confirmCloseWithoutSaving() {
+		performCloseSidebar();
+	}
+
+	async function save(source: 'manual' | 'autosave' = 'manual') {
+		if (props.readOnly || sidebarSaving || !sidebarOpen) return;
+		const showToast = source === 'manual';
+		if (!validateForm(showToast)) return;
+
+		sidebarSaving = true;
+		const currentId = editingId;
+		const endpoint = currentId
+			? `/api/obras/${props.obraId}/secuencias/${currentId}`
 			: `/api/obras/${props.obraId}/secuencias`;
-		const method = editingId ? 'PATCH' : 'POST';
+		const method = currentId ? 'PATCH' : 'POST';
 
 		const response = await fetch(endpoint, {
 			method,
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(form)
 		});
+		sidebarSaving = false;
+
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar la secuencia');
+			const message = body.message ?? 'No se pudo guardar la secuencia';
+			if (source === 'manual') {
+				pushToast('error', message);
+			} else {
+				handleAutosaveError(message);
+			}
 			return;
 		}
 
 		const payload = await response.json();
-		if (editingId) {
-			secuencias = secuencias.map((item) => (item.secuencia_id === editingId ? payload.secuencia : item));
-			secuenciaMetros = secuenciaMetros.filter((item) => item.secuencia_id !== editingId);
-			secuenciaMetros = [
-				...secuenciaMetros,
-				...payload.metro_ids.map((metroId: string) => ({ secuencia_id: editingId, metro_id: metroId }))
-			];
-			pushToast('success', 'Secuencia actualizada');
+		const savedSecuencia = payload.secuencia as Tables<'secuencias_metricas'>;
+		const savedMetroIds = (payload.metro_ids ?? []) as string[];
+		const savedId = currentId ?? savedSecuencia.secuencia_id;
+
+		if (currentId) {
+			secuencias = secuencias.map((item) => (item.secuencia_id === currentId ? savedSecuencia : item));
 		} else {
-			secuencias = [...secuencias, payload.secuencia].sort((a, b) => a.v_ini - b.v_ini);
-			secuenciaMetros = [
-				...secuenciaMetros,
-				...payload.metro_ids.map((metroId: string) => ({
-					secuencia_id: payload.secuencia.secuencia_id,
-					metro_id: metroId
-				}))
-			];
-			pushToast('success', 'Secuencia creada');
+			secuencias = [...secuencias, savedSecuencia].sort((a, b) => a.v_ini - b.v_ini);
+			editingId = savedId;
 		}
 
-		sidebarOpen = false;
+		secuenciaMetros = secuenciaMetros.filter((item) => item.secuencia_id !== savedId);
+		secuenciaMetros = [
+			...secuenciaMetros,
+			...savedMetroIds.map((metroId: string) => ({ secuencia_id: savedId, metro_id: metroId }))
+		];
+
+		form = {
+			v_ini: savedSecuencia.v_ini,
+			v_fin: savedSecuencia.v_fin,
+			estrofa_tipo_id: savedSecuencia.estrofa_tipo_id ?? defaultEstrofa,
+			inaugura_espacio: Boolean(savedSecuencia.inaugura_espacio),
+			personajes_genero: savedSecuencia.personajes_genero as FormState['personajes_genero'],
+			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
+			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
+			estado_revision: savedSecuencia.estado_revision,
+			certeza_editor: savedSecuencia.certeza_editor,
+			observaciones: savedSecuencia.observaciones ?? '',
+			metro_ids: [...savedMetroIds]
+		};
+
+		setSidebarBaselineFromCurrent();
+		autosaveErrorShown = false;
+		if (source === 'manual') {
+			pushToast('success', currentId ? 'Secuencia actualizada' : 'Secuencia creada');
+		}
 	}
 
 	function openDelete(secuenciaId: string) {
@@ -184,60 +315,62 @@
 		}
 		secuencias = secuencias.filter((row) => row.secuencia_id !== secuenciaId);
 		secuenciaMetros = secuenciaMetros.filter((row) => row.secuencia_id !== secuenciaId);
+		if (editingId === secuenciaId) {
+			performCloseSidebar();
+		}
 		pushToast('success', 'Secuencia eliminada');
 		deleteTargetId = null;
 	}
 
-	function openComment(secuenciaId: string) {
-		if (!props.canComment) return;
-		commentTargetId = secuenciaId;
-		commentType = 'general';
-		commentText = '';
-	}
+	$effect(() => {
+		const open = sidebarOpen;
+		const readOnly = props.readOnly;
+		const saving = sidebarSaving;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.estado_revision}|${form.certeza_editor}|${form.observaciones}|${form.metro_ids.join(',')}|${editingId}`;
+		void track;
 
-	function commentTargetLabel() {
-		if (!commentTargetId) return '';
-		const secuencia = secuencias.find((item) => item.secuencia_id === commentTargetId);
-		if (!secuencia) return 'Secuencia';
-		return `Secuencia vv. ${secuencia.v_ini}-${secuencia.v_fin}`;
-	}
-
-	async function saveComment() {
-		if (!props.canComment) return;
-		if (!commentTargetId || commentSaving) return;
-		if (!commentText.trim()) {
-			pushToast('error', 'Escribe un comentario interno.');
+		if (!open || readOnly) {
+			sidebarDirty = false;
+			clearAutosaveTimer();
 			return;
 		}
-		commentSaving = true;
-		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				comentario: commentText.trim(),
-				tipo_comentario: commentType,
-				secuencia_id: commentTargetId
-			})
-		});
-		commentSaving = false;
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar el comentario.');
+
+		const currentSnapshot = sidebarSnapshot();
+		if (currentSnapshot !== lastSidebarSnapshot) {
+			lastSidebarSnapshot = currentSnapshot;
+			autosaveErrorShown = false;
+		}
+
+		sidebarDirty = currentSnapshot !== sidebarBaselineSnapshot;
+		if (!sidebarDirty) {
+			clearAutosaveTimer();
 			return;
 		}
-		pushToast('success', 'Comentario interno guardado');
-		commentTargetId = null;
-		commentText = '';
-	}
+
+		if (saving) return;
+
+		if (!validateForm(false)) {
+			clearAutosaveTimer();
+			return;
+		}
+
+		clearAutosaveTimer();
+		autosaveTimer = setTimeout(() => {
+			void save('autosave');
+		}, 10_000);
+	});
+
+	onDestroy(() => {
+		clearAutosaveTimer();
+	});
 </script>
 
 <section class="space-y-4">
 	<div class="flex items-end justify-between gap-4">
 		<div>
-			<h2 class="text-xl font-semibold">Secuencias métricas</h2>
+			<h2 class="text-xl font-semibold">Secuencias metricas</h2>
 			<p class="text-sm text-[color:var(--muted-foreground)]">Ordenadas por verso inicial.</p>
 		</div>
-		<Button onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
 	</div>
 
 	<div class="card grid gap-3 p-4 md:grid-cols-3">
@@ -309,14 +442,11 @@
 							<td class="px-3 py-2">{termById(props.estadoRevisionOptions, secuencia.estado_revision)}</td>
 							<td class="px-3 py-2">
 								<div class="flex gap-2">
-									<Button variant="ghost" onclick={() => openEdit(secuencia)} disabled={props.readOnly}
-										>Editar</Button
-									>
 									<Button
 										variant="ghost"
-										onclick={() => openComment(secuencia.secuencia_id)}
-										disabled={!props.canComment}
-										>Comentar</Button
+										onclick={() => openEdit(secuencia)}
+										disabled={props.readOnly && !props.canComment}
+										>{props.readOnly ? 'Ver' : 'Editar'}</Button
 									>
 									<Button variant="danger" onclick={() => openDelete(secuencia.secuencia_id)} disabled={props.readOnly}
 										>Eliminar</Button
@@ -329,15 +459,30 @@
 			</tbody>
 		</table>
 	</div>
+
+	<div class="flex justify-start">
+		<Button variant="secondary" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
+	</div>
 </section>
 
 {#if sidebarOpen}
 	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
-		<div class="mb-4 flex items-center justify-between">
+		<div class="sticky top-0 z-10 mb-4 flex items-center justify-between gap-3 bg-[color:var(--gray-50)] pb-3">
 			<h3 class="text-lg font-semibold">
-				{#if editingId}Editar secuencia{:else}Nueva secuencia{/if}
+				{#if editingId}
+					{props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
+				{:else}
+					Nueva secuencia
+				{/if}
 			</h3>
-			<Button variant="ghost" onclick={() => (sidebarOpen = false)}>Cerrar</Button>
+			<div class="flex items-center gap-2">
+				<Button variant="secondary" onclick={requestCloseSidebar}>Cerrar</Button>
+				{#if !props.readOnly}
+					<Button variant="success" onclick={() => void save('manual')} disabled={sidebarSaving}>
+						{sidebarSaving ? 'Guardando...' : 'Guardar'}
+					</Button>
+				{/if}
+			</div>
 		</div>
 
 		<div class="grid gap-3">
@@ -394,7 +539,7 @@
 
 			<div class="grid gap-3 sm:grid-cols-2">
 				<label class="text-sm">
-					<span class="mb-1 block">Personajes género</span>
+					<span class="mb-1 block">Personajes genero</span>
 					<select
 						bind:value={form.personajes_genero}
 						disabled={props.readOnly}
@@ -430,7 +575,7 @@
 					</select>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Estado revisión</span>
+					<span class="mb-1 block">Estado revision</span>
 					<select
 						bind:value={form.estado_revision}
 						disabled={props.readOnly}
@@ -456,7 +601,7 @@
 			</div>
 
 			<label class="text-sm">
-				<span class="mb-1 block">Observaciones públicas</span>
+				<span class="mb-1 block">Observaciones publicas</span>
 				<textarea
 					rows={3}
 					bind:value={form.observaciones}
@@ -466,10 +611,21 @@
 			</label>
 		</div>
 
-		<div class="mt-4 flex justify-end gap-2">
-			<Button variant="ghost" onclick={() => (sidebarOpen = false)}>Cancelar</Button>
-			<Button onclick={save} disabled={props.readOnly}>Guardar</Button>
-		</div>
+		{#if editingId}
+			<div class="mt-4">
+				{#key editingId}
+					<InternalCommentsPanel
+						obraId={props.obraId}
+						canComment={Boolean(props.canComment)}
+						title="Comentarios internos de secuencia"
+						context={{ secuencia_id: editingId }}
+						collapsible={true}
+						defaultCollapsed={true}
+						collapseLabel="Ver comentarios"
+					/>
+				{/key}
+			</div>
+		{/if}
 	</aside>
 {/if}
 
@@ -477,9 +633,9 @@
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Eliminar secuencia</h3>
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta accion no se puede deshacer.</p>
 			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="ghost" onclick={() => (deleteTargetId = null)}>Cancelar</Button>
+				<Button variant="secondary" onclick={() => (deleteTargetId = null)}>Cancelar</Button>
 				<Button
 					variant="danger"
 					disabled={props.readOnly}
@@ -495,40 +651,15 @@
 	</div>
 {/if}
 
-{#if commentTargetId}
+{#if showCloseWithoutSavingModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-		<div class="card w-full max-w-xl p-5">
-			<h3 class="text-lg font-semibold">Comentario interno</h3>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">{commentTargetLabel()}</p>
-
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Tipo</span>
-				<select
-					bind:value={commentType}
-					disabled={!props.canComment}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				>
-					<option value="general">general</option>
-					<option value="revision">revisión</option>
-					<option value="tecnico">técnico</option>
-				</select>
-			</label>
-
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Comentario</span>
-				<textarea
-					rows={4}
-					bind:value={commentText}
-					disabled={!props.canComment}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				></textarea>
-			</label>
-
+		<div class="card w-full max-w-md p-5">
+			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continuas, perderas los cambios no guardados.</p>
 			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="ghost" onclick={() => (commentTargetId = null)}>Cancelar</Button>
-				<Button onclick={saveComment} disabled={commentSaving || !props.canComment}>
-					{commentSaving ? 'Guardando...' : 'Guardar comentario'}
-				</Button>
+				<Button variant="secondary" onclick={cancelCloseWithoutSaving}>Seguir editando</Button>
+				<Button variant="danger" onclick={confirmCloseWithoutSaving}>Cerrar sin guardar</Button>
 			</div>
 		</div>
 	</div>

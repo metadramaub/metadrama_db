@@ -98,8 +98,13 @@
 
 <section class="space-y-5">
 	<div class="card p-4">
-		<div class="mb-2 text-sm text-[color:var(--muted-foreground)]">
-			Guardado automático cada 10 segundos si hay cambios.
+		<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+			<div>
+				<h2 class="text-xl font-semibold">Datos de la obra</h2>
+			</div>
+			<Button variant="success" onclick={save} disabled={savingNow || props.readOnly}
+				>{savingNow ? 'Guardando...' : 'Guardar'}</Button
+			>
 		</div>
 		<div class="grid gap-4 md:grid-cols-2">
 			<label class="text-sm">
@@ -205,41 +210,35 @@
 				oninput={(event) => mutateField('edicion', event.currentTarget.value)}
 			>{form.edicion}</textarea>
 		</label>
-	</div>
 
-	<div class="card p-4">
-		<div class="mb-3 flex items-center justify-between">
-			<h3 class="text-lg font-semibold">Variantes de título</h3>
-			<Button variant="secondary" onclick={addVariante} disabled={props.readOnly}>Añadir variante</Button>
+		<div class="mt-5 border-t border-[color:var(--border)] pt-4">
+			<div class="mb-3 flex items-center justify-between">
+				<h3 class="text-base font-semibold">Variantes de título</h3>
+				<Button variant="secondary" onclick={addVariante} disabled={props.readOnly}>Añadir variante</Button>
+			</div>
+			<div class="space-y-2">
+				{#if form.variantes_titulo.length === 0}
+					<p class="text-sm text-[color:var(--muted-foreground)]">No hay variantes añadidas.</p>
+				{:else}
+					{#each form.variantes_titulo as variante, idx}
+						<div class="flex gap-2">
+							<input
+								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+								disabled={props.readOnly}
+								value={variante}
+								oninput={(event) => {
+									const updated = [...form.variantes_titulo];
+									updated[idx] = event.currentTarget.value;
+									mutateField('variantes_titulo', updated);
+								}}
+							/>
+							<Button variant="danger" onclick={() => removeVariante(idx)} disabled={props.readOnly}
+								>Eliminar</Button
+							>
+						</div>
+					{/each}
+				{/if}
+			</div>
 		</div>
-		<div class="space-y-2">
-			{#if form.variantes_titulo.length === 0}
-				<p class="text-sm text-[color:var(--muted-foreground)]">No hay variantes añadidas.</p>
-			{:else}
-				{#each form.variantes_titulo as variante, idx}
-					<div class="flex gap-2">
-						<input
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-							disabled={props.readOnly}
-							value={variante}
-							oninput={(event) => {
-								const updated = [...form.variantes_titulo];
-								updated[idx] = event.currentTarget.value;
-								mutateField('variantes_titulo', updated);
-							}}
-						/>
-						<Button variant="danger" onclick={() => removeVariante(idx)} disabled={props.readOnly}
-							>Eliminar</Button
-						>
-					</div>
-				{/each}
-			{/if}
-		</div>
-	</div>
-
-	<div class="flex justify-end">
-		<Button onclick={save} disabled={savingNow || props.readOnly}
-			>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button
-		>
 	</div>
 </section>

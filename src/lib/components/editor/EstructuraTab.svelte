@@ -1,6 +1,8 @@
-﻿<script lang="ts">
+<script lang="ts">
+	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 
 	const props = $props<{
@@ -27,20 +29,19 @@
 		title: string;
 		description: string;
 	};
-	type CommentTarget = {
-		kind: 'jornada' | 'cuadro';
-		id: string;
-		label: string;
-	};
 
 	let sidebarMode = $state<SidebarMode>(null);
 	let editingJornadaId = $state<string | null>(null);
 	let editingCuadroId = $state<string | null>(null);
 	let deleteTarget = $state<DeleteTarget | null>(null);
-	let commentTarget = $state<CommentTarget | null>(null);
-	let commentType = $state<'general' | 'revision' | 'tecnico'>('general');
-	let commentText = $state('');
-	let commentSaving = $state(false);
+	let showCloseWithoutSavingModal = $state(false);
+
+	let sidebarSaving = $state(false);
+	let sidebarDirty = $state(false);
+	let sidebarBaselineSnapshot = $state('');
+	let autosaveErrorShown = $state(false);
+	let lastSidebarSnapshot = $state('');
+	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
 
 	let jornadaForm = $state({
 		jornada_num: props.jornadasInitial.length + 1,
@@ -108,91 +109,52 @@
 		};
 	}
 
-	function openNewJornada() {
-		if (props.readOnly) return;
-		editingJornadaId = null;
-		resetJornadaForm();
-		sidebarMode = 'jornada-new';
+	function clearAutosaveTimer() {
+		if (!autosaveTimer) return;
+		clearTimeout(autosaveTimer);
+		autosaveTimer = null;
 	}
 
-	function openEditJornada(jornada: Tables<'jornadas'>) {
-		if (props.readOnly) return;
-		editingJornadaId = jornada.jornada_id;
-		jornadaForm = {
-			jornada_num: jornada.jornada_num,
-			v_ini: jornada.v_ini,
-			v_fin: jornada.v_fin
-		};
-		sidebarMode = 'jornada-edit';
+	function sidebarSnapshot(): string {
+		if (sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit') {
+			return JSON.stringify({
+				mode: sidebarMode,
+				id: editingJornadaId,
+				jornada_num: Number(jornadaForm.jornada_num),
+				v_ini: Number(jornadaForm.v_ini),
+				v_fin: Number(jornadaForm.v_fin)
+			});
+		}
+		if (sidebarMode === 'cuadro-new' || sidebarMode === 'cuadro-edit') {
+			return JSON.stringify({
+				mode: sidebarMode,
+				id: editingCuadroId,
+				jornada_id: cuadroForm.jornada_id,
+				cuadro_num: Number(cuadroForm.cuadro_num),
+				v_ini: Number(cuadroForm.v_ini),
+				v_fin: Number(cuadroForm.v_fin),
+				descripcion: cuadroForm.descripcion.trim(),
+				certeza_editor: cuadroForm.certeza_editor
+			});
+		}
+		return '';
 	}
 
-	function openNewCuadro(jornada: Tables<'jornadas'>) {
-		if (props.readOnly) return;
-		editingCuadroId = null;
-		resetCuadroForm(jornada.jornada_id);
-		sidebarMode = 'cuadro-new';
+	function setSidebarBaselineFromCurrent() {
+		sidebarBaselineSnapshot = sidebarSnapshot();
+		sidebarDirty = false;
+		autosaveErrorShown = false;
+		lastSidebarSnapshot = sidebarBaselineSnapshot;
 	}
 
-	function openEditCuadro(cuadro: Tables<'cuadros'>) {
-		if (props.readOnly) return;
-		editingCuadroId = cuadro.cuadro_id;
-		cuadroForm = {
-			jornada_id: cuadro.jornada_id,
-			cuadro_num: cuadro.cuadro_num,
-			v_ini: cuadro.v_ini,
-			v_fin: cuadro.v_fin,
-			descripcion: cuadro.descripcion ?? '',
-			certeza_editor: cuadro.certeza_editor
-		};
-		sidebarMode = 'cuadro-edit';
-	}
-
-	function closeSidebar() {
-		sidebarMode = null;
-		editingJornadaId = null;
-		editingCuadroId = null;
-	}
-
-	function openDeleteJornada(jornada: Tables<'jornadas'>) {
-		if (props.readOnly) return;
-		deleteTarget = {
-			kind: 'jornada',
-			id: jornada.jornada_id,
-			title: `Eliminar Jornada ${jornada.jornada_num}`,
-			description: 'Se eliminarán también los cuadros asociados.'
-		};
-	}
-
-	function openDeleteCuadro(cuadro: Tables<'cuadros'>) {
-		if (props.readOnly) return;
-		deleteTarget = {
-			kind: 'cuadro',
-			id: cuadro.cuadro_id,
-			title: `Eliminar Cuadro ${cuadro.cuadro_num}`,
-			description: 'Esta acción no se puede deshacer.'
-		};
-	}
-
-	function openCommentForJornada(jornada: Tables<'jornadas'>) {
-		if (!props.canComment) return;
-		commentTarget = {
-			kind: 'jornada',
-			id: jornada.jornada_id,
-			label: `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
-		};
-		commentType = 'general';
-		commentText = '';
-	}
-
-	function openCommentForCuadro(cuadro: Tables<'cuadros'>) {
-		if (!props.canComment) return;
-		commentTarget = {
-			kind: 'cuadro',
-			id: cuadro.cuadro_id,
-			label: `Cuadro ${cuadro.cuadro_num} (vv. ${cuadro.v_ini}-${cuadro.v_fin})`
-		};
-		commentType = 'general';
-		commentText = '';
+	function refreshSidebarDirty() {
+		if (!sidebarMode) {
+			sidebarDirty = false;
+			return false;
+		}
+		const current = sidebarSnapshot();
+		sidebarDirty = current !== sidebarBaselineSnapshot;
+		return sidebarDirty;
 	}
 
 	function parseJornadaPayload() {
@@ -214,44 +176,59 @@
 		};
 	}
 
-	function validateJornadaForm() {
+	function validateJornadaForm(showToast = true) {
 		const payload = parseJornadaPayload();
 		if (!Number.isFinite(payload.jornada_num) || payload.jornada_num < 1) {
-			pushToast('error', 'Jornada inválida');
+			if (showToast) pushToast('error', 'Jornada invalida');
 			return false;
 		}
 		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
-			pushToast('error', 'Rango de versos inválido');
+			if (showToast) pushToast('error', 'Rango de versos invalido');
 			return false;
 		}
 		return true;
 	}
 
-	function validateCuadroForm() {
+	function validateCuadroForm(showToast = true) {
 		const payload = parseCuadroPayload();
 		if (!payload.jornada_id) {
-			pushToast('error', 'Selecciona una jornada');
+			if (showToast) pushToast('error', 'Selecciona una jornada');
 			return false;
 		}
 		if (!payload.certeza_editor) {
-			pushToast('error', 'Selecciona certeza');
+			if (showToast) pushToast('error', 'Selecciona certeza');
 			return false;
 		}
 		if (!Number.isFinite(payload.cuadro_num) || payload.cuadro_num < 1) {
-			pushToast('error', 'Cuadro inválido');
+			if (showToast) pushToast('error', 'Cuadro invalido');
 			return false;
 		}
 		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
-			pushToast('error', 'Rango de versos inválido');
+			if (showToast) pushToast('error', 'Rango de versos invalido');
 			return false;
 		}
 		return true;
 	}
 
-	async function saveJornada() {
-		if (props.readOnly) return;
-		if (!validateJornadaForm()) return;
+	function isSidebarFormValid(showToast = true) {
+		if (sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit') {
+			return validateJornadaForm(showToast);
+		}
+		if (sidebarMode === 'cuadro-new' || sidebarMode === 'cuadro-edit') {
+			return validateCuadroForm(showToast);
+		}
+		return false;
+	}
+
+	function handleAutosaveError(message: string) {
+		if (autosaveErrorShown) return;
+		autosaveErrorShown = true;
+		pushToast('error', message);
+	}
+
+	async function persistJornada(source: 'manual' | 'autosave') {
 		const payload = parseJornadaPayload();
+		const wasEditing = Boolean(editingJornadaId);
 		const endpoint = editingJornadaId
 			? `/api/obras/${props.obraId}/estructura/jornadas/${editingJornadaId}`
 			: `/api/obras/${props.obraId}/estructura/jornadas`;
@@ -262,30 +239,48 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(payload)
 		});
+
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar la jornada');
-			return;
+			const message = body.message ?? 'No se pudo guardar la jornada';
+			if (source === 'manual') {
+				pushToast('error', message);
+			} else {
+				handleAutosaveError(message);
+			}
+			return false;
 		}
 
 		const result = await response.json();
-		if (editingJornadaId) {
+		const savedJornada = result.jornada as Tables<'jornadas'>;
+
+		if (wasEditing && editingJornadaId) {
 			jornadas = sortByVIni(
-				jornadas.map((item) => (item.jornada_id === editingJornadaId ? result.jornada : item))
+				jornadas.map((item) => (item.jornada_id === editingJornadaId ? savedJornada : item))
 			);
-			pushToast('success', 'Jornada actualizada');
 		} else {
-			jornadas = sortByVIni([...jornadas, result.jornada]);
-			pushToast('success', 'Jornada creada');
+			jornadas = sortByVIni([...jornadas, savedJornada]);
+			editingJornadaId = savedJornada.jornada_id;
+			sidebarMode = 'jornada-edit';
 		}
+
+		jornadaForm = {
+			jornada_num: savedJornada.jornada_num,
+			v_ini: savedJornada.v_ini,
+			v_fin: savedJornada.v_fin
+		};
+
 		emitStructureChange();
-		closeSidebar();
+		setSidebarBaselineFromCurrent();
+		if (source === 'manual') {
+			pushToast('success', wasEditing ? 'Jornada actualizada' : 'Jornada creada');
+		}
+		return true;
 	}
 
-	async function saveCuadro() {
-		if (props.readOnly) return;
-		if (!validateCuadroForm()) return;
+	async function persistCuadro(source: 'manual' | 'autosave') {
 		const payload = parseCuadroPayload();
+		const wasEditing = Boolean(editingCuadroId);
 		const endpoint = editingCuadroId
 			? `/api/obras/${props.obraId}/estructura/cuadros/${editingCuadroId}`
 			: `/api/obras/${props.obraId}/estructura/cuadros`;
@@ -296,37 +291,169 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(payload)
 		});
+
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar el cuadro');
-			return;
+			const message = body.message ?? 'No se pudo guardar el cuadro';
+			if (source === 'manual') {
+				pushToast('error', message);
+			} else {
+				handleAutosaveError(message);
+			}
+			return false;
 		}
 
 		const result = await response.json();
-		if (editingCuadroId) {
+		const savedCuadro = result.cuadro as Tables<'cuadros'>;
+
+		if (wasEditing && editingCuadroId) {
 			cuadros = sortByVIni(
-				cuadros.map((item) => (item.cuadro_id === editingCuadroId ? result.cuadro : item))
+				cuadros.map((item) => (item.cuadro_id === editingCuadroId ? savedCuadro : item))
 			);
-			pushToast('success', 'Cuadro actualizado');
 		} else {
-			cuadros = sortByVIni([...cuadros, result.cuadro]);
-			pushToast('success', 'Cuadro creado');
+			cuadros = sortByVIni([...cuadros, savedCuadro]);
+			editingCuadroId = savedCuadro.cuadro_id;
+			sidebarMode = 'cuadro-edit';
 		}
+
+		cuadroForm = {
+			jornada_id: savedCuadro.jornada_id,
+			cuadro_num: savedCuadro.cuadro_num,
+			v_ini: savedCuadro.v_ini,
+			v_fin: savedCuadro.v_fin,
+			descripcion: savedCuadro.descripcion ?? '',
+			certeza_editor: savedCuadro.certeza_editor
+		};
+
 		emitStructureChange();
-		closeSidebar();
+		setSidebarBaselineFromCurrent();
+		if (source === 'manual') {
+			pushToast('success', wasEditing ? 'Cuadro actualizado' : 'Cuadro creado');
+		}
+		return true;
 	}
 
-	async function saveSidebar() {
-		if (sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit') {
-			await saveJornada();
+	async function saveSidebar(source: 'manual' | 'autosave' = 'manual') {
+		if (props.readOnly || sidebarSaving || !sidebarMode) return;
+		const showToast = source === 'manual';
+		if (!isSidebarFormValid(showToast)) return;
+
+		sidebarSaving = true;
+		const ok =
+			sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit'
+				? await persistJornada(source)
+				: await persistCuadro(source);
+		sidebarSaving = false;
+
+		if (!ok) return;
+		autosaveErrorShown = false;
+	}
+
+	function openNewJornada() {
+		if (props.readOnly) return;
+		editingJornadaId = null;
+		editingCuadroId = null;
+		resetJornadaForm();
+		sidebarMode = 'jornada-new';
+		setSidebarBaselineFromCurrent();
+		showCloseWithoutSavingModal = false;
+	}
+
+	function openEditJornada(jornada: Tables<'jornadas'>) {
+		if (props.readOnly && !props.canComment) return;
+		editingJornadaId = jornada.jornada_id;
+		editingCuadroId = null;
+		jornadaForm = {
+			jornada_num: jornada.jornada_num,
+			v_ini: jornada.v_ini,
+			v_fin: jornada.v_fin
+		};
+		sidebarMode = 'jornada-edit';
+		setSidebarBaselineFromCurrent();
+		showCloseWithoutSavingModal = false;
+	}
+
+	function openNewCuadro(jornada: Tables<'jornadas'>) {
+		if (props.readOnly) return;
+		editingJornadaId = null;
+		editingCuadroId = null;
+		resetCuadroForm(jornada.jornada_id);
+		sidebarMode = 'cuadro-new';
+		setSidebarBaselineFromCurrent();
+		showCloseWithoutSavingModal = false;
+	}
+
+	function openEditCuadro(cuadro: Tables<'cuadros'>) {
+		if (props.readOnly && !props.canComment) return;
+		editingJornadaId = null;
+		editingCuadroId = cuadro.cuadro_id;
+		cuadroForm = {
+			jornada_id: cuadro.jornada_id,
+			cuadro_num: cuadro.cuadro_num,
+			v_ini: cuadro.v_ini,
+			v_fin: cuadro.v_fin,
+			descripcion: cuadro.descripcion ?? '',
+			certeza_editor: cuadro.certeza_editor
+		};
+		sidebarMode = 'cuadro-edit';
+		setSidebarBaselineFromCurrent();
+		showCloseWithoutSavingModal = false;
+	}
+
+	function performCloseSidebar() {
+		clearAutosaveTimer();
+		sidebarMode = null;
+		editingJornadaId = null;
+		editingCuadroId = null;
+		sidebarDirty = false;
+		sidebarBaselineSnapshot = '';
+		lastSidebarSnapshot = '';
+		autosaveErrorShown = false;
+		showCloseWithoutSavingModal = false;
+	}
+
+	function requestCloseSidebar() {
+		if (props.readOnly) {
+			performCloseSidebar();
 			return;
 		}
-		await saveCuadro();
+		if (!refreshSidebarDirty()) {
+			performCloseSidebar();
+			return;
+		}
+		showCloseWithoutSavingModal = true;
+	}
+
+	function cancelCloseWithoutSaving() {
+		showCloseWithoutSavingModal = false;
+	}
+
+	function confirmCloseWithoutSaving() {
+		performCloseSidebar();
+	}
+
+	function openDeleteJornada(jornada: Tables<'jornadas'>) {
+		if (props.readOnly) return;
+		deleteTarget = {
+			kind: 'jornada',
+			id: jornada.jornada_id,
+			title: `Eliminar Jornada ${jornada.jornada_num}`,
+			description: 'Se eliminaran tambien los cuadros asociados.'
+		};
+	}
+
+	function openDeleteCuadro(cuadro: Tables<'cuadros'>) {
+		if (props.readOnly) return;
+		deleteTarget = {
+			kind: 'cuadro',
+			id: cuadro.cuadro_id,
+			title: `Eliminar Cuadro ${cuadro.cuadro_num}`,
+			description: 'Esta accion no se puede deshacer.'
+		};
 	}
 
 	async function confirmDelete() {
-		if (props.readOnly) return;
-		if (!deleteTarget) return;
+		if (props.readOnly || !deleteTarget) return;
 		const target = deleteTarget;
 
 		if (target.kind === 'jornada') {
@@ -340,6 +467,9 @@
 			}
 			jornadas = jornadas.filter((item) => item.jornada_id !== target.id);
 			cuadros = cuadros.filter((item) => item.jornada_id !== target.id);
+			if (editingJornadaId === target.id) {
+				performCloseSidebar();
+			}
 			pushToast('success', 'Jornada eliminada');
 		} else {
 			const response = await fetch(`/api/obras/${props.obraId}/estructura/cuadros/${target.id}`, {
@@ -351,6 +481,9 @@
 				return;
 			}
 			cuadros = cuadros.filter((item) => item.cuadro_id !== target.id);
+			if (editingCuadroId === target.id) {
+				performCloseSidebar();
+			}
 			pushToast('success', 'Cuadro eliminado');
 		}
 
@@ -358,43 +491,56 @@
 		emitStructureChange();
 	}
 
-	async function submitComment() {
-		if (!props.canComment) return;
-		if (!commentTarget || commentSaving) return;
-		if (!commentText.trim()) {
-			pushToast('error', 'Escribe un comentario interno antes de guardar.');
+	$effect(() => {
+		const mode = sidebarMode;
+		const readOnly = props.readOnly;
+		const saving = sidebarSaving;
+		const trackJornada = `${jornadaForm.jornada_num}|${jornadaForm.v_ini}|${jornadaForm.v_fin}`;
+		const trackCuadro = `${cuadroForm.jornada_id}|${cuadroForm.cuadro_num}|${cuadroForm.v_ini}|${cuadroForm.v_fin}|${cuadroForm.descripcion}|${cuadroForm.certeza_editor}`;
+		void trackJornada;
+		void trackCuadro;
+
+		if (!mode || readOnly) {
+			sidebarDirty = false;
+			clearAutosaveTimer();
 			return;
 		}
-		commentSaving = true;
-		const contextPayload =
-			commentTarget.kind === 'jornada'
-				? { jornada_id: commentTarget.id }
-				: { cuadro_id: commentTarget.id };
-		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				comentario: commentText.trim(),
-				tipo_comentario: commentType,
-				...contextPayload
-			})
-		});
-		commentSaving = false;
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar el comentario interno.');
+
+		const currentSnapshot = sidebarSnapshot();
+		if (currentSnapshot !== lastSidebarSnapshot) {
+			lastSidebarSnapshot = currentSnapshot;
+			autosaveErrorShown = false;
+		}
+
+		sidebarDirty = currentSnapshot !== sidebarBaselineSnapshot;
+		if (!sidebarDirty) {
+			clearAutosaveTimer();
 			return;
 		}
-		pushToast('success', 'Comentario interno guardado');
-		commentTarget = null;
-		commentText = '';
-	}
+
+		if (saving) {
+			return;
+		}
+
+		if (!isSidebarFormValid(false)) {
+			clearAutosaveTimer();
+			return;
+		}
+
+		clearAutosaveTimer();
+		autosaveTimer = setTimeout(() => {
+			void saveSidebar('autosave');
+		}, 10_000);
+	});
+
+	onDestroy(() => {
+		clearAutosaveTimer();
+	});
 </script>
 
 <section class="space-y-4">
 	<div class="flex items-center justify-between">
 		<h2 class="text-xl font-semibold">Jornadas y cuadros</h2>
-		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Añadir jornada</Button>
 	</div>
 
 	{#each sortByVIni(jornadas) as jornada}
@@ -404,14 +550,11 @@
 					Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
 				</h3>
 				<div class="flex gap-2">
-					<Button variant="ghost" onclick={() => openEditJornada(jornada)} disabled={props.readOnly}
-						>Editar</Button
-					>
 					<Button
 						variant="ghost"
-						onclick={() => openCommentForJornada(jornada)}
-						disabled={!props.canComment}
-						>Comentar</Button
+						onclick={() => openEditJornada(jornada)}
+						disabled={props.readOnly && !props.canComment}
+						>{props.readOnly ? 'Ver' : 'Editar'}</Button
 					>
 					<Button variant="danger" onclick={() => openDeleteJornada(jornada)} disabled={props.readOnly}
 						>Eliminar</Button
@@ -419,12 +562,7 @@
 				</div>
 			</div>
 
-			<div class="mb-2 flex items-center justify-between">
-				<div class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">Cuadros</div>
-				<Button variant="secondary" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
-					>Añadir cuadro</Button
-				>
-			</div>
+			<div class="mb-2 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">Cuadros</div>
 
 			<div class="space-y-2">
 				{#if getCuadros(jornada.jornada_id).length === 0}
@@ -442,14 +580,11 @@
 									{/if}
 								</div>
 								<div class="flex gap-2">
-									<Button variant="ghost" onclick={() => openEditCuadro(cuadro)} disabled={props.readOnly}
-										>Editar</Button
-									>
 									<Button
 										variant="ghost"
-										onclick={() => openCommentForCuadro(cuadro)}
-										disabled={!props.canComment}
-										>Comentar</Button
+										onclick={() => openEditCuadro(cuadro)}
+										disabled={props.readOnly && !props.canComment}
+										>{props.readOnly ? 'Ver' : 'Editar'}</Button
 									>
 									<Button variant="danger" onclick={() => openDeleteCuadro(cuadro)} disabled={props.readOnly}
 										>Eliminar</Button
@@ -460,20 +595,37 @@
 					{/each}
 				{/if}
 			</div>
+
+			<div class="mt-3">
+				<Button variant="secondary" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
+					>Anadir cuadro</Button
+				>
+			</div>
 		</article>
 	{/each}
+
+	<div class="flex justify-start">
+		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Anadir jornada</Button>
+	</div>
 </section>
 
 {#if sidebarMode}
 	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
-		<div class="mb-4 flex items-center justify-between">
+		<div class="sticky top-0 z-10 mb-4 flex items-center justify-between gap-3 bg-[color:var(--gray-50)] pb-3">
 			<h3 class="text-lg font-semibold">
 				{#if sidebarMode === 'jornada-new'}Nueva jornada{/if}
-				{#if sidebarMode === 'jornada-edit'}Editar jornada{/if}
+				{#if sidebarMode === 'jornada-edit'}{props.readOnly ? 'Ver jornada' : 'Editar jornada'}{/if}
 				{#if sidebarMode === 'cuadro-new'}Nuevo cuadro{/if}
-				{#if sidebarMode === 'cuadro-edit'}Editar cuadro{/if}
+				{#if sidebarMode === 'cuadro-edit'}{props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}{/if}
 			</h3>
-			<Button variant="ghost" onclick={closeSidebar}>Cerrar</Button>
+			<div class="flex items-center gap-2">
+				<Button variant="secondary" onclick={requestCloseSidebar}>Cerrar</Button>
+				{#if !props.readOnly}
+					<Button variant="success" onclick={() => void saveSidebar('manual')} disabled={sidebarSaving}>
+						{sidebarSaving ? 'Guardando...' : 'Guardar'}
+					</Button>
+				{/if}
+			</div>
 		</div>
 
 		<div class="grid gap-3">
@@ -567,7 +719,7 @@
 					</select>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Descripción</span>
+					<span class="mb-1 block">Descripcion</span>
 					<textarea
 						rows={3}
 						bind:value={cuadroForm.descripcion}
@@ -578,10 +730,36 @@
 			{/if}
 		</div>
 
-		<div class="mt-4 flex justify-end gap-2">
-			<Button variant="ghost" onclick={closeSidebar}>Cancelar</Button>
-			<Button onclick={saveSidebar} disabled={props.readOnly}>Guardar</Button>
-		</div>
+		{#if sidebarMode === 'jornada-edit' && editingJornadaId}
+			<div class="mt-4">
+				{#key editingJornadaId}
+					<InternalCommentsPanel
+						obraId={props.obraId}
+						canComment={Boolean(props.canComment)}
+						title="Comentarios internos de jornada"
+						context={{ jornada_id: editingJornadaId }}
+						collapsible={true}
+						defaultCollapsed={true}
+						collapseLabel="Ver comentarios"
+					/>
+				{/key}
+			</div>
+		{/if}
+		{#if sidebarMode === 'cuadro-edit' && editingCuadroId}
+			<div class="mt-4">
+				{#key editingCuadroId}
+					<InternalCommentsPanel
+						obraId={props.obraId}
+						canComment={Boolean(props.canComment)}
+						title="Comentarios internos de cuadro"
+						context={{ cuadro_id: editingCuadroId }}
+						collapsible={true}
+						defaultCollapsed={true}
+						collapseLabel="Ver comentarios"
+					/>
+				{/key}
+			</div>
+		{/if}
 	</aside>
 {/if}
 
@@ -591,47 +769,22 @@
 			<h3 class="text-lg font-semibold">{deleteTarget.title}</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{deleteTarget.description}</p>
 			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="ghost" onclick={() => (deleteTarget = null)}>Cancelar</Button>
+				<Button variant="secondary" onclick={() => (deleteTarget = null)}>Cancelar</Button>
 				<Button variant="danger" onclick={confirmDelete} disabled={props.readOnly}>Eliminar</Button>
 			</div>
 		</div>
 	</div>
 {/if}
 
-{#if commentTarget}
+{#if showCloseWithoutSavingModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-		<div class="card w-full max-w-xl p-5">
-			<h3 class="text-lg font-semibold">Comentario interno</h3>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">{commentTarget.label}</p>
-
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Tipo</span>
-				<select
-					bind:value={commentType}
-					disabled={!props.canComment}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				>
-					<option value="general">general</option>
-					<option value="revision">revisión</option>
-					<option value="tecnico">técnico</option>
-				</select>
-			</label>
-
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Comentario</span>
-				<textarea
-					rows={4}
-					bind:value={commentText}
-					disabled={!props.canComment}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				></textarea>
-			</label>
-
+		<div class="card w-full max-w-md p-5">
+			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continuas, perderas los cambios no guardados.</p>
 			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="ghost" onclick={() => (commentTarget = null)}>Cancelar</Button>
-				<Button onclick={submitComment} disabled={commentSaving || !props.canComment}>
-					{commentSaving ? 'Guardando...' : 'Guardar comentario'}
-				</Button>
+				<Button variant="secondary" onclick={cancelCloseWithoutSaving}>Seguir editando</Button>
+				<Button variant="danger" onclick={confirmCloseWithoutSaving}>Cerrar sin guardar</Button>
 			</div>
 		</div>
 	</div>

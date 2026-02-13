@@ -1,9 +1,11 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { comentarioInputSchema } from '$lib/utils/validators';
+import { comentarioInputSchema, comentarioListQuerySchema } from '$lib/utils/validators';
 import { validationErrorResponse } from '$lib/server/http';
 import { getObraContext, requireAuthenticated } from '$lib/server/auth';
 import type { Tables } from '$lib/types/database.types';
+
+type ComentarioTipoTerm = 'general' | 'revision' | 'tecnico' | 'estado';
 
 type ComentarioWithMeta = Tables<'comentarios_internos'> & {
 	tipo_comentario_id?: string | null;
@@ -12,6 +14,16 @@ type ComentarioWithMeta = Tables<'comentarios_internos'> & {
 	cuadro_id?: string | null;
 	rango_id?: string | null;
 };
+
+type ContextMaps = {
+	secuenciaById: Map<string, Pick<Tables<'secuencias_metricas'>, 'secuencia_id' | 'v_ini' | 'v_fin'>>;
+	jornadaById: Map<string, Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>;
+	cuadroById: Map<string, Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'v_ini' | 'v_fin'>>;
+};
+
+function isAdminOrIp(roleTerm: string): boolean {
+	return roleTerm === 'admin' || roleTerm === 'ip';
+}
 
 async function resolveTipoComentarioId(locals: App.Locals, term: 'general' | 'revision' | 'tecnico' | 'estado') {
 	const { data } = await locals.supabase
@@ -24,14 +36,91 @@ async function resolveTipoComentarioId(locals: App.Locals, term: 'general' | 're
 	return data?.termino_id ?? null;
 }
 
-export const GET: RequestHandler = async ({ locals, params }) => {
-	await getObraContext({ locals }, params.id, { requireEdit: false });
+function contextLabel(comment: ComentarioWithMeta, maps: ContextMaps): string | null {
+	if (comment.secuencia_id) {
+		const secuencia = maps.secuenciaById.get(comment.secuencia_id);
+		return secuencia ? `Secuencia vv. ${secuencia.v_ini}-${secuencia.v_fin}` : 'Secuencia';
+	}
+	if (comment.cuadro_id) {
+		const cuadro = maps.cuadroById.get(comment.cuadro_id);
+		return cuadro ? `Cuadro ${cuadro.cuadro_num} (vv. ${cuadro.v_ini}-${cuadro.v_fin})` : 'Cuadro';
+	}
+	if (comment.jornada_id) {
+		const jornada = maps.jornadaById.get(comment.jornada_id);
+		return jornada ? `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})` : 'Jornada';
+	}
+	if (comment.rango_id) {
+		return 'Rango de autoria';
+	}
+	return null;
+}
 
-	const { data: comments, error } = await locals.supabase
+async function loadContextMaps(locals: App.Locals, commentsRows: ComentarioWithMeta[]): Promise<ContextMaps> {
+	const secuenciaIds = [
+		...new Set(commentsRows.map((comment) => comment.secuencia_id).filter(Boolean) as string[])
+	];
+	const jornadaIds = [
+		...new Set(commentsRows.map((comment) => comment.jornada_id).filter(Boolean) as string[])
+	];
+	const cuadroIds = [...new Set(commentsRows.map((comment) => comment.cuadro_id).filter(Boolean) as string[])];
+
+	const [secuenciasResp, jornadasResp, cuadrosResp] = await Promise.all([
+		secuenciaIds.length > 0
+			? locals.supabase
+					.from('secuencias_metricas')
+					.select('secuencia_id,v_ini,v_fin')
+					.in('secuencia_id', secuenciaIds)
+			: Promise.resolve({ data: [] as Pick<Tables<'secuencias_metricas'>, 'secuencia_id' | 'v_ini' | 'v_fin'>[] }),
+		jornadaIds.length > 0
+			? locals.supabase
+					.from('jornadas')
+					.select('jornada_id,jornada_num,v_ini,v_fin')
+					.in('jornada_id', jornadaIds)
+			: Promise.resolve({ data: [] as Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>[] }),
+		cuadroIds.length > 0
+			? locals.supabase
+					.from('cuadros')
+					.select('cuadro_id,cuadro_num,v_ini,v_fin')
+					.in('cuadro_id', cuadroIds)
+			: Promise.resolve({ data: [] as Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'v_ini' | 'v_fin'>[] })
+	]);
+
+	return {
+		secuenciaById: new Map((secuenciasResp.data ?? []).map((row) => [row.secuencia_id, row])),
+		jornadaById: new Map((jornadasResp.data ?? []).map((row) => [row.jornada_id, row])),
+		cuadroById: new Map((cuadrosResp.data ?? []).map((row) => [row.cuadro_id, row]))
+	};
+}
+
+export const GET: RequestHandler = async ({ locals, params, url }) => {
+	const { profile } = await getObraContext({ locals }, params.id, { requireEdit: false });
+
+	const parsedQuery = comentarioListQuerySchema.safeParse({
+		secuencia_id: url.searchParams.get('secuencia_id') ?? undefined,
+		jornada_id: url.searchParams.get('jornada_id') ?? undefined,
+		cuadro_id: url.searchParams.get('cuadro_id') ?? undefined,
+		rango_id: url.searchParams.get('rango_id') ?? undefined,
+		limit: url.searchParams.get('limit') ?? undefined,
+		offset: url.searchParams.get('offset') ?? undefined
+	});
+	if (!parsedQuery.success) {
+		return validationErrorResponse(parsedQuery.error);
+	}
+	const { secuencia_id, jornada_id, cuadro_id, rango_id, limit, offset } = parsedQuery.data;
+
+	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
 		.select('*')
 		.eq('obra_id', params.id)
-		.order('created_at', { ascending: false });
+		.order('created_at', { ascending: false })
+		.range(offset, offset + limit - 1);
+
+	if (secuencia_id) commentsQuery = commentsQuery.eq('secuencia_id', secuencia_id);
+	if (jornada_id) commentsQuery = commentsQuery.eq('jornada_id', jornada_id);
+	if (cuadro_id) commentsQuery = commentsQuery.eq('cuadro_id', cuadro_id);
+	if (rango_id) commentsQuery = commentsQuery.eq('rango_id', rango_id);
+
+	const { data: comments, error } = await commentsQuery;
 
 	if (error) {
 		return json({ error: 'db_error', message: error.message }, { status: 500 });
@@ -60,17 +149,29 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 					.select('termino_id,termino')
 					.in('termino_id', tipoIds)
 			: { data: [] };
+	const contextMaps = await loadContextMaps(locals, commentsRows);
 
 	const names = new Map((editores ?? []).map((editor) => [editor.user_id, editor.nombre_completo]));
-	const tipoById = new Map((tipos ?? []).map((tipo) => [tipo.termino_id, tipo.termino]));
+	const tipoById = new Map((tipos ?? []).map((tipo) => [tipo.termino_id, tipo.termino as ComentarioTipoTerm]));
+	const canManageAll = isAdminOrIp(profile.roleTerm);
+
 	return json({
-		items: commentsRows.map((comment) => ({
-			...comment,
-			nombre_editor: comment.user_id ? (names.get(comment.user_id) ?? 'Editor') : 'Editor',
-			tipo_comentario_term: comment.tipo_comentario_id
+		items: commentsRows.map((comment) => {
+			const tipoTerm = comment.tipo_comentario_id
 				? (tipoById.get(comment.tipo_comentario_id) ?? 'general')
-				: 'general'
-		}))
+				: 'general';
+			const locked = tipoTerm === 'estado';
+			const canMutate = !locked && (canManageAll || comment.user_id === profile.userId);
+			return {
+				...comment,
+				nombre_editor: comment.user_id ? (names.get(comment.user_id) ?? 'Editor') : 'Editor',
+				tipo_comentario_term: tipoTerm,
+				contexto_label: contextLabel(comment, contextMaps),
+				locked,
+				can_edit: canMutate,
+				can_delete: canMutate
+			};
+		})
 	});
 };
 

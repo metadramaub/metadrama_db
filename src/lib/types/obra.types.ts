@@ -81,6 +81,29 @@ export interface ComentarioInput {
 	rango_id?: string;
 }
 
+export interface ComentarioPatchInput {
+	comentario: string;
+	tipo_comentario?: 'general' | 'revision' | 'tecnico';
+}
+
+export interface ComentarioListQueryInput {
+	secuencia_id?: string;
+	jornada_id?: string;
+	cuadro_id?: string;
+	rango_id?: string;
+	limit?: number;
+	offset?: number;
+}
+
+export interface ComentarioListItem extends Tables<'comentarios_internos'> {
+	nombre_editor?: string;
+	tipo_comentario_term?: 'general' | 'revision' | 'tecnico' | 'estado';
+	contexto_label?: string | null;
+	can_edit?: boolean;
+	can_delete?: boolean;
+	locked?: boolean;
+}
+
 export interface AutoriaObraCompletaInput {
 	mode: 'obra_completa';
 	source_mode: 'obra_completa' | 'por_jornadas' | 'rango_personalizado';
@@ -180,8 +203,38 @@ export interface ObraCreateInput {
 	genero_id?: string | null;
 }
 
+export interface AssignmentEditorOption {
+	user_id: string;
+	nombre_completo: string;
+	email: string | null;
+}
+
+export interface AssignmentReviewerCandidate extends AssignmentEditorOption {
+	selected: boolean;
+}
+
+export interface AssignedReviewerSummary {
+	revisor_id: string;
+	nombre_completo: string;
+	email: string | null;
+	created_at: string | null;
+}
+
+export interface ObraAssignmentsInput {
+	editor_asignado?: string;
+	reviewer_ids: string[];
+}
+
 export interface ObraReviewersInput {
 	reviewer_ids: string[];
+}
+
+export interface ObraAssignmentsResponse {
+	canManage: boolean;
+	editor_asignado: string | null;
+	editorOptions: AssignmentEditorOption[];
+	assigned: AssignedReviewerSummary[];
+	candidates: AssignmentReviewerCandidate[];
 }
 
 export interface VocabularioCreateInput {
