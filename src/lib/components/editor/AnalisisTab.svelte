@@ -94,7 +94,7 @@
 		if (!response.ok) {
 			setSaving(false, 'analisis');
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar análisis y bibliografía.');
+			pushToast('error', body.message ?? 'No se pudo guardar analisis y bibliografia.');
 			return;
 		}
 
@@ -107,7 +107,7 @@
 			updated_at: payload.obra.updated_at
 		});
 		markSaved('analisis');
-		pushToast('success', 'Análisis y bibliografía guardados');
+		pushToast('success', 'Analisis y bibliografia guardados');
 	}
 
 	onDestroy(() => {
@@ -116,119 +116,117 @@
 </script>
 
 <section class="space-y-4">
-	<div class="card p-4">
-		<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+	<div class="flex flex-wrap items-center justify-between gap-3">
+		<div>
+			<h2 class="text-xl font-semibold">Analisis y bibliografia</h2>
+		</div>
+		<Button variant="success" onclick={save} disabled={savingNow || props.readOnly}>
+			{savingNow ? 'Guardando...' : 'Guardar'}
+		</Button>
+	</div>
+
+	<article class="card p-4">
+		<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
 			<div>
-				<h2 class="text-xl font-semibold">Análisis y bibliografía</h2>
+				<h3 class="text-lg font-semibold">Analisis del editor</h3>
+				<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</p>
 			</div>
-			<Button onclick={save} disabled={savingNow || props.readOnly}>
-				{savingNow ? 'Guardando...' : 'Guardar sección'}
+			<Button variant="secondary" onclick={() => (analisisPreview = !analisisPreview)}>
+				{analisisPreview ? 'Editar' : 'Vista previa'}
 			</Button>
 		</div>
 
-		<article class="border border-[color:var(--border)] bg-white p-4">
-			<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-				<div>
-					<h3 class="text-lg font-semibold">Análisis del editor</h3>
-					<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</p>
-				</div>
-				<Button variant="secondary" onclick={() => (analisisPreview = !analisisPreview)}>
-					{analisisPreview ? 'Editar' : 'Vista previa'}
-				</Button>
+		<div class="mb-3 flex flex-wrap gap-2">
+			<Button variant="ghost" onclick={() => applyFormat('analisis', '**', '**')} disabled={props.readOnly}
+				>B</Button
+			>
+			<Button variant="ghost" onclick={() => applyFormat('analisis', '*', '*')} disabled={props.readOnly}
+				>I</Button
+			>
+			<Button variant="ghost" onclick={() => applyFormat('analisis', '\n- ', '')} disabled={props.readOnly}
+				>Lista</Button
+			>
+			<Button
+				variant="ghost"
+				onclick={() => applyFormat('analisis', '[', '](https://)')}
+				disabled={props.readOnly}
+				>Enlace</Button
+			>
+			<Button variant="ghost" onclick={() => applyFormat('analisis', '\n# ', '')} disabled={props.readOnly}
+				>H1</Button
+			>
+			<Button variant="ghost" onclick={() => applyFormat('analisis', '\n## ', '')} disabled={props.readOnly}
+				>H2</Button
+			>
+		</div>
+
+		{#if analisisPreview}
+			<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
+				{@html previewAnalisisHtml}
 			</div>
+		{:else}
+			<textarea
+				bind:this={analisisRef}
+				rows={12}
+				class="min-h-64 w-full border border-[color:var(--border)] px-3 py-2"
+				disabled={props.readOnly}
+				bind:value={analisis}
+				oninput={queueSave}
+			></textarea>
+		{/if}
+	</article>
 
-			<div class="mb-3 flex flex-wrap gap-2">
-				<Button variant="ghost" onclick={() => applyFormat('analisis', '**', '**')} disabled={props.readOnly}
-					>B</Button
-				>
-				<Button variant="ghost" onclick={() => applyFormat('analisis', '*', '*')} disabled={props.readOnly}
-					>I</Button
-				>
-				<Button variant="ghost" onclick={() => applyFormat('analisis', '\n- ', '')} disabled={props.readOnly}
-					>Lista</Button
-				>
-				<Button
-					variant="ghost"
-					onclick={() => applyFormat('analisis', '[', '](https://)')}
-					disabled={props.readOnly}
-					>Enlace</Button
-				>
-				<Button variant="ghost" onclick={() => applyFormat('analisis', '\n# ', '')} disabled={props.readOnly}
-					>H1</Button
-				>
-				<Button variant="ghost" onclick={() => applyFormat('analisis', '\n## ', '')} disabled={props.readOnly}
-					>H2</Button
-				>
+	<article class="card p-4">
+		<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+			<div>
+				<h3 class="text-lg font-semibold">Bibliografia general</h3>
+				<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
 			</div>
+			<Button variant="secondary" onclick={() => (bibliografiaPreview = !bibliografiaPreview)}>
+				{bibliografiaPreview ? 'Editar' : 'Vista previa'}
+			</Button>
+		</div>
 
-			{#if analisisPreview}
-				<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
-					{@html previewAnalisisHtml}
-				</div>
-			{:else}
-				<textarea
-					bind:this={analisisRef}
-					rows={12}
-					class="min-h-64 w-full border border-[color:var(--border)] px-3 py-2"
-					disabled={props.readOnly}
-					bind:value={analisis}
-					oninput={queueSave}
-				></textarea>
-			{/if}
-		</article>
+		<div class="mb-3 flex flex-wrap gap-2">
+			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '**', '**')} disabled={props.readOnly}
+				>B</Button
+			>
+			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '*', '*')} disabled={props.readOnly}
+				>I</Button
+			>
+			<Button
+				variant="ghost"
+				onclick={() => applyFormat('bibliografia', '\n- ', '')}
+				disabled={props.readOnly}
+				>Lista</Button
+			>
+			<Button
+				variant="ghost"
+				onclick={() => applyFormat('bibliografia', '[', '](https://)')}
+				disabled={props.readOnly}
+				>Enlace</Button
+			>
+			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '\n# ', '')} disabled={props.readOnly}
+				>H1</Button
+			>
+			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '\n## ', '')} disabled={props.readOnly}
+				>H2</Button
+			>
+		</div>
 
-		<article class="mt-4 border border-[color:var(--border)] bg-white p-4">
-			<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-				<div>
-					<h3 class="text-lg font-semibold">Bibliografía general</h3>
-					<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
-				</div>
-				<Button variant="secondary" onclick={() => (bibliografiaPreview = !bibliografiaPreview)}>
-					{bibliografiaPreview ? 'Editar' : 'Vista previa'}
-				</Button>
+		{#if bibliografiaPreview}
+			<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
+				{@html previewBibliografiaHtml}
 			</div>
-
-			<div class="mb-3 flex flex-wrap gap-2">
-				<Button variant="ghost" onclick={() => applyFormat('bibliografia', '**', '**')} disabled={props.readOnly}
-					>B</Button
-				>
-				<Button variant="ghost" onclick={() => applyFormat('bibliografia', '*', '*')} disabled={props.readOnly}
-					>I</Button
-				>
-				<Button
-					variant="ghost"
-					onclick={() => applyFormat('bibliografia', '\n- ', '')}
-					disabled={props.readOnly}
-					>Lista</Button
-				>
-				<Button
-					variant="ghost"
-					onclick={() => applyFormat('bibliografia', '[', '](https://)')}
-					disabled={props.readOnly}
-					>Enlace</Button
-				>
-				<Button variant="ghost" onclick={() => applyFormat('bibliografia', '\n# ', '')} disabled={props.readOnly}
-					>H1</Button
-				>
-				<Button variant="ghost" onclick={() => applyFormat('bibliografia', '\n## ', '')} disabled={props.readOnly}
-					>H2</Button
-				>
-			</div>
-
-			{#if bibliografiaPreview}
-				<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
-					{@html previewBibliografiaHtml}
-				</div>
-			{:else}
-				<textarea
-					bind:this={bibliografiaRef}
-					rows={12}
-					class="min-h-56 w-full border border-[color:var(--border)] px-3 py-2"
-					disabled={props.readOnly}
-					bind:value={bibliografia}
-					oninput={queueSave}
-				></textarea>
-			{/if}
-		</article>
-	</div>
+		{:else}
+			<textarea
+				bind:this={bibliografiaRef}
+				rows={12}
+				class="min-h-56 w-full border border-[color:var(--border)] px-3 py-2"
+				disabled={props.readOnly}
+				bind:value={bibliografia}
+				oninput={queueSave}
+			></textarea>
+		{/if}
+	</article>
 </section>

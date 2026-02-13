@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { ArrowLeft, Bell, BookOpenText, DoorOpen, Home, LibraryBig } from 'lucide-svelte';
+	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+	import Bell from 'lucide-svelte/icons/bell';
+	import BookOpenText from 'lucide-svelte/icons/book-open-text';
+	import DoorOpen from 'lucide-svelte/icons/door-open';
+	import Home from 'lucide-svelte/icons/home';
+	import LibraryBig from 'lucide-svelte/icons/library-big';
 	import { goto } from '$app/navigation';
 	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import Button from '$lib/components/ui/button.svelte';

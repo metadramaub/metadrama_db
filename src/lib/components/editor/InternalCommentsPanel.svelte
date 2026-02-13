@@ -1,0 +1,349 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import Button from '$lib/components/ui/button.svelte';
+	import { pushToast } from '$lib/stores/toast';
+	import { formatRelative } from '$lib/utils/formatters';
+	import type { ComentarioInput, ComentarioListItem, ComentarioPatchInput } from '$lib/types/obra.types';
+
+	type CommentType = 'general' | 'revision' | 'tecnico';
+	type CommentContext = Pick<
+		ComentarioInput,
+		'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'
+	>;
+
+	const props = $props<{
+		obraId: string;
+		canComment?: boolean;
+		title?: string;
+		emptyText?: string;
+		context?: CommentContext;
+		reloadKey?: string | number | null;
+		collapsible?: boolean;
+		defaultCollapsed?: boolean;
+		collapseLabel?: string;
+	}>();
+
+	let comments = $state<ComentarioListItem[]>([]);
+	let commentsLoading = $state(false);
+	let postingComment = $state(false);
+	let showAllComments = $state(false);
+	let collapsed = $state(Boolean(props.defaultCollapsed));
+	let newComment = $state('');
+	let newCommentType = $state<CommentType>('general');
+
+	let editingCommentId = $state<string | null>(null);
+	let editingText = $state('');
+	let editingType = $state<CommentType>('general');
+	let savingEdit = $state(false);
+
+	let deleteConfirmId = $state<string | null>(null);
+	let deletingComment = $state(false);
+	let mounted = false;
+	let lastReloadKey = $state<string | null>(null);
+
+	const canComment = $derived(Boolean(props.canComment));
+	const canCollapse = $derived(Boolean(props.collapsible));
+	const visibleComments = $derived(showAllComments ? comments : comments.slice(0, 5));
+	const contextParams = $derived.by(() => {
+		const params = new URLSearchParams();
+		if (props.context?.secuencia_id) params.set('secuencia_id', props.context.secuencia_id);
+		if (props.context?.jornada_id) params.set('jornada_id', props.context.jornada_id);
+		if (props.context?.cuadro_id) params.set('cuadro_id', props.context.cuadro_id);
+		if (props.context?.rango_id) params.set('rango_id', props.context.rango_id);
+		return params;
+	});
+
+	async function loadComments() {
+		commentsLoading = true;
+		const params = new URLSearchParams(contextParams);
+		params.set('limit', '1000');
+		const qs = params.toString();
+		const endpoint = qs
+			? `/api/obras/${props.obraId}/comentarios?${qs}`
+			: `/api/obras/${props.obraId}/comentarios?limit=1000`;
+		const response = await fetch(endpoint);
+		commentsLoading = false;
+		if (!response.ok) {
+			pushToast('error', 'No se pudieron cargar los comentarios internos.');
+			return;
+		}
+		const payload = await response.json();
+		comments = payload.items ?? [];
+	}
+
+	function startEdit(comment: ComentarioListItem) {
+		editingCommentId = comment.comentario_id;
+		editingText = comment.comentario;
+		if (comment.tipo_comentario_term === 'revision' || comment.tipo_comentario_term === 'tecnico') {
+			editingType = comment.tipo_comentario_term;
+			return;
+		}
+		editingType = 'general';
+	}
+
+	function cancelEdit() {
+		editingCommentId = null;
+		editingText = '';
+		editingType = 'general';
+	}
+
+	async function saveEdit(commentId: string) {
+		if (savingEdit) return;
+		if (!editingText.trim()) {
+			pushToast('error', 'Escribe un comentario antes de guardar.');
+			return;
+		}
+		savingEdit = true;
+		const payload: ComentarioPatchInput = {
+			comentario: editingText.trim(),
+			tipo_comentario: editingType
+		};
+		const response = await fetch(`/api/obras/${props.obraId}/comentarios/${commentId}`, {
+			method: 'PATCH',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(payload)
+		});
+		savingEdit = false;
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo editar el comentario.');
+			return;
+		}
+		pushToast('success', 'Comentario actualizado');
+		cancelEdit();
+		await loadComments();
+	}
+
+	async function publishComment() {
+		if (!canComment || postingComment) return;
+		if (!newComment.trim()) {
+			pushToast('error', 'Escribe un comentario antes de publicar.');
+			return;
+		}
+		postingComment = true;
+		const payload: ComentarioInput = {
+			comentario: newComment.trim(),
+			tipo_comentario: newCommentType,
+			...(props.context ?? {})
+		};
+		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(payload)
+		});
+		postingComment = false;
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo publicar el comentario.');
+			return;
+		}
+		newComment = '';
+		newCommentType = 'general';
+		pushToast('success', 'Comentario publicado');
+		await loadComments();
+	}
+
+	async function confirmDelete(commentId: string) {
+		if (deletingComment) return;
+		deletingComment = true;
+		const response = await fetch(`/api/obras/${props.obraId}/comentarios/${commentId}`, {
+			method: 'DELETE'
+		});
+		deletingComment = false;
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo eliminar el comentario.');
+			return;
+		}
+		deleteConfirmId = null;
+		if (editingCommentId === commentId) {
+			cancelEdit();
+		}
+		pushToast('success', 'Comentario eliminado');
+		await loadComments();
+	}
+
+	onMount(() => {
+		mounted = true;
+		void loadComments();
+	});
+
+	$effect(() => {
+		if (!props.collapsible) {
+			collapsed = false;
+			return;
+		}
+		collapsed = Boolean(props.defaultCollapsed);
+	});
+
+	$effect(() => {
+		const reloadValue = props.reloadKey;
+		if (!mounted) return;
+		if (reloadValue === undefined || reloadValue === null) return;
+		const normalized = String(reloadValue);
+		if (normalized === lastReloadKey) return;
+		lastReloadKey = normalized;
+		void loadComments();
+	});
+</script>
+
+<div class="card p-4">
+	<div class="mb-3 flex items-center justify-between gap-2">
+		<h3 class="text-lg font-semibold">{props.title ?? 'Comentarios internos'}</h3>
+		<div class="flex items-center gap-2">
+			{#if !collapsed && comments.length > 5}
+				<Button variant="ghost" onclick={() => (showAllComments = !showAllComments)}>
+					{showAllComments ? 'Ver menos' : 'Ver todos'}
+				</Button>
+			{/if}
+			{#if canCollapse}
+				<Button variant="secondary" onclick={() => (collapsed = !collapsed)}>
+					{collapsed ? (props.collapseLabel ?? 'Ver comentarios') : 'Ocultar comentarios'}
+				</Button>
+			{/if}
+		</div>
+	</div>
+
+	{#if !collapsed}
+		{#if commentsLoading}
+			<p class="text-sm text-[color:var(--muted-foreground)]">Cargando comentarios...</p>
+		{:else if comments.length === 0}
+			<p class="text-sm text-[color:var(--muted-foreground)]">{props.emptyText ?? 'No hay comentarios aun.'}</p>
+		{:else}
+			<div class="mb-3 space-y-2">
+				{#each visibleComments as comment}
+					<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
+						<div class="mb-1 text-xs text-[color:var(--muted-foreground)]">
+							{comment.nombre_editor ?? 'Editor'} - {formatRelative(comment.created_at)}
+						</div>
+						<div class="mb-2 flex flex-wrap gap-2">
+							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
+								{comment.tipo_comentario_term ?? 'general'}
+							</span>
+							{#if comment.contexto_label}
+								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
+									{comment.contexto_label}
+								</span>
+							{/if}
+							{#if comment.locked}
+								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
+									solo lectura
+								</span>
+							{/if}
+						</div>
+
+						{#if editingCommentId === comment.comentario_id}
+							<label class="block text-sm">
+								<span class="mb-1 block">Tipo</span>
+								<select
+									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+									bind:value={editingType}
+									disabled={savingEdit}
+								>
+									<option value="general">general</option>
+									<option value="revision">revision</option>
+									<option value="tecnico">tecnico</option>
+								</select>
+							</label>
+							<label class="mt-2 block text-sm">
+								<span class="mb-1 block">Comentario</span>
+								<textarea
+									rows={3}
+									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+									bind:value={editingText}
+									disabled={savingEdit}
+								></textarea>
+							</label>
+							<div class="mt-2 flex justify-end gap-2">
+								{#if comment.can_edit}
+									<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
+									<Button variant="success" onclick={() => saveEdit(comment.comentario_id)} disabled={savingEdit}>
+										{savingEdit ? 'Guardando...' : 'Guardar'}
+									</Button>
+								{:else}
+									<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
+								{/if}
+							</div>
+						{:else}
+							<div class="whitespace-pre-wrap">{comment.comentario}</div>
+							{#if comment.can_edit || comment.can_delete}
+								<div class="mt-2 flex justify-end gap-2">
+									{#if comment.can_edit}
+										<Button
+											variant="ghost"
+											onclick={() => startEdit(comment)}
+											disabled={savingEdit || deletingComment}
+										>
+											Editar
+										</Button>
+									{/if}
+									{#if comment.can_delete}
+										<Button
+											variant="danger"
+											onclick={() =>
+												(deleteConfirmId =
+													deleteConfirmId === comment.comentario_id ? null : comment.comentario_id)}
+											disabled={savingEdit || deletingComment}
+										>
+											Eliminar
+										</Button>
+									{/if}
+								</div>
+							{/if}
+							{#if deleteConfirmId === comment.comentario_id}
+								<div class="mt-2 border border-[color:var(--danger)] bg-white p-2 text-xs">
+									<div class="mb-2">Esta accion eliminara el comentario de forma permanente.</div>
+									<div class="flex justify-end gap-2">
+										<Button
+											variant="secondary"
+											onclick={() => (deleteConfirmId = null)}
+											disabled={deletingComment}
+										>
+											Cancelar
+										</Button>
+										<Button
+											variant="danger"
+											onclick={() => confirmDelete(comment.comentario_id)}
+											disabled={deletingComment}
+										>
+											{deletingComment ? 'Eliminando...' : 'Confirmar'}
+										</Button>
+									</div>
+								</div>
+							{/if}
+						{/if}
+					</div>
+				{/each}
+			</div>
+		{/if}
+
+		<div class="border border-[color:var(--border)] bg-white p-3">
+			<label class="block text-sm">
+				<span class="mb-1 block">Tipo de comentario</span>
+				<select
+					class="mb-2 w-full rounded-md border border-[color:var(--border)] px-3 py-2 text-sm"
+					disabled={!canComment}
+					bind:value={newCommentType}
+				>
+					<option value="general">general</option>
+					<option value="revision">revision</option>
+					<option value="tecnico">tecnico</option>
+				</select>
+			</label>
+			<label class="block text-sm">
+				<span class="mb-1 block">Nuevo comentario</span>
+				<textarea
+					rows={3}
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={!canComment}
+					bind:value={newComment}
+				></textarea>
+			</label>
+			<div class="mt-2 flex justify-end">
+				<Button onclick={publishComment} disabled={postingComment || !canComment}>
+					{postingComment ? 'Publicando...' : 'Publicar comentario'}
+				</Button>
+			</div>
+		</div>
+	{/if}
+</div>

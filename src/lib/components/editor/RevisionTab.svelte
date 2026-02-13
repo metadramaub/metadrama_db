@@ -1,31 +1,20 @@
 <script lang="ts">
-import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { formatRelative } from '$lib/utils/formatters';
 	import { currentObraStore, patchCurrentObra } from '$lib/stores/currentObra';
 	import type { Tables } from '$lib/types/database.types';
-	import type { EditorProfile, ObraAccessFlags } from '$lib/types/obra.types';
+	import type {
+		EditorProfile,
+		ObraAccessFlags,
+		ObraAssignmentsInput,
+		ObraAssignmentsResponse
+	} from '$lib/types/obra.types';
 
 	type EstadoOption = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>;
-	type CommentType = 'general' | 'revision' | 'tecnico' | 'estado';
-	type ComentarioRow = Tables<'comentarios_internos'> & {
-		nombre_editor?: string;
-		tipo_comentario_term?: string;
-	};
-	type ReviewerCandidate = {
-		user_id: string;
-		nombre_completo: string;
-		email: string | null;
-		selected: boolean;
-	};
-	type AssignedReviewer = {
-		revisor_id: string;
-		nombre_completo: string;
-		email: string | null;
-		created_at: string | null;
-	};
 
 	const props = $props<{
 		obraId: string;
@@ -46,23 +35,28 @@ import { goto } from '$app/navigation';
 	const obraLive = $derived(($currentObraStore.obra ?? props.obra) as Tables<'obras'>);
 
 	let currentEstadoId = $state(props.obra.estado);
-	let currentEstadoTerm = $state(props.estadoTerm);
+	let persistedEstadoId = $state(props.obra.estado);
 	let estadoComentario = $state('');
+	let estadoConfirmComentario = $state('');
+	let pendingEstadoId = $state<string | null>(null);
+	let showEstadoConfirmModal = $state(false);
 	let visiblePublico = $state(Boolean(props.obra.visible_publico));
+	let commentsReloadKey = $state(0);
 
-	let comments = $state<ComentarioRow[]>([]);
-	let commentsLoading = $state(false);
-	let postingComment = $state(false);
 	let stateSaving = $state(false);
 	let visibilitySaving = $state(false);
-	let showAllComments = $state(false);
-	let newComment = $state('');
-	let newCommentType = $state<CommentType>('general');
-
 	let reviewersLoading = $state(false);
 	let reviewersSaving = $state(false);
-	let assignedReviewers = $state<AssignedReviewer[]>([]);
-	let reviewerCandidates = $state<ReviewerCandidate[]>([]);
+
+	let editorOptions = $state<ObraAssignmentsResponse['editorOptions']>([]);
+	let reviewerCandidates = $state<ObraAssignmentsResponse['candidates']>([]);
+	let assignedReviewers = $state<ObraAssignmentsResponse['assigned']>([]);
+	let assignmentEditorId = $state('');
+	let assignmentReviewerIds = $state<string[]>([]);
+	let baselineEditorId = $state('');
+	let baselineReviewerIds = $state<string[]>([]);
+	let showAssignmentsConfirmModal = $state(false);
+
 	let deletingObra = $state(false);
 	let deleteConfirmText = $state('');
 	let showDeleteModal = $state(false);
@@ -73,16 +67,6 @@ import { goto } from '$app/navigation';
 	const canChangeState = $derived(Boolean(props.capabilities.canChangeState));
 	const canDeleteObra = $derived(Boolean(props.capabilities.canDeleteObra));
 	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
-	const visibleComments = $derived(showAllComments ? comments : comments.slice(0, 5));
-
-	const estadoTermById = $derived(
-		new Map(
-			props.estadoOptions.map((option: EstadoOption) => [
-				option.termino_id,
-				option.termino.trim().toLowerCase()
-			])
-		)
-	);
 
 	const validatedRevisionIds = $derived(
 		new Set(
@@ -98,7 +82,7 @@ import { goto } from '$app/navigation';
 		).length;
 		return [
 			{
-				label: 'Datos básicos completos',
+				label: 'Datos basicos completos',
 				done: Boolean(obraLive.titulo?.trim() && obraLive.genero_id && obraLive.edicion?.trim()),
 				detail: ''
 			},
@@ -108,67 +92,124 @@ import { goto } from '$app/navigation';
 				detail: `${props.jornadas.length} jornadas, ${props.cuadros.length} cuadros`
 			},
 			{
-				label: 'Secuencias métricas validadas',
+				label: 'Secuencias metricas validadas',
 				done: props.secuencias.length > 0 && secuenciasValidadas === props.secuencias.length,
 				detail: `${secuenciasValidadas}/${props.secuencias.length}`
 			},
 			{
-				label: 'Autoría asignada',
+				label: 'Autoria asignada',
 				done: (obraLive.autoria ?? []).length > 0,
 				detail: `${(obraLive.autoria ?? []).length} autores`
 			},
 			{
-				label: 'Análisis de obra',
+				label: 'Analisis de obra',
 				done: (obraLive.analisis_editor ?? '').trim().length > 100,
 				detail: `${(obraLive.analisis_editor ?? '').trim().length} caracteres`
 			},
 			{
-				label: 'Bibliografía añadida',
+				label: 'Bibliografia anadida',
 				done: (obraLive.bibliografia ?? '').trim().length > 0,
 				detail: `${(obraLive.bibliografia ?? '').trim().length} caracteres`
 			}
 		];
 	});
 
-	function findEstadoIdByTerm(term: string): string | null {
-		const lower = term.trim().toLowerCase();
-		const found = props.estadoOptions.find(
-			(option: EstadoOption) => option.termino.trim().toLowerCase() === lower
+	const estadoDropdownItems = $derived(
+		props.estadoOptions.map((option: EstadoOption) => ({
+			id: option.termino_id,
+			label: option.termino,
+			description: null
+		}))
+	);
+
+	const selectedEstadoLabel = $derived(
+		props.estadoOptions.find((option: EstadoOption) => option.termino_id === currentEstadoId)?.termino ?? '--'
+	);
+
+	const persistedEstadoLabel = $derived(
+		props.estadoOptions.find((option: EstadoOption) => option.termino_id === persistedEstadoId)?.termino ?? '--'
+	);
+
+	function normalizeIds(ids: string[]): string[] {
+		return [...new Set(ids)].sort((a, b) => a.localeCompare(b));
+	}
+
+	function sanitizeIds(ids: string[]): string[] {
+		return normalizeIds(
+			ids
+				.map((id) => id.trim())
+				.filter((id) => id.length > 0)
 		);
-		return found?.termino_id ?? null;
 	}
 
-	function commentContextLabel(comment: ComentarioRow): string | null {
-		if (comment.secuencia_id) {
-			const sec = props.secuencias.find(
-				(item: Tables<'secuencias_metricas'>) => item.secuencia_id === comment.secuencia_id
-			);
-			return sec ? `Secuencia vv. ${sec.v_ini}-${sec.v_fin}` : 'Secuencia';
-		}
-		if (comment.cuadro_id) {
-			const cua = props.cuadros.find((item: Tables<'cuadros'>) => item.cuadro_id === comment.cuadro_id);
-			return cua ? `Cuadro ${cua.cuadro_num}` : 'Cuadro';
-		}
-		if (comment.jornada_id) {
-			const jor = props.jornadas.find((item: Tables<'jornadas'>) => item.jornada_id === comment.jornada_id);
-			return jor ? `Jornada ${jor.jornada_num}` : 'Jornada';
-		}
-		if (comment.rango_id) {
-			return 'Rango de autoría';
-		}
-		return null;
+	function getUserName(userId: string | null): string {
+		if (!userId) return 'Sin asignar';
+		const directEditor = editorOptions.find((item) => item.user_id === userId);
+		if (directEditor) return directEditor.nombre_completo;
+		const candidate = reviewerCandidates.find((item) => item.user_id === userId);
+		if (candidate) return candidate.nombre_completo;
+		return userId;
 	}
 
-	async function loadComments() {
-		commentsLoading = true;
-		const response = await fetch(`/api/obras/${props.obraId}/comentarios`);
-		commentsLoading = false;
-		if (!response.ok) {
-			pushToast('error', 'No se pudieron cargar los comentarios internos.');
-			return;
-		}
-		const payload = await response.json();
-		comments = payload.items ?? [];
+	const assignmentEditorLabel = $derived(getUserName(assignmentEditorId || null));
+	const baselineEditorLabel = $derived(getUserName(baselineEditorId || null));
+
+	const editorDropdownItems = $derived(
+		editorOptions.map((item) => ({
+			id: item.user_id,
+			label: item.nombre_completo,
+			description: item.email
+		}))
+	);
+
+	const reviewerDropdownItems = $derived(
+		reviewerCandidates.map((item) => ({
+			id: item.user_id,
+			label: item.nombre_completo,
+			description: item.email
+		}))
+	);
+
+	const editorDisabledIds = $derived(normalizeIds(assignmentReviewerIds));
+	const reviewerDisabledIds = $derived(assignmentEditorId ? [assignmentEditorId] : []);
+
+	const normalizedReviewerIds = $derived(normalizeIds(assignmentReviewerIds));
+	const normalizedBaselineReviewerIds = $derived(normalizeIds(baselineReviewerIds));
+	const assignmentsDirty = $derived(
+		assignmentEditorId !== baselineEditorId ||
+			JSON.stringify(normalizedReviewerIds) !== JSON.stringify(normalizedBaselineReviewerIds)
+	);
+
+	const addedReviewerIds = $derived(
+		normalizedReviewerIds.filter((id) => !normalizedBaselineReviewerIds.includes(id))
+	);
+	const removedReviewerIds = $derived(
+		normalizedBaselineReviewerIds.filter((id) => !normalizedReviewerIds.includes(id))
+	);
+
+	const selectedReviewersSummary = $derived(
+		normalizedReviewerIds.map((id) => ({ id, name: getUserName(id) }))
+	);
+
+	function applyAssignmentsPayload(payload: Partial<ObraAssignmentsResponse> & { editorAsignado?: string | null }) {
+		editorOptions = payload.editorOptions ?? [];
+		reviewerCandidates = payload.candidates ?? [];
+		assignedReviewers = payload.assigned ?? [];
+
+		const nextEditorRaw = payload.editor_asignado ?? payload.editorAsignado ?? '';
+		const nextEditor = nextEditorRaw.trim();
+		const candidateSelectedIds = (payload.candidates ?? [])
+			.filter((item) => item.selected)
+			.map((item) => item.user_id);
+		const assignedIds = (payload.assigned ?? []).map((item) => item.revisor_id);
+		const nextReviewers = sanitizeIds(candidateSelectedIds.length > 0 ? candidateSelectedIds : assignedIds).filter(
+			(id) => id !== nextEditor
+		);
+
+		assignmentEditorId = nextEditor;
+		assignmentReviewerIds = nextReviewers;
+		baselineEditorId = nextEditor;
+		baselineReviewerIds = nextReviewers;
 	}
 
 	async function loadReviewers() {
@@ -176,26 +217,84 @@ import { goto } from '$app/navigation';
 		const response = await fetch(`/api/obras/${props.obraId}/revisores`);
 		reviewersLoading = false;
 		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudieron cargar las asignaciones editoriales.');
 			return;
 		}
-		const payload = await response.json();
-		assignedReviewers = payload.assigned ?? [];
-		reviewerCandidates = payload.candidates ?? [];
+		const payload = (await response.json()) as ObraAssignmentsResponse & { editorAsignado?: string | null };
+		applyAssignmentsPayload(payload);
 	}
 
-	async function postInternalComment(text: string, tipo: CommentType = 'general') {
-		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
-			method: 'POST',
+	function onEditorSelectionChange(ids: string[]) {
+		if (!canManageAssignments) return;
+		const nextEditorId = ids[0] ?? '';
+		assignmentEditorId = nextEditorId;
+		if (nextEditorId && assignmentReviewerIds.includes(nextEditorId)) {
+			assignmentReviewerIds = assignmentReviewerIds.filter((id) => id !== nextEditorId);
+		}
+	}
+
+	function onReviewerSelectionChange(ids: string[]) {
+		if (!canManageAssignments) return;
+		assignmentReviewerIds = sanitizeIds(ids.filter((id) => id !== assignmentEditorId));
+	}
+
+	function onEstadoSelectionChange(ids: string[]) {
+		if (!canChangeState) return;
+		currentEstadoId = (ids[0] ?? '').trim();
+	}
+
+	function openAssignmentsConfirmModal() {
+		if (!canManageAssignments || reviewersSaving || reviewersLoading) return;
+		if (!assignmentsDirty) {
+			pushToast('info', 'No hay cambios pendientes en las asignaciones.');
+			return;
+		}
+		if (!assignmentEditorId) {
+			pushToast('error', 'Debes seleccionar un editor antes de guardar asignaciones.');
+			return;
+		}
+		showAssignmentsConfirmModal = true;
+	}
+
+	function closeAssignmentsConfirmModal() {
+		if (reviewersSaving) return;
+		showAssignmentsConfirmModal = false;
+	}
+
+	async function saveAssignments() {
+		if (!canManageAssignments || reviewersSaving) return;
+		if (!assignmentEditorId) {
+			pushToast('error', 'Debes seleccionar un editor antes de guardar asignaciones.');
+			return;
+		}
+		if (assignmentReviewerIds.includes(assignmentEditorId)) {
+			pushToast('error', 'El editor no puede quedar tambien como revisor en esta obra.');
+			return;
+		}
+
+		reviewersSaving = true;
+		const requestBody: ObraAssignmentsInput = {
+			editor_asignado: assignmentEditorId,
+			reviewer_ids: sanitizeIds(assignmentReviewerIds)
+		};
+		const response = await fetch(`/api/obras/${props.obraId}/revisores`, {
+			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ comentario: text, tipo_comentario: tipo })
+			body: JSON.stringify(requestBody)
 		});
+		reviewersSaving = false;
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo publicar comentario.');
-			return false;
+			const detail = Array.isArray(body?.details) ? body.details[0]?.message : null;
+			pushToast('error', detail ?? body.message ?? 'No se pudieron guardar las asignaciones editoriales.');
+			return;
 		}
-		await loadComments();
-		return true;
+		const payload = (await response.json()) as ObraAssignmentsResponse & { editorAsignado?: string | null };
+		applyAssignmentsPayload(payload);
+		patchCurrentObra({ editor_asignado: payload.editor_asignado ?? payload.editorAsignado ?? null });
+		showAssignmentsConfirmModal = false;
+		pushToast('success', 'Asignaciones editoriales actualizadas');
 	}
 
 	async function saveEstado(targetEstadoId: string, comentario: string) {
@@ -216,30 +315,48 @@ import { goto } from '$app/navigation';
 
 		const payload = await response.json();
 		currentEstadoId = payload.obra.estado;
-		currentEstadoTerm = payload.estadoTerm ?? estadoTermById.get(payload.obra.estado) ?? currentEstadoTerm;
+		persistedEstadoId = payload.obra.estado;
 		estadoComentario = '';
+		estadoConfirmComentario = '';
+		pendingEstadoId = null;
 		patchCurrentObra({
 			estado: payload.obra.estado,
 			updated_at: payload.obra.updated_at ?? obraLive.updated_at
 		});
 		pushToast('success', 'Estado actualizado');
-		await loadComments();
+		commentsReloadKey += 1;
 		return true;
 	}
 
-	async function onGuardarEstado() {
-		if (!canChangeState) return;
-		await saveEstado(currentEstadoId, estadoComentario);
-	}
-
-	async function onEnviarRevision() {
-		if (!canChangeState) return;
-		const pendingId = findEstadoIdByTerm('pendiente');
-		if (!pendingId) {
-			pushToast('error', 'No existe estado pendiente en vocabularios.');
+	function openEstadoConfirmModal() {
+		if (!canChangeState || stateSaving) return;
+		if (!currentEstadoId) {
+			pushToast('error', 'Selecciona un estado antes de guardar.');
 			return;
 		}
-		await saveEstado(pendingId, estadoComentario || 'Enviado a revisión');
+		pendingEstadoId = currentEstadoId;
+		const baseComment = estadoComentario.trim();
+		if (baseComment.length > 0) {
+			estadoConfirmComentario = baseComment;
+		} else if (currentEstadoId !== persistedEstadoId) {
+			estadoConfirmComentario = `Cambio de estado: ${persistedEstadoLabel} -> ${selectedEstadoLabel}`;
+		} else {
+			estadoConfirmComentario = '';
+		}
+		showEstadoConfirmModal = true;
+	}
+
+	function cancelEstadoConfirmModal() {
+		if (stateSaving) return;
+		showEstadoConfirmModal = false;
+		pendingEstadoId = null;
+	}
+
+	async function confirmEstadoChange() {
+		if (!canChangeState || !pendingEstadoId) return;
+		const ok = await saveEstado(pendingEstadoId, estadoConfirmComentario);
+		if (!ok) return;
+		showEstadoConfirmModal = false;
 	}
 
 	async function onGuardarVisibilidad() {
@@ -264,48 +381,6 @@ import { goto } from '$app/navigation';
 			updated_at: payload.obra.updated_at ?? obraLive.updated_at
 		});
 		pushToast('success', 'Visibilidad actualizada');
-	}
-
-	async function onPublicarComentario() {
-		if (!canComment) return;
-		if (postingComment) return;
-		if (!newComment.trim()) {
-			pushToast('error', 'Escribe un comentario antes de publicar.');
-			return;
-		}
-		postingComment = true;
-		const ok = await postInternalComment(newComment.trim(), newCommentType);
-		postingComment = false;
-		if (!ok) return;
-		newComment = '';
-		pushToast('success', 'Comentario publicado');
-	}
-
-	function toggleReviewer(userId: string) {
-		reviewerCandidates = reviewerCandidates.map((candidate) =>
-			candidate.user_id === userId ? { ...candidate, selected: !candidate.selected } : candidate
-		);
-	}
-
-	async function onGuardarRevisores() {
-		if (!canManageAssignments || reviewersSaving) return;
-		reviewersSaving = true;
-		const reviewerIds = reviewerCandidates.filter((item) => item.selected).map((item) => item.user_id);
-		const response = await fetch(`/api/obras/${props.obraId}/revisores`, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ reviewer_ids: reviewerIds })
-		});
-		reviewersSaving = false;
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudieron guardar los revisores asignados.');
-			return;
-		}
-		const payload = await response.json();
-		assignedReviewers = payload.assigned ?? [];
-		reviewerCandidates = payload.candidates ?? [];
-		pushToast('success', 'Asignación de revisores actualizada');
 	}
 
 	async function onDeleteObra() {
@@ -346,7 +421,6 @@ import { goto } from '$app/navigation';
 	}
 
 	onMount(() => {
-		void loadComments();
 		void loadReviewers();
 	});
 </script>
@@ -370,200 +444,202 @@ import { goto } from '$app/navigation';
 		</div>
 	</div>
 
+	<InternalCommentsPanel
+		obraId={props.obraId}
+		canComment={canComment}
+		title="Comentarios internos"
+		reloadKey={commentsReloadKey}
+	/>
+
 	<div class="card p-4">
-		<div class="mb-3 flex items-center justify-between gap-2">
-			<h3 class="text-lg font-semibold">Comentarios internos</h3>
-			{#if comments.length > 5}
-				<Button variant="ghost" onclick={() => (showAllComments = !showAllComments)}>
-					{showAllComments ? 'Ver menos' : 'Ver todos'}
-				</Button>
-			{/if}
-		</div>
-		{#if commentsLoading}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Cargando comentarios...</p>
-		{:else if comments.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">No hay comentarios aún.</p>
-		{:else}
-			<div class="mb-3 space-y-2">
-				{#each visibleComments as comment}
-					<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
-						<div class="mb-1 text-xs text-[color:var(--muted-foreground)]">
-							{comment.nombre_editor ?? 'Editor'} - {formatRelative(comment.created_at)}
-						</div>
-						<div class="mb-1 flex flex-wrap gap-2">
-							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
-								{comment.tipo_comentario_term ?? 'general'}
-							</span>
-							{#if commentContextLabel(comment)}
-								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">{commentContextLabel(comment)}</span>
-							{/if}
-						</div>
-						<div class="whitespace-pre-wrap">{comment.comentario}</div>
-					</div>
-				{/each}
-			</div>
+		<h3 class="mb-3 text-lg font-semibold">Gestion editorial</h3>
+		{#if props.assignedReviewer}
+			<p class="mb-3 text-sm text-[color:var(--muted-foreground)]">
+				Tienes esta obra asignada para revision.
+			</p>
 		{/if}
 
 		<div class="border border-[color:var(--border)] bg-white p-3">
-			<label class="block text-sm">
-				<span class="mb-1 block">Tipo de comentario</span>
-				<select
-					class="mb-2 w-full rounded-md border border-[color:var(--border)] px-3 py-2 text-sm"
-					disabled={!canComment}
-					bind:value={newCommentType}
-				>
-					<option value="general">general</option>
-					<option value="revision">revisión</option>
-					<option value="tecnico">técnico</option>
-					<option value="estado">estado</option>
-				</select>
-			</label>
-			<label class="block text-sm">
-				<span class="mb-1 block">Nuevo comentario</span>
-				<textarea
-					rows={3}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					disabled={!canComment}
-					bind:value={newComment}
-				></textarea>
-			</label>
-			<div class="mt-2 flex justify-end">
-				<Button onclick={onPublicarComentario} disabled={postingComment || !canComment}>
-					{postingComment ? 'Publicando...' : 'Publicar comentario'}
-				</Button>
-			</div>
-		</div>
-	</div>
+			<h4 class="mb-3 text-sm font-semibold">Asignaciones editoriales</h4>
+			{#if reviewersLoading}
+				<p class="text-sm text-[color:var(--muted-foreground)]">Cargando asignaciones...</p>
+			{:else}
+				<div class="grid gap-3 md:grid-cols-2">
+					<label class="text-sm">
+						<span class="mb-1 block">Editor asignado</span>
+						<CheckDropdown
+							multiple={false}
+							items={editorDropdownItems}
+							selectedIds={assignmentEditorId ? [assignmentEditorId] : []}
+							disabledIds={editorDisabledIds}
+							placeholder="Selecciona editor"
+							search={true}
+							disabled={!canManageAssignments || reviewersSaving}
+							onChange={onEditorSelectionChange}
+						/>
+					</label>
 
-	<div class="card p-4">
-		<h3 class="mb-3 text-lg font-semibold">Panel de revisión y asignación</h3>
-		{#if props.assignedReviewer}
-			<p class="mb-2 text-sm text-[color:var(--muted-foreground)]">
-				Tienes esta obra asignada para revisión.
-			</p>
-		{/if}
-		{#if reviewersLoading}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Cargando revisores...</p>
-		{:else}
-			<div class="mb-3">
-				<div class="mb-2 text-sm font-medium">Revisores asignados</div>
-				{#if assignedReviewers.length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">No hay revisores asignados.</p>
-				{:else}
-					<ul class="space-y-1 text-sm">
-						{#each assignedReviewers as reviewer}
-							<li>
-								{reviewer.nombre_completo}
-								{#if reviewer.email}
-									<span class="text-[color:var(--muted-foreground)]">({reviewer.email})</span>
-								{/if}
-							</li>
-						{/each}
-					</ul>
-				{/if}
-			</div>
+					<label class="text-sm">
+						<span class="mb-1 block">Revisores asignados</span>
+						<CheckDropdown
+							multiple={true}
+							items={reviewerDropdownItems}
+							selectedIds={assignmentReviewerIds}
+							disabledIds={reviewerDisabledIds}
+							placeholder="Selecciona revisores"
+							search={true}
+							disabled={!canManageAssignments || reviewersSaving}
+							onChange={onReviewerSelectionChange}
+						/>
+					</label>
+				</div>
 
-			{#if canManageAssignments}
-				<div class="border border-[color:var(--border)] bg-white p-3">
-					<div class="mb-2 text-sm font-medium">Asignar revisores</div>
-					<div class="grid gap-1 sm:grid-cols-2">
-						{#each reviewerCandidates as candidate}
-							<label class="flex items-center gap-2 text-sm">
-								<input
-									type="checkbox"
-									checked={candidate.selected}
-									onchange={() => toggleReviewer(candidate.user_id)}
-								/>
-								<span>{candidate.nombre_completo}</span>
-							</label>
-						{/each}
-					</div>
+				{#if canManageAssignments}
 					<div class="mt-3 flex justify-end">
-						<Button onclick={onGuardarRevisores} disabled={reviewersSaving}>
+						<Button variant="success" onclick={openAssignmentsConfirmModal} disabled={reviewersSaving || !assignmentsDirty}>
 							{reviewersSaving ? 'Guardando...' : 'Guardar asignaciones'}
 						</Button>
 					</div>
-				</div>
+				{/if}
 			{/if}
-		{/if}
-	</div>
-
-	<div class="card p-4">
-		<h2 class="mb-3 text-xl font-semibold">Estado y visibilidad</h2>
-		<div class="grid gap-3 md:grid-cols-2">
-			<label class="text-sm">
-				<span class="mb-1 block">Estado de la obra</span>
-				<select
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					disabled={!canChangeState}
-					bind:value={currentEstadoId}
-				>
-					{#each props.estadoOptions as option}
-						<option value={option.termino_id}>{option.termino}</option>
-					{/each}
-				</select>
-			</label>
-			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
-				<div><strong>Editor asignado:</strong> {props.editorAsignadoNombre ?? 'Sin asignar'}</div>
-				<div><strong>Última modificación:</strong> {formatRelative(obraLive.updated_at)}</div>
-				<div><strong>Estado actual:</strong> {currentEstadoTerm}</div>
-			</div>
 		</div>
 
-		<label class="mt-3 block text-sm">
-			<span class="mb-1 block">Comentario de cambio de estado (opcional)</span>
-			<textarea
-				rows={3}
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				disabled={!canChangeState}
-				bind:value={estadoComentario}
-			></textarea>
-		</label>
-
-		<div class="mt-3 flex flex-wrap gap-2">
-			<Button onclick={onGuardarEstado} disabled={stateSaving || !canChangeState}>
-				{stateSaving ? 'Guardando...' : 'Guardar estado'}
-			</Button>
-			{#if currentEstadoTerm === 'borrador' && canChangeState}
-				<Button variant="secondary" onclick={onEnviarRevision} disabled={stateSaving || !canChangeState}>
-					Enviar a revisión
+		<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
+			<h4 class="mb-3 text-sm font-semibold">Estado de la obra</h4>
+			<div class="flex flex-col gap-3 md:flex-row md:items-end">
+				<label class="w-full text-sm">
+					<span class="mb-1 block">Estado</span>
+					<CheckDropdown
+						multiple={false}
+						items={estadoDropdownItems}
+						selectedIds={currentEstadoId ? [currentEstadoId] : []}
+						placeholder="Selecciona estado"
+						disabled={!canChangeState || stateSaving}
+						onChange={onEstadoSelectionChange}
+					/>
+				</label>
+				<Button
+					variant="success"
+					class="shrink-0"
+					onclick={openEstadoConfirmModal}
+					disabled={stateSaving || !canChangeState}
+				>
+					{stateSaving ? 'Guardando...' : 'Guardar estado'}
 				</Button>
-			{/if}
+			</div>
 		</div>
 
 		{#if canToggleVisible}
 			<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
-				<label class="flex items-center gap-2 text-sm">
-					<input type="checkbox" bind:checked={visiblePublico} />
-					Visible en web pública
-				</label>
-				<div class="mt-2">
-					<Button variant="ghost" onclick={onGuardarVisibilidad} disabled={visibilitySaving}>
+				<h4 class="mb-2 text-sm font-semibold">Visibilidad</h4>
+				<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+					<label class="flex items-center gap-2 text-sm">
+						<input type="checkbox" bind:checked={visiblePublico} />
+						Visible en web publica
+					</label>
+					<Button variant="success" onclick={onGuardarVisibilidad} disabled={visibilitySaving}>
 						{visibilitySaving ? 'Guardando...' : 'Guardar visibilidad'}
 					</Button>
 				</div>
 			</div>
 		{/if}
+	</div>
 
-		{#if canDeleteObra}
-			<div class="mt-4 border border-[color:var(--danger)] bg-white p-3">
-				<div class="mb-2 text-sm font-semibold text-[color:var(--danger)]">Zona de peligro</div>
-				<p class="text-sm text-[color:var(--muted-foreground)]">
-					Esta accion elimina la obra y sus datos relacionados de forma irreversible.
-				</p>
-				<div class="mt-3 flex justify-end">
-					<Button
-						variant="danger"
-						onclick={onOpenDeleteModal}
-						disabled={deletingObra}
-					>
-						Eliminar obra
-					</Button>
+	{#if canDeleteObra}
+		<div>
+			<h3 class="mb-2 text-lg font-semibold text-[color:var(--danger)]">Zona de peligro</h3>
+			<div class="overflow-hidden border border-[color:var(--danger)] bg-white">
+				<div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+					<div>
+						<h4 class="text-sm font-semibold text-[color:var(--danger)]">Eliminar esta obra</h4>
+						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+							Se eliminaran la obra y sus datos relacionados. Esta accion es irreversible.
+						</p>
+					</div>
+					<Button variant="danger" onclick={onOpenDeleteModal} disabled={deletingObra}>Eliminar obra</Button>
 				</div>
 			</div>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </section>
+
+{#if showEstadoConfirmModal && pendingEstadoId}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-lg p-5">
+			<h3 class="text-lg font-semibold">Confirmar cambio de estado</h3>
+			<div class="mt-3 space-y-2 text-sm">
+				<div>
+					<strong>Estado actual:</strong> {persistedEstadoLabel}
+				</div>
+				<div>
+					<strong>Nuevo estado:</strong> {selectedEstadoLabel}
+				</div>
+			</div>
+			<label class="mt-3 block text-sm">
+				<span class="mb-1 block">Comentario de cambio (opcional)</span>
+				<textarea
+					rows={4}
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					disabled={stateSaving}
+					bind:value={estadoConfirmComentario}
+				></textarea>
+			</label>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="secondary" onclick={cancelEstadoConfirmModal} disabled={stateSaving}>
+					Cancelar
+				</Button>
+				<Button variant="success" onclick={() => void confirmEstadoChange()} disabled={stateSaving}>
+					{stateSaving ? 'Guardando...' : 'Confirmar y guardar'}
+				</Button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if showAssignmentsConfirmModal}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-lg p-5">
+			<h3 class="text-lg font-semibold">Confirmar cambios de asignacion</h3>
+			<div class="mt-3 space-y-2 text-sm">
+				<div>
+					<strong>Editor:</strong> {baselineEditorLabel} -> {assignmentEditorLabel}
+				</div>
+				<div>
+					<strong>Revisores anadidos:</strong>
+					{#if addedReviewerIds.length === 0}
+						<span class="text-[color:var(--muted-foreground)]"> ninguno</span>
+					{:else}
+						<span>{addedReviewerIds.map((id) => getUserName(id)).join(', ')}</span>
+					{/if}
+				</div>
+				<div>
+					<strong>Revisores quitados:</strong>
+					{#if removedReviewerIds.length === 0}
+						<span class="text-[color:var(--muted-foreground)]"> ninguno</span>
+					{:else}
+						<span>{removedReviewerIds.map((id) => getUserName(id)).join(', ')}</span>
+					{/if}
+				</div>
+				<div>
+					<strong>Resultado final:</strong>
+					{#if selectedReviewersSummary.length === 0}
+						<span class="text-[color:var(--muted-foreground)]"> sin revisores asignados</span>
+					{:else}
+						<span>{selectedReviewersSummary.map((item) => item.name).join(', ')}</span>
+					{/if}
+				</div>
+			</div>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="secondary" onclick={closeAssignmentsConfirmModal} disabled={reviewersSaving}>
+					Cancelar
+				</Button>
+				<Button variant="success" onclick={() => void saveAssignments()} disabled={reviewersSaving}>
+					{reviewersSaving ? 'Guardando...' : 'Confirmar y guardar'}
+				</Button>
+			</div>
+		</div>
+	</div>
+{/if}
 
 {#if showDeleteModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

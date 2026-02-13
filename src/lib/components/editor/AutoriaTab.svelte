@@ -544,6 +544,16 @@
 </script>
 
 <section class="space-y-4">
+	<div class="flex justify-end">
+		<Button
+			variant="success"
+			onclick={save}
+			disabled={savingNow || props.readOnly || loadingFromServer || loadingAutoria || editingBlocked}
+		>
+			{savingNow ? 'Guardando...' : 'Guardar'}
+		</Button>
+	</div>
+
 	{#if loadingAutoria}
 		<div class="card p-4">
 			<div class="animate-pulse space-y-3">
@@ -567,9 +577,6 @@
 				<div>
 					<h2 class="text-xl font-semibold">Autoría</h2>
 				</div>
-				<Button onclick={save} disabled={savingNow || props.readOnly || loadingFromServer || editingBlocked}
-					>{savingNow ? 'Guardando...' : 'Guardar ahora'}</Button
-				>
 			</div>
 
 			{#if editingBlocked}

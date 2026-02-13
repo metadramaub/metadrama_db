@@ -120,17 +120,15 @@ export const estadoInputSchema = z.object({
 	comentario: z.string().trim().max(2000).optional()
 });
 
-export const comentarioInputSchema = z.object({
-	comentario: z.string().trim().min(1).max(4000),
-	tipo_comentario: z
-		.enum(['general', 'revision', 'tecnico', 'estado'])
-		.optional()
-		.default('general'),
-	secuencia_id: z.string().uuid().optional(),
-	jornada_id: z.string().uuid().optional(),
-	cuadro_id: z.string().uuid().optional(),
-	rango_id: z.string().uuid().optional()
-}).superRefine((data, ctx) => {
+function validateSingleCommentContext(
+	data: {
+		secuencia_id?: string;
+		jornada_id?: string;
+		cuadro_id?: string;
+		rango_id?: string;
+	},
+	ctx: z.RefinementCtx
+) {
 	const refs = [data.secuencia_id, data.jornada_id, data.cuadro_id, data.rango_id].filter(Boolean);
 	if (refs.length > 1) {
 		ctx.addIssue({
@@ -139,7 +137,37 @@ export const comentarioInputSchema = z.object({
 			path: ['secuencia_id']
 		});
 	}
+}
+
+export const comentarioInputSchema = z
+	.object({
+		comentario: z.string().trim().min(1).max(4000),
+		tipo_comentario: z
+			.enum(['general', 'revision', 'tecnico', 'estado'])
+			.optional()
+			.default('general'),
+		secuencia_id: z.string().uuid().optional(),
+		jornada_id: z.string().uuid().optional(),
+		cuadro_id: z.string().uuid().optional(),
+		rango_id: z.string().uuid().optional()
+	})
+	.superRefine(validateSingleCommentContext);
+
+export const comentarioPatchSchema = z.object({
+	comentario: z.string().trim().min(1).max(4000),
+	tipo_comentario: z.enum(['general', 'revision', 'tecnico']).optional()
 });
+
+export const comentarioListQuerySchema = z
+	.object({
+		secuencia_id: z.string().uuid().optional(),
+		jornada_id: z.string().uuid().optional(),
+		cuadro_id: z.string().uuid().optional(),
+		rango_id: z.string().uuid().optional(),
+		limit: z.coerce.number().int().positive().max(5000).optional().default(1000),
+		offset: z.coerce.number().int().min(0).optional().default(0)
+	})
+	.superRefine(validateSingleCommentContext);
 
 const autorIdsSchema = z
 	.array(z.string().uuid())
@@ -213,11 +241,32 @@ export const obraDeleteSchema = z.object({
 		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
 });
 
+const optionalIdentifierInput = z
+	.union([z.string(), z.null(), z.undefined()])
+	.transform((value) => {
+		if (typeof value !== 'string') return undefined;
+		const trimmed = value.trim();
+		return trimmed.length > 0 ? trimmed : undefined;
+	});
+
+const reviewerIdsSchema = z
+	.array(z.union([z.string(), z.null(), z.undefined()]))
+	.default([])
+	.transform((ids) =>
+		ids
+			.map((value) => (typeof value === 'string' ? value.trim() : ''))
+			.filter((value) => value.length > 0)
+	)
+	.transform((ids) => [...new Set(ids)]);
+
+export const obraAssignmentsInputSchema = z.object({
+	editor_asignado: optionalIdentifierInput,
+	reviewer_ids: reviewerIdsSchema
+});
+
+// Backward compatible schema used by legacy callers during transition.
 export const obraReviewersInputSchema = z.object({
-	reviewer_ids: z
-		.array(z.string().uuid())
-		.default([])
-		.transform((ids) => [...new Set(ids)])
+	reviewer_ids: reviewerIdsSchema
 });
 
 export const vocabularioCreateSchema = z.object({
@@ -257,11 +306,14 @@ export type CuadroInputParsed = z.infer<typeof cuadroInputSchema>;
 export type SecuenciaInputParsed = z.infer<typeof secuenciaInputSchema>;
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
+export type ComentarioPatchParsed = z.infer<typeof comentarioPatchSchema>;
+export type ComentarioListQueryParsed = z.infer<typeof comentarioListQuerySchema>;
 export type AutoriaInputParsed = z.infer<typeof autoriaInputSchema>;
 export type AnalisisInputParsed = z.infer<typeof analisisInputSchema>;
 export type VisibilidadInputParsed = z.infer<typeof visibilidadInputSchema>;
 export type ObraCreateParsed = z.infer<typeof obraCreateSchema>;
 export type ObraDeleteParsed = z.infer<typeof obraDeleteSchema>;
+export type ObraAssignmentsInputParsed = z.infer<typeof obraAssignmentsInputSchema>;
 export type ObraReviewersInputParsed = z.infer<typeof obraReviewersInputSchema>;
 export type VocabularioCreateParsed = z.infer<typeof vocabularioCreateSchema>;
 export type VocabularioPatchParsed = z.infer<typeof vocabularioPatchSchema>;
