@@ -132,7 +132,7 @@
 
 	function validateForm(showToast = true) {
 		if (!Number.isFinite(Number(form.v_ini)) || !Number.isFinite(Number(form.v_fin)) || Number(form.v_ini) >= Number(form.v_fin)) {
-			if (showToast) pushToast('error', 'Rango de versos invalido');
+			if (showToast) pushToast('error', 'Rango de versos inválido');
 			return false;
 		}
 		if (!form.estrofa_tipo_id) {
@@ -140,7 +140,7 @@
 			return false;
 		}
 		if (!form.estado_revision) {
-			if (showToast) pushToast('error', 'Selecciona estado de revision');
+			if (showToast) pushToast('error', 'Selecciona estado de revisión');
 			return false;
 		}
 		if (!form.certeza_editor) {
@@ -368,7 +368,7 @@
 <section class="space-y-4">
 	<div class="flex items-end justify-between gap-4">
 		<div>
-			<h2 class="text-xl font-semibold">Secuencias metricas</h2>
+			<h2 class="text-xl font-semibold">Secuencias métricas</h2>
 			<p class="text-sm text-[color:var(--muted-foreground)]">Ordenadas por verso inicial.</p>
 		</div>
 	</div>
@@ -539,7 +539,7 @@
 
 			<div class="grid gap-3 sm:grid-cols-2">
 				<label class="text-sm">
-					<span class="mb-1 block">Personajes genero</span>
+					<span class="mb-1 block">Personajes género</span>
 					<select
 						bind:value={form.personajes_genero}
 						disabled={props.readOnly}
@@ -575,7 +575,7 @@
 					</select>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Estado revision</span>
+					<span class="mb-1 block">Estado revisión</span>
 					<select
 						bind:value={form.estado_revision}
 						disabled={props.readOnly}
@@ -601,7 +601,7 @@
 			</div>
 
 			<label class="text-sm">
-				<span class="mb-1 block">Observaciones publicas</span>
+				<span class="mb-1 block">Observaciones públicas</span>
 				<textarea
 					rows={3}
 					bind:value={form.observaciones}
@@ -633,7 +633,7 @@
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Eliminar secuencia</h3>
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta accion no se puede deshacer.</p>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={() => (deleteTargetId = null)}>Cancelar</Button>
 				<Button
@@ -656,7 +656,7 @@
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continuas, perderas los cambios no guardados.</p>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continúas, perderás los cambios no guardados.</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={cancelCloseWithoutSaving}>Seguir editando</Button>
 				<Button variant="danger" onclick={confirmCloseWithoutSaving}>Cerrar sin guardar</Button>

@@ -243,6 +243,10 @@ export interface VocabularioCreateInput {
 	termino_padre_id?: string | null;
 	nivel?: number | null;
 	orden?: number | null;
+	definicion?: string | null;
+	ejemplo?: string | null;
+	bibliografia?: string | null;
+	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
 	activo?: boolean;
 }
@@ -252,6 +256,22 @@ export interface VocabularioPatchInput {
 	termino_padre_id?: string | null;
 	nivel?: number | null;
 	orden?: number | null;
+	definicion?: string | null;
+	ejemplo?: string | null;
+	bibliografia?: string | null;
+	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
 	activo?: boolean;
+}
+
+export interface VocabularioReorderItemInput {
+	termino_id: string;
+	termino_padre_id: string | null;
+	orden: number;
+	nivel: number | null;
+}
+
+export interface VocabularioReorderInput {
+	categoria: string;
+	items: VocabularioReorderItemInput[];
 }

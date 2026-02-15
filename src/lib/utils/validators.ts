@@ -241,6 +241,66 @@ export const obraDeleteSchema = z.object({
 		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
 });
 
+const authorVariantsBaseSchema = z.array(z.string().trim().max(200)).transform((items) => {
+	const seen = new Set<string>();
+	const output: string[] = [];
+	for (const item of items) {
+		const trimmed = item.trim();
+		if (!trimmed) continue;
+		const key = trimmed.normalize('NFD').replaceAll(/\p{M}/gu, '').toLowerCase();
+		if (seen.has(key)) continue;
+		seen.add(key);
+		output.push(trimmed);
+	}
+	return output;
+});
+
+const authorVariantsSchema = authorVariantsBaseSchema.default([]);
+
+const optionalAuthorExternalId = z
+	.union([z.string().max(20), z.null(), z.undefined()])
+	.transform((value) => {
+		if (typeof value !== 'string') return null;
+		const trimmed = value.trim();
+		return trimmed.length > 0 ? trimmed : null;
+	});
+
+const optionalAuthorExternalIdPatch = z
+	.union([z.string().max(20), z.null(), z.undefined()])
+	.transform((value) => {
+		if (value === undefined) return undefined;
+		if (value === null) return null;
+		const trimmed = value.trim();
+		return trimmed.length > 0 ? trimmed : null;
+	});
+
+export const autorCreateSchema = z.object({
+	nombre_completo: z.string().trim().min(1, 'El nombre completo es obligatorio').max(200),
+	variantes_nombre: authorVariantsSchema,
+	bnedatos_id: optionalAuthorExternalId,
+	viaf_id: optionalAuthorExternalId,
+	wikidata_id: optionalAuthorExternalId
+});
+
+export const autorPatchSchema = z
+	.object({
+		nombre_completo: z.string().trim().min(1, 'El nombre completo es obligatorio').max(200).optional(),
+		variantes_nombre: authorVariantsBaseSchema.optional(),
+		bnedatos_id: optionalAuthorExternalIdPatch,
+		viaf_id: optionalAuthorExternalIdPatch,
+		wikidata_id: optionalAuthorExternalIdPatch
+	})
+	.refine((payload) => Object.values(payload).some((value) => value !== undefined), {
+		message: 'No hay campos para actualizar'
+	});
+
+export const autorDeleteSchema = z.object({
+	confirmText: z
+		.string()
+		.trim()
+		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
+});
+
 const optionalIdentifierInput = z
 	.union([z.string(), z.null(), z.undefined()])
 	.transform((value) => {
@@ -275,6 +335,10 @@ export const vocabularioCreateSchema = z.object({
 	termino_padre_id: z.string().uuid().optional().nullable().default(null),
 	nivel: z.number().int().optional().nullable().default(null),
 	orden: z.number().int().optional().nullable().default(null),
+	definicion: z.string().trim().max(10000).optional().nullable().default(null),
+	ejemplo: z.string().trim().max(4000).optional().nullable().default(null),
+	bibliografia: z.string().trim().max(10000).optional().nullable().default(null),
+	equivalencias: z.array(z.string().trim().min(1).max(200)).optional().nullable().default(null),
 	patron_especifico: z.string().trim().max(2000).optional().nullable().default(null),
 	activo: z.boolean().optional().default(true)
 });
@@ -285,11 +349,44 @@ export const vocabularioPatchSchema = z
 		termino_padre_id: z.string().uuid().optional().nullable(),
 		nivel: z.number().int().optional().nullable(),
 		orden: z.number().int().optional().nullable(),
+		definicion: z.string().trim().max(10000).optional().nullable(),
+		ejemplo: z.string().trim().max(4000).optional().nullable(),
+		bibliografia: z.string().trim().max(10000).optional().nullable(),
+		equivalencias: z.array(z.string().trim().min(1).max(200)).optional().nullable(),
 		patron_especifico: z.string().trim().max(2000).optional().nullable(),
 		activo: z.boolean().optional()
 	})
 	.refine((payload) => Object.keys(payload).length > 0, {
 		message: 'No hay campos para actualizar'
+	});
+
+export const vocabularioReorderSchema = z
+	.object({
+		categoria: z.string().trim().min(1).max(80),
+		items: z
+			.array(
+				z.object({
+					termino_id: z.string().uuid(),
+					termino_padre_id: z.string().uuid().nullable(),
+					orden: z.number().int().nonnegative(),
+					nivel: z.number().int().positive().nullable()
+				})
+			)
+			.min(1)
+	})
+	.superRefine((payload, ctx) => {
+		const seen = new Set<string>();
+		for (const item of payload.items) {
+			if (seen.has(item.termino_id)) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					path: ['items'],
+					message: 'Hay términos duplicados en la reordenación'
+				});
+				return;
+			}
+			seen.add(item.termino_id);
+		}
 	});
 
 export const queryFilterSchema = z.object({
@@ -313,7 +410,11 @@ export type AnalisisInputParsed = z.infer<typeof analisisInputSchema>;
 export type VisibilidadInputParsed = z.infer<typeof visibilidadInputSchema>;
 export type ObraCreateParsed = z.infer<typeof obraCreateSchema>;
 export type ObraDeleteParsed = z.infer<typeof obraDeleteSchema>;
+export type AutorCreateParsed = z.infer<typeof autorCreateSchema>;
+export type AutorPatchParsed = z.infer<typeof autorPatchSchema>;
+export type AutorDeleteParsed = z.infer<typeof autorDeleteSchema>;
 export type ObraAssignmentsInputParsed = z.infer<typeof obraAssignmentsInputSchema>;
 export type ObraReviewersInputParsed = z.infer<typeof obraReviewersInputSchema>;
 export type VocabularioCreateParsed = z.infer<typeof vocabularioCreateSchema>;
 export type VocabularioPatchParsed = z.infer<typeof vocabularioPatchSchema>;
+export type VocabularioReorderParsed = z.infer<typeof vocabularioReorderSchema>;

@@ -8,6 +8,8 @@ import {
 	canDeleteObras,
 	canManageReviewAssignments,
 	canManageVocabularios,
+	canManageAutores,
+	canDeleteAutores,
 	isProtectedVocabularyCategory,
 	normalizeRole
 } from './permissions';
@@ -70,6 +72,12 @@ describe('permissions', () => {
 
 		expect(canManageVocabularios('admin')).toBe(true);
 		expect(canManageVocabularios('revisor')).toBe(false);
+		expect(canManageAutores('admin')).toBe(true);
+		expect(canManageAutores('ip')).toBe(true);
+		expect(canManageAutores('editor')).toBe(false);
+		expect(canDeleteAutores('admin')).toBe(true);
+		expect(canDeleteAutores('ip')).toBe(true);
+		expect(canDeleteAutores('editor')).toBe(false);
 	});
 
 	it('protects immutable vocabulary categories', () => {

@@ -86,6 +86,14 @@ export function canManageVocabularios(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }
 
+export function canManageAutores(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
+export function canDeleteAutores(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
 export function isProtectedVocabularyCategory(category: string): boolean {
 	return protectedVocabularyCategories.has(category.trim().toLowerCase());
 }

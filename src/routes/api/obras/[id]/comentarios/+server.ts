@@ -50,7 +50,7 @@ function contextLabel(comment: ComentarioWithMeta, maps: ContextMaps): string | 
 		return jornada ? `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})` : 'Jornada';
 	}
 	if (comment.rango_id) {
-		return 'Rango de autoria';
+		return 'Rango de autoría';
 	}
 	return null;
 }

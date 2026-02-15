@@ -179,11 +179,11 @@
 	function validateJornadaForm(showToast = true) {
 		const payload = parseJornadaPayload();
 		if (!Number.isFinite(payload.jornada_num) || payload.jornada_num < 1) {
-			if (showToast) pushToast('error', 'Jornada invalida');
+			if (showToast) pushToast('error', 'Jornada inválida');
 			return false;
 		}
 		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
-			if (showToast) pushToast('error', 'Rango de versos invalido');
+			if (showToast) pushToast('error', 'Rango de versos inválido');
 			return false;
 		}
 		return true;
@@ -200,11 +200,11 @@
 			return false;
 		}
 		if (!Number.isFinite(payload.cuadro_num) || payload.cuadro_num < 1) {
-			if (showToast) pushToast('error', 'Cuadro invalido');
+			if (showToast) pushToast('error', 'Cuadro inválido');
 			return false;
 		}
 		if (!Number.isFinite(payload.v_ini) || !Number.isFinite(payload.v_fin) || payload.v_ini >= payload.v_fin) {
-			if (showToast) pushToast('error', 'Rango de versos invalido');
+			if (showToast) pushToast('error', 'Rango de versos inválido');
 			return false;
 		}
 		return true;
@@ -438,7 +438,7 @@
 			kind: 'jornada',
 			id: jornada.jornada_id,
 			title: `Eliminar Jornada ${jornada.jornada_num}`,
-			description: 'Se eliminaran tambien los cuadros asociados.'
+			description: 'Se eliminarán también los cuadros asociados.'
 		};
 	}
 
@@ -448,7 +448,7 @@
 			kind: 'cuadro',
 			id: cuadro.cuadro_id,
 			title: `Eliminar Cuadro ${cuadro.cuadro_num}`,
-			description: 'Esta accion no se puede deshacer.'
+			description: 'Esta acción no se puede deshacer.'
 		};
 	}
 
@@ -598,14 +598,14 @@
 
 			<div class="mt-3">
 				<Button variant="secondary" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
-					>Anadir cuadro</Button
+					>Añadir cuadro</Button
 				>
 			</div>
 		</article>
 	{/each}
 
 	<div class="flex justify-start">
-		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Anadir jornada</Button>
+		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Añadir jornada</Button>
 	</div>
 </section>
 
@@ -719,7 +719,7 @@
 					</select>
 				</label>
 				<label class="text-sm">
-					<span class="mb-1 block">Descripcion</span>
+					<span class="mb-1 block">Descripción</span>
 					<textarea
 						rows={3}
 						bind:value={cuadroForm.descripcion}
@@ -781,7 +781,7 @@
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continuas, perderas los cambios no guardados.</p>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continúas, perderás los cambios no guardados.</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={cancelCloseWithoutSaving}>Seguir editando</Button>
 				<Button variant="danger" onclick={confirmCloseWithoutSaving}>Cerrar sin guardar</Button>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
@@ -30,6 +30,7 @@
 		editorAsignadoNombre: string | null;
 		assignedReviewer: boolean;
 		capabilities: ObraAccessFlags;
+		onPendingChangesChange?: (pending: boolean) => void;
 	}>();
 
 	const obraLive = $derived(($currentObraStore.obra ?? props.obra) as Tables<'obras'>);
@@ -41,6 +42,8 @@
 	let pendingEstadoId = $state<string | null>(null);
 	let showEstadoConfirmModal = $state(false);
 	let visiblePublico = $state(Boolean(props.obra.visible_publico));
+	let persistedVisiblePublico = $state(Boolean(props.obra.visible_publico));
+	let commentsDraftDirty = $state(false);
 	let commentsReloadKey = $state(0);
 
 	let stateSaving = $state(false);
@@ -82,7 +85,7 @@
 		).length;
 		return [
 			{
-				label: 'Datos basicos completos',
+				label: 'Datos básicos completos',
 				done: Boolean(obraLive.titulo?.trim() && obraLive.genero_id && obraLive.edicion?.trim()),
 				detail: ''
 			},
@@ -92,22 +95,22 @@
 				detail: `${props.jornadas.length} jornadas, ${props.cuadros.length} cuadros`
 			},
 			{
-				label: 'Secuencias metricas validadas',
+				label: 'Secuencias métricas validadas',
 				done: props.secuencias.length > 0 && secuenciasValidadas === props.secuencias.length,
 				detail: `${secuenciasValidadas}/${props.secuencias.length}`
 			},
 			{
-				label: 'Autoria asignada',
+				label: 'Autoría asignada',
 				done: (obraLive.autoria ?? []).length > 0,
 				detail: `${(obraLive.autoria ?? []).length} autores`
 			},
 			{
-				label: 'Analisis de obra',
+				label: 'Análisis de obra',
 				done: (obraLive.analisis_editor ?? '').trim().length > 100,
 				detail: `${(obraLive.analisis_editor ?? '').trim().length} caracteres`
 			},
 			{
-				label: 'Bibliografia anadida',
+				label: 'Bibliografía añadida',
 				done: (obraLive.bibliografia ?? '').trim().length > 0,
 				detail: `${(obraLive.bibliografia ?? '').trim().length} caracteres`
 			}
@@ -129,6 +132,8 @@
 	const persistedEstadoLabel = $derived(
 		props.estadoOptions.find((option: EstadoOption) => option.termino_id === persistedEstadoId)?.termino ?? '--'
 	);
+	const stateDirty = $derived(currentEstadoId.trim() !== persistedEstadoId.trim());
+	const visibilityDirty = $derived(visiblePublico !== persistedVisiblePublico);
 
 	function normalizeIds(ids: string[]): string[] {
 		return [...new Set(ids)].sort((a, b) => a.localeCompare(b));
@@ -178,6 +183,9 @@
 	const assignmentsDirty = $derived(
 		assignmentEditorId !== baselineEditorId ||
 			JSON.stringify(normalizedReviewerIds) !== JSON.stringify(normalizedBaselineReviewerIds)
+	);
+	const revisionPendingChanges = $derived(
+		assignmentsDirty || stateDirty || visibilityDirty || commentsDraftDirty
 	);
 
 	const addedReviewerIds = $derived(
@@ -244,6 +252,10 @@
 		currentEstadoId = (ids[0] ?? '').trim();
 	}
 
+	function onCommentsDraftDirtyChange(dirty: boolean) {
+		commentsDraftDirty = dirty;
+	}
+
 	function openAssignmentsConfirmModal() {
 		if (!canManageAssignments || reviewersSaving || reviewersLoading) return;
 		if (!assignmentsDirty) {
@@ -269,7 +281,7 @@
 			return;
 		}
 		if (assignmentReviewerIds.includes(assignmentEditorId)) {
-			pushToast('error', 'El editor no puede quedar tambien como revisor en esta obra.');
+			pushToast('error', 'El editor no puede quedar también como revisor en esta obra.');
 			return;
 		}
 
@@ -334,6 +346,10 @@
 			pushToast('error', 'Selecciona un estado antes de guardar.');
 			return;
 		}
+		if (!stateDirty) {
+			pushToast('info', 'No hay cambios pendientes en el estado.');
+			return;
+		}
 		pendingEstadoId = currentEstadoId;
 		const baseComment = estadoComentario.trim();
 		if (baseComment.length > 0) {
@@ -361,6 +377,10 @@
 
 	async function onGuardarVisibilidad() {
 		if (visibilitySaving || !canToggleVisible) return;
+		if (!visibilityDirty) {
+			pushToast('info', 'No hay cambios pendientes en la visibilidad.');
+			return;
+		}
 		visibilitySaving = true;
 		const response = await fetch(`/api/obras/${props.obraId}/visibilidad`, {
 			method: 'PATCH',
@@ -376,6 +396,8 @@
 		}
 
 		const payload = await response.json();
+		visiblePublico = Boolean(payload.obra.visible_publico);
+		persistedVisiblePublico = Boolean(payload.obra.visible_publico);
 		patchCurrentObra({
 			visible_publico: payload.obra.visible_publico,
 			updated_at: payload.obra.updated_at ?? obraLive.updated_at
@@ -423,6 +445,14 @@
 	onMount(() => {
 		void loadReviewers();
 	});
+
+	$effect(() => {
+		props.onPendingChangesChange?.(revisionPendingChanges);
+	});
+
+	onDestroy(() => {
+		props.onPendingChangesChange?.(false);
+	});
 </script>
 
 <section class="space-y-4">
@@ -449,13 +479,14 @@
 		canComment={canComment}
 		title="Comentarios internos"
 		reloadKey={commentsReloadKey}
+		onDraftDirtyChange={onCommentsDraftDirtyChange}
 	/>
 
 	<div class="card p-4">
-		<h3 class="mb-3 text-lg font-semibold">Gestion editorial</h3>
+		<h3 class="mb-3 text-lg font-semibold">Gestión editorial</h3>
 		{#if props.assignedReviewer}
 			<p class="mb-3 text-sm text-[color:var(--muted-foreground)]">
-				Tienes esta obra asignada para revision.
+				Tienes esta obra asignada para revisión.
 			</p>
 		{/if}
 
@@ -522,7 +553,7 @@
 					variant="success"
 					class="shrink-0"
 					onclick={openEstadoConfirmModal}
-					disabled={stateSaving || !canChangeState}
+					disabled={stateSaving || !canChangeState || !stateDirty}
 				>
 					{stateSaving ? 'Guardando...' : 'Guardar estado'}
 				</Button>
@@ -535,9 +566,13 @@
 				<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 					<label class="flex items-center gap-2 text-sm">
 						<input type="checkbox" bind:checked={visiblePublico} />
-						Visible en web publica
+						Visible en web pública
 					</label>
-					<Button variant="success" onclick={onGuardarVisibilidad} disabled={visibilitySaving}>
+					<Button
+						variant="success"
+						onclick={onGuardarVisibilidad}
+						disabled={visibilitySaving || !canToggleVisible || !visibilityDirty}
+					>
 						{visibilitySaving ? 'Guardando...' : 'Guardar visibilidad'}
 					</Button>
 				</div>
@@ -553,7 +588,7 @@
 					<div>
 						<h4 class="text-sm font-semibold text-[color:var(--danger)]">Eliminar esta obra</h4>
 						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-							Se eliminaran la obra y sus datos relacionados. Esta accion es irreversible.
+							Se eliminarán la obra y sus datos relacionados. Esta acción es irreversible.
 						</p>
 					</div>
 					<Button variant="danger" onclick={onOpenDeleteModal} disabled={deletingObra}>Eliminar obra</Button>
@@ -599,13 +634,13 @@
 {#if showAssignmentsConfirmModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-lg p-5">
-			<h3 class="text-lg font-semibold">Confirmar cambios de asignacion</h3>
+			<h3 class="text-lg font-semibold">Confirmar cambios de asignación</h3>
 			<div class="mt-3 space-y-2 text-sm">
 				<div>
 					<strong>Editor:</strong> {baselineEditorLabel} -> {assignmentEditorLabel}
 				</div>
 				<div>
-					<strong>Revisores anadidos:</strong>
+					<strong>Revisores añadidos:</strong>
 					{#if addedReviewerIds.length === 0}
 						<span class="text-[color:var(--muted-foreground)]"> ninguno</span>
 					{:else}
@@ -644,12 +679,12 @@
 {#if showDeleteModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
-			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminacion</h3>
+			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminación</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-				Esta accion es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
+				Esta acción es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
 			</p>
 			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Confirmacion</span>
+				<span class="mb-1 block">Confirmación</span>
 				<input
 					type="text"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
