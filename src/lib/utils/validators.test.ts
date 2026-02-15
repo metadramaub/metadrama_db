@@ -10,10 +10,14 @@ import {
 	analisisInputSchema,
 	visibilidadInputSchema,
 	obraCreateSchema,
+	autorCreateSchema,
+	autorPatchSchema,
+	autorDeleteSchema,
 	obraAssignmentsInputSchema,
 	obraReviewersInputSchema,
 	vocabularioCreateSchema,
-	vocabularioPatchSchema
+	vocabularioPatchSchema,
+	vocabularioReorderSchema
 } from './validators';
 
 describe('validators', () => {
@@ -167,6 +171,43 @@ describe('validators', () => {
 		expect(valid.success).toBe(true);
 	});
 
+	it('validates author create payload', () => {
+		const result = autorCreateSchema.safeParse({
+			nombre_completo: '  Lope de Vega  ',
+			variantes_nombre: ['Lope Felix', '  ', 'LOPE FELIX'],
+			bnedatos_id: ' BNE123 ',
+			viaf_id: '',
+			wikidata_id: null
+		});
+		expect(result.success).toBe(true);
+		if (!result.success) return;
+		expect(result.data.nombre_completo).toBe('Lope de Vega');
+		expect(result.data.variantes_nombre).toEqual(['Lope Felix']);
+		expect(result.data.bnedatos_id).toBe('BNE123');
+		expect(result.data.viaf_id).toBeNull();
+	});
+
+	it('requires at least one field in author patch payload', () => {
+		const empty = autorPatchSchema.safeParse({});
+		expect(empty.success).toBe(false);
+
+		const valid = autorPatchSchema.safeParse({
+			variantes_nombre: ['Alias A', 'alias a'],
+			viaf_id: ' VIAF-1 '
+		});
+		expect(valid.success).toBe(true);
+		if (!valid.success) return;
+		expect(valid.data.variantes_nombre).toEqual(['Alias A']);
+		expect(valid.data.viaf_id).toBe('VIAF-1');
+	});
+
+	it('requires ELIMINAR in author delete confirmation', () => {
+		const invalid = autorDeleteSchema.safeParse({ confirmText: 'eliminar' });
+		expect(invalid.success).toBe(false);
+		const valid = autorDeleteSchema.safeParse({ confirmText: 'ELIMINAR' });
+		expect(valid.success).toBe(true);
+	});
+
 	it('deduplicates reviewer ids', () => {
 		const result = obraReviewersInputSchema.parse({
 			reviewer_ids: [
@@ -214,14 +255,56 @@ describe('validators', () => {
 	it('validates vocabulario create and patch payloads', () => {
 		const createResult = vocabularioCreateSchema.safeParse({
 			categoria: 'genero',
-			termino: 'comedia'
+			termino: 'comedia',
+			definicion: 'Descripcion base',
+			equivalencias: ['drama', 'pieza']
 		});
 		expect(createResult.success).toBe(true);
 
 		const emptyPatch = vocabularioPatchSchema.safeParse({});
 		expect(emptyPatch.success).toBe(false);
 
-		const patchResult = vocabularioPatchSchema.safeParse({ activo: false });
+		const patchResult = vocabularioPatchSchema.safeParse({ activo: false, bibliografia: 'Ref.' });
 		expect(patchResult.success).toBe(true);
+	});
+
+	it('validates vocabulario reorder payloads', () => {
+		const valid = vocabularioReorderSchema.safeParse({
+			categoria: 'estrofa_tipo',
+			items: [
+				{
+					termino_id: 'b0d246e7-fe7c-4c8f-8b5d-57a3a95e2af7',
+					termino_padre_id: null,
+					orden: 10,
+					nivel: 1
+				},
+				{
+					termino_id: 'e4f15fc1-87a1-4d5e-bf55-2aa9536f4f6e',
+					termino_padre_id: 'b0d246e7-fe7c-4c8f-8b5d-57a3a95e2af7',
+					orden: 10,
+					nivel: 2
+				}
+			]
+		});
+		expect(valid.success).toBe(true);
+
+		const duplicate = vocabularioReorderSchema.safeParse({
+			categoria: 'estrofa_tipo',
+			items: [
+				{
+					termino_id: 'b0d246e7-fe7c-4c8f-8b5d-57a3a95e2af7',
+					termino_padre_id: null,
+					orden: 10,
+					nivel: 1
+				},
+				{
+					termino_id: 'b0d246e7-fe7c-4c8f-8b5d-57a3a95e2af7',
+					termino_padre_id: null,
+					orden: 20,
+					nivel: 1
+				}
+			]
+		});
+		expect(duplicate.success).toBe(false);
 	});
 });

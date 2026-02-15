@@ -1,6 +1,6 @@
 <section class="flex min-h-[74vh] items-center">
 	<div class="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
-		<h1 class="font-display text-3xl leading-tight text-[color:var(--gray-900)] md:text-5xl">
+		<h1 class="font-display font-semibold text-3xl leading-tight text-[color:var(--gray-900)] md:text-5xl">
 			CATÁLOGO MÉTRICO DEL TEATRO ÁUREO
 		</h1>
 		<p class="mt-3 max-w-2xl text-sm text-[color:var(--muted-foreground)] md:text-base">

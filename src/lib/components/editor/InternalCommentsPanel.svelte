@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
@@ -21,6 +21,7 @@
 		collapsible?: boolean;
 		defaultCollapsed?: boolean;
 		collapseLabel?: string;
+		onDraftDirtyChange?: (dirty: boolean) => void;
 	}>();
 
 	let comments = $state<ComentarioListItem[]>([]);
@@ -34,6 +35,8 @@
 	let editingCommentId = $state<string | null>(null);
 	let editingText = $state('');
 	let editingType = $state<CommentType>('general');
+	let editingBaselineText = $state('');
+	let editingBaselineType = $state<CommentType>('general');
 	let savingEdit = $state(false);
 
 	let deleteConfirmId = $state<string | null>(null);
@@ -44,6 +47,12 @@
 	const canComment = $derived(Boolean(props.canComment));
 	const canCollapse = $derived(Boolean(props.collapsible));
 	const visibleComments = $derived(showAllComments ? comments : comments.slice(0, 5));
+	const newCommentDraftDirty = $derived(newComment.trim().length > 0);
+	const editCommentDraftDirty = $derived.by(() => {
+		if (!editingCommentId) return false;
+		return editingText.trim() !== editingBaselineText.trim() || editingType !== editingBaselineType;
+	});
+	const draftDirty = $derived(newCommentDraftDirty || editCommentDraftDirty);
 	const contextParams = $derived.by(() => {
 		const params = new URLSearchParams();
 		if (props.context?.secuencia_id) params.set('secuencia_id', props.context.secuencia_id);
@@ -74,17 +83,22 @@
 	function startEdit(comment: ComentarioListItem) {
 		editingCommentId = comment.comentario_id;
 		editingText = comment.comentario;
+		editingBaselineText = comment.comentario;
 		if (comment.tipo_comentario_term === 'revision' || comment.tipo_comentario_term === 'tecnico') {
 			editingType = comment.tipo_comentario_term;
+			editingBaselineType = comment.tipo_comentario_term;
 			return;
 		}
 		editingType = 'general';
+		editingBaselineType = 'general';
 	}
 
 	function cancelEdit() {
 		editingCommentId = null;
 		editingText = '';
 		editingType = 'general';
+		editingBaselineText = '';
+		editingBaselineType = 'general';
 	}
 
 	async function saveEdit(commentId: string) {
@@ -185,6 +199,14 @@
 		lastReloadKey = normalized;
 		void loadComments();
 	});
+
+	$effect(() => {
+		props.onDraftDirtyChange?.(draftDirty);
+	});
+
+	onDestroy(() => {
+		props.onDraftDirtyChange?.(false);
+	});
 </script>
 
 <div class="card p-4">
@@ -208,7 +230,7 @@
 		{#if commentsLoading}
 			<p class="text-sm text-[color:var(--muted-foreground)]">Cargando comentarios...</p>
 		{:else if comments.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">{props.emptyText ?? 'No hay comentarios aun.'}</p>
+			<p class="text-sm text-[color:var(--muted-foreground)]">{props.emptyText ?? 'No hay comentarios aún.'}</p>
 		{:else}
 			<div class="mb-3 space-y-2">
 				{#each visibleComments as comment}
@@ -241,8 +263,8 @@
 									disabled={savingEdit}
 								>
 									<option value="general">general</option>
-									<option value="revision">revision</option>
-									<option value="tecnico">tecnico</option>
+									<option value="revision">revisión</option>
+									<option value="tecnico">técnico</option>
 								</select>
 							</label>
 							<label class="mt-2 block text-sm">
@@ -292,7 +314,7 @@
 							{/if}
 							{#if deleteConfirmId === comment.comentario_id}
 								<div class="mt-2 border border-[color:var(--danger)] bg-white p-2 text-xs">
-									<div class="mb-2">Esta accion eliminara el comentario de forma permanente.</div>
+									<div class="mb-2">Esta acción eliminará el comentario de forma permanente.</div>
 									<div class="flex justify-end gap-2">
 										<Button
 											variant="secondary"
@@ -326,8 +348,8 @@
 					bind:value={newCommentType}
 				>
 					<option value="general">general</option>
-					<option value="revision">revision</option>
-					<option value="tecnico">tecnico</option>
+					<option value="revision">revisión</option>
+					<option value="tecnico">técnico</option>
 				</select>
 			</label>
 			<label class="block text-sm">

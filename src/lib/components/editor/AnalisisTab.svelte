@@ -94,7 +94,7 @@
 		if (!response.ok) {
 			setSaving(false, 'analisis');
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar analisis y bibliografia.');
+			pushToast('error', body.message ?? 'No se pudo guardar análisis y bibliografía.');
 			return;
 		}
 
@@ -107,7 +107,7 @@
 			updated_at: payload.obra.updated_at
 		});
 		markSaved('analisis');
-		pushToast('success', 'Analisis y bibliografia guardados');
+		pushToast('success', 'Análisis y bibliografía guardados');
 	}
 
 	onDestroy(() => {
@@ -118,7 +118,7 @@
 <section class="space-y-4">
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<h2 class="text-xl font-semibold">Analisis y bibliografia</h2>
+			<h2 class="text-xl font-semibold">Análisis y bibliografía</h2>
 		</div>
 		<Button variant="success" onclick={save} disabled={savingNow || props.readOnly}>
 			{savingNow ? 'Guardando...' : 'Guardar'}
@@ -128,7 +128,7 @@
 	<article class="card p-4">
 		<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
 			<div>
-				<h3 class="text-lg font-semibold">Analisis del editor</h3>
+				<h3 class="text-lg font-semibold">Análisis del editor</h3>
 				<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</p>
 			</div>
 			<Button variant="secondary" onclick={() => (analisisPreview = !analisisPreview)}>
@@ -179,7 +179,7 @@
 	<article class="card p-4">
 		<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
 			<div>
-				<h3 class="text-lg font-semibold">Bibliografia general</h3>
+				<h3 class="text-lg font-semibold">Bibliografía general</h3>
 				<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
 			</div>
 			<Button variant="secondary" onclick={() => (bibliografiaPreview = !bibliografiaPreview)}>

@@ -88,6 +88,7 @@
 	let pendingTabChange: string | null = null;
 	let pendingRouteChange: string | null = null;
 	let bypassUnsavedGuard = false;
+	let revisionHasPendingChanges = $state(false);
 	const jornadaIds = $derived(
 		new Set((jornadasLive as Tables<'jornadas'>[]).map((jornada) => jornada.jornada_id))
 	);
@@ -101,12 +102,19 @@
 	}
 
 	function hasPendingChanges() {
+		if (currentTab === 'revision') {
+			return revisionHasPendingChanges;
+		}
 		const scope = getCurrentDirtyScope();
 		if (!scope) return false;
 		const state = get(currentObraStore);
 		const dirtyByScope = state.dirtyByScope[scope];
 		const savingByScope = state.savingByScope[scope];
 		return Boolean(dirtyByScope) && !Boolean(savingByScope);
+	}
+
+	function handleRevisionPendingChangesChange(pending: boolean) {
+		revisionHasPendingChanges = pending;
 	}
 
 	function openUnsavedChangesModal({
@@ -139,6 +147,9 @@
 	}
 
 	async function confirmUnsavedChangesModal() {
+		if (currentTab === 'revision') {
+			revisionHasPendingChanges = false;
+		}
 		const currentScope = getCurrentDirtyScope();
 		if (currentScope) {
 			setDirty(false, currentScope);
@@ -410,6 +421,7 @@
 			editorAsignadoNombre={data.editorAsignadoNombre}
 			assignedReviewer={data.assignedReviewer}
 			capabilities={data.capabilities}
+			onPendingChangesChange={handleRevisionPendingChangesChange}
 		/>
 	{/if}
 </section>

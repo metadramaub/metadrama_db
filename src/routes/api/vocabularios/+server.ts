@@ -5,6 +5,50 @@ import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 import { vocabularioCreateSchema } from '$lib/utils/validators';
 
+const vocabularySelect =
+	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,activo';
+
+async function ensureParentInCategory(locals: App.Locals, categoria: string, parentId: string | null) {
+	if (!parentId) return { ok: true as const };
+	const { data: parent, error } = await locals.supabase
+		.from('vocabularios')
+		.select('termino_id,categoria')
+		.eq('termino_id', parentId)
+		.maybeSingle();
+	if (error) {
+		return { ok: false as const, status: 500, message: error.message };
+	}
+	if (!parent || parent.categoria !== categoria) {
+		return {
+			ok: false as const,
+			status: 400,
+			message: 'El término padre debe existir y pertenecer a la misma categoría.'
+		};
+	}
+	return { ok: true as const };
+}
+
+async function resolveNextOrder(locals: App.Locals, categoria: string, parentId: string | null) {
+	let query = locals.supabase.from('vocabularios').select('orden').eq('categoria', categoria);
+	if (parentId) {
+		query = query.eq('termino_padre_id', parentId);
+	} else {
+		query = query.is('termino_padre_id', null);
+	}
+
+	const { data, error } = await query;
+	if (error) {
+		return { ok: false as const, status: 500, message: error.message };
+	}
+
+	const maxOrder = Math.max(
+		0,
+		...(data ?? []).map((row: { orden: number | null }) => (typeof row.orden === 'number' ? row.orden : 0))
+	);
+	const nextOrder = (Math.floor(maxOrder / 10) + 1) * 10;
+	return { ok: true as const, order: nextOrder };
+}
+
 export const GET: RequestHandler = async ({ locals, url }) => {
 	await requireEditorProfile({ locals });
 	const categoriasParam = url.searchParams.get('categorias');
@@ -18,7 +62,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 
 	let query = locals.supabase
 		.from('vocabularios')
-		.select('termino_id,categoria,termino,termino_padre_id,nivel,orden,patron_especifico,activo')
+		.select(vocabularySelect)
 		.order('categoria')
 		.order('orden', { ascending: true });
 
@@ -55,6 +99,26 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		return forbiddenResponse('La categoría indicada está protegida y no admite escritura.');
 	}
 
+	const parentCheck = await ensureParentInCategory(locals, payload.categoria, payload.termino_padre_id ?? null);
+	if (!parentCheck.ok) {
+		return json(
+			{
+				error: parentCheck.status === 500 ? 'db_error' : 'validation_error',
+				message: parentCheck.message
+			},
+			{ status: parentCheck.status }
+		);
+	}
+
+	let resolvedOrder = payload.orden ?? null;
+	if (resolvedOrder === null) {
+		const nextOrderResult = await resolveNextOrder(locals, payload.categoria, payload.termino_padre_id ?? null);
+		if (!nextOrderResult.ok) {
+			return json({ error: 'db_error', message: nextOrderResult.message }, { status: nextOrderResult.status });
+		}
+		resolvedOrder = nextOrderResult.order;
+	}
+
 	const { data, error } = await locals.supabase
 		.from('vocabularios')
 		.insert({
@@ -62,11 +126,15 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			termino: payload.termino,
 			termino_padre_id: payload.termino_padre_id,
 			nivel: payload.nivel,
-			orden: payload.orden,
+			orden: resolvedOrder,
+			definicion: payload.definicion,
+			ejemplo: payload.ejemplo,
+			bibliografia: payload.bibliografia,
+			equivalencias: payload.equivalencias,
 			patron_especifico: payload.patron_especifico,
 			activo: payload.activo
 		})
-		.select('termino_id,categoria,termino,termino_padre_id,nivel,orden,patron_especifico,activo')
+		.select(vocabularySelect)
 		.single();
 
 	if (error || !data) {

@@ -23,12 +23,18 @@
 	const breadcrumbs = $derived.by(() => {
 		const pathSegments = $page.url.pathname.split('/').filter(Boolean);
 		const obraTitle = ($page.data as { obra?: { titulo?: string } } | undefined)?.obra?.titulo?.trim();
+		const authorName = ($page.data as { autor?: { nombre_completo?: string } } | undefined)?.autor?.nombre_completo?.trim();
 		const isObraDetailPath =
 			pathSegments.length >= 3 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'obras';
+		const isAuthorDetailPath =
+			pathSegments.length >= 3 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'autores';
 
 		return pathSegments.map((segment, index) => {
 			if (isObraDetailPath && index === 2 && obraTitle) {
 				return { label: obraTitle, preserveCase: true };
+			}
+			if (isAuthorDetailPath && index === 2 && authorName) {
+				return { label: authorName, preserveCase: true };
 			}
 			return { label: segment.replaceAll('-', ' ') };
 		}) as BreadcrumbSegment[];
@@ -119,13 +125,13 @@
 	});
 </script>
 
-<div class="grid min-h-screen md:grid-cols-[18rem_1fr]">
+<div class="grid min-h-screen md:h-screen md:grid-cols-[18rem_1fr] md:overflow-hidden">
 	<Sidebar
 		profile={data.profile}
 		misObrasCount={misObrasCount}
 		notificationsUnreadCount={notificationsUnreadCount}
 	/>
-	<main class="min-w-0 bg-[color:var(--background)] p-6">
+	<main class="min-w-0 bg-[color:var(--background)] p-6 md:h-screen md:overflow-y-auto">
 		<div class="mb-4 border-b border-[color:var(--border)] pb-3 text-xs font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
 			{#if breadcrumbs.length === 0}
 				DASHBOARD
