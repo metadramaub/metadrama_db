@@ -1,5 +1,7 @@
 ﻿<script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { browser } from '$app/environment';
+	import { beforeNavigate, goto } from '$app/navigation';
+	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import { getVocabularyFieldConfig } from '$lib/config/vocabulary-fields';
@@ -61,6 +63,9 @@
 	let savingTerm = $state(false);
 	let creating = $state(false);
 	let showCreateModal = $state(false);
+	let deletingTerm = $state(false);
+	let deleteConfirmText = $state('');
+	let showDeleteModal = $state(false);
 	let queuedSave = $state(false);
 	let retryAttempt = $state(0);
 	let retryScheduled = $state(false);
@@ -100,12 +105,21 @@
 
 	let createForm = $state<CreateTermForm>(emptyCreateForm());
 	let termForm = $state<TermForm>(emptyTermForm());
+	let lastHydrationKey = $state('');
 
 	let retryTimer: ReturnType<typeof setTimeout> | null = null;
+	let termAutosaveTimer: ReturnType<typeof setTimeout> | null = null;
 	let hasShownAutoSaveError = false;
+	let termAutosaveErrorShown = false;
+	let showUnsavedChangesModal = $state(false);
+	let pendingSelectionId = $state<string | null>(null);
+	let pendingCloseDetail = $state(false);
+	let pendingRouteChange = $state<string | null>(null);
+	let bypassUnsavedGuard = false;
 
 	const fieldConfig = $derived(getVocabularyFieldConfig(data.categoria));
 	const readOnly = $derived(!data.canEdit);
+	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
 	const selectedItem = $derived(items.find((item) => item.termino_id === selectedId) ?? null);
 	const pathLabel = $derived(computePath(items, selectedId).join(' > '));
 	const parentOptions = $derived(
@@ -220,12 +234,95 @@
 		);
 	}
 
+	function computeHydrationKey(source: PageData): string {
+		const vocabKey = (source.vocabularios ?? [])
+			.map((item) => `${item.termino_id}:${item.termino_padre_id ?? ''}:${item.orden ?? ''}:${item.activo ?? ''}`)
+			.join('|');
+		const metrosKey = (source.estrofaTipoMetros ?? [])
+			.map((item) => `${item.estrofa_tipo_id}:${item.metro_id}`)
+			.sort((a, b) => a.localeCompare(b))
+			.join('|');
+		return `${source.categoria}|${vocabKey}|${metrosKey}|${source.canEdit ? '1' : '0'}`;
+	}
+
 	function clearRetryTimer() {
 		if (retryTimer) {
 			clearTimeout(retryTimer);
 			retryTimer = null;
 		}
 		retryScheduled = false;
+	}
+
+	function clearTermAutosaveTimer() {
+		if (termAutosaveTimer) {
+			clearTimeout(termAutosaveTimer);
+			termAutosaveTimer = null;
+		}
+	}
+
+	function hasPendingTermChanges() {
+		return Boolean(selectedItem && termDirty && !savingTerm);
+	}
+
+	function openUnsavedChangesModal({
+		selectionId = null,
+		closeDetail = false,
+		routeChange = null
+	}: {
+		selectionId?: string | null;
+		closeDetail?: boolean;
+		routeChange?: string | null;
+	}) {
+		pendingSelectionId = selectionId;
+		pendingCloseDetail = closeDetail;
+		pendingRouteChange = routeChange;
+		showUnsavedChangesModal = true;
+	}
+
+	function cancelUnsavedChangesModal() {
+		showUnsavedChangesModal = false;
+		pendingSelectionId = null;
+		pendingCloseDetail = false;
+		pendingRouteChange = null;
+	}
+
+	function performSelectItem(terminoId: string) {
+		selectedId = terminoId;
+		syncFormFromSelection();
+	}
+
+	function performCloseSelectedItem() {
+		selectedId = null;
+		termForm = emptyTermForm();
+		showDeleteModal = false;
+		deleteConfirmText = '';
+		clearTermAutosaveTimer();
+		termAutosaveErrorShown = false;
+	}
+
+	async function confirmUnsavedChangesModal() {
+		const nextSelectionId = pendingSelectionId;
+		const shouldCloseDetail = pendingCloseDetail;
+		const nextRoute = pendingRouteChange;
+
+		cancelUnsavedChangesModal();
+
+		if (nextSelectionId) {
+			performSelectItem(nextSelectionId);
+			return;
+		}
+		if (shouldCloseDetail) {
+			performCloseSelectedItem();
+			return;
+		}
+		if (!nextRoute) return;
+
+		bypassUnsavedGuard = true;
+		try {
+			await goto(nextRoute);
+		} finally {
+			bypassUnsavedGuard = false;
+		}
 	}
 
 	function termFormFromItem(item: VocabularyItem): TermForm {
@@ -254,9 +351,89 @@
 	}
 
 	function onSelectItem(terminoId: string) {
-		selectedId = terminoId;
-		syncFormFromSelection();
+		if (terminoId === selectedId) return;
+		if (hasPendingTermChanges()) {
+			openUnsavedChangesModal({ selectionId: terminoId });
+			return;
+		}
+		performSelectItem(terminoId);
 	}
+
+	function closeSelectedItem() {
+		if (hasPendingTermChanges()) {
+			openUnsavedChangesModal({ closeDetail: true });
+			return;
+		}
+		performCloseSelectedItem();
+	}
+
+	function openDeleteModal() {
+		if (readOnly || !selectedItem || deletingTerm) return;
+		deleteConfirmText = '';
+		showDeleteModal = true;
+	}
+
+	function closeDeleteModal() {
+		if (deletingTerm) return;
+		showDeleteModal = false;
+		deleteConfirmText = '';
+	}
+
+	async function deleteSelectedTerm() {
+		if (readOnly || deletingTerm || !selectedItem) return;
+		if (!deleteConfirmed) {
+			pushToast('error', 'Debes escribir ELIMINAR para confirmar.');
+			return;
+		}
+
+		const target = selectedItem;
+		deletingTerm = true;
+		const response = await fetch(`/api/vocabularios/${target.termino_id}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
+		});
+		deletingTerm = false;
+
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo eliminar el termino.');
+			return;
+		}
+
+		showDeleteModal = false;
+		deleteConfirmText = '';
+		cancelUnsavedChangesModal();
+		estrofaTipoMetros = estrofaTipoMetros.filter(
+			(item) => item.estrofa_tipo_id !== target.termino_id && item.metro_id !== target.termino_id
+		);
+		items = normalizeTree(items.filter((item) => item.termino_id !== target.termino_id));
+
+		if (selectedId === target.termino_id) {
+			performCloseSelectedItem();
+		} else {
+			syncFormFromSelection();
+		}
+
+		pushToast('success', 'Término eliminado.');
+	}
+
+	beforeNavigate((navigation) => {
+		if (!browser) return;
+		if (bypassUnsavedGuard) return;
+		if (!navigation.to) return;
+		if (!hasPendingTermChanges()) return;
+
+		const sameDestination =
+			navigation.to.url.pathname === window.location.pathname &&
+			navigation.to.url.search === window.location.search &&
+			navigation.to.url.hash === window.location.hash;
+		if (sameDestination) return;
+
+		navigation.cancel();
+		const route = `${navigation.to.url.pathname}${navigation.to.url.search}${navigation.to.url.hash}`;
+		openUnsavedChangesModal({ routeChange: route });
+	});
 
 	function scheduleTreeRetry() {
 		if (readOnly || retryScheduled) return;
@@ -455,8 +632,14 @@
 		];
 	}
 
-	async function saveTerm() {
-		if (readOnly || !selectedItem || !termDirty || savingTerm) return;
+	function handleTermAutosaveError(message: string) {
+		if (termAutosaveErrorShown) return;
+		termAutosaveErrorShown = true;
+		pushToast('error', message);
+	}
+
+	async function saveTerm(source: 'manual' | 'autosave' = 'manual') {
+		if (readOnly || deletingTerm || !selectedItem || !termDirty || savingTerm) return;
 		savingTerm = true;
 
 		const response = await fetch(`/api/vocabularios/${selectedItem.termino_id}`, {
@@ -468,7 +651,12 @@
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar el termino.');
+			const message = body.message ?? 'No se pudo guardar el termino.';
+			if (source === 'manual') {
+				pushToast('error', message);
+			} else {
+				handleTermAutosaveError(message);
+			}
 			return;
 		}
 
@@ -479,7 +667,10 @@
 		}
 		items = normalizeTree(items.map((item) => (item.termino_id === updated.termino_id ? updated : item)));
 		syncFormFromSelection();
-		pushToast('success', 'Termino actualizado.');
+		termAutosaveErrorShown = false;
+		if (source === 'manual') {
+			pushToast('success', 'Término actualizado.');
+		}
 	}
 
 	async function createTerm() {
@@ -512,11 +703,16 @@
 		showCreateModal = false;
 		resetCreateForm();
 		syncFormFromSelection();
-		pushToast('success', 'Termino creado.');
+		pushToast('success', 'Término creado.');
 	}
 
 	$effect(() => {
+		const hydrationKey = computeHydrationKey(data);
+		if (hydrationKey === lastHydrationKey) return;
+		lastHydrationKey = hydrationKey;
+
 		clearRetryTimer();
+		clearTermAutosaveTimer();
 		const initialItems = normalizeTree(data.vocabularios as VocabularyItem[]);
 		items = initialItems;
 		estrofaTipoMetros = [...((data.estrofaTipoMetros ?? []) as EstrofaTipoMetro[])];
@@ -525,13 +721,54 @@
 		retryAttempt = 0;
 		treeSyncStatus = 'idle';
 		hasShownAutoSaveError = false;
-		const firstItem = initialItems[0] ?? null;
-		selectedId = firstItem?.termino_id ?? null;
-		termForm = firstItem ? termFormFromItem(firstItem) : emptyTermForm();
+		termAutosaveErrorShown = false;
+		cancelUnsavedChangesModal();
+		showDeleteModal = false;
+		deleteConfirmText = '';
+		deletingTerm = false;
+		selectedId = null;
+		termForm = emptyTermForm();
+	});
+
+	$effect(() => {
+		const track = `${selectedId ?? ''}|${JSON.stringify(termForm)}`;
+		void track;
+
+		if (!selectedId || readOnly || deletingTerm) {
+			clearTermAutosaveTimer();
+			return;
+		}
+		if (!termDirty) {
+			clearTermAutosaveTimer();
+			termAutosaveErrorShown = false;
+			return;
+		}
+		if (savingTerm) return;
+
+		clearTermAutosaveTimer();
+		termAutosaveTimer = setTimeout(() => {
+			void saveTerm('autosave');
+		}, 10_000);
+	});
+
+	onMount(() => {
+		if (!browser) return;
+
+		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+			if (!hasPendingTermChanges()) return;
+			event.preventDefault();
+			event.returnValue = '';
+		};
+
+		window.addEventListener('beforeunload', handleBeforeUnload);
+		return () => {
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+		};
 	});
 
 	onDestroy(() => {
 		clearRetryTimer();
+		clearTermAutosaveTimer();
 	});
 </script>
 
@@ -543,10 +780,10 @@
 		</div>
 		<div class="flex items-center gap-2">
 			{#if !readOnly}
-				<Button variant="success" onclick={openCreateModal}>Nuevo termino</Button>
+				<Button variant="success" onclick={openCreateModal}>Nuevo término</Button>
 			{/if}
 			<a href="/dashboard/vocabularios">
-				<Button variant="secondary">Volver a categorias</Button>
+				<Button variant="secondary">Volver a categorías</Button>
 			</a>
 			{#if data.isProtected}
 				<span class="border border-[color:var(--warning)] bg-[color:var(--muted)] px-2 py-1 text-xs">
@@ -564,7 +801,7 @@
 		<div class="space-y-3 lg:max-h-[calc(100dvh-12rem)] lg:overflow-y-auto lg:pr-1">
 			<div class="card p-4">
 				<label class="text-sm">
-					<span class="mb-1 block">Buscar termino</span>
+					<span class="mb-1 block">Buscar término</span>
 					<input
 						type="text"
 						bind:value={search}
@@ -576,7 +813,7 @@
 
 			<div class="card p-4">
 				<div class="mb-3 flex items-center justify-between gap-2">
-					<h2 class="text-lg font-semibold">Arbol de terminos</h2>
+					<h2 class="text-lg font-semibold">Árbol de términos</h2>
 					{#if !readOnly}
 						<span class={`text-xs ${treeSyncTone}`}>Orden: {treeSyncLabel}</span>
 					{/if}
@@ -586,6 +823,8 @@
 					selectedId={selectedId}
 					readOnly={readOnly}
 					search={search}
+					collapseKey={lastHydrationKey}
+					allowNesting={fieldConfig.showParent}
 					onSelect={onSelectItem}
 					onChange={onTreeItemsChange}
 				/>
@@ -603,18 +842,66 @@
 				fieldConfig={fieldConfig}
 				termDirty={termDirty}
 				savingTerm={savingTerm}
+				deletingTerm={deletingTerm}
 				onTermFormChange={onTermFormChange}
 				onSaveTerm={saveTerm}
+				onOpenDeleteModal={openDeleteModal}
+				onClose={closeSelectedItem}
 			/>
 		</div>
 	</div>
 </section>
 
+{#if showUnsavedChangesModal}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-md p-5">
+			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continuas, perderas los cambios no guardados.</p>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="secondary" onclick={cancelUnsavedChangesModal}>Seguir editando</Button>
+				<Button variant="danger" onclick={() => void confirmUnsavedChangesModal()}>Cerrar sin guardar</Button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if showDeleteModal && selectedItem}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div class="card w-full max-w-md p-5">
+			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminacion</h3>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+				Esta accion es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
+			</p>
+			<label class="mt-3 block text-sm">
+				<span class="mb-1 block">Confirmacion</span>
+				<input
+					type="text"
+					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+					bind:value={deleteConfirmText}
+					autocomplete="off"
+					spellcheck={false}
+				/>
+			</label>
+			<div class="mt-4 flex justify-end gap-2">
+				<Button variant="ghost" onclick={closeDeleteModal} disabled={deletingTerm}>Cancelar</Button>
+				<Button
+					variant="danger"
+					onclick={() => void deleteSelectedTerm()}
+					disabled={deletingTerm || !deleteConfirmed}
+				>
+					{deletingTerm ? 'Eliminando...' : 'Eliminar'}
+				</Button>
+			</div>
+		</div>
+	</div>
+{/if}
+
 {#if showCreateModal && !readOnly}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card max-h-[85vh] w-full max-w-2xl overflow-y-auto p-5">
 			<div class="mb-4 flex items-center justify-between gap-3">
-				<h3 class="text-lg font-semibold">Nuevo termino</h3>
+				<h3 class="text-lg font-semibold">Nuevo término</h3>
 				<button
 					type="button"
 					class="border border-[color:var(--border)] px-2 py-1 text-sm"
@@ -627,7 +914,7 @@
 
 			<div class="grid gap-3">
 				<label class="text-sm">
-					<span class="mb-1 block">Termino</span>
+					<span class="mb-1 block">Término</span>
 					<input
 						type="text"
 						value={createForm.termino}
@@ -638,13 +925,13 @@
 
 				{#if fieldConfig.showParent}
 					<label class="text-sm">
-						<span class="mb-1 block">Termino padre (opcional)</span>
+						<span class="mb-1 block">Término padre (opcional)</span>
 						<select
 							value={createForm.termino_padre_id ?? ''}
 							class="w-full border border-[color:var(--border)] px-3 py-2"
 							onchange={(event) => onCreateFormChange({ termino_padre_id: event.currentTarget.value || null })}
 						>
-							<option value="">Sin padre (raiz)</option>
+							<option value="">Sin padre (raíz)</option>
 							{#each createParentOptions as option}
 								<option value={option.id}>{option.label}</option>
 							{/each}
@@ -665,7 +952,7 @@
 
 				{#if fieldConfig.showDefinition}
 					<label class="text-sm">
-						<span class="mb-1 block">Definicion</span>
+						<span class="mb-1 block">Definición</span>
 						<textarea
 							rows={4}
 							value={createForm.definicion}
@@ -689,7 +976,7 @@
 
 				{#if fieldConfig.showBibliography}
 					<label class="text-sm">
-						<span class="mb-1 block">Bibliografia</span>
+						<span class="mb-1 block">Bibliografía</span>
 						<textarea
 							rows={3}
 							value={createForm.bibliografia}
@@ -701,7 +988,7 @@
 
 				{#if fieldConfig.showEquivalences}
 					<label class="text-sm">
-						<span class="mb-1 block">Equivalencias (una por linea)</span>
+						<span class="mb-1 block">Equivalencias (una por línea)</span>
 						<textarea
 							rows={3}
 							value={createForm.equivalenciasText}
@@ -713,7 +1000,7 @@
 
 				{#if fieldConfig.showPattern}
 					<label class="text-sm">
-						<span class="mb-1 block">Patron especifico</span>
+						<span class="mb-1 block">Patrón específico</span>
 						<input
 							type="text"
 							value={createForm.patron_especifico}
@@ -735,7 +1022,7 @@
 								})}
 						>
 							<option value="">Sin especificar</option>
-							<option value="forma_espanola">Forma espanola</option>
+							<option value="forma_espanola">Forma española</option>
 							<option value="forma_italiana">Forma italiana</option>
 						</select>
 					</label>

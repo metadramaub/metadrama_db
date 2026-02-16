@@ -299,6 +299,13 @@ export const autorDeleteSchema = z.object({
 		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
 });
 
+export const vocabularioDeleteSchema = z.object({
+	confirmText: z
+		.string()
+		.trim()
+		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
+});
+
 const optionalIdentifierInput = z
 	.union([z.string(), z.null(), z.undefined()])
 	.transform((value) => {
@@ -419,6 +426,7 @@ export type ObraDeleteParsed = z.infer<typeof obraDeleteSchema>;
 export type AutorCreateParsed = z.infer<typeof autorCreateSchema>;
 export type AutorPatchParsed = z.infer<typeof autorPatchSchema>;
 export type AutorDeleteParsed = z.infer<typeof autorDeleteSchema>;
+export type VocabularioDeleteParsed = z.infer<typeof vocabularioDeleteSchema>;
 export type ObraAssignmentsInputParsed = z.infer<typeof obraAssignmentsInputSchema>;
 export type ObraReviewersInputParsed = z.infer<typeof obraReviewersInputSchema>;
 export type VocabularioCreateParsed = z.infer<typeof vocabularioCreateSchema>;
