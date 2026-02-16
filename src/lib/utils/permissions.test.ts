@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
 	canTransitionState,
-	canTransitionReviewerWorkflow,
 	canReadAllObras,
 	canEditByState,
 	canToggleVisibility,
@@ -59,12 +58,6 @@ describe('permissions', () => {
 		expect(canDeleteObras('revisor')).toBe(false);
 	});
 
-	it('supports reviewer workflow helper for assigned reviewers', () => {
-		expect(canTransitionReviewerWorkflow('pendiente', 'en_revision')).toBe(true);
-		expect(canTransitionReviewerWorkflow('en_revision', 'validado')).toBe(true);
-		expect(canTransitionReviewerWorkflow('validado', 'publicado')).toBe(false);
-	});
-
 	it('limits management actions to admin/IP', () => {
 		expect(canManageReviewAssignments('admin')).toBe(true);
 		expect(canManageReviewAssignments('ip')).toBe(true);
@@ -83,6 +76,7 @@ describe('permissions', () => {
 	it('protects immutable vocabulary categories', () => {
 		expect(isProtectedVocabularyCategory('estado')).toBe(true);
 		expect(isProtectedVocabularyCategory('role_editor')).toBe(true);
+		expect(isProtectedVocabularyCategory('estado_revision')).toBe(false);
 		expect(isProtectedVocabularyCategory('genero')).toBe(false);
 	});
 });

@@ -6,7 +6,7 @@ import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils
 import { vocabularioReorderSchema } from '$lib/utils/validators';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,activo';
+	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
 
 type ExistingVocabularyRow = {
 	termino_id: string;
@@ -20,6 +20,7 @@ type ExistingVocabularyRow = {
 	bibliografia: string | null;
 	equivalencias: string[] | null;
 	patron_especifico: string | null;
+	tipo_forma: string | null;
 	activo: boolean | null;
 };
 
