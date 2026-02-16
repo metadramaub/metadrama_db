@@ -62,7 +62,6 @@ export interface SecuenciaInput {
 	personajes_genero: 'mixto' | 'solo_masculino' | 'solo_femenino';
 	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
-	estado_revision: string;
 	certeza_editor: string;
 	observaciones: string | null;
 }
@@ -193,10 +192,6 @@ export interface VisibilidadInput {
 	visible_publico: boolean;
 }
 
-export interface SecuenciaWithMetros extends Tables<'secuencias_metricas'> {
-	metros: Tables<'vocabularios'>[];
-}
-
 export interface ObraCreateInput {
 	titulo: string;
 	editor_asignado: string;
@@ -248,6 +243,8 @@ export interface VocabularioCreateInput {
 	bibliografia?: string | null;
 	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
+	tipo_forma?: 'forma_espanola' | 'forma_italiana' | null;
+	metro_ids?: string[] | null;
 	activo?: boolean;
 }
 
@@ -261,6 +258,8 @@ export interface VocabularioPatchInput {
 	bibliografia?: string | null;
 	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
+	tipo_forma?: 'forma_espanola' | 'forma_italiana' | null;
+	metro_ids?: string[] | null;
 	activo?: boolean;
 }
 

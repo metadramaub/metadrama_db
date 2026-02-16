@@ -30,20 +30,6 @@ export async function getEstadoTerm(
 	return (data?.termino ?? 'borrador').trim().toLowerCase();
 }
 
-export async function getEstadoRevisionTerm(
-	supabase: SupabaseClient<Database>,
-	estadoId: string
-): Promise<string> {
-	const { data } = await supabase
-		.from('vocabularios')
-		.select('termino')
-		.eq('termino_id', estadoId)
-		.eq('categoria', 'estado_revision')
-		.single();
-
-	return (data?.termino ?? 'borrador').trim().toLowerCase();
-}
-
 export async function getObraOrFail(
 	supabase: SupabaseClient<Database>,
 	obraId: string
@@ -80,9 +66,8 @@ export async function computeObraProgress(
 			.eq('obra_id', obra.obra_id),
 		supabase
 			.from('secuencias_metricas')
-			.select('estado_revision')
-			.eq('obra_id', obra.obra_id)
-			.limit(1000),
+			.select('secuencia_id', { count: 'exact', head: true })
+			.eq('obra_id', obra.obra_id),
 		supabase
 			.from('rangos')
 			.select('rango_id', { count: 'exact', head: true })
@@ -90,24 +75,7 @@ export async function computeObraProgress(
 	]);
 
 	flags.estructura = (jornadasResp.count ?? 0) > 0;
-	const secuencias = (secuenciasResp.data ?? []) as Array<
-		Pick<Tables<'secuencias_metricas'>, 'estado_revision'>
-	>;
-	if (secuencias.length > 0) {
-		const estadoIds = [...new Set(secuencias.map((row) => row.estado_revision))];
-		const { data: estados } = await supabase
-			.from('vocabularios')
-			.select('termino_id, termino')
-			.in('termino_id', estadoIds)
-			.eq('categoria', 'estado_revision');
-
-		const validatedIds = new Set(
-			(estados ?? [])
-				.filter((item) => item.termino.trim().toLowerCase() === 'validado')
-				.map((item) => item.termino_id)
-		);
-		flags.secuencias = secuencias.every((row) => validatedIds.has(row.estado_revision));
-	}
+	flags.secuencias = (secuenciasResp.count ?? 0) > 0;
 	flags.autoria = (rangosResp.count ?? 0) > 0;
 
 	const values = Object.values(flags);

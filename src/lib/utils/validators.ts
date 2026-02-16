@@ -105,10 +105,8 @@ export const secuenciaInputSchema = z
 		personajes_genero: z.enum(['mixto', 'solo_masculino', 'solo_femenino']),
 		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
-		estado_revision: z.string().uuid(),
 		certeza_editor: z.string().uuid(),
-		observaciones: z.string().trim().nullable().optional().default(null),
-		metro_ids: z.array(z.string().uuid()).min(1, 'Debe seleccionar al menos un metro')
+		observaciones: z.string().trim().nullable().optional().default(null)
 	})
 	.refine((input) => input.v_ini < input.v_fin, {
 		message: 'El verso inicial debe ser menor que el final',
@@ -301,6 +299,13 @@ export const autorDeleteSchema = z.object({
 		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
 });
 
+export const vocabularioDeleteSchema = z.object({
+	confirmText: z
+		.string()
+		.trim()
+		.refine((value) => value === 'ELIMINAR', { message: 'Debes escribir ELIMINAR para confirmar.' })
+});
+
 const optionalIdentifierInput = z
 	.union([z.string(), z.null(), z.undefined()])
 	.transform((value) => {
@@ -340,6 +345,12 @@ export const vocabularioCreateSchema = z.object({
 	bibliografia: z.string().trim().max(10000).optional().nullable().default(null),
 	equivalencias: z.array(z.string().trim().min(1).max(200)).optional().nullable().default(null),
 	patron_especifico: z.string().trim().max(2000).optional().nullable().default(null),
+	tipo_forma: z
+		.enum(['forma_espanola', 'forma_italiana'])
+		.optional()
+		.nullable()
+		.default(null),
+	metro_ids: z.array(z.string().uuid()).optional().nullable().default(null),
 	activo: z.boolean().optional().default(true)
 });
 
@@ -354,6 +365,8 @@ export const vocabularioPatchSchema = z
 		bibliografia: z.string().trim().max(10000).optional().nullable(),
 		equivalencias: z.array(z.string().trim().min(1).max(200)).optional().nullable(),
 		patron_especifico: z.string().trim().max(2000).optional().nullable(),
+		tipo_forma: z.enum(['forma_espanola', 'forma_italiana']).optional().nullable(),
+		metro_ids: z.array(z.string().uuid()).optional().nullable(),
 		activo: z.boolean().optional()
 	})
 	.refine((payload) => Object.keys(payload).length > 0, {
@@ -413,6 +426,7 @@ export type ObraDeleteParsed = z.infer<typeof obraDeleteSchema>;
 export type AutorCreateParsed = z.infer<typeof autorCreateSchema>;
 export type AutorPatchParsed = z.infer<typeof autorPatchSchema>;
 export type AutorDeleteParsed = z.infer<typeof autorDeleteSchema>;
+export type VocabularioDeleteParsed = z.infer<typeof vocabularioDeleteSchema>;
 export type ObraAssignmentsInputParsed = z.infer<typeof obraAssignmentsInputSchema>;
 export type ObraReviewersInputParsed = z.infer<typeof obraReviewersInputSchema>;
 export type VocabularioCreateParsed = z.infer<typeof vocabularioCreateSchema>;
