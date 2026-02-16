@@ -10,6 +10,7 @@ export type VocabularyItem = {
 	bibliografia: string | null;
 	equivalencias: string[] | null;
 	patron_especifico: string | null;
+	tipo_forma: string | null;
 	activo: boolean | null;
 };
 

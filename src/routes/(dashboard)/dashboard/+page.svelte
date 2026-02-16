@@ -51,7 +51,7 @@
 			<p class="mt-1 text-2xl font-semibold">{data.kpis.totalPendienteRevision}</p>
 		</article>
 		<article class="card p-4">
-			<p class="text-xs text-[color:var(--muted-foreground)]">Publicadas</p>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Publicadas (estado editorial)</p>
 			<p class="mt-1 text-2xl font-semibold">{data.kpis.totalPublicadas}</p>
 		</article>
 	</div>

@@ -1,17 +1,17 @@
-import { error } from '@sveltejs/kit';
+﻿import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,activo';
+	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
 
 export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	const parentData = await parent();
 	const profile = parentData.profile;
 	const categoria = decodeURIComponent(params.categoria ?? '').trim();
 
-	if (!categoria) {
-		throw error(404, 'Categoría no encontrada');
+	if (!categoria || categoria === 'estado_revision') {
+		throw error(404, 'Categoria no encontrada');
 	}
 
 	const { data, error: dbError } = await locals.supabase
@@ -26,7 +26,42 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	}
 
 	if (!data || data.length === 0) {
-		throw error(404, `No existe la categoría ${categoria}`);
+		throw error(404, `No existe la categoria ${categoria}`);
+	}
+
+	let metroOptions: Array<{ termino_id: string; termino: string }> = [];
+	let estrofaTipoMetros: Array<{ estrofa_tipo_id: string; metro_id: string }> = [];
+
+	if (categoria === 'estrofa_tipo') {
+		const [metrosResp, relacionesResp] = await Promise.all([
+			locals.supabase
+				.from('vocabularios')
+				.select('termino_id,termino')
+				.eq('categoria', 'metro')
+				.eq('activo', true)
+				.order('orden', { ascending: true })
+				.order('termino', { ascending: true }),
+			locals.supabase
+				.from('estrofa_tipo_metros')
+				.select('estrofa_tipo_id,metro_id')
+				.in(
+					'estrofa_tipo_id',
+					data.map((item) => item.termino_id)
+				)
+		]);
+
+		if (metrosResp.error) {
+			throw error(500, `No se pudieron cargar los metros: ${metrosResp.error.message}`);
+		}
+		if (relacionesResp.error) {
+			throw error(500, `No se pudieron cargar las relaciones estrofa/metro: ${relacionesResp.error.message}`);
+		}
+
+		metroOptions = (metrosResp.data ?? []) as Array<{ termino_id: string; termino: string }>;
+		estrofaTipoMetros = (relacionesResp.data ?? []) as Array<{
+			estrofa_tipo_id: string;
+			metro_id: string;
+		}>;
 	}
 
 	const canManage = canManageVocabularios(profile.roleTerm);
@@ -39,6 +74,8 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 		canManage,
 		isProtected,
 		canEdit,
-		vocabularios: data
+		vocabularios: data,
+		metroOptions,
+		estrofaTipoMetros
 	};
 };

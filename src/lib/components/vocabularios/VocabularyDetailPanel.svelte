@@ -1,5 +1,7 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import type { VocabularyFieldConfig } from '$lib/config/vocabulary-fields';
 	import type { VocabularyItem } from './useVocabularyTree';
 
 	type TermForm = {
@@ -12,6 +14,8 @@
 		bibliografia: string;
 		equivalenciasText: string;
 		patron_especifico: string;
+		tipo_forma: 'forma_espanola' | 'forma_italiana' | null;
+		metro_ids: string[];
 	};
 
 	const props = $props<{
@@ -20,6 +24,8 @@
 		readOnly?: boolean;
 		termForm: TermForm;
 		parentOptions: Array<{ id: string; label: string }>;
+		metroOptions: Array<{ termino_id: string; termino: string }>;
+		fieldConfig: VocabularyFieldConfig;
 		termDirty?: boolean;
 		savingTerm?: boolean;
 		onTermFormChange?: (patch: Partial<TermForm>) => void;
@@ -27,6 +33,12 @@
 	}>();
 
 	const readOnly = $derived(Boolean(props.readOnly));
+	const metroDropdownItems = $derived(
+		props.metroOptions.map((metro: { termino_id: string; termino: string }) => ({
+			id: metro.termino_id,
+			label: metro.termino
+		}))
+	);
 
 	function updateTerm(patch: Partial<TermForm>) {
 		props.onTermFormChange?.(patch);
@@ -58,97 +70,150 @@
 					/>
 				</label>
 
-				<label class="text-sm">
-					<span class="mb-1 block">Termino padre</span>
-					<select
-						value={props.termForm.termino_padre_id ?? ''}
-						disabled={readOnly}
-						class="w-full border border-[color:var(--border)] px-3 py-2"
-						onchange={(event) =>
-							updateTerm({ termino_padre_id: event.currentTarget.value || null })}
-					>
-						<option value="">Sin padre (raiz)</option>
-						{#each props.parentOptions as option}
-							<option value={option.id}>{option.label}</option>
-						{/each}
-					</select>
-				</label>
-
-				<div class="grid gap-3 sm:grid-cols-2">
+				{#if props.fieldConfig.showParent}
 					<label class="text-sm">
-						<span class="mb-1 block">Nivel</span>
-						<input
-							type="number"
-							value={props.termForm.nivel ?? ''}
-							disabled
-							class="w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2"
-						/>
-					</label>
-					<label class="flex items-center gap-2 text-sm">
-						<input
-							type="checkbox"
-							checked={props.termForm.activo}
+						<span class="mb-1 block">Termino padre</span>
+						<select
+							value={props.termForm.termino_padre_id ?? ''}
 							disabled={readOnly}
-							onchange={(event) => updateTerm({ activo: event.currentTarget.checked })}
-						/>
-						Activo
+							class="w-full border border-[color:var(--border)] px-3 py-2"
+							onchange={(event) => updateTerm({ termino_padre_id: event.currentTarget.value || null })}
+						>
+							<option value="">Sin padre (raiz)</option>
+							{#each props.parentOptions as option}
+								<option value={option.id}>{option.label}</option>
+							{/each}
+						</select>
 					</label>
-				</div>
+				{/if}
 
-				<label class="text-sm">
-					<span class="mb-1 block">Definicion</span>
-					<textarea
-						rows={4}
-						value={props.termForm.definicion}
-						disabled={readOnly}
-						class="w-full border border-[color:var(--border)] px-3 py-2"
-						oninput={(event) => updateTerm({ definicion: event.currentTarget.value })}
-					></textarea>
-				</label>
+				{#if props.fieldConfig.showLevel || props.fieldConfig.showActive}
+					<div class="grid gap-3 sm:grid-cols-2">
+						{#if props.fieldConfig.showLevel}
+							<label class="text-sm">
+								<span class="mb-1 block">Nivel</span>
+								<input
+									type="number"
+									value={props.termForm.nivel ?? ''}
+									disabled
+									class="w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2"
+								/>
+							</label>
+						{/if}
+						{#if props.fieldConfig.showActive}
+							<label class="flex items-center gap-2 text-sm">
+								<input
+									type="checkbox"
+									checked={props.termForm.activo}
+									disabled={readOnly}
+									onchange={(event) => updateTerm({ activo: event.currentTarget.checked })}
+								/>
+								Activo
+							</label>
+						{/if}
+					</div>
+				{/if}
 
-				<label class="text-sm">
-					<span class="mb-1 block">Ejemplo</span>
-					<textarea
-						rows={3}
-						value={props.termForm.ejemplo}
-						disabled={readOnly}
-						class="w-full border border-[color:var(--border)] px-3 py-2"
-						oninput={(event) => updateTerm({ ejemplo: event.currentTarget.value })}
-					></textarea>
-				</label>
+				{#if props.fieldConfig.showDefinition}
+					<label class="text-sm">
+						<span class="mb-1 block">Definicion</span>
+						<textarea
+							rows={4}
+							value={props.termForm.definicion}
+							disabled={readOnly}
+							class="w-full border border-[color:var(--border)] px-3 py-2"
+							oninput={(event) => updateTerm({ definicion: event.currentTarget.value })}
+						></textarea>
+					</label>
+				{/if}
 
-				<label class="text-sm">
-					<span class="mb-1 block">Bibliografia</span>
-					<textarea
-						rows={3}
-						value={props.termForm.bibliografia}
-						disabled={readOnly}
-						class="w-full border border-[color:var(--border)] px-3 py-2"
-						oninput={(event) => updateTerm({ bibliografia: event.currentTarget.value })}
-					></textarea>
-				</label>
+				{#if props.fieldConfig.showExample}
+					<label class="text-sm">
+						<span class="mb-1 block">Ejemplo</span>
+						<textarea
+							rows={3}
+							value={props.termForm.ejemplo}
+							disabled={readOnly}
+							class="w-full border border-[color:var(--border)] px-3 py-2"
+							oninput={(event) => updateTerm({ ejemplo: event.currentTarget.value })}
+						></textarea>
+					</label>
+				{/if}
 
-				<label class="text-sm">
-					<span class="mb-1 block">Equivalencias (una por linea)</span>
-					<textarea
-						rows={3}
-						value={props.termForm.equivalenciasText}
-						disabled={readOnly}
-						class="w-full border border-[color:var(--border)] px-3 py-2"
-						oninput={(event) => updateTerm({ equivalenciasText: event.currentTarget.value })}
-					></textarea>
-				</label>
+				{#if props.fieldConfig.showBibliography}
+					<label class="text-sm">
+						<span class="mb-1 block">Bibliografia</span>
+						<textarea
+							rows={3}
+							value={props.termForm.bibliografia}
+							disabled={readOnly}
+							class="w-full border border-[color:var(--border)] px-3 py-2"
+							oninput={(event) => updateTerm({ bibliografia: event.currentTarget.value })}
+						></textarea>
+					</label>
+				{/if}
 
-				<label class="text-sm">
-					<span class="mb-1 block">Patron especifico</span>
-					<input
-						type="text"
-						value={props.termForm.patron_especifico}
-						disabled={readOnly}
-						class="w-full border border-[color:var(--border)] px-3 py-2"
-						oninput={(event) => updateTerm({ patron_especifico: event.currentTarget.value })}
-					/>
-				</label>
+				{#if props.fieldConfig.showEquivalences}
+					<label class="text-sm">
+						<span class="mb-1 block">Equivalencias (una por linea)</span>
+						<textarea
+							rows={3}
+							value={props.termForm.equivalenciasText}
+							disabled={readOnly}
+							class="w-full border border-[color:var(--border)] px-3 py-2"
+							oninput={(event) => updateTerm({ equivalenciasText: event.currentTarget.value })}
+						></textarea>
+					</label>
+				{/if}
+
+				{#if props.fieldConfig.showPattern}
+					<label class="text-sm">
+						<span class="mb-1 block">Patron especifico</span>
+						<input
+							type="text"
+							value={props.termForm.patron_especifico}
+							disabled={readOnly}
+							class="w-full border border-[color:var(--border)] px-3 py-2"
+							oninput={(event) => updateTerm({ patron_especifico: event.currentTarget.value })}
+						/>
+					</label>
+				{/if}
+
+				{#if props.fieldConfig.showTipoForma}
+					<label class="text-sm">
+						<span class="mb-1 block">Tipo de forma</span>
+						<select
+							value={props.termForm.tipo_forma ?? ''}
+							disabled={readOnly}
+							class="w-full border border-[color:var(--border)] px-3 py-2"
+							onchange={(event) =>
+								updateTerm({
+									tipo_forma: (event.currentTarget.value || null) as
+										| 'forma_espanola'
+										| 'forma_italiana'
+										| null
+								})}
+						>
+							<option value="">Sin especificar</option>
+							<option value="forma_espanola">Forma espanola</option>
+							<option value="forma_italiana">Forma italiana</option>
+						</select>
+					</label>
+				{/if}
+
+				{#if props.fieldConfig.showMetros}
+					<div class="text-sm">
+						<span class="mb-1 block">Metros asociados</span>
+						<CheckDropdown
+							items={metroDropdownItems}
+							selectedIds={props.termForm.metro_ids}
+							search={true}
+							disabled={readOnly}
+							placeholder="Seleccionar metros"
+							onChange={(ids) => updateTerm({ metro_ids: ids })}
+						/>
+					</div>
+				{/if}
 			</div>
 
 			{#if !readOnly}

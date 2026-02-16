@@ -532,11 +532,43 @@ export type Database = {
           },
         ]
       }
+      estrofa_tipo_metros: {
+        Row: {
+          created_at: string
+          estrofa_tipo_id: string
+          metro_id: string
+        }
+        Insert: {
+          created_at?: string
+          estrofa_tipo_id: string
+          metro_id: string
+        }
+        Update: {
+          created_at?: string
+          estrofa_tipo_id?: string
+          metro_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estrofa_tipo_metros_estrofa_tipo_id_fkey"
+            columns: ["estrofa_tipo_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "estrofa_tipo_metros_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       secuencias_metricas: {
         Row: {
           certeza_editor: string
           created_at: string | null
-          estado_revision: string
           estrofa_tipo_id: string | null
           inaugura_espacio: boolean | null
           n_versos: number
@@ -553,7 +585,6 @@ export type Database = {
         Insert: {
           certeza_editor: string
           created_at?: string | null
-          estado_revision: string
           estrofa_tipo_id?: string | null
           inaugura_espacio?: boolean | null
           n_versos: number
@@ -570,7 +601,6 @@ export type Database = {
         Update: {
           certeza_editor?: string
           created_at?: string | null
-          estado_revision?: string
           estrofa_tipo_id?: string | null
           inaugura_espacio?: boolean | null
           n_versos?: number
@@ -593,13 +623,6 @@ export type Database = {
             referencedColumns: ["termino_id"]
           },
           {
-            foreignKeyName: "secuencias_metricas_estado_revision_fkey"
-            columns: ["estado_revision"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-          {
             foreignKeyName: "secuencias_metricas_estrofa_tipo_id_fkey"
             columns: ["estrofa_tipo_id"]
             isOneToOne: false
@@ -612,36 +635,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
-          },
-        ]
-      }
-      secuencias_metros: {
-        Row: {
-          metro_id: string
-          secuencia_id: string
-        }
-        Insert: {
-          metro_id: string
-          secuencia_id: string
-        }
-        Update: {
-          metro_id?: string
-          secuencia_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "secuencias_metros_metro_id_fkey"
-            columns: ["metro_id"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-          {
-            foreignKeyName: "secuencias_metros_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
-            referencedRelation: "secuencias_metricas"
-            referencedColumns: ["secuencia_id"]
           },
         ]
       }
@@ -692,6 +685,7 @@ export type Database = {
           nivel: number | null
           orden: number | null
           patron_especifico: string | null
+          tipo_forma: string | null
           termino: string
           termino_id: string
           termino_padre_id: string | null
@@ -708,6 +702,7 @@ export type Database = {
           nivel?: number | null
           orden?: number | null
           patron_especifico?: string | null
+          tipo_forma?: string | null
           termino: string
           termino_id?: string
           termino_padre_id?: string | null
@@ -724,6 +719,7 @@ export type Database = {
           nivel?: number | null
           orden?: number | null
           patron_especifico?: string | null
+          tipo_forma?: string | null
           termino?: string
           termino_id?: string
           termino_padre_id?: string | null

@@ -8,10 +8,7 @@
 	const props = $props<{
 		obraId: string;
 		secuenciasInitial: Tables<'secuencias_metricas'>[];
-		secuenciasMetrosInitial: Tables<'secuencias_metros'>[];
 		estrofaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
-		metroOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
-		estadoRevisionOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		readOnly?: boolean;
 		canComment?: boolean;
@@ -25,18 +22,14 @@
 		personajes_genero: 'mixto' | 'solo_masculino' | 'solo_femenino';
 		personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 		personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
-		estado_revision: string;
 		certeza_editor: string;
 		observaciones: string;
-		metro_ids: string[];
 	};
 
 	let secuencias = $state([...props.secuenciasInitial]);
-	let secuenciaMetros = $state([...props.secuenciasMetrosInitial]);
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
 	let filtroEstrofa = $state('');
-	let filtroEstado = $state('');
 	let filtroCerteza = $state('');
 	let deleteTargetId = $state<string | null>(null);
 	let showCloseWithoutSavingModal = $state(false);
@@ -48,7 +41,6 @@
 	let lastSidebarSnapshot = $state('');
 	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
 
-	const defaultEstado = props.estadoRevisionOptions[0]?.termino_id ?? '';
 	const defaultCerteza = props.certezaOptions[0]?.termino_id ?? '';
 	const defaultEstrofa = props.estrofaOptions[0]?.termino_id ?? '';
 
@@ -61,20 +53,12 @@
 			personajes_genero: 'mixto',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
-			estado_revision: defaultEstado,
 			certeza_editor: defaultCerteza,
-			observaciones: '',
-			metro_ids: []
+			observaciones: ''
 		};
 	}
 
 	let form = $state<FormState>(initialForm());
-
-	function metrosForSecuencia(secuenciaId: string): string[] {
-		return secuenciaMetros
-			.filter((item) => item.secuencia_id === secuenciaId)
-			.map((item) => item.metro_id);
-	}
 
 	function termById(options: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>, id: string | null) {
 		if (!id) return '--';
@@ -84,7 +68,6 @@
 	const filteredSecuencias = $derived.by(() => {
 		return secuencias
 			.filter((secuencia) => !filtroEstrofa || secuencia.estrofa_tipo_id === filtroEstrofa)
-			.filter((secuencia) => !filtroEstado || secuencia.estado_revision === filtroEstado)
 			.filter((secuencia) => !filtroCerteza || secuencia.certeza_editor === filtroCerteza)
 			.sort((a, b) => a.v_ini - b.v_ini);
 	});
@@ -106,10 +89,8 @@
 			personajes_genero: form.personajes_genero,
 			personajes_donaire: form.personajes_donaire,
 			personajes_sobrenatural: form.personajes_sobrenatural,
-			estado_revision: form.estado_revision,
 			certeza_editor: form.certeza_editor,
-			observaciones: form.observaciones.trim(),
-			metro_ids: [...form.metro_ids].sort((a, b) => a.localeCompare(b))
+			observaciones: form.observaciones.trim()
 		});
 	}
 
@@ -139,16 +120,8 @@
 			if (showToast) pushToast('error', 'Selecciona estrofa');
 			return false;
 		}
-		if (!form.estado_revision) {
-			if (showToast) pushToast('error', 'Selecciona estado de revisión');
-			return false;
-		}
 		if (!form.certeza_editor) {
 			if (showToast) pushToast('error', 'Selecciona certeza');
-			return false;
-		}
-		if (form.metro_ids.length === 0) {
-			if (showToast) pushToast('error', 'Selecciona al menos un metro');
 			return false;
 		}
 		return true;
@@ -180,23 +153,12 @@
 			personajes_genero: secuencia.personajes_genero as FormState['personajes_genero'],
 			personajes_donaire: secuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: secuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
-			estado_revision: secuencia.estado_revision,
 			certeza_editor: secuencia.certeza_editor,
-			observaciones: secuencia.observaciones ?? '',
-			metro_ids: metrosForSecuencia(secuencia.secuencia_id)
+			observaciones: secuencia.observaciones ?? ''
 		};
 		sidebarOpen = true;
 		showCloseWithoutSavingModal = false;
 		setSidebarBaselineFromCurrent();
-	}
-
-	function toggleMetro(metroId: string) {
-		if (props.readOnly) return;
-		if (form.metro_ids.includes(metroId)) {
-			form = { ...form, metro_ids: form.metro_ids.filter((id) => id !== metroId) };
-			return;
-		}
-		form = { ...form, metro_ids: [...form.metro_ids, metroId] };
 	}
 
 	function performCloseSidebar() {
@@ -262,7 +224,6 @@
 
 		const payload = await response.json();
 		const savedSecuencia = payload.secuencia as Tables<'secuencias_metricas'>;
-		const savedMetroIds = (payload.metro_ids ?? []) as string[];
 		const savedId = currentId ?? savedSecuencia.secuencia_id;
 
 		if (currentId) {
@@ -272,12 +233,6 @@
 			editingId = savedId;
 		}
 
-		secuenciaMetros = secuenciaMetros.filter((item) => item.secuencia_id !== savedId);
-		secuenciaMetros = [
-			...secuenciaMetros,
-			...savedMetroIds.map((metroId: string) => ({ secuencia_id: savedId, metro_id: metroId }))
-		];
-
 		form = {
 			v_ini: savedSecuencia.v_ini,
 			v_fin: savedSecuencia.v_fin,
@@ -286,10 +241,8 @@
 			personajes_genero: savedSecuencia.personajes_genero as FormState['personajes_genero'],
 			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
-			estado_revision: savedSecuencia.estado_revision,
 			certeza_editor: savedSecuencia.certeza_editor,
-			observaciones: savedSecuencia.observaciones ?? '',
-			metro_ids: [...savedMetroIds]
+			observaciones: savedSecuencia.observaciones ?? ''
 		};
 
 		setSidebarBaselineFromCurrent();
@@ -314,7 +267,6 @@
 			return;
 		}
 		secuencias = secuencias.filter((row) => row.secuencia_id !== secuenciaId);
-		secuenciaMetros = secuenciaMetros.filter((row) => row.secuencia_id !== secuenciaId);
 		if (editingId === secuenciaId) {
 			performCloseSidebar();
 		}
@@ -326,7 +278,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.estado_revision}|${form.certeza_editor}|${form.observaciones}|${form.metro_ids.join(',')}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.observaciones}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -373,21 +325,12 @@
 		</div>
 	</div>
 
-	<div class="card grid gap-3 p-4 md:grid-cols-3">
+	<div class="card grid gap-3 p-4 md:grid-cols-2">
 		<label class="text-sm">
 			<span class="mb-1 block">Filtro por estrofa</span>
 			<select bind:value={filtroEstrofa} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2">
 				<option value="">Todas</option>
 				{#each props.estrofaOptions as opt}
-					<option value={opt.termino_id}>{opt.termino}</option>
-				{/each}
-			</select>
-		</label>
-		<label class="text-sm">
-			<span class="mb-1 block">Filtro por estado</span>
-			<select bind:value={filtroEstado} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2">
-				<option value="">Todos</option>
-				{#each props.estadoRevisionOptions as opt}
 					<option value={opt.termino_id}>{opt.termino}</option>
 				{/each}
 			</select>
@@ -412,16 +355,14 @@
 					<th class="px-3 py-2">V_fin</th>
 					<th class="px-3 py-2">N_versos</th>
 					<th class="px-3 py-2">Estrofa</th>
-					<th class="px-3 py-2">Metros</th>
 					<th class="px-3 py-2">Certeza</th>
-					<th class="px-3 py-2">Estado</th>
 					<th class="px-3 py-2">Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
 				{#if filteredSecuencias.length === 0}
 					<tr>
-						<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={9}>
+						<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={7}>
 							Sin secuencias para este filtro.
 						</td>
 					</tr>
@@ -433,13 +374,7 @@
 							<td class="px-3 py-2">{secuencia.v_fin}</td>
 							<td class="px-3 py-2">{secuencia.n_versos}</td>
 							<td class="px-3 py-2">{termById(props.estrofaOptions, secuencia.estrofa_tipo_id)}</td>
-							<td class="px-3 py-2">
-								{metrosForSecuencia(secuencia.secuencia_id)
-									.map((id) => termById(props.metroOptions, id))
-									.join(', ')}
-							</td>
 							<td class="px-3 py-2">{termById(props.certezaOptions, secuencia.certeza_editor)}</td>
-							<td class="px-3 py-2">{termById(props.estadoRevisionOptions, secuencia.estado_revision)}</td>
 							<td class="px-3 py-2">
 								<div class="flex gap-2">
 									<Button
@@ -520,23 +455,6 @@
 				</select>
 			</label>
 
-			<div class="border border-[color:var(--border)] bg-white p-3">
-				<div class="mb-2 text-sm font-medium">Metros *</div>
-				<div class="grid gap-1 sm:grid-cols-2">
-					{#each props.metroOptions as metro}
-						<label class="flex items-center gap-2 text-sm">
-							<input
-								type="checkbox"
-								checked={form.metro_ids.includes(metro.termino_id)}
-								disabled={props.readOnly}
-								onchange={() => toggleMetro(metro.termino_id)}
-							/>
-							{metro.termino}
-						</label>
-					{/each}
-				</div>
-			</div>
-
 			<div class="grid gap-3 sm:grid-cols-2">
 				<label class="text-sm">
 					<span class="mb-1 block">Personajes género</span>
@@ -572,18 +490,6 @@
 						<option value="ausente">ausente</option>
 						<option value="solo">solo</option>
 						<option value="con_otros">con_otros</option>
-					</select>
-				</label>
-				<label class="text-sm">
-					<span class="mb-1 block">Estado revisión</span>
-					<select
-						bind:value={form.estado_revision}
-						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						{#each props.estadoRevisionOptions as opt}
-							<option value={opt.termino_id}>{opt.termino}</option>
-						{/each}
 					</select>
 				</label>
 				<label class="text-sm sm:col-span-2">
