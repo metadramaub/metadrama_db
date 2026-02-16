@@ -10,6 +10,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 	await getObraContext({ locals }, params.id, { requireEdit: false });
 
 	const estrofa = url.searchParams.get('estrofa') ?? '';
+	const estado = url.searchParams.get('estado') ?? '';
 	const certeza = url.searchParams.get('certeza') ?? '';
 
 	let query = locals.supabase
@@ -19,6 +20,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 		.order('v_ini', { ascending: true });
 
 	if (estrofa) query = query.eq('estrofa_tipo_id', estrofa);
+	if (estado) query = query.eq('estado_revision', estado);
 	if (certeza) query = query.eq('certeza_editor', certeza);
 
 	const { data, error } = await query;
@@ -26,7 +28,17 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 		return json({ error: 'db_error', message: error.message }, { status: 500 });
 	}
 	const secuenciasRows = (data ?? []) as Tables<'secuencias_metricas'>[];
-	return json({ items: secuenciasRows });
+
+	const secuenciaIds = secuenciasRows.map((item) => item.secuencia_id);
+	const { data: metros } =
+		secuenciaIds.length > 0
+			? await locals.supabase.from('secuencias_metros').select('*').in('secuencia_id', secuenciaIds)
+			: { data: [] };
+
+	return json({
+		items: secuenciasRows,
+		metros: (metros ?? []) as Tables<'secuencias_metros'>[]
+	});
 };
 
 export const POST: RequestHandler = async ({ locals, params, request }) => {
@@ -46,10 +58,11 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 		return conflictResponse('El rango de versos se solapa con otra secuencia');
 	}
 
+	const { metro_ids, ...secuenciaPayload } = payload;
 	const { data: secuencia, error } = await locals.supabase
 		.from('secuencias_metricas')
 		.insert({
-			...payload,
+			...secuenciaPayload,
 			obra_id: params.id,
 			n_versos: payload.v_fin - payload.v_ini + 1
 		})
@@ -63,5 +76,22 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 	const secuenciaRow = secuencia as Tables<'secuencias_metricas'>;
-	return json({ secuencia: secuenciaRow }, { status: 201 });
+
+	const rows = metro_ids.map((metroId) => ({
+		secuencia_id: secuenciaRow.secuencia_id,
+		metro_id: metroId
+	}));
+	const { error: metrosError } = await locals.supabase.from('secuencias_metros').insert(rows);
+	if (metrosError) {
+		await locals.supabase
+			.from('secuencias_metricas')
+			.delete()
+			.eq('secuencia_id', secuenciaRow.secuencia_id);
+		return json(
+			{ error: 'db_error', message: metrosError.message ?? 'No se pudieron guardar los metros' },
+			{ status: 500 }
+		);
+	}
+
+	return json({ secuencia: secuenciaRow, metro_ids }, { status: 201 });
 };

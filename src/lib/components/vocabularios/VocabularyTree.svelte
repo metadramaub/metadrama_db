@@ -12,8 +12,6 @@
 		selectedId: string | null;
 		readOnly?: boolean;
 		search?: string;
-		collapseKey?: string;
-		allowNesting?: boolean;
 		onSelect?: (terminoId: string) => void;
 		onChange?: (items: VocabularyItem[]) => void;
 	}>();
@@ -27,10 +25,8 @@
 	let draggedId = $state<string | null>(null);
 	let activeDrop = $state<DropTargetState>(null);
 	let collapsedIds = $state<Set<string>>(new Set());
-	let initializedCollapseKey = $state<string | null>(null);
 
 	const readOnly = $derived(Boolean(props.readOnly));
-	const allowNesting = $derived(props.allowNesting ?? true);
 	const searchActive = $derived((props.search ?? '').trim().length > 0);
 	const canDrag = $derived(!readOnly && !searchActive);
 	const dragging = $derived(Boolean(draggedId));
@@ -121,45 +117,11 @@
 		return activeDrop?.targetId === targetId && activeDrop?.placement === placement;
 	}
 
-	function resolveDropParentId(targetId: string | null, placement: VocabularyDropPlacement): string | null {
-		if (placement === 'root-start' || placement === 'root-end') {
-			return null;
-		}
-		if (!targetId) {
-			return null;
-		}
-		if (placement === 'mid') {
-			return targetId;
-		}
-		return byId.get(targetId)?.termino_padre_id ?? null;
-	}
-
-	function isDropPlacementAllowed(
-		draggedTerminoId: string,
-		targetId: string | null,
-		placement: VocabularyDropPlacement
-	): boolean {
-		if (!allowNesting && placement === 'mid') {
-			return false;
-		}
-		if (placement === 'mid' && targetId && (depthById.get(targetId) ?? 1) >= 2) {
-			return false;
-		}
-		if (!allowNesting) {
-			const nextParentId = resolveDropParentId(targetId, placement);
-			if (nextParentId !== null) {
-				return false;
-			}
-		}
-		return draggedTerminoId.length > 0;
-	}
-
-	function rowClass(rowId: string, depth: number): string {
-		const hierarchyBg = depth === 1 ? 'bg-[color:var(--muted)]' : 'bg-white';
+	function rowClass(rowId: string): string {
 		const selected =
 			props.selectedId === rowId
 				? 'border-[color:var(--primary)] bg-[color:var(--muted)]'
-				: `border-[color:var(--border)] ${hierarchyBg}`;
+				: 'border-[color:var(--border)] bg-white';
 		const rowDragging = draggedId === rowId ? 'scale-[0.99] opacity-60' : '';
 		const dropMidValid = isPlacementActive(rowId, 'mid') && activeDrop?.valid;
 		const dropMidInvalid = isPlacementActive(rowId, 'mid') && !activeDrop?.valid;
@@ -232,7 +194,7 @@
 
 	function onDropZoneDragOver(event: DragEvent, targetId: string | null, placement: VocabularyDropPlacement) {
 		if (!canDrag || !draggedId) return;
-		if (!isDropPlacementAllowed(draggedId, targetId, placement)) {
+		if (placement === 'mid' && targetId && (depthById.get(targetId) ?? 1) >= 2) {
 			activeDrop = null;
 			if (event.dataTransfer) event.dataTransfer.dropEffect = 'none';
 			return;
@@ -251,7 +213,7 @@
 	function onDropZoneDrop(event: DragEvent, targetId: string | null, placement: VocabularyDropPlacement) {
 		event.preventDefault();
 		if (!canDrag || !draggedId) return;
-		if (!isDropPlacementAllowed(draggedId, targetId, placement)) {
+		if (placement === 'mid' && targetId && (depthById.get(targetId) ?? 1) >= 2) {
 			draggedId = null;
 			activeDrop = null;
 			return;
@@ -265,19 +227,6 @@
 	}
 
 	$effect(() => {
-		const key = props.collapseKey ?? '__default__';
-		if (initializedCollapseKey !== key) {
-			const rootIdsWithChildren = props.items
-				.filter(
-					(item: VocabularyItem) =>
-						!item.termino_padre_id && (childCountById.get(item.termino_id) ?? 0) > 0
-				)
-				.map((item: VocabularyItem) => item.termino_id);
-			collapsedIds = new Set(rootIdsWithChildren);
-			initializedCollapseKey = key;
-			return;
-		}
-
 		const next = new Set(
 			[...collapsedIds].filter((terminoId) => (childCountById.get(terminoId) ?? 0) > 0)
 		);
@@ -322,7 +271,7 @@
 				{/if}
 
 				<div
-					class={rowClass(row.item.termino_id, row.depth)}
+					class={rowClass(row.item.termino_id)}
 					role="listitem"
 					draggable={canDrag}
 					ondragstart={(event) => onDragStart(event, row.item.termino_id)}

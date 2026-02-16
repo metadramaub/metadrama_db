@@ -6,31 +6,7 @@ import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils
 import { vocabularioCreateSchema } from '$lib/utils/validators';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
-
-async function syncEstrofaTipoMetros(locals: App.Locals, estrofaTipoId: string, metroIds: string[]) {
-	const uniqueMetroIds = [...new Set(metroIds)];
-	const { error: deleteError } = await locals.supabase
-		.from('estrofa_tipo_metros')
-		.delete()
-		.eq('estrofa_tipo_id', estrofaTipoId);
-	if (deleteError) {
-		return { ok: false as const, status: 500, message: deleteError.message };
-	}
-	if (uniqueMetroIds.length === 0) {
-		return { ok: true as const, metroIds: uniqueMetroIds };
-	}
-
-	const rows = uniqueMetroIds.map((metroId) => ({
-		estrofa_tipo_id: estrofaTipoId,
-		metro_id: metroId
-	}));
-	const { error: insertError } = await locals.supabase.from('estrofa_tipo_metros').insert(rows);
-	if (insertError) {
-		return { ok: false as const, status: 500, message: insertError.message };
-	}
-	return { ok: true as const, metroIds: uniqueMetroIds };
-}
+	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,activo';
 
 async function ensureParentInCategory(locals: App.Locals, categoria: string, parentId: string | null) {
 	if (!parentId) return { ok: true as const };
@@ -156,7 +132,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			bibliografia: payload.bibliografia,
 			equivalencias: payload.equivalencias,
 			patron_especifico: payload.patron_especifico,
-			tipo_forma: payload.tipo_forma,
 			activo: payload.activo
 		})
 		.select(vocabularySelect)
@@ -170,15 +145,5 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		);
 	}
 
-	let metroIds: string[] = [];
-	if (payload.categoria === 'estrofa_tipo') {
-		const syncResult = await syncEstrofaTipoMetros(locals, data.termino_id, payload.metro_ids ?? []);
-		if (!syncResult.ok) {
-			await locals.supabase.from('vocabularios').delete().eq('termino_id', data.termino_id);
-			return json({ error: 'db_error', message: syncResult.message }, { status: syncResult.status });
-		}
-		metroIds = syncResult.metroIds;
-	}
-
-	return json({ vocabulario: data, metro_ids: metroIds }, { status: 201 });
+	return json({ vocabulario: data }, { status: 201 });
 };

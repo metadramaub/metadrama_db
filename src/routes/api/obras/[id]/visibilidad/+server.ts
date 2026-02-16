@@ -27,16 +27,6 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		.single();
 
 	if (error || !data) {
-		if (error?.code === '23514') {
-			return json(
-				{
-					error: 'validation_error',
-					message:
-						'Solo puedes activar la visibilidad sin login cuando la obra está en estado publicado.'
-				},
-				{ status: 422 }
-			);
-		}
 		return json(
 			{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar visibilidad.' },
 			{ status: 500 }

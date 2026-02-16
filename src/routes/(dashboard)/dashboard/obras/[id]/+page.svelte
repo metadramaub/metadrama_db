@@ -73,7 +73,9 @@
 	const generoOptions = $derived(vocabByCategory.get('genero') ?? []);
 	const estadoOptions = $derived(vocabByCategory.get('estado') ?? []);
 	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
+	const estadoRevisionOptions = $derived(vocabByCategory.get('estado_revision') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
+	const metroOptions = $derived(vocabByCategory.get('metro') ?? []);
 	const obraLive = $derived(($currentObraStore.obra ?? data.obra) as Tables<'obras'>);
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
@@ -383,7 +385,10 @@
 		<SecuenciasTab
 			obraId={obraLive.obra_id}
 			secuenciasInitial={data.secuencias}
+			secuenciasMetrosInitial={data.secuenciasMetros}
 			estrofaOptions={estrofaOptions}
+			metroOptions={metroOptions}
+			estadoRevisionOptions={estadoRevisionOptions}
 			certezaOptions={certezaOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
@@ -408,6 +413,7 @@
 			profile={data.profile}
 			estadoTerm={data.estadoTerm}
 			estadoOptions={estadoOptions}
+			estadoRevisionOptions={estadoRevisionOptions}
 			jornadas={jornadasLive}
 			cuadros={cuadrosLive}
 			secuencias={data.secuencias}

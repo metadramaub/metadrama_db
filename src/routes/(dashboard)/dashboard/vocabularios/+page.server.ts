@@ -6,12 +6,10 @@ type VocabularyCategorySummary = {
 	categoria: string;
 	total: number;
 	rootCount: number;
-	hasHierarchy: boolean;
+	childCount: number;
 	isProtected: boolean;
 	editable: boolean;
 };
-
-const METRICAS = new Set(['estrofa_tipo', 'metro', 'genero']);
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	const parentData = await parent();
@@ -20,8 +18,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 
 	const { data, error: dbError } = await locals.supabase
 		.from('vocabularios')
-		.select('categoria,termino_id,termino_padre_id')
-		.neq('categoria', 'estado_revision');
+		.select('categoria,termino_id,termino_padre_id');
 
 	if (dbError) {
 		throw error(500, `No se pudieron cargar las categorías de vocabulario: ${dbError.message}`);
@@ -47,20 +44,16 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 				categoria,
 				total: stats.total,
 				rootCount: stats.rootCount,
-				hasHierarchy: stats.childCount > 0,
+				childCount: stats.childCount,
 				isProtected,
 				editable: canManage && !isProtected
 			};
 		})
 		.sort((a, b) => a.categoria.localeCompare(b.categoria, 'es'));
 
-	const metricas = categories.filter((category) => METRICAS.has(category.categoria));
-	const tecnicosGestion = categories.filter((category) => !METRICAS.has(category.categoria));
-
 	return {
 		profile,
 		canManage,
-		metricas,
-		tecnicosGestion
+		categories
 	};
 };

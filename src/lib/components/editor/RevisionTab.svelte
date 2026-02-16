@@ -22,6 +22,7 @@
 		profile: EditorProfile;
 		estadoTerm: string;
 		estadoOptions: EstadoOption[];
+		estadoRevisionOptions: EstadoOption[];
 		jornadas: Tables<'jornadas'>[];
 		cuadros: Tables<'cuadros'>[];
 		secuencias: Tables<'secuencias_metricas'>[];
@@ -70,8 +71,18 @@
 	const canDeleteObra = $derived(Boolean(props.capabilities.canDeleteObra));
 	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
 
+	const validatedRevisionIds = $derived(
+		new Set(
+			props.estadoRevisionOptions
+				.filter((option: EstadoOption) => option.termino.trim().toLowerCase() === 'validado')
+				.map((option: EstadoOption) => option.termino_id)
+		)
+	);
+
 	const checklist = $derived.by(() => {
-		const secuenciasTotales = props.secuencias.length;
+		const secuenciasValidadas = props.secuencias.filter((item: Tables<'secuencias_metricas'>) =>
+			validatedRevisionIds.has(item.estado_revision)
+		).length;
 		return [
 			{
 				label: 'Datos básicos completos',
@@ -84,9 +95,9 @@
 				detail: `${props.jornadas.length} jornadas, ${props.cuadros.length} cuadros`
 			},
 			{
-				label: 'Secuencias métricas registradas',
-				done: secuenciasTotales > 0,
-				detail: `${secuenciasTotales} secuencias`
+				label: 'Secuencias métricas validadas',
+				done: props.secuencias.length > 0 && secuenciasValidadas === props.secuencias.length,
+				detail: `${secuenciasValidadas}/${props.secuencias.length}`
 			},
 			{
 				label: 'Autoría asignada',
@@ -317,14 +328,11 @@
 		const payload = await response.json();
 		currentEstadoId = payload.obra.estado;
 		persistedEstadoId = payload.obra.estado;
-		visiblePublico = Boolean(payload.obra.visible_publico);
-		persistedVisiblePublico = Boolean(payload.obra.visible_publico);
 		estadoComentario = '';
 		estadoConfirmComentario = '';
 		pendingEstadoId = null;
 		patchCurrentObra({
 			estado: payload.obra.estado,
-			visible_publico: payload.obra.visible_publico,
 			updated_at: payload.obra.updated_at ?? obraLive.updated_at
 		});
 		pushToast('success', 'Estado actualizado');
@@ -558,7 +566,7 @@
 				<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 					<label class="flex items-center gap-2 text-sm">
 						<input type="checkbox" bind:checked={visiblePublico} />
-						Visible sin login (web pública)
+						Visible en web pública
 					</label>
 					<Button
 						variant="success"

@@ -20,7 +20,6 @@ const baseItems: VocabularyItem[] = [
 		bibliografia: null,
 		equivalencias: null,
 		patron_especifico: null,
-		tipo_forma: null,
 		activo: true
 	},
 	{
@@ -35,7 +34,6 @@ const baseItems: VocabularyItem[] = [
 		bibliografia: null,
 		equivalencias: null,
 		patron_especifico: 'e-a',
-		tipo_forma: null,
 		activo: true
 	},
 	{
@@ -50,7 +48,6 @@ const baseItems: VocabularyItem[] = [
 		bibliografia: null,
 		equivalencias: null,
 		patron_especifico: null,
-		tipo_forma: null,
 		activo: true
 	}
 ];

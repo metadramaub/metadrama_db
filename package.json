@@ -18,7 +18,7 @@
 		"db:pull": "npx supabase db pull",
 		"db:diff": "npx supabase db diff",
 		"db:push": "npx supabase db push",
-		"db:seed": "npx supabase db push --include-seed --yes",
+		"db:seed": "npx supabase db execute --file supabase/seed/001_vocabularios.sql",
 		"db:types": "node scripts/gen-types.mjs"
 	},
 	"devDependencies": {

@@ -51,7 +51,7 @@ describe('validators', () => {
 		expect(result.success).toBe(false);
 	});
 
-	it('accepts secuencia payload without metros', () => {
+	it('requires at least one metro in secuencia', () => {
 		const result = secuenciaInputSchema.safeParse({
 			v_ini: 1,
 			v_fin: 120,
@@ -60,10 +60,12 @@ describe('validators', () => {
 			personajes_genero: 'mixto',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
+			estado_revision: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-			observaciones: null
+			observaciones: null,
+			metro_ids: []
 		});
-		expect(result.success).toBe(true);
+		expect(result.success).toBe(false);
 	});
 
 	it('rejects blank internal comment', () => {
@@ -259,25 +261,11 @@ describe('validators', () => {
 		});
 		expect(createResult.success).toBe(true);
 
-		const estrofaCreate = vocabularioCreateSchema.safeParse({
-			categoria: 'estrofa_tipo',
-			termino: 'silva',
-			tipo_forma: 'forma_italiana',
-			metro_ids: ['72fbe06d-9f46-4690-9df8-a4d9f0611d0d']
-		});
-		expect(estrofaCreate.success).toBe(true);
-
 		const emptyPatch = vocabularioPatchSchema.safeParse({});
 		expect(emptyPatch.success).toBe(false);
 
 		const patchResult = vocabularioPatchSchema.safeParse({ activo: false, bibliografia: 'Ref.' });
 		expect(patchResult.success).toBe(true);
-
-		const estrofaPatch = vocabularioPatchSchema.safeParse({
-			tipo_forma: 'forma_espanola',
-			metro_ids: ['81567f6d-5e8b-419f-b2c0-f9e9ed7f1017']
-		});
-		expect(estrofaPatch.success).toBe(true);
 	});
 
 	it('validates vocabulario reorder payloads', () => {

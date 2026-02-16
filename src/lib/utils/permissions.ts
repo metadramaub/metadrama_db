@@ -1,7 +1,13 @@
 export type EditorRole = 'editor' | 'admin' | 'ip' | string;
 
 const workflowEditor = new Set(['borrador:pendiente', 'pendiente:borrador']);
-const protectedVocabularyCategories = new Set(['role_editor', 'estado']);
+const workflowRevisor = new Set([
+	'pendiente:en_revision',
+	'en_revision:pendiente',
+	'en_revision:validado',
+	'validado:en_revision'
+]);
+const protectedVocabularyCategories = new Set(['role_editor', 'estado', 'estado_revision']);
 
 export function normalizeRole(rawRole: string | null | undefined): EditorRole {
 	if (!rawRole) {
@@ -50,6 +56,15 @@ export function canTransitionState(role: EditorRole, from: string, to: string): 
 		return workflowEditor.has(key);
 	}
 	return false;
+}
+
+export function canTransitionReviewerWorkflow(from: string, to: string): boolean {
+	const fromTerm = from.trim().toLowerCase();
+	const toTerm = to.trim().toLowerCase();
+	if (fromTerm === toTerm) {
+		return true;
+	}
+	return workflowRevisor.has(`${fromTerm}:${toTerm}`);
 }
 
 export function canEditByState(role: EditorRole, estado: string): boolean {
