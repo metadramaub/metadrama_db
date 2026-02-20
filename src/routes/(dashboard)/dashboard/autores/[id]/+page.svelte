@@ -1,49 +1,70 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { onDestroy } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
+	import { isAuthorFormDirty, splitAuthorVariantsText } from '$lib/utils/author-form';
 	import type { Tables } from '$lib/types/database.types';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
+	type RelatedWork = PageData['obras'][number];
 
-	let autor = $state({} as Tables<'autores'>);
-	let worksCount = $state(0);
-	let obras = $state([] as typeof data.obras);
+	function getCurrentAuthorData(): Tables<'autores'> {
+		return data.autor as Tables<'autores'>;
+	}
 
-	let nombreCompleto = $state('');
-	let variantesText = $state('');
-	let bnedatosId = $state('');
-	let viafId = $state('');
-	let wikidataId = $state('');
+	function getCurrentWorksCount(): number {
+		return data.worksCount;
+	}
+
+	function getCurrentWorks(): PageData['obras'] {
+		return data.obras;
+	}
+
+	let autor = $state(getCurrentAuthorData());
+	let worksCount = $state(getCurrentWorksCount());
+	let obras = $state(getCurrentWorks());
+
+	let nombreCompleto = $state(getCurrentAuthorData().nombre_completo ?? '');
+	let variantesText = $state((getCurrentAuthorData().variantes_nombre ?? []).join('\n'));
+	let bnedatosId = $state(getCurrentAuthorData().bnedatos_id ?? '');
+	let viafId = $state(getCurrentAuthorData().viaf_id ?? '');
+	let wikidataId = $state(getCurrentAuthorData().wikidata_id ?? '');
 
 	let saving = $state(false);
 	let deleting = $state(false);
 	let showDeleteModal = $state(false);
 	let deleteConfirmText = $state('');
+	let autosaveTimer = $state<ReturnType<typeof setTimeout> | null>(null);
+	let lastHydrationKey = buildHydrationKey(
+		getCurrentAuthorData(),
+		getCurrentWorksCount(),
+		getCurrentWorks()
+	);
 
 	const readOnly = $derived(!data.canManageAuthor);
 	const canDelete = $derived(Boolean(data.canDeleteAuthor));
 	const deleteBlocked = $derived(worksCount > 0);
 	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
 
-	function normalizeSearchTerm(value: string): string {
-		return value.normalize('NFD').replaceAll(/\p{M}/gu, '').trim().toLowerCase();
+	function clearAutosaveTimer() {
+		if (autosaveTimer) {
+			clearTimeout(autosaveTimer);
+			autosaveTimer = null;
+		}
 	}
 
-	function splitVariants(text: string): string[] {
-		return text
-			.split('\n')
-			.map((item) => item.trim())
-			.filter(Boolean);
-	}
-
-	function dedupeVariants(items: string[]): string[] {
-		return [
-			...new Map(items.map((item) => [normalizeSearchTerm(item), item.trim()] as const).filter((entry) => entry[0]))
-				.values()
-		];
+	function buildHydrationKey(
+		nextAuthor: Tables<'autores'>,
+		nextWorksCount: number,
+		nextObras: PageData['obras']
+	): string {
+		const obrasKey = nextObras
+			.map((obra: RelatedWork) => `${obra.obra_id}:${obra.updated_at ?? ''}`)
+			.join('|');
+		return `${nextAuthor.autor_id}:${nextAuthor.updated_at ?? ''}:${nextWorksCount}:${obrasKey}`;
 	}
 
 	function syncFormFromAuthor(nextAuthor: Tables<'autores'>) {
@@ -55,38 +76,62 @@
 	}
 
 	$effect(() => {
-		autor = data.autor as Tables<'autores'>;
-		worksCount = data.worksCount;
-		obras = data.obras;
-		syncFormFromAuthor(autor);
+		const nextAuthor = data.autor as Tables<'autores'>;
+		const nextWorksCount = data.worksCount;
+		const nextObras = data.obras;
+		const nextHydrationKey = buildHydrationKey(nextAuthor, nextWorksCount, nextObras);
+		if (nextHydrationKey === lastHydrationKey) return;
+
+		lastHydrationKey = nextHydrationKey;
+		autor = nextAuthor;
+		worksCount = nextWorksCount;
+		obras = nextObras;
+		syncFormFromAuthor(nextAuthor);
+		clearAutosaveTimer();
 	});
 
-	const formDirty = $derived.by(() => {
-		const baseVariants = dedupeVariants(autor.variantes_nombre ?? []);
-		const currentVariants = dedupeVariants(splitVariants(variantesText));
-		return (
-			nombreCompleto.trim() !== (autor.nombre_completo ?? '').trim() ||
-			bnedatosId.trim() !== (autor.bnedatos_id ?? '').trim() ||
-			viafId.trim() !== (autor.viaf_id ?? '').trim() ||
-			wikidataId.trim() !== (autor.wikidata_id ?? '').trim() ||
-			JSON.stringify(baseVariants) !== JSON.stringify(currentVariants)
-		);
-	});
+	const formDirty = $derived.by(() =>
+		isAuthorFormDirty(autor, {
+			nombreCompleto,
+			variantesText,
+			bnedatosId,
+			viafId,
+			wikidataId
+		})
+	);
 
-	async function saveAuthor() {
+	function queueAutosave() {
+		if (readOnly || saving || !formDirty) {
+			clearAutosaveTimer();
+			return;
+		}
+		clearAutosaveTimer();
+		autosaveTimer = setTimeout(() => {
+			void saveAuthor('autosave');
+		}, 10_000);
+	}
+
+	function onFormInput() {
+		queueAutosave();
+	}
+
+	async function saveAuthor(source: 'manual' | 'autosave' = 'manual') {
 		if (readOnly || saving || !formDirty) return;
 		if (!nombreCompleto.trim()) {
-			pushToast('error', 'El nombre completo es obligatorio.');
+			if (source === 'manual') {
+				pushToast('error', 'El nombre completo es obligatorio.');
+			}
 			return;
 		}
 
+		clearAutosaveTimer();
 		saving = true;
 		const response = await fetch(`/api/autores/${autor.autor_id}`, {
 			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				nombre_completo: nombreCompleto.trim(),
-				variantes_nombre: splitVariants(variantesText),
+				variantes_nombre: splitAuthorVariantsText(variantesText),
 				bnedatos_id: bnedatosId,
 				viaf_id: viafId,
 				wikidata_id: wikidataId
@@ -105,7 +150,9 @@
 		worksCount = payload.works_count ?? worksCount;
 		obras = payload.obras ?? obras;
 		syncFormFromAuthor(autor);
-		pushToast('success', 'Autor actualizado');
+		if (source === 'manual') {
+			pushToast('success', 'Autor actualizado');
+		}
 	}
 
 	function openDeleteModal() {
@@ -122,6 +169,7 @@
 
 	async function deleteAuthor() {
 		if (!canDelete || deleting || deleteBlocked || !deleteConfirmed) return;
+		clearAutosaveTimer();
 		deleting = true;
 		const response = await fetch(`/api/autores/${autor.autor_id}`, {
 			method: 'DELETE',
@@ -140,6 +188,10 @@
 		showDeleteModal = false;
 		await goto('/dashboard/autores', { invalidateAll: true });
 	}
+
+	onDestroy(() => {
+		clearAutosaveTimer();
+	});
 </script>
 
 <section class="space-y-4">
@@ -167,6 +219,7 @@
 				<input
 					type="text"
 					bind:value={nombreCompleto}
+					oninput={onFormInput}
 					disabled={readOnly}
 					class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
 				/>
@@ -177,6 +230,7 @@
 				<textarea
 					rows={4}
 					bind:value={variantesText}
+					oninput={onFormInput}
 					disabled={readOnly}
 					class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
 				></textarea>
@@ -187,6 +241,7 @@
 				<input
 					type="text"
 					bind:value={bnedatosId}
+					oninput={onFormInput}
 					disabled={readOnly}
 					class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
 				/>
@@ -197,6 +252,7 @@
 				<input
 					type="text"
 					bind:value={viafId}
+					oninput={onFormInput}
 					disabled={readOnly}
 					class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
 				/>
@@ -207,6 +263,7 @@
 				<input
 					type="text"
 					bind:value={wikidataId}
+					oninput={onFormInput}
 					disabled={readOnly}
 					class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
 				/>
@@ -215,8 +272,8 @@
 
 		{#if !readOnly}
 			<div class="mt-4 flex justify-end">
-				<Button variant="success" onclick={saveAuthor} disabled={saving || !formDirty}>
-					{saving ? 'Guardando...' : 'Guardar cambios'}
+				<Button variant="success" onclick={() => void saveAuthor('manual')} disabled={saving || !formDirty}>
+					{saving ? 'Guardando...' : 'Guardar'}
 				</Button>
 			</div>
 		{/if}
