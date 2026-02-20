@@ -81,6 +81,7 @@
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
 	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
 	let cuadrosLive = $state<Tables<'cuadros'>[]>([]);
+	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>([]);
 
 	let channel: RealtimeChannel | null = null;
 	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestaña.';
@@ -204,6 +205,10 @@
 	}) {
 		jornadasLive = [...payload.jornadas];
 		cuadrosLive = [...payload.cuadros];
+	}
+
+	function handleSecuenciasChange(payload: Tables<'secuencias_metricas'>[]) {
+		secuenciasLive = [...payload];
 	}
 
 	beforeNavigate((navigation) => {
@@ -333,6 +338,7 @@
 	$effect(() => {
 		jornadasLive = [...data.jornadas];
 		cuadrosLive = [...data.cuadros];
+		secuenciasLive = [...data.secuencias];
 	});
 
 	onDestroy(() => {
@@ -390,12 +396,13 @@
 	{:else if currentTab === 'secuencias'}
 		<SecuenciasTab
 			obraId={obraLive.obra_id}
-			secuenciasInitial={data.secuencias}
+			secuenciasInitial={secuenciasLive}
 			estrofaOptions={estrofaOptions}
 			certezaOptions={certezaOptions}
 			tipoVariacionOptions={tipoVariacionOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
+			onSecuenciasChange={handleSecuenciasChange}
 		/>
 	{:else if currentTab === 'autoria'}
 		<AutoriaTab
@@ -420,7 +427,7 @@
 			estadoOptions={estadoOptions}
 			jornadas={jornadasLive}
 			cuadros={cuadrosLive}
-			secuencias={data.secuencias}
+			secuencias={secuenciasLive}
 			rangos={data.rangos}
 			editorAsignadoNombre={data.editorAsignadoNombre}
 			assignedReviewer={data.assignedReviewer}

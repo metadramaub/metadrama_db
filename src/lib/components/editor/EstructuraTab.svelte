@@ -85,6 +85,20 @@
 		return sortByVIni(cuadros.filter((item) => item.jornada_id === jornadaId));
 	}
 
+	function getSuggestedJornadaStart(): number {
+		const maxVFin = jornadas.reduce((max, item) => Math.max(max, Number(item.v_fin) || 0), 0);
+		return maxVFin > 0 ? maxVFin + 1 : 1;
+	}
+
+	function getSuggestedCuadroStart(jornadaId: string): number {
+		const jornada = getJornadaById(jornadaId);
+		if (!jornada) return 1;
+		const maxVFin = cuadros
+			.filter((item) => item.jornada_id === jornadaId)
+			.reduce((max, item) => Math.max(max, Number(item.v_fin) || 0), 0);
+		return maxVFin > 0 ? maxVFin + 1 : jornada.v_ini;
+	}
+
 	function emitStructureChange() {
 		props.onStructureChange?.({
 			jornadas: [...jornadas],
@@ -93,21 +107,22 @@
 	}
 
 	function resetJornadaForm() {
+		const suggestedStart = getSuggestedJornadaStart();
 		jornadaForm = {
 			jornada_num: jornadas.length + 1,
-			v_ini: 1,
-			v_fin: 2
+			v_ini: suggestedStart,
+			v_fin: suggestedStart + 1
 		};
 	}
 
 	function resetCuadroForm(jornadaId?: string) {
 		const selectedJornadaId = jornadaId ?? jornadas[0]?.jornada_id ?? '';
-		const selectedJornada = getJornadaById(selectedJornadaId);
+		const suggestedStart = getSuggestedCuadroStart(selectedJornadaId);
 		cuadroForm = {
 			jornada_id: selectedJornadaId,
 			cuadro_num: selectedJornadaId ? getCuadros(selectedJornadaId).length + 1 : 1,
-			v_ini: selectedJornada?.v_ini ?? 1,
-			v_fin: selectedJornada?.v_fin ?? 2,
+			v_ini: suggestedStart,
+			v_fin: suggestedStart + 1,
 			descripcion: '',
 			certeza_editor: defaultCerteza
 		};
@@ -115,12 +130,14 @@
 
 	function onCuadroJornadaChange(nextJornadaId: string) {
 		const nextJornada = getJornadaById(nextJornadaId);
+		const inCreationMode = sidebarMode === 'cuadro-new';
+		const suggestedStart = inCreationMode ? getSuggestedCuadroStart(nextJornadaId) : cuadroForm.v_ini;
 		cuadroForm = {
 			...cuadroForm,
 			jornada_id: nextJornadaId,
 			cuadro_num: nextJornadaId ? getCuadros(nextJornadaId).length + 1 : 1,
-			v_ini: nextJornada?.v_ini ?? cuadroForm.v_ini,
-			v_fin: nextJornada?.v_fin ?? cuadroForm.v_fin
+			v_ini: inCreationMode ? suggestedStart : nextJornada?.v_ini ?? cuadroForm.v_ini,
+			v_fin: inCreationMode ? suggestedStart + 1 : nextJornada?.v_fin ?? cuadroForm.v_fin
 		};
 	}
 
