@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
-import { getEditorProfile } from '$lib/server/auth';
+import { findEditorProfile } from '$lib/server/auth';
 import { countUnreadNotifications } from '$lib/server/dashboard';
 
 export const load: LayoutServerLoad = async ({ locals, url }) => {
@@ -11,7 +11,10 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 		throw redirect(303, `/login?redirectTo=${redirectTo}`);
 	}
 
-	const profile = await getEditorProfile({ locals }, user.id);
+	const profile = await findEditorProfile({ locals }, user.id);
+	if (!profile) {
+		throw redirect(303, '/auth/pendiente');
+	}
 
 	const notificationsUnreadCount = await countUnreadNotifications(locals, profile, 7);
 
