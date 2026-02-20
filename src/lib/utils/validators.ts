@@ -113,6 +113,18 @@ export const secuenciaInputSchema = z
 		path: ['v_ini']
 	});
 
+export const secuenciaVariacionInputSchema = z
+	.object({
+		tipo_variacion_id: z.string().uuid('Tipo de variacion requerido'),
+		v_ini: z.number().int().positive(),
+		v_fin: z.number().int().positive(),
+		observaciones: z.string().trim().nullable().optional().default(null)
+	})
+	.refine((input) => input.v_ini <= input.v_fin, {
+		message: 'El verso inicial no puede ser mayor que el final',
+		path: ['v_ini']
+	});
+
 export const estadoInputSchema = z.object({
 	estado: z.string().uuid(),
 	comentario: z.string().trim().max(2000).optional()
@@ -414,6 +426,7 @@ export type ObraDatosPatchInput = z.infer<typeof obraDatosPatchSchema>;
 export type JornadaInputParsed = z.infer<typeof jornadaInputSchema>;
 export type CuadroInputParsed = z.infer<typeof cuadroInputSchema>;
 export type SecuenciaInputParsed = z.infer<typeof secuenciaInputSchema>;
+export type SecuenciaVariacionInputParsed = z.infer<typeof secuenciaVariacionInputSchema>;
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
 export type ComentarioPatchParsed = z.infer<typeof comentarioPatchSchema>;

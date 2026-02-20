@@ -75,6 +75,7 @@
 	const estadoOptions = $derived(vocabByCategory.get('estado') ?? []);
 	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
+	const tipoVariacionOptions = $derived(vocabByCategory.get('tipo_variacion') ?? []);
 	const obraLive = $derived(($currentObraStore.obra ?? data.obra) as Tables<'obras'>);
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
@@ -392,6 +393,7 @@
 			secuenciasInitial={data.secuencias}
 			estrofaOptions={estrofaOptions}
 			certezaOptions={certezaOptions}
+			tipoVariacionOptions={tipoVariacionOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
 		/>

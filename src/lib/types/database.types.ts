@@ -642,7 +642,7 @@ export type Database = {
         Row: {
           observaciones: string | null
           secuencia_id: string
-          tipo_variacion: string
+          tipo_variacion_id: string
           v_fin: number
           v_ini: number
           variacion_id: string
@@ -650,7 +650,7 @@ export type Database = {
         Insert: {
           observaciones?: string | null
           secuencia_id: string
-          tipo_variacion: string
+          tipo_variacion_id: string
           v_fin: number
           v_ini: number
           variacion_id?: string
@@ -658,12 +658,19 @@ export type Database = {
         Update: {
           observaciones?: string | null
           secuencia_id?: string
-          tipo_variacion?: string
+          tipo_variacion_id?: string
           v_fin?: number
           v_ini?: number
           variacion_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "secuencias_variaciones_tipo_variacion_id_fkey"
+            columns: ["tipo_variacion_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
           {
             foreignKeyName: "secuencias_variaciones_secuencia_id_fkey"
             columns: ["secuencia_id"]
