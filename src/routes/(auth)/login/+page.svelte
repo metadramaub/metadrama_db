@@ -14,17 +14,17 @@
 		switch (data.authStatus) {
 			case 'password_set':
 				return {
-					text: 'Contrasena creada correctamente. Ya puedes iniciar sesion.',
+					text: 'Contraseña creada correctamente. Ya puedes iniciar sesión.',
 					className: 'text-[color:var(--success)]'
 				};
 			case 'link_error':
 				return {
-					text: 'El enlace es invalido o ha caducado. Solicita uno nuevo.',
+					text: 'El enlace es inválido o ha caducado. Solicita uno nuevo.',
 					className: 'text-[color:var(--danger)]'
 				};
 			case 'session_required':
 				return {
-					text: 'Necesitas una sesion valida para continuar ese flujo.',
+					text: 'Necesitas una sesión válida para continuar ese flujo.',
 					className: 'text-[color:var(--danger)]'
 				};
 			default:
@@ -50,7 +50,7 @@
 
 			await goto(data.redirectTo);
 		} catch (error) {
-			errorMessage = error instanceof Error ? error.message : 'No se pudo iniciar sesion.';
+			errorMessage = error instanceof Error ? error.message : 'No se pudo iniciar sesión.';
 		} finally {
 			loading = false;
 		}
@@ -69,14 +69,14 @@
 		<div class="card p-6">
 			<h1 class="font-display mb-1 text-3xl">LOG IN</h1>
 			<p class="mb-6 text-sm text-[color:var(--muted-foreground)]">
-				Inicia sesion para trabajar en el dashboard.
+				Inicia sesión para trabajar en el dashboard.
 			</p>
 			{#if authNotice}
 				<p class={`mb-4 text-sm ${authNotice.className}`}>{authNotice.text}</p>
 			{/if}
 			<form class="space-y-4" onsubmit={onSubmit}>
 				<label class="block text-sm">
-					<span class="mb-1 block">Correo electronico</span>
+					<span class="mb-1 block">Correo electrónico</span>
 					<input
 						type="email"
 						bind:value={email}
@@ -85,7 +85,7 @@
 					/>
 				</label>
 				<label class="block text-sm">
-					<span class="mb-1 block">Contrasena</span>
+					<span class="mb-1 block">Contraseña</span>
 					<input
 						type="password"
 						bind:value={password}
