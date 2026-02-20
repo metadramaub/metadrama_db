@@ -1,9 +1,10 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto } from '$app/navigation';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import { getVocabularyFieldConfig } from '$lib/config/vocabulary-fields';
 	import VocabularyTree from '$lib/components/vocabularios/VocabularyTree.svelte';
 	import VocabularyDetailPanel from '$lib/components/vocabularios/VocabularyDetailPanel.svelte';
@@ -14,6 +15,7 @@
 		normalizeTree,
 		type VocabularyItem
 	} from '$lib/components/vocabularios/useVocabularyTree';
+	import { runInternalSceneTransition } from '$lib/stores/scene-loader';
 	import { pushToast } from '$lib/stores/toast';
 	import type { PageData } from './$types';
 
@@ -127,7 +129,8 @@
 			.filter((row) => row.item.termino_id !== selectedId)
 			.map((row) => ({
 				id: row.item.termino_id,
-				label: `${'  '.repeat(Math.max(0, row.depth - 1))}${row.item.termino}`
+				label: row.item.termino,
+				parentId: row.item.termino_padre_id ?? null
 			}))
 	);
 	const createParentOptions = $derived(
@@ -135,9 +138,14 @@
 			.filter((row) => row.depth === 1)
 			.map((row) => ({
 				id: row.item.termino_id,
-				label: row.item.termino
+				label: row.item.termino,
+				parentId: null as string | null
 			}))
 	);
+	const tipoFormaDropdownItems = [
+		{ id: 'forma_espanola', label: 'Forma española' },
+		{ id: 'forma_italiana', label: 'Forma italiana' }
+	];
 	const metroDropdownItems = $derived(
 		(data.metroOptions ?? []).map((metro: { termino_id: string; termino: string }) => ({
 			id: metro.termino_id,
@@ -300,6 +308,14 @@
 		termAutosaveErrorShown = false;
 	}
 
+	async function runDetailPanelTransition(task: () => void) {
+		await runInternalSceneTransition(async () => {
+			await tick();
+			task();
+			await tick();
+		});
+	}
+
 	async function confirmUnsavedChangesModal() {
 		const nextSelectionId = pendingSelectionId;
 		const shouldCloseDetail = pendingCloseDetail;
@@ -308,11 +324,11 @@
 		cancelUnsavedChangesModal();
 
 		if (nextSelectionId) {
-			performSelectItem(nextSelectionId);
+			await runDetailPanelTransition(() => performSelectItem(nextSelectionId));
 			return;
 		}
 		if (shouldCloseDetail) {
-			performCloseSelectedItem();
+			await runDetailPanelTransition(() => performCloseSelectedItem());
 			return;
 		}
 		if (!nextRoute) return;
@@ -356,7 +372,7 @@
 			openUnsavedChangesModal({ selectionId: terminoId });
 			return;
 		}
-		performSelectItem(terminoId);
+		void runDetailPanelTransition(() => performSelectItem(terminoId));
 	}
 
 	function closeSelectedItem() {
@@ -364,7 +380,7 @@
 			openUnsavedChangesModal({ closeDetail: true });
 			return;
 		}
-		performCloseSelectedItem();
+		void runDetailPanelTransition(() => performCloseSelectedItem());
 	}
 
 	function openDeleteModal() {
@@ -800,8 +816,8 @@
 	<div class="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
 		<div class="space-y-3 lg:max-h-[calc(100dvh-12rem)] lg:overflow-y-auto lg:pr-1">
 			<div class="card p-4">
-				<label class="text-sm">
-					<span class="mb-1 block">Buscar término</span>
+				<label class="form-field">
+					<span class="form-label">Buscar término</span>
 					<input
 						type="text"
 						bind:value={search}
@@ -873,8 +889,8 @@
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
 				Esta accion es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
 			</p>
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Confirmacion</span>
+			<label class="form-field mt-3">
+				<span class="form-label">Confirmacion</span>
 				<input
 					type="text"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -913,8 +929,8 @@
 			</div>
 
 			<div class="grid gap-3">
-				<label class="text-sm">
-					<span class="mb-1 block">Término</span>
+				<label class="form-field">
+					<span class="form-label">Término</span>
 					<input
 						type="text"
 						value={createForm.termino}
@@ -924,23 +940,24 @@
 				</label>
 
 				{#if fieldConfig.showParent}
-					<label class="text-sm">
-						<span class="mb-1 block">Término padre (opcional)</span>
-						<select
-							value={createForm.termino_padre_id ?? ''}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							onchange={(event) => onCreateFormChange({ termino_padre_id: event.currentTarget.value || null })}
-						>
-							<option value="">Sin padre (raíz)</option>
-							{#each createParentOptions as option}
-								<option value={option.id}>{option.label}</option>
-							{/each}
-						</select>
+					<label class="form-field">
+						<span class="form-label">Término padre (opcional)</span>
+						<CheckDropdown
+							multiple={false}
+							hierarchical={true}
+							showPathInTrigger={true}
+							allowSingleClear={true}
+							search={createParentOptions.length > 8}
+							placeholder="Sin padre (raíz)"
+							items={createParentOptions}
+							selectedIds={createForm.termino_padre_id ? [createForm.termino_padre_id] : []}
+							onChange={(ids) => onCreateFormChange({ termino_padre_id: ids[0] ?? null })}
+						/>
 					</label>
 				{/if}
 
 				{#if fieldConfig.showActive}
-					<label class="flex items-center gap-2 text-sm">
+					<label class="form-inline-toggle">
 						<input
 							type="checkbox"
 							checked={createForm.activo}
@@ -951,44 +968,47 @@
 				{/if}
 
 				{#if fieldConfig.showDefinition}
-					<label class="text-sm">
-						<span class="mb-1 block">Definición</span>
-						<textarea
+					<label class="form-field">
+						<span class="form-label">Definición</span>
+						<MarkdownEditorLite
 							rows={4}
+							class="mt-1"
+							minHeightClass="min-h-28"
 							value={createForm.definicion}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => onCreateFormChange({ definicion: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => onCreateFormChange({ definicion: nextValue })}
+						/>
 					</label>
 				{/if}
 
 				{#if fieldConfig.showExample}
-					<label class="text-sm">
-						<span class="mb-1 block">Ejemplo</span>
-						<textarea
+					<label class="form-field">
+						<span class="form-label">Ejemplo</span>
+						<MarkdownEditorLite
 							rows={3}
+							class="mt-1"
+							minHeightClass="min-h-24"
 							value={createForm.ejemplo}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => onCreateFormChange({ ejemplo: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => onCreateFormChange({ ejemplo: nextValue })}
+						/>
 					</label>
 				{/if}
 
 				{#if fieldConfig.showBibliography}
-					<label class="text-sm">
-						<span class="mb-1 block">Bibliografía</span>
-						<textarea
+					<label class="form-field">
+						<span class="form-label">Bibliografía</span>
+						<MarkdownEditorLite
 							rows={3}
+							class="mt-1"
+							minHeightClass="min-h-24"
 							value={createForm.bibliografia}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => onCreateFormChange({ bibliografia: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => onCreateFormChange({ bibliografia: nextValue })}
+						/>
 					</label>
 				{/if}
 
 				{#if fieldConfig.showEquivalences}
-					<label class="text-sm">
-						<span class="mb-1 block">Equivalencias (una por línea)</span>
+					<label class="form-field">
+						<span class="form-label">Equivalencias (una por línea)</span>
 						<textarea
 							rows={3}
 							value={createForm.equivalenciasText}
@@ -999,8 +1019,8 @@
 				{/if}
 
 				{#if fieldConfig.showPattern}
-					<label class="text-sm">
-						<span class="mb-1 block">Patrón específico</span>
+					<label class="form-field">
+						<span class="form-label">Patrón especï¿½fico</span>
 						<input
 							type="text"
 							value={createForm.patron_especifico}
@@ -1011,26 +1031,26 @@
 				{/if}
 
 				{#if fieldConfig.showTipoForma}
-					<label class="text-sm">
-						<span class="mb-1 block">Tipo de forma</span>
-						<select
-							value={createForm.tipo_forma ?? ''}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							onchange={(event) =>
+					<label class="form-field">
+						<span class="form-label">Tipo de forma</span>
+						<CheckDropdown
+							multiple={false}
+							allowSingleClear={true}
+							search={false}
+							placeholder="Sin especificar"
+							items={tipoFormaDropdownItems}
+							selectedIds={createForm.tipo_forma ? [createForm.tipo_forma] : []}
+							onChange={(ids) =>
 								onCreateFormChange({
-									tipo_forma: (event.currentTarget.value || null) as TipoFormaValue
+									tipo_forma: (ids[0] ?? null) as TipoFormaValue
 								})}
-						>
-							<option value="">Sin especificar</option>
-							<option value="forma_espanola">Forma española</option>
-							<option value="forma_italiana">Forma italiana</option>
-						</select>
+						/>
 					</label>
 				{/if}
 
 				{#if fieldConfig.showMetros}
-					<div class="text-sm">
-						<span class="mb-1 block">Metros asociados</span>
+					<div class="form-field">
+						<span class="form-label">Metros asociados</span>
 						<CheckDropdown
 							items={metroDropdownItems}
 							selectedIds={createForm.metro_ids}
@@ -1051,3 +1071,4 @@
 		</div>
 	</div>
 {/if}
+

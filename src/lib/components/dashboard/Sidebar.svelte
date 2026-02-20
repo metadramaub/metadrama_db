@@ -13,7 +13,6 @@
 
 	const props = $props<{
 		profile: EditorProfile;
-		misObrasCount?: number;
 		notificationsUnreadCount?: number;
 	}>();
 
@@ -67,11 +66,6 @@
 		>
 			<BookOpenText size={16} />
 			Obras
-			<span
-				class="ml-auto border border-[color:var(--primary)] bg-[color:var(--primary)] px-2 py-0.5 text-xs text-[color:var(--primary-foreground)]"
-			>
-				{props.misObrasCount ?? 0}
-			</span>
 		</a>
 		<a
 			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"

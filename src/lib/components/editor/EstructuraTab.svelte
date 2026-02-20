@@ -2,8 +2,11 @@
 	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
+	import { renderMarkdown } from '$lib/utils/markdown';
 
 	const props = $props<{
 		obraId: string;
@@ -61,6 +64,18 @@
 	function sortByVIni<T extends { v_ini: number }>(items: T[]): T[] {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini);
 	}
+	const jornadaDropdownItems = $derived(
+		sortByVIni(jornadas).map((jornada) => ({
+			id: jornada.jornada_id,
+			label: `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
+		}))
+	);
+	const certezaDropdownItems = $derived(
+		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+			id: option.termino_id,
+			label: option.termino
+		}))
+	);
 
 	function getJornadaById(jornadaId: string) {
 		return jornadas.find((item) => item.jornada_id === jornadaId) ?? null;
@@ -68,6 +83,20 @@
 
 	function getCuadros(jornadaId: string) {
 		return sortByVIni(cuadros.filter((item) => item.jornada_id === jornadaId));
+	}
+
+	function getSuggestedJornadaStart(): number {
+		const maxVFin = jornadas.reduce((max, item) => Math.max(max, Number(item.v_fin) || 0), 0);
+		return maxVFin > 0 ? maxVFin + 1 : 1;
+	}
+
+	function getSuggestedCuadroStart(jornadaId: string): number {
+		const jornada = getJornadaById(jornadaId);
+		if (!jornada) return 1;
+		const maxVFin = cuadros
+			.filter((item) => item.jornada_id === jornadaId)
+			.reduce((max, item) => Math.max(max, Number(item.v_fin) || 0), 0);
+		return maxVFin > 0 ? maxVFin + 1 : jornada.v_ini;
 	}
 
 	function emitStructureChange() {
@@ -78,21 +107,22 @@
 	}
 
 	function resetJornadaForm() {
+		const suggestedStart = getSuggestedJornadaStart();
 		jornadaForm = {
 			jornada_num: jornadas.length + 1,
-			v_ini: 1,
-			v_fin: 2
+			v_ini: suggestedStart,
+			v_fin: suggestedStart + 1
 		};
 	}
 
 	function resetCuadroForm(jornadaId?: string) {
 		const selectedJornadaId = jornadaId ?? jornadas[0]?.jornada_id ?? '';
-		const selectedJornada = getJornadaById(selectedJornadaId);
+		const suggestedStart = getSuggestedCuadroStart(selectedJornadaId);
 		cuadroForm = {
 			jornada_id: selectedJornadaId,
 			cuadro_num: selectedJornadaId ? getCuadros(selectedJornadaId).length + 1 : 1,
-			v_ini: selectedJornada?.v_ini ?? 1,
-			v_fin: selectedJornada?.v_fin ?? 2,
+			v_ini: suggestedStart,
+			v_fin: suggestedStart + 1,
 			descripcion: '',
 			certeza_editor: defaultCerteza
 		};
@@ -100,12 +130,14 @@
 
 	function onCuadroJornadaChange(nextJornadaId: string) {
 		const nextJornada = getJornadaById(nextJornadaId);
+		const inCreationMode = sidebarMode === 'cuadro-new';
+		const suggestedStart = inCreationMode ? getSuggestedCuadroStart(nextJornadaId) : cuadroForm.v_ini;
 		cuadroForm = {
 			...cuadroForm,
 			jornada_id: nextJornadaId,
 			cuadro_num: nextJornadaId ? getCuadros(nextJornadaId).length + 1 : 1,
-			v_ini: nextJornada?.v_ini ?? cuadroForm.v_ini,
-			v_fin: nextJornada?.v_fin ?? cuadroForm.v_fin
+			v_ini: inCreationMode ? suggestedStart : nextJornada?.v_ini ?? cuadroForm.v_ini,
+			v_fin: inCreationMode ? suggestedStart + 1 : nextJornada?.v_fin ?? cuadroForm.v_fin
 		};
 	}
 
@@ -576,7 +608,9 @@
 										Cuadro {cuadro.cuadro_num}: vv. {cuadro.v_ini}-{cuadro.v_fin}
 									</div>
 									{#if cuadro.descripcion}
-										<div class="mt-1 text-sm text-[color:var(--muted-foreground)]">{cuadro.descripcion}</div>
+										<div class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+											{@html renderMarkdown(cuadro.descripcion)}
+										</div>
 									{/if}
 								</div>
 								<div class="flex gap-2">
@@ -631,8 +665,8 @@
 		<div class="grid gap-3">
 			{#if sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit'}
 				<div class="grid gap-3 sm:grid-cols-3">
-					<label class="text-sm">
-						<span class="mb-1 block">Jornada #</span>
+					<label class="form-field">
+						<span class="form-label">Jornada #</span>
 						<input
 							type="number"
 							bind:value={jornadaForm.jornada_num}
@@ -641,8 +675,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso inicial</span>
+					<label class="form-field">
+						<span class="form-label">Verso inicial</span>
 						<input
 							type="number"
 							bind:value={jornadaForm.v_ini}
@@ -650,8 +684,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso final</span>
+					<label class="form-field">
+						<span class="form-label">Verso final</span>
 						<input
 							type="number"
 							bind:value={jornadaForm.v_fin}
@@ -661,24 +695,25 @@
 					</label>
 				</div>
 			{:else}
-				<label class="text-sm">
-					<span class="mb-1 block">Jornada</span>
-					<select
-						bind:value={cuadroForm.jornada_id}
+				<label class="form-field">
+					<span class="form-label">Jornada</span>
+					<CheckDropdown
+						multiple={false}
+						search={jornadaDropdownItems.length > 8}
+						placeholder="Seleccionar jornada"
+						items={jornadaDropdownItems}
 						disabled={props.readOnly}
-						onchange={(event) => onCuadroJornadaChange((event.currentTarget as HTMLSelectElement).value)}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						{#each sortByVIni(jornadas) as jornada}
-							<option value={jornada.jornada_id}>
-								Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
-							</option>
-						{/each}
-					</select>
+						selectedIds={cuadroForm.jornada_id ? [cuadroForm.jornada_id] : []}
+						onChange={(ids) => {
+							const nextJornadaId = ids[0] ?? '';
+							if (!nextJornadaId) return;
+							onCuadroJornadaChange(nextJornadaId);
+						}}
+					/>
 				</label>
 				<div class="grid gap-3 sm:grid-cols-3">
-					<label class="text-sm">
-						<span class="mb-1 block">Cuadro #</span>
+					<label class="form-field">
+						<span class="form-label">Cuadro #</span>
 						<input
 							type="number"
 							bind:value={cuadroForm.cuadro_num}
@@ -687,8 +722,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso inicial</span>
+					<label class="form-field">
+						<span class="form-label">Verso inicial</span>
 						<input
 							type="number"
 							bind:value={cuadroForm.v_ini}
@@ -696,8 +731,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso final</span>
+					<label class="form-field">
+						<span class="form-label">Verso final</span>
 						<input
 							type="number"
 							bind:value={cuadroForm.v_fin}
@@ -706,26 +741,40 @@
 						/>
 					</label>
 				</div>
-				<label class="text-sm">
-					<span class="mb-1 block">Certeza</span>
-					<select
-						bind:value={cuadroForm.certeza_editor}
+				<label class="form-field">
+					<span class="form-label">Certeza</span>
+					<CheckDropdown
+						multiple={false}
+						search={certezaDropdownItems.length > 8}
+						placeholder="Seleccionar certeza"
+						items={certezaDropdownItems}
 						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						{#each props.certezaOptions as option}
-							<option value={option.termino_id}>{option.termino}</option>
-						{/each}
-					</select>
+						selectedIds={cuadroForm.certeza_editor ? [cuadroForm.certeza_editor] : []}
+						onChange={(ids) => {
+							const nextCerteza = ids[0] ?? '';
+							if (!nextCerteza) return;
+							cuadroForm = {
+								...cuadroForm,
+								certeza_editor: nextCerteza
+							};
+						}}
+					/>
 				</label>
-				<label class="text-sm">
-					<span class="mb-1 block">Descripción</span>
-					<textarea
+				<label class="form-field">
+					<span class="form-label">Descripción</span>
+					<MarkdownEditorLite
 						rows={3}
-						bind:value={cuadroForm.descripcion}
+						class="mt-1"
+						minHeightClass="min-h-28"
+						value={cuadroForm.descripcion}
 						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					></textarea>
+						onChange={(nextValue) => {
+							cuadroForm = {
+								...cuadroForm,
+								descripcion: nextValue
+							};
+						}}
+					/>
 				</label>
 			{/if}
 		</div>
@@ -789,3 +838,4 @@
 		</div>
 	</div>
 {/if}
+

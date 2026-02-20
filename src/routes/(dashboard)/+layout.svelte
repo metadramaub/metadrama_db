@@ -9,7 +9,6 @@
 
 	let { data, children } = $props<{ data: LayoutData; children: () => unknown }>();
 
-	let misObrasCount = $state(0);
 	let notificationsUnreadCount = $state(0);
 	let refreshInFlight = false;
 	let refreshTimer: ReturnType<typeof setTimeout> | null = null;
@@ -41,7 +40,6 @@
 	});
 
 	$effect(() => {
-		misObrasCount = data.misObrasCount ?? 0;
 		notificationsUnreadCount = data.notificationsUnreadCount ?? 0;
 	});
 
@@ -52,7 +50,6 @@
 			const response = await fetch('/api/dashboard/indicators');
 			if (!response.ok) return;
 			const payload = await response.json();
-			misObrasCount = payload.misObrasCount ?? misObrasCount;
 			notificationsUnreadCount = payload.notificationsUnreadCount ?? notificationsUnreadCount;
 		} finally {
 			refreshInFlight = false;
@@ -126,11 +123,7 @@
 </script>
 
 <div class="grid min-h-screen md:h-screen md:grid-cols-[18rem_1fr] md:overflow-hidden">
-	<Sidebar
-		profile={data.profile}
-		misObrasCount={misObrasCount}
-		notificationsUnreadCount={notificationsUnreadCount}
-	/>
+	<Sidebar profile={data.profile} notificationsUnreadCount={notificationsUnreadCount} />
 	<main class="min-w-0 bg-[color:var(--background)] p-6 md:h-screen md:overflow-y-auto">
 		<div class="mb-4 border-b border-[color:var(--border)] pb-3 text-xs font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
 			{#if breadcrumbs.length === 0}

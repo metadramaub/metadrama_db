@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
+	// Deprecated: keep only for reversibility; new UI should use CheckDropdown.
 	const props = $props<{
 		value?: string | null;
 		class?: string;

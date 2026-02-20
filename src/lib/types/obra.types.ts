@@ -59,10 +59,18 @@ export interface SecuenciaInput {
 	v_fin: number;
 	estrofa_tipo_id: string;
 	inaugura_espacio: boolean;
+	versos_partidos: boolean;
 	personajes_genero: 'mixto' | 'solo_masculino' | 'solo_femenino';
 	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
 	certeza_editor: string;
+	observaciones: string | null;
+}
+
+export interface SecuenciaVariacionInput {
+	tipo_variacion_id: string;
+	v_ini: number;
+	v_fin: number;
 	observaciones: string | null;
 }
 

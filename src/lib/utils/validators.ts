@@ -102,6 +102,7 @@ export const secuenciaInputSchema = z
 		v_fin: z.number().int().positive(),
 		estrofa_tipo_id: z.string().uuid('Estrofa requerida'),
 		inaugura_espacio: z.boolean().default(false),
+		versos_partidos: z.boolean().default(false),
 		personajes_genero: z.enum(['mixto', 'solo_masculino', 'solo_femenino']),
 		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
@@ -110,6 +111,18 @@ export const secuenciaInputSchema = z
 	})
 	.refine((input) => input.v_ini < input.v_fin, {
 		message: 'El verso inicial debe ser menor que el final',
+		path: ['v_ini']
+	});
+
+export const secuenciaVariacionInputSchema = z
+	.object({
+		tipo_variacion_id: z.string().uuid('Tipo de variacion requerido'),
+		v_ini: z.number().int().positive(),
+		v_fin: z.number().int().positive(),
+		observaciones: z.string().trim().nullable().optional().default(null)
+	})
+	.refine((input) => input.v_ini <= input.v_fin, {
+		message: 'El verso inicial no puede ser mayor que el final',
 		path: ['v_ini']
 	});
 
@@ -414,6 +427,7 @@ export type ObraDatosPatchInput = z.infer<typeof obraDatosPatchSchema>;
 export type JornadaInputParsed = z.infer<typeof jornadaInputSchema>;
 export type CuadroInputParsed = z.infer<typeof cuadroInputSchema>;
 export type SecuenciaInputParsed = z.infer<typeof secuenciaInputSchema>;
+export type SecuenciaVariacionInputParsed = z.infer<typeof secuenciaVariacionInputSchema>;
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
 export type ComentarioPatchParsed = z.infer<typeof comentarioPatchSchema>;
