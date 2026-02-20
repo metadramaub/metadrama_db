@@ -628,8 +628,8 @@
 				</div>
 			{:else}
 				{#if canShowAllModes}
-					<label class="block text-sm">
-					<span class="mb-1 block">Selecciona cómo se distribuye la autoría en la obra</span>
+					<label class="form-field">
+					<span class="form-label">Selecciona cómo se distribuye la autoría en la obra</span>
 					<CheckDropdown
 							multiple={false}
 							search={false}
@@ -645,8 +645,8 @@
 						/>
 					</label>
 				{:else}
-					<div class="block text-sm">
-						<span class="mb-1 block">Modo de autoria</span>
+					<div class="form-field">
+						<span class="form-label">Modo de autoria</span>
 						<div class="w-full rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
 							Obra completa
 						</div>
@@ -658,8 +658,8 @@
 					</div>
 				{/if}
 
-				<label class="mt-4 block text-sm">
-					<span class="mb-1 block">URL informe ETSO</span>
+				<label class="form-field mt-4">
+					<span class="form-label">URL informe ETSO</span>
 					<input
 						type="url"
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -680,8 +680,8 @@
 
 				{#if mode === 'obra_completa'}
 					<div class="space-y-3">
-						<div class="block text-sm">
-							<span class="mb-1 block">Autores de la obra</span>
+						<div class="form-field">
+							<span class="form-label">Autores de la obra</span>
 							<AuthorSelector
 								authors={authorOptions}
 								selectedIds={obraCompleta.autor_ids}
@@ -701,8 +701,8 @@
 									<div class="mb-2 text-sm font-medium">
 										{jornadaMap.get(assignment.jornada_id) ?? assignment.jornada_id}
 									</div>
-									<div class="block text-sm">
-										<span class="mb-1 block">Autores</span>
+									<div class="form-field">
+										<span class="form-label">Autores</span>
 										<AuthorSelector
 											authors={authorOptions}
 											selectedIds={assignment.autor_ids}
@@ -729,8 +729,8 @@
 								<article class="border border-[color:var(--border)] bg-white p-3">
 									<div class="mb-3 flex justify-between gap-2">
 										<div class="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
-											<label class="text-sm">
-												<span class="mb-1 block">V_ini</span>
+											<label class="form-field">
+												<span class="form-label">V_ini</span>
 												<input
 													type="number"
 													class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -740,8 +740,8 @@
 														updateCustomRange(range.temp_id, { v_ini: Number(event.currentTarget.value) })}
 												/>
 											</label>
-											<label class="text-sm">
-												<span class="mb-1 block">V_fin</span>
+											<label class="form-field">
+												<span class="form-label">V_fin</span>
 												<input
 													type="number"
 													class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -762,8 +762,8 @@
 									</div>
 
 									<div class="grid gap-3 md:grid-cols-2">
-										<div class="block text-sm">
-											<span class="mb-1 block">Autores</span>
+										<div class="form-field">
+											<span class="form-label">Autores</span>
 											<AuthorSelector
 												authors={authorOptions}
 												selectedIds={range.autor_ids}
@@ -817,3 +817,4 @@
 		</div>
 	</div>
 {/if}
+

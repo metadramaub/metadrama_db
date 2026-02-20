@@ -124,8 +124,8 @@
 	</div>
 
 	<form class="card mb-4 grid gap-3 p-4 md:grid-cols-4" onsubmit={applyFilters}>
-		<label class="text-sm">
-			<span class="mb-1 block">Buscar título</span>
+		<label class="form-field">
+			<span class="form-label">Buscar título</span>
 			<input
 				type="text"
 				bind:value={q}
@@ -133,8 +133,8 @@
 			/>
 		</label>
 
-		<label class="text-sm">
-			<span class="mb-1 block">Estado</span>
+		<label class="form-field">
+			<span class="form-label">Estado</span>
 			<CheckDropdown
 				multiple={false}
 				allowSingleClear={true}
@@ -148,8 +148,8 @@
 			/>
 		</label>
 
-		<label class="text-sm">
-			<span class="mb-1 block">Editor asignado</span>
+		<label class="form-field">
+			<span class="form-label">Editor asignado</span>
 			<CheckDropdown
 				multiple={false}
 				allowSingleClear={true}
@@ -184,8 +184,8 @@
 			</p>
 
 			<div class="mt-4 space-y-3">
-				<label class="block text-sm">
-					<span class="mb-1 block">Título *</span>
+				<label class="form-field">
+					<span class="form-label">Título *</span>
 					<input
 						type="text"
 						bind:value={newObraTitle}
@@ -193,8 +193,8 @@
 					/>
 				</label>
 
-				<label class="block text-sm">
-					<span class="mb-1 block">Editor asignado *</span>
+				<label class="form-field">
+					<span class="form-label">Editor asignado *</span>
 					<CheckDropdown
 						multiple={false}
 						search={editorDropdownItems.length > 8}
@@ -219,4 +219,5 @@
 		</div>
 	</div>
 {/if}
+
 

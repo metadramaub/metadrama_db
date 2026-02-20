@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import { renderMarkdown } from '$lib/utils/markdown';
 
 	const props = $props<{

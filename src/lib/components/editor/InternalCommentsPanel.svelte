@@ -261,8 +261,8 @@
 						</div>
 
 						{#if editingCommentId === comment.comentario_id}
-							<label class="block text-sm">
-								<span class="mb-1 block">Tipo</span>
+							<label class="form-field">
+								<span class="form-label">Tipo</span>
 								<CheckDropdown
 									multiple={false}
 									search={false}
@@ -277,8 +277,8 @@
 									}}
 								/>
 							</label>
-							<label class="mt-2 block text-sm">
-								<span class="mb-1 block">Comentario</span>
+							<label class="form-field mt-2">
+								<span class="form-label">Comentario</span>
 								<textarea
 									rows={3}
 									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -350,8 +350,8 @@
 		{/if}
 
 		<div class="border border-[color:var(--border)] bg-white p-3">
-			<label class="block text-sm">
-				<span class="mb-1 block">Tipo de comentario</span>
+			<label class="form-field">
+				<span class="form-label">Tipo de comentario</span>
 				<CheckDropdown
 					class="mb-2"
 					multiple={false}
@@ -367,8 +367,8 @@
 					}}
 				/>
 			</label>
-			<label class="block text-sm">
-				<span class="mb-1 block">Nuevo comentario</span>
+			<label class="form-field">
+				<span class="form-label">Nuevo comentario</span>
 				<textarea
 					rows={3}
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -384,3 +384,4 @@
 		</div>
 	{/if}
 </div>
+

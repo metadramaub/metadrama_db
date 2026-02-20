@@ -665,8 +665,8 @@
 		<div class="grid gap-3">
 			{#if sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit'}
 				<div class="grid gap-3 sm:grid-cols-3">
-					<label class="text-sm">
-						<span class="mb-1 block">Jornada #</span>
+					<label class="form-field">
+						<span class="form-label">Jornada #</span>
 						<input
 							type="number"
 							bind:value={jornadaForm.jornada_num}
@@ -675,8 +675,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso inicial</span>
+					<label class="form-field">
+						<span class="form-label">Verso inicial</span>
 						<input
 							type="number"
 							bind:value={jornadaForm.v_ini}
@@ -684,8 +684,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso final</span>
+					<label class="form-field">
+						<span class="form-label">Verso final</span>
 						<input
 							type="number"
 							bind:value={jornadaForm.v_fin}
@@ -695,8 +695,8 @@
 					</label>
 				</div>
 			{:else}
-				<label class="text-sm">
-					<span class="mb-1 block">Jornada</span>
+				<label class="form-field">
+					<span class="form-label">Jornada</span>
 					<CheckDropdown
 						multiple={false}
 						search={jornadaDropdownItems.length > 8}
@@ -712,8 +712,8 @@
 					/>
 				</label>
 				<div class="grid gap-3 sm:grid-cols-3">
-					<label class="text-sm">
-						<span class="mb-1 block">Cuadro #</span>
+					<label class="form-field">
+						<span class="form-label">Cuadro #</span>
 						<input
 							type="number"
 							bind:value={cuadroForm.cuadro_num}
@@ -722,8 +722,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso inicial</span>
+					<label class="form-field">
+						<span class="form-label">Verso inicial</span>
 						<input
 							type="number"
 							bind:value={cuadroForm.v_ini}
@@ -731,8 +731,8 @@
 							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 						/>
 					</label>
-					<label class="text-sm">
-						<span class="mb-1 block">Verso final</span>
+					<label class="form-field">
+						<span class="form-label">Verso final</span>
 						<input
 							type="number"
 							bind:value={cuadroForm.v_fin}
@@ -741,8 +741,8 @@
 						/>
 					</label>
 				</div>
-				<label class="text-sm">
-					<span class="mb-1 block">Certeza</span>
+				<label class="form-field">
+					<span class="form-label">Certeza</span>
 					<CheckDropdown
 						multiple={false}
 						search={certezaDropdownItems.length > 8}
@@ -760,8 +760,8 @@
 						}}
 					/>
 				</label>
-				<label class="text-sm">
-					<span class="mb-1 block">Descripción</span>
+				<label class="form-field">
+					<span class="form-label">Descripción</span>
 					<MarkdownEditorLite
 						rows={3}
 						class="mt-1"
@@ -838,3 +838,4 @@
 		</div>
 	</div>
 {/if}
+

@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
@@ -74,13 +74,13 @@
 		</div>
 
 		{#if !props.selectedItem}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Selecciona un término en el árbol para ver su detalle.</p>
+			<p class="text-sm text-[color:var(--muted-foreground)]">Selecciona un término en el Árbol para ver su detalle.</p>
 		{:else}
 			<p class="mb-3 text-xs text-[color:var(--muted-foreground)]">Término: {props.pathLabel || '-'}</p>
 			<div class="grid gap-3">
 				{#if props.fieldConfig.showParent}
-					<label class="text-sm">
-						<span class="mb-1 block">Término padre</span>
+					<label class="form-field">
+						<span class="form-label">Término padre</span>
 						<CheckDropdown
 							multiple={false}
 							hierarchical={true}
@@ -96,8 +96,8 @@
 					</label>
 				{/if}
 
-				<label class="text-sm">
-					<span class="mb-1 block">Término</span>
+				<label class="form-field">
+					<span class="form-label">Término</span>
 					<input
 						type="text"
 						value={props.termForm.termino}
@@ -108,8 +108,8 @@
 				</label>
 
 				{#if props.fieldConfig.showEquivalences}
-					<label class="text-sm">
-						<span class="mb-1 block">Equivalencias (una por línea)</span>
+					<label class="form-field">
+						<span class="form-label">Equivalencias (una por línea)</span>
 						<textarea
 							rows={3}
 							value={props.termForm.equivalenciasText}
@@ -121,8 +121,8 @@
 				{/if}
 
 				{#if props.fieldConfig.showPattern}
-					<label class="text-sm">
-						<span class="mb-1 block">Patrón específico</span>
+					<label class="form-field">
+						<span class="form-label">Patrón especï¿½fico</span>
 						<input
 							type="text"
 							value={props.termForm.patron_especifico}
@@ -134,8 +134,8 @@
 				{/if}
 
 				{#if props.fieldConfig.showTipoForma}
-					<label class="text-sm">
-						<span class="mb-1 block">Tipo de forma</span>
+					<label class="form-field">
+						<span class="form-label">Tipo de forma</span>
 						<CheckDropdown
 							multiple={false}
 							allowSingleClear={true}
@@ -156,8 +156,8 @@
 				{/if}
 
 				{#if props.fieldConfig.showMetros}
-					<div class="text-sm">
-						<span class="mb-1 block">Metros asociados</span>
+					<div class="form-field">
+						<span class="form-label">Metros asociados</span>
 						<CheckDropdown
 							items={metroDropdownItems}
 							selectedIds={props.termForm.metro_ids}
@@ -170,8 +170,8 @@
 				{/if}
 
 				{#if props.fieldConfig.showDefinition}
-					<label class="text-sm">
-						<span class="mb-1 block">Definición</span>
+					<label class="form-field">
+						<span class="form-label">Definición</span>
 						<MarkdownEditorLite
 							rows={4}
 							class="mt-1"
@@ -184,8 +184,8 @@
 				{/if}
 
 				{#if props.fieldConfig.showExample}
-					<label class="text-sm">
-						<span class="mb-1 block">Ejemplo</span>
+					<label class="form-field">
+						<span class="form-label">Ejemplo</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"
@@ -198,8 +198,8 @@
 				{/if}
 
 				{#if props.fieldConfig.showBibliography}
-					<label class="text-sm">
-						<span class="mb-1 block">Bibliografía</span>
+					<label class="form-field">
+						<span class="form-label">Bibliografía</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"
@@ -212,7 +212,7 @@
 				{/if}
 
 				{#if props.fieldConfig.showActive}
-					<label class="flex items-center gap-2 text-sm">
+					<label class="form-inline-toggle">
 						<input
 							type="checkbox"
 							checked={props.termForm.activo}
@@ -247,3 +247,4 @@
 		{/if}
 	</div>
 </section>
+

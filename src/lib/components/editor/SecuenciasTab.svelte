@@ -711,8 +711,8 @@
 	</div>
 
 	<div class="card grid gap-3 p-4 md:grid-cols-2">
-		<div class="text-sm">
-			<span class="mb-1 block">Filtro por estrofa</span>
+		<div class="form-field">
+			<span class="form-label">Filtro por estrofa</span>
 			<CheckDropdown
 				multiple={false}
 				hierarchical={true}
@@ -727,8 +727,8 @@
 				}}
 			/>
 		</div>
-		<label class="text-sm">
-			<span class="mb-1 block">Filtro por certeza</span>
+		<label class="form-field">
+			<span class="form-label">Filtro por certeza</span>
 			<CheckDropdown
 				multiple={false}
 				allowSingleClear={true}
@@ -798,8 +798,8 @@
 </section>
 
 {#if sidebarOpen}
-	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
-		<div class="sticky top-0 z-10 mb-4 flex items-center justify-between gap-3 bg-[color:var(--gray-50)] pb-3">
+	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0">
+		<div class="sticky top-0 z-20 -mx-5 mb-4 flex items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-3 pt-5">
 			<h3 class="text-lg font-semibold">
 				{#if editingId}
 					{props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
@@ -818,239 +818,260 @@
 		</div>
 
 		<div class="grid gap-3">
-			<div class="grid gap-3 sm:grid-cols-2">
-				<label class="text-sm">
-					<span class="mb-1 block">Verso inicial</span>
-					<input
-						type="number"
-						bind:value={form.v_ini}
-						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					/>
-				</label>
-				<label class="text-sm">
-					<span class="mb-1 block">Verso final</span>
-					<input
-						type="number"
-						bind:value={form.v_fin}
-						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					/>
-				</label>
-			</div>
-
-				<label class="text-sm">
-					<span class="mb-1 block">Estrofa *</span>
-				<CheckDropdown
-					class="mt-1"
-					multiple={false}
-					hierarchical={true}
-					showPathInTrigger={true}
-					allowSingleClear={false}
-					search={true}
-					placeholder="Seleccionar estrofa"
-					items={estrofaDropdownItems}
-					selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
-					disabled={props.readOnly}
-					onChange={(ids) => {
-						const nextId = ids[0] ?? '';
-						if (!nextId) return;
-						form = {
-							...form,
-							estrofa_tipo_id: nextId
-						};
-					}}
-					/>
-				</label>
-
-				<div class="rounded-md border border-[color:var(--border)] bg-white p-3">
-					<div class="flex flex-wrap items-center justify-between gap-2">
-						<h4 class="text-sm font-semibold">Variaciones / irregularidades</h4>
-						<Button
-							variant="secondary"
-							onclick={openVariacionCreateModal}
-							disabled={props.readOnly || !editingId}
-						>
-							Añadir variación
-						</Button>
-					</div>
-
-					{#if !editingId}
-						<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
-							Guarda la secuencia para añadir variaciones.
-						</p>
-					{:else if variacionesLoading}
-						<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">Cargando variaciones...</p>
-					{:else if variaciones.length === 0}
-						<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
-							Sin variaciones registradas en esta secuencia.
-						</p>
-					{:else}
-						<div class="mt-3 overflow-x-auto">
-							<table class="min-w-full text-left text-xs">
-								<thead class="bg-[color:var(--muted)]">
-									<tr>
-										<th class="px-2 py-2">Tipo</th>
-										<th class="px-2 py-2">V_ini</th>
-										<th class="px-2 py-2">V_fin</th>
-										<th class="px-2 py-2">Observaciones</th>
-										<th class="px-2 py-2">Acciones</th>
-									</tr>
-								</thead>
-								<tbody>
-									{#each variaciones as variacion}
-										<tr class="border-t border-[color:var(--border)]">
-											<td class="px-2 py-2">
-												{variacionLabelById(variacion.tipo_variacion_id, variacion.tipo_variacion_term)}
-											</td>
-											<td class="px-2 py-2">{variacion.v_ini}</td>
-											<td class="px-2 py-2">{variacion.v_fin}</td>
-											<td class="max-w-[18rem] px-2 py-2">
-												<span class="block truncate text-[color:var(--muted-foreground)]">
-													{truncateText(variacion.observaciones)}
-												</span>
-											</td>
-											<td class="px-2 py-2">
-												<div class="flex gap-2">
-													<Button
-														variant="ghost"
-														onclick={() => openVariacionEditModal(variacion)}
-														disabled={props.readOnly}
-													>
-														Editar
-													</Button>
-													<Button
-														variant="danger"
-														onclick={() => openVariacionDeleteModal(variacion.variacion_id)}
-														disabled={props.readOnly}
-													>
-														Eliminar
-													</Button>
-												</div>
-											</td>
-										</tr>
-									{/each}
-								</tbody>
-							</table>
-						</div>
-					{/if}
+			<section class="form-section">
+				<h4 class="form-section-title">Métrica base</h4>
+				<div class="grid gap-3 sm:grid-cols-2">
+					<label class="form-field">
+						<span class="form-label">Verso inicial</span>
+						<input
+							type="number"
+							bind:value={form.v_ini}
+							disabled={props.readOnly}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+					<label class="form-field">
+						<span class="form-label">Verso final</span>
+						<input
+							type="number"
+							bind:value={form.v_fin}
+							disabled={props.readOnly}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
 				</div>
 
+				<label class="form-field mt-3">
+					<span class="form-label">Estrofa *</span>
+					<CheckDropdown
+						class="mt-1"
+						multiple={false}
+						hierarchical={true}
+						showPathInTrigger={true}
+						allowSingleClear={false}
+						search={true}
+						placeholder="Seleccionar estrofa"
+						items={estrofaDropdownItems}
+						selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
+						disabled={props.readOnly}
+						onChange={(ids) => {
+							const nextId = ids[0] ?? '';
+							if (!nextId) return;
+							form = {
+								...form,
+								estrofa_tipo_id: nextId
+							};
+						}}
+					/>
+				</label>
+			</section>
+
+			<section class="form-section">
+				<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+					<h4 class="form-section-title mb-0">Variaciones / irregularidades</h4>
+					<Button
+						variant="secondary"
+						onclick={openVariacionCreateModal}
+						disabled={props.readOnly || !editingId}
+					>
+						Añadir variación
+					</Button>
+				</div>
+
+				{#if !editingId}
+					<p class="form-help">Guarda la secuencia para añadir variaciones.</p>
+				{:else if variacionesLoading}
+					<p class="form-help">Cargando variaciones...</p>
+				{:else if variaciones.length === 0}
+					<p class="form-help">Sin variaciones registradas en esta secuencia.</p>
+				{:else}
+					<div class="mt-3 overflow-x-auto">
+						<table class="min-w-full text-left text-xs">
+							<thead class="bg-[color:var(--muted)]">
+								<tr>
+									<th class="px-2 py-2">Tipo</th>
+									<th class="px-2 py-2">V_ini</th>
+									<th class="px-2 py-2">V_fin</th>
+									<th class="px-2 py-2">Observaciones</th>
+									<th class="px-2 py-2">Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each variaciones as variacion}
+									<tr class="border-t border-[color:var(--border)]">
+										<td class="px-2 py-2">
+											{variacionLabelById(variacion.tipo_variacion_id, variacion.tipo_variacion_term)}
+										</td>
+										<td class="px-2 py-2">{variacion.v_ini}</td>
+										<td class="px-2 py-2">{variacion.v_fin}</td>
+										<td class="max-w-[18rem] px-2 py-2">
+											<span class="block truncate text-[color:var(--muted-foreground)]">
+												{truncateText(variacion.observaciones)}
+											</span>
+										</td>
+										<td class="px-2 py-2">
+											<div class="flex gap-2">
+												<Button
+													variant="ghost"
+													onclick={() => openVariacionEditModal(variacion)}
+													disabled={props.readOnly}
+												>
+													Editar
+												</Button>
+												<Button
+													variant="danger"
+													onclick={() => openVariacionDeleteModal(variacion.variacion_id)}
+													disabled={props.readOnly}
+												>
+													Eliminar
+												</Button>
+											</div>
+										</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				{/if}
+			</section>
+
+			<section class="form-section">
+				<h4 class="form-section-title">Caracterización</h4>
 				<div class="grid gap-3 sm:grid-cols-2">
-				<label class="text-sm">
-					<span class="mb-1 block">Personajes género</span>
-					<CheckDropdown
-						multiple={false}
-						search={false}
-						placeholder="Seleccionar género"
-						items={personajesGeneroItems}
-						disabled={props.readOnly}
-						selectedIds={[form.personajes_genero]}
-						onChange={(ids) => {
-							const nextGenero = ids[0] as FormState['personajes_genero'] | undefined;
-							if (!nextGenero) return;
-							form = {
-								...form,
-								personajes_genero: nextGenero
-							};
-						}}
-					/>
-				</label>
-				<label class="text-sm">
-					<span class="mb-1 block">Donaire</span>
-					<CheckDropdown
-						multiple={false}
-						search={false}
-						placeholder="Seleccionar valor"
-						items={personajesRolItems}
-						disabled={props.readOnly}
-						selectedIds={[form.personajes_donaire]}
-						onChange={(ids) => {
-							const nextDonaire = ids[0] as FormState['personajes_donaire'] | undefined;
-							if (!nextDonaire) return;
-							form = {
-								...form,
-								personajes_donaire: nextDonaire
-							};
-						}}
-					/>
-				</label>
-				<label class="text-sm">
-					<span class="mb-1 block">Sobrenatural</span>
-					<CheckDropdown
-						multiple={false}
-						search={false}
-						placeholder="Seleccionar valor"
-						items={personajesRolItems}
-						disabled={props.readOnly}
-						selectedIds={[form.personajes_sobrenatural]}
-						onChange={(ids) => {
-							const nextSobrenatural = ids[0] as FormState['personajes_sobrenatural'] | undefined;
-							if (!nextSobrenatural) return;
-							form = {
-								...form,
-								personajes_sobrenatural: nextSobrenatural
-							};
-						}}
-					/>
-				</label>
-				<label class="text-sm sm:col-span-2">
-					<span class="mb-1 block">Certeza</span>
-					<CheckDropdown
-						multiple={false}
-						search={certezaDropdownItems.length > 8}
-						placeholder="Seleccionar certeza"
-						items={certezaDropdownItems}
-						disabled={props.readOnly}
-						selectedIds={form.certeza_editor ? [form.certeza_editor] : []}
-						onChange={(ids) => {
-							const nextCerteza = ids[0] ?? '';
-							if (!nextCerteza) return;
-							form = {
-								...form,
-								certeza_editor: nextCerteza
-							};
-						}}
-					/>
-				</label>
-			</div>
+					<label class="form-field">
+						<span class="form-label">Personajes género</span>
+						<CheckDropdown
+							multiple={false}
+							search={false}
+							placeholder="Seleccionar género"
+							items={personajesGeneroItems}
+							disabled={props.readOnly}
+							selectedIds={[form.personajes_genero]}
+							onChange={(ids) => {
+								const nextGenero = ids[0] as FormState['personajes_genero'] | undefined;
+								if (!nextGenero) return;
+								form = {
+									...form,
+									personajes_genero: nextGenero
+								};
+							}}
+						/>
+					</label>
+					<label class="form-field">
+						<span class="form-label">Donaire</span>
+						<CheckDropdown
+							multiple={false}
+							search={false}
+							placeholder="Seleccionar valor"
+							items={personajesRolItems}
+							disabled={props.readOnly}
+							selectedIds={[form.personajes_donaire]}
+							onChange={(ids) => {
+								const nextDonaire = ids[0] as FormState['personajes_donaire'] | undefined;
+								if (!nextDonaire) return;
+								form = {
+									...form,
+									personajes_donaire: nextDonaire
+								};
+							}}
+						/>
+					</label>
+					<label class="form-field">
+						<span class="form-label">Sobrenatural</span>
+						<CheckDropdown
+							multiple={false}
+							search={false}
+							placeholder="Seleccionar valor"
+							items={personajesRolItems}
+							disabled={props.readOnly}
+							selectedIds={[form.personajes_sobrenatural]}
+							onChange={(ids) => {
+								const nextSobrenatural = ids[0] as FormState['personajes_sobrenatural'] | undefined;
+								if (!nextSobrenatural) return;
+								form = {
+									...form,
+									personajes_sobrenatural: nextSobrenatural
+								};
+							}}
+						/>
+					</label>
 
-			<div class="text-sm">
-				<span class="mb-1 block">Versos partidos</span>
-				<label class="inline-flex items-center gap-2">
-					<input
-						type="checkbox"
-						checked={form.versos_partidos}
-						disabled={props.readOnly}
-						onchange={(event) => {
-							form = {
-								...form,
-								versos_partidos: event.currentTarget.checked
-							};
-						}}
-					/>
-					<span class="text-[color:var(--muted-foreground)]">
-						{form.versos_partidos ? 'Si' : 'No'}
-					</span>
-				</label>
-			</div>
+					<div class="form-field">
+						<span class="form-label">Versos partidos</span>
+						<div class="form-inline-toggle">
+							<button
+								type="button"
+								role="switch"
+								aria-checked={form.versos_partidos}
+								aria-label="Versos partidos"
+								class={`relative inline-flex h-6 w-11 items-center rounded-full border transition-colors ${
+									form.versos_partidos
+										? 'border-[color:var(--primary)] bg-[color:var(--primary)]/20'
+										: 'border-[color:var(--border)] bg-[color:var(--muted)]'
+								} ${props.readOnly ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+								disabled={props.readOnly}
+								onclick={() => {
+									form = {
+										...form,
+										versos_partidos: !form.versos_partidos
+									};
+								}}
+							>
+								<span
+									class={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${
+										form.versos_partidos ? 'translate-x-5' : 'translate-x-1'
+									}`}
+								></span>
+							</button>
+							<span class="text-[color:var(--muted-foreground)]">
+								{form.versos_partidos ? 'Sí' : 'No'}
+							</span>
+						</div>
+					</div>
+				</div>
+			</section>
 
-			<label class="text-sm">
-				<span class="mb-1 block">Observaciones públicas</span>
-				<MarkdownEditorLite
-					rows={3}
-					class="mt-1"
-					minHeightClass="min-h-28"
-					value={form.observaciones}
-					disabled={props.readOnly}
-					onChange={(nextValue) => {
-						form = {
-							...form,
-							observaciones: nextValue
-						};
-					}}
-				/>
-			</label>
+			<section class="form-section">
+				<h4 class="form-section-title">Observaciones y cierre</h4>
+				<div class="grid gap-3">
+					<label class="form-field">
+						<span class="form-label">Observaciones públicas</span>
+						<MarkdownEditorLite
+							rows={3}
+							class="mt-1"
+							minHeightClass="min-h-28"
+							value={form.observaciones}
+							disabled={props.readOnly}
+							onChange={(nextValue) => {
+								form = {
+									...form,
+									observaciones: nextValue
+								};
+							}}
+						/>
+					</label>
+
+					<label class="form-field">
+						<span class="form-label">Certeza</span>
+						<CheckDropdown
+							multiple={false}
+							search={certezaDropdownItems.length > 8}
+							placeholder="Seleccionar certeza"
+							items={certezaDropdownItems}
+							disabled={props.readOnly}
+							selectedIds={form.certeza_editor ? [form.certeza_editor] : []}
+							onChange={(ids) => {
+								const nextCerteza = ids[0] ?? '';
+								if (!nextCerteza) return;
+								form = {
+									...form,
+									certeza_editor: nextCerteza
+								};
+							}}
+						/>
+					</label>
+				</div>
+			</section>
 		</div>
 
 		{#if editingId}
@@ -1078,8 +1099,8 @@
 					{variacionEditingId ? 'Editar variación' : 'Añadir variación'}
 				</h3>
 				<div class="mt-3 grid gap-3">
-					<label class="text-sm">
-						<span class="mb-1 block">Tipo *</span>
+					<label class="form-field">
+						<span class="form-label">Tipo *</span>
 						<CheckDropdown
 							multiple={false}
 							hierarchical={true}
@@ -1103,8 +1124,8 @@
 					</label>
 
 					<div class="grid gap-3 sm:grid-cols-2">
-						<label class="text-sm">
-							<span class="mb-1 block">V. ini *</span>
+						<label class="form-field">
+							<span class="form-label">V. ini *</span>
 							<input
 								type="number"
 								bind:value={variacionForm.v_ini}
@@ -1112,8 +1133,8 @@
 								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 							/>
 						</label>
-						<label class="text-sm">
-							<span class="mb-1 block">V. fin *</span>
+						<label class="form-field">
+							<span class="form-label">V. fin *</span>
 							<input
 								type="number"
 								bind:value={variacionForm.v_fin}
@@ -1129,8 +1150,8 @@
 						</p>
 					{/if}
 
-					<label class="text-sm">
-						<span class="mb-1 block">Observaciones</span>
+					<label class="form-field">
+						<span class="form-label">Observaciones</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"
@@ -1217,4 +1238,5 @@
 		</div>
 	</div>
 {/if}
+
 
