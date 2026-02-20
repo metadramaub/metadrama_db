@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
-	import { renderMarkdown } from '$lib/utils/markdown';
 
 	const props = $props<{
 		obraId: string;
@@ -14,17 +14,11 @@
 
 	let analisis = $state(props.analisisInitial);
 	let bibliografia = $state(props.bibliografiaInitial);
-	let analisisPreview = $state(false);
-	let bibliografiaPreview = $state(false);
 	let savingNow = $state(false);
 	let timer: ReturnType<typeof setTimeout> | null = null;
-	let analisisRef = $state<HTMLTextAreaElement | null>(null);
-	let bibliografiaRef = $state<HTMLTextAreaElement | null>(null);
 
 	const analisisLength = $derived(analisis.trim().length);
 	const bibliografiaLength = $derived(bibliografia.trim().length);
-	const previewAnalisisHtml = $derived(renderMarkdown(analisis));
-	const previewBibliografiaHtml = $derived(renderMarkdown(bibliografia));
 
 	$effect(() => {
 		analisis = props.analisisInitial ?? '';
@@ -38,41 +32,14 @@
 		timer = setTimeout(() => void save(), 10_000);
 	}
 
-	function applyFormat(
-		target: 'analisis' | 'bibliografia',
-		prefix: string,
-		suffix = prefix
-	) {
-		if (props.readOnly) return;
-		const ref = target === 'analisis' ? analisisRef : bibliografiaRef;
-		const current = target === 'analisis' ? analisis : bibliografia;
-		if (!ref) {
-			const next = `${current}${prefix}${suffix}`;
-			if (target === 'analisis') {
-				analisis = next;
-			} else {
-				bibliografia = next;
-			}
-			queueSave();
-			return;
-		}
-
-		const start = ref.selectionStart;
-		const end = ref.selectionEnd;
-		const selected = current.slice(start, end);
-		const nextValue = `${current.slice(0, start)}${prefix}${selected}${suffix}${current.slice(end)}`;
-		if (target === 'analisis') {
-			analisis = nextValue;
-		} else {
-			bibliografia = nextValue;
-		}
+	function onAnalisisChange(nextValue: string) {
+		analisis = nextValue;
 		queueSave();
+	}
 
-		requestAnimationFrame(() => {
-			const cursor = end + prefix.length + suffix.length;
-			ref.focus();
-			ref.setSelectionRange(cursor, cursor);
-		});
+	function onBibliografiaChange(nextValue: string) {
+		bibliografia = nextValue;
+		queueSave();
 	}
 
 	async function save() {
@@ -94,7 +61,7 @@
 		if (!response.ok) {
 			setSaving(false, 'analisis');
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar análisis y bibliografía.');
+			pushToast('error', body.message ?? 'No se pudo guardar analisis y bibliografia.');
 			return;
 		}
 
@@ -107,7 +74,7 @@
 			updated_at: payload.obra.updated_at
 		});
 		markSaved('analisis');
-		pushToast('success', 'Análisis y bibliografía guardados');
+		pushToast('success', 'Analisis y bibliografia guardados');
 	}
 
 	onDestroy(() => {
@@ -118,7 +85,7 @@
 <section class="space-y-4">
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<h2 class="text-xl font-semibold">Análisis y bibliografía</h2>
+			<h2 class="text-xl font-semibold">Analisis y bibliografia</h2>
 		</div>
 		<Button variant="success" onclick={save} disabled={savingNow || props.readOnly}>
 			{savingNow ? 'Guardando...' : 'Guardar'}
@@ -126,107 +93,36 @@
 	</div>
 
 	<article class="card p-4">
-		<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-			<div>
-				<h3 class="text-lg font-semibold">Análisis del editor</h3>
-				<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</p>
-			</div>
-			<Button variant="secondary" onclick={() => (analisisPreview = !analisisPreview)}>
-				{analisisPreview ? 'Editar' : 'Vista previa'}
-			</Button>
+		<div class="mb-3">
+			<h3 class="text-lg font-semibold">Analisis del editor</h3>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</p>
 		</div>
-
-		<div class="mb-3 flex flex-wrap gap-2">
-			<Button variant="ghost" onclick={() => applyFormat('analisis', '**', '**')} disabled={props.readOnly}
-				>B</Button
-			>
-			<Button variant="ghost" onclick={() => applyFormat('analisis', '*', '*')} disabled={props.readOnly}
-				>I</Button
-			>
-			<Button variant="ghost" onclick={() => applyFormat('analisis', '\n- ', '')} disabled={props.readOnly}
-				>Lista</Button
-			>
-			<Button
-				variant="ghost"
-				onclick={() => applyFormat('analisis', '[', '](https://)')}
-				disabled={props.readOnly}
-				>Enlace</Button
-			>
-			<Button variant="ghost" onclick={() => applyFormat('analisis', '\n# ', '')} disabled={props.readOnly}
-				>H1</Button
-			>
-			<Button variant="ghost" onclick={() => applyFormat('analisis', '\n## ', '')} disabled={props.readOnly}
-				>H2</Button
-			>
-		</div>
-
-		{#if analisisPreview}
-			<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
-				{@html previewAnalisisHtml}
-			</div>
-		{:else}
-			<textarea
-				bind:this={analisisRef}
-				rows={12}
-				class="min-h-64 w-full border border-[color:var(--border)] px-3 py-2"
-				disabled={props.readOnly}
-				bind:value={analisis}
-				oninput={queueSave}
-			></textarea>
-		{/if}
+		<MarkdownEditorLite
+			rows={12}
+			class="mt-1"
+			minHeightClass="min-h-64"
+			toolbarCompact={true}
+			showPreviewToggle={true}
+			value={analisis}
+			disabled={props.readOnly}
+			onChange={onAnalisisChange}
+		/>
 	</article>
 
 	<article class="card p-4">
-		<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-			<div>
-				<h3 class="text-lg font-semibold">Bibliografía general</h3>
-				<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
-			</div>
-			<Button variant="secondary" onclick={() => (bibliografiaPreview = !bibliografiaPreview)}>
-				{bibliografiaPreview ? 'Editar' : 'Vista previa'}
-			</Button>
+		<div class="mb-3">
+			<h3 class="text-lg font-semibold">Bibliografia general</h3>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
 		</div>
-
-		<div class="mb-3 flex flex-wrap gap-2">
-			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '**', '**')} disabled={props.readOnly}
-				>B</Button
-			>
-			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '*', '*')} disabled={props.readOnly}
-				>I</Button
-			>
-			<Button
-				variant="ghost"
-				onclick={() => applyFormat('bibliografia', '\n- ', '')}
-				disabled={props.readOnly}
-				>Lista</Button
-			>
-			<Button
-				variant="ghost"
-				onclick={() => applyFormat('bibliografia', '[', '](https://)')}
-				disabled={props.readOnly}
-				>Enlace</Button
-			>
-			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '\n# ', '')} disabled={props.readOnly}
-				>H1</Button
-			>
-			<Button variant="ghost" onclick={() => applyFormat('bibliografia', '\n## ', '')} disabled={props.readOnly}
-				>H2</Button
-			>
-		</div>
-
-		{#if bibliografiaPreview}
-			<div class="prose max-w-none border border-[color:var(--border)] bg-[color:var(--gray-50)] p-3" style="--tw-prose-body: var(--foreground);">
-				{@html previewBibliografiaHtml}
-			</div>
-		{:else}
-			<textarea
-				bind:this={bibliografiaRef}
-				rows={12}
-				class="min-h-56 w-full border border-[color:var(--border)] px-3 py-2"
-				disabled={props.readOnly}
-				bind:value={bibliografia}
-				oninput={queueSave}
-			></textarea>
-		{/if}
+		<MarkdownEditorLite
+			rows={12}
+			class="mt-1"
+			minHeightClass="min-h-56"
+			toolbarCompact={true}
+			showPreviewToggle={true}
+			value={bibliografia}
+			disabled={props.readOnly}
+			onChange={onBibliografiaChange}
+		/>
 	</article>
 </section>

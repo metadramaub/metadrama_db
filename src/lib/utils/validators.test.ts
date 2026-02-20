@@ -3,6 +3,7 @@ import {
 	obraDatosPatchSchema,
 	jornadaInputSchema,
 	secuenciaInputSchema,
+	secuenciaVariacionInputSchema,
 	comentarioInputSchema,
 	comentarioPatchSchema,
 	comentarioListQuerySchema,
@@ -57,6 +58,7 @@ describe('validators', () => {
 			v_fin: 120,
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
+			versos_partidos: true,
 			personajes_genero: 'mixto',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
@@ -64,6 +66,40 @@ describe('validators', () => {
 			observaciones: null
 		});
 		expect(result.success).toBe(true);
+	});
+
+	it('defaults versos_partidos to false when omitted in secuencia payload', () => {
+		const parsed = secuenciaInputSchema.parse({
+			v_ini: 1,
+			v_fin: 120,
+			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			inaugura_espacio: false,
+			personajes_genero: 'mixto',
+			personajes_donaire: 'ausente',
+			personajes_sobrenatural: 'ausente',
+			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+			observaciones: null
+		});
+		expect(parsed.versos_partidos).toBe(false);
+	});
+
+	it('accepts secuencia variacion payload with same verse range', () => {
+		const result = secuenciaVariacionInputSchema.safeParse({
+			tipo_variacion_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			v_ini: 56,
+			v_fin: 56,
+			observaciones: 'irregularidad puntual'
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('rejects secuencia variacion payload when v_ini is greater than v_fin', () => {
+		const result = secuenciaVariacionInputSchema.safeParse({
+			tipo_variacion_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			v_ini: 57,
+			v_fin: 56
+		});
+		expect(result.success).toBe(false);
 	});
 
 	it('rejects blank internal comment', () => {

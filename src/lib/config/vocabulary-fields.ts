@@ -52,6 +52,19 @@ const METRO_FIELDS: VocabularyFieldConfig = {
 	showMetros: false
 };
 
+const TIPO_VARIACION_FIELDS: VocabularyFieldConfig = {
+	showParent: true,
+	showLevel: true,
+	showActive: true,
+	showDefinition: true,
+	showExample: true,
+	showBibliography: true,
+	showEquivalences: true,
+	showPattern: false,
+	showTipoForma: false,
+	showMetros: false
+};
+
 const TECHNICAL_FIELDS: VocabularyFieldConfig = {
 	showParent: false,
 	showLevel: false,
@@ -82,6 +95,7 @@ export function getVocabularyFieldConfig(categoria: string): VocabularyFieldConf
 	if (categoria === 'estrofa_tipo') return ESTROFA_FIELDS;
 	if (categoria === 'genero') return GENERO_FIELDS;
 	if (categoria === 'metro') return METRO_FIELDS;
+	if (categoria === 'tipo_variacion') return TIPO_VARIACION_FIELDS;
 	if (TECHNICAL_CATEGORIES.has(categoria)) return TECHNICAL_FIELDS;
 	return LEGACY_FALLBACK_FIELDS;
 }
