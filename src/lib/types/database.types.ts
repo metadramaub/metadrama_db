@@ -581,6 +581,7 @@ export type Database = {
           updated_at: string | null
           v_fin: number
           v_ini: number
+          versos_partidos: boolean
         }
         Insert: {
           certeza_editor: string
@@ -597,6 +598,7 @@ export type Database = {
           updated_at?: string | null
           v_fin: number
           v_ini: number
+          versos_partidos?: boolean
         }
         Update: {
           certeza_editor?: string
@@ -613,6 +615,7 @@ export type Database = {
           updated_at?: string | null
           v_fin?: number
           v_ini?: number
+          versos_partidos?: boolean
         }
         Relationships: [
           {

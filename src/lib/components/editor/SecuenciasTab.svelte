@@ -27,6 +27,7 @@
 		v_fin: number;
 		estrofa_tipo_id: string;
 		inaugura_espacio: boolean;
+		versos_partidos: boolean;
 		personajes_genero: 'mixto' | 'solo_masculino' | 'solo_femenino';
 		personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 		personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
@@ -189,6 +190,7 @@
 			v_fin: suggestedStart + 1,
 			estrofa_tipo_id: defaultEstrofa,
 			inaugura_espacio: false,
+			versos_partidos: false,
 			personajes_genero: 'mixto',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
@@ -265,6 +267,7 @@
 			v_fin: Number(form.v_fin),
 			estrofa_tipo_id: form.estrofa_tipo_id,
 			inaugura_espacio: Boolean(form.inaugura_espacio),
+			versos_partidos: Boolean(form.versos_partidos),
 			personajes_genero: form.personajes_genero,
 			personajes_donaire: form.personajes_donaire,
 			personajes_sobrenatural: form.personajes_sobrenatural,
@@ -332,6 +335,7 @@
 			v_fin: secuencia.v_fin,
 			estrofa_tipo_id: secuencia.estrofa_tipo_id ?? defaultEstrofa,
 			inaugura_espacio: Boolean(secuencia.inaugura_espacio),
+			versos_partidos: Boolean(secuencia.versos_partidos),
 			personajes_genero: secuencia.personajes_genero as FormState['personajes_genero'],
 			personajes_donaire: secuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: secuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
@@ -435,6 +439,7 @@
 			v_fin: savedSecuencia.v_fin,
 			estrofa_tipo_id: savedSecuencia.estrofa_tipo_id ?? defaultEstrofa,
 			inaugura_espacio: Boolean(savedSecuencia.inaugura_espacio),
+			versos_partidos: Boolean(savedSecuencia.versos_partidos),
 			personajes_genero: savedSecuencia.personajes_genero as FormState['personajes_genero'],
 			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
@@ -658,7 +663,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.observaciones}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.observaciones}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1007,6 +1012,26 @@
 							};
 						}}
 					/>
+				</label>
+			</div>
+
+			<div class="text-sm">
+				<span class="mb-1 block">Versos partidos</span>
+				<label class="inline-flex items-center gap-2">
+					<input
+						type="checkbox"
+						checked={form.versos_partidos}
+						disabled={props.readOnly}
+						onchange={(event) => {
+							form = {
+								...form,
+								versos_partidos: event.currentTarget.checked
+							};
+						}}
+					/>
+					<span class="text-[color:var(--muted-foreground)]">
+						{form.versos_partidos ? 'Si' : 'No'}
+					</span>
 				</label>
 			</div>
 

@@ -102,6 +102,7 @@ export const secuenciaInputSchema = z
 		v_fin: z.number().int().positive(),
 		estrofa_tipo_id: z.string().uuid('Estrofa requerida'),
 		inaugura_espacio: z.boolean().default(false),
+		versos_partidos: z.boolean().default(false),
 		personajes_genero: z.enum(['mixto', 'solo_masculino', 'solo_femenino']),
 		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
