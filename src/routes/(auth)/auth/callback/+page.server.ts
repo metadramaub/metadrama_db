@@ -18,8 +18,13 @@ function nextPathForType(type: EmailOtpType | null): string {
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	const code = url.searchParams.get('code');
-	const tokenHash = url.searchParams.get('token_hash');
+	const tokenHash = url.searchParams.get('token_hash') ?? url.searchParams.get('token');
 	const emailType = parseEmailType(url.searchParams.get('type'));
+	const authError = url.searchParams.get('error') ?? url.searchParams.get('error_code');
+
+	if (authError) {
+		throw redirect(303, '/login?auth=link_error');
+	}
 
 	if (code) {
 		const { error } = await locals.supabase.auth.exchangeCodeForSession(code);
@@ -42,5 +47,8 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		throw redirect(303, nextPathForType(emailType));
 	}
 
-	throw redirect(303, '/login?auth=link_error');
+	// Some invite links complete the auth flow on the browser and provide
+	// access_token/refresh_token inside location.hash. The server cannot read
+	// URL fragments, so the page component handles that fallback flow.
+	return {};
 };
