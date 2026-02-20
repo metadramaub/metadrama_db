@@ -227,15 +227,6 @@ async function resolveLowMediumCertezaIds(locals: App.Locals): Promise<string[]>
 	return [...new Set((data ?? []).map((row) => row.termino_id))];
 }
 
-export async function getMisObrasCount(locals: App.Locals, profile: EditorProfile): Promise<number> {
-	if (isAdminOrIp(profile)) {
-		const resp = await locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true });
-		return resp.count ?? 0;
-	}
-	const assignedIds = await loadAssignedScopeObraIds(locals, profile);
-	return assignedIds.length;
-}
-
 export async function getDashboardKpis(locals: App.Locals, profile: EditorProfile): Promise<DashboardKpis> {
 	const estadoIdsByTerm = await loadEstadoIdsByTerm(locals);
 	const borradorId = estadoIdsByTerm.get('borrador');
