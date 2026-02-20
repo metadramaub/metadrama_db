@@ -19,6 +19,7 @@
 		>;
 		readOnly?: boolean;
 		canComment?: boolean;
+		onSecuenciasChange?: (items: Tables<'secuencias_metricas'>[]) => void;
 	}>();
 
 	type FormState = {
@@ -176,10 +177,16 @@
 		return '';
 	});
 
+	function getSuggestedSecuenciaStart(): number {
+		const maxVFin = secuencias.reduce((max, item) => Math.max(max, Number(item.v_fin) || 0), 0);
+		return maxVFin > 0 ? maxVFin + 1 : 1;
+	}
+
 	function initialForm(): FormState {
+		const suggestedStart = getSuggestedSecuenciaStart();
 		return {
-			v_ini: 1,
-			v_fin: 2,
+			v_ini: suggestedStart,
+			v_fin: suggestedStart + 1,
 			estrofa_tipo_id: defaultEstrofa,
 			inaugura_espacio: false,
 			personajes_genero: 'mixto',
@@ -227,6 +234,14 @@
 
 	function sortVariaciones(items: VariacionItem[]) {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
+	}
+
+	function sortSecuencias(items: Tables<'secuencias_metricas'>[]) {
+		return [...items].sort((a, b) => a.v_ini - b.v_ini);
+	}
+
+	function emitSecuenciasChange(nextItems: Tables<'secuencias_metricas'>[] = secuencias) {
+		props.onSecuenciasChange?.(sortSecuencias(nextItems));
 	}
 
 	const filteredSecuencias = $derived.by(() => {
@@ -404,9 +419,13 @@
 		const savedId = currentId ?? savedSecuencia.secuencia_id;
 
 		if (currentId) {
-			secuencias = secuencias.map((item) => (item.secuencia_id === currentId ? savedSecuencia : item));
+			const next = secuencias.map((item) => (item.secuencia_id === currentId ? savedSecuencia : item));
+			secuencias = next;
+			emitSecuenciasChange(next);
 		} else {
-			secuencias = [...secuencias, savedSecuencia].sort((a, b) => a.v_ini - b.v_ini);
+			const next = sortSecuencias([...secuencias, savedSecuencia]);
+			secuencias = next;
+			emitSecuenciasChange(next);
 			editingId = savedId;
 			void loadVariacionesForCurrentSecuencia();
 		}
@@ -427,6 +446,14 @@
 		autosaveErrorShown = false;
 		if (source === 'manual') {
 			pushToast('success', currentId ? 'Secuencia actualizada' : 'Secuencia creada');
+			if (
+				!currentId &&
+				(filtroEstrofa || filtroCerteza) &&
+				((filtroEstrofa && savedSecuencia.estrofa_tipo_id !== filtroEstrofa) ||
+					(filtroCerteza && savedSecuencia.certeza_editor !== filtroCerteza))
+			) {
+				pushToast('info', 'Secuencia creada. Está oculta por los filtros actuales.');
+			}
 		}
 	}
 
@@ -444,7 +471,9 @@
 			pushToast('error', 'No se pudo eliminar la secuencia');
 			return;
 		}
-		secuencias = secuencias.filter((row) => row.secuencia_id !== secuenciaId);
+		const next = secuencias.filter((row) => row.secuencia_id !== secuenciaId);
+		secuencias = next;
+		emitSecuenciasChange(next);
 		if (editingId === secuenciaId) {
 			performCloseSidebar();
 		}
