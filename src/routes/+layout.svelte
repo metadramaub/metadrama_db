@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { navigating } from '$app/stores';
+	import { navigating, page } from '$app/stores';
 	import { onDestroy, onMount } from 'svelte';
 	import favicon from '$lib/assets/favicon.svg';
 	import SceneLoader from '$lib/components/ui/scene-loader.svelte';
@@ -16,6 +16,8 @@
 	let password = $state('');
 	let accessError = $state('');
 	let routeLoadingToken = $state<SceneLoadToken | null>(null);
+	const pathname = $derived($page.url.pathname);
+	const isAuthRoute = $derived(pathname === '/login' || pathname.startsWith('/auth/'));
 
 	onMount(() => {
 		unlocked = window.sessionStorage.getItem(ACCESS_KEY) === 'ok';
@@ -66,7 +68,7 @@
 
 {@render children()}
 
-{#if !unlocked}
+{#if !unlocked && !isAuthRoute}
 	<div class="fixed inset-0 z-[100] flex items-center justify-center bg-[color:var(--gray-950)] p-4">
 		<section class="w-full max-w-md border border-[color:var(--border)] bg-white p-6">
 			<h1 class="font-display text-2xl text-[color:var(--gray-900)]">WEB EN CONSTRUCCIÓN</h1>
