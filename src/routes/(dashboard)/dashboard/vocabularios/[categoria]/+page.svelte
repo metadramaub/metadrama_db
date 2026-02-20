@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto } from '$app/navigation';
 	import { onDestroy, onMount, tick } from 'svelte';
@@ -816,8 +816,8 @@
 	<div class="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
 		<div class="space-y-3 lg:max-h-[calc(100dvh-12rem)] lg:overflow-y-auto lg:pr-1">
 			<div class="card p-4">
-				<label class="text-sm">
-					<span class="mb-1 block">Buscar término</span>
+				<label class="form-field">
+					<span class="form-label">Buscar término</span>
 					<input
 						type="text"
 						bind:value={search}
@@ -889,8 +889,8 @@
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
 				Esta accion es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
 			</p>
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Confirmacion</span>
+			<label class="form-field mt-3">
+				<span class="form-label">Confirmacion</span>
 				<input
 					type="text"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -929,8 +929,8 @@
 			</div>
 
 			<div class="grid gap-3">
-				<label class="text-sm">
-					<span class="mb-1 block">Término</span>
+				<label class="form-field">
+					<span class="form-label">Término</span>
 					<input
 						type="text"
 						value={createForm.termino}
@@ -940,8 +940,8 @@
 				</label>
 
 				{#if fieldConfig.showParent}
-					<label class="text-sm">
-						<span class="mb-1 block">Término padre (opcional)</span>
+					<label class="form-field">
+						<span class="form-label">Término padre (opcional)</span>
 						<CheckDropdown
 							multiple={false}
 							hierarchical={true}
@@ -957,7 +957,7 @@
 				{/if}
 
 				{#if fieldConfig.showActive}
-					<label class="flex items-center gap-2 text-sm">
+					<label class="form-inline-toggle">
 						<input
 							type="checkbox"
 							checked={createForm.activo}
@@ -968,8 +968,8 @@
 				{/if}
 
 				{#if fieldConfig.showDefinition}
-					<label class="text-sm">
-						<span class="mb-1 block">Definición</span>
+					<label class="form-field">
+						<span class="form-label">Definición</span>
 						<MarkdownEditorLite
 							rows={4}
 							class="mt-1"
@@ -981,8 +981,8 @@
 				{/if}
 
 				{#if fieldConfig.showExample}
-					<label class="text-sm">
-						<span class="mb-1 block">Ejemplo</span>
+					<label class="form-field">
+						<span class="form-label">Ejemplo</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"
@@ -994,8 +994,8 @@
 				{/if}
 
 				{#if fieldConfig.showBibliography}
-					<label class="text-sm">
-						<span class="mb-1 block">Bibliografía</span>
+					<label class="form-field">
+						<span class="form-label">Bibliografía</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"
@@ -1007,8 +1007,8 @@
 				{/if}
 
 				{#if fieldConfig.showEquivalences}
-					<label class="text-sm">
-						<span class="mb-1 block">Equivalencias (una por línea)</span>
+					<label class="form-field">
+						<span class="form-label">Equivalencias (una por línea)</span>
 						<textarea
 							rows={3}
 							value={createForm.equivalenciasText}
@@ -1019,8 +1019,8 @@
 				{/if}
 
 				{#if fieldConfig.showPattern}
-					<label class="text-sm">
-						<span class="mb-1 block">Patrón específico</span>
+					<label class="form-field">
+						<span class="form-label">Patrón especï¿½fico</span>
 						<input
 							type="text"
 							value={createForm.patron_especifico}
@@ -1031,8 +1031,8 @@
 				{/if}
 
 				{#if fieldConfig.showTipoForma}
-					<label class="text-sm">
-						<span class="mb-1 block">Tipo de forma</span>
+					<label class="form-field">
+						<span class="form-label">Tipo de forma</span>
 						<CheckDropdown
 							multiple={false}
 							allowSingleClear={true}
@@ -1049,8 +1049,8 @@
 				{/if}
 
 				{#if fieldConfig.showMetros}
-					<div class="text-sm">
-						<span class="mb-1 block">Metros asociados</span>
+					<div class="form-field">
+						<span class="form-label">Metros asociados</span>
 						<CheckDropdown
 							items={metroDropdownItems}
 							selectedIds={createForm.metro_ids}
@@ -1071,3 +1071,4 @@
 		</div>
 	</div>
 {/if}
+

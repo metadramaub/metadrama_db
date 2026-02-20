@@ -488,8 +488,8 @@
 				<p class="text-sm text-[color:var(--muted-foreground)]">Cargando asignaciones...</p>
 			{:else}
 				<div class="grid gap-3 md:grid-cols-2">
-					<label class="text-sm">
-						<span class="mb-1 block">Editor asignado</span>
+					<label class="form-field">
+						<span class="form-label">Editor asignado</span>
 						<CheckDropdown
 							multiple={false}
 							items={editorDropdownItems}
@@ -502,8 +502,8 @@
 						/>
 					</label>
 
-					<label class="text-sm">
-						<span class="mb-1 block">Revisores asignados</span>
+					<label class="form-field">
+						<span class="form-label">Revisores asignados</span>
 						<CheckDropdown
 							multiple={true}
 							items={reviewerDropdownItems}
@@ -530,8 +530,8 @@
 		<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
 			<h4 class="mb-3 text-sm font-semibold">Estado de la obra</h4>
 			<div class="flex flex-col gap-3 md:flex-row md:items-end">
-				<label class="w-full text-sm">
-					<span class="mb-1 block">Estado</span>
+				<label class="form-field w-full">
+					<span class="form-label">Estado</span>
 					<CheckDropdown
 						multiple={false}
 						items={estadoDropdownItems}
@@ -556,7 +556,7 @@
 			<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
 				<h4 class="mb-2 text-sm font-semibold">Visibilidad</h4>
 				<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-					<label class="flex items-center gap-2 text-sm">
+					<label class="form-inline-toggle">
 						<input type="checkbox" bind:checked={visiblePublico} />
 						Visible sin login (web pública)
 					</label>
@@ -602,8 +602,8 @@
 					<strong>Nuevo estado:</strong> {selectedEstadoLabel}
 				</div>
 			</div>
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Comentario de cambio (opcional)</span>
+			<label class="form-field mt-3">
+				<span class="form-label">Comentario de cambio (opcional)</span>
 				<textarea
 					rows={4}
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -675,8 +675,8 @@
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
 				Esta acción es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
 			</p>
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Confirmación</span>
+			<label class="form-field mt-3">
+				<span class="form-label">Confirmación</span>
 				<input
 					type="text"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -696,3 +696,4 @@
 		</div>
 	</div>
 {/if}
+

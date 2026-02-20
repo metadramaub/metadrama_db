@@ -214,8 +214,8 @@
 		</div>
 
 		<div class="grid gap-3 md:grid-cols-2">
-			<label class="block text-sm md:col-span-2">
-				<span class="mb-1 block">Nombre completo *</span>
+			<label class="form-field md:col-span-2">
+				<span class="form-label">Nombre completo *</span>
 				<input
 					type="text"
 					bind:value={nombreCompleto}
@@ -225,8 +225,8 @@
 				/>
 			</label>
 
-			<label class="block text-sm md:col-span-2">
-				<span class="mb-1 block">Variantes de nombre (una por línea)</span>
+			<label class="form-field md:col-span-2">
+				<span class="form-label">Variantes de nombre (una por línea)</span>
 				<textarea
 					rows={4}
 					bind:value={variantesText}
@@ -236,8 +236,8 @@
 				></textarea>
 			</label>
 
-			<label class="block text-sm">
-				<span class="mb-1 block">BNEdatos ID</span>
+			<label class="form-field">
+				<span class="form-label">BNEdatos ID</span>
 				<input
 					type="text"
 					bind:value={bnedatosId}
@@ -247,8 +247,8 @@
 				/>
 			</label>
 
-			<label class="block text-sm">
-				<span class="mb-1 block">VIAF ID</span>
+			<label class="form-field">
+				<span class="form-label">VIAF ID</span>
 				<input
 					type="text"
 					bind:value={viafId}
@@ -258,8 +258,8 @@
 				/>
 			</label>
 
-			<label class="block text-sm md:col-span-2">
-				<span class="mb-1 block">Wikidata ID</span>
+			<label class="form-field md:col-span-2">
+				<span class="form-label">Wikidata ID</span>
 				<input
 					type="text"
 					bind:value={wikidataId}
@@ -333,8 +333,8 @@
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
 				Escribe <strong>ELIMINAR</strong> para confirmar.
 			</p>
-			<label class="mt-3 block text-sm">
-				<span class="mb-1 block">Confirmación</span>
+			<label class="form-field mt-3">
+				<span class="form-label">Confirmación</span>
 				<input
 					type="text"
 					class="w-full border border-[color:var(--border)] px-3 py-2"
@@ -352,3 +352,4 @@
 		</div>
 	</div>
 {/if}
+

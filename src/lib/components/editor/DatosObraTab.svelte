@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -117,8 +117,8 @@
 			>
 		</div>
 		<div class="grid gap-4 md:grid-cols-2">
-			<label class="text-sm">
-				<span class="mb-1 block">Título principal</span>
+			<label class="form-field">
+				<span class="form-label">Título principal</span>
 				<input
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
@@ -127,8 +127,8 @@
 				/>
 			</label>
 
-			<label class="text-sm">
-				<span class="mb-1 block">Género</span>
+			<label class="form-field">
+				<span class="form-label">Género</span>
 				<CheckDropdown
 					multiple={false}
 					allowSingleClear={true}
@@ -141,8 +141,8 @@
 				/>
 			</label>
 
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha inicio tradicional</span>
+			<label class="form-field">
+				<span class="form-label">Fecha inicio tradicional</span>
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -155,8 +155,8 @@
 						)}
 				/>
 			</label>
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha fin tradicional</span>
+			<label class="form-field">
+				<span class="form-label">Fecha fin tradicional</span>
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -168,8 +168,8 @@
 			</label>
 		</div>
 
-		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Fuente bibliográfica para la fecha</span>
+		<label class="form-field mt-4">
+			<span class="form-label">Fuente bibliográfica para la fecha</span>
 			<MarkdownEditorLite
 				rows={3}
 				class="mt-1"
@@ -182,8 +182,8 @@
 
 		{#if SHOW_METADRAMA_DATES}
 			<div class="mt-4 grid gap-4 md:grid-cols-2">
-				<label class="text-sm">
-					<span class="mb-1 block">Fecha inicio METADRAMA</span>
+				<label class="form-field">
+					<span class="form-label">Fecha inicio METADRAMA</span>
 					<input
 						type="number"
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -197,8 +197,8 @@
 					/>
 				</label>
 
-				<label class="text-sm">
-					<span class="mb-1 block">Fecha fin METADRAMA</span>
+				<label class="form-field">
+					<span class="form-label">Fecha fin METADRAMA</span>
 					<input
 						type="number"
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -214,8 +214,8 @@
 			</div>
 		{/if}
 
-		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Edición base utilizada</span>
+		<label class="form-field mt-4">
+			<span class="form-label">Edición base utilizada</span>
 			<MarkdownEditorLite
 				rows={4}
 				class="mt-1"
@@ -257,3 +257,4 @@
 		</div>
 	</div>
 </section>
+
