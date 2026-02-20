@@ -6,15 +6,15 @@
 </script>
 
 <section>
-	<a class="text-sm underline-offset-2 hover:underline" href="/obras">Volver al catalogo</a>
+	<a class="text-sm underline-offset-2 hover:underline" href="/obras">Volver al catálogo</a>
 	<h1 class="mt-2 font-display text-3xl text-[color:var(--gray-900)]">{data.obra.titulo}</h1>
 	<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-		{(data.obra.autoria ?? []).length > 0 ? (data.obra.autoria ?? []).join(', ') : 'Autoria no indicada'}
+		{(data.obra.autoria ?? []).length > 0 ? (data.obra.autoria ?? []).join(', ') : 'Autoría no indicada'}
 	</p>
 
 	{#if data.canSeeAllPublished && !data.obra.visible_publico}
 		<div class="card mt-4 border border-[color:var(--border)] p-3 text-sm text-[color:var(--muted-foreground)]">
-			Esta obra esta publicada en flujo editorial, pero no visible sin login.
+			Esta obra está publicada en flujo editorial, pero no visible sin login.
 		</div>
 	{/if}
 
@@ -29,14 +29,14 @@
 				<p>Sin dato</p>
 			{/if}
 		</div>
-		<p><strong>Visible sin login:</strong> {data.obra.visible_publico ? 'Si' : 'No'}</p>
+		<p><strong>Visible sin login:</strong> {data.obra.visible_publico ? 'Sí' : 'No'}</p>
 		{#if (data.obra.variantes_titulo ?? []).length > 0}
-			<p><strong>Variantes de titulo:</strong> {(data.obra.variantes_titulo ?? []).join(' | ')}</p>
+			<p><strong>Variantes de título:</strong> {(data.obra.variantes_titulo ?? []).join(' | ')}</p>
 		{/if}
 	</div>
 
 	<div class="card mt-4 p-4">
-		<h2 class="text-lg font-semibold">Edicion base utilizada</h2>
+		<h2 class="text-lg font-semibold">Edición base utilizada</h2>
 		{#if (data.obra.edicion ?? '').trim().length > 0}
 			<div class="mt-2 text-sm">{@html renderMarkdown(data.obra.edicion ?? '')}</div>
 		{:else}
@@ -45,20 +45,20 @@
 	</div>
 
 	<div class="card mt-6 p-4">
-		<h2 class="text-lg font-semibold">Analisis editorial</h2>
+		<h2 class="text-lg font-semibold">Análisis editorial</h2>
 		{#if (data.obra.analisis_editor ?? '').trim().length > 0}
 			<p class="mt-2 whitespace-pre-wrap text-sm">{data.obra.analisis_editor}</p>
 		{:else}
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin analisis publicado.</p>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin análisis publicado.</p>
 		{/if}
 	</div>
 
 	<div class="card mt-4 p-4">
-		<h2 class="text-lg font-semibold">Bibliografia</h2>
+		<h2 class="text-lg font-semibold">Bibliografía</h2>
 		{#if (data.obra.bibliografia ?? '').trim().length > 0}
 			<p class="mt-2 whitespace-pre-wrap text-sm">{data.obra.bibliografia}</p>
 		{:else}
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin bibliografia publicada.</p>
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin bibliografía publicada.</p>
 		{/if}
 	</div>
 </section>

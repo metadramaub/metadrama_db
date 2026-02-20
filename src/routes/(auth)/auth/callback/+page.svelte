@@ -32,7 +32,7 @@
 			return;
 		}
 
-		status = 'Validando sesion de invitacion...';
+		status = 'Validando sesión de invitación...';
 		const supabase = getSupabaseBrowserClient();
 		const { error } = await supabase.auth.setSession({
 			access_token: accessToken,

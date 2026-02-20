@@ -13,10 +13,10 @@
 
 	function validatePasswordInput(): string | null {
 		if (password.length < 12) {
-			return 'La contrasena debe tener al menos 12 caracteres.';
+			return 'La contraseña debe tener al menos 12 caracteres.';
 		}
 		if (password !== confirmPassword) {
-			return 'Las contrasenas no coinciden.';
+			return 'Las contraseñas no coinciden.';
 		}
 		return null;
 	}
@@ -48,7 +48,7 @@
 
 			await goto('/login?auth=password_set');
 		} catch (error) {
-			errorMessage = error instanceof Error ? error.message : 'No se pudo actualizar la contrasena.';
+			errorMessage = error instanceof Error ? error.message : 'No se pudo actualizar la contraseña.';
 		} finally {
 			saving = false;
 		}
@@ -58,9 +58,9 @@
 <div class="flex min-h-screen items-center justify-center bg-[color:var(--background)] p-6">
 	<div class="w-full max-w-md">
 		<div class="card p-6">
-			<h1 class="font-display mb-1 text-3xl">CREAR CONTRASENA</h1>
+			<h1 class="font-display mb-1 text-3xl">CREAR CONTRASEÑA</h1>
 			<p class="mb-1 text-sm text-[color:var(--muted-foreground)]">
-				Define tu contrasena para activar el acceso editorial.
+				Define tu contraseña para activar el acceso editorial.
 			</p>
 			{#if data.email}
 				<p class="mb-6 text-xs text-[color:var(--muted-foreground)]">Cuenta: {data.email}</p>
@@ -70,7 +70,7 @@
 
 			<form class="space-y-4" onsubmit={onSubmit}>
 				<label class="block text-sm">
-					<span class="mb-1 block">Nueva contrasena</span>
+					<span class="mb-1 block">Nueva contraseña</span>
 					<input
 						type="password"
 						bind:value={password}
@@ -81,7 +81,7 @@
 				</label>
 
 				<label class="block text-sm">
-					<span class="mb-1 block">Repetir contrasena</span>
+					<span class="mb-1 block">Repetir contraseña</span>
 					<input
 						type="password"
 						bind:value={confirmPassword}
@@ -96,7 +96,7 @@
 				{/if}
 
 				<Button type="submit" class="w-full" disabled={saving}>
-					{#if saving}Guardando...{:else}Guardar contrasena{/if}
+					{#if saving}Guardando...{:else}Guardar contraseña{/if}
 				</Button>
 			</form>
 		</div>

@@ -514,18 +514,18 @@
 			return false;
 		}
 		if (!variacionForm.tipo_variacion_id) {
-			if (showToast) pushToast('error', 'Selecciona un tipo de variacion');
+			if (showToast) pushToast('error', 'Selecciona un tipo de variación');
 			return false;
 		}
 		if (!tipoVariacionById.has(variacionForm.tipo_variacion_id)) {
-			if (showToast) pushToast('error', 'El tipo de variacion seleccionado no es valido');
+			if (showToast) pushToast('error', 'El tipo de variación seleccionado no es válido');
 			return false;
 		}
 
 		const vIni = Number(variacionForm.v_ini);
 		const vFin = Number(variacionForm.v_fin);
 		if (!Number.isFinite(vIni) || !Number.isFinite(vFin)) {
-			if (showToast) pushToast('error', 'Versos de variacion invalidos');
+			if (showToast) pushToast('error', 'Versos de variación inválidos');
 			return false;
 		}
 		if (vIni > vFin) {
@@ -536,7 +536,7 @@
 			if (showToast) {
 				pushToast(
 					'error',
-					`La variacion debe quedar dentro del rango de la secuencia (${form.v_ini}-${form.v_fin})`
+					`La variación debe quedar dentro del rango de la secuencia (${form.v_ini}-${form.v_fin})`
 				);
 			}
 			return false;
@@ -552,7 +552,7 @@
 			return false;
 		}
 		if ((tipoTerm === 'hipometrico' || tipoTerm === 'hipermetrico') && vIni !== vFin) {
-			if (showToast) pushToast('error', 'Hipometrico e hipermetrico solo admiten un verso');
+			if (showToast) pushToast('error', 'Hipométrico e hipermétrico solo admiten un verso');
 			return false;
 		}
 
@@ -613,7 +613,7 @@
 			const message =
 				body.details?.[0]?.message ??
 				body.message ??
-				(isEditing ? 'No se pudo actualizar la variacion' : 'No se pudo crear la variacion');
+				(isEditing ? 'No se pudo actualizar la variación' : 'No se pudo crear la variación');
 			pushToast('error', message);
 			return;
 		}
@@ -629,7 +629,7 @@
 		}
 
 		closeVariacionModal();
-		pushToast('success', isEditing ? 'Variacion actualizada' : 'Variacion creada');
+		pushToast('success', isEditing ? 'Variación actualizada' : 'Variación creada');
 	}
 
 	function openVariacionDeleteModal(variacionId: string) {
@@ -651,12 +651,12 @@
 		);
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar la variacion');
+			pushToast('error', body.message ?? 'No se pudo eliminar la variación');
 			return;
 		}
 		variaciones = variaciones.filter((row) => row.variacion_id !== variacionId);
 		variacionDeleteTargetId = null;
-		pushToast('success', 'Variacion eliminada');
+		pushToast('success', 'Variación eliminada');
 	}
 
 	$effect(() => {

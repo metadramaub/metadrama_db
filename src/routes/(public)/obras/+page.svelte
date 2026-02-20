@@ -5,12 +5,12 @@
 </script>
 
 <section>
-	<h1 class="font-display text-3xl text-[color:var(--gray-900)]">CATALOGO DE OBRAS</h1>
+	<h1 class="font-display text-3xl text-[color:var(--gray-900)]">CATÁLOGO DE OBRAS</h1>
 	<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
 		{#if data.canSeeAllPublished}
 			Vista editorial (admin/IP): incluye obras publicadas no visibles sin login.
 		{:else}
-			Vista publica: solo obras publicadas y visibles sin login.
+			Vista pública: solo obras publicadas y visibles sin login.
 		{/if}
 	</p>
 
@@ -28,7 +28,7 @@
 								<a class="underline-offset-2 hover:underline" href={`/obras/${obra.obra_id}`}>{obra.titulo}</a>
 							</h2>
 							<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-								{(obra.autoria ?? []).length > 0 ? (obra.autoria ?? []).join(', ') : 'Autoria no indicada'}
+								{(obra.autoria ?? []).length > 0 ? (obra.autoria ?? []).join(', ') : 'Autoría no indicada'}
 							</p>
 						</div>
 						{#if data.canSeeAllPublished && !obra.visible_publico}
