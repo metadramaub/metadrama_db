@@ -10,6 +10,8 @@
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		readOnly?: boolean;
 	}>();
+	// Temporal: ocultar en UI hasta reactivar el flujo de fechas METADRAMA.
+	const SHOW_METADRAMA_DATES = false;
 
 	type FormState = {
 		titulo: string;
@@ -172,37 +174,39 @@
 			/>
 		</label>
 
-		<div class="mt-4 grid gap-4 md:grid-cols-2">
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha inicio METADRAMA</span>
-				<input
-					type="number"
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					disabled={props.readOnly}
-					value={form.fecha_inicio_metadrama ?? ''}
-					oninput={(event) =>
-						mutateField(
-							'fecha_inicio_metadrama',
-							event.currentTarget.value ? Number(event.currentTarget.value) : null
-						)}
-				/>
-			</label>
+		{#if SHOW_METADRAMA_DATES}
+			<div class="mt-4 grid gap-4 md:grid-cols-2">
+				<label class="text-sm">
+					<span class="mb-1 block">Fecha inicio METADRAMA</span>
+					<input
+						type="number"
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						disabled={props.readOnly}
+						value={form.fecha_inicio_metadrama ?? ''}
+						oninput={(event) =>
+							mutateField(
+								'fecha_inicio_metadrama',
+								event.currentTarget.value ? Number(event.currentTarget.value) : null
+							)}
+					/>
+				</label>
 
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha fin METADRAMA</span>
-				<input
-					type="number"
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					disabled={props.readOnly}
-					value={form.fecha_fin_metadrama ?? ''}
-					oninput={(event) =>
-						mutateField(
-							'fecha_fin_metadrama',
-							event.currentTarget.value ? Number(event.currentTarget.value) : null
-						)}
-				/>
-			</label>
-		</div>
+				<label class="text-sm">
+					<span class="mb-1 block">Fecha fin METADRAMA</span>
+					<input
+						type="number"
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						disabled={props.readOnly}
+						value={form.fecha_fin_metadrama ?? ''}
+						oninput={(event) =>
+							mutateField(
+								'fecha_fin_metadrama',
+								event.currentTarget.value ? Number(event.currentTarget.value) : null
+							)}
+					/>
+				</label>
+			</div>
+		{/if}
 
 		<label class="mt-4 block text-sm">
 			<span class="mb-1 block">Edición base utilizada</span>

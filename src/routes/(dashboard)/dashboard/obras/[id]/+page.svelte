@@ -399,6 +399,7 @@
 		<AutoriaTab
 			obraId={obraLive.obra_id}
 			obra={obraLive}
+			roleTerm={data.profile.roleTerm}
 			readOnly={!canEditContent}
 		/>
 	{:else if currentTab === 'analisis'}
