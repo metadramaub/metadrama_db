@@ -1,6 +1,7 @@
 ﻿<script lang="ts">
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 
@@ -161,12 +162,14 @@
 
 		<label class="mt-4 block text-sm">
 			<span class="mb-1 block">Fuente bibliográfica para la fecha</span>
-			<textarea
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+			<MarkdownEditorLite
 				rows={3}
+				class="mt-1"
+				minHeightClass="min-h-28"
+				value={form.fuente_fecha ?? ''}
 				disabled={props.readOnly}
-				oninput={(event) => mutateField('fuente_fecha', event.currentTarget.value || null)}
-			>{form.fuente_fecha ?? ''}</textarea>
+				onChange={(nextValue) => mutateField('fuente_fecha', nextValue || null)}
+			/>
 		</label>
 
 		<div class="mt-4 grid gap-4 md:grid-cols-2">
@@ -203,12 +206,14 @@
 
 		<label class="mt-4 block text-sm">
 			<span class="mb-1 block">Edición base utilizada</span>
-			<textarea
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+			<MarkdownEditorLite
 				rows={4}
+				class="mt-1"
+				minHeightClass="min-h-32"
+				value={form.edicion}
 				disabled={props.readOnly}
-				oninput={(event) => mutateField('edicion', event.currentTarget.value)}
-			>{form.edicion}</textarea>
+				onChange={(nextValue) => mutateField('edicion', nextValue)}
+			/>
 		</label>
 
 		<div class="mt-5 border-t border-[color:var(--border)] pt-4">

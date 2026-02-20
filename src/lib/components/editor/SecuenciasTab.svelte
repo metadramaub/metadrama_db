@@ -2,6 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 
@@ -508,12 +509,19 @@
 
 			<label class="text-sm">
 				<span class="mb-1 block">Observaciones públicas</span>
-				<textarea
+				<MarkdownEditorLite
 					rows={3}
-					bind:value={form.observaciones}
+					class="mt-1"
+					minHeightClass="min-h-28"
+					value={form.observaciones}
 					disabled={props.readOnly}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				></textarea>
+					onChange={(nextValue) => {
+						form = {
+							...form,
+							observaciones: nextValue
+						};
+					}}
+				/>
 			</label>
 		</div>
 

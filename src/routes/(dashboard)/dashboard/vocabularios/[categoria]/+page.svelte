@@ -4,6 +4,7 @@
 	import { onDestroy, onMount, tick } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import { getVocabularyFieldConfig } from '$lib/config/vocabulary-fields';
 	import VocabularyTree from '$lib/components/vocabularios/VocabularyTree.svelte';
 	import VocabularyDetailPanel from '$lib/components/vocabularios/VocabularyDetailPanel.svelte';
@@ -962,36 +963,39 @@
 				{#if fieldConfig.showDefinition}
 					<label class="text-sm">
 						<span class="mb-1 block">Definición</span>
-						<textarea
+						<MarkdownEditorLite
 							rows={4}
+							class="mt-1"
+							minHeightClass="min-h-28"
 							value={createForm.definicion}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => onCreateFormChange({ definicion: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => onCreateFormChange({ definicion: nextValue })}
+						/>
 					</label>
 				{/if}
 
 				{#if fieldConfig.showExample}
 					<label class="text-sm">
 						<span class="mb-1 block">Ejemplo</span>
-						<textarea
+						<MarkdownEditorLite
 							rows={3}
+							class="mt-1"
+							minHeightClass="min-h-24"
 							value={createForm.ejemplo}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => onCreateFormChange({ ejemplo: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => onCreateFormChange({ ejemplo: nextValue })}
+						/>
 					</label>
 				{/if}
 
 				{#if fieldConfig.showBibliography}
 					<label class="text-sm">
 						<span class="mb-1 block">Bibliografía</span>
-						<textarea
+						<MarkdownEditorLite
 							rows={3}
+							class="mt-1"
+							minHeightClass="min-h-24"
 							value={createForm.bibliografia}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => onCreateFormChange({ bibliografia: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => onCreateFormChange({ bibliografia: nextValue })}
+						/>
 					</label>
 				{/if}
 

@@ -1,6 +1,7 @@
 ﻿<script lang="ts">
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import type { VocabularyFieldConfig } from '$lib/config/vocabulary-fields';
 	import type { VocabularyItem } from './useVocabularyTree';
 
@@ -159,39 +160,42 @@
 				{#if props.fieldConfig.showDefinition}
 					<label class="text-sm">
 						<span class="mb-1 block">Definición</span>
-						<textarea
+						<MarkdownEditorLite
 							rows={4}
+							class="mt-1"
+							minHeightClass="min-h-28"
 							value={props.termForm.definicion}
 							disabled={readOnly}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => updateTerm({ definicion: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => updateTerm({ definicion: nextValue })}
+						/>
 					</label>
 				{/if}
 
 				{#if props.fieldConfig.showExample}
 					<label class="text-sm">
 						<span class="mb-1 block">Ejemplo</span>
-						<textarea
+						<MarkdownEditorLite
 							rows={3}
+							class="mt-1"
+							minHeightClass="min-h-24"
 							value={props.termForm.ejemplo}
 							disabled={readOnly}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => updateTerm({ ejemplo: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => updateTerm({ ejemplo: nextValue })}
+						/>
 					</label>
 				{/if}
 
 				{#if props.fieldConfig.showBibliography}
 					<label class="text-sm">
 						<span class="mb-1 block">Bibliografía</span>
-						<textarea
+						<MarkdownEditorLite
 							rows={3}
+							class="mt-1"
+							minHeightClass="min-h-24"
 							value={props.termForm.bibliografia}
 							disabled={readOnly}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							oninput={(event) => updateTerm({ bibliografia: event.currentTarget.value })}
-						></textarea>
+							onChange={(nextValue) => updateTerm({ bibliografia: nextValue })}
+						/>
 					</label>
 				{/if}
 
