@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto, invalidateAll } from '$app/navigation';
 	import type { RealtimeChannel } from '@supabase/supabase-js';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { get } from 'svelte/store';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
@@ -23,6 +23,7 @@
 		setSaving,
 		type ObraDirtyScope
 	} from '$lib/stores/currentObra';
+	import { runInternalSceneTransition } from '$lib/stores/scene-loader';
 	import { pushToast } from '$lib/stores/toast';
 
 	let { data } = $props<{ data: PageData }>();
@@ -133,9 +134,7 @@
 			openUnsavedChangesModal({ tabChange: nextTab });
 			return;
 		}
-		const resolved = resolveTab(nextTab);
-		currentTab = resolved;
-		syncTabInUrl(resolved);
+		void applyInternalTabChange(nextTab);
 	}
 
 	function cancelUnsavedChangesModal() {
@@ -159,9 +158,7 @@
 		cancelUnsavedChangesModal();
 
 		if (nextTab) {
-			const resolved = resolveTab(nextTab);
-			currentTab = resolved;
-			syncTabInUrl(resolved);
+			await applyInternalTabChange(nextTab);
 			return;
 		}
 		if (!nextRoute) return;
@@ -172,6 +169,16 @@
 		} finally {
 			bypassUnsavedGuard = false;
 		}
+	}
+
+	async function applyInternalTabChange(nextTab: string) {
+		const resolved = resolveTab(nextTab);
+		await runInternalSceneTransition(async () => {
+			await tick();
+			currentTab = resolved;
+			syncTabInUrl(resolved);
+			await tick();
+		});
 	}
 
 	function onExternalChange(payload: { table: string; jornada_id?: string | null; rango_id?: string | null }) {

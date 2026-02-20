@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { navigating } from '$app/stores';
+	import { onDestroy, onMount } from 'svelte';
 	import favicon from '$lib/assets/favicon.svg';
+	import SceneLoader from '$lib/components/ui/scene-loader.svelte';
 	import Toast from '$lib/components/ui/toast.svelte';
+	import { endSceneLoad, startSceneLoad, type SceneLoadToken } from '$lib/stores/scene-loader';
 	import '../app.css';
 
 	let { children } = $props();
@@ -12,9 +15,30 @@
 	let unlocked = $state(false);
 	let password = $state('');
 	let accessError = $state('');
+	let routeLoadingToken = $state<SceneLoadToken | null>(null);
 
 	onMount(() => {
 		unlocked = window.sessionStorage.getItem(ACCESS_KEY) === 'ok';
+	});
+
+	$effect(() => {
+		const activeNavigation = $navigating;
+
+		if (activeNavigation && routeLoadingToken === null) {
+			routeLoadingToken = startSceneLoad('route', { delayMs: 150 });
+			return;
+		}
+
+		if (!activeNavigation && routeLoadingToken !== null) {
+			endSceneLoad(routeLoadingToken);
+			routeLoadingToken = null;
+		}
+	});
+
+	onDestroy(() => {
+		if (routeLoadingToken === null) return;
+		endSceneLoad(routeLoadingToken);
+		routeLoadingToken = null;
 	});
 
 	function submitAccess(event: SubmitEvent) {
@@ -73,4 +97,5 @@
 	</div>
 {/if}
 
+<SceneLoader />
 <Toast />

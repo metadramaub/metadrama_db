@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto } from '$app/navigation';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import { getVocabularyFieldConfig } from '$lib/config/vocabulary-fields';
@@ -14,6 +14,7 @@
 		normalizeTree,
 		type VocabularyItem
 	} from '$lib/components/vocabularios/useVocabularyTree';
+	import { runInternalSceneTransition } from '$lib/stores/scene-loader';
 	import { pushToast } from '$lib/stores/toast';
 	import type { PageData } from './$types';
 
@@ -300,6 +301,14 @@
 		termAutosaveErrorShown = false;
 	}
 
+	async function runDetailPanelTransition(task: () => void) {
+		await runInternalSceneTransition(async () => {
+			await tick();
+			task();
+			await tick();
+		});
+	}
+
 	async function confirmUnsavedChangesModal() {
 		const nextSelectionId = pendingSelectionId;
 		const shouldCloseDetail = pendingCloseDetail;
@@ -308,11 +317,11 @@
 		cancelUnsavedChangesModal();
 
 		if (nextSelectionId) {
-			performSelectItem(nextSelectionId);
+			await runDetailPanelTransition(() => performSelectItem(nextSelectionId));
 			return;
 		}
 		if (shouldCloseDetail) {
-			performCloseSelectedItem();
+			await runDetailPanelTransition(() => performCloseSelectedItem());
 			return;
 		}
 		if (!nextRoute) return;
@@ -356,7 +365,7 @@
 			openUnsavedChangesModal({ selectionId: terminoId });
 			return;
 		}
-		performSelectItem(terminoId);
+		void runDetailPanelTransition(() => performSelectItem(terminoId));
 	}
 
 	function closeSelectedItem() {
@@ -364,7 +373,7 @@
 			openUnsavedChangesModal({ closeDetail: true });
 			return;
 		}
-		performCloseSelectedItem();
+		void runDetailPanelTransition(() => performCloseSelectedItem());
 	}
 
 	function openDeleteModal() {
