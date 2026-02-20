@@ -35,8 +35,8 @@
 	</div>
 
 	<div class="card p-4">
-		<label class="text-sm">
-			<span class="mb-1 block">Buscar categoría</span>
+		<label class="form-field">
+			<span class="form-label">Buscar categoría</span>
 			<input
 				type="text"
 				bind:value={search}
@@ -96,3 +96,4 @@
 		</section>
 	{/if}
 </section>
+

@@ -32,21 +32,40 @@ export async function requireAuthenticated(event: EventWithLocals) {
 }
 
 export async function getEditorProfile(event: EventWithLocals, userId: string): Promise<EditorProfile> {
+	const profile = await findEditorProfile(event, userId);
+	if (!profile) {
+		throw error(403, 'No existe perfil de editor para este usuario');
+	}
+	return profile;
+}
+
+export async function findEditorProfile(
+	event: EventWithLocals,
+	userId: string
+): Promise<EditorProfile | null> {
 	const { data: editor, error: editorError } = await event.locals.supabase
 		.from('editores')
 		.select('user_id,nombre_completo,role,activo')
 		.eq('user_id', userId)
-		.single();
+		.maybeSingle();
 
-	if (editorError || !editor) {
-		throw error(403, 'No existe perfil de editor para este usuario');
+	if (editorError) {
+		throw error(500, 'No se pudo cargar el perfil de editor');
 	}
 
-	const { data: role } = await event.locals.supabase
+	if (!editor) {
+		return null;
+	}
+
+	const { data: role, error: roleError } = await event.locals.supabase
 		.from('vocabularios')
 		.select('termino')
 		.eq('termino_id', editor.role)
 		.single();
+
+	if (roleError) {
+		throw error(500, 'No se pudo cargar el rol del editor');
+	}
 
 	return {
 		userId: editor.user_id,
