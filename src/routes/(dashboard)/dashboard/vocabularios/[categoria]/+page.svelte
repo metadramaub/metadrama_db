@@ -129,7 +129,8 @@
 			.filter((row) => row.item.termino_id !== selectedId)
 			.map((row) => ({
 				id: row.item.termino_id,
-				label: `${'  '.repeat(Math.max(0, row.depth - 1))}${row.item.termino}`
+				label: row.item.termino,
+				parentId: row.item.termino_padre_id ?? null
 			}))
 	);
 	const createParentOptions = $derived(
@@ -137,9 +138,14 @@
 			.filter((row) => row.depth === 1)
 			.map((row) => ({
 				id: row.item.termino_id,
-				label: row.item.termino
+				label: row.item.termino,
+				parentId: null as string | null
 			}))
 	);
+	const tipoFormaDropdownItems = [
+		{ id: 'forma_espanola', label: 'Forma española' },
+		{ id: 'forma_italiana', label: 'Forma italiana' }
+	];
 	const metroDropdownItems = $derived(
 		(data.metroOptions ?? []).map((metro: { termino_id: string; termino: string }) => ({
 			id: metro.termino_id,
@@ -936,16 +942,17 @@
 				{#if fieldConfig.showParent}
 					<label class="text-sm">
 						<span class="mb-1 block">Término padre (opcional)</span>
-						<select
-							value={createForm.termino_padre_id ?? ''}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							onchange={(event) => onCreateFormChange({ termino_padre_id: event.currentTarget.value || null })}
-						>
-							<option value="">Sin padre (raíz)</option>
-							{#each createParentOptions as option}
-								<option value={option.id}>{option.label}</option>
-							{/each}
-						</select>
+						<CheckDropdown
+							multiple={false}
+							hierarchical={true}
+							showPathInTrigger={true}
+							allowSingleClear={true}
+							search={createParentOptions.length > 8}
+							placeholder="Sin padre (raíz)"
+							items={createParentOptions}
+							selectedIds={createForm.termino_padre_id ? [createForm.termino_padre_id] : []}
+							onChange={(ids) => onCreateFormChange({ termino_padre_id: ids[0] ?? null })}
+						/>
 					</label>
 				{/if}
 
@@ -1026,18 +1033,18 @@
 				{#if fieldConfig.showTipoForma}
 					<label class="text-sm">
 						<span class="mb-1 block">Tipo de forma</span>
-						<select
-							value={createForm.tipo_forma ?? ''}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							onchange={(event) =>
+						<CheckDropdown
+							multiple={false}
+							allowSingleClear={true}
+							search={false}
+							placeholder="Sin especificar"
+							items={tipoFormaDropdownItems}
+							selectedIds={createForm.tipo_forma ? [createForm.tipo_forma] : []}
+							onChange={(ids) =>
 								onCreateFormChange({
-									tipo_forma: (event.currentTarget.value || null) as TipoFormaValue
+									tipo_forma: (ids[0] ?? null) as TipoFormaValue
 								})}
-						>
-							<option value="">Sin especificar</option>
-							<option value="forma_espanola">Forma española</option>
-							<option value="forma_italiana">Forma italiana</option>
-						</select>
+						/>
 					</label>
 				{/if}
 

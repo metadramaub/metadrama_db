@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import AuthorSelector from '$lib/components/editor/AuthorSelector.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
@@ -81,6 +82,16 @@
 			nombre_completo: author.nombre_completo
 		}))
 	);
+	const modeDropdownItems = $derived.by(() => {
+		const items: Array<{ id: Mode; label: string }> = [
+			{ id: 'obra_completa', label: 'Obra completa' },
+			{ id: 'por_jornadas', label: 'Por jornadas' }
+		];
+		if (canUseCustomRanges || mode === 'rango_personalizado' || sourceMode === 'rango_personalizado') {
+			items.push({ id: 'rango_personalizado', label: 'Rangos personalizados' });
+		}
+		return items;
+	});
 
 	function normalizeAuthorIds(ids: string[]): string[] {
 		return [...new Set(ids)].sort((a, b) => a.localeCompare(b));
@@ -619,18 +630,19 @@
 				{#if canShowAllModes}
 					<label class="block text-sm">
 					<span class="mb-1 block">Selecciona cómo se distribuye la autoría en la obra</span>
-					<select
-						class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-						disabled={effectiveReadOnly || loadingFromServer}
-						value={mode}
-						onchange={(event) => requestModeChange(event.currentTarget.value as Mode)}
-					>
-						<option value="obra_completa">Obra completa</option>
-						<option value="por_jornadas">Por jornadas</option>
-						{#if canUseCustomRanges}
-							<option value="rango_personalizado">Rangos personalizados</option>
-						{/if}
-					</select>
+					<CheckDropdown
+							multiple={false}
+							search={false}
+							placeholder="Seleccionar modo"
+							items={modeDropdownItems}
+							disabled={effectiveReadOnly || loadingFromServer}
+							selectedIds={[mode]}
+							onChange={(ids) => {
+								const nextMode = ids[0] as Mode | undefined;
+								if (!nextMode) return;
+								requestModeChange(nextMode);
+							}}
+						/>
 					</label>
 				{:else}
 					<div class="block text-sm">

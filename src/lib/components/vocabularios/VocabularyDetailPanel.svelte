@@ -24,7 +24,7 @@
 		pathLabel: string;
 		readOnly?: boolean;
 		termForm: TermForm;
-		parentOptions: Array<{ id: string; label: string }>;
+		parentOptions: Array<{ id: string; label: string; parentId?: string | null }>;
 		metroOptions: Array<{ termino_id: string; termino: string }>;
 		fieldConfig: VocabularyFieldConfig;
 		termDirty?: boolean;
@@ -43,6 +43,17 @@
 			label: metro.termino
 		}))
 	);
+	const parentDropdownItems = $derived(
+		props.parentOptions.map((option: { id: string; label: string; parentId?: string | null }) => ({
+			id: option.id,
+			label: option.label,
+			parentId: option.parentId ?? null
+		}))
+	);
+	const tipoFormaItems = [
+		{ id: 'forma_espanola', label: 'Forma española' },
+		{ id: 'forma_italiana', label: 'Forma italiana' }
+	];
 
 	function updateTerm(patch: Partial<TermForm>) {
 		props.onTermFormChange?.(patch);
@@ -70,17 +81,18 @@
 				{#if props.fieldConfig.showParent}
 					<label class="text-sm">
 						<span class="mb-1 block">Término padre</span>
-						<select
-							value={props.termForm.termino_padre_id ?? ''}
+						<CheckDropdown
+							multiple={false}
+							hierarchical={true}
+							showPathInTrigger={true}
+							allowSingleClear={true}
+							search={parentDropdownItems.length > 8}
+							placeholder="Sin padre (raíz)"
+							items={parentDropdownItems}
 							disabled={readOnly}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							onchange={(event) => updateTerm({ termino_padre_id: event.currentTarget.value || null })}
-						>
-							<option value="">Sin padre (raíz)</option>
-							{#each props.parentOptions as option}
-								<option value={option.id}>{option.label}</option>
-							{/each}
-						</select>
+							selectedIds={props.termForm.termino_padre_id ? [props.termForm.termino_padre_id] : []}
+							onChange={(ids) => updateTerm({ termino_padre_id: ids[0] ?? null })}
+						/>
 					</label>
 				{/if}
 
@@ -124,22 +136,22 @@
 				{#if props.fieldConfig.showTipoForma}
 					<label class="text-sm">
 						<span class="mb-1 block">Tipo de forma</span>
-						<select
-							value={props.termForm.tipo_forma ?? ''}
+						<CheckDropdown
+							multiple={false}
+							allowSingleClear={true}
+							search={false}
+							placeholder="Sin especificar"
+							items={tipoFormaItems}
 							disabled={readOnly}
-							class="w-full border border-[color:var(--border)] px-3 py-2"
-							onchange={(event) =>
+							selectedIds={props.termForm.tipo_forma ? [props.termForm.tipo_forma] : []}
+							onChange={(ids) =>
 								updateTerm({
-									tipo_forma: (event.currentTarget.value || null) as
+									tipo_forma: (ids[0] ?? null) as
 										| 'forma_espanola'
 										| 'forma_italiana'
 										| null
 								})}
-						>
-							<option value="">Sin especificar</option>
-							<option value="forma_espanola">Forma española</option>
-							<option value="forma_italiana">Forma italiana</option>
-						</select>
+						/>
 					</label>
 				{/if}
 

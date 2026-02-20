@@ -1,6 +1,7 @@
 ﻿<script lang="ts">
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
@@ -39,6 +40,12 @@
 
 	let timer: ReturnType<typeof setTimeout> | null = null;
 	let savingNow = $state(false);
+	const generoDropdownItems = $derived(
+		props.generoOptions.map((genero: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+			id: genero.termino_id,
+			label: genero.termino
+		}))
+	);
 
 	function mutateField<T extends keyof FormState>(key: T, value: FormState[T]) {
 		if (props.readOnly) return;
@@ -122,17 +129,16 @@
 
 			<label class="text-sm">
 				<span class="mb-1 block">Género</span>
-				<select
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+				<CheckDropdown
+					multiple={false}
+					allowSingleClear={true}
+					search={generoDropdownItems.length > 8}
+					placeholder="Selecciona género"
+					items={generoDropdownItems}
 					disabled={props.readOnly}
-					value={form.genero_id}
-					onchange={(event) => mutateField('genero_id', event.currentTarget.value)}
-				>
-					<option value="">Selecciona género</option>
-					{#each props.generoOptions as genero}
-						<option value={genero.termino_id}>{genero.termino}</option>
-					{/each}
-				</select>
+					selectedIds={form.genero_id ? [form.genero_id] : []}
+					onChange={(ids) => mutateField('genero_id', ids[0] ?? '')}
+				/>
 			</label>
 
 			<label class="text-sm">

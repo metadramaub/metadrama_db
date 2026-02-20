@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
 	import type { ComentarioInput, ComentarioListItem, ComentarioPatchInput } from '$lib/types/obra.types';
@@ -61,6 +62,11 @@
 		if (props.context?.rango_id) params.set('rango_id', props.context.rango_id);
 		return params;
 	});
+	const commentTypeItems = [
+		{ id: 'general', label: 'general' },
+		{ id: 'revision', label: 'revisión' },
+		{ id: 'tecnico', label: 'técnico' }
+	];
 
 	async function loadComments() {
 		commentsLoading = true;
@@ -257,15 +263,19 @@
 						{#if editingCommentId === comment.comentario_id}
 							<label class="block text-sm">
 								<span class="mb-1 block">Tipo</span>
-								<select
-									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-									bind:value={editingType}
+								<CheckDropdown
+									multiple={false}
+									search={false}
+									placeholder="Seleccionar tipo"
+									items={commentTypeItems}
 									disabled={savingEdit}
-								>
-									<option value="general">general</option>
-									<option value="revision">revisión</option>
-									<option value="tecnico">técnico</option>
-								</select>
+									selectedIds={[editingType]}
+									onChange={(ids) => {
+										const nextType = ids[0] as CommentType | undefined;
+										if (!nextType) return;
+										editingType = nextType;
+									}}
+								/>
 							</label>
 							<label class="mt-2 block text-sm">
 								<span class="mb-1 block">Comentario</span>
@@ -342,15 +352,20 @@
 		<div class="border border-[color:var(--border)] bg-white p-3">
 			<label class="block text-sm">
 				<span class="mb-1 block">Tipo de comentario</span>
-				<select
-					class="mb-2 w-full rounded-md border border-[color:var(--border)] px-3 py-2 text-sm"
+				<CheckDropdown
+					class="mb-2"
+					multiple={false}
+					search={false}
+					placeholder="Seleccionar tipo"
+					items={commentTypeItems}
 					disabled={!canComment}
-					bind:value={newCommentType}
-				>
-					<option value="general">general</option>
-					<option value="revision">revisión</option>
-					<option value="tecnico">técnico</option>
-				</select>
+					selectedIds={[newCommentType]}
+					onChange={(ids) => {
+						const nextType = ids[0] as CommentType | undefined;
+						if (!nextType) return;
+						newCommentType = nextType;
+					}}
+				/>
 			</label>
 			<label class="block text-sm">
 				<span class="mb-1 block">Nuevo comentario</span>
