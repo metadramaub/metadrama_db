@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import ObrasTable from '$lib/components/dashboard/ObrasTable.svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import type { PageData } from './$types';
 
@@ -18,6 +19,18 @@
 
 	const canReadAll = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
 	const canCreate = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
+	const estadoDropdownItems = $derived(
+		data.estadoOptions.map((option: { termino_id: string; termino: string }) => ({
+			id: option.termino_id,
+			label: option.termino
+		}))
+	);
+	const editorDropdownItems = $derived(
+		data.editorOptions.map((option: { user_id: string; nombre_completo: string }) => ({
+			id: option.user_id,
+			label: option.nombre_completo
+		}))
+	);
 
 	$effect(() => {
 		q = data.filters.q;
@@ -111,8 +124,8 @@
 	</div>
 
 	<form class="card mb-4 grid gap-3 p-4 md:grid-cols-4" onsubmit={applyFilters}>
-		<label class="text-sm">
-			<span class="mb-1 block">Buscar título</span>
+		<label class="form-field">
+			<span class="form-label">Buscar título</span>
 			<input
 				type="text"
 				bind:value={q}
@@ -120,31 +133,35 @@
 			/>
 		</label>
 
-		<label class="text-sm">
-			<span class="mb-1 block">Estado</span>
-			<select
-				bind:value={estado}
-				class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-			>
-				<option value="">Todos</option>
-				{#each data.estadoOptions as opt}
-					<option value={opt.termino_id}>{opt.termino}</option>
-				{/each}
-			</select>
+		<label class="form-field">
+			<span class="form-label">Estado</span>
+			<CheckDropdown
+				multiple={false}
+				allowSingleClear={true}
+				search={estadoDropdownItems.length > 8}
+				placeholder="Todos"
+				items={estadoDropdownItems}
+				selectedIds={estado ? [estado] : []}
+				onChange={(ids) => {
+					estado = ids[0] ?? '';
+				}}
+			/>
 		</label>
 
-		<label class="text-sm">
-			<span class="mb-1 block">Editor asignado</span>
-			<select
-				bind:value={editor}
+		<label class="form-field">
+			<span class="form-label">Editor asignado</span>
+			<CheckDropdown
+				multiple={false}
+				allowSingleClear={true}
+				search={editorDropdownItems.length > 8}
+				placeholder="Todos"
+				items={editorDropdownItems}
 				disabled={!canReadAll}
-				class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm disabled:bg-[color:var(--muted)]"
-			>
-				<option value="">Todos</option>
-				{#each data.editorOptions as opt}
-					<option value={opt.user_id}>{opt.nombre_completo}</option>
-				{/each}
-			</select>
+				selectedIds={editor ? [editor] : []}
+				onChange={(ids) => {
+					editor = ids[0] ?? '';
+				}}
+			/>
 		</label>
 
 		<div class="flex items-end">
@@ -167,8 +184,8 @@
 			</p>
 
 			<div class="mt-4 space-y-3">
-				<label class="block text-sm">
-					<span class="mb-1 block">Título *</span>
+				<label class="form-field">
+					<span class="form-label">Título *</span>
 					<input
 						type="text"
 						bind:value={newObraTitle}
@@ -176,16 +193,20 @@
 					/>
 				</label>
 
-				<label class="block text-sm">
-					<span class="mb-1 block">Editor asignado *</span>
-					<select
-						bind:value={newObraEditor}
-						class="w-full border border-[color:var(--border)] px-3 py-2"
-					>
-						{#each data.editorOptions as opt}
-							<option value={opt.user_id}>{opt.nombre_completo}</option>
-						{/each}
-					</select>
+				<label class="form-field">
+					<span class="form-label">Editor asignado *</span>
+					<CheckDropdown
+						multiple={false}
+						search={editorDropdownItems.length > 8}
+						placeholder="Seleccionar editor"
+						items={editorDropdownItems}
+						selectedIds={newObraEditor ? [newObraEditor] : []}
+						onChange={(ids) => {
+							const nextEditor = ids[0] ?? '';
+							if (!nextEditor) return;
+							newObraEditor = nextEditor;
+						}}
+					/>
 				</label>
 			</div>
 
@@ -198,4 +219,5 @@
 		</div>
 	</div>
 {/if}
+
 

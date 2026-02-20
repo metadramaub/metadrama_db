@@ -1,6 +1,8 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 
@@ -9,6 +11,8 @@
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		readOnly?: boolean;
 	}>();
+	// Temporal: ocultar en UI hasta reactivar el flujo de fechas METADRAMA.
+	const SHOW_METADRAMA_DATES = false;
 
 	type FormState = {
 		titulo: string;
@@ -36,6 +40,12 @@
 
 	let timer: ReturnType<typeof setTimeout> | null = null;
 	let savingNow = $state(false);
+	const generoDropdownItems = $derived(
+		props.generoOptions.map((genero: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+			id: genero.termino_id,
+			label: genero.termino
+		}))
+	);
 
 	function mutateField<T extends keyof FormState>(key: T, value: FormState[T]) {
 		if (props.readOnly) return;
@@ -107,8 +117,8 @@
 			>
 		</div>
 		<div class="grid gap-4 md:grid-cols-2">
-			<label class="text-sm">
-				<span class="mb-1 block">Título principal</span>
+			<label class="form-field">
+				<span class="form-label">Título principal</span>
 				<input
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 					disabled={props.readOnly}
@@ -117,23 +127,22 @@
 				/>
 			</label>
 
-			<label class="text-sm">
-				<span class="mb-1 block">Género</span>
-				<select
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+			<label class="form-field">
+				<span class="form-label">Género</span>
+				<CheckDropdown
+					multiple={false}
+					allowSingleClear={true}
+					search={generoDropdownItems.length > 8}
+					placeholder="Selecciona género"
+					items={generoDropdownItems}
 					disabled={props.readOnly}
-					value={form.genero_id}
-					onchange={(event) => mutateField('genero_id', event.currentTarget.value)}
-				>
-					<option value="">Selecciona género</option>
-					{#each props.generoOptions as genero}
-						<option value={genero.termino_id}>{genero.termino}</option>
-					{/each}
-				</select>
+					selectedIds={form.genero_id ? [form.genero_id] : []}
+					onChange={(ids) => mutateField('genero_id', ids[0] ?? '')}
+				/>
 			</label>
 
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha inicio tradicional</span>
+			<label class="form-field">
+				<span class="form-label">Fecha inicio tradicional</span>
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -146,8 +155,8 @@
 						)}
 				/>
 			</label>
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha fin tradicional</span>
+			<label class="form-field">
+				<span class="form-label">Fecha fin tradicional</span>
 				<input
 					type="number"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -159,56 +168,62 @@
 			</label>
 		</div>
 
-		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Fuente bibliográfica para la fecha</span>
-			<textarea
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+		<label class="form-field mt-4">
+			<span class="form-label">Fuente bibliográfica para la fecha</span>
+			<MarkdownEditorLite
 				rows={3}
+				class="mt-1"
+				minHeightClass="min-h-28"
+				value={form.fuente_fecha ?? ''}
 				disabled={props.readOnly}
-				oninput={(event) => mutateField('fuente_fecha', event.currentTarget.value || null)}
-			>{form.fuente_fecha ?? ''}</textarea>
+				onChange={(nextValue) => mutateField('fuente_fecha', nextValue || null)}
+			/>
 		</label>
 
-		<div class="mt-4 grid gap-4 md:grid-cols-2">
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha inicio METADRAMA</span>
-				<input
-					type="number"
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					disabled={props.readOnly}
-					value={form.fecha_inicio_metadrama ?? ''}
-					oninput={(event) =>
-						mutateField(
-							'fecha_inicio_metadrama',
-							event.currentTarget.value ? Number(event.currentTarget.value) : null
-						)}
-				/>
-			</label>
+		{#if SHOW_METADRAMA_DATES}
+			<div class="mt-4 grid gap-4 md:grid-cols-2">
+				<label class="form-field">
+					<span class="form-label">Fecha inicio METADRAMA</span>
+					<input
+						type="number"
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						disabled={props.readOnly}
+						value={form.fecha_inicio_metadrama ?? ''}
+						oninput={(event) =>
+							mutateField(
+								'fecha_inicio_metadrama',
+								event.currentTarget.value ? Number(event.currentTarget.value) : null
+							)}
+					/>
+				</label>
 
-			<label class="text-sm">
-				<span class="mb-1 block">Fecha fin METADRAMA</span>
-				<input
-					type="number"
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					disabled={props.readOnly}
-					value={form.fecha_fin_metadrama ?? ''}
-					oninput={(event) =>
-						mutateField(
-							'fecha_fin_metadrama',
-							event.currentTarget.value ? Number(event.currentTarget.value) : null
-						)}
-				/>
-			</label>
-		</div>
+				<label class="form-field">
+					<span class="form-label">Fecha fin METADRAMA</span>
+					<input
+						type="number"
+						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						disabled={props.readOnly}
+						value={form.fecha_fin_metadrama ?? ''}
+						oninput={(event) =>
+							mutateField(
+								'fecha_fin_metadrama',
+								event.currentTarget.value ? Number(event.currentTarget.value) : null
+							)}
+					/>
+				</label>
+			</div>
+		{/if}
 
-		<label class="mt-4 block text-sm">
-			<span class="mb-1 block">Edición base utilizada</span>
-			<textarea
-				class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+		<label class="form-field mt-4">
+			<span class="form-label">Edición base utilizada</span>
+			<MarkdownEditorLite
 				rows={4}
+				class="mt-1"
+				minHeightClass="min-h-32"
+				value={form.edicion}
 				disabled={props.readOnly}
-				oninput={(event) => mutateField('edicion', event.currentTarget.value)}
-			>{form.edicion}</textarea>
+				onChange={(nextValue) => mutateField('edicion', nextValue)}
+			/>
 		</label>
 
 		<div class="mt-5 border-t border-[color:var(--border)] pt-4">
@@ -242,3 +257,4 @@
 		</div>
 	</div>
 </section>
+

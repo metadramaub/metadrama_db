@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import AuthorSelector from '$lib/components/editor/AuthorSelector.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
@@ -24,8 +25,11 @@
 	const props = $props<{
 		obraId: string;
 		obra: Tables<'obras'>;
+		roleTerm: string;
 		readOnly?: boolean;
 	}>();
+	// Temporal: restringe UI de autoria avanzada a admin.
+	const LOCK_NON_ADMIN_TO_OBRA_COMPLETA = true;
 
 	let loadingAutoria = $state(true);
 	let loadingFromServer = $state(false);
@@ -58,6 +62,11 @@
 	let customRanges = $state<CustomRange[]>([]);
 	let baselineSnapshot = $state('');
 
+	const isAdmin = $derived(props.roleTerm === 'admin');
+	const nonAdminLocked = $derived(LOCK_NON_ADMIN_TO_OBRA_COMPLETA && !isAdmin);
+	const legacySplitReadOnly = $derived(nonAdminLocked && sourceMode !== 'obra_completa');
+	const effectiveReadOnly = $derived(Boolean(props.readOnly) || legacySplitReadOnly);
+	const canShowAllModes = $derived(!LOCK_NON_ADMIN_TO_OBRA_COMPLETA || isAdmin);
 	const editingBlocked = $derived(requiresReassign && !reassignPrepared);
 	const jornadaMap = $derived(
 		new Map(
@@ -73,6 +82,16 @@
 			nombre_completo: author.nombre_completo
 		}))
 	);
+	const modeDropdownItems = $derived.by(() => {
+		const items: Array<{ id: Mode; label: string }> = [
+			{ id: 'obra_completa', label: 'Obra completa' },
+			{ id: 'por_jornadas', label: 'Por jornadas' }
+		];
+		if (canUseCustomRanges || mode === 'rango_personalizado' || sourceMode === 'rango_personalizado') {
+			items.push({ id: 'rango_personalizado', label: 'Rangos personalizados' });
+		}
+		return items;
+	});
 
 	function normalizeAuthorIds(ids: string[]): string[] {
 		return [...new Set(ids)].sort((a, b) => a.localeCompare(b));
@@ -207,7 +226,7 @@
 	}
 
 	function syncDirtyAndAutosave() {
-		if (props.readOnly) return;
+		if (effectiveReadOnly) return;
 		clearQueuedSave();
 		const dirtyNow = buildComparableSnapshot() !== baselineSnapshot;
 		setDirty(dirtyNow, 'autoria');
@@ -225,7 +244,7 @@
 	}
 
 	function requestModeChange(nextMode: Mode) {
-		if (props.readOnly || loadingAutoria || loadingFromServer || editingBlocked) return;
+		if (effectiveReadOnly || loadingAutoria || loadingFromServer || editingBlocked) return;
 		if (nextMode === mode) return;
 		if (nextMode === 'rango_personalizado' && !canUseCustomRanges) return;
 		if (nextMode === sourceMode) {
@@ -248,7 +267,7 @@
 	}
 
 	function confirmModeChange() {
-		if (props.readOnly || !pendingMode) return;
+		if (effectiveReadOnly || !pendingMode) return;
 		mode = pendingMode;
 		resetModeData(pendingMode);
 		modeChangeConfirmed = true;
@@ -261,7 +280,7 @@
 	}
 
 	function openReassignModal() {
-		if (props.readOnly || loadingAutoria || loadingFromServer) return;
+		if (effectiveReadOnly || loadingAutoria || loadingFromServer) return;
 		showReassignModal = true;
 	}
 
@@ -270,7 +289,7 @@
 	}
 
 	function confirmReassign() {
-		if (props.readOnly) return;
+		if (effectiveReadOnly) return;
 		mode = defaultReassignMode;
 		resetModeData(defaultReassignMode);
 		modeChangeConfirmed = defaultReassignMode !== sourceMode;
@@ -457,7 +476,7 @@
 		setDirty(false, 'autoria');
 		setSaving(false, 'autoria');
 
-		if (requiresReassign && !props.readOnly) {
+		if (requiresReassign && !effectiveReadOnly) {
 			showReassignModal = true;
 		} else {
 			showReassignModal = false;
@@ -486,7 +505,7 @@
 	}
 
 	async function save() {
-		if (props.readOnly || loadingAutoria || loadingFromServer || editingBlocked) return;
+		if (effectiveReadOnly || loadingAutoria || loadingFromServer || editingBlocked) return;
 		if (savingNow) return;
 		const clientError = validateClientPayload();
 		if (clientError) {
@@ -548,7 +567,7 @@
 		<Button
 			variant="success"
 			onclick={save}
-			disabled={savingNow || props.readOnly || loadingFromServer || loadingAutoria || editingBlocked}
+			disabled={savingNow || effectiveReadOnly || loadingFromServer || loadingAutoria || editingBlocked}
 		>
 			{savingNow ? 'Guardando...' : 'Guardar'}
 		</Button>
@@ -579,6 +598,12 @@
 				</div>
 			</div>
 
+			{#if legacySplitReadOnly}
+				<div class="mb-3 border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+					Esta obra tiene autoría fragmentada; solo admin puede modificar esta distribución.
+				</div>
+			{/if}
+
 			{#if editingBlocked}
 				<div class="border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
 					<p class="font-medium">{blockingTitle(blockingReason)}</p>
@@ -593,7 +618,7 @@
 							{/each}
 						</ul>
 					{/if}
-					{#if !props.readOnly}
+					{#if !effectiveReadOnly}
 						<div class="mt-3">
 							<Button variant="secondary" onclick={openReassignModal} disabled={loadingFromServer}>
 								Reasignar autoría
@@ -602,28 +627,43 @@
 					{/if}
 				</div>
 			{:else}
-				<label class="block text-sm">
-					<span class="mb-1 block">Selecciona cómo se distribuye la autoría en la obra</span>
-					<select
-						class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-						disabled={props.readOnly || loadingFromServer}
-						value={mode}
-						onchange={(event) => requestModeChange(event.currentTarget.value as Mode)}
-					>
-						<option value="obra_completa">Obra completa</option>
-						<option value="por_jornadas">Por jornadas</option>
-						{#if canUseCustomRanges}
-							<option value="rango_personalizado">Rangos personalizados</option>
+				{#if canShowAllModes}
+					<label class="form-field">
+					<span class="form-label">Selecciona cómo se distribuye la autoría en la obra</span>
+					<CheckDropdown
+							multiple={false}
+							search={false}
+							placeholder="Seleccionar modo"
+							items={modeDropdownItems}
+							disabled={effectiveReadOnly || loadingFromServer}
+							selectedIds={[mode]}
+							onChange={(ids) => {
+								const nextMode = ids[0] as Mode | undefined;
+								if (!nextMode) return;
+								requestModeChange(nextMode);
+							}}
+						/>
+					</label>
+				{:else}
+					<div class="form-field">
+						<span class="form-label">Modo de autoria</span>
+						<div class="w-full rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+							Obra completa
+						</div>
+						{#if sourceMode !== 'obra_completa'}
+							<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
+								Distribucion detectada en DB: <strong>{modeLabel(sourceMode)}</strong>.
+							</p>
 						{/if}
-					</select>
-				</label>
+					</div>
+				{/if}
 
-				<label class="mt-4 block text-sm">
-					<span class="mb-1 block">URL informe ETSO</span>
+				<label class="form-field mt-4">
+					<span class="form-label">URL informe ETSO</span>
 					<input
 						type="url"
 						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						disabled={props.readOnly || loadingFromServer}
+						disabled={effectiveReadOnly || loadingFromServer}
 						value={urlInforme}
 						oninput={(event) => {
 							urlInforme = event.currentTarget.value;
@@ -640,14 +680,14 @@
 
 				{#if mode === 'obra_completa'}
 					<div class="space-y-3">
-						<div class="block text-sm">
-							<span class="mb-1 block">Autores de la obra</span>
+						<div class="form-field">
+							<span class="form-label">Autores de la obra</span>
 							<AuthorSelector
 								authors={authorOptions}
 								selectedIds={obraCompleta.autor_ids}
 								onChange={setObraCompletaAuthors}
 								placeholder="Escribe y selecciona autores"
-								disabled={props.readOnly || loadingFromServer}
+								disabled={effectiveReadOnly || loadingFromServer}
 							/>
 						</div>
 					</div>
@@ -661,14 +701,14 @@
 									<div class="mb-2 text-sm font-medium">
 										{jornadaMap.get(assignment.jornada_id) ?? assignment.jornada_id}
 									</div>
-									<div class="block text-sm">
-										<span class="mb-1 block">Autores</span>
+									<div class="form-field">
+										<span class="form-label">Autores</span>
 										<AuthorSelector
 											authors={authorOptions}
 											selectedIds={assignment.autor_ids}
 											onChange={(ids) => setJornadaAuthors(assignment.jornada_id, ids)}
 											placeholder="Escribe y selecciona autores"
-											disabled={props.readOnly || loadingFromServer}
+											disabled={effectiveReadOnly || loadingFromServer}
 										/>
 									</div>
 								</article>
@@ -678,7 +718,7 @@
 				{:else}
 					<div class="space-y-3">
 						<div class="flex flex-wrap justify-end gap-2">
-							<Button variant="secondary" onclick={addCustomRange} disabled={props.readOnly || loadingFromServer}>
+							<Button variant="secondary" onclick={addCustomRange} disabled={effectiveReadOnly || loadingFromServer}>
 								Añadir rango
 							</Button>
 						</div>
@@ -689,23 +729,23 @@
 								<article class="border border-[color:var(--border)] bg-white p-3">
 									<div class="mb-3 flex justify-between gap-2">
 										<div class="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
-											<label class="text-sm">
-												<span class="mb-1 block">V_ini</span>
+											<label class="form-field">
+												<span class="form-label">V_ini</span>
 												<input
 													type="number"
 													class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-													disabled={props.readOnly || loadingFromServer}
+													disabled={effectiveReadOnly || loadingFromServer}
 													value={range.v_ini}
 													oninput={(event) =>
 														updateCustomRange(range.temp_id, { v_ini: Number(event.currentTarget.value) })}
 												/>
 											</label>
-											<label class="text-sm">
-												<span class="mb-1 block">V_fin</span>
+											<label class="form-field">
+												<span class="form-label">V_fin</span>
 												<input
 													type="number"
 													class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-													disabled={props.readOnly || loadingFromServer}
+													disabled={effectiveReadOnly || loadingFromServer}
 													value={range.v_fin}
 													oninput={(event) =>
 														updateCustomRange(range.temp_id, { v_fin: Number(event.currentTarget.value) })}
@@ -715,21 +755,21 @@
 										<Button
 											variant="danger"
 											onclick={() => removeCustomRange(range.temp_id)}
-											disabled={props.readOnly || loadingFromServer}
+											disabled={effectiveReadOnly || loadingFromServer}
 										>
 											Eliminar
 										</Button>
 									</div>
 
 									<div class="grid gap-3 md:grid-cols-2">
-										<div class="block text-sm">
-											<span class="mb-1 block">Autores</span>
+										<div class="form-field">
+											<span class="form-label">Autores</span>
 											<AuthorSelector
 												authors={authorOptions}
 												selectedIds={range.autor_ids}
 												onChange={(ids) => setCustomRangeAuthors(range.temp_id, ids)}
 												placeholder="Escribe y selecciona autores"
-												disabled={props.readOnly || loadingFromServer}
+												disabled={effectiveReadOnly || loadingFromServer}
 											/>
 										</div>
 									</div>
@@ -777,3 +817,4 @@
 		</div>
 	</div>
 {/if}
+

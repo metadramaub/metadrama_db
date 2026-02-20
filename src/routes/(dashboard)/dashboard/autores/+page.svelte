@@ -102,8 +102,8 @@
 	</div>
 
 	<form class="card mb-4 grid gap-3 p-4 md:grid-cols-[1fr_auto]" onsubmit={applyFilters}>
-		<label class="text-sm">
-			<span class="mb-1 block">Buscar autor</span>
+		<label class="form-field">
+			<span class="form-label">Buscar autor</span>
 			<input
 				type="text"
 				bind:value={q}
@@ -172,8 +172,8 @@
 			</p>
 
 			<div class="mt-4 grid gap-3 md:grid-cols-2">
-				<label class="block text-sm md:col-span-2">
-					<span class="mb-1 block">Nombre completo *</span>
+				<label class="form-field md:col-span-2">
+					<span class="form-label">Nombre completo *</span>
 					<input
 						type="text"
 						bind:value={nombreCompleto}
@@ -181,8 +181,8 @@
 					/>
 				</label>
 
-				<label class="block text-sm md:col-span-2">
-					<span class="mb-1 block">Variantes de nombre (una por línea)</span>
+				<label class="form-field md:col-span-2">
+					<span class="form-label">Variantes de nombre (una por línea)</span>
 					<textarea
 						rows={4}
 						bind:value={variantesText}
@@ -190,18 +190,18 @@
 					></textarea>
 				</label>
 
-				<label class="block text-sm">
-					<span class="mb-1 block">BNEdatos ID</span>
+				<label class="form-field">
+					<span class="form-label">BNEdatos ID</span>
 					<input type="text" bind:value={bnedatosId} class="w-full border border-[color:var(--border)] px-3 py-2" />
 				</label>
 
-				<label class="block text-sm">
-					<span class="mb-1 block">VIAF ID</span>
+				<label class="form-field">
+					<span class="form-label">VIAF ID</span>
 					<input type="text" bind:value={viafId} class="w-full border border-[color:var(--border)] px-3 py-2" />
 				</label>
 
-				<label class="block text-sm md:col-span-2">
-					<span class="mb-1 block">Wikidata ID</span>
+				<label class="form-field md:col-span-2">
+					<span class="form-label">Wikidata ID</span>
 					<input
 						type="text"
 						bind:value={wikidataId}
@@ -219,3 +219,4 @@
 		</div>
 	</div>
 {/if}
+

@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto, invalidateAll } from '$app/navigation';
 	import type { RealtimeChannel } from '@supabase/supabase-js';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { get } from 'svelte/store';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
@@ -23,6 +23,7 @@
 		setSaving,
 		type ObraDirtyScope
 	} from '$lib/stores/currentObra';
+	import { runInternalSceneTransition } from '$lib/stores/scene-loader';
 	import { pushToast } from '$lib/stores/toast';
 
 	let { data } = $props<{ data: PageData }>();
@@ -74,11 +75,13 @@
 	const estadoOptions = $derived(vocabByCategory.get('estado') ?? []);
 	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
+	const tipoVariacionOptions = $derived(vocabByCategory.get('tipo_variacion') ?? []);
 	const obraLive = $derived(($currentObraStore.obra ?? data.obra) as Tables<'obras'>);
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
 	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
 	let cuadrosLive = $state<Tables<'cuadros'>[]>([]);
+	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>([]);
 
 	let channel: RealtimeChannel | null = null;
 	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestaña.';
@@ -133,9 +136,7 @@
 			openUnsavedChangesModal({ tabChange: nextTab });
 			return;
 		}
-		const resolved = resolveTab(nextTab);
-		currentTab = resolved;
-		syncTabInUrl(resolved);
+		void applyInternalTabChange(nextTab);
 	}
 
 	function cancelUnsavedChangesModal() {
@@ -159,9 +160,7 @@
 		cancelUnsavedChangesModal();
 
 		if (nextTab) {
-			const resolved = resolveTab(nextTab);
-			currentTab = resolved;
-			syncTabInUrl(resolved);
+			await applyInternalTabChange(nextTab);
 			return;
 		}
 		if (!nextRoute) return;
@@ -172,6 +171,16 @@
 		} finally {
 			bypassUnsavedGuard = false;
 		}
+	}
+
+	async function applyInternalTabChange(nextTab: string) {
+		const resolved = resolveTab(nextTab);
+		await runInternalSceneTransition(async () => {
+			await tick();
+			currentTab = resolved;
+			syncTabInUrl(resolved);
+			await tick();
+		});
 	}
 
 	function onExternalChange(payload: { table: string; jornada_id?: string | null; rango_id?: string | null }) {
@@ -196,6 +205,10 @@
 	}) {
 		jornadasLive = [...payload.jornadas];
 		cuadrosLive = [...payload.cuadros];
+	}
+
+	function handleSecuenciasChange(payload: Tables<'secuencias_metricas'>[]) {
+		secuenciasLive = [...payload];
 	}
 
 	beforeNavigate((navigation) => {
@@ -325,6 +338,7 @@
 	$effect(() => {
 		jornadasLive = [...data.jornadas];
 		cuadrosLive = [...data.cuadros];
+		secuenciasLive = [...data.secuencias];
 	});
 
 	onDestroy(() => {
@@ -382,16 +396,19 @@
 	{:else if currentTab === 'secuencias'}
 		<SecuenciasTab
 			obraId={obraLive.obra_id}
-			secuenciasInitial={data.secuencias}
+			secuenciasInitial={secuenciasLive}
 			estrofaOptions={estrofaOptions}
 			certezaOptions={certezaOptions}
+			tipoVariacionOptions={tipoVariacionOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
+			onSecuenciasChange={handleSecuenciasChange}
 		/>
 	{:else if currentTab === 'autoria'}
 		<AutoriaTab
 			obraId={obraLive.obra_id}
 			obra={obraLive}
+			roleTerm={data.profile.roleTerm}
 			readOnly={!canEditContent}
 		/>
 	{:else if currentTab === 'analisis'}
@@ -410,7 +427,7 @@
 			estadoOptions={estadoOptions}
 			jornadas={jornadasLive}
 			cuadros={cuadrosLive}
-			secuencias={data.secuencias}
+			secuencias={secuenciasLive}
 			rangos={data.rangos}
 			editorAsignadoNombre={data.editorAsignadoNombre}
 			assignedReviewer={data.assignedReviewer}
