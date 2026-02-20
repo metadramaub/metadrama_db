@@ -2,6 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -9,7 +10,9 @@
 	const props = $props<{
 		obraId: string;
 		secuenciasInitial: Tables<'secuencias_metricas'>[];
-		estrofaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		estrofaOptions: Array<
+			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id' | 'orden'>
+		>;
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		readOnly?: boolean;
 		canComment?: boolean;
@@ -42,8 +45,38 @@
 	let lastSidebarSnapshot = $state('');
 	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
 
+	function sortEstrofaOptions(options: typeof props.estrofaOptions) {
+		return [...options].sort(
+			(a, b) => (a.orden ?? Number.MAX_SAFE_INTEGER) - (b.orden ?? Number.MAX_SAFE_INTEGER) ||
+				a.termino.localeCompare(b.termino, 'es')
+		);
+	}
+
 	const defaultCerteza = props.certezaOptions[0]?.termino_id ?? '';
-	const defaultEstrofa = props.estrofaOptions[0]?.termino_id ?? '';
+	const defaultEstrofa = sortEstrofaOptions(props.estrofaOptions)[0]?.termino_id ?? '';
+	const estrofaDropdownItems = $derived.by(() =>
+		sortEstrofaOptions(props.estrofaOptions).map((option) => ({
+			id: option.termino_id,
+			label: option.termino,
+			parentId: option.termino_padre_id ?? null
+		}))
+	);
+	const certezaDropdownItems = $derived(
+		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+			id: option.termino_id,
+			label: option.termino
+		}))
+	);
+	const personajesGeneroItems = [
+		{ id: 'mixto', label: 'mixto' },
+		{ id: 'solo_masculino', label: 'solo_masculino' },
+		{ id: 'solo_femenino', label: 'solo_femenino' }
+	];
+	const personajesRolItems = [
+		{ id: 'ausente', label: 'ausente' },
+		{ id: 'solo', label: 'solo' },
+		{ id: 'con_otros', label: 'con_otros' }
+	];
 
 	function initialForm(): FormState {
 		return {
@@ -327,23 +360,35 @@
 	</div>
 
 	<div class="card grid gap-3 p-4 md:grid-cols-2">
-		<label class="text-sm">
+		<div class="text-sm">
 			<span class="mb-1 block">Filtro por estrofa</span>
-			<select bind:value={filtroEstrofa} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2">
-				<option value="">Todas</option>
-				{#each props.estrofaOptions as opt}
-					<option value={opt.termino_id}>{opt.termino}</option>
-				{/each}
-			</select>
-		</label>
+			<CheckDropdown
+				multiple={false}
+				hierarchical={true}
+				showPathInTrigger={true}
+				allowSingleClear={true}
+				search={true}
+				placeholder="Todas"
+				items={estrofaDropdownItems}
+				selectedIds={filtroEstrofa ? [filtroEstrofa] : []}
+				onChange={(ids) => {
+					filtroEstrofa = ids[0] ?? '';
+				}}
+			/>
+		</div>
 		<label class="text-sm">
 			<span class="mb-1 block">Filtro por certeza</span>
-			<select bind:value={filtroCerteza} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2">
-				<option value="">Todas</option>
-				{#each props.certezaOptions as opt}
-					<option value={opt.termino_id}>{opt.termino}</option>
-				{/each}
-			</select>
+			<CheckDropdown
+				multiple={false}
+				allowSingleClear={true}
+				search={certezaDropdownItems.length > 8}
+				placeholder="Todas"
+				items={certezaDropdownItems}
+				selectedIds={filtroCerteza ? [filtroCerteza] : []}
+				onChange={(ids) => {
+					filtroCerteza = ids[0] ?? '';
+				}}
+			/>
 		</label>
 	</div>
 
@@ -445,65 +490,104 @@
 
 			<label class="text-sm">
 				<span class="mb-1 block">Estrofa *</span>
-				<select
-					bind:value={form.estrofa_tipo_id}
+				<CheckDropdown
+					class="mt-1"
+					multiple={false}
+					hierarchical={true}
+					showPathInTrigger={true}
+					allowSingleClear={false}
+					search={true}
+					placeholder="Seleccionar estrofa"
+					items={estrofaDropdownItems}
+					selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
 					disabled={props.readOnly}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-				>
-					{#each props.estrofaOptions as opt}
-						<option value={opt.termino_id}>{opt.termino}</option>
-					{/each}
-				</select>
+					onChange={(ids) => {
+						const nextId = ids[0] ?? '';
+						if (!nextId) return;
+						form = {
+							...form,
+							estrofa_tipo_id: nextId
+						};
+					}}
+				/>
 			</label>
 
 			<div class="grid gap-3 sm:grid-cols-2">
 				<label class="text-sm">
 					<span class="mb-1 block">Personajes género</span>
-					<select
-						bind:value={form.personajes_genero}
+					<CheckDropdown
+						multiple={false}
+						search={false}
+						placeholder="Seleccionar género"
+						items={personajesGeneroItems}
 						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						<option value="mixto">mixto</option>
-						<option value="solo_masculino">solo_masculino</option>
-						<option value="solo_femenino">solo_femenino</option>
-					</select>
+						selectedIds={[form.personajes_genero]}
+						onChange={(ids) => {
+							const nextGenero = ids[0] as FormState['personajes_genero'] | undefined;
+							if (!nextGenero) return;
+							form = {
+								...form,
+								personajes_genero: nextGenero
+							};
+						}}
+					/>
 				</label>
 				<label class="text-sm">
 					<span class="mb-1 block">Donaire</span>
-					<select
-						bind:value={form.personajes_donaire}
+					<CheckDropdown
+						multiple={false}
+						search={false}
+						placeholder="Seleccionar valor"
+						items={personajesRolItems}
 						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						<option value="ausente">ausente</option>
-						<option value="solo">solo</option>
-						<option value="con_otros">con_otros</option>
-					</select>
+						selectedIds={[form.personajes_donaire]}
+						onChange={(ids) => {
+							const nextDonaire = ids[0] as FormState['personajes_donaire'] | undefined;
+							if (!nextDonaire) return;
+							form = {
+								...form,
+								personajes_donaire: nextDonaire
+							};
+						}}
+					/>
 				</label>
 				<label class="text-sm">
 					<span class="mb-1 block">Sobrenatural</span>
-					<select
-						bind:value={form.personajes_sobrenatural}
+					<CheckDropdown
+						multiple={false}
+						search={false}
+						placeholder="Seleccionar valor"
+						items={personajesRolItems}
 						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						<option value="ausente">ausente</option>
-						<option value="solo">solo</option>
-						<option value="con_otros">con_otros</option>
-					</select>
+						selectedIds={[form.personajes_sobrenatural]}
+						onChange={(ids) => {
+							const nextSobrenatural = ids[0] as FormState['personajes_sobrenatural'] | undefined;
+							if (!nextSobrenatural) return;
+							form = {
+								...form,
+								personajes_sobrenatural: nextSobrenatural
+							};
+						}}
+					/>
 				</label>
 				<label class="text-sm sm:col-span-2">
 					<span class="mb-1 block">Certeza</span>
-					<select
-						bind:value={form.certeza_editor}
+					<CheckDropdown
+						multiple={false}
+						search={certezaDropdownItems.length > 8}
+						placeholder="Seleccionar certeza"
+						items={certezaDropdownItems}
 						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						{#each props.certezaOptions as opt}
-							<option value={opt.termino_id}>{opt.termino}</option>
-						{/each}
-					</select>
+						selectedIds={form.certeza_editor ? [form.certeza_editor] : []}
+						onChange={(ids) => {
+							const nextCerteza = ids[0] ?? '';
+							if (!nextCerteza) return;
+							form = {
+								...form,
+								certeza_editor: nextCerteza
+							};
+						}}
+					/>
 				</label>
 			</div>
 

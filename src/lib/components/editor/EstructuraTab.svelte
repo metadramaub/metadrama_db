@@ -2,6 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -63,6 +64,18 @@
 	function sortByVIni<T extends { v_ini: number }>(items: T[]): T[] {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini);
 	}
+	const jornadaDropdownItems = $derived(
+		sortByVIni(jornadas).map((jornada) => ({
+			id: jornada.jornada_id,
+			label: `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
+		}))
+	);
+	const certezaDropdownItems = $derived(
+		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+			id: option.termino_id,
+			label: option.termino
+		}))
+	);
 
 	function getJornadaById(jornadaId: string) {
 		return jornadas.find((item) => item.jornada_id === jornadaId) ?? null;
@@ -667,18 +680,19 @@
 			{:else}
 				<label class="text-sm">
 					<span class="mb-1 block">Jornada</span>
-					<select
-						bind:value={cuadroForm.jornada_id}
+					<CheckDropdown
+						multiple={false}
+						search={jornadaDropdownItems.length > 8}
+						placeholder="Seleccionar jornada"
+						items={jornadaDropdownItems}
 						disabled={props.readOnly}
-						onchange={(event) => onCuadroJornadaChange((event.currentTarget as HTMLSelectElement).value)}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						{#each sortByVIni(jornadas) as jornada}
-							<option value={jornada.jornada_id}>
-								Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
-							</option>
-						{/each}
-					</select>
+						selectedIds={cuadroForm.jornada_id ? [cuadroForm.jornada_id] : []}
+						onChange={(ids) => {
+							const nextJornadaId = ids[0] ?? '';
+							if (!nextJornadaId) return;
+							onCuadroJornadaChange(nextJornadaId);
+						}}
+					/>
 				</label>
 				<div class="grid gap-3 sm:grid-cols-3">
 					<label class="text-sm">
@@ -712,15 +726,22 @@
 				</div>
 				<label class="text-sm">
 					<span class="mb-1 block">Certeza</span>
-					<select
-						bind:value={cuadroForm.certeza_editor}
+					<CheckDropdown
+						multiple={false}
+						search={certezaDropdownItems.length > 8}
+						placeholder="Seleccionar certeza"
+						items={certezaDropdownItems}
 						disabled={props.readOnly}
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					>
-						{#each props.certezaOptions as option}
-							<option value={option.termino_id}>{option.termino}</option>
-						{/each}
-					</select>
+						selectedIds={cuadroForm.certeza_editor ? [cuadroForm.certeza_editor] : []}
+						onChange={(ids) => {
+							const nextCerteza = ids[0] ?? '';
+							if (!nextCerteza) return;
+							cuadroForm = {
+								...cuadroForm,
+								certeza_editor: nextCerteza
+							};
+						}}
+					/>
 				</label>
 				<label class="text-sm">
 					<span class="mb-1 block">Descripción</span>
