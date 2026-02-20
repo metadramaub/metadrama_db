@@ -66,6 +66,13 @@ export interface SecuenciaInput {
 	observaciones: string | null;
 }
 
+export interface SecuenciaVariacionInput {
+	tipo_variacion_id: string;
+	v_ini: number;
+	v_fin: number;
+	observaciones: string | null;
+}
+
 export interface CambioEstadoInput {
 	estado: string;
 	comentario?: string;
