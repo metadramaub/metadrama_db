@@ -6,6 +6,7 @@
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { currentObraStore, patchCurrentObra } from '$lib/stores/currentObra';
+	import { canTransitionState } from '$lib/utils/permissions';
 	import type { Tables } from '$lib/types/database.types';
 	import type {
 		EditorProfile,
@@ -68,6 +69,8 @@
 	const canComment = $derived(Boolean(props.capabilities.canComment));
 	const canChangeState = $derived(Boolean(props.capabilities.canChangeState));
 	const canDeleteObra = $derived(Boolean(props.capabilities.canDeleteObra));
+	const isEditorRole = $derived(props.profile.roleTerm === 'editor');
+	const isAssignedEditor = $derived(obraLive.editor_asignado === props.profile.userId);
 	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
 
 	const checklist = $derived.by(() => {
@@ -113,6 +116,31 @@
 			description: null
 		}))
 	);
+	const estadoTermById = $derived(
+		new Map(
+			props.estadoOptions.map((option: EstadoOption) => [
+				option.termino_id,
+				option.termino.trim().toLowerCase()
+			])
+		)
+	);
+	const persistedEstadoTerm = $derived(
+		estadoTermById.get(persistedEstadoId) ?? props.estadoTerm.trim().toLowerCase()
+	);
+	const estadoDisabledIds = $derived.by(() => {
+		if (!canChangeState) {
+			return props.estadoOptions.map((option: EstadoOption) => option.termino_id);
+		}
+		return props.estadoOptions
+			.filter(
+				(option: EstadoOption) =>
+					!canTransitionState(props.profile.roleTerm, persistedEstadoTerm, option.termino, {
+						assignedEditor: isAssignedEditor,
+						assignedReviewer: props.assignedReviewer
+					})
+			)
+			.map((option: EstadoOption) => option.termino_id);
+	});
 
 	const selectedEstadoLabel = $derived(
 		props.estadoOptions.find((option: EstadoOption) => option.termino_id === currentEstadoId)?.termino ?? '--'
@@ -238,7 +266,10 @@
 
 	function onEstadoSelectionChange(ids: string[]) {
 		if (!canChangeState) return;
-		currentEstadoId = (ids[0] ?? '').trim();
+		const nextEstadoId = (ids[0] ?? '').trim();
+		if (!nextEstadoId) return;
+		if (estadoDisabledIds.includes(nextEstadoId)) return;
+		currentEstadoId = nextEstadoId;
 	}
 
 	function onCommentsDraftDirtyChange(dirty: boolean) {
@@ -435,7 +466,9 @@
 	}
 
 	onMount(() => {
-		void loadReviewers();
+		if (!isEditorRole) {
+			void loadReviewers();
+		}
 	});
 
 	$effect(() => {
@@ -482,50 +515,52 @@
 			</p>
 		{/if}
 
-		<div class="border border-[color:var(--border)] bg-white p-3">
-			<h4 class="mb-3 text-sm font-semibold">Asignaciones editoriales</h4>
-			{#if reviewersLoading}
-				<p class="text-sm text-[color:var(--muted-foreground)]">Cargando asignaciones...</p>
-			{:else}
-				<div class="grid gap-3 md:grid-cols-2">
-					<label class="form-field">
-						<span class="form-label">Editor asignado</span>
-						<CheckDropdown
-							multiple={false}
-							items={editorDropdownItems}
-							selectedIds={assignmentEditorId ? [assignmentEditorId] : []}
-							disabledIds={editorDisabledIds}
-							placeholder="Selecciona editor"
-							search={true}
-							disabled={!canManageAssignments || reviewersSaving}
-							onChange={onEditorSelectionChange}
-						/>
-					</label>
+		{#if !isEditorRole}
+			<div class="border border-[color:var(--border)] bg-white p-3">
+				<h4 class="mb-3 text-sm font-semibold">Asignaciones editoriales</h4>
+				{#if reviewersLoading}
+					<p class="text-sm text-[color:var(--muted-foreground)]">Cargando asignaciones...</p>
+				{:else}
+					<div class="grid gap-3 md:grid-cols-2">
+						<label class="form-field">
+							<span class="form-label">Editor asignado</span>
+							<CheckDropdown
+								multiple={false}
+								items={editorDropdownItems}
+								selectedIds={assignmentEditorId ? [assignmentEditorId] : []}
+								disabledIds={editorDisabledIds}
+								placeholder="Selecciona editor"
+								search={true}
+								disabled={!canManageAssignments || reviewersSaving}
+								onChange={onEditorSelectionChange}
+							/>
+						</label>
 
-					<label class="form-field">
-						<span class="form-label">Revisores asignados</span>
-						<CheckDropdown
-							multiple={true}
-							items={reviewerDropdownItems}
-							selectedIds={assignmentReviewerIds}
-							disabledIds={reviewerDisabledIds}
-							placeholder="Selecciona revisores"
-							search={true}
-							disabled={!canManageAssignments || reviewersSaving}
-							onChange={onReviewerSelectionChange}
-						/>
-					</label>
-				</div>
-
-				{#if canManageAssignments}
-					<div class="mt-3 flex justify-end">
-						<Button variant="success" onclick={openAssignmentsConfirmModal} disabled={reviewersSaving || !assignmentsDirty}>
-							{reviewersSaving ? 'Guardando...' : 'Guardar asignaciones'}
-						</Button>
+						<label class="form-field">
+							<span class="form-label">Revisores asignados</span>
+							<CheckDropdown
+								multiple={true}
+								items={reviewerDropdownItems}
+								selectedIds={assignmentReviewerIds}
+								disabledIds={reviewerDisabledIds}
+								placeholder="Selecciona revisores"
+								search={true}
+								disabled={!canManageAssignments || reviewersSaving}
+								onChange={onReviewerSelectionChange}
+							/>
+						</label>
 					</div>
+
+					{#if canManageAssignments}
+						<div class="mt-3 flex justify-end">
+							<Button variant="success" onclick={openAssignmentsConfirmModal} disabled={reviewersSaving || !assignmentsDirty}>
+								{reviewersSaving ? 'Guardando...' : 'Guardar asignaciones'}
+							</Button>
+						</div>
+					{/if}
 				{/if}
-			{/if}
-		</div>
+			</div>
+		{/if}
 
 		<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
 			<h4 class="mb-3 text-sm font-semibold">Estado de la obra</h4>
@@ -536,6 +571,7 @@
 						multiple={false}
 						items={estadoDropdownItems}
 						selectedIds={currentEstadoId ? [currentEstadoId] : []}
+						disabledIds={estadoDisabledIds}
 						placeholder="Selecciona estado"
 						disabled={!canChangeState || stateSaving}
 						onChange={onEstadoSelectionChange}

@@ -1,5 +1,6 @@
 export interface AuthorFormDraft {
 	nombreCompleto: string;
+	nombreNormalizado: string;
 	variantesText: string;
 	bnedatosId: string;
 	viafId: string;
@@ -8,6 +9,7 @@ export interface AuthorFormDraft {
 
 export interface AuthorFormSnapshot {
 	nombreCompleto: string;
+	nombreNormalizado: string;
 	variantesNombre: string[];
 	bnedatosId: string;
 	viafId: string;
@@ -16,6 +18,7 @@ export interface AuthorFormSnapshot {
 
 type PersistedAuthorFormSource = {
 	nombre_completo?: string | null;
+	nombre_normalizado?: string | null;
 	variantes_nombre?: ReadonlyArray<unknown> | null;
 	bnedatos_id?: string | null;
 	viaf_id?: string | null;
@@ -56,6 +59,7 @@ export function buildAuthorPersistedSnapshot(
 ): AuthorFormSnapshot {
 	return {
 		nombreCompleto: normalizeOptionalText(source.nombre_completo),
+		nombreNormalizado: normalizeOptionalText(source.nombre_normalizado),
 		variantesNombre: normalizeVariants(source.variantes_nombre ?? []),
 		bnedatosId: normalizeOptionalText(source.bnedatos_id),
 		viafId: normalizeOptionalText(source.viaf_id),
@@ -66,6 +70,7 @@ export function buildAuthorPersistedSnapshot(
 export function buildAuthorDraftSnapshot(draft: AuthorFormDraft): AuthorFormSnapshot {
 	return {
 		nombreCompleto: normalizeOptionalText(draft.nombreCompleto),
+		nombreNormalizado: normalizeOptionalText(draft.nombreNormalizado),
 		variantesNombre: normalizeVariants(splitAuthorVariantsText(draft.variantesText)),
 		bnedatosId: normalizeOptionalText(draft.bnedatosId),
 		viafId: normalizeOptionalText(draft.viafId),
@@ -79,6 +84,7 @@ export function areAuthorSnapshotsEqual(
 ): boolean {
 	return (
 		left.nombreCompleto === right.nombreCompleto &&
+		left.nombreNormalizado === right.nombreNormalizado &&
 		left.bnedatosId === right.bnedatosId &&
 		left.viafId === right.viafId &&
 		left.wikidataId === right.wikidataId &&

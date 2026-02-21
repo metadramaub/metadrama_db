@@ -3,6 +3,7 @@ import type { Tables } from '$lib/types/database.types';
 import {
 	canEditByState,
 	canDeleteObras,
+	hasStateTransitionFrom,
 	canManageReviewAssignments,
 	canToggleVisibility,
 	normalizeRole
@@ -119,12 +120,16 @@ export function buildObraCapabilities(
 	// Owner editor: content edition + editor workflow.
 	if (profile.roleTerm === 'editor' && assignedEditor) {
 		const canEditInCurrentState = canEditByState(profile.roleTerm, estadoTerm);
+		const canChangeStateInCurrentState = hasStateTransitionFrom(profile.roleTerm, estadoTerm, {
+			assignedEditor: true,
+			assignedReviewer: false
+		});
 		return {
 			canRead: true,
 			canEditContent: canEditInCurrentState,
 			canComment: true,
 			canReview: true,
-			canChangeState: canEditInCurrentState,
+			canChangeState: canChangeStateInCurrentState,
 			canManageReviewers: false,
 			canToggleVisibility: false,
 			canDeleteObra: false
@@ -133,12 +138,16 @@ export function buildObraCapabilities(
 
 	// Assigned reviewer (including users with role "editor"): review only.
 	if (assignedReviewer) {
+		const canChangeStateInCurrentState = hasStateTransitionFrom(profile.roleTerm, estadoTerm, {
+			assignedEditor: false,
+			assignedReviewer: true
+		});
 		return {
 			canRead: true,
 			canEditContent: false,
 			canComment: true,
 			canReview: true,
-			canChangeState: false,
+			canChangeState: canChangeStateInCurrentState,
 			canManageReviewers: false,
 			canToggleVisibility: false,
 			canDeleteObra: false

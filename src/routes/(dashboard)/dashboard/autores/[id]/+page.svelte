@@ -28,6 +28,7 @@
 	let obras = $state(getCurrentWorks());
 
 	let nombreCompleto = $state(getCurrentAuthorData().nombre_completo ?? '');
+	let nombreNormalizado = $state(getCurrentAuthorData().nombre_normalizado ?? '');
 	let variantesText = $state((getCurrentAuthorData().variantes_nombre ?? []).join('\n'));
 	let bnedatosId = $state(getCurrentAuthorData().bnedatos_id ?? '');
 	let viafId = $state(getCurrentAuthorData().viaf_id ?? '');
@@ -69,6 +70,7 @@
 
 	function syncFormFromAuthor(nextAuthor: Tables<'autores'>) {
 		nombreCompleto = nextAuthor.nombre_completo ?? '';
+		nombreNormalizado = nextAuthor.nombre_normalizado ?? '';
 		variantesText = (nextAuthor.variantes_nombre ?? []).join('\n');
 		bnedatosId = nextAuthor.bnedatos_id ?? '';
 		viafId = nextAuthor.viaf_id ?? '';
@@ -93,6 +95,7 @@
 	const formDirty = $derived.by(() =>
 		isAuthorFormDirty(autor, {
 			nombreCompleto,
+			nombreNormalizado,
 			variantesText,
 			bnedatosId,
 			viafId,
@@ -123,6 +126,12 @@
 			}
 			return;
 		}
+		if (!nombreNormalizado.trim()) {
+			if (source === 'manual') {
+				pushToast('error', 'El nombre normalizado es obligatorio.');
+			}
+			return;
+		}
 
 		clearAutosaveTimer();
 		saving = true;
@@ -131,6 +140,7 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				nombre_completo: nombreCompleto.trim(),
+				nombre_normalizado: nombreNormalizado.trim(),
 				variantes_nombre: splitAuthorVariantsText(variantesText),
 				bnedatos_id: bnedatosId,
 				viaf_id: viafId,
@@ -214,29 +224,42 @@
 		</div>
 
 		<div class="grid gap-3 md:grid-cols-2">
-			<label class="form-field md:col-span-2">
-				<span class="form-label">Nombre completo *</span>
-				<input
-					type="text"
-					bind:value={nombreCompleto}
-					oninput={onFormInput}
-					disabled={readOnly}
-					class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
-				/>
-			</label>
+				<label class="form-field md:col-span-2">
+					<span class="form-label">Nombre completo *</span>
+					<input
+						type="text"
+						bind:value={nombreCompleto}
+						oninput={onFormInput}
+						disabled={readOnly}
+						class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
+					/>
+				</label>
 
-			<label class="form-field md:col-span-2">
-				<span class="form-label">Variantes de nombre (una por línea)</span>
-				<textarea
-					rows={4}
-					bind:value={variantesText}
-					oninput={onFormInput}
-					disabled={readOnly}
-					class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
-				></textarea>
-			</label>
+				<label class="form-field md:col-span-2">
+					<span class="form-label">Nombre normalizado *</span>
+					<input
+						type="text"
+						bind:value={nombreNormalizado}
+						oninput={onFormInput}
+						disabled={readOnly}
+						placeholder="Apellidos, nombre"
+						class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
+					/>
+					<span class="form-help">Se refiere a "apellidos, nombre".</span>
+				</label>
 
-			<label class="form-field">
+				<label class="form-field md:col-span-2">
+					<span class="form-label">Variantes de nombre (una por línea)</span>
+					<textarea
+						rows={4}
+						bind:value={variantesText}
+						oninput={onFormInput}
+						disabled={readOnly}
+						class="w-full border border-[color:var(--border)] px-3 py-2 disabled:bg-[color:var(--muted)]"
+					></textarea>
+				</label>
+
+				<label class="form-field">
 				<span class="form-label">BNEdatos ID</span>
 				<input
 					type="text"
@@ -352,4 +375,3 @@
 		</div>
 	</div>
 {/if}
-

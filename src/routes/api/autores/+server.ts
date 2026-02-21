@@ -76,7 +76,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	const payload = parsed.data;
 	const nombreCompleto = payload.nombre_completo.trim();
-	const nombreNormalizado = normalizeAuthorName(nombreCompleto);
+	const nombreNormalizado = normalizeAuthorName(payload.nombre_normalizado);
 	const variantes = normalizeAuthorVariants(payload.variantes_nombre);
 
 	const duplicateResp = await locals.supabase
