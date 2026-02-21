@@ -11,6 +11,7 @@
 	let createModalOpen = $state(false);
 	let creating = $state(false);
 	let nombreCompleto = $state('');
+	let nombreNormalizado = $state('');
 	let variantesText = $state('');
 	let bnedatosId = $state('');
 	let viafId = $state('');
@@ -36,6 +37,7 @@
 
 	function resetCreateForm() {
 		nombreCompleto = '';
+		nombreNormalizado = '';
 		variantesText = '';
 		bnedatosId = '';
 		viafId = '';
@@ -61,6 +63,10 @@
 			pushToast('error', 'Indica un nombre completo para el autor.');
 			return;
 		}
+		if (!nombreNormalizado.trim()) {
+			pushToast('error', 'Indica el nombre normalizado del autor.');
+			return;
+		}
 
 		creating = true;
 		const response = await fetch('/api/autores', {
@@ -68,6 +74,7 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				nombre_completo: nombreCompleto.trim(),
+				nombre_normalizado: nombreNormalizado.trim(),
 				variantes_nombre: parseVariants(variantesText),
 				bnedatos_id: bnedatosId,
 				viaf_id: viafId,
@@ -177,8 +184,21 @@
 					<input
 						type="text"
 						bind:value={nombreCompleto}
+						required
 						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
+				</label>
+
+				<label class="form-field md:col-span-2">
+					<span class="form-label">Nombre normalizado *</span>
+					<input
+						type="text"
+						bind:value={nombreNormalizado}
+						placeholder="Apellidos, Nombre"
+						required
+						class="w-full border border-[color:var(--border)] px-3 py-2"
+					/>
+					<span class="form-help">Se refiere a &quot;Apellidos, Nombre&quot;.</span>
 				</label>
 
 				<label class="form-field md:col-span-2">

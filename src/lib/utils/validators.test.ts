@@ -208,6 +208,7 @@ describe('validators', () => {
 	it('validates author create payload', () => {
 		const result = autorCreateSchema.safeParse({
 			nombre_completo: '  Lope de Vega  ',
+			nombre_normalizado: '  vega, lope de  ',
 			variantes_nombre: ['Lope Felix', '  ', 'LOPE FELIX'],
 			bnedatos_id: ' BNE123 ',
 			viaf_id: '',
@@ -216,9 +217,21 @@ describe('validators', () => {
 		expect(result.success).toBe(true);
 		if (!result.success) return;
 		expect(result.data.nombre_completo).toBe('Lope de Vega');
+		expect(result.data.nombre_normalizado).toBe('vega, lope de');
 		expect(result.data.variantes_nombre).toEqual(['Lope Felix']);
 		expect(result.data.bnedatos_id).toBe('BNE123');
 		expect(result.data.viaf_id).toBeNull();
+	});
+
+	it('requires normalized name in author create payload', () => {
+		const result = autorCreateSchema.safeParse({
+			nombre_completo: 'Lope de Vega',
+			variantes_nombre: [],
+			bnedatos_id: null,
+			viaf_id: null,
+			wikidata_id: null
+		});
+		expect(result.success).toBe(false);
 	});
 
 	it('requires at least one field in author patch payload', () => {
@@ -233,6 +246,15 @@ describe('validators', () => {
 		if (!valid.success) return;
 		expect(valid.data.variantes_nombre).toEqual(['Alias A']);
 		expect(valid.data.viaf_id).toBe('VIAF-1');
+	});
+
+	it('accepts and trims normalized name in author patch payload', () => {
+		const result = autorPatchSchema.safeParse({
+			nombre_normalizado: '  vega, lope de  '
+		});
+		expect(result.success).toBe(true);
+		if (!result.success) return;
+		expect(result.data.nombre_normalizado).toBe('vega, lope de');
 	});
 
 	it('requires ELIMINAR in author delete confirmation', () => {

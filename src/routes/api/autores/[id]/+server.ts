@@ -43,15 +43,23 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	const payload = parsed.data;
 	const updatePayload: Record<string, unknown> = {};
+	let nextNormalizedName: string | null = null;
 
 	if (Object.prototype.hasOwnProperty.call(payload, 'nombre_completo')) {
 		const nombreCompleto = payload.nombre_completo!.trim();
-		const nombreNormalizado = normalizeAuthorName(nombreCompleto);
+		updatePayload.nombre_completo = nombreCompleto;
+		nextNormalizedName = normalizeAuthorName(nombreCompleto);
+	}
 
+	if (Object.prototype.hasOwnProperty.call(payload, 'nombre_normalizado')) {
+		nextNormalizedName = normalizeAuthorName(payload.nombre_normalizado!);
+	}
+
+	if (nextNormalizedName !== null) {
 		const duplicateResp = await locals.supabase
 			.from('autores')
 			.select('autor_id')
-			.eq('nombre_normalizado', nombreNormalizado)
+			.eq('nombre_normalizado', nextNormalizedName)
 			.neq('autor_id', current.autor_id)
 			.limit(1);
 		if (duplicateResp.error) {
@@ -60,9 +68,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		if ((duplicateResp.data ?? []).length > 0) {
 			return conflictResponse('Ya existe un autor con el mismo nombre normalizado.');
 		}
-
-		updatePayload.nombre_completo = nombreCompleto;
-		updatePayload.nombre_normalizado = nombreNormalizado;
+		updatePayload.nombre_normalizado = nextNormalizedName;
 	}
 
 	if (Object.prototype.hasOwnProperty.call(payload, 'variantes_nombre')) {
