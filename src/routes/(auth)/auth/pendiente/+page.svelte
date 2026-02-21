@@ -25,7 +25,7 @@
 			}
 			await goto('/login');
 		} catch (error) {
-			errorMessage = error instanceof Error ? error.message : 'No se pudo cerrar sesion.';
+			errorMessage = error instanceof Error ? error.message : 'No se pudo cerrar sesión.';
 		} finally {
 			signingOut = false;
 		}
@@ -37,7 +37,7 @@
 		<div class="card p-6">
 			<h1 class="font-display mb-2 text-3xl">ACCESO PENDIENTE</h1>
 			<p class="text-sm text-[color:var(--muted-foreground)]">
-				El usuario ya fue autenticado, pero todavia no tiene perfil editorial asignado en la base de
+				El usuario ya fue autenticado, pero todavía no tiene perfil editorial asignado en la base de
 				datos.
 			</p>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
@@ -62,7 +62,7 @@
 			<div class="mt-6 flex flex-wrap gap-3">
 				<Button variant="secondary" onclick={retryDashboardAccess}>Reintentar acceso</Button>
 				<Button variant="ghost" onclick={closeSession} disabled={signingOut}>
-					{#if signingOut}Cerrando...{:else}Cerrar sesion{/if}
+					{#if signingOut}Cerrando...{:else}Cerrar sesión{/if}
 				</Button>
 			</div>
 		</div>
