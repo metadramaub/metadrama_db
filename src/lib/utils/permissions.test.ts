@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
 	canTransitionState,
+	hasStateTransitionFrom,
 	canReadAllObras,
 	canEditByState,
 	canToggleVisibility,
@@ -28,9 +29,37 @@ describe('permissions', () => {
 	});
 
 	it('enforces editor state transitions', () => {
-		expect(canTransitionState('editor', 'borrador', 'pendiente')).toBe(true);
-		expect(canTransitionState('editor', 'pendiente', 'borrador')).toBe(true);
-		expect(canTransitionState('editor', 'pendiente', 'validado')).toBe(false);
+		expect(
+			canTransitionState('editor', 'borrador', 'pendiente', { assignedEditor: true })
+		).toBe(true);
+		expect(
+			canTransitionState('editor', 'pendiente', 'borrador', { assignedEditor: true })
+		).toBe(true);
+		expect(
+			canTransitionState('editor', 'pendiente', 'validado', { assignedEditor: true })
+		).toBe(false);
+		expect(canTransitionState('editor', 'pendiente', 'borrador')).toBe(false);
+	});
+
+	it('enforces reviewer editor state transitions', () => {
+		expect(
+			canTransitionState('editor', 'pendiente', 'en_revision', { assignedReviewer: true })
+		).toBe(true);
+		expect(
+			canTransitionState('editor', 'en_revision', 'validado', { assignedReviewer: true })
+		).toBe(true);
+		expect(
+			canTransitionState('editor', 'pendiente', 'borrador', { assignedReviewer: true })
+		).toBe(false);
+		expect(
+			canTransitionState('editor', 'en_revision', 'borrador', { assignedReviewer: true })
+		).toBe(false);
+	});
+
+	it('detects if there are transitions available from current state', () => {
+		expect(hasStateTransitionFrom('editor', 'pendiente', { assignedEditor: true })).toBe(true);
+		expect(hasStateTransitionFrom('editor', 'pendiente', { assignedReviewer: true })).toBe(true);
+		expect(hasStateTransitionFrom('editor', 'validado', { assignedReviewer: true })).toBe(false);
 	});
 
 	it('allows admin/ip to transition any state', () => {

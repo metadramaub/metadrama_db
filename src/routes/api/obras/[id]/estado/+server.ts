@@ -8,9 +8,13 @@ import { getEstadoTerm } from '$lib/server/obras';
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	const user = await requireAuthenticated({ locals });
-	const { obra, profile, estadoTerm } = await getObraContext({ locals }, params.id, {
+	const { obra, profile, estadoTerm, assignedEditor, assignedReviewer } = await getObraContext(
+		{ locals },
+		params.id,
+		{
 		requireChangeState: true
-	});
+		}
+	);
 	const body = await request.json().catch(() => ({}));
 	const parsed = estadoInputSchema.safeParse(body);
 	if (!parsed.success) {
@@ -19,7 +23,10 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	const { estado, comentario } = parsed.data;
 	const targetTerm = await getEstadoTerm(locals.supabase, estado);
-	const allowed = canTransitionState(profile.roleTerm, estadoTerm, targetTerm);
+	const allowed = canTransitionState(profile.roleTerm, estadoTerm, targetTerm, {
+		assignedEditor,
+		assignedReviewer
+	});
 
 	if (!allowed) {
 		return json(
