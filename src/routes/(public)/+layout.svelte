@@ -8,6 +8,9 @@
 	let projectOpen = $state(false);
 
 	const pathname = $derived($page.url.pathname);
+	const isCatalogMock = $derived(
+		pathname === '/mockup/catalogo' || pathname.startsWith('/mockup/catalogo/')
+	);
 
 	function isActive(href: string) {
 		if (href === '/') return pathname === '/';
@@ -131,7 +134,9 @@
 		{/if}
 	</header>
 
-	<main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-6 md:py-10">
+	<main
+		class={`mx-auto w-full flex-1 px-4 py-8 md:px-6 md:py-10 ${isCatalogMock ? 'max-w-[1200px]' : 'max-w-7xl'}`}
+	>
 		{@render children()}
 	</main>
 
