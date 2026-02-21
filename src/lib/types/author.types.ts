@@ -2,6 +2,7 @@ import type { Tables } from '$lib/types/database.types';
 
 export interface AuthorBaseInput {
 	nombre_completo: string;
+	nombre_normalizado: string;
 	variantes_nombre?: string[] | null;
 	bnedatos_id?: string | null;
 	viaf_id?: string | null;
@@ -12,6 +13,7 @@ export interface AuthorCreateInput extends AuthorBaseInput {}
 
 export interface AuthorPatchInput {
 	nombre_completo?: string;
+	nombre_normalizado?: string;
 	variantes_nombre?: string[] | null;
 	bnedatos_id?: string | null;
 	viaf_id?: string | null;
