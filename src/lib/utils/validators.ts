@@ -287,6 +287,7 @@ const optionalAuthorExternalIdPatch = z
 
 export const autorCreateSchema = z.object({
 	nombre_completo: z.string().trim().min(1, 'El nombre completo es obligatorio').max(200),
+	nombre_normalizado: z.string().trim().min(1, 'El nombre normalizado es obligatorio').max(200),
 	variantes_nombre: authorVariantsSchema,
 	bnedatos_id: optionalAuthorExternalId,
 	viaf_id: optionalAuthorExternalId,
@@ -296,6 +297,12 @@ export const autorCreateSchema = z.object({
 export const autorPatchSchema = z
 	.object({
 		nombre_completo: z.string().trim().min(1, 'El nombre completo es obligatorio').max(200).optional(),
+		nombre_normalizado: z
+			.string()
+			.trim()
+			.min(1, 'El nombre normalizado es obligatorio')
+			.max(200)
+			.optional(),
 		variantes_nombre: authorVariantsBaseSchema.optional(),
 		bnedatos_id: optionalAuthorExternalIdPatch,
 		viaf_id: optionalAuthorExternalIdPatch,

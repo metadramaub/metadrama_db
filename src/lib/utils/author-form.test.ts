@@ -10,6 +10,7 @@ import {
 
 const baseAuthor = {
 	nombre_completo: 'Lope de Vega',
+	nombre_normalizado: 'vega, lope de',
 	variantes_nombre: ['Fenix de los Ingenios'],
 	bnedatos_id: 'BNE-1',
 	viaf_id: 'VIAF-1',
@@ -19,6 +20,7 @@ const baseAuthor = {
 function createDraft(overrides: Partial<AuthorFormDraft> = {}): AuthorFormDraft {
 	return {
 		nombreCompleto: 'Lope de Vega',
+		nombreNormalizado: 'vega, lope de',
 		variantesText: 'Fenix de los Ingenios',
 		bnedatosId: 'BNE-1',
 		viafId: 'VIAF-1',
@@ -39,6 +41,9 @@ describe('author-form', () => {
 
 	it('marks form as dirty for content changes in any field', () => {
 		expect(isAuthorFormDirty(baseAuthor, createDraft({ nombreCompleto: 'Lope Felix de Vega' }))).toBe(
+			true
+		);
+		expect(isAuthorFormDirty(baseAuthor, createDraft({ nombreNormalizado: 'felix de vega, lope' }))).toBe(
 			true
 		);
 		expect(isAuthorFormDirty(baseAuthor, createDraft({ bnedatosId: 'BNE-2' }))).toBe(true);
