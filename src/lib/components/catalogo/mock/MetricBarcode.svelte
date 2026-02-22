@@ -62,7 +62,7 @@
 		{#each positionedSegments as item (item.segment.id)}
 			<button
 				type="button"
-				class="group absolute inset-y-0 block p-0 text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-[color:var(--foreground)]"
+				class="group absolute inset-y-0 z-20 block p-0 text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-[color:var(--foreground)]"
 				style={`left:${item.left}%;width:${item.width}%;`}
 				aria-label={`${item.segment.formLabel}, versos ${item.segment.startVerse}-${item.segment.endVerse}`}
 			>
@@ -83,14 +83,14 @@
 
 		{#each cuadroMarkers as marker, index (`cuadro-${index}`)}
 			<span
-				class="pointer-events-none absolute inset-y-0 z-10 border-l border-dashed border-[color:var(--gray-500)]"
+				class="pointer-events-none absolute inset-y-0 z-40 border-l border-dashed border-[color:var(--gray-500)]"
 				style={`left:${marker}%;`}
 			></span>
 		{/each}
 
 		{#each jornadaMarkers as marker, index (`jornada-${index}`)}
 			<span
-				class="pointer-events-none absolute inset-y-0 z-20 w-[2px] bg-[color:var(--gray-900)]"
+				class="pointer-events-none absolute inset-y-0 z-50 w-[2px] bg-[color:var(--gray-900)]"
 				style={`left:calc(${marker}% - 1px);`}
 			></span>
 		{/each}
