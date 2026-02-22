@@ -314,7 +314,7 @@
 		>
 			<div class="card flex h-full flex-col overflow-visible">
 				<div class="border-b border-[color:var(--border)] px-4 py-3">
-					<h2 class="font-display text-lg text-[color:var(--gray-900)]">FILTROS</h2>
+					<h2 class="font-display text-xl text-[color:var(--gray-900)]">FILTROS</h2>
 				</div>
 
 				<div class="min-h-0 flex-1 overflow-x-visible overflow-y-auto px-4 py-4">
@@ -651,7 +651,7 @@
 
 			<div class="space-y-5" style={`margin-left:${SIDEBAR_WIDTH_PX + SIDEBAR_GAP_PX}px;`}>
 				{#if previewRows.length > 0}
-					<h1 class="font-display text-xl text-[color:var(--gray-900)]">CATÁLOGO</h1>
+					<h1 class="font-display text-5xl text-[color:var(--gray-900)]">CATÁLOGO</h1>
 					<p class="text-sm text-[color:var(--muted-foreground)]">{filteredRows.length} de {previewRows.length} obras</p>
 
 					<section class="card p-4">
