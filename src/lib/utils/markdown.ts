@@ -35,11 +35,17 @@ export function renderMarkdown(markdown: string): string {
 	const lines = markdown.replaceAll('\r\n', '\n').split('\n');
 	const blocks: string[] = [];
 	let listItems: string[] = [];
+	let listType: 'ul' | 'ol' | null = null;
 
 	const flushList = () => {
-		if (listItems.length === 0) return;
-		blocks.push(`<ul class="list-disc space-y-1 pl-6">${listItems.join('')}</ul>`);
+		if (listItems.length === 0 || !listType) return;
+		if (listType === 'ul') {
+			blocks.push(`<ul class="list-disc space-y-1 pl-6">${listItems.join('')}</ul>`);
+		} else {
+			blocks.push(`<ol class="list-decimal space-y-1 pl-6">${listItems.join('')}</ol>`);
+		}
 		listItems = [];
+		listType = null;
 	};
 
 	for (const rawLine of lines) {
@@ -50,7 +56,21 @@ export function renderMarkdown(markdown: string): string {
 		}
 
 		if (line.startsWith('- ')) {
+			if (listType === 'ol') {
+				flushList();
+			}
+			listType = 'ul';
 			listItems.push(`<li>${renderInline(line.slice(2))}</li>`);
+			continue;
+		}
+
+		const orderedMatch = line.match(/^\d+\.\s+(.*)$/);
+		if (orderedMatch) {
+			if (listType === 'ul') {
+				flushList();
+			}
+			listType = 'ol';
+			listItems.push(`<li>${renderInline(orderedMatch[1] ?? '')}</li>`);
 			continue;
 		}
 

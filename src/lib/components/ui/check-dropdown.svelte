@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import {
 		buildHierarchyRows,
 		collectAncestorIds,
@@ -26,17 +26,28 @@
 		hierarchical?: boolean;
 		showPathInTrigger?: boolean;
 		allowSingleClear?: boolean;
+		portal?: boolean;
+		portalOffsetPx?: number;
+		portalViewportPaddingPx?: number;
 		onChange?: (ids: string[]) => void;
 	}>();
 
 	let rootEl = $state<HTMLDivElement | null>(null);
+	let triggerEl = $state<HTMLButtonElement | null>(null);
+	let panelEl = $state<HTMLDivElement | null>(null);
+	let listEl = $state<HTMLDivElement | null>(null);
 	let open = $state(false);
 	let query = $state('');
+	let portalStyle = $state('');
+	let portalListMaxHeight = $state(256);
 
 	const isMultiple = $derived(props.multiple ?? true);
 	const hierarchical = $derived(props.hierarchical ?? false);
 	const showPathInTrigger = $derived(props.showPathInTrigger ?? false);
 	const allowSingleClear = $derived(props.allowSingleClear ?? false);
+	const usePortal = $derived(props.portal ?? false);
+	const portalOffsetPx = $derived(props.portalOffsetPx ?? 6);
+	const portalViewportPaddingPx = $derived(props.portalViewportPaddingPx ?? 8);
 
 	const selectedSet = $derived(new Set(props.selectedIds));
 	const disabledSet = $derived(new Set(props.disabledIds ?? []));
@@ -110,6 +121,9 @@
 	function toggleOpen() {
 		if (props.disabled) return;
 		open = !open;
+		if (open) {
+			void refreshPortalPosition();
+		}
 		if (!open) {
 			query = '';
 		}
@@ -156,21 +170,83 @@
 		closeDropdown();
 	}
 
+	function updatePortalPosition() {
+		if (!open || !usePortal || !triggerEl || !panelEl) return;
+
+		const triggerRect = triggerEl.getBoundingClientRect();
+		const viewportWidth = window.innerWidth;
+		const viewportHeight = window.innerHeight;
+		const padding = portalViewportPaddingPx;
+		const offset = portalOffsetPx;
+
+		const width = Math.min(triggerRect.width, viewportWidth - padding * 2);
+		const left = Math.max(padding, Math.min(triggerRect.left, viewportWidth - padding - width));
+
+		const panelHeight = panelEl.offsetHeight || 280;
+		const listHeight = listEl?.offsetHeight ?? 0;
+		const panelChrome = Math.max(12, panelHeight - listHeight);
+
+		const spaceBelow = viewportHeight - triggerRect.bottom - padding;
+		const spaceAbove = triggerRect.top - padding;
+		const openUpward = spaceBelow < panelHeight && spaceAbove > spaceBelow;
+
+		const availableVertical = Math.max(
+			120,
+			(openUpward ? spaceAbove : spaceBelow) - offset
+		);
+		const nextListMaxHeight = Math.max(96, Math.floor(availableVertical - panelChrome));
+		portalListMaxHeight = nextListMaxHeight;
+
+		const desiredPanelHeight = panelChrome + nextListMaxHeight;
+		const top = openUpward
+			? Math.max(padding, triggerRect.top - offset - desiredPanelHeight)
+			: Math.min(
+					viewportHeight - padding - desiredPanelHeight,
+					Math.max(padding, triggerRect.bottom + offset)
+				);
+
+		portalStyle = `top:${Math.round(top)}px;left:${Math.round(left)}px;width:${Math.round(width)}px;`;
+	}
+
+	async function refreshPortalPosition() {
+		if (!open || !usePortal) return;
+		await tick();
+		updatePortalPosition();
+	}
+
+	function handleViewportReposition() {
+		if (!open || !usePortal) return;
+		updatePortalPosition();
+	}
+
+	$effect(() => {
+		if (!open || !usePortal) return;
+		query;
+		props.items.length;
+		props.selectedIds.length;
+		void refreshPortalPosition();
+	});
+
 	onMount(() => {
 		if (typeof document === 'undefined') return;
 		document.addEventListener('mousedown', handleDocumentClick);
 		document.addEventListener('keydown', handleEscape);
+		window.addEventListener('resize', handleViewportReposition, { passive: true });
+		window.addEventListener('scroll', handleViewportReposition, { passive: true, capture: true });
 	});
 
 	onDestroy(() => {
 		if (typeof document === 'undefined') return;
 		document.removeEventListener('mousedown', handleDocumentClick);
 		document.removeEventListener('keydown', handleEscape);
+		window.removeEventListener('resize', handleViewportReposition);
+		window.removeEventListener('scroll', handleViewportReposition, true);
 	});
 </script>
 
 <div bind:this={rootEl} class={`relative ${props.class ?? ''}`}>
 	<button
+		bind:this={triggerEl}
 		type="button"
 		class="flex w-full items-center justify-between gap-2 rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-left text-sm disabled:cursor-not-allowed disabled:bg-[color:var(--muted)]"
 		disabled={props.disabled}
@@ -188,7 +264,11 @@
 	</button>
 
 	{#if open}
-		<div class="absolute z-30 mt-1 w-full border border-[color:var(--border)] bg-white p-2 shadow-lg">
+		<div
+			bind:this={panelEl}
+			class={`border border-[color:var(--border)] bg-white p-2 shadow-lg ${usePortal ? 'fixed z-[120]' : 'absolute z-30 mt-1 w-full'}`}
+			style={usePortal ? portalStyle : undefined}
+		>
 			{#if props.search}
 				<input
 					type="text"
@@ -198,7 +278,11 @@
 				/>
 			{/if}
 
-			<div class="max-h-64 overflow-y-auto">
+			<div
+				bind:this={listEl}
+				class={`overflow-y-auto ${usePortal ? '' : 'max-h-64'}`}
+				style={usePortal ? `max-height:${portalListMaxHeight}px;` : undefined}
+			>
 				{#if hierarchical}
 					{#if visibleHierarchyRows.length === 0}
 						<div class="px-2 py-2 text-sm text-[color:var(--muted-foreground)]">Sin opciones</div>
