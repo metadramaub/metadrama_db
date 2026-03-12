@@ -44,8 +44,8 @@
 	});
 
 	const tabs = [
-		{ id: 'estructura', label: 'Estructura metrica' },
-		{ id: 'analisis', label: 'Analisis' }
+		{ id: 'estructura', label: 'Estructura métrica' },
+		{ id: 'analisis', label: 'Análisis' }
 	];
 
 	const datacionLabel = $derived(`${obra.fecha_inicio_trad ?? '--'} - ${obra.fecha_fin_trad ?? '--'}`);
@@ -349,7 +349,7 @@
 						</button>
 					</div>
 					<div class="flex flex-wrap items-center gap-2">
-						<span class="text-xs text-[color:var(--muted-foreground)]">Perfil metrico:</span>
+						<span class="text-xs text-[color:var(--muted-foreground)]">Perfil métrico:</span>
 						<button
 							type="button"
 							class={`border px-2 py-1 text-xs font-semibold ${pieValueMode === 'percent' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
@@ -369,7 +369,7 @@
 
 				{#if secuenciasOrdenadas.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">
-						No hay secuencias metricas registradas para esta obra.
+						No hay secuencias métricas registradas para esta obra.
 					</p>
 				{:else if metricViewMode === 'obra_completa'}
 					<PublicMetricBarcode
@@ -421,20 +421,20 @@
 	{:else}
 		<section class="space-y-4">
 			<div class="card p-4">
-				<h2 class="text-lg font-semibold">Analisis del editor</h2>
+				<h2 class="text-lg font-semibold">Análisis del editor</h2>
 				{#if (obra.analisis_editor ?? '').trim().length > 0}
 					<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.analisis_editor ?? '')}</div>
 				{:else}
-					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin analisis publicado.</p>
+					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin análisis publicado.</p>
 				{/if}
 			</div>
 
 			<div class="card p-4">
-				<h2 class="text-lg font-semibold">Bibliografia</h2>
+				<h2 class="text-lg font-semibold">Bibliografía</h2>
 				{#if (obra.bibliografia ?? '').trim().length > 0}
 					<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.bibliografia ?? '')}</div>
 				{:else}
-					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin bibliografia publicada.</p>
+					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin bibliografía publicada.</p>
 				{/if}
 			</div>
 		</section>

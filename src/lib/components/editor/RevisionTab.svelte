@@ -482,7 +482,7 @@
 
 <section class="space-y-4">
 	<div class="card p-4">
-		<h3 class="mb-3 text-lg font-semibold">Checklist de completitud</h3>
+		<h3 class="mb-3 text-lg font-semibold">Checklist</h3>
 		<div class="space-y-2 text-sm">
 			{#each checklist as item}
 				<div class="flex items-start justify-between gap-3 border border-[color:var(--border)] bg-white px-3 py-2">
