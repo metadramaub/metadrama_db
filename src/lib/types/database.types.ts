@@ -306,6 +306,7 @@ export type Database = {
       obras: {
         Row: {
           analisis_editor: string | null
+          autor_ficha_publico: string | null
           autoria: string[] | null
           bibliografia: string | null
           created_at: string | null
@@ -331,6 +332,7 @@ export type Database = {
         }
         Insert: {
           analisis_editor?: string | null
+          autor_ficha_publico?: string | null
           autoria?: string[] | null
           bibliografia?: string | null
           created_at?: string | null
@@ -356,6 +358,7 @@ export type Database = {
         }
         Update: {
           analisis_editor?: string | null
+          autor_ficha_publico?: string | null
           autoria?: string[] | null
           bibliografia?: string | null
           created_at?: string | null
@@ -750,7 +753,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_obra_ficha_publica: {
+        Args: {
+          p_obra_id: string
+          p_include_hidden?: boolean
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
