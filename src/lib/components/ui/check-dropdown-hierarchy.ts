@@ -11,6 +11,7 @@ export type HierarchyRow = {
 	depth: number;
 	pathLabel: string;
 	ancestorIds: string[];
+	hasChildren: boolean;
 };
 
 function normalizeInput(items: HierarchyInputItem[]) {
@@ -74,7 +75,8 @@ export function buildHierarchyRows(items: HierarchyInputItem[]): HierarchyRow[] 
 			parentId: resolveParentId(node, byId),
 			depth: ancestorIds.length + 1,
 			pathLabel,
-			ancestorIds
+			ancestorIds,
+			hasChildren: (childrenByParent.get(nodeId)?.length ?? 0) > 0
 		});
 
 		const children = childrenByParent.get(nodeId) ?? [];
