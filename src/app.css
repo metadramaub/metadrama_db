@@ -71,9 +71,24 @@ textarea {
 	font-size: 0.75rem;
 	font-weight: 600;
 	line-height: 1.2;
+	min-height: 1rem;
 	letter-spacing: 0.01em;
 	color: var(--muted-foreground);
 	text-transform: none;
+}
+
+.form-label-with-help {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	white-space: nowrap;
+}
+
+.form-label-with-help .field-help-tooltip.field-help-tooltip {
+	position: relative;
+	top: auto;
+	right: auto;
+	transform: none;
 }
 
 .form-help {
@@ -104,6 +119,40 @@ textarea {
 	align-items: center;
 	gap: 0.5rem;
 	font-size: 0.875rem;
+}
+
+.form-switch {
+	position: relative;
+	display: inline-flex;
+	height: 1.5rem;
+	width: 2.75rem;
+	align-items: center;
+	box-sizing: border-box;
+	border: 1px solid var(--border);
+	background: var(--muted);
+	transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.form-switch-thumb {
+	position: absolute;
+	top: 50%;
+	left: 0.25rem;
+	height: 1rem;
+	width: 1rem;
+	background: white;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+	transform: translateY(-50%);
+	transition: left 120ms ease, background-color 120ms ease;
+}
+
+.form-switch[aria-checked='true'] {
+	border-color: var(--border);
+	background: var(--muted);
+}
+
+.form-switch[aria-checked='true'] .form-switch-thumb {
+	left: calc(100% - 1rem - 0.25rem);
+	background: var(--primary);
 }
 
 * {

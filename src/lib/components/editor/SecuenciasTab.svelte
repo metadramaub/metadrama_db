@@ -3,6 +3,7 @@
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -225,13 +226,6 @@
 	function variacionLabelById(tipoVariacionId: string, fallback = '') {
 		const fromVocabulary = tipoVariacionById.get(tipoVariacionId)?.termino ?? '';
 		return fromVocabulary || fallback || '--';
-	}
-
-	function truncateText(value: string | null, max = 80) {
-		const source = (value ?? '').trim();
-		if (!source) return '--';
-		if (source.length <= max) return source;
-		return `${source.slice(0, max - 1)}…`;
 	}
 
 	function sortVariaciones(items: VariacionItem[]) {
@@ -753,7 +747,9 @@
 					<th class="px-3 py-2">N_versos</th>
 					<th class="px-3 py-2">Estrofa</th>
 					<th class="px-3 py-2">Certeza</th>
-					<th class="px-3 py-2">Acciones</th>
+					<th class="px-3 py-2">
+						<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -773,7 +769,7 @@
 							<td class="px-3 py-2">{termById(props.estrofaOptions, secuencia.estrofa_tipo_id)}</td>
 							<td class="px-3 py-2">{termById(props.certezaOptions, secuencia.certeza_editor)}</td>
 							<td class="px-3 py-2">
-								<div class="flex gap-2">
+								<div class="ml-auto flex w-[11.5rem] items-center gap-2">
 									<Button
 										variant="ghost"
 										onclick={() => openEdit(secuencia)}
@@ -885,15 +881,16 @@
 				{:else if variaciones.length === 0}
 					<p class="form-help">Sin variaciones registradas en esta secuencia.</p>
 				{:else}
-					<div class="mt-3 overflow-x-auto">
+					<div class="card mt-3 overflow-x-auto">
 						<table class="min-w-full text-left text-xs">
 							<thead class="bg-[color:var(--muted)]">
 								<tr>
 									<th class="px-2 py-2">Tipo</th>
 									<th class="px-2 py-2">V_ini</th>
 									<th class="px-2 py-2">V_fin</th>
-									<th class="px-2 py-2">Observaciones</th>
-									<th class="px-2 py-2">Acciones</th>
+									<th class="px-2 py-2">
+										<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -904,13 +901,8 @@
 										</td>
 										<td class="px-2 py-2">{variacion.v_ini}</td>
 										<td class="px-2 py-2">{variacion.v_fin}</td>
-										<td class="max-w-[18rem] px-2 py-2">
-											<span class="block truncate text-[color:var(--muted-foreground)]">
-												{truncateText(variacion.observaciones)}
-											</span>
-										</td>
 										<td class="px-2 py-2">
-											<div class="flex gap-2">
+											<div class="ml-auto flex w-[11.5rem] items-center gap-2">
 												<Button
 													variant="ghost"
 													onclick={() => openVariacionEditModal(variacion)}
@@ -996,19 +988,24 @@
 						/>
 					</label>
 
-					<div class="form-field">
-						<span class="form-label">Versos partidos</span>
+					<div class="grid grid-cols-2 gap-3">
+						<div class="form-field min-w-0">
+						<span class="form-label">
+							<span class="form-label-with-help">
+								Versos partidos
+								<FieldHelpTooltip
+									text="Marca 'Sí' si en esta secuencia hay versos repartidos entre intervenciones de distintos personajes."
+									label="Ayuda sobre el campo Versos partidos"
+								/>
+							</span>
+						</span>
 						<div class="form-inline-toggle">
 							<button
 								type="button"
 								role="switch"
 								aria-checked={form.versos_partidos}
 								aria-label="Versos partidos"
-								class={`relative inline-flex h-6 w-11 items-center rounded-full border transition-colors ${
-									form.versos_partidos
-										? 'border-[color:var(--primary)] bg-[color:var(--primary)]/20'
-										: 'border-[color:var(--border)] bg-[color:var(--muted)]'
-								} ${props.readOnly ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+								class={`form-switch ${props.readOnly ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
 								disabled={props.readOnly}
 								onclick={() => {
 									form = {
@@ -1017,60 +1014,99 @@
 									};
 								}}
 							>
-								<span
-									class={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${
-										form.versos_partidos ? 'translate-x-5' : 'translate-x-1'
-									}`}
-								></span>
+								<span class="form-switch-thumb"></span>
 							</button>
 							<span class="text-[color:var(--muted-foreground)]">
 								{form.versos_partidos ? 'Sí' : 'No'}
 							</span>
+						</div>
+						</div>
+
+						<div class="form-field min-w-0">
+						<span class="form-label">
+							<span class="form-label-with-help">
+								Inaugura espacio
+								<FieldHelpTooltip
+									text="Marca 'Sí' si coincide (de forma evidente) el inicio de esta secuencia con el cambio de espacio escénico"
+									label="Ayuda sobre el campo Inaugura espacio"
+								/>
+							</span>
+						</span>
+						<div class="form-inline-toggle">
+							<button
+								type="button"
+								role="switch"
+								aria-checked={form.inaugura_espacio}
+								aria-label="Inaugura espacio"
+								class={`form-switch ${props.readOnly ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+								disabled={props.readOnly}
+								onclick={() => {
+									form = {
+										...form,
+										inaugura_espacio: !form.inaugura_espacio
+									};
+								}}
+							>
+								<span class="form-switch-thumb"></span>
+							</button>
+							<span class="text-[color:var(--muted-foreground)]">
+								{form.inaugura_espacio ? 'Sí' : 'No'}
+							</span>
+						</div>
 						</div>
 					</div>
 				</div>
 			</section>
 
 			<section class="form-section">
-				<h4 class="form-section-title">Sinopsis argumental y cierre</h4>
-				<div class="grid gap-3">
-					<label class="form-field">
-						<span class="form-label">Sinopsis argumental</span>
-						<MarkdownEditorLite
-							rows={3}
-							class="mt-1"
-							minHeightClass="min-h-28"
-							value={form.sinopsis}
-							disabled={props.readOnly}
-							onChange={(nextValue) => {
-								form = {
-									...form,
-									sinopsis: nextValue
-								};
-							}}
-						/>
-					</label>
+				<h4 class="form-section-title">Sinopsis argumental</h4>
+				<label class="form-field">
+					<span class="sr-only">Sinopsis argumental</span>
+					<MarkdownEditorLite
+						rows={3}
+						class="mt-1"
+						minHeightClass="min-h-28"
+						value={form.sinopsis}
+						disabled={props.readOnly}
+						onChange={(nextValue) => {
+							form = {
+								...form,
+								sinopsis: nextValue
+							};
+						}}
+					/>
+				</label>
+			</section>
 
-					<label class="form-field">
-						<span class="form-label">Certeza</span>
-						<CheckDropdown
-							multiple={false}
-							search={certezaDropdownItems.length > 8}
-							placeholder="Seleccionar certeza"
-							items={certezaDropdownItems}
-							disabled={props.readOnly}
-							selectedIds={form.certeza_editor ? [form.certeza_editor] : []}
-							onChange={(ids) => {
-								const nextCerteza = ids[0] ?? '';
-								if (!nextCerteza) return;
-								form = {
-									...form,
-									certeza_editor: nextCerteza
-								};
-							}}
+			<section class="form-section">
+				<h4 class="form-section-title">
+					<span class="form-label-with-help">
+						Certeza
+						<FieldHelpTooltip
+							text="Indica el grado de seguridad de la información que has registrado sobre esta secuencia para facilitar su revisión posterior"
+							label="Ayuda sobre el campo Certeza"
 						/>
-					</label>
-				</div>
+					</span>
+				</h4>
+				<label class="form-field">
+					<span class="sr-only">Certeza</span>
+					<CheckDropdown
+						multiple={false}
+						search={certezaDropdownItems.length > 8}
+						placeholder="Seleccionar certeza"
+						items={certezaDropdownItems}
+						disabled={props.readOnly}
+						selectedIds={form.certeza_editor ? [form.certeza_editor] : []}
+						onChange={(ids) => {
+							const nextCerteza = ids[0] ?? '';
+							if (!nextCerteza) return;
+							form = {
+								...form,
+								certeza_editor: nextCerteza
+							};
+						}}
+					/>
+				</label>
 			</section>
 		</div>
 
@@ -1238,5 +1274,6 @@
 		</div>
 	</div>
 {/if}
+
 
 
