@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
+	import {
+		OBRA_CITA_REFERENCIA_EJEMPLO_HTML,
+		OBRA_REFERENCIAS_MULTIPLES_HELP
+	} from '$lib/config/citation-examples';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 
@@ -111,8 +116,17 @@
 
 	<article class="card p-4">
 		<div class="mb-3">
-			<h3 class="text-lg font-semibold">Bibliografía específica</h3>
+			<h3 class="text-lg font-semibold">
+				<span class="inline-flex items-center gap-1">
+					Bibliografía específica
+					<FieldHelpTooltip
+						text={OBRA_REFERENCIAS_MULTIPLES_HELP}
+						label="Ayuda para referencias múltiples en bibliografía específica"
+					/>
+				</span>
+			</h3>
 			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
+			<p class="form-help">Ejemplo de cita: {@html OBRA_CITA_REFERENCIA_EJEMPLO_HTML}</p>
 		</div>
 		<MarkdownEditorLite
 			rows={12}

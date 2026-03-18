@@ -88,7 +88,6 @@ export const cuadroInputSchema = z
 		cuadro_num: z.number().int().positive(),
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
-		descripcion: z.string().trim().nullable().optional().default(null),
 		certeza_editor: z.string().uuid()
 	})
 	.refine((input) => input.v_ini < input.v_fin, {

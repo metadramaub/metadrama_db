@@ -13,11 +13,11 @@ function parseAuthStatus(value: string | null): AuthStatus | null {
 export const load: PageServerLoad = async ({ locals, url }) => {
 	const { user } = await locals.safeGetSession();
 	if (user) {
-		throw redirect(303, '/dashboard/obras?scope=mine');
+		throw redirect(303, '/dashboard');
 	}
 
 	return {
-		redirectTo: url.searchParams.get('redirectTo') ?? '/dashboard/obras?scope=mine',
+		redirectTo: url.searchParams.get('redirectTo') ?? '/dashboard',
 		authStatus: parseAuthStatus(url.searchParams.get('auth'))
 	};
 };

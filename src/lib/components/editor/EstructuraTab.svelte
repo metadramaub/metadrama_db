@@ -3,10 +3,9 @@
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
-	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { renderMarkdown } from '$lib/utils/markdown';
 
 	const props = $props<{
 		obraId: string;
@@ -57,7 +56,6 @@
 		cuadro_num: 1,
 		v_ini: props.jornadasInitial[0]?.v_ini ?? 1,
 		v_fin: props.jornadasInitial[0]?.v_fin ?? 2,
-		descripcion: '',
 		certeza_editor: defaultCerteza
 	});
 
@@ -123,7 +121,6 @@
 			cuadro_num: selectedJornadaId ? getCuadros(selectedJornadaId).length + 1 : 1,
 			v_ini: suggestedStart,
 			v_fin: suggestedStart + 1,
-			descripcion: '',
 			certeza_editor: defaultCerteza
 		};
 	}
@@ -165,7 +162,6 @@
 				cuadro_num: Number(cuadroForm.cuadro_num),
 				v_ini: Number(cuadroForm.v_ini),
 				v_fin: Number(cuadroForm.v_fin),
-				descripcion: cuadroForm.descripcion.trim(),
 				certeza_editor: cuadroForm.certeza_editor
 			});
 		}
@@ -203,7 +199,6 @@
 			cuadro_num: Number(cuadroForm.cuadro_num),
 			v_ini: Number(cuadroForm.v_ini),
 			v_fin: Number(cuadroForm.v_fin),
-			descripcion: cuadroForm.descripcion.trim() || null,
 			certeza_editor: cuadroForm.certeza_editor
 		};
 	}
@@ -353,7 +348,6 @@
 			cuadro_num: savedCuadro.cuadro_num,
 			v_ini: savedCuadro.v_ini,
 			v_fin: savedCuadro.v_fin,
-			descripcion: savedCuadro.descripcion ?? '',
 			certeza_editor: savedCuadro.certeza_editor
 		};
 
@@ -424,7 +418,6 @@
 			cuadro_num: cuadro.cuadro_num,
 			v_ini: cuadro.v_ini,
 			v_fin: cuadro.v_fin,
-			descripcion: cuadro.descripcion ?? '',
 			certeza_editor: cuadro.certeza_editor
 		};
 		sidebarMode = 'cuadro-edit';
@@ -528,7 +521,7 @@
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
 		const trackJornada = `${jornadaForm.jornada_num}|${jornadaForm.v_ini}|${jornadaForm.v_fin}`;
-		const trackCuadro = `${cuadroForm.jornada_id}|${cuadroForm.cuadro_num}|${cuadroForm.v_ini}|${cuadroForm.v_fin}|${cuadroForm.descripcion}|${cuadroForm.certeza_editor}`;
+		const trackCuadro = `${cuadroForm.jornada_id}|${cuadroForm.cuadro_num}|${cuadroForm.v_ini}|${cuadroForm.v_fin}|${cuadroForm.certeza_editor}`;
 		void trackJornada;
 		void trackCuadro;
 
@@ -607,11 +600,6 @@
 									<div class="font-medium">
 										Cuadro {cuadro.cuadro_num}: vv. {cuadro.v_ini}-{cuadro.v_fin}
 									</div>
-									{#if cuadro.descripcion}
-										<div class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-											{@html renderMarkdown(cuadro.descripcion)}
-										</div>
-									{/if}
 								</div>
 								<div class="flex gap-2">
 									<Button
@@ -742,7 +730,15 @@
 					</label>
 				</div>
 				<label class="form-field">
-					<span class="form-label">Certeza</span>
+					<span class="form-label">
+						<span class="form-label-with-help">
+							Certeza
+							<FieldHelpTooltip
+								text="Indica el grado de seguridad en la delimitación de este cuadro para facilitar su revisión posterior."
+								label="Ayuda sobre el campo Certeza del cuadro"
+							/>
+						</span>
+					</span>
 					<CheckDropdown
 						multiple={false}
 						search={certezaDropdownItems.length > 8}
@@ -756,22 +752,6 @@
 							cuadroForm = {
 								...cuadroForm,
 								certeza_editor: nextCerteza
-							};
-						}}
-					/>
-				</label>
-				<label class="form-field">
-					<span class="form-label">Descripción</span>
-					<MarkdownEditorLite
-						rows={3}
-						class="mt-1"
-						minHeightClass="min-h-28"
-						value={cuadroForm.descripcion}
-						disabled={props.readOnly}
-						onChange={(nextValue) => {
-							cuadroForm = {
-								...cuadroForm,
-								descripcion: nextValue
 							};
 						}}
 					/>

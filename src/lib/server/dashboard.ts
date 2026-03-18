@@ -120,12 +120,44 @@ async function loadAssignedScopeObraIds(locals: App.Locals, profile: EditorProfi
 	return [...assigned];
 }
 
+function normalizeObraTitle(value: string | null | undefined): string | null {
+	const normalized = (value ?? '').trim();
+	return normalized.length > 0 ? normalized : null;
+}
+
+function setObraTitle(titleMap: Map<string, string>, obraId: string, title: string | null | undefined) {
+	const normalized = normalizeObraTitle(title);
+	if (!normalized) return;
+	titleMap.set(obraId, normalized);
+}
+
+function resolveObraTitle(titleMap: Map<string, string>, obraId: string): string {
+	return normalizeObraTitle(titleMap.get(obraId)) ?? 'Obra';
+}
+
 async function loadTitleMapForIds(locals: App.Locals, obraIds: string[]) {
 	if (obraIds.length === 0) {
 		return new Map<string, string>();
 	}
 	const { data } = await locals.supabase.from('obras').select('obra_id,titulo').in('obra_id', obraIds);
-	return new Map((data ?? []).map((row) => [row.obra_id, row.titulo]));
+	const titleMap = new Map<string, string>();
+	for (const row of data ?? []) {
+		setObraTitle(titleMap, row.obra_id, row.titulo);
+	}
+	return titleMap;
+}
+
+async function hydrateMissingObraTitles(
+	locals: App.Locals,
+	titleMap: Map<string, string>,
+	obraIds: string[]
+) {
+	const missingIds = [...new Set(obraIds)].filter((obraId) => !normalizeObraTitle(titleMap.get(obraId)));
+	if (missingIds.length === 0) return;
+	const resolvedTitles = await loadTitleMapForIds(locals, missingIds);
+	for (const [obraId, title] of resolvedTitles.entries()) {
+		setObraTitle(titleMap, obraId, title);
+	}
 }
 
 function normalizeEventAt(value: string | null | undefined): string | null {
@@ -370,23 +402,15 @@ export async function getRecentActivity(
 	const [stateResp, commentsResp] = await Promise.all([stateChangesQuery, commentsQuery]);
 	const stateRows = stateResp.data ?? [];
 	const commentRows = commentsResp.data ?? [];
-	const titleMap = new Map<string, string>(stateRows.map((row) => [row.obra_id, row.titulo]));
-
-	for (const row of commentRows) {
-		if (!titleMap.has(row.obra_id)) {
-			titleMap.set(row.obra_id, 'Obra');
-		}
+	const titleMap = new Map<string, string>();
+	for (const row of stateRows) {
+		setObraTitle(titleMap, row.obra_id, row.titulo);
 	}
-
-	const missingTitleIds = [
-		...new Set(commentRows.map((row) => row.obra_id).filter((id) => titleMap.get(id) === 'Obra'))
-	];
-	if (missingTitleIds.length > 0) {
-		const lookup = await loadTitleMapForIds(locals, missingTitleIds);
-		for (const [obraId, title] of lookup.entries()) {
-			titleMap.set(obraId, title);
-		}
-	}
+	await hydrateMissingObraTitles(
+		locals,
+		titleMap,
+		commentRows.map((row) => row.obra_id)
+	);
 
 	const [estadoMap, commentContextMap] = await Promise.all([
 		loadEstadoTerms(
@@ -401,7 +425,7 @@ export async function getRecentActivity(
 			id: `state-${row.obra_id}-${row.fecha_cambio_estado ?? 'null'}`,
 			type: 'state_change' as const,
 			obraId: row.obra_id,
-			obraTitulo: row.titulo,
+			obraTitulo: normalizeObraTitle(row.titulo) ?? resolveObraTitle(titleMap, row.obra_id),
 			description: `Cambio de estado a ${estadoMap.get(row.estado) ?? row.estado}`,
 			eventAt: normalizeEventAt(row.fecha_cambio_estado),
 			tab: 'revision' as const
@@ -410,7 +434,7 @@ export async function getRecentActivity(
 			id: `comment-${row.comentario_id}`,
 			type: 'comment' as const,
 			obraId: row.obra_id,
-			obraTitulo: titleMap.get(row.obra_id) ?? 'Obra',
+			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
 			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'revisión general'}`,
 			eventAt: normalizeEventAt(row.created_at),
 			tab: commentTab(row)
@@ -481,25 +505,18 @@ export async function getNotifications(
 	const stateRows = stateResp.data ?? [];
 	const commentRows = commentsResp.data ?? [];
 
-	const titleMap = new Map<string, string>([
-		...editAssignRows.map((row) => [row.obra_id, row.titulo] as [string, string]),
-		...stateRows.map((row) => [row.obra_id, row.titulo] as [string, string])
-	]);
-
-	const titleLookupIds = [
-		...new Set([
-			...reviewAssignRows.map((row) => row.obra_id),
-			...commentRows.map((row) => row.obra_id),
-			...stateRows.map((row) => row.obra_id)
-		])
-	].filter((obraId) => !titleMap.has(obraId));
-
-	if (titleLookupIds.length > 0) {
-		const resolvedTitles = await loadTitleMapForIds(locals, titleLookupIds);
-		for (const [obraId, title] of resolvedTitles.entries()) {
-			titleMap.set(obraId, title);
-		}
+	const titleMap = new Map<string, string>();
+	for (const row of editAssignRows) {
+		setObraTitle(titleMap, row.obra_id, row.titulo);
 	}
+	for (const row of stateRows) {
+		setObraTitle(titleMap, row.obra_id, row.titulo);
+	}
+	await hydrateMissingObraTitles(locals, titleMap, [
+		...reviewAssignRows.map((row) => row.obra_id),
+		...commentRows.map((row) => row.obra_id),
+		...stateRows.map((row) => row.obra_id)
+	]);
 
 	const [estadoMap, commentContextMap] = await Promise.all([
 		loadEstadoTerms(
@@ -514,7 +531,7 @@ export async function getNotifications(
 			id: `assign-editor-${row.obra_id}-${row.created_at ?? 'null'}`,
 			type: 'assigned_editor' as const,
 			obraId: row.obra_id,
-			obraTitulo: row.titulo,
+			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
 			description: 'Nueva obra asignada para edición',
 			eventAt: normalizeEventAt(row.created_at),
 			tab: 'datos' as const
@@ -523,7 +540,7 @@ export async function getNotifications(
 			id: `assign-review-${row.obra_id}-${row.revisor_id}-${row.created_at}`,
 			type: 'assigned_review' as const,
 			obraId: row.obra_id,
-			obraTitulo: titleMap.get(row.obra_id) ?? 'Obra',
+			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
 			description: 'Nueva obra asignada para revisión',
 			eventAt: normalizeEventAt(row.created_at),
 			tab: 'revision' as const
@@ -532,7 +549,7 @@ export async function getNotifications(
 			id: `state-${row.obra_id}-${row.fecha_cambio_estado ?? 'null'}`,
 			type: 'state_change' as const,
 			obraId: row.obra_id,
-			obraTitulo: row.titulo,
+			obraTitulo: normalizeObraTitle(row.titulo) ?? resolveObraTitle(titleMap, row.obra_id),
 			description: `Cambio de estado a ${estadoMap.get(row.estado) ?? row.estado}`,
 			eventAt: normalizeEventAt(row.fecha_cambio_estado),
 			tab: 'revision' as const
@@ -541,7 +558,7 @@ export async function getNotifications(
 			id: `comment-${row.comentario_id}`,
 			type: 'comment' as const,
 			obraId: row.obra_id,
-			obraTitulo: titleMap.get(row.obra_id) ?? 'Obra',
+			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
 			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'revisión general'}`,
 			eventAt: normalizeEventAt(row.created_at),
 			tab: commentTab(row)
@@ -569,12 +586,14 @@ export async function getNotifications(
 				grouped.set(row.obra_id, current);
 			}
 
+			await hydrateMissingObraTitles(locals, titleMap, [...grouped.keys()]);
+
 			for (const [obraId, info] of grouped.entries()) {
 				feed.push({
 					id: `certainty-${obraId}`,
 					type: 'low_medium_certainty',
 					obraId,
-					obraTitulo: titleMap.get(obraId) ?? 'Obra',
+					obraTitulo: resolveObraTitle(titleMap, obraId),
 					description: 'Secuencias con certeza baja/media',
 					eventAt: info.latest,
 					tab: 'secuencias',

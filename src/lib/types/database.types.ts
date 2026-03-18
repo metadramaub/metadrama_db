@@ -158,7 +158,6 @@ export type Database = {
           certeza_editor: string
           cuadro_id: string
           cuadro_num: number
-          descripcion: string | null
           jornada_id: string
           v_fin: number
           v_ini: number
@@ -167,7 +166,6 @@ export type Database = {
           certeza_editor: string
           cuadro_id?: string
           cuadro_num: number
-          descripcion?: string | null
           jornada_id: string
           v_fin: number
           v_ini: number
@@ -176,7 +174,6 @@ export type Database = {
           certeza_editor?: string
           cuadro_id?: string
           cuadro_num?: number
-          descripcion?: string | null
           jornada_id?: string
           v_fin?: number
           v_ini?: number

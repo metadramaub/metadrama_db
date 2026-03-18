@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	const profile = await findEditorProfile({ locals }, user.id);
 	if (profile) {
-		throw redirect(303, '/dashboard/obras?scope=mine');
+		throw redirect(303, '/dashboard');
 	}
 
 	return {

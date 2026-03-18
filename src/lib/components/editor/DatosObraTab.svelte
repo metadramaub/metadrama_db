@@ -1,8 +1,14 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
+	import {
+		OBRA_CITA_REFERENCIA_EJEMPLO_HTML,
+		OBRA_REFERENCIAS_MULTIPLES_HELP
+	} from '$lib/config/citation-examples';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 
@@ -26,17 +32,23 @@
 		edicion: string;
 	};
 
-	let form = $state<FormState>({
-		titulo: props.obra.titulo ?? '',
-		variantes_titulo: props.obra.variantes_titulo ?? [],
-		genero_id: props.obra.genero_id ?? '',
-		fecha_inicio_trad: props.obra.fecha_inicio_trad,
-		fecha_fin_trad: props.obra.fecha_fin_trad,
-		fuente_fecha: props.obra.fuente_fecha,
-		fecha_inicio_metadrama: props.obra.fecha_inicio_metadrama,
-		fecha_fin_metadrama: props.obra.fecha_fin_metadrama,
-		edicion: props.obra.edicion ?? ''
-	});
+	function toFormState(obra: Tables<'obras'>): FormState {
+		return {
+			titulo: obra.titulo ?? '',
+			variantes_titulo: obra.variantes_titulo ?? [],
+			genero_id: obra.genero_id ?? '',
+			fecha_inicio_trad: obra.fecha_inicio_trad,
+			fecha_fin_trad: obra.fecha_fin_trad,
+			fuente_fecha: obra.fuente_fecha,
+			fecha_inicio_metadrama: obra.fecha_inicio_metadrama,
+			fecha_fin_metadrama: obra.fecha_fin_metadrama,
+			edicion: obra.edicion ?? ''
+		};
+	}
+
+	let form = $state<FormState>(toFormState(props.obra));
+	let hydratedObraId = $state(props.obra.obra_id);
+	let varianteDeleteTargetIndex = $state<number | null>(null);
 
 	let timer: ReturnType<typeof setTimeout> | null = null;
 	let savingNow = $state(false);
@@ -47,6 +59,24 @@
 		}))
 	);
 
+	function clearQueuedSave() {
+		if (!timer) return;
+		clearTimeout(timer);
+		timer = null;
+	}
+
+	$effect(() => {
+		const nextObraId = props.obra.obra_id;
+		if (nextObraId === hydratedObraId) return;
+		hydratedObraId = nextObraId;
+		clearQueuedSave();
+		savingNow = false;
+		varianteDeleteTargetIndex = null;
+		form = toFormState(props.obra);
+		setSaving(false, 'datos');
+		setDirty(false, 'datos');
+	});
+
 	function mutateField<T extends keyof FormState>(key: T, value: FormState[T]) {
 		if (props.readOnly) return;
 		form = { ...form, [key]: value };
@@ -56,7 +86,7 @@
 	function queueSave() {
 		if (props.readOnly) return;
 		setDirty(true, 'datos');
-		if (timer) clearTimeout(timer);
+		clearQueuedSave();
 		timer = setTimeout(() => save(), 10_000);
 	}
 
@@ -73,6 +103,21 @@
 			variantes_titulo: form.variantes_titulo.filter((_, idx) => idx !== index)
 		};
 		queueSave();
+	}
+
+	function requestRemoveVariante(index: number) {
+		if (props.readOnly) return;
+		varianteDeleteTargetIndex = index;
+	}
+
+	function closeVarianteDeleteModal() {
+		varianteDeleteTargetIndex = null;
+	}
+
+	function confirmRemoveVariante() {
+		if (varianteDeleteTargetIndex === null) return;
+		removeVariante(varianteDeleteTargetIndex);
+		varianteDeleteTargetIndex = null;
 	}
 
 	async function save() {
@@ -104,6 +149,10 @@
 		pushToast('success', 'Guardado');
 		markSaved('datos');
 	}
+
+	onDestroy(() => {
+		clearQueuedSave();
+	});
 </script>
 
 <section class="space-y-5">
@@ -169,7 +218,16 @@
 		</div>
 
 		<label class="form-field mt-4">
-			<span class="form-label">Fuente bibliográfica para la fecha</span>
+			<span class="form-label">
+				<span class="form-label-with-help">
+					Fuente bibliográfica para la fecha
+					<FieldHelpTooltip
+						text={OBRA_REFERENCIAS_MULTIPLES_HELP}
+						label="Ayuda para referencias múltiples en fuente bibliográfica"
+					/>
+				</span>
+			</span>
+			<p class="form-help">Ejemplo de cita: {@html OBRA_CITA_REFERENCIA_EJEMPLO_HTML}</p>
 			<MarkdownEditorLite
 				rows={3}
 				class="mt-1"
@@ -215,7 +273,16 @@
 		{/if}
 
 		<label class="form-field mt-4">
-			<span class="form-label">Edición base utilizada</span>
+			<span class="form-label">
+				<span class="form-label-with-help">
+					Edición base utilizada
+					<FieldHelpTooltip
+						text={OBRA_REFERENCIAS_MULTIPLES_HELP}
+						label="Ayuda para referencias múltiples en edición base"
+					/>
+				</span>
+			</span>
+			<p class="form-help">Ejemplo de cita: {@html OBRA_CITA_REFERENCIA_EJEMPLO_HTML}</p>
 			<MarkdownEditorLite
 				rows={4}
 				class="mt-1"
@@ -247,7 +314,7 @@
 									mutateField('variantes_titulo', updated);
 								}}
 							/>
-							<Button variant="danger" onclick={() => removeVariante(idx)} disabled={props.readOnly}
+							<Button variant="danger" onclick={() => requestRemoveVariante(idx)} disabled={props.readOnly}
 								>Eliminar</Button
 							>
 						</div>
@@ -256,5 +323,20 @@
 			</div>
 		</div>
 	</div>
+
+	{#if varianteDeleteTargetIndex !== null}
+		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+			<div class="card w-full max-w-md p-5">
+				<h3 class="text-lg font-semibold">Eliminar variante de título</h3>
+				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
+				<div class="mt-4 flex justify-end gap-2">
+					<Button variant="secondary" onclick={closeVarianteDeleteModal}>Cancelar</Button>
+					<Button variant="danger" disabled={props.readOnly} onclick={confirmRemoveVariante}
+						>Eliminar</Button
+					>
+				</div>
+			</div>
+		</div>
+	{/if}
 </section>
 
