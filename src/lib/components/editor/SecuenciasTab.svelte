@@ -32,7 +32,7 @@
 		personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 		personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
 		certeza_editor: string;
-		observaciones: string;
+		sinopsis: string;
 	};
 
 	type VariacionItem = {
@@ -195,7 +195,7 @@
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
 			certeza_editor: defaultCerteza,
-			observaciones: ''
+			sinopsis: ''
 		};
 	}
 
@@ -272,7 +272,7 @@
 			personajes_donaire: form.personajes_donaire,
 			personajes_sobrenatural: form.personajes_sobrenatural,
 			certeza_editor: form.certeza_editor,
-			observaciones: form.observaciones.trim()
+			sinopsis: form.sinopsis.trim()
 		});
 	}
 
@@ -340,7 +340,7 @@
 			personajes_donaire: secuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: secuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
 			certeza_editor: secuencia.certeza_editor,
-			observaciones: secuencia.observaciones ?? ''
+			sinopsis: secuencia.sinopsis ?? ''
 		};
 		variaciones = [];
 		variacionDeleteTargetId = null;
@@ -444,7 +444,7 @@
 			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
 			certeza_editor: savedSecuencia.certeza_editor,
-			observaciones: savedSecuencia.observaciones ?? ''
+			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
 
 		setSidebarBaselineFromCurrent();
@@ -663,7 +663,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.observaciones}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1032,20 +1032,20 @@
 			</section>
 
 			<section class="form-section">
-				<h4 class="form-section-title">Observaciones y cierre</h4>
+				<h4 class="form-section-title">Sinopsis argumental y cierre</h4>
 				<div class="grid gap-3">
 					<label class="form-field">
-						<span class="form-label">Observaciones públicas</span>
+						<span class="form-label">Sinopsis argumental</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"
 							minHeightClass="min-h-28"
-							value={form.observaciones}
+							value={form.sinopsis}
 							disabled={props.readOnly}
 							onChange={(nextValue) => {
 								form = {
 									...form,
-									observaciones: nextValue
+									sinopsis: nextValue
 								};
 							}}
 						/>

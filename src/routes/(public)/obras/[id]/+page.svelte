@@ -14,7 +14,7 @@
 
 	let { data } = $props<{ data: PageData }>();
 
-	type TabId = 'estructura' | 'analisis';
+	type TabId = 'estructura' | 'observaciones';
 	type MetricViewMode = 'obra_completa' | 'por_jornadas';
 	type PieValueMode = 'percent' | 'absolute';
 
@@ -45,7 +45,7 @@
 
 	const tabs = [
 		{ id: 'estructura', label: 'Estructura métrica' },
-		{ id: 'analisis', label: 'Análisis' }
+		{ id: 'observaciones', label: 'Observaciones' }
 	];
 
 	const datacionLabel = $derived(`${obra.fecha_inicio_trad ?? '--'} - ${obra.fecha_fin_trad ?? '--'}`);
@@ -421,20 +421,22 @@
 	{:else}
 		<section class="space-y-4">
 			<div class="card p-4">
-				<h2 class="text-lg font-semibold">Análisis del editor</h2>
-				{#if (obra.analisis_editor ?? '').trim().length > 0}
-					<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.analisis_editor ?? '')}</div>
+				<h2 class="text-lg font-semibold">Otras observaciones</h2>
+				{#if (obra.observaciones ?? '').trim().length > 0}
+					<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.observaciones ?? '')}</div>
 				{:else}
-					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin análisis publicado.</p>
+					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin observaciones publicadas.</p>
 				{/if}
 			</div>
 
 			<div class="card p-4">
-				<h2 class="text-lg font-semibold">Bibliografía</h2>
+				<h2 class="text-lg font-semibold">Bibliografía específica</h2>
 				{#if (obra.bibliografia ?? '').trim().length > 0}
 					<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.bibliografia ?? '')}</div>
 				{:else}
-					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin bibliografía publicada.</p>
+					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+						Sin bibliografía específica publicada.
+					</p>
 				{/if}
 			</div>
 		</section>

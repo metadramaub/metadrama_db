@@ -305,7 +305,7 @@ export type Database = {
       }
       obras: {
         Row: {
-          analisis_editor: string | null
+          observaciones: string | null
           autor_ficha_publico: string | null
           autoria: string[] | null
           bibliografia: string | null
@@ -331,7 +331,7 @@ export type Database = {
           visible_publico: boolean | null
         }
         Insert: {
-          analisis_editor?: string | null
+          observaciones?: string | null
           autor_ficha_publico?: string | null
           autoria?: string[] | null
           bibliografia?: string | null
@@ -357,7 +357,7 @@ export type Database = {
           visible_publico?: boolean | null
         }
         Update: {
-          analisis_editor?: string | null
+          observaciones?: string | null
           autor_ficha_publico?: string | null
           autoria?: string[] | null
           bibliografia?: string | null
@@ -576,7 +576,7 @@ export type Database = {
           inaugura_espacio: boolean | null
           n_versos: number
           obra_id: string
-          observaciones: string | null
+          sinopsis: string | null
           personajes_donaire: string
           personajes_genero: string
           personajes_sobrenatural: string
@@ -593,7 +593,7 @@ export type Database = {
           inaugura_espacio?: boolean | null
           n_versos: number
           obra_id: string
-          observaciones?: string | null
+          sinopsis?: string | null
           personajes_donaire?: string
           personajes_genero?: string
           personajes_sobrenatural?: string
@@ -610,7 +610,7 @@ export type Database = {
           inaugura_espacio?: boolean | null
           n_versos?: number
           obra_id?: string
-          observaciones?: string | null
+          sinopsis?: string | null
           personajes_donaire?: string
           personajes_genero?: string
           personajes_sobrenatural?: string
