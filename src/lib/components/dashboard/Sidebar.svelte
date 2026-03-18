@@ -1,11 +1,5 @@
 <script lang="ts">
-	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
-	import Bell from 'lucide-svelte/icons/bell';
-	import BookOpenText from 'lucide-svelte/icons/book-open-text';
-	import DoorOpen from 'lucide-svelte/icons/door-open';
-	import Home from 'lucide-svelte/icons/home';
-	import LibraryBig from 'lucide-svelte/icons/library-big';
-	import UserRound from 'lucide-svelte/icons/user-round';
+	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import Button from '$lib/components/ui/button.svelte';
@@ -16,7 +10,80 @@
 		notificationsUnreadCount?: number;
 	}>();
 
+	type IconComponent = any;
+
 	let loggingOut = $state(false);
+	let icons = $state<{
+		arrowLeft: IconComponent | null;
+		bell: IconComponent | null;
+		bookOpenText: IconComponent | null;
+		doorOpen: IconComponent | null;
+		home: IconComponent | null;
+		libraryBig: IconComponent | null;
+		userRound: IconComponent | null;
+	}>({
+		arrowLeft: null,
+		bell: null,
+		bookOpenText: null,
+		doorOpen: null,
+		home: null,
+		libraryBig: null,
+		userRound: null
+	});
+	let iconsLoadFailed = $state(false);
+	const ArrowLeftIcon = $derived(icons.arrowLeft);
+	const BellIcon = $derived(icons.bell);
+	const BookOpenTextIcon = $derived(icons.bookOpenText);
+	const DoorOpenIcon = $derived(icons.doorOpen);
+	const HomeIcon = $derived(icons.home);
+	const LibraryBigIcon = $derived(icons.libraryBig);
+	const UserRoundIcon = $derived(icons.userRound);
+
+	onMount(() => {
+		let cancelled = false;
+
+		void (async () => {
+			try {
+				const [
+					arrowLeftModule,
+					bellModule,
+					bookOpenTextModule,
+					doorOpenModule,
+					homeModule,
+					libraryBigModule,
+					userRoundModule
+				] = await Promise.all([
+					import('lucide-svelte/icons/arrow-left'),
+					import('lucide-svelte/icons/bell'),
+					import('lucide-svelte/icons/book-open-text'),
+					import('lucide-svelte/icons/door-open'),
+					import('lucide-svelte/icons/home'),
+					import('lucide-svelte/icons/library-big'),
+					import('lucide-svelte/icons/user-round')
+				]);
+
+				if (cancelled) return;
+
+				icons = {
+					arrowLeft: arrowLeftModule.default,
+					bell: bellModule.default,
+					bookOpenText: bookOpenTextModule.default,
+					doorOpen: doorOpenModule.default,
+					home: homeModule.default,
+					libraryBig: libraryBigModule.default,
+					userRound: userRoundModule.default
+				};
+			} catch (error) {
+				if (cancelled) return;
+				iconsLoadFailed = true;
+				console.error('No se pudieron cargar los iconos del sidebar', error);
+			}
+		})();
+
+		return () => {
+			cancelled = true;
+		};
+	});
 
 	async function onLogout() {
 		loggingOut = true;
@@ -45,14 +112,22 @@
 			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"
 			href="/dashboard"
 		>
-			<Home size={16} />
+			{#if HomeIcon}
+				<HomeIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
 			Inicio
 		</a>
 		<a
 			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"
 			href="/dashboard/notificaciones"
 		>
-			<Bell size={16} />
+			{#if BellIcon}
+				<BellIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
 			Actividad reciente
 			<span
 				class="ml-auto border border-[color:var(--primary)] bg-[color:var(--primary)] px-2 py-0.5 text-xs text-[color:var(--primary-foreground)]"
@@ -64,33 +139,56 @@
 			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"
 			href="/dashboard/obras?scope=mine"
 		>
-			<BookOpenText size={16} />
+			{#if BookOpenTextIcon}
+				<BookOpenTextIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
 			Obras
 		</a>
 		<a
 			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"
 			href="/dashboard/autores"
 		>
-			<UserRound size={16} />
+			{#if UserRoundIcon}
+				<UserRoundIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
 			Autores
 		</a>
 		<a
 			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"
 			href="/dashboard/vocabularios"
 		>
-			<LibraryBig size={16} />
+			{#if LibraryBigIcon}
+				<LibraryBigIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
 			Vocabularios
 		</a>
 	</nav>
 
 	<div class="mt-4 border-t border-[color:var(--border)] pt-4">
 		<Button variant="ghost" class="mb-2 w-full justify-start gap-2" onclick={() => goto('/')}>
-			<ArrowLeft size={16} />
+			{#if ArrowLeftIcon}
+				<ArrowLeftIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
 			Volver a la web
 		</Button>
 		<Button variant="ghost" class="w-full justify-start gap-2" onclick={onLogout} disabled={loggingOut}>
-			<DoorOpen size={16} />
+			{#if DoorOpenIcon}
+				<DoorOpenIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
 			Cerrar sesión
 		</Button>
+		{#if iconsLoadFailed}
+			<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">Iconos no disponibles temporalmente.</p>
+		{/if}
 	</div>
 </aside>
