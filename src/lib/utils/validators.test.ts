@@ -4,6 +4,7 @@ import {
 	jornadaInputSchema,
 	secuenciaInputSchema,
 	secuenciaVariacionInputSchema,
+	secuenciaSubtipoEstrofaInputSchema,
 	comentarioInputSchema,
 	comentarioPatchSchema,
 	comentarioListQuerySchema,
@@ -98,6 +99,24 @@ describe('validators', () => {
 			tipo_variacion_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			v_ini: 57,
 			v_fin: 56
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it('accepts secuencia subtipo payload with valid range', () => {
+		const result = secuenciaSubtipoEstrofaInputSchema.safeParse({
+			subtipo_estrofa_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			v_ini: 10,
+			v_fin: 25
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('rejects secuencia subtipo payload when v_ini is greater than v_fin', () => {
+		const result = secuenciaSubtipoEstrofaInputSchema.safeParse({
+			subtipo_estrofa_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			v_ini: 25,
+			v_fin: 10
 		});
 		expect(result.success).toBe(false);
 	});

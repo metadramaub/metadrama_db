@@ -126,6 +126,17 @@ export const secuenciaVariacionInputSchema = z
 		path: ['v_ini']
 	});
 
+export const secuenciaSubtipoEstrofaInputSchema = z
+	.object({
+		subtipo_estrofa_id: z.string().uuid('Subtipo de estrofa requerido'),
+		v_ini: z.number().int().positive(),
+		v_fin: z.number().int().positive()
+	})
+	.refine((input) => input.v_ini <= input.v_fin, {
+		message: 'El verso inicial no puede ser mayor que el final',
+		path: ['v_ini']
+	});
+
 export const estadoInputSchema = z.object({
 	estado: z.string().uuid(),
 	comentario: z.string().trim().max(2000).optional()
@@ -437,6 +448,7 @@ export type JornadaInputParsed = z.infer<typeof jornadaInputSchema>;
 export type CuadroInputParsed = z.infer<typeof cuadroInputSchema>;
 export type SecuenciaInputParsed = z.infer<typeof secuenciaInputSchema>;
 export type SecuenciaVariacionInputParsed = z.infer<typeof secuenciaVariacionInputSchema>;
+export type SecuenciaSubtipoEstrofaInputParsed = z.infer<typeof secuenciaSubtipoEstrofaInputSchema>;
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
 export type ComentarioPatchParsed = z.infer<typeof comentarioPatchSchema>;

@@ -73,6 +73,12 @@ export interface SecuenciaVariacionInput {
 	observaciones: string | null;
 }
 
+export interface SecuenciaSubtipoEstrofaInput {
+	subtipo_estrofa_id: string;
+	v_ini: number;
+	v_fin: number;
+}
+
 export interface CambioEstadoInput {
 	estado: string;
 	comentario?: string;

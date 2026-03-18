@@ -54,6 +54,22 @@
 		observaciones: string;
 	};
 
+	type SubtipoItem = {
+		subtipo_secuencia_id: string;
+		secuencia_id: string;
+		subtipo_estrofa_id: string;
+		subtipo_estrofa_term: string;
+		subtipo_estrofa_parent_id: string | null;
+		v_ini: number;
+		v_fin: number;
+	};
+
+	type SubtipoFormState = {
+		subtipo_estrofa_id: string;
+		v_ini: number;
+		v_fin: number;
+	};
+
 	let secuencias = $state([...props.secuenciasInitial]);
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
@@ -81,6 +97,18 @@
 		v_fin: 1,
 		observaciones: ''
 	});
+	let subtipos = $state<SubtipoItem[]>([]);
+	let subtiposLoading = $state(false);
+	let subtiposRequestCounter = $state(0);
+	let subtipoModalOpen = $state(false);
+	let subtipoModalSaving = $state(false);
+	let subtipoEditingId = $state<string | null>(null);
+	let subtipoDeleteTargetId = $state<string | null>(null);
+	let subtipoForm = $state<SubtipoFormState>({
+		subtipo_estrofa_id: '',
+		v_ini: 1,
+		v_fin: 1
+	});
 
 	function sortEstrofaOptions(options: typeof props.estrofaOptions) {
 		return [...options].sort(
@@ -106,9 +134,50 @@
 	}
 
 	const defaultCerteza = props.certezaOptions[0]?.termino_id ?? '';
-	const defaultEstrofa = sortEstrofaOptions(props.estrofaOptions)[0]?.termino_id ?? '';
+	const sortedEstrofaOptions = $derived.by(() => sortEstrofaOptions(props.estrofaOptions));
+	const estrofaById = $derived.by(
+		() =>
+			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id'>>(
+				sortedEstrofaOptions.map(
+					(
+						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id'>
+					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id'>] => [
+						option.termino_id,
+						option
+					]
+				)
+			)
+	);
+	const quintillaRootId = $derived.by(() => {
+		const root = sortedEstrofaOptions.find(
+			(option) => !option.termino_padre_id && normalizeTerm(option.termino) === 'quintilla'
+		);
+		return root?.termino_id ?? null;
+	});
+	const estrofaSelectableOptions = $derived.by(() =>
+		sortedEstrofaOptions.filter((option) => {
+			if (!quintillaRootId) return true;
+			let parentId = option.termino_padre_id;
+			while (parentId) {
+				if (parentId === quintillaRootId) return false;
+				parentId = estrofaById.get(parentId)?.termino_padre_id ?? null;
+			}
+			return true;
+		})
+	);
+	const estrofaSelectableIds = $derived.by(() => new Set(estrofaSelectableOptions.map((option) => option.termino_id)));
+	const estrofaDisabledParentIdSet = $derived.by(() => {
+		const ids = new Set<string>();
+		for (const option of estrofaSelectableOptions) {
+			if (option.termino_padre_id) ids.add(option.termino_padre_id);
+		}
+		if (quintillaRootId) ids.delete(quintillaRootId);
+		return ids;
+	});
+	const estrofaDisabledParentIds = $derived.by(() => Array.from(estrofaDisabledParentIdSet));
+	const defaultEstrofa = $derived.by(() => estrofaSelectableOptions[0]?.termino_id ?? '');
 	const estrofaDropdownItems = $derived.by(() =>
-		sortEstrofaOptions(props.estrofaOptions).map((option) => ({
+		estrofaSelectableOptions.map((option) => ({
 			id: option.termino_id,
 			label: option.termino,
 			parentId: option.termino_padre_id ?? null
@@ -150,6 +219,35 @@
 				)
 			)
 	);
+	const currentEstrofaTerm = $derived.by(() => estrofaById.get(form.estrofa_tipo_id)?.termino ?? '');
+	const isSubtipoEnabledForCurrentEstrofa = $derived.by(
+		() => normalizeTerm(currentEstrofaTerm) === 'quintilla'
+	);
+	const subtipoOptionsForCurrentEstrofa = $derived.by(() =>
+		sortEstrofaOptions(props.estrofaOptions).filter(
+			(option) => option.termino_padre_id === form.estrofa_tipo_id
+		)
+	);
+	const subtipoDropdownItems = $derived.by(() =>
+		subtipoOptionsForCurrentEstrofa.map((option) => ({
+			id: option.termino_id,
+			label: option.termino,
+			parentId: option.termino_padre_id ?? null
+		}))
+	);
+	const subtipoById = $derived.by(
+		() =>
+			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
+				subtipoOptionsForCurrentEstrofa.map(
+					(
+						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>
+					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>] => [
+						option.termino_id,
+						option
+					]
+				)
+			)
+	);
 	const irregularTipoVariacionId = $derived.by(() => {
 		const parent = props.tipoVariacionOptions.find(
 			(
@@ -178,6 +276,20 @@
 		}
 		return '';
 	});
+
+	function toSelectableEstrofaId(termId: string | null | undefined): string {
+		if (!termId) return defaultEstrofa;
+		if (estrofaSelectableIds.has(termId)) return termId;
+
+		let cursor = estrofaById.get(termId) ?? null;
+		while (cursor?.termino_padre_id) {
+			const parentId = cursor.termino_padre_id;
+			if (estrofaSelectableIds.has(parentId)) return parentId;
+			cursor = estrofaById.get(parentId) ?? null;
+		}
+
+		return defaultEstrofa;
+	}
 
 	function getSuggestedSecuenciaStart(): number {
 		const maxVFin = secuencias.reduce((max, item) => Math.max(max, Number(item.v_fin) || 0), 0);
@@ -218,6 +330,18 @@
 		};
 	}
 
+	function getDefaultSubtipoId() {
+		return subtipoOptionsForCurrentEstrofa[0]?.termino_id ?? '';
+	}
+
+	function initialSubtipoForm(): SubtipoFormState {
+		return {
+			subtipo_estrofa_id: getDefaultSubtipoId(),
+			v_ini: Number(form.v_ini) || 1,
+			v_fin: Number(form.v_ini) || 1
+		};
+	}
+
 	function termById(options: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>, id: string | null) {
 		if (!id) return '--';
 		return options.find((option) => option.termino_id === id)?.termino ?? '--';
@@ -230,6 +354,15 @@
 
 	function sortVariaciones(items: VariacionItem[]) {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
+	}
+
+	function sortSubtipos(items: SubtipoItem[]) {
+		return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
+	}
+
+	function subtipoLabelById(subtipoEstrofaId: string, fallback = '') {
+		const fromVocabulary = subtipoById.get(subtipoEstrofaId)?.termino ?? '';
+		return fromVocabulary || fallback || '--';
 	}
 
 	function sortSecuencias(items: Tables<'secuencias_metricas'>[]) {
@@ -314,8 +447,11 @@
 		editingId = null;
 		form = initialForm();
 		variaciones = [];
+		subtipos = [];
 		variacionDeleteTargetId = null;
 		variacionModalOpen = false;
+		subtipoDeleteTargetId = null;
+		subtipoModalOpen = false;
 		sidebarOpen = true;
 		showCloseWithoutSavingModal = false;
 		setSidebarBaselineFromCurrent();
@@ -327,7 +463,7 @@
 		form = {
 			v_ini: secuencia.v_ini,
 			v_fin: secuencia.v_fin,
-			estrofa_tipo_id: secuencia.estrofa_tipo_id ?? defaultEstrofa,
+			estrofa_tipo_id: toSelectableEstrofaId(secuencia.estrofa_tipo_id),
 			inaugura_espacio: Boolean(secuencia.inaugura_espacio),
 			versos_partidos: Boolean(secuencia.versos_partidos),
 			personajes_genero: secuencia.personajes_genero as FormState['personajes_genero'],
@@ -337,12 +473,16 @@
 			sinopsis: secuencia.sinopsis ?? ''
 		};
 		variaciones = [];
+		subtipos = [];
 		variacionDeleteTargetId = null;
 		variacionModalOpen = false;
+		subtipoDeleteTargetId = null;
+		subtipoModalOpen = false;
 		sidebarOpen = true;
 		showCloseWithoutSavingModal = false;
 		setSidebarBaselineFromCurrent();
 		void loadVariacionesForCurrentSecuencia();
+		void loadSubtiposForCurrentSecuencia();
 	}
 
 	function performCloseSidebar() {
@@ -352,9 +492,15 @@
 		variaciones = [];
 		variacionesLoading = false;
 		variacionesRequestCounter += 1;
+		subtipos = [];
+		subtiposLoading = false;
+		subtiposRequestCounter += 1;
 		variacionModalOpen = false;
 		variacionEditingId = null;
 		variacionDeleteTargetId = null;
+		subtipoModalOpen = false;
+		subtipoEditingId = null;
+		subtipoDeleteTargetId = null;
 		sidebarDirty = false;
 		sidebarBaselineSnapshot = '';
 		lastSidebarSnapshot = '';
@@ -420,18 +566,20 @@
 			const next = secuencias.map((item) => (item.secuencia_id === currentId ? savedSecuencia : item));
 			secuencias = next;
 			emitSecuenciasChange(next);
+			void loadSubtiposForCurrentSecuencia();
 		} else {
 			const next = sortSecuencias([...secuencias, savedSecuencia]);
 			secuencias = next;
 			emitSecuenciasChange(next);
 			editingId = savedId;
 			void loadVariacionesForCurrentSecuencia();
+			void loadSubtiposForCurrentSecuencia();
 		}
 
 		form = {
 			v_ini: savedSecuencia.v_ini,
 			v_fin: savedSecuencia.v_fin,
-			estrofa_tipo_id: savedSecuencia.estrofa_tipo_id ?? defaultEstrofa,
+			estrofa_tipo_id: toSelectableEstrofaId(savedSecuencia.estrofa_tipo_id),
 			inaugura_espacio: Boolean(savedSecuencia.inaugura_espacio),
 			versos_partidos: Boolean(savedSecuencia.versos_partidos),
 			personajes_genero: savedSecuencia.personajes_genero as FormState['personajes_genero'],
@@ -653,6 +801,171 @@
 		pushToast('success', 'Variación eliminada');
 	}
 
+	async function loadSubtiposForCurrentSecuencia() {
+		if (!editingId) {
+			subtipos = [];
+			return;
+		}
+		subtiposLoading = true;
+		const requestId = ++subtiposRequestCounter;
+
+		const response = await fetch(`/api/obras/${props.obraId}/secuencias/${editingId}/subtipos`);
+		if (requestId !== subtiposRequestCounter) return;
+		subtiposLoading = false;
+
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudieron cargar los subtipos');
+			return;
+		}
+
+		const payload = await response.json().catch(() => ({ items: [] }));
+		subtipos = sortSubtipos((payload.items ?? []) as SubtipoItem[]);
+	}
+
+	function validateSubtipoForm(showToast = true) {
+		if (!editingId) {
+			if (showToast) pushToast('error', 'Guarda la secuencia antes de gestionar subtipos');
+			return false;
+		}
+		if (!isSubtipoEnabledForCurrentEstrofa) {
+			if (showToast) pushToast('error', 'Los subtipos solo están habilitados para secuencias de quintilla');
+			return false;
+		}
+		if (subtipoOptionsForCurrentEstrofa.length === 0) {
+			if (showToast) pushToast('error', 'No hay subtipos disponibles para la estrofa seleccionada');
+			return false;
+		}
+		if (!subtipoForm.subtipo_estrofa_id) {
+			if (showToast) pushToast('error', 'Selecciona un subtipo');
+			return false;
+		}
+		if (!subtipoById.has(subtipoForm.subtipo_estrofa_id)) {
+			if (showToast) pushToast('error', 'El subtipo seleccionado no es válido para esta estrofa');
+			return false;
+		}
+
+		const vIni = Number(subtipoForm.v_ini);
+		const vFin = Number(subtipoForm.v_fin);
+		if (!Number.isFinite(vIni) || !Number.isFinite(vFin)) {
+			if (showToast) pushToast('error', 'Versos de subtipo inválidos');
+			return false;
+		}
+		if (vIni > vFin) {
+			if (showToast) pushToast('error', 'El verso inicial no puede ser mayor que el final');
+			return false;
+		}
+		if (vIni < Number(form.v_ini) || vFin > Number(form.v_fin)) {
+			if (showToast) {
+				pushToast(
+					'error',
+					`El subtipo debe quedar dentro del rango de la secuencia (${form.v_ini}-${form.v_fin})`
+				);
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	function openSubtipoCreateModal() {
+		if (props.readOnly || !editingId || !isSubtipoEnabledForCurrentEstrofa) return;
+		subtipoEditingId = null;
+		subtipoForm = initialSubtipoForm();
+		subtipoModalOpen = true;
+	}
+
+	function openSubtipoEditModal(subtipo: SubtipoItem) {
+		if (props.readOnly || !editingId || !isSubtipoEnabledForCurrentEstrofa) return;
+		subtipoEditingId = subtipo.subtipo_secuencia_id;
+		subtipoForm = {
+			subtipo_estrofa_id: subtipo.subtipo_estrofa_id,
+			v_ini: subtipo.v_ini,
+			v_fin: subtipo.v_fin
+		};
+		subtipoModalOpen = true;
+	}
+
+	function closeSubtipoModal() {
+		if (subtipoModalSaving) return;
+		subtipoModalOpen = false;
+		subtipoEditingId = null;
+		subtipoForm = initialSubtipoForm();
+	}
+
+	async function saveSubtipo() {
+		if (props.readOnly || subtipoModalSaving || !editingId) return;
+		if (!validateSubtipoForm(true)) return;
+
+		subtipoModalSaving = true;
+		const isEditing = Boolean(subtipoEditingId);
+		const endpoint = isEditing
+			? `/api/obras/${props.obraId}/secuencias/${editingId}/subtipos/${subtipoEditingId}`
+			: `/api/obras/${props.obraId}/secuencias/${editingId}/subtipos`;
+		const method = isEditing ? 'PATCH' : 'POST';
+
+		const response = await fetch(endpoint, {
+			method,
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				subtipo_estrofa_id: subtipoForm.subtipo_estrofa_id,
+				v_ini: Number(subtipoForm.v_ini),
+				v_fin: Number(subtipoForm.v_fin)
+			})
+		});
+		subtipoModalSaving = false;
+
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			const message =
+				body.details?.[0]?.message ??
+				body.message ??
+				(isEditing ? 'No se pudo actualizar el subtipo' : 'No se pudo crear el subtipo');
+			pushToast('error', message);
+			return;
+		}
+
+		const payload = await response.json();
+		const saved = payload.subtipo as SubtipoItem;
+		if (isEditing && subtipoEditingId) {
+			subtipos = sortSubtipos(
+				subtipos.map((item) => (item.subtipo_secuencia_id === subtipoEditingId ? saved : item))
+			);
+		} else {
+			subtipos = sortSubtipos([...subtipos, saved]);
+		}
+
+		closeSubtipoModal();
+		pushToast('success', isEditing ? 'Subtipo actualizado' : 'Subtipo creado');
+	}
+
+	function openSubtipoDeleteModal(subtipoSecuenciaId: string) {
+		if (props.readOnly) return;
+		subtipoDeleteTargetId = subtipoSecuenciaId;
+	}
+
+	function closeSubtipoDeleteModal() {
+		subtipoDeleteTargetId = null;
+	}
+
+	async function removeSubtipo(subtipoSecuenciaId: string) {
+		if (props.readOnly || !editingId) return;
+		const response = await fetch(
+			`/api/obras/${props.obraId}/secuencias/${editingId}/subtipos/${subtipoSecuenciaId}`,
+			{
+				method: 'DELETE'
+			}
+		);
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo eliminar el subtipo');
+			return;
+		}
+		subtipos = subtipos.filter((row) => row.subtipo_secuencia_id !== subtipoSecuenciaId);
+		subtipoDeleteTargetId = null;
+		pushToast('success', 'Subtipo eliminado');
+	}
+
 	$effect(() => {
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
@@ -691,6 +1004,47 @@
 		}, 10_000);
 	});
 
+	$effect(() => {
+		const enabled = isSubtipoEnabledForCurrentEstrofa;
+		const availableIds = subtipoDropdownItems.map((item) => item.id);
+		const currentSubtipoId = subtipoForm.subtipo_estrofa_id;
+		if (!enabled) {
+			const fallbackVerse = Number(form.v_ini) || 1;
+			if (subtipoModalOpen) subtipoModalOpen = false;
+			if (subtipoEditingId) subtipoEditingId = null;
+			if (subtipoDeleteTargetId) subtipoDeleteTargetId = null;
+			if (
+				currentSubtipoId !== '' ||
+				subtipoForm.v_ini !== fallbackVerse ||
+				subtipoForm.v_fin !== fallbackVerse
+			) {
+				subtipoForm = {
+					subtipo_estrofa_id: '',
+					v_ini: fallbackVerse,
+					v_fin: fallbackVerse
+				};
+			}
+			return;
+		}
+
+		if (availableIds.length === 0) {
+			if (currentSubtipoId !== '') {
+				subtipoForm = {
+					...subtipoForm,
+					subtipo_estrofa_id: ''
+				};
+			}
+			return;
+		}
+
+		if (!availableIds.includes(currentSubtipoId)) {
+			subtipoForm = {
+				...subtipoForm,
+				subtipo_estrofa_id: availableIds[0]
+			};
+		}
+	});
+
 	onDestroy(() => {
 		clearAutosaveTimer();
 	});
@@ -715,6 +1069,8 @@
 				search={true}
 				placeholder="Todas"
 				items={estrofaDropdownItems}
+				disabledIds={estrofaDisabledParentIds}
+				hideCheckboxIds={estrofaDisabledParentIds}
 				selectedIds={filtroEstrofa ? [filtroEstrofa] : []}
 				onChange={(ids) => {
 					filtroEstrofa = ids[0] ?? '';
@@ -848,6 +1204,8 @@
 						search={true}
 						placeholder="Seleccionar estrofa"
 						items={estrofaDropdownItems}
+						disabledIds={estrofaDisabledParentIds}
+						hideCheckboxIds={estrofaDisabledParentIds}
 						selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
 						disabled={props.readOnly}
 						onChange={(ids) => {
@@ -861,6 +1219,79 @@
 					/>
 				</label>
 			</section>
+
+			{#if isSubtipoEnabledForCurrentEstrofa}
+			<section class="form-section">
+				<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+					<h4 class="form-section-title mb-0">Subtipos internos</h4>
+					<Button
+						variant="secondary"
+						onclick={openSubtipoCreateModal}
+						disabled={
+							props.readOnly ||
+							!editingId ||
+							subtipoOptionsForCurrentEstrofa.length === 0
+						}
+					>
+						Añadir subtipo
+					</Button>
+				</div>
+
+				{#if !editingId}
+					<p class="form-help">Guarda la secuencia para añadir subtipos internos.</p>
+				{:else if subtipoOptionsForCurrentEstrofa.length === 0}
+					<p class="form-help">No hay subtipos de vocabulario definidos para esta estrofa.</p>
+				{:else if subtiposLoading}
+					<p class="form-help">Cargando subtipos...</p>
+				{:else if subtipos.length === 0}
+					<p class="form-help">Sin subtipos registrados en esta secuencia.</p>
+				{:else}
+					<div class="card mt-3 overflow-x-auto">
+						<table class="min-w-full text-left text-xs">
+							<thead class="bg-[color:var(--muted)]">
+								<tr>
+									<th class="px-2 py-2">Subtipo</th>
+									<th class="px-2 py-2">V_ini</th>
+									<th class="px-2 py-2">V_fin</th>
+									<th class="px-2 py-2">
+										<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each subtipos as subtipo}
+									<tr class="border-t border-[color:var(--border)]">
+										<td class="px-2 py-2">
+											{subtipoLabelById(subtipo.subtipo_estrofa_id, subtipo.subtipo_estrofa_term)}
+										</td>
+										<td class="px-2 py-2">{subtipo.v_ini}</td>
+										<td class="px-2 py-2">{subtipo.v_fin}</td>
+										<td class="px-2 py-2">
+											<div class="ml-auto flex w-[11.5rem] items-center gap-2">
+												<Button
+													variant="ghost"
+													onclick={() => openSubtipoEditModal(subtipo)}
+													disabled={props.readOnly}
+												>
+													Editar
+												</Button>
+												<Button
+													variant="danger"
+													onclick={() => openSubtipoDeleteModal(subtipo.subtipo_secuencia_id)}
+													disabled={props.readOnly}
+												>
+													Eliminar
+												</Button>
+											</div>
+										</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				{/if}
+			</section>
+			{/if}
 
 			<section class="form-section">
 				<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
@@ -926,6 +1357,7 @@
 					</div>
 				{/if}
 			</section>
+
 
 			<section class="form-section">
 				<h4 class="form-section-title">Caracterización</h4>
@@ -1217,6 +1649,69 @@
 		</div>
 	{/if}
 
+	{#if subtipoModalOpen}
+		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+			<div class="card w-full max-w-2xl p-5">
+				<h3 class="text-lg font-semibold">
+					{subtipoEditingId ? 'Editar subtipo' : 'Añadir subtipo'}
+				</h3>
+				<div class="mt-3 grid gap-3">
+					<label class="form-field">
+						<span class="form-label">Subtipo *</span>
+						<CheckDropdown
+							multiple={false}
+							search={subtipoDropdownItems.length > 8}
+							allowSingleClear={false}
+							placeholder="Seleccionar subtipo"
+							items={subtipoDropdownItems}
+							disabled={props.readOnly || subtipoModalSaving}
+							selectedIds={subtipoForm.subtipo_estrofa_id ? [subtipoForm.subtipo_estrofa_id] : []}
+							onChange={(ids) => {
+								const nextId = ids[0] ?? '';
+								if (!nextId) return;
+								subtipoForm = {
+									...subtipoForm,
+									subtipo_estrofa_id: nextId
+								};
+							}}
+						/>
+					</label>
+
+					<div class="grid gap-3 sm:grid-cols-2">
+						<label class="form-field">
+							<span class="form-label">V. ini *</span>
+							<input
+								type="number"
+								bind:value={subtipoForm.v_ini}
+								disabled={props.readOnly || subtipoModalSaving}
+								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+							/>
+						</label>
+						<label class="form-field">
+							<span class="form-label">V. fin *</span>
+							<input
+								type="number"
+								bind:value={subtipoForm.v_fin}
+								disabled={props.readOnly || subtipoModalSaving}
+								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+							/>
+						</label>
+					</div>
+				</div>
+				<div class="mt-4 flex justify-end gap-2">
+					<Button variant="secondary" onclick={closeSubtipoModal}>Cancelar</Button>
+					<Button
+						variant="success"
+						disabled={props.readOnly || subtipoModalSaving}
+						onclick={() => void saveSubtipo()}
+					>
+						{subtipoModalSaving ? 'Guardando...' : 'Guardar'}
+					</Button>
+				</div>
+			</div>
+		</div>
+	{/if}
+
 	{#if variacionDeleteTargetId}
 		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 			<div class="card w-full max-w-md p-5">
@@ -1230,6 +1725,28 @@
 						onclick={() => {
 							if (!variacionDeleteTargetId) return;
 							void removeVariacion(variacionDeleteTargetId);
+						}}
+					>
+						Eliminar
+					</Button>
+				</div>
+			</div>
+		</div>
+	{/if}
+
+	{#if subtipoDeleteTargetId}
+		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+			<div class="card w-full max-w-md p-5">
+				<h3 class="text-lg font-semibold">Eliminar subtipo</h3>
+				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
+				<div class="mt-4 flex justify-end gap-2">
+					<Button variant="secondary" onclick={closeSubtipoDeleteModal}>Cancelar</Button>
+					<Button
+						variant="danger"
+						disabled={props.readOnly}
+						onclick={() => {
+							if (!subtipoDeleteTargetId) return;
+							void removeSubtipo(subtipoDeleteTargetId);
 						}}
 					>
 						Eliminar
