@@ -67,6 +67,7 @@
 	let showCreateModal = $state(false);
 	let deletingTerm = $state(false);
 	let deleteConfirmText = $state('');
+	let deleteErrorMessage = $state('');
 	let showDeleteModal = $state(false);
 	let queuedSave = $state(false);
 	let retryAttempt = $state(0);
@@ -386,6 +387,7 @@
 	function openDeleteModal() {
 		if (readOnly || !selectedItem || deletingTerm) return;
 		deleteConfirmText = '';
+		deleteErrorMessage = '';
 		showDeleteModal = true;
 	}
 
@@ -393,6 +395,7 @@
 		if (deletingTerm) return;
 		showDeleteModal = false;
 		deleteConfirmText = '';
+		deleteErrorMessage = '';
 	}
 
 	async function deleteSelectedTerm() {
@@ -403,22 +406,38 @@
 		}
 
 		const target = selectedItem;
+		deleteErrorMessage = '';
 		deletingTerm = true;
-		const response = await fetch(`/api/vocabularios/${target.termino_id}`, {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
-		});
+		let response: Response;
+		try {
+			response = await fetch(`/api/vocabularios/${target.termino_id}`, {
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
+			});
+		} catch {
+			deletingTerm = false;
+			deleteErrorMessage = 'No se pudo conectar con el servidor para eliminar el termino.';
+			pushToast('error', deleteErrorMessage);
+			return;
+		}
 		deletingTerm = false;
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar el termino.');
+			const fallbackMessage =
+				response.status === 409
+					? 'No se puede eliminar el término porque esta en uso.'
+					: 'No se pudo eliminar el término.';
+			const serverMessage = typeof body.message === 'string' ? body.message : fallbackMessage;
+			deleteErrorMessage = serverMessage;
+			pushToast('error', serverMessage);
 			return;
 		}
 
 		showDeleteModal = false;
 		deleteConfirmText = '';
+		deleteErrorMessage = '';
 		cancelUnsavedChangesModal();
 		estrofaTipoMetros = estrofaTipoMetros.filter(
 			(item) => item.estrofa_tipo_id !== target.termino_id && item.metro_id !== target.termino_id
@@ -741,6 +760,7 @@
 		cancelUnsavedChangesModal();
 		showDeleteModal = false;
 		deleteConfirmText = '';
+		deleteErrorMessage = '';
 		deletingTerm = false;
 		selectedId = null;
 		termForm = emptyTermForm();
@@ -899,6 +919,11 @@
 					spellcheck={false}
 				/>
 			</label>
+			{#if deleteErrorMessage}
+				<p class="mt-3 rounded border border-[color:var(--danger)] bg-rose-50 px-3 py-2 text-sm text-rose-900">
+					{deleteErrorMessage}
+				</p>
+			{/if}
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="ghost" onclick={closeDeleteModal} disabled={deletingTerm}>Cancelar</Button>
 				<Button
