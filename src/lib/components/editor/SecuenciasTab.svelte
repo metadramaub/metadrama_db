@@ -166,15 +166,6 @@
 		})
 	);
 	const estrofaSelectableIds = $derived.by(() => new Set(estrofaSelectableOptions.map((option) => option.termino_id)));
-	const estrofaDisabledParentIdSet = $derived.by(() => {
-		const ids = new Set<string>();
-		for (const option of estrofaSelectableOptions) {
-			if (option.termino_padre_id) ids.add(option.termino_padre_id);
-		}
-		if (quintillaRootId) ids.delete(quintillaRootId);
-		return ids;
-	});
-	const estrofaDisabledParentIds = $derived.by(() => Array.from(estrofaDisabledParentIdSet));
 	const defaultEstrofa = $derived.by(() => estrofaSelectableOptions[0]?.termino_id ?? '');
 	const estrofaDropdownItems = $derived.by(() =>
 		estrofaSelectableOptions.map((option) => ({
@@ -210,35 +201,6 @@
 		() =>
 			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
 				props.tipoVariacionOptions.map(
-					(
-						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>
-					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>] => [
-						option.termino_id,
-						option
-					]
-				)
-			)
-	);
-	const currentEstrofaTerm = $derived.by(() => estrofaById.get(form.estrofa_tipo_id)?.termino ?? '');
-	const isSubtipoEnabledForCurrentEstrofa = $derived.by(
-		() => normalizeTerm(currentEstrofaTerm) === 'quintilla'
-	);
-	const subtipoOptionsForCurrentEstrofa = $derived.by(() =>
-		sortEstrofaOptions(props.estrofaOptions).filter(
-			(option) => option.termino_padre_id === form.estrofa_tipo_id
-		)
-	);
-	const subtipoDropdownItems = $derived.by(() =>
-		subtipoOptionsForCurrentEstrofa.map((option) => ({
-			id: option.termino_id,
-			label: option.termino,
-			parentId: option.termino_padre_id ?? null
-		}))
-	);
-	const subtipoById = $derived.by(
-		() =>
-			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
-				subtipoOptionsForCurrentEstrofa.map(
 					(
 						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>
 					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>] => [
@@ -313,6 +275,36 @@
 	}
 
 	let form = $state<FormState>(initialForm());
+
+	const currentEstrofaTerm = $derived.by(() => estrofaById.get(form.estrofa_tipo_id)?.termino ?? '');
+	const isSubtipoEnabledForCurrentEstrofa = $derived.by(
+		() => normalizeTerm(currentEstrofaTerm) === 'quintilla'
+	);
+	const subtipoOptionsForCurrentEstrofa = $derived.by(() =>
+		sortEstrofaOptions(props.estrofaOptions).filter(
+			(option) => option.termino_padre_id === form.estrofa_tipo_id
+		)
+	);
+	const subtipoDropdownItems = $derived.by(() =>
+		subtipoOptionsForCurrentEstrofa.map((option) => ({
+			id: option.termino_id,
+			label: option.termino,
+			parentId: option.termino_padre_id ?? null
+		}))
+	);
+	const subtipoById = $derived.by(
+		() =>
+			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
+				subtipoOptionsForCurrentEstrofa.map(
+					(
+						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>
+					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>] => [
+						option.termino_id,
+						option
+					]
+				)
+			)
+	);
 
 	function getDefaultTipoVariacionId() {
 		const firstSelectable = sortTipoVariacionOptions(props.tipoVariacionOptions).find(
@@ -1064,13 +1056,13 @@
 			<CheckDropdown
 				multiple={false}
 				hierarchical={true}
+				collapsibleHierarchy={true}
+				disableParentsWithChildren={true}
 				showPathInTrigger={true}
 				allowSingleClear={true}
 				search={true}
 				placeholder="Todas"
 				items={estrofaDropdownItems}
-				disabledIds={estrofaDisabledParentIds}
-				hideCheckboxIds={estrofaDisabledParentIds}
 				selectedIds={filtroEstrofa ? [filtroEstrofa] : []}
 				onChange={(ids) => {
 					filtroEstrofa = ids[0] ?? '';
@@ -1199,13 +1191,13 @@
 						class="mt-1"
 						multiple={false}
 						hierarchical={true}
+						collapsibleHierarchy={true}
+						disableParentsWithChildren={true}
 						showPathInTrigger={true}
 						allowSingleClear={false}
 						search={true}
 						placeholder="Seleccionar estrofa"
 						items={estrofaDropdownItems}
-						disabledIds={estrofaDisabledParentIds}
-						hideCheckboxIds={estrofaDisabledParentIds}
 						selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
 						disabled={props.readOnly}
 						onChange={(ids) => {
