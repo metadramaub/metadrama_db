@@ -50,7 +50,6 @@ export interface CuadroInput {
 	cuadro_num: number;
 	v_ini: number;
 	v_fin: number;
-	descripcion: string | null;
 	certeza_editor: string;
 }
 

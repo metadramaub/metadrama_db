@@ -23,7 +23,6 @@ export interface PublicFichaCuadro {
 	cuadro_num: number;
 	v_ini: number;
 	v_fin: number;
-	descripcion: string | null;
 }
 
 export interface PublicFichaVariacion {

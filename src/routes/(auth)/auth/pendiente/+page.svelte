@@ -10,7 +10,7 @@
 	let errorMessage = $state<string | null>(null);
 
 	async function retryDashboardAccess() {
-		await goto('/dashboard/obras?scope=mine');
+		await goto('/dashboard');
 	}
 
 	async function closeSession() {

@@ -179,8 +179,7 @@ begin
 						'jornada_id', c.jornada_id,
 						'cuadro_num', c.cuadro_num,
 						'v_ini', c.v_ini,
-						'v_fin', c.v_fin,
-						'descripcion', c.descripcion
+						'v_fin', c.v_fin
 					)
 					order by j.jornada_num, c.cuadro_num
 				),
@@ -555,7 +554,6 @@ CREATE TABLE IF NOT EXISTS "public"."cuadros" (
     "cuadro_num" integer NOT NULL,
     "v_ini" integer NOT NULL,
     "v_fin" integer NOT NULL,
-    "descripcion" "text",
     "certeza_editor" "uuid" NOT NULL
 );
 
@@ -1968,7 +1966,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "anon";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "authenticated";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "service_role";
-
 
 
 

@@ -76,7 +76,13 @@
 	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
 	const tipoVariacionOptions = $derived(vocabByCategory.get('tipo_variacion') ?? []);
-	const obraLive = $derived(($currentObraStore.obra ?? data.obra) as Tables<'obras'>);
+	const obraLive = $derived.by(() => {
+		const storeObra = $currentObraStore.obra as Tables<'obras'> | null;
+		if (storeObra?.obra_id === data.obra.obra_id) {
+			return storeObra;
+		}
+		return data.obra as Tables<'obras'>;
+	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
 	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
