@@ -641,6 +641,51 @@ export type Database = {
           },
         ]
       }
+      secuencias_subtipos_estrofa: {
+        Row: {
+          created_at: string | null
+          secuencia_id: string
+          subtipo_estrofa_id: string
+          subtipo_secuencia_id: string
+          updated_at: string | null
+          v_fin: number
+          v_ini: number
+        }
+        Insert: {
+          created_at?: string | null
+          secuencia_id: string
+          subtipo_estrofa_id: string
+          subtipo_secuencia_id?: string
+          updated_at?: string | null
+          v_fin: number
+          v_ini: number
+        }
+        Update: {
+          created_at?: string | null
+          secuencia_id?: string
+          subtipo_estrofa_id?: string
+          subtipo_secuencia_id?: string
+          updated_at?: string | null
+          v_fin?: number
+          v_ini?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "secuencias_subtipos_estrofa_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "secuencias_metricas"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "secuencias_subtipos_estrofa_subtipo_estrofa_id_fkey"
+            columns: ["subtipo_estrofa_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       secuencias_variaciones: {
         Row: {
           observaciones: string | null

@@ -78,7 +78,7 @@
 	const tipoVariacionOptions = $derived(vocabByCategory.get('tipo_variacion') ?? []);
 	const obraLive = $derived.by(() => {
 		const storeObra = $currentObraStore.obra as Tables<'obras'> | null;
-		if (storeObra?.obra_id === data.obra.obra_id) {
+		if (storeObra && storeObra.obra_id === data.obra.obra_id) {
 			return storeObra;
 		}
 		return data.obra as Tables<'obras'>;

@@ -83,6 +83,8 @@ function dependencyLabel(tableName: string | null) {
 			return 'términos hijos en esta misma categoría';
 		case 'secuencias_variaciones':
 			return 'variaciones de secuencias';
+		case 'secuencias_subtipos_estrofa':
+			return 'subtipos internos de secuencias';
 		case 'obras':
 			return 'obras';
 		case 'cuadros':

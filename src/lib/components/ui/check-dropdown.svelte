@@ -19,6 +19,7 @@
 		items: DropdownItem[];
 		selectedIds: string[];
 		disabledIds?: string[];
+		hideCheckboxIds?: string[];
 		placeholder?: string;
 		search?: boolean;
 		disabled?: boolean;
@@ -51,6 +52,7 @@
 
 	const selectedSet = $derived(new Set(props.selectedIds));
 	const disabledSet = $derived(new Set(props.disabledIds ?? []));
+	const hideCheckboxSet = $derived(new Set(props.hideCheckboxIds ?? []));
 	const normalizedQuery = $derived(query.trim().toLowerCase());
 
 	const itemById = $derived(
@@ -296,7 +298,11 @@
 									disabled={disabledSet.has(row.id)}
 									onclick={() => selectItem(row.id)}
 								>
-									<input type="checkbox" checked={selectedSet.has(row.id)} disabled={true} class="mt-0.5" />
+									{#if hideCheckboxSet.has(row.id)}
+										<span class="mt-0.5 inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+									{:else}
+										<input type="checkbox" checked={selectedSet.has(row.id)} disabled={true} class="mt-0.5" />
+									{/if}
 									<div class="min-w-0" style={`padding-left: ${Math.max(0, row.depth - 1) * 0.85}rem`}>
 										<div class={`truncate ${selectedAncestorIds.has(row.id) && !selectedSet.has(row.id) ? 'text-[color:var(--muted-foreground)]' : ''}`}>
 											{item.label}
