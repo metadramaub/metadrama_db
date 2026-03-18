@@ -107,8 +107,9 @@ export const secuenciaInputSchema = z
 		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
 		certeza_editor: z.string().uuid(),
-		observaciones: z.string().trim().nullable().optional().default(null)
+		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
+	.strict()
 	.refine((input) => input.v_ini < input.v_fin, {
 		message: 'El verso inicial debe ser menor que el final',
 		path: ['v_ini']
@@ -230,10 +231,12 @@ export const autoriaInputSchema = z.discriminatedUnion('mode', [
 	})
 ]);
 
-export const analisisInputSchema = z.object({
-	analisis_editor: nullableText(60000),
-	bibliografia: nullableText(20000)
-});
+export const observacionesInputSchema = z
+	.object({
+		observaciones: nullableText(60000),
+		bibliografia: nullableText(20000)
+	})
+	.strict();
 
 export const visibilidadInputSchema = z.object({
 	visible_publico: z.boolean()
@@ -440,7 +443,7 @@ export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
 export type ComentarioPatchParsed = z.infer<typeof comentarioPatchSchema>;
 export type ComentarioListQueryParsed = z.infer<typeof comentarioListQuerySchema>;
 export type AutoriaInputParsed = z.infer<typeof autoriaInputSchema>;
-export type AnalisisInputParsed = z.infer<typeof analisisInputSchema>;
+export type ObservacionesInputParsed = z.infer<typeof observacionesInputSchema>;
 export type VisibilidadInputParsed = z.infer<typeof visibilidadInputSchema>;
 export type ObraCreateParsed = z.infer<typeof obraCreateSchema>;
 export type ObraDeleteParsed = z.infer<typeof obraDeleteSchema>;

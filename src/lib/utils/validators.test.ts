@@ -8,7 +8,7 @@ import {
 	comentarioPatchSchema,
 	comentarioListQuerySchema,
 	autoriaInputSchema,
-	analisisInputSchema,
+	observacionesInputSchema,
 	visibilidadInputSchema,
 	obraCreateSchema,
 	autorCreateSchema,
@@ -63,7 +63,7 @@ describe('validators', () => {
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-			observaciones: null
+			sinopsis: null
 		});
 		expect(result.success).toBe(true);
 	});
@@ -78,7 +78,7 @@ describe('validators', () => {
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-			observaciones: null
+			sinopsis: null
 		});
 		expect(parsed.versos_partidos).toBe(false);
 	});
@@ -180,9 +180,9 @@ describe('validators', () => {
 		expect(result.confirm_reassign).toBe(false);
 	});
 
-	it('normalizes empty analysis text to null', () => {
-		const result = analisisInputSchema.parse({ analisis_editor: '   ', bibliografia: '' });
-		expect(result.analisis_editor).toBeNull();
+	it('normalizes empty observaciones text to null', () => {
+		const result = observacionesInputSchema.parse({ observaciones: '   ', bibliografia: '' });
+		expect(result.observaciones).toBeNull();
 		expect(result.bibliografia).toBeNull();
 	});
 

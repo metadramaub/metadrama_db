@@ -12,7 +12,7 @@
 	import EstructuraTab from '$lib/components/editor/EstructuraTab.svelte';
 	import SecuenciasTab from '$lib/components/editor/SecuenciasTab.svelte';
 	import AutoriaTab from '$lib/components/editor/AutoriaTab.svelte';
-	import AnalisisTab from '$lib/components/editor/AnalisisTab.svelte';
+	import ObservacionesTab from '$lib/components/editor/ObservacionesTab.svelte';
 	import RevisionTab from '$lib/components/editor/RevisionTab.svelte';
 	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import {
@@ -28,7 +28,7 @@
 
 	let { data } = $props<{ data: PageData }>();
 
-	const TAB_IDS = ['datos', 'estructura', 'secuencias', 'autoria', 'analisis', 'revision'] as const;
+	const TAB_IDS = ['datos', 'estructura', 'secuencias', 'autoria', 'observaciones', 'revision'] as const;
 	type TabId = (typeof TAB_IDS)[number];
 	const validTabs = new Set<string>(TAB_IDS);
 
@@ -51,7 +51,7 @@
 		{ id: 'estructura', label: 'Estructura' },
 		{ id: 'secuencias', label: 'Secuencias' },
 		{ id: 'autoria', label: 'Autoría' },
-		{ id: 'analisis', label: 'Análisis' },
+		{ id: 'observaciones', label: 'Observaciones' },
 		{ id: 'revision', label: 'Revisión' }
 	];
 
@@ -96,7 +96,7 @@
 	const rangoIds = $derived(new Set((data.rangos as Tables<'rangos'>[]).map((rango) => rango.rango_id)));
 
 	function getCurrentDirtyScope(): ObraDirtyScope | null {
-		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'analisis') {
+		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'observaciones') {
 			return currentTab;
 		}
 		return null;
@@ -411,10 +411,10 @@
 			roleTerm={data.profile.roleTerm}
 			readOnly={!canEditContent}
 		/>
-	{:else if currentTab === 'analisis'}
-		<AnalisisTab
+	{:else if currentTab === 'observaciones'}
+		<ObservacionesTab
 			obraId={obraLive.obra_id}
-			analisisInitial={obraLive.analisis_editor ?? ''}
+			observacionesInitial={obraLive.observaciones ?? ''}
 			bibliografiaInitial={obraLive.bibliografia ?? ''}
 			readOnly={!canEditContent}
 		/>

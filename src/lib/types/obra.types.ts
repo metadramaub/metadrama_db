@@ -64,7 +64,7 @@ export interface SecuenciaInput {
 	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
 	certeza_editor: string;
-	observaciones: string | null;
+	sinopsis: string | null;
 }
 
 export interface SecuenciaVariacionInput {
@@ -191,8 +191,8 @@ export interface AutoriaApiPayload {
 	loaded_at: string;
 }
 
-export interface AnalisisInput {
-	analisis_editor: string | null;
+export interface ObservacionesInput {
+	observaciones: string | null;
 	bibliografia: string | null;
 }
 
