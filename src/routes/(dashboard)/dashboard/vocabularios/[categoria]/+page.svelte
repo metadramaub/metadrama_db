@@ -417,7 +417,7 @@
 			});
 		} catch {
 			deletingTerm = false;
-			deleteErrorMessage = 'No se pudo conectar con el servidor para eliminar el termino.';
+			deleteErrorMessage = 'No se pudo conectar con el servidor para eliminar el término.';
 			pushToast('error', deleteErrorMessage);
 			return;
 		}
@@ -427,7 +427,7 @@
 			const body = await response.json().catch(() => ({}));
 			const fallbackMessage =
 				response.status === 409
-					? 'No se puede eliminar el término porque esta en uso.'
+					? 'No se puede eliminar el término porque está en uso.'
 					: 'No se pudo eliminar el término.';
 			const serverMessage = typeof body.message === 'string' ? body.message : fallbackMessage;
 			deleteErrorMessage = serverMessage;
@@ -686,7 +686,7 @@
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			const message = body.message ?? 'No se pudo guardar el termino.';
+			const message = body.message ?? 'No se pudo guardar el término.';
 			if (source === 'manual') {
 				pushToast('error', message);
 			} else {
@@ -712,7 +712,7 @@
 		if (readOnly || creating) return;
 		const term = createForm.termino.trim();
 		if (!term) {
-			pushToast('error', 'Escribe un termino para crear.');
+			pushToast('error', 'Escribe un término para crear.');
 			return;
 		}
 		creating = true;
@@ -724,7 +724,7 @@
 		creating = false;
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo crear el termino.');
+			pushToast('error', body.message ?? 'No se pudo crear el término.');
 			return;
 		}
 
@@ -823,7 +823,7 @@
 			</a>
 			{#if data.isProtected}
 				<span class="border border-[color:var(--warning)] bg-[color:var(--muted)] px-2 py-1 text-xs">
-					Categoria protegida (solo lectura)
+					Categoría protegida (solo lectura)
 				</span>
 			{:else if !data.canEdit}
 				<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">
@@ -893,7 +893,7 @@
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continuas, perderas los cambios no guardados.</p>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continúas, perderás los cambios no guardados.</p>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={cancelUnsavedChangesModal}>Seguir editando</Button>
 				<Button variant="danger" onclick={() => void confirmUnsavedChangesModal()}>Cerrar sin guardar</Button>
@@ -905,12 +905,12 @@
 {#if showDeleteModal && selectedItem}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
-			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminacion</h3>
+			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminación</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-				Esta accion es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
+				Esta acción es irreversible. Escribe <strong>ELIMINAR</strong> para confirmar.
 			</p>
 			<label class="form-field mt-3">
-				<span class="form-label">Confirmacion</span>
+				<span class="form-label">Confirmación</span>
 				<input
 					type="text"
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -1090,7 +1090,7 @@
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={closeCreateModal} disabled={creating}>Cancelar</Button>
 				<Button variant="success" onclick={() => void createTerm()} disabled={creating || !createForm.termino.trim()}>
-					{creating ? 'Creando...' : 'Crear termino'}
+					{creating ? 'Creando...' : 'Crear término'}
 				</Button>
 			</div>
 		</div>

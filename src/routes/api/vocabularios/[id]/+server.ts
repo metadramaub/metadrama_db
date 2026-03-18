@@ -76,11 +76,11 @@ function detectDependencyTable(details?: string | null, message?: string | null)
 function dependencyLabel(tableName: string | null) {
 	switch (tableName) {
 		case 'secuencias_metricas':
-			return 'secuencias metricas';
+			return 'secuencias métricas';
 		case 'estrofa_tipo_metros':
 			return 'relaciones estrofa/metro';
 		case 'vocabularios':
-			return 'terminos hijos en esta misma categoria';
+			return 'términos hijos en esta misma categoría';
 		case 'secuencias_variaciones':
 			return 'variaciones de secuencias';
 		case 'obras':
@@ -111,7 +111,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 	const current = currentResult.term;
 	if (isProtectedVocabularyCategory(current.categoria)) {
-		return forbiddenResponse('Esta categoría esta protegida y es de solo lectura.');
+		return forbiddenResponse('Esta categoría está protegida y es de solo lectura.');
 	}
 
 	const body = await request.json().catch(() => ({}));
@@ -223,7 +223,7 @@ export const DELETE: RequestHandler = async ({ locals, params, request }) => {
 	}
 	const current = currentResult.term;
 	if (isProtectedVocabularyCategory(current.categoria)) {
-		return forbiddenResponse('Esta categoría esta protegida y es de solo lectura.');
+		return forbiddenResponse('Esta categoría está protegida y es de solo lectura.');
 	}
 
 	const body = await request.json().catch(() => ({}));
