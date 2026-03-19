@@ -167,7 +167,12 @@
 		})
 	);
 	const estrofaSelectableIds = $derived.by(() => new Set(estrofaSelectableOptions.map((option) => option.termino_id)));
-	const defaultEstrofa = $derived.by(() => estrofaSelectableOptions[0]?.termino_id ?? '');
+	const defaultEstrofa = $derived.by(() => {
+		const redondilla = estrofaSelectableOptions.find(
+			(option) => normalizeTerm(option.termino) === 'redondilla'
+		);
+		return redondilla?.termino_id ?? estrofaSelectableOptions[0]?.termino_id ?? '';
+	});
 	const estrofaDropdownItems = $derived.by(() =>
 		estrofaSelectableOptions.map((option) => ({
 			id: option.termino_id,
