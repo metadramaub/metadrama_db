@@ -1,5 +1,4 @@
 import { browser } from '$app/environment';
-import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createBrowserClient } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '$lib/types/database.types';
@@ -7,8 +6,9 @@ import type { Database } from '$lib/types/database.types';
 let browserClient: SupabaseClient<Database> | null = null;
 
 function readSupabaseEnv() {
-	const supabaseUrl = PUBLIC_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL;
-	const supabaseAnonKey = PUBLIC_SUPABASE_ANON_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY;
+	const env = import.meta.env as Record<string, string | undefined>;
+	const supabaseUrl = env.PUBLIC_SUPABASE_URL || env.VITE_SUPABASE_URL;
+	const supabaseAnonKey = env.PUBLIC_SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY;
 
 	if (!supabaseUrl || !supabaseAnonKey) {
 		throw new Error('Supabase environment variables are missing in browser runtime.');

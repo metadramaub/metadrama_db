@@ -12,7 +12,7 @@
 	import EstructuraTab from '$lib/components/editor/EstructuraTab.svelte';
 	import SecuenciasTab from '$lib/components/editor/SecuenciasTab.svelte';
 	import AutoriaTab from '$lib/components/editor/AutoriaTab.svelte';
-	import AnalisisTab from '$lib/components/editor/AnalisisTab.svelte';
+	import ObservacionesTab from '$lib/components/editor/ObservacionesTab.svelte';
 	import RevisionTab from '$lib/components/editor/RevisionTab.svelte';
 	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import {
@@ -28,7 +28,7 @@
 
 	let { data } = $props<{ data: PageData }>();
 
-	const TAB_IDS = ['datos', 'estructura', 'secuencias', 'autoria', 'analisis', 'revision'] as const;
+	const TAB_IDS = ['datos', 'estructura', 'secuencias', 'autoria', 'observaciones', 'revision'] as const;
 	type TabId = (typeof TAB_IDS)[number];
 	const validTabs = new Set<string>(TAB_IDS);
 
@@ -51,7 +51,7 @@
 		{ id: 'estructura', label: 'Estructura' },
 		{ id: 'secuencias', label: 'Secuencias' },
 		{ id: 'autoria', label: 'Autoría' },
-		{ id: 'analisis', label: 'Análisis' },
+		{ id: 'observaciones', label: 'Observaciones' },
 		{ id: 'revision', label: 'Revisión' }
 	];
 
@@ -76,7 +76,13 @@
 	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
 	const tipoVariacionOptions = $derived(vocabByCategory.get('tipo_variacion') ?? []);
-	const obraLive = $derived(($currentObraStore.obra ?? data.obra) as Tables<'obras'>);
+	const obraLive = $derived.by(() => {
+		const storeObra = $currentObraStore.obra as Tables<'obras'> | null;
+		if (storeObra && storeObra.obra_id === data.obra.obra_id) {
+			return storeObra;
+		}
+		return data.obra as Tables<'obras'>;
+	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
 	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
@@ -96,7 +102,7 @@
 	const rangoIds = $derived(new Set((data.rangos as Tables<'rangos'>[]).map((rango) => rango.rango_id)));
 
 	function getCurrentDirtyScope(): ObraDirtyScope | null {
-		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'analisis') {
+		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'observaciones') {
 			return currentTab;
 		}
 		return null;
@@ -397,6 +403,8 @@
 		<SecuenciasTab
 			obraId={obraLive.obra_id}
 			secuenciasInitial={secuenciasLive}
+			jornadasInitial={jornadasLive}
+			cuadrosInitial={cuadrosLive}
 			estrofaOptions={estrofaOptions}
 			certezaOptions={certezaOptions}
 			tipoVariacionOptions={tipoVariacionOptions}
@@ -411,10 +419,10 @@
 			roleTerm={data.profile.roleTerm}
 			readOnly={!canEditContent}
 		/>
-	{:else if currentTab === 'analisis'}
-		<AnalisisTab
+	{:else if currentTab === 'observaciones'}
+		<ObservacionesTab
 			obraId={obraLive.obra_id}
-			analisisInitial={obraLive.analisis_editor ?? ''}
+			observacionesInitial={obraLive.observaciones ?? ''}
 			bibliografiaInitial={obraLive.bibliografia ?? ''}
 			readOnly={!canEditContent}
 		/>

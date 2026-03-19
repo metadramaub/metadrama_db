@@ -122,7 +122,7 @@
 
 				{#if props.fieldConfig.showPattern}
 					<label class="form-field">
-						<span class="form-label">Patrón especï¿½fico</span>
+						<span class="form-label">Patrón específico</span>
 						<input
 							type="text"
 							value={props.termForm.patron_especifico}

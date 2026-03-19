@@ -97,9 +97,9 @@
 				detail: `${(obraLive.autoria ?? []).length} autores`
 			},
 			{
-				label: 'Análisis de obra',
-				done: (obraLive.analisis_editor ?? '').trim().length > 100,
-				detail: `${(obraLive.analisis_editor ?? '').trim().length} caracteres`
+				label: 'Observaciones de obra',
+				done: (obraLive.observaciones ?? '').trim().length > 100,
+				detail: `${(obraLive.observaciones ?? '').trim().length} caracteres`
 			},
 			{
 				label: 'Bibliografía añadida',

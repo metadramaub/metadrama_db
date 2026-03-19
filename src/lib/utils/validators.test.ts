@@ -4,11 +4,12 @@ import {
 	jornadaInputSchema,
 	secuenciaInputSchema,
 	secuenciaVariacionInputSchema,
+	secuenciaSubtipoEstrofaInputSchema,
 	comentarioInputSchema,
 	comentarioPatchSchema,
 	comentarioListQuerySchema,
 	autoriaInputSchema,
-	analisisInputSchema,
+	observacionesInputSchema,
 	visibilidadInputSchema,
 	obraCreateSchema,
 	autorCreateSchema,
@@ -59,11 +60,11 @@ describe('validators', () => {
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
 			versos_partidos: true,
-			personajes_genero: 'mixto',
+			personaje_femenino: 'ausente',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-			observaciones: null
+			sinopsis: null
 		});
 		expect(result.success).toBe(true);
 	});
@@ -74,11 +75,11 @@ describe('validators', () => {
 			v_fin: 120,
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
-			personajes_genero: 'mixto',
+			personaje_femenino: 'ausente',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-			observaciones: null
+			sinopsis: null
 		});
 		expect(parsed.versos_partidos).toBe(false);
 	});
@@ -98,6 +99,24 @@ describe('validators', () => {
 			tipo_variacion_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			v_ini: 57,
 			v_fin: 56
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it('accepts secuencia subtipo payload with valid range', () => {
+		const result = secuenciaSubtipoEstrofaInputSchema.safeParse({
+			subtipo_estrofa_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			v_ini: 10,
+			v_fin: 25
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('rejects secuencia subtipo payload when v_ini is greater than v_fin', () => {
+		const result = secuenciaSubtipoEstrofaInputSchema.safeParse({
+			subtipo_estrofa_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			v_ini: 25,
+			v_fin: 10
 		});
 		expect(result.success).toBe(false);
 	});
@@ -180,9 +199,9 @@ describe('validators', () => {
 		expect(result.confirm_reassign).toBe(false);
 	});
 
-	it('normalizes empty analysis text to null', () => {
-		const result = analisisInputSchema.parse({ analisis_editor: '   ', bibliografia: '' });
-		expect(result.analisis_editor).toBeNull();
+	it('normalizes empty observaciones text to null', () => {
+		const result = observacionesInputSchema.parse({ observaciones: '   ', bibliografia: '' });
+		expect(result.observaciones).toBeNull();
 		expect(result.bibliografia).toBeNull();
 	});
 

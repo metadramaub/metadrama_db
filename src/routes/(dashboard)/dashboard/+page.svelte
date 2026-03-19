@@ -57,6 +57,18 @@
 	</div>
 </section>
 
+<section class="mt-4">
+	<div class="card flex flex-wrap items-start justify-between gap-3 p-4">
+		<div>
+			<h2 class="text-lg font-semibold">Guía editorial interna</h2>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+				Manual paso a paso para editores y colaboradores del proyecto.
+			</p>
+		</div>
+		<Button variant="secondary" onclick={() => goto('/dashboard/guia')}>Abrir guía de uso</Button>
+	</div>
+</section>
+
 <section class="mt-8">
 	<div class="mb-3 flex items-center justify-between">
 		<h2 class="text-xl font-semibold">Últimos cambios</h2>

@@ -88,7 +88,6 @@ export const cuadroInputSchema = z
 		cuadro_num: z.number().int().positive(),
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
-		descripcion: z.string().trim().nullable().optional().default(null),
 		certeza_editor: z.string().uuid()
 	})
 	.refine((input) => input.v_ini < input.v_fin, {
@@ -103,12 +102,13 @@ export const secuenciaInputSchema = z
 		estrofa_tipo_id: z.string().uuid('Estrofa requerida'),
 		inaugura_espacio: z.boolean().default(false),
 		versos_partidos: z.boolean().default(false),
-		personajes_genero: z.enum(['mixto', 'solo_masculino', 'solo_femenino']),
+		personaje_femenino: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
 		certeza_editor: z.string().uuid(),
-		observaciones: z.string().trim().nullable().optional().default(null)
+		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
+	.strict()
 	.refine((input) => input.v_ini < input.v_fin, {
 		message: 'El verso inicial debe ser menor que el final',
 		path: ['v_ini']
@@ -120,6 +120,17 @@ export const secuenciaVariacionInputSchema = z
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
 		observaciones: z.string().trim().nullable().optional().default(null)
+	})
+	.refine((input) => input.v_ini <= input.v_fin, {
+		message: 'El verso inicial no puede ser mayor que el final',
+		path: ['v_ini']
+	});
+
+export const secuenciaSubtipoEstrofaInputSchema = z
+	.object({
+		subtipo_estrofa_id: z.string().uuid('Subtipo de estrofa requerido'),
+		v_ini: z.number().int().positive(),
+		v_fin: z.number().int().positive()
 	})
 	.refine((input) => input.v_ini <= input.v_fin, {
 		message: 'El verso inicial no puede ser mayor que el final',
@@ -230,10 +241,12 @@ export const autoriaInputSchema = z.discriminatedUnion('mode', [
 	})
 ]);
 
-export const analisisInputSchema = z.object({
-	analisis_editor: nullableText(60000),
-	bibliografia: nullableText(20000)
-});
+export const observacionesInputSchema = z
+	.object({
+		observaciones: nullableText(60000),
+		bibliografia: nullableText(20000)
+	})
+	.strict();
 
 export const visibilidadInputSchema = z.object({
 	visible_publico: z.boolean()
@@ -435,12 +448,13 @@ export type JornadaInputParsed = z.infer<typeof jornadaInputSchema>;
 export type CuadroInputParsed = z.infer<typeof cuadroInputSchema>;
 export type SecuenciaInputParsed = z.infer<typeof secuenciaInputSchema>;
 export type SecuenciaVariacionInputParsed = z.infer<typeof secuenciaVariacionInputSchema>;
+export type SecuenciaSubtipoEstrofaInputParsed = z.infer<typeof secuenciaSubtipoEstrofaInputSchema>;
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
 export type ComentarioPatchParsed = z.infer<typeof comentarioPatchSchema>;
 export type ComentarioListQueryParsed = z.infer<typeof comentarioListQuerySchema>;
 export type AutoriaInputParsed = z.infer<typeof autoriaInputSchema>;
-export type AnalisisInputParsed = z.infer<typeof analisisInputSchema>;
+export type ObservacionesInputParsed = z.infer<typeof observacionesInputSchema>;
 export type VisibilidadInputParsed = z.infer<typeof visibilidadInputSchema>;
 export type ObraCreateParsed = z.infer<typeof obraCreateSchema>;
 export type ObraDeleteParsed = z.infer<typeof obraDeleteSchema>;

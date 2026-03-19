@@ -50,7 +50,6 @@ export interface CuadroInput {
 	cuadro_num: number;
 	v_ini: number;
 	v_fin: number;
-	descripcion: string | null;
 	certeza_editor: string;
 }
 
@@ -60,11 +59,11 @@ export interface SecuenciaInput {
 	estrofa_tipo_id: string;
 	inaugura_espacio: boolean;
 	versos_partidos: boolean;
-	personajes_genero: 'mixto' | 'solo_masculino' | 'solo_femenino';
+	personaje_femenino: 'ausente' | 'solo' | 'con_otros';
 	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
 	certeza_editor: string;
-	observaciones: string | null;
+	sinopsis: string | null;
 }
 
 export interface SecuenciaVariacionInput {
@@ -72,6 +71,12 @@ export interface SecuenciaVariacionInput {
 	v_ini: number;
 	v_fin: number;
 	observaciones: string | null;
+}
+
+export interface SecuenciaSubtipoEstrofaInput {
+	subtipo_estrofa_id: string;
+	v_ini: number;
+	v_fin: number;
 }
 
 export interface CambioEstadoInput {
@@ -191,8 +196,8 @@ export interface AutoriaApiPayload {
 	loaded_at: string;
 }
 
-export interface AnalisisInput {
-	analisis_editor: string | null;
+export interface ObservacionesInput {
+	observaciones: string | null;
 	bibliografia: string | null;
 }
 

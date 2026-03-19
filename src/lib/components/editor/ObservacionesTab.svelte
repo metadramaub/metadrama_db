@@ -1,39 +1,45 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
+	import {
+		OBRA_CITA_REFERENCIA_EJEMPLO_HTML,
+		OBRA_REFERENCIAS_MULTIPLES_HELP
+	} from '$lib/config/citation-examples';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 
 	const props = $props<{
 		obraId: string;
-		analisisInitial: string;
+		observacionesInitial: string;
 		bibliografiaInitial: string;
 		readOnly?: boolean;
 	}>();
+	const PUBLIC_VISIBILITY_HELP = 'Este contenido se publica en la ficha pública de la obra.';
 
-	let analisis = $state(props.analisisInitial);
+	let observaciones = $state(props.observacionesInitial);
 	let bibliografia = $state(props.bibliografiaInitial);
 	let savingNow = $state(false);
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
-	const analisisLength = $derived(analisis.trim().length);
+	const observacionesLength = $derived(observaciones.trim().length);
 	const bibliografiaLength = $derived(bibliografia.trim().length);
 
 	$effect(() => {
-		analisis = props.analisisInitial ?? '';
+		observaciones = props.observacionesInitial ?? '';
 		bibliografia = props.bibliografiaInitial ?? '';
 	});
 
 	function queueSave() {
 		if (props.readOnly) return;
-		setDirty(true, 'analisis');
+		setDirty(true, 'observaciones');
 		if (timer) clearTimeout(timer);
 		timer = setTimeout(() => void save(), 10_000);
 	}
 
-	function onAnalisisChange(nextValue: string) {
-		analisis = nextValue;
+	function onObservacionesChange(nextValue: string) {
+		observaciones = nextValue;
 		queueSave();
 	}
 
@@ -46,35 +52,35 @@
 		if (props.readOnly) return;
 		if (savingNow) return;
 		savingNow = true;
-		setSaving(true, 'analisis');
+		setSaving(true, 'observaciones');
 
-		const response = await fetch(`/api/obras/${props.obraId}/analisis`, {
+		const response = await fetch(`/api/obras/${props.obraId}/observaciones`, {
 			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				analisis_editor: analisis.trim() || null,
+				observaciones: observaciones.trim() || null,
 				bibliografia: bibliografia.trim() || null
 			})
 		});
 		savingNow = false;
 
 		if (!response.ok) {
-			setSaving(false, 'analisis');
+			setSaving(false, 'observaciones');
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo guardar análisis y bibliografía.');
+			pushToast('error', body.message ?? 'No se pudieron guardar las observaciones y la bibliografía.');
 			return;
 		}
 
 		const payload = await response.json();
-		analisis = payload.obra.analisis_editor ?? '';
+		observaciones = payload.obra.observaciones ?? '';
 		bibliografia = payload.obra.bibliografia ?? '';
 		patchCurrentObra({
-			analisis_editor: payload.obra.analisis_editor,
+			observaciones: payload.obra.observaciones,
 			bibliografia: payload.obra.bibliografia,
 			updated_at: payload.obra.updated_at
 		});
-		markSaved('analisis');
-		pushToast('success', 'Análisis y bibliografía guardados');
+		markSaved('observaciones');
+		pushToast('success', 'Observaciones y bibliografía guardadas.');
 	}
 
 	onDestroy(() => {
@@ -85,7 +91,7 @@
 <section class="space-y-4">
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<h2 class="text-xl font-semibold">Análisis y bibliografía</h2>
+			<h2 class="text-xl font-semibold">Observaciones</h2>
 		</div>
 		<Button variant="success" onclick={save} disabled={savingNow || props.readOnly}>
 			{savingNow ? 'Guardando...' : 'Guardar'}
@@ -94,8 +100,16 @@
 
 	<article class="card p-4">
 		<div class="mb-3">
-			<h3 class="text-lg font-semibold">Análisis del editor</h3>
-			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {analisisLength}</p>
+			<h3 class="text-lg font-semibold">
+				<span class="form-label-with-help">
+					Otras observaciones
+					<FieldHelpTooltip
+						text={PUBLIC_VISIBILITY_HELP}
+						label="Visibilidad pública de otras observaciones"
+					/>
+				</span>
+			</h3>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {observacionesLength}</p>
 		</div>
 		<MarkdownEditorLite
 			rows={12}
@@ -103,16 +117,29 @@
 			minHeightClass="min-h-64"
 			toolbarCompact={true}
 			showPreviewToggle={true}
-			value={analisis}
+			value={observaciones}
 			disabled={props.readOnly}
-			onChange={onAnalisisChange}
+			onChange={onObservacionesChange}
 		/>
 	</article>
 
 	<article class="card p-4">
 		<div class="mb-3">
-			<h3 class="text-lg font-semibold">Bibliografía general</h3>
+			<h3 class="text-lg font-semibold">
+				<span class="form-label-with-help">
+					Bibliografía específica
+					<FieldHelpTooltip
+						text={PUBLIC_VISIBILITY_HELP}
+						label="Visibilidad pública de bibliografía específica"
+					/>
+					<FieldHelpTooltip
+						text={OBRA_REFERENCIAS_MULTIPLES_HELP}
+						label="Ayuda para referencias múltiples en bibliografía específica"
+					/>
+				</span>
+			</h3>
 			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
+			<p class="form-help">Ejemplo de cita: {@html OBRA_CITA_REFERENCIA_EJEMPLO_HTML}</p>
 		</div>
 		<MarkdownEditorLite
 			rows={12}

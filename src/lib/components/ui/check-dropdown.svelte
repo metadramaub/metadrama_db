@@ -19,6 +19,10 @@
 		items: DropdownItem[];
 		selectedIds: string[];
 		disabledIds?: string[];
+		hideCheckboxIds?: string[];
+		collapsibleHierarchy?: boolean;
+		autoExpandOnSearch?: boolean;
+		disableParentsWithChildren?: boolean;
 		placeholder?: string;
 		search?: boolean;
 		disabled?: boolean;
@@ -40,9 +44,15 @@
 	let query = $state('');
 	let portalStyle = $state('');
 	let portalListMaxHeight = $state(256);
+	let expandedHierarchyIds = $state<Set<string>>(new Set());
 
 	const isMultiple = $derived(props.multiple ?? true);
 	const hierarchical = $derived(props.hierarchical ?? false);
+	const collapsibleHierarchy = $derived(props.collapsibleHierarchy ?? false);
+	const autoExpandOnSearch = $derived(
+		props.autoExpandOnSearch ?? collapsibleHierarchy
+	);
+	const disableParentsWithChildren = $derived(props.disableParentsWithChildren ?? false);
 	const showPathInTrigger = $derived(props.showPathInTrigger ?? false);
 	const allowSingleClear = $derived(props.allowSingleClear ?? false);
 	const usePortal = $derived(props.portal ?? false);
@@ -51,6 +61,7 @@
 
 	const selectedSet = $derived(new Set(props.selectedIds));
 	const disabledSet = $derived(new Set(props.disabledIds ?? []));
+	const hideCheckboxSet = $derived(new Set(props.hideCheckboxIds ?? []));
 	const normalizedQuery = $derived(query.trim().toLowerCase());
 
 	const itemById = $derived(
@@ -68,10 +79,20 @@
 	});
 
 	const hierarchyRowById = $derived(new Map(hierarchyRows.map((row) => [row.id, row])));
+	const searchAutoExpanded = $derived.by(
+		() => collapsibleHierarchy && autoExpandOnSearch && normalizedQuery.length > 0
+	);
+	const filteredHierarchyRows = $derived.by(() => {
+		if (!hierarchical) return [];
+		return filterHierarchyRows(hierarchyRows, normalizedQuery);
+	});
 
 	const visibleHierarchyRows = $derived.by(() => {
 		if (!hierarchical) return [];
-		return filterHierarchyRows(hierarchyRows, normalizedQuery);
+		if (!collapsibleHierarchy) return filteredHierarchyRows;
+		if (searchAutoExpanded) return filteredHierarchyRows;
+		const source = normalizedQuery ? filteredHierarchyRows : hierarchyRows;
+		return source.filter((row) => row.ancestorIds.every((ancestorId) => expandedHierarchyIds.has(ancestorId)));
 	});
 
 	const selectedAncestorIds = $derived.by(() => {
@@ -134,9 +155,9 @@
 		query = '';
 	}
 
-	function selectItem(itemId: string) {
+	function selectItem(itemId: string, hasChildren = false) {
 		if (props.disabled) return;
-		if (disabledSet.has(itemId)) return;
+		if (isRowSelectionDisabled(itemId, hasChildren)) return;
 
 		if (!isMultiple) {
 			if (allowSingleClear && selectedSet.has(itemId)) {
@@ -154,6 +175,33 @@
 			return;
 		}
 		emitChange([...props.selectedIds, itemId]);
+	}
+
+	function toggleHierarchyNode(rowId: string) {
+		if (!collapsibleHierarchy) return;
+		const next = new Set(expandedHierarchyIds);
+		if (next.has(rowId)) {
+			next.delete(rowId);
+		} else {
+			next.add(rowId);
+		}
+		expandedHierarchyIds = next;
+	}
+
+	function isRowSelectionDisabled(rowId: string, hasChildren: boolean) {
+		if (disabledSet.has(rowId)) return true;
+		if (disableParentsWithChildren && hasChildren) return true;
+		return false;
+	}
+
+	function shouldHideRowCheckbox(rowId: string, hasChildren: boolean) {
+		if (hideCheckboxSet.has(rowId)) return true;
+		if (disableParentsWithChildren && hasChildren) return true;
+		return false;
+	}
+
+	function isHierarchyRowExpanded(rowId: string) {
+		return expandedHierarchyIds.has(rowId);
 	}
 
 	function handleDocumentClick(event: MouseEvent) {
@@ -227,6 +275,30 @@
 		void refreshPortalPosition();
 	});
 
+	$effect(() => {
+		const isHierarchical = hierarchical;
+		const isCollapsible = collapsibleHierarchy;
+		const ids = hierarchyRows.map((row) => row.id);
+		void ids.length;
+
+		if (!isHierarchical || !isCollapsible) {
+			if (expandedHierarchyIds.size > 0) {
+				expandedHierarchyIds = new Set();
+			}
+			return;
+		}
+
+		if (expandedHierarchyIds.size === 0) return;
+		const validIds = new Set(ids);
+		const next = new Set<string>();
+		for (const id of expandedHierarchyIds) {
+			if (validIds.has(id)) next.add(id);
+		}
+		if (next.size !== expandedHierarchyIds.size) {
+			expandedHierarchyIds = next;
+		}
+	});
+
 	onMount(() => {
 		if (typeof document === 'undefined') return;
 		document.addEventListener('mousedown', handleDocumentClick);
@@ -289,26 +361,65 @@
 					{:else}
 						{#each visibleHierarchyRows as row}
 							{@const item = itemById.get(row.id)}
+							{@const rowSelectionDisabled = isRowSelectionDisabled(row.id, row.hasChildren)}
+							{@const rowHideCheckbox = shouldHideRowCheckbox(row.id, row.hasChildren)}
+							{@const showToggle = collapsibleHierarchy && row.hasChildren}
+							{@const rowExpanded = searchAutoExpanded || isHierarchyRowExpanded(row.id)}
+							{@const rowIsGroupedParent = disableParentsWithChildren && row.hasChildren}
+							{@const rowTermTogglesGroup = rowIsGroupedParent && collapsibleHierarchy}
+							{@const rowTermToggleEnabled = rowTermTogglesGroup && !searchAutoExpanded}
 							{#if item}
-								<button
-									type="button"
-									class={`flex w-full items-start gap-2 px-2 py-2 text-left text-sm hover:bg-[color:var(--muted)] disabled:cursor-not-allowed disabled:opacity-60 ${selectedAncestorIds.has(row.id) && !selectedSet.has(row.id) ? 'bg-[color:var(--muted)]/40' : ''}`}
-									disabled={disabledSet.has(row.id)}
-									onclick={() => selectItem(row.id)}
+								<div
+									class={`flex w-full items-start gap-1 px-2 py-2 text-sm ${selectedAncestorIds.has(row.id) && !selectedSet.has(row.id) ? 'bg-[color:var(--muted)]/40' : ''}`}
+									style={`padding-left: ${Math.max(0, row.depth - 1) * 0.85}rem`}
 								>
-									<input type="checkbox" checked={selectedSet.has(row.id)} disabled={true} class="mt-0.5" />
-									<div class="min-w-0" style={`padding-left: ${Math.max(0, row.depth - 1) * 0.85}rem`}>
-										<div class={`truncate ${selectedAncestorIds.has(row.id) && !selectedSet.has(row.id) ? 'text-[color:var(--muted-foreground)]' : ''}`}>
-											{item.label}
+									{#if showToggle}
+										<button
+											type="button"
+											class="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded text-[11px] leading-none text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)] disabled:opacity-50"
+											aria-label={rowExpanded ? 'Colapsar grupo' : 'Expandir grupo'}
+											aria-expanded={rowExpanded}
+											disabled={searchAutoExpanded}
+											onclick={() => toggleHierarchyNode(row.id)}
+										>
+											<span class={`transition-transform duration-150 ${rowExpanded ? 'rotate-90' : ''}`} aria-hidden="true">&gt;</span>
+										</button>
+									{/if}
+									<button
+										type="button"
+										class={`flex min-w-0 flex-1 items-start gap-2 rounded px-1 py-0.5 text-left hover:bg-[color:var(--muted)] disabled:cursor-not-allowed ${rowSelectionDisabled ? 'opacity-70' : ''}`}
+										disabled={rowTermTogglesGroup ? !rowTermToggleEnabled : rowSelectionDisabled}
+										aria-expanded={rowTermTogglesGroup ? rowExpanded : undefined}
+										onclick={() => {
+											if (rowTermToggleEnabled) {
+												toggleHierarchyNode(row.id);
+												return;
+											}
+											selectItem(row.id, row.hasChildren);
+										}}
+									>
+										{#if !(showToggle && rowHideCheckbox)}
+											{#if rowHideCheckbox}
+												<span class="mt-0.5 inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+											{:else}
+												<input type="checkbox" checked={selectedSet.has(row.id)} disabled={true} class="mt-0.5" />
+											{/if}
+										{/if}
+										<div class="min-w-0">
+											<div
+												class={`truncate ${rowIsGroupedParent || (selectedAncestorIds.has(row.id) && !selectedSet.has(row.id)) ? 'text-[color:var(--muted-foreground)]' : ''}`}
+											>
+												{item.label}
+											</div>
+											{#if row.pathLabel !== item.label}
+												<div class="truncate text-xs text-[color:var(--muted-foreground)]">{row.pathLabel}</div>
+											{/if}
+											{#if item.description}
+												<div class="text-xs text-[color:var(--muted-foreground)]">{item.description}</div>
+											{/if}
 										</div>
-										{#if row.pathLabel !== item.label}
-											<div class="truncate text-xs text-[color:var(--muted-foreground)]">{row.pathLabel}</div>
-										{/if}
-										{#if item.description}
-											<div class="text-xs text-[color:var(--muted-foreground)]">{item.description}</div>
-										{/if}
-									</div>
-								</button>
+									</button>
+								</div>
 							{/if}
 						{/each}
 					{/if}

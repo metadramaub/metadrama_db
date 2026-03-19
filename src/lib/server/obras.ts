@@ -55,7 +55,7 @@ export async function computeObraProgress(
 		estructura: false,
 		secuencias: false,
 		autoria: false,
-		analisis: Boolean((obra.analisis_editor ?? '').trim().length > 100),
+		observaciones: Boolean((obra.observaciones ?? '').trim().length > 100),
 		bibliografia: Boolean((obra.bibliografia ?? '').trim().length > 0)
 	};
 

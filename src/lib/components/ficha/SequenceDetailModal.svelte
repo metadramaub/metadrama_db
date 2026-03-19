@@ -90,7 +90,7 @@
 				<article class="card p-4">
 					<h3 class="mb-2 text-base font-semibold">Caracterización</h3>
 					<div class="space-y-1 text-sm">
-						<p><strong>Género de personajes:</strong> {props.secuencia.personajes_genero}</p>
+						<p><strong>Personaje femenino:</strong> {props.secuencia.personaje_femenino}</p>
 						<p><strong>Donaire:</strong> {props.secuencia.personajes_donaire}</p>
 						<p><strong>Sobrenatural:</strong> {props.secuencia.personajes_sobrenatural}</p>
 					</div>
@@ -126,11 +126,11 @@
 			</article>
 
 			<article class="card mt-4 p-4">
-				<h3 class="mb-2 text-base font-semibold">Observaciones de secuencia</h3>
-				{#if (props.secuencia.observaciones ?? '').trim().length > 0}
-					<div class="space-y-2 text-sm">{@html renderMarkdown(props.secuencia.observaciones ?? '')}</div>
+				<h3 class="mb-2 text-base font-semibold">Sinopsis argumental</h3>
+				{#if (props.secuencia.sinopsis ?? '').trim().length > 0}
+					<div class="space-y-2 text-sm">{@html renderMarkdown(props.secuencia.sinopsis ?? '')}</div>
 				{:else}
-					<p class="text-sm text-[color:var(--muted-foreground)]">Sin observaciones públicas.</p>
+					<p class="text-sm text-[color:var(--muted-foreground)]">Sin sinopsis argumental publicada.</p>
 				{/if}
 			</article>
 		</div>
