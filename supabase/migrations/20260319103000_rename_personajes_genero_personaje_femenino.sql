@@ -1,4 +1,4 @@
-﻿begin;
+begin;
 
 alter table public.secuencias_metricas
 	rename column personajes_genero to personaje_femenino;
