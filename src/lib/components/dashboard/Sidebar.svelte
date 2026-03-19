@@ -17,6 +17,7 @@
 		arrowLeft: IconComponent | null;
 		bell: IconComponent | null;
 		bookOpenText: IconComponent | null;
+		circleHelp: IconComponent | null;
 		doorOpen: IconComponent | null;
 		home: IconComponent | null;
 		libraryBig: IconComponent | null;
@@ -25,6 +26,7 @@
 		arrowLeft: null,
 		bell: null,
 		bookOpenText: null,
+		circleHelp: null,
 		doorOpen: null,
 		home: null,
 		libraryBig: null,
@@ -34,6 +36,7 @@
 	const ArrowLeftIcon = $derived(icons.arrowLeft);
 	const BellIcon = $derived(icons.bell);
 	const BookOpenTextIcon = $derived(icons.bookOpenText);
+	const CircleHelpIcon = $derived(icons.circleHelp);
 	const DoorOpenIcon = $derived(icons.doorOpen);
 	const HomeIcon = $derived(icons.home);
 	const LibraryBigIcon = $derived(icons.libraryBig);
@@ -48,6 +51,7 @@
 					arrowLeftModule,
 					bellModule,
 					bookOpenTextModule,
+					circleHelpModule,
 					doorOpenModule,
 					homeModule,
 					libraryBigModule,
@@ -56,6 +60,7 @@
 					import('lucide-svelte/icons/arrow-left'),
 					import('lucide-svelte/icons/bell'),
 					import('lucide-svelte/icons/book-open-text'),
+					import('lucide-svelte/icons/circle-help'),
 					import('lucide-svelte/icons/door-open'),
 					import('lucide-svelte/icons/home'),
 					import('lucide-svelte/icons/library-big'),
@@ -68,6 +73,7 @@
 					arrowLeft: arrowLeftModule.default,
 					bell: bellModule.default,
 					bookOpenText: bookOpenTextModule.default,
+					circleHelp: circleHelpModule.default,
 					doorOpen: doorOpenModule.default,
 					home: homeModule.default,
 					libraryBig: libraryBigModule.default,
@@ -167,6 +173,17 @@
 				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
 			{/if}
 			Vocabularios
+		</a>
+		<a
+			class="flex items-center gap-2 border border-[color:var(--border)] px-3 py-2 hover:bg-[color:var(--muted)]"
+			href="/dashboard/guia"
+		>
+			{#if CircleHelpIcon}
+				<CircleHelpIcon size={16} aria-hidden="true" />
+			{:else}
+				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+			{/if}
+			Guía de uso
 		</a>
 	</nav>
 
