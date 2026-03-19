@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
@@ -521,6 +522,7 @@
 	}
 
 	async function save(source: 'manual' | 'autosave' = 'manual') {
+		if (!browser) return;
 		if (props.readOnly || sidebarSaving || !sidebarOpen) return;
 		const showToast = source === 'manual';
 		if (!validateForm(showToast)) return;
@@ -602,6 +604,7 @@
 	}
 
 	async function remove(secuenciaId: string) {
+		if (!browser) return;
 		if (props.readOnly) return;
 		const response = await fetch(`/api/obras/${props.obraId}/secuencias/${secuenciaId}`, {
 			method: 'DELETE'
@@ -621,6 +624,7 @@
 	}
 
 	async function loadVariacionesForCurrentSecuencia() {
+		if (!browser) return;
 		if (!editingId) {
 			variaciones = [];
 			return;
@@ -720,6 +724,7 @@
 	}
 
 	async function saveVariacion() {
+		if (!browser) return;
 		if (props.readOnly || variacionModalSaving || !editingId) return;
 		if (!validateVariacionForm(true)) return;
 
@@ -776,6 +781,7 @@
 	}
 
 	async function removeVariacion(variacionId: string) {
+		if (!browser) return;
 		if (props.readOnly || !editingId) return;
 		const response = await fetch(
 			`/api/obras/${props.obraId}/secuencias/${editingId}/variaciones/${variacionId}`,
@@ -794,6 +800,7 @@
 	}
 
 	async function loadSubtiposForCurrentSecuencia() {
+		if (!browser) return;
 		if (!editingId) {
 			subtipos = [];
 			return;
@@ -886,6 +893,7 @@
 	}
 
 	async function saveSubtipo() {
+		if (!browser) return;
 		if (props.readOnly || subtipoModalSaving || !editingId) return;
 		if (!validateSubtipoForm(true)) return;
 
@@ -941,6 +949,7 @@
 	}
 
 	async function removeSubtipo(subtipoSecuenciaId: string) {
+		if (!browser) return;
 		if (props.readOnly || !editingId) return;
 		const response = await fetch(
 			`/api/obras/${props.obraId}/secuencias/${editingId}/subtipos/${subtipoSecuenciaId}`,
