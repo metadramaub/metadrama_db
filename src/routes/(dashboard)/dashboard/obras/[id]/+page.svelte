@@ -403,6 +403,8 @@
 		<SecuenciasTab
 			obraId={obraLive.obra_id}
 			secuenciasInitial={secuenciasLive}
+			jornadasInitial={jornadasLive}
+			cuadrosInitial={cuadrosLive}
 			estrofaOptions={estrofaOptions}
 			certezaOptions={certezaOptions}
 			tipoVariacionOptions={tipoVariacionOptions}

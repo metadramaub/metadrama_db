@@ -16,6 +16,7 @@
 		bibliografiaInitial: string;
 		readOnly?: boolean;
 	}>();
+	const PUBLIC_VISIBILITY_HELP = 'Este contenido se publica en la ficha pública de la obra.';
 
 	let observaciones = $state(props.observacionesInitial);
 	let bibliografia = $state(props.bibliografiaInitial);
@@ -99,7 +100,15 @@
 
 	<article class="card p-4">
 		<div class="mb-3">
-			<h3 class="text-lg font-semibold">Otras observaciones</h3>
+			<h3 class="text-lg font-semibold">
+				<span class="form-label-with-help">
+					Otras observaciones
+					<FieldHelpTooltip
+						text={PUBLIC_VISIBILITY_HELP}
+						label="Visibilidad pública de otras observaciones"
+					/>
+				</span>
+			</h3>
 			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {observacionesLength}</p>
 		</div>
 		<MarkdownEditorLite
@@ -117,8 +126,12 @@
 	<article class="card p-4">
 		<div class="mb-3">
 			<h3 class="text-lg font-semibold">
-				<span class="inline-flex items-center gap-1">
+				<span class="form-label-with-help">
 					Bibliografía específica
+					<FieldHelpTooltip
+						text={PUBLIC_VISIBILITY_HELP}
+						label="Visibilidad pública de bibliografía específica"
+					/>
 					<FieldHelpTooltip
 						text={OBRA_REFERENCIAS_MULTIPLES_HELP}
 						label="Ayuda para referencias múltiples en bibliografía específica"

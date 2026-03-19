@@ -12,6 +12,8 @@
 	const props = $props<{
 		obraId: string;
 		secuenciasInitial: Tables<'secuencias_metricas'>[];
+		jornadasInitial: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>;
+		cuadrosInitial: Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>;
 		estrofaOptions: Array<
 			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id' | 'orden'>
 		>;
@@ -367,15 +369,53 @@
 		return [...items].sort((a, b) => a.v_ini - b.v_ini);
 	}
 
+	function sortJornadas(
+		items: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>
+	) {
+		return [...items].sort(
+			(a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin || a.jornada_num - b.jornada_num
+		);
+	}
+
+	function sortCuadros(
+		items: Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>
+	) {
+		return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin || a.cuadro_num - b.cuadro_num);
+	}
+
 	function emitSecuenciasChange(nextItems: Tables<'secuencias_metricas'>[] = secuencias) {
 		props.onSecuenciasChange?.(sortSecuencias(nextItems));
 	}
+
+	const jornadasSorted = $derived.by(() => sortJornadas(props.jornadasInitial));
+	const cuadrosSorted = $derived.by(() => sortCuadros(props.cuadrosInitial));
 
 	const filteredSecuencias = $derived.by(() => {
 		return secuencias
 			.filter((secuencia) => !filtroEstrofa || secuencia.estrofa_tipo_id === filtroEstrofa)
 			.filter((secuencia) => !filtroCerteza || secuencia.certeza_editor === filtroCerteza)
 			.sort((a, b) => a.v_ini - b.v_ini);
+	});
+	const totalVersosEstructura = $derived.by(() => {
+		if (jornadasSorted.length === 0) return null;
+		const maxVFin = jornadasSorted.reduce((max, jornada) => Math.max(max, Number(jornada.v_fin) || 0), 0);
+		return maxVFin > 0 ? maxVFin : null;
+	});
+	const totalVersosDeclaradosFiltrados = $derived.by(() =>
+		filteredSecuencias.reduce((sum, secuencia) => sum + (Number(secuencia.n_versos) || 0), 0)
+	);
+	const diferenciaFiltrada = $derived.by(() => {
+		if (totalVersosEstructura === null) return null;
+		return totalVersosDeclaradosFiltrados - totalVersosEstructura;
+	});
+	const cuadrosByJornada = $derived.by(() => {
+		const grouped = new Map<string, Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>>();
+		for (const cuadro of cuadrosSorted) {
+			const items = grouped.get(cuadro.jornada_id) ?? [];
+			items.push(cuadro);
+			grouped.set(cuadro.jornada_id, items);
+		}
+		return grouped;
 	});
 
 	function clearAutosaveTimer() {
@@ -1099,60 +1139,132 @@
 		</label>
 	</div>
 
-	<div class="card overflow-x-auto">
-		<table class="min-w-full text-left text-sm">
-			<thead class="bg-[color:var(--muted)]">
-				<tr>
-					<th class="px-3 py-2">#</th>
-					<th class="px-3 py-2">V_ini</th>
-					<th class="px-3 py-2">V_fin</th>
-					<th class="px-3 py-2">N_versos</th>
-					<th class="px-3 py-2">Estrofa</th>
-					<th class="px-3 py-2">Certeza</th>
-					<th class="px-3 py-2">
-						<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#if filteredSecuencias.length === 0}
-					<tr>
-						<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={7}>
-							Sin secuencias para este filtro.
-						</td>
-					</tr>
-				{:else}
-					{#each filteredSecuencias as secuencia, idx}
-						<tr class="border-t border-[color:var(--border)]">
-							<td class="px-3 py-2">{idx + 1}</td>
-							<td class="px-3 py-2">{secuencia.v_ini}</td>
-							<td class="px-3 py-2">{secuencia.v_fin}</td>
-							<td class="px-3 py-2">{secuencia.n_versos}</td>
-							<td class="px-3 py-2">{termById(props.estrofaOptions, secuencia.estrofa_tipo_id)}</td>
-							<td class="px-3 py-2">{termById(props.certezaOptions, secuencia.certeza_editor)}</td>
-							<td class="px-3 py-2">
-								<div class="ml-auto flex w-[11.5rem] items-center gap-2">
-									<Button
-										variant="ghost"
-										onclick={() => openEdit(secuencia)}
-										disabled={props.readOnly && !props.canComment}
-										>{props.readOnly ? 'Ver' : 'Editar'}</Button
-									>
-									<Button variant="danger" onclick={() => openDelete(secuencia.secuencia_id)} disabled={props.readOnly}
-										>Eliminar</Button
-									>
-								</div>
-							</td>
-						</tr>
+	<div class="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-4">
+		<aside class="secuencias-structure-index card hidden lg:sticky lg:top-4 lg:block lg:h-fit lg:self-start">
+			<div class="secuencias-structure-index__head">Índice de estructura</div>
+			{#if jornadasSorted.length === 0}
+				<p class="secuencias-structure-index__empty-text">Sin estructura registrada.</p>
+			{:else}
+				<ul class="secuencias-structure-list">
+					{#each jornadasSorted as jornada (jornada.jornada_id)}
+						<li class="secuencias-structure-list__item">
+							<p class="secuencias-structure-list__jornada">
+								Jornada {jornada.jornada_num}
+								<span>(vv. {jornada.v_ini}-{jornada.v_fin})</span>
+							</p>
+							{#if (cuadrosByJornada.get(jornada.jornada_id)?.length ?? 0) > 0}
+								<ul class="secuencias-structure-sublist">
+									{#each cuadrosByJornada.get(jornada.jornada_id) ?? [] as cuadro (cuadro.cuadro_id)}
+										<li class="secuencias-structure-sublist__item">
+											Cuadro {cuadro.cuadro_num} (vv. {cuadro.v_ini}-{cuadro.v_fin})
+										</li>
+									{/each}
+								</ul>
+							{/if}
+						</li>
 					{/each}
-				{/if}
-			</tbody>
-		</table>
+				</ul>
+			{/if}
+		</aside>
+
+		<div class="space-y-2">
+			<div class="flex justify-start">
+				<Button variant="secondary" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
+			</div>
+			<div class="card overflow-x-auto">
+				<table class="min-w-full text-left text-sm">
+					<thead class="bg-[color:var(--muted)]">
+						<tr>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">#</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_ini</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_fin</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">N_versos</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Estrofa</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Certeza</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">
+								<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#if filteredSecuencias.length === 0}
+							<tr>
+								<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={7}>
+									Sin secuencias para este filtro.
+								</td>
+							</tr>
+						{:else}
+							{#each filteredSecuencias as secuencia, idx}
+								<tr class="border-t border-[color:var(--border)]">
+									<td class="px-3 py-2">{idx + 1}</td>
+									<td class="px-3 py-2">{secuencia.v_ini}</td>
+									<td class="px-3 py-2">{secuencia.v_fin}</td>
+									<td class="px-3 py-2">{secuencia.n_versos}</td>
+									<td class="px-3 py-2">{termById(props.estrofaOptions, secuencia.estrofa_tipo_id)}</td>
+									<td class="px-3 py-2">{termById(props.certezaOptions, secuencia.certeza_editor)}</td>
+									<td class="px-3 py-2">
+										<div class="ml-auto flex w-[11.5rem] items-center gap-2">
+											<Button
+												variant="ghost"
+												onclick={() => openEdit(secuencia)}
+												disabled={props.readOnly && !props.canComment}
+												>{props.readOnly ? 'Ver' : 'Editar'}</Button
+											>
+											<Button
+												variant="danger"
+												onclick={() => openDelete(secuencia.secuencia_id)}
+												disabled={props.readOnly}>Eliminar</Button
+											>
+										</div>
+									</td>
+								</tr>
+							{/each}
+						{/if}
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 
-	<div class="flex justify-start">
-		<Button variant="secondary" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
+	<div class="card grid gap-3 p-4 sm:grid-cols-3">
+		<div class="rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+			<p class="text-xs text-[color:var(--muted-foreground)]">Total estructura</p>
+			<p class="text-lg font-semibold">
+				{#if totalVersosEstructura === null}
+					--
+				{:else}
+					{totalVersosEstructura}
+				{/if}
+			</p>
+		</div>
+		<div class="rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+			<p class="text-xs text-[color:var(--muted-foreground)]">Versos declarados (filtrado)</p>
+			<p class="text-lg font-semibold">{totalVersosDeclaradosFiltrados}</p>
+		</div>
+		<div class="rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+			<p class="text-xs text-[color:var(--muted-foreground)]">Diferencia</p>
+			<p
+				class={`text-lg font-semibold ${
+					diferenciaFiltrada === null
+						? 'text-[color:var(--muted-foreground)]'
+						: diferenciaFiltrada === 0
+							? 'text-[color:var(--foreground)]'
+							: 'text-[color:var(--danger)]'
+				}`}
+			>
+				{#if diferenciaFiltrada === null}
+					--
+				{:else if diferenciaFiltrada > 0}
+					+{diferenciaFiltrada}
+				{:else}
+					{diferenciaFiltrada}
+				{/if}
+			</p>
+		</div>
 	</div>
+	<p class="text-xs text-[color:var(--muted-foreground)]">
+		La suma de versos declarados se calcula solo sobre las secuencias visibles por los filtros activos.
+	</p>
 </section>
 
 {#if sidebarOpen}
@@ -1625,7 +1737,15 @@
 					{/if}
 
 					<label class="form-field">
-						<span class="form-label">Observaciones</span>
+						<span class="form-label">
+							<span class="form-label-with-help">
+								Observaciones
+								<FieldHelpTooltip
+									text="Este contenido se publica en la ficha pública de la obra."
+									label="Visibilidad pública de observaciones de la variación"
+								/>
+							</span>
+						</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"
