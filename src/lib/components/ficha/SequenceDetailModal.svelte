@@ -90,7 +90,7 @@
 				<article class="card p-4">
 					<h3 class="mb-2 text-base font-semibold">Caracterización</h3>
 					<div class="space-y-1 text-sm">
-						<p><strong>Género de personajes:</strong> {props.secuencia.personajes_genero}</p>
+						<p><strong>Personaje femenino:</strong> {props.secuencia.personaje_femenino}</p>
 						<p><strong>Donaire:</strong> {props.secuencia.personajes_donaire}</p>
 						<p><strong>Sobrenatural:</strong> {props.secuencia.personajes_sobrenatural}</p>
 					</div>

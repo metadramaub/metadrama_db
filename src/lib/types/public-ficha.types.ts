@@ -45,7 +45,7 @@ export interface PublicFichaSecuencia {
 	estrofa_tipo_forma: string | null;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean;
-	personajes_genero: string;
+	personaje_femenino: string;
 	personajes_donaire: string;
 	personajes_sobrenatural: string;
 	sinopsis: string | null;

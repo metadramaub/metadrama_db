@@ -574,8 +574,8 @@ export type Database = {
           n_versos: number
           obra_id: string
           sinopsis: string | null
+          personaje_femenino: string
           personajes_donaire: string
-          personajes_genero: string
           personajes_sobrenatural: string
           secuencia_id: string
           updated_at: string | null
@@ -591,8 +591,8 @@ export type Database = {
           n_versos: number
           obra_id: string
           sinopsis?: string | null
+          personaje_femenino?: string
           personajes_donaire?: string
-          personajes_genero?: string
           personajes_sobrenatural?: string
           secuencia_id?: string
           updated_at?: string | null
@@ -608,8 +608,8 @@ export type Database = {
           n_versos?: number
           obra_id?: string
           sinopsis?: string | null
+          personaje_femenino?: string
           personajes_donaire?: string
-          personajes_genero?: string
           personajes_sobrenatural?: string
           secuencia_id?: string
           updated_at?: string | null
