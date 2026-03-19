@@ -30,7 +30,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 					'certeza_editor',
 					'estrofa_tipo',
 					'tipo_variacion',
-					'personajes_genero',
 					'personajes_donaire',
 					'personajes_sobrenatural'
 				]),

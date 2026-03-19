@@ -59,7 +59,7 @@ export interface SecuenciaInput {
 	estrofa_tipo_id: string;
 	inaugura_espacio: boolean;
 	versos_partidos: boolean;
-	personajes_genero: 'mixto' | 'solo_masculino' | 'solo_femenino';
+	personaje_femenino: 'ausente' | 'solo' | 'con_otros';
 	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
 	certeza_editor: string;

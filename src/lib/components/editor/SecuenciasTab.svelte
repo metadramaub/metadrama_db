@@ -30,7 +30,7 @@
 		estrofa_tipo_id: string;
 		inaugura_espacio: boolean;
 		versos_partidos: boolean;
-		personajes_genero: 'mixto' | 'solo_masculino' | 'solo_femenino';
+		personaje_femenino: 'ausente' | 'solo' | 'con_otros';
 		personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 		personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
 		certeza_editor: string;
@@ -188,10 +188,10 @@
 			label: option.termino
 		}))
 	);
-	const personajesGeneroItems = [
-		{ id: 'mixto', label: 'mixto' },
-		{ id: 'solo_masculino', label: 'solo_masculino' },
-		{ id: 'solo_femenino', label: 'solo_femenino' }
+	const personajeFemeninoItems = [
+		{ id: 'ausente', label: 'ausente' },
+		{ id: 'solo', label: 'solo' },
+		{ id: 'con_otros', label: 'con_otros' }
 	];
 	const personajesRolItems = [
 		{ id: 'ausente', label: 'ausente' },
@@ -267,7 +267,7 @@
 			estrofa_tipo_id: defaultEstrofa,
 			inaugura_espacio: false,
 			versos_partidos: false,
-			personajes_genero: 'mixto',
+			personaje_femenino: 'ausente',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
 			certeza_editor: defaultCerteza,
@@ -388,7 +388,7 @@
 			estrofa_tipo_id: form.estrofa_tipo_id,
 			inaugura_espacio: Boolean(form.inaugura_espacio),
 			versos_partidos: Boolean(form.versos_partidos),
-			personajes_genero: form.personajes_genero,
+			personaje_femenino: form.personaje_femenino,
 			personajes_donaire: form.personajes_donaire,
 			personajes_sobrenatural: form.personajes_sobrenatural,
 			certeza_editor: form.certeza_editor,
@@ -459,7 +459,7 @@
 			estrofa_tipo_id: toSelectableEstrofaId(secuencia.estrofa_tipo_id),
 			inaugura_espacio: Boolean(secuencia.inaugura_espacio),
 			versos_partidos: Boolean(secuencia.versos_partidos),
-			personajes_genero: secuencia.personajes_genero as FormState['personajes_genero'],
+			personaje_femenino: secuencia.personaje_femenino as FormState['personaje_femenino'],
 			personajes_donaire: secuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: secuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
 			certeza_editor: secuencia.certeza_editor,
@@ -576,7 +576,7 @@
 			estrofa_tipo_id: toSelectableEstrofaId(savedSecuencia.estrofa_tipo_id),
 			inaugura_espacio: Boolean(savedSecuencia.inaugura_espacio),
 			versos_partidos: Boolean(savedSecuencia.versos_partidos),
-			personajes_genero: savedSecuencia.personajes_genero as FormState['personajes_genero'],
+			personaje_femenino: savedSecuencia.personaje_femenino as FormState['personaje_femenino'],
 			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
 			certeza_editor: savedSecuencia.certeza_editor,
@@ -971,7 +971,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personajes_genero}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personaje_femenino}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1364,20 +1364,20 @@
 				<h4 class="form-section-title">Caracterización</h4>
 				<div class="grid gap-3 sm:grid-cols-2">
 					<label class="form-field">
-						<span class="form-label">Personajes género</span>
+						<span class="form-label">Personaje femenino</span>
 						<CheckDropdown
 							multiple={false}
 							search={false}
-							placeholder="Seleccionar género"
-							items={personajesGeneroItems}
+							placeholder="Seleccionar valor"
+							items={personajeFemeninoItems}
 							disabled={props.readOnly}
-							selectedIds={[form.personajes_genero]}
+							selectedIds={[form.personaje_femenino]}
 							onChange={(ids) => {
-								const nextGenero = ids[0] as FormState['personajes_genero'] | undefined;
-								if (!nextGenero) return;
+								const nextPersonajeFemenino = ids[0] as FormState['personaje_femenino'] | undefined;
+								if (!nextPersonajeFemenino) return;
 								form = {
 									...form,
-									personajes_genero: nextGenero
+									personaje_femenino: nextPersonajeFemenino
 								};
 							}}
 						/>

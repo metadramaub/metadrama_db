@@ -276,7 +276,7 @@ begin
 						'estrofa_tipo_forma', coalesce(est_parent.tipo_forma, est.tipo_forma),
 						'inaugura_espacio', sm.inaugura_espacio,
 						'versos_partidos', sm.versos_partidos,
-						'personajes_genero', sm.personajes_genero,
+						'personaje_femenino', sm.personaje_femenino,
 						'personajes_donaire', sm.personajes_donaire,
 						'personajes_sobrenatural', sm.personajes_sobrenatural,
 						'sinopsis', sm.sinopsis,
@@ -741,14 +741,15 @@ CREATE TABLE IF NOT EXISTS "public"."secuencias_metricas" (
     "n_versos" integer NOT NULL,
     "estrofa_tipo_id" "uuid",
     "inaugura_espacio" boolean DEFAULT false,
-    "personajes_genero" character varying(20) DEFAULT 'mixto'::character varying NOT NULL,
+    "personaje_femenino" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
     "personajes_donaire" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
     "personajes_sobrenatural" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
     "certeza_editor" "uuid" NOT NULL,
     "sinopsis" "text",
     "created_at" timestamp with time zone DEFAULT "now"(),
     "updated_at" timestamp with time zone DEFAULT "now"(),
-    "versos_partidos" boolean DEFAULT false NOT NULL
+    "versos_partidos" boolean DEFAULT false NOT NULL,
+    CONSTRAINT "secuencias_metricas_personaje_femenino_chk" CHECK ((("personaje_femenino")::text = ANY ((ARRAY['ausente'::character varying, 'solo'::character varying, 'con_otros'::character varying])::text[])))
 );
 
 
@@ -760,6 +761,8 @@ COMMENT ON TABLE "public"."secuencias_metricas" IS 'Unidad de análisis métrico
 
 
 COMMENT ON COLUMN "public"."secuencias_metricas"."sinopsis" IS 'Sinopsis argumental breve de la secuencia.';
+
+COMMENT ON COLUMN "public"."secuencias_metricas"."personaje_femenino" IS 'Presencia de personaje femenino en la secuencia (ausente, solo, con_otros).';
 
 
 
@@ -1966,7 +1969,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "anon";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "authenticated";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "service_role";
-
 
 
 
