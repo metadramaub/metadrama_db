@@ -61,6 +61,137 @@ textarea {
 	@apply border border-[color:var(--border)] bg-white;
 }
 
+.markdown-blockquote {
+	margin: 0.35rem 0;
+	padding-left: 0.8rem;
+	color: var(--muted-foreground);
+}
+
+.markdown-callout {
+	margin: 0.35rem 0;
+	border: 1px solid var(--border);
+	padding: 0.75rem 0.85rem;
+	background: var(--muted);
+}
+
+.markdown-callout__title {
+	margin: 0;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--muted-foreground);
+}
+
+.markdown-callout__body {
+	margin-top: 0.4rem;
+}
+
+.markdown-callout__body > :first-child {
+	margin-top: 0;
+}
+
+.markdown-callout__body > :last-child {
+	margin-bottom: 0;
+}
+
+
+.markdown-callout--tip {
+	background: #edf8ee;
+}
+
+.markdown-callout--warning {
+	background: #fff8eb;
+}
+
+.markdown-callout--important {
+	background: #edf4ff;
+}
+
+.markdown-callout--danger {
+	background: #fff1f1;
+}
+
+.markdown-callout--success {
+	background: #ecfdf3;
+}
+
+.markdown-fake-preview {
+	margin: 0.6rem 0;
+	border: 1px solid var(--border);
+	background: white;
+	overflow: hidden;
+}
+
+.markdown-fake-preview__head {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	border-bottom: 1px solid var(--border);
+}
+
+.markdown-fake-preview__title {
+	padding: 0.5rem 0.7rem;
+	background: var(--muted);
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--muted-foreground);
+}
+
+.markdown-fake-preview__title + .markdown-fake-preview__title {
+	border-left: 1px solid var(--border);
+}
+
+.markdown-fake-preview__split {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.markdown-fake-preview__pane {
+	padding: 0.7rem;
+	font-size: 0.85rem;
+	line-height: 1.45;
+}
+
+.markdown-fake-preview__pane + .markdown-fake-preview__pane {
+	border-left: 1px solid var(--border);
+}
+
+.markdown-fake-preview__pre {
+	margin: 0;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+	font-size: 0.8rem;
+	line-height: 1.45;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.markdown-fake-preview__pane--render > :first-child {
+	margin-top: 0;
+}
+
+.markdown-fake-preview__pane--render > :last-child {
+	margin-bottom: 0;
+}
+
+.markdown-fake-preview__pane--render a {
+	text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+	.markdown-fake-preview__head,
+	.markdown-fake-preview__split {
+		grid-template-columns: 1fr;
+	}
+
+	.markdown-fake-preview__title + .markdown-fake-preview__title,
+	.markdown-fake-preview__pane + .markdown-fake-preview__pane {
+		border-left: 0;
+		border-top: 1px solid var(--border);
+	}
+}
+
 .form-field {
 	display: block;
 }
