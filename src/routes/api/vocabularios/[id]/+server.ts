@@ -46,7 +46,7 @@ function wouldCreateCycle(currentId: string, parentMap: Map<string, string | nul
 async function getCurrentTerm(locals: App.Locals, terminoId: string) {
 	const { data, error } = await locals.supabase
 		.from('vocabularios')
-		.select('termino_id,categoria,termino_padre_id')
+		.select('termino_id,categoria,termino,termino_padre_id')
 		.eq('termino_id', terminoId)
 		.maybeSingle();
 
@@ -67,6 +67,40 @@ async function getCurrentTerm(locals: App.Locals, terminoId: string) {
 	return { ok: true as const, term: data };
 }
 
+function detectDependencyTable(details?: string | null, message?: string | null) {
+	const source = `${details ?? ''} ${message ?? ''}`;
+	const tableMatch = source.match(/table\s+"([^"]+)"/i);
+	return tableMatch?.[1]?.trim() ?? null;
+}
+
+function dependencyLabel(tableName: string | null) {
+	switch (tableName) {
+		case 'secuencias_metricas':
+			return 'secuencias métricas';
+		case 'estrofa_tipo_metros':
+			return 'relaciones estrofa/metro';
+		case 'vocabularios':
+			return 'términos hijos en esta misma categoría';
+		case 'secuencias_variaciones':
+			return 'variaciones de secuencias';
+		case 'secuencias_subtipos_estrofa':
+			return 'subtipos internos de secuencias';
+		case 'obras':
+			return 'obras';
+		case 'cuadros':
+			return 'cuadros';
+		case 'comentarios_internos':
+			return 'comentarios internos';
+		default:
+			return 'registros relacionados';
+	}
+}
+
+function buildDependencyMessage(term: string, tableName: string | null) {
+	const label = dependencyLabel(tableName);
+	return `No se puede eliminar el término "${term}" porque todavía se usa en ${label}. Reasigna o elimina esas referencias y vuelve a intentarlo.`;
+}
+
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	const profile = await requireEditorProfile({ locals });
 	if (!canManageVocabularios(profile.roleTerm)) {
@@ -79,7 +113,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 	const current = currentResult.term;
 	if (isProtectedVocabularyCategory(current.categoria)) {
-		return forbiddenResponse('Esta categoria esta protegida y es de solo lectura.');
+		return forbiddenResponse('Esta categoría está protegida y es de solo lectura.');
 	}
 
 	const body = await request.json().catch(() => ({}));
@@ -94,7 +128,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		const nextParentId = payload.termino_padre_id ?? null;
 		if (nextParentId === current.termino_id) {
 			return json(
-				{ error: 'validation_error', message: 'Un termino no puede ser padre de si mismo.' },
+				{ error: 'validation_error', message: 'Un término no puede ser padre de sí mismo.' },
 				{ status: 400 }
 			);
 		}
@@ -112,7 +146,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			return json(
 				{
 					error: 'validation_error',
-					message: 'El termino padre debe existir y pertenecer a la misma categoria.'
+					message: 'El término padre debe existir y pertenecer a la misma categoría.'
 				},
 				{ status: 400 }
 			);
@@ -124,7 +158,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			return json(
 				{
 					error: 'validation_error',
-					message: 'La relacion padre/hijo propuesta crea un ciclo no permitido.'
+					message: 'La relación padre/hijo propuesta crea un ciclo no permitido.'
 				},
 				{ status: 400 }
 			);
@@ -141,12 +175,12 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			.maybeSingle();
 		if (error) {
 			return json(
-				{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar el termino.' },
+				{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar el término.' },
 				{ status: 500 }
 			);
 		}
 		if (!updatedData) {
-			return forbiddenResponse('No tienes permiso para editar este termino.');
+			return forbiddenResponse('No tienes permiso para editar este término.');
 		}
 		data = updatedData;
 	} else {
@@ -157,12 +191,12 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			.maybeSingle();
 		if (error) {
 			return json(
-				{ error: 'db_error', message: error?.message ?? 'No se pudo leer el termino.' },
+				{ error: 'db_error', message: error?.message ?? 'No se pudo leer el término.' },
 				{ status: 500 }
 			);
 		}
 		if (!currentData) {
-			return forbiddenResponse('No tienes permiso para editar este termino.');
+			return forbiddenResponse('No tienes permiso para editar este término.');
 		}
 		data = currentData;
 	}
@@ -191,7 +225,7 @@ export const DELETE: RequestHandler = async ({ locals, params, request }) => {
 	}
 	const current = currentResult.term;
 	if (isProtectedVocabularyCategory(current.categoria)) {
-		return forbiddenResponse('Esta categoria esta protegida y es de solo lectura.');
+		return forbiddenResponse('Esta categoría está protegida y es de solo lectura.');
 	}
 
 	const body = await request.json().catch(() => ({}));
@@ -211,12 +245,23 @@ export const DELETE: RequestHandler = async ({ locals, params, request }) => {
 		const status = error.code === '23503' ? 409 : 500;
 		const message =
 			error.code === '23503'
-				? 'No se puede eliminar el termino por dependencias activas.'
-				: 'No se pudo eliminar el termino.';
-		return json({ error: 'db_error', message, details: error.message }, { status });
+				? buildDependencyMessage(current.termino, detectDependencyTable(error.details, error.message))
+				: 'No se pudo eliminar el término.';
+		return json(
+			{
+				error: 'db_error',
+				message,
+				details: error.message,
+				dependencyTable:
+					error.code === '23503'
+						? detectDependencyTable(error.details, error.message)
+						: null
+			},
+			{ status }
+		);
 	}
 	if (!data) {
-		return forbiddenResponse('No tienes permiso para eliminar este termino.');
+		return forbiddenResponse('No tienes permiso para eliminar este término.');
 	}
 
 	return json({ deleted: true, terminoId: params.id });

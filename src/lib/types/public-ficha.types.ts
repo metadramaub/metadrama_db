@@ -23,7 +23,6 @@ export interface PublicFichaCuadro {
 	cuadro_num: number;
 	v_ini: number;
 	v_fin: number;
-	descripcion: string | null;
 }
 
 export interface PublicFichaVariacion {
@@ -46,10 +45,10 @@ export interface PublicFichaSecuencia {
 	estrofa_tipo_forma: string | null;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean;
-	personajes_genero: string;
+	personaje_femenino: string;
 	personajes_donaire: string;
 	personajes_sobrenatural: string;
-	observaciones: string | null;
+	sinopsis: string | null;
 	jornada_id: string | null;
 	jornada_num: number | null;
 	cuadro_id: string | null;
@@ -74,7 +73,7 @@ export interface PublicObraFichaPayload {
 		genero_term: string | null;
 		total_versos: number | null;
 		edicion: string | null;
-		analisis_editor: string | null;
+		observaciones: string | null;
 		bibliografia: string | null;
 		updated_at: string | null;
 		autor_ficha_publico: string | null;

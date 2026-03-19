@@ -2,6 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
 	import type { ComentarioInput, ComentarioListItem, ComentarioPatchInput } from '$lib/types/obra.types';
@@ -67,6 +68,8 @@
 		{ id: 'revision', label: 'revisión' },
 		{ id: 'tecnico', label: 'técnico' }
 	];
+	const INTERNAL_VISIBILITY_HELP =
+		'Este comentario es interno y no se publica en la ficha pública.';
 
 	async function loadComments() {
 		commentsLoading = true;
@@ -278,7 +281,15 @@
 								/>
 							</label>
 							<label class="form-field mt-2">
-								<span class="form-label">Comentario</span>
+								<span class="form-label">
+									<span class="form-label-with-help">
+										Comentario
+										<FieldHelpTooltip
+											text={INTERNAL_VISIBILITY_HELP}
+											label="Visibilidad interna del comentario en edición"
+										/>
+									</span>
+								</span>
 								<textarea
 									rows={3}
 									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
@@ -368,7 +379,15 @@
 				/>
 			</label>
 			<label class="form-field">
-				<span class="form-label">Nuevo comentario</span>
+				<span class="form-label">
+					<span class="form-label-with-help">
+						Nuevo comentario
+						<FieldHelpTooltip
+							text={INTERNAL_VISIBILITY_HELP}
+							label="Visibilidad interna del nuevo comentario"
+						/>
+					</span>
+				</span>
 				<textarea
 					rows={3}
 					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
