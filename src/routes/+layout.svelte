@@ -10,7 +10,7 @@
 	let { children } = $props();
 
 	const ACCESS_KEY = 'metadrama_preview_access';
-	const ACCESS_PASSWORD = 'metadrama*ub';
+	const ACCESS_PASSWORD = 'didoxeneas2026';
 
 	let unlocked = $state(false);
 	let password = $state('');
