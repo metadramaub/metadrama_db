@@ -3,6 +3,7 @@ import {
 	flattenVocabularyTree,
 	moveVocabularyByDropIntent,
 	moveVocabularyItem,
+	moveSibling,
 	normalizeTree,
 	type VocabularyItem
 } from './useVocabularyTree';
@@ -50,6 +51,25 @@ const baseItems: VocabularyItem[] = [
 		bibliografia: null,
 		equivalencias: null,
 		patron_especifico: null,
+		tipo_forma: null,
+		activo: true
+	}
+];
+
+const itemsWithSiblingChildren: VocabularyItem[] = [
+	...baseItems,
+	{
+		termino_id: 'child-a2',
+		categoria: 'estrofa_tipo',
+		termino: 'romance_o-a',
+		termino_padre_id: 'root-a',
+		nivel: 2,
+		orden: 20,
+		definicion: null,
+		ejemplo: null,
+		bibliografia: null,
+		equivalencias: null,
+		patron_especifico: 'o-a',
 		tipo_forma: null,
 		activo: true
 	}
@@ -141,5 +161,40 @@ describe('useVocabularyTree', () => {
 	it('blocks moves that would create a third level', () => {
 		const moved = moveVocabularyByDropIntent(baseItems, 'root-a', 'root-b', 'mid');
 		expect(moved).toBe(baseItems);
+	});
+
+	it('moves a root sibling down', () => {
+		const moved = moveSibling(baseItems, 'root-a', 1);
+		const roots = moved
+			.filter((item) => item.termino_padre_id === null)
+			.sort((a, b) => (a.orden ?? 999) - (b.orden ?? 999))
+			.map((item) => item.termino_id);
+		expect(roots).toEqual(['root-b', 'root-a']);
+	});
+
+	it('moves a root sibling up', () => {
+		const moved = moveSibling(baseItems, 'root-b', -1);
+		const roots = moved
+			.filter((item) => item.termino_padre_id === null)
+			.sort((a, b) => (a.orden ?? 999) - (b.orden ?? 999))
+			.map((item) => item.termino_id);
+		expect(roots).toEqual(['root-b', 'root-a']);
+	});
+
+	it('moves a child among siblings without changing parent', () => {
+		const moved = moveSibling(itemsWithSiblingChildren, 'child-a2', -1);
+		const children = moved
+			.filter((item) => item.termino_padre_id === 'root-a')
+			.sort((a, b) => (a.orden ?? 999) - (b.orden ?? 999))
+			.map((item) => item.termino_id);
+		const movedChild = moved.find((item) => item.termino_id === 'child-a2');
+		expect(children).toEqual(['child-a2', 'child-a1']);
+		expect(movedChild?.termino_padre_id).toBe('root-a');
+		expect(movedChild?.nivel).toBe(2);
+	});
+
+	it('returns the original items when moving beyond sibling bounds', () => {
+		expect(moveSibling(baseItems, 'root-a', -1)).toBe(baseItems);
+		expect(moveSibling(baseItems, 'root-b', 1)).toBe(baseItems);
 	});
 });
