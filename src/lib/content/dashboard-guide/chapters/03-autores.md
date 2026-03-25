@@ -15,4 +15,4 @@ Si tu obra asignada no trae ya declarada la autoría, puedes usar esta sección 
 4. Vuelve a [Obras](/dashboard/obras?scope=mine) y aplica la atribución.
 
 > [!WARNING]
-> Si falta algún autor o detectas algún error, deja un comentario interno o escribe un correo.
+> Si falta algún autor o detectas algún error, deja un comentario interno o escribe un correo a metadrama.ub@gmail.com
