@@ -4,7 +4,7 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import {
-		OBRA_CITA_REFERENCIA_EJEMPLO_HTML,
+		OBRA_BIBLIOGRAFIA_ESPECIFICA_EJEMPLO_HTML,
 		OBRA_REFERENCIAS_MULTIPLES_HELP
 	} from '$lib/config/citation-examples';
 	import { pushToast } from '$lib/stores/toast';
@@ -139,7 +139,7 @@
 				</span>
 			</h3>
 			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
-			<p class="form-help">Ejemplo de cita: {@html OBRA_CITA_REFERENCIA_EJEMPLO_HTML}</p>
+			<p class="form-help">Ejemplo de cita: {@html OBRA_BIBLIOGRAFIA_ESPECIFICA_EJEMPLO_HTML}</p>
 		</div>
 		<MarkdownEditorLite
 			rows={12}
