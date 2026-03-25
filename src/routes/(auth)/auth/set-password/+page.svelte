@@ -10,10 +10,11 @@
 	let confirmPassword = $state('');
 	let saving = $state(false);
 	let errorMessage = $state<string | null>(null);
+	const MIN_PASSWORD_LENGTH = 8;
 
 	function validatePasswordInput(): string | null {
-		if (password.length < 12) {
-			return 'La contraseña debe tener al menos 12 caracteres.';
+		if (password.length < MIN_PASSWORD_LENGTH) {
+			return `La contraseña debe tener al menos ${MIN_PASSWORD_LENGTH} caracteres.`;
 		}
 		if (password !== confirmPassword) {
 			return 'Las contraseñas no coinciden.';
@@ -75,7 +76,7 @@
 						type="password"
 						bind:value={password}
 						required
-						minlength={12}
+						minlength={MIN_PASSWORD_LENGTH}
 						class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 					/>
 				</label>
@@ -86,7 +87,7 @@
 						type="password"
 						bind:value={confirmPassword}
 						required
-						minlength={12}
+						minlength={MIN_PASSWORD_LENGTH}
 						class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 					/>
 				</label>
