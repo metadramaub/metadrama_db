@@ -6,7 +6,8 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import {
-		OBRA_CITA_REFERENCIA_EJEMPLO_HTML,
+		OBRA_EDICION_BASE_EJEMPLO_HTML,
+		OBRA_FUENTE_FECHA_EJEMPLO_HTML,
 		OBRA_REFERENCIAS_MULTIPLES_HELP
 	} from '$lib/config/citation-examples';
 	import { pushToast } from '$lib/stores/toast';
@@ -227,7 +228,7 @@
 					/>
 				</span>
 			</span>
-			<p class="form-help">Ejemplo de cita: {@html OBRA_CITA_REFERENCIA_EJEMPLO_HTML}</p>
+			<p class="form-help">Ejemplo de cita: {@html OBRA_FUENTE_FECHA_EJEMPLO_HTML}</p>
 			<MarkdownEditorLite
 				rows={3}
 				class="mt-1"
@@ -282,7 +283,7 @@
 					/>
 				</span>
 			</span>
-			<p class="form-help">Ejemplo de cita: {@html OBRA_CITA_REFERENCIA_EJEMPLO_HTML}</p>
+			<p class="form-help">Ejemplo de cita: {@html OBRA_EDICION_BASE_EJEMPLO_HTML}</p>
 			<MarkdownEditorLite
 				rows={4}
 				class="mt-1"
