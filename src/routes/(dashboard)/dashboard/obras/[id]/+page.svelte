@@ -85,6 +85,7 @@
 	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
+	const showAutoriaUnderConstruction = $derived(data.profile.roleTerm === 'editor');
 	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
 	let cuadrosLive = $state<Tables<'cuadros'>[]>([]);
 	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>([]);
@@ -413,12 +414,27 @@
 			onSecuenciasChange={handleSecuenciasChange}
 		/>
 	{:else if currentTab === 'autoria'}
-		<AutoriaTab
-			obraId={obraLive.obra_id}
-			obra={obraLive}
-			roleTerm={data.profile.roleTerm}
-			readOnly={!canEditContent}
-		/>
+		{#if showAutoriaUnderConstruction}
+			<div class="card p-4">
+				<div class="max-w-3xl space-y-3">
+					<h2 class="text-xl font-semibold">Autoría</h2>
+					<p class="text-sm text-[color:var(--muted-foreground)]">
+						Este módulo está temporalmente en construcción mientras adaptamos el nuevo sistema
+						de autoría.
+					</p>
+					<p class="text-sm text-[color:var(--muted-foreground)]">
+						Puedes seguir trabajando con normalidad en el resto de pestañas de esta obra.
+					</p>
+				</div>
+			</div>
+		{:else}
+			<AutoriaTab
+				obraId={obraLive.obra_id}
+				obra={obraLive}
+				roleTerm={data.profile.roleTerm}
+				readOnly={!canEditContent}
+			/>
+		{/if}
 	{:else if currentTab === 'observaciones'}
 		<ObservacionesTab
 			obraId={obraLive.obra_id}
