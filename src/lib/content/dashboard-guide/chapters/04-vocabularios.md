@@ -1,4 +1,4 @@
-Este módulo te ayuda a elegir términos consistentes cuando rellenas datos de una obra.
+Este módulo te ayuda a elegir términos coherentes cuando rellenas datos de una obra.
 
 ## Para qué usar Vocabularios
 
@@ -11,7 +11,7 @@ En [Vocabularios](/dashboard/vocabularios) puedes consultar categorías y térmi
 
 - categoría correcta del dato que estás rellenando;
 - término más preciso dentro de esa categoría;
-- consistencia con el resto de la obra.
+- coherencia con el resto de la obra.
 
 ## Flujo recomendado
 
@@ -24,4 +24,4 @@ En [Vocabularios](/dashboard/vocabularios) puedes consultar categorías y térmi
 > Si dudas entre dos términos, prioriza el que mantenga más coherencia con las decisiones ya tomadas en la obra.
 
 > [!WARNING]
-> Si falta algún término o detectas algún error, deja un comentario interno o escribe un correo.
+> Si falta algún término o detectas algún error, deja un comentario interno o escribe un correo a metadrama.ub@gmail.com

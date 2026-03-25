@@ -16,7 +16,7 @@ En la práctica, trabajamos en tres capas de información, que se distribuyen en
 ## Qué es público y qué es interno
 
 > [!NOTE]
-> Como regla general, la información de contenido de la obra puede terminar en la ficha pública cuando la obra esté publicada y visible.
+> Como regla general, toda la información introducida puede terminar en la ficha pública cuando la obra esté publicada y visible. La excepción es el conjunto de campos donde se indique “Comentarios internos” u “Observaciones internas”.
 
 Será siempre contenido público:
 
@@ -35,11 +35,11 @@ Es contenido interno (no público):
 
 Cuando haya varias opciones posibles, usa este criterio simple:
 
-1. Prioriza consistencia con la obra completa.
+1. Prioriza coherencia con la obra completa.
 2. Elige términos del vocabulario (si crees que falta alguno, indícalo o escríbenos un correo).
-3. Si hay duda razonable, deja constancia breve de la decisión (pública o en comentario, según consideres).
+3. Si hay duda razonable, deja constancia breve de la decisión (pública o en comentario interno, según consideres).
 
-Recuerda: una decisión documentada y consistente es mejor que una decisión perfecta pero opaca.
+Recuerda: una decisión documentada y coherente es mejor que una decisión perfecta pero opaca.
 
 ## Recorrido por pestañas de la obra
 
@@ -49,10 +49,12 @@ Aquí defines la base descriptiva. Es la pestaña para fijar identidad y context
 
 Datos que puedes registrar:
 
-- título principal y variantes;
+- título principal;
 - género;
-- fecha tradicional (inicio/fin) y su fuente;
-- edición base utilizada.
+- fecha tradicional;
+- fuente bibliográfica de la que has extraído la fecha o el rango posible de fechas;
+- edición base utilizada para leer la obra y realizar la ficha;
+- variantes de título de la obra (si los hubiere).
 
 La fuente bibliográfica y la edición base admiten [Markdown](#sobre-los-campos-de-texto-largos-y-markdown).
 
@@ -71,29 +73,33 @@ En esta pestaña puedes registrar:
 - en cada jornada: número de jornada, verso inicial y verso final;
 - en cada cuadro: jornada a la que pertenece, número de cuadro (numeración reiniciada en cada jornada), verso inicial, verso final y certeza de la delimitación.
 
-Recomendaciones para la delimitación de los cuadros:
-[PENDIENTE]
+Recomendaciones para la delimitación de los cuadros: 
+* aunque la bibliografía no sea unánime, desde METADRAMA entendemos por cambio de cuadro un vacío total de personajes en escena. 
+* La única excepción es el cambio de jornada: una jornada nueva implica siempre un cuadro nuevo con independencia de los personajes que la inauguren. El cambio de jornada es un muro inquebrantable.
+* ¡Cuidado con los cambios de cuadro sutiles! A veces, un personaje ve a alguien que se acerca y decide retirarse. El recién llegado habla con la misma métrica, están en el mismo espacio y tiempo, pero ha habido un vacío escénico de pocos segundos. Estamos ante dos cuadros distintos aunque están articulados o encadenados, es decir, el dramaturgo está mostrando que hay una continuidad de bloque escénico en ambos cuadros.
+* ¡Cuidado con los falsos cambios de cuadro! A veces un personaje parece que se va, pero permanece escondido para espiar la escena y luego reaparece. Esto es un único cuadro. 
 
 > [!TIP] 
-> Incluye la certeza con la que has definido cada cuadro. Esta información no se hará pública, pero ayuda mucho en revisión interna.
+> Incluye siempre la certeza con la que has definido cada cuadro. Si el cambio de cuadro es claro selecciona “certeza alta”, pero, si fuese dudoso, selecciona “media” o “baja”. Esta información no se hará pública, pero ayuda mucho en revisión interna.
 
 > [!DANGER]
-> Antes de pasar a secuencias, confirma que no hay solapes evidentes de rangos de versos entre jornadas o cuadros.
+> Antes de pasar a secuencias, confirma que no hay solapamientos evidentes de rangos de versos entre jornadas o cuadros.
 
 ### Secuencias
 
-Aquí haces el análisis métrico más detallado. Es la pestaña más densa, y conviene trabajarla en dos pasadas: primero declarar secuencias base y luego completar su análisis.
+Aquí haces el análisis métrico más detallado. Es la pestaña más compleja, y conviene trabajarla en dos pasadas: primero declarar secuencias base y luego completar su análisis.
 
 > [!TIP]
-> uedes usar filtros por estrofa y certeza para localizar y revisar mejor lo ya cargado.
+> En un momento posterior, puedes usar filtros por estrofa y certeza para localizar y revisar mejor lo ya cargado.
 
 En cada secuencia registras:
 
 - verso inicial y verso final;
 - tipo de estrofa;
-- caracterización de la secuencia;
+- si hay variaciones (por ejemplo, si esa estrofa es cantada en vez de declamada) o irregularidades (por ejemplo, si falta un verso en una redondilla);
+- caracterización de la secuencia a través de varios ítems (por ejemplo, si interviene el gracioso en ella);
 - sinopsis argumental;
-- certeza editorial.
+- certeza de las decisiones tomadas (por ejemplo, si no estás seguro de la estrofa métrica seleccionada).
 
 La sinopsis argumental también admite Markdown. Puedes ver pautas al final, en [Sobre los campos de texto largos y Markdown](#sobre-los-campos-de-texto-largos-y-markdown).
 
@@ -105,8 +111,14 @@ Dentro de la caracterización, marcas:
 - versos partidos (`sí/no`);
 - inaugura espacio (`sí/no`);
 
-Para la sinopsis argumental, ten en cuenta:
-[PENDIENTE]
+Para la sinopsis argumental, ten en cuenta dar toda la información general de lo que ocurre y también algunos detalles importantes, porque pueden ser útiles para, en el futuro de nuestro proyecto, poder determinar las funciones de la métrica según lo que pasa en cada secuencia. 
+Un modelo puede ser este de Antonucci para *La vida es sueño*. Fíjate en el resumen que hace para las dos primeras secuencias (silva de pareados y décimas):
+
+> [*Secuencia 1*]
+> En lo alto de un monte, sale Rosaura, vestida de hombre, increpando a su cabalgadura que acaba de desarzonarla. Su llegada a Polonia no parece haberse realizado bajo los mejores auspicios: ya es casi de noche y ni ella ni su criado Clarín saben adónde encontrar refugio. De lejos ven una torre que casi se confunde con las peñas y deciden acercarse (espacio itinerante). Al llegar allí escuchan ruido de cadenas y un quejido; un paso más y ven una habitación oscura en la que yace un prisionero vestido de pieles.
+
+> [*Secuencia 2*]
+> Quedándose a los umbrales, y habiendo salido ya al tablado Segismundo, escuchan un largo monólogo en el que este se pregunta por qué está preso, por qué, único entre las criaturas vivientes, se le ha privado de su libertad. Al manifestar Rosaura la conmoción que siente, el prisionero se da cuenta de que alguien ha escuchado sus palabras y se abalanza sobre los intrusos para matarlos, porque han escuchado sus “flaquezas” (v. 182). Rosaura se arrodilla delante de él confiando en su piedad y enseguida la actitud del prisionero cambia: declara sentir algo nuevo, algo que lo empuja a mirar al desconocido una y otra vez como si sus ojos fueran “hidrópicos” (v. 227). Rosaura reconoce que, ante las penas del prisionero, las suyas le parecen menores.
 
 
 #### Variaciones o irregularidades (dentro de una secuencia)
@@ -133,23 +145,24 @@ Las observaciones de variación admiten [Markdown](#sobre-los-campos-de-texto-la
 Consideraciones importantes:
 
 - la variación debe quedar dentro del rango de versos de su secuencia;
-- el tipo `irregular` funciona como agrupador y no se selecciona directamente;
+- el tipo `irregular` funciona como agrupador y no se selecciona directamente, es decir, hay que decir si el verso en cuestión es hipométrico o hipermétrico;
 - si existe una secuencia cantada con versificación muy irregular, elegir la tipología estrófica `irregular` después la variación `cantado`;
-- en `prosa`, `v_ini` y `v_fin` indican el verso anterior y posterio a la prosa, pues esta, en realidad, no está numerada;
+- si existe una secuencia cantada que parece una estrofa concreta (por ejemplo, redondilla), pero tiene una versificación muy irregular, no debes elegir “redondilla” como tipo de estrofa, sino “irregular” y, dentro de las varaciaciones, marcar “cantado”;
+- en `prosa`, `v_ini` y `v_fin` indican el verso anterior y posterior a la prosa, pues esta, en realidad, no está numerada;
 - en `hipométrico` e `hipermétrico`, `v_ini` y `v_fin` deben ser el mismo verso, declarando cara irregularidad de forma individual;
 - en tipos como `cantado`, `rima defectuosa` o `laguna`, puedes marcar un solo verso o un rango.
 
 #### Subtipos internos de quintilla
 
-Los subtipos solo se habilitan cuando la estrofa de la secuencia es `quintilla`, y también requieren que la secuencia esté guardada.
+De momento, los subtipos extraordinarios solo se habilitan cuando la estrofa de la secuencia es `quintilla`, y también requieren que la secuencia esté guardada.
 
 En cada subtipo registras:
 
-- subtipo de quintilla;
+- subtipo de quintilla (por ejemplo, ababa);
 - verso inicial y verso final del subtipo dentro de la secuencia.
 
-> [!IMPORTANTE]
-> el rango del subtipo debe quedar dentro del rango de su secuencia.
+> [!IMPORTANT]
+> El rango del subtipo debe quedar dentro del rango de su secuencia.
 
 ### Autoría
 
@@ -160,12 +173,12 @@ Esta pestaña está pendiente de adaptarse al nuevo modelo de autoría, pero en 
 
 ### Observaciones
 
-Aquí incorporas todo aquello que no hayas podido reflejar en el resto de campos, o todo lo que pueda ser útil para los usuarios finales de la base de datos de cara a la interpretación de los datos.
+Aquí incorporas todo aquello que no hayas podido reflejar en el resto de campos, o todo lo que pueda ser útil para los usuarios finales de la base de datos de cara a la interpretación de los datos. Se trata de observaciones públicas.
 
 En esta pestaña registras:
 
 - observaciones sobre la obra;
-- bibliografía específica (otros estudios sobre la métrica de la obra).
+- bibliografía específica (no estudios generales sobre una obra, sino estudios específicos que traten sobre la métrica de la obra).
 
 Como en otros campos de texto largos, ambos admiten [Markdown](#sobre-los-campos-de-texto-largos-y-markdown).
 
@@ -185,11 +198,11 @@ Todo el contenido de la obra debe quedar completo antes de pasarla a revisión. 
 2. Define la estructura de la obra (jornadas y cuadros), para poder trabajar después con estos rangos.
 3. Declara todas las secuencias métricas en una primera pasada (rango de versos y tipología).
 4. Haz una segunda pasada de secuencias para completar su análisis (caracterización, sinopsis y variaciones).
-5. Revisa todo y deja tus observaciones generales y bibliografía específica.
+5. Revisa todo y deja tus observaciones generales y bibliografía específica que hayas encontrado.
 6. Cambia el estado de `borrador` a `pendiente` cuando termines.
 
 > [!TIP]
-> Deja clara la certeza de tus decisiones y usa comentarios internos cuando haya dudas o casos discutibles.
+> Deja clara la certeza de tus decisiones (alta, media o baja) y usa comentarios internos cuando haya dudas o casos discutibles.
 
 ## Sobre los campos de texto largos y Markdown
 
@@ -200,16 +213,8 @@ Markdown es un formato de marcado simple que permite dar estructura al texto (ne
 Lo usamos para mantener un formato consistente y facilitar que el contenido se renderice bien en la interfaz de consulta pública sin necesidad de aprender HTML.
 
 #### Ejemplo rápido: Markdown -> vista previa
-
-<div class="markdown-fake-preview">
-  <div class="markdown-fake-preview__head">
-    <div class="markdown-fake-preview__title">Markdown</div>
-    <div class="markdown-fake-preview__title">Vista previa</div>
-  </div>
-  <div class="markdown-fake-preview__split">
-    <div class="markdown-fake-preview__pane markdown-fake-preview__pane--code">
-      <pre class="markdown-fake-preview__pre">### Ejemplo lorem ipsum
-
+```
+### Ejemplo lorem ipsum
 Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do *eiusmod tempor* incididunt ut labore. Consulta [este enlace](https://url.com).
 
 - Primer punto de lista
@@ -217,21 +222,15 @@ Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do *eiusmod tem
 
 1. Paso uno
 2. Paso dos</pre>
-    </div>
-    <div class="markdown-fake-preview__pane markdown-fake-preview__pane--render">
-      <h4 class="!mt-0 text-base font-semibold">Ejemplo lorem ipsum</h4>
-      <p>Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>, sed do <em>eiusmod tempor</em> incididunt ut labore. Consulta <a href="https://url.com" target="_blank" rel="noreferrer">este enlace</a>.</p>
-      <ul class="mt-2 list-disc space-y-1 pl-6">
-        <li>Primer punto de lista</li>
-        <li>Segundo punto de lista</li>
-      </ul>
-      <ol class="mt-2 list-decimal space-y-1 pl-6">
-        <li>Paso uno</li>
-        <li>Paso dos</li>
-      </ol>
-    </div>
-  </div>
-</div>
+```
+> ### Ejemplo lorem ipsum
+> Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do *eiusmod tempor* incididunt ut labore. Consulta [este enlace](https://url.com).
+>
+> - Primer punto de lista
+>- Segundo punto de lista
+> 
+> 1. Paso uno
+> 2. Paso dos</pre>
 
 Para facilitar tu tarea, tienes una barra mínima de herramientas que te ayuda a aplicar este formato de forma rápida, pero también puedes introducir tú mismo las marcas. Si quieres ver cómo se va renderizar después, haz clic en `vista previa`.
 

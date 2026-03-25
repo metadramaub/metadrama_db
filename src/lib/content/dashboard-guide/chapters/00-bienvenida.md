@@ -1,6 +1,6 @@
-Gracias por colaborar con METADRAMA.
+¡Gracias por colaborar con METADRAMA!
 
-Esta guía está pensada para ayudarte a registrar datos de forma clara y consistente. Si estás aquí, es porque tienes una obra asignada para editar o revisar.
+Esta guía está pensada para ayudarte a registrar datos de forma clara y coherente. Si estás aquí, es porque tienes una obra asignada para editar o revisar.
 
 ## Qué puedes hacer como `editor`
 
@@ -22,9 +22,10 @@ Si necesitas:
 - recuperar o cambiar contraseña;
 - editar tus datos personales (correo, nombre, afiliación, etc.);
 - pedir alta o corrección de autor;
-- pedir alta o corrección de término de vocabulario;
+- pedir alta o corrección de término de vocabulario (por ejemplo, un nuevo tipo de estrofa);
 
 contacta con:
 
-- `gaston.gilabert@gmail.com` (`ip`)
+- `metadrama.ub@gmail.com` (`general`)
+- `gastongilabert@gmail.com` (`IP`)
 - `david.merino@uab.cat` (`admin`)
