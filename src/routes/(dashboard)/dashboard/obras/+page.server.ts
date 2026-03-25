@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { buildObraCapabilities } from '$lib/server/auth';
+import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
 
@@ -27,14 +28,13 @@ export const load: PageServerLoad = async ({ locals, parent, url }) => {
 	let query = locals.supabase.from('obras').select('*').order('updated_at', { ascending: false });
 
 	if (scope === 'mine') {
-		if (isAdminOrIp) {
-			// Admin/IP: "Mis obras" is all works.
-		} else if (reviewerAssignedIds.length > 0) {
+		const scopePlan = resolveDashboardObrasScopePlan(scope, profile.userId, reviewerAssignedIds);
+		if (scopePlan.mode === 'editor_or_reviewer') {
 			query = query.or(
-				`editor_asignado.eq.${profile.userId},obra_id.in.(${reviewerAssignedIds.join(',')})`
+				`editor_asignado.eq.${scopePlan.editorAssignedUserId},obra_id.in.(${scopePlan.reviewerAssignedIds.join(',')})`
 			);
-		} else {
-			query = query.eq('editor_asignado', profile.userId);
+		} else if (scopePlan.mode === 'editor_only') {
+			query = query.eq('editor_asignado', scopePlan.editorAssignedUserId);
 		}
 	}
 
