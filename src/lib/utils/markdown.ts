@@ -80,6 +80,35 @@ function readTrustedHtmlBlock(lines: string[], startIndex: number): { html: stri
 	};
 }
 
+function readFencedCodeBlock(lines: string[], startIndex: number): { html: string; nextIndex: number } | null {
+	const startLine = (lines[startIndex] ?? '').trim();
+	const fenceMatch = startLine.match(/^```([\w-]+)?\s*$/);
+	if (!fenceMatch) return null;
+
+	const language = fenceMatch[1]?.trim() ?? '';
+	const codeLines: string[] = [];
+	let index = startIndex + 1;
+
+	while (index < lines.length) {
+		const currentLine = lines[index] ?? '';
+		if (currentLine.trim() === '```') {
+			break;
+		}
+		codeLines.push(currentLine);
+		index += 1;
+	}
+
+	const escapedCode = escapeHtml(codeLines.join('\n'));
+	const languageBadge = language
+		? `<div class="markdown-code-block__lang">${escapeHtml(language)}</div>`
+		: '';
+
+	return {
+		html: `<div class="markdown-code-block">${languageBadge}<pre class="markdown-code-block__pre"><code>${escapedCode}</code></pre></div>`,
+		nextIndex: index < lines.length ? index : lines.length - 1
+	};
+}
+
 function renderSimpleBlocks(lines: string[]): string {
 	const blocks: string[] = [];
 	let listItems: string[] = [];
@@ -96,10 +125,19 @@ function renderSimpleBlocks(lines: string[]): string {
 		listType = null;
 	};
 
-	for (const rawLine of lines) {
+	for (let index = 0; index < lines.length; index += 1) {
+		const rawLine = lines[index] ?? '';
 		const line = rawLine.trim();
 		if (!line) {
 			flushList();
+			continue;
+		}
+
+		const fencedCodeBlock = readFencedCodeBlock(lines, index);
+		if (fencedCodeBlock) {
+			flushList();
+			blocks.push(fencedCodeBlock.html);
+			index = fencedCodeBlock.nextIndex;
 			continue;
 		}
 
@@ -115,6 +153,30 @@ function renderSimpleBlocks(lines: string[]): string {
 			if (listType === 'ul') flushList();
 			listType = 'ol';
 			listItems.push(`<li>${renderInline(orderedMatch[1] ?? '')}</li>`);
+			continue;
+		}
+
+		if (line.startsWith('#### ')) {
+			flushList();
+			blocks.push(`<h4 class="mt-3 text-base font-semibold">${renderInline(line.slice(5))}</h4>`);
+			continue;
+		}
+
+		if (line.startsWith('### ')) {
+			flushList();
+			blocks.push(`<h3 class="mt-4 text-lg font-semibold">${renderInline(line.slice(4))}</h3>`);
+			continue;
+		}
+
+		if (line.startsWith('## ')) {
+			flushList();
+			blocks.push(`<h2 class="mt-5 text-xl font-semibold">${renderInline(line.slice(3))}</h2>`);
+			continue;
+		}
+
+		if (line.startsWith('# ')) {
+			flushList();
+			blocks.push(`<h1 class="mt-6 text-2xl font-semibold">${renderInline(line.slice(2))}</h1>`);
 			continue;
 		}
 
@@ -209,6 +271,14 @@ export function renderMarkdown(markdown: string, options: RenderMarkdownOptions 
 				index = trustedHtmlBlock.nextIndex;
 				continue;
 			}
+		}
+
+		const fencedCodeBlock = readFencedCodeBlock(lines, index);
+		if (fencedCodeBlock) {
+			flushList();
+			blocks.push(fencedCodeBlock.html);
+			index = fencedCodeBlock.nextIndex;
+			continue;
 		}
 
 		if (line.startsWith('>')) {
