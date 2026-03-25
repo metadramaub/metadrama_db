@@ -213,7 +213,10 @@ Markdown es un formato de marcado simple que permite dar estructura al texto (ne
 Lo usamos para mantener un formato consistente y facilitar que el contenido se renderice bien en la interfaz de consulta pública sin necesidad de aprender HTML.
 
 #### Ejemplo rápido: Markdown -> vista previa
-```
+
+Escribes esto:
+
+```md
 ### Ejemplo lorem ipsum
 Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do *eiusmod tempor* incididunt ut labore. Consulta [este enlace](https://url.com).
 
@@ -221,16 +224,20 @@ Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do *eiusmod tem
 - Segundo punto de lista
 
 1. Paso uno
-2. Paso dos</pre>
+2. Paso dos
 ```
+
+Y se verá así:
+
 > ### Ejemplo lorem ipsum
+>
 > Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do *eiusmod tempor* incididunt ut labore. Consulta [este enlace](https://url.com).
 >
 > - Primer punto de lista
->- Segundo punto de lista
-> 
+> - Segundo punto de lista
+>
 > 1. Paso uno
-> 2. Paso dos</pre>
+> 2. Paso dos
 
 Para facilitar tu tarea, tienes una barra mínima de herramientas que te ayuda a aplicar este formato de forma rápida, pero también puedes introducir tú mismo las marcas. Si quieres ver cómo se va renderizar después, haz clic en `vista previa`.
 
