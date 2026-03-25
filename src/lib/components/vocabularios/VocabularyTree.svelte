@@ -3,6 +3,7 @@
 		flattenVocabularyTree,
 		isDescendant,
 		moveVocabularyByDropIntent,
+		moveSibling,
 		type VocabularyDropPlacement,
 		type VocabularyItem
 	} from './useVocabularyTree';
@@ -32,10 +33,35 @@
 	const readOnly = $derived(Boolean(props.readOnly));
 	const allowNesting = $derived(props.allowNesting ?? true);
 	const searchActive = $derived((props.search ?? '').trim().length > 0);
+	const canReorder = $derived(!readOnly && !searchActive);
 	const canDrag = $derived(!readOnly && !searchActive);
 	const dragging = $derived(Boolean(draggedId));
 	const byId = $derived(new Map<string, VocabularyItem>(props.items.map((item: VocabularyItem) => [item.termino_id, item])));
 	const flattened = $derived(flattenVocabularyTree(props.items));
+	const siblingMetaById = $derived.by(() => {
+		const byParent = new Map<string | null, VocabularyItem[]>();
+		for (const item of props.items) {
+			const parentId = item.termino_padre_id ?? null;
+			const current = byParent.get(parentId) ?? [];
+			current.push(item);
+			byParent.set(parentId, current);
+		}
+
+		const meta = new Map<string, { index: number; total: number }>();
+		for (const siblings of byParent.values()) {
+			const sortedSiblings = [...siblings].sort((a, b) => {
+				const orderA = typeof a.orden === 'number' ? a.orden : Number.MAX_SAFE_INTEGER;
+				const orderB = typeof b.orden === 'number' ? b.orden : Number.MAX_SAFE_INTEGER;
+				if (orderA !== orderB) return orderA - orderB;
+				return a.termino.localeCompare(b.termino, 'es');
+			});
+			const total = sortedSiblings.length;
+			sortedSiblings.forEach((item, index) => {
+				meta.set(item.termino_id, { index, total });
+			});
+		}
+		return meta;
+	});
 	const childCountById = $derived.by(() => {
 		const counts = new Map<string, number>();
 		for (const item of props.items) {
@@ -96,6 +122,13 @@
 
 	function emit(nextItems: VocabularyItem[]) {
 		props.onChange?.(nextItems);
+	}
+
+	function canMoveSiblingInDirection(terminoId: string, delta: -1 | 1): boolean {
+		if (!canReorder) return false;
+		const meta = siblingMetaById.get(terminoId);
+		if (!meta) return false;
+		return delta === -1 ? meta.index > 0 : meta.index < meta.total - 1;
 	}
 
 	function hasChildren(terminoId: string): boolean {
@@ -183,11 +216,11 @@
 				: 'rounded border border-dashed border-red-400 bg-red-50 px-3 py-2 text-xs text-red-700 transition-colors';
 		}
 		if (!active) {
-			return 'h-2 rounded border border-transparent transition-all';
+			return 'h-4 rounded border border-dashed border-transparent transition-all hover:border-[color:var(--border)] hover:bg-[color:var(--muted)]';
 		}
 		return valid
-			? 'h-7 rounded border border-dashed border-[color:var(--primary)] bg-[color:var(--muted)] px-2 text-[11px] text-[color:var(--foreground)] transition-all'
-			: 'h-7 rounded border border-dashed border-red-400 bg-red-50 px-2 text-[11px] text-red-700 transition-all';
+			? 'h-8 rounded border border-dashed border-[color:var(--primary)] bg-[color:var(--muted)] px-2 text-[11px] text-[color:var(--foreground)] transition-all'
+			: 'h-8 rounded border border-dashed border-red-400 bg-red-50 px-2 text-[11px] text-red-700 transition-all';
 	}
 
 	function dropHintLabel(targetId: string | null, placement: VocabularyDropPlacement): string {
@@ -210,9 +243,28 @@
 		}
 	}
 
+	function dropZoneIdleLabel(placement: VocabularyDropPlacement): string {
+		switch (placement) {
+			case 'root-start':
+				return 'Mover al inicio de la raiz';
+			case 'root-end':
+				return 'Mover al final de la raiz';
+			default:
+				return '';
+		}
+	}
+
 	function draggingLabel(): string {
 		if (!draggedId) return '';
 		return byId.get(draggedId)?.termino ?? '';
+	}
+
+	function moveSiblingInDirection(terminoId: string, delta: -1 | 1) {
+		if (!canReorder) return;
+		const moved = moveSibling(props.items, terminoId, delta);
+		if (moved !== props.items) {
+			emit(moved);
+		}
 	}
 
 	function onDragStart(event: DragEvent, terminoId: string) {
@@ -297,7 +349,9 @@
 	{#if canDrag && dragging}
 		<div class="rounded border border-[color:var(--primary)] bg-[color:var(--muted)] px-3 py-2 text-xs text-[color:var(--foreground)]">
 			<div class="font-medium">Arrastrando: {draggingLabel()}</div>
-			<div class="mt-1 text-[color:var(--muted-foreground)]">Suelta en zona superior, centro o inferior para decidir posicion.</div>
+			<div class="mt-1 text-[color:var(--muted-foreground)]">
+				Suelta en zona superior, centro, inferior, inicio o final para decidir posicion.
+			</div>
 		</div>
 	{/if}
 
@@ -306,6 +360,23 @@
 			No hay terminos para mostrar.
 		</p>
 	{:else}
+		{#if canDrag}
+			<div
+				class={dropZoneClass(null, 'root-start')}
+				role="presentation"
+				ondragover={(event) => onDropZoneDragOver(event, null, 'root-start')}
+				ondrop={(event) => onDropZoneDrop(event, null, 'root-start')}
+			>
+				<div class="flex min-h-5 items-center">
+					{#if isPlacementActive(null, 'root-start')}
+						{dropHintLabel(null, 'root-start')}
+					{:else}
+						{dropZoneIdleLabel('root-start')}
+					{/if}
+				</div>
+			</div>
+		{/if}
+
 		{#each visibleRows as row}
 			<div class="space-y-1">
 				{#if canDrag}
@@ -365,12 +436,44 @@
 								{childCountById.get(row.item.termino_id) ?? 0} hijos
 							</span>
 						{/if}
-						<span class="ml-auto text-[10px] text-[color:var(--muted-foreground)]">N{row.depth}</span>
-						{#if row.item.activo === false}
-							<span class="border border-[color:var(--border)] px-1 py-0.5 text-[10px] text-[color:var(--muted-foreground)]">
-								inactivo
-							</span>
-						{/if}
+						<div class="ml-auto flex items-center gap-2">
+							{#if canReorder}
+								<div class="flex items-center gap-1">
+									<button
+										type="button"
+										class="inline-flex h-5 w-5 items-center justify-center rounded border border-[color:var(--border)] text-xs text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)] disabled:cursor-not-allowed disabled:opacity-40"
+										disabled={!canMoveSiblingInDirection(row.item.termino_id, -1)}
+										title="Subir"
+										aria-label={`Subir ${row.item.termino}`}
+										onclick={(event) => {
+											event.stopPropagation();
+											moveSiblingInDirection(row.item.termino_id, -1);
+										}}
+									>
+										^
+									</button>
+									<button
+										type="button"
+										class="inline-flex h-5 w-5 items-center justify-center rounded border border-[color:var(--border)] text-xs text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)] disabled:cursor-not-allowed disabled:opacity-40"
+										disabled={!canMoveSiblingInDirection(row.item.termino_id, 1)}
+										title="Bajar"
+										aria-label={`Bajar ${row.item.termino}`}
+										onclick={(event) => {
+											event.stopPropagation();
+											moveSiblingInDirection(row.item.termino_id, 1);
+										}}
+									>
+										v
+									</button>
+								</div>
+							{/if}
+							<span class="text-[10px] text-[color:var(--muted-foreground)]">N{row.depth}</span>
+							{#if row.item.activo === false}
+								<span class="border border-[color:var(--border)] px-1 py-0.5 text-[10px] text-[color:var(--muted-foreground)]">
+									inactivo
+								</span>
+							{/if}
+						</div>
 					</div>
 
 					{#if isPlacementActive(row.item.termino_id, 'mid')}
@@ -394,5 +497,22 @@
 				{/if}
 			</div>
 		{/each}
+
+		{#if canDrag}
+			<div
+				class={dropZoneClass(null, 'root-end')}
+				role="presentation"
+				ondragover={(event) => onDropZoneDragOver(event, null, 'root-end')}
+				ondrop={(event) => onDropZoneDrop(event, null, 'root-end')}
+			>
+				<div class="flex min-h-5 items-center">
+					{#if isPlacementActive(null, 'root-end')}
+						{dropHintLabel(null, 'root-end')}
+					{:else}
+						{dropZoneIdleLabel('root-end')}
+					{/if}
+				</div>
+			</div>
+		{/if}
 	{/if}
 </div>
