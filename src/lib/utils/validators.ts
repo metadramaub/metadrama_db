@@ -105,6 +105,7 @@ export const secuenciaInputSchema = z
 		personaje_femenino: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
+		final_acentual: z.enum(['normal', 'mayoria_agudas', 'mayoria_esdrujulas']).default('normal'),
 		certeza_editor: z.string().uuid(),
 		sinopsis: z.string().trim().nullable().optional().default(null)
 	})

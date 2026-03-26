@@ -35,6 +35,7 @@
 		personaje_femenino: 'ausente' | 'solo' | 'con_otros';
 		personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 		personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
+		final_acentual: 'normal' | 'mayoria_agudas' | 'mayoria_esdrujulas';
 		certeza_editor: string;
 		sinopsis: string;
 	};
@@ -205,6 +206,11 @@
 		{ id: 'solo', label: 'solo' },
 		{ id: 'con_otros', label: 'con_otros' }
 	];
+	const finalesAcentualesItems = [
+		{ id: 'normal', label: 'Normal' },
+		{ id: 'mayoria_agudas', label: 'Mayoría de agudas' },
+		{ id: 'mayoria_esdrujulas', label: 'Mayoría de esdrújulas' }
+	];
 	const tipoVariacionById = $derived.by(
 		() =>
 			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
@@ -277,6 +283,7 @@
 			personaje_femenino: 'ausente',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
+			final_acentual: 'normal',
 			certeza_editor: defaultCerteza,
 			sinopsis: ''
 		};
@@ -436,6 +443,7 @@
 			personaje_femenino: form.personaje_femenino,
 			personajes_donaire: form.personajes_donaire,
 			personajes_sobrenatural: form.personajes_sobrenatural,
+			final_acentual: form.final_acentual,
 			certeza_editor: form.certeza_editor,
 			sinopsis: form.sinopsis.trim()
 		});
@@ -507,6 +515,9 @@
 			personaje_femenino: secuencia.personaje_femenino as FormState['personaje_femenino'],
 			personajes_donaire: secuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: secuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
+			final_acentual: (secuencia as Tables<'secuencias_metricas'> & {
+				final_acentual?: FormState['final_acentual'];
+			}).final_acentual ?? 'normal',
 			certeza_editor: secuencia.certeza_editor,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
@@ -624,6 +635,9 @@
 			personaje_femenino: savedSecuencia.personaje_femenino as FormState['personaje_femenino'],
 			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
+			final_acentual: (savedSecuencia as Tables<'secuencias_metricas'> & {
+				final_acentual?: FormState['final_acentual'];
+			}).final_acentual ?? 'normal',
 			certeza_editor: savedSecuencia.certeza_editor,
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
@@ -1016,7 +1030,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personaje_femenino}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personaje_femenino}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.final_acentual}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1533,6 +1547,33 @@
 								form = {
 									...form,
 									personajes_sobrenatural: nextSobrenatural
+								};
+							}}
+						/>
+					</label>
+					<label class="form-field">
+						<span class="form-label">
+							<span class="form-label-with-help">
+								Final acentual
+								<FieldHelpTooltip
+									text="Usa este campo para marcar secuencias con mayoria de versos agudos o esdrujulos. En el caso habitual, deja Normal."
+									label="Ayuda sobre el campo Final acentual"
+								/>
+							</span>
+						</span>
+						<CheckDropdown
+							multiple={false}
+							search={false}
+							placeholder="Seleccionar valor"
+							items={finalesAcentualesItems}
+							disabled={props.readOnly}
+							selectedIds={[form.final_acentual]}
+							onChange={(ids) => {
+								const nextFinalAcentual = ids[0] as FormState['final_acentual'] | undefined;
+								if (!nextFinalAcentual) return;
+								form = {
+									...form,
+									final_acentual: nextFinalAcentual
 								};
 							}}
 						/>

@@ -840,12 +840,14 @@ CREATE TABLE IF NOT EXISTS "public"."secuencias_metricas" (
     "personaje_femenino" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
     "personajes_donaire" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
     "personajes_sobrenatural" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
+    "final_acentual" character varying(32) DEFAULT 'normal'::character varying NOT NULL,
     "certeza_editor" "uuid" NOT NULL,
     "sinopsis" "text",
     "created_at" timestamp with time zone DEFAULT "now"(),
     "updated_at" timestamp with time zone DEFAULT "now"(),
     "versos_partidos" boolean DEFAULT false NOT NULL,
-    CONSTRAINT "secuencias_metricas_personaje_femenino_chk" CHECK ((("personaje_femenino")::"text" = ANY ((ARRAY['ausente'::character varying, 'solo'::character varying, 'con_otros'::character varying])::"text"[])))
+    CONSTRAINT "secuencias_metricas_personaje_femenino_chk" CHECK ((("personaje_femenino")::"text" = ANY ((ARRAY['ausente'::character varying, 'solo'::character varying, 'con_otros'::character varying])::"text"[]))),
+    CONSTRAINT "secuencias_metricas_final_acentual_chk" CHECK ((("final_acentual")::"text" = ANY ((ARRAY['normal'::character varying, 'mayoria_agudas'::character varying, 'mayoria_esdrujulas'::character varying])::"text"[])))
 );
 
 
@@ -857,6 +859,10 @@ COMMENT ON TABLE "public"."secuencias_metricas" IS 'Unidad de análisis métrico
 
 
 COMMENT ON COLUMN "public"."secuencias_metricas"."personaje_femenino" IS 'Presencia de personaje femenino en la secuencia (ausente, solo, con_otros).';
+
+
+
+COMMENT ON COLUMN "public"."secuencias_metricas"."final_acentual" IS 'Caracterizacion global de los finales de verso de la secuencia (normal, mayoria_agudas, mayoria_esdrujulas).';
 
 
 

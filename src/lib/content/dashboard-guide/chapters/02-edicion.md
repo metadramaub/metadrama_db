@@ -108,8 +108,11 @@ Dentro de la caracterización, marcas:
 - personaje femenino (`ausente`, `solo`, `con_otros`);
 - donaire (`ausente`, `solo`, `con_otros`);
 - sobrenatural (`ausente`, `solo`, `con_otros`);
+- final acentual (`normal`, `mayoria_agudas`, `mayoria_esdrujulas`);
 - versos partidos (`sí/no`);
 - inaugura espacio (`sí/no`);
+
+El `final acentual` sirve para señalar aquellas secuencias en las que predominan finales de verso agudos o esdrújulos. Como afecta a la secuencia en conjunto, se registra aquí como caracterización global y no como variación interna de un rango concreto de versos.
 
 Para la sinopsis argumental, ten en cuenta dar toda la información general de lo que ocurre y también algunos detalles importantes, porque pueden ser útiles para, en el futuro de nuestro proyecto, poder determinar las funciones de la métrica según lo que pasa en cada secuencia. 
 Un modelo puede ser este de Antonucci para *La vida es sueño*. Fíjate en el resumen que hace para las dos primeras secuencias (silva de pareados y décimas):
