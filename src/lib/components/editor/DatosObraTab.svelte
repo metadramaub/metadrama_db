@@ -6,6 +6,7 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import {
+		OBRA_EDICION_BASE_HELP,
 		OBRA_EDICION_BASE_EJEMPLO_HTML,
 		OBRA_FUENTE_FECHA_EJEMPLO_HTML,
 		OBRA_REFERENCIAS_MULTIPLES_HELP
@@ -278,7 +279,7 @@
 				<span class="form-label-with-help">
 					Edición base utilizada
 					<FieldHelpTooltip
-						text={OBRA_REFERENCIAS_MULTIPLES_HELP}
+						text={OBRA_EDICION_BASE_HELP}
 						label="Ayuda para referencias múltiples en edición base"
 					/>
 				</span>

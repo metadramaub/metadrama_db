@@ -9,3 +9,6 @@ export const OBRA_BIBLIOGRAFIA_ESPECIFICA_EJEMPLO_HTML =
 
 export const OBRA_REFERENCIAS_MULTIPLES_HELP =
 	'Si incluyes más de una referencia, usa una lista con bullets de Markdown (cada referencia en una línea con "- ").';
+
+export const OBRA_EDICION_BASE_HELP =
+	'Si incluyes más de una referencia, usa una lista con bullets de Markdown (cada referencia en una línea con "- "). Al final de cada referencia puedes indicar su uso entre corchetes, por ejemplo [Texto base] o [Sinopsis argumental]. Si no se especifica nada, se entiende [Texto base].';
