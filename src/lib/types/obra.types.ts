@@ -62,6 +62,7 @@ export interface SecuenciaInput {
 	personaje_femenino: 'ausente' | 'solo' | 'con_otros';
 	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
+	final_acentual: 'normal' | 'mayoria_agudas' | 'mayoria_esdrujulas';
 	certeza_editor: string;
 	sinopsis: string | null;
 }

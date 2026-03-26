@@ -63,13 +63,14 @@ describe('validators', () => {
 			personaje_femenino: 'ausente',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
+			final_acentual: 'mayoria_agudas',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			sinopsis: null
 		});
 		expect(result.success).toBe(true);
 	});
 
-	it('defaults versos_partidos to false when omitted in secuencia payload', () => {
+	it('defaults versos_partidos and final_acentual when omitted in secuencia payload', () => {
 		const parsed = secuenciaInputSchema.parse({
 			v_ini: 1,
 			v_fin: 120,
@@ -82,6 +83,7 @@ describe('validators', () => {
 			sinopsis: null
 		});
 		expect(parsed.versos_partidos).toBe(false);
+		expect(parsed.final_acentual).toBe('normal');
 	});
 
 	it('accepts secuencia variacion payload with same verse range', () => {
