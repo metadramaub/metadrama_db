@@ -102,6 +102,7 @@ export function buildObraCapabilities(
 ): ObraAccessFlags {
 	const adminOrIp = isAdminOrIp(profile.roleTerm);
 	const assignedEditor = obra.editor_asignado === profile.userId;
+	const isPublished = estadoTerm.trim().toLowerCase() === 'publicado';
 
 	// Admin/IP: full control for every work.
 	if (adminOrIp) {
@@ -154,7 +155,21 @@ export function buildObraCapabilities(
 		};
 	}
 
-	// Any active internal user can read works, but no review/edit actions.
+	// Unassigned editors can only read published works.
+	if (profile.roleTerm === 'editor') {
+		return {
+			canRead: isPublished,
+			canEditContent: false,
+			canComment: false,
+			canReview: false,
+			canChangeState: false,
+			canManageReviewers: false,
+			canToggleVisibility: false,
+			canDeleteObra: false
+		};
+	}
+
+	// Any other active internal user can read works, but no review/edit actions.
 	return {
 		canRead: true,
 		canEditContent: false,
