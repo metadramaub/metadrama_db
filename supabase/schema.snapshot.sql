@@ -614,8 +614,8 @@ CREATE TABLE IF NOT EXISTS "public"."autores" (
     "bnedatos_id" character varying(20),
     "viaf_id" character varying(20),
     "wikidata_id" character varying(20),
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"()
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -627,12 +627,13 @@ CREATE TABLE IF NOT EXISTS "public"."comentarios_internos" (
     "obra_id" "uuid" NOT NULL,
     "user_id" "uuid" NOT NULL,
     "comentario" "text" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"(),
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "tipo_comentario_id" "uuid" NOT NULL,
     "secuencia_id" "uuid",
     "jornada_id" "uuid",
     "cuadro_id" "uuid",
     "rango_id" "uuid",
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     CONSTRAINT "comentarios_internos_un_contexto_chk" CHECK (((((COALESCE((("secuencia_id" IS NOT NULL))::integer, 0) + COALESCE((("jornada_id" IS NOT NULL))::integer, 0)) + COALESCE((("cuadro_id" IS NOT NULL))::integer, 0)) + COALESCE((("rango_id" IS NOT NULL))::integer, 0)) <= 1))
 );
 
@@ -650,7 +651,9 @@ CREATE TABLE IF NOT EXISTS "public"."cuadros" (
     "cuadro_num" integer NOT NULL,
     "v_ini" integer NOT NULL,
     "v_fin" integer NOT NULL,
-    "certeza_editor" "uuid" NOT NULL
+    "certeza_editor" "uuid" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -663,6 +666,7 @@ COMMENT ON TABLE "public"."cuadros" IS 'Se revisa junto con la obra, sin estado 
 
 CREATE TABLE IF NOT EXISTS "public"."dashboard_activity_state" (
     "user_id" "uuid" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "last_seen_at" timestamp with time zone,
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
@@ -679,8 +683,8 @@ CREATE TABLE IF NOT EXISTS "public"."editores" (
     "activo" boolean DEFAULT true,
     "institucion" character varying(200),
     "orcid" character varying(20),
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"(),
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "last_login" timestamp with time zone
 );
 
@@ -695,7 +699,8 @@ COMMENT ON TABLE "public"."editores" IS 'user_id debe coincidir con auth.users(i
 CREATE TABLE IF NOT EXISTS "public"."estrofa_tipo_metros" (
     "estrofa_tipo_id" "uuid" NOT NULL,
     "metro_id" "uuid" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -707,7 +712,9 @@ CREATE TABLE IF NOT EXISTS "public"."jornadas" (
     "obra_id" "uuid" NOT NULL,
     "jornada_num" integer NOT NULL,
     "v_ini" integer NOT NULL,
-    "v_fin" integer NOT NULL
+    "v_fin" integer NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -740,8 +747,8 @@ CREATE TABLE IF NOT EXISTS "public"."obras" (
     "genero_id" "uuid",
     "total_versos" integer,
     "bibliografia" "text",
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"(),
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "autor_ficha_publico" "text"
 );
 
@@ -765,7 +772,8 @@ CREATE TABLE IF NOT EXISTS "public"."obras_revisores" (
     "obra_id" "uuid" NOT NULL,
     "revisor_id" "uuid" NOT NULL,
     "asignado_por" "uuid" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -775,7 +783,9 @@ ALTER TABLE "public"."obras_revisores" OWNER TO "postgres";
 CREATE TABLE IF NOT EXISTS "public"."proyecto_activo" (
     "id" integer NOT NULL,
     "timestamp" timestamp without time zone DEFAULT "now"(),
-    "status" "text" DEFAULT 'activo'::"text"
+    "status" "text" DEFAULT 'activo'::"text",
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -804,8 +814,8 @@ CREATE TABLE IF NOT EXISTS "public"."rangos" (
     "v_ini" integer NOT NULL,
     "v_fin" integer NOT NULL,
     "notas" "text",
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"()
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -818,7 +828,9 @@ COMMENT ON TABLE "public"."rangos" IS 'Rangos continuos de versos con la misma a
 
 CREATE TABLE IF NOT EXISTS "public"."rangos_autores" (
     "rango_id" "uuid" NOT NULL,
-    "autor_id" "uuid" NOT NULL
+    "autor_id" "uuid" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -843,8 +855,8 @@ CREATE TABLE IF NOT EXISTS "public"."secuencias_metricas" (
     "final_acentual" character varying(32) DEFAULT 'normal'::character varying NOT NULL,
     "certeza_editor" "uuid" NOT NULL,
     "sinopsis" "text",
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"(),
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "versos_partidos" boolean DEFAULT false NOT NULL,
     CONSTRAINT "secuencias_metricas_personaje_femenino_chk" CHECK ((("personaje_femenino")::"text" = ANY ((ARRAY['ausente'::character varying, 'solo'::character varying, 'con_otros'::character varying])::"text"[]))),
     CONSTRAINT "secuencias_metricas_final_acentual_chk" CHECK ((("final_acentual")::"text" = ANY ((ARRAY['normal'::character varying, 'mayoria_agudas'::character varying, 'mayoria_esdrujulas'::character varying])::"text"[])))
@@ -876,8 +888,8 @@ CREATE TABLE IF NOT EXISTS "public"."secuencias_subtipos_estrofa" (
     "subtipo_estrofa_id" "uuid" NOT NULL,
     "v_ini" integer NOT NULL,
     "v_fin" integer NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"(),
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     CONSTRAINT "secuencias_subtipos_estrofa_v_ini_le_v_fin_chk" CHECK (("v_ini" <= "v_fin"))
 );
 
@@ -900,6 +912,8 @@ CREATE TABLE IF NOT EXISTS "public"."secuencias_variaciones" (
     "v_fin" integer NOT NULL,
     "observaciones" "text",
     "tipo_variacion_id" "uuid" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     CONSTRAINT "secuencias_variaciones_v_ini_le_v_fin_chk" CHECK (("v_ini" <= "v_fin"))
 );
 
@@ -924,8 +938,8 @@ CREATE TABLE IF NOT EXISTS "public"."vocabularios" (
     "orden" integer,
     "activo" boolean DEFAULT true,
     "bibliografia" "text",
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"(),
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "tipo_forma" "text",
     CONSTRAINT "vocabularios_tipo_forma_check" CHECK ((("tipo_forma" IS NULL) OR ("tipo_forma" = ANY (ARRAY['forma_espanola'::"text", 'forma_italiana'::"text"]))))
 );
@@ -1207,7 +1221,15 @@ CREATE OR REPLACE TRIGGER "trigger_autores_updated_at" BEFORE UPDATE ON "public"
 
 
 
+CREATE OR REPLACE TRIGGER "trigger_comentarios_internos_updated_at" BEFORE UPDATE ON "public"."comentarios_internos" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
 CREATE OR REPLACE TRIGGER "trigger_cleanup_secuencias_subtipos_on_secuencia_change" AFTER UPDATE OF "estrofa_tipo_id", "v_ini", "v_fin" ON "public"."secuencias_metricas" FOR EACH ROW EXECUTE FUNCTION "public"."cleanup_secuencias_subtipos_on_secuencia_change"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_cuadros_updated_at" BEFORE UPDATE ON "public"."cuadros" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
@@ -1216,6 +1238,14 @@ CREATE OR REPLACE TRIGGER "trigger_dashboard_activity_state_updated_at" BEFORE U
 
 
 CREATE OR REPLACE TRIGGER "trigger_editores_updated_at" BEFORE UPDATE ON "public"."editores" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_estrofa_tipo_metros_updated_at" BEFORE UPDATE ON "public"."estrofa_tipo_metros" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_jornadas_updated_at" BEFORE UPDATE ON "public"."jornadas" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
@@ -1231,7 +1261,19 @@ CREATE OR REPLACE TRIGGER "trigger_obras_updated_at" BEFORE UPDATE ON "public"."
 
 
 
+CREATE OR REPLACE TRIGGER "trigger_obras_revisores_updated_at" BEFORE UPDATE ON "public"."obras_revisores" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_proyecto_activo_updated_at" BEFORE UPDATE ON "public"."proyecto_activo" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
 CREATE OR REPLACE TRIGGER "trigger_rangos_updated_at" BEFORE UPDATE ON "public"."rangos" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_rangos_autores_updated_at" BEFORE UPDATE ON "public"."rangos_autores" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
@@ -1240,6 +1282,10 @@ CREATE OR REPLACE TRIGGER "trigger_secuencias_subtipos_updated_at" BEFORE UPDATE
 
 
 CREATE OR REPLACE TRIGGER "trigger_secuencias_updated_at" BEFORE UPDATE ON "public"."secuencias_metricas" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_secuencias_variaciones_updated_at" BEFORE UPDATE ON "public"."secuencias_variaciones" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
