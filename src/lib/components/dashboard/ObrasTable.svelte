@@ -9,6 +9,7 @@
 		estadoTerm: string;
 		editorNombre: string;
 		updated_at: string | null;
+		canRead?: boolean;
 		canEditContent?: boolean;
 		canComment?: boolean;
 		canReview?: boolean;
@@ -58,6 +59,7 @@
 	}
 
 	function actionHint(obra: ObraRow) {
+		if (obra.canRead === false) return 'Solo accesible si está publicada';
 		if (obra.canEditContent) return '';
 		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Solo revisión';
 		return 'Solo lectura';
@@ -101,7 +103,11 @@
 						<td class="px-3 py-2">{formatRelative(obra.updated_at)}</td>
 						<td class="px-3 py-2">
 							<div class="flex items-center gap-2">
-								<Button variant="ghost" onclick={() => dispatch('open', obra.obra_id)}>
+								<Button
+									variant="ghost"
+									disabled={obra.canRead === false}
+									onclick={() => dispatch('open', obra.obra_id)}
+								>
 									{actionLabel(obra)}
 								</Button>
 								{#if actionHint(obra)}

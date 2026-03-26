@@ -69,4 +69,15 @@ describe('buildObraCapabilities', () => {
 		expect(validadoCaps.canChangeState).toBe(false);
 		expect(pendienteCaps.canEditContent).toBe(false);
 	});
+
+	it('allows unassigned editors to read only published works', () => {
+		const editorId = '00000000-0000-0000-0000-000000000070';
+		const obraAssigned = { editor_asignado: editorId };
+		const obraUnassigned = { editor_asignado: '00000000-0000-0000-0000-000000000080' };
+
+		expect(buildObraCapabilities(profile('editor', editorId), obraUnassigned, 'publicado', false).canRead).toBe(true);
+		expect(buildObraCapabilities(profile('editor', editorId), obraUnassigned, 'borrador', false).canRead).toBe(false);
+		expect(buildObraCapabilities(profile('editor', editorId), obraAssigned, 'borrador', false).canRead).toBe(true);
+		expect(buildObraCapabilities(profile('editor', editorId), obraUnassigned, 'pendiente', true).canRead).toBe(true);
+	});
 });
