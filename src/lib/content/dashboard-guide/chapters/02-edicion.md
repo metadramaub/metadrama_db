@@ -58,6 +58,8 @@ Datos que puedes registrar:
 
 La fuente bibliográfica y la edición base admiten [Markdown](#sobre-los-campos-de-texto-largos-y-markdown).
 
+En `edición base utilizada`, puedes añadir al final de cada referencia una indicación entre corchetes para señalar su uso, por ejemplo `[Texto base]` o `[Sinopsis argumental]`. Si no se especifica nada, se asume `[Texto base]`.
+
 > [!IMPORTANT]
 > Aunque algunas fechas no se sepan con seguridad, deja la mejor aproximación disponible y cita siempre la fuente. Si la fecha está segura y no hay un rango, introduce el mismo año en ambos campos.
 
