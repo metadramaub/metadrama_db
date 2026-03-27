@@ -14,6 +14,7 @@
 	import AutoriaTab from '$lib/components/editor/AutoriaTab.svelte';
 	import ObservacionesTab from '$lib/components/editor/ObservacionesTab.svelte';
 	import RevisionTab from '$lib/components/editor/RevisionTab.svelte';
+	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import {
 		currentObraStore,
@@ -371,7 +372,7 @@
 	{#if !canEditContent}
 		<div class="mb-4 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2 text-sm">
 			{#if canComment}
-				Modo revisión: contenido en solo lectura. Puedes comentar desde la pestaña Revisión.
+				Modo revisión: contenido en solo lectura. Puedes dejar comentarios internos en las pestañas que tengan panel de comentarios.
 			{:else}
 				Modo solo lectura: no tienes permisos de edición ni revisión en esta obra.
 			{/if}
@@ -389,7 +390,12 @@
 	</div>
 
 	{#if currentTab === 'datos'}
-		<DatosObraTab obra={obraLive} generoOptions={generoOptions} readOnly={!canEditContent} />
+		<DatosObraTab
+			obra={obraLive}
+			generoOptions={generoOptions}
+			readOnly={!canEditContent}
+			canComment={canComment}
+		/>
 	{:else if currentTab === 'estructura'}
 		<EstructuraTab
 			obraId={obraLive.obra_id}
@@ -415,17 +421,26 @@
 		/>
 	{:else if currentTab === 'autoria'}
 		{#if showAutoriaUnderConstruction}
-			<div class="card p-4">
-				<div class="max-w-3xl space-y-3">
-					<h2 class="text-xl font-semibold">Autoría</h2>
-					<p class="text-sm text-[color:var(--muted-foreground)]">
-						Este módulo está temporalmente en construcción mientras adaptamos el nuevo sistema
-						de autoría.
-					</p>
-					<p class="text-sm text-[color:var(--muted-foreground)]">
-						Puedes seguir trabajando con normalidad en el resto de pestañas de esta obra.
-					</p>
+			<div class="space-y-4">
+				<div class="card p-4">
+					<div class="max-w-3xl space-y-3">
+						<h2 class="text-xl font-semibold">Autoría</h2>
+						<p class="text-sm text-[color:var(--muted-foreground)]">
+							Este módulo está temporalmente en construcción mientras adaptamos el nuevo sistema
+							de autoría.
+						</p>
+						<p class="text-sm text-[color:var(--muted-foreground)]">
+							Puedes seguir trabajando con normalidad en el resto de pestañas de esta obra.
+						</p>
+					</div>
 				</div>
+				<InternalCommentsPanel
+					obraId={obraLive.obra_id}
+					canComment={canComment}
+					section="autoria"
+					title="Comentarios internos sobre autoría"
+					emptyText="No hay comentarios internos sobre esta sección."
+				/>
 			</div>
 		{:else}
 			<AutoriaTab
@@ -433,6 +448,7 @@
 				obra={obraLive}
 				roleTerm={data.profile.roleTerm}
 				readOnly={!canEditContent}
+				canComment={canComment}
 			/>
 		{/if}
 	{:else if currentTab === 'observaciones'}
@@ -441,6 +457,7 @@
 			observacionesInitial={obraLive.observaciones ?? ''}
 			bibliografiaInitial={obraLive.bibliografia ?? ''}
 			readOnly={!canEditContent}
+			canComment={canComment}
 		/>
 	{:else}
 		<RevisionTab

@@ -502,6 +502,7 @@
 	<InternalCommentsPanel
 		obraId={props.obraId}
 		canComment={canComment}
+		section="revision"
 		title="Comentarios internos"
 		reloadKey={commentsReloadKey}
 		onDraftDirtyChange={onCommentsDraftDirtyChange}

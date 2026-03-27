@@ -3,6 +3,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import AuthorSelector from '$lib/components/editor/AuthorSelector.svelte';
+	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 	import type { Tables } from '$lib/types/database.types';
@@ -27,6 +28,7 @@
 		obra: Tables<'obras'>;
 		roleTerm: string;
 		readOnly?: boolean;
+		canComment?: boolean;
 	}>();
 	// Temporal: restringe UI de autoria avanzada a admin.
 	const LOCK_NON_ADMIN_TO_OBRA_COMPLETA = true;
@@ -63,6 +65,7 @@
 	let baselineSnapshot = $state('');
 
 	const isAdmin = $derived(props.roleTerm === 'admin');
+	const canComment = $derived(Boolean(props.canComment));
 	const nonAdminLocked = $derived(LOCK_NON_ADMIN_TO_OBRA_COMPLETA && !isAdmin);
 	const legacySplitReadOnly = $derived(nonAdminLocked && sourceMode !== 'obra_completa');
 	const effectiveReadOnly = $derived(Boolean(props.readOnly) || legacySplitReadOnly);
@@ -119,6 +122,16 @@
 			return 'Tu rol no puede editar rangos personalizados. Reasigna la autoría para continuar.';
 		}
 		return 'Se detectó un desajuste entre la estructura y los rangos de autoría guardados.';
+	}
+
+	function findPersistedRangeForJornada(jornadaId: string): Tables<'rangos'> | null {
+		const jornada = jornadasCurrent.find((item) => item.jornada_id === jornadaId);
+		if (!jornada) return null;
+		return rangos.find((range) => range.v_ini === jornada.v_ini && range.v_fin === jornada.v_fin) ?? null;
+	}
+
+	function findPersistedRangeForCustomRange(range: CustomRange): Tables<'rangos'> | null {
+		return rangos.find((candidate) => candidate.rango_id === range.temp_id) ?? null;
 	}
 
 	function getAuthorIdsByRange(rangosAutoresInput: Tables<'rangos_autores'>[]): Map<string, string[]> {
@@ -697,6 +710,7 @@
 							<p class="text-sm text-[color:var(--muted-foreground)]">No hay jornadas definidas.</p>
 						{:else}
 							{#each jornadaAssignments as assignment}
+								{@const persistedRange = findPersistedRangeForJornada(assignment.jornada_id)}
 								<article class="border border-[color:var(--border)] bg-white p-3">
 									<div class="mb-2 text-sm font-medium">
 										{jornadaMap.get(assignment.jornada_id) ?? assignment.jornada_id}
@@ -711,6 +725,21 @@
 											disabled={effectiveReadOnly || loadingFromServer}
 										/>
 									</div>
+									{#if persistedRange}
+										<div class="mt-4">
+											{#key persistedRange.rango_id}
+												<InternalCommentsPanel
+													obraId={props.obraId}
+													canComment={canComment}
+													title="Comentarios internos del rango de autoría"
+													context={{ rango_id: persistedRange.rango_id }}
+													collapsible={true}
+													defaultCollapsed={true}
+													collapseLabel="Ver comentarios del rango"
+												/>
+											{/key}
+										</div>
+									{/if}
 								</article>
 							{/each}
 						{/if}
@@ -726,6 +755,7 @@
 							<p class="text-sm text-[color:var(--muted-foreground)]">No hay rangos definidos.</p>
 						{:else}
 							{#each customRanges as range}
+								{@const persistedRange = findPersistedRangeForCustomRange(range)}
 								<article class="border border-[color:var(--border)] bg-white p-3">
 									<div class="mb-3 flex justify-between gap-2">
 										<div class="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
@@ -773,6 +803,25 @@
 											/>
 										</div>
 									</div>
+									{#if persistedRange}
+										<div class="mt-4">
+											{#key persistedRange.rango_id}
+												<InternalCommentsPanel
+													obraId={props.obraId}
+													canComment={canComment}
+													title="Comentarios internos del rango de autoría"
+													context={{ rango_id: persistedRange.rango_id }}
+													collapsible={true}
+													defaultCollapsed={true}
+													collapseLabel="Ver comentarios del rango"
+												/>
+											{/key}
+										</div>
+									{:else if !effectiveReadOnly}
+										<p class="mt-4 text-xs text-[color:var(--muted-foreground)]">
+											Guarda el rango para poder añadir comentarios internos específicos.
+										</p>
+									{/if}
 								</article>
 							{/each}
 						{/if}
@@ -780,6 +829,16 @@
 				{/if}
 			</div>
 		{/if}
+	{/if}
+
+	{#if !loadingAutoria}
+		<InternalCommentsPanel
+			obraId={props.obraId}
+			canComment={canComment}
+			section="autoria"
+			title="Comentarios internos sobre autoría"
+			emptyText="No hay comentarios internos sobre esta sección."
+		/>
 	{/if}
 </section>
 

@@ -5,7 +5,12 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
-	import type { ComentarioInput, ComentarioListItem, ComentarioPatchInput } from '$lib/types/obra.types';
+	import type {
+		ComentarioInput,
+		ComentarioListItem,
+		ComentarioPatchInput,
+		ComentarioSeccion
+	} from '$lib/types/obra.types';
 
 	type CommentType = 'general' | 'revision' | 'tecnico';
 	type CommentContext = Pick<
@@ -19,12 +24,19 @@
 		title?: string;
 		emptyText?: string;
 		context?: CommentContext;
+		section?: ComentarioSeccion;
 		reloadKey?: string | number | null;
 		collapsible?: boolean;
 		defaultCollapsed?: boolean;
 		collapseLabel?: string;
 		onDraftDirtyChange?: (dirty: boolean) => void;
 	}>();
+
+	function hasStructuredContext(context?: CommentContext): context is CommentContext {
+		return Boolean(
+			context?.secuencia_id || context?.jornada_id || context?.cuadro_id || context?.rango_id
+		);
+	}
 
 	let comments = $state<ComentarioListItem[]>([]);
 	let commentsLoading = $state(false);
@@ -57,10 +69,16 @@
 	const draftDirty = $derived(newCommentDraftDirty || editCommentDraftDirty);
 	const contextParams = $derived.by(() => {
 		const params = new URLSearchParams();
-		if (props.context?.secuencia_id) params.set('secuencia_id', props.context.secuencia_id);
-		if (props.context?.jornada_id) params.set('jornada_id', props.context.jornada_id);
-		if (props.context?.cuadro_id) params.set('cuadro_id', props.context.cuadro_id);
-		if (props.context?.rango_id) params.set('rango_id', props.context.rango_id);
+		if (hasStructuredContext(props.context)) {
+			if (props.context.secuencia_id) params.set('secuencia_id', props.context.secuencia_id);
+			if (props.context.jornada_id) params.set('jornada_id', props.context.jornada_id);
+			if (props.context.cuadro_id) params.set('cuadro_id', props.context.cuadro_id);
+			if (props.context.rango_id) params.set('rango_id', props.context.rango_id);
+			return params;
+		}
+		if (props.section) {
+			params.set('seccion', props.section);
+		}
 		return params;
 	});
 	const commentTypeItems = [
@@ -144,10 +162,15 @@
 			return;
 		}
 		postingComment = true;
+		const scopedContext = hasStructuredContext(props.context)
+			? props.context
+			: props.section
+				? { seccion: props.section }
+				: {};
 		const payload: ComentarioInput = {
 			comentario: newComment.trim(),
 			tipo_comentario: newCommentType,
-			...(props.context ?? {})
+			...scopedContext
 		};
 		const response = await fetch(`/api/obras/${props.obraId}/comentarios`, {
 			method: 'POST',

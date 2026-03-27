@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import {
@@ -15,6 +16,7 @@
 		observacionesInitial: string;
 		bibliografiaInitial: string;
 		readOnly?: boolean;
+		canComment?: boolean;
 	}>();
 	const PUBLIC_VISIBILITY_HELP = 'Este contenido se publica en la ficha pública de la obra.';
 
@@ -152,4 +154,12 @@
 			onChange={onBibliografiaChange}
 		/>
 	</article>
+
+	<InternalCommentsPanel
+		obraId={props.obraId}
+		canComment={Boolean(props.canComment)}
+		section="observaciones"
+		title="Comentarios internos sobre observaciones"
+		emptyText="No hay comentarios internos sobre esta sección."
+	/>
 </section>

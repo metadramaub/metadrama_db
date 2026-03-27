@@ -634,6 +634,8 @@ CREATE TABLE IF NOT EXISTS "public"."comentarios_internos" (
     "cuadro_id" "uuid",
     "rango_id" "uuid",
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "seccion" "text",
+    CONSTRAINT "comentarios_internos_seccion_chk" CHECK ((("seccion" IS NULL) OR ("seccion" = ANY (ARRAY['datos'::text, 'estructura'::text, 'secuencias'::text, 'autoria'::text, 'observaciones'::text, 'revision'::text])))),
     CONSTRAINT "comentarios_internos_un_contexto_chk" CHECK (((((COALESCE((("secuencia_id" IS NOT NULL))::integer, 0) + COALESCE((("jornada_id" IS NOT NULL))::integer, 0)) + COALESCE((("cuadro_id" IS NOT NULL))::integer, 0)) + COALESCE((("rango_id" IS NOT NULL))::integer, 0)) <= 1))
 );
 

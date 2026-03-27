@@ -41,7 +41,7 @@ export type DashboardActivityItem = {
 	obraTitulo: string;
 	description: string;
 	eventAt: string | null;
-	tab: 'revision' | 'secuencias' | 'estructura' | 'autoria';
+	tab: 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones';
 };
 
 export type DashboardNotificationType =
@@ -58,7 +58,7 @@ export type DashboardNotificationItem = {
 	obraTitulo: string;
 	description: string;
 	eventAt: string | null;
-	tab: 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria';
+	tab: 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones';
 	badgeCount?: number;
 };
 
@@ -177,11 +177,15 @@ function isUnreadCountableNotification(type: DashboardNotificationType): boolean
 	return UNREAD_COUNTABLE_TYPES.has(type);
 }
 
-function commentTab(comment: Pick<Tables<'comentarios_internos'>, 'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'>):
-	| 'revision'
-	| 'secuencias'
-	| 'estructura'
-	| 'autoria' {
+function commentTab(
+	comment: Pick<Tables<'comentarios_internos'>, 'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'>
+): 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones' {
+	if (comment.seccion === 'datos') return 'datos';
+	if (comment.seccion === 'estructura') return 'estructura';
+	if (comment.seccion === 'secuencias') return 'secuencias';
+	if (comment.seccion === 'autoria') return 'autoria';
+	if (comment.seccion === 'observaciones') return 'observaciones';
+	if (comment.seccion === 'revision') return 'revision';
 	if (comment.secuencia_id) return 'secuencias';
 	if (comment.jornada_id || comment.cuadro_id) return 'estructura';
 	if (comment.rango_id) return 'autoria';
@@ -193,7 +197,7 @@ async function loadCommentContextLabels(
 	commentRows: Array<
 		Pick<
 			Tables<'comentarios_internos'>,
-			'comentario_id' | 'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'
+			'comentario_id' | 'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'
 		>
 	>
 ): Promise<Map<string, string>> {
@@ -234,15 +238,27 @@ async function loadCommentContextLabels(
 
 	const contextByCommentId = new Map<string, string>();
 	for (const row of commentRows) {
-		let context = 'revisión general';
-		if (row.secuencia_id) {
+		let context = 'Revisión final';
+		if (row.seccion === 'datos') {
+			context = 'Datos de la obra';
+		} else if (row.seccion === 'estructura') {
+			context = 'Estructura';
+		} else if (row.seccion === 'secuencias') {
+			context = 'Secuencias';
+		} else if (row.seccion === 'autoria') {
+			context = 'Autoría';
+		} else if (row.seccion === 'observaciones') {
+			context = 'Observaciones';
+		} else if (row.seccion === 'revision') {
+			context = 'Revisión final';
+		} else if (row.secuencia_id) {
 			context = secuenciaMap.get(row.secuencia_id) ?? 'secuencias';
 		} else if (row.cuadro_id) {
 			context = cuadroMap.get(row.cuadro_id) ?? 'estructura (cuadro)';
 		} else if (row.jornada_id) {
 			context = jornadaMap.get(row.jornada_id) ?? 'estructura (jornada)';
 		} else if (row.rango_id) {
-			context = 'rango de autoría';
+			context = 'Rango de autoría';
 		}
 		contextByCommentId.set(row.comentario_id, context);
 	}
@@ -386,7 +402,7 @@ export async function getRecentActivity(
 
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
-		.select('comentario_id,obra_id,created_at,secuencia_id,jornada_id,cuadro_id,rango_id')
+		.select('comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id')
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })
 		.limit(300);
@@ -435,7 +451,7 @@ export async function getRecentActivity(
 			type: 'comment' as const,
 			obraId: row.obra_id,
 			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
-			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'revisión general'}`,
+			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'Revisión final'}`,
 			eventAt: normalizeEventAt(row.created_at),
 			tab: commentTab(row)
 		}))
@@ -477,7 +493,7 @@ export async function getNotifications(
 
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
-		.select('comentario_id,obra_id,created_at,secuencia_id,jornada_id,cuadro_id,rango_id')
+		.select('comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id')
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })
 		.limit(400);
@@ -559,7 +575,7 @@ export async function getNotifications(
 			type: 'comment' as const,
 			obraId: row.obra_id,
 			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
-			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'revisión general'}`,
+			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'Revisión final'}`,
 			eventAt: normalizeEventAt(row.created_at),
 			tab: commentTab(row)
 		}))
