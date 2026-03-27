@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { COMENTARIO_SECCIONES } from '$lib/types/obra.types';
 
 const nullableYear = z
 	.union([z.number().int().min(1200).max(2100), z.null()])
@@ -145,6 +146,7 @@ export const estadoInputSchema = z.object({
 
 function validateSingleCommentContext(
 	data: {
+		seccion?: (typeof COMENTARIO_SECCIONES)[number];
 		secuencia_id?: string;
 		jornada_id?: string;
 		cuadro_id?: string;
@@ -160,6 +162,13 @@ function validateSingleCommentContext(
 			path: ['secuencia_id']
 		});
 	}
+	if (data.seccion && refs.length > 0) {
+		ctx.addIssue({
+			code: z.ZodIssueCode.custom,
+			message: 'La sección no se puede combinar con un contexto específico.',
+			path: ['seccion']
+		});
+	}
 }
 
 export const comentarioInputSchema = z
@@ -169,6 +178,7 @@ export const comentarioInputSchema = z
 			.enum(['general', 'revision', 'tecnico', 'estado'])
 			.optional()
 			.default('general'),
+		seccion: z.enum(COMENTARIO_SECCIONES).optional(),
 		secuencia_id: z.string().uuid().optional(),
 		jornada_id: z.string().uuid().optional(),
 		cuadro_id: z.string().uuid().optional(),
@@ -183,6 +193,7 @@ export const comentarioPatchSchema = z.object({
 
 export const comentarioListQuerySchema = z
 	.object({
+		seccion: z.enum(COMENTARIO_SECCIONES).optional(),
 		secuencia_id: z.string().uuid().optional(),
 		jornada_id: z.string().uuid().optional(),
 		cuadro_id: z.string().uuid().optional(),

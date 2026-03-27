@@ -3,6 +3,7 @@
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import {
@@ -18,6 +19,7 @@
 		obra: Tables<'obras'>;
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		readOnly?: boolean;
+		canComment?: boolean;
 	}>();
 	// Temporal: ocultar en UI hasta reactivar el flujo de fechas METADRAMA.
 	const SHOW_METADRAMA_DATES = false;
@@ -325,6 +327,14 @@
 			</div>
 		</div>
 	</div>
+
+	<InternalCommentsPanel
+		obraId={props.obra.obra_id}
+		canComment={Boolean(props.canComment)}
+		section="datos"
+		title="Comentarios internos sobre datos de la obra"
+		emptyText="No hay comentarios internos sobre esta sección."
+	/>
 
 	{#if varianteDeleteTargetIndex !== null}
 		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

@@ -137,6 +137,23 @@ describe('validators', () => {
 		expect(result.success).toBe(false);
 	});
 
+	it('accepts comments scoped by section', () => {
+		const result = comentarioInputSchema.safeParse({
+			comentario: 'Comentario interno',
+			seccion: 'datos'
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('rejects comments mixing section and specific context', () => {
+		const result = comentarioInputSchema.safeParse({
+			comentario: 'Comentario interno',
+			seccion: 'autoria',
+			rango_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7'
+		});
+		expect(result.success).toBe(false);
+	});
+
 	it('rejects patching internal comment type estado', () => {
 		const result = comentarioPatchSchema.safeParse({
 			comentario: 'Actualizado',
@@ -155,6 +172,21 @@ describe('validators', () => {
 		const result = comentarioListQuerySchema.safeParse({
 			secuencia_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			jornada_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7'
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it('accepts comment list query by section', () => {
+		const result = comentarioListQuerySchema.safeParse({
+			seccion: 'observaciones'
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('rejects comment list query mixing section and specific context', () => {
+		const result = comentarioListQuerySchema.safeParse({
+			seccion: 'revision',
+			secuencia_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'
 		});
 		expect(result.success).toBe(false);
 	});

@@ -59,6 +59,7 @@ export type Database = {
           jornada_id: string | null
           obra_id: string
           rango_id: string | null
+          seccion: string | null
           secuencia_id: string | null
           tipo_comentario_id: string
           updated_at: string
@@ -72,6 +73,7 @@ export type Database = {
           jornada_id?: string | null
           obra_id: string
           rango_id?: string | null
+          seccion?: string | null
           secuencia_id?: string | null
           tipo_comentario_id: string
           updated_at?: string
@@ -85,6 +87,7 @@ export type Database = {
           jornada_id?: string | null
           obra_id?: string
           rango_id?: string | null
+          seccion?: string | null
           secuencia_id?: string | null
           tipo_comentario_id?: string
           updated_at?: string

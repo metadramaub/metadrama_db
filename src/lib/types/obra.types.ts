@@ -85,9 +85,21 @@ export interface CambioEstadoInput {
 	comentario?: string;
 }
 
+export const COMENTARIO_SECCIONES = [
+	'datos',
+	'estructura',
+	'secuencias',
+	'autoria',
+	'observaciones',
+	'revision'
+] as const;
+
+export type ComentarioSeccion = (typeof COMENTARIO_SECCIONES)[number];
+
 export interface ComentarioInput {
 	comentario: string;
 	tipo_comentario?: 'general' | 'revision' | 'tecnico' | 'estado';
+	seccion?: ComentarioSeccion;
 	secuencia_id?: string;
 	jornada_id?: string;
 	cuadro_id?: string;
@@ -100,6 +112,7 @@ export interface ComentarioPatchInput {
 }
 
 export interface ComentarioListQueryInput {
+	seccion?: ComentarioSeccion;
 	secuencia_id?: string;
 	jornada_id?: string;
 	cuadro_id?: string;

@@ -9,6 +9,7 @@ type ComentarioTipoTerm = 'general' | 'revision' | 'tecnico' | 'estado';
 
 type ComentarioWithMeta = Tables<'comentarios_internos'> & {
 	tipo_comentario_id?: string | null;
+	seccion?: string | null;
 	secuencia_id?: string | null;
 	jornada_id?: string | null;
 	cuadro_id?: string | null;
@@ -37,6 +38,24 @@ async function resolveTipoComentarioId(locals: App.Locals, term: 'general' | 're
 }
 
 function contextLabel(comment: ComentarioWithMeta, maps: ContextMaps): string | null {
+	if (comment.seccion === 'datos') {
+		return 'Datos de la obra';
+	}
+	if (comment.seccion === 'estructura') {
+		return 'Estructura';
+	}
+	if (comment.seccion === 'secuencias') {
+		return 'Secuencias';
+	}
+	if (comment.seccion === 'autoria') {
+		return 'Autoría';
+	}
+	if (comment.seccion === 'observaciones') {
+		return 'Observaciones';
+	}
+	if (comment.seccion === 'revision') {
+		return 'Revisión final';
+	}
 	if (comment.secuencia_id) {
 		const secuencia = maps.secuenciaById.get(comment.secuencia_id);
 		return secuencia ? `Secuencia vv. ${secuencia.v_ini}-${secuencia.v_fin}` : 'Secuencia';
@@ -96,6 +115,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 	const { profile } = await getObraContext({ locals }, params.id, { requireEdit: false });
 
 	const parsedQuery = comentarioListQuerySchema.safeParse({
+		seccion: url.searchParams.get('seccion') ?? undefined,
 		secuencia_id: url.searchParams.get('secuencia_id') ?? undefined,
 		jornada_id: url.searchParams.get('jornada_id') ?? undefined,
 		cuadro_id: url.searchParams.get('cuadro_id') ?? undefined,
@@ -106,7 +126,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 	if (!parsedQuery.success) {
 		return validationErrorResponse(parsedQuery.error);
 	}
-	const { secuencia_id, jornada_id, cuadro_id, rango_id, limit, offset } = parsedQuery.data;
+	const { seccion, secuencia_id, jornada_id, cuadro_id, rango_id, limit, offset } = parsedQuery.data;
 
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
@@ -119,6 +139,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 	if (jornada_id) commentsQuery = commentsQuery.eq('jornada_id', jornada_id);
 	if (cuadro_id) commentsQuery = commentsQuery.eq('cuadro_id', cuadro_id);
 	if (rango_id) commentsQuery = commentsQuery.eq('rango_id', rango_id);
+	if (seccion) commentsQuery = commentsQuery.eq('seccion', seccion);
 
 	const { data: comments, error } = await commentsQuery;
 
@@ -203,6 +224,7 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 			user_id: user.id,
 			comentario: parsed.data.comentario,
 			tipo_comentario_id: tipoComentarioId,
+			seccion: parsed.data.seccion ?? null,
 			secuencia_id: parsed.data.secuencia_id ?? null,
 			jornada_id: parsed.data.jornada_id ?? null,
 			cuadro_id: parsed.data.cuadro_id ?? null,
