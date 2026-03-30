@@ -1207,7 +1207,7 @@
 				</Button>
 				{#if sidebarDirty}
 					<p class="text-xs text-[color:var(--muted-foreground)]">
-						La lectura corrida refleja la ultima version guardada mientras haya cambios pendientes en el panel lateral.
+						La sinpsis completa refleja la ultima version guardada mientras haya cambios pendientes en el panel lateral.
 					</p>
 				{/if}
 			</div>
@@ -1319,7 +1319,7 @@
 		</div>
 		{#if sidebarDirty}
 			<p class="text-xs text-[color:var(--muted-foreground)]">
-				La lectura corrida refleja la última versión guardada mientras haya cambios pendientes en el panel lateral.
+				La sinopsis completa refleja la última versión guardada mientras haya cambios pendientes en el panel lateral.
 			</p>
 		{/if}
 	</div>
