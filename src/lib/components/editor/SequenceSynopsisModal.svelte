@@ -130,7 +130,7 @@
 		<button
 			type="button"
 			class="absolute inset-0 bg-black/45"
-			aria-label="Cerrar lectura corrida de sinopsis"
+			aria-label="Cerrar"
 			onclick={props.onClose}
 		></button>
 
@@ -139,7 +139,7 @@
 				<div class="flex flex-wrap items-start justify-between gap-3">
 					<div class="space-y-2">
 						<div>
-							<h2 class="text-xl font-semibold">Lectura corrida de sinopsis</h2>
+							<h2 class="text-xl font-semibold">Sinopsis completa</h2>
 							<p class="text-sm text-[color:var(--muted-foreground)]">
 								{props.totalSequences} secuencias
 								{#if props.missingSynopsisCount > 0}
@@ -150,7 +150,7 @@
 
 						{#if props.showSavedVersionNote}
 							<p class="max-w-3xl rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
-								La lectura corrida refleja la ultima version guardada. La secuencia abierta tiene cambios aun no guardados.
+								La sinopsis completa refleja la ultima version guardada. La secuencia abierta tiene cambios aun no guardados.
 							</p>
 						{/if}
 					</div>
@@ -162,7 +162,7 @@
 			<div class="px-5 py-5">
 				{#if props.groups.length === 0}
 					<div class="card border-dashed p-6 text-sm text-[color:var(--muted-foreground)]">
-						No hay secuencias registradas para construir la lectura corrida.
+						No hay secuencias registradas para construir la sinopsis completa.
 					</div>
 				{:else}
 					<div class="space-y-8">
