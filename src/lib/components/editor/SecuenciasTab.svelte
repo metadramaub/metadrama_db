@@ -7,6 +7,8 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
+	import SequenceSynopsisModal from '$lib/components/editor/SequenceSynopsisModal.svelte';
+	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { pushToast } from '$lib/stores/toast';
 
 	const props = $props<{
@@ -81,6 +83,7 @@
 	let filtroCerteza = $state('');
 	let deleteTargetId = $state<string | null>(null);
 	let showCloseWithoutSavingModal = $state(false);
+	let sequenceSynopsisModalOpen = $state(false);
 
 	let sidebarSaving = $state(false);
 	let sidebarDirty = $state(false);
@@ -424,6 +427,25 @@
 		}
 		return grouped;
 	});
+	const sequenceSynopsisGroups = $derived.by(() =>
+		buildSequenceSynopsisGroups({
+			secuencias,
+			jornadas: jornadasSorted,
+			cuadros: cuadrosSorted,
+			estrofaOptions: props.estrofaOptions
+		})
+	);
+	const sequenceSynopsisMissingCount = $derived.by(
+		() => secuencias.filter((secuencia) => !(secuencia.sinopsis ?? '').trim()).length
+	);
+
+	function openSequenceSynopsisModal() {
+		sequenceSynopsisModalOpen = true;
+	}
+
+	function closeSequenceSynopsisModal() {
+		sequenceSynopsisModalOpen = false;
+	}
 
 	function clearAutosaveTimer() {
 		if (!autosaveTimer) return;
@@ -1179,11 +1201,23 @@
 					{/each}
 				</ul>
 			{/if}
+			<div class="mt-4 space-y-2">
+				<Button variant="primary" class="w-full" onclick={openSequenceSynopsisModal}>
+					Leer sinopsis completa
+				</Button>
+				{#if sidebarDirty}
+					<p class="text-xs text-[color:var(--muted-foreground)]">
+						La lectura corrida refleja la ultima version guardada mientras haya cambios pendientes en el panel lateral.
+					</p>
+				{/if}
+			</div>
 		</aside>
 
 		<div class="space-y-2">
-			<div class="flex justify-start">
-				<Button variant="secondary" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
+			<div class="space-y-2">
+				<div class="flex flex-wrap justify-start gap-2">
+					<Button variant="primary-soft" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
+				</div>
 			</div>
 			<div class="card overflow-x-auto">
 				<table class="min-w-full text-left text-sm">
@@ -1279,7 +1313,26 @@
 	<p class="text-xs text-[color:var(--muted-foreground)]">
 		La suma de versos declarados se calcula solo sobre las secuencias visibles por los filtros activos.
 	</p>
+	<div class="space-y-2 lg:hidden">
+		<div class="flex justify-start">
+			<Button variant="primary" onclick={openSequenceSynopsisModal}>Leer sinopsis completa</Button>
+		</div>
+		{#if sidebarDirty}
+			<p class="text-xs text-[color:var(--muted-foreground)]">
+				La lectura corrida refleja la última versión guardada mientras haya cambios pendientes en el panel lateral.
+			</p>
+		{/if}
+	</div>
 </section>
+
+<SequenceSynopsisModal
+	open={sequenceSynopsisModalOpen}
+	groups={sequenceSynopsisGroups}
+	totalSequences={secuencias.length}
+	missingSynopsisCount={sequenceSynopsisMissingCount}
+	showSavedVersionNote={sidebarDirty}
+	onClose={closeSequenceSynopsisModal}
+/>
 
 {#if sidebarOpen}
 	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0">

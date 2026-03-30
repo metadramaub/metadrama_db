@@ -7,9 +7,14 @@
 	import MetricDistributionPie from '$lib/components/ficha/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
 	import OrcidIcon from '$lib/components/icons/OrcidIcon.svelte';
+	import type { SequenceModalPayload } from '$lib/types/public-ficha.types';
 	import { formatRelative } from '$lib/utils/formatters';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { colorForMetricKey } from '$lib/utils/metric-colors';
+	import {
+		resolveSequenceStructures,
+		type ResolvedSequenceStructure
+	} from '$lib/utils/sequence-structure';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
@@ -25,6 +30,8 @@
 	let showDateSource = $state(false);
 	let dateSourceWrapEl = $state<HTMLDivElement | null>(null);
 
+	type ResolvedPublicSequence = ResolvedSequenceStructure<SequenceModalPayload>;
+
 	const ficha = $derived(data.ficha);
 	const obra = $derived(ficha.obra);
 	const jornadas = $derived.by(() =>
@@ -35,6 +42,13 @@
 	);
 	const secuenciasOrdenadas = $derived.by(() =>
 		[...ficha.metrica.secuencias].sort((a, b) => a.v_ini - b.v_ini)
+	);
+	const resolvedPublicSequences = $derived.by(() =>
+		resolveSequenceStructures({
+			secuencias: secuenciasOrdenadas,
+			jornadas,
+			cuadros
+		})
 	);
 	const totalVersos = $derived.by(() => {
 		const fromObra = obra.total_versos ?? 0;
@@ -98,25 +112,28 @@
 	});
 
 	const secuenciasByJornada = $derived.by(() => {
-		const byJornada = new Map<string, typeof ficha.metrica.secuencias>();
-		for (const jornada of jornadas) {
-			byJornada.set(
-				jornada.jornada_id,
-				secuenciasOrdenadas.filter(
-					(secuencia) => secuencia.v_ini >= jornada.v_ini && secuencia.v_fin <= jornada.v_fin
-				)
-			);
+		const byJornada = new Map<string, SequenceModalPayload[]>();
+		for (const item of resolvedPublicSequences) {
+			if (!item.jornada.jornadaId) continue;
+			const current = byJornada.get(item.jornada.jornadaId) ?? [];
+			current.push(item.sequence);
+			byJornada.set(item.jornada.jornadaId, current);
 		}
 		return byJornada;
 	});
 
 	const selectedSequenceIndex = $derived.by(() => {
 		if (!selectedSequenceId) return -1;
-		return secuenciasOrdenadas.findIndex((secuencia) => secuencia.secuencia_id === selectedSequenceId);
+		return resolvedPublicSequences.findIndex(
+			(item) => item.sequence.secuencia_id === selectedSequenceId
+		);
+	});
+	const selectedSequenceStructure = $derived.by((): ResolvedPublicSequence | null => {
+		if (selectedSequenceIndex < 0) return null;
+		return resolvedPublicSequences[selectedSequenceIndex] ?? null;
 	});
 	const selectedSequence = $derived.by(() => {
-		if (selectedSequenceIndex < 0) return null;
-		return secuenciasOrdenadas[selectedSequenceIndex] ?? null;
+		return selectedSequenceStructure?.sequence ?? null;
 	});
 
 	function openSequenceModal(secuenciaId: string) {
@@ -129,12 +146,19 @@
 
 	function openPrevSequence() {
 		if (selectedSequenceIndex <= 0) return;
-		selectedSequenceId = secuenciasOrdenadas[selectedSequenceIndex - 1]?.secuencia_id ?? null;
+		selectedSequenceId =
+			resolvedPublicSequences[selectedSequenceIndex - 1]?.sequence.secuencia_id ?? null;
 	}
 
 	function openNextSequence() {
-		if (selectedSequenceIndex < 0 || selectedSequenceIndex >= secuenciasOrdenadas.length - 1) return;
-		selectedSequenceId = secuenciasOrdenadas[selectedSequenceIndex + 1]?.secuencia_id ?? null;
+		if (
+			selectedSequenceIndex < 0 ||
+			selectedSequenceIndex >= resolvedPublicSequences.length - 1
+		) {
+			return;
+		}
+		selectedSequenceId =
+			resolvedPublicSequences[selectedSequenceIndex + 1]?.sequence.secuencia_id ?? null;
 	}
 
 	function toggleDateSource() {
@@ -445,6 +469,7 @@
 	<SequenceDetailModal
 		open={selectedSequence !== null}
 		secuencia={selectedSequence}
+		structure={selectedSequenceStructure}
 		index={Math.max(selectedSequenceIndex, 0)}
 		total={secuenciasOrdenadas.length}
 		canPrev={selectedSequenceIndex > 0}

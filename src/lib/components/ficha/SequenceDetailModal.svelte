@@ -1,10 +1,17 @@
 <script lang="ts">
-	import { renderMarkdown } from '$lib/utils/markdown';
 	import type { SequenceModalPayload } from '$lib/types/public-ficha.types';
+	import { renderMarkdown } from '$lib/utils/markdown';
+	import type {
+		ResolvedSequenceStructure,
+		SequenceStructureTramo
+	} from '$lib/utils/sequence-structure';
+
+	type SequenceModalStructure = ResolvedSequenceStructure<SequenceModalPayload>;
 
 	const props = $props<{
 		open: boolean;
 		secuencia: SequenceModalPayload | null;
+		structure: SequenceModalStructure | null;
 		index: number;
 		total: number;
 		canPrev: boolean;
@@ -25,6 +32,44 @@
 			document.removeEventListener('keydown', handleEscape);
 		};
 	});
+
+	function formatJornadaLabel() {
+		if (props.structure) return props.structure.jornada.label;
+		if (props.secuencia?.jornada_num !== null && props.secuencia?.jornada_num !== undefined) {
+			return `Jornada ${props.secuencia.jornada_num}`;
+		}
+		return '--';
+	}
+
+	function formatCuadroLabel(cuadroNum: number | null) {
+		return cuadroNum === null ? 'Sin cuadro' : `Cuadro ${cuadroNum}`;
+	}
+
+	function formatCuadroSummary() {
+		if (props.structure) {
+			if (!props.structure.spansMultipleCuadros) {
+				return props.structure.startingCuadro.label;
+			}
+
+			const firstTramo = props.structure.tramos[0];
+			const secondTramo = props.structure.tramos[1];
+			if (firstTramo && secondTramo) {
+				return `${formatCuadroLabel(firstTramo.cuadroNum)} hasta v${firstTramo.vFin}; desde v${secondTramo.vIni}, ${formatCuadroLabel(secondTramo.cuadroNum)}`;
+			}
+
+			return `${props.structure.startingCuadro.label} -> ${props.structure.endingCuadro.label}`;
+		}
+
+		if (props.secuencia?.cuadro_num !== null && props.secuencia?.cuadro_num !== undefined) {
+			return formatCuadroLabel(props.secuencia.cuadro_num);
+		}
+
+		return '--';
+	}
+
+	function formatTramoLabel(tramo: SequenceStructureTramo) {
+		return `${formatCuadroLabel(tramo.cuadroNum)} - vv. ${tramo.vIni}-${tramo.vFin}`;
+	}
 </script>
 
 {#if props.open && props.secuencia}
@@ -79,16 +124,25 @@
 					<div class="space-y-1 text-sm">
 						<p><strong>Estrofa:</strong> {props.secuencia.estrofa_tipo_term}</p>
 						<p><strong>Forma base:</strong> {props.secuencia.estrofa_forma_term}</p>
-						<p><strong>Nº de versos:</strong> {props.secuencia.n_versos}</p>
-						<p><strong>Jornada:</strong> {props.secuencia.jornada_num ?? '--'}</p>
-						<p><strong>Cuadro:</strong> {props.secuencia.cuadro_num ?? '--'}</p>
-						<p><strong>Inaugura espacio:</strong> {props.secuencia.inaugura_espacio ? 'Sí' : 'No'}</p>
-						<p><strong>Versos partidos:</strong> {props.secuencia.versos_partidos ? 'Sí' : 'No'}</p>
+						<p><strong>N de versos:</strong> {props.secuencia.n_versos}</p>
+						<p><strong>Jornada:</strong> {formatJornadaLabel()}</p>
+						<p><strong>Cuadro:</strong> {formatCuadroSummary()}</p>
+						{#if props.structure?.tramos && props.structure.tramos.length > 1}
+							<div class="flex flex-wrap gap-2 pt-1">
+								{#each props.structure.tramos as tramo}
+									<span class="rounded-full border border-sky-200 bg-sky-50 px-2 py-1 text-xs font-medium text-sky-900">
+										{formatTramoLabel(tramo)}
+									</span>
+								{/each}
+							</div>
+						{/if}
+						<p><strong>Inaugura espacio:</strong> {props.secuencia.inaugura_espacio ? 'Si' : 'No'}</p>
+						<p><strong>Versos partidos:</strong> {props.secuencia.versos_partidos ? 'Si' : 'No'}</p>
 					</div>
 				</article>
 
 				<article class="card p-4">
-					<h3 class="mb-2 text-base font-semibold">Caracterización</h3>
+					<h3 class="mb-2 text-base font-semibold">Caracterizacion</h3>
 					<div class="space-y-1 text-sm">
 						<p><strong>Personaje femenino:</strong> {props.secuencia.personaje_femenino}</p>
 						<p><strong>Donaire:</strong> {props.secuencia.personajes_donaire}</p>

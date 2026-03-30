@@ -419,7 +419,7 @@
 				></textarea>
 			</label>
 			<div class="mt-2 flex justify-end">
-				<Button onclick={publishComment} disabled={postingComment || !canComment}>
+				<Button variant="success" onclick={publishComment} disabled={postingComment || !canComment}>
 					{postingComment ? 'Publicando...' : 'Publicar comentario'}
 				</Button>
 			</div>
