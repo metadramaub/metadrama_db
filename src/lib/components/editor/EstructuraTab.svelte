@@ -619,7 +619,7 @@
 			</div>
 
 			<div class="mt-3">
-				<Button variant="secondary" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
+				<Button variant="primary-soft" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
 					>Añadir cuadro</Button
 				>
 			</div>
@@ -627,7 +627,7 @@
 	{/each}
 
 	<div class="flex justify-start">
-		<Button variant="secondary" onclick={openNewJornada} disabled={props.readOnly}>Añadir jornada</Button>
+		<Button variant="primary-soft" onclick={openNewJornada} disabled={props.readOnly}>Añadir jornada</Button>
 	</div>
 </section>
 
