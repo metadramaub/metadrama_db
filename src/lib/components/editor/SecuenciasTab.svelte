@@ -1545,7 +1545,7 @@
 
 
 			<section class="form-section">
-				<h4 class="form-section-title">Caracterización</h4>
+				<h4 class="form-section-title">Caracterizaciones generales</h4>
 				<div class="grid gap-3 sm:grid-cols-2">
 					<label class="form-field">
 						<span class="form-label">Personaje femenino</span>
@@ -1567,7 +1567,7 @@
 						/>
 					</label>
 					<label class="form-field">
-						<span class="form-label">Donaire</span>
+						<span class="form-label">Personaje donaire</span>
 						<CheckDropdown
 							multiple={false}
 							search={false}
@@ -1586,7 +1586,7 @@
 						/>
 					</label>
 					<label class="form-field">
-						<span class="form-label">Sobrenatural</span>
+						<span class="form-label">Personaje sobrenatural</span>
 						<CheckDropdown
 							multiple={false}
 							search={false}
