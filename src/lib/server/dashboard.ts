@@ -1,5 +1,11 @@
 import type { EditorProfile } from '$lib/types/obra.types';
 import type { Tables } from '$lib/types/database.types';
+import {
+	buildComentarioContextLabel,
+	formatComentarioTipoLabel,
+	loadComentarioContextMaps,
+	type ComentarioTipoTerm
+} from '$lib/server/comentarios';
 
 const ADMIN_ROLES = new Set(['admin', 'ip']);
 const DEFAULT_DAYS = 7;
@@ -197,73 +203,61 @@ async function loadCommentContextLabels(
 	commentRows: Array<
 		Pick<
 			Tables<'comentarios_internos'>,
-			'comentario_id' | 'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'
+			| 'comentario_id'
+			| 'seccion'
+			| 'secuencia_id'
+			| 'jornada_id'
+			| 'cuadro_id'
+			| 'rango_id'
+			| 'tipo_comentario_id'
 		>
 	>
-): Promise<Map<string, string>> {
+): Promise<{ contextByCommentId: Map<string, string>; typeByCommentId: Map<string, string> }> {
 	if (commentRows.length === 0) {
-		return new Map();
+		return {
+			contextByCommentId: new Map(),
+			typeByCommentId: new Map()
+		};
 	}
 
-	const secuenciaIds = [
-		...new Set(commentRows.map((row) => row.secuencia_id).filter(Boolean) as string[])
+	const tipoIds = [
+		...new Set(commentRows.map((row) => row.tipo_comentario_id).filter(Boolean) as string[])
 	];
-	const jornadaIds = [...new Set(commentRows.map((row) => row.jornada_id).filter(Boolean) as string[])];
-	const cuadroIds = [...new Set(commentRows.map((row) => row.cuadro_id).filter(Boolean) as string[])];
 
-	const [secuenciasResp, jornadasResp, cuadrosResp] = await Promise.all([
-		secuenciaIds.length > 0
+	const [contextMaps, tiposResp] = await Promise.all([
+		loadComentarioContextMaps(locals, commentRows),
+		tipoIds.length > 0
 			? locals.supabase
-					.from('secuencias_metricas')
-					.select('secuencia_id,v_ini,v_fin')
-					.in('secuencia_id', secuenciaIds)
-			: Promise.resolve({ data: [] }),
-		jornadaIds.length > 0
-			? locals.supabase.from('jornadas').select('jornada_id,jornada_num').in('jornada_id', jornadaIds)
-			: Promise.resolve({ data: [] }),
-		cuadroIds.length > 0
-			? locals.supabase.from('cuadros').select('cuadro_id,cuadro_num').in('cuadro_id', cuadroIds)
-			: Promise.resolve({ data: [] })
+					.from('vocabularios')
+					.select('termino_id,termino')
+					.eq('categoria', 'tipo_comentario')
+					.in('termino_id', tipoIds)
+			: Promise.resolve({
+					data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[]
+				})
 	]);
 
-	const secuenciaMap = new Map(
-		(secuenciasResp.data ?? []).map((row) => [row.secuencia_id, `secuencia vv. ${row.v_ini}-${row.v_fin}`])
+	const tipoById = new Map(
+		(tiposResp.data ?? []).map((row) => [
+			row.termino_id,
+			row.termino.trim().toLowerCase() as ComentarioTipoTerm
+		])
 	);
-	const jornadaMap = new Map(
-		(jornadasResp.data ?? []).map((row) => [row.jornada_id, `jornada ${row.jornada_num}`])
-	);
-	const cuadroMap = new Map(
-		(cuadrosResp.data ?? []).map((row) => [row.cuadro_id, `cuadro ${row.cuadro_num}`])
-	);
-
 	const contextByCommentId = new Map<string, string>();
+	const typeByCommentId = new Map<string, string>();
+
 	for (const row of commentRows) {
-		let context = 'Revisión final';
-		if (row.seccion === 'datos') {
-			context = 'Datos de la obra';
-		} else if (row.seccion === 'estructura') {
-			context = 'Estructura';
-		} else if (row.seccion === 'secuencias') {
-			context = 'Secuencias';
-		} else if (row.seccion === 'autoria') {
-			context = 'Autoría';
-		} else if (row.seccion === 'observaciones') {
-			context = 'Observaciones';
-		} else if (row.seccion === 'revision') {
-			context = 'Revisión final';
-		} else if (row.secuencia_id) {
-			context = secuenciaMap.get(row.secuencia_id) ?? 'secuencias';
-		} else if (row.cuadro_id) {
-			context = cuadroMap.get(row.cuadro_id) ?? 'estructura (cuadro)';
-		} else if (row.jornada_id) {
-			context = jornadaMap.get(row.jornada_id) ?? 'estructura (jornada)';
-		} else if (row.rango_id) {
-			context = 'Rango de autoría';
-		}
+		const context = buildComentarioContextLabel(row, contextMaps) ?? 'Revisión final';
+		const tipoTerm = row.tipo_comentario_id ? (tipoById.get(row.tipo_comentario_id) ?? 'general') : 'general';
+
 		contextByCommentId.set(row.comentario_id, context);
+		typeByCommentId.set(row.comentario_id, formatComentarioTipoLabel(tipoTerm));
 	}
 
-	return contextByCommentId;
+	return {
+		contextByCommentId,
+		typeByCommentId
+	};
 }
 
 async function resolveLowMediumCertezaIds(locals: App.Locals): Promise<string[]> {
@@ -402,7 +396,9 @@ export async function getRecentActivity(
 
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
-		.select('comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id')
+		.select(
+			'comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id,tipo_comentario_id'
+		)
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })
 		.limit(300);
@@ -428,7 +424,7 @@ export async function getRecentActivity(
 		commentRows.map((row) => row.obra_id)
 	);
 
-	const [estadoMap, commentContextMap] = await Promise.all([
+	const [estadoMap, commentMeta] = await Promise.all([
 		loadEstadoTerms(
 			locals,
 			[...new Set(stateRows.map((row) => row.estado))]
@@ -451,7 +447,7 @@ export async function getRecentActivity(
 			type: 'comment' as const,
 			obraId: row.obra_id,
 			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
-			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'Revisión final'}`,
+			description: `Nuevo comentario (${commentMeta.typeByCommentId.get(row.comentario_id) ?? 'general'}) en ${commentMeta.contextByCommentId.get(row.comentario_id) ?? 'Revisión final'}`,
 			eventAt: normalizeEventAt(row.created_at),
 			tab: commentTab(row)
 		}))
@@ -493,7 +489,9 @@ export async function getNotifications(
 
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
-		.select('comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id')
+		.select(
+			'comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id,tipo_comentario_id'
+		)
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })
 		.limit(400);
@@ -534,7 +532,7 @@ export async function getNotifications(
 		...stateRows.map((row) => row.obra_id)
 	]);
 
-	const [estadoMap, commentContextMap] = await Promise.all([
+	const [estadoMap, commentMeta] = await Promise.all([
 		loadEstadoTerms(
 			locals,
 			[...new Set(stateRows.map((row) => row.estado))]
@@ -575,7 +573,7 @@ export async function getNotifications(
 			type: 'comment' as const,
 			obraId: row.obra_id,
 			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
-			description: `Nuevo comentario en ${commentContextMap.get(row.comentario_id) ?? 'Revisión final'}`,
+			description: `Nuevo comentario (${commentMeta.typeByCommentId.get(row.comentario_id) ?? 'general'}) en ${commentMeta.contextByCommentId.get(row.comentario_id) ?? 'Revisión final'}`,
 			eventAt: normalizeEventAt(row.created_at),
 			tab: commentTab(row)
 		}))

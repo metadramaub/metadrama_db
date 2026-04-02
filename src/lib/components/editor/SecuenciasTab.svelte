@@ -1736,7 +1736,7 @@
 						context={{ secuencia_id: editingId }}
 						collapsible={true}
 						defaultCollapsed={true}
-						collapseLabel="Ver comentarios"
+						collapseLabel="Ver"
 					/>
 				{/key}
 			</div>

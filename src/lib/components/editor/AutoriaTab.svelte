@@ -735,7 +735,7 @@
 													context={{ rango_id: persistedRange.rango_id }}
 													collapsible={true}
 													defaultCollapsed={true}
-													collapseLabel="Ver comentarios del rango"
+													collapseLabel="Ver"
 												/>
 											{/key}
 										</div>
@@ -813,7 +813,7 @@
 													context={{ rango_id: persistedRange.rango_id }}
 													collapsible={true}
 													defaultCollapsed={true}
-													collapseLabel="Ver comentarios del rango"
+													collapseLabel="Ver"
 												/>
 											{/key}
 										</div>

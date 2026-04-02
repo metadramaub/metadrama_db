@@ -3,8 +3,8 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import InternalCommentsFeed from '$lib/components/editor/InternalCommentsFeed.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { formatRelative } from '$lib/utils/formatters';
 	import type {
 		ComentarioInput,
 		ComentarioListItem,
@@ -29,6 +29,11 @@
 		collapsible?: boolean;
 		defaultCollapsed?: boolean;
 		collapseLabel?: string;
+		headerActionLabel?: string;
+		headerActionBadgeCount?: number | null;
+		headerActionBadgeLoading?: boolean;
+		onHeaderAction?: () => void;
+		onCommentsMutated?: () => void;
 		onDraftDirtyChange?: (dirty: boolean) => void;
 	}>();
 
@@ -56,11 +61,33 @@
 	let deleteConfirmId = $state<string | null>(null);
 	let deletingComment = $state(false);
 	let mounted = false;
+	let initialLoadResolved = $state(false);
 	let lastReloadKey = $state<string | null>(null);
 
 	const canComment = $derived(Boolean(props.canComment));
 	const canCollapse = $derived(Boolean(props.collapsible));
 	const visibleComments = $derived(showAllComments ? comments : comments.slice(0, 5));
+	const collapseBadgeLabel = $derived.by(() => {
+		if (!initialLoadResolved) return '…';
+		return String(comments.length);
+	});
+	const collapseBadgeClass = $derived.by(() => {
+		if (!initialLoadResolved || comments.length === 0) {
+			return 'border border-[color:var(--border)] bg-[color:var(--muted)] text-[color:var(--foreground)]';
+		}
+		return 'border border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)]';
+	});
+	const headerActionBadgeLabel = $derived.by(() => {
+		if (props.headerActionBadgeLoading) return '…';
+		if (props.headerActionBadgeCount === null || props.headerActionBadgeCount === undefined) return null;
+		return String(props.headerActionBadgeCount);
+	});
+	const headerActionBadgeClass = $derived.by(() => {
+		if (props.headerActionBadgeLoading || !props.headerActionBadgeCount) {
+			return 'border border-[color:var(--border)] bg-[color:var(--muted)] text-[color:var(--foreground)]';
+		}
+		return 'border border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)]';
+	});
 	const newCommentDraftDirty = $derived(newComment.trim().length > 0);
 	const editCommentDraftDirty = $derived.by(() => {
 		if (!editingCommentId) return false;
@@ -99,6 +126,7 @@
 			: `/api/obras/${props.obraId}/comentarios?limit=1000`;
 		const response = await fetch(endpoint);
 		commentsLoading = false;
+		initialLoadResolved = true;
 		if (!response.ok) {
 			pushToast('error', 'No se pudieron cargar los comentarios internos.');
 			return;
@@ -153,6 +181,7 @@
 		pushToast('success', 'Comentario actualizado');
 		cancelEdit();
 		await loadComments();
+		props.onCommentsMutated?.();
 	}
 
 	async function publishComment() {
@@ -187,6 +216,7 @@
 		newCommentType = 'general';
 		pushToast('success', 'Comentario publicado');
 		await loadComments();
+		props.onCommentsMutated?.();
 	}
 
 	async function confirmDelete(commentId: string) {
@@ -207,6 +237,7 @@
 		}
 		pushToast('success', 'Comentario eliminado');
 		await loadComments();
+		props.onCommentsMutated?.();
 	}
 
 	onMount(() => {
@@ -241,147 +272,155 @@
 	});
 </script>
 
+{#snippet panelEditingContent(comment: ComentarioListItem)}
+	<label class="form-field">
+		<span class="form-label">Tipo</span>
+		<CheckDropdown
+			multiple={false}
+			search={false}
+			placeholder="Seleccionar tipo"
+			items={commentTypeItems}
+			disabled={savingEdit}
+			selectedIds={[editingType]}
+			onChange={(ids) => {
+				const nextType = ids[0] as CommentType | undefined;
+				if (!nextType) return;
+				editingType = nextType;
+			}}
+		/>
+	</label>
+	<label class="form-field mt-2">
+		<span class="form-label">
+			<span class="form-label-with-help">
+				Comentario
+				<FieldHelpTooltip
+					text={INTERNAL_VISIBILITY_HELP}
+					label="Visibilidad interna del comentario en edición"
+				/>
+			</span>
+		</span>
+		<textarea
+			rows={3}
+			class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+			bind:value={editingText}
+			disabled={savingEdit}
+		></textarea>
+	</label>
+	<div class="mt-2 flex justify-end gap-2">
+		{#if comment.can_edit}
+			<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
+			<Button variant="success" onclick={() => saveEdit(comment.comentario_id)} disabled={savingEdit}>
+				{savingEdit ? 'Guardando...' : 'Guardar'}
+			</Button>
+		{:else}
+			<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
+		{/if}
+	</div>
+{/snippet}
+
+{#snippet panelActions(comment: ComentarioListItem)}
+	{#if comment.can_edit || comment.can_delete}
+		<div class="mt-2 flex justify-end gap-2">
+			{#if comment.can_edit}
+				<Button
+					variant="ghost"
+					onclick={() => startEdit(comment)}
+					disabled={savingEdit || deletingComment}
+				>
+					Editar
+				</Button>
+			{/if}
+			{#if comment.can_delete}
+				<Button
+					variant="danger"
+					onclick={() =>
+						(deleteConfirmId =
+							deleteConfirmId === comment.comentario_id ? null : comment.comentario_id)}
+					disabled={savingEdit || deletingComment}
+				>
+					Eliminar
+				</Button>
+			{/if}
+		</div>
+	{/if}
+{/snippet}
+
+{#snippet panelDeleteConfirmContent(comment: ComentarioListItem)}
+	<div class="mt-2 border border-[color:var(--danger)] bg-white p-2 text-xs">
+		<div class="mb-2">Esta acción eliminará el comentario de forma permanente.</div>
+		<div class="flex justify-end gap-2">
+			<Button
+				variant="secondary"
+				onclick={() => (deleteConfirmId = null)}
+				disabled={deletingComment}
+			>
+				Cancelar
+			</Button>
+			<Button
+				variant="danger"
+				onclick={() => confirmDelete(comment.comentario_id)}
+				disabled={deletingComment}
+			>
+				{deletingComment ? 'Eliminando...' : 'Confirmar'}
+			</Button>
+		</div>
+	</div>
+{/snippet}
+
 <div class="card p-4">
 	<div class="mb-3 flex items-center justify-between gap-2">
 		<h3 class="text-lg font-semibold">{props.title ?? 'Comentarios internos'}</h3>
-		<div class="flex items-center gap-2">
+		<div class="flex flex-wrap items-center justify-end gap-2">
+			{#if props.headerActionLabel && props.onHeaderAction}
+				<Button variant="secondary" class="gap-2" onclick={props.onHeaderAction}>
+					<span>{props.headerActionLabel}</span>
+					{#if headerActionBadgeLabel !== null}
+						<span
+							class={`inline-flex min-w-6 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold leading-none ${headerActionBadgeClass}`}
+						>
+							{headerActionBadgeLabel}
+						</span>
+					{/if}
+				</Button>
+			{/if}
 			{#if !collapsed && comments.length > 5}
 				<Button variant="ghost" onclick={() => (showAllComments = !showAllComments)}>
 					{showAllComments ? 'Ver menos' : 'Ver todos'}
 				</Button>
 			{/if}
 			{#if canCollapse}
-				<Button variant="secondary" onclick={() => (collapsed = !collapsed)}>
-					{collapsed ? (props.collapseLabel ?? 'Ver comentarios') : 'Ocultar comentarios'}
+				<Button variant="secondary" class="gap-2" onclick={() => (collapsed = !collapsed)}>
+					<span>{collapsed ? (props.collapseLabel ?? 'Ver') : 'Ocultar'}</span>
+					<span
+						class={`inline-flex min-w-6 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold leading-none ${collapseBadgeClass}`}
+					>
+						{collapseBadgeLabel}
+					</span>
 				</Button>
 			{/if}
 		</div>
 	</div>
 
 	{#if !collapsed}
-		{#if commentsLoading}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Cargando comentarios...</p>
-		{:else if comments.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">{props.emptyText ?? 'No hay comentarios aún.'}</p>
-		{:else}
-			<div class="mb-3 space-y-2">
-				{#each visibleComments as comment}
-					<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
-						<div class="mb-1 text-xs text-[color:var(--muted-foreground)]">
-							{comment.nombre_editor ?? 'Editor'} - {formatRelative(comment.created_at)}
-						</div>
-						<div class="mb-2 flex flex-wrap gap-2">
-							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
-								{comment.tipo_comentario_term ?? 'general'}
-							</span>
-							{#if comment.contexto_label}
-								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
-									{comment.contexto_label}
-								</span>
-							{/if}
-							{#if comment.locked}
-								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-xs">
-									solo lectura
-								</span>
-							{/if}
-						</div>
-
-						{#if editingCommentId === comment.comentario_id}
-							<label class="form-field">
-								<span class="form-label">Tipo</span>
-								<CheckDropdown
-									multiple={false}
-									search={false}
-									placeholder="Seleccionar tipo"
-									items={commentTypeItems}
-									disabled={savingEdit}
-									selectedIds={[editingType]}
-									onChange={(ids) => {
-										const nextType = ids[0] as CommentType | undefined;
-										if (!nextType) return;
-										editingType = nextType;
-									}}
-								/>
-							</label>
-							<label class="form-field mt-2">
-								<span class="form-label">
-									<span class="form-label-with-help">
-										Comentario
-										<FieldHelpTooltip
-											text={INTERNAL_VISIBILITY_HELP}
-											label="Visibilidad interna del comentario en edición"
-										/>
-									</span>
-								</span>
-								<textarea
-									rows={3}
-									class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-									bind:value={editingText}
-									disabled={savingEdit}
-								></textarea>
-							</label>
-							<div class="mt-2 flex justify-end gap-2">
-								{#if comment.can_edit}
-									<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
-									<Button variant="success" onclick={() => saveEdit(comment.comentario_id)} disabled={savingEdit}>
-										{savingEdit ? 'Guardando...' : 'Guardar'}
-									</Button>
-								{:else}
-									<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
-								{/if}
-							</div>
-						{:else}
-							<div class="whitespace-pre-wrap">{comment.comentario}</div>
-							{#if comment.can_edit || comment.can_delete}
-								<div class="mt-2 flex justify-end gap-2">
-									{#if comment.can_edit}
-										<Button
-											variant="ghost"
-											onclick={() => startEdit(comment)}
-											disabled={savingEdit || deletingComment}
-										>
-											Editar
-										</Button>
-									{/if}
-									{#if comment.can_delete}
-										<Button
-											variant="danger"
-											onclick={() =>
-												(deleteConfirmId =
-													deleteConfirmId === comment.comentario_id ? null : comment.comentario_id)}
-											disabled={savingEdit || deletingComment}
-										>
-											Eliminar
-										</Button>
-									{/if}
-								</div>
-							{/if}
-							{#if deleteConfirmId === comment.comentario_id}
-								<div class="mt-2 border border-[color:var(--danger)] bg-white p-2 text-xs">
-									<div class="mb-2">Esta acción eliminará el comentario de forma permanente.</div>
-									<div class="flex justify-end gap-2">
-										<Button
-											variant="secondary"
-											onclick={() => (deleteConfirmId = null)}
-											disabled={deletingComment}
-										>
-											Cancelar
-										</Button>
-										<Button
-											variant="danger"
-											onclick={() => confirmDelete(comment.comentario_id)}
-											disabled={deletingComment}
-										>
-											{deletingComment ? 'Eliminando...' : 'Confirmar'}
-										</Button>
-									</div>
-								</div>
-							{/if}
-						{/if}
-					</div>
-				{/each}
-			</div>
-		{/if}
+		<div class="mb-3">
+			<InternalCommentsFeed
+				comments={visibleComments}
+				loading={commentsLoading}
+				emptyText={props.emptyText}
+				editingCommentId={editingCommentId}
+				deleteConfirmId={deleteConfirmId}
+			>
+				{#snippet editingContent(comment)}
+					{@render panelEditingContent(comment)}
+				{/snippet}
+				{#snippet actions(comment)}
+					{@render panelActions(comment)}
+				{/snippet}
+				{#snippet deleteConfirmContent(comment)}
+					{@render panelDeleteConfirmContent(comment)}
+				{/snippet}
+			</InternalCommentsFeed>
+		</div>
 
 		<div class="border border-[color:var(--border)] bg-white p-3">
 			<label class="form-field">
