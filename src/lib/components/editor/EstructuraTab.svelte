@@ -769,7 +769,7 @@
 						context={{ jornada_id: editingJornadaId }}
 						collapsible={true}
 						defaultCollapsed={true}
-						collapseLabel="Ver comentarios"
+						collapseLabel="Ver"
 					/>
 				{/key}
 			</div>
@@ -784,7 +784,7 @@
 						context={{ cuadro_id: editingCuadroId }}
 						collapsible={true}
 						defaultCollapsed={true}
-						collapseLabel="Ver comentarios"
+						collapseLabel="Ver"
 					/>
 				{/key}
 			</div>

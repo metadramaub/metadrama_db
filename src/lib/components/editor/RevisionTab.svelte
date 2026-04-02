@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount } from 'svelte';
+	import AllCommentsModal from '$lib/components/editor/AllCommentsModal.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
@@ -45,6 +46,10 @@
 	let persistedVisiblePublico = $state(Boolean(props.obra.visible_publico));
 	let commentsDraftDirty = $state(false);
 	let commentsReloadKey = $state(0);
+	let allCommentsModalOpen = $state(false);
+	let allCommentsCount = $state<number | null>(null);
+	let allCommentsCountLoading = $state(false);
+	let allCommentsCountRequestCounter = 0;
 
 	let stateSaving = $state(false);
 	let visibilitySaving = $state(false);
@@ -276,6 +281,25 @@
 		commentsDraftDirty = dirty;
 	}
 
+	async function loadAllCommentsCount() {
+		const requestId = ++allCommentsCountRequestCounter;
+		allCommentsCountLoading = true;
+
+		const response = await fetch(`/api/obras/${props.obraId}/comentarios?limit=5000`);
+		if (requestId !== allCommentsCountRequestCounter) return;
+
+		allCommentsCountLoading = false;
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo cargar el total de comentarios de la obra.');
+			return;
+		}
+
+		const payload = await response.json().catch(() => ({}));
+		if (requestId !== allCommentsCountRequestCounter) return;
+		allCommentsCount = Array.isArray(payload.items) ? payload.items.length : 0;
+	}
+
 	function openAssignmentsConfirmModal() {
 		if (!canManageAssignments || reviewersSaving || reviewersLoading) return;
 		if (!assignmentsDirty) {
@@ -360,6 +384,7 @@
 		});
 		pushToast('success', 'Estado actualizado');
 		commentsReloadKey += 1;
+		void loadAllCommentsCount();
 		return true;
 	}
 
@@ -469,6 +494,7 @@
 		if (!isEditorRole) {
 			void loadReviewers();
 		}
+		void loadAllCommentsCount();
 	});
 
 	$effect(() => {
@@ -504,8 +530,19 @@
 		canComment={canComment}
 		section="revision"
 		title="Comentarios internos"
+		headerActionLabel="Ver todos los comentarios a esta obra"
+		headerActionBadgeCount={allCommentsCount}
+		headerActionBadgeLoading={allCommentsCountLoading}
+		onHeaderAction={() => (allCommentsModalOpen = true)}
+		onCommentsMutated={() => void loadAllCommentsCount()}
 		reloadKey={commentsReloadKey}
 		onDraftDirtyChange={onCommentsDraftDirtyChange}
+	/>
+
+	<AllCommentsModal
+		open={allCommentsModalOpen}
+		obraId={props.obraId}
+		onClose={() => (allCommentsModalOpen = false)}
 	/>
 
 	<div class="card p-4">
