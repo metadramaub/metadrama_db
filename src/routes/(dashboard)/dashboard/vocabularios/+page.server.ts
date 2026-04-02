@@ -11,7 +11,7 @@ type VocabularyCategorySummary = {
 	editable: boolean;
 };
 
-const METRICAS = new Set(['estrofa_tipo', 'metro', 'genero']);
+const METRICAS = new Set(['estrofa_tipo', 'metro', 'genero', 'caracterizacion_rango']);
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	const parentData = await parent();

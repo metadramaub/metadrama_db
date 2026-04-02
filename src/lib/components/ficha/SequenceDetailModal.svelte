@@ -152,9 +152,11 @@
 			</div>
 
 			<article class="card mt-4 p-4">
-				<h3 class="mb-2 text-base font-semibold">Variaciones</h3>
-				{#if props.secuencia.variaciones.length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">Sin variaciones registradas.</p>
+				<h3 class="mb-2 text-base font-semibold">Caracterizaciones por rango</h3>
+				{#if props.secuencia.caracterizaciones_rango.length === 0}
+					<p class="text-sm text-[color:var(--muted-foreground)]">
+						Sin caracterizaciones por rango registradas.
+					</p>
 				{:else}
 					<div class="overflow-x-auto">
 						<table class="min-w-full border-collapse text-sm">
@@ -166,11 +168,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								{#each props.secuencia.variaciones as variacion (variacion.variacion_id)}
+								{#each props.secuencia.caracterizaciones_rango as caracterizacion (caracterizacion.caracterizacion_rango_id)}
 									<tr class="border-b border-[color:var(--border)] align-top">
-										<td class="px-2 py-2">{variacion.tipo_variacion_term}</td>
-										<td class="px-2 py-2">{variacion.v_ini}-{variacion.v_fin}</td>
-										<td class="px-2 py-2">{variacion.observaciones?.trim() || '--'}</td>
+										<td class="px-2 py-2">{caracterizacion.tipo_caracterizacion_rango_term}</td>
+										<td class="px-2 py-2">{caracterizacion.v_ini}-{caracterizacion.v_fin}</td>
+										<td class="px-2 py-2">{caracterizacion.observaciones?.trim() || '--'}</td>
 									</tr>
 								{/each}
 							</tbody>

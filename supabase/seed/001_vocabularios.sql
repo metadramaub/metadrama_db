@@ -62,7 +62,20 @@ values
 	('f3277981-dd41-4e66-a577-c2f7a0d0a249', 'personajes_donaire', 'con_otros', null, 1, null, null, 30, true, now(), now()),
 	('ccf63b66-30b3-4e15-8f2c-38a2810d9527', 'personajes_sobrenatural', 'ausente', null, 1, null, null, 10, true, now(), now()),
 	('bd6a7f91-c2ff-4738-be94-b0fe6356d565', 'personajes_sobrenatural', 'solo', null, 1, null, null, 20, true, now(), now()),
-	('198d7e42-a087-46db-93f9-36a2f74f0f2c', 'personajes_sobrenatural', 'con_otros', null, 1, null, null, 30, true, now(), now())
+	('198d7e42-a087-46db-93f9-36a2f74f0f2c', 'personajes_sobrenatural', 'con_otros', null, 1, null, null, 30, true, now(), now()),
+
+	-- caracterizacion_rango
+	('6eb2af74-f69e-4d69-8f67-2e8d7b1d8db1', 'caracterizacion_rango', 'fenomenos_enunciativos', null, 1, null, null, 10, true, now(), now()),
+	('4d1f1e52-5af3-4d53-bf64-f739d29ca123', 'caracterizacion_rango', 'cantado', '6eb2af74-f69e-4d69-8f67-2e8d7b1d8db1', 2, null, null, 11, true, now(), now()),
+	('7ea9f03f-0ea1-4f8a-86f3-3028d862b35f', 'caracterizacion_rango', 'prosa', '6eb2af74-f69e-4d69-8f67-2e8d7b1d8db1', 2, null, null, 12, true, now(), now()),
+	('c6e3c80d-f0be-4e42-96bb-c8b0ce4c9910', 'caracterizacion_rango', 'irregularidades_metricas', null, 1, null, null, 20, true, now(), now()),
+	('4a2cf6a9-5879-4ef1-b5a7-93c5e2fb5c6a', 'caracterizacion_rango', 'hipometrico', 'c6e3c80d-f0be-4e42-96bb-c8b0ce4c9910', 2, null, null, 21, true, now(), now()),
+	('aa4e8a79-0d5f-483b-8e90-83d5f458f65b', 'caracterizacion_rango', 'hipermetrico', 'c6e3c80d-f0be-4e42-96bb-c8b0ce4c9910', 2, null, null, 22, true, now(), now()),
+	('271cadcb-79ca-47e6-b815-21b25e8f57ff', 'caracterizacion_rango', 'rima_defectuosa', 'c6e3c80d-f0be-4e42-96bb-c8b0ce4c9910', 2, null, null, 23, true, now(), now()),
+	('02bd9e66-6248-4336-bf84-3b03eb0c28d4', 'caracterizacion_rango', 'laguna', 'c6e3c80d-f0be-4e42-96bb-c8b0ce4c9910', 2, null, null, 24, true, now(), now()),
+	('5f6554ef-a87f-49a9-9b1d-5bbd3c90f4d9', 'caracterizacion_rango', 'final_acentual', null, 1, null, null, 30, true, now(), now()),
+	('04649d89-bc9b-46c1-82cf-6c4606e9d901', 'caracterizacion_rango', 'mayoria_agudas', '5f6554ef-a87f-49a9-9b1d-5bbd3c90f4d9', 2, null, null, 31, true, now(), now()),
+	('74fa5872-c359-4242-ab0b-cffc85c0d557', 'caracterizacion_rango', 'mayoria_esdrujulas', '5f6554ef-a87f-49a9-9b1d-5bbd3c90f4d9', 2, null, null, 32, true, now(), now())
 on conflict (categoria, termino)
 do update set
 	nivel = excluded.nivel,

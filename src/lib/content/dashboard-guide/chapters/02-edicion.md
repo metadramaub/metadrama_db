@@ -7,7 +7,7 @@ Al editar una obra estás construyendo una ficha útil para la investigación so
 En la práctica, trabajamos en tres capas de información, que se distribuyen en varias pestañas y múltiples campos:
 
 1. Identificación y contexto de la obra (título, género, datación, edición base, autoría).
-2. Estructura y análisis métrico (jornadas, cuadros, secuencias y variaciones métricas dentro de estas secuencias).
+2. Estructura y análisis métrico (jornadas, cuadros, secuencias y caracterizaciones por rango dentro de estas secuencias).
 3. Tu aporte más personal: observaciones en diferentes puntos, sinopsis de cada secuencia métrica, caracterización de estas (para establecer relaciones entre la métrica y el contenido del texto) y bibliografía específica sobre la obra.
 
 > [!IMPORTANT]
@@ -98,7 +98,7 @@ En cada secuencia registras:
 
 - verso inicial y verso final;
 - tipo de estrofa;
-- si hay variaciones (por ejemplo, si esa estrofa es cantada en vez de declamada) o irregularidades (por ejemplo, si falta un verso en una redondilla);
+- si hay caracterizaciones por rango (por ejemplo, si esa estrofa es cantada en vez de declamada, si falta un verso en una redondilla o si en un tramo predominan finales agudos o esdrújulos);
 - caracterización de la secuencia a través de varios ítems (por ejemplo, si interviene el gracioso en ella);
 - sinopsis argumental;
 - certeza de las decisiones tomadas (por ejemplo, si no estás seguro de la estrofa métrica seleccionada).
@@ -110,11 +110,8 @@ Dentro de la caracterización, marcas:
 - personaje femenino (`ausente`, `solo`, `con_otros`);
 - donaire (`ausente`, `solo`, `con_otros`);
 - sobrenatural (`ausente`, `solo`, `con_otros`);
-- final acentual (`normal`, `mayoria_agudas`, `mayoria_esdrujulas`);
 - versos partidos (`sí/no`);
 - inaugura espacio (`sí/no`);
-
-El `final acentual` sirve para señalar aquellas secuencias en las que predominan finales de verso agudos o esdrújulos. Como afecta a la secuencia en conjunto, se registra aquí como caracterización global y no como variación interna de un rango concreto de versos.
 
 Para la sinopsis argumental, ten en cuenta dar toda la información general de lo que ocurre y también algunos detalles importantes, porque pueden ser útiles para, en el futuro de nuestro proyecto, poder determinar las funciones de la métrica según lo que pasa en cada secuencia. 
 Un modelo puede ser este de Antonucci para *La vida es sueño*. Fíjate en el resumen que hace para las dos primeras secuencias (silva de pareados y décimas):
@@ -126,36 +123,37 @@ Un modelo puede ser este de Antonucci para *La vida es sueño*. Fíjate en el re
 > Quedándose a los umbrales, y habiendo salido ya al tablado Segismundo, escuchan un largo monólogo en el que este se pregunta por qué está preso, por qué, único entre las criaturas vivientes, se le ha privado de su libertad. Al manifestar Rosaura la conmoción que siente, el prisionero se da cuenta de que alguien ha escuchado sus palabras y se abalanza sobre los intrusos para matarlos, porque han escuchado sus “flaquezas” (v. 182). Rosaura se arrodilla delante de él confiando en su piedad y enseguida la actitud del prisionero cambia: declara sentir algo nuevo, algo que lo empuja a mirar al desconocido una y otra vez como si sus ojos fueran “hidrópicos” (v. 227). Rosaura reconoce que, ante las penas del prisionero, las suyas le parecen menores.
 
 
-#### Variaciones o irregularidades (dentro de una secuencia)
+#### Caracterizaciones por rango (dentro de una secuencia)
 
-A veces una secuencia métrica puede contener alguna variación que no necesariamente requiere la creación de una nueva secuencia, o alguna irregularidad métrica relevante. 
+A veces una secuencia métrica puede contener fenómenos internos que no requieren la creación de una nueva secuencia, pero sí conviene declarar por rango.
 
-Para poder añadir variaciones (tantas como necesites), debes guardar al menos una vez la secuencia en edición.
+Para poder añadir caracterizaciones por rango (tantas como necesites), debes guardar al menos una vez la secuencia en edición.
 
 Por ejemplo, contemplamos:
 - versos cantados;
 - versos de medida irregular (hipométricos o hipermétricos);
 - rimas defectuosas o diferentes a lo esperado según la tipología estrófica;
 - lagunas textuales;
-- prosa dentro de una secuencia métrica.
+- prosa dentro de una secuencia métrica;
+- tramos con mayoría de agudas o mayoría de esdrújulas.
 
-Cada variación incluye:
+Cada caracterización por rango incluye:
 
-- tipo de variación;
+- tipo de caracterización;
 - verso inicial y verso final (que puede ser el mismo, si se trata de solo un verso);
-- observaciones específicas de esa variación (cualquier dato extra que quieras añadir, será público).
+- observaciones específicas de esa caracterización (cualquier dato extra que quieras añadir, será público).
 
-Las observaciones de variación admiten [Markdown](#sobre-los-campos-de-texto-largos-y-markdown).
+Las observaciones de caracterización admiten [Markdown](#sobre-los-campos-de-texto-largos-y-markdown).
 
 Consideraciones importantes:
 
-- la variación debe quedar dentro del rango de versos de su secuencia;
-- el tipo `irregular` funciona como agrupador y no se selecciona directamente, es decir, hay que decir si el verso en cuestión es hipométrico o hipermétrico;
-- si existe una secuencia cantada con versificación muy irregular, elegir la tipología estrófica `irregular` después la variación `cantado`;
-- si existe una secuencia cantada que parece una estrofa concreta (por ejemplo, redondilla), pero tiene una versificación muy irregular, no debes elegir “redondilla” como tipo de estrofa, sino “irregular” y, dentro de las varaciaciones, marcar “cantado”;
+- la caracterización debe quedar dentro del rango de versos de su secuencia;
+- los tipos padre (`fenomenos_enunciativos`, `irregularidades_metricas`, `final_acentual`) funcionan como agrupadores y no se seleccionan directamente;
+- si existe una secuencia cantada con versificación muy irregular, puedes combinar varias caracterizaciones por rango dentro de la misma secuencia;
+- si existe una secuencia cantada que parece una estrofa concreta (por ejemplo, redondilla), pero tiene una versificación muy irregular, no debes elegir “redondilla” como tipo de estrofa, sino “irregular” y, dentro de las caracterizaciones, marcar “cantado”;
 - en `prosa`, `v_ini` y `v_fin` indican el verso anterior y posterior a la prosa, pues esta, en realidad, no está numerada;
-- en `hipométrico` e `hipermétrico`, `v_ini` y `v_fin` deben ser el mismo verso, declarando cara irregularidad de forma individual;
-- en tipos como `cantado`, `rima defectuosa` o `laguna`, puedes marcar un solo verso o un rango.
+- en `hipométrico` e `hipermétrico`, `v_ini` y `v_fin` deben ser el mismo verso, declarando cada irregularidad de forma individual;
+- en tipos como `cantado`, `rima defectuosa`, `laguna`, `mayoria_agudas` o `mayoria_esdrujulas`, puedes marcar un solo verso o un rango.
 
 #### Subtipos internos de quintilla
 
@@ -202,7 +200,7 @@ Todo el contenido de la obra debe quedar completo antes de pasarla a revisión. 
 1. Completa primero los datos base: título y variantes, género, datación, fuente, edición base y autoría. El título y la autoría, generalmente, ya vendrán declarados.
 2. Define la estructura de la obra (jornadas y cuadros), para poder trabajar después con estos rangos.
 3. Declara todas las secuencias métricas en una primera pasada (rango de versos y tipología).
-4. Haz una segunda pasada de secuencias para completar su análisis (caracterización, sinopsis y variaciones).
+4. Haz una segunda pasada de secuencias para completar su análisis (caracterización, sinopsis y caracterizaciones por rango).
 5. Revisa todo y deja tus observaciones generales y bibliografía específica que hayas encontrado.
 6. Cambia el estado de `borrador` a `pendiente` cuando termines.
 

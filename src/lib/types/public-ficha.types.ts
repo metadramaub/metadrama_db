@@ -25,10 +25,10 @@ export interface PublicFichaCuadro {
 	v_fin: number;
 }
 
-export interface PublicFichaVariacion {
-	variacion_id: string;
-	tipo_variacion_id: string;
-	tipo_variacion_term: string;
+export interface PublicFichaCaracterizacionRango {
+	caracterizacion_rango_id: string;
+	tipo_caracterizacion_rango_id: string;
+	tipo_caracterizacion_rango_term: string;
 	v_ini: number;
 	v_fin: number;
 	observaciones: string | null;
@@ -53,7 +53,7 @@ export interface PublicFichaSecuencia {
 	jornada_num: number | null;
 	cuadro_id: string | null;
 	cuadro_num: number | null;
-	variaciones: PublicFichaVariacion[];
+	caracterizaciones_rango: PublicFichaCaracterizacionRango[];
 }
 
 export interface PublicFichaDistribucionForma {

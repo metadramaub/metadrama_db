@@ -3,7 +3,7 @@ import {
 	obraDatosPatchSchema,
 	jornadaInputSchema,
 	secuenciaInputSchema,
-	secuenciaVariacionInputSchema,
+	secuenciaCaracterizacionRangoInputSchema,
 	secuenciaSubtipoEstrofaInputSchema,
 	comentarioInputSchema,
 	comentarioPatchSchema,
@@ -63,14 +63,13 @@ describe('validators', () => {
 			personaje_femenino: 'ausente',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
-			final_acentual: 'mayoria_agudas',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			sinopsis: null
 		});
 		expect(result.success).toBe(true);
 	});
 
-	it('defaults versos_partidos and final_acentual when omitted in secuencia payload', () => {
+	it('defaults versos_partidos when omitted in secuencia payload', () => {
 		const parsed = secuenciaInputSchema.parse({
 			v_ini: 1,
 			v_fin: 120,
@@ -83,12 +82,11 @@ describe('validators', () => {
 			sinopsis: null
 		});
 		expect(parsed.versos_partidos).toBe(false);
-		expect(parsed.final_acentual).toBe('normal');
 	});
 
-	it('accepts secuencia variacion payload with same verse range', () => {
-		const result = secuenciaVariacionInputSchema.safeParse({
-			tipo_variacion_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+	it('accepts secuencia caracterizacion por rango payload with same verse range', () => {
+		const result = secuenciaCaracterizacionRangoInputSchema.safeParse({
+			tipo_caracterizacion_rango_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			v_ini: 56,
 			v_fin: 56,
 			observaciones: 'irregularidad puntual'
@@ -96,9 +94,9 @@ describe('validators', () => {
 		expect(result.success).toBe(true);
 	});
 
-	it('rejects secuencia variacion payload when v_ini is greater than v_fin', () => {
-		const result = secuenciaVariacionInputSchema.safeParse({
-			tipo_variacion_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+	it('rejects secuencia caracterizacion por rango payload when v_ini is greater than v_fin', () => {
+		const result = secuenciaCaracterizacionRangoInputSchema.safeParse({
+			tipo_caracterizacion_rango_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			v_ini: 57,
 			v_fin: 56
 		});

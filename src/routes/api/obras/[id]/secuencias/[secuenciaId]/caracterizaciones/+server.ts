@@ -2,17 +2,17 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
 import { validationErrorResponse } from '$lib/server/http';
-import { validateSecuenciaVariacionContext } from '$lib/server/secuencias-variaciones';
-import { secuenciaVariacionInputSchema } from '$lib/utils/validators';
+import { validateSecuenciaCaracterizacionRangoContext } from '$lib/server/secuencias-caracterizaciones-rango';
+import { secuenciaCaracterizacionRangoInputSchema } from '$lib/utils/validators';
 
-type VariacionRowWithTipo = {
-	variacion_id: string;
+type CaracterizacionRowWithTipo = {
+	caracterizacion_rango_id: string;
 	secuencia_id: string;
-	tipo_variacion_id: string;
+	tipo_caracterizacion_rango_id: string;
 	v_ini: number;
 	v_fin: number;
 	observaciones: string | null;
-	tipo_variacion:
+	tipo_caracterizacion_rango:
 		| {
 				termino_id: string;
 				termino: string;
@@ -26,7 +26,10 @@ type VariacionRowWithTipo = {
 		| null;
 };
 
-function validationMessageResponse(message: string, path = 'tipo_variacion_id') {
+function validationMessageResponse(
+	message: string,
+	path = 'tipo_caracterizacion_rango_id'
+) {
 	return json(
 		{
 			error: 'validation_error',
@@ -36,20 +39,20 @@ function validationMessageResponse(message: string, path = 'tipo_variacion_id') 
 	);
 }
 
-function flattenTipoPayload(tipo: VariacionRowWithTipo['tipo_variacion']) {
+function flattenTipoPayload(tipo: CaracterizacionRowWithTipo['tipo_caracterizacion_rango']) {
 	if (!tipo) return null;
 	if (Array.isArray(tipo)) return tipo[0] ?? null;
 	return tipo;
 }
 
-function mapVariacion(row: VariacionRowWithTipo) {
-	const tipo = flattenTipoPayload(row.tipo_variacion);
+function mapCaracterizacion(row: CaracterizacionRowWithTipo) {
+	const tipo = flattenTipoPayload(row.tipo_caracterizacion_rango);
 	return {
-		variacion_id: row.variacion_id,
+		caracterizacion_rango_id: row.caracterizacion_rango_id,
 		secuencia_id: row.secuencia_id,
-		tipo_variacion_id: row.tipo_variacion_id,
-		tipo_variacion_term: tipo?.termino ?? '',
-		tipo_variacion_parent_id: tipo?.termino_padre_id ?? null,
+		tipo_caracterizacion_rango_id: row.tipo_caracterizacion_rango_id,
+		tipo_caracterizacion_rango_term: tipo?.termino ?? '',
+		tipo_caracterizacion_rango_parent_id: tipo?.termino_padre_id ?? null,
 		v_ini: row.v_ini,
 		v_fin: row.v_fin,
 		observaciones: row.observaciones
@@ -86,21 +89,27 @@ async function loadSecuenciaRange(locals: App.Locals, obraId: string, secuenciaI
 	};
 }
 
-async function loadTipoVariacion(locals: App.Locals, tipoVariacionId: string) {
+async function loadTipoCaracterizacionRango(
+	locals: App.Locals,
+	tipoCaracterizacionRangoId: string
+) {
 	const { data, error } = await locals.supabase
 		.from('vocabularios')
 		.select('termino_id,categoria,termino,termino_padre_id,activo')
-		.eq('termino_id', tipoVariacionId)
+		.eq('termino_id', tipoCaracterizacionRangoId)
 		.maybeSingle();
 
 	if (error) {
-		return { errorResponse: json({ error: 'db_error', message: error.message }, { status: 500 }), tipo: null };
+		return {
+			errorResponse: json({ error: 'db_error', message: error.message }, { status: 500 }),
+			tipo: null
+		};
 	}
-	if (!data || data.categoria !== 'tipo_variacion' || !data.activo) {
+	if (!data || data.categoria !== 'caracterizacion_rango' || !data.activo) {
 		return {
 			errorResponse: validationMessageResponse(
-				'El tipo de variacion no existe o no esta activo.',
-				'tipo_variacion_id'
+				'El tipo de caracterización no existe o no está activo.',
+				'tipo_caracterizacion_rango_id'
 			),
 			tipo: null
 		};
@@ -116,9 +125,9 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 	if (secuenciaResult.errorResponse) return secuenciaResult.errorResponse;
 
 	const { data, error } = await locals.supabase
-		.from('secuencias_variaciones')
+		.from('secuencias_caracterizaciones_rango')
 		.select(
-			'variacion_id,secuencia_id,tipo_variacion_id,v_ini,v_fin,observaciones,tipo_variacion:vocabularios!secuencias_variaciones_tipo_variacion_id_fkey(termino_id,termino,termino_padre_id)'
+			'caracterizacion_rango_id,secuencia_id,tipo_caracterizacion_rango_id,v_ini,v_fin,observaciones,tipo_caracterizacion_rango:vocabularios(termino_id,termino,termino_padre_id)'
 		)
 		.eq('secuencia_id', params.secuenciaId)
 		.order('v_ini', { ascending: true })
@@ -128,7 +137,7 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 		return json({ error: 'db_error', message: error.message }, { status: 500 });
 	}
 
-	const items = ((data ?? []) as VariacionRowWithTipo[]).map(mapVariacion);
+	const items = ((data ?? []) as CaracterizacionRowWithTipo[]).map(mapCaracterizacion);
 	return json({ items });
 };
 
@@ -136,7 +145,7 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 	await getObraContext({ locals }, params.id, { requireEdit: true });
 
 	const body = await request.json().catch(() => ({}));
-	const parsed = secuenciaVariacionInputSchema.safeParse(body);
+	const parsed = secuenciaCaracterizacionRangoInputSchema.safeParse(body);
 	if (!parsed.success) {
 		return validationErrorResponse(parsed.error);
 	}
@@ -147,15 +156,21 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 		return json({ error: 'not_found', message: 'Secuencia no encontrada' }, { status: 404 });
 	}
 
-	const tipoResult = await loadTipoVariacion(locals, parsed.data.tipo_variacion_id);
+	const tipoResult = await loadTipoCaracterizacionRango(
+		locals,
+		parsed.data.tipo_caracterizacion_rango_id
+	);
 	if (tipoResult.errorResponse) return tipoResult.errorResponse;
 	if (!tipoResult.tipo) {
-		return validationMessageResponse('El tipo de variacion no existe o no esta activo.', 'tipo_variacion_id');
+		return validationMessageResponse(
+			'El tipo de caracterización no existe o no está activo.',
+			'tipo_caracterizacion_rango_id'
+		);
 	}
 
-	const contextualError = validateSecuenciaVariacionContext({
+	const contextualError = validateSecuenciaCaracterizacionRangoContext({
 		secuencia: secuenciaResult.secuencia,
-		tipoTerm: tipoResult.tipo.termino,
+		tipo: tipoResult.tipo,
 		payload: parsed.data
 	});
 	if (contextualError) {
@@ -163,25 +178,25 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const { data: created, error: insertError } = await locals.supabase
-		.from('secuencias_variaciones')
+		.from('secuencias_caracterizaciones_rango')
 		.insert({
 			secuencia_id: params.secuenciaId,
-			tipo_variacion_id: parsed.data.tipo_variacion_id,
+			tipo_caracterizacion_rango_id: parsed.data.tipo_caracterizacion_rango_id,
 			v_ini: parsed.data.v_ini,
 			v_fin: parsed.data.v_fin,
 			observaciones: parsed.data.observaciones
 		})
 		.select(
-			'variacion_id,secuencia_id,tipo_variacion_id,v_ini,v_fin,observaciones,tipo_variacion:vocabularios!secuencias_variaciones_tipo_variacion_id_fkey(termino_id,termino,termino_padre_id)'
+			'caracterizacion_rango_id,secuencia_id,tipo_caracterizacion_rango_id,v_ini,v_fin,observaciones,tipo_caracterizacion_rango:vocabularios(termino_id,termino,termino_padre_id)'
 		)
 		.single();
 
 	if (insertError || !created) {
 		return json(
-			{ error: 'db_error', message: insertError?.message ?? 'No se pudo crear la variacion' },
+			{ error: 'db_error', message: insertError?.message ?? 'No se pudo crear la caracterización' },
 			{ status: 500 }
 		);
 	}
 
-	return json({ variacion: mapVariacion(created as VariacionRowWithTipo) }, { status: 201 });
+	return json({ caracterizacion: mapCaracterizacion(created as CaracterizacionRowWithTipo) }, { status: 201 });
 };

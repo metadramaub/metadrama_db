@@ -45,7 +45,7 @@
 	});
 
 	function variationLabel(segment: MockMetricSegment): string {
-		if (segment.variationTags.length === 0) return 'Sin variaciones registradas';
+		if (segment.variationTags.length === 0) return 'Sin caracterizaciones registradas';
 		return segment.variationTags.join(', ');
 	}
 
@@ -75,7 +75,7 @@
 						Número de versos: {verseCount(item.segment)}
 					</span>
 					<span class="mt-1 block text-[color:var(--muted-foreground)]">
-						Variaciones: {variationLabel(item.segment)}
+						Caracterizaciones: {variationLabel(item.segment)}
 					</span>
 				</span>
 			</button>
