@@ -1756,6 +1756,7 @@
 						<CheckDropdown
 							multiple={false}
 							hierarchical={true}
+							collapsibleHierarchy={true}
 							showPathInTrigger={true}
 							allowSingleClear={false}
 							search={caracterizacionRangoDropdownItems.length > 8}
