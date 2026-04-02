@@ -469,6 +469,7 @@ export async function getNotifications(
 	let editAssignmentsQuery = locals.supabase
 		.from('obras')
 		.select('obra_id,titulo,created_at')
+		.not('editor_asignado', 'is', null)
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })
 		.limit(300);
