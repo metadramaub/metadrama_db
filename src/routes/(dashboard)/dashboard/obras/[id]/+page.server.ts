@@ -29,7 +29,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 					'estado',
 					'certeza_editor',
 					'estrofa_tipo',
-					'tipo_variacion',
+					'caracterizacion_rango',
 					'personajes_donaire',
 					'personajes_sobrenatural'
 				]),

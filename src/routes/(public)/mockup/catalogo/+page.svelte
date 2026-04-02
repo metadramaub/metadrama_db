@@ -513,11 +513,11 @@
 								</div>
 
 								<label class="form-field">
-									<span class="form-label">Variaciones/irregularidades</span>
+									<span class="form-label">Caracterizaciones por rango</span>
 									<CheckDropdown
 										multiple={true}
 										search={variationDropdownItems.length > 8}
-										placeholder="Seleccionar variaciones"
+										placeholder="Seleccionar caracterizaciones"
 										items={variationDropdownItems}
 										selectedIds={filters.selectedVariationIds}
 										portal={true}
@@ -764,7 +764,7 @@
 											<span class="h-4 border-l border-dashed border-[color:var(--gray-600)]"></span>
 											Corte de cuadro
 										</span>
-										<span>Hover sobre cada segmento para ver forma, tipo, rango y variaciones.</span>
+										<span>Hover sobre cada segmento para ver forma, tipo, rango y caracterizaciones.</span>
 									</div>
 								</div>
 							{/if}

@@ -106,7 +106,6 @@ export const secuenciaInputSchema = z
 		personaje_femenino: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
 		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
-		final_acentual: z.enum(['normal', 'mayoria_agudas', 'mayoria_esdrujulas']).default('normal'),
 		certeza_editor: z.string().uuid(),
 		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
@@ -116,9 +115,9 @@ export const secuenciaInputSchema = z
 		path: ['v_ini']
 	});
 
-export const secuenciaVariacionInputSchema = z
+export const secuenciaCaracterizacionRangoInputSchema = z
 	.object({
-		tipo_variacion_id: z.string().uuid('Tipo de variacion requerido'),
+		tipo_caracterizacion_rango_id: z.string().uuid('Tipo de caracterizacion requerido'),
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
 		observaciones: z.string().trim().nullable().optional().default(null)
@@ -459,7 +458,9 @@ export type ObraDatosPatchInput = z.infer<typeof obraDatosPatchSchema>;
 export type JornadaInputParsed = z.infer<typeof jornadaInputSchema>;
 export type CuadroInputParsed = z.infer<typeof cuadroInputSchema>;
 export type SecuenciaInputParsed = z.infer<typeof secuenciaInputSchema>;
-export type SecuenciaVariacionInputParsed = z.infer<typeof secuenciaVariacionInputSchema>;
+export type SecuenciaCaracterizacionRangoInputParsed = z.infer<
+	typeof secuenciaCaracterizacionRangoInputSchema
+>;
 export type SecuenciaSubtipoEstrofaInputParsed = z.infer<typeof secuenciaSubtipoEstrofaInputSchema>;
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;

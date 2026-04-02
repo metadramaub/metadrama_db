@@ -602,7 +602,6 @@ export type Database = {
           certeza_editor: string
           created_at: string
           estrofa_tipo_id: string | null
-          final_acentual: string
           inaugura_espacio: boolean | null
           n_versos: number
           obra_id: string
@@ -620,7 +619,6 @@ export type Database = {
           certeza_editor: string
           created_at?: string
           estrofa_tipo_id?: string | null
-          final_acentual?: string
           inaugura_espacio?: boolean | null
           n_versos: number
           obra_id: string
@@ -638,7 +636,6 @@ export type Database = {
           certeza_editor?: string
           created_at?: string
           estrofa_tipo_id?: string | null
-          final_acentual?: string
           inaugura_espacio?: boolean | null
           n_versos?: number
           obra_id?: string
@@ -721,48 +718,48 @@ export type Database = {
           },
         ]
       }
-      secuencias_variaciones: {
+      secuencias_caracterizaciones_rango: {
         Row: {
+          caracterizacion_rango_id: string
           created_at: string
           observaciones: string | null
           secuencia_id: string
-          tipo_variacion_id: string
+          tipo_caracterizacion_rango_id: string
           updated_at: string
           v_fin: number
           v_ini: number
-          variacion_id: string
         }
         Insert: {
+          caracterizacion_rango_id?: string
           created_at?: string
           observaciones?: string | null
           secuencia_id: string
-          tipo_variacion_id: string
+          tipo_caracterizacion_rango_id: string
           updated_at?: string
           v_fin: number
           v_ini: number
-          variacion_id?: string
         }
         Update: {
+          caracterizacion_rango_id?: string
           created_at?: string
           observaciones?: string | null
           secuencia_id?: string
-          tipo_variacion_id?: string
+          tipo_caracterizacion_rango_id?: string
           updated_at?: string
           v_fin?: number
           v_ini?: number
-          variacion_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "secuencias_variaciones_secuencia_id_fkey"
+            foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
             columns: ["secuencia_id"]
             isOneToOne: false
             referencedRelation: "secuencias_metricas"
             referencedColumns: ["secuencia_id"]
           },
           {
-            foreignKeyName: "secuencias_variaciones_tipo_variacion_id_fkey"
-            columns: ["tipo_variacion_id"]
+            foreignKeyName: "secuencias_caracterizaciones_rango_tipo_caracterizacion_rango_id_fkey"
+            columns: ["tipo_caracterizacion_rango_id"]
             isOneToOne: false
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]

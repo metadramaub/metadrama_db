@@ -20,7 +20,7 @@
 			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id' | 'orden'>
 		>;
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
-		tipoVariacionOptions: Array<
+		caracterizacionRangoOptions: Array<
 			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id' | 'orden'>
 		>;
 		readOnly?: boolean;
@@ -37,24 +37,23 @@
 		personaje_femenino: 'ausente' | 'solo' | 'con_otros';
 		personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 		personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
-		final_acentual: 'normal' | 'mayoria_agudas' | 'mayoria_esdrujulas';
 		certeza_editor: string;
 		sinopsis: string;
 	};
 
-	type VariacionItem = {
-		variacion_id: string;
+	type CaracterizacionRangoItem = {
+		caracterizacion_rango_id: string;
 		secuencia_id: string;
-		tipo_variacion_id: string;
-		tipo_variacion_term: string;
-		tipo_variacion_parent_id: string | null;
+		tipo_caracterizacion_rango_id: string;
+		tipo_caracterizacion_rango_term: string;
+		tipo_caracterizacion_rango_parent_id: string | null;
 		v_ini: number;
 		v_fin: number;
 		observaciones: string | null;
 	};
 
-	type VariacionFormState = {
-		tipo_variacion_id: string;
+	type CaracterizacionRangoFormState = {
+		tipo_caracterizacion_rango_id: string;
 		v_ini: number;
 		v_fin: number;
 		observaciones: string;
@@ -91,15 +90,15 @@
 	let autosaveErrorShown = $state(false);
 	let lastSidebarSnapshot = $state('');
 	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
-	let variaciones = $state<VariacionItem[]>([]);
-	let variacionesLoading = $state(false);
-	let variacionesRequestCounter = $state(0);
-	let variacionModalOpen = $state(false);
-	let variacionModalSaving = $state(false);
-	let variacionEditingId = $state<string | null>(null);
-	let variacionDeleteTargetId = $state<string | null>(null);
-	let variacionForm = $state<VariacionFormState>({
-		tipo_variacion_id: '',
+	let caracterizacionesRango = $state<CaracterizacionRangoItem[]>([]);
+	let caracterizacionesRangoLoading = $state(false);
+	let caracterizacionesRangoRequestCounter = $state(0);
+	let caracterizacionRangoModalOpen = $state(false);
+	let caracterizacionRangoModalSaving = $state(false);
+	let caracterizacionRangoEditingId = $state<string | null>(null);
+	let caracterizacionRangoDeleteTargetId = $state<string | null>(null);
+	let caracterizacionRangoForm = $state<CaracterizacionRangoFormState>({
+		tipo_caracterizacion_rango_id: '',
 		v_ini: 1,
 		v_fin: 1,
 		observaciones: ''
@@ -124,7 +123,7 @@
 		);
 	}
 
-	function sortTipoVariacionOptions(options: typeof props.tipoVariacionOptions) {
+	function sortCaracterizacionRangoOptions(options: typeof props.caracterizacionRangoOptions) {
 		return [...options].sort(
 			(a, b) => (a.orden ?? Number.MAX_SAFE_INTEGER) - (b.orden ?? Number.MAX_SAFE_INTEGER) ||
 				a.termino.localeCompare(b.termino, 'es')
@@ -186,8 +185,8 @@
 			parentId: option.termino_padre_id ?? null
 		}))
 	);
-	const tipoVariacionDropdownItems = $derived.by(() =>
-		sortTipoVariacionOptions(props.tipoVariacionOptions).map((option) => ({
+	const caracterizacionRangoDropdownItems = $derived.by(() =>
+		sortCaracterizacionRangoOptions(props.caracterizacionRangoOptions).map((option) => ({
 			id: option.termino_id,
 			label: option.termino,
 			parentId: option.termino_padre_id ?? null
@@ -209,15 +208,10 @@
 		{ id: 'solo', label: 'solo' },
 		{ id: 'con_otros', label: 'con_otros' }
 	];
-	const finalesAcentualesItems = [
-		{ id: 'normal', label: 'Normal' },
-		{ id: 'mayoria_agudas', label: 'Mayoría de agudas' },
-		{ id: 'mayoria_esdrujulas', label: 'Mayoría de esdrújulas' }
-	];
-	const tipoVariacionById = $derived.by(
+	const caracterizacionRangoById = $derived.by(
 		() =>
 			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
-				props.tipoVariacionOptions.map(
+				props.caracterizacionRangoOptions.map(
 					(
 						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>
 					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>] => [
@@ -227,31 +221,33 @@
 				)
 			)
 	);
-	const irregularTipoVariacionId = $derived.by(() => {
-		const parent = props.tipoVariacionOptions.find(
-			(
-				option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id' | 'orden'>
-			) => normalizeTerm(option.termino) === 'irregular'
-		);
-		return parent?.termino_id ?? null;
-	});
-	const selectedVariacionTipoTerm = $derived.by(() => {
-		const term = tipoVariacionById.get(variacionForm.tipo_variacion_id)?.termino ?? '';
+	const selectedCaracterizacionRangoTerm = $derived.by(() => {
+		const term =
+			caracterizacionRangoById.get(caracterizacionRangoForm.tipo_caracterizacion_rango_id)?.termino ?? '';
 		return normalizeTerm(term);
 	});
-	const variacionRangeHelperText = $derived.by(() => {
-		if (selectedVariacionTipoTerm === 'prosa') {
-			return 'Indica entre qué versos aparece la prosa (no numerada). Ej: v_ini=56, v_fin=57 -> prosa entre verso 56 y 57.';
-		}
-		if (selectedVariacionTipoTerm === 'hipometrico' || selectedVariacionTipoTerm === 'hipermetrico') {
-			return 'Esta variación aplica a un solo verso: usa el mismo número en V. ini y V. fin.';
+	const caracterizacionRangoRangeHelperText = $derived.by(() => {
+		if (selectedCaracterizacionRangoTerm === 'prosa') {
+			return 'Indica entre qué versos aparece la prosa (no numerada). Ej.: v_ini=56, v_fin=57.';
 		}
 		if (
-			selectedVariacionTipoTerm === 'cantado' ||
-			selectedVariacionTipoTerm === 'rima_defectuosa' ||
-			selectedVariacionTipoTerm === 'laguna'
+			selectedCaracterizacionRangoTerm === 'hipometrico' ||
+			selectedCaracterizacionRangoTerm === 'hipermetrico'
+		) {
+			return 'Esta caracterización aplica a un solo verso: usa el mismo número en V. ini y V. fin.';
+		}
+		if (
+			selectedCaracterizacionRangoTerm === 'cantado' ||
+			selectedCaracterizacionRangoTerm === 'rima_defectuosa' ||
+			selectedCaracterizacionRangoTerm === 'laguna'
 		) {
 			return 'Puedes marcar un solo verso (V. ini = V. fin) o un rango (V. ini < V. fin).';
+		}
+		if (
+			selectedCaracterizacionRangoTerm === 'mayoria_agudas' ||
+			selectedCaracterizacionRangoTerm === 'mayoria_esdrujulas'
+		) {
+			return 'Marca el tramo donde predominan esos finales acentuales dentro de la secuencia.';
 		}
 		return '';
 	});
@@ -286,7 +282,6 @@
 			personaje_femenino: 'ausente',
 			personajes_donaire: 'ausente',
 			personajes_sobrenatural: 'ausente',
-			final_acentual: 'normal',
 			certeza_editor: defaultCerteza,
 			sinopsis: ''
 		};
@@ -324,16 +319,16 @@
 			)
 	);
 
-	function getDefaultTipoVariacionId() {
-		const firstSelectable = sortTipoVariacionOptions(props.tipoVariacionOptions).find(
-			(option) => normalizeTerm(option.termino) !== 'irregular'
+	function getDefaultCaracterizacionRangoId() {
+		const firstSelectable = sortCaracterizacionRangoOptions(props.caracterizacionRangoOptions).find(
+			(option) => Boolean(option.termino_padre_id)
 		);
 		return firstSelectable?.termino_id ?? '';
 	}
 
-	function initialVariacionForm(): VariacionFormState {
+	function initialCaracterizacionRangoForm(): CaracterizacionRangoFormState {
 		return {
-			tipo_variacion_id: getDefaultTipoVariacionId(),
+			tipo_caracterizacion_rango_id: getDefaultCaracterizacionRangoId(),
 			v_ini: Number(form.v_ini) || 1,
 			v_fin: Number(form.v_ini) || 1,
 			observaciones: ''
@@ -357,12 +352,12 @@
 		return options.find((option) => option.termino_id === id)?.termino ?? '--';
 	}
 
-	function variacionLabelById(tipoVariacionId: string, fallback = '') {
-		const fromVocabulary = tipoVariacionById.get(tipoVariacionId)?.termino ?? '';
+	function caracterizacionRangoLabelById(tipoCaracterizacionRangoId: string, fallback = '') {
+		const fromVocabulary = caracterizacionRangoById.get(tipoCaracterizacionRangoId)?.termino ?? '';
 		return fromVocabulary || fallback || '--';
 	}
 
-	function sortVariaciones(items: VariacionItem[]) {
+	function sortCaracterizacionesRango(items: CaracterizacionRangoItem[]) {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
 	}
 
@@ -465,7 +460,6 @@
 			personaje_femenino: form.personaje_femenino,
 			personajes_donaire: form.personajes_donaire,
 			personajes_sobrenatural: form.personajes_sobrenatural,
-			final_acentual: form.final_acentual,
 			certeza_editor: form.certeza_editor,
 			sinopsis: form.sinopsis.trim()
 		});
@@ -514,10 +508,10 @@
 		if (props.readOnly) return;
 		editingId = null;
 		form = initialForm();
-		variaciones = [];
+		caracterizacionesRango = [];
 		subtipos = [];
-		variacionDeleteTargetId = null;
-		variacionModalOpen = false;
+		caracterizacionRangoDeleteTargetId = null;
+		caracterizacionRangoModalOpen = false;
 		subtipoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		sidebarOpen = true;
@@ -537,22 +531,19 @@
 			personaje_femenino: secuencia.personaje_femenino as FormState['personaje_femenino'],
 			personajes_donaire: secuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: secuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
-			final_acentual: (secuencia as Tables<'secuencias_metricas'> & {
-				final_acentual?: FormState['final_acentual'];
-			}).final_acentual ?? 'normal',
 			certeza_editor: secuencia.certeza_editor,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
-		variaciones = [];
+		caracterizacionesRango = [];
 		subtipos = [];
-		variacionDeleteTargetId = null;
-		variacionModalOpen = false;
+		caracterizacionRangoDeleteTargetId = null;
+		caracterizacionRangoModalOpen = false;
 		subtipoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		sidebarOpen = true;
 		showCloseWithoutSavingModal = false;
 		setSidebarBaselineFromCurrent();
-		void loadVariacionesForCurrentSecuencia();
+		void loadCaracterizacionesRangoForCurrentSecuencia();
 		void loadSubtiposForCurrentSecuencia();
 	}
 
@@ -560,15 +551,15 @@
 		clearAutosaveTimer();
 		sidebarOpen = false;
 		editingId = null;
-		variaciones = [];
-		variacionesLoading = false;
-		variacionesRequestCounter += 1;
+		caracterizacionesRango = [];
+		caracterizacionesRangoLoading = false;
+		caracterizacionesRangoRequestCounter += 1;
 		subtipos = [];
 		subtiposLoading = false;
 		subtiposRequestCounter += 1;
-		variacionModalOpen = false;
-		variacionEditingId = null;
-		variacionDeleteTargetId = null;
+		caracterizacionRangoModalOpen = false;
+		caracterizacionRangoEditingId = null;
+		caracterizacionRangoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		subtipoEditingId = null;
 		subtipoDeleteTargetId = null;
@@ -644,7 +635,7 @@
 			secuencias = next;
 			emitSecuenciasChange(next);
 			editingId = savedId;
-			void loadVariacionesForCurrentSecuencia();
+			void loadCaracterizacionesRangoForCurrentSecuencia();
 			void loadSubtiposForCurrentSecuencia();
 		}
 
@@ -657,9 +648,6 @@
 			personaje_femenino: savedSecuencia.personaje_femenino as FormState['personaje_femenino'],
 			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
 			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
-			final_acentual: (savedSecuencia as Tables<'secuencias_metricas'> & {
-				final_acentual?: FormState['final_acentual'];
-			}).final_acentual ?? 'normal',
 			certeza_editor: savedSecuencia.certeza_editor,
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
@@ -704,47 +692,51 @@
 		deleteTargetId = null;
 	}
 
-	async function loadVariacionesForCurrentSecuencia() {
+	async function loadCaracterizacionesRangoForCurrentSecuencia() {
 		if (!browser) return;
 		if (!editingId) {
-			variaciones = [];
+			caracterizacionesRango = [];
 			return;
 		}
-		variacionesLoading = true;
-		const requestId = ++variacionesRequestCounter;
+		caracterizacionesRangoLoading = true;
+		const requestId = ++caracterizacionesRangoRequestCounter;
 
-		const response = await fetch(`/api/obras/${props.obraId}/secuencias/${editingId}/variaciones`);
-		if (requestId !== variacionesRequestCounter) return;
-		variacionesLoading = false;
+		const response = await fetch(`/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones`);
+		if (requestId !== caracterizacionesRangoRequestCounter) return;
+		caracterizacionesRangoLoading = false;
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudieron cargar las variaciones');
+			pushToast('error', body.message ?? 'No se pudieron cargar las caracterizaciones por rango');
 			return;
 		}
 
 		const payload = await response.json().catch(() => ({ items: [] }));
-		variaciones = sortVariaciones((payload.items ?? []) as VariacionItem[]);
+		caracterizacionesRango = sortCaracterizacionesRango(
+			(payload.items ?? []) as CaracterizacionRangoItem[]
+		);
 	}
 
-	function validateVariacionForm(showToast = true) {
+	function validateCaracterizacionRangoForm(showToast = true) {
 		if (!editingId) {
-			if (showToast) pushToast('error', 'Guarda la secuencia antes de gestionar variaciones');
+			if (showToast) {
+				pushToast('error', 'Guarda la secuencia antes de gestionar caracterizaciones por rango');
+			}
 			return false;
 		}
-		if (!variacionForm.tipo_variacion_id) {
-			if (showToast) pushToast('error', 'Selecciona un tipo de variación');
+		if (!caracterizacionRangoForm.tipo_caracterizacion_rango_id) {
+			if (showToast) pushToast('error', 'Selecciona un tipo de caracterización');
 			return false;
 		}
-		if (!tipoVariacionById.has(variacionForm.tipo_variacion_id)) {
-			if (showToast) pushToast('error', 'El tipo de variación seleccionado no es válido');
+		if (!caracterizacionRangoById.has(caracterizacionRangoForm.tipo_caracterizacion_rango_id)) {
+			if (showToast) pushToast('error', 'El tipo de caracterización seleccionado no es válido');
 			return false;
 		}
 
-		const vIni = Number(variacionForm.v_ini);
-		const vFin = Number(variacionForm.v_fin);
+		const vIni = Number(caracterizacionRangoForm.v_ini);
+		const vFin = Number(caracterizacionRangoForm.v_fin);
 		if (!Number.isFinite(vIni) || !Number.isFinite(vFin)) {
-			if (showToast) pushToast('error', 'Versos de variación inválidos');
+			if (showToast) pushToast('error', 'Versos de caracterización inválidos');
 			return false;
 		}
 		if (vIni > vFin) {
@@ -755,17 +747,13 @@
 			if (showToast) {
 				pushToast(
 					'error',
-					`La variación debe quedar dentro del rango de la secuencia (${form.v_ini}-${form.v_fin})`
+					`La caracterización debe quedar dentro del rango de la secuencia (${form.v_ini}-${form.v_fin})`
 				);
 			}
 			return false;
 		}
 
-		const tipoTerm = selectedVariacionTipoTerm;
-		if (tipoTerm === 'irregular') {
-			if (showToast) pushToast('error', 'El tipo irregular es solo agrupador');
-			return false;
-		}
+		const tipoTerm = selectedCaracterizacionRangoTerm;
 		if (tipoTerm === 'prosa' && vIni >= vFin) {
 			if (showToast) pushToast('error', 'En prosa, v_ini debe ser menor que v_fin');
 			return false;
@@ -778,106 +766,112 @@
 		return true;
 	}
 
-	function openVariacionCreateModal() {
+	function openCaracterizacionRangoCreateModal() {
 		if (props.readOnly || !editingId) return;
-		variacionEditingId = null;
-		variacionForm = initialVariacionForm();
-		variacionModalOpen = true;
+		caracterizacionRangoEditingId = null;
+		caracterizacionRangoForm = initialCaracterizacionRangoForm();
+		caracterizacionRangoModalOpen = true;
 	}
 
-	function openVariacionEditModal(variacion: VariacionItem) {
+	function openCaracterizacionRangoEditModal(caracterizacion: CaracterizacionRangoItem) {
 		if (props.readOnly || !editingId) return;
-		variacionEditingId = variacion.variacion_id;
-		variacionForm = {
-			tipo_variacion_id: variacion.tipo_variacion_id,
-			v_ini: variacion.v_ini,
-			v_fin: variacion.v_fin,
-			observaciones: variacion.observaciones ?? ''
+		caracterizacionRangoEditingId = caracterizacion.caracterizacion_rango_id;
+		caracterizacionRangoForm = {
+			tipo_caracterizacion_rango_id: caracterizacion.tipo_caracterizacion_rango_id,
+			v_ini: caracterizacion.v_ini,
+			v_fin: caracterizacion.v_fin,
+			observaciones: caracterizacion.observaciones ?? ''
 		};
-		variacionModalOpen = true;
+		caracterizacionRangoModalOpen = true;
 	}
 
-	function closeVariacionModal() {
-		if (variacionModalSaving) return;
-		variacionModalOpen = false;
-		variacionEditingId = null;
-		variacionForm = initialVariacionForm();
+	function closeCaracterizacionRangoModal() {
+		if (caracterizacionRangoModalSaving) return;
+		caracterizacionRangoModalOpen = false;
+		caracterizacionRangoEditingId = null;
+		caracterizacionRangoForm = initialCaracterizacionRangoForm();
 	}
 
-	async function saveVariacion() {
+	async function saveCaracterizacionRango() {
 		if (!browser) return;
-		if (props.readOnly || variacionModalSaving || !editingId) return;
-		if (!validateVariacionForm(true)) return;
+		if (props.readOnly || caracterizacionRangoModalSaving || !editingId) return;
+		if (!validateCaracterizacionRangoForm(true)) return;
 
-		variacionModalSaving = true;
-		const isEditing = Boolean(variacionEditingId);
+		caracterizacionRangoModalSaving = true;
+		const isEditing = Boolean(caracterizacionRangoEditingId);
 		const endpoint = isEditing
-			? `/api/obras/${props.obraId}/secuencias/${editingId}/variaciones/${variacionEditingId}`
-			: `/api/obras/${props.obraId}/secuencias/${editingId}/variaciones`;
+			? `/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones/${caracterizacionRangoEditingId}`
+			: `/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones`;
 		const method = isEditing ? 'PATCH' : 'POST';
 
 		const response = await fetch(endpoint, {
 			method,
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				tipo_variacion_id: variacionForm.tipo_variacion_id,
-				v_ini: Number(variacionForm.v_ini),
-				v_fin: Number(variacionForm.v_fin),
-				observaciones: variacionForm.observaciones.trim() || null
+				tipo_caracterizacion_rango_id: caracterizacionRangoForm.tipo_caracterizacion_rango_id,
+				v_ini: Number(caracterizacionRangoForm.v_ini),
+				v_fin: Number(caracterizacionRangoForm.v_fin),
+				observaciones: caracterizacionRangoForm.observaciones.trim() || null
 			})
 		});
-		variacionModalSaving = false;
+		caracterizacionRangoModalSaving = false;
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
 			const message =
 				body.details?.[0]?.message ??
 				body.message ??
-				(isEditing ? 'No se pudo actualizar la variación' : 'No se pudo crear la variación');
+				(isEditing
+					? 'No se pudo actualizar la caracterización'
+					: 'No se pudo crear la caracterización');
 			pushToast('error', message);
 			return;
 		}
 
 		const payload = await response.json();
-		const saved = payload.variacion as VariacionItem;
-		if (isEditing && variacionEditingId) {
-			variaciones = sortVariaciones(
-				variaciones.map((item) => (item.variacion_id === variacionEditingId ? saved : item))
+		const saved = payload.caracterizacion as CaracterizacionRangoItem;
+		if (isEditing && caracterizacionRangoEditingId) {
+			caracterizacionesRango = sortCaracterizacionesRango(
+				caracterizacionesRango.map((item) =>
+					item.caracterizacion_rango_id === caracterizacionRangoEditingId ? saved : item
+				)
 			);
 		} else {
-			variaciones = sortVariaciones([...variaciones, saved]);
+			caracterizacionesRango = sortCaracterizacionesRango([...caracterizacionesRango, saved]);
 		}
 
-		closeVariacionModal();
-		pushToast('success', isEditing ? 'Variación actualizada' : 'Variación creada');
+		closeCaracterizacionRangoModal();
+		pushToast('success', isEditing ? 'Caracterización actualizada' : 'Caracterización creada');
 	}
 
-	function openVariacionDeleteModal(variacionId: string) {
+	function openCaracterizacionRangoDeleteModal(caracterizacionRangoId: string) {
 		if (props.readOnly) return;
-		variacionDeleteTargetId = variacionId;
+		caracterizacionRangoDeleteTargetId = caracterizacionRangoId;
 	}
 
-	function closeVariacionDeleteModal() {
-		variacionDeleteTargetId = null;
+	function closeCaracterizacionRangoDeleteModal() {
+		caracterizacionRangoDeleteTargetId = null;
 	}
 
-	async function removeVariacion(variacionId: string) {
+	async function removeCaracterizacionRango(caracterizacionRangoId: string) {
 		if (!browser) return;
 		if (props.readOnly || !editingId) return;
 		const response = await fetch(
-			`/api/obras/${props.obraId}/secuencias/${editingId}/variaciones/${variacionId}`,
+			`/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones/${caracterizacionRangoId}`,
 			{
 				method: 'DELETE'
 			}
 		);
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar la variación');
+			pushToast('error', body.message ?? 'No se pudo eliminar la caracterización');
 			return;
 		}
-		variaciones = variaciones.filter((row) => row.variacion_id !== variacionId);
-		variacionDeleteTargetId = null;
-		pushToast('success', 'Variación eliminada');
+		caracterizacionesRango = caracterizacionesRango.filter(
+			(row) => row.caracterizacion_rango_id !== caracterizacionRangoId
+		);
+		caracterizacionRangoDeleteTargetId = null;
+		pushToast('success', 'Caracterización eliminada');
 	}
 
 	async function loadSubtiposForCurrentSecuencia() {
@@ -1052,7 +1046,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personaje_femenino}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.final_acentual}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personaje_femenino}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1207,7 +1201,7 @@
 				</Button>
 				{#if sidebarDirty}
 					<p class="text-xs text-[color:var(--muted-foreground)]">
-						La sinpsis completa refleja la ultima version guardada mientras haya cambios pendientes en el panel lateral.
+						La sinopsis completa refleja la última versión guardada mientras haya cambios pendientes en el panel lateral.
 					</p>
 				{/if}
 			</div>
@@ -1480,22 +1474,22 @@
 
 			<section class="form-section">
 				<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-					<h4 class="form-section-title mb-0">Variaciones / irregularidades</h4>
+					<h4 class="form-section-title mb-0">Caracterizaciones por rango</h4>
 					<Button
 						variant="secondary"
-						onclick={openVariacionCreateModal}
+						onclick={openCaracterizacionRangoCreateModal}
 						disabled={props.readOnly || !editingId}
 					>
-						Añadir variación
+						Añadir caracterización
 					</Button>
 				</div>
 
 				{#if !editingId}
-					<p class="form-help">Guarda la secuencia para añadir variaciones.</p>
-				{:else if variacionesLoading}
-					<p class="form-help">Cargando variaciones...</p>
-				{:else if variaciones.length === 0}
-					<p class="form-help">Sin variaciones registradas en esta secuencia.</p>
+					<p class="form-help">Guarda la secuencia para añadir caracterizaciones por rango.</p>
+				{:else if caracterizacionesRangoLoading}
+					<p class="form-help">Cargando caracterizaciones por rango...</p>
+				{:else if caracterizacionesRango.length === 0}
+					<p class="form-help">Sin caracterizaciones por rango registradas en esta secuencia.</p>
 				{:else}
 					<div class="card mt-3 overflow-x-auto">
 						<table class="min-w-full text-left text-xs">
@@ -1510,25 +1504,31 @@
 								</tr>
 							</thead>
 							<tbody>
-								{#each variaciones as variacion}
+								{#each caracterizacionesRango as caracterizacion}
 									<tr class="border-t border-[color:var(--border)]">
 										<td class="px-2 py-2">
-											{variacionLabelById(variacion.tipo_variacion_id, variacion.tipo_variacion_term)}
+											{caracterizacionRangoLabelById(
+												caracterizacion.tipo_caracterizacion_rango_id,
+												caracterizacion.tipo_caracterizacion_rango_term
+											)}
 										</td>
-										<td class="px-2 py-2">{variacion.v_ini}</td>
-										<td class="px-2 py-2">{variacion.v_fin}</td>
+										<td class="px-2 py-2">{caracterizacion.v_ini}</td>
+										<td class="px-2 py-2">{caracterizacion.v_fin}</td>
 										<td class="px-2 py-2">
 											<div class="ml-auto flex w-[11.5rem] items-center gap-2">
 												<Button
 													variant="ghost"
-													onclick={() => openVariacionEditModal(variacion)}
+													onclick={() => openCaracterizacionRangoEditModal(caracterizacion)}
 													disabled={props.readOnly}
 												>
 													Editar
 												</Button>
 												<Button
 													variant="danger"
-													onclick={() => openVariacionDeleteModal(variacion.variacion_id)}
+													onclick={() =>
+														openCaracterizacionRangoDeleteModal(
+															caracterizacion.caracterizacion_rango_id
+														)}
 													disabled={props.readOnly}
 												>
 													Eliminar
@@ -1604,34 +1604,6 @@
 							}}
 						/>
 					</label>
-					<label class="form-field">
-						<span class="form-label">
-							<span class="form-label-with-help">
-								Final acentual
-								<FieldHelpTooltip
-									text="Usa este campo para marcar secuencias con mayoria de versos agudos o esdrujulos. En el caso habitual, deja Normal."
-									label="Ayuda sobre el campo Final acentual"
-								/>
-							</span>
-						</span>
-						<CheckDropdown
-							multiple={false}
-							search={false}
-							placeholder="Seleccionar valor"
-							items={finalesAcentualesItems}
-							disabled={props.readOnly}
-							selectedIds={[form.final_acentual]}
-							onChange={(ids) => {
-								const nextFinalAcentual = ids[0] as FormState['final_acentual'] | undefined;
-								if (!nextFinalAcentual) return;
-								form = {
-									...form,
-									final_acentual: nextFinalAcentual
-								};
-							}}
-						/>
-					</label>
-
 					<div class="grid grid-cols-2 gap-3">
 						<div class="form-field min-w-0">
 						<span class="form-label">
@@ -1772,11 +1744,11 @@
 	</aside>
 	{/if}
 
-	{#if variacionModalOpen}
+	{#if caracterizacionRangoModalOpen}
 		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 			<div class="card w-full max-w-2xl p-5">
 				<h3 class="text-lg font-semibold">
-					{variacionEditingId ? 'Editar variación' : 'Añadir variación'}
+					{caracterizacionRangoEditingId ? 'Editar caracterización' : 'Añadir caracterización'}
 				</h3>
 				<div class="mt-3 grid gap-3">
 					<label class="form-field">
@@ -1786,18 +1758,22 @@
 							hierarchical={true}
 							showPathInTrigger={true}
 							allowSingleClear={false}
-							search={tipoVariacionDropdownItems.length > 8}
+							search={caracterizacionRangoDropdownItems.length > 8}
 							placeholder="Seleccionar tipo"
-							items={tipoVariacionDropdownItems}
-							disabled={props.readOnly || variacionModalSaving}
-							disabledIds={irregularTipoVariacionId ? [irregularTipoVariacionId] : []}
-							selectedIds={variacionForm.tipo_variacion_id ? [variacionForm.tipo_variacion_id] : []}
+							items={caracterizacionRangoDropdownItems}
+							disabled={props.readOnly || caracterizacionRangoModalSaving}
+							disableParentsWithChildren={true}
+							selectedIds={
+								caracterizacionRangoForm.tipo_caracterizacion_rango_id
+									? [caracterizacionRangoForm.tipo_caracterizacion_rango_id]
+									: []
+							}
 							onChange={(ids) => {
 								const nextId = ids[0] ?? '';
 								if (!nextId) return;
-								variacionForm = {
-									...variacionForm,
-									tipo_variacion_id: nextId
+								caracterizacionRangoForm = {
+									...caracterizacionRangoForm,
+									tipo_caracterizacion_rango_id: nextId
 								};
 							}}
 						/>
@@ -1808,8 +1784,8 @@
 							<span class="form-label">V. ini *</span>
 							<input
 								type="number"
-								bind:value={variacionForm.v_ini}
-								disabled={props.readOnly || variacionModalSaving}
+								bind:value={caracterizacionRangoForm.v_ini}
+								disabled={props.readOnly || caracterizacionRangoModalSaving}
 								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 							/>
 						</label>
@@ -1817,16 +1793,16 @@
 							<span class="form-label">V. fin *</span>
 							<input
 								type="number"
-								bind:value={variacionForm.v_fin}
-								disabled={props.readOnly || variacionModalSaving}
+								bind:value={caracterizacionRangoForm.v_fin}
+								disabled={props.readOnly || caracterizacionRangoModalSaving}
 								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
 							/>
 						</label>
 					</div>
 
-										{#if variacionRangeHelperText}
+										{#if caracterizacionRangoRangeHelperText}
 						<p class="rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
-							{variacionRangeHelperText}
+							{caracterizacionRangoRangeHelperText}
 						</p>
 					{/if}
 
@@ -1836,7 +1812,7 @@
 								Observaciones
 								<FieldHelpTooltip
 									text="Este contenido se publica en la ficha pública de la obra."
-									label="Visibilidad pública de observaciones de la variación"
+									label="Visibilidad pública de observaciones de la caracterización"
 								/>
 							</span>
 						</span>
@@ -1844,11 +1820,11 @@
 							rows={3}
 							class="mt-1"
 							minHeightClass="min-h-24"
-							value={variacionForm.observaciones}
-							disabled={props.readOnly || variacionModalSaving}
+							value={caracterizacionRangoForm.observaciones}
+							disabled={props.readOnly || caracterizacionRangoModalSaving}
 							onChange={(nextValue) => {
-								variacionForm = {
-									...variacionForm,
+								caracterizacionRangoForm = {
+									...caracterizacionRangoForm,
 									observaciones: nextValue
 								};
 							}}
@@ -1856,13 +1832,13 @@
 					</label>
 				</div>
 				<div class="mt-4 flex justify-end gap-2">
-					<Button variant="secondary" onclick={closeVariacionModal}>Cancelar</Button>
+					<Button variant="secondary" onclick={closeCaracterizacionRangoModal}>Cancelar</Button>
 					<Button
 						variant="success"
-						disabled={props.readOnly || variacionModalSaving}
-						onclick={() => void saveVariacion()}
+						disabled={props.readOnly || caracterizacionRangoModalSaving}
+						onclick={() => void saveCaracterizacionRango()}
 					>
-						{variacionModalSaving ? 'Guardando...' : 'Guardar'}
+						{caracterizacionRangoModalSaving ? 'Guardando...' : 'Guardar'}
 					</Button>
 				</div>
 			</div>
@@ -1932,19 +1908,19 @@
 		</div>
 	{/if}
 
-	{#if variacionDeleteTargetId}
+	{#if caracterizacionRangoDeleteTargetId}
 		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 			<div class="card w-full max-w-md p-5">
-				<h3 class="text-lg font-semibold">Eliminar variación</h3>
+				<h3 class="text-lg font-semibold">Eliminar caracterización</h3>
 				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
 				<div class="mt-4 flex justify-end gap-2">
-					<Button variant="secondary" onclick={closeVariacionDeleteModal}>Cancelar</Button>
+					<Button variant="secondary" onclick={closeCaracterizacionRangoDeleteModal}>Cancelar</Button>
 					<Button
 						variant="danger"
 						disabled={props.readOnly}
 						onclick={() => {
-							if (!variacionDeleteTargetId) return;
-							void removeVariacion(variacionDeleteTargetId);
+							if (!caracterizacionRangoDeleteTargetId) return;
+							void removeCaracterizacionRango(caracterizacionRangoDeleteTargetId);
 						}}
 					>
 						Eliminar

@@ -62,13 +62,12 @@ export interface SecuenciaInput {
 	personaje_femenino: 'ausente' | 'solo' | 'con_otros';
 	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
 	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
-	final_acentual: 'normal' | 'mayoria_agudas' | 'mayoria_esdrujulas';
 	certeza_editor: string;
 	sinopsis: string | null;
 }
 
-export interface SecuenciaVariacionInput {
-	tipo_variacion_id: string;
+export interface SecuenciaCaracterizacionRangoInput {
+	tipo_caracterizacion_rango_id: string;
 	v_ini: number;
 	v_fin: number;
 	observaciones: string | null;

@@ -81,8 +81,8 @@ function dependencyLabel(tableName: string | null) {
 			return 'relaciones estrofa/metro';
 		case 'vocabularios':
 			return 'términos hijos en esta misma categoría';
-		case 'secuencias_variaciones':
-			return 'variaciones de secuencias';
+		case 'secuencias_caracterizaciones_rango':
+			return 'caracterizaciones por rango de secuencias';
 		case 'secuencias_subtipos_estrofa':
 			return 'subtipos internos de secuencias';
 		case 'obras':

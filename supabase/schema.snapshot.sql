@@ -258,28 +258,28 @@ begin
 			) rautores on true
 			where r.obra_id = v_obra.obra_id
 		),
-		variaciones_by_secuencia as (
+		caracterizaciones_by_secuencia as (
 			select
-				sv.secuencia_id,
+				scr.secuencia_id,
 				coalesce(
 					jsonb_agg(
 						jsonb_build_object(
-							'variacion_id', sv.variacion_id,
-							'tipo_variacion_id', sv.tipo_variacion_id,
-							'tipo_variacion_term', coalesce(tv.termino, 'sin_tipo'),
-							'v_ini', sv.v_ini,
-							'v_fin', sv.v_fin,
-							'observaciones', sv.observaciones
+							'caracterizacion_rango_id', scr.caracterizacion_rango_id,
+							'tipo_caracterizacion_rango_id', scr.tipo_caracterizacion_rango_id,
+							'tipo_caracterizacion_rango_term', coalesce(tv.termino, 'sin_tipo'),
+							'v_ini', scr.v_ini,
+							'v_fin', scr.v_fin,
+							'observaciones', scr.observaciones
 						)
-						order by sv.v_ini, sv.v_fin, sv.variacion_id
+						order by scr.v_ini, scr.v_fin, scr.caracterizacion_rango_id
 					),
 					'[]'::jsonb
 				) as items
-			from public.secuencias_variaciones sv
-			join public.secuencias_metricas sm on sm.secuencia_id = sv.secuencia_id
-			left join public.vocabularios tv on tv.termino_id = sv.tipo_variacion_id
+			from public.secuencias_caracterizaciones_rango scr
+			join public.secuencias_metricas sm on sm.secuencia_id = scr.secuencia_id
+			left join public.vocabularios tv on tv.termino_id = scr.tipo_caracterizacion_rango_id
 			where sm.obra_id = v_obra.obra_id
-			group by sv.secuencia_id
+			group by scr.secuencia_id
 		),
 		secuencias_json as (
 			select coalesce(
@@ -303,7 +303,7 @@ begin
 						'jornada_num', jornada_ref.jornada_num,
 						'cuadro_id', cuadro_ref.cuadro_id,
 						'cuadro_num', cuadro_ref.cuadro_num,
-						'variaciones', coalesce(vseq.items, '[]'::jsonb)
+						'caracterizaciones_rango', coalesce(cseq.items, '[]'::jsonb)
 					)
 					order by sm.v_ini
 				),
@@ -330,7 +330,7 @@ begin
 				order by c.cuadro_num
 				limit 1
 			) cuadro_ref on true
-			left join variaciones_by_secuencia vseq on vseq.secuencia_id = sm.secuencia_id
+			left join caracterizaciones_by_secuencia cseq on cseq.secuencia_id = sm.secuencia_id
 			where sm.obra_id = v_obra.obra_id
 		),
 		distribucion_base as (
@@ -635,7 +635,7 @@ CREATE TABLE IF NOT EXISTS "public"."comentarios_internos" (
     "rango_id" "uuid",
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "seccion" "text",
-    CONSTRAINT "comentarios_internos_seccion_chk" CHECK ((("seccion" IS NULL) OR ("seccion" = ANY (ARRAY['datos'::text, 'estructura'::text, 'secuencias'::text, 'autoria'::text, 'observaciones'::text, 'revision'::text])))),
+    CONSTRAINT "comentarios_internos_seccion_chk" CHECK ((("seccion" IS NULL) OR ("seccion" = ANY (ARRAY['datos'::"text", 'estructura'::"text", 'secuencias'::"text", 'autoria'::"text", 'observaciones'::"text", 'revision'::"text"])))),
     CONSTRAINT "comentarios_internos_un_contexto_chk" CHECK (((((COALESCE((("secuencia_id" IS NOT NULL))::integer, 0) + COALESCE((("jornada_id" IS NOT NULL))::integer, 0)) + COALESCE((("cuadro_id" IS NOT NULL))::integer, 0)) + COALESCE((("rango_id" IS NOT NULL))::integer, 0)) <= 1))
 );
 
@@ -668,9 +668,9 @@ COMMENT ON TABLE "public"."cuadros" IS 'Se revisa junto con la obra, sin estado 
 
 CREATE TABLE IF NOT EXISTS "public"."dashboard_activity_state" (
     "user_id" "uuid" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "last_seen_at" timestamp with time zone,
-    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
 
@@ -843,6 +843,26 @@ COMMENT ON TABLE "public"."rangos_autores" IS '1 fila por rango = autoría únic
 
 
 
+CREATE TABLE IF NOT EXISTS "public"."secuencias_caracterizaciones_rango" (
+    "caracterizacion_rango_id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
+    "secuencia_id" "uuid" NOT NULL,
+    "v_ini" integer NOT NULL,
+    "v_fin" integer NOT NULL,
+    "observaciones" "text",
+    "tipo_caracterizacion_rango_id" "uuid" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    CONSTRAINT "secuencias_caracterizaciones_rango_v_ini_le_v_fin_chk" CHECK (("v_ini" <= "v_fin"))
+);
+
+
+ALTER TABLE "public"."secuencias_caracterizaciones_rango" OWNER TO "postgres";
+
+
+COMMENT ON TABLE "public"."secuencias_caracterizaciones_rango" IS 'Caracterizaciones por rango dentro de una secuencia metrico-editorial.';
+
+
+
 CREATE TABLE IF NOT EXISTS "public"."secuencias_metricas" (
     "secuencia_id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
     "obra_id" "uuid" NOT NULL,
@@ -854,14 +874,12 @@ CREATE TABLE IF NOT EXISTS "public"."secuencias_metricas" (
     "personaje_femenino" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
     "personajes_donaire" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
     "personajes_sobrenatural" character varying(20) DEFAULT 'ausente'::character varying NOT NULL,
-    "final_acentual" character varying(32) DEFAULT 'normal'::character varying NOT NULL,
     "certeza_editor" "uuid" NOT NULL,
     "sinopsis" "text",
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "versos_partidos" boolean DEFAULT false NOT NULL,
-    CONSTRAINT "secuencias_metricas_personaje_femenino_chk" CHECK ((("personaje_femenino")::"text" = ANY ((ARRAY['ausente'::character varying, 'solo'::character varying, 'con_otros'::character varying])::"text"[]))),
-    CONSTRAINT "secuencias_metricas_final_acentual_chk" CHECK ((("final_acentual")::"text" = ANY ((ARRAY['normal'::character varying, 'mayoria_agudas'::character varying, 'mayoria_esdrujulas'::character varying])::"text"[])))
+    CONSTRAINT "secuencias_metricas_personaje_femenino_chk" CHECK ((("personaje_femenino")::"text" = ANY ((ARRAY['ausente'::character varying, 'solo'::character varying, 'con_otros'::character varying])::"text"[])))
 );
 
 
@@ -873,10 +891,6 @@ COMMENT ON TABLE "public"."secuencias_metricas" IS 'Unidad de análisis métrico
 
 
 COMMENT ON COLUMN "public"."secuencias_metricas"."personaje_femenino" IS 'Presencia de personaje femenino en la secuencia (ausente, solo, con_otros).';
-
-
-
-COMMENT ON COLUMN "public"."secuencias_metricas"."final_acentual" IS 'Caracterizacion global de los finales de verso de la secuencia (normal, mayoria_agudas, mayoria_esdrujulas).';
 
 
 
@@ -904,26 +918,6 @@ COMMENT ON TABLE "public"."secuencias_subtipos_estrofa" IS 'Subtipos estroficos 
 
 
 COMMENT ON COLUMN "public"."secuencias_subtipos_estrofa"."subtipo_estrofa_id" IS 'Termino hijo de vocabularios.categoria=estrofa_tipo correspondiente a la estrofa base de la secuencia.';
-
-
-
-CREATE TABLE IF NOT EXISTS "public"."secuencias_variaciones" (
-    "variacion_id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
-    "secuencia_id" "uuid" NOT NULL,
-    "v_ini" integer NOT NULL,
-    "v_fin" integer NOT NULL,
-    "observaciones" "text",
-    "tipo_variacion_id" "uuid" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    CONSTRAINT "secuencias_variaciones_v_ini_le_v_fin_chk" CHECK (("v_ini" <= "v_fin"))
-);
-
-
-ALTER TABLE "public"."secuencias_variaciones" OWNER TO "postgres";
-
-
-COMMENT ON TABLE "public"."secuencias_variaciones" IS 'Para marcar versos cantados u otras variaciones dentro de secuencias';
 
 
 
@@ -1027,6 +1021,11 @@ ALTER TABLE ONLY "public"."rangos"
 
 
 
+ALTER TABLE ONLY "public"."secuencias_caracterizaciones_rango"
+    ADD CONSTRAINT "secuencias_caracterizaciones_rango_pkey" PRIMARY KEY ("caracterizacion_rango_id");
+
+
+
 ALTER TABLE ONLY "public"."secuencias_metricas"
     ADD CONSTRAINT "secuencias_metricas_pkey" PRIMARY KEY ("secuencia_id");
 
@@ -1039,11 +1038,6 @@ ALTER TABLE ONLY "public"."secuencias_subtipos_estrofa"
 
 ALTER TABLE ONLY "public"."secuencias_subtipos_estrofa"
     ADD CONSTRAINT "secuencias_subtipos_estrofa_unique" UNIQUE ("secuencia_id", "subtipo_estrofa_id", "v_ini", "v_fin");
-
-
-
-ALTER TABLE ONLY "public"."secuencias_variaciones"
-    ADD CONSTRAINT "secuencias_variaciones_pkey" PRIMARY KEY ("variacion_id");
 
 
 
@@ -1076,6 +1070,14 @@ CREATE INDEX "idx_autores_nombre_normalizado" ON "public"."autores" USING "btree
 
 
 CREATE UNIQUE INDEX "idx_autores_nombre_normalizado_unique" ON "public"."autores" USING "btree" ("nombre_normalizado") WHERE ("nombre_normalizado" IS NOT NULL);
+
+
+
+CREATE INDEX "idx_caracterizaciones_rango_secuencia" ON "public"."secuencias_caracterizaciones_rango" USING "btree" ("secuencia_id");
+
+
+
+CREATE INDEX "idx_caracterizaciones_rango_tipo_id" ON "public"."secuencias_caracterizaciones_rango" USING "btree" ("tipo_caracterizacion_rango_id");
 
 
 
@@ -1183,14 +1185,6 @@ CREATE INDEX "idx_secuencias_v_ini" ON "public"."secuencias_metricas" USING "btr
 
 
 
-CREATE INDEX "idx_variaciones_secuencia" ON "public"."secuencias_variaciones" USING "btree" ("secuencia_id");
-
-
-
-CREATE INDEX "idx_variaciones_tipo_id" ON "public"."secuencias_variaciones" USING "btree" ("tipo_variacion_id");
-
-
-
 CREATE INDEX "idx_vocabularios_activo" ON "public"."vocabularios" USING "btree" ("activo");
 
 
@@ -1223,11 +1217,11 @@ CREATE OR REPLACE TRIGGER "trigger_autores_updated_at" BEFORE UPDATE ON "public"
 
 
 
-CREATE OR REPLACE TRIGGER "trigger_comentarios_internos_updated_at" BEFORE UPDATE ON "public"."comentarios_internos" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
-
-
-
 CREATE OR REPLACE TRIGGER "trigger_cleanup_secuencias_subtipos_on_secuencia_change" AFTER UPDATE OF "estrofa_tipo_id", "v_ini", "v_fin" ON "public"."secuencias_metricas" FOR EACH ROW EXECUTE FUNCTION "public"."cleanup_secuencias_subtipos_on_secuencia_change"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_comentarios_internos_updated_at" BEFORE UPDATE ON "public"."comentarios_internos" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
@@ -1255,6 +1249,10 @@ CREATE OR REPLACE TRIGGER "trigger_obras_enforce_public_visibility" BEFORE INSER
 
 
 
+CREATE OR REPLACE TRIGGER "trigger_obras_revisores_updated_at" BEFORE UPDATE ON "public"."obras_revisores" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
 CREATE OR REPLACE TRIGGER "trigger_obras_sync_autor_ficha_publico" BEFORE INSERT OR UPDATE OF "editor_asignado" ON "public"."obras" FOR EACH ROW EXECUTE FUNCTION "public"."sync_obra_autor_ficha_publico"();
 
 
@@ -1263,11 +1261,11 @@ CREATE OR REPLACE TRIGGER "trigger_obras_updated_at" BEFORE UPDATE ON "public"."
 
 
 
-CREATE OR REPLACE TRIGGER "trigger_obras_revisores_updated_at" BEFORE UPDATE ON "public"."obras_revisores" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
-
-
-
 CREATE OR REPLACE TRIGGER "trigger_proyecto_activo_updated_at" BEFORE UPDATE ON "public"."proyecto_activo" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "trigger_rangos_autores_updated_at" BEFORE UPDATE ON "public"."rangos_autores" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
@@ -1275,7 +1273,7 @@ CREATE OR REPLACE TRIGGER "trigger_rangos_updated_at" BEFORE UPDATE ON "public".
 
 
 
-CREATE OR REPLACE TRIGGER "trigger_rangos_autores_updated_at" BEFORE UPDATE ON "public"."rangos_autores" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
+CREATE OR REPLACE TRIGGER "trigger_secuencias_caracterizaciones_rango_updated_at" BEFORE UPDATE ON "public"."secuencias_caracterizaciones_rango" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
@@ -1284,10 +1282,6 @@ CREATE OR REPLACE TRIGGER "trigger_secuencias_subtipos_updated_at" BEFORE UPDATE
 
 
 CREATE OR REPLACE TRIGGER "trigger_secuencias_updated_at" BEFORE UPDATE ON "public"."secuencias_metricas" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
-
-
-
-CREATE OR REPLACE TRIGGER "trigger_secuencias_variaciones_updated_at" BEFORE UPDATE ON "public"."secuencias_variaciones" FOR EACH ROW EXECUTE FUNCTION "public"."actualizar_updated_at"();
 
 
 
@@ -1428,6 +1422,16 @@ ALTER TABLE ONLY "public"."rangos"
 
 
 
+ALTER TABLE ONLY "public"."secuencias_caracterizaciones_rango"
+    ADD CONSTRAINT "secuencias_caracterizaciones_rango_secuencia_id_fkey" FOREIGN KEY ("secuencia_id") REFERENCES "public"."secuencias_metricas"("secuencia_id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."secuencias_caracterizaciones_rango"
+    ADD CONSTRAINT "secuencias_caracterizaciones_rango_tipo_caracterizacion_rango_i" FOREIGN KEY ("tipo_caracterizacion_rango_id") REFERENCES "public"."vocabularios"("termino_id");
+
+
+
 ALTER TABLE ONLY "public"."secuencias_metricas"
     ADD CONSTRAINT "secuencias_metricas_certeza_editor_fkey" FOREIGN KEY ("certeza_editor") REFERENCES "public"."vocabularios"("termino_id");
 
@@ -1450,16 +1454,6 @@ ALTER TABLE ONLY "public"."secuencias_subtipos_estrofa"
 
 ALTER TABLE ONLY "public"."secuencias_subtipos_estrofa"
     ADD CONSTRAINT "secuencias_subtipos_estrofa_subtipo_estrofa_id_fkey" FOREIGN KEY ("subtipo_estrofa_id") REFERENCES "public"."vocabularios"("termino_id");
-
-
-
-ALTER TABLE ONLY "public"."secuencias_variaciones"
-    ADD CONSTRAINT "secuencias_variaciones_secuencia_id_fkey" FOREIGN KEY ("secuencia_id") REFERENCES "public"."secuencias_metricas"("secuencia_id") ON DELETE CASCADE;
-
-
-
-ALTER TABLE ONLY "public"."secuencias_variaciones"
-    ADD CONSTRAINT "secuencias_variaciones_tipo_variacion_id_fkey" FOREIGN KEY ("tipo_variacion_id") REFERENCES "public"."vocabularios"("termino_id");
 
 
 
@@ -1889,6 +1883,57 @@ CREATE POLICY "rangos_update_authenticated" ON "public"."rangos" FOR UPDATE TO "
 
 
 
+ALTER TABLE "public"."secuencias_caracterizaciones_rango" ENABLE ROW LEVEL SECURITY;
+
+
+CREATE POLICY "secuencias_caracterizaciones_rango_delete_authenticated" ON "public"."secuencias_caracterizaciones_rango" FOR DELETE TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM ((("public"."secuencias_metricas" "sm"
+     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
+     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
+     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
+  WHERE (("sm"."secuencia_id" = "secuencias_caracterizaciones_rango"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
+
+
+
+CREATE POLICY "secuencias_caracterizaciones_rango_insert_authenticated" ON "public"."secuencias_caracterizaciones_rango" FOR INSERT TO "authenticated" WITH CHECK ((EXISTS ( SELECT 1
+   FROM ((("public"."secuencias_metricas" "sm"
+     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
+     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
+     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
+  WHERE (("sm"."secuencia_id" = "secuencias_caracterizaciones_rango"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
+
+
+
+CREATE POLICY "secuencias_caracterizaciones_rango_select_assigned_reviewer" ON "public"."secuencias_caracterizaciones_rango" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM ("public"."secuencias_metricas" "sm"
+     JOIN "public"."obras_revisores" "r" ON (("r"."obra_id" = "sm"."obra_id")))
+  WHERE (("sm"."secuencia_id" = "secuencias_caracterizaciones_rango"."secuencia_id") AND ("r"."revisor_id" = "auth"."uid"())))));
+
+
+
+CREATE POLICY "secuencias_caracterizaciones_rango_select_authenticated" ON "public"."secuencias_caracterizaciones_rango" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM ((("public"."secuencias_metricas" "sm"
+     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
+     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
+     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
+  WHERE (("sm"."secuencia_id" = "secuencias_caracterizaciones_rango"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text", 'revisor'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
+
+
+
+CREATE POLICY "secuencias_caracterizaciones_rango_update_authenticated" ON "public"."secuencias_caracterizaciones_rango" FOR UPDATE TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM ((("public"."secuencias_metricas" "sm"
+     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
+     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
+     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
+  WHERE (("sm"."secuencia_id" = "secuencias_caracterizaciones_rango"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id"))))))) WITH CHECK ((EXISTS ( SELECT 1
+   FROM ((("public"."secuencias_metricas" "sm"
+     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
+     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
+     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
+  WHERE (("sm"."secuencia_id" = "secuencias_caracterizaciones_rango"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
+
+
+
 CREATE POLICY "secuencias_delete_authenticated" ON "public"."secuencias_metricas" FOR DELETE TO "authenticated" USING ((EXISTS ( SELECT 1
    FROM (("public"."obras" "o"
      JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
@@ -1982,57 +2027,6 @@ CREATE POLICY "secuencias_update_authenticated" ON "public"."secuencias_metricas
      JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
      JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
   WHERE (("o"."obra_id" = "secuencias_metricas"."obra_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
-
-
-
-ALTER TABLE "public"."secuencias_variaciones" ENABLE ROW LEVEL SECURITY;
-
-
-CREATE POLICY "secuencias_variaciones_delete_authenticated" ON "public"."secuencias_variaciones" FOR DELETE TO "authenticated" USING ((EXISTS ( SELECT 1
-   FROM ((("public"."secuencias_metricas" "sm"
-     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
-     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
-     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
-  WHERE (("sm"."secuencia_id" = "secuencias_variaciones"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
-
-
-
-CREATE POLICY "secuencias_variaciones_insert_authenticated" ON "public"."secuencias_variaciones" FOR INSERT TO "authenticated" WITH CHECK ((EXISTS ( SELECT 1
-   FROM ((("public"."secuencias_metricas" "sm"
-     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
-     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
-     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
-  WHERE (("sm"."secuencia_id" = "secuencias_variaciones"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
-
-
-
-CREATE POLICY "secuencias_variaciones_select_assigned_reviewer" ON "public"."secuencias_variaciones" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
-   FROM ("public"."secuencias_metricas" "sm"
-     JOIN "public"."obras_revisores" "r" ON (("r"."obra_id" = "sm"."obra_id")))
-  WHERE (("sm"."secuencia_id" = "secuencias_variaciones"."secuencia_id") AND ("r"."revisor_id" = "auth"."uid"())))));
-
-
-
-CREATE POLICY "secuencias_variaciones_select_authenticated" ON "public"."secuencias_variaciones" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
-   FROM ((("public"."secuencias_metricas" "sm"
-     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
-     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
-     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
-  WHERE (("sm"."secuencia_id" = "secuencias_variaciones"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text", 'revisor'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
-
-
-
-CREATE POLICY "secuencias_variaciones_update_authenticated" ON "public"."secuencias_variaciones" FOR UPDATE TO "authenticated" USING ((EXISTS ( SELECT 1
-   FROM ((("public"."secuencias_metricas" "sm"
-     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
-     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
-     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
-  WHERE (("sm"."secuencia_id" = "secuencias_variaciones"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id"))))))) WITH CHECK ((EXISTS ( SELECT 1
-   FROM ((("public"."secuencias_metricas" "sm"
-     JOIN "public"."obras" "o" ON (("o"."obra_id" = "sm"."obra_id")))
-     JOIN "public"."editores" "e" ON (("e"."user_id" = "auth"."uid"())))
-     JOIN "public"."vocabularios" "vr" ON (("vr"."termino_id" = "e"."role")))
-  WHERE (("sm"."secuencia_id" = "secuencias_variaciones"."secuencia_id") AND COALESCE("e"."activo", true) AND (("lower"(("vr"."termino")::"text") = ANY (ARRAY['admin'::"text", 'ip'::"text"])) OR (("lower"(("vr"."termino")::"text") = 'editor'::"text") AND ("o"."editor_asignado" = "e"."user_id")))))));
 
 
 
@@ -2205,6 +2199,12 @@ GRANT ALL ON TABLE "public"."rangos_autores" TO "service_role";
 
 
 
+GRANT ALL ON TABLE "public"."secuencias_caracterizaciones_rango" TO "anon";
+GRANT ALL ON TABLE "public"."secuencias_caracterizaciones_rango" TO "authenticated";
+GRANT ALL ON TABLE "public"."secuencias_caracterizaciones_rango" TO "service_role";
+
+
+
 GRANT ALL ON TABLE "public"."secuencias_metricas" TO "anon";
 GRANT ALL ON TABLE "public"."secuencias_metricas" TO "authenticated";
 GRANT ALL ON TABLE "public"."secuencias_metricas" TO "service_role";
@@ -2214,12 +2214,6 @@ GRANT ALL ON TABLE "public"."secuencias_metricas" TO "service_role";
 GRANT ALL ON TABLE "public"."secuencias_subtipos_estrofa" TO "anon";
 GRANT ALL ON TABLE "public"."secuencias_subtipos_estrofa" TO "authenticated";
 GRANT ALL ON TABLE "public"."secuencias_subtipos_estrofa" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."secuencias_variaciones" TO "anon";
-GRANT ALL ON TABLE "public"."secuencias_variaciones" TO "authenticated";
-GRANT ALL ON TABLE "public"."secuencias_variaciones" TO "service_role";
 
 
 

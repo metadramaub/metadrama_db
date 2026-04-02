@@ -21,7 +21,6 @@ function createSecuencia(overrides: Partial<SecuenciaRow> = {}): SecuenciaRow {
 		personaje_femenino: overrides.personaje_femenino ?? 'ausente',
 		personajes_donaire: overrides.personajes_donaire ?? 'ausente',
 		personajes_sobrenatural: overrides.personajes_sobrenatural ?? 'ausente',
-		final_acentual: overrides.final_acentual ?? 'normal',
 		certeza_editor: overrides.certeza_editor ?? 'certeza-1',
 		sinopsis: overrides.sinopsis ?? 'Sinopsis base',
 		updated_at: overrides.updated_at ?? '2026-03-30T00:00:00.000Z'

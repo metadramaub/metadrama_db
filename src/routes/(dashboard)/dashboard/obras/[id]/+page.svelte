@@ -76,7 +76,7 @@
 	const estadoOptions = $derived(vocabByCategory.get('estado') ?? []);
 	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
-	const tipoVariacionOptions = $derived(vocabByCategory.get('tipo_variacion') ?? []);
+	const caracterizacionRangoOptions = $derived(vocabByCategory.get('caracterizacion_rango') ?? []);
 	const obraLive = $derived.by(() => {
 		const storeObra = $currentObraStore.obra as Tables<'obras'> | null;
 		if (storeObra && storeObra.obra_id === data.obra.obra_id) {
@@ -414,7 +414,7 @@
 			cuadrosInitial={cuadrosLive}
 			estrofaOptions={estrofaOptions}
 			certezaOptions={certezaOptions}
-			tipoVariacionOptions={tipoVariacionOptions}
+			caracterizacionRangoOptions={caracterizacionRangoOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
 			onSecuenciasChange={handleSecuenciasChange}
