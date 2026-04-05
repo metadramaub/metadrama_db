@@ -7,7 +7,7 @@ import { hasOverlap } from '$lib/server/obras';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '$lib/types/database.types';
 
-async function syncObraTotalVersosAndSimpleAutoria(
+async function syncObraTotalVersos(
 	supabase: SupabaseClient<Database>,
 	obraId: string
 ): Promise<string | null> {
@@ -28,36 +28,6 @@ async function syncObraTotalVersosAndSimpleAutoria(
 		.eq('obra_id', obraId);
 	if (obraUpdateError) {
 		return obraUpdateError.message ?? 'No se pudo actualizar total_versos';
-	}
-
-	if (!totalVersos) {
-		return null;
-	}
-
-	const { data: rangos, error: rangosError } = await supabase
-		.from('rangos')
-		.select('rango_id,v_ini,v_fin')
-		.eq('obra_id', obraId)
-		.order('v_ini');
-	if (rangosError) {
-		return rangosError.message ?? 'No se pudo revisar autoría para autoajuste';
-	}
-
-	if (!rangos || rangos.length !== 1) {
-		return null;
-	}
-
-	const [singleRange] = rangos;
-	if (singleRange.v_ini !== 1 || singleRange.v_fin >= totalVersos) {
-		return null;
-	}
-
-	const { error: rangeUpdateError } = await supabase
-		.from('rangos')
-		.update({ v_fin: totalVersos })
-		.eq('rango_id', singleRange.rango_id);
-	if (rangeUpdateError) {
-		return rangeUpdateError.message ?? 'No se pudo extender el rango de autoría';
 	}
 
 	return null;
@@ -107,7 +77,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 
-	const syncError = await syncObraTotalVersosAndSimpleAutoria(locals.supabase, params.id);
+	const syncError = await syncObraTotalVersos(locals.supabase, params.id);
 	if (syncError) {
 		return json({ error: 'db_error', message: syncError }, { status: 500 });
 	}
@@ -143,7 +113,7 @@ export const DELETE: RequestHandler = async ({ locals, params }) => {
 		);
 	}
 
-	const syncError = await syncObraTotalVersosAndSimpleAutoria(locals.supabase, params.id);
+	const syncError = await syncObraTotalVersos(locals.supabase, params.id);
 	if (syncError) {
 		return json({ error: 'db_error', message: syncError }, { status: 500 });
 	}

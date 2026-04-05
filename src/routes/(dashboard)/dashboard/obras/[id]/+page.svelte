@@ -86,7 +86,6 @@
 	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
-	const showAutoriaUnderConstruction = $derived(data.profile.roleTerm === 'editor');
 	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
 	let cuadrosLive = $state<Tables<'cuadros'>[]>([]);
 	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>([]);
@@ -101,7 +100,6 @@
 	const jornadaIds = $derived(
 		new Set((jornadasLive as Tables<'jornadas'>[]).map((jornada) => jornada.jornada_id))
 	);
-	const rangoIds = $derived(new Set((data.rangos as Tables<'rangos'>[]).map((rango) => rango.rango_id)));
 
 	function getCurrentDirtyScope(): ObraDirtyScope | null {
 		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'observaciones') {
@@ -191,12 +189,9 @@
 		});
 	}
 
-	function onExternalChange(payload: { table: string; jornada_id?: string | null; rango_id?: string | null }) {
+	function onExternalChange(payload: { table: string; jornada_id?: string | null }) {
 		const dirty = get(currentObraStore).dirty;
 		if (payload.table === 'cuadros' && payload.jornada_id && !jornadaIds.has(payload.jornada_id)) {
-			return;
-		}
-		if (payload.table === 'rangos_autores' && payload.rango_id && !rangoIds.has(payload.rango_id)) {
 			return;
 		}
 		if (dirty) {
@@ -271,10 +266,17 @@
 				{
 					event: '*',
 					schema: 'public',
-					table: 'rangos',
-					filter: `obra_id=eq.${data.obra.obra_id}`
+					table: 'atribuciones'
 				},
-				() => onExternalChange({ table: 'rangos' })
+				(payload) => {
+					const next = (payload.new as { obra_id?: string | null; jornada_id?: string | null } | null) ?? {};
+					const prev = (payload.old as { obra_id?: string | null; jornada_id?: string | null } | null) ?? {};
+					const obraId = next.obra_id ?? prev.obra_id ?? null;
+					const jornadaId = next.jornada_id ?? prev.jornada_id ?? null;
+					if (obraId === data.obra.obra_id || (jornadaId && jornadaIds.has(jornadaId))) {
+						onExternalChange({ table: 'atribuciones' });
+					}
+				}
 			)
 			.on(
 				'postgres_changes',
@@ -309,22 +311,6 @@
 						jornada_id:
 							(payload.new as { jornada_id?: string } | null)?.jornada_id ??
 							(payload.old as { jornada_id?: string } | null)?.jornada_id ??
-							null
-					})
-			)
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'rangos_autores'
-				},
-				(payload) =>
-					onExternalChange({
-						table: 'rangos_autores',
-						rango_id:
-							(payload.new as { rango_id?: string } | null)?.rango_id ??
-							(payload.old as { rango_id?: string } | null)?.rango_id ??
 							null
 					})
 			)
@@ -420,37 +406,13 @@
 			onSecuenciasChange={handleSecuenciasChange}
 		/>
 	{:else if currentTab === 'autoria'}
-		{#if showAutoriaUnderConstruction}
-			<div class="space-y-4">
-				<div class="card p-4">
-					<div class="max-w-3xl space-y-3">
-						<h2 class="text-xl font-semibold">Autoría</h2>
-						<p class="text-sm text-[color:var(--muted-foreground)]">
-							Este módulo está temporalmente en construcción mientras adaptamos el nuevo sistema
-							de autoría.
-						</p>
-						<p class="text-sm text-[color:var(--muted-foreground)]">
-							Puedes seguir trabajando con normalidad en el resto de pestañas de esta obra.
-						</p>
-					</div>
-				</div>
-				<InternalCommentsPanel
-					obraId={obraLive.obra_id}
-					canComment={canComment}
-					section="autoria"
-					title="Comentarios internos sobre autoría"
-					emptyText="No hay comentarios internos sobre esta sección."
-				/>
-			</div>
-		{:else}
-			<AutoriaTab
-				obraId={obraLive.obra_id}
-				obra={obraLive}
-				roleTerm={data.profile.roleTerm}
-				readOnly={!canEditContent}
-				canComment={canComment}
-			/>
-		{/if}
+		<AutoriaTab
+			obraId={obraLive.obra_id}
+			obra={obraLive}
+			roleTerm={data.profile.roleTerm}
+			readOnly={!canEditContent}
+			canComment={canComment}
+		/>
 	{:else if currentTab === 'observaciones'}
 		<ObservacionesTab
 			obraId={obraLive.obra_id}
@@ -469,7 +431,7 @@
 			jornadas={jornadasLive}
 			cuadros={cuadrosLive}
 			secuencias={secuenciasLive}
-			rangos={data.rangos}
+			autoriaAdoptadaCount={data.autoriaAdoptadaCount}
 			editorAsignadoNombre={data.editorAsignadoNombre}
 			assignedReviewer={data.assignedReviewer}
 			capabilities={data.capabilities}

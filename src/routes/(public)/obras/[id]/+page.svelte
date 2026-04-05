@@ -213,7 +213,7 @@
 					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{variantesLabel}</p>
 				{/if}
 				<div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
-					<span class="font-semibold text-[color:var(--gray-900)]">Autoria:</span>
+					<span class="font-semibold text-[color:var(--gray-900)]">Autoría:</span>
 					{#if ficha.autoria.autores.length === 0}
 						<span class="text-[color:var(--muted-foreground)]">No indicada</span>
 					{:else}
@@ -226,15 +226,15 @@
 							>
 						{/each}
 					{/if}
-					{#if (obra.url_informe_autoria ?? '').trim().length > 0}
+					{#if (ficha.autoria.informe_url ?? '').trim().length > 0}
 						<a
 							class="inline-flex items-center border border-[color:var(--border)] bg-white px-2 py-1 text-xs font-semibold tracking-[0.03em] hover:bg-[color:var(--muted)]"
-							href={obra.url_informe_autoria ?? '#'}
+							href={ficha.autoria.informe_url ?? '#'}
 							target="_blank"
 							rel="noreferrer noopener"
-							aria-label="Abrir informe externo de autoria"
+							aria-label="Abrir informe externo de autoría"
 						>
-							? Informe
+							Informe
 						</a>
 					{/if}
 				</div>
@@ -266,7 +266,7 @@
 							<button
 								type="button"
 								class="inline-flex h-5 w-5 items-center justify-center border border-[color:var(--border)] bg-white text-[11px] font-semibold"
-								aria-label="Mostrar fuente bibliografica de datacion"
+								aria-label="Mostrar fuente bibliográfica de datación"
 								onclick={toggleDateSource}
 							>
 								i

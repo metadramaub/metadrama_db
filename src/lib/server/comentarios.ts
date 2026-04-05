@@ -2,7 +2,7 @@ import type { Tables } from '$lib/types/database.types';
 
 export type ComentarioContextRow = Pick<
 	Tables<'comentarios_internos'>,
-	'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'
+	'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id'
 >;
 
 export type ComentarioTipoTerm = 'general' | 'revision' | 'tecnico' | 'estado';
@@ -81,9 +81,9 @@ export async function loadComentarioContextMaps(
 export function formatComentarioTipoLabel(tipo: ComentarioTipoTerm | string | null | undefined): string {
 	switch ((tipo ?? 'general').trim().toLowerCase()) {
 		case 'revision':
-			return 'solicita revisión';
+			return 'solicita revision';
 		case 'tecnico':
-			return 'soporte técnico';
+			return 'soporte tecnico';
 		case 'estado':
 			return 'cambio de estado';
 		default:
@@ -98,9 +98,9 @@ export function buildComentarioContextLabel(
 	if (comment.seccion === 'datos') return 'Datos de la obra';
 	if (comment.seccion === 'estructura') return 'Estructura';
 	if (comment.seccion === 'secuencias') return 'Secuencias';
-	if (comment.seccion === 'autoria') return 'Autoría';
+	if (comment.seccion === 'autoria') return 'Autoria';
 	if (comment.seccion === 'observaciones') return 'Observaciones';
-	if (comment.seccion === 'revision') return 'Revisión final';
+	if (comment.seccion === 'revision') return 'Revision final';
 
 	if (comment.secuencia_id) {
 		const secuencia = maps.secuenciaById.get(comment.secuencia_id);
@@ -122,6 +122,5 @@ export function buildComentarioContextLabel(
 		return jornada ? `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})` : 'Jornada';
 	}
 
-	if (comment.rango_id) return 'Rango de autoría';
 	return null;
 }

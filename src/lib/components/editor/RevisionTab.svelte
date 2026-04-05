@@ -27,7 +27,7 @@
 		jornadas: Tables<'jornadas'>[];
 		cuadros: Tables<'cuadros'>[];
 		secuencias: Tables<'secuencias_metricas'>[];
-		rangos: Tables<'rangos'>[];
+		autoriaAdoptadaCount: number;
 		editorAsignadoNombre: string | null;
 		assignedReviewer: boolean;
 		capabilities: ObraAccessFlags;
@@ -98,8 +98,8 @@
 			},
 			{
 				label: 'Autoría asignada',
-				done: (obraLive.autoria ?? []).length > 0,
-				detail: `${(obraLive.autoria ?? []).length} autores`
+				done: props.autoriaAdoptadaCount > 0,
+				detail: `${props.autoriaAdoptadaCount} atribuciones adoptadas`
 			},
 			{
 				label: 'Observaciones de obra',

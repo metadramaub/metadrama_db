@@ -59,24 +59,36 @@ export async function computeObraProgress(
 		bibliografia: Boolean((obra.bibliografia ?? '').trim().length > 0)
 	};
 
-	const [jornadasResp, secuenciasResp, rangosResp] = await Promise.all([
+	const jornadasResp = await supabase
+		.from('jornadas')
+		.select('jornada_id', { count: 'exact', head: true })
+		.eq('obra_id', obra.obra_id);
+	const secuenciasResp = await supabase
+		.from('secuencias_metricas')
+		.select('secuencia_id', { count: 'exact', head: true })
+		.eq('obra_id', obra.obra_id);
+	const jornadasRowsResp = await supabase
+		.from('jornadas')
+		.select('jornada_id')
+		.eq('obra_id', obra.obra_id);
+	const jornadaIds = [...new Set((jornadasRowsResp.data ?? []).map((row) => row.jornada_id))];
+
+	const [adoptadaObraResp, adoptadaJornadaResp] = await Promise.all([
 		supabase
-			.from('jornadas')
-			.select('jornada_id', { count: 'exact', head: true })
-			.eq('obra_id', obra.obra_id),
-		supabase
-			.from('secuencias_metricas')
-			.select('secuencia_id', { count: 'exact', head: true })
-			.eq('obra_id', obra.obra_id),
-		supabase
-			.from('rangos')
-			.select('rango_id', { count: 'exact', head: true })
+			.from('atribuciones')
+			.select('atribucion_id', { count: 'exact', head: true })
 			.eq('obra_id', obra.obra_id)
+			.eq('adoptada', true),
+		supabase
+			.from('atribuciones')
+			.select('atribucion_id', { count: 'exact', head: true })
+			.eq('adoptada', true)
+			.in('jornada_id', jornadaIds.length > 0 ? jornadaIds : ['00000000-0000-0000-0000-000000000000'])
 	]);
 
 	flags.estructura = (jornadasResp.count ?? 0) > 0;
 	flags.secuencias = (secuenciasResp.count ?? 0) > 0;
-	flags.autoria = (rangosResp.count ?? 0) > 0;
+	flags.autoria = (adoptadaObraResp.count ?? 0) + (adoptadaJornadaResp.count ?? 0) > 0;
 
 	const values = Object.values(flags);
 	const completed = values.filter(Boolean).length;

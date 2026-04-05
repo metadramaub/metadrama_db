@@ -48,31 +48,27 @@ describe('buildComentarioContextLabel', () => {
 	it('formats cuadro comments with jornada and cuadro when both are available', () => {
 		expect(
 			buildComentarioContextLabel(
-				{ seccion: null, secuencia_id: null, jornada_id: null, cuadro_id: 'c1', rango_id: null },
+				{ seccion: null, secuencia_id: null, jornada_id: null, cuadro_id: 'c1' },
 				createMaps()
 			)
-		).toBe(
-			'Jornada 2 · Cuadro 1 (vv. 121-180)'
-		);
+		).toBe('Jornada 2 · Cuadro 1 (vv. 121-180)');
 	});
 
 	it('falls back to cuadro-only label when the jornada cannot be resolved', () => {
 		expect(
 			buildComentarioContextLabel(
-				{ seccion: null, secuencia_id: null, jornada_id: null, cuadro_id: 'c2', rango_id: null },
+				{ seccion: null, secuencia_id: null, jornada_id: null, cuadro_id: 'c2' },
 				createMaps()
 			)
-		).toBe(
-			'Cuadro 3 (vv. 221-280)'
-		);
+		).toBe('Cuadro 3 (vv. 221-280)');
 	});
 });
 
 describe('formatComentarioTipoLabel', () => {
 	it('maps internal comment terms to dashboard-friendly labels', () => {
 		expect(formatComentarioTipoLabel('general')).toBe('general');
-		expect(formatComentarioTipoLabel('revision')).toBe('solicita revisión');
-		expect(formatComentarioTipoLabel('tecnico')).toBe('soporte técnico');
+		expect(formatComentarioTipoLabel('revision')).toBe('solicita revision');
+		expect(formatComentarioTipoLabel('tecnico')).toBe('soporte tecnico');
 		expect(formatComentarioTipoLabel('estado')).toBe('cambio de estado');
 	});
 });

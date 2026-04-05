@@ -102,7 +102,6 @@ export interface ComentarioInput {
 	secuencia_id?: string;
 	jornada_id?: string;
 	cuadro_id?: string;
-	rango_id?: string;
 }
 
 export interface ComentarioPatchInput {
@@ -115,7 +114,6 @@ export interface ComentarioListQueryInput {
 	secuencia_id?: string;
 	jornada_id?: string;
 	cuadro_id?: string;
-	rango_id?: string;
 	limit?: number;
 	offset?: number;
 }
@@ -129,83 +127,41 @@ export interface ComentarioListItem extends Tables<'comentarios_internos'> {
 	locked?: boolean;
 }
 
-export interface AutoriaObraCompletaInput {
-	mode: 'obra_completa';
-	source_mode: 'obra_completa' | 'por_jornadas' | 'rango_personalizado';
-	confirm_mode_change?: boolean;
-	confirm_reassign?: boolean;
-	url_informe_autoria: string | null;
-	autor_ids: string[];
+export interface AutoriaCatalogItem {
+	termino_id: string;
+	termino: string;
 }
 
-export interface AutoriaPorJornadaItemInput {
-	jornada_id: string;
-	autor_ids: string[];
+export interface AutoriaAtribucionAutorPayload {
+	autor_id: string;
+	orden: number | null;
 }
 
-export interface AutoriaPorJornadasInput {
-	mode: 'por_jornadas';
-	source_mode: 'obra_completa' | 'por_jornadas' | 'rango_personalizado';
-	confirm_mode_change?: boolean;
-	confirm_reassign?: boolean;
-	url_informe_autoria: string | null;
-	items: AutoriaPorJornadaItemInput[];
+export interface AutoriaAtribucionPayload {
+	atribucion_id: string;
+	obra_id: string | null;
+	jornada_id: string | null;
+	tipo_atribucion_id: string;
+	modalidad_atribucion_id: string;
+	fuente: string;
+	url: string | null;
+	adoptada: boolean;
+	notas: string | null;
+	autores: AutoriaAtribucionAutorPayload[];
 }
-
-export interface AutoriaRangoPersonalizadoItemInput {
-	v_ini: number;
-	v_fin: number;
-	autor_ids: string[];
-}
-
-export interface AutoriaRangoPersonalizadoInput {
-	mode: 'rango_personalizado';
-	source_mode: 'obra_completa' | 'por_jornadas' | 'rango_personalizado';
-	confirm_mode_change?: boolean;
-	confirm_reassign?: boolean;
-	url_informe_autoria: string | null;
-	items: AutoriaRangoPersonalizadoItemInput[];
-}
-
-export type AutoriaInput =
-	| AutoriaObraCompletaInput
-	| AutoriaPorJornadasInput
-	| AutoriaRangoPersonalizadoInput;
-
-export type AutoriaIntegrityStatus =
-	| 'aligned'
-	| 'coverage_gap'
-	| 'coverage_overlap'
-	| 'jornadas_mismatch';
-
-export interface AutoriaIntegrity {
-	effective_total_versos: number | null;
-	status: AutoriaIntegrityStatus;
-	details: string[];
-	matches_jornadas_exactly: boolean;
-	is_single_full_range: boolean;
-	requires_reassign: boolean;
-}
-
-export type AutoriaBlockingReason = 'structure_changed' | 'custom_mode_restricted' | null;
 
 export interface AutoriaApiPayload {
 	obra: {
 		obra_id: string;
 		total_versos: number | null;
-		autoria: string[] | null;
-		url_informe_autoria: string | null;
 	};
-	rangos: Tables<'rangos'>[];
-	rangosAutores: Tables<'rangos_autores'>[];
 	autores: Array<Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>>;
 	jornadas: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>;
-	mode: 'obra_completa' | 'por_jornadas' | 'rango_personalizado';
-	integrity: AutoriaIntegrity;
-	can_use_custom_ranges: boolean;
-	requires_reassign: boolean;
-	blocking_reason: AutoriaBlockingReason;
-	default_reassign_mode: 'obra_completa';
+	catalogos: {
+		tipos: AutoriaCatalogItem[];
+		modalidades: AutoriaCatalogItem[];
+	};
+	atribuciones: AutoriaAtribucionPayload[];
 	loaded_at: string;
 }
 

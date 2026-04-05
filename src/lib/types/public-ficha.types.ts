@@ -3,10 +3,20 @@ export interface PublicFichaAutor {
 	nombre_completo: string;
 }
 
-export interface PublicFichaRangoAutoria {
-	rango_id: string;
-	v_ini: number;
-	v_fin: number;
+export interface PublicFichaAtribucionAutoria {
+	atribucion_id: string;
+	scope: 'obra' | 'jornada';
+	obra_id: string | null;
+	jornada_id: string | null;
+	jornada_num: number | null;
+	tipo_atribucion_id: string;
+	tipo_atribucion_term: string;
+	modalidad_atribucion_id: string;
+	modalidad_atribucion_term: string;
+	fuente: string;
+	url: string | null;
+	adoptada: boolean;
+	notas: string | null;
 	autores: PublicFichaAutor[];
 }
 
@@ -79,12 +89,12 @@ export interface PublicObraFichaPayload {
 		autor_ficha_publico: string | null;
 		autor_ficha_email_publico: string | null;
 		autor_ficha_orcid_publico: string | null;
-		url_informe_autoria: string | null;
 		visible_publico: boolean | null;
 	};
 	autoria: {
 		autores: PublicFichaAutor[];
-		rangos: PublicFichaRangoAutoria[];
+		atribuciones: PublicFichaAtribucionAutoria[];
+		informe_url: string | null;
 	};
 	estructura: {
 		jornadas: PublicFichaJornada[];
