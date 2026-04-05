@@ -149,11 +149,10 @@ function validateSingleCommentContext(
 		secuencia_id?: string;
 		jornada_id?: string;
 		cuadro_id?: string;
-		rango_id?: string;
 	},
 	ctx: z.RefinementCtx
 ) {
-	const refs = [data.secuencia_id, data.jornada_id, data.cuadro_id, data.rango_id].filter(Boolean);
+	const refs = [data.secuencia_id, data.jornada_id, data.cuadro_id].filter(Boolean);
 	if (refs.length > 1) {
 		ctx.addIssue({
 			code: z.ZodIssueCode.custom,
@@ -180,8 +179,7 @@ export const comentarioInputSchema = z
 		seccion: z.enum(COMENTARIO_SECCIONES).optional(),
 		secuencia_id: z.string().uuid().optional(),
 		jornada_id: z.string().uuid().optional(),
-		cuadro_id: z.string().uuid().optional(),
-		rango_id: z.string().uuid().optional()
+		cuadro_id: z.string().uuid().optional()
 	})
 	.superRefine(validateSingleCommentContext);
 
@@ -196,61 +194,51 @@ export const comentarioListQuerySchema = z
 		secuencia_id: z.string().uuid().optional(),
 		jornada_id: z.string().uuid().optional(),
 		cuadro_id: z.string().uuid().optional(),
-		rango_id: z.string().uuid().optional(),
 		limit: z.coerce.number().int().positive().max(5000).optional().default(1000),
 		offset: z.coerce.number().int().min(0).optional().default(0)
 	})
 	.superRefine(validateSingleCommentContext);
 
-const autorIdsSchema = z
-	.array(z.string().uuid())
-	.min(1, 'Debe seleccionar al menos un autor')
-	.transform((ids) => [...new Set(ids)]);
-
-const autoriaObraCompletaSchema = z.object({
-	mode: z.literal('obra_completa'),
-	source_mode: z.enum(['obra_completa', 'por_jornadas', 'rango_personalizado']),
-	confirm_mode_change: z.boolean().optional().default(false),
-	confirm_reassign: z.boolean().optional().default(false),
-	url_informe_autoria: nullableUrl,
-	autor_ids: autorIdsSchema
-});
-
-const autoriaPorJornadasItemSchema = z.object({
-	jornada_id: z.string().uuid(),
-	autor_ids: autorIdsSchema
-});
-
-const autoriaRangoItemSchema = z
+const autoriaAtribucionAutorSchema = z
 	.object({
-		v_ini: z.number().int().positive(),
-		v_fin: z.number().int().positive(),
-		autor_ids: autorIdsSchema
+		autor_id: z.string().uuid(),
+		orden: z.coerce.number().int().positive().optional().nullable().default(null)
 	})
-	.refine((input) => input.v_ini < input.v_fin, {
-		message: 'El verso inicial debe ser menor que el final',
-		path: ['v_ini']
-	});
+	.strict();
 
-export const autoriaInputSchema = z.discriminatedUnion('mode', [
-	autoriaObraCompletaSchema,
-	z.object({
-		mode: z.literal('por_jornadas'),
-		source_mode: z.enum(['obra_completa', 'por_jornadas', 'rango_personalizado']),
-		confirm_mode_change: z.boolean().optional().default(false),
-		confirm_reassign: z.boolean().optional().default(false),
-		url_informe_autoria: nullableUrl,
-		items: z.array(autoriaPorJornadasItemSchema).min(1, 'Debe definir al menos una jornada')
-	}),
-	z.object({
-		mode: z.literal('rango_personalizado'),
-		source_mode: z.enum(['obra_completa', 'por_jornadas', 'rango_personalizado']),
-		confirm_mode_change: z.boolean().optional().default(false),
-		confirm_reassign: z.boolean().optional().default(false),
-		url_informe_autoria: nullableUrl,
-		items: z.array(autoriaRangoItemSchema).min(1, 'Debe definir al menos un rango')
+const autoriaAtribucionSchema = z
+	.object({
+		jornada_id: z.string().uuid().optional().nullable().default(null),
+		tipo_atribucion_id: z.string().uuid('Tipo de atribucion requerido'),
+		modalidad_atribucion_id: z.string().uuid('Modalidad de atribucion requerida'),
+		fuente: z.string().trim().min(1, 'Fuente requerida').max(4000),
+		url: nullableUrl,
+		adoptada: z.boolean().optional().default(false),
+		notas: nullableText(20000),
+		autores: z
+			.array(autoriaAtribucionAutorSchema)
+			.min(1, 'Debe seleccionar al menos un autor')
+			.transform((items) => {
+				const seen = new Set<string>();
+				const output: Array<{ autor_id: string; orden: number | null }> = [];
+				for (const item of items) {
+					if (seen.has(item.autor_id)) continue;
+					seen.add(item.autor_id);
+					output.push(item);
+				}
+				return output.map((item, index) => ({
+					autor_id: item.autor_id,
+					orden: item.orden ?? index + 1
+				}));
+			})
 	})
-]);
+	.strict();
+
+export const autoriaInputSchema = z
+	.object({
+		atribuciones: z.array(autoriaAtribucionSchema).default([])
+	})
+	.strict();
 
 export const observacionesInputSchema = z
 	.object({

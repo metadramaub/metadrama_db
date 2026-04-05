@@ -184,7 +184,7 @@ function isUnreadCountableNotification(type: DashboardNotificationType): boolean
 }
 
 function commentTab(
-	comment: Pick<Tables<'comentarios_internos'>, 'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id' | 'rango_id'>
+	comment: Pick<Tables<'comentarios_internos'>, 'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id'>
 ): 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones' {
 	if (comment.seccion === 'datos') return 'datos';
 	if (comment.seccion === 'estructura') return 'estructura';
@@ -194,7 +194,6 @@ function commentTab(
 	if (comment.seccion === 'revision') return 'revision';
 	if (comment.secuencia_id) return 'secuencias';
 	if (comment.jornada_id || comment.cuadro_id) return 'estructura';
-	if (comment.rango_id) return 'autoria';
 	return 'revision';
 }
 
@@ -208,7 +207,6 @@ async function loadCommentContextLabels(
 			| 'secuencia_id'
 			| 'jornada_id'
 			| 'cuadro_id'
-			| 'rango_id'
 			| 'tipo_comentario_id'
 		>
 	>
@@ -397,7 +395,7 @@ export async function getRecentActivity(
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
 		.select(
-			'comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id,tipo_comentario_id'
+			'comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,tipo_comentario_id'
 		)
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })
@@ -491,7 +489,7 @@ export async function getNotifications(
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
 		.select(
-			'comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,rango_id,tipo_comentario_id'
+			'comentario_id,obra_id,created_at,seccion,secuencia_id,jornada_id,cuadro_id,tipo_comentario_id'
 		)
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })

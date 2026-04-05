@@ -17,7 +17,6 @@ type ComentarioWithMeta = Tables<'comentarios_internos'> & {
 	secuencia_id?: string | null;
 	jornada_id?: string | null;
 	cuadro_id?: string | null;
-	rango_id?: string | null;
 };
 
 function isAdminOrIp(roleTerm: string): boolean {
@@ -47,7 +46,6 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 		secuencia_id: url.searchParams.get('secuencia_id') ?? undefined,
 		jornada_id: url.searchParams.get('jornada_id') ?? undefined,
 		cuadro_id: url.searchParams.get('cuadro_id') ?? undefined,
-		rango_id: url.searchParams.get('rango_id') ?? undefined,
 		limit: url.searchParams.get('limit') ?? undefined,
 		offset: url.searchParams.get('offset') ?? undefined
 	});
@@ -55,7 +53,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 		return validationErrorResponse(parsedQuery.error);
 	}
 
-	const { seccion, secuencia_id, jornada_id, cuadro_id, rango_id, limit, offset } = parsedQuery.data;
+	const { seccion, secuencia_id, jornada_id, cuadro_id, limit, offset } = parsedQuery.data;
 
 	let commentsQuery = locals.supabase
 		.from('comentarios_internos')
@@ -67,7 +65,6 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 	if (secuencia_id) commentsQuery = commentsQuery.eq('secuencia_id', secuencia_id);
 	if (jornada_id) commentsQuery = commentsQuery.eq('jornada_id', jornada_id);
 	if (cuadro_id) commentsQuery = commentsQuery.eq('cuadro_id', cuadro_id);
-	if (rango_id) commentsQuery = commentsQuery.eq('rango_id', rango_id);
 	if (seccion) commentsQuery = commentsQuery.eq('seccion', seccion);
 
 	const { data: comments, error } = await commentsQuery;
@@ -160,8 +157,7 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 			seccion: parsed.data.seccion ?? null,
 			secuencia_id: parsed.data.secuencia_id ?? null,
 			jornada_id: parsed.data.jornada_id ?? null,
-			cuadro_id: parsed.data.cuadro_id ?? null,
-			rango_id: parsed.data.rango_id ?? null
+			cuadro_id: parsed.data.cuadro_id ?? null
 		})
 		.select('*')
 		.single();

@@ -1,195 +1,18 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { canUseCustomAutoriaRanges, getObraContext } from '$lib/server/auth';
-import { conflictResponse, validationErrorResponse } from '$lib/server/http';
+import { getObraContext } from '$lib/server/auth';
+import { validationErrorResponse } from '$lib/server/http';
 import { autoriaInputSchema, type AutoriaInputParsed } from '$lib/utils/validators';
 import type { Database, Tables } from '$lib/types/database.types';
-import type { AutoriaBlockingReason, AutoriaIntegrity } from '$lib/types/obra.types';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { AutoriaApiPayload, AutoriaAtribucionPayload } from '$lib/types/obra.types';
 
-type RangeDraft = {
-	v_ini: number;
-	v_fin: number;
-	autor_ids: string[];
-};
-
-type AutoriaMode = AutoriaInputParsed['mode'];
-type RangeBounds = Pick<Tables<'rangos'>, 'v_ini' | 'v_fin'>;
-type JornadaBounds = Pick<Tables<'jornadas'>, 'v_ini' | 'v_fin'>;
-
-type BlockingState = {
-	canUseCustomRanges: boolean;
-	requiresReassign: boolean;
-	blockingReason: AutoriaBlockingReason;
-	defaultReassignMode: 'obra_completa';
-};
-
-function sortByRange<T extends { v_ini: number; v_fin: number }>(items: T[]): T[] {
-	return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
-}
-
-function hasOverlap(ranges: Array<Pick<RangeDraft, 'v_ini' | 'v_fin'>>): boolean {
-	const sorted = sortByRange(ranges);
-	for (let i = 1; i < sorted.length; i += 1) {
-		if (sorted[i].v_ini <= sorted[i - 1].v_fin) {
-			return true;
-		}
-	}
-	return false;
-}
-
-function matchesJornadasExactly(
-	rangos: RangeBounds[],
-	jornadas: JornadaBounds[]
-): boolean {
-	if (jornadas.length === 0 || rangos.length !== jornadas.length) {
-		return false;
-	}
-	const signatures = new Set(rangos.map((range) => `${range.v_ini}:${range.v_fin}`));
-	return jornadas.every((jornada) => signatures.has(`${jornada.v_ini}:${jornada.v_fin}`));
-}
-
-function hasCoverageGap(rangos: RangeBounds[], totalVersos: number | null): boolean {
-	if (rangos.length === 0 || !totalVersos || totalVersos < 1) {
-		return false;
-	}
-	const sorted = sortByRange(rangos);
-	if (sorted[0].v_ini > 1) {
-		return true;
-	}
-	for (let i = 1; i < sorted.length; i += 1) {
-		if (sorted[i].v_ini > sorted[i - 1].v_fin + 1) {
-			return true;
-		}
-	}
-	if (sorted[sorted.length - 1].v_fin < totalVersos) {
-		return true;
-	}
-	if (sorted[sorted.length - 1].v_fin > totalVersos) {
-		return true;
-	}
-	return false;
-}
-
-function isLikelyPerJornadaDistribution(
-	rangos: RangeBounds[],
-	jornadas: JornadaBounds[]
-): boolean {
-	if (jornadas.length < 2 || rangos.length !== jornadas.length || rangos.length <= 1) {
-		return false;
-	}
-	const sorted = sortByRange(rangos);
-	if (hasOverlap(sorted)) {
-		return false;
-	}
-	for (let i = 1; i < sorted.length; i += 1) {
-		if (sorted[i].v_ini !== sorted[i - 1].v_fin + 1) {
-			return false;
-		}
-	}
-	return true;
-}
-
-function inferAutoriaIntegrity(
-	rangos: RangeBounds[],
-	jornadas: JornadaBounds[],
-	effectiveTotalVersos: number | null
-): AutoriaIntegrity {
-	const sorted = sortByRange(rangos);
-	const matchesJornadas = matchesJornadasExactly(sorted, jornadas);
-	const hasSingleRange = sorted.length === 1 && sorted[0].v_ini === 1;
-	const isSingleFullRange = Boolean(
-		hasSingleRange &&
-			(effectiveTotalVersos === null || sorted[0].v_fin === effectiveTotalVersos)
-	);
-	const details: string[] = [];
-
-	if (sorted.length === 0) {
-		return {
-			effective_total_versos: effectiveTotalVersos,
-			status: 'aligned',
-			details,
-			matches_jornadas_exactly: matchesJornadas,
-			is_single_full_range: false,
-			requires_reassign: false
-		};
-	}
-
-	if (hasOverlap(sorted)) {
-		details.push('Los rangos de autoría se solapan.');
-		return {
-			effective_total_versos: effectiveTotalVersos,
-			status: 'coverage_overlap',
-			details,
-			matches_jornadas_exactly: matchesJornadas,
-			is_single_full_range: isSingleFullRange,
-			requires_reassign: true
-		};
-	}
-
-	if (hasCoverageGap(sorted, effectiveTotalVersos)) {
-		if (effectiveTotalVersos) {
-			details.push(
-				`La estructura actual llega hasta vv. ${effectiveTotalVersos}, pero la autoría no cubre ese total de forma continua.`
-			);
-		} else {
-			details.push('La autoría tiene huecos o límites incoherentes.');
-		}
-		return {
-			effective_total_versos: effectiveTotalVersos,
-			status: 'coverage_gap',
-			details,
-			matches_jornadas_exactly: matchesJornadas,
-			is_single_full_range: isSingleFullRange,
-			requires_reassign: true
-		};
-	}
-
-	if (isLikelyPerJornadaDistribution(sorted, jornadas) && !matchesJornadas) {
-		details.push('La autoría parece distribuida por jornadas, pero no coincide con los versos actuales de jornadas.');
-		return {
-			effective_total_versos: effectiveTotalVersos,
-			status: 'jornadas_mismatch',
-			details,
-			matches_jornadas_exactly: matchesJornadas,
-			is_single_full_range: isSingleFullRange,
-			requires_reassign: true
-		};
-	}
-
-	return {
-		effective_total_versos: effectiveTotalVersos,
-		status: 'aligned',
-		details,
-		matches_jornadas_exactly: matchesJornadas,
-		is_single_full_range: isSingleFullRange,
-		requires_reassign: false
-	};
-}
-
-function inferAutoriaMode(
-	rangos: Array<Pick<Tables<'rangos'>, 'v_ini' | 'v_fin'>>,
-	jornadas: Array<Pick<Tables<'jornadas'>, 'v_ini' | 'v_fin'>>,
-	totalVersos: number | null
-): AutoriaMode {
-	if (rangos.length === 0) {
-		return 'obra_completa';
-	}
-
-	if (
-		rangos.length === 1 &&
-		rangos[0].v_ini === 1 &&
-		(totalVersos ? rangos[0].v_fin === totalVersos : true)
-	) {
-		return 'obra_completa';
-	}
-
-	if (matchesJornadasExactly(rangos, jornadas)) {
-		return 'por_jornadas';
-	}
-
-	return 'rango_personalizado';
-}
+type AuthorCatalogRow = Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>;
+type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
+type VocabRow = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>;
+type AtribucionRow = Tables<'atribuciones'>;
+type AtribucionAutorRow = Pick<Tables<'atribucion_autores'>, 'atribucion_id' | 'autor_id' | 'orden'>;
+type ValidationIssue = { path: string; message: string };
 
 async function resolveTotalVersos(
 	supabase: SupabaseClient<Database>,
@@ -217,147 +40,253 @@ async function resolveTotalVersos(
 	return resolved > 0 ? resolved : null;
 }
 
-function normalizeDraftsFromPayload(
-	payload: AutoriaInputParsed,
-	jornadas: Pick<Tables<'jornadas'>, 'jornada_id' | 'v_ini' | 'v_fin'>[],
-	totalVersos: number | null
-): { drafts: RangeDraft[]; validationMessage?: string } {
-	if (payload.mode === 'obra_completa') {
-		if (!totalVersos || totalVersos < 2) {
-			return {
-				drafts: [],
-				validationMessage:
-					'No se puede asignar autoría de obra completa sin total_versos (o estructura/secuencias con v_fin).'
-			};
-		}
-		return {
-			drafts: [
-				{
-					v_ini: 1,
-					v_fin: totalVersos,
-					autor_ids: payload.autor_ids
-				}
-			]
-		};
+async function loadCatalogs(supabase: SupabaseClient<Database>) {
+	const [tiposResp, modalidadesResp] = await Promise.all([
+		supabase
+			.from('vocabularios')
+			.select('termino_id,termino')
+			.eq('categoria', 'tipo_atribucion')
+			.eq('activo', true)
+			.order('orden'),
+		supabase
+			.from('vocabularios')
+			.select('termino_id,termino')
+			.eq('categoria', 'modalidad_atribucion')
+			.eq('activo', true)
+			.order('orden')
+	]);
+
+	return {
+		tipos: (tiposResp.data ?? []) as VocabRow[],
+		modalidades: (modalidadesResp.data ?? []) as VocabRow[]
+	};
+}
+
+function sortAtribuciones(
+	atribuciones: AtribucionRow[],
+	jornadaById: Map<string, JornadaRow>
+): AtribucionRow[] {
+	return [...atribuciones].sort((a, b) => {
+		const aJornada = a.jornada_id ? jornadaById.get(a.jornada_id) : null;
+		const bJornada = b.jornada_id ? jornadaById.get(b.jornada_id) : null;
+		const aNum = aJornada?.jornada_num ?? 0;
+		const bNum = bJornada?.jornada_num ?? 0;
+		return aNum - bNum || a.created_at.localeCompare(b.created_at) || a.atribucion_id.localeCompare(b.atribucion_id);
+	});
+}
+
+function mapAtribucionesPayload(
+	rows: AtribucionRow[],
+	links: AtribucionAutorRow[],
+	jornadaById: Map<string, JornadaRow>
+): AutoriaAtribucionPayload[] {
+	const linksByAtribucion = new Map<string, AtribucionAutorRow[]>();
+	for (const link of links) {
+		const current = linksByAtribucion.get(link.atribucion_id) ?? [];
+		current.push(link);
+		linksByAtribucion.set(link.atribucion_id, current);
 	}
 
-	if (payload.mode === 'por_jornadas') {
-		if (jornadas.length === 0) {
-			return { drafts: [], validationMessage: 'La obra no tiene jornadas para usar este modo.' };
-		}
-
-		const inputMap = new Map(payload.items.map((item) => [item.jornada_id, item]));
-
-		if (inputMap.size !== jornadas.length || jornadas.some((j) => !inputMap.has(j.jornada_id))) {
-			return {
-				drafts: [],
-				validationMessage: 'Debe asignar autores para todas las jornadas de la obra.'
-			};
-		}
-
-		const drafts: RangeDraft[] = jornadas.map((jornada) => {
-			const entry = inputMap.get(jornada.jornada_id)!;
-			return {
-				v_ini: jornada.v_ini,
-				v_fin: jornada.v_fin,
-				autor_ids: entry.autor_ids
-			};
-		});
-
-		return { drafts };
-	}
-
-	const drafts = payload.items.map((item) => ({
-		v_ini: item.v_ini,
-		v_fin: item.v_fin,
-		autor_ids: item.autor_ids
+	return sortAtribuciones(rows, jornadaById).map((row) => ({
+		atribucion_id: row.atribucion_id,
+		obra_id: row.obra_id,
+		jornada_id: row.jornada_id,
+		tipo_atribucion_id: row.tipo_atribucion_id,
+		modalidad_atribucion_id: row.modalidad_atribucion_id,
+		fuente: row.fuente ?? '',
+		url: row.url,
+		adoptada: row.adoptada,
+		notas: row.notas,
+		autores: [...(linksByAtribucion.get(row.atribucion_id) ?? [])]
+			.sort((a, b) => (a.orden ?? 99999) - (b.orden ?? 99999) || a.autor_id.localeCompare(b.autor_id))
+			.map((link) => ({ autor_id: link.autor_id, orden: link.orden ?? null }))
 	}));
-
-	return { drafts };
 }
 
 async function loadAutoriaData(
 	supabase: SupabaseClient<Database>,
 	obraId: string,
 	declaredTotalVersos: number | null
-) {
+): Promise<Omit<AutoriaApiPayload, 'loaded_at'>> {
 	const effectiveTotalVersos = await resolveTotalVersos(supabase, obraId, declaredTotalVersos);
-	const [rangosResp, jornadasResp, autoresResp] = await Promise.all([
-		supabase.from('rangos').select('*').eq('obra_id', obraId).order('v_ini'),
+
+	const [jornadasResp, autoresResp, catalogs] = await Promise.all([
 		supabase.from('jornadas').select('jornada_id,jornada_num,v_ini,v_fin').eq('obra_id', obraId).order('jornada_num'),
-		supabase.from('autores').select('autor_id,nombre_completo,nombre_normalizado').order('nombre_normalizado')
+		supabase.from('autores').select('autor_id,nombre_completo,nombre_normalizado').order('nombre_normalizado'),
+		loadCatalogs(supabase)
 	]);
 
-	const rangos = (rangosResp.data ?? []) as Tables<'rangos'>[];
-	const jornadas =
-		(jornadasResp.data ?? []) as Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>[];
-	const autores = (autoresResp.data ?? []) as Pick<
-		Tables<'autores'>,
-		'autor_id' | 'nombre_completo' | 'nombre_normalizado'
-	>[];
+	const jornadas = (jornadasResp.data ?? []) as JornadaRow[];
+	const autores = (autoresResp.data ?? []) as AuthorCatalogRow[];
+	const jornadaIds = jornadas.map((row) => row.jornada_id);
 
-	const rangoIds = rangos.map((row) => row.rango_id);
-	const rangosAutoresResp =
-		rangoIds.length > 0
-			? await supabase.from('rangos_autores').select('*').in('rango_id', rangoIds)
-			: { data: [] };
-	const rangosAutores = (rangosAutoresResp.data ?? []) as Tables<'rangos_autores'>[];
+	const [atribucionesObraResp, atribucionesJornadaResp] = await Promise.all([
+		supabase.from('atribuciones').select('*').eq('obra_id', obraId),
+		jornadaIds.length > 0
+			? supabase.from('atribuciones').select('*').in('jornada_id', jornadaIds)
+			: Promise.resolve({ data: [] as AtribucionRow[] })
+	]);
+
+	const atribucionesRows = [
+		...((atribucionesObraResp.data ?? []) as AtribucionRow[]),
+		...((atribucionesJornadaResp.data ?? []) as AtribucionRow[])
+	];
+	const atribucionIds = [...new Set(atribucionesRows.map((row) => row.atribucion_id))];
+
+	const atribucionAutoresResp =
+		atribucionIds.length > 0
+			? await supabase
+					.from('atribucion_autores')
+					.select('atribucion_id,autor_id,orden')
+					.in('atribucion_id', atribucionIds)
+			: { data: [] as AtribucionAutorRow[] };
+	const atribucionAutoresRows = (atribucionAutoresResp.data ?? []) as AtribucionAutorRow[];
+
+	const jornadaById = new Map(jornadas.map((row) => [row.jornada_id, row]));
 
 	return {
-		rangos,
-		rangosAutores,
+		obra: {
+			obra_id: obraId,
+			total_versos: effectiveTotalVersos
+		},
 		autores,
 		jornadas,
-		mode: inferAutoriaMode(rangos, jornadas, effectiveTotalVersos),
-		integrity: inferAutoriaIntegrity(rangos, jornadas, effectiveTotalVersos)
+		catalogos: {
+			tipos: catalogs.tipos,
+			modalidades: catalogs.modalidades
+		},
+		atribuciones: mapAtribucionesPayload(atribucionesRows, atribucionAutoresRows, jornadaById)
 	};
 }
 
-function resolveBlockingState(
-	roleTerm: string,
-	mode: AutoriaMode,
-	integrity: AutoriaIntegrity
-): BlockingState {
-	const canUseCustomRanges = canUseCustomAutoriaRanges(roleTerm);
-	const customModeRestricted = mode === 'rango_personalizado' && !canUseCustomRanges;
-	const requiresReassign = integrity.requires_reassign || customModeRestricted;
-	const blockingReason: AutoriaBlockingReason = customModeRestricted
-		? 'custom_mode_restricted'
-		: integrity.requires_reassign
-			? 'structure_changed'
-			: null;
+function pushIssue(issues: ValidationIssue[], path: string, message: string) {
+	issues.push({ path, message });
+}
 
-	return {
-		canUseCustomRanges,
-		requiresReassign,
-		blockingReason,
-		defaultReassignMode: 'obra_completa'
-	};
+function buildValidationResponse(issues: ValidationIssue[]) {
+	return json({ error: 'validation_error', details: issues }, { status: 422 });
+}
+
+function validateAdoptedRules(atribuciones: AutoriaInputParsed['atribuciones'], issues: ValidationIssue[]) {
+	const adoptedObra = atribuciones.filter((item) => !item.jornada_id && item.adoptada).length;
+	if (adoptedObra > 1) {
+		pushIssue(
+			issues,
+			'atribuciones',
+			'Solo puede haber una atribucion adoptada para el ambito global de obra.'
+		);
+	}
+
+	const adoptedByJornada = new Map<string, number>();
+	for (const item of atribuciones) {
+		if (!item.jornada_id || !item.adoptada) continue;
+		adoptedByJornada.set(item.jornada_id, (adoptedByJornada.get(item.jornada_id) ?? 0) + 1);
+	}
+	for (const [jornadaId, count] of adoptedByJornada.entries()) {
+		if (count <= 1) continue;
+		pushIssue(
+			issues,
+			'atribuciones',
+			`La jornada ${jornadaId} tiene mas de una atribucion adoptada.`
+		);
+	}
+}
+
+function validateModalidadRules(
+	atribuciones: AutoriaInputParsed['atribuciones'],
+	modalidadTermById: Map<string, string>,
+	issues: ValidationIssue[]
+) {
+	atribuciones.forEach((item, index) => {
+		const modalidadTerm = (modalidadTermById.get(item.modalidad_atribucion_id) ?? '').trim().toLowerCase();
+		const authorCount = item.autores.length;
+
+		if (modalidadTerm === 'unica' && authorCount !== 1) {
+			pushIssue(
+				issues,
+				`atribuciones.${index}.autores`,
+				'La modalidad unica exige exactamente 1 autor.'
+			);
+		}
+
+		if ((modalidadTerm === 'alternativa' || modalidadTerm === 'colaborativa') && authorCount < 2) {
+			pushIssue(
+				issues,
+				`atribuciones.${index}.autores`,
+				'Las modalidades alternativa y colaborativa exigen 2 o mas autores.'
+			);
+		}
+	});
+}
+
+async function replaceAtribuciones(
+	supabase: SupabaseClient<Database>,
+	obraId: string,
+	jornadaIds: string[],
+	atribuciones: AutoriaInputParsed['atribuciones']
+): Promise<{ errorMessage: string | null }> {
+	const [deleteObraResp, deleteJornadaResp] = await Promise.all([
+		supabase.from('atribuciones').delete().eq('obra_id', obraId),
+		jornadaIds.length > 0
+			? supabase.from('atribuciones').delete().in('jornada_id', jornadaIds)
+			: Promise.resolve({ error: null })
+	]);
+
+	if (deleteObraResp.error) {
+		return { errorMessage: deleteObraResp.error.message };
+	}
+	if (deleteJornadaResp.error) {
+		return { errorMessage: deleteJornadaResp.error.message };
+	}
+
+	for (const item of atribuciones) {
+		const { data: inserted, error: insertError } = await supabase
+			.from('atribuciones')
+			.insert({
+				obra_id: item.jornada_id ? null : obraId,
+				jornada_id: item.jornada_id ?? null,
+				tipo_atribucion_id: item.tipo_atribucion_id,
+				modalidad_atribucion_id: item.modalidad_atribucion_id,
+				fuente: item.fuente.trim(),
+				url: item.url ?? null,
+				adoptada: item.adoptada,
+				notas: item.notas ?? null
+			})
+			.select('atribucion_id')
+			.single();
+
+		if (insertError || !inserted) {
+			return { errorMessage: insertError?.message ?? 'No se pudo crear una atribucion.' };
+		}
+
+		const links = item.autores.map((autor, index) => ({
+			atribucion_id: inserted.atribucion_id,
+			autor_id: autor.autor_id,
+			orden: autor.orden ?? index + 1
+		}));
+
+		if (links.length > 0) {
+			const linksResp = await supabase.from('atribucion_autores').insert(links);
+			if (linksResp.error) {
+				return { errorMessage: linksResp.error.message };
+			}
+		}
+	}
+
+	return { errorMessage: null };
 }
 
 export const GET: RequestHandler = async ({ locals, params }) => {
-	const { obra, profile } = await getObraContext({ locals }, params.id, { requireEdit: false });
+	const { obra } = await getObraContext({ locals }, params.id, { requireEdit: false });
 	const data = await loadAutoriaData(locals.supabase, obra.obra_id, obra.total_versos);
-	const blocking = resolveBlockingState(profile.roleTerm, data.mode, data.integrity);
-
 	return json({
 		loaded_at: new Date().toISOString(),
-		obra: {
-			obra_id: obra.obra_id,
-			total_versos: obra.total_versos,
-			autoria: obra.autoria,
-			url_informe_autoria: obra.url_informe_autoria
-		},
-		can_use_custom_ranges: blocking.canUseCustomRanges,
-		requires_reassign: blocking.requiresReassign,
-		blocking_reason: blocking.blockingReason,
-		default_reassign_mode: blocking.defaultReassignMode,
 		...data
 	});
 };
 
 export const PUT: RequestHandler = async ({ locals, params, request }) => {
-	const { obra, profile } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { obra } = await getObraContext({ locals }, params.id, { requireEdit: true });
 
 	const body = await request.json().catch(() => ({}));
 	const parsed = autoriaInputSchema.safeParse(body);
@@ -366,220 +295,81 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const payload = parsed.data;
+
 	const jornadasResp = await locals.supabase
 		.from('jornadas')
-		.select('jornada_id,v_ini,v_fin')
-		.eq('obra_id', obra.obra_id)
-		.order('v_ini');
-	const jornadas = (jornadasResp.data ?? []) as Pick<Tables<'jornadas'>, 'jornada_id' | 'v_ini' | 'v_fin'>[];
-
-	const totalVersos = await resolveTotalVersos(locals.supabase, obra.obra_id, obra.total_versos);
-	const existingResp = await locals.supabase
-		.from('rangos')
-		.select('rango_id,v_ini,v_fin')
-		.eq('obra_id', obra.obra_id)
-		.order('v_ini');
-	const existingRanges = (existingResp.data ?? []) as Pick<
-		Tables<'rangos'>,
-		'rango_id' | 'v_ini' | 'v_fin'
-	>[];
-	const currentMode = inferAutoriaMode(existingRanges, jornadas, totalVersos);
-	const currentIntegrity = inferAutoriaIntegrity(existingRanges, jornadas, totalVersos);
-	const currentBlocking = resolveBlockingState(profile.roleTerm, currentMode, currentIntegrity);
-
-	if (payload.mode === 'rango_personalizado' && !currentBlocking.canUseCustomRanges) {
-		return json(
-			{
-				error: 'forbidden',
-				message: 'Tu rol no puede guardar autoría en rangos personalizados.'
-			},
-			{ status: 403 }
-		);
-	}
-
-	if (currentBlocking.requiresReassign && payload.confirm_reassign !== true) {
-		return json(
-			{
-				error: 'conflict',
-				message:
-					currentBlocking.blockingReason === 'custom_mode_restricted'
-						? 'Tu rol no puede editar la autoría actual en rangos personalizados. Reasigna autoría antes de guardar.'
-						: 'La autoría actual no coincide con la estructura. Reasigna autoría antes de guardar.',
-				integrity: currentIntegrity,
-				blocking_reason: currentBlocking.blockingReason,
-				requires_reassign: true,
-				details: [
-					{
-						path: 'confirm_reassign',
-						message: 'Debes confirmar la reasignación de autoría para aplicar cambios.'
-					}
-				]
-			},
-			{ status: 409 }
-		);
-	}
-
-	const modeChanged = payload.mode !== currentMode;
-	if (modeChanged && payload.confirm_mode_change !== true) {
-		return json(
-			{
-				error: 'conflict',
-				message: 'Debes confirmar el cambio de modo antes de guardar.',
-				current_mode: currentMode,
-				details: [{ path: 'confirm_mode_change', message: 'Falta confirmación para cambio de modo.' }]
-			},
-			{ status: 409 }
-		);
-	}
-
-	if (currentMode !== 'obra_completa' && payload.mode === 'obra_completa' && payload.confirm_mode_change !== true) {
-		return json(
-			{
-				error: 'conflict',
-				message: 'Guardar en obra completa reemplaza los rangos actuales. Confirma primero la conversión.',
-				current_mode: currentMode,
-				details: [
-					{
-						path: 'confirm_mode_change',
-						message: 'Se requiere confirmación explícita para convertir a obra completa.'
-					}
-				]
-			},
-			{ status: 409 }
-		);
-	}
-
-	const normalized = normalizeDraftsFromPayload(payload, jornadas, totalVersos);
-	if (normalized.validationMessage) {
-		return json(
-			{ error: 'validation_error', details: [{ path: 'mode', message: normalized.validationMessage }] },
-			{ status: 422 }
-		);
-	}
-
-	const drafts = sortByRange(normalized.drafts);
-	if (hasOverlap(drafts)) {
-		return conflictResponse('Los rangos de autoría se solapan.');
-	}
-
-	if (totalVersos && drafts.some((draft) => draft.v_fin > totalVersos)) {
-		return json(
-			{
-				error: 'validation_error',
-				details: [
-					{ path: 'items', message: `Hay rangos que superan el total de versos de la obra (${totalVersos}).` }
-				]
-			},
-			{ status: 422 }
-		);
-	}
-
-	const uniqueAuthorIds = [...new Set(drafts.flatMap((draft) => draft.autor_ids))];
-	const autoresResp = uniqueAuthorIds.length
-		? await locals.supabase
-				.from('autores')
-				.select('autor_id,nombre_completo')
-				.in('autor_id', uniqueAuthorIds)
-		: { data: [] };
-	const autoresRows = (autoresResp.data ?? []) as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo'>[];
-
-	if (autoresRows.length !== uniqueAuthorIds.length) {
-		return json(
-			{
-				error: 'validation_error',
-				details: [{ path: 'autor_ids', message: 'Uno o varios autores no existen en catálogo.' }]
-			},
-			{ status: 422 }
-		);
-	}
-
-	const existingIds = existingRanges.map((row) => row.rango_id);
-	if (existingIds.length > 0) {
-		const { error: unlinkError } = await locals.supabase
-			.from('rangos_autores')
-			.delete()
-			.in('rango_id', existingIds);
-		if (unlinkError) {
-			return json(
-				{ error: 'db_error', message: unlinkError.message ?? 'No se pudieron limpiar autores por rango.' },
-				{ status: 500 }
-			);
-		}
-	}
-
-	const { error: deleteRangesError } = await locals.supabase
-		.from('rangos')
-		.delete()
+		.select('jornada_id')
 		.eq('obra_id', obra.obra_id);
-	if (deleteRangesError) {
-		return json(
-			{ error: 'db_error', message: deleteRangesError.message ?? 'No se pudieron limpiar rangos previos.' },
-			{ status: 500 }
-		);
-	}
+	const jornadaIds = [...new Set((jornadasResp.data ?? []).map((row) => row.jornada_id))];
+	const jornadaIdSet = new Set(jornadaIds);
 
-	for (const draft of drafts) {
-		const { data: rango, error: rangoError } = await locals.supabase
-			.from('rangos')
-			.insert({
-				obra_id: obra.obra_id,
-				v_ini: draft.v_ini,
-				v_fin: draft.v_fin,
-				notas: null
-			})
-			.select('*')
-			.single();
-
-		if (rangoError || !rango) {
-			return json(
-				{ error: 'db_error', message: rangoError?.message ?? 'No se pudo insertar rango de autoría.' },
-				{ status: 500 }
-			);
-		}
-
-		const linkRows = draft.autor_ids.map((autorId) => ({
-			rango_id: rango.rango_id,
-			autor_id: autorId
-		}));
-		const { error: linkError } = await locals.supabase.from('rangos_autores').insert(linkRows);
-		if (linkError) {
-			return json(
-				{ error: 'db_error', message: linkError.message ?? 'No se pudo vincular autores con rango.' },
-				{ status: 500 }
-			);
-		}
-	}
-
-	const authorNameMap = new Map(autoresRows.map((row) => [row.autor_id, row.nombre_completo]));
-	const autoriaNames = [...new Set(uniqueAuthorIds.map((id) => authorNameMap.get(id)).filter(Boolean) as string[])].sort(
-		(a, b) => a.localeCompare(b, 'es')
+	const catalogs = await loadCatalogs(locals.supabase);
+	const tipoIdSet = new Set(catalogs.tipos.map((item) => item.termino_id));
+	const modalidadTermById = new Map(
+		catalogs.modalidades.map((item) => [item.termino_id, item.termino])
 	);
+	const modalidadIdSet = new Set(catalogs.modalidades.map((item) => item.termino_id));
 
-	const { data: obraUpdated, error: obraUpdateError } = await locals.supabase
-		.from('obras')
-		.update({
-			url_informe_autoria: payload.url_informe_autoria,
-			autoria: autoriaNames
-		})
-		.eq('obra_id', obra.obra_id)
-		.select('obra_id,total_versos,autoria,url_informe_autoria')
-		.single();
-	if (obraUpdateError || !obraUpdated) {
-		return json(
-			{ error: 'db_error', message: obraUpdateError?.message ?? 'No se pudo actualizar obra.autoría.' },
-			{ status: 500 }
-		);
+	const issues: ValidationIssue[] = [];
+
+	payload.atribuciones.forEach((item, index) => {
+		if (item.jornada_id && !jornadaIdSet.has(item.jornada_id)) {
+			pushIssue(
+				issues,
+				`atribuciones.${index}.jornada_id`,
+				'La jornada indicada no pertenece a la obra.'
+			);
+		}
+		if (!tipoIdSet.has(item.tipo_atribucion_id)) {
+			pushIssue(
+				issues,
+				`atribuciones.${index}.tipo_atribucion_id`,
+				'Tipo de atribucion invalido.'
+			);
+		}
+		if (!modalidadIdSet.has(item.modalidad_atribucion_id)) {
+			pushIssue(
+				issues,
+				`atribuciones.${index}.modalidad_atribucion_id`,
+				'Modalidad de atribucion invalida.'
+			);
+		}
+	});
+
+	validateModalidadRules(payload.atribuciones, modalidadTermById, issues);
+	validateAdoptedRules(payload.atribuciones, issues);
+
+	const authorIds = [
+		...new Set(payload.atribuciones.flatMap((item) => item.autores.map((autor) => autor.autor_id)))
+	];
+	const authorsResp =
+		authorIds.length > 0
+			? await locals.supabase.from('autores').select('autor_id').in('autor_id', authorIds)
+			: { data: [] as Pick<Tables<'autores'>, 'autor_id'>[] };
+	const foundAuthorIds = new Set((authorsResp.data ?? []).map((row) => row.autor_id));
+	for (const authorId of authorIds) {
+		if (!foundAuthorIds.has(authorId)) {
+			pushIssue(issues, 'atribuciones', `El autor ${authorId} no existe en catalogo.`);
+		}
 	}
 
-	const data = await loadAutoriaData(locals.supabase, obra.obra_id, obraUpdated.total_versos);
-	const blocking = resolveBlockingState(profile.roleTerm, data.mode, data.integrity);
+	if (issues.length > 0) {
+		return buildValidationResponse(issues);
+	}
+
+	const replaceResult = await replaceAtribuciones(
+		locals.supabase,
+		obra.obra_id,
+		jornadaIds,
+		payload.atribuciones
+	);
+	if (replaceResult.errorMessage) {
+		return json({ error: 'db_error', message: replaceResult.errorMessage }, { status: 500 });
+	}
+
+	const data = await loadAutoriaData(locals.supabase, obra.obra_id, obra.total_versos);
 	return json({
 		loaded_at: new Date().toISOString(),
-		obra: obraUpdated,
-		can_use_custom_ranges: blocking.canUseCustomRanges,
-		requires_reassign: blocking.requiresReassign,
-		blocking_reason: blocking.blockingReason,
-		default_reassign_mode: blocking.defaultReassignMode,
 		...data
 	});
 };

@@ -50,6 +50,116 @@ export type Database = {
         }
         Relationships: []
       }
+      atribucion_autores: {
+        Row: {
+          atribucion_id: string
+          autor_id: string
+          created_at: string
+          orden: number | null
+          updated_at: string
+        }
+        Insert: {
+          atribucion_id: string
+          autor_id: string
+          created_at?: string
+          orden?: number | null
+          updated_at?: string
+        }
+        Update: {
+          atribucion_id?: string
+          autor_id?: string
+          created_at?: string
+          orden?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "atribucion_autores_atribucion_id_fkey"
+            columns: ["atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "atribuciones"
+            referencedColumns: ["atribucion_id"]
+          },
+          {
+            foreignKeyName: "atribucion_autores_autor_id_fkey"
+            columns: ["autor_id"]
+            isOneToOne: false
+            referencedRelation: "autores"
+            referencedColumns: ["autor_id"]
+          },
+        ]
+      }
+      atribuciones: {
+        Row: {
+          adoptada: boolean
+          atribucion_id: string
+          created_at: string
+          fuente: string
+          jornada_id: string | null
+          modalidad_atribucion_id: string
+          notas: string | null
+          obra_id: string | null
+          tipo_atribucion_id: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          adoptada?: boolean
+          atribucion_id?: string
+          created_at?: string
+          fuente?: string
+          jornada_id?: string | null
+          modalidad_atribucion_id: string
+          notas?: string | null
+          obra_id?: string | null
+          tipo_atribucion_id: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          adoptada?: boolean
+          atribucion_id?: string
+          created_at?: string
+          fuente?: string
+          jornada_id?: string | null
+          modalidad_atribucion_id?: string
+          notas?: string | null
+          obra_id?: string | null
+          tipo_atribucion_id?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "atribuciones_jornada_id_fkey"
+            columns: ["jornada_id"]
+            isOneToOne: false
+            referencedRelation: "jornadas"
+            referencedColumns: ["jornada_id"]
+          },
+          {
+            foreignKeyName: "atribuciones_modalidad_atribucion_id_fkey"
+            columns: ["modalidad_atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "atribuciones_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "atribuciones_tipo_atribucion_id_fkey"
+            columns: ["tipo_atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       comentarios_internos: {
         Row: {
           comentario: string
@@ -58,7 +168,6 @@ export type Database = {
           cuadro_id: string | null
           jornada_id: string | null
           obra_id: string
-          rango_id: string | null
           seccion: string | null
           secuencia_id: string | null
           tipo_comentario_id: string
@@ -72,7 +181,6 @@ export type Database = {
           cuadro_id?: string | null
           jornada_id?: string | null
           obra_id: string
-          rango_id?: string | null
           seccion?: string | null
           secuencia_id?: string | null
           tipo_comentario_id: string
@@ -86,7 +194,6 @@ export type Database = {
           cuadro_id?: string | null
           jornada_id?: string | null
           obra_id?: string
-          rango_id?: string | null
           seccion?: string | null
           secuencia_id?: string | null
           tipo_comentario_id?: string
@@ -114,13 +221,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
-          },
-          {
-            foreignKeyName: "comentarios_internos_rango_id_fkey"
-            columns: ["rango_id"]
-            isOneToOne: false
-            referencedRelation: "rangos"
-            referencedColumns: ["rango_id"]
           },
           {
             foreignKeyName: "comentarios_internos_secuencia_id_fkey"
@@ -353,7 +453,6 @@ export type Database = {
       obras: {
         Row: {
           autor_ficha_publico: string | null
-          autoria: string[] | null
           bibliografia: string | null
           created_at: string
           edicion: string | null
@@ -373,13 +472,11 @@ export type Database = {
           titulo_normalizado: string | null
           total_versos: number | null
           updated_at: string
-          url_informe_autoria: string | null
           variantes_titulo: string[] | null
           visible_publico: boolean | null
         }
         Insert: {
           autor_ficha_publico?: string | null
-          autoria?: string[] | null
           bibliografia?: string | null
           created_at?: string
           edicion?: string | null
@@ -399,13 +496,11 @@ export type Database = {
           titulo_normalizado?: string | null
           total_versos?: number | null
           updated_at?: string
-          url_informe_autoria?: string | null
           variantes_titulo?: string[] | null
           visible_publico?: boolean | null
         }
         Update: {
           autor_ficha_publico?: string | null
-          autoria?: string[] | null
           bibliografia?: string | null
           created_at?: string
           edicion?: string | null
@@ -425,7 +520,6 @@ export type Database = {
           titulo_normalizado?: string | null
           total_versos?: number | null
           updated_at?: string
-          url_informe_autoria?: string | null
           variantes_titulo?: string[] | null
           visible_publico?: boolean | null
         }
@@ -522,80 +616,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
-      }
-      rangos: {
-        Row: {
-          created_at: string
-          notas: string | null
-          obra_id: string
-          rango_id: string
-          updated_at: string
-          v_fin: number
-          v_ini: number
-        }
-        Insert: {
-          created_at?: string
-          notas?: string | null
-          obra_id: string
-          rango_id?: string
-          updated_at?: string
-          v_fin: number
-          v_ini: number
-        }
-        Update: {
-          created_at?: string
-          notas?: string | null
-          obra_id?: string
-          rango_id?: string
-          updated_at?: string
-          v_fin?: number
-          v_ini?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "rangos_obra_id_fkey"
-            columns: ["obra_id"]
-            isOneToOne: false
-            referencedRelation: "obras"
-            referencedColumns: ["obra_id"]
-          },
-        ]
-      }
-      rangos_autores: {
-        Row: {
-          autor_id: string
-          created_at: string
-          rango_id: string
-          updated_at: string
-        }
-        Insert: {
-          autor_id: string
-          created_at?: string
-          rango_id: string
-          updated_at?: string
-        }
-        Update: {
-          autor_id?: string
-          created_at?: string
-          rango_id?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "rangos_autores_autor_id_fkey"
-            columns: ["autor_id"]
-            isOneToOne: false
-            referencedRelation: "autores"
-            referencedColumns: ["autor_id"]
-          },
-          {
-            foreignKeyName: "rangos_autores_rango_id_fkey"
-            columns: ["rango_id"]
-            isOneToOne: false
-            referencedRelation: "rangos"
-            referencedColumns: ["rango_id"]
-          },
-        ]
       }
       secuencias_metricas: {
         Row: {
