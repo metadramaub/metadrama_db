@@ -47,6 +47,12 @@
 	}
 
 	let currentTab = $state<TabId>(resolveTab(get(page).url.searchParams.get('tab')));
+	const focusSecuenciaId = $derived.by(() => {
+		const raw = $page.url.searchParams.get('focusSecuenciaId');
+		if (!raw) return null;
+		const normalized = raw.trim();
+		return normalized.length > 0 ? normalized : null;
+	});
 	const tabs = [
 		{ id: 'datos', label: 'Datos de la obra' },
 		{ id: 'estructura', label: 'Estructura' },
@@ -403,6 +409,7 @@
 			caracterizacionRangoOptions={caracterizacionRangoOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
+			focusSecuenciaId={focusSecuenciaId}
 			onSecuenciasChange={handleSecuenciasChange}
 		/>
 	{:else if currentTab === 'autoria'}

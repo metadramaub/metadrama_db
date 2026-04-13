@@ -122,6 +122,7 @@ export interface ComentarioListItem extends Tables<'comentarios_internos'> {
 	nombre_editor?: string;
 	tipo_comentario_term?: 'general' | 'revision' | 'tecnico' | 'estado';
 	contexto_label?: string | null;
+	secuencia_estrofa_term?: string | null;
 	can_edit?: boolean;
 	can_delete?: boolean;
 	locked?: boolean;
