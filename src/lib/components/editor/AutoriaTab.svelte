@@ -32,6 +32,7 @@
 		obraId: string;
 		obra: Tables<'obras'>;
 		roleTerm: string;
+		saveRequestToken?: number;
 		readOnly?: boolean;
 		canComment?: boolean;
 	}>();
@@ -49,6 +50,7 @@
 	let baselineSnapshot = $state('');
 	let scopeView = $state<ScopeView>('obra');
 	let openDraftId = $state<string | null>(null);
+	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
 
 	const canComment = $derived(Boolean(props.canComment));
 	const effectiveReadOnly = $derived(Boolean(props.readOnly));
@@ -339,6 +341,13 @@
 		pushToast('success', 'Autoría guardada');
 	}
 
+	$effect(() => {
+		const nextToken = props.saveRequestToken ?? 0;
+		if (nextToken <= lastHandledSaveRequestToken) return;
+		lastHandledSaveRequestToken = nextToken;
+		void save();
+	});
+
 	onMount(() => {
 		void refreshFromServer(true);
 	});
@@ -483,16 +492,6 @@
 {/snippet}
 
 <section class="space-y-4">
-	<div class="flex justify-end">
-		<Button
-			variant="success"
-			onclick={save}
-			disabled={savingNow || effectiveReadOnly || loadingFromServer || loading}
-		>
-			{savingNow ? 'Guardando...' : 'Guardar'}
-		</Button>
-	</div>
-
 	{#if loading}
 		<div class="card p-4">
 			<p class="text-sm text-[color:var(--muted-foreground)]">Cargando módulo de autoría...</p>

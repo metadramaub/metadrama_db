@@ -7,6 +7,7 @@
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import type { Tables } from '$lib/types/database.types';
+	import Button from '$lib/components/ui/button.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import DatosObraTab from '$lib/components/editor/DatosObraTab.svelte';
 	import EstructuraTab from '$lib/components/editor/EstructuraTab.svelte';
@@ -31,6 +32,7 @@
 
 	const TAB_IDS = ['datos', 'estructura', 'secuencias', 'autoria', 'observaciones', 'revision'] as const;
 	type TabId = (typeof TAB_IDS)[number];
+	type GeneralSaveScope = Extract<ObraDirtyScope, 'datos' | 'autoria' | 'observaciones'>;
 	const validTabs = new Set<string>(TAB_IDS);
 
 	function resolveTab(rawValue: string | null | undefined): TabId {
@@ -47,6 +49,9 @@
 	}
 
 	let currentTab = $state<TabId>(resolveTab(get(page).url.searchParams.get('tab')));
+	let datosSaveRequestToken = $state(0);
+	let autoriaSaveRequestToken = $state(0);
+	let observacionesSaveRequestToken = $state(0);
 	const focusSecuenciaId = $derived.by(() => {
 		const raw = $page.url.searchParams.get('focusSecuenciaId');
 		if (!raw) return null;
@@ -92,6 +97,21 @@
 	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
+	const generalSaveScope = $derived.by((): GeneralSaveScope | null => {
+		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'observaciones') {
+			return currentTab;
+		}
+		return null;
+	});
+	const showGeneralSave = $derived(Boolean(canEditContent && generalSaveScope));
+	const generalSaveDisabled = $derived.by(() => {
+		if (!generalSaveScope) return true;
+		return Boolean($currentObraStore.savingByScope[generalSaveScope]);
+	});
+	const generalSaveLabel = $derived.by(() => {
+		if (!generalSaveScope) return 'Guardar';
+		return $currentObraStore.savingByScope[generalSaveScope] ? 'Guardando...' : 'Guardar';
+	});
 	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
 	let cuadrosLive = $state<Tables<'cuadros'>[]>([]);
 	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>([]);
@@ -218,6 +238,19 @@
 
 	function handleSecuenciasChange(payload: Tables<'secuencias_metricas'>[]) {
 		secuenciasLive = [...payload];
+	}
+
+	function requestGeneralSave() {
+		if (!canEditContent || !generalSaveScope) return;
+		if (generalSaveScope === 'datos') {
+			datosSaveRequestToken += 1;
+			return;
+		}
+		if (generalSaveScope === 'autoria') {
+			autoriaSaveRequestToken += 1;
+			return;
+		}
+		observacionesSaveRequestToken += 1;
 	}
 
 	beforeNavigate((navigation) => {
@@ -378,13 +411,22 @@
 	{/if}
 
 	<div class="mb-4">
-		<Tabs tabs={tabs} active={currentTab} onChange={handleTabChange} />
+		<Tabs tabs={tabs} active={currentTab} onChange={handleTabChange}>
+			{#snippet actions()}
+				{#if showGeneralSave}
+					<Button variant="success" onclick={requestGeneralSave} disabled={generalSaveDisabled}>
+						{generalSaveLabel}
+					</Button>
+				{/if}
+			{/snippet}
+		</Tabs>
 	</div>
 
 	{#if currentTab === 'datos'}
 		<DatosObraTab
 			obra={obraLive}
 			generoOptions={generoOptions}
+			saveRequestToken={datosSaveRequestToken}
 			readOnly={!canEditContent}
 			canComment={canComment}
 		/>
@@ -417,6 +459,7 @@
 			obraId={obraLive.obra_id}
 			obra={obraLive}
 			roleTerm={data.profile.roleTerm}
+			saveRequestToken={autoriaSaveRequestToken}
 			readOnly={!canEditContent}
 			canComment={canComment}
 		/>
@@ -425,6 +468,7 @@
 			obraId={obraLive.obra_id}
 			observacionesInitial={obraLive.observaciones ?? ''}
 			bibliografiaInitial={obraLive.bibliografia ?? ''}
+			saveRequestToken={observacionesSaveRequestToken}
 			readOnly={!canEditContent}
 			canComment={canComment}
 		/>

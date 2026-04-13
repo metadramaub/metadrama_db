@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import Button from '$lib/components/ui/button.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
@@ -15,6 +14,7 @@
 		obraId: string;
 		observacionesInitial: string;
 		bibliografiaInitial: string;
+		saveRequestToken?: number;
 		readOnly?: boolean;
 		canComment?: boolean;
 	}>();
@@ -23,6 +23,7 @@
 	let observaciones = $state(props.observacionesInitial);
 	let bibliografia = $state(props.bibliografiaInitial);
 	let savingNow = $state(false);
+	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
 	const observacionesLength = $derived(observaciones.trim().length);
@@ -31,6 +32,13 @@
 	$effect(() => {
 		observaciones = props.observacionesInitial ?? '';
 		bibliografia = props.bibliografiaInitial ?? '';
+	});
+
+	$effect(() => {
+		const nextToken = props.saveRequestToken ?? 0;
+		if (nextToken <= lastHandledSaveRequestToken) return;
+		lastHandledSaveRequestToken = nextToken;
+		void save();
 	});
 
 	function queueSave() {
@@ -91,13 +99,10 @@
 </script>
 
 <section class="space-y-4">
-	<div class="flex flex-wrap items-center justify-between gap-3">
+	<div>
 		<div>
 			<h2 class="text-xl font-semibold">Observaciones</h2>
 		</div>
-		<Button variant="success" onclick={save} disabled={savingNow || props.readOnly}>
-			{savingNow ? 'Guardando...' : 'Guardar'}
-		</Button>
 	</div>
 
 	<article class="card p-4">

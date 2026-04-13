@@ -18,6 +18,7 @@
 	const props = $props<{
 		obra: Tables<'obras'>;
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		saveRequestToken?: number;
 		readOnly?: boolean;
 		canComment?: boolean;
 	}>();
@@ -56,6 +57,7 @@
 
 	let timer: ReturnType<typeof setTimeout> | null = null;
 	let savingNow = $state(false);
+	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
 	const generoDropdownItems = $derived(
 		props.generoOptions.map((genero: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
 			id: genero.termino_id,
@@ -79,6 +81,13 @@
 		form = toFormState(props.obra);
 		setSaving(false, 'datos');
 		setDirty(false, 'datos');
+	});
+
+	$effect(() => {
+		const nextToken = props.saveRequestToken ?? 0;
+		if (nextToken <= lastHandledSaveRequestToken) return;
+		lastHandledSaveRequestToken = nextToken;
+		void save();
 	});
 
 	function mutateField<T extends keyof FormState>(key: T, value: FormState[T]) {
@@ -161,13 +170,10 @@
 
 <section class="space-y-5">
 	<div class="card p-4">
-		<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+		<div class="mb-3">
 			<div>
 				<h2 class="text-xl font-semibold">Datos de la obra</h2>
 			</div>
-			<Button variant="success" onclick={save} disabled={savingNow || props.readOnly}
-				>{savingNow ? 'Guardando...' : 'Guardar'}</Button
-			>
 		</div>
 		<div class="grid gap-4 md:grid-cols-2">
 			<label class="form-field">
