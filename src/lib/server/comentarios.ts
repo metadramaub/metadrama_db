@@ -10,8 +10,9 @@ export type ComentarioTipoTerm = 'general' | 'revision' | 'tecnico' | 'estado';
 export type ComentarioContextMaps = {
 	secuenciaById: Map<
 		string,
-		Pick<Tables<'secuencias_metricas'>, 'secuencia_id' | 'v_ini' | 'v_fin'>
+		Pick<Tables<'secuencias_metricas'>, 'secuencia_id' | 'v_ini' | 'v_fin' | 'estrofa_tipo_id'>
 	>;
+	secuenciaEstrofaTermById: Map<string, string>;
 	jornadaById: Map<
 		string,
 		Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>
@@ -38,10 +39,13 @@ export async function loadComentarioContextMaps(
 		secuenciaIds.length > 0
 			? locals.supabase
 					.from('secuencias_metricas')
-					.select('secuencia_id,v_ini,v_fin')
+					.select('secuencia_id,v_ini,v_fin,estrofa_tipo_id')
 					.in('secuencia_id', secuenciaIds)
 			: Promise.resolve({
-					data: [] as Pick<Tables<'secuencias_metricas'>, 'secuencia_id' | 'v_ini' | 'v_fin'>[]
+					data: [] as Pick<
+						Tables<'secuencias_metricas'>,
+						'secuencia_id' | 'v_ini' | 'v_fin' | 'estrofa_tipo_id'
+					>[]
 				}),
 		cuadroIds.length > 0
 			? locals.supabase
@@ -53,6 +57,7 @@ export async function loadComentarioContextMaps(
 				})
 	]);
 
+	const secuenciaRows = secuenciasResp.data ?? [];
 	const cuadroRows = cuadrosResp.data ?? [];
 	const jornadaIds = [
 		...new Set([
@@ -60,19 +65,43 @@ export async function loadComentarioContextMaps(
 			...cuadroRows.map((row) => row.jornada_id).filter(Boolean)
 		] as string[])
 	];
+	const estrofaTipoIds = [
+		...new Set(secuenciaRows.map((row) => row.estrofa_tipo_id).filter(Boolean) as string[])
+	];
 
-	const jornadasResp =
+	const [jornadasResp, estrofasResp] = await Promise.all([
 		jornadaIds.length > 0
-			? await locals.supabase
+			? locals.supabase
 					.from('jornadas')
 					.select('jornada_id,jornada_num,v_ini,v_fin')
 					.in('jornada_id', jornadaIds)
-			: {
+			: Promise.resolve({
 					data: [] as Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>[]
-				};
+				}),
+		estrofaTipoIds.length > 0
+			? locals.supabase
+					.from('vocabularios')
+					.select('termino_id,termino')
+					.in('termino_id', estrofaTipoIds)
+			: Promise.resolve({
+					data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[]
+				})
+	]);
+
+	const estrofaTermById = new Map((estrofasResp.data ?? []).map((row) => [row.termino_id, row.termino]));
+	const secuenciaEstrofaTermById = new Map<string, string>();
+	for (const secuencia of secuenciaRows) {
+		const estrofaTerminoId = secuencia.estrofa_tipo_id;
+		if (!estrofaTerminoId) continue;
+		const estrofaTerm = estrofaTermById.get(estrofaTerminoId);
+		if (estrofaTerm) {
+			secuenciaEstrofaTermById.set(secuencia.secuencia_id, estrofaTerm);
+		}
+	}
 
 	return {
-		secuenciaById: new Map((secuenciasResp.data ?? []).map((row) => [row.secuencia_id, row])),
+		secuenciaById: new Map(secuenciaRows.map((row) => [row.secuencia_id, row])),
+		secuenciaEstrofaTermById,
 		jornadaById: new Map((jornadasResp.data ?? []).map((row) => [row.jornada_id, row])),
 		cuadroById: new Map(cuadroRows.map((row) => [row.cuadro_id, row]))
 	};
@@ -123,4 +152,12 @@ export function buildComentarioContextLabel(
 	}
 
 	return null;
+}
+
+export function buildComentarioSecuenciaEstrofaTerm(
+	comment: Pick<ComentarioContextRow, 'secuencia_id'>,
+	maps: ComentarioContextMaps
+): string | null {
+	if (!comment.secuencia_id) return null;
+	return maps.secuenciaEstrofaTermById.get(comment.secuencia_id) ?? null;
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import Button from '$lib/components/ui/button.svelte';
 	import type {
 		SequenceSynopsisGroupItem,
@@ -126,7 +127,7 @@
 {/snippet}
 
 {#if props.open}
-	<div class="fixed inset-0 z-[120]">
+	<div use:portal class="fixed inset-0 z-[130]">
 		<button
 			type="button"
 			class="absolute inset-0 bg-black/45"
@@ -134,71 +135,73 @@
 			onclick={props.onClose}
 		></button>
 
-		<div class="absolute inset-x-4 top-4 bottom-4 overflow-y-auto border border-[color:var(--border)] bg-[color:var(--gray-50)] shadow-2xl md:inset-x-10 lg:inset-x-20">
-			<div class="sticky top-0 z-20 border-b border-[color:var(--border)] bg-white px-5 py-4">
-				<div class="flex flex-wrap items-start justify-between gap-3">
-					<div class="space-y-2">
-						<div>
-							<h2 class="text-xl font-semibold">Sinopsis completa</h2>
-							<p class="text-sm text-[color:var(--muted-foreground)]">
-								{props.totalSequences} secuencias
-								{#if props.missingSynopsisCount > 0}
-									· {props.missingSynopsisCount} sin sinopsis
-								{/if}
-							</p>
+		<div class="absolute inset-0 z-[1] p-4 md:px-10 lg:px-20">
+			<div class="h-[calc(100dvh-2rem)] overflow-y-auto border border-[color:var(--border)] bg-[color:var(--gray-50)] shadow-2xl">
+				<div class="sticky top-0 z-20 border-b border-[color:var(--border)] bg-white px-5 py-4">
+					<div class="flex flex-wrap items-start justify-between gap-3">
+						<div class="space-y-2">
+							<div>
+								<h2 class="text-xl font-semibold">Sinopsis completa</h2>
+								<p class="text-sm text-[color:var(--muted-foreground)]">
+									{props.totalSequences} secuencias
+									{#if props.missingSynopsisCount > 0}
+										· {props.missingSynopsisCount} sin sinopsis
+									{/if}
+								</p>
+							</div>
+
+							{#if props.showSavedVersionNote}
+								<p class="max-w-3xl rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
+									La sinopsis completa refleja la ultima version guardada. La secuencia abierta tiene cambios aun no guardados.
+								</p>
+							{/if}
 						</div>
 
-						{#if props.showSavedVersionNote}
-							<p class="max-w-3xl rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
-								La sinopsis completa refleja la ultima version guardada. La secuencia abierta tiene cambios aun no guardados.
-							</p>
-						{/if}
+						<Button variant="secondary" onclick={props.onClose}>Cerrar</Button>
 					</div>
-
-					<Button variant="secondary" onclick={props.onClose}>Cerrar</Button>
 				</div>
-			</div>
 
-			<div class="px-5 py-5">
-				{#if props.groups.length === 0}
-					<div class="card border-dashed p-6 text-sm text-[color:var(--muted-foreground)]">
-						No hay secuencias registradas para construir la sinopsis completa.
-					</div>
-				{:else}
-					<div class="space-y-8">
-						{#each props.groups as group}
-							<section class="space-y-4">
-								<div class="rounded-md border border-[color:var(--primary)] bg-[color:var(--primary)] px-4 py-4 shadow-sm">
-									<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-										{#if group.jornadaNum !== null}
-											<span class="text-xs font-semibold uppercase tracking-[0.1em] text-[color:var(--primary-foreground)]">
-												JORNADA
-											</span>
-											<span class="text-2xl font-semibold leading-none text-[color:var(--primary-foreground)]">
-												{group.jornadaNum}
-											</span>
-										{:else}
-											<span class="text-xl font-semibold text-[color:var(--primary-foreground)]">
-												{group.label}
-											</span>
-										{/if}
-										{#if group.rangeLabel}
-											<span class="text-sm text-[color:var(--primary-foreground)]">
-												{group.rangeLabel}
-											</span>
-										{/if}
+				<div class="px-5 py-5">
+					{#if props.groups.length === 0}
+						<div class="card border-dashed p-6 text-sm text-[color:var(--muted-foreground)]">
+							No hay secuencias registradas para construir la sinopsis completa.
+						</div>
+					{:else}
+						<div class="space-y-8">
+							{#each props.groups as group}
+								<section class="space-y-4">
+									<div class="rounded-md border border-[color:var(--primary)] bg-[color:var(--primary)] px-4 py-4 shadow-sm">
+										<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+											{#if group.jornadaNum !== null}
+												<span class="text-xs font-semibold uppercase tracking-[0.1em] text-[color:var(--primary-foreground)]">
+													JORNADA
+												</span>
+												<span class="text-2xl font-semibold leading-none text-[color:var(--primary-foreground)]">
+													{group.jornadaNum}
+												</span>
+											{:else}
+												<span class="text-xl font-semibold text-[color:var(--primary-foreground)]">
+													{group.label}
+												</span>
+											{/if}
+											{#if group.rangeLabel}
+												<span class="text-sm text-[color:var(--primary-foreground)]">
+													{group.rangeLabel}
+												</span>
+											{/if}
+										</div>
 									</div>
-								</div>
 
-								<div class="space-y-4">
-									{#each group.items as item (item.key)}
-										{@render renderGroupItem(item)}
-									{/each}
-								</div>
-							</section>
-						{/each}
-					</div>
-				{/if}
+									<div class="space-y-4">
+										{#each group.items as item (item.key)}
+											{@render renderGroupItem(item)}
+										{/each}
+									</div>
+								</section>
+							{/each}
+						</div>
+					{/if}
+				</div>
 			</div>
 		</div>
 	</div>

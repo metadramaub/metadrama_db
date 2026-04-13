@@ -5,6 +5,7 @@ import { validationErrorResponse } from '$lib/server/http';
 import { getObraContext, requireAuthenticated } from '$lib/server/auth';
 import {
 	buildComentarioContextLabel,
+	buildComentarioSecuenciaEstrofaTerm,
 	loadComentarioContextMaps
 } from '$lib/server/comentarios';
 import type { Tables } from '$lib/types/database.types';
@@ -117,6 +118,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 				nombre_editor: comment.user_id ? (names.get(comment.user_id) ?? 'Editor') : 'Editor',
 				tipo_comentario_term: tipoTerm,
 				contexto_label: buildComentarioContextLabel(comment, contextMaps),
+				secuencia_estrofa_term: buildComentarioSecuenciaEstrofaTerm(comment, contextMaps),
 				locked,
 				can_edit: canMutate,
 				can_delete: canMutate

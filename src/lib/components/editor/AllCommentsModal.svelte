@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { portal } from '$lib/actions/portal';
 	import Button from '$lib/components/ui/button.svelte';
 	import InternalCommentsFeed from '$lib/components/editor/InternalCommentsFeed.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -19,6 +21,17 @@
 		if (commentsLoading) return 'Cargando comentarios...';
 		return `${comments.length} comentarios`;
 	});
+
+	function handleSequenceContextClick(comment: ComentarioListItem) {
+		const secuenciaId = comment.secuencia_id;
+		if (!secuenciaId) return;
+		props.onClose();
+		void goto(
+			`/dashboard/obras/${props.obraId}?tab=secuencias&focusSecuenciaId=${encodeURIComponent(
+				secuenciaId
+			)}`
+		);
+	}
 
 	async function loadComments() {
 		const requestId = ++requestCounter;
@@ -60,7 +73,7 @@
 </script>
 
 {#if props.open}
-	<div class="fixed inset-0 z-[120]">
+	<div use:portal class="fixed inset-0 z-[130]">
 		<button
 			type="button"
 			class="absolute inset-0 bg-black/45"
@@ -68,24 +81,28 @@
 			onclick={props.onClose}
 		></button>
 
-		<div class="absolute inset-x-4 top-4 bottom-4 overflow-y-auto border border-[color:var(--border)] bg-[color:var(--gray-50)] shadow-2xl md:inset-x-10 lg:inset-x-20">
-			<div class="sticky top-0 z-20 border-b border-[color:var(--border)] bg-white px-5 py-4">
-				<div class="flex flex-wrap items-start justify-between gap-3">
-					<div>
-						<h2 class="text-xl font-semibold">Todos los comentarios de la obra</h2>
-						<p class="text-sm text-[color:var(--muted-foreground)]">{subtitle}</p>
+		<div class="absolute inset-0 z-[1] p-4 md:px-10 lg:px-20">
+			<div class="h-[calc(100dvh-2rem)] overflow-y-auto border border-[color:var(--border)] bg-[color:var(--gray-50)] shadow-2xl">
+				<div class="sticky top-0 z-20 border-b border-[color:var(--border)] bg-white px-5 py-4">
+					<div class="flex flex-wrap items-start justify-between gap-3">
+						<div>
+							<h2 class="text-xl font-semibold">Todos los comentarios de la obra</h2>
+							<p class="text-sm text-[color:var(--muted-foreground)]">{subtitle}</p>
+						</div>
+
+						<Button variant="secondary" onclick={props.onClose}>Cerrar</Button>
 					</div>
-
-					<Button variant="secondary" onclick={props.onClose}>Cerrar</Button>
 				</div>
-			</div>
 
-			<div class="px-5 py-5">
-				<InternalCommentsFeed
-					comments={comments}
-					loading={commentsLoading}
-					emptyText={loadError ?? 'No hay comentarios internos en esta obra.'}
-				/>
+				<div class="px-5 py-5">
+					<InternalCommentsFeed
+						comments={comments}
+						loading={commentsLoading}
+						emptyText={loadError ?? 'No hay comentarios internos en esta obra.'}
+						showSequenceEstrofa={true}
+						onSequenceContextClick={handleSequenceContextClick}
+					/>
+				</div>
 			</div>
 		</div>
 	</div>

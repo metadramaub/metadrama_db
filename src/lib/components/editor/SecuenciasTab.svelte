@@ -25,6 +25,7 @@
 		>;
 		readOnly?: boolean;
 		canComment?: boolean;
+		focusSecuenciaId?: string | null;
 		onSecuenciasChange?: (items: Tables<'secuencias_metricas'>[]) => void;
 	}>();
 
@@ -110,6 +111,7 @@
 	let subtipoModalSaving = $state(false);
 	let subtipoEditingId = $state<string | null>(null);
 	let subtipoDeleteTargetId = $state<string | null>(null);
+	let handledFocusSecuenciaId = $state<string | null>(null);
 	let subtipoForm = $state<SubtipoFormState>({
 		subtipo_estrofa_id: '',
 		v_ini: 1,
@@ -1041,6 +1043,33 @@
 		subtipoDeleteTargetId = null;
 		pushToast('success', 'Subtipo eliminado');
 	}
+
+	function clearFocusSecuenciaQueryParam() {
+		if (!browser) return;
+		const currentUrl = new URL(window.location.href);
+		if (!currentUrl.searchParams.has('focusSecuenciaId')) return;
+		currentUrl.searchParams.delete('focusSecuenciaId');
+		window.history.replaceState(window.history.state, '', currentUrl.toString());
+	}
+
+	$effect(() => {
+		const focusSecuenciaId = props.focusSecuenciaId?.trim() ?? '';
+		if (!focusSecuenciaId) {
+			handledFocusSecuenciaId = null;
+			return;
+		}
+		if (focusSecuenciaId === handledFocusSecuenciaId) return;
+
+		const targetSecuencia = secuencias.find((item) => item.secuencia_id === focusSecuenciaId) ?? null;
+		if (targetSecuencia) {
+			openEdit(targetSecuencia);
+		} else {
+			pushToast('info', 'La secuencia enlazada no existe o ya no está disponible.');
+		}
+
+		handledFocusSecuenciaId = focusSecuenciaId;
+		clearFocusSecuenciaQueryParam();
+	});
 
 	$effect(() => {
 		const open = sidebarOpen;
