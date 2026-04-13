@@ -456,7 +456,7 @@
 			</label>
 			<div class="mt-2 flex justify-end">
 				<Button variant="success" onclick={publishComment} disabled={postingComment || !canComment}>
-					{postingComment ? 'Publicando...' : 'Publicar comentario'}
+					{postingComment ? 'Publicando...' : 'Publicar'}
 				</Button>
 			</div>
 		</div>
