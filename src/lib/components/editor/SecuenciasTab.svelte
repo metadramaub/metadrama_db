@@ -1130,7 +1130,7 @@
 	<div class="flex items-end justify-between gap-4">
 		<div>
 			<h2 class="text-xl font-semibold">Secuencias métricas</h2>
-			<p class="text-sm text-[color:var(--muted-foreground)]">Ordenadas por verso inicial.</p>
+			<p class="text-sm text-[color:var(--muted-foreground)]">Ordenadas por verso inicial</p>
 		</div>
 	</div>
 
