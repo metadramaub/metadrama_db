@@ -592,7 +592,7 @@
 					{#if canManageAssignments}
 						<div class="mt-3 flex justify-end">
 							<Button variant="success" onclick={openAssignmentsConfirmModal} disabled={reviewersSaving || !assignmentsDirty}>
-								{reviewersSaving ? 'Guardando...' : 'Guardar asignaciones'}
+								{reviewersSaving ? 'Guardando...' : 'Guardar'}
 							</Button>
 						</div>
 					{/if}
@@ -621,7 +621,7 @@
 					onclick={openEstadoConfirmModal}
 					disabled={stateSaving || !canChangeState || !stateDirty}
 				>
-					{stateSaving ? 'Guardando...' : 'Guardar estado'}
+					{stateSaving ? 'Guardando...' : 'Guardar'}
 				</Button>
 			</div>
 		</div>
@@ -639,7 +639,7 @@
 						onclick={onGuardarVisibilidad}
 						disabled={visibilitySaving || !canToggleVisible || !visibilityDirty}
 					>
-						{visibilitySaving ? 'Guardando...' : 'Guardar visibilidad'}
+						{visibilitySaving ? 'Guardando...' : 'Guardar'}
 					</Button>
 				</div>
 			</div>

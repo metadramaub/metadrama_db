@@ -1156,10 +1156,13 @@
 </script>
 
 <section class="space-y-4">
-	<div class="flex items-end justify-between gap-4">
+	<div
+		class="flex items-end justify-between gap-4 border-b border-[color:var(--border)] bg-[color:var(--gray-50)] pb-3 pt-2"
+	>
 		<div>
 			<h2 class="text-xl font-semibold">Secuencias métricas</h2>
 		</div>
+		<Button variant="primary-soft" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
 	</div>
 
 	<div class="card grid gap-3 p-4 md:grid-cols-2">
@@ -1198,12 +1201,12 @@
 	</div>
 
 	<div class="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-4">
-		<aside class="secuencias-structure-index card hidden lg:sticky lg:top-4 lg:block lg:h-fit lg:self-start">
-			<div class="secuencias-structure-index__head">Índice de estructura</div>
+		<aside class="secuencias-structure-index hidden lg:sticky lg:top-4 lg:block lg:h-fit lg:self-start">
+			<div class="card secuencias-structure-index__head">Índice de estructura</div>
 			{#if jornadasSorted.length === 0}
-				<p class="secuencias-structure-index__empty-text">Sin estructura registrada.</p>
+				<p class="card secuencias-structure-index__empty-text">Sin estructura registrada.</p>
 			{:else}
-				<ul class="secuencias-structure-list">
+				<ul class="card secuencias-structure-list">
 					{#each jornadasSorted as jornada (jornada.jornada_id)}
 						<li class="secuencias-structure-list__item">
 							<p class="secuencias-structure-list__jornada">
@@ -1223,7 +1226,7 @@
 					{/each}
 				</ul>
 			{/if}
-			<div class="mt-4 space-y-2">
+			<div class="card mt-4 space-y-2">
 				<Button variant="primary" class="w-full" onclick={openSequenceSynopsisModal}>
 					Leer sinopsis completa
 				</Button>
@@ -1233,14 +1236,14 @@
 					</p>
 				{/if}
 			</div>
+			<div class="mt-4 space-y-2">
+				<Button variant="primary-soft" class="w-full" onclick={openNew} disabled={props.readOnly}>
+					Nueva secuencia
+				</Button>
+			</div>
 		</aside>
 
 		<div class="space-y-2">
-			<div class="space-y-2">
-				<div class="flex flex-wrap justify-start gap-2">
-					<Button variant="primary-soft" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
-				</div>
-			</div>
 			<div class="card overflow-x-auto">
 				<table class="min-w-full text-left text-sm">
 					<thead class="bg-[color:var(--muted)]">
