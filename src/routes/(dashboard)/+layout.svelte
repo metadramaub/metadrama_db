@@ -7,12 +7,15 @@
 	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import type { LayoutData } from './$types';
 
+	const SIDEBAR_COLLAPSED_STORAGE_KEY = 'dashboard-sidebar-collapsed';
+
 	let { data, children } = $props<{ data: LayoutData; children: () => unknown }>();
 
 	let notificationsUnreadCount = $state(0);
 	let refreshInFlight = false;
 	let refreshTimer: ReturnType<typeof setTimeout> | null = null;
 	let channel: RealtimeChannel | null = null;
+	let sidebarCollapsed = $state(false);
 
 	type BreadcrumbSegment = {
 		label: string;
@@ -43,6 +46,35 @@
 		notificationsUnreadCount = data.notificationsUnreadCount ?? 0;
 	});
 
+	function readSidebarCollapsedPreference(): boolean | null {
+		if (!browser) return null;
+
+		try {
+			const raw = window.localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY);
+			if (raw === 'true') return true;
+			if (raw === 'false') return false;
+		} catch (error) {
+			console.error('No se pudo leer la preferencia del panel lateral', error);
+		}
+
+		return null;
+	}
+
+	function persistSidebarCollapsedPreference(nextValue: boolean) {
+		sidebarCollapsed = nextValue;
+		if (!browser) return;
+
+		try {
+			window.localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, nextValue ? 'true' : 'false');
+		} catch (error) {
+			console.error('No se pudo guardar la preferencia del panel lateral', error);
+		}
+	}
+
+	function toggleSidebarCollapsed() {
+		persistSidebarCollapsedPreference(!sidebarCollapsed);
+	}
+
 	async function refreshIndicators() {
 		if (!browser || refreshInFlight) return;
 		refreshInFlight = true;
@@ -68,6 +100,11 @@
 
 	onMount(() => {
 		if (!browser) return;
+
+		const storedSidebarPreference = readSidebarCollapsedPreference();
+		if (storedSidebarPreference !== null) {
+			sidebarCollapsed = storedSidebarPreference;
+		}
 
 		const handleActivitySeen = () => {
 			scheduleIndicatorsRefresh();
@@ -119,11 +156,20 @@
 				channel = null;
 			}
 		};
-	});
+});
 </script>
 
-<div class="grid min-h-screen md:h-screen md:grid-cols-[18rem_1fr] md:overflow-hidden">
-	<Sidebar profile={data.profile} notificationsUnreadCount={notificationsUnreadCount} />
+<div
+	class={`grid min-h-screen grid-cols-1 md:h-screen md:overflow-hidden md:transition-[grid-template-columns] md:duration-200 ${
+		sidebarCollapsed ? 'md:grid-cols-[5rem_1fr]' : 'md:grid-cols-[18rem_1fr]'
+	}`}
+>
+	<Sidebar
+		profile={data.profile}
+		notificationsUnreadCount={notificationsUnreadCount}
+		collapsed={sidebarCollapsed}
+		onToggle={toggleSidebarCollapsed}
+	/>
 	<main class="min-w-0 bg-[color:var(--background)] p-6 md:h-screen md:overflow-y-auto">
 		<div class="mb-4 border-b border-[color:var(--border)] pb-3 text-xs font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
 			{#if breadcrumbs.length === 0}
