@@ -10,7 +10,7 @@
 				<span class="scene-loader-bar"></span>
 				<span class="scene-loader-bar"></span>
 			</div>
-			<p class="scene-loader-note text-sm">{$sceneLoaderStore.message}</p>
+			<p class="scene-loader-note text-sm">({$sceneLoaderStore.message})</p>
 		</div>
 	</div>
 {/if}

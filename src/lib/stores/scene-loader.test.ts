@@ -41,7 +41,7 @@ describe('scene-loader store', () => {
 		vi.advanceTimersByTime(5);
 		expect(get(sceneLoaderStore)).toEqual({
 			visible: false,
-			message: 'Vanse.',
+			message: 'Vase.',
 			source: null
 		});
 	});
