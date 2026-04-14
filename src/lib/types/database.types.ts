@@ -94,40 +94,37 @@ export type Database = {
           adoptada: boolean
           atribucion_id: string
           created_at: string
-          fuente: string
+          fuente_autoria: string | null
           jornada_id: string | null
           modalidad_atribucion_id: string
           notas: string | null
           obra_id: string | null
           tipo_atribucion_id: string
           updated_at: string
-          url: string | null
         }
         Insert: {
           adoptada?: boolean
           atribucion_id?: string
           created_at?: string
-          fuente?: string
+          fuente_autoria?: string | null
           jornada_id?: string | null
           modalidad_atribucion_id: string
           notas?: string | null
           obra_id?: string | null
           tipo_atribucion_id: string
           updated_at?: string
-          url?: string | null
         }
         Update: {
           adoptada?: boolean
           atribucion_id?: string
           created_at?: string
-          fuente?: string
+          fuente_autoria?: string | null
           jornada_id?: string | null
           modalidad_atribucion_id?: string
           notas?: string | null
           obra_id?: string | null
           tipo_atribucion_id?: string
           updated_at?: string
-          url?: string | null
         }
         Relationships: [
           {

@@ -144,8 +144,7 @@ export interface AutoriaAtribucionPayload {
 	jornada_id: string | null;
 	tipo_atribucion_id: string;
 	modalidad_atribucion_id: string;
-	fuente: string;
-	url: string | null;
+	fuente_autoria: string | null;
 	adoptada: boolean;
 	notas: string | null;
 	autores: AutoriaAtribucionAutorPayload[];

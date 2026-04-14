@@ -13,8 +13,7 @@ export interface PublicFichaAtribucionAutoria {
 	tipo_atribucion_term: string;
 	modalidad_atribucion_id: string;
 	modalidad_atribucion_term: string;
-	fuente: string;
-	url: string | null;
+	fuente_autoria: string | null;
 	adoptada: boolean;
 	notas: string | null;
 	autores: PublicFichaAutor[];
@@ -94,7 +93,6 @@ export interface PublicObraFichaPayload {
 	autoria: {
 		autores: PublicFichaAutor[];
 		atribuciones: PublicFichaAtribucionAutoria[];
-		informe_url: string | null;
 	};
 	estructura: {
 		jornadas: PublicFichaJornada[];

@@ -23,15 +23,6 @@ const nullableUuid = z
 		return trimmed.length > 0 ? trimmed : null;
 	});
 
-const nullableUrl = z
-	.string()
-	.trim()
-	.url('URL invalida')
-	.or(z.literal(''))
-	.optional()
-	.nullable()
-	.transform((value) => (value ? value : null));
-
 export const obraDatosPatchSchema = z
 	.object({
 		titulo: nullableText(2000),
@@ -211,13 +202,12 @@ const autoriaAtribucionSchema = z
 		jornada_id: z.string().uuid().optional().nullable().default(null),
 		tipo_atribucion_id: z.string().uuid('Tipo de atribucion requerido'),
 		modalidad_atribucion_id: z.string().uuid('Modalidad de atribucion requerida'),
-		fuente: z.string().trim().min(1, 'Fuente requerida').max(4000),
-		url: nullableUrl,
+		fuente_autoria: nullableText(2000),
 		adoptada: z.boolean().optional().default(false),
 		notas: nullableText(20000),
 		autores: z
 			.array(autoriaAtribucionAutorSchema)
-			.min(1, 'Debe seleccionar al menos un autor')
+			.default([])
 			.transform((items) => {
 				const seen = new Set<string>();
 				const output: Array<{ autor_id: string; orden: number | null }> = [];

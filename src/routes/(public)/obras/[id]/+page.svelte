@@ -80,6 +80,34 @@
 		autorFichaEmail ? `mailto:${autorFichaEmail}` : null
 	);
 	const autorFichaOrcidUrl = $derived.by(() => normalizeOrcidUrl(obra.autor_ficha_orcid_publico));
+	const atribucionesAutoriaConFuente = $derived.by(() =>
+		[...ficha.autoria.atribuciones]
+			.filter((atribucion) => (atribucion.fuente_autoria ?? '').trim().length > 0)
+			.sort((a, b) => {
+				if (a.adoptada !== b.adoptada) return a.adoptada ? -1 : 1;
+				const aScope = a.jornada_id ? 1 : 0;
+				const bScope = b.jornada_id ? 1 : 0;
+				if (aScope !== bScope) return aScope - bScope;
+				const aJornadaNum = a.jornada_num ?? 0;
+				const bJornadaNum = b.jornada_num ?? 0;
+				return aJornadaNum - bJornadaNum || a.atribucion_id.localeCompare(b.atribucion_id);
+			})
+	);
+	const fuenteAutoriaPrincipal = $derived.by(() => {
+		const adoptedGlobal = atribucionesAutoriaConFuente.find(
+			(atribucion) => atribucion.adoptada && !atribucion.jornada_id
+		);
+		if (adoptedGlobal) return adoptedGlobal;
+		const adoptedAny = atribucionesAutoriaConFuente.find((atribucion) => atribucion.adoptada);
+		if (adoptedAny) return adoptedAny;
+		return atribucionesAutoriaConFuente[0] ?? null;
+	});
+	const fuentesAutoriaSecundarias = $derived.by(() => {
+		if (!fuenteAutoriaPrincipal) return [];
+		return atribucionesAutoriaConFuente.filter(
+			(atribucion) => atribucion.atribucion_id !== fuenteAutoriaPrincipal.atribucion_id
+		);
+	});
 
 	const jornadaMarkers = $derived.by(() =>
 		jornadas.map((jornada) => jornada.v_fin).filter((marker) => marker > 0 && marker < totalVersos)
@@ -175,6 +203,13 @@
 		return id ? `https://orcid.org/${id}` : null;
 	}
 
+	function fuenteAutoriaScopeLabel(jornadaNum: number | null): string {
+		if (typeof jornadaNum === 'number' && Number.isFinite(jornadaNum)) {
+			return `Jornada ${jornadaNum}`;
+		}
+		return 'Obra completa';
+	}
+
 	function handleDateSourceDocumentMouseDown(event: MouseEvent) {
 		if (!showDateSource) return;
 		const target = event.target;
@@ -226,16 +261,57 @@
 							>
 						{/each}
 					{/if}
-					{#if (ficha.autoria.informe_url ?? '').trim().length > 0}
-						<a
-							class="inline-flex items-center border border-[color:var(--border)] bg-white px-2 py-1 text-xs font-semibold tracking-[0.03em] hover:bg-[color:var(--muted)]"
-							href={ficha.autoria.informe_url ?? '#'}
-							target="_blank"
-							rel="noreferrer noopener"
-							aria-label="Abrir informe externo de autoría"
-						>
-							Informe
-						</a>
+				</div>
+
+				<div class="mt-3 border border-[color:var(--border)] bg-white p-3">
+					<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+						Fuentes de autoría
+					</div>
+					{#if fuenteAutoriaPrincipal}
+						<div class="mt-2">
+							<div class="mb-1 flex flex-wrap items-center gap-2">
+								<span class="text-xs font-semibold text-[color:var(--gray-900)]">
+									{fuenteAutoriaScopeLabel(fuenteAutoriaPrincipal.jornada_num)}
+								</span>
+								{#if fuenteAutoriaPrincipal.adoptada}
+									<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--success)]">
+										Adoptada
+									</span>
+								{/if}
+							</div>
+							<div class="space-y-2 text-sm">
+								{@html renderMarkdown(fuenteAutoriaPrincipal.fuente_autoria ?? '')}
+							</div>
+						</div>
+
+						{#if fuentesAutoriaSecundarias.length > 0}
+							<div class="mt-3 border-t border-[color:var(--border)] pt-3">
+								<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+									Otras fuentes
+								</div>
+								<div class="mt-2 space-y-3">
+									{#each fuentesAutoriaSecundarias as atribucion (atribucion.atribucion_id)}
+										<div class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2">
+											<div class="mb-1 flex flex-wrap items-center gap-2">
+												<span class="text-xs font-semibold text-[color:var(--gray-900)]">
+													{fuenteAutoriaScopeLabel(atribucion.jornada_num)}
+												</span>
+												{#if atribucion.adoptada}
+													<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--success)]">
+														Adoptada
+													</span>
+												{/if}
+											</div>
+											<div class="space-y-1 text-sm">
+												{@html renderMarkdown(atribucion.fuente_autoria ?? '')}
+											</div>
+										</div>
+									{/each}
+								</div>
+							</div>
+						{/if}
+					{:else}
+						<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin fuentes de autoría publicadas.</p>
 					{/if}
 				</div>
 			</div>
