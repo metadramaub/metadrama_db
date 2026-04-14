@@ -103,6 +103,9 @@ En cada secuencia registras:
 - sinopsis argumental;
 - certeza de las decisiones tomadas (por ejemplo, si no estás seguro de la estrofa métrica seleccionada).
 
+> [!IMPORTANT]
+> ¿Qué hacer si una forma métrica (o una variación o patrón distinto de la misma) presente en la obra no aparece entre las opciones seleccionables de la base de datos? En ese caso, descríbela en los comentarios internos. Una vez la ficha se haya revisado, se dará de alta la nueva forma métrica para que el editor responsable pueda editar su ficha y seleccionar la opción adecuada.
+
 La sinopsis argumental también admite Markdown. Puedes ver pautas al final, en [Sobre los campos de texto largos y Markdown](#sobre-los-campos-de-texto-largos-y-markdown).
 
 Dentro de la caracterización, marcas:
@@ -133,6 +136,7 @@ Por ejemplo, contemplamos:
 - versos cantados;
 - versos de medida irregular (hipométricos o hipermétricos);
 - rimas defectuosas o diferentes a lo esperado según la tipología estrófica;
+- patrones alternativos a lo esperado según la tipología estrófica;
 - lagunas textuales;
 - prosa dentro de una secuencia métrica;
 - tramos con mayoría de agudas o mayoría de esdrújulas.
