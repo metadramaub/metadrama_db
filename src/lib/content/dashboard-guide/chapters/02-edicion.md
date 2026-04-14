@@ -175,8 +175,18 @@ En cada subtipo registras:
 
 Esta pestaña está pendiente de adaptarse al nuevo modelo de autoría, pero en el estado actual permite:
 
-- registrar la URL del informe ETSO;
-- asignar autoría en modo `obra completa`.
+- registrar una `fuente_autoria` en Markdown (opcional) dentro de cada atribución;
+- asignar autoría en modo `obra completa` o `por jornadas`.
+
+Reglas de trabajo recomendadas:
+
+- no crees un autor ficticio como “desconocido”;
+- si la autoría es desconocida, usa la modalidad `desconocida` y deja la atribución sin autores seleccionados;
+- en `única`, debes seleccionar exactamente 1 autor;
+- en `alternativa` y `colaborativa`, debes seleccionar 2 o más autores;
+- en `desconocida`, debes dejar 0 autores.
+
+Esto ayuda a distinguir, de cara al análisis posterior, entre una obra sin revisión de autoría y una obra con autoría revisada pero desconocida.
 
 ### Observaciones
 

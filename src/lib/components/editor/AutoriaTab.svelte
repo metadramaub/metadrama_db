@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import AuthorSelector from '$lib/components/editor/AuthorSelector.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -19,8 +20,7 @@
 		jornada_id: string | null;
 		tipo_atribucion_id: string;
 		modalidad_atribucion_id: string;
-		fuente: string;
-		url: string;
+		fuente_autoria: string;
 		adoptada: boolean;
 		notas: string;
 		autor_ids: string[];
@@ -116,8 +116,7 @@
 			jornada_id: jornadaId,
 			tipo_atribucion_id: tipos[0]?.termino_id ?? '',
 			modalidad_atribucion_id: modalidades[0]?.termino_id ?? '',
-			fuente: '',
-			url: '',
+			fuente_autoria: '',
 			adoptada: false,
 			notas: '',
 			autor_ids: []
@@ -129,8 +128,7 @@
 			jornada_id: draft.jornada_id,
 			tipo_atribucion_id: draft.tipo_atribucion_id,
 			modalidad_atribucion_id: draft.modalidad_atribucion_id,
-			fuente: draft.fuente.trim(),
-			url: draft.url.trim(),
+			fuente_autoria: draft.fuente_autoria.trim(),
 			adoptada: draft.adoptada,
 			notas: draft.notas.trim(),
 			autor_ids: uniqueIds(draft.autor_ids)
@@ -173,8 +171,7 @@
 			jornada_id: item.jornada_id,
 			tipo_atribucion_id: item.tipo_atribucion_id,
 			modalidad_atribucion_id: item.modalidad_atribucion_id,
-			fuente: item.fuente ?? '',
-			url: item.url ?? '',
+			fuente_autoria: item.fuente_autoria ?? '',
 			adoptada: item.adoptada,
 			notas: item.notas ?? '',
 			autor_ids: uniqueIds(item.autores.map((autor) => autor.autor_id))
@@ -250,6 +247,7 @@
 
 	function validateClientPayload(): string | null {
 		const jornadaSet = new Set(jornadas.map((jornada) => jornada.jornada_id));
+		const modalidadesSinAutores = new Set(['desconocida', 'no_atribuida']);
 		const adoptedGlobal = drafts.filter((draft) => !draft.jornada_id && draft.adoptada).length;
 		if (adoptedGlobal > 1) {
 			return 'Solo puede haber una atribución global adoptada.';
@@ -273,14 +271,14 @@
 			if (!draft.tipo_atribucion_id || !draft.modalidad_atribucion_id) {
 				return 'Todas las atribuciones deben tener tipo y modalidad.';
 			}
-			if (draft.fuente.trim().length === 0) {
-				return 'Todas las atribuciones deben indicar fuente.';
-			}
-			if (uniqueIds(draft.autor_ids).length === 0) {
-				return 'Todas las atribuciones deben tener al menos un autor.';
-			}
 			const modalidadTerm = modalidadTermById.get(draft.modalidad_atribucion_id) ?? '';
 			const authorCount = uniqueIds(draft.autor_ids).length;
+			if (modalidadesSinAutores.has(modalidadTerm) && authorCount !== 0) {
+				return 'La modalidad desconocida exige 0 autores.';
+			}
+			if (!modalidadesSinAutores.has(modalidadTerm) && authorCount < 1) {
+				return 'Debes seleccionar al menos 1 autor para esta modalidad.';
+			}
 			if (modalidadTerm === 'unica' && authorCount !== 1) {
 				return 'La modalidad única exige exactamente 1 autor.';
 			}
@@ -298,8 +296,7 @@
 				jornada_id: draft.jornada_id,
 				tipo_atribucion_id: draft.tipo_atribucion_id,
 				modalidad_atribucion_id: draft.modalidad_atribucion_id,
-				fuente: draft.fuente.trim(),
-				url: draft.url.trim() || null,
+				fuente_autoria: draft.fuente_autoria.trim() || null,
 				adoptada: draft.adoptada,
 				notas: draft.notas.trim() || null,
 				autores: uniqueIds(draft.autor_ids).map((autor_id, index) => ({
@@ -388,25 +385,19 @@
 			</label>
 		</div>
 
-		<div class="mt-3 grid gap-3 md:grid-cols-2">
+		<div class="mt-3">
 			<label class="form-field">
-				<span class="form-label">Fuente</span>
-				<input
-					type="text"
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					value={draft.fuente}
+				<span class="form-label">Fuente de autoría</span>
+				<MarkdownEditorLite
+					rows={3}
+					class="mt-1"
+					minHeightClass="min-h-24"
+					value={draft.fuente_autoria}
 					disabled={effectiveReadOnly || loadingFromServer}
-					oninput={(event) => patchDraft(draft.local_id, { fuente: event.currentTarget.value })}
-				/>
-			</label>
-			<label class="form-field">
-				<span class="form-label">URL</span>
-				<input
-					type="url"
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					value={draft.url}
-					disabled={effectiveReadOnly || loadingFromServer}
-					oninput={(event) => patchDraft(draft.local_id, { url: event.currentTarget.value })}
+					onChange={(nextValue) =>
+						patchDraft(draft.local_id, {
+							fuente_autoria: nextValue
+						})}
 				/>
 			</label>
 		</div>

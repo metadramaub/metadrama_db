@@ -196,8 +196,7 @@ describe('validators', () => {
 					jornada_id: null,
 					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					fuente: 'Catena tradicional',
-					url: 'https://example.com/informe',
+					fuente_autoria: 'Catena tradicional',
 					adoptada: true,
 					notas: 'Hipotesis principal',
 					autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017', orden: 1 }]
@@ -214,8 +213,7 @@ describe('validators', () => {
 					jornada_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					fuente: 'Informe lexicometrico',
-					url: null,
+					fuente_autoria: null,
 					notas: null,
 					autores: [
 						{ autor_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7' },
@@ -234,7 +232,7 @@ describe('validators', () => {
 					jornada_id: null,
 					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					fuente: 'Tradicion',
+					fuente_autoria: 'Tradicion',
 					autores: [
 						{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 1 },
 						{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 2 }
@@ -244,6 +242,49 @@ describe('validators', () => {
 		});
 		expect(result.atribuciones[0].autores).toHaveLength(1);
 		expect(result.atribuciones[0].autores[0].orden).toBe(1);
+	});
+
+	it('accepts autoria payload without fuente_autoria', () => {
+		const result = autoriaInputSchema.safeParse({
+			atribuciones: [
+				{
+					jornada_id: null,
+					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+					autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017' }]
+				}
+			]
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('normalizes empty fuente_autoria to null', () => {
+		const result = autoriaInputSchema.parse({
+			atribuciones: [
+				{
+					jornada_id: null,
+					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+					fuente_autoria: '   ',
+					autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017' }]
+				}
+			]
+		});
+		expect(result.atribuciones[0].fuente_autoria).toBeNull();
+	});
+
+	it('accepts autoria payload with empty autores array', () => {
+		const result = autoriaInputSchema.safeParse({
+			atribuciones: [
+				{
+					jornada_id: null,
+					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+					autores: []
+				}
+			]
+		});
+		expect(result.success).toBe(true);
 	});
 
 	it('normalizes empty observaciones text to null', () => {

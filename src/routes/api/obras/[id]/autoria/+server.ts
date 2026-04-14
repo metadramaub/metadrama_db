@@ -93,8 +93,7 @@ function mapAtribucionesPayload(
 		jornada_id: row.jornada_id,
 		tipo_atribucion_id: row.tipo_atribucion_id,
 		modalidad_atribucion_id: row.modalidad_atribucion_id,
-		fuente: row.fuente ?? '',
-		url: row.url,
+		fuente_autoria: row.fuente_autoria,
 		adoptada: row.adoptada,
 		notas: row.notas,
 		autores: [...(linksByAtribucion.get(row.atribucion_id) ?? [])]
@@ -197,9 +196,27 @@ function validateModalidadRules(
 	modalidadTermById: Map<string, string>,
 	issues: ValidationIssue[]
 ) {
+	const modalidadesSinAutores = new Set(['desconocida', 'no_atribuida']);
+
 	atribuciones.forEach((item, index) => {
 		const modalidadTerm = (modalidadTermById.get(item.modalidad_atribucion_id) ?? '').trim().toLowerCase();
 		const authorCount = item.autores.length;
+
+		if (modalidadesSinAutores.has(modalidadTerm) && authorCount !== 0) {
+			pushIssue(
+				issues,
+				`atribuciones.${index}.autores`,
+				'La modalidad desconocida exige 0 autores.'
+			);
+		}
+
+		if (!modalidadesSinAutores.has(modalidadTerm) && authorCount < 1) {
+			pushIssue(
+				issues,
+				`atribuciones.${index}.autores`,
+				'Debes seleccionar al menos 1 autor para esta modalidad.'
+			);
+		}
 
 		if (modalidadTerm === 'unica' && authorCount !== 1) {
 			pushIssue(
@@ -247,8 +264,7 @@ async function replaceAtribuciones(
 				jornada_id: item.jornada_id ?? null,
 				tipo_atribucion_id: item.tipo_atribucion_id,
 				modalidad_atribucion_id: item.modalidad_atribucion_id,
-				fuente: item.fuente.trim(),
-				url: item.url ?? null,
+				fuente_autoria: item.fuente_autoria ?? null,
 				adoptada: item.adoptada,
 				notas: item.notas ?? null
 			})
