@@ -89,17 +89,17 @@ Recomendaciones para la delimitación de los cuadros:
 
 ### Secuencias
 
-Aquí haces el análisis métrico más detallado. Es la pestaña más compleja, y conviene trabajarla en dos pasadas: primero declarar secuencias base y luego completar su análisis.
+Aquí haces el análisis métrico más detallado. 
 
 > [!TIP]
-> En un momento posterior, puedes usar filtros por estrofa y certeza para localizar y revisar mejor lo ya cargado.
+> Es la pestaña más compleja, y conviene trabajarla en dos pasadas: primero declarar secuencias base y luego completar su análisis.
 
 En cada secuencia registras:
 
 - verso inicial y verso final;
 - tipo de estrofa;
-- si hay caracterizaciones por rango (por ejemplo, si esa estrofa es cantada en vez de declamada, si falta un verso en una redondilla o si en un tramo predominan finales agudos o esdrújulos);
-- caracterización de la secuencia a través de varios ítems (por ejemplo, si interviene el gracioso en ella);
+- si hay caracterizaciones por rango (por ejemplo, si esa estrofa es cantada, si falta un verso en una redondilla o si hay defectos o variaciones métricas especiales);
+- caracterización de la secuencia a través de varios ítems (por ejemplo, si interviene el gracioso en ella o si hay un cambio de espacio);
 - sinopsis argumental;
 - certeza de las decisiones tomadas (por ejemplo, si no estás seguro de la estrofa métrica seleccionada).
 
