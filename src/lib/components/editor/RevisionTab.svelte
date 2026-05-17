@@ -27,10 +27,11 @@
 		jornadas: Tables<'jornadas'>[];
 		cuadros: Tables<'cuadros'>[];
 		secuencias: Tables<'secuencias_metricas'>[];
-		autoriaAdoptadaCount: number;
+		autoriaPreferenteCount: number;
 		editorAsignadoNombre: string | null;
 		assignedReviewer: boolean;
 		capabilities: ObraAccessFlags;
+		focusComentarioId?: string | null;
 		onPendingChangesChange?: (pending: boolean) => void;
 	}>();
 
@@ -98,8 +99,8 @@
 			},
 			{
 				label: 'Autoría asignada',
-				done: props.autoriaAdoptadaCount > 0,
-				detail: `${props.autoriaAdoptadaCount} atribuciones adoptadas`
+				done: props.autoriaPreferenteCount > 0,
+				detail: `${props.autoriaPreferenteCount} atribuciones preferentes`
 			},
 			{
 				label: 'Observaciones de obra',
@@ -533,6 +534,7 @@
 		headerActionLabel="Ver todos los comentarios a esta obra"
 		headerActionBadgeCount={allCommentsCount}
 		headerActionBadgeLoading={allCommentsCountLoading}
+		focusComentarioId={props.focusComentarioId}
 		onHeaderAction={() => (allCommentsModalOpen = true)}
 		onCommentsMutated={() => void loadAllCommentsCount()}
 		reloadKey={commentsReloadKey}

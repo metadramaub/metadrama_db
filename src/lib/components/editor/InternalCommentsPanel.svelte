@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
@@ -9,10 +9,11 @@
 		ComentarioInput,
 		ComentarioListItem,
 		ComentarioPatchInput,
+		ComentarioPublicacionPatchInput,
 		ComentarioSeccion
 	} from '$lib/types/obra.types';
 
-	type CommentType = 'general' | 'revision' | 'tecnico';
+	type CommentType = 'general' | 'revision' | 'tecnico' | 'nota_propia' | 'observacion_publica';
 	type CommentContext = Pick<
 		ComentarioInput,
 		'secuencia_id' | 'jornada_id' | 'cuadro_id'
@@ -32,6 +33,7 @@
 		headerActionLabel?: string;
 		headerActionBadgeCount?: number | null;
 		headerActionBadgeLoading?: boolean;
+		focusComentarioId?: string | null;
 		onHeaderAction?: () => void;
 		onCommentsMutated?: () => void;
 		onDraftDirtyChange?: (dirty: boolean) => void;
@@ -61,6 +63,9 @@
 	let mounted = false;
 	let initialLoadResolved = $state(false);
 	let lastReloadKey = $state<string | null>(null);
+	let handledFocusComentarioId = $state<string | null>(null);
+	let highlightedCommentId = $state<string | null>(null);
+	let highlightTimer: ReturnType<typeof setTimeout> | null = null;
 
 	const canComment = $derived(Boolean(props.canComment));
 	const canCollapse = $derived(Boolean(props.collapsible));
@@ -108,10 +113,12 @@
 	const commentTypeItems = [
 		{ id: 'general', label: 'general' },
 		{ id: 'revision', label: 'revisión' },
-		{ id: 'tecnico', label: 'técnico' }
+		{ id: 'tecnico', label: 'técnico' },
+		{ id: 'nota_propia', label: 'nota propia' },
+		{ id: 'observacion_publica', label: 'observación pública' }
 	];
 	const INTERNAL_VISIBILITY_HELP =
-		'Este comentario es interno y no se publica en la ficha pública.';
+		'Este comentario es interno y no se publica en la ficha pública salvo que sea una observación pública marcada como visible.';
 
 	async function loadComments() {
 		commentsLoading = true;
@@ -132,11 +139,51 @@
 		comments = payload.items ?? [];
 	}
 
+	function clearFocusComentarioQueryParam() {
+		if (typeof window === 'undefined') return;
+		const currentUrl = new URL(window.location.href);
+		if (!currentUrl.searchParams.has('focusComentarioId')) return;
+		currentUrl.searchParams.delete('focusComentarioId');
+		window.history.replaceState(window.history.state, '', currentUrl.toString());
+	}
+
+	function commentElementId(commentId: string): string {
+		return `comentario-${commentId}`;
+	}
+
+	async function applyFocusedComment(commentId: string) {
+		if (!mounted) return;
+		if (!comments.some((comment) => comment.comentario_id === commentId)) return;
+
+		handledFocusComentarioId = commentId;
+		collapsed = false;
+		showAllComments = true;
+
+		await tick();
+
+		const element = document.getElementById(commentElementId(commentId));
+		element?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+		highlightedCommentId = commentId;
+		if (highlightTimer) clearTimeout(highlightTimer);
+		highlightTimer = setTimeout(() => {
+			if (highlightedCommentId === commentId) {
+				highlightedCommentId = null;
+			}
+			highlightTimer = null;
+		}, 4500);
+		clearFocusComentarioQueryParam();
+	}
+
 	function startEdit(comment: ComentarioListItem) {
 		editingCommentId = comment.comentario_id;
 		editingText = comment.comentario;
 		editingBaselineText = comment.comentario;
-		if (comment.tipo_comentario_term === 'revision' || comment.tipo_comentario_term === 'tecnico') {
+		if (
+			comment.tipo_comentario_term === 'revision' ||
+			comment.tipo_comentario_term === 'tecnico' ||
+			comment.tipo_comentario_term === 'nota_propia' ||
+			comment.tipo_comentario_term === 'observacion_publica'
+		) {
 			editingType = comment.tipo_comentario_term;
 			editingBaselineType = comment.tipo_comentario_term;
 			return;
@@ -237,6 +284,36 @@
 		props.onCommentsMutated?.();
 	}
 
+	async function toggleCommentPublication(comment: ComentarioListItem) {
+		if (!comment.can_publish || savingEdit) return;
+		const payload: ComentarioPublicacionPatchInput = {
+			visible_publico: !comment.visible_publico
+		};
+		savingEdit = true;
+		const response = await fetch(
+			`/api/obras/${props.obraId}/comentarios/${comment.comentario_id}/publicacion`,
+			{
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload)
+			}
+		);
+		savingEdit = false;
+		if (!response.ok) {
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo cambiar la visibilidad pública.');
+			return;
+		}
+		pushToast(
+			'success',
+			payload.visible_publico
+				? 'Comentario visible en ficha pública'
+				: 'Comentario retirado de la ficha pública'
+		);
+		await loadComments();
+		props.onCommentsMutated?.();
+	}
+
 	onMount(() => {
 		mounted = true;
 		void loadComments();
@@ -264,7 +341,26 @@
 		props.onDraftDirtyChange?.(draftDirty);
 	});
 
+	$effect(() => {
+		const focusComentarioId = props.focusComentarioId?.trim() ?? '';
+		if (!focusComentarioId) {
+			handledFocusComentarioId = null;
+			return;
+		}
+		if (focusComentarioId === handledFocusComentarioId) return;
+
+		collapsed = false;
+		showAllComments = true;
+
+		if (!comments.some((comment) => comment.comentario_id === focusComentarioId)) return;
+		void applyFocusedComment(focusComentarioId);
+	});
+
 	onDestroy(() => {
+		if (highlightTimer) {
+			clearTimeout(highlightTimer);
+			highlightTimer = null;
+		}
 		props.onDraftDirtyChange?.(false);
 	});
 </script>
@@ -316,8 +412,20 @@
 {/snippet}
 
 {#snippet panelActions(comment: ComentarioListItem)}
-	{#if comment.can_edit || comment.can_delete}
-		<div class="mt-2 flex justify-end gap-2">
+	{#if comment.can_edit || comment.can_delete || comment.can_publish}
+		<div class="mt-2 flex flex-wrap items-center justify-end gap-3">
+			{#if comment.can_publish}
+				<label class="inline-flex items-center gap-2 text-xs text-[color:var(--foreground)]">
+					<input
+						type="checkbox"
+						class="h-4 w-4 accent-[color:var(--primary)]"
+						checked={comment.visible_publico}
+						disabled={savingEdit || deletingComment}
+						onchange={() => toggleCommentPublication(comment)}
+					/>
+					<span>Visible en ficha pública</span>
+				</label>
+			{/if}
 			{#if comment.can_edit}
 				<Button
 					variant="ghost"
@@ -406,6 +514,7 @@
 				emptyText={props.emptyText}
 				editingCommentId={editingCommentId}
 				deleteConfirmId={deleteConfirmId}
+				highlightedCommentId={highlightedCommentId}
 			>
 				{#snippet editingContent(comment)}
 					{@render panelEditingContent(comment)}

@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto, invalidateAll } from '$app/navigation';
 	import type { RealtimeChannel } from '@supabase/supabase-js';
-	import { onDestroy, onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick, untrack } from 'svelte';
 	import { get } from 'svelte/store';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
@@ -54,6 +54,24 @@
 	let observacionesSaveRequestToken = $state(0);
 	const focusSecuenciaId = $derived.by(() => {
 		const raw = $page.url.searchParams.get('focusSecuenciaId');
+		if (!raw) return null;
+		const normalized = raw.trim();
+		return normalized.length > 0 ? normalized : null;
+	});
+	const focusJornadaId = $derived.by(() => {
+		const raw = $page.url.searchParams.get('focusJornadaId');
+		if (!raw) return null;
+		const normalized = raw.trim();
+		return normalized.length > 0 ? normalized : null;
+	});
+	const focusCuadroId = $derived.by(() => {
+		const raw = $page.url.searchParams.get('focusCuadroId');
+		if (!raw) return null;
+		const normalized = raw.trim();
+		return normalized.length > 0 ? normalized : null;
+	});
+	const focusComentarioId = $derived.by(() => {
+		const raw = $page.url.searchParams.get('focusComentarioId');
 		if (!raw) return null;
 		const normalized = raw.trim();
 		return normalized.length > 0 ? normalized : null;
@@ -112,9 +130,11 @@
 		if (!generalSaveScope) return 'Guardar';
 		return $currentObraStore.savingByScope[generalSaveScope] ? 'Guardando...' : 'Guardar';
 	});
-	let jornadasLive = $state<Tables<'jornadas'>[]>([]);
-	let cuadrosLive = $state<Tables<'cuadros'>[]>([]);
-	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>([]);
+	let jornadasLive = $state<Tables<'jornadas'>[]>(untrack(() => [...data.jornadas]));
+	let cuadrosLive = $state<Tables<'cuadros'>[]>(untrack(() => [...data.cuadros]));
+	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>(
+		untrack(() => [...data.secuencias])
+	);
 
 	let channel: RealtimeChannel | null = null;
 	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestaña.';
@@ -429,6 +449,7 @@
 			saveRequestToken={datosSaveRequestToken}
 			readOnly={!canEditContent}
 			canComment={canComment}
+			focusComentarioId={focusComentarioId}
 		/>
 	{:else if currentTab === 'estructura'}
 		<EstructuraTab
@@ -438,6 +459,9 @@
 			certezaOptions={certezaOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
+			focusJornadaId={focusJornadaId}
+			focusCuadroId={focusCuadroId}
+			focusComentarioId={focusComentarioId}
 			onStructureChange={handleStructureChange}
 		/>
 	{:else if currentTab === 'secuencias'}
@@ -452,6 +476,7 @@
 			readOnly={!canEditContent}
 			canComment={canComment}
 			focusSecuenciaId={focusSecuenciaId}
+			focusComentarioId={focusComentarioId}
 			onSecuenciasChange={handleSecuenciasChange}
 		/>
 	{:else if currentTab === 'autoria'}
@@ -462,6 +487,7 @@
 			saveRequestToken={autoriaSaveRequestToken}
 			readOnly={!canEditContent}
 			canComment={canComment}
+			focusComentarioId={focusComentarioId}
 		/>
 	{:else if currentTab === 'observaciones'}
 		<ObservacionesTab
@@ -471,6 +497,7 @@
 			saveRequestToken={observacionesSaveRequestToken}
 			readOnly={!canEditContent}
 			canComment={canComment}
+			focusComentarioId={focusComentarioId}
 		/>
 	{:else}
 		<RevisionTab
@@ -482,10 +509,11 @@
 			jornadas={jornadasLive}
 			cuadros={cuadrosLive}
 			secuencias={secuenciasLive}
-			autoriaAdoptadaCount={data.autoriaAdoptadaCount}
+			autoriaPreferenteCount={data.autoriaPreferenteCount}
 			editorAsignadoNombre={data.editorAsignadoNombre}
 			assignedReviewer={data.assignedReviewer}
 			capabilities={data.capabilities}
+			focusComentarioId={focusComentarioId}
 			onPendingChangesChange={handleRevisionPendingChangesChange}
 		/>
 	{/if}

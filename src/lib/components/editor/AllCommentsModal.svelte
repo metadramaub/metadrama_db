@@ -4,6 +4,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import InternalCommentsFeed from '$lib/components/editor/InternalCommentsFeed.svelte';
 	import { pushToast } from '$lib/stores/toast';
+	import { buildCommentTargetUrl } from '$lib/utils/comment-links';
 	import type { ComentarioListItem } from '$lib/types/obra.types';
 
 	const props = $props<{
@@ -22,15 +23,9 @@
 		return `${comments.length} comentarios`;
 	});
 
-	function handleSequenceContextClick(comment: ComentarioListItem) {
-		const secuenciaId = comment.secuencia_id;
-		if (!secuenciaId) return;
+	function handleContextClick(comment: ComentarioListItem) {
 		props.onClose();
-		void goto(
-			`/dashboard/obras/${props.obraId}?tab=secuencias&focusSecuenciaId=${encodeURIComponent(
-				secuenciaId
-			)}`
-		);
+		void goto(buildCommentTargetUrl(props.obraId, comment));
 	}
 
 	async function loadComments() {
@@ -100,7 +95,7 @@
 						loading={commentsLoading}
 						emptyText={loadError ?? 'No hay comentarios internos en esta obra.'}
 						showSequenceEstrofa={true}
-						onSequenceContextClick={handleSequenceContextClick}
+						onContextClick={handleContextClick}
 					/>
 				</div>
 			</div>

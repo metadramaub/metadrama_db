@@ -1,6 +1,22 @@
 import { z } from 'zod';
 import { COMENTARIO_SECCIONES } from '$lib/types/obra.types';
 
+const comentarioTipoInputSchema = z.enum([
+	'general',
+	'revision',
+	'tecnico',
+	'estado',
+	'nota_propia',
+	'observacion_publica'
+]);
+const comentarioTipoPatchSchema = z.enum([
+	'general',
+	'revision',
+	'tecnico',
+	'nota_propia',
+	'observacion_publica'
+]);
+
 const nullableYear = z
 	.union([z.number().int().min(1200).max(2100), z.null()])
 	.optional()
@@ -94,13 +110,19 @@ export const secuenciaInputSchema = z
 		estrofa_tipo_id: z.string().uuid('Estrofa requerida'),
 		inaugura_espacio: z.boolean().default(false),
 		versos_partidos: z.boolean().default(false),
-		personaje_femenino: z.enum(['ausente', 'solo', 'con_otros']),
-		personajes_donaire: z.enum(['ausente', 'solo', 'con_otros']),
-		personajes_sobrenatural: z.enum(['ausente', 'solo', 'con_otros']),
+		evocacion_metrica: z.boolean().default(false),
+		evocacion_metrica_texto: nullableText(2000),
+		intervencion_personajes_femeninos: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
+		intervencion_figuras_donaire: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
+		intervencion_personajes_sobrenaturales: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
 		certeza_editor: z.string().uuid(),
 		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
 	.strict()
+	.transform((input) => ({
+		...input,
+		evocacion_metrica_texto: input.evocacion_metrica ? input.evocacion_metrica_texto : null
+	}))
 	.refine((input) => input.v_ini < input.v_fin, {
 		message: 'El verso inicial debe ser menor que el final',
 		path: ['v_ini']
@@ -163,10 +185,7 @@ function validateSingleCommentContext(
 export const comentarioInputSchema = z
 	.object({
 		comentario: z.string().trim().min(1).max(4000),
-		tipo_comentario: z
-			.enum(['general', 'revision', 'tecnico', 'estado'])
-			.optional()
-			.default('general'),
+		tipo_comentario: comentarioTipoInputSchema.optional().default('general'),
 		seccion: z.enum(COMENTARIO_SECCIONES).optional(),
 		secuencia_id: z.string().uuid().optional(),
 		jornada_id: z.string().uuid().optional(),
@@ -176,7 +195,11 @@ export const comentarioInputSchema = z
 
 export const comentarioPatchSchema = z.object({
 	comentario: z.string().trim().min(1).max(4000),
-	tipo_comentario: z.enum(['general', 'revision', 'tecnico']).optional()
+	tipo_comentario: comentarioTipoPatchSchema.optional()
+});
+
+export const comentarioPublicacionPatchSchema = z.object({
+	visible_publico: z.boolean()
 });
 
 export const comentarioListQuerySchema = z
@@ -197,14 +220,21 @@ const autoriaAtribucionAutorSchema = z
 	})
 	.strict();
 
-const autoriaAtribucionSchema = z
+const autoriaEvidenciaSchema = z
 	.object({
-		jornada_id: z.string().uuid().optional().nullable().default(null),
+		atribucion_evidencia_id: z.string().uuid().optional().nullable().default(null),
 		tipo_atribucion_id: z.string().uuid('Tipo de atribucion requerido'),
-		modalidad_atribucion_id: z.string().uuid('Modalidad de atribucion requerida'),
-		fuente_autoria: nullableText(2000),
-		adoptada: z.boolean().optional().default(false),
-		notas: nullableText(20000),
+		fuente_autoria: nullableText(20000)
+	})
+	.strict();
+
+const autoriaPropuestaSchema = z
+	.object({
+		atribucion_id: z.string().uuid().optional().nullable().default(null),
+		composicion_autoria_id: z.string().uuid('Composicion de autoria requerida'),
+		atribucion_preferente: z.boolean().optional().default(false),
+		usable_perfil_metrico: z.boolean().optional().default(false),
+		disponible_laboratorio: z.boolean().optional().default(true),
 		autores: z
 			.array(autoriaAtribucionAutorSchema)
 			.default([])
@@ -220,13 +250,24 @@ const autoriaAtribucionSchema = z
 					autor_id: item.autor_id,
 					orden: item.orden ?? index + 1
 				}));
-			})
+			}),
+		evidencias: z
+			.array(autoriaEvidenciaSchema)
+			.default([])
+	})
+	.strict();
+
+const grupoAtribucionSchema = z
+	.object({
+		grupo_atribucion_id: z.string().uuid().optional().nullable().default(null),
+		jornada_id: z.string().uuid().optional().nullable().default(null),
+		propuestas: z.array(autoriaPropuestaSchema).default([])
 	})
 	.strict();
 
 export const autoriaInputSchema = z
 	.object({
-		atribuciones: z.array(autoriaAtribucionSchema).default([])
+		grupos: z.array(grupoAtribucionSchema).default([])
 	})
 	.strict();
 
@@ -443,6 +484,7 @@ export type SecuenciaSubtipoEstrofaInputParsed = z.infer<typeof secuenciaSubtipo
 export type EstadoInputParsed = z.infer<typeof estadoInputSchema>;
 export type ComentarioInputParsed = z.infer<typeof comentarioInputSchema>;
 export type ComentarioPatchParsed = z.infer<typeof comentarioPatchSchema>;
+export type ComentarioPublicacionPatchParsed = z.infer<typeof comentarioPublicacionPatchSchema>;
 export type ComentarioListQueryParsed = z.infer<typeof comentarioListQuerySchema>;
 export type AutoriaInputParsed = z.infer<typeof autoriaInputSchema>;
 export type ObservacionesInputParsed = z.infer<typeof observacionesInputSchema>;

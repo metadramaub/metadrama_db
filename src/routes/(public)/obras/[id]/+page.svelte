@@ -7,10 +7,21 @@
 	import MetricDistributionPie from '$lib/components/ficha/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
 	import OrcidIcon from '$lib/components/icons/OrcidIcon.svelte';
-	import type { SequenceModalPayload } from '$lib/types/public-ficha.types';
+	import type {
+		PublicFichaComentarioPublico,
+		PublicFichaAtribucionEvidencia,
+		PublicFichaAtribucionAutoria,
+		PublicFichaGrupoAutoria,
+		SequenceModalPayload
+	} from '$lib/types/public-ficha.types';
 	import { formatRelative } from '$lib/utils/formatters';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { colorForMetricKey } from '$lib/utils/metric-colors';
+	import {
+		collectPreferredPublicAuthors,
+		formatPublicAutoriaGroup,
+		formatPublicAutoriaProposal
+	} from '$lib/utils/autoria-format';
 	import {
 		resolveSequenceStructures,
 		type ResolvedSequenceStructure
@@ -31,6 +42,14 @@
 	let dateSourceWrapEl = $state<HTMLDivElement | null>(null);
 
 	type ResolvedPublicSequence = ResolvedSequenceStructure<SequenceModalPayload>;
+	type PublicFichaAtribucionFuente = PublicFichaAtribucionEvidencia & {
+		atribucion_id: string;
+		atribucion_label: string;
+		atribucion_preferente: boolean;
+		scope: 'obra' | 'jornada';
+		jornada_id: string | null;
+		jornada_num: number | null;
+	};
 
 	const ficha = $derived(data.ficha);
 	const obra = $derived(ficha.obra);
@@ -80,32 +99,68 @@
 		autorFichaEmail ? `mailto:${autorFichaEmail}` : null
 	);
 	const autorFichaOrcidUrl = $derived.by(() => normalizeOrcidUrl(obra.autor_ficha_orcid_publico));
+	const gruposAutoria = $derived.by((): PublicFichaGrupoAutoria[] => ficha.autoria.grupos ?? []);
+	const gruposAutoriaGlobales = $derived(gruposAutoria.filter((grupo: PublicFichaGrupoAutoria) => !grupo.jornada_id));
+	const gruposAutoriaJornadas = $derived(
+		gruposAutoria
+			.filter((grupo: PublicFichaGrupoAutoria) => Boolean(grupo.jornada_id))
+			.sort((a: PublicFichaGrupoAutoria, b: PublicFichaGrupoAutoria) => (a.jornada_num ?? 0) - (b.jornada_num ?? 0))
+	);
+	const autoriaPrincipalLabel = $derived.by(() => {
+		const preferredGlobal = gruposAutoriaGlobales.find((grupo: PublicFichaGrupoAutoria) =>
+			grupo.propuestas.some((propuesta: PublicFichaAtribucionAutoria) => propuesta.atribucion_preferente)
+		);
+		if (preferredGlobal) return formatPublicAutoriaGroup(preferredGlobal);
+		if (gruposAutoriaGlobales.length > 0) return formatPublicAutoriaGroup(gruposAutoriaGlobales[0]);
+		return '';
+	});
+	const autoresPreferentes = $derived(collectPreferredPublicAuthors(gruposAutoria));
 	const atribucionesAutoriaConFuente = $derived.by(() =>
-		[...ficha.autoria.atribuciones]
-			.filter((atribucion) => (atribucion.fuente_autoria ?? '').trim().length > 0)
-			.sort((a, b) => {
-				if (a.adoptada !== b.adoptada) return a.adoptada ? -1 : 1;
+		gruposAutoria
+			.flatMap((grupo: PublicFichaGrupoAutoria): PublicFichaAtribucionFuente[] =>
+				grupo.propuestas.flatMap((propuesta: PublicFichaAtribucionAutoria) =>
+					propuesta.evidencias.map((evidencia: PublicFichaAtribucionEvidencia) => ({
+						...evidencia,
+						atribucion_id: propuesta.atribucion_id,
+						atribucion_label: formatPublicAutoriaProposal(propuesta),
+						atribucion_preferente: propuesta.atribucion_preferente,
+						scope: grupo.scope,
+						jornada_id: grupo.jornada_id,
+						jornada_num: grupo.jornada_num
+					}))
+				)
+			)
+			.filter((atribucion: PublicFichaAtribucionFuente) => (atribucion.fuente_autoria ?? '').trim().length > 0)
+			.sort((a: PublicFichaAtribucionFuente, b: PublicFichaAtribucionFuente) => {
+				if (a.atribucion_preferente !== b.atribucion_preferente) {
+					return a.atribucion_preferente ? -1 : 1;
+				}
 				const aScope = a.jornada_id ? 1 : 0;
 				const bScope = b.jornada_id ? 1 : 0;
 				if (aScope !== bScope) return aScope - bScope;
-				const aJornadaNum = a.jornada_num ?? 0;
-				const bJornadaNum = b.jornada_num ?? 0;
-				return aJornadaNum - bJornadaNum || a.atribucion_id.localeCompare(b.atribucion_id);
+				return (
+					(a.jornada_num ?? 0) - (b.jornada_num ?? 0) ||
+					a.atribucion_id.localeCompare(b.atribucion_id) ||
+					a.tipo_atribucion_term.localeCompare(b.tipo_atribucion_term)
+				);
 			})
 	);
 	const fuenteAutoriaPrincipal = $derived.by(() => {
 		const adoptedGlobal = atribucionesAutoriaConFuente.find(
-			(atribucion) => atribucion.adoptada && !atribucion.jornada_id
+			(atribucion: PublicFichaAtribucionFuente) => atribucion.atribucion_preferente && !atribucion.jornada_id
 		);
 		if (adoptedGlobal) return adoptedGlobal;
-		const adoptedAny = atribucionesAutoriaConFuente.find((atribucion) => atribucion.adoptada);
+		const adoptedAny = atribucionesAutoriaConFuente.find(
+			(atribucion: PublicFichaAtribucionFuente) => atribucion.atribucion_preferente
+		);
 		if (adoptedAny) return adoptedAny;
 		return atribucionesAutoriaConFuente[0] ?? null;
 	});
 	const fuentesAutoriaSecundarias = $derived.by(() => {
 		if (!fuenteAutoriaPrincipal) return [];
 		return atribucionesAutoriaConFuente.filter(
-			(atribucion) => atribucion.atribucion_id !== fuenteAutoriaPrincipal.atribucion_id
+			(atribucion: PublicFichaAtribucionFuente) =>
+				atribucion.atribucion_evidencia_id !== fuenteAutoriaPrincipal.atribucion_evidencia_id
 		);
 	});
 
@@ -163,6 +218,37 @@
 	const selectedSequence = $derived.by(() => {
 		return selectedSequenceStructure?.sequence ?? null;
 	});
+	const comentariosPublicos = $derived<PublicFichaComentarioPublico[]>(
+		ficha.comentarios_publicos ?? []
+	);
+	const comentariosPublicosPorSecuencia = $derived.by(() =>
+		groupCommentsByContext(comentariosPublicos, 'secuencia_id')
+	);
+	const comentariosPublicosPorJornada = $derived.by(() =>
+		groupCommentsByContext(comentariosPublicos, 'jornada_id')
+	);
+	const comentariosPublicosPorCuadro = $derived.by(() =>
+		groupCommentsByContext(comentariosPublicos, 'cuadro_id')
+	);
+	const comentariosPublicosEstructura = $derived.by(() =>
+		comentariosPublicos.filter(
+			(comment) =>
+				!hasSpecificPublicCommentContext(comment) &&
+				(comment.seccion === 'estructura' || comment.seccion === 'secuencias')
+		)
+	);
+	const comentariosPublicosObservaciones = $derived.by(() =>
+		comentariosPublicos.filter(
+			(comment) =>
+				!hasSpecificPublicCommentContext(comment) &&
+				comment.seccion !== 'estructura' &&
+				comment.seccion !== 'secuencias'
+		)
+	);
+	const selectedSequencePublicComments = $derived.by(() => {
+		if (!selectedSequenceId) return [];
+		return comentariosPublicosPorSecuencia.get(selectedSequenceId) ?? [];
+	});
 
 	function openSequenceModal(secuenciaId: string) {
 		selectedSequenceId = secuenciaId;
@@ -187,6 +273,25 @@
 		}
 		selectedSequenceId =
 			resolvedPublicSequences[selectedSequenceIndex + 1]?.sequence.secuencia_id ?? null;
+	}
+
+	function hasSpecificPublicCommentContext(comment: PublicFichaComentarioPublico): boolean {
+		return Boolean(comment.secuencia_id || comment.jornada_id || comment.cuadro_id);
+	}
+
+	function groupCommentsByContext(
+		comments: PublicFichaComentarioPublico[],
+		key: 'secuencia_id' | 'jornada_id' | 'cuadro_id'
+	): Map<string, PublicFichaComentarioPublico[]> {
+		const map = new Map<string, PublicFichaComentarioPublico[]>();
+		for (const comment of comments) {
+			const id = comment[key];
+			if (!id) continue;
+			const current = map.get(id) ?? [];
+			current.push(comment);
+			map.set(id, current);
+		}
+		return map;
 	}
 
 	function toggleDateSource() {
@@ -233,6 +338,24 @@
 	});
 </script>
 
+{#snippet comentariosPublicosBlock(comments: PublicFichaComentarioPublico[], title = 'Aclaraciones públicas')}
+	{#if comments.length > 0}
+		<div class="mt-3 border border-emerald-200 bg-emerald-50 p-3">
+			<h4 class="text-sm font-semibold text-emerald-950">{title}</h4>
+			<div class="mt-2 space-y-3 text-sm text-emerald-950">
+				{#each comments as comment (comment.comentario_id)}
+					<article class="border-l-2 border-emerald-400 pl-3">
+						<div class="space-y-1">{@html renderMarkdown(comment.comentario)}</div>
+						{#if comment.nombre_editor}
+							<p class="mt-1 text-xs text-emerald-900">Autoría de ficha: {comment.nombre_editor}</p>
+						{/if}
+					</article>
+				{/each}
+			</div>
+		</div>
+	{/if}
+{/snippet}
+
 <section class="space-y-6">
 	<nav class="text-xs font-semibold tracking-[0.06em] text-[color:var(--muted-foreground)]">
 		<a href="/obras" class="underline-offset-2 hover:underline">Catalogo</a>
@@ -249,10 +372,10 @@
 				{/if}
 				<div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
 					<span class="font-semibold text-[color:var(--gray-900)]">Autoría:</span>
-					{#if ficha.autoria.autores.length === 0}
-						<span class="text-[color:var(--muted-foreground)]">No indicada</span>
-					{:else}
-						{#each ficha.autoria.autores as autor, index (autor.autor_id)}
+					{#if !autoriaPrincipalLabel && autoresPreferentes.length === 0}
+						<span class="text-[color:var(--muted-foreground)]">Autoría no identificada</span>
+					{:else if autoresPreferentes.length > 0 && !autoriaPrincipalLabel}
+						{#each autoresPreferentes as autor, index (autor.autor_id)}
 							{#if index > 0}
 								<span class="text-[color:var(--muted-foreground)]">·</span>
 							{/if}
@@ -260,8 +383,26 @@
 								>{autor.nombre_completo}</a
 							>
 						{/each}
+					{:else}
+						<span>{autoriaPrincipalLabel}</span>
 					{/if}
 				</div>
+
+				{#if gruposAutoriaJornadas.length > 0}
+					<div class="mt-3 border border-[color:var(--border)] bg-white p-3 text-sm">
+						<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+							Autoría por jornadas
+						</div>
+						<div class="mt-2 space-y-1">
+							{#each gruposAutoriaJornadas as grupo (grupo.grupo_atribucion_id)}
+								<p>
+									<span class="font-semibold">Jornada {grupo.jornada_num}:</span>
+									{formatPublicAutoriaGroup(grupo)}
+								</p>
+							{/each}
+						</div>
+					</div>
+				{/if}
 
 				<div class="mt-3 border border-[color:var(--border)] bg-white p-3">
 					<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
@@ -271,11 +412,14 @@
 						<div class="mt-2">
 							<div class="mb-1 flex flex-wrap items-center gap-2">
 								<span class="text-xs font-semibold text-[color:var(--gray-900)]">
-									{fuenteAutoriaScopeLabel(fuenteAutoriaPrincipal.jornada_num)}
+									{fuenteAutoriaScopeLabel(fuenteAutoriaPrincipal.jornada_num)} · {fuenteAutoriaPrincipal.atribucion_label}
 								</span>
-								{#if fuenteAutoriaPrincipal.adoptada}
+								<span class="rounded-full border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
+									{fuenteAutoriaPrincipal.tipo_atribucion_term}
+								</span>
+								{#if fuenteAutoriaPrincipal.atribucion_preferente}
 									<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--success)]">
-										Adoptada
+										Preferente
 									</span>
 								{/if}
 							</div>
@@ -294,11 +438,14 @@
 										<div class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2">
 											<div class="mb-1 flex flex-wrap items-center gap-2">
 												<span class="text-xs font-semibold text-[color:var(--gray-900)]">
-													{fuenteAutoriaScopeLabel(atribucion.jornada_num)}
+													{fuenteAutoriaScopeLabel(atribucion.jornada_num)} · {atribucion.atribucion_label}
 												</span>
-												{#if atribucion.adoptada}
+												<span class="rounded-full border border-[color:var(--border)] bg-white px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
+													{atribucion.tipo_atribucion_term}
+												</span>
+												{#if atribucion.atribucion_preferente}
 													<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--success)]">
-														Adoptada
+														Preferente
 													</span>
 												{/if}
 											</div>
@@ -506,10 +653,20 @@
 									colorByForma={colorByForma}
 									onOpenSequence={openSequenceModal}
 								/>
+								{@render comentariosPublicosBlock(
+									comentariosPublicosPorJornada.get(jornada.jornada_id) ?? []
+								)}
+								{#each cuadros.filter((cuadro) => cuadro.jornada_id === jornada.jornada_id) as cuadro (cuadro.cuadro_id)}
+									{@render comentariosPublicosBlock(
+										comentariosPublicosPorCuadro.get(cuadro.cuadro_id) ?? [],
+										`Aclaraciones públicas del cuadro ${cuadro.cuadro_num}`
+									)}
+								{/each}
 							</div>
 						{/each}
 					</div>
 				{/if}
+				{@render comentariosPublicosBlock(comentariosPublicosEstructura)}
 			</div>
 
 			<MetricDistributionPie
@@ -524,9 +681,10 @@
 				<h2 class="text-lg font-semibold">Otras observaciones</h2>
 				{#if (obra.observaciones ?? '').trim().length > 0}
 					<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.observaciones ?? '')}</div>
-				{:else}
+				{:else if comentariosPublicosObservaciones.length === 0}
 					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin observaciones publicadas.</p>
 				{/if}
+				{@render comentariosPublicosBlock(comentariosPublicosObservaciones)}
 			</div>
 
 			<div class="card p-4">
@@ -546,6 +704,7 @@
 		open={selectedSequence !== null}
 		secuencia={selectedSequence}
 		structure={selectedSequenceStructure}
+		comentariosPublicos={selectedSequencePublicComments}
 		index={Math.max(selectedSequenceIndex, 0)}
 		total={secuenciasOrdenadas.length}
 		canPrev={selectedSequenceIndex > 0}

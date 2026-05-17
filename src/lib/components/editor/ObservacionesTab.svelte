@@ -17,6 +17,7 @@
 		saveRequestToken?: number;
 		readOnly?: boolean;
 		canComment?: boolean;
+		focusComentarioId?: string | null;
 	}>();
 	const PUBLIC_VISIBILITY_HELP = 'Este contenido se publica en la ficha pública de la obra.';
 
@@ -164,6 +165,7 @@
 		obraId={props.obraId}
 		canComment={Boolean(props.canComment)}
 		section="observaciones"
+		focusComentarioId={props.focusComentarioId}
 		title="Comentarios internos sobre observaciones"
 		emptyText="No hay comentarios internos sobre esta sección."
 	/>

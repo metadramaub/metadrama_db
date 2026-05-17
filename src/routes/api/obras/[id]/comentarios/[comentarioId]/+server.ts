@@ -4,6 +4,7 @@ import { comentarioPatchSchema } from '$lib/utils/validators';
 import { conflictResponse, forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { getObraContext } from '$lib/server/auth';
 import type { Tables } from '$lib/types/database.types';
+import type { ComentarioTipoTerm } from '$lib/server/comentarios';
 
 type ComentarioRow = Tables<'comentarios_internos'>;
 
@@ -11,7 +12,10 @@ function isAdminOrIp(roleTerm: string): boolean {
 	return roleTerm === 'admin' || roleTerm === 'ip';
 }
 
-async function resolveTipoComentarioId(locals: App.Locals, term: 'general' | 'revision' | 'tecnico') {
+async function resolveTipoComentarioId(
+	locals: App.Locals,
+	term: Exclude<ComentarioTipoTerm, 'estado'>
+) {
 	const { data } = await locals.supabase
 		.from('vocabularios')
 		.select('termino_id')
@@ -53,7 +57,9 @@ async function resolveTipoComentarioTerm(
 }
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
-	const { profile } = await getObraContext({ locals }, params.id, { requireComment: true });
+	const { profile, assignedEditor } = await getObraContext({ locals }, params.id, {
+		requireComment: true
+	});
 
 	const body = await request.json().catch(() => ({}));
 	const parsed = comentarioPatchSchema.safeParse(body);
@@ -71,7 +77,11 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const canManageAll = isAdminOrIp(profile.roleTerm);
-	if (!canManageAll && comentarioActual.user_id !== profile.userId) {
+	const canPublishPublicComments = canManageAll || assignedEditor;
+	if (comentarioActual.visible_publico && !canPublishPublicComments) {
+		return forbiddenResponse('No tienes permisos para editar un comentario publicado');
+	}
+	if (!comentarioActual.visible_publico && !canManageAll && comentarioActual.user_id !== profile.userId) {
 		return forbiddenResponse('No tienes permisos para editar este comentario');
 	}
 
@@ -81,6 +91,9 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	let tipoComentarioId = comentarioActual.tipo_comentario_id;
+	let nextVisiblePublico = Boolean(comentarioActual.visible_publico);
+	let nextPublicadoPor = comentarioActual.publicado_por;
+	let nextPublicadoAt = comentarioActual.publicado_at;
 	if (parsed.data.tipo_comentario) {
 		const resolvedTipoId = await resolveTipoComentarioId(locals, parsed.data.tipo_comentario);
 		if (!resolvedTipoId) {
@@ -93,13 +106,21 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			);
 		}
 		tipoComentarioId = resolvedTipoId;
+		if (parsed.data.tipo_comentario !== 'observacion_publica') {
+			nextVisiblePublico = false;
+			nextPublicadoPor = null;
+			nextPublicadoAt = null;
+		}
 	}
 
 	const { data: updated, error } = await locals.supabase
 		.from('comentarios_internos')
 		.update({
 			comentario: parsed.data.comentario,
-			tipo_comentario_id: tipoComentarioId
+			tipo_comentario_id: tipoComentarioId,
+			visible_publico: nextVisiblePublico,
+			publicado_por: nextPublicadoPor,
+			publicado_at: nextPublicadoAt
 		})
 		.eq('obra_id', params.id)
 		.eq('comentario_id', params.comentarioId)
@@ -117,7 +138,9 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 };
 
 export const DELETE: RequestHandler = async ({ locals, params }) => {
-	const { profile } = await getObraContext({ locals }, params.id, { requireComment: true });
+	const { profile, assignedEditor } = await getObraContext({ locals }, params.id, {
+		requireComment: true
+	});
 
 	const comentarioLookup = await findComentarioById(locals, params.id, params.comentarioId);
 	if (comentarioLookup.error) {
@@ -129,7 +152,11 @@ export const DELETE: RequestHandler = async ({ locals, params }) => {
 	}
 
 	const canManageAll = isAdminOrIp(profile.roleTerm);
-	if (!canManageAll && comentarioActual.user_id !== profile.userId) {
+	const canPublishPublicComments = canManageAll || assignedEditor;
+	if (comentarioActual.visible_publico && !canPublishPublicComments) {
+		return forbiddenResponse('No tienes permisos para eliminar un comentario publicado');
+	}
+	if (!comentarioActual.visible_publico && !canManageAll && comentarioActual.user_id !== profile.userId) {
 		return forbiddenResponse('No tienes permisos para eliminar este comentario');
 	}
 

@@ -60,9 +60,11 @@ describe('validators', () => {
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
 			versos_partidos: true,
-			personaje_femenino: 'ausente',
-			personajes_donaire: 'ausente',
-			personajes_sobrenatural: 'ausente',
+			evocacion_metrica: true,
+			evocacion_metrica_texto: 'Imita la voz métrica de otro personaje',
+			intervencion_personajes_femeninos: 'sin_intervencion',
+			intervencion_figuras_donaire: 'sin_intervencion',
+			intervencion_personajes_sobrenaturales: 'sin_intervencion',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			sinopsis: null
 		});
@@ -75,13 +77,30 @@ describe('validators', () => {
 			v_fin: 120,
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
-			personaje_femenino: 'ausente',
-			personajes_donaire: 'ausente',
-			personajes_sobrenatural: 'ausente',
+			intervencion_personajes_femeninos: 'sin_intervencion',
+			intervencion_figuras_donaire: 'sin_intervencion',
+			intervencion_personajes_sobrenaturales: 'sin_intervencion',
 			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			sinopsis: null
 		});
 		expect(parsed.versos_partidos).toBe(false);
+		expect(parsed.evocacion_metrica).toBe(false);
+		expect(parsed.evocacion_metrica_texto).toBe(null);
+	});
+
+	it('rejects old intervention values in secuencia payload', () => {
+		const result = secuenciaInputSchema.safeParse({
+			v_ini: 1,
+			v_fin: 120,
+			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			inaugura_espacio: false,
+			intervencion_personajes_femeninos: 'ausente',
+			intervencion_figuras_donaire: 'solo',
+			intervencion_personajes_sobrenaturales: 'con_otros',
+			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+			sinopsis: null
+		});
+		expect(result.success).toBe(false);
 	});
 
 	it('accepts secuencia caracterizacion por rango payload with same verse range', () => {
@@ -143,6 +162,21 @@ describe('validators', () => {
 		expect(result.success).toBe(true);
 	});
 
+	it('accepts nota propia and public observation comment types', () => {
+		expect(
+			comentarioInputSchema.safeParse({
+				comentario: 'Revisar criterio mas adelante',
+				tipo_comentario: 'nota_propia'
+			}).success
+		).toBe(true);
+		expect(
+			comentarioInputSchema.safeParse({
+				comentario: 'Aclaracion publicable',
+				tipo_comentario: 'observacion_publica'
+			}).success
+		).toBe(true);
+	});
+
 	it('rejects comments mixing section and specific context', () => {
 		const result = comentarioInputSchema.safeParse({
 			comentario: 'Comentario interno',
@@ -158,6 +192,21 @@ describe('validators', () => {
 			tipo_comentario: 'estado'
 		});
 		expect(result.success).toBe(false);
+	});
+
+	it('accepts patching editable public comment types', () => {
+		expect(
+			comentarioPatchSchema.safeParse({
+				comentario: 'Actualizado',
+				tipo_comentario: 'nota_propia'
+			}).success
+		).toBe(true);
+		expect(
+			comentarioPatchSchema.safeParse({
+				comentario: 'Actualizado',
+				tipo_comentario: 'observacion_publica'
+			}).success
+		).toBe(true);
 	});
 
 	it('applies defaults for comment list query pagination', () => {
@@ -189,35 +238,44 @@ describe('validators', () => {
 		expect(result.success).toBe(false);
 	});
 
-	it('accepts autoria payload with one global atribucion', () => {
+	it('accepts autoria payload with one global group and proposal', () => {
 		const result = autoriaInputSchema.safeParse({
-			atribuciones: [
+			grupos: [
 				{
 					jornada_id: null,
-					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					fuente_autoria: 'Catena tradicional',
-					adoptada: true,
-					notas: 'Hipotesis principal',
-					autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017', orden: 1 }]
+					propuestas: [
+						{
+							composicion_autoria_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+							atribucion_preferente: true,
+							evidencias: [
+								{
+									tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+									fuente_autoria: 'Catena tradicional'
+								}
+							],
+							autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017', orden: 1 }]
+						}
+					]
 				}
 			]
 		});
 		expect(result.success).toBe(true);
 	});
 
-	it('accepts autoria payload with atribucion de jornada', () => {
+	it('accepts autoria payload with jornada group', () => {
 		const result = autoriaInputSchema.safeParse({
-			atribuciones: [
+			grupos: [
 				{
 					jornada_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					fuente_autoria: null,
-					notas: null,
-					autores: [
-						{ autor_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7' },
-						{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 2 }
+					propuestas: [
+						{
+							composicion_autoria_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+							evidencias: [{ tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7' }],
+							autores: [
+								{ autor_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7' },
+								{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 2 }
+							]
+						}
 					]
 				}
 			]
@@ -227,60 +285,84 @@ describe('validators', () => {
 
 	it('deduplicates autores in autoria payload', () => {
 		const result = autoriaInputSchema.parse({
-			atribuciones: [
+			grupos: [
 				{
 					jornada_id: null,
-					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					fuente_autoria: 'Tradicion',
-					autores: [
-						{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 1 },
-						{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 2 }
+					propuestas: [
+						{
+							composicion_autoria_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+							evidencias: [
+								{
+									tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+									fuente_autoria: 'Tradicion'
+								}
+							],
+							autores: [
+								{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 1 },
+								{ autor_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7', orden: 2 }
+							]
+						}
 					]
 				}
 			]
 		});
-		expect(result.atribuciones[0].autores).toHaveLength(1);
-		expect(result.atribuciones[0].autores[0].orden).toBe(1);
+		expect(result.grupos[0].propuestas[0].autores).toHaveLength(1);
+		expect(result.grupos[0].propuestas[0].autores[0].orden).toBe(1);
 	});
 
-	it('accepts autoria payload without fuente_autoria', () => {
+	it('accepts autoria payload with evidencia without fuente_autoria', () => {
 		const result = autoriaInputSchema.safeParse({
-			atribuciones: [
+			grupos: [
 				{
 					jornada_id: null,
-					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017' }]
+					propuestas: [
+						{
+							composicion_autoria_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+							evidencias: [{ tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7' }],
+							autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017' }]
+						}
+					]
 				}
 			]
 		});
 		expect(result.success).toBe(true);
 	});
 
-	it('normalizes empty fuente_autoria to null', () => {
+	it('normalizes empty fuente_autoria in evidencias to null', () => {
 		const result = autoriaInputSchema.parse({
-			atribuciones: [
+			grupos: [
 				{
 					jornada_id: null,
-					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					fuente_autoria: '   ',
-					autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017' }]
+					propuestas: [
+						{
+							composicion_autoria_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+							evidencias: [
+								{
+									tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
+									fuente_autoria: '   '
+								}
+							],
+							autores: [{ autor_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017' }]
+						}
+					]
 				}
 			]
 		});
-		expect(result.atribuciones[0].fuente_autoria).toBeNull();
+		expect(result.grupos[0].propuestas[0].evidencias[0].fuente_autoria).toBeNull();
 	});
 
 	it('accepts autoria payload with empty autores array', () => {
 		const result = autoriaInputSchema.safeParse({
-			atribuciones: [
+			grupos: [
 				{
 					jornada_id: null,
-					tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-					modalidad_atribucion_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-					autores: []
+					propuestas: [
+						{
+							composicion_autoria_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
+							evidencias: [{ tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7' }],
+							autores: []
+						}
+					]
 				}
 			]
 		});

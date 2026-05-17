@@ -92,41 +92,67 @@ export type Database = {
       atribuciones: {
         Row: {
           adoptada: boolean
+          atribucion_preferente: boolean
           atribucion_id: string
+          composicion_autoria_id: string | null
           created_at: string
+          disponible_laboratorio: boolean
           fuente_autoria: string | null
+          grupo_atribucion_id: string | null
           jornada_id: string | null
           modalidad_atribucion_id: string
-          notas: string | null
           obra_id: string | null
           tipo_atribucion_id: string
           updated_at: string
+          usable_perfil_metrico: boolean
         }
         Insert: {
           adoptada?: boolean
+          atribucion_preferente?: boolean
           atribucion_id?: string
+          composicion_autoria_id?: string | null
           created_at?: string
+          disponible_laboratorio?: boolean
           fuente_autoria?: string | null
+          grupo_atribucion_id?: string | null
           jornada_id?: string | null
           modalidad_atribucion_id: string
-          notas?: string | null
           obra_id?: string | null
           tipo_atribucion_id: string
           updated_at?: string
+          usable_perfil_metrico?: boolean
         }
         Update: {
           adoptada?: boolean
+          atribucion_preferente?: boolean
           atribucion_id?: string
+          composicion_autoria_id?: string | null
           created_at?: string
+          disponible_laboratorio?: boolean
           fuente_autoria?: string | null
+          grupo_atribucion_id?: string | null
           jornada_id?: string | null
           modalidad_atribucion_id?: string
-          notas?: string | null
           obra_id?: string | null
           tipo_atribucion_id?: string
           updated_at?: string
+          usable_perfil_metrico?: boolean
         }
         Relationships: [
+          {
+            foreignKeyName: "atribuciones_composicion_autoria_id_fkey"
+            columns: ["composicion_autoria_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "atribuciones_grupo_atribucion_id_fkey"
+            columns: ["grupo_atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_atribucion"
+            referencedColumns: ["grupo_atribucion_id"]
+          },
           {
             foreignKeyName: "atribuciones_jornada_id_fkey"
             columns: ["jornada_id"]
@@ -157,6 +183,87 @@ export type Database = {
           },
         ]
       }
+      atribucion_evidencias: {
+        Row: {
+          atribucion_evidencia_id: string
+          atribucion_id: string
+          created_at: string
+          fuente_autoria: string | null
+          tipo_atribucion_id: string
+          updated_at: string
+        }
+        Insert: {
+          atribucion_evidencia_id?: string
+          atribucion_id: string
+          created_at?: string
+          fuente_autoria?: string | null
+          tipo_atribucion_id: string
+          updated_at?: string
+        }
+        Update: {
+          atribucion_evidencia_id?: string
+          atribucion_id?: string
+          created_at?: string
+          fuente_autoria?: string | null
+          tipo_atribucion_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "atribucion_evidencias_atribucion_id_fkey"
+            columns: ["atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "atribuciones"
+            referencedColumns: ["atribucion_id"]
+          },
+          {
+            foreignKeyName: "atribucion_evidencias_tipo_atribucion_id_fkey"
+            columns: ["tipo_atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      grupos_atribucion: {
+        Row: {
+          created_at: string
+          grupo_atribucion_id: string
+          jornada_id: string | null
+          obra_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          grupo_atribucion_id?: string
+          jornada_id?: string | null
+          obra_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          grupo_atribucion_id?: string
+          jornada_id?: string | null
+          obra_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grupos_atribucion_jornada_id_fkey"
+            columns: ["jornada_id"]
+            isOneToOne: false
+            referencedRelation: "jornadas"
+            referencedColumns: ["jornada_id"]
+          },
+          {
+            foreignKeyName: "grupos_atribucion_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
       comentarios_internos: {
         Row: {
           comentario: string
@@ -165,11 +272,14 @@ export type Database = {
           cuadro_id: string | null
           jornada_id: string | null
           obra_id: string
+          publicado_at: string | null
+          publicado_por: string | null
           seccion: string | null
           secuencia_id: string | null
           tipo_comentario_id: string
           updated_at: string
           user_id: string
+          visible_publico: boolean
         }
         Insert: {
           comentario: string
@@ -178,11 +288,14 @@ export type Database = {
           cuadro_id?: string | null
           jornada_id?: string | null
           obra_id: string
+          publicado_at?: string | null
+          publicado_por?: string | null
           seccion?: string | null
           secuencia_id?: string | null
           tipo_comentario_id: string
           updated_at?: string
           user_id: string
+          visible_publico?: boolean
         }
         Update: {
           comentario?: string
@@ -191,11 +304,14 @@ export type Database = {
           cuadro_id?: string | null
           jornada_id?: string | null
           obra_id?: string
+          publicado_at?: string | null
+          publicado_por?: string | null
           seccion?: string | null
           secuencia_id?: string | null
           tipo_comentario_id?: string
           updated_at?: string
           user_id?: string
+          visible_publico?: boolean
         }
         Relationships: [
           {
@@ -218,6 +334,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "comentarios_internos_publicado_por_fkey"
+            columns: ["publicado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "comentarios_internos_secuencia_id_fkey"
@@ -618,13 +741,15 @@ export type Database = {
         Row: {
           certeza_editor: string
           created_at: string
+          evocacion_metrica: boolean
+          evocacion_metrica_texto: string | null
           estrofa_tipo_id: string | null
           inaugura_espacio: boolean | null
+          intervencion_figuras_donaire: string
+          intervencion_personajes_femeninos: string
+          intervencion_personajes_sobrenaturales: string
           n_versos: number
           obra_id: string
-          personaje_femenino: string
-          personajes_donaire: string
-          personajes_sobrenatural: string
           secuencia_id: string
           sinopsis: string | null
           updated_at: string
@@ -635,13 +760,15 @@ export type Database = {
         Insert: {
           certeza_editor: string
           created_at?: string
+          evocacion_metrica?: boolean
+          evocacion_metrica_texto?: string | null
           estrofa_tipo_id?: string | null
           inaugura_espacio?: boolean | null
+          intervencion_figuras_donaire?: string
+          intervencion_personajes_femeninos?: string
+          intervencion_personajes_sobrenaturales?: string
           n_versos: number
           obra_id: string
-          personaje_femenino?: string
-          personajes_donaire?: string
-          personajes_sobrenatural?: string
           secuencia_id?: string
           sinopsis?: string | null
           updated_at?: string
@@ -652,13 +779,15 @@ export type Database = {
         Update: {
           certeza_editor?: string
           created_at?: string
+          evocacion_metrica?: boolean
+          evocacion_metrica_texto?: string | null
           estrofa_tipo_id?: string | null
           inaugura_espacio?: boolean | null
+          intervencion_figuras_donaire?: string
+          intervencion_personajes_femeninos?: string
+          intervencion_personajes_sobrenaturales?: string
           n_versos?: number
           obra_id?: string
-          personaje_femenino?: string
-          personajes_donaire?: string
-          personajes_sobrenatural?: string
           secuencia_id?: string
           sinopsis?: string | null
           updated_at?: string

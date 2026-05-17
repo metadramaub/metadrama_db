@@ -110,9 +110,9 @@ La sinopsis argumental también admite Markdown. Puedes ver pautas al final, en 
 
 Dentro de la caracterización, marcas:
 
-- personaje femenino (`ausente`, `solo`, `con_otros`);
-- donaire (`ausente`, `solo`, `con_otros`);
-- sobrenatural (`ausente`, `solo`, `con_otros`);
+- intervención de personajes femeninos (`sin_intervencion`, `exclusiva`, `compartida`);
+- intervención de figuras de donaire (`sin_intervencion`, `exclusiva`, `compartida`);
+- intervención de personajes sobrenaturales (`sin_intervencion`, `exclusiva`, `compartida`);
 - versos partidos (`sí/no`);
 - inaugura espacio (`sí/no`);
 

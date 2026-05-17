@@ -10,8 +10,8 @@
 	const isAdminOrIp = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
 	let markingSeen = $state(false);
 
-	function openNotification(obraId: string, tab: string) {
-		void goto(`/dashboard/obras/${obraId}?tab=${tab}`);
+	function openNotification(item: PageData['notifications'][number]) {
+		void goto(item.targetUrl ?? `/dashboard/obras/${item.obraId}?tab=${item.tab}`);
 	}
 
 	async function markRecentAsSeen() {
@@ -58,7 +58,7 @@
 				{#each data.groups.assignedEditor as item}
 					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
 						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item.obraId, item.tab)}>
+							<button class="group text-left" onclick={() => openNotification(item)}>
 								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
 							</button>
 							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
@@ -79,7 +79,7 @@
 				{#each data.groups.assignedReview as item}
 					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
 						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item.obraId, item.tab)}>
+							<button class="group text-left" onclick={() => openNotification(item)}>
 								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
 							</button>
 							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
@@ -100,7 +100,7 @@
 				{#each data.groups.stateChanges as item}
 					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
 						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item.obraId, item.tab)}>
+							<button class="group text-left" onclick={() => openNotification(item)}>
 								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
 							</button>
 							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
@@ -121,7 +121,7 @@
 				{#each data.groups.comments as item}
 					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
 						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item.obraId, item.tab)}>
+							<button class="group text-left" onclick={() => openNotification(item)}>
 								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
 							</button>
 							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
@@ -143,7 +143,7 @@
 					{#each data.groups.lowMediumCertainty as item}
 						<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
 							<div class="min-w-0">
-								<button class="group text-left" onclick={() => openNotification(item.obraId, item.tab)}>
+								<button class="group text-left" onclick={() => openNotification(item)}>
 									<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
 								</button>
 								<p class="text-xs text-[color:var(--gray-500)]">

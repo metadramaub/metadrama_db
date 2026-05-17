@@ -9,8 +9,7 @@ import {
 	loadComentarioContextMaps
 } from '$lib/server/comentarios';
 import type { Tables } from '$lib/types/database.types';
-
-type ComentarioTipoTerm = 'general' | 'revision' | 'tecnico' | 'estado';
+import type { ComentarioTipoTerm } from '$lib/server/comentarios';
 
 type ComentarioWithMeta = Tables<'comentarios_internos'> & {
 	tipo_comentario_id?: string | null;
@@ -26,7 +25,7 @@ function isAdminOrIp(roleTerm: string): boolean {
 
 async function resolveTipoComentarioId(
 	locals: App.Locals,
-	term: 'general' | 'revision' | 'tecnico' | 'estado'
+	term: ComentarioTipoTerm
 ) {
 	const { data } = await locals.supabase
 		.from('vocabularios')
@@ -40,7 +39,9 @@ async function resolveTipoComentarioId(
 }
 
 export const GET: RequestHandler = async ({ locals, params, url }) => {
-	const { profile } = await getObraContext({ locals }, params.id, { requireEdit: false });
+	const { profile, assignedEditor } = await getObraContext({ locals }, params.id, {
+		requireEdit: false
+	});
 
 	const parsedQuery = comentarioListQuerySchema.safeParse({
 		seccion: url.searchParams.get('seccion') ?? undefined,
@@ -104,6 +105,7 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 		(tipos ?? []).map((tipo) => [tipo.termino_id, tipo.termino as ComentarioTipoTerm])
 	);
 	const canManageAll = isAdminOrIp(profile.roleTerm);
+	const canPublishPublicComments = canManageAll || assignedEditor;
 
 	return json({
 		items: commentsRows.map((comment) => {
@@ -111,7 +113,12 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 				? (tipoById.get(comment.tipo_comentario_id) ?? 'general')
 				: 'general';
 			const locked = tipoTerm === 'estado';
-			const canMutate = !locked && (canManageAll || comment.user_id === profile.userId);
+			const visiblePublico = Boolean(comment.visible_publico);
+			const canMutate =
+				!locked &&
+				(visiblePublico
+					? canPublishPublicComments
+					: canManageAll || comment.user_id === profile.userId);
 
 			return {
 				...comment,
@@ -121,7 +128,8 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 				secuencia_estrofa_term: buildComentarioSecuenciaEstrofaTerm(comment, contextMaps),
 				locked,
 				can_edit: canMutate,
-				can_delete: canMutate
+				can_delete: canMutate,
+				can_publish: canPublishPublicComments && tipoTerm === 'observacion_publica'
 			};
 		})
 	});

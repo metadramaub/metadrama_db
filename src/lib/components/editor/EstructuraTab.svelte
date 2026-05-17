@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onDestroy } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
@@ -14,6 +15,9 @@
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
 		readOnly?: boolean;
 		canComment?: boolean;
+		focusJornadaId?: string | null;
+		focusCuadroId?: string | null;
+		focusComentarioId?: string | null;
 		onStructureChange?: (payload: {
 			jornadas: Tables<'jornadas'>[];
 			cuadros: Tables<'cuadros'>[];
@@ -44,6 +48,7 @@
 	let autosaveErrorShown = $state(false);
 	let lastSidebarSnapshot = $state('');
 	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
+	let handledFocusTarget = $state<string | null>(null);
 
 	let jornadaForm = $state({
 		jornada_num: props.jornadasInitial.length + 1,
@@ -77,6 +82,10 @@
 
 	function getJornadaById(jornadaId: string) {
 		return jornadas.find((item) => item.jornada_id === jornadaId) ?? null;
+	}
+
+	function getCuadroById(cuadroId: string) {
+		return cuadros.find((item) => item.cuadro_id === cuadroId) ?? null;
 	}
 
 	function getCuadros(jornadaId: string) {
@@ -425,6 +434,20 @@
 		showCloseWithoutSavingModal = false;
 	}
 
+	function clearFocusStructureQueryParams() {
+		if (!browser) return;
+		const currentUrl = new URL(window.location.href);
+		if (
+			!currentUrl.searchParams.has('focusJornadaId') &&
+			!currentUrl.searchParams.has('focusCuadroId')
+		) {
+			return;
+		}
+		currentUrl.searchParams.delete('focusJornadaId');
+		currentUrl.searchParams.delete('focusCuadroId');
+		window.history.replaceState(window.history.state, '', currentUrl.toString());
+	}
+
 	function performCloseSidebar() {
 		clearAutosaveTimer();
 		sidebarMode = null;
@@ -515,6 +538,36 @@
 		deleteTarget = null;
 		emitStructureChange();
 	}
+
+	$effect(() => {
+		const focusCuadroId = props.focusCuadroId?.trim() ?? '';
+		const focusJornadaId = props.focusJornadaId?.trim() ?? '';
+		const focusKey = focusCuadroId ? `cuadro:${focusCuadroId}` : focusJornadaId ? `jornada:${focusJornadaId}` : '';
+		if (!focusKey) {
+			handledFocusTarget = null;
+			return;
+		}
+		if (focusKey === handledFocusTarget) return;
+
+		if (focusCuadroId) {
+			const targetCuadro = getCuadroById(focusCuadroId);
+			if (targetCuadro) {
+				openEditCuadro(targetCuadro);
+			} else {
+				pushToast('info', 'El cuadro enlazado no existe o ya no está disponible.');
+			}
+		} else if (focusJornadaId) {
+			const targetJornada = getJornadaById(focusJornadaId);
+			if (targetJornada) {
+				openEditJornada(targetJornada);
+			} else {
+				pushToast('info', 'La jornada enlazada no existe o ya no está disponible.');
+			}
+		}
+
+		handledFocusTarget = focusKey;
+		clearFocusStructureQueryParams();
+	});
 
 	$effect(() => {
 		const mode = sidebarMode;
@@ -770,6 +823,7 @@
 						collapsible={true}
 						defaultCollapsed={true}
 						collapseLabel="Ver"
+						focusComentarioId={props.focusComentarioId}
 					/>
 				{/key}
 			</div>
@@ -785,6 +839,7 @@
 						collapsible={true}
 						defaultCollapsed={true}
 						collapseLabel="Ver"
+						focusComentarioId={props.focusComentarioId}
 					/>
 				{/key}
 			</div>

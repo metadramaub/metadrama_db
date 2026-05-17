@@ -67,13 +67,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 		locals.supabase
 			.from('atribuciones')
 			.select('atribucion_id,obra_id,jornada_id')
-			.eq('adoptada', true)
+			.eq('atribucion_preferente', true)
 			.in('obra_id', obraIds),
 		jornadaIds.length > 0
 			? locals.supabase
 					.from('atribuciones')
 					.select('atribucion_id,obra_id,jornada_id')
-					.eq('adoptada', true)
+					.eq('atribucion_preferente', true)
 					.in('jornada_id', jornadaIds)
 			: Promise.resolve({ data: [] as Pick<Tables<'atribuciones'>, 'atribucion_id' | 'obra_id' | 'jornada_id'>[] })
 	]);
