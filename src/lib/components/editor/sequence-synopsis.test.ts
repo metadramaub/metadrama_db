@@ -18,9 +18,14 @@ function createSecuencia(overrides: Partial<SecuenciaRow> = {}): SecuenciaRow {
 		estrofa_tipo_id: overrides.estrofa_tipo_id ?? 'estrofa-1',
 		inaugura_espacio: overrides.inaugura_espacio ?? false,
 		versos_partidos: overrides.versos_partidos ?? false,
-		personaje_femenino: overrides.personaje_femenino ?? 'ausente',
-		personajes_donaire: overrides.personajes_donaire ?? 'ausente',
-		personajes_sobrenatural: overrides.personajes_sobrenatural ?? 'ausente',
+		evocacion_metrica: overrides.evocacion_metrica ?? false,
+		evocacion_metrica_texto: overrides.evocacion_metrica_texto ?? null,
+		intervencion_personajes_femeninos:
+			overrides.intervencion_personajes_femeninos ?? 'sin_intervencion',
+		intervencion_figuras_donaire:
+			overrides.intervencion_figuras_donaire ?? 'sin_intervencion',
+		intervencion_personajes_sobrenaturales:
+			overrides.intervencion_personajes_sobrenaturales ?? 'sin_intervencion',
 		certeza_editor: overrides.certeza_editor ?? 'certeza-1',
 		sinopsis: overrides.sinopsis ?? 'Sinopsis base',
 		updated_at: overrides.updated_at ?? '2026-03-30T00:00:00.000Z'

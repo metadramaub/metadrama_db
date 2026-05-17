@@ -3,20 +3,31 @@ export interface PublicFichaAutor {
 	nombre_completo: string;
 }
 
+export interface PublicFichaAtribucionEvidencia {
+	atribucion_evidencia_id: string;
+	tipo_atribucion_id: string;
+	tipo_atribucion_term: string;
+	fuente_autoria: string | null;
+}
+
 export interface PublicFichaAtribucionAutoria {
 	atribucion_id: string;
+	composicion_autoria_id: string;
+	composicion_autoria_term: 'individual' | 'colaborada';
+	atribucion_preferente: boolean;
+	autores: PublicFichaAutor[];
+	evidencias: PublicFichaAtribucionEvidencia[];
+}
+
+export interface PublicFichaGrupoAutoria {
+	grupo_atribucion_id: string;
 	scope: 'obra' | 'jornada';
 	obra_id: string | null;
 	jornada_id: string | null;
 	jornada_num: number | null;
-	tipo_atribucion_id: string;
-	tipo_atribucion_term: string;
-	modalidad_atribucion_id: string;
-	modalidad_atribucion_term: string;
-	fuente_autoria: string | null;
-	adoptada: boolean;
+	nombre: string | null;
 	notas: string | null;
-	autores: PublicFichaAutor[];
+	propuestas: PublicFichaAtribucionAutoria[];
 }
 
 export interface PublicFichaJornada {
@@ -54,9 +65,11 @@ export interface PublicFichaSecuencia {
 	estrofa_tipo_forma: string | null;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean;
-	personaje_femenino: string;
-	personajes_donaire: string;
-	personajes_sobrenatural: string;
+	evocacion_metrica: boolean;
+	evocacion_metrica_texto: string | null;
+	intervencion_personajes_femeninos: string;
+	intervencion_figuras_donaire: string;
+	intervencion_personajes_sobrenaturales: string;
 	sinopsis: string | null;
 	jornada_id: string | null;
 	jornada_num: number | null;
@@ -69,6 +82,17 @@ export interface PublicFichaDistribucionForma {
 	forma: string;
 	versos: number;
 	porcentaje: number;
+}
+
+export interface PublicFichaComentarioPublico {
+	comentario_id: string;
+	comentario: string;
+	created_at: string | null;
+	seccion: string | null;
+	secuencia_id: string | null;
+	jornada_id: string | null;
+	cuadro_id: string | null;
+	nombre_editor: string | null;
 }
 
 export interface PublicObraFichaPayload {
@@ -92,7 +116,7 @@ export interface PublicObraFichaPayload {
 	};
 	autoria: {
 		autores: PublicFichaAutor[];
-		atribuciones: PublicFichaAtribucionAutoria[];
+		grupos: PublicFichaGrupoAutoria[];
 	};
 	estructura: {
 		jornadas: PublicFichaJornada[];
@@ -102,6 +126,7 @@ export interface PublicObraFichaPayload {
 		secuencias: PublicFichaSecuencia[];
 		distribucion_formas: PublicFichaDistribucionForma[];
 	};
+	comentarios_publicos: PublicFichaComentarioPublico[];
 }
 
 export interface SequenceModalPayload extends PublicFichaSecuencia {}

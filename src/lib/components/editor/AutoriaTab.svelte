@@ -2,28 +2,43 @@
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import AuthorSelector from '$lib/components/editor/AuthorSelector.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 	import type { Tables } from '$lib/types/database.types';
-	import type { AutoriaApiPayload } from '$lib/types/obra.types';
+	import type { AutoriaApiPayload, AutoriaComposicionTerm } from '$lib/types/obra.types';
 
 	type CatalogItem = {
 		termino_id: string;
 		termino: string;
 	};
 
-	type DraftAttribution = {
+	type DraftEvidence = {
 		local_id: string;
-		jornada_id: string | null;
+		atribucion_evidencia_id: string | null;
 		tipo_atribucion_id: string;
-		modalidad_atribucion_id: string;
 		fuente_autoria: string;
-		adoptada: boolean;
-		notas: string;
+	};
+
+	type DraftProposal = {
+		local_id: string;
+		atribucion_id: string | null;
+		composicion_autoria_id: string;
+		atribucion_preferente: boolean;
+		usable_perfil_metrico: boolean;
+		disponible_laboratorio: boolean;
 		autor_ids: string[];
+		evidencias: DraftEvidence[];
+	};
+
+	type DraftGroup = {
+		local_id: string;
+		grupo_atribucion_id: string | null;
+		jornada_id: string | null;
+		propuestas: DraftProposal[];
 	};
 
 	type ScopeView = 'obra' | 'jornadas';
@@ -35,7 +50,17 @@
 		saveRequestToken?: number;
 		readOnly?: boolean;
 		canComment?: boolean;
+		focusComentarioId?: string | null;
 	}>();
+
+	const PREFERENTE_HELP =
+		'Se usará como formulación principal de autoría en la ficha de la obra. Si no se marca ninguna, la autoría se mostrará como discutida o con atribuciones posibles.';
+	const PERFIL_HELP =
+		'Activa esta opción solo si la propuesta puede alimentar perfiles métricos de autor sin introducir ambigüedad.';
+	const LABORATORIO_HELP =
+		'Permitirá usar esta propuesta como hipótesis analítica cuando se implemente el laboratorio.';
+	const EVIDENCIAS_HELP =
+		'Si varias fuentes sostienen la misma autoría, añádelas como evidencias de una misma propuesta. Crea una nueva propuesta solo cuando la autoría propuesta sea distinta.';
 
 	let loading = $state(true);
 	let loadingFromServer = $state(false);
@@ -45,112 +70,75 @@
 	let jornadas = $state<Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>>([]);
 	let autores = $state<Array<Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>>>([]);
 	let tipos = $state<CatalogItem[]>([]);
-	let modalidades = $state<CatalogItem[]>([]);
-	let drafts = $state<DraftAttribution[]>([]);
+	let composiciones = $state<CatalogItem[]>([]);
+	let groups = $state<DraftGroup[]>([]);
 	let baselineSnapshot = $state('');
 	let scopeView = $state<ScopeView>('obra');
-	let openDraftId = $state<string | null>(null);
+	let openProposalId = $state<string | null>(null);
 	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
 
 	const canComment = $derived(Boolean(props.canComment));
 	const effectiveReadOnly = $derived(Boolean(props.readOnly));
-
-	const tipoItems = $derived(
-		tipos.map((item) => ({
-			id: item.termino_id,
-			label: item.termino
-		}))
+	const tipoItems = $derived(tipos.map((item) => ({ id: item.termino_id, label: item.termino })));
+	const composicionItems = $derived(
+		composiciones
+			.filter((item) => ['individual', 'colaborada'].includes(normalizeTerm(item.termino)))
+			.map((item) => ({ id: item.termino_id, label: labelForComposicion(normalizeTerm(item.termino)) }))
 	);
-
-	const modalidadItems = $derived(
-		modalidades.map((item) => ({
-			id: item.termino_id,
-			label: item.termino
-		}))
-	);
-
 	const authorOptions = $derived(
 		autores.map((author) => ({
 			autor_id: author.autor_id,
 			nombre_completo: author.nombre_completo
 		}))
 	);
-
 	const authorNameById = $derived(new Map(autores.map((author) => [author.autor_id, author.nombre_completo])));
 	const tipoTermById = $derived(new Map(tipos.map((item) => [item.termino_id, item.termino])));
-	const modalidadTermById = $derived(
-		new Map(modalidades.map((item) => [item.termino_id, item.termino.trim().toLowerCase()]))
+	const composicionTermById = $derived(
+		new Map(composiciones.map((item) => [item.termino_id, normalizeTerm(item.termino) as AutoriaComposicionTerm]))
 	);
-
-	const globalDrafts = $derived(drafts.filter((draft) => !draft.jornada_id));
-	const jornadaDraftCount = $derived(drafts.filter((draft) => draft.jornada_id !== null).length);
-
-	const draftsByJornadaId = $derived.by(() => {
-		const map = new Map<string, DraftAttribution[]>();
-		for (const jornada of jornadas) {
-			map.set(jornada.jornada_id, []);
-		}
-		for (const draft of drafts) {
-			if (!draft.jornada_id) continue;
-			const current = map.get(draft.jornada_id) ?? [];
-			current.push(draft);
-			map.set(draft.jornada_id, current);
+	const globalGroups = $derived(groups.filter((group) => !group.jornada_id));
+	const jornadaGroupCount = $derived(groups.filter((group) => group.jornada_id !== null).length);
+	const groupsByJornadaId = $derived.by(() => {
+		const map = new Map<string, DraftGroup[]>();
+		for (const jornada of jornadas) map.set(jornada.jornada_id, []);
+		for (const group of groups) {
+			if (!group.jornada_id) continue;
+			const current = map.get(group.jornada_id) ?? [];
+			current.push(group);
+			map.set(group.jornada_id, current);
 		}
 		return map;
 	});
+
+	function newLocalId(prefix: string): string {
+		return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+	}
+
+	function normalizeTerm(value: string): string {
+		return value
+			.normalize('NFD')
+			.replaceAll(/\p{M}/gu, '')
+			.trim()
+			.toLowerCase()
+			.replaceAll(/[\s-]+/g, '_');
+	}
 
 	function uniqueIds(ids: string[]): string[] {
 		return [...new Set(ids.map((id) => id.trim()).filter((id) => id.length > 0))];
 	}
 
-	function inferDefaultScope(nextDrafts: DraftAttribution[]): ScopeView {
-		const hasGlobal = nextDrafts.some((draft) => !draft.jornada_id);
-		const hasJornada = nextDrafts.some((draft) => Boolean(draft.jornada_id));
-		if (hasJornada && !hasGlobal) return 'jornadas';
-		return 'obra';
+	function getComposicionId(term: AutoriaComposicionTerm): string {
+		return composiciones.find((item) => normalizeTerm(item.termino) === term)?.termino_id ?? composiciones[0]?.termino_id ?? '';
 	}
 
-	function createEmptyDraft(jornadaId: string | null): DraftAttribution {
-		return {
-			local_id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-			jornada_id: jornadaId,
-			tipo_atribucion_id: tipos[0]?.termino_id ?? '',
-			modalidad_atribucion_id: modalidades[0]?.termino_id ?? '',
-			fuente_autoria: '',
-			adoptada: false,
-			notas: '',
-			autor_ids: []
-		};
+	function labelForComposicion(term: string): string {
+		if (term === 'individual') return 'individual';
+		if (term === 'colaborada') return 'colaborada';
+		return term || 'sin composición';
 	}
 
-	function normalizeSnapshot() {
-		const compact = drafts.map((draft) => ({
-			jornada_id: draft.jornada_id,
-			tipo_atribucion_id: draft.tipo_atribucion_id,
-			modalidad_atribucion_id: draft.modalidad_atribucion_id,
-			fuente_autoria: draft.fuente_autoria.trim(),
-			adoptada: draft.adoptada,
-			notas: draft.notas.trim(),
-			autor_ids: uniqueIds(draft.autor_ids)
-		}));
-		return JSON.stringify(compact);
-	}
-
-	function syncDirty() {
-		if (effectiveReadOnly) return;
-		const dirty = normalizeSnapshot() !== baselineSnapshot;
-		setDirty(dirty, 'autoria');
-		if (!dirty) {
-			setSaving(false, 'autoria');
-		}
-	}
-
-	function setScope(next: ScopeView) {
-		scopeView = next;
-	}
-
-	function toggleDraftEditor(localId: string) {
-		openDraftId = openDraftId === localId ? null : localId;
+	function getComposicionTerm(composicionId: string): AutoriaComposicionTerm {
+		return composicionTermById.get(composicionId) ?? 'individual';
 	}
 
 	function getTipoTerm(tipoId: string): string {
@@ -164,28 +152,165 @@
 		return `${names.slice(0, 3).join(', ')} +${names.length - 3}`;
 	}
 
+	function joinHuman(items: string[], conjunction: 'y' | 'o' = 'y'): string {
+		const filtered = items.map((item) => item.trim()).filter((item) => item.length > 0);
+		if (filtered.length === 0) return '';
+		if (filtered.length === 1) return filtered[0];
+		if (filtered.length === 2) return `${filtered[0]} ${conjunction} ${filtered[1]}`;
+		const last = filtered[filtered.length - 1] ?? '';
+		return `${filtered.slice(0, -1).join(', ')} ${conjunction} ${last}`;
+	}
+
+	function getProposalAuthorPhrase(proposal: DraftProposal): string {
+		const names = uniqueIds(proposal.autor_ids).map((authorId) => authorNameById.get(authorId) ?? authorId);
+		if (names.length === 0) return 'autoría no identificada';
+		if (getComposicionTerm(proposal.composicion_autoria_id) === 'colaborada') {
+			return `la colaboración de ${joinHuman(names, 'y')}`;
+		}
+		return joinHuman(names, 'y');
+	}
+
+	function getProposalEvidencePhrase(proposal: DraftProposal): string {
+		const labels = proposal.evidencias.map((evidencia) => getTipoTerm(evidencia.tipo_atribucion_id)).filter(Boolean);
+		if (labels.length === 0) return '';
+		return ` según ${joinHuman(labels, 'y')}`;
+	}
+
+	function getProposalNarrative(proposal: DraftProposal): string {
+		return `a ${getProposalAuthorPhrase(proposal)}${getProposalEvidencePhrase(proposal)}`;
+	}
+
+	function getJornadaLabel(jornadaId: string | null): string {
+		if (!jornadaId) return 'la obra';
+		const jornada = jornadas.find((item) => item.jornada_id === jornadaId);
+		return jornada ? `la jornada ${jornada.jornada_num}` : 'la jornada';
+	}
+
+	function getGroupSummary(group: DraftGroup): string {
+		const subject = group.jornada_id ? getJornadaLabel(group.jornada_id) : 'la obra';
+		if (group.propuestas.length === 0) return `${subject} no tiene una autoría identificada.`;
+		if (group.propuestas.length === 1) return `${subject} ha sido atribuida ${getProposalNarrative(group.propuestas[0])}.`;
+		return `${subject} ha sido atribuida ${joinHuman(group.propuestas.map((proposal) => getProposalNarrative(proposal)), 'o')}.`;
+	}
+
+	function getOverallSummary(): string {
+		if (groups.length === 0) return 'No hay autorías registradas. Si la obra no tiene autor identificado, déjala sin propuestas.';
+		return groups
+			.map((group) => getGroupSummary(group))
+			.join(' ');
+	}
+
+	function getGroupHeading(group: DraftGroup): string {
+		if (!group.jornada_id) return 'Autoría global de la obra';
+		const jornada = jornadas.find((item) => item.jornada_id === group.jornada_id);
+		return jornada ? `Autoría de la jornada ${jornada.jornada_num}` : 'Autoría de jornada';
+	}
+
+	function getUsedEvidenceTypeIds(proposal: DraftProposal): Set<string> {
+		return new Set(proposal.evidencias.map((evidencia) => evidencia.tipo_atribucion_id).filter(Boolean));
+	}
+
+	function getFirstAvailableTipoId(proposal: DraftProposal | null = null): string {
+		const used = proposal ? getUsedEvidenceTypeIds(proposal) : new Set<string>();
+		return tipos.find((tipo) => !used.has(tipo.termino_id))?.termino_id ?? '';
+	}
+
+	function createEmptyEvidence(proposal: DraftProposal | null = null): DraftEvidence {
+		return {
+			local_id: newLocalId('evidencia'),
+			atribucion_evidencia_id: null,
+			tipo_atribucion_id: getFirstAvailableTipoId(proposal),
+			fuente_autoria: ''
+		};
+	}
+
+	function createEmptyProposal(): DraftProposal {
+		const proposal: DraftProposal = {
+			local_id: newLocalId('propuesta'),
+			atribucion_id: null,
+			composicion_autoria_id: getComposicionId('individual'),
+			atribucion_preferente: false,
+			usable_perfil_metrico: false,
+			disponible_laboratorio: true,
+			autor_ids: [],
+			evidencias: []
+		};
+		proposal.evidencias = [createEmptyEvidence(proposal)];
+		return proposal;
+	}
+
+	function createEmptyGroup(jornadaId: string | null): DraftGroup {
+		return {
+			local_id: newLocalId('grupo'),
+			grupo_atribucion_id: null,
+			jornada_id: jornadaId,
+			propuestas: []
+		};
+	}
+
+	function inferDefaultScope(nextGroups: DraftGroup[]): ScopeView {
+		const hasJornada = nextGroups.some((group) => Boolean(group.jornada_id));
+		const hasGlobal = nextGroups.some((group) => !group.jornada_id);
+		if (hasJornada && !hasGlobal) return 'jornadas';
+		return 'obra';
+	}
+
+	function normalizeSnapshot() {
+		return JSON.stringify(
+			groups.map((group) => ({
+				jornada_id: group.jornada_id,
+				propuestas: group.propuestas.map((proposal) => ({
+					composicion_autoria_id: proposal.composicion_autoria_id,
+					atribucion_preferente: proposal.atribucion_preferente,
+					usable_perfil_metrico: proposal.usable_perfil_metrico,
+					disponible_laboratorio: proposal.disponible_laboratorio,
+					autor_ids: uniqueIds(proposal.autor_ids),
+					evidencias: proposal.evidencias.map((evidencia) => ({
+						tipo_atribucion_id: evidencia.tipo_atribucion_id,
+						fuente_autoria: evidencia.fuente_autoria.trim()
+					}))
+				}))
+			}))
+		);
+	}
+
+	function syncDirty() {
+		if (effectiveReadOnly) return;
+		const dirty = normalizeSnapshot() !== baselineSnapshot;
+		setDirty(dirty, 'autoria');
+		if (!dirty) setSaving(false, 'autoria');
+	}
+
 	function applyServerState(payload: AutoriaApiPayload) {
-		const nextJornadas = [...payload.jornadas];
-		const nextDrafts = payload.atribuciones.map((item) => ({
-			local_id: item.atribucion_id,
-			jornada_id: item.jornada_id,
-			tipo_atribucion_id: item.tipo_atribucion_id,
-			modalidad_atribucion_id: item.modalidad_atribucion_id,
-			fuente_autoria: item.fuente_autoria ?? '',
-			adoptada: item.adoptada,
-			notas: item.notas ?? '',
-			autor_ids: uniqueIds(item.autores.map((autor) => autor.autor_id))
+		const nextGroups: DraftGroup[] = payload.grupos.map((group) => ({
+			local_id: group.grupo_atribucion_id,
+			grupo_atribucion_id: group.grupo_atribucion_id,
+			jornada_id: group.jornada_id,
+			propuestas: group.propuestas.map((proposal) => ({
+				local_id: proposal.atribucion_id,
+				atribucion_id: proposal.atribucion_id,
+				composicion_autoria_id: proposal.composicion_autoria_id,
+				atribucion_preferente: proposal.atribucion_preferente,
+				usable_perfil_metrico: proposal.usable_perfil_metrico,
+				disponible_laboratorio: proposal.disponible_laboratorio,
+				autor_ids: uniqueIds(proposal.autores.map((autor) => autor.autor_id)),
+				evidencias: proposal.evidencias.map((evidencia) => ({
+					local_id: evidencia.atribucion_evidencia_id ?? newLocalId('evidencia'),
+					atribucion_evidencia_id: evidencia.atribucion_evidencia_id,
+					tipo_atribucion_id: evidencia.tipo_atribucion_id,
+					fuente_autoria: evidencia.fuente_autoria ?? ''
+				}))
+			}))
 		}));
 
-		jornadas = nextJornadas;
+		jornadas = [...payload.jornadas];
 		autores = [...payload.autores];
 		tipos = [...payload.catalogos.tipos];
-		modalidades = [...payload.catalogos.modalidades];
-		drafts = nextDrafts;
-
-		scopeView = inferDefaultScope(nextDrafts);
-		if (!nextDrafts.some((draft) => draft.local_id === openDraftId)) {
-			openDraftId = null;
+		composiciones = [...payload.catalogos.composiciones];
+		groups = nextGroups;
+		scopeView = inferDefaultScope(nextGroups);
+		if (!nextGroups.some((group) => group.propuestas.some((proposal) => proposal.local_id === openProposalId))) {
+			openProposalId = null;
 		}
 
 		patchCurrentObra({
@@ -216,92 +341,192 @@
 		applyServerState(payload);
 	}
 
-	function addGlobalDraft() {
-		const draft = createEmptyDraft(null);
-		drafts = [...drafts, draft];
+	function addGlobalGroup() {
+		if (globalGroups.length > 0) return;
+		const group = createEmptyGroup(null);
+		groups = [...groups, group];
 		scopeView = 'obra';
-		openDraftId = draft.local_id;
 		syncDirty();
 	}
 
-	function addJornadaDraft(jornadaId: string) {
-		const draft = createEmptyDraft(jornadaId);
-		drafts = [...drafts, draft];
+	function addJornadaGroup(jornadaId: string) {
+		if ((groupsByJornadaId.get(jornadaId) ?? []).length > 0) return;
+		const group = createEmptyGroup(jornadaId);
+		groups = [...groups, group];
 		scopeView = 'jornadas';
-		openDraftId = draft.local_id;
 		syncDirty();
 	}
 
-	function removeDraft(localId: string) {
-		drafts = drafts.filter((draft) => draft.local_id !== localId);
-		if (openDraftId === localId) {
-			openDraftId = null;
+	function removeGroup(groupId: string) {
+		const group = groups.find((item) => item.local_id === groupId);
+		if (!group) return;
+		if (group.propuestas.length > 0) {
+			const confirmed = window.confirm('Este grupo contiene propuestas. ¿Quieres eliminarlo igualmente?');
+			if (!confirmed) return;
+		}
+		groups = groups.filter((item) => item.local_id !== groupId);
+		if (group.propuestas.some((proposal) => proposal.local_id === openProposalId)) {
+			openProposalId = null;
 		}
 		syncDirty();
 	}
 
-	function patchDraft(localId: string, patch: Partial<DraftAttribution>) {
-		drafts = drafts.map((draft) => (draft.local_id === localId ? { ...draft, ...patch } : draft));
+	function addProposal(groupId: string) {
+		const proposal = createEmptyProposal();
+		groups = groups.map((group) =>
+			group.local_id === groupId ? { ...group, propuestas: [...group.propuestas, proposal] } : group
+		);
+		openProposalId = proposal.local_id;
 		syncDirty();
+	}
+
+	function removeProposal(groupId: string, proposalId: string) {
+		groups = groups.map((group) =>
+			group.local_id === groupId
+				? { ...group, propuestas: group.propuestas.filter((proposal) => proposal.local_id !== proposalId) }
+				: group
+		);
+		if (openProposalId === proposalId) openProposalId = null;
+		syncDirty();
+	}
+
+	function patchProposal(groupId: string, proposalId: string, patch: Partial<DraftProposal>) {
+		groups = groups.map((group) => {
+			if (group.local_id !== groupId) return group;
+			const propuestas = group.propuestas.map((proposal) => {
+				if (proposal.local_id !== proposalId) {
+					return patch.atribucion_preferente ? { ...proposal, atribucion_preferente: false } : proposal;
+				}
+				const next = { ...proposal, ...patch };
+				const composicionTerm = getComposicionTerm(next.composicion_autoria_id);
+				if (composicionTerm !== 'individual') next.usable_perfil_metrico = false;
+				return next;
+			});
+			return { ...group, propuestas };
+		});
+		syncDirty();
+	}
+
+	function addEvidence(groupId: string, proposalId: string) {
+		groups = groups.map((group) => {
+			if (group.local_id !== groupId) return group;
+			const propuestas = group.propuestas.map((proposal) => {
+				if (proposal.local_id !== proposalId) return proposal;
+				const evidencia = createEmptyEvidence(proposal);
+				if (!evidencia.tipo_atribucion_id) return proposal;
+				return { ...proposal, evidencias: [...proposal.evidencias, evidencia] };
+			});
+			return { ...group, propuestas };
+		});
+		syncDirty();
+	}
+
+	function patchEvidence(groupId: string, proposalId: string, evidenceId: string, patch: Partial<DraftEvidence>) {
+		groups = groups.map((group) => {
+			if (group.local_id !== groupId) return group;
+			const propuestas = group.propuestas.map((proposal) =>
+				proposal.local_id === proposalId
+					? {
+							...proposal,
+							evidencias: proposal.evidencias.map((evidencia) =>
+								evidencia.local_id === evidenceId ? { ...evidencia, ...patch } : evidencia
+							)
+						}
+					: proposal
+			);
+			return { ...group, propuestas };
+		});
+		syncDirty();
+	}
+
+	function removeEvidence(groupId: string, proposalId: string, evidenceId: string) {
+		groups = groups.map((group) => {
+			if (group.local_id !== groupId) return group;
+			const propuestas = group.propuestas.map((proposal) =>
+				proposal.local_id === proposalId
+					? { ...proposal, evidencias: proposal.evidencias.filter((evidencia) => evidencia.local_id !== evidenceId) }
+					: proposal
+			);
+			return { ...group, propuestas };
+		});
+		syncDirty();
+	}
+
+	function setScope(next: ScopeView) {
+		scopeView = next;
+	}
+
+	function toggleProposalEditor(proposalId: string) {
+		openProposalId = openProposalId === proposalId ? null : proposalId;
 	}
 
 	function validateClientPayload(): string | null {
 		const jornadaSet = new Set(jornadas.map((jornada) => jornada.jornada_id));
-		const modalidadesSinAutores = new Set(['desconocida', 'no_atribuida']);
-		const adoptedGlobal = drafts.filter((draft) => !draft.jornada_id && draft.adoptada).length;
-		if (adoptedGlobal > 1) {
-			return 'Solo puede haber una atribución global adoptada.';
+		if (groups.filter((group) => !group.jornada_id).length > 1) {
+			return 'Solo puede existir una autoría global para la obra completa.';
 		}
+		const jornadaGroupIds = groups.filter((group) => group.jornada_id).map((group) => group.jornada_id as string);
+		if (new Set(jornadaGroupIds).size !== jornadaGroupIds.length) {
+			return 'Solo puede existir un grupo de autoría por jornada.';
+		}
+		for (const group of groups) {
+			if (group.jornada_id && !jornadaSet.has(group.jornada_id)) return 'Hay grupos asociados a jornadas inválidas.';
+			const proposalKeys = new Set<string>();
+			for (const proposal of group.propuestas) {
+				if (!proposal.composicion_autoria_id) return 'Todas las propuestas deben tener composición de autoría.';
+				if (proposal.evidencias.length === 0) return 'Todas las propuestas deben tener al menos una evidencia.';
 
-		const adoptedByJornada = new Map<string, number>();
-		for (const draft of drafts) {
-			if (!draft.jornada_id || !draft.adoptada) continue;
-			adoptedByJornada.set(draft.jornada_id, (adoptedByJornada.get(draft.jornada_id) ?? 0) + 1);
-		}
-		for (const [jornadaId, count] of adoptedByJornada.entries()) {
-			if (count > 1) {
-				return `La jornada ${jornadaId} tiene más de una atribución adoptada.`;
-			}
-		}
+				const evidenceTypes = new Set<string>();
+				for (const evidencia of proposal.evidencias) {
+					if (!evidencia.tipo_atribucion_id) return 'Todas las evidencias deben tener tipo de atribución.';
+					if (evidenceTypes.has(evidencia.tipo_atribucion_id)) {
+						return 'No se puede repetir el tipo de evidencia dentro de una propuesta.';
+					}
+					evidenceTypes.add(evidencia.tipo_atribucion_id);
+				}
 
-		for (const draft of drafts) {
-			if (draft.jornada_id && !jornadaSet.has(draft.jornada_id)) {
-				return 'Hay atribuciones asociadas a jornadas inválidas.';
-			}
-			if (!draft.tipo_atribucion_id || !draft.modalidad_atribucion_id) {
-				return 'Todas las atribuciones deben tener tipo y modalidad.';
-			}
-			const modalidadTerm = modalidadTermById.get(draft.modalidad_atribucion_id) ?? '';
-			const authorCount = uniqueIds(draft.autor_ids).length;
-			if (modalidadesSinAutores.has(modalidadTerm) && authorCount !== 0) {
-				return 'La modalidad desconocida exige 0 autores.';
-			}
-			if (!modalidadesSinAutores.has(modalidadTerm) && authorCount < 1) {
-				return 'Debes seleccionar al menos 1 autor para esta modalidad.';
-			}
-			if (modalidadTerm === 'unica' && authorCount !== 1) {
-				return 'La modalidad única exige exactamente 1 autor.';
-			}
-			if ((modalidadTerm === 'alternativa' || modalidadTerm === 'colaborativa') && authorCount < 2) {
-				return 'Las modalidades alternativa y colaborativa exigen 2 o más autores.';
+				const composicionTerm = getComposicionTerm(proposal.composicion_autoria_id);
+				const authorIds = uniqueIds(proposal.autor_ids);
+				if (composicionTerm === 'individual' && authorIds.length !== 1) {
+					return 'La composición individual exige exactamente 1 autor.';
+				}
+				if (composicionTerm === 'colaborada' && authorIds.length < 2) {
+					return 'La composición colaborada exige 2 o más autores.';
+				}
+				if (proposal.usable_perfil_metrico && (composicionTerm !== 'individual' || authorIds.length !== 1)) {
+					return 'Solo una propuesta individual con un único autor puede alimentar perfiles métricos.';
+				}
+
+				const proposalKey = `${composicionTerm}:${authorIds.sort().join(',')}`;
+				if (proposalKeys.has(proposalKey)) {
+					return 'Ya existe una propuesta con la misma composición y autores en este grupo. Añade las fuentes como evidencias.';
+				}
+				proposalKeys.add(proposalKey);
 			}
 		}
-
 		return null;
 	}
 
 	function buildPayload() {
 		return {
-			atribuciones: drafts.map((draft) => ({
-				jornada_id: draft.jornada_id,
-				tipo_atribucion_id: draft.tipo_atribucion_id,
-				modalidad_atribucion_id: draft.modalidad_atribucion_id,
-				fuente_autoria: draft.fuente_autoria.trim() || null,
-				adoptada: draft.adoptada,
-				notas: draft.notas.trim() || null,
-				autores: uniqueIds(draft.autor_ids).map((autor_id, index) => ({
-					autor_id,
-					orden: index + 1
+			grupos: groups.map((group) => ({
+				grupo_atribucion_id: group.grupo_atribucion_id,
+				jornada_id: group.jornada_id,
+				propuestas: group.propuestas.map((proposal) => ({
+					atribucion_id: proposal.atribucion_id,
+					composicion_autoria_id: proposal.composicion_autoria_id,
+					atribucion_preferente: proposal.atribucion_preferente,
+					usable_perfil_metrico: proposal.usable_perfil_metrico,
+					disponible_laboratorio: proposal.disponible_laboratorio,
+					autores: uniqueIds(proposal.autor_ids).map((autor_id, index) => ({
+						autor_id,
+						orden: index + 1
+					})),
+					evidencias: proposal.evidencias.map((evidencia) => ({
+						atribucion_evidencia_id: evidencia.atribucion_evidencia_id,
+						tipo_atribucion_id: evidencia.tipo_atribucion_id,
+						fuente_autoria: evidencia.fuente_autoria.trim() || null
+					}))
 				}))
 			}))
 		};
@@ -350,135 +575,252 @@
 	});
 </script>
 
-{#snippet draftEditor(draft: DraftAttribution)}
-	<div class="mt-3 border border-[color:var(--border)] bg-[color:var(--muted)] p-3">
-		<div class="grid gap-3 md:grid-cols-2">
+{#snippet evidenceEditor(group: DraftGroup, proposal: DraftProposal, evidencia: DraftEvidence)}
+	<div class="border border-[color:var(--border)] bg-white p-3">
+		<div class="grid gap-3 md:grid-cols-[minmax(0,18rem)_minmax(0,1fr)_auto]">
 			<label class="form-field">
-				<span class="form-label">Tipo de atribución</span>
+				<span class="form-label">Tipo de evidencia</span>
 				<CheckDropdown
 					multiple={false}
 					search={false}
 					items={tipoItems}
-					selectedIds={draft.tipo_atribucion_id ? [draft.tipo_atribucion_id] : []}
+					selectedIds={evidencia.tipo_atribucion_id ? [evidencia.tipo_atribucion_id] : []}
 					placeholder="Selecciona tipo"
 					disabled={effectiveReadOnly || loadingFromServer}
 					onChange={(ids) =>
-						patchDraft(draft.local_id, {
+						patchEvidence(group.local_id, proposal.local_id, evidencia.local_id, {
 							tipo_atribucion_id: (ids[0] as string | undefined) ?? ''
 						})}
 				/>
 			</label>
-			<label class="form-field">
-				<span class="form-label">Modalidad</span>
-				<CheckDropdown
-					multiple={false}
-					search={false}
-					items={modalidadItems}
-					selectedIds={draft.modalidad_atribucion_id ? [draft.modalidad_atribucion_id] : []}
-					placeholder="Selecciona modalidad"
-					disabled={effectiveReadOnly || loadingFromServer}
-					onChange={(ids) =>
-						patchDraft(draft.local_id, {
-							modalidad_atribucion_id: (ids[0] as string | undefined) ?? ''
-						})}
-				/>
-			</label>
-		</div>
-
-		<div class="mt-3">
-			<label class="form-field">
+			<div class="form-field">
 				<span class="form-label">Fuente de autoría</span>
 				<MarkdownEditorLite
 					rows={3}
 					class="mt-1"
 					minHeightClass="min-h-24"
-					value={draft.fuente_autoria}
+					value={evidencia.fuente_autoria}
 					disabled={effectiveReadOnly || loadingFromServer}
 					onChange={(nextValue) =>
-						patchDraft(draft.local_id, {
+						patchEvidence(group.local_id, proposal.local_id, evidencia.local_id, {
 							fuente_autoria: nextValue
 						})}
 				/>
-			</label>
+			</div>
+			<div class="flex items-start justify-end pt-6">
+				<Button
+					variant="danger"
+					onclick={() => removeEvidence(group.local_id, proposal.local_id, evidencia.local_id)}
+					disabled={effectiveReadOnly || loadingFromServer || proposal.evidencias.length <= 1}
+				>
+					Eliminar
+				</Button>
+			</div>
 		</div>
+	</div>
+{/snippet}
 
-		<div class="mt-3">
+{#snippet proposalEditor(group: DraftGroup, proposal: DraftProposal)}
+	<div class="mt-3 border border-[color:var(--border)] bg-[color:var(--muted)] p-3">
+		<div class="grid gap-3 md:grid-cols-2">
+			<label class="form-field">
+				<span class="form-label">Composición de autoría</span>
+				<CheckDropdown
+					multiple={false}
+					search={false}
+					items={composicionItems}
+					selectedIds={proposal.composicion_autoria_id ? [proposal.composicion_autoria_id] : []}
+					placeholder="Selecciona composición"
+					disabled={effectiveReadOnly || loadingFromServer}
+					onChange={(ids) =>
+						patchProposal(group.local_id, proposal.local_id, {
+							composicion_autoria_id: (ids[0] as string | undefined) ?? ''
+						})}
+				/>
+			</label>
 			<label class="form-field">
 				<span class="form-label">Autores</span>
 				<AuthorSelector
 					authors={authorOptions}
-					selectedIds={draft.autor_ids}
-					onChange={(ids) => patchDraft(draft.local_id, { autor_ids: ids })}
+					selectedIds={proposal.autor_ids}
+					onChange={(ids) => patchProposal(group.local_id, proposal.local_id, { autor_ids: ids })}
 					placeholder="Escribe y selecciona autores"
 					disabled={effectiveReadOnly || loadingFromServer}
 				/>
 			</label>
 		</div>
 
-		<div class="mt-3">
-			<label class="form-field">
-				<span class="form-label">Notas</span>
-				<textarea
-					rows={3}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					value={draft.notas}
+		<div class="mt-4 border-t border-[color:var(--border)] pt-3">
+			<div class="mb-2 flex items-center justify-between gap-3">
+				<div>
+					<div class="form-label-with-help">
+						Evidencias de atribución
+						<FieldHelpTooltip text={EVIDENCIAS_HELP} label="Ayuda sobre evidencias de atribución" />
+					</div>
+				</div>
+				<Button
+					variant="secondary"
+					onclick={() => addEvidence(group.local_id, proposal.local_id)}
+					disabled={effectiveReadOnly || loadingFromServer || !getFirstAvailableTipoId(proposal)}
+				>
+					Añadir evidencia
+				</Button>
+			</div>
+			<div class="space-y-3">
+				{#each proposal.evidencias as evidencia (evidencia.local_id)}
+					{@render evidenceEditor(group, proposal, evidencia)}
+				{/each}
+			</div>
+		</div>
+
+		<div class="mt-3 grid gap-2 md:grid-cols-3">
+			<label class="inline-flex items-start gap-2 text-sm">
+				<input
+					type="checkbox"
+					class="mt-0.5"
+					checked={proposal.atribucion_preferente}
 					disabled={effectiveReadOnly || loadingFromServer}
-					oninput={(event) => patchDraft(draft.local_id, { notas: event.currentTarget.value })}
-				></textarea>
+					onchange={(event) =>
+						patchProposal(group.local_id, proposal.local_id, {
+							atribucion_preferente: event.currentTarget.checked
+						})}
+				/>
+				<span>
+					<span class="form-label-with-help">
+						Atribución preferente
+						<FieldHelpTooltip text={PREFERENTE_HELP} label="Ayuda sobre atribución preferente" />
+					</span>
+				</span>
+			</label>
+			<label class="inline-flex items-start gap-2 text-sm">
+				<input
+					type="checkbox"
+					class="mt-0.5"
+					checked={proposal.usable_perfil_metrico}
+					disabled={
+						effectiveReadOnly ||
+						loadingFromServer ||
+						getComposicionTerm(proposal.composicion_autoria_id) !== 'individual' ||
+						uniqueIds(proposal.autor_ids).length !== 1
+					}
+					onchange={(event) =>
+						patchProposal(group.local_id, proposal.local_id, {
+							usable_perfil_metrico: event.currentTarget.checked
+						})}
+				/>
+				<span>
+					<span class="form-label-with-help">
+						Usable para perfil métrico
+						<FieldHelpTooltip text={PERFIL_HELP} label="Ayuda sobre perfil métrico" />
+					</span>
+				</span>
+			</label>
+			<label class="inline-flex items-start gap-2 text-sm">
+				<input
+					type="checkbox"
+					class="mt-0.5"
+					checked={proposal.disponible_laboratorio}
+					disabled={effectiveReadOnly || loadingFromServer}
+					onchange={(event) =>
+						patchProposal(group.local_id, proposal.local_id, {
+							disponible_laboratorio: event.currentTarget.checked
+						})}
+				/>
+				<span>
+					<span class="form-label-with-help">
+						Disponible para laboratorio
+						<FieldHelpTooltip text={LABORATORIO_HELP} label="Ayuda sobre laboratorio" />
+					</span>
+				</span>
 			</label>
 		</div>
 
-		<div class="mt-3 flex items-center justify-between gap-2">
-			<label class="inline-flex items-center gap-2 text-sm">
-				<input
-					type="checkbox"
-					checked={draft.adoptada}
-					disabled={effectiveReadOnly || loadingFromServer}
-					onchange={(event) => patchDraft(draft.local_id, { adoptada: event.currentTarget.checked })}
-				/>
-				Adoptada por el proyecto
-			</label>
-
-			<div class="flex gap-2">
-				<Button
-					variant="danger"
-					onclick={() => removeDraft(draft.local_id)}
-					disabled={effectiveReadOnly || loadingFromServer}
-				>
-					Eliminar
-				</Button>
-				<Button variant="secondary" onclick={() => toggleDraftEditor(draft.local_id)}>Cerrar</Button>
-			</div>
+		<div class="mt-3 flex justify-end gap-2">
+			<Button
+				variant="danger"
+				onclick={() => removeProposal(group.local_id, proposal.local_id)}
+				disabled={effectiveReadOnly || loadingFromServer}
+			>
+				Eliminar
+			</Button>
+			<Button variant="secondary" onclick={() => toggleProposalEditor(proposal.local_id)}>Cerrar</Button>
 		</div>
 	</div>
 {/snippet}
 
-{#snippet draftCard(draft: DraftAttribution)}
+{#snippet proposalCard(group: DraftGroup, proposal: DraftProposal)}
 	<article class="border border-[color:var(--border)] bg-white p-3">
 		<button
 			type="button"
-			class="flex w-full items-center justify-between gap-3 text-left"
-			onclick={() => toggleDraftEditor(draft.local_id)}
+			class="flex w-full items-start justify-between gap-3 text-left"
+			onclick={() => toggleProposalEditor(proposal.local_id)}
 		>
 			<div class="min-w-0">
-				<p class="truncate text-sm font-semibold text-[color:var(--gray-900)]">{getAuthorSummary(draft.autor_ids)}</p>
-				<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">Tipo: {getTipoTerm(draft.tipo_atribucion_id)}</p>
+				<p class="truncate text-sm font-semibold text-[color:var(--gray-900)]">{getAuthorSummary(proposal.autor_ids)}</p>
+				<div class="mt-2 flex flex-wrap gap-1">
+					{#each proposal.evidencias as evidencia (evidencia.local_id)}
+						<span class="rounded-full border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
+							{getTipoTerm(evidencia.tipo_atribucion_id)}
+						</span>
+					{/each}
+				</div>
 			</div>
-			<div class="flex shrink-0 items-center gap-2">
-				{#if draft.adoptada}
+			<div class="flex shrink-0 flex-wrap justify-end gap-2">
+				{#if proposal.atribucion_preferente}
 					<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-1 text-xs font-semibold text-[color:var(--success)]">
-						Adoptada
+						Preferente
+					</span>
+				{/if}
+				{#if proposal.usable_perfil_metrico}
+					<span class="rounded-full border border-sky-300 bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-900">
+						Perfil métrico
+					</span>
+				{/if}
+				{#if proposal.disponible_laboratorio}
+					<span class="rounded-full border border-amber-300 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-900">
+						Laboratorio
 					</span>
 				{/if}
 				<span class="text-xs font-semibold text-[color:var(--gray-800)]">
-					{openDraftId === draft.local_id ? 'Ocultar' : 'Editar'}
+					{openProposalId === proposal.local_id ? 'Ocultar' : 'Editar'}
 				</span>
 			</div>
 		</button>
-
-		{#if openDraftId === draft.local_id}
-			{@render draftEditor(draft)}
+		{#if openProposalId === proposal.local_id}
+			{@render proposalEditor(group, proposal)}
 		{/if}
+	</article>
+{/snippet}
+
+{#snippet groupCard(group: DraftGroup)}
+	<article class="border border-[color:var(--border)] bg-white p-3">
+		<div class="mb-3 flex items-start justify-between gap-3">
+			<h3 class="text-base font-semibold text-[color:var(--gray-900)]">{getGroupHeading(group)}</h3>
+			<div class="flex items-end justify-end gap-2">
+				<Button variant="secondary" onclick={() => addProposal(group.local_id)} disabled={effectiveReadOnly || loadingFromServer}>
+					Añadir propuesta
+				</Button>
+				<Button variant="danger" onclick={() => removeGroup(group.local_id)} disabled={effectiveReadOnly || loadingFromServer}>
+					{group.jornada_id ? 'Eliminar autoría de jornada' : 'Eliminar autoría global'}
+				</Button>
+			</div>
+		</div>
+
+		{#if group.propuestas.length > 1}
+			<p class="mt-3 border border-sky-300 bg-sky-50 px-3 py-2 text-sm text-sky-900">
+				Los autores dentro de cada propuesta forman una misma autoría; las propuestas de esta unidad son alternativas.
+			</p>
+		{/if}
+
+		<div class="mt-3 space-y-3">
+			{#if group.propuestas.length === 0}
+				<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
+			{:else}
+				{#each group.propuestas as proposal (proposal.local_id)}
+					{@render proposalCard(group, proposal)}
+				{/each}
+			{/if}
+		</div>
 	</article>
 {/snippet}
 
@@ -500,7 +842,10 @@
 		<div class="card p-4">
 			<h2 class="text-xl font-semibold">Ámbito de atribución</h2>
 			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-				Selecciona cómo quieres trabajar la autoría en esta obra.
+				Registra una única autoría global para la obra completa. Si una jornada tiene una autoría propia, añádela en su jornada; dentro de una propuesta, varios autores indican colaboración y varias evidencias respaldan esa misma propuesta.
+			</p>
+			<p class="mt-3 rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm text-[color:var(--gray-900)]">
+				{getOverallSummary()}
 			</p>
 			<div class="mt-3 inline-flex overflow-hidden rounded-md border border-[color:var(--border)] bg-white">
 				<button
@@ -513,7 +858,7 @@
 					onclick={() => setScope('obra')}
 				>
 					Obra completa
-					<span class="rounded-full border border-current px-2 py-0.5 text-xs">{globalDrafts.length}</span>
+					<span class="rounded-full border border-current px-2 py-0.5 text-xs">{globalGroups.length}</span>
 				</button>
 				<button
 					type="button"
@@ -525,58 +870,65 @@
 					onclick={() => setScope('jornadas')}
 				>
 					Por jornadas
-					<span class="rounded-full border border-current px-2 py-0.5 text-xs">{jornadaDraftCount}</span>
+					<span class="rounded-full border border-current px-2 py-0.5 text-xs">{jornadaGroupCount}</span>
 				</button>
 			</div>
 		</div>
 
 		{#if scopeView === 'obra'}
 			<div class="card p-4">
-				<div class="mb-4 flex items-center justify-between">
-					<h2 class="text-xl font-semibold">Atribuciones globales de obra</h2>
-					<Button variant="secondary" onclick={addGlobalDraft} disabled={effectiveReadOnly || loadingFromServer}>
-						Añadir atribución global
+				<div class="mb-4 flex items-center justify-between gap-3">
+					<div>
+						<h2 class="text-xl font-semibold">Autoría global de la obra</h2>
+					</div>
+					<Button
+						variant="secondary"
+						onclick={addGlobalGroup}
+						disabled={effectiveReadOnly || loadingFromServer || globalGroups.length > 0}
+					>
+						Crear autoría global
 					</Button>
 				</div>
 
-				{#if globalDrafts.length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">Sin atribuciones globales registradas.</p>
+				{#if globalGroups.length === 0}
+					<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
 				{:else}
-					<div class="space-y-3">
-						{#each globalDrafts as draft (draft.local_id)}
-							{@render draftCard(draft)}
+					<div class="space-y-4">
+						{#each globalGroups as group (group.local_id)}
+							{@render groupCard(group)}
 						{/each}
 					</div>
 				{/if}
 			</div>
 		{:else}
 			<div class="card p-4">
-				<h2 class="mb-4 text-xl font-semibold">Atribuciones por jornada</h2>
+				<h2 class="mb-1 text-xl font-semibold">Autoría por jornadas</h2>
+				<p class="mb-4 text-sm text-[color:var(--muted-foreground)]">Añade una autoría de jornada solo cuando esa jornada necesite una atribución distinta de la global.</p>
 				{#if jornadas.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">La obra aún no tiene jornadas definidas.</p>
 				{:else}
 					<div class="space-y-4">
 						{#each jornadas as jornada (jornada.jornada_id)}
 							<article class="border border-[color:var(--border)] bg-white p-3">
-								<div class="mb-3 flex items-center justify-between">
+								<div class="mb-3 flex items-center justify-between gap-3">
 									<h3 class="font-semibold">
 										Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
 									</h3>
 									<Button
 										variant="secondary"
-										onclick={() => addJornadaDraft(jornada.jornada_id)}
-										disabled={effectiveReadOnly || loadingFromServer}
+										onclick={() => addJornadaGroup(jornada.jornada_id)}
+										disabled={effectiveReadOnly || loadingFromServer || (groupsByJornadaId.get(jornada.jornada_id) ?? []).length > 0}
 									>
-										Añadir atribución
+										Crear autoría de jornada
 									</Button>
 								</div>
 
-								{#if (draftsByJornadaId.get(jornada.jornada_id) ?? []).length === 0}
-									<p class="text-sm text-[color:var(--muted-foreground)]">Sin atribuciones para esta jornada.</p>
+								{#if (groupsByJornadaId.get(jornada.jornada_id) ?? []).length === 0}
+									<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
 								{:else}
-									<div class="space-y-3">
-										{#each draftsByJornadaId.get(jornada.jornada_id) ?? [] as draft (draft.local_id)}
-											{@render draftCard(draft)}
+									<div class="space-y-4">
+										{#each groupsByJornadaId.get(jornada.jornada_id) ?? [] as group (group.local_id)}
+											{@render groupCard(group)}
 										{/each}
 									</div>
 								{/if}
@@ -593,6 +945,7 @@
 			obraId={props.obraId}
 			canComment={canComment}
 			section="autoria"
+			focusComentarioId={props.focusComentarioId}
 			title="Comentarios internos sobre autoría"
 			emptyText="No hay comentarios internos sobre esta sección."
 		/>

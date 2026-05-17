@@ -41,22 +41,22 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const secuencias = (secuenciasResp.data ?? []) as Tables<'secuencias_metricas'>[];
 	const jornadaIds = jornadas.map((row) => row.jornada_id);
 
-	const [adoptadaObraResp, adoptadaJornadaResp] = await Promise.all([
+	const [preferenteObraResp, preferenteJornadaResp] = await Promise.all([
 		locals.supabase
 			.from('atribuciones')
 			.select('atribucion_id', { count: 'exact', head: true })
 			.eq('obra_id', obra.obra_id)
-			.eq('adoptada', true),
+			.eq('atribucion_preferente', true),
 		jornadaIds.length > 0
 			? locals.supabase
 					.from('atribuciones')
 					.select('atribucion_id', { count: 'exact', head: true })
 					.in('jornada_id', jornadaIds)
-					.eq('adoptada', true)
+					.eq('atribucion_preferente', true)
 			: Promise.resolve({ count: 0 })
 	]);
 
-	const autoriaAdoptadaCount = (adoptadaObraResp.count ?? 0) + (adoptadaJornadaResp.count ?? 0);
+	const autoriaPreferenteCount = (preferenteObraResp.count ?? 0) + (preferenteJornadaResp.count ?? 0);
 
 	const editorAsignadoResp = obra.editor_asignado
 		? await locals.supabase
@@ -76,7 +76,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		jornadas,
 		cuadros,
 		secuencias,
-		autoriaAdoptadaCount,
+		autoriaPreferenteCount,
 		vocabularios: vocabResp.data ?? []
 	};
 };

@@ -59,9 +59,11 @@ export interface SecuenciaInput {
 	estrofa_tipo_id: string;
 	inaugura_espacio: boolean;
 	versos_partidos: boolean;
-	personaje_femenino: 'ausente' | 'solo' | 'con_otros';
-	personajes_donaire: 'ausente' | 'solo' | 'con_otros';
-	personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
+	evocacion_metrica: boolean;
+	evocacion_metrica_texto: string | null;
+	intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida';
+	intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida';
+	intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida';
 	certeza_editor: string;
 	sinopsis: string | null;
 }
@@ -97,7 +99,13 @@ export type ComentarioSeccion = (typeof COMENTARIO_SECCIONES)[number];
 
 export interface ComentarioInput {
 	comentario: string;
-	tipo_comentario?: 'general' | 'revision' | 'tecnico' | 'estado';
+	tipo_comentario?:
+		| 'general'
+		| 'revision'
+		| 'tecnico'
+		| 'estado'
+		| 'nota_propia'
+		| 'observacion_publica';
 	seccion?: ComentarioSeccion;
 	secuencia_id?: string;
 	jornada_id?: string;
@@ -106,7 +114,11 @@ export interface ComentarioInput {
 
 export interface ComentarioPatchInput {
 	comentario: string;
-	tipo_comentario?: 'general' | 'revision' | 'tecnico';
+	tipo_comentario?: 'general' | 'revision' | 'tecnico' | 'nota_propia' | 'observacion_publica';
+}
+
+export interface ComentarioPublicacionPatchInput {
+	visible_publico: boolean;
 }
 
 export interface ComentarioListQueryInput {
@@ -120,11 +132,18 @@ export interface ComentarioListQueryInput {
 
 export interface ComentarioListItem extends Tables<'comentarios_internos'> {
 	nombre_editor?: string;
-	tipo_comentario_term?: 'general' | 'revision' | 'tecnico' | 'estado';
+	tipo_comentario_term?:
+		| 'general'
+		| 'revision'
+		| 'tecnico'
+		| 'estado'
+		| 'nota_propia'
+		| 'observacion_publica';
 	contexto_label?: string | null;
 	secuencia_estrofa_term?: string | null;
 	can_edit?: boolean;
 	can_delete?: boolean;
+	can_publish?: boolean;
 	locked?: boolean;
 }
 
@@ -138,16 +157,33 @@ export interface AutoriaAtribucionAutorPayload {
 	orden: number | null;
 }
 
-export interface AutoriaAtribucionPayload {
+export type AutoriaComposicionTerm = 'individual' | 'colaborada';
+
+export interface AutoriaEvidenciaPayload {
+	atribucion_evidencia_id: string | null;
+	tipo_atribucion_id: string;
+	tipo_atribucion_term: string | null;
+	fuente_autoria: string | null;
+}
+
+export interface AutoriaPropuestaPayload {
 	atribucion_id: string;
+	grupo_atribucion_id: string;
+	composicion_autoria_id: string;
+	composicion_autoria_term: AutoriaComposicionTerm;
+	atribucion_preferente: boolean;
+	usable_perfil_metrico: boolean;
+	disponible_laboratorio: boolean;
+	autores: AutoriaAtribucionAutorPayload[];
+	evidencias: AutoriaEvidenciaPayload[];
+}
+
+export interface GrupoAtribucionPayload {
+	grupo_atribucion_id: string;
 	obra_id: string | null;
 	jornada_id: string | null;
-	tipo_atribucion_id: string;
-	modalidad_atribucion_id: string;
-	fuente_autoria: string | null;
-	adoptada: boolean;
-	notas: string | null;
-	autores: AutoriaAtribucionAutorPayload[];
+	jornada_num: number | null;
+	propuestas: AutoriaPropuestaPayload[];
 }
 
 export interface AutoriaApiPayload {
@@ -159,9 +195,9 @@ export interface AutoriaApiPayload {
 	jornadas: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>;
 	catalogos: {
 		tipos: AutoriaCatalogItem[];
-		modalidades: AutoriaCatalogItem[];
+		composiciones: AutoriaCatalogItem[];
 	};
-	atribuciones: AutoriaAtribucionPayload[];
+	grupos: GrupoAtribucionPayload[];
 	loaded_at: string;
 }
 

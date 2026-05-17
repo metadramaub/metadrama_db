@@ -54,8 +54,8 @@ export interface MockFilterState {
 	selectedVariationIds: string[];
 	withSpaceChange: boolean;
 	characterGender: 'mixto' | 'solo_masculino' | 'solo_femenino' | null;
-	graciosoPresence: 'ausente' | 'solo' | 'con_otros' | null;
-	supernaturalPresence: 'ausente' | 'solo' | 'con_otros' | null;
+	graciosoPresence: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
+	supernaturalPresence: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
 	versesMin: number;
 	versesMax: number;
 	selectedJornadas: string[];
@@ -183,7 +183,7 @@ export const MOCK_WORKS: MockCatalogWork[] = [
 		topMetrics: ['Redondilla 27%', 'Romance 24%', 'Silva 16%'],
 		jornadaBreaks: [1040, 2080],
 		cuadroBreaks: [360, 700, 1040, 1350, 1700, 2080, 2440, 2720],
-		updatedAtLabel: 'hace 2 dÃ­as',
+		updatedAtLabel: 'hace 2 días',
 		segments: [
 			{ id: 'm1-s01', startVerse: 1, endVerse: 180, formId: 'redondilla', jornada: 1, cuadro: 1 },
 			{ id: 'm1-s02', startVerse: 181, endVerse: 460, formId: 'romance', jornada: 1, cuadro: 2 },
@@ -226,7 +226,7 @@ export const MOCK_WORKS: MockCatalogWork[] = [
 		topMetrics: ['Romance 24%', 'Silva 14%', 'Soneto 1%'],
 		jornadaBreaks: [980, 2010],
 		cuadroBreaks: [460, 760, 980, 1450, 1740, 2010, 2520, 2710],
-		updatedAtLabel: 'hace 9 dÃ­as',
+		updatedAtLabel: 'hace 9 días',
 		segments: [
 			{ id: 'm2-s01', startVerse: 1, endVerse: 230, formId: 'romance', jornada: 1, cuadro: 1 },
 			{ id: 'm2-s02', startVerse: 231, endVerse: 856, formId: 'redondilla', jornada: 1, cuadro: 2 },
@@ -501,7 +501,7 @@ export const MOCK_WORKS: MockCatalogWork[] = [
 		topMetrics: ['Romance 25%', 'Redondilla 20%', 'Soneto 1%'],
 		jornadaBreaks: [1080, 2140],
 		cuadroBreaks: [360, 700, 1080, 1410, 1760, 2140, 2470, 2810, 3040],
-		updatedAtLabel: 'hace 1 aÃ±o',
+		updatedAtLabel: 'hace 1 año',
 		segments: [
 			{ id: 'm12-s01', startVerse: 1, endVerse: 300, formId: 'romance', jornada: 1, cuadro: 1 },
 			{ id: 'm12-s02', startVerse: 301, endVerse: 670, formId: 'redondilla', jornada: 1, cuadro: 2 },
@@ -588,8 +588,8 @@ export const MOCK_INITIAL_FILTER_STATE: MockFilterState = {
 	selectedVariationIds: ['versos_cantados', 'laguna'],
 	withSpaceChange: true,
 	characterGender: 'mixto',
-	graciosoPresence: 'con_otros',
-	supernaturalPresence: 'ausente',
+	graciosoPresence: 'compartida',
+	supernaturalPresence: 'sin_intervencion',
 	versesMin: 1500,
 	versesMax: 3400,
 	selectedJornadas: ['3'],

@@ -104,5 +104,7 @@ describe('formatComentarioTipoLabel', () => {
 		expect(formatComentarioTipoLabel('revision')).toBe('solicita revision');
 		expect(formatComentarioTipoLabel('tecnico')).toBe('soporte tecnico');
 		expect(formatComentarioTipoLabel('estado')).toBe('cambio de estado');
+		expect(formatComentarioTipoLabel('nota_propia')).toBe('nota propia');
+		expect(formatComentarioTipoLabel('observacion_publica')).toBe('observacion publica');
 	});
 });

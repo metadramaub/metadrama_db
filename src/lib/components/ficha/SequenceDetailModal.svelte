@@ -1,5 +1,8 @@
 <script lang="ts">
-	import type { SequenceModalPayload } from '$lib/types/public-ficha.types';
+	import type {
+		PublicFichaComentarioPublico,
+		SequenceModalPayload
+	} from '$lib/types/public-ficha.types';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import type {
 		ResolvedSequenceStructure,
@@ -12,6 +15,7 @@
 		open: boolean;
 		secuencia: SequenceModalPayload | null;
 		structure: SequenceModalStructure | null;
+		comentariosPublicos?: PublicFichaComentarioPublico[];
 		index: number;
 		total: number;
 		canPrev: boolean;
@@ -69,6 +73,13 @@
 
 	function formatTramoLabel(tramo: SequenceStructureTramo) {
 		return `${formatCuadroLabel(tramo.cuadroNum)} - vv. ${tramo.vIni}-${tramo.vFin}`;
+	}
+
+	function formatIntervencionValue(value: string) {
+		if (value === 'sin_intervencion') return 'Sin intervención';
+		if (value === 'exclusiva') return 'Intervención exclusiva';
+		if (value === 'compartida') return 'Intervención compartida';
+		return value;
 	}
 </script>
 
@@ -138,15 +149,18 @@
 						{/if}
 						<p><strong>Inaugura espacio:</strong> {props.secuencia.inaugura_espacio ? 'Si' : 'No'}</p>
 						<p><strong>Versos partidos:</strong> {props.secuencia.versos_partidos ? 'Si' : 'No'}</p>
+						{#if props.secuencia.evocacion_metrica && (props.secuencia.evocacion_metrica_texto ?? '').trim().length > 0}
+							<p><strong>Evocación métrica:</strong> {props.secuencia.evocacion_metrica_texto}</p>
+						{/if}
 					</div>
 				</article>
 
 				<article class="card p-4">
 					<h3 class="mb-2 text-base font-semibold">Caracterizacion</h3>
 					<div class="space-y-1 text-sm">
-						<p><strong>Personaje femenino:</strong> {props.secuencia.personaje_femenino}</p>
-						<p><strong>Donaire:</strong> {props.secuencia.personajes_donaire}</p>
-						<p><strong>Sobrenatural:</strong> {props.secuencia.personajes_sobrenatural}</p>
+						<p><strong>Intervención de personajes femeninos:</strong> {formatIntervencionValue(props.secuencia.intervencion_personajes_femeninos)}</p>
+						<p><strong>Intervención de figuras de donaire:</strong> {formatIntervencionValue(props.secuencia.intervencion_figuras_donaire)}</p>
+						<p><strong>Intervención de personajes sobrenaturales:</strong> {formatIntervencionValue(props.secuencia.intervencion_personajes_sobrenaturales)}</p>
 					</div>
 				</article>
 			</div>
@@ -189,6 +203,22 @@
 					<p class="text-sm text-[color:var(--muted-foreground)]">Sin sinopsis argumental publicada.</p>
 				{/if}
 			</article>
+
+			{#if (props.comentariosPublicos ?? []).length > 0}
+				<article class="card mt-4 border-emerald-200 bg-emerald-50 p-4">
+					<h3 class="mb-2 text-base font-semibold text-emerald-950">Aclaraciones públicas</h3>
+					<div class="space-y-3 text-sm text-emerald-950">
+						{#each props.comentariosPublicos ?? [] as comment (comment.comentario_id)}
+							<div class="border-l-2 border-emerald-400 pl-3">
+								<div class="space-y-1">{@html renderMarkdown(comment.comentario)}</div>
+								{#if comment.nombre_editor}
+									<p class="mt-1 text-xs text-emerald-900">Autoría de ficha: {comment.nombre_editor}</p>
+								{/if}
+							</div>
+						{/each}
+					</div>
+				</article>
+			{/if}
 		</div>
 	</div>
 {/if}

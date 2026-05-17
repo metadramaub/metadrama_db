@@ -9,8 +9,8 @@
 
 	const isAdminOrIp = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
 
-	function openActivity(obraId: string, tab: string) {
-		void goto(`/dashboard/obras/${obraId}?tab=${tab}`);
+	function openActivity(item: PageData['recentActivity'][number]) {
+		void goto(item.targetUrl ?? `/dashboard/obras/${item.obraId}?tab=${item.tab}`);
 	}
 
 	onMount(() => {
@@ -82,7 +82,7 @@
 				{#each data.recentActivity as item}
 					<li class="flex flex-wrap items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
 						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openActivity(item.obraId, item.tab)}>
+							<button class="group text-left" onclick={() => openActivity(item)}>
 								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
 							</button>
 							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>

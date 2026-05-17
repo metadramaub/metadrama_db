@@ -119,9 +119,9 @@
 		{ id: 'solo_femenino', label: 'Solo femenino' }
 	];
 	const groupedPresenceDropdownItems: MockOption[] = [
-		{ id: 'solo', label: 'Solo' },
-		{ id: 'ausente', label: 'Ausente' },
-		{ id: 'con_otros', label: 'Presente con otros (no solo)' }
+		{ id: 'sin_intervencion', label: 'Sin intervención' },
+		{ id: 'exclusiva', label: 'Intervención exclusiva' },
+		{ id: 'compartida', label: 'Intervención compartida' }
 	];
 
 	const spanishPalette = MOCK_METRIC_PALETTE.filter((item) => item.origin === 'espanola');

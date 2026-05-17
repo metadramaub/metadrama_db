@@ -73,22 +73,22 @@ export async function computeObraProgress(
 		.eq('obra_id', obra.obra_id);
 	const jornadaIds = [...new Set((jornadasRowsResp.data ?? []).map((row) => row.jornada_id))];
 
-	const [adoptadaObraResp, adoptadaJornadaResp] = await Promise.all([
+	const [preferenteObraResp, preferenteJornadaResp] = await Promise.all([
 		supabase
 			.from('atribuciones')
 			.select('atribucion_id', { count: 'exact', head: true })
 			.eq('obra_id', obra.obra_id)
-			.eq('adoptada', true),
+			.eq('atribucion_preferente', true),
 		supabase
 			.from('atribuciones')
 			.select('atribucion_id', { count: 'exact', head: true })
-			.eq('adoptada', true)
+			.eq('atribucion_preferente', true)
 			.in('jornada_id', jornadaIds.length > 0 ? jornadaIds : ['00000000-0000-0000-0000-000000000000'])
 	]);
 
 	flags.estructura = (jornadasResp.count ?? 0) > 0;
 	flags.secuencias = (secuenciasResp.count ?? 0) > 0;
-	flags.autoria = (adoptadaObraResp.count ?? 0) + (adoptadaJornadaResp.count ?? 0) > 0;
+	flags.autoria = (preferenteObraResp.count ?? 0) + (preferenteJornadaResp.count ?? 0) > 0;
 
 	const values = Object.values(flags);
 	const completed = values.filter(Boolean).length;

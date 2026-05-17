@@ -5,7 +5,13 @@ export type ComentarioContextRow = Pick<
 	'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id'
 >;
 
-export type ComentarioTipoTerm = 'general' | 'revision' | 'tecnico' | 'estado';
+export type ComentarioTipoTerm =
+	| 'general'
+	| 'revision'
+	| 'tecnico'
+	| 'estado'
+	| 'nota_propia'
+	| 'observacion_publica';
 
 export type ComentarioContextMaps = {
 	secuenciaById: Map<
@@ -115,6 +121,10 @@ export function formatComentarioTipoLabel(tipo: ComentarioTipoTerm | string | nu
 			return 'soporte tecnico';
 		case 'estado':
 			return 'cambio de estado';
+		case 'nota_propia':
+			return 'nota propia';
+		case 'observacion_publica':
+			return 'observacion publica';
 		default:
 			return 'general';
 	}

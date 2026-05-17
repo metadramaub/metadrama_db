@@ -6,6 +6,7 @@ import {
 	loadComentarioContextMaps,
 	type ComentarioTipoTerm
 } from '$lib/server/comentarios';
+import { buildCommentTargetUrl } from '$lib/utils/comment-links';
 
 const ADMIN_ROLES = new Set(['admin', 'ip']);
 const DEFAULT_DAYS = 7;
@@ -48,6 +49,7 @@ export type DashboardActivityItem = {
 	description: string;
 	eventAt: string | null;
 	tab: 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones';
+	targetUrl?: string;
 };
 
 export type DashboardNotificationType =
@@ -66,6 +68,7 @@ export type DashboardNotificationItem = {
 	eventAt: string | null;
 	tab: 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones';
 	badgeCount?: number;
+	targetUrl?: string;
 };
 
 function isAdminOrIp(profile: EditorProfile): boolean {
@@ -447,7 +450,8 @@ export async function getRecentActivity(
 			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
 			description: `Nuevo comentario (${commentMeta.typeByCommentId.get(row.comentario_id) ?? 'general'}) en ${commentMeta.contextByCommentId.get(row.comentario_id) ?? 'Revisión final'}`,
 			eventAt: normalizeEventAt(row.created_at),
-			tab: commentTab(row)
+			tab: commentTab(row),
+			targetUrl: buildCommentTargetUrl(row.obra_id, row)
 		}))
 	];
 
@@ -574,7 +578,8 @@ export async function getNotifications(
 			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
 			description: `Nuevo comentario (${commentMeta.typeByCommentId.get(row.comentario_id) ?? 'general'}) en ${commentMeta.contextByCommentId.get(row.comentario_id) ?? 'Revisión final'}`,
 			eventAt: normalizeEventAt(row.created_at),
-			tab: commentTab(row)
+			tab: commentTab(row),
+			targetUrl: buildCommentTargetUrl(row.obra_id, row)
 		}))
 	];
 

@@ -52,7 +52,7 @@ export async function getAuthorOrFail(
 }
 
 type AuthorAttributionEdge = Pick<Tables<'atribucion_autores'>, 'autor_id' | 'atribucion_id'>;
-type AttributionRow = Pick<Tables<'atribuciones'>, 'atribucion_id' | 'obra_id' | 'jornada_id' | 'adoptada'>;
+type AttributionRow = Pick<Tables<'atribuciones'>, 'atribucion_id' | 'obra_id' | 'jornada_id' | 'atribucion_preferente'>;
 type JornadaObraRef = Pick<Tables<'jornadas'>, 'jornada_id' | 'obra_id'>;
 
 async function resolveAuthorWorkIds(
@@ -78,9 +78,9 @@ async function resolveAuthorWorkIds(
 	const atribucionIds = [...new Set(edges.map((edge) => edge.atribucion_id))];
 	const atribucionesResp = await supabase
 		.from('atribuciones')
-		.select('atribucion_id,obra_id,jornada_id,adoptada')
+		.select('atribucion_id,obra_id,jornada_id,atribucion_preferente')
 		.in('atribucion_id', atribucionIds)
-		.eq('adoptada', true);
+		.eq('atribucion_preferente', true);
 	if (atribucionesResp.error) {
 		return { perAuthor: new Map(), errorMessage: atribucionesResp.error.message };
 	}

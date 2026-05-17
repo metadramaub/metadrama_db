@@ -26,6 +26,7 @@
 		readOnly?: boolean;
 		canComment?: boolean;
 		focusSecuenciaId?: string | null;
+		focusComentarioId?: string | null;
 		onSecuenciasChange?: (items: Tables<'secuencias_metricas'>[]) => void;
 	}>();
 
@@ -35,9 +36,11 @@
 		estrofa_tipo_id: string;
 		inaugura_espacio: boolean;
 		versos_partidos: boolean;
-		personaje_femenino: 'ausente' | 'solo' | 'con_otros';
-		personajes_donaire: 'ausente' | 'solo' | 'con_otros';
-		personajes_sobrenatural: 'ausente' | 'solo' | 'con_otros';
+		evocacion_metrica: boolean;
+		evocacion_metrica_texto: string;
+		intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida';
+		intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida';
+		intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida';
 		certeza_editor: string;
 		sinopsis: string;
 	};
@@ -200,16 +203,13 @@
 			label: option.termino
 		}))
 	);
-	const personajeFemeninoItems = [
-		{ id: 'ausente', label: 'ausente' },
-		{ id: 'solo', label: 'solo' },
-		{ id: 'con_otros', label: 'con_otros' }
+	const intervencionItems = [
+		{ id: 'sin_intervencion', label: 'Sin intervención' },
+		{ id: 'exclusiva', label: 'Intervención exclusiva' },
+		{ id: 'compartida', label: 'Intervención compartida' }
 	];
-	const personajesRolItems = [
-		{ id: 'ausente', label: 'ausente' },
-		{ id: 'solo', label: 'solo' },
-		{ id: 'con_otros', label: 'con_otros' }
-	];
+	const INTERVENCION_HELP =
+		'Indica si en esta secuencia métrica interviene verbalmente un personaje de este tipo. El dato se refiere al habla dentro de la secuencia, no a la presencia escénica.';
 	const caracterizacionRangoById = $derived.by(
 		() =>
 			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
@@ -281,9 +281,11 @@
 			estrofa_tipo_id: defaultEstrofa,
 			inaugura_espacio: false,
 			versos_partidos: false,
-			personaje_femenino: 'ausente',
-			personajes_donaire: 'ausente',
-			personajes_sobrenatural: 'ausente',
+			evocacion_metrica: false,
+			evocacion_metrica_texto: '',
+			intervencion_personajes_femeninos: 'sin_intervencion',
+			intervencion_figuras_donaire: 'sin_intervencion',
+			intervencion_personajes_sobrenaturales: 'sin_intervencion',
 			certeza_editor: defaultCerteza,
 			sinopsis: ''
 		};
@@ -459,9 +461,11 @@
 			estrofa_tipo_id: form.estrofa_tipo_id,
 			inaugura_espacio: Boolean(form.inaugura_espacio),
 			versos_partidos: Boolean(form.versos_partidos),
-			personaje_femenino: form.personaje_femenino,
-			personajes_donaire: form.personajes_donaire,
-			personajes_sobrenatural: form.personajes_sobrenatural,
+			evocacion_metrica: Boolean(form.evocacion_metrica),
+			evocacion_metrica_texto: form.evocacion_metrica ? form.evocacion_metrica_texto.trim() : '',
+			intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
+			intervencion_figuras_donaire: form.intervencion_figuras_donaire,
+			intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
 			certeza_editor: form.certeza_editor,
 			sinopsis: form.sinopsis.trim()
 		});
@@ -530,9 +534,14 @@
 			estrofa_tipo_id: toSelectableEstrofaId(secuencia.estrofa_tipo_id),
 			inaugura_espacio: Boolean(secuencia.inaugura_espacio),
 			versos_partidos: Boolean(secuencia.versos_partidos),
-			personaje_femenino: secuencia.personaje_femenino as FormState['personaje_femenino'],
-			personajes_donaire: secuencia.personajes_donaire as FormState['personajes_donaire'],
-			personajes_sobrenatural: secuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
+			evocacion_metrica: Boolean(secuencia.evocacion_metrica),
+			evocacion_metrica_texto: secuencia.evocacion_metrica_texto ?? '',
+			intervencion_personajes_femeninos:
+				secuencia.intervencion_personajes_femeninos as FormState['intervencion_personajes_femeninos'],
+			intervencion_figuras_donaire:
+				secuencia.intervencion_figuras_donaire as FormState['intervencion_figuras_donaire'],
+			intervencion_personajes_sobrenaturales:
+				secuencia.intervencion_personajes_sobrenaturales as FormState['intervencion_personajes_sobrenaturales'],
 			certeza_editor: secuencia.certeza_editor,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
@@ -608,7 +617,10 @@
 		const response = await fetch(endpoint, {
 			method,
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(form)
+			body: JSON.stringify({
+				...form,
+				evocacion_metrica_texto: form.evocacion_metrica ? form.evocacion_metrica_texto : null
+			})
 		});
 		sidebarSaving = false;
 
@@ -647,9 +659,14 @@
 			estrofa_tipo_id: toSelectableEstrofaId(savedSecuencia.estrofa_tipo_id),
 			inaugura_espacio: Boolean(savedSecuencia.inaugura_espacio),
 			versos_partidos: Boolean(savedSecuencia.versos_partidos),
-			personaje_femenino: savedSecuencia.personaje_femenino as FormState['personaje_femenino'],
-			personajes_donaire: savedSecuencia.personajes_donaire as FormState['personajes_donaire'],
-			personajes_sobrenatural: savedSecuencia.personajes_sobrenatural as FormState['personajes_sobrenatural'],
+			evocacion_metrica: Boolean(savedSecuencia.evocacion_metrica),
+			evocacion_metrica_texto: savedSecuencia.evocacion_metrica_texto ?? '',
+			intervencion_personajes_femeninos:
+				savedSecuencia.intervencion_personajes_femeninos as FormState['intervencion_personajes_femeninos'],
+			intervencion_figuras_donaire:
+				savedSecuencia.intervencion_figuras_donaire as FormState['intervencion_figuras_donaire'],
+			intervencion_personajes_sobrenaturales:
+				savedSecuencia.intervencion_personajes_sobrenaturales as FormState['intervencion_personajes_sobrenaturales'],
 			certeza_editor: savedSecuencia.certeza_editor,
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
@@ -1053,6 +1070,13 @@
 	}
 
 	$effect(() => {
+		const initialSecuencias = props.secuenciasInitial;
+		if (secuencias.length === 0 && initialSecuencias.length > 0) {
+			secuencias = [...initialSecuencias];
+		}
+	});
+
+	$effect(() => {
 		const focusSecuenciaId = props.focusSecuenciaId?.trim() ?? '';
 		if (!focusSecuenciaId) {
 			handledFocusSecuenciaId = null;
@@ -1075,7 +1099,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.personaje_femenino}|${form.personajes_donaire}|${form.personajes_sobrenatural}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.evocacion_metrica}|${form.evocacion_metrica_texto}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1576,66 +1600,77 @@
 
 
 			<section class="form-section">
-				<h4 class="form-section-title">Caracterizaciones generales</h4>
+				<h4 class="form-section-title">
+					<span class="form-label-with-help">
+						Intervención de personajes
+						<FieldHelpTooltip text={INTERVENCION_HELP} label="Ayuda sobre la intervención de personajes" />
+					</span>
+				</h4>
 				<div class="grid gap-3 sm:grid-cols-2">
 					<label class="form-field">
-						<span class="form-label">Personaje femenino</span>
+						<span class="form-label">Personajes femeninos</span>
 						<CheckDropdown
 							multiple={false}
 							search={false}
 							placeholder="Seleccionar valor"
-							items={personajeFemeninoItems}
+							items={intervencionItems}
 							disabled={props.readOnly}
-							selectedIds={[form.personaje_femenino]}
+							selectedIds={[form.intervencion_personajes_femeninos]}
 							onChange={(ids) => {
-								const nextPersonajeFemenino = ids[0] as FormState['personaje_femenino'] | undefined;
+								const nextPersonajeFemenino = ids[0] as FormState['intervencion_personajes_femeninos'] | undefined;
 								if (!nextPersonajeFemenino) return;
 								form = {
 									...form,
-									personaje_femenino: nextPersonajeFemenino
+									intervencion_personajes_femeninos: nextPersonajeFemenino
 								};
 							}}
 						/>
 					</label>
 					<label class="form-field">
-						<span class="form-label">Personaje donaire</span>
+						<span class="form-label">Figuras de donaire</span>
 						<CheckDropdown
 							multiple={false}
 							search={false}
 							placeholder="Seleccionar valor"
-							items={personajesRolItems}
+							items={intervencionItems}
 							disabled={props.readOnly}
-							selectedIds={[form.personajes_donaire]}
+							selectedIds={[form.intervencion_figuras_donaire]}
 							onChange={(ids) => {
-								const nextDonaire = ids[0] as FormState['personajes_donaire'] | undefined;
+								const nextDonaire = ids[0] as FormState['intervencion_figuras_donaire'] | undefined;
 								if (!nextDonaire) return;
 								form = {
 									...form,
-									personajes_donaire: nextDonaire
+									intervencion_figuras_donaire: nextDonaire
 								};
 							}}
 						/>
 					</label>
 					<label class="form-field">
-						<span class="form-label">Personaje sobrenatural</span>
+						<span class="form-label">Personajes sobrenaturales</span>
 						<CheckDropdown
 							multiple={false}
 							search={false}
 							placeholder="Seleccionar valor"
-							items={personajesRolItems}
+							items={intervencionItems}
 							disabled={props.readOnly}
-							selectedIds={[form.personajes_sobrenatural]}
+							selectedIds={[form.intervencion_personajes_sobrenaturales]}
 							onChange={(ids) => {
-								const nextSobrenatural = ids[0] as FormState['personajes_sobrenatural'] | undefined;
+								const nextSobrenatural = ids[0] as FormState['intervencion_personajes_sobrenaturales'] | undefined;
 								if (!nextSobrenatural) return;
 								form = {
 									...form,
-									personajes_sobrenatural: nextSobrenatural
+									intervencion_personajes_sobrenaturales: nextSobrenatural
 								};
 							}}
 						/>
 					</label>
-					<div class="grid grid-cols-2 gap-3">
+				</div>
+			</section>
+
+			<section class="form-section">
+				<h4 class="form-section-title">Otras caracterizaciones</h4>
+				<div class="grid gap-3 sm:grid-cols-2">
+					<div class="grid grid-cols-2 gap-3 sm:col-span-2">
 						<div class="form-field min-w-0">
 						<span class="form-label">
 							<span class="form-label-with-help">
@@ -1702,6 +1737,54 @@
 						</div>
 						</div>
 					</div>
+					<label class="form-field sm:col-span-2">
+						<span class="form-label">
+							<span class="form-label-with-help">
+								Evocación métrica
+								<FieldHelpTooltip
+									text="Marca esta opción cuando el cambio de metro se deba a que un personaje adopta, imita o reproduce la voz de otro personaje."
+									label="Ayuda sobre el campo Evocación métrica"
+								/>
+							</span>
+						</span>
+						<div class="form-inline-toggle">
+							<input
+								type="checkbox"
+								class="h-4 w-4"
+								checked={form.evocacion_metrica}
+								disabled={props.readOnly}
+								onchange={(event) => {
+									const checked = event.currentTarget.checked;
+									form = {
+										...form,
+										evocacion_metrica: checked,
+										evocacion_metrica_texto: checked ? form.evocacion_metrica_texto : ''
+									};
+								}}
+							/>
+							<span class="text-[color:var(--muted-foreground)]">
+								{form.evocacion_metrica ? 'Sí' : 'No'}
+							</span>
+						</div>
+					</label>
+					{#if form.evocacion_metrica}
+						<label class="form-field sm:col-span-2">
+							<span class="form-label">Explicación de la evocación métrica</span>
+							<MarkdownEditorLite
+								rows={3}
+								class="mt-1"
+								minHeightClass="min-h-24"
+								value={form.evocacion_metrica_texto}
+								disabled={props.readOnly}
+								onChange={(nextValue) => {
+									form = {
+										...form,
+										evocacion_metrica_texto: nextValue
+									};
+								}}
+							/>
+						</label>
+					{/if}
 				</div>
 			</section>
 
@@ -1768,6 +1851,7 @@
 						collapsible={true}
 						defaultCollapsed={true}
 						collapseLabel="Ver"
+						focusComentarioId={props.focusComentarioId}
 					/>
 				{/key}
 			</div>
