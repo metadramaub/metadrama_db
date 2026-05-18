@@ -358,7 +358,7 @@
 
 <section class="space-y-6">
 	<nav class="text-xs font-semibold tracking-[0.06em] text-[color:var(--muted-foreground)]">
-		<a href="/obras" class="underline-offset-2 hover:underline">Catalogo</a>
+		<a href="/obras" class="underline-offset-2 hover:underline">Catálogo</a>
 		<span class="mx-2">></span>
 		<span class="text-[color:var(--gray-800)]">{obra.titulo}</span>
 	</nav>
@@ -473,14 +473,14 @@
 
 		{#if data.canSeeAllPublished && !obra.visible_publico}
 			<div class="mt-4 border border-[color:var(--border)] bg-[color:var(--muted)] p-3 text-sm text-[color:var(--muted-foreground)]">
-				Esta obra esta publicada en flujo editorial, pero no visible sin login.
+				Esta obra está publicada en flujo editorial, pero no visible sin login.
 			</div>
 		{/if}
 
 		<div class="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
 			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
 				<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Datacion tradicional
+					Datación tradicional
 				</div>
 				<div class="mt-1 flex items-center gap-2 font-semibold">
 					<span>{datacionLabel}</span>
@@ -511,7 +511,7 @@
 
 			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
 				<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Genero dramatico
+					Género dramático
 				</div>
 				<div class="mt-1 font-semibold">{obra.genero_term ?? '--'}</div>
 			</div>
@@ -555,7 +555,7 @@
 						{/if}
 					</p>
 					<p>
-						<strong>Ultima mod.:</strong> {updatedAtAbsolute} ({formatRelative(obra.updated_at)})
+						<strong>Última mod.:</strong> {updatedAtAbsolute} ({formatRelative(obra.updated_at)})
 					</p>
 				</div>
 			</div>
@@ -563,7 +563,7 @@
 
 		<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
 			<div class="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-				Edicion base usada por el editor
+				Edición base usada por el editor
 			</div>
 			{#if (obra.edicion ?? '').trim().length > 0}
 				<div class="space-y-2 text-sm">{@html renderMarkdown(obra.edicion ?? '')}</div>
