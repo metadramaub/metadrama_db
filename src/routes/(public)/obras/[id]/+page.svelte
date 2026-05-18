@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Info from 'lucide-svelte/icons/info';
 	import Mail from 'lucide-svelte/icons/mail';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import CiteWorkButton from '$lib/components/ficha/CiteWorkButton.svelte';
@@ -74,6 +75,20 @@
 		const fromJornadas = jornadas.reduce((max, jornada) => Math.max(max, jornada.v_fin), 0);
 		const fromSecuencias = secuenciasOrdenadas.reduce((max, secuencia) => Math.max(max, secuencia.v_fin), 0);
 		return Math.max(1, fromObra, fromJornadas, fromSecuencias);
+	});
+	const estructuraResumen = $derived.by(() => {
+		const parts = [
+			jornadas.length === 1 ? '1 jornada' : `${jornadas.length} jornadas`,
+			cuadros.length === 1 ? '1 cuadro' : `${cuadros.length} cuadros`
+		];
+		if (secuenciasOrdenadas.length > 0) {
+			parts.push(
+				secuenciasOrdenadas.length === 1
+					? '1 secuencia métrica'
+					: `${secuenciasOrdenadas.length} secuencias métricas`
+			);
+		}
+		return parts.join(' · ');
 	});
 
 	const tabs = [
@@ -315,6 +330,17 @@
 		return 'Obra completa';
 	}
 
+	function fuenteAutoriaTipoLabel(tipo: string | null | undefined): string {
+		const normalized = (tipo ?? '')
+			.trim()
+			.toLowerCase()
+			.normalize('NFD')
+			.replace(/\p{Diacritic}/gu, '');
+		if (normalized === 'tradicional') return 'Fuente tradicional';
+		if (normalized === 'estilometria_lexica' || normalized === 'estilometria') return 'Estilometría';
+		return '';
+	}
+
 	function handleDateSourceDocumentMouseDown(event: MouseEvent) {
 		if (!showDateSource) return;
 		const target = event.target;
@@ -364,8 +390,8 @@
 	</nav>
 
 	<header class="card p-4 md:p-5">
-		<div class="flex flex-wrap items-start justify-between gap-4">
-			<div class="min-w-0">
+		<div class="flex flex-wrap items-start justify-between gap-4 border-b border-[color:var(--border)] pb-4">
+			<div class="min-w-0 flex-1">
 				<h1 class="font-display text-3xl text-[color:var(--gray-900)] md:text-4xl">{obra.titulo}</h1>
 				{#if variantesLabel}
 					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{variantesLabel}</p>
@@ -389,7 +415,7 @@
 				</div>
 
 				{#if gruposAutoriaJornadas.length > 0}
-					<div class="mt-3 border border-[color:var(--border)] bg-white p-3 text-sm">
+					<div class="mt-3 border-l-2 border-[color:var(--border)] pl-3 text-sm">
 						<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 							Autoría por jornadas
 						</div>
@@ -404,22 +430,19 @@
 					</div>
 				{/if}
 
-				<div class="mt-3 border border-[color:var(--border)] bg-white p-3">
-					<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-						Fuentes de autoría
-					</div>
-					{#if fuenteAutoriaPrincipal}
+				{#if fuenteAutoriaPrincipal}
+					<details class="mt-3 border-l-2 border-[color:var(--border)] pl-3 text-sm">
+						<summary class="cursor-pointer text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+							Fuentes para la atribución
+						</summary>
 						<div class="mt-2">
 							<div class="mb-1 flex flex-wrap items-center gap-2">
 								<span class="text-xs font-semibold text-[color:var(--gray-900)]">
 									{fuenteAutoriaScopeLabel(fuenteAutoriaPrincipal.jornada_num)} · {fuenteAutoriaPrincipal.atribucion_label}
 								</span>
-								<span class="rounded-full border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
-									{fuenteAutoriaPrincipal.tipo_atribucion_term}
-								</span>
-								{#if fuenteAutoriaPrincipal.atribucion_preferente}
-									<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--success)]">
-										Preferente
+								{#if fuenteAutoriaTipoLabel(fuenteAutoriaPrincipal.tipo_atribucion_term)}
+									<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
+										{fuenteAutoriaTipoLabel(fuenteAutoriaPrincipal.tipo_atribucion_term)}
 									</span>
 								{/if}
 							</div>
@@ -435,17 +458,14 @@
 								</div>
 								<div class="mt-2 space-y-3">
 									{#each fuentesAutoriaSecundarias as atribucion (atribucion.atribucion_id)}
-										<div class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2">
+										<div class="bg-[color:var(--muted)] p-2">
 											<div class="mb-1 flex flex-wrap items-center gap-2">
 												<span class="text-xs font-semibold text-[color:var(--gray-900)]">
 													{fuenteAutoriaScopeLabel(atribucion.jornada_num)} · {atribucion.atribucion_label}
 												</span>
-												<span class="rounded-full border border-[color:var(--border)] bg-white px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
-													{atribucion.tipo_atribucion_term}
-												</span>
-												{#if atribucion.atribucion_preferente}
-													<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--success)]">
-														Preferente
+												{#if fuenteAutoriaTipoLabel(atribucion.tipo_atribucion_term)}
+													<span class="border border-[color:var(--border)] bg-white px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
+														{fuenteAutoriaTipoLabel(atribucion.tipo_atribucion_term)}
 													</span>
 												{/if}
 											</div>
@@ -457,10 +477,8 @@
 								</div>
 							</div>
 						{/if}
-					{:else}
-						<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin fuentes de autoría publicadas.</p>
-					{/if}
-				</div>
+					</details>
+				{/if}
 			</div>
 
 			<CiteWorkButton
@@ -477,22 +495,23 @@
 			</div>
 		{/if}
 
-		<div class="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
-				<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+		<dl class="mt-4 grid gap-x-6 gap-y-4 text-sm md:grid-cols-2 xl:grid-cols-3">
+			<div>
+				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Datación tradicional
-				</div>
-				<div class="mt-1 flex items-center gap-2 font-semibold">
+				</dt>
+				<dd class="mt-1 flex items-center gap-2 font-semibold">
 					<span>{datacionLabel}</span>
 					{#if hasFuenteFecha}
 						<div class="group relative inline-block" bind:this={dateSourceWrapEl}>
 							<button
 								type="button"
-								class="inline-flex h-5 w-5 items-center justify-center border border-[color:var(--border)] bg-white text-[11px] font-semibold"
+								class="inline-flex h-5 w-5 items-center justify-center border border-[color:var(--border)] bg-white text-[color:var(--gray-700)] hover:bg-[color:var(--muted)]"
 								aria-label="Mostrar fuente bibliográfica de datación"
+								title="Mostrar fuente bibliográfica de datación"
 								onclick={toggleDateSource}
 							>
-								i
+								<Info size={13} aria-hidden="true" />
 							</button>
 							<div
 								class={`absolute left-0 top-[calc(100%+6px)] z-50 w-80 border border-[color:var(--border)] bg-white p-3 text-xs shadow-md ${showDateSource ? 'block' : 'hidden group-hover:block group-focus-within:block'}`}
@@ -506,30 +525,35 @@
 							</div>
 						</div>
 					{/if}
-				</div>
+				</dd>
 			</div>
 
-			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
-				<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+			<div>
+				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Género dramático
-				</div>
-				<div class="mt-1 font-semibold">{obra.genero_term ?? '--'}</div>
+				</dt>
+				<dd class="mt-1 font-semibold">{obra.genero_term ?? '--'}</dd>
 			</div>
 
-			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
-				<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+			<div>
+				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Total de versos
-				</div>
-				<div class="mt-1 font-semibold">{totalVersos} vv.</div>
+				</dt>
+				<dd class="mt-1 font-semibold">{totalVersos} vv.</dd>
 			</div>
 
-			<div class="border border-[color:var(--border)] bg-white p-3 text-sm">
-				<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Ficha
-				</div>
-				<div class="mt-1 space-y-1">
-					<p class="flex flex-wrap items-center gap-2">
-						<strong>Autor:</strong>
+			<div>
+				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+					Estructura registrada
+				</dt>
+				<dd class="mt-1 font-semibold">{estructuraResumen}</dd>
+			</div>
+
+			<div>
+				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+					Ficha elaborada por
+				</dt>
+				<dd class="mt-1 flex flex-wrap items-center gap-2 font-semibold">
 						<span>{autorFichaNombre}</span>
 						{#if autorFichaEmailHref}
 							<a
@@ -553,13 +577,17 @@
 								<OrcidIcon size={14} />
 							</a>
 						{/if}
-					</p>
-					<p>
-						<strong>Última mod.:</strong> {updatedAtAbsolute} ({formatRelative(obra.updated_at)})
-					</p>
-				</div>
+				</dd>
 			</div>
-		</div>
+
+			<div>
+				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+					Última modificación
+				</dt>
+				<dd class="mt-1 font-semibold">{updatedAtAbsolute}</dd>
+				<dd class="text-xs text-[color:var(--muted-foreground)]">{formatRelative(obra.updated_at)}</dd>
+			</div>
+		</dl>
 
 		<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
 			<div class="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
