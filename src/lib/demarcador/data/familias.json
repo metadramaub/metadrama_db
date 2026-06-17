@@ -1,0 +1,1015 @@
+[
+  {
+    "slug": "romance",
+    "label": "romance",
+    "termino_id": "15a34e36-622e-4a1e-be7d-925124e05d9e",
+    "tipo_forma": "forma_espanola",
+    "orden": 10,
+    "rasgos_base": {
+      "forma_abierta": true,
+      "forma_cerrada": false,
+      "metros": [
+        8
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "tipo_rima": "asonante",
+      "rima_en_pares": true
+    },
+    "children": [
+      "romance_a",
+      "romance_a-a",
+      "romance_a-e",
+      "romance_a-o",
+      "romance_e",
+      "romance_e-a",
+      "romance_e-e",
+      "romance_e-o",
+      "romance_i",
+      "romance_i-a",
+      "romance_i-e",
+      "romance_i-o",
+      "romance_o",
+      "romance_o-a",
+      "romance_o-e",
+      "romance_o-o",
+      "romance_u-a",
+      "romance_u-e",
+      "romance_u-o"
+    ],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        8
+      ],
+      "metro_principal": 8,
+      "metro_exclusivo": true,
+      "patron_metrico": null,
+      "regularidad_metrica": "fija",
+      "fuente": "heredado_de_romance"
+    }
+  },
+  {
+    "slug": "redondilla",
+    "label": "redondilla",
+    "termino_id": "1affe499-c92d-4cf0-a0f6-46c76a26f88f",
+    "tipo_forma": "forma_espanola",
+    "orden": 20,
+    "rasgos_base": {
+      "numero_versos_fijo": 4,
+      "numero_versos_min": 4,
+      "numero_versos_max": 4,
+      "metros": [
+        8
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "tipo_rima": "consonante",
+      "forma_cerrada": true,
+      "forma_abierta": false
+    },
+    "children": [
+      "redondilla_doble_abbaacca",
+      "redondilla_heptasilaba",
+      "redondilla_hexasilaba",
+      "redondilla_regular"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Incluye rasgos inferidos por familia; revisar con especialista.",
+      "La definición original está vacía; parte de la formalización es inferida."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        8
+      ],
+      "metro_principal": 8,
+      "metro_exclusivo": true,
+      "patron_metrico": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "familia+uso_metrico"
+    }
+  },
+  {
+    "slug": "quintilla",
+    "label": "quintilla",
+    "termino_id": "4d6d8107-5f7f-4b22-a26e-676df130ffdf",
+    "tipo_forma": "forma_espanola",
+    "orden": 30,
+    "rasgos_base": {
+      "forma_cerrada": true,
+      "forma_abierta": false,
+      "numero_versos_fijo": 5,
+      "numero_versos_min": 5,
+      "numero_versos_max": 5,
+      "metros": [
+        8
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "tipo_rima": "consonante"
+    },
+    "children": [
+      "quintilla_1_ababa",
+      "quintilla_2_abbab",
+      "quintilla_3_abaab",
+      "quintilla_4_aabab",
+      "quintilla_5_aabba",
+      "quintilla_6_abbaa",
+      "quintilla_7_ababb",
+      "quintilla_8_abbba"
+    ],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        8
+      ],
+      "metro_principal": 8,
+      "metro_exclusivo": true,
+      "patron_metrico": [
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "decima",
+    "label": "decima",
+    "termino_id": "d8382ff9-249f-4d47-a69e-4c3f7410cb39",
+    "tipo_forma": "forma_espanola",
+    "orden": 40,
+    "rasgos_base": {
+      "numero_versos_fijo": 10,
+      "numero_versos_min": 10,
+      "numero_versos_max": 10,
+      "metros": [
+        8
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "esquema_rima": "abbaaccddc",
+      "tipo_rima": "consonante",
+      "pausa_estructural_tras_verso": 4,
+      "forma_cerrada": true,
+      "forma_abierta": false
+    },
+    "children": [
+      "decima_aumentada",
+      "decima_espinela"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Incluye rasgos inferidos por familia; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        8
+      ],
+      "metro_principal": 8,
+      "metro_exclusivo": true,
+      "patron_metrico": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "copla_real",
+    "label": "copla real",
+    "termino_id": "04f3b8a4-cae2-4b49-8396-10a780d174e6",
+    "tipo_forma": "forma_espanola",
+    "orden": 50,
+    "rasgos_base": {
+      "forma_abierta": true,
+      "forma_cerrada": false,
+      "numero_versos_fijo": 10,
+      "numero_versos_min": 10,
+      "numero_versos_max": 10,
+      "tiene_pie_quebrado": true,
+      "metros": [
+        4,
+        5,
+        8
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "pausa_estructural_tras_verso": 5,
+      "tipo_rima": "consonante"
+    },
+    "children": [
+      "copla_real_de_pie_quebrado",
+      "copla_real_sin_quebrado"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Incluye rasgos inferidos por familia; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        8
+      ],
+      "metro_principal": 8,
+      "metro_exclusivo": true,
+      "patron_metrico": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "romancillo",
+    "label": "romancillo",
+    "termino_id": "07176066-61f6-4b5c-a118-2ae49de4562a",
+    "tipo_forma": "forma_espanola",
+    "orden": 60,
+    "rasgos_base": {
+      "forma_abierta": true,
+      "forma_cerrada": false,
+      "metros": [
+        6,
+        7
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "tipo_rima": "asonante",
+      "rima_en_pares": true
+    },
+    "children": [
+      "romancillo_heptasilabo",
+      "romancillo_hexasilabo"
+    ],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        6,
+        7
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "variable",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "romance_heroico",
+    "label": "romance heroico",
+    "termino_id": "8bcba9bd-996c-4e52-8b92-0316a083ef91",
+    "tipo_forma": "forma_espanola",
+    "orden": 70,
+    "rasgos_base": {
+      "forma_abierta": true,
+      "forma_cerrada": false,
+      "metros": [
+        11
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "tipo_rima": "asonante",
+      "rima_en_pares": true
+    },
+    "children": [],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        11
+      ],
+      "metro_principal": 11,
+      "metro_exclusivo": true,
+      "patron_metrico": null,
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "villancico",
+    "label": "villancico",
+    "termino_id": "1ba6f164-41c7-4c94-a75d-cc629fc16048",
+    "tipo_forma": "forma_espanola",
+    "orden": 80,
+    "rasgos_base": {
+      "metros": [
+        6,
+        8
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "estribillo": true,
+      "cabeza": true,
+      "mudanza": true,
+      "vuelta": true,
+      "enlace": true,
+      "forma_compuesta": true,
+      "tipo_rima": "consonante"
+    },
+    "children": [],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Rasgos corregidos en postproceso manual; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        6,
+        8
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "variable",
+      "fuente": "definicion+uso_metrico"
+    }
+  },
+  {
+    "slug": "zejel",
+    "label": "zejel",
+    "termino_id": "838d5dc2-f529-41ce-8b28-94e65e4279e7",
+    "tipo_forma": "forma_espanola",
+    "orden": 90,
+    "rasgos_base": {
+      "metros": [
+        6,
+        8
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "estribillo": true,
+      "vuelta": true,
+      "forma_compuesta": true,
+      "tipo_rima": "consonante",
+      "copla_monorrima": true
+    },
+    "children": [],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Rasgos corregidos en postproceso manual; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        6,
+        8
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "variable",
+      "fuente": "definicion+uso_metrico"
+    }
+  },
+  {
+    "slug": "seguidilla",
+    "label": "seguidilla",
+    "termino_id": "7baf2cc1-b4e5-43f6-9d7a-e2cd46b9856b",
+    "tipo_forma": "forma_espanola",
+    "orden": 100,
+    "rasgos_base": {
+      "numero_versos_fijo": 7,
+      "numero_versos_min": 7,
+      "numero_versos_max": 7,
+      "numero_versos_opciones": [
+        4,
+        7
+      ],
+      "tipo_rima": "asonante"
+    },
+    "children": [],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        5,
+        7
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": [
+        7,
+        5,
+        7,
+        5
+      ],
+      "regularidad_metrica": "fija_con_variacion",
+      "fuente": "definicion+uso_metrico"
+    }
+  },
+  {
+    "slug": "pareado_de_arte_menor",
+    "label": "pareado De arte menor",
+    "termino_id": "0eb921c3-fac8-4619-b41f-572a402907b4",
+    "tipo_forma": "forma_espanola",
+    "orden": 110,
+    "rasgos_base": {
+      "metros": [
+        6,
+        8
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "tipo_rima": "consonante",
+      "forma_abierta": true,
+      "forma_cerrada": false
+    },
+    "children": [
+      "pareado_hexasilabo",
+      "pareado_octosilabo"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Incluye rasgos inferidos por familia; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        6,
+        7,
+        8
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "variable",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "copla_de_pie_quebrado",
+    "label": "copla De Pie quebrado",
+    "termino_id": "352eadd0-adb0-4bdc-af69-bdb64586376a",
+    "tipo_forma": "forma_espanola",
+    "orden": 120,
+    "rasgos_base": {
+      "numero_versos_fijo": 12,
+      "numero_versos_min": 12,
+      "numero_versos_max": 12,
+      "metros": [
+        5,
+        8
+      ],
+      "heterometrica": true,
+      "isometrica": false
+    },
+    "children": [],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        4,
+        5,
+        8
+      ],
+      "metro_principal": 8,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "variable",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "terceto_octosilabo",
+    "label": "terceto octosilabo",
+    "termino_id": "fd8101fc-0915-46ba-be2c-5d3548fa2d5f",
+    "tipo_forma": "forma_espanola",
+    "orden": 130,
+    "rasgos_base": {
+      "metros": [
+        8
+      ],
+      "heterometrica": true,
+      "isometrica": true
+    },
+    "children": [],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        8
+      ],
+      "metro_principal": 8,
+      "metro_exclusivo": true,
+      "patron_metrico": null,
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "irregular",
+    "label": "irregular",
+    "termino_id": "00f1532c-fc1f-4449-a304-ec071e70426e",
+    "tipo_forma": null,
+    "orden": 140,
+    "rasgos_base": {},
+    "children": [
+      "irregular_arte_mayor",
+      "irregular_arte_menor",
+      "irregular_mixto"
+    ],
+    "confianza_formalizacion": "baja",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Categoría residual: debe decidirse editorialmente y no debería funcionar por descarte estricto.",
+      "No se han extraído rasgos formales suficientes desde definición, patrón o jerarquía."
+    ],
+    "metrica": {
+      "metros_posibles": [],
+      "metro_principal": null,
+      "metro_exclusivo": null,
+      "patron_metrico": null,
+      "regularidad_metrica": "indeterminada",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "silva",
+    "label": "silva",
+    "termino_id": "590d40a4-5eb4-4992-b0cf-3edf0d379b83",
+    "tipo_forma": "forma_italiana",
+    "orden": 150,
+    "rasgos_base": {
+      "forma_abierta": true,
+      "forma_cerrada": false,
+      "metros": [
+        7,
+        11
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "tipo_rima": "sin_rima",
+      "permite_versos_sueltos": true
+    },
+    "children": [
+      "silva_de_consonantes_irregular",
+      "silva_de_consonantes_regular",
+      "silva_de_endecasilabos",
+      "silva_libre"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Incluye rasgos inferidos por familia; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        7,
+        11
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "variable",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "octava_real",
+    "label": "octava real",
+    "termino_id": "d07d21de-bef3-40f3-9573-ce5ac4639651",
+    "tipo_forma": "forma_italiana",
+    "orden": 160,
+    "rasgos_base": {
+      "forma_cerrada": true,
+      "forma_abierta": false,
+      "numero_versos_fijo": 8,
+      "numero_versos_min": 8,
+      "numero_versos_max": 8,
+      "metros": [
+        11
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "esquema_rima": "ABABABCC",
+      "tipo_rima": "consonante"
+    },
+    "children": [
+      "octava_real_de_esdrujulos",
+      "octava_real_regular"
+    ],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        11
+      ],
+      "metro_principal": 11,
+      "metro_exclusivo": true,
+      "patron_metrico": [
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "soneto",
+    "label": "soneto",
+    "termino_id": "5094076a-b93a-4fc4-8b43-a32791b03196",
+    "tipo_forma": "forma_italiana",
+    "orden": 170,
+    "rasgos_base": {
+      "forma_cerrada": true,
+      "forma_abierta": false,
+      "numero_versos_fijo": 14,
+      "numero_versos_min": 14,
+      "numero_versos_max": 14,
+      "metros": [
+        11
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "tipo_rima": "consonante"
+    },
+    "children": [
+      "soneto_con_tercetos_de_rima_conclusiva_ABBAABBACDEDCE",
+      "soneto_con_tercetos_de_rima_nuclear_ABBAABBACDCEDE",
+      "soneto_con_tercetos_de_rima_paralela_ABBAABBACDECDE",
+      "soneto_de_esdrújulos",
+      "soneto_regular_ABBAABBACDCDCD"
+    ],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        11
+      ],
+      "metro_principal": 11,
+      "metro_exclusivo": true,
+      "patron_metrico": [
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "heredado_de_soneto"
+    }
+  },
+  {
+    "slug": "terceto",
+    "label": "terceto",
+    "termino_id": "c0a062a4-3ee3-474d-a08f-eb466147e283",
+    "tipo_forma": "forma_italiana",
+    "orden": 180,
+    "rasgos_base": {
+      "numero_versos_fijo": 3,
+      "numero_versos_min": 3,
+      "numero_versos_max": 3,
+      "metros": [
+        11
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "forma_abierta": true,
+      "forma_cerrada": false,
+      "tipo_rima": "consonante"
+    },
+    "children": [
+      "terceto_de_esdrujulos",
+      "terceto_encadenado",
+      "terceto_sin_encadenar_1_AXABYB",
+      "terceto_sin_encadenar_2_XAAYBB"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Incluye rasgos inferidos por familia; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        11
+      ],
+      "metro_principal": 11,
+      "metro_exclusivo": true,
+      "patron_metrico": null,
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "sexteto_lira",
+    "label": "sexteto lira",
+    "termino_id": "ae1e40bd-8528-41b8-9edc-dbcf7153896b",
+    "tipo_forma": "forma_italiana",
+    "orden": 190,
+    "rasgos_base": {
+      "forma_cerrada": true,
+      "numero_versos_fijo": 6,
+      "numero_versos_min": 6,
+      "numero_versos_max": 6,
+      "metros": [
+        7,
+        11
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "tipo_rima": "consonante"
+    },
+    "children": [
+      "sexteto_lira_a1_aBaBcC",
+      "sexteto_lira_b1_abbacC",
+      "sexteto_lira_b2_AbbACC",
+      "sexteto_lira_c1_AabBcC",
+      "sexteto_lira_c2_AabBCC",
+      "sexteto_lira_de_esdrujulos"
+    ],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        7,
+        11
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "fija_con_variantes",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "lira",
+    "label": "lira",
+    "termino_id": "187be9a5-f24c-4fde-a4dd-591e9e742c39",
+    "tipo_forma": "forma_italiana",
+    "orden": 200,
+    "rasgos_base": {
+      "forma_cerrada": true,
+      "forma_abierta": false,
+      "numero_versos_fijo": 5,
+      "numero_versos_min": 5,
+      "numero_versos_max": 5,
+      "metros": [
+        7,
+        11
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "tipo_rima": "consonante",
+      "esquema_rima": "aBabB"
+    },
+    "children": [],
+    "confianza_formalizacion": "alta",
+    "requiere_revision": false,
+    "notas_revision": [],
+    "metrica": {
+      "metros_posibles": [
+        7,
+        11
+      ],
+      "metro_principal": 7,
+      "metro_exclusivo": false,
+      "patron_metrico": [
+        7,
+        11,
+        7,
+        7,
+        11
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "patron_especifico_mayusculas_minusculas"
+    }
+  },
+  {
+    "slug": "endecasilabo_suelto",
+    "label": "endecasilabo suelto",
+    "termino_id": "b8462640-842d-43a6-a3f4-afaaff19b769",
+    "tipo_forma": "forma_italiana",
+    "orden": 210,
+    "rasgos_base": {
+      "forma_abierta": true,
+      "forma_cerrada": false,
+      "metros": [
+        11
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "tipo_rima": "mixta_o_parcial",
+      "sin_rima_en_cuerpo": true,
+      "pareado_final": true,
+      "pareados_intercalados": true,
+      "porcentaje_versos_rimados_max": 49
+    },
+    "children": [
+      "endecasilabo_suelto_de_esdrujulos",
+      "endecasilabo_suelto_encadenado",
+      "endecasilabo_suelto_puro",
+      "endecasilabo_suelto_puro_sin_distico_final",
+      "endecasilabo_suelto_y_pareado",
+      "endecasilabo_suelto_y_pareado_sin_distico_final"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "La app debería preguntar por aproximación; no exigir cálculo exacto al editor.",
+      "Rasgos corregidos en postproceso manual; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        11
+      ],
+      "metro_principal": 11,
+      "metro_exclusivo": true,
+      "patron_metrico": null,
+      "regularidad_metrica": "fija",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "cancion_petrarquista",
+    "label": "cancion petrarquista",
+    "termino_id": "10d7f0d4-9f73-4674-bd88-0bc9d4a51775",
+    "tipo_forma": "forma_italiana",
+    "orden": 220,
+    "rasgos_base": {
+      "numero_versos_min": 5,
+      "numero_versos_max": 20,
+      "metros": [
+        7,
+        11
+      ],
+      "heterometrica": true,
+      "isometrica": false,
+      "tipo_rima": "consonante",
+      "forma_compuesta": true,
+      "estancias_repetidas": true
+    },
+    "children": [
+      "cancion_de_15_versos",
+      "cancion_de_8_versos",
+      "cancion_de_9_versos",
+      "cancion_endecasilaba",
+      "cancion_regular_abCabCcdeeDfF",
+      "cancion_sin_rima",
+      "cancion_sin_rima_de_esdrujulos"
+    ],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Rasgos corregidos en postproceso manual; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        7,
+        11
+      ],
+      "metro_principal": null,
+      "metro_exclusivo": false,
+      "patron_metrico": null,
+      "regularidad_metrica": "regular_por_estancias",
+      "fuente": "definicion"
+    }
+  },
+  {
+    "slug": "pareado_endecasilabo",
+    "label": "pareado endecasilabo",
+    "termino_id": "f44a79b4-46d1-47c1-87cf-50e2e4b72f08",
+    "tipo_forma": "forma_italiana",
+    "orden": 230,
+    "rasgos_base": {
+      "metros": [
+        11
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "porcentaje_versos_rimados_min": 99,
+      "porcentaje_versos_rimados_max": 100,
+      "porcentaje_pareados_min": 99,
+      "porcentaje_pareados_max": 100,
+      "tipo_rima": "consonante",
+      "forma_abierta": true,
+      "forma_cerrada": false
+    },
+    "children": [],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Incluye rasgos inferidos por familia; revisar con especialista.",
+      "La app debería preguntar por aproximación; no exigir cálculo exacto al editor.",
+      "Rasgos corregidos en postproceso manual; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        11
+      ],
+      "metro_principal": 11,
+      "metro_exclusivo": true,
+      "patron_metrico": [
+        11,
+        11
+      ],
+      "regularidad_metrica": "fija",
+      "fuente": "definicion/equivalencias"
+    }
+  },
+  {
+    "slug": "sextina",
+    "label": "sextina",
+    "termino_id": "5c7527be-75e8-44b3-bb5e-fbf62174c569",
+    "tipo_forma": "forma_italiana",
+    "orden": 240,
+    "rasgos_base": {
+      "forma_cerrada": true,
+      "forma_abierta": false,
+      "numero_versos_fijo": 39,
+      "numero_versos_min": 39,
+      "numero_versos_max": 39,
+      "metros": [
+        11
+      ],
+      "isometrica": true,
+      "heterometrica": false,
+      "tipo_rima": "sin_rima",
+      "repeticion_palabras_finales": true,
+      "forma_compuesta": true
+    },
+    "children": [],
+    "confianza_formalizacion": "media",
+    "requiere_revision": true,
+    "notas_revision": [
+      "Familia métrica compleja: conviene revisar la formalización y las preguntas discriminantes.",
+      "Rasgos corregidos en postproceso manual; revisar con especialista."
+    ],
+    "metrica": {
+      "metros_posibles": [
+        11
+      ],
+      "metro_principal": 11,
+      "metro_exclusivo": true,
+      "patron_metrico": null,
+      "regularidad_metrica": "fija_por_repeticion_lexica",
+      "fuente": "definicion"
+    }
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "romance_vs_romancillo_vs_romance_heroico",
+    "titulo": "Formas romancísticas por metro",
+    "descripcion": "Si hay serie abierta con rima asonante en pares, el metro separa romance, romancillo y romance heroico. Octosílabo: romance; hexasílabo/heptasílabo: romancillo; endecasílabo: romance heroico. Después puede preguntarse la asonancia concreta."
+  },
+  {
+    "id": "decima_vs_copla_real",
+    "titulo": "Décima y copla real",
+    "descripcion": "Ambas trabajan con diez versos octosílabos y rima consonante. La décima espinela se define por pausa tras el cuarto verso; la copla real por pausa tras el quinto. La presencia de pie quebrado distingue la copla real de pie quebrado."
+  },
+  {
+    "id": "quintilla_variantes",
+    "titulo": "Variantes de quintilla",
+    "descripcion": "Una vez identificados cinco octosílabos consonantes, conviene pasar a opción múltiple por esquema: ababa, abbab, abaab, aabab, aabba, abbaa, ababb, abbba."
+  },
+  {
+    "id": "redondilla_variantes",
+    "titulo": "Redondilla y variantes",
+    "descripcion": "La redondilla regular se reconoce por cuatro versos y esquema abba. Las variantes hexasílaba y heptasílaba se distinguen por metro; la redondilla doble por ocho versos y patrón abbaacca."
+  },
+  {
+    "id": "soneto_variantes",
+    "titulo": "Soneto y tercetos finales",
+    "descripcion": "El soneto se reconoce por catorce endecasílabos con ABBAABBA en los cuartetos. Las hijas se distinguen por el esquema de los tercetos: CDCDCD, CDECDE, CDEDCE, CDCEDE. La variante de esdrújulos requiere preguntar por finales esdrújulos."
+  },
+  {
+    "id": "silva_endecasilabo_pareado",
+    "titulo": "Silva, endecasílabo suelto y pareados endecasílabos",
+    "descripcion": "La frontera depende de metro, densidad de rima y presencia de pareados. Endecasílabo suelto: rima minoritaria, por debajo del 50 %. Silva de endecasílabos: endecasílabos con mayoría rimada, aproximadamente 50-98 %, a menudo en dísticos. Pareado endecasílabo: dísticos en práctica totalidad, 99-100 %. La app debe tratar estos porcentajes como guía editorial."
+  },
+  {
+    "id": "cancion_vs_silva",
+    "titulo": "Canción petrarquista frente a silva",
+    "descripcion": "Ambas pueden combinar heptasílabos y endecasílabos. La canción se organiza en estancias que repiten un patrón estable; la silva es una serie abierta con disposición libre o menos estable de la rima."
+  },
+  {
+    "id": "villancico_vs_zejel",
+    "titulo": "Villancico y zéjel",
+    "descripcion": "Ambas formas pueden incluir estribillo. El villancico se caracteriza por cabeza, mudanza, enlace/vuelta y repetición del estribillo; el zéjel por estribillo, copla de tres versos monorrimos, verso de vuelta que rima con el estribillo y repetición del estribillo."
+  },
+  {
+    "id": "sextina",
+    "titulo": "Sextina",
+    "descripcion": "La sextina no se identifica principalmente por rima, sino por seis palabras finales que rotan en seis estrofas de seis versos y un remate final de tres versos."
+  },
+  {
+    "id": "irregulares",
+    "titulo": "Formas irregulares",
+    "descripcion": "Las formas irregulares deben funcionar como salida residual o elección editorial. No conviene que el motor las seleccione por descarte automático salvo que se hayan respondido negativamente los rasgos de las formas regulares."
+  },
+  {
+    "id": "distinguir_aparece_principal_exclusivo_metro",
+    "descripcion": "Las preguntas de metro deben distinguir presencia, metro único y patrón métrico. No debe usarse rasgo_contiene como si indicara predominio.",
+    "campos": [
+      "metros_posibles",
+      "metro_principal",
+      "metro_exclusivo",
+      "metro_unico",
+      "patron_metrico"
+    ],
+    "criterio": "metros_posibles indica presencia posible; metro_unico o metro_exclusivo=true indica exclusividad; patron_metrico permite alternancias fijas.",
+    "requiere_revision": false
+  }
+]

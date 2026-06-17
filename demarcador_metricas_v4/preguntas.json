@@ -1,0 +1,460 @@
+[
+  {
+    "id": "forma_abierta",
+    "pregunta": "¿Es una serie abierta o tirada indefinida?",
+    "tipo": "si_no_ns",
+    "rasgo": "forma_abierta",
+    "fase": "inicial",
+    "prioridad_editorial": 10,
+    "bloque": "estructura",
+    "ayuda": "",
+    "nunca_primera": false,
+    "prioridad": 10,
+    "grupo_logico": "apertura_formal"
+  },
+  {
+    "id": "numero_fijo_versos",
+    "pregunta": "¿Tiene un número fijo de versos?",
+    "tipo": "si_no_ns",
+    "rasgo": "forma_cerrada",
+    "fase": "inicial",
+    "prioridad_editorial": 20,
+    "bloque": "estructura",
+    "ayuda": "",
+    "prioridad": 20,
+    "grupo_logico": "apertura_formal"
+  },
+  {
+    "id": "isometrica",
+    "pregunta": "¿Todos o casi todos los versos tienen la misma medida?",
+    "tipo": "si_no_ns",
+    "rasgo": "isometrica",
+    "fase": "inicial",
+    "prioridad_editorial": 30,
+    "bloque": "metro",
+    "ayuda": "",
+    "prioridad": 30
+  },
+  {
+    "id": "metro_unico_octosilabo",
+    "pregunta": "¿Todos o casi todos los versos son octosílabos?",
+    "tipo": "si_no_ns",
+    "rasgo": "metro_unico",
+    "valor": 8,
+    "fase": "inicial",
+    "prioridad_editorial": 40,
+    "bloque": "metro",
+    "ayuda": "",
+    "prioridad": 40,
+    "grupo_excluyente": "metro_unico",
+    "grupo_logico": "metro_unico",
+    "bloquea_grupos_si_true": [
+      "metro_unico",
+      "metro_presencia_general",
+      "metro_combinacion_general",
+      "patron_metrico_base"
+    ],
+    "bloquea_preguntas_si_true": [
+      "metro_unico_octosilabo",
+      "metro_unico_endecasilabo",
+      "metro_contiene_octosilabo",
+      "metro_contiene_endecasilabo",
+      "metro_contiene_hexasilabo",
+      "metro_contiene_heptasilabo",
+      "metro_heptasilabo_endecasilabo",
+      "patron_7_5"
+    ]
+  },
+  {
+    "id": "metro_unico_endecasilabo",
+    "pregunta": "¿Todos o casi todos los versos son endecasílabos?",
+    "tipo": "si_no_ns",
+    "rasgo": "metro_unico",
+    "valor": 11,
+    "fase": "inicial",
+    "prioridad_editorial": 50,
+    "bloque": "metro",
+    "ayuda": "",
+    "prioridad": 50,
+    "grupo_excluyente": "metro_unico",
+    "grupo_logico": "metro_unico",
+    "bloquea_grupos_si_true": [
+      "metro_unico",
+      "metro_presencia_general",
+      "metro_combinacion_general",
+      "patron_metrico_base"
+    ],
+    "bloquea_preguntas_si_true": [
+      "metro_unico_octosilabo",
+      "metro_unico_endecasilabo",
+      "metro_contiene_octosilabo",
+      "metro_contiene_endecasilabo",
+      "metro_contiene_hexasilabo",
+      "metro_contiene_heptasilabo",
+      "metro_heptasilabo_endecasilabo",
+      "patron_7_5"
+    ]
+  },
+  {
+    "id": "metro_contiene_octosilabo",
+    "pregunta": "¿Aparecen octosílabos?",
+    "tipo": "si_no_ns",
+    "rasgo_contiene": "metros_posibles",
+    "valor": 8,
+    "fase": "intermedia",
+    "prioridad_editorial": 110,
+    "bloque": "metro",
+    "ayuda": "",
+    "nunca_primera": true,
+    "prioridad": 110,
+    "grupo_logico": "metro_presencia_general",
+    "bloqueado_por_grupos_si_true": [
+      "metro_unico"
+    ],
+    "tipo_presencia": "general"
+  },
+  {
+    "id": "metro_contiene_endecasilabo",
+    "pregunta": "¿Aparecen endecasílabos?",
+    "tipo": "si_no_ns",
+    "rasgo_contiene": "metros_posibles",
+    "valor": 11,
+    "fase": "intermedia",
+    "prioridad_editorial": 120,
+    "bloque": "metro",
+    "ayuda": "",
+    "nunca_primera": true,
+    "prioridad": 120,
+    "grupo_logico": "metro_presencia_general",
+    "bloqueado_por_grupos_si_true": [
+      "metro_unico"
+    ],
+    "tipo_presencia": "general"
+  },
+  {
+    "id": "metro_contiene_hexasilabo",
+    "pregunta": "¿Aparecen hexasílabos?",
+    "tipo": "si_no_ns",
+    "rasgo_contiene": "metros_posibles",
+    "valor": 6,
+    "fase": "intermedia",
+    "prioridad_editorial": 130,
+    "bloque": "metro",
+    "ayuda": "",
+    "nunca_primera": true,
+    "prioridad": 130,
+    "grupo_logico": "metro_presencia_general",
+    "bloqueado_por_grupos_si_true": [
+      "metro_unico"
+    ],
+    "tipo_presencia": "general"
+  },
+  {
+    "id": "metro_contiene_heptasilabo",
+    "pregunta": "¿Aparecen heptasílabos?",
+    "tipo": "si_no_ns",
+    "rasgo_contiene": "metros_posibles",
+    "valor": 7,
+    "fase": "intermedia",
+    "prioridad_editorial": 140,
+    "bloque": "metro",
+    "ayuda": "",
+    "nunca_primera": true,
+    "prioridad": 140,
+    "grupo_logico": "metro_presencia_general",
+    "bloqueado_por_grupos_si_true": [
+      "metro_unico"
+    ],
+    "tipo_presencia": "general"
+  },
+  {
+    "id": "metro_heptasilabo_endecasilabo",
+    "pregunta": "¿Combina heptasílabos y endecasílabos?",
+    "tipo": "si_no_ns",
+    "rasgo_conjunto": "metros_posibles",
+    "valores": [
+      7,
+      11
+    ],
+    "fase": "intermedia",
+    "prioridad_editorial": 150,
+    "bloque": "metro",
+    "ayuda": "",
+    "prioridad": 150,
+    "grupo_logico": "metro_combinacion_general",
+    "bloqueado_por_grupos_si_true": [
+      "metro_unico"
+    ]
+  },
+  {
+    "id": "patron_7_5",
+    "pregunta": "¿Alterna versos de 7 y 5 sílabas?",
+    "tipo": "si_no_ns",
+    "rasgo_patron_contiene": "patron_metrico",
+    "valores": [
+      7,
+      5
+    ],
+    "fase": "intermedia",
+    "prioridad_editorial": 160,
+    "bloque": "metro",
+    "ayuda": "",
+    "max_candidatas": 40,
+    "prioridad": 160,
+    "grupo_logico": "patron_metrico_base",
+    "bloqueado_por_grupos_si_true": [
+      "metro_unico"
+    ]
+  },
+  {
+    "id": "pie_quebrado",
+    "pregunta": "¿Hay versos de pie quebrado?",
+    "tipo": "si_no_ns",
+    "rasgo": "tiene_pie_quebrado",
+    "fase": "intermedia",
+    "prioridad_editorial": 170,
+    "bloque": "metro",
+    "ayuda": "",
+    "prioridad": 170
+  },
+  {
+    "id": "rima_asonante",
+    "pregunta": "¿La rima principal es asonante?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "tipo_rima",
+    "valor": "asonante",
+    "fase": "inicial",
+    "prioridad_editorial": 60,
+    "bloque": "rima",
+    "ayuda": "",
+    "prioridad": 60,
+    "grupo_excluyente": "tipo_rima",
+    "grupo_logico": "tipo_rima"
+  },
+  {
+    "id": "rima_consonante",
+    "pregunta": "¿La rima principal es consonante?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "tipo_rima",
+    "valor": "consonante",
+    "fase": "inicial",
+    "prioridad_editorial": 70,
+    "bloque": "rima",
+    "ayuda": "",
+    "prioridad": 70,
+    "grupo_excluyente": "tipo_rima",
+    "grupo_logico": "tipo_rima"
+  },
+  {
+    "id": "rima_en_pares",
+    "pregunta": "¿La rima aparece en los versos pares?",
+    "tipo": "si_no_ns",
+    "rasgo": "rima_en_pares",
+    "fase": "inicial",
+    "prioridad_editorial": 80,
+    "bloque": "rima",
+    "ayuda": "",
+    "prioridad": 80
+  },
+  {
+    "id": "versos_4",
+    "pregunta": "¿La unidad tiene cuatro versos?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "numero_versos_fijo",
+    "valor": 4,
+    "fase": "intermedia",
+    "prioridad_editorial": 200,
+    "bloque": "extension",
+    "ayuda": "",
+    "max_candidatas": 50,
+    "prioridad": 200
+  },
+  {
+    "id": "versos_5",
+    "pregunta": "¿La unidad tiene cinco versos?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "numero_versos_fijo",
+    "valor": 5,
+    "fase": "intermedia",
+    "prioridad_editorial": 210,
+    "bloque": "extension",
+    "ayuda": "",
+    "max_candidatas": 50,
+    "prioridad": 210
+  },
+  {
+    "id": "versos_10",
+    "pregunta": "¿La unidad tiene diez versos?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "numero_versos_fijo",
+    "valor": 10,
+    "fase": "intermedia",
+    "prioridad_editorial": 220,
+    "bloque": "extension",
+    "ayuda": "",
+    "max_candidatas": 50,
+    "prioridad": 220
+  },
+  {
+    "id": "versos_14",
+    "pregunta": "¿La unidad tiene catorce versos?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "numero_versos_fijo",
+    "valor": 14,
+    "fase": "intermedia",
+    "prioridad_editorial": 230,
+    "bloque": "extension",
+    "ayuda": "",
+    "max_candidatas": 50,
+    "prioridad": 230
+  },
+  {
+    "id": "estribillo",
+    "pregunta": "¿Tiene estribillo?",
+    "tipo": "si_no_ns",
+    "rasgo": "tiene_estribillo",
+    "fase": "intermedia",
+    "prioridad_editorial": 300,
+    "bloque": "estructura_interna",
+    "ayuda": "",
+    "max_candidatas": 40,
+    "prioridad": 300
+  },
+  {
+    "id": "cabeza",
+    "pregunta": "¿Tiene cabeza inicial?",
+    "tipo": "si_no_ns",
+    "rasgo": "tiene_cabeza",
+    "fase": "avanzada",
+    "prioridad_editorial": 310,
+    "bloque": "estructura_interna",
+    "ayuda": "",
+    "max_candidatas": 25,
+    "prioridad": 310
+  },
+  {
+    "id": "mudanza",
+    "pregunta": "¿Tiene mudanza?",
+    "tipo": "si_no_ns",
+    "rasgo": "tiene_mudanza",
+    "fase": "avanzada",
+    "prioridad_editorial": 320,
+    "bloque": "estructura_interna",
+    "ayuda": "",
+    "max_candidatas": 25,
+    "prioridad": 320
+  },
+  {
+    "id": "vuelta",
+    "pregunta": "¿Tiene vuelta?",
+    "tipo": "si_no_ns",
+    "rasgo": "tiene_vuelta",
+    "fase": "avanzada",
+    "prioridad_editorial": 330,
+    "bloque": "estructura_interna",
+    "ayuda": "",
+    "max_candidatas": 25,
+    "prioridad": 330
+  },
+  {
+    "id": "terminacion_esdrujula",
+    "pregunta": "¿Predominan finales esdrújulos?",
+    "tipo": "si_no_ns",
+    "rasgo": "terminacion_esdrujula",
+    "fase": "avanzada",
+    "prioridad_editorial": 400,
+    "bloque": "terminacion",
+    "ayuda": "",
+    "max_candidatas": 25,
+    "prioridad": 400
+  },
+  {
+    "id": "asonancia_pares",
+    "pregunta": "¿Qué asonancia aparece en los pares?",
+    "tipo": "opcion",
+    "rasgo": "asonancia",
+    "fase": "avanzada",
+    "prioridad_editorial": 500,
+    "bloque": "rima",
+    "ayuda": "",
+    "opciones": [
+      "a-a",
+      "a-e",
+      "a-o",
+      "e-a",
+      "e-e",
+      "e-o",
+      "i-a",
+      "i-e",
+      "i-o",
+      "o-a",
+      "o-e",
+      "o-o",
+      "u-a",
+      "u-e",
+      "u-o",
+      "-a",
+      "-e",
+      "-i",
+      "-o"
+    ],
+    "requiere_rasgos": {
+      "tipo_rima": "asonante",
+      "rima_en_pares": true
+    },
+    "requiere_familias": [
+      "romance",
+      "romancillo",
+      "romance_heroico"
+    ],
+    "max_candidatas": 25,
+    "nunca_primera": true,
+    "prioridad": 500
+  },
+  {
+    "id": "esquema_rima_opciones",
+    "pregunta": "¿Coincide con alguno de estos esquemas?",
+    "tipo": "opcion",
+    "rasgo": "esquema_rima",
+    "fase": "avanzada",
+    "prioridad_editorial": 600,
+    "bloque": "rima",
+    "ayuda": "",
+    "opciones_desde_candidatas": true,
+    "max_candidatas": 15,
+    "nunca_primera": true,
+    "prioridad": 600
+  },
+  {
+    "id": "pausa_tras_4",
+    "pregunta": "¿La pausa estructural cae tras el cuarto verso?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "pausa_estructural_tras_verso",
+    "valor": 4,
+    "fase": "avanzada",
+    "prioridad_editorial": 700,
+    "bloque": "estructura",
+    "ayuda": "",
+    "requiere_rasgos": {
+      "numero_versos_fijo": 10
+    },
+    "max_candidatas": 20,
+    "prioridad": 700
+  },
+  {
+    "id": "pausa_tras_5",
+    "pregunta": "¿La pausa estructural cae tras el quinto verso?",
+    "tipo": "si_no_ns",
+    "rasgo_valor": "pausa_estructural_tras_verso",
+    "valor": 5,
+    "fase": "avanzada",
+    "prioridad_editorial": 710,
+    "bloque": "estructura",
+    "ayuda": "",
+    "requiere_rasgos": {
+      "numero_versos_fijo": 10
+    },
+    "max_candidatas": 20,
+    "prioridad": 710
+  }
+]
