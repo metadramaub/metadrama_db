@@ -45,7 +45,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		canSeeAllPublished: viewer.canSeeAllPublished,
 		ficha: {
 			...ficha,
-			comentarios_publicos: (comentariosResp.data ?? []) as PublicFichaComentarioPublico[]
+			comentarios_publicos: (comentariosResp.data ?? []) as unknown as PublicFichaComentarioPublico[]
 		} satisfies PublicObraFichaPayload
 	};
 };

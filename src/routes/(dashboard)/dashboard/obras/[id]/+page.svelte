@@ -509,7 +509,7 @@
 			jornadas={jornadasLive}
 			cuadros={cuadrosLive}
 			secuencias={secuenciasLive}
-			autoriaPreferenteCount={data.autoriaPreferenteCount}
+			autoriaNoAmbiguaCount={data.autoriaNoAmbiguaCount}
 			editorAsignadoNombre={data.editorAsignadoNombre}
 			assignedReviewer={data.assignedReviewer}
 			capabilities={data.capabilities}

@@ -181,7 +181,7 @@ Esta pestaña está pendiente de adaptarse al nuevo modelo de autoría, pero en 
 Reglas de trabajo recomendadas:
 
 - no crees un autor ficticio como “desconocido”;
-- si la autoría es desconocida, usa la modalidad `desconocida` y deja la atribución sin autores seleccionados;
+- si la autoría es desconocida, usa la tipología `desconocida` y deja la atribución sin autores seleccionados;
 - en `única`, debes seleccionar exactamente 1 autor;
 - en `alternativa` y `colaborativa`, debes seleccionar 2 o más autores;
 - en `desconocida`, debes dejar 0 autores.

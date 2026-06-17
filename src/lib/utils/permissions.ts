@@ -112,6 +112,10 @@ export function canManageAutores(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }
 
+export function canManageAutoriaMetricProfile(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
 export function canDeleteAutores(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }

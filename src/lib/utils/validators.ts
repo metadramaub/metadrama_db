@@ -231,10 +231,8 @@ const autoriaEvidenciaSchema = z
 const autoriaPropuestaSchema = z
 	.object({
 		atribucion_id: z.string().uuid().optional().nullable().default(null),
-		composicion_autoria_id: z.string().uuid('Composicion de autoria requerida'),
-		atribucion_preferente: z.boolean().optional().default(false),
-		usable_perfil_metrico: z.boolean().optional().default(false),
-		disponible_laboratorio: z.boolean().optional().default(true),
+		composicion_autoria_id: z.string().uuid('Tipologia de autoria requerida'),
+		perfil_metrico: z.boolean().optional().default(false),
 		autores: z
 			.array(autoriaAtribucionAutorSchema)
 			.default([])

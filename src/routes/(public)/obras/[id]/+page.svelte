@@ -19,7 +19,7 @@
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { colorForMetricKey } from '$lib/utils/metric-colors';
 	import {
-		collectPreferredPublicAuthors,
+		collectUnambiguousPublicAuthors,
 		formatPublicAutoriaGroup,
 		formatPublicAutoriaProposal
 	} from '$lib/utils/autoria-format';
@@ -46,7 +46,6 @@
 	type PublicFichaAtribucionFuente = PublicFichaAtribucionEvidencia & {
 		atribucion_id: string;
 		atribucion_label: string;
-		atribucion_preferente: boolean;
 		scope: 'obra' | 'jornada';
 		jornada_id: string | null;
 		jornada_num: number | null;
@@ -122,14 +121,14 @@
 			.sort((a: PublicFichaGrupoAutoria, b: PublicFichaGrupoAutoria) => (a.jornada_num ?? 0) - (b.jornada_num ?? 0))
 	);
 	const autoriaPrincipalLabel = $derived.by(() => {
-		const preferredGlobal = gruposAutoriaGlobales.find((grupo: PublicFichaGrupoAutoria) =>
-			grupo.propuestas.some((propuesta: PublicFichaAtribucionAutoria) => propuesta.atribucion_preferente)
+		const unambiguousGlobal = gruposAutoriaGlobales.find(
+			(grupo: PublicFichaGrupoAutoria) => grupo.propuestas.length === 1
 		);
-		if (preferredGlobal) return formatPublicAutoriaGroup(preferredGlobal);
+		if (unambiguousGlobal) return formatPublicAutoriaGroup(unambiguousGlobal);
 		if (gruposAutoriaGlobales.length > 0) return formatPublicAutoriaGroup(gruposAutoriaGlobales[0]);
 		return '';
 	});
-	const autoresPreferentes = $derived(collectPreferredPublicAuthors(gruposAutoria));
+	const autoresNoAmbiguos = $derived(collectUnambiguousPublicAuthors(gruposAutoriaGlobales));
 	const atribucionesAutoriaConFuente = $derived.by(() =>
 		gruposAutoria
 			.flatMap((grupo: PublicFichaGrupoAutoria): PublicFichaAtribucionFuente[] =>
@@ -138,7 +137,6 @@
 						...evidencia,
 						atribucion_id: propuesta.atribucion_id,
 						atribucion_label: formatPublicAutoriaProposal(propuesta),
-						atribucion_preferente: propuesta.atribucion_preferente,
 						scope: grupo.scope,
 						jornada_id: grupo.jornada_id,
 						jornada_num: grupo.jornada_num
@@ -147,9 +145,6 @@
 			)
 			.filter((atribucion: PublicFichaAtribucionFuente) => (atribucion.fuente_autoria ?? '').trim().length > 0)
 			.sort((a: PublicFichaAtribucionFuente, b: PublicFichaAtribucionFuente) => {
-				if (a.atribucion_preferente !== b.atribucion_preferente) {
-					return a.atribucion_preferente ? -1 : 1;
-				}
 				const aScope = a.jornada_id ? 1 : 0;
 				const bScope = b.jornada_id ? 1 : 0;
 				if (aScope !== bScope) return aScope - bScope;
@@ -161,14 +156,10 @@
 			})
 	);
 	const fuenteAutoriaPrincipal = $derived.by(() => {
-		const adoptedGlobal = atribucionesAutoriaConFuente.find(
-			(atribucion: PublicFichaAtribucionFuente) => atribucion.atribucion_preferente && !atribucion.jornada_id
+		const global = atribucionesAutoriaConFuente.find(
+			(atribucion: PublicFichaAtribucionFuente) => !atribucion.jornada_id
 		);
-		if (adoptedGlobal) return adoptedGlobal;
-		const adoptedAny = atribucionesAutoriaConFuente.find(
-			(atribucion: PublicFichaAtribucionFuente) => atribucion.atribucion_preferente
-		);
-		if (adoptedAny) return adoptedAny;
+		if (global) return global;
 		return atribucionesAutoriaConFuente[0] ?? null;
 	});
 	const fuentesAutoriaSecundarias = $derived.by(() => {
@@ -398,10 +389,10 @@
 				{/if}
 				<div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
 					<span class="font-semibold text-[color:var(--gray-900)]">Autoría:</span>
-					{#if !autoriaPrincipalLabel && autoresPreferentes.length === 0}
+					{#if !autoriaPrincipalLabel && autoresNoAmbiguos.length === 0}
 						<span class="text-[color:var(--muted-foreground)]">Autoría no identificada</span>
-					{:else if autoresPreferentes.length > 0 && !autoriaPrincipalLabel}
-						{#each autoresPreferentes as autor, index (autor.autor_id)}
+					{:else if autoresNoAmbiguos.length > 0 && !autoriaPrincipalLabel}
+						{#each autoresNoAmbiguos as autor, index (autor.autor_id)}
 							{#if index > 0}
 								<span class="text-[color:var(--muted-foreground)]">·</span>
 							{/if}

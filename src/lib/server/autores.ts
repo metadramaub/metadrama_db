@@ -52,8 +52,8 @@ export async function getAuthorOrFail(
 }
 
 type AuthorAttributionEdge = Pick<Tables<'atribucion_autores'>, 'autor_id' | 'atribucion_id'>;
-type AttributionRow = Pick<Tables<'atribuciones'>, 'atribucion_id' | 'obra_id' | 'jornada_id' | 'atribucion_preferente'>;
-type JornadaObraRef = Pick<Tables<'jornadas'>, 'jornada_id' | 'obra_id'>;
+type AttributionRow = Pick<Tables<'atribuciones'>, 'atribucion_id' | 'grupo_atribucion_id'>;
+type AttributionGroupRow = Pick<Tables<'grupos_atribucion'>, 'grupo_atribucion_id' | 'obra_id'>;
 
 async function resolveAuthorWorkIds(
 	supabase: SupabaseClient<Database>,
@@ -78,9 +78,8 @@ async function resolveAuthorWorkIds(
 	const atribucionIds = [...new Set(edges.map((edge) => edge.atribucion_id))];
 	const atribucionesResp = await supabase
 		.from('atribuciones')
-		.select('atribucion_id,obra_id,jornada_id,atribucion_preferente')
-		.in('atribucion_id', atribucionIds)
-		.eq('atribucion_preferente', true);
+		.select('atribucion_id,grupo_atribucion_id')
+		.in('atribucion_id', atribucionIds);
 	if (atribucionesResp.error) {
 		return { perAuthor: new Map(), errorMessage: atribucionesResp.error.message };
 	}
@@ -89,36 +88,45 @@ async function resolveAuthorWorkIds(
 		return { perAuthor: new Map(), errorMessage: null };
 	}
 
-	const atribucionById = new Map(atribuciones.map((row) => [row.atribucion_id, row]));
-	const jornadaIds = [
+	const grupoIds = [
 		...new Set(
 			atribuciones
-				.map((row) => row.jornada_id)
+				.map((row) => row.grupo_atribucion_id)
 				.filter((id): id is string => typeof id === 'string' && id.length > 0)
 		)
 	];
 
-	let jornadaObraMap = new Map<string, string>();
-	if (jornadaIds.length > 0) {
-		const jornadasResp = await supabase
-			.from('jornadas')
-			.select('jornada_id,obra_id')
-			.in('jornada_id', jornadaIds);
-		if (jornadasResp.error) {
-			return { perAuthor: new Map(), errorMessage: jornadasResp.error.message };
+	let groupById = new Map<string, AttributionGroupRow>();
+	let attributionCountByGroup = new Map<string, number>();
+	if (grupoIds.length > 0) {
+		const [groupsResp, groupAttributionsResp] = await Promise.all([
+			supabase.from('grupos_atribucion').select('grupo_atribucion_id,obra_id').in('grupo_atribucion_id', grupoIds),
+			supabase.from('atribuciones').select('atribucion_id,grupo_atribucion_id').in('grupo_atribucion_id', grupoIds)
+		]);
+		if (groupsResp.error) {
+			return { perAuthor: new Map(), errorMessage: groupsResp.error.message };
 		}
-		jornadaObraMap = new Map(
-			((jornadasResp.data ?? []) as JornadaObraRef[]).map((row) => [row.jornada_id, row.obra_id])
+		if (groupAttributionsResp.error) {
+			return { perAuthor: new Map(), errorMessage: groupAttributionsResp.error.message };
+		}
+		groupById = new Map(
+			((groupsResp.data ?? []) as AttributionGroupRow[]).map((row) => [row.grupo_atribucion_id, row])
 		);
+		attributionCountByGroup = new Map();
+		for (const row of (groupAttributionsResp.data ?? []) as AttributionRow[]) {
+			if (!row.grupo_atribucion_id) continue;
+			attributionCountByGroup.set(row.grupo_atribucion_id, (attributionCountByGroup.get(row.grupo_atribucion_id) ?? 0) + 1);
+		}
 	}
 
+	const atribucionById = new Map(atribuciones.map((row) => [row.atribucion_id, row]));
 	const perAuthor = new Map<string, Set<string>>();
 	for (const edge of edges) {
 		const atribucion = atribucionById.get(edge.atribucion_id);
 		if (!atribucion) continue;
-		const obraId =
-			atribucion.obra_id ??
-			(atribucion.jornada_id ? jornadaObraMap.get(atribucion.jornada_id) ?? null : null);
+		const groupId = atribucion.grupo_atribucion_id;
+		if (!groupId || attributionCountByGroup.get(groupId) !== 1) continue;
+		const obraId = groupById.get(groupId)?.obra_id ?? null;
 		if (!obraId) continue;
 		const current = perAuthor.get(edge.autor_id) ?? new Set<string>();
 		current.add(obraId);

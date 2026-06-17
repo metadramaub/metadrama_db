@@ -246,7 +246,7 @@ describe('validators', () => {
 					propuestas: [
 						{
 							composicion_autoria_id: 'ef18f734-8cf5-4586-b5ca-0df411a8f4d7',
-							atribucion_preferente: true,
+							perfil_metrico: true,
 							evidencias: [
 								{
 									tipo_atribucion_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',

@@ -1,4 +1,4 @@
-export type Json =
+﻿export type Json =
   | string
   | number
   | boolean
@@ -14,42 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      autores: {
-        Row: {
-          autor_id: string
-          bnedatos_id: string | null
-          created_at: string
-          nombre_completo: string
-          nombre_normalizado: string | null
-          updated_at: string
-          variantes_nombre: string[] | null
-          viaf_id: string | null
-          wikidata_id: string | null
-        }
-        Insert: {
-          autor_id?: string
-          bnedatos_id?: string | null
-          created_at?: string
-          nombre_completo: string
-          nombre_normalizado?: string | null
-          updated_at?: string
-          variantes_nombre?: string[] | null
-          viaf_id?: string | null
-          wikidata_id?: string | null
-        }
-        Update: {
-          autor_id?: string
-          bnedatos_id?: string | null
-          created_at?: string
-          nombre_completo?: string
-          nombre_normalizado?: string | null
-          updated_at?: string
-          variantes_nombre?: string[] | null
-          viaf_id?: string | null
-          wikidata_id?: string | null
-        }
-        Relationships: []
-      }
       atribucion_autores: {
         Row: {
           atribucion_id: string
@@ -89,54 +53,90 @@ export type Database = {
           },
         ]
       }
+      atribucion_evidencias: {
+        Row: {
+          atribucion_evidencia_id: string
+          atribucion_id: string
+          created_at: string
+          fuente_autoria: string | null
+          orden: number | null
+          tipo_atribucion_id: string
+          updated_at: string
+        }
+        Insert: {
+          atribucion_evidencia_id?: string
+          atribucion_id: string
+          created_at?: string
+          fuente_autoria?: string | null
+          orden?: number | null
+          tipo_atribucion_id: string
+          updated_at?: string
+        }
+        Update: {
+          atribucion_evidencia_id?: string
+          atribucion_id?: string
+          created_at?: string
+          fuente_autoria?: string | null
+          orden?: number | null
+          tipo_atribucion_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "atribucion_evidencias_atribucion_id_fkey"
+            columns: ["atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "atribuciones"
+            referencedColumns: ["atribucion_id"]
+          },
+          {
+            foreignKeyName: "atribucion_evidencias_tipo_atribucion_id_fkey"
+            columns: ["tipo_atribucion_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       atribuciones: {
         Row: {
-          adoptada: boolean
-          atribucion_preferente: boolean
           atribucion_id: string
           composicion_autoria_id: string | null
           created_at: string
-          disponible_laboratorio: boolean
           fuente_autoria: string | null
           grupo_atribucion_id: string | null
           jornada_id: string | null
           modalidad_atribucion_id: string
           obra_id: string | null
+          perfil_metrico: boolean
           tipo_atribucion_id: string
           updated_at: string
-          usable_perfil_metrico: boolean
         }
         Insert: {
-          adoptada?: boolean
-          atribucion_preferente?: boolean
           atribucion_id?: string
           composicion_autoria_id?: string | null
           created_at?: string
-          disponible_laboratorio?: boolean
           fuente_autoria?: string | null
           grupo_atribucion_id?: string | null
           jornada_id?: string | null
           modalidad_atribucion_id: string
           obra_id?: string | null
+          perfil_metrico?: boolean
           tipo_atribucion_id: string
           updated_at?: string
-          usable_perfil_metrico?: boolean
         }
         Update: {
-          adoptada?: boolean
-          atribucion_preferente?: boolean
           atribucion_id?: string
           composicion_autoria_id?: string | null
           created_at?: string
-          disponible_laboratorio?: boolean
           fuente_autoria?: string | null
           grupo_atribucion_id?: string | null
           jornada_id?: string | null
           modalidad_atribucion_id?: string
           obra_id?: string | null
+          perfil_metrico?: boolean
           tipo_atribucion_id?: string
           updated_at?: string
-          usable_perfil_metrico?: boolean
         }
         Relationships: [
           {
@@ -183,86 +183,41 @@ export type Database = {
           },
         ]
       }
-      atribucion_evidencias: {
+      autores: {
         Row: {
-          atribucion_evidencia_id: string
-          atribucion_id: string
+          autor_id: string
+          bnedatos_id: string | null
           created_at: string
-          fuente_autoria: string | null
-          tipo_atribucion_id: string
+          nombre_completo: string
+          nombre_normalizado: string | null
           updated_at: string
+          variantes_nombre: string[] | null
+          viaf_id: string | null
+          wikidata_id: string | null
         }
         Insert: {
-          atribucion_evidencia_id?: string
-          atribucion_id: string
+          autor_id?: string
+          bnedatos_id?: string | null
           created_at?: string
-          fuente_autoria?: string | null
-          tipo_atribucion_id: string
+          nombre_completo: string
+          nombre_normalizado?: string | null
           updated_at?: string
+          variantes_nombre?: string[] | null
+          viaf_id?: string | null
+          wikidata_id?: string | null
         }
         Update: {
-          atribucion_evidencia_id?: string
-          atribucion_id?: string
+          autor_id?: string
+          bnedatos_id?: string | null
           created_at?: string
-          fuente_autoria?: string | null
-          tipo_atribucion_id?: string
+          nombre_completo?: string
+          nombre_normalizado?: string | null
           updated_at?: string
+          variantes_nombre?: string[] | null
+          viaf_id?: string | null
+          wikidata_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "atribucion_evidencias_atribucion_id_fkey"
-            columns: ["atribucion_id"]
-            isOneToOne: false
-            referencedRelation: "atribuciones"
-            referencedColumns: ["atribucion_id"]
-          },
-          {
-            foreignKeyName: "atribucion_evidencias_tipo_atribucion_id_fkey"
-            columns: ["tipo_atribucion_id"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-        ]
-      }
-      grupos_atribucion: {
-        Row: {
-          created_at: string
-          grupo_atribucion_id: string
-          jornada_id: string | null
-          obra_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          grupo_atribucion_id?: string
-          jornada_id?: string | null
-          obra_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          grupo_atribucion_id?: string
-          jornada_id?: string | null
-          obra_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "grupos_atribucion_jornada_id_fkey"
-            columns: ["jornada_id"]
-            isOneToOne: false
-            referencedRelation: "jornadas"
-            referencedColumns: ["jornada_id"]
-          },
-          {
-            foreignKeyName: "grupos_atribucion_obra_id_fkey"
-            columns: ["obra_id"]
-            isOneToOne: false
-            referencedRelation: "obras"
-            referencedColumns: ["obra_id"]
-          },
-        ]
+        Relationships: []
       }
       comentarios_internos: {
         Row: {
@@ -532,6 +487,45 @@ export type Database = {
           },
         ]
       }
+      grupos_atribucion: {
+        Row: {
+          created_at: string
+          grupo_atribucion_id: string
+          jornada_id: string | null
+          obra_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          grupo_atribucion_id?: string
+          jornada_id?: string | null
+          obra_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          grupo_atribucion_id?: string
+          jornada_id?: string | null
+          obra_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grupos_atribucion_jornada_id_fkey"
+            columns: ["jornada_id"]
+            isOneToOne: false
+            referencedRelation: "jornadas"
+            referencedColumns: ["jornada_id"]
+          },
+          {
+            foreignKeyName: "grupos_atribucion_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
       jornadas: {
         Row: {
           created_at: string
@@ -737,13 +731,61 @@ export type Database = {
         }
         Relationships: []
       }
+      secuencias_caracterizaciones_rango: {
+        Row: {
+          caracterizacion_rango_id: string
+          created_at: string
+          observaciones: string | null
+          secuencia_id: string
+          tipo_caracterizacion_rango_id: string
+          updated_at: string
+          v_fin: number
+          v_ini: number
+        }
+        Insert: {
+          caracterizacion_rango_id?: string
+          created_at?: string
+          observaciones?: string | null
+          secuencia_id: string
+          tipo_caracterizacion_rango_id: string
+          updated_at?: string
+          v_fin: number
+          v_ini: number
+        }
+        Update: {
+          caracterizacion_rango_id?: string
+          created_at?: string
+          observaciones?: string | null
+          secuencia_id?: string
+          tipo_caracterizacion_rango_id?: string
+          updated_at?: string
+          v_fin?: number
+          v_ini?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "secuencias_metricas"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "secuencias_caracterizaciones_rango_tipo_caracterizacion_rango_i"
+            columns: ["tipo_caracterizacion_rango_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       secuencias_metricas: {
         Row: {
           certeza_editor: string
           created_at: string
+          estrofa_tipo_id: string | null
           evocacion_metrica: boolean
           evocacion_metrica_texto: string | null
-          estrofa_tipo_id: string | null
           inaugura_espacio: boolean | null
           intervencion_figuras_donaire: string
           intervencion_personajes_femeninos: string
@@ -760,9 +802,9 @@ export type Database = {
         Insert: {
           certeza_editor: string
           created_at?: string
+          estrofa_tipo_id?: string | null
           evocacion_metrica?: boolean
           evocacion_metrica_texto?: string | null
-          estrofa_tipo_id?: string | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string
           intervencion_personajes_femeninos?: string
@@ -779,9 +821,9 @@ export type Database = {
         Update: {
           certeza_editor?: string
           created_at?: string
+          estrofa_tipo_id?: string | null
           evocacion_metrica?: boolean
           evocacion_metrica_texto?: string | null
-          estrofa_tipo_id?: string | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string
           intervencion_personajes_femeninos?: string
@@ -864,54 +906,6 @@ export type Database = {
           },
         ]
       }
-      secuencias_caracterizaciones_rango: {
-        Row: {
-          caracterizacion_rango_id: string
-          created_at: string
-          observaciones: string | null
-          secuencia_id: string
-          tipo_caracterizacion_rango_id: string
-          updated_at: string
-          v_fin: number
-          v_ini: number
-        }
-        Insert: {
-          caracterizacion_rango_id?: string
-          created_at?: string
-          observaciones?: string | null
-          secuencia_id: string
-          tipo_caracterizacion_rango_id: string
-          updated_at?: string
-          v_fin: number
-          v_ini: number
-        }
-        Update: {
-          caracterizacion_rango_id?: string
-          created_at?: string
-          observaciones?: string | null
-          secuencia_id?: string
-          tipo_caracterizacion_rango_id?: string
-          updated_at?: string
-          v_fin?: number
-          v_ini?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
-            referencedRelation: "secuencias_metricas"
-            referencedColumns: ["secuencia_id"]
-          },
-          {
-            foreignKeyName: "secuencias_caracterizaciones_rango_tipo_caracterizacion_rango_id_fkey"
-            columns: ["tipo_caracterizacion_rango_id"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-        ]
-      }
       vocabularios: {
         Row: {
           activo: boolean | null
@@ -980,6 +974,10 @@ export type Database = {
     }
     Functions: {
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
+      get_obra_comentarios_publicos: {
+        Args: { p_include_hidden?: boolean; p_obra_id: string }
+        Returns: Json
+      }
       get_obra_ficha_publica: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
