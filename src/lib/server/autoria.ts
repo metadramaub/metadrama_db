@@ -100,7 +100,7 @@ export async function loadAutoriaCatalogs(supabase: SupabaseClient<Database>) {
 	return {
 		tipos: (tiposResp.data ?? []) as VocabRow[],
 		composiciones: ((composicionesResp.data ?? []) as VocabRow[]).filter((item) =>
-			['individual', 'colaborada'].includes(normalizeTerm(item.termino))
+			['individual', 'colaborada', 'desconocida'].includes(normalizeTerm(item.termino))
 		),
 		modalidades: (modalidadesResp.data ?? []) as VocabRow[]
 	};
@@ -109,8 +109,10 @@ export async function loadAutoriaCatalogs(supabase: SupabaseClient<Database>) {
 export async function loadAutoriaData(
 	supabase: SupabaseClient<Database>,
 	obraId: string,
-	declaredTotalVersos: number | null
+	declaredTotalVersos: number | null,
+	options: { includePerfilMetrico?: boolean } = {}
 ): Promise<Omit<AutoriaApiPayload, 'loaded_at'>> {
+	const includePerfilMetrico = options.includePerfilMetrico ?? true;
 	const effectiveTotalVersos = await resolveTotalVersos(supabase, obraId, declaredTotalVersos);
 	const [jornadasResp, autoresResp, catalogs] = await Promise.all([
 		supabase.from('jornadas').select('jornada_id,jornada_num,v_ini,v_fin').eq('obra_id', obraId).order('jornada_num'),
@@ -197,12 +199,7 @@ export async function loadAutoriaData(
 			jornada_id: grupo.jornada_id,
 			jornada_num: grupo.jornada_id ? (jornadaById.get(grupo.jornada_id)?.jornada_num ?? null) : null,
 			propuestas: [...(propuestasByGrupo.get(grupo.grupo_atribucion_id) ?? [])]
-				.sort((a, b) => {
-					if (a.atribucion_preferente !== b.atribucion_preferente) {
-						return a.atribucion_preferente ? -1 : 1;
-					}
-					return a.created_at.localeCompare(b.created_at) || a.atribucion_id.localeCompare(b.atribucion_id);
-				})
+				.sort((a, b) => a.created_at.localeCompare(b.created_at) || a.atribucion_id.localeCompare(b.atribucion_id))
 				.map((atribucion) => {
 					const composicionTerm = normalizeTerm(
 						atribucion.composicion_autoria_id
@@ -214,9 +211,7 @@ export async function loadAutoriaData(
 						grupo_atribucion_id: grupo.grupo_atribucion_id,
 						composicion_autoria_id: atribucion.composicion_autoria_id ?? '',
 						composicion_autoria_term: composicionTerm,
-						atribucion_preferente: atribucion.atribucion_preferente,
-						usable_perfil_metrico: atribucion.usable_perfil_metrico,
-						disponible_laboratorio: atribucion.disponible_laboratorio,
+						...(includePerfilMetrico ? { perfil_metrico: atribucion.perfil_metrico } : {}),
 						autores: [...(linksByAtribucion.get(atribucion.atribucion_id) ?? [])]
 							.sort((a, b) => (a.orden ?? 99999) - (b.orden ?? 99999) || a.autor_id.localeCompare(b.autor_id))
 							.map((link) => ({ autor_id: link.autor_id, orden: link.orden ?? null })),
@@ -284,8 +279,8 @@ export function validateAutoriaPayload(
 			}
 
 			const composicionTerm = normalizeTerm(options.composicionTermById.get(propuesta.composicion_autoria_id));
-			if (!composicionTerm || !['individual', 'colaborada'].includes(composicionTerm)) {
-				pushIssue(issues, `${path}.composicion_autoria_id`, 'Composicion de autoria invalida.');
+			if (!composicionTerm || !['individual', 'colaborada', 'desconocida'].includes(composicionTerm)) {
+				pushIssue(issues, `${path}.composicion_autoria_id`, 'Tipologia de autoria invalida.');
 			}
 
 			const authorIds = propuesta.autores.map((autor) => autor.autor_id);
@@ -296,15 +291,18 @@ export function validateAutoriaPayload(
 			}
 
 			if (composicionTerm === 'individual' && authorIds.length !== 1) {
-				pushIssue(issues, `${path}.autores`, 'La composicion individual exige exactamente 1 autor.');
+				pushIssue(issues, `${path}.autores`, 'La tipologia individual exige exactamente 1 autor.');
 			}
 			if (composicionTerm === 'colaborada' && authorIds.length < 2) {
-				pushIssue(issues, `${path}.autores`, 'La composicion colaborada exige 2 o mas autores.');
+				pushIssue(issues, `${path}.autores`, 'La tipologia colaborada exige 2 o mas autores.');
 			}
-			if (propuesta.usable_perfil_metrico && (composicionTerm !== 'individual' || authorIds.length !== 1)) {
+			if (composicionTerm === 'desconocida' && authorIds.length !== 0) {
+				pushIssue(issues, `${path}.autores`, 'La tipologia desconocida no permite autores.');
+			}
+			if (propuesta.perfil_metrico && (composicionTerm !== 'individual' || authorIds.length !== 1)) {
 				pushIssue(
 					issues,
-					`${path}.usable_perfil_metrico`,
+					`${path}.perfil_metrico`,
 					'Solo una propuesta individual con un unico autor puede alimentar perfiles metricos.'
 				);
 			}
@@ -336,8 +334,10 @@ export async function replaceAutoriaGroups(
 	supabase: SupabaseClient<Database>,
 	obraId: string,
 	jornadaIds: string[],
-	payload: AutoriaInputParsed
+	payload: AutoriaInputParsed,
+	options: { canManagePerfilMetrico?: boolean } = {}
 ): Promise<{ errorMessage: string | null }> {
+	const canManagePerfilMetrico = Boolean(options.canManagePerfilMetrico);
 	const catalogs = await loadAutoriaCatalogs(supabase);
 	const composicionTermById = new Map(
 		catalogs.composiciones.map((item) => [item.termino_id, normalizeTerm(item.termino)])
@@ -346,6 +346,29 @@ export async function replaceAutoriaGroups(
 	const fallbackModalidadId = modalidadByTerm.get('unica') ?? catalogs.modalidades[0]?.termino_id;
 	if (!fallbackModalidadId) {
 		return { errorMessage: 'No hay modalidades de atribucion de compatibilidad configuradas.' };
+	}
+
+	const existingMetricByAtribucionId = new Map<string, boolean>();
+	if (!canManagePerfilMetrico) {
+		const existingIds = [
+			...new Set(
+				payload.grupos.flatMap((grupo) =>
+					grupo.propuestas
+						.map((propuesta) => propuesta.atribucion_id)
+						.filter((id): id is string => typeof id === 'string' && id.length > 0)
+				)
+			)
+		];
+		if (existingIds.length > 0) {
+			const existingResp = await supabase
+				.from('atribuciones')
+				.select('atribucion_id,perfil_metrico')
+				.in('atribucion_id', existingIds);
+			if (existingResp.error) return { errorMessage: existingResp.error.message };
+			for (const row of existingResp.data ?? []) {
+				existingMetricByAtribucionId.set(row.atribucion_id, Boolean(row.perfil_metrico));
+			}
+		}
 	}
 
 	const [deleteGlobalGroupsResp, deleteJornadaGroupsResp, deleteLegacyGlobalResp, deleteLegacyJornadaResp] =
@@ -380,15 +403,14 @@ export async function replaceAutoriaGroups(
 			return { errorMessage: groupError?.message ?? 'No se pudo crear el grupo de atribucion.' };
 		}
 
-		let preferredAlreadySet = false;
 		for (const propuesta of grupo.propuestas) {
 			const composicionTerm = composicionTermById.get(propuesta.composicion_autoria_id) ?? 'individual';
 			const modalidadId =
 				composicionTerm === 'individual'
 					? (modalidadByTerm.get('unica') ?? fallbackModalidadId)
-					: (modalidadByTerm.get('colaborativa') ?? fallbackModalidadId);
-			const preferente = Boolean(propuesta.atribucion_preferente && !preferredAlreadySet);
-			if (preferente) preferredAlreadySet = true;
+					: composicionTerm === 'desconocida'
+						? (modalidadByTerm.get('desconocida') ?? fallbackModalidadId)
+						: (modalidadByTerm.get('colaborativa') ?? fallbackModalidadId);
 			const firstEvidence = propuesta.evidencias[0];
 			if (!firstEvidence) {
 				return { errorMessage: 'Cada propuesta debe tener al menos una evidencia.' };
@@ -404,10 +426,9 @@ export async function replaceAutoriaGroups(
 					modalidad_atribucion_id: modalidadId,
 					composicion_autoria_id: propuesta.composicion_autoria_id,
 					fuente_autoria: firstEvidence.fuente_autoria ?? null,
-					adoptada: preferente,
-					atribucion_preferente: preferente,
-					usable_perfil_metrico: propuesta.usable_perfil_metrico,
-					disponible_laboratorio: propuesta.disponible_laboratorio
+					perfil_metrico: canManagePerfilMetrico
+						? propuesta.perfil_metrico
+						: (existingMetricByAtribucionId.get(propuesta.atribucion_id ?? '') ?? false)
 				})
 				.select('atribucion_id')
 				.single();
@@ -438,32 +459,20 @@ export async function replaceAutoriaGroups(
 	return { errorMessage: null };
 }
 
-export async function loadPreferredAutoriaGroups(supabase: SupabaseClient<Database>, obraId: string) {
-	const data = await loadAutoriaData(supabase, obraId, null);
-	return data.grupos
-		.map((grupo) => ({
-			...grupo,
-			propuestas: grupo.propuestas.filter((propuesta) => propuesta.atribucion_preferente)
-		}))
-		.filter((grupo) => grupo.propuestas.length > 0);
-}
-
 export async function loadMetricProfileAutoriaGroups(supabase: SupabaseClient<Database>, obraId: string) {
 	const data = await loadAutoriaData(supabase, obraId, null);
 	return data.grupos
 		.map((grupo) => ({
 			...grupo,
-			propuestas: grupo.propuestas.filter((propuesta) => propuesta.usable_perfil_metrico)
+			propuestas: grupo.propuestas.filter((propuesta) => propuesta.perfil_metrico)
 		}))
 		.filter((grupo) => grupo.propuestas.length > 0);
 }
 
-export async function loadLaboratoryAutoriaGroups(supabase: SupabaseClient<Database>, obraId: string) {
-	const data = await loadAutoriaData(supabase, obraId, null);
-	return data.grupos
-		.map((grupo) => ({
-			...grupo,
-			propuestas: grupo.propuestas.filter((propuesta) => propuesta.disponible_laboratorio)
-		}))
-		.filter((grupo) => grupo.propuestas.length > 0);
+export async function countUnambiguousAutoriaGroups(
+	supabase: SupabaseClient<Database>,
+	obraId: string
+): Promise<number> {
+	const data = await loadAutoriaData(supabase, obraId, null, { includePerfilMetrico: false });
+	return data.grupos.filter((grupo) => grupo.propuestas.length === 1).length;
 }

@@ -9,6 +9,7 @@ import {
 	canManageReviewAssignments,
 	canManageVocabularios,
 	canManageAutores,
+	canManageAutoriaMetricProfile,
 	canDeleteAutores,
 	isProtectedVocabularyCategory,
 	normalizeRole
@@ -97,6 +98,9 @@ describe('permissions', () => {
 		expect(canManageAutores('admin')).toBe(true);
 		expect(canManageAutores('ip')).toBe(true);
 		expect(canManageAutores('editor')).toBe(false);
+		expect(canManageAutoriaMetricProfile('admin')).toBe(true);
+		expect(canManageAutoriaMetricProfile('ip')).toBe(true);
+		expect(canManageAutoriaMetricProfile('editor')).toBe(false);
 		expect(canDeleteAutores('admin')).toBe(true);
 		expect(canDeleteAutores('ip')).toBe(true);
 		expect(canDeleteAutores('editor')).toBe(false);

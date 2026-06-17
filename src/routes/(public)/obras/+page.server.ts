@@ -56,33 +56,39 @@ export const load: PageServerLoad = async ({ locals }) => {
 		};
 	}
 
-	const jornadasResp = await locals.supabase
-		.from('jornadas')
-		.select('jornada_id,obra_id')
+	const gruposResp = await locals.supabase
+		.from('grupos_atribucion')
+		.select('grupo_atribucion_id,obra_id')
 		.in('obra_id', obraIds);
-	const jornadas = (jornadasResp.data ?? []) as Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'obra_id'>>;
-	const jornadaIds = jornadas.map((jornada) => jornada.jornada_id);
+	const grupos = (gruposResp.data ?? []) as Array<Pick<Tables<'grupos_atribucion'>, 'grupo_atribucion_id' | 'obra_id'>>;
+	const grupoIds = grupos.map((grupo) => grupo.grupo_atribucion_id);
 
-	const [globalResp, jornadaResp] = await Promise.all([
-		locals.supabase
-			.from('atribuciones')
-			.select('atribucion_id,obra_id,jornada_id')
-			.eq('atribucion_preferente', true)
-			.in('obra_id', obraIds),
-		jornadaIds.length > 0
-			? locals.supabase
+	const atribucionesResp =
+		grupoIds.length > 0
+			? await locals.supabase
 					.from('atribuciones')
-					.select('atribucion_id,obra_id,jornada_id')
-					.eq('atribucion_preferente', true)
-					.in('jornada_id', jornadaIds)
-			: Promise.resolve({ data: [] as Pick<Tables<'atribuciones'>, 'atribucion_id' | 'obra_id' | 'jornada_id'>[] })
-	]);
-
-	const atribuciones = [
-		...((globalResp.data ?? []) as Pick<Tables<'atribuciones'>, 'atribucion_id' | 'obra_id' | 'jornada_id'>[]),
-		...((jornadaResp.data ?? []) as Pick<Tables<'atribuciones'>, 'atribucion_id' | 'obra_id' | 'jornada_id'>[])
-	];
-	const atribucionIds = [...new Set(atribuciones.map((row) => row.atribucion_id))];
+					.select('atribucion_id,grupo_atribucion_id')
+					.in('grupo_atribucion_id', grupoIds)
+			: { data: [] as Pick<Tables<'atribuciones'>, 'atribucion_id' | 'grupo_atribucion_id'>[] };
+	const atribuciones = (atribucionesResp.data ?? []) as Pick<
+		Tables<'atribuciones'>,
+		'atribucion_id' | 'grupo_atribucion_id'
+	>[];
+	const atribucionesByGrupo = new Map<string, string[]>();
+	for (const atribucion of atribuciones) {
+		if (!atribucion.grupo_atribucion_id) continue;
+		const current = atribucionesByGrupo.get(atribucion.grupo_atribucion_id) ?? [];
+		current.push(atribucion.atribucion_id);
+		atribucionesByGrupo.set(atribucion.grupo_atribucion_id, current);
+	}
+	const atribucionToObra = new Map<string, string>();
+	for (const grupo of grupos) {
+		if (!grupo.obra_id) continue;
+		const atribucionIdsForGroup = atribucionesByGrupo.get(grupo.grupo_atribucion_id) ?? [];
+		if (atribucionIdsForGroup.length !== 1) continue;
+		atribucionToObra.set(atribucionIdsForGroup[0], grupo.obra_id);
+	}
+	const atribucionIds = [...atribucionToObra.keys()];
 
 	const atribucionAutoresResp =
 		atribucionIds.length > 0
@@ -102,14 +108,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 			? await locals.supabase.from('autores').select('autor_id,nombre_completo').in('autor_id', authorIds)
 			: { data: [] as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo'>[] };
 	const autores = (autoresResp.data ?? []) as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo'>[];
-
-	const jornadaToObra = new Map(jornadas.map((row) => [row.jornada_id, row.obra_id]));
-	const atribucionToObra = new Map<string, string>();
-	for (const atribucion of atribuciones) {
-		const obraId = atribucion.obra_id ?? (atribucion.jornada_id ? jornadaToObra.get(atribucion.jornada_id) : null);
-		if (!obraId) continue;
-		atribucionToObra.set(atribucion.atribucion_id, obraId);
-	}
 
 	const authorNameById = new Map(autores.map((row) => [row.autor_id, row.nombre_completo]));
 	const obraAutores = new Map<string, Set<string>>();

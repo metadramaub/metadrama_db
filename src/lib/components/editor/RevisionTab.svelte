@@ -27,7 +27,7 @@
 		jornadas: Tables<'jornadas'>[];
 		cuadros: Tables<'cuadros'>[];
 		secuencias: Tables<'secuencias_metricas'>[];
-		autoriaPreferenteCount: number;
+		autoriaNoAmbiguaCount: number;
 		editorAsignadoNombre: string | null;
 		assignedReviewer: boolean;
 		capabilities: ObraAccessFlags;
@@ -99,8 +99,8 @@
 			},
 			{
 				label: 'Autoría asignada',
-				done: props.autoriaPreferenteCount > 0,
-				detail: `${props.autoriaPreferenteCount} atribuciones preferentes`
+				done: props.autoriaNoAmbiguaCount > 0,
+				detail: `${props.autoriaNoAmbiguaCount} grupos no ambiguos`
 			},
 			{
 				label: 'Observaciones de obra',

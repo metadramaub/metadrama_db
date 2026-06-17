@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
 import type { Database, Tables } from '$lib/types/database.types';
 
 type Rango = Pick<
@@ -67,28 +68,11 @@ export async function computeObraProgress(
 		.from('secuencias_metricas')
 		.select('secuencia_id', { count: 'exact', head: true })
 		.eq('obra_id', obra.obra_id);
-	const jornadasRowsResp = await supabase
-		.from('jornadas')
-		.select('jornada_id')
-		.eq('obra_id', obra.obra_id);
-	const jornadaIds = [...new Set((jornadasRowsResp.data ?? []).map((row) => row.jornada_id))];
-
-	const [preferenteObraResp, preferenteJornadaResp] = await Promise.all([
-		supabase
-			.from('atribuciones')
-			.select('atribucion_id', { count: 'exact', head: true })
-			.eq('obra_id', obra.obra_id)
-			.eq('atribucion_preferente', true),
-		supabase
-			.from('atribuciones')
-			.select('atribucion_id', { count: 'exact', head: true })
-			.eq('atribucion_preferente', true)
-			.in('jornada_id', jornadaIds.length > 0 ? jornadaIds : ['00000000-0000-0000-0000-000000000000'])
-	]);
+	const autoriaNoAmbiguaCount = await countUnambiguousAutoriaGroups(supabase, obra.obra_id);
 
 	flags.estructura = (jornadasResp.count ?? 0) > 0;
 	flags.secuencias = (secuenciasResp.count ?? 0) > 0;
-	flags.autoria = (preferenteObraResp.count ?? 0) + (preferenteJornadaResp.count ?? 0) > 0;
+	flags.autoria = autoriaNoAmbiguaCount > 0;
 
 	const values = Object.values(flags);
 	const completed = values.filter(Boolean).length;

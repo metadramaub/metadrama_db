@@ -4,6 +4,7 @@ import { validateAutoriaPayload } from './autoria';
 const tipoId = '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7';
 const individualId = '11111111-1111-4111-8111-111111111111';
 const colaboradaId = '22222222-2222-4222-8222-222222222222';
+const desconocidaId = '33333333-3333-4333-8333-333333333333';
 const autorA = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 const autorB = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 
@@ -21,7 +22,8 @@ function options() {
 		tipoIds: new Set([tipoId]),
 		composicionTermById: new Map([
 			[individualId, 'individual'],
-			[colaboradaId, 'colaborada']
+			[colaboradaId, 'colaborada'],
+			[desconocidaId, 'desconocida']
 		]),
 		authorIds: new Set([autorA, autorB])
 	};
@@ -39,9 +41,7 @@ describe('validateAutoriaPayload', () => {
 							{
 								atribucion_id: null,
 								composicion_autoria_id: individualId,
-								atribucion_preferente: true,
-								usable_perfil_metrico: true,
-								disponible_laboratorio: true,
+								perfil_metrico: true,
 								autores: [{ autor_id: autorA, orden: 1 }],
 								evidencias: [evidencia()]
 							}
@@ -66,9 +66,7 @@ describe('validateAutoriaPayload', () => {
 							{
 								atribucion_id: null,
 								composicion_autoria_id: individualId,
-								atribucion_preferente: false,
-								usable_perfil_metrico: false,
-								disponible_laboratorio: true,
+								perfil_metrico: false,
 								autores: [
 									{ autor_id: autorA, orden: 1 },
 									{ autor_id: autorB, orden: 2 }
@@ -78,9 +76,7 @@ describe('validateAutoriaPayload', () => {
 							{
 								atribucion_id: null,
 								composicion_autoria_id: colaboradaId,
-								atribucion_preferente: false,
-								usable_perfil_metrico: false,
-								disponible_laboratorio: true,
+								perfil_metrico: false,
 								autores: [{ autor_id: autorA, orden: 1 }],
 								evidencias: [evidencia()]
 							}
@@ -92,9 +88,61 @@ describe('validateAutoriaPayload', () => {
 		);
 
 		expect(issues.map((issue) => issue.message)).toEqual([
-			'La composicion individual exige exactamente 1 autor.',
-			'La composicion colaborada exige 2 o mas autores.'
+			'La tipologia individual exige exactamente 1 autor.',
+			'La tipologia colaborada exige 2 o mas autores.'
 		]);
+	});
+
+	it('accepts unknown authorship with evidences and no authors', () => {
+		const issues = validateAutoriaPayload(
+			{
+				grupos: [
+					{
+						grupo_atribucion_id: null,
+						jornada_id: null,
+						propuestas: [
+							{
+								atribucion_id: null,
+								composicion_autoria_id: desconocidaId,
+								perfil_metrico: false,
+								autores: [],
+								evidencias: [evidencia()]
+							}
+						]
+					}
+				]
+			},
+			options()
+		);
+
+		expect(issues).toHaveLength(0);
+	});
+
+	it('rejects unknown authorship with selected authors', () => {
+		const issues = validateAutoriaPayload(
+			{
+				grupos: [
+					{
+						grupo_atribucion_id: null,
+						jornada_id: null,
+						propuestas: [
+							{
+								atribucion_id: null,
+								composicion_autoria_id: desconocidaId,
+								perfil_metrico: false,
+								autores: [{ autor_id: autorA, orden: 1 }],
+								evidencias: [evidencia()]
+							}
+						]
+					}
+				]
+			},
+			options()
+		);
+
+		expect(issues.map((issue) => issue.message)).toContain(
+			'La tipologia desconocida no permite autores.'
+		);
 	});
 
 	it('rejects metric profile flag for non-individual proposals', () => {
@@ -108,9 +156,7 @@ describe('validateAutoriaPayload', () => {
 							{
 								atribucion_id: null,
 								composicion_autoria_id: colaboradaId,
-								atribucion_preferente: false,
-								usable_perfil_metrico: true,
-								disponible_laboratorio: true,
+								perfil_metrico: true,
 								autores: [
 									{ autor_id: autorA, orden: 1 },
 									{ autor_id: autorB, orden: 2 }
@@ -140,9 +186,7 @@ describe('validateAutoriaPayload', () => {
 							{
 								atribucion_id: null,
 								composicion_autoria_id: individualId,
-								atribucion_preferente: false,
-								usable_perfil_metrico: false,
-								disponible_laboratorio: true,
+								perfil_metrico: false,
 								autores: [{ autor_id: autorA, orden: 1 }],
 								evidencias: []
 							}
@@ -167,9 +211,7 @@ describe('validateAutoriaPayload', () => {
 							{
 								atribucion_id: null,
 								composicion_autoria_id: individualId,
-								atribucion_preferente: false,
-								usable_perfil_metrico: false,
-								disponible_laboratorio: true,
+								perfil_metrico: false,
 								autores: [{ autor_id: autorA, orden: 1 }],
 								evidencias: [evidencia(), evidencia()]
 							}
@@ -187,9 +229,7 @@ describe('validateAutoriaPayload', () => {
 		const proposal = {
 			atribucion_id: null,
 			composicion_autoria_id: individualId,
-			atribucion_preferente: false,
-			usable_perfil_metrico: false,
-			disponible_laboratorio: true,
+			perfil_metrico: false,
 			autores: [{ autor_id: autorA, orden: 1 }],
 			evidencias: [evidencia()]
 		};
@@ -215,9 +255,7 @@ describe('validateAutoriaPayload', () => {
 		const proposal = {
 			atribucion_id: null,
 			composicion_autoria_id: individualId,
-			atribucion_preferente: false,
-			usable_perfil_metrico: false,
-			disponible_laboratorio: true,
+			perfil_metrico: false,
 			autores: [{ autor_id: autorA, orden: 1 }],
 			evidencias: [evidencia()]
 		};
@@ -248,9 +286,7 @@ describe('validateAutoriaPayload', () => {
 		const proposal = {
 			atribucion_id: null,
 			composicion_autoria_id: individualId,
-			atribucion_preferente: false,
-			usable_perfil_metrico: false,
-			disponible_laboratorio: true,
+			perfil_metrico: false,
 			autores: [{ autor_id: autorA, orden: 1 }],
 			evidencias: [evidencia()]
 		};

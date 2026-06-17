@@ -13,8 +13,7 @@ export interface PublicFichaAtribucionEvidencia {
 export interface PublicFichaAtribucionAutoria {
 	atribucion_id: string;
 	composicion_autoria_id: string;
-	composicion_autoria_term: 'individual' | 'colaborada';
-	atribucion_preferente: boolean;
+	composicion_autoria_term: 'individual' | 'colaborada' | 'desconocida';
 	autores: PublicFichaAutor[];
 	evidencias: PublicFichaAtribucionEvidencia[];
 }

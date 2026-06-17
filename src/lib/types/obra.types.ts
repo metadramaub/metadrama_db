@@ -157,7 +157,7 @@ export interface AutoriaAtribucionAutorPayload {
 	orden: number | null;
 }
 
-export type AutoriaComposicionTerm = 'individual' | 'colaborada';
+export type AutoriaComposicionTerm = 'individual' | 'colaborada' | 'desconocida';
 
 export interface AutoriaEvidenciaPayload {
 	atribucion_evidencia_id: string | null;
@@ -171,9 +171,7 @@ export interface AutoriaPropuestaPayload {
 	grupo_atribucion_id: string;
 	composicion_autoria_id: string;
 	composicion_autoria_term: AutoriaComposicionTerm;
-	atribucion_preferente: boolean;
-	usable_perfil_metrico: boolean;
-	disponible_laboratorio: boolean;
+	perfil_metrico?: boolean;
 	autores: AutoriaAtribucionAutorPayload[];
 	evidencias: AutoriaEvidenciaPayload[];
 }

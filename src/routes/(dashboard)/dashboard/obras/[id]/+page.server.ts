@@ -1,4 +1,5 @@
 import type { PageServerLoad } from './$types';
+import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
 import type { Tables } from '$lib/types/database.types';
 
@@ -39,24 +40,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		jornadas.some((jornada) => jornada.jornada_id === cuadro.jornada_id)
 	);
 	const secuencias = (secuenciasResp.data ?? []) as Tables<'secuencias_metricas'>[];
-	const jornadaIds = jornadas.map((row) => row.jornada_id);
-
-	const [preferenteObraResp, preferenteJornadaResp] = await Promise.all([
-		locals.supabase
-			.from('atribuciones')
-			.select('atribucion_id', { count: 'exact', head: true })
-			.eq('obra_id', obra.obra_id)
-			.eq('atribucion_preferente', true),
-		jornadaIds.length > 0
-			? locals.supabase
-					.from('atribuciones')
-					.select('atribucion_id', { count: 'exact', head: true })
-					.in('jornada_id', jornadaIds)
-					.eq('atribucion_preferente', true)
-			: Promise.resolve({ count: 0 })
-	]);
-
-	const autoriaPreferenteCount = (preferenteObraResp.count ?? 0) + (preferenteJornadaResp.count ?? 0);
+	const autoriaNoAmbiguaCount = await countUnambiguousAutoriaGroups(locals.supabase, obra.obra_id);
 
 	const editorAsignadoResp = obra.editor_asignado
 		? await locals.supabase
@@ -76,7 +60,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		jornadas,
 		cuadros,
 		secuencias,
-		autoriaPreferenteCount,
+		autoriaNoAmbiguaCount,
 		vocabularios: vocabResp.data ?? []
 	};
 };

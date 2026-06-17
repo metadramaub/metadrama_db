@@ -10,6 +10,7 @@
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 	import type { Tables } from '$lib/types/database.types';
 	import type { AutoriaApiPayload, AutoriaComposicionTerm } from '$lib/types/obra.types';
+	import { canManageAutoriaMetricProfile } from '$lib/utils/permissions';
 
 	type CatalogItem = {
 		termino_id: string;
@@ -27,9 +28,7 @@
 		local_id: string;
 		atribucion_id: string | null;
 		composicion_autoria_id: string;
-		atribucion_preferente: boolean;
-		usable_perfil_metrico: boolean;
-		disponible_laboratorio: boolean;
+		perfil_metrico: boolean;
 		autor_ids: string[];
 		evidencias: DraftEvidence[];
 	};
@@ -53,12 +52,8 @@
 		focusComentarioId?: string | null;
 	}>();
 
-	const PREFERENTE_HELP =
-		'Se usará como formulación principal de autoría en la ficha de la obra. Si no se marca ninguna, la autoría se mostrará como discutida o con atribuciones posibles.';
 	const PERFIL_HELP =
 		'Activa esta opción solo si la propuesta puede alimentar perfiles métricos de autor sin introducir ambigüedad.';
-	const LABORATORIO_HELP =
-		'Permitirá usar esta propuesta como hipótesis analítica cuando se implemente el laboratorio.';
 	const EVIDENCIAS_HELP =
 		'Si varias fuentes sostienen la misma autoría, añádelas como evidencias de una misma propuesta. Crea una nueva propuesta solo cuando la autoría propuesta sea distinta.';
 
@@ -79,10 +74,11 @@
 
 	const canComment = $derived(Boolean(props.canComment));
 	const effectiveReadOnly = $derived(Boolean(props.readOnly));
+	const canManagePerfilMetrico = $derived(canManageAutoriaMetricProfile(props.roleTerm));
 	const tipoItems = $derived(tipos.map((item) => ({ id: item.termino_id, label: item.termino })));
 	const composicionItems = $derived(
 		composiciones
-			.filter((item) => ['individual', 'colaborada'].includes(normalizeTerm(item.termino)))
+			.filter((item) => ['individual', 'colaborada', 'desconocida'].includes(normalizeTerm(item.termino)))
 			.map((item) => ({ id: item.termino_id, label: labelForComposicion(normalizeTerm(item.termino)) }))
 	);
 	const authorOptions = $derived(
@@ -134,6 +130,7 @@
 	function labelForComposicion(term: string): string {
 		if (term === 'individual') return 'individual';
 		if (term === 'colaborada') return 'colaborada';
+		if (term === 'desconocida') return 'desconocida';
 		return term || 'sin composición';
 	}
 
@@ -152,6 +149,11 @@
 		return `${names.slice(0, 3).join(', ')} +${names.length - 3}`;
 	}
 
+	function getProposalSummary(proposal: DraftProposal): string {
+		if (getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida') return 'Autoría desconocida';
+		return getAuthorSummary(proposal.autor_ids);
+	}
+
 	function joinHuman(items: string[], conjunction: 'y' | 'o' = 'y'): string {
 		const filtered = items.map((item) => item.trim()).filter((item) => item.length > 0);
 		if (filtered.length === 0) return '';
@@ -162,6 +164,9 @@
 	}
 
 	function getProposalAuthorPhrase(proposal: DraftProposal): string {
+		if (getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida') {
+			return 'autoría desconocida';
+		}
 		const names = uniqueIds(proposal.autor_ids).map((authorId) => authorNameById.get(authorId) ?? authorId);
 		if (names.length === 0) return 'autoría no identificada';
 		if (getComposicionTerm(proposal.composicion_autoria_id) === 'colaborada') {
@@ -177,6 +182,9 @@
 	}
 
 	function getProposalNarrative(proposal: DraftProposal): string {
+		if (getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida') {
+			return `como autoría desconocida${getProposalEvidencePhrase(proposal)}`;
+		}
 		return `a ${getProposalAuthorPhrase(proposal)}${getProposalEvidencePhrase(proposal)}`;
 	}
 
@@ -229,9 +237,7 @@
 			local_id: newLocalId('propuesta'),
 			atribucion_id: null,
 			composicion_autoria_id: getComposicionId('individual'),
-			atribucion_preferente: false,
-			usable_perfil_metrico: false,
-			disponible_laboratorio: true,
+			perfil_metrico: false,
 			autor_ids: [],
 			evidencias: []
 		};
@@ -261,9 +267,7 @@
 				jornada_id: group.jornada_id,
 				propuestas: group.propuestas.map((proposal) => ({
 					composicion_autoria_id: proposal.composicion_autoria_id,
-					atribucion_preferente: proposal.atribucion_preferente,
-					usable_perfil_metrico: proposal.usable_perfil_metrico,
-					disponible_laboratorio: proposal.disponible_laboratorio,
+					...(canManagePerfilMetrico ? { perfil_metrico: proposal.perfil_metrico } : {}),
 					autor_ids: uniqueIds(proposal.autor_ids),
 					evidencias: proposal.evidencias.map((evidencia) => ({
 						tipo_atribucion_id: evidencia.tipo_atribucion_id,
@@ -282,25 +286,35 @@
 	}
 
 	function applyServerState(payload: AutoriaApiPayload) {
+		const nextComposicionTermById = new Map(
+			payload.catalogos.composiciones.map((item) => [
+				item.termino_id,
+				normalizeTerm(item.termino) as AutoriaComposicionTerm
+			])
+		);
 		const nextGroups: DraftGroup[] = payload.grupos.map((group) => ({
 			local_id: group.grupo_atribucion_id,
 			grupo_atribucion_id: group.grupo_atribucion_id,
 			jornada_id: group.jornada_id,
-			propuestas: group.propuestas.map((proposal) => ({
-				local_id: proposal.atribucion_id,
-				atribucion_id: proposal.atribucion_id,
-				composicion_autoria_id: proposal.composicion_autoria_id,
-				atribucion_preferente: proposal.atribucion_preferente,
-				usable_perfil_metrico: proposal.usable_perfil_metrico,
-				disponible_laboratorio: proposal.disponible_laboratorio,
-				autor_ids: uniqueIds(proposal.autores.map((autor) => autor.autor_id)),
-				evidencias: proposal.evidencias.map((evidencia) => ({
-					local_id: evidencia.atribucion_evidencia_id ?? newLocalId('evidencia'),
-					atribucion_evidencia_id: evidencia.atribucion_evidencia_id,
-					tipo_atribucion_id: evidencia.tipo_atribucion_id,
-					fuente_autoria: evidencia.fuente_autoria ?? ''
-				}))
-			}))
+			propuestas: group.propuestas.map((proposal) => {
+				const composicionTerm = nextComposicionTermById.get(proposal.composicion_autoria_id) ?? 'individual';
+				return {
+					local_id: proposal.atribucion_id,
+					atribucion_id: proposal.atribucion_id,
+					composicion_autoria_id: proposal.composicion_autoria_id,
+					perfil_metrico: proposal.perfil_metrico ?? false,
+					autor_ids:
+						composicionTerm === 'desconocida'
+							? []
+							: uniqueIds(proposal.autores.map((autor) => autor.autor_id)),
+					evidencias: proposal.evidencias.map((evidencia) => ({
+						local_id: evidencia.atribucion_evidencia_id ?? newLocalId('evidencia'),
+						atribucion_evidencia_id: evidencia.atribucion_evidencia_id,
+						tipo_atribucion_id: evidencia.tipo_atribucion_id,
+						fuente_autoria: evidencia.fuente_autoria ?? ''
+					}))
+				};
+			})
 		}));
 
 		jornadas = [...payload.jornadas];
@@ -394,12 +408,11 @@
 		groups = groups.map((group) => {
 			if (group.local_id !== groupId) return group;
 			const propuestas = group.propuestas.map((proposal) => {
-				if (proposal.local_id !== proposalId) {
-					return patch.atribucion_preferente ? { ...proposal, atribucion_preferente: false } : proposal;
-				}
+				if (proposal.local_id !== proposalId) return proposal;
 				const next = { ...proposal, ...patch };
 				const composicionTerm = getComposicionTerm(next.composicion_autoria_id);
-				if (composicionTerm !== 'individual') next.usable_perfil_metrico = false;
+				if (composicionTerm !== 'individual') next.perfil_metrico = false;
+				if (composicionTerm === 'desconocida') next.autor_ids = [];
 				return next;
 			});
 			return { ...group, propuestas };
@@ -473,7 +486,7 @@
 			if (group.jornada_id && !jornadaSet.has(group.jornada_id)) return 'Hay grupos asociados a jornadas inválidas.';
 			const proposalKeys = new Set<string>();
 			for (const proposal of group.propuestas) {
-				if (!proposal.composicion_autoria_id) return 'Todas las propuestas deben tener composición de autoría.';
+				if (!proposal.composicion_autoria_id) return 'Todas las propuestas deben tener tipología de autoría.';
 				if (proposal.evidencias.length === 0) return 'Todas las propuestas deben tener al menos una evidencia.';
 
 				const evidenceTypes = new Set<string>();
@@ -488,12 +501,15 @@
 				const composicionTerm = getComposicionTerm(proposal.composicion_autoria_id);
 				const authorIds = uniqueIds(proposal.autor_ids);
 				if (composicionTerm === 'individual' && authorIds.length !== 1) {
-					return 'La composición individual exige exactamente 1 autor.';
+					return 'La tipología individual exige exactamente 1 autor.';
 				}
 				if (composicionTerm === 'colaborada' && authorIds.length < 2) {
-					return 'La composición colaborada exige 2 o más autores.';
+					return 'La tipología colaborada exige 2 o más autores.';
 				}
-				if (proposal.usable_perfil_metrico && (composicionTerm !== 'individual' || authorIds.length !== 1)) {
+				if (composicionTerm === 'desconocida' && authorIds.length !== 0) {
+					return 'La tipología desconocida no permite seleccionar autores.';
+				}
+				if (proposal.perfil_metrico && (composicionTerm !== 'individual' || authorIds.length !== 1)) {
 					return 'Solo una propuesta individual con un único autor puede alimentar perfiles métricos.';
 				}
 
@@ -515,13 +531,14 @@
 				propuestas: group.propuestas.map((proposal) => ({
 					atribucion_id: proposal.atribucion_id,
 					composicion_autoria_id: proposal.composicion_autoria_id,
-					atribucion_preferente: proposal.atribucion_preferente,
-					usable_perfil_metrico: proposal.usable_perfil_metrico,
-					disponible_laboratorio: proposal.disponible_laboratorio,
-					autores: uniqueIds(proposal.autor_ids).map((autor_id, index) => ({
-						autor_id,
-						orden: index + 1
-					})),
+					...(canManagePerfilMetrico ? { perfil_metrico: proposal.perfil_metrico } : {}),
+					autores:
+						getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida'
+							? []
+							: uniqueIds(proposal.autor_ids).map((autor_id, index) => ({
+									autor_id,
+									orden: index + 1
+								})),
 					evidencias: proposal.evidencias.map((evidencia) => ({
 						atribucion_evidencia_id: evidencia.atribucion_evidencia_id,
 						tipo_atribucion_id: evidencia.tipo_atribucion_id,
@@ -624,13 +641,13 @@
 	<div class="mt-3 border border-[color:var(--border)] bg-[color:var(--muted)] p-3">
 		<div class="grid gap-3 md:grid-cols-2">
 			<label class="form-field">
-				<span class="form-label">Composición de autoría</span>
+				<span class="form-label">Tipología de autoría</span>
 				<CheckDropdown
 					multiple={false}
 					search={false}
 					items={composicionItems}
 					selectedIds={proposal.composicion_autoria_id ? [proposal.composicion_autoria_id] : []}
-					placeholder="Selecciona composición"
+					placeholder="Selecciona tipología"
 					disabled={effectiveReadOnly || loadingFromServer}
 					onChange={(ids) =>
 						patchProposal(group.local_id, proposal.local_id, {
@@ -644,8 +661,16 @@
 					authors={authorOptions}
 					selectedIds={proposal.autor_ids}
 					onChange={(ids) => patchProposal(group.local_id, proposal.local_id, { autor_ids: ids })}
-					placeholder="Escribe y selecciona autores"
-					disabled={effectiveReadOnly || loadingFromServer}
+					placeholder={
+						getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida'
+							? 'Autoría desconocida'
+							: 'Escribe y selecciona autores'
+					}
+					disabled={
+						effectiveReadOnly ||
+						loadingFromServer ||
+						getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida'
+					}
 				/>
 			</label>
 		</div>
@@ -673,67 +698,33 @@
 			</div>
 		</div>
 
-		<div class="mt-3 grid gap-2 md:grid-cols-3">
-			<label class="inline-flex items-start gap-2 text-sm">
-				<input
-					type="checkbox"
-					class="mt-0.5"
-					checked={proposal.atribucion_preferente}
-					disabled={effectiveReadOnly || loadingFromServer}
-					onchange={(event) =>
-						patchProposal(group.local_id, proposal.local_id, {
-							atribucion_preferente: event.currentTarget.checked
-						})}
-				/>
-				<span>
-					<span class="form-label-with-help">
-						Atribución preferente
-						<FieldHelpTooltip text={PREFERENTE_HELP} label="Ayuda sobre atribución preferente" />
+		{#if canManagePerfilMetrico}
+			<div class="mt-3">
+				<label class="inline-flex items-start gap-2 text-sm">
+					<input
+						type="checkbox"
+						class="mt-0.5"
+						checked={proposal.perfil_metrico}
+						disabled={
+							effectiveReadOnly ||
+							loadingFromServer ||
+							getComposicionTerm(proposal.composicion_autoria_id) !== 'individual' ||
+							uniqueIds(proposal.autor_ids).length !== 1
+						}
+						onchange={(event) =>
+							patchProposal(group.local_id, proposal.local_id, {
+								perfil_metrico: event.currentTarget.checked
+							})}
+					/>
+					<span>
+						<span class="form-label-with-help">
+							Alimentar perfil métrico
+							<FieldHelpTooltip text={PERFIL_HELP} label="Ayuda sobre perfil métrico" />
+						</span>
 					</span>
-				</span>
-			</label>
-			<label class="inline-flex items-start gap-2 text-sm">
-				<input
-					type="checkbox"
-					class="mt-0.5"
-					checked={proposal.usable_perfil_metrico}
-					disabled={
-						effectiveReadOnly ||
-						loadingFromServer ||
-						getComposicionTerm(proposal.composicion_autoria_id) !== 'individual' ||
-						uniqueIds(proposal.autor_ids).length !== 1
-					}
-					onchange={(event) =>
-						patchProposal(group.local_id, proposal.local_id, {
-							usable_perfil_metrico: event.currentTarget.checked
-						})}
-				/>
-				<span>
-					<span class="form-label-with-help">
-						Usable para perfil métrico
-						<FieldHelpTooltip text={PERFIL_HELP} label="Ayuda sobre perfil métrico" />
-					</span>
-				</span>
-			</label>
-			<label class="inline-flex items-start gap-2 text-sm">
-				<input
-					type="checkbox"
-					class="mt-0.5"
-					checked={proposal.disponible_laboratorio}
-					disabled={effectiveReadOnly || loadingFromServer}
-					onchange={(event) =>
-						patchProposal(group.local_id, proposal.local_id, {
-							disponible_laboratorio: event.currentTarget.checked
-						})}
-				/>
-				<span>
-					<span class="form-label-with-help">
-						Disponible para laboratorio
-						<FieldHelpTooltip text={LABORATORIO_HELP} label="Ayuda sobre laboratorio" />
-					</span>
-				</span>
-			</label>
-		</div>
+				</label>
+			</div>
+		{/if}
 
 		<div class="mt-3 flex justify-end gap-2">
 			<Button
@@ -756,7 +747,7 @@
 			onclick={() => toggleProposalEditor(proposal.local_id)}
 		>
 			<div class="min-w-0">
-				<p class="truncate text-sm font-semibold text-[color:var(--gray-900)]">{getAuthorSummary(proposal.autor_ids)}</p>
+				<p class="truncate text-sm font-semibold text-[color:var(--gray-900)]">{getProposalSummary(proposal)}</p>
 				<div class="mt-2 flex flex-wrap gap-1">
 					{#each proposal.evidencias as evidencia (evidencia.local_id)}
 						<span class="rounded-full border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
@@ -766,19 +757,9 @@
 				</div>
 			</div>
 			<div class="flex shrink-0 flex-wrap justify-end gap-2">
-				{#if proposal.atribucion_preferente}
-					<span class="rounded-full border border-[color:var(--success)] bg-[color:var(--success-soft)] px-2 py-1 text-xs font-semibold text-[color:var(--success)]">
-						Preferente
-					</span>
-				{/if}
-				{#if proposal.usable_perfil_metrico}
+				{#if canManagePerfilMetrico && proposal.perfil_metrico}
 					<span class="rounded-full border border-sky-300 bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-900">
 						Perfil métrico
-					</span>
-				{/if}
-				{#if proposal.disponible_laboratorio}
-					<span class="rounded-full border border-amber-300 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-900">
-						Laboratorio
 					</span>
 				{/if}
 				<span class="text-xs font-semibold text-[color:var(--gray-800)]">

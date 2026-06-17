@@ -52,6 +52,28 @@ npx supabase db diff
 npm run db:seed
 ```
 
+### Backup antes de migraciones remotas
+
+La carpeta `/backups/` está ignorada por Git y se usa para copias locales que no deben subirse a GitHub.
+
+`supabase db dump` ejecuta `pg_dump` dentro de un contenedor, así que Docker Desktop debe estar arrancado antes de hacer el backup. Como según la documentación de Supabase el dump por defecto no incluye datos ni roles, para una copia completa de trabajo conviene guardar tres archivos: esquema, datos y roles.
+
+En PowerShell, desde la raíz del repo:
+
+```powershell
+$stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+$dir = Join-Path 'backups\supabase' $stamp
+New-Item -ItemType Directory -Force -Path $dir | Out-Null
+
+npx supabase db dump --linked -f (Join-Path $dir 'schema.sql')
+npx supabase db dump --linked --data-only -f (Join-Path $dir 'data.sql')
+npx supabase db dump --linked --role-only -f (Join-Path $dir 'roles.sql')
+
+Get-ChildItem -LiteralPath $dir | Select-Object Name,Length
+```
+
+No aplicar migraciones si alguno de los archivos queda con `Length` 0 o si la CLI informa errores. En ese caso, revisar que Docker Desktop esté activo y repetir el proceso en una carpeta nueva.
+
 ### Snapshot del esquema actual (recomendado periódicamente)
 
 ```sh
