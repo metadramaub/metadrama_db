@@ -108,6 +108,10 @@ export function canManageVocabularios(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }
 
+export function canManagePublicacion(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
 export function canManageAutores(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }

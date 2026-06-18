@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { FOOTER_SECTIONS, LOGIN_LINK, PUBLIC_NAV } from '$lib/config/navigation';
+	import type { NavGroup, NavItem } from '$lib/config/navigation';
+	import { isSectionVisible } from '$lib/secciones-publicas';
+	import type { SectionVisibilityMap } from '$lib/secciones-publicas';
 
-	let { children } = $props();
+	let { children, data } = $props<{
+		children: unknown;
+		data: { sectionVisibility?: SectionVisibilityMap };
+	}>();
 	let mobileOpen = $state(false);
 	let resourcesOpen = $state(false);
 	let projectOpen = $state(false);
@@ -10,6 +16,48 @@
 	const pathname = $derived($page.url.pathname);
 	const isCatalogMock = $derived(
 		pathname === '/mockup/catalogo' || pathname.startsWith('/mockup/catalogo/')
+	);
+
+	// Mapeo href -> seccion_id para las entradas de nav controlables por flag.
+	// Una entrada sin mapeo (proyecto, recursos, etc.) siempre se muestra.
+	const HREF_TO_SECTION: Record<string, string> = {
+		'/obras': 'catalogo',
+		'/autores': 'autores',
+		'/laboratorio': 'laboratorio',
+		'/demarcador': 'demarcador'
+	};
+
+	function navItemVisible(href: string | undefined): boolean {
+		if (!href) return true;
+		const seccionId = HREF_TO_SECTION[href];
+		if (!seccionId) return true; // sin flag asociado: siempre visible
+		const visibility = data.sectionVisibility;
+		if (!visibility) return true; // sin datos cargados: no ocultar de más
+		return isSectionVisible(visibility, seccionId);
+	}
+
+	// Filtra grupos de nav: oculta items controlados por flag apagado, y oculta el
+	// grupo entero si se queda sin items.
+	const visibleNav = $derived.by((): NavGroup[] => {
+		return PUBLIC_NAV.map((group) => {
+			if (group.items) {
+				const items = group.items.filter((item: NavItem) => navItemVisible(item.href));
+				return { ...group, items };
+			}
+			return group;
+		}).filter((group) => {
+			if (group.items) return group.items.length > 0;
+			return navItemVisible(group.href);
+		});
+	});
+
+	// Mismo filtro de flags para el footer: quita links a páginas apagadas y oculta
+	// la sección de footer si se queda vacía.
+	const visibleFooter = $derived.by(() =>
+		FOOTER_SECTIONS.map((section) => ({
+			...section,
+			links: section.links.filter((link) => navItemVisible(link.href))
+		})).filter((section) => section.links.length > 0)
 	);
 
 	function isActive(href: string) {
@@ -26,7 +74,7 @@
 			</a>
 
 			<nav class="ml-auto hidden items-center gap-5 text-[11px] font-semibold tracking-[0.08em] lg:flex">
-				{#each PUBLIC_NAV as group}
+				{#each visibleNav as group}
 					{#if group.items}
 						<div class="group relative">
 							<button
@@ -81,7 +129,7 @@
 		{#if mobileOpen}
 			<div class="border-t border-[color:var(--border)] bg-white lg:hidden">
 				<nav class="mx-auto grid w-full max-w-7xl gap-1 px-4 py-3 text-xs font-semibold tracking-[0.08em] md:px-6">
-					{#each PUBLIC_NAV as group}
+					{#each visibleNav as group}
 						{#if group.items}
 							<div class="border border-[color:var(--border)]">
 								<button
@@ -149,7 +197,7 @@
 				</p>
 			</div>
 
-			{#each FOOTER_SECTIONS as section}
+			{#each visibleFooter as section}
 				<div>
 					<h3 class="font-display text-sm text-[color:var(--gray-800)]">{section.title}</h3>
 					<div class="mt-2 grid gap-2 text-xs font-medium tracking-[0.06em] text-[color:var(--gray-700)]">

@@ -24,6 +24,7 @@
 		libraryBig: IconComponent | null;
 		panelLeftClose: IconComponent | null;
 		panelLeftOpen: IconComponent | null;
+		settings: IconComponent | null;
 		userRound: IconComponent | null;
 	}>({
 		arrowLeft: null,
@@ -35,6 +36,7 @@
 		libraryBig: null,
 		panelLeftClose: null,
 		panelLeftOpen: null,
+		settings: null,
 		userRound: null
 	});
 	let iconsLoadFailed = $state(false);
@@ -51,7 +53,12 @@
 	const LibraryBigIcon = $derived(icons.libraryBig);
 	const PanelLeftCloseIcon = $derived(icons.panelLeftClose);
 	const PanelLeftOpenIcon = $derived(icons.panelLeftOpen);
+	const SettingsIcon = $derived(icons.settings);
 	const UserRoundIcon = $derived(icons.userRound);
+
+	const isAdminIp = $derived(
+		props.profile.roleTerm === 'admin' || props.profile.roleTerm === 'ip'
+	);
 
 	onMount(() => {
 		let cancelled = false;
@@ -68,6 +75,7 @@
 					libraryBigModule,
 					panelLeftCloseModule,
 					panelLeftOpenModule,
+					settingsModule,
 					userRoundModule
 				] = await Promise.all([
 					import('lucide-svelte/icons/arrow-left'),
@@ -79,6 +87,7 @@
 					import('lucide-svelte/icons/library-big'),
 					import('lucide-svelte/icons/panel-left-close'),
 					import('lucide-svelte/icons/panel-left-open'),
+					import('lucide-svelte/icons/settings'),
 					import('lucide-svelte/icons/user-round')
 				]);
 
@@ -94,6 +103,7 @@
 					libraryBig: libraryBigModule.default,
 					panelLeftClose: panelLeftCloseModule.default,
 					panelLeftOpen: panelLeftOpenModule.default,
+					settings: settingsModule.default,
 					userRound: userRoundModule.default
 				};
 			} catch (error) {
@@ -256,6 +266,24 @@
 			{/if}
 			<span class={collapsed ? 'md:sr-only' : ''}>Vocabularios</span>
 		</a>
+
+		{#if isAdminIp}
+			<a
+				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
+					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
+				}`}
+				href="/dashboard/publicacion"
+				aria-label="Publicación"
+				title="Publicación"
+			>
+				{#if SettingsIcon}
+					<SettingsIcon size={16} aria-hidden="true" />
+				{:else}
+					<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+				{/if}
+				<span class={collapsed ? 'md:sr-only' : ''}>Publicación</span>
+			</a>
+		{/if}
 
 		<a
 			class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${

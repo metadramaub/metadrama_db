@@ -4,8 +4,8 @@
 > (buscador/catálogo, fichas de obra, laboratorio, demarcador) con control de
 > roles/permisos y un panel de control para encender/apagar secciones.
 >
-> **Estado:** Fases 0 ✅, 1 ✅, 2 ✅, 3 ✅ completadas. Siguiente: **Fase 5**
-> (panel de control admin). Luego **Fase 6** (reescritura de UI). Fase 4 anulada.
+> **Estado:** Fases 0 ✅, 1 ✅, 2 ✅, 3 ✅, 5 ✅ completadas. Siguiente: **Fase 6**
+> (reescritura de UI: catálogo + ficha). Fase 4 anulada.
 >
 > ### 🔄 Replanteo de estrategia (2026-06-18)
 > La parte pública es **temprana y maleable**: la ficha está a medias y el catálogo
@@ -86,6 +86,33 @@
 >     la respuesta es de KB → sin riesgo con tráfico académico.
 >   - **Pendiente para cuando se publique:** ping de mantenimiento (cron ligero)
 >     para evitar la pausa de Supabase free tras 7 días sin actividad.
+> - **Fase 5 ✅** — Panel de control admin `/dashboard/publicacion`.
+>   - Permiso `canManagePublicacion` en permissions.ts (admin/IP).
+>   - Endpoint PATCH
+>     [api/secciones-publicas/[id]](../src/routes/api/secciones-publicas/[id]/+server.ts):
+>     valida con `seccionPublicaPatchSchema`, protege con `requireEditorProfile` +
+>     `canManagePublicacion`, llama a `invalidatePublicSectionsCache()` tras escribir.
+>   - Página
+>     [publicacion](../src/routes/(dashboard)/dashboard/publicacion/+page.svelte):
+>     toggles `activa` + selector `scope_minimo` por sección, agrupados Páginas /
+>     Ficha, guardado optimista con feedback por fila.
+>   - Enlace en el Sidebar visible solo para admin/IP.
+>   - Verificado: tipos 0 errores, 181 tests, y protección de rutas (303 a login sin
+>     sesión, 401 en el endpoint). La verificación visual con login la hace el usuario.
+> - **Guard de páginas públicas ✅** (parte de aplicar flags a PÁGINAS, no a la ficha)
+>   - `requireSectionVisible(locals, seccionId)` en
+>     [server/secciones-publicas.ts](../src/lib/server/secciones-publicas.ts): lanza
+>     404 (no delata existencia) si la sección está apagada o el scope no alcanza.
+>   - Aplicado en: catalogo, autores, laboratorio, demarcador. El **demarcador dejó
+>     de ser `prerender = true`** (necesita servidor para comprobar el flag).
+>   - El menú superior, el menú móvil y el footer ocultan los enlaces de páginas
+>     apagadas (mapeo href→seccion_id en [(public)/+layout.svelte]).
+>   - Verificado en vivo: demarcador (admin/IP) → 404 para anónimo y desaparece del
+>     menú; catálogo (anon) → 200 y visible.
+>   - **PENDIENTE (B), para la Fase 6:** la ficha de obra aún muestra secciones
+>     vacías ("No hay secuencias…") en vez de ocultarlas cuando su sección está
+>     apagada. El DATO ya se filtra (Fase 3); falta el {#if sectionVisible} en la UI,
+>     que se hará al reescribir la ficha (no se parchea la ficha actual).
 
 ---
 
