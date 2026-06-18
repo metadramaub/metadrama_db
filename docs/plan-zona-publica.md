@@ -4,8 +4,26 @@
 > (buscador/catálogo, fichas de obra, laboratorio, demarcador) con control de
 > roles/permisos y un panel de control para encender/apagar secciones.
 >
-> **Estado:** Fases 0 ✅, 1 ✅, 2 ✅, 3 ✅, 5 ✅ completadas. Siguiente: **Fase 6**
-> (reescritura de UI: catálogo + ficha). Fase 4 anulada.
+> **Estado:** Fases 0-3 ✅, 5 ✅. **Fase 6 EN CURSO**: catálogo v1 ✅, ficha
+> pendiente. Fase 4 anulada.
+>
+> ### Fase 6 — progreso
+> - **Catálogo v1 ✅** (incremental, filtros básicos) — reescrito desde cero.
+>   - Server [obras/+page.server.ts]: trae género + total_versos, resuelve
+>     género por obra, y expone `filterOptions` (autores y géneros presentes en las
+>     obras visibles, no opciones huérfanas).
+>   - UI [obras/+page.svelte]: panel de filtros (texto, autor, género) + orden
+>     (título/autor/fecha/versos/actualización), filtrado en CLIENTE (pocas obras →
+>     en memoria; migrar a servidor si crece). Mantiene las etiquetas "Tu ficha" /
+>     "Solo con login editorial" de la Fase 0.
+>   - Verificado en vivo: 200, renderiza filtros y datos reales. 0 errores, 181 tests.
+>   - **Pendientes del catálogo** (iteraciones siguientes): barcode métrico por obra,
+>     filtros métricos avanzados (formas, metros, variaciones, polimetría, presencia
+>     de personajes), rango de datación/versos con dual-range del mockup. Requieren
+>     agregaciones métricas — auditar datos disponibles antes.
+> - **Ficha — pendiente.** Reescritura con arquitectura de secciones + aplicar
+>   `sectionVisibility` con {#if} (resuelve el pendiente B: ocultar secciones
+>   apagadas en vez de mostrarlas vacías).
 >
 > ### 🔄 Replanteo de estrategia (2026-06-18)
 > La parte pública es **temprana y maleable**: la ficha está a medias y el catálogo

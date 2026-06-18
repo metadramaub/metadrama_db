@@ -12,14 +12,31 @@ type PublicCatalogObra = Pick<
 	| 'fecha_fin_trad'
 	| 'fecha_inicio_metadrama'
 	| 'fecha_fin_metadrama'
+	| 'total_versos'
 	| 'updated_at'
 	| 'visible_publico'
 > & {
 	autoria_autores: string[];
+	genero_term: string | null;
 	es_obra_asignada: boolean;
 };
 
-type ObraRow = PublicCatalogObra & { editor_asignado: string | null };
+type ObraRow = Pick<
+	Tables<'obras'>,
+	| 'obra_id'
+	| 'titulo'
+	| 'fecha_inicio_trad'
+	| 'fecha_fin_trad'
+	| 'fecha_inicio_metadrama'
+	| 'fecha_fin_metadrama'
+	| 'total_versos'
+	| 'genero_id'
+	| 'updated_at'
+	| 'visible_publico'
+	| 'editor_asignado'
+>;
+
+export type CatalogFilterOption = { id: string; label: string };
 
 export const load: PageServerLoad = async ({ locals }) => {
 	await requireSectionVisible(locals, 'catalogo');
@@ -30,14 +47,18 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return {
 			viewerScope: viewer.scope,
 			canSeeAllPublished: viewer.canSeeAllPublished,
-			obras: [] as PublicCatalogObra[]
+			obras: [] as PublicCatalogObra[],
+			filterOptions: {
+				autores: [] as CatalogFilterOption[],
+				generos: [] as CatalogFilterOption[]
+			}
 		};
 	}
 
 	let query = locals.supabase
 		.from('obras')
 		.select(
-			'obra_id,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,updated_at,visible_publico,editor_asignado'
+			'obra_id,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado'
 		)
 		.eq('estado', publicadoId)
 		.order('titulo');
@@ -63,7 +84,11 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return {
 			viewerScope: viewer.scope,
 			canSeeAllPublished: viewer.canSeeAllPublished,
-			obras: [] as PublicCatalogObra[]
+			obras: [] as PublicCatalogObra[],
+			filterOptions: {
+				autores: [] as CatalogFilterOption[],
+				generos: [] as CatalogFilterOption[]
+			}
 		};
 	}
 
@@ -132,15 +157,46 @@ export const load: PageServerLoad = async ({ locals }) => {
 		obraAutores.set(obraId, current);
 	}
 
-	return {
-		viewerScope: viewer.scope,
-		canSeeAllPublished: viewer.canSeeAllPublished,
-		obras: obraRows.map(({ editor_asignado, ...obra }): PublicCatalogObra => ({
+	// Géneros: resolver término por obra para mostrar y filtrar.
+	const generoIds = [...new Set(obraRows.map((o) => o.genero_id).filter((id): id is string => Boolean(id)))];
+	const generosResp =
+		generoIds.length > 0
+			? await locals.supabase.from('vocabularios').select('termino_id,termino').in('termino_id', generoIds)
+			: { data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[] };
+	const generoTermById = new Map(
+		((generosResp.data ?? []) as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[]).map((row) => [
+			row.termino_id,
+			row.termino
+		])
+	);
+
+	const obras: PublicCatalogObra[] = obraRows.map(
+		({ editor_asignado, genero_id, ...obra }): PublicCatalogObra => ({
 			...obra,
+			genero_term: genero_id ? (generoTermById.get(genero_id) ?? null) : null,
 			es_obra_asignada: Boolean(viewer.userId) && editor_asignado === viewer.userId,
 			autoria_autores: [...(obraAutores.get(obra.obra_id) ?? new Set<string>())].sort((a, b) =>
 				a.localeCompare(b, 'es')
 			)
-		}))
+		})
+	);
+
+	// Listas de filtro derivadas de las obras realmente visibles (no opciones huérfanas).
+	const autorOptions: CatalogFilterOption[] = [
+		...new Set(obras.flatMap((o) => o.autoria_autores))
+	]
+		.sort((a, b) => a.localeCompare(b, 'es'))
+		.map((nombre) => ({ id: nombre, label: nombre }));
+	const generoOptions: CatalogFilterOption[] = [
+		...new Set(obras.map((o) => o.genero_term).filter((t): t is string => Boolean(t)))
+	]
+		.sort((a, b) => a.localeCompare(b, 'es'))
+		.map((term) => ({ id: term, label: term }));
+
+	return {
+		viewerScope: viewer.scope,
+		canSeeAllPublished: viewer.canSeeAllPublished,
+		obras,
+		filterOptions: { autores: autorOptions, generos: generoOptions }
 	};
 };
