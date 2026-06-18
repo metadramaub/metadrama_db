@@ -23,6 +23,16 @@ export interface PublicSection {
 /** Mapa resuelto que baja al cliente: seccion_id -> ¿visible para este visitante? */
 export type SectionVisibilityMap = Record<string, boolean>;
 
+/** Slugs de las sub-secciones de ficha (deben existir en secciones_publicas). */
+export const FICHA_SECTION_IDS = {
+	autoria: 'ficha.autoria',
+	fuentes: 'ficha.autoria.fuentes',
+	metrica: 'ficha.metrica',
+	observaciones: 'ficha.observaciones',
+	bibliografia: 'ficha.bibliografia',
+	comentarios: 'ficha.comentarios_publicos'
+} as const;
+
 // Orden de menor a mayor privilegio. Una sección es visible si el scope del
 // visitante alcanza al menos su scope_minimo.
 const SCOPE_RANK: Record<SectionScope, number> = {
