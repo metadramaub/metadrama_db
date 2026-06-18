@@ -25,7 +25,7 @@
 		"@eslint/js": "^9.39.1",
 		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/kit": "^2.50.2",
-		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
 		"@typescript-eslint/eslint-plugin": "^8.54.0",
 		"@typescript-eslint/parser": "^8.54.0",
 		"@vitest/coverage-v8": "^4.0.18",
@@ -39,7 +39,7 @@
 		"svelte-check": "^4.3.6",
 		"tailwindcss": "^3.4.17",
 		"typescript": "^5.9.3",
-		"vite": "^7.3.1",
+		"vite": "^8.0.16",
 		"vitest": "^4.0.18"
 	},
 	"dependencies": {
