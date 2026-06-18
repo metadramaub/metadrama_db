@@ -28,7 +28,7 @@
 								<a class="underline-offset-2 hover:underline" href={`/obras/${obra.obra_id}`}>{obra.titulo}</a>
 							</h2>
 							<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-								{(obra.autoria_autores ?? []).length > 0 ? (obra.autoria_autores ?? []).join(', ') : 'AutorÌa no indicada'}
+								{(obra.autoria_autores ?? []).length > 0 ? (obra.autoria_autores ?? []).join(', ') : 'Autor√≠a no indicada'}
 							</p>
 						</div>
 						{#if data.canSeeAllPublished && !obra.visible_publico}

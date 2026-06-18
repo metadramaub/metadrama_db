@@ -32,7 +32,7 @@ function buildMarkdownByFileName(modules: Record<string, string>): Map<string, s
 
 const markdownByFileName = buildMarkdownByFileName(rawChapterModules);
 
-function buildFallbackMarkdown(meta: DashboardGuideChapterMeta): string {
+function buildFallbackMarkdown(): string {
 	return `## Contenido pendiente
 
 Este capítulo aún no tiene contenido disponible.
@@ -85,7 +85,7 @@ function resolveChapter(meta: DashboardGuideChapterMeta): DashboardGuideChapter 
 	if (markdown && markdown.trim().length > 0) {
 		return { ...meta, markdown, sections: extractMarkdownSections(markdown) };
 	}
-	const fallbackMarkdown = buildFallbackMarkdown(meta);
+	const fallbackMarkdown = buildFallbackMarkdown();
 	return { ...meta, markdown: fallbackMarkdown, sections: extractMarkdownSections(fallbackMarkdown) };
 }
 
