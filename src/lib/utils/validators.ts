@@ -280,6 +280,15 @@ export const visibilidadInputSchema = z.object({
 	visible_publico: z.boolean()
 });
 
+export const seccionPublicaPatchSchema = z
+	.object({
+		activa: z.boolean().optional(),
+		scope_minimo: z.enum(['anon', 'authenticated', 'admin_ip']).optional()
+	})
+	.refine((value) => value.activa !== undefined || value.scope_minimo !== undefined, {
+		message: 'Indica al menos un campo a actualizar (activa o scope_minimo).'
+	});
+
 export const obraCreateSchema = z.object({
 	titulo: z.string().trim().min(1, 'El titulo es obligatorio').max(300),
 	editor_asignado: z.string().uuid('Editor asignado invalido'),

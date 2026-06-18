@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getPublicadoEstadoId, resolvePublicViewerContext } from '$lib/server/public-obras';
+import { requireSectionVisible } from '$lib/server/secciones-publicas';
 import type { Tables } from '$lib/types/database.types';
 
 type PublicCatalogObra = Pick<
@@ -21,6 +22,7 @@ type PublicCatalogObra = Pick<
 type ObraRow = PublicCatalogObra & { editor_asignado: string | null };
 
 export const load: PageServerLoad = async ({ locals }) => {
+	await requireSectionVisible(locals, 'catalogo');
 	const viewer = await resolvePublicViewerContext(locals);
 	const publicadoId = await getPublicadoEstadoId(locals);
 
