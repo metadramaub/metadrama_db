@@ -4,7 +4,22 @@
 > (buscador/catálogo, fichas de obra, laboratorio, demarcador) con control de
 > roles/permisos y un panel de control para encender/apagar secciones.
 >
-> **Estado:** Fases 0 ✅ y 1 ✅ completadas. Siguiente: **Fase 2**.
+> **Estado:** Fases 0 ✅, 1 ✅, 2 ✅, 3 ✅ completadas. Siguiente: **Fase 5**
+> (panel de control admin). Luego **Fase 6** (reescritura de UI). Fase 4 anulada.
+>
+> ### 🔄 Replanteo de estrategia (2026-06-18)
+> La parte pública es **temprana y maleable**: la ficha está a medias y el catálogo
+> es un mockup. Decisión del usuario:
+> - **Backend primero (Fases 3→5)**: dejar el sistema de control completo y
+>   funcionando (datos filtrados + panel admin) ANTES de tocar la UI.
+> - **Luego UI de cero (nueva Fase 6)**: rehacer catálogo Y ficha desde cero, con
+>   arquitectura de secciones limpia. El catálogo DEBE basarse en el diseño de
+>   [/mockup/catalogo](../src/routes/(public)/mockup/catalogo/+page.svelte) (801
+>   líneas, ya tiene filtros, dual-range, barcode, datos mock en
+>   [catalogo-mock.ts](../src/lib/mock/catalogo-mock.ts)).
+> - **La antigua Fase 4 (envolver la ficha ACTUAL con flags) queda ANULADA**: esa
+>   ficha se reescribe, así que los flags se aplican directamente en la UI nueva.
+> - El backend (Fases 0-3) es independiente de la reescritura de UI y se conserva.
 >
 > ### ⚠️ Flujo de migraciones (importante)
 > Este equipo (gestionado por la UAB) **bloquea el puerto 5432** saliente a nivel
@@ -27,14 +42,50 @@
 > - **Decisión operativa:** NO se hará backup de BD antes de la Fase 1 (el usuario
 >   tiene una copia local reciente). El equipo bloquea 5432 localmente, así que
 >   `supabase db dump` no funciona desde aquí de todos modos.
-> - **Fase 1 ✅** — Tabla `secciones_publicas` + helper `is_admin_ip()` + RLS + seed
->   (10 secciones). Migración
+> - **Fase 1 ✅** — Tabla `secciones_publicas` + RLS + seed (10 secciones).
+>   Migración
 >   [20260618120000_secciones_publicas.sql](../supabase/migrations/20260618120000_secciones_publicas.sql)
 >   **aplicada a mano por SQL Editor** (10 filas verificadas) y registrada en el
 >   historial. Tipos añadidos a mano en
->   [database.types.ts](../src/lib/types/database.types.ts) (tabla + función). 0
->   errores de tipos. Nota: ya existía `auth_is_admin_or_ip()` en remoto; se podría
->   consolidar con `is_admin_ip()` más adelante.
+>   [database.types.ts](../src/lib/types/database.types.ts).
+> - **Consolidación ✅** — Eliminada la función SQL duplicada `is_admin_ip()`; se
+>   usa el helper ya existente `auth_is_admin_or_ip()`. `public-obras.ts` ahora
+>   reusa `canReadAllObras()`/`normalizeRole()` de permissions.ts en vez de
+>   reimplementar `admin || ip`. Remoto y repo sincronizados.
+> - **Fase 2 ✅** — Carga única de secciones en el layout público.
+>   - Regla COMPARTIDA en [secciones-publicas.ts](../src/lib/secciones-publicas.ts)
+>     (`scopeMeets`, `isSectionAvailable`, `buildSectionVisibilityMap`,
+>     `isSectionVisible`); default seguro = sección desconocida no visible.
+>   - Acceso a datos en
+>     [server/secciones-publicas.ts](../src/lib/server/secciones-publicas.ts).
+>   - [(public)/+layout.server.ts](../src/routes/(public)/+layout.server.ts) expone
+>     `sectionVisibility` (mapa resuelto) y `viewerScope` a toda la zona pública.
+>   - Tests [secciones-publicas.test.ts](../src/lib/secciones-publicas.test.ts) (6).
+>   - Nota: aplicar el mapa en la UI se hace en la Fase 6 (UI nueva), no antes.
+> - **Fase 3 ✅** — Filtrado de DATOS de la ficha en el `load` (TypeScript, no SQL).
+>   - [server/ficha-secciones.ts](../src/lib/server/ficha-secciones.ts):
+>     `applyFichaSectionVisibility` recorta bloques apagados/restringidos sin mutar
+>     el original. Sub-secciones: autoria, autoria.fuentes (mantiene autoría, quita
+>     evidencias), metrica, observaciones, bibliografia, comentarios_publicos.
+>   - Filtrado contra el scope EFECTIVO de la obra (editor asignado ve sus
+>     sub-secciones restringidas); el `load` reconstruye el mapa con `obraScope`,
+>     no con el global del layout.
+>   - El dato NO sale del servidor si la sección está apagada (no es solo {#if}).
+>   - Tests [ficha-secciones.test.ts](../src/lib/server/ficha-secciones.test.ts) (8).
+> - **Optimización de consumo ✅** (cuentas free de Vercel/Supabase) — recortadas
+>   las 2 fugas de queries por request:
+>   - `resolvePublicViewerContext` ahora memoiza por request (WeakMap con el cliente
+>     supabase como clave) → evita el doble cálculo de scope layout+página (−3
+>     queries/request en ficha y catálogo).
+>   - `loadPublicSections` cachea las 10 filas en memoria del servidor (TTL 60s);
+>     `invalidatePublicSectionsCache()` listo para que el panel admin (Fase 5) lo
+>     llame tras guardar. En serverless el caché es best-effort por instancia, lo
+>     cual es aceptable para datos casi-estáticos.
+>   - Resultado: ficha pasa de ~10-11 a ~7 queries/visita. Free tier NO cobra por nº
+>     de queries; el límite real es transferencia (5 GB Supabase / 100 GB Vercel) y
+>     la respuesta es de KB → sin riesgo con tráfico académico.
+>   - **Pendiente para cuando se publique:** ping de mantenimiento (cron ligero)
+>     para evitar la pausa de Supabase free tras 7 días sin actividad.
 
 ---
 
@@ -199,11 +250,12 @@ Key-value tipado, una fila por sección/sub-sección:
   `scope_minimo = authenticated`).
 - Prioridad: el dato no sale del servidor, no solo se oculta en el `{#if}`.
 
-### Fase 4 — Aplicación en UI
-- Envolver bloques de la ficha
-  ([obras/[id]/+page.svelte](../src/routes/(public)/obras/[id]/+page.svelte)) y los
-  ítems de navegación ([navigation.ts](../src/lib/config/navigation.ts)) con los
-  flags resueltos. Cosmético; la garantía está en Fase 3.
+### Fase 4 — ~~Aplicación en UI sobre la ficha actual~~ ❌ ANULADA
+La ficha actual se reescribe (Fase 6), así que no tiene sentido envolverla con
+flags ahora. La aplicación de flags en la UI se hace directamente en la UI nueva.
+Lo único que sí aplica de forma trivial y útil: ocultar páginas placeholder
+(laboratorio, demarcador) según `activa` — se hará junto con la UI nueva o como
+ajuste menor independiente.
 
 ### Fase 5 — Panel de control en el dashboard
 - Ruta `(dashboard)/dashboard/publicacion`, protegida a admin/IP
@@ -214,14 +266,29 @@ Key-value tipado, una fila por sección/sub-sección:
 - Opcional: "preview as anon/authenticated" para verificar cada nivel sin
   desloguearse.
 
+### Fase 6 — Reescritura de la UI pública (catálogo + ficha desde cero)
+Con el control ya funcionando (Fases 3+5), se rehace la UI consumiendo
+`sectionVisibility` y los datos ya filtrados.
+- **Catálogo**: rehacer basándose en el diseño de
+  [/mockup/catalogo](../src/routes/(public)/mockup/catalogo/+page.svelte)
+  (filtros, dual-range, barcode, variantes de fila ya existentes en
+  [components/catalogo/mock/](../src/lib/components/catalogo/mock/)). Conectar a
+  datos reales en vez de [catalogo-mock.ts](../src/lib/mock/catalogo-mock.ts).
+- **Ficha**: rehacer con arquitectura de secciones limpia. Reusar lo que ya
+  funciona bien (barcode métrico, modal de secuencias, pie de distribución,
+  formato de autoría) — NO reinventar esos componentes.
+- Aplicar `isSectionVisible(...)` para envolver cada sección/ítem de navegación.
+
 ---
 
 ## 7. Orden de ejecución recomendado
 
-1. **Fase 0** primero y aislada (refactor de seguridad, su propio commit + tests).
-2. **1 → 2** mergeables sin efecto visible (todo encendido / permisivo).
-3. **3 → 4** incrementales.
-4. **5** al final.
+1. **Fase 0** ✅ aislada (refactor de seguridad, commit + tests).
+2. **1 → 2** ✅ mergeables sin efecto visible (todo encendido / permisivo).
+3. **Fase 3** — filtrado de datos por sección (siguiente).
+4. **Fase 5** — panel de control admin.
+5. **Fase 6** — reescritura de UI (catálogo + ficha) con el control ya operativo.
+6. (Fase 4 anulada.)
 
 ---
 
