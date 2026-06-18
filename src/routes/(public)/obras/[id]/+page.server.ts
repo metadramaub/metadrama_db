@@ -5,6 +5,9 @@ import {
 	resolvePublicViewerContext,
 	type PublicObraVisibility
 } from '$lib/server/public-obras';
+import { loadPublicSections } from '$lib/server/secciones-publicas';
+import { buildSectionVisibilityMap } from '$lib/secciones-publicas';
+import { applyFichaSectionVisibility } from '$lib/server/ficha-secciones';
 import type {
 	PublicFichaComentarioPublico,
 	PublicObraFichaPayload
@@ -57,14 +60,21 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		throw error(404, 'Obra no encontrada.');
 	}
 
-	const ficha = data as unknown as PublicObraFichaPayload;
+	const rawFicha = {
+		...(data as unknown as PublicObraFichaPayload),
+		comentarios_publicos: (comentariosResp.data ?? []) as unknown as PublicFichaComentarioPublico[]
+	} satisfies PublicObraFichaPayload;
+
+	// Recorta los bloques cuya sección esté apagada o restringida para el scope
+	// EFECTIVO de esta obra. El dato no sale del servidor (no es solo {#if}).
+	const sections = await loadPublicSections(locals);
+	const visibility = buildSectionVisibilityMap(sections, obraScope);
+	const ficha = applyFichaSectionVisibility(rawFicha, visibility);
 
 	return {
 		viewerScope: obraScope,
 		canSeeAllPublished: includeHidden,
-		ficha: {
-			...ficha,
-			comentarios_publicos: (comentariosResp.data ?? []) as unknown as PublicFichaComentarioPublico[]
-		} satisfies PublicObraFichaPayload
+		sectionVisibility: visibility,
+		ficha
 	};
 };

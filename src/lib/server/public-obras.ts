@@ -57,7 +57,23 @@ export function canViewPublishedObra(
 	return resolveObraScope(viewer, obra) === 'admin_ip';
 }
 
-export async function resolvePublicViewerContext(locals: App.Locals): Promise<PublicViewerContext> {
+// Cache por request: el cliente supabase de locals es único por request
+// (se crea en hooks.server.ts), así que sirve de clave. Evita recalcular el
+// scope (hasta 3 queries) cuando layout + página lo piden en el mismo request.
+const viewerContextCache = new WeakMap<object, Promise<PublicViewerContext>>();
+
+export function resolvePublicViewerContext(locals: App.Locals): Promise<PublicViewerContext> {
+	const key = locals.supabase as unknown as object;
+	const cached = viewerContextCache.get(key);
+	if (cached) {
+		return cached;
+	}
+	const pending = computePublicViewerContext(locals);
+	viewerContextCache.set(key, pending);
+	return pending;
+}
+
+async function computePublicViewerContext(locals: App.Locals): Promise<PublicViewerContext> {
 	const { user } = await locals.safeGetSession();
 	if (!user) {
 		return {
