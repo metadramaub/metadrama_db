@@ -49,9 +49,32 @@ export function applyFichaSectionVisibility(
 			}
 		: { autores: [], grupos: [] };
 
-	const metrica: PublicObraFichaPayload['metrica'] = show(FICHA_SECTION_IDS.metrica)
-		? ficha.metrica
+	const metricaVisible = show(FICHA_SECTION_IDS.metrica);
+	const sinopsisMetricaVisible = show(FICHA_SECTION_IDS.sinopsisMetrica);
+	const sinopsisMetricaSource = ficha.sinopsis_metrica ?? {
+		secuencias: ficha.metrica.secuencias.map((secuencia) => ({
+			secuencia_id: secuencia.secuencia_id,
+			v_ini: secuencia.v_ini,
+			v_fin: secuencia.v_fin,
+			n_versos: secuencia.n_versos,
+			estrofa_tipo_id: secuencia.estrofa_tipo_id,
+			estrofa_tipo_term: secuencia.estrofa_tipo_term,
+			sinopsis: secuencia.sinopsis
+		}))
+	};
+
+	const metrica: PublicObraFichaPayload['metrica'] = metricaVisible
+		? {
+				...ficha.metrica,
+				secuencias: sinopsisMetricaVisible
+					? ficha.metrica.secuencias
+					: ficha.metrica.secuencias.map((secuencia) => ({ ...secuencia, sinopsis: null }))
+			}
 		: { secuencias: [], distribucion_formas: [] };
+
+	const sinopsis_metrica: PublicObraFichaPayload['sinopsis_metrica'] = sinopsisMetricaVisible
+		? sinopsisMetricaSource
+		: { secuencias: [] };
 
 	// observaciones y bibliografia son campos de `obra`; se vacían si la sección
 	// está apagada, sin tocar el resto de la ficha.
@@ -70,6 +93,7 @@ export function applyFichaSectionVisibility(
 		autoria,
 		estructura: ficha.estructura,
 		metrica,
+		sinopsis_metrica,
 		comentarios_publicos
 	};
 }

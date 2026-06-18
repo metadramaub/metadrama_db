@@ -86,6 +86,16 @@ export interface PublicFichaSecuencia {
 	subtipos_estrofa: PublicFichaSubtipoEstrofa[];
 }
 
+export interface PublicFichaSinopsisMetricaSecuencia {
+	secuencia_id: string;
+	v_ini: number;
+	v_fin: number;
+	n_versos: number | null;
+	estrofa_tipo_id: string | null;
+	estrofa_tipo_term: string;
+	sinopsis: string | null;
+}
+
 export interface PublicFichaDistribucionForma {
 	forma: string;
 	versos: number;
@@ -133,6 +143,9 @@ export interface PublicObraFichaPayload {
 	metrica: {
 		secuencias: PublicFichaSecuencia[];
 		distribucion_formas: PublicFichaDistribucionForma[];
+	};
+	sinopsis_metrica: {
+		secuencias: PublicFichaSinopsisMetricaSecuencia[];
 	};
 	comentarios_publicos: PublicFichaComentarioPublico[];
 }

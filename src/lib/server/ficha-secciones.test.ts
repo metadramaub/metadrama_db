@@ -58,8 +58,46 @@ function fullFicha(): PublicObraFichaPayload {
 			cuadros: []
 		},
 		metrica: {
-			secuencias: [],
+			secuencias: [
+				{
+					secuencia_id: 's1',
+					v_ini: 1,
+					v_fin: 100,
+					n_versos: 100,
+					estrofa_tipo_id: 'e1',
+					estrofa_tipo_term: 'romance',
+					estrofa_forma_term: 'romance',
+					estrofa_tipo_forma: null,
+					inaugura_espacio: false,
+					versos_partidos: false,
+					evocacion_metrica: false,
+					evocacion_metrica_texto: null,
+					intervencion_personajes_femeninos: 'sin_intervencion',
+					intervencion_figuras_donaire: 'sin_intervencion',
+					intervencion_personajes_sobrenaturales: 'sin_intervencion',
+					sinopsis: 'SINOPSIS',
+					jornada_id: 'j1',
+					jornada_num: 1,
+					cuadro_id: null,
+					cuadro_num: null,
+					caracterizaciones_rango: [],
+					subtipos_estrofa: []
+				}
+			],
 			distribucion_formas: [{ forma: 'romance', versos: 100, porcentaje: 100 }]
+		},
+		sinopsis_metrica: {
+			secuencias: [
+				{
+					secuencia_id: 's1',
+					v_ini: 1,
+					v_fin: 100,
+					n_versos: 100,
+					estrofa_tipo_id: 'e1',
+					estrofa_tipo_term: 'romance',
+					sinopsis: 'SINOPSIS'
+				}
+			]
 		},
 		comentarios_publicos: [
 			{
@@ -81,6 +119,7 @@ function allVisible(): SectionVisibilityMap {
 		[FICHA_SECTION_IDS.autoria]: true,
 		[FICHA_SECTION_IDS.fuentes]: true,
 		[FICHA_SECTION_IDS.metrica]: true,
+		[FICHA_SECTION_IDS.sinopsisMetrica]: true,
 		[FICHA_SECTION_IDS.observaciones]: true,
 		[FICHA_SECTION_IDS.bibliografia]: true,
 		[FICHA_SECTION_IDS.comentarios]: true
@@ -94,6 +133,7 @@ describe('applyFichaSectionVisibility', () => {
 		expect(out.autoria.autores).toHaveLength(1);
 		expect(out.autoria.grupos[0].propuestas[0].evidencias).toHaveLength(1);
 		expect(out.metrica.distribucion_formas).toHaveLength(1);
+		expect(out.sinopsis_metrica.secuencias).toHaveLength(1);
 		expect(out.obra.observaciones).toBe('OBSERVACIONES');
 		expect(out.obra.bibliografia).toBe('BIBLIOGRAFIA');
 		expect(out.comentarios_publicos).toHaveLength(1);
@@ -128,6 +168,23 @@ describe('applyFichaSectionVisibility', () => {
 		expect(out.metrica.distribucion_formas).toHaveLength(0);
 	});
 
+	it('sinopsis métrica visible se conserva aunque la métrica esté apagada', () => {
+		const v = { ...allVisible(), [FICHA_SECTION_IDS.metrica]: false };
+		const out = applyFichaSectionVisibility(fullFicha(), v);
+		expect(out.metrica.secuencias).toHaveLength(0);
+		expect(out.sinopsis_metrica.secuencias).toHaveLength(1);
+		expect(out.sinopsis_metrica.secuencias[0]?.sinopsis).toBe('SINOPSIS');
+	});
+
+	it('sinopsis métrica apagada se vacía y elimina sinopsis del bloque métrico', () => {
+		const v = { ...allVisible(), [FICHA_SECTION_IDS.sinopsisMetrica]: false };
+		const out = applyFichaSectionVisibility(fullFicha(), v);
+		expect(out.sinopsis_metrica.secuencias).toHaveLength(0);
+		expect(out.metrica.secuencias).toHaveLength(1);
+		expect(out.metrica.secuencias[0]?.sinopsis).toBeNull();
+		expect(out.metrica.distribucion_formas).toHaveLength(1);
+	});
+
 	it('observaciones/bibliografía apagadas se vacían sin afectar al resto', () => {
 		const v = {
 			...allVisible(),
@@ -138,6 +195,7 @@ describe('applyFichaSectionVisibility', () => {
 		expect(out.obra.observaciones).toBeNull();
 		expect(out.obra.bibliografia).toBeNull();
 		expect(out.obra.titulo).toBe('Obra'); // resto intacto
+		expect(out.sinopsis_metrica.secuencias).toHaveLength(1);
 	});
 
 	it('comentarios apagados se vacían', () => {
@@ -150,6 +208,7 @@ describe('applyFichaSectionVisibility', () => {
 		const out = applyFichaSectionVisibility(fullFicha(), {});
 		expect(out.autoria.autores).toHaveLength(0);
 		expect(out.metrica.distribucion_formas).toHaveLength(0);
+		expect(out.sinopsis_metrica.secuencias).toHaveLength(0);
 		expect(out.obra.observaciones).toBeNull();
 		expect(out.comentarios_publicos).toHaveLength(0);
 	});

@@ -28,6 +28,7 @@ export const FICHA_SECTION_IDS = {
 	autoria: 'ficha.autoria',
 	fuentes: 'ficha.autoria.fuentes',
 	metrica: 'ficha.metrica',
+	sinopsisMetrica: 'ficha.sinopsis_metrica',
 	observaciones: 'ficha.observaciones',
 	bibliografia: 'ficha.bibliografia',
 	comentarios: 'ficha.comentarios_publicos'

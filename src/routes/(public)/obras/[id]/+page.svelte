@@ -6,9 +6,15 @@
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
 	import FichaAutoriaBlock from '$lib/components/ficha/FichaAutoriaBlock.svelte';
+	import SequenceSynopsisView from '$lib/components/editor/SequenceSynopsisView.svelte';
 	import { secuenciasToBarSegments } from '$lib/components/ficha/ficha-metric-adapter';
+	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { isSectionVisible, FICHA_SECTION_IDS } from '$lib/secciones-publicas';
-	import type { SequenceModalPayload, PublicFichaComentarioPublico } from '$lib/types/public-ficha.types';
+	import type {
+		SequenceModalPayload,
+		PublicFichaComentarioPublico,
+		PublicFichaSinopsisMetricaSecuencia
+	} from '$lib/types/public-ficha.types';
 	import { formatRelative } from '$lib/utils/formatters';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { colorForMetricKey } from '$lib/utils/metric-colors';
@@ -21,7 +27,7 @@
 
 	let { data } = $props<{ data: PageData }>();
 
-	type TabId = 'estructura' | 'observaciones';
+	type TabId = 'estructura' | 'sinopsis_metrica' | 'observaciones' | 'bibliografia';
 	type MetricViewMode = 'obra_completa' | 'por_jornadas';
 	type PieValueMode = 'percent' | 'absolute';
 	type ResolvedPublicSequence = ResolvedSequenceStructure<SequenceModalPayload>;
@@ -39,6 +45,7 @@
 	const showAutoria = $derived(show(FICHA_SECTION_IDS.autoria));
 	const showFuentes = $derived(show(FICHA_SECTION_IDS.fuentes));
 	const showMetrica = $derived(show(FICHA_SECTION_IDS.metrica));
+	const showSinopsisMetrica = $derived(show(FICHA_SECTION_IDS.sinopsisMetrica));
 	const showObservaciones = $derived(show(FICHA_SECTION_IDS.observaciones));
 	const showBibliografia = $derived(show(FICHA_SECTION_IDS.bibliografia));
 	const showComentarios = $derived(show(FICHA_SECTION_IDS.comentarios));
@@ -62,27 +69,24 @@
 		const fromSecuencias = secuenciasOrdenadas.reduce((max, s) => Math.max(max, s.v_fin), 0);
 		return Math.max(1, fromObra, fromJornadas, fromSecuencias);
 	});
-	const estructuraResumen = $derived.by(() => {
-		const parts = [
-			jornadas.length === 1 ? '1 jornada' : `${jornadas.length} jornadas`,
-			cuadros.length === 1 ? '1 cuadro' : `${cuadros.length} cuadros`
-		];
-		if (secuenciasOrdenadas.length > 0) {
-			parts.push(
-				secuenciasOrdenadas.length === 1
-					? '1 secuencia métrica'
-					: `${secuenciasOrdenadas.length} secuencias métricas`
-			);
-		}
-		return parts.join(' · ');
+	const tabs = $derived.by(() => {
+		const items: { id: TabId; label: string }[] = [];
+		if (showMetrica) items.push({ id: 'estructura', label: 'Estructura métrica' });
+		if (showSinopsisMetrica) items.push({ id: 'sinopsis_metrica', label: 'Sinopsis métrica' });
+		if (showObservaciones) items.push({ id: 'observaciones', label: 'Observaciones' });
+		if (showBibliografia) items.push({ id: 'bibliografia', label: 'Bibliografía' });
+		return items;
 	});
 
-	const tabs = [
-		{ id: 'estructura', label: 'Estructura métrica' },
-		{ id: 'observaciones', label: 'Observaciones' }
-	];
-
-	const datacionLabel = $derived(`${obra.fecha_inicio_trad ?? '--'} - ${obra.fecha_fin_trad ?? '--'}`);
+	const datacionLabel = $derived.by(() => {
+		const inicio = obra.fecha_inicio_trad;
+		const fin = obra.fecha_fin_trad;
+		if (inicio !== null && fin !== null && inicio === fin) return `${inicio}`;
+		if (inicio !== null && fin !== null) return `${inicio} - ${fin}`;
+		if (inicio !== null) return `${inicio}`;
+		if (fin !== null) return `${fin}`;
+		return '--';
+	});
 	const variantesLabel = $derived((obra.variantes_titulo ?? []).join(' | '));
 	const updatedAtAbsolute = $derived.by(() => {
 		if (!obra.updated_at) return 'sin fecha';
@@ -163,6 +167,19 @@
 			};
 		})
 	);
+	const sinopsisMetricaSequences = $derived.by(
+		(): PublicFichaSinopsisMetricaSecuencia[] => ficha.sinopsis_metrica?.secuencias ?? []
+	);
+	const sinopsisMetricaGroups = $derived.by(() =>
+		buildSequenceSynopsisGroups({
+			secuencias: sinopsisMetricaSequences,
+			jornadas,
+			cuadros
+		})
+	);
+	const sinopsisMetricaMissingCount = $derived.by(
+		() => sinopsisMetricaSequences.filter((secuencia) => !(secuencia.sinopsis ?? '').trim()).length
+	);
 
 	// --- Modal de secuencia ---
 	const selectedSequenceIndex = $derived.by(() => {
@@ -208,6 +225,19 @@
 
 	const hasObservaciones = $derived((obra.observaciones ?? '').trim().length > 0);
 	const hasBibliografia = $derived((obra.bibliografia ?? '').trim().length > 0);
+	const estructuraItems = $derived.by(() => [
+		{ label: jornadas.length === 1 ? 'jornada' : 'jornadas', value: jornadas.length },
+		{ label: cuadros.length === 1 ? 'cuadro' : 'cuadros', value: cuadros.length },
+		{
+			label: secuenciasOrdenadas.length === 1 ? 'secuencia métrica' : 'secuencias métricas',
+			value: secuenciasOrdenadas.length
+		}
+	]);
+
+	$effect(() => {
+		if (tabs.some((tab) => tab.id === activeTab)) return;
+		activeTab = tabs[0]?.id ?? 'estructura';
+	});
 </script>
 
 <section class="space-y-6">
@@ -248,7 +278,7 @@
 		<dl class="mt-4 grid gap-x-6 gap-y-4 text-sm md:grid-cols-2 xl:grid-cols-3">
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Datación tradicional
+					Datación
 				</dt>
 				<dd class="mt-1 font-semibold">{datacionLabel}</dd>
 			</div>
@@ -266,9 +296,16 @@
 			</div>
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Estructura registrada
+					Estructura
 				</dt>
-				<dd class="mt-1 font-semibold">{estructuraResumen}</dd>
+				<dd class="mt-1 flex flex-wrap gap-2">
+					{#each estructuraItems as item}
+						<span class="border-l-2 border-[color:var(--border)] bg-[color:var(--gray-50)] px-2 py-1">
+							<span class="font-semibold">{item.value}</span>
+							<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
+						</span>
+					{/each}
+				</dd>
 			</div>
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
@@ -289,7 +326,9 @@
 		{/if}
 	</header>
 
-	<Tabs tabs={tabs} active={activeTab} onChange={(id) => (activeTab = id as TabId)} />
+	{#if tabs.length > 0}
+		<Tabs tabs={tabs} active={activeTab} onChange={(id) => (activeTab = id as TabId)} />
+	{/if}
 
 	{#if activeTab === 'estructura'}
 		{#if showMetrica}
@@ -400,32 +439,43 @@
 				{/if}
 			</section>
 		{/if}
-	{:else}
-		<section class="space-y-4">
-			{#if showObservaciones}
-				<div class="card p-4">
-					<h2 class="text-lg font-semibold">Otras observaciones</h2>
-					{#if hasObservaciones}
-						<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.observaciones ?? '')}</div>
-					{:else}
-						<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Sin observaciones publicadas.</p>
-					{/if}
+	{:else if activeTab === 'sinopsis_metrica'}
+		{#if showSinopsisMetrica}
+			<section class="space-y-4">
+				<div>
+					<h2 class="text-lg font-semibold">Sinopsis métrica</h2>
+					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+						{sinopsisMetricaSequences.length} secuencias
+						{#if sinopsisMetricaMissingCount > 0}
+							· {sinopsisMetricaMissingCount} sin sinopsis
+						{/if}
+					</p>
 				</div>
-			{/if}
-
-			{#if showBibliografia}
-				<div class="card p-4">
-					<h2 class="text-lg font-semibold">Bibliografía específica</h2>
-					{#if hasBibliografia}
-						<div class="mt-3 space-y-2 text-sm">{@html renderMarkdown(obra.bibliografia ?? '')}</div>
-					{:else}
-						<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-							Sin bibliografía específica publicada.
-						</p>
-					{/if}
-				</div>
-			{/if}
-		</section>
+				<SequenceSynopsisView groups={sinopsisMetricaGroups} />
+			</section>
+		{/if}
+	{:else if activeTab === 'observaciones'}
+		{#if showObservaciones}
+			<section class="space-y-3 border-t border-[color:var(--border)] pt-4">
+				<h2 class="text-lg font-semibold">Otras observaciones</h2>
+				{#if hasObservaciones}
+					<div class="space-y-2 text-sm leading-7">{@html renderMarkdown(obra.observaciones ?? '')}</div>
+				{:else}
+					<p class="text-sm text-[color:var(--muted-foreground)]">Sin observaciones publicadas.</p>
+				{/if}
+			</section>
+		{/if}
+	{:else if activeTab === 'bibliografia'}
+		{#if showBibliografia}
+			<section class="space-y-3 border-t border-[color:var(--border)] pt-4">
+				<h2 class="text-lg font-semibold">Bibliografía</h2>
+				{#if hasBibliografia}
+					<div class="space-y-2 text-sm leading-7">{@html renderMarkdown(obra.bibliografia ?? '')}</div>
+				{:else}
+					<p class="text-sm text-[color:var(--muted-foreground)]">Sin bibliografía publicada.</p>
+				{/if}
+			</section>
+		{/if}
 	{/if}
 
 	<SequenceDetailModal
