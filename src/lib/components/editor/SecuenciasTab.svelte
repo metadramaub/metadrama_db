@@ -9,6 +9,7 @@
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import SequenceSynopsisModal from '$lib/components/editor/SequenceSynopsisModal.svelte';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
+	import { suggestNextSubtipoRange } from '$lib/components/editor/secuencia-subtipos';
 	import { pushToast } from '$lib/stores/toast';
 
 	const props = $props<{
@@ -344,10 +345,14 @@
 	}
 
 	function initialSubtipoForm(): SubtipoFormState {
+		const suggestedRange = suggestNextSubtipoRange(
+			{ v_ini: Number(form.v_ini), v_fin: Number(form.v_fin) },
+			subtipos
+		);
 		return {
 			subtipo_estrofa_id: getDefaultSubtipoId(),
-			v_ini: Number(form.v_ini) || 1,
-			v_fin: Number(form.v_ini) || 1
+			v_ini: suggestedRange.v_ini,
+			v_fin: suggestedRange.v_fin
 		};
 	}
 
@@ -963,8 +968,20 @@
 
 	function openSubtipoCreateModal() {
 		if (props.readOnly || !editingId || !isSubtipoEnabledForCurrentEstrofa) return;
+		const suggestedRange = suggestNextSubtipoRange(
+			{ v_ini: Number(form.v_ini), v_fin: Number(form.v_fin) },
+			subtipos
+		);
+		if (!suggestedRange.available) {
+			pushToast('error', 'No quedan versos disponibles para añadir otro subtipo.');
+			return;
+		}
 		subtipoEditingId = null;
-		subtipoForm = initialSubtipoForm();
+		subtipoForm = {
+			subtipo_estrofa_id: getDefaultSubtipoId(),
+			v_ini: suggestedRange.v_ini,
+			v_fin: suggestedRange.v_fin
+		};
 		subtipoModalOpen = true;
 	}
 
