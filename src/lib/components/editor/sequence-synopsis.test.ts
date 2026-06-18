@@ -5,7 +5,10 @@ import type { Tables } from '$lib/types/database.types';
 type SecuenciaRow = Tables<'secuencias_metricas'>;
 type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
 type CuadroRow = Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>;
-type EstrofaOption = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>;
+type EstrofaOption = Pick<
+	Tables<'vocabularios'>,
+	'termino_id' | 'termino' | 'termino_padre_id' | 'tipo_forma'
+>;
 
 function createSecuencia(overrides: Partial<SecuenciaRow> = {}): SecuenciaRow {
 	return {
@@ -44,7 +47,9 @@ const cuadrosBase: CuadroRow[] = [
 	{ cuadro_id: 'c4', cuadro_num: 2, jornada_id: 'j2', v_ini: 151, v_fin: 200 }
 ];
 
-const estrofasBase: EstrofaOption[] = [{ termino_id: 'estrofa-1', termino: 'Redondilla' }];
+const estrofasBase: EstrofaOption[] = [
+	{ termino_id: 'estrofa-1', termino: 'redondilla', termino_padre_id: null, tipo_forma: 'forma_espanola' }
+];
 
 describe('sequence-synopsis', () => {
 	it('agrupa una secuencia dentro de un solo cuadro y crea su divisor externo', () => {

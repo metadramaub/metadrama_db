@@ -4,6 +4,7 @@
 	import { scaleLinear } from 'd3-scale';
 	import { ArrowRight } from 'lucide-svelte';
 	import type { MetricBarSegment } from './metric-display.types';
+	import { normalizeFormaKey } from '$lib/utils/metric-colors';
 
 	interface PositionedSegment {
 		segment: MetricBarSegment;
@@ -24,14 +25,41 @@
 		trackHeight?: number;
 		/** Mostrar sub-segmentos (subtipos) como divisiones internas. */
 		showSubsegments?: boolean;
+		/** Forma (slug/colorKey) a resaltar desde fuera (p.ej. hover en la leyenda). */
+		highlightedForma?: string | null;
 	}>();
 
 	let activeTooltipId = $state<string | null>(null);
+	let hoveredId = $state<string | null>(null);
 	let lastPointerType = $state<string>('mouse');
+
+	// Secuencia "enfocada" (hover de puntero o tooltip táctil abierto). Cuando hay
+	// una, las demás se atenúan para destacarla.
+	const focusedId = $derived(hoveredId ?? activeTooltipId);
+	// Forma resaltada desde fuera (hover en la leyenda del pie), normalizada.
+	const highlightedFormaKey = $derived(
+		props.highlightedForma ? normalizeFormaKey(props.highlightedForma) : null
+	);
+	const DIMMED_OPACITY = 0.35;
+
+	function segmentFormaKey(segment: MetricBarSegment) {
+		return normalizeFormaKey(segment.colorKey ?? segment.forma);
+	}
+
+	function isSegmentDimmed(segment: MetricBarSegment) {
+		// Prioridad: resalte por forma (externo) sobre el hover de una secuencia.
+		if (highlightedFormaKey) return segmentFormaKey(segment) !== highlightedFormaKey;
+		if (focusedId) return focusedId !== segment.id;
+		return false;
+	}
 
 	const viewStart = $derived(props.rangeStart ?? 1);
 	const viewEnd = $derived(props.rangeEnd ?? Math.max(props.totalVerses, viewStart));
 	const trackHeight = $derived(props.trackHeight ?? 30);
+	// Las líneas de jornada/cuadro sobresalen por arriba y abajo del track para
+	// que destaquen sobre los segmentos. El SVG reserva ese margen vertical.
+	const markerOverhang = $derived(Math.max(3, trackHeight * 0.18));
+	const svgHeight = $derived(trackHeight + markerOverhang * 2);
 	const interactive = $derived(typeof props.onOpenSegment === 'function');
 	const xScale = $derived.by(() =>
 		scaleLinear().domain([viewStart, viewEnd + 1]).range([0, 100]).clamp(true)
@@ -53,7 +81,7 @@
 			.filter((s: MetricBarSegment) => s.v_fin >= viewStart && s.v_ini <= viewEnd)
 			.map((segment: MetricBarSegment) => {
 				const { x, width } = positionOf(segment.v_ini, segment.v_fin);
-				const color = props.colorByForma[segment.forma] ?? '#9ca3af';
+				const color = props.colorByForma[segment.colorKey ?? segment.forma] ?? '#9ca3af';
 				return { segment, x, width, color } satisfies PositionedSegment;
 			});
 	});
@@ -79,7 +107,18 @@
 		return Math.max(0, Math.min(100, x));
 	}
 
+	// Formas cuyas subdivisiones no se dibujan: en una tirada de quintillas el
+	// desglose interno es tan menudo que confunde, y se sobreentiende que va
+	// dividida en quintillas.
+	const SUBSEGMENT_HIDDEN_FORMS = new Set(['quintilla']);
+
+	function hasHiddenSubsegments(segment: MetricBarSegment) {
+		const key = normalizeFormaKey(segment.colorKey ?? segment.forma);
+		return SUBSEGMENT_HIDDEN_FORMS.has(key);
+	}
+
 	function visibleSubsegments(segment: MetricBarSegment) {
+		if (hasHiddenSubsegments(segment)) return [];
 		return (segment.subsegments ?? []).filter((sub) => sub.v_ini > segment.v_ini);
 	}
 
@@ -115,8 +154,9 @@
 		style={`height:${trackHeight}px;`}
 	>
 		<svg
-			class="block h-full w-full"
-			viewBox={`0 0 100 ${trackHeight}`}
+			class="metric-bar-svg block w-full"
+			style={`height:${svgHeight}px;margin-top:-${markerOverhang}px;margin-bottom:-${markerOverhang}px;`}
+			viewBox={`0 ${-markerOverhang} 100 ${svgHeight}`}
 			preserveAspectRatio="none"
 			role="img"
 			aria-label="Código de barras métrico"
@@ -125,6 +165,8 @@
 				<g
 					role="img"
 					aria-label={`Versos ${item.segment.v_ini}-${item.segment.v_fin}, ${item.segment.label}`}
+					opacity={isSegmentDimmed(item.segment) ? DIMMED_OPACITY : 1}
+					style="transition:opacity 120ms ease;"
 				>
 					<rect x={item.x} y="0" width={item.width} height={trackHeight} fill={item.color}></rect>
 
@@ -147,10 +189,10 @@
 				<line
 					x1={marker}
 					x2={marker}
-					y1="0"
-					y2={trackHeight}
+					y1={-markerOverhang}
+					y2={trackHeight + markerOverhang}
 					stroke="var(--gray-500)"
-					stroke-width="0.25"
+					stroke-width="0.3"
 					stroke-dasharray="1 1"
 				></line>
 			{/each}
@@ -159,10 +201,10 @@
 				<line
 					x1={marker}
 					x2={marker}
-					y1="0"
-					y2={trackHeight}
+					y1={-markerOverhang}
+					y2={trackHeight + markerOverhang}
 					stroke="var(--gray-900)"
-					stroke-width="0.5"
+					stroke-width="0.6"
 				></line>
 			{/each}
 		</svg>
@@ -175,6 +217,12 @@
 						class="metric-bar-hotspot absolute inset-0 block p-0"
 						aria-label={`${activeTooltipId === item.segment.id ? 'Abrir detalle' : 'Mostrar detalle'}. ${segmentTitle(item.segment)}`}
 						onpointerdown={(event) => (lastPointerType = event.pointerType)}
+						onpointerenter={(event) => {
+							if (event.pointerType === 'mouse') hoveredId = item.segment.id;
+						}}
+						onpointerleave={() => (hoveredId = null)}
+						onfocus={() => (hoveredId = item.segment.id)}
+						onblur={() => (hoveredId = null)}
 						onclick={() => handleHotspotClick(item.segment.id)}
 					></button>
 
@@ -215,6 +263,10 @@
 </div>
 
 <style>
+	.metric-bar-svg {
+		overflow: visible;
+	}
+
 	.metric-bar-hover {
 		overflow: visible;
 	}
@@ -224,9 +276,8 @@
 		background: transparent;
 	}
 
-	.metric-bar-hover:hover .metric-bar-hotspot,
-	.metric-bar-hover:focus-within .metric-bar-hotspot {
-		box-shadow: inset 0 0 0 1px var(--gray-900);
-		outline: none;
+	.metric-bar-hotspot:focus-visible {
+		outline: 2px solid var(--gray-900);
+		outline-offset: -2px;
 	}
 </style>

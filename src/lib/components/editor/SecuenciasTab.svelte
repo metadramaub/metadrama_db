@@ -19,7 +19,10 @@
 		jornadasInitial: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>;
 		cuadrosInitial: Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>;
 		estrofaOptions: Array<
-			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id' | 'orden'>
+			Pick<
+				Tables<'vocabularios'>,
+				'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id' | 'orden' | 'tipo_forma'
+			>
 		>;
 		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		caracterizacionRangoOptions: Array<

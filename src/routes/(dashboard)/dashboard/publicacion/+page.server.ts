@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { canManagePublicacion } from '$lib/utils/permissions';
 import type { PublicSection, SectionScope } from '$lib/secciones-publicas';
+import { canManagePublicacion } from '$lib/utils/permissions';
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	const { profile } = await parent();
@@ -29,9 +29,11 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 		orden: row.orden
 	}));
 
-	// Páginas vs sub-secciones de ficha, por el prefijo del slug.
-	const paginas = secciones.filter((s) => !s.seccion_id.startsWith('ficha.'));
+	const paginas = secciones.filter(
+		(s) => !s.seccion_id.startsWith('ficha.') && !s.seccion_id.startsWith('catalogo.')
+	);
+	const catalogo = secciones.filter((s) => s.seccion_id.startsWith('catalogo.'));
 	const ficha = secciones.filter((s) => s.seccion_id.startsWith('ficha.'));
 
-	return { profile, canManage, paginas, ficha };
+	return { profile, canManage, paginas, catalogo, ficha };
 };

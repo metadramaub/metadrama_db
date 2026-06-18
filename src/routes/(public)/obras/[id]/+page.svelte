@@ -6,6 +6,7 @@
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
 	import FichaAutoriaBlock from '$lib/components/ficha/FichaAutoriaBlock.svelte';
+	import OrcidIcon from '$lib/components/icons/OrcidIcon.svelte';
 	import SequenceSynopsisView from '$lib/components/editor/SequenceSynopsisView.svelte';
 	import { secuenciasToBarSegments } from '$lib/components/ficha/ficha-metric-adapter';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
@@ -13,11 +14,12 @@
 	import type {
 		SequenceModalPayload,
 		PublicFichaComentarioPublico,
-		PublicFichaSinopsisMetricaSecuencia
+		PublicFichaSinopsisMetricaSecuencia,
+		PublicFichaDistribucionForma
 	} from '$lib/types/public-ficha.types';
 	import { formatRelative } from '$lib/utils/formatters';
 	import { renderMarkdown } from '$lib/utils/markdown';
-	import { colorForMetricKey } from '$lib/utils/metric-colors';
+	import { colorForForma } from '$lib/utils/metric-colors';
 	import type { MetricDistributionSlice } from '$lib/components/metrica/metric-display.types';
 	import {
 		resolveSequenceStructures,
@@ -35,6 +37,14 @@
 	let activeTab = $state<TabId>('estructura');
 	let metricViewMode = $state<MetricViewMode>('obra_completa');
 	let pieValueMode = $state<PieValueMode>('percent');
+	// Forma resaltada al pasar el ratón por la leyenda del pie. Se aísla por grupo
+	// ('obra' o el id de jornada) para que en modo por-jornadas solo ilumine el
+	// barcode/pie de esa jornada, no los de las demás.
+	let hoveredForma = $state<{ groupId: string; forma: string } | null>(null);
+
+	function formaForGroup(groupId: string): string | null {
+		return hoveredForma && hoveredForma.groupId === groupId ? hoveredForma.forma : null;
+	}
 	let selectedSequenceId = $state<string | null>(null);
 
 	const ficha = $derived(data.ficha);
@@ -88,6 +98,12 @@
 		return '--';
 	});
 	const variantesLabel = $derived((obra.variantes_titulo ?? []).join(' | '));
+	const editorOrcid = $derived((obra.autor_ficha_orcid_publico ?? '').trim());
+	const editorOrcidHref = $derived.by(() => {
+		if (!editorOrcid) return '';
+		if (/^https?:\/\//i.test(editorOrcid)) return editorOrcid;
+		return `https://orcid.org/${editorOrcid}`;
+	});
 	const updatedAtAbsolute = $derived.by(() => {
 		if (!obra.updated_at) return 'sin fecha';
 		const date = new Date(obra.updated_at);
@@ -95,19 +111,30 @@
 		return new Intl.DateTimeFormat('es-ES', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
 	});
 
-	// Colores por forma (compartidos entre barcode y pie).
+	// Colores por forma (compartidos entre barcode y pie). Clave = slug estable de
+	// la forma raíz; color resuelto por slug + gama (tipo_forma).
 	const colorByForma = $derived.by(() => {
 		const map: Record<string, string> = {};
 		for (const item of ficha.metrica.distribucion_formas) {
-			map[item.forma] = colorForMetricKey(item.forma);
+			const key = item.forma_slug ?? item.forma;
+			if (!map[key]) map[key] = colorForForma({ slug: key, tipoForma: item.forma_tipo_forma });
 		}
 		for (const secuencia of secuenciasOrdenadas) {
-			if (!map[secuencia.estrofa_forma_term]) {
-				map[secuencia.estrofa_forma_term] = colorForMetricKey(secuencia.estrofa_forma_term);
-			}
+			const key = secuencia.estrofa_forma_slug ?? secuencia.estrofa_forma_term;
+			if (!map[key]) map[key] = colorForForma({ slug: key, tipoForma: secuencia.estrofa_tipo_forma });
 		}
 		return map;
 	});
+
+	// Slices de la distribución obra-completa con clave de color (slug) explícita.
+	const distribucionFormasSlices = $derived.by(() =>
+		ficha.metrica.distribucion_formas.map((item: PublicFichaDistribucionForma) => ({
+			forma: item.forma,
+			colorKey: item.forma_slug ?? item.forma,
+			versos: item.versos,
+			porcentaje: item.porcentaje
+		}))
+	);
 
 	// Adaptación a segmentos genéricos del barcode (incluye subtipos como subsegments).
 	const barSegments = $derived.by(() => secuenciasToBarSegments(secuenciasOrdenadas));
@@ -141,17 +168,31 @@
 	});
 	function buildMetricDistribution(sequences: SequenceModalPayload[]): MetricDistributionSlice[] {
 		const total = sequences.reduce((sum, sequence) => sum + (sequence.n_versos ?? 0), 0);
-		const byForma = new Map<string, number>();
+		// Agrupa por forma raíz usando el slug como clave estable; conserva la
+		// etiqueta visible y el tipo_forma (gama) para el color.
+		const byForma = new Map<string, { forma: string; colorKey: string; tipoForma: string | null; versos: number }>();
 		for (const sequence of sequences) {
 			const versos = sequence.n_versos ?? 0;
 			if (versos <= 0) continue;
-			byForma.set(sequence.estrofa_forma_term, (byForma.get(sequence.estrofa_forma_term) ?? 0) + versos);
+			const colorKey = sequence.estrofa_forma_slug ?? sequence.estrofa_forma_term;
+			const current = byForma.get(colorKey);
+			if (current) {
+				current.versos += versos;
+			} else {
+				byForma.set(colorKey, {
+					forma: sequence.estrofa_forma_term,
+					colorKey,
+					tipoForma: sequence.estrofa_tipo_forma,
+					versos
+				});
+			}
 		}
-		return [...byForma.entries()]
-			.map(([forma, versos]) => ({
-				forma,
-				versos,
-				porcentaje: total > 0 ? Math.round((versos / total) * 10000) / 100 : 0
+		return [...byForma.values()]
+			.map((entry) => ({
+				forma: entry.forma,
+				colorKey: entry.colorKey,
+				versos: entry.versos,
+				porcentaje: total > 0 ? Math.round((entry.versos / total) * 10000) / 100 : 0
 			}))
 			.sort((a, b) => b.versos - a.versos || a.forma.localeCompare(b.forma, 'es'));
 	}
@@ -170,6 +211,8 @@
 	const sinopsisMetricaSequences = $derived.by(
 		(): PublicFichaSinopsisMetricaSecuencia[] => ficha.sinopsis_metrica?.secuencias ?? []
 	);
+	// Las secuencias de sinopsis ya traen estrofa_forma_slug/estrofa_tipo_forma
+	// desde la RPC, así que el color del borde sale directo (igual que barcode/pie).
 	const sinopsisMetricaGroups = $derived.by(() =>
 		buildSequenceSynopsisGroups({
 			secuencias: sinopsisMetricaSequences,
@@ -243,7 +286,7 @@
 <section class="space-y-6">
 	<Breadcrumb
 		items={[
-			{ label: 'Catálogo', href: '/obras' },
+			{ label: 'Catálogo', href: '/catalogo' },
 			{ label: obra.titulo, preserveCase: true }
 		]}
 	/>
@@ -275,7 +318,7 @@
 			</div>
 		{/if}
 
-		<dl class="mt-4 grid gap-x-6 gap-y-4 text-sm md:grid-cols-2 xl:grid-cols-3">
+		<dl class="mt-4 grid gap-x-6 gap-y-4 text-sm md:grid-cols-2 xl:grid-cols-4">
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Datación
@@ -307,6 +350,31 @@
 					{/each}
 				</dd>
 			</div>
+		</dl>
+
+		<dl class="mt-4 flex flex-wrap gap-x-6 gap-y-3 border-t border-[color:var(--border)] pt-3 text-sm">
+			{#if obra.autor_ficha_publico}
+				<div>
+					<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+						Editor a cargo
+					</dt>
+					<dd class="mt-1 flex items-center gap-2 font-semibold">
+						<span>{obra.autor_ficha_publico}</span>
+						{#if editorOrcidHref}
+							<a
+								class="inline-flex items-center text-[color:var(--muted-foreground)] transition-colors hover:text-[color:var(--foreground)]"
+								href={editorOrcidHref}
+								target="_blank"
+								rel="noreferrer"
+								aria-label={`ORCID de ${obra.autor_ficha_publico}`}
+							>
+								<OrcidIcon size={15} />
+								<span class="sr-only">ORCID</span>
+							</a>
+						{/if}
+					</dd>
+				</div>
+			{/if}
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Última modificación
@@ -319,7 +387,7 @@
 		{#if (obra.edicion ?? '').trim().length > 0}
 			<div class="mt-4 border-t border-[color:var(--border)] pt-4">
 				<div class="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Edición base usada por el editor
+					Edición base usada
 				</div>
 				<div class="space-y-2 text-sm">{@html renderMarkdown(obra.edicion ?? '')}</div>
 			</div>
@@ -382,6 +450,7 @@
 							cuadroMarkers={cuadroMarkers}
 							colorByForma={colorByForma}
 							onOpenSegment={openSequenceModal}
+							highlightedForma={formaForGroup('obra')}
 							showSubsegments
 						/>
 						<div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
@@ -409,6 +478,7 @@
 										cuadroMarkers={cuadroMarkersByJornada.get(jornada.jornada_id) ?? []}
 										colorByForma={colorByForma}
 										onOpenSegment={openSequenceModal}
+										highlightedForma={formaForGroup(jornada.jornada_id)}
 										showSubsegments
 									/>
 								</div>
@@ -419,10 +489,12 @@
 
 				{#if metricViewMode === 'obra_completa'}
 					<MetricDistributionPie
-						items={ficha.metrica.distribucion_formas}
+						items={distribucionFormasSlices}
 						sequences={secuenciasOrdenadas}
 						colorByForma={colorByForma}
 						valueMode={pieValueMode}
+						highlightedForma={formaForGroup('obra')}
+						onHoverForma={(forma) => (hoveredForma = forma ? { groupId: 'obra', forma } : null)}
 					/>
 				{:else}
 					<div class="space-y-5">
@@ -433,6 +505,9 @@
 								sequences={profile.sequences}
 								colorByForma={colorByForma}
 								valueMode={pieValueMode}
+								highlightedForma={formaForGroup(profile.jornada.jornada_id)}
+								onHoverForma={(forma) =>
+									(hoveredForma = forma ? { groupId: profile.jornada.jornada_id, forma } : null)}
 							/>
 						{/each}
 					</div>
@@ -451,7 +526,7 @@
 						{/if}
 					</p>
 				</div>
-				<SequenceSynopsisView groups={sinopsisMetricaGroups} />
+				<SequenceSynopsisView groups={sinopsisMetricaGroups} colorByForma={colorByForma} />
 			</section>
 		{/if}
 	{:else if activeTab === 'observaciones'}

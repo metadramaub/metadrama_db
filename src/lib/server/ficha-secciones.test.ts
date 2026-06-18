@@ -67,6 +67,7 @@ function fullFicha(): PublicObraFichaPayload {
 					estrofa_tipo_id: 'e1',
 					estrofa_tipo_term: 'romance',
 					estrofa_forma_term: 'romance',
+					estrofa_forma_slug: 'romance',
 					estrofa_tipo_forma: null,
 					inaugura_espacio: false,
 					versos_partidos: false,
@@ -84,7 +85,9 @@ function fullFicha(): PublicObraFichaPayload {
 					subtipos_estrofa: []
 				}
 			],
-			distribucion_formas: [{ forma: 'romance', versos: 100, porcentaje: 100 }]
+			distribucion_formas: [
+				{ forma: 'romance', forma_slug: 'romance', forma_tipo_forma: null, versos: 100, porcentaje: 100 }
+			]
 		},
 		sinopsis_metrica: {
 			secuencias: [
@@ -95,6 +98,8 @@ function fullFicha(): PublicObraFichaPayload {
 					n_versos: 100,
 					estrofa_tipo_id: 'e1',
 					estrofa_tipo_term: 'romance',
+					estrofa_forma_slug: 'romance',
+					estrofa_tipo_forma: null,
 					sinopsis: 'SINOPSIS'
 				}
 			]

@@ -69,6 +69,8 @@ export interface PublicFichaSecuencia {
 	estrofa_tipo_id: string | null;
 	estrofa_tipo_term: string;
 	estrofa_forma_term: string;
+	/** Slug crudo de la forma raíz (clave estable de color, sin etiqueta). */
+	estrofa_forma_slug: string | null;
 	estrofa_tipo_forma: string | null;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean;
@@ -93,11 +95,19 @@ export interface PublicFichaSinopsisMetricaSecuencia {
 	n_versos: number | null;
 	estrofa_tipo_id: string | null;
 	estrofa_tipo_term: string;
+	/** Slug crudo de la forma raíz (clave estable de color, sin etiqueta). */
+	estrofa_forma_slug: string | null;
+	/** tipo_forma de la forma raíz: 'forma_espanola' | 'forma_italiana'. */
+	estrofa_tipo_forma: string | null;
 	sinopsis: string | null;
 }
 
 export interface PublicFichaDistribucionForma {
 	forma: string;
+	/** Slug crudo de la forma raíz (clave estable de color, sin etiqueta). */
+	forma_slug: string | null;
+	/** tipo_forma de la forma raíz: 'forma_espanola' | 'forma_italiana'. */
+	forma_tipo_forma: string | null;
 	versos: number;
 	porcentaje: number;
 }
