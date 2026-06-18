@@ -5,7 +5,9 @@ import type { Database, Tables } from '$lib/types/database.types';
 
 type AuthorCatalogRow = Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>;
 type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
-type VocabRow = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>;
+type VocabRow = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'> & {
+	etiqueta?: string | null;
+};
 type GrupoRow = Tables<'grupos_atribucion'>;
 type AtribucionRow = Tables<'atribuciones'>;
 type AtribucionAutorRow = Pick<Tables<'atribucion_autores'>, 'atribucion_id' | 'autor_id' | 'orden'>;
@@ -79,7 +81,7 @@ export async function loadAutoriaCatalogs(supabase: SupabaseClient<Database>) {
 	const [tiposResp, composicionesResp, modalidadesResp] = await Promise.all([
 		supabase
 			.from('vocabularios')
-			.select('termino_id,termino')
+			.select('termino_id,termino,etiqueta')
 			.eq('categoria', 'tipo_atribucion')
 			.eq('activo', true)
 			.order('orden'),

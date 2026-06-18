@@ -11,6 +11,7 @@
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { suggestNextSubtipoRange } from '$lib/components/editor/secuencia-subtipos';
 	import { pushToast } from '$lib/stores/toast';
+	import { displayTerm } from '$lib/utils/vocabulario';
 
 	const props = $props<{
 		obraId: string;
@@ -18,11 +19,11 @@
 		jornadasInitial: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>;
 		cuadrosInitial: Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>;
 		estrofaOptions: Array<
-			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id' | 'orden'>
+			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id' | 'orden'>
 		>;
-		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		caracterizacionRangoOptions: Array<
-			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id' | 'orden'>
+			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id' | 'orden'>
 		>;
 		readOnly?: boolean;
 		canComment?: boolean;
@@ -149,11 +150,11 @@
 	const sortedEstrofaOptions = $derived.by(() => sortEstrofaOptions(props.estrofaOptions));
 	const estrofaById = $derived.by(
 		() =>
-			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id'>>(
+			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id'>>(
 				sortedEstrofaOptions.map(
 					(
-						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id'>
-					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'termino_padre_id'>] => [
+						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id'>
+					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id'>] => [
 						option.termino_id,
 						option
 					]
@@ -187,21 +188,21 @@
 	const estrofaDropdownItems = $derived.by(() =>
 		estrofaSelectableOptions.map((option) => ({
 			id: option.termino_id,
-			label: option.termino,
+			label: displayTerm(option),
 			parentId: option.termino_padre_id ?? null
 		}))
 	);
 	const caracterizacionRangoDropdownItems = $derived.by(() =>
 		sortCaracterizacionRangoOptions(props.caracterizacionRangoOptions).map((option) => ({
 			id: option.termino_id,
-			label: option.termino,
+			label: displayTerm(option),
 			parentId: option.termino_padre_id ?? null
 		}))
 	);
 	const certezaDropdownItems = $derived(
-		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>) => ({
 			id: option.termino_id,
-			label: option.termino
+			label: displayTerm(option)
 		}))
 	);
 	const intervencionItems = [
@@ -213,11 +214,11 @@
 		'Indica si en esta secuencia métrica interviene verbalmente un personaje de este tipo. El dato se refiere al habla dentro de la secuencia, no a la presencia escénica.';
 	const caracterizacionRangoById = $derived.by(
 		() =>
-			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
+			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>(
 				props.caracterizacionRangoOptions.map(
 					(
-						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>
-					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>] => [
+						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>
+					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>] => [
 						option.termino_id,
 						option
 					]
@@ -306,17 +307,17 @@
 	const subtipoDropdownItems = $derived.by(() =>
 		subtipoOptionsForCurrentEstrofa.map((option) => ({
 			id: option.termino_id,
-			label: option.termino,
+			label: displayTerm(option),
 			parentId: option.termino_padre_id ?? null
 		}))
 	);
 	const subtipoById = $derived.by(
 		() =>
-			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>(
+			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>(
 				subtipoOptionsForCurrentEstrofa.map(
 					(
-						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>
-					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>] => [
+						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>
+					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>] => [
 						option.termino_id,
 						option
 					]
@@ -356,13 +357,17 @@
 		};
 	}
 
-	function termById(options: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>, id: string | null) {
+	function termById(
+		options: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>,
+		id: string | null
+	) {
 		if (!id) return '--';
-		return options.find((option) => option.termino_id === id)?.termino ?? '--';
+		const option = options.find((opt) => opt.termino_id === id);
+		return option ? displayTerm(option) : '--';
 	}
 
 	function caracterizacionRangoLabelById(tipoCaracterizacionRangoId: string, fallback = '') {
-		const fromVocabulary = caracterizacionRangoById.get(tipoCaracterizacionRangoId)?.termino ?? '';
+		const fromVocabulary = displayTerm(caracterizacionRangoById.get(tipoCaracterizacionRangoId));
 		return fromVocabulary || fallback || '--';
 	}
 
@@ -375,7 +380,7 @@
 	}
 
 	function subtipoLabelById(subtipoEstrofaId: string, fallback = '') {
-		const fromVocabulary = subtipoById.get(subtipoEstrofaId)?.termino ?? '';
+		const fromVocabulary = displayTerm(subtipoById.get(subtipoEstrofaId));
 		return fromVocabulary || fallback || '--';
 	}
 

@@ -4,6 +4,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import { pushToast } from '$lib/stores/toast';
+	import { displayTerm } from '$lib/utils/vocabulario';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
@@ -20,9 +21,9 @@
 	const canReadAll = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
 	const canCreate = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
 	const estadoDropdownItems = $derived(
-		data.estadoOptions.map((option: { termino_id: string; termino: string }) => ({
+		data.estadoOptions.map((option: { termino_id: string; termino: string; etiqueta?: string | null }) => ({
 			id: option.termino_id,
-			label: option.termino
+			label: displayTerm(option)
 		}))
 	);
 	const editorDropdownItems = $derived(

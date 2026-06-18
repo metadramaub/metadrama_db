@@ -6,7 +6,7 @@ import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils
 import { vocabularioDeleteSchema, vocabularioPatchSchema } from '$lib/utils/validators';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
 
 async function syncEstrofaTipoMetros(locals: App.Locals, estrofaTipoId: string, metroIds: string[]) {
 	const uniqueMetroIds = [...new Set(metroIds)];
@@ -124,6 +124,10 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	const payload = parsed.data;
 	const { metro_ids, ...vocabularioPayload } = payload;
+	if (Object.prototype.hasOwnProperty.call(vocabularioPayload, 'etiqueta')) {
+		// Cadena vacía -> null para que la ficha pública caiga al fallback (termino).
+		vocabularioPayload.etiqueta = vocabularioPayload.etiqueta?.trim() ? vocabularioPayload.etiqueta.trim() : null;
+	}
 	if (Object.prototype.hasOwnProperty.call(payload, 'termino_padre_id')) {
 		const nextParentId = payload.termino_padre_id ?? null;
 		if (nextParentId === current.termino_id) {

@@ -407,6 +407,7 @@ export const obraReviewersInputSchema = z.object({
 export const vocabularioCreateSchema = z.object({
 	categoria: z.string().trim().min(1).max(80),
 	termino: z.string().trim().min(1).max(200),
+	etiqueta: z.string().trim().max(200).optional().nullable().default(null),
 	termino_padre_id: z.string().uuid().optional().nullable().default(null),
 	nivel: z.number().int().optional().nullable().default(null),
 	orden: z.number().int().optional().nullable().default(null),
@@ -427,6 +428,7 @@ export const vocabularioCreateSchema = z.object({
 export const vocabularioPatchSchema = z
 	.object({
 		termino: z.string().trim().min(1).max(200).optional(),
+		etiqueta: z.string().trim().max(200).optional().nullable(),
 		termino_padre_id: z.string().uuid().optional().nullable(),
 		nivel: z.number().int().optional().nullable(),
 		orden: z.number().int().optional().nullable(),

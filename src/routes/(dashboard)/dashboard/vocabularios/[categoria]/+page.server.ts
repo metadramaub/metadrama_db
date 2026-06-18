@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
 
 export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	const parentData = await parent();

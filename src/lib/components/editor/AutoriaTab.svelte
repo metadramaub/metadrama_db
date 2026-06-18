@@ -11,10 +11,12 @@
 	import type { Tables } from '$lib/types/database.types';
 	import type { AutoriaApiPayload, AutoriaComposicionTerm } from '$lib/types/obra.types';
 	import { canManageAutoriaMetricProfile } from '$lib/utils/permissions';
+	import { displayTerm } from '$lib/utils/vocabulario';
 
 	type CatalogItem = {
 		termino_id: string;
 		termino: string;
+		etiqueta?: string | null;
 	};
 
 	type DraftEvidence = {
@@ -75,7 +77,7 @@
 	const canComment = $derived(Boolean(props.canComment));
 	const effectiveReadOnly = $derived(Boolean(props.readOnly));
 	const canManagePerfilMetrico = $derived(canManageAutoriaMetricProfile(props.roleTerm));
-	const tipoItems = $derived(tipos.map((item) => ({ id: item.termino_id, label: item.termino })));
+	const tipoItems = $derived(tipos.map((item) => ({ id: item.termino_id, label: displayTerm(item) })));
 	const composicionItems = $derived(
 		composiciones
 			.filter((item) => ['individual', 'colaborada', 'desconocida'].includes(normalizeTerm(item.termino)))
@@ -88,7 +90,7 @@
 		}))
 	);
 	const authorNameById = $derived(new Map(autores.map((author) => [author.autor_id, author.nombre_completo])));
-	const tipoTermById = $derived(new Map(tipos.map((item) => [item.termino_id, item.termino])));
+	const tipoTermById = $derived(new Map(tipos.map((item) => [item.termino_id, displayTerm(item)])));
 	const composicionTermById = $derived(
 		new Map(composiciones.map((item) => [item.termino_id, normalizeTerm(item.termino) as AutoriaComposicionTerm]))
 	);

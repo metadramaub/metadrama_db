@@ -70,7 +70,7 @@ export const load: PageServerLoad = async ({ locals, parent, url }) => {
 			: Promise.resolve({ data: [] }),
 		locals.supabase
 			.from('vocabularios')
-			.select('termino_id,termino')
+			.select('termino_id,termino,etiqueta')
 			.eq('categoria', 'estado')
 			.order('orden'),
 		isAdminOrIp

@@ -7,6 +7,7 @@
 
 	type TermForm = {
 		termino: string;
+		etiqueta: string;
 		termino_padre_id: string | null;
 		nivel: number | null;
 		activo: boolean;
@@ -105,6 +106,21 @@
 						class="w-full border border-[color:var(--border)] px-3 py-2"
 						oninput={(event) => updateTerm({ termino: event.currentTarget.value })}
 					/>
+				</label>
+
+				<label class="form-field">
+					<span class="form-label">Etiqueta (nombre legible)</span>
+					<input
+						type="text"
+						value={props.termForm.etiqueta}
+						disabled={readOnly}
+						placeholder={props.termForm.termino || 'Se usa el término si se deja vacío'}
+						class="w-full border border-[color:var(--border)] px-3 py-2"
+						oninput={(event) => updateTerm({ etiqueta: event.currentTarget.value })}
+					/>
+					<span class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+						Nombre que se muestra en la web pública y los selectores. Si se deja vacío se usa el término.
+					</span>
 				</label>
 
 				{#if props.fieldConfig.showEquivalences}

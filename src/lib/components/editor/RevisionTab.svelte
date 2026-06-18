@@ -8,6 +8,7 @@
 	import { pushToast } from '$lib/stores/toast';
 	import { currentObraStore, patchCurrentObra } from '$lib/stores/currentObra';
 	import { canTransitionState } from '$lib/utils/permissions';
+	import { displayTerm } from '$lib/utils/vocabulario';
 	import type { Tables } from '$lib/types/database.types';
 	import type {
 		EditorProfile,
@@ -16,7 +17,7 @@
 		ObraAssignmentsResponse
 	} from '$lib/types/obra.types';
 
-	type EstadoOption = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>;
+	type EstadoOption = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>;
 
 	const props = $props<{
 		obraId: string;
@@ -118,7 +119,7 @@
 	const estadoDropdownItems = $derived(
 		props.estadoOptions.map((option: EstadoOption) => ({
 			id: option.termino_id,
-			label: option.termino,
+			label: displayTerm(option),
 			description: null
 		}))
 	);
@@ -148,13 +149,15 @@
 			.map((option: EstadoOption) => option.termino_id);
 	});
 
-	const selectedEstadoLabel = $derived(
-		props.estadoOptions.find((option: EstadoOption) => option.termino_id === currentEstadoId)?.termino ?? '--'
-	);
+	const selectedEstadoLabel = $derived.by(() => {
+		const option = props.estadoOptions.find((opt: EstadoOption) => opt.termino_id === currentEstadoId);
+		return option ? displayTerm(option) : '--';
+	});
 
-	const persistedEstadoLabel = $derived(
-		props.estadoOptions.find((option: EstadoOption) => option.termino_id === persistedEstadoId)?.termino ?? '--'
-	);
+	const persistedEstadoLabel = $derived.by(() => {
+		const option = props.estadoOptions.find((opt: EstadoOption) => opt.termino_id === persistedEstadoId);
+		return option ? displayTerm(option) : '--';
+	});
 	const stateDirty = $derived(currentEstadoId.trim() !== persistedEstadoId.trim());
 	const visibilityDirty = $derived(visiblePublico !== persistedVisiblePublico);
 

@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getPublicadoEstadoId, resolvePublicViewerContext } from '$lib/server/public-obras';
 import { requireSectionVisible } from '$lib/server/secciones-publicas';
+import { displayTerm } from '$lib/utils/vocabulario';
 import type { Tables } from '$lib/types/database.types';
 
 type PublicCatalogObra = Pick<
@@ -161,12 +162,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const generoIds = [...new Set(obraRows.map((o) => o.genero_id).filter((id): id is string => Boolean(id)))];
 	const generosResp =
 		generoIds.length > 0
-			? await locals.supabase.from('vocabularios').select('termino_id,termino').in('termino_id', generoIds)
-			: { data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[] };
+			? await locals.supabase.from('vocabularios').select('termino_id,termino,etiqueta').in('termino_id', generoIds)
+			: { data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>[] };
 	const generoTermById = new Map(
-		((generosResp.data ?? []) as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[]).map((row) => [
+		((generosResp.data ?? []) as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>[]).map((row) => [
 			row.termino_id,
-			row.termino
+			displayTerm(row)
 		])
 	);
 

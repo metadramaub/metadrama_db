@@ -945,6 +945,7 @@ export type Database = {
           definicion: string | null
           ejemplo: string | null
           equivalencias: string[] | null
+          etiqueta: string | null
           nivel: number | null
           orden: number | null
           patron_especifico: string | null
@@ -962,6 +963,7 @@ export type Database = {
           definicion?: string | null
           ejemplo?: string | null
           equivalencias?: string[] | null
+          etiqueta?: string | null
           nivel?: number | null
           orden?: number | null
           patron_especifico?: string | null
@@ -979,6 +981,7 @@ export type Database = {
           definicion?: string | null
           ejemplo?: string | null
           equivalencias?: string[] | null
+          etiqueta?: string | null
           nivel?: number | null
           orden?: number | null
           patron_especifico?: string | null

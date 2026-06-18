@@ -150,6 +150,7 @@ export interface ComentarioListItem extends Tables<'comentarios_internos'> {
 export interface AutoriaCatalogItem {
 	termino_id: string;
 	termino: string;
+	etiqueta?: string | null;
 }
 
 export interface AutoriaAtribucionAutorPayload {
