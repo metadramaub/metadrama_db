@@ -7,6 +7,54 @@ export type PublicViewerContext = {
 	canSeeAllPublished: boolean;
 };
 
+/**
+ * Datos mínimos de una obra necesarios para resolver su visibilidad pública.
+ * El muro `estado = publicado` se aplica fuera (en la query o en la RPC), pero
+ * `editor_asignado` y `visible_publico` deciden la atenuación por obra.
+ */
+export type PublicObraVisibility = {
+	editor_asignado: string | null;
+	visible_publico: boolean | null;
+};
+
+/**
+ * Scope EFECTIVO para el par (visitante, obra). A diferencia del scope global del
+ * visitante, esto contempla que el editor asignado a ESTA obra la ve como admin/IP.
+ *
+ * No decide acceso por sí solo: el muro `estado = publicado` es innegociable y se
+ * aplica aparte. Aquí solo se resuelve si el visitante puede ver una obra publicada
+ * que aún no es `visible_publico`.
+ */
+export function resolveObraScope(
+	viewer: PublicViewerContext,
+	obra: PublicObraVisibility
+): PublicViewerScope {
+	if (viewer.scope === 'admin_ip') {
+		return 'admin_ip';
+	}
+	if (viewer.userId && obra.editor_asignado === viewer.userId) {
+		// Editor asignado a su propia obra: la ve como admin/IP (para revisar su trabajo).
+		return 'admin_ip';
+	}
+	return viewer.scope;
+}
+
+/**
+ * ¿Puede este visitante ver el contenido público de una obra YA PUBLICADA?
+ * Presupone que el muro `estado = publicado` ya se cumplió. Una obra publicada
+ * pero no visible solo la ven admin/IP y el editor asignado (scope efectivo
+ * `admin_ip`).
+ */
+export function canViewPublishedObra(
+	viewer: PublicViewerContext,
+	obra: PublicObraVisibility
+): boolean {
+	if (obra.visible_publico) {
+		return true;
+	}
+	return resolveObraScope(viewer, obra) === 'admin_ip';
+}
+
 export async function resolvePublicViewerContext(locals: App.Locals): Promise<PublicViewerContext> {
 	const { user } = await locals.safeGetSession();
 	if (!user) {

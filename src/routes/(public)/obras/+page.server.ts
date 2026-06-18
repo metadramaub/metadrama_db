@@ -15,7 +15,10 @@ type PublicCatalogObra = Pick<
 	| 'visible_publico'
 > & {
 	autoria_autores: string[];
+	es_obra_asignada: boolean;
 };
+
+type ObraRow = PublicCatalogObra & { editor_asignado: string | null };
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const viewer = await resolvePublicViewerContext(locals);
@@ -32,13 +35,19 @@ export const load: PageServerLoad = async ({ locals }) => {
 	let query = locals.supabase
 		.from('obras')
 		.select(
-			'obra_id,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,updated_at,visible_publico'
+			'obra_id,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,updated_at,visible_publico,editor_asignado'
 		)
 		.eq('estado', publicadoId)
 		.order('titulo');
 
+	// Muro: estado=publicado siempre (arriba). Sobre eso, una obra no visible solo la
+	// ven admin/IP (canSeeAllPublished) y el editor asignado a esa obra concreta.
 	if (!viewer.canSeeAllPublished) {
-		query = query.eq('visible_publico', true);
+		if (viewer.userId) {
+			query = query.or(`visible_publico.eq.true,editor_asignado.eq.${viewer.userId}`);
+		} else {
+			query = query.eq('visible_publico', true);
+		}
 	}
 
 	const { data, error: dbError } = await query.limit(500);
@@ -46,7 +55,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		throw error(500, `No se pudo cargar el catalogo publico: ${dbError.message}`);
 	}
 
-	const obraRows = (data ?? []) as PublicCatalogObra[];
+	const obraRows = (data ?? []) as ObraRow[];
 	const obraIds = obraRows.map((obra) => obra.obra_id);
 	if (obraIds.length === 0) {
 		return {
@@ -124,8 +133,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 	return {
 		viewerScope: viewer.scope,
 		canSeeAllPublished: viewer.canSeeAllPublished,
-		obras: obraRows.map((obra) => ({
+		obras: obraRows.map(({ editor_asignado, ...obra }): PublicCatalogObra => ({
 			...obra,
+			es_obra_asignada: Boolean(viewer.userId) && editor_asignado === viewer.userId,
 			autoria_autores: [...(obraAutores.get(obra.obra_id) ?? new Set<string>())].sort((a, b) =>
 				a.localeCompare(b, 'es')
 			)

@@ -1,6 +1,10 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { resolvePublicViewerContext } from '$lib/server/public-obras';
+import {
+	resolveObraScope,
+	resolvePublicViewerContext,
+	type PublicObraVisibility
+} from '$lib/server/public-obras';
 import type {
 	PublicFichaComentarioPublico,
 	PublicObraFichaPayload
@@ -8,6 +12,21 @@ import type {
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const viewer = await resolvePublicViewerContext(locals);
+
+	// El scope efectivo depende de ESTA obra: el editor asignado la ve como admin/IP.
+	// Necesitamos editor_asignado/visible_publico antes de llamar a la RPC para decidir
+	// si incluir la versión "no visible" (p_include_hidden). El muro estado=publicado lo
+	// sigue aplicando la propia RPC, así que esta consulta previa no expone nada.
+	const obraVisibilityResp = await locals.supabase
+		.from('obras')
+		.select('editor_asignado,visible_publico')
+		.eq('obra_id', params.id)
+		.maybeSingle();
+	const obraVisibility = (obraVisibilityResp.data ?? null) as PublicObraVisibility | null;
+	const obraScope = obraVisibility
+		? resolveObraScope(viewer, obraVisibility)
+		: viewer.scope;
+	const includeHidden = obraScope === 'admin_ip';
 
 	const supabase = locals.supabase as typeof locals.supabase & {
 		rpc: (
@@ -19,11 +38,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const [fichaResp, comentariosResp] = await Promise.all([
 		supabase.rpc('get_obra_ficha_publica', {
 			p_obra_id: params.id,
-			p_include_hidden: viewer.canSeeAllPublished
+			p_include_hidden: includeHidden
 		}),
 		supabase.rpc('get_obra_comentarios_publicos', {
 			p_obra_id: params.id,
-			p_include_hidden: viewer.canSeeAllPublished
+			p_include_hidden: includeHidden
 		})
 	]);
 	const { data, error: rpcError } = fichaResp;
@@ -41,8 +60,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const ficha = data as unknown as PublicObraFichaPayload;
 
 	return {
-		viewerScope: viewer.scope,
-		canSeeAllPublished: viewer.canSeeAllPublished,
+		viewerScope: obraScope,
+		canSeeAllPublished: includeHidden,
 		ficha: {
 			...ficha,
 			comentarios_publicos: (comentariosResp.data ?? []) as unknown as PublicFichaComentarioPublico[]

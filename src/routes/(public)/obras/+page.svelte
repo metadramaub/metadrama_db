@@ -31,10 +31,16 @@
 								{(obra.autoria_autores ?? []).length > 0 ? (obra.autoria_autores ?? []).join(', ') : 'Autoría no indicada'}
 							</p>
 						</div>
-						{#if data.canSeeAllPublished && !obra.visible_publico}
-							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">
-								Solo con login editorial
-							</span>
+						{#if !obra.visible_publico}
+							{#if obra.es_obra_asignada}
+								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">
+									Tu ficha · aún no visible sin login
+								</span>
+							{:else if data.canSeeAllPublished}
+								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">
+									Solo con login editorial
+								</span>
+							{/if}
 						{/if}
 					</div>
 					<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
