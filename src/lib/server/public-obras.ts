@@ -1,3 +1,5 @@
+import { canReadAllObras, normalizeRole } from '$lib/utils/permissions';
+
 export type PublicViewerScope = 'anon' | 'authenticated' | 'admin_ip';
 
 export type PublicViewerContext = {
@@ -87,8 +89,9 @@ export async function resolvePublicViewerContext(locals: App.Locals): Promise<Pu
 		.eq('termino_id', editorResp.data.role)
 		.maybeSingle();
 
-	const roleTerm = roleResp.data?.termino?.trim().toLowerCase() ?? null;
-	const canSeeAllPublished = roleTerm === 'admin' || roleTerm === 'ip';
+	const roleTerm = roleResp.data?.termino ? normalizeRole(roleResp.data.termino) : null;
+	// Misma regla "admin o IP" que el resto del sistema (permissions.ts), no reimplementada.
+	const canSeeAllPublished = roleTerm ? canReadAllObras(roleTerm) : false;
 
 	return {
 		scope: canSeeAllPublished ? 'admin_ip' : 'authenticated',
