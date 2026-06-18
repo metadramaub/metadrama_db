@@ -27,12 +27,14 @@
 >     refactorizándolos para que NO dependan del tipo `PublicFichaSecuencia` y sirvan
 >     también en catálogo y futura ficha de autor (directriz del usuario: todo en
 >     componentes reutilizables — ver memoria `componentes-reutilizables`).
->   - **Subtipos de estrofa**: RPC modificada en migración
+>   - **Subtipos de estrofa ✅ aplicado en remoto**: RPC modificada en migración
 >     [20260618160000_ficha_publica_subtipos_estrofa.sql] (CTE `subtipos_by_secuencia`
 >     + campo `subtipos_estrofa` por secuencia, patrón idéntico a caracterizaciones).
->     Tipo `PublicFichaSubtipoEstrofa` añadido a public-ficha.types. **Pendiente: el
->     usuario aplica la función + registro por SQL Editor.** Hasta entonces el campo
->     llega `undefined` → la UI debe usar `?? []`.
+>     Tipo `PublicFichaSubtipoEstrofa` añadido a public-ficha.types. Verificado en
+>     remoto: una quintilla devuelve sus subtipos `quintilla_1_ababa` con rangos de
+>     verso; las demás secuencias devuelven `[]`. (Nota: el SQL Editor solo aplicó la
+>     función al pegar la selección COMPLETA hasta `$function$;` — la primera vez
+>     quedó la versión vieja y el campo salía `null`.)
 >   - **Resolver pendiente B**: envolver cada sección de la ficha con
 >     `{#if isSectionVisible(...)}` para ocultar (no mostrar vacías) las apagadas.
 >   - Diagnóstico: la ficha actual ya es rica (cabecera, autoría con fuentes,
