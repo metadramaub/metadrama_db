@@ -397,8 +397,8 @@ describe('validators', () => {
 	it('validates author create payload', () => {
 		const result = autorCreateSchema.safeParse({
 			nombre_completo: '  Lope de Vega  ',
-			nombre_normalizado: '  vega, lope de  ',
-			variantes_nombre: ['Lope Felix', '  ', 'LOPE FELIX'],
+			nombre_normalizado: '  Vega Carpio, Lope de  ',
+			variantes_nombre: ['Lope Félix', '  ', 'LOPE FELIX'],
 			bnedatos_id: ' BNE123 ',
 			viaf_id: '',
 			wikidata_id: null
@@ -406,8 +406,8 @@ describe('validators', () => {
 		expect(result.success).toBe(true);
 		if (!result.success) return;
 		expect(result.data.nombre_completo).toBe('Lope de Vega');
-		expect(result.data.nombre_normalizado).toBe('vega, lope de');
-		expect(result.data.variantes_nombre).toEqual(['Lope Felix']);
+		expect(result.data.nombre_normalizado).toBe('Vega Carpio, Lope de');
+		expect(result.data.variantes_nombre).toEqual(['Lope Félix']);
 		expect(result.data.bnedatos_id).toBe('BNE123');
 		expect(result.data.viaf_id).toBeNull();
 	});
@@ -439,11 +439,11 @@ describe('validators', () => {
 
 	it('accepts and trims normalized name in author patch payload', () => {
 		const result = autorPatchSchema.safeParse({
-			nombre_normalizado: '  vega, lope de  '
+			nombre_normalizado: '  Vélez de Guevara, Luis  '
 		});
 		expect(result.success).toBe(true);
 		if (!result.success) return;
-		expect(result.data.nombre_normalizado).toBe('vega, lope de');
+		expect(result.data.nombre_normalizado).toBe('Vélez de Guevara, Luis');
 	});
 
 	it('requires ELIMINAR in author delete confirmation', () => {
