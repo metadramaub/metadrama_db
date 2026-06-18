@@ -78,7 +78,7 @@
 	{:else if autoresNoAmbiguos.length > 0 && !autoriaPrincipalLabel}
 		{#each autoresNoAmbiguos as autor, index (autor.autor_id)}
 			{#if index > 0}<span class="text-[color:var(--muted-foreground)]">·</span>{/if}
-			<a class="underline-offset-2 hover:underline" href={`/autores/${autor.autor_id}`}>
+			<a class="underline-offset-2 hover:underline" href={`/autores/${autor.slug}`}>
 				{autor.nombre_completo}
 			</a>
 		{/each}

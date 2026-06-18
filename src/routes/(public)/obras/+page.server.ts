@@ -7,6 +7,7 @@ import type { Tables } from '$lib/types/database.types';
 type PublicObraListItem = Pick<
 	Tables<'obras'>,
 	| 'obra_id'
+	| 'slug'
 	| 'titulo'
 	| 'fecha_inicio_trad'
 	| 'fecha_fin_trad'
@@ -55,7 +56,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
 
 	let query = locals.supabase
 		.from('obras')
-		.select('obra_id,titulo,fecha_inicio_trad,fecha_fin_trad,total_versos,updated_at,visible_publico,editor_asignado')
+		.select('obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,total_versos,updated_at,visible_publico,editor_asignado')
 		.eq('estado', publicadoId)
 		.order('titulo');
 

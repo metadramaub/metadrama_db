@@ -1,5 +1,6 @@
 export interface PublicFichaAutor {
 	autor_id: string;
+	slug: string;
 	nombre_completo: string;
 }
 
@@ -126,6 +127,7 @@ export interface PublicFichaComentarioPublico {
 export interface PublicObraFichaPayload {
 	obra: {
 		obra_id: string;
+		slug: string;
 		titulo: string;
 		variantes_titulo: string[];
 		fecha_inicio_trad: number | null;

@@ -308,7 +308,7 @@
 				titulo={obra.titulo}
 				autorFicha={obra.autor_ficha_publico}
 				updatedAt={obra.updated_at}
-				obraPath={`/obras/${obra.obra_id}`}
+				obraPath={`/obras/${obra.slug}`}
 			/>
 		</div>
 

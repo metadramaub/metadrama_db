@@ -3,6 +3,7 @@
 
 	type Obra = {
 		obra_id: string;
+		slug: string;
 		titulo: string;
 		autoria_autores: string[];
 		genero_term: string | null;
@@ -33,7 +34,7 @@
 		<div class="min-w-0">
 			<div class="flex flex-wrap items-center gap-2">
 				<h2 class="font-display text-xl leading-tight text-[color:var(--gray-900)]">
-					<a class="underline-offset-3 hover:underline" href={`/obras/${props.obra.obra_id}`}>
+					<a class="underline-offset-3 hover:underline" href={`/obras/${props.obra.slug}`}>
 						{props.obra.titulo}
 					</a>
 				</h2>
@@ -58,7 +59,7 @@
 		</div>
 
 		<a
-			href={`/obras/${props.obra.obra_id}`}
+			href={`/obras/${props.obra.slug}`}
 			class="inline-flex h-9 w-9 items-center justify-center border border-[color:var(--border)] text-[color:var(--gray-700)] transition-colors group-hover:border-[color:var(--primary)] group-hover:text-[color:var(--primary)]"
 			aria-label={`Abrir ficha de ${props.obra.titulo}`}
 		>
