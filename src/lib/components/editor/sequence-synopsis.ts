@@ -1,15 +1,24 @@
-import type { Tables } from '$lib/types/database.types';
 import {
 	resolveSequenceStructures,
 	type ResolvedSequenceStructure,
 	type SequenceStructureCuadroRef,
 	type SequenceStructureTramo
 } from '$lib/utils/sequence-structure';
+import type { Tables } from '$lib/types/database.types';
 
-type SecuenciaRow = Tables<'secuencias_metricas'>;
 type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
 type CuadroRow = Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>;
 type EstrofaOption = Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>;
+
+export type SequenceSynopsisSequenceLike = {
+	secuencia_id: string;
+	v_ini: number;
+	v_fin: number;
+	n_versos?: number | null;
+	estrofa_tipo_id?: string | null;
+	estrofa_tipo_term?: string | null;
+	sinopsis: string | null;
+};
 
 export type SequenceSynopsisCuadroRef = SequenceStructureCuadroRef;
 export type SequenceSynopsisTramo = SequenceStructureTramo;
@@ -56,10 +65,10 @@ export type SequenceSynopsisJornadaGroup = {
 };
 
 type BuildSequenceSynopsisGroupsArgs = {
-	secuencias: SecuenciaRow[];
+	secuencias: SequenceSynopsisSequenceLike[];
 	jornadas: JornadaRow[];
 	cuadros: CuadroRow[];
-	estrofaOptions: EstrofaOption[];
+	estrofaOptions?: EstrofaOption[];
 };
 
 function buildItems(cards: SequenceSynopsisCard[], groupKey: string): SequenceSynopsisGroupItem[] {
@@ -105,7 +114,7 @@ export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArg
 		jornadas: args.jornadas,
 		cuadros: args.cuadros
 	});
-	const estrofaById = new Map(args.estrofaOptions.map((option) => [option.termino_id, option.termino]));
+	const estrofaById = new Map((args.estrofaOptions ?? []).map((option) => [option.termino_id, option.termino]));
 	const groups = new Map<string, SequenceSynopsisJornadaGroup>();
 	const fallbackCards: SequenceSynopsisCard[] = [];
 
@@ -162,16 +171,21 @@ export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArg
 }
 
 function mapResolvedSequenceToCard(
-	item: ResolvedSequenceStructure<SecuenciaRow>,
+	item: ResolvedSequenceStructure<SequenceSynopsisSequenceLike>,
 	estrofaById: Map<string, string>
 ): SequenceSynopsisCard {
+	const estrofaLabel =
+		item.sequence.estrofa_tipo_term ??
+		estrofaById.get(item.sequence.estrofa_tipo_id ?? '') ??
+		'Sin estrofa';
+
 	return {
 		secuenciaId: item.sequence.secuencia_id,
 		index: item.index,
 		vIni: item.vIni,
 		vFin: item.vFin,
 		nVersos: item.sequence.n_versos ?? null,
-		estrofaLabel: estrofaById.get(item.sequence.estrofa_tipo_id ?? '') ?? 'Sin estrofa',
+		estrofaLabel,
 		sinopsis: item.sequence.sinopsis,
 		hasSynopsis: Boolean(item.sequence.sinopsis?.trim()),
 		startingCuadro: item.startingCuadro,

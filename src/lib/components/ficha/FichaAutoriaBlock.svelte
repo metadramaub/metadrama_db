@@ -104,17 +104,18 @@
 {/if}
 
 {#if props.showFuentes && fuentes.length > 0}
-	<details class="mt-3 border-l-2 border-[color:var(--border)] pl-3 text-sm">
+	<details class="mt-3 text-sm">
 		<summary class="cursor-pointer text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-			Fuentes para la atribución
+			Fuentes de autoría ({fuentes.length})
 		</summary>
-		<div class="mt-2 space-y-3">
+		<div class="mt-2 space-y-3 border-l-2 border-[color:var(--border)] pl-3">
 			{#each fuentes as fuente (fuente.atribucion_evidencia_id)}
-				<div class="bg-[color:var(--muted)] p-2">
-					<div class="mb-1 text-xs font-semibold text-[color:var(--gray-900)]">
-						{scopeLabel(fuente.jornada_num)} · {fuente.atribucion_label}
+				<div class="space-y-1">
+					<div class="text-xs text-[color:var(--muted-foreground)]">
+						<span class="font-semibold text-[color:var(--foreground)]">{scopeLabel(fuente.jornada_num)}</span>
+						<span>· {fuente.atribucion_label}</span>
 					</div>
-					<div class="space-y-1 text-sm">{@html renderMarkdown(fuente.fuente_autoria ?? '')}</div>
+					<div class="space-y-1 text-sm leading-6">{@html renderMarkdown(fuente.fuente_autoria ?? '')}</div>
 				</div>
 			{/each}
 		</div>

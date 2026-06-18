@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 import { isSectionAvailable, type PublicSection, type SectionScope } from '$lib/secciones-publicas';
 import { resolvePublicViewerContext } from '$lib/server/public-obras';
 
-// Las 10 filas de secciones_publicas cambian casi nunca (solo cuando el admin usa
+// Las filas de secciones_publicas cambian casi nunca (solo cuando el admin usa
 // el panel). Cachearlas en memoria del servidor con un TTL corto evita una query
 // por cada visita pública. El panel admin debe llamar a invalidatePublicSectionsCache()
 // tras escribir para que el cambio se refleje al instante.

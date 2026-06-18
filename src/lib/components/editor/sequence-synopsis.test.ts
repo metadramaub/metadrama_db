@@ -160,6 +160,28 @@ describe('sequence-synopsis', () => {
 		expect(groups[0]?.cards[0]?.sinopsis).toBe('   ');
 	});
 
+	it('usa el término de estrofa de una secuencia pública mínima sin vocabulario externo', () => {
+		const groups = buildSequenceSynopsisGroups({
+			secuencias: [
+				{
+					secuencia_id: 'seq-publica',
+					v_ini: 12,
+					v_fin: 24,
+					n_versos: 13,
+					estrofa_tipo_id: null,
+					estrofa_tipo_term: 'Quintilla',
+					sinopsis: 'Sinopsis pública'
+				}
+			],
+			jornadas: jornadasBase,
+			cuadros: cuadrosBase
+		});
+
+		expect(groups[0]?.cards[0]?.estrofaLabel).toBe('Quintilla');
+		expect(groups[0]?.cards[0]?.sinopsis).toBe('Sinopsis pública');
+		expect(groups[0]?.cards[0]?.nVersos).toBe(13);
+	});
+
 	it('envia a fallback las secuencias sin jornada o sin cuadro', () => {
 		const groups = buildSequenceSynopsisGroups({
 			secuencias: [
