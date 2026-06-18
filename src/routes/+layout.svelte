@@ -1,11 +1,15 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
 	import { navigating, page } from '$app/stores';
 	import { onDestroy, onMount } from 'svelte';
 	import favicon from '$lib/assets/favicon.svg';
 	import SceneLoader from '$lib/components/ui/scene-loader.svelte';
 	import Toast from '$lib/components/ui/toast.svelte';
 	import { endSceneLoad, startSceneLoad, type SceneLoadToken } from '$lib/stores/scene-loader';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import '../app.css';
+
+	injectAnalytics({ mode: dev ? 'development' : 'production' });
 
 	let { children } = $props();
 
