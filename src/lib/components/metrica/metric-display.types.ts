@@ -9,8 +9,13 @@ export interface MetricBarSegment {
 	id: string;
 	v_ini: number;
 	v_fin: number;
-	/** Forma métrica base, usada para el color. */
+	/** Forma métrica base (texto visible, p.ej. la etiqueta de la forma raíz). */
 	forma: string;
+	/**
+	 * Clave estable para el color (slug de la forma raíz). Si se omite, se usa
+	 * `forma`. Permite colorear de forma estable aunque cambie la etiqueta.
+	 */
+	colorKey?: string;
 	/** Etiqueta legible (p.ej. el tipo de estrofa) para tooltip/aria. */
 	label: string;
 	/** Nº de versos, opcional (tooltip). */
@@ -29,7 +34,13 @@ export interface MetricBarSubsegment {
 
 /** Una porción de la distribución de formas (para el pie). */
 export interface MetricDistributionSlice {
+	/** Texto visible de la forma (p.ej. la etiqueta de la forma raíz). */
 	forma: string;
+	/**
+	 * Clave estable para el color (slug de la forma raíz). Si se omite, se usa
+	 * `forma`.
+	 */
+	colorKey?: string;
 	versos: number;
 	porcentaje: number;
 }

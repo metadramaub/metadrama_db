@@ -6,10 +6,23 @@
 		SequenceSynopsisJornadaGroup
 	} from '$lib/components/editor/sequence-synopsis';
 	import { renderMarkdown } from '$lib/utils/markdown';
+	import { colorForForma } from '$lib/utils/metric-colors';
+	import type { SequenceSynopsisCard } from '$lib/components/editor/sequence-synopsis';
 
 	const props = $props<{
 		groups: SequenceSynopsisJornadaGroup[];
+		/** Mapa forma(slug) → color, compartido con barcode/pie. Opcional. */
+		colorByForma?: Record<string, string>;
 	}>();
+
+	// Color del borde de una secuencia según su forma raíz: primero el mapa
+	// compartido (mismos colores que barcode/pie), luego el fallback por gama.
+	function cardBorderColor(card: SequenceSynopsisCard): string | null {
+		if (!card.formaColorKey) return null;
+		const mapped = props.colorByForma?.[card.formaColorKey];
+		if (mapped) return mapped;
+		return colorForForma({ slug: card.formaColorKey, tipoForma: card.formaTipoForma });
+	}
 
 	type NavItem = {
 		key: string;
@@ -103,12 +116,18 @@
 			</div>
 		</div>
 	{:else}
+		{@const borderColor = cardBorderColor(item.card)}
 		<article
 			class={`border-l-2 py-4 pl-4 ${
-				item.card.hasSynopsis
-					? 'border-[color:var(--primary)]'
-					: 'border-dashed border-[color:var(--border)]'
+				borderColor
+					? item.card.hasSynopsis
+						? ''
+						: 'border-dashed'
+					: item.card.hasSynopsis
+						? 'border-[color:var(--primary)]'
+						: 'border-dashed border-[color:var(--border)]'
 			}`}
+			style={borderColor ? `border-left-color:${borderColor};` : undefined}
 		>
 			<header class="space-y-2 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
 				<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">

@@ -6,12 +6,17 @@
 	import type { EChartsOption } from 'echarts';
 	import type { MetricDistributionSlice } from './metric-display.types';
 	import { buildDistributionGroups, type MetricDistributionGroup } from './metric-distribution';
+	import { normalizeFormaKey } from '$lib/utils/metric-colors';
 
 	const props = $props<{
 		items: MetricDistributionSlice[];
 		colorByForma: Record<string, string>;
 		valueMode: 'percent' | 'absolute';
 		title?: string;
+		/** Forma (slug/colorKey) a resaltar desde fuera (p.ej. hover en el barcode). */
+		highlightedForma?: string | null;
+		/** Notifica la forma sobrevolada en la leyenda (null al salir). */
+		onHoverForma?: (forma: string | null) => void;
 		/** Secuencias para construir el desglose forma → tipo/subtipo (opcional). */
 		sequences?: {
 			v_ini?: number;
@@ -33,6 +38,20 @@
 		);
 	});
 
+	function groupKey(item: MetricDistributionSlice) {
+		return normalizeFormaKey(item.colorKey ?? item.forma);
+	}
+
+	// Forma resaltada desde fuera (hover en el barcode), normalizada.
+	const highlightedFormaKey = $derived(
+		props.highlightedForma ? normalizeFormaKey(props.highlightedForma) : null
+	);
+	const DIMMED_OPACITY = 0.35;
+
+	function isDimmed(item: MetricDistributionSlice) {
+		return highlightedFormaKey !== null && groupKey(item) !== highlightedFormaKey;
+	}
+
 	function valueLabel(versos: number, porcentaje: number): string {
 		return props.valueMode === 'absolute' ? `${versos} vv.` : `${porcentaje.toFixed(2)}%`;
 	}
@@ -42,7 +61,7 @@
 	}
 
 	const chartOption = $derived.by((): EChartsOption => {
-		const colors = groups.map((item) => props.colorByForma[item.forma] ?? '#9ca3af');
+		const colors = groups.map((item) => props.colorByForma[item.colorKey ?? item.forma] ?? '#9ca3af');
 		return {
 			color: colors,
 			aria: {
@@ -90,7 +109,10 @@
 					data: groups.map((item) => ({
 						...item,
 						name: item.forma,
-						value: item.versos
+						value: item.versos,
+						itemStyle: {
+							opacity: isDimmed(item) ? DIMMED_OPACITY : 1
+						}
 					}))
 				}
 			]
@@ -120,18 +142,23 @@
 			<ul class="divide-y divide-[color:var(--border)]">
 				{#each groups as item (item.forma)}
 					{@const hasChildren = item.children.length > 0}
-					<li>
+					<li
+						onpointerenter={() => props.onHoverForma?.(item.colorKey ?? item.forma)}
+						onpointerleave={() => props.onHoverForma?.(null)}
+					>
 						<button
 							type="button"
 							class="flex w-full items-center justify-between gap-3 py-2 text-left text-sm"
 							class:cursor-default={!hasChildren}
 							onclick={() => hasChildren && toggle(item.forma)}
+							onfocus={() => props.onHoverForma?.(item.colorKey ?? item.forma)}
+							onblur={() => props.onHoverForma?.(null)}
 							aria-expanded={hasChildren ? Boolean(expanded[item.forma]) : undefined}
 						>
 							<span class="flex items-center gap-2">
 								<span
 									class="inline-block h-3 w-3 rounded-sm"
-									style={`background:${props.colorByForma[item.forma] ?? '#9ca3af'};`}
+									style={`background:${props.colorByForma[item.colorKey ?? item.forma] ?? '#9ca3af'};`}
 								></span>
 								<span class="font-medium">{item.forma}</span>
 								{#if hasChildren}

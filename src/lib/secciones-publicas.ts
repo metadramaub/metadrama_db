@@ -1,11 +1,11 @@
-// Lógica COMPARTIDA (servidor + cliente) de visibilidad de secciones públicas.
+// Lógica compartida (servidor + cliente) de visibilidad de secciones públicas.
 // Los datos se cargan en el servidor (ver $lib/server/secciones-publicas.ts);
 // aquí solo vive la regla de "¿se ve esta sección?", para no duplicarla.
 //
 // Relación con el resto del sistema:
 //  - El muro `estado = publicado` y la atenuación por obra (visible_publico /
 //    editor asignado) NO se deciden aquí: ver $lib/server/public-obras.ts.
-//  - Esto solo decide, dentro de lo ya accesible, qué SECCIONES mostrar.
+//  - Esto solo decide, dentro de lo ya accesible, qué secciones mostrar.
 
 import type { PublicViewerScope } from '$lib/server/public-obras';
 
@@ -32,6 +32,16 @@ export const FICHA_SECTION_IDS = {
 	observaciones: 'ficha.observaciones',
 	bibliografia: 'ficha.bibliografia',
 	comentarios: 'ficha.comentarios_publicos'
+} as const;
+
+/** Slugs de bloques internos del catálogo público. */
+export const CATALOG_SECTION_IDS = {
+	filtrosBasicos: 'catalogo.filtros.basicos',
+	filtrosDatacionExtension: 'catalogo.filtros.datacion_extension',
+	filtrosMetrica: 'catalogo.filtros.metrica',
+	filtrosDramaturgia: 'catalogo.filtros.dramaturgia',
+	resultadosPerfilMetrico: 'catalogo.resultados.perfil_metrico',
+	laboratorio: 'catalogo.laboratorio'
 } as const;
 
 // Orden de menor a mayor privilegio. Una sección es visible si el scope del

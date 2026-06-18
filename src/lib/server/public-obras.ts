@@ -117,7 +117,19 @@ async function computePublicViewerContext(locals: App.Locals): Promise<PublicVie
 	};
 }
 
+const PUBLICADO_ESTADO_CACHE_TTL_MS = 5 * 60_000;
+let publicadoEstadoIdCache: { value: string | null; expiresAt: number } | null = null;
+
+export function invalidatePublicadoEstadoCache(): void {
+	publicadoEstadoIdCache = null;
+}
+
 export async function getPublicadoEstadoId(locals: App.Locals): Promise<string | null> {
+	const now = Date.now();
+	if (publicadoEstadoIdCache && publicadoEstadoIdCache.expiresAt > now) {
+		return publicadoEstadoIdCache.value;
+	}
+
 	const { data } = await locals.supabase
 		.from('vocabularios')
 		.select('termino_id')
@@ -125,5 +137,7 @@ export async function getPublicadoEstadoId(locals: App.Locals): Promise<string |
 		.ilike('termino', 'publicado')
 		.maybeSingle();
 
-	return data?.termino_id ?? null;
+	const value = data?.termino_id ?? null;
+	publicadoEstadoIdCache = { value, expiresAt: now + PUBLICADO_ESTADO_CACHE_TTL_MS };
+	return value;
 }

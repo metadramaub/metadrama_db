@@ -9,6 +9,7 @@ export function secuenciaToBarSegment(secuencia: PublicFichaSecuencia): MetricBa
 		v_ini: secuencia.v_ini,
 		v_fin: secuencia.v_fin,
 		forma: secuencia.estrofa_forma_term,
+		colorKey: secuencia.estrofa_forma_slug ?? secuencia.estrofa_forma_term,
 		label: secuencia.estrofa_tipo_term,
 		n_versos: secuencia.n_versos,
 		subsegments: (secuencia.subtipos_estrofa ?? []).map((sub) => ({

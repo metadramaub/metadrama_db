@@ -30,7 +30,7 @@
 				Consulta el análisis métrico de cada comedia.
 			</p>
 			<a
-				href="/obras"
+				href="/catalogo"
 				class="mt-5 border border-[color:var(--primary)] bg-[color:var(--primary)] px-3 py-2 text-center text-xs font-semibold tracking-[0.06em] text-[color:var(--gray-50)]"
 			>
 				BUSCADOR

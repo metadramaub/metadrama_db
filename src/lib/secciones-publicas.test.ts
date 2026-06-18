@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+	CATALOG_SECTION_IDS,
+	FICHA_SECTION_IDS,
 	buildSectionVisibilityMap,
 	isSectionAvailable,
 	isSectionVisible,
@@ -75,5 +77,11 @@ describe('buildSectionVisibilityMap / isSectionVisible', () => {
 	it('sección desconocida = no visible (default seguro)', () => {
 		const map = buildSectionVisibilityMap([], 'admin_ip');
 		expect(isSectionVisible(map, 'no-existe')).toBe(false);
+	});
+
+	it('expone slugs estables para ficha y grupos del catálogo', () => {
+		expect(FICHA_SECTION_IDS.sinopsisMetrica).toBe('ficha.sinopsis_metrica');
+		expect(CATALOG_SECTION_IDS.filtrosBasicos).toBe('catalogo.filtros.basicos');
+		expect(CATALOG_SECTION_IDS.laboratorio).toBe('catalogo.laboratorio');
 	});
 });

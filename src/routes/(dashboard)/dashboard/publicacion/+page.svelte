@@ -11,11 +11,26 @@
 	};
 	const SCOPE_ORDER: SectionScope[] = ['anon', 'authenticated', 'admin_ip'];
 
-	// Estado local editable, copia de los datos cargados.
-	let paginas = $state<PublicSection[]>(data.paginas.map((s: PublicSection) => ({ ...s })));
-	let ficha = $state<PublicSection[]>(data.ficha.map((s: PublicSection) => ({ ...s })));
+	function cloneSections(sections: PublicSection[]): PublicSection[] {
+		return sections.map((section) => ({ ...section }));
+	}
 
-	// Estado por sección: 'idle' | 'saving' | 'saved' | 'error'
+	function getInitialPaginas(): PublicSection[] {
+		return cloneSections(data.paginas);
+	}
+
+	function getInitialCatalogo(): PublicSection[] {
+		return cloneSections(data.catalogo);
+	}
+
+	function getInitialFicha(): PublicSection[] {
+		return cloneSections(data.ficha);
+	}
+
+	let paginas = $state<PublicSection[]>(getInitialPaginas());
+	let catalogo = $state<PublicSection[]>(getInitialCatalogo());
+	let ficha = $state<PublicSection[]>(getInitialFicha());
+
 	let status = $state<Record<string, 'idle' | 'saving' | 'saved' | 'error'>>({});
 	let errors = $state<Record<string, string>>({});
 
@@ -79,7 +94,7 @@
 				class="border border-[color:var(--border)] px-2 py-1 text-sm"
 				value={seccion.scope_minimo}
 				disabled={!seccion.activa}
-				onchange={(e) => changeScope(seccion, e.currentTarget.value as SectionScope)}
+				onchange={(event) => changeScope(seccion, event.currentTarget.value as SectionScope)}
 			>
 				{#each SCOPE_ORDER as scope}
 					<option value={scope}>{SCOPE_LABELS[scope]}</option>
@@ -89,9 +104,9 @@
 
 		<div class="w-24 text-right text-xs">
 			{#if status[seccion.seccion_id] === 'saving'}
-				<span class="text-[color:var(--muted-foreground)]">Guardando…</span>
+				<span class="text-[color:var(--muted-foreground)]">Guardando...</span>
 			{:else if status[seccion.seccion_id] === 'saved'}
-				<span class="text-emerald-700">Guardado ✓</span>
+				<span class="text-emerald-700">Guardado</span>
 			{:else if status[seccion.seccion_id] === 'error'}
 				<span class="text-red-600" title={errors[seccion.seccion_id]}>Error</span>
 			{/if}
@@ -101,7 +116,7 @@
 
 <section class="space-y-6">
 	<div>
-		<h1 class="font-display text-3xl">PUBLICACIÓN</h1>
+		<h1 class="font-display text-3xl">Publicación</h1>
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 			Enciende o apaga secciones de la zona pública y define quién puede verlas. Los cambios
 			se aplican al instante. No afectan al muro de publicación: una obra sigue necesitando estar
@@ -117,6 +132,17 @@
 			{/each}
 		</div>
 	</div>
+
+	{#if catalogo.length > 0}
+		<div class="card p-4">
+			<h2 class="font-display text-xl">Catálogo</h2>
+			<div class="mt-2">
+				{#each catalogo as seccion (seccion.seccion_id)}
+					{@render seccionRow(seccion)}
+				{/each}
+			</div>
+		</div>
+	{/if}
 
 	<div class="card p-4">
 		<h2 class="font-display text-xl">Secciones de la ficha de obra</h2>
