@@ -731,6 +731,36 @@ export type Database = {
         }
         Relationships: []
       }
+      secciones_publicas: {
+        Row: {
+          activa: boolean
+          descripcion: string | null
+          label: string
+          orden: number
+          scope_minimo: string
+          seccion_id: string
+          updated_at: string
+        }
+        Insert: {
+          activa?: boolean
+          descripcion?: string | null
+          label: string
+          orden?: number
+          scope_minimo?: string
+          seccion_id: string
+          updated_at?: string
+        }
+        Update: {
+          activa?: boolean
+          descripcion?: string | null
+          label?: string
+          orden?: number
+          scope_minimo?: string
+          seccion_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       secuencias_caracterizaciones_rango: {
         Row: {
           caracterizacion_rango_id: string

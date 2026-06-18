@@ -4,7 +4,37 @@
 > (buscador/catálogo, fichas de obra, laboratorio, demarcador) con control de
 > roles/permisos y un panel de control para encender/apagar secciones.
 >
-> **Estado:** diseño cerrado, pendiente de implementar. Empezar por la Fase 0.
+> **Estado:** Fases 0 ✅ y 1 ✅ completadas. Siguiente: **Fase 2**.
+>
+> ### ⚠️ Flujo de migraciones (importante)
+> Este equipo (gestionado por la UAB) **bloquea el puerto 5432** saliente a nivel
+> local — no es la red (443 a la misma IP del pooler sí conecta). Por eso
+> `supabase db push` / `db dump` **se cuelgan en "Initialising login role..."** en
+> cualquier red, incl. móvil. **Las migraciones se aplican a mano por el SQL Editor
+> del panel de Supabase** (HTTPS/443) y se registran en
+> `supabase_migrations.schema_migrations` con un INSERT manual. Los tipos
+> (`database.types.ts`) se editan a mano (no se puede `db:types`/`db:pull` desde aquí).
+>
+> ### Registro de progreso
+> - **Fase 0 ✅** (commit pendiente) — Scope efectivo por obra. Implementado y
+>   verificado: 167/167 tests verdes, 0 errores de tipos. Sin tocar la BD.
+>   - `resolveObraScope` + `canViewPublishedObra` + tipo `PublicObraVisibility`
+>     en [public-obras.ts](../src/lib/server/public-obras.ts).
+>   - Ficha y catálogo usan el scope efectivo por obra (editor asignado ve su
+>     ficha como admin/IP); muro `estado = publicado` intacto.
+>   - UI catálogo: etiqueta "Tu ficha · aún no visible sin login".
+>   - Tests: [public-obras.test.ts](../src/lib/server/public-obras.test.ts) (8 casos).
+> - **Decisión operativa:** NO se hará backup de BD antes de la Fase 1 (el usuario
+>   tiene una copia local reciente). El equipo bloquea 5432 localmente, así que
+>   `supabase db dump` no funciona desde aquí de todos modos.
+> - **Fase 1 ✅** — Tabla `secciones_publicas` + helper `is_admin_ip()` + RLS + seed
+>   (10 secciones). Migración
+>   [20260618120000_secciones_publicas.sql](../supabase/migrations/20260618120000_secciones_publicas.sql)
+>   **aplicada a mano por SQL Editor** (10 filas verificadas) y registrada en el
+>   historial. Tipos añadidos a mano en
+>   [database.types.ts](../src/lib/types/database.types.ts) (tabla + función). 0
+>   errores de tipos. Nota: ya existía `auth_is_admin_or_ip()` en remoto; se podría
+>   consolidar con `is_admin_ip()` más adelante.
 
 ---
 
