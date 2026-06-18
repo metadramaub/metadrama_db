@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import {
 	getAuthorOrFail,
 	getAuthorWorks,
-	normalizeAuthorName,
+	normalizeAuthorSortName,
 	normalizeAuthorVariants,
 	normalizeExternalAuthorId
 } from '$lib/server/autores';
@@ -48,11 +48,10 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	if (Object.prototype.hasOwnProperty.call(payload, 'nombre_completo')) {
 		const nombreCompleto = payload.nombre_completo!.trim();
 		updatePayload.nombre_completo = nombreCompleto;
-		nextNormalizedName = normalizeAuthorName(nombreCompleto);
 	}
 
 	if (Object.prototype.hasOwnProperty.call(payload, 'nombre_normalizado')) {
-		nextNormalizedName = normalizeAuthorName(payload.nombre_normalizado!);
+		nextNormalizedName = normalizeAuthorSortName(payload.nombre_normalizado!);
 	}
 
 	if (nextNormalizedName !== null) {

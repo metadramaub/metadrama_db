@@ -9,7 +9,7 @@ function uniqueByNormalizedText(items: string[]): string[] {
 	for (const item of items) {
 		const trimmed = item.trim();
 		if (!trimmed) continue;
-		const key = normalizeAuthorName(trimmed);
+		const key = normalizeAuthorSearchTerm(trimmed);
 		if (!key || seen.has(key)) continue;
 		seen.add(key);
 		output.push(trimmed);
@@ -17,8 +17,69 @@ function uniqueByNormalizedText(items: string[]): string[] {
 	return output;
 }
 
-export function normalizeAuthorName(name: string): string {
+export function normalizeAuthorSearchTerm(name: string): string {
 	return name.normalize('NFD').replaceAll(/\p{M}/gu, '').trim().toLowerCase();
+}
+
+export function normalizeAuthorSortName(name: string): string {
+	return name.trim();
+}
+
+function toDirectNameFromInvertedOrder(name: string): string | null {
+	const parts = name
+		.split(',')
+		.map((part) => part.trim())
+		.filter(Boolean);
+	if (parts.length < 2) return null;
+	const [surname, ...givenNameParts] = parts;
+	return `${givenNameParts.join(' ')} ${surname}`.trim();
+}
+
+export function buildAuthorSearchValues(
+	author: Pick<
+		Tables<'autores'>,
+		| 'nombre_completo'
+		| 'nombre_normalizado'
+		| 'variantes_nombre'
+		| 'bnedatos_id'
+		| 'viaf_id'
+		| 'wikidata_id'
+	>
+): string[] {
+	const values = [
+		author.nombre_completo,
+		author.nombre_normalizado,
+		...(author.variantes_nombre ?? []),
+		author.bnedatos_id,
+		author.viaf_id,
+		author.wikidata_id
+	].filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
+
+	const expandedValues = values.flatMap((value) => {
+		const directName = toDirectNameFromInvertedOrder(value);
+		return directName ? [value, directName] : [value];
+	});
+
+	return uniqueByNormalizedText(expandedValues);
+}
+
+export function matchesAuthorSearch(
+	author: Pick<
+		Tables<'autores'>,
+		| 'nombre_completo'
+		| 'nombre_normalizado'
+		| 'variantes_nombre'
+		| 'bnedatos_id'
+		| 'viaf_id'
+		| 'wikidata_id'
+	>,
+	searchTerm: string
+): boolean {
+	const normalizedTerm = normalizeAuthorSearchTerm(searchTerm);
+	if (!normalizedTerm) return true;
+	return buildAuthorSearchValues(author).some((value) =>
+		normalizeAuthorSearchTerm(value).includes(normalizedTerm)
+	);
 }
 
 export function normalizeExternalAuthorId(value: string | null | undefined): string | null {

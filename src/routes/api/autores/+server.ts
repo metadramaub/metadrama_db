@@ -2,8 +2,10 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { requireEditorProfile } from '$lib/server/auth';
 import {
+	matchesAuthorSearch,
 	getAuthorWorksCountMap,
-	normalizeAuthorName,
+	normalizeAuthorSearchTerm,
+	normalizeAuthorSortName,
 	normalizeAuthorVariants,
 	normalizeExternalAuthorId
 } from '$lib/server/autores';
@@ -13,27 +15,11 @@ import type { Tables } from '$lib/types/database.types';
 import { canManageAutores } from '$lib/utils/permissions';
 import { autorCreateSchema } from '$lib/utils/validators';
 
-function normalizeSearchTerm(value: string): string {
-	return value.normalize('NFD').replaceAll(/\p{M}/gu, '').trim().toLowerCase();
-}
-
-function matchesAuthorSearch(author: Tables<'autores'>, normalizedTerm: string): boolean {
-	if (!normalizedTerm) return true;
-	const fullName = normalizeSearchTerm(author.nombre_completo ?? '');
-	const normalizedName = normalizeSearchTerm(author.nombre_normalizado ?? '');
-	const variants = (author.variantes_nombre ?? []).map((item) => normalizeSearchTerm(item));
-	return (
-		fullName.includes(normalizedTerm) ||
-		normalizedName.includes(normalizedTerm) ||
-		variants.some((variant) => variant.includes(normalizedTerm))
-	);
-}
-
 export const GET: RequestHandler = async ({ locals, url }) => {
 	await requireEditorProfile({ locals });
 
 	const q = url.searchParams.get('q')?.trim() ?? '';
-	const normalizedQuery = normalizeSearchTerm(q);
+	const normalizedQuery = normalizeAuthorSearchTerm(q);
 
 	const { data, error } = await locals.supabase
 		.from('autores')
@@ -76,7 +62,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	const payload = parsed.data;
 	const nombreCompleto = payload.nombre_completo.trim();
-	const nombreNormalizado = normalizeAuthorName(payload.nombre_normalizado);
+	const nombreNormalizado = normalizeAuthorSortName(payload.nombre_normalizado);
 	const variantes = normalizeAuthorVariants(payload.variantes_nombre);
 
 	const duplicateResp = await locals.supabase
