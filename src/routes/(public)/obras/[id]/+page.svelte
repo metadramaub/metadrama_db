@@ -12,6 +12,7 @@
 	import { formatRelative } from '$lib/utils/formatters';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { colorForMetricKey } from '$lib/utils/metric-colors';
+	import type { MetricDistributionSlice } from '$lib/components/metrica/metric-display.types';
 	import {
 		resolveSequenceStructures,
 		type ResolvedSequenceStructure
@@ -134,6 +135,34 @@
 		}
 		return map;
 	});
+	function buildMetricDistribution(sequences: SequenceModalPayload[]): MetricDistributionSlice[] {
+		const total = sequences.reduce((sum, sequence) => sum + (sequence.n_versos ?? 0), 0);
+		const byForma = new Map<string, number>();
+		for (const sequence of sequences) {
+			const versos = sequence.n_versos ?? 0;
+			if (versos <= 0) continue;
+			byForma.set(sequence.estrofa_forma_term, (byForma.get(sequence.estrofa_forma_term) ?? 0) + versos);
+		}
+		return [...byForma.entries()]
+			.map(([forma, versos]) => ({
+				forma,
+				versos,
+				porcentaje: total > 0 ? Math.round((versos / total) * 10000) / 100 : 0
+			}))
+			.sort((a, b) => b.versos - a.versos || a.forma.localeCompare(b.forma, 'es'));
+	}
+	const metricProfilesByJornada = $derived.by(() =>
+		jornadas.map((jornada) => {
+			const sequences = resolvedPublicSequences
+				.filter((item) => item.jornada.jornadaId === jornada.jornada_id)
+				.map((item) => item.sequence);
+			return {
+				jornada,
+				sequences,
+				distribution: buildMetricDistribution(sequences)
+			};
+		})
+	);
 
 	// --- Modal de secuencia ---
 	const selectedSequenceIndex = $derived.by(() => {
@@ -265,7 +294,7 @@
 	{#if activeTab === 'estructura'}
 		{#if showMetrica}
 			<section class="space-y-4">
-				<div class="card p-4">
+				<div class="space-y-3">
 					<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 						<div class="flex flex-wrap items-center gap-2">
 							<button
@@ -349,12 +378,26 @@
 					{/if}
 				</div>
 
-				<MetricDistributionPie
-					items={ficha.metrica.distribucion_formas}
-					sequences={secuenciasOrdenadas}
-					colorByForma={colorByForma}
-					valueMode={pieValueMode}
-				/>
+				{#if metricViewMode === 'obra_completa'}
+					<MetricDistributionPie
+						items={ficha.metrica.distribucion_formas}
+						sequences={secuenciasOrdenadas}
+						colorByForma={colorByForma}
+						valueMode={pieValueMode}
+					/>
+				{:else}
+					<div class="space-y-5">
+						{#each metricProfilesByJornada as profile (profile.jornada.jornada_id)}
+							<MetricDistributionPie
+								title={`Perfil métrico · Jornada ${profile.jornada.jornada_num}`}
+								items={profile.distribution}
+								sequences={profile.sequences}
+								colorByForma={colorByForma}
+								valueMode={pieValueMode}
+							/>
+						{/each}
+					</div>
+				{/if}
 			</section>
 		{/if}
 	{:else}
