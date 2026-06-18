@@ -1,6 +1,9 @@
 <script lang="ts">
 	// Pie de distribución de formas REUTILIZABLE. Consume MetricDistributionSlice.
 	// Leyenda desplegable: las formas con desglose por tipo de estrofa se expanden.
+	import EChart from '$lib/components/charts/EChart.svelte';
+	import { ChevronDown, ChevronRight } from 'lucide-svelte';
+	import type { EChartsOption } from 'echarts';
 	import type { MetricDistributionSlice } from './metric-display.types';
 	import { buildDistributionGroups, type MetricDistributionGroup } from './metric-distribution';
 
@@ -8,8 +11,16 @@
 		items: MetricDistributionSlice[];
 		colorByForma: Record<string, string>;
 		valueMode: 'percent' | 'absolute';
-		/** Secuencias para construir el desglose forma → tipo (opcional). */
-		sequences?: { estrofa_forma_term: string; estrofa_tipo_term: string; n_versos: number }[];
+		title?: string;
+		/** Secuencias para construir el desglose forma → tipo/subtipo (opcional). */
+		sequences?: {
+			v_ini?: number;
+			v_fin?: number;
+			estrofa_forma_term: string;
+			estrofa_tipo_term: string;
+			n_versos: number;
+			subtipos_estrofa?: { subtipo_estrofa_term: string; v_ini: number; v_fin: number }[];
+		}[];
 	}>();
 
 	let expanded = $state<Record<string, boolean>>({});
@@ -22,22 +33,6 @@
 		);
 	});
 
-	const gradient = $derived.by(() => {
-		if (groups.length === 0) return 'conic-gradient(#d1d5db 0deg, #d1d5db 360deg)';
-		let offset = 0;
-		const chunks: string[] = [];
-		for (const item of groups) {
-			const pct = Math.max(0, Math.min(100, item.porcentaje));
-			const span = (pct / 100) * 360;
-			const end = Math.min(360, offset + span);
-			const color = props.colorByForma[item.forma] ?? '#9ca3af';
-			chunks.push(`${color} ${offset}deg ${end}deg`);
-			offset = end;
-		}
-		if (offset < 360) chunks.push(`#e5e7eb ${offset}deg 360deg`);
-		return `conic-gradient(${chunks.join(',')})`;
-	});
-
 	function valueLabel(versos: number, porcentaje: number): string {
 		return props.valueMode === 'absolute' ? `${versos} vv.` : `${porcentaje.toFixed(2)}%`;
 	}
@@ -45,11 +40,67 @@
 	function toggle(forma: string) {
 		expanded = { ...expanded, [forma]: !expanded[forma] };
 	}
+
+	const chartOption = $derived.by((): EChartsOption => {
+		const colors = groups.map((item) => props.colorByForma[item.forma] ?? '#9ca3af');
+		return {
+			color: colors,
+			aria: {
+				enabled: true
+			},
+			tooltip: {
+				trigger: 'item',
+				confine: true,
+				textStyle: {
+					fontSize: 11,
+					lineHeight: 16
+				},
+				formatter: (params: unknown) => {
+					const data = (params as { data?: MetricDistributionGroup }).data;
+					if (!data) return '';
+					return [
+						`<strong>${data.forma}</strong>`,
+						`Versos: ${data.versos}`,
+						`Porcentaje: ${data.porcentaje.toFixed(2)}%`
+					].join('<br />');
+				}
+			},
+			series: [
+				{
+					name: 'Perfil métrico',
+					type: 'pie',
+					radius: ['42%', '76%'],
+					center: ['50%', '50%'],
+					avoidLabelOverlap: true,
+					minAngle: 2,
+					itemStyle: {
+						borderColor: '#ffffff',
+						borderWidth: 1
+					},
+					label: {
+						show: false
+					},
+					labelLine: {
+						show: false
+					},
+					emphasis: {
+						scale: true,
+						scaleSize: 4
+					},
+					data: groups.map((item) => ({
+						...item,
+						name: item.forma,
+						value: item.versos
+					}))
+				}
+			]
+		};
+	});
 </script>
 
 <section class="space-y-3">
 	<div class="flex items-center justify-between gap-2">
-		<h3 class="text-base font-semibold">Perfil métrico</h3>
+		<h3 class="text-base font-semibold">{props.title ?? 'Perfil métrico'}</h3>
 		<p class="text-xs text-[color:var(--muted-foreground)]">
 			{props.valueMode === 'percent' ? 'Valores en porcentaje' : 'Valores absolutos'}
 		</p>
@@ -59,11 +110,12 @@
 		<p class="text-sm text-[color:var(--muted-foreground)]">Sin distribución métrica disponible.</p>
 	{:else}
 		<div class="grid gap-6 md:grid-cols-[14rem_1fr] md:items-start">
-			<div
-				class="mx-auto h-52 w-52 rounded-full"
-				style={`background:${gradient};`}
-				aria-hidden="true"
-			></div>
+			<EChart
+				option={chartOption}
+				height="14rem"
+				class="mx-auto max-w-56"
+				ariaLabel="Distribución de formas métricas"
+			/>
 
 			<ul class="divide-y divide-[color:var(--border)]">
 				{#each groups as item (item.forma)}
@@ -83,9 +135,11 @@
 								></span>
 								<span class="font-medium">{item.forma}</span>
 								{#if hasChildren}
-									<span class="text-[color:var(--muted-foreground)]" aria-hidden="true">
-										{expanded[item.forma] ? '▾' : '▸'}
-									</span>
+									{#if expanded[item.forma]}
+										<ChevronDown class="h-3.5 w-3.5 text-[color:var(--muted-foreground)]" aria-hidden="true" />
+									{:else}
+										<ChevronRight class="h-3.5 w-3.5 text-[color:var(--muted-foreground)]" aria-hidden="true" />
+									{/if}
 								{/if}
 							</span>
 							<span class="text-[color:var(--muted-foreground)]">
