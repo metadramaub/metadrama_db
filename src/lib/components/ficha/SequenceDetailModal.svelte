@@ -129,8 +129,8 @@
 				</div>
 			</div>
 
-			<div class="grid gap-4 md:grid-cols-2">
-				<article class="card p-4">
+			<div class="grid gap-6 md:grid-cols-2">
+				<section>
 					<h3 class="mb-2 text-base font-semibold">Datos base</h3>
 					<div class="space-y-1 text-sm">
 						<p><strong>Estrofa:</strong> {props.secuencia.estrofa_tipo_term}</p>
@@ -165,19 +165,19 @@
 							</div>
 						{/if}
 					</div>
-				</article>
+				</section>
 
-				<article class="card p-4">
-					<h3 class="mb-2 text-base font-semibold">Caracterizacion</h3>
+				<section>
+					<h3 class="mb-2 text-base font-semibold">Caracterización</h3>
 					<div class="space-y-1 text-sm">
 						<p><strong>Intervención de personajes femeninos:</strong> {formatIntervencionValue(props.secuencia.intervencion_personajes_femeninos)}</p>
 						<p><strong>Intervención de figuras de donaire:</strong> {formatIntervencionValue(props.secuencia.intervencion_figuras_donaire)}</p>
 						<p><strong>Intervención de personajes sobrenaturales:</strong> {formatIntervencionValue(props.secuencia.intervencion_personajes_sobrenaturales)}</p>
 					</div>
-				</article>
+				</section>
 			</div>
 
-			<article class="card mt-4 p-4">
+			<section class="mt-4 border-t border-[color:var(--border)] pt-4">
 				<h3 class="mb-2 text-base font-semibold">Caracterizaciones por rango</h3>
 				{#if props.secuencia.caracterizaciones_rango.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">
@@ -205,16 +205,16 @@
 						</table>
 					</div>
 				{/if}
-			</article>
+			</section>
 
-			<article class="card mt-4 p-4">
+			<section class="mt-4 border-t border-[color:var(--border)] pt-4">
 				<h3 class="mb-2 text-base font-semibold">Sinopsis argumental</h3>
 				{#if (props.secuencia.sinopsis ?? '').trim().length > 0}
 					<div class="space-y-2 text-sm">{@html renderMarkdown(props.secuencia.sinopsis ?? '')}</div>
 				{:else}
 					<p class="text-sm text-[color:var(--muted-foreground)]">Sin sinopsis argumental publicada.</p>
 				{/if}
-			</article>
+			</section>
 
 			{#if (props.comentariosPublicos ?? []).length > 0}
 				<article class="card mt-4 border-emerald-200 bg-emerald-50 p-4">
