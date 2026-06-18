@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Tabs from '$lib/components/ui/tabs.svelte';
+	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import CiteWorkButton from '$lib/components/ficha/CiteWorkButton.svelte';
 	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -181,11 +182,12 @@
 </script>
 
 <section class="space-y-6">
-	<nav class="text-xs font-semibold tracking-[0.06em] text-[color:var(--muted-foreground)]">
-		<a href="/obras" class="underline-offset-2 hover:underline">Catálogo</a>
-		<span class="mx-2">></span>
-		<span class="text-[color:var(--gray-800)]">{obra.titulo}</span>
-	</nav>
+	<Breadcrumb
+		items={[
+			{ label: 'Catálogo', href: '/obras' },
+			{ label: obra.titulo, preserveCase: true }
+		]}
+	/>
 
 	<header class="card p-4 md:p-5">
 		<div class="flex flex-wrap items-start justify-between gap-4 border-b border-[color:var(--border)] pb-4">
