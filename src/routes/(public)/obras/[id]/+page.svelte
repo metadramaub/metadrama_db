@@ -251,7 +251,7 @@
 		</dl>
 
 		{#if (obra.edicion ?? '').trim().length > 0}
-			<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
+			<div class="mt-4 border-t border-[color:var(--border)] pt-4">
 				<div class="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Edición base usada por el editor
 				</div>
@@ -327,9 +327,9 @@
 							</span>
 						</div>
 					{:else}
-						<div class="space-y-4">
+						<div class="space-y-5">
 							{#each jornadas as jornada (jornada.jornada_id)}
-								<div class="border border-[color:var(--border)] bg-white p-3">
+								<div>
 									<h3 class="mb-2 text-sm font-semibold">
 										Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
 									</h3>
@@ -351,6 +351,7 @@
 
 				<MetricDistributionPie
 					items={ficha.metrica.distribucion_formas}
+					sequences={secuenciasOrdenadas}
 					colorByForma={colorByForma}
 					valueMode={pieValueMode}
 				/>
