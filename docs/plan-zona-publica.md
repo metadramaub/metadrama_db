@@ -21,9 +21,24 @@
 >     filtros métricos avanzados (formas, metros, variaciones, polimetría, presencia
 >     de personajes), rango de datación/versos con dual-range del mockup. Requieren
 >     agregaciones métricas — auditar datos disponibles antes.
-> - **Ficha — pendiente.** Reescritura con arquitectura de secciones + aplicar
->   `sectionVisibility` con {#if} (resuelve el pendiente B: ocultar secciones
->   apagadas en vez de mostrarlas vacías).
+> - **Ficha — EN CURSO (reescritura de cero, en componentes reutilizables).**
+>   Decisiones tomadas:
+>   - **Reescribir de cero** reusando componentes buenos (barcode, pie, modal), pero
+>     refactorizándolos para que NO dependan del tipo `PublicFichaSecuencia` y sirvan
+>     también en catálogo y futura ficha de autor (directriz del usuario: todo en
+>     componentes reutilizables — ver memoria `componentes-reutilizables`).
+>   - **Subtipos de estrofa**: RPC modificada en migración
+>     [20260618160000_ficha_publica_subtipos_estrofa.sql] (CTE `subtipos_by_secuencia`
+>     + campo `subtipos_estrofa` por secuencia, patrón idéntico a caracterizaciones).
+>     Tipo `PublicFichaSubtipoEstrofa` añadido a public-ficha.types. **Pendiente: el
+>     usuario aplica la función + registro por SQL Editor.** Hasta entonces el campo
+>     llega `undefined` → la UI debe usar `?? []`.
+>   - **Resolver pendiente B**: envolver cada sección de la ficha con
+>     `{#if isSectionVisible(...)}` para ocultar (no mostrar vacías) las apagadas.
+>   - Diagnóstico: la ficha actual ya es rica (cabecera, autoría con fuentes,
+>     barcode, modal de secuencia con intervenciones/caracterizaciones/sinopsis).
+>     Dato adicional posible pero NO pedido aún: datación métrica
+>     (fecha_*_metadrama), que la ficha actual no muestra.
 >
 > ### 🔄 Replanteo de estrategia (2026-06-18)
 > La parte pública es **temprana y maleable**: la ficha está a medias y el catálogo

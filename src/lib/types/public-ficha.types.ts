@@ -53,6 +53,14 @@ export interface PublicFichaCaracterizacionRango {
 	observaciones: string | null;
 }
 
+export interface PublicFichaSubtipoEstrofa {
+	subtipo_secuencia_id: string;
+	subtipo_estrofa_id: string;
+	subtipo_estrofa_term: string;
+	v_ini: number;
+	v_fin: number;
+}
+
 export interface PublicFichaSecuencia {
 	secuencia_id: string;
 	v_ini: number;
@@ -75,6 +83,7 @@ export interface PublicFichaSecuencia {
 	cuadro_id: string | null;
 	cuadro_num: number | null;
 	caracterizaciones_rango: PublicFichaCaracterizacionRango[];
+	subtipos_estrofa: PublicFichaSubtipoEstrofa[];
 }
 
 export interface PublicFichaDistribucionForma {
