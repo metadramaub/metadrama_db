@@ -16,6 +16,7 @@ import { displayTerm } from '$lib/utils/vocabulario';
 type PublicCatalogObra = Pick<
 	Tables<'obras'>,
 	| 'obra_id'
+	| 'slug'
 	| 'titulo'
 	| 'fecha_inicio_trad'
 	| 'fecha_fin_trad'
@@ -33,6 +34,7 @@ type PublicCatalogObra = Pick<
 type ObraRow = Pick<
 	Tables<'obras'>,
 	| 'obra_id'
+	| 'slug'
 	| 'titulo'
 	| 'fecha_inicio_trad'
 	| 'fecha_fin_trad'
@@ -97,7 +99,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 	let query = locals.supabase
 		.from('obras')
 		.select(
-			'obra_id,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado'
+			'obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado'
 		)
 		.eq('estado', publicadoId)
 		.order('titulo');
@@ -182,9 +184,9 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 	const authorIds = [...new Set(atribucionAutores.map((row) => row.autor_id))];
 	const autoresResp =
 		authorIds.length > 0
-			? await locals.supabase.from('autores').select('autor_id,nombre_completo').in('autor_id', authorIds)
-			: { data: [] as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo'>[] };
-	const autores = (autoresResp.data ?? []) as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo'>[];
+			? await locals.supabase.from('autores').select('autor_id,nombre_completo,slug').in('autor_id', authorIds)
+			: { data: [] as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'slug'>[] };
+	const autores = (autoresResp.data ?? []) as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'slug'>[];
 
 	const authorNameById = new Map(autores.map((row) => [row.autor_id, row.nombre_completo]));
 	const obraAutores = new Map<string, Set<string>>();

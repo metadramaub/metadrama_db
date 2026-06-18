@@ -7,6 +7,7 @@ function fullFicha(): PublicObraFichaPayload {
 	return {
 		obra: {
 			obra_id: 'o1',
+			slug: 'obra',
 			titulo: 'Obra',
 			variantes_titulo: [],
 			fecha_inicio_trad: null,
@@ -24,7 +25,7 @@ function fullFicha(): PublicObraFichaPayload {
 			visible_publico: true
 		},
 		autoria: {
-			autores: [{ autor_id: 'a1', nombre_completo: 'Autor' }],
+			autores: [{ autor_id: 'a1', slug: 'autor', nombre_completo: 'Autor' }],
 			grupos: [
 				{
 					grupo_atribucion_id: 'g1',
@@ -39,7 +40,7 @@ function fullFicha(): PublicObraFichaPayload {
 							atribucion_id: 'at1',
 							composicion_autoria_id: 'c1',
 							composicion_autoria_term: 'individual',
-							autores: [{ autor_id: 'a1', nombre_completo: 'Autor' }],
+							autores: [{ autor_id: 'a1', slug: 'autor', nombre_completo: 'Autor' }],
 							evidencias: [
 								{
 									atribucion_evidencia_id: 'e1',

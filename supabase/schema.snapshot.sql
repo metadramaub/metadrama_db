@@ -47,18 +47,21 @@ CREATE TABLE public.autores (
   autor_id uuid NOT NULL DEFAULT uuid_generate_v4(),
   nombre_completo character varying NOT NULL,
   nombre_normalizado character varying,
+  slug text NOT NULL,
   variantes_nombre ARRAY,
   bnedatos_id character varying,
   viaf_id character varying,
   wikidata_id character varying,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
-  CONSTRAINT autores_pkey PRIMARY KEY (autor_id)
+  CONSTRAINT autores_pkey PRIMARY KEY (autor_id),
+  CONSTRAINT autores_slug_key UNIQUE (slug)
 );
 CREATE TABLE public.obras (
   obra_id uuid NOT NULL DEFAULT uuid_generate_v4(),
   titulo text NOT NULL,
   titulo_normalizado text,
+  slug text NOT NULL,
   variantes_titulo ARRAY,
   fecha_inicio_trad integer,
   fecha_fin_trad integer,
@@ -79,6 +82,7 @@ CREATE TABLE public.obras (
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
   autor_ficha_publico text,
   CONSTRAINT obras_pkey PRIMARY KEY (obra_id),
+  CONSTRAINT obras_slug_key UNIQUE (slug),
   CONSTRAINT obras_editor_asignado_fkey FOREIGN KEY (editor_asignado) REFERENCES public.editores(user_id),
   CONSTRAINT obras_estado_fkey FOREIGN KEY (estado) REFERENCES public.vocabularios(termino_id),
   CONSTRAINT obras_genero_id_fkey FOREIGN KEY (genero_id) REFERENCES public.vocabularios(termino_id)
@@ -270,3 +274,153 @@ CREATE TABLE public.secciones_publicas (
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
   CONSTRAINT secciones_publicas_pkey PRIMARY KEY (seccion_id)
 );
+
+CREATE FUNCTION public.metadrama_slugify(value text) RETURNS text
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+declare
+  v text := lower(coalesce(value, ''));
+begin
+  v := replace(v, 'æ', 'ae');
+  v := replace(v, 'œ', 'oe');
+  v := replace(v, 'ß', 'ss');
+  v := translate(v, 'áàâäãåāăą', 'aaaaaaaaa');
+  v := translate(v, 'éèêëēĕėęě', 'eeeeeeeee');
+  v := translate(v, 'íìîïīĭįı', 'iiiiiiii');
+  v := translate(v, 'óòôöõøōŏő', 'ooooooooo');
+  v := translate(v, 'úùûüūŭůűų', 'uuuuuuuuu');
+  v := translate(v, 'ñçýÿšž', 'ncyysz');
+  v := regexp_replace(v, '[^a-z0-9]+', '-', 'g');
+  v := regexp_replace(v, '(^-+|-+$)', '', 'g');
+  return v;
+end;
+$$;
+
+CREATE FUNCTION public.next_obras_slug(base text, current_obra_id uuid) RETURNS text
+    LANGUAGE plpgsql
+    SET search_path TO 'public'
+    AS $$
+declare
+  v_base text := coalesce(nullif(public.metadrama_slugify(base), ''), 'obra');
+  v_candidate text := v_base;
+  v_suffix integer := 2;
+begin
+  loop
+    if not exists (
+      select 1 from public.obras o
+      where o.slug = v_candidate
+        and (current_obra_id is null or o.obra_id <> current_obra_id)
+    ) then
+      return v_candidate;
+    end if;
+    v_candidate := v_base || '-' || v_suffix::text;
+    v_suffix := v_suffix + 1;
+  end loop;
+end;
+$$;
+
+CREATE FUNCTION public.next_autores_slug(base text, current_autor_id uuid) RETURNS text
+    LANGUAGE plpgsql
+    SET search_path TO 'public'
+    AS $$
+declare
+  v_base text := coalesce(nullif(public.metadrama_slugify(base), ''), 'autor');
+  v_candidate text := v_base;
+  v_suffix integer := 2;
+begin
+  loop
+    if not exists (
+      select 1 from public.autores a
+      where a.slug = v_candidate
+        and (current_autor_id is null or a.autor_id <> current_autor_id)
+    ) then
+      return v_candidate;
+    end if;
+    v_candidate := v_base || '-' || v_suffix::text;
+    v_suffix := v_suffix + 1;
+  end loop;
+end;
+$$;
+
+CREATE FUNCTION public.set_obras_slug() RETURNS trigger
+    LANGUAGE plpgsql
+    SET search_path TO 'public'
+    AS $$
+declare
+  v_old_base text;
+begin
+  if tg_op = 'INSERT' then
+    if new.slug is null or btrim(new.slug) = '' then
+      new.slug := public.next_obras_slug(new.titulo, new.obra_id);
+    else
+      new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'obra');
+    end if;
+    return new;
+  end if;
+
+  if new.slug is null or btrim(new.slug) = '' then
+    new.slug := public.next_obras_slug(new.titulo, new.obra_id);
+    return new;
+  end if;
+
+  if new.slug is distinct from old.slug then
+    new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'obra');
+    return new;
+  end if;
+
+  if new.titulo is distinct from old.titulo then
+    v_old_base := coalesce(nullif(public.metadrama_slugify(old.titulo), ''), 'obra');
+    if old.slug ~ ('^' || v_old_base || '(-[0-9]+)?$') then
+      new.slug := public.next_obras_slug(new.titulo, new.obra_id);
+    else
+      new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'obra');
+    end if;
+  else
+    new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'obra');
+  end if;
+  return new;
+end;
+$$;
+
+CREATE FUNCTION public.set_autores_slug() RETURNS trigger
+    LANGUAGE plpgsql
+    SET search_path TO 'public'
+    AS $$
+declare
+  v_old_base text;
+begin
+  if tg_op = 'INSERT' then
+    if new.slug is null or btrim(new.slug) = '' then
+      new.slug := public.next_autores_slug(new.nombre_completo, new.autor_id);
+    else
+      new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'autor');
+    end if;
+    return new;
+  end if;
+
+  if new.slug is null or btrim(new.slug) = '' then
+    new.slug := public.next_autores_slug(new.nombre_completo, new.autor_id);
+    return new;
+  end if;
+
+  if new.slug is distinct from old.slug then
+    new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'autor');
+    return new;
+  end if;
+
+  if new.nombre_completo is distinct from old.nombre_completo then
+    v_old_base := coalesce(nullif(public.metadrama_slugify(old.nombre_completo), ''), 'autor');
+    if old.slug ~ ('^' || v_old_base || '(-[0-9]+)?$') then
+      new.slug := public.next_autores_slug(new.nombre_completo, new.autor_id);
+    else
+      new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'autor');
+    end if;
+  else
+    new.slug := coalesce(nullif(public.metadrama_slugify(new.slug), ''), 'autor');
+  end if;
+  return new;
+end;
+$$;
+
+CREATE TRIGGER trg_set_obras_slug BEFORE INSERT OR UPDATE OF titulo, slug ON public.obras FOR EACH ROW EXECUTE FUNCTION public.set_obras_slug();
+CREATE TRIGGER trg_set_autores_slug BEFORE INSERT OR UPDATE OF nombre_completo, slug ON public.autores FOR EACH ROW EXECUTE FUNCTION public.set_autores_slug();

@@ -190,6 +190,7 @@ export type Database = {
           created_at: string
           nombre_completo: string
           nombre_normalizado: string | null
+          slug: string
           updated_at: string
           variantes_nombre: string[] | null
           viaf_id: string | null
@@ -201,6 +202,7 @@ export type Database = {
           created_at?: string
           nombre_completo: string
           nombre_normalizado?: string | null
+          slug?: string
           updated_at?: string
           variantes_nombre?: string[] | null
           viaf_id?: string | null
@@ -212,6 +214,7 @@ export type Database = {
           created_at?: string
           nombre_completo?: string
           nombre_normalizado?: string | null
+          slug?: string
           updated_at?: string
           variantes_nombre?: string[] | null
           viaf_id?: string | null
@@ -582,6 +585,7 @@ export type Database = {
           genero_id: string | null
           obra_id: string
           observaciones: string | null
+          slug: string
           titulo: string
           titulo_normalizado: string | null
           total_versos: number | null
@@ -606,6 +610,7 @@ export type Database = {
           genero_id?: string | null
           obra_id?: string
           observaciones?: string | null
+          slug?: string
           titulo: string
           titulo_normalizado?: string | null
           total_versos?: number | null
@@ -630,6 +635,7 @@ export type Database = {
           genero_id?: string | null
           obra_id?: string
           observaciones?: string | null
+          slug?: string
           titulo?: string
           titulo_normalizado?: string | null
           total_versos?: number | null

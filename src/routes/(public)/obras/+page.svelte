@@ -47,7 +47,7 @@
 		<div class="border border-[color:var(--border)] bg-white">
 			{#each data.obras as obra (obra.obra_id)}
 				<a
-					href={`/obras/${obra.obra_id}`}
+					href={`/obras/${obra.slug}`}
 					class="group grid gap-2 border-b border-[color:var(--border)] px-4 py-3 last:border-b-0 hover:bg-[color:var(--muted)]/60 md:grid-cols-[minmax(0,1fr)_auto] md:items-center"
 				>
 					<div class="min-w-0">

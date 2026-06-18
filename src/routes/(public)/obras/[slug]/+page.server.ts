@@ -22,13 +22,20 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	// sigue aplicando la propia RPC, así que esta consulta previa no expone nada.
 	const obraVisibilityResp = await locals.supabase
 		.from('obras')
-		.select('editor_asignado,visible_publico')
-		.eq('obra_id', params.id)
+		.select('obra_id,editor_asignado,visible_publico')
+		.eq('slug', params.slug)
 		.maybeSingle();
-	const obraVisibility = (obraVisibilityResp.data ?? null) as PublicObraVisibility | null;
-	const obraScope = obraVisibility
-		? resolveObraScope(viewer, obraVisibility)
-		: viewer.scope;
+
+	if (obraVisibilityResp.error) {
+		throw error(500, `No se pudo resolver la obra pública: ${obraVisibilityResp.error.message}`);
+	}
+	if (!obraVisibilityResp.data) {
+		throw error(404, 'Obra no encontrada.');
+	}
+
+	const obraId = obraVisibilityResp.data.obra_id;
+	const obraVisibility = obraVisibilityResp.data as PublicObraVisibility;
+	const obraScope = resolveObraScope(viewer, obraVisibility);
 	const includeHidden = obraScope === 'admin_ip';
 
 	const supabase = locals.supabase as typeof locals.supabase & {
@@ -40,11 +47,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	const [fichaResp, comentariosResp] = await Promise.all([
 		supabase.rpc('get_obra_ficha_publica', {
-			p_obra_id: params.id,
+			p_obra_id: obraId,
 			p_include_hidden: includeHidden
 		}),
 		supabase.rpc('get_obra_comentarios_publicos', {
-			p_obra_id: params.id,
+			p_obra_id: obraId,
 			p_include_hidden: includeHidden
 		})
 	]);
