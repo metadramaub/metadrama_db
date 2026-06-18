@@ -6,7 +6,7 @@ import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils
 import { vocabularioCreateSchema } from '$lib/utils/validators';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
 
 async function syncEstrofaTipoMetros(locals: App.Locals, estrofaTipoId: string, metroIds: string[]) {
 	const uniqueMetroIds = [...new Set(metroIds)];
@@ -148,6 +148,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		.insert({
 			categoria: payload.categoria,
 			termino: payload.termino,
+			etiqueta: payload.etiqueta?.trim() ? payload.etiqueta.trim() : null,
 			termino_padre_id: payload.termino_padre_id,
 			nivel: payload.nivel,
 			orden: resolvedOrder,

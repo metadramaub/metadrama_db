@@ -14,10 +14,11 @@
 	} from '$lib/config/citation-examples';
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
+	import { displayTerm } from '$lib/utils/vocabulario';
 
 	const props = $props<{
 		obra: Tables<'obras'>;
-		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		saveRequestToken?: number;
 		readOnly?: boolean;
 		canComment?: boolean;
@@ -60,9 +61,9 @@
 	let savingNow = $state(false);
 	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
 	const generoDropdownItems = $derived(
-		props.generoOptions.map((genero: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+		props.generoOptions.map((genero: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>) => ({
 			id: genero.termino_id,
-			label: genero.termino
+			label: displayTerm(genero)
 		}))
 	);
 

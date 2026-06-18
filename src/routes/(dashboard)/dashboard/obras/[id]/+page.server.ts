@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			.order('v_ini'),
 		locals.supabase
 			.from('vocabularios')
-			.select('termino_id,categoria,termino,termino_padre_id,orden')
+			.select('termino_id,categoria,termino,etiqueta,termino_padre_id,orden')
 			.eq('activo', true)
 			.in('categoria', [
 				'genero',

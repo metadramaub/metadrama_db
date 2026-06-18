@@ -2,6 +2,7 @@ export type VocabularyItem = {
 	termino_id: string;
 	categoria: string;
 	termino: string;
+	etiqueta: string | null;
 	termino_padre_id: string | null;
 	nivel: number | null;
 	orden: number | null;

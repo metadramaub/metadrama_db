@@ -23,6 +23,7 @@
 
 	type TermForm = {
 		termino: string;
+		etiqueta: string;
 		termino_padre_id: string | null;
 		nivel: number | null;
 		activo: boolean;
@@ -37,6 +38,7 @@
 
 	type CreateTermForm = {
 		termino: string;
+		etiqueta: string;
 		termino_padre_id: string | null;
 		activo: boolean;
 		definicion: string;
@@ -78,6 +80,7 @@
 	function emptyCreateForm(): CreateTermForm {
 		return {
 			termino: '',
+			etiqueta: '',
 			termino_padre_id: null,
 			activo: true,
 			definicion: '',
@@ -93,6 +96,7 @@
 	function emptyTermForm(): TermForm {
 		return {
 			termino: '',
+			etiqueta: '',
 			termino_padre_id: null,
 			nivel: null,
 			activo: true,
@@ -176,6 +180,8 @@
 		if (!selectedItem) return false;
 
 		if (termForm.termino.trim() !== selectedItem.termino) return true;
+
+		if (termForm.etiqueta.trim() !== (selectedItem.etiqueta ?? '').trim()) return true;
 
 		if (fieldConfig.showParent) {
 			if ((termForm.termino_padre_id ?? null) !== (selectedItem.termino_padre_id ?? null)) return true;
@@ -345,6 +351,7 @@
 	function termFormFromItem(item: VocabularyItem): TermForm {
 		return {
 			termino: item.termino,
+			etiqueta: item.etiqueta ?? '',
 			termino_padre_id: item.termino_padre_id,
 			nivel: item.nivel,
 			activo: Boolean(item.activo ?? true),
@@ -615,7 +622,8 @@
 
 	function buildPatchPayloadFromForm(form: TermForm): Record<string, unknown> {
 		const payload: Record<string, unknown> = {
-			termino: form.termino.trim()
+			termino: form.termino.trim(),
+			etiqueta: form.etiqueta.trim() || null
 		};
 
 		if (fieldConfig.showParent) payload.termino_padre_id = form.termino_padre_id;
@@ -637,7 +645,8 @@
 	function buildCreatePayloadFromForm(form: CreateTermForm): Record<string, unknown> {
 		const payload: Record<string, unknown> = {
 			categoria: data.categoria,
-			termino: form.termino.trim()
+			termino: form.termino.trim(),
+			etiqueta: form.etiqueta.trim() || null
 		};
 
 		if (fieldConfig.showParent) payload.termino_padre_id = form.termino_padre_id;
@@ -961,6 +970,17 @@
 						value={createForm.termino}
 						class="w-full border border-[color:var(--border)] px-3 py-2"
 						oninput={(event) => onCreateFormChange({ termino: event.currentTarget.value })}
+					/>
+				</label>
+
+				<label class="form-field">
+					<span class="form-label">Etiqueta (nombre legible)</span>
+					<input
+						type="text"
+						value={createForm.etiqueta}
+						placeholder={createForm.termino || 'Se usa el término si se deja vacío'}
+						class="w-full border border-[color:var(--border)] px-3 py-2"
+						oninput={(event) => onCreateFormChange({ etiqueta: event.currentTarget.value })}
 					/>
 				</label>
 

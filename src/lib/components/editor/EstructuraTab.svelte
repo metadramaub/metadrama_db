@@ -7,12 +7,13 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
+	import { displayTerm } from '$lib/utils/vocabulario';
 
 	const props = $props<{
 		obraId: string;
 		jornadasInitial: Tables<'jornadas'>[];
 		cuadrosInitial: Tables<'cuadros'>[];
-		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>>;
+		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		readOnly?: boolean;
 		canComment?: boolean;
 		focusJornadaId?: string | null;
@@ -74,9 +75,9 @@
 		}))
 	);
 	const certezaDropdownItems = $derived(
-		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>) => ({
+		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>) => ({
 			id: option.termino_id,
-			label: option.termino
+			label: displayTerm(option)
 		}))
 	);
 
