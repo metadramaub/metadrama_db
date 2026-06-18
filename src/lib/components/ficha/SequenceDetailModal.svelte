@@ -152,6 +152,18 @@
 						{#if props.secuencia.evocacion_metrica && (props.secuencia.evocacion_metrica_texto ?? '').trim().length > 0}
 							<p><strong>Evocación métrica:</strong> {props.secuencia.evocacion_metrica_texto}</p>
 						{/if}
+						{#if (props.secuencia.subtipos_estrofa ?? []).length > 0}
+							<div class="pt-1">
+								<strong>Subtipos de estrofa:</strong>
+								<div class="mt-1 flex flex-wrap gap-1">
+									{#each props.secuencia.subtipos_estrofa ?? [] as sub (sub.subtipo_secuencia_id)}
+										<span class="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-900">
+											{sub.subtipo_estrofa_term} (vv. {sub.v_ini}-{sub.v_fin})
+										</span>
+									{/each}
+								</div>
+							</div>
+						{/if}
 					</div>
 				</article>
 

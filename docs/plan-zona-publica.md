@@ -4,8 +4,8 @@
 > (buscador/catálogo, fichas de obra, laboratorio, demarcador) con control de
 > roles/permisos y un panel de control para encender/apagar secciones.
 >
-> **Estado:** Fases 0-3 ✅, 5 ✅. **Fase 6 EN CURSO**: catálogo v1 ✅, ficha
-> pendiente. Fase 4 anulada.
+> **Estado:** Fases 0-3 ✅, 5 ✅, 6 ✅ (catálogo v1 + ficha reescrita). Fase 4
+> anulada. Sistema de control de visibilidad COMPLETO y aplicado en UI.
 >
 > ### Fase 6 — progreso
 > - **Catálogo v1 ✅** (incremental, filtros básicos) — reescrito desde cero.
@@ -21,8 +21,22 @@
 >     filtros métricos avanzados (formas, metros, variaciones, polimetría, presencia
 >     de personajes), rango de datación/versos con dual-range del mockup. Requieren
 >     agregaciones métricas — auditar datos disponibles antes.
-> - **Ficha — EN CURSO (reescritura de cero, en componentes reutilizables).**
->   Decisiones tomadas:
+> - **Ficha ✅ REESCRITA (de cero, en componentes reutilizables).**
+>   - Componentes métricos GENÉRICOS nuevos en `components/metrica/`:
+>     `MetricBarcode` + `MetricDistributionPie` (consumen tipos de presentación
+>     `metric-display.types.ts`, NO `PublicFichaSecuencia`) → reusables en
+>     catálogo/autor. El barcode dibuja subtipos como subsegments.
+>   - `FichaAutoriaBlock` extraído como componente (autoría + jornadas + fuentes).
+>   - Adaptador `ficha-metric-adapter.ts`: PublicFichaSecuencia → MetricBarSegment.
+>   - Subtipos de estrofa integrados en el modal de secuencia y en el barcode.
+>   - **Pendiente B RESUELTO**: cada sección envuelta con `isSectionVisible()` →
+>     se oculta (no se muestra vacía) si su flag está apagado. `FICHA_SECTION_IDS`
+>     movido al módulo compartido `secciones-publicas.ts` (no import server→cliente).
+>   - Eliminados los componentes viejos huérfanos `ficha/PublicMetricBarcode` y
+>     `ficha/MetricDistributionPie`.
+>   - Verificado en vivo: ficha real → 200, renderiza todas las secciones. 0
+>     errores, 186 tests.
+>   - **Decisiones tomadas (histórico):**
 >   - **Reescribir de cero** reusando componentes buenos (barcode, pie, modal), pero
 >     refactorizándolos para que NO dependan del tipo `PublicFichaSecuencia` y sirvan
 >     también en catálogo y futura ficha de autor (directriz del usuario: todo en

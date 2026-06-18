@@ -1,20 +1,21 @@
 <script lang="ts">
-	import type { PublicFichaDistribucionForma } from '$lib/types/public-ficha.types';
+	// Pie de distribución de formas REUTILIZABLE. Consume MetricDistributionSlice.
+	import type { MetricDistributionSlice } from './metric-display.types';
 
 	const props = $props<{
-		items: PublicFichaDistribucionForma[];
+		items: MetricDistributionSlice[];
 		colorByForma: Record<string, string>;
 		valueMode: 'percent' | 'absolute';
 	}>();
 
-	const normalizedItems = $derived.by(() => {
-		return props.items
-			.filter((item: PublicFichaDistribucionForma) => item.versos > 0)
+	const normalizedItems = $derived.by(() =>
+		props.items
+			.filter((item: MetricDistributionSlice) => item.versos > 0)
 			.sort(
-				(a: PublicFichaDistribucionForma, b: PublicFichaDistribucionForma) =>
+				(a: MetricDistributionSlice, b: MetricDistributionSlice) =>
 					b.versos - a.versos || a.forma.localeCompare(b.forma, 'es')
-			);
-	});
+			)
+	);
 
 	const gradient = $derived.by(() => {
 		if (normalizedItems.length === 0) return 'conic-gradient(#d1d5db 0deg, #d1d5db 360deg)';
@@ -34,10 +35,8 @@
 		return `conic-gradient(${chunks.join(',')})`;
 	});
 
-	function valueLabel(item: PublicFichaDistribucionForma): string {
-		if (props.valueMode === 'absolute') {
-			return `${item.versos} vv.`;
-		}
+	function valueLabel(item: MetricDistributionSlice): string {
+		if (props.valueMode === 'absolute') return `${item.versos} vv.`;
 		return `${item.porcentaje.toFixed(2)}%`;
 	}
 </script>

@@ -10,20 +10,14 @@
 // contra obraScope, no el sectionVisibility global del layout.
 
 import {
+	FICHA_SECTION_IDS,
 	isSectionVisible,
 	type SectionVisibilityMap
 } from '$lib/secciones-publicas';
 import type { PublicObraFichaPayload } from '$lib/types/public-ficha.types';
 
-// Slugs de las sub-secciones de ficha (deben existir en secciones_publicas).
-export const FICHA_SECTION_IDS = {
-	autoria: 'ficha.autoria',
-	fuentes: 'ficha.autoria.fuentes',
-	metrica: 'ficha.metrica',
-	observaciones: 'ficha.observaciones',
-	bibliografia: 'ficha.bibliografia',
-	comentarios: 'ficha.comentarios_publicos'
-} as const;
+// Reexport por compatibilidad (la definición vive en el módulo compartido).
+export { FICHA_SECTION_IDS };
 
 /**
  * Devuelve una copia del payload con los bloques apagados vaciados. No muta el
