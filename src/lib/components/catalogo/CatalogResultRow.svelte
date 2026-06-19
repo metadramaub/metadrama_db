@@ -51,7 +51,7 @@
 	}
 </script>
 
-<article class="group border border-[color:var(--border)] bg-white p-4 transition-colors hover:border-[color:var(--gray-400)]">
+<article class="border border-[color:var(--border)] bg-white p-4">
 	<div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
 		<div class="min-w-0">
 			<div class="flex flex-wrap items-center gap-2">
@@ -82,7 +82,7 @@
 
 		<a
 			href={`/obras/${props.obra.slug}`}
-			class="inline-flex h-9 w-9 items-center justify-center border border-[color:var(--border)] text-[color:var(--gray-700)] transition-colors group-hover:border-[color:var(--primary)] group-hover:text-[color:var(--primary)]"
+			class="inline-flex h-9 w-9 items-center justify-center text-[color:var(--gray-700)] transition-colors hover:text-[color:var(--primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
 			aria-label={`Abrir ficha de ${props.obra.titulo}`}
 		>
 			<ArrowRight size={16} aria-hidden="true" />
@@ -94,19 +94,23 @@
 		{#if props.obra.genero_term}
 			<span>Género: {props.obra.genero_term}</span>
 		{/if}
-		{#if props.obra.total_versos !== null}
-			<span>{props.obra.total_versos} vv.</span>
-		{/if}
 	</div>
 
 	{#if showPerfil}
 		<div class="mt-3 space-y-1.5">
-			<CatalogMetricBar
-				tramos={tramos}
-				jornadas={jornadasTramos}
-				cuadros={cuadrosTramos}
-				totalVersos={props.obra.total_versos}
-			/>
+			<div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+				<CatalogMetricBar
+					tramos={tramos}
+					jornadas={jornadasTramos}
+					cuadros={cuadrosTramos}
+					totalVersos={props.obra.total_versos}
+				/>
+				{#if props.obra.total_versos !== null}
+					<span class="whitespace-nowrap text-[11px] text-[color:var(--muted-foreground)]">
+						{props.obra.total_versos} vv.
+					</span>
+				{/if}
+			</div>
 			<div class="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[color:var(--muted-foreground)]">
 				{#if diversidadLabel}
 					<span title="Número efectivo de formas (diversidad métrica)">

@@ -49,8 +49,18 @@
 		return map;
 	});
 
-	const jornadaMarkers = $derived((props.jornadas ?? []).map((tramo: CatalogStructureTramo) => tramo.f));
-	const cuadroMarkers = $derived((props.cuadros ?? []).map((tramo: CatalogStructureTramo) => tramo.f));
+	const jornadaMarkers = $derived(
+		(props.jornadas ?? []).map((tramo: CatalogStructureTramo) => ({
+			verse: tramo.f,
+			title: `Jornada ${tramo.n} · vv. ${tramo.i}-${tramo.f}`
+		}))
+	);
+	const cuadroMarkers = $derived(
+		(props.cuadros ?? []).map((tramo: CatalogStructureTramo) => ({
+			verse: tramo.f,
+			title: `Cuadro ${tramo.n} · vv. ${tramo.i}-${tramo.f}`
+		}))
+	);
 </script>
 
 <MetricBarcode
@@ -61,4 +71,5 @@
 	colorByForma={colorByForma}
 	trackHeight={trackHeight}
 	showNativeTitles
+	compactMarkers
 />
