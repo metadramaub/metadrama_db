@@ -4,6 +4,7 @@ import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 import { vocabularioReorderSchema } from '$lib/utils/validators';
+import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
 	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
@@ -152,5 +153,6 @@ export const PUT: RequestHandler = async ({ locals, request }) => {
 		return json({ error: 'db_error', message: updatedError.message }, { status: 500 });
 	}
 
+	invalidatePublicVocabularioCache();
 	return json({ vocabularios: updatedRows ?? [] });
 };

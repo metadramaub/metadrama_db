@@ -71,13 +71,16 @@
 > - El backend (Fases 0-3) es independiente de la reescritura de UI y se conserva.
 >
 > ### ⚠️ Flujo de migraciones (importante)
-> Este equipo (gestionado por la UAB) **bloquea el puerto 5432** saliente a nivel
-> local — no es la red (443 a la misma IP del pooler sí conecta). Por eso
-> `supabase db push` / `db dump` **se cuelgan en "Initialising login role..."** en
-> cualquier red, incl. móvil. **Las migraciones se aplican a mano por el SQL Editor
-> del panel de Supabase** (HTTPS/443) y se registran en
-> `supabase_migrations.schema_migrations` con un INSERT manual. Los tipos
-> (`database.types.ts`) se editan a mano (no se puede `db:types`/`db:pull` desde aquí).
+> Desde una máquina con acceso al puerto 5432 (fuera de la red UAB), `supabase db push`
+> funciona con normalidad y el CLI registra la migración automáticamente en
+> `supabase_migrations.schema_migrations`. **No incluir el INSERT manual de registro
+> en las migraciones nuevas** — el CLI lo hace y duplicarlo da error de unique constraint
+> (inofensivo pero ruidoso).
+>
+> Desde la red UAB (bloquea 5432): aplicar a mano por el SQL Editor del panel
+> (HTTPS/443) y registrar con INSERT manual en `schema_migrations`.
+>
+> Los tipos (`database.types.ts`) se editan a mano en ambos casos (no hay `db:types` fiable).
 >
 > ### Registro de progreso
 > - **Fase 0 ✅** (commit pendiente) — Scope efectivo por obra. Implementado y

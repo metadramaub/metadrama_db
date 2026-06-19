@@ -4,6 +4,7 @@ import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 import { vocabularioCreateSchema } from '$lib/utils/validators';
+import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
 	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
@@ -181,5 +182,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		metroIds = syncResult.metroIds;
 	}
 
+	invalidatePublicVocabularioCache();
 	return json({ vocabulario: data, metro_ids: metroIds }, { status: 201 });
 };

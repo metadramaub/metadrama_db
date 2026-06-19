@@ -2,16 +2,24 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import {
 	deriveCatalogBounds,
+	isCatalogMetricFiltersVisible,
+	isCatalogMetricSortVisible,
+	isCatalogPerfilMetricoVisible,
 	parseCatalogFilters,
 	withCatalogVisibilityDefaults,
 	type CatalogFilterOption,
-	type CatalogFilterOptions
+	type CatalogFilterOptions,
+	type CatalogTramo
 } from '$lib/catalogo/catalog-filters';
 import { buildSectionVisibilityMap } from '$lib/secciones-publicas';
 import { getPublicadoEstadoId, resolvePublicViewerContext } from '$lib/server/public-obras';
+import {
+	buildPublicVocabularioMaps,
+	loadPublicVocabulario,
+	type PublicVocabularioMaps
+} from '$lib/server/vocabulario-publico';
 import { loadPublicSections, requireSectionVisible } from '$lib/server/secciones-publicas';
 import type { Tables } from '$lib/types/database.types';
-import { displayTerm } from '$lib/utils/vocabulario';
 
 type PublicCatalogObra = Pick<
 	Tables<'obras'>,
@@ -29,6 +37,18 @@ type PublicCatalogObra = Pick<
 	autoria_autores: string[];
 	genero_term: string | null;
 	es_obra_asignada: boolean;
+	// Perfil métrico precomputado (obras_resumen). Null si la sección métrica no
+	// es visible para este visitante o la obra aún no tiene resumen.
+	tramos: CatalogTramo[] | null;
+	numero_efectivo_formas: number | null;
+	densidad_transiciones: number | null;
+	n_formas_distintas: number | null;
+	// Facetas para filtros métricos (solo si el grupo de filtros métricos es visible).
+	formas_presentes: string[] | null;
+	metros_presentes: string[] | null;
+	tipos_forma_presentes: string[] | null;
+	variaciones_presentes: string[] | null;
+	subtipos_presentes: string[] | null;
 };
 
 type ObraRow = Pick<
@@ -51,9 +71,15 @@ function emptyFilterOptions(): CatalogFilterOptions {
 	return {
 		autores: [],
 		generos: [],
+		formas: [],
+		metros: [],
+		tiposForma: [],
+		variaciones: [],
+		subtipos: [],
 		bounds: {
 			datacion: null,
-			versos: null
+			versos: null,
+			densidad: null
 		}
 	};
 }
@@ -71,6 +97,76 @@ function setCatalogCacheHeaders(
 	setHeaders({
 		'cache-control': 'private, no-store'
 	});
+}
+
+const TIPO_FORMA_LABELS: Record<string, string> = {
+	forma_espanola: 'Forma española',
+	forma_italiana: 'Forma italiana'
+};
+
+type MetricFacetObra = Pick<
+	PublicCatalogObra,
+	| 'formas_presentes'
+	| 'metros_presentes'
+	| 'tipos_forma_presentes'
+	| 'variaciones_presentes'
+	| 'subtipos_presentes'
+>;
+
+type MetricFacetOptions = {
+	formas: CatalogFilterOption[];
+	metros: CatalogFilterOption[];
+	tiposForma: CatalogFilterOption[];
+	variaciones: CatalogFilterOption[];
+	subtipos: CatalogFilterOption[];
+};
+
+/**
+ * Opciones de filtro métrico a partir de los términos presentes en las obras
+ * visibles. Las etiquetas visibles y la jerarquía (subtipo → forma padre) se
+ * resuelven desde el vocabulario cacheado (slug → etiqueta), sin consultas extra.
+ */
+function buildMetricFacetOptions(
+	obras: MetricFacetObra[],
+	vocabMaps: PublicVocabularioMaps
+): MetricFacetOptions {
+	const uniqueSlugs = (pick: (o: MetricFacetObra) => string[] | null): Set<string> => {
+		const set = new Set<string>();
+		for (const obra of obras) for (const slug of pick(obra) ?? []) set.add(slug);
+		return set;
+	};
+
+	const estrofaLabels = vocabMaps.labelBySlug.get('estrofa_tipo') ?? new Map<string, string>();
+	const estrofaParents = vocabMaps.parentSlugBySlug.get('estrofa_tipo') ?? new Map<string, string>();
+
+	const toOptions = (slugs: Set<string>, labels: Map<string, string>): CatalogFilterOption[] =>
+		[...slugs]
+			.map((slug) => ({ id: slug, label: labels.get(slug) ?? slug }))
+			.sort((a, b) => a.label.localeCompare(b.label, 'es'));
+
+	return {
+		formas: toOptions(uniqueSlugs((o) => o.formas_presentes), estrofaLabels),
+		// Subtipos: llevan el slug de su forma raíz como parentId para anidarlos
+		// (p. ej. subquintillas bajo quintilla) en el selector único de forma.
+		subtipos: [...uniqueSlugs((o) => o.subtipos_presentes)]
+			.map((slug) => ({
+				id: slug,
+				label: estrofaLabels.get(slug) ?? slug,
+				parentId: estrofaParents.get(slug) ?? null
+			}))
+			.sort((a, b) => a.label.localeCompare(b.label, 'es')),
+		metros: toOptions(
+			uniqueSlugs((o) => o.metros_presentes),
+			vocabMaps.labelBySlug.get('metro') ?? new Map<string, string>()
+		),
+		variaciones: toOptions(
+			uniqueSlugs((o) => o.variaciones_presentes),
+			vocabMaps.labelBySlug.get('caracterizacion_rango') ?? new Map<string, string>()
+		),
+		tiposForma: [...uniqueSlugs((o) => o.tipos_forma_presentes)]
+			.map((slug) => ({ id: slug, label: TIPO_FORMA_LABELS[slug] ?? slug }))
+			.sort((a, b) => a.label.localeCompare(b.label, 'es'))
+	};
 }
 
 export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
@@ -200,27 +296,69 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		obraAutores.set(obraId, current);
 	}
 
-	const generoIds = [...new Set(obraRows.map((o) => o.genero_id).filter((id): id is string => Boolean(id)))];
-	const generosResp =
-		generoIds.length > 0
-			? await locals.supabase.from('vocabularios').select('termino_id,termino,etiqueta').in('termino_id', generoIds)
-			: { data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>[] };
-	const generoTermById = new Map(
-		((generosResp.data ?? []) as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>[]).map((row) => [
-			row.termino_id,
-			displayTerm(row)
-		])
+	// Vocabulario público cacheado (una sola fuente para género + facetas métricas).
+	// Las etiquetas se resuelven aquí desde el slug; el resumen nunca guarda etiquetas.
+	const vocabMaps: PublicVocabularioMaps = buildPublicVocabularioMaps(
+		await loadPublicVocabulario(locals)
 	);
+	const generoTermById = vocabMaps.labelByTerminoId;
+
+	// Perfil métrico precomputado: solo se trae (y se serializa al cliente) si el
+	// visitante puede ver el orden/filtros métricos o el perfil en resultados. La RLS
+	// de obras_resumen ya limita las filas a obras visibles para este visitante.
+	const wantsMetricFilters = isCatalogMetricFiltersVisible(catalogVisibility);
+	const wantsMetric =
+		wantsMetricFilters ||
+		isCatalogMetricSortVisible(catalogVisibility) ||
+		isCatalogPerfilMetricoVisible(catalogVisibility);
+	type ResumenRow = Pick<
+		Tables<'obras_resumen'>,
+		| 'tramos'
+		| 'numero_efectivo_formas'
+		| 'densidad_transiciones'
+		| 'n_formas_distintas'
+		| 'formas_presentes'
+		| 'metros_presentes'
+		| 'tipos_forma_presentes'
+		| 'variaciones_presentes'
+		| 'subtipos_presentes'
+	>;
+	const resumenByObra = new Map<string, ResumenRow>();
+	if (wantsMetric) {
+		const resumenResp = await locals.supabase
+			.from('obras_resumen')
+			.select(
+				'obra_id,tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes'
+			)
+			.in('obra_id', obraIds);
+		for (const row of (resumenResp.data ?? []) as Array<ResumenRow & { obra_id: string }>) {
+			resumenByObra.set(row.obra_id, row);
+		}
+	}
 
 	const obras: PublicCatalogObra[] = obraRows.map(
-		({ editor_asignado, genero_id, ...obra }): PublicCatalogObra => ({
-			...obra,
-			genero_term: genero_id ? (generoTermById.get(genero_id) ?? null) : null,
-			es_obra_asignada: Boolean(viewer.userId) && editor_asignado === viewer.userId,
-			autoria_autores: [...(obraAutores.get(obra.obra_id) ?? new Set<string>())].sort((a, b) =>
-				a.localeCompare(b, 'es')
-			)
-		})
+		({ editor_asignado, genero_id, ...obra }): PublicCatalogObra => {
+			const resumen = resumenByObra.get(obra.obra_id) ?? null;
+			return {
+				...obra,
+				genero_term: genero_id ? (generoTermById.get(genero_id) ?? null) : null,
+				es_obra_asignada: Boolean(viewer.userId) && editor_asignado === viewer.userId,
+				autoria_autores: [...(obraAutores.get(obra.obra_id) ?? new Set<string>())].sort((a, b) =>
+					a.localeCompare(b, 'es')
+				),
+				tramos: (resumen?.tramos as CatalogTramo[] | null) ?? null,
+				numero_efectivo_formas: resumen?.numero_efectivo_formas ?? null,
+				densidad_transiciones: resumen?.densidad_transiciones ?? null,
+				n_formas_distintas: resumen?.n_formas_distintas ?? null,
+				// Las facetas solo se serializan al cliente si el panel de filtros métricos
+				// es visible (respeta scope_minimo y evita payload innecesario).
+				formas_presentes: wantsMetricFilters ? (resumen?.formas_presentes ?? null) : null,
+				metros_presentes: wantsMetricFilters ? (resumen?.metros_presentes ?? null) : null,
+				tipos_forma_presentes: wantsMetricFilters ? (resumen?.tipos_forma_presentes ?? null) : null,
+				variaciones_presentes: wantsMetricFilters ? (resumen?.variaciones_presentes ?? null) : null,
+				subtipos_presentes: wantsMetricFilters ? (resumen?.subtipos_presentes ?? null) : null
+			};
+		}
 	);
 
 	const autorOptions: CatalogFilterOption[] = [...new Set(obras.flatMap((o) => o.autoria_autores))]
@@ -232,9 +370,19 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		.sort((a, b) => a.localeCompare(b, 'es'))
 		.map((term) => ({ id: term, label: term }));
 
+	// Facetas métricas: etiquetas + jerarquía resueltas desde el vocabulario cacheado.
+	const metricFacets = wantsMetricFilters
+		? buildMetricFacetOptions(obras, vocabMaps)
+		: { formas: [], metros: [], tiposForma: [], variaciones: [], subtipos: [] };
+
 	const filterOptions: CatalogFilterOptions = {
 		autores: autorOptions,
 		generos: generoOptions,
+		formas: metricFacets.formas,
+		metros: metricFacets.metros,
+		tiposForma: metricFacets.tiposForma,
+		variaciones: metricFacets.variaciones,
+		subtipos: metricFacets.subtipos,
 		bounds: deriveCatalogBounds(obras)
 	};
 

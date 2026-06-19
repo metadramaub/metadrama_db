@@ -667,6 +667,92 @@ export type Database = {
           },
         ]
       }
+      obras_resumen: {
+        Row: {
+          obra_id: string
+          total_versos: number | null
+          n_secuencias: number | null
+          n_jornadas: number | null
+          n_formas_distintas: number | null
+          numero_efectivo_formas: number | null
+          p_max: number | null
+          densidad_transiciones: number | null
+          pct_cantado: number | null
+          tramos: Json | null
+          perfil_formas: Json | null
+          formas_presentes: string[] | null
+          metros_presentes: string[] | null
+          tipos_forma_presentes: string[] | null
+          variaciones_presentes: string[] | null
+          subtipos_presentes: string[] | null
+          tiene_versos_partidos: boolean | null
+          tiene_cambio_espacio: boolean | null
+          intervencion_femenina: string | null
+          intervencion_donaire: string | null
+          intervencion_sobrenaturales: string | null
+          metrica_sucia: boolean
+          actualizado_en: string | null
+        }
+        Insert: {
+          obra_id: string
+          total_versos?: number | null
+          n_secuencias?: number | null
+          n_jornadas?: number | null
+          n_formas_distintas?: number | null
+          numero_efectivo_formas?: number | null
+          p_max?: number | null
+          densidad_transiciones?: number | null
+          pct_cantado?: number | null
+          tramos?: Json | null
+          perfil_formas?: Json | null
+          formas_presentes?: string[] | null
+          metros_presentes?: string[] | null
+          tipos_forma_presentes?: string[] | null
+          variaciones_presentes?: string[] | null
+          subtipos_presentes?: string[] | null
+          tiene_versos_partidos?: boolean | null
+          tiene_cambio_espacio?: boolean | null
+          intervencion_femenina?: string | null
+          intervencion_donaire?: string | null
+          intervencion_sobrenaturales?: string | null
+          metrica_sucia?: boolean
+          actualizado_en?: string | null
+        }
+        Update: {
+          obra_id?: string
+          total_versos?: number | null
+          n_secuencias?: number | null
+          n_jornadas?: number | null
+          n_formas_distintas?: number | null
+          numero_efectivo_formas?: number | null
+          p_max?: number | null
+          densidad_transiciones?: number | null
+          pct_cantado?: number | null
+          tramos?: Json | null
+          perfil_formas?: Json | null
+          formas_presentes?: string[] | null
+          metros_presentes?: string[] | null
+          tipos_forma_presentes?: string[] | null
+          variaciones_presentes?: string[] | null
+          subtipos_presentes?: string[] | null
+          tiene_versos_partidos?: boolean | null
+          tiene_cambio_espacio?: boolean | null
+          intervencion_femenina?: string | null
+          intervencion_donaire?: string | null
+          intervencion_sobrenaturales?: string | null
+          metrica_sucia?: boolean
+          actualizado_en?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "obras_resumen_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: true
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
       obras_revisores: {
         Row: {
           asignado_por: string
@@ -1020,6 +1106,14 @@ export type Database = {
       get_obra_ficha_publica: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
+      }
+      recompute_obra_resumen: {
+        Args: { p_obra_id: string }
+        Returns: undefined
+      }
+      recompute_all: {
+        Args: never
+        Returns: undefined
       }
     }
     Enums: {

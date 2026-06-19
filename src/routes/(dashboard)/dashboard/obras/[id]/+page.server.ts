@@ -42,6 +42,23 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const secuencias = (secuenciasResp.data ?? []) as Tables<'secuencias_metricas'>[];
 	const autoriaNoAmbiguaCount = await countUnambiguousAutoriaGroups(locals.supabase, obra.obra_id);
 
+	// Estado de los datos públicos precomputados (Fase 2 del plan de precomputación).
+	// Si no hay fila, la obra nunca ha publicado datos (resumenExiste = false).
+	const resumenResp = await locals.supabase
+		.from('obras_resumen')
+		.select('metrica_sucia,actualizado_en')
+		.eq('obra_id', obra.obra_id)
+		.maybeSingle();
+	const resumenRow = resumenResp.data as Pick<
+		Tables<'obras_resumen'>,
+		'metrica_sucia' | 'actualizado_en'
+	> | null;
+	const resumenPublico = {
+		existe: Boolean(resumenRow),
+		metricaSucia: resumenRow?.metrica_sucia ?? false,
+		actualizadoEn: resumenRow?.actualizado_en ?? null
+	};
+
 	const editorAsignadoResp = obra.editor_asignado
 		? await locals.supabase
 				.from('editores')
@@ -61,6 +78,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		cuadros,
 		secuencias,
 		autoriaNoAmbiguaCount,
+		resumenPublico,
 		vocabularios: vocabResp.data ?? []
 	};
 };

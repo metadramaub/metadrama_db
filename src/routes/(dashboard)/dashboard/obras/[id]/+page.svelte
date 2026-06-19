@@ -115,6 +115,43 @@
 	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
+
+	// --- Datos públicos precomputados (Fase 2 del plan de precomputación) ---
+	const isPublished = $derived(data.estadoTerm.trim().toLowerCase() === 'publicado');
+	const canPublishData = $derived(
+		data.profile.roleTerm === 'admin' ||
+			data.profile.roleTerm === 'ip' ||
+			data.obra.editor_asignado === data.profile.userId
+	);
+	let resumenExiste = $state(untrack(() => data.resumenPublico.existe));
+	let resumenSucia = $state(untrack(() => data.resumenPublico.metricaSucia));
+	let resumenActualizadoEn = $state<string | null>(
+		untrack(() => data.resumenPublico.actualizadoEn)
+	);
+	let publicandoDatos = $state(false);
+
+	async function publicarDatosPublicos() {
+		if (!canPublishData || !isPublished || publicandoDatos) return;
+		publicandoDatos = true;
+		try {
+			const res = await fetch(`/api/obras/${data.obra.obra_id}/publicar-datos`, {
+				method: 'POST'
+			});
+			const body = await res.json().catch(() => ({}));
+			if (!res.ok) {
+				pushToast('error', body?.message ?? 'No se pudieron actualizar los datos públicos.');
+				return;
+			}
+			resumenExiste = true;
+			resumenSucia = Boolean(body.metrica_sucia);
+			resumenActualizadoEn = body.actualizado_en ?? null;
+			pushToast('success', 'Datos públicos actualizados.');
+		} catch {
+			pushToast('error', 'No se pudieron actualizar los datos públicos.');
+		} finally {
+			publicandoDatos = false;
+		}
+	}
 	const generalSaveScope = $derived.by((): GeneralSaveScope | null => {
 		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'observaciones') {
 			return currentTab;
@@ -254,10 +291,16 @@
 	}) {
 		jornadasLive = [...payload.jornadas];
 		cuadrosLive = [...payload.cuadros];
+		if (resumenExiste) resumenSucia = true;
 	}
 
 	function handleSecuenciasChange(payload: Tables<'secuencias_metricas'>[]) {
 		secuenciasLive = [...payload];
+		if (resumenExiste) resumenSucia = true;
+	}
+
+	function handleMetricaDirty() {
+		if (resumenExiste) resumenSucia = true;
 	}
 
 	function requestGeneralSave() {
@@ -394,6 +437,13 @@
 		secuenciasLive = [...data.secuencias];
 	});
 
+	// Resincroniza el estado de datos públicos al recargar (cambio de obra / invalidate).
+	$effect(() => {
+		resumenExiste = data.resumenPublico.existe;
+		resumenSucia = data.resumenPublico.metricaSucia;
+		resumenActualizadoEn = data.resumenPublico.actualizadoEn;
+	});
+
 	onDestroy(() => {
 		if (!channel) return;
 		const supabase = getSupabaseBrowserClient();
@@ -412,6 +462,51 @@
 			</span>
 			<span class="text-xs">ID obra: {obraLive.obra_id}</span>
 		</div>
+
+		{#if canPublishData}
+			<div class="mt-3 flex flex-wrap items-center gap-3 border-t border-[color:var(--border)] pt-3">
+				{#if !isPublished}
+					<span class="text-sm text-[color:var(--muted-foreground)]">
+						Datos públicos: disponibles solo cuando la obra esté publicada.
+					</span>
+				{:else}
+					{#if !resumenExiste}
+						<span class="inline-flex items-center gap-1.5 text-sm text-[color:var(--muted-foreground)]">
+							<span class="h-2 w-2 rounded-full bg-[color:var(--muted-foreground)]"></span>
+							Datos públicos sin generar
+						</span>
+					{:else if resumenSucia}
+						<span class="inline-flex items-center gap-1.5 text-sm text-amber-700">
+							<span class="h-2 w-2 rounded-full bg-amber-500"></span>
+							Hay cambios sin publicar
+						</span>
+					{:else}
+						<span class="inline-flex items-center gap-1.5 text-sm text-emerald-700">
+							<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+							Datos públicos al día
+						</span>
+					{/if}
+					{#if resumenActualizadoEn}
+						<span class="text-xs text-[color:var(--muted-foreground)]">
+							Última actualización: {new Date(resumenActualizadoEn).toLocaleString('es-ES')}
+						</span>
+					{/if}
+					<Button
+						variant={resumenSucia || !resumenExiste ? 'success' : 'secondary'}
+						onclick={publicarDatosPublicos}
+						disabled={publicandoDatos}
+					>
+						{#if publicandoDatos}
+							Actualizando...
+						{:else if !resumenExiste}
+							Publicar datos públicos
+						{:else}
+							Actualizar datos públicos
+						{/if}
+					</Button>
+				{/if}
+			</div>
+		{/if}
 	</div>
 
 	{#if !canEditContent}
@@ -478,6 +573,7 @@
 			focusSecuenciaId={focusSecuenciaId}
 			focusComentarioId={focusComentarioId}
 			onSecuenciasChange={handleSecuenciasChange}
+			onMetricaDirty={handleMetricaDirty}
 		/>
 	{:else if currentTab === 'autoria'}
 		<AutoriaTab

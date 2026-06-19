@@ -4,6 +4,7 @@ import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 import { vocabularioDeleteSchema, vocabularioPatchSchema } from '$lib/utils/validators';
+import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
 	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
@@ -214,6 +215,8 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		metroIds = syncResult.metroIds;
 	}
 
+	// El cambio de etiqueta/jerarquía debe reflejarse en las superficies públicas.
+	invalidatePublicVocabularioCache();
 	return json({ vocabulario: data, metro_ids: metroIds });
 };
 
@@ -268,5 +271,6 @@ export const DELETE: RequestHandler = async ({ locals, params, request }) => {
 		return forbiddenResponse('No tienes permiso para eliminar este término.');
 	}
 
+	invalidatePublicVocabularioCache();
 	return json({ deleted: true, terminoId: params.id });
 };

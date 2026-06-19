@@ -1,5 +1,7 @@
 <script lang="ts">
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
+	import CatalogMetricBar from '$lib/components/catalogo/CatalogMetricBar.svelte';
+	import type { CatalogTramo } from '$lib/catalogo/catalog-filters';
 
 	type Obra = {
 		obra_id: string;
@@ -12,12 +14,28 @@
 		total_versos: number | null;
 		visible_publico: boolean | null;
 		es_obra_asignada: boolean;
+		tramos?: CatalogTramo[] | null;
+		numero_efectivo_formas?: number | null;
+		densidad_transiciones?: number | null;
+		n_formas_distintas?: number | null;
 	};
 
 	const props = $props<{
 		obra: Obra;
 		canSeeAllPublished: boolean;
+		showPerfilMetrico?: boolean;
 	}>();
+
+	const tramos = $derived(props.obra.tramos ?? []);
+	const showPerfil = $derived(Boolean(props.showPerfilMetrico) && tramos.length > 0);
+
+	function formatNumber(value: number | null | undefined, decimals = 1): string | null {
+		if (value === null || value === undefined) return null;
+		return value.toFixed(decimals);
+	}
+
+	const diversidadLabel = $derived(formatNumber(props.obra.numero_efectivo_formas));
+	const densidadLabel = $derived(formatNumber(props.obra.densidad_transiciones));
 
 	function datacionLabel(obra: Obra): string {
 		const ini = obra.fecha_inicio_trad;
@@ -76,4 +94,25 @@
 			<span>{props.obra.total_versos} vv.</span>
 		{/if}
 	</div>
+
+	{#if showPerfil}
+		<div class="mt-3 space-y-1.5">
+			<CatalogMetricBar tramos={tramos} totalVersos={props.obra.total_versos} />
+			<div class="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[color:var(--muted-foreground)]">
+				{#if diversidadLabel}
+					<span title="Número efectivo de formas (diversidad métrica)">
+						Diversidad: <span class="font-semibold text-[color:var(--gray-700)]">{diversidadLabel}</span>
+					</span>
+				{/if}
+				{#if densidadLabel}
+					<span title="Cambios de estrofa por cada 100 versos">
+						Densidad: <span class="font-semibold text-[color:var(--gray-700)]">{densidadLabel}</span>
+					</span>
+				{/if}
+				{#if props.obra.n_formas_distintas !== null && props.obra.n_formas_distintas !== undefined}
+					<span>{props.obra.n_formas_distintas} formas</span>
+				{/if}
+			</div>
+		</div>
+	{/if}
 </article>
