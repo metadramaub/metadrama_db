@@ -25,6 +25,8 @@
 		trackHeight?: number;
 		/** Mostrar sub-segmentos (subtipos) como divisiones internas. */
 		showSubsegments?: boolean;
+		/** Tooltip nativo simple para usos compactos (p. ej. catálogo). */
+		showNativeTitles?: boolean;
 		/** Forma (slug/colorKey) a resaltar desde fuera (p.ej. hover en la leyenda). */
 		highlightedForma?: string | null;
 	}>();
@@ -168,6 +170,9 @@
 					opacity={isSegmentDimmed(item.segment) ? DIMMED_OPACITY : 1}
 					style="transition:opacity 120ms ease;"
 				>
+					{#if props.showNativeTitles}
+						<title>{segmentTitle(item.segment)}</title>
+					{/if}
 					<rect x={item.x} y="0" width={item.width} height={trackHeight} fill={item.color}></rect>
 
 					{#if props.showSubsegments && item.segment.subsegments && item.segment.subsegments.length > 0}
@@ -194,7 +199,11 @@
 					stroke="var(--gray-500)"
 					stroke-width="0.3"
 					stroke-dasharray="1 1"
-				></line>
+				>
+					{#if props.showNativeTitles}
+						<title>Corte de cuadro</title>
+					{/if}
+				</line>
 			{/each}
 
 			{#each jornadaMarkers as marker, index (`jornada-${index}`)}
@@ -205,7 +214,11 @@
 					y2={trackHeight + markerOverhang}
 					stroke="var(--gray-900)"
 					stroke-width="0.6"
-				></line>
+				>
+					{#if props.showNativeTitles}
+						<title>Corte de jornada</title>
+					{/if}
+				</line>
 			{/each}
 		</svg>
 

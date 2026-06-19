@@ -1,10 +1,14 @@
 <script lang="ts">
-	import type { CatalogTramo } from '$lib/catalogo/catalog-filters';
+	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
+	import type { MetricBarSegment } from '$lib/components/metrica/metric-display.types';
+	import type { CatalogStructureTramo, CatalogTramo } from '$lib/catalogo/catalog-filters';
 	import { colorForForma } from '$lib/utils/metric-colors';
 
 	const props = $props<{
 		tramos: CatalogTramo[];
 		totalVersos: number | null;
+		jornadas?: CatalogStructureTramo[] | null;
+		cuadros?: CatalogStructureTramo[] | null;
 		height?: number;
 	}>();
 
@@ -12,7 +16,9 @@
 		Math.max(
 			1,
 			props.totalVersos ?? 0,
-			...props.tramos.map((tramo: CatalogTramo) => tramo.f)
+			...props.tramos.map((tramo: CatalogTramo) => tramo.f),
+			...(props.jornadas ?? []).map((tramo: CatalogStructureTramo) => tramo.f),
+			...(props.cuadros ?? []).map((tramo: CatalogStructureTramo) => tramo.f)
 		)
 	);
 	const trackHeight = $derived(props.height ?? 14);
@@ -21,27 +27,38 @@
 		return slug.replace(/[_-]+/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
 	}
 
-	const positioned = $derived.by(() =>
-		props.tramos.map((tramo: CatalogTramo) => ({
-			tramo,
-			left: Math.max(0, ((tramo.i - 1) / total) * 100),
-			width: Math.max(0.4, ((tramo.f - tramo.i + 1) / total) * 100),
-			color: colorForForma({ slug: tramo.s, tipoForma: tramo.t })
-		}))
+	const segments = $derived.by(() =>
+		props.tramos.map(
+			(tramo: CatalogTramo): MetricBarSegment => ({
+				id: `${tramo.i}-${tramo.f}-${tramo.s}`,
+				v_ini: tramo.i,
+				v_fin: tramo.f,
+				forma: prettyForma(tramo.s),
+				colorKey: tramo.s,
+				label: prettyForma(tramo.s),
+				n_versos: tramo.f - tramo.i + 1
+			})
+		)
 	);
+
+	const colorByForma = $derived.by(() => {
+		const map: Record<string, string> = {};
+		for (const tramo of props.tramos) {
+			if (!map[tramo.s]) map[tramo.s] = colorForForma({ slug: tramo.s, tipoForma: tramo.t });
+		}
+		return map;
+	});
+
+	const jornadaMarkers = $derived((props.jornadas ?? []).map((tramo: CatalogStructureTramo) => tramo.f));
+	const cuadroMarkers = $derived((props.cuadros ?? []).map((tramo: CatalogStructureTramo) => tramo.f));
 </script>
 
-<div
-	class="relative w-full overflow-hidden border border-[color:var(--border)] bg-[color:var(--gray-100)]"
-	style={`height:${trackHeight}px;`}
-	role="img"
-	aria-label="Perfil métrico de la obra"
->
-	{#each positioned as item (item.tramo.i)}
-		<span
-			class="group absolute inset-y-0 block"
-			style={`left:${item.left}%;width:${item.width}%;background:${item.color};`}
-			title={`${prettyForma(item.tramo.s)} · vv. ${item.tramo.i}-${item.tramo.f}`}
-		></span>
-	{/each}
-</div>
+<MetricBarcode
+	segments={segments}
+	totalVerses={total}
+	{jornadaMarkers}
+	{cuadroMarkers}
+	colorByForma={colorByForma}
+	trackHeight={trackHeight}
+	showNativeTitles
+/>

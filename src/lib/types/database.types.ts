@@ -679,6 +679,8 @@ export type Database = {
           densidad_transiciones: number | null
           pct_cantado: number | null
           tramos: Json | null
+          jornadas_tramos: Json | null
+          cuadros_tramos: Json | null
           perfil_formas: Json | null
           formas_presentes: string[] | null
           metros_presentes: string[] | null
@@ -704,6 +706,8 @@ export type Database = {
           densidad_transiciones?: number | null
           pct_cantado?: number | null
           tramos?: Json | null
+          jornadas_tramos?: Json | null
+          cuadros_tramos?: Json | null
           perfil_formas?: Json | null
           formas_presentes?: string[] | null
           metros_presentes?: string[] | null
@@ -729,6 +733,8 @@ export type Database = {
           densidad_transiciones?: number | null
           pct_cantado?: number | null
           tramos?: Json | null
+          jornadas_tramos?: Json | null
+          cuadros_tramos?: Json | null
           perfil_formas?: Json | null
           formas_presentes?: string[] | null
           metros_presentes?: string[] | null

@@ -35,7 +35,7 @@
 | 5a | Perfil métrico en resultados del catálogo + orden diversidad/densidad | ✅ hecho |
 | 5b | Panel de filtros métricos (formas, metros, tipo, subtipos, variaciones, densidad) | ✅ hecho |
 | 5c | Etiquetas vía vocabulario cacheado + selector jerárquico (subtipos bajo quintilla) | ✅ hecho |
-| 5d | Pendientes del catálogo (incluye 🔴 caché HTTP) | ⏳ **pendiente** |
+| 5d | Pendientes del catálogo (mini-barcode con estructura, variaciones, dramaturgia; caché HTTP no bloqueante) | ⏳ **en curso** |
 | 6 | Fichas de autor públicas (hoy placeholder) | ⏳ pendiente (depende de Fase 3) |
 | 7 | Laboratorio + `obras_similares` (coseno provisional) | ⏳ pendiente |
 | 8 | Rasgos métricos en vocabulario → `formas_distancia` → distancias ponderadas | 🔒 bloqueada (trabajo filológico manual) |
@@ -45,8 +45,11 @@
 - ✅ `20260618230000_obras_resumen_triggers_subtipos.sql`
 - ✅ `20260619120000_obras_resumen_rls_publico.sql`
 - ✅ `20260619133000_obras_resumen_dirty_cuadros.sql`
+- ⏳ `20260619143000_obras_resumen_estructura_barcode.sql` (pendiente de aplicar)
 - `recompute_all()` ya ejecutado (formas/subtipos poblados). **Nota:** tras editar secuencias hay
   que pulsar el botón por obra, o `recompute_all` global, para refrescar el resumen.
+  Tras aplicar `20260619143000`, ejecutar `recompute_all()` para poblar `jornadas_tramos`/
+  `cuadros_tramos` en obras ya publicadas.
 
 ### Próximo paso recomendado
 1. **🔴 Arreglar la invalidación de caché HTTP del catálogo** (Fase 5d): al cambiar la visibilidad
@@ -383,11 +386,14 @@ Se entrega en dos incrementos.
   (`buildFormaSelectorItems` + `splitFormaSelection`, con tests). Chip único "Forma estrófica".
 
 #### Fase 5d — Pendientes menores del catálogo
-- **🔴 Invalidación de caché HTTP del catálogo (fallo real confirmado):** al cambiar la visibilidad
+- **Caché HTTP del catálogo:** al cambiar la visibilidad
   de una sección, la respuesta anónima cacheada (`s-maxage=300, swr=600`) **no se invalida**, así
-  que el cambio tarda ~5-15 min en verse (se confirmó: `/catalogo?x=1` lo evita). `invalidatePublicSectionsCache()`
-  solo limpia el caché en memoria del servidor, no el CDN. Decidir: bajar/quitar el `s-maxage`,
-  o variar la clave de caché por versión de config, o purgar la ruta al guardar en el panel.
+  que el cambio tarda ~5-15 min en verse (se confirmó: `/catalogo?x=1` lo evita). Decisión
+  2026-06-19: **no bloquear ni bajar cachés**; la configuración de visibilidad será estable y
+  se prefiere velocidad pública.
+- Mini-barcode con el mismo componente base de la ficha (`MetricBarcode`), escala D3, tooltip
+  nativo simple y cortes de jornadas/cuadros desde `obras_resumen.jornadas_tramos`/
+  `cuadros_tramos` — **implementado, pendiente aplicar migración 20260619143000**.
 - Sección `catalogo.filtros.dramaturgia`: intervención femenina/donaire/sobrenaturales, versos
   partidos, cambio de espacio (campos ya en `obras_resumen`, faltan facetas + UI).
 - Variaciones agrupadas por su categoría padre (fenómenos enunciativos / irregularidades…), igual

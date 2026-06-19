@@ -9,6 +9,7 @@ import {
 	withCatalogVisibilityDefaults,
 	type CatalogFilterOption,
 	type CatalogFilterOptions,
+	type CatalogStructureTramo,
 	type CatalogTramo
 } from '$lib/catalogo/catalog-filters';
 import { buildSectionVisibilityMap } from '$lib/secciones-publicas';
@@ -40,6 +41,8 @@ type PublicCatalogObra = Pick<
 	// Perfil métrico precomputado (obras_resumen). Null si la sección métrica no
 	// es visible para este visitante o la obra aún no tiene resumen.
 	tramos: CatalogTramo[] | null;
+	jornadas_tramos: CatalogStructureTramo[] | null;
+	cuadros_tramos: CatalogStructureTramo[] | null;
 	numero_efectivo_formas: number | null;
 	densidad_transiciones: number | null;
 	n_formas_distintas: number | null;
@@ -314,6 +317,8 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 	type ResumenRow = Pick<
 		Tables<'obras_resumen'>,
 		| 'tramos'
+		| 'jornadas_tramos'
+		| 'cuadros_tramos'
 		| 'numero_efectivo_formas'
 		| 'densidad_transiciones'
 		| 'n_formas_distintas'
@@ -328,7 +333,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		const resumenResp = await locals.supabase
 			.from('obras_resumen')
 			.select(
-				'obra_id,tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes'
+				'obra_id,tramos,jornadas_tramos,cuadros_tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes'
 			)
 			.in('obra_id', obraIds);
 		for (const row of (resumenResp.data ?? []) as Array<ResumenRow & { obra_id: string }>) {
@@ -347,6 +352,8 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 					a.localeCompare(b, 'es')
 				),
 				tramos: (resumen?.tramos as CatalogTramo[] | null) ?? null,
+				jornadas_tramos: (resumen?.jornadas_tramos as CatalogStructureTramo[] | null) ?? null,
+				cuadros_tramos: (resumen?.cuadros_tramos as CatalogStructureTramo[] | null) ?? null,
 				numero_efectivo_formas: resumen?.numero_efectivo_formas ?? null,
 				densidad_transiciones: resumen?.densidad_transiciones ?? null,
 				n_formas_distintas: resumen?.n_formas_distintas ?? null,
