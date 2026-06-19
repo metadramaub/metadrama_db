@@ -2,11 +2,14 @@ import { describe, expect, it } from 'vitest';
 import {
 	CATALOG_SORT_OPTIONS,
 	buildCatalogActiveChips,
+	buildFormaSelectorItems,
+	catalogSortOptions,
 	createDefaultCatalogFilters,
 	deriveCatalogBounds,
 	filterAndSortCatalogObras,
 	parseCatalogFilters,
 	serializeCatalogFilters,
+	splitFormaSelection,
 	withCatalogVisibilityDefaults,
 	type CatalogFilterOptions,
 	type CatalogObraForFilters
@@ -16,6 +19,12 @@ import { CATALOG_SECTION_IDS, type SectionVisibilityMap } from '$lib/secciones-p
 const visibilityAll: SectionVisibilityMap = {
 	[CATALOG_SECTION_IDS.filtrosBasicos]: true,
 	[CATALOG_SECTION_IDS.filtrosDatacionExtension]: true
+};
+
+const visibilityWithMetric: SectionVisibilityMap = {
+	[CATALOG_SECTION_IDS.filtrosBasicos]: true,
+	[CATALOG_SECTION_IDS.filtrosDatacionExtension]: true,
+	[CATALOG_SECTION_IDS.filtrosMetrica]: true
 };
 
 const visibilityNoRanges: SectionVisibilityMap = {
@@ -53,7 +62,7 @@ const obras: CatalogObraForFilters[] = [
 	}
 ];
 
-function options(): CatalogFilterOptions {
+function options(overrides: Partial<CatalogFilterOptions> = {}): CatalogFilterOptions {
 	return {
 		autores: [
 			{ id: 'Calderón de la Barca', label: 'Calderón de la Barca' },
@@ -63,7 +72,13 @@ function options(): CatalogFilterOptions {
 			{ id: 'Comedia', label: 'Comedia' },
 			{ id: 'Drama', label: 'Drama' }
 		],
-		bounds: deriveCatalogBounds(obras)
+		formas: [],
+		metros: [],
+		tiposForma: [],
+		variaciones: [],
+		subtipos: [],
+		bounds: deriveCatalogBounds(obras),
+		...overrides
 	};
 }
 
@@ -71,7 +86,8 @@ describe('catalog-filters', () => {
 	it('deriva bounds compactos desde las obras visibles', () => {
 		expect(deriveCatalogBounds(obras)).toEqual({
 			datacion: { min: 1613, max: 1644 },
-			versos: { min: 2790, max: 3184 }
+			versos: { min: 2790, max: 3184 },
+			densidad: null
 		});
 	});
 
@@ -150,6 +166,154 @@ describe('catalog-filters', () => {
 			[CATALOG_SECTION_IDS.filtrosBasicos]: false
 		});
 		expect(explicit[CATALOG_SECTION_IDS.filtrosBasicos]).toBe(false);
+	});
+
+	it('expone los órdenes métricos solo si el grupo métrico es visible', () => {
+		expect(catalogSortOptions(visibilityAll).map((o) => o.id)).toEqual([
+			'titulo',
+			'autor',
+			'fecha',
+			'versos',
+			'updated'
+		]);
+		expect(catalogSortOptions(visibilityWithMetric).map((o) => o.id)).toEqual([
+			'titulo',
+			'autor',
+			'fecha',
+			'versos',
+			'updated',
+			'diversidad',
+			'densidad'
+		]);
+	});
+
+	it('rechaza un orden métrico en la URL si el grupo métrico no es visible', () => {
+		const opts = options();
+		const off = parseCatalogFilters(new URLSearchParams('orden=diversidad'), opts, visibilityAll);
+		expect(off.sortBy).toBe('titulo');
+
+		const on = parseCatalogFilters(
+			new URLSearchParams('orden=diversidad'),
+			opts,
+			visibilityWithMetric
+		);
+		expect(on.sortBy).toBe('diversidad');
+	});
+
+	it('ordena por diversidad y densidad métricas', () => {
+		const opts = options();
+		const metricObras: CatalogObraForFilters[] = [
+			{
+				titulo: 'Baja diversidad',
+				autoria_autores: [],
+				genero_term: null,
+				fecha_inicio_trad: null,
+				fecha_fin_trad: null,
+				total_versos: 1000,
+				updated_at: null,
+				numero_efectivo_formas: 1.2,
+				densidad_transiciones: 5
+			},
+			{
+				titulo: 'Alta diversidad',
+				autoria_autores: [],
+				genero_term: null,
+				fecha_inicio_trad: null,
+				fecha_fin_trad: null,
+				total_versos: 1000,
+				updated_at: null,
+				numero_efectivo_formas: 6.4,
+				densidad_transiciones: 2
+			}
+		];
+
+		const byDiversidad = filterAndSortCatalogObras(
+			metricObras,
+			{ ...createDefaultCatalogFilters(opts), sortBy: 'diversidad' },
+			opts
+		);
+		expect(byDiversidad[0].titulo).toBe('Alta diversidad');
+
+		const byDensidad = filterAndSortCatalogObras(
+			metricObras,
+			{ ...createDefaultCatalogFilters(opts), sortBy: 'densidad' },
+			opts
+		);
+		expect(byDensidad[0].titulo).toBe('Baja diversidad');
+	});
+
+	it('filtra por formas presentes (contiene alguna) cuando el grupo métrico es visible', () => {
+		const metricObras: CatalogObraForFilters[] = [
+			{
+				titulo: 'Con romance',
+				autoria_autores: [],
+				genero_term: null,
+				fecha_inicio_trad: null,
+				fecha_fin_trad: null,
+				total_versos: 1000,
+				updated_at: null,
+				formas_presentes: ['romance', 'redondilla']
+			},
+			{
+				titulo: 'Sin romance',
+				autoria_autores: [],
+				genero_term: null,
+				fecha_inicio_trad: null,
+				fecha_fin_trad: null,
+				total_versos: 1000,
+				updated_at: null,
+				formas_presentes: ['silva', 'soneto']
+			}
+		];
+		const opts = options({ formas: [{ id: 'romance', label: 'Romance' }] });
+		const filters = { ...createDefaultCatalogFilters(opts), formas: ['romance'] };
+
+		expect(filterAndSortCatalogObras(metricObras, filters, opts).map((o) => o.titulo)).toEqual([
+			'Con romance'
+		]);
+	});
+
+	it('ignora un filtro métrico de la URL si el grupo métrico no es visible', () => {
+		const opts = options({ formas: [{ id: 'romance', label: 'Romance' }] });
+		const parsed = parseCatalogFilters(new URLSearchParams('forma=romance'), opts, visibilityAll);
+		expect(parsed.formas).toEqual([]);
+
+		const parsedMetric = parseCatalogFilters(
+			new URLSearchParams('forma=romance'),
+			opts,
+			visibilityWithMetric
+		);
+		expect(parsedMetric.formas).toEqual(['romance']);
+	});
+
+	it('arma el selector de forma con subtipos anidados bajo su raíz', () => {
+		const opts = options({
+			formas: [
+				{ id: 'quintilla', label: 'Quintilla' },
+				{ id: 'romance', label: 'Romance' }
+			],
+			subtipos: [
+				{ id: 'quintilla_1_ababa', label: 'Quintilla ababa', parentId: 'quintilla' },
+				{ id: 'huerfano', label: 'Huérfano', parentId: 'inexistente' }
+			]
+		});
+		const items = buildFormaSelectorItems(opts);
+
+		expect(items.find((i) => i.id === 'quintilla')?.parentId).toBeNull();
+		expect(items.find((i) => i.id === 'quintilla_1_ababa')?.parentId).toBe('quintilla');
+		// Subtipo cuyo padre no está presente cae a la raíz (no se queda huérfano/oculto).
+		expect(items.find((i) => i.id === 'huerfano')?.parentId).toBeNull();
+	});
+
+	it('divide la selección combinada en formas y subtipos reales', () => {
+		const opts = options({
+			formas: [{ id: 'quintilla', label: 'Quintilla' }],
+			subtipos: [{ id: 'quintilla_1_ababa', label: 'Quintilla ababa', parentId: 'quintilla' }]
+		});
+		expect(splitFormaSelection(['quintilla', 'quintilla_1_ababa'], opts)).toEqual({
+			formas: ['quintilla'],
+			subtipos: ['quintilla_1_ababa']
+		});
 	});
 
 	it('construye chips solo de grupos visibles', () => {

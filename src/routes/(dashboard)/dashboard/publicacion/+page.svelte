@@ -69,6 +69,33 @@
 		seccion.scope_minimo = value;
 		patchSeccion(seccion, { scope_minimo: value });
 	}
+
+	let recomputeStatus = $state<'idle' | 'running' | 'done' | 'error'>('idle');
+	let recomputeMessage = $state('');
+
+	async function recomputeAll() {
+		if (recomputeStatus === 'running') return;
+		recomputeStatus = 'running';
+		recomputeMessage = '';
+		try {
+			const resp = await fetch('/api/datos-publicos/recompute-all', { method: 'POST' });
+			const body = await resp.json().catch(() => ({}));
+			if (!resp.ok) {
+				throw new Error(body.message ?? `Error ${resp.status}`);
+			}
+			recomputeStatus = 'done';
+			recomputeMessage =
+				typeof body.obras === 'number'
+					? `Datos públicos recalculados (${body.obras} obras).`
+					: 'Datos públicos recalculados.';
+			setTimeout(() => {
+				if (recomputeStatus === 'done') recomputeStatus = 'idle';
+			}, 4000);
+		} catch (err) {
+			recomputeStatus = 'error';
+			recomputeMessage = err instanceof Error ? err.message : 'Error desconocido';
+		}
+	}
 </script>
 
 {#snippet seccionRow(seccion: PublicSection)}
@@ -150,6 +177,31 @@
 			{#each ficha as seccion (seccion.seccion_id)}
 				{@render seccionRow(seccion)}
 			{/each}
+		</div>
+	</div>
+
+	<div class="card p-4">
+		<h2 class="font-display text-xl">Datos métricos precomputados</h2>
+		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+			Recalcula los datos métricos públicos (barcode, perfil de formas, filtros del catálogo) de
+			<strong>todas las obras publicadas</strong>. Normalmente cada obra se actualiza con su propio
+			botón al editarla; usa esto para una reconstrucción global tras un cambio que afecte a todas
+			(por ejemplo, renombrar formas en el vocabulario).
+		</p>
+		<div class="mt-3 flex flex-wrap items-center gap-3">
+			<button
+				type="button"
+				class="border border-[color:var(--border)] bg-[color:var(--gray-900)] px-3 py-2 text-sm text-white hover:opacity-90 disabled:opacity-50"
+				disabled={recomputeStatus === 'running'}
+				onclick={recomputeAll}
+			>
+				{recomputeStatus === 'running' ? 'Recalculando...' : 'Recalcular todos los datos públicos'}
+			</button>
+			{#if recomputeStatus === 'done'}
+				<span class="text-sm text-emerald-700">{recomputeMessage}</span>
+			{:else if recomputeStatus === 'error'}
+				<span class="text-sm text-red-600">{recomputeMessage}</span>
+			{/if}
 		</div>
 	</div>
 </section>

@@ -1,368 +1,529 @@
-# Estrategias de precomputación — catálogo, fichas, comparativas, laboratorio
+# Decisiones de precomputación — especificación para implementación
 
-> Documento de **diseño y decisión** (no de implementación). Recoge opciones para
-> precalcular agregados métricos/dramáticos y servirlos rápido a escala (hoy ~60
-> obras; objetivo ~3000 en pocos años). Léelo con calma; al final hay una tabla
-> de decisión y una recomendación por superficie.
+> Documento de decisión consolidado. Recoge qué se precomputa, dónde, cuándo y cómo lo
+> consume cada superficie. Está pensado para guiar la implementación directa en el proyecto.
+> No incluye código: define contratos y lógica, no sintaxis concreta.
 >
-> **Estado:** propuesta abierta. Nada de esto está implementado todavía.
+> Versión revisada tras discusión sobre medidas de polimetría, distancias entre formas,
+> y perfiles de autor. Incorpora la decisión de basar las distancias en rasgos métricos
+> formalizados (rima, metro, naturaleza estrófica) que aún no existen en el vocabulario
+> y se codificarán manualmente más adelante.
 
 ---
 
-## 0. El problema de fondo
+## 1. Decisión de arquitectura general
 
-Hoy casi todo se calcula **en cada petición**: la ficha llama a `get_obra_ficha_publica`
-(una RPC que recorre secuencias, autoría, distribución de formas…) y el catálogo
-hace varias queries en cascada (obras → grupos → atribuciones → autores → géneros).
+**Dónde vive todo:** Supabase (PostgreSQL). Sin ficheros estáticos externos por ahora.
+Si el corpus crece a varios cientos de obras y el compute de Supabase empieza a notarse,
+se añade una capa de exportación a JSON estáticos como extensión del mismo proceso de
+publicación, sin cambiar el modelo de datos.
 
-Con 60 obras esto va sobrado. Con 3000 obras y vistas más ricas (un barcode por
-obra en el catálogo, comparativas entre obras, laboratorio de datos), recalcular
-todo en cada visita se vuelve:
+**Principio rector:** `secuencias_metricas` es la fuente de verdad. Todo lo que hay en
+`obras_resumen` es derivado y reconstruible desde cero. Debe existir siempre una función
+`recompute_all()` que regenere toda la tabla desde los datos crudos.
 
-- **Lento**: agregaciones sobre cientos de miles de filas de `secuencias_metricas`
-  en cada carga.
-- **Caro**: muchas lecturas repetidas de datos que cambian poco (una obra
-  publicada se edita rara vez).
-- **Difícil de cachear**: cada filtro/orden distinto es una query distinta.
-
-La idea de la **precomputación**: calcular una vez (al editar/publicar) y guardar
-el resultado ya digerido. Las vistas leen ese resultado, no los datos crudos.
-
-### Qué cambia poco y qué se consulta mucho
-
-| Dato | Frecuencia de cambio | Frecuencia de lectura | ¿Precomputar? |
-|---|---|---|---|
-| Secuencias de una obra publicada | Muy baja | Alta (ficha, catálogo, lab) | **Sí, claro** |
-| Distribución de formas por obra | Muy baja | Alta | **Sí** |
-| Conjunto de formas presentes por obra | Muy baja | Alta (filtro métrico) | **Sí** |
-| Listado de obras (título, fecha) | Baja | Muy alta | Quizá (vista materializada) |
-| Comparativas entre N obras | N/A (derivado) | Media | Derivar de agregados |
-
-Regla general: **precomputa lo que se lee mucho y cambia poco**. Lo que cambia en
-cada request (p. ej. el filtrado por el viewer) no se precomputa, se filtra sobre
-datos ya precomputados.
+**Cuándo se activa la precomputación:** exclusivamente al pulsar el botón
+"Actualizar datos públicos" en el dashboard de una obra. El autosave (cada 10s) escribe
+en las tablas crudas y activa un flag de suciedad, pero no toca nada precomputado.
 
 ---
 
-## 1. Las cuatro estrategias base
+## 2. Nueva tabla: `obras_resumen`
 
-Antes de ir superficie por superficie, conviene tener claras las cuatro técnicas.
-Casi todo el documento es combinarlas.
+Tabla central. Una fila por obra. Consolida todo lo que antes estaba disperso en queries
+en cascada o calculado en cada petición. Sustituye la propuesta de tener `obras_barcode_resumen`
+y `obra_analitica` como tablas separadas.
 
-### A) Columna/tabla de agregados por obra (snapshot)
+### 2.1 Columnas
 
-Una tabla `obras_metrica_resumen` (o columnas `jsonb` en `obras`) con el resultado
-ya calculado **por obra**: perfil de formas, barcode resumido, conjunto de formas
-presentes, totales… Se **recalcula con un trigger** cuando cambian las secuencias
-de esa obra, o con una función que se llama al publicar.
+**Identificador**
+- `obra_id` — uuid, PK, FK a `obras.obra_id`
 
-- **Pro**: lectura O(1) por obra; el catálogo trae 1 fila ligera por obra.
-- **Pro**: escala a miles de obras sin tocar el coste de lectura.
-- **Contra**: hay que mantener la coherencia (triggers o recálculo explícito).
-- **Contra**: requiere migración y disciplina ("¿quién recalcula y cuándo?").
+**Extensión y estructura**
+- `total_versos` — int. Total de versos de la obra (redundante con `obras.total_versos`;
+  se mantiene aquí para que el catálogo no necesite JOIN con `obras` para este dato).
+- `n_secuencias` — int. Número total de secuencias métricas.
+- `n_jornadas` — int. Número de jornadas (count de `jornadas` para la obra).
 
-### B) Vista materializada (materialized view)
+**Métricas de diversidad métrica (revisadas)**
+- `n_formas_distintas` — int. Número de formas estróficas distintas usadas. Riqueza pura.
+- `numero_efectivo_formas` — float. **Medida principal de diversidad.** Número de Hill de
+  orden 1: `exp(H)` con H = entropía de Shannon en logaritmo natural sobre las proporciones
+  de versos por forma. Interpretación directa: "esta obra equivale a D formas en
+  distribución uniforme". Una obra monométrica da 1; mitad y mitad de dos formas da 2;
+  cuatro formas al 25% dan 4; cuatro formas muy desequilibradas (85/5/5/5) dan ~1,6.
+  **No depende del tamaño del vocabulario**, así que añadir formas nuevas al vocabulario
+  no altera el valor de ninguna obra ya catalogada. Esto la hace estable en el tiempo y
+  citable, a diferencia de la propuesta anterior (Shannon normalizado contra V).
+- `p_max` — float [0–1]. Proporción de versos de la forma dominante sobre el total.
+  Complementa el número efectivo: indica cuán dominada está la obra por una sola forma.
+  El cociente `numero_efectivo_formas / n_formas_distintas` indica equilibrio: si una obra
+  tiene 8 formas presentes pero número efectivo 2, seis de esas formas son anecdóticas.
 
-Postgres guarda el resultado de una query compleja como una tabla física, que se
-**refresca** (manual, por cron, o `REFRESH ... CONCURRENTLY`).
+> **Decisión tomada:** se abandonan `polimetria_score` (Shannon / log2(V)) y el uso de
+> `tasa_cambio` como "polimetría" en el filtro. Razón: el primero depende del vocabulario
+> total y deja de ser comparable cuando este crece (cosa que ocurrirá durante años en un
+> proyecto en construcción); el segundo mide frecuencia de transición, no variedad, y una
+> obra que alterna dos formas muchas veces saldría como muy polimétrica siendo pobre en
+> repertorio. El número efectivo de formas captura el concepto filológico de polimetría
+> de forma robusta e interpretable.
 
-- **Pro**: defines la lógica como SQL una vez; Postgres gestiona el almacenamiento.
-- **Pro**: ideal para listados/agregados globales (catálogo, estadísticas del corpus).
-- **Contra**: el refresco es **todo o nada** por vista (no incremental nativo); con
-  miles de obras un refresh completo puede ser pesado si es muy frecuente.
-- **Contra**: datos "algo viejos" entre refrescos (aceptable para obras publicadas).
+**Densidad de transiciones (no es polimetría)**
+- `densidad_transiciones` — float. Cambios de estrofa por cada 100 versos:
+  `(n_secuencias / total_versos) * 100`. Es lo que el documento anterior llamaba
+  `tasa_cambio`. **Se conserva, pero etiquetada por lo que es**: densidad de cambios
+  métricos, no polimetría. Mide ritmo de conmutación formal, no variedad. Puede exponerse
+  como filtro/orden propio en el buscador con esa etiqueta, sin confundirlo con la
+  diversidad. No se guarda además `longitud_media_sec` por ser su inverso exacto
+  (`total_versos / n_secuencias`); si se necesita en alguna vista, se deriva en cliente.
 
-### C) Caché HTTP / CDN (lo que ya hacéis)
+**% cantado**
+- `pct_cantado` — float [0–1]. Proporción de versos en secuencias cuya forma es de tipo
+  "cantado". Pendiente de confirmar qué `categoria` o `etiqueta` de `vocabularios`
+  identifica las formas cantadas.
 
-Cabeceras `cache-control` con `s-maxage` + `stale-while-revalidate`. El catálogo ya
-las usa (`s-maxage=300, stale-while-revalidate=600`). No precomputa en BD, pero
-evita recalcular en cada visita anónima.
+**Datos estructurados para visualización**
+- `tramos` — jsonb. Array de tramos fusionados para el barcode:
+  `[{"i": v_ini, "f": v_fin, "s": forma_slug, "t": tipo_forma}]`. Tramos contiguos de la
+  misma forma se fusionan. Ordenados por `v_ini`. `tipo_forma` es `"forma_espanola"`,
+  `"forma_italiana"` o `null`. Sirve para pintar el barcode y como base de la distancia
+  secuencial. **Ver §3.4 sobre la longitud de tramo en la distancia secuencial.**
+- `perfil_formas` — jsonb. Mapa `{forma_slug: n_versos}`. Versos por forma, sin normalizar.
+  La normalización (dividir por `total_versos`) se hace en el consumidor. Base de la
+  distancia composicional.
 
-- **Pro**: cero esquema, ya está en marcha; absorbe picos de tráfico anónimo.
-- **Contra**: no ayuda a usuarios logueados (`private, no-store`), ni a queries
-  únicas (cada combinación de filtros es otra URL → otra entrada de caché).
-- **Rol**: complemento, no sustituto. Cachear **encima** de datos ya precomputados.
+**Arrays para filtros (indexados con GIN)**
+- `formas_presentes` — text[]. Slugs de todas las formas presentes (filtro "contiene X").
+- `metros_presentes` — text[]. Slugs de metros específicos via `estrofa_tipo_metros`.
+- `tipos_forma_presentes` — text[]. Subconjunto de `['forma_espanola', 'forma_italiana']`.
+- `variaciones_presentes` — text[]. Tipos de variación/caracterización presentes.
+  **Pendiente:** el spec del buscador referencia `secuencias_variaciones.tipo_variacion_id`,
+  tabla inexistente en el esquema actual. Confirmar si la fuente es
+  `secuencias_caracterizaciones_rango` o una tabla por crear. Campo vacío hasta aclararlo.
 
-### D) Caché de aplicación (memoria/KV)
+**Flags de contexto dramático**
+- `tiene_versos_partidos` — boolean. True si alguna secuencia tiene `versos_partidos`.
+- `tiene_cambio_espacio` — boolean. True si alguna secuencia tiene `inaugura_espacio`.
+- `intervencion_femenina` — text: `'ninguna'` / `'exclusiva'` / `'compartida'` / `'mixta'`,
+  derivado de `intervencion_personajes_femeninos` de todas las secuencias.
+- `intervencion_donaire` — text. Mismo esquema sobre `intervencion_figuras_donaire`.
+- `intervencion_sobrenaturales` — text. Mismo esquema sobre `intervencion_personajes_sobrenaturales`.
 
-Guardar en memoria del server (o un KV como Vercel KV/Redis) resultados calculados,
-con TTL e invalidación por clave de obra.
+**Estado de precomputación**
+- `metrica_sucia` — boolean, default false. True si las secuencias cambiaron desde el
+  último recálculo. Lo activa el trigger (§5). Lo limpia el recompute. El dashboard lo usa
+  para mostrar "hay cambios sin publicar".
+- `actualizado_en` — timestamptz. Momento del último recálculo.
 
-- **Pro**: flexible, invalidación fina.
-- **Contra**: infra extra; en serverless la memoria no persiste entre invocaciones
-  (necesitas KV externo). Probablemente **innecesario** si A/B están bien hechos.
-
-> **Tesis del documento**: la base debe ser **(A) agregados por obra** para lo
-> "por obra" y **(B) vista materializada** para lo "global del corpus", con **(C)
-> caché HTTP** encima. (D) solo si algo lo pide de verdad.
-
----
-
-## 2. El barcode del catálogo (caso motivador)
-
-Objetivo: un barcode de obra completa en cada tarjeta del catálogo + filtro por
-forma métrica. El problema: 3000 obras × 100-300 secuencias = 300k-900k filas. No
-se pueden traer todas en cada carga.
-
-### Qué necesita un barcode, mínimamente
-
-Por obra, una lista de **tramos** `{ v_ini, v_fin, forma_slug, tipo_forma }`
-ordenados. **No** hace falta cada secuencia con todos sus campos: para pintar el
-catálogo basta el tramo y su color. Los subtipos/caracterizaciones se pueden omitir
-en la miniatura del catálogo (se ven en la ficha).
-
-### Opción 2.1 — Barcode resumido precomputado (recomendada)
-
-Tabla nueva:
+### 2.2 Índices
 
 ```
-obras_barcode_resumen (
-  obra_id            uuid primary key references obras,
-  total_versos       int,
-  tramos             jsonb,   -- [{ "i": 1, "f": 48, "s": "romance", "t": "forma_espanola" }, ...]
-  formas_presentes   text[],  -- ['romance','soneto',...]  (para el filtro)
-  perfil_formas      jsonb,   -- { "romance": 1200, "soneto": 56, ... } versos por forma
-  actualizado_en     timestamptz default now()
-)
+GIN sobre formas_presentes, metros_presentes, tipos_forma_presentes, variaciones_presentes
+BTREE sobre numero_efectivo_formas   (orden por diversidad)
+BTREE sobre densidad_transiciones    (filtro/orden de densidad)
+BTREE sobre n_formas_distintas
+BTREE sobre total_versos
 ```
 
-- El catálogo hace **1 query** (`select obra_id,total_versos,tramos,formas_presentes
-  from obras_barcode_resumen where obra_id in (...)`), trayendo un `jsonb` ligero por
-  obra (decenas de tramos, no cientos de filas).
-- El **filtro por forma** opera sobre `formas_presentes` (array indexable con GIN):
-  `where formas_presentes && array['soneto']` → instantáneo.
-- Los `tramos` ya traen `forma_slug`+`tipo_forma`, así que el color se resuelve con
-  el helper `colorForForma` **sin más datos** (mismo color que ficha/barcode/pie).
+---
 
-**¿Cuánto pesa?** Un barcode resumido tras fusionar tramos contiguos de la misma
-forma suele ser ~20-60 tramos. 3000 obras × ~50 tramos × ~40 bytes ≈ pocos MB. Una
-página de catálogo (30-100 obras) son KB. Perfectamente manejable.
+## 3. Distancias entre formas, obras y autores
 
-**¿Cómo se mantiene al día?** Tres sub-opciones (de más simple a más automático):
+Esta sección recoge el cambio de mayor calado respecto a la versión anterior. La
+distancia composicional ya no es coseno plano sobre las formas tratadas como ejes
+ortogonales. Pasa a basarse en una **matriz de distancia entre formas** derivada de
+rasgos métricos formalizados.
 
-1. **Recálculo al publicar/editar** (explícito): una función SQL
-   `recompute_obra_barcode(obra_id)` que el backend llama tras guardar secuencias o
-   al cambiar estado a publicado. Simple y predecible; el editor controla cuándo.
-2. **Trigger en `secuencias_metricas`** (automático): `AFTER INSERT/UPDATE/DELETE`
-   marca la obra como "sucia" o recalcula su fila. Coherencia fuerte, pero ojo con
-   ediciones masivas (recalcular en cada fila es caro → mejor "marcar sucia" +
-   recalcular en batch).
-3. **Cola de recálculo** (desacoplado): el trigger encola `obra_id`; un job procesa
-   la cola. Robusto a escala, más piezas.
+### 3.1 La matriz de distancia entre formas (`formas_distancia`)
 
-> Para vuestro ritmo de edición (obras que se publican y casi no cambian), **la
-> opción 1 (recálculo explícito al guardar/publicar)** es la más sencilla y
-> suficiente. El trigger se puede añadir después si hace falta.
+**Estado: depende de datos que aún no existen.** Los rasgos métricos de cada forma
+(rima, metro, naturaleza estrófica, etc.) **no están codificados todavía** en
+`vocabularios`. Se codificarán manualmente más adelante. Esta sección define el
+contrato hacia el que se trabaja; la matriz no puede generarse hasta que existan
+los rasgos.
 
-### Opción 2.2 — Lazy-load por obra visible
+**Por qué no basta la jerarquía actual:** `vocabularios` tiene solo dos niveles
+(raíz–hijo, sin nietos) y la única herencia es `tipo_forma` (español/italiano).
+Una distancia de árbol sobre eso solo distingue tres grados (misma forma, mismo padre,
+distinto padre) más el salto español/italiano. Demasiado grueso para que aporte algo
+sobre el coseno. La solución es describir cada forma por un **vector de rasgos** y
+medir distancia entre vectores.
 
-El catálogo carga sin barcodes; cada tarjeta pide el suyo al entrar en viewport
-(`IntersectionObserver`) a un endpoint `+server.ts` cacheado por CDN.
+**Rasgos previstos** (a codificar manualmente en `vocabularios`, conjunto mínimo):
+- **Metro / longitud de verso**: octosílabo, endecasílabo, heptasílabo, mixto
+  hepta-endecasílabo, etc. Frontera más gruesa (arte menor vs arte mayor).
+- **Tipo de rima**: asonante / consonante / suelto-blanco. Distingue romance de redondilla
+  pese a compartir metro.
+- **Naturaleza estrófica**: estrófica cerrada (molde fijo repetido) / tirada continua /
+  forma fija singular. Distingue romance (tirada) de redondilla (estrófica) de soneto (fija).
+- **Tamaño de la unidad estrófica** cuando aplica (redondilla 4, quintilla 5, octava 8,
+  décima 10; nulo para romance, silva).
+- (Opcional, no en el primer conjunto) esquema de rima concreto (abba vs abab). Se añade
+  solo si la validación con datos muestra que dos formas que deberían distinguirse salen
+  pegadas. Riesgo de sobreajuste si se añaden demasiados rasgos.
 
-- **Pro**: cero migración; solo pintas lo que se ve.
-- **Contra**: N peticiones (aunque cacheadas), más lógica en cliente, y el **filtro
-  por forma no funciona** sin datos agregados (volverías a necesitar A para filtrar).
-- **Veredicto**: sirve como paso intermedio, pero como el filtro métrico necesita
-  agregados igualmente, mejor ir directo a 2.1.
+**Cómo se combina en distancia:** suma ponderada de diferencias rasgo a rasgo. **El peso
+de cada rasgo es una decisión filológica del equipo, no técnica** (¿una diferencia de
+metro pesa más que una de rima? casi seguro sí, pero cuánto lo decide el equipo). La matriz
+es el lugar donde el criterio metrista se vuelve operativo y debe documentarse de forma
+explícita y revisable.
 
-### Opción 2.3 — Paginación + secuencias de la página
+**Generación y almacenamiento:** una vez existan los rasgos en `vocabularios`, la matriz
+es un subproducto automático: tabla `formas_distancia(forma_a, forma_b, distancia)` o, dado
+que con ~50 formas son ~2500 celdas, un único jsonb cacheado. Se regenera cuando cambian
+los rasgos o se añade una forma. Es pequeña y estable.
 
-Paginar (p. ej. 30 obras/página) y traer secuencias solo de esas 30.
+**Una sola matriz, dos usos:** la misma `formas_distancia` alimenta la distancia
+composicional (§3.2) y la secuencial (§3.4). La misma noción de "cercanía entre formas"
+gobierna ambos análisis, lo que da coherencia.
 
-- **Pro**: limita el volumen por carga sin precomputar nada.
-- **Contra**: cambia el modelo actual (hoy es client-side sin paginar); el filtro
-  por forma sobre TODO el corpus seguiría necesitando agregados; ordenar por algo
-  métrico global obliga a precomputar igualmente.
-- **Veredicto**: la paginación es buena idea **además** de 2.1 (no traer 3000
-  barcodes de golpe aunque sean ligeros), pero no sustituye la precomputación.
+### 3.2 Distancia composicional entre obras
 
-### Recomendación catálogo
+Cuando exista `formas_distancia`, la distancia composicional pasa de coseno a
+**transporte óptimo** (Earth Mover's / Wasserstein) sobre los perfiles `perfil_formas`
+normalizados, usando `formas_distancia` como coste de mover masa entre formas. Resultado:
+"esta obra usa romance donde aquella usa redondilla" es diferencia pequeña; "romance vs
+soneto" es grande. Es la geometría que un metrista reconocería.
 
-**2.1 (barcode resumido precomputado) + paginación + caché HTTP encima.** El filtro
-por forma sale gratis del array `formas_presentes`. El selector de formas se
-**reutiliza del dashboard** (mismo componente de selección de vocabulario), poblado
-con las formas raíz realmente presentes en el corpus.
+**Antes de que existan los rasgos** (estado actual): se usa coseno plano sobre
+`perfil_formas` como aproximación provisional, documentado como limitación conocida
+(trata todas las formas como igual de distintas). El cambio de coseno a transporte óptimo
+**no requiere migración de datos**: `perfil_formas` ya contiene lo necesario; solo cambia
+la función de distancia cuando la matriz esté disponible.
+
+### 3.3 Mejora intermedia sin rasgos (opcional)
+
+Si se quiere algo mejor que el coseno plano antes de codificar todos los rasgos: calcular
+el perfil también agregado por `tipo_forma` (español/italiano) y por padre, y combinar.
+Aprovecha la poca jerarquía existente. Es un puente, no la solución. Prescindible si se
+codifican los rasgos pronto.
+
+### 3.4 Distancia secuencial entre obras
+
+Sobre la secuencia ordenada de formas extraída de `tramos`. Algoritmo a validar con datos
+reales (Levenshtein plano, Levenshtein ponderado, o Needleman-Wunsch). El **Levenshtein
+ponderado usa `formas_distancia` como coste de sustitución**: sustituir una forma por otra
+cercana cuesta menos que por una lejana. Misma matriz que la composicional.
+
+**Aviso sobre longitud de tramo:** Levenshtein/Needleman-Wunsch sobre la secuencia de
+formas **ignoran cuántos versos dura cada tramo**. Dos obras con idéntica secuencia de
+formas pero longitudes muy distintas (un romance de 800 versos vs uno de 40) saldrían
+idénticas. Si eso importa filológicamente —probablemente sí—, la secuencia que alimenta el
+algoritmo debe incorporar la duración (p. ej. ponderar cada símbolo por su número de
+versos, o alinear sobre series de versos en lugar de series de tramos). **Decidir esto
+antes de fijar el algoritmo**, porque condiciona cómo se procesa `tramos`. `tramos` ya
+guarda `i` y `f`, así que la longitud está disponible sin cambios de esquema.
+
+### 3.5 Distancia entre autores
+
+Hereda los problemas de la distancia entre obras y añade dos propios:
+
+- **Agregación**: el perfil de un autor no es el promedio de los perfiles de sus obras.
+  Hay que decidir si se pondera por obra (una obra = un voto) o por extensión (un verso =
+  un voto). Las dos dan resultados distintos. **Decisión a tomar una vez, documentar, y
+  precomputar** (§4), no improvisar en cada vista.
+- **Fiabilidad**: comparar un autor con 30 obras catalogadas contra uno con 1 obra produce
+  una distancia donde un extremo es robusto y el otro es ruido. La distancia entre autores
+  solo tiene sentido por encima de cierto volumen de obra catalogada.
+
+> **Decisión tomada:** se precomputa el **perfil de autor** (§4) ahora, porque la decisión
+> de agregación debe ser única y coherente entre la ficha de autor y el laboratorio. Pero
+> **no se expone distancia entre autores** hasta tener volumen suficiente por autor. El
+> perfil se guarda; la comparación entre autores se pospone.
 
 ---
 
-## 3. Fichas de obra
+## 4. Nueva tabla: `autores_resumen`
 
-Hoy la ficha llama `get_obra_ficha_publica` por obra. Para **una** obra eso está
-bien (es una sola obra, no miles). Pero hay margen:
+Perfil métrico agregado por autor, para las fichas de autor y para análisis de autor en el
+laboratorio. Se precomputa porque la agregación tiene una decisión metodológica que debe
+ser única y coherente en todas las vistas.
 
-### 3.1 — Mantener RPC por-obra, pero cachear
+### 4.1 Columnas
 
-La ficha de una obra publicada cambia poco. Cachear la respuesta por `obra_id` (CDN
-con `s-maxage` alto + `stale-while-revalidate`, invalidando al editar) evita
-recalcular la RPC en cada visita. Bajo coste, alto retorno.
+- `autor_id` — uuid, PK, FK a `autores.autor_id`
+- `n_obras` — int. Obras catalogadas y publicadas del autor.
+- `total_versos_autor` — int. Suma de versos de sus obras.
+- `perfil_formas` — jsonb. Perfil agregado `{forma_slug: n_versos}`.
+  **Ponderación: por extensión (un verso = un voto)** salvo decisión contraria del equipo;
+  documentar la elección aquí cuando se confirme.
+- `numero_efectivo_formas_medio` — float. Media del número efectivo de formas de sus obras.
+  Mide la diversidad métrica típica de una obra suya (distinto de la diversidad de su
+  producción total agregada).
+- `numero_efectivo_formas_agregado` — float. Número efectivo calculado sobre el
+  `perfil_formas` agregado del autor. Mide la diversidad de su repertorio total.
+- `fiabilidad` — text o int. Indicador de cuánta obra sustenta el perfil (p. ej. nº de
+  obras, o un nivel bajo/medio/alto). Para que las vistas marquen perfiles poco fiables.
+- `metrica_sucia` — boolean. Marcado cuando se recalcula cualquiera de sus obras.
+- `actualizado_en` — timestamptz.
 
-### 3.2 — Snapshot de ficha precomputado
+### 4.2 Mantenimiento
 
-Guardar el `jsonb` completo de la ficha pública en una columna/tabla
-`obras_ficha_publica_cache(obra_id, payload jsonb, actualizado_en)`, recalculado al
-publicar/editar. La ruta pública leería el snapshot en vez de ejecutar la RPC.
-
-- **Pro**: lectura O(1), sin recorrer secuencias en vivo.
-- **Pro**: desacopla "render público" de "lógica de cálculo" (la RPC pasa a ser el
-  *generador* del snapshot, no el *servidor* en caliente).
-- **Contra**: hay que invalidar/recalcular al editar; el snapshot puede quedar viejo
-  si el recálculo falla (mitigable con `actualizado_en` y recálculo idempotente).
-- **Cuándo vale la pena**: cuando la RPC empiece a notarse (obras muy largas, mucho
-  tráfico). Hoy probablemente **3.1 (cachear) basta**.
-
-### Recomendación fichas
-
-Empezar por **3.1 (caché HTTP por obra)**. Saltar a **3.2 (snapshot)** solo si se
-mide latencia alta. El barcode resumido de §2 se puede **reutilizar dentro de la
-ficha** para el barcode de obra completa, evitando recalcular tramos.
-
----
-
-## 4. Comparativas entre obras
-
-Comparar el perfil métrico de varias obras (p. ej. "soneto vs. romance en obras de
-1610-1620", o comparar 3 obras lado a lado).
-
-La clave: **una comparativa es una agregación sobre agregados ya precomputados**, no
-sobre datos crudos. Si cada obra tiene su `perfil_formas` (§2.1), una comparativa es:
-
-- Seleccionar N obras (por filtro o elección manual).
-- Leer sus `perfil_formas` (N filas ligeras).
-- Combinar en cliente o en una RPC que reciba `obra_ids[]`.
-
-### 4.1 — Sobre el resumen por obra (recomendada)
-
-Con `obras_barcode_resumen.perfil_formas` ya existente, la comparativa no necesita
-tocar `secuencias_metricas`. Una RPC `compare_obras(obra_ids uuid[])` lee los
-perfiles y devuelve la matriz forma×obra. Rápido y escala.
-
-### 4.2 — Agregados por cohorte (vista materializada)
-
-Para comparativas por **grupos** (década, género, autor): una vista materializada
-`metrica_por_decada` / `metrica_por_genero` con los promedios precalculados. Se
-refresca periódicamente. Ideal para gráficos del laboratorio (§5) que comparan
-cohortes grandes.
-
-### Recomendación comparativas
-
-**4.1** para comparar obras concretas (deriva del resumen por obra). **4.2** (vistas
-materializadas por cohorte) para comparativas agregadas del laboratorio.
+Cuando `recompute_obra_resumen(obra_id)` se ejecuta, marca `autores_resumen.metrica_sucia`
+para los autores de esa obra (via `atribuciones` → `atribucion_autores`). El recálculo del
+perfil de autor se hace en la misma operación del botón o en un paso encadenado. La
+distancia entre autores **no se calcula ni se guarda** (ver §3.5).
 
 ---
 
-## 5. Laboratorio de datos
+## 5. Trigger de suciedad en `secuencias_metricas`
 
-El laboratorio explora el corpus entero: distribuciones globales, evolución temporal
-de formas, correlaciones (p. ej. polimetría vs. década). Esto es **lo más pesado**
-si se calcula en vivo, y **lo que más se beneficia** de precomputación.
-
-### 5.1 — Vistas materializadas temáticas
-
-Una por pregunta analítica recurrente:
-
-- `lab_formas_por_decada` — versos/% por forma y década.
-- `lab_polimetria_por_obra` — nº de formas distintas, índice de polimetría por obra.
-- `lab_presencia_personajes` — agregados de intervención (femeninos/donaire/
-  sobrenaturales) por cohorte.
-- `lab_corpus_totales` — totales del corpus (nº obras, versos, formas) para cabeceras.
-
-Se refrescan en bloque (cron diario/nocturno o `REFRESH CONCURRENTLY` tras
-publicaciones). El laboratorio lee la vista, nunca los datos crudos.
-
-### 5.2 — Tabla de hechos (fact table) para análisis libre
-
-Si el laboratorio quiere consultas **ad hoc** (no solo gráficos predefinidos), una
-tabla de hechos desnormalizada ayuda:
+`AFTER INSERT OR UPDATE OR DELETE` en `secuencias_metricas`. Para la `obra_id` afectada:
 
 ```
-hechos_metrica (
-  obra_id, decada, genero_id, forma_slug, tipo_forma,
-  versos, n_secuencias, ...
-)
+UPDATE obras_resumen SET metrica_sucia = true WHERE obra_id = <afectada>
 ```
 
-Una fila por (obra, forma). Indexada, permite `group by` rápido por cualquier eje
-sin tocar `secuencias_metricas`. Se rellena al recalcular el resumen por obra (§2.1)
-— mismo trigger/función, dos destinos.
-
-### Recomendación laboratorio
-
-**5.1 (vistas materializadas por pregunta)** para los gráficos del laboratorio, y
-**5.2 (fact table)** si se quiere exploración libre. Ambas se alimentan del mismo
-recálculo por obra, así que el coste marginal de añadirlas es bajo una vez exista §2.
+Solo toca el flag. No recalcula. Write barato que no interfiere con el autosave. Si no
+existe fila para esa obra (obra nueva nunca publicada), no hace nada.
 
 ---
 
-## 6. Coherencia: ¿quién recalcula y cuándo?
+## 6. Función `recompute_obra_resumen(obra_id)`
 
-El punto débil de toda precomputación es la **invalidación**. Opciones, combinables:
+Recalcula y escribe todos los campos de `obras_resumen` para una obra. Se llama desde el
+backend al pulsar "Actualizar datos públicos".
 
-1. **Recálculo explícito al guardar/publicar** (lo más simple): el backend llama a
-   `recompute_obra(obra_id)` tras guardar secuencias o cambiar estado. Cubre el 95%
-   de los casos porque las obras cambian al editarse, no solas.
-2. **Trigger "marcar sucia"**: `AFTER` en `secuencias_metricas` pone
-   `obras.metrica_sucia = true`. Un job (o el propio acceso) recalcula las sucias.
-   Evita recalcular en cada fila de una edición masiva.
-3. **Refresco programado**: las vistas materializadas (§4.2, §5) se refrescan por
-   cron, no en caliente.
-4. **`actualizado_en` + recálculo idempotente**: cada agregado guarda su timestamp;
-   si algo falla, se detecta y se reintenta sin corromper.
+### 6.1 Qué lee
+- `secuencias_metricas` WHERE `obra_id = $1` (principal)
+- `vocabularios` (slugs, `tipo_forma`, identificación de formas cantadas)
+- `estrofa_tipo_metros` + `vocabularios` (metros)
+- `secuencias_caracterizaciones_rango` (variaciones, pendiente de confirmar)
+- `jornadas` WHERE `obra_id = $1` (n_jornadas)
 
-> **Principio**: el dato crudo (`secuencias_metricas`) es la **fuente de verdad**;
-> los agregados son **derivados reconstruibles**. Siempre debe existir un comando
-> "recalcula todo desde cero" (full rebuild) para reparar inconsistencias.
+### 6.2 Qué calcula
+1. Agrega secuencias: cuenta, suma versos, agrupa por forma.
+2. Resuelve slugs desde `vocabularios`.
+3. Fusiona tramos contiguos → `tramos` (jsonb).
+4. `perfil_formas` (jsonb).
+5. `n_formas_distintas`, `p_max`, `densidad_transiciones`.
+6. `numero_efectivo_formas`: H = −Σ pᵢ ln pᵢ sobre proporciones de versos por forma;
+   resultado = exp(H). **Sin denominador V.**
+7. `pct_cantado` (pendiente: qué identifica las formas cantadas).
+8. Arrays de filtro: `formas_presentes`, `metros_presentes`, `tipos_forma_presentes`,
+   `variaciones_presentes`.
+9. Flags de contexto dramático.
+10. UPSERT en `obras_resumen`; `metrica_sucia = false`, `actualizado_en = now()`.
+11. Marca `autores_resumen.metrica_sucia` para los autores de la obra.
+12. Actualiza `obras_similares` para esta obra (§7), con la distancia disponible.
 
-### Nota sobre vuestra restricción de red
-
-Las migraciones se aplican a mano por el SQL Editor (la red bloquea el puerto de
-Postgres). Esto **no afecta** a la precomputación en runtime (triggers/funciones se
-ejecutan en la BD, no desde aquí), pero sí implica que **crear** las tablas/vistas/
-funciones será una migración manual más. El recálculo en sí corre dentro de Postgres.
-
----
-
-## 7. Tabla de decisión (resumen)
-
-| Superficie | Estrategia recomendada | Técnica | Migración | Prioridad |
-|---|---|---|---|---|
-| Catálogo (barcode + filtro forma) | Resumen por obra + paginación + caché | A + C | Sí (tabla + función) | **Alta** (lo pediste) |
-| Ficha de obra | Caché HTTP por obra; snapshot si hace falta | C (→ A) | No (luego sí) | Media |
-| Comparar obras concretas | Derivar del resumen por obra | A + RPC | Reusa la de catálogo | Media |
-| Comparativas por cohorte | Vista materializada por grupo | B | Sí (vistas) | Baja |
-| Laboratorio (gráficos) | Vistas materializadas temáticas | B | Sí (vistas) | Baja |
-| Laboratorio (ad hoc) | Fact table | A (fact) | Sí (tabla) | Baja |
+### 6.3 `recompute_all()`
+Recorre todas las obras publicadas. Uso: reconstrucción tras inconsistencia, o cuando
+cambie algo global. **Nota:** al haber adoptado `numero_efectivo_formas` (independiente de
+V), **ya no hace falta recalcular todo el corpus al añadir formas al vocabulario** por
+razón de la métrica de diversidad. Sí habrá que regenerar `formas_distancia` y, con ella,
+`obras_similares`, cuando se añadan formas o se editen sus rasgos.
 
 ---
 
-## 8. Camino sugerido (si decides avanzar)
+## 7. Tabla `obras_similares` (top-N más cercanas)
 
-Orden que **maximiza reutilización** y minimiza retrabajo:
+Almacena las obras más cercanas a cada obra. Alimenta la vista "más cercanas" del
+laboratorio. **Revisada para evitar falsos hallazgos.**
 
-1. **`obras_barcode_resumen`** (tabla A) con `tramos`, `formas_presentes`,
-   `perfil_formas`, y una función `recompute_obra_barcode(obra_id)` llamada al
-   guardar/publicar. → Desbloquea **catálogo** (barcode + filtro forma) y aporta el
-   `perfil_formas` que necesitan **comparativas** y **laboratorio**.
-2. **Paginación** del catálogo + reutilizar el selector de formas del dashboard
-   sobre `formas_presentes`.
-3. **Caché HTTP** afinada (ya existe; revisar invalidación al editar).
-4. Cuando lleguen comparativas/laboratorio: **RPC `compare_obras`** y **vistas
-   materializadas** alimentadas por el mismo recálculo.
-5. (Opcional, si se mide latencia) **snapshot de ficha** y **fact table**.
+### 7.1 Columnas
+- `obra_id` — uuid, FK
+- `similar_obra_id` — uuid, FK
+- `tipo_distancia` — text: `'composicional'` / `'secuencial'`. Se guardan ambas.
+- `similitud` — float [0–1]. **Se expone siempre en la UI, no solo el ranking.**
+- `rank` — smallint.
+- PK: `(obra_id, similar_obra_id, tipo_distancia)`
 
-La pieza 1 es la palanca: una vez existe el resumen por obra, el resto se apoya en
-él en lugar de recalcular sobre `secuencias_metricas`.
+### 7.2 Cuántas y cuáles
+Top-10 por obra y por tipo de distancia (la UI muestra 5; el margen permite ajustar sin
+migración). Para 3000 obras × 2 distancias × 10 = 60.000 filas, ~4MB.
+
+### 7.3 Problema del top-N y decisiones para no inducir a error
+
+Un "top-5" siempre devuelve cinco obras, exista o no parecido real. En un corpus métrico
+homogéneo —y el teatro áureo en romance y redondilla lo es— casi todas las obras se parecen
+mucho en distancia composicional, y el top-5 composicional se vuelve ruido: las diferencias
+entre la 1ª y la 5ª son insignificantes. Decisiones:
+
+1. **Mostrar siempre el valor de `similitud`** junto a cada obra, no solo el orden.
+2. **Umbral configurable**: por debajo de cierta similitud la vista dice "no hay obras
+   métricamente cercanas a esta" en lugar de rellenar con las menos lejanas. El umbral es
+   empírico (se fija con el corpus real); la arquitectura ya lo permite al guardar
+   `similitud`. El top-N puede devolver menos de cinco o ninguna.
+3. **La distancia secuencial discrimina más** en un corpus composicionalmente homogéneo
+   (distingue obras con el mismo repertorio pero distinta arquitectura). Por defecto, la
+   vista "más cercanas" debería priorizar la secuencial, o al menos dejar claro cuál
+   discrimina más. Por eso se guardan ambas.
+
+### 7.4 Asimetría
+`recompute_obra_resumen` actualiza solo las filas de la obra recalculada, no las de las
+demás respecto a ella. `obras_similares` es asimétrica hasta un `recompute_all()`. Trade-off
+aceptable; documentarlo. Mientras `formas_distancia` no exista, la similitud composicional
+se calcula con coseno provisional (§3.2).
 
 ---
 
-## 9. Preguntas abiertas para decidir
+## 8. El botón "Actualizar datos públicos"
 
-- ¿El barcode del catálogo necesita subtipos/caracterizaciones, o basta forma+rango?
-  (Asumido: basta forma+rango; los detalles se ven en la ficha.)
-- ¿Recálculo **explícito al publicar** o **trigger automático**? (Recomendado:
-  explícito ahora, trigger si surge necesidad.)
-- ¿El filtro por forma es **presencia** ("contiene soneto"), **predominancia**, o
-  **ambos**? (`formas_presentes` cubre presencia; `perfil_formas` cubre % para los
-  otros dos sin coste extra de almacenamiento.)
-- ¿Paginar el catálogo desde ya, o seguir client-side hasta que duela? (Con 60 obras
-  aún no duele; conviene paginar antes de acercarse a varios cientos.)
-- ¿Las vistas materializadas se refrescan por cron, o tras cada publicación?
+### 8.1 Ubicación y permisos
+Dashboard de edición de cada obra. Visible para editor asignado y admin.
+
+### 8.2 Estado visual
+- Desactivado / "Datos públicos al día": `metrica_sucia = false`.
+- Activo / "Hay cambios sin publicar": `metrica_sucia = true`.
+- Loading durante el recompute. Error sin limpiar el flag si falla.
+
+### 8.3 Condición
+Solo tiene efecto si `estado = publicado`. En revisión/borrador, bloqueado con tooltip.
+
+### 8.4 Flujo backend
+Recibe `obra_id`, verifica permiso, llama a `recompute_obra_resumen(obra_id)` via RPC,
+devuelve resultado. Encadena el recálculo de `autores_resumen` de los autores afectados.
+Sin exportación a estáticos por ahora.
+
+---
+
+## 9. Cómo consume cada superficie
+
+### 9.1 Buscador / catálogo
+JOIN `obras` + `obras_resumen`, filtrado y ordenado sobre campos precomputados.
+
+| Filtro UI | Fuente |
+|---|---|
+| Título (fuzzy) | `obras.titulo`, `titulo_normalizado`, `variantes_titulo` |
+| Autor | `autores` via `atribuciones` |
+| Datación | `obras.fecha_inicio_trad`, `fecha_fin_trad` |
+| Género | `obras.genero_id` |
+| Formas estróficas | `formas_presentes && array[...]` |
+| Metros | `metros_presentes && array[...]` |
+| Tipo de forma | `tipos_forma_presentes && array[...]` |
+| Versos partidos | `tiene_versos_partidos` |
+| Densidad de transiciones (slider) | `densidad_transiciones BETWEEN x AND y` |
+| Variaciones | `variaciones_presentes && array[...]` |
+| Cambios de espacio | `tiene_cambio_espacio` |
+| Género personajes | `intervencion_femenina IN (...)` |
+| Donaire | `intervencion_donaire IN (...)` |
+| Sobrenaturales | `intervencion_sobrenaturales IN (...)` |
+| Total versos | `total_versos BETWEEN x AND y` |
+| Nº jornadas | `n_jornadas IN (...)` |
+
+| Orden UI | Columna |
+|---|---|
+| Autor | `obras.autor_ficha_publico` |
+| Título | `obras.titulo_normalizado` |
+| Fecha | `obras.fecha_inicio_trad` |
+| Nº versos | `total_versos` |
+| Diversidad métrica | `numero_efectivo_formas` |
+| Densidad de transiciones | `densidad_transiciones` |
+| Última actualización | `obras.updated_at` |
+
+> **Nota de UI sobre "polimetría":** el slider que el spec del buscador llamaba "polimetría"
+> debe renombrarse. Hay dos ejes distintos y conviene no fundirlos: **diversidad métrica**
+> (`numero_efectivo_formas`, cuántas formas y cuán repartidas) y **densidad de transiciones**
+> (`densidad_transiciones`, con qué frecuencia se cambia de forma). Decidir cuál o cuáles
+> se exponen y con qué etiqueta clara.
+
+Datos por obra en la query de catálogo: `obra_id`, `titulo`, `autor_ficha_publico`,
+fechas, género, `total_versos`, `n_jornadas`, `n_formas_distintas`,
+`numero_efectivo_formas`, `densidad_transiciones`, `tramos`, `formas_presentes`.
+
+### 9.2 Fichas de obra
+RPC `get_obra_ficha_publica` existente para el payload. El barcode lee `tramos` de
+`obras_resumen` en vez de recalcular. Caché HTTP agresiva o ISR con revalidación al pulsar
+el botón.
+
+### 9.3 Fichas de autor
+Leen `autores_resumen`: `perfil_formas` agregado para el gráfico de perfil, `n_obras`,
+`total_versos_autor`, las dos medidas de número efectivo. Marcar visualmente si
+`fiabilidad` es baja. **Sin distancia a otros autores** por ahora.
+
+### 9.4 Laboratorio — carga inicial
+Query única sobre los `obra_id` seleccionados, trayendo de `obras_resumen`:
+`total_versos`, `n_secuencias`, `n_formas_distintas`, `p_max`, `numero_efectivo_formas`,
+`densidad_transiciones`, `pct_cantado`, `tramos`, `perfil_formas`. Más `obras_similares`
+si se usa la vista de cercanía. No hay más queries durante la sesión.
+
+### 9.5 Laboratorio — distancia composicional
+Con `formas_distancia` disponible: transporte óptimo sobre `perfil_formas` normalizados.
+Provisionalmente (sin rasgos): coseno plano, marcado como aproximación. Cálculo en cliente
+para selecciones pequeñas; endpoint de Vercel si la selección crece (timeout 10s).
+
+### 9.6 Laboratorio — distancia secuencial
+Sobre la secuencia de `tramos`. Algoritmo por validar; el ponderado usa `formas_distancia`.
+Resolver antes el tratamiento de la longitud de tramo (§3.4).
+
+### 9.7 Laboratorio — UMAP / scatter
+Matriz de distancias (composicional) → proyección UMAP en cliente (`umap-js`). Selecciones
+grandes (>100 obras): evaluar mover a endpoint.
+
+### 9.8 Laboratorio — "más cercanas"
+Lee `obras_similares` filtrando por `tipo_distancia`. Muestra `similitud`. Aplica umbral
+(§7.3): puede devolver menos de cinco o ninguna. Prioriza secuencial por defecto.
+
+### 9.9 Laboratorio — matriz de calor
+En cliente desde las distancias ya calculadas (§9.5, §9.6). Dos pestañas. Sin query extra.
+
+---
+
+## 10. Medidas disponibles por superficie
+
+### Por obra (en `obras_resumen`)
+| Medida | Columna | Para |
+|---|---|---|
+| Total versos | `total_versos` | Buscador, Laboratorio |
+| Nº secuencias | `n_secuencias` | Laboratorio |
+| Nº formas distintas | `n_formas_distintas` | Buscador, Laboratorio |
+| Forma dominante | `p_max` | Laboratorio |
+| Diversidad métrica | `numero_efectivo_formas` | Buscador (orden), Laboratorio |
+| Densidad transiciones | `densidad_transiciones` | Buscador (filtro), Laboratorio |
+| % cantado | `pct_cantado` | Laboratorio |
+| Perfil métrico | `perfil_formas` | Laboratorio (distancias, UMAP) |
+| Secuencia de formas | `tramos` | Barcode, distancia secuencial |
+
+### Por jornada
+No precomputado. Si el laboratorio lo pide, tabla `jornadas_resumen` análoga, alimentada
+por la misma función. Pendiente de demanda.
+
+### Por autor (en `autores_resumen`)
+Perfil agregado, volumen, diversidad media y agregada, fiabilidad. Distancia entre autores
+pospuesta.
+
+### Del corpus
+No precomputado. Agregados globales (frecuencia por forma, evolución temporal, distribución
+por género) por GROUP BY sobre `obras_resumen` en cliente o RPC. Se materializan solo si la
+latencia lo exige.
+
+---
+
+## 11. Pendientes que requieren confirmación en el código real
+
+1. **Rasgos métricos en `vocabularios`**: rima, metro, naturaleza estrófica, tamaño
+   estrófico. **No existen aún; se codificarán manualmente.** Bloquean `formas_distancia`
+   y, por tanto, las distancias ponderadas (composicional por transporte óptimo y secuencial
+   ponderada). Hasta entonces, coseno plano provisional. **Este es el trabajo previo que
+   desbloquea la calidad de todo el análisis de distancias.**
+2. **Pesos de los rasgos** en la distancia entre formas: decisión filológica del equipo,
+   documentar de forma explícita y revisable.
+3. **Tratamiento de la longitud de tramo** en la distancia secuencial (§3.4): decidir antes
+   de fijar el algoritmo.
+4. **Ponderación del perfil de autor** (§4.1): por obra o por extensión. Decisión única.
+5. **Formas cantadas**: qué `categoria`/`etiqueta` de `vocabularios` las identifica
+   (para `pct_cantado`).
+6. **Fuente de `variaciones_presentes`**: `secuencias_variaciones` no existe en el esquema;
+   confirmar si es `secuencias_caracterizaciones_rango` o tabla por crear.
+7. **Categoría de formas estróficas** en `vocabularios` (para filtrar al agregar perfiles).
+8. **Slugs vs UUIDs en arrays de filtro**: confirmar que `vocabularios.termino` es único y
+   estable; si hay riesgo de renombrado, usar `termino_id` y resolver etiqueta en cliente.
+9. **RLS sobre `obras_resumen` y `autores_resumen`**: SELECT anónimo solo para obras
+   públicas, alineado con la política de `obras`.
+
+---
+
+## 12. Camino futuro (no implementar ahora)
+
+- **Estáticos**: si el corpus supera ~500 obras y el compute se nota, añadir al botón un
+  paso de exportación de `obras_resumen` a JSON (Supabase Storage o R2). El frontend lee el
+  JSON; la query a Supabase queda como fallback. Sin cambios de tabla ni de la función de
+  recompute.
+- **Distancia secuencial precomputada** para corpus grande: calcular el algoritmo pesado
+  (Needleman-Wunsch ponderado) offline y poblar `obras_similares` con `tipo_distancia =
+  'secuencial'`.
+- **Similitud entre formas derivada de datos** (coocurrencia/contexto) en vez de solo de
+  rasgos: solo con corpus grande, y como objeto de investigación, no como infraestructura.
+  Riesgo de circularidad con corpus pequeño.
+- **Distancia entre autores**: cuando haya volumen suficiente de obra por autor.

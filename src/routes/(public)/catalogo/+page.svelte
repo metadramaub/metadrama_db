@@ -7,6 +7,7 @@
 		buildCatalogActiveChips,
 		createDefaultCatalogFilters,
 		filterAndSortCatalogObras,
+		isCatalogPerfilMetricoVisible,
 		parseCatalogFilters,
 		removeCatalogChip,
 		serializeCatalogFilters,
@@ -28,6 +29,7 @@
 	let syncingFromHistory = false;
 
 	const filtered = $derived(filterAndSortCatalogObras<Obra>(data.obras, filters, data.filterOptions));
+	const showPerfilMetrico = $derived(isCatalogPerfilMetricoVisible(data.catalogVisibility));
 	const activeChips = $derived(
 		buildCatalogActiveChips(filters, data.filterOptions, data.catalogVisibility)
 	);
@@ -125,7 +127,11 @@
 			{:else}
 				<div class="grid gap-2">
 					{#each filtered as obra (obra.obra_id)}
-						<CatalogResultRow obra={obra} canSeeAllPublished={data.canSeeAllPublished} />
+						<CatalogResultRow
+							obra={obra}
+							canSeeAllPublished={data.canSeeAllPublished}
+							showPerfilMetrico={showPerfilMetrico}
+						/>
 					{/each}
 				</div>
 			{/if}

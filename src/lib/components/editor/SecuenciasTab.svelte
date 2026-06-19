@@ -33,6 +33,9 @@
 		focusSecuenciaId?: string | null;
 		focusComentarioId?: string | null;
 		onSecuenciasChange?: (items: Tables<'secuencias_metricas'>[]) => void;
+		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
+		// la lista de secuencias (caracterizaciones de rango, subtipos de estrofa).
+		onMetricaDirty?: () => void;
 	}>();
 
 	type FormState = {
@@ -873,6 +876,7 @@
 		}
 
 		closeCaracterizacionRangoModal();
+		props.onMetricaDirty?.();
 		pushToast('success', isEditing ? 'Caracterización actualizada' : 'Caracterización creada');
 	}
 
@@ -903,6 +907,7 @@
 			(row) => row.caracterizacion_rango_id !== caracterizacionRangoId
 		);
 		caracterizacionRangoDeleteTargetId = null;
+		props.onMetricaDirty?.();
 		pushToast('success', 'Caracterización eliminada');
 	}
 
@@ -1055,6 +1060,7 @@
 		}
 
 		closeSubtipoModal();
+		props.onMetricaDirty?.();
 		pushToast('success', isEditing ? 'Subtipo actualizado' : 'Subtipo creado');
 	}
 
@@ -1083,6 +1089,7 @@
 		}
 		subtipos = subtipos.filter((row) => row.subtipo_secuencia_id !== subtipoSecuenciaId);
 		subtipoDeleteTargetId = null;
+		props.onMetricaDirty?.();
 		pushToast('success', 'Subtipo eliminado');
 	}
 
