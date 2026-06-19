@@ -17,6 +17,14 @@ export type CatalogTramo = {
 	t: string | null;
 };
 
+/** Tramo/corte de estructura precomputado desde jornadas/cuadros. */
+export type CatalogStructureTramo = {
+	i: number;
+	f: number;
+	n: number;
+	j?: number | null;
+};
+
 export type CatalogFilterOption = {
 	id: string;
 	label: string;

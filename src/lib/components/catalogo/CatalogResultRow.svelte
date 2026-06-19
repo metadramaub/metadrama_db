@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
 	import CatalogMetricBar from '$lib/components/catalogo/CatalogMetricBar.svelte';
-	import type { CatalogTramo } from '$lib/catalogo/catalog-filters';
+	import type { CatalogStructureTramo, CatalogTramo } from '$lib/catalogo/catalog-filters';
 
 	type Obra = {
 		obra_id: string;
@@ -15,6 +15,8 @@
 		visible_publico: boolean | null;
 		es_obra_asignada: boolean;
 		tramos?: CatalogTramo[] | null;
+		jornadas_tramos?: CatalogStructureTramo[] | null;
+		cuadros_tramos?: CatalogStructureTramo[] | null;
 		numero_efectivo_formas?: number | null;
 		densidad_transiciones?: number | null;
 		n_formas_distintas?: number | null;
@@ -27,6 +29,8 @@
 	}>();
 
 	const tramos = $derived(props.obra.tramos ?? []);
+	const jornadasTramos = $derived(props.obra.jornadas_tramos ?? []);
+	const cuadrosTramos = $derived(props.obra.cuadros_tramos ?? []);
 	const showPerfil = $derived(Boolean(props.showPerfilMetrico) && tramos.length > 0);
 
 	function formatNumber(value: number | null | undefined, decimals = 1): string | null {
@@ -97,7 +101,12 @@
 
 	{#if showPerfil}
 		<div class="mt-3 space-y-1.5">
-			<CatalogMetricBar tramos={tramos} totalVersos={props.obra.total_versos} />
+			<CatalogMetricBar
+				tramos={tramos}
+				jornadas={jornadasTramos}
+				cuadros={cuadrosTramos}
+				totalVersos={props.obra.total_versos}
+			/>
 			<div class="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[color:var(--muted-foreground)]">
 				{#if diversidadLabel}
 					<span title="Número efectivo de formas (diversidad métrica)">
