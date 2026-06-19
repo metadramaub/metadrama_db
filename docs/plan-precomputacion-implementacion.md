@@ -28,7 +28,7 @@
 |---|---|---|
 | 1 | Núcleo `obras_resumen` + trigger + `recompute_obra_resumen`/`recompute_all` | ✅ hecho y aplicado |
 | 2 | Botón "Actualizar datos públicos" (ficha dashboard) + endpoint | ✅ hecho |
-| 2-bis | Triggers de suciedad ampliados (caracterizaciones, subtipos, jornadas) + `subtipos_presentes` | ✅ hecho y aplicado |
+| 2-bis | Triggers de suciedad ampliados (caracterizaciones, subtipos, jornadas/cuadros) + `subtipos_presentes` | ✅ hecho y aplicado |
 | 2-ter | Botón `recompute_all` global en `dashboard/publicacion` (admin/IP) | ✅ hecho |
 | 3 | `autores_resumen` (perfil de autor) | ⏳ **pendiente** (no empezado) |
 | 4 | Consumo en ficha pública | ❌ **descartada** (la ficha se queda en vivo; ver §4) |
@@ -44,6 +44,7 @@
 - ✅ `20260618220000_obras_resumen_nucleo.sql`
 - ✅ `20260618230000_obras_resumen_triggers_subtipos.sql`
 - ✅ `20260619120000_obras_resumen_rls_publico.sql`
+- ✅ `20260619133000_obras_resumen_dirty_cuadros.sql`
 - `recompute_all()` ya ejecutado (formas/subtipos poblados). **Nota:** tras editar secuencias hay
   que pulsar el botón por obra, o `recompute_all` global, para refrescar el resumen.
 
@@ -196,6 +197,8 @@ extiende la suciedad a **todas** las entradas del resumen:
 - `secuencias_caracterizaciones_rango` → `pct_cantado`, `variaciones_presentes` (vía secuencia_id).
 - `secuencias_subtipos_estrofa` → nuevo `subtipos_presentes` (vía secuencia_id).
 - `jornadas` → `n_jornadas` (vía obra_id).
+- `cuadros` → estructura del mini-barcode público (vía `jornada_id`, añadido en
+  [20260619133000](supabase/migrations/20260619133000_obras_resumen_dirty_cuadros.sql)).
 
 Se añadió `subtipos_presentes` (text[] + GIN) para que los subtipos de estrofa sean
 **filtrables en el catálogo** igual que `variaciones_presentes`. Cambios de obra (fechas,
