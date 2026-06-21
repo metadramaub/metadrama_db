@@ -60,7 +60,7 @@
 									</span>
 								{:else if data.canSeeAllPublished}
 									<span class="border border-[color:var(--border)] bg-white px-2 py-0.5 text-[11px] text-[color:var(--muted-foreground)]">
-										Editorial
+										No visible
 									</span>
 								{/if}
 							{/if}

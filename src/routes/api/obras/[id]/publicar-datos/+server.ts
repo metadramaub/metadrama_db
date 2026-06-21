@@ -31,7 +31,8 @@ export const POST: RequestHandler = async ({ locals, params }) => {
 		);
 	}
 
-	const { error: rpcError } = await locals.supabase.rpc('recompute_obra_resumen', {
+	// Recalcula la obra y, encadenado, el perfil métrico de sus autores afectados (Fase 3).
+	const { error: rpcError } = await locals.supabase.rpc('recompute_obra_y_autores', {
 		p_obra_id: obra.obra_id
 	});
 

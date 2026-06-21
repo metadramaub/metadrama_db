@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -87,7 +87,7 @@
 		v_fin: number;
 	};
 
-	let secuencias = $state([...props.secuenciasInitial]);
+	let secuencias = $state(untrack(() => [...props.secuenciasInitial]));
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
 	let filtroEstrofa = $state('');
@@ -152,7 +152,7 @@
 			.replaceAll(/[\s-]+/g, '_');
 	}
 
-	const defaultCerteza = props.certezaOptions[0]?.termino_id ?? '';
+	const defaultCerteza = untrack(() => props.certezaOptions[0]?.termino_id ?? '');
 	const sortedEstrofaOptions = $derived.by(() => sortEstrofaOptions(props.estrofaOptions));
 	const estrofaById = $derived.by(
 		() =>

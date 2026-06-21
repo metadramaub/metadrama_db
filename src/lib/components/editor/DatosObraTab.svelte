@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -53,13 +53,13 @@
 		};
 	}
 
-	let form = $state<FormState>(toFormState(props.obra));
-	let hydratedObraId = $state(props.obra.obra_id);
+	let form = $state<FormState>(untrack(() => toFormState(props.obra)));
+	let hydratedObraId = $state(untrack(() => props.obra.obra_id));
 	let varianteDeleteTargetIndex = $state<number | null>(null);
 
 	let timer: ReturnType<typeof setTimeout> | null = null;
 	let savingNow = $state(false);
-	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
+	let lastHandledSaveRequestToken = $state(untrack(() => props.saveRequestToken ?? 0));
 	const generoDropdownItems = $derived(
 		props.generoOptions.map((genero: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>) => ({
 			id: genero.termino_id,

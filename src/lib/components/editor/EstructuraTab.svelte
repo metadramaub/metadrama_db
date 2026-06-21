@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -25,9 +25,9 @@
 		}) => void;
 	}>();
 
-	let jornadas = $state([...props.jornadasInitial]);
-	let cuadros = $state([...props.cuadrosInitial]);
-	const defaultCerteza = props.certezaOptions.at(0)?.termino_id ?? '';
+	let jornadas = $state(untrack(() => [...props.jornadasInitial]));
+	let cuadros = $state(untrack(() => [...props.cuadrosInitial]));
+	const defaultCerteza = untrack(() => props.certezaOptions.at(0)?.termino_id ?? '');
 
 	type SidebarMode = 'jornada-new' | 'jornada-edit' | 'cuadro-new' | 'cuadro-edit' | null;
 	type DeleteTarget = {
@@ -52,16 +52,16 @@
 	let handledFocusTarget = $state<string | null>(null);
 
 	let jornadaForm = $state({
-		jornada_num: props.jornadasInitial.length + 1,
+		jornada_num: untrack(() => props.jornadasInitial.length + 1),
 		v_ini: 1,
 		v_fin: 2
 	});
 
 	let cuadroForm = $state({
-		jornada_id: props.jornadasInitial[0]?.jornada_id ?? '',
+		jornada_id: untrack(() => props.jornadasInitial[0]?.jornada_id ?? ''),
 		cuadro_num: 1,
-		v_ini: props.jornadasInitial[0]?.v_ini ?? 1,
-		v_fin: props.jornadasInitial[0]?.v_fin ?? 2,
+		v_ini: untrack(() => props.jornadasInitial[0]?.v_ini ?? 1),
+		v_fin: untrack(() => props.jornadasInitial[0]?.v_fin ?? 2),
 		certeza_editor: defaultCerteza
 	});
 

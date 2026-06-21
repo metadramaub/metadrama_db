@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick, untrack } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
@@ -47,7 +47,7 @@
 	let commentsLoading = $state(false);
 	let postingComment = $state(false);
 	let showAllComments = $state(false);
-	let collapsed = $state(Boolean(props.defaultCollapsed));
+	let collapsed = $state(untrack(() => Boolean(props.defaultCollapsed)));
 	let newComment = $state('');
 	let newCommentType = $state<CommentType>('general');
 

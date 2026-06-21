@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
 	import CatalogMetricBar from '$lib/components/catalogo/CatalogMetricBar.svelte';
 	import type { CatalogStructureTramo, CatalogTramo } from '$lib/catalogo/catalog-filters';
@@ -7,13 +8,13 @@
 		obra_id: string;
 		slug: string;
 		titulo: string;
-		autoria_autores: string[];
+		autoria_autores?: string[];
 		genero_term: string | null;
 		fecha_inicio_trad: number | null;
 		fecha_fin_trad: number | null;
 		total_versos: number | null;
 		visible_publico: boolean | null;
-		es_obra_asignada: boolean;
+		es_obra_asignada?: boolean;
 		tramos?: CatalogTramo[] | null;
 		jornadas_tramos?: CatalogStructureTramo[] | null;
 		cuadros_tramos?: CatalogStructureTramo[] | null;
@@ -26,6 +27,10 @@
 		obra: Obra;
 		canSeeAllPublished: boolean;
 		showPerfilMetrico?: boolean;
+		/** Slug de forma → etiqueta visible, para el tooltip del barcode. */
+		formaLabels?: Record<string, string>;
+		/** Badges junto al título (p. ej. vínculos en la ficha de autor), como "No visible". */
+		titleBadges?: Snippet;
 	}>();
 
 	const tramos = $derived(props.obra.tramos ?? []);
@@ -67,17 +72,20 @@
 						</span>
 					{:else if props.canSeeAllPublished}
 						<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-[11px] text-[color:var(--muted-foreground)]">
-							Editorial
+							No visible
 						</span>
 					{/if}
 				{/if}
+				{@render props.titleBadges?.()}
 			</div>
 
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-				{props.obra.autoria_autores.length > 0
-					? props.obra.autoria_autores.join(', ')
-					: 'Autoría no indicada'}
-			</p>
+			{#if props.obra.autoria_autores}
+				<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+					{props.obra.autoria_autores.length > 0
+						? props.obra.autoria_autores.join(', ')
+						: 'Autoría no indicada'}
+				</p>
+			{/if}
 		</div>
 
 		<a
@@ -104,6 +112,7 @@
 					jornadas={jornadasTramos}
 					cuadros={cuadrosTramos}
 					totalVersos={props.obra.total_versos}
+					formaLabels={props.formaLabels}
 				/>
 				{#if props.obra.total_versos !== null}
 					<span class="whitespace-nowrap text-[11px] text-[color:var(--muted-foreground)]">
@@ -128,4 +137,5 @@
 			</div>
 		</div>
 	{/if}
+
 </article>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
@@ -72,7 +72,7 @@
 	let baselineSnapshot = $state('');
 	let scopeView = $state<ScopeView>('obra');
 	let openProposalId = $state<string | null>(null);
-	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
+	let lastHandledSaveRequestToken = $state(untrack(() => props.saveRequestToken ?? 0));
 
 	const canComment = $derived(Boolean(props.canComment));
 	const effectiveReadOnly = $derived(Boolean(props.readOnly));

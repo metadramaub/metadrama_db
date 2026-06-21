@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
@@ -21,10 +21,10 @@
 	}>();
 	const PUBLIC_VISIBILITY_HELP = 'Este contenido se publica en la ficha pública de la obra.';
 
-	let observaciones = $state(props.observacionesInitial);
-	let bibliografia = $state(props.bibliografiaInitial);
+	let observaciones = $state(untrack(() => props.observacionesInitial));
+	let bibliografia = $state(untrack(() => props.bibliografiaInitial));
 	let savingNow = $state(false);
-	let lastHandledSaveRequestToken = $state(props.saveRequestToken ?? 0);
+	let lastHandledSaveRequestToken = $state(untrack(() => props.saveRequestToken ?? 0));
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
 	const observacionesLength = $derived(observaciones.trim().length);

@@ -223,7 +223,7 @@
 			class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
 				collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
 			}`}
-			href="/dashboard/obras?scope=mine"
+			href="/dashboard/obras"
 			aria-label="Obras"
 			title="Obras"
 		>
