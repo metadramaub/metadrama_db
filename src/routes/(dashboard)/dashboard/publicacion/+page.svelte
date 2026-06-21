@@ -86,7 +86,7 @@
 			recomputeStatus = 'done';
 			recomputeMessage =
 				typeof body.obras === 'number'
-					? `Datos públicos recalculados (${body.obras} obras).`
+					? `Datos públicos recalculados (${body.obras} obras${typeof body.autores === 'number' ? `, ${body.autores} autores` : ''}).`
 					: 'Datos públicos recalculados.';
 			setTimeout(() => {
 				if (recomputeStatus === 'done') recomputeStatus = 'idle';
@@ -184,9 +184,10 @@
 		<h2 class="font-display text-xl">Datos métricos precomputados</h2>
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 			Recalcula los datos métricos públicos (barcode, perfil de formas, filtros del catálogo) de
-			<strong>todas las obras publicadas</strong>. Normalmente cada obra se actualiza con su propio
-			botón al editarla; usa esto para una reconstrucción global tras un cambio que afecte a todas
-			(por ejemplo, renombrar formas en el vocabulario).
+			<strong>todas las obras publicadas</strong> y, encadenado, los <strong>perfiles métricos de
+			autor</strong>. Normalmente cada obra se actualiza con su propio botón al editarla (que también
+			refresca a sus autores); usa esto para una reconstrucción global tras un cambio que afecte a
+			todas (por ejemplo, renombrar formas en el vocabulario) o para poblar todo por primera vez.
 		</p>
 		<div class="mt-3 flex flex-wrap items-center gap-3">
 			<button

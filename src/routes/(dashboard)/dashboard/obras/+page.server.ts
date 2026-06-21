@@ -4,15 +4,21 @@ import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ locals, parent, url }) => {
+const SCOPE_COOKIE = 'dashboard_obras_scope';
+
+export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => {
 	const parentData = await parent();
 	const profile = parentData.profile;
 
 	const q = url.searchParams.get('q')?.trim() ?? '';
 	const estado = url.searchParams.get('estado') ?? '';
 	const editor = url.searchParams.get('editor') ?? '';
-	const requestedScope = (url.searchParams.get('scope') ?? '').trim().toLowerCase();
-	const scope = requestedScope === 'all' ? 'all' : 'mine';
+	// Ámbito "Mis obras / Todas las obras": se recuerda por sesión. Si la URL no trae
+	// ?scope, se usa la cookie de sesión (última selección); el resuelto se re-persiste.
+	const explicitScope = url.searchParams.get('scope');
+	const rawScope = (explicitScope ?? cookies.get(SCOPE_COOKIE) ?? '').trim().toLowerCase();
+	const scope = rawScope === 'all' ? 'all' : 'mine';
+	cookies.set(SCOPE_COOKIE, scope, { path: '/dashboard/obras', sameSite: 'lax' });
 	const isAdminOrIp = profile.roleTerm === 'admin' || profile.roleTerm === 'ip';
 
 	const reviewerAssignedResp = await locals.supabase

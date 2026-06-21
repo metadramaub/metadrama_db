@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import AllCommentsModal from '$lib/components/editor/AllCommentsModal.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -38,14 +38,14 @@
 
 	const obraLive = $derived(($currentObraStore.obra ?? props.obra) as Tables<'obras'>);
 
-	let currentEstadoId = $state(props.obra.estado);
-	let persistedEstadoId = $state(props.obra.estado);
+	let currentEstadoId = $state(untrack(() => props.obra.estado));
+	let persistedEstadoId = $state(untrack(() => props.obra.estado));
 	let estadoComentario = $state('');
 	let estadoConfirmComentario = $state('');
 	let pendingEstadoId = $state<string | null>(null);
 	let showEstadoConfirmModal = $state(false);
-	let visiblePublico = $state(Boolean(props.obra.visible_publico));
-	let persistedVisiblePublico = $state(Boolean(props.obra.visible_publico));
+	let visiblePublico = $state(untrack(() => Boolean(props.obra.visible_publico)));
+	let persistedVisiblePublico = $state(untrack(() => Boolean(props.obra.visible_publico)));
 	let commentsDraftDirty = $state(false);
 	let commentsReloadKey = $state(0);
 	let allCommentsModalOpen = $state(false);

@@ -243,6 +243,8 @@
 							width={item.width}
 							height={trackHeight + markerOverhang * 2}
 							fill="transparent"
+							role="presentation"
+							aria-hidden="true"
 							onpointerenter={(event) =>
 								showCompactTooltip(`segment-${item.segment.id}`, segmentTitle(item.segment), event, item.color)}
 							onpointerleave={() => hideCompactTooltip(`segment-${item.segment.id}`)}
@@ -288,7 +290,7 @@
 						y1={-markerOverhang}
 						y2={trackHeight + markerOverhang}
 						stroke="transparent"
-						stroke-width="2"
+						stroke-width="2" role="presentation" aria-hidden="true"
 						onpointerenter={(event) => showCompactTooltip(`cuadro-${index}`, marker.title, event)}
 						onpointerleave={() => hideCompactTooltip(`cuadro-${index}`)}
 						onfocus={(event) => showCompactTooltip(`cuadro-${index}`, marker.title, event)}
@@ -317,7 +319,7 @@
 						y1={-markerOverhang}
 						y2={trackHeight + markerOverhang}
 						stroke="transparent"
-						stroke-width="3"
+						stroke-width="3" role="presentation" aria-hidden="true"
 						onpointerenter={(event) => showCompactTooltip(`jornada-${index}`, marker.title, event)}
 						onpointerleave={() => hideCompactTooltip(`jornada-${index}`)}
 						onfocus={(event) => showCompactTooltip(`jornada-${index}`, marker.title, event)}

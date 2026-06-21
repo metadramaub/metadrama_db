@@ -222,6 +222,56 @@ export type Database = {
         }
         Relationships: []
       }
+      autores_resumen: {
+        Row: {
+          autor_id: string
+          alcance: string
+          n_obras_completas: number
+          n_jornadas_sueltas: number
+          total_versos_autor: number
+          perfil_formas: Json
+          perfil_formas_hijos: Json
+          numero_efectivo_formas_medio: number | null
+          numero_efectivo_formas_agregado: number | null
+          metrica_sucia: boolean
+          actualizado_en: string
+        }
+        Insert: {
+          autor_id: string
+          alcance: string
+          n_obras_completas?: number
+          n_jornadas_sueltas?: number
+          total_versos_autor?: number
+          perfil_formas?: Json
+          perfil_formas_hijos?: Json
+          numero_efectivo_formas_medio?: number | null
+          numero_efectivo_formas_agregado?: number | null
+          metrica_sucia?: boolean
+          actualizado_en?: string
+        }
+        Update: {
+          autor_id?: string
+          alcance?: string
+          n_obras_completas?: number
+          n_jornadas_sueltas?: number
+          total_versos_autor?: number
+          perfil_formas?: Json
+          perfil_formas_hijos?: Json
+          numero_efectivo_formas_medio?: number | null
+          numero_efectivo_formas_agregado?: number | null
+          metrica_sucia?: boolean
+          actualizado_en?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "autores_resumen_autor_id_fkey"
+            columns: ["autor_id"]
+            isOneToOne: false
+            referencedRelation: "autores"
+            referencedColumns: ["autor_id"]
+          },
+        ]
+      }
       comentarios_internos: {
         Row: {
           comentario: string
@@ -1113,8 +1163,24 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
+      get_autor_publico: {
+        Args: { p_slug: string }
+        Returns: Json
+      }
+      get_autores_listado_publico: {
+        Args: never
+        Returns: Json
+      }
       recompute_obra_resumen: {
         Args: { p_obra_id: string }
+        Returns: undefined
+      }
+      recompute_obra_y_autores: {
+        Args: { p_obra_id: string }
+        Returns: undefined
+      }
+      recompute_autor_resumen: {
+        Args: { p_autor_id: string }
         Returns: undefined
       }
       recompute_all: {

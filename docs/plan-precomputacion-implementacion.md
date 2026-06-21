@@ -30,38 +30,50 @@
 | 2 | Botón "Actualizar datos públicos" (ficha dashboard) + endpoint | ✅ hecho |
 | 2-bis | Triggers de suciedad ampliados (caracterizaciones, subtipos, jornadas/cuadros) + `subtipos_presentes` | ✅ hecho y aplicado |
 | 2-ter | Botón `recompute_all` global en `dashboard/publicacion` (admin/IP) | ✅ hecho |
-| 3 | `autores_resumen` (perfil de autor) | ⏳ **pendiente** (no empezado) |
+| 3 | `autores_resumen` (perfil de autor) | ⏳ **SQL + tipos escritos** (migración pendiente de aplicar); ver [metodología §2](metodologia-perfil-metrico.md) |
 | 4 | Consumo en ficha pública | ❌ **descartada** (la ficha se queda en vivo; ver §4) |
 | 5a | Perfil métrico en resultados del catálogo + orden diversidad/densidad | ✅ hecho |
 | 5b | Panel de filtros métricos (formas, metros, tipo, subtipos, variaciones, densidad) | ✅ hecho |
 | 5c | Etiquetas vía vocabulario cacheado + selector jerárquico (subtipos bajo quintilla) | ✅ hecho |
-| 5d | Pendientes del catálogo (mini-barcode con estructura, variaciones, dramaturgia; caché HTTP no bloqueante) | ⏳ **en curso** |
-| 6 | Fichas de autor públicas (hoy placeholder) | ⏳ pendiente (depende de Fase 3) |
+| 5d | Mini-barcode con estructura (✅) + caché HTTP (✅ se acepta, no se toca). Filtros dramaturgia/variaciones agrupadas = mejoras opcionales | ✅ hecho (mejoras opcionales aparte) |
+| 6 | Fichas de autor públicas (listado + ficha) | ⏳ **SQL + UI escritos** (migración pendiente, tras la de Fase 3) |
 | 7 | Laboratorio + `obras_similares` (coseno provisional) | ⏳ pendiente |
 | 8 | Rasgos métricos en vocabulario → `formas_distancia` → distancias ponderadas | 🔒 bloqueada (trabajo filológico manual) |
 
-### Migraciones (todas aplicadas a mano por SQL Editor)
+### Migraciones (regla: una vez aplicada una migración NO se edita; los cambios van en una nueva)
 - ✅ `20260618220000_obras_resumen_nucleo.sql`
 - ✅ `20260618230000_obras_resumen_triggers_subtipos.sql`
 - ✅ `20260619120000_obras_resumen_rls_publico.sql`
 - ✅ `20260619133000_obras_resumen_dirty_cuadros.sql`
-- ⏳ `20260619143000_obras_resumen_estructura_barcode.sql` (pendiente de aplicar)
-- `recompute_all()` ya ejecutado (formas/subtipos poblados). **Nota:** tras editar secuencias hay
-  que pulsar el botón por obra, o `recompute_all` global, para refrescar el resumen.
-  Tras aplicar `20260619143000`, ejecutar `recompute_all()` para poblar `jornadas_tramos`/
-  `cuadros_tramos` en obras ya publicadas.
+- ✅ `20260619143000_obras_resumen_estructura_barcode.sql`
+- ✅ `20260619160000_autores_resumen.sql` (Fase 3) — **inmutable** (estado tal como se aplicó).
+- ✅ `20260619170000_autores_publico_rpc.sql` (Fase 6) — **inmutable**.
+- ⏳ `20260621120000_autores_mejoras_perfil_hijos.sql` (mejoras 2026-06-21, **pendiente**): columna
+  `autores_resumen.perfil_formas_hijos` + helper `perfil_formas_hijos_rango` (desglose de formas
+  hijas) + `recompute_autor_resumen` y `get_autor_publico` actualizados. **`db push` la aplicará;
+  luego ejecutar `recompute_all()`** para poblar `perfil_formas_hijos`. Tipos ya en database.types.ts.
+- **Nota importante:** las mejoras del 21-jun **no** estaban como migración nueva (se habían editado
+  archivos ya aplicados, que `db push` ignora). Reempaquetadas en `20260621120000`; las dos de Fase
+  3/6 se devolvieron a su estado original (inmutabilidad). El puerto ya no está bloqueado: `db push`
+  funciona; **no editar migraciones aplicadas**.
+- `recompute_all()` refresca todo el resumen (obras + autores). Tras editar secuencias, pulsar el
+  botón por obra (o `recompute_all` global).
 
 ### Próximo paso recomendado
-1. **🔴 Arreglar la invalidación de caché HTTP del catálogo** (Fase 5d): al cambiar la visibilidad
-   de una sección, la respuesta anónima cacheada no se refresca (~5-15 min). Es un fallo real del
-   sistema de publicación, transversal (afecta a catálogo y a cualquier página pública cacheada).
-2. Luego, a elegir: **Fase 3** (perfil de autor, desbloquea Fase 6) o **Fase 5d** filtros
-   dramatúrgicos (datos ya en `obras_resumen`).
+1. **Fase 3** (perfil de autor `autores_resumen`, desbloquea Fase 6). Decidida como siguiente paso
+   el 2026-06-19. Requiere cerrar antes la decisión 0.6 (ponderación y qué obras cuentan).
+2. La invalidación de caché HTTP del catálogo **NO se arregla** (decisión 2026-06-19): la
+   configuración de visibilidad será estable y, para no gastar el free tier de Supabase/Vercel,
+   se prefiere cachear lo máximo posible (salvo lo que se invalida por actualizar datos).
 
 ### Decisiones del equipo aún abiertas (§3)
 - 0.3 Permiso del botón: hoy implementado como **admin/IP o editor asignado** (revisar si se quiere).
 - 0.5 `total_versos` autoritativo (hoy el resumen calcula `sum(n_versos)`).
-- 0.6 Ponderación del perfil de autor (bloquea Fase 3): por extensión vs por obra; y qué obras cuentan.
+- ✅ 0.6 **RESUELTA (2026-06-19):** perfil de autor por **extensión**; unidad atribuible =
+  obra de **un solo autor** (scope obra) **o** jornada de **un solo autor** (scope jornada);
+  obra con ≥2 autores a nivel obra **no** se asigna a nadie (solo sus jornadas mono-autor).
+  Agregados precomputados en **dos alcances**: `publico` (publicadas+visibles) y `completo`
+  (todas las publicadas), seleccionados por rol (anon/login → publico; admin/IP → completo).
 - 0.8 Longitud de tramo en distancia secuencial (Fase 7).
 - 0.9 Pesos de rasgos métricos (Fase 8).
 
@@ -250,8 +262,12 @@ No requieren código; bloquean o condicionan fases. Marcar resueltas en este doc
 3. **Permiso del botón:** admin/IP vs incluir editor asignado. (Choque nº10.) — *Condiciona Fase 2.*
 4. **Slugs en arrays:** `termino` (texto) vs `termino_id` (UUID). (Choque nº7.) — *Condiciona Fase 1.*
 5. **`total_versos` autoritativo:** `obras.total_versos` vs `sum(n_versos)`. (Choque nº5.)
-6. **Ponderación del perfil de autor:** por extensión (recomendado por el doc) vs por obra; y qué
-   obras cuentan (publicadas vs publicadas+visibles). (Choque nº11.) — *Condiciona Fase 3.*
+6. ~~**Ponderación del perfil de autor.**~~ **RESUELTA (2026-06-19):** por **extensión** (un verso =
+   un voto). Unidad atribuible = obra mono-autor (scope obra, `perfil_metrico=true`, 1 autor) o
+   jornada mono-autor (scope jornada, `perfil_metrico=true`, 1 autor); obra con ≥2 autores a nivel
+   obra no cuenta a nivel obra (solo sus jornadas mono-autor). Dos alcances precomputados
+   (`publico` = publicadas+visibles; `completo` = todas publicadas) elegidos por rol como en `obras`.
+   (Choques nº11 y nº1.)
 7. **Invalidación de caché tras el botón:** mecanismo concreto o desfase aceptado. (Choque nº8.)
 8. **Tratamiento de longitud de tramo en distancia secuencial** (doc §3.4) — *solo afecta a Fase 7.*
 9. **Pesos de rasgos métricos** (decisión filológica) — *solo afecta a Fase 8.*
@@ -308,15 +324,50 @@ datos (invisible al público), luego el botón, luego el consumo superficie a su
   afecten a slugs/jerarquías/metros; no sustituye el botón por obra en el flujo normal.
 
 ### Fase 3 — Perfil de autor (`autores_resumen`) 👤
-**Objetivo:** agregado por autor, encadenado al botón.
+**Objetivo:** agregado métrico por autor, encadenado al botón. Decisiones 0.6 cerradas.
+**Metodología completa (qué/cómo/por qué):** [metodologia-perfil-metrico.md §2](metodologia-perfil-metrico.md).
 
-- **Migración:** tabla `autores_resumen` (doc §4.1) con la ponderación decidida (Fase 0.6).
-- **Función** `recompute_autor_resumen(autor_id)`; el botón de obra marca sucios y recalcula los
-  autores afectados vía `atribuciones → atribucion_autores` (doc §4.2).
-- **RLS** coherente con la decisión de exposición (Fase 0.1) y con qué obras cuentan (choque nº11).
-- **Verificación:** recompute de una obra propaga al perfil del autor; agregados correctos.
+**Principio (no falsear):** dos conjuntos de obras distintos por autor:
+- **Perfil métrico** (alimenta los agregados): solo **unidades mono-autor** con `perfil_metrico=true`
+  — obra entera si su atribución de obra tiene **un solo** autor, o jornada suelta si su atribución
+  de jornada tiene **un solo** autor. Obra con ≥2 autores a nivel obra → **no** cuenta a nivel obra.
+- **Obras asociadas** (lista de la ficha, Fase 6): **todas** las obras donde el autor aparece en
+  cualquier atribución (incl. propuestas rivales y colaboraciones), **etiquetando** la naturaleza
+  del vínculo (segura/propuesta, scope obra/jornada, individual/colaborada). No precomputado: se
+  resuelve en vivo en la ficha, filtrado por visibilidad del visitante.
 
-*Dependencias:* Fases 1–2, decisión 0.6. *Entregable:* perfiles de autor listos para consumir.
+- **Migración:** tabla `autores_resumen` con **PK `(autor_id, alcance)`** y `alcance` ∈
+  {`publico`, `completo`}. `publico` agrega sobre obras **publicadas+visibles**; `completo` sobre
+  **todas las publicadas** (decisión 2: anon/login leen `publico`, admin/IP leen `completo`, igual
+  que `obras`. Motivo del `completo`: admin/IP previsualizan cómo cambia el perfil al publicar una
+  obra antes de hacerla visible, mientras crece el corpus). Columnas por fila: `n_obras_completas`,
+  `n_jornadas_sueltas`, `total_versos_autor`, `perfil_formas` (jsonb, suma de versos por forma =
+  ponderación por extensión), `numero_efectivo_formas_medio`, `numero_efectivo_formas_agregado`,
+  `metrica_sucia`, `actualizado_en`. **Sin columna `fiabilidad`:** se guarda la señal cruda
+  (`total_versos_autor`, `n_obras_completas`) y la banda baja/media/alta se deriva en lectura desde
+  una constante editable en TS (cambiar umbrales no requiere recompute). Índices según uso.
+
+  **Número efectivo — dos métricas con dominios distintos (evita el sesgo de muestra):**
+  - `numero_efectivo_formas_agregado`: sobre el `perfil_formas` agregado de **todas** las unidades
+    (obras + jornadas). Suma de versos por forma asociativa → sin sesgo. "Diversidad del repertorio".
+  - `numero_efectivo_formas_medio`: media **solo sobre obras enteras mono-autor**; las jornadas
+    sueltas **no entran** (una jornada es muestra truncada y sesgada de la estructura métrica, no
+    una "obra típica"). **NULL si el autor no tiene ninguna obra entera propia.** "Diversidad de
+    una obra típica suya".
+- **Función** `recompute_autor_resumen(autor_id)`: para cada alcance, reúne las unidades mono-autor
+  del autor; las de **obra entera** leen `obras_resumen` (ya calculado); las de **jornada** calculan
+  el perfil restringido al rango `v_ini`/`v_fin` de la jornada desde `secuencias_metricas` (helper
+  compartido con la lógica de `recompute_obra_resumen` para no divergir). Agrega por extensión.
+- **Mantenimiento:** el botón de obra marca sucios y recalcula los autores afectados vía
+  `atribuciones → atribucion_autores` (doc §4.2). **Además**, cambiar `visible_publico`/`estado` de
+  una obra debe marcar sucios a sus autores (afecta solo al alcance `publico`); recálculo en el
+  siguiente botón o en `recompute_all`.
+- **RLS / exposición:** restrictiva; lectura pública vía RPC/`SECURITY DEFINER` que elige `alcance`
+  por rol (coherente con choque nº1). Sin distancia entre autores (doc §3.5).
+- **Verificación:** recompute de una obra propaga al perfil del autor; agregados correctos; una obra
+  colaborada solo aporta sus jornadas mono-autor; el alcance `publico` excluye obras no visibles.
+
+*Dependencias:* Fases 1–2, decisión 0.6 (resuelta). *Entregable:* perfiles de autor listos para Fase 6.
 
 ### Fase 4 — ~~Consumo en la ficha pública~~ ❌ DESCARTADA (decisión 2026-06-19)
 **La ficha se mantiene en vivo.** Al aterrizarla contra el código se vio que la ficha es una
@@ -386,14 +437,15 @@ Se entrega en dos incrementos.
   (`buildFormaSelectorItems` + `splitFormaSelection`, con tests). Chip único "Forma estrófica".
 
 #### Fase 5d — Pendientes menores del catálogo
-- **Caché HTTP del catálogo:** al cambiar la visibilidad
-  de una sección, la respuesta anónima cacheada (`s-maxage=300, swr=600`) **no se invalida**, así
-  que el cambio tarda ~5-15 min en verse (se confirmó: `/catalogo?x=1` lo evita). Decisión
-  2026-06-19: **no bloquear ni bajar cachés**; la configuración de visibilidad será estable y
-  se prefiere velocidad pública.
+- **Caché HTTP del catálogo: ✅ RESUELTO (no se toca).** Decisión 2026-06-19: la respuesta anónima
+  cacheada (`s-maxage=300, swr=600`) **no se invalida** al cambiar la visibilidad de una sección
+  (el cambio tarda ~5-15 min en verse), y se **acepta**: la configuración de visibilidad será
+  estable —probablemente se fije una vez y no se vuelva a tocar— y, para no gastar el free tier de
+  Supabase/Vercel, se prefiere cachear lo máximo posible. Lo que se invalida por **actualizar datos
+  públicos** (botón/recompute) sí debe refrescarse; los cambios de **visibilidad** no.
 - Mini-barcode con el mismo componente base de la ficha (`MetricBarcode`), escala D3, tooltip
   nativo simple y cortes de jornadas/cuadros desde `obras_resumen.jornadas_tramos`/
-  `cuadros_tramos` — **implementado, pendiente aplicar migración 20260619143000**.
+  `cuadros_tramos` — **✅ implementado y migración 20260619143000 aplicada**.
 - Sección `catalogo.filtros.dramaturgia`: intervención femenina/donaire/sobrenaturales, versos
   partidos, cambio de espacio (campos ya en `obras_resumen`, faltan facetas + UI).
 - Variaciones agrupadas por su categoría padre (fenómenos enunciativos / irregularidades…), igual
@@ -403,11 +455,34 @@ Se entrega en dos incrementos.
 
 *Dependencias:* Fases 1–2, decisión 0.1 (resuelta: RLS replicada con helpers definer).
 
-### Fase 6 — Fichas de autor públicas 👥
-**Objetivo:** construir las páginas de autor (hoy placeholders: [autores/[slug]](src/routes/(public)/autores/[slug]/+page.svelte))
-consumiendo `autores_resumen`; marcar `fiabilidad` baja. Sin distancia entre autores (doc §3.5).
+### Fase 6 — Fichas de autor públicas 👥 (SQL + UI escritos, pendiente aplicar migración)
+**Objetivo:** páginas de autor (listado + ficha) consumiendo `autores_resumen` y las obras
+asociadas. Sin distancia entre autores (doc §3.5). Metodología: [§3](metodologia-perfil-metrico.md).
 
-*Dependencias:* Fase 3.
+**Implementado:**
+- **Migración** [20260619170000_autores_publico_rpc.sql](supabase/migrations/20260619170000_autores_publico_rpc.sql):
+  dos RPC `SECURITY DEFINER` (obligatorias: anon **no** puede leer `autores`).
+  - `get_autor_publico(slug)`: identidad + **todas** las obras asociadas (cualquier atribución),
+    con muro de visibilidad **dentro** y `vinculos` etiquetados (scope obra/jornada, composición,
+    única propuesta) + `sostiene_perfil` (vía `perfil_metrico_unidades`) + `tramos` para el barcode.
+  - `get_autores_listado_publico()`: directorio de autores con perfil.
+  - **Seguridad:** el alcance/visibilidad lo decide la RPC con `auth_is_admin_or_ip()` (no un flag
+    del cliente → sin escalada). admin/IP ven alcance `completo` y obras no visibles; el resto, `publico`.
+- **UI:** [listado](src/routes/(public)/autores/+page.svelte) (nombre, nº obras, diversidad,
+  fiabilidad, mini-perfil) y [ficha](src/routes/(public)/autores/[slug]/+page.svelte) (identidad +
+  enlaces de autoridad VIAF/Wikidata/BNE; perfil métrico con las dos diversidades, fiabilidad y
+  barra de formas; obras asociadas con `CatalogMetricBar` y etiquetas de vínculo).
+- **Helpers/tipos** en [perfil-autor.ts](src/lib/autores/perfil-autor.ts) (incl. constante editable
+  de umbrales de **fiabilidad**, §2.5). `autores_resumen` se lee por el cliente (RLS reparte alcance).
+
+**Simplificaciones (anotadas para después):**
+- La lista de obras asociadas usa `include_hidden = admin/IP`; **no** aplica la relajación
+  editor-asignado-por-obra (un editor ve solo las obras públicas del autor aquí; su propia obra
+  oculta la ve en su ficha). 
+- Etiquetas de forma **prettificadas** del slug (sin resolver vocabulario), como el tooltip del catálogo.
+- El listado incluye solo autores **con perfil métrico** (no los que solo tienen obras asociadas).
+
+*Dependencias:* Fase 3 (aplicar `20260619160000` **antes** que `20260619170000`).
 
 ### Fase 7 — Laboratorio: carga + distancias provisionales + `obras_similares` 🧪
 **Objetivo:** construir el laboratorio (hoy placeholder) sobre el resumen.
@@ -441,13 +516,13 @@ consumiendo `autores_resumen`; marcar `fiabilidad` baja. Sin distancia entre aut
 
 ## 5. Resumen de orden recomendado
 
-1. **Fase 5d** — arreglar la invalidación de caché HTTP del catálogo.
-2. **Fase 3** — perfil de autor (`autores_resumen`).
-3. **Fase 6** — fichas de autor públicas.
-4. **Fase 7** — laboratorio + similares (coseno provisional).
-5. **Fase 8** — rasgos + distancias ponderadas (cuando el equipo codifique los rasgos).
+1. **Fase 3** — perfil de autor (`autores_resumen`). SQL+tipos escritos; **aplicar migración**.
+2. **Fase 6** — fichas de autor públicas. SQL+UI escritos; **aplicar migración** (tras la de Fase 3).
+3. **Fase 7** — laboratorio + similares (coseno provisional).
+4. **Fase 8** — rasgos + distancias ponderadas (cuando el equipo codifique los rasgos).
 
 Fases 1, 2, 2-bis, 2-ter y 5a–5c ya están implementadas. Fase 4 queda descartada por
-decisión explícita: la ficha pública se mantiene en vivo. Fase 5d agrupa pendientes
-del catálogo y del sistema de publicación que conviene cerrar antes de seguir ampliando
-superficies públicas.
+decisión explícita: la ficha pública se mantiene en vivo. Fase 5d cerrada: el mini-barcode
+está implementado (migración aplicada) y la invalidación de caché HTTP no se arregla por
+decisión explícita (se prefiere cachear al máximo por el free tier). Quedan como mejoras
+opcionales no bloqueantes los filtros de dramaturgia y las variaciones agrupadas del catálogo.

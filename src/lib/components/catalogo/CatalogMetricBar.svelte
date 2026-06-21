@@ -10,6 +10,8 @@
 		jornadas?: CatalogStructureTramo[] | null;
 		cuadros?: CatalogStructureTramo[] | null;
 		height?: number;
+		/** Slug de forma → etiqueta visible (vocabulario). Si falta, se prettifica el slug. */
+		formaLabels?: Record<string, string>;
 	}>();
 
 	const total = $derived(
@@ -26,6 +28,9 @@
 	function prettyForma(slug: string): string {
 		return slug.replace(/[_-]+/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
 	}
+	function formaLabel(slug: string): string {
+		return props.formaLabels?.[slug] ?? prettyForma(slug);
+	}
 
 	const segments = $derived.by(() =>
 		props.tramos.map(
@@ -33,9 +38,9 @@
 				id: `${tramo.i}-${tramo.f}-${tramo.s}`,
 				v_ini: tramo.i,
 				v_fin: tramo.f,
-				forma: prettyForma(tramo.s),
+				forma: formaLabel(tramo.s),
 				colorKey: tramo.s,
-				label: prettyForma(tramo.s),
+				label: formaLabel(tramo.s),
 				n_versos: tramo.f - tramo.i + 1
 			})
 		)
