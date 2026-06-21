@@ -52,6 +52,7 @@
 		readOnly?: boolean;
 		canComment?: boolean;
 		focusComentarioId?: string | null;
+		onMetricaDirty?: () => void;
 	}>();
 
 	const PERFIL_HELP =
@@ -579,6 +580,7 @@
 		const payload = (await response.json()) as AutoriaApiPayload;
 		applyServerState(payload);
 		markSaved('autoria');
+		props.onMetricaDirty?.();
 		pushToast('success', 'Autoría guardada');
 	}
 

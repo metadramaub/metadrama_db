@@ -584,6 +584,7 @@
 			readOnly={!canEditContent}
 			canComment={canComment}
 			focusComentarioId={focusComentarioId}
+			onMetricaDirty={handleMetricaDirty}
 		/>
 	{:else if currentTab === 'observaciones'}
 		<ObservacionesTab
