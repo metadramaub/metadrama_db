@@ -174,7 +174,7 @@ describe('applyFichaSectionVisibility', () => {
 		expect(out.metrica.distribucion_formas).toHaveLength(0);
 	});
 
-	it('sinopsis métrica visible se conserva aunque la métrica esté apagada', () => {
+	it('sinopsis visible se conserva aunque la métrica esté apagada', () => {
 		const v = { ...allVisible(), [FICHA_SECTION_IDS.metrica]: false };
 		const out = applyFichaSectionVisibility(fullFicha(), v);
 		expect(out.metrica.secuencias).toHaveLength(0);
@@ -182,7 +182,7 @@ describe('applyFichaSectionVisibility', () => {
 		expect(out.sinopsis_metrica.secuencias[0]?.sinopsis).toBe('SINOPSIS');
 	});
 
-	it('sinopsis métrica apagada se vacía y elimina sinopsis del bloque métrico', () => {
+	it('sinopsis apagada se vacía y elimina sinopsis del bloque métrico', () => {
 		const v = { ...allVisible(), [FICHA_SECTION_IDS.sinopsisMetrica]: false };
 		const out = applyFichaSectionVisibility(fullFicha(), v);
 		expect(out.sinopsis_metrica.secuencias).toHaveLength(0);

@@ -82,7 +82,7 @@
 	const tabs = $derived.by(() => {
 		const items: { id: TabId; label: string }[] = [];
 		if (showMetrica) items.push({ id: 'estructura', label: 'Estructura métrica' });
-		if (showSinopsisMetrica) items.push({ id: 'sinopsis_metrica', label: 'Sinopsis métrica' });
+		if (showSinopsisMetrica) items.push({ id: 'sinopsis_metrica', label: 'Sinopsis' });
 		if (showObservaciones) items.push({ id: 'observaciones', label: 'Observaciones' });
 		if (showBibliografia) items.push({ id: 'bibliografia', label: 'Bibliografía' });
 		return items;
@@ -518,7 +518,7 @@
 		{#if showSinopsisMetrica}
 			<section class="space-y-4">
 				<div>
-					<h2 class="text-lg font-semibold">Sinopsis métrica</h2>
+					<h2 class="text-lg font-semibold">Sinopsis</h2>
 					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 						{sinopsisMetricaSequences.length} secuencias
 						{#if sinopsisMetricaMissingCount > 0}
