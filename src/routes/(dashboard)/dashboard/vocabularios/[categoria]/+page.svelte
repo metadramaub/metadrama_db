@@ -1040,7 +1040,7 @@
 
 				{#if fieldConfig.showBibliography}
 					<label class="form-field">
-						<span class="form-label">Bibliografía</span>
+						<span class="form-label">Bibliografía métrica</span>
 						<MarkdownEditorLite
 							rows={3}
 							class="mt-1"

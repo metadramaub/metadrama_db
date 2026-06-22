@@ -109,7 +109,7 @@
 				detail: `${(obraLive.observaciones ?? '').trim().length} caracteres`
 			},
 			{
-				label: 'Bibliografía añadida',
+				label: 'Bibliografía métrica añadida',
 				done: (obraLive.bibliografia ?? '').trim().length > 0,
 				detail: `${(obraLive.bibliografia ?? '').trim().length} caracteres`
 			}
