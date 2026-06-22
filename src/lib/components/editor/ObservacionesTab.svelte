@@ -110,10 +110,10 @@
 		<div class="mb-3">
 			<h3 class="text-lg font-semibold">
 				<span class="form-label-with-help">
-					Otras observaciones
+					Observaciones
 					<FieldHelpTooltip
 						text={PUBLIC_VISIBILITY_HELP}
-						label="Visibilidad pública de otras observaciones"
+						label="Visibilidad pública de observaciones"
 					/>
 				</span>
 			</h3>

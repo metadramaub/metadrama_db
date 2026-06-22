@@ -532,7 +532,7 @@
 	{:else if activeTab === 'observaciones'}
 		{#if showObservaciones}
 			<section class="space-y-3 border-t border-[color:var(--border)] pt-4">
-				<h2 class="text-lg font-semibold">Otras observaciones</h2>
+				<h2 class="text-lg font-semibold">Observaciones</h2>
 				{#if hasObservaciones}
 					<div class="space-y-2 text-sm leading-7">{@html renderMarkdown(obra.observaciones ?? '')}</div>
 				{:else}
