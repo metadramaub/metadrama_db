@@ -26,8 +26,12 @@
 			import('echarts/renderers')
 		]).then(([core, charts, components, renderers]) => {
 			core.use([
+				charts.LineChart,
 				charts.PieChart,
+				charts.ScatterChart,
 				components.AriaComponent,
+				components.DataZoomComponent,
+				components.GridComponent,
 				components.LegendComponent,
 				components.TitleComponent,
 				components.TooltipComponent,
