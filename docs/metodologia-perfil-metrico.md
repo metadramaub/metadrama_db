@@ -6,9 +6,11 @@
 > dice *qué* se hace y *en qué estado* está; este dice *por qué* y con qué criterio, para poder
 > recordar y defender las decisiones cuando el corpus crezca o haya que revisarlas.
 >
-> **Fuente de verdad del cálculo:** las funciones SQL de las migraciones
+> **Fuente de verdad del cálculo precomputado:** las funciones SQL de las migraciones
 > (`recompute_obra_resumen`, `recompute_autor_resumen`). Si este documento y el SQL difieren,
-> manda el SQL y se corrige aquí.
+> manda el SQL y se corrige aquí. Las distancias provisionales del laboratorio (§4) son una
+> excepción deliberada: se calculan en cliente desde `src/lib/laboratorio/distancias.ts`, sin
+> persistirse en tablas.
 >
 > **Principios rectores:**
 > 1. **La DB es la fuente de verdad** de campos y vocabularios; no se inventan equivalencias.
@@ -279,3 +281,104 @@ La ficha **muestra todas** las obras asociadas, pero **marca la naturaleza** de 
 (segura / propuesta, scope obra / jornada, individual / colaborada) para no dar por cierta una
 autoría que no lo es. Las obras asociadas se resuelven **en vivo** y **filtradas por la
 visibilidad del visitante**; no se precomputan.
+
+---
+
+## 4. Laboratorio: distancias provisionales entre obras
+
+Primera versión implementada el **2026-06-22** en
+[`src/lib/laboratorio/distancias.ts`](../src/lib/laboratorio/distancias.ts). Es una capa
+**exploratoria y no persistida**: no crea tablas, no añade endpoint específico y no materializa
+similitudes. La página del laboratorio carga obras publicadas con `perfil_formas` y `tramos` desde
+`obras_resumen`, aplica la misma lógica de visibilidad que el catálogo y calcula las distancias en
+cliente sobre la **selección activa** de obras.
+
+> **Estado metodológico:** estas distancias sirven para exploración y diagnóstico visual, no como
+> resultado final estable. La futura fase de distancias entre formas deberá sustituir parte de este
+> cálculo por una matriz `formas_distancia`.
+
+### 4.1 Distancia composicional
+
+`distanciaComposicional(perfilA, perfilB)` compara dos perfiles `{forma_slug: n_versos}`:
+
+1. normaliza cada perfil a proporciones, dividiendo los versos de cada forma por el total de versos
+   con forma asignada;
+2. alinea ambos perfiles sobre la **unión** de formas presentes, dando peso 0 a las formas ausentes;
+3. calcula la **divergencia de Jensen-Shannon** con logaritmo en base 2:
+   `JS(P,Q) = 1/2 KL(P,M) + 1/2 KL(Q,M)`, con `M = 1/2(P+Q)`;
+4. devuelve un valor acotado en `[0,1]`: `0` significa perfiles idénticos y `1`, distribuciones sin
+   solapamiento.
+
+*Por qué esta medida provisional:* Jensen-Shannon es simétrica, está acotada y funciona bien para
+perfiles de proporciones. Pero trata todas las formas como categorías igualmente separadas: no sabe
+que dos formas puedan ser métricamente próximas. Por eso se marca como **provisional**; deberá
+sustituirse por transporte óptimo o una medida equivalente cuando exista una matriz
+`formas_distancia`.
+
+### 4.2 Distancia secuencial
+
+`distanciaSecuencial(tramosA, tramosB, versosPorSimbolo = 25)` compara la **secuencia de formas** de
+dos obras a partir de los `tramos` del barcode (`{i, f, s, t}`). En la interfaz se presenta como
+**tamaño de bloque**: cada bloque representa aproximadamente ese número de versos:
+
+1. discretiza cada tramo en una cadena de bloques, repitiendo `s` aproximadamente
+   `round((f - i + 1) / versosPorSimbolo)` veces;
+2. garantiza un mínimo de 1 bloque por tramo para que los tramos cortos no desaparezcan;
+3. calcula una distancia de edición **Levenshtein** entre las dos cadenas, con coste uniforme de
+   inserción, borrado y sustitución;
+4. normaliza por la longitud de la cadena más larga para devolver un valor en `[0,1]`.
+
+*Qué capta:* a diferencia de `perfil_formas`, conserva una lectura aproximada del orden y la
+duración relativa de los bloques métricos. Por ejemplo, dos obras con las mismas formas pero pesos
+invertidos (`romance` largo + `redondilla` corta frente a `romance` corto + `redondilla` larga)
+deben separarse aunque compartan vocabulario.
+
+*Parámetros provisionales:* `versosPorSimbolo` queda configurable en la interfaz del laboratorio
+porque controla la granularidad de la discretización. El coste de sustitución uniforme también es
+provisional: en una fase posterior debe ponderarse con `formas_distancia`, para que sustituir dos
+formas cercanas no cueste lo mismo que sustituir formas métricamente lejanas.
+
+### 4.3 Visualización actual
+
+Para una selección activa de `N` obras, el laboratorio calcula dos matrices `N × N`, simétricas y con
+diagonal 0:
+
+- **matriz composicional**, usando `perfil_formas`;
+- **matriz secuencial**, usando `tramos` y el valor configurable de `versosPorSimbolo`.
+
+Se muestran como dos mapas de calor separados, en pestañas independientes. No se calcula ni se
+muestra una distancia global combinada. La vista de **obras más cercanas** a una obra de referencia
+también se separa por criterio: una lista ordenada por distancia composicional y otra por distancia
+secuencial, siempre con el valor numérico de distancia junto al título.
+
+La página añade además un gráfico de puntos **forma × obra** sobre la selección activa, implementado
+con ECharts:
+
+- cada fila es una forma métrica presente en alguna obra seleccionada;
+- cada columna es una obra seleccionada;
+- el tamaño del punto representa el peso proporcional de esa forma dentro de la obra, calculado
+  desde `perfil_formas`.
+
+Este gráfico no es una distancia: sirve para inspeccionar visualmente qué formas explican las
+proximidades o separaciones que aparecen en las matrices.
+
+También incorpora un gráfico de evolución por **quinquenios**:
+
+- cada obra se asigna a un bloque de cinco años usando `fecha_inicio_trad` y, si falta, `fecha_fin_trad`;
+- dentro de cada quinquenio se suman los versos de las obras seleccionadas;
+- cada serie representa una forma métrica;
+- el valor mostrado es el porcentaje de versos de esa forma sobre el total de versos métricos del
+  quinquenio;
+- la interfaz permite seleccionar qué formas entran en el gráfico, con accesos rápidos al top 5 y
+  top 10 por volumen en la selección.
+
+Este gráfico temporal depende mucho de la selección activa y de la datación disponible. Debe leerse
+como exploración de tendencias dentro del subconjunto elegido, no como evolución global del corpus
+salvo que la selección cubra el corpus de forma equilibrada.
+
+### 4.4 Qué NO se hace todavía
+
+- No se combinan las dos distancias en un único score.
+- No se precomputan pares en una tabla `obras_similares`.
+- No se calcula proyección UMAP ni reducción dimensional.
+- No se comparan autores por distancia: sigue vigente la cautela de §2.7.

@@ -82,7 +82,6 @@
 			{#each filteredAutores as autor (autor.slug)}
 				{@const slices = buildPerfilSlices(autor.perfil_formas)}
 				{@const fiabilidad = fiabilidadDeVersos(autor.total_versos_autor)}
-				{@const topObras = autor.top_obras ?? []}
 				<li class="card overflow-hidden">
 					<a class="block" href={`/autores/${autor.slug}`} aria-label={`Abrir perfil de ${autor.nombre_completo}`}>
 						<div class="aspect-[4/3] bg-[color:var(--gray-100)]">
@@ -132,31 +131,6 @@
 						<div class="mt-5">
 							<MiniMetricDonut {slices} size="md" />
 						</div>
-
-						{#if topObras.length > 0}
-							<div class="mt-4">
-								<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-									Obras principales
-								</div>
-								<ul class="mt-1 space-y-0.5 text-sm">
-									{#each topObras as obra (obra.slug)}
-										<li class="flex items-baseline justify-between gap-2">
-											<a
-												class="truncate text-[color:var(--gray-800)] underline-offset-2 hover:underline"
-												href={`/obras/${obra.slug}`}
-											>
-												{obra.titulo}
-											</a>
-											{#if obra.total_versos}
-												<span class="shrink-0 text-[11px] text-[color:var(--muted-foreground)]">
-													{obra.total_versos.toLocaleString('es-ES')} vv.
-												</span>
-											{/if}
-										</li>
-									{/each}
-								</ul>
-							</div>
-						{/if}
 					</div>
 				</li>
 			{/each}
