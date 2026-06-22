@@ -84,7 +84,7 @@
 		if (showMetrica) items.push({ id: 'estructura', label: 'Estructura métrica' });
 		if (showSinopsisMetrica) items.push({ id: 'sinopsis_metrica', label: 'Sinopsis' });
 		if (showObservaciones) items.push({ id: 'observaciones', label: 'Observaciones' });
-		if (showBibliografia) items.push({ id: 'bibliografia', label: 'Bibliografía' });
+		if (showBibliografia) items.push({ id: 'bibliografia', label: 'Bibliografía métrica' });
 		return items;
 	});
 
@@ -543,11 +543,11 @@
 	{:else if activeTab === 'bibliografia'}
 		{#if showBibliografia}
 			<section class="space-y-3 border-t border-[color:var(--border)] pt-4">
-				<h2 class="text-lg font-semibold">Bibliografía</h2>
+				<h2 class="text-lg font-semibold">Bibliografía métrica</h2>
 				{#if hasBibliografia}
 					<div class="space-y-2 text-sm leading-7">{@html renderMarkdown(obra.bibliografia ?? '')}</div>
 				{:else}
-					<p class="text-sm text-[color:var(--muted-foreground)]">Sin bibliografía publicada.</p>
+					<p class="text-sm text-[color:var(--muted-foreground)]">Sin bibliografía métrica publicada.</p>
 				{/if}
 			</section>
 		{/if}

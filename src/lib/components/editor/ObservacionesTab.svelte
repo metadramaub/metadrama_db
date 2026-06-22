@@ -78,7 +78,7 @@
 		if (!response.ok) {
 			setSaving(false, 'observaciones');
 			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudieron guardar las observaciones y la bibliografía.');
+			pushToast('error', body.message ?? 'No se pudieron guardar las observaciones y la bibliografía métrica.');
 			return;
 		}
 
@@ -91,7 +91,7 @@
 			updated_at: payload.obra.updated_at
 		});
 		markSaved('observaciones');
-		pushToast('success', 'Observaciones y bibliografía guardadas.');
+		pushToast('success', 'Observaciones y bibliografía métrica guardadas.');
 	}
 
 	onDestroy(() => {
@@ -135,14 +135,14 @@
 		<div class="mb-3">
 			<h3 class="text-lg font-semibold">
 				<span class="form-label-with-help">
-					Bibliografía específica
+					Bibliografía métrica
 					<FieldHelpTooltip
 						text={PUBLIC_VISIBILITY_HELP}
-						label="Visibilidad pública de bibliografía específica"
+						label="Visibilidad pública de bibliografía métrica"
 					/>
 					<FieldHelpTooltip
 						text={OBRA_REFERENCIAS_MULTIPLES_HELP}
-						label="Ayuda para referencias múltiples en bibliografía específica"
+						label="Ayuda para referencias múltiples en bibliografía métrica"
 					/>
 				</span>
 			</h3>
