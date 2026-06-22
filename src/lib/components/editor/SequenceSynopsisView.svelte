@@ -182,7 +182,7 @@
 	</div>
 {:else}
 	<div class="grid gap-6 lg:grid-cols-[14rem_minmax(0,1fr)]">
-		<nav aria-label="Navegación de sinopsis métrica" class="lg:sticky lg:top-4 lg:self-start">
+		<nav aria-label="Navegación de sinopsis" class="lg:sticky lg:top-4 lg:self-start">
 			<div class="border-y border-[color:var(--border)] py-3 lg:border-y-0 lg:border-r lg:pr-4">
 				<div class="mb-3 flex flex-wrap gap-2">
 					<button

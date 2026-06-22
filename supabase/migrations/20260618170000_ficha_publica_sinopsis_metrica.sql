@@ -2,8 +2,8 @@ begin;
 
 insert into public.secciones_publicas (seccion_id, label, descripcion, activa, scope_minimo, orden)
 values (
-	'ficha.sinopsis_metrica',
-	'Ficha · Sinopsis métrica',
+	'ficha.sinopsis',
+	'Ficha · Sinopsis',
 	'Sinopsis completa de las secuencias métricas.',
 	true,
 	'anon',
