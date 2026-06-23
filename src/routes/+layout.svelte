@@ -2,7 +2,6 @@
 	import { dev } from '$app/environment';
 	import { navigating } from '$app/stores';
 	import { onDestroy } from 'svelte';
-	import favicon from '$lib/assets/favicon.svg';
 	import SceneLoader from '$lib/components/ui/scene-loader.svelte';
 	import Toast from '$lib/components/ui/toast.svelte';
 	import { endSceneLoad, startSceneLoad, type SceneLoadToken } from '$lib/stores/scene-loader';
@@ -37,7 +36,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
