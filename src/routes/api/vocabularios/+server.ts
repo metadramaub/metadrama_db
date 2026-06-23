@@ -7,7 +7,7 @@ import { vocabularioCreateSchema } from '$lib/utils/validators';
 import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
 async function syncEstrofaTipoMetros(locals: App.Locals, estrofaTipoId: string, metroIds: string[]) {
 	const uniqueMetroIds = [...new Set(metroIds)];
@@ -144,7 +144,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		resolvedOrder = nextOrderResult.order;
 	}
 
-	const { data, error } = await locals.supabase
+	let { data, error } = await locals.supabase
 		.from('vocabularios')
 		.insert({
 			categoria: payload.categoria,
@@ -159,6 +159,10 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			equivalencias: payload.equivalencias,
 			patron_especifico: payload.patron_especifico,
 			tipo_forma: payload.tipo_forma,
+			tipo_rima: payload.tipo_rima,
+			naturaleza_estrofica: payload.naturaleza_estrofica,
+			tamanio_unidad_estrofica: payload.tamanio_unidad_estrofica,
+			numero_silabas: payload.numero_silabas,
 			activo: payload.activo
 		})
 		.select(vocabularySelect)
@@ -180,6 +184,18 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			return json({ error: 'db_error', message: syncResult.message }, { status: syncResult.status });
 		}
 		metroIds = syncResult.metroIds;
+		const { data: refreshedData, error: refreshError } = await locals.supabase
+			.from('vocabularios')
+			.select(vocabularySelect)
+			.eq('termino_id', data.termino_id)
+			.single();
+		if (refreshError || !refreshedData) {
+			return json(
+				{ error: 'db_error', message: refreshError?.message ?? 'No se pudo leer el término creado.' },
+				{ status: 500 }
+			);
+		}
+		data = refreshedData;
 	}
 
 	invalidatePublicVocabularioCache();

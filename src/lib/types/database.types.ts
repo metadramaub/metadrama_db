@@ -1087,6 +1087,7 @@ export type Database = {
       vocabularios: {
         Row: {
           activo: boolean | null
+          arte_metrico: string | null
           bibliografia: string | null
           categoria: string
           created_at: string
@@ -1094,17 +1095,22 @@ export type Database = {
           ejemplo: string | null
           equivalencias: string[] | null
           etiqueta: string | null
+          naturaleza_estrofica: string | null
           nivel: number | null
+          numero_silabas: number | null
           orden: number | null
           patron_especifico: string | null
+          tamanio_unidad_estrofica: number | null
           termino: string
           termino_id: string
           termino_padre_id: string | null
           tipo_forma: string | null
+          tipo_rima: string | null
           updated_at: string
         }
         Insert: {
           activo?: boolean | null
+          arte_metrico?: string | null
           bibliografia?: string | null
           categoria: string
           created_at?: string
@@ -1112,17 +1118,22 @@ export type Database = {
           ejemplo?: string | null
           equivalencias?: string[] | null
           etiqueta?: string | null
+          naturaleza_estrofica?: string | null
           nivel?: number | null
+          numero_silabas?: number | null
           orden?: number | null
           patron_especifico?: string | null
+          tamanio_unidad_estrofica?: number | null
           termino: string
           termino_id?: string
           termino_padre_id?: string | null
           tipo_forma?: string | null
+          tipo_rima?: string | null
           updated_at?: string
         }
         Update: {
           activo?: boolean | null
+          arte_metrico?: string | null
           bibliografia?: string | null
           categoria?: string
           created_at?: string
@@ -1130,13 +1141,17 @@ export type Database = {
           ejemplo?: string | null
           equivalencias?: string[] | null
           etiqueta?: string | null
+          naturaleza_estrofica?: string | null
           nivel?: number | null
+          numero_silabas?: number | null
           orden?: number | null
           patron_especifico?: string | null
+          tamanio_unidad_estrofica?: number | null
           termino?: string
           termino_id?: string
           termino_padre_id?: string | null
           tipo_forma?: string | null
+          tipo_rima?: string | null
           updated_at?: string
         }
         Relationships: [

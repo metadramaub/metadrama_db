@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
 export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	const parentData = await parent();
@@ -29,14 +29,14 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 		throw error(404, `No existe la categoria ${categoria}`);
 	}
 
-	let metroOptions: Array<{ termino_id: string; termino: string }> = [];
+	let metroOptions: Array<{ termino_id: string; termino: string; numero_silabas: number | null }> = [];
 	let estrofaTipoMetros: Array<{ estrofa_tipo_id: string; metro_id: string }> = [];
 
 	if (categoria === 'estrofa_tipo') {
 		const [metrosResp, relacionesResp] = await Promise.all([
 			locals.supabase
 				.from('vocabularios')
-				.select('termino_id,termino')
+				.select('termino_id,termino,numero_silabas')
 				.eq('categoria', 'metro')
 				.eq('activo', true)
 				.order('orden', { ascending: true })
@@ -57,7 +57,11 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 			throw error(500, `No se pudieron cargar las relaciones estrofa/metro: ${relacionesResp.error.message}`);
 		}
 
-		metroOptions = (metrosResp.data ?? []) as Array<{ termino_id: string; termino: string }>;
+		metroOptions = (metrosResp.data ?? []) as Array<{
+			termino_id: string;
+			termino: string;
+			numero_silabas: number | null;
+		}>;
 		estrofaTipoMetros = (relacionesResp.data ?? []) as Array<{
 			estrofa_tipo_id: string;
 			metro_id: string;

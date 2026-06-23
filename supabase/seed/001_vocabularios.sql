@@ -85,6 +85,18 @@ do update set
 	activo = excluded.activo,
 	updated_at = now();
 
+update public.vocabularios
+set
+	numero_silabas = case termino
+		when 'octosilabo' then 8
+		when 'heptasilabo' then 7
+		when 'endecasilabo' then 11
+		else numero_silabas
+	end,
+	updated_at = now()
+where categoria = 'metro'
+	and termino in ('octosilabo', 'heptasilabo', 'endecasilabo');
+
 -- Resolver jerarquia por termino para evitar dependencia de UUIDs historicos.
 update public.vocabularios as child
 set

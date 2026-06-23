@@ -510,9 +510,19 @@ describe('validators', () => {
 			categoria: 'estrofa_tipo',
 			termino: 'silva',
 			tipo_forma: 'forma_italiana',
+			tipo_rima: 'mixta',
+			naturaleza_estrofica: 'tirada_continua',
+			tamanio_unidad_estrofica: null,
 			metro_ids: ['72fbe06d-9f46-4690-9df8-a4d9f0611d0d']
 		});
 		expect(estrofaCreate.success).toBe(true);
+
+		const metroCreate = vocabularioCreateSchema.safeParse({
+			categoria: 'metro',
+			termino: 'octosilabo',
+			numero_silabas: 8
+		});
+		expect(metroCreate.success).toBe(true);
 
 		const emptyPatch = vocabularioPatchSchema.safeParse({});
 		expect(emptyPatch.success).toBe(false);
@@ -522,9 +532,16 @@ describe('validators', () => {
 
 		const estrofaPatch = vocabularioPatchSchema.safeParse({
 			tipo_forma: 'forma_espanola',
+			tipo_rima: 'asonante',
+			naturaleza_estrofica: 'estrofa_cerrada',
+			tamanio_unidad_estrofica: 4,
 			metro_ids: ['81567f6d-5e8b-419f-b2c0-f9e9ed7f1017']
 		});
 		expect(estrofaPatch.success).toBe(true);
+
+		expect(vocabularioPatchSchema.safeParse({ tipo_rima: 'parcial' }).success).toBe(false);
+		expect(vocabularioPatchSchema.safeParse({ tamanio_unidad_estrofica: 0 }).success).toBe(false);
+		expect(vocabularioPatchSchema.safeParse({ numero_silabas: -8 }).success).toBe(false);
 	});
 
 	it('validates vocabulario reorder payloads', () => {

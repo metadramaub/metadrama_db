@@ -12,6 +12,11 @@ export type VocabularyItem = {
 	equivalencias: string[] | null;
 	patron_especifico: string | null;
 	tipo_forma: string | null;
+	tipo_rima: string | null;
+	naturaleza_estrofica: string | null;
+	tamanio_unidad_estrofica: number | null;
+	arte_metrico: string | null;
+	numero_silabas: number | null;
 	activo: boolean | null;
 };
 

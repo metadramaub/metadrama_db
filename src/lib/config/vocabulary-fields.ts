@@ -8,6 +8,11 @@ export type VocabularyFieldConfig = {
 	showEquivalences: boolean;
 	showPattern: boolean;
 	showTipoForma: boolean;
+	showTipoRima: boolean;
+	showNaturalezaEstrofica: boolean;
+	showTamanioUnidadEstrofica: boolean;
+	showArteMetrico: boolean;
+	showNumeroSilabas: boolean;
 	showMetros: boolean;
 };
 
@@ -23,6 +28,11 @@ const ESTROFA_FIELDS: VocabularyFieldConfig = {
 	showEquivalences: true,
 	showPattern: true,
 	showTipoForma: true,
+	showTipoRima: true,
+	showNaturalezaEstrofica: true,
+	showTamanioUnidadEstrofica: true,
+	showArteMetrico: true,
+	showNumeroSilabas: false,
 	showMetros: true
 };
 
@@ -36,6 +46,11 @@ const GENERO_FIELDS: VocabularyFieldConfig = {
 	showEquivalences: true,
 	showPattern: false,
 	showTipoForma: false,
+	showTipoRima: false,
+	showNaturalezaEstrofica: false,
+	showTamanioUnidadEstrofica: false,
+	showArteMetrico: false,
+	showNumeroSilabas: false,
 	showMetros: false
 };
 
@@ -49,6 +64,11 @@ const METRO_FIELDS: VocabularyFieldConfig = {
 	showEquivalences: true,
 	showPattern: false,
 	showTipoForma: false,
+	showTipoRima: false,
+	showNaturalezaEstrofica: false,
+	showTamanioUnidadEstrofica: false,
+	showArteMetrico: false,
+	showNumeroSilabas: true,
 	showMetros: false
 };
 
@@ -62,6 +82,11 @@ const CARACTERIZACION_RANGO_FIELDS: VocabularyFieldConfig = {
 	showEquivalences: true,
 	showPattern: false,
 	showTipoForma: false,
+	showTipoRima: false,
+	showNaturalezaEstrofica: false,
+	showTamanioUnidadEstrofica: false,
+	showArteMetrico: false,
+	showNumeroSilabas: false,
 	showMetros: false
 };
 
@@ -75,6 +100,11 @@ const TECHNICAL_FIELDS: VocabularyFieldConfig = {
 	showEquivalences: false,
 	showPattern: false,
 	showTipoForma: false,
+	showTipoRima: false,
+	showNaturalezaEstrofica: false,
+	showTamanioUnidadEstrofica: false,
+	showArteMetrico: false,
+	showNumeroSilabas: false,
 	showMetros: false
 };
 
@@ -88,6 +118,11 @@ const LEGACY_FALLBACK_FIELDS: VocabularyFieldConfig = {
 	showEquivalences: true,
 	showPattern: true,
 	showTipoForma: false,
+	showTipoRima: false,
+	showNaturalezaEstrofica: false,
+	showTamanioUnidadEstrofica: false,
+	showArteMetrico: false,
+	showNumeroSilabas: false,
 	showMetros: false
 };
 
