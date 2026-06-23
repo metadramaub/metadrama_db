@@ -382,7 +382,6 @@ export type Database = {
       }
       cuadros: {
         Row: {
-          certeza_editor: string
           created_at: string
           cuadro_id: string
           cuadro_num: number
@@ -392,7 +391,6 @@ export type Database = {
           v_ini: number
         }
         Insert: {
-          certeza_editor: string
           created_at?: string
           cuadro_id?: string
           cuadro_num: number
@@ -402,7 +400,6 @@ export type Database = {
           v_ini: number
         }
         Update: {
-          certeza_editor?: string
           created_at?: string
           cuadro_id?: string
           cuadro_num?: number
@@ -412,13 +409,6 @@ export type Database = {
           v_ini?: number
         }
         Relationships: [
-          {
-            foreignKeyName: "cuadros_certeza_editor_fkey"
-            columns: ["certeza_editor"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
           {
             foreignKeyName: "cuadros_jornada_id_fkey"
             columns: ["jornada_id"]
@@ -959,7 +949,6 @@ export type Database = {
       }
       secuencias_metricas: {
         Row: {
-          certeza_editor: string
           created_at: string
           estrofa_tipo_id: string | null
           evocacion_metrica: boolean
@@ -978,7 +967,6 @@ export type Database = {
           versos_partidos: boolean
         }
         Insert: {
-          certeza_editor: string
           created_at?: string
           estrofa_tipo_id?: string | null
           evocacion_metrica?: boolean
@@ -997,7 +985,6 @@ export type Database = {
           versos_partidos?: boolean
         }
         Update: {
-          certeza_editor?: string
           created_at?: string
           estrofa_tipo_id?: string | null
           evocacion_metrica?: boolean
@@ -1016,13 +1003,6 @@ export type Database = {
           versos_partidos?: boolean
         }
         Relationships: [
-          {
-            foreignKeyName: "secuencias_metricas_certeza_editor_fkey"
-            columns: ["certeza_editor"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
           {
             foreignKeyName: "secuencias_metricas_estrofa_tipo_id_fkey"
             columns: ["estrofa_tipo_id"]

@@ -56,8 +56,7 @@ export type DashboardNotificationType =
 	| 'assigned_editor'
 	| 'assigned_review'
 	| 'state_change'
-	| 'comment'
-	| 'low_medium_certainty';
+	| 'comment';
 
 export type DashboardNotificationItem = {
 	id: string;
@@ -67,7 +66,6 @@ export type DashboardNotificationItem = {
 	description: string;
 	eventAt: string | null;
 	tab: 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones';
-	badgeCount?: number;
 	targetUrl?: string;
 };
 
@@ -259,15 +257,6 @@ async function loadCommentContextLabels(
 		contextByCommentId,
 		typeByCommentId
 	};
-}
-
-async function resolveLowMediumCertezaIds(locals: App.Locals): Promise<string[]> {
-	const { data } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id')
-		.eq('categoria', 'certeza_editor')
-		.in('termino', ['baja', 'media']);
-	return [...new Set((data ?? []).map((row) => row.termino_id))];
 }
 
 export async function getDashboardKpis(locals: App.Locals, profile: EditorProfile): Promise<DashboardKpis> {
@@ -582,44 +571,6 @@ export async function getNotifications(
 			targetUrl: buildCommentTargetUrl(row.obra_id, row)
 		}))
 	];
-
-	if (admin) {
-		const lowMedIds = await resolveLowMediumCertezaIds(locals);
-		if (lowMedIds.length > 0) {
-			const { data: lowRows } = await locals.supabase
-				.from('secuencias_metricas')
-				.select('obra_id,secuencia_id,updated_at,certeza_editor')
-				.in('certeza_editor', lowMedIds)
-				.order('updated_at', { ascending: false })
-				.limit(4000);
-
-			const grouped = new Map<string, { total: number; latest: string | null }>();
-			for (const row of lowRows ?? []) {
-				const current = grouped.get(row.obra_id) ?? { total: 0, latest: null };
-				current.total += 1;
-				const normalized = normalizeEventAt(row.updated_at);
-				if (!current.latest || (normalized && Date.parse(normalized) > Date.parse(current.latest))) {
-					current.latest = normalized;
-				}
-				grouped.set(row.obra_id, current);
-			}
-
-			await hydrateMissingObraTitles(locals, titleMap, [...grouped.keys()]);
-
-			for (const [obraId, info] of grouped.entries()) {
-				feed.push({
-					id: `certainty-${obraId}`,
-					type: 'low_medium_certainty',
-					obraId,
-					obraTitulo: resolveObraTitle(titleMap, obraId),
-					description: 'Secuencias con certeza baja/media',
-					eventAt: info.latest,
-					tab: 'secuencias',
-					badgeCount: info.total
-				});
-			}
-		}
-	}
 
 	return feed.sort(compareByEventDesc).slice(0, limit);
 }

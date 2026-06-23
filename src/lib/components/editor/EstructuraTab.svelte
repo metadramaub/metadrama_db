@@ -4,16 +4,13 @@
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
-	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { displayTerm } from '$lib/utils/vocabulario';
 
 	const props = $props<{
 		obraId: string;
 		jornadasInitial: Tables<'jornadas'>[];
 		cuadrosInitial: Tables<'cuadros'>[];
-		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		readOnly?: boolean;
 		canComment?: boolean;
 		focusJornadaId?: string | null;
@@ -27,7 +24,6 @@
 
 	let jornadas = $state(untrack(() => [...props.jornadasInitial]));
 	let cuadros = $state(untrack(() => [...props.cuadrosInitial]));
-	const defaultCerteza = untrack(() => props.certezaOptions.at(0)?.termino_id ?? '');
 
 	type SidebarMode = 'jornada-new' | 'jornada-edit' | 'cuadro-new' | 'cuadro-edit' | null;
 	type DeleteTarget = {
@@ -61,8 +57,7 @@
 		jornada_id: untrack(() => props.jornadasInitial[0]?.jornada_id ?? ''),
 		cuadro_num: 1,
 		v_ini: untrack(() => props.jornadasInitial[0]?.v_ini ?? 1),
-		v_fin: untrack(() => props.jornadasInitial[0]?.v_fin ?? 2),
-		certeza_editor: defaultCerteza
+		v_fin: untrack(() => props.jornadasInitial[0]?.v_fin ?? 2)
 	});
 
 	function sortByVIni<T extends { v_ini: number }>(items: T[]): T[] {
@@ -74,13 +69,6 @@
 			label: `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
 		}))
 	);
-	const certezaDropdownItems = $derived(
-		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>) => ({
-			id: option.termino_id,
-			label: displayTerm(option)
-		}))
-	);
-
 	function getJornadaById(jornadaId: string) {
 		return jornadas.find((item) => item.jornada_id === jornadaId) ?? null;
 	}
@@ -130,8 +118,7 @@
 			jornada_id: selectedJornadaId,
 			cuadro_num: selectedJornadaId ? getCuadros(selectedJornadaId).length + 1 : 1,
 			v_ini: suggestedStart,
-			v_fin: suggestedStart + 1,
-			certeza_editor: defaultCerteza
+			v_fin: suggestedStart + 1
 		};
 	}
 
@@ -171,8 +158,7 @@
 				jornada_id: cuadroForm.jornada_id,
 				cuadro_num: Number(cuadroForm.cuadro_num),
 				v_ini: Number(cuadroForm.v_ini),
-				v_fin: Number(cuadroForm.v_fin),
-				certeza_editor: cuadroForm.certeza_editor
+				v_fin: Number(cuadroForm.v_fin)
 			});
 		}
 		return '';
@@ -208,8 +194,7 @@
 			jornada_id: cuadroForm.jornada_id,
 			cuadro_num: Number(cuadroForm.cuadro_num),
 			v_ini: Number(cuadroForm.v_ini),
-			v_fin: Number(cuadroForm.v_fin),
-			certeza_editor: cuadroForm.certeza_editor
+			v_fin: Number(cuadroForm.v_fin)
 		};
 	}
 
@@ -230,10 +215,6 @@
 		const payload = parseCuadroPayload();
 		if (!payload.jornada_id) {
 			if (showToast) pushToast('error', 'Selecciona una jornada');
-			return false;
-		}
-		if (!payload.certeza_editor) {
-			if (showToast) pushToast('error', 'Selecciona certeza');
 			return false;
 		}
 		if (!Number.isFinite(payload.cuadro_num) || payload.cuadro_num < 1) {
@@ -357,8 +338,7 @@
 			jornada_id: savedCuadro.jornada_id,
 			cuadro_num: savedCuadro.cuadro_num,
 			v_ini: savedCuadro.v_ini,
-			v_fin: savedCuadro.v_fin,
-			certeza_editor: savedCuadro.certeza_editor
+			v_fin: savedCuadro.v_fin
 		};
 
 		emitStructureChange();
@@ -427,8 +407,7 @@
 			jornada_id: cuadro.jornada_id,
 			cuadro_num: cuadro.cuadro_num,
 			v_ini: cuadro.v_ini,
-			v_fin: cuadro.v_fin,
-			certeza_editor: cuadro.certeza_editor
+			v_fin: cuadro.v_fin
 		};
 		sidebarMode = 'cuadro-edit';
 		setSidebarBaselineFromCurrent();
@@ -575,7 +554,7 @@
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
 		const trackJornada = `${jornadaForm.jornada_num}|${jornadaForm.v_ini}|${jornadaForm.v_fin}`;
-		const trackCuadro = `${cuadroForm.jornada_id}|${cuadroForm.cuadro_num}|${cuadroForm.v_ini}|${cuadroForm.v_fin}|${cuadroForm.certeza_editor}`;
+		const trackCuadro = `${cuadroForm.jornada_id}|${cuadroForm.cuadro_num}|${cuadroForm.v_ini}|${cuadroForm.v_fin}`;
 		void trackJornada;
 		void trackCuadro;
 
@@ -783,33 +762,6 @@
 						/>
 					</label>
 				</div>
-				<label class="form-field">
-					<span class="form-label">
-						<span class="form-label-with-help">
-							Certeza
-							<FieldHelpTooltip
-								text="Indica el grado de seguridad en la delimitación de este cuadro para facilitar su revisión posterior."
-								label="Ayuda sobre el campo Certeza del cuadro"
-							/>
-						</span>
-					</span>
-					<CheckDropdown
-						multiple={false}
-						search={certezaDropdownItems.length > 8}
-						placeholder="Seleccionar certeza"
-						items={certezaDropdownItems}
-						disabled={props.readOnly}
-						selectedIds={cuadroForm.certeza_editor ? [cuadroForm.certeza_editor] : []}
-						onChange={(ids) => {
-							const nextCerteza = ids[0] ?? '';
-							if (!nextCerteza) return;
-							cuadroForm = {
-								...cuadroForm,
-								certeza_editor: nextCerteza
-							};
-						}}
-					/>
-				</label>
 			{/if}
 		</div>
 

@@ -109,12 +109,10 @@ CREATE TABLE public.cuadros (
   cuadro_num integer NOT NULL,
   v_ini integer NOT NULL,
   v_fin integer NOT NULL,
-  certeza_editor uuid NOT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
   CONSTRAINT cuadros_pkey PRIMARY KEY (cuadro_id),
-  CONSTRAINT cuadros_jornada_id_fkey FOREIGN KEY (jornada_id) REFERENCES public.jornadas(jornada_id),
-  CONSTRAINT cuadros_certeza_editor_fkey FOREIGN KEY (certeza_editor) REFERENCES public.vocabularios(termino_id)
+  CONSTRAINT cuadros_jornada_id_fkey FOREIGN KEY (jornada_id) REFERENCES public.jornadas(jornada_id)
 );
 CREATE TABLE public.secuencias_metricas (
   secuencia_id uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -127,7 +125,6 @@ CREATE TABLE public.secuencias_metricas (
   intervencion_personajes_femeninos character varying NOT NULL DEFAULT 'sin_intervencion'::character varying CHECK (intervencion_personajes_femeninos::text = ANY (ARRAY['sin_intervencion'::character varying, 'exclusiva'::character varying, 'compartida'::character varying]::text[])),
   intervencion_figuras_donaire character varying NOT NULL DEFAULT 'sin_intervencion'::character varying CHECK (intervencion_figuras_donaire::text = ANY (ARRAY['sin_intervencion'::character varying, 'exclusiva'::character varying, 'compartida'::character varying]::text[])),
   intervencion_personajes_sobrenaturales character varying NOT NULL DEFAULT 'sin_intervencion'::character varying CHECK (intervencion_personajes_sobrenaturales::text = ANY (ARRAY['sin_intervencion'::character varying, 'exclusiva'::character varying, 'compartida'::character varying]::text[])),
-  certeza_editor uuid NOT NULL,
   sinopsis text,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
@@ -136,8 +133,7 @@ CREATE TABLE public.secuencias_metricas (
   evocacion_metrica_texto text,
   CONSTRAINT secuencias_metricas_pkey PRIMARY KEY (secuencia_id),
   CONSTRAINT secuencias_metricas_obra_id_fkey FOREIGN KEY (obra_id) REFERENCES public.obras(obra_id),
-  CONSTRAINT secuencias_metricas_estrofa_tipo_id_fkey FOREIGN KEY (estrofa_tipo_id) REFERENCES public.vocabularios(termino_id),
-  CONSTRAINT secuencias_metricas_certeza_editor_fkey FOREIGN KEY (certeza_editor) REFERENCES public.vocabularios(termino_id)
+  CONSTRAINT secuencias_metricas_estrofa_tipo_id_fkey FOREIGN KEY (estrofa_tipo_id) REFERENCES public.vocabularios(termino_id)
 );
 CREATE TABLE public.secuencias_caracterizaciones_rango (
   caracterizacion_rango_id uuid NOT NULL DEFAULT uuid_generate_v4(),

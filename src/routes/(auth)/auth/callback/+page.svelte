@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 
 	let status = $state('Procesando enlace de acceso...');
 
@@ -33,6 +32,7 @@
 		}
 
 		status = 'Validando sesión de invitación...';
+		const { getSupabaseBrowserClient } = await import('$lib/services/supabase');
 		const supabase = getSupabaseBrowserClient();
 		const { error } = await supabase.auth.setSession({
 			access_token: accessToken,

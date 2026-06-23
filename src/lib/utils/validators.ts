@@ -95,8 +95,7 @@ export const cuadroInputSchema = z
 		jornada_id: z.string().uuid(),
 		cuadro_num: z.number().int().positive(),
 		v_ini: z.number().int().positive(),
-		v_fin: z.number().int().positive(),
-		certeza_editor: z.string().uuid()
+		v_fin: z.number().int().positive()
 	})
 	.refine((input) => input.v_ini < input.v_fin, {
 		message: 'El verso inicial debe ser menor que el final',
@@ -115,7 +114,6 @@ export const secuenciaInputSchema = z
 		intervencion_personajes_femeninos: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
 		intervencion_figuras_donaire: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
 		intervencion_personajes_sobrenaturales: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
-		certeza_editor: z.string().uuid(),
 		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
 	.strict()

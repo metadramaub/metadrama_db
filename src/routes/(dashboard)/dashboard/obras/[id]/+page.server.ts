@@ -27,7 +27,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			.in('categoria', [
 				'genero',
 				'estado',
-				'certeza_editor',
 				'estrofa_tipo',
 				'caracterizacion_rango',
 				'personajes_donaire',

@@ -73,7 +73,7 @@ Aquí organizas la arquitectura del texto por jornadas y cuadros, con sus rangos
 En esta pestaña puedes registrar:
 
 - en cada jornada: número de jornada, verso inicial y verso final;
-- en cada cuadro: jornada a la que pertenece, número de cuadro (numeración reiniciada en cada jornada), verso inicial, verso final y certeza de la delimitación.
+- en cada cuadro: jornada a la que pertenece, número de cuadro (numeración reiniciada en cada jornada), verso inicial y verso final.
 
 Recomendaciones para la delimitación de los cuadros: 
 * aunque la bibliografía no sea unánime, desde METADRAMA entendemos por cambio de cuadro un vacío total de personajes en escena. 
@@ -82,7 +82,7 @@ Recomendaciones para la delimitación de los cuadros:
 * ¡Cuidado con los falsos cambios de cuadro! A veces un personaje parece que se va, pero permanece escondido para espiar la escena y luego reaparece. Esto es un único cuadro. 
 
 > [!TIP] 
-> Incluye siempre la certeza con la que has definido cada cuadro. Si el cambio de cuadro es claro selecciona “certeza alta”, pero, si fuese dudoso, selecciona “media” o “baja”. Esta información no se hará pública, pero ayuda mucho en revisión interna.
+> Si una delimitación de cuadro es dudosa, consúltala o deja un comentario interno de revisión en ese cuadro. No cierres una delimitación como válida mientras siga sin aclararse.
 
 > [!DANGER]
 > Antes de pasar a secuencias, confirma que no hay solapamientos evidentes de rangos de versos entre jornadas o cuadros.
@@ -101,7 +101,7 @@ En cada secuencia registras:
 - si hay caracterizaciones por rango (por ejemplo, si esa estrofa es cantada, si falta un verso en una redondilla o si hay defectos o variaciones métricas especiales);
 - caracterización de la secuencia a través de varios ítems (por ejemplo, si interviene el gracioso en ella o si hay un cambio de espacio);
 - sinopsis argumental;
-- certeza de las decisiones tomadas (por ejemplo, si no estás seguro de la estrofa métrica seleccionada).
+- comentarios internos de revisión cuando una decisión métrica necesite discusión.
 
 > [!IMPORTANT]
 > ¿Qué hacer si una forma métrica (o una variación o patrón distinto de la misma) presente en la obra no aparece entre las opciones seleccionables de la base de datos? En ese caso, descríbela en los comentarios internos. Una vez la ficha se haya revisado, se dará de alta la nueva forma métrica para que el editor responsable pueda editar su ficha y seleccionar la opción adecuada.
@@ -219,7 +219,7 @@ Todo el contenido de la obra debe quedar completo antes de pasarla a revisión. 
 6. Cambia el estado de `borrador` a `pendiente` cuando termines.
 
 > [!TIP]
-> Deja clara la certeza de tus decisiones (alta, media o baja) y usa comentarios internos cuando haya dudas o casos discutibles.
+> Antes de terminar, revisa las dudas abiertas. Si una decisión sigue siendo discutible, deja un comentario interno en el punto exacto que deba revisarse.
 
 ## Sobre los campos de texto largos y Markdown
 

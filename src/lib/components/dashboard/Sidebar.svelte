@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import type { EditorProfile } from '$lib/types/obra.types';
 
 	const props = $props<{
@@ -120,6 +119,7 @@
 
 	async function onLogout() {
 		loggingOut = true;
+		const { getSupabaseBrowserClient } = await import('$lib/services/supabase');
 		const supabase = getSupabaseBrowserClient();
 		await supabase.auth.signOut();
 		await goto('/login');

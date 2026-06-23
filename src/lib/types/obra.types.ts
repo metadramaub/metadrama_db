@@ -50,7 +50,6 @@ export interface CuadroInput {
 	cuadro_num: number;
 	v_ini: number;
 	v_fin: number;
-	certeza_editor: string;
 }
 
 export interface SecuenciaInput {
@@ -64,7 +63,6 @@ export interface SecuenciaInput {
 	intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida';
 	intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida';
 	intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida';
-	certeza_editor: string;
 	sinopsis: string | null;
 }
 

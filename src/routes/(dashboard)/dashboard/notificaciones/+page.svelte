@@ -7,7 +7,6 @@
 
 	let { data } = $props<{ data: PageData }>();
 
-	const isAdminOrIp = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
 	let markingSeen = $state(false);
 
 	function openNotification(item: PageData['notifications'][number]) {
@@ -132,36 +131,4 @@
 			</ul>
 		{/if}
 	</article>
-
-	{#if isAdminOrIp}
-		<article class="card p-4">
-			<h2 class="mb-3 text-lg font-semibold">Secuencias con certeza baja/media</h2>
-			{#if data.groups.lowMediumCertainty.length === 0}
-				<p class="text-sm text-[color:var(--muted-foreground)]">Sin alertas.</p>
-			{:else}
-				<ul class="space-y-2 text-sm">
-					{#each data.groups.lowMediumCertainty as item}
-						<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
-							<div class="min-w-0">
-								<button class="group text-left" onclick={() => openNotification(item)}>
-									<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
-								</button>
-								<p class="text-xs text-[color:var(--gray-500)]">
-									{item.description}
-									{#if item.badgeCount}
-										<span
-											class="ml-2 inline-flex min-w-6 items-center justify-center rounded-full border border-[color:var(--primary)] bg-[color:var(--primary)] px-2 py-0.5 text-[10px] font-semibold leading-none text-[color:var(--primary-foreground)]"
-										>
-											{item.badgeCount}
-										</span>
-									{/if}
-								</p>
-							</div>
-							<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">{formatRelative(item.eventAt)}</span>
-						</li>
-					{/each}
-				</ul>
-			{/if}
-		</article>
-	{/if}
 </section>

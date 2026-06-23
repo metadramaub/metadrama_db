@@ -5,7 +5,6 @@
 	import type { RealtimeChannel } from '@supabase/supabase-js';
 	import Sidebar from '$lib/components/dashboard/Sidebar.svelte';
 	import Breadcrumb, { type BreadcrumbItem } from '$lib/components/ui/Breadcrumb.svelte';
-	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import type { LayoutData } from './$types';
 
 	const SIDEBAR_COLLAPSED_STORAGE_KEY = 'dashboard-sidebar-collapsed';
@@ -98,6 +97,8 @@
 
 	onMount(() => {
 		if (!browser) return;
+		let disposed = false;
+		let cleanupChannel: (() => void) | null = null;
 
 		const storedSidebarPreference = readSidebarCollapsedPreference();
 		if (storedSidebarPreference !== null) {
@@ -114,34 +115,45 @@
 		window.addEventListener('dashboard-notifications-seen', handleActivitySeen);
 		window.addEventListener('dashboard-obras-updated', handleObrasUpdated);
 
-		const supabase = getSupabaseBrowserClient();
-		channel = supabase
-			.channel(`dashboard-indicators-${data.profile.userId}`)
-			.on('postgres_changes', { event: '*', schema: 'public', table: 'obras' }, scheduleIndicatorsRefresh)
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: 'obras_revisores' },
-				scheduleIndicatorsRefresh
-			)
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: 'comentarios_internos' },
-				scheduleIndicatorsRefresh
-			)
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: 'secuencias_metricas' },
-				scheduleIndicatorsRefresh
-			)
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: 'dashboard_activity_state' },
-				scheduleIndicatorsRefresh
-			)
-			.subscribe();
-		void refreshIndicators();
+		void (async () => {
+			const { getSupabaseBrowserClient } = await import('$lib/services/supabase');
+			if (disposed) return;
+
+			const supabase = getSupabaseBrowserClient();
+			channel = supabase
+				.channel(`dashboard-indicators-${data.profile.userId}`)
+				.on('postgres_changes', { event: '*', schema: 'public', table: 'obras' }, scheduleIndicatorsRefresh)
+				.on(
+					'postgres_changes',
+					{ event: '*', schema: 'public', table: 'obras_revisores' },
+					scheduleIndicatorsRefresh
+				)
+				.on(
+					'postgres_changes',
+					{ event: '*', schema: 'public', table: 'comentarios_internos' },
+					scheduleIndicatorsRefresh
+				)
+				.on(
+					'postgres_changes',
+					{ event: '*', schema: 'public', table: 'secuencias_metricas' },
+					scheduleIndicatorsRefresh
+				)
+				.on(
+					'postgres_changes',
+					{ event: '*', schema: 'public', table: 'dashboard_activity_state' },
+					scheduleIndicatorsRefresh
+				)
+				.subscribe();
+			cleanupChannel = () => {
+				if (!channel) return;
+				void supabase.removeChannel(channel);
+				channel = null;
+			};
+			void refreshIndicators();
+		})();
 
 		return () => {
+			disposed = true;
 			window.removeEventListener('dashboard-activity-seen', handleActivitySeen);
 			window.removeEventListener('dashboard-notifications-seen', handleActivitySeen);
 			window.removeEventListener('dashboard-obras-updated', handleObrasUpdated);
@@ -149,12 +161,9 @@
 				clearTimeout(refreshTimer);
 				refreshTimer = null;
 			}
-			if (channel) {
-				void supabase.removeChannel(channel);
-				channel = null;
-			}
+			cleanupChannel?.();
 		};
-});
+	});
 </script>
 
 <div
