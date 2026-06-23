@@ -5,6 +5,12 @@ import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils
 const vocabularySelect =
 	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
+type MetricMetadataOption = {
+	termino_id: string;
+	termino: string;
+	etiqueta: string | null;
+};
+
 export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	const parentData = await parent();
 	const profile = parentData.profile;
@@ -31,9 +37,11 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 
 	let metroOptions: Array<{ termino_id: string; termino: string; numero_silabas: number | null }> = [];
 	let estrofaTipoMetros: Array<{ estrofa_tipo_id: string; metro_id: string }> = [];
+	let tipoRimaOptions: MetricMetadataOption[] = [];
+	let naturalezaEstroficaOptions: MetricMetadataOption[] = [];
 
 	if (categoria === 'estrofa_tipo') {
-		const [metrosResp, relacionesResp] = await Promise.all([
+		const [metrosResp, relacionesResp, tipoRimaResp, naturalezaEstroficaResp] = await Promise.all([
 			locals.supabase
 				.from('vocabularios')
 				.select('termino_id,termino,numero_silabas')
@@ -47,7 +55,21 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 				.in(
 					'estrofa_tipo_id',
 					data.map((item) => item.termino_id)
-				)
+				),
+			locals.supabase
+				.from('vocabularios')
+				.select('termino_id,termino,etiqueta')
+				.eq('categoria', 'tipo_rima')
+				.eq('activo', true)
+				.order('orden', { ascending: true })
+				.order('termino', { ascending: true }),
+			locals.supabase
+				.from('vocabularios')
+				.select('termino_id,termino,etiqueta')
+				.eq('categoria', 'naturaleza_estrofica')
+				.eq('activo', true)
+				.order('orden', { ascending: true })
+				.order('termino', { ascending: true })
 		]);
 
 		if (metrosResp.error) {
@@ -55,6 +77,15 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 		}
 		if (relacionesResp.error) {
 			throw error(500, `No se pudieron cargar las relaciones estrofa/metro: ${relacionesResp.error.message}`);
+		}
+		if (tipoRimaResp.error) {
+			throw error(500, `No se pudieron cargar los tipos de rima: ${tipoRimaResp.error.message}`);
+		}
+		if (naturalezaEstroficaResp.error) {
+			throw error(
+				500,
+				`No se pudieron cargar las naturalezas estróficas: ${naturalezaEstroficaResp.error.message}`
+			);
 		}
 
 		metroOptions = (metrosResp.data ?? []) as Array<{
@@ -66,6 +97,8 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 			estrofa_tipo_id: string;
 			metro_id: string;
 		}>;
+		tipoRimaOptions = (tipoRimaResp.data ?? []) as MetricMetadataOption[];
+		naturalezaEstroficaOptions = (naturalezaEstroficaResp.data ?? []) as MetricMetadataOption[];
 	}
 
 	const canManage = canManageVocabularios(profile.roleTerm);
@@ -80,6 +113,8 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 		canEdit,
 		vocabularios: data,
 		metroOptions,
-		estrofaTipoMetros
+		estrofaTipoMetros,
+		tipoRimaOptions,
+		naturalezaEstroficaOptions
 	};
 };

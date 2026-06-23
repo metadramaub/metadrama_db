@@ -72,6 +72,24 @@ const METRO_FIELDS: VocabularyFieldConfig = {
 	showMetros: false
 };
 
+const METRIC_METADATA_FIELDS: VocabularyFieldConfig = {
+	showParent: false,
+	showLevel: false,
+	showActive: true,
+	showDefinition: true,
+	showExample: true,
+	showBibliography: true,
+	showEquivalences: true,
+	showPattern: false,
+	showTipoForma: false,
+	showTipoRima: false,
+	showNaturalezaEstrofica: false,
+	showTamanioUnidadEstrofica: false,
+	showArteMetrico: false,
+	showNumeroSilabas: false,
+	showMetros: false
+};
+
 const CARACTERIZACION_RANGO_FIELDS: VocabularyFieldConfig = {
 	showParent: true,
 	showLevel: true,
@@ -130,6 +148,7 @@ export function getVocabularyFieldConfig(categoria: string): VocabularyFieldConf
 	if (categoria === 'estrofa_tipo') return ESTROFA_FIELDS;
 	if (categoria === 'genero') return GENERO_FIELDS;
 	if (categoria === 'metro') return METRO_FIELDS;
+	if (categoria === 'tipo_rima' || categoria === 'naturaleza_estrofica') return METRIC_METADATA_FIELDS;
 	if (categoria === 'caracterizacion_rango') return CARACTERIZACION_RANGO_FIELDS;
 	if (TECHNICAL_CATEGORIES.has(categoria)) return TECHNICAL_FIELDS;
 	return LEGACY_FALLBACK_FIELDS;

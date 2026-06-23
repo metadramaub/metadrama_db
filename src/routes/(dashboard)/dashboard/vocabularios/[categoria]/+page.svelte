@@ -34,6 +34,15 @@
 		termino: string;
 		numero_silabas: number | null;
 	};
+	type MetricMetadataOption = {
+		termino_id: string;
+		termino: string;
+		etiqueta: string | null;
+	};
+	type DropdownItem = {
+		id: string;
+		label: string;
+	};
 
 	type TermForm = {
 		termino: string;
@@ -183,19 +192,37 @@
 		{ id: 'forma_espanola', label: 'Forma española' },
 		{ id: 'forma_italiana', label: 'Forma italiana' }
 	];
-	const tipoRimaDropdownItems = [
+	const fallbackTipoRimaDropdownItems = [
 		{ id: 'asonante', label: 'Asonante' },
 		{ id: 'consonante', label: 'Consonante' },
 		{ id: 'sin_rima', label: 'Sin rima' },
 		{ id: 'mixta', label: 'Mixta' }
 	];
-	const naturalezaEstroficaDropdownItems = [
+	const fallbackNaturalezaEstroficaDropdownItems = [
 		{ id: 'tirada_continua', label: 'Tirada continua' },
 		{ id: 'estrofa_cerrada', label: 'Estrofa cerrada' },
 		{ id: 'forma_fija', label: 'Forma fija' },
 		{ id: 'forma_compuesta', label: 'Forma compuesta' },
 		{ id: 'forma_irregular', label: 'Forma irregular' }
 	];
+	const tipoRimaValueSet = new Set(['asonante', 'consonante', 'sin_rima', 'mixta']);
+	const naturalezaEstroficaValueSet = new Set([
+		'tirada_continua',
+		'estrofa_cerrada',
+		'forma_fija',
+		'forma_compuesta',
+		'forma_irregular'
+	]);
+	const tipoRimaDropdownItems = $derived(
+		buildMetricDropdownItems(data.tipoRimaOptions ?? [], fallbackTipoRimaDropdownItems, tipoRimaValueSet)
+	);
+	const naturalezaEstroficaDropdownItems = $derived(
+		buildMetricDropdownItems(
+			data.naturalezaEstroficaOptions ?? [],
+			fallbackNaturalezaEstroficaDropdownItems,
+			naturalezaEstroficaValueSet
+		)
+	);
 	const arteMetricoLabels: Record<NonNullable<ArteMetricoValue>, string> = {
 		arte_menor: 'Arte menor',
 		arte_mayor: 'Arte mayor',
@@ -319,6 +346,21 @@
 			return value;
 		}
 		return null;
+	}
+
+	function buildMetricDropdownItems(
+		options: MetricMetadataOption[],
+		fallbackItems: DropdownItem[],
+		allowedValues: Set<string>
+	): DropdownItem[] {
+		const items = options
+			.filter((option) => allowedValues.has(option.termino))
+			.map((option) => ({
+				id: option.termino,
+				label: option.etiqueta?.trim() || option.termino
+			}));
+
+		return items.length > 0 ? items : fallbackItems;
 	}
 
 	function normalizeArteMetrico(value: string | null | undefined): ArteMetricoValue {
@@ -1035,6 +1077,8 @@
 				termForm={termForm}
 				parentOptions={parentOptions}
 				metroOptions={data.metroOptions ?? []}
+				tipoRimaOptions={tipoRimaDropdownItems}
+				naturalezaEstroficaOptions={naturalezaEstroficaDropdownItems}
 				fieldConfig={fieldConfig}
 				termDirty={termDirty}
 				savingTerm={savingTerm}

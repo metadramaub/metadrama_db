@@ -19,6 +19,10 @@
 		termino: string;
 		numero_silabas: number | null;
 	};
+	type DropdownItem = {
+		id: string;
+		label: string;
+	};
 
 	type TermForm = {
 		termino: string;
@@ -47,6 +51,8 @@
 		termForm: TermForm;
 		parentOptions: Array<{ id: string; label: string; parentId?: string | null }>;
 		metroOptions: MetroOption[];
+		tipoRimaOptions?: DropdownItem[];
+		naturalezaEstroficaOptions?: DropdownItem[];
 		fieldConfig: VocabularyFieldConfig;
 		termDirty?: boolean;
 		savingTerm?: boolean;
@@ -81,19 +87,27 @@
 		{ id: 'forma_espanola', label: 'Forma española' },
 		{ id: 'forma_italiana', label: 'Forma italiana' }
 	];
-	const tipoRimaItems = [
+	const fallbackTipoRimaItems = [
 		{ id: 'asonante', label: 'Asonante' },
 		{ id: 'consonante', label: 'Consonante' },
 		{ id: 'sin_rima', label: 'Sin rima' },
 		{ id: 'mixta', label: 'Mixta' }
 	];
-	const naturalezaEstroficaItems = [
+	const fallbackNaturalezaEstroficaItems = [
 		{ id: 'tirada_continua', label: 'Tirada continua' },
 		{ id: 'estrofa_cerrada', label: 'Estrofa cerrada' },
 		{ id: 'forma_fija', label: 'Forma fija' },
 		{ id: 'forma_compuesta', label: 'Forma compuesta' },
 		{ id: 'forma_irregular', label: 'Forma irregular' }
 	];
+	const tipoRimaItems = $derived(
+		props.tipoRimaOptions && props.tipoRimaOptions.length > 0 ? props.tipoRimaOptions : fallbackTipoRimaItems
+	);
+	const naturalezaEstroficaItems = $derived(
+		props.naturalezaEstroficaOptions && props.naturalezaEstroficaOptions.length > 0
+			? props.naturalezaEstroficaOptions
+			: fallbackNaturalezaEstroficaItems
+	);
 	const arteMetricoLabels: Record<NonNullable<ArteMetricoValue>, string> = {
 		arte_menor: 'Arte menor',
 		arte_mayor: 'Arte mayor',
