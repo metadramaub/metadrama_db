@@ -65,7 +65,6 @@ describe('validators', () => {
 			intervencion_personajes_femeninos: 'sin_intervencion',
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
-			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			sinopsis: null
 		});
 		expect(result.success).toBe(true);
@@ -80,7 +79,6 @@ describe('validators', () => {
 			intervencion_personajes_femeninos: 'sin_intervencion',
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
-			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			sinopsis: null
 		});
 		expect(parsed.versos_partidos).toBe(false);
@@ -97,7 +95,6 @@ describe('validators', () => {
 			intervencion_personajes_femeninos: 'ausente',
 			intervencion_figuras_donaire: 'solo',
 			intervencion_personajes_sobrenaturales: 'con_otros',
-			certeza_editor: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			sinopsis: null
 		});
 		expect(result.success).toBe(false);

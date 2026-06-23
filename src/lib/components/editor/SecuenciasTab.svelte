@@ -24,7 +24,6 @@
 				'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id' | 'orden' | 'tipo_forma'
 			>
 		>;
-		certezaOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		caracterizacionRangoOptions: Array<
 			Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta' | 'termino_padre_id' | 'orden'>
 		>;
@@ -49,7 +48,6 @@
 		intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida';
 		intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida';
 		intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida';
-		certeza_editor: string;
 		sinopsis: string;
 	};
 
@@ -91,7 +89,6 @@
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
 	let filtroEstrofa = $state('');
-	let filtroCerteza = $state('');
 	let deleteTargetId = $state<string | null>(null);
 	let showCloseWithoutSavingModal = $state(false);
 	let sequenceSynopsisModalOpen = $state(false);
@@ -152,7 +149,6 @@
 			.replaceAll(/[\s-]+/g, '_');
 	}
 
-	const defaultCerteza = untrack(() => props.certezaOptions[0]?.termino_id ?? '');
 	const sortedEstrofaOptions = $derived.by(() => sortEstrofaOptions(props.estrofaOptions));
 	const estrofaById = $derived.by(
 		() =>
@@ -203,12 +199,6 @@
 			id: option.termino_id,
 			label: displayTerm(option),
 			parentId: option.termino_padre_id ?? null
-		}))
-	);
-	const certezaDropdownItems = $derived(
-		props.certezaOptions.map((option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>) => ({
-			id: option.termino_id,
-			label: displayTerm(option)
 		}))
 	);
 	const intervencionItems = [
@@ -294,7 +284,6 @@
 			intervencion_personajes_femeninos: 'sin_intervencion',
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
-			certeza_editor: defaultCerteza,
 			sinopsis: ''
 		};
 	}
@@ -418,7 +407,6 @@
 	const filteredSecuencias = $derived.by(() => {
 		return secuencias
 			.filter((secuencia) => !filtroEstrofa || secuencia.estrofa_tipo_id === filtroEstrofa)
-			.filter((secuencia) => !filtroCerteza || secuencia.certeza_editor === filtroCerteza)
 			.sort((a, b) => a.v_ini - b.v_ini);
 	});
 	const totalVersosEstructura = $derived.by(() => {
@@ -482,7 +470,6 @@
 			intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
 			intervencion_figuras_donaire: form.intervencion_figuras_donaire,
 			intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
-			certeza_editor: form.certeza_editor,
 			sinopsis: form.sinopsis.trim()
 		});
 	}
@@ -511,10 +498,6 @@
 		}
 		if (!form.estrofa_tipo_id) {
 			if (showToast) pushToast('error', 'Selecciona estrofa');
-			return false;
-		}
-		if (!form.certeza_editor) {
-			if (showToast) pushToast('error', 'Selecciona certeza');
 			return false;
 		}
 		return true;
@@ -558,7 +541,6 @@
 				secuencia.intervencion_figuras_donaire as FormState['intervencion_figuras_donaire'],
 			intervencion_personajes_sobrenaturales:
 				secuencia.intervencion_personajes_sobrenaturales as FormState['intervencion_personajes_sobrenaturales'],
-			certeza_editor: secuencia.certeza_editor,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
 		caracterizacionesRango = [];
@@ -683,7 +665,6 @@
 				savedSecuencia.intervencion_figuras_donaire as FormState['intervencion_figuras_donaire'],
 			intervencion_personajes_sobrenaturales:
 				savedSecuencia.intervencion_personajes_sobrenaturales as FormState['intervencion_personajes_sobrenaturales'],
-			certeza_editor: savedSecuencia.certeza_editor,
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
 
@@ -693,9 +674,8 @@
 			pushToast('success', currentId ? 'Secuencia actualizada' : 'Secuencia creada');
 			if (
 				!currentId &&
-				(filtroEstrofa || filtroCerteza) &&
-				((filtroEstrofa && savedSecuencia.estrofa_tipo_id !== filtroEstrofa) ||
-					(filtroCerteza && savedSecuencia.certeza_editor !== filtroCerteza))
+				filtroEstrofa &&
+				savedSecuencia.estrofa_tipo_id !== filtroEstrofa
 			) {
 				pushToast('info', 'Secuencia creada. Está oculta por los filtros actuales.');
 			}
@@ -1131,7 +1111,7 @@
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
 		const saving = sidebarSaving;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.evocacion_metrica}|${form.evocacion_metrica_texto}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.certeza_editor}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.evocacion_metrica}|${form.evocacion_metrica_texto}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1240,20 +1220,6 @@
 				}}
 			/>
 		</div>
-		<label class="form-field">
-			<span class="form-label">Filtro por certeza</span>
-			<CheckDropdown
-				multiple={false}
-				allowSingleClear={true}
-				search={certezaDropdownItems.length > 8}
-				placeholder="Todas"
-				items={certezaDropdownItems}
-				selectedIds={filtroCerteza ? [filtroCerteza] : []}
-				onChange={(ids) => {
-					filtroCerteza = ids[0] ?? '';
-				}}
-			/>
-		</label>
 	</div>
 
 	<div class="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-4">
@@ -1309,7 +1275,6 @@
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_fin</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">N_versos</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Estrofa</th>
-							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Certeza</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">
 								<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
 							</th>
@@ -1318,7 +1283,7 @@
 					<tbody>
 						{#if filteredSecuencias.length === 0}
 							<tr>
-								<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={7}>
+								<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={6}>
 									Sin secuencias para este filtro.
 								</td>
 							</tr>
@@ -1330,7 +1295,6 @@
 									<td class="px-3 py-2">{secuencia.v_fin}</td>
 									<td class="px-3 py-2">{secuencia.n_versos}</td>
 									<td class="px-3 py-2">{termById(props.estrofaOptions, secuencia.estrofa_tipo_id)}</td>
-									<td class="px-3 py-2">{termById(props.certezaOptions, secuencia.certeza_editor)}</td>
 									<td class="px-3 py-2">
 										<div class="ml-auto flex w-[11.5rem] items-center gap-2">
 											<Button
@@ -1840,36 +1804,6 @@
 				</label>
 			</section>
 
-			<section class="form-section">
-				<h4 class="form-section-title">
-					<span class="form-label-with-help">
-						Certeza
-						<FieldHelpTooltip
-							text="Indica el grado de seguridad de la información que has registrado sobre esta secuencia para facilitar su revisión posterior"
-							label="Ayuda sobre el campo Certeza"
-						/>
-					</span>
-				</h4>
-				<label class="form-field">
-					<span class="sr-only">Certeza</span>
-					<CheckDropdown
-						multiple={false}
-						search={certezaDropdownItems.length > 8}
-						placeholder="Seleccionar certeza"
-						items={certezaDropdownItems}
-						disabled={props.readOnly}
-						selectedIds={form.certeza_editor ? [form.certeza_editor] : []}
-						onChange={(ids) => {
-							const nextCerteza = ids[0] ?? '';
-							if (!nextCerteza) return;
-							form = {
-								...form,
-								certeza_editor: nextCerteza
-							};
-						}}
-					/>
-				</label>
-			</section>
 		</div>
 
 		{#if editingId}

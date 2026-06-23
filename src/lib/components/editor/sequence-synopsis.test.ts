@@ -29,7 +29,6 @@ function createSecuencia(overrides: Partial<SecuenciaRow> = {}): SecuenciaRow {
 			overrides.intervencion_figuras_donaire ?? 'sin_intervencion',
 		intervencion_personajes_sobrenaturales:
 			overrides.intervencion_personajes_sobrenaturales ?? 'sin_intervencion',
-		certeza_editor: overrides.certeza_editor ?? 'certeza-1',
 		sinopsis: overrides.sinopsis ?? 'Sinopsis base',
 		updated_at: overrides.updated_at ?? '2026-03-30T00:00:00.000Z'
 	};

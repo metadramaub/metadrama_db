@@ -27,11 +27,6 @@ values
 	('0df1a8c1-6c9c-4345-b267-32cd51f1e4f9', 'estado', 'validado', null, 1, null, null, 40, true, now(), now()),
 	('2bd57d38-6f8d-4fb2-af39-214dd6b50f29', 'estado', 'publicado', null, 1, null, null, 50, true, now(), now()),
 
-	-- certeza_editor
-	('f9f22b11-15a4-4f90-b3ea-7ce90c31fbd3', 'certeza_editor', 'baja', null, 1, null, null, 10, true, now(), now()),
-	('0d7c6dfb-dcc1-47ad-b607-9b4f2dbedc17', 'certeza_editor', 'media', null, 1, null, null, 20, true, now(), now()),
-	('4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7', 'certeza_editor', 'alta', null, 1, null, null, 30, true, now(), now()),
-
 	-- genero
 	('e7212f8c-8d4d-4a9f-9e5d-d22959e761f4', 'genero', 'comedia', null, 1, null, null, 10, true, now(), now()),
 	('8540f042-cabc-49cf-8f07-af0aa5d0568a', 'genero', 'tragedia', null, 1, null, null, 20, true, now(), now()),

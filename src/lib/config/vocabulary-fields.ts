@@ -16,7 +16,7 @@ export type VocabularyFieldConfig = {
 	showMetros: boolean;
 };
 
-const TECHNICAL_CATEGORIES = new Set(['estado', 'role_editor', 'tipo_comentario', 'certeza_editor']);
+const TECHNICAL_CATEGORIES = new Set(['estado', 'role_editor', 'tipo_comentario']);
 
 const ESTROFA_FIELDS: VocabularyFieldConfig = {
 	showParent: true,

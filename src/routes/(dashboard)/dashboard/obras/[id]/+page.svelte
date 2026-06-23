@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto, invalidateAll } from '$app/navigation';
 	import type { RealtimeChannel } from '@supabase/supabase-js';
-	import { onDestroy, onMount, tick, untrack } from 'svelte';
+	import { onMount, tick, untrack } from 'svelte';
 	import { get } from 'svelte/store';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
@@ -16,7 +16,6 @@
 	import ObservacionesTab from '$lib/components/editor/ObservacionesTab.svelte';
 	import RevisionTab from '$lib/components/editor/RevisionTab.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
-	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import {
 		currentObraStore,
 		setConflict,
@@ -103,7 +102,6 @@
 
 	const generoOptions = $derived(vocabByCategory.get('genero') ?? []);
 	const estadoOptions = $derived(vocabByCategory.get('estado') ?? []);
-	const certezaOptions = $derived(vocabByCategory.get('certeza_editor') ?? []);
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
 	const caracterizacionRangoOptions = $derived(vocabByCategory.get('caracterizacion_rango') ?? []);
 	const obraLive = $derived.by(() => {
@@ -333,6 +331,9 @@
 
 	onMount(() => {
 		if (!browser) return;
+		let disposed = false;
+		let cleanupChannel: (() => void) | null = null;
+
 		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
 			if (!hasPendingChanges()) return;
 			event.preventDefault();
@@ -340,86 +341,98 @@
 		};
 		window.addEventListener('beforeunload', handleBeforeUnload);
 
-		const supabase = getSupabaseBrowserClient();
-		channel = supabase
-			.channel(`obra-${data.obra.obra_id}`)
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'obras',
-					filter: `obra_id=eq.${data.obra.obra_id}`
-				},
-				() => onExternalChange({ table: 'obras' })
-			)
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'jornadas',
-					filter: `obra_id=eq.${data.obra.obra_id}`
-				},
-				() => onExternalChange({ table: 'jornadas' })
-			)
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'atribuciones'
-				},
-				(payload) => {
-					const next = (payload.new as { obra_id?: string | null; jornada_id?: string | null } | null) ?? {};
-					const prev = (payload.old as { obra_id?: string | null; jornada_id?: string | null } | null) ?? {};
-					const obraId = next.obra_id ?? prev.obra_id ?? null;
-					const jornadaId = next.jornada_id ?? prev.jornada_id ?? null;
-					if (obraId === data.obra.obra_id || (jornadaId && jornadaIds.has(jornadaId))) {
-						onExternalChange({ table: 'atribuciones' });
+		void (async () => {
+			const { getSupabaseBrowserClient } = await import('$lib/services/supabase');
+			if (disposed) return;
+
+			const supabase = getSupabaseBrowserClient();
+			channel = supabase
+				.channel(`obra-${data.obra.obra_id}`)
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'obras',
+						filter: `obra_id=eq.${data.obra.obra_id}`
+					},
+					() => onExternalChange({ table: 'obras' })
+				)
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'jornadas',
+						filter: `obra_id=eq.${data.obra.obra_id}`
+					},
+					() => onExternalChange({ table: 'jornadas' })
+				)
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'atribuciones'
+					},
+					(payload) => {
+						const next = (payload.new as { obra_id?: string | null; jornada_id?: string | null } | null) ?? {};
+						const prev = (payload.old as { obra_id?: string | null; jornada_id?: string | null } | null) ?? {};
+						const obraId = next.obra_id ?? prev.obra_id ?? null;
+						const jornadaId = next.jornada_id ?? prev.jornada_id ?? null;
+						if (obraId === data.obra.obra_id || (jornadaId && jornadaIds.has(jornadaId))) {
+							onExternalChange({ table: 'atribuciones' });
+						}
 					}
-				}
-			)
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'secuencias_metricas',
-					filter: `obra_id=eq.${data.obra.obra_id}`
-				},
-				() => onExternalChange({ table: 'secuencias_metricas' })
-			)
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'comentarios_internos',
-					filter: `obra_id=eq.${data.obra.obra_id}`
-				},
-				() => onExternalChange({ table: 'comentarios_internos' })
-			)
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'cuadros'
-				},
-				(payload) =>
-					onExternalChange({
-						table: 'cuadros',
-						jornada_id:
-							(payload.new as { jornada_id?: string } | null)?.jornada_id ??
-							(payload.old as { jornada_id?: string } | null)?.jornada_id ??
-							null
-					})
-			)
-			.subscribe();
+				)
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'secuencias_metricas',
+						filter: `obra_id=eq.${data.obra.obra_id}`
+					},
+					() => onExternalChange({ table: 'secuencias_metricas' })
+				)
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'comentarios_internos',
+						filter: `obra_id=eq.${data.obra.obra_id}`
+					},
+					() => onExternalChange({ table: 'comentarios_internos' })
+				)
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'cuadros'
+					},
+					(payload) =>
+						onExternalChange({
+							table: 'cuadros',
+							jornada_id:
+								(payload.new as { jornada_id?: string } | null)?.jornada_id ??
+								(payload.old as { jornada_id?: string } | null)?.jornada_id ??
+								null
+						})
+				)
+				.subscribe();
+			cleanupChannel = () => {
+				if (!channel) return;
+				void supabase.removeChannel(channel);
+				channel = null;
+			};
+		})();
 
 		return () => {
+			disposed = true;
 			window.removeEventListener('beforeunload', handleBeforeUnload);
+			cleanupChannel?.();
 		};
 	});
 
@@ -444,12 +457,6 @@
 		resumenActualizadoEn = data.resumenPublico.actualizadoEn;
 	});
 
-	onDestroy(() => {
-		if (!channel) return;
-		const supabase = getSupabaseBrowserClient();
-		void supabase.removeChannel(channel);
-		channel = null;
-	});
 </script>
 
 <section>
@@ -551,7 +558,6 @@
 			obraId={obraLive.obra_id}
 			jornadasInitial={jornadasLive}
 			cuadrosInitial={cuadrosLive}
-			certezaOptions={certezaOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}
 			focusJornadaId={focusJornadaId}
@@ -566,7 +572,6 @@
 			jornadasInitial={jornadasLive}
 			cuadrosInitial={cuadrosLive}
 			estrofaOptions={estrofaOptions}
-			certezaOptions={certezaOptions}
 			caracterizacionRangoOptions={caracterizacionRangoOptions}
 			readOnly={!canEditContent}
 			canComment={canComment}

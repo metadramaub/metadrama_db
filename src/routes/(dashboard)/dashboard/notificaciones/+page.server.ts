@@ -13,8 +13,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 			assignedEditor: notifications.filter((item) => item.type === 'assigned_editor'),
 			assignedReview: notifications.filter((item) => item.type === 'assigned_review'),
 			stateChanges: notifications.filter((item) => item.type === 'state_change'),
-			comments: notifications.filter((item) => item.type === 'comment'),
-			lowMediumCertainty: notifications.filter((item) => item.type === 'low_medium_certainty')
+			comments: notifications.filter((item) => item.type === 'comment')
 		}
 	};
 };

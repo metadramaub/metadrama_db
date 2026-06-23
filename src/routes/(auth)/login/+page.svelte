@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/ui/button.svelte';
-	import { getSupabaseBrowserClient } from '$lib/services/supabase';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
@@ -37,6 +36,7 @@
 		loading = true;
 		errorMessage = null;
 		try {
+			const { getSupabaseBrowserClient } = await import('$lib/services/supabase');
 			const supabase = getSupabaseBrowserClient();
 			const { error } = await supabase.auth.signInWithPassword({
 				email,

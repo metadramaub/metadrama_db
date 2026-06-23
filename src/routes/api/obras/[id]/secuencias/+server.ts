@@ -10,7 +10,6 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 	await getObraContext({ locals }, params.id, { requireEdit: false });
 
 	const estrofa = url.searchParams.get('estrofa') ?? '';
-	const certeza = url.searchParams.get('certeza') ?? '';
 
 	let query = locals.supabase
 		.from('secuencias_metricas')
@@ -19,7 +18,6 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 		.order('v_ini', { ascending: true });
 
 	if (estrofa) query = query.eq('estrofa_tipo_id', estrofa);
-	if (certeza) query = query.eq('certeza_editor', certeza);
 
 	const { data, error } = await query;
 	if (error) {
