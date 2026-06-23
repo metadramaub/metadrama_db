@@ -7,7 +7,7 @@ import { vocabularioDeleteSchema, vocabularioPatchSchema } from '$lib/utils/vali
 import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
 async function syncEstrofaTipoMetros(locals: App.Locals, estrofaTipoId: string, metroIds: string[]) {
 	const uniqueMetroIds = [...new Set(metroIds)];
@@ -213,6 +213,21 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			return json({ error: 'db_error', message: syncResult.message }, { status: syncResult.status });
 		}
 		metroIds = syncResult.metroIds;
+		const { data: refreshedData, error } = await locals.supabase
+			.from('vocabularios')
+			.select(vocabularySelect)
+			.eq('termino_id', params.id)
+			.maybeSingle();
+		if (error) {
+			return json(
+				{ error: 'db_error', message: error?.message ?? 'No se pudo leer el término actualizado.' },
+				{ status: 500 }
+			);
+		}
+		if (!refreshedData) {
+			return forbiddenResponse('No tienes permiso para editar este término.');
+		}
+		data = refreshedData;
 	}
 
 	// El cambio de etiqueta/jerarquía debe reflejarse en las superficies públicas.

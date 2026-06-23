@@ -23,6 +23,11 @@ const baseItems: VocabularyItem[] = [
 		equivalencias: null,
 		patron_especifico: null,
 		tipo_forma: null,
+		tipo_rima: null,
+		naturaleza_estrofica: null,
+		tamanio_unidad_estrofica: null,
+		arte_metrico: null,
+		numero_silabas: null,
 		activo: true
 	},
 	{
@@ -39,6 +44,11 @@ const baseItems: VocabularyItem[] = [
 		equivalencias: null,
 		patron_especifico: 'e-a',
 		tipo_forma: null,
+		tipo_rima: null,
+		naturaleza_estrofica: null,
+		tamanio_unidad_estrofica: null,
+		arte_metrico: null,
+		numero_silabas: null,
 		activo: true
 	},
 	{
@@ -55,6 +65,11 @@ const baseItems: VocabularyItem[] = [
 		equivalencias: null,
 		patron_especifico: null,
 		tipo_forma: null,
+		tipo_rima: null,
+		naturaleza_estrofica: null,
+		tamanio_unidad_estrofica: null,
+		arte_metrico: null,
+		numero_silabas: null,
 		activo: true
 	}
 ];
@@ -75,6 +90,11 @@ const itemsWithSiblingChildren: VocabularyItem[] = [
 		equivalencias: null,
 		patron_especifico: 'o-a',
 		tipo_forma: null,
+		tipo_rima: null,
+		naturaleza_estrofica: null,
+		tamanio_unidad_estrofica: null,
+		arte_metrico: null,
+		numero_silabas: null,
 		activo: true
 	}
 ];

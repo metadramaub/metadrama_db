@@ -261,6 +261,16 @@ export interface VocabularioCreateInput {
 	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
 	tipo_forma?: 'forma_espanola' | 'forma_italiana' | null;
+	tipo_rima?: 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
+	naturaleza_estrofica?:
+		| 'tirada_continua'
+		| 'estrofa_cerrada'
+		| 'forma_fija'
+		| 'forma_compuesta'
+		| 'forma_irregular'
+		| null;
+	tamanio_unidad_estrofica?: number | null;
+	numero_silabas?: number | null;
 	metro_ids?: string[] | null;
 	activo?: boolean;
 }
@@ -276,6 +286,16 @@ export interface VocabularioPatchInput {
 	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
 	tipo_forma?: 'forma_espanola' | 'forma_italiana' | null;
+	tipo_rima?: 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
+	naturaleza_estrofica?:
+		| 'tirada_continua'
+		| 'estrofa_cerrada'
+		| 'forma_fija'
+		| 'forma_compuesta'
+		| 'forma_irregular'
+		| null;
+	tamanio_unidad_estrofica?: number | null;
+	numero_silabas?: number | null;
 	metro_ids?: string[] | null;
 	activo?: boolean;
 }
