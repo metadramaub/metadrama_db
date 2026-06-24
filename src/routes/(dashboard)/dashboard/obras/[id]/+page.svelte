@@ -474,7 +474,7 @@
 			<div class="mt-3 flex flex-wrap items-center gap-3 border-t border-[color:var(--border)] pt-3">
 				{#if !isPublished}
 					<span class="text-sm text-[color:var(--muted-foreground)]">
-						Datos públicos: disponibles solo cuando la obra esté publicada.
+						Datos públicos inactivos hasta que la obra vuelva a estar publicada.
 					</span>
 				{:else}
 					{#if !resumenExiste}

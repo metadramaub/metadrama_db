@@ -205,7 +205,7 @@ Esta pestaña te sirve para cerrar el ciclo:
 
 - revisar el checklist de información (datos, estructura, secuencias, autoría, observaciones y bibliografía);
 - dejar o responder comentarios internos;
-- actualizar estado de `borrador` a `pendiente` (de revisión), cuando tu rol lo permita.
+- actualizar estado de `borrador` a `vista_previa`, y después a `listo_para_publicar`, cuando tu rol lo permita.
 
 ## Orden recomendado de trabajo
 
@@ -216,7 +216,7 @@ Todo el contenido de la obra debe quedar completo antes de pasarla a revisión. 
 3. Declara todas las secuencias métricas en una primera pasada (rango de versos y tipología).
 4. Haz una segunda pasada de secuencias para completar su análisis (caracterización, sinopsis y caracterizaciones por rango).
 5. Revisa todo y deja tus observaciones generales y bibliografía específica que hayas encontrado.
-6. Cambia el estado de `borrador` a `pendiente` cuando termines.
+6. Cambia el estado de `borrador` a `vista_previa` cuando quieras revisar la ficha pública; pasa a `listo_para_publicar` cuando la revisión esté cerrada.
 
 > [!TIP]
 > Antes de terminar, revisa las dudas abiertas. Si una decisión sigue siendo discutible, deja un comentario interno en el punto exacto que deba revisarse.

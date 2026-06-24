@@ -6,6 +6,7 @@ import {
 	hasStateTransitionFrom,
 	canManageReviewAssignments,
 	canToggleVisibility,
+	canPreviewPublicFicha,
 	normalizeRole
 } from '$lib/utils/permissions';
 import type { EditorProfile, ObraAccessFlags } from '$lib/types/obra.types';
@@ -103,6 +104,7 @@ export function buildObraCapabilities(
 	const adminOrIp = isAdminOrIp(profile.roleTerm);
 	const assignedEditor = obra.editor_asignado === profile.userId;
 	const isPublished = estadoTerm.trim().toLowerCase() === 'publicado';
+	const canPreview = canPreviewPublicFicha(profile.roleTerm, estadoTerm, { assignedEditor });
 
 	// Admin/IP: full control for every work.
 	if (adminOrIp) {
@@ -112,6 +114,7 @@ export function buildObraCapabilities(
 			canComment: true,
 			canReview: true,
 			canChangeState: true,
+			canPreviewPublicFicha: canPreview,
 			canManageReviewers: canManageReviewAssignments(profile.roleTerm),
 			canToggleVisibility: canToggleVisibility(profile.roleTerm),
 			canDeleteObra: canDeleteObras(profile.roleTerm)
@@ -131,6 +134,7 @@ export function buildObraCapabilities(
 			canComment: true,
 			canReview: true,
 			canChangeState: canChangeStateInCurrentState,
+			canPreviewPublicFicha: canPreview,
 			canManageReviewers: false,
 			canToggleVisibility: false,
 			canDeleteObra: false
@@ -149,6 +153,7 @@ export function buildObraCapabilities(
 			canComment: true,
 			canReview: true,
 			canChangeState: canChangeStateInCurrentState,
+			canPreviewPublicFicha: false,
 			canManageReviewers: false,
 			canToggleVisibility: false,
 			canDeleteObra: false
@@ -163,6 +168,7 @@ export function buildObraCapabilities(
 			canComment: false,
 			canReview: false,
 			canChangeState: false,
+			canPreviewPublicFicha: false,
 			canManageReviewers: false,
 			canToggleVisibility: false,
 			canDeleteObra: false
@@ -176,6 +182,7 @@ export function buildObraCapabilities(
 		canComment: false,
 		canReview: false,
 		canChangeState: false,
+		canPreviewPublicFicha: false,
 		canManageReviewers: false,
 		canToggleVisibility: false,
 		canDeleteObra: false

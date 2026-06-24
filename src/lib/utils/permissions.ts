@@ -5,8 +5,13 @@ export type StateTransitionContext = {
 	assignedReviewer?: boolean;
 };
 
-const workflowEditorOwner = new Set(['borrador:pendiente', 'pendiente:borrador']);
-const workflowEditorReviewer = new Set(['pendiente:en_revision', 'en_revision:validado']);
+const workflowEditorOwner = new Set([
+	'borrador:vista_previa',
+	'vista_previa:borrador',
+	'vista_previa:listo_para_publicar',
+	'listo_para_publicar:borrador'
+]);
+const workflowEditorReviewer = new Set<string>();
 const emptyWorkflow = new Set<string>();
 const protectedVocabularyCategories = new Set(['role_editor', 'estado']);
 
@@ -95,9 +100,24 @@ export function canEditByState(role: EditorRole, estado: string): boolean {
 		return true;
 	}
 	if (role === 'editor') {
-		return current === 'borrador' || current === 'pendiente';
+		return current === 'borrador';
 	}
 	return false;
+}
+
+export function canPreviewPublicFicha(
+	role: EditorRole,
+	estado: string,
+	context: StateTransitionContext = {}
+): boolean {
+	const current = estado.trim().toLowerCase();
+	if (current !== 'vista_previa' && current !== 'listo_para_publicar') {
+		return false;
+	}
+	if (role === 'admin' || role === 'ip') {
+		return true;
+	}
+	return role === 'editor' && Boolean(context.assignedEditor);
 }
 
 export function canManageReviewAssignments(role: EditorRole): boolean {

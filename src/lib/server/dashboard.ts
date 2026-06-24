@@ -20,7 +20,7 @@ const UNREAD_COUNTABLE_TYPES = new Set<DashboardNotificationType>([
 export type DashboardKpis = {
 	totalObras: number;
 	totalBorrador: number;
-	totalPendienteRevision: number;
+	totalPreviewListo: number;
 	totalPublicadas: number;
 };
 
@@ -98,7 +98,7 @@ async function loadEstadoIdsByTerm(locals: App.Locals) {
 		.from('vocabularios')
 		.select('termino_id,termino')
 		.eq('categoria', 'estado')
-		.in('termino', ['borrador', 'pendiente', 'en_revision', 'publicado']);
+		.in('termino', ['borrador', 'vista_previa', 'listo_para_publicar', 'publicado']);
 	const map = new Map<string, string>();
 	for (const row of data ?? []) {
 		map.set(row.termino.trim().toLowerCase(), row.termino_id);
@@ -262,21 +262,21 @@ async function loadCommentContextLabels(
 export async function getDashboardKpis(locals: App.Locals, profile: EditorProfile): Promise<DashboardKpis> {
 	const estadoIdsByTerm = await loadEstadoIdsByTerm(locals);
 	const borradorId = estadoIdsByTerm.get('borrador');
-	const pendienteId = estadoIdsByTerm.get('pendiente');
-	const enRevisionId = estadoIdsByTerm.get('en_revision');
+	const vistaPreviaId = estadoIdsByTerm.get('vista_previa');
+	const listoParaPublicarId = estadoIdsByTerm.get('listo_para_publicar');
 	const publicadoId = estadoIdsByTerm.get('publicado');
 
 	if (isAdminOrIp(profile)) {
-		const [totalResp, borradorResp, pendienteResp, publicadoResp] = await Promise.all([
+		const [totalResp, borradorResp, previewListoResp, publicadoResp] = await Promise.all([
 			locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true }),
 			borradorId
 				? locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true }).eq('estado', borradorId)
 				: Promise.resolve({ count: 0 }),
-			pendienteId || enRevisionId
+			vistaPreviaId || listoParaPublicarId
 				? locals.supabase
 						.from('obras')
 						.select('obra_id', { count: 'exact', head: true })
-						.in('estado', [pendienteId, enRevisionId].filter(Boolean) as string[])
+						.in('estado', [vistaPreviaId, listoParaPublicarId].filter(Boolean) as string[])
 				: Promise.resolve({ count: 0 }),
 			publicadoId
 				? locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true }).eq('estado', publicadoId)
@@ -285,7 +285,7 @@ export async function getDashboardKpis(locals: App.Locals, profile: EditorProfil
 		return {
 			totalObras: totalResp.count ?? 0,
 			totalBorrador: borradorResp.count ?? 0,
-			totalPendienteRevision: pendienteResp.count ?? 0,
+			totalPreviewListo: previewListoResp.count ?? 0,
 			totalPublicadas: publicadoResp.count ?? 0
 		};
 	}
@@ -295,14 +295,14 @@ export async function getDashboardKpis(locals: App.Locals, profile: EditorProfil
 	const rows = data ?? [];
 	const total = rows.length;
 	const borrador = borradorId ? rows.filter((row) => row.estado === borradorId).length : 0;
-	const pendienteRevision = rows.filter(
-		(row) => row.estado === pendienteId || row.estado === enRevisionId
+	const previewListo = rows.filter(
+		(row) => row.estado === vistaPreviaId || row.estado === listoParaPublicarId
 	).length;
 	const publicadas = publicadoId ? rows.filter((row) => row.estado === publicadoId).length : 0;
 	return {
 		totalObras: total,
 		totalBorrador: borrador,
-		totalPendienteRevision: pendienteRevision,
+		totalPreviewListo: previewListo,
 		totalPublicadas: publicadas
 	};
 }

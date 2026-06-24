@@ -21,7 +21,7 @@ Después entra en [Obras](/dashboard/obras?scope=mine), abre la obra asignada y 
 
 La interfaz guarda cambios automáticamente cada 10 segundos y también avisa cuando vas a cambiar de pestaña o cerrar un panel con cambios pendientes. Aun así, te recomendamos usar `Guardar` de forma manual en momentos clave.
 
-Cuando termines, revisa el checklist final y, si corresponde, cambia el estado de `borrador` a `pendiente` para enviar la obra a revisión.
+Cuando termines, revisa el checklist final y cambia el estado de `borrador` a `vista_previa` para revisar la ficha pública. Si todo está listo, pasa después a `listo_para_publicar`.
 
 Si la obra vuelve con observaciones, lo verás en [Actividad reciente](/dashboard/notificaciones): reabres la obra, ajustas lo necesario y vuelves a guardar.
 

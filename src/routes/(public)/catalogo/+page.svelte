@@ -91,7 +91,7 @@
 			<h1 class="font-display text-4xl text-[color:var(--gray-900)]">Catálogo</h1>
 			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 				{#if data.canSeeAllPublished}
-					Vista editorial: incluye obras publicadas no visibles sin login.
+					Incluye obras publicadas no visibles sin login.
 				{:else}
 					Repertorio métrico del teatro áureo.
 				{/if}

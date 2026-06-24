@@ -134,6 +134,15 @@
 	const persistedEstadoTerm = $derived(
 		estadoTermById.get(persistedEstadoId) ?? props.estadoTerm.trim().toLowerCase()
 	);
+	const canOpenPublicPreview = $derived(
+		Boolean(
+			(props.profile.roleTerm === 'admin' ||
+				props.profile.roleTerm === 'ip' ||
+				(isEditorRole && isAssignedEditor)) &&
+				obraLive.slug &&
+				(persistedEstadoTerm === 'vista_previa' || persistedEstadoTerm === 'listo_para_publicar')
+		)
+	);
 	const estadoDisabledIds = $derived.by(() => {
 		if (!canChangeState) {
 			return props.estadoOptions.map((option: EstadoOption) => option.termino_id);
@@ -629,6 +638,13 @@
 					{stateSaving ? 'Guardando...' : 'Guardar'}
 				</Button>
 			</div>
+			{#if canOpenPublicPreview}
+				<div class="mt-3 flex justify-end">
+					<Button variant="secondary" onclick={() => obraLive.slug && goto(`/obras/${obraLive.slug}`)}>
+						Abrir vista previa
+					</Button>
+				</div>
+			{/if}
 		</div>
 
 		{#if canToggleVisible}

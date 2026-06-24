@@ -11,7 +11,7 @@ export type PublicViewerContext = {
 
 /**
  * Datos mínimos de una obra necesarios para resolver su visibilidad pública.
- * El muro `estado = publicado` se aplica fuera (en la query o en la RPC), pero
+ * El muro de estado se aplica fuera (en la query o en la RPC), pero
  * `editor_asignado` y `visible_publico` deciden la atenuación por obra.
  */
 export type PublicObraVisibility = {
@@ -23,9 +23,8 @@ export type PublicObraVisibility = {
  * Scope EFECTIVO para el par (visitante, obra). A diferencia del scope global del
  * visitante, esto contempla que el editor asignado a ESTA obra la ve como admin/IP.
  *
- * No decide acceso por sí solo: el muro `estado = publicado` es innegociable y se
- * aplica aparte. Aquí solo se resuelve si el visitante puede ver una obra publicada
- * que aún no es `visible_publico`.
+ * No decide acceso por sí solo: el muro de estado se aplica aparte. Aquí solo se
+ * resuelve si el visitante puede ver una obra no visible para todos.
  */
 export function resolveObraScope(
 	viewer: PublicViewerContext,

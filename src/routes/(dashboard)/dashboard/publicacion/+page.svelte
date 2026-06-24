@@ -73,6 +73,41 @@
 	let recomputeStatus = $state<'idle' | 'running' | 'done' | 'error'>('idle');
 	let recomputeMessage = $state('');
 
+	type RecomputeAllResponse = {
+		obrasResumen?: number | null;
+		obrasPublicadas?: number | null;
+		autoresPerfilMetrico?: number | null;
+		autoresVinculadosPublicados?: number | null;
+		obras?: number | null;
+		autores?: number | null;
+		message?: string;
+	};
+
+	function formatRecomputeMessage(body: RecomputeAllResponse): string {
+		const obrasResumen = body.obrasResumen ?? body.obras ?? null;
+		const autoresPerfilMetrico = body.autoresPerfilMetrico ?? body.autores ?? null;
+		const parts: string[] = [];
+
+		if (typeof obrasResumen === 'number') {
+			parts.push(
+				`${obrasResumen} resúmenes de obra${typeof body.obrasPublicadas === 'number' ? ` (${body.obrasPublicadas} obras publicadas)` : ''}`
+			);
+		}
+		if (typeof autoresPerfilMetrico === 'number') {
+			parts.push(`${autoresPerfilMetrico} perfiles métricos de autor`);
+		}
+
+		const base = parts.length > 0 ? `Datos públicos recalculados: ${parts.join(' y ')}.` : 'Datos públicos recalculados.';
+		if (
+			typeof body.autoresVinculadosPublicados === 'number' &&
+			typeof autoresPerfilMetrico === 'number' &&
+			body.autoresVinculadosPublicados > autoresPerfilMetrico
+		) {
+			return `${base} Hay ${body.autoresVinculadosPublicados} autores vinculados a obras publicadas; solo los autores con unidades métricas inequívocas generan perfil.`;
+		}
+		return base;
+	}
+
 	async function recomputeAll() {
 		if (recomputeStatus === 'running') return;
 		recomputeStatus = 'running';
@@ -84,10 +119,7 @@
 				throw new Error(body.message ?? `Error ${resp.status}`);
 			}
 			recomputeStatus = 'done';
-			recomputeMessage =
-				typeof body.obras === 'number'
-					? `Datos públicos recalculados (${body.obras} obras${typeof body.autores === 'number' ? `, ${body.autores} autores` : ''}).`
-					: 'Datos públicos recalculados.';
+			recomputeMessage = formatRecomputeMessage(body as RecomputeAllResponse);
 			setTimeout(() => {
 				if (recomputeStatus === 'done') recomputeStatus = 'idle';
 			}, 4000);

@@ -22,6 +22,7 @@ export interface ObraAccessFlags {
 	canComment: boolean;
 	canReview: boolean;
 	canChangeState: boolean;
+	canPreviewPublicFicha: boolean;
 	canManageReviewers: boolean;
 	canToggleVisibility: boolean;
 	canDeleteObra: boolean;

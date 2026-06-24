@@ -22,6 +22,7 @@ function fullFicha(): PublicObraFichaPayload {
 			autor_ficha_publico: null,
 			autor_ficha_email_publico: null,
 			autor_ficha_orcid_publico: null,
+			estado_term: 'publicado',
 			visible_publico: true
 		},
 		autoria: {

@@ -22,10 +22,9 @@ values
 
 	-- estado
 	('7ff66f88-4b89-4fdf-9f8b-1698c58f67dc', 'estado', 'borrador', null, 1, null, null, 10, true, now(), now()),
-	('2d6136ac-1458-4b27-bc77-3b3c77a7e04a', 'estado', 'pendiente', null, 1, null, null, 20, true, now(), now()),
-	('bfe8c41a-bf1a-4fb3-b3b4-76af88f85483', 'estado', 'en_revision', null, 1, null, null, 30, true, now(), now()),
-	('0df1a8c1-6c9c-4345-b267-32cd51f1e4f9', 'estado', 'validado', null, 1, null, null, 40, true, now(), now()),
-	('2bd57d38-6f8d-4fb2-af39-214dd6b50f29', 'estado', 'publicado', null, 1, null, null, 50, true, now(), now()),
+	('2d6136ac-1458-4b27-bc77-3b3c77a7e04a', 'estado', 'vista_previa', null, 1, null, null, 20, true, now(), now()),
+	('0df1a8c1-6c9c-4345-b267-32cd51f1e4f9', 'estado', 'listo_para_publicar', null, 1, null, null, 30, true, now(), now()),
+	('2bd57d38-6f8d-4fb2-af39-214dd6b50f29', 'estado', 'publicado', null, 1, null, null, 40, true, now(), now()),
 
 	-- genero
 	('e7212f8c-8d4d-4a9f-9e5d-d22959e761f4', 'genero', 'comedia', null, 1, null, null, 10, true, now(), now()),
@@ -91,6 +90,17 @@ set
 	updated_at = now()
 where categoria = 'metro'
 	and termino in ('octosilabo', 'heptasilabo', 'endecasilabo');
+
+update public.vocabularios
+set
+	etiqueta = case termino
+		when 'vista_previa' then 'Vista previa'
+		when 'listo_para_publicar' then 'Listo para publicar'
+		else etiqueta
+	end,
+	updated_at = now()
+where categoria = 'estado'
+	and termino in ('vista_previa', 'listo_para_publicar');
 
 -- Resolver jerarquia por termino para evitar dependencia de UUIDs historicos.
 update public.vocabularios as child
