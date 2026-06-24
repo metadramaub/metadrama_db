@@ -5,6 +5,7 @@
 
 	export interface ObraRow {
 		obra_id: string;
+		slug: string | null;
 		titulo: string;
 		estadoTerm: string;
 		editorNombre: string;
@@ -14,10 +15,11 @@
 		canComment?: boolean;
 		canReview?: boolean;
 		canChangeState?: boolean;
+		canPreviewPublicFicha?: boolean;
 	}
 
 	const props = $props<{ obras: ObraRow[] }>();
-	const dispatch = createEventDispatcher<{ open: string }>();
+	const dispatch = createEventDispatcher<{ open: string; preview: string }>();
 	type SortField = 'titulo' | 'updated_at';
 	type SortDirection = 'asc' | 'desc';
 	let sortField = $state<SortField>('updated_at');
@@ -63,6 +65,10 @@
 		if (obra.canEditContent) return '';
 		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Solo revisión';
 		return 'Solo lectura';
+	}
+
+	function canOpenPreview(obra: ObraRow) {
+		return Boolean(obra.slug && obra.canPreviewPublicFicha);
 	}
 </script>
 
@@ -112,6 +118,14 @@
 								</Button>
 								{#if actionHint(obra)}
 									<span class="text-xs text-[color:var(--muted-foreground)]">{actionHint(obra)}</span>
+								{/if}
+								{#if canOpenPreview(obra)}
+									<Button
+										variant="secondary"
+										onclick={() => obra.slug && dispatch('preview', obra.slug)}
+									>
+										Vista previa
+									</Button>
 								{/if}
 							</div>
 						</td>

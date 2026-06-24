@@ -15,7 +15,7 @@
 >   - UI [obras/+page.svelte]: panel de filtros (texto, autor, género) + orden
 >     (título/autor/fecha/versos/actualización), filtrado en CLIENTE (pocas obras →
 >     en memoria; migrar a servidor si crece). Mantiene las etiquetas "Tu ficha" /
->     "Solo con login editorial" de la Fase 0.
+>     "Solo con login" de la Fase 0.
 >   - Verificado en vivo: 200, renderiza filtros y datos reales. 0 errores, 181 tests.
 >   - **Pendientes del catálogo** (iteraciones siguientes): barcode métrico por obra,
 >     filtros métricos avanzados (formas, metros, variaciones, polimetría, presencia

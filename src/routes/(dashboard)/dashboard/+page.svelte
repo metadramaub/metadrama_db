@@ -47,11 +47,11 @@
 			<p class="mt-1 text-2xl font-semibold">{data.kpis.totalBorrador}</p>
 		</article>
 		<article class="card p-4">
-			<p class="text-xs text-[color:var(--muted-foreground)]">Pendiente / revisión</p>
-			<p class="mt-1 text-2xl font-semibold">{data.kpis.totalPendienteRevision}</p>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Vista previa / listo para publicar</p>
+			<p class="mt-1 text-2xl font-semibold">{data.kpis.totalPreviewListo}</p>
 		</article>
 		<article class="card p-4">
-			<p class="text-xs text-[color:var(--muted-foreground)]">Publicadas (estado editorial)</p>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Publicadas</p>
 			<p class="mt-1 text-2xl font-semibold">{data.kpis.totalPublicadas}</p>
 		</article>
 	</div>

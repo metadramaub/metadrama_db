@@ -5,6 +5,7 @@ import {
 	canReadAllObras,
 	canEditByState,
 	canToggleVisibility,
+	canPreviewPublicFicha,
 	canDeleteObras,
 	canManageReviewAssignments,
 	canManageVocabularios,
@@ -31,47 +32,56 @@ describe('permissions', () => {
 
 	it('enforces editor state transitions', () => {
 		expect(
-			canTransitionState('editor', 'borrador', 'pendiente', { assignedEditor: true })
+			canTransitionState('editor', 'borrador', 'vista_previa', { assignedEditor: true })
 		).toBe(true);
 		expect(
-			canTransitionState('editor', 'pendiente', 'borrador', { assignedEditor: true })
+			canTransitionState('editor', 'vista_previa', 'borrador', { assignedEditor: true })
 		).toBe(true);
 		expect(
-			canTransitionState('editor', 'pendiente', 'validado', { assignedEditor: true })
+			canTransitionState('editor', 'vista_previa', 'listo_para_publicar', { assignedEditor: true })
+		).toBe(true);
+		expect(
+			canTransitionState('editor', 'listo_para_publicar', 'borrador', { assignedEditor: true })
+		).toBe(true);
+		expect(
+			canTransitionState('editor', 'listo_para_publicar', 'publicado', { assignedEditor: true })
 		).toBe(false);
-		expect(canTransitionState('editor', 'pendiente', 'borrador')).toBe(false);
+		expect(canTransitionState('editor', 'vista_previa', 'borrador')).toBe(false);
 	});
 
-	it('enforces reviewer editor state transitions', () => {
+	it('does not give assigned reviewers state transitions', () => {
 		expect(
-			canTransitionState('editor', 'pendiente', 'en_revision', { assignedReviewer: true })
-		).toBe(true);
-		expect(
-			canTransitionState('editor', 'en_revision', 'validado', { assignedReviewer: true })
-		).toBe(true);
-		expect(
-			canTransitionState('editor', 'pendiente', 'borrador', { assignedReviewer: true })
+			canTransitionState('editor', 'vista_previa', 'listo_para_publicar', { assignedReviewer: true })
 		).toBe(false);
 		expect(
-			canTransitionState('editor', 'en_revision', 'borrador', { assignedReviewer: true })
+			canTransitionState('editor', 'vista_previa', 'borrador', { assignedReviewer: true })
 		).toBe(false);
 	});
 
 	it('detects if there are transitions available from current state', () => {
-		expect(hasStateTransitionFrom('editor', 'pendiente', { assignedEditor: true })).toBe(true);
-		expect(hasStateTransitionFrom('editor', 'pendiente', { assignedReviewer: true })).toBe(true);
-		expect(hasStateTransitionFrom('editor', 'validado', { assignedReviewer: true })).toBe(false);
+		expect(hasStateTransitionFrom('editor', 'vista_previa', { assignedEditor: true })).toBe(true);
+		expect(hasStateTransitionFrom('editor', 'vista_previa', { assignedReviewer: true })).toBe(false);
+		expect(hasStateTransitionFrom('editor', 'publicado', { assignedEditor: true })).toBe(false);
 	});
 
 	it('allows admin/ip to transition any state', () => {
 		expect(canTransitionState('admin', 'borrador', 'publicado')).toBe(true);
-		expect(canTransitionState('ip', 'en_revision', 'borrador')).toBe(true);
+		expect(canTransitionState('ip', 'listo_para_publicar', 'borrador')).toBe(true);
 	});
 
 	it('enforces editable states for editor', () => {
 		expect(canEditByState('editor', 'borrador')).toBe(true);
-		expect(canEditByState('editor', 'pendiente')).toBe(true);
-		expect(canEditByState('editor', 'validado')).toBe(false);
+		expect(canEditByState('editor', 'vista_previa')).toBe(false);
+		expect(canEditByState('editor', 'listo_para_publicar')).toBe(false);
+	});
+
+	it('allows public ficha preview only for admin/ip or assigned editor', () => {
+		expect(canPreviewPublicFicha('admin', 'vista_previa')).toBe(true);
+		expect(canPreviewPublicFicha('ip', 'listo_para_publicar')).toBe(true);
+		expect(canPreviewPublicFicha('editor', 'vista_previa', { assignedEditor: true })).toBe(true);
+		expect(canPreviewPublicFicha('editor', 'vista_previa', { assignedReviewer: true })).toBe(false);
+		expect(canPreviewPublicFicha('editor', 'borrador', { assignedEditor: true })).toBe(false);
+		expect(canPreviewPublicFicha('editor', 'publicado', { assignedEditor: true })).toBe(false);
 	});
 
 	it('limits visibility toggle to admin/IP', () => {

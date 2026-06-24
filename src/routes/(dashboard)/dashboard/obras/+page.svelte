@@ -173,6 +173,7 @@
 	<ObrasTable
 		obras={data.obras}
 		on:open={(event) => goto(`/dashboard/obras/${event.detail}`)}
+		on:preview={(event) => goto(`/obras/${event.detail}`)}
 	/>
 </section>
 

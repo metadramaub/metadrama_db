@@ -17,12 +17,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const viewer = await resolvePublicViewerContext(locals);
 
 	// El scope efectivo depende de ESTA obra: el editor asignado la ve como admin/IP.
-	// Necesitamos editor_asignado/visible_publico antes de llamar a la RPC para decidir
-	// si incluir la versión "no visible" (p_include_hidden). El muro estado=publicado lo
-	// sigue aplicando la propia RPC, así que esta consulta previa no expone nada.
+	// La RPC aplica el muro real de estado/visibilidad; esta consulta previa solo decide
+	// si el scope de secciones debe ser amplio para esta obra concreta.
 	const obraVisibilityResp = await locals.supabase
 		.from('obras')
-		.select('obra_id,editor_asignado,visible_publico')
+		.select('obra_id,editor_asignado,visible_publico,estado')
 		.eq('slug', params.slug)
 		.maybeSingle();
 
@@ -37,6 +36,18 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const obraVisibility = obraVisibilityResp.data as PublicObraVisibility;
 	const obraScope = resolveObraScope(viewer, obraVisibility);
 	const includeHidden = obraScope === 'admin_ip';
+	const estadoId = (obraVisibilityResp.data as { estado?: string | null }).estado ?? null;
+	const estadoTerm = estadoId
+		? await locals.supabase
+				.from('vocabularios')
+				.select('termino')
+				.eq('termino_id', estadoId)
+				.maybeSingle()
+		: null;
+
+	if (estadoTerm?.error) {
+		throw error(500, `No se pudo resolver el estado editorial: ${estadoTerm.error.message}`);
+	}
 
 	const supabase = locals.supabase as typeof locals.supabase & {
 		rpc: (
@@ -67,8 +78,13 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		throw error(404, 'Obra no encontrada.');
 	}
 
+	const baseFicha = data as unknown as PublicObraFichaPayload;
 	const rawFicha = {
-		...(data as unknown as PublicObraFichaPayload),
+		...baseFicha,
+		obra: {
+			...baseFicha.obra,
+			estado_term: baseFicha.obra.estado_term ?? estadoTerm?.data?.termino ?? null
+		},
 		comentarios_publicos: (comentariosResp.data ?? []) as unknown as PublicFichaComentarioPublico[]
 	} satisfies PublicObraFichaPayload;
 

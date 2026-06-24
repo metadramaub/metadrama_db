@@ -49,6 +49,11 @@
 
 	const ficha = $derived(data.ficha);
 	const obra = $derived(ficha.obra);
+	const estadoTerm = $derived((obra.estado_term ?? '').trim().toLowerCase());
+	const isEditorialPreview = $derived(
+		estadoTerm === 'vista_previa' || estadoTerm === 'listo_para_publicar'
+	);
+	const dashboardObraHref = $derived(`/dashboard/obras/${obra.obra_id}?tab=revision`);
 
 	// --- Visibilidad de secciones (resuelve el pendiente B: ocultar, no vaciar) ---
 	const show = (id: string) => isSectionVisible(data.sectionVisibility ?? {}, id);
@@ -312,9 +317,16 @@
 			/>
 		</div>
 
-		{#if data.canSeeAllPublished && !obra.visible_publico}
+		{#if data.canSeeAllPublished && isEditorialPreview}
+			<div class="mt-4 flex flex-wrap items-center justify-between gap-3 border border-[color:var(--border)] bg-[color:var(--muted)] p-3 text-sm text-[color:var(--muted-foreground)]">
+				<span>
+					Estás viendo esta obra en vista previa. Para editarla, vuelve al dashboard y cambia el estado a borrador.
+				</span>
+				<a class="button secondary text-sm" href={dashboardObraHref}>Volver</a>
+			</div>
+		{:else if data.canSeeAllPublished && !obra.visible_publico}
 			<div class="mt-4 border border-[color:var(--border)] bg-[color:var(--muted)] p-3 text-sm text-[color:var(--muted-foreground)]">
-				Esta obra está publicada en flujo editorial, pero no visible sin login.
+				Esta obra está publicada internamente, pero no visible sin login.
 			</div>
 		{/if}
 
