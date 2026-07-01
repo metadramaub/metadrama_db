@@ -1,19 +1,25 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { FOOTER_SECTIONS, LOGIN_LINK, PUBLIC_NAV } from '$lib/config/navigation';
+	import DoorOpenIcon from 'lucide-svelte/icons/door-open';
+	import { FOOTER_SECTIONS, PUBLIC_NAV } from '$lib/config/navigation';
 	import type { NavGroup, NavItem } from '$lib/config/navigation';
 	import { isSectionVisible } from '$lib/secciones-publicas';
 	import type { SectionVisibilityMap } from '$lib/secciones-publicas';
+	import type { User } from '@supabase/supabase-js';
 
 	let { children, data } = $props<{
 		children: unknown;
-		data: { sectionVisibility?: SectionVisibilityMap };
+		data: { sectionVisibility?: SectionVisibilityMap; user?: User | null };
 	}>();
 	let mobileOpen = $state(false);
 	let resourcesOpen = $state(false);
 	let projectOpen = $state(false);
+	let loggingOut = $state(false);
+	let logoutConfirmOpen = $state(false);
 
 	const pathname = $derived($page.url.pathname);
+	const isLoggedIn = $derived(Boolean(data.user));
 	const isCatalogMock = $derived(
 		pathname === '/mockup/catalogo' || pathname.startsWith('/mockup/catalogo/')
 	);
@@ -64,6 +70,34 @@
 		if (href === '/') return pathname === '/';
 		return pathname === href || pathname.startsWith(`${href}/`);
 	}
+
+	function requestLogout() {
+		logoutConfirmOpen = true;
+	}
+
+	async function onLogout() {
+		if (loggingOut) return;
+		loggingOut = true;
+
+		try {
+			const { getSupabaseBrowserClient } = await import('$lib/services/supabase');
+			const supabase = getSupabaseBrowserClient();
+			const { error } = await supabase.auth.signOut();
+
+			if (error) {
+				console.error('No se pudo cerrar sesión', error);
+				return;
+			}
+
+			mobileOpen = false;
+			logoutConfirmOpen = false;
+			await invalidateAll();
+		} catch (error) {
+			console.error('No se pudo cerrar sesión', error);
+		} finally {
+			loggingOut = false;
+		}
+	}
 </script>
 
 <div class="flex min-h-screen flex-col bg-[color:var(--background)]">
@@ -107,12 +141,26 @@
 						</a>
 					{/if}
 				{/each}
-				<a
-					href={LOGIN_LINK.href}
-					class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-[11px] font-bold tracking-[0.08em] text-white transition-colors hover:bg-[color:var(--gray-700)]"
-				>
-					{LOGIN_LINK.label}
-				</a>
+				<div class="flex items-center gap-2">
+					<a
+						href={isLoggedIn ? '/dashboard' : '/login'}
+						class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-[11px] font-bold tracking-[0.08em] text-white transition-colors hover:bg-[color:var(--gray-700)]"
+					>
+						{isLoggedIn ? 'Panel' : 'Acceso editores'}
+					</a>
+					{#if isLoggedIn}
+						<button
+							type="button"
+							class="inline-flex h-8 w-8 items-center justify-center bg-transparent text-[color:var(--gray-800)] transition-colors hover:text-[color:var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+							onclick={requestLogout}
+							disabled={loggingOut}
+							aria-label="Cerrar sesión"
+							title="Cerrar sesión"
+						>
+							<DoorOpenIcon size={15} aria-hidden="true" />
+						</button>
+					{/if}
+				</div>
 			</nav>
 
 			<button
@@ -170,13 +218,27 @@
 						{/if}
 					{/each}
 
-					<a
-						href={LOGIN_LINK.href}
-						class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-center text-white"
-						onclick={() => (mobileOpen = false)}
-					>
-						{LOGIN_LINK.label}
-					</a>
+					<div class={isLoggedIn ? 'grid grid-cols-[minmax(0,1fr)_auto] gap-1' : ''}>
+						<a
+							href={isLoggedIn ? '/dashboard' : '/login'}
+							class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-center text-white"
+							onclick={() => (mobileOpen = false)}
+						>
+							{isLoggedIn ? 'Panel' : 'Acceso editores'}
+						</a>
+						{#if isLoggedIn}
+							<button
+								type="button"
+								class="inline-flex h-full min-h-9 w-10 items-center justify-center bg-transparent text-[color:var(--gray-800)] transition-colors hover:text-[color:var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+								onclick={requestLogout}
+								disabled={loggingOut}
+								aria-label="Cerrar sesión"
+								title="Cerrar sesión"
+							>
+								<DoorOpenIcon size={16} aria-hidden="true" />
+							</button>
+						{/if}
+					</div>
 				</nav>
 			</div>
 		{/if}
@@ -216,4 +278,43 @@
 			{/each}
 		</div>
 	</footer>
+
+	{#if logoutConfirmOpen}
+		<div
+			class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+			role="presentation"
+		>
+			<div
+				class="w-full max-w-sm border border-[color:var(--border)] bg-white p-5 shadow-lg"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="logout-confirm-title"
+			>
+				<h2 id="logout-confirm-title" class="font-display text-xl text-[color:var(--foreground)]">
+					Cerrar sesión
+				</h2>
+				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+					¿Quieres cerrar sesión?
+				</p>
+				<div class="mt-5 flex justify-end gap-2">
+					<button
+						type="button"
+						class="border border-[color:var(--border)] bg-white px-3 py-2 text-sm font-medium text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] disabled:cursor-not-allowed disabled:opacity-50"
+						onclick={() => (logoutConfirmOpen = false)}
+						disabled={loggingOut}
+					>
+						Cancelar
+					</button>
+					<button
+						type="button"
+						class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-[color:var(--gray-700)] disabled:cursor-not-allowed disabled:opacity-50"
+						onclick={onLogout}
+						disabled={loggingOut}
+					>
+						{loggingOut ? 'Cerrando...' : 'Cerrar sesión'}
+					</button>
+				</div>
+			</div>
+		</div>
+	{/if}
 </div>
