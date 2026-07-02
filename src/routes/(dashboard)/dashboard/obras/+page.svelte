@@ -32,11 +32,17 @@
 			label: option.nombre_completo
 		}))
 	);
+	const filteredObras = $derived.by(() => {
+		const term = normalizeTitle(q);
+		return data.obras.filter((obra) => {
+			if (term && !normalizeTitle(obra.titulo ?? '').includes(term)) return false;
+			if (estado && obra.estado !== estado) return false;
+			if (editor && obra.editor_asignado !== editor) return false;
+			return true;
+		});
+	});
 
 	$effect(() => {
-		q = data.filters.q;
-		estado = data.filters.estado;
-		editor = data.filters.editor;
 		scope = data.scope;
 		if (!newObraEditor && data.editorOptions.length > 0) {
 			newObraEditor = data.editorOptions[0].user_id;
@@ -45,21 +51,26 @@
 
 	function applyFilters(event: SubmitEvent) {
 		event.preventDefault();
-		const params = new URLSearchParams();
-		params.set('scope', scope);
-		if (q.trim()) params.set('q', q.trim());
-		if (estado) params.set('estado', estado);
-		if (editor) params.set('editor', editor);
-		goto(`/dashboard/obras?${params.toString()}`);
 	}
 
 	function goScope(nextScope: 'mine' | 'all') {
 		const params = new URLSearchParams();
 		params.set('scope', nextScope);
-		if (q.trim()) params.set('q', q.trim());
-		if (estado) params.set('estado', estado);
-		if (editor) params.set('editor', editor);
 		goto(`/dashboard/obras?${params.toString()}`);
+	}
+
+	function normalizeTitle(value: string) {
+		return value
+			.normalize('NFD')
+			.replace(/\p{Diacritic}/gu, '')
+			.trim()
+			.toLowerCase();
+	}
+
+	function clearFilters() {
+		q = '';
+		estado = '';
+		editor = '';
 	}
 
 	async function createObra() {
@@ -98,10 +109,10 @@
 	}
 </script>
 
-<section>
-	<div class="mb-4 flex items-end justify-between gap-4">
+<section class="space-y-4">
+	<div class="flex items-end justify-between gap-4">
 		<div>
-			<h1 class="font-display text-3xl">OBRAS</h1>
+			<h1 class="text-lg font-semibold">Obras</h1>
 			<p class="text-sm text-[color:var(--muted-foreground)]">Listado de obras disponibles para edición.</p>
 		</div>
 		{#if canCreate}
@@ -109,7 +120,7 @@
 		{/if}
 	</div>
 
-	<div class="mb-4 flex flex-wrap gap-2">
+	<div class="flex flex-wrap gap-2">
 		<Button
 			variant={scope === 'mine' ? 'primary' : 'ghost'}
 			onclick={() => goScope('mine')}
@@ -124,7 +135,7 @@
 		</Button>
 	</div>
 
-	<form class="card mb-4 grid gap-3 p-4 md:grid-cols-4" onsubmit={applyFilters}>
+	<form class="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,14rem)_minmax(0,14rem)_auto]" onsubmit={applyFilters}>
 		<label class="form-field">
 			<span class="form-label">Buscar título</span>
 			<input
@@ -165,13 +176,20 @@
 			/>
 		</label>
 
-		<div class="flex items-end">
-			<Button type="submit" class="w-full">Aplicar filtros</Button>
+		<div class="flex items-end gap-2">
+			<Button type="submit">Aplicar filtros</Button>
+			<button
+				type="button"
+				class="border border-[color:var(--border)] bg-white px-2 py-2 text-xs font-medium text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
+				onclick={clearFilters}
+			>
+				Limpiar
+			</button>
 		</div>
 	</form>
 
 	<ObrasTable
-		obras={data.obras}
+		obras={filteredObras}
 		on:open={(event) => goto(`/dashboard/obras/${event.detail}`)}
 		on:preview={(event) => goto(`/obras/${event.detail}`)}
 	/>
