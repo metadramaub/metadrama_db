@@ -521,7 +521,7 @@
 
 <section class="space-y-4">
 	<div class="card p-4">
-		<h3 class="mb-3 text-lg font-semibold">Checklist</h3>
+		<h3 class="mb-3 text-base font-semibold">Checklist</h3>
 		<ul class="text-sm">
 			{#each checklist as item}
 				<li class="flex items-start justify-between gap-3 border-b border-[color:var(--border)] py-2 last:border-b-0">
@@ -559,7 +559,7 @@
 	/>
 
 	<div class="card space-y-5 p-4">
-		<h3 class="text-lg font-semibold">Gestión editorial</h3>
+		<h3 class="text-base font-semibold">Gestión editorial</h3>
 		{#if props.assignedReviewer}
 			<p class="-mt-2 text-sm text-[color:var(--muted-foreground)]">
 				Tienes esta obra asignada para revisión.

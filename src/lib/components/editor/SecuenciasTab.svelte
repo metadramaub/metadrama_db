@@ -1231,7 +1231,7 @@
 
 <section class="space-y-4">
 	<div class="flex flex-wrap items-end justify-between gap-3 pb-3 pt-2">
-		<h2 class="text-xl font-semibold">Secuencias métricas</h2>
+		<h2 class="text-lg font-semibold">Secuencias métricas</h2>
 		<div class="flex flex-wrap items-end gap-2">
 			<div class="w-56">
 				<CheckDropdown
@@ -1368,7 +1368,7 @@
 	<div class="card grid p-4 sm:grid-cols-3 sm:divide-x sm:divide-[color:var(--border)]">
 		<div class="px-3 py-1 sm:first:pl-0">
 			<p class="text-xs text-[color:var(--muted-foreground)]">Total estructura</p>
-			<p class="text-lg font-semibold">
+			<p class="text-base font-semibold">
 				{#if totalVersosEstructura === null}
 					--
 				{:else}
@@ -1378,12 +1378,12 @@
 		</div>
 		<div class="px-3 py-1">
 			<p class="text-xs text-[color:var(--muted-foreground)]">Versos declarados (filtrado)</p>
-			<p class="text-lg font-semibold">{totalVersosDeclaradosFiltrados}</p>
+			<p class="text-base font-semibold">{totalVersosDeclaradosFiltrados}</p>
 		</div>
 		<div class="px-3 py-1">
 			<p class="text-xs text-[color:var(--muted-foreground)]">Diferencia</p>
 			<p
-				class={`text-lg font-semibold ${
+				class={`text-base font-semibold ${
 					diferenciaFiltrada === null
 						? 'text-[color:var(--muted-foreground)]'
 						: diferenciaFiltrada === 0
@@ -1429,7 +1429,7 @@
 	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0">
 		<div class="sticky top-0 z-20 -mx-5 mb-4 flex items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-3 pt-5">
 			<div class="flex min-w-0 items-center gap-2">
-				<h3 class="text-lg font-semibold">
+				<h3 class="text-base font-semibold">
 					{#if editingId}
 						{props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
 					{:else}

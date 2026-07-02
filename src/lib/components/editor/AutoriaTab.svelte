@@ -730,9 +730,9 @@
 					Sin evidencias. Añade una solo si la autoría está disputada o discutida.
 				</p>
 			{:else}
-				<div class="divide-y divide-[color:var(--border)]">
+				<div class="space-y-1">
 					{#each proposal.evidencias as evidencia (evidencia.local_id)}
-						<div class="py-1 first:pt-0 last:pb-0">
+						<div>
 							{@render evidenceEditor(group, proposal, evidencia)}
 						</div>
 					{/each}
@@ -920,7 +920,7 @@
 							{#each jornadas as jornada (jornada.jornada_id)}
 								{@const jornadaGroup = (groupsByJornadaId.get(jornada.jornada_id) ?? [])[0]}
 								<div class="py-4 first:pt-0 last:pb-0">
-									<h4 class="mb-3 font-semibold">
+									<h4 class="mb-3 text-sm font-semibold">
 										Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
 									</h4>
 

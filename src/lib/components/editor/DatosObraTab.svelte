@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy, untrack } from 'svelte';
+	import { Plus, Trash2 } from 'lucide-svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -171,12 +172,9 @@
 </script>
 
 <section class="space-y-5">
-	<div class="card p-4">
-		<div class="mb-3">
-			<div>
-				<h2 class="text-xl font-semibold">Datos de la obra</h2>
-			</div>
-		</div>
+	<div class="space-y-4">
+		<h2 class="text-lg font-semibold">Datos de la obra</h2>
+
 		<div class="grid gap-4 md:grid-cols-2">
 			<label class="form-field">
 				<span class="form-label">Título principal</span>
@@ -229,7 +227,7 @@
 			</label>
 		</div>
 
-		<label class="form-field mt-4">
+		<label class="form-field">
 			<span class="form-label">
 				<span class="form-label-with-help">
 					Fuente bibliográfica para la fecha
@@ -251,7 +249,7 @@
 		</label>
 
 		{#if SHOW_METADRAMA_DATES}
-			<div class="mt-4 grid gap-4 md:grid-cols-2">
+			<div class="grid gap-4 md:grid-cols-2">
 				<label class="form-field">
 					<span class="form-label">Fecha inicio METADRAMA</span>
 					<input
@@ -284,7 +282,7 @@
 			</div>
 		{/if}
 
-		<label class="form-field mt-4">
+		<label class="form-field">
 			<span class="form-label">
 				<span class="form-label-with-help">
 					Edición base utilizada
@@ -305,19 +303,24 @@
 			/>
 		</label>
 
-		<div class="mt-5 border-t border-[color:var(--border)] pt-4">
-			<div class="mb-3 flex items-center justify-between">
-				<h3 class="text-base font-semibold">Variantes de título</h3>
-				<Button variant="secondary" onclick={addVariante} disabled={props.readOnly}>Añadir variante</Button>
+		<div>
+			<div class="mb-3 flex items-center justify-between gap-3">
+				<h3 class="text-sm font-semibold">Variantes de título</h3>
+				<Button variant="secondary" class="gap-2" onclick={addVariante} disabled={props.readOnly}>
+					<Plus size={16} />
+					Añadir variante
+				</Button>
 			</div>
-			<div class="space-y-2">
+			<div class="border border-[color:var(--border)] bg-white">
 				{#if form.variantes_titulo.length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">No hay variantes añadidas.</p>
+					<p class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">No hay variantes añadidas.</p>
 				{:else}
 					{#each form.variantes_titulo as variante, idx}
-						<div class="flex gap-2">
+						<div
+							class="flex items-center gap-2 border-t border-[color:var(--border)] px-3 py-2 first:border-t-0"
+						>
 							<input
-								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+								class="w-full bg-transparent px-0 py-1 text-sm"
 								disabled={props.readOnly}
 								value={variante}
 								oninput={(event) => {
@@ -326,9 +329,15 @@
 									mutateField('variantes_titulo', updated);
 								}}
 							/>
-							<Button variant="danger" onclick={() => requestRemoveVariante(idx)} disabled={props.readOnly}
-								>Eliminar</Button
+							<button
+								type="button"
+								class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+								aria-label="Eliminar variante de título"
+								onclick={() => requestRemoveVariante(idx)}
+								disabled={props.readOnly}
 							>
+								<Trash2 size={16} />
+							</button>
 						</div>
 					{/each}
 				{/if}

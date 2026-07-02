@@ -639,7 +639,7 @@
 
 <section class="space-y-4">
 	<div class="flex flex-wrap items-center justify-between gap-3">
-		<h2 class="text-xl font-semibold">Jornadas y cuadros</h2>
+		<h2 class="text-lg font-semibold">Jornadas y cuadros</h2>
 	</div>
 
 	{#if jornadas.length === 0}
@@ -741,7 +741,7 @@
 	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
 		<div class="sticky top-0 z-10 mb-4 flex items-center justify-between gap-3 bg-[color:var(--gray-50)] pb-3">
 			<div class="flex min-w-0 items-center gap-2">
-				<h3 class="text-lg font-semibold">
+				<h3 class="text-base font-semibold">
 					{#if sidebarMode === 'jornada-new'}Nueva jornada{/if}
 					{#if sidebarMode === 'jornada-edit'}{props.readOnly ? 'Ver jornada' : 'Editar jornada'}{/if}
 					{#if sidebarMode === 'cuadro-new'}Nuevo cuadro{/if}
