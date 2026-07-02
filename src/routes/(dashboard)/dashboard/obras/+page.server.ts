@@ -10,9 +10,6 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	const parentData = await parent();
 	const profile = parentData.profile;
 
-	const q = url.searchParams.get('q')?.trim() ?? '';
-	const estado = url.searchParams.get('estado') ?? '';
-	const editor = url.searchParams.get('editor') ?? '';
 	// Ámbito "Mis obras / Todas las obras": se recuerda por sesión. Si la URL no trae
 	// ?scope, se usa la cookie de sesión (última selección); el resuelto se re-persiste.
 	const explicitScope = url.searchParams.get('scope');
@@ -42,16 +39,6 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 		} else if (scopePlan.mode === 'editor_only') {
 			query = query.eq('editor_asignado', scopePlan.editorAssignedUserId);
 		}
-	}
-
-	if (editor && isAdminOrIp) {
-		query = query.eq('editor_asignado', editor);
-	}
-	if (estado) {
-		query = query.eq('estado', estado);
-	}
-	if (q) {
-		query = query.ilike('titulo', `%${q}%`);
 	}
 
 	const { data: obras, error: obrasError } = await query.limit(200);
@@ -107,7 +94,6 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	return {
 		profile,
 		scope,
-		filters: { q, estado, editor },
 		estadoOptions: estadoOptionsResp.data ?? [],
 		editorOptions: editoresOptionsResp.data ?? [],
 		obras: obraRows.map((obra) => {
