@@ -17,6 +17,7 @@
 		focusJornadaId?: string | null;
 		focusCuadroId?: string | null;
 		focusComentarioId?: string | null;
+		commentsReloadKey?: string | number | null;
 		onStructureChange?: (payload: {
 			jornadas: Tables<'jornadas'>[];
 			cuadros: Tables<'cuadros'>[];
@@ -901,6 +902,7 @@
 						defaultCollapsed={true}
 						collapseLabel="Ver"
 						focusComentarioId={props.focusComentarioId}
+						reloadKey={props.commentsReloadKey}
 					/>
 				{/key}
 			</div>
@@ -917,6 +919,7 @@
 						defaultCollapsed={true}
 						collapseLabel="Ver"
 						focusComentarioId={props.focusComentarioId}
+						reloadKey={props.commentsReloadKey}
 					/>
 				{/key}
 			</div>

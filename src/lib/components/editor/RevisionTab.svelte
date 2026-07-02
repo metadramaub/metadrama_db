@@ -33,6 +33,7 @@
 		assignedReviewer: boolean;
 		capabilities: ObraAccessFlags;
 		focusComentarioId?: string | null;
+		commentsReloadKey?: string | number | null;
 		onPendingChangesChange?: (pending: boolean) => void;
 	}>();
 
@@ -52,6 +53,7 @@
 	let allCommentsCount = $state<number | null>(null);
 	let allCommentsCountLoading = $state(false);
 	let allCommentsCountRequestCounter = 0;
+	let lastExternalCommentsReloadKey = $state(untrack(() => String(props.commentsReloadKey ?? '')));
 
 	let stateSaving = $state(false);
 	let visibilitySaving = $state(false);
@@ -488,7 +490,7 @@
 			window.dispatchEvent(new CustomEvent('dashboard-obras-updated'));
 		}
 		pushToast('success', 'Obra eliminada correctamente.');
-		await goto('/dashboard/obras?scope=all', { invalidateAll: true });
+		await goto('/dashboard/obras?scope=all');
 	}
 
 	function onOpenDeleteModal() {
@@ -512,6 +514,13 @@
 
 	$effect(() => {
 		props.onPendingChangesChange?.(revisionPendingChanges);
+	});
+
+	$effect(() => {
+		const nextExternalCommentsReloadKey = String(props.commentsReloadKey ?? '');
+		if (nextExternalCommentsReloadKey === lastExternalCommentsReloadKey) return;
+		lastExternalCommentsReloadKey = nextExternalCommentsReloadKey;
+		void loadAllCommentsCount();
 	});
 
 	onDestroy(() => {
@@ -548,7 +557,7 @@
 		focusComentarioId={props.focusComentarioId}
 		onHeaderAction={() => (allCommentsModalOpen = true)}
 		onCommentsMutated={() => void loadAllCommentsCount()}
-		reloadKey={commentsReloadKey}
+		reloadKey={`${props.commentsReloadKey ?? 0}:${commentsReloadKey}`}
 		onDraftDirtyChange={onCommentsDraftDirtyChange}
 	/>
 
