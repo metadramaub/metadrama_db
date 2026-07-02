@@ -5,11 +5,21 @@
 	import { formatRelative } from '$lib/utils/formatters';
 	import type { PageData } from './$types';
 
+	type SimilarAuthor = {
+		autor_id: string;
+		nombre_completo: string;
+		nombre_normalizado: string;
+		matched_value: string;
+		reason: 'exact' | 'contains' | 'tokens' | 'distance';
+		score: number;
+	};
+
 	let { data } = $props<{ data: PageData }>();
 	let q = $state('');
 
 	let createModalOpen = $state(false);
 	let creating = $state(false);
+	let similarAuthors = $state<SimilarAuthor[]>([]);
 	let nombreCompleto = $state('');
 	let nombreNormalizado = $state('');
 	let variantesText = $state('');
@@ -18,6 +28,7 @@
 	let wikidataId = $state('');
 
 	const canManage = $derived(Boolean(data.canManageAuthors));
+	const canCreate = $derived(Boolean(data.canCreateAuthors));
 
 	$effect(() => {
 		q = data.filters.q;
@@ -42,6 +53,7 @@
 		bnedatosId = '';
 		viafId = '';
 		wikidataId = '';
+		similarAuthors = [];
 	}
 
 	function closeCreateModal() {
@@ -57,7 +69,20 @@
 			.filter(Boolean);
 	}
 
-	async function createAuthor() {
+	function onCreateFormInput() {
+		if (similarAuthors.length > 0) {
+			similarAuthors = [];
+		}
+	}
+
+	function similarityReasonLabel(reason: SimilarAuthor['reason']): string {
+		if (reason === 'exact') return 'coincidencia exacta';
+		if (reason === 'contains') return 'nombre incluido';
+		if (reason === 'tokens') return 'palabras coincidentes';
+		return 'nombre muy parecido';
+	}
+
+	async function createAuthor(confirmSimilar = false) {
 		if (creating) return;
 		if (!nombreCompleto.trim()) {
 			pushToast('error', 'Indica un nombre completo para el autor.');
@@ -78,13 +103,19 @@
 				variantes_nombre: parseVariants(variantesText),
 				bnedatos_id: bnedatosId,
 				viaf_id: viafId,
-				wikidata_id: wikidataId
+				wikidata_id: wikidataId,
+				confirm_similar: confirmSimilar
 			})
 		});
 		creating = false;
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
+			if (response.status === 409 && body.error === 'similar_author') {
+				similarAuthors = Array.isArray(body.similarAuthors) ? body.similarAuthors : [];
+				pushToast('info', body.message ?? 'Revisa los autores parecidos antes de crear uno nuevo.', 5000);
+				return;
+			}
 			pushToast('error', body.message ?? 'No se pudo crear el autor.');
 			return;
 		}
@@ -103,7 +134,7 @@
 			<h1 class="font-display text-3xl">AUTORES</h1>
 			<p class="text-sm text-[color:var(--muted-foreground)]">Listado de autores de la base de datos.</p>
 		</div>
-		{#if canManage}
+		{#if canCreate}
 			<Button variant="secondary" onclick={() => (createModalOpen = true)}>Crear nuevo autor</Button>
 		{/if}
 	</div>
@@ -184,6 +215,7 @@
 					<input
 						type="text"
 						bind:value={nombreCompleto}
+						oninput={onCreateFormInput}
 						required
 						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
@@ -194,6 +226,7 @@
 					<input
 						type="text"
 						bind:value={nombreNormalizado}
+						oninput={onCreateFormInput}
 						placeholder="Apellidos, Nombre"
 						required
 						class="w-full border border-[color:var(--border)] px-3 py-2"
@@ -206,18 +239,29 @@
 					<textarea
 						rows={4}
 						bind:value={variantesText}
+						oninput={onCreateFormInput}
 						class="w-full border border-[color:var(--border)] px-3 py-2"
 					></textarea>
 				</label>
 
 				<label class="form-field">
 					<span class="form-label">BNEdatos ID</span>
-					<input type="text" bind:value={bnedatosId} class="w-full border border-[color:var(--border)] px-3 py-2" />
+					<input
+						type="text"
+						bind:value={bnedatosId}
+						oninput={onCreateFormInput}
+						class="w-full border border-[color:var(--border)] px-3 py-2"
+					/>
 				</label>
 
 				<label class="form-field">
 					<span class="form-label">VIAF ID</span>
-					<input type="text" bind:value={viafId} class="w-full border border-[color:var(--border)] px-3 py-2" />
+					<input
+						type="text"
+						bind:value={viafId}
+						oninput={onCreateFormInput}
+						class="w-full border border-[color:var(--border)] px-3 py-2"
+					/>
 				</label>
 
 				<label class="form-field md:col-span-2">
@@ -225,18 +269,51 @@
 					<input
 						type="text"
 						bind:value={wikidataId}
+						oninput={onCreateFormInput}
 						class="w-full border border-[color:var(--border)] px-3 py-2"
 					/>
 				</label>
 			</div>
 
+			{#if similarAuthors.length > 0}
+				<div class="mt-4 border border-[color:var(--warning)] bg-[color:var(--muted)] p-3">
+					<h4 class="text-sm font-semibold">Posibles autores duplicados</h4>
+					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+						Revisa estas coincidencias antes de crear una ficha nueva.
+					</p>
+					<ul class="mt-3 space-y-2 text-sm">
+						{#each similarAuthors as author}
+							<li class="border border-[color:var(--border)] bg-white p-3">
+								<div class="flex flex-wrap items-center justify-between gap-2">
+									<div>
+										<div class="font-medium">{author.nombre_completo}</div>
+										<div class="text-xs text-[color:var(--muted-foreground)]">
+											{author.nombre_normalizado}
+										</div>
+									</div>
+									<Button
+										variant="ghost"
+										class="px-2 py-1 text-xs"
+										onclick={() => goto(`/dashboard/autores/${author.autor_id}`)}
+									>
+										Ver
+									</Button>
+								</div>
+								<div class="mt-2 text-xs text-[color:var(--muted-foreground)]">
+									{similarityReasonLabel(author.reason)}: {author.matched_value}
+								</div>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
+
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="ghost" onclick={closeCreateModal} disabled={creating}>Cancelar</Button>
-				<Button onclick={createAuthor} disabled={creating}>
-					{creating ? 'Creando...' : 'Crear autor'}
+				<Button onclick={() => void createAuthor(similarAuthors.length > 0)} disabled={creating}>
+					{creating ? 'Creando...' : similarAuthors.length > 0 ? 'Crear de todos modos' : 'Crear autor'}
 				</Button>
 			</div>
 		</div>
 	</div>
 {/if}
-

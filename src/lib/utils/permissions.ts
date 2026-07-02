@@ -132,6 +132,10 @@ export function canManagePublicacion(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }
 
+export function canCreateAutores(role: EditorRole): boolean {
+	return role === 'editor' || role === 'admin' || role === 'ip';
+}
+
 export function canManageAutores(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }

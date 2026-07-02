@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { requireEditorProfile } from '$lib/server/auth';
 import {
+	findSimilarAuthors,
 	matchesAuthorSearch,
 	getAuthorWorksCountMap,
 	normalizeAuthorSearchTerm,
@@ -12,7 +13,7 @@ import {
 import { conflictResponse, forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import type { AuthorListItem } from '$lib/types/author.types';
 import type { Tables } from '$lib/types/database.types';
-import { canManageAutores } from '$lib/utils/permissions';
+import { canCreateAutores } from '$lib/utils/permissions';
 import { autorCreateSchema } from '$lib/utils/validators';
 
 export const GET: RequestHandler = async ({ locals, url }) => {
@@ -50,8 +51,8 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 
 export const POST: RequestHandler = async ({ locals, request }) => {
 	const profile = await requireEditorProfile({ locals });
-	if (!canManageAutores(profile.roleTerm)) {
-		return forbiddenResponse('Solo admin o IP pueden crear autores.');
+	if (!canCreateAutores(profile.roleTerm)) {
+		return forbiddenResponse('Tu rol no permite crear autores.');
 	}
 
 	const body = await request.json().catch(() => ({}));
@@ -75,6 +76,39 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 	if ((duplicateResp.data ?? []).length > 0) {
 		return conflictResponse('Ya existe un autor con el mismo nombre normalizado.');
+	}
+
+	if (!payload.confirm_similar) {
+		const similarResp = await locals.supabase
+			.from('autores')
+			.select('autor_id,nombre_completo,nombre_normalizado,variantes_nombre')
+			.order('nombre_normalizado', { ascending: true });
+		if (similarResp.error) {
+			return json({ error: 'db_error', message: similarResp.error.message }, { status: 500 });
+		}
+
+		const similarAuthors = findSimilarAuthors(
+			{
+				nombre_completo: nombreCompleto,
+				nombre_normalizado: nombreNormalizado,
+				variantes_nombre: variantes
+			},
+			(similarResp.data ?? []) as Pick<
+				Tables<'autores'>,
+				'autor_id' | 'nombre_completo' | 'nombre_normalizado' | 'variantes_nombre'
+			>[]
+		);
+
+		if (similarAuthors.length > 0) {
+			return json(
+				{
+					error: 'similar_author',
+					message: 'Hay autores parecidos en la base de datos. Revisa las coincidencias antes de crear uno nuevo.',
+					similarAuthors
+				},
+				{ status: 409 }
+			);
+		}
 	}
 
 	const { data, error } = await locals.supabase
