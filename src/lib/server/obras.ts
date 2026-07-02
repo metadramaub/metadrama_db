@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { Database, Tables } from '$lib/types/database.types';
 
 type Rango = Pick<
@@ -21,14 +22,10 @@ export async function getEstadoTerm(
 	supabase: SupabaseClient<Database>,
 	estadoId: string
 ): Promise<string> {
-	const { data } = await supabase
-		.from('vocabularios')
-		.select('termino')
-		.eq('termino_id', estadoId)
-		.eq('categoria', 'estado')
-		.single();
+	const estados = await loadInternalVocabulario(supabase, ['estado']);
+	const estado = estados.find((item) => item.termino_id === estadoId);
 
-	return (data?.termino ?? 'borrador').trim().toLowerCase();
+	return (estado?.termino ?? 'borrador').trim().toLowerCase();
 }
 
 export async function getObraOrFail(

@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { validationErrorResponse } from '$lib/server/http';
 import { validateSecuenciaCaracterizacionRangoContext } from '$lib/server/secuencias-caracterizaciones-rango';
 import { secuenciaCaracterizacionRangoInputSchema } from '$lib/utils/validators';
@@ -93,19 +94,10 @@ async function loadTipoCaracterizacionRango(
 	locals: App.Locals,
 	tipoCaracterizacionRangoId: string
 ) {
-	const { data, error } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id,categoria,termino,termino_padre_id,activo')
-		.eq('termino_id', tipoCaracterizacionRangoId)
-		.maybeSingle();
+	const tipos = await loadInternalVocabulario(locals.supabase, ['caracterizacion_rango']);
+	const tipo = tipos.find((item) => item.termino_id === tipoCaracterizacionRangoId);
 
-	if (error) {
-		return {
-			errorResponse: json({ error: 'db_error', message: error.message }, { status: 500 }),
-			tipo: null
-		};
-	}
-	if (!data || data.categoria !== 'caracterizacion_rango' || !data.activo) {
+	if (!tipo) {
 		return {
 			errorResponse: validationMessageResponse(
 				'El tipo de caracterización no existe o no está activo.',
@@ -115,7 +107,7 @@ async function loadTipoCaracterizacionRango(
 		};
 	}
 
-	return { errorResponse: null, tipo: data };
+	return { errorResponse: null, tipo };
 }
 
 export const GET: RequestHandler = async ({ locals, params }) => {

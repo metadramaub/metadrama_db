@@ -1,5 +1,6 @@
 import { error, type RequestEvent } from '@sveltejs/kit';
 import type { Tables } from '$lib/types/database.types';
+import { loadInternalVocabularioTermById } from '$lib/server/catalogos-internos';
 import {
 	canEditByState,
 	canDeleteObras,
@@ -59,13 +60,8 @@ export async function findEditorProfile(
 		return null;
 	}
 
-	const { data: role, error: roleError } = await event.locals.supabase
-		.from('vocabularios')
-		.select('termino')
-		.eq('termino_id', editor.role)
-		.single();
-
-	if (roleError) {
+	const role = await loadInternalVocabularioTermById(event.locals.supabase, editor.role);
+	if (!role) {
 		throw error(500, 'No se pudo cargar el rol del editor');
 	}
 
@@ -73,7 +69,7 @@ export async function findEditorProfile(
 		userId: editor.user_id,
 		nombreCompleto: editor.nombre_completo,
 		roleId: editor.role,
-		roleTerm: normalizeRole(role?.termino ?? 'editor'),
+		roleTerm: normalizeRole(role.termino),
 		activo: editor.activo ?? true
 	};
 }

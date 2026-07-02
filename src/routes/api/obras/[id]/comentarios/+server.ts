@@ -8,6 +8,7 @@ import {
 	buildComentarioSecuenciaEstrofaTerm,
 	loadComentarioContextMaps
 } from '$lib/server/comentarios';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { Tables } from '$lib/types/database.types';
 import type { ComentarioTipoTerm } from '$lib/server/comentarios';
 
@@ -27,15 +28,10 @@ async function resolveTipoComentarioId(
 	locals: App.Locals,
 	term: ComentarioTipoTerm
 ) {
-	const { data } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id')
-		.eq('categoria', 'tipo_comentario')
-		.eq('termino', term)
-		.eq('activo', true)
-		.maybeSingle();
+	const tipos = await loadInternalVocabulario(locals.supabase, ['tipo_comentario']);
+	const tipo = tipos.find((item) => item.termino === term);
 
-	return data?.termino_id ?? null;
+	return tipo?.termino_id ?? null;
 }
 
 export const GET: RequestHandler = async ({ locals, params, url }) => {
@@ -84,25 +80,23 @@ export const GET: RequestHandler = async ({ locals, params, url }) => {
 		)
 	];
 
-	const { data: editores } =
+	const [editoresResp, tipos] = await Promise.all([
 		userIds.length > 0
-			? await locals.supabase
+			? locals.supabase
 					.from('editores')
 					.select('user_id,nombre_completo')
 					.in('user_id', userIds)
-			: { data: [] };
-	const { data: tipos } =
-		tipoIds.length > 0
-			? await locals.supabase
-					.from('vocabularios')
-					.select('termino_id,termino')
-					.in('termino_id', tipoIds)
-			: { data: [] };
+			: Promise.resolve({ data: [] }),
+		tipoIds.length > 0 ? loadInternalVocabulario(locals.supabase, ['tipo_comentario']) : Promise.resolve([])
+	]);
 
 	const contextMaps = await loadComentarioContextMaps(locals, commentsRows);
-	const names = new Map((editores ?? []).map((editor) => [editor.user_id, editor.nombre_completo]));
+	const names = new Map((editoresResp.data ?? []).map((editor) => [editor.user_id, editor.nombre_completo]));
+	const tipoIdSet = new Set(tipoIds);
 	const tipoById = new Map(
-		(tipos ?? []).map((tipo) => [tipo.termino_id, tipo.termino as ComentarioTipoTerm])
+		tipos
+			.filter((tipo) => tipoIdSet.has(tipo.termino_id))
+			.map((tipo) => [tipo.termino_id, tipo.termino as ComentarioTipoTerm])
 	);
 	const canManageAll = isAdminOrIp(profile.roleTerm);
 	const canPublishPublicComments = canManageAll || assignedEditor;

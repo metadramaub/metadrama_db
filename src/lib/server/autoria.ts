@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { AutoriaInputParsed } from '$lib/utils/validators';
 import type { AutoriaApiPayload, AutoriaComposicionTerm } from '$lib/types/obra.types';
 import type { Database, Tables } from '$lib/types/database.types';
@@ -78,33 +79,18 @@ async function resolveTotalVersos(
 }
 
 export async function loadAutoriaCatalogs(supabase: SupabaseClient<Database>) {
-	const [tiposResp, composicionesResp, modalidadesResp] = await Promise.all([
-		supabase
-			.from('vocabularios')
-			.select('termino_id,termino,etiqueta')
-			.eq('categoria', 'tipo_atribucion')
-			.eq('activo', true)
-			.order('orden'),
-		supabase
-			.from('vocabularios')
-			.select('termino_id,termino')
-			.eq('categoria', 'composicion_autoria')
-			.eq('activo', true)
-			.order('orden'),
-		supabase
-			.from('vocabularios')
-			.select('termino_id,termino')
-			.eq('categoria', 'modalidad_atribucion')
-			.eq('activo', true)
-			.order('orden')
+	const terms = await loadInternalVocabulario(supabase, [
+		'tipo_atribucion',
+		'composicion_autoria',
+		'modalidad_atribucion'
 	]);
 
 	return {
-		tipos: (tiposResp.data ?? []) as VocabRow[],
-		composiciones: ((composicionesResp.data ?? []) as VocabRow[]).filter((item) =>
-			['individual', 'colaborada', 'desconocida'].includes(normalizeTerm(item.termino))
+		tipos: terms.filter((item) => item.categoria === 'tipo_atribucion') as VocabRow[],
+		composiciones: (terms.filter((item) => item.categoria === 'composicion_autoria') as VocabRow[]).filter(
+			(item) => ['individual', 'colaborada', 'desconocida'].includes(normalizeTerm(item.termino))
 		),
-		modalidades: (modalidadesResp.data ?? []) as VocabRow[]
+		modalidades: terms.filter((item) => item.categoria === 'modalidad_atribucion') as VocabRow[]
 	};
 }
 

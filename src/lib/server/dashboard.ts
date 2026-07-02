@@ -6,16 +6,11 @@ import {
 	loadComentarioContextMaps,
 	type ComentarioTipoTerm
 } from '$lib/server/comentarios';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { buildCommentTargetUrl } from '$lib/utils/comment-links';
 
 const ADMIN_ROLES = new Set(['admin', 'ip']);
 const DEFAULT_DAYS = 7;
-const UNREAD_COUNTABLE_TYPES = new Set<DashboardNotificationType>([
-	'assigned_editor',
-	'assigned_review',
-	'state_change',
-	'comment'
-]);
 
 export type DashboardKpis = {
 	totalObras: number;
@@ -82,25 +77,19 @@ async function loadEstadoTerms(locals: App.Locals, estadoIds: string[]) {
 	if (estadoIds.length === 0) {
 		return new Map<string, string>();
 	}
-	const { data, error } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id,termino')
-		.eq('categoria', 'estado')
-		.in('termino_id', estadoIds);
-	if (error) {
-		return new Map<string, string>();
-	}
-	return new Map((data ?? []).map((row) => [row.termino_id, row.termino.trim().toLowerCase()]));
+	const idSet = new Set(estadoIds);
+	const terms = await loadInternalVocabulario(locals.supabase, ['estado']);
+	return new Map(
+		terms
+			.filter((row) => idSet.has(row.termino_id))
+			.map((row) => [row.termino_id, row.termino.trim().toLowerCase()])
+	);
 }
 
 async function loadEstadoIdsByTerm(locals: App.Locals) {
-	const { data } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id,termino')
-		.eq('categoria', 'estado')
-		.in('termino', ['borrador', 'vista_previa', 'listo_para_publicar', 'publicado']);
+	const terms = await loadInternalVocabulario(locals.supabase, ['estado']);
 	const map = new Map<string, string>();
-	for (const row of data ?? []) {
+	for (const row of terms) {
 		map.set(row.termino.trim().toLowerCase(), row.termino_id);
 	}
 	return map;
@@ -180,10 +169,6 @@ function compareByEventDesc(a: { eventAt: string | null }, b: { eventAt: string 
 	return bTs - aTs;
 }
 
-function isUnreadCountableNotification(type: DashboardNotificationType): boolean {
-	return UNREAD_COUNTABLE_TYPES.has(type);
-}
-
 function commentTab(
 	comment: Pick<Tables<'comentarios_internos'>, 'seccion' | 'secuencia_id' | 'jornada_id' | 'cuadro_id'>
 ): 'datos' | 'revision' | 'secuencias' | 'estructura' | 'autoria' | 'observaciones' {
@@ -223,24 +208,18 @@ async function loadCommentContextLabels(
 		...new Set(commentRows.map((row) => row.tipo_comentario_id).filter(Boolean) as string[])
 	];
 
-	const [contextMaps, tiposResp] = await Promise.all([
+	const [contextMaps, tipos] = await Promise.all([
 		loadComentarioContextMaps(locals, commentRows),
 		tipoIds.length > 0
-			? locals.supabase
-					.from('vocabularios')
-					.select('termino_id,termino')
-					.eq('categoria', 'tipo_comentario')
-					.in('termino_id', tipoIds)
-			: Promise.resolve({
-					data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[]
-				})
+			? loadInternalVocabulario(locals.supabase, ['tipo_comentario'])
+			: Promise.resolve([])
 	]);
 
+	const tipoIdSet = new Set(tipoIds);
 	const tipoById = new Map(
-		(tiposResp.data ?? []).map((row) => [
-			row.termino_id,
-			row.termino.trim().toLowerCase() as ComentarioTipoTerm
-		])
+		tipos
+			.filter((row) => tipoIdSet.has(row.termino_id))
+			.map((row) => [row.termino_id, row.termino.trim().toLowerCase() as ComentarioTipoTerm])
 	);
 	const contextByCommentId = new Map<string, string>();
 	const typeByCommentId = new Map<string, string>();
@@ -584,6 +563,30 @@ async function getActivityLastSeenAt(locals: App.Locals, userId: string): Promis
 	return normalizeEventAt(data?.last_seen_at ?? null);
 }
 
+function resolveUnreadWindow(sinceIso: string, lastSeenAt: string | null): { value: string; exclusive: boolean } {
+	if (!lastSeenAt) {
+		return { value: sinceIso, exclusive: false };
+	}
+	const sinceTs = Date.parse(sinceIso);
+	const lastSeenTs = Date.parse(lastSeenAt);
+	if (Number.isNaN(lastSeenTs) || Number.isNaN(sinceTs) || lastSeenTs <= sinceTs) {
+		return { value: sinceIso, exclusive: false };
+	}
+	return { value: lastSeenAt, exclusive: true };
+}
+
+function applyUnreadWindow<T extends { gte: (column: string, value: string) => T; gt: (column: string, value: string) => T }>(
+	query: T,
+	column: string,
+	window: { value: string; exclusive: boolean }
+) {
+	return window.exclusive ? query.gt(column, window.value) : query.gte(column, window.value);
+}
+
+function responseCount(response: { count?: number | null }): number {
+	return response.count ?? 0;
+}
+
 export async function markDashboardActivitySeen(
 	locals: App.Locals,
 	profile: EditorProfile
@@ -616,25 +619,67 @@ export async function countUnreadNotifications(
 	profile: EditorProfile,
 	days = DEFAULT_DAYS
 ): Promise<number> {
-	const [notifications, lastSeenAt] = await Promise.all([
-		getNotifications(locals, profile, days, 500),
-		getActivityLastSeenAt(locals, profile.userId)
+	const admin = isAdminOrIp(profile);
+	const sinceIso = cutoffIso(days);
+	const [lastSeenAt, scopeIds] = await Promise.all([
+		getActivityLastSeenAt(locals, profile.userId),
+		admin ? Promise.resolve([]) : loadAssignedScopeObraIds(locals, profile)
 	]);
 
-	const countableNotifications = notifications.filter((item) =>
-		isUnreadCountableNotification(item.type)
+	if (!admin && scopeIds.length === 0) {
+		return 0;
+	}
+
+	const unreadWindow = resolveUnreadWindow(sinceIso, lastSeenAt);
+
+	let editAssignmentsQuery = applyUnreadWindow(
+		locals.supabase
+			.from('obras')
+			.select('obra_id', { count: 'exact', head: true })
+			.not('editor_asignado', 'is', null),
+		'created_at',
+		unreadWindow
+	);
+	let reviewAssignmentsQuery = applyUnreadWindow(
+		locals.supabase
+			.from('obras_revisores')
+			.select('obra_id', { count: 'exact', head: true }),
+		'created_at',
+		unreadWindow
+	);
+	let stateChangesQuery = applyUnreadWindow(
+		locals.supabase
+			.from('obras')
+			.select('obra_id', { count: 'exact', head: true }),
+		'fecha_cambio_estado',
+		unreadWindow
+	);
+	let commentsQuery = applyUnreadWindow(
+		locals.supabase
+			.from('comentarios_internos')
+			.select('comentario_id', { count: 'exact', head: true }),
+		'created_at',
+		unreadWindow
 	);
 
-	if (!lastSeenAt) {
-		return countableNotifications.length;
+	if (!admin) {
+		editAssignmentsQuery = editAssignmentsQuery.eq('editor_asignado', profile.userId);
+		reviewAssignmentsQuery = reviewAssignmentsQuery.eq('revisor_id', profile.userId);
+		stateChangesQuery = stateChangesQuery.in('obra_id', scopeIds);
+		commentsQuery = commentsQuery.in('obra_id', scopeIds);
 	}
-	const lastSeenTs = Date.parse(lastSeenAt);
-	if (Number.isNaN(lastSeenTs)) {
-		return countableNotifications.length;
-	}
-	return countableNotifications.filter((item) => {
-		if (!item.eventAt) return false;
-		const eventTs = Date.parse(item.eventAt);
-		return !Number.isNaN(eventTs) && eventTs > lastSeenTs;
-	}).length;
+
+	const [editAssignResp, reviewAssignResp, stateResp, commentsResp] = await Promise.all([
+		editAssignmentsQuery,
+		reviewAssignmentsQuery,
+		stateChangesQuery,
+		commentsQuery
+	]);
+
+	return (
+		responseCount(editAssignResp) +
+		responseCount(reviewAssignResp) +
+		responseCount(stateResp) +
+		responseCount(commentsResp)
+	);
 }

@@ -1,4 +1,5 @@
 import type { Tables } from '$lib/types/database.types';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 
 export type ComentarioContextRow = Pick<
 	Tables<'comentarios_internos'>,
@@ -75,7 +76,7 @@ export async function loadComentarioContextMaps(
 		...new Set(secuenciaRows.map((row) => row.estrofa_tipo_id).filter(Boolean) as string[])
 	];
 
-	const [jornadasResp, estrofasResp] = await Promise.all([
+	const [jornadasResp, estrofas] = await Promise.all([
 		jornadaIds.length > 0
 			? locals.supabase
 					.from('jornadas')
@@ -85,16 +86,16 @@ export async function loadComentarioContextMaps(
 					data: [] as Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>[]
 				}),
 		estrofaTipoIds.length > 0
-			? locals.supabase
-					.from('vocabularios')
-					.select('termino_id,termino')
-					.in('termino_id', estrofaTipoIds)
-			: Promise.resolve({
-					data: [] as Pick<Tables<'vocabularios'>, 'termino_id' | 'termino'>[]
-				})
+			? loadInternalVocabulario(locals.supabase, ['estrofa_tipo'])
+			: Promise.resolve([])
 	]);
 
-	const estrofaTermById = new Map((estrofasResp.data ?? []).map((row) => [row.termino_id, row.termino]));
+	const estrofaTipoIdSet = new Set(estrofaTipoIds);
+	const estrofaTermById = new Map(
+		estrofas
+			.filter((row) => estrofaTipoIdSet.has(row.termino_id))
+			.map((row) => [row.termino_id, row.termino])
+	);
 	const secuenciaEstrofaTermById = new Map<string, string>();
 	for (const secuencia of secuenciaRows) {
 		const estrofaTerminoId = secuencia.estrofa_tipo_id;

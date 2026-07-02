@@ -1,3 +1,4 @@
+import { loadInternalVocabulario, loadInternalVocabularioTermById } from '$lib/server/catalogos-internos';
 import { canReadAllObras, normalizeRole } from '$lib/utils/permissions';
 
 export type PublicViewerScope = 'anon' | 'authenticated' | 'admin_ip';
@@ -98,13 +99,8 @@ async function computePublicViewerContext(locals: App.Locals): Promise<PublicVie
 		};
 	}
 
-	const roleResp = await locals.supabase
-		.from('vocabularios')
-		.select('termino')
-		.eq('termino_id', editorResp.data.role)
-		.maybeSingle();
-
-	const roleTerm = roleResp.data?.termino ? normalizeRole(roleResp.data.termino) : null;
+	const role = await loadInternalVocabularioTermById(locals.supabase, editorResp.data.role);
+	const roleTerm = role?.termino ? normalizeRole(role.termino) : null;
 	// Misma regla "admin o IP" que el resto del sistema (permissions.ts), no reimplementada.
 	const canSeeAllPublished = roleTerm ? canReadAllObras(roleTerm) : false;
 
@@ -129,14 +125,9 @@ export async function getPublicadoEstadoId(locals: App.Locals): Promise<string |
 		return publicadoEstadoIdCache.value;
 	}
 
-	const { data } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id')
-		.eq('categoria', 'estado')
-		.ilike('termino', 'publicado')
-		.maybeSingle();
-
-	const value = data?.termino_id ?? null;
+	const estados = await loadInternalVocabulario(locals.supabase, ['estado']);
+	const value =
+		estados.find((item) => item.termino.trim().toLowerCase() === 'publicado')?.termino_id ?? null;
 	publicadoEstadoIdCache = { value, expiresAt: now + PUBLICADO_ESTADO_CACHE_TTL_MS };
 	return value;
 }

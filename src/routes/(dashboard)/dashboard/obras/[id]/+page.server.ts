@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { Tables } from '$lib/types/database.types';
 
 export const load: PageServerLoad = async ({ locals, params, depends }) => {
@@ -14,25 +15,21 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		}
 	);
 
-	const [jornadasResp, secuenciasResp, vocabResp] = await Promise.all([
+	const [jornadasResp, secuenciasResp, vocabularios] = await Promise.all([
 		locals.supabase.from('jornadas').select('*').eq('obra_id', obra.obra_id).order('v_ini'),
 		locals.supabase
 			.from('secuencias_metricas')
 			.select('*')
 			.eq('obra_id', obra.obra_id)
 			.order('v_ini'),
-		locals.supabase
-			.from('vocabularios')
-			.select('termino_id,categoria,termino,etiqueta,termino_padre_id,orden,tipo_forma')
-			.eq('activo', true)
-			.in('categoria', [
-				'genero',
-				'estado',
-				'estrofa_tipo',
-				'caracterizacion_rango',
-				'personajes_donaire',
-				'personajes_sobrenatural'
-			])
+		loadInternalVocabulario(locals.supabase, [
+			'genero',
+			'estado',
+			'estrofa_tipo',
+			'caracterizacion_rango',
+			'personajes_donaire',
+			'personajes_sobrenatural'
+		])
 	]);
 
 	const jornadas = (jornadasResp.data ?? []) as Tables<'jornadas'>[];
@@ -86,6 +83,6 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		secuencias,
 		autoriaNoAmbiguaCount,
 		resumenPublico,
-		vocabularios: vocabResp.data ?? []
+		vocabularios
 	};
 };

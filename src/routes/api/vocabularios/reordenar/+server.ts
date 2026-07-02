@@ -4,6 +4,8 @@ import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 import { vocabularioReorderSchema } from '$lib/utils/validators';
+import { invalidateInternalCatalogCache } from '$lib/server/catalogos-internos';
+import { invalidatePublicadoEstadoCache } from '$lib/server/public-obras';
 import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
@@ -159,5 +161,7 @@ export const PUT: RequestHandler = async ({ locals, request }) => {
 	}
 
 	invalidatePublicVocabularioCache();
+	invalidateInternalCatalogCache();
+	invalidatePublicadoEstadoCache();
 	return json({ vocabularios: updatedRows ?? [] });
 };

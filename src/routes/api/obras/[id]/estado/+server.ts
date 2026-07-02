@@ -4,6 +4,7 @@ import { canTransitionState } from '$lib/utils/permissions';
 import { estadoInputSchema } from '$lib/utils/validators';
 import { validationErrorResponse } from '$lib/server/http';
 import { getObraContext, requireAuthenticated } from '$lib/server/auth';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { getEstadoTerm } from '$lib/server/obras';
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
@@ -55,14 +56,8 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 
-	const { data: tipoEstado } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id')
-		.eq('categoria', 'tipo_comentario')
-		.eq('termino', 'estado')
-		.eq('activo', true)
-		.maybeSingle();
-	const tipoComentarioId = tipoEstado?.termino_id;
+	const tiposComentario = await loadInternalVocabulario(locals.supabase, ['tipo_comentario']);
+	const tipoComentarioId = tiposComentario.find((item) => item.termino === 'estado')?.termino_id;
 	if (tipoComentarioId) {
 		const extra = comentario?.trim() ? ` ${comentario.trim()}` : '';
 		await locals.supabase.from('comentarios_internos').insert({

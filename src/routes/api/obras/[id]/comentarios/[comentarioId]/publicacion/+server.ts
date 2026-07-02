@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
+import { loadInternalVocabularioTermById } from '$lib/server/catalogos-internos';
 import { conflictResponse, forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { comentarioPublicacionPatchSchema } from '$lib/utils/validators';
 import type { Tables } from '$lib/types/database.types';
@@ -34,12 +35,8 @@ async function resolveTipoComentarioTerm(
 	tipoComentarioId: string | null | undefined
 ): Promise<string> {
 	if (!tipoComentarioId) return 'general';
-	const { data } = await locals.supabase
-		.from('vocabularios')
-		.select('termino')
-		.eq('termino_id', tipoComentarioId)
-		.maybeSingle();
-	return (data?.termino ?? 'general').trim().toLowerCase();
+	const tipo = await loadInternalVocabularioTermById(locals.supabase, tipoComentarioId);
+	return (tipo?.termino ?? 'general').trim().toLowerCase();
 }
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
