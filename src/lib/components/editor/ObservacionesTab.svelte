@@ -99,16 +99,10 @@
 	});
 </script>
 
-<section class="space-y-4">
-	<div>
-		<div>
-			<h2 class="text-xl font-semibold">Observaciones</h2>
-		</div>
-	</div>
-
-	<article class="card p-4">
-		<div class="mb-3">
-			<h3 class="text-lg font-semibold">
+<section class="space-y-6">
+	<section class="space-y-3">
+		<div class="flex flex-wrap items-center justify-between gap-3">
+			<h2 class="text-lg font-semibold">
 				<span class="form-label-with-help">
 					Observaciones
 					<FieldHelpTooltip
@@ -116,7 +110,7 @@
 						label="Visibilidad pública de observaciones"
 					/>
 				</span>
-			</h3>
+			</h2>
 			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {observacionesLength}</p>
 		</div>
 		<MarkdownEditorLite
@@ -129,11 +123,11 @@
 			disabled={props.readOnly}
 			onChange={onObservacionesChange}
 		/>
-	</article>
+	</section>
 
-	<article class="card p-4">
-		<div class="mb-3">
-			<h3 class="text-lg font-semibold">
+	<section class="space-y-3">
+		<div class="flex flex-wrap items-center justify-between gap-3">
+			<h2 class="text-lg font-semibold">
 				<span class="form-label-with-help">
 					Bibliografía métrica
 					<FieldHelpTooltip
@@ -145,10 +139,10 @@
 						label="Ayuda para referencias múltiples en bibliografía métrica"
 					/>
 				</span>
-			</h3>
+			</h2>
 			<p class="text-xs text-[color:var(--muted-foreground)]">Caracteres: {bibliografiaLength}</p>
-			<p class="form-help">Ejemplo de cita: {@html OBRA_BIBLIOGRAFIA_ESPECIFICA_EJEMPLO_HTML}</p>
 		</div>
+		<p class="form-help">Ejemplo de cita: {@html OBRA_BIBLIOGRAFIA_ESPECIFICA_EJEMPLO_HTML}</p>
 		<MarkdownEditorLite
 			rows={12}
 			class="mt-1"
@@ -159,7 +153,7 @@
 			disabled={props.readOnly}
 			onChange={onBibliografiaChange}
 		/>
-	</article>
+	</section>
 
 	<InternalCommentsPanel
 		obraId={props.obraId}
