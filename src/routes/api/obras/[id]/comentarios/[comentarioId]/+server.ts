@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { comentarioPatchSchema } from '$lib/utils/validators';
+import { loadInternalVocabulario, loadInternalVocabularioTermById } from '$lib/server/catalogos-internos';
 import { conflictResponse, forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { getObraContext } from '$lib/server/auth';
 import type { Tables } from '$lib/types/database.types';
@@ -16,14 +17,9 @@ async function resolveTipoComentarioId(
 	locals: App.Locals,
 	term: Exclude<ComentarioTipoTerm, 'estado'>
 ) {
-	const { data } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id')
-		.eq('categoria', 'tipo_comentario')
-		.eq('termino', term)
-		.eq('activo', true)
-		.maybeSingle();
-	return data?.termino_id ?? null;
+	const tipos = await loadInternalVocabulario(locals.supabase, ['tipo_comentario']);
+	const tipo = tipos.find((item) => item.termino === term);
+	return tipo?.termino_id ?? null;
 }
 
 async function findComentarioById(
@@ -48,12 +44,8 @@ async function resolveTipoComentarioTerm(
 	tipoComentarioId: string | null | undefined
 ): Promise<string> {
 	if (!tipoComentarioId) return 'general';
-	const { data } = await locals.supabase
-		.from('vocabularios')
-		.select('termino')
-		.eq('termino_id', tipoComentarioId)
-		.maybeSingle();
-	return (data?.termino ?? 'general').trim().toLowerCase();
+	const tipo = await loadInternalVocabularioTermById(locals.supabase, tipoComentarioId);
+	return (tipo?.termino ?? 'general').trim().toLowerCase();
 }
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {

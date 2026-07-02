@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { buildObraCapabilities } from '$lib/server/auth';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
@@ -47,54 +48,34 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	}
 
 	const obraRows = (obras ?? []) as Tables<'obras'>[];
-	const estadoIds = [...new Set(obraRows.map((obra) => obra.estado))];
 	const editorIds = [...new Set(obraRows.map((obra) => obra.editor_asignado).filter(Boolean) as string[])];
 
-	const [estadoResp, editoresResp, estadoOptionsResp, editoresOptionsResp] = await Promise.all([
-		estadoIds.length > 0
-			? locals.supabase
-					.from('vocabularios')
-					.select('termino_id, termino')
-					.eq('categoria', 'estado')
-					.in('termino_id', estadoIds)
-			: Promise.resolve({ data: [] }),
+	const [estadoOptions, editoresResp, editoresOptionsResp] = await Promise.all([
+		loadInternalVocabulario(locals.supabase, ['estado']),
 		editorIds.length > 0
 			? locals.supabase.from('editores').select('user_id,nombre_completo').in('user_id', editorIds)
 			: Promise.resolve({ data: [] }),
-		locals.supabase
-			.from('vocabularios')
-			.select('termino_id,termino,etiqueta')
-			.eq('categoria', 'estado')
-			.order('orden'),
 		isAdminOrIp
 			? locals.supabase.from('editores').select('user_id,nombre_completo').eq('activo', true)
 			: Promise.resolve({ data: [] })
 	]);
 
-	const estadoError = 'error' in estadoResp ? estadoResp.error : null;
 	const editoresError = 'error' in editoresResp ? editoresResp.error : null;
-	const estadoOptionsError = 'error' in estadoOptionsResp ? estadoOptionsResp.error : null;
 	const editoresOptionsError = 'error' in editoresOptionsResp ? editoresOptionsResp.error : null;
-	if (estadoError) {
-		throw error(500, `No se pudieron cargar los estados: ${estadoError.message}`);
-	}
 	if (editoresError) {
 		throw error(500, `No se pudieron cargar los editores: ${editoresError.message}`);
-	}
-	if (estadoOptionsError) {
-		throw error(500, `No se pudo cargar el vocabulario de estados: ${estadoOptionsError.message}`);
 	}
 	if (editoresOptionsError) {
 		throw error(500, `No se pudo cargar el listado de editores: ${editoresOptionsError.message}`);
 	}
 
-	const estadoMap = new Map((estadoResp.data ?? []).map((estadoItem) => [estadoItem.termino_id, estadoItem.termino]));
+	const estadoMap = new Map(estadoOptions.map((estadoItem) => [estadoItem.termino_id, estadoItem.termino]));
 	const editoresMap = new Map((editoresResp.data ?? []).map((row) => [row.user_id, row.nombre_completo]));
 
 	return {
 		profile,
 		scope,
-		estadoOptions: estadoOptionsResp.data ?? [],
+		estadoOptions,
 		editorOptions: editoresOptionsResp.data ?? [],
 		obras: obraRows.map((obra) => {
 			const estadoTerm = estadoMap.get(obra.estado) ?? obra.estado;

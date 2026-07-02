@@ -4,6 +4,8 @@ import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 import { vocabularioDeleteSchema, vocabularioPatchSchema } from '$lib/utils/validators';
+import { invalidateInternalCatalogCache } from '$lib/server/catalogos-internos';
+import { invalidatePublicadoEstadoCache } from '$lib/server/public-obras';
 import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
@@ -232,6 +234,8 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	// El cambio de etiqueta/jerarquía debe reflejarse en las superficies públicas.
 	invalidatePublicVocabularioCache();
+	invalidateInternalCatalogCache();
+	invalidatePublicadoEstadoCache();
 	return json({ vocabulario: data, metro_ids: metroIds });
 };
 
@@ -287,5 +291,7 @@ export const DELETE: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	invalidatePublicVocabularioCache();
+	invalidateInternalCatalogCache();
+	invalidatePublicadoEstadoCache();
 	return json({ deleted: true, terminoId: params.id });
 };

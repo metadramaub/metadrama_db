@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { buildObraCapabilities, requireEditorProfile } from '$lib/server/auth';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { obraCreateSchema, queryFilterSchema } from '$lib/utils/validators';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 
@@ -78,16 +79,11 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 		return json({ error: 'db_error', message: error.message }, { status: 500 });
 	}
 
-	const estadoIds = [...new Set((data ?? []).map((obra) => obra.estado))];
-	const estadoResp =
-		estadoIds.length > 0
-			? await locals.supabase
-					.from('vocabularios')
-					.select('termino_id,termino')
-					.eq('categoria', 'estado')
-					.in('termino_id', estadoIds)
-			: { data: [] };
-	const estadoMap = new Map((estadoResp.data ?? []).map((item) => [item.termino_id, item.termino]));
+	const estadoIds = new Set((data ?? []).map((obra) => obra.estado));
+	const estados = estadoIds.size > 0 ? await loadInternalVocabulario(locals.supabase, ['estado']) : [];
+	const estadoMap = new Map(
+		estados.filter((item) => estadoIds.has(item.termino_id)).map((item) => [item.termino_id, item.termino])
+	);
 
 	return json({
 		items: (data ?? []).map((obra) => {
@@ -133,13 +129,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		);
 	}
 
-	const { data: estadoBorrador } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id')
-		.eq('categoria', 'estado')
-		.ilike('termino', 'borrador')
-		.eq('activo', true)
-		.maybeSingle();
+	const estados = await loadInternalVocabulario(locals.supabase, ['estado']);
+	const estadoBorrador = estados.find((item) => item.termino.trim().toLowerCase() === 'borrador');
 	if (!estadoBorrador?.termino_id) {
 		return json(
 			{ error: 'db_error', message: 'No existe término borrador en vocabularios.estado.' },

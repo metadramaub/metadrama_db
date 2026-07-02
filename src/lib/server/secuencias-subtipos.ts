@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { SecuenciaSubtipoEstrofaInput } from '$lib/types/obra.types';
 
 export type SecuenciaSubtipoRowWithTerm = {
@@ -142,18 +143,10 @@ export async function validateSecuenciaSubtipoContext(args: {
 		};
 	}
 
-	const { data: subtipo, error: subtipoError } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id,categoria,termino_padre_id,activo')
-		.eq('termino_id', payload.subtipo_estrofa_id)
-		.maybeSingle();
+	const estrofaTipos = await loadInternalVocabulario(locals.supabase, ['estrofa_tipo']);
+	const subtipo = estrofaTipos.find((item) => item.termino_id === payload.subtipo_estrofa_id);
 
-	if (subtipoError) {
-		return {
-			errorResponse: json({ error: 'db_error', message: subtipoError.message }, { status: 500 })
-		};
-	}
-	if (!subtipo || subtipo.categoria !== 'estrofa_tipo' || !subtipo.activo) {
+	if (!subtipo) {
 		return {
 			errorResponse: validationMessageResponse(
 				'El subtipo de estrofa no existe o no está activo.',
