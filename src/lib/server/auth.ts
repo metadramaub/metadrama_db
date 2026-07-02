@@ -103,7 +103,6 @@ export function buildObraCapabilities(
 ): ObraAccessFlags {
 	const adminOrIp = isAdminOrIp(profile.roleTerm);
 	const assignedEditor = obra.editor_asignado === profile.userId;
-	const isPublished = estadoTerm.trim().toLowerCase() === 'publicado';
 	const canPreview = canPreviewPublicFicha(profile.roleTerm, estadoTerm, { assignedEditor });
 
 	// Admin/IP: full control for every work.
@@ -160,24 +159,11 @@ export function buildObraCapabilities(
 		};
 	}
 
-	// Unassigned editors can only read published works.
-	if (profile.roleTerm === 'editor') {
-		return {
-			canRead: isPublished,
-			canEditContent: false,
-			canComment: false,
-			canReview: false,
-			canChangeState: false,
-			canPreviewPublicFicha: false,
-			canManageReviewers: false,
-			canToggleVisibility: false,
-			canDeleteObra: false
-		};
-	}
-
-	// Any other active internal user can read works, but no review/edit actions.
+	// Unassigned users (editors and any other internal role that is not admin/IP)
+	// cannot open a work they do not edit or review, regardless of its state.
+	// They can still see the row in the "all works" list, but not enter its ficha.
 	return {
-		canRead: true,
+		canRead: false,
 		canEditContent: false,
 		canComment: false,
 		canReview: false,
