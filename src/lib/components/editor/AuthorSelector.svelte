@@ -1,58 +1,101 @@
 <script lang="ts">
 	import { pushToast } from '$lib/stores/toast';
 
+	type Author = { autor_id: string; nombre_completo: string };
+
 	const props = $props<{
-		authors: Array<{ autor_id: string; nombre_completo: string }>;
+		// Autores ya conocidos (p. ej. los atribuidos a la obra) para poder pintar los chips
+		// de los seleccionados sin tener el catálogo completo.
+		knownAuthors?: Author[];
 		selectedIds: string[];
 		onChange: (ids: string[]) => void;
 		placeholder?: string;
 		disabled?: boolean;
 	}>();
-	type AuthorOption = (typeof props.authors)[number];
-
-	function normalizeText(value: string): string {
-		return value
-			.normalize('NFD')
-			.replaceAll(/\p{M}/gu, '')
-			.trim()
-			.toLowerCase();
-	}
 
 	let query = $state('');
 	let open = $state(false);
+	let suggestions = $state<Author[]>([]);
+	let searching = $state(false);
+	let searchToken = 0;
+	let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
-	const selectedAuthors = $derived.by(() => {
-		const map = new Map(props.authors.map((author: AuthorOption) => [author.autor_id, author]));
-		return props.selectedIds.map((id: string) => map.get(id)).filter(Boolean) as Array<{
-			autor_id: string;
-			nombre_completo: string;
-		}>;
+	// Cache de nombres: se alimenta de knownAuthors, de los resultados de búsqueda y de
+	// los autores que se van seleccionando. Permite pintar el chip aunque el autor no
+	// esté en la última búsqueda.
+	let nameCache = $state<Record<string, string>>({});
+
+	$effect(() => {
+		const next = { ...nameCache };
+		let changed = false;
+		for (const author of (props.knownAuthors ?? []) as Author[]) {
+			if (next[author.autor_id] !== author.nombre_completo) {
+				next[author.autor_id] = author.nombre_completo;
+				changed = true;
+			}
+		}
+		if (changed) nameCache = next;
 	});
 
-	const suggestions = $derived.by(() => {
-		const term = normalizeText(query);
-		return props.authors
-			.filter(
-				(author: AuthorOption) =>
-					(!term || normalizeText(author.nombre_completo).includes(term)) &&
-					!props.selectedIds.includes(author.autor_id)
-			)
-			.slice(0, 10);
-	});
+	const selectedAuthors = $derived(
+		(props.selectedIds as string[]).map((id) => ({
+			autor_id: id,
+			nombre_completo: nameCache[id] ?? id
+		}))
+	);
 
-	function addAuthor(authorId: string) {
+	async function runSearch(term: string) {
+		const token = ++searchToken;
+		searching = true;
+		try {
+			const params = new URLSearchParams();
+			if (term) params.set('q', term);
+			const response = await fetch(`/api/autores/buscar?${params.toString()}`);
+			if (token !== searchToken) return;
+			if (!response.ok) {
+				suggestions = [];
+				return;
+			}
+			const payload = await response.json();
+			const rows = (payload.authors ?? []) as Author[];
+			suggestions = rows.filter((author) => !props.selectedIds.includes(author.autor_id));
+			if (rows.length > 0) {
+				const next = { ...nameCache };
+				for (const author of rows) next[author.autor_id] = author.nombre_completo;
+				nameCache = next;
+			}
+		} catch {
+			if (token === searchToken) suggestions = [];
+		} finally {
+			if (token === searchToken) searching = false;
+		}
+	}
+
+	function scheduleSearch(term: string) {
+		if (debounceTimer) clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(() => void runSearch(term), 200);
+	}
+
+	function openAndSearch() {
+		open = true;
+		void runSearch(query.trim());
+	}
+
+	function addAuthor(author: Author) {
 		if (props.disabled) return;
-		if (props.selectedIds.includes(authorId)) return;
-		props.onChange([...props.selectedIds, authorId]);
+		if (props.selectedIds.includes(author.autor_id)) return;
+		nameCache = { ...nameCache, [author.autor_id]: author.nombre_completo };
+		props.onChange([...props.selectedIds, author.autor_id]);
 		query = '';
+		suggestions = [];
 		open = false;
 	}
 
 	function removeAuthor(authorId: string) {
 		if (props.disabled) return;
-		const removed = props.authors.find((author: AuthorOption) => author.autor_id === authorId);
+		const removedName = nameCache[authorId] ?? 'desconocido';
 		props.onChange(props.selectedIds.filter((id: string) => id !== authorId));
-		pushToast('info', `Autor eliminado: ${removed?.nombre_completo ?? 'desconocido'}`, 5000, {
+		pushToast('info', `Autor eliminado: ${removedName}`, 5000, {
 			actionLabel: 'Deshacer',
 			onAction: () => {
 				if (props.disabled) return;
@@ -64,14 +107,14 @@
 
 	function addFirstMatch() {
 		if (suggestions.length > 0) {
-			addAuthor(suggestions[0].autor_id);
+			addAuthor(suggestions[0]);
 		}
 	}
 
 	function onInputBlur() {
 		setTimeout(() => {
 			open = false;
-		}, 120);
+		}, 150);
 	}
 </script>
 
@@ -105,11 +148,12 @@
 			disabled={props.disabled}
 			placeholder={selectedAuthors.length > 0 ? 'Añadir otro…' : (props.placeholder ?? 'Escribe para buscar autores')}
 			value={query}
-			onfocus={() => (open = true)}
+			onfocus={openAndSearch}
 			onblur={onInputBlur}
 			oninput={(event) => {
 				query = event.currentTarget.value;
 				open = true;
+				scheduleSearch(query.trim());
 			}}
 			onkeydown={(event) => {
 				if (event.key === 'Enter') {
@@ -121,14 +165,16 @@
 	</div>
 	{#if open}
 		<div class="absolute z-20 mt-1 max-h-48 w-full overflow-auto border border-[color:var(--border)] bg-white">
-			{#if suggestions.length === 0}
+			{#if searching}
+				<div class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">Buscando…</div>
+			{:else if suggestions.length === 0}
 				<div class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">Sin coincidencias.</div>
 			{:else}
 				{#each suggestions as suggestion}
 					<button
 						type="button"
 						class="block w-full px-3 py-2 text-left text-sm hover:bg-[color:var(--muted)]"
-						onclick={() => addAuthor(suggestion.autor_id)}
+						onclick={() => addAuthor(suggestion)}
 					>
 						{suggestion.nombre_completo}
 					</button>
