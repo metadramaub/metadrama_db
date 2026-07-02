@@ -178,7 +178,7 @@
 		onToggle={toggleSidebarCollapsed}
 	/>
 	<main class="min-w-0 bg-[color:var(--background)] p-6 md:h-screen md:overflow-y-auto">
-		<div class="mb-4 border-b border-[color:var(--border)] pb-3">
+		<div class="mb-4 pb-3">
 			<Breadcrumb
 				items={breadcrumbs.length === 0 ? [{ label: 'Dashboard', href: '/dashboard' }] : breadcrumbs}
 			/>

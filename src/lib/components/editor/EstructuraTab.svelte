@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { onDestroy, untrack } from 'svelte';
+	import { ChevronLeft, ChevronRight, Eye, Pencil, Plus, Trash2 } from 'lucide-svelte';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -63,6 +64,28 @@
 	function sortByVIni<T extends { v_ini: number }>(items: T[]): T[] {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini);
 	}
+	const orderedJornadas = $derived(sortByVIni(jornadas));
+	const orderedCuadros = $derived(sortByVIni(cuadros));
+	const editingJornadaIndex = $derived(
+		editingJornadaId ? orderedJornadas.findIndex((item) => item.jornada_id === editingJornadaId) : -1
+	);
+	const editingCuadroIndex = $derived(
+		editingCuadroId ? orderedCuadros.findIndex((item) => item.cuadro_id === editingCuadroId) : -1
+	);
+	const prevJornada = $derived(
+		editingJornadaIndex > 0 ? orderedJornadas[editingJornadaIndex - 1] : null
+	);
+	const nextJornada = $derived(
+		editingJornadaIndex >= 0 && editingJornadaIndex < orderedJornadas.length - 1
+			? orderedJornadas[editingJornadaIndex + 1]
+			: null
+	);
+	const prevCuadro = $derived(editingCuadroIndex > 0 ? orderedCuadros[editingCuadroIndex - 1] : null);
+	const nextCuadro = $derived(
+		editingCuadroIndex >= 0 && editingCuadroIndex < orderedCuadros.length - 1
+			? orderedCuadros[editingCuadroIndex + 1]
+			: null
+	);
 	const jornadaDropdownItems = $derived(
 		sortByVIni(jornadas).map((jornada) => ({
 			id: jornada.jornada_id,
@@ -414,6 +437,24 @@
 		showCloseWithoutSavingModal = false;
 	}
 
+	async function goToJornada(target: Tables<'jornadas'> | null) {
+		if (!target || sidebarSaving) return;
+		if (!props.readOnly && refreshSidebarDirty()) {
+			await saveSidebar('manual');
+			if (sidebarDirty) return;
+		}
+		openEditJornada(target);
+	}
+
+	async function goToCuadro(target: Tables<'cuadros'> | null) {
+		if (!target || sidebarSaving) return;
+		if (!props.readOnly && refreshSidebarDirty()) {
+			await saveSidebar('manual');
+			if (sidebarDirty) return;
+		}
+		openEditCuadro(target);
+	}
+
 	function clearFocusStructureQueryParams() {
 		if (!browser) return;
 		const currentUrl = new URL(window.location.href);
@@ -597,82 +638,165 @@
 </script>
 
 <section class="space-y-4">
-	<div class="flex items-center justify-between">
+	<div class="flex flex-wrap items-center justify-between gap-3">
 		<h2 class="text-xl font-semibold">Jornadas y cuadros</h2>
 	</div>
 
-	{#each sortByVIni(jornadas) as jornada}
-		<article class="card p-4">
-			<div class="mb-3 flex items-center justify-between gap-2">
-				<h3 class="text-lg font-semibold">
-					Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
-				</h3>
-				<div class="flex gap-2">
-					<Button
-						variant="ghost"
-						onclick={() => openEditJornada(jornada)}
-						disabled={props.readOnly && !props.canComment}
-						>{props.readOnly ? 'Ver' : 'Editar'}</Button
-					>
-					<Button variant="danger" onclick={() => openDeleteJornada(jornada)} disabled={props.readOnly}
-						>Eliminar</Button
-					>
-				</div>
-			</div>
+	{#if jornadas.length === 0}
+		<p class="bg-white px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
+			No hay jornadas registradas.
+		</p>
+	{:else}
+		<div>
+			{#each sortByVIni(jornadas) as jornada}
+				<section class="space-y-2 py-3 first:pt-0">
+					<div class="flex flex-wrap items-start justify-between gap-3">
+						<div class="min-w-0 text-sm">
+							<span class="font-semibold">Jornada {jornada.jornada_num}</span>
+							<span class="ml-2 text-xs text-[color:var(--muted-foreground)]">
+								vv. {jornada.v_ini}-{jornada.v_fin}
+							</span>
+						</div>
+						<div class="flex items-center gap-1">
+							<button
+								type="button"
+								class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+								aria-label={props.readOnly ? 'Ver jornada' : 'Editar jornada'}
+								onclick={() => openEditJornada(jornada)}
+								disabled={props.readOnly && !props.canComment}
+							>
+								{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
+							</button>
+							<button
+								type="button"
+								class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+								aria-label="Eliminar jornada"
+								onclick={() => openDeleteJornada(jornada)}
+								disabled={props.readOnly}
+							>
+								<Trash2 size={16} />
+							</button>
+						</div>
+					</div>
 
-			<div class="mb-2 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">Cuadros</div>
-
-			<div class="space-y-2">
-				{#if getCuadros(jornada.jornada_id).length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">Sin cuadros en esta jornada.</p>
-				{:else}
-					{#each getCuadros(jornada.jornada_id) as cuadro}
-						<div class="border border-[color:var(--border)] bg-white p-3">
-							<div class="flex items-start justify-between gap-2">
-								<div>
-									<div class="font-medium">
-										Cuadro {cuadro.cuadro_num}: vv. {cuadro.v_ini}-{cuadro.v_fin}
+					<div class="bg-white">
+						{#if getCuadros(jornada.jornada_id).length === 0}
+							<p class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
+								Sin cuadros en esta jornada.
+							</p>
+						{:else}
+							{#each getCuadros(jornada.jornada_id) as cuadro}
+								<div
+									class="flex items-center justify-between gap-3 border-t border-[color:var(--border)] px-3 py-2 text-sm first:border-t-0"
+								>
+									<div class="min-w-0">
+										<span class="font-medium">Cuadro {cuadro.cuadro_num}</span>
+										<span class="ml-2 text-xs text-[color:var(--muted-foreground)]">
+											vv. {cuadro.v_ini}-{cuadro.v_fin}
+										</span>
+									</div>
+									<div class="flex items-center gap-1">
+										<button
+											type="button"
+											class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+											aria-label={props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}
+											onclick={() => openEditCuadro(cuadro)}
+											disabled={props.readOnly && !props.canComment}
+										>
+											{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
+										</button>
+										<button
+											type="button"
+											class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+											aria-label="Eliminar cuadro"
+											onclick={() => openDeleteCuadro(cuadro)}
+											disabled={props.readOnly}
+										>
+											<Trash2 size={16} />
+										</button>
 									</div>
 								</div>
-								<div class="flex gap-2">
-									<Button
-										variant="ghost"
-										onclick={() => openEditCuadro(cuadro)}
-										disabled={props.readOnly && !props.canComment}
-										>{props.readOnly ? 'Ver' : 'Editar'}</Button
-									>
-									<Button variant="danger" onclick={() => openDeleteCuadro(cuadro)} disabled={props.readOnly}
-										>Eliminar</Button
-									>
-								</div>
-							</div>
-						</div>
-					{/each}
-				{/if}
-			</div>
+							{/each}
+						{/if}
+					</div>
 
-			<div class="mt-3">
-				<Button variant="primary-soft" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}
-					>Añadir cuadro</Button
-				>
-			</div>
-		</article>
-	{/each}
+					<Button variant="ghost" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}>
+						<Plus size={16} />
+						Añadir cuadro
+					</Button>
+				</section>
+			{/each}
+		</div>
+	{/if}
 
 	<div class="flex justify-start">
-		<Button variant="primary-soft" onclick={openNewJornada} disabled={props.readOnly}>Añadir jornada</Button>
+		<Button variant="primary-soft" onclick={openNewJornada} disabled={props.readOnly}>
+			<Plus size={16} />
+			Añadir jornada
+		</Button>
 	</div>
 </section>
 
 {#if sidebarMode}
 	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
 		<div class="sticky top-0 z-10 mb-4 flex items-center justify-between gap-3 bg-[color:var(--gray-50)] pb-3">
-			<h3 class="text-lg font-semibold">
-				{#if sidebarMode === 'jornada-new'}Nueva jornada{/if}
-				{#if sidebarMode === 'jornada-edit'}{props.readOnly ? 'Ver jornada' : 'Editar jornada'}{/if}
-				{#if sidebarMode === 'cuadro-new'}Nuevo cuadro{/if}
-				{#if sidebarMode === 'cuadro-edit'}{props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}{/if}
-			</h3>
+			<div class="flex min-w-0 items-center gap-2">
+				<h3 class="text-lg font-semibold">
+					{#if sidebarMode === 'jornada-new'}Nueva jornada{/if}
+					{#if sidebarMode === 'jornada-edit'}{props.readOnly ? 'Ver jornada' : 'Editar jornada'}{/if}
+					{#if sidebarMode === 'cuadro-new'}Nuevo cuadro{/if}
+					{#if sidebarMode === 'cuadro-edit'}{props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}{/if}
+				</h3>
+				{#if sidebarMode === 'jornada-edit' && editingJornadaIndex >= 0}
+					<div class="flex items-center gap-1">
+						<button
+							type="button"
+							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
+							aria-label="Jornada anterior"
+							onclick={() => void goToJornada(prevJornada)}
+							disabled={!prevJornada || sidebarSaving}
+						>
+							<ChevronLeft size={18} />
+						</button>
+						<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
+							{editingJornadaIndex + 1} / {orderedJornadas.length}
+						</span>
+						<button
+							type="button"
+							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
+							aria-label="Jornada siguiente"
+							onclick={() => void goToJornada(nextJornada)}
+							disabled={!nextJornada || sidebarSaving}
+						>
+							<ChevronRight size={18} />
+						</button>
+					</div>
+				{:else if sidebarMode === 'cuadro-edit' && editingCuadroIndex >= 0}
+					<div class="flex items-center gap-1">
+						<button
+							type="button"
+							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
+							aria-label="Cuadro anterior"
+							onclick={() => void goToCuadro(prevCuadro)}
+							disabled={!prevCuadro || sidebarSaving}
+						>
+							<ChevronLeft size={18} />
+						</button>
+						<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
+							{editingCuadroIndex + 1} / {orderedCuadros.length}
+						</span>
+						<button
+							type="button"
+							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
+							aria-label="Cuadro siguiente"
+							onclick={() => void goToCuadro(nextCuadro)}
+							disabled={!nextCuadro || sidebarSaving}
+						>
+							<ChevronRight size={18} />
+						</button>
+					</div>
+				{/if}
+			</div>
 			<div class="flex items-center gap-2">
 				<Button variant="secondary" onclick={requestCloseSidebar}>Cerrar</Button>
 				{#if !props.readOnly}
