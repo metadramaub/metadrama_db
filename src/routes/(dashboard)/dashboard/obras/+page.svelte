@@ -7,6 +7,8 @@
 	import { displayTerm } from '$lib/utils/vocabulario';
 	import type { PageData } from './$types';
 
+	type DashboardObra = PageData['obras'][number];
+
 	let { data } = $props<{ data: PageData }>();
 	let q = $state('');
 	let estado = $state('');
@@ -34,7 +36,7 @@
 	);
 	const filteredObras = $derived.by(() => {
 		const term = normalizeTitle(q);
-		return data.obras.filter((obra) => {
+		return data.obras.filter((obra: DashboardObra) => {
 			if (term && !normalizeTitle(obra.titulo ?? '').includes(term)) return false;
 			if (estado && obra.estado !== estado) return false;
 			if (editor && obra.editor_asignado !== editor) return false;

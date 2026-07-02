@@ -36,6 +36,7 @@
 		canComment?: boolean;
 		focusSecuenciaId?: string | null;
 		focusComentarioId?: string | null;
+		commentsReloadKey?: string | number | null;
 		onSecuenciasChange?: (items: Tables<'secuencias_metricas'>[]) => void;
 		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
 		// la lista de secuencias (caracterizaciones de rango, subtipos de estrofa).
@@ -1895,6 +1896,7 @@
 						defaultCollapsed={true}
 						collapseLabel="Ver"
 						focusComentarioId={props.focusComentarioId}
+						reloadKey={props.commentsReloadKey}
 					/>
 				{/key}
 			</div>

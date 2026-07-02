@@ -24,6 +24,7 @@
 		readOnly?: boolean;
 		canComment?: boolean;
 		focusComentarioId?: string | null;
+		commentsReloadKey?: string | number | null;
 	}>();
 	// Temporal: ocultar en UI hasta reactivar el flujo de fechas METADRAMA.
 	const SHOW_METADRAMA_DATES = false;
@@ -350,6 +351,7 @@
 		canComment={Boolean(props.canComment)}
 		section="datos"
 		focusComentarioId={props.focusComentarioId}
+		reloadKey={props.commentsReloadKey}
 		title="Comentarios internos sobre datos de la obra"
 		emptyText="No hay comentarios internos sobre esta sección."
 	/>

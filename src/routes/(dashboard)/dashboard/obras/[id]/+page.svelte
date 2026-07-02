@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { beforeNavigate, goto, invalidateAll } from '$app/navigation';
+	import { beforeNavigate, goto, invalidate } from '$app/navigation';
 	import type { RealtimeChannel } from '@supabase/supabase-js';
 	import { onMount, tick, untrack } from 'svelte';
 	import { get } from 'svelte/store';
@@ -15,7 +15,6 @@
 	import AutoriaTab from '$lib/components/editor/AutoriaTab.svelte';
 	import ObservacionesTab from '$lib/components/editor/ObservacionesTab.svelte';
 	import RevisionTab from '$lib/components/editor/RevisionTab.svelte';
-	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import {
 		currentObraStore,
 		setConflict,
@@ -51,6 +50,7 @@
 	let datosSaveRequestToken = $state(0);
 	let autoriaSaveRequestToken = $state(0);
 	let observacionesSaveRequestToken = $state(0);
+	let commentsReloadKey = $state(0);
 	const focusSecuenciaId = $derived.by(() => {
 		const raw = $page.url.searchParams.get('focusSecuenciaId');
 		if (!raw) return null;
@@ -178,6 +178,9 @@
 	let pendingRouteChange: string | null = null;
 	let bypassUnsavedGuard = false;
 	let revisionHasPendingChanges = $state(false);
+	let obraRefreshInFlight = false;
+	let obraRefreshQueued = false;
+	let obraRefreshTimer: ReturnType<typeof setTimeout> | null = null;
 	const jornadaIds = $derived(
 		new Set((jornadasLive as Tables<'jornadas'>[]).map((jornada) => jornada.jornada_id))
 	);
@@ -270,17 +273,59 @@
 		});
 	}
 
+	async function refreshObra() {
+		if (!browser) return;
+		if (get(currentObraStore).dirty) {
+			if (!$currentObraStore.conflict) {
+				setConflict(true);
+				pushToast('info', 'Otro editor guardó cambios; tu próximo guardado sobrescribirá.');
+			}
+			return;
+		}
+		if (obraRefreshInFlight) {
+			obraRefreshQueued = true;
+			return;
+		}
+		obraRefreshInFlight = true;
+		try {
+			await invalidate(`dashboard:obra:${data.obra.obra_id}`);
+		} finally {
+			obraRefreshInFlight = false;
+			if (obraRefreshQueued) {
+				obraRefreshQueued = false;
+				scheduleObraRefresh();
+			}
+		}
+	}
+
+	function scheduleObraRefresh() {
+		if (!browser) return;
+		if (obraRefreshTimer) {
+			clearTimeout(obraRefreshTimer);
+		}
+		obraRefreshTimer = setTimeout(() => {
+			obraRefreshTimer = null;
+			void refreshObra();
+		}, 400);
+	}
+
 	function onExternalChange(payload: { table: string; jornada_id?: string | null }) {
+		if (payload.table === 'comentarios_internos') {
+			commentsReloadKey += 1;
+			return;
+		}
 		const dirty = get(currentObraStore).dirty;
 		if (payload.table === 'cuadros' && payload.jornada_id && !jornadaIds.has(payload.jornada_id)) {
 			return;
 		}
 		if (dirty) {
-			setConflict(true);
-			pushToast('info', 'Otro editor guardó cambios; tu próximo guardado sobrescribirá.');
+			if (!$currentObraStore.conflict) {
+				setConflict(true);
+				pushToast('info', 'Otro editor guardó cambios; tu próximo guardado sobrescribirá.');
+			}
 			return;
 		}
-		void invalidateAll();
+		scheduleObraRefresh();
 	}
 
 	function handleStructureChange(payload: {
@@ -432,6 +477,10 @@
 		return () => {
 			disposed = true;
 			window.removeEventListener('beforeunload', handleBeforeUnload);
+			if (obraRefreshTimer) {
+				clearTimeout(obraRefreshTimer);
+				obraRefreshTimer = null;
+			}
 			cleanupChannel?.();
 		};
 	});
@@ -552,6 +601,7 @@
 			readOnly={!canEditContent}
 			canComment={canComment}
 			focusComentarioId={focusComentarioId}
+			commentsReloadKey={commentsReloadKey}
 		/>
 	{:else if currentTab === 'estructura'}
 		<EstructuraTab
@@ -563,6 +613,7 @@
 			focusJornadaId={focusJornadaId}
 			focusCuadroId={focusCuadroId}
 			focusComentarioId={focusComentarioId}
+			commentsReloadKey={commentsReloadKey}
 			onStructureChange={handleStructureChange}
 		/>
 	{:else if currentTab === 'secuencias'}
@@ -577,6 +628,7 @@
 			canComment={canComment}
 			focusSecuenciaId={focusSecuenciaId}
 			focusComentarioId={focusComentarioId}
+			commentsReloadKey={commentsReloadKey}
 			onSecuenciasChange={handleSecuenciasChange}
 			onMetricaDirty={handleMetricaDirty}
 		/>
@@ -589,6 +641,7 @@
 			readOnly={!canEditContent}
 			canComment={canComment}
 			focusComentarioId={focusComentarioId}
+			commentsReloadKey={commentsReloadKey}
 			onMetricaDirty={handleMetricaDirty}
 		/>
 	{:else if currentTab === 'observaciones'}
@@ -600,6 +653,7 @@
 			readOnly={!canEditContent}
 			canComment={canComment}
 			focusComentarioId={focusComentarioId}
+			commentsReloadKey={commentsReloadKey}
 		/>
 	{:else}
 		<RevisionTab
@@ -616,6 +670,7 @@
 			assignedReviewer={data.assignedReviewer}
 			capabilities={data.capabilities}
 			focusComentarioId={focusComentarioId}
+			commentsReloadKey={commentsReloadKey}
 			onPendingChangesChange={handleRevisionPendingChangesChange}
 		/>
 	{/if}

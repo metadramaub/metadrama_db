@@ -3,7 +3,9 @@ import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
 import type { Tables } from '$lib/types/database.types';
 
-export const load: PageServerLoad = async ({ locals, params }) => {
+export const load: PageServerLoad = async ({ locals, params, depends }) => {
+	depends(`dashboard:obra:${params.id}`);
+
 	const { obra, profile, estadoTerm, assignedReviewer, capabilities } = await getObraContext(
 		{ locals },
 		params.id,
@@ -12,9 +14,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		}
 	);
 
-	const [jornadasResp, cuadrosResp, secuenciasResp, vocabResp] = await Promise.all([
+	const [jornadasResp, secuenciasResp, vocabResp] = await Promise.all([
 		locals.supabase.from('jornadas').select('*').eq('obra_id', obra.obra_id).order('v_ini'),
-		locals.supabase.from('cuadros').select('*').order('v_ini'),
 		locals.supabase
 			.from('secuencias_metricas')
 			.select('*')
@@ -35,9 +36,16 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	]);
 
 	const jornadas = (jornadasResp.data ?? []) as Tables<'jornadas'>[];
-	const cuadros = ((cuadrosResp.data ?? []) as Tables<'cuadros'>[]).filter((cuadro) =>
-		jornadas.some((jornada) => jornada.jornada_id === cuadro.jornada_id)
-	);
+	const jornadaIds = jornadas.map((jornada) => jornada.jornada_id);
+	const cuadrosResp =
+		jornadaIds.length > 0
+			? await locals.supabase
+					.from('cuadros')
+					.select('*')
+					.in('jornada_id', jornadaIds)
+					.order('v_ini')
+			: { data: [] };
+	const cuadros = (cuadrosResp.data ?? []) as Tables<'cuadros'>[];
 	const secuencias = (secuenciasResp.data ?? []) as Tables<'secuencias_metricas'>[];
 	const autoriaNoAmbiguaCount = await countUnambiguousAutoriaGroups(locals.supabase, obra.obra_id);
 

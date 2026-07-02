@@ -55,6 +55,7 @@
 		readOnly?: boolean;
 		canComment?: boolean;
 		focusComentarioId?: string | null;
+		commentsReloadKey?: string | number | null;
 		onMetricaDirty?: () => void;
 	}>();
 
@@ -963,6 +964,7 @@
 			canComment={canComment}
 			section="autoria"
 			focusComentarioId={props.focusComentarioId}
+			reloadKey={props.commentsReloadKey}
 			title="Comentarios internos sobre autoría"
 			emptyText="No hay comentarios internos sobre esta sección."
 		/>

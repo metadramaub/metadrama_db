@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import { formatRelative } from '$lib/utils/formatters';
@@ -15,7 +15,7 @@
 
 	onMount(() => {
 		const handleObrasUpdated = () => {
-			void invalidateAll();
+			void invalidate('dashboard:home');
 		};
 		window.addEventListener('dashboard-obras-updated', handleObrasUpdated);
 		return () => {

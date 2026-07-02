@@ -6,7 +6,9 @@ import {
 	getRecentActivity
 } from '$lib/server/dashboard';
 
-export const load: PageServerLoad = async ({ locals, parent }) => {
+export const load: PageServerLoad = async ({ locals, parent, depends }) => {
+	depends('dashboard:home');
+
 	const parentData = await parent();
 	const profile = parentData.profile;
 	const isAdminOrIp = profile.roleTerm === 'admin' || profile.roleTerm === 'ip';
