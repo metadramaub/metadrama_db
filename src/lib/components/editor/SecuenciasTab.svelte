@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { onDestroy, untrack } from 'svelte';
+	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
+	import ChevronRight from 'lucide-svelte/icons/chevron-right';
+	import Eye from 'lucide-svelte/icons/eye';
+	import Pencil from 'lucide-svelte/icons/pencil';
+	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
@@ -89,6 +94,16 @@
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
 	let filtroEstrofa = $state('');
+	let filtroEstrofaDraft = $state('');
+
+	function aplicarFiltroEstrofa() {
+		filtroEstrofa = filtroEstrofaDraft;
+	}
+
+	function limpiarFiltroEstrofa() {
+		filtroEstrofaDraft = '';
+		filtroEstrofa = '';
+	}
 	let deleteTargetId = $state<string | null>(null);
 	let showCloseWithoutSavingModal = $state(false);
 	let sequenceSynopsisModalOpen = $state(false);
@@ -409,6 +424,19 @@
 			.filter((secuencia) => !filtroEstrofa || secuencia.estrofa_tipo_id === filtroEstrofa)
 			.sort((a, b) => a.v_ini - b.v_ini);
 	});
+	// Todas las secuencias ordenadas, para numerar y navegar en el panel de edición.
+	const orderedSecuencias = $derived.by(() => sortSecuencias(secuencias));
+	const editingIndex = $derived.by(() =>
+		editingId ? orderedSecuencias.findIndex((item) => item.secuencia_id === editingId) : -1
+	);
+	const prevSecuencia = $derived.by(() =>
+		editingIndex > 0 ? orderedSecuencias[editingIndex - 1] : null
+	);
+	const nextSecuencia = $derived.by(() =>
+		editingIndex >= 0 && editingIndex < orderedSecuencias.length - 1
+			? orderedSecuencias[editingIndex + 1]
+			: null
+	);
 	const totalVersosEstructura = $derived.by(() => {
 		if (jornadasSorted.length === 0) return null;
 		const maxVFin = jornadasSorted.reduce((max, jornada) => Math.max(max, Number(jornada.v_fin) || 0), 0);
@@ -554,6 +582,16 @@
 		setSidebarBaselineFromCurrent();
 		void loadCaracterizacionesRangoForCurrentSecuencia();
 		void loadSubtiposForCurrentSecuencia();
+	}
+
+	// Navega a otra secuencia desde el panel. Si hay cambios sin guardar, los guarda antes.
+	async function goToSecuencia(target: Tables<'secuencias_metricas'> | null) {
+		if (!target || sidebarSaving) return;
+		if (!props.readOnly && refreshSidebarDirty()) {
+			await save('manual');
+			if (sidebarDirty) return; // el guardado falló: no navegamos
+		}
+		openEdit(target);
 	}
 
 	function performCloseSidebar() {
@@ -1193,32 +1231,37 @@
 
 <section class="space-y-4">
 	<div
-		class="flex items-end justify-between gap-4 border-b border-[color:var(--border)] bg-[color:var(--gray-50)] pb-3 pt-2"
+		class="flex flex-wrap items-end justify-between gap-3 border-b border-[color:var(--border)] pb-3 pt-2"
 	>
-		<div>
-			<h2 class="text-xl font-semibold">Secuencias métricas</h2>
-		</div>
-		<Button variant="primary-soft" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
-	</div>
-
-	<div class="card grid gap-3 p-4 md:grid-cols-2">
-		<div class="form-field">
-			<span class="form-label">Filtro por estrofa</span>
-			<CheckDropdown
-				multiple={false}
-				hierarchical={true}
-				collapsibleHierarchy={true}
-				disableParentsWithChildren={true}
-				showPathInTrigger={true}
-				allowSingleClear={true}
-				search={true}
-				placeholder="Todas"
-				items={estrofaDropdownItems}
-				selectedIds={filtroEstrofa ? [filtroEstrofa] : []}
-				onChange={(ids) => {
-					filtroEstrofa = ids[0] ?? '';
-				}}
-			/>
+		<h2 class="text-xl font-semibold">Secuencias métricas</h2>
+		<div class="flex flex-wrap items-end gap-2">
+			<div class="w-56">
+				<CheckDropdown
+					multiple={false}
+					hierarchical={true}
+					collapsibleHierarchy={true}
+					disableParentsWithChildren={false}
+					closeOnSelect={false}
+					showPathInTrigger={true}
+					allowSingleClear={true}
+					search={true}
+					placeholder="Filtrar por estrofa"
+					items={estrofaDropdownItems}
+					selectedIds={filtroEstrofaDraft ? [filtroEstrofaDraft] : []}
+					onChange={(ids) => {
+						filtroEstrofaDraft = ids[0] ?? '';
+					}}
+				/>
+			</div>
+			<Button variant="secondary" onclick={aplicarFiltroEstrofa}>Filtrar</Button>
+			<Button
+				variant="ghost"
+				onclick={limpiarFiltroEstrofa}
+				disabled={!filtroEstrofa && !filtroEstrofaDraft}
+			>
+				Limpiar
+			</Button>
+			<Button variant="primary-soft" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
 		</div>
 	</div>
 
@@ -1275,9 +1318,7 @@
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_fin</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">N_versos</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Estrofa</th>
-							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">
-								<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
-							</th>
+							<th class="sticky top-0 z-10 w-28 bg-[color:var(--muted)] px-3 py-2"><span class="sr-only">Acciones</span></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -1296,18 +1337,25 @@
 									<td class="px-3 py-2">{secuencia.n_versos}</td>
 									<td class="px-3 py-2">{termById(props.estrofaOptions, secuencia.estrofa_tipo_id)}</td>
 									<td class="px-3 py-2">
-										<div class="ml-auto flex w-[11.5rem] items-center gap-2">
-											<Button
-												variant="ghost"
+										<div class="flex items-center justify-end gap-1">
+											<button
+												type="button"
+												class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+												aria-label={props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
 												onclick={() => openEdit(secuencia)}
 												disabled={props.readOnly && !props.canComment}
-												>{props.readOnly ? 'Ver' : 'Editar'}</Button
 											>
-											<Button
-												variant="danger"
+												{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
+											</button>
+											<button
+												type="button"
+												class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+												aria-label="Eliminar secuencia"
 												onclick={() => openDelete(secuencia.secuencia_id)}
-												disabled={props.readOnly}>Eliminar</Button
+												disabled={props.readOnly}
 											>
+												<Trash2 size={16} />
+											</button>
 										</div>
 									</td>
 								</tr>
@@ -1319,8 +1367,8 @@
 		</div>
 	</div>
 
-	<div class="card grid gap-3 p-4 sm:grid-cols-3">
-		<div class="rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+	<div class="card grid p-4 sm:grid-cols-3 sm:divide-x sm:divide-[color:var(--border)]">
+		<div class="px-3 py-1 sm:first:pl-0">
 			<p class="text-xs text-[color:var(--muted-foreground)]">Total estructura</p>
 			<p class="text-lg font-semibold">
 				{#if totalVersosEstructura === null}
@@ -1330,11 +1378,11 @@
 				{/if}
 			</p>
 		</div>
-		<div class="rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+		<div class="px-3 py-1">
 			<p class="text-xs text-[color:var(--muted-foreground)]">Versos declarados (filtrado)</p>
 			<p class="text-lg font-semibold">{totalVersosDeclaradosFiltrados}</p>
 		</div>
-		<div class="rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+		<div class="px-3 py-1">
 			<p class="text-xs text-[color:var(--muted-foreground)]">Diferencia</p>
 			<p
 				class={`text-lg font-semibold ${
@@ -1382,13 +1430,40 @@
 {#if sidebarOpen}
 	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0">
 		<div class="sticky top-0 z-20 -mx-5 mb-4 flex items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-3 pt-5">
-			<h3 class="text-lg font-semibold">
-				{#if editingId}
-					{props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
-				{:else}
-					Nueva secuencia
+			<div class="flex min-w-0 items-center gap-2">
+				<h3 class="text-lg font-semibold">
+					{#if editingId}
+						{props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
+					{:else}
+						Nueva secuencia
+					{/if}
+				</h3>
+				{#if editingId && editingIndex >= 0}
+					<div class="flex items-center gap-1">
+						<button
+							type="button"
+							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
+							aria-label="Secuencia anterior"
+							onclick={() => void goToSecuencia(prevSecuencia)}
+							disabled={!prevSecuencia || sidebarSaving}
+						>
+							<ChevronLeft size={18} />
+						</button>
+						<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
+							{editingIndex + 1} / {orderedSecuencias.length}
+						</span>
+						<button
+							type="button"
+							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
+							aria-label="Secuencia siguiente"
+							onclick={() => void goToSecuencia(nextSecuencia)}
+							disabled={!nextSecuencia || sidebarSaving}
+						>
+							<ChevronRight size={18} />
+						</button>
+					</div>
 				{/if}
-			</h3>
+			</div>
 			<div class="flex items-center gap-2">
 				<Button variant="secondary" onclick={requestCloseSidebar}>Cerrar</Button>
 				{#if !props.readOnly}
@@ -1399,8 +1474,8 @@
 			</div>
 		</div>
 
-		<div class="grid gap-3">
-			<section class="form-section">
+		<div class="space-y-3">
+			<section class="bg-white p-4">
 				<h4 class="form-section-title">Métrica base</h4>
 				<div class="grid gap-3 sm:grid-cols-2">
 					<label class="form-field">
@@ -1451,7 +1526,7 @@
 			</section>
 
 			{#if isSubtipoEnabledForCurrentEstrofa}
-			<section class="form-section">
+			<section class="bg-white p-4">
 				<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
 					<h4 class="form-section-title mb-0">Subtipos internos</h4>
 					<Button
@@ -1476,16 +1551,14 @@
 				{:else if subtipos.length === 0}
 					<p class="form-help">Sin subtipos registrados en esta secuencia.</p>
 				{:else}
-					<div class="card mt-3 overflow-x-auto">
+					<div class="mt-3 overflow-x-auto">
 						<table class="min-w-full text-left text-xs">
 							<thead class="bg-[color:var(--muted)]">
 								<tr>
 									<th class="px-2 py-2">Subtipo</th>
 									<th class="px-2 py-2">V_ini</th>
 									<th class="px-2 py-2">V_fin</th>
-									<th class="px-2 py-2">
-										<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
-									</th>
+									<th class="w-16 px-2 py-2"><span class="sr-only">Acciones</span></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -1497,21 +1570,25 @@
 										<td class="px-2 py-2">{subtipo.v_ini}</td>
 										<td class="px-2 py-2">{subtipo.v_fin}</td>
 										<td class="px-2 py-2">
-											<div class="ml-auto flex w-[11.5rem] items-center gap-2">
-												<Button
-													variant="ghost"
+											<div class="flex items-center justify-end gap-1">
+												<button
+													type="button"
+													class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+													aria-label="Editar subtipo"
 													onclick={() => openSubtipoEditModal(subtipo)}
 													disabled={props.readOnly}
 												>
-													Editar
-												</Button>
-												<Button
-													variant="danger"
+													<Pencil size={15} />
+												</button>
+												<button
+													type="button"
+													class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+													aria-label="Eliminar subtipo"
 													onclick={() => openSubtipoDeleteModal(subtipo.subtipo_secuencia_id)}
 													disabled={props.readOnly}
 												>
-													Eliminar
-												</Button>
+													<Trash2 size={15} />
+												</button>
 											</div>
 										</td>
 									</tr>
@@ -1523,7 +1600,7 @@
 			</section>
 			{/if}
 
-			<section class="form-section">
+			<section class="bg-white p-4">
 				<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
 					<h4 class="form-section-title mb-0">Caracterizaciones por rango</h4>
 					<Button
@@ -1542,16 +1619,14 @@
 				{:else if caracterizacionesRango.length === 0}
 					<p class="form-help">Sin caracterizaciones por rango registradas en esta secuencia.</p>
 				{:else}
-					<div class="card mt-3 overflow-x-auto">
+					<div class="mt-3 overflow-x-auto">
 						<table class="min-w-full text-left text-xs">
 							<thead class="bg-[color:var(--muted)]">
 								<tr>
 									<th class="px-2 py-2">Tipo</th>
 									<th class="px-2 py-2">V_ini</th>
 									<th class="px-2 py-2">V_fin</th>
-									<th class="px-2 py-2">
-										<div class="ml-auto w-[11.5rem] text-left whitespace-nowrap">Acciones</div>
-									</th>
+									<th class="w-16 px-2 py-2"><span class="sr-only">Acciones</span></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -1566,24 +1641,28 @@
 										<td class="px-2 py-2">{caracterizacion.v_ini}</td>
 										<td class="px-2 py-2">{caracterizacion.v_fin}</td>
 										<td class="px-2 py-2">
-											<div class="ml-auto flex w-[11.5rem] items-center gap-2">
-												<Button
-													variant="ghost"
+											<div class="flex items-center justify-end gap-1">
+												<button
+													type="button"
+													class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+													aria-label="Editar caracterización"
 													onclick={() => openCaracterizacionRangoEditModal(caracterizacion)}
 													disabled={props.readOnly}
 												>
-													Editar
-												</Button>
-												<Button
-													variant="danger"
+													<Pencil size={15} />
+												</button>
+												<button
+													type="button"
+													class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+													aria-label="Eliminar caracterización"
 													onclick={() =>
 														openCaracterizacionRangoDeleteModal(
 															caracterizacion.caracterizacion_rango_id
 														)}
 													disabled={props.readOnly}
 												>
-													Eliminar
-												</Button>
+													<Trash2 size={15} />
+												</button>
 											</div>
 										</td>
 									</tr>
@@ -1595,7 +1674,7 @@
 			</section>
 
 
-			<section class="form-section">
+			<section class="bg-white p-4">
 				<h4 class="form-section-title">
 					<span class="form-label-with-help">
 						Intervención de personajes
@@ -1663,7 +1742,7 @@
 				</div>
 			</section>
 
-			<section class="form-section">
+			<section class="bg-white p-4">
 				<h4 class="form-section-title">Otras caracterizaciones</h4>
 				<div class="grid gap-3 sm:grid-cols-2">
 					<div class="grid grid-cols-2 gap-3 sm:col-span-2">
@@ -1784,7 +1863,7 @@
 				</div>
 			</section>
 
-			<section class="form-section">
+			<section class="bg-white p-4">
 				<h4 class="form-section-title">Sinopsis argumental</h4>
 				<label class="form-field">
 					<span class="sr-only">Sinopsis argumental</span>
