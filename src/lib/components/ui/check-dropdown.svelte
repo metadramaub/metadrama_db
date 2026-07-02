@@ -30,6 +30,7 @@
 		hierarchical?: boolean;
 		showPathInTrigger?: boolean;
 		allowSingleClear?: boolean;
+		closeOnSelect?: boolean;
 		portal?: boolean;
 		portalOffsetPx?: number;
 		portalViewportPaddingPx?: number;
@@ -55,6 +56,7 @@
 	const disableParentsWithChildren = $derived(props.disableParentsWithChildren ?? false);
 	const showPathInTrigger = $derived(props.showPathInTrigger ?? false);
 	const allowSingleClear = $derived(props.allowSingleClear ?? false);
+	const closeOnSelect = $derived(props.closeOnSelect ?? true);
 	const usePortal = $derived(props.portal ?? false);
 	const portalOffsetPx = $derived(props.portalOffsetPx ?? 6);
 	const portalViewportPaddingPx = $derived(props.portalViewportPaddingPx ?? 8);
@@ -162,11 +164,11 @@
 		if (!isMultiple) {
 			if (allowSingleClear && selectedSet.has(itemId)) {
 				emitChange([]);
-				closeDropdown();
+				if (closeOnSelect) closeDropdown();
 				return;
 			}
 			emitChange([itemId]);
-			closeDropdown();
+			if (closeOnSelect) closeDropdown();
 			return;
 		}
 
@@ -402,7 +404,7 @@
 											{#if rowHideCheckbox}
 												<span class="mt-0.5 inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
 											{:else}
-												<input type="checkbox" checked={selectedSet.has(row.id)} disabled={true} class="mt-0.5" />
+												<input type="checkbox" checked={selectedSet.has(row.id)} disabled={true} class="pointer-events-none mt-0.5" />
 											{/if}
 										{/if}
 										<div class="min-w-0">
@@ -435,7 +437,7 @@
 									disabled={disabledSet.has(item.id)}
 									onclick={() => selectItem(item.id)}
 								>
-									<input type="checkbox" checked={true} disabled={true} class="mt-0.5" />
+									<input type="checkbox" checked={true} disabled={true} class="pointer-events-none mt-0.5" />
 									<div class="min-w-0">
 										<div class="truncate">{item.label}</div>
 										{#if item.description}
@@ -457,7 +459,7 @@
 								disabled={disabledSet.has(item.id)}
 								onclick={() => selectItem(item.id)}
 							>
-								<input type="checkbox" checked={false} disabled={true} class="mt-0.5" />
+								<input type="checkbox" checked={false} disabled={true} class="pointer-events-none mt-0.5" />
 								<div class="min-w-0">
 									<div class="truncate">{item.label}</div>
 									{#if item.description}
