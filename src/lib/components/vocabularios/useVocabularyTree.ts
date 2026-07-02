@@ -13,7 +13,7 @@ export type VocabularyItem = {
 	patron_especifico: string | null;
 	tipo_forma: string | null;
 	tipo_rima: string | null;
-	naturaleza_estrofica: string | null;
+	naturaleza_estrofica_id: string | null;
 	tamanio_unidad_estrofica: number | null;
 	arte_metrico: string | null;
 	numero_silabas: number | null;

@@ -21,13 +21,6 @@
 
 	type TipoFormaValue = 'forma_espanola' | 'forma_italiana' | null;
 	type TipoRimaValue = 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
-	type NaturalezaEstroficaValue =
-		| 'tirada_continua'
-		| 'estrofa_cerrada'
-		| 'forma_fija'
-		| 'forma_compuesta'
-		| 'forma_irregular'
-		| null;
 	type ArteMetricoValue = 'arte_menor' | 'arte_mayor' | 'mixto' | null;
 	type MetroOption = {
 		termino_id: string;
@@ -38,6 +31,7 @@
 		termino_id: string;
 		termino: string;
 		etiqueta: string | null;
+		activo?: boolean | null;
 	};
 	type DropdownItem = {
 		id: string;
@@ -57,7 +51,7 @@
 		patron_especifico: string;
 		tipo_forma: TipoFormaValue;
 		tipo_rima: TipoRimaValue;
-		naturaleza_estrofica: NaturalezaEstroficaValue;
+		naturaleza_estrofica_id: string | null;
 		tamanio_unidad_estrofica: number | null;
 		arte_metrico: ArteMetricoValue;
 		numero_silabas: number | null;
@@ -76,7 +70,7 @@
 		patron_especifico: string;
 		tipo_forma: TipoFormaValue;
 		tipo_rima: TipoRimaValue;
-		naturaleza_estrofica: NaturalezaEstroficaValue;
+		naturaleza_estrofica_id: string | null;
 		tamanio_unidad_estrofica: number | null;
 		numero_silabas: number | null;
 		metro_ids: string[];
@@ -122,7 +116,7 @@
 			patron_especifico: '',
 			tipo_forma: null,
 			tipo_rima: null,
-			naturaleza_estrofica: null,
+			naturaleza_estrofica_id: null,
 			tamanio_unidad_estrofica: null,
 			numero_silabas: null,
 			metro_ids: []
@@ -143,7 +137,7 @@
 			patron_especifico: '',
 			tipo_forma: null,
 			tipo_rima: null,
-			naturaleza_estrofica: null,
+			naturaleza_estrofica_id: null,
 			tamanio_unidad_estrofica: null,
 			arte_metrico: null,
 			numero_silabas: null,
@@ -198,36 +192,17 @@
 		{ id: 'sin_rima', label: 'Sin rima' },
 		{ id: 'mixta', label: 'Mixta' }
 	];
-	const fallbackNaturalezaEstroficaDropdownItems = [
-		{ id: 'tirada_continua', label: 'Tirada continua' },
-		{ id: 'estrofa_cerrada', label: 'Estrofa cerrada' },
-		{ id: 'forma_fija', label: 'Forma fija' },
-		{ id: 'forma_compuesta', label: 'Forma compuesta' },
-		{ id: 'forma_irregular', label: 'Forma irregular' }
-	];
 	const tipoRimaValueSet = new Set(['asonante', 'consonante', 'sin_rima', 'mixta']);
-	const naturalezaEstroficaValueSet = new Set([
-		'tirada_continua',
-		'estrofa_cerrada',
-		'forma_fija',
-		'forma_compuesta',
-		'forma_irregular'
-	]);
 	const tipoRimaDropdownItems = $derived(
 		buildMetricDropdownItems(data.tipoRimaOptions ?? [], fallbackTipoRimaDropdownItems, tipoRimaValueSet)
-	);
-	const naturalezaEstroficaDropdownItems = $derived(
-		buildMetricDropdownItems(
-			data.naturalezaEstroficaOptions ?? [],
-			fallbackNaturalezaEstroficaDropdownItems,
-			naturalezaEstroficaValueSet
-		)
 	);
 	const arteMetricoLabels: Record<NonNullable<ArteMetricoValue>, string> = {
 		arte_menor: 'Arte menor',
 		arte_mayor: 'Arte mayor',
 		mixto: 'Mixto'
 	};
+	const ARTE_MENOR_MAX_SYLLABLES = 8;
+	const ARTE_MAYOR_MIN_SYLLABLES = 9;
 	const metroDropdownItems = $derived(
 		(data.metroOptions ?? []).map((metro: MetroOption) => ({
 			id: metro.termino_id,
@@ -236,6 +211,20 @@
 					? `${metro.termino} (${metro.numero_silabas})`
 					: metro.termino
 		}))
+	);
+	const naturalezaEstroficaDropdownItems = $derived(
+		(data.naturalezaEstroficaOptions ?? []).map((item: MetricMetadataOption) => ({
+			id: item.termino_id,
+			label:
+				item.activo === false
+					? `${item.etiqueta?.trim() || item.termino} (inactiva)`
+					: item.etiqueta?.trim() || item.termino
+		}))
+	);
+	const naturalezaEstroficaDisabledIds = $derived(
+		(data.naturalezaEstroficaOptions ?? [])
+			.filter((item: MetricMetadataOption) => item.activo === false)
+			.map((item: MetricMetadataOption) => item.termino_id)
 	);
 	const metroById = $derived.by(
 		() =>
@@ -299,7 +288,7 @@
 			if (termForm.tipo_rima !== normalizeTipoRima(selectedItem.tipo_rima)) return true;
 		}
 		if (fieldConfig.showNaturalezaEstrofica) {
-			if (termForm.naturaleza_estrofica !== normalizeNaturalezaEstrofica(selectedItem.naturaleza_estrofica)) {
+			if ((termForm.naturaleza_estrofica_id ?? null) !== (selectedItem.naturaleza_estrofica_id ?? null)) {
 				return true;
 			}
 		}
@@ -330,19 +319,6 @@
 
 	function normalizeTipoRima(value: string | null | undefined): TipoRimaValue {
 		if (value === 'asonante' || value === 'consonante' || value === 'sin_rima' || value === 'mixta') {
-			return value;
-		}
-		return null;
-	}
-
-	function normalizeNaturalezaEstrofica(value: string | null | undefined): NaturalezaEstroficaValue {
-		if (
-			value === 'tirada_continua' ||
-			value === 'estrofa_cerrada' ||
-			value === 'forma_fija' ||
-			value === 'forma_compuesta' ||
-			value === 'forma_irregular'
-		) {
 			return value;
 		}
 		return null;
@@ -410,8 +386,12 @@
 		const syllables = normalizedIds.map((id) => metroById.get(id)?.numero_silabas ?? null);
 		if (syllables.some((value) => typeof value !== 'number')) return null;
 
-		const hasMinor = syllables.some((value) => typeof value === 'number' && value <= 8);
-		const hasMajor = syllables.some((value) => typeof value === 'number' && value >= 9);
+		const hasMinor = syllables.some(
+			(value) => typeof value === 'number' && value <= ARTE_MENOR_MAX_SYLLABLES
+		);
+		const hasMajor = syllables.some(
+			(value) => typeof value === 'number' && value >= ARTE_MAYOR_MIN_SYLLABLES
+		);
 
 		if (hasMinor && hasMajor) return 'mixto';
 		if (hasMinor) return 'arte_menor';
@@ -538,7 +518,7 @@
 			patron_especifico: item.patron_especifico ?? '',
 			tipo_forma: normalizeTipoForma(item.tipo_forma),
 			tipo_rima: normalizeTipoRima(item.tipo_rima),
-			naturaleza_estrofica: normalizeNaturalezaEstrofica(item.naturaleza_estrofica),
+			naturaleza_estrofica_id: item.naturaleza_estrofica_id ?? null,
 			tamanio_unidad_estrofica: normalizeNullablePositiveInteger(item.tamanio_unidad_estrofica),
 			arte_metrico: normalizeArteMetrico(item.arte_metrico),
 			numero_silabas: normalizeNullablePositiveInteger(item.numero_silabas),
@@ -819,7 +799,7 @@
 		if (fieldConfig.showPattern) payload.patron_especifico = form.patron_especifico.trim() || null;
 		if (fieldConfig.showTipoForma) payload.tipo_forma = form.tipo_forma;
 		if (fieldConfig.showTipoRima) payload.tipo_rima = form.tipo_rima;
-		if (fieldConfig.showNaturalezaEstrofica) payload.naturaleza_estrofica = form.naturaleza_estrofica;
+		if (fieldConfig.showNaturalezaEstrofica) payload.naturaleza_estrofica_id = form.naturaleza_estrofica_id;
 		if (fieldConfig.showTamanioUnidadEstrofica) {
 			payload.tamanio_unidad_estrofica = form.tamanio_unidad_estrofica;
 		}
@@ -848,7 +828,7 @@
 		if (fieldConfig.showPattern) payload.patron_especifico = form.patron_especifico.trim() || null;
 		if (fieldConfig.showTipoForma) payload.tipo_forma = form.tipo_forma;
 		if (fieldConfig.showTipoRima) payload.tipo_rima = form.tipo_rima;
-		if (fieldConfig.showNaturalezaEstrofica) payload.naturaleza_estrofica = form.naturaleza_estrofica;
+		if (fieldConfig.showNaturalezaEstrofica) payload.naturaleza_estrofica_id = form.naturaleza_estrofica_id;
 		if (fieldConfig.showTamanioUnidadEstrofica) {
 			payload.tamanio_unidad_estrofica = form.tamanio_unidad_estrofica;
 		}
@@ -1079,6 +1059,7 @@
 				metroOptions={data.metroOptions ?? []}
 				tipoRimaOptions={tipoRimaDropdownItems}
 				naturalezaEstroficaOptions={naturalezaEstroficaDropdownItems}
+				naturalezaEstroficaDisabledIds={naturalezaEstroficaDisabledIds}
 				fieldConfig={fieldConfig}
 				termDirty={termDirty}
 				savingTerm={savingTerm}
@@ -1330,10 +1311,11 @@
 							search={false}
 							placeholder="Sin especificar"
 							items={naturalezaEstroficaDropdownItems}
-							selectedIds={createForm.naturaleza_estrofica ? [createForm.naturaleza_estrofica] : []}
+							disabledIds={naturalezaEstroficaDisabledIds}
+							selectedIds={createForm.naturaleza_estrofica_id ? [createForm.naturaleza_estrofica_id] : []}
 							onChange={(ids) =>
 								onCreateFormChange({
-									naturaleza_estrofica: (ids[0] ?? null) as NaturalezaEstroficaValue
+									naturaleza_estrofica_id: ids[0] ?? null
 								})}
 						/>
 					</label>

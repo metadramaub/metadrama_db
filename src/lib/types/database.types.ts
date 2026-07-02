@@ -1075,7 +1075,7 @@ export type Database = {
           ejemplo: string | null
           equivalencias: string[] | null
           etiqueta: string | null
-          naturaleza_estrofica: string | null
+          naturaleza_estrofica_id: string | null
           nivel: number | null
           numero_silabas: number | null
           orden: number | null
@@ -1098,7 +1098,7 @@ export type Database = {
           ejemplo?: string | null
           equivalencias?: string[] | null
           etiqueta?: string | null
-          naturaleza_estrofica?: string | null
+          naturaleza_estrofica_id?: string | null
           nivel?: number | null
           numero_silabas?: number | null
           orden?: number | null
@@ -1121,7 +1121,7 @@ export type Database = {
           ejemplo?: string | null
           equivalencias?: string[] | null
           etiqueta?: string | null
-          naturaleza_estrofica?: string | null
+          naturaleza_estrofica_id?: string | null
           nivel?: number | null
           numero_silabas?: number | null
           orden?: number | null
@@ -1135,6 +1135,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "vocabularios_naturaleza_estrofica_id_fkey"
+            columns: ["naturaleza_estrofica_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
           {
             foreignKeyName: "vocabularios_termino_padre_id_fkey"
             columns: ["termino_padre_id"]
