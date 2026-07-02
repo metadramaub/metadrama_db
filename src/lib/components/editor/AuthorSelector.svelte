@@ -75,38 +75,35 @@
 	}
 </script>
 
-<div class="space-y-2">
-	<div class="flex flex-wrap gap-2">
-		{#if selectedAuthors.length === 0}
-			<span class="text-sm text-[color:var(--muted-foreground)]">Sin autores seleccionados.</span>
-		{:else}
-			{#each selectedAuthors as author}
-				<span class="inline-flex items-center gap-2 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-1 text-sm">
-					<span class="pointer-events-none">{author.nombre_completo}</span>
-					<button
-						type="button"
-						class="inline-flex h-5 w-5 items-center justify-center border border-[color:var(--border)] text-xs hover:bg-[color:var(--muted)] disabled:cursor-not-allowed disabled:opacity-50"
-						disabled={props.disabled}
-						onclick={(event) => {
-							event.stopPropagation();
-							removeAuthor(author.autor_id);
-						}}
-						title={`Quitar ${author.nombre_completo}`}
-						aria-label={`Quitar ${author.nombre_completo}`}
-					>
-						x
-					</button>
-				</span>
-			{/each}
-		{/if}
-	</div>
-
-	<div class="relative">
+<div class="relative">
+	<div
+		class={`flex flex-wrap items-center gap-1.5 rounded-md border border-[color:var(--border)] px-2 py-1.5 ${
+			props.disabled ? 'bg-[color:var(--muted)]' : 'bg-white'
+		}`}
+	>
+		{#each selectedAuthors as author}
+			<span class="inline-flex items-center gap-1 rounded border border-[color:var(--border)] bg-[color:var(--gray-50)] py-0.5 pl-2 pr-1 text-sm">
+				<span class="pointer-events-none">{author.nombre_completo}</span>
+				<button
+					type="button"
+					class="inline-flex h-4 w-4 items-center justify-center rounded text-xs text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+					disabled={props.disabled}
+					onclick={(event) => {
+						event.stopPropagation();
+						removeAuthor(author.autor_id);
+					}}
+					title={`Quitar ${author.nombre_completo}`}
+					aria-label={`Quitar ${author.nombre_completo}`}
+				>
+					×
+				</button>
+			</span>
+		{/each}
 		<input
 			type="text"
-			class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+			class="min-w-[8rem] flex-1 border-0 bg-transparent px-1 py-0.5 text-sm outline-none disabled:cursor-not-allowed"
 			disabled={props.disabled}
-			placeholder={props.placeholder ?? 'Escribe para buscar autores'}
+			placeholder={selectedAuthors.length > 0 ? 'Añadir otro…' : (props.placeholder ?? 'Escribe para buscar autores')}
 			value={query}
 			onfocus={() => (open = true)}
 			onblur={onInputBlur}
@@ -121,22 +118,22 @@
 				}
 			}}
 		/>
-		{#if open}
-			<div class="absolute z-20 mt-1 max-h-48 w-full overflow-auto border border-[color:var(--border)] bg-white">
-				{#if suggestions.length === 0}
-					<div class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">Sin coincidencias.</div>
-				{:else}
-					{#each suggestions as suggestion}
-						<button
-							type="button"
-							class="block w-full px-3 py-2 text-left text-sm hover:bg-[color:var(--muted)]"
-							onclick={() => addAuthor(suggestion.autor_id)}
-						>
-							{suggestion.nombre_completo}
-						</button>
-					{/each}
-				{/if}
-			</div>
-		{/if}
 	</div>
+	{#if open}
+		<div class="absolute z-20 mt-1 max-h-48 w-full overflow-auto border border-[color:var(--border)] bg-white">
+			{#if suggestions.length === 0}
+				<div class="px-3 py-2 text-sm text-[color:var(--muted-foreground)]">Sin coincidencias.</div>
+			{:else}
+				{#each suggestions as suggestion}
+					<button
+						type="button"
+						class="block w-full px-3 py-2 text-left text-sm hover:bg-[color:var(--muted)]"
+						onclick={() => addAuthor(suggestion.autor_id)}
+					>
+						{suggestion.nombre_completo}
+					</button>
+				{/each}
+			{/if}
+		</div>
+	{/if}
 </div>
