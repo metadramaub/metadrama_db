@@ -50,6 +50,7 @@
 	let collapsed = $state(untrack(() => Boolean(props.defaultCollapsed)));
 	let newComment = $state('');
 	let newCommentType = $state<CommentType>('general');
+	let composerOpen = $state(false);
 
 	let editingCommentId = $state<string | null>(null);
 	let editingText = $state('');
@@ -258,9 +259,21 @@
 		}
 		newComment = '';
 		newCommentType = 'general';
+		composerOpen = false;
 		pushToast('success', 'Comentario publicado');
 		await loadComments();
 		props.onCommentsMutated?.();
+	}
+
+	function openComposer() {
+		if (!canComment) return;
+		composerOpen = true;
+	}
+
+	function closeComposer() {
+		composerOpen = false;
+		newComment = '';
+		newCommentType = 'general';
 	}
 
 	async function confirmDelete(commentId: string) {
@@ -507,7 +520,7 @@
 	</div>
 
 	{#if !collapsed}
-		<div class="mb-3">
+		<div class={canComment ? 'mb-3' : ''}>
 			<InternalCommentsFeed
 				comments={visibleComments}
 				loading={commentsLoading}
@@ -528,47 +541,56 @@
 			</InternalCommentsFeed>
 		</div>
 
-		<div class="border border-[color:var(--border)] bg-white p-3">
-			<label class="form-field">
-				<span class="form-label">Tipo de comentario</span>
-				<CheckDropdown
-					class="mb-2"
-					multiple={false}
-					search={false}
-					placeholder="Seleccionar tipo"
-					items={commentTypeItems}
-					disabled={!canComment}
-					selectedIds={[newCommentType]}
-					onChange={(ids) => {
-						const nextType = ids[0] as CommentType | undefined;
-						if (!nextType) return;
-						newCommentType = nextType;
-					}}
-				/>
-			</label>
-			<label class="form-field">
-				<span class="form-label">
-					<span class="form-label-with-help">
-						Nuevo comentario
-						<FieldHelpTooltip
-							text={INTERNAL_VISIBILITY_HELP}
-							label="Visibilidad interna del nuevo comentario"
+		{#if canComment}
+			{#if composerOpen}
+				<div class="mt-3 border-t border-[color:var(--border)] pt-3">
+					<label class="form-field">
+						<span class="form-label">Tipo de comentario</span>
+						<CheckDropdown
+							class="mb-2"
+							multiple={false}
+							search={false}
+							placeholder="Seleccionar tipo"
+							items={commentTypeItems}
+							selectedIds={[newCommentType]}
+							onChange={(ids) => {
+								const nextType = ids[0] as CommentType | undefined;
+								if (!nextType) return;
+								newCommentType = nextType;
+							}}
 						/>
-					</span>
-				</span>
-				<textarea
-					rows={3}
-					class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-					disabled={!canComment}
-					bind:value={newComment}
-				></textarea>
-			</label>
-			<div class="mt-2 flex justify-end">
-				<Button variant="success" onclick={publishComment} disabled={postingComment || !canComment}>
-					{postingComment ? 'Publicando...' : 'Publicar'}
-				</Button>
-			</div>
-		</div>
+					</label>
+					<label class="form-field">
+						<span class="form-label">
+							<span class="form-label-with-help">
+								Nuevo comentario
+								<FieldHelpTooltip
+									text={INTERNAL_VISIBILITY_HELP}
+									label="Visibilidad interna del nuevo comentario"
+								/>
+							</span>
+						</span>
+						<textarea
+							rows={3}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+							bind:value={newComment}
+						></textarea>
+					</label>
+					<div class="mt-2 flex justify-end gap-2">
+						<Button variant="secondary" onclick={closeComposer} disabled={postingComment}>
+							Cancelar
+						</Button>
+						<Button variant="success" onclick={publishComment} disabled={postingComment}>
+							{postingComment ? 'Publicando...' : 'Publicar'}
+						</Button>
+					</div>
+				</div>
+			{:else}
+				<div class="mt-3">
+					<Button variant="secondary" onclick={openComposer}>Añadir comentario</Button>
+				</div>
+			{/if}
+		{/if}
 	{/if}
 </div>
 

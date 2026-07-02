@@ -73,7 +73,7 @@
 {#if props.loading}
 	<p class="text-sm text-[color:var(--muted-foreground)]">Cargando comentarios...</p>
 {:else if props.comments.length === 0}
-	<p class="text-sm text-[color:var(--muted-foreground)]">{props.emptyText ?? 'No hay comentarios aún.'}</p>
+	<p class="text-sm text-[color:var(--muted-foreground)]">{props.emptyText ?? 'No hay comentarios en esta sección todavía.'}</p>
 {:else}
 	<div class="space-y-2">
 		{#each props.comments as comment}

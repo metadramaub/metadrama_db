@@ -522,27 +522,26 @@
 <section class="space-y-4">
 	<div class="card p-4">
 		<h3 class="mb-3 text-lg font-semibold">Checklist</h3>
-		<div class="space-y-2 text-sm">
+		<ul class="text-sm">
 			{#each checklist as item}
-				<div class="flex items-start justify-between gap-3 border border-[color:var(--border)] bg-white px-3 py-2">
-					<div>
-						<span class={item.done ? 'font-medium text-[color:var(--success)]' : 'font-medium text-[color:var(--danger)]'}>
-							{item.done ? '[OK]' : '[PEND]'} {item.label}
-						</span>
-					</div>
+				<li class="flex items-start justify-between gap-3 border-b border-[color:var(--border)] py-2 last:border-b-0">
+					<span class={item.done ? 'font-medium text-[color:var(--success)]' : 'font-medium text-[color:var(--danger)]'}>
+						{item.done ? '[OK]' : '[PEND]'} {item.label}
+					</span>
 					{#if item.detail}
-						<span class="text-[color:var(--muted-foreground)]">{item.detail}</span>
+						<span class="shrink-0 text-[color:var(--muted-foreground)]">{item.detail}</span>
 					{/if}
-				</div>
+				</li>
 			{/each}
-		</div>
+		</ul>
 	</div>
 
 	<InternalCommentsPanel
 		obraId={props.obraId}
 		canComment={canComment}
 		section="revision"
-		title="Comentarios internos"
+		title="Comentarios de revisión"
+		emptyText="No hay comentarios de revisión todavía."
 		headerActionLabel="Ver todos los comentarios a esta obra"
 		headerActionBadgeCount={allCommentsCount}
 		headerActionBadgeLoading={allCommentsCountLoading}
@@ -559,16 +558,16 @@
 		onClose={() => (allCommentsModalOpen = false)}
 	/>
 
-	<div class="card p-4">
-		<h3 class="mb-3 text-lg font-semibold">Gestión editorial</h3>
+	<div class="card space-y-5 p-4">
+		<h3 class="text-lg font-semibold">Gestión editorial</h3>
 		{#if props.assignedReviewer}
-			<p class="mb-3 text-sm text-[color:var(--muted-foreground)]">
+			<p class="-mt-2 text-sm text-[color:var(--muted-foreground)]">
 				Tienes esta obra asignada para revisión.
 			</p>
 		{/if}
 
 		{#if !isEditorRole}
-			<div class="border border-[color:var(--border)] bg-white p-3">
+			<section>
 				<h4 class="mb-3 text-sm font-semibold">Asignaciones editoriales</h4>
 				{#if reviewersLoading}
 					<p class="text-sm text-[color:var(--muted-foreground)]">Cargando asignaciones...</p>
@@ -606,49 +605,46 @@
 					{#if canManageAssignments}
 						<div class="mt-3 flex justify-end">
 							<Button variant="success" onclick={openAssignmentsConfirmModal} disabled={reviewersSaving || !assignmentsDirty}>
-								{reviewersSaving ? 'Guardando...' : 'Guardar'}
+								{reviewersSaving ? 'Guardando...' : 'Guardar asignaciones'}
 							</Button>
 						</div>
 					{/if}
 				{/if}
-			</div>
+			</section>
 		{/if}
 
-		<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
+		<section class={isEditorRole ? '' : 'border-t border-[color:var(--border)] pt-4'}>
 			<h4 class="mb-3 text-sm font-semibold">Estado de la obra</h4>
-			<div class="flex flex-col gap-3 md:flex-row md:items-end">
-				<label class="form-field w-full">
-					<span class="form-label">Estado</span>
-					<CheckDropdown
-						multiple={false}
-						items={estadoDropdownItems}
-						selectedIds={currentEstadoId ? [currentEstadoId] : []}
-						disabledIds={estadoDisabledIds}
-						placeholder="Selecciona estado"
-						disabled={!canChangeState || stateSaving}
-						onChange={onEstadoSelectionChange}
-					/>
-				</label>
-				<Button
-					variant="success"
-					class="shrink-0"
-					onclick={openEstadoConfirmModal}
-					disabled={stateSaving || !canChangeState || !stateDirty}
-				>
-					{stateSaving ? 'Guardando...' : 'Guardar'}
-				</Button>
-			</div>
-			{#if canOpenPublicPreview}
-				<div class="mt-3 flex justify-end">
+			<label class="form-field w-full">
+				<span class="form-label">Estado</span>
+				<CheckDropdown
+					multiple={false}
+					items={estadoDropdownItems}
+					selectedIds={currentEstadoId ? [currentEstadoId] : []}
+					disabledIds={estadoDisabledIds}
+					placeholder="Selecciona estado"
+					disabled={!canChangeState || stateSaving}
+					onChange={onEstadoSelectionChange}
+				/>
+			</label>
+			<div class="mt-3 flex flex-wrap items-center justify-end gap-2">
+				{#if canOpenPublicPreview}
 					<Button variant="secondary" onclick={() => obraLive.slug && goto(`/obras/${obraLive.slug}`)}>
 						Abrir vista previa
 					</Button>
-				</div>
-			{/if}
-		</div>
+				{/if}
+				<Button
+					variant="success"
+					onclick={openEstadoConfirmModal}
+					disabled={stateSaving || !canChangeState || !stateDirty}
+				>
+					{stateSaving ? 'Guardando...' : 'Guardar estado'}
+				</Button>
+			</div>
+		</section>
 
 		{#if canToggleVisible}
-			<div class="mt-4 border border-[color:var(--border)] bg-white p-3">
+			<section class="border-t border-[color:var(--border)] pt-4">
 				<h4 class="mb-2 text-sm font-semibold">Visibilidad</h4>
 				<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 					<label class="form-inline-toggle">
@@ -660,27 +656,22 @@
 						onclick={onGuardarVisibilidad}
 						disabled={visibilitySaving || !canToggleVisible || !visibilityDirty}
 					>
-						{visibilitySaving ? 'Guardando...' : 'Guardar'}
+						{visibilitySaving ? 'Guardando...' : 'Guardar visibilidad'}
 					</Button>
 				</div>
-			</div>
+			</section>
 		{/if}
 	</div>
 
 	{#if canDeleteObra}
-		<div>
-			<h3 class="mb-2 text-lg font-semibold text-[color:var(--danger)]">Zona de peligro</h3>
-			<div class="overflow-hidden border border-[color:var(--danger)] bg-white">
-				<div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-					<div>
-						<h4 class="text-sm font-semibold text-[color:var(--danger)]">Eliminar esta obra</h4>
-						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-							Se eliminarán la obra y sus datos relacionados. Esta acción es irreversible.
-						</p>
-					</div>
-					<Button variant="danger" onclick={onOpenDeleteModal} disabled={deletingObra}>Eliminar obra</Button>
-				</div>
+		<div class="flex flex-col gap-3 border border-[color:var(--danger)] bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+			<div>
+				<h4 class="text-sm font-semibold text-[color:var(--danger)]">Eliminar esta obra</h4>
+				<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+					Se eliminarán la obra y sus datos relacionados. Esta acción es irreversible.
+				</p>
 			</div>
+			<Button variant="danger" onclick={onOpenDeleteModal} disabled={deletingObra}>Eliminar obra</Button>
 		</div>
 	{/if}
 </section>
