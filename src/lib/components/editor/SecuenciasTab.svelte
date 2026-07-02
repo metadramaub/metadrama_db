@@ -1230,9 +1230,7 @@
 </script>
 
 <section class="space-y-4">
-	<div
-		class="flex flex-wrap items-end justify-between gap-3 border-b border-[color:var(--border)] pb-3 pt-2"
-	>
+	<div class="flex flex-wrap items-end justify-between gap-3 pb-3 pt-2">
 		<h2 class="text-xl font-semibold">Secuencias métricas</h2>
 		<div class="flex flex-wrap items-end gap-2">
 			<div class="w-56">
