@@ -10,6 +10,7 @@
 		estadoTerm: string;
 		editorNombre: string;
 		updated_at: string | null;
+		visible_publico?: boolean | null;
 		canRead?: boolean;
 		canEditContent?: boolean;
 		canComment?: boolean;
@@ -61,7 +62,7 @@
 	}
 
 	function actionHint(obra: ObraRow) {
-		if (obra.canRead === false) return 'Solo accesible si está publicada';
+		if (obra.canRead === false) return '';
 		if (obra.canEditContent) return '';
 		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Solo revisión';
 		return 'Solo lectura';
@@ -69,6 +70,14 @@
 
 	function canOpenPreview(obra: ObraRow) {
 		return Boolean(obra.slug && obra.canPreviewPublicFicha);
+	}
+
+	// Obra ajena que no puedo abrir en el dashboard: si tiene ficha pública visible,
+	// ofrezco su ficha; si no, no muestro ninguna acción.
+	// visible_publico solo puede ser true cuando la obra está en estado publicado
+	// (lo garantiza un trigger en BD), así que basta con comprobar ese flag.
+	function canOpenPublicFicha(obra: ObraRow) {
+		return obra.canRead === false && Boolean(obra.slug) && obra.visible_publico === true;
 	}
 </script>
 
@@ -109,23 +118,30 @@
 						<td class="px-3 py-2">{formatRelative(obra.updated_at)}</td>
 						<td class="px-3 py-2">
 							<div class="flex items-center gap-2">
-								<Button
-									variant="ghost"
-									disabled={obra.canRead === false}
-									onclick={() => dispatch('open', obra.obra_id)}
-								>
-									{actionLabel(obra)}
-								</Button>
-								{#if actionHint(obra)}
-									<span class="text-xs text-[color:var(--muted-foreground)]">{actionHint(obra)}</span>
-								{/if}
-								{#if canOpenPreview(obra)}
-									<Button
-										variant="secondary"
-										onclick={() => obra.slug && dispatch('preview', obra.slug)}
-									>
-										Vista previa
+								{#if obra.canRead === false}
+									{#if canOpenPublicFicha(obra)}
+										<Button
+											variant="secondary"
+											onclick={() => obra.slug && dispatch('preview', obra.slug)}
+										>
+											Ver ficha
+										</Button>
+									{/if}
+								{:else}
+									<Button variant="ghost" onclick={() => dispatch('open', obra.obra_id)}>
+										{actionLabel(obra)}
 									</Button>
+									{#if actionHint(obra)}
+										<span class="text-xs text-[color:var(--muted-foreground)]">{actionHint(obra)}</span>
+									{/if}
+									{#if canOpenPreview(obra)}
+										<Button
+											variant="secondary"
+											onclick={() => obra.slug && dispatch('preview', obra.slug)}
+										>
+											Vista previa
+										</Button>
+									{/if}
 								{/if}
 							</div>
 						</td>

@@ -2,6 +2,7 @@ import { DASHBOARD_GUIDE_CHAPTERS } from '$lib/content/dashboard-guide';
 import type {
 	DashboardGuideChapter,
 	DashboardGuideChapterMeta,
+	DashboardGuideSearchEntry,
 	DashboardGuideSection
 } from '$lib/types/dashboard-guide.types';
 import { createHeadingIdGenerator, extractHeadingText } from '$lib/utils/heading-ids';
@@ -17,6 +18,7 @@ type DashboardGuidePagePayload = {
 	currentChapter: DashboardGuideChapter;
 	prevChapter: DashboardGuideChapter | null;
 	nextChapter: DashboardGuideChapter | null;
+	searchIndex: DashboardGuideSearchEntry[];
 };
 
 function buildMarkdownByFileName(modules: Record<string, string>): Map<string, string> {
@@ -80,6 +82,85 @@ function extractMarkdownSections(markdown: string): DashboardGuideSection[] {
 	return sections;
 }
 
+function stripMarkdownMarks(line: string): string {
+	return line
+		.replace(/^>\s?/, '')
+		.replace(/^[-*]\s+/, '')
+		.replace(/^\d+\.\s+/, '')
+		.replaceAll(/\[(.*?)\]\((.*?)\)/g, '$1')
+		.replaceAll(/`([^`]+)`/g, '$1')
+		.replaceAll(/\*\*(.+?)\*\*/g, '$1')
+		.replaceAll(/\*(.+?)\*/g, '$1')
+		.replaceAll(/\[!([A-Za-z]+)\]/g, '')
+		.trim();
+}
+
+function buildChapterSearchEntries(chapter: DashboardGuideChapter): DashboardGuideSearchEntry[] {
+	const entries: DashboardGuideSearchEntry[] = [];
+	const lines = chapter.markdown.replaceAll('\r\n', '\n').split('\n');
+	const nextHeadingId = createHeadingIdGenerator();
+
+	// Preámbulo: texto antes del primer "## " se asocia al capítulo (ancla vacía).
+	let current: DashboardGuideSearchEntry = {
+		chapterSlug: chapter.slug,
+		chapterTitle: chapter.title,
+		sectionId: '',
+		sectionTitle: chapter.title,
+		text: ''
+	};
+	let inCodeFence = false;
+
+	const pushCurrent = () => {
+		current.text = current.text.trim();
+		if (current.text.length > 0 || current.sectionId) {
+			entries.push(current);
+		}
+	};
+
+	for (const rawLine of lines) {
+		const line = rawLine.trim();
+
+		if (line.startsWith('```')) {
+			inCodeFence = !inCodeFence;
+			continue;
+		}
+		if (inCodeFence) continue;
+		if (!line) continue;
+
+		if (line.startsWith('# ') || line.startsWith('#### ') || line.startsWith('### ')) {
+			// Estos headings generan id (para mantener contadores sincronizados) pero no abren sección de búsqueda.
+			const headingContent = line.replace(/^#+\s+/, '');
+			nextHeadingId(headingContent);
+			current.text += ` ${stripMarkdownMarks(headingContent)}`;
+			continue;
+		}
+
+		if (line.startsWith('## ')) {
+			pushCurrent();
+			const headingContent = line.slice(3);
+			const id = nextHeadingId(headingContent);
+			const title = extractHeadingText(headingContent);
+			current = {
+				chapterSlug: chapter.slug,
+				chapterTitle: chapter.title,
+				sectionId: id,
+				sectionTitle: title,
+				text: title
+			};
+			continue;
+		}
+
+		current.text += ` ${stripMarkdownMarks(line)}`;
+	}
+
+	pushCurrent();
+	return entries;
+}
+
+function buildSearchIndex(chapters: DashboardGuideChapter[]): DashboardGuideSearchEntry[] {
+	return chapters.flatMap(buildChapterSearchEntries);
+}
+
 function resolveChapter(meta: DashboardGuideChapterMeta): DashboardGuideChapter {
 	const markdown = markdownByFileName.get(meta.file);
 	if (markdown && markdown.trim().length > 0) {
@@ -106,8 +187,22 @@ export function getDashboardGuidePagePayload(slug: string): DashboardGuidePagePa
 		chapters,
 		currentChapter: chapters[currentIndex],
 		prevChapter: currentIndex > 0 ? chapters[currentIndex - 1] : null,
-		nextChapter: currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null
+		nextChapter: currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null,
+		searchIndex: buildSearchIndex(chapters)
 	};
 }
 
-export type { DashboardGuidePagePayload };
+type DashboardGuideIndexPayload = {
+	chapters: DashboardGuideChapter[];
+	searchIndex: DashboardGuideSearchEntry[];
+};
+
+export function getDashboardGuideIndexPayload(): DashboardGuideIndexPayload {
+	const chapters = getDashboardGuideChapters();
+	return {
+		chapters,
+		searchIndex: buildSearchIndex(chapters)
+	};
+}
+
+export type { DashboardGuidePagePayload, DashboardGuideIndexPayload };

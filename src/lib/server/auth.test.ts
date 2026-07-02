@@ -65,14 +65,17 @@ describe('buildObraCapabilities', () => {
 		expect(listoCaps.canChangeState).toBe(false);
 	});
 
-	it('allows unassigned editors to read only published works', () => {
+	it('blocks unassigned editors from reading any work, even published ones', () => {
 		const editorId = '00000000-0000-0000-0000-000000000070';
 		const obraAssigned = { editor_asignado: editorId };
 		const obraUnassigned = { editor_asignado: '00000000-0000-0000-0000-000000000080' };
 
-		expect(buildObraCapabilities(profile('editor', editorId), obraUnassigned, 'publicado', false).canRead).toBe(true);
+		// No asignado: no puede entrar, sea cual sea el estado (incluido publicado).
+		expect(buildObraCapabilities(profile('editor', editorId), obraUnassigned, 'publicado', false).canRead).toBe(false);
 		expect(buildObraCapabilities(profile('editor', editorId), obraUnassigned, 'borrador', false).canRead).toBe(false);
+		// Editor asignado: sí puede entrar.
 		expect(buildObraCapabilities(profile('editor', editorId), obraAssigned, 'borrador', false).canRead).toBe(true);
+		// Revisor asignado de una obra ajena: sí puede entrar.
 		expect(buildObraCapabilities(profile('editor', editorId), obraUnassigned, 'vista_previa', true).canRead).toBe(true);
 	});
 
