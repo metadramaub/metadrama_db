@@ -703,7 +703,7 @@
 			<label class="form-field">
 				<span class="form-label">Autores</span>
 				<AuthorSelector
-					authors={authorOptions}
+					knownAuthors={authorOptions}
 					selectedIds={proposal.autor_ids}
 					onChange={(ids) => patchProposal(group.local_id, proposal.local_id, { autor_ids: ids })}
 					placeholder={

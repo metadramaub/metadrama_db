@@ -115,50 +115,63 @@ export async function loadAutoriaData(
 	options: { includePerfilMetrico?: boolean } = {}
 ): Promise<Omit<AutoriaApiPayload, 'loaded_at'>> {
 	const includePerfilMetrico = options.includePerfilMetrico ?? true;
-	const effectiveTotalVersos = await resolveTotalVersos(supabase, obraId, declaredTotalVersos);
-	const [jornadasResp, autoresResp, catalogs] = await Promise.all([
+
+	// Paso 1: en paralelo, todo lo que solo depende de la obra (sin cadena previa).
+	const [effectiveTotalVersos, jornadasResp, catalogs, globalGroupsResp] = await Promise.all([
+		resolveTotalVersos(supabase, obraId, declaredTotalVersos),
 		supabase.from('jornadas').select('jornada_id,jornada_num,v_ini,v_fin').eq('obra_id', obraId).order('jornada_num'),
-		supabase.from('autores').select('autor_id,nombre_completo,nombre_normalizado').order('nombre_normalizado'),
-		loadAutoriaCatalogs(supabase)
+		loadAutoriaCatalogs(supabase),
+		supabase.from('grupos_atribucion').select('*').eq('obra_id', obraId)
 	]);
 
 	const jornadas = sortJornadas((jornadasResp.data ?? []) as JornadaRow[]);
-	const autores = (autoresResp.data ?? []) as AuthorCatalogRow[];
 	const jornadaIds = jornadas.map((row) => row.jornada_id);
-	const [globalGroupsResp, jornadaGroupsResp] = await Promise.all([
-		supabase.from('grupos_atribucion').select('*').eq('obra_id', obraId),
+
+	// Paso 2: grupos por jornada (necesita jornadaIds).
+	const jornadaGroupsResp =
 		jornadaIds.length > 0
-			? supabase.from('grupos_atribucion').select('*').in('jornada_id', jornadaIds)
-			: Promise.resolve({ data: [] as GrupoRow[] })
-	]);
+			? await supabase.from('grupos_atribucion').select('*').in('jornada_id', jornadaIds)
+			: { data: [] as GrupoRow[] };
 
 	const grupos = [
 		...((globalGroupsResp.data ?? []) as GrupoRow[]),
 		...((jornadaGroupsResp.data ?? []) as GrupoRow[])
 	];
 	const grupoIds = grupos.map((grupo) => grupo.grupo_atribucion_id);
+
+	// Paso 3: atribuciones de esos grupos (necesita grupoIds).
 	const atribucionesResp =
 		grupoIds.length > 0
 			? await supabase.from('atribuciones').select('*').in('grupo_atribucion_id', grupoIds)
 			: { data: [] as AtribucionRow[] };
 	const atribuciones = (atribucionesResp.data ?? []) as AtribucionRow[];
 	const atribucionIds = atribuciones.map((row) => row.atribucion_id);
-	const atribucionAutoresResp =
+
+	// Paso 4: en paralelo, autores y evidencias de esas atribuciones (ambos dependen de atribucionIds).
+	const [atribucionAutoresResp, atribucionEvidenciasResp] =
 		atribucionIds.length > 0
-			? await supabase
-					.from('atribucion_autores')
-					.select('atribucion_id,autor_id,orden')
-					.in('atribucion_id', atribucionIds)
-			: { data: [] as AtribucionAutorRow[] };
+			? await Promise.all([
+					supabase
+						.from('atribucion_autores')
+						.select('atribucion_id,autor_id,orden')
+						.in('atribucion_id', atribucionIds),
+					supabase.from('atribucion_evidencias').select('*').in('atribucion_id', atribucionIds)
+				])
+			: [{ data: [] as AtribucionAutorRow[] }, { data: [] as AtribucionEvidenciaRow[] }];
 	const atribucionAutores = (atribucionAutoresResp.data ?? []) as AtribucionAutorRow[];
-	const atribucionEvidenciasResp =
-		atribucionIds.length > 0
-			? await supabase
-					.from('atribucion_evidencias')
-					.select('*')
-					.in('atribucion_id', atribucionIds)
-			: { data: [] as AtribucionEvidenciaRow[] };
 	const atribucionEvidencias = (atribucionEvidenciasResp.data ?? []) as AtribucionEvidenciaRow[];
+
+	// Paso 5: solo los autores ya atribuidos (para pintar nombres). El catálogo completo
+	// ya no se trae aquí: el buscador de autores lo consulta bajo demanda.
+	const atribuidosIds = [...new Set(atribucionAutores.map((link) => link.autor_id))];
+	const autoresResp =
+		atribuidosIds.length > 0
+			? await supabase
+					.from('autores')
+					.select('autor_id,nombre_completo,nombre_normalizado')
+					.in('autor_id', atribuidosIds)
+			: { data: [] as AuthorCatalogRow[] };
+	const autores = (autoresResp.data ?? []) as AuthorCatalogRow[];
 
 	const jornadaById = new Map(jornadas.map((row) => [row.jornada_id, row]));
 	const tipoById = new Map(catalogs.tipos.map((item) => [item.termino_id, item.termino]));
