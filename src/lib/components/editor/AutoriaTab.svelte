@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
+	import ChevronDown from 'lucide-svelte/icons/chevron-down';
+	import ChevronRight from 'lucide-svelte/icons/chevron-right';
+	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
@@ -73,6 +76,11 @@
 	let baselineSnapshot = $state('');
 	let scopeView = $state<ScopeView>('obra');
 	let openProposalId = $state<string | null>(null);
+	let openEvidenceIds = $state<string[]>([]);
+
+	function isEvidenceOpen(evidenceId: string): boolean {
+		return openEvidenceIds.includes(evidenceId);
+	}
 	let lastHandledSaveRequestToken = $state(untrack(() => props.saveRequestToken ?? 0));
 
 	const canComment = $derived(Boolean(props.canComment));
@@ -166,42 +174,49 @@
 		return `${filtered.slice(0, -1).join(', ')} ${conjunction} ${last}`;
 	}
 
-	function getProposalAuthorPhrase(proposal: DraftProposal): string {
-		if (getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida') {
-			return 'autoría desconocida';
-		}
-		const names = uniqueIds(proposal.autor_ids).map((authorId) => authorNameById.get(authorId) ?? authorId);
-		if (names.length === 0) return 'autoría no identificada';
-		if (getComposicionTerm(proposal.composicion_autoria_id) === 'colaborada') {
-			return `la colaboración de ${joinHuman(names, 'y')}`;
-		}
-		return joinHuman(names, 'y');
-	}
-
 	function getProposalEvidencePhrase(proposal: DraftProposal): string {
 		const labels = proposal.evidencias.map((evidencia) => getTipoTerm(evidencia.tipo_atribucion_id)).filter(Boolean);
 		if (labels.length === 0) return '';
-		return ` según ${joinHuman(labels, 'y')}`;
+		const noun = labels.length === 1 ? 'la evidencia de tipo' : 'las evidencias de tipo';
+		return `, según ${noun} ${joinHuman(labels, 'y')}`;
 	}
 
+	// Frase de una propuesta para el resumen: "a Lope de Vega, según las evidencias de tipo Tradicional y Estilometría léxica".
 	function getProposalNarrative(proposal: DraftProposal): string {
-		if (getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida') {
-			return `como autoría desconocida${getProposalEvidencePhrase(proposal)}`;
+		const composicion = getComposicionTerm(proposal.composicion_autoria_id);
+		if (composicion === 'desconocida') {
+			return 'de autoría desconocida';
 		}
-		return `a ${getProposalAuthorPhrase(proposal)}${getProposalEvidencePhrase(proposal)}`;
+		const names = uniqueIds(proposal.autor_ids).map((authorId) => authorNameById.get(authorId) ?? authorId);
+		if (names.length === 0) {
+			return 'con una atribución aún sin autor definido';
+		}
+		const who = composicion === 'colaborada' ? `la colaboración de ${joinHuman(names, 'y')}` : joinHuman(names, 'y');
+		return `a ${who}${getProposalEvidencePhrase(proposal)}`;
 	}
 
 	function getJornadaLabel(jornadaId: string | null): string {
-		if (!jornadaId) return 'la obra';
+		if (!jornadaId) return 'La obra';
 		const jornada = jornadas.find((item) => item.jornada_id === jornadaId);
-		return jornada ? `la jornada ${jornada.jornada_num}` : 'la jornada';
+		return jornada ? `La jornada ${jornada.jornada_num}` : 'La jornada';
 	}
 
 	function getGroupSummary(group: DraftGroup): string {
-		const subject = group.jornada_id ? getJornadaLabel(group.jornada_id) : 'la obra';
-		if (group.propuestas.length === 0) return `${subject} no tiene una autoría identificada.`;
-		if (group.propuestas.length === 1) return `${subject} ha sido atribuida ${getProposalNarrative(group.propuestas[0])}.`;
-		return `${subject} ha sido atribuida ${joinHuman(group.propuestas.map((proposal) => getProposalNarrative(proposal)), 'o')}.`;
+		const subject = group.jornada_id ? getJornadaLabel(group.jornada_id) : 'La obra';
+		const withProposals = group.propuestas.filter(
+			(proposal) =>
+				getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida' ||
+				uniqueIds(proposal.autor_ids).length > 0 ||
+				proposal.evidencias.length > 0
+		);
+		if (withProposals.length === 0) {
+			return `${subject} todavía no tiene autoría registrada.`;
+		}
+		if (withProposals.length === 1) {
+			return `${subject} se atribuye ${getProposalNarrative(withProposals[0])}.`;
+		}
+		const options = joinHuman(withProposals.map((proposal) => getProposalNarrative(proposal)), 'o');
+		return `${subject} tiene una autoría disputada: se atribuye ${options}.`;
 	}
 
 	function getOverallSummary(): string {
@@ -209,12 +224,6 @@
 		return groups
 			.map((group) => getGroupSummary(group))
 			.join(' ');
-	}
-
-	function getGroupHeading(group: DraftGroup): string {
-		if (!group.jornada_id) return 'Autoría global de la obra';
-		const jornada = jornadas.find((item) => item.jornada_id === group.jornada_id);
-		return jornada ? `Autoría de la jornada ${jornada.jornada_num}` : 'Autoría de jornada';
 	}
 
 	function getUsedEvidenceTypeIds(proposal: DraftProposal): Set<string> {
@@ -358,36 +367,6 @@
 		applyServerState(payload);
 	}
 
-	function addGlobalGroup() {
-		if (globalGroups.length > 0) return;
-		const group = createEmptyGroup(null);
-		groups = [...groups, group];
-		scopeView = 'obra';
-		syncDirty();
-	}
-
-	function addJornadaGroup(jornadaId: string) {
-		if ((groupsByJornadaId.get(jornadaId) ?? []).length > 0) return;
-		const group = createEmptyGroup(jornadaId);
-		groups = [...groups, group];
-		scopeView = 'jornadas';
-		syncDirty();
-	}
-
-	function removeGroup(groupId: string) {
-		const group = groups.find((item) => item.local_id === groupId);
-		if (!group) return;
-		if (group.propuestas.length > 0) {
-			const confirmed = window.confirm('Este grupo contiene propuestas. ¿Quieres eliminarlo igualmente?');
-			if (!confirmed) return;
-		}
-		groups = groups.filter((item) => item.local_id !== groupId);
-		if (group.propuestas.some((proposal) => proposal.local_id === openProposalId)) {
-			openProposalId = null;
-		}
-		syncDirty();
-	}
-
 	function addProposal(groupId: string) {
 		const proposal = createEmptyProposal();
 		groups = groups.map((group) =>
@@ -397,12 +376,33 @@
 		syncDirty();
 	}
 
-	function removeProposal(groupId: string, proposalId: string) {
-		groups = groups.map((group) =>
-			group.local_id === groupId
-				? { ...group, propuestas: group.propuestas.filter((proposal) => proposal.local_id !== proposalId) }
-				: group
+	// Añade una propuesta al grupo (global o de la jornada indicada), creándolo si aún no existe.
+	function addProposalToScope(jornadaId: string | null) {
+		const existing = groups.find((group) =>
+			jornadaId ? group.jornada_id === jornadaId : !group.jornada_id
 		);
+		if (existing) {
+			addProposal(existing.local_id);
+			return;
+		}
+		const group = createEmptyGroup(jornadaId);
+		const proposal = createEmptyProposal();
+		group.propuestas = [proposal];
+		groups = [...groups, group];
+		scopeView = jornadaId ? 'jornadas' : 'obra';
+		openProposalId = proposal.local_id;
+		syncDirty();
+	}
+
+	function removeProposal(groupId: string, proposalId: string) {
+		groups = groups
+			.map((group) =>
+				group.local_id === groupId
+					? { ...group, propuestas: group.propuestas.filter((proposal) => proposal.local_id !== proposalId) }
+					: group
+			)
+			// Un grupo sin propuestas no aporta nada: se elimina automáticamente.
+			.filter((group) => group.propuestas.length > 0);
 		if (openProposalId === proposalId) openProposalId = null;
 		syncDirty();
 	}
@@ -424,16 +424,19 @@
 	}
 
 	function addEvidence(groupId: string, proposalId: string) {
+		let newEvidenceId: string | null = null;
 		groups = groups.map((group) => {
 			if (group.local_id !== groupId) return group;
 			const propuestas = group.propuestas.map((proposal) => {
 				if (proposal.local_id !== proposalId) return proposal;
 				const evidencia = createEmptyEvidence(proposal);
 				if (!evidencia.tipo_atribucion_id) return proposal;
+				newEvidenceId = evidencia.local_id;
 				return { ...proposal, evidencias: [...proposal.evidencias, evidencia] };
 			});
 			return { ...group, propuestas };
 		});
+		if (newEvidenceId) openEvidenceIds = [...openEvidenceIds, newEvidenceId];
 		syncDirty();
 	}
 
@@ -474,6 +477,23 @@
 
 	function toggleProposalEditor(proposalId: string) {
 		openProposalId = openProposalId === proposalId ? null : proposalId;
+		openEvidenceIds = [];
+	}
+
+	function toggleEvidence(evidenceId: string) {
+		openEvidenceIds = isEvidenceOpen(evidenceId)
+			? openEvidenceIds.filter((id) => id !== evidenceId)
+			: [...openEvidenceIds, evidenceId];
+	}
+
+	function evidenceSummary(evidencia: DraftEvidence): string {
+		const plain = evidencia.fuente_autoria
+			.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+			.replace(/[#*`>_-]/g, ' ')
+			.replace(/\s+/g, ' ')
+			.trim();
+		if (!plain) return 'Sin fuente';
+		return plain.length > 80 ? `${plain.slice(0, 80)}…` : plain;
 	}
 
 	function validateClientPayload(): string | null {
@@ -597,8 +617,38 @@
 </script>
 
 {#snippet evidenceEditor(group: DraftGroup, proposal: DraftProposal, evidencia: DraftEvidence)}
-	<div class="border border-[color:var(--border)] bg-white p-3">
-		<div class="grid gap-3 md:grid-cols-[minmax(0,18rem)_minmax(0,1fr)_auto]">
+	{@const isOpen = isEvidenceOpen(evidencia.local_id)}
+	<div class="flex items-center gap-2">
+		<button
+			type="button"
+			class="flex min-w-0 flex-1 items-center gap-2 py-1 text-left"
+			onclick={() => toggleEvidence(evidencia.local_id)}
+		>
+			<span class="shrink-0 text-[color:var(--muted-foreground)]">
+				{#if isOpen}<ChevronDown size={16} />{:else}<ChevronRight size={16} />{/if}
+			</span>
+			<span class="shrink-0 text-sm font-medium text-[color:var(--gray-900)]">
+				{getTipoTerm(evidencia.tipo_atribucion_id)}
+			</span>
+			{#if !isOpen}
+				<span class="truncate text-sm text-[color:var(--muted-foreground)]">
+					{evidenceSummary(evidencia)}
+				</span>
+			{/if}
+		</button>
+		<button
+			type="button"
+			class="shrink-0 p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+			aria-label="Eliminar evidencia"
+			onclick={() => removeEvidence(group.local_id, proposal.local_id, evidencia.local_id)}
+			disabled={effectiveReadOnly || loadingFromServer || proposal.evidencias.length <= 1}
+		>
+			<Trash2 size={16} />
+		</button>
+	</div>
+
+	{#if isOpen}
+		<div class="mt-2 grid gap-3 pl-6 md:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
 			<label class="form-field">
 				<span class="form-label">Tipo de evidencia</span>
 				<CheckDropdown
@@ -628,21 +678,12 @@
 						})}
 				/>
 			</div>
-			<div class="flex items-start justify-end pt-6">
-				<Button
-					variant="danger"
-					onclick={() => removeEvidence(group.local_id, proposal.local_id, evidencia.local_id)}
-					disabled={effectiveReadOnly || loadingFromServer || proposal.evidencias.length <= 1}
-				>
-					Eliminar
-				</Button>
-			</div>
 		</div>
-	</div>
+	{/if}
 {/snippet}
 
 {#snippet proposalEditor(group: DraftGroup, proposal: DraftProposal)}
-	<div class="mt-3 border border-[color:var(--border)] bg-[color:var(--muted)] p-3">
+	<div class="mt-3 border-t border-[color:var(--border)] pt-3">
 		<div class="grid gap-3 md:grid-cols-2">
 			<label class="form-field">
 				<span class="form-label">Tipología de autoría</span>
@@ -680,133 +721,121 @@
 		</div>
 
 		<div class="mt-4 border-t border-[color:var(--border)] pt-3">
-			<div class="mb-2 flex items-center justify-between gap-3">
-				<div>
-					<div class="form-label-with-help">
-						Evidencias de atribución
-						<FieldHelpTooltip text={EVIDENCIAS_HELP} label="Ayuda sobre evidencias de atribución" />
-					</div>
+			<span class="form-label-with-help mb-2 flex text-sm font-semibold text-[color:var(--gray-900)]">
+				Evidencias
+				<FieldHelpTooltip text={EVIDENCIAS_HELP} label="Ayuda sobre evidencias de atribución" />
+			</span>
+			{#if proposal.evidencias.length === 0}
+				<p class="text-sm text-[color:var(--muted-foreground)]">
+					Sin evidencias. Añade una solo si la autoría está disputada o discutida.
+				</p>
+			{:else}
+				<div class="divide-y divide-[color:var(--border)]">
+					{#each proposal.evidencias as evidencia (evidencia.local_id)}
+						<div class="py-1 first:pt-0 last:pb-0">
+							{@render evidenceEditor(group, proposal, evidencia)}
+						</div>
+					{/each}
 				</div>
-				<Button
-					variant="secondary"
-					onclick={() => addEvidence(group.local_id, proposal.local_id)}
-					disabled={effectiveReadOnly || loadingFromServer || !getFirstAvailableTipoId(proposal)}
-				>
-					Añadir evidencia
-				</Button>
-			</div>
-			<div class="space-y-3">
-				{#each proposal.evidencias as evidencia (evidencia.local_id)}
-					{@render evidenceEditor(group, proposal, evidencia)}
-				{/each}
-			</div>
+			{/if}
+			{#if !effectiveReadOnly}
+				<div class="mt-2">
+					<Button
+						variant="secondary"
+						onclick={() => addEvidence(group.local_id, proposal.local_id)}
+						disabled={loadingFromServer || !getFirstAvailableTipoId(proposal)}
+					>
+						Añadir evidencia
+					</Button>
+				</div>
+			{/if}
 		</div>
 
-		{#if canManagePerfilMetrico}
-			<div class="mt-3">
-				<label class="inline-flex items-start gap-2 text-sm">
-					<input
-						type="checkbox"
-						class="mt-0.5"
-						checked={proposal.perfil_metrico}
-						disabled={
-							effectiveReadOnly ||
-							loadingFromServer ||
-							getComposicionTerm(proposal.composicion_autoria_id) !== 'individual' ||
-							uniqueIds(proposal.autor_ids).length !== 1
-						}
-						onchange={(event) =>
-							patchProposal(group.local_id, proposal.local_id, {
-								perfil_metrico: event.currentTarget.checked
-							})}
-					/>
-					<span>
+		{#if !effectiveReadOnly || canManagePerfilMetrico}
+			<div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[color:var(--border)] pt-3">
+				{#if !effectiveReadOnly}
+					<button
+						type="button"
+						class="inline-flex items-center gap-1.5 text-sm text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+						onclick={() => removeProposal(group.local_id, proposal.local_id)}
+						disabled={loadingFromServer}
+					>
+						<Trash2 size={16} />
+						Eliminar propuesta
+					</button>
+				{/if}
+				{#if canManagePerfilMetrico}
+					<label class="ml-auto inline-flex items-center gap-2 text-sm">
+						<input
+							type="checkbox"
+							checked={proposal.perfil_metrico}
+							disabled={
+								effectiveReadOnly ||
+								loadingFromServer ||
+								getComposicionTerm(proposal.composicion_autoria_id) !== 'individual' ||
+								uniqueIds(proposal.autor_ids).length !== 1
+							}
+							onchange={(event) =>
+								patchProposal(group.local_id, proposal.local_id, {
+									perfil_metrico: event.currentTarget.checked
+								})}
+						/>
 						<span class="form-label-with-help">
 							Alimentar perfil métrico
 							<FieldHelpTooltip text={PERFIL_HELP} label="Ayuda sobre perfil métrico" />
 						</span>
-					</span>
-				</label>
+					</label>
+				{/if}
 			</div>
 		{/if}
-
-		<div class="mt-3 flex justify-end gap-2">
-			<Button
-				variant="danger"
-				onclick={() => removeProposal(group.local_id, proposal.local_id)}
-				disabled={effectiveReadOnly || loadingFromServer}
-			>
-				Eliminar
-			</Button>
-			<Button variant="secondary" onclick={() => toggleProposalEditor(proposal.local_id)}>Cerrar</Button>
-		</div>
 	</div>
 {/snippet}
 
 {#snippet proposalCard(group: DraftGroup, proposal: DraftProposal)}
-	<article class="border border-[color:var(--border)] bg-white p-3">
+	{@const isOpen = openProposalId === proposal.local_id}
+	<div class="border border-[color:var(--border)] bg-white p-3">
 		<button
 			type="button"
-			class="flex w-full items-start justify-between gap-3 text-left"
+			class="flex w-full items-center justify-between gap-3 text-left"
 			onclick={() => toggleProposalEditor(proposal.local_id)}
 		>
-			<div class="min-w-0">
-				<p class="truncate text-sm font-semibold text-[color:var(--gray-900)]">{getProposalSummary(proposal)}</p>
-				<div class="mt-2 flex flex-wrap gap-1">
+			<div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+				<span class="shrink-0 text-[color:var(--muted-foreground)]">
+					{#if isOpen}<ChevronDown size={16} />{:else}<ChevronRight size={16} />{/if}
+				</span>
+				<span class="text-sm font-semibold text-[color:var(--gray-900)]">{getProposalSummary(proposal)}</span>
+				{#if proposal.evidencias.length > 0}
 					{#each proposal.evidencias as evidencia (evidencia.local_id)}
 						<span class="rounded-full border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gray-800)]">
 							{getTipoTerm(evidencia.tipo_atribucion_id)}
 						</span>
 					{/each}
-				</div>
-			</div>
-			<div class="flex shrink-0 flex-wrap justify-end gap-2">
-				{#if canManagePerfilMetrico && proposal.perfil_metrico}
-					<span class="rounded-full border border-sky-300 bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-900">
-						Perfil métrico
-					</span>
 				{/if}
-				<span class="text-xs font-semibold text-[color:var(--gray-800)]">
-					{openProposalId === proposal.local_id ? 'Ocultar' : 'Editar'}
-				</span>
 			</div>
+			{#if canManagePerfilMetrico && proposal.perfil_metrico}
+				<span class="shrink-0 rounded-full border border-sky-300 bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-900">
+					Perfil métrico
+				</span>
+			{/if}
 		</button>
-		{#if openProposalId === proposal.local_id}
+		{#if isOpen}
 			{@render proposalEditor(group, proposal)}
 		{/if}
-	</article>
+	</div>
 {/snippet}
 
-{#snippet groupCard(group: DraftGroup)}
-	<article class="border border-[color:var(--border)] bg-white p-3">
-		<div class="mb-3 flex items-start justify-between gap-3">
-			<h3 class="text-base font-semibold text-[color:var(--gray-900)]">{getGroupHeading(group)}</h3>
-			<div class="flex items-end justify-end gap-2">
-				<Button variant="secondary" onclick={() => addProposal(group.local_id)} disabled={effectiveReadOnly || loadingFromServer}>
-					Añadir propuesta
-				</Button>
-				<Button variant="danger" onclick={() => removeGroup(group.local_id)} disabled={effectiveReadOnly || loadingFromServer}>
-					{group.jornada_id ? 'Eliminar autoría de jornada' : 'Eliminar autoría global'}
-				</Button>
-			</div>
-		</div>
+{#snippet proposalsList(group: DraftGroup)}
+	{#if group.propuestas.length > 1}
+		<p class="mb-3 border-l-2 border-sky-300 bg-sky-50 px-3 py-2 text-sm text-sky-900">
+			Los autores dentro de cada propuesta forman una misma autoría; las propuestas son alternativas entre sí.
+		</p>
+	{/if}
 
-		{#if group.propuestas.length > 1}
-			<p class="mt-3 border border-sky-300 bg-sky-50 px-3 py-2 text-sm text-sky-900">
-				Los autores dentro de cada propuesta forman una misma autoría; las propuestas de esta unidad son alternativas.
-			</p>
-		{/if}
-
-		<div class="mt-3 space-y-3">
-			{#if group.propuestas.length === 0}
-				<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
-			{:else}
-				{#each group.propuestas as proposal (proposal.local_id)}
-					{@render proposalCard(group, proposal)}
-				{/each}
-			{/if}
-		</div>
-	</article>
+	<div class="space-y-3">
+		{#each group.propuestas as proposal (proposal.local_id)}
+			{@render proposalCard(group, proposal)}
+		{/each}
+	</div>
 {/snippet}
 
 <section class="space-y-4">
@@ -824,105 +853,108 @@
 			</div>
 		</div>
 	{:else}
-		<div class="card p-4">
-			<h2 class="text-xl font-semibold">Ámbito de atribución</h2>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-				Registra una única autoría global para la obra completa. Si una jornada tiene una autoría propia, añádela en su jornada; dentro de una propuesta, varios autores indican colaboración y varias evidencias respaldan esa misma propuesta.
-			</p>
-			<p class="mt-3 rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-sm text-[color:var(--gray-900)]">
-				{getOverallSummary()}
-			</p>
-			<div class="mt-3 inline-flex overflow-hidden rounded-md border border-[color:var(--border)] bg-white">
-				<button
-					type="button"
-					class={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium ${
-						scopeView === 'obra'
-							? 'bg-[color:var(--gray-900)] text-white'
-							: 'bg-white text-[color:var(--gray-900)]'
-					}`}
-					onclick={() => setScope('obra')}
-				>
-					Obra completa
-					<span class="rounded-full border border-current px-2 py-0.5 text-xs">{globalGroups.length}</span>
-				</button>
-				<button
-					type="button"
-					class={`inline-flex items-center gap-2 border-l border-[color:var(--border)] px-3 py-2 text-sm font-medium ${
-						scopeView === 'jornadas'
-							? 'bg-[color:var(--gray-900)] text-white'
-							: 'bg-white text-[color:var(--gray-900)]'
-					}`}
-					onclick={() => setScope('jornadas')}
-				>
-					Por jornadas
-					<span class="rounded-full border border-current px-2 py-0.5 text-xs">{jornadaGroupCount}</span>
-				</button>
+		<div class="space-y-4">
+			<div>
+				<h2 class="text-lg font-semibold">Ámbito de atribución</h2>
+				<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+					Registra una única autoría global para la obra completa. Si una jornada tiene una autoría propia, añádela en su jornada; dentro de una propuesta, varios autores indican colaboración y varias evidencias respaldan esa misma propuesta.
+				</p>
+				<div class="mt-3 inline-flex overflow-hidden rounded-md border border-[color:var(--border)] bg-white">
+					<button
+						type="button"
+						class={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium ${
+							scopeView === 'obra'
+								? 'bg-[color:var(--gray-900)] text-white'
+								: 'bg-white text-[color:var(--gray-900)]'
+						}`}
+						onclick={() => setScope('obra')}
+					>
+						Obra completa
+						<span class="rounded-full border border-current px-2 py-0.5 text-xs">{globalGroups.length}</span>
+					</button>
+					<button
+						type="button"
+						class={`inline-flex items-center gap-2 border-l border-[color:var(--border)] px-3 py-2 text-sm font-medium ${
+							scopeView === 'jornadas'
+								? 'bg-[color:var(--gray-900)] text-white'
+								: 'bg-white text-[color:var(--gray-900)]'
+						}`}
+						onclick={() => setScope('jornadas')}
+					>
+						Por jornadas
+						<span class="rounded-full border border-current px-2 py-0.5 text-xs">{jornadaGroupCount}</span>
+					</button>
+				</div>
+			</div>
+
+			{#if scopeView === 'obra'}
+				<section class="border-t border-[color:var(--border)] pt-4">
+					<h3 class="mb-3 text-base font-semibold">Autoría global de la obra</h3>
+
+					{#if globalGroups.length === 0}
+						<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
+					{:else}
+						{@render proposalsList(globalGroups[0])}
+					{/if}
+
+					{#if !effectiveReadOnly}
+						<div class="mt-3">
+							<Button
+								variant="secondary"
+								onclick={() => addProposalToScope(null)}
+								disabled={loadingFromServer}
+							>
+								Añadir propuesta
+							</Button>
+						</div>
+					{/if}
+				</section>
+			{:else}
+				<section class="border-t border-[color:var(--border)] pt-4">
+					<h3 class="mb-1 text-base font-semibold">Autoría por jornadas</h3>
+					<p class="mb-4 text-sm text-[color:var(--muted-foreground)]">Añade una autoría de jornada solo cuando esa jornada necesite una atribución distinta de la global.</p>
+					{#if jornadas.length === 0}
+						<p class="text-sm text-[color:var(--muted-foreground)]">La obra aún no tiene jornadas definidas.</p>
+					{:else}
+						<div class="divide-y divide-[color:var(--border)]">
+							{#each jornadas as jornada (jornada.jornada_id)}
+								{@const jornadaGroup = (groupsByJornadaId.get(jornada.jornada_id) ?? [])[0]}
+								<div class="py-4 first:pt-0 last:pb-0">
+									<h4 class="mb-3 font-semibold">
+										Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
+									</h4>
+
+									{#if !jornadaGroup}
+										<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
+									{:else}
+										{@render proposalsList(jornadaGroup)}
+									{/if}
+
+									{#if !effectiveReadOnly}
+										<div class="mt-3">
+											<Button
+												variant="secondary"
+												onclick={() => addProposalToScope(jornada.jornada_id)}
+												disabled={loadingFromServer}
+											>
+												Añadir propuesta
+											</Button>
+										</div>
+									{/if}
+								</div>
+							{/each}
+						</div>
+					{/if}
+				</section>
+			{/if}
+
+			<div class="border-t border-[color:var(--border)] pt-4">
+				<h3 class="mb-1 text-sm font-semibold text-[color:var(--muted-foreground)]">Resultado</h3>
+				<p class="text-sm text-[color:var(--gray-900)]">
+					{getOverallSummary()}
+				</p>
 			</div>
 		</div>
-
-		{#if scopeView === 'obra'}
-			<div class="card p-4">
-				<div class="mb-4 flex items-center justify-between gap-3">
-					<div>
-						<h2 class="text-xl font-semibold">Autoría global de la obra</h2>
-					</div>
-					<Button
-						variant="secondary"
-						onclick={addGlobalGroup}
-						disabled={effectiveReadOnly || loadingFromServer || globalGroups.length > 0}
-					>
-						Crear autoría global
-					</Button>
-				</div>
-
-				{#if globalGroups.length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
-				{:else}
-					<div class="space-y-4">
-						{#each globalGroups as group (group.local_id)}
-							{@render groupCard(group)}
-						{/each}
-					</div>
-				{/if}
-			</div>
-		{:else}
-			<div class="card p-4">
-				<h2 class="mb-1 text-xl font-semibold">Autoría por jornadas</h2>
-				<p class="mb-4 text-sm text-[color:var(--muted-foreground)]">Añade una autoría de jornada solo cuando esa jornada necesite una atribución distinta de la global.</p>
-				{#if jornadas.length === 0}
-					<p class="text-sm text-[color:var(--muted-foreground)]">La obra aún no tiene jornadas definidas.</p>
-				{:else}
-					<div class="space-y-4">
-						{#each jornadas as jornada (jornada.jornada_id)}
-							<article class="border border-[color:var(--border)] bg-white p-3">
-								<div class="mb-3 flex items-center justify-between gap-3">
-									<h3 class="font-semibold">
-										Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
-									</h3>
-									<Button
-										variant="secondary"
-										onclick={() => addJornadaGroup(jornada.jornada_id)}
-										disabled={effectiveReadOnly || loadingFromServer || (groupsByJornadaId.get(jornada.jornada_id) ?? []).length > 0}
-									>
-										Crear autoría de jornada
-									</Button>
-								</div>
-
-								{#if (groupsByJornadaId.get(jornada.jornada_id) ?? []).length === 0}
-									<p class="text-sm text-[color:var(--muted-foreground)]">Autoría no identificada.</p>
-								{:else}
-									<div class="space-y-4">
-										{#each groupsByJornadaId.get(jornada.jornada_id) ?? [] as group (group.local_id)}
-											{@render groupCard(group)}
-										{/each}
-									</div>
-								{/if}
-							</article>
-						{/each}
-					</div>
-				{/if}
-			</div>
-		{/if}
 	{/if}
 
 	{#if !loading}
