@@ -39,6 +39,16 @@ const nullableUuid = z
 		return trimmed.length > 0 ? trimmed : null;
 	});
 
+const optionalNullableUuidPatch = z
+	.union([z.string().uuid(), z.literal(''), z.null()])
+	.optional()
+	.transform((value) => {
+		if (value === undefined) return undefined;
+		if (typeof value !== 'string') return null;
+		const trimmed = value.trim();
+		return trimmed.length > 0 ? trimmed : null;
+	});
+
 export const obraDatosPatchSchema = z
 	.object({
 		titulo: nullableText(2000),
@@ -424,11 +434,7 @@ export const vocabularioCreateSchema = z.object({
 		.optional()
 		.nullable()
 		.default(null),
-	naturaleza_estrofica: z
-		.enum(['tirada_continua', 'estrofa_cerrada', 'forma_fija', 'forma_compuesta', 'forma_irregular'])
-		.optional()
-		.nullable()
-		.default(null),
+	naturaleza_estrofica_id: nullableUuid,
 	tamanio_unidad_estrofica: z.number().int().positive().optional().nullable().default(null),
 	numero_silabas: z.number().int().positive().optional().nullable().default(null),
 	metro_ids: z.array(z.string().uuid()).optional().nullable().default(null),
@@ -449,10 +455,7 @@ export const vocabularioPatchSchema = z
 		patron_especifico: z.string().trim().max(2000).optional().nullable(),
 		tipo_forma: z.enum(['forma_espanola', 'forma_italiana']).optional().nullable(),
 		tipo_rima: z.enum(['asonante', 'consonante', 'sin_rima', 'mixta']).optional().nullable(),
-		naturaleza_estrofica: z
-			.enum(['tirada_continua', 'estrofa_cerrada', 'forma_fija', 'forma_compuesta', 'forma_irregular'])
-			.optional()
-			.nullable(),
+		naturaleza_estrofica_id: optionalNullableUuidPatch,
 		tamanio_unidad_estrofica: z.number().int().positive().optional().nullable(),
 		numero_silabas: z.number().int().positive().optional().nullable(),
 		metro_ids: z.array(z.string().uuid()).optional().nullable(),

@@ -508,7 +508,7 @@ describe('validators', () => {
 			termino: 'silva',
 			tipo_forma: 'forma_italiana',
 			tipo_rima: 'mixta',
-			naturaleza_estrofica: 'tirada_continua',
+			naturaleza_estrofica_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			tamanio_unidad_estrofica: null,
 			metro_ids: ['72fbe06d-9f46-4690-9df8-a4d9f0611d0d']
 		});
@@ -530,7 +530,7 @@ describe('validators', () => {
 		const estrofaPatch = vocabularioPatchSchema.safeParse({
 			tipo_forma: 'forma_espanola',
 			tipo_rima: 'asonante',
-			naturaleza_estrofica: 'estrofa_cerrada',
+			naturaleza_estrofica_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017',
 			tamanio_unidad_estrofica: 4,
 			metro_ids: ['81567f6d-5e8b-419f-b2c0-f9e9ed7f1017']
 		});

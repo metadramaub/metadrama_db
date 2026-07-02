@@ -3,12 +3,13 @@ import type { PageServerLoad } from './$types';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica_id,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
 type MetricMetadataOption = {
 	termino_id: string;
 	termino: string;
 	etiqueta: string | null;
+	activo?: boolean | null;
 };
 
 export const load: PageServerLoad = async ({ locals, params, parent }) => {
@@ -17,7 +18,7 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	const categoria = decodeURIComponent(params.categoria ?? '').trim();
 
 	if (!categoria || categoria === 'estado_revision') {
-		throw error(404, 'Categoria no encontrada');
+		throw error(404, 'Categoría no encontrada');
 	}
 
 	const { data, error: dbError } = await locals.supabase
@@ -32,7 +33,7 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	}
 
 	if (!data || data.length === 0) {
-		throw error(404, `No existe la categoria ${categoria}`);
+		throw error(404, `No existe la categoría ${categoria}`);
 	}
 
 	let metroOptions: Array<{ termino_id: string; termino: string; numero_silabas: number | null }> = [];
@@ -65,9 +66,8 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 				.order('termino', { ascending: true }),
 			locals.supabase
 				.from('vocabularios')
-				.select('termino_id,termino,etiqueta')
+				.select('termino_id,termino,etiqueta,activo')
 				.eq('categoria', 'naturaleza_estrofica')
-				.eq('activo', true)
 				.order('orden', { ascending: true })
 				.order('termino', { ascending: true })
 		]);

@@ -6,13 +6,6 @@
 	import type { VocabularyItem } from './useVocabularyTree';
 
 	type TipoRimaValue = 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
-	type NaturalezaEstroficaValue =
-		| 'tirada_continua'
-		| 'estrofa_cerrada'
-		| 'forma_fija'
-		| 'forma_compuesta'
-		| 'forma_irregular'
-		| null;
 	type ArteMetricoValue = 'arte_menor' | 'arte_mayor' | 'mixto' | null;
 	type MetroOption = {
 		termino_id: string;
@@ -37,7 +30,7 @@
 		patron_especifico: string;
 		tipo_forma: 'forma_espanola' | 'forma_italiana' | null;
 		tipo_rima: TipoRimaValue;
-		naturaleza_estrofica: NaturalezaEstroficaValue;
+		naturaleza_estrofica_id: string | null;
 		tamanio_unidad_estrofica: number | null;
 		arte_metrico: ArteMetricoValue;
 		numero_silabas: number | null;
@@ -53,6 +46,7 @@
 		metroOptions: MetroOption[];
 		tipoRimaOptions?: DropdownItem[];
 		naturalezaEstroficaOptions?: DropdownItem[];
+		naturalezaEstroficaDisabledIds?: string[];
 		fieldConfig: VocabularyFieldConfig;
 		termDirty?: boolean;
 		savingTerm?: boolean;
@@ -93,26 +87,22 @@
 		{ id: 'sin_rima', label: 'Sin rima' },
 		{ id: 'mixta', label: 'Mixta' }
 	];
-	const fallbackNaturalezaEstroficaItems = [
-		{ id: 'tirada_continua', label: 'Tirada continua' },
-		{ id: 'estrofa_cerrada', label: 'Estrofa cerrada' },
-		{ id: 'forma_fija', label: 'Forma fija' },
-		{ id: 'forma_compuesta', label: 'Forma compuesta' },
-		{ id: 'forma_irregular', label: 'Forma irregular' }
-	];
 	const tipoRimaItems = $derived(
 		props.tipoRimaOptions && props.tipoRimaOptions.length > 0 ? props.tipoRimaOptions : fallbackTipoRimaItems
 	);
 	const naturalezaEstroficaItems = $derived(
 		props.naturalezaEstroficaOptions && props.naturalezaEstroficaOptions.length > 0
 			? props.naturalezaEstroficaOptions
-			: fallbackNaturalezaEstroficaItems
+			: []
 	);
+	const naturalezaEstroficaDisabledIds = $derived(props.naturalezaEstroficaDisabledIds ?? []);
 	const arteMetricoLabels: Record<NonNullable<ArteMetricoValue>, string> = {
 		arte_menor: 'Arte menor',
 		arte_mayor: 'Arte mayor',
 		mixto: 'Mixto'
 	};
+	const ARTE_MENOR_MAX_SYLLABLES = 8;
+	const ARTE_MAYOR_MIN_SYLLABLES = 9;
 	const arteMetricoPreview = $derived(
 		props.fieldConfig.showMetros ? computeArteMetricoFromMetroIds(props.termForm.metro_ids) : props.termForm.arte_metrico
 	);
@@ -139,8 +129,12 @@
 		const syllables = normalizedIds.map((id) => metroById.get(id)?.numero_silabas ?? null);
 		if (syllables.some((value) => typeof value !== 'number')) return null;
 
-		const hasMinor = syllables.some((value) => typeof value === 'number' && value <= 8);
-		const hasMajor = syllables.some((value) => typeof value === 'number' && value >= 9);
+		const hasMinor = syllables.some(
+			(value) => typeof value === 'number' && value <= ARTE_MENOR_MAX_SYLLABLES
+		);
+		const hasMajor = syllables.some(
+			(value) => typeof value === 'number' && value >= ARTE_MAYOR_MIN_SYLLABLES
+		);
 
 		if (hasMinor && hasMajor) return 'mixto';
 		if (hasMinor) return 'arte_menor';
@@ -300,10 +294,10 @@
 							search={false}
 							placeholder="Sin especificar"
 							items={naturalezaEstroficaItems}
+							disabledIds={naturalezaEstroficaDisabledIds}
 							disabled={readOnly}
-							selectedIds={props.termForm.naturaleza_estrofica ? [props.termForm.naturaleza_estrofica] : []}
-							onChange={(ids) =>
-								updateTerm({ naturaleza_estrofica: (ids[0] ?? null) as NaturalezaEstroficaValue })}
+							selectedIds={props.termForm.naturaleza_estrofica_id ? [props.termForm.naturaleza_estrofica_id] : []}
+							onChange={(ids) => updateTerm({ naturaleza_estrofica_id: ids[0] ?? null })}
 						/>
 					</label>
 				{/if}
