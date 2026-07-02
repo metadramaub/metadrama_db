@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { getAuthorWorksCountMap, matchesAuthorSearch, normalizeAuthorSearchTerm } from '$lib/server/autores';
 import type { AuthorListItem } from '$lib/types/author.types';
 import type { Tables } from '$lib/types/database.types';
-import { canManageAutores } from '$lib/utils/permissions';
+import { canCreateAutores, canManageAutores } from '$lib/utils/permissions';
 
 export const load: PageServerLoad = async ({ locals, parent, url }) => {
 	const parentData = await parent();
@@ -39,6 +39,7 @@ export const load: PageServerLoad = async ({ locals, parent, url }) => {
 
 	return {
 		profile,
+		canCreateAuthors: canCreateAutores(profile.roleTerm),
 		canManageAuthors: canManageAutores(profile.roleTerm),
 		filters: { q },
 		authors

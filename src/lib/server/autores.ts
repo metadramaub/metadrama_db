@@ -3,6 +3,20 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AuthorWorkSummary } from '$lib/types/author.types';
 import type { Database, Tables } from '$lib/types/database.types';
 
+type AuthorIdentityFields = Pick<
+	Tables<'autores'>,
+	'autor_id' | 'nombre_completo' | 'nombre_normalizado' | 'variantes_nombre'
+>;
+
+export interface SimilarAuthorCandidate {
+	autor_id: string;
+	nombre_completo: string;
+	nombre_normalizado: string;
+	matched_value: string;
+	reason: 'exact' | 'contains' | 'tokens' | 'distance';
+	score: number;
+}
+
 function uniqueByNormalizedText(items: string[]): string[] {
 	const seen = new Set<string>();
 	const output: string[] = [];
@@ -18,7 +32,12 @@ function uniqueByNormalizedText(items: string[]): string[] {
 }
 
 export function normalizeAuthorSearchTerm(name: string): string {
-	return name.normalize('NFD').replaceAll(/\p{M}/gu, '').trim().toLowerCase();
+	return name
+		.normalize('NFD')
+		.replaceAll(/\p{M}/gu, '')
+		.trim()
+		.toLowerCase()
+		.replaceAll(/\s+/g, ' ');
 }
 
 export function normalizeAuthorSortName(name: string): string {
@@ -35,6 +54,23 @@ function toDirectNameFromInvertedOrder(name: string): string | null {
 	return `${givenNameParts.join(' ')} ${surname}`.trim();
 }
 
+function buildAuthorNameValues(
+	author: Pick<Tables<'autores'>, 'nombre_completo' | 'nombre_normalizado' | 'variantes_nombre'>
+): string[] {
+	const values = [
+		author.nombre_completo,
+		author.nombre_normalizado,
+		...(author.variantes_nombre ?? [])
+	].filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
+
+	const expandedValues = values.flatMap((value) => {
+		const directName = toDirectNameFromInvertedOrder(value);
+		return directName ? [value, directName] : [value];
+	});
+
+	return uniqueByNormalizedText(expandedValues);
+}
+
 export function buildAuthorSearchValues(
 	author: Pick<
 		Tables<'autores'>,
@@ -47,20 +83,13 @@ export function buildAuthorSearchValues(
 	>
 ): string[] {
 	const values = [
-		author.nombre_completo,
-		author.nombre_normalizado,
-		...(author.variantes_nombre ?? []),
+		...buildAuthorNameValues(author),
 		author.bnedatos_id,
 		author.viaf_id,
 		author.wikidata_id
 	].filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
 
-	const expandedValues = values.flatMap((value) => {
-		const directName = toDirectNameFromInvertedOrder(value);
-		return directName ? [value, directName] : [value];
-	});
-
-	return uniqueByNormalizedText(expandedValues);
+	return uniqueByNormalizedText(values);
 }
 
 export function matchesAuthorSearch(
@@ -92,6 +121,118 @@ export function normalizeAuthorVariants(items: string[] | null | undefined): str
 	if (!Array.isArray(items)) return null;
 	const normalized = uniqueByNormalizedText(items);
 	return normalized.length > 0 ? normalized : null;
+}
+
+function normalizedTokens(value: string): Set<string> {
+	return new Set(
+		normalizeAuthorSearchTerm(value)
+			.split(' ')
+			.map((token) => token.trim())
+			.filter((token) => token.length > 1)
+	);
+}
+
+function tokenOverlapScore(left: string, right: string): number {
+	const leftTokens = normalizedTokens(left);
+	const rightTokens = normalizedTokens(right);
+	if (leftTokens.size < 2 || rightTokens.size < 2) return 0;
+	let shared = 0;
+	for (const token of leftTokens) {
+		if (rightTokens.has(token)) shared += 1;
+	}
+	return shared / Math.min(leftTokens.size, rightTokens.size);
+}
+
+function levenshteinDistance(left: string, right: string): number {
+	if (left === right) return 0;
+	if (left.length === 0) return right.length;
+	if (right.length === 0) return left.length;
+
+	const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+	const current = Array.from({ length: right.length + 1 }, () => 0);
+
+	for (let i = 1; i <= left.length; i += 1) {
+		current[0] = i;
+		for (let j = 1; j <= right.length; j += 1) {
+			const cost = left[i - 1] === right[j - 1] ? 0 : 1;
+			current[j] = Math.min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + cost);
+		}
+		for (let j = 0; j <= right.length; j += 1) {
+			previous[j] = current[j];
+		}
+	}
+
+	return previous[right.length];
+}
+
+function compareAuthorValues(
+	newValue: string,
+	existingValue: string
+): Pick<SimilarAuthorCandidate, 'reason' | 'score'> | null {
+	const left = normalizeAuthorSearchTerm(newValue);
+	const right = normalizeAuthorSearchTerm(existingValue);
+	if (!left || !right) return null;
+	if (left === right) return { reason: 'exact', score: 100 };
+
+	const shorter = left.length <= right.length ? left : right;
+	const longer = left.length > right.length ? left : right;
+	if (shorter.length >= 6 && longer.includes(shorter) && shorter.length / longer.length >= 0.55) {
+		return { reason: 'contains', score: 86 };
+	}
+
+	const overlap = tokenOverlapScore(left, right);
+	if (overlap >= 0.67) {
+		return { reason: 'tokens', score: Math.round(70 + overlap * 15) };
+	}
+
+	const maxLength = Math.max(left.length, right.length);
+	if (maxLength >= 8) {
+		const distanceRatio = levenshteinDistance(left, right) / maxLength;
+		if (distanceRatio <= 0.18) {
+			return { reason: 'distance', score: Math.round(70 + (0.18 - distanceRatio) * 70) };
+		}
+	}
+
+	return null;
+}
+
+export function findSimilarAuthors(
+	draft: Pick<Tables<'autores'>, 'nombre_completo' | 'nombre_normalizado' | 'variantes_nombre'>,
+	existingAuthors: AuthorIdentityFields[],
+	limit = 5
+): SimilarAuthorCandidate[] {
+	const draftValues = buildAuthorNameValues(draft);
+	const candidates = new Map<string, SimilarAuthorCandidate>();
+
+	for (const author of existingAuthors) {
+		const existingValues = buildAuthorNameValues(author);
+		for (const draftValue of draftValues) {
+			for (const existingValue of existingValues) {
+				const match = compareAuthorValues(draftValue, existingValue);
+				if (!match) continue;
+
+				const current = candidates.get(author.autor_id);
+				if (!current || match.score > current.score) {
+					candidates.set(author.autor_id, {
+						autor_id: author.autor_id,
+						nombre_completo: author.nombre_completo,
+						nombre_normalizado: author.nombre_normalizado ?? '',
+						matched_value: existingValue,
+						reason: match.reason,
+						score: match.score
+					});
+				}
+			}
+		}
+	}
+
+	return [...candidates.values()]
+		.sort(
+			(left, right) =>
+				right.score - left.score ||
+				left.nombre_normalizado.localeCompare(right.nombre_normalizado, 'es')
+		)
+		.slice(0, limit);
 }
 
 export async function getAuthorOrFail(

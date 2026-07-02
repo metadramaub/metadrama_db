@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
 	buildAuthorSearchValues,
+	findSimilarAuthors,
 	matchesAuthorSearch,
 	normalizeAuthorSearchTerm,
 	normalizeAuthorSortName,
@@ -15,7 +16,7 @@ describe('autores helpers', () => {
 	});
 
 	it('normalizes only search terms for accent-insensitive matching', () => {
-		expect(normalizeAuthorSearchTerm('  Vélez de Guevara, Luis  ')).toBe(
+		expect(normalizeAuthorSearchTerm('  Vélez   de Guevara, Luis  ')).toBe(
 			'velez de guevara, luis'
 		);
 	});
@@ -58,5 +59,68 @@ describe('autores helpers', () => {
 		expect(matchesAuthorSearch(author, 'luis velez de guevara')).toBe(true);
 		expect(matchesAuthorSearch(author, 'Q724892')).toBe(true);
 		expect(matchesAuthorSearch(author, 'Cervantes')).toBe(false);
+	});
+
+	it('finds similar authors ignoring accents', () => {
+		const similar = findSimilarAuthors(
+			{
+				nombre_completo: 'Luis Velez de Guevara',
+				nombre_normalizado: 'Velez de Guevara, Luis',
+				variantes_nombre: null
+			},
+			[
+				{
+					autor_id: 'author-1',
+					nombre_completo: 'Luis Vélez de Guevara',
+					nombre_normalizado: 'Vélez de Guevara, Luis',
+					variantes_nombre: null
+				}
+			]
+		);
+
+		expect(similar).toHaveLength(1);
+		expect(similar[0].autor_id).toBe('author-1');
+		expect(similar[0].reason).toBe('exact');
+	});
+
+	it('finds similar authors across direct and inverted order', () => {
+		const similar = findSimilarAuthors(
+			{
+				nombre_completo: 'Lope de Vega Carpio',
+				nombre_normalizado: 'Vega Carpio, Lope de',
+				variantes_nombre: null
+			},
+			[
+				{
+					autor_id: 'author-1',
+					nombre_completo: 'Lope de Vega',
+					nombre_normalizado: 'Vega Carpio, Lope de',
+					variantes_nombre: null
+				}
+			]
+		);
+
+		expect(similar).toHaveLength(1);
+		expect(similar[0].autor_id).toBe('author-1');
+	});
+
+	it('does not find similarity for clearly different author names', () => {
+		const similar = findSimilarAuthors(
+			{
+				nombre_completo: 'Miguel de Cervantes',
+				nombre_normalizado: 'Cervantes Saavedra, Miguel de',
+				variantes_nombre: null
+			},
+			[
+				{
+					autor_id: 'author-1',
+					nombre_completo: 'Luis Vélez de Guevara',
+					nombre_normalizado: 'Vélez de Guevara, Luis',
+					variantes_nombre: null
+				}
+			]
+		);
+
+		expect(similar).toEqual([]);
 	});
 });

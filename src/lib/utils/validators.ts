@@ -349,7 +349,8 @@ export const autorCreateSchema = z.object({
 	variantes_nombre: authorVariantsSchema,
 	bnedatos_id: optionalAuthorExternalId,
 	viaf_id: optionalAuthorExternalId,
-	wikidata_id: optionalAuthorExternalId
+	wikidata_id: optionalAuthorExternalId,
+	confirm_similar: z.boolean().optional().default(false)
 });
 
 export const autorPatchSchema = z
