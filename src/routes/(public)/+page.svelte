@@ -4,7 +4,7 @@
 			VERSOLOGÍA
 		</h1>
 		<p class="mt-3 max-w-2xl text-sm text-[color:var(--muted-foreground)] md:text-base">
-			Base de datos y herramientas para el análisis métrico del teatro del Siglo de Oro español.
+			Base de datos y herramientas de estilometría estrófica para el verso dramático
 		</p>
 		<div class="mt-8 grid w-full max-w-3xl gap-2 sm:grid-cols-[1fr_auto]">
 			<input

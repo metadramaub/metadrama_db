@@ -254,8 +254,11 @@
 		<div class="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 md:grid-cols-[1.5fr_1fr_1fr_1fr] md:px-6">
 			<div>
 				<img src="/Logo.svg" alt="MetaDrama" class="h-12 w-auto" />
-				<p class="font-display mt-3 max-w-sm text-sm text-[color:var(--muted-foreground)]">
-					CATÁLOGO MÉTRICO DEL TEATRO ÁUREO
+				<p class="font-display mt-4 max-w-sm text-lg text-[color:var(--foreground)]">
+					VERSOLOGÍA
+				</p>
+				<p class="mt-1 max-w-sm text-xs leading-6 text-[color:var(--muted-foreground)]">
+					Base de datos y herramientas de estilometría estrófica para el verso dramático
 				</p>
 			</div>
 
