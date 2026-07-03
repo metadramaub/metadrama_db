@@ -123,7 +123,10 @@ describe('permissions', () => {
 	it('protects immutable vocabulary categories', () => {
 		expect(isProtectedVocabularyCategory('estado')).toBe(true);
 		expect(isProtectedVocabularyCategory('role_editor')).toBe(true);
-		expect(isProtectedVocabularyCategory('estado_revision')).toBe(false);
+		expect(isProtectedVocabularyCategory('estado_revision')).toBe(true);
+		expect(isProtectedVocabularyCategory('tipo_comentario')).toBe(true);
+		expect(isProtectedVocabularyCategory('composicion_autoria')).toBe(true);
+		expect(isProtectedVocabularyCategory('modalidad_atribucion')).toBe(true);
 		expect(isProtectedVocabularyCategory('genero')).toBe(false);
 	});
 });

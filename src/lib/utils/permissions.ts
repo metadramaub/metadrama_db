@@ -13,7 +13,14 @@ const workflowEditorOwner = new Set([
 ]);
 const workflowEditorReviewer = new Set<string>();
 const emptyWorkflow = new Set<string>();
-const protectedVocabularyCategories = new Set(['role_editor', 'estado']);
+const protectedVocabularyCategories = new Set([
+	'role_editor',
+	'estado',
+	'estado_revision',
+	'tipo_comentario',
+	'composicion_autoria',
+	'modalidad_atribucion'
+]);
 
 function normalizeStateTerm(term: string): string {
 	return term.trim().toLowerCase();
