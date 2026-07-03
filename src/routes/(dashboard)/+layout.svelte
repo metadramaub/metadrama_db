@@ -8,12 +8,14 @@
 	import type { LayoutData } from './$types';
 
 	const SIDEBAR_COLLAPSED_STORAGE_KEY = 'dashboard-sidebar-collapsed';
+	const INDICATORS_CACHE_TTL_MS = 30_000;
 
 	let { data, children } = $props<{ data: LayoutData; children: () => unknown }>();
 
 	let notificationsUnreadCount = $state(0);
 	let refreshInFlight = false;
 	let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+	let lastIndicatorsFetchAt = 0;
 	let channel: RealtimeChannel | null = null;
 	let sidebarCollapsed = $state(false);
 
@@ -37,10 +39,6 @@
 			}
 			return { label: segment.replaceAll('-', ' '), href };
 		});
-	});
-
-	$effect(() => {
-		notificationsUnreadCount = data.notificationsUnreadCount ?? 0;
 	});
 
 	function readSidebarCollapsedPreference(): boolean | null {
@@ -72,26 +70,29 @@
 		persistSidebarCollapsedPreference(!sidebarCollapsed);
 	}
 
-	async function refreshIndicators() {
+	async function refreshIndicators(options: { force?: boolean } = {}) {
 		if (!browser || refreshInFlight) return;
+		if (!options.force && Date.now() - lastIndicatorsFetchAt < INDICATORS_CACHE_TTL_MS) return;
 		refreshInFlight = true;
 		try {
 			const response = await fetch('/api/dashboard/indicators');
 			if (!response.ok) return;
 			const payload = await response.json();
 			notificationsUnreadCount = payload.notificationsUnreadCount ?? notificationsUnreadCount;
+			lastIndicatorsFetchAt = Date.now();
 		} finally {
 			refreshInFlight = false;
 		}
 	}
 
-	function scheduleIndicatorsRefresh() {
+	function scheduleIndicatorsRefresh(options: { force?: boolean } = { force: true }) {
 		if (!browser) return;
+		const force = options.force ?? true;
 		if (refreshTimer) {
 			clearTimeout(refreshTimer);
 		}
 		refreshTimer = setTimeout(() => {
-			void refreshIndicators();
+			void refreshIndicators({ force });
 		}, 400);
 	}
 
@@ -111,6 +112,9 @@
 		const handleObrasUpdated = () => {
 			scheduleIndicatorsRefresh();
 		};
+		const handleRealtimeChange = () => {
+			scheduleIndicatorsRefresh();
+		};
 		window.addEventListener('dashboard-activity-seen', handleActivitySeen);
 		window.addEventListener('dashboard-notifications-seen', handleActivitySeen);
 		window.addEventListener('dashboard-obras-updated', handleObrasUpdated);
@@ -122,26 +126,21 @@
 			const supabase = getSupabaseBrowserClient();
 			channel = supabase
 				.channel(`dashboard-indicators-${data.profile.userId}`)
-				.on('postgres_changes', { event: '*', schema: 'public', table: 'obras' }, scheduleIndicatorsRefresh)
+				.on('postgres_changes', { event: '*', schema: 'public', table: 'obras' }, handleRealtimeChange)
 				.on(
 					'postgres_changes',
 					{ event: '*', schema: 'public', table: 'obras_revisores' },
-					scheduleIndicatorsRefresh
+					handleRealtimeChange
 				)
 				.on(
 					'postgres_changes',
 					{ event: '*', schema: 'public', table: 'comentarios_internos' },
-					scheduleIndicatorsRefresh
-				)
-				.on(
-					'postgres_changes',
-					{ event: '*', schema: 'public', table: 'secuencias_metricas' },
-					scheduleIndicatorsRefresh
+					handleRealtimeChange
 				)
 				.on(
 					'postgres_changes',
 					{ event: '*', schema: 'public', table: 'dashboard_activity_state' },
-					scheduleIndicatorsRefresh
+					handleRealtimeChange
 				)
 				.subscribe();
 			cleanupChannel = () => {
@@ -149,7 +148,7 @@
 				void supabase.removeChannel(channel);
 				channel = null;
 			};
-			void refreshIndicators();
+			void refreshIndicators({ force: true });
 		})();
 
 		return () => {
