@@ -135,7 +135,7 @@
 	<div class={`flex w-full items-center justify-between gap-3 ${collapsed ? 'md:justify-center' : ''}`}>
 		<div class={collapsed ? 'md:hidden' : ''}>
 			<div class="mb-1 text-xs uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-				METADRAMA
+				VERSOLOGÍA
 			</div>
 			<h1 class="font-display text-2xl text-[color:var(--foreground)]">DASHBOARD</h1>
 		</div>

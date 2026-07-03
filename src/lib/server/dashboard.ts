@@ -353,8 +353,8 @@ export async function getRecentActivity(
 	limit = 20
 ): Promise<DashboardActivityItem[]> {
 	const sinceIso = cutoffIso(days);
-	const scopeIds = await loadAssignedScopeObraIds(locals, profile);
 	const scoped = !isAdminOrIp(profile);
+	const scopeIds = scoped ? await loadAssignedScopeObraIds(locals, profile) : [];
 
 	let stateChangesQuery = locals.supabase
 		.from('obras')
@@ -434,7 +434,7 @@ export async function getNotifications(
 ): Promise<DashboardNotificationItem[]> {
 	const sinceIso = cutoffIso(days);
 	const admin = isAdminOrIp(profile);
-	const scopeIds = await loadAssignedScopeObraIds(locals, profile);
+	const scopeIds = admin ? [] : await loadAssignedScopeObraIds(locals, profile);
 
 	let editAssignmentsQuery = locals.supabase
 		.from('obras')

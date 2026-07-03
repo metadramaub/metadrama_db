@@ -474,6 +474,39 @@ export async function countUnambiguousAutoriaGroups(
 	supabase: SupabaseClient<Database>,
 	obraId: string
 ): Promise<number> {
-	const data = await loadAutoriaData(supabase, obraId, null, { includePerfilMetrico: false });
-	return data.grupos.filter((grupo) => grupo.propuestas.length === 1).length;
+	const [jornadasResp, globalGroupsResp] = await Promise.all([
+		supabase.from('jornadas').select('jornada_id').eq('obra_id', obraId),
+		supabase.from('grupos_atribucion').select('grupo_atribucion_id').eq('obra_id', obraId)
+	]);
+
+	const jornadaIds = [...new Set((jornadasResp.data ?? []).map((row) => row.jornada_id))];
+	const jornadaGroupsResp =
+		jornadaIds.length > 0
+			? await supabase
+					.from('grupos_atribucion')
+					.select('grupo_atribucion_id')
+					.in('jornada_id', jornadaIds)
+			: { data: [] as Array<Pick<Tables<'grupos_atribucion'>, 'grupo_atribucion_id'>> };
+
+	const groupIds = [
+		...new Set([
+			...(globalGroupsResp.data ?? []).map((row) => row.grupo_atribucion_id),
+			...(jornadaGroupsResp.data ?? []).map((row) => row.grupo_atribucion_id)
+		])
+	];
+	if (groupIds.length === 0) {
+		return 0;
+	}
+
+	const atribucionesResp = await supabase
+		.from('atribuciones')
+		.select('grupo_atribucion_id')
+		.in('grupo_atribucion_id', groupIds);
+	const countsByGroup = new Map<string, number>();
+	for (const row of atribucionesResp.data ?? []) {
+		if (!row.grupo_atribucion_id) continue;
+		countsByGroup.set(row.grupo_atribucion_id, (countsByGroup.get(row.grupo_atribucion_id) ?? 0) + 1);
+	}
+
+	return groupIds.filter((groupId) => countsByGroup.get(groupId) === 1).length;
 }
