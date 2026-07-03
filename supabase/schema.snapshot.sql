@@ -25,12 +25,13 @@ CREATE TABLE public.vocabularios (
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
   tipo_forma text CHECK (tipo_forma IS NULL OR (tipo_forma = ANY (ARRAY['forma_espanola'::text, 'forma_italiana'::text]))),
-  tipo_rima text CHECK (tipo_rima IS NULL OR (tipo_rima = ANY (ARRAY['asonante'::text, 'consonante'::text, 'sin_rima'::text, 'mixta'::text]))),
+  tipo_rima_id uuid,
   naturaleza_estrofica_id uuid,
   tamanio_unidad_estrofica integer CHECK (tamanio_unidad_estrofica IS NULL OR tamanio_unidad_estrofica > 0),
   arte_metrico text CHECK (arte_metrico IS NULL OR (arte_metrico = ANY (ARRAY['arte_menor'::text, 'arte_mayor'::text, 'mixto'::text]))),
   numero_silabas integer CHECK (numero_silabas IS NULL OR numero_silabas > 0),
   CONSTRAINT vocabularios_pkey PRIMARY KEY (termino_id),
+  CONSTRAINT vocabularios_tipo_rima_id_fkey FOREIGN KEY (tipo_rima_id) REFERENCES public.vocabularios(termino_id),
   CONSTRAINT vocabularios_naturaleza_estrofica_id_fkey FOREIGN KEY (naturaleza_estrofica_id) REFERENCES public.vocabularios(termino_id),
   CONSTRAINT vocabularios_termino_padre_id_fkey FOREIGN KEY (termino_padre_id) REFERENCES public.vocabularios(termino_id)
 );

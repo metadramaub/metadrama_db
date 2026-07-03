@@ -260,7 +260,7 @@ export interface VocabularioCreateInput {
 	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
 	tipo_forma?: 'forma_espanola' | 'forma_italiana' | null;
-	tipo_rima?: 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
+	tipo_rima_id?: string | null;
 	naturaleza_estrofica_id?: string | null;
 	tamanio_unidad_estrofica?: number | null;
 	numero_silabas?: number | null;
@@ -279,7 +279,7 @@ export interface VocabularioPatchInput {
 	equivalencias?: string[] | null;
 	patron_especifico?: string | null;
 	tipo_forma?: 'forma_espanola' | 'forma_italiana' | null;
-	tipo_rima?: 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
+	tipo_rima_id?: string | null;
 	naturaleza_estrofica_id?: string | null;
 	tamanio_unidad_estrofica?: number | null;
 	numero_silabas?: number | null;

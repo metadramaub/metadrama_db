@@ -20,7 +20,6 @@
 	import type { PageData } from './$types';
 
 	type TipoFormaValue = 'forma_espanola' | 'forma_italiana' | null;
-	type TipoRimaValue = 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
 	type ArteMetricoValue = 'arte_menor' | 'arte_mayor' | 'mixto' | null;
 	type MetroOption = {
 		termino_id: string;
@@ -33,11 +32,6 @@
 		etiqueta: string | null;
 		activo?: boolean | null;
 	};
-	type DropdownItem = {
-		id: string;
-		label: string;
-	};
-
 	type TermForm = {
 		termino: string;
 		etiqueta: string;
@@ -50,7 +44,7 @@
 		equivalenciasText: string;
 		patron_especifico: string;
 		tipo_forma: TipoFormaValue;
-		tipo_rima: TipoRimaValue;
+		tipo_rima_id: string | null;
 		naturaleza_estrofica_id: string | null;
 		tamanio_unidad_estrofica: number | null;
 		arte_metrico: ArteMetricoValue;
@@ -69,7 +63,7 @@
 		equivalenciasText: string;
 		patron_especifico: string;
 		tipo_forma: TipoFormaValue;
-		tipo_rima: TipoRimaValue;
+		tipo_rima_id: string | null;
 		naturaleza_estrofica_id: string | null;
 		tamanio_unidad_estrofica: number | null;
 		numero_silabas: number | null;
@@ -115,7 +109,7 @@
 			equivalenciasText: '',
 			patron_especifico: '',
 			tipo_forma: null,
-			tipo_rima: null,
+			tipo_rima_id: null,
 			naturaleza_estrofica_id: null,
 			tamanio_unidad_estrofica: null,
 			numero_silabas: null,
@@ -136,7 +130,7 @@
 			equivalenciasText: '',
 			patron_especifico: '',
 			tipo_forma: null,
-			tipo_rima: null,
+			tipo_rima_id: null,
 			naturaleza_estrofica_id: null,
 			tamanio_unidad_estrofica: null,
 			arte_metrico: null,
@@ -186,15 +180,19 @@
 		{ id: 'forma_espanola', label: 'Forma española' },
 		{ id: 'forma_italiana', label: 'Forma italiana' }
 	];
-	const fallbackTipoRimaDropdownItems = [
-		{ id: 'asonante', label: 'Asonante' },
-		{ id: 'consonante', label: 'Consonante' },
-		{ id: 'sin_rima', label: 'Sin rima' },
-		{ id: 'mixta', label: 'Mixta' }
-	];
-	const tipoRimaValueSet = new Set(['asonante', 'consonante', 'sin_rima', 'mixta']);
 	const tipoRimaDropdownItems = $derived(
-		buildMetricDropdownItems(data.tipoRimaOptions ?? [], fallbackTipoRimaDropdownItems, tipoRimaValueSet)
+		(data.tipoRimaOptions ?? []).map((item: MetricMetadataOption) => ({
+			id: item.termino_id,
+			label:
+				item.activo === false
+					? `${item.etiqueta?.trim() || item.termino} (inactiva)`
+					: item.etiqueta?.trim() || item.termino
+		}))
+	);
+	const tipoRimaDisabledIds = $derived(
+		(data.tipoRimaOptions ?? [])
+			.filter((item: MetricMetadataOption) => item.activo === false)
+			.map((item: MetricMetadataOption) => item.termino_id)
 	);
 	const arteMetricoLabels: Record<NonNullable<ArteMetricoValue>, string> = {
 		arte_menor: 'Arte menor',
@@ -285,7 +283,7 @@
 			if (termForm.tipo_forma !== normalizeTipoForma(selectedItem.tipo_forma)) return true;
 		}
 		if (fieldConfig.showTipoRima) {
-			if (termForm.tipo_rima !== normalizeTipoRima(selectedItem.tipo_rima)) return true;
+			if ((termForm.tipo_rima_id ?? null) !== (selectedItem.tipo_rima_id ?? null)) return true;
 		}
 		if (fieldConfig.showNaturalezaEstrofica) {
 			if ((termForm.naturaleza_estrofica_id ?? null) !== (selectedItem.naturaleza_estrofica_id ?? null)) {
@@ -315,28 +313,6 @@
 	function normalizeTipoForma(value: string | null | undefined): TipoFormaValue {
 		if (value === 'forma_espanola' || value === 'forma_italiana') return value;
 		return null;
-	}
-
-	function normalizeTipoRima(value: string | null | undefined): TipoRimaValue {
-		if (value === 'asonante' || value === 'consonante' || value === 'sin_rima' || value === 'mixta') {
-			return value;
-		}
-		return null;
-	}
-
-	function buildMetricDropdownItems(
-		options: MetricMetadataOption[],
-		fallbackItems: DropdownItem[],
-		allowedValues: Set<string>
-	): DropdownItem[] {
-		const items = options
-			.filter((option) => allowedValues.has(option.termino))
-			.map((option) => ({
-				id: option.termino,
-				label: option.etiqueta?.trim() || option.termino
-			}));
-
-		return items.length > 0 ? items : fallbackItems;
 	}
 
 	function normalizeArteMetrico(value: string | null | undefined): ArteMetricoValue {
@@ -517,7 +493,7 @@
 			equivalenciasText: (item.equivalencias ?? []).join('\n'),
 			patron_especifico: item.patron_especifico ?? '',
 			tipo_forma: normalizeTipoForma(item.tipo_forma),
-			tipo_rima: normalizeTipoRima(item.tipo_rima),
+			tipo_rima_id: item.tipo_rima_id ?? null,
 			naturaleza_estrofica_id: item.naturaleza_estrofica_id ?? null,
 			tamanio_unidad_estrofica: normalizeNullablePositiveInteger(item.tamanio_unidad_estrofica),
 			arte_metrico: normalizeArteMetrico(item.arte_metrico),
@@ -798,7 +774,7 @@
 		}
 		if (fieldConfig.showPattern) payload.patron_especifico = form.patron_especifico.trim() || null;
 		if (fieldConfig.showTipoForma) payload.tipo_forma = form.tipo_forma;
-		if (fieldConfig.showTipoRima) payload.tipo_rima = form.tipo_rima;
+		if (fieldConfig.showTipoRima) payload.tipo_rima_id = form.tipo_rima_id;
 		if (fieldConfig.showNaturalezaEstrofica) payload.naturaleza_estrofica_id = form.naturaleza_estrofica_id;
 		if (fieldConfig.showTamanioUnidadEstrofica) {
 			payload.tamanio_unidad_estrofica = form.tamanio_unidad_estrofica;
@@ -827,7 +803,7 @@
 		}
 		if (fieldConfig.showPattern) payload.patron_especifico = form.patron_especifico.trim() || null;
 		if (fieldConfig.showTipoForma) payload.tipo_forma = form.tipo_forma;
-		if (fieldConfig.showTipoRima) payload.tipo_rima = form.tipo_rima;
+		if (fieldConfig.showTipoRima) payload.tipo_rima_id = form.tipo_rima_id;
 		if (fieldConfig.showNaturalezaEstrofica) payload.naturaleza_estrofica_id = form.naturaleza_estrofica_id;
 		if (fieldConfig.showTamanioUnidadEstrofica) {
 			payload.tamanio_unidad_estrofica = form.tamanio_unidad_estrofica;
@@ -1058,6 +1034,7 @@
 				parentOptions={parentOptions}
 				metroOptions={data.metroOptions ?? []}
 				tipoRimaOptions={tipoRimaDropdownItems}
+				tipoRimaDisabledIds={tipoRimaDisabledIds}
 				naturalezaEstroficaOptions={naturalezaEstroficaDropdownItems}
 				naturalezaEstroficaDisabledIds={naturalezaEstroficaDisabledIds}
 				fieldConfig={fieldConfig}
@@ -1293,10 +1270,11 @@
 							search={false}
 							placeholder="Sin especificar"
 							items={tipoRimaDropdownItems}
-							selectedIds={createForm.tipo_rima ? [createForm.tipo_rima] : []}
+							disabledIds={tipoRimaDisabledIds}
+							selectedIds={createForm.tipo_rima_id ? [createForm.tipo_rima_id] : []}
 							onChange={(ids) =>
 								onCreateFormChange({
-									tipo_rima: (ids[0] ?? null) as TipoRimaValue
+									tipo_rima_id: ids[0] ?? null
 								})}
 						/>
 					</label>

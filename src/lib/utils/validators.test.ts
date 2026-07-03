@@ -507,7 +507,7 @@ describe('validators', () => {
 			categoria: 'estrofa_tipo',
 			termino: 'silva',
 			tipo_forma: 'forma_italiana',
-			tipo_rima: 'mixta',
+			tipo_rima_id: '9f4e4f21-e575-4af9-b759-2f41b5584a6c',
 			naturaleza_estrofica_id: '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
 			tamanio_unidad_estrofica: null,
 			metro_ids: ['72fbe06d-9f46-4690-9df8-a4d9f0611d0d']
@@ -529,14 +529,15 @@ describe('validators', () => {
 
 		const estrofaPatch = vocabularioPatchSchema.safeParse({
 			tipo_forma: 'forma_espanola',
-			tipo_rima: 'asonante',
+			tipo_rima_id: 'c5b9a139-a184-471a-b7a7-aa65ed377e85',
 			naturaleza_estrofica_id: '81567f6d-5e8b-419f-b2c0-f9e9ed7f1017',
 			tamanio_unidad_estrofica: 4,
 			metro_ids: ['81567f6d-5e8b-419f-b2c0-f9e9ed7f1017']
 		});
 		expect(estrofaPatch.success).toBe(true);
 
-		expect(vocabularioPatchSchema.safeParse({ tipo_rima: 'parcial' }).success).toBe(false);
+		expect(vocabularioPatchSchema.safeParse({ tipo_rima_id: 'parcial' }).success).toBe(false);
+		expect(vocabularioPatchSchema.safeParse({ tipo_rima: 'asonante' }).success).toBe(false);
 		expect(vocabularioPatchSchema.safeParse({ tamanio_unidad_estrofica: 0 }).success).toBe(false);
 		expect(vocabularioPatchSchema.safeParse({ numero_silabas: -8 }).success).toBe(false);
 	});
