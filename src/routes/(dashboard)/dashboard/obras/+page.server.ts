@@ -6,6 +6,11 @@ import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
 
 const SCOPE_COOKIE = 'dashboard_obras_scope';
+const OBRAS_LIST_SELECT = 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico';
+type DashboardObraRow = Pick<
+	Tables<'obras'>,
+	'obra_id' | 'titulo' | 'slug' | 'estado' | 'editor_asignado' | 'updated_at' | 'visible_publico'
+>;
 
 export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => {
 	const parentData = await parent();
@@ -29,7 +34,7 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	const reviewerAssignedIds = [...new Set((reviewerAssignedResp.data ?? []).map((row) => row.obra_id))];
 	const reviewerAssignedSet = new Set(reviewerAssignedIds);
 
-	let query = locals.supabase.from('obras').select('*').order('updated_at', { ascending: false });
+	let query = locals.supabase.from('obras').select(OBRAS_LIST_SELECT).order('updated_at', { ascending: false });
 
 	if (scope === 'mine') {
 		const scopePlan = resolveDashboardObrasScopePlan(scope, profile.userId, reviewerAssignedIds);
@@ -47,7 +52,7 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 		throw error(500, `No se pudieron cargar las obras: ${obrasError.message}`);
 	}
 
-	const obraRows = (obras ?? []) as Tables<'obras'>[];
+	const obraRows = (obras ?? []) as DashboardObraRow[];
 	const editorIds = [...new Set(obraRows.map((obra) => obra.editor_asignado).filter(Boolean) as string[])];
 
 	const [estadoOptions, editoresResp, editoresOptionsResp] = await Promise.all([
