@@ -5,7 +5,6 @@
 	import type { VocabularyFieldConfig } from '$lib/config/vocabulary-fields';
 	import type { VocabularyItem } from './useVocabularyTree';
 
-	type TipoRimaValue = 'asonante' | 'consonante' | 'sin_rima' | 'mixta' | null;
 	type ArteMetricoValue = 'arte_menor' | 'arte_mayor' | 'mixto' | null;
 	type MetroOption = {
 		termino_id: string;
@@ -29,7 +28,7 @@
 		equivalenciasText: string;
 		patron_especifico: string;
 		tipo_forma: 'forma_espanola' | 'forma_italiana' | null;
-		tipo_rima: TipoRimaValue;
+		tipo_rima_id: string | null;
 		naturaleza_estrofica_id: string | null;
 		tamanio_unidad_estrofica: number | null;
 		arte_metrico: ArteMetricoValue;
@@ -45,6 +44,7 @@
 		parentOptions: Array<{ id: string; label: string; parentId?: string | null }>;
 		metroOptions: MetroOption[];
 		tipoRimaOptions?: DropdownItem[];
+		tipoRimaDisabledIds?: string[];
 		naturalezaEstroficaOptions?: DropdownItem[];
 		naturalezaEstroficaDisabledIds?: string[];
 		fieldConfig: VocabularyFieldConfig;
@@ -81,15 +81,10 @@
 		{ id: 'forma_espanola', label: 'Forma española' },
 		{ id: 'forma_italiana', label: 'Forma italiana' }
 	];
-	const fallbackTipoRimaItems = [
-		{ id: 'asonante', label: 'Asonante' },
-		{ id: 'consonante', label: 'Consonante' },
-		{ id: 'sin_rima', label: 'Sin rima' },
-		{ id: 'mixta', label: 'Mixta' }
-	];
 	const tipoRimaItems = $derived(
-		props.tipoRimaOptions && props.tipoRimaOptions.length > 0 ? props.tipoRimaOptions : fallbackTipoRimaItems
+		props.tipoRimaOptions && props.tipoRimaOptions.length > 0 ? props.tipoRimaOptions : []
 	);
+	const tipoRimaDisabledIds = $derived(props.tipoRimaDisabledIds ?? []);
 	const naturalezaEstroficaItems = $derived(
 		props.naturalezaEstroficaOptions && props.naturalezaEstroficaOptions.length > 0
 			? props.naturalezaEstroficaOptions
@@ -278,9 +273,10 @@
 							search={false}
 							placeholder="Sin especificar"
 							items={tipoRimaItems}
+							disabledIds={tipoRimaDisabledIds}
 							disabled={readOnly}
-							selectedIds={props.termForm.tipo_rima ? [props.termForm.tipo_rima] : []}
-							onChange={(ids) => updateTerm({ tipo_rima: (ids[0] ?? null) as TipoRimaValue })}
+							selectedIds={props.termForm.tipo_rima_id ? [props.termForm.tipo_rima_id] : []}
+							onChange={(ids) => updateTerm({ tipo_rima_id: ids[0] ?? null })}
 						/>
 					</label>
 				{/if}

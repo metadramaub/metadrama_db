@@ -1085,7 +1085,7 @@ export type Database = {
           termino_id: string
           termino_padre_id: string | null
           tipo_forma: string | null
-          tipo_rima: string | null
+          tipo_rima_id: string | null
           updated_at: string
         }
         Insert: {
@@ -1108,7 +1108,7 @@ export type Database = {
           termino_id?: string
           termino_padre_id?: string | null
           tipo_forma?: string | null
-          tipo_rima?: string | null
+          tipo_rima_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -1131,10 +1131,17 @@ export type Database = {
           termino_id?: string
           termino_padre_id?: string | null
           tipo_forma?: string | null
-          tipo_rima?: string | null
+          tipo_rima_id?: string | null
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "vocabularios_tipo_rima_id_fkey"
+            columns: ["tipo_rima_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
           {
             foreignKeyName: "vocabularios_naturaleza_estrofica_id_fkey"
             columns: ["naturaleza_estrofica_id"]

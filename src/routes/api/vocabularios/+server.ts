@@ -9,7 +9,7 @@ import { invalidatePublicadoEstadoCache } from '$lib/server/public-obras';
 import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica_id,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima_id,naturaleza_estrofica_id,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
 async function syncEstrofaTipoMetros(locals: App.Locals, estrofaTipoId: string, metroIds: string[]) {
 	const uniqueMetroIds = [...new Set(metroIds)];
@@ -161,7 +161,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			equivalencias: payload.equivalencias,
 			patron_especifico: payload.patron_especifico,
 			tipo_forma: payload.tipo_forma,
-			tipo_rima: payload.tipo_rima,
+			tipo_rima_id: payload.tipo_rima_id,
 			naturaleza_estrofica_id: payload.naturaleza_estrofica_id,
 			tamanio_unidad_estrofica: payload.tamanio_unidad_estrofica,
 			numero_silabas: payload.numero_silabas,

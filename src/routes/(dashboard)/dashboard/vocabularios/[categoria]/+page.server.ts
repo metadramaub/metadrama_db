@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { canManageVocabularios, isProtectedVocabularyCategory } from '$lib/utils/permissions';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica_id,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
+	'termino_id,categoria,termino,etiqueta,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima_id,naturaleza_estrofica_id,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
 type MetricMetadataOption = {
 	termino_id: string;
@@ -59,9 +59,8 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 				),
 			locals.supabase
 				.from('vocabularios')
-				.select('termino_id,termino,etiqueta')
+				.select('termino_id,termino,etiqueta,activo')
 				.eq('categoria', 'tipo_rima')
-				.eq('activo', true)
 				.order('orden', { ascending: true })
 				.order('termino', { ascending: true }),
 			locals.supabase

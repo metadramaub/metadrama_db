@@ -9,7 +9,7 @@ import { invalidatePublicadoEstadoCache } from '$lib/server/public-obras';
 import { invalidatePublicVocabularioCache } from '$lib/server/vocabulario-publico';
 
 const vocabularySelect =
-	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima,naturaleza_estrofica_id,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
+	'termino_id,categoria,termino,termino_padre_id,nivel,orden,definicion,ejemplo,bibliografia,equivalencias,patron_especifico,tipo_forma,tipo_rima_id,naturaleza_estrofica_id,tamanio_unidad_estrofica,arte_metrico,numero_silabas,activo';
 
 type ExistingVocabularyRow = {
 	termino_id: string;
@@ -24,7 +24,7 @@ type ExistingVocabularyRow = {
 	equivalencias: string[] | null;
 	patron_especifico: string | null;
 	tipo_forma: string | null;
-	tipo_rima: string | null;
+	tipo_rima_id: string | null;
 	naturaleza_estrofica_id: string | null;
 	tamanio_unidad_estrofica: number | null;
 	arte_metrico: string | null;

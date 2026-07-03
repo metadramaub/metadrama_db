@@ -430,11 +430,7 @@ export const vocabularioCreateSchema = z.object({
 		.optional()
 		.nullable()
 		.default(null),
-	tipo_rima: z
-		.enum(['asonante', 'consonante', 'sin_rima', 'mixta'])
-		.optional()
-		.nullable()
-		.default(null),
+	tipo_rima_id: nullableUuid,
 	naturaleza_estrofica_id: nullableUuid,
 	tamanio_unidad_estrofica: z.number().int().positive().optional().nullable().default(null),
 	numero_silabas: z.number().int().positive().optional().nullable().default(null),
@@ -455,7 +451,7 @@ export const vocabularioPatchSchema = z
 		equivalencias: z.array(z.string().trim().min(1).max(200)).optional().nullable(),
 		patron_especifico: z.string().trim().max(2000).optional().nullable(),
 		tipo_forma: z.enum(['forma_espanola', 'forma_italiana']).optional().nullable(),
-		tipo_rima: z.enum(['asonante', 'consonante', 'sin_rima', 'mixta']).optional().nullable(),
+		tipo_rima_id: optionalNullableUuidPatch,
 		naturaleza_estrofica_id: optionalNullableUuidPatch,
 		tamanio_unidad_estrofica: z.number().int().positive().optional().nullable(),
 		numero_silabas: z.number().int().positive().optional().nullable(),
