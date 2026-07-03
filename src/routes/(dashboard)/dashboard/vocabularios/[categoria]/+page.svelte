@@ -969,7 +969,6 @@
 <section class="space-y-4">
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<div class="text-xs uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">Dashboard / Vocabularios</div>
 			<h1 class="font-display text-3xl">{data.categoria}</h1>
 		</div>
 		<div class="flex items-center gap-2">
