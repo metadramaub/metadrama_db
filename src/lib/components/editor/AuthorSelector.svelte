@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { pushToast } from '$lib/stores/toast';
 
-	type Author = { autor_id: string; nombre_completo: string };
+	type Author = { autor_id: string; nombre_completo: string; nombre_normalizado?: string | null };
 
 	const props = $props<{
 		// Autores ya conocidos (p. ej. los atribuidos a la obra) para poder pintar los chips
@@ -9,6 +9,7 @@
 		knownAuthors?: Author[];
 		selectedIds: string[];
 		onChange: (ids: string[]) => void;
+		onAuthorSelected?: (author: Author) => void;
 		placeholder?: string;
 		disabled?: boolean;
 	}>();
@@ -18,6 +19,7 @@
 	let suggestions = $state<Author[]>([]);
 	let searching = $state(false);
 	let searchToken = 0;
+	let lastSelectedResolveKey = '';
 	let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 	// Cache de nombres: se alimenta de knownAuthors, de los resultados de búsqueda y de
@@ -43,6 +45,39 @@
 			nombre_completo: nameCache[id] ?? id
 		}))
 	);
+
+	async function resolveSelectedAuthorNames(ids: string[]) {
+		const params = new URLSearchParams();
+		params.set('ids', ids.join(','));
+		try {
+			const response = await fetch(`/api/autores/buscar?${params.toString()}`);
+			if (!response.ok) return;
+			const payload = await response.json().catch(() => ({}));
+			const rows = (payload.authors ?? []) as Author[];
+			if (rows.length === 0) return;
+			const next = { ...nameCache };
+			let changed = false;
+			for (const author of rows) {
+				if (next[author.autor_id] !== author.nombre_completo) {
+					next[author.autor_id] = author.nombre_completo;
+					changed = true;
+				}
+			}
+			if (changed) nameCache = next;
+		} catch {
+			// El fallback visual sigue siendo el id si no se puede resolver el nombre.
+		}
+	}
+
+	$effect(() => {
+		const missingIds = [
+			...new Set((props.selectedIds as string[]).filter((id) => id.trim().length > 0 && !nameCache[id]))
+		].sort((a, b) => a.localeCompare(b));
+		const key = missingIds.join(',');
+		if (!key || key === lastSelectedResolveKey) return;
+		lastSelectedResolveKey = key;
+		void resolveSelectedAuthorNames(missingIds);
+	});
 
 	async function runSearch(term: string) {
 		const token = ++searchToken;
@@ -85,6 +120,7 @@
 		if (props.disabled) return;
 		if (props.selectedIds.includes(author.autor_id)) return;
 		nameCache = { ...nameCache, [author.autor_id]: author.nombre_completo };
+		props.onAuthorSelected?.(author);
 		props.onChange([...props.selectedIds, author.autor_id]);
 		query = '';
 		suggestions = [];

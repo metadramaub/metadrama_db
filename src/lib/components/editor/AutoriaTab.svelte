@@ -78,6 +78,7 @@
 	let scopeView = $state<ScopeView>('obra');
 	let openProposalId = $state<string | null>(null);
 	let openEvidenceIds = $state<string[]>([]);
+	let lastAuthorResolveKey = '';
 
 	function isEvidenceOpen(evidenceId: string): boolean {
 		return openEvidenceIds.includes(evidenceId);
@@ -133,6 +134,52 @@
 
 	function uniqueIds(ids: string[]): string[] {
 		return [...new Set(ids.map((id) => id.trim()).filter((id) => id.length > 0))];
+	}
+
+	function mergeAuthors(
+		rows: Array<Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo'> & { nombre_normalizado?: string | null }>
+	) {
+		if (rows.length === 0) return;
+		const byId = new Map(autores.map((author) => [author.autor_id, author]));
+		let changed = false;
+		for (const row of rows) {
+			const current = byId.get(row.autor_id);
+			if (!current || current.nombre_completo !== row.nombre_completo) {
+				byId.set(row.autor_id, {
+					autor_id: row.autor_id,
+					nombre_completo: row.nombre_completo,
+					nombre_normalizado: row.nombre_normalizado ?? current?.nombre_normalizado ?? row.nombre_completo
+				});
+				changed = true;
+			}
+		}
+		if (changed) {
+			autores = [...byId.values()].sort((a, b) => a.nombre_completo.localeCompare(b.nombre_completo, 'es'));
+		}
+	}
+
+	function collectMissingAuthorIds(sourceGroups: DraftGroup[]): string[] {
+		const knownIds = new Set(autores.map((author) => author.autor_id));
+		return uniqueIds(
+			sourceGroups.flatMap((group) =>
+				group.propuestas.flatMap((proposal) =>
+					proposal.autor_ids.filter((authorId) => !knownIds.has(authorId))
+				)
+			)
+		).sort((a, b) => a.localeCompare(b));
+	}
+
+	async function resolveMissingAuthorNames(missingIds: string[]) {
+		if (missingIds.length === 0) return;
+		const params = new URLSearchParams();
+		params.set('ids', missingIds.join(','));
+		const response = await fetch(`/api/autores/buscar?${params.toString()}`);
+		if (!response.ok) return;
+		const payload = await response.json().catch(() => ({}));
+		const rows = (payload.authors ?? []) as Array<
+			Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>
+		>;
+		mergeAuthors(rows);
 	}
 
 	function getComposicionId(term: AutoriaComposicionTerm): string {
@@ -612,6 +659,14 @@
 		void save();
 	});
 
+	$effect(() => {
+		const missingIds = collectMissingAuthorIds(groups);
+		const key = missingIds.join(',');
+		if (!key || key === lastAuthorResolveKey) return;
+		lastAuthorResolveKey = key;
+		void resolveMissingAuthorNames(missingIds);
+	});
+
 	onMount(() => {
 		void refreshFromServer(true);
 	});
@@ -706,6 +761,7 @@
 				<AuthorSelector
 					knownAuthors={authorOptions}
 					selectedIds={proposal.autor_ids}
+					onAuthorSelected={(author) => mergeAuthors([author])}
 					onChange={(ids) => patchProposal(group.local_id, proposal.local_id, { autor_ids: ids })}
 					placeholder={
 						getComposicionTerm(proposal.composicion_autoria_id) === 'desconocida'
