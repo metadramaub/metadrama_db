@@ -10,6 +10,7 @@
 	import { canTransitionState } from '$lib/utils/permissions';
 	import { displayTerm } from '$lib/utils/vocabulario';
 	import type { Tables } from '$lib/types/database.types';
+	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
 	import type {
 		EditorProfile,
 		ObraAccessFlags,
@@ -25,9 +26,9 @@
 		profile: EditorProfile;
 		estadoTerm: string;
 		estadoOptions: EstadoOption[];
-		jornadas: Tables<'jornadas'>[];
-		cuadros: Tables<'cuadros'>[];
-		secuencias: Tables<'secuencias_metricas'>[];
+		jornadas: EditorJornadaRow[];
+		cuadros: EditorCuadroRow[];
+		secuencias: EditorSecuenciaRow[];
 		autoriaNoAmbiguaCount: number;
 		editorAsignadoNombre: string | null;
 		assignedReviewer: boolean;

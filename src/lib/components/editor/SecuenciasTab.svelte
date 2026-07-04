@@ -16,13 +16,14 @@
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { suggestNextSubtipoRange } from '$lib/components/editor/secuencia-subtipos';
 	import { pushToast } from '$lib/stores/toast';
+	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
 	import { displayTerm } from '$lib/utils/vocabulario';
 
 	const props = $props<{
 		obraId: string;
-		secuenciasInitial: Tables<'secuencias_metricas'>[];
-		jornadasInitial: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>;
-		cuadrosInitial: Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>;
+		secuenciasInitial: EditorSecuenciaRow[];
+		jornadasInitial: EditorJornadaRow[];
+		cuadrosInitial: EditorCuadroRow[];
 		estrofaOptions: Array<
 			Pick<
 				Tables<'vocabularios'>,
@@ -37,7 +38,7 @@
 		focusSecuenciaId?: string | null;
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
-		onSecuenciasChange?: (items: Tables<'secuencias_metricas'>[]) => void;
+		onSecuenciasChange?: (items: EditorSecuenciaRow[]) => void;
 		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
 		// la lista de secuencias (caracterizaciones de rango, subtipos de estrofa).
 		onMetricaDirty?: () => void;
@@ -395,25 +396,21 @@
 		return fromVocabulary || fallback || '--';
 	}
 
-	function sortSecuencias(items: Tables<'secuencias_metricas'>[]) {
+	function sortSecuencias(items: EditorSecuenciaRow[]) {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini);
 	}
 
-	function sortJornadas(
-		items: Array<Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>>
-	) {
+	function sortJornadas(items: EditorJornadaRow[]) {
 		return [...items].sort(
 			(a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin || a.jornada_num - b.jornada_num
 		);
 	}
 
-	function sortCuadros(
-		items: Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>
-	) {
+	function sortCuadros(items: EditorCuadroRow[]) {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin || a.cuadro_num - b.cuadro_num);
 	}
 
-	function emitSecuenciasChange(nextItems: Tables<'secuencias_metricas'>[] = secuencias) {
+	function emitSecuenciasChange(nextItems: EditorSecuenciaRow[] = secuencias) {
 		props.onSecuenciasChange?.(sortSecuencias(nextItems));
 	}
 
@@ -451,7 +448,7 @@
 		return totalVersosDeclaradosFiltrados - totalVersosEstructura;
 	});
 	const cuadrosByJornada = $derived.by(() => {
-		const grouped = new Map<string, Array<Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>>>();
+		const grouped = new Map<string, EditorCuadroRow[]>();
 		for (const cuadro of cuadrosSorted) {
 			const items = grouped.get(cuadro.jornada_id) ?? [];
 			items.push(cuadro);
@@ -553,7 +550,7 @@
 		setSidebarBaselineFromCurrent();
 	}
 
-	function openEdit(secuencia: Tables<'secuencias_metricas'>) {
+	function openEdit(secuencia: EditorSecuenciaRow) {
 		if (props.readOnly && !props.canComment) return;
 		editingId = secuencia.secuencia_id;
 		form = {
@@ -586,7 +583,7 @@
 	}
 
 	// Navega a otra secuencia desde el panel. Si hay cambios sin guardar, los guarda antes.
-	async function goToSecuencia(target: Tables<'secuencias_metricas'> | null) {
+	async function goToSecuencia(target: EditorSecuenciaRow | null) {
 		if (!target || sidebarSaving) return;
 		if (!props.readOnly && refreshSidebarDirty()) {
 			await save('manual');
@@ -673,7 +670,7 @@
 		}
 
 		const payload = await response.json();
-		const savedSecuencia = payload.secuencia as Tables<'secuencias_metricas'>;
+		const savedSecuencia = payload.secuencia as EditorSecuenciaRow;
 		const savedId = currentId ?? savedSecuencia.secuencia_id;
 
 		if (currentId) {

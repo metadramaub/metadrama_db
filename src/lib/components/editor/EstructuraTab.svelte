@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { onDestroy, untrack } from 'svelte';
 	import { ChevronLeft, ChevronRight, Eye, Pencil, Plus, Trash2 } from 'lucide-svelte';
-	import type { Tables } from '$lib/types/database.types';
+	import type { EditorCuadroRow, EditorJornadaRow } from '$lib/types/editor.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
@@ -10,8 +10,8 @@
 
 	const props = $props<{
 		obraId: string;
-		jornadasInitial: Tables<'jornadas'>[];
-		cuadrosInitial: Tables<'cuadros'>[];
+		jornadasInitial: EditorJornadaRow[];
+		cuadrosInitial: EditorCuadroRow[];
 		readOnly?: boolean;
 		canComment?: boolean;
 		focusJornadaId?: string | null;
@@ -19,8 +19,8 @@
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
 		onStructureChange?: (payload: {
-			jornadas: Tables<'jornadas'>[];
-			cuadros: Tables<'cuadros'>[];
+			jornadas: EditorJornadaRow[];
+			cuadros: EditorCuadroRow[];
 		}) => void;
 	}>();
 
@@ -294,7 +294,7 @@
 		}
 
 		const result = await response.json();
-		const savedJornada = result.jornada as Tables<'jornadas'>;
+		const savedJornada = result.jornada as EditorJornadaRow;
 
 		if (wasEditing && editingJornadaId) {
 			jornadas = sortByVIni(
@@ -346,7 +346,7 @@
 		}
 
 		const result = await response.json();
-		const savedCuadro = result.cuadro as Tables<'cuadros'>;
+		const savedCuadro = result.cuadro as EditorCuadroRow;
 
 		if (wasEditing && editingCuadroId) {
 			cuadros = sortByVIni(
@@ -399,7 +399,7 @@
 		showCloseWithoutSavingModal = false;
 	}
 
-	function openEditJornada(jornada: Tables<'jornadas'>) {
+	function openEditJornada(jornada: EditorJornadaRow) {
 		if (props.readOnly && !props.canComment) return;
 		editingJornadaId = jornada.jornada_id;
 		editingCuadroId = null;
@@ -413,7 +413,7 @@
 		showCloseWithoutSavingModal = false;
 	}
 
-	function openNewCuadro(jornada: Tables<'jornadas'>) {
+	function openNewCuadro(jornada: EditorJornadaRow) {
 		if (props.readOnly) return;
 		editingJornadaId = null;
 		editingCuadroId = null;
@@ -423,7 +423,7 @@
 		showCloseWithoutSavingModal = false;
 	}
 
-	function openEditCuadro(cuadro: Tables<'cuadros'>) {
+	function openEditCuadro(cuadro: EditorCuadroRow) {
 		if (props.readOnly && !props.canComment) return;
 		editingJornadaId = null;
 		editingCuadroId = cuadro.cuadro_id;
@@ -438,7 +438,7 @@
 		showCloseWithoutSavingModal = false;
 	}
 
-	async function goToJornada(target: Tables<'jornadas'> | null) {
+	async function goToJornada(target: EditorJornadaRow | null) {
 		if (!target || sidebarSaving) return;
 		if (!props.readOnly && refreshSidebarDirty()) {
 			await saveSidebar('manual');
@@ -447,7 +447,7 @@
 		openEditJornada(target);
 	}
 
-	async function goToCuadro(target: Tables<'cuadros'> | null) {
+	async function goToCuadro(target: EditorCuadroRow | null) {
 		if (!target || sidebarSaving) return;
 		if (!props.readOnly && refreshSidebarDirty()) {
 			await saveSidebar('manual');
@@ -502,7 +502,7 @@
 		performCloseSidebar();
 	}
 
-	function openDeleteJornada(jornada: Tables<'jornadas'>) {
+	function openDeleteJornada(jornada: EditorJornadaRow) {
 		if (props.readOnly) return;
 		deleteTarget = {
 			kind: 'jornada',
@@ -512,7 +512,7 @@
 		};
 	}
 
-	function openDeleteCuadro(cuadro: Tables<'cuadros'>) {
+	function openDeleteCuadro(cuadro: EditorCuadroRow) {
 		if (props.readOnly) return;
 		deleteTarget = {
 			kind: 'cuadro',

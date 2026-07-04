@@ -7,6 +7,7 @@
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import type { Tables } from '$lib/types/database.types';
+	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import DatosObraTab from '$lib/components/editor/DatosObraTab.svelte';
@@ -165,11 +166,9 @@
 		if (!generalSaveScope) return 'Guardar';
 		return $currentObraStore.savingByScope[generalSaveScope] ? 'Guardando...' : 'Guardar';
 	});
-	let jornadasLive = $state<Tables<'jornadas'>[]>(untrack(() => [...data.jornadas]));
-	let cuadrosLive = $state<Tables<'cuadros'>[]>(untrack(() => [...data.cuadros]));
-	let secuenciasLive = $state<Tables<'secuencias_metricas'>[]>(
-		untrack(() => [...data.secuencias])
-	);
+	let jornadasLive = $state<EditorJornadaRow[]>(untrack(() => [...data.jornadas]));
+	let cuadrosLive = $state<EditorCuadroRow[]>(untrack(() => [...data.cuadros]));
+	let secuenciasLive = $state<EditorSecuenciaRow[]>(untrack(() => [...data.secuencias]));
 
 	let channel: RealtimeChannel | null = null;
 	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestaña.';
@@ -182,7 +181,7 @@
 	let obraRefreshQueued = false;
 	let obraRefreshTimer: ReturnType<typeof setTimeout> | null = null;
 	const jornadaIds = $derived(
-		new Set((jornadasLive as Tables<'jornadas'>[]).map((jornada) => jornada.jornada_id))
+		new Set(jornadasLive.map((jornada) => jornada.jornada_id))
 	);
 
 	function getCurrentDirtyScope(): ObraDirtyScope | null {
@@ -329,15 +328,15 @@
 	}
 
 	function handleStructureChange(payload: {
-		jornadas: Tables<'jornadas'>[];
-		cuadros: Tables<'cuadros'>[];
+		jornadas: EditorJornadaRow[];
+		cuadros: EditorCuadroRow[];
 	}) {
 		jornadasLive = [...payload.jornadas];
 		cuadrosLive = [...payload.cuadros];
 		if (resumenExiste) resumenSucia = true;
 	}
 
-	function handleSecuenciasChange(payload: Tables<'secuencias_metricas'>[]) {
+	function handleSecuenciasChange(payload: EditorSecuenciaRow[]) {
 		secuenciasLive = [...payload];
 		if (resumenExiste) resumenSucia = true;
 	}
