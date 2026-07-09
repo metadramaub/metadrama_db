@@ -19,6 +19,7 @@ export const PUBLIC_NAV: NavGroup[] = [
 	{ label: 'CATÁLOGO', href: '/catalogo' },
 	{ label: 'AUTORES', href: '/autores' },
 	{ label: 'LABORATORIO', href: '/laboratorio' },
+	{ label: 'CÓMO CITARNOS', href: '/como-citarnos' },
 	{
 		label: 'RECURSOS',
 		items: [
