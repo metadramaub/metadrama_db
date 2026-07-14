@@ -131,8 +131,8 @@ export const secuenciaInputSchema = z
 		...input,
 		evocacion_metrica_texto: input.evocacion_metrica ? input.evocacion_metrica_texto : null
 	}))
-	.refine((input) => input.v_ini < input.v_fin, {
-		message: 'El verso inicial debe ser menor que el final',
+	.refine((input) => input.v_ini <= input.v_fin, {
+		message: 'El verso inicial no puede ser mayor que el final',
 		path: ['v_ini']
 	});
 

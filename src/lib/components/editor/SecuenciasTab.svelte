@@ -518,7 +518,7 @@
 	}
 
 	function validateForm(showToast = true) {
-		if (!Number.isFinite(Number(form.v_ini)) || !Number.isFinite(Number(form.v_fin)) || Number(form.v_ini) >= Number(form.v_fin)) {
+		if (!Number.isFinite(Number(form.v_ini)) || !Number.isFinite(Number(form.v_fin)) || Number(form.v_ini) > Number(form.v_fin)) {
 			if (showToast) pushToast('error', 'Rango de versos inválido');
 			return false;
 		}
