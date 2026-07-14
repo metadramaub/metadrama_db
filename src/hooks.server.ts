@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
-import type { Handle } from '@sveltejs/kit';
+import type { Cookies, Handle } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
+import type { User } from '@supabase/supabase-js';
 import type { Database } from '$lib/types/database.types';
 import { env as publicEnv } from '$env/dynamic/public';
 import { env as privateEnv } from '$env/dynamic/private';
@@ -23,6 +24,26 @@ function readSupabaseEnv() {
 	return { supabaseUrl, supabaseAnonKey };
 }
 
+// Un 4xx del servidor de auth significa que la credencial almacenada es inválida
+// o ha caducado (p. ej. un refresh token rotado o revocado, o un restore de BD).
+// Los fallos de red transitorios llegan como AuthRetryableFetchError con status 0
+// y NO deben borrar una cookie válida.
+function isInvalidStoredCredential(error: unknown): boolean {
+	const status = (error as { status?: number } | null)?.status;
+	return typeof status === 'number' && status >= 400 && status < 500;
+}
+
+// Borra la cookie de sesión de Supabase (sb-<ref>-auth-token, incluidos sus
+// posibles fragmentos .0/.1) para que un refresh token inválido no dispare un
+// refresco fallido —y su log ruidoso— en cada petición.
+function clearStaleSupabaseAuthCookies(cookies: Cookies) {
+	for (const { name } of cookies.getAll()) {
+		if (name.startsWith('sb-') && name.includes('-auth-token')) {
+			cookies.delete(name, { path: '/' });
+		}
+	}
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
 	const { supabaseUrl, supabaseAnonKey } = readSupabaseEnv();
 
@@ -38,12 +59,24 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 
 	event.locals.safeGetSession = async () => {
-		const {
-			data: { user },
-			error
-		} = await event.locals.supabase.auth.getUser();
+		let user: User | null = null;
+		let authError: unknown = null;
 
-		if (error || !user) {
+		try {
+			const { data, error } = await event.locals.supabase.auth.getUser();
+			user = data.user;
+			authError = error;
+		} catch (error) {
+			// Defensivo: algunas rutas de token inválido rechazan en vez de devolver error.
+			authError = error;
+		}
+
+		if (!user) {
+			// Cookie de auth caducada/inválida (p. ej. "Invalid Refresh Token"): la
+			// eliminamos para que el refresco fallido no se repita en cada petición.
+			if (isInvalidStoredCredential(authError)) {
+				clearStaleSupabaseAuthCookies(event.cookies);
+			}
 			return { session: null, user: null };
 		}
 
