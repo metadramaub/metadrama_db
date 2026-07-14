@@ -100,6 +100,34 @@ describe('validators', () => {
 		expect(result.success).toBe(false);
 	});
 
+	it('accepts secuencia payload with a single verse (v_ini === v_fin)', () => {
+		const result = secuenciaInputSchema.safeParse({
+			v_ini: 56,
+			v_fin: 56,
+			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			inaugura_espacio: false,
+			intervencion_personajes_femeninos: 'sin_intervencion',
+			intervencion_figuras_donaire: 'sin_intervencion',
+			intervencion_personajes_sobrenaturales: 'sin_intervencion',
+			sinopsis: null
+		});
+		expect(result.success).toBe(true);
+	});
+
+	it('rejects secuencia payload when v_ini is greater than v_fin', () => {
+		const result = secuenciaInputSchema.safeParse({
+			v_ini: 57,
+			v_fin: 56,
+			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			inaugura_espacio: false,
+			intervencion_personajes_femeninos: 'sin_intervencion',
+			intervencion_figuras_donaire: 'sin_intervencion',
+			intervencion_personajes_sobrenaturales: 'sin_intervencion',
+			sinopsis: null
+		});
+		expect(result.success).toBe(false);
+	});
+
 	it('accepts secuencia caracterizacion por rango payload with same verse range', () => {
 		const result = secuenciaCaracterizacionRangoInputSchema.safeParse({
 			tipo_caracterizacion_rango_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
