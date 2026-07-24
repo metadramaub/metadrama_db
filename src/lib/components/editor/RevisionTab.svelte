@@ -2,12 +2,18 @@
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount, untrack } from 'svelte';
 	import AllCommentsModal from '$lib/components/editor/AllCommentsModal.svelte';
+	import RangeConsistencyAlert from '$lib/components/editor/RangeConsistencyAlert.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { currentObraStore, patchCurrentObra } from '$lib/stores/currentObra';
 	import { canTransitionState } from '$lib/utils/permissions';
+	import {
+		analyzeSequenceRangeConsistency,
+		analyzeStructureRangeConsistency,
+		stateRequiresConsistentRanges
+	} from '$lib/utils/range-consistency';
 	import { displayTerm } from '$lib/utils/vocabulario';
 	import type { Tables } from '$lib/types/database.types';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
@@ -82,6 +88,10 @@
 	const isEditorRole = $derived(props.profile.roleTerm === 'editor');
 	const isAssignedEditor = $derived(obraLive.editor_asignado === props.profile.userId);
 	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
+	const rangeConsistencyIssues = $derived.by(() => [
+		...analyzeStructureRangeConsistency(props.jornadas, props.cuadros),
+		...analyzeSequenceRangeConsistency(props.secuencias)
+	]);
 
 	const checklist = $derived.by(() => {
 		const secuenciasTotales = props.secuencias.length;
@@ -100,6 +110,14 @@
 				label: 'Secuencias métricas registradas',
 				done: secuenciasTotales > 0,
 				detail: `${secuenciasTotales} secuencias`
+			},
+			{
+				label: 'Rangos coherentes',
+				done: rangeConsistencyIssues.length === 0,
+				detail:
+					rangeConsistencyIssues.length === 0
+						? ''
+						: `${rangeConsistencyIssues.length} pendiente${rangeConsistencyIssues.length === 1 ? '' : 's'}`
 			},
 			{
 				label: 'Autoría asignada',
@@ -156,7 +174,9 @@
 					!canTransitionState(props.profile.roleTerm, persistedEstadoTerm, option.termino, {
 						assignedEditor: isAssignedEditor,
 						assignedReviewer: props.assignedReviewer
-					})
+					}) ||
+					(rangeConsistencyIssues.length > 0 &&
+						stateRequiresConsistentRanges(option.termino))
 			)
 			.map((option: EstadoOption) => option.termino_id);
 	});
@@ -550,6 +570,11 @@
 			{/each}
 		</ul>
 	</div>
+
+	<RangeConsistencyAlert
+		issues={rangeConsistencyIssues}
+		title="La obra tiene incoherencias de rango"
+	/>
 
 	<InternalCommentsPanel
 		obraId={props.obraId}

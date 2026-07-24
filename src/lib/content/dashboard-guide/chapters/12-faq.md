@@ -22,7 +22,13 @@ Usa la tipología `desconocida` y deja la atribución **sin autores** selecciona
 
 ## ¿Cuándo paso una obra de `borrador` a `vista_previa` o `listo_para_publicar`?
 
-Cambia a `vista_previa` cuando quieras revisar cómo va a quedar la ficha pública, piensa en ello como unas pruebas de imprenta; pasa a `listo_para_publicar` cuando la revisión esté cerrada y todo el contenido completo. Ver [Paso 7 · Revisión y estados](/dashboard/guia/paso-revision).
+Cambia a `vista_previa` cuando quieras revisar cómo va a quedar la ficha pública, piensa en ello como unas pruebas de imprenta; pasa a `listo_para_publicar` cuando la revisión esté cerrada, todo el contenido esté completo y no queden incoherencias de rango. Ver [Paso 7 · Revisión y estados](/dashboard/guia/paso-revision).
+
+## ¿Qué hago si aparece un solapamiento de rangos?
+
+Puedes guardar el cambio mientras la obra esté en `borrador`. El sistema mostrará automáticamente un aviso y resaltará en rojo las jornadas, cuadros o secuencias implicados. Ajusta sucesivamente sus rangos hasta que desaparezcan todos los avisos. No podrás enviar la obra a revisión ni publicarla hasta resolver las incoherencias.
+
+Si la obra está en otro estado, devuélvela primero a `borrador`. Recuerda también que los extremos son inclusivos: `1–10` y `10–20` se solapan.
 
 ## ¿Qué es público y qué es interno?
 

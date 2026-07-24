@@ -8,6 +8,7 @@
 	import type { PageData } from './$types';
 	import type { Tables } from '$lib/types/database.types';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
+	import { stateAllowsRangeEditing } from '$lib/utils/range-consistency';
 	import Button from '$lib/components/ui/button.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
@@ -114,6 +115,14 @@
 		return data.obra as Tables<'obras'>;
 	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
+	const currentEstadoTerm = $derived.by(
+		() =>
+			estadoOptions.find((option) => option.termino_id === obraLive.estado)?.termino ??
+			data.estadoTerm
+	);
+	const canEditRanges = $derived(
+		canEditContent && stateAllowsRangeEditing(currentEstadoTerm)
+	);
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
 
 	// --- Datos públicos precomputados (Fase 2 del plan de precomputación) ---
@@ -628,7 +637,7 @@
 			draftOwnerId={data.profile.userId}
 			jornadasInitial={jornadasLive}
 			cuadrosInitial={cuadrosLive}
-			readOnly={!canEditContent}
+			readOnly={!canEditRanges}
 			canComment={canComment}
 			focusJornadaId={focusJornadaId}
 			focusCuadroId={focusCuadroId}
@@ -647,7 +656,7 @@
 			cuadrosInitial={cuadrosLive}
 			estrofaOptions={estrofaOptions}
 			caracterizacionRangoOptions={caracterizacionRangoOptions}
-			readOnly={!canEditContent}
+			readOnly={!canEditRanges}
 			canComment={canComment}
 			focusSecuenciaId={focusSecuenciaId}
 			focusComentarioId={focusComentarioId}

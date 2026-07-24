@@ -3,9 +3,9 @@ import type { RequestHandler } from './$types';
 import { jornadaInputSchema } from '$lib/utils/validators';
 import { validationErrorResponse, conflictResponse } from '$lib/server/http';
 import { getObraContext } from '$lib/server/auth';
-import { hasOverlap } from '$lib/server/obras';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '$lib/types/database.types';
+import { stateAllowsRangeEditing } from '$lib/utils/range-consistency';
 
 async function syncObraTotalVersos(
 	supabase: SupabaseClient<Database>,
@@ -34,7 +34,10 @@ async function syncObraTotalVersos(
 }
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
-	await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { estadoTerm } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	if (!stateAllowsRangeEditing(estadoTerm)) {
+		return conflictResponse('Mueve la obra a borrador antes de editar sus rangos.');
+	}
 	const body = await request.json().catch(() => ({}));
 	const parsed = jornadaInputSchema.safeParse(body);
 	if (!parsed.success) {
@@ -50,16 +53,6 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	if (!current) {
 		return json({ error: 'not_found', message: 'Jornada no encontrada' }, { status: 404 });
-	}
-
-	const { data: others } = await locals.supabase
-		.from('jornadas')
-		.select('v_ini,v_fin')
-		.eq('obra_id', params.id)
-		.neq('jornada_id', params.jornadaId);
-
-	if (hasOverlap(others ?? [], parsed.data)) {
-		return conflictResponse('El rango de versos se solapa con otra jornada');
 	}
 
 	const { data, error } = await locals.supabase
@@ -86,7 +79,10 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 };
 
 export const DELETE: RequestHandler = async ({ locals, params }) => {
-	await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { estadoTerm } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	if (!stateAllowsRangeEditing(estadoTerm)) {
+		return conflictResponse('Mueve la obra a borrador antes de editar sus rangos.');
+	}
 
 	const { data: jornada } = await locals.supabase
 		.from('jornadas')
