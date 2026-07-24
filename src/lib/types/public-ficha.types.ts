@@ -77,9 +77,9 @@ export interface PublicFichaSecuencia {
 	versos_partidos: boolean;
 	evocacion_metrica: boolean;
 	evocacion_metrica_texto: string | null;
-	intervencion_personajes_femeninos: string;
-	intervencion_figuras_donaire: string;
-	intervencion_personajes_sobrenaturales: string;
+	intervencion_personajes_femeninos: string | null;
+	intervencion_figuras_donaire: string | null;
+	intervencion_personajes_sobrenaturales: string | null;
 	sinopsis: string | null;
 	jornada_id: string | null;
 	jornada_num: number | null;

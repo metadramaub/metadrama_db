@@ -70,6 +70,23 @@ describe('validators', () => {
 		expect(result.success).toBe(true);
 	});
 
+	it('accepts pending intervention values in secuencia payload', () => {
+		const result = secuenciaInputSchema.safeParse({
+			v_ini: 1,
+			v_fin: 120,
+			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			inaugura_espacio: false,
+			versos_partidos: false,
+			evocacion_metrica: false,
+			evocacion_metrica_texto: null,
+			intervencion_personajes_femeninos: null,
+			intervencion_figuras_donaire: null,
+			intervencion_personajes_sobrenaturales: null,
+			sinopsis: null
+		});
+		expect(result.success).toBe(true);
+	});
+
 	it('defaults versos_partidos when omitted in secuencia payload', () => {
 		const parsed = secuenciaInputSchema.parse({
 			v_ini: 1,

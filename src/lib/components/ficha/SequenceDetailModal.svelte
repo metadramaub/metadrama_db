@@ -75,7 +75,8 @@
 		return `${formatCuadroLabel(tramo.cuadroNum)} - vv. ${tramo.vIni}-${tramo.vFin}`;
 	}
 
-	function formatIntervencionValue(value: string) {
+	function formatIntervencionValue(value: string | null) {
+		if (value === null) return 'Pendiente';
 		if (value === 'sin_intervencion') return 'Sin intervención';
 		if (value === 'exclusiva') return 'Intervención exclusiva';
 		if (value === 'compartida') return 'Intervención compartida';

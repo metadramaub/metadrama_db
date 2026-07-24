@@ -30,6 +30,8 @@ Ambos se explican en detalle en [Paso 4 · Caracterizaciones por rango](/dashboa
 
 Indicas si en la secuencia interviene cada tipo de personaje, con tres valores: **sin intervención**, **intervención exclusiva** o **intervención compartida**.
 
+Los tres selectores comienzan en blanco. Si guardas la secuencia sin completarlos, quedan marcados como **pendientes**; el sistema no los interpreta como "sin intervención".
+
 - personajes femeninos;
 - figuras de donaire;
 - personajes sobrenaturales.

@@ -61,9 +61,9 @@ export interface SecuenciaInput {
 	versos_partidos: boolean;
 	evocacion_metrica: boolean;
 	evocacion_metrica_texto: string | null;
-	intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida';
-	intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida';
-	intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida';
+	intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
+	intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
+	intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
 	sinopsis: string | null;
 }
 
