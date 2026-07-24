@@ -7,6 +7,7 @@
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import LocalDraftRecoveryModal from '$lib/components/editor/LocalDraftRecoveryModal.svelte';
+	import RangeConsistencyAlert from '$lib/components/editor/RangeConsistencyAlert.svelte';
 	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import {
@@ -16,6 +17,10 @@
 		removeLocalDraft,
 		type LocalFormDraft
 	} from '$lib/utils/local-form-draft';
+	import {
+		analyzeStructureRangeConsistency,
+		collectRangeConsistencyIds
+	} from '$lib/utils/range-consistency';
 
 	const props = $props<{
 		obraId: string;
@@ -106,6 +111,10 @@
 	}
 	const orderedJornadas = $derived(sortByVIni(jornadas));
 	const orderedCuadros = $derived(sortByVIni(cuadros));
+	const structureOverlapIssues = $derived.by(() =>
+		analyzeStructureRangeConsistency(jornadas, cuadros)
+	);
+	const structureOverlapIds = $derived(collectRangeConsistencyIds(structureOverlapIssues));
 	const editingJornadaIndex = $derived(
 		editingJornadaId ? orderedJornadas.findIndex((item) => item.jornada_id === editingJornadaId) : -1
 	);
@@ -811,6 +820,8 @@
 		<h2 class="text-lg font-semibold">Jornadas y cuadros</h2>
 	</div>
 
+	<RangeConsistencyAlert issues={structureOverlapIssues} />
+
 	{#if jornadas.length === 0}
 		<p class="bg-white px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
 			No hay jornadas registradas.
@@ -818,7 +829,13 @@
 	{:else}
 		<div>
 			{#each sortByVIni(jornadas) as jornada}
-				<section class="space-y-2 py-3 first:pt-0">
+				<section
+					class={`space-y-2 border-l-4 py-3 pl-3 first:pt-0 ${
+						structureOverlapIds.has(jornada.jornada_id)
+							? 'border-[color:var(--danger)] bg-red-50/60'
+							: 'border-transparent'
+					}`}
+				>
 					<div class="flex flex-wrap items-start justify-between gap-3">
 						<div class="min-w-0 text-sm">
 							<span class="font-semibold">Jornada {jornada.jornada_num}</span>
@@ -856,7 +873,11 @@
 						{:else}
 							{#each getCuadros(jornada.jornada_id) as cuadro}
 								<div
-									class="flex items-center justify-between gap-3 border-t border-[color:var(--border)] px-3 py-2 text-sm first:border-t-0"
+									class={`flex items-center justify-between gap-3 border-t px-3 py-2 text-sm first:border-t-0 ${
+										structureOverlapIds.has(cuadro.cuadro_id)
+											? 'border-[color:var(--danger)] bg-red-50'
+											: 'border-[color:var(--border)]'
+									}`}
 								>
 									<div class="min-w-0">
 										<span class="font-medium">Cuadro {cuadro.cuadro_num}</span>

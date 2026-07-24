@@ -1,7 +1,7 @@
 En la pestaña **Estructura** organizas la arquitectura del texto por jornadas y cuadros, con sus rangos de versos.
 
-> [!DANGER]
-> Introduce al menos la división de jornadas antes de declarar las secuencias métricas en el paso siguiente.
+> [!TIP]
+> Puedes completar las secuencias métricas antes de declarar la estructura. Si el análisis métrico te ayuda a comprobar primero la numeración, empieza por las secuencias y vuelve después a jornadas y cuadros.
 
 ## Qué puedes registrar
 
@@ -21,4 +21,6 @@ Aunque la bibliografía no sea unánime, desde METADRAMA seguimos estos criterio
 > Si una delimitación de cuadro es dudosa, consúltala o deja un comentario interno de revisión en ese cuadro. No cierres una delimitación como válida mientras siga sin aclararse.
 
 > [!DANGER]
-> Antes de pasar a secuencias, confirma que no hay solapamientos evidentes de rangos de versos entre jornadas o cuadros.
+> En borrador puedes guardar temporalmente jornadas o cuadros solapados para corregir una numeración paso a paso. Al guardar, el sistema los marcará en rojo y detallará qué rangos entran en conflicto. Debes resolver todas las incoherencias antes de enviar la obra a revisión o publicarla.
+>
+> Los extremos de los rangos son inclusivos: `1–10` y `10–20` se solapan; para que sean consecutivos, el segundo rango debe empezar en `11`. Además, cada cuadro debe quedar completamente dentro del rango de su jornada.

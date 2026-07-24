@@ -3,6 +3,13 @@ La pestaña **Secuencias** es donde haces el análisis métrico más detallado. 
 > [!TIP]
 > Conviene trabajarla en dos pasadas: primero declara las secuencias base (rango de versos y tipología) y luego completa su análisis (caracterización, sinopsis y caracterizaciones por rango).
 
+Puedes declarar las secuencias antes que jornadas y cuadros.
+
+> [!IMPORTANT]
+> Si al corregir la numeración una secuencia se solapa temporalmente con otra, puedes guardar el borrador. Después de guardar, el sistema mostrará automáticamente un aviso y resaltará en rojo las secuencias afectadas hasta que ajustes sus rangos. Una obra con solapamientos no puede avanzar a revisión ni publicarse.
+>
+> Los huecos entre secuencias no se consideran errores: pueden corresponder, por ejemplo, a prosa o lagunas. Solo se señalan los rangos que se solapan.
+
 Al abrir una secuencia (con **Nueva secuencia** o **Editar**) se despliega un panel lateral con estos bloques, en este orden. Los explicamos en el mismo orden en que los ves.
 
 ## Métrica base

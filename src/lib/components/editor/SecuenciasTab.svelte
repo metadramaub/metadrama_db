@@ -14,6 +14,7 @@
 	import NullableBooleanChoice from '$lib/components/ui/nullable-boolean-choice.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import LocalDraftRecoveryModal from '$lib/components/editor/LocalDraftRecoveryModal.svelte';
+	import RangeConsistencyAlert from '$lib/components/editor/RangeConsistencyAlert.svelte';
 	import SequenceSynopsisModal from '$lib/components/editor/SequenceSynopsisModal.svelte';
 	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
@@ -28,6 +29,10 @@
 		type LocalFormDraft
 	} from '$lib/utils/local-form-draft';
 	import { displayTerm } from '$lib/utils/vocabulario';
+	import {
+		analyzeSequenceRangeConsistency,
+		collectRangeConsistencyIds
+	} from '$lib/utils/range-consistency';
 
 	const props = $props<{
 		obraId: string;
@@ -445,6 +450,8 @@
 	});
 	// Todas las secuencias ordenadas, para numerar y navegar en el panel de edición.
 	const orderedSecuencias = $derived.by(() => sortSecuencias(secuencias));
+	const sequenceOverlapIssues = $derived.by(() => analyzeSequenceRangeConsistency(secuencias));
+	const sequenceOverlapIds = $derived(collectRangeConsistencyIds(sequenceOverlapIssues));
 	const editingIndex = $derived.by(() =>
 		editingId ? orderedSecuencias.findIndex((item) => item.secuencia_id === editingId) : -1
 	);
@@ -1400,6 +1407,8 @@
 		</div>
 	</div>
 
+	<RangeConsistencyAlert issues={sequenceOverlapIssues} />
+
 	<div class="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-4">
 		<aside class="secuencias-structure-index hidden lg:sticky lg:top-4 lg:block lg:h-fit lg:self-start">
 			<div class="card secuencias-structure-index__head">Índice de estructura</div>
@@ -1465,7 +1474,13 @@
 							</tr>
 						{:else}
 							{#each filteredSecuencias as secuencia, idx}
-								<tr class="border-t border-[color:var(--border)]">
+								<tr
+									class={`border-t ${
+										sequenceOverlapIds.has(secuencia.secuencia_id)
+											? 'border-[color:var(--danger)] bg-red-50'
+											: 'border-[color:var(--border)]'
+									}`}
+								>
 									<td class="px-3 py-2">{idx + 1}</td>
 									<td class="px-3 py-2">{secuencia.v_ini}</td>
 									<td class="px-3 py-2">{secuencia.v_fin}</td>

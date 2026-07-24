@@ -6,6 +6,8 @@ import { validationErrorResponse } from '$lib/server/http';
 import { getObraContext, requireAuthenticated } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { getEstadoTerm } from '$lib/server/obras';
+import { loadObraRangeConsistency } from '$lib/server/range-consistency';
+import { stateRequiresConsistentRanges } from '$lib/utils/range-consistency';
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	const user = await requireAuthenticated({ locals });
@@ -37,6 +39,30 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			},
 			{ status: 403 }
 		);
+	}
+
+	if (stateRequiresConsistentRanges(targetTerm)) {
+		const consistency = await loadObraRangeConsistency(locals.supabase, obra.obra_id);
+		if (consistency.errorMessage) {
+			return json(
+				{
+					error: 'db_error',
+					message: `No se pudo comprobar la coherencia de los rangos: ${consistency.errorMessage}`
+				},
+				{ status: 500 }
+			);
+		}
+		if (consistency.issues.length > 0) {
+			return json(
+				{
+					error: 'range_consistency_error',
+					message:
+						'La obra tiene incoherencias de rango. Corrígelas antes de enviarla a revisión o publicarla.',
+					issues: consistency.issues
+				},
+				{ status: 409 }
+			);
+		}
 	}
 
 	const { data, error } = await locals.supabase

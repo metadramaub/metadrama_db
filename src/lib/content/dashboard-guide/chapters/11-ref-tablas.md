@@ -5,8 +5,9 @@ Referencias rápidas para consultar de un vistazo mientras editas.
 - `borrador`: la obra está en edición. El editor asignado puede editar su contenido.
 - `vista_previa`: permite revisar la ficha pública. El editor asignado puede pasar aquí desde `borrador` y volver.
 - `listo_para_publicar`: la revisión está cerrada. El editor asignado puede llegar aquí desde `vista_previa`.
-- `en revisión` → `revisado`: transición propia del revisor asignado.
 - **Publicar** (hacer visible al público) y otras transiciones quedan reservadas a `admin` e `IP`.
+
+Los rangos de jornadas, cuadros y secuencias solo pueden corregirse en `borrador`. La obra no puede avanzar a revisión o publicación mientras contenga incoherencias de rango.
 
 ## Público vs. interno
 

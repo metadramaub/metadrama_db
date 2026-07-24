@@ -3,11 +3,14 @@ import type { RequestHandler } from './$types';
 import { cuadroInputSchema } from '$lib/utils/validators';
 import { conflictResponse, validationErrorResponse } from '$lib/server/http';
 import { getObraContext } from '$lib/server/auth';
-import { hasOverlap } from '$lib/server/obras';
 import type { Tables } from '$lib/types/database.types';
+import { stateAllowsRangeEditing } from '$lib/utils/range-consistency';
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
-	await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { estadoTerm } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	if (!stateAllowsRangeEditing(estadoTerm)) {
+		return conflictResponse('Mueve la obra a borrador antes de editar sus rangos.');
+	}
 	const body = await request.json().catch(() => ({}));
 	const parsed = cuadroInputSchema.safeParse(body);
 	if (!parsed.success) {
@@ -36,15 +39,6 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 
-	const { data: existing } = await locals.supabase
-		.from('cuadros')
-		.select('v_ini,v_fin')
-		.eq('jornada_id', payload.jornada_id)
-		.neq('cuadro_id', params.cuadroId);
-	if (hasOverlap(existing ?? [], payload)) {
-		return conflictResponse('El rango de versos se solapa con otro cuadro');
-	}
-
 	const { data, error } = await locals.supabase
 		.from('cuadros')
 		.update(payload)
@@ -63,7 +57,10 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 };
 
 export const DELETE: RequestHandler = async ({ locals, params }) => {
-	await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { estadoTerm } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	if (!stateAllowsRangeEditing(estadoTerm)) {
+		return conflictResponse('Mueve la obra a borrador antes de editar sus rangos.');
+	}
 	const { error } = await locals.supabase.from('cuadros').delete().eq('cuadro_id', params.cuadroId);
 	if (error) {
 		return json(

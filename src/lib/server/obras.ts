@@ -4,20 +4,6 @@ import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { Database, Tables } from '$lib/types/database.types';
 
-type Rango = Pick<
-	Tables<'jornadas'> | Tables<'cuadros'> | Tables<'secuencias_metricas'>,
-	'v_ini' | 'v_fin'
->;
-
-export function hasOverlap(ranges: Rango[], input: Rango, excludeBy?: Rango): boolean {
-	return ranges.some((current) => {
-		if (excludeBy && current.v_ini === excludeBy.v_ini && current.v_fin === excludeBy.v_fin) {
-			return false;
-		}
-		return input.v_ini <= current.v_fin && input.v_fin >= current.v_ini;
-	});
-}
-
 export async function getEstadoTerm(
 	supabase: SupabaseClient<Database>,
 	estadoId: string
