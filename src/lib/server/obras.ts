@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
+import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { Database, Tables } from '$lib/types/database.types';
 
@@ -45,17 +45,22 @@ export async function computeObraProgress(
 
 	const jornadasResp = await supabase
 		.from('jornadas')
-		.select('jornada_id', { count: 'exact', head: true })
+		.select('jornada_id')
 		.eq('obra_id', obra.obra_id);
 	const secuenciasResp = await supabase
 		.from('secuencias_metricas')
 		.select('secuencia_id', { count: 'exact', head: true })
 		.eq('obra_id', obra.obra_id);
-	const autoriaNoAmbiguaCount = await countUnambiguousAutoriaGroups(supabase, obra.obra_id);
+	const jornadaIds = (jornadasResp.data ?? []).map((row) => row.jornada_id);
+	const autoriaGroupCount = await countAutoriaGroupsWithProposals(
+		supabase,
+		obra.obra_id,
+		jornadaIds
+	);
 
-	flags.estructura = (jornadasResp.count ?? 0) > 0;
+	flags.estructura = jornadaIds.length > 0;
 	flags.secuencias = (secuenciasResp.count ?? 0) > 0;
-	flags.autoria = autoriaNoAmbiguaCount > 0;
+	flags.autoria = autoriaGroupCount > 0;
 
 	const values = Object.values(flags);
 	const completed = values.filter(Boolean).length;

@@ -8,6 +8,7 @@
 	import type { PageData } from './$types';
 	import type { Tables } from '$lib/types/database.types';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
+	import type { AutoriaApiPayload } from '$lib/types/obra.types';
 	import { stateAllowsRangeEditing } from '$lib/utils/range-consistency';
 	import Button from '$lib/components/ui/button.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
@@ -179,6 +180,7 @@
 	let jornadasLive = $state<EditorJornadaRow[]>(untrack(() => [...data.jornadas]));
 	let cuadrosLive = $state<EditorCuadroRow[]>(untrack(() => [...data.cuadros]));
 	let secuenciasLive = $state<EditorSecuenciaRow[]>(untrack(() => [...data.secuencias]));
+	let autoriaGroupCountLive = $state(untrack(() => data.autoriaGroupCount));
 
 	let channel: RealtimeChannel | null = null;
 	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestaña.';
@@ -368,6 +370,12 @@
 		if (resumenExiste) resumenSucia = true;
 	}
 
+	function handleAutoriaChange(payload: AutoriaApiPayload) {
+		autoriaGroupCountLive = payload.grupos.filter(
+			(grupo) => grupo.propuestas.length > 0
+		).length;
+	}
+
 	function requestGeneralSave() {
 		if (!canEditContent || !generalSaveScope) return;
 		if (generalSaveScope === 'datos') {
@@ -519,6 +527,7 @@
 		jornadasLive = [...data.jornadas];
 		cuadrosLive = [...data.cuadros];
 		secuenciasLive = [...data.secuencias];
+		autoriaGroupCountLive = data.autoriaGroupCount;
 	});
 
 	// Resincroniza el estado de datos públicos al recargar (cambio de obra / invalidate).
@@ -676,6 +685,7 @@
 			canComment={canComment}
 			focusComentarioId={focusComentarioId}
 			commentsReloadKey={commentsReloadKey}
+			onAutoriaChange={handleAutoriaChange}
 			onMetricaDirty={handleMetricaDirty}
 		/>
 	{:else if currentTab === 'observaciones'}
@@ -699,13 +709,14 @@
 			jornadas={jornadasLive}
 			cuadros={cuadrosLive}
 			secuencias={secuenciasLive}
-			autoriaNoAmbiguaCount={data.autoriaNoAmbiguaCount}
+			autoriaGroupCount={autoriaGroupCountLive}
 			editorAsignadoNombre={data.editorAsignadoNombre}
 			assignedReviewer={data.assignedReviewer}
 			capabilities={data.capabilities}
 			focusComentarioId={focusComentarioId}
 			commentsReloadKey={commentsReloadKey}
 			onPendingChangesChange={handleRevisionPendingChangesChange}
+			onNavigateToTab={handleTabChange}
 		/>
 	{/if}
 </section>

@@ -144,7 +144,7 @@ export function collectRangeConsistencyIds(issues: RangeConsistencyIssue[]): Set
 	return new Set(issues.flatMap((issue) => [issue.leftId, issue.rightId]));
 }
 
-export function stateRequiresConsistentRanges(stateTerm: string): boolean {
+export function stateRequiresCompletedReview(stateTerm: string): boolean {
 	return ['vista_previa', 'listo_para_publicar', 'publicado'].includes(
 		stateTerm.trim().toLowerCase()
 	);

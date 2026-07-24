@@ -2,18 +2,18 @@
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount, untrack } from 'svelte';
 	import AllCommentsModal from '$lib/components/editor/AllCommentsModal.svelte';
-	import RangeConsistencyAlert from '$lib/components/editor/RangeConsistencyAlert.svelte';
+	import RevisionChecklist from '$lib/components/editor/RevisionChecklist.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { currentObraStore, patchCurrentObra } from '$lib/stores/currentObra';
 	import { canTransitionState } from '$lib/utils/permissions';
+	import { stateRequiresCompletedReview } from '$lib/utils/range-consistency';
 	import {
-		analyzeSequenceRangeConsistency,
-		analyzeStructureRangeConsistency,
-		stateRequiresConsistentRanges
-	} from '$lib/utils/range-consistency';
+		buildRevisionChecklist,
+		type RevisionTargetTab
+	} from '$lib/utils/revision-checklist';
 	import { displayTerm } from '$lib/utils/vocabulario';
 	import type { Tables } from '$lib/types/database.types';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
@@ -35,13 +35,14 @@
 		jornadas: EditorJornadaRow[];
 		cuadros: EditorCuadroRow[];
 		secuencias: EditorSecuenciaRow[];
-		autoriaNoAmbiguaCount: number;
+		autoriaGroupCount: number;
 		editorAsignadoNombre: string | null;
 		assignedReviewer: boolean;
 		capabilities: ObraAccessFlags;
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
 		onPendingChangesChange?: (pending: boolean) => void;
+		onNavigateToTab?: (tab: RevisionTargetTab) => void;
 	}>();
 
 	const obraLive = $derived(($currentObraStore.obra ?? props.obra) as Tables<'obras'>);
@@ -88,54 +89,18 @@
 	const isEditorRole = $derived(props.profile.roleTerm === 'editor');
 	const isAssignedEditor = $derived(obraLive.editor_asignado === props.profile.userId);
 	const deleteConfirmed = $derived(deleteConfirmText.trim() === 'ELIMINAR');
-	const rangeConsistencyIssues = $derived.by(() => [
-		...analyzeStructureRangeConsistency(props.jornadas, props.cuadros),
-		...analyzeSequenceRangeConsistency(props.secuencias)
-	]);
-
-	const checklist = $derived.by(() => {
-		const secuenciasTotales = props.secuencias.length;
-		return [
-			{
-				label: 'Datos básicos completos',
-				done: Boolean(obraLive.titulo?.trim() && obraLive.genero_id && obraLive.edicion?.trim()),
-				detail: ''
-			},
-			{
-				label: 'Estructura definida',
-				done: props.jornadas.length > 0,
-				detail: `${props.jornadas.length} jornadas, ${props.cuadros.length} cuadros`
-			},
-			{
-				label: 'Secuencias métricas registradas',
-				done: secuenciasTotales > 0,
-				detail: `${secuenciasTotales} secuencias`
-			},
-			{
-				label: 'Rangos coherentes',
-				done: rangeConsistencyIssues.length === 0,
-				detail:
-					rangeConsistencyIssues.length === 0
-						? ''
-						: `${rangeConsistencyIssues.length} pendiente${rangeConsistencyIssues.length === 1 ? '' : 's'}`
-			},
-			{
-				label: 'Autoría asignada',
-				done: props.autoriaNoAmbiguaCount > 0,
-				detail: `${props.autoriaNoAmbiguaCount} grupos no ambiguos`
-			},
-			{
-				label: 'Observaciones de obra',
-				done: (obraLive.observaciones ?? '').trim().length > 100,
-				detail: `${(obraLive.observaciones ?? '').trim().length} caracteres`
-			},
-			{
-				label: 'Bibliografía métrica añadida',
-				done: (obraLive.bibliografia ?? '').trim().length > 0,
-				detail: `${(obraLive.bibliografia ?? '').trim().length} caracteres`
-			}
-		];
-	});
+	const checklistSummary = $derived.by(() =>
+		buildRevisionChecklist({
+			obra: obraLive,
+			jornadas: props.jornadas,
+			cuadros: props.cuadros,
+			secuencias: props.secuencias,
+			autoriaGroupCount: props.autoriaGroupCount
+		})
+	);
+	const requiredChecklistComplete = $derived(
+		checklistSummary.required.every((item) => item.done)
+	);
 
 	const estadoDropdownItems = $derived(
 		props.estadoOptions.map((option: EstadoOption) => ({
@@ -175,8 +140,8 @@
 						assignedEditor: isAssignedEditor,
 						assignedReviewer: props.assignedReviewer
 					}) ||
-					(rangeConsistencyIssues.length > 0 &&
-						stateRequiresConsistentRanges(option.termino))
+					(!requiredChecklistComplete &&
+						stateRequiresCompletedReview(option.termino))
 			)
 			.map((option: EstadoOption) => option.termino_id);
 	});
@@ -555,25 +520,10 @@
 </script>
 
 <section class="space-y-4">
-	<div class="card p-4">
-		<h3 class="mb-3 text-base font-semibold">Checklist</h3>
-		<ul class="text-sm">
-			{#each checklist as item}
-				<li class="flex items-start justify-between gap-3 border-b border-[color:var(--border)] py-2 last:border-b-0">
-					<span class={item.done ? 'font-medium text-[color:var(--success)]' : 'font-medium text-[color:var(--danger)]'}>
-						{item.done ? '[OK]' : '[PEND]'} {item.label}
-					</span>
-					{#if item.detail}
-						<span class="shrink-0 text-[color:var(--muted-foreground)]">{item.detail}</span>
-					{/if}
-				</li>
-			{/each}
-		</ul>
-	</div>
-
-	<RangeConsistencyAlert
-		issues={rangeConsistencyIssues}
-		title="La obra tiene incoherencias de rango"
+	<RevisionChecklist
+		required={checklistSummary.required}
+		recommendations={checklistSummary.recommendations}
+		onNavigate={props.onNavigateToTab}
 	/>
 
 	<InternalCommentsPanel

@@ -6,8 +6,8 @@ import { validationErrorResponse } from '$lib/server/http';
 import { getObraContext, requireAuthenticated } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { getEstadoTerm } from '$lib/server/obras';
-import { loadObraRangeConsistency } from '$lib/server/range-consistency';
-import { stateRequiresConsistentRanges } from '$lib/utils/range-consistency';
+import { loadObraRevisionChecklist } from '$lib/server/revision-checklist';
+import { stateRequiresCompletedReview } from '$lib/utils/range-consistency';
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	const user = await requireAuthenticated({ locals });
@@ -41,24 +41,29 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 
-	if (stateRequiresConsistentRanges(targetTerm)) {
-		const consistency = await loadObraRangeConsistency(locals.supabase, obra.obra_id);
-		if (consistency.errorMessage) {
+	if (stateRequiresCompletedReview(targetTerm)) {
+		const checklist = await loadObraRevisionChecklist(locals.supabase, obra);
+		if (checklist.errorMessage || !checklist.summary) {
 			return json(
 				{
 					error: 'db_error',
-					message: `No se pudo comprobar la coherencia de los rangos: ${consistency.errorMessage}`
+					message: `No se pudo comprobar el checklist de revisión: ${checklist.errorMessage ?? 'respuesta vacía'}`
 				},
 				{ status: 500 }
 			);
 		}
-		if (consistency.issues.length > 0) {
+		const pendingItems = checklist.summary.required.filter((item) => !item.done);
+		if (pendingItems.length > 0) {
 			return json(
 				{
-					error: 'range_consistency_error',
+					error: 'review_checklist_incomplete',
 					message:
-						'La obra tiene incoherencias de rango. Corrígelas antes de enviarla a revisión o publicarla.',
-					issues: consistency.issues
+						'La obra tiene comprobaciones necesarias pendientes. Revísalas antes de enviarla a revisión o publicarla.',
+					pendingItems: pendingItems.map((item) => ({
+						id: item.id,
+						label: item.label,
+						detail: item.detail
+					}))
 				},
 				{ status: 409 }
 			);

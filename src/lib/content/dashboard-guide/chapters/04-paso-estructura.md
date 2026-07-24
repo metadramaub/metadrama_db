@@ -24,3 +24,5 @@ Aunque la bibliografía no sea unánime, desde METADRAMA seguimos estos criterio
 > En borrador puedes guardar temporalmente jornadas o cuadros solapados para corregir una numeración paso a paso. Al guardar, el sistema los marcará en rojo y detallará qué rangos entran en conflicto. Debes resolver todas las incoherencias antes de enviar la obra a revisión o publicarla.
 >
 > Los extremos de los rangos son inclusivos: `1–10` y `10–20` se solapan; para que sean consecutivos, el segundo rango debe empezar en `11`. Además, cada cuadro debe quedar completamente dentro del rango de su jornada.
+
+Antes de pasar la obra a revisión, cada jornada debe contener al menos un cuadro y no puede haber números de jornada duplicados ni números de cuadro repetidos dentro de una misma jornada.
