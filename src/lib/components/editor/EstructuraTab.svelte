@@ -1,15 +1,25 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { onDestroy, untrack } from 'svelte';
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import { ChevronLeft, ChevronRight, Eye, Pencil, Plus, Trash2 } from 'lucide-svelte';
 	import type { EditorCuadroRow, EditorJornadaRow } from '$lib/types/editor.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
+	import LocalDraftRecoveryModal from '$lib/components/editor/LocalDraftRecoveryModal.svelte';
+	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
 	import { pushToast } from '$lib/stores/toast';
+	import {
+		buildLocalDraftKey,
+		createLocalDraftWriter,
+		readLocalDraft,
+		removeLocalDraft,
+		type LocalFormDraft
+	} from '$lib/utils/local-form-draft';
 
 	const props = $props<{
 		obraId: string;
+		draftOwnerId: string;
 		jornadasInitial: EditorJornadaRow[];
 		cuadrosInitial: EditorCuadroRow[];
 		readOnly?: boolean;
@@ -22,12 +32,40 @@
 			jornadas: EditorJornadaRow[];
 			cuadros: EditorCuadroRow[];
 		}) => void;
+		onPendingChangesChange?: (pending: boolean) => void;
 	}>();
 
 	let jornadas = $state(untrack(() => [...props.jornadasInitial]));
 	let cuadros = $state(untrack(() => [...props.cuadrosInitial]));
 
 	type SidebarMode = 'jornada-new' | 'jornada-edit' | 'cuadro-new' | 'cuadro-edit' | null;
+	type ActiveSidebarMode = Exclude<SidebarMode, null>;
+	type JornadaFormState = {
+		jornada_num: number;
+		v_ini: number;
+		v_fin: number;
+	};
+	type CuadroFormState = {
+		jornada_id: string;
+		cuadro_num: number;
+		v_ini: number;
+		v_fin: number;
+	};
+	type StructureDraftValue = {
+		mode: ActiveSidebarMode;
+		jornadaForm: JornadaFormState;
+		cuadroForm: CuadroFormState;
+	};
+	type DraftRecovery = {
+		key: string;
+		draft: LocalFormDraft<StructureDraftValue>;
+	};
+	type PendingSidebarAction =
+		| { kind: 'close' }
+		| { kind: 'new-jornada' }
+		| { kind: 'new-cuadro'; jornada: EditorJornadaRow }
+		| { kind: 'jornada'; target: EditorJornadaRow }
+		| { kind: 'cuadro'; target: EditorCuadroRow };
 	type DeleteTarget = {
 		kind: 'jornada' | 'cuadro';
 		id: string;
@@ -39,23 +77,23 @@
 	let editingJornadaId = $state<string | null>(null);
 	let editingCuadroId = $state<string | null>(null);
 	let deleteTarget = $state<DeleteTarget | null>(null);
-	let showCloseWithoutSavingModal = $state(false);
+	let pendingSidebarAction = $state<PendingSidebarAction | null>(null);
+	let draftRecovery = $state<DraftRecovery | null>(null);
 
 	let sidebarSaving = $state(false);
 	let sidebarDirty = $state(false);
 	let sidebarBaselineSnapshot = $state('');
-	let autosaveErrorShown = $state(false);
-	let lastSidebarSnapshot = $state('');
-	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
+	let lastReportedPending = false;
+	const localDraftWriter = createLocalDraftWriter();
 	let handledFocusTarget = $state<string | null>(null);
 
-	let jornadaForm = $state({
+	let jornadaForm = $state<JornadaFormState>({
 		jornada_num: untrack(() => props.jornadasInitial.length + 1),
 		v_ini: 1,
 		v_fin: 2
 	});
 
-	let cuadroForm = $state({
+	let cuadroForm = $state<CuadroFormState>({
 		jornada_id: untrack(() => props.jornadasInitial[0]?.jornada_id ?? ''),
 		cuadro_num: 1,
 		v_ini: untrack(() => props.jornadasInitial[0]?.v_ini ?? 1),
@@ -159,12 +197,6 @@
 		};
 	}
 
-	function clearAutosaveTimer() {
-		if (!autosaveTimer) return;
-		clearTimeout(autosaveTimer);
-		autosaveTimer = null;
-	}
-
 	function sidebarSnapshot(): string {
 		if (sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit') {
 			return JSON.stringify({
@@ -188,11 +220,80 @@
 		return '';
 	}
 
+	function localDraftKey(): string {
+		let target = 'cerrado';
+		if (sidebarMode === 'jornada-new') target = 'jornada:nueva';
+		if (sidebarMode === 'jornada-edit') target = `jornada:${editingJornadaId ?? 'desconocida'}`;
+		if (sidebarMode === 'cuadro-new') target = 'cuadro:nuevo';
+		if (sidebarMode === 'cuadro-edit') target = `cuadro:${editingCuadroId ?? 'desconocido'}`;
+		return buildLocalDraftKey([props.draftOwnerId, props.obraId, 'estructura', target]);
+	}
+
+	function currentDraftValue(): StructureDraftValue | null {
+		if (!sidebarMode) return null;
+		return {
+			mode: sidebarMode,
+			jornadaForm: { ...jornadaForm },
+			cuadroForm: { ...cuadroForm }
+		};
+	}
+
+	function isStructureDraftValue(value: unknown): value is StructureDraftValue {
+		if (!value || typeof value !== 'object') return false;
+		const candidate = value as Partial<StructureDraftValue>;
+		const jornada = candidate.jornadaForm;
+		const cuadro = candidate.cuadroForm;
+		return (
+			['jornada-new', 'jornada-edit', 'cuadro-new', 'cuadro-edit'].includes(candidate.mode ?? '') &&
+			Boolean(jornada) &&
+			Number.isFinite(Number(jornada?.jornada_num)) &&
+			Number.isFinite(Number(jornada?.v_ini)) &&
+			Number.isFinite(Number(jornada?.v_fin)) &&
+			Boolean(cuadro) &&
+			typeof cuadro?.jornada_id === 'string' &&
+			Number.isFinite(Number(cuadro?.cuadro_num)) &&
+			Number.isFinite(Number(cuadro?.v_ini)) &&
+			Number.isFinite(Number(cuadro?.v_fin))
+		);
+	}
+
+	function prepareLocalDraftRecovery() {
+		draftRecovery = null;
+		if (!browser || props.readOnly || !sidebarMode) return;
+		const key = localDraftKey();
+		const draft = readLocalDraft<StructureDraftValue>(key);
+		if (!draft) return;
+		if (!isStructureDraftValue(draft.value) || draft.value.mode !== sidebarMode) {
+			removeLocalDraft(key);
+			return;
+		}
+		draftRecovery = { key, draft };
+	}
+
+	function discardLocalDraft() {
+		if (!draftRecovery) return;
+		removeLocalDraft(draftRecovery.key);
+		draftRecovery = null;
+	}
+
+	function restoreLocalDraft() {
+		if (!draftRecovery) return;
+		jornadaForm = { ...draftRecovery.draft.value.jornadaForm };
+		cuadroForm = { ...draftRecovery.draft.value.cuadroForm };
+		draftRecovery = null;
+		pushToast('info', 'Borrador local recuperado. Pulsa Guardar para enviarlo a Supabase.');
+	}
+
+	function reportPendingChanges(pending: boolean) {
+		if (pending === lastReportedPending) return;
+		lastReportedPending = pending;
+		props.onPendingChangesChange?.(pending);
+	}
+
 	function setSidebarBaselineFromCurrent() {
 		sidebarBaselineSnapshot = sidebarSnapshot();
 		sidebarDirty = false;
-		autosaveErrorShown = false;
-		lastSidebarSnapshot = sidebarBaselineSnapshot;
+		reportPendingChanges(false);
 	}
 
 	function refreshSidebarDirty() {
@@ -262,13 +363,7 @@
 		return false;
 	}
 
-	function handleAutosaveError(message: string) {
-		if (autosaveErrorShown) return;
-		autosaveErrorShown = true;
-		pushToast('error', message);
-	}
-
-	async function persistJornada(source: 'manual' | 'autosave') {
+	async function persistJornada() {
 		const payload = parseJornadaPayload();
 		const wasEditing = Boolean(editingJornadaId);
 		const endpoint = editingJornadaId
@@ -285,11 +380,7 @@
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
 			const message = body.message ?? 'No se pudo guardar la jornada';
-			if (source === 'manual') {
-				pushToast('error', message);
-			} else {
-				handleAutosaveError(message);
-			}
+			pushToast('error', message);
 			return false;
 		}
 
@@ -313,14 +404,11 @@
 		};
 
 		emitStructureChange();
-		setSidebarBaselineFromCurrent();
-		if (source === 'manual') {
-			pushToast('success', wasEditing ? 'Jornada actualizada' : 'Jornada creada');
-		}
+		pushToast('success', wasEditing ? 'Jornada actualizada' : 'Jornada creada');
 		return true;
 	}
 
-	async function persistCuadro(source: 'manual' | 'autosave') {
+	async function persistCuadro() {
 		const payload = parseCuadroPayload();
 		const wasEditing = Boolean(editingCuadroId);
 		const endpoint = editingCuadroId
@@ -337,11 +425,7 @@
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
 			const message = body.message ?? 'No se pudo guardar el cuadro';
-			if (source === 'manual') {
-				pushToast('error', message);
-			} else {
-				handleAutosaveError(message);
-			}
+			pushToast('error', message);
 			return false;
 		}
 
@@ -366,27 +450,34 @@
 		};
 
 		emitStructureChange();
-		setSidebarBaselineFromCurrent();
-		if (source === 'manual') {
-			pushToast('success', wasEditing ? 'Cuadro actualizado' : 'Cuadro creado');
-		}
+		pushToast('success', wasEditing ? 'Cuadro actualizado' : 'Cuadro creado');
 		return true;
 	}
 
-	async function saveSidebar(source: 'manual' | 'autosave' = 'manual') {
-		if (props.readOnly || sidebarSaving || !sidebarMode) return;
-		const showToast = source === 'manual';
-		if (!isSidebarFormValid(showToast)) return;
+	async function saveSidebar(): Promise<boolean> {
+		if (props.readOnly || sidebarSaving || !sidebarMode) return false;
+		if (!isSidebarFormValid(true)) return false;
 
 		sidebarSaving = true;
-		const ok =
-			sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit'
-				? await persistJornada(source)
-				: await persistCuadro(source);
-		sidebarSaving = false;
+		const submittedDraftKey = localDraftKey();
+		let ok = false;
+		try {
+			ok =
+				sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit'
+					? await persistJornada()
+					: await persistCuadro();
+		} catch {
+			pushToast('error', 'No se pudo conectar con el servidor. Los cambios siguen sin guardar.');
+			return false;
+		} finally {
+			sidebarSaving = false;
+		}
 
-		if (!ok) return;
-		autosaveErrorShown = false;
+		if (!ok) return false;
+		localDraftWriter.cancel();
+		removeLocalDraft(submittedDraftKey);
+		setSidebarBaselineFromCurrent();
+		return true;
 	}
 
 	function openNewJornada() {
@@ -396,7 +487,8 @@
 		resetJornadaForm();
 		sidebarMode = 'jornada-new';
 		setSidebarBaselineFromCurrent();
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
+		prepareLocalDraftRecovery();
 	}
 
 	function openEditJornada(jornada: EditorJornadaRow) {
@@ -410,7 +502,8 @@
 		};
 		sidebarMode = 'jornada-edit';
 		setSidebarBaselineFromCurrent();
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
+		prepareLocalDraftRecovery();
 	}
 
 	function openNewCuadro(jornada: EditorJornadaRow) {
@@ -420,7 +513,8 @@
 		resetCuadroForm(jornada.jornada_id);
 		sidebarMode = 'cuadro-new';
 		setSidebarBaselineFromCurrent();
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
+		prepareLocalDraftRecovery();
 	}
 
 	function openEditCuadro(cuadro: EditorCuadroRow) {
@@ -435,25 +529,56 @@
 		};
 		sidebarMode = 'cuadro-edit';
 		setSidebarBaselineFromCurrent();
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
+		prepareLocalDraftRecovery();
 	}
 
-	async function goToJornada(target: EditorJornadaRow | null) {
-		if (!target || sidebarSaving) return;
-		if (!props.readOnly && refreshSidebarDirty()) {
-			await saveSidebar('manual');
-			if (sidebarDirty) return;
+	function requestOpenNewJornada() {
+		if (props.readOnly || sidebarSaving) return;
+		if (sidebarMode && refreshSidebarDirty()) {
+			pendingSidebarAction = { kind: 'new-jornada' };
+			return;
 		}
-		openEditJornada(target);
+		openNewJornada();
 	}
 
-	async function goToCuadro(target: EditorCuadroRow | null) {
-		if (!target || sidebarSaving) return;
-		if (!props.readOnly && refreshSidebarDirty()) {
-			await saveSidebar('manual');
-			if (sidebarDirty) return;
+	function requestOpenNewCuadro(jornada: EditorJornadaRow) {
+		if (props.readOnly || sidebarSaving) return;
+		if (sidebarMode && refreshSidebarDirty()) {
+			pendingSidebarAction = { kind: 'new-cuadro', jornada };
+			return;
 		}
-		openEditCuadro(target);
+		openNewCuadro(jornada);
+	}
+
+	function requestOpenEditJornada(jornada: EditorJornadaRow) {
+		if (sidebarSaving) return;
+		if (sidebarMode === 'jornada-edit' && editingJornadaId === jornada.jornada_id) return;
+		if (!props.readOnly && sidebarMode && refreshSidebarDirty()) {
+			pendingSidebarAction = { kind: 'jornada', target: jornada };
+			return;
+		}
+		openEditJornada(jornada);
+	}
+
+	function requestOpenEditCuadro(cuadro: EditorCuadroRow) {
+		if (sidebarSaving) return;
+		if (sidebarMode === 'cuadro-edit' && editingCuadroId === cuadro.cuadro_id) return;
+		if (!props.readOnly && sidebarMode && refreshSidebarDirty()) {
+			pendingSidebarAction = { kind: 'cuadro', target: cuadro };
+			return;
+		}
+		openEditCuadro(cuadro);
+	}
+
+	function goToJornada(target: EditorJornadaRow | null) {
+		if (!target || sidebarSaving) return;
+		requestOpenEditJornada(target);
+	}
+
+	function goToCuadro(target: EditorCuadroRow | null) {
+		if (!target || sidebarSaving) return;
+		requestOpenEditCuadro(target);
 	}
 
 	function clearFocusStructureQueryParams() {
@@ -471,15 +596,15 @@
 	}
 
 	function performCloseSidebar() {
-		clearAutosaveTimer();
+		localDraftWriter.cancel();
 		sidebarMode = null;
 		editingJornadaId = null;
 		editingCuadroId = null;
 		sidebarDirty = false;
 		sidebarBaselineSnapshot = '';
-		lastSidebarSnapshot = '';
-		autosaveErrorShown = false;
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
+		draftRecovery = null;
+		reportPendingChanges(false);
 	}
 
 	function requestCloseSidebar() {
@@ -491,15 +616,49 @@
 			performCloseSidebar();
 			return;
 		}
-		showCloseWithoutSavingModal = true;
+		pendingSidebarAction = { kind: 'close' };
 	}
 
-	function cancelCloseWithoutSaving() {
-		showCloseWithoutSavingModal = false;
+	function cancelPendingSidebarAction() {
+		pendingSidebarAction = null;
 	}
 
-	function confirmCloseWithoutSaving() {
-		performCloseSidebar();
+	function executeSidebarAction(action: PendingSidebarAction) {
+		if (action.kind === 'close') {
+			performCloseSidebar();
+			return;
+		}
+		if (action.kind === 'new-jornada') {
+			openNewJornada();
+			return;
+		}
+		if (action.kind === 'new-cuadro') {
+			openNewCuadro(action.jornada);
+			return;
+		}
+		if (action.kind === 'jornada') {
+			openEditJornada(action.target);
+			return;
+		}
+		openEditCuadro(action.target);
+	}
+
+	function discardAndContinue() {
+		const action = pendingSidebarAction;
+		if (!action) return;
+		localDraftWriter.cancel();
+		removeLocalDraft(localDraftKey());
+		pendingSidebarAction = null;
+		executeSidebarAction(action);
+	}
+
+	async function saveAndContinue() {
+		const action = pendingSidebarAction;
+		if (!action) return;
+		const saved = await saveSidebar();
+		if (!saved) return;
+		pendingSidebarAction = null;
+		executeSidebarAction(action);
 	}
 
 	function openDeleteJornada(jornada: EditorJornadaRow) {
@@ -594,7 +753,6 @@
 	$effect(() => {
 		const mode = sidebarMode;
 		const readOnly = props.readOnly;
-		const saving = sidebarSaving;
 		const trackJornada = `${jornadaForm.jornada_num}|${jornadaForm.v_ini}|${jornadaForm.v_fin}`;
 		const trackCuadro = `${cuadroForm.jornada_id}|${cuadroForm.cuadro_num}|${cuadroForm.v_ini}|${cuadroForm.v_fin}`;
 		void trackJornada;
@@ -602,39 +760,36 @@
 
 		if (!mode || readOnly) {
 			sidebarDirty = false;
-			clearAutosaveTimer();
+			localDraftWriter.cancel();
+			reportPendingChanges(false);
 			return;
 		}
 
 		const currentSnapshot = sidebarSnapshot();
-		if (currentSnapshot !== lastSidebarSnapshot) {
-			lastSidebarSnapshot = currentSnapshot;
-			autosaveErrorShown = false;
-		}
-
 		sidebarDirty = currentSnapshot !== sidebarBaselineSnapshot;
+		reportPendingChanges(sidebarDirty);
+		if (draftRecovery) {
+			localDraftWriter.cancel();
+			return;
+		}
 		if (!sidebarDirty) {
-			clearAutosaveTimer();
+			localDraftWriter.cancel();
+			removeLocalDraft(localDraftKey());
 			return;
 		}
-
-		if (saving) {
-			return;
-		}
-
-		if (!isSidebarFormValid(false)) {
-			clearAutosaveTimer();
-			return;
-		}
-
-		clearAutosaveTimer();
-		autosaveTimer = setTimeout(() => {
-			void saveSidebar('autosave');
-		}, 10_000);
+		const draftValue = currentDraftValue();
+		if (draftValue) localDraftWriter.schedule(localDraftKey(), draftValue);
 	});
 
 	onDestroy(() => {
-		clearAutosaveTimer();
+		localDraftWriter.flush();
+		props.onPendingChangesChange?.(false);
+	});
+
+	onMount(() => {
+		const flushLocalDraft = () => localDraftWriter.flush();
+		window.addEventListener('pagehide', flushLocalDraft);
+		return () => window.removeEventListener('pagehide', flushLocalDraft);
 	});
 </script>
 
@@ -663,7 +818,7 @@
 								type="button"
 								class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
 								aria-label={props.readOnly ? 'Ver jornada' : 'Editar jornada'}
-								onclick={() => openEditJornada(jornada)}
+								onclick={() => requestOpenEditJornada(jornada)}
 								disabled={props.readOnly && !props.canComment}
 							>
 								{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
@@ -701,7 +856,7 @@
 											type="button"
 											class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
 											aria-label={props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}
-											onclick={() => openEditCuadro(cuadro)}
+											onclick={() => requestOpenEditCuadro(cuadro)}
 											disabled={props.readOnly && !props.canComment}
 										>
 											{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
@@ -721,7 +876,7 @@
 						{/if}
 					</div>
 
-					<Button variant="ghost" onclick={() => openNewCuadro(jornada)} disabled={props.readOnly}>
+					<Button variant="ghost" onclick={() => requestOpenNewCuadro(jornada)} disabled={props.readOnly}>
 						<Plus size={16} />
 						Añadir cuadro
 					</Button>
@@ -731,7 +886,7 @@
 	{/if}
 
 	<div class="flex justify-start">
-		<Button variant="primary-soft" onclick={openNewJornada} disabled={props.readOnly}>
+		<Button variant="primary-soft" onclick={requestOpenNewJornada} disabled={props.readOnly}>
 			<Plus size={16} />
 			Añadir jornada
 		</Button>
@@ -739,7 +894,11 @@
 </section>
 
 {#if sidebarMode}
-	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5">
+	<aside
+		class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5"
+		inert={sidebarSaving}
+		aria-busy={sidebarSaving}
+	>
 		<div class="sticky top-0 z-10 mb-4 flex items-center justify-between gap-3 bg-[color:var(--gray-50)] pb-3">
 			<div class="flex min-w-0 items-center gap-2">
 				<h3 class="text-base font-semibold">
@@ -799,9 +958,12 @@
 				{/if}
 			</div>
 			<div class="flex items-center gap-2">
-				<Button variant="secondary" onclick={requestCloseSidebar}>Cerrar</Button>
+				{#if sidebarDirty}
+					<span class="text-xs text-[color:var(--muted-foreground)]">Cambios sin guardar</span>
+				{/if}
+				<Button variant="secondary" onclick={requestCloseSidebar} disabled={sidebarSaving}>Cerrar</Button>
 				{#if !props.readOnly}
-					<Button variant="success" onclick={() => void saveSidebar('manual')} disabled={sidebarSaving}>
+					<Button variant="success" onclick={() => void saveSidebar()} disabled={sidebarSaving}>
 						{sidebarSaving ? 'Guardando...' : 'Guardar'}
 					</Button>
 				{/if}
@@ -940,17 +1102,30 @@
 	</div>
 {/if}
 
-{#if showCloseWithoutSavingModal}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-		<div class="card w-full max-w-md p-5">
-			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continúas, perderás los cambios no guardados.</p>
-			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="secondary" onclick={cancelCloseWithoutSaving}>Seguir editando</Button>
-				<Button variant="danger" onclick={confirmCloseWithoutSaving}>Cerrar sin guardar</Button>
-			</div>
-		</div>
-	</div>
-{/if}
+<UnsavedChangesModal
+	open={Boolean(pendingSidebarAction)}
+	message={
+		pendingSidebarAction?.kind === 'new-jornada'
+			? 'La jornada actual tiene cambios sin guardar. ¿Quieres guardarlos antes de crear otra?'
+			: pendingSidebarAction?.kind === 'new-cuadro'
+				? 'El cuadro actual tiene cambios sin guardar. ¿Quieres guardarlos antes de crear otro?'
+				: pendingSidebarAction?.kind === 'jornada'
+					? 'La jornada actual tiene cambios sin guardar. ¿Quieres guardarlos antes de cambiar de jornada?'
+					: pendingSidebarAction?.kind === 'cuadro'
+						? 'El cuadro actual tiene cambios sin guardar. ¿Quieres guardarlos antes de cambiar de cuadro?'
+						: 'Este elemento tiene cambios sin guardar. ¿Quieres guardarlos antes de cerrar?'
+	}
+	discardLabel="Continuar sin guardar"
+	saving={sidebarSaving}
+	onCancel={cancelPendingSidebarAction}
+	onDiscard={discardAndContinue}
+	onSave={saveAndContinue}
+/>
+
+<LocalDraftRecoveryModal
+	open={Boolean(draftRecovery)}
+	savedAt={draftRecovery?.draft.savedAt}
+	onDiscard={discardLocalDraft}
+	onRestore={restoreLocalDraft}
+/>
 

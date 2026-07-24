@@ -18,10 +18,10 @@ En el menú lateral encontrarás estas secciones:
 3. Cuando termines, revisa el checklist final y cambia el estado de `borrador` a `vista_previa` para revisar la ficha pública.
 4. Si debes corregir algo, vuelve a mover el estado de `vista_previa` a `borrador` (haz esto tantas veces como necesites).
 5. Si todo está listo, pasa después a `listo_para_publicar`.
-6. Si la obra reqquire nuevamente tu atención, te avisaremos y verás que ha vuelto a estado `borrador`: reabres la obra, ajustas lo necesario y vuelves a dejarla `lista_para_publicar`.
+6. Si la obra requiere nuevamente tu atención, te avisaremos y verás que ha vuelto a estado `borrador`: reabres la obra, ajustas lo necesario y vuelves a dejarla `lista_para_publicar`.
 
 > [!TIP]
-> La interfaz guarda cambios automáticamente cada 10 segundos y también avisa cuando vas a cambiar de pestaña o cerrar un panel con cambios pendientes. Aun así, te recomendamos usar `Guardar` de forma manual en momentos clave.
+> Los cambios de secuencias, jornadas y cuadros se guardan en Supabase solo cuando pulsas `Guardar`. Mientras editas, la interfaz conserva un borrador local en este navegador y avisa antes de cambiar de pestaña, cerrar el panel o salir con cambios pendientes.
 
 El detalle de cada pestaña está en los capítulos **Paso 1** a **Paso 7**.
 

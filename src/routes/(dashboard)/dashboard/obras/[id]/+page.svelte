@@ -10,6 +10,7 @@
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
 	import Button from '$lib/components/ui/button.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
+	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
 	import DatosObraTab from '$lib/components/editor/DatosObraTab.svelte';
 	import EstructuraTab from '$lib/components/editor/EstructuraTab.svelte';
 	import SecuenciasTab from '$lib/components/editor/SecuenciasTab.svelte';
@@ -185,7 +186,13 @@
 	);
 
 	function getCurrentDirtyScope(): ObraDirtyScope | null {
-		if (currentTab === 'datos' || currentTab === 'autoria' || currentTab === 'observaciones') {
+		if (
+			currentTab === 'datos' ||
+			currentTab === 'estructura' ||
+			currentTab === 'secuencias' ||
+			currentTab === 'autoria' ||
+			currentTab === 'observaciones'
+		) {
 			return currentTab;
 		}
 		return null;
@@ -205,6 +212,13 @@
 
 	function handleRevisionPendingChangesChange(pending: boolean) {
 		revisionHasPendingChanges = pending;
+	}
+
+	function handleEditorPendingChangesChange(
+		scope: Extract<ObraDirtyScope, 'estructura' | 'secuencias'>,
+		pending: boolean
+	) {
+		setDirty(pending, scope);
 	}
 
 	function openUnsavedChangesModal({
@@ -605,6 +619,7 @@
 	{:else if currentTab === 'estructura'}
 		<EstructuraTab
 			obraId={obraLive.obra_id}
+			draftOwnerId={data.profile.userId}
 			jornadasInitial={jornadasLive}
 			cuadrosInitial={cuadrosLive}
 			readOnly={!canEditContent}
@@ -614,10 +629,13 @@
 			focusComentarioId={focusComentarioId}
 			commentsReloadKey={commentsReloadKey}
 			onStructureChange={handleStructureChange}
+			onPendingChangesChange={(pending) =>
+				handleEditorPendingChangesChange('estructura', pending)}
 		/>
 	{:else if currentTab === 'secuencias'}
 		<SecuenciasTab
 			obraId={obraLive.obra_id}
+			draftOwnerId={data.profile.userId}
 			secuenciasInitial={secuenciasLive}
 			jornadasInitial={jornadasLive}
 			cuadrosInitial={cuadrosLive}
@@ -630,6 +648,8 @@
 			commentsReloadKey={commentsReloadKey}
 			onSecuenciasChange={handleSecuenciasChange}
 			onMetricaDirty={handleMetricaDirty}
+			onPendingChangesChange={(pending) =>
+				handleEditorPendingChangesChange('secuencias', pending)}
 		/>
 	{:else if currentTab === 'autoria'}
 		<AutoriaTab
@@ -675,31 +695,16 @@
 	{/if}
 </section>
 
-{#if showUnsavedChangesModal}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-		<div class="card w-full max-w-md p-5">
-			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{UNSAVED_CHANGES_MESSAGE}</p>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-				Si continúas, perderás los cambios no guardados.
-			</p>
-			<div class="mt-4 flex justify-end gap-2">
-				<button
-					type="button"
-					class="border border-[color:var(--border)] px-3 py-2 text-sm"
-					onclick={cancelUnsavedChangesModal}
-				>
-					Seguir editando
-				</button>
-				<button
-					type="button"
-					class="border border-[color:var(--danger)] bg-[color:var(--danger)] px-3 py-2 text-sm text-[color:var(--danger-foreground)]"
-					onclick={() => void confirmUnsavedChangesModal()}
-				>
-					Salir sin guardar
-				</button>
-			</div>
-		</div>
-	</div>
-{/if}
+<UnsavedChangesModal
+	open={showUnsavedChangesModal}
+	message={UNSAVED_CHANGES_MESSAGE}
+	detail={
+		currentTab === 'estructura' || currentTab === 'secuencias'
+			? 'Si continúas, los cambios actuales no se guardarán.'
+			: 'Si continúas, perderás los cambios no guardados.'
+	}
+	discardLabel="Salir sin guardar"
+	onCancel={cancelUnsavedChangesModal}
+	onDiscard={() => void confirmUnsavedChangesModal()}
+/>
 

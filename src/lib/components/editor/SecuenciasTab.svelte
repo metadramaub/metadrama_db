@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { onDestroy, untrack } from 'svelte';
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import Eye from 'lucide-svelte/icons/eye';
@@ -12,15 +12,25 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
+	import LocalDraftRecoveryModal from '$lib/components/editor/LocalDraftRecoveryModal.svelte';
 	import SequenceSynopsisModal from '$lib/components/editor/SequenceSynopsisModal.svelte';
+	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { suggestNextSubtipoRange } from '$lib/components/editor/secuencia-subtipos';
 	import { pushToast } from '$lib/stores/toast';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
+	import {
+		buildLocalDraftKey,
+		createLocalDraftWriter,
+		readLocalDraft,
+		removeLocalDraft,
+		type LocalFormDraft
+	} from '$lib/utils/local-form-draft';
 	import { displayTerm } from '$lib/utils/vocabulario';
 
 	const props = $props<{
 		obraId: string;
+		draftOwnerId: string;
 		secuenciasInitial: EditorSecuenciaRow[];
 		jornadasInitial: EditorJornadaRow[];
 		cuadrosInitial: EditorCuadroRow[];
@@ -39,6 +49,7 @@
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
 		onSecuenciasChange?: (items: EditorSecuenciaRow[]) => void;
+		onPendingChangesChange?: (pending: boolean) => void;
 		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
 		// la lista de secuencias (caracterizaciones de rango, subtipos de estrofa).
 		onMetricaDirty?: () => void;
@@ -56,6 +67,16 @@
 		intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida';
 		intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida';
 		sinopsis: string;
+	};
+
+	type PendingSidebarAction =
+		| { kind: 'close' }
+		| { kind: 'new' }
+		| { kind: 'sequence'; target: EditorSecuenciaRow };
+
+	type DraftRecovery = {
+		key: string;
+		draft: LocalFormDraft<FormState>;
 	};
 
 	type CaracterizacionRangoItem = {
@@ -107,15 +128,15 @@
 		filtroEstrofa = '';
 	}
 	let deleteTargetId = $state<string | null>(null);
-	let showCloseWithoutSavingModal = $state(false);
 	let sequenceSynopsisModalOpen = $state(false);
+	let pendingSidebarAction = $state<PendingSidebarAction | null>(null);
+	let draftRecovery = $state<DraftRecovery | null>(null);
 
 	let sidebarSaving = $state(false);
 	let sidebarDirty = $state(false);
 	let sidebarBaselineSnapshot = $state('');
-	let autosaveErrorShown = $state(false);
-	let lastSidebarSnapshot = $state('');
-	let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
+	let lastReportedPending = false;
+	const localDraftWriter = createLocalDraftWriter();
 	let caracterizacionesRango = $state<CaracterizacionRangoItem[]>([]);
 	let caracterizacionesRangoLoading = $state(false);
 	let caracterizacionesRangoRequestCounter = $state(0);
@@ -476,35 +497,97 @@
 		sequenceSynopsisModalOpen = false;
 	}
 
-	function clearAutosaveTimer() {
-		if (!autosaveTimer) return;
-		clearTimeout(autosaveTimer);
-		autosaveTimer = null;
-	}
-
-	function sidebarSnapshot(): string {
+	function sidebarSnapshot(source: FormState = form, sourceEditingId: string | null = editingId): string {
 		return JSON.stringify({
 			sidebarOpen,
-			id: editingId,
-			v_ini: Number(form.v_ini),
-			v_fin: Number(form.v_fin),
-			estrofa_tipo_id: form.estrofa_tipo_id,
-			inaugura_espacio: Boolean(form.inaugura_espacio),
-			versos_partidos: Boolean(form.versos_partidos),
-			evocacion_metrica: Boolean(form.evocacion_metrica),
-			evocacion_metrica_texto: form.evocacion_metrica ? form.evocacion_metrica_texto.trim() : '',
-			intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
-			intervencion_figuras_donaire: form.intervencion_figuras_donaire,
-			intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
-			sinopsis: form.sinopsis.trim()
+			id: sourceEditingId,
+			v_ini: Number(source.v_ini),
+			v_fin: Number(source.v_fin),
+			estrofa_tipo_id: source.estrofa_tipo_id,
+			inaugura_espacio: Boolean(source.inaugura_espacio),
+			versos_partidos: Boolean(source.versos_partidos),
+			evocacion_metrica: Boolean(source.evocacion_metrica),
+			evocacion_metrica_texto: source.evocacion_metrica ? source.evocacion_metrica_texto.trim() : '',
+			intervencion_personajes_femeninos: source.intervencion_personajes_femeninos,
+			intervencion_figuras_donaire: source.intervencion_figuras_donaire,
+			intervencion_personajes_sobrenaturales: source.intervencion_personajes_sobrenaturales,
+			sinopsis: source.sinopsis.trim()
 		});
+	}
+
+	function localDraftKey(sourceEditingId: string | null = editingId): string {
+		return buildLocalDraftKey([
+			props.draftOwnerId,
+			props.obraId,
+			'secuencia',
+			sourceEditingId ?? 'nueva'
+		]);
+	}
+
+	function isFormState(value: unknown): value is FormState {
+		if (!value || typeof value !== 'object') return false;
+		const candidate = value as Partial<FormState>;
+		return (
+			Number.isFinite(Number(candidate.v_ini)) &&
+			Number.isFinite(Number(candidate.v_fin)) &&
+			typeof candidate.estrofa_tipo_id === 'string' &&
+			typeof candidate.inaugura_espacio === 'boolean' &&
+			typeof candidate.versos_partidos === 'boolean' &&
+			typeof candidate.evocacion_metrica === 'boolean' &&
+			typeof candidate.evocacion_metrica_texto === 'string' &&
+			['sin_intervencion', 'exclusiva', 'compartida'].includes(
+				candidate.intervencion_personajes_femeninos ?? ''
+			) &&
+			['sin_intervencion', 'exclusiva', 'compartida'].includes(
+				candidate.intervencion_figuras_donaire ?? ''
+			) &&
+			['sin_intervencion', 'exclusiva', 'compartida'].includes(
+				candidate.intervencion_personajes_sobrenaturales ?? ''
+			) &&
+			typeof candidate.sinopsis === 'string'
+		);
+	}
+
+	function prepareLocalDraftRecovery() {
+		draftRecovery = null;
+		if (!browser || props.readOnly) return;
+		const key = localDraftKey();
+		const draft = readLocalDraft<FormState>(key);
+		if (!draft) return;
+		if (!isFormState(draft.value)) {
+			removeLocalDraft(key);
+			return;
+		}
+		if (sidebarSnapshot(draft.value) === sidebarBaselineSnapshot) {
+			removeLocalDraft(key);
+			return;
+		}
+		draftRecovery = { key, draft };
+	}
+
+	function discardLocalDraft() {
+		if (!draftRecovery) return;
+		removeLocalDraft(draftRecovery.key);
+		draftRecovery = null;
+	}
+
+	function restoreLocalDraft() {
+		if (!draftRecovery) return;
+		form = { ...draftRecovery.draft.value };
+		draftRecovery = null;
+		pushToast('info', 'Borrador local recuperado. Pulsa Guardar para enviarlo a Supabase.');
+	}
+
+	function reportPendingChanges(pending: boolean) {
+		if (pending === lastReportedPending) return;
+		lastReportedPending = pending;
+		props.onPendingChangesChange?.(pending);
 	}
 
 	function setSidebarBaselineFromCurrent() {
 		sidebarBaselineSnapshot = sidebarSnapshot();
 		sidebarDirty = false;
-		autosaveErrorShown = false;
-		lastSidebarSnapshot = sidebarBaselineSnapshot;
+		reportPendingChanges(false);
 	}
 
 	function refreshSidebarDirty() {
@@ -529,12 +612,6 @@
 		return true;
 	}
 
-	function handleAutosaveError(message: string) {
-		if (autosaveErrorShown) return;
-		autosaveErrorShown = true;
-		pushToast('error', message);
-	}
-
 	function openNew() {
 		if (props.readOnly) return;
 		editingId = null;
@@ -546,8 +623,9 @@
 		subtipoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		sidebarOpen = true;
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
 		setSidebarBaselineFromCurrent();
+		prepareLocalDraftRecovery();
 	}
 
 	function openEdit(secuencia: EditorSecuenciaRow) {
@@ -576,24 +654,39 @@
 		subtipoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		sidebarOpen = true;
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
 		setSidebarBaselineFromCurrent();
+		prepareLocalDraftRecovery();
 		void loadCaracterizacionesRangoForCurrentSecuencia();
 		void loadSubtiposForCurrentSecuencia();
 	}
 
-	// Navega a otra secuencia desde el panel. Si hay cambios sin guardar, los guarda antes.
-	async function goToSecuencia(target: EditorSecuenciaRow | null) {
-		if (!target || sidebarSaving) return;
-		if (!props.readOnly && refreshSidebarDirty()) {
-			await save('manual');
-			if (sidebarDirty) return; // el guardado falló: no navegamos
+	function requestOpenNew() {
+		if (props.readOnly || sidebarSaving) return;
+		if (sidebarOpen && refreshSidebarDirty()) {
+			pendingSidebarAction = { kind: 'new' };
+			return;
 		}
-		openEdit(target);
+		openNew();
+	}
+
+	function requestOpenEdit(secuencia: EditorSecuenciaRow) {
+		if (sidebarSaving) return;
+		if (sidebarOpen && editingId === secuencia.secuencia_id) return;
+		if (!props.readOnly && sidebarOpen && refreshSidebarDirty()) {
+			pendingSidebarAction = { kind: 'sequence', target: secuencia };
+			return;
+		}
+		openEdit(secuencia);
+	}
+
+	function goToSecuencia(target: EditorSecuenciaRow | null) {
+		if (!target || sidebarSaving) return;
+		requestOpenEdit(target);
 	}
 
 	function performCloseSidebar() {
-		clearAutosaveTimer();
+		localDraftWriter.cancel();
 		sidebarOpen = false;
 		editingId = null;
 		caracterizacionesRango = [];
@@ -610,9 +703,9 @@
 		subtipoDeleteTargetId = null;
 		sidebarDirty = false;
 		sidebarBaselineSnapshot = '';
-		lastSidebarSnapshot = '';
-		autosaveErrorShown = false;
-		showCloseWithoutSavingModal = false;
+		pendingSidebarAction = null;
+		draftRecovery = null;
+		reportPendingChanges(false);
 	}
 
 	function requestCloseSidebar() {
@@ -624,52 +717,86 @@
 			performCloseSidebar();
 			return;
 		}
-		showCloseWithoutSavingModal = true;
+		pendingSidebarAction = { kind: 'close' };
 	}
 
-	function cancelCloseWithoutSaving() {
-		showCloseWithoutSavingModal = false;
+	function cancelPendingSidebarAction() {
+		pendingSidebarAction = null;
 	}
 
-	function confirmCloseWithoutSaving() {
-		performCloseSidebar();
+	function executeSidebarAction(action: PendingSidebarAction) {
+		if (action.kind === 'close') {
+			performCloseSidebar();
+			return;
+		}
+		if (action.kind === 'new') {
+			openNew();
+			return;
+		}
+		openEdit(action.target);
 	}
 
-	async function save(source: 'manual' | 'autosave' = 'manual') {
-		if (!browser) return;
-		if (props.readOnly || sidebarSaving || !sidebarOpen) return;
-		const showToast = source === 'manual';
-		if (!validateForm(showToast)) return;
+	function discardAndContinue() {
+		const action = pendingSidebarAction;
+		if (!action) return;
+		localDraftWriter.cancel();
+		removeLocalDraft(localDraftKey());
+		pendingSidebarAction = null;
+		executeSidebarAction(action);
+	}
+
+	async function saveAndContinue() {
+		const action = pendingSidebarAction;
+		if (!action) return;
+		const saved = await save();
+		if (!saved) return;
+		pendingSidebarAction = null;
+		executeSidebarAction(action);
+	}
+
+	async function save(): Promise<boolean> {
+		if (!browser) return false;
+		if (props.readOnly || sidebarSaving || !sidebarOpen) return false;
+		if (!validateForm(true)) return false;
 
 		sidebarSaving = true;
 		const currentId = editingId;
+		const submittedDraftKey = localDraftKey(currentId);
 		const endpoint = currentId
 			? `/api/obras/${props.obraId}/secuencias/${currentId}`
 			: `/api/obras/${props.obraId}/secuencias`;
 		const method = currentId ? 'PATCH' : 'POST';
 
-		const response = await fetch(endpoint, {
-			method,
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				...form,
-				evocacion_metrica_texto: form.evocacion_metrica ? form.evocacion_metrica_texto : null
-			})
-		});
-		sidebarSaving = false;
+		let response: Response;
+		try {
+			response = await fetch(endpoint, {
+				method,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					...form,
+					evocacion_metrica_texto: form.evocacion_metrica ? form.evocacion_metrica_texto : null
+				})
+			});
+		} catch {
+			sidebarSaving = false;
+			pushToast('error', 'No se pudo conectar con el servidor. Los cambios siguen sin guardar.');
+			return false;
+		}
 
 		if (!response.ok) {
 			const body = await response.json().catch(() => ({}));
 			const message = body.message ?? 'No se pudo guardar la secuencia';
-			if (source === 'manual') {
-				pushToast('error', message);
-			} else {
-				handleAutosaveError(message);
-			}
-			return;
+			sidebarSaving = false;
+			pushToast('error', message);
+			return false;
 		}
 
-		const payload = await response.json();
+		const payload = await response.json().catch(() => null);
+		if (!payload?.secuencia) {
+			sidebarSaving = false;
+			pushToast('error', 'El servidor devolvió una respuesta incompleta. Los cambios siguen sin guardar.');
+			return false;
+		}
 		const savedSecuencia = payload.secuencia as EditorSecuenciaRow;
 		const savedId = currentId ?? savedSecuencia.secuencia_id;
 
@@ -704,18 +831,19 @@
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
 
+		localDraftWriter.cancel();
+		removeLocalDraft(submittedDraftKey);
 		setSidebarBaselineFromCurrent();
-		autosaveErrorShown = false;
-		if (source === 'manual') {
-			pushToast('success', currentId ? 'Secuencia actualizada' : 'Secuencia creada');
-			if (
-				!currentId &&
-				filtroEstrofa &&
-				savedSecuencia.estrofa_tipo_id !== filtroEstrofa
-			) {
-				pushToast('info', 'Secuencia creada. Está oculta por los filtros actuales.');
-			}
+		pushToast('success', currentId ? 'Secuencia actualizada' : 'Secuencia creada');
+		if (
+			!currentId &&
+			filtroEstrofa &&
+			savedSecuencia.estrofa_tipo_id !== filtroEstrofa
+		) {
+			pushToast('info', 'Secuencia creada. Está oculta por los filtros actuales.');
 		}
+		sidebarSaving = false;
+		return true;
 	}
 
 	function openDelete(secuenciaId: string) {
@@ -1146,39 +1274,29 @@
 	$effect(() => {
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
-		const saving = sidebarSaving;
 		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.evocacion_metrica}|${form.evocacion_metrica_texto}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
 			sidebarDirty = false;
-			clearAutosaveTimer();
+			localDraftWriter.cancel();
+			reportPendingChanges(false);
 			return;
 		}
 
 		const currentSnapshot = sidebarSnapshot();
-		if (currentSnapshot !== lastSidebarSnapshot) {
-			lastSidebarSnapshot = currentSnapshot;
-			autosaveErrorShown = false;
-		}
-
 		sidebarDirty = currentSnapshot !== sidebarBaselineSnapshot;
+		reportPendingChanges(sidebarDirty);
+		if (draftRecovery) {
+			localDraftWriter.cancel();
+			return;
+		}
 		if (!sidebarDirty) {
-			clearAutosaveTimer();
+			localDraftWriter.cancel();
+			removeLocalDraft(localDraftKey());
 			return;
 		}
-
-		if (saving) return;
-
-		if (!validateForm(false)) {
-			clearAutosaveTimer();
-			return;
-		}
-
-		clearAutosaveTimer();
-		autosaveTimer = setTimeout(() => {
-			void save('autosave');
-		}, 10_000);
+		localDraftWriter.schedule(localDraftKey(), { ...form });
 	});
 
 	$effect(() => {
@@ -1223,7 +1341,14 @@
 	});
 
 	onDestroy(() => {
-		clearAutosaveTimer();
+		localDraftWriter.flush();
+		props.onPendingChangesChange?.(false);
+	});
+
+	onMount(() => {
+		const flushLocalDraft = () => localDraftWriter.flush();
+		window.addEventListener('pagehide', flushLocalDraft);
+		return () => window.removeEventListener('pagehide', flushLocalDraft);
 	});
 </script>
 
@@ -1257,7 +1382,7 @@
 			>
 				Limpiar
 			</Button>
-			<Button variant="primary-soft" onclick={openNew} disabled={props.readOnly}>Nueva secuencia</Button>
+			<Button variant="primary-soft" onclick={requestOpenNew} disabled={props.readOnly}>Nueva secuencia</Button>
 		</div>
 	</div>
 
@@ -1298,7 +1423,7 @@
 				{/if}
 			</div>
 			<div class="mt-4 space-y-2">
-				<Button variant="primary-soft" class="w-full" onclick={openNew} disabled={props.readOnly}>
+				<Button variant="primary-soft" class="w-full" onclick={requestOpenNew} disabled={props.readOnly}>
 					Nueva secuencia
 				</Button>
 			</div>
@@ -1338,7 +1463,7 @@
 												type="button"
 												class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
 												aria-label={props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
-												onclick={() => openEdit(secuencia)}
+												onclick={() => requestOpenEdit(secuencia)}
 												disabled={props.readOnly && !props.canComment}
 											>
 												{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
@@ -1424,7 +1549,11 @@
 />
 
 {#if sidebarOpen}
-	<aside class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0">
+	<aside
+		class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0"
+		inert={sidebarSaving}
+		aria-busy={sidebarSaving}
+	>
 		<div class="sticky top-0 z-20 -mx-5 mb-4 flex items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-3 pt-5">
 			<div class="flex min-w-0 items-center gap-2">
 				<h3 class="text-base font-semibold">
@@ -1461,9 +1590,12 @@
 				{/if}
 			</div>
 			<div class="flex items-center gap-2">
-				<Button variant="secondary" onclick={requestCloseSidebar}>Cerrar</Button>
+				{#if sidebarDirty}
+					<span class="text-xs text-[color:var(--muted-foreground)]">Cambios sin guardar</span>
+				{/if}
+				<Button variant="secondary" onclick={requestCloseSidebar} disabled={sidebarSaving}>Cerrar</Button>
 				{#if !props.readOnly}
-					<Button variant="success" onclick={() => void save('manual')} disabled={sidebarSaving}>
+					<Button variant="success" onclick={() => void save()} disabled={sidebarSaving}>
 						{sidebarSaving ? 'Guardando...' : 'Guardar'}
 					</Button>
 				{/if}
@@ -2132,19 +2264,28 @@
 	</div>
 {/if}
 
-{#if showCloseWithoutSavingModal}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-		<div class="card w-full max-w-md p-5">
-			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
-			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Si continúas, perderás los cambios no guardados.</p>
-			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="secondary" onclick={cancelCloseWithoutSaving}>Seguir editando</Button>
-				<Button variant="danger" onclick={confirmCloseWithoutSaving}>Cerrar sin guardar</Button>
-			</div>
-		</div>
-	</div>
-{/if}
+<UnsavedChangesModal
+	open={Boolean(pendingSidebarAction)}
+	message={
+		pendingSidebarAction?.kind === 'new'
+			? 'La secuencia actual tiene cambios sin guardar. ¿Quieres guardarlos antes de crear otra?'
+			: pendingSidebarAction?.kind === 'sequence'
+				? 'La secuencia actual tiene cambios sin guardar. ¿Quieres guardarlos antes de cambiar de secuencia?'
+				: 'La secuencia actual tiene cambios sin guardar. ¿Quieres guardarlos antes de cerrar?'
+	}
+	discardLabel="Continuar sin guardar"
+	saving={sidebarSaving}
+	onCancel={cancelPendingSidebarAction}
+	onDiscard={discardAndContinue}
+	onSave={saveAndContinue}
+/>
+
+<LocalDraftRecoveryModal
+	open={Boolean(draftRecovery)}
+	savedAt={draftRecovery?.draft.savedAt}
+	onDiscard={discardLocalDraft}
+	onRestore={restoreLocalDraft}
+/>
 
 
 
