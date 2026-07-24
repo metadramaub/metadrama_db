@@ -181,22 +181,27 @@
 		if (!canDelete || deleting || deleteBlocked || !deleteConfirmed) return;
 		clearAutosaveTimer();
 		deleting = true;
-		const response = await fetch(`/api/autores/${autor.autor_id}`, {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
-		});
-		deleting = false;
+		try {
+			const response = await fetch(`/api/autores/${autor.autor_id}`, {
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
+			});
 
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar el autor.');
-			return;
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar el autor.');
+				return;
+			}
+
+			pushToast('success', 'Autor eliminado correctamente.');
+			showDeleteModal = false;
+			await goto('/dashboard/autores', { invalidateAll: true });
+		} catch {
+			pushToast('error', 'No se pudo conectar con el servidor para eliminar el autor.');
+		} finally {
+			deleting = false;
 		}
-
-		pushToast('success', 'Autor eliminado correctamente.');
-		showDeleteModal = false;
-		await goto('/dashboard/autores', { invalidateAll: true });
 	}
 
 	onDestroy(() => {
@@ -295,8 +300,14 @@
 
 		{#if !readOnly}
 			<div class="mt-4 flex justify-end">
-				<Button variant="success" onclick={() => void saveAuthor('manual')} disabled={saving || !formDirty}>
-					{saving ? 'Guardando...' : 'Guardar'}
+				<Button
+					variant="success"
+					onclick={() => void saveAuthor('manual')}
+					disabled={!formDirty}
+					loading={saving}
+					loadingLabel="Guardando…"
+				>
+					Guardar
 				</Button>
 			</div>
 		{/if}
@@ -368,8 +379,14 @@
 			</label>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="ghost" onclick={closeDeleteModal} disabled={deleting}>Cancelar</Button>
-				<Button variant="danger" onclick={deleteAuthor} disabled={deleting || !deleteConfirmed}>
-					{deleting ? 'Eliminando...' : 'Eliminar'}
+				<Button
+					variant="danger"
+					onclick={deleteAuthor}
+					disabled={!deleteConfirmed}
+					loading={deleting}
+					loadingLabel="Eliminando…"
+				>
+					Eliminar
 				</Button>
 			</div>
 		</div>

@@ -409,8 +409,14 @@
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={closePanel}>Cerrar</Button>
 				{#if !readOnly}
-					<Button variant="success" onclick={props.onSaveTerm} disabled={!props.termDirty || props.savingTerm}>
-						{props.savingTerm ? 'Guardando...' : 'Guardar'}
+					<Button
+						variant="success"
+						onclick={props.onSaveTerm}
+						disabled={!props.termDirty}
+						loading={props.savingTerm}
+						loadingLabel="Guardando…"
+					>
+						Guardar
 					</Button>
 				{/if}
 			</div>

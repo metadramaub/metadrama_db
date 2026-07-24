@@ -163,9 +163,9 @@
 		if (!generalSaveScope) return true;
 		return Boolean($currentObraStore.savingByScope[generalSaveScope]);
 	});
-	const generalSaveLabel = $derived.by(() => {
-		if (!generalSaveScope) return 'Guardar';
-		return $currentObraStore.savingByScope[generalSaveScope] ? 'Guardando...' : 'Guardar';
+	const generalSaveLoading = $derived.by(() => {
+		if (!generalSaveScope) return false;
+		return Boolean($currentObraStore.savingByScope[generalSaveScope]);
 	});
 	let jornadasLive = $state<EditorJornadaRow[]>(untrack(() => [...data.jornadas]));
 	let cuadrosLive = $state<EditorCuadroRow[]>(untrack(() => [...data.cuadros]));
@@ -598,8 +598,14 @@
 		<Tabs tabs={tabs} active={currentTab} onChange={handleTabChange}>
 			{#snippet actions()}
 				{#if showGeneralSave}
-					<Button variant="success" onclick={requestGeneralSave} disabled={generalSaveDisabled}>
-						{generalSaveLabel}
+					<Button
+						variant="success"
+						onclick={requestGeneralSave}
+						disabled={generalSaveDisabled}
+						loading={generalSaveLoading}
+						loadingLabel="Guardando…"
+					>
+						Guardar
 					</Button>
 				{/if}
 			{/snippet}

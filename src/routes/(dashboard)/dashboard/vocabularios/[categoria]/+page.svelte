@@ -1091,8 +1091,10 @@
 					variant="danger"
 					onclick={() => void deleteSelectedTerm()}
 					disabled={deletingTerm || !deleteConfirmed}
+					loading={deletingTerm}
+					loadingLabel="Eliminando…"
 				>
-					{deletingTerm ? 'Eliminando...' : 'Eliminar'}
+					Eliminar
 				</Button>
 			</div>
 		</div>

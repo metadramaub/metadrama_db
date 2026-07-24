@@ -130,6 +130,7 @@
 		filtroEstrofa = '';
 	}
 	let deleteTargetId = $state<string | null>(null);
+	let deletingSequence = $state(false);
 	let sequenceSynopsisModalOpen = $state(false);
 	let pendingSidebarAction = $state<PendingSidebarAction | null>(null);
 	let draftRecovery = $state<DraftRecovery | null>(null);
@@ -146,6 +147,7 @@
 	let caracterizacionRangoModalSaving = $state(false);
 	let caracterizacionRangoEditingId = $state<string | null>(null);
 	let caracterizacionRangoDeleteTargetId = $state<string | null>(null);
+	let deletingCaracterizacionRango = $state(false);
 	let caracterizacionRangoForm = $state<CaracterizacionRangoFormState>({
 		tipo_caracterizacion_rango_id: '',
 		v_ini: 1,
@@ -159,6 +161,7 @@
 	let subtipoModalSaving = $state(false);
 	let subtipoEditingId = $state<string | null>(null);
 	let subtipoDeleteTargetId = $state<string | null>(null);
+	let deletingSubtipo = $state(false);
 	let handledFocusSecuenciaId = $state<string | null>(null);
 	let subtipoForm = $state<SubtipoFormState>({
 		subtipo_estrofa_id: '',
@@ -844,22 +847,30 @@
 
 	async function remove(secuenciaId: string) {
 		if (!browser) return;
-		if (props.readOnly) return;
-		const response = await fetch(`/api/obras/${props.obraId}/secuencias/${secuenciaId}`, {
-			method: 'DELETE'
-		});
-		if (!response.ok) {
-			pushToast('error', 'No se pudo eliminar la secuencia');
-			return;
+		if (props.readOnly || deletingSequence) return;
+		deletingSequence = true;
+		try {
+			const response = await fetch(`/api/obras/${props.obraId}/secuencias/${secuenciaId}`, {
+				method: 'DELETE'
+			});
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar la secuencia');
+				return;
+			}
+			const next = secuencias.filter((row) => row.secuencia_id !== secuenciaId);
+			secuencias = next;
+			emitSecuenciasChange(next);
+			if (editingId === secuenciaId) {
+				performCloseSidebar();
+			}
+			pushToast('success', 'Secuencia eliminada');
+			deleteTargetId = null;
+		} catch {
+			pushToast('error', 'No se pudo conectar con el servidor para eliminar la secuencia');
+		} finally {
+			deletingSequence = false;
 		}
-		const next = secuencias.filter((row) => row.secuencia_id !== secuenciaId);
-		secuencias = next;
-		emitSecuenciasChange(next);
-		if (editingId === secuenciaId) {
-			performCloseSidebar();
-		}
-		pushToast('success', 'Secuencia eliminada');
-		deleteTargetId = null;
 	}
 
 	async function loadCaracterizacionesRangoForCurrentSecuencia() {
@@ -1026,24 +1037,31 @@
 
 	async function removeCaracterizacionRango(caracterizacionRangoId: string) {
 		if (!browser) return;
-		if (props.readOnly || !editingId) return;
-		const response = await fetch(
-			`/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones/${caracterizacionRangoId}`,
-			{
-				method: 'DELETE'
+		if (props.readOnly || !editingId || deletingCaracterizacionRango) return;
+		deletingCaracterizacionRango = true;
+		try {
+			const response = await fetch(
+				`/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones/${caracterizacionRangoId}`,
+				{
+					method: 'DELETE'
+				}
+			);
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar la caracterización');
+				return;
 			}
-		);
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar la caracterización');
-			return;
+			caracterizacionesRango = caracterizacionesRango.filter(
+				(row) => row.caracterizacion_rango_id !== caracterizacionRangoId
+			);
+			caracterizacionRangoDeleteTargetId = null;
+			props.onMetricaDirty?.();
+			pushToast('success', 'Caracterización eliminada');
+		} catch {
+			pushToast('error', 'No se pudo conectar con el servidor para eliminar la caracterización');
+		} finally {
+			deletingCaracterizacionRango = false;
 		}
-		caracterizacionesRango = caracterizacionesRango.filter(
-			(row) => row.caracterizacion_rango_id !== caracterizacionRangoId
-		);
-		caracterizacionRangoDeleteTargetId = null;
-		props.onMetricaDirty?.();
-		pushToast('success', 'Caracterización eliminada');
 	}
 
 	async function loadSubtiposForCurrentSecuencia() {
@@ -1210,22 +1228,29 @@
 
 	async function removeSubtipo(subtipoSecuenciaId: string) {
 		if (!browser) return;
-		if (props.readOnly || !editingId) return;
-		const response = await fetch(
-			`/api/obras/${props.obraId}/secuencias/${editingId}/subtipos/${subtipoSecuenciaId}`,
-			{
-				method: 'DELETE'
+		if (props.readOnly || !editingId || deletingSubtipo) return;
+		deletingSubtipo = true;
+		try {
+			const response = await fetch(
+				`/api/obras/${props.obraId}/secuencias/${editingId}/subtipos/${subtipoSecuenciaId}`,
+				{
+					method: 'DELETE'
+				}
+			);
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar el subtipo');
+				return;
 			}
-		);
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar el subtipo');
-			return;
+			subtipos = subtipos.filter((row) => row.subtipo_secuencia_id !== subtipoSecuenciaId);
+			subtipoDeleteTargetId = null;
+			props.onMetricaDirty?.();
+			pushToast('success', 'Subtipo eliminado');
+		} catch {
+			pushToast('error', 'No se pudo conectar con el servidor para eliminar el subtipo');
+		} finally {
+			deletingSubtipo = false;
 		}
-		subtipos = subtipos.filter((row) => row.subtipo_secuencia_id !== subtipoSecuenciaId);
-		subtipoDeleteTargetId = null;
-		props.onMetricaDirty?.();
-		pushToast('success', 'Subtipo eliminado');
 	}
 
 	function clearFocusSecuenciaQueryParam() {
@@ -1586,8 +1611,13 @@
 				{/if}
 				<Button variant="secondary" onclick={requestCloseSidebar} disabled={sidebarSaving}>Cerrar</Button>
 				{#if !props.readOnly}
-					<Button variant="success" onclick={() => void save()} disabled={sidebarSaving}>
-						{sidebarSaving ? 'Guardando...' : 'Guardar'}
+					<Button
+						variant="success"
+						onclick={() => void save()}
+						loading={sidebarSaving}
+						loadingLabel="Guardando…"
+					>
+						Guardar
 					</Button>
 				{/if}
 			</div>
@@ -2122,10 +2152,12 @@
 					<Button variant="secondary" onclick={closeCaracterizacionRangoModal}>Cancelar</Button>
 					<Button
 						variant="success"
-						disabled={props.readOnly || caracterizacionRangoModalSaving}
+						disabled={props.readOnly}
+						loading={caracterizacionRangoModalSaving}
+						loadingLabel="Guardando…"
 						onclick={() => void saveCaracterizacionRango()}
 					>
-						{caracterizacionRangoModalSaving ? 'Guardando...' : 'Guardar'}
+						Guardar
 					</Button>
 				</div>
 			</div>
@@ -2185,10 +2217,12 @@
 					<Button variant="secondary" onclick={closeSubtipoModal}>Cancelar</Button>
 					<Button
 						variant="success"
-						disabled={props.readOnly || subtipoModalSaving}
+						disabled={props.readOnly}
+						loading={subtipoModalSaving}
+						loadingLabel="Guardando…"
 						onclick={() => void saveSubtipo()}
 					>
-						{subtipoModalSaving ? 'Guardando...' : 'Guardar'}
+						Guardar
 					</Button>
 				</div>
 			</div>
@@ -2201,10 +2235,18 @@
 				<h3 class="text-lg font-semibold">Eliminar caracterización</h3>
 				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
 				<div class="mt-4 flex justify-end gap-2">
-					<Button variant="secondary" onclick={closeCaracterizacionRangoDeleteModal}>Cancelar</Button>
+					<Button
+						variant="secondary"
+						onclick={closeCaracterizacionRangoDeleteModal}
+						disabled={deletingCaracterizacionRango}
+					>
+						Cancelar
+					</Button>
 					<Button
 						variant="danger"
 						disabled={props.readOnly}
+						loading={deletingCaracterizacionRango}
+						loadingLabel="Eliminando…"
 						onclick={() => {
 							if (!caracterizacionRangoDeleteTargetId) return;
 							void removeCaracterizacionRango(caracterizacionRangoDeleteTargetId);
@@ -2223,10 +2265,14 @@
 				<h3 class="text-lg font-semibold">Eliminar subtipo</h3>
 				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
 				<div class="mt-4 flex justify-end gap-2">
-					<Button variant="secondary" onclick={closeSubtipoDeleteModal}>Cancelar</Button>
+					<Button variant="secondary" onclick={closeSubtipoDeleteModal} disabled={deletingSubtipo}>
+						Cancelar
+					</Button>
 					<Button
 						variant="danger"
 						disabled={props.readOnly}
+						loading={deletingSubtipo}
+						loadingLabel="Eliminando…"
 						onclick={() => {
 							if (!subtipoDeleteTargetId) return;
 							void removeSubtipo(subtipoDeleteTargetId);
@@ -2245,10 +2291,18 @@
 			<h3 class="text-lg font-semibold">Eliminar secuencia</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
 			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="secondary" onclick={() => (deleteTargetId = null)}>Cancelar</Button>
+				<Button
+					variant="secondary"
+					onclick={() => (deleteTargetId = null)}
+					disabled={deletingSequence}
+				>
+					Cancelar
+				</Button>
 				<Button
 					variant="danger"
 					disabled={props.readOnly}
+					loading={deletingSequence}
+					loadingLabel="Eliminando…"
 					onclick={() => {
 						if (!deleteTargetId) return;
 						void remove(deleteTargetId);
