@@ -74,8 +74,8 @@ export interface PublicFichaSecuencia {
 	estrofa_forma_slug: string | null;
 	estrofa_tipo_forma: string | null;
 	inaugura_espacio: boolean | null;
-	versos_partidos: boolean;
-	evocacion_metrica: boolean;
+	versos_partidos: boolean | null;
+	evocacion_metrica: boolean | null;
 	evocacion_metrica_texto: string | null;
 	intervencion_personajes_femeninos: string | null;
 	intervencion_figuras_donaire: string | null;

@@ -82,6 +82,11 @@
 		if (value === 'compartida') return 'Intervención compartida';
 		return value;
 	}
+
+	function formatNullableBoolean(value: boolean | null) {
+		if (value === null) return 'Pendiente';
+		return value ? 'Sí' : 'No';
+	}
 </script>
 
 {#if props.open && props.secuencia}
@@ -148,10 +153,11 @@
 								{/each}
 							</div>
 						{/if}
-						<p><strong>Inaugura espacio:</strong> {props.secuencia.inaugura_espacio ? 'Si' : 'No'}</p>
-						<p><strong>Versos partidos:</strong> {props.secuencia.versos_partidos ? 'Si' : 'No'}</p>
+						<p><strong>Inaugura espacio:</strong> {formatNullableBoolean(props.secuencia.inaugura_espacio)}</p>
+						<p><strong>Versos partidos:</strong> {formatNullableBoolean(props.secuencia.versos_partidos)}</p>
+						<p><strong>Evocación métrica:</strong> {formatNullableBoolean(props.secuencia.evocacion_metrica)}</p>
 						{#if props.secuencia.evocacion_metrica && (props.secuencia.evocacion_metrica_texto ?? '').trim().length > 0}
-							<p><strong>Evocación métrica:</strong> {props.secuencia.evocacion_metrica_texto}</p>
+							<p><strong>Explicación de la evocación métrica:</strong> {props.secuencia.evocacion_metrica_texto}</p>
 						{/if}
 						{#if (props.secuencia.subtipos_estrofa ?? []).length > 0}
 							<div class="pt-1">
