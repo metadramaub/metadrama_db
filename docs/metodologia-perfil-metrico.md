@@ -102,8 +102,8 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
   coexisten `exclusiva` y `compartida` → **`mixta`**; si solo una → esa; si ninguna →
   `sin_intervencion`. (No existen 'ninguna' ni 'mixta' a nivel de secuencia; 'mixta' es solo el
   agregado de obra.)
-- **`tiene_versos_partidos`** = `bool_or(versos_partidos)` sobre las secuencias.
-- **`tiene_cambio_espacio`** = `bool_or(inaugura_espacio)` sobre las secuencias.
+- **`tiene_versos_partidos`** = `bool_or(versos_partidos)` sobre las secuencias; queda en `NULL` si alguna está pendiente.
+- **`tiene_cambio_espacio`** = `bool_or(inaugura_espacio)` sobre las secuencias; queda en `NULL` si alguna está pendiente.
 
 ### 1.7 Visualización: barcode métrico y cortes estructurales
 

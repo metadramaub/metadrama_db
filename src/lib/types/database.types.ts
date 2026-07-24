@@ -951,7 +951,7 @@ export type Database = {
         Row: {
           created_at: string
           estrofa_tipo_id: string | null
-          evocacion_metrica: boolean
+          evocacion_metrica: boolean | null
           evocacion_metrica_texto: string | null
           inaugura_espacio: boolean | null
           intervencion_figuras_donaire: string | null
@@ -964,12 +964,12 @@ export type Database = {
           updated_at: string
           v_fin: number
           v_ini: number
-          versos_partidos: boolean
+          versos_partidos: boolean | null
         }
         Insert: {
           created_at?: string
           estrofa_tipo_id?: string | null
-          evocacion_metrica?: boolean
+          evocacion_metrica?: boolean | null
           evocacion_metrica_texto?: string | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
@@ -982,12 +982,12 @@ export type Database = {
           updated_at?: string
           v_fin: number
           v_ini: number
-          versos_partidos?: boolean
+          versos_partidos?: boolean | null
         }
         Update: {
           created_at?: string
           estrofa_tipo_id?: string | null
-          evocacion_metrica?: boolean
+          evocacion_metrica?: boolean | null
           evocacion_metrica_texto?: string | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
@@ -1000,7 +1000,7 @@ export type Database = {
           updated_at?: string
           v_fin?: number
           v_ini?: number
-          versos_partidos?: boolean
+          versos_partidos?: boolean | null
         }
         Relationships: [
           {

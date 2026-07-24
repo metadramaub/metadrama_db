@@ -11,6 +11,7 @@
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
+	import NullableBooleanChoice from '$lib/components/ui/nullable-boolean-choice.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import LocalDraftRecoveryModal from '$lib/components/editor/LocalDraftRecoveryModal.svelte';
 	import SequenceSynopsisModal from '$lib/components/editor/SequenceSynopsisModal.svelte';
@@ -61,9 +62,9 @@
 		v_ini: number;
 		v_fin: number;
 		estrofa_tipo_id: string;
-		inaugura_espacio: boolean;
-		versos_partidos: boolean;
-		evocacion_metrica: boolean;
+		inaugura_espacio: boolean | null;
+		versos_partidos: boolean | null;
+		evocacion_metrica: boolean | null;
 		evocacion_metrica_texto: string;
 		intervencion_personajes_femeninos: IntervencionValue | null;
 		intervencion_figuras_donaire: IntervencionValue | null;
@@ -314,9 +315,9 @@
 			v_ini: suggestedStart,
 			v_fin: suggestedStart + 1,
 			estrofa_tipo_id: '',
-			inaugura_espacio: false,
-			versos_partidos: false,
-			evocacion_metrica: false,
+			inaugura_espacio: null,
+			versos_partidos: null,
+			evocacion_metrica: null,
 			evocacion_metrica_texto: '',
 			intervencion_personajes_femeninos: null,
 			intervencion_figuras_donaire: null,
@@ -503,9 +504,9 @@
 			v_ini: Number(source.v_ini),
 			v_fin: Number(source.v_fin),
 			estrofa_tipo_id: source.estrofa_tipo_id,
-			inaugura_espacio: Boolean(source.inaugura_espacio),
-			versos_partidos: Boolean(source.versos_partidos),
-			evocacion_metrica: Boolean(source.evocacion_metrica),
+			inaugura_espacio: source.inaugura_espacio,
+			versos_partidos: source.versos_partidos,
+			evocacion_metrica: source.evocacion_metrica,
 			evocacion_metrica_texto: source.evocacion_metrica ? source.evocacion_metrica_texto.trim() : '',
 			intervencion_personajes_femeninos: source.intervencion_personajes_femeninos,
 			intervencion_figuras_donaire: source.intervencion_figuras_donaire,
@@ -533,9 +534,9 @@
 			Number.isFinite(Number(candidate.v_ini)) &&
 			Number.isFinite(Number(candidate.v_fin)) &&
 			typeof candidate.estrofa_tipo_id === 'string' &&
-			typeof candidate.inaugura_espacio === 'boolean' &&
-			typeof candidate.versos_partidos === 'boolean' &&
-			typeof candidate.evocacion_metrica === 'boolean' &&
+			(candidate.inaugura_espacio === null || typeof candidate.inaugura_espacio === 'boolean') &&
+			(candidate.versos_partidos === null || typeof candidate.versos_partidos === 'boolean') &&
+			(candidate.evocacion_metrica === null || typeof candidate.evocacion_metrica === 'boolean') &&
 			typeof candidate.evocacion_metrica_texto === 'string' &&
 			isIntervencionValue(candidate.intervencion_personajes_femeninos) &&
 			isIntervencionValue(candidate.intervencion_figuras_donaire) &&
@@ -601,10 +602,6 @@
 			if (showToast) pushToast('error', 'Rango de versos inválido');
 			return false;
 		}
-		if (!form.estrofa_tipo_id) {
-			if (showToast) pushToast('error', 'Selecciona estrofa');
-			return false;
-		}
 		return true;
 	}
 
@@ -631,9 +628,9 @@
 			v_ini: secuencia.v_ini,
 			v_fin: secuencia.v_fin,
 			estrofa_tipo_id: toSelectableEstrofaId(secuencia.estrofa_tipo_id),
-			inaugura_espacio: Boolean(secuencia.inaugura_espacio),
-			versos_partidos: Boolean(secuencia.versos_partidos),
-			evocacion_metrica: Boolean(secuencia.evocacion_metrica),
+			inaugura_espacio: secuencia.inaugura_espacio,
+			versos_partidos: secuencia.versos_partidos,
+			evocacion_metrica: secuencia.evocacion_metrica,
 			evocacion_metrica_texto: secuencia.evocacion_metrica_texto ?? '',
 			intervencion_personajes_femeninos: secuencia.intervencion_personajes_femeninos as IntervencionValue | null,
 			intervencion_figuras_donaire: secuencia.intervencion_figuras_donaire as IntervencionValue | null,
@@ -768,6 +765,7 @@
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					...form,
+					estrofa_tipo_id: form.estrofa_tipo_id || null,
 					evocacion_metrica_texto: form.evocacion_metrica ? form.evocacion_metrica_texto : null
 				})
 			});
@@ -812,9 +810,9 @@
 			v_ini: savedSecuencia.v_ini,
 			v_fin: savedSecuencia.v_fin,
 			estrofa_tipo_id: toSelectableEstrofaId(savedSecuencia.estrofa_tipo_id),
-			inaugura_espacio: Boolean(savedSecuencia.inaugura_espacio),
-			versos_partidos: Boolean(savedSecuencia.versos_partidos),
-			evocacion_metrica: Boolean(savedSecuencia.evocacion_metrica),
+			inaugura_espacio: savedSecuencia.inaugura_espacio,
+			versos_partidos: savedSecuencia.versos_partidos,
+			evocacion_metrica: savedSecuencia.evocacion_metrica,
 			evocacion_metrica_texto: savedSecuencia.evocacion_metrica_texto ?? '',
 			intervencion_personajes_femeninos:
 				savedSecuencia.intervencion_personajes_femeninos as IntervencionValue | null,
@@ -1648,7 +1646,7 @@
 				</div>
 
 				<label class="form-field mt-3">
-					<span class="form-label">Estrofa *</span>
+					<span class="form-label">Estrofa</span>
 					<CheckDropdown
 						class="mt-1"
 						multiple={false}
@@ -1656,15 +1654,14 @@
 						collapsibleHierarchy={true}
 						disableParentsWithChildren={true}
 						showPathInTrigger={true}
-						allowSingleClear={false}
+						allowSingleClear
 						search={true}
-						placeholder="Seleccionar estrofa"
+						placeholder="Pendiente — seleccionar"
 						items={estrofaDropdownItems}
 						selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
 						disabled={props.readOnly}
 						onChange={(ids) => {
 							const nextId = ids[0] ?? '';
-							if (!nextId) return;
 							form = {
 								...form,
 								estrofa_tipo_id: nextId
@@ -1902,101 +1899,74 @@
 				<div class="grid gap-3 sm:grid-cols-2">
 					<div class="grid grid-cols-2 gap-3 sm:col-span-2">
 						<div class="form-field min-w-0">
-						<span class="form-label">
-							<span class="form-label-with-help">
-								Versos partidos
-								<FieldHelpTooltip
-									text="Marca 'Sí' si en esta secuencia hay versos repartidos entre intervenciones de distintos personajes."
-									label="Ayuda sobre el campo Versos partidos"
-								/>
+							<span class="form-label">
+								<span class="form-label-with-help">
+									Versos partidos
+									<FieldHelpTooltip
+										text="Selecciona 'Sí' si en esta secuencia hay versos repartidos entre intervenciones de distintos personajes."
+										label="Ayuda sobre el campo Versos partidos"
+									/>
+								</span>
 							</span>
-						</span>
-						<div class="form-inline-toggle">
-							<button
-								type="button"
-								role="switch"
-								aria-checked={form.versos_partidos}
-								aria-label="Versos partidos"
-								class={`form-switch ${props.readOnly ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+							<NullableBooleanChoice
+								value={form.versos_partidos}
+								ariaLabel="Versos partidos"
 								disabled={props.readOnly}
-								onclick={() => {
+								onChange={(value) => {
 									form = {
 										...form,
-										versos_partidos: !form.versos_partidos
+										versos_partidos: value
 									};
 								}}
-							>
-								<span class="form-switch-thumb"></span>
-							</button>
-							<span class="text-[color:var(--muted-foreground)]">
-								{form.versos_partidos ? 'Sí' : 'No'}
-							</span>
-						</div>
+							/>
 						</div>
 
 						<div class="form-field min-w-0">
-						<span class="form-label">
-							<span class="form-label-with-help">
-								Inaugura espacio
-								<FieldHelpTooltip
-									text="Marca 'Sí' si coincide (de forma evidente) el inicio de esta secuencia con el cambio de espacio escénico"
-									label="Ayuda sobre el campo Inaugura espacio"
-								/>
+							<span class="form-label">
+								<span class="form-label-with-help">
+									Inaugura espacio
+									<FieldHelpTooltip
+										text="Selecciona 'Sí' si coincide (de forma evidente) el inicio de esta secuencia con el cambio de espacio escénico."
+										label="Ayuda sobre el campo Inaugura espacio"
+									/>
+								</span>
 							</span>
-						</span>
-						<div class="form-inline-toggle">
-							<button
-								type="button"
-								role="switch"
-								aria-checked={form.inaugura_espacio}
-								aria-label="Inaugura espacio"
-								class={`form-switch ${props.readOnly ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+							<NullableBooleanChoice
+								value={form.inaugura_espacio}
+								ariaLabel="Inaugura espacio"
 								disabled={props.readOnly}
-								onclick={() => {
+								onChange={(value) => {
 									form = {
 										...form,
-										inaugura_espacio: !form.inaugura_espacio
+										inaugura_espacio: value
 									};
 								}}
-							>
-								<span class="form-switch-thumb"></span>
-							</button>
-							<span class="text-[color:var(--muted-foreground)]">
-								{form.inaugura_espacio ? 'Sí' : 'No'}
-							</span>
-						</div>
+							/>
 						</div>
 					</div>
-					<label class="form-field sm:col-span-2">
+					<div class="form-field sm:col-span-2">
 						<span class="form-label">
 							<span class="form-label-with-help">
 								Evocación métrica
 								<FieldHelpTooltip
-									text="Marca esta opción cuando el cambio de metro se deba a que un personaje adopta, imita o reproduce la voz de otro personaje."
+									text="Selecciona 'Sí' cuando el cambio de metro se deba a que un personaje adopta, imita o reproduce la voz de otro personaje."
 									label="Ayuda sobre el campo Evocación métrica"
 								/>
 							</span>
 						</span>
-						<div class="form-inline-toggle">
-							<input
-								type="checkbox"
-								class="h-4 w-4"
-								checked={form.evocacion_metrica}
-								disabled={props.readOnly}
-								onchange={(event) => {
-									const checked = event.currentTarget.checked;
-									form = {
-										...form,
-										evocacion_metrica: checked,
-										evocacion_metrica_texto: checked ? form.evocacion_metrica_texto : ''
-									};
-								}}
-							/>
-							<span class="text-[color:var(--muted-foreground)]">
-								{form.evocacion_metrica ? 'Sí' : 'No'}
-							</span>
-						</div>
-					</label>
+						<NullableBooleanChoice
+							value={form.evocacion_metrica}
+							ariaLabel="Evocación métrica"
+							disabled={props.readOnly}
+							onChange={(value) => {
+								form = {
+									...form,
+									evocacion_metrica: value,
+									evocacion_metrica_texto: value === true ? form.evocacion_metrica_texto : ''
+								};
+							}}
+						/>
+					</div>
 					{#if form.evocacion_metrica}
 						<label class="form-field sm:col-span-2">
 							<span class="form-label">Explicación de la evocación métrica</span>

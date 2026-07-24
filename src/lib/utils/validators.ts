@@ -116,10 +116,10 @@ export const secuenciaInputSchema = z
 	.object({
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
-		estrofa_tipo_id: z.string().uuid('Estrofa requerida'),
-		inaugura_espacio: z.boolean().default(false),
-		versos_partidos: z.boolean().default(false),
-		evocacion_metrica: z.boolean().default(false),
+		estrofa_tipo_id: z.string().uuid('Estrofa no válida').nullable().default(null),
+		inaugura_espacio: z.boolean().nullable().default(null),
+		versos_partidos: z.boolean().nullable().default(null),
+		evocacion_metrica: z.boolean().nullable().default(null),
 		evocacion_metrica_texto: nullableText(2000),
 		intervencion_personajes_femeninos: z
 			.enum(['sin_intervencion', 'exclusiva', 'compartida'])
