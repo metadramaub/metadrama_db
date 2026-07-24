@@ -96,8 +96,13 @@
 					<p class="text-sm text-[color:var(--danger)]">{errorMessage}</p>
 				{/if}
 
-				<Button type="submit" class="w-full" disabled={saving}>
-					{#if saving}Guardando...{:else}Guardar contraseña{/if}
+				<Button
+					type="submit"
+					class="w-full"
+					loading={saving}
+					loadingLabel="Guardando…"
+				>
+					Guardar contraseña
 				</Button>
 			</form>
 		</div>

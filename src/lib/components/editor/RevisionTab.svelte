@@ -472,26 +472,31 @@
 	async function onDeleteObra() {
 		if (!canDeleteObra || deletingObra || !deleteConfirmed) return;
 		deletingObra = true;
-		const response = await fetch(`/api/obras/${props.obraId}`, {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
-		});
-		deletingObra = false;
+		try {
+			const response = await fetch(`/api/obras/${props.obraId}`, {
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ confirmText: deleteConfirmText.trim() })
+			});
 
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar la obra.');
-			return;
-		}
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar la obra.');
+				return;
+			}
 
-		showDeleteModal = false;
-		deleteConfirmText = '';
-		if (typeof window !== 'undefined') {
-			window.dispatchEvent(new CustomEvent('dashboard-obras-updated'));
+			showDeleteModal = false;
+			deleteConfirmText = '';
+			if (typeof window !== 'undefined') {
+				window.dispatchEvent(new CustomEvent('dashboard-obras-updated'));
+			}
+			pushToast('success', 'Obra eliminada correctamente.');
+			await goto('/dashboard/obras?scope=all');
+		} catch {
+			pushToast('error', 'No se pudo conectar con el servidor para eliminar la obra.');
+		} finally {
+			deletingObra = false;
 		}
-		pushToast('success', 'Obra eliminada correctamente.');
-		await goto('/dashboard/obras?scope=all');
 	}
 
 	function onOpenDeleteModal() {
@@ -614,8 +619,14 @@
 
 					{#if canManageAssignments}
 						<div class="mt-3 flex justify-end">
-							<Button variant="success" onclick={openAssignmentsConfirmModal} disabled={reviewersSaving || !assignmentsDirty}>
-								{reviewersSaving ? 'Guardando...' : 'Guardar asignaciones'}
+							<Button
+								variant="success"
+								onclick={openAssignmentsConfirmModal}
+								disabled={!assignmentsDirty}
+								loading={reviewersSaving}
+								loadingLabel="Guardando…"
+							>
+								Guardar asignaciones
 							</Button>
 						</div>
 					{/if}
@@ -646,9 +657,11 @@
 				<Button
 					variant="success"
 					onclick={openEstadoConfirmModal}
-					disabled={stateSaving || !canChangeState || !stateDirty}
+					disabled={!canChangeState || !stateDirty}
+					loading={stateSaving}
+					loadingLabel="Guardando…"
 				>
-					{stateSaving ? 'Guardando...' : 'Guardar estado'}
+					Guardar estado
 				</Button>
 			</div>
 		</section>
@@ -664,9 +677,11 @@
 					<Button
 						variant="success"
 						onclick={onGuardarVisibilidad}
-						disabled={visibilitySaving || !canToggleVisible || !visibilityDirty}
+						disabled={!canToggleVisible || !visibilityDirty}
+						loading={visibilitySaving}
+						loadingLabel="Guardando…"
 					>
-						{visibilitySaving ? 'Guardando...' : 'Guardar visibilidad'}
+						Guardar visibilidad
 					</Button>
 				</div>
 			</section>
@@ -711,8 +726,13 @@
 				<Button variant="secondary" onclick={cancelEstadoConfirmModal} disabled={stateSaving}>
 					Cancelar
 				</Button>
-				<Button variant="success" onclick={() => void confirmEstadoChange()} disabled={stateSaving}>
-					{stateSaving ? 'Guardando...' : 'Confirmar y guardar'}
+				<Button
+					variant="success"
+					onclick={() => void confirmEstadoChange()}
+					loading={stateSaving}
+					loadingLabel="Guardando…"
+				>
+					Confirmar y guardar
 				</Button>
 			</div>
 		</div>
@@ -756,8 +776,13 @@
 				<Button variant="secondary" onclick={closeAssignmentsConfirmModal} disabled={reviewersSaving}>
 					Cancelar
 				</Button>
-				<Button variant="success" onclick={() => void saveAssignments()} disabled={reviewersSaving}>
-					{reviewersSaving ? 'Guardando...' : 'Confirmar y guardar'}
+				<Button
+					variant="success"
+					onclick={() => void saveAssignments()}
+					loading={reviewersSaving}
+					loadingLabel="Guardando…"
+				>
+					Confirmar y guardar
 				</Button>
 			</div>
 		</div>
@@ -785,8 +810,14 @@
 				<Button variant="ghost" onclick={onCloseDeleteModal} disabled={deletingObra}>
 					Cancelar
 				</Button>
-				<Button variant="danger" onclick={onDeleteObra} disabled={deletingObra || !deleteConfirmed}>
-					{deletingObra ? 'Eliminando...' : 'Eliminar'}
+				<Button
+					variant="danger"
+					onclick={onDeleteObra}
+					disabled={!deleteConfirmed}
+					loading={deletingObra}
+					loadingLabel="Eliminando…"
+				>
+					Eliminar
 				</Button>
 			</div>
 		</div>

@@ -279,22 +279,27 @@
 	async function confirmDelete(commentId: string) {
 		if (deletingComment) return;
 		deletingComment = true;
-		const response = await fetch(`/api/obras/${props.obraId}/comentarios/${commentId}`, {
-			method: 'DELETE'
-		});
-		deletingComment = false;
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudo eliminar el comentario.');
-			return;
+		try {
+			const response = await fetch(`/api/obras/${props.obraId}/comentarios/${commentId}`, {
+				method: 'DELETE'
+			});
+			if (!response.ok) {
+				const body = await response.json().catch(() => ({}));
+				pushToast('error', body.message ?? 'No se pudo eliminar el comentario.');
+				return;
+			}
+			deleteConfirmId = null;
+			if (editingCommentId === commentId) {
+				cancelEdit();
+			}
+			pushToast('success', 'Comentario eliminado');
+			await loadComments();
+			props.onCommentsMutated?.();
+		} catch {
+			pushToast('error', 'No se pudo conectar con el servidor para eliminar el comentario.');
+		} finally {
+			deletingComment = false;
 		}
-		deleteConfirmId = null;
-		if (editingCommentId === commentId) {
-			cancelEdit();
-		}
-		pushToast('success', 'Comentario eliminado');
-		await loadComments();
-		props.onCommentsMutated?.();
 	}
 
 	async function toggleCommentPublication(comment: ComentarioListItem) {
@@ -415,8 +420,13 @@
 	<div class="mt-2 flex justify-end gap-2">
 		{#if comment.can_edit}
 			<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
-			<Button variant="success" onclick={() => saveEdit(comment.comentario_id)} disabled={savingEdit}>
-				{savingEdit ? 'Guardando...' : 'Guardar'}
+			<Button
+				variant="success"
+				onclick={() => saveEdit(comment.comentario_id)}
+				loading={savingEdit}
+				loadingLabel="Guardando…"
+			>
+				Guardar
 			</Button>
 		{:else}
 			<Button variant="secondary" onclick={cancelEdit} disabled={savingEdit}>Cancelar</Button>
@@ -477,9 +487,10 @@
 			<Button
 				variant="danger"
 				onclick={() => confirmDelete(comment.comentario_id)}
-				disabled={deletingComment}
+				loading={deletingComment}
+				loadingLabel="Eliminando…"
 			>
-				{deletingComment ? 'Eliminando...' : 'Confirmar'}
+				Confirmar
 			</Button>
 		</div>
 	</div>

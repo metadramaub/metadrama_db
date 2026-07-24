@@ -35,9 +35,10 @@
 						class="w-full sm:col-span-2"
 						variant="success"
 						onclick={() => void props.onSave?.()}
-						disabled={props.saving}
+						loading={props.saving}
+						loadingLabel="Guardando…"
 					>
-						{props.saving ? 'Guardando...' : 'Guardar y continuar'}
+						Guardar y continuar
 					</Button>
 				{/if}
 			</div>

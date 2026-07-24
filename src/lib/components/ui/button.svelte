@@ -7,12 +7,14 @@
 		variant?: Variant;
 		class?: string;
 		disabled?: boolean;
+		loading?: boolean;
+		loadingLabel?: string;
 		onclick?: (event: MouseEvent) => void;
 		children?: Snippet;
 	}>();
 
 	const base =
-		'inline-flex items-center justify-center px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50';
+		'inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50';
 	const variants: Record<Variant, string> = {
 		primary:
 			'border border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)] hover:brightness-95',
@@ -32,8 +34,17 @@
 <button
 	type={props.type ?? 'button'}
 	class={`${base} ${variants[chosenVariant]} ${props.class ?? ''}`}
-	disabled={props.disabled ?? false}
+	disabled={(props.disabled ?? false) || (props.loading ?? false)}
+	aria-busy={props.loading ?? false}
 	onclick={props.onclick}
 >
-	{@render props.children?.()}
+	{#if props.loading}
+		<span
+			class="h-3.5 w-3.5 shrink-0 animate-spin border-2 border-current"
+			aria-hidden="true"
+		></span>
+		<span>{props.loadingLabel ?? 'Procesando…'}</span>
+	{:else}
+		{@render props.children?.()}
+	{/if}
 </button>

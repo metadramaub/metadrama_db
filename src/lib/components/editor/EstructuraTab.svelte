@@ -77,6 +77,7 @@
 	let editingJornadaId = $state<string | null>(null);
 	let editingCuadroId = $state<string | null>(null);
 	let deleteTarget = $state<DeleteTarget | null>(null);
+	let deletingStructure = $state(false);
 	let pendingSidebarAction = $state<PendingSidebarAction | null>(null);
 	let draftRecovery = $state<DraftRecovery | null>(null);
 
@@ -682,42 +683,54 @@
 	}
 
 	async function confirmDelete() {
-		if (props.readOnly || !deleteTarget) return;
+		if (props.readOnly || !deleteTarget || deletingStructure) return;
 		const target = deleteTarget;
+		deletingStructure = true;
 
-		if (target.kind === 'jornada') {
-			const response = await fetch(`/api/obras/${props.obraId}/estructura/jornadas/${target.id}`, {
-				method: 'DELETE'
-			});
-			if (!response.ok) {
-				const body = await response.json().catch(() => ({}));
-				pushToast('error', body.message ?? 'No se pudo eliminar la jornada');
-				return;
+		try {
+			if (target.kind === 'jornada') {
+				const response = await fetch(`/api/obras/${props.obraId}/estructura/jornadas/${target.id}`, {
+					method: 'DELETE'
+				});
+				if (!response.ok) {
+					const body = await response.json().catch(() => ({}));
+					pushToast('error', body.message ?? 'No se pudo eliminar la jornada');
+					return;
+				}
+				jornadas = jornadas.filter((item) => item.jornada_id !== target.id);
+				cuadros = cuadros.filter((item) => item.jornada_id !== target.id);
+				if (editingJornadaId === target.id) {
+					performCloseSidebar();
+				}
+				pushToast('success', 'Jornada eliminada');
+			} else {
+				const response = await fetch(`/api/obras/${props.obraId}/estructura/cuadros/${target.id}`, {
+					method: 'DELETE'
+				});
+				if (!response.ok) {
+					const body = await response.json().catch(() => ({}));
+					pushToast('error', body.message ?? 'No se pudo eliminar el cuadro');
+					return;
+				}
+				cuadros = cuadros.filter((item) => item.cuadro_id !== target.id);
+				if (editingCuadroId === target.id) {
+					performCloseSidebar();
+				}
+				pushToast('success', 'Cuadro eliminado');
 			}
-			jornadas = jornadas.filter((item) => item.jornada_id !== target.id);
-			cuadros = cuadros.filter((item) => item.jornada_id !== target.id);
-			if (editingJornadaId === target.id) {
-				performCloseSidebar();
-			}
-			pushToast('success', 'Jornada eliminada');
-		} else {
-			const response = await fetch(`/api/obras/${props.obraId}/estructura/cuadros/${target.id}`, {
-				method: 'DELETE'
-			});
-			if (!response.ok) {
-				const body = await response.json().catch(() => ({}));
-				pushToast('error', body.message ?? 'No se pudo eliminar el cuadro');
-				return;
-			}
-			cuadros = cuadros.filter((item) => item.cuadro_id !== target.id);
-			if (editingCuadroId === target.id) {
-				performCloseSidebar();
-			}
-			pushToast('success', 'Cuadro eliminado');
+
+			deleteTarget = null;
+			emitStructureChange();
+		} catch {
+			pushToast(
+				'error',
+				target.kind === 'jornada'
+					? 'No se pudo conectar con el servidor para eliminar la jornada'
+					: 'No se pudo conectar con el servidor para eliminar el cuadro'
+			);
+		} finally {
+			deletingStructure = false;
 		}
-
-		deleteTarget = null;
-		emitStructureChange();
 	}
 
 	$effect(() => {
@@ -963,8 +976,13 @@
 				{/if}
 				<Button variant="secondary" onclick={requestCloseSidebar} disabled={sidebarSaving}>Cerrar</Button>
 				{#if !props.readOnly}
-					<Button variant="success" onclick={() => void saveSidebar()} disabled={sidebarSaving}>
-						{sidebarSaving ? 'Guardando...' : 'Guardar'}
+					<Button
+						variant="success"
+						onclick={() => void saveSidebar()}
+						loading={sidebarSaving}
+						loadingLabel="Guardando…"
+					>
+						Guardar
 					</Button>
 				{/if}
 			</div>
@@ -1095,8 +1113,22 @@
 			<h3 class="text-lg font-semibold">{deleteTarget.title}</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{deleteTarget.description}</p>
 			<div class="mt-4 flex justify-end gap-2">
-				<Button variant="secondary" onclick={() => (deleteTarget = null)}>Cancelar</Button>
-				<Button variant="danger" onclick={confirmDelete} disabled={props.readOnly}>Eliminar</Button>
+				<Button
+					variant="secondary"
+					onclick={() => (deleteTarget = null)}
+					disabled={deletingStructure}
+				>
+					Cancelar
+				</Button>
+				<Button
+					variant="danger"
+					onclick={confirmDelete}
+					disabled={props.readOnly}
+					loading={deletingStructure}
+					loadingLabel="Eliminando…"
+				>
+					Eliminar
+				</Button>
 			</div>
 		</div>
 	</div>
