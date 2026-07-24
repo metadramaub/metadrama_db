@@ -34,7 +34,7 @@ Un comentario interno se publica solo si haces **las dos cosas**: al escribirlo,
 
 ## ¿Se guardan mis cambios solos?
 
-Sí: la interfaz autoguarda cada 10 segundos y avisa antes de cerrar un panel con cambios pendientes. Aun así, usa `Guardar` manualmente en momentos clave.
+En secuencias, jornadas y cuadros debes pulsar `Guardar` para enviar los cambios a Supabase. Mientras editas, la interfaz conserva un borrador local en este navegador y avisa antes de salir con cambios pendientes.
 
 ## ¿Qué es una caracterización por rango y cuándo NO creo una secuencia nueva?
 

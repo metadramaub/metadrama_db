@@ -1,7 +1,13 @@
 import { writable } from 'svelte/store';
 import type { Tables } from '$lib/types/database.types';
 
-export type ObraDirtyScope = 'datos' | 'autoria' | 'observaciones' | 'global';
+export type ObraDirtyScope =
+	| 'datos'
+	| 'estructura'
+	| 'secuencias'
+	| 'autoria'
+	| 'observaciones'
+	| 'global';
 
 export interface CurrentObraState {
 	obra: Tables<'obras'> | null;
