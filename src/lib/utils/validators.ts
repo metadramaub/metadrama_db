@@ -121,9 +121,15 @@ export const secuenciaInputSchema = z
 		versos_partidos: z.boolean().default(false),
 		evocacion_metrica: z.boolean().default(false),
 		evocacion_metrica_texto: nullableText(2000),
-		intervencion_personajes_femeninos: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
-		intervencion_figuras_donaire: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
-		intervencion_personajes_sobrenaturales: z.enum(['sin_intervencion', 'exclusiva', 'compartida']),
+		intervencion_personajes_femeninos: z
+			.enum(['sin_intervencion', 'exclusiva', 'compartida'])
+			.nullable(),
+		intervencion_figuras_donaire: z
+			.enum(['sin_intervencion', 'exclusiva', 'compartida'])
+			.nullable(),
+		intervencion_personajes_sobrenaturales: z
+			.enum(['sin_intervencion', 'exclusiva', 'compartida'])
+			.nullable(),
 		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
 	.strict()

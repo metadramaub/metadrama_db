@@ -55,6 +55,8 @@
 		onMetricaDirty?: () => void;
 	}>();
 
+	type IntervencionValue = 'sin_intervencion' | 'exclusiva' | 'compartida';
+
 	type FormState = {
 		v_ini: number;
 		v_fin: number;
@@ -63,9 +65,9 @@
 		versos_partidos: boolean;
 		evocacion_metrica: boolean;
 		evocacion_metrica_texto: string;
-		intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida';
-		intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida';
-		intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida';
+		intervencion_personajes_femeninos: IntervencionValue | null;
+		intervencion_figuras_donaire: IntervencionValue | null;
+		intervencion_personajes_sobrenaturales: IntervencionValue | null;
 		sinopsis: string;
 	};
 
@@ -219,12 +221,6 @@
 		})
 	);
 	const estrofaSelectableIds = $derived.by(() => new Set(estrofaSelectableOptions.map((option) => option.termino_id)));
-	const defaultEstrofa = $derived.by(() => {
-		const redondilla = estrofaSelectableOptions.find(
-			(option) => normalizeTerm(option.termino) === 'redondilla'
-		);
-		return redondilla?.termino_id ?? estrofaSelectableOptions[0]?.termino_id ?? '';
-	});
 	const estrofaDropdownItems = $derived.by(() =>
 		estrofaSelectableOptions.map((option) => ({
 			id: option.termino_id,
@@ -291,7 +287,7 @@
 	});
 
 	function toSelectableEstrofaId(termId: string | null | undefined): string {
-		if (!termId) return defaultEstrofa;
+		if (!termId) return '';
 		if (estrofaSelectableIds.has(termId)) return termId;
 
 		let cursor = estrofaById.get(termId) ?? null;
@@ -301,7 +297,7 @@
 			cursor = estrofaById.get(parentId) ?? null;
 		}
 
-		return defaultEstrofa;
+		return '';
 	}
 
 	function getSuggestedSecuenciaStart(): number {
@@ -314,14 +310,14 @@
 		return {
 			v_ini: suggestedStart,
 			v_fin: suggestedStart + 1,
-			estrofa_tipo_id: defaultEstrofa,
+			estrofa_tipo_id: '',
 			inaugura_espacio: false,
 			versos_partidos: false,
 			evocacion_metrica: false,
 			evocacion_metrica_texto: '',
-			intervencion_personajes_femeninos: 'sin_intervencion',
-			intervencion_figuras_donaire: 'sin_intervencion',
-			intervencion_personajes_sobrenaturales: 'sin_intervencion',
+			intervencion_personajes_femeninos: null,
+			intervencion_figuras_donaire: null,
+			intervencion_personajes_sobrenaturales: null,
 			sinopsis: ''
 		};
 	}
@@ -394,9 +390,9 @@
 		options: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>,
 		id: string | null
 	) {
-		if (!id) return '--';
+		if (!id) return 'Pendiente';
 		const option = options.find((opt) => opt.termino_id === id);
-		return option ? displayTerm(option) : '--';
+		return option ? displayTerm(option) : 'Pendiente';
 	}
 
 	function caracterizacionRangoLabelById(tipoCaracterizacionRangoId: string, fallback = '') {
@@ -527,6 +523,9 @@
 	function isFormState(value: unknown): value is FormState {
 		if (!value || typeof value !== 'object') return false;
 		const candidate = value as Partial<FormState>;
+		const isIntervencionValue = (intervencion: unknown) =>
+			intervencion === null ||
+			['sin_intervencion', 'exclusiva', 'compartida'].includes(String(intervencion));
 		return (
 			Number.isFinite(Number(candidate.v_ini)) &&
 			Number.isFinite(Number(candidate.v_fin)) &&
@@ -535,15 +534,9 @@
 			typeof candidate.versos_partidos === 'boolean' &&
 			typeof candidate.evocacion_metrica === 'boolean' &&
 			typeof candidate.evocacion_metrica_texto === 'string' &&
-			['sin_intervencion', 'exclusiva', 'compartida'].includes(
-				candidate.intervencion_personajes_femeninos ?? ''
-			) &&
-			['sin_intervencion', 'exclusiva', 'compartida'].includes(
-				candidate.intervencion_figuras_donaire ?? ''
-			) &&
-			['sin_intervencion', 'exclusiva', 'compartida'].includes(
-				candidate.intervencion_personajes_sobrenaturales ?? ''
-			) &&
+			isIntervencionValue(candidate.intervencion_personajes_femeninos) &&
+			isIntervencionValue(candidate.intervencion_figuras_donaire) &&
+			isIntervencionValue(candidate.intervencion_personajes_sobrenaturales) &&
 			typeof candidate.sinopsis === 'string'
 		);
 	}
@@ -639,12 +632,10 @@
 			versos_partidos: Boolean(secuencia.versos_partidos),
 			evocacion_metrica: Boolean(secuencia.evocacion_metrica),
 			evocacion_metrica_texto: secuencia.evocacion_metrica_texto ?? '',
-			intervencion_personajes_femeninos:
-				secuencia.intervencion_personajes_femeninos as FormState['intervencion_personajes_femeninos'],
-			intervencion_figuras_donaire:
-				secuencia.intervencion_figuras_donaire as FormState['intervencion_figuras_donaire'],
+			intervencion_personajes_femeninos: secuencia.intervencion_personajes_femeninos as IntervencionValue | null,
+			intervencion_figuras_donaire: secuencia.intervencion_figuras_donaire as IntervencionValue | null,
 			intervencion_personajes_sobrenaturales:
-				secuencia.intervencion_personajes_sobrenaturales as FormState['intervencion_personajes_sobrenaturales'],
+				secuencia.intervencion_personajes_sobrenaturales as IntervencionValue | null,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
 		caracterizacionesRango = [];
@@ -823,11 +814,11 @@
 			evocacion_metrica: Boolean(savedSecuencia.evocacion_metrica),
 			evocacion_metrica_texto: savedSecuencia.evocacion_metrica_texto ?? '',
 			intervencion_personajes_femeninos:
-				savedSecuencia.intervencion_personajes_femeninos as FormState['intervencion_personajes_femeninos'],
+				savedSecuencia.intervencion_personajes_femeninos as IntervencionValue | null,
 			intervencion_figuras_donaire:
-				savedSecuencia.intervencion_figuras_donaire as FormState['intervencion_figuras_donaire'],
+				savedSecuencia.intervencion_figuras_donaire as IntervencionValue | null,
 			intervencion_personajes_sobrenaturales:
-				savedSecuencia.intervencion_personajes_sobrenaturales as FormState['intervencion_personajes_sobrenaturales'],
+				savedSecuencia.intervencion_personajes_sobrenaturales as IntervencionValue | null,
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
 
@@ -1815,16 +1806,18 @@
 						<CheckDropdown
 							multiple={false}
 							search={false}
-							placeholder="Seleccionar valor"
+							allowSingleClear
+							placeholder="Pendiente — seleccionar"
 							items={intervencionItems}
 							disabled={props.readOnly}
-							selectedIds={[form.intervencion_personajes_femeninos]}
+							selectedIds={form.intervencion_personajes_femeninos
+								? [form.intervencion_personajes_femeninos]
+								: []}
 							onChange={(ids) => {
-								const nextPersonajeFemenino = ids[0] as FormState['intervencion_personajes_femeninos'] | undefined;
-								if (!nextPersonajeFemenino) return;
+								const nextPersonajeFemenino = ids[0] as IntervencionValue | undefined;
 								form = {
 									...form,
-									intervencion_personajes_femeninos: nextPersonajeFemenino
+									intervencion_personajes_femeninos: nextPersonajeFemenino ?? null
 								};
 							}}
 						/>
@@ -1834,16 +1827,18 @@
 						<CheckDropdown
 							multiple={false}
 							search={false}
-							placeholder="Seleccionar valor"
+							allowSingleClear
+							placeholder="Pendiente — seleccionar"
 							items={intervencionItems}
 							disabled={props.readOnly}
-							selectedIds={[form.intervencion_figuras_donaire]}
+							selectedIds={form.intervencion_figuras_donaire
+								? [form.intervencion_figuras_donaire]
+								: []}
 							onChange={(ids) => {
-								const nextDonaire = ids[0] as FormState['intervencion_figuras_donaire'] | undefined;
-								if (!nextDonaire) return;
+								const nextDonaire = ids[0] as IntervencionValue | undefined;
 								form = {
 									...form,
-									intervencion_figuras_donaire: nextDonaire
+									intervencion_figuras_donaire: nextDonaire ?? null
 								};
 							}}
 						/>
@@ -1853,16 +1848,18 @@
 						<CheckDropdown
 							multiple={false}
 							search={false}
-							placeholder="Seleccionar valor"
+							allowSingleClear
+							placeholder="Pendiente — seleccionar"
 							items={intervencionItems}
 							disabled={props.readOnly}
-							selectedIds={[form.intervencion_personajes_sobrenaturales]}
+							selectedIds={form.intervencion_personajes_sobrenaturales
+								? [form.intervencion_personajes_sobrenaturales]
+								: []}
 							onChange={(ids) => {
-								const nextSobrenatural = ids[0] as FormState['intervencion_personajes_sobrenaturales'] | undefined;
-								if (!nextSobrenatural) return;
+								const nextSobrenatural = ids[0] as IntervencionValue | undefined;
 								form = {
 									...form,
-									intervencion_personajes_sobrenaturales: nextSobrenatural
+									intervencion_personajes_sobrenaturales: nextSobrenatural ?? null
 								};
 							}}
 						/>

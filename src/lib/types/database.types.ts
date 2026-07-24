@@ -954,9 +954,9 @@ export type Database = {
           evocacion_metrica: boolean
           evocacion_metrica_texto: string | null
           inaugura_espacio: boolean | null
-          intervencion_figuras_donaire: string
-          intervencion_personajes_femeninos: string
-          intervencion_personajes_sobrenaturales: string
+          intervencion_figuras_donaire: string | null
+          intervencion_personajes_femeninos: string | null
+          intervencion_personajes_sobrenaturales: string | null
           n_versos: number
           obra_id: string
           secuencia_id: string
@@ -972,9 +972,9 @@ export type Database = {
           evocacion_metrica?: boolean
           evocacion_metrica_texto?: string | null
           inaugura_espacio?: boolean | null
-          intervencion_figuras_donaire?: string
-          intervencion_personajes_femeninos?: string
-          intervencion_personajes_sobrenaturales?: string
+          intervencion_figuras_donaire?: string | null
+          intervencion_personajes_femeninos?: string | null
+          intervencion_personajes_sobrenaturales?: string | null
           n_versos: number
           obra_id: string
           secuencia_id?: string
@@ -990,9 +990,9 @@ export type Database = {
           evocacion_metrica?: boolean
           evocacion_metrica_texto?: string | null
           inaugura_espacio?: boolean | null
-          intervencion_figuras_donaire?: string
-          intervencion_personajes_femeninos?: string
-          intervencion_personajes_sobrenaturales?: string
+          intervencion_figuras_donaire?: string | null
+          intervencion_personajes_femeninos?: string | null
+          intervencion_personajes_sobrenaturales?: string | null
           n_versos?: number
           obra_id?: string
           secuencia_id?: string

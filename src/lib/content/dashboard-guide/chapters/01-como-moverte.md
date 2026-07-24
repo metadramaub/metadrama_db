@@ -21,7 +21,7 @@ En el menú lateral encontrarás estas secciones:
 6. Si la obra requiere nuevamente tu atención, te avisaremos y verás que ha vuelto a estado `borrador`: reabres la obra, ajustas lo necesario y vuelves a dejarla `lista_para_publicar`.
 
 > [!TIP]
-> Los cambios de secuencias, jornadas y cuadros se guardan en Supabase solo cuando pulsas `Guardar`. Mientras editas, la interfaz conserva un borrador local en este navegador y avisa antes de cambiar de pestaña, cerrar el panel o salir con cambios pendientes.
+> Los cambios de secuencias, jornadas y cuadros se guardan solo cuando pulsas `Guardar`. Mientras editas, la interfaz conserva un borrador local en este navegador y avisa antes de cambiar de pestaña, cerrar el panel o salir con cambios pendientes.
 
 El detalle de cada pestaña está en los capítulos **Paso 1** a **Paso 7**.
 
