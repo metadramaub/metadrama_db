@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { countUnambiguousAutoriaGroups } from '$lib/server/autoria';
+import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { Tables } from '$lib/types/database.types';
@@ -54,7 +54,11 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 			: { data: [] };
 	const cuadros = (cuadrosResp.data ?? []) as EditorCuadroRow[];
 	const secuencias = (secuenciasResp.data ?? []) as EditorSecuenciaRow[];
-	const autoriaNoAmbiguaCount = await countUnambiguousAutoriaGroups(locals.supabase, obra.obra_id);
+	const autoriaGroupCount = await countAutoriaGroupsWithProposals(
+		locals.supabase,
+		obra.obra_id,
+		jornadaIds
+	);
 
 	// Estado de los datos públicos precomputados (Fase 2 del plan de precomputación).
 	// Si no hay fila, la obra nunca ha publicado datos (resumenExiste = false).
@@ -91,7 +95,7 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		jornadas,
 		cuadros,
 		secuencias,
-		autoriaNoAmbiguaCount,
+		autoriaGroupCount,
 		resumenPublico,
 		vocabularios
 	};

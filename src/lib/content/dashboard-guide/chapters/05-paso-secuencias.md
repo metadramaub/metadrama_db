@@ -59,6 +59,8 @@ Tres marcas más sobre la secuencia:
 
 Las secuencias nuevas empiezan con estas caracterizaciones en **Pendiente**. Este estado permite guardar la secuencia y deja visible que el dato todavía debe revisarse.
 
+La pestaña **Revisión** indica cuántas secuencias conservan algún campo pendiente. Debes resolverlos todos antes de avanzar a `vista_previa`, `listo_para_publicar` o `publicado`.
+
 ## Sinopsis argumental
 
 La sinopsis argumental admite [Markdown](/dashboard/guia/ref-markdown).

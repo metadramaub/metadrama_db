@@ -4,7 +4,7 @@ import {
 	analyzeStructureRangeConsistency,
 	collectRangeConsistencyIds,
 	stateAllowsRangeEditing,
-	stateRequiresConsistentRanges
+	stateRequiresCompletedReview
 } from './range-consistency';
 
 describe('range consistency', () => {
@@ -62,10 +62,10 @@ describe('range consistency', () => {
 	});
 
 	it('requires consistency only for editorial exit states', () => {
-		expect(stateRequiresConsistentRanges('borrador')).toBe(false);
-		expect(stateRequiresConsistentRanges('vista_previa')).toBe(true);
-		expect(stateRequiresConsistentRanges('listo_para_publicar')).toBe(true);
-		expect(stateRequiresConsistentRanges('Publicado')).toBe(true);
+		expect(stateRequiresCompletedReview('borrador')).toBe(false);
+		expect(stateRequiresCompletedReview('vista_previa')).toBe(true);
+		expect(stateRequiresCompletedReview('listo_para_publicar')).toBe(true);
+		expect(stateRequiresCompletedReview('Publicado')).toBe(true);
 	});
 
 	it('allows range editing only in draft state', () => {
