@@ -12,7 +12,7 @@ type MetricMetadataOption = {
 	activo?: boolean | null;
 };
 
-export const load: PageServerLoad = async ({ locals, params, parent }) => {
+export const load: PageServerLoad = async ({ locals, params, parent, url }) => {
 	const parentData = await parent();
 	const profile = parentData.profile;
 	const categoria = decodeURIComponent(params.categoria ?? '').trim();
@@ -36,7 +36,8 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 		throw error(404, `No existe la categoría ${categoria}`);
 	}
 
-	let metroOptions: Array<{ termino_id: string; termino: string; numero_silabas: number | null }> = [];
+	let metroOptions: Array<{ termino_id: string; termino: string; numero_silabas: number | null }> =
+		[];
 	let estrofaTipoMetros: Array<{ estrofa_tipo_id: string; metro_id: string }> = [];
 	let tipoRimaOptions: MetricMetadataOption[] = [];
 	let naturalezaEstroficaOptions: MetricMetadataOption[] = [];
@@ -75,7 +76,10 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 			throw error(500, `No se pudieron cargar los metros: ${metrosResp.error.message}`);
 		}
 		if (relacionesResp.error) {
-			throw error(500, `No se pudieron cargar las relaciones estrofa/metro: ${relacionesResp.error.message}`);
+			throw error(
+				500,
+				`No se pudieron cargar las relaciones estrofa/metro: ${relacionesResp.error.message}`
+			);
 		}
 		if (tipoRimaResp.error) {
 			throw error(500, `No se pudieron cargar los tipos de rima: ${tipoRimaResp.error.message}`);
@@ -110,6 +114,7 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 		canManage,
 		isProtected,
 		canEdit,
+		selectedTerminoId: url.searchParams.get('termino'),
 		vocabularios: data,
 		metroOptions,
 		estrofaTipoMetros,

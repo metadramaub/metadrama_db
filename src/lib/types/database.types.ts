@@ -530,6 +530,48 @@ export type Database = {
           },
         ]
       }
+      demarcador_familias_config: {
+        Row: {
+          created_at: string
+          familia_id: string
+          politica: string
+          revisado_en: string
+          revisado_por: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          familia_id: string
+          politica: string
+          revisado_en?: string
+          revisado_por?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          familia_id?: string
+          politica?: string
+          revisado_en?: string
+          revisado_por?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "demarcador_familias_config_familia_id_fkey"
+            columns: ["familia_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "demarcador_familias_config_revisado_por_fkey"
+            columns: ["revisado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       grupos_atribucion: {
         Row: {
           created_at: string

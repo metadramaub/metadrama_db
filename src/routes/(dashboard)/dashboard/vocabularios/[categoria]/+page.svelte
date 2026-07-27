@@ -389,7 +389,7 @@
 			.map((item) => `${item.estrofa_tipo_id}:${item.metro_id}`)
 			.sort((a, b) => a.localeCompare(b))
 			.join('|');
-		return `${source.categoria}|${vocabKey}|${metrosKey}|${source.canEdit ? '1' : '0'}`;
+		return `${source.categoria}|${source.selectedTerminoId ?? ''}|${vocabKey}|${metrosKey}|${source.canEdit ? '1' : '0'}`;
 	}
 
 	function clearRetryTimer() {
@@ -920,8 +920,14 @@
 		deleteConfirmText = '';
 		deleteErrorMessage = '';
 		deletingTerm = false;
-		selectedId = null;
-		termForm = emptyTermForm();
+		const selectedFromUrl = data.selectedTerminoId;
+		const selectedFromUrlExists = initialItems.some(
+			(item) => item.termino_id === selectedFromUrl
+		);
+		selectedId = selectedFromUrlExists ? selectedFromUrl : null;
+		termForm = selectedId
+			? termFormFromItem(initialItems.find((item) => item.termino_id === selectedId)!)
+			: emptyTermForm();
 	});
 
 	$effect(() => {
