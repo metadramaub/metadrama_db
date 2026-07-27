@@ -21,6 +21,7 @@
 		doorOpen: IconComponent | null;
 		home: IconComponent | null;
 		libraryBig: IconComponent | null;
+		listChecks: IconComponent | null;
 		panelLeftClose: IconComponent | null;
 		panelLeftOpen: IconComponent | null;
 		settings: IconComponent | null;
@@ -33,6 +34,7 @@
 		doorOpen: null,
 		home: null,
 		libraryBig: null,
+		listChecks: null,
 		panelLeftClose: null,
 		panelLeftOpen: null,
 		settings: null,
@@ -50,6 +52,7 @@
 	const DoorOpenIcon = $derived(icons.doorOpen);
 	const HomeIcon = $derived(icons.home);
 	const LibraryBigIcon = $derived(icons.libraryBig);
+	const ListChecksIcon = $derived(icons.listChecks);
 	const PanelLeftCloseIcon = $derived(icons.panelLeftClose);
 	const PanelLeftOpenIcon = $derived(icons.panelLeftOpen);
 	const SettingsIcon = $derived(icons.settings);
@@ -72,6 +75,7 @@
 					doorOpenModule,
 					homeModule,
 					libraryBigModule,
+					listChecksModule,
 					panelLeftCloseModule,
 					panelLeftOpenModule,
 					settingsModule,
@@ -84,6 +88,7 @@
 					import('lucide-svelte/icons/door-open'),
 					import('lucide-svelte/icons/home'),
 					import('lucide-svelte/icons/library-big'),
+					import('lucide-svelte/icons/list-checks'),
 					import('lucide-svelte/icons/panel-left-close'),
 					import('lucide-svelte/icons/panel-left-open'),
 					import('lucide-svelte/icons/settings'),
@@ -100,6 +105,7 @@
 					doorOpen: doorOpenModule.default,
 					home: homeModule.default,
 					libraryBig: libraryBigModule.default,
+					listChecks: listChecksModule.default,
 					panelLeftClose: panelLeftCloseModule.default,
 					panelLeftOpen: panelLeftOpenModule.default,
 					settings: settingsModule.default,
@@ -268,6 +274,22 @@
 		</a>
 
 		{#if isAdminIp}
+			<a
+				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
+					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
+				}`}
+				href="/dashboard/demarcador"
+				aria-label="Auditor del demarcador"
+				title="Auditor del demarcador"
+			>
+				{#if ListChecksIcon}
+					<ListChecksIcon size={16} aria-hidden="true" />
+				{:else}
+					<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+				{/if}
+				<span class={collapsed ? 'md:sr-only' : ''}>Demarcador</span>
+			</a>
+
 			<a
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
 					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
