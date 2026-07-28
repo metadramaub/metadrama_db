@@ -13,11 +13,15 @@
 	let { data } = $props<{ data: AuditorPageData }>();
 
 	type FiltroRevision = 'todas' | 'avisos' | 'sin_revisar';
+	type CambioPolitica = {
+		familia_id: string;
+		politica: PoliticaFamiliaDemarcador;
+	};
 
 	let busqueda = $state('');
 	let filtro = $state<FiltroRevision>('todas');
-	let guardandoId = $state<string | null>(null);
-	let errores = $state<Record<string, string>>({});
+	let guardandoPoliticas = $state(false);
+	let errorGuardado = $state('');
 	let politicasGuardadas = $state<Record<string, PoliticaFamiliaDemarcador>>({});
 	let politicasBorrador = $state<Record<string, PoliticaFamiliaDemarcador | ''>>({});
 
@@ -50,6 +54,13 @@
 		};
 	});
 
+	const familiasModificadas = $derived.by(() =>
+		data.auditoria.familias.filter(
+			(familia: FamiliaAuditoria) =>
+				Boolean(politicaBorrador(familia)) && estaModificada(familia)
+		)
+	);
+
 	function politicaLabel(politica: PoliticaFamiliaDemarcador | null): string {
 		if (politica === 'familia') return 'Solo familia';
 		if (politica === 'variantes') return 'Distinguir variantes';
@@ -72,32 +83,42 @@
 		return politicaBorrador(familia) !== (politicaGuardada(familia) ?? '');
 	}
 
-	async function guardarPolitica(familia: FamiliaAuditoria) {
-		const politica = politicaBorrador(familia);
-		if (!politica || guardandoId) return;
+	async function guardarPoliticas() {
+		const cambios: CambioPolitica[] = familiasModificadas.map((familia: FamiliaAuditoria) => ({
+			familia_id: familia.id,
+			politica: politicaBorrador(familia) as PoliticaFamiliaDemarcador
+		}));
+		if (cambios.length === 0 || guardandoPoliticas) return;
 
-		guardandoId = familia.id;
-		errores = { ...errores, [familia.id]: '' };
+		guardandoPoliticas = true;
+		errorGuardado = '';
 		try {
-			const response = await fetch(`/api/demarcador/familias/${familia.id}`, {
+			const response = await fetch('/api/demarcador/familias', {
 				method: 'PATCH',
 				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ politica })
+				body: JSON.stringify({ configuraciones: cambios })
 			});
 			const payload = await response.json().catch(() => ({}));
 			if (!response.ok) {
-				throw new Error(payload.message ?? 'No se pudo guardar la política.');
+				throw new Error(payload.message ?? 'No se pudieron guardar las políticas.');
 			}
-			politicasGuardadas = { ...politicasGuardadas, [familia.id]: politica };
-			pushToast('success', `Política guardada para ${familia.nombre}.`);
-		} catch (error) {
-			errores = {
-				...errores,
-				[familia.id]:
-					error instanceof Error ? error.message : 'No se pudo guardar la política.'
+			politicasGuardadas = {
+				...politicasGuardadas,
+				...Object.fromEntries(
+					cambios.map((cambio: CambioPolitica) => [cambio.familia_id, cambio.politica])
+				)
 			};
+			pushToast(
+				'success',
+				cambios.length === 1
+					? 'Se ha guardado 1 política.'
+					: `Se han guardado ${cambios.length} políticas.`
+			);
+		} catch (error) {
+			errorGuardado =
+				error instanceof Error ? error.message : 'No se pudieron guardar las políticas.';
 		} finally {
-			guardandoId = null;
+			guardandoPoliticas = false;
 		}
 	}
 </script>
@@ -181,6 +202,37 @@
 				<option value="sin_revisar">Con política pendiente</option>
 			</select>
 		</label>
+	</div>
+
+	<div class="sticky bottom-4 z-10 flex flex-col gap-3 border border-[color:var(--border)] bg-[color:var(--background)] p-3 shadow-lg sm:flex-row sm:items-center sm:justify-between">
+		<div>
+			<p class="text-sm font-medium">
+				{#if familiasModificadas.length === 0}
+					No hay cambios sin guardar
+				{:else if familiasModificadas.length === 1}
+					1 política modificada sin guardar
+				{:else}
+					{familiasModificadas.length} políticas modificadas sin guardar
+				{/if}
+			</p>
+			{#if errorGuardado}
+				<p class="mt-1 text-sm text-red-700">{errorGuardado}</p>
+			{:else if familiasModificadas.length > 0}
+				<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+					Se guardarán juntas, incluidas las familias ocultas por el filtro.
+				</p>
+			{/if}
+		</div>
+		<button
+			type="button"
+			class="h-10 shrink-0 bg-[color:var(--foreground)] px-5 text-sm font-medium text-[color:var(--background)] transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+			disabled={familiasModificadas.length === 0 || guardandoPoliticas}
+			onclick={guardarPoliticas}
+		>
+			{guardandoPoliticas
+				? 'Guardando…'
+				: `Guardar cambios${familiasModificadas.length > 0 ? ` (${familiasModificadas.length})` : ''}`}
+		</button>
 	</div>
 
 	<div class="space-y-4">
@@ -283,7 +335,7 @@
 							id={`politica-${familia.id}`}
 							class="h-10 w-full border border-[color:var(--border)] bg-[color:var(--background)] px-3 text-sm disabled:opacity-60"
 							value={politicaBorrador(familia)}
-							disabled={guardandoId === familia.id}
+							disabled={guardandoPoliticas}
 							onchange={(event) => {
 								politicasBorrador = {
 									...politicasBorrador,
@@ -295,25 +347,25 @@
 							<option value="familia">Solo familia</option>
 							<option value="variantes">Distinguir variantes</option>
 						</select>
-						<button
-							type="button"
-							class="h-10 w-full bg-[color:var(--foreground)] px-4 text-sm font-medium text-[color:var(--background)] transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
-							disabled={!politicaBorrador(familia) ||
-								!estaModificada(familia) ||
-								Boolean(guardandoId)}
-							onclick={() => guardarPolitica(familia)}
+						<p
+							class={`text-xs ${
+								estaModificada(familia)
+									? 'font-medium text-amber-800'
+									: 'text-[color:var(--muted-foreground)]'
+							}`}
 						>
-							{guardandoId === familia.id ? 'Guardando…' : 'Guardar política'}
-						</button>
+							{estaModificada(familia)
+								? 'Cambio sin guardar'
+								: politicaGuardada(familia)
+									? 'Política guardada'
+									: 'Política pendiente'}
+						</p>
 						<a
 							class="block text-center text-sm underline decoration-dotted underline-offset-4"
 							href={`/dashboard/vocabularios/estrofa_tipo?termino=${familia.id}`}
 						>
 							Editar familia en vocabularios
 						</a>
-						{#if errores[familia.id]}
-							<p class="text-sm text-red-700">{errores[familia.id]}</p>
-						{/if}
 					</div>
 				</div>
 			</article>
