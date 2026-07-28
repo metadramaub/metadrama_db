@@ -9,6 +9,7 @@ Documentos relacionados:
 - [Propuesta conceptual](./propuesta-dominio-metrica.md)
 - [Auditoría del vocabulario actual](./informe-auditoria-vocabulario-metrico.md)
 - [Matriz de reclasificación](./matriz-reclasificacion-formas-metricas.md)
+- [Ejemplos de formalización](./ejemplos-formalizacion-ontologia-metrica.md)
 
 ## 1. Decisión arquitectónica
 
@@ -139,6 +140,7 @@ flowchart TD
     CF --> PM[Patrones métricos]
     PM --> PMP[Posiciones métricas]
     CF --> PR[Patrones de rima]
+    CF --> PREP[Patrones de repetición]
     CF --> ER[Estructuras y secciones]
     CF --> CR[Rasgos de configuración]
     RM[Rasgos métricos] --> CR
@@ -333,6 +335,29 @@ Necesaria para villancico, zéjel, sextina, canción y otras formas compuestas:
 - `patron_rima_id`, si la sección tiene uno.
 
 La relación recursiva se limitará a la estructura interna de una configuración y no sustituirá las familias.
+
+### 9.6. `patrones_repeticion`
+
+Representa repeticiones que no son reducibles al esquema de rima:
+
+- `patron_repeticion_id`;
+- `configuracion_id`;
+- `tipo`: palabra final, verso, estribillo, sección u otro valor controlado;
+- `ambito`;
+- `regla`;
+- `fijeza`;
+- `descripcion`;
+- `estado_revision`.
+
+Cuando el orden sea relevante, `patron_repeticion_posiciones` declarará:
+
+- bloque o iteración;
+- posición;
+- posición de origen o referencia;
+- etiqueta funcional;
+- condición opcional.
+
+Esta dimensión permite formalizar, por ejemplo, la permutación de palabras finales de la sextina o la repetición del estribillo de una forma compuesta sin confundirlas con rima convencional.
 
 ## 10. Rasgos métricos
 
