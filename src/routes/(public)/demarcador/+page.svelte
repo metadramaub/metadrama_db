@@ -165,14 +165,14 @@
 	<section class="grid gap-6">
 		{#if data.esVistaPrevia}
 			<div class="border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-				Vista previa editorial de la versión {data.version?.numero}. Esta versión aún no está
+				Vista previa de la versión {data.version?.numero}. Esta versión aún no está
 				publicada.
 			</div>
 		{/if}
 
 		<header class="border-b border-[color:var(--border)] pb-6">
 			<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-				Recurso editorial
+				Recurso
 			</p>
 			<h1 class="font-display mt-2 text-3xl text-[color:var(--gray-900)] md:text-4xl">
 				Demarcador métrico
