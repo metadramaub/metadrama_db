@@ -1,306 +1,384 @@
 <script lang="ts">
-	import { browser, dev } from '$app/environment';
 	import {
-		crearRespuestaDemarcador,
-		diagnosticarSeleccionPreguntas,
-		elegirSiguientePregunta,
-		filtrarCandidatas,
-		type EstrofaDemarcador,
-		type RespuestaDemarcador,
-		type ValorRespuestaDemarcador
-	} from '$lib/demarcador';
-	import type { PageData } from './$types';
+		crearRespuestaNueva,
+		elegirSiguientePreguntaNueva,
+		filtrarCandidatosNuevos
+	} from '$lib/demarcador-nuevo/motor';
+	import type {
+		ArtefactoDemarcadorNuevo,
+		CandidatoDemarcadorNuevo,
+		FamiliaDemarcadorNuevo,
+		PreguntaDemarcadorNueva,
+		RespuestaDemarcadorNueva
+	} from '$lib/demarcador-nuevo/modelo';
 
-	let { data }: { data: PageData } = $props();
-	let respuestas = $state<RespuestaDemarcador[]>([]);
+	type PageDataDemarcador = {
+		artefacto: ArtefactoDemarcadorNuevo | null;
+		version: {
+			version_id: string;
+			numero: number;
+			estado: string;
+			generado_en: string;
+			publicado_en: string | null;
+		} | null;
+		esVistaPrevia: boolean;
+	};
 
-	const estrofasDemarcador = $derived(data.estrofas);
-	const preguntasDemarcador = $derived(data.preguntas);
-	const candidatas = $derived(filtrarCandidatas(estrofasDemarcador, respuestas));
-	const preguntaActual = $derived(
-		elegirSiguientePregunta(candidatas, preguntasDemarcador, respuestas)
+	let { data } = $props<{ data: PageDataDemarcador }>();
+
+	let respuestasFamilias = $state<RespuestaDemarcadorNueva[]>([]);
+	let preguntasFamilias = $state<PreguntaDemarcadorNueva[]>([]);
+	let respuestasVariantes = $state<RespuestaDemarcadorNueva[]>([]);
+	let preguntasVariantes = $state<PreguntaDemarcadorNueva[]>([]);
+
+	const familias = $derived(data.artefacto?.familias ?? []);
+	const candidatosFamiliaBase = $derived(
+		familias.map((familia: FamiliaDemarcadorNuevo) => familia.raiz)
 	);
-	const tituloResultado = $derived(getTituloResultado(candidatas.length));
-	const requiereDecisionEditorial = $derived(!preguntaActual && candidatas.length > 1);
+	const candidatosFamilia = $derived(
+		filtrarCandidatosNuevos(
+			candidatosFamiliaBase,
+			preguntasFamilias,
+			respuestasFamilias
+		)
+	);
+	const familiaUnica = $derived.by(() => {
+		if (candidatosFamilia.length !== 1) return null;
+		return (
+			familias.find(
+				(familia: FamiliaDemarcadorNuevo) => familia.id === candidatosFamilia[0].familiaId
+			) ?? null
+		);
+	});
+	const afinandoVariantes = $derived(
+		Boolean(
+			familiaUnica &&
+				familiaUnica.politica === 'variantes' &&
+				familiaUnica.variantes.length > 0
+		)
+	);
+	const candidatosVarianteBase = $derived(
+		afinandoVariantes && familiaUnica ? familiaUnica.variantes : []
+	);
+	const candidatosVariante = $derived(
+		filtrarCandidatosNuevos(
+			candidatosVarianteBase,
+			preguntasVariantes,
+			respuestasVariantes
+		)
+	);
+	const preguntaFamilia = $derived(
+		elegirSiguientePreguntaNueva(candidatosFamilia, 'familias', respuestasFamilias)
+	);
+	const preguntaVariante = $derived(
+		afinandoVariantes
+			? elegirSiguientePreguntaNueva(
+					candidatosVariante,
+					'variantes',
+					respuestasVariantes
+				)
+			: null
+	);
+	const preguntaActual = $derived(afinandoVariantes ? preguntaVariante : preguntaFamilia);
+	const etapaActual = $derived(afinandoVariantes ? 'variantes' : 'familias');
+	const respuestas = $derived([...respuestasFamilias, ...respuestasVariantes]);
+	const candidatasResultado = $derived.by(() => {
+		if (candidatosFamilia.length !== 1 || !familiaUnica) return candidatosFamilia;
+		if (afinandoVariantes) return candidatosVariante;
+		return [familiaUnica.raiz];
+	});
 
-	function responder(valor: ValorRespuestaDemarcador, etiqueta: string) {
+	function responder(valor: string | 'desconocido', etiqueta: string) {
 		if (!preguntaActual) return;
-
-		respuestas = [...respuestas, crearRespuestaDemarcador(preguntaActual, valor, etiqueta)];
+		const respuesta = crearRespuestaNueva(preguntaActual, valor, etiqueta);
+		if (etapaActual === 'variantes') {
+			preguntasVariantes = [...preguntasVariantes, preguntaActual];
+			respuestasVariantes = [...respuestasVariantes, respuesta];
+			return;
+		}
+		preguntasFamilias = [...preguntasFamilias, preguntaActual];
+		respuestasFamilias = [...respuestasFamilias, respuesta];
+		respuestasVariantes = [];
+		preguntasVariantes = [];
 	}
 
 	function reiniciar() {
-		respuestas = [];
+		respuestasFamilias = [];
+		preguntasFamilias = [];
+		respuestasVariantes = [];
+		preguntasVariantes = [];
 	}
 
-	function deshacerUltima() {
-		respuestas = respuestas.slice(0, -1);
+	function deshacer() {
+		if (respuestasVariantes.length > 0) {
+			respuestasVariantes = respuestasVariantes.slice(0, -1);
+			preguntasVariantes = preguntasVariantes.slice(0, -1);
+			return;
+		}
+		if (respuestasFamilias.length > 0) {
+			respuestasFamilias = respuestasFamilias.slice(0, -1);
+			preguntasFamilias = preguntasFamilias.slice(0, -1);
+		}
 	}
 
-	function getTituloResultado(total: number) {
-		if (total === 0) return 'Sin candidatas compatibles';
-		if (total === 1) return 'Resultado probable';
-		if (total <= 5) return 'Candidatas principales';
-		return 'Candidatas compatibles';
+	function tituloResultado(): string {
+		if (candidatasResultado.length === 0) return 'No hay formas compatibles';
+		if (candidatasResultado.length === 1) {
+			return afinandoVariantes ? 'Variante probable' : 'Familia probable';
+		}
+		if (!preguntaActual) return 'Formas todavía compatibles';
+		return etapaActual === 'variantes' ? 'Variantes compatibles' : 'Familias compatibles';
 	}
 
-	function familiaDe(candidata: EstrofaDemarcador) {
-		return candidata.familyLabel ?? candidata.familySlug ?? candidata.parentSlug ?? 'Sin familia indicada';
+	function describirMetros(candidato: CandidatoDemarcadorNuevo): string {
+		return candidato.rasgos.metros.map((metro) => metro.etiqueta).join(' + ');
 	}
-
-	function confianzaDe(candidata: EstrofaDemarcador) {
-		if (!candidata.confianzaFormalizacion) return null;
-		return `Confianza de formalización: ${candidata.confianzaFormalizacion}`;
-	}
-	$effect(() => {
-		if (!dev || !browser) return;
-		if (new URLSearchParams(window.location.search).get('debugDemarcador') !== '1') return;
-
-		console.info(
-			'[demarcador]',
-			diagnosticarSeleccionPreguntas(candidatas, preguntasDemarcador, respuestas)
-		);
-	});
 </script>
 
 <svelte:head>
 	<title>Demarcador métrico | MetaDrama</title>
 	<meta
 		name="description"
-		content="Asistente de identificación de formas métricas por descarte."
+		content="Asistente para identificar familias y variantes métricas mediante preguntas dinámicas."
 	/>
 </svelte:head>
 
-<section class="grid gap-6">
-	<header class="border-b border-[color:var(--border)] pb-6">
+{#if !data.artefacto}
+	<section class="mx-auto max-w-3xl py-10">
 		<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
 			Recurso editorial
 		</p>
 		<h1 class="font-display mt-2 text-3xl text-[color:var(--gray-900)] md:text-4xl">
 			Demarcador métrico
 		</h1>
-		<p class="mt-2 max-w-3xl text-base text-[color:var(--gray-700)]">
-			Asistente de identificación de formas métricas por descarte
+		<p class="mt-5 text-base leading-7 text-[color:var(--gray-700)]">
+			La nueva versión del demarcador todavía no se ha publicado.
 		</p>
-		<p class="mt-4 max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-			Responde a las preguntas para reducir progresivamente las formas métricas candidatas.
-			Puedes responder ‘No sé’ cuando un rasgo no sea claro.
-		</p>
-	</header>
+		<a
+			class="mt-6 inline-flex border border-[color:var(--border)] px-4 py-2 text-sm font-semibold"
+			href="/demarcador/legacy"
+		>
+			Abrir versión anterior
+		</a>
+	</section>
+{:else}
+	<section class="grid gap-6">
+		{#if data.esVistaPrevia}
+			<div class="border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+				Vista previa editorial de la versión {data.version?.numero}. Esta versión aún no está
+				publicada.
+			</div>
+		{/if}
 
-	<div class="grid gap-4 md:grid-cols-3" aria-live="polite">
-		<div class="card p-4">
+		<header class="border-b border-[color:var(--border)] pb-6">
 			<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-				Candidatas actuales
+				Recurso editorial
 			</p>
-			<p class="mt-2 text-3xl font-semibold text-[color:var(--gray-900)]">
-				{candidatas.length}
-				<span class="text-sm font-normal text-[color:var(--muted-foreground)]">
-					/ {estrofasDemarcador.length}
-				</span>
+			<h1 class="font-display mt-2 text-3xl text-[color:var(--gray-900)] md:text-4xl">
+				Demarcador métrico
+			</h1>
+			<p class="mt-3 max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
+				Responde solo a aquello que puedas observar. La herramienta identifica primero una
+				familia métrica y, cuando procede, intenta precisar su variante. «No sé» nunca descarta
+				formas.
 			</p>
+		</header>
+
+		<div class="grid gap-3 sm:grid-cols-3" aria-live="polite">
+			<div class="card p-4">
+				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+					Etapa
+				</p>
+				<p class="mt-2 text-lg font-semibold">
+					{afinandoVariantes ? 'Precisar variante' : 'Identificar familia'}
+				</p>
+			</div>
+			<div class="card p-4">
+				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+					Candidatas
+				</p>
+				<p class="mt-2 text-3xl font-semibold">{candidatasResultado.length}</p>
+			</div>
+			<div class="card p-4">
+				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+					Respuestas
+				</p>
+				<p class="mt-2 text-3xl font-semibold">{respuestas.length}</p>
+			</div>
 		</div>
 
-		<div class="card p-4">
-			<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-				Preguntas respondidas
-			</p>
-			<p class="mt-2 text-3xl font-semibold text-[color:var(--gray-900)]">{respuestas.length}</p>
-		</div>
-
-		<div class="card flex items-center p-4">
-			<button
-				type="button"
-				class="w-full border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--gray-700)] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--primary)]"
-				onclick={reiniciar}
-			>
-				Reiniciar
-			</button>
-		</div>
-	</div>
-
-	<div class="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)]">
-		<div class="grid content-start gap-6">
-			<section class="card p-5">
-				<div class="flex items-start justify-between gap-3">
-					<div>
-						<h2 class="font-display text-lg text-[color:var(--gray-900)]">Pregunta actual</h2>
-					</div>
-				</div>
-
-				{#if preguntaActual}
-					<p class="mt-5 text-base leading-7 text-[color:var(--gray-900)]">
-						{preguntaActual.pregunta}
+		<div class="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.5fr)]">
+			<div class="grid content-start gap-5">
+				<section class="card p-5">
+					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+						{afinandoVariantes && familiaUnica
+							? `Familia identificada: ${familiaUnica.etiqueta}`
+							: 'Pregunta actual'}
 					</p>
-					{#if preguntaActual.ayuda}
+
+					{#if preguntaActual}
+						<h2 class="font-display mt-4 text-xl leading-7 text-[color:var(--gray-900)]">
+							{preguntaActual.pregunta}
+						</h2>
 						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
 							{preguntaActual.ayuda}
 						</p>
-					{/if}
 
-					{#if preguntaActual.tipo === 'opcion'}
-						<div class="mt-5 grid max-h-80 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
-							{#each preguntaActual.opciones as opcion}
+						{#if preguntaActual.tipo === 'opciones'}
+							<div class="mt-5 grid gap-2">
+								{#each preguntaActual.opciones as opcion}
+									<button
+										type="button"
+										class="border border-[color:var(--border)] bg-white px-3 py-3 text-left text-sm font-medium transition-colors hover:border-[color:var(--gray-800)]"
+										onclick={() => responder(opcion.valor, opcion.etiqueta)}
+									>
+										{opcion.etiqueta}
+									</button>
+								{/each}
+							</div>
+						{:else}
+							<div class="mt-5 grid grid-cols-2 gap-2">
 								<button
 									type="button"
-									class="border border-[color:var(--border)] bg-white px-3 py-2 text-left text-sm text-[color:var(--gray-800)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--muted)] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--primary)]"
-									onclick={() => responder(opcion, String(opcion))}
+									class="bg-[color:var(--gray-800)] px-3 py-3 text-sm font-semibold text-white"
+									onclick={() => responder('si', 'Sí')}
 								>
-									{opcion}
+									Sí
 								</button>
-							{/each}
-						</div>
-						{#if preguntaActual.admiteDesconocido}
-							<button
-								type="button"
-								class="mt-3 w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-sm font-semibold text-[color:var(--gray-800)] transition-colors hover:bg-white focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--primary)]"
-								onclick={() => responder('desconocido', 'No sé')}
-							>
-								No sé
-							</button>
+								<button
+									type="button"
+									class="border border-[color:var(--border)] bg-white px-3 py-3 text-sm font-semibold"
+									onclick={() => responder('no', 'No')}
+								>
+									No
+								</button>
+							</div>
 						{/if}
+						<button
+							type="button"
+							class="mt-2 w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-3 text-sm font-semibold"
+							onclick={() => responder('desconocido', 'No sé')}
+						>
+							No sé
+						</button>
 					{:else}
-						<div class="mt-5 grid gap-2 sm:grid-cols-3">
-							<button
-								type="button"
-								class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-3 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--gray-700)] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--primary)]"
-								onclick={() => responder(true, 'Sí')}
-							>
-								Sí
-							</button>
-							<button
-								type="button"
-								class="border border-[color:var(--border)] bg-white px-3 py-3 text-sm font-semibold text-[color:var(--gray-800)] transition-colors hover:border-[color:var(--gray-800)] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--primary)]"
-								onclick={() => responder(false, 'No')}
-							>
-								No
-							</button>
-							<button
-								type="button"
-								class="border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-3 text-sm font-semibold text-[color:var(--gray-800)] transition-colors hover:bg-white focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--primary)]"
-								onclick={() => responder('desconocido', 'No sé')}
-							>
-								No sé
-							</button>
-						</div>
-					{/if}
-				{:else}
-					<p class="mt-5 text-sm leading-6 text-[color:var(--muted-foreground)]">
-						No hay una pregunta adicional claramente útil para separar las candidatas actuales.
-					</p>
-					{#if requiereDecisionEditorial}
-						<p class="mt-3 border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-sm font-semibold text-[color:var(--gray-800)]">
-							Requiere decisión editorial.
+						<h2 class="font-display mt-4 text-xl text-[color:var(--gray-900)]">
+							No quedan preguntas útiles
+						</h2>
+						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
+							El resultado conserva todas las formas que no contradicen tus respuestas.
 						</p>
 					{/if}
-				{/if}
-			</section>
+				</section>
 
-			<section class="card p-5">
-				<div class="flex items-center justify-between gap-3">
-					<h2 class="font-display text-lg text-[color:var(--gray-900)]">Historial</h2>
+				<div class="grid grid-cols-2 gap-2">
 					<button
 						type="button"
-						class="border border-[color:var(--border)] px-3 py-2 text-xs font-semibold text-[color:var(--gray-800)] transition-colors hover:border-[color:var(--gray-800)] disabled:cursor-not-allowed disabled:opacity-50"
+						class="border border-[color:var(--border)] px-3 py-2 text-sm font-medium disabled:opacity-40"
 						disabled={respuestas.length === 0}
-						onclick={deshacerUltima}
+						onclick={deshacer}
 					>
-						Deshacer última
+						Deshacer
+					</button>
+					<button
+						type="button"
+						class="border border-[color:var(--border)] px-3 py-2 text-sm font-medium"
+						onclick={reiniciar}
+					>
+						Reiniciar
 					</button>
 				</div>
 
-				{#if respuestas.length}
-					<ol class="mt-4 grid gap-3">
-						{#each respuestas as respuesta, index}
-							<li class="border-l-2 border-[color:var(--primary)] pl-3 text-sm">
-								<p class="font-semibold text-[color:var(--gray-900)]">
-									{index + 1}. {respuesta.etiqueta}
-								</p>
-								<p class="mt-1 leading-5 text-[color:var(--muted-foreground)]">
-									{respuesta.pregunta}
-								</p>
+				{#if respuestas.length > 0}
+					<details class="card p-4">
+						<summary class="cursor-pointer text-sm font-semibold">
+							Ver historial ({respuestas.length})
+						</summary>
+						<ol class="mt-4 space-y-3">
+							{#each respuestas as respuesta, index}
+								<li class="border-l-2 border-[color:var(--primary)] pl-3 text-sm">
+									<p class="font-medium">{index + 1}. {respuesta.etiqueta}</p>
+									<p class="mt-1 text-[color:var(--muted-foreground)]">
+										{respuesta.pregunta}
+									</p>
+								</li>
+							{/each}
+						</ol>
+					</details>
+				{/if}
+			</div>
+
+			<section class="card overflow-hidden">
+				<div class="border-b border-[color:var(--border)] p-5">
+					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+						Resultado
+					</p>
+					<h2 class="font-display mt-2 text-2xl">{tituloResultado()}</h2>
+					{#if candidatasResultado.length > 1 && !preguntaActual}
+						<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+							Los datos estructurados no permiten separar más estas formas con preguntas
+							razonables.
+						</p>
+					{/if}
+				</div>
+
+				{#if candidatasResultado.length > 0}
+					<ul class="divide-y divide-[color:var(--border)]">
+						{#each candidatasResultado as candidata}
+							<li class="p-5">
+								<h3 class="text-lg font-semibold">{candidata.etiqueta}</h3>
+								{#if !candidata.esFamilia}
+									<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+										Variante de {candidata.familiaEtiqueta}
+									</p>
+								{/if}
+								{#if candidata.definicion}
+									<p class="mt-3 text-sm leading-6 text-[color:var(--gray-700)]">
+										{candidata.definicion}
+									</p>
+								{/if}
+								<dl class="mt-4 grid gap-x-4 gap-y-2 text-sm sm:grid-cols-2">
+									{#if candidata.rasgos.metros.length > 0}
+										<div>
+											<dt class="text-xs text-[color:var(--muted-foreground)]">Metro</dt>
+											<dd>{describirMetros(candidata)}</dd>
+										</div>
+									{/if}
+									{#if candidata.rasgos.rima}
+										<div>
+											<dt class="text-xs text-[color:var(--muted-foreground)]">Rima</dt>
+											<dd>{candidata.rasgos.rima.etiqueta}</dd>
+										</div>
+									{/if}
+									{#if candidata.rasgos.tamanio}
+										<div>
+											<dt class="text-xs text-[color:var(--muted-foreground)]">Tamaño</dt>
+											<dd>{candidata.rasgos.tamanio} versos</dd>
+										</div>
+									{/if}
+									{#if candidata.rasgos.patron}
+										<div>
+											<dt class="text-xs text-[color:var(--muted-foreground)]">Patrón</dt>
+											<dd class="font-mono">{candidata.rasgos.patron}</dd>
+										</div>
+									{/if}
+								</dl>
 							</li>
 						{/each}
-					</ol>
+					</ul>
 				{:else}
-					<p class="mt-4 text-sm text-[color:var(--muted-foreground)]">
-						Todavía no hay respuestas registradas.
+					<p class="p-5 text-sm leading-6 text-[color:var(--muted-foreground)]">
+						Ninguna forma declara rasgos compatibles con todas las respuestas. Deshaz la última
+						respuesta o reinicia el recorrido.
 					</p>
 				{/if}
 			</section>
 		</div>
 
-		<section class="card overflow-hidden">
-			<div class="border-b border-[color:var(--border)] bg-white p-5">
-				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-					Panel de resultado
-				</p>
-				<h2 class="font-display mt-2 text-xl text-[color:var(--gray-900)]">{tituloResultado}</h2>
-				<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-					La herramienta muestra formas compatibles con las respuestas dadas. La formalización es
-					revisable y el resultado no debe leerse como una clasificación cerrada.
-				</p>
-			</div>
-
-			{#if candidatas.length}
-				<ul class="divide-y divide-[color:var(--border)]">
-					{#each candidatas as candidata}
-						<li class="grid gap-3 p-5">
-							<div class="flex flex-wrap items-start justify-between gap-3">
-								<div>
-									<h3 class="text-base font-semibold text-[color:var(--gray-900)]">
-										{candidata.label}
-									</h3>
-									<p class="mt-1 font-mono text-xs text-[color:var(--muted-foreground)]">
-										{candidata.slug}
-									</p>
-								</div>
-								{#if candidata.confianzaFormalizacion}
-									<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--gray-700)]">
-										{candidata.confianzaFormalizacion}
-									</span>
-								{/if}
-							</div>
-
-							<div class="grid gap-2 text-sm leading-6 text-[color:var(--gray-700)]">
-								<p>
-									<span class="font-semibold text-[color:var(--gray-900)]">Familia o padre:</span>
-									{familiaDe(candidata)}
-								</p>
-								{#if candidata.definicion}
-									<p>{candidata.definicion}</p>
-								{/if}
-								{#if candidata.patronEspecifico}
-									<p>
-										<span class="font-semibold text-[color:var(--gray-900)]">Patrón:</span>
-										<span class="font-mono">{candidata.patronEspecifico}</span>
-									</p>
-								{/if}
-							</div>
-
-							<div class="flex flex-wrap gap-2 text-xs text-[color:var(--muted-foreground)]">
-								{#if confianzaDe(candidata)}
-									<span class="border border-[color:var(--border)] px-2 py-1">
-										{confianzaDe(candidata)}
-									</span>
-								{/if}
-								{#if candidata.requiereRevision}
-									<span class="border border-[color:var(--border)] px-2 py-1">
-										Formalización pendiente de revisión
-									</span>
-								{/if}
-							</div>
-						</li>
-					{/each}
-				</ul>
-			{:else}
-				<div class="p-5">
-					<p class="text-sm leading-6 text-[color:var(--muted-foreground)]">
-						No quedan candidatas compatibles con las respuestas actuales. Revisa el historial o
-						deshaz la última respuesta para recuperar alternativas.
-					</p>
-				</div>
-			{/if}
-		</section>
-	</div>
-</section>
+		<footer class="border-t border-[color:var(--border)] pt-4 text-xs text-[color:var(--muted-foreground)]">
+			Versión {data.version?.numero}. La herramienta propone identificaciones compatibles, no una
+			clasificación definitiva.
+			<a class="ml-2 underline underline-offset-2" href="/demarcador/legacy">Versión anterior</a>
+		</footer>
+	</section>
+{/if}

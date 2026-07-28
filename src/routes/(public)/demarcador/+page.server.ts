@@ -1,29 +1,47 @@
-import estrofasRaw from '$lib/demarcador/data/estrofas.json';
-import familiasRaw from '$lib/demarcador/data/familias.json';
-import preguntasRaw from '$lib/demarcador/data/preguntas.json';
-import reglasRaw from '$lib/demarcador/data/reglas_demarcacion.json';
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-
-import {
-	normalizarEstrofas,
-	normalizarFamilias,
-	normalizarPreguntas,
-	normalizarReglas
-} from '$lib/demarcador';
 import { requireSectionVisible } from '$lib/server/secciones-publicas';
+import { esArtefactoDemarcadorNuevo } from '$lib/server/demarcador-nuevo';
 
-// Nota: ya no se prerenderiza. Necesita pasar por servidor para comprobar el flag
-// de la sección 'demarcador' (que puede restringirse a login o admin/IP).
-
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, url }) => {
 	await requireSectionVisible(locals, 'demarcador');
 
-	const familias = normalizarFamilias(familiasRaw);
+	const requestedVersionId = url.searchParams.get('version')?.trim() || null;
+	let query = locals.supabase
+		.from('demarcador_versiones')
+		.select('version_id,numero,estado,artefacto,generado_en,publicado_en');
+
+	query = requestedVersionId
+		? query.eq('version_id', requestedVersionId)
+		: query.eq('estado', 'publicada').order('publicado_en', { ascending: false }).limit(1);
+
+	const { data, error: dbError } = await query.maybeSingle();
+	if (dbError) {
+		throw error(500, `No se pudo cargar el demarcador: ${dbError.message}`);
+	}
+	if (requestedVersionId && !data) {
+		throw error(404, 'Versión del demarcador no encontrada o no accesible.');
+	}
+	if (!data) {
+		return {
+			artefacto: null,
+			version: null,
+			esVistaPrevia: false
+		};
+	}
+	if (!esArtefactoDemarcadorNuevo(data.artefacto)) {
+		throw error(500, 'La versión publicada del demarcador tiene un formato no reconocido.');
+	}
 
 	return {
-		familias,
-		estrofas: normalizarEstrofas(estrofasRaw, familias),
-		preguntas: normalizarPreguntas(preguntasRaw),
-		reglas: normalizarReglas(reglasRaw)
+		artefacto: data.artefacto,
+		version: {
+			version_id: data.version_id,
+			numero: data.numero,
+			estado: data.estado,
+			generado_en: data.generado_en,
+			publicado_en: data.publicado_en
+		},
+		esVistaPrevia: data.estado !== 'publicada'
 	};
-}
+};
