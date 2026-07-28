@@ -13,7 +13,7 @@ Se han revisado las 119 formas activas, sus 133 relaciones con metros y su organ
 1. formas métricas reconocibles (`soneto`, `lira`, `romance`);
 2. familias o agrupadores (`cancion_petrarquista`, `irregular`);
 3. realizaciones de un esquema (`quintilla_1_ababa`, variantes del soneto);
-4. rasgos transversales (`de_esdrujulos`, timbres asonantes del romance);
+4. rasgos transversales (`de_esdrujulos`, vocales concretas de la asonancia del romance);
 5. decisiones editoriales o categorías residuales (`verso suelto`, `irregular`).
 
 Esta mezcla explica buena parte del comportamiento anómalo del demarcador. El caso que motivó la revisión es representativo: `copla_real` declara únicamente metro 8, aunque su definición admite pies quebrados y su hija `copla_real_de_pie_quebrado` declara 4 + 8. El motor pregunta primero por familias usando solo el registro raíz; por eso una respuesta correcta para la variante descarta la familia antes de llegar a ella.
@@ -46,7 +46,7 @@ No se ha considerado que una divergencia terminológica sea automáticamente un 
 - **revisión filológica**: la decisión puede ser válida, pero necesita fuente y criterio explícito;
 - **problema de modelo**: la información puede ser correcta, pero está almacenada en una entidad o campo inadecuados.
 
-PoeMetCa y ReMetCa son repertorios de corpus, no autoridades normativas suficientes por sí solos. Resultan especialmente útiles para el modelado: PoeMetCa separa cantidad de versos, firma silábica, esquema de rima y timbre; ReMetCa combina un modelo relacional con TEI para admitir metadatos variables. TEI distingue estructura métrica convencional (`met`), realización (`real`) y esquema de rima (`rhyme`), con herencia explícita. POSTDATA distingue patrones de verso, estrofa y obra. Estas separaciones son más apropiadas para METADRAMA que el árbol monodimensional actual.
+PoeMetCa y ReMetCa son repertorios de corpus, no autoridades normativas suficientes por sí solos. Resultan especialmente útiles para el modelado: PoeMetCa separa cantidad de versos, firma silábica, esquema y valores concretos de rima; ReMetCa combina un modelo relacional con TEI para admitir metadatos variables. TEI distingue estructura métrica convencional (`met`), realización (`real`) y esquema de rima (`rhyme`), con herencia explícita. POSTDATA distingue patrones de verso, estrofa y obra. Estas separaciones son más apropiadas para METADRAMA que el árbol monodimensional actual.
 
 ## 2. Estado cuantitativo
 
@@ -83,7 +83,7 @@ La falta de datos propios en un hijo no es necesariamente un error: puede expres
 | [`sexteto_lira_c1_AabBcC`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=70db0ad6-00e1-4699-bb9b-659cbb6d886e) | Tamaño: 4; patrón: `AabBcC` | El patrón tiene seis posiciones. | Tamaño 6. |
 | [`sexteto_lira_de_esdrujulos`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=c6e16938-cec7-4c3c-950e-7dbe1f600fa4) | Tamaño: 5 | Un sexteto-lira tiene seis versos; “esdrújulos” no altera el tamaño. | Tamaño 6 y trasladar el rasgo esdrújulo fuera del tipo de forma. |
 | [`terceto_de_esdrujulos`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=baa17a25-a1db-407c-8d9d-9c7ee33e45aa) | Tamaño: 1 | Contradice el nombre, el padre y la definición. | Tamaño 3 si representa una unidad; si representa una serie, declarar otro nivel estructural. |
-| [`pareado_endecasilabo`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=f44a79b4-46d1-47c1-87cf-50e2e4b72f08) | Definición vacía | La explicación se ha introducido erróneamente como equivalencia. | Moverla a definición y revisar el umbral 99–100 %. |
+| [`pareado_endecasilabo`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=f44a79b4-46d1-47c1-87cf-50e2e4b72f08) | Definición vacía | La explicación se ha introducido erróneamente como equivalencia. | Moverla a definición y retirar el umbral 99–100 % salvo justificación bibliográfica expresa. |
 | [`redondilla`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=1affe499-c92d-4cf0-a0f6-46c76a26f88f) | Definición vacía | La raíz es candidata del demarcador y no documenta el criterio. | Añadir definición y decidir si es forma canónica o agrupador histórico. |
 | [`sexteto_lira_a3_abaBcC`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=d8fd022b-c275-46a7-a503-f0c205fd82ef) | Definición vacía | Es la única variante de la familia sin explicación. | Añadir definición o generar la descripción desde el patrón. |
 | [`sexta_rima`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=df645af0-0ab3-43f1-b357-b58793d39c2b) | Bibliografía: `****` | Es un marcador, no una referencia. | Sustituir por una cita normalizada. |
@@ -136,13 +136,14 @@ En el soneto, los esquemas de los tercetos son realizaciones legítimas, pero ll
 
 ### 4.5. Silva libre
 
-La definición actual de `silva_libre` la restringe a heptasílabos y endecasílabos, con rima consonante y sin pareados. En la bibliografía moderna citada por *Rhythmica*, “silva libre” designa una composición no estrófica que combina medidas diversas, pares e impares, y generalmente prescinde de la rima. Puede que METADRAMA esté usando una categoría operativa propia, pero entonces debe:
+La definición actual de `silva_libre` la restringe a heptasílabos y endecasílabos, con
+rima consonante y sin organización normativa en pareados. En la bibliografía moderna
+citada por *Rhythmica*, “silva libre” designa una composición no estrófica de mayor
+amplitud métrica que generalmente prescinde de la rima. Se decide conservar la
+denominación establecida por el IP y documentar expresamente su alcance específico en
+METADRAMA. Queda pendiente confirmar si esta diferencia terminológica es deliberada.
 
-- recibir otro nombre, por ejemplo `silva_7_11_sin_pareados`;
-- documentar el criterio y su fuente;
-- no presentarse como equivalente no marcado de la silva libre general.
-
-Los umbrales del 50 %, 98 % y 99 % usados para separar `endecasilabo_suelto`, `silva_de_endecasilabos` y `pareado_endecasilabo` también necesitan referencia o indicación expresa de que son reglas editoriales de METADRAMA.
+Los umbrales del 50 %, 98 % y 99 % usados para separar `endecasilabo_suelto`, `silva_de_endecasilabos` y `pareado_endecasilabo` fueron una formalización artificial de expresiones como «mayoría». Se decide no conservarlos como fronteras ontológicas ni pedir porcentajes al editor. La diferencia se expresará mediante rasgos cualitativos como predominio de rima o pareados cuando resulte destacable.
 
 ### 4.6. Coplas de pie quebrado
 
@@ -187,13 +188,15 @@ El tamaño 39 corresponde a la composición completa, mientras que otros tamaño
 
 Las variantes `*_de_esdrujulos` aparecen bajo canción, endecasílabo suelto, octava real, sexteto-lira, soneto y terceto. El final esdrújulo es una propiedad del verso o de la terminación, no una forma estrófica. Debe registrarse como caracterización transversal.
 
-### 5.2. Timbre asonante convertido en subtipo de romance
+### 5.2. Vocales de la asonancia convertidas en subtipo de romance
 
-Los 19 hijos de `romance` (`a-a`, `e-o`, `u-a`, etc.) describen el timbre vocálico de la asonancia. No son 19 formas métricas. PoeMetCa separa precisamente el esquema de rima del valor concreto de las rimas. Se recomienda:
+Los 19 hijos de `romance` (`a-a`, `e-o`, `u-a`, etc.) describen las vocales concretas de la asonancia. No son 19 formas métricas. PoeMetCa separa precisamente el esquema de rima del valor concreto de las rimas. Se recomienda:
 
 - conservar una sola forma `romance`;
-- añadir `timbre_asonancia`;
+- añadir un valor normalizado de `vocales_asonancia`;
 - normalizar vocales tónicas y átonas sin incrustarlas en el identificador de la forma.
+
+«Timbre» no era una denominación inventada para el proyecto: procede de la tradición métrica que habla de «ritmo de timbre» y «timbre de la rima». Sin embargo, PoeMetCa no denomina necesariamente así su campo, sino que separa esquema y valores concretos de rima. Para evitar ambigüedad en METADRAMA se adopta `vocales_asonancia` en el esquema y «Vocales de la asonancia» en la interfaz; «timbre» queda documentado como término técnico. Véase Clara I. Martínez Cantón, [estudio sobre tipología y funciones de la rima](https://oai.e-spacio.uned.es/server/api/core/bitstreams/81df07bc-7987-44ba-9971-10cf83ef1a73/content).
 
 ### 5.3. Esquemas de rima convertidos en hijos
 
@@ -239,13 +242,15 @@ La etiqueta no permite demarcar ni describir. Debe sustituirse por estados expl�
    - secuencia ordenada de medidas: por ejemplo `[8, 8, 4, 8, 8, 4]`;
    - alternativas admitidas;
    - unidad a la que se aplica;
+   - estructura interna del verso, con hemistiquios y cesura cuando proceda;
    - condición fija, preferente o variable.
 
 3. **Patrón de rima**
    - esquema abstracto: `abcabc`;
    - tipo: consonante, asonante, sin rima, mixto, variable;
    - versos sueltos mediante `-` o `X`;
-   - timbre asonante en un campo independiente;
+   - vocales de la asonancia en un campo independiente;
+   - enlaces entre versos, unidades o secciones;
    - ámbito: estrofa, serie o composición.
 
 4. **Estructura**
@@ -257,16 +262,15 @@ La etiqueta no permite demarcar ni describir. Debe sustituirse por estados expl�
 5. **Rasgo transversal**
    - terminación esdrújula;
    - presencia de dístico final;
-   - densidad de versos rimados;
-   - rima interna o encadenada;
-   - irregularidad.
+   - predominio cualitativo de versos rimados o pareados;
+   - rima interna.
 
 6. **Aserción y procedencia**
    - fuente;
    - página o localizador;
    - responsable;
    - fecha;
-   - nivel de confianza;
+   - nivel de confianza para la aserción del catálogo, no para la anotación de secuencias;
    - nota editorial.
 
 ### 6.2. Estados de ausencia
@@ -295,6 +299,25 @@ La relación padre/hijo actual debería complementarse con el tipo de relación:
 
 Con ello se evita que `soneto_de_esdrújulos` y un subtipo estructural aparezcan como relaciones semánticamente idénticas.
 
+El origen español, italiano, provenzal u otro se representará en una dimensión propia de tradiciones y no como padre estructural. Una forma podrá mantener varias relaciones históricas —origen, adaptación, difusión o uso— sin heredar de ellas metro o rima.
+
+### 6.4. Norma y diferencias en las secuencias
+
+La anotación de obras utilizará un modelo de mundo cerrado:
+
+```text
+realización efectiva = configuración seleccionada + diferencias registradas
+```
+
+El editor no repetirá todos los rasgos de la configuración ni declarará certeza o estado de revisión. Si no registra una diferencia, se entiende que la secuencia cumple la norma. Las diferencias conservarán rango y dimensión:
+
+- medida exacta, si se conoce, o relación menor/mayor que la norma;
+- rima diferente de la esperada, sin exigir una terminación que no puede reconstruirse sin texto;
+- estructura o repetición alterada;
+- rasgo normalizado destacable.
+
+Las caracterizaciones generales `cantado`, `prosa` y `laguna` pueden mantenerse por rango. `Hipométrico`, `hipermétrico`, `rima_defectuosa` y los finales acentuales se migrarán al dominio métrico normalizado.
+
 ## 7. Consecuencias para el demarcador
 
 ### 7.1. Firma de familia como disyunción
@@ -322,8 +345,8 @@ No deben convertirse en preguntas principales:
 
 - origen español/italiano;
 - terminología histórica;
-- porcentaje preciso de rimas, salvo que el editor pueda calcularlo;
-- timbre asonante antes de identificar el romance;
+- porcentaje preciso de rimas;
+- vocales concretas de la asonancia antes de identificar el romance;
 - rasgos que exigen conocer de antemano el nombre de la forma.
 
 ### 7.3. Lógica de datos incompletos
@@ -335,6 +358,12 @@ No deben convertirse en preguntas principales:
 - indeterminado por falta de datos.
 
 Las candidatas indeterminadas pueden conservarse, pero con menor confianza y con un aviso de que faltan datos de fuente.
+
+Esta lógica pertenece al diálogo del demarcador y a la información todavía no
+declarada en el catálogo. No contradice la convención de mundo cerrado del
+registro editorial: una vez guardadas la forma y su configuración en una
+secuencia, la ausencia de una desviación significa que esa secuencia cumple la
+norma en ese aspecto.
 
 ### 7.4. IA
 
@@ -363,10 +392,10 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `novena` | 3 | Jerarquía plausible; añadir naturaleza y expresar 4 + 5 / 5 + 4 como subestructura. |
 | `octava_real` | 3 | Fusionar raíz y “regular”; trasladar esdrújulos a rasgo. |
 | `pareado_de_arte_menor` | 3 | Los hijos por metro son derivables; sustituir rima `otras` por un régimen preciso. |
-| `pareado_endecasilabo` | 1 | Añadir definición y distinguir un pareado de una tirada con 99–100 % de dísticos. |
+| `pareado_endecasilabo` | 1 | Resuelto en el nuevo catálogo: la tirada pasa a ser `pareados_endecasilabos`, forma de nivel serie, y `pareado` permanece como unidad de dos versos. |
 | `quintilla` | 9 | Corregir tamaños; separar `abbba` como irregular; mover esquemas a patrones. |
 | `redondilla` | 6 | Añadir definición; corregir hexasílaba; revisar cuarteta `abab`; separar doble redondilla. |
-| `romance` | 20 | Mover los 19 timbres asonantes a un campo de rima; mantener una sola forma. |
+| `romance` | 20 | Mover los 19 valores de asonancia a un campo de rima; mantener una sola forma. |
 | `romance_heroico` | 1 | Coherente; añadir bibliografía y aclarar equivalencia `romance real`. |
 | `romancillo` | 3 | Mantener alternativas 6/7 o derivarlas del metro; revisar el uso de `endecha` como equivalente de las tres. |
 | `seguidilla` | 1 | Modelar alternativas de 4 y 7 versos; separar simple y compuesta si procede. |
@@ -405,7 +434,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 ### Fase 3 — migración del modelo
 
 - crear patrones métricos ordenados y alternativas;
-- separar esquema y timbre de rima;
+- separar esquema y vocales concretas de la asonancia;
 - separar rasgos transversales;
 - introducir estados explícitos para valores ausentes;
 - añadir procedencia por aserción;
@@ -430,7 +459,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 
 ### Proyectos y estándares digitales
 
-- [PoeMetCa: Repertorio Métrico Digital de la Poesía Cancioneril del siglo XV](https://poemetca.linhd.uned.es/). Separa cantidad de versos, firma silábica, esquema y timbre de rima.
+- [PoeMetCa: Repertorio Métrico Digital de la Poesía Cancioneril del siglo XV](https://poemetca.linhd.uned.es/). Separa cantidad de versos, firma silábica, esquema y valores concretos de rima.
 - Elena González-Blanco y José Luis Rodríguez, [“ReMetCa: A Proposal for Integrating RDBMS and TEI-Verse”](https://doi.org/10.4000/jtei.1274), *Journal of the Text Encoding Initiative*, 8, 2015.
 - [TEI, `att.metrical`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.metrical.html): distinción entre estructura convencional, realización y esquema de rima.
 - [POSTDATA: red de ontologías](https://postdata.linhd.uned.es/results/network-of-ontologies/) y [vocabularios controlados](https://postdata.linhd.uned.es/controlled-vocabularies/): separación de patrones de verso, estrofa y obra.
@@ -443,6 +472,11 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 - [“Sobre las canciones del folklore musical en España”](https://www.cervantesvirtual.com/obra-visor/sobre-las-canciones-del-folklore-musical-en-espana/html/), Biblioteca Virtual Miguel de Cervantes: quintilla, seguidilla, romance y terceto octosilábico.
 - José Enrique Martínez, [“Endecasílabos y decasílabos con acento anómalo en la poesía de Bonifaz Nuño”](https://revistas.uned.es/index.php/rhythmica/article/download/13050/12040/19924): definición moderna de silva libre.
 - [“¿Con qué te lavas la cara…? Redondillas cortesanas y cuartetas folklóricas”](https://www.cervantesvirtual.com/obra-visor/con-que-te-lavas-la-cara-redondillas-cortesanas-y-cuartetas-folkloricas-1/html/): contraste entre `abba` y `abab`.
+
+### Versificación y análisis computacional
+
+- Petr Plecháč, Klemens Bobenhausen y Benjamin Hammerich, [“Versification and authorship attribution”](https://ojs.utlib.ee/index.php/smp/article/view/smp.2018.5.2.02): evaluación de rasgos de versificación como marcadores estilométricos en varias lenguas, incluida la poesía española.
+- [*Versos y estructuras teatrales áureos*](https://ucrisportal.univie.ac.at/en/publications/versos-y-estructuras-teatrales-%C3%A1ureos-a-corpus-of-spanish-plays-w): corpus de teatro áureo con información dramática y métrica estructurada.
 
 ## Anexo A. Inventario jerárquico revisado
 

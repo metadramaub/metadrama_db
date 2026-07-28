@@ -1,6 +1,13 @@
 export type PoliticaFamilia = 'familia' | 'variantes';
 export type EtapaDemarcador = 'familias' | 'variantes';
-export type ClaveRasgoDemarcador = 'metros' | 'rima' | 'naturaleza' | 'tamanio' | 'patron';
+export type ClaveRasgoDemarcador =
+	| 'metros'
+	| 'rima'
+	| 'predominioRima'
+	| 'organizacionPareados'
+	| 'naturaleza'
+	| 'tamanio'
+	| 'patron';
 
 export type ValorCatalogado = {
 	clave: string;
@@ -13,6 +20,11 @@ export type RasgosCandidatoDemarcador = {
 	naturaleza: ValorCatalogado | null;
 	tamanio: number | null;
 	patron: string | null;
+	patronEtiqueta?: string | null;
+	/** Predominio observable de versos rimados o sueltos en una serie abierta. */
+	predominioRima?: ValorCatalogado | null;
+	/** Indica si los pareados organizan sistemáticamente la serie o no. */
+	organizacionPareados?: ValorCatalogado | null;
 };
 
 export type CandidatoDemarcadorNuevo = {
@@ -38,6 +50,7 @@ export type FamiliaDemarcadorNuevo = {
 
 export type ArtefactoDemarcadorNuevo = {
 	esquema: 1;
+	origen?: 'vocabulario_legacy' | 'catalogo_metrico';
 	generadoEn: string;
 	fuenteActualizadaEn: string | null;
 	familias: FamiliaDemarcadorNuevo[];

@@ -115,7 +115,8 @@ function rasgosDe(
 			(esRaiz ? null : valorCatalogado(raiz.naturaleza_estrofica_id, opcionesPorId)),
 		// Tamaño y patrón no se heredan: null puede expresar que no existe un valor fijo.
 		tamanio: item.tamanio_unidad_estrofica,
-		patron: item.patron_especifico?.trim() || null
+		patron: item.patron_especifico?.trim() || null,
+		patronEtiqueta: item.patron_especifico?.trim() || null
 	};
 }
 

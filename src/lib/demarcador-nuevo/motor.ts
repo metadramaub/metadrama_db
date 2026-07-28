@@ -18,11 +18,21 @@ const PESO_RESPONDIBILIDAD: Record<ClaveRasgoDemarcador, number> = {
 	metros: 1,
 	tamanio: 0.94,
 	rima: 0.84,
+	predominioRima: 0.92,
+	organizacionPareados: 0.9,
 	naturaleza: 0.72,
 	patron: 0.48
 };
 
-const ORDEN_RASGOS: ClaveRasgoDemarcador[] = ['metros', 'tamanio', 'rima', 'naturaleza', 'patron'];
+const ORDEN_RASGOS: ClaveRasgoDemarcador[] = [
+	'metros',
+	'tamanio',
+	'rima',
+	'predominioRima',
+	'organizacionPareados',
+	'naturaleza',
+	'patron'
+];
 
 function valorDe(candidato: CandidatoDemarcadorNuevo, rasgo: ClaveRasgoDemarcador): ValorRasgo {
 	switch (rasgo) {
@@ -40,6 +50,20 @@ function valorDe(candidato: CandidatoDemarcadorNuevo, rasgo: ClaveRasgoDemarcado
 				conocido: Boolean(candidato.rasgos.rima),
 				clave: candidato.rasgos.rima?.clave ?? '',
 				etiqueta: candidato.rasgos.rima?.etiqueta ?? '',
+				miembros: []
+			};
+		case 'predominioRima':
+			return {
+				conocido: Boolean(candidato.rasgos.predominioRima),
+				clave: candidato.rasgos.predominioRima?.clave ?? '',
+				etiqueta: candidato.rasgos.predominioRima?.etiqueta ?? '',
+				miembros: []
+			};
+		case 'organizacionPareados':
+			return {
+				conocido: Boolean(candidato.rasgos.organizacionPareados),
+				clave: candidato.rasgos.organizacionPareados?.clave ?? '',
+				etiqueta: candidato.rasgos.organizacionPareados?.etiqueta ?? '',
 				miembros: []
 			};
 		case 'naturaleza':
@@ -61,7 +85,7 @@ function valorDe(candidato: CandidatoDemarcadorNuevo, rasgo: ClaveRasgoDemarcado
 			return {
 				conocido: Boolean(candidato.rasgos.patron),
 				clave: candidato.rasgos.patron ?? '',
-				etiqueta: candidato.rasgos.patron ?? '',
+				etiqueta: candidato.rasgos.patronEtiqueta ?? candidato.rasgos.patron ?? '',
 				miembros: []
 			};
 	}
@@ -116,6 +140,18 @@ function textosPregunta(
 					pregunta: `¿La rima es ${etiquetaObjetivo.toLocaleLowerCase('es')}?`,
 					ayuda: 'Si no puedes determinarla con seguridad, responde «No sé».'
 				};
+			case 'predominioRima':
+				return {
+					pregunta: '¿Predominan los versos rimados?',
+					ayuda:
+						'Valora qué caracteriza el conjunto de la serie; no hace falta calcular un porcentaje.'
+				};
+			case 'organizacionPareados':
+				return {
+					pregunta: '¿La serie está organizada sistemáticamente en pareados?',
+					ayuda:
+						'Responde «Sí» solo si los dísticos organizan de forma regular o prácticamente completa la serie.'
+				};
 			case 'naturaleza':
 				return {
 					pregunta: `¿Se organiza como ${etiquetaObjetivo.toLocaleLowerCase('es')}?`,
@@ -145,6 +181,16 @@ function textosPregunta(
 				pregunta: '¿Qué tipo de rima presenta?',
 				ayuda: 'Si conviven varios tipos o no puedes determinarlo, responde «No sé».'
 			};
+		case 'predominioRima':
+			return {
+				pregunta: '¿Qué predomina en la serie?',
+				ayuda: 'Distingue si predominan los versos rimados o los versos sueltos.'
+			};
+		case 'organizacionPareados':
+			return {
+				pregunta: '¿Cómo se organizan los pareados?',
+				ayuda: 'Distingue una organización sistemática de una presencia ocasional o habitual.'
+			};
 		case 'naturaleza':
 			return {
 				pregunta: '¿Cómo se organiza la forma estrófica?',
@@ -163,6 +209,10 @@ function preguntaDeOpciones(
 	etapa: EtapaDemarcador,
 	rasgo: ClaveRasgoDemarcador
 ): PreguntaDemarcadorNueva | null {
+	// Estos dos rasgos cualitativos se expresan mejor mediante preguntas binarias
+	// que mediante opciones terminológicas.
+	if (rasgo === 'predominioRima' || rasgo === 'organizacionPareados') return null;
+
 	const values = candidatos.map((candidato) => valorDe(candidato, rasgo));
 	const conocidos = values.filter((value) => value.conocido);
 	const grupos = new Map<string, { etiqueta: string; total: number }>();
@@ -224,7 +274,14 @@ function preguntasBinarias(
 	}
 
 	const preguntas: PreguntaDemarcadorNueva[] = [];
-	for (const [objetivo, etiqueta] of objetivos) {
+	const objetivosBinarios =
+		rasgo === 'predominioRima'
+			? [...objetivos].filter(([objetivo]) => objetivo === 'rimados')
+			: rasgo === 'organizacionPareados'
+				? [...objetivos].filter(([objetivo]) => objetivo === 'sistematica')
+				: [...objetivos];
+
+	for (const [objetivo, etiqueta] of objetivosBinarios) {
 		let yes = 0;
 		let no = 0;
 		for (const value of conocidos) {
@@ -254,12 +311,15 @@ function preguntasBinarias(
 export function construirPreguntas(
 	candidatos: CandidatoDemarcadorNuevo[],
 	etapa: EtapaDemarcador,
-	respuestas: RespuestaDemarcadorNueva[] = []
+	respuestas: RespuestaDemarcadorNueva[] = [],
+	options: { incluirPatronEnFamilias?: boolean } = {}
 ): PreguntaDemarcadorNueva[] {
 	if (candidatos.length < 2) return [];
 	const respondidas = new Set(respuestas.map((respuesta) => respuesta.preguntaId));
 	const rasgos =
-		etapa === 'familias' ? ORDEN_RASGOS.filter((rasgo) => rasgo !== 'patron') : ORDEN_RASGOS;
+		etapa === 'familias' && !options.incluirPatronEnFamilias
+			? ORDEN_RASGOS.filter((rasgo) => rasgo !== 'patron')
+			: ORDEN_RASGOS;
 	const preguntas: PreguntaDemarcadorNueva[] = [];
 
 	for (const rasgo of rasgos) {
@@ -280,9 +340,10 @@ export function construirPreguntas(
 export function elegirSiguientePreguntaNueva(
 	candidatos: CandidatoDemarcadorNuevo[],
 	etapa: EtapaDemarcador,
-	respuestas: RespuestaDemarcadorNueva[] = []
+	respuestas: RespuestaDemarcadorNueva[] = [],
+	options: { incluirPatronEnFamilias?: boolean } = {}
 ): PreguntaDemarcadorNueva | null {
-	return construirPreguntas(candidatos, etapa, respuestas)[0] ?? null;
+	return construirPreguntas(candidatos, etapa, respuestas, options)[0] ?? null;
 }
 
 function candidatoCoincide(

@@ -21,10 +21,10 @@
 		doorOpen: IconComponent | null;
 		home: IconComponent | null;
 		libraryBig: IconComponent | null;
-		listChecks: IconComponent | null;
 		panelLeftClose: IconComponent | null;
 		panelLeftOpen: IconComponent | null;
 		settings: IconComponent | null;
+		shapes: IconComponent | null;
 		userRound: IconComponent | null;
 	}>({
 		arrowLeft: null,
@@ -34,10 +34,10 @@
 		doorOpen: null,
 		home: null,
 		libraryBig: null,
-		listChecks: null,
 		panelLeftClose: null,
 		panelLeftOpen: null,
 		settings: null,
+		shapes: null,
 		userRound: null
 	});
 	let iconsLoadFailed = $state(false);
@@ -52,10 +52,10 @@
 	const DoorOpenIcon = $derived(icons.doorOpen);
 	const HomeIcon = $derived(icons.home);
 	const LibraryBigIcon = $derived(icons.libraryBig);
-	const ListChecksIcon = $derived(icons.listChecks);
 	const PanelLeftCloseIcon = $derived(icons.panelLeftClose);
 	const PanelLeftOpenIcon = $derived(icons.panelLeftOpen);
 	const SettingsIcon = $derived(icons.settings);
+	const ShapesIcon = $derived(icons.shapes);
 	const UserRoundIcon = $derived(icons.userRound);
 
 	const isAdminIp = $derived(
@@ -75,10 +75,10 @@
 					doorOpenModule,
 					homeModule,
 					libraryBigModule,
-					listChecksModule,
 					panelLeftCloseModule,
 					panelLeftOpenModule,
 					settingsModule,
+					shapesModule,
 					userRoundModule
 				] = await Promise.all([
 					import('lucide-svelte/icons/arrow-left'),
@@ -88,10 +88,10 @@
 					import('lucide-svelte/icons/door-open'),
 					import('lucide-svelte/icons/home'),
 					import('lucide-svelte/icons/library-big'),
-					import('lucide-svelte/icons/list-checks'),
 					import('lucide-svelte/icons/panel-left-close'),
 					import('lucide-svelte/icons/panel-left-open'),
 					import('lucide-svelte/icons/settings'),
+					import('lucide-svelte/icons/shapes'),
 					import('lucide-svelte/icons/user-round')
 				]);
 
@@ -105,10 +105,10 @@
 					doorOpen: doorOpenModule.default,
 					home: homeModule.default,
 					libraryBig: libraryBigModule.default,
-					listChecks: listChecksModule.default,
 					panelLeftClose: panelLeftCloseModule.default,
 					panelLeftOpen: panelLeftOpenModule.default,
 					settings: settingsModule.default,
+					shapes: shapesModule.default,
 					userRound: userRoundModule.default
 				};
 			} catch (error) {
@@ -278,16 +278,16 @@
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
 					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
 				}`}
-				href="/dashboard/demarcador"
-				aria-label="Auditor del demarcador"
-				title="Auditor del demarcador"
+				href="/dashboard/metrica"
+				aria-label="Catálogo métrico"
+				title="Catálogo métrico"
 			>
-				{#if ListChecksIcon}
-					<ListChecksIcon size={16} aria-hidden="true" />
+				{#if ShapesIcon}
+					<ShapesIcon size={16} aria-hidden="true" />
 				{:else}
 					<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
 				{/if}
-				<span class={collapsed ? 'md:sr-only' : ''}>Demarcador</span>
+				<span class={collapsed ? 'md:sr-only' : ''}>Catálogo métrico</span>
 			</a>
 
 			<a

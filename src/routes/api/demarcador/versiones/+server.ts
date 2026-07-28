@@ -42,6 +42,7 @@ export const POST: RequestHandler = async ({ locals }) => {
 		.from('demarcador_versiones')
 		.select(versionSelect)
 		.eq('huella_fuente', generated.huellaFuente)
+		.eq('fuente_tipo', 'vocabulario_legacy')
 		.order('generado_en', { ascending: false })
 		.limit(1)
 		.maybeSingle();
@@ -59,6 +60,7 @@ export const POST: RequestHandler = async ({ locals }) => {
 		.insert({
 			esquema: artefacto.esquema,
 			artefacto: artefacto as unknown as Json,
+			fuente_tipo: 'vocabulario_legacy',
 			huella_fuente: generated.huellaFuente,
 			fuente_actualizada_en: artefacto.fuenteActualizadaEn,
 			total_familias: artefacto.estadisticas.familias,

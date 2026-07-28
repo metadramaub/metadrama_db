@@ -575,9 +575,11 @@ export type Database = {
       demarcador_versiones: {
         Row: {
           artefacto: Json
+          catalogo_revision: number | null
           esquema: number
           estado: string
           fuente_actualizada_en: string | null
+          fuente_tipo: string
           generado_en: string
           generado_por: string | null
           huella_fuente: string
@@ -592,9 +594,11 @@ export type Database = {
         }
         Insert: {
           artefacto: Json
+          catalogo_revision?: number | null
           esquema?: number
           estado?: string
           fuente_actualizada_en?: string | null
+          fuente_tipo?: string
           generado_en?: string
           generado_por?: string | null
           huella_fuente: string
@@ -609,9 +613,11 @@ export type Database = {
         }
         Update: {
           artefacto?: Json
+          catalogo_revision?: number | null
           esquema?: number
           estado?: string
           fuente_actualizada_en?: string | null
+          fuente_tipo?: string
           generado_en?: string
           generado_por?: string | null
           huella_fuente?: string

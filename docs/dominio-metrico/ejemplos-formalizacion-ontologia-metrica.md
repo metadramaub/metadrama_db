@@ -18,7 +18,7 @@ Este documento muestra cómo se caracterizarán diferentes formas métricas medi
 2. la caracterización de una secuencia realizada por el editor;
 3. los datos derivados para demarcación, búsqueda y análisis.
 
-La riqueza del catálogo no implica que el editor tenga que rellenar todas sus tablas. El editor selecciona una forma y, cuando lo sabe, una configuración o una observación adicional. La definición estructurada de la forma ya está disponible en el catálogo.
+La riqueza del catálogo no implica que el editor tenga que rellenar todas sus tablas. El editor selecciona una forma, una configuración solo cuando sea necesario y las diferencias que observe. En una secuencia guardada, todo lo no señalado como diferencia se considera conforme con la configuración.
 
 ## 2. Tablas y responsabilidades
 
@@ -31,12 +31,19 @@ Estas tablas definen la ontología y son mantenidas por el IP o por responsables
 | `formas_metricas` | Identidades métricas asignables. |
 | `familias_metricas` | Agrupaciones organizativas no asignables. |
 | `familias_formas` | Pertenencia de formas a familias. |
+| `tradiciones_metricas` | Tradiciones históricas o culturales no heredables. |
+| `formas_tradiciones` | Origen, adaptación, difusión o uso de una forma en una tradición. |
 | `forma_aliases` | Nombres alternativos. |
 | `forma_relaciones` | Relaciones tipadas entre formas. |
 | `configuraciones_forma` | Realizaciones estructurales admitidas por una forma. |
 | `patrones_metricos` | Tipo, alcance y longitud de los patrones de medida. |
 | `patron_metrico_posiciones` | Medida ordenada de cada posición. |
+| `modelos_verso` | Estructura simple o compuesta de un verso. |
+| `modelo_verso_segmentos` | Hemistiquios, cesura y segmentos internos. |
 | `patrones_rima` | Régimen, esquema, alcance y fijeza de la rima. |
+| `patron_rima_posiciones` | Posiciones finales o internas de rima. |
+| `patron_rima_enlaces` | Correspondencias entre versos, unidades o secciones. |
+| `patron_rima_restricciones` | Reglas combinatorias como las de la quintilla. |
 | `estructuras_secciones` | Partes internas y repeticiones de una forma compuesta. |
 | `patrones_repeticion` | Repetición de palabras, versos, estribillos o secciones. |
 | `patron_repeticion_posiciones` | Orden y correspondencias de una repetición. |
@@ -54,9 +61,12 @@ Estas tablas describen una obra concreta:
 | `secuencias_metricas` | Rango de la secuencia y forma identificada. |
 | `secuencia_configuraciones` | Configuración reconocida en la secuencia. |
 | `unidades_metricas` | Unidades internas y sus rangos. |
-| `secuencia_metros_observados` | Medidas constatadas en la obra. |
-| `secuencia_rima_observada` | Régimen, patrón o timbre constatado. |
-| `secuencia_rasgos_observados` | Rasgos adicionales constatados. |
+| `secuencia_observaciones_metricas` | Rango, dimensión y relación con la norma. |
+| `secuencia_metros_observados` | Medida exacta o relación menor/mayor que la esperada. |
+| `secuencia_rima_observada` | Diferencia de rima y detalle opcional. |
+| `secuencia_rasgos_observados` | Rasgos normalizados adicionales. |
+| `secuencia_estructura_observada` | Alteraciones de estructura o secciones. |
+| `secuencia_repeticion_observada` | Alteraciones de repeticiones y enlaces. |
 
 ### Datos derivados
 
@@ -77,7 +87,11 @@ flowchart LR
         CF["configuraciones_forma"]
         PM["patrones_metricos"]
         PMP["patron_metrico_posiciones"]
+        PV["modelos_verso"]
+        PVS["modelo_verso_segmentos"]
         PR["patrones_rima"]
+        PRP["patron_rima_posiciones"]
+        PREN["patron_rima_enlaces"]
         ES["estructuras_secciones"]
         PRE["patrones_repeticion"]
         RM["rasgos_metricos"]
@@ -87,7 +101,11 @@ flowchart LR
         F --> CF
         CF --> PM
         PM --> PMP
+        PMP --> PV
+        PV --> PVS
         CF --> PR
+        PR --> PRP
+        PRP --> PREN
         CF --> ES
         CF --> PRE
         CF --> CR
@@ -103,15 +121,17 @@ flowchart LR
         SM["secuencias_metricas"]
         SC["secuencia_configuraciones"]
         UM["unidades_metricas"]
+        OM["secuencia_observaciones_metricas"]
         MO["secuencia_metros_observados"]
         RO["secuencia_rima_observada"]
         RSO["secuencia_rasgos_observados"]
 
         SM --> SC
         SM --> UM
-        SM --> MO
-        SM --> RO
-        SM --> RSO
+        SM --> OM
+        OM --> MO
+        OM --> RO
+        OM --> RSO
     end
 
     SM --> F
@@ -177,10 +197,8 @@ Supongamos una secuencia de diez versos con el patrón observado:
 | --- | --- |
 | `secuencias_metricas` | Rango de diez versos y `forma_metrica_id = copla_real`. |
 | `secuencia_configuraciones` | `configuracion_id = con_pie_quebrado`. |
-| `secuencia_metros_observados` | Patrón observado con medidas 8 y 4. |
-| `secuencia_rasgos_observados` | Opcional: pie quebrado constatado expresamente. |
 
-El rasgo pie quebrado ya puede inferirse de la configuración. Solo se registra también como observación si interesa conservar que fue comprobado directamente.
+El patrón 8/4 y el rasgo pie quebrado ya se infieren de la configuración. No se duplican como observaciones. Solo se crearía una observación si alguno de los versos difiriera del patrón.
 
 ### Interacción del editor
 
@@ -212,7 +230,7 @@ flowchart TB
 
     PR["patrones_rima<br/>pares: asonantes<br/>impares: sueltos"]
 
-    RT["rasgos_metricos<br/>timbre_asonancia"]
+    RT["rasgos_metricos<br/>vocales_asonancia"]
     RV1["rasgo_valores<br/>a-a"]
     RV2["rasgo_valores<br/>e-o"]
     RV3["rasgo_valores<br/>o-a"]
@@ -236,8 +254,7 @@ Una serie octosilábica presenta asonancia `e-o` en los versos pares.
 | --- | --- |
 | `secuencias_metricas` | Rango de la serie y `forma_metrica_id = romance`. |
 | `secuencia_configuraciones` | Puede omitirse si solo existe una configuración principal inequívoca. |
-| `secuencia_rima_observada` | Régimen asonante, pares rimados y `timbre_asonancia = e-o`. |
-| `secuencia_metros_observados` | Opcional: octosílabos comprobados. |
+| `secuencia_rasgos_observados` | Opcional: `vocales_asonancia = e-o` como valor destacable. |
 
 ### Interacción del editor
 
@@ -245,13 +262,13 @@ Una serie octosilábica presenta asonancia `e-o` en los versos pares.
 | --- | --- |
 | Mínimo | Seleccionar “Romance”. |
 | Recomendado | Ninguna acción adicional. |
-| Avanzado | Registrar el timbre de asonancia, si se conoce. |
+| Avanzado | Registrar las vocales de la asonancia, si se conocen y resultan útiles. |
 
 ### Utilidad
 
-- El demarcador usa metro, extensión y régimen de rima, pero no exige el timbre.
+- El demarcador usa metro, extensión y régimen de rima, pero no exige las vocales concretas.
 - El buscador puede ofrecer `e-o` como faceta avanzada.
-- Todos los timbres pertenecen a la misma forma y pueden estudiarse como una dimensión independiente.
+- Todos los valores pertenecen a la misma forma y pueden estudiarse como una dimensión independiente.
 
 ## 6. Villancico
 
@@ -305,8 +322,8 @@ Un villancico presenta cabeza de tres versos, mudanza octosilábica `abba`, vuel
 | `secuencias_metricas` | Rango completo y `forma_metrica_id = villancico`. |
 | `secuencia_configuraciones` | `configuracion_id = estructura_tipica`. |
 | `unidades_metricas` | Rangos de cabeza, mudanza, vuelta y estribillo. |
-| `secuencia_metros_observados` | Octosílabos en la mudanza. |
-| `secuencia_rima_observada` | Esquema `abba` en el rango de la mudanza. |
+
+La medida, el esquema de la mudanza y los enlaces con vuelta y estribillo proceden de la configuración. Solo se anotan si difieren.
 
 ### Interacción del editor
 
@@ -331,6 +348,10 @@ flowchart TB
     F["formas_metricas<br/>soneto"]
     FA["familias_metricas<br/>formas_fijas"]
     FF["familias_formas"]
+    TI["tradiciones_metricas<br/>italiana"]
+    TE["tradiciones_metricas<br/>española"]
+    FTI["formas_tradiciones<br/>origen"]
+    FTE["formas_tradiciones<br/>adaptación y uso"]
     C["configuraciones_forma<br/>soneto_endecasilabo · principal"]
 
     ES1["estructuras_secciones<br/>cuarteto 1 · 4 versos"]
@@ -350,6 +371,10 @@ flowchart TB
 
     FA --> FF
     F --> FF
+    TI --> FTI
+    F --> FTI
+    TE --> FTE
+    F --> FTE
     F --> C
     C --> ES1
     C --> ES2
@@ -371,8 +396,7 @@ Un soneto endecasílabo presenta el esquema `ABBAABBACDCEDE` y mayoría de final
 | Tabla | Registro conceptual |
 | --- | --- |
 | `secuencias_metricas` | Rango de 14 versos y `forma_metrica_id = soneto`. |
-| `secuencia_configuraciones` | Configuración endecasílaba principal. |
-| `secuencia_rima_observada` | Referencia al patrón `ABBAABBACDCEDE`. |
+| `secuencia_configuraciones` | Configuración endecasílaba con patrón `ABBAABBACDCEDE`. |
 | `secuencia_rasgos_observados` | Mayoría de finales esdrújulos. |
 | `unidades_metricas` | Opcional: dos cuartetos y dos tercetos con sus rangos. |
 
@@ -431,10 +455,8 @@ Una sextina conserva seis palabras finales, las permuta a lo largo de seis estro
 | `secuencias_metricas` | Rango completo y `forma_metrica_id = sextina`. |
 | `secuencia_configuraciones` | `configuracion_id = sextina_clasica`. |
 | `unidades_metricas` | Seis estrofas y un remate con sus rangos. |
-| `secuencia_metros_observados` | Endecasílabos, si se desea registrar su comprobación. |
-| `secuencia_rima_observada` | No se crea una falsa rima; el régimen es no aplicable. |
 
-Las palabras concretas pertenecen a la realización de la obra. Podrán almacenarse como valores observados del patrón de repetición cuando se defina ese nivel de edición.
+El metro y la ausencia de rima convencional se infieren de la configuración. Las palabras concretas pertenecen a la realización de la obra y solo se almacenarían si el proyecto incorpora ese nivel de edición; no son necesarias para caracterizar la secuencia.
 
 ### Interacción del editor
 
@@ -450,7 +472,113 @@ Las palabras concretas pertenecen a la realización de la obra. Podrán almacena
 - La ficha puede mostrar 6 × 6 + 3.
 - El demarcador puede preguntar por la permutación de palabras finales cuando las demás respuestas todavía dejan varias candidatas.
 
-## 9. Qué escribe cada persona
+## 9. Copla de arte mayor
+
+### Definición ontológica
+
+```mermaid
+flowchart TB
+    F["formas_metricas<br/>copla_de_arte_mayor"]
+    C["configuraciones_forma<br/>canonica"]
+    PM["patrones_metricos<br/>8 posiciones"]
+    PMP["patron_metrico_posiciones<br/>cada posición usa el modelo compuesto"]
+    PV["modelos_verso<br/>dodecasilabo_compuesto"]
+    S1["modelo_verso_segmentos<br/>hemistiquio 1 · 6 sílabas"]
+    S2["modelo_verso_segmentos<br/>hemistiquio 2 · 6 sílabas"]
+    CE["cesura<br/>entre ambos hemistiquios"]
+
+    F --> C
+    C --> PM
+    PM --> PMP
+    PMP --> PV
+    PV --> S1
+    PV --> S2
+    S1 --> CE
+    CE --> S2
+```
+
+El catálogo no reduce la forma al conjunto `{12}`: conserva que cada verso está compuesto por dos hemistiquios de seis sílabas separados por cesura.
+
+### Interacción del editor
+
+| Nivel | Acción |
+| --- | --- |
+| Mínimo | Seleccionar “Copla de arte mayor”. |
+| Recomendado | Ninguna acción adicional. |
+| Diferencia | Indicar el verso y una medida o segmentación diferente, si la hay. |
+
+## 10. Terceto encadenado
+
+### Definición ontológica
+
+```mermaid
+flowchart TB
+    F["formas_metricas<br/>terceto_encadenado"]
+    C["configuraciones_forma<br/>serie_canonica"]
+    ES["estructuras_secciones<br/>tercetos repetibles + cierre"]
+    PR["patrones_rima<br/>ABA por unidad"]
+    P1["patron_rima_posiciones<br/>1:A · 2:B · 3:A"]
+    EN["patron_rima_enlaces<br/>unidad n, posición 2<br/>→ unidad n+1, posiciones 1 y 3"]
+    CI["regla de cierre<br/>recupera la rima abierta"]
+
+    F --> C
+    C --> ES
+    C --> PR
+    PR --> P1
+    P1 --> EN
+    EN --> CI
+```
+
+La secuencia resultante es `ABA | BCB | CDC | …`. El enlace pertenece al catálogo; no se pide al editor que conecte manualmente los versos.
+
+### Interacción del editor
+
+| Nivel | Acción |
+| --- | --- |
+| Mínimo | Seleccionar “Terceto encadenado”. |
+| Recomendado | Ninguna acción adicional. |
+| Diferencia | Marcar el rango donde se rompe el encadenamiento o cambia el cierre. |
+
+## 11. Norma más diferencias
+
+### Medida exacta conocida
+
+Una redondilla octosilábica presenta siete sílabas en el tercer verso:
+
+| Tabla | Registro conceptual |
+| --- | --- |
+| `secuencias_metricas` | Forma `redondilla`. |
+| `secuencia_configuraciones` | Configuración octosilábica `abba`. |
+| `secuencia_observaciones_metricas` | Rango del tercer verso, dimensión `medida`. |
+| `secuencia_metros_observados` | `metro_observado = 7`; el sistema deriva `menor_que_norma` e hipometría. |
+
+### Solo se conoce la relación
+
+Para una caracterización legada que únicamente dice `hipometrico`:
+
+| Tabla | Registro conceptual |
+| --- | --- |
+| `secuencia_observaciones_metricas` | Rango de un verso, dimensión `medida`. |
+| `secuencia_metros_observados` | `relacion_norma = menor_que_norma`; medida exacta ausente. |
+
+No se inventan seis o siete sílabas.
+
+### Rima diferente sin texto anotado
+
+Un romance rompe la correspondencia esperada en un tramo, pero la base no contiene los finales de verso:
+
+| Tabla | Registro conceptual |
+| --- | --- |
+| `secuencias_metricas` | Forma `romance`. |
+| `secuencia_configuraciones` | Configuración octosilábica asonante. |
+| `secuencia_observaciones_metricas` | Rango afectado, dimensión `rima`. |
+| `secuencia_rima_observada` | `relacion_norma = ruptura_de_correspondencia`; sin terminación inventada. |
+
+### Ausencia de diferencias
+
+Si el editor guarda una secuencia sin observaciones métricas, el sistema interpreta que cumple completamente la configuración. No existe un estado adicional «revisada» ni una casilla de certeza.
+
+## 12. Qué escribe cada persona
 
 ```mermaid
 flowchart LR
@@ -461,7 +589,7 @@ flowchart LR
     IP --> CAT["formas_metricas<br/>configuraciones_forma<br/>patrones y rasgos<br/>fuentes_metricas"]
 
     ED --> SEC["secuencias_metricas<br/>secuencia_configuraciones"]
-    ED -. "solo si lo conoce" .-> DET["unidades_metricas<br/>metros, rima y rasgos observados"]
+    ED -. "solo cuando difiere o destaca" .-> DET["unidades_metricas<br/>observaciones métricas por rango"]
 
     CAT --> SYS
     SEC --> SYS
@@ -470,16 +598,16 @@ flowchart LR
     SYS --> OUT["Demarcador<br/>fichas<br/>filtros<br/>laboratorio"]
 ```
 
-El IP formaliza una vez las propiedades generales. El editor identifica la forma de una secuencia y añade únicamente la información específica de esa obra que conoce y considera útil.
+El IP formaliza una vez las propiedades generales. El editor identifica la forma y añade únicamente diferencias o rasgos destacables. Lo no anotado se considera conforme con la configuración.
 
-## 10. Regla de diseño de la interfaz
+## 13. Regla de diseño de la interfaz
 
 Para cualquier forma:
 
 1. **Siempre visible:** rango y forma.
 2. **Pregunta contextual:** configuración, solo cuando diferencia alternativas relevantes.
-3. **Detalle desplegable:** unidades, patrón exacto y rasgos observados.
-4. **No determinado:** disponible siempre que el dato no sea imprescindible.
+3. **Diferencias desplegables:** medida, rima, estructura, repetición o rasgo, filtradas por la configuración.
+4. **Precisión opcional:** medida exacta o detalle de rima solo cuando se conoce.
 5. **Datos derivados:** no se vuelven a pedir al editor.
 
-La ontología aumenta la precisión y la reutilización de los datos, pero la interfaz aplica divulgación progresiva para mantener una edición breve.
+La ontología aumenta la precisión y la reutilización de los datos, pero la interfaz aplica divulgación progresiva para mantener una edición breve. El editor no declara certeza ni estado de revisión: guardar la secuencia cierra su caracterización bajo la convención de mundo cerrado.

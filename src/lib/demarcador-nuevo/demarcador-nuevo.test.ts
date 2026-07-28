@@ -174,6 +174,93 @@ describe('motor nuevo del demarcador', () => {
 		expect(elegirSiguientePreguntaNueva(candidatos, 'variantes')?.rasgo).toBe('patron');
 	});
 
+	it('permite comparar patrones en la prueba compilada desde el catálogo', () => {
+		const candidatos = [
+			candidato('quintilla-ababa', [8], { tamanio: 5, patron: 'ababa' }),
+			candidato('quintilla-abbab', [8], { tamanio: 5, patron: 'abbab' })
+		];
+
+		expect(
+			elegirSiguientePreguntaNueva(candidatos, 'familias', [], {
+				incluirPatronEnFamilias: true
+			})?.rasgo
+		).toBe('patron');
+	});
+
+	it('compara la firma estructural y usa el esquema solo como etiqueta', () => {
+		const romance = candidato('romance', [8], {
+			patron: '{"comportamiento":"secuencia_repetible","posiciones":["-","a"]}',
+			patronEtiqueta: '-a-a-a…'
+		});
+		const redondilla = candidato('redondilla', [8], {
+			patron: '{"comportamiento":"secuencia_fija","posiciones":["a","b","b","a"]}',
+			patronEtiqueta: 'abba'
+		});
+		const pregunta = elegirSiguientePreguntaNueva([romance, redondilla], 'variantes');
+
+		expect(pregunta?.rasgo).toBe('patron');
+		expect(pregunta?.opciones).toContainEqual({
+			valor: romance.rasgos.patron,
+			etiqueta: '-a-a-a…'
+		});
+	});
+
+	it('distingue las series endecasilábicas con dos preguntas cualitativas', () => {
+		const suelto = candidato('endecasilabo-suelto', [11], {
+			predominioRima: { clave: 'sueltos', etiqueta: 'Predominan los versos sueltos' },
+			organizacionPareados: {
+				clave: 'no_sistematica',
+				etiqueta: 'Sin organización sistemática en pareados'
+			},
+			patron: 'suelto'
+		});
+		const silva = candidato('silva-endecasilabica', [11], {
+			predominioRima: { clave: 'rimados', etiqueta: 'Predominan los versos rimados' },
+			organizacionPareados: {
+				clave: 'no_sistematica',
+				etiqueta: 'Sin organización sistemática en pareados'
+			},
+			patron: 'silva'
+		});
+		const pareados = candidato('pareados-endecasilabos', [11], {
+			predominioRima: { clave: 'rimados', etiqueta: 'Predominan los versos rimados' },
+			organizacionPareados: {
+				clave: 'sistematica',
+				etiqueta: 'Organización sistemática en pareados'
+			},
+			patron: 'pareados'
+		});
+		const candidatos = [suelto, silva, pareados];
+		const primera = elegirSiguientePreguntaNueva(candidatos, 'familias', [], {
+			incluirPatronEnFamilias: true
+		});
+
+		expect(primera).toMatchObject({
+			rasgo: 'predominioRima',
+			tipo: 'si_no',
+			pregunta: '¿Predominan los versos rimados?',
+			valorObjetivo: 'rimados'
+		});
+		if (!primera) throw new Error('Falta la primera pregunta cualitativa');
+
+		const respuesta = crearRespuestaNueva(primera, 'si', 'Sí');
+		const restantes = filtrarCandidatosNuevos(candidatos, [primera], [respuesta]);
+		const segunda = elegirSiguientePreguntaNueva(restantes, 'familias', [respuesta], {
+			incluirPatronEnFamilias: true
+		});
+
+		expect(restantes.map((item) => item.id)).toEqual([
+			'silva-endecasilabica',
+			'pareados-endecasilabos'
+		]);
+		expect(segunda).toMatchObject({
+			rasgo: 'organizacionPareados',
+			tipo: 'si_no',
+			pregunta: '¿La serie está organizada sistemáticamente en pareados?',
+			valorObjetivo: 'sistematica'
+		});
+	});
+
 	it('No sé no elimina candidatas', () => {
 		const candidatos = [candidato('a', [8]), candidato('b', [11])];
 		const pregunta = elegirSiguientePreguntaNueva(candidatos, 'familias');
