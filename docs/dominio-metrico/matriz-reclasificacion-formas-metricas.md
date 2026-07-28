@@ -119,7 +119,7 @@ No deben coexistir dos formas canónicas con la misma definición y patrón.
 | `endecasilabo_suelto_puro` | C | Configuración sin pareados intercalados, con la política de cierre que se apruebe. | Alta | Sí |
 | `endecasilabo_suelto_puro_sin_distico_final` | C | Configuración pura sin dístico final. | Alta | Sí |
 
-Los umbrales porcentuales deberán quedar documentados como reglas editoriales y no incrustados en el nombre de la forma.
+Se retiran los umbrales porcentuales 50/98/99 usados para formalizar «mayoría». Las configuraciones declararán cualitativamente presencia, predominio o disposición de rimas y pareados; el editor solo registrará diferencias destacables respecto de esa norma.
 
 ## 9. Irregular
 
@@ -154,16 +154,22 @@ Los umbrales porcentuales deberán quedar documentados como reglas editoriales y
 
 ## 13. Pareado
 
-Se propone crear una forma canónica nueva `pareado` y convertir las cuatro entradas actuales en configuraciones métricas. Esto evita que cada medida produzca una forma.
+Se crea una forma canónica `pareado` para la unidad estrófica de dos versos. Las entradas
+de arte menor, hexasílaba y octosílaba se convierten en configuraciones métricas. La
+entrada endecasílaba se separa como forma de nivel serie porque describe una sucesión de
+dísticos y no una única estrofa.
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
 | `pareado_de_arte_menor` | C | Configuración de la nueva forma `pareado` con metro de arte menor. | Media | Sí |
 | `pareado_hexasilabo` | C | Configuración hexasílaba de `pareado`. | Alta | No |
 | `pareado_octosilabo` | C | Configuración octosílaba de `pareado`. | Alta | No |
-| `pareado_endecasilabo` | C | Configuración endecasílaba de `pareado`; completar definición. | Alta | Sí |
+| `pareado_endecasilabo` | F | Conservar como serie abierta de pareados endecasílabos; no confundir con la estrofa `pareado`. | Alta | Sí |
 
-Debe aclararse si una tirada con una alta densidad de pareados se anota como pareado, como otra serie con rasgo de pareados o mediante un umbral editorial.
+La frontera no se expresa mediante un umbral: una serie se identifica como
+`pareados_endecasilabos` cuando los dísticos la organizan sistemáticamente. Si son
+habituales pero no sistemáticos, puede corresponder a la silva de endecasílabos; si
+predominan los versos sueltos, al endecasílabo suelto.
 
 ## 14. Quintilla
 
@@ -192,32 +198,32 @@ Las unidades internas actuales de quintilla deberán migrarse a `unidades_metric
 | `redondilla_hexasilaba` | C | Configuración hexasílaba; corregir la relación métrica de origen a 6. | Alta | No |
 | `redondilla_regular` | A | Fusionar con `redondilla` si se adopta `abba` octosílabo como definición canónica. | Media | Sí |
 
-## 16. Romance y timbres de asonancia
+## 16. Romance y vocales de la asonancia
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
 | `romance` | F | Conservar como forma canónica. | Alta | No |
-| `romance_a` | R | Valor del rasgo `timbre_asonancia`: vocal tónica final `á`. | Alta | Sí |
-| `romance_a-a` | R | Valor `a-a` de `timbre_asonancia`. | Alta | No |
-| `romance_a-e` | R | Valor `a-e` de `timbre_asonancia`. | Alta | No |
-| `romance_a-o` | R | Valor `a-o` de `timbre_asonancia`. | Alta | No |
-| `romance_e` | R | Valor del rasgo `timbre_asonancia`: vocal final `e`. | Alta | Sí |
-| `romance_e-a` | R | Valor `e-a` de `timbre_asonancia`. | Alta | No |
-| `romance_e-e` | R | Valor `e-e` de `timbre_asonancia`. | Alta | No |
-| `romance_e-o` | R | Valor `e-o` de `timbre_asonancia`. | Alta | No |
-| `romance_i` | R | Valor del rasgo `timbre_asonancia`: vocal tónica final `í`. | Alta | Sí |
-| `romance_i-a` | R | Valor `i-a` de `timbre_asonancia`. | Alta | No |
-| `romance_i-e` | R | Valor `i-e` de `timbre_asonancia`. | Alta | No |
-| `romance_i-o` | R | Valor `i-o` de `timbre_asonancia`. | Alta | No |
-| `romance_o` | R | Valor del rasgo `timbre_asonancia`: vocal tónica final `ó`. | Alta | Sí |
-| `romance_o-a` | R | Valor `o-a` de `timbre_asonancia`. | Alta | No |
-| `romance_o-e` | R | Valor `o-e` de `timbre_asonancia`. | Alta | No |
-| `romance_o-o` | R | Valor `o-o` de `timbre_asonancia`. | Alta | No |
-| `romance_u-a` | R | Valor `u-a` de `timbre_asonancia`. | Alta | No |
-| `romance_u-e` | R | Valor `u-e` de `timbre_asonancia`. | Alta | No |
-| `romance_u-o` | R | Valor `u-o` de `timbre_asonancia`. | Alta | No |
+| `romance_a` | R | Valor normalizado de `vocales_asonancia`: vocal tónica final `á`. | Alta | Sí |
+| `romance_a-a` | R | Valor `a-a` de `vocales_asonancia`. | Alta | No |
+| `romance_a-e` | R | Valor `a-e` de `vocales_asonancia`. | Alta | No |
+| `romance_a-o` | R | Valor `a-o` de `vocales_asonancia`. | Alta | No |
+| `romance_e` | R | Valor normalizado de `vocales_asonancia`: vocal final `e`. | Alta | Sí |
+| `romance_e-a` | R | Valor `e-a` de `vocales_asonancia`. | Alta | No |
+| `romance_e-e` | R | Valor `e-e` de `vocales_asonancia`. | Alta | No |
+| `romance_e-o` | R | Valor `e-o` de `vocales_asonancia`. | Alta | No |
+| `romance_i` | R | Valor normalizado de `vocales_asonancia`: vocal tónica final `í`. | Alta | Sí |
+| `romance_i-a` | R | Valor `i-a` de `vocales_asonancia`. | Alta | No |
+| `romance_i-e` | R | Valor `i-e` de `vocales_asonancia`. | Alta | No |
+| `romance_i-o` | R | Valor `i-o` de `vocales_asonancia`. | Alta | No |
+| `romance_o` | R | Valor normalizado de `vocales_asonancia`: vocal tónica final `ó`. | Alta | Sí |
+| `romance_o-a` | R | Valor `o-a` de `vocales_asonancia`. | Alta | No |
+| `romance_o-e` | R | Valor `o-e` de `vocales_asonancia`. | Alta | No |
+| `romance_o-o` | R | Valor `o-o` de `vocales_asonancia`. | Alta | No |
+| `romance_u-a` | R | Valor `u-a` de `vocales_asonancia`. | Alta | No |
+| `romance_u-e` | R | Valor `u-e` de `vocales_asonancia`. | Alta | No |
+| `romance_u-o` | R | Valor `u-o` de `vocales_asonancia`. | Alta | No |
 
-Los cuatro valores de una sola vocal necesitan una convención explícita que los diferencie de los timbres de dos vocales y explique la normalización.
+Los cuatro valores de una sola vocal necesitan una convención explícita que los diferencie de las secuencias de dos vocales y explique la normalización.
 
 ## 17. Romance heroico
 
@@ -289,9 +295,9 @@ Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede apl
 | `silva_de_consonantes_irregular` | C | Configuración con pareados de disposición irregular. | Media | Sí |
 | `silva_de_consonantes_regular` | C | Configuración con pareados de disposición regular. | Media | Sí |
 | `silva_de_endecasilabos` | C | Configuración endecasílaba; decidir si el uso del corpus justifica una forma lexicalizada. | Media | Sí |
-| `silva_libre` | ? | Revisar definición y denominación; candidata a forma propia solo tras resolver su contradicción bibliográfica. | Baja | Sí |
+| `silva_libre` | C | Configuración de silva con el nombre establecido por el IP; documentar su alcance específico frente al uso moderno de la denominación. | Alta | Sí |
 
-Los porcentajes de versos rimados o pareados se modelarán como reglas editoriales documentadas y, cuando proceda, como observaciones cuantitativas.
+No se conservarán porcentajes exactos de versos rimados o pareados. Las configuraciones utilizarán modalidades cualitativas y las secuencias solo registrarán diferencias respecto de ellas.
 
 ## 26. Soneto
 
@@ -311,8 +317,8 @@ Los porcentajes de versos rimados o pareados se modelarán como reglas editorial
 | `terceto` | F | Conservar como unidad de tres versos; retirar de su definición la mezcla con series completas. | Media | Sí |
 | `terceto_de_esdrujulos` | R | Terceto más rasgo esdrújulo; corregir tamaño 1 → 3 mientras exista la entrada. | Alta | No |
 | `terceto_encadenado` | F | Conservar como forma de serie abierta, diferenciada de la unidad terceto. | Alta | Sí |
-| `terceto_sin_encadenar_1_AXABYB` | P | Patrón de una serie no encadenada; no forma independiente. | Media | Sí |
-| `terceto_sin_encadenar_2_XAAYBB` | P | Patrón de una serie no encadenada; no forma independiente. | Media | Sí |
+| `terceto_sin_encadenar_1_AXABYB` | P | Trazar hacia el patrón «Verso central suelto» (`A-A | B-B | C-C | …`) de la forma `tercetos_sin_encadenar`. | Alta | No |
+| `terceto_sin_encadenar_2_XAAYBB` | P | Trazar hacia el patrón «Primer verso suelto» (`-AA | -BB | -CC | …`) de la forma `tercetos_sin_encadenar`. | Alta | No |
 
 ## 28. Terceto octosílabo
 
@@ -340,7 +346,20 @@ Debe normalizarse el slug técnico aunque se conserve “Verso suelto” como et
 | --- | :---: | --- | :---: | :---: |
 | `zejel` | F | Conservar como forma compuesta; formalizar estribillo, mudanza y vuelta. | Alta | Sí |
 
-## 32. Decisiones agrupadas para el IP
+## 32. Decisiones transversales ya adoptadas
+
+Estas decisiones se aplican a todas las filas de la matriz:
+
+1. Una secuencia guardada se interpreta mediante configuración normativa más diferencias registradas.
+2. La ausencia de diferencias significa conformidad; no se añaden estados editoriales de certeza o revisión.
+3. `Hipométrico` e `hipermétrico` se migran como relación menor/mayor que la medida esperada; la medida exacta solo se añade si existe.
+4. `Rima defectuosa` se migra como «Rima diferente de la esperada» sin inventar un nuevo esquema o terminación.
+5. `Mayoria_agudas` y `mayoria_esdrujulas` pasan a rasgos observados normalizados.
+6. `Cantado`, `prosa` y `laguna` permanecen como caracterizaciones generales por rango.
+7. Cuando las fuentes justifiquen una tradición española, italiana, provenzal u otra, se modelará como relación muchos-a-muchos y no como familia estructural heredable.
+8. Los enlaces de rima entre unidades o secciones y la estructura interna de versos compuestos se modelan en el catálogo, sin pedirlos de nuevo al editor.
+
+## 33. Decisiones agrupadas para el IP
 
 ### Decisiones que cambian identidades
 
@@ -366,13 +385,13 @@ Debe normalizarse el slug técnico aunque se conserve “Verso suelto” como et
 2. si hace falta “otra copla de pie quebrado”;
 3. si `verso suelto` pertenece al mismo selector o a una caracterización distinta.
 
-## 33. Orden de revisión recomendado
+## 34. Orden de revisión recomendado
 
 1. Resolver las siete decisiones que cambian identidades.
 2. Aprobar las formas residuales disponibles para el editor.
 3. Revisar configuraciones lexicalizadas.
 4. Aprobar en bloque las transformaciones evidentes de patrones de rima.
-5. Aprobar en bloque los rasgos esdrújulos y timbres de romance.
+5. Aprobar en bloque los rasgos esdrújulos y valores de asonancia del romance.
 6. Corregir los errores objetivos de origen.
 7. Generar la correspondencia técnica por UUID.
 8. Cruzar cada decisión con el número de secuencias y rangos reales que utiliza la entrada.

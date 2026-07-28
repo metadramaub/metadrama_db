@@ -57,6 +57,8 @@ Las agrupaciones de navegación y estudio se modelarán como `familias_metricas`
 
 La pertenencia de una forma a una familia se expresará mediante una relación propia, no mediante un padre genérico. Cuando dos formas mantengan una relación semántica real, esta se tipará: `subtipo_de`, `variante_historica_de`, `relacionada_con`, etc.
 
+Las tradiciones históricas que estén respaldadas por fuentes no se tratarán como padres estructurales. Se modelarán mediante `tradiciones_metricas` y una relación muchos-a-muchos con las formas que permita distinguir origen, adaptación, difusión y uso. En la interfaz podrán presentarse como agrupaciones, pero no transmitirán por herencia metro, rima ni arquitectura. Etiquetas como «española», «italiana» o «provenzal» son ejemplos posibles, no categorías que deban crearse o asignarse de antemano.
+
 ### Configuraciones
 
 Una forma podrá admitir una o varias configuraciones estructuradas. Por ejemplo, la copla real puede representarse mediante una configuración isométrica y otra con pie quebrado.
@@ -65,15 +67,24 @@ Una configuración podrá declarar:
 
 - patrón métrico ordenado;
 - tamaño fijo, mínimo, máximo o repetición;
+- estructura interna del verso, como hemistiquios y cesura;
 - régimen y esquema de rima;
+- correspondencias de rima entre versos, unidades o secciones;
 - secciones o subunidades;
+- repeticiones de palabras, versos o estribillos;
 - rasgos fijos, admitidos o preferentes.
 
 Así, las alternativas no se funden en una bolsa de valores ni se convierten necesariamente en formas distintas.
 
+El modelo debe poder expresar también reglas estructurales como el encadenamiento `ABA | BCB | CDC`, la relación entre vuelta y estribillo o las restricciones combinatorias de la quintilla. No se traducirán expresiones cualitativas como «mayoría» a porcentajes artificialmente precisos: se conservarán como rasgos definitorios, habituales o destacables.
+
 ### Rasgos transversales
 
-Propiedades como final esdrújulo, pie quebrado, dístico final, rima interna, timbre asonante o irregularidad se registrarán como rasgos. Podrán caracterizar una configuración o una realización observada sin crear una nueva forma.
+Propiedades como final esdrújulo, pie quebrado, dístico final o rima interna se registrarán como rasgos. Podrán caracterizar una configuración o una realización observada sin crear una nueva forma.
+
+Las vocales concretas de una asonancia se conservarán, cuando proceda, como un valor normalizado de la rima y no como identidad de una forma. En la interfaz se utilizará «Vocales de la asonancia»; «timbre» quedará como término técnico documentado, no como etiqueta obligatoria para los editores.
+
+No toda diferencia respecto de una forma es un rasgo. `Hipométrico`, por ejemplo, puede derivarse de comparar una medida observada con la esperada; una ruptura de rima es una relación con el patrón normativo. Las dimensiones centrales —medida, rima, estructura y repetición— conservarán modelos propios y no se forzarán a un EAV de rasgos.
 
 ### Alias, relaciones y fuentes
 
@@ -86,13 +97,23 @@ La bibliografía se normalizará mediante fuentes y aserciones. Cada afirmación
 
 ## Caracterización editorial
 
-La edición distinguirá:
+La caracterización seguirá el principio **norma más diferencias**:
 
-1. forma identificada;
-2. configuración, si puede reconocerse;
-3. datos observados: metros, rima, esquema o arquitectura;
-4. rasgos adicionales;
-5. estado desconocido o no determinado.
+1. el editor selecciona la forma;
+2. selecciona una configuración solo cuando haya alternativas relevantes;
+3. registra únicamente dónde la secuencia difiere de esa configuración;
+4. añade, de forma opcional, rasgos destacables que no se deriven ya de la configuración.
+
+Se adopta un modelo de mundo cerrado para las secuencias guardadas: lo no registrado como diferencia se interpreta como cumplimiento de la configuración. No habrá campos editoriales de certeza, revisión o pendiente. La caracterización se realiza de una vez y la complejidad formal reside en el catálogo, no en el formulario de la obra.
+
+Una diferencia podrá localizarse por `v_ini` y `v_fin` y reutilizará las entidades normalizadas:
+
+- la medida exacta observada, si se conoce; en caso contrario, la relación `menor_que_norma` o `mayor_que_norma`;
+- una relación cualitativa con la rima esperada —falta, aparición no esperada, cambio de régimen o ruptura de encadenamiento— sin exigir una nueva rima que el corpus no permite reconstruir;
+- un rasgo y valor del catálogo cuando la observación sea realmente un rasgo;
+- una alteración de estructura o repetición mediante su dimensión específica.
+
+Las caracterizaciones por rango que no pertenecen al dominio métrico, como `cantado`, `prosa` o `laguna`, podrán mantenerse en su mecanismo general. Las irregularidades métricas se migrarán al nuevo modelo de observaciones y no constituirán un segundo vocabulario paralelo.
 
 Los actuales subtipos internos de quintilla representan mejor unidades o realizaciones con distintos patrones de rima que formas nuevas. Deben evolucionar hacia unidades métricas internas asociadas a una configuración o patrón.
 
@@ -114,6 +135,8 @@ Los datos derivados distinguirán entre:
 - consecuencia necesaria de la forma identificada;
 - posibilidad admitida por la forma.
 
+Bajo la convención de mundo cerrado, la ausencia de una diferencia en una secuencia guardada equivale a conformidad con la norma. Si la norma del catálogo cambia, la adaptación o invalidación se resolverá mediante migración o regeneración técnica, no mediante una nueva carga de trabajo para el editor.
+
 No debe afirmarse que una obra contiene todos los metros permitidos por una forma si no se han observado. Las proyecciones públicas y analíticas podrán seguir precomputándose, pero se regenerarán desde el nuevo dominio normalizado.
 
 Las fichas y los resúmenes públicos actuales son datos de prueba y la web todavía no está abierta. Por tanto, no constituyen un contrato que deba conservarse durante la migración: se podrán descartar y regenerar. Sí son datos reales y deben preservarse estrictamente las secuencias, los rangos y las caracterizaciones métricas ya declaradas en cada obra.
@@ -130,6 +153,37 @@ El demarcador se generará desde configuraciones revisadas y aprobadas. No consu
 El JSON será un producto regenerable y versionado, no la fuente manual de verdad.
 
 Las candidatas serán formas seleccionables. Las familias organizarán la búsqueda y las configuraciones aportarán las alternativas. Las preguntas podrán ordenarse según su capacidad discriminatoria entre las candidatas todavía compatibles.
+
+El demarcador preguntará por rasgos complejos solo si son observables para el editor y discriminan entre las candidatas restantes. No preguntará por porcentajes exactos, procedencia histórica ni detalles ya inferibles de las respuestas anteriores. Siempre conservará una salida «No sé».
+
+## Administración e interfaces
+
+El catálogo métrico tendrá una administración propia, separada del editor genérico de vocabularios. El IP trabajará con formas, configuraciones, familias, tradiciones, patrones, relaciones y fuentes mediante editores específicos; no tendrá que editar directamente las tablas.
+
+El editor de obras verá una superficie mucho más pequeña:
+
+1. forma;
+2. configuración, si es necesaria;
+3. bloque opcional «Diferencias respecto de la forma»;
+4. otras caracterizaciones por rango no métricas.
+
+Las opciones de diferencia se calcularán desde la configuración seleccionada, de modo que no se muestre todo el catálogo en cada secuencia.
+
+## Grafos, interoperabilidad y análisis
+
+PostgreSQL seguirá siendo la fuente de verdad. A partir de sus relaciones podrán generarse grafos para:
+
+- navegar familias, tradiciones y relaciones históricas;
+- detectar nodos huérfanos, ciclos o configuraciones contradictorias;
+- visualizar el impacto de un cambio;
+- construir redes derivadas de similitud o difusión;
+- explicar la ontología en publicaciones.
+
+No se necesita una base de datos de grafos para el tamaño actual. Las redes de similitud serán resultados analíticos, no relaciones canónicas almacenadas como verdad.
+
+La interoperabilidad con TEI, POSTDATA, PoeMetCa o ReMetCa podrá apoyarse en identificadores estables y referencias externas tipadas. El modelo relacional podrá exportarse como JSON-LD o RDF sin convertir esos formatos en la fuente de edición.
+
+La separación entre norma y diferencias también permitirá generar variables para estudios de autoría, datación y evolución métrica: distribución de formas, configuraciones, transiciones, rasgos y tasas de desviación. El valor analítico dependerá de la consistencia del protocolo y del volumen del corpus; sin texto, describirá el comportamiento métrico anotado, no los rasgos léxicos o fonéticos completos.
 
 ## Soluciones descartadas
 

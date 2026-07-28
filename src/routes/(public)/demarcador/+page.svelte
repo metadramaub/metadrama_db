@@ -18,10 +18,13 @@
 			version_id: string;
 			numero: number;
 			estado: string;
+			catalogo_revision: number | null;
 			generado_en: string;
 			publicado_en: string | null;
 		} | null;
-		esVistaPrevia: boolean;
+		esVersionSolicitada: boolean;
+		catalogoRevisionActual: number | null;
+		catalogoDesactualizado: boolean;
 	};
 
 	let { data } = $props<{ data: PageDataDemarcador }>();
@@ -32,6 +35,7 @@
 	let preguntasVariantes = $state<PreguntaDemarcadorNueva[]>([]);
 
 	const familias = $derived(data.artefacto?.familias ?? []);
+	const esCatalogoMetrico = $derived(data.artefacto?.origen === 'catalogo_metrico');
 	const candidatosFamiliaBase = $derived(
 		familias.map((familia: FamiliaDemarcadorNuevo) => familia.raiz)
 	);
@@ -41,6 +45,9 @@
 			preguntasFamilias,
 			respuestasFamilias
 		)
+	);
+	const incluirPatronEnFamilias = $derived(
+		data.artefacto?.origen === 'catalogo_metrico'
 	);
 	const familiaUnica = $derived.by(() => {
 		if (candidatosFamilia.length !== 1) return null;
@@ -68,7 +75,9 @@
 		)
 	);
 	const preguntaFamilia = $derived(
-		elegirSiguientePreguntaNueva(candidatosFamilia, 'familias', respuestasFamilias)
+		elegirSiguientePreguntaNueva(candidatosFamilia, 'familias', respuestasFamilias, {
+			incluirPatronEnFamilias
+		})
 	);
 	const preguntaVariante = $derived(
 		afinandoVariantes
@@ -124,9 +133,11 @@
 	function tituloResultado(): string {
 		if (candidatasResultado.length === 0) return 'No hay formas compatibles';
 		if (candidatasResultado.length === 1) {
+			if (esCatalogoMetrico) return 'Forma o configuración probable';
 			return afinandoVariantes ? 'Variante probable' : 'Familia probable';
 		}
 		if (!preguntaActual) return 'Formas todavía compatibles';
+		if (esCatalogoMetrico) return 'Formas o configuraciones compatibles';
 		return etapaActual === 'variantes' ? 'Variantes compatibles' : 'Familias compatibles';
 	}
 
@@ -139,7 +150,7 @@
 	<title>Demarcador métrico | MetaDrama</title>
 	<meta
 		name="description"
-		content="Asistente para identificar familias y variantes métricas mediante preguntas dinámicas."
+		content="Asistente en pruebas para identificar formas métricas desde el nuevo catálogo estructurado."
 	/>
 </svelte:head>
 
@@ -152,21 +163,27 @@
 			Demarcador métrico
 		</h1>
 		<p class="mt-5 text-base leading-7 text-[color:var(--gray-700)]">
-			La nueva versión del demarcador todavía no se ha publicado.
+			Todavía no se ha compilado ninguna prueba desde el nuevo catálogo métrico.
 		</p>
 		<a
 			class="mt-6 inline-flex border border-[color:var(--border)] px-4 py-2 text-sm font-semibold"
-			href="/demarcador/legacy"
+			href="/dashboard/metrica?tab=validation"
 		>
-			Abrir versión anterior
+			Ir al catálogo métrico
 		</a>
 	</section>
 {:else}
 	<section class="grid gap-6">
-		{#if data.esVistaPrevia}
+		{#if data.catalogoDesactualizado}
 			<div class="border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-				Vista previa de la versión {data.version?.numero}. Esta versión aún no está
-				publicada.
+				Esta prueba se compiló con la revisión {data.version?.catalogo_revision ?? 'desconocida'},
+				pero el catálogo ya está en la revisión {data.catalogoRevisionActual}. Genera una prueba
+				nueva desde «Modelo y validación».
+			</div>
+		{:else if data.esVersionSolicitada}
+			<div class="border border-sky-300 bg-sky-50 px-4 py-3 text-sm text-sky-950">
+				Prueba guardada de la revisión {data.version?.catalogo_revision ?? 'desconocida'} del
+				catálogo.
 			</div>
 		{/if}
 
@@ -178,9 +195,15 @@
 				Demarcador métrico
 			</h1>
 			<p class="mt-3 max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-				Responde solo a aquello que puedas observar. La herramienta identifica primero una
-				familia métrica y, cuando procede, intenta precisar su variante. «No sé» nunca descarta
-				formas.
+				{#if esCatalogoMetrico}
+					Prueba interna compilada desde el nuevo catálogo. Compara las formas y sus
+					configuraciones demarcables sin modificar ningún dato editorial. «No sé» nunca
+					descarta candidatas.
+				{:else}
+					Responde solo a aquello que puedas observar. La herramienta identifica primero una
+					familia métrica y, cuando procede, intenta precisar su variante. «No sé» nunca
+					descarta formas.
+				{/if}
 			</p>
 		</header>
 
@@ -190,7 +213,11 @@
 					Etapa
 				</p>
 				<p class="mt-2 text-lg font-semibold">
-					{afinandoVariantes ? 'Precisar variante' : 'Identificar familia'}
+					{esCatalogoMetrico
+						? 'Identificar forma'
+						: afinandoVariantes
+							? 'Precisar variante'
+							: 'Identificar familia'}
 				</p>
 			</div>
 			<div class="card p-4">
@@ -266,7 +293,9 @@
 							No quedan preguntas útiles
 						</h2>
 						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-							El resultado conserva todas las formas que no contradicen tus respuestas.
+							El resultado conserva todas las formas
+							{esCatalogoMetrico ? ' y configuraciones' : ''}
+							que no contradicen tus respuestas.
 						</p>
 					{/if}
 				</section>
@@ -316,8 +345,8 @@
 					<h2 class="font-display mt-2 text-2xl">{tituloResultado()}</h2>
 					{#if candidatasResultado.length > 1 && !preguntaActual}
 						<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-							Los datos estructurados no permiten separar más estas formas con preguntas
-							razonables.
+							Los datos estructurados no permiten separar más estas
+							{esCatalogoMetrico ? ' candidatas' : ' formas'} con preguntas razonables.
 						</p>
 					{/if}
 				</div>
@@ -359,7 +388,7 @@
 									{#if candidata.rasgos.patron}
 										<div>
 											<dt class="text-xs text-[color:var(--muted-foreground)]">Patrón</dt>
-											<dd class="font-mono">{candidata.rasgos.patron}</dd>
+											<dd class="font-mono">{candidata.rasgos.patronEtiqueta ?? candidata.rasgos.patron}</dd>
 										</div>
 									{/if}
 								</dl>
@@ -376,9 +405,9 @@
 		</div>
 
 		<footer class="border-t border-[color:var(--border)] pt-4 text-xs text-[color:var(--muted-foreground)]">
-			Versión {data.version?.numero}. La herramienta propone identificaciones compatibles, no una
-			clasificación definitiva.
-			<a class="ml-2 underline underline-offset-2" href="/demarcador/legacy">Versión anterior</a>
+			Prueba {data.version?.numero}, compilada desde la revisión
+			{data.version?.catalogo_revision ?? 'desconocida'} del catálogo. La herramienta propone
+			identificaciones compatibles, no una clasificación definitiva.
 		</footer>
 	</section>
 {/if}

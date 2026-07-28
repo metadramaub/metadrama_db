@@ -2,7 +2,12 @@
 
 Fecha: 28 de julio de 2026
 
-Estado: borrador de arquitectura para revisión; no implementado
+Estado: primera fase aditiva implementada en `develop`; catálogo pendiente de revisión
+
+La implementación actual incluye las tablas del catálogo, la carga provisional
+de la matriz, el gestor `/dashboard/metrica` y la compilación de pruebas
+internas del demarcador. No se ha migrado ninguna declaración de las
+secuencias.
 
 Documentos relacionados:
 
@@ -129,6 +134,10 @@ Los hijos de quintilla se ocultan del selector principal y se guardan como subti
 8. **Los datos derivados declaran su procedencia.**
 9. **Las relaciones están tipadas.**
 10. **La publicación es versionada y reproducible.**
+11. **La tradición es una dimensión histórica.** No transmite rasgos estructurales por herencia.
+12. **La secuencia se describe por norma más diferencias.** Lo no registrado en una secuencia guardada se considera conforme con su configuración.
+13. **La ontología se reutiliza.** Las observaciones apuntan a metros, rimas, estructuras y rasgos normalizados; no crean un vocabulario métrico paralelo.
+14. **La complejidad reside en el catálogo.** El editor de obras solo elige forma, configuración cuando proceda y diferencias observadas.
 
 ## 7. Modelo conceptual
 
@@ -136,10 +145,16 @@ Los hijos de quintilla se ocultan del selector principal y se guardan como subti
 flowchart TD
     FM[Familias métricas] --> MFM[Miembros de familia]
     F[Formas métricas] --> MFM
+    TM[Tradiciones métricas] --> FTM[Formas y tradiciones]
+    F --> FTM
     F --> CF[Configuraciones de forma]
     CF --> PM[Patrones métricos]
     PM --> PMP[Posiciones métricas]
+    PMP --> PV[Modelos de verso]
+    PV --> PVS[Segmentos: hemistiquios y cesura]
     CF --> PR[Patrones de rima]
+    PR --> PRP[Posiciones de rima]
+    PRP --> PRE[Enlaces entre posiciones]
     CF --> PREP[Patrones de repetición]
     CF --> ER[Estructuras y secciones]
     CF --> CR[Rasgos de configuración]
@@ -151,11 +166,16 @@ flowchart TD
     CF --> PF
 
     SM[Secuencias métricas] --> F
+    SM --> SC[Configuración seleccionada]
     SM --> UM[Unidades métricas internas]
+    SC --> CF
     UM --> CF
-    SM --> MO[Metros observados]
-    SM --> RO[Rima observada]
-    SM --> OR[Rasgos observados]
+    SM --> OM[Observaciones métricas por rango]
+    OM --> MO[Medida observada o relación con la norma]
+    OM --> RO[Rima observada o relación con la norma]
+    OM --> OR[Rasgos normalizados observados]
+    OM --> EO[Estructura o repetición observada]
+    SM --> CG[Caracterizaciones generales por rango]
 
     SM --> PD[Proyecciones derivadas]
     PD --> FP[Fichas públicas]
@@ -182,14 +202,14 @@ Representa una identidad métrica seleccionable o una salida editorial residual.
 | `residual` | `boolean` | Salida editorial, no candidata ordinaria del demarcador. |
 | `estado_revision` | FK o valor controlado | Borrador, revisada, aprobada o retirada. |
 | `activo` | `boolean` | Disponible para nuevos usos. |
-| `orden` | `integer` | Orden editorial, no jerarquía semántica. |
+| `orden` | `integer` | Orden técnico opcional. No se muestra en la edición ordinaria ni expresa jerarquía semántica. |
 | `created_at` / `updated_at` | `timestamptz` | Auditoría técnica. |
 
 `arte_metrico` no se almacenará como verdad primaria: se derivará de las configuraciones métricas. El origen español o italiano tampoco actuará como rasgo demarcador; si se conserva, será una relación documentada con una tradición.
 
 ### 8.2. `familias_metricas`
 
-Representa agrupaciones editoriales, históricas o de navegación.
+Representa agrupaciones estructurales, comparativas o de navegación. Las tradiciones históricas se modelan por separado para evitar que «española» o «italiana» funcionen como padres que transmiten rasgos métricos.
 
 Campos mínimos:
 
@@ -199,7 +219,7 @@ Campos mínimos:
 - `descripcion`;
 - `familia_padre_id`, solo si se necesita una navegación anidada;
 - `estado_revision`;
-- `orden`;
+- `orden`, únicamente si en el futuro se necesita una presentación manual;
 - `activo`.
 
 Una familia no será asignable a `secuencias_metricas`.
@@ -211,12 +231,35 @@ Relación potencialmente muchos-a-muchos:
 - `familia_id`;
 - `forma_id`;
 - `es_principal`;
-- `orden`;
+- `orden`, únicamente como preferencia técnica de presentación;
 - `nota`.
 
 `es_principal` permitirá ofrecer un árbol sencillo en las interfaces sin negar otras pertenencias válidas.
 
-### 8.4. `forma_aliases`
+### 8.4. `tradiciones_metricas` y `formas_tradiciones`
+
+`tradiciones_metricas` representa ámbitos históricos o culturales respaldados por fuentes. Nombres como tradición española, italiana o provenzal son categorías posibles, no pertenencias que deban inferirse ni precargarse como hechos:
+
+- `tradicion_id`;
+- `slug`;
+- `nombre`;
+- `descripcion`;
+- ámbito cronológico y geográfico opcional;
+- `estado_revision`;
+- `activo`.
+
+`formas_tradiciones` expresa una relación muchos-a-muchos:
+
+- `forma_id`;
+- `tradicion_id`;
+- `tipo_relacion`: origen, adaptación, difusión o uso;
+- `es_principal`;
+- `fuente_id`;
+- cronología y nota, cuando procedan.
+
+Una forma podrá proceder de una tradición, adaptarse en otra y pertenecer simultáneamente a familias estructurales. La tradición podrá utilizarse como faceta o nodo de una red histórica, pero no como pregunta ordinaria del demarcador ni como propiedad heredable.
+
+### 8.5. `forma_aliases`
 
 - `alias_id`;
 - `forma_id`;
@@ -229,7 +272,7 @@ Relación potencialmente muchos-a-muchos:
 
 Los alias no tendrán configuraciones ni podrán asignarse como formas independientes.
 
-### 8.5. `forma_relaciones`
+### 8.6. `forma_relaciones`
 
 Relaciones entre dos formas reales:
 
@@ -263,13 +306,16 @@ Una configuración es una realización estructural admitida por una forma.
 | `forma_id` | Forma a la que pertenece. |
 | `slug` / `nombre` | Identificación editorial de la alternativa. |
 | `descripcion` | Explicación de la configuración. |
-| `principal` | Configuración prototípica de la forma. |
+| `principal` | Configuración prototípica opcional. Puede no existir ninguna y solo puede existir una por forma. |
 | `demarcable` | Puede intervenir en la compilación del demarcador. |
 | `grado` | Fija, canónica, admitida, rara o irregular documentada. |
+| `numero_versos` | Número fijo total; solo se declara directamente en estrofas y composiciones simples. |
 | `estado_revision` | Flujo de aprobación. |
 | `activo` | Disponible para nuevos usos. |
 
-Una configuración puede existir sin recibir un nombre público. Los patrones `ababa` y `abbab` de quintilla, por ejemplo, pueden ser configuraciones internas sin convertirse en opciones del selector principal.
+Una configuración puede existir sin recibir un nombre público. Un cambio que solo afecta a
+la distribución de la rima no crea por sí mismo otra configuración: `ababa` y `abbab`, por
+ejemplo, son patrones alternativos de la misma configuración de quintilla.
 
 ### 9.2. `patrones_metricos`
 
@@ -277,12 +323,22 @@ Describe el comportamiento de las medidas dentro de una configuración:
 
 - `patron_metrico_id`;
 - `configuracion_id`;
-- `ambito`: unidad, estrofa, serie, sección o composición;
+- `nombre`, breve y necesario para distinguir varios patrones en una misma configuración;
+- `ambito`: estrofa, serie, sección o composición;
 - `tipo`: secuencia fija, conjunto permitido, secuencia repetible o abierta;
-- `longitud_minima`;
-- `longitud_maxima`;
 - `descripcion`;
 - `estado_revision`.
+
+El valor técnico legado `unidad` se conserva temporalmente para poder revisar la importación, pero no se ofrecerá para crear patrones nuevos. Toda aparición debe precisarse como estrofa, serie, sección o composición.
+
+`numero_versos` describe la extensión fija de una estrofa o composición simple. No se
+almacena para versos, series ni formas compuestas: en estas últimas, la extensión se obtiene
+de las secciones y sus repeticiones. La antigua `naturaleza_estrofica_id` no se conserva en
+la configuración, porque duplicaba el nivel estructural y mezclaba en un mismo eje estrofa,
+serie, composición, composición interna e irregularidad. En patrones posicionales, la
+longitud se calcula a partir de las posiciones: las obligatorias determinan el mínimo y el
+total de obligatorias y opcionales determina el máximo. No se almacena una segunda
+extensión en `patrones_metricos`.
 
 ### 9.3. `patron_metrico_posiciones`
 
@@ -290,7 +346,7 @@ Conserva el orden cuando existe:
 
 - `patron_metrico_id`;
 - `posicion`;
-- `metro_id`;
+- `metro_id` o `modelo_verso_id`, con una restricción de exclusividad;
 - `opcional`;
 - `grupo_repeticion`;
 - `alternativa`;
@@ -300,13 +356,37 @@ Para una sextilla manriqueña se podrán declarar posiciones ordenadas como `8, 
 
 Los metros podrán mantenerse inicialmente como catálogo controlado existente, pero deberán quedar tras una FK de dominio validada. En una fase posterior podrá valorarse extraer también `metro` de `vocabularios`.
 
-### 9.4. `patrones_rima`
+### 9.4. `modelos_verso` y `modelo_verso_segmentos`
+
+El número total de sílabas no basta para representar versos compuestos. `modelos_verso` describirá la estructura interna esperada:
+
+- `modelo_verso_id`;
+- `metro_id`, si existe un metro total normalizado;
+- `tipo`: simple o compuesto;
+- `silabas_totales`;
+- presencia y tipo de cesura;
+- patrón acentual, solo cuando sea necesario y observable;
+- descripción y estado de revisión.
+
+`modelo_verso_segmentos` conservará:
+
+- `modelo_verso_id`;
+- `posicion`;
+- `silabas`;
+- función, como primer o segundo hemistiquio;
+- pausa posterior;
+- alternativa y nota.
+
+Así puede distinguirse un dodecasílabo compuesto `6 + 6` de cualquier verso de doce sílabas sin convertir esa diferencia en texto libre. Este nivel es necesario, entre otros casos, para la copla de arte mayor.
+
+### 9.5. `patrones_rima`
 
 - `patron_rima_id`;
 - `configuracion_id`;
 - `esquema`;
 - `regimen_rima_id`;
 - `ambito`;
+- `comportamiento`: secuencia fija, secuencia repetible, restricciones combinatorias o distribución libre;
 - `fijeza`: fijo, admitido, preferente, libre o no aplicable;
 - `descripcion`;
 - `estado_revision`.
@@ -316,9 +396,43 @@ Convenciones mínimas:
 - letras iguales representan correspondencia de rima;
 - mayúsculas y minúsculas podrán codificar arte métrico solo si se conserva expresamente esa convención;
 - `-` o `X` representarán verso no rimado con una única política documentada;
-- el timbre asonante no se incrustará en la identidad de la forma.
+- las vocales concretas de una asonancia no se incrustarán en la identidad de la forma.
 
-### 9.5. `estructuras_secciones`
+`comportamiento` aporta la lógica computable y `fijeza` expresa el grado de obligatoriedad de esa lógica. El esquema textual queda como representación humana. Por ejemplo, el romance se almacena como ciclo repetible de dos posiciones —impar suelto y par en la clase `a`—, aunque se muestre como `-a-a-a…`.
+
+### 9.6. `patron_rima_posiciones`, `patron_rima_enlaces` y restricciones
+
+Un esquema de letras aislado no expresa todos los casos. `patron_rima_posiciones` permitirá declarar:
+
+- bloque, sección y posición;
+- ubicación de la rima: final o interior del verso;
+- clase funcional de rima;
+- verso suelto esperado;
+- opcionalidad y nota.
+
+`patron_rima_enlaces` expresará correspondencias entre posiciones:
+
+- posición de origen;
+- posición de destino o desplazamiento al bloque siguiente;
+- tipo de enlace;
+- obligatoriedad.
+
+Esto permite formalizar:
+
+- `ABA | BCB | CDC`, donde la rima central de un terceto pasa a las posiciones exteriores del siguiente;
+- la relación entre vuelta y estribillo en villancico o zéjel;
+- la rima del final de un verso con un grupo interior del siguiente en el endecasílabo suelto encadenado.
+
+`patron_rima_restricciones` conservará reglas combinatorias cerradas cuando la identidad no dependa de un único esquema, por ejemplo:
+
+- número de clases de rima;
+- máximo de versos consecutivos con la misma rima;
+- prohibición de pareado final;
+- admisión o exclusión de versos sueltos.
+
+No se introducirán porcentajes exactos para traducir expresiones como «mayoría». Esas expresiones se conservarán como modalidades cualitativas —definitoria, habitual, admitida o destacable— salvo que una fuente y un objetivo analítico justifiquen expresamente otra cosa.
+
+### 9.7. `estructuras_secciones`
 
 Necesaria para villancico, zéjel, sextina, canción y otras formas compuestas:
 
@@ -334,9 +448,14 @@ Necesaria para villancico, zéjel, sextina, canción y otras formas compuestas:
 - `patron_metrico_id`, si la sección tiene uno;
 - `patron_rima_id`, si la sección tiene uno.
 
+Cuando una sección tiene extensión o repetición fija, se almacena el mismo valor en el
+extremo mínimo y máximo. Esto mantiene una única representación capaz de expresar también
+intervalos reales: `3–3` significa tres versos; `2–4`, una extensión variable; y un máximo
+nulo, ausencia de límite superior. La interfaz solicita un solo número para el caso fijo.
+
 La relación recursiva se limitará a la estructura interna de una configuración y no sustituirá las familias.
 
-### 9.6. `patrones_repeticion`
+### 9.8. `patrones_repeticion`
 
 Representa repeticiones que no son reducibles al esquema de rima:
 
@@ -381,8 +500,9 @@ Ejemplos:
 - dístico final;
 - pareados intercalados;
 - rima interna encadenada;
-- timbre de asonancia;
-- irregularidad.
+- vocales de la asonancia, si se decide tratarlas como rasgo consultable.
+
+`Hipométrico`, `hipermétrico`, ruptura de rima o alteración de una sección no se modelarán automáticamente como rasgos. Son relaciones entre una realización y su configuración normativa y pertenecen a la capa de observaciones por rango.
 
 ### 10.2. `rasgo_valores`
 
@@ -400,8 +520,8 @@ Declara cómo interviene un rasgo en una configuración:
 
 - `configuracion_id`;
 - `rasgo_id` o `rasgo_valor_id`;
-- `modalidad`: requerido, admitido, preferente o excluido;
-- valor o umbral, cuando corresponda;
+- `modalidad`: definitorio, requerido, habitual, admitido, preferente o excluido;
+- valor normalizado, cuando corresponda;
 - fuente y nota.
 
 No se utilizará esta tabla como EAV general para tamaño, metros o rima: esas dimensiones conservan tablas específicas.
@@ -459,11 +579,13 @@ Permite indicar que toda una secuencia corresponde a una configuración:
 
 - `secuencia_id`;
 - `configuracion_id`;
-- `origen`: editor, migración o inferencia;
-- `certeza`;
 - `observaciones`.
 
 Debe validarse que la configuración pertenezca a la forma asignada.
+
+No se pedirán al editor certeza, estado de revisión ni confirmación separada. La selección se realiza como parte de la caracterización completa de la secuencia. La procedencia técnica de una fila migrada podrá conservarse automáticamente en la migración o en el historial, sin formar parte del formulario.
+
+Cuando una forma tenga una única configuración inequívoca, la interfaz podrá omitir la pregunta y el sistema resolverá esa configuración como norma efectiva, esté o no marcada como prototípica. Si existen alternativas relevantes, la selección será explícita.
 
 ### 12.3. `unidades_metricas`
 
@@ -479,35 +601,94 @@ Sustituirá conceptualmente los subtipos internos:
 
 Una unidad representa una realización interna: por ejemplo, una quintilla concreta dentro de una tirada de quintillas. No afirma que `ababa` sea una forma independiente.
 
-### 12.4. Observaciones específicas
+### 12.4. Convención de mundo cerrado
 
-Se recomiendan tablas explícitas:
+Una secuencia guardada se considera completamente caracterizada respecto de la forma y configuración seleccionadas:
+
+```text
+realización efectiva = configuración normativa + diferencias registradas
+```
+
+La ausencia de una diferencia significa conformidad con la norma. No significa pendiente, desconocido ni falta de revisión. En consecuencia:
+
+- no se crea una tabla de cobertura de revisión;
+- no se pide certeza editorial;
+- no se duplica en la secuencia todo lo que ya declara la configuración;
+- si cambia una norma, las secuencias afectadas se adaptan o invalidan mediante una migración o regeneración técnica.
+
+Cuando una secuencia no pueda describirse razonablemente desde una forma conocida, el editor utilizará una salida residual como `irregular`, en lugar de acumular un número arbitrario de desviaciones sobre una forma que ya no resulta reconocible.
+
+### 12.5. `secuencia_observaciones_metricas`
+
+Funcionará como cabecera común para localizar diferencias o rasgos destacables:
+
+- `observacion_metrica_id`;
+- `secuencia_id`;
+- `v_ini`;
+- `v_fin`;
+- `dimension`: medida, rima, estructura, repetición o rasgo;
+- `relacion_norma_id`, cuando la observación sea comparativa;
+- `observaciones`;
+- auditoría técnica automática.
+
+No constituye un vocabulario paralelo de irregularidades. Los detalles reutilizan las mismas entidades normalizadas que definen el catálogo.
+
+### 12.6. Detalles normalizados por dimensión
+
+Se utilizarán tablas explícitas enlazadas a `secuencia_observaciones_metricas`:
 
 - `secuencia_metros_observados`;
 - `secuencia_rima_observada`;
-- `secuencia_rasgos_observados`.
+- `secuencia_rasgos_observados`;
+- `secuencia_estructura_observada`;
+- `secuencia_repeticion_observada`.
 
-Todas podrán incluir:
+#### Medida
 
-- `secuencia_id`;
-- `v_ini` y `v_fin`;
-- valor observado;
-- `origen`;
-- `certeza`;
-- `observaciones`.
+`secuencia_metros_observados` podrá indicar:
 
-Esto permite distinguir:
+- `metro_observado_id` o medida exacta, si se conoce;
+- `relacion_norma`: menor, mayor o diferente, si solo se conoce la relación.
 
-- lo observado directamente;
-- lo inferido necesariamente desde la configuración;
-- lo desconocido;
-- lo meramente posible.
+Si la configuración espera ocho sílabas y el editor registra siete, `hipométrico` se deriva. Los casos legados que solo afirman hipometría o hipermetría se migrarán conservando `menor_que_norma` o `mayor_que_norma` y dejando la medida exacta sin inventar.
 
-Las caracterizaciones de rango actuales podrán reutilizarse o migrarse cuando su semántica coincida. No se debe crear un segundo sistema paralelo sin revisar primero sus categorías.
+#### Rima
+
+`secuencia_rima_observada` no exigirá reconstruir una nueva rima cuando el proyecto no almacena el texto ni todas las correspondencias. Podrá expresar:
+
+- falta una rima esperada;
+- aparece rima donde se esperaba verso suelto;
+- cambia el régimen asonante o consonante;
+- se rompe un esquema o encadenamiento;
+- existe otra diferencia respecto de la norma.
+
+El régimen, patrón o vocales de asonancia observados serán opcionales y solo se guardarán cuando el editor pueda sostenerlos. `Rima defectuosa` se sustituirá por la etiqueta descriptiva «Rima diferente de la esperada».
+
+#### Rasgos
+
+`secuencia_rasgos_observados` referenciará los mismos `rasgo_id` y `rasgo_valor_id` que `configuracion_rasgos`. Por ejemplo, `final_acentual_predominante = esdrujulo` podrá aplicarse a un rango sin crear un subtipo de soneto o terceto.
+
+#### Estructura y repetición
+
+Las observaciones de estructura o repetición podrán apuntar a secciones, posiciones o reglas del catálogo y declarar omisión, adición, sustitución o ruptura. El editor no reconstruirá el patrón completo: indicará el rango y la diferencia mínima que pueda afirmar.
+
+### 12.7. Relación con las caracterizaciones por rango actuales
+
+Se conserva la idea de localizar fenómenos mediante `v_ini` y `v_fin`, pero no dos modelos métricos:
+
+| Entrada actual | Destino |
+| --- | --- |
+| `hipometrico`, `hipermetrico` | Medida observada o relación con la norma. |
+| `rima_defectuosa` | Relación cualitativa con el patrón de rima. |
+| `mayoria_agudas`, `mayoria_esdrujulas` | Rasgos métricos observados normalizados. |
+| `cantado`, `prosa` | `secuencias_caracterizaciones_rango`, como fenómenos no métricos. |
+| `laguna` | Caracterización o incidencia textual por rango. |
+
+La interfaz podrá presentar observaciones métricas y otras caracterizaciones en un bloque coordinado, aunque cada dominio conserve integridad referencial propia.
 
 ## 13. Estados semánticos
 
-Para rasgos opcionales y restricciones se adoptarán estados explícitos:
+Para el catálogo, los rasgos opcionales y las restricciones adoptarán estados explícitos:
 
 - `declarado`;
 - `heredado` solo durante compatibilidad o cuando exista una regla formal;
@@ -516,21 +697,39 @@ Para rasgos opcionales y restricciones se adoptarán estados explícitos:
 - `no_aplica`;
 - `desconocido`.
 
-En el modelo nuevo se evitará que la herencia dependa simplemente de que un campo sea `null`.
+En el modelo nuevo se evitará que la herencia dependa simplemente de que un campo sea `null`. Estos estados describen el catálogo y sus fuentes; no introducen estados de revisión o certeza en el formulario de secuencias. En una secuencia guardada, la ausencia de una observación se interpreta según la convención de mundo cerrado del apartado 12.4.
 
 ## 14. Proyecciones y consumidores
 
 ### 14.1. Editor
 
-Contrato propuesto:
+El dominio tendrá dos superficies distintas.
+
+#### Administración del catálogo
+
+La administración se separará del editor genérico de `vocabularios`. Una ruta como `/dashboard/metrica` ofrecerá:
+
+- catálogo buscable de formas;
+- secciones de identidad, configuraciones, familias, tradiciones, relaciones y fuentes;
+- constructores específicos para posiciones métricas, rima, secciones y repeticiones;
+- descripción humana y grafo de previsualización;
+- validaciones e impacto sobre secuencias existentes;
+- guardado transaccional de la forma y sus configuraciones.
+
+El IP no editará filas o JSON directamente. La vista de grafo será secundaria: servirá para comprender y auditar, no como interfaz principal de escritura.
+
+#### Caracterización de secuencias
+
+Contrato mínimo:
 
 1. seleccionar forma;
-2. seleccionar configuración, si se conoce;
-3. registrar observaciones;
-4. añadir unidades internas cuando existan;
-5. revisar advertencias de compatibilidad sin bloquear borradores incompletos.
+2. seleccionar configuración solo cuando existan alternativas relevantes;
+3. añadir diferencias respecto de la configuración, si las hay;
+4. añadir unidades internas o rasgos destacables solo cuando proceda.
 
-El selector mostrará formas, no todas las entidades del catálogo. Las familias solo organizarán visualmente las opciones.
+El selector mostrará formas, no todas las entidades del catálogo. Las familias solo organizarán visualmente las opciones. El bloque «Diferencias respecto de la forma» permanecerá vacío y opcional por defecto; sus opciones se calcularán desde la configuración seleccionada para evitar mostrar todo el dominio.
+
+No se pedirá al editor que introduzca esquemas, enlaces de rima, secciones o repeticiones que ya estén formalizados en el catálogo.
 
 ### 14.2. Fichas públicas
 
@@ -550,6 +749,7 @@ Las facetas se separarán:
 
 - formas;
 - familias;
+- tradiciones;
 - metros observados o necesariamente implicados;
 - regímenes de rima;
 - configuraciones;
@@ -590,6 +790,35 @@ El artefacto incluirá:
 - fecha y responsable de publicación.
 
 La versión pública no cambiará con cada edición del catálogo. Solo cambiará mediante una acción de publicación.
+
+### 14.6. Grafos y redes
+
+PostgreSQL seguirá siendo la fuente de verdad. Las relaciones tipadas permitirán generar grafos para:
+
+- navegación por familias y tradiciones;
+- auditoría de nodos huérfanos, ciclos y contradicciones;
+- análisis de impacto de un cambio;
+- visualización de derivaciones o adaptaciones históricas;
+- redes derivadas de similitud formal.
+
+Las redes de similitud o influencia no se almacenarán como relaciones canónicas sin revisión. Se calcularán desde rasgos, configuraciones o fuentes y declararán su método. Para el tamaño inicial del catálogo no se necesita una base de datos de grafos.
+
+La interoperabilidad externa podrá resolverse mediante `referencias_externas` con entidad local, sistema, URI y relación —equivalencia exacta, aproximada, término más amplio o más estrecho—. Esto permitirá mapear a POSTDATA, TEI u otros repertorios y exportar JSON-LD o RDF sin sustituir el modelo relacional.
+
+### 14.7. Análisis, autoría y datación
+
+La convención de mundo cerrado permite derivar perfiles reproducibles:
+
+- distribución de formas y configuraciones;
+- transiciones entre formas;
+- frecuencia de rasgos;
+- desviaciones de medida, rima, estructura o repetición respecto de cada configuración;
+- posición y concentración de las diferencias;
+- tasas sobre los versos o unidades de la secuencia.
+
+La ausencia de una observación en una secuencia guardada contará como conformidad, no como dato pendiente. No se añadirán campos editoriales de certeza o revisión. Los cambios posteriores de norma deberán invalidar o recalcular técnicamente las proyecciones afectadas.
+
+Estos rasgos podrán alimentar modelos de atribución o datación, pero no garantizan por sí solos una conclusión: deberán controlarse forma, género, extensión, cronología y dependencia entre secuencias de una misma obra. La evaluación separará obras completas entre entrenamiento y prueba. Sin texto, el modelo describirá la señal métrica estructurada, no elecciones léxicas ni terminaciones fónicas no anotadas.
 
 ## 15. Datos derivados e invalidación
 
@@ -639,7 +868,7 @@ La base necesitará dos tablas temporales o permanentes de trazabilidad:
 - clasificación de origen;
 - decisión;
 - estado de revisión;
-- certeza;
+- certeza de la correspondencia técnica, no de la anotación editorial;
 - notas.
 
 `migracion_termino_destinos`
@@ -649,6 +878,7 @@ La base necesitará dos tablas temporales o permanentes de trazabilidad:
 - `configuracion_id`;
 - `patron_rima_id`;
 - `rasgo_id`;
+- `tradicion_id`, cuando una etiqueta legada se transforme en relación histórica;
 - tipo de operación: conservar, fusionar, transformar, retirar o revisar.
 
 Esto es necesario porque `soneto_de_esdrújulos`, por ejemplo, se transforma en la forma soneto y un rasgo, no en un único registro equivalente.
@@ -681,6 +911,7 @@ Se generará un informe con:
 - secuencias que apuntan a raíces, hijos o entradas pendientes;
 - número y rango de `secuencias_subtipos_estrofa`;
 - caracterizaciones por rango relacionadas con métrica;
+- correspondencia de `hipometrico`, `hipermetrico`, `rima_defectuosa` y finales acentuales con las observaciones normalizadas;
 - referencias huérfanas o inconsistentes;
 - obras afectadas por cada regla de reclasificación.
 
@@ -692,7 +923,7 @@ Ese informe será la línea base de aceptación de la migración.
 
 - revisar la matriz de 119 entradas;
 - inventariar todas las anotaciones reales y hacer copia de seguridad;
-- aprobar qué es forma, familia, configuración, patrón, rasgo, alias o residual;
+- aprobar qué es forma, familia, tradición, configuración, patrón, rasgo, alias o residual;
 - resolver las decisiones marcadas con certeza baja;
 - aprobar vocabulario de relaciones y estados.
 
@@ -707,9 +938,14 @@ Criterio de salida: las 119 entradas tienen destino aprobado o una excepción ex
 
 Criterio de salida: el catálogo nuevo puede editarse y validarse en paralelo.
 
+Estado en `develop`: el dashboard permite mantener formas, configuraciones,
+familias, tradiciones, alias, relaciones, modelos de verso, patrones métricos,
+patrones de rima, secciones, repeticiones, rasgos y fuentes. La matriz inicial
+queda como trazabilidad secundaria y no condiciona la validación del catálogo.
+
 ### Fase 2 — importación del catálogo
 
-- insertar formas y familias;
+- insertar formas, familias y tradiciones;
 - crear configuraciones, patrones y rasgos;
 - cargar fuentes disponibles;
 - generar correspondencias;
@@ -723,6 +959,8 @@ Criterio de salida: ninguna entrada legada queda sin destino.
 - backfill de secuencias;
 - transformar hijos que eran patrones o rasgos;
 - migrar `secuencias_subtipos_estrofa` a unidades/configuraciones;
+- migrar irregularidades métricas por rango a observaciones normalizadas sin inventar valores exactos;
+- conservar `cantado`, `prosa` y `laguna` en su dominio general;
 - producir informes de discrepancias.
 
 Criterio de salida:
@@ -736,7 +974,7 @@ Criterio de salida:
 ### Fase 4 — editor
 
 - sustituir el selector de vocabulario por el selector del dominio;
-- añadir configuración y observaciones;
+- añadir configuración y el bloque opcional de diferencias;
 - eliminar la excepción específica de quintilla;
 - mantener lectura de registros legados durante la transición.
 
@@ -776,10 +1014,10 @@ Casos mínimos:
 1. Copla real con 8 sílabas.
 2. Copla real con 8 y 4 sílabas.
 3. Quintilla con unidades internas de varios esquemas.
-4. Romance con timbre asonante sin crear una nueva forma.
+4. Romance con vocales de asonancia normalizadas sin crear una nueva forma.
 5. Soneto con finales esdrújulos.
 6. Sextilla manriqueña con patrón ordenado.
-7. Silva con datos parcialmente desconocidos.
+7. Silva con una diferencia cualitativa respecto de la rima, sin porcentaje artificial.
 8. Villancico con secciones.
 9. Sextina como composición 6 × 6 + 3.
 10. Forma residual irregular sin competir como candidata normal.
@@ -789,6 +1027,13 @@ Casos mínimos:
 14. Igualdad exacta de obra, `v_ini`, `v_fin` y `n_versos`.
 15. Toda asignación legada puede trazarse hasta sus destinos nuevos.
 16. Todos los subtipos internos conservan su rango como unidad o incidencia revisable.
+17. Verso de medida exacta distinta del patrón, con hipometría o hipermetría derivada.
+18. Verso legado marcado solo como hipométrico, sin inventar su número de sílabas.
+19. Rima diferente de la esperada sin exigir terminación o esquema no documentados.
+20. Secuencia sin observaciones interpretada como plenamente conforme con su configuración.
+21. Tercetos `ABA | BCB | CDC` cuyo enlace persiste entre unidades.
+22. Copla de arte mayor con hemistiquios y cesura modelados.
+23. Forma vinculada a tradiciones italiana y española sin herencia estructural.
 
 ## 20. Riesgos
 
@@ -801,6 +1046,9 @@ Casos mínimos:
 | Arrastrar errores de resúmenes de prueba | Descartarlos y regenerarlos desde el modelo nuevo. |
 | Convertir rasgos en EAV incontrolado | Tablas específicas para dimensiones centrales y catálogo cerrado de rasgos. |
 | Hacer el editor demasiado complejo | Divulgación progresiva: forma primero, detalles opcionales después. |
+| Interpretar una ausencia como dato pendiente | Documentar y aplicar de forma uniforme la convención de mundo cerrado. |
+| Inventar precisión en datos legados | Conservar relaciones cualitativas cuando no exista medida o rima exacta. |
+| Cambiar una norma y reinterpretar silenciosamente secuencias | Invalidación o migración técnica de las proyecciones y anotaciones afectadas. |
 
 ## 21. Decisiones pendientes del IP
 
@@ -809,7 +1057,7 @@ Casos mínimos:
 - Política octava real / octava real regular.
 - Tratamiento de copla real con pie quebrado.
 - Alcance de “copla de pie quebrado”.
-- Identidad de las variantes de silva y sus umbrales.
+- Identidad y definición cualitativa de las variantes de silva.
 - Redondilla cruzada frente a cuarteta.
 - Si los metros de romancillo constituyen formas o configuraciones.
 - Tratamiento de terceto octosílabo.

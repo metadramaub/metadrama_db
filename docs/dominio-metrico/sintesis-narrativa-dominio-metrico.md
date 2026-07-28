@@ -1,0 +1,87 @@
+# Hacia un dominio métrico propio en METADRAMA
+
+El punto de partida de esta propuesta es un problema que se hizo visible al
+intentar construir el demarcador de formas estróficas. El vocabulario actual
+contiene mucha información valiosa, pero reúne bajo una misma jerarquía
+realidades de naturaleza distinta. En ella conviven formas métricas propiamente
+dichas, variantes de una forma, patrones de rima, denominaciones históricas,
+tradiciones nacionales y rasgos que pueden aparecer en muchas formas. Esta
+mezcla no solo dificulta decidir qué debe considerarse padre o hijo: también
+obliga al demarcador a comparar elementos que no se encuentran en el mismo
+nivel y complica los filtros y análisis posteriores.
+
+Por eso, la propuesta no consiste simplemente en añadir más campos al
+vocabulario existente, sino en reconocer que la métrica necesita un dominio
+propio. En ese dominio, una forma —por ejemplo, el romance, el soneto o la
+copla real— se describe mediante una configuración normativa: cuántos versos
+tiene, qué medidas admite, cómo se organiza internamente, qué tipo de rima
+emplea y qué relaciones se establecen entre sus versos o entre sus estrofas.
+Junto a esa norma pueden registrarse configuraciones alternativas, variantes
+históricas, nombres equivalentes, tradiciones y fuentes bibliográficas. De este
+modo, cada dato ocupa un lugar preciso y deja de ser necesario crear una nueva
+«subforma» cada vez que cambia un único rasgo.
+
+Esta separación permite distinguir mejor varios conceptos que hasta ahora
+aparecían mezclados. Una familia sirve para agrupar formas estructuralmente
+relacionadas; una tradición, como la italiana o la española, indica un contexto
+de origen, adaptación o uso, pero no convierte automáticamente una forma en
+hija de otra. Un patrón de rima describe una organización, mientras que un
+rasgo como el pie quebrado, el verso agudo o la asonancia en unas vocales
+determinadas puede formar parte de distintas configuraciones. Algunas formas,
+además, exigen representar relaciones más complejas: versos compuestos con
+hemistiquios, rimas que enlazan una estrofa con la siguiente o restricciones
+que permiten varios esquemas válidos sin reducirlos a una única cadena fija.
+
+La riqueza del modelo no implica, sin embargo, que el editor tenga que rellenar
+muchos más datos al describir una secuencia. La complejidad se concentra en el
+catálogo de formas, que se prepara y revisa previamente. Cuando el editor
+selecciona una forma, el sistema ya conoce su comportamiento normal. Su tarea
+consiste ante todo en indicar dónde la secuencia concreta se aparta de esa
+norma. Si una copla que debería tener versos octosílabos presenta uno de siete
+sílabas, se registra esa diferencia y su extensión; si la rima se incumple en
+un tramo, se señala la desviación sin obligar a inventar una nueva rima cuando
+el texto no se transcribe. También pueden anotarse alteraciones estructurales o
+rasgos especialmente relevantes. Si no se consigna ninguna diferencia, se
+entiende que la secuencia cumple la configuración seleccionada. No se añaden
+campos de certeza, revisión o pendiente: la secuencia se guarda completa y lo
+no señalado se considera conforme a la norma.
+
+Este planteamiento conserva lo útil del registro actual de irregularidades,
+pero lo hace más preciso. Las desviaciones métricas dejan de depender de
+descripciones aisladas y reutilizan los mismos conceptos normalizados con los
+que se define la forma: medidas, rimas, posiciones, estructuras y rasgos. Las
+caracterizaciones por rango que no son estrictamente métricas —por ejemplo,
+prosa, canto o laguna— pueden seguir existiendo en su ámbito general. Así se
+evita forzar todos los fenómenos dentro de una única tabla y, al mismo tiempo,
+se mantiene una interfaz sencilla.
+
+El demarcador se beneficia directamente de esta organización. En lugar de
+recorrer una jerarquía rígida de padres e hijos, trabaja con las propiedades
+efectivas de cada configuración y formula solo preguntas que el editor puede
+responder con facilidad. Cada respuesta descarta incompatibilidades y conserva
+como indeterminadas las formas sobre las que todavía faltan datos. «No sé»
+sigue siendo una respuesta válida durante la búsqueda; no equivale a afirmar
+ni a negar un rasgo. Las preguntas pueden ordenarse según su capacidad real
+para separar las candidatas restantes, por lo que el recorrido se adapta a
+cada caso. La inteligencia principal del sistema procede de datos bien
+estructurados y de reglas transparentes. Un pequeño modelo de inteligencia
+artificial podría ayudar más adelante a interpretar una descripción libre o
+proponer preguntas, pero no debería sustituir ni ocultar este razonamiento.
+
+La base de datos seguirá siendo la fuente de verdad. A partir de ella podrán
+generarse automáticamente una versión optimizada para el demarcador, las
+fichas públicas y las redes de relaciones entre formas. Estos productos serán
+instantáneas regenerables, no copias que haya que mantener manualmente. Esto
+permitirá corregir o ampliar el catálogo sin que el demarcador quede
+desactualizado y hará posible mostrar gráficamente familias, tradiciones,
+variantes y semejanzas sin confundir unas relaciones con otras.
+
+La transformación debe hacerse de forma gradual y reversible, porque las
+anotaciones existentes en las obras son datos reales. Primero se construirá y
+revisará el nuevo catálogo; después se establecerá para cada término actual si
+corresponde a una forma, una configuración, un rasgo, un alias, una tradición
+o un concepto que debe conservarse únicamente como histórico. Solo entonces
+se migrarán las secuencias, manteniendo la referencia de procedencia y
+comprobando los casos ambiguos. El resultado será un sistema más fiel a la
+teoría métrica, más fácil de usar para los editores y mucho más sólido para la
+búsqueda, la comparación y futuros análisis computacionales.
