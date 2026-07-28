@@ -40,20 +40,20 @@
 		});
 	});
 
-	const resumenRevision = $derived.by(() => {
-		const revisadas = data.auditoria.familias.filter(
+	const resumenPoliticas = $derived.by(() => {
+		const guardadas = data.auditoria.familias.filter(
 			(familia: FamiliaAuditoria) => Boolean(politicaGuardada(familia))
 		).length;
 		return {
-			revisadas,
-			sinRevisar: data.auditoria.familias.length - revisadas
+			guardadas,
+			pendientes: data.auditoria.familias.length - guardadas
 		};
 	});
 
 	function politicaLabel(politica: PoliticaFamiliaDemarcador | null): string {
 		if (politica === 'familia') return 'Solo familia';
 		if (politica === 'variantes') return 'Distinguir variantes';
-		return 'Sin revisar';
+		return 'Política pendiente';
 	}
 
 	function politicaGuardada(
@@ -123,22 +123,25 @@
 
 	<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
 		<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-			<p class="text-xs text-[color:var(--muted-foreground)]">Familias con hijos</p>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Familias raíz con hijos activos</p>
 			<p class="mt-1 text-2xl font-semibold">{data.auditoria.resumen.familias}</p>
 		</div>
 		<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-			<p class="text-xs text-[color:var(--muted-foreground)]">Revisadas</p>
-			<p class="mt-1 text-2xl font-semibold">{resumenRevision.revisadas}</p>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Con política guardada</p>
+			<p class="mt-1 text-2xl font-semibold">{resumenPoliticas.guardadas}</p>
 		</div>
 		<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-			<p class="text-xs text-[color:var(--muted-foreground)]">Sin revisar</p>
-			<p class="mt-1 text-2xl font-semibold">{resumenRevision.sinRevisar}</p>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Con política pendiente</p>
+			<p class="mt-1 text-2xl font-semibold">{resumenPoliticas.pendientes}</p>
 		</div>
 		<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-			<p class="text-xs text-[color:var(--muted-foreground)]">Familias con avisos</p>
+			<p class="text-xs text-[color:var(--muted-foreground)]">Con avisos en los datos</p>
 			<p class="mt-1 text-2xl font-semibold">{data.auditoria.resumen.conAvisos}</p>
 		</div>
 	</div>
+	<p class="-mt-3 text-xs text-[color:var(--muted-foreground)]">
+		Guardar una política no resuelve ni oculta los avisos de la familia.
+	</p>
 
 	<div class="grid gap-3 border-y border-[color:var(--border)] py-4 lg:grid-cols-2">
 		<div>
@@ -175,7 +178,7 @@
 			>
 				<option value="todas">Todas las familias</option>
 				<option value="avisos">Con avisos de fuente</option>
-				<option value="sin_revisar">Sin revisar</option>
+				<option value="sin_revisar">Con política pendiente</option>
 			</select>
 		</label>
 	</div>
@@ -288,7 +291,7 @@
 								};
 							}}
 						>
-							<option value="" disabled>Sin revisar</option>
+							<option value="" disabled>Política pendiente</option>
 							<option value="familia">Solo familia</option>
 							<option value="variantes">Distinguir variantes</option>
 						</select>
