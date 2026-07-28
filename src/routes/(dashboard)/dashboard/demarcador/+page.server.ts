@@ -20,21 +20,28 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 		throw error(403, 'Solo admin o IP pueden revisar la configuración del demarcador.');
 	}
 
-	const [estrofasResp, opcionesResp, relacionesResp, configuracionesResp] = await Promise.all([
-		locals.supabase
-			.from('vocabularios')
-			.select(estrofaSelect)
-			.eq('categoria', 'estrofa_tipo')
-			.eq('activo', true)
-			.order('orden', { ascending: true })
-			.order('termino', { ascending: true }),
-		locals.supabase
-			.from('vocabularios')
-			.select('termino_id,termino,etiqueta,numero_silabas')
-			.in('categoria', ['tipo_rima', 'naturaleza_estrofica', 'metro']),
-		locals.supabase.from('estrofa_tipo_metros').select('estrofa_tipo_id,metro_id'),
-		locals.supabase.from('demarcador_familias_config').select('familia_id,politica,revisado_en')
-	]);
+	const [estrofasResp, opcionesResp, relacionesResp, configuracionesResp, versionesResp] =
+		await Promise.all([
+			locals.supabase
+				.from('vocabularios')
+				.select(estrofaSelect)
+				.eq('categoria', 'estrofa_tipo')
+				.eq('activo', true)
+				.order('orden', { ascending: true })
+				.order('termino', { ascending: true }),
+			locals.supabase
+				.from('vocabularios')
+				.select('termino_id,termino,etiqueta,numero_silabas')
+				.in('categoria', ['tipo_rima', 'naturaleza_estrofica', 'metro']),
+			locals.supabase.from('estrofa_tipo_metros').select('estrofa_tipo_id,metro_id'),
+			locals.supabase.from('demarcador_familias_config').select('familia_id,politica,revisado_en'),
+			locals.supabase
+				.from('demarcador_versiones')
+				.select(
+					'version_id,numero,estado,fuente_actualizada_en,total_familias,total_familias_variantes,total_variantes_demarcables,generado_en,publicado_en'
+				)
+				.order('generado_en', { ascending: false })
+		]);
 
 	if (estrofasResp.error) {
 		throw error(500, `No se pudieron cargar las formas estróficas: ${estrofasResp.error.message}`);
@@ -55,9 +62,16 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 			`No se pudo cargar la revisión del demarcador: ${configuracionesResp.error.message}`
 		);
 	}
+	if (versionesResp.error) {
+		throw error(
+			500,
+			`No se pudieron cargar las versiones del demarcador: ${versionesResp.error.message}`
+		);
+	}
 
 	return {
 		profile,
+		versiones: versionesResp.data ?? [],
 		auditoria: construirAuditoriaDemarcador({
 			estrofas: (estrofasResp.data ?? []) as EstrofaFuenteAuditoria[],
 			opciones: (opcionesResp.data ?? []) as OpcionFuenteAuditoria[],

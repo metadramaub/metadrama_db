@@ -572,6 +572,75 @@ export type Database = {
           },
         ]
       }
+      demarcador_versiones: {
+        Row: {
+          artefacto: Json
+          esquema: number
+          estado: string
+          fuente_actualizada_en: string | null
+          generado_en: string
+          generado_por: string | null
+          huella_fuente: string
+          numero: number
+          publicado_en: string | null
+          publicado_por: string | null
+          total_familias: number
+          total_familias_variantes: number
+          total_variantes_demarcables: number
+          updated_at: string
+          version_id: string
+        }
+        Insert: {
+          artefacto: Json
+          esquema?: number
+          estado?: string
+          fuente_actualizada_en?: string | null
+          generado_en?: string
+          generado_por?: string | null
+          huella_fuente: string
+          numero?: number
+          publicado_en?: string | null
+          publicado_por?: string | null
+          total_familias: number
+          total_familias_variantes: number
+          total_variantes_demarcables: number
+          updated_at?: string
+          version_id?: string
+        }
+        Update: {
+          artefacto?: Json
+          esquema?: number
+          estado?: string
+          fuente_actualizada_en?: string | null
+          generado_en?: string
+          generado_por?: string | null
+          huella_fuente?: string
+          numero?: number
+          publicado_en?: string | null
+          publicado_por?: string | null
+          total_familias?: number
+          total_familias_variantes?: number
+          total_variantes_demarcables?: number
+          updated_at?: string
+          version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "demarcador_versiones_generado_por_fkey"
+            columns: ["generado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "demarcador_versiones_publicado_por_fkey"
+            columns: ["publicado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       grupos_atribucion: {
         Row: {
           created_at: string
@@ -1206,6 +1275,10 @@ export type Database = {
     }
     Functions: {
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
+      publicar_demarcador_version: {
+        Args: { p_version_id: string }
+        Returns: Database["public"]["Tables"]["demarcador_versiones"]["Row"]
+      }
       get_obra_comentarios_publicos: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json

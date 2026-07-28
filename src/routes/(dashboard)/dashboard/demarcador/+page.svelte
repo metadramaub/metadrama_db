@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import type {
 		FamiliaAuditoria,
 		PoliticaFamiliaDemarcador,
@@ -8,6 +9,7 @@
 
 	type AuditorPageData = {
 		auditoria: ResultadoAuditoria;
+		versiones: VersionDemarcador[];
 	};
 
 	let { data } = $props<{ data: AuditorPageData }>();
@@ -17,6 +19,17 @@
 		familia_id: string;
 		politica: PoliticaFamiliaDemarcador;
 	};
+	type VersionDemarcador = {
+		version_id: string;
+		numero: number;
+		estado: string;
+		fuente_actualizada_en: string | null;
+		total_familias: number;
+		total_familias_variantes: number;
+		total_variantes_demarcables: number;
+		generado_en: string;
+		publicado_en: string | null;
+	};
 
 	let busqueda = $state('');
 	let filtro = $state<FiltroRevision>('todas');
@@ -24,6 +37,10 @@
 	let errorGuardado = $state('');
 	let politicasGuardadas = $state<Record<string, PoliticaFamiliaDemarcador>>({});
 	let politicasBorrador = $state<Record<string, PoliticaFamiliaDemarcador | ''>>({});
+	let versiones = $state<VersionDemarcador[]>(untrack(() => data.versiones));
+	let generandoVersion = $state(false);
+	let publicandoVersionId = $state<string | null>(null);
+	let errorVersion = $state('');
 
 	const familiasFiltradas = $derived.by(() => {
 		const termino = busqueda.trim().toLocaleLowerCase('es');
@@ -60,6 +77,10 @@
 				Boolean(politicaBorrador(familia)) && estaModificada(familia)
 		)
 	);
+	const versionPublicada = $derived(
+		versiones.find((version) => version.estado === 'publicada') ?? null
+	);
+	const ultimaVersion = $derived(versiones[0] ?? null);
 
 	function politicaLabel(politica: PoliticaFamiliaDemarcador | null): string {
 		if (politica === 'familia') return 'Solo familia';
@@ -121,6 +142,76 @@
 			guardandoPoliticas = false;
 		}
 	}
+
+	async function generarVersion() {
+		if (
+			generandoVersion ||
+			resumenPoliticas.pendientes > 0 ||
+			familiasModificadas.length > 0
+		) {
+			return;
+		}
+		generandoVersion = true;
+		errorVersion = '';
+		try {
+			const response = await fetch('/api/demarcador/versiones', { method: 'POST' });
+			const payload = await response.json().catch(() => ({}));
+			if (!response.ok) {
+				throw new Error(payload.message ?? 'No se pudo generar la vista previa.');
+			}
+			const version = payload.version as VersionDemarcador;
+			versiones = [
+				version,
+				...versiones.filter((item) => item.version_id !== version.version_id)
+			];
+			pushToast(
+				'success',
+				payload.reutilizada
+					? `La versión ${version.numero} ya estaba actualizada.`
+					: `Se ha generado la versión ${version.numero}.`
+			);
+		} catch (error) {
+			errorVersion =
+				error instanceof Error ? error.message : 'No se pudo generar la vista previa.';
+		} finally {
+			generandoVersion = false;
+		}
+	}
+
+	async function publicarVersion(version: VersionDemarcador) {
+		if (publicandoVersionId || version.estado === 'publicada') return;
+		if (
+			!window.confirm(
+				`¿Publicar la versión ${version.numero}? Sustituirá al demarcador público actual.`
+			)
+		) {
+			return;
+		}
+		publicandoVersionId = version.version_id;
+		errorVersion = '';
+		try {
+			const response = await fetch(
+				`/api/demarcador/versiones/${version.version_id}/publicar`,
+				{ method: 'POST' }
+			);
+			const payload = await response.json().catch(() => ({}));
+			if (!response.ok) {
+				throw new Error(payload.message ?? 'No se pudo publicar la versión.');
+			}
+			const publicada = payload.version as VersionDemarcador;
+			versiones = versiones.map((item) => {
+				if (item.version_id === publicada.version_id) return publicada;
+				if (item.estado === 'publicada') return { ...item, estado: 'archivada' };
+				return item;
+			});
+			pushToast('success', `Se ha publicado la versión ${publicada.numero}.`);
+		} catch (error) {
+			errorVersion =
+				error instanceof Error ? error.message : 'No se pudo publicar la versión.';
+		} finally {
+			publicandoVersionId = null;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -138,7 +229,7 @@
 		<p class="max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
 			Revisa qué familias pueden demarcarse como una sola forma y cuáles tienen variantes
 			distinguibles. Las sugerencias se calculan desde los datos actuales, pero solo la política
-			revisada por el IP se utilizará en la futura exportación.
+			revisada por el IP se utiliza al generar una versión.
 		</p>
 	</header>
 
@@ -180,6 +271,94 @@
 			</p>
 		</div>
 	</div>
+
+	<section class="border border-[color:var(--border)] bg-[color:var(--card)] p-4 sm:p-5">
+		<div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.12em] text-[color:var(--muted-foreground)]">
+					Versión precomputada
+				</p>
+				<h2 class="mt-1 text-lg font-semibold">Vista previa y publicación</h2>
+				<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
+					Generar crea una instantánea revisable desde los vocabularios y políticas guardados.
+					El demarcador público solo cambia al publicar expresamente una versión.
+				</p>
+			</div>
+			<button
+				type="button"
+				class="h-10 shrink-0 bg-[color:var(--foreground)] px-5 text-sm font-medium text-[color:var(--background)] disabled:cursor-not-allowed disabled:opacity-40"
+				disabled={generandoVersion ||
+					resumenPoliticas.pendientes > 0 ||
+					familiasModificadas.length > 0}
+				onclick={generarVersion}
+			>
+				{generandoVersion ? 'Generando…' : 'Generar vista previa'}
+			</button>
+		</div>
+
+		{#if resumenPoliticas.pendientes > 0}
+			<p class="mt-4 text-sm text-amber-800">
+				No se puede generar: quedan {resumenPoliticas.pendientes} políticas pendientes.
+			</p>
+		{:else if familiasModificadas.length > 0}
+			<p class="mt-4 text-sm text-amber-800">
+				Guarda primero los cambios de política.
+			</p>
+		{/if}
+		{#if errorVersion}
+			<p class="mt-4 text-sm text-red-700">{errorVersion}</p>
+		{/if}
+
+		{#if ultimaVersion}
+			<div class="mt-5 grid gap-4 border-t border-[color:var(--border)] pt-4 lg:grid-cols-[minmax(0,1fr)_auto]">
+				<div>
+					<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+						<p class="font-medium">Versión {ultimaVersion.numero}</p>
+						<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+							{ultimaVersion.estado}
+						</span>
+					</div>
+					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+						{ultimaVersion.total_familias} familias ·
+						{ultimaVersion.total_familias_variantes} con variantes demarcables ·
+						{ultimaVersion.total_variantes_demarcables} variantes
+					</p>
+					<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+						Generada {new Date(ultimaVersion.generado_en).toLocaleString('es-ES')}
+						{#if versionPublicada}
+							· Publicada actualmente: versión {versionPublicada.numero}
+						{/if}
+					</p>
+				</div>
+				<div class="flex flex-wrap gap-2">
+					<a
+						class="inline-flex h-10 items-center border border-[color:var(--border)] px-4 text-sm font-medium"
+						href={`/demarcador?version=${ultimaVersion.version_id}`}
+						target="_blank"
+						rel="noreferrer"
+					>
+						Abrir vista previa
+					</a>
+					<button
+						type="button"
+						class="h-10 bg-[color:var(--foreground)] px-4 text-sm font-medium text-[color:var(--background)] disabled:cursor-not-allowed disabled:opacity-40"
+						disabled={ultimaVersion.estado === 'publicada' || Boolean(publicandoVersionId)}
+						onclick={() => publicarVersion(ultimaVersion)}
+					>
+						{publicandoVersionId === ultimaVersion.version_id
+							? 'Publicando…'
+							: ultimaVersion.estado === 'publicada'
+								? 'Versión publicada'
+								: 'Publicar versión'}
+					</button>
+				</div>
+			</div>
+		{:else}
+			<p class="mt-5 border-t border-[color:var(--border)] pt-4 text-sm text-[color:var(--muted-foreground)]">
+				Todavía no se ha generado ninguna versión.
+			</p>
+		{/if}
+	</section>
 
 	<div class="flex flex-col gap-3 sm:flex-row">
 		<label class="flex-1">
