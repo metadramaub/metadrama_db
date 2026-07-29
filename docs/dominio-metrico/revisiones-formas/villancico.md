@@ -1,63 +1,149 @@
 # Villancico
 
-Estado: revisado, con dudas de alcance · 29 de julio de 2026
+Estado: revisado, con dudas acotadas · 29 de julio de 2026
 
 ## Decisión
 
-Una forma compuesta y una configuración habitual. Cabeza, mudanza, enlace o vuelta y
-estribillo son secciones, no subformas. «Enlace» y «vuelta» designan en el proyecto una
-misma función, no dos secciones acumulables. La repetición del estribillo se formaliza
-aparte de la rima.
+El villancico es una forma compuesta articulada por coplas y un estribillo. `Cabeza`,
+`estribillo` y `represa` no son tres formas:
+
+- **estribillo** nombra la unidad por su función recurrente;
+- **cabeza** nombra su primera aparición solo cuando abre la composición;
+- **represa** nombra cada aparición posterior, total o parcial.
+
+Por ello se reconocen dos configuraciones según la posición de la primera aparición del
+estribillo. La copla no contiene el estribillo: copla y represa son secciones hermanas
+dentro de un ciclo repetible.
 
 ## Formalización
 
 | Elemento | Valor |
 | --- | --- |
 | Forma | `villancico` · compuesta |
-| Configuración | `estructura_habitual` |
+| Configuración 1 | `estribillo_inicial` · cabeza → ciclos de copla y represa |
+| Configuración 2 | `estribillo_tras_primera_copla` · primera copla → estribillo → ciclos posteriores |
 | Metro | 6 u 8 sílabas, sin orden fijo |
-| Cabeza | opcional · 2-4 versos |
-| Copla | una o más |
-| Mudanza | 4 versos · normalmente `abba` o `abab` |
-| Enlace o vuelta | opcional · uno o más versos |
-| Estribillo | repetición total, parcial o implícita |
+| Mudanza | 4 versos · `abba` o `abab` entre las posibilidades reconocidas |
+| Enlace o vuelta | sección opcional de la copla |
+| Represa | total, parcial o implícita |
 
-La copla agrupa mudanza, enlace o vuelta y estribillo. Los esquemas `abba` y `abab` son
-patrones locales alternativos de la mudanza. La relación de rima que articula el paso de
-la mudanza a la cabeza se guarda como una restricción estructurada.
+En ambas configuraciones, la copla contiene la mudanza y el posible enlace o vuelta. El
+patrón de rima se responde en cada mudanza. La represa se responde en el ciclo: la opción
+total crea una sección con la extensión de la primera aparición del estribillo; la parcial
+crea una sección cuya longitud indica el editor; la implícita no inventa versos.
 
-En el editor, la copla actúa como contenedor repetible y no como destino indiferenciado de
-sus preguntas. El patrón se responde en la mudanza. La existencia de enlace o vuelta se
-registra añadiendo esa única sección, sin un segundo campo booleano. La recuperación del
-estribillo sí se responde en la copla: total y parcial materializan versos; implícita no
-crea un rango.
+La segunda configuración también admite que no haya un ciclo posterior. Elegirla equivale
+a afirmar que la sección situada después de la primera copla cumple la función de
+estribillo por una rúbrica, indicación musical u otra evidencia. Una sección final aislada
+no se clasifica automáticamente como estribillo: puede ser cierre, remate o epílogo.
 
-## Demarcador
+## Ejemplo de almacenamiento definitivo: estribillo inicial
 
-Debe reconocer la combinación de cabeza o estribillo y coplas con mudanza y vuelta. No
-necesita pedir al editor que delimite todas las secciones para identificar la forma. La
-diferencia con el zéjel se precisará al revisar este último.
+Villancico de diez versos: cabeza de tres, una copla con mudanza `abab`, un verso de enlace
+o vuelta y represa parcial de dos versos.
+
+### `secuencias_metricas`
+
+| secuencia_id | obra_id | v_ini | v_fin | n_versos | forma_metrica_id |
+| --- | --- | ---: | ---: | ---: | --- |
+| `SEC-VIL-1` | `OBRA-1` | 1 | 10 | 10 | `villancico` |
+
+### `secuencia_configuraciones`
+
+| secuencia_id | configuracion_id | observaciones |
+| --- | --- | --- |
+| `SEC-VIL-1` | `estribillo_inicial` | `NULL` |
+
+### `unidades_metricas`
+
+| unidad_id | secuencia_id | unidad_padre_id | seccion_id | orden | v_ini | v_fin |
+| --- | --- | --- | --- | ---: | ---: | ---: |
+| `CAB-1` | `SEC-VIL-1` | `NULL` | `cabeza` | 1 | 1 | 3 |
+| `CIC-1` | `SEC-VIL-1` | `NULL` | `ciclo_copla` | 2 | 4 | 10 |
+| `COP-1` | `SEC-VIL-1` | `CIC-1` | `copla` | 3 | 4 | 8 |
+| `MUD-1` | `SEC-VIL-1` | `COP-1` | `mudanza` | 4 | 4 | 7 |
+| `ENV-1` | `SEC-VIL-1` | `COP-1` | `enlace_vuelta` | 5 | 8 | 8 |
+| `REP-1` | `SEC-VIL-1` | `CIC-1` | `represa` | 6 | 9 | 10 |
+
+`COP-1` y `REP-1` son hermanas. `CIC-1` calcula su rango a partir de ambas; `COP-1`, a
+partir de la mudanza y el enlace o vuelta.
+
+### `secuencia_elecciones_metricas`
+
+| secuencia_id | unidad_id | grupo_eleccion_id | opcion_eleccion_id |
+| --- | --- | --- | --- |
+| `SEC-VIL-1` | `NULL` | `medidas_realizadas` | `hexasilabo` |
+| `SEC-VIL-1` | `NULL` | `medidas_realizadas` | `octosilabo` |
+| `SEC-VIL-1` | `MUD-1` | `rima_mudanza` | `abab` |
+| `SEC-VIL-1` | `CIC-1` | `represa_estribillo` | `parcial` |
+
+## Ejemplo de almacenamiento definitivo: sin cabeza
+
+La secuencia efectiva es `copla → estribillo → copla → represa`. El primer estribillo no
+es cabeza porque ocupa los versos 5–7.
+
+### `secuencia_configuraciones`
+
+| secuencia_id | configuracion_id | observaciones |
+| --- | --- | --- |
+| `SEC-VIL-2` | `estribillo_tras_primera_copla` | `NULL` |
+
+### `unidades_metricas`
+
+| unidad_id | secuencia_id | unidad_padre_id | seccion_id | orden | v_ini | v_fin |
+| --- | --- | --- | --- | ---: | ---: | ---: |
+| `PRI-1` | `SEC-VIL-2` | `NULL` | `primer_ciclo` | 1 | 1 | 7 |
+| `COP-1` | `SEC-VIL-2` | `PRI-1` | `copla` | 2 | 1 | 4 |
+| `MUD-1` | `SEC-VIL-2` | `COP-1` | `mudanza` | 3 | 1 | 4 |
+| `EST-1` | `SEC-VIL-2` | `PRI-1` | `estribillo` | 4 | 5 | 7 |
+| `CIC-2` | `SEC-VIL-2` | `NULL` | `ciclo_copla` | 5 | 8 | 14 |
+| `COP-2` | `SEC-VIL-2` | `CIC-2` | `copla` | 6 | 8 | 11 |
+| `MUD-2` | `SEC-VIL-2` | `COP-2` | `mudanza` | 7 | 8 | 11 |
+| `REP-2` | `SEC-VIL-2` | `CIC-2` | `represa` | 8 | 12 | 14 |
+
+La primera aparición se guarda como `estribillo`; solo `REP-2` es una represa. Una
+repetición total deriva sus tres versos de `EST-1`.
+
+## Tablas de observaciones
+
+No reciben filas por la posición del primer estribillo, los patrones admitidos, el enlace
+o vuelta ni el tipo de represa: son elecciones normalizadas. Solo una realización que se
+aparte de las posibilidades del catálogo produce una desviación.
+
+## Editor y demarcador
+
+El editor pregunta primero dónde aparece por primera vez el estribillo mediante las dos
+configuraciones. Después muestra solo:
+
+1. las medidas presentes;
+2. el patrón de cada mudanza;
+3. el enlace o vuelta, solo si se añade;
+4. el modo de cada represa.
+
+El demarcador puede usar la presencia y posición del estribillo, la mudanza y el enlace o
+vuelta sin exigir que el usuario conozca toda la terminología técnica.
 
 ## Trazabilidad
 
-El término heredado conserva su identificador. No había secuencias editoriales asociadas
-el 29 de julio de 2026. La definición del IP se conserva como criterio: admite casos sin
-cabeza explícita y sin versos de enlace o vuelta.
+El término heredado conserva su identificador. La migración elimina únicamente las
+secuencias de prueba V2 del villancico porque su árbol anterior afirmaba erróneamente que
+el estribillo era parte de la copla. No afecta a obras ni a secuencias reales.
 
-## Fuente
+## Fuentes
 
-Domínguez Caparrós, *Métrica española* (UNED, 2014), pp. 211-212: cabeza de dos a cuatro
-versos, una o más estrofas o pies, dos mudanzas simétricas, vuelta y repetición del
-estribillo; uso habitual de octosílabos o hexasílabos. El catálogo no sustituye con esta
-terminología la definición del IP.
+Domínguez Caparrós, *Métrica española* (UNED, 2014), pp. 211-212, describe la estructura
+canónica con cabeza inicial, coplas, mudanza, vuelta y repetición, y el uso habitual de
+octosílabos o hexasílabos.
+
+Ana M. Rodado Ruiz, «La métrica cancioneril en la época de los Reyes Católicos», explica
+la denominación de la unidad inicial como estribillo, cabeza, villancico, letra o tema.
+La edición de *Inundación castálida* de sor Juana aporta testimonios rotulados con coplas
+seguidas de estribillo, útiles para distinguir la función recurrente de la posición
+inicial.
 
 ## Dudas para el IP
 
-1. ¿La mudanza de cuatro versos debe mostrarse como una sola sección o como dos mudanzas
+1. ¿La mudanza debe representarse como una sección de cuatro versos o como dos mudanzas
    simétricas de dos versos?
-2. ¿La ausencia de cabeza explícita es una realización normativa o una omisión textual?
-3. ¿El enlace o vuelta puede tener cualquier extensión igual o superior a un verso?
-4. ¿La repetición implícita del estribillo debe contar como sección ausente o como
-   repetición sobreentendida?
-5. ¿`abba` y `abab` son los únicos esquemas reconocidos para la mudanza o solo los más
-   habituales?
+2. ¿El enlace o vuelta puede tener cualquier extensión igual o superior a un verso?
+3. ¿`abba` y `abab` son los únicos esquemas reconocidos o solo los primeros formalizados?

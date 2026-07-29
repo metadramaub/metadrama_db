@@ -265,9 +265,7 @@
 		const referenceSectionId = String(option.extension_desde_seccion_id);
 		if (
 			!props.units.some(
-				(unit: MetricUnitDraft) =>
-					unit.seccion_id === referenceSectionId &&
-					unit.unidad_padre_id === null
+				(unit: MetricUnitDraft) => unit.seccion_id === referenceSectionId
 			)
 		) {
 			return null;
@@ -281,171 +279,120 @@
 	}
 </script>
 
-<div class="space-y-5">
-	{#each roots as root}
-		{@const rootInstances = instances(root, null)}
-		{@const childSections = childrenOfSection(props.sections, sectionId(root))}
-		<div class="space-y-3">
-			{#each rootInstances as rootUnit, rootIndex (rootUnit.unidad_prueba_id)}
-				<div class="border border-[color:var(--border)] bg-[color:var(--card)]">
-					<div class="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-4 py-3">
-						<div>
+{#snippet renderSection(
+	section: MetricCatalogDomainRow,
+	parentUnitId: string | null,
+	depth: number
+)}
+	{@const sectionInstances = instances(section, parentUnitId)}
+	{@const childSections = childrenOfSection(props.sections, sectionId(section))}
+	<div class={depth === 0 ? 'space-y-3' : 'space-y-3 border-l-2 border-[color:var(--border)] pl-4'}>
+		{#each sectionInstances as unit, unitIndex (unit.unidad_prueba_id)}
+			{@const extensionReference = selectedExtensionReference(unit)}
+			<div class={depth === 0 ? 'border border-[color:var(--border)] bg-[color:var(--card)]' : 'space-y-3'}>
+				<div
+					class={depth === 0
+						? 'flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-4 py-3'
+						: 'flex flex-wrap items-start justify-between gap-3'}
+				>
+					<div>
+						{#if depth === 0}
 							<h5 class="font-medium">
-								{sectionLabel(root)}
-								{#if sectionMaximum(root) === null || Number(sectionMaximum(root)) > 1}
-									{rootIndex + 1}
+								{sectionLabel(section)}
+								{#if sectionMaximum(section) === null || Number(sectionMaximum(section)) > 1}
+									{unitIndex + 1}
 								{/if}
 							</h5>
-							<p class="text-xs text-[color:var(--muted-foreground)]">
-								vv. {rootUnit.v_ini}–{rootUnit.v_fin}
-								{#if childSections.length > 0}
-									· rango calculado desde sus partes
+						{:else}
+							<p class="font-medium">
+								{sectionLabel(section)}
+								{#if sectionMaximum(section) === null || Number(sectionMaximum(section)) > 1}
+									{unitIndex + 1}
 								{/if}
 							</p>
-						</div>
-						{#if canRemove(root, null)}
-							<button
-								type="button"
-								class="text-sm text-red-700 hover:underline"
-								onclick={() => removeInstance(rootUnit)}
-							>
-								Quitar
-							</button>
 						{/if}
-					</div>
-
-					<div class="space-y-4 p-4">
-						{#if childSections.length === 0}
-							<div class="flex flex-wrap items-end gap-3">
-								<div class="text-sm">
-									<span class="font-medium">Extensión</span>
-									<span class="ml-2 text-[color:var(--muted-foreground)]">
-										{rootUnit.v_fin - rootUnit.v_ini + 1}
-										{rootUnit.v_fin === rootUnit.v_ini ? 'verso' : 'versos'}
-									</span>
-								</div>
-								{#if !sectionHasFixedLength(root)}
-									<label class="form-field w-36">
-										<span class="form-label">N.º de versos</span>
-										<input
-											type="number"
-											min={sectionVerseMinimum(root)}
-											max={sectionVerseMaximum(root) ?? undefined}
-											class="h-10 border border-[color:var(--border)] px-3"
-											value={rootUnit.v_fin - rootUnit.v_ini + 1}
-											onchange={(event) =>
-												setUnitLength(rootUnit, Number(event.currentTarget.value))}
-										/>
-									</label>
-								{/if}
-							</div>
-						{/if}
-
-						{#each childSections as childSection}
-							{@const childInstances = instances(childSection, rootUnit.unidad_prueba_id)}
-							{#each childInstances as childUnit, childIndex (childUnit.unidad_prueba_id)}
-								{@const extensionReference = selectedExtensionReference(childUnit)}
-								<div class="space-y-3 border-l-2 border-[color:var(--border)] pl-4">
-									<div class="flex flex-wrap items-start justify-between gap-3">
-										<div>
-											<p class="font-medium">
-												{sectionLabel(childSection)}
-												{#if sectionMaximum(childSection) === null || Number(sectionMaximum(childSection)) > 1}
-													{childIndex + 1}
-												{/if}
-											</p>
-											<p class="text-xs text-[color:var(--muted-foreground)]">
-												vv. {childUnit.v_ini}–{childUnit.v_fin}
-											</p>
-										</div>
-										{#if canRemove(childSection, rootUnit.unidad_prueba_id)}
-											<button
-												type="button"
-												class="text-sm text-red-700 hover:underline"
-												onclick={() => removeInstance(childUnit)}
-											>
-												Quitar
-											</button>
-										{/if}
-									</div>
-
-									{#if extensionReference}
-										<p class="text-sm text-[color:var(--muted-foreground)]">
-											Extensión calculada desde «{sectionLabel(extensionReference)}»:
-											{childUnit.v_fin - childUnit.v_ini + 1} versos.
-										</p>
-									{:else if sectionHasFixedLength(childSection)}
-										<p class="text-sm text-[color:var(--muted-foreground)]">
-											{sectionVerseMinimum(childSection)}
-											{sectionVerseMinimum(childSection) === 1 ? 'verso' : 'versos'} según la norma.
-										</p>
-									{:else}
-										<label class="form-field w-36">
-											<span class="form-label">N.º de versos</span>
-											<input
-												type="number"
-												min={sectionVerseMinimum(childSection)}
-												max={sectionVerseMaximum(childSection) ?? undefined}
-												class="h-10 border border-[color:var(--border)] px-3"
-												value={childUnit.v_fin - childUnit.v_ini + 1}
-												onchange={(event) =>
-													setUnitLength(childUnit, Number(event.currentTarget.value))}
-											/>
-										</label>
-									{/if}
-
-									{#each groupsForUnit(childUnit) as group (String(group.grupo_eleccion_id))}
-										<MetricChoiceField
-											{group}
-											options={optionsForGroup(String(group.grupo_eleccion_id))}
-											selectedIds={selectedChoiceIds(
-												String(group.grupo_eleccion_id),
-												childUnit.unidad_prueba_id
-											)}
-											onChange={(ids) => setChoices(group, childUnit, ids)}
-											onApplyAll={() => applyChoiceToEquivalentUnits(group, childUnit)}
-										/>
-									{/each}
-								</div>
-							{/each}
-
-							{#if !controlledSectionIds.has(sectionId(childSection)) && canAdd(childSection, rootUnit.unidad_prueba_id)}
-								<button
-									type="button"
-									class="text-sm font-medium text-[color:var(--primary)] hover:underline"
-									onclick={() =>
-										addInstance(sectionId(childSection), rootUnit.unidad_prueba_id)}
-								>
-									+ Añadir {sectionLabel(childSection).toLocaleLowerCase('es')}
-								</button>
+						<p class="text-xs text-[color:var(--muted-foreground)]">
+							vv. {unit.v_ini}–{unit.v_fin}
+							{#if childSections.length > 0}
+								· rango calculado desde sus partes
 							{/if}
-						{/each}
-
-						{#each groupsForUnit(rootUnit) as group (String(group.grupo_eleccion_id))}
-							<MetricChoiceField
-								{group}
-								options={optionsForGroup(String(group.grupo_eleccion_id))}
-								selectedIds={selectedChoiceIds(
-									String(group.grupo_eleccion_id),
-									rootUnit.unidad_prueba_id
-								)}
-								onChange={(ids) => setChoices(group, rootUnit, ids)}
-								onApplyAll={() => applyChoiceToEquivalentUnits(group, rootUnit)}
-							/>
-						{/each}
+						</p>
 					</div>
+					{#if canRemove(section, parentUnitId)}
+						<button
+							type="button"
+							class="text-sm text-red-700 hover:underline"
+							onclick={() => removeInstance(unit)}
+						>
+							Quitar
+						</button>
+					{/if}
 				</div>
-			{/each}
 
-			{#if canAdd(root, null)}
-				<button
-					type="button"
-					class="border border-dashed border-[color:var(--border)] px-4 py-3 text-sm font-medium text-[color:var(--primary)] hover:bg-[color:var(--muted)]"
-					onclick={() => addInstance(sectionId(root), null)}
-				>
-					+ Añadir {sectionLabel(root).toLocaleLowerCase('es')}
-				</button>
-			{/if}
-		</div>
+				<div class={depth === 0 ? 'space-y-4 p-4' : 'space-y-4'}>
+					{#if childSections.length === 0}
+						{#if extensionReference}
+							<p class="text-sm text-[color:var(--muted-foreground)]">
+								Extensión calculada desde «{sectionLabel(extensionReference)}»:
+								{unit.v_fin - unit.v_ini + 1} versos.
+							</p>
+						{:else if sectionHasFixedLength(section)}
+							<p class="text-sm text-[color:var(--muted-foreground)]">
+								{sectionVerseMinimum(section)}
+								{sectionVerseMinimum(section) === 1 ? 'verso' : 'versos'} según la norma.
+							</p>
+						{:else}
+							<label class="form-field w-36">
+								<span class="form-label">N.º de versos</span>
+								<input
+									type="number"
+									min={sectionVerseMinimum(section)}
+									max={sectionVerseMaximum(section) ?? undefined}
+									class="h-10 border border-[color:var(--border)] px-3"
+									value={unit.v_fin - unit.v_ini + 1}
+									onchange={(event) =>
+										setUnitLength(unit, Number(event.currentTarget.value))}
+								/>
+							</label>
+						{/if}
+					{/if}
+
+					{#each childSections as childSection}
+						{@render renderSection(childSection, unit.unidad_prueba_id, depth + 1)}
+					{/each}
+
+					{#each groupsForUnit(unit) as group (String(group.grupo_eleccion_id))}
+						<MetricChoiceField
+							{group}
+							options={optionsForGroup(String(group.grupo_eleccion_id))}
+							selectedIds={selectedChoiceIds(
+								String(group.grupo_eleccion_id),
+								unit.unidad_prueba_id
+							)}
+							onChange={(ids) => setChoices(group, unit, ids)}
+							onApplyAll={() => applyChoiceToEquivalentUnits(group, unit)}
+						/>
+					{/each}
+				</div>
+			</div>
+		{/each}
+
+		{#if !controlledSectionIds.has(sectionId(section)) && canAdd(section, parentUnitId)}
+			<button
+				type="button"
+				class={depth === 0
+					? 'border border-dashed border-[color:var(--border)] px-4 py-3 text-sm font-medium text-[color:var(--primary)] hover:bg-[color:var(--muted)]'
+					: 'text-sm font-medium text-[color:var(--primary)] hover:underline'}
+				onclick={() => addInstance(sectionId(section), parentUnitId)}
+			>
+				+ Añadir {sectionLabel(section).toLocaleLowerCase('es')}
+			</button>
+		{/if}
+	</div>
+{/snippet}
+
+<div class="space-y-5">
+	{#each roots as root}
+		{@render renderSection(root, null, 0)}
 	{/each}
 </div>

@@ -61,15 +61,15 @@ Una opción puede declarar además un efecto de formulario:
 - materializar una sección cuando la respuesta implica versos presentes;
 - derivar su extensión de otra sección ya registrada.
 
-El efecto no sustituye el valor normalizado. «Repetición total», por ejemplo, sigue
-apuntando a su patrón de repetición y puede hacer aparecer un estribillo cuyo número de
-versos se calcula desde la cabeza.
+El efecto no sustituye el valor normalizado. «Represa total», por ejemplo, sigue
+apuntando a su patrón de repetición y hace aparecer una represa cuyo número de versos se
+calcula desde la primera aparición del estribillo.
 
 ## Tablas exclusivas de prueba
 
 - `escenarios_editor_metrico`: sustituye temporalmente a una obra ficticia.
 - `secuencias_editor_metrico`: rango, forma y configuración de cada prueba.
-- `unidades_editor_metrico`: coplas, cabezas u otras secciones localizadas y enlazadas
+- `unidades_editor_metrico`: coplas, cabezas, estribillos, represas u otras secciones enlazadas
   jerárquicamente mediante `unidad_padre_id`.
 - `elecciones_editor_metrico`: respuesta general o por unidad.
 - `desviaciones_editor_metrico`: diferencias localizadas respecto de lo admitido.
@@ -118,19 +118,27 @@ desactiva para ese caso.
 
 ## Primer caso completo: villancico
 
-La configuración `estructura_habitual` genera:
+La forma ofrece dos configuraciones legibles:
+
+- `estribillo_inicial`: el estribillo abre la composición y esa primera aparición es la
+  cabeza;
+- `estribillo_tras_primera_copla`: la primera aparición sigue a la primera copla y no se
+  denomina cabeza.
+
+Ambas generan:
 
 | Alcance | Dato |
 | --- | --- |
 | Secuencia | Medidas presentes: 6, 8 o ambas. |
 | Cada mudanza | Patrón: `abba` o `abab`. |
-| Cada copla | Enlace o vuelta como una sección opcional, sin una pregunta redundante de presencia. |
-| Cada copla | Repetición total, parcial o implícita del estribillo. |
+| Cada copla | Enlace o vuelta como sección opcional, sin una pregunta redundante de presencia. |
+| Cada ciclo posterior | Represa total, parcial o implícita del estribillo. |
 
-Al seleccionar el villancico se crea la primera copla con su mudanza obligatoria. La cabeza,
-el enlace o vuelta solo aparece si el editor lo añade. Una repetición total o parcial
-materializa el estribillo; la implícita no inventa un rango. Los rangos de la copla y de la
-secuencia se recalculan desde las extensiones de sus partes.
+La configuración inicial crea la cabeza y el primer ciclo; la posterior crea una primera
+copla seguida del primer estribillo. Cada copla contiene su mudanza y posible enlace o
+vuelta. La represa es hermana de la copla, no hija suya. Una represa total o parcial
+materializa versos; la implícita no inventa un rango. El formulario no infiere que una
+sección final aislada sea estribillo: elegir esa función exige evidencia editorial.
 
 ## Segundo caso: soneto
 

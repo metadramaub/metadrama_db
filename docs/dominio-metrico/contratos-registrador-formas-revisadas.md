@@ -20,7 +20,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Endecasílabo suelto | norma de la configuración elegida | nada más | abierta |
 | Pareados endecasílabos | dísticos consonantes de 11 | nada más | múltiplo de 2 |
 | Soneto | 14 endecasílabos, `ABBA ABBA`, estructura `4 + 4 + 3 + 3` | esquema de tercetos; final esdrújulo si caracteriza | múltiplo de 14 |
-| Villancico | configuración y secciones obligatorias | medidas, esquema de cada mudanza, enlace o vuelta y recuperación del estribillo | calculada desde sus secciones |
+| Villancico | posición de la primera aparición del estribillo y secciones obligatorias | medidas, esquema de cada mudanza, enlace o vuelta y tipo de represa | calculada desde cabeza/estribillo, coplas y represas |
 
 ## Recorridos mínimos
 

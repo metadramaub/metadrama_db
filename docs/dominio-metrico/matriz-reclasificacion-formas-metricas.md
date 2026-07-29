@@ -338,7 +338,7 @@ Debe normalizarse el slug técnico aunque se conserve “Verso suelto” como et
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `villancico` | F | Conservar como forma compuesta con configuración estructural, secciones y repetición del estribillo. | Alta | Sí |
+| `villancico` | F | Conservar como forma compuesta con dos configuraciones según la primera aparición del estribillo; separar copla y represa y formalizar mudanza y enlace o vuelta. | Alta | Sí |
 
 ## 31. Zéjel
 

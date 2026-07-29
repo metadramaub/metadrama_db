@@ -409,7 +409,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `terceto` | 5 | Corregir tamaño; distinguir unidad y serie encadenada; esdrújulos a rasgo. |
 | `terceto_octosilabo` | 1 | Estructura coherente; añadir fuente y patrón de rima. |
 | `verso suelto` | 1 | Mover a categoría editorial residual; no es una forma estrófica. |
-| `villancico` | 1 | Resuelto en el nuevo catálogo: forma compuesta con cabeza, copla, mudanza, enlace o vuelta y repetición del estribillo. |
+| `villancico` | 1 | Resuelto en el nuevo catálogo: dos configuraciones según la primera aparición del estribillo; copla y represa son secciones hermanas, con mudanza y enlace o vuelta dentro de la copla. |
 | `zejel` | 1 | Modelar forma compuesta con estribillo, mudanza y vuelta. |
 
 ## 9. Plan de saneamiento recomendado

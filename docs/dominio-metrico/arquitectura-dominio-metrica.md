@@ -511,7 +511,8 @@ Una opción puede declarar efectos de interfaz separados de su valor semántico:
 - `extension_desde_seccion_id`: la longitud de esa sección se deriva de otra realización.
 
 Así, «repetición total» sigue siendo un patrón de repetición, pero puede materializar un
-estribillo con la extensión de la cabeza. Una respuesta implícita no crea versos ficticios.
+represa con la extensión de la primera aparición del estribillo, sea una cabeza inicial o
+un estribillo posterior a la primera copla. Una respuesta implícita no crea versos ficticios.
 
 Ejemplos:
 
@@ -638,15 +639,22 @@ Sustituirá conceptualmente los subtipos internos:
 
 - `unidad_id`;
 - `secuencia_id`;
+- `unidad_padre_id`, cuando una sección pertenece a otra unidad;
+- `seccion_id`;
 - `v_ini`;
 - `v_fin`;
-- `configuracion_id`;
 - `orden`;
 - `observaciones`.
 
 Una unidad representa una realización interna: por ejemplo, una quintilla concreta dentro de una tirada de quintillas. No afirma que `ababa` sea una forma independiente.
 
-### 12.4. Elecciones de realización
+La configuración efectiva pertenece a la secuencia. La unidad referencia una sección de esa
+configuración; no necesita repetir `configuracion_id`. Las formas cerradas también podrán
+materializar una unidad por realización cuando una secuencia admita varias apariciones y
+cada una deba conservar elecciones propias, como varios sonetos consecutivos con distintos
+esquemas de tercetos.
+
+### 12.4. `secuencia_elecciones_metricas`
 
 Las elecciones guardan qué posibilidad admitida apareció realmente:
 

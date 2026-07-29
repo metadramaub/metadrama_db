@@ -13,7 +13,7 @@
 		{
 			value: 'Sección',
 			meaning: 'El patrón solo corresponde a una parte interna de una forma compuesta.',
-			example: 'La mudanza o la vuelta de un villancico.'
+			example: 'La mudanza, la copla o la represa de un villancico.'
 		},
 		{
 			value: 'Composición',
@@ -66,7 +66,7 @@
 			title: 'Secciones y repeticiones',
 			rows: [
 				['Sección superior', 'Parte que contiene a otra parte interna.'],
-				['Tipo y nombre', 'Función estructural controlada y denominación legible: cabeza, mudanza, vuelta, remate…'],
+				['Tipo y nombre', 'Función estructural controlada y denominación legible: cabeza, mudanza, enlace o vuelta, represa, remate…'],
 				['Repeticiones mínimas y máximas', 'Cuántas veces puede aparecer la sección; vacío significa que no se fija.'],
 				['Versos mínimos y máximos', 'Extensión propia de esa sección.'],
 				['Patrón asociado', 'Metro o rima que solo gobierna esa sección.'],

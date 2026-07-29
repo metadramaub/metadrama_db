@@ -52,7 +52,11 @@ Véase [villancico.md](./villancico.md).
 
 1. ¿La mudanza se presenta como una sección de cuatro versos o como dos mudanzas
    simétricas?
-2. ¿La ausencia de cabeza explícita es normativa?
-3. ¿El enlace o vuelta puede tener cualquier extensión desde un verso?
-4. ¿Cómo debe representarse una repetición sobreentendida del estribillo?
-5. ¿`abba` y `abab` son esquemas cerrados o solo habituales?
+2. ¿El enlace o vuelta puede tener cualquier extensión desde un verso?
+3. ¿`abba` y `abab` son esquemas cerrados o solo habituales?
+
+Resuelto en el modelo: la ausencia de cabeza no se trata como omisión. Si el estribillo
+aparece por primera vez después de la primera copla, se selecciona una configuración
+propia; las apariciones posteriores se registran como represas y la implícita no crea
+versos ficticios. Una sección final aislada solo se considera estribillo si existe
+evidencia funcional.
