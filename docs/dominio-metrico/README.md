@@ -38,7 +38,8 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md), el
    [romance](./revisiones-formas/romance.md), el
    [soneto](./revisiones-formas/soneto.md), el
-   [villancico](./revisiones-formas/villancico.md) y un
+   [villancico](./revisiones-formas/villancico.md), el
+   [zéjel](./revisiones-formas/zejel.md) y un
    [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
 ## Decisiones consolidadas

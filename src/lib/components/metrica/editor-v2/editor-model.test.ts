@@ -401,4 +401,121 @@ describe('editor métrico jerárquico', () => {
 			v_fin: 14
 		});
 	});
+
+	it('compone el zéjel con mudanza y vuelta fijas y materializa solo la represa elegida', () => {
+		const zejelSections: MetricCatalogDomainRow[] = [
+			{
+				seccion_id: 'cabeza-zejel',
+				seccion_padre_id: null,
+				tipo_seccion: 'cabeza',
+				nombre: 'Cabeza',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 2,
+				versos_max: 2
+			},
+			{
+				seccion_id: 'ciclo-zejel',
+				seccion_padre_id: null,
+				tipo_seccion: 'ciclo_copla',
+				nombre: 'Copla y posible represa',
+				orden: 2,
+				repeticiones_min: 1,
+				repeticiones_max: null
+			},
+			{
+				seccion_id: 'copla-zejel',
+				seccion_padre_id: 'ciclo-zejel',
+				tipo_seccion: 'copla',
+				nombre: 'Copla',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1
+			},
+			{
+				seccion_id: 'mudanza-zejel',
+				seccion_padre_id: 'copla-zejel',
+				tipo_seccion: 'mudanza',
+				nombre: 'Mudanza monorrima',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 3,
+				versos_max: 3
+			},
+			{
+				seccion_id: 'vuelta-zejel',
+				seccion_padre_id: 'copla-zejel',
+				tipo_seccion: 'vuelta',
+				nombre: 'Verso de vuelta',
+				orden: 2,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 1,
+				versos_max: 1
+			},
+			{
+				seccion_id: 'represa-zejel',
+				seccion_padre_id: 'ciclo-zejel',
+				tipo_seccion: 'represa',
+				nombre: 'Represa',
+				orden: 2,
+				repeticiones_min: 0,
+				repeticiones_max: 1,
+				versos_min: 1,
+				versos_max: 2
+			}
+		];
+		const totalOption: MetricCatalogDomainRow = {
+			opcion_eleccion_id: 'total-zejel',
+			grupo_eleccion_id: 'repetition-zejel',
+			slug: 'total',
+			materializa_seccion_id: 'represa-zejel',
+			extension_desde_seccion_id: 'cabeza-zejel',
+			activo: true
+		};
+		let units = ensureRequiredMetricStructure([], zejelSections, 1);
+		const cycle = units.find((unit) => unit.seccion_id === 'ciclo-zejel');
+
+		expect(units.map((unit) => unit.seccion_id)).toEqual([
+			'cabeza-zejel',
+			'ciclo-zejel',
+			'copla-zejel',
+			'mudanza-zejel',
+			'vuelta-zejel'
+		]);
+		expect(units.find((unit) => unit.seccion_id === 'mudanza-zejel')).toMatchObject({
+			v_ini: 3,
+			v_fin: 5
+		});
+		expect(units.find((unit) => unit.seccion_id === 'vuelta-zejel')).toMatchObject({
+			v_ini: 6,
+			v_fin: 6
+		});
+
+		const choices: MetricChoiceDraft[] = [
+			{
+				unidad_prueba_id: cycle?.unidad_prueba_id ?? null,
+				grupo_eleccion_id: 'repetition-zejel',
+				opcion_eleccion_id: 'total-zejel',
+				observaciones: null
+			}
+		];
+		units = syncChoiceMaterializedSections(
+			units,
+			zejelSections,
+			cycle?.unidad_prueba_id ?? null,
+			[totalOption],
+			['total-zejel'],
+			1,
+			choices,
+			[totalOption]
+		);
+
+		expect(units.find((unit) => unit.seccion_id === 'represa-zejel')).toMatchObject({
+			v_ini: 7,
+			v_fin: 8
+		});
+	});
 });

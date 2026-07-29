@@ -344,7 +344,7 @@ Debe normalizarse el slug técnico aunque se conserve “Verso suelto” como et
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `zejel` | F | Conservar como forma compuesta; formalizar estribillo, mudanza y vuelta. | Alta | Sí |
+| `zejel` | F | Conservar como forma compuesta: cabeza de 1-2 versos, copla de tres monorrimos más vuelta y posible represa. | Alta | Sí |
 
 ## 32. Decisiones transversales ya adoptadas
 
