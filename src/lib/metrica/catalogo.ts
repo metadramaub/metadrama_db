@@ -21,6 +21,16 @@ export const METRIC_CONFIGURATION_GRADES = [
 	'irregular_documentada'
 ] as const;
 
+export const METRIC_CHOICE_DIMENSIONS = [
+	'metro',
+	'rima',
+	'estructura',
+	'repeticion',
+	'rasgo'
+] as const;
+
+export const METRIC_CHOICE_SCOPES = ['secuencia', 'unidad'] as const;
+
 export const METRIC_MIGRATION_CLASSIFICATIONS = [
 	'F',
 	'G',
@@ -37,6 +47,8 @@ export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[num
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
 export type MetricConfigurationGrade = (typeof METRIC_CONFIGURATION_GRADES)[number];
 export type MetricMigrationClassification = (typeof METRIC_MIGRATION_CLASSIFICATIONS)[number];
+export type MetricChoiceDimension = (typeof METRIC_CHOICE_DIMENSIONS)[number];
+export type MetricChoiceScope = (typeof METRIC_CHOICE_SCOPES)[number];
 
 export type MetricCatalogForm = {
 	forma_id: string;
@@ -71,6 +83,21 @@ export type MetricCatalogConfiguration = {
 	updated_at: string;
 	patrones_metro: number;
 	patrones_rima: number;
+};
+
+export type MetricLengthRule = {
+	configuracion_id: string;
+	configuracion_nombre: string;
+	modulo_versos: number;
+	residuo_versos: number;
+	minimo_versos: number;
+	origen:
+		| 'numero_versos'
+		| 'secciones_fijas'
+		| 'secciones_repetibles'
+		| 'ciclo_rima'
+		| 'ciclo_metrico';
+	explicacion: string;
 };
 
 export type MetricCatalogFamily = {
@@ -184,6 +211,8 @@ export const METRIC_CATALOG_RESOURCES = [
 	'traits',
 	'traitValues',
 	'configurationTraits',
+	'choiceGroups',
+	'choiceOptions',
 	'sources',
 	'sourceClaims'
 ] as const;
@@ -195,17 +224,27 @@ export type MetricCatalogDomainData = Record<
 	MetricCatalogDomainRow[]
 >;
 
+export type MetricEditorSandboxData = {
+	scenarios: MetricCatalogDomainRow[];
+	sequences: MetricCatalogDomainRow[];
+	units: MetricCatalogDomainRow[];
+	choices: MetricCatalogDomainRow[];
+	deviations: MetricCatalogDomainRow[];
+};
+
 export type MetricCatalogPageData = {
 	migrationPending: boolean;
 	migrationMessage: string | null;
 	revision: number | null;
 	forms: MetricCatalogForm[];
 	configurations: MetricCatalogConfiguration[];
+	lengthRules: MetricLengthRule[];
 	families: MetricCatalogFamily[];
 	traditions: MetricCatalogTradition[];
 	migrationRows: MetricCatalogMigrationRow[];
 	previewVersions: MetricCatalogPreviewVersion[];
 	domain: MetricCatalogDomainData;
+	editorSandbox: MetricEditorSandboxData;
 	options: {
 		rhymeTypes: MetricCatalogOption[];
 		metres: MetricCatalogOption[];

@@ -1,12 +1,13 @@
 # Villancico
 
-Estado: revisado, con dudas de terminología · 29 de julio de 2026
+Estado: revisado, con dudas de alcance · 29 de julio de 2026
 
 ## Decisión
 
-Una forma compuesta y una configuración habitual. Cabeza, mudanza, enlace, vuelta y
-estribillo son secciones, no subformas. La repetición del estribillo se formaliza aparte
-de la rima.
+Una forma compuesta y una configuración habitual. Cabeza, mudanza, enlace o vuelta y
+estribillo son secciones, no subformas. «Enlace» y «vuelta» designan en el proyecto una
+misma función, no dos secciones acumulables. La repetición del estribillo se formaliza
+aparte de la rima.
 
 ## Formalización
 
@@ -18,13 +19,18 @@ de la rima.
 | Cabeza | opcional · 2-4 versos |
 | Copla | una o más |
 | Mudanza | 4 versos · normalmente `abba` o `abab` |
-| Enlace | opcional · uno o más versos |
-| Vuelta | opcional · uno o más versos |
+| Enlace o vuelta | opcional · uno o más versos |
 | Estribillo | repetición total, parcial o implícita |
 
-La copla agrupa mudanza, enlace, vuelta y estribillo. Los esquemas `abba` y `abab` son
-patrones locales alternativos de la mudanza. Las relaciones de rima entre mudanza,
-enlace, vuelta y cabeza se guardan como restricciones estructuradas.
+La copla agrupa mudanza, enlace o vuelta y estribillo. Los esquemas `abba` y `abab` son
+patrones locales alternativos de la mudanza. La relación de rima que articula el paso de
+la mudanza a la cabeza se guarda como una restricción estructurada.
+
+En el editor, la copla actúa como contenedor repetible y no como destino indiferenciado de
+sus preguntas. El patrón se responde en la mudanza. La existencia de enlace o vuelta se
+registra añadiendo esa única sección, sin un segundo campo booleano. La recuperación del
+estribillo sí se responde en la copla: total y parcial materializan versos; implícita no
+crea un rango.
 
 ## Demarcador
 
@@ -50,7 +56,7 @@ terminología la definición del IP.
 1. ¿La mudanza de cuatro versos debe mostrarse como una sola sección o como dos mudanzas
    simétricas de dos versos?
 2. ¿La ausencia de cabeza explícita es una realización normativa o una omisión textual?
-3. ¿Enlace y vuelta pueden tener cualquier extensión igual o superior a un verso?
+3. ¿El enlace o vuelta puede tener cualquier extensión igual o superior a un verso?
 4. ¿La repetición implícita del estribillo debe contar como sección ausente o como
    repetición sobreentendida?
 5. ¿`abba` y `abab` son los únicos esquemas reconocidos para la mudanza o solo los más

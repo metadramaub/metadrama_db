@@ -135,9 +135,9 @@ Los hijos de quintilla se ocultan del selector principal y se guardan como subti
 9. **Las relaciones están tipadas.**
 10. **La publicación es versionada y reproducible.**
 11. **La tradición es una dimensión histórica.** No transmite rasgos estructurales por herencia.
-12. **La secuencia se describe por norma más diferencias.** Lo no registrado en una secuencia guardada se considera conforme con su configuración.
+12. **La secuencia distingue norma, realización y diferencia.** Las alternativas admitidas que tengan valor analítico se eligen explícitamente; lo no registrado como desviación se considera conforme con la configuración y con esas elecciones.
 13. **La ontología se reutiliza.** Las observaciones apuntan a metros, rimas, estructuras y rasgos normalizados; no crean un vocabulario métrico paralelo.
-14. **La complejidad reside en el catálogo.** El editor de obras solo elige forma, configuración cuando proceda y diferencias observadas.
+14. **La complejidad reside en el catálogo.** El editor de obras solo elige forma, configuración cuando proceda, alternativas observadas y diferencias reales.
 
 ## 7. Modelo conceptual
 
@@ -158,6 +158,8 @@ flowchart TD
     CF --> PREP[Patrones de repetición]
     CF --> ER[Estructuras y secciones]
     CF --> CR[Rasgos de configuración]
+    CF --> GE[Grupos de elección editorial]
+    GE --> OE[Opciones normalizadas]
     RM[Rasgos métricos] --> CR
 
     F --> AF[Alias]
@@ -168,8 +170,11 @@ flowchart TD
     SM[Secuencias métricas] --> F
     SM --> SC[Configuración seleccionada]
     SM --> UM[Unidades métricas internas]
+    SM --> SE[Elecciones de realización]
     SC --> CF
     UM --> CF
+    SE --> GE
+    SE --> OE
     SM --> OM[Observaciones métricas por rango]
     OM --> MO[Medida observada o relación con la norma]
     OM --> RO[Rima observada o relación con la norma]
@@ -478,6 +483,46 @@ Cuando el orden sea relevante, `patron_repeticion_posiciones` declarará:
 
 Esta dimensión permite formalizar, por ejemplo, la permutación de palabras finales de la sextina o la repetición del estribillo de una forma compuesta sin confundirlas con rima convencional.
 
+### 9.9. `grupos_eleccion_metrica` y `opciones_eleccion_metrica`
+
+El catálogo debe distinguir entre una posibilidad formalizada y una posibilidad que interesa
+preguntar al editor. Un dato con un único resultado se deriva de la configuración; no genera
+un control redundante. Cuando existen alternativas admitidas con valor para el corpus, un
+grupo de elección declara:
+
+- configuración;
+- pregunta y ayuda editorial;
+- dimensión: medida, rima, estructura, repetición o rasgo;
+- alcance: una vez por secuencia o en cada unidad interna aplicable;
+- sección a la que se aplica, cuando corresponda;
+- cardinalidad mínima y máxima;
+- posibilidad de aplicar una respuesta a todas las unidades equivalentes;
+- orden, actividad y estado de revisión.
+
+Cada opción referencia mediante FK una entidad ya normalizada: metro, patrón métrico,
+patrón de rima, sección, patrón de repetición, rasgo o valor de rasgo. Esta capa no es un EAV
+abierto ni duplica la ontología. Define qué parte de la ontología se presenta como elección
+editorial.
+
+Una opción puede declarar efectos de interfaz separados de su valor semántico:
+
+- `materializa_seccion_id`: la respuesta implica una sección material cuyo rango debe
+  conservarse;
+- `extension_desde_seccion_id`: la longitud de esa sección se deriva de otra realización.
+
+Así, «repetición total» sigue siendo un patrón de repetición, pero puede materializar un
+estribillo con la extensión de la cabeza. Una respuesta implícita no crea versos ficticios.
+
+Ejemplos:
+
+- la quintilla puede ofrecer sus esquemas admitidos como opciones de rima;
+- el villancico puede preguntar `abba` o `abab` en cada mudanza;
+- un conjunto permitido de hexasílabos y octosílabos puede admitir una o ambas respuestas;
+- la presencia de una sección opcional se registra mediante su unidad, sin duplicarla con
+  una respuesta booleana;
+- los modos total, parcial e implícito de un estribillo deben ser patrones de repetición
+  diferenciados si interesa analizarlos por separado.
+
 ## 10. Rasgos métricos
 
 ### 10.1. `rasgos_metricos`
@@ -601,24 +646,53 @@ Sustituirá conceptualmente los subtipos internos:
 
 Una unidad representa una realización interna: por ejemplo, una quintilla concreta dentro de una tirada de quintillas. No afirma que `ababa` sea una forma independiente.
 
-### 12.4. Convención de mundo cerrado
+### 12.4. Elecciones de realización
 
-Una secuencia guardada se considera completamente caracterizada respecto de la forma y configuración seleccionadas:
+Las elecciones guardan qué posibilidad admitida apareció realmente:
+
+- `secuencia_id`;
+- `unidad_id`, solo cuando la pregunta se responde por unidad;
+- `grupo_eleccion_id`;
+- `opcion_eleccion_id`;
+- observaciones excepcionales, normalmente vacías.
+
+La configuración, el alcance, la pertenencia de la opción al grupo y sus cardinalidades se
+validan en base de datos. Una elección no es una desviación: `abba` y `abab` pueden ser dos
+respuestas ordinarias a la misma pregunta de una configuración de villancico.
+
+La implementación de prueba usa tablas con el sufijo `editor_metrico`; la migración futura de
+anotaciones conservará esta semántica y enlazará las realizaciones definitivas con
+`secuencias_metricas`.
+
+### 12.5. Convención de mundo cerrado
+
+Una secuencia guardada se considera completamente caracterizada respecto de la forma,
+configuración y grupos de elección aplicables:
 
 ```text
-realización efectiva = configuración normativa + diferencias registradas
+realización efectiva =
+    forma
+    + configuración normativa
+    + elecciones entre alternativas admitidas
+    + unidades o secciones realizadas
+    + desviaciones registradas
 ```
 
-La ausencia de una diferencia significa conformidad con la norma. No significa pendiente, desconocido ni falta de revisión. En consecuencia:
+La ausencia de una desviación significa conformidad con la norma y con las elecciones
+registradas. No significa pendiente, desconocido ni falta de revisión. La ausencia de una
+respuesta obligatoria, en cambio, impide guardar: no se interpreta como conformidad. En
+consecuencia:
 
 - no se crea una tabla de cobertura de revisión;
 - no se pide certeza editorial;
 - no se duplica en la secuencia todo lo que ya declara la configuración;
+- los resultados únicos se derivan sin pregunta;
+- las alternativas admitidas se registran solo mediante grupos declarados por el catálogo;
 - si cambia una norma, las secuencias afectadas se adaptan o invalidan mediante una migración o regeneración técnica.
 
 Cuando una secuencia no pueda describirse razonablemente desde una forma conocida, el editor utilizará una salida residual como `irregular`, en lugar de acumular un número arbitrario de desviaciones sobre una forma que ya no resulta reconocible.
 
-### 12.5. `secuencia_observaciones_metricas`
+### 12.6. `secuencia_observaciones_metricas`
 
 Funcionará como cabecera común para localizar diferencias o rasgos destacables:
 
@@ -633,7 +707,7 @@ Funcionará como cabecera común para localizar diferencias o rasgos destacables
 
 No constituye un vocabulario paralelo de irregularidades. Los detalles reutilizan las mismas entidades normalizadas que definen el catálogo.
 
-### 12.6. Detalles normalizados por dimensión
+### 12.7. Detalles normalizados por dimensión
 
 Se utilizarán tablas explícitas enlazadas a `secuencia_observaciones_metricas`:
 
@@ -672,7 +746,7 @@ El régimen, patrón o vocales de asonancia observados serán opcionales y solo 
 
 Las observaciones de estructura o repetición podrán apuntar a secciones, posiciones o reglas del catálogo y declarar omisión, adición, sustitución o ruptura. El editor no reconstruirá el patrón completo: indicará el rango y la diferencia mínima que pueda afirmar.
 
-### 12.7. Relación con las caracterizaciones por rango actuales
+### 12.8. Relación con las caracterizaciones por rango actuales
 
 Se conserva la idea de localizar fenómenos mediante `v_ini` y `v_fin`, pero no dos modelos métricos:
 
@@ -697,7 +771,7 @@ Para el catálogo, los rasgos opcionales y las restricciones adoptarán estados 
 - `no_aplica`;
 - `desconocido`.
 
-En el modelo nuevo se evitará que la herencia dependa simplemente de que un campo sea `null`. Estos estados describen el catálogo y sus fuentes; no introducen estados de revisión o certeza en el formulario de secuencias. En una secuencia guardada, la ausencia de una observación se interpreta según la convención de mundo cerrado del apartado 12.4.
+En el modelo nuevo se evitará que la herencia dependa simplemente de que un campo sea `null`. Estos estados describen el catálogo y sus fuentes; no introducen estados de revisión o certeza en el formulario de secuencias. En una secuencia guardada, la ausencia de una observación se interpreta según la convención de mundo cerrado del apartado 12.5.
 
 ## 14. Proyecciones y consumidores
 
@@ -724,12 +798,25 @@ Contrato mínimo:
 
 1. seleccionar forma;
 2. seleccionar configuración solo cuando existan alternativas relevantes;
-3. añadir diferencias respecto de la configuración, si las hay;
-4. añadir unidades internas o rasgos destacables solo cuando proceda.
+3. responder únicamente los grupos de elección declarados para esa configuración;
+4. completar unidades internas solo en las configuraciones cuya estructura lo exige;
+5. añadir diferencias respecto de la configuración y de las alternativas admitidas, si las hay.
 
-El selector mostrará formas, no todas las entidades del catálogo. Las familias solo organizarán visualmente las opciones. El bloque «Diferencias respecto de la forma» permanecerá vacío y opcional por defecto; sus opciones se calcularán desde la configuración seleccionada para evitar mostrar todo el dominio.
+El selector mostrará formas, no todas las entidades del catálogo. Las familias solo
+organizarán visualmente las opciones. Los grupos de elección se compilarán desde la
+configuración seleccionada. El bloque «Desviaciones respecto de lo admitido» permanecerá
+vacío y opcional por defecto.
 
-No se pedirá al editor que introduzca esquemas, enlaces de rima, secciones o repeticiones que ya estén formalizados en el catálogo.
+No se pedirá al editor que reconstruya esquemas, enlaces de rima, secciones o repeticiones.
+Elegirá entre las posibilidades normalizadas que el catálogo marque como registrables. Si un
+grupo se aplica a varias unidades, la interfaz permitirá aplicar una respuesta general y
+corregir solo las excepciones.
+
+El formulario será adaptativo. Una forma simple no mostrará secciones, patrones ya fijados ni
+controles vacíos. En una forma compuesta, la interfaz construirá la jerarquía declarada por el
+catálogo: creará las partes obligatorias, derivará rangos y extensiones fijas y presentará como
+acciones únicamente las partes opcionales. La complejidad de la ontología solo será visible
+cuando la realización que se registra sea realmente compleja.
 
 ### 14.2. Fichas públicas
 

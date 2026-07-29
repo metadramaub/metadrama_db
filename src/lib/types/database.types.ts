@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -14,6 +14,127 @@ export type Database = {
   }
   public: {
     Tables: {
+      afirmaciones_fuentes_metricas: {
+        Row: {
+          afirmacion_id: string
+          confianza: string | null
+          configuracion_id: string | null
+          created_at: string
+          created_by: string | null
+          estado_revision: string
+          familia_id: string | null
+          forma_id: string | null
+          fuente_id: string
+          localizador: string | null
+          patron_metrico_id: string | null
+          patron_rima_id: string | null
+          rasgo_id: string | null
+          resumen: string | null
+          tradicion_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          afirmacion_id?: string
+          confianza?: string | null
+          configuracion_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          estado_revision?: string
+          familia_id?: string | null
+          forma_id?: string | null
+          fuente_id: string
+          localizador?: string | null
+          patron_metrico_id?: string | null
+          patron_rima_id?: string | null
+          rasgo_id?: string | null
+          resumen?: string | null
+          tradicion_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          afirmacion_id?: string
+          confianza?: string | null
+          configuracion_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          estado_revision?: string
+          familia_id?: string | null
+          forma_id?: string | null
+          fuente_id?: string
+          localizador?: string | null
+          patron_metrico_id?: string | null
+          patron_rima_id?: string | null
+          rasgo_id?: string | null
+          resumen?: string | null
+          tradicion_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_familia_id_fkey"
+            columns: ["familia_id"]
+            isOneToOne: false
+            referencedRelation: "familias_metricas"
+            referencedColumns: ["familia_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_fuente_id_fkey"
+            columns: ["fuente_id"]
+            isOneToOne: false
+            referencedRelation: "fuentes_metricas"
+            referencedColumns: ["fuente_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
+          },
+          {
+            foreignKeyName: "afirmaciones_fuentes_metricas_tradicion_id_fkey"
+            columns: ["tradicion_id"]
+            isOneToOne: false
+            referencedRelation: "tradiciones_metricas"
+            referencedColumns: ["tradicion_id"]
+          },
+        ]
+      }
       atribucion_autores: {
         Row: {
           atribucion_id: string
@@ -224,43 +345,43 @@ export type Database = {
       }
       autores_resumen: {
         Row: {
-          autor_id: string
+          actualizado_en: string
           alcance: string
-          n_obras_completas: number
+          autor_id: string
+          metrica_sucia: boolean
           n_jornadas_sueltas: number
-          total_versos_autor: number
+          n_obras_completas: number
+          numero_efectivo_formas_agregado: number | null
+          numero_efectivo_formas_medio: number | null
           perfil_formas: Json
           perfil_formas_hijos: Json
-          numero_efectivo_formas_medio: number | null
-          numero_efectivo_formas_agregado: number | null
-          metrica_sucia: boolean
-          actualizado_en: string
+          total_versos_autor: number
         }
         Insert: {
-          autor_id: string
+          actualizado_en?: string
           alcance: string
-          n_obras_completas?: number
+          autor_id: string
+          metrica_sucia?: boolean
           n_jornadas_sueltas?: number
-          total_versos_autor?: number
+          n_obras_completas?: number
+          numero_efectivo_formas_agregado?: number | null
+          numero_efectivo_formas_medio?: number | null
           perfil_formas?: Json
           perfil_formas_hijos?: Json
-          numero_efectivo_formas_medio?: number | null
-          numero_efectivo_formas_agregado?: number | null
-          metrica_sucia?: boolean
-          actualizado_en?: string
+          total_versos_autor?: number
         }
         Update: {
-          autor_id?: string
+          actualizado_en?: string
           alcance?: string
-          n_obras_completas?: number
+          autor_id?: string
+          metrica_sucia?: boolean
           n_jornadas_sueltas?: number
-          total_versos_autor?: number
+          n_obras_completas?: number
+          numero_efectivo_formas_agregado?: number | null
+          numero_efectivo_formas_medio?: number | null
           perfil_formas?: Json
           perfil_formas_hijos?: Json
-          numero_efectivo_formas_medio?: number | null
-          numero_efectivo_formas_agregado?: number | null
-          metrica_sucia?: boolean
-          actualizado_en?: string
+          total_versos_autor?: number
         }
         Relationships: [
           {
@@ -269,6 +390,38 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "autores"
             referencedColumns: ["autor_id"]
+          },
+        ]
+      }
+      catalogo_metrico_estado: {
+        Row: {
+          actualizado_en: string
+          actualizado_por: string | null
+          id: boolean
+          modelo_version: number
+          revision: number
+        }
+        Insert: {
+          actualizado_en?: string
+          actualizado_por?: string | null
+          id?: boolean
+          modelo_version?: number
+          revision?: number
+        }
+        Update: {
+          actualizado_en?: string
+          actualizado_por?: string | null
+          id?: boolean
+          modelo_version?: number
+          revision?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalogo_metrico_estado_actualizado_por_fkey"
+            columns: ["actualizado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -380,6 +533,163 @@ export type Database = {
           },
         ]
       }
+      configuracion_rasgos: {
+        Row: {
+          configuracion_id: string
+          created_at: string
+          modalidad: string
+          nota: string | null
+          rasgo_id: string
+          updated_at: string
+          valor_id: string | null
+          valor_numero: number | null
+          valor_texto: string | null
+        }
+        Insert: {
+          configuracion_id: string
+          created_at?: string
+          modalidad?: string
+          nota?: string | null
+          rasgo_id: string
+          updated_at?: string
+          valor_id?: string | null
+          valor_numero?: number | null
+          valor_texto?: string | null
+        }
+        Update: {
+          configuracion_id?: string
+          created_at?: string
+          modalidad?: string
+          nota?: string | null
+          rasgo_id?: string
+          updated_at?: string
+          valor_id?: string | null
+          valor_numero?: number | null
+          valor_texto?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "configuracion_rasgos_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "configuracion_rasgos_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
+          },
+          {
+            foreignKeyName: "configuracion_rasgos_valor_id_fkey"
+            columns: ["valor_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+        ]
+      }
+      configuraciones_forma: {
+        Row: {
+          activo: boolean
+          configuracion_id: string
+          created_at: string
+          created_by: string | null
+          demarcable: boolean
+          descripcion: string | null
+          estado_revision: string
+          forma_id: string
+          grado: string
+          nombre: string
+          numero_versos: number | null
+          orden: number | null
+          origen_termino_id: string | null
+          principal: boolean
+          slug: string
+          tipo_rima_id: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          configuracion_id?: string
+          created_at?: string
+          created_by?: string | null
+          demarcable?: boolean
+          descripcion?: string | null
+          estado_revision?: string
+          forma_id: string
+          grado?: string
+          nombre: string
+          numero_versos?: number | null
+          orden?: number | null
+          origen_termino_id?: string | null
+          principal?: boolean
+          slug: string
+          tipo_rima_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          configuracion_id?: string
+          created_at?: string
+          created_by?: string | null
+          demarcable?: boolean
+          descripcion?: string | null
+          estado_revision?: string
+          forma_id?: string
+          grado?: string
+          nombre?: string
+          numero_versos?: number | null
+          orden?: number | null
+          origen_termino_id?: string | null
+          principal?: boolean
+          slug?: string
+          tipo_rima_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "configuraciones_forma_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "configuraciones_forma_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "configuraciones_forma_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "configuraciones_forma_tipo_rima_id_fkey"
+            columns: ["tipo_rima_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "configuraciones_forma_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       cuadros: {
         Row: {
           created_at: string
@@ -444,89 +754,6 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "editores"
             referencedColumns: ["user_id"]
-          },
-        ]
-      }
-      editores: {
-        Row: {
-          activo: boolean | null
-          created_at: string
-          email: string
-          institucion: string | null
-          last_login: string | null
-          nombre_completo: string
-          orcid: string | null
-          role: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          activo?: boolean | null
-          created_at?: string
-          email: string
-          institucion?: string | null
-          last_login?: string | null
-          nombre_completo: string
-          orcid?: string | null
-          role: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          activo?: boolean | null
-          created_at?: string
-          email?: string
-          institucion?: string | null
-          last_login?: string | null
-          nombre_completo?: string
-          orcid?: string | null
-          role?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "editores_role_fkey"
-            columns: ["role"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-        ]
-      }
-      estrofa_tipo_metros: {
-        Row: {
-          created_at: string
-          estrofa_tipo_id: string
-          metro_id: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          estrofa_tipo_id: string
-          metro_id: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          estrofa_tipo_id?: string
-          metro_id?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "estrofa_tipo_metros_estrofa_tipo_id_fkey"
-            columns: ["estrofa_tipo_id"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-          {
-            foreignKeyName: "estrofa_tipo_metros_metro_id_fkey"
-            columns: ["metro_id"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
           },
         ]
       }
@@ -647,6 +874,773 @@ export type Database = {
           },
         ]
       }
+      desviaciones_editor_metrico: {
+        Row: {
+          created_at: string
+          desviacion_prueba_id: string
+          dimension: string
+          metro_observado_id: string | null
+          observaciones: string | null
+          patron_repeticion_observado_id: string | null
+          patron_rima_observado_id: string | null
+          relacion_norma: string
+          seccion_observada_id: string | null
+          secuencia_prueba_id: string
+          unidad_prueba_id: string | null
+          updated_at: string
+          v_fin: number
+          v_ini: number
+          valor_rasgo_observado_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          desviacion_prueba_id?: string
+          dimension: string
+          metro_observado_id?: string | null
+          observaciones?: string | null
+          patron_repeticion_observado_id?: string | null
+          patron_rima_observado_id?: string | null
+          relacion_norma: string
+          seccion_observada_id?: string | null
+          secuencia_prueba_id: string
+          unidad_prueba_id?: string | null
+          updated_at?: string
+          v_fin: number
+          v_ini: number
+          valor_rasgo_observado_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          desviacion_prueba_id?: string
+          dimension?: string
+          metro_observado_id?: string | null
+          observaciones?: string | null
+          patron_repeticion_observado_id?: string | null
+          patron_rima_observado_id?: string | null
+          relacion_norma?: string
+          seccion_observada_id?: string | null
+          secuencia_prueba_id?: string
+          unidad_prueba_id?: string | null
+          updated_at?: string
+          v_fin?: number
+          v_ini?: number
+          valor_rasgo_observado_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "desviaciones_editor_metrico_metro_observado_id_fkey"
+            columns: ["metro_observado_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "desviaciones_editor_metrico_patron_repeticion_observado_id_fkey"
+            columns: ["patron_repeticion_observado_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_repeticion"
+            referencedColumns: ["patron_repeticion_id"]
+          },
+          {
+            foreignKeyName: "desviaciones_editor_metrico_patron_rima_observado_id_fkey"
+            columns: ["patron_rima_observado_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+          {
+            foreignKeyName: "desviaciones_editor_metrico_seccion_observada_id_fkey"
+            columns: ["seccion_observada_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "desviaciones_editor_metrico_secuencia_prueba_id_fkey"
+            columns: ["secuencia_prueba_id"]
+            isOneToOne: false
+            referencedRelation: "secuencias_editor_metrico"
+            referencedColumns: ["secuencia_prueba_id"]
+          },
+          {
+            foreignKeyName: "desviaciones_editor_metrico_unidad_prueba_id_fkey"
+            columns: ["unidad_prueba_id"]
+            isOneToOne: false
+            referencedRelation: "unidades_editor_metrico"
+            referencedColumns: ["unidad_prueba_id"]
+          },
+          {
+            foreignKeyName: "desviaciones_editor_metrico_valor_rasgo_observado_id_fkey"
+            columns: ["valor_rasgo_observado_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+        ]
+      }
+      editores: {
+        Row: {
+          activo: boolean | null
+          created_at: string
+          email: string
+          institucion: string | null
+          last_login: string | null
+          nombre_completo: string
+          orcid: string | null
+          role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activo?: boolean | null
+          created_at?: string
+          email: string
+          institucion?: string | null
+          last_login?: string | null
+          nombre_completo: string
+          orcid?: string | null
+          role: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activo?: boolean | null
+          created_at?: string
+          email?: string
+          institucion?: string | null
+          last_login?: string | null
+          nombre_completo?: string
+          orcid?: string | null
+          role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "editores_role_fkey"
+            columns: ["role"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      elecciones_editor_metrico: {
+        Row: {
+          created_at: string
+          eleccion_prueba_id: string
+          grupo_eleccion_id: string
+          observaciones: string | null
+          opcion_eleccion_id: string
+          secuencia_prueba_id: string
+          unidad_prueba_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          eleccion_prueba_id?: string
+          grupo_eleccion_id: string
+          observaciones?: string | null
+          opcion_eleccion_id: string
+          secuencia_prueba_id: string
+          unidad_prueba_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          eleccion_prueba_id?: string
+          grupo_eleccion_id?: string
+          observaciones?: string | null
+          opcion_eleccion_id?: string
+          secuencia_prueba_id?: string
+          unidad_prueba_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "elecciones_editor_metrico_opcion_eleccion_id_fkey"
+            columns: ["opcion_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "opciones_eleccion_metrica"
+            referencedColumns: ["opcion_eleccion_id"]
+          },
+          {
+            foreignKeyName: "elecciones_editor_metrico_secuencia_prueba_id_fkey"
+            columns: ["secuencia_prueba_id"]
+            isOneToOne: false
+            referencedRelation: "secuencias_editor_metrico"
+            referencedColumns: ["secuencia_prueba_id"]
+          },
+          {
+            foreignKeyName: "elecciones_editor_metrico_unidad_prueba_id_fkey"
+            columns: ["unidad_prueba_id"]
+            isOneToOne: false
+            referencedRelation: "unidades_editor_metrico"
+            referencedColumns: ["unidad_prueba_id"]
+          },
+        ]
+      }
+      escenarios_editor_metrico: {
+        Row: {
+          created_at: string
+          created_by: string
+          descripcion: string | null
+          escenario_id: string
+          nombre: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          descripcion?: string | null
+          escenario_id?: string
+          nombre: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          descripcion?: string | null
+          escenario_id?: string
+          nombre?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "escenarios_editor_metrico_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "escenarios_editor_metrico_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      estrofa_tipo_metros: {
+        Row: {
+          created_at: string
+          estrofa_tipo_id: string
+          metro_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          estrofa_tipo_id: string
+          metro_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          estrofa_tipo_id?: string
+          metro_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estrofa_tipo_metros_estrofa_tipo_id_fkey"
+            columns: ["estrofa_tipo_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "estrofa_tipo_metros_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      estructuras_secciones: {
+        Row: {
+          configuracion_id: string
+          created_at: string
+          nombre: string | null
+          nota: string | null
+          orden: number
+          patron_metrico_id: string | null
+          patron_rima_id: string | null
+          repeticiones_max: number | null
+          repeticiones_min: number | null
+          seccion_id: string
+          seccion_padre_id: string | null
+          tipo_seccion: string
+          updated_at: string
+          versos_max: number | null
+          versos_min: number | null
+        }
+        Insert: {
+          configuracion_id: string
+          created_at?: string
+          nombre?: string | null
+          nota?: string | null
+          orden: number
+          patron_metrico_id?: string | null
+          patron_rima_id?: string | null
+          repeticiones_max?: number | null
+          repeticiones_min?: number | null
+          seccion_id?: string
+          seccion_padre_id?: string | null
+          tipo_seccion: string
+          updated_at?: string
+          versos_max?: number | null
+          versos_min?: number | null
+        }
+        Update: {
+          configuracion_id?: string
+          created_at?: string
+          nombre?: string | null
+          nota?: string | null
+          orden?: number
+          patron_metrico_id?: string | null
+          patron_rima_id?: string | null
+          repeticiones_max?: number | null
+          repeticiones_min?: number | null
+          seccion_id?: string
+          seccion_padre_id?: string | null
+          tipo_seccion?: string
+          updated_at?: string
+          versos_max?: number | null
+          versos_min?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estructuras_secciones_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "estructuras_secciones_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
+          },
+          {
+            foreignKeyName: "estructuras_secciones_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+          {
+            foreignKeyName: "estructuras_secciones_seccion_padre_id_fkey"
+            columns: ["seccion_padre_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+        ]
+      }
+      familias_formas: {
+        Row: {
+          created_at: string
+          es_principal: boolean
+          familia_id: string
+          forma_id: string
+          nota: string | null
+          orden: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          es_principal?: boolean
+          familia_id: string
+          forma_id: string
+          nota?: string | null
+          orden?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          es_principal?: boolean
+          familia_id?: string
+          forma_id?: string
+          nota?: string | null
+          orden?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "familias_formas_familia_id_fkey"
+            columns: ["familia_id"]
+            isOneToOne: false
+            referencedRelation: "familias_metricas"
+            referencedColumns: ["familia_id"]
+          },
+          {
+            foreignKeyName: "familias_formas_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+        ]
+      }
+      familias_metricas: {
+        Row: {
+          activo: boolean
+          created_at: string
+          created_by: string | null
+          descripcion: string | null
+          estado_revision: string
+          familia_id: string
+          familia_padre_id: string | null
+          nombre: string
+          orden: number | null
+          origen_termino_id: string | null
+          slug: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          descripcion?: string | null
+          estado_revision?: string
+          familia_id?: string
+          familia_padre_id?: string | null
+          nombre: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          slug: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          descripcion?: string | null
+          estado_revision?: string
+          familia_id?: string
+          familia_padre_id?: string | null
+          nombre?: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          slug?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "familias_metricas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "familias_metricas_familia_padre_id_fkey"
+            columns: ["familia_padre_id"]
+            isOneToOne: false
+            referencedRelation: "familias_metricas"
+            referencedColumns: ["familia_id"]
+          },
+          {
+            foreignKeyName: "familias_metricas_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "familias_metricas_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      forma_aliases: {
+        Row: {
+          alias_id: string
+          created_at: string
+          forma_id: string
+          idioma: string | null
+          nombre: string
+          origen_termino_id: string | null
+          preferente: boolean
+          slug_normalizado: string
+          tipo_alias: string
+          updated_at: string
+        }
+        Insert: {
+          alias_id?: string
+          created_at?: string
+          forma_id: string
+          idioma?: string | null
+          nombre: string
+          origen_termino_id?: string | null
+          preferente?: boolean
+          slug_normalizado: string
+          tipo_alias?: string
+          updated_at?: string
+        }
+        Update: {
+          alias_id?: string
+          created_at?: string
+          forma_id?: string
+          idioma?: string | null
+          nombre?: string
+          origen_termino_id?: string | null
+          preferente?: boolean
+          slug_normalizado?: string
+          tipo_alias?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forma_aliases_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "forma_aliases_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      forma_relaciones: {
+        Row: {
+          created_at: string
+          estado_revision: string
+          forma_destino_id: string
+          forma_origen_id: string
+          nota: string | null
+          relacion_id: string
+          tipo_relacion: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          estado_revision?: string
+          forma_destino_id: string
+          forma_origen_id: string
+          nota?: string | null
+          relacion_id?: string
+          tipo_relacion: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          estado_revision?: string
+          forma_destino_id?: string
+          forma_origen_id?: string
+          nota?: string | null
+          relacion_id?: string
+          tipo_relacion?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forma_relaciones_forma_destino_id_fkey"
+            columns: ["forma_destino_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "forma_relaciones_forma_origen_id_fkey"
+            columns: ["forma_origen_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+        ]
+      }
+      formas_metricas: {
+        Row: {
+          activo: boolean
+          created_at: string
+          created_by: string | null
+          definicion: string | null
+          estado_revision: string
+          forma_id: string
+          nivel_estructural: string
+          nombre: string
+          orden: number | null
+          origen_termino_id: string | null
+          residual: boolean
+          seleccionable: boolean
+          slug: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          definicion?: string | null
+          estado_revision?: string
+          forma_id?: string
+          nivel_estructural?: string
+          nombre: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          residual?: boolean
+          seleccionable?: boolean
+          slug: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          definicion?: string | null
+          estado_revision?: string
+          forma_id?: string
+          nivel_estructural?: string
+          nombre?: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          residual?: boolean
+          seleccionable?: boolean
+          slug?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "formas_metricas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "formas_metricas_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "formas_metricas_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      formas_tradiciones: {
+        Row: {
+          created_at: string
+          cronologia: string | null
+          es_principal: boolean
+          forma_id: string
+          nota: string | null
+          tipo_relacion: string
+          tradicion_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          cronologia?: string | null
+          es_principal?: boolean
+          forma_id: string
+          nota?: string | null
+          tipo_relacion: string
+          tradicion_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          cronologia?: string | null
+          es_principal?: boolean
+          forma_id?: string
+          nota?: string | null
+          tipo_relacion?: string
+          tradicion_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "formas_tradiciones_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "formas_tradiciones_tradicion_id_fkey"
+            columns: ["tradicion_id"]
+            isOneToOne: false
+            referencedRelation: "tradiciones_metricas"
+            referencedColumns: ["tradicion_id"]
+          },
+        ]
+      }
+      fuentes_metricas: {
+        Row: {
+          anio: number | null
+          autoria: string | null
+          cita: string | null
+          created_at: string
+          doi: string | null
+          fuente_id: string
+          nota: string | null
+          publicacion: string | null
+          tipo: string | null
+          titulo: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          anio?: number | null
+          autoria?: string | null
+          cita?: string | null
+          created_at?: string
+          doi?: string | null
+          fuente_id?: string
+          nota?: string | null
+          publicacion?: string | null
+          tipo?: string | null
+          titulo: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          anio?: number | null
+          autoria?: string | null
+          cita?: string | null
+          created_at?: string
+          doi?: string | null
+          fuente_id?: string
+          nota?: string | null
+          publicacion?: string | null
+          tipo?: string | null
+          titulo?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
       grupos_atribucion: {
         Row: {
           created_at: string
@@ -686,6 +1680,78 @@ export type Database = {
           },
         ]
       }
+      grupos_eleccion_metrica: {
+        Row: {
+          activo: boolean
+          alcance: string
+          ayuda_editor: string | null
+          configuracion_id: string
+          created_at: string
+          dimension: string
+          estado_revision: string
+          grupo_eleccion_id: string
+          nombre: string
+          orden: number | null
+          permite_aplicar_global: boolean
+          seccion_id: string | null
+          selecciones_max: number
+          selecciones_min: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          alcance?: string
+          ayuda_editor?: string | null
+          configuracion_id: string
+          created_at?: string
+          dimension: string
+          estado_revision?: string
+          grupo_eleccion_id?: string
+          nombre: string
+          orden?: number | null
+          permite_aplicar_global?: boolean
+          seccion_id?: string | null
+          selecciones_max?: number
+          selecciones_min?: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          alcance?: string
+          ayuda_editor?: string | null
+          configuracion_id?: string
+          created_at?: string
+          dimension?: string
+          estado_revision?: string
+          grupo_eleccion_id?: string
+          nombre?: string
+          orden?: number | null
+          permite_aplicar_global?: boolean
+          seccion_id?: string | null
+          selecciones_max?: number
+          selecciones_min?: number
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grupos_eleccion_metrica_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+        ]
+      }
       jornadas: {
         Row: {
           created_at: string
@@ -721,6 +1787,274 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
+          },
+        ]
+      }
+      migracion_termino_destinos: {
+        Row: {
+          alias_id: string | null
+          configuracion_id: string | null
+          created_at: string
+          destino_id: string
+          familia_id: string | null
+          forma_id: string | null
+          nota: string | null
+          patron_rima_id: string | null
+          rasgo_id: string | null
+          termino_id: string
+          tipo_operacion: string
+          updated_at: string
+          valor_rasgo_id: string | null
+        }
+        Insert: {
+          alias_id?: string | null
+          configuracion_id?: string | null
+          created_at?: string
+          destino_id?: string
+          familia_id?: string | null
+          forma_id?: string | null
+          nota?: string | null
+          patron_rima_id?: string | null
+          rasgo_id?: string | null
+          termino_id: string
+          tipo_operacion: string
+          updated_at?: string
+          valor_rasgo_id?: string | null
+        }
+        Update: {
+          alias_id?: string | null
+          configuracion_id?: string | null
+          created_at?: string
+          destino_id?: string
+          familia_id?: string | null
+          forma_id?: string | null
+          nota?: string | null
+          patron_rima_id?: string | null
+          rasgo_id?: string | null
+          termino_id?: string
+          tipo_operacion?: string
+          updated_at?: string
+          valor_rasgo_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "migracion_termino_destinos_alias_id_fkey"
+            columns: ["alias_id"]
+            isOneToOne: false
+            referencedRelation: "forma_aliases"
+            referencedColumns: ["alias_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_familia_id_fkey"
+            columns: ["familia_id"]
+            isOneToOne: false
+            referencedRelation: "familias_metricas"
+            referencedColumns: ["familia_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_termino_id_fkey"
+            columns: ["termino_id"]
+            isOneToOne: false
+            referencedRelation: "migracion_terminos_metricos"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_valor_rasgo_id_fkey"
+            columns: ["valor_rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+        ]
+      }
+      migracion_terminos_metricos: {
+        Row: {
+          certeza: string
+          clasificacion_decidida: string | null
+          clasificacion_propuesta: string
+          created_at: string
+          estado_revision: string
+          notas_ip: string | null
+          propuesta: string
+          requiere_revision: boolean
+          revisado_en: string | null
+          revisado_por: string | null
+          termino_id: string
+          updated_at: string
+        }
+        Insert: {
+          certeza: string
+          clasificacion_decidida?: string | null
+          clasificacion_propuesta: string
+          created_at?: string
+          estado_revision?: string
+          notas_ip?: string | null
+          propuesta: string
+          requiere_revision?: boolean
+          revisado_en?: string | null
+          revisado_por?: string | null
+          termino_id: string
+          updated_at?: string
+        }
+        Update: {
+          certeza?: string
+          clasificacion_decidida?: string | null
+          clasificacion_propuesta?: string
+          created_at?: string
+          estado_revision?: string
+          notas_ip?: string | null
+          propuesta?: string
+          requiere_revision?: boolean
+          revisado_en?: string | null
+          revisado_por?: string | null
+          termino_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "migracion_terminos_metricos_revisado_por_fkey"
+            columns: ["revisado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "migracion_terminos_metricos_termino_id_fkey"
+            columns: ["termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      modelo_verso_segmentos: {
+        Row: {
+          alternativa: number
+          created_at: string
+          funcion: string | null
+          modelo_verso_id: string
+          nota: string | null
+          pausa_posterior: string | null
+          posicion: number
+          segmento_id: string
+          silabas: number
+          updated_at: string
+        }
+        Insert: {
+          alternativa?: number
+          created_at?: string
+          funcion?: string | null
+          modelo_verso_id: string
+          nota?: string | null
+          pausa_posterior?: string | null
+          posicion: number
+          segmento_id?: string
+          silabas: number
+          updated_at?: string
+        }
+        Update: {
+          alternativa?: number
+          created_at?: string
+          funcion?: string | null
+          modelo_verso_id?: string
+          nota?: string | null
+          pausa_posterior?: string | null
+          posicion?: number
+          segmento_id?: string
+          silabas?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modelo_verso_segmentos_modelo_verso_id_fkey"
+            columns: ["modelo_verso_id"]
+            isOneToOne: false
+            referencedRelation: "modelos_verso"
+            referencedColumns: ["modelo_verso_id"]
+          },
+        ]
+      }
+      modelos_verso: {
+        Row: {
+          activo: boolean
+          created_at: string
+          descripcion: string | null
+          estado_revision: string
+          metro_id: string | null
+          modelo_verso_id: string
+          nombre: string
+          patron_acentual: string | null
+          silabas_totales: number | null
+          slug: string
+          tipo: string
+          tipo_cesura: string | null
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          metro_id?: string | null
+          modelo_verso_id?: string
+          nombre: string
+          patron_acentual?: string | null
+          silabas_totales?: number | null
+          slug: string
+          tipo: string
+          tipo_cesura?: string | null
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          metro_id?: string | null
+          modelo_verso_id?: string
+          nombre?: string
+          patron_acentual?: string | null
+          silabas_totales?: number | null
+          slug?: string
+          tipo?: string
+          tipo_cesura?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modelos_verso_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
           },
         ]
       }
@@ -826,85 +2160,85 @@ export type Database = {
       }
       obras_resumen: {
         Row: {
-          obra_id: string
-          total_versos: number | null
-          n_secuencias: number | null
-          n_jornadas: number | null
-          n_formas_distintas: number | null
-          numero_efectivo_formas: number | null
-          p_max: number | null
-          densidad_transiciones: number | null
-          pct_cantado: number | null
-          tramos: Json | null
-          jornadas_tramos: Json | null
-          cuadros_tramos: Json | null
-          perfil_formas: Json | null
-          formas_presentes: string[] | null
-          metros_presentes: string[] | null
-          tipos_forma_presentes: string[] | null
-          variaciones_presentes: string[] | null
-          subtipos_presentes: string[] | null
-          tiene_versos_partidos: boolean | null
-          tiene_cambio_espacio: boolean | null
-          intervencion_femenina: string | null
-          intervencion_donaire: string | null
-          intervencion_sobrenaturales: string | null
-          metrica_sucia: boolean
           actualizado_en: string | null
+          cuadros_tramos: Json | null
+          densidad_transiciones: number | null
+          formas_presentes: string[] | null
+          intervencion_donaire: string | null
+          intervencion_femenina: string | null
+          intervencion_sobrenaturales: string | null
+          jornadas_tramos: Json | null
+          metrica_sucia: boolean
+          metros_presentes: string[] | null
+          n_formas_distintas: number | null
+          n_jornadas: number | null
+          n_secuencias: number | null
+          numero_efectivo_formas: number | null
+          obra_id: string
+          p_max: number | null
+          pct_cantado: number | null
+          perfil_formas: Json | null
+          subtipos_presentes: string[] | null
+          tiene_cambio_espacio: boolean | null
+          tiene_versos_partidos: boolean | null
+          tipos_forma_presentes: string[] | null
+          total_versos: number | null
+          tramos: Json | null
+          variaciones_presentes: string[] | null
         }
         Insert: {
-          obra_id: string
-          total_versos?: number | null
-          n_secuencias?: number | null
-          n_jornadas?: number | null
-          n_formas_distintas?: number | null
-          numero_efectivo_formas?: number | null
-          p_max?: number | null
-          densidad_transiciones?: number | null
-          pct_cantado?: number | null
-          tramos?: Json | null
-          jornadas_tramos?: Json | null
-          cuadros_tramos?: Json | null
-          perfil_formas?: Json | null
-          formas_presentes?: string[] | null
-          metros_presentes?: string[] | null
-          tipos_forma_presentes?: string[] | null
-          variaciones_presentes?: string[] | null
-          subtipos_presentes?: string[] | null
-          tiene_versos_partidos?: boolean | null
-          tiene_cambio_espacio?: boolean | null
-          intervencion_femenina?: string | null
-          intervencion_donaire?: string | null
-          intervencion_sobrenaturales?: string | null
-          metrica_sucia?: boolean
           actualizado_en?: string | null
+          cuadros_tramos?: Json | null
+          densidad_transiciones?: number | null
+          formas_presentes?: string[] | null
+          intervencion_donaire?: string | null
+          intervencion_femenina?: string | null
+          intervencion_sobrenaturales?: string | null
+          jornadas_tramos?: Json | null
+          metrica_sucia?: boolean
+          metros_presentes?: string[] | null
+          n_formas_distintas?: number | null
+          n_jornadas?: number | null
+          n_secuencias?: number | null
+          numero_efectivo_formas?: number | null
+          obra_id: string
+          p_max?: number | null
+          pct_cantado?: number | null
+          perfil_formas?: Json | null
+          subtipos_presentes?: string[] | null
+          tiene_cambio_espacio?: boolean | null
+          tiene_versos_partidos?: boolean | null
+          tipos_forma_presentes?: string[] | null
+          total_versos?: number | null
+          tramos?: Json | null
+          variaciones_presentes?: string[] | null
         }
         Update: {
-          obra_id?: string
-          total_versos?: number | null
-          n_secuencias?: number | null
-          n_jornadas?: number | null
-          n_formas_distintas?: number | null
-          numero_efectivo_formas?: number | null
-          p_max?: number | null
-          densidad_transiciones?: number | null
-          pct_cantado?: number | null
-          tramos?: Json | null
-          jornadas_tramos?: Json | null
-          cuadros_tramos?: Json | null
-          perfil_formas?: Json | null
-          formas_presentes?: string[] | null
-          metros_presentes?: string[] | null
-          tipos_forma_presentes?: string[] | null
-          variaciones_presentes?: string[] | null
-          subtipos_presentes?: string[] | null
-          tiene_versos_partidos?: boolean | null
-          tiene_cambio_espacio?: boolean | null
-          intervencion_femenina?: string | null
-          intervencion_donaire?: string | null
-          intervencion_sobrenaturales?: string | null
-          metrica_sucia?: boolean
           actualizado_en?: string | null
+          cuadros_tramos?: Json | null
+          densidad_transiciones?: number | null
+          formas_presentes?: string[] | null
+          intervencion_donaire?: string | null
+          intervencion_femenina?: string | null
+          intervencion_sobrenaturales?: string | null
+          jornadas_tramos?: Json | null
+          metrica_sucia?: boolean
+          metros_presentes?: string[] | null
+          n_formas_distintas?: number | null
+          n_jornadas?: number | null
+          n_secuencias?: number | null
+          numero_efectivo_formas?: number | null
+          obra_id?: string
+          p_max?: number | null
+          pct_cantado?: number | null
+          perfil_formas?: Json | null
+          subtipos_presentes?: string[] | null
+          tiene_cambio_espacio?: boolean | null
+          tiene_versos_partidos?: boolean | null
+          tipos_forma_presentes?: string[] | null
+          total_versos?: number | null
+          tramos?: Json | null
+          variaciones_presentes?: string[] | null
         }
         Relationships: [
           {
@@ -962,6 +2296,610 @@ export type Database = {
           },
         ]
       }
+      opciones_eleccion_metrica: {
+        Row: {
+          activo: boolean
+          created_at: string
+          descripcion: string | null
+          extension_desde_seccion_id: string | null
+          grupo_eleccion_id: string
+          materializa_seccion_id: string | null
+          metro_id: string | null
+          nombre: string
+          opcion_eleccion_id: string
+          orden: number | null
+          patron_metrico_id: string | null
+          patron_repeticion_id: string | null
+          patron_rima_id: string | null
+          rasgo_id: string | null
+          seccion_id: string | null
+          slug: string
+          updated_at: string
+          valor_rasgo_id: string | null
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          extension_desde_seccion_id?: string | null
+          grupo_eleccion_id: string
+          materializa_seccion_id?: string | null
+          metro_id?: string | null
+          nombre: string
+          opcion_eleccion_id?: string
+          orden?: number | null
+          patron_metrico_id?: string | null
+          patron_repeticion_id?: string | null
+          patron_rima_id?: string | null
+          rasgo_id?: string | null
+          seccion_id?: string | null
+          slug: string
+          updated_at?: string
+          valor_rasgo_id?: string | null
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          extension_desde_seccion_id?: string | null
+          grupo_eleccion_id?: string
+          materializa_seccion_id?: string | null
+          metro_id?: string | null
+          nombre?: string
+          opcion_eleccion_id?: string
+          orden?: number | null
+          patron_metrico_id?: string | null
+          patron_repeticion_id?: string | null
+          patron_rima_id?: string | null
+          rasgo_id?: string | null
+          seccion_id?: string | null
+          slug?: string
+          updated_at?: string
+          valor_rasgo_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opciones_eleccion_metrica_extension_desde_seccion_id_fkey"
+            columns: ["extension_desde_seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_materializa_seccion_id_fkey"
+            columns: ["materializa_seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_patron_repeticion_id_fkey"
+            columns: ["patron_repeticion_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_repeticion"
+            referencedColumns: ["patron_repeticion_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_valor_rasgo_id_fkey"
+            columns: ["valor_rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+        ]
+      }
+      patron_metrico_opciones: {
+        Row: {
+          created_at: string
+          metro_id: string
+          nota: string | null
+          orden: number | null
+          patron_metrico_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          metro_id: string
+          nota?: string | null
+          orden?: number | null
+          patron_metrico_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          metro_id?: string
+          nota?: string | null
+          orden?: number | null
+          patron_metrico_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patron_metrico_opciones_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "patron_metrico_opciones_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
+          },
+        ]
+      }
+      patron_metrico_posiciones: {
+        Row: {
+          alternativa: number
+          created_at: string
+          grupo_repeticion: string | null
+          metro_id: string | null
+          modelo_verso_id: string | null
+          nota: string | null
+          opcional: boolean
+          patron_metrico_id: string
+          posicion: number
+          posicion_id: string
+          updated_at: string
+        }
+        Insert: {
+          alternativa?: number
+          created_at?: string
+          grupo_repeticion?: string | null
+          metro_id?: string | null
+          modelo_verso_id?: string | null
+          nota?: string | null
+          opcional?: boolean
+          patron_metrico_id: string
+          posicion: number
+          posicion_id?: string
+          updated_at?: string
+        }
+        Update: {
+          alternativa?: number
+          created_at?: string
+          grupo_repeticion?: string | null
+          metro_id?: string | null
+          modelo_verso_id?: string | null
+          nota?: string | null
+          opcional?: boolean
+          patron_metrico_id?: string
+          posicion?: number
+          posicion_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patron_metrico_posiciones_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "patron_metrico_posiciones_modelo_verso_id_fkey"
+            columns: ["modelo_verso_id"]
+            isOneToOne: false
+            referencedRelation: "modelos_verso"
+            referencedColumns: ["modelo_verso_id"]
+          },
+          {
+            foreignKeyName: "patron_metrico_posiciones_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
+          },
+        ]
+      }
+      patron_repeticion_posiciones: {
+        Row: {
+          bloque: number
+          bloque_origen: number | null
+          condicion: string | null
+          created_at: string
+          etiqueta_funcional: string | null
+          patron_repeticion_id: string
+          posicion: number
+          posicion_id: string
+          posicion_origen: number | null
+          updated_at: string
+        }
+        Insert: {
+          bloque?: number
+          bloque_origen?: number | null
+          condicion?: string | null
+          created_at?: string
+          etiqueta_funcional?: string | null
+          patron_repeticion_id: string
+          posicion: number
+          posicion_id?: string
+          posicion_origen?: number | null
+          updated_at?: string
+        }
+        Update: {
+          bloque?: number
+          bloque_origen?: number | null
+          condicion?: string | null
+          created_at?: string
+          etiqueta_funcional?: string | null
+          patron_repeticion_id?: string
+          posicion?: number
+          posicion_id?: string
+          posicion_origen?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patron_repeticion_posiciones_patron_repeticion_id_fkey"
+            columns: ["patron_repeticion_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_repeticion"
+            referencedColumns: ["patron_repeticion_id"]
+          },
+        ]
+      }
+      patron_rima_enlaces: {
+        Row: {
+          bloque_destino: number | null
+          bloque_origen: number
+          created_at: string
+          desplazamiento_bloque: number
+          enlace_id: string
+          nota: string | null
+          obligatorio: boolean
+          patron_rima_id: string
+          posicion_destino: number
+          posicion_origen: number
+          tipo_enlace: string
+          ubicacion_destino: string
+          ubicacion_origen: string
+          updated_at: string
+        }
+        Insert: {
+          bloque_destino?: number | null
+          bloque_origen?: number
+          created_at?: string
+          desplazamiento_bloque?: number
+          enlace_id?: string
+          nota?: string | null
+          obligatorio?: boolean
+          patron_rima_id: string
+          posicion_destino: number
+          posicion_origen: number
+          tipo_enlace?: string
+          ubicacion_destino?: string
+          ubicacion_origen?: string
+          updated_at?: string
+        }
+        Update: {
+          bloque_destino?: number | null
+          bloque_origen?: number
+          created_at?: string
+          desplazamiento_bloque?: number
+          enlace_id?: string
+          nota?: string | null
+          obligatorio?: boolean
+          patron_rima_id?: string
+          posicion_destino?: number
+          posicion_origen?: number
+          tipo_enlace?: string
+          ubicacion_destino?: string
+          ubicacion_origen?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patron_rima_enlaces_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+        ]
+      }
+      patron_rima_posiciones: {
+        Row: {
+          bloque: number
+          clase_rima: string | null
+          created_at: string
+          nota: string | null
+          opcional: boolean
+          patron_rima_id: string
+          posicion: number
+          posicion_id: string
+          seccion: string | null
+          suelto: boolean
+          ubicacion: string
+          updated_at: string
+        }
+        Insert: {
+          bloque?: number
+          clase_rima?: string | null
+          created_at?: string
+          nota?: string | null
+          opcional?: boolean
+          patron_rima_id: string
+          posicion: number
+          posicion_id?: string
+          seccion?: string | null
+          suelto?: boolean
+          ubicacion?: string
+          updated_at?: string
+        }
+        Update: {
+          bloque?: number
+          clase_rima?: string | null
+          created_at?: string
+          nota?: string | null
+          opcional?: boolean
+          patron_rima_id?: string
+          posicion?: number
+          posicion_id?: string
+          seccion?: string | null
+          suelto?: boolean
+          ubicacion?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patron_rima_posiciones_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+        ]
+      }
+      patron_rima_restricciones: {
+        Row: {
+          created_at: string
+          descripcion: string | null
+          obligatoria: boolean
+          patron_rima_id: string
+          restriccion_id: string
+          tipo: string
+          updated_at: string
+          valor_numero: number | null
+          valor_texto: string | null
+        }
+        Insert: {
+          created_at?: string
+          descripcion?: string | null
+          obligatoria?: boolean
+          patron_rima_id: string
+          restriccion_id?: string
+          tipo: string
+          updated_at?: string
+          valor_numero?: number | null
+          valor_texto?: string | null
+        }
+        Update: {
+          created_at?: string
+          descripcion?: string | null
+          obligatoria?: boolean
+          patron_rima_id?: string
+          restriccion_id?: string
+          tipo?: string
+          updated_at?: string
+          valor_numero?: number | null
+          valor_texto?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patron_rima_restricciones_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+        ]
+      }
+      patrones_metricos: {
+        Row: {
+          ambito: string
+          configuracion_id: string
+          created_at: string
+          descripcion: string | null
+          estado_revision: string
+          nombre: string | null
+          patron_metrico_id: string
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          ambito?: string
+          configuracion_id: string
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          nombre?: string | null
+          patron_metrico_id?: string
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          ambito?: string
+          configuracion_id?: string
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          nombre?: string | null
+          patron_metrico_id?: string
+          tipo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrones_metricos_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+        ]
+      }
+      patrones_repeticion: {
+        Row: {
+          ambito: string
+          configuracion_id: string
+          created_at: string
+          descripcion: string | null
+          estado_revision: string
+          fijeza: string
+          patron_repeticion_id: string
+          regla: string
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          ambito?: string
+          configuracion_id: string
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          fijeza?: string
+          patron_repeticion_id?: string
+          regla: string
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          ambito?: string
+          configuracion_id?: string
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          fijeza?: string
+          patron_repeticion_id?: string
+          regla?: string
+          tipo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrones_repeticion_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+        ]
+      }
+      patrones_rima: {
+        Row: {
+          ambito: string
+          comportamiento: string
+          configuracion_id: string
+          created_at: string
+          descripcion: string | null
+          esquema: string | null
+          estado_revision: string
+          fijeza: string
+          nombre: string | null
+          origen_termino_id: string | null
+          patron_rima_id: string
+          tipo_rima_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          ambito?: string
+          comportamiento?: string
+          configuracion_id: string
+          created_at?: string
+          descripcion?: string | null
+          esquema?: string | null
+          estado_revision?: string
+          fijeza?: string
+          nombre?: string | null
+          origen_termino_id?: string | null
+          patron_rima_id?: string
+          tipo_rima_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          ambito?: string
+          comportamiento?: string
+          configuracion_id?: string
+          created_at?: string
+          descripcion?: string | null
+          esquema?: string | null
+          estado_revision?: string
+          fijeza?: string
+          nombre?: string | null
+          origen_termino_id?: string | null
+          patron_rima_id?: string
+          tipo_rima_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrones_rima_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "patrones_rima_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "patrones_rima_tipo_rima_id_fkey"
+            columns: ["tipo_rima_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       proyecto_activo: {
         Row: {
           created_at: string
@@ -982,6 +2920,102 @@ export type Database = {
           id?: number
           status?: string | null
           timestamp?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      rasgo_valores: {
+        Row: {
+          activo: boolean
+          created_at: string
+          descripcion: string | null
+          nombre: string
+          orden: number | null
+          origen_termino_id: string | null
+          rasgo_id: string
+          slug: string
+          updated_at: string
+          valor_id: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          nombre: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          rasgo_id: string
+          slug: string
+          updated_at?: string
+          valor_id?: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          descripcion?: string | null
+          nombre?: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          rasgo_id?: string
+          slug?: string
+          updated_at?: string
+          valor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rasgo_valores_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "rasgo_valores_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
+          },
+        ]
+      }
+      rasgos_metricos: {
+        Row: {
+          activo: boolean
+          created_at: string
+          demarcable: boolean
+          descripcion: string | null
+          estado_revision: string
+          nombre: string
+          observabilidad: string
+          rasgo_id: string
+          slug: string
+          tipo_valor: string
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          demarcable?: boolean
+          descripcion?: string | null
+          estado_revision?: string
+          nombre: string
+          observabilidad?: string
+          rasgo_id?: string
+          slug: string
+          tipo_valor?: string
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          demarcable?: boolean
+          descripcion?: string | null
+          estado_revision?: string
+          nombre?: string
+          observabilidad?: string
+          rasgo_id?: string
+          slug?: string
+          tipo_valor?: string
           updated_at?: string
         }
         Relationships: []
@@ -1061,6 +3095,87 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      secuencias_editor_metrico: {
+        Row: {
+          configuracion_id: string
+          created_at: string
+          created_by: string
+          escenario_id: string
+          forma_id: string
+          observaciones: string | null
+          orden: number
+          secuencia_prueba_id: string
+          updated_at: string
+          updated_by: string
+          v_fin: number
+          v_ini: number
+        }
+        Insert: {
+          configuracion_id: string
+          created_at?: string
+          created_by?: string
+          escenario_id: string
+          forma_id: string
+          observaciones?: string | null
+          orden?: number
+          secuencia_prueba_id?: string
+          updated_at?: string
+          updated_by?: string
+          v_fin: number
+          v_ini: number
+        }
+        Update: {
+          configuracion_id?: string
+          created_at?: string
+          created_by?: string
+          escenario_id?: string
+          forma_id?: string
+          observaciones?: string | null
+          orden?: number
+          secuencia_prueba_id?: string
+          updated_at?: string
+          updated_by?: string
+          v_fin?: number
+          v_ini?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "secuencias_editor_metrico_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_escenario_id_fkey"
+            columns: ["escenario_id"]
+            isOneToOne: false
+            referencedRelation: "escenarios_editor_metrico"
+            referencedColumns: ["escenario_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -1181,6 +3296,136 @@ export type Database = {
           },
         ]
       }
+      tradiciones_metricas: {
+        Row: {
+          activo: boolean
+          ambito_geografico: string | null
+          created_at: string
+          created_by: string | null
+          descripcion: string | null
+          estado_revision: string
+          nombre: string
+          orden: number | null
+          periodo_desde: number | null
+          periodo_hasta: number | null
+          slug: string
+          tradicion_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          ambito_geografico?: string | null
+          created_at?: string
+          created_by?: string | null
+          descripcion?: string | null
+          estado_revision?: string
+          nombre: string
+          orden?: number | null
+          periodo_desde?: number | null
+          periodo_hasta?: number | null
+          slug: string
+          tradicion_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          ambito_geografico?: string | null
+          created_at?: string
+          created_by?: string | null
+          descripcion?: string | null
+          estado_revision?: string
+          nombre?: string
+          orden?: number | null
+          periodo_desde?: number | null
+          periodo_hasta?: number | null
+          slug?: string
+          tradicion_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tradiciones_metricas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "tradiciones_metricas_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      unidades_editor_metrico: {
+        Row: {
+          created_at: string
+          etiqueta: string | null
+          observaciones: string | null
+          orden: number
+          seccion_id: string
+          secuencia_prueba_id: string
+          unidad_padre_id: string | null
+          unidad_prueba_id: string
+          updated_at: string
+          v_fin: number
+          v_ini: number
+        }
+        Insert: {
+          created_at?: string
+          etiqueta?: string | null
+          observaciones?: string | null
+          orden: number
+          seccion_id: string
+          secuencia_prueba_id: string
+          unidad_padre_id?: string | null
+          unidad_prueba_id: string
+          updated_at?: string
+          v_fin: number
+          v_ini: number
+        }
+        Update: {
+          created_at?: string
+          etiqueta?: string | null
+          observaciones?: string | null
+          orden?: number
+          seccion_id?: string
+          secuencia_prueba_id?: string
+          unidad_padre_id?: string | null
+          unidad_prueba_id?: string
+          updated_at?: string
+          v_fin?: number
+          v_ini?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unidades_editor_metrico_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "unidades_editor_metrico_secuencia_prueba_id_fkey"
+            columns: ["secuencia_prueba_id"]
+            isOneToOne: false
+            referencedRelation: "secuencias_editor_metrico"
+            referencedColumns: ["secuencia_prueba_id"]
+          },
+          {
+            foreignKeyName: "unidades_editor_metrico_unidad_padre_id_fkey"
+            columns: ["unidad_padre_id"]
+            isOneToOne: false
+            referencedRelation: "unidades_editor_metrico"
+            referencedColumns: ["unidad_prueba_id"]
+          },
+        ]
+      }
       vocabularios: {
         Row: {
           activo: boolean | null
@@ -1253,13 +3498,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "vocabularios_tipo_rima_id_fkey"
-            columns: ["tipo_rima_id"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-          {
             foreignKeyName: "vocabularios_naturaleza_estrofica_id_fkey"
             columns: ["naturaleza_estrofica_id"]
             isOneToOne: false
@@ -1273,6 +3511,13 @@ export type Database = {
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
           },
+          {
+            foreignKeyName: "vocabularios_tipo_rima_id_fkey"
+            columns: ["tipo_rima_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
         ]
       }
     }
@@ -1281,10 +3526,12 @@ export type Database = {
     }
     Functions: {
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
-      publicar_demarcador_version: {
-        Args: { p_version_id: string }
-        Returns: Database["public"]["Tables"]["demarcador_versiones"]["Row"]
+      can_view_obra_ficha_publica: {
+        Args: { p_include_hidden?: boolean; p_obra_id: string }
+        Returns: boolean
       }
+      get_autor_publico: { Args: { p_slug: string }; Returns: Json }
+      get_autores_listado_publico: { Args: never; Returns: Json }
       get_obra_comentarios_publicos: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
@@ -1293,15 +3540,106 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
-      get_autor_publico: {
-        Args: { p_slug: string }
+      get_obra_ficha_publica_base_without_slugs: {
+        Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
-      get_autores_listado_publico: {
-        Args: never
+      guardar_revision_migracion_metrica: {
+        Args: { p_cambios: Json }
+        Returns: number
+      }
+      guardar_secuencia_editor_metrico_prueba: {
+        Args: { p_datos: Json }
+        Returns: string
+      }
+      marcar_configuracion_metrica_principal: {
+        Args: { p_configuracion_id: string }
+        Returns: undefined
+      }
+      mark_public_data_dirty_for_autor: {
+        Args: { p_autor_id: string }
+        Returns: undefined
+      }
+      mark_public_data_dirty_for_obra: {
+        Args: { p_obra_id: string }
+        Returns: undefined
+      }
+      metadrama_slugify: { Args: { value: string }; Returns: string }
+      next_autores_slug: {
+        Args: { base: string; current_autor_id: string }
+        Returns: string
+      }
+      next_obras_slug: {
+        Args: { base: string; current_obra_id: string }
+        Returns: string
+      }
+      numero_efectivo_from_perfil: { Args: { p_perfil: Json }; Returns: number }
+      obra_publica_visible: { Args: { p_obra_id: string }; Returns: boolean }
+      obra_publicada_asignada: {
+        Args: { p_obra_id: string; p_user: string }
+        Returns: boolean
+      }
+      perfil_formas_hijos_rango: {
+        Args: { p_obra_id: string; p_v_fin?: number; p_v_ini?: number }
         Returns: Json
+      }
+      perfil_formas_rango: {
+        Args: { p_obra_id: string; p_v_fin: number; p_v_ini: number }
+        Returns: Json
+      }
+      perfil_metrico_unidades: {
+        Args: never
+        Returns: {
+          autor_id: string
+          jornada_id: string
+          jornada_v_fin: number
+          jornada_v_ini: number
+          obra_id: string
+          scope: string
+        }[]
+      }
+      publicar_demarcador_version: {
+        Args: { p_version_id: string }
+        Returns: {
+          artefacto: Json
+          catalogo_revision: number | null
+          esquema: number
+          estado: string
+          fuente_actualizada_en: string | null
+          fuente_tipo: string
+          generado_en: string
+          generado_por: string | null
+          huella_fuente: string
+          numero: number
+          publicado_en: string | null
+          publicado_por: string | null
+          total_familias: number
+          total_familias_variantes: number
+          total_variantes_demarcables: number
+          updated_at: string
+          version_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "demarcador_versiones"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      recompute_all: { Args: never; Returns: undefined }
+      recompute_autor_resumen: {
+        Args: { p_autor_id: string }
+        Returns: undefined
       }
       recompute_obra_resumen: {
+        Args: { p_obra_id: string }
+        Returns: undefined
+      }
+      recompute_obra_resumen_estructura: {
+        Args: { p_obra_id: string }
+        Returns: undefined
+      }
+      recompute_obra_resumen_metricas: {
         Args: { p_obra_id: string }
         Returns: undefined
       }
@@ -1309,12 +3647,20 @@ export type Database = {
         Args: { p_obra_id: string }
         Returns: undefined
       }
-      recompute_autor_resumen: {
-        Args: { p_autor_id: string }
+      recompute_vocabulario_arte_metrico: {
+        Args: { p_estrofa_tipo_id: string }
         Returns: undefined
       }
-      recompute_all: {
-        Args: never
+      resolve_obra_id_for_atribucion: {
+        Args: { p_atribucion_id: string }
+        Returns: string
+      }
+      resolve_obra_id_for_grupo_atribucion: {
+        Args: { p_jornada_id: string; p_obra_id: string }
+        Returns: string
+      }
+      validar_estructura_secuencia_editor_metrico: {
+        Args: { p_secuencia_id: string }
         Returns: undefined
       }
     }

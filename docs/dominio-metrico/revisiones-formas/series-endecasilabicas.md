@@ -20,6 +20,13 @@ con o sin dístico final, y encadenamiento interior. `pareado` sigue siendo una 
 dos versos; `pareados_endecasilabos` es una serie. Ambas formas pertenecen a la familia
 `pareados`.
 
+## Registrador
+
+En el endecasílabo suelto, elegir la configuración registra directamente la presencia de
+pareados, dístico final o encadenamiento interior; no se repiten esas preguntas. La silva
+endecasílaba también queda descrita por su configuración. Los pareados endecasílabos
+tienen configuración automática y exigen un número par de versos.
+
 ## Demarcador
 
 1. ¿Predominan los versos rimados?

@@ -18,7 +18,11 @@ Este documento muestra cómo se caracterizarán diferentes formas métricas medi
 2. la caracterización de una secuencia realizada por el editor;
 3. los datos derivados para demarcación, búsqueda y análisis.
 
-La riqueza del catálogo no implica que el editor tenga que rellenar todas sus tablas. El editor selecciona una forma, una configuración solo cuando sea necesario y las diferencias que observe. En una secuencia guardada, todo lo no señalado como diferencia se considera conforme con la configuración.
+La riqueza del catálogo no implica que el editor tenga que rellenar todas sus tablas. El
+editor selecciona una forma, una configuración solo cuando sea necesario, las alternativas
+admitidas que el catálogo marque como registrables y las desviaciones que observe. En una
+secuencia guardada, todo lo no señalado como desviación se considera conforme con la
+configuración y con las elecciones realizadas.
 
 ## 2. Tablas y responsabilidades
 
@@ -534,7 +538,7 @@ La secuencia resultante es `ABA | BCB | CDC | …`. El enlace pertenece al catá
 | Recomendado | Ninguna acción adicional. |
 | Diferencia | Marcar el rango donde se rompe el encadenamiento o cambia el cierre. |
 
-## 11. Norma más diferencias
+## 11. Norma, realización y diferencias
 
 ### Medida exacta conocida
 
@@ -569,6 +573,18 @@ Un romance rompe la correspondencia esperada en un tramo, pero la base no contie
 | `secuencia_observaciones_metricas` | Rango afectado, dimensión `rima`. |
 | `secuencia_rima_observada` | `relacion_norma = ruptura_de_correspondencia`; sin terminación inventada. |
 
+### Alternativa admitida
+
+Una copla de villancico presenta mudanza `abab`:
+
+| Tabla | Registro conceptual |
+| --- | --- |
+| `secuencia_configuraciones` | Configuración habitual de villancico. |
+| `unidades_metricas` | Copla concreta y su rango. |
+| `secuencia_elecciones_metricas` | Grupo `rima_mudanza`, opción `abab`. |
+
+No es una desviación: el catálogo reconoce `abba` y `abab` como realizaciones ordinarias.
+
 ### Ausencia de diferencias
 
 Si el editor guarda una secuencia sin observaciones métricas, el sistema interpreta que cumple completamente la configuración. No existe un estado adicional «revisada» ni una casilla de certeza.
@@ -581,19 +597,23 @@ flowchart LR
     ED["Editor de una obra"]
     SYS["Sistema"]
 
-    IP --> CAT["formas_metricas<br/>configuraciones_forma<br/>patrones y rasgos<br/>fuentes_metricas"]
+    IP --> CAT["formas_metricas<br/>configuraciones_forma<br/>patrones y rasgos<br/>grupos de elección<br/>fuentes_metricas"]
 
     ED --> SEC["secuencias_metricas<br/>secuencia_configuraciones"]
-    ED -. "solo cuando difiere o destaca" .-> DET["unidades_metricas<br/>observaciones métricas por rango"]
+    ED --> REAL["elecciones admitidas<br/>unidades_metricas"]
+    ED -. "solo cuando difiere" .-> DET["observaciones métricas por rango"]
 
     CAT --> SYS
     SEC --> SYS
+    REAL --> SYS
     DET --> SYS
 
     SYS --> OUT["Demarcador<br/>fichas<br/>filtros<br/>laboratorio"]
 ```
 
-El IP formaliza una vez las propiedades generales. El editor identifica la forma y añade únicamente diferencias o rasgos destacables. Lo no anotado se considera conforme con la configuración.
+El IP formaliza una vez las propiedades generales y decide cuáles generan elecciones. El
+editor identifica la forma, elige entre las posibilidades relevantes y añade diferencias solo
+cuando sale de ellas. Lo no anotado como desviación se considera conforme.
 
 ## 13. Regla de diseño de la interfaz
 
@@ -601,8 +621,9 @@ Para cualquier forma:
 
 1. **Siempre visible:** rango y forma.
 2. **Pregunta contextual:** configuración, solo cuando diferencia alternativas relevantes.
-3. **Diferencias desplegables:** medida, rima, estructura, repetición o rasgo, filtradas por la configuración.
-4. **Precisión opcional:** medida exacta o detalle de rima solo cuando se conoce.
-5. **Datos derivados:** no se vuelven a pedir al editor.
+3. **Elecciones compiladas:** solo los grupos declarados por esa configuración.
+4. **Unidades internas:** únicamente cuando la respuesta puede variar por copla, estrofa o tramo.
+5. **Desviaciones desplegables:** medida, rima, estructura, repetición o rasgo.
+6. **Datos derivados:** no se vuelven a pedir al editor.
 
 La ontología aumenta la precisión y la reutilización de los datos, pero la interfaz aplica divulgación progresiva para mantener una edición breve. El editor no declara certeza ni estado de revisión: guardar la secuencia cierra su caracterización bajo la convención de mundo cerrado.

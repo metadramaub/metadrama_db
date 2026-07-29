@@ -9,6 +9,7 @@
 	import MetricCatalogOrganizationEditor from '$lib/components/metrica/catalogo/MetricCatalogOrganizationEditor.svelte';
 	import MetricCatalogReferenceEditor from '$lib/components/metrica/catalogo/MetricCatalogReferenceEditor.svelte';
 	import MetricCatalogGuide from '$lib/components/metrica/catalogo/MetricCatalogGuide.svelte';
+	import MetricEditorSandbox from '$lib/components/metrica/editor-v2/MetricEditorSandbox.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
@@ -25,12 +26,20 @@
 	} from '$lib/metrica/catalogo';
 	import { pushToast } from '$lib/stores/toast';
 
-	type ActiveTab = 'guide' | 'catalog' | 'organization' | 'reference' | 'validation' | 'traceability';
+	type ActiveTab =
+		| 'guide'
+		| 'catalog'
+		| 'organization'
+		| 'reference'
+		| 'editor'
+		| 'validation'
+		| 'traceability';
 	const activeTabs = new Set<ActiveTab>([
 		'guide',
 		'catalog',
 		'organization',
 		'reference',
+		'editor',
 		'validation',
 		'traceability'
 	]);
@@ -66,6 +75,7 @@
 		{ id: 'catalog', label: 'Formas y configuraciones' },
 		{ id: 'organization', label: 'Organización' },
 		{ id: 'reference', label: 'Modelos, rasgos y fuentes' },
+		{ id: 'editor', label: 'Editor de prueba' },
 		{ id: 'validation', label: 'Validación y demarcador' },
 		{ id: 'traceability', label: 'Trazabilidad de importación' }
 	];
@@ -290,7 +300,12 @@
 				20260728162000_formalizacion_silva.sql ·
 				20260728163000_formalizacion_series_endecasilabicas.sql ·
 				20260729100000_formalizacion_soneto.sql ·
-				20260729101000_formalizacion_villancico.sql
+				20260729101000_formalizacion_villancico.sql ·
+				20260729102000_elecciones_editor_metrico_v2.sql ·
+				20260729104000_editor_metrico_jerarquico.sql ·
+				20260729105000_guardado_editor_metrico_jerarquico.sql ·
+				20260729106000_contratos_editoriales_y_longitud.sql ·
+				20260729107000_contratos_formas_revisadas.sql
 			</p>
 		</div>
 	{:else}
@@ -503,6 +518,8 @@
 					metres={data.options.metres}
 				/>
 			{/key}
+		{:else if activeTab === 'editor'}
+			<MetricEditorSandbox {data} />
 		{:else if activeTab === 'traceability'}
 			<div class="mb-5 border-l-4 border-sky-500 bg-sky-50 p-4 text-sm leading-6 text-sky-950">
 				Esta sección conserva cómo se transformó el vocabulario anterior. Es un informe de

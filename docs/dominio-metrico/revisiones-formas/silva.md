@@ -20,6 +20,14 @@ La forma es una serie abierta, no estrófica, con rima consonante y posibilidad 
 sueltos. En la configuración regular, un verso suelto es una desviación; en las demás
 puede formar parte de la norma.
 
+## Registrador
+
+El editor selecciona una de las cuatro configuraciones y no responde preguntas
+redundantes sobre los rasgos que esa elección ya fija. Solo la configuración regular
+exige un número par de versos por su ciclo `7 + 11`. En ella, un verso suelto o una
+ruptura del orden se registra como desviación; en las demás se aplica la norma descrita
+por la configuración.
+
 ## Demarcador
 
 Pregunta por las medidas, la organización en pareados y, si corresponde, el orden

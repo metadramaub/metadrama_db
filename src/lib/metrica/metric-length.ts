@@ -1,0 +1,32 @@
+import type { MetricLengthRule } from '$lib/metrica/catalogo';
+
+export function inclusiveMetricLength(start: number, end: number): number {
+	if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return 0;
+	return Math.trunc(end) - Math.trunc(start) + 1;
+}
+
+export function isMetricLengthCompatible(
+	rule: MetricLengthRule | null | undefined,
+	start: number,
+	end: number
+): boolean {
+	if (!rule) return true;
+	const length = inclusiveMetricLength(start, end);
+	if (length < rule.minimo_versos) return false;
+	const remainder =
+		((length - rule.residuo_versos) % rule.modulo_versos + rule.modulo_versos) %
+		rule.modulo_versos;
+	return remainder === 0;
+}
+
+export function metricLengthError(
+	rule: MetricLengthRule | null | undefined,
+	start: number,
+	end: number,
+	configurationName?: string
+): string | null {
+	if (!rule || isMetricLengthCompatible(rule, start, end)) return null;
+	const length = inclusiveMetricLength(start, end);
+	const subject = configurationName ? `«${configurationName}» exige` : 'La configuración exige';
+	return `La secuencia contiene ${length} ${length === 1 ? 'verso' : 'versos'}. ${subject} ${rule.explicacion}. Revisa el rango. Si la fuente presenta una laguna, incorpora el verso que ocupa esa posición y regístrala como desviación.`;
+}

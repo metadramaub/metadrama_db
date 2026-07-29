@@ -114,7 +114,8 @@
 		<p class="mt-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
 			El catálogo separa la identidad de una forma de sus realizaciones posibles. No hay que
 			rellenar todos los campos: solo se declara aquello que define, caracteriza o documenta una
-			configuración. Lo que no se registra se entiende conforme a la norma elegida.
+			configuración. En una secuencia concreta se eligen las alternativas admitidas que sean
+			analíticamente útiles; solo lo que queda fuera de ellas se registra como desviación.
 		</p>
 	</header>
 
@@ -123,7 +124,7 @@
 			['1', 'Forma', 'La identidad reconocible y seleccionable: romance, lira, soneto.'],
 			['2', 'Configuración', 'Una norma o alternativa interna que no necesita convertirse en otra forma.'],
 			['3', 'Patrones', 'Metro, rima, secciones y repeticiones que formalizan esa configuración.'],
-			['4', 'Registro editorial', 'El editor elige la forma y solo declara en qué se aparta la secuencia de la norma.']
+			['4', 'Registro editorial', 'El editor elige forma, alternativas observadas y, solo cuando existen, desviaciones.']
 		] as item}
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
 				<p class="text-xs font-semibold uppercase tracking-wide text-[color:var(--muted-foreground)]">{item[0]}</p>
@@ -131,6 +132,40 @@
 				<p class="mt-2 text-sm leading-6">{item[2]}</p>
 			</div>
 		{/each}
+	</section>
+
+	<section class="space-y-4 border border-[color:var(--border)] bg-[color:var(--card)] p-5">
+		<h3 class="text-lg font-semibold">Qué genera una pregunta para el editor</h3>
+		<p class="max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
+			Una posibilidad formalizada no obliga por sí sola a añadir un campo. Se crea un grupo de
+			elección cuando existen varias realizaciones admitidas y distinguirlas aporta información al
+			corpus. Cada respuesta sigue apuntando a un metro, patrón, sección, repetición o valor de
+			rasgo normalizado.
+		</p>
+		<div class="grid gap-4 text-sm leading-6 lg:grid-cols-3">
+			<div>
+				<h4 class="font-medium">Resultado único</h4>
+				<p class="mt-1 text-[color:var(--muted-foreground)]">
+					Se deriva de la configuración y no se pregunta.
+				</p>
+			</div>
+			<div>
+				<h4 class="font-medium">Alternativas admitidas</h4>
+				<p class="mt-1 text-[color:var(--muted-foreground)]">
+					El editor elige una o varias, una vez por secuencia o en cada unidad interna.
+				</p>
+			</div>
+			<div>
+				<h4 class="font-medium">Fuera de las alternativas</h4>
+				<p class="mt-1 text-[color:var(--muted-foreground)]">
+					Se registra como desviación localizada, no como una respuesta adicional.
+				</p>
+			</div>
+		</div>
+		<p class="border-l-2 border-[color:var(--primary)] pl-3 text-sm">
+			<strong>Realización efectiva:</strong> forma + configuración + elecciones admitidas +
+			unidades realizadas + desviaciones registradas.
+		</p>
 	</section>
 
 	<section class="grid gap-6 xl:grid-cols-2">

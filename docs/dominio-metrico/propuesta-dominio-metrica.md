@@ -97,14 +97,19 @@ La bibliografía se normalizará mediante fuentes y aserciones. Cada afirmación
 
 ## Caracterización editorial
 
-La caracterización seguirá el principio **norma más diferencias**:
+La caracterización distinguirá **norma, realización y diferencias**:
 
 1. el editor selecciona la forma;
 2. selecciona una configuración solo cuando haya alternativas relevantes;
-3. registra únicamente dónde la secuencia difiere de esa configuración;
-4. añade, de forma opcional, rasgos destacables que no se deriven ya de la configuración.
+3. responde los grupos de elección que el catálogo haya declarado útiles;
+4. localiza unidades internas cuando una respuesta pueda variar entre ellas;
+5. registra únicamente dónde la secuencia difiere de la configuración y de las alternativas admitidas.
 
-Se adopta un modelo de mundo cerrado para las secuencias guardadas: lo no registrado como diferencia se interpreta como cumplimiento de la configuración. No habrá campos editoriales de certeza, revisión o pendiente. La caracterización se realiza de una vez y la complejidad formal reside en el catálogo, no en el formulario de la obra.
+Se adopta un modelo de mundo cerrado para las secuencias guardadas: lo no registrado como
+desviación se interpreta como cumplimiento de la configuración y de las elecciones
+realizadas. Una pregunta obligatoria sin respuesta sí impide guardar. No habrá campos
+editoriales de certeza, revisión o pendiente. La caracterización se realiza de una vez y la
+complejidad formal reside en el catálogo, no en el formulario de la obra.
 
 Una diferencia podrá localizarse por `v_ini` y `v_fin` y reutilizará las entidades normalizadas:
 

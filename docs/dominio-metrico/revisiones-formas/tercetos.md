@@ -20,6 +20,16 @@ del encadenado añade un verso al último terceto para formar el serventesio `YZ
 `terceto_octosilabo` queda provisionalmente como configuración no demarcable del
 encadenado. `terceto_de_esdrujulos` se transforma en rasgo transversal.
 
+## Registrador
+
+- `terceto`: configuración automática y final esdrújulo opcional; múltiplos de 3.
+- `terceto_encadenado`: la configuración contiene el encadenamiento y el cierre, por lo
+  que no se vuelven a preguntar; su longitud es `3n + 1`.
+- `tercetos_sin_encadenar`: el editor elige `A-A` o `-AA`; la serie contiene al menos dos
+  unidades y su longitud es múltiplo de 3.
+
+Las rupturas locales se registran como desviaciones, no como otra configuración.
+
 ## Demarcador
 
 Primero distingue una unidad de tres versos de una serie. En las series pregunta si la

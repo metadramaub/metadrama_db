@@ -13,23 +13,30 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    Diagnóstico de las 119 entradas actuales, contradicciones de datos y problemas de la jerarquía padre/hijo.
 
 3. [Propuesta conceptual del dominio](./propuesta-dominio-metrica.md)
-   Decisiones generales: formas, familias, tradiciones, configuraciones, rasgos, norma más diferencias, demarcador y redes.
+   Decisiones generales: formas, familias, tradiciones, configuraciones, elecciones de realización, desviaciones, demarcador y redes.
 
 4. [Arquitectura del dominio métrico](./arquitectura-dominio-metrica.md)
    Modelo relacional, anotación editorial, migración, interfaces, proyecciones y criterios de aceptación.
 
-5. [Matriz de reclasificación](./matriz-reclasificacion-formas-metricas.md)
+5. [Editor de secuencias métricas V2](./editor-secuencias-v2.md)
+   Grupos de elección, escenarios aislados, persistencia de pruebas y contrato de la interfaz futura.
+
+6. [Contratos del registrador para formas revisadas](./contratos-registrador-formas-revisadas.md)
+   Qué se deriva, qué pregunta el editor, qué se guarda y cómo se valida cada forma ya revisada.
+
+7. [Matriz de reclasificación](./matriz-reclasificacion-formas-metricas.md)
    Destino preliminar de cada una de las 119 entradas del vocabulario actual.
 
-6. [Ejemplos de formalización](./ejemplos-formalizacion-ontologia-metrica.md)
+8. [Ejemplos de formalización](./ejemplos-formalizacion-ontologia-metrica.md)
    Grafos y ejemplos de cómo se traducen formas y secuencias concretas a las tablas propuestas.
 
-7. [Revisiones de formas](./revisiones-formas/)
+9. [Revisiones de formas](./revisiones-formas/)
    Contraste forma por forma entre el criterio especializado del IP, la bibliografía y su
    traducción al catálogo. Incluye la [quintilla](./revisiones-formas/quintilla.md), la
    revisión de [terceto y terceto encadenado](./revisiones-formas/tercetos.md), la
    [silva](./revisiones-formas/silva.md), la frontera entre
    [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md), el
+   [romance](./revisiones-formas/romance.md), el
    [soneto](./revisiones-formas/soneto.md), el
    [villancico](./revisiones-formas/villancico.md) y un
    [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).

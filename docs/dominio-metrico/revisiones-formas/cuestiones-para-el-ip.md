@@ -53,6 +53,6 @@ Véase [villancico.md](./villancico.md).
 1. ¿La mudanza se presenta como una sección de cuatro versos o como dos mudanzas
    simétricas?
 2. ¿La ausencia de cabeza explícita es normativa?
-3. ¿Enlace y vuelta pueden tener cualquier extensión desde un verso?
+3. ¿El enlace o vuelta puede tener cualquier extensión desde un verso?
 4. ¿Cómo debe representarse una repetición sobreentendida del estribillo?
 5. ¿`abba` y `abab` son esquemas cerrados o solo habituales?
