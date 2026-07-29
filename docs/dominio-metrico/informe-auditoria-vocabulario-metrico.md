@@ -391,7 +391,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `doble_sextilla` | 3 | Marcar la raíz como agrupador; manriqueña como subtipo lexicalizado; evitar duplicar “alternativa” y padre. |
 | `endecasilabo_suelto` | 7 | Trasladar esdrújulos, dístico final y densidad de pareados a rasgos; documentar umbrales. |
 | `irregular` | 4 | Categoría residual, no candidata normal; derivar arte menor/mayor/mixto. |
-| `lira` | 1 | Estructura coherente; añadir fuente, ejemplo y patrón métrico ordenado. |
+| `lira` | 1 | Resuelto en el nuevo catálogo: patrón métrico `7-11-7-7-11`, rima `aBabB`, fuente y denominaciones normalizadas. |
 | `novena` | 3 | Resuelto: una forma, configuraciones 4 + 5 / 5 + 4 y reutilización de redondilla y quintilla como componentes. |
 | `octava_real` | 3 | Resuelto: raíz y “regular” fusionadas; esdrújulos trasladados a rasgo transversal. |
 | `pareado_de_arte_menor` | 3 | Los hijos por metro son derivables; sustituir rima `otras` por un régimen preciso. |
