@@ -138,7 +138,7 @@ Se retiran los umbrales porcentuales 50/98/99 usados para formalizar «mayoría�
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `lira` | F | Conservar como forma canónica con patrón métrico y de rima ordenado. | Alta | No |
+| `lira` | F | Resuelto: forma fija `7a 11B 7a 7b 11B`, con posiciones métricas y de rima normalizadas. | Alta | No |
 
 ## 11. Novena
 

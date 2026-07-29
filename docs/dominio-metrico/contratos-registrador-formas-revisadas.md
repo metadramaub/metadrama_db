@@ -34,6 +34,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Redondilla · configuración doble enlazada | unidades de 8 octosílabos, `abba:acca` | nada | múltiplo de 8; materializa una unidad por cada 8 versos |
 | Octava real | 8 endecasílabos consonantes y `ABABABCC` | final esdrújulo, solo si caracteriza | múltiplo de 8 |
 | Novena | 9 octosílabos consonantes y orden de secciones según configuración | esquema de la redondilla y de la quintilla en cada unidad | múltiplo de 9; materializa una novena y sus dos partes por cada 9 versos |
+| Lira | 5 versos, patrón `7-11-7-7-11`, consonancia y `aBabB` | nada | múltiplo de 5 |
 
 ## Recorridos mínimos
 
@@ -61,6 +62,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Octava real: forma y guardar; el rasgo esdrújulo queda vacío por defecto.
 - Novena: forma, orden de secciones y los dos esquemas de la primera unidad; aplicar a
   toda la tirada y cambiar solo las unidades distintas.
+- Lira: forma y guardar; toda la norma se deriva.
 
 ## Criterio de las desviaciones
 
