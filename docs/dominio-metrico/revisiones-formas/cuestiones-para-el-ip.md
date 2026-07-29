@@ -60,3 +60,11 @@ aparece por primera vez después de la primera copla, se selecciona una configur
 propia; las apariciones posteriores se registran como represas y la implícita no crea
 versos ficticios. Una sección final aislada solo se considera estribillo si existe
 evidencia funcional.
+
+## Zéjel
+
+Véase [zejel.md](./zejel.md).
+
+1. ¿Se admiten estribillos de uno y de dos versos o el zéjel estricto exige dístico?
+2. ¿Una represa parcial es posibilidad admitida o desviación?
+3. ¿Las medidas 6 y 8 forman un repertorio cerrado para el corpus?
