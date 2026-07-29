@@ -26,19 +26,28 @@ const sections: MetricCatalogDomainRow[] = [
 		tipo_seccion: 'cabeza',
 		nombre: 'Cabeza',
 		orden: 1,
-		repeticiones_min: 0,
+		repeticiones_min: 1,
 		repeticiones_max: 1,
 		versos_min: 2,
 		versos_max: 4
 	},
 	{
-		seccion_id: 'copla',
+		seccion_id: 'ciclo',
 		seccion_padre_id: null,
-		tipo_seccion: 'copla',
-		nombre: 'Copla',
+		tipo_seccion: 'ciclo_copla',
+		nombre: 'Copla y posible represa',
 		orden: 2,
 		repeticiones_min: 1,
 		repeticiones_max: null
+	},
+	{
+		seccion_id: 'copla',
+		seccion_padre_id: 'ciclo',
+		tipo_seccion: 'copla',
+		nombre: 'Copla',
+		orden: 1,
+		repeticiones_min: 1,
+		repeticiones_max: 1
 	},
 	{
 		seccion_id: 'mudanza',
@@ -54,8 +63,8 @@ const sections: MetricCatalogDomainRow[] = [
 	{
 		seccion_id: 'enlace',
 		seccion_padre_id: 'copla',
-		tipo_seccion: 'enlace',
-		nombre: 'Enlace',
+		tipo_seccion: 'enlace_vuelta',
+		nombre: 'Enlace o vuelta',
 		orden: 2,
 		repeticiones_min: 0,
 		repeticiones_max: 1,
@@ -63,11 +72,11 @@ const sections: MetricCatalogDomainRow[] = [
 		versos_max: null
 	},
 	{
-		seccion_id: 'estribillo',
-		seccion_padre_id: 'copla',
-		tipo_seccion: 'estribillo',
-		nombre: 'Estribillo',
-		orden: 4,
+		seccion_id: 'represa',
+		seccion_padre_id: 'ciclo',
+		tipo_seccion: 'represa',
+		nombre: 'Represa',
+		orden: 2,
 		repeticiones_min: 0,
 		repeticiones_max: 1,
 		versos_min: 1,
@@ -80,7 +89,7 @@ const repetitionOptions: MetricCatalogDomainRow[] = [
 		opcion_eleccion_id: 'total',
 		grupo_eleccion_id: 'repetition',
 		slug: 'total',
-		materializa_seccion_id: 'estribillo',
+		materializa_seccion_id: 'represa',
 		extension_desde_seccion_id: 'head',
 		activo: true
 	},
@@ -182,23 +191,28 @@ describe('editor métrico jerárquico', () => {
 		expect(synchronized.units).toEqual([]);
 	});
 
-	it('crea únicamente la copla y su mudanza obligatoria', () => {
+	it('crea la cabeza, el ciclo, la copla y su mudanza obligatoria', () => {
 		const units = ensureRequiredMetricStructure([], sections, 1);
-		expect(units.map((unit) => unit.seccion_id)).toEqual(['copla', 'mudanza']);
+		expect(units.map((unit) => unit.seccion_id)).toEqual([
+			'head',
+			'ciclo',
+			'copla',
+			'mudanza'
+		]);
 		expect(units.find((unit) => unit.seccion_id === 'mudanza')).toMatchObject({
-			unidad_padre_id: 'unit-1',
-			v_ini: 1,
-			v_fin: 4
+			unidad_padre_id: 'unit-3',
+			v_ini: 3,
+			v_fin: 6
 		});
 		expect(units.find((unit) => unit.seccion_id === 'copla')).toMatchObject({
-			v_ini: 1,
-			v_fin: 4
+			unidad_padre_id: 'unit-2',
+			v_ini: 3,
+			v_fin: 6
 		});
 	});
 
-	it('recalcula rangos al añadir cabeza y secciones opcionales', () => {
+	it('recalcula rangos al añadir secciones opcionales', () => {
 		let units = ensureRequiredMetricStructure([], sections, 1);
-		units = addSectionInstance(units, sections, 'head', null, 1);
 		const copla = units.find((unit) => unit.seccion_id === 'copla');
 		expect(units.find((unit) => unit.seccion_id === 'head')).toMatchObject({
 			v_ini: 1,
@@ -223,9 +237,9 @@ describe('editor métrico jerárquico', () => {
 		});
 	});
 
-	it('crea una mudanza independiente dentro de cada copla', () => {
+	it('crea una mudanza independiente dentro de cada ciclo de copla', () => {
 		let units = ensureRequiredMetricStructure([], sections, 1);
-		units = addSectionInstance(units, sections, 'copla', null, 1);
+		units = addSectionInstance(units, sections, 'ciclo', null, 1);
 		const coplas = units.filter((unit) => unit.seccion_id === 'copla');
 		const mudanzas = units.filter((unit) => unit.seccion_id === 'mudanza');
 
@@ -235,18 +249,17 @@ describe('editor métrico jerárquico', () => {
 			coplas.map((unit) => unit.unidad_prueba_id)
 		);
 		expect(coplas.map((unit) => [unit.v_ini, unit.v_fin])).toEqual([
-			[1, 4],
-			[5, 8]
+			[3, 6],
+			[7, 10]
 		]);
 	});
 
-	it('materializa el estribillo total y deriva su extensión de la cabeza', () => {
+	it('materializa la represa como hermana de la copla y deriva su extensión de la cabeza', () => {
 		let units = ensureRequiredMetricStructure([], sections, 1);
-		units = addSectionInstance(units, sections, 'head', null, 1);
-		const copla = units.find((unit) => unit.seccion_id === 'copla');
+		const ciclo = units.find((unit) => unit.seccion_id === 'ciclo');
 		const choices: MetricChoiceDraft[] = [
 			{
-				unidad_prueba_id: copla?.unidad_prueba_id ?? null,
+				unidad_prueba_id: ciclo?.unidad_prueba_id ?? null,
 				grupo_eleccion_id: 'repetition',
 				opcion_eleccion_id: 'total',
 				observaciones: null
@@ -256,7 +269,7 @@ describe('editor métrico jerárquico', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			sections,
-			copla?.unidad_prueba_id ?? null,
+			ciclo?.unidad_prueba_id ?? null,
 			repetitionOptions,
 			['total'],
 			1,
@@ -264,7 +277,7 @@ describe('editor métrico jerárquico', () => {
 			repetitionOptions
 		);
 
-		expect(units.find((unit) => unit.seccion_id === 'estribillo')).toMatchObject({
+		expect(units.find((unit) => unit.seccion_id === 'represa')).toMatchObject({
 			v_ini: 7,
 			v_fin: 8
 		});
@@ -272,7 +285,7 @@ describe('editor métrico jerárquico', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			sections,
-			copla?.unidad_prueba_id ?? null,
+			ciclo?.unidad_prueba_id ?? null,
 			repetitionOptions,
 			['implicit'],
 			1,
@@ -284,6 +297,108 @@ describe('editor métrico jerárquico', () => {
 			],
 			repetitionOptions
 		);
-		expect(units.some((unit) => unit.seccion_id === 'estribillo')).toBe(false);
+		expect(units.some((unit) => unit.seccion_id === 'represa')).toBe(false);
+	});
+
+	it('deriva una represa desde un estribillo anidado después de la primera copla', () => {
+		const postposedSections: MetricCatalogDomainRow[] = [
+			{
+				seccion_id: 'primer-ciclo',
+				seccion_padre_id: null,
+				tipo_seccion: 'primer_ciclo',
+				nombre: 'Primera copla y estribillo',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1
+			},
+			{
+				seccion_id: 'primera-copla',
+				seccion_padre_id: 'primer-ciclo',
+				tipo_seccion: 'copla',
+				nombre: 'Primera copla',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 4,
+				versos_max: 4
+			},
+			{
+				seccion_id: 'estribillo-posterior',
+				seccion_padre_id: 'primer-ciclo',
+				tipo_seccion: 'estribillo',
+				nombre: 'Primera aparición del estribillo',
+				orden: 2,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 3,
+				versos_max: 3
+			},
+			{
+				seccion_id: 'ciclo-posterior',
+				seccion_padre_id: null,
+				tipo_seccion: 'ciclo_copla',
+				nombre: 'Copla y posible represa',
+				orden: 2,
+				repeticiones_min: 0,
+				repeticiones_max: null
+			},
+			{
+				seccion_id: 'copla-posterior',
+				seccion_padre_id: 'ciclo-posterior',
+				tipo_seccion: 'copla',
+				nombre: 'Copla',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 4,
+				versos_max: 4
+			},
+			{
+				seccion_id: 'represa-posterior',
+				seccion_padre_id: 'ciclo-posterior',
+				tipo_seccion: 'represa',
+				nombre: 'Represa',
+				orden: 2,
+				repeticiones_min: 0,
+				repeticiones_max: 1,
+				versos_min: 1,
+				versos_max: null
+			}
+		];
+		const totalOption: MetricCatalogDomainRow = {
+			opcion_eleccion_id: 'total-posterior',
+			grupo_eleccion_id: 'repetition-posterior',
+			slug: 'total',
+			materializa_seccion_id: 'represa-posterior',
+			extension_desde_seccion_id: 'estribillo-posterior',
+			activo: true
+		};
+		let units = ensureRequiredMetricStructure([], postposedSections, 1);
+		units = addSectionInstance(units, postposedSections, 'ciclo-posterior', null, 1);
+		const cycle = units.find((unit) => unit.seccion_id === 'ciclo-posterior');
+		const choices: MetricChoiceDraft[] = [
+			{
+				unidad_prueba_id: cycle?.unidad_prueba_id ?? null,
+				grupo_eleccion_id: 'repetition-posterior',
+				opcion_eleccion_id: 'total-posterior',
+				observaciones: null
+			}
+		];
+
+		units = syncChoiceMaterializedSections(
+			units,
+			postposedSections,
+			cycle?.unidad_prueba_id ?? null,
+			[totalOption],
+			['total-posterior'],
+			1,
+			choices,
+			[totalOption]
+		);
+
+		expect(units.find((unit) => unit.seccion_id === 'represa-posterior')).toMatchObject({
+			v_ini: 12,
+			v_fin: 14
+		});
 	});
 });

@@ -65,6 +65,7 @@ Estas tablas describen una obra concreta:
 | `secuencias_metricas` | Rango de la secuencia y forma identificada. |
 | `secuencia_configuraciones` | Configuración reconocida en la secuencia. |
 | `unidades_metricas` | Unidades internas y sus rangos. |
+| `secuencia_elecciones_metricas` | Alternativas admitidas que aparecieron en la secuencia o unidad. |
 | `secuencia_observaciones_metricas` | Rango, dimensión y relación con la norma. |
 | `secuencia_metros_observados` | Medida exacta o relación menor/mayor que la esperada. |
 | `secuencia_rima_observada` | Diferencia de rima y detalle opcional. |
@@ -281,58 +282,62 @@ Una serie octosilábica presenta asonancia `e-o` en los versos pares.
 ```mermaid
 flowchart TB
     F["formas_metricas<br/>villancico"]
-    C["configuraciones_forma<br/>estructura_habitual"]
+    C1["configuraciones_forma<br/>estribillo_inicial"]
+    C2["configuraciones_forma<br/>estribillo_tras_primera_copla"]
 
-    H["estructuras_secciones<br/>cabeza · 0–1 · 2–4 versos"]
-    CO["estructuras_secciones<br/>copla · 1–n"]
+    H["estructuras_secciones<br/>cabeza = primera aparición inicial"]
+    P["estructuras_secciones<br/>primer ciclo: copla + estribillo"]
+    CI["estructuras_secciones<br/>ciclo de copla · repetible"]
+    CO["estructuras_secciones<br/>copla"]
     MU["estructuras_secciones<br/>mudanza · 4 versos"]
-    EN["estructuras_secciones<br/>enlace · opcional"]
-    VU["estructuras_secciones<br/>vuelta · opcional"]
-    ES["estructuras_secciones<br/>estribillo repetido"]
+    EN["estructuras_secciones<br/>enlace o vuelta · opcional"]
+    RE["estructuras_secciones<br/>represa · hermana de copla"]
 
-    PM["patrones_metricos<br/>arte menor · normalmente 6 u 8"]
-    PR["patrones_rima<br/>relaciones locales entre secciones"]
-    PRE["patrones_repeticion<br/>repetición total o parcial del estribillo"]
+    PM["patrones_metricos<br/>normalmente 6 u 8"]
+    PR["patrones_rima<br/>mudanza: abba o abab"]
+    PRE["patrones_repeticion<br/>represa total, parcial o implícita"]
 
-    PR1["patrones_rima<br/>ámbito: mudanza<br/>abba"]
-    PR2["patrones_rima<br/>ámbito: mudanza<br/>abab"]
-
-    F --> C
-    C --> H
-    C --> CO
+    F --> C1
+    F --> C2
+    C1 --> H
+    C1 --> CI
+    C2 --> P
+    C2 --> CI
+    P --> CO
+    P -->|"primera aparición"| E["estribillo"]
+    CI --> CO
+    CI --> RE
     CO --> MU
     CO --> EN
-    CO --> VU
-    CO --> ES
-    C --> PM
-    C --> PR
-    C --> PRE
-    C --> PR1
-    C --> PR2
-    MU -. ámbito .-> PR1
-    MU -. ámbito .-> PR2
+    C1 --> PM
+    C2 --> PM
+    MU -. opción .-> PR
+    RE -. realización .-> PRE
 
 ```
 
 ### Ejemplo de secuencia
 
-Un villancico presenta cabeza de tres versos, mudanza octosilábica `abba`, vuelta y repetición del estribillo.
+Un villancico presenta cabeza de tres versos, mudanza octosilábica `abba`, enlace o vuelta
+y represa parcial del estribillo.
 
 | Tabla | Registro conceptual |
 | --- | --- |
 | `secuencias_metricas` | Rango completo y `forma_metrica_id = villancico`. |
-| `secuencia_configuraciones` | `configuracion_id = estructura_habitual`. |
-| `unidades_metricas` | Rangos de cabeza, mudanza, vuelta y estribillo. |
+| `secuencia_configuraciones` | `configuracion_id = estribillo_inicial`. |
+| `unidades_metricas` | Cabeza; ciclo; copla con mudanza y enlace o vuelta; represa hermana de la copla. |
+| `secuencia_elecciones_metricas` | Medida realizada; `rima_mudanza = abba`; `represa_estribillo = parcial`. |
 
-La medida, el esquema de la mudanza y los enlaces con vuelta y estribillo proceden de la configuración. Solo se anotan si difieren.
+Son realizaciones admitidas y por eso se guardan como elecciones, no como desviaciones.
 
 ### Interacción del editor
 
 | Nivel | Acción |
 | --- | --- |
-| Mínimo | Seleccionar “Villancico”. |
-| Recomendado | Ninguna acción adicional. |
-| Avanzado | Abrir “Describir estructura interna” y delimitar sus secciones. |
+| Mínimo | Seleccionar “Villancico”, posición de la primera aparición del estribillo y medidas. |
+| Por mudanza | Elegir `abba` o `abab`. |
+| Por ciclo | Indicar si la represa es total, parcial o implícita. |
+| Cuando aparece | Añadir el enlace o vuelta; los rangos restantes se calculan. |
 
 ### Utilidad
 
@@ -395,17 +400,16 @@ Un soneto endecasílabo presenta el esquema `ABBAABBACDCEDE` y mayoría de final
 | Tabla | Registro conceptual |
 | --- | --- |
 | `secuencias_metricas` | Rango de 14 versos y `forma_metrica_id = soneto`. |
-| `secuencia_configuraciones` | Configuración endecasílaba con patrón `ABBAABBACDCEDE`. |
-| `secuencia_rasgos_observados` | Mayoría de finales esdrújulos. |
-| `unidades_metricas` | Opcional: dos cuartetos y dos tercetos con sus rangos. |
+| `secuencia_configuraciones` | Configuración `endecasilabo_consonante`. |
+| `unidades_metricas` | Una realización de soneto de 14 versos. |
+| `secuencia_elecciones_metricas` | `esquema_tercetos = CDCEDE`; `final_acentual_destacado = esdrujulo`. |
 
 ### Interacción del editor
 
 | Nivel | Acción |
 | --- | --- |
-| Mínimo | Seleccionar “Soneto”. |
-| Recomendado | Ninguna acción adicional para el soneto prototípico. |
-| Avanzado | Elegir esquema de tercetos y registrar rasgos prosódicos. |
+| Mínimo | Seleccionar “Soneto” y el esquema de tercetos. |
+| Opcional | Indicar la mayoría de finales esdrújulos cuando caracteriza la realización. |
 
 ### Utilidad
 
@@ -579,8 +583,8 @@ Una copla de villancico presenta mudanza `abab`:
 
 | Tabla | Registro conceptual |
 | --- | --- |
-| `secuencia_configuraciones` | Configuración habitual de villancico. |
-| `unidades_metricas` | Copla concreta y su rango. |
+| `secuencia_configuraciones` | Configuración según la posición de la primera aparición del estribillo. |
+| `unidades_metricas` | Ciclo, copla y mudanza concretos con sus rangos. |
 | `secuencia_elecciones_metricas` | Grupo `rima_mudanza`, opción `abab`. |
 
 No es una desviación: el catálogo reconoce `abba` y `abab` como realizaciones ordinarias.

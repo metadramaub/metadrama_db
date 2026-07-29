@@ -305,7 +305,7 @@
 				20260729104000_editor_metrico_jerarquico.sql ·
 				20260729105000_guardado_editor_metrico_jerarquico.sql ·
 				20260729106000_contratos_editoriales_y_longitud.sql ·
-				20260729107000_contratos_formas_revisadas.sql
+				20260729108000_villancico_estribillo_y_represa.sql
 			</p>
 		</div>
 	{:else}

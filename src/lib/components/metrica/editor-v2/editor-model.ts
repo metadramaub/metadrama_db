@@ -344,10 +344,7 @@ function lengthForUnit(
 		? String(effectOption.extension_desde_seccion_id)
 		: null;
 	const referenceUnit = referenceId
-		? units.find(
-				(candidate) =>
-					candidate.seccion_id === referenceId && candidate.unidad_padre_id === null
-			)
+		? units.find((candidate) => candidate.seccion_id === referenceId)
 		: null;
 	const proposed = referenceUnit ? unitLength(referenceUnit) : fixed;
 	const minimum = sectionVerseMinimum(section);

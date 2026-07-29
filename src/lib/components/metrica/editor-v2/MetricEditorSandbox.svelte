@@ -114,6 +114,13 @@
 				)
 			: []
 	);
+	const selectedForm = $derived(
+		draft
+			? props.data.forms.find(
+					(form: MetricCatalogForm) => form.forma_id === draft?.forma_id
+				) ?? null
+			: null
+	);
 	const selectedConfiguration = $derived(
 		draft
 			? props.data.configurations.find(
@@ -969,14 +976,22 @@
 									</select>
 								</label>
 								<label class="form-field">
-									<span class="form-label">Configuración *</span>
+									<span class="form-label">
+										{selectedForm?.slug === 'villancico'
+											? '¿Dónde aparece por primera vez el estribillo? *'
+											: 'Configuración *'}
+									</span>
 									<select
 										class="h-10 border border-[color:var(--border)] bg-white px-3"
 										value={draft.configuracion_id}
 										onchange={(event) => resetForConfiguration(event.currentTarget.value)}
 										disabled={!draft.forma_id}
 									>
-										<option value="">Seleccionar configuración</option>
+										<option value="">
+											{selectedForm?.slug === 'villancico'
+												? 'Seleccionar posición'
+												: 'Seleccionar configuración'}
+										</option>
 										{#each configurationsForDraft as configuration (configuration.configuracion_id)}
 											<option value={configuration.configuracion_id}>
 												{configuration.nombre}
