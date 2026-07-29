@@ -144,17 +144,17 @@ Se retiran los umbrales porcentuales 50/98/99 usados para formalizar «mayoría�
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `novena` | F | Conservar como forma de nueve versos. | Alta | Sí |
-| `novena_canonica` | C | Configuración redondilla + quintilla. | Alta | No |
-| `novena_invertida` | C | Configuración quintilla + redondilla. | Alta | No |
+| `novena` | F | Resuelto: forma de nueve octosílabos consonantes con dos configuraciones estructurales. | Alta | No |
+| `novena_canonica` | C | Resuelto: configuración `redondilla_quintilla`; reutiliza ambas configuraciones componentes. | Alta | No |
+| `novena_invertida` | C | Resuelto: configuración `quintilla_redondilla`; reutiliza ambas configuraciones componentes. | Alta | No |
 
 ## 12. Octava real
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `octava_real` | F | Conservar como forma canónica. | Alta | No |
-| `octava_real_de_esdrujulos` | R | Octava real más rasgo esdrújulo. | Alta | No |
-| `octava_real_regular` | A | Fusionar con `octava_real`; el patrón `ABABABCC` será su configuración principal. | Alta | No |
+| `octava_real` | F | Resuelto: forma fija de ocho endecasílabos consonantes `ABABABCC`. | Alta | No |
+| `octava_real_de_esdrujulos` | R | Resuelto: valor transversal `final_acentual = esdrujulo`. | Alta | No |
+| `octava_real_regular` | A | Resuelto: fusionado con `octava_real`; conserva solo traza histórica. | Alta | No |
 
 ## 13. Pareado
 

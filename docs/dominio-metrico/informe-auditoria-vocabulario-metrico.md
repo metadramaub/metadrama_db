@@ -392,8 +392,8 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `endecasilabo_suelto` | 7 | Trasladar esdrújulos, dístico final y densidad de pareados a rasgos; documentar umbrales. |
 | `irregular` | 4 | Categoría residual, no candidata normal; derivar arte menor/mayor/mixto. |
 | `lira` | 1 | Estructura coherente; añadir fuente, ejemplo y patrón métrico ordenado. |
-| `novena` | 3 | Jerarquía plausible; añadir naturaleza y expresar 4 + 5 / 5 + 4 como subestructura. |
-| `octava_real` | 3 | Fusionar raíz y “regular”; trasladar esdrújulos a rasgo. |
+| `novena` | 3 | Resuelto: una forma, configuraciones 4 + 5 / 5 + 4 y reutilización de redondilla y quintilla como componentes. |
+| `octava_real` | 3 | Resuelto: raíz y “regular” fusionadas; esdrújulos trasladados a rasgo transversal. |
 | `pareado_de_arte_menor` | 3 | Los hijos por metro son derivables; sustituir rima `otras` por un régimen preciso. |
 | `pareado_endecasilabo` | 1 | Resuelto en el nuevo catálogo: la tirada pasa a ser `pareados_endecasilabos`, forma de nivel serie, y `pareado` permanece como unidad de dos versos. |
 | `quintilla` | 9 | Corregir tamaños; separar `abbba` como irregular; mover esquemas a patrones. |

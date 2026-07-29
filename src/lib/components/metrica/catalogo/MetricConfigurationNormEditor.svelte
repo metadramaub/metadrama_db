@@ -104,6 +104,26 @@
 			label: String(row.nombre || row.tipo_seccion)
 		}))
 	);
+	const reusableConfigurationOptions = $derived(
+		props.domain.configurations
+			.filter(
+				(row: MetricCatalogDomainRow) =>
+					String(row.configuracion_id) !== props.configurationId && row.activo
+			)
+			.map((row: MetricCatalogDomainRow) => {
+				const form = props.domain.forms.find(
+					(candidate: MetricCatalogDomainRow) =>
+						candidate.forma_id === row.forma_id
+				);
+				return {
+					value: String(row.configuracion_id),
+					label: `${String(form?.nombre ?? 'Forma')} · ${String(row.nombre)}`
+				};
+			})
+			.sort((a: MetricEntityOption, b: MetricEntityOption) =>
+				a.label.localeCompare(b.label, 'es')
+			)
+	);
 	const metreOptions = $derived(
 		props.metres.map((option: MetricCatalogOption) => ({
 			value: option.id,
@@ -353,6 +373,13 @@
 			label: 'Número de versos de la sección',
 			type: 'integerRange',
 			help: 'En una sección fija se guarda el mismo valor como mínimo y máximo.'
+		},
+		{
+			key: 'configuracion_referenciada_id',
+			label: 'Configuración reutilizada',
+			type: 'select',
+			options: reusableConfigurationOptions,
+			help: 'Úsala cuando la sección sea una realización de otra forma ya formalizada, como una redondilla dentro de una novena.'
 		},
 		{ key: 'patron_metrico_id', label: 'Patrón métrico', type: 'select', options: metricPatternOptions },
 		{ key: 'patron_rima_id', label: 'Patrón de rima', type: 'select', options: rhymePatternOptions },

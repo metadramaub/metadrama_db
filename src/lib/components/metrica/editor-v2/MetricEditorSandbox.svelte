@@ -20,6 +20,7 @@
 		ensureRequiredMetricStructure,
 		flatRepeatedMetricSection,
 		flatVariableRepeatedMetricSection,
+		hierarchicalRepeatedMetricSection,
 		isHierarchicalMetricStructure,
 		reflowMetricUnits,
 		rootSections as structuredRootSections,
@@ -30,6 +31,7 @@
 		sectionVerseMaximum,
 		sectionVerseMinimum,
 		syncFlatRepeatedMetricUnits,
+		syncHierarchicalRepeatedMetricUnits,
 		syncChoiceMaterializedSections,
 		type MetricChoiceDraft,
 		type MetricUnitDraft
@@ -184,6 +186,12 @@
 		)
 	);
 	const hasHierarchicalEditor = $derived(isHierarchicalMetricStructure(sectionsForDraft));
+	const hierarchicalRepeatedSectionForDraft = $derived(
+		hierarchicalRepeatedMetricSection(sectionsForDraft)
+	);
+	const hasHierarchicalRepeatedUnits = $derived(
+		Boolean(hierarchicalRepeatedSectionForDraft)
+	);
 	const flatRepeatedSectionForDraft = $derived(flatRepeatedMetricSection(sectionsForDraft));
 	const hasFlatRepeatedUnits = $derived(Boolean(flatRepeatedSectionForDraft));
 	const hasFlatRepeatedEditor = $derived(
@@ -195,7 +203,9 @@
 	const hasStructuredEditor = $derived(
 		hasHierarchicalEditor || hasFlatRepeatedEditor || hasFlatVariableEditor
 	);
-	const hasCalculatedRange = $derived(hasHierarchicalEditor || hasFlatVariableEditor);
+	const hasCalculatedRange = $derived(
+		(hasHierarchicalEditor && !hasHierarchicalRepeatedUnits) || hasFlatVariableEditor
+	);
 	const hasSequenceChoices = $derived(sequenceChoiceGroups.length > 0);
 	const structureStepNumber = $derived(hasSequenceChoices ? 3 : 2);
 	const deviationStepNumber = $derived(
@@ -320,6 +330,7 @@
 			(row: MetricCatalogDomainRow) => row.alcance === 'unidad'
 		);
 		const flatSection = flatRepeatedMetricSection(sections);
+		const hierarchicalSection = hierarchicalRepeatedMetricSection(sections);
 		const variableFlatSection = hasUnitQuestions
 			? flatVariableRepeatedMetricSection(sections)
 			: null;
@@ -346,6 +357,32 @@
 				sequenceStart,
 				sequenceStart +
 					sectionVerseMinimum(flatSection) * sectionMinimum(flatSection) -
+					1,
+				choices,
+				options
+			).units;
+		}
+
+		if (hierarchicalSection) {
+			const synchronized = syncHierarchicalRepeatedMetricUnits(
+				units,
+				sections,
+				sequenceStart,
+				sequenceEnd,
+				choices,
+				options
+			);
+			if (synchronized.compatible) return synchronized.units;
+			if (units.length > 0) {
+				return reflowMetricUnits(units, sections, sequenceStart, choices, options);
+			}
+			return syncHierarchicalRepeatedMetricUnits(
+				units,
+				sections,
+				sequenceStart,
+				sequenceStart +
+					hierarchicalSection.unitLength *
+						sectionMinimum(hierarchicalSection.section) -
 					1,
 				choices,
 				options
@@ -588,17 +625,26 @@
 		if (!draft) return;
 		const previousLength = draft.v_fin - draft.v_ini + 1;
 		draft.v_ini = Math.max(1, value);
-		if (hasFlatRepeatedUnits) {
+		if (hasFlatRepeatedUnits || hasHierarchicalRepeatedUnits) {
 			draft.v_fin = draft.v_ini + previousLength - 1;
 			const { sections, options } = catalogParts(draft.configuracion_id);
-			const synchronized = syncFlatRepeatedMetricUnits(
-				draft.unidades,
-				sections,
-				draft.v_ini,
-				draft.v_fin,
-				draft.elecciones,
-				options
-			);
+			const synchronized = hasFlatRepeatedUnits
+				? syncFlatRepeatedMetricUnits(
+						draft.unidades,
+						sections,
+						draft.v_ini,
+						draft.v_fin,
+						draft.elecciones,
+						options
+					)
+				: syncHierarchicalRepeatedMetricUnits(
+						draft.unidades,
+						sections,
+						draft.v_ini,
+						draft.v_fin,
+						draft.elecciones,
+						options
+					);
 			if (synchronized.compatible) {
 				removeStructuredReferences(synchronized.removedUnitIds);
 				draft.unidades = synchronized.units;
@@ -622,16 +668,25 @@
 	function updateSequenceEnd(value: number) {
 		if (!draft) return;
 		draft.v_fin = Math.max(1, value);
-		if (!hasFlatRepeatedUnits) return;
+		if (!hasFlatRepeatedUnits && !hasHierarchicalRepeatedUnits) return;
 		const { sections, options } = catalogParts(draft.configuracion_id);
-		const synchronized = syncFlatRepeatedMetricUnits(
-			draft.unidades,
-			sections,
-			draft.v_ini,
-			draft.v_fin,
-			draft.elecciones,
-			options
-		);
+		const synchronized = hasFlatRepeatedUnits
+			? syncFlatRepeatedMetricUnits(
+					draft.unidades,
+					sections,
+					draft.v_ini,
+					draft.v_fin,
+					draft.elecciones,
+					options
+				)
+			: syncHierarchicalRepeatedMetricUnits(
+					draft.unidades,
+					sections,
+					draft.v_ini,
+					draft.v_fin,
+					draft.elecciones,
+					options
+				);
 		if (!synchronized.compatible) return;
 		removeStructuredReferences(synchronized.removedUnitIds);
 		draft.unidades = synchronized.units;

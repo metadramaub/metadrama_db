@@ -245,6 +245,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'repeticiones_max',
 			'versos_min',
 			'versos_max',
+			'configuracion_referenciada_id',
 			'patron_metrico_id',
 			'patron_rima_id',
 			'nota'

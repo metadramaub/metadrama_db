@@ -105,11 +105,38 @@
 		{ key: 'activo', label: 'Activo', type: 'checkbox' }
 	]);
 
+	function targetConfigurationIds(group: MetricCatalogDomainRow): Set<string> {
+		const ids = new Set([props.configurationId]);
+		const section = sections.find(
+			(row: MetricCatalogDomainRow) =>
+				String(row.seccion_id) === String(group.seccion_id ?? '')
+		);
+		if (section?.configuracion_referenciada_id) {
+			ids.add(String(section.configuracion_referenciada_id));
+		}
+		return ids;
+	}
+
+	function targetLabel(row: MetricCatalogDomainRow, fallback: string): string {
+		if (String(row.configuracion_id) === props.configurationId) return fallback;
+		const configuration = props.domain.configurations.find(
+			(candidate: MetricCatalogDomainRow) =>
+				candidate.configuracion_id === row.configuracion_id
+		);
+		const form = props.domain.forms.find(
+			(candidate: MetricCatalogDomainRow) =>
+				candidate.forma_id === configuration?.forma_id
+		);
+		return `${String(form?.nombre ?? 'Componente')} · ${fallback}`;
+	}
+
 	function targetOptions(group: MetricCatalogDomainRow): MetricEntityOption[] {
 		const dimension = String(group.dimension);
+		const configurationIds = targetConfigurationIds(group);
 		if (dimension === 'metro') {
 			const metricPatterns = props.domain.metricPatterns.filter(
-				(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+				(row: MetricCatalogDomainRow) =>
+					configurationIds.has(String(row.configuracion_id))
 			);
 			return [
 				...props.metres.map((option: MetricCatalogOption) => ({
@@ -118,7 +145,10 @@
 				})),
 				...metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 					value: `patron_metrico_id:${row.patron_metrico_id}`,
-					label: `Patrón: ${String(row.nombre || `métrico ${index + 1}`)}`
+					label: targetLabel(
+						row,
+						`Patrón: ${String(row.nombre || `métrico ${index + 1}`)}`
+					)
 				}))
 			];
 		}
@@ -126,10 +156,14 @@
 			return props.domain.rhymePatterns
 				.filter(
 					(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+						|| configurationIds.has(String(row.configuracion_id))
 				)
 				.map((row: MetricCatalogDomainRow, index: number) => ({
 					value: `patron_rima_id:${row.patron_rima_id}`,
-					label: String(row.nombre || row.esquema || `Patrón de rima ${index + 1}`)
+					label: targetLabel(
+						row,
+						String(row.nombre || row.esquema || `Patrón de rima ${index + 1}`)
+					)
 				}));
 		}
 		if (dimension === 'estructura') {
@@ -141,11 +175,15 @@
 		if (dimension === 'repeticion') {
 			return props.domain.repetitionPatterns
 				.filter(
-					(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+					(row: MetricCatalogDomainRow) =>
+						configurationIds.has(String(row.configuracion_id))
 				)
 				.map((row: MetricCatalogDomainRow, index: number) => ({
 					value: `patron_repeticion_id:${row.patron_repeticion_id}`,
-					label: String(row.descripcion || row.regla || `Repetición ${index + 1}`)
+					label: targetLabel(
+						row,
+						String(row.descripcion || row.regla || `Repetición ${index + 1}`)
+					)
 				}));
 		}
 

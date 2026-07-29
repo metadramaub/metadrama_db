@@ -98,6 +98,53 @@ export function flatVariableRepeatedMetricSection(
 	return roots[0];
 }
 
+function fixedSectionInstanceLength(
+	section: MetricCatalogDomainRow,
+	sections: MetricCatalogDomainRow[],
+	visiting = new Set<string>()
+): number | null {
+	const id = sectionId(section);
+	if (visiting.has(id)) return null;
+	visiting.add(id);
+
+	const children = childrenOfSection(sections, id);
+	let length: number | null;
+	if (children.length === 0) {
+		length = sectionHasFixedLength(section) ? sectionVerseMinimum(section) : null;
+	} else {
+		const childLengths = children.map((child) => {
+			const childLength = fixedSectionInstanceLength(child, sections, visiting);
+			const minimum = sectionMinimum(child);
+			const maximum = sectionMaximum(child);
+			return childLength !== null && maximum !== null && minimum === maximum
+				? childLength * minimum
+				: null;
+		});
+		length = childLengths.every((value): value is number => value !== null)
+			? childLengths.reduce((total, value) => total + value, 0)
+			: null;
+	}
+
+	visiting.delete(id);
+	return length;
+}
+
+export function hierarchicalRepeatedMetricSection(
+	sections: MetricCatalogDomainRow[]
+): { section: MetricCatalogDomainRow; unitLength: number } | null {
+	const roots = rootSections(sections);
+	if (
+		roots.length !== 1 ||
+		sections.length < 2 ||
+		sectionMaximum(roots[0]) !== null ||
+		sectionMinimum(roots[0]) < 1
+	) {
+		return null;
+	}
+	const unitLength = fixedSectionInstanceLength(roots[0], sections);
+	return unitLength && unitLength > 0 ? { section: roots[0], unitLength } : null;
+}
+
 export function ensureRequiredFlatMetricStructure(
 	units: MetricUnitDraft[],
 	sections: MetricCatalogDomainRow[],
@@ -313,6 +360,63 @@ export function syncFlatRepeatedMetricUnits(
 			next,
 			sections,
 			sectionId(section),
+			null,
+			sequenceStart,
+			choices,
+			options
+		);
+	}
+
+	return {
+		units: reflowMetricUnits(next, sections, sequenceStart, choices, options),
+		removedUnitIds,
+		compatible: true
+	};
+}
+
+export function syncHierarchicalRepeatedMetricUnits(
+	units: MetricUnitDraft[],
+	sections: MetricCatalogDomainRow[],
+	sequenceStart: number,
+	sequenceEnd: number,
+	choices: MetricChoiceDraft[] = [],
+	options: MetricCatalogDomainRow[] = []
+): { units: MetricUnitDraft[]; removedUnitIds: string[]; compatible: boolean } {
+	const repeated = hierarchicalRepeatedMetricSection(sections);
+	if (!repeated) return { units, removedUnitIds: [], compatible: false };
+
+	const sequenceLength = Math.max(0, sequenceEnd - sequenceStart + 1);
+	if (
+		sequenceLength < repeated.unitLength * sectionMinimum(repeated.section) ||
+		sequenceLength % repeated.unitLength !== 0
+	) {
+		return { units, removedUnitIds: [], compatible: false };
+	}
+
+	const desiredCount = sequenceLength / repeated.unitLength;
+	const rootId = sectionId(repeated.section);
+	const rootUnits = units
+		.filter(
+			(unit) =>
+				unit.unidad_padre_id === null && unit.seccion_id === rootId
+		)
+		.sort(
+			(a, b) =>
+				a.orden - b.orden ||
+				a.v_ini - b.v_ini ||
+				a.unidad_prueba_id.localeCompare(b.unidad_prueba_id)
+		);
+	const removedUnitIds = rootUnits
+		.slice(desiredCount)
+		.flatMap((unit) => [...unitIdsInTree(units, unit.unidad_prueba_id)]);
+	const removed = new Set(removedUnitIds);
+	let next = units.filter((unit) => !removed.has(unit.unidad_prueba_id));
+
+	for (let index = rootUnits.length; index < desiredCount; index += 1) {
+		next = addSectionInstance(
+			next,
+			sections,
+			rootId,
 			null,
 			sequenceStart,
 			choices,

@@ -174,6 +174,25 @@ describe('motor nuevo del demarcador', () => {
 		expect(elegirSiguientePreguntaNueva(candidatos, 'variantes')?.rasgo).toBe('patron');
 	});
 
+	it('distingue configuraciones por el orden de sus partes antes que por la rima', () => {
+		const candidatos = [
+			candidato('novena-canonica', [8], {
+				tamanio: 9,
+				estructura: 'redondilla+quintilla',
+				estructuraEtiqueta: 'Redondilla + Quintilla'
+			}),
+			candidato('novena-invertida', [8], {
+				tamanio: 9,
+				estructura: 'quintilla+redondilla',
+				estructuraEtiqueta: 'Quintilla + Redondilla'
+			})
+		];
+
+		const pregunta = elegirSiguientePreguntaNueva(candidatos, 'variantes');
+		expect(pregunta?.rasgo).toBe('estructura');
+		expect(pregunta?.pregunta).toBe('¿Cómo se ordenan las partes de la forma?');
+	});
+
 	it('permite comparar patrones en la prueba compilada desde el catálogo', () => {
 		const candidatos = [
 			candidato('quintilla-ababa', [8], { tamanio: 5, patron: 'ababa' }),

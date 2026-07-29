@@ -21,6 +21,7 @@ const PESO_RESPONDIBILIDAD: Record<ClaveRasgoDemarcador, number> = {
 	predominioRima: 0.92,
 	organizacionPareados: 0.9,
 	naturaleza: 0.72,
+	estructura: 0.86,
 	patron: 0.48
 };
 
@@ -31,6 +32,7 @@ const ORDEN_RASGOS: ClaveRasgoDemarcador[] = [
 	'predominioRima',
 	'organizacionPareados',
 	'naturaleza',
+	'estructura',
 	'patron'
 ];
 
@@ -79,6 +81,16 @@ function valorDe(candidato: CandidatoDemarcadorNuevo, rasgo: ClaveRasgoDemarcado
 				clave: typeof candidato.rasgos.tamanio === 'number' ? String(candidato.rasgos.tamanio) : '',
 				etiqueta:
 					typeof candidato.rasgos.tamanio === 'number' ? `${candidato.rasgos.tamanio} versos` : '',
+				miembros: []
+			};
+		case 'estructura':
+			return {
+				conocido: Boolean(candidato.rasgos.estructura),
+				clave: candidato.rasgos.estructura ?? '',
+				etiqueta:
+					candidato.rasgos.estructuraEtiqueta ??
+					candidato.rasgos.estructura ??
+					'',
 				miembros: []
 			};
 		case 'patron':
@@ -157,6 +169,11 @@ function textosPregunta(
 					pregunta: `¿Se organiza como ${etiquetaObjetivo.toLocaleLowerCase('es')}?`,
 					ayuda: 'Esta pregunta describe la arquitectura general de la forma.'
 				};
+			case 'estructura':
+				return {
+					pregunta: `¿Las partes siguen el orden ${etiquetaObjetivo}?`,
+					ayuda: 'Observa el orden de las unidades internas, no el esquema completo de sus rimas.'
+				};
 			case 'patron':
 				return {
 					pregunta: `¿Coincide con el patrón ${etiquetaObjetivo}?`,
@@ -195,6 +212,11 @@ function textosPregunta(
 			return {
 				pregunta: '¿Cómo se organiza la forma estrófica?',
 				ayuda: 'Elige la arquitectura general que mejor describa la forma.'
+			};
+		case 'estructura':
+			return {
+				pregunta: '¿Cómo se ordenan las partes de la forma?',
+				ayuda: 'Elige el orden de las unidades internas, por ejemplo redondilla + quintilla.'
 			};
 		case 'patron':
 			return {
