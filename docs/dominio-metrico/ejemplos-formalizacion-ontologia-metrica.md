@@ -352,19 +352,18 @@ flowchart TB
     TE["tradiciones_metricas<br/>española"]
     FTI["formas_tradiciones<br/>origen"]
     FTE["formas_tradiciones<br/>adaptación y uso"]
-    C["configuraciones_forma<br/>soneto_endecasilabo · principal"]
+    C["configuraciones_forma<br/>endecasilabo_consonante · principal"]
 
-    ES1["estructuras_secciones<br/>cuarteto 1 · 4 versos"]
-    ES2["estructuras_secciones<br/>cuarteto 2 · 4 versos"]
-    ES3["estructuras_secciones<br/>terceto 1 · 3 versos"]
-    ES4["estructuras_secciones<br/>terceto 2 · 3 versos"]
+    ES1["estructuras_secciones<br/>cuarteto · 2 × 4 versos"]
+    ES2["estructuras_secciones<br/>terceto · 2 × 3 versos"]
 
-    PM["patrones_metricos<br/>secuencia fija · 14 versos"]
-    PMP["patron_metrico_posiciones<br/>14 posiciones de 11 sílabas"]
+    PM["patrones_metricos<br/>endecasílabo repetido"]
+    PMP["patron_metrico_posiciones<br/>1 posición de 11 sílabas"]
 
     PR1["patrones_rima<br/>ABBAABBACDCDCD"]
     PR2["patrones_rima<br/>ABBAABBACDCEDE"]
     PR3["patrones_rima<br/>ABBAABBACDECDE"]
+    PR4["patrones_rima<br/>ABBAABBACDEDCE"]
 
     RG["rasgos_metricos<br/>mayoria_finales_esdrujulos"]
     CR["configuracion_rasgos<br/>rasgo admitido, no requerido"]
@@ -378,13 +377,12 @@ flowchart TB
     F --> C
     C --> ES1
     C --> ES2
-    C --> ES3
-    C --> ES4
     C --> PM
     PM --> PMP
     C --> PR1
     C --> PR2
     C --> PR3
+    C --> PR4
     C --> CR
     RG --> CR
 ```

@@ -29,7 +29,8 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    traducción al catálogo. Incluye la [quintilla](./revisiones-formas/quintilla.md), la
    revisión de [terceto y terceto encadenado](./revisiones-formas/tercetos.md), la
    [silva](./revisiones-formas/silva.md), la frontera entre
-   [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md) y un
+   [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md), el
+   [soneto](./revisiones-formas/soneto.md) y un
    [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
 ## Decisiones consolidadas

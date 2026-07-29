@@ -405,7 +405,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `sextilla` | 3 | Declarar patrones métricos propios para con/sin quebrado; no heredar el conjunto genérico. |
 | `sextina` | 1 | Modelar composición 6 × 6 + 3 y permutación de palabras finales. |
 | `silva` | 5 | Revisar “silva libre”, tipos de rima y umbrales de densidad; conservar subtipos solo con criterio documentado. |
-| `soneto` | 6 | Mover esquemas de tercetos a patrones; esdrújulos a rasgo; completar campos de la raíz. |
+| `soneto` | 6 | Resuelto en el nuevo catálogo: una forma, una configuración endecasílaba, cuatro patrones de rima y el final esdrújulo como rasgo transversal. |
 | `terceto` | 5 | Corregir tamaño; distinguir unidad y serie encadenada; esdrújulos a rasgo. |
 | `terceto_octosilabo` | 1 | Estructura coherente; añadir fuente y patrón de rima. |
 | `verso suelto` | 1 | Mover a categoría editorial residual; no es una forma estrófica. |

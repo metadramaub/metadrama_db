@@ -288,7 +288,8 @@
 				20260728160000_formalizacion_tercetos.sql ·
 				20260728161000_formalizacion_tercetos_sin_encadenar.sql ·
 				20260728162000_formalizacion_silva.sql ·
-				20260728163000_formalizacion_series_endecasilabicas.sql
+				20260728163000_formalizacion_series_endecasilabicas.sql ·
+				20260729100000_formalizacion_soneto.sql
 			</p>
 		</div>
 	{:else}
