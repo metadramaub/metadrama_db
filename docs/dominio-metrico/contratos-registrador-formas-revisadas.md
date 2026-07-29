@@ -30,6 +30,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Copla manriqueña | dos sextillas `8-8-4-8-8-4` y `abcabc:defdef` | ninguna | múltiplo de 12 |
 | Décima espinela | 10 octosílabos, consonancia, `abbaaccddc` y estructura `4 + 2 + 4` | nada | múltiplo de 10 |
 | Décima aumentada | 12 octosílabos, consonancia, `abbaaccddeed` y pausa `4 + 8` | nada | múltiplo de 12 |
+| Redondilla · configuración simple | unidades de 4 versos consonantes | medida 8, 7 o 6 y disposición `abba` o `abab` | múltiplo de 4; materializa una unidad por cada 4 versos |
+| Redondilla · configuración doble enlazada | unidades de 8 octosílabos, `abba:acca` | nada | múltiplo de 8; materializa una unidad por cada 8 versos |
 
 ## Recorridos mínimos
 
@@ -50,6 +52,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
   solo la configuración quebrada pide marcar una o dos posiciones.
 - Décima espinela y décima aumentada: forma y guardar; todas sus propiedades
   normativas se derivan.
+- Redondilla simple: forma, configuración, medida y distribución de la primera unidad;
+  aplicar ambas respuestas a toda la tirada y cambiar solo las unidades distintas.
+- Redondilla doble: forma, configuración y guardar; el registrador deriva las unidades
+  de ocho versos.
 
 ## Criterio de las desviaciones
 

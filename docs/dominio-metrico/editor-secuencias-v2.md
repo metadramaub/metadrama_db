@@ -102,6 +102,10 @@ y desviaciones en una transacción.
 11. La ausencia de desviaciones significa cumplimiento, no falta de revisión.
 12. El rango inclusivo debe ser compatible con la extensión o el ciclo de la
     configuración. La comprobación se deriva del catálogo y se repite en la base de datos.
+13. En una tirada de unidades fijas, el editor materializa silenciosamente una unidad por
+    cada tramo: 48 versos de redondillas producen 12 filas de 4 versos en
+    `unidades_editor_metrico`. El formulario muestra el recuento, pero no obliga a editar
+    cada unidad si todas cumplen la misma norma.
 
 ## Compatibilidad de longitud
 

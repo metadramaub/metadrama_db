@@ -8,12 +8,14 @@
 		metricReviewStateLabel,
 		type MetricCatalogDomainRow,
 		type MetricCatalogDomainData,
-		type MetricCatalogForm
+		type MetricCatalogForm,
+		type MetricCatalogConfiguration
 	} from '$lib/metrica/catalogo';
 
 	const props = $props<{
 		domain: MetricCatalogDomainData;
 		forms: MetricCatalogForm[];
+		configurations: MetricCatalogConfiguration[];
 	}>();
 
 	const reviewOptions: MetricEntityOption[] = METRIC_CATALOG_REVIEW_STATES.map((state) => ({
@@ -35,6 +37,38 @@
 			label: String(row.nombre)
 		}))
 	);
+	const sourceOptions = $derived(
+		props.domain.sources.map((row: MetricCatalogDomainRow) => ({
+			value: String(row.fuente_id),
+			label: String(row.cita || row.titulo)
+		}))
+	);
+	const denominationTargetOptions = $derived<MetricEntityOption[]>([
+		...props.forms.map((form: MetricCatalogForm) => ({
+			value: `forma_id:${form.forma_id}`,
+			label: `Forma · ${form.nombre}`
+		})),
+		...props.configurations.map((configuration: MetricCatalogConfiguration) => ({
+			value: `configuracion_id:${configuration.configuracion_id}`,
+			label: `Configuración · ${configuration.nombre}`
+		})),
+		...props.domain.metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
+			value: `patron_metrico_id:${row.patron_metrico_id}`,
+			label: `Patrón métrico · ${String(row.nombre || `Patrón ${index + 1}`)}`
+		})),
+		...props.domain.rhymePatterns.map((row: MetricCatalogDomainRow, index: number) => ({
+			value: `patron_rima_id:${row.patron_rima_id}`,
+			label: `Patrón de rima · ${String(row.nombre || row.esquema || `Patrón ${index + 1}`)}`
+		})),
+		...props.domain.sections.map((row: MetricCatalogDomainRow) => ({
+			value: `seccion_id:${row.seccion_id}`,
+			label: `Sección · ${String(row.nombre || row.tipo_seccion)}`
+		})),
+		...props.domain.repetitionPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
+			value: `patron_repeticion_id:${row.patron_repeticion_id}`,
+			label: `Repetición · ${String(row.descripcion || row.regla || `Patrón ${index + 1}`)}`
+		}))
+	]);
 
 	const familyFields = $derived<MetricEntityField[]>([
 		{ key: 'nombre', label: 'Nombre', required: true },
@@ -77,7 +111,14 @@
 		{ key: 'nota', label: 'Nota', type: 'textarea' }
 	]);
 	const aliasFields = $derived<MetricEntityField[]>([
-		{ key: 'forma_id', label: 'Forma', type: 'select', options: formOptions, required: true },
+		{
+			key: 'destino',
+			label: 'Entidad denominada',
+			type: 'select',
+			options: denominationTargetOptions,
+			required: true,
+			help: 'El nombre debe apuntar al nivel exacto: forma, configuración, patrón o sección.'
+		},
 		{ key: 'nombre', label: 'Nombre alternativo', required: true },
 		{ key: 'slug_normalizado', label: 'Slug normalizado', required: true },
 		{
@@ -93,6 +134,7 @@
 			]
 		},
 		{ key: 'idioma', label: 'Idioma' },
+		{ key: 'fuente_id', label: 'Fuente', type: 'select', options: sourceOptions },
 		{ key: 'preferente', label: 'Preferente', type: 'checkbox' }
 	]);
 	const relationFields = $derived<MetricEntityField[]>([
@@ -159,8 +201,8 @@
 	/>
 	<MetricEntityCollection
 		resource="aliases"
-		title="Nombres alternativos"
-		description="Sinónimos, grafías históricas y abreviaturas que no crean una forma nueva."
+		title="Denominaciones alternativas"
+		description="Nombres equivalentes, históricos o abreviados asociados a la entidad exacta. Por ejemplo, «Cuarteta» denomina el patrón cruzado abab de redondilla, no toda la forma."
 		rows={props.domain.aliases}
 		keyFields={['alias_id']}
 		fields={aliasFields}

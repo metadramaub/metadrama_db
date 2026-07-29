@@ -287,7 +287,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 26
+		Number(stateResponse.data?.modelo_version ?? 0) < 30
 	) {
 		return {
 			migrationPending: true,
@@ -357,7 +357,7 @@ export async function loadMetricCatalog(
 		db
 			.from('migracion_termino_destinos')
 			.select(
-				'destino_id,termino_id,tipo_operacion,forma_id,familia_id,configuracion_id,patron_rima_id,rasgo_id,valor_rasgo_id,alias_id'
+				'destino_id,termino_id,tipo_operacion,forma_id,familia_id,configuracion_id,patron_metrico_id,patron_rima_id,rasgo_id,valor_rasgo_id,alias_id'
 			),
 		db
 			.from('vocabularios')
@@ -390,7 +390,7 @@ export async function loadMetricCatalog(
 		db.from('familias_formas').select('*'),
 		db.from('tradiciones_metricas').select('*').order('nombre'),
 		db.from('formas_tradiciones').select('*'),
-		db.from('forma_aliases').select('*').order('nombre'),
+		db.from('denominaciones_metricas').select('*').order('nombre'),
 		db.from('forma_relaciones').select('*'),
 		db.from('modelos_verso').select('*').order('nombre'),
 		db.from('modelo_verso_segmentos').select('*').order('posicion'),
@@ -447,7 +447,20 @@ export async function loadMetricCatalog(
 		familyForms: familyFormsDomain.data ?? [],
 		traditions: traditionsDomain.data ?? [],
 		formTraditions: formTraditionsDomain.data ?? [],
-		aliases: aliasesDomain.data ?? [],
+		aliases: (aliasesDomain.data ?? []).map((row: any) => {
+			const targetField = [
+				'forma_id',
+				'configuracion_id',
+				'patron_metrico_id',
+				'patron_rima_id',
+				'seccion_id',
+				'patron_repeticion_id'
+			].find((field) => row[field]);
+			return {
+				...row,
+				destino: targetField ? `${targetField}:${row[targetField]}` : null
+			};
+		}),
 		formRelations: formRelationsDomain.data ?? [],
 		verseModels: verseModelsDomain.data ?? [],
 		verseSegments: verseSegmentsDomain.data ?? [],

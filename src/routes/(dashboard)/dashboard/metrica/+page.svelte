@@ -507,6 +507,7 @@
 				<MetricCatalogOrganizationEditor
 					domain={data.domain}
 					forms={data.forms}
+					configurations={data.configurations}
 				/>
 			{/key}
 		{:else if activeTab === 'reference'}

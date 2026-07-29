@@ -136,6 +136,50 @@ describe('editor métrico jerárquico', () => {
 		]);
 	});
 
+	it('descompone 48 versos en doce redondillas sin convertirlos en una sola estrofa', () => {
+		const redondilla = [
+			{
+				seccion_id: 'redondilla',
+				seccion_padre_id: null,
+				tipo_seccion: 'redondilla',
+				nombre: 'Redondilla',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: null,
+				versos_min: 4,
+				versos_max: 4
+			}
+		];
+		const synchronized = syncFlatRepeatedMetricUnits([], redondilla, 1, 48);
+
+		expect(synchronized.compatible).toBe(true);
+		expect(synchronized.units).toHaveLength(12);
+		expect(synchronized.units[0]).toMatchObject({ orden: 1, v_ini: 1, v_fin: 4 });
+		expect(synchronized.units[11]).toMatchObject({ orden: 12, v_ini: 45, v_fin: 48 });
+	});
+
+	it('descompone 48 versos en seis unidades de redondilla doble', () => {
+		const redondillaDoble = [
+			{
+				seccion_id: 'redondilla-doble',
+				seccion_padre_id: null,
+				tipo_seccion: 'redondilla_doble',
+				nombre: 'Redondilla doble',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: null,
+				versos_min: 8,
+				versos_max: 8
+			}
+		];
+		const synchronized = syncFlatRepeatedMetricUnits([], redondillaDoble, 1, 48);
+
+		expect(synchronized.compatible).toBe(true);
+		expect(synchronized.units).toHaveLength(6);
+		expect(synchronized.units[0]).toMatchObject({ orden: 1, v_ini: 1, v_fin: 8 });
+		expect(synchronized.units[5]).toMatchObject({ orden: 6, v_ini: 41, v_fin: 48 });
+	});
+
 	it('crea la unidad mínima de una estructura plana con longitud variable', () => {
 		const variable = [
 			{

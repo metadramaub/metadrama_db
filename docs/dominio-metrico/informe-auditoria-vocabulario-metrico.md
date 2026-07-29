@@ -105,7 +105,10 @@ La falta de datos propios en un hijo no es necesariamente un error: puede expres
 `redondilla_cruzada` se define como cuatro octosílabos consonantes `abab`. En la terminología moderna estricta, `abba` es redondilla y `abab` es cuarteta. Hay usos históricos amplios de “redondilla”, pero el vocabulario mezcla ese uso amplio con una entrada llamada `redondilla_regular` para `abba`. Para un editor y para el demarcador conviene:
 
 - crear `cuarteta` para `abab`, o
-- declarar que `redondilla` es un agrupador histórico y que `redondilla_abrazada` y `cuarteta_cruzada` son formas seleccionables.
+- declarar que `redondilla` es una forma con realizaciones abrazada y cruzada. Esta
+  recomendación preliminar quedó concretada después mediante una configuración simple
+  con los patrones `abba` y `abab`; «Cuarteta» es la denominación equivalente del
+  patrón cruzado, no otra forma.
 
 No es aconsejable presentar `redondilla_cruzada` como término transparente sin una nota terminológica.
 

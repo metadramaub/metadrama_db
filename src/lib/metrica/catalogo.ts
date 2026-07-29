@@ -145,6 +145,7 @@ export type MetricCatalogMigrationRow = {
 		forma_id: string | null;
 		familia_id: string | null;
 		configuracion_id: string | null;
+		patron_metrico_id: string | null;
 		patron_rima_id: string | null;
 		rasgo_id: string | null;
 		valor_rasgo_id: string | null;
