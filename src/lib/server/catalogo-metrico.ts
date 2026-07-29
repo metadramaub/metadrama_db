@@ -9,7 +9,8 @@ import type {
 	MetricCatalogPageData,
 	MetricCatalogPreviewVersion,
 	MetricCatalogSourceTerm,
-	MetricCatalogTradition
+	MetricCatalogTradition,
+	MetricLengthRule
 } from '$lib/metrica/catalogo';
 
 type UntypedSupabaseClient = {
@@ -67,8 +68,20 @@ function emptyDomain(): MetricCatalogDomainData {
 		traits: [],
 		traitValues: [],
 		configurationTraits: [],
+		choiceGroups: [],
+		choiceOptions: [],
 		sources: [],
 		sourceClaims: []
+	};
+}
+
+function emptyEditorSandbox() {
+	return {
+		scenarios: [],
+		sequences: [],
+		units: [],
+		choices: [],
+		deviations: []
 	};
 }
 
@@ -274,7 +287,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 14
+		Number(stateResponse.data?.modelo_version ?? 0) < 18
 	) {
 		return {
 			migrationPending: true,
@@ -283,11 +296,13 @@ export async function loadMetricCatalog(
 			revision: null,
 			forms: [],
 			configurations: [],
+			lengthRules: [],
 			families: [],
 			traditions: [],
 			migrationRows: [],
 			previewVersions: [],
 			domain: emptyDomain(),
+			editorSandbox: emptyEditorSandbox(),
 			options: { rhymeTypes: [], metres: [] },
 			issues: [],
 			stats: {
@@ -313,6 +328,7 @@ export async function loadMetricCatalog(
 		sourceTermsResponse,
 		metrePatternsResponse,
 		rhymePatternsResponse,
+		lengthRulesResponse,
 		optionsResponse,
 		previewVersionsResponse
 	] = await Promise.all([
@@ -350,6 +366,11 @@ export async function loadMetricCatalog(
 		db.from('patrones_metricos').select('patron_metrico_id,configuracion_id'),
 		db.from('patrones_rima').select('patron_rima_id,configuracion_id'),
 		db
+			.from('configuraciones_forma_reglas_longitud')
+			.select(
+				'configuracion_id,configuracion_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+			),
+		db
 			.from('vocabularios')
 			.select('termino_id,categoria,termino,etiqueta,numero_silabas')
 			.in('categoria', ['tipo_rima', 'metro'])
@@ -386,6 +407,8 @@ export async function loadMetricCatalog(
 		db.from('rasgos_metricos').select('*').order('nombre'),
 		db.from('rasgo_valores').select('*').order('orden'),
 		db.from('configuracion_rasgos').select('*'),
+		db.from('grupos_eleccion_metrica').select('*').order('orden'),
+		db.from('opciones_eleccion_metrica').select('*').order('orden'),
 		db.from('fuentes_metricas').select('*').order('titulo'),
 		db.from('afirmaciones_fuentes_metricas').select('*')
 	]);
@@ -414,6 +437,8 @@ export async function loadMetricCatalog(
 		traitsDomain,
 		traitValuesDomain,
 		configurationTraitsDomain,
+		choiceGroupsDomain,
+		choiceOptionsDomain,
 		sourcesDomain,
 		sourceClaimsDomain
 	] = domainResponses;
@@ -446,6 +471,22 @@ export async function loadMetricCatalog(
 		traits: traitsDomain.data ?? [],
 		traitValues: traitValuesDomain.data ?? [],
 		configurationTraits: configurationTraitsDomain.data ?? [],
+		choiceGroups: choiceGroupsDomain.data ?? [],
+		choiceOptions: (choiceOptionsDomain.data ?? []).map((row: any) => {
+			const targetField = [
+				'metro_id',
+				'patron_metrico_id',
+				'patron_rima_id',
+				'seccion_id',
+				'patron_repeticion_id',
+				'rasgo_id',
+				'valor_rasgo_id'
+			].find((field) => row[field]);
+			return {
+				...row,
+				objetivo: targetField ? `${targetField}:${row[targetField]}` : null
+			};
+		}),
 		sources: sourcesDomain.data ?? [],
 		sourceClaims: (sourceClaimsDomain.data ?? []).map((row: any) => {
 			const targetField = [
@@ -481,6 +522,10 @@ export async function loadMetricCatalog(
 	throwQueryError('No se pudieron cargar los términos de origen', sourceTermsResponse.error);
 	throwQueryError('No se pudieron cargar los patrones métricos', metrePatternsResponse.error);
 	throwQueryError('No se pudieron cargar los patrones de rima', rhymePatternsResponse.error);
+	throwQueryError(
+		'No se pudieron derivar las reglas de longitud',
+		lengthRulesResponse.error
+	);
 	throwQueryError('No se pudieron cargar las opciones métricas', optionsResponse.error);
 	throwQueryError(
 		'No se pudieron cargar las pruebas del demarcador',
@@ -575,6 +620,23 @@ export async function loadMetricCatalog(
 			);
 
 	const issues = buildIssues({ forms, configurations, domain });
+	const editorSandboxResponses = await Promise.all([
+		db.from('escenarios_editor_metrico').select('*').order('updated_at', { ascending: false }),
+		db.from('secuencias_editor_metrico').select('*').order('orden'),
+		db.from('unidades_editor_metrico').select('*').order('orden'),
+		db.from('elecciones_editor_metrico').select('*'),
+		db.from('desviaciones_editor_metrico').select('*').order('v_ini')
+	]);
+	for (const response of editorSandboxResponses) {
+		throwQueryError('No se pudo cargar el editor métrico de prueba', response.error);
+	}
+	const [
+		editorScenariosResponse,
+		editorSequencesResponse,
+		editorUnitsResponse,
+		editorChoicesResponse,
+		editorDeviationsResponse
+	] = editorSandboxResponses;
 	const pendingTerms = migrationRows.filter((row) => row.estado_revision === 'pendiente');
 	const unresolvedTerms = migrationRows.filter(
 		(row) => row.destinos.length === 0 && row.clasificacion_propuesta !== 'D'
@@ -586,11 +648,19 @@ export async function loadMetricCatalog(
 		revision: stateResponse.data?.revision ?? 1,
 		forms,
 		configurations,
+		lengthRules: (lengthRulesResponse.data ?? []) as MetricLengthRule[],
 		families,
 		traditions,
 		migrationRows,
 		previewVersions: (previewVersionsResponse.data ?? []) as MetricCatalogPreviewVersion[],
 		domain,
+		editorSandbox: {
+			scenarios: editorScenariosResponse.data ?? [],
+			sequences: editorSequencesResponse.data ?? [],
+			units: editorUnitsResponse.data ?? [],
+			choices: editorChoicesResponse.data ?? [],
+			deviations: editorDeviationsResponse.data ?? []
+		},
 		options: {
 			rhymeTypes: toOptions('tipo_rima'),
 			metres: toOptions('metro')

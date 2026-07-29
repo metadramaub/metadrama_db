@@ -3,6 +3,7 @@
 		type MetricEntityField,
 		type MetricEntityOption
 	} from './MetricEntityCollection.svelte';
+	import MetricChoiceGroupsEditor from './MetricChoiceGroupsEditor.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
 		metricReviewStateLabel,
@@ -580,4 +581,10 @@
 				defaults={{ configuracion_id: props.configurationId, modalidad: 'definitoria' }} compact />
 		</div>
 	</details>
+
+	<MetricChoiceGroupsEditor
+		configurationId={props.configurationId}
+		domain={props.domain}
+		metres={props.metres}
+	/>
 </div>

@@ -243,26 +243,30 @@ begin
 	)
 	returning patron_rima_id into v_patron_abab_id;
 
-	insert into public.patron_rima_posiciones (
-		patron_rima_id,
-		bloque,
-		seccion,
-		posicion,
-		ubicacion,
-		clase_rima,
-		suelto,
-		opcional,
-		nota
-	)
-	values
-		(v_patron_abba_id, 1, 'mudanza', 1, 'final', 'a', false, false, 'Primera posición de la redondilla.'),
-		(v_patron_abba_id, 1, 'mudanza', 2, 'final', 'b', false, false, 'Segunda posición de la redondilla.'),
-		(v_patron_abba_id, 1, 'mudanza', 3, 'final', 'b', false, false, 'Tercera posición de la redondilla.'),
-		(v_patron_abba_id, 1, 'mudanza', 4, 'final', 'a', false, false, 'Cuarta posición de la redondilla.'),
-		(v_patron_abab_id, 1, 'mudanza', 1, 'final', 'a', false, false, 'Primera posición de la cuarteta.'),
-		(v_patron_abab_id, 1, 'mudanza', 2, 'final', 'b', false, false, 'Segunda posición de la cuarteta.'),
-		(v_patron_abab_id, 1, 'mudanza', 3, 'final', 'a', false, false, 'Tercera posición de la cuarteta.'),
-		(v_patron_abab_id, 1, 'mudanza', 4, 'final', 'b', false, false, 'Cuarta posición de la cuarteta.');
+	-- El trigger sincronizar_posiciones_patron_rima_fijo ya ha creado las
+	-- posiciones a partir de los esquemas abba y abab. Aquí solo añadimos
+	-- la semántica específica de la sección, sin duplicar esas filas.
+	update public.patron_rima_posiciones
+	set
+		seccion = 'mudanza',
+		nota = case posicion
+			when 1 then 'Primera posición de la redondilla.'
+			when 2 then 'Segunda posición de la redondilla.'
+			when 3 then 'Tercera posición de la redondilla.'
+			when 4 then 'Cuarta posición de la redondilla.'
+		end
+	where patron_rima_id = v_patron_abba_id;
+
+	update public.patron_rima_posiciones
+	set
+		seccion = 'mudanza',
+		nota = case posicion
+			when 1 then 'Primera posición de la cuarteta.'
+			when 2 then 'Segunda posición de la cuarteta.'
+			when 3 then 'Tercera posición de la cuarteta.'
+			when 4 then 'Cuarta posición de la cuarteta.'
+		end
+	where patron_rima_id = v_patron_abab_id;
 
 	delete from public.estructuras_secciones
 	where configuracion_id = v_configuracion_id;

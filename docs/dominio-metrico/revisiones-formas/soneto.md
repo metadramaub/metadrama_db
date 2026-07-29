@@ -24,11 +24,20 @@ tercetos no son subformas. El soneto de esdrújulos es un rasgo transversal.
 llamaba «soneto regular». Los otros tres son alternativas admitidas. La lista no se
 declara exhaustiva: la definición del IP dice «entre otras variantes».
 
+## Registrador
+
+La configuración se resuelve automáticamente porque solo hay una. El editor elige
+únicamente qué esquema presentan los tercetos; la respuesta referencia el
+`patron_rima` completo correspondiente. Los catorce versos, el endecasílabo, la
+consonancia, `ABBA ABBA` y la división `4 + 4 + 3 + 3` se derivan de la norma y no se
+vuelven a preguntar. El rango solo es válido si contiene un múltiplo de catorce versos.
+
 ## Demarcador
 
 Debe identificar el soneto por catorce endecasílabos, rima consonante y arquitectura
 `4 + 4 + 3 + 3`. No necesita preguntar por el esquema de los tercetos ni por los finales
-esdrújulos para identificar la forma.
+esdrújulos para identificar la forma. Esta simplificación del demarcador no elimina la
+elección de tercetos del registrador, porque el dato sí es necesario para el análisis.
 
 ## Trazabilidad
 

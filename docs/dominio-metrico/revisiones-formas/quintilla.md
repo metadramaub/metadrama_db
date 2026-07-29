@@ -22,6 +22,13 @@ preceptiva general.
 Los siete primeros se registran como ordinarios y `abbba` como excepción documentada
 por el IP. Cada esquema tiene cinco posiciones normalizadas.
 
+## Registrador
+
+El rango genera una unidad por cada cinco versos. El editor elige el esquema de cada
+quintilla, puede aplicarlo a todas y modifica solo las que cambian. La medida, la
+consonancia y la extensión se derivan. Un rango que no sea múltiplo de cinco no se puede
+guardar.
+
 ## Demarcador
 
 Debe identificar la quintilla por cinco versos octosílabos y rima consonante. El esquema

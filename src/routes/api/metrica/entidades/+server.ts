@@ -307,6 +307,44 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		fields: ['valor_id', 'valor_numero', 'valor_texto', 'nota'],
 		numberFields: ['valor_numero']
 	},
+	choiceGroups: {
+		table: 'grupos_eleccion_metrica',
+		keys: ['grupo_eleccion_id'],
+		fields: [
+			'configuracion_id',
+			'slug',
+			'nombre',
+			'ayuda_editor',
+			'dimension',
+			'alcance',
+			'seccion_id',
+			'selecciones_min',
+			'selecciones_max',
+			'permite_aplicar_global',
+			'estado_revision',
+			'activo',
+			'orden'
+		],
+		booleanFields: ['permite_aplicar_global', 'activo'],
+		numberFields: ['selecciones_min', 'selecciones_max', 'orden']
+	},
+	choiceOptions: {
+		table: 'opciones_eleccion_metrica',
+		keys: ['opcion_eleccion_id'],
+		fields: [
+			'grupo_eleccion_id',
+			'slug',
+			'nombre',
+			'descripcion',
+			'objetivo',
+			'materializa_seccion_id',
+			'extension_desde_seccion_id',
+			'activo',
+			'orden'
+		],
+		booleanFields: ['activo'],
+		numberFields: ['orden']
+	},
 	sources: {
 		table: 'fuentes_metricas',
 		keys: ['fuente_id'],
@@ -390,6 +428,21 @@ function normalizeValues(
 		];
 		const [type, id] = String(output.destino ?? '').split(':', 2);
 		delete output.destino;
+		for (const field of targetFields) output[field] = null;
+		if (targetFields.includes(type) && id) output[type] = id;
+	}
+	if (resource === 'choiceOptions' && 'objetivo' in output) {
+		const targetFields = [
+			'metro_id',
+			'patron_metrico_id',
+			'patron_rima_id',
+			'seccion_id',
+			'patron_repeticion_id',
+			'rasgo_id',
+			'valor_rasgo_id'
+		];
+		const [type, id] = String(output.objetivo ?? '').split(':', 2);
+		delete output.objetivo;
 		for (const field of targetFields) output[field] = null;
 		if (targetFields.includes(type) && id) output[type] = id;
 	}
