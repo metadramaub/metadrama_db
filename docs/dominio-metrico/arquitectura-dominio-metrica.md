@@ -461,6 +461,8 @@ Necesaria para villancico, zéjel, sextina, canción y otras formas compuestas:
 - `repeticiones_max`;
 - `versos_min`;
 - `versos_max`;
+- `configuracion_referenciada_id`, si la sección realiza una configuración ya
+  formalizada de otra forma;
 - `patron_metrico_id`, si la sección tiene uno;
 - `patron_rima_id`, si la sección tiene uno.
 
@@ -470,6 +472,11 @@ intervalos reales: `3–3` significa tres versos; `2–4`, una extensión variab
 nulo, ausencia de límite superior. La interfaz solicita un solo número para el caso fijo.
 
 La relación recursiva se limitará a la estructura interna de una configuración y no sustituirá las familias.
+
+La configuración referenciada permite composición sin duplicación. Una novena puede
+declarar secciones que realizan una redondilla y una quintilla, y sus preguntas
+editoriales reutilizan los patrones normalizados de esas configuraciones. La sección
+sigue perteneciendo a la novena; la referencia solo aporta la norma del componente.
 
 ### 9.8. `patrones_repeticion`
 
@@ -893,7 +900,7 @@ Un compilador generará un artefacto versionado a partir de:
 
 - formas activas, aprobadas, seleccionables y no residuales;
 - configuraciones aprobadas y demarcables;
-- patrones y rasgos observables;
+- patrones, orden estructural de secciones y rasgos observables;
 - textos de pregunta revisados.
 
 El artefacto incluirá:

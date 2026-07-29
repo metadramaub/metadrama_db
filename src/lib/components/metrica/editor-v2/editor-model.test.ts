@@ -5,9 +5,11 @@ import {
 	ensureRequiredMetricStructure,
 	flatRepeatedMetricSection,
 	flatVariableRepeatedMetricSection,
+	hierarchicalRepeatedMetricSection,
 	ensureRequiredFlatMetricStructure,
 	isHierarchicalMetricStructure,
 	syncFlatRepeatedMetricUnits,
+	syncHierarchicalRepeatedMetricUnits,
 	syncChoiceMaterializedSections,
 	type MetricChoiceDraft
 } from './editor-model';
@@ -133,6 +135,71 @@ describe('editor métrico jerárquico', () => {
 			[1, 5],
 			[6, 10],
 			[11, 15]
+		]);
+	});
+
+	it('genera novenas jerárquicas completas desde el rango', () => {
+		const novena = [
+			{
+				seccion_id: 'novena',
+				seccion_padre_id: null,
+				tipo_seccion: 'novena',
+				nombre: 'Novena',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: null
+			},
+			{
+				seccion_id: 'redondilla',
+				seccion_padre_id: 'novena',
+				tipo_seccion: 'redondilla',
+				nombre: 'Redondilla',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 4,
+				versos_max: 4
+			},
+			{
+				seccion_id: 'quintilla',
+				seccion_padre_id: 'novena',
+				tipo_seccion: 'quintilla',
+				nombre: 'Quintilla',
+				orden: 2,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 5,
+				versos_max: 5
+			}
+		];
+		expect(hierarchicalRepeatedMetricSection(novena)).toMatchObject({
+			section: novena[0],
+			unitLength: 9
+		});
+
+		const synchronized = syncHierarchicalRepeatedMetricUnits([], novena, 10, 27);
+		expect(synchronized.compatible).toBe(true);
+		expect(
+			synchronized.units
+				.filter((unit) => unit.seccion_id === 'novena')
+				.map((unit) => [unit.v_ini, unit.v_fin])
+		).toEqual([
+			[10, 18],
+			[19, 27]
+		]);
+		expect(
+			synchronized.units.map((unit) => [
+				unit.seccion_id,
+				unit.v_ini,
+				unit.v_fin
+			])
+		).toEqual([
+			['novena', 10, 18],
+			['redondilla', 10, 13],
+			['quintilla', 14, 18],
+			['novena', 19, 27],
+			['redondilla', 19, 22],
+			['quintilla', 23, 27]
 		]);
 	});
 

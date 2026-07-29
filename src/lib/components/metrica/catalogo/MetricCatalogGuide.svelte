@@ -69,6 +69,7 @@
 				['Tipo y nombre', 'Función estructural controlada y denominación legible: cabeza, mudanza, enlace o vuelta, represa, remate…'],
 				['Repeticiones mínimas y máximas', 'Cuántas veces puede aparecer la sección; vacío significa que no se fija.'],
 				['Versos mínimos y máximos', 'Extensión propia de esa sección.'],
+				['Configuración reutilizada', 'Indica que la sección realiza otra forma ya formalizada y reutiliza sus posibilidades, por ejemplo una redondilla dentro de una novena.'],
 				['Patrón asociado', 'Metro o rima que solo gobierna esa sección.'],
 				['Regla de repetición', 'Qué elemento reaparece y cómo: palabra final, verso, estribillo o sección.']
 			]

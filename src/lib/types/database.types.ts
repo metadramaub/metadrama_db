@@ -1303,6 +1303,7 @@ export type Database = {
       estructuras_secciones: {
         Row: {
           configuracion_id: string
+          configuracion_referenciada_id: string | null
           created_at: string
           nombre: string | null
           nota: string | null
@@ -1320,6 +1321,7 @@ export type Database = {
         }
         Insert: {
           configuracion_id: string
+          configuracion_referenciada_id?: string | null
           created_at?: string
           nombre?: string | null
           nota?: string | null
@@ -1337,6 +1339,7 @@ export type Database = {
         }
         Update: {
           configuracion_id?: string
+          configuracion_referenciada_id?: string | null
           created_at?: string
           nombre?: string | null
           nota?: string | null
@@ -1363,6 +1366,20 @@ export type Database = {
           {
             foreignKeyName: "estructuras_secciones_configuracion_id_fkey"
             columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "estructuras_secciones_configuracion_referenciada_id_fkey"
+            columns: ["configuracion_referenciada_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "estructuras_secciones_configuracion_referenciada_id_fkey"
+            columns: ["configuracion_referenciada_id"]
             isOneToOne: false
             referencedRelation: "configuraciones_forma_reglas_longitud"
             referencedColumns: ["configuracion_id"]

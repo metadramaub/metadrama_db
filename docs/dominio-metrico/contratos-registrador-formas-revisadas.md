@@ -32,6 +32,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Décima aumentada | 12 octosílabos, consonancia, `abbaaccddeed` y pausa `4 + 8` | nada | múltiplo de 12 |
 | Redondilla · configuración simple | unidades de 4 versos consonantes | medida 8, 7 o 6 y disposición `abba` o `abab` | múltiplo de 4; materializa una unidad por cada 4 versos |
 | Redondilla · configuración doble enlazada | unidades de 8 octosílabos, `abba:acca` | nada | múltiplo de 8; materializa una unidad por cada 8 versos |
+| Octava real | 8 endecasílabos consonantes y `ABABABCC` | final esdrújulo, solo si caracteriza | múltiplo de 8 |
+| Novena | 9 octosílabos consonantes y orden de secciones según configuración | esquema de la redondilla y de la quintilla en cada unidad | múltiplo de 9; materializa una novena y sus dos partes por cada 9 versos |
 
 ## Recorridos mínimos
 
@@ -56,6 +58,9 @@ solo por tener datos normalizados: debe cumplir también este contrato.
   aplicar ambas respuestas a toda la tirada y cambiar solo las unidades distintas.
 - Redondilla doble: forma, configuración y guardar; el registrador deriva las unidades
   de ocho versos.
+- Octava real: forma y guardar; el rasgo esdrújulo queda vacío por defecto.
+- Novena: forma, orden de secciones y los dos esquemas de la primera unidad; aplicar a
+  toda la tirada y cambiar solo las unidades distintas.
 
 ## Criterio de las desviaciones
 

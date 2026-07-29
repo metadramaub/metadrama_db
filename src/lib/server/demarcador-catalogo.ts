@@ -110,10 +110,14 @@ type SectionRow = {
 	seccion_id: string;
 	configuracion_id: string;
 	seccion_padre_id: string | null;
+	tipo_seccion: string;
+	nombre: string | null;
+	orden: number;
 	repeticiones_min: number | null;
 	repeticiones_max: number | null;
 	versos_min: number | null;
 	versos_max: number | null;
+	configuracion_referenciada_id: string | null;
 };
 
 type CompiledRhymePattern = {
@@ -122,6 +126,11 @@ type CompiledRhymePattern = {
 	label: string | null;
 	predominioRima: ValorCatalogado | null;
 	organizacionPareados: ValorCatalogado | null;
+};
+
+type CompiledStructure = {
+	signature: string;
+	label: string;
 };
 
 function qualitativeRhymeTraits(
@@ -256,6 +265,61 @@ function configurationSize(
 		: null;
 }
 
+function compileStructure(
+	sections: SectionRow[],
+	configurationById: Map<string, ConfigurationRow>
+): CompiledStructure | null {
+	if (
+		sections.length < 2 &&
+		!sections.some((section) => Boolean(section.configuracion_referenciada_id))
+	) {
+		return null;
+	}
+
+	const childrenByParent = new Map<string, SectionRow[]>();
+	for (const section of sections) {
+		if (!section.seccion_padre_id) continue;
+		childrenByParent.set(section.seccion_padre_id, [
+			...(childrenByParent.get(section.seccion_padre_id) ?? []),
+			section
+		]);
+	}
+	const sortSections = (items: SectionRow[]) =>
+		[...items].sort(
+			(a, b) =>
+				a.orden - b.orden ||
+				(a.nombre ?? a.tipo_seccion).localeCompare(
+					b.nombre ?? b.tipo_seccion,
+					'es'
+				)
+		);
+	const node = (section: SectionRow): Record<string, unknown> => ({
+		tipo: section.tipo_seccion,
+		orden: section.orden,
+		repeticiones: [section.repeticiones_min, section.repeticiones_max],
+		versos: [section.versos_min, section.versos_max],
+		configuracionReferenciada:
+			configurationById.get(section.configuracion_referenciada_id ?? '')?.slug ??
+			null,
+		partes: sortSections(childrenByParent.get(section.seccion_id) ?? []).map(node)
+	});
+	const roots = sortSections(
+		sections.filter((section) => section.seccion_padre_id === null)
+	);
+	if (roots.length === 0) return null;
+
+	const visibleParts =
+		roots.length === 1 && (childrenByParent.get(roots[0].seccion_id)?.length ?? 0) > 0
+			? sortSections(childrenByParent.get(roots[0].seccion_id) ?? [])
+			: roots;
+	return {
+		signature: JSON.stringify(roots.map(node)),
+		label: visibleParts
+			.map((section) => section.nombre?.trim() || section.tipo_seccion)
+			.join(' + ')
+	};
+}
+
 function compileRhymePattern(
 	pattern: RhymePatternRow,
 	positions: RhymePositionRow[],
@@ -360,10 +424,20 @@ function candidateFromConfiguration(input: {
 	isFamily: boolean;
 	metres: ValorCatalogado[];
 	rhymePattern: CompiledRhymePattern | null;
+	structure: CompiledStructure | null;
 	size: number | null;
 	vocabularyById: Map<string, VocabularyRow>;
 }): CandidatoDemarcadorNuevo {
-	const { form, configuration, isFamily, metres, rhymePattern, size, vocabularyById } = input;
+	const {
+		form,
+		configuration,
+		isFamily,
+		metres,
+		rhymePattern,
+		structure,
+		size,
+		vocabularyById
+	} = input;
 	const rhyme =
 		cataloguedValue(configuration.tipo_rima_id, vocabularyById) ??
 		cataloguedValue(rhymePattern?.tipo_rima_id ?? null, vocabularyById);
@@ -372,6 +446,8 @@ function candidateFromConfiguration(input: {
 		rima: rhyme,
 		naturaleza: derivedStructuralNature(form, configuration, size, vocabularyById),
 		tamanio: size,
+		estructura: structure?.signature ?? null,
+		estructuraEtiqueta: structure?.label ?? null,
 		patron: rhymePattern?.signature ?? null,
 		patronEtiqueta: rhymePattern?.label ?? null,
 		predominioRima: rhymePattern?.predominioRima ?? null,
@@ -456,7 +532,7 @@ export async function generateDemarcatorFromMetricCatalog(
 		db
 			.from('estructuras_secciones')
 			.select(
-				'seccion_id,configuracion_id,seccion_padre_id,repeticiones_min,repeticiones_max,versos_min,versos_max'
+				'seccion_id,configuracion_id,seccion_padre_id,tipo_seccion,nombre,orden,repeticiones_min,repeticiones_max,versos_min,versos_max,configuracion_referenciada_id'
 			),
 		db
 			.from('vocabularios')
@@ -486,6 +562,12 @@ export async function generateDemarcatorFromMetricCatalog(
 
 	const forms = (formsResponse.data ?? []) as FormRow[];
 	const configurations = (configurationsResponse.data ?? []) as ConfigurationRow[];
+	const configurationById = new Map(
+		configurations.map((configuration) => [
+			configuration.configuracion_id,
+			configuration
+		])
+	);
 	const sections = (sectionsResponse.data ?? []) as SectionRow[];
 	const metricPatterns = (metricPatternsResponse.data ?? []) as PatternRow[];
 	const vocabularyById = new Map<string, VocabularyRow>(
@@ -639,6 +721,13 @@ export async function generateDemarcatorFromMetricCatalog(
 						...(metresByConfiguration.get(configuration.configuracion_id)?.values() ?? [])
 					].sort((a, b) => a.clave.localeCompare(b.clave, 'es', { numeric: true })),
 					rhymePattern: rhymePatternByConfiguration.get(configuration.configuracion_id) ?? null,
+					structure: compileStructure(
+						sections.filter(
+							(section) =>
+								section.configuracion_id === configuration.configuracion_id
+						),
+						configurationById
+					),
 					size: configurationSize(
 						form,
 						configuration,

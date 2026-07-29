@@ -120,3 +120,24 @@ Resuelto en el modelo: existe una única forma `redondilla`; la realización sim
 admite 6, 7 u 8 sílabas y los patrones `abba` y `abab`; «Cuarteta» es denominación
 equivalente del patrón cruzado; la doble es una configuración estructural de ocho
 versos; la hexasílaba se corrige a seis sílabas.
+
+## Octava real
+
+Véase [octava-real.md](./octava-real.md).
+
+Sin decisiones imprescindibles pendientes. El catálogo mantiene el alcance
+endecasilábico del proyecto y no incorpora automáticamente la octavilla real
+excepcional documentada en la bibliografía.
+
+## Novena
+
+Véase [novena.md](./novena.md).
+
+1. ¿Las rimas de redondilla y quintilla son siempre independientes o debe registrarse
+   una clase compartida entre ambas secciones?
+2. ¿Las ocho tipologías actuales de quintilla se ofrecen dentro de toda novena?
+3. ¿Las demás estrofas de nueve versos quedan fuera salvo que aparezcan en el corpus?
+
+Resuelto en el modelo: `novena_canonica` y `novena_invertida` son configuraciones de una
+única forma; las secciones reutilizan las configuraciones de redondilla y quintilla sin
+copiar sus patrones.
