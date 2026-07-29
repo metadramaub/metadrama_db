@@ -68,3 +68,43 @@ Véase [zejel.md](./zejel.md).
 1. ¿Se admiten estribillos de uno y de dos versos o el zéjel estricto exige dístico?
 2. ¿Una represa parcial es posibilidad admitida o desviación?
 3. ¿Las medidas 6 y 8 forman un repertorio cerrado para el corpus?
+
+## Copla real
+
+Véase [coplas-y-sextillas.md](./coplas-y-sextillas.md).
+
+1. ¿Los quebrados pueden ocupar cualquiera de las diez posiciones?
+2. ¿Se admiten únicamente tetrasílabos o también pentasílabos?
+3. ¿Las dos quintillas reutilizan el repertorio de ocho esquemas ya reconocido?
+4. ¿La configuración quebrada es admitida o canónica para el proyecto?
+
+## Coplas y sextillas
+
+Véase [coplas-y-sextillas.md](./coplas-y-sextillas.md).
+
+1. ¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`?
+2. ¿Las medidas 6, 7 y 8 de la sextilla isométrica forman un repertorio cerrado?
+3. ¿`doble_sextilla` reúne todos los esquemas regulares distintos de
+   `abcabc:defdef`?
+4. ¿Debe registrarse el esquema exacto de las dobles sextillas no manriqueñas?
+5. ¿Los tres esquemas de copla de arte mayor son un repertorio cerrado?
+6. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el
+   corpus?
+
+Resuelto en el modelo: `copla_de_pie_quebrado` no es una familia, pero sí una salida
+residual registrable de 5–12 versos para casos no tipificados. El rasgo `pie_quebrado`
+permanece separado y reutilizable. La migración futura podrá conservar en la residual
+las declaraciones antiguas que todavía no permitan una identificación más precisa.
+
+## Décimas
+
+Véase [decimas.md](./decimas.md).
+
+1. ¿La familia debe limitarse por ahora a copla real, décima espinela y décima
+   aumentada?
+2. ¿Se mantiene «Décima aumentada» como nombre público preferente?
+3. ¿La definición pública de la espinela debe conservar la expresión «dos redondillas
+   enlazadas por dos versos puente»?
+
+Resuelto en el modelo: `decima` es una familia no seleccionable, no una forma duplicada.
+La espinela y la aumentada son formas fijas sin preguntas propias en el registrador.

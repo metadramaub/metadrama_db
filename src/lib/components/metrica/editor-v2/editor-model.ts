@@ -82,6 +82,50 @@ export function flatRepeatedMetricSection(
 	return roots[0];
 }
 
+export function flatVariableRepeatedMetricSection(
+	sections: MetricCatalogDomainRow[]
+): MetricCatalogDomainRow | null {
+	const roots = rootSections(sections);
+	if (
+		roots.length !== 1 ||
+		sections.length !== 1 ||
+		sectionMaximum(roots[0]) !== null ||
+		sectionMinimum(roots[0]) < 1 ||
+		sectionHasFixedLength(roots[0])
+	) {
+		return null;
+	}
+	return roots[0];
+}
+
+export function ensureRequiredFlatMetricStructure(
+	units: MetricUnitDraft[],
+	sections: MetricCatalogDomainRow[],
+	sequenceStart: number,
+	choices: MetricChoiceDraft[] = [],
+	options: MetricCatalogDomainRow[] = []
+): MetricUnitDraft[] {
+	const section = flatVariableRepeatedMetricSection(sections);
+	if (!section) return units;
+
+	let next = [...units];
+	const existing = next.filter(
+		(unit) => unit.unidad_padre_id === null && unit.seccion_id === sectionId(section)
+	).length;
+	for (let index = existing; index < sectionMinimum(section); index += 1) {
+		next = addSectionInstance(
+			next,
+			sections,
+			sectionId(section),
+			null,
+			sequenceStart,
+			choices,
+			options
+		);
+	}
+	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
+}
+
 export function childrenOfSection(
 	sections: MetricCatalogDomainRow[],
 	parentSectionId: string

@@ -87,9 +87,13 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'forma_origen_id',
 			'forma_destino_id',
 			'tipo_relacion',
+			'cantidad_min',
+			'cantidad_max',
+			'orden_composicion',
 			'nota',
 			'estado_revision'
-		]
+		],
+		numberFields: ['cantidad_min', 'cantidad_max', 'orden_composicion']
 	},
 	verseModels: {
 		table: 'modelos_verso',
@@ -339,11 +343,12 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'objetivo',
 			'materializa_seccion_id',
 			'extension_desde_seccion_id',
+			'posicion_unidad',
 			'activo',
 			'orden'
 		],
 		booleanFields: ['activo'],
-		numberFields: ['orden']
+		numberFields: ['posicion_unidad', 'orden']
 	},
 	sources: {
 		table: 'fuentes_metricas',

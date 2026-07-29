@@ -7,11 +7,31 @@
 		selectedIds: string[];
 		onChange: (ids: string[]) => void;
 		onApplyAll?: () => void;
+		positionLimit?: number;
 	}>();
 
 	const minimum = $derived(Number(props.group.selecciones_min ?? 0));
 	const maximum = $derived(Number(props.group.selecciones_max ?? 1));
 	const optional = $derived(minimum === 0);
+	const positional = $derived(
+		props.options.length > 0 &&
+			props.options.every(
+				(option: MetricCatalogDomainRow) => Number(option.posicion_unidad ?? 0) > 0
+			)
+	);
+	const visibleOptions = $derived(
+		positional && typeof props.positionLimit === 'number'
+			? props.options.filter(
+					(option: MetricCatalogDomainRow) =>
+						Number(option.posicion_unidad) <= props.positionLimit!
+				)
+			: props.options
+	);
+	const effectiveMaximum = $derived(
+		positional && typeof props.positionLimit === 'number'
+			? Math.min(maximum, Math.max(1, props.positionLimit - 1))
+			: maximum
+	);
 
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;
@@ -21,7 +41,7 @@
 	function toggleOption(optionId: string, checked: boolean) {
 		const current = new Set(props.selectedIds);
 		if (checked) {
-			if (current.size >= maximum) return;
+			if (current.size >= effectiveMaximum) return;
 			current.add(optionId);
 		} else {
 			current.delete(optionId);
@@ -54,13 +74,41 @@
 			<option value="">
 				{optional ? 'No aparece / no se aplica' : 'Seleccionar una respuesta'}
 			</option>
-			{#each props.options as option (String(option.opcion_eleccion_id))}
+			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
 				<option value={String(option.opcion_eleccion_id)}>{String(option.nombre)}</option>
 			{/each}
 		</select>
+	{:else if positional}
+		<div class="flex flex-wrap gap-2">
+			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
+				<label
+					class={`flex min-h-10 min-w-10 cursor-pointer items-center justify-center border px-3 text-sm ${
+						props.selectedIds.includes(String(option.opcion_eleccion_id))
+							? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
+							: 'border-[color:var(--border)] bg-white'
+					}`}
+					title={String(option.nombre)}
+				>
+					<input
+						type="checkbox"
+						class="sr-only"
+						checked={props.selectedIds.includes(String(option.opcion_eleccion_id))}
+						onchange={(event) =>
+							toggleOption(
+								String(option.opcion_eleccion_id),
+								event.currentTarget.checked
+							)}
+					/>
+					<span>{Number(option.posicion_unidad)}</span>
+				</label>
+			{/each}
+		</div>
+		<p class="text-xs text-[color:var(--muted-foreground)]">
+			{props.selectedIds.length} de {effectiveMaximum} posiciones seleccionadas
+		</p>
 	{:else}
 		<div class="grid gap-2 sm:grid-cols-2">
-			{#each props.options as option (String(option.opcion_eleccion_id))}
+			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
 				<label class="flex items-start gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
 					<input
 						type="checkbox"

@@ -107,11 +107,16 @@
 				{ value: 'subtipo_de', label: 'Subtipo de' },
 				{ value: 'variante_historica_de', label: 'Variante histórica de' },
 				{ value: 'derivada_de', label: 'Derivada de' },
+				{ value: 'compuesta_por', label: 'Compuesta por' },
+				{ value: 'sucede_historicamente_a', label: 'Sucede históricamente a' },
 				{ value: 'relacionada_con', label: 'Relacionada con' },
 				{ value: 'contrasta_con', label: 'Contrasta con' },
 				{ value: 'equivalente_de', label: 'Equivalente de' }
 			]
 		},
+		{ key: 'cantidad_min', label: 'Cantidad mínima', type: 'number' },
+		{ key: 'cantidad_max', label: 'Cantidad máxima', type: 'number' },
+		{ key: 'orden_composicion', label: 'Orden', type: 'number' },
 		{ key: 'nota', label: 'Nota', type: 'textarea' },
 		{ key: 'estado_revision', label: 'Estado', type: 'select', options: reviewOptions, required: true }
 	]);

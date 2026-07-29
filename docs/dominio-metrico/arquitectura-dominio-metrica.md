@@ -283,8 +283,9 @@ Relaciones entre dos formas reales:
 
 - `forma_origen_id`;
 - `forma_destino_id`;
-- `tipo_relacion_id`;
-- `direccion`;
+- `tipo_relacion`;
+- `cantidad_min` y `cantidad_max`, solo para relaciones compositivas;
+- `orden_composicion`, cuando intervienen varios tipos de componente;
 - `nota`;
 - `estado_revision`;
 - `fuente_id`.
@@ -294,10 +295,15 @@ Tipos iniciales posibles:
 - `subtipo_de`;
 - `variante_historica_de`;
 - `derivada_de`;
+- `compuesta_por`;
 - `relacionada_con`;
 - `contrasta_con`.
 
 `equivalente_de` se reservará para equivalencias conceptuales reales. Los nombres alternativos irán en `forma_aliases`.
+
+`subtipo_de` expresa taxonomía; `compuesta_por`, arquitectura. Por ejemplo, la copla
+manriqueña es subtipo de doble sextilla y está compuesta por dos sextillas. Ninguna de
+esas relaciones convierte automáticamente `sextilla` en padre taxonómico.
 
 ## 9. Configuraciones formales
 
@@ -509,6 +515,8 @@ Una opción puede declarar efectos de interfaz separados de su valor semántico:
 - `materializa_seccion_id`: la respuesta implica una sección material cuyo rango debe
   conservarse;
 - `extension_desde_seccion_id`: la longitud de esa sección se deriva de otra realización.
+- `posicion_unidad`: el valor normalizado se aplica a una posición concreta dentro de la
+  unidad, como un tetrasílabo en una copla real.
 
 Así, «repetición total» sigue siendo un patrón de repetición, pero puede materializar un
 represa con la extensión de la primera aparición del estribillo, sea una cabeza inicial o
@@ -523,6 +531,8 @@ Ejemplos:
   una respuesta booleana;
 - los modos total, parcial e implícito de un estribillo deben ser patrones de repetición
   diferenciados si interesa analizarlos por separado.
+- una configuración con pies quebrados puede ofrecer posiciones numeradas que apuntan
+  todas al metro corto, sin crear un rasgo distinto para cada verso.
 
 ## 10. Rasgos métricos
 
@@ -699,6 +709,13 @@ consecuencia:
 - si cambia una norma, las secuencias afectadas se adaptan o invalidan mediante una migración o regeneración técnica.
 
 Cuando una secuencia no pueda describirse razonablemente desde una forma conocida, el editor utilizará una salida residual como `irregular`, en lugar de acumular un número arbitrario de desviaciones sobre una forma que ya no resulta reconocible.
+
+Una salida residual puede conservar estructura positiva suficiente para ser analizable.
+`copla_de_pie_quebrado`, por ejemplo, declara unidades de 5 a 12 versos, octosílabo
+dominante, consonancia y el rasgo `pie_quebrado`; el editor concreta la medida y las
+posiciones de los quebrados. Sigue siendo residual porque no compite con sextilla, copla
+manriqueña u otras formas más precisas. El demarcador la ofrece solo cuando sus respuestas
+han descartado las candidatas ordinarias compatibles.
 
 ### 12.6. `secuencia_observaciones_metricas`
 
@@ -937,6 +954,8 @@ Cambios puramente editoriales, como una etiqueta, podrán resolverse en lectura 
 - Las posiciones de un patrón son únicas y consecutivas cuando el patrón es fijo.
 - Las familias no son seleccionables.
 - Las relaciones `subtipo_de` no pueden formar ciclos.
+- Las cantidades solo aparecen en relaciones `compuesta_por` y su mínimo no puede
+  superar el máximo.
 - Las unidades internas deben quedar dentro del rango de su secuencia.
 - Los solapamientos se validarán según el tipo de unidad, no mediante una prohibición universal.
 
@@ -1148,7 +1167,8 @@ Casos mínimos:
 ## 21. Decisiones pendientes del IP
 
 - Inventario final de formas canónicas.
-- Política décima / espinela.
+- Alcance definitivo de la familia `decimas`; la raíz duplicada ya se ha transformado
+  en familia y la espinela conserva la identidad seleccionable.
 - Política octava real / octava real regular.
 - Tratamiento de copla real con pie quebrado.
 - Alcance de “copla de pie quebrado”.

@@ -1426,31 +1426,40 @@ export type Database = {
       }
       forma_relaciones: {
         Row: {
+          cantidad_max: number | null
+          cantidad_min: number | null
           created_at: string
           estado_revision: string
           forma_destino_id: string
           forma_origen_id: string
           nota: string | null
+          orden_composicion: number | null
           relacion_id: string
           tipo_relacion: string
           updated_at: string
         }
         Insert: {
+          cantidad_max?: number | null
+          cantidad_min?: number | null
           created_at?: string
           estado_revision?: string
           forma_destino_id: string
           forma_origen_id: string
           nota?: string | null
+          orden_composicion?: number | null
           relacion_id?: string
           tipo_relacion: string
           updated_at?: string
         }
         Update: {
+          cantidad_max?: number | null
+          cantidad_min?: number | null
           created_at?: string
           estado_revision?: string
           forma_destino_id?: string
           forma_origen_id?: string
           nota?: string | null
+          orden_composicion?: number | null
           relacion_id?: string
           tipo_relacion?: string
           updated_at?: string
@@ -2311,6 +2320,7 @@ export type Database = {
           patron_metrico_id: string | null
           patron_repeticion_id: string | null
           patron_rima_id: string | null
+          posicion_unidad: number | null
           rasgo_id: string | null
           seccion_id: string | null
           slug: string
@@ -2331,6 +2341,7 @@ export type Database = {
           patron_metrico_id?: string | null
           patron_repeticion_id?: string | null
           patron_rima_id?: string | null
+          posicion_unidad?: number | null
           rasgo_id?: string | null
           seccion_id?: string | null
           slug: string
@@ -2351,6 +2362,7 @@ export type Database = {
           patron_metrico_id?: string | null
           patron_repeticion_id?: string | null
           patron_rima_id?: string | null
+          posicion_unidad?: number | null
           rasgo_id?: string | null
           seccion_id?: string | null
           slug?: string

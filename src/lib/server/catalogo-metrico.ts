@@ -287,7 +287,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 20
+		Number(stateResponse.data?.modelo_version ?? 0) < 26
 	) {
 		return {
 			migrationPending: true,

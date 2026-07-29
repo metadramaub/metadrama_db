@@ -4,6 +4,8 @@ import {
 	addSectionInstance,
 	ensureRequiredMetricStructure,
 	flatRepeatedMetricSection,
+	flatVariableRepeatedMetricSection,
+	ensureRequiredFlatMetricStructure,
 	isHierarchicalMetricStructure,
 	syncFlatRepeatedMetricUnits,
 	syncChoiceMaterializedSections,
@@ -131,6 +133,26 @@ describe('editor métrico jerárquico', () => {
 			[1, 5],
 			[6, 10],
 			[11, 15]
+		]);
+	});
+
+	it('crea la unidad mínima de una estructura plana con longitud variable', () => {
+		const variable = [
+			{
+				seccion_id: 'copla',
+				seccion_padre_id: null,
+				tipo_seccion: 'copla_pie_quebrado',
+				nombre: 'Copla',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: null,
+				versos_min: 5,
+				versos_max: 12
+			}
+		];
+		expect(flatVariableRepeatedMetricSection(variable)).toEqual(variable[0]);
+		expect(ensureRequiredFlatMetricStructure([], variable, 20)).toMatchObject([
+			{ v_ini: 20, v_fin: 24, seccion_id: 'copla' }
 		]);
 	});
 
