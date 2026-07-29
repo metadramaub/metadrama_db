@@ -277,10 +277,11 @@ Una serie octosilábica presenta asonancia `e-o` en los versos pares.
 ```mermaid
 flowchart TB
     F["formas_metricas<br/>villancico"]
-    C["configuraciones_forma<br/>estructura_tipica"]
+    C["configuraciones_forma<br/>estructura_habitual"]
 
     H["estructuras_secciones<br/>cabeza · 0–1 · 2–4 versos"]
-    MU["estructuras_secciones<br/>mudanza"]
+    CO["estructuras_secciones<br/>copla · 1–n"]
+    MU["estructuras_secciones<br/>mudanza · 4 versos"]
     EN["estructuras_secciones<br/>enlace · opcional"]
     VU["estructuras_secciones<br/>vuelta · opcional"]
     ES["estructuras_secciones<br/>estribillo repetido"]
@@ -294,10 +295,11 @@ flowchart TB
 
     F --> C
     C --> H
-    C --> MU
-    C --> EN
-    C --> VU
-    C --> ES
+    C --> CO
+    CO --> MU
+    CO --> EN
+    CO --> VU
+    CO --> ES
     C --> PM
     C --> PR
     C --> PRE
@@ -306,11 +308,6 @@ flowchart TB
     MU -. ámbito .-> PR1
     MU -. ámbito .-> PR2
 
-    H --> MU
-    MU --> EN
-    MU --> VU
-    EN --> VU
-    VU --> ES
 ```
 
 ### Ejemplo de secuencia
@@ -320,7 +317,7 @@ Un villancico presenta cabeza de tres versos, mudanza octosilábica `abba`, vuel
 | Tabla | Registro conceptual |
 | --- | --- |
 | `secuencias_metricas` | Rango completo y `forma_metrica_id = villancico`. |
-| `secuencia_configuraciones` | `configuracion_id = estructura_tipica`. |
+| `secuencia_configuraciones` | `configuracion_id = estructura_habitual`. |
 | `unidades_metricas` | Rangos de cabeza, mudanza, vuelta y estribillo. |
 
 La medida, el esquema de la mudanza y los enlaces con vuelta y estribillo proceden de la configuración. Solo se anotan si difieren.

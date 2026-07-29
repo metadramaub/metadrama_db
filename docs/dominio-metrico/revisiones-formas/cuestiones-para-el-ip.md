@@ -45,3 +45,14 @@ Véase [soneto.md](./soneto.md).
 2. ¿`ABBA ABBA` es obligatorio para el corpus o se admite `ABAB ABAB`?
 3. ¿Los cuatro esquemas de tercetos son un repertorio abierto o cerrado?
 4. ¿Estrambote y sonetillo se incorporarán solo si aparecen en el corpus?
+
+## Villancico
+
+Véase [villancico.md](./villancico.md).
+
+1. ¿La mudanza se presenta como una sección de cuatro versos o como dos mudanzas
+   simétricas?
+2. ¿La ausencia de cabeza explícita es normativa?
+3. ¿Enlace y vuelta pueden tener cualquier extensión desde un verso?
+4. ¿Cómo debe representarse una repetición sobreentendida del estribillo?
+5. ¿`abba` y `abab` son esquemas cerrados o solo habituales?
