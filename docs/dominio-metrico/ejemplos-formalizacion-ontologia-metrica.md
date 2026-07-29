@@ -166,8 +166,9 @@ flowchart TB
     PM1["patrones_metricos<br/>secuencia fija · 10 versos"]
     PP1["patron_metrico_posiciones<br/>10 posiciones de 8 sílabas"]
 
-    PM2["patrones_metricos<br/>secuencia fija · 10 versos"]
-    PP2["patron_metrico_posiciones<br/>8 y 4 sílabas en posiciones declaradas"]
+    PM2["patrones_metricos<br/>conjunto permitido · 8 y 4"]
+    GE2["grupos_eleccion_metrica<br/>posiciones_pie_quebrado"]
+    OE2["opciones_eleccion_metrica<br/>metro 4 + posicion_unidad"]
 
     PR1["patrones_rima<br/>sin_pie_quebrado<br/>consonante · esquema no fijo"]
     PR2["patrones_rima<br/>con_pie_quebrado<br/>consonante · esquema no fijo"]
@@ -183,7 +184,8 @@ flowchart TB
     C1 --> PM1
     PM1 --> PP1
     C2 --> PM2
-    PM2 --> PP2
+    C2 --> GE2
+    GE2 --> OE2
     C1 --> PR1
     C2 --> PR2
     C1 --> ES
@@ -203,15 +205,18 @@ Supongamos una secuencia de diez versos con el patrón observado:
 | `secuencias_metricas` | Rango de diez versos y `forma_metrica_id = copla_real`. |
 | `secuencia_configuraciones` | `configuracion_id = con_pie_quebrado`. |
 
-El patrón 8/4 y el rasgo pie quebrado ya se infieren de la configuración. No se duplican como observaciones. Solo se crearía una observación si alguno de los versos difiriera del patrón.
+El rasgo pie quebrado se infiere de la configuración. Las posiciones tercera y octava se
+guardan como elecciones normalizadas que apuntan al metro de 4 sílabas; las demás se
+derivan como octosílabas. Solo se crearía una observación si un verso difiriera de esa
+realización.
 
 ### Interacción del editor
 
 | Nivel | Acción |
 | --- | --- |
 | Mínimo | Seleccionar “Copla real”. |
-| Recomendado | Indicar “Con pie quebrado”. |
-| Avanzado | Registrar la secuencia exacta de medidas. |
+| Necesario | Indicar “Con pie quebrado” y marcar las posiciones cortas. |
+| Derivado | Las demás posiciones son octosílabas y el rasgo `pie_quebrado` está presente. |
 
 ### Utilidad
 

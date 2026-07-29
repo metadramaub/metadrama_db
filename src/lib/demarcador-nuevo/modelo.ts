@@ -36,6 +36,7 @@ export type CandidatoDemarcadorNuevo = {
 	familiaSlug: string;
 	familiaEtiqueta: string;
 	esFamilia: boolean;
+	esResidual?: boolean;
 	rasgos: RasgosCandidatoDemarcador;
 };
 
@@ -54,10 +55,13 @@ export type ArtefactoDemarcadorNuevo = {
 	generadoEn: string;
 	fuenteActualizadaEn: string | null;
 	familias: FamiliaDemarcadorNuevo[];
+	/** Salidas editoriales de último recurso; no intervienen en el orden de preguntas. */
+	residuales?: CandidatoDemarcadorNuevo[];
 	estadisticas: {
 		familias: number;
 		familiasConVariantes: number;
 		variantesDemarcables: number;
+		residuales?: number;
 	};
 };
 

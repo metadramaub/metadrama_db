@@ -16,6 +16,7 @@ type FormRow = {
 	nombre: string;
 	definicion: string | null;
 	nivel_estructural: 'verso' | 'estrofa' | 'serie' | 'composicion' | 'compuesta';
+	residual: boolean;
 	updated_at: string;
 };
 
@@ -41,6 +42,22 @@ type VocabularyRow = {
 type PatternRow = {
 	patron_metrico_id: string;
 	configuracion_id: string;
+};
+
+type MetricPositionRow = {
+	patron_metrico_id: string;
+	metro_id: string | null;
+	modelo_verso_id: string | null;
+	posicion: number;
+};
+
+type VerseModelRow = {
+	modelo_verso_id: string;
+	metro_id: string | null;
+	silabas_totales: number | null;
+	nombre: string;
+	slug: string;
+	tipo: 'simple' | 'compuesto';
 };
 
 type RhymePatternRow = {
@@ -370,6 +387,7 @@ function candidateFromConfiguration(input: {
 		familiaSlug: form.slug,
 		familiaEtiqueta: form.nombre,
 		esFamilia: isFamily,
+		esResidual: form.residual,
 		rasgos: traits
 	};
 }
@@ -390,6 +408,7 @@ export async function generateDemarcatorFromMetricCatalog(
 		metricPatternsResponse,
 		metricOptionsResponse,
 		metricPositionsResponse,
+		verseModelsResponse,
 		rhymePatternsResponse,
 		rhymePositionsResponse,
 		rhymeLinksResponse,
@@ -400,10 +419,9 @@ export async function generateDemarcatorFromMetricCatalog(
 		db.from('catalogo_metrico_estado').select('revision,actualizado_en').eq('id', true).single(),
 		db
 			.from('formas_metricas')
-			.select('forma_id,slug,nombre,definicion,nivel_estructural,updated_at')
+			.select('forma_id,slug,nombre,definicion,nivel_estructural,residual,updated_at')
 			.eq('activo', true)
-			.eq('seleccionable', true)
-			.eq('residual', false),
+			.eq('seleccionable', true),
 		db
 			.from('configuraciones_forma')
 			.select(
@@ -413,7 +431,13 @@ export async function generateDemarcatorFromMetricCatalog(
 			.eq('demarcable', true),
 		db.from('patrones_metricos').select('patron_metrico_id,configuracion_id'),
 		db.from('patron_metrico_opciones').select('patron_metrico_id,metro_id,orden'),
-		db.from('patron_metrico_posiciones').select('patron_metrico_id,metro_id,posicion'),
+		db
+			.from('patron_metrico_posiciones')
+			.select('patron_metrico_id,metro_id,modelo_verso_id,posicion'),
+		db
+			.from('modelos_verso')
+			.select('modelo_verso_id,metro_id,silabas_totales,nombre,slug,tipo')
+			.eq('activo', true),
 		db
 			.from('patrones_rima')
 			.select('patron_rima_id,configuracion_id,nombre,tipo_rima_id,esquema,comportamiento')
@@ -449,6 +473,7 @@ export async function generateDemarcatorFromMetricCatalog(
 	throwIfError('No se pudieron cargar los patrones métricos', metricPatternsResponse.error);
 	throwIfError('No se pudieron cargar las opciones métricas', metricOptionsResponse.error);
 	throwIfError('No se pudieron cargar las posiciones métricas', metricPositionsResponse.error);
+	throwIfError('No se pudieron cargar los modelos de verso', verseModelsResponse.error);
 	throwIfError('No se pudieron cargar los patrones de rima', rhymePatternsResponse.error);
 	throwIfError('No se pudieron cargar las posiciones de rima', rhymePositionsResponse.error);
 	throwIfError('No se pudieron cargar los enlaces de rima', rhymeLinksResponse.error);
@@ -469,15 +494,24 @@ export async function generateDemarcatorFromMetricCatalog(
 	const configurationByPattern = new Map(
 		metricPatterns.map((pattern) => [pattern.patron_metrico_id, pattern.configuracion_id])
 	);
+	const verseModelsById = new Map<string, VerseModelRow>(
+		((verseModelsResponse.data ?? []) as VerseModelRow[]).map((row) => [row.modelo_verso_id, row])
+	);
 	const metresByConfiguration = new Map<string, Map<string, ValorCatalogado>>();
 
 	for (const relation of [
 		...(metricOptionsResponse.data ?? []),
 		...(metricPositionsResponse.data ?? [])
 	]) {
-		if (!relation.metro_id) continue;
+		const metricPosition = relation as MetricPositionRow;
+		const metreId =
+			metricPosition.metro_id ??
+			(metricPosition.modelo_verso_id
+				? verseModelsById.get(metricPosition.modelo_verso_id)?.metro_id
+				: null);
+		if (!metreId) continue;
 		const configurationId = configurationByPattern.get(relation.patron_metrico_id);
-		const metre = vocabularyById.get(relation.metro_id);
+		const metre = vocabularyById.get(metreId);
 		if (!configurationId || !metre) continue;
 		const values = metresByConfiguration.get(configurationId) ?? new Map<string, ValorCatalogado>();
 		const key =
@@ -579,7 +613,8 @@ export async function generateDemarcatorFromMetricCatalog(
 	}
 
 	const warnings: string[] = [];
-	const families = forms
+	const compileFamilies = (selectedForms: FormRow[]) =>
+		selectedForms
 		.flatMap((form) => {
 			const formConfigurations = configurationsByForm.get(form.forma_id) ?? [];
 			if (formConfigurations.length === 0) {
@@ -634,6 +669,10 @@ export async function generateDemarcatorFromMetricCatalog(
 			});
 		})
 		.sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es'));
+	const families = compileFamilies(forms.filter((form) => !form.residual));
+	const residuals = compileFamilies(forms.filter((form) => form.residual)).map(
+		(family) => family.raiz
+	);
 
 	const generatedAt = new Date().toISOString();
 	const sourceUpdatedAt =
@@ -648,10 +687,12 @@ export async function generateDemarcatorFromMetricCatalog(
 		generadoEn: generatedAt,
 		fuenteActualizadaEn: sourceUpdatedAt,
 		familias: families,
+		residuales: residuals,
 		estadisticas: {
 			familias: families.length,
 			familiasConVariantes: families.filter((family) => family.variantes.length > 0).length,
-			variantesDemarcables: families.reduce((total, family) => total + family.variantes.length, 0)
+			variantesDemarcables: families.reduce((total, family) => total + family.variantes.length, 0),
+			residuales: residuals.length
 		}
 	};
 	const catalogRevision = Number(stateResponse.data?.revision ?? 1);

@@ -60,10 +60,15 @@ Una opción puede declarar además un efecto de formulario:
 
 - materializar una sección cuando la respuesta implica versos presentes;
 - derivar su extensión de otra sección ya registrada.
+- aplicar el valor a una `posicion_unidad` concreta, cuando la alternativa es posicional.
 
 El efecto no sustituye el valor normalizado. «Represa total», por ejemplo, sigue
 apuntando a su patrón de repetición y hace aparecer una represa cuyo número de versos se
 calcula desde la primera aparición del estribillo.
+
+En una copla real con pie quebrado, las opciones posicionales apuntan todas al metro de
+4 sílabas y distinguen las posiciones 1-10. El editor las presenta como una única fila
+compacta y guarda una o dos respuestas, no diez preguntas.
 
 ## Tablas exclusivas de prueba
 

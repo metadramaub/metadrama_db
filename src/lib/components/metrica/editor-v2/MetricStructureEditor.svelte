@@ -140,6 +140,23 @@
 				? { ...item, v_fin: item.v_ini + length - 1 }
 				: item
 		);
+		const hiddenPositionalOptionIds = new Set(
+			props.options
+				.filter(
+					(option: MetricCatalogDomainRow) =>
+						Number(option.posicion_unidad ?? 0) > length
+				)
+				.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id))
+		);
+		if (hiddenPositionalOptionIds.size > 0) {
+			props.onChoicesChange(
+				props.choices.filter(
+					(choice: MetricChoiceDraft) =>
+						choice.unidad_prueba_id !== unit.unidad_prueba_id ||
+						!hiddenPositionalOptionIds.has(choice.opcion_eleccion_id)
+				)
+			);
+		}
 		commitUnits(
 			reflowMetricUnits(
 				changed,
@@ -371,6 +388,7 @@
 							)}
 							onChange={(ids) => setChoices(group, unit, ids)}
 							onApplyAll={() => applyChoiceToEquivalentUnits(group, unit)}
+							positionLimit={unit.v_fin - unit.v_ini + 1}
 						/>
 					{/each}
 				</div>

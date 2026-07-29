@@ -16,8 +16,10 @@
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
 	import {
 		childrenOfSection,
+		ensureRequiredFlatMetricStructure,
 		ensureRequiredMetricStructure,
 		flatRepeatedMetricSection,
+		flatVariableRepeatedMetricSection,
 		isHierarchicalMetricStructure,
 		reflowMetricUnits,
 		rootSections as structuredRootSections,
@@ -25,6 +27,7 @@
 		sectionLabel as structuredSectionLabel,
 		sectionMaximum,
 		sectionMinimum,
+		sectionVerseMaximum,
 		sectionVerseMinimum,
 		syncFlatRepeatedMetricUnits,
 		syncChoiceMaterializedSections,
@@ -184,7 +187,13 @@
 	const hasFlatRepeatedEditor = $derived(
 		Boolean(flatRepeatedMetricSection(sectionsForDraft)) && unitChoiceGroups.length > 0
 	);
-	const hasStructuredEditor = $derived(hasHierarchicalEditor || hasFlatRepeatedEditor);
+	const hasFlatVariableEditor = $derived(
+		Boolean(flatVariableRepeatedMetricSection(sectionsForDraft)) && unitChoiceGroups.length > 0
+	);
+	const hasStructuredEditor = $derived(
+		hasHierarchicalEditor || hasFlatRepeatedEditor || hasFlatVariableEditor
+	);
+	const hasCalculatedRange = $derived(hasHierarchicalEditor || hasFlatVariableEditor);
 	const hasSequenceChoices = $derived(sequenceChoiceGroups.length > 0);
 	const structureStepNumber = $derived(hasSequenceChoices ? 3 : 2);
 	const deviationStepNumber = $derived(
@@ -300,7 +309,12 @@
 			(row: MetricCatalogDomainRow) => row.alcance === 'unidad'
 		);
 		const flatSection = hasUnitQuestions ? flatRepeatedMetricSection(sections) : null;
-		if (!isHierarchicalMetricStructure(sections) && !flatSection) return units;
+		const variableFlatSection = hasUnitQuestions
+			? flatVariableRepeatedMetricSection(sections)
+			: null;
+		if (!isHierarchicalMetricStructure(sections) && !flatSection && !variableFlatSection) {
+			return units;
+		}
 
 		if (flatSection) {
 			const synchronized = syncFlatRepeatedMetricUnits(
@@ -325,6 +339,16 @@
 				choices,
 				options
 			).units;
+		}
+
+		if (variableFlatSection) {
+			return ensureRequiredFlatMetricStructure(
+				units,
+				sections,
+				sequenceStart,
+				choices,
+				options
+			);
 		}
 
 		let next = ensureRequiredMetricStructure(
@@ -386,8 +410,10 @@
 		draft.desviaciones = [];
 		const parts = catalogParts(configurationId);
 		const flatSection = flatRepeatedMetricSection(parts.sections);
+		const variableFlatSection = flatVariableRepeatedMetricSection(parts.sections);
 		if (
 			isHierarchicalMetricStructure(parts.sections) ||
+			variableFlatSection ||
 			(flatSection &&
 				previousLength <
 					sectionVerseMinimum(flatSection) * sectionMinimum(flatSection))
@@ -514,7 +540,11 @@
 			draft.v_ini,
 			draft.v_fin
 		);
-		if (isHierarchicalMetricStructure(catalogParts(draft.configuracion_id).sections)) {
+		const openedSections = catalogParts(draft.configuracion_id).sections;
+		if (
+			isHierarchicalMetricStructure(openedSections) ||
+			Boolean(flatVariableRepeatedMetricSection(openedSections))
+		) {
 			draft.v_fin = draft.unidades.reduce(
 				(maximum: number, unit: MetricUnitDraft) => Math.max(maximum, unit.v_fin),
 				draft.v_ini
@@ -609,6 +639,19 @@
 			if (unit.v_fin < unit.v_ini || unit.v_ini < draft.v_ini || unit.v_fin > draft.v_fin) {
 				return `La unidad ${unit.orden} queda fuera del rango de la secuencia.`;
 			}
+			const section = sectionsForDraft.find(
+				(row: MetricCatalogDomainRow) => structuredSectionId(row) === unit.seccion_id
+			);
+			if (section) {
+				const unitLength = unit.v_fin - unit.v_ini + 1;
+				const maximum = sectionVerseMaximum(section);
+				if (
+					unitLength < sectionVerseMinimum(section) ||
+					(maximum !== null && unitLength > maximum)
+				) {
+					return `Revisa el número de versos de «${structuredSectionLabel(section)}».`;
+				}
+			}
 		}
 		if (hasStructuredEditor) {
 			for (const root of structuredRootSections(sectionsForDraft)) {
@@ -660,15 +703,33 @@
 					!group.seccion_id || String(group.seccion_id) === unit.seccion_id
 			);
 			for (const unit of applicableUnits) {
-				const total = selectedChoiceIds(
+				const selectedIds = selectedChoiceIds(
 					String(group.grupo_eleccion_id),
 					unit.unidad_prueba_id
-				).length;
+				);
+				const total = selectedIds.length;
 				if (
 					total < Number(group.selecciones_min) ||
 					total > Number(group.selecciones_max)
 				) {
 					return `Revisa «${String(group.nombre)}» en la unidad ${unit.orden}.`;
+				}
+				const selectedPositions = choiceOptionsForDraft
+					.filter(
+						(option: MetricCatalogDomainRow) =>
+							selectedIds.includes(String(option.opcion_eleccion_id)) &&
+							Number(option.posicion_unidad ?? 0) > 0
+					)
+					.map((option: MetricCatalogDomainRow) => Number(option.posicion_unidad));
+				const unitLength = unit.v_fin - unit.v_ini + 1;
+				if (selectedPositions.some((position: number) => position > unitLength)) {
+					return `Revisa las posiciones de «${String(group.nombre)}» en la unidad ${unit.orden}.`;
+				}
+				if (
+					String(group.slug) === 'posiciones_pies_quebrados' &&
+					selectedPositions.length >= unitLength
+				) {
+					return `Debe quedar al menos un octosílabo en la unidad ${unit.orden}.`;
 				}
 			}
 			if (Number(group.selecciones_min) > 0 && applicableUnits.length === 0) {
@@ -942,8 +1003,8 @@
 									/>
 								</label>
 								<label class="form-field">
-									<span class="form-label">
-										Verso final{hasHierarchicalEditor ? ' · calculado' : ''}
+								<span class="form-label">
+										Verso final{hasCalculatedRange ? ' · calculado' : ''}
 									</span>
 									<input
 										type="number"
@@ -951,7 +1012,7 @@
 										class="h-10 border border-[color:var(--border)] px-3 disabled:bg-[color:var(--muted)]"
 										value={draft.v_fin}
 										onchange={(event) => updateSequenceEnd(Number(event.currentTarget.value))}
-										disabled={hasHierarchicalEditor}
+										disabled={hasCalculatedRange}
 									/>
 								</label>
 							</div>
@@ -971,7 +1032,9 @@
 									>
 										<option value="">Seleccionar forma</option>
 										{#each activeForms as form (form.forma_id)}
-											<option value={form.forma_id}>{form.nombre}</option>
+											<option value={form.forma_id}>
+												{form.nombre}{form.residual ? ' · residual' : ''}
+											</option>
 										{/each}
 									</select>
 								</label>
@@ -979,6 +1042,8 @@
 									<span class="form-label">
 										{selectedForm?.slug === 'villancico'
 											? '¿Dónde aparece por primera vez el estribillo? *'
+											: selectedForm?.slug === 'copla_real'
+												? '¿Aparecen versos de pie quebrado? *'
 											: 'Configuración *'}
 									</span>
 									<select
@@ -990,6 +1055,8 @@
 										<option value="">
 											{selectedForm?.slug === 'villancico'
 												? 'Seleccionar posición'
+												: selectedForm?.slug === 'copla_real'
+													? 'Seleccionar realización'
 												: 'Seleccionar configuración'}
 										</option>
 										{#each configurationsForDraft as configuration (configuration.configuracion_id)}

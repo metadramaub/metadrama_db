@@ -39,17 +39,17 @@ Una entrada puede producir varios registros. Por ejemplo, `soneto_de_esdrújulos
 | Destino | Entradas |
 | --- | ---: |
 | Formas canónicas (`F`) | 29 |
-| Familias (`G`) | 1 |
+| Familias (`G`) | 2 |
 | Configuraciones (`C`) | 28 |
 | Patrones (`P`) | 25 |
-| Rasgos o valores (`R`) | 25 |
+| Rasgos o valores (`R`) | 24 |
 | Alias o fusiones (`A`) | 2 |
-| Residuales editoriales (`E`) | 2 |
+| Residuales editoriales (`E`) | 3 |
 | Derivadas o retiradas (`D`) | 3 |
-| Decisiones pendientes (`?`) | 4 |
+| Decisiones pendientes (`?`) | 3 |
 | **Total** | **119** |
 
-Se han señalado 53 entradas para revisión expresa del IP. Esto no significa que las otras 66 puedan migrarse sin controles: todas deberán cruzarse con su uso en secuencias reales.
+Se han señalado 48 entradas para revisión expresa del IP. Esto no significa que las otras 71 puedan migrarse sin controles: todas deberán cruzarse con su uso en secuencias reales.
 
 ## 2. Canción petrarquista
 
@@ -77,33 +77,37 @@ Se han señalado 53 entradas para revisión expresa del IP. Esto no significa qu
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `copla_de_pie_quebrado` | G | Familia de formas con pie quebrado; no usar como residual ni como equivalente de sextilla. | Media | Sí |
+| `copla_de_pie_quebrado` | E | Conservar como salida residual seleccionable de 5–12 versos. La realización registra medida y posiciones de los quebrados; el rasgo transversal `pie_quebrado` se mantiene separado. | Alta | No |
 
-Debe decidirse si el proyecto necesita además una forma residual “otra copla de pie quebrado” para casos identificables como familia pero no como forma concreta.
+No se crea una familia. La salida residual evita forzar una identificación más precisa
+cuando la realización no encaja en sextilla, copla manriqueña, doble sextilla u otra
+forma tipificada.
 
 ## 5. Copla real
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `copla_real` | F | Conservar como forma canónica de diez versos y pausa 5 + 5. | Alta | Sí |
-| `copla_real_de_pie_quebrado` | C | Configuración con patrón métrico ordenado que incluya quebrados. | Alta | Sí |
-| `copla_real_sin_quebrado` | C | Configuración isométrica octosílaba; puede ser la configuración principal sin nombre público. | Alta | No |
+| `copla_real` | F | Forma de diez versos, dos quintillas y pausa 5 + 5. | Alta | Sí |
+| `copla_real_de_pie_quebrado` | C | Configuración con uno o dos tetrasílabos en posiciones registradas por unidad. | Alta | Sí |
+| `copla_real_sin_quebrado` | C | Configuración principal de diez octosílabos. | Alta | No |
 
 ## 6. Décima
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `decima` | ? | Decidir si será familia `decimas` o alias contextual de `decima_espinela`; el registro actual ya describe una espinela. | Baja | Sí |
-| `decima_aumentada` | F | Candidata a forma canónica de doce versos, condicionada a fuente y uso en corpus. | Media | Sí |
-| `decima_espinela` | F | Conservar como forma canónica con patrón `abbaaccddc`. | Alta | No |
+| `decima` | G | Transformar la raíz duplicada en la familia no seleccionable `decimas`. | Alta | No |
+| `decima_aumentada` | F | Conservar como forma fija documentada de doce octosílabos, patrón `abbaaccddeed` y pausa tras el cuarto verso. | Alta | No |
+| `decima_espinela` | F | Conservar como forma fija con patrón `abbaaccddc` y estructura `4 + 2 + 4`. | Alta | No |
 
-No deben coexistir dos formas canónicas con la misma definición y patrón.
+La copla real se incorpora a la misma familia. `decima_espinela` sucede históricamente
+a `copla_real` en el uso dominante; `decima_aumentada` se relaciona como derivada de
+la espinela. Véase [la revisión específica](./revisiones-formas/decimas.md).
 
 ## 7. Doble sextilla
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `doble_sextilla` | F | Conservar como forma de doce versos; tipar su relación con la familia de pie quebrado. | Media | Sí |
+| `doble_sextilla` | F | Conservar como forma de doce versos compuesta por dos sextillas de pie quebrado. | Alta | Sí |
 | `copla_manriqueña` | F | Conservar como forma lexicalizada y relacionarla como subtipo de doble sextilla. | Alta | No |
 | `doble_sextilla_alternativa` | C | Configuración no manriqueña de doble sextilla; sustituir “alternativa” por descripción positiva. | Alta | Sí |
 
@@ -278,7 +282,7 @@ Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede apl
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
 | `sextilla` | F | Conservar como forma canónica de seis versos de arte menor. | Alta | Sí |
-| `sextilla_de_pie_quebrado` | C | Configuración con patrón métrico ordenado; relacionar con familia de pie quebrado. | Alta | Sí |
+| `sextilla_de_pie_quebrado` | C | Configuración con patrón métrico ordenado `8-8-4-8-8-4`; deriva el rasgo `pie_quebrado`. | Alta | Sí |
 | `sextilla_sin_quebrado` | C | Configuración isométrica; declarar sus medidas admitidas. | Alta | Sí |
 
 ## 24. Sextina
@@ -363,21 +367,19 @@ Estas decisiones se aplican a todas las filas de la matriz:
 
 ### Decisiones que cambian identidades
 
-1. `decima`: familia o fusión con espinela.
-2. `redondilla_cruzada`: cuarteta o configuración histórica.
-3. `redondilla_doble_abbaacca`: forma propia o configuración.
-4. `cancion_sin_rima`: canción libre como forma o configuración.
-5. `silva_libre`: redefinición, cambio de nombre o forma diferente.
-6. Creación de una forma general `pareado`.
-7. Alcance de la familia `copla_de_pie_quebrado`.
+1. `redondilla_cruzada`: cuarteta o configuración histórica.
+2. `redondilla_doble_abbaacca`: forma propia o configuración.
+3. `cancion_sin_rima`: canción libre como forma o configuración.
+4. `silva_libre`: redefinición, cambio de nombre o forma diferente.
+5. Creación de una forma general `pareado`.
+6. Patrón exacto que el proyecto admite como sextilla de pie quebrado.
 
 ### Decisiones sobre configuraciones lexicalizadas
 
 1. canción endecasílaba;
-2. décima aumentada;
-3. silva de endecasílabos;
-4. romancillo heptasílabo y hexasílabo;
-5. terceto octosílabo.
+2. silva de endecasílabos;
+3. romancillo heptasílabo y hexasílabo;
+4. terceto octosílabo.
 
 ### Decisiones sobre salidas residuales
 
@@ -387,7 +389,7 @@ Estas decisiones se aplican a todas las filas de la matriz:
 
 ## 34. Orden de revisión recomendado
 
-1. Resolver las siete decisiones que cambian identidades.
+1. Resolver las seis decisiones que cambian identidades.
 2. Aprobar las formas residuales disponibles para el editor.
 3. Revisar configuraciones lexicalizadas.
 4. Aprobar en bloque las transformaciones evidentes de patrones de rima.

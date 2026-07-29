@@ -208,6 +208,12 @@
 				options: sectionOptions,
 				help: 'Opcional. Evita volver a pedir una longitud que coincide con otra sección, como la repetición total de una cabeza.'
 			},
+			{
+				key: 'posicion_unidad',
+				label: 'Posición dentro de la unidad',
+				type: 'number',
+				help: 'Úsala solo cuando la respuesta asigna un metro u otro valor a una posición concreta.'
+			},
 			{ key: 'orden', label: 'Orden', type: 'number' },
 			{ key: 'activo', label: 'Activa', type: 'checkbox' }
 		];

@@ -22,6 +22,14 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Soneto | 14 endecasílabos, `ABBA ABBA`, estructura `4 + 4 + 3 + 3` | esquema de tercetos; final esdrújulo si caracteriza | múltiplo de 14 |
 | Villancico | posición de la primera aparición del estribillo y secciones obligatorias | medidas, esquema de cada mudanza, enlace o vuelta y tipo de represa | calculada desde cabeza/estribillo, coplas y represas |
 | Zéjel | cabeza, mudanza monorrima de 3 versos y vuelta de 1 a la rima del estribillo | medidas y presencia material de la represa | calculada desde cabeza, coplas fijas de 4 y represas |
+| Copla real | 10 versos, estructura `5 + 5`, consonancia y presencia de pie quebrado según configuración | esquema de cada quintilla y posiciones quebradas cuando corresponda | múltiplo de 10 |
+| Copla de arte mayor | 8 dodecasílabos compuestos `6 + 6`, consonancia y estructura `4 + 4` | uno de los tres esquemas reconocidos | múltiplo de 8 |
+| Copla de pie quebrado (residual) | octosílabo dominante, consonancia y unidades de 5–12 versos | extensión de cada unidad, medida o medidas de los quebrados y sus posiciones | cada unidad entre 5 y 12 |
+| Sextilla | 6 versos, consonancia y configuración isométrica o `8-8-4-8-8-4` | medida común solo en la isométrica | múltiplo de 6 |
+| Doble sextilla | dos sextillas de pie quebrado y esquema regular no manriqueño | ninguna elección cerrada adicional | múltiplo de 12 |
+| Copla manriqueña | dos sextillas `8-8-4-8-8-4` y `abcabc:defdef` | ninguna | múltiplo de 12 |
+| Décima espinela | 10 octosílabos, consonancia, `abbaaccddc` y estructura `4 + 2 + 4` | nada | múltiplo de 10 |
+| Décima aumentada | 12 octosílabos, consonancia, `abbaaccddeed` y pausa `4 + 8` | nada | múltiplo de 12 |
 
 ## Recorridos mínimos
 
@@ -38,6 +46,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Villancico: forma, medidas y únicamente las unidades que realmente aparecen.
 - Zéjel: forma, medidas, extensión de la cabeza y presencia material de la represa; la
   estructura `BBB + A` no se pregunta.
+- Copla real: forma, configuración con o sin quebrado y los dos esquemas de quintilla;
+  solo la configuración quebrada pide marcar una o dos posiciones.
+- Décima espinela y décima aumentada: forma y guardar; todas sus propiedades
+  normativas se derivan.
 
 ## Criterio de las desviaciones
 

@@ -39,6 +39,13 @@
 	const candidatosFamiliaBase = $derived(
 		familias.map((familia: FamiliaDemarcadorNuevo) => familia.raiz)
 	);
+	const candidatosResiduales = $derived(
+		filtrarCandidatosNuevos(
+			data.artefacto?.residuales ?? [],
+			preguntasFamilias,
+			respuestasFamilias
+		)
+	);
 	const candidatosFamilia = $derived(
 		filtrarCandidatosNuevos(
 			candidatosFamiliaBase,
@@ -92,6 +99,7 @@
 	const etapaActual = $derived(afinandoVariantes ? 'variantes' : 'familias');
 	const respuestas = $derived([...respuestasFamilias, ...respuestasVariantes]);
 	const candidatasResultado = $derived.by(() => {
+		if (candidatosFamilia.length === 0) return candidatosResiduales;
 		if (candidatosFamilia.length !== 1 || !familiaUnica) return candidatosFamilia;
 		if (afinandoVariantes) return candidatosVariante;
 		return [familiaUnica.raiz];
@@ -356,6 +364,11 @@
 						{#each candidatasResultado as candidata}
 							<li class="p-5">
 								<h3 class="text-lg font-semibold">{candidata.etiqueta}</h3>
+								{#if candidata.esResidual}
+									<p class="mt-1 text-xs font-medium text-amber-800">
+										Salida residual: úsala solo si no corresponde a una forma más precisa
+									</p>
+								{/if}
 								{#if !candidata.esFamilia}
 									<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
 										Variante de {candidata.familiaEtiqueta}
