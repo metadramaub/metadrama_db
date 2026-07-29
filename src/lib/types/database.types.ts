@@ -78,6 +78,13 @@ export type Database = {
             referencedColumns: ["configuracion_id"]
           },
           {
+            foreignKeyName: "afirmaciones_fuentes_metricas_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
             foreignKeyName: "afirmaciones_fuentes_metricas_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
@@ -576,6 +583,13 @@ export type Database = {
             referencedColumns: ["configuracion_id"]
           },
           {
+            foreignKeyName: "configuracion_rasgos_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
             foreignKeyName: "configuracion_rasgos_rasgo_id_fkey"
             columns: ["rasgo_id"]
             isOneToOne: false
@@ -871,6 +885,127 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "editores"
             referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      denominaciones_metricas: {
+        Row: {
+          alias_id: string
+          configuracion_id: string | null
+          created_at: string
+          forma_id: string | null
+          fuente_id: string | null
+          idioma: string | null
+          nombre: string
+          origen_termino_id: string | null
+          patron_metrico_id: string | null
+          patron_repeticion_id: string | null
+          patron_rima_id: string | null
+          preferente: boolean
+          seccion_id: string | null
+          slug_normalizado: string
+          tipo_alias: string
+          updated_at: string
+        }
+        Insert: {
+          alias_id?: string
+          configuracion_id?: string | null
+          created_at?: string
+          forma_id?: string | null
+          fuente_id?: string | null
+          idioma?: string | null
+          nombre: string
+          origen_termino_id?: string | null
+          patron_metrico_id?: string | null
+          patron_repeticion_id?: string | null
+          patron_rima_id?: string | null
+          preferente?: boolean
+          seccion_id?: string | null
+          slug_normalizado: string
+          tipo_alias?: string
+          updated_at?: string
+        }
+        Update: {
+          alias_id?: string
+          configuracion_id?: string | null
+          created_at?: string
+          forma_id?: string | null
+          fuente_id?: string | null
+          idioma?: string | null
+          nombre?: string
+          origen_termino_id?: string | null
+          patron_metrico_id?: string | null
+          patron_repeticion_id?: string | null
+          patron_rima_id?: string | null
+          preferente?: boolean
+          seccion_id?: string | null
+          slug_normalizado?: string
+          tipo_alias?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "denominaciones_metricas_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_fuente_id_fkey"
+            columns: ["fuente_id"]
+            isOneToOne: false
+            referencedRelation: "fuentes_metricas"
+            referencedColumns: ["fuente_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_patron_repeticion_id_fkey"
+            columns: ["patron_repeticion_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_repeticion"
+            referencedColumns: ["patron_repeticion_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "forma_aliases_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "forma_aliases_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
           },
         ]
       }
@@ -1226,6 +1361,13 @@ export type Database = {
             referencedColumns: ["configuracion_id"]
           },
           {
+            foreignKeyName: "estructuras_secciones_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
             foreignKeyName: "estructuras_secciones_patron_metrico_id_fkey"
             columns: ["patron_metrico_id"]
             isOneToOne: false
@@ -1367,60 +1509,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "editores"
             referencedColumns: ["user_id"]
-          },
-        ]
-      }
-      forma_aliases: {
-        Row: {
-          alias_id: string
-          created_at: string
-          forma_id: string
-          idioma: string | null
-          nombre: string
-          origen_termino_id: string | null
-          preferente: boolean
-          slug_normalizado: string
-          tipo_alias: string
-          updated_at: string
-        }
-        Insert: {
-          alias_id?: string
-          created_at?: string
-          forma_id: string
-          idioma?: string | null
-          nombre: string
-          origen_termino_id?: string | null
-          preferente?: boolean
-          slug_normalizado: string
-          tipo_alias?: string
-          updated_at?: string
-        }
-        Update: {
-          alias_id?: string
-          created_at?: string
-          forma_id?: string
-          idioma?: string | null
-          nombre?: string
-          origen_termino_id?: string | null
-          preferente?: boolean
-          slug_normalizado?: string
-          tipo_alias?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "forma_aliases_forma_id_fkey"
-            columns: ["forma_id"]
-            isOneToOne: false
-            referencedRelation: "formas_metricas"
-            referencedColumns: ["forma_id"]
-          },
-          {
-            foreignKeyName: "forma_aliases_origen_termino_id_fkey"
-            columns: ["origen_termino_id"]
-            isOneToOne: true
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
           },
         ]
       }
@@ -1753,6 +1841,13 @@ export type Database = {
             referencedColumns: ["configuracion_id"]
           },
           {
+            foreignKeyName: "grupos_eleccion_metrica_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
             foreignKeyName: "grupos_eleccion_metrica_seccion_id_fkey"
             columns: ["seccion_id"]
             isOneToOne: false
@@ -1808,6 +1903,7 @@ export type Database = {
           familia_id: string | null
           forma_id: string | null
           nota: string | null
+          patron_metrico_id: string | null
           patron_rima_id: string | null
           rasgo_id: string | null
           termino_id: string
@@ -1823,6 +1919,7 @@ export type Database = {
           familia_id?: string | null
           forma_id?: string | null
           nota?: string | null
+          patron_metrico_id?: string | null
           patron_rima_id?: string | null
           rasgo_id?: string | null
           termino_id: string
@@ -1838,6 +1935,7 @@ export type Database = {
           familia_id?: string | null
           forma_id?: string | null
           nota?: string | null
+          patron_metrico_id?: string | null
           patron_rima_id?: string | null
           rasgo_id?: string | null
           termino_id?: string
@@ -1850,7 +1948,7 @@ export type Database = {
             foreignKeyName: "migracion_termino_destinos_alias_id_fkey"
             columns: ["alias_id"]
             isOneToOne: false
-            referencedRelation: "forma_aliases"
+            referencedRelation: "denominaciones_metricas"
             referencedColumns: ["alias_id"]
           },
           {
@@ -1858,6 +1956,13 @@ export type Database = {
             columns: ["configuracion_id"]
             isOneToOne: false
             referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
             referencedColumns: ["configuracion_id"]
           },
           {
@@ -1873,6 +1978,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "formas_metricas"
             referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
           },
           {
             foreignKeyName: "migracion_termino_destinos_patron_rima_id_fkey"
@@ -2793,6 +2905,13 @@ export type Database = {
             referencedRelation: "configuraciones_forma"
             referencedColumns: ["configuracion_id"]
           },
+          {
+            foreignKeyName: "patrones_metricos_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
         ]
       }
       patrones_repeticion: {
@@ -2838,6 +2957,13 @@ export type Database = {
             columns: ["configuracion_id"]
             isOneToOne: false
             referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "patrones_repeticion_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
             referencedColumns: ["configuracion_id"]
           },
         ]
@@ -2894,6 +3020,13 @@ export type Database = {
             columns: ["configuracion_id"]
             isOneToOne: false
             referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "patrones_rima_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
             referencedColumns: ["configuracion_id"]
           },
           {
@@ -3159,6 +3292,13 @@ export type Database = {
             columns: ["configuracion_id"]
             isOneToOne: false
             referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
             referencedColumns: ["configuracion_id"]
           },
           {
@@ -3534,7 +3674,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      configuraciones_forma_reglas_longitud: {
+        Row: {
+          configuracion_id: string | null
+          configuracion_nombre: string | null
+          explicacion: string | null
+          minimo_versos: number | null
+          modulo_versos: number | null
+          origen: string | null
+          residuo_versos: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
@@ -3662,6 +3813,16 @@ export type Database = {
       recompute_vocabulario_arte_metrico: {
         Args: { p_estrofa_tipo_id: string }
         Returns: undefined
+      }
+      regla_longitud_configuracion_metrica: {
+        Args: { p_configuracion_id: string }
+        Returns: {
+          explicacion: string
+          minimo_versos: number
+          modulo_versos: number
+          origen: string
+          residuo_versos: number
+        }[]
       }
       resolve_obra_id_for_atribucion: {
         Args: { p_atribucion_id: string }

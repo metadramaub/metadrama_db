@@ -264,10 +264,11 @@ Relación potencialmente muchos-a-muchos:
 
 Una forma podrá proceder de una tradición, adaptarse en otra y pertenecer simultáneamente a familias estructurales. La tradición podrá utilizarse como faceta o nodo de una red histórica, pero no como pregunta ordinaria del demarcador ni como propiedad heredable.
 
-### 8.5. `forma_aliases`
+### 8.5. `denominaciones_metricas`
 
 - `alias_id`;
-- `forma_id`;
+- exactamente un destino: forma, configuración, patrón métrico, patrón de rima,
+  sección o patrón de repetición;
 - `nombre`;
 - `slug_normalizado`;
 - `tipo_alias`: equivalente, variante gráfica, nombre histórico o abreviatura;
@@ -275,7 +276,10 @@ Una forma podrá proceder de una tradición, adaptarse en otra y pertenecer simu
 - `preferente`;
 - `fuente_id`, si procede.
 
-Los alias no tendrán configuraciones ni podrán asignarse como formas independientes.
+Las denominaciones no crean configuraciones ni pueden asignarse como formas
+independientes. Deben apuntar al nivel exacto que nombran: «Cuarteta», por ejemplo,
+puede denominar el patrón cruzado `abab` de redondilla sin extenderse a sus demás
+realizaciones.
 
 ### 8.6. `forma_relaciones`
 
@@ -299,7 +303,8 @@ Tipos iniciales posibles:
 - `relacionada_con`;
 - `contrasta_con`.
 
-`equivalente_de` se reservará para equivalencias conceptuales reales. Los nombres alternativos irán en `forma_aliases`.
+`equivalente_de` se reservará para equivalencias conceptuales reales. Los nombres
+alternativos irán en `denominaciones_metricas`.
 
 `subtipo_de` expresa taxonomía; `compuesta_por`, arquitectura. Por ejemplo, la copla
 manriqueña es subtipo de doble sextilla y está compuesta por dos sextillas. Ninguna de
@@ -1173,7 +1178,6 @@ Casos mínimos:
 - Tratamiento de copla real con pie quebrado.
 - Alcance de “copla de pie quebrado”.
 - Identidad y definición cualitativa de las variantes de silva.
-- Redondilla cruzada frente a cuarteta.
 - Si los metros de romancillo constituyen formas o configuraciones.
 - Tratamiento de terceto octosílabo.
 - Qué salidas residuales deben estar disponibles para el editor.

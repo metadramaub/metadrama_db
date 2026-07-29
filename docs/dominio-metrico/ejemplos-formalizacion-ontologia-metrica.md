@@ -37,7 +37,7 @@ Estas tablas definen la ontología y son mantenidas por el IP o por responsables
 | `familias_formas` | Pertenencia de formas a familias. |
 | `tradiciones_metricas` | Tradiciones históricas o culturales no heredables. |
 | `formas_tradiciones` | Origen, adaptación, difusión o uso de una forma en una tradición. |
-| `forma_aliases` | Nombres alternativos. |
+| `denominaciones_metricas` | Nombres alternativos asociados al nivel exacto que designan. |
 | `forma_relaciones` | Relaciones tipadas entre formas. |
 | `configuraciones_forma` | Realizaciones estructurales admitidas por una forma. |
 | `patrones_metricos` | Tipo, alcance y longitud de los patrones de medida. |

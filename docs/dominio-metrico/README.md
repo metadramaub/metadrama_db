@@ -41,7 +41,8 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    [villancico](./revisiones-formas/villancico.md), el
    [zéjel](./revisiones-formas/zejel.md), la
    [coplas y sextillas, incluida la copla real](./revisiones-formas/coplas-y-sextillas.md),
-   las [décimas](./revisiones-formas/decimas.md) y un
+   las [décimas](./revisiones-formas/decimas.md), la
+   [redondilla](./revisiones-formas/redondilla.md) y un
    [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
 ## Decisiones consolidadas

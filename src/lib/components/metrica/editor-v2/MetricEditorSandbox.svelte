@@ -184,8 +184,10 @@
 		)
 	);
 	const hasHierarchicalEditor = $derived(isHierarchicalMetricStructure(sectionsForDraft));
+	const flatRepeatedSectionForDraft = $derived(flatRepeatedMetricSection(sectionsForDraft));
+	const hasFlatRepeatedUnits = $derived(Boolean(flatRepeatedSectionForDraft));
 	const hasFlatRepeatedEditor = $derived(
-		Boolean(flatRepeatedMetricSection(sectionsForDraft)) && unitChoiceGroups.length > 0
+		hasFlatRepeatedUnits && unitChoiceGroups.length > 0
 	);
 	const hasFlatVariableEditor = $derived(
 		Boolean(flatVariableRepeatedMetricSection(sectionsForDraft)) && unitChoiceGroups.length > 0
@@ -198,6 +200,15 @@
 	const structureStepNumber = $derived(hasSequenceChoices ? 3 : 2);
 	const deviationStepNumber = $derived(
 		2 + (hasSequenceChoices ? 1 : 0) + (hasStructuredEditor ? 1 : 0)
+	);
+	const automaticFlatUnitCount = $derived(
+		draft && flatRepeatedSectionForDraft
+			? draft.unidades.filter(
+					(unit: MetricUnitDraft) =>
+						unit.unidad_padre_id === null &&
+						unit.seccion_id === structuredSectionId(flatRepeatedSectionForDraft)
+				).length
+			: 0
 	);
 
 	$effect(() => {
@@ -308,7 +319,7 @@
 		const hasUnitQuestions = groups.some(
 			(row: MetricCatalogDomainRow) => row.alcance === 'unidad'
 		);
-		const flatSection = hasUnitQuestions ? flatRepeatedMetricSection(sections) : null;
+		const flatSection = flatRepeatedMetricSection(sections);
 		const variableFlatSection = hasUnitQuestions
 			? flatVariableRepeatedMetricSection(sections)
 			: null;
@@ -575,7 +586,25 @@
 
 	function updateSequenceStart(value: number) {
 		if (!draft) return;
+		const previousLength = draft.v_fin - draft.v_ini + 1;
 		draft.v_ini = Math.max(1, value);
+		if (hasFlatRepeatedUnits) {
+			draft.v_fin = draft.v_ini + previousLength - 1;
+			const { sections, options } = catalogParts(draft.configuracion_id);
+			const synchronized = syncFlatRepeatedMetricUnits(
+				draft.unidades,
+				sections,
+				draft.v_ini,
+				draft.v_fin,
+				draft.elecciones,
+				options
+			);
+			if (synchronized.compatible) {
+				removeStructuredReferences(synchronized.removedUnitIds);
+				draft.unidades = synchronized.units;
+			}
+			return;
+		}
 		if (!hasStructuredEditor) return;
 		draft.unidades = reflowMetricUnits(
 			draft.unidades,
@@ -593,7 +622,7 @@
 	function updateSequenceEnd(value: number) {
 		if (!draft) return;
 		draft.v_fin = Math.max(1, value);
-		if (!hasFlatRepeatedEditor) return;
+		if (!hasFlatRepeatedUnits) return;
 		const { sections, options } = catalogParts(draft.configuracion_id);
 		const synchronized = syncFlatRepeatedMetricUnits(
 			draft.unidades,
@@ -1044,7 +1073,9 @@
 											? '¿Dónde aparece por primera vez el estribillo? *'
 											: selectedForm?.slug === 'copla_real'
 												? '¿Aparecen versos de pie quebrado? *'
-											: 'Configuración *'}
+												: selectedForm?.slug === 'redondilla'
+													? '¿Cómo se organizan las redondillas? *'
+												: 'Configuración *'}
 									</span>
 									<select
 										class="h-10 border border-[color:var(--border)] bg-white px-3"
@@ -1057,7 +1088,9 @@
 												? 'Seleccionar posición'
 												: selectedForm?.slug === 'copla_real'
 													? 'Seleccionar realización'
-												: 'Seleccionar configuración'}
+													: selectedForm?.slug === 'redondilla'
+														? 'Seleccionar organización'
+													: 'Seleccionar configuración'}
 										</option>
 										{#each configurationsForDraft as configuration (configuration.configuracion_id)}
 											<option value={configuration.configuracion_id}>
@@ -1075,6 +1108,14 @@
 									{#if selectedConfiguration.descripcion}
 										<p class="mt-1 text-[color:var(--muted-foreground)]">
 											{selectedConfiguration.descripcion}
+										</p>
+									{/if}
+									{#if flatRepeatedSectionForDraft && automaticFlatUnitCount > 0}
+										<p class="mt-1 text-[color:var(--muted-foreground)]">
+											El rango se guarda como {automaticFlatUnitCount}
+											{automaticFlatUnitCount === 1 ? ' unidad' : ' unidades'} de tipo
+											«{structuredSectionLabel(flatRepeatedSectionForDraft)}» de
+											{sectionVerseMinimum(flatRepeatedSectionForDraft)} versos.
 										</p>
 									{/if}
 								</div>

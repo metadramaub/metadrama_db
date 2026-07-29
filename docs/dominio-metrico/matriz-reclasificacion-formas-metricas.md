@@ -38,15 +38,15 @@ Una entrada puede producir varios registros. Por ejemplo, `soneto_de_esdrújulos
 
 | Destino | Entradas |
 | --- | ---: |
-| Formas canónicas (`F`) | 29 |
+| Formas canónicas (`F`) | 28 |
 | Familias (`G`) | 2 |
 | Configuraciones (`C`) | 28 |
-| Patrones (`P`) | 25 |
+| Patrones (`P`) | 28 |
 | Rasgos o valores (`R`) | 24 |
-| Alias o fusiones (`A`) | 2 |
+| Alias o fusiones (`A`) | 1 |
 | Residuales editoriales (`E`) | 3 |
 | Derivadas o retiradas (`D`) | 3 |
-| Decisiones pendientes (`?`) | 3 |
+| Decisiones pendientes (`?`) | 2 |
 | **Total** | **119** |
 
 Se han señalado 48 entradas para revisión expresa del IP. Esto no significa que las otras 71 puedan migrarse sin controles: todas deberán cruzarse con su uso en secuencias reales.
@@ -191,16 +191,20 @@ predominan los versos sueltos, al endecasílabo suelto.
 
 Las unidades internas actuales de quintilla deberán migrarse a `unidades_metricas` asociadas al patrón correspondiente.
 
-## 15. Redondilla y cuarteta
+## 15. Redondilla
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `redondilla` | F | Conservar como forma; definir de manera expresa su sentido moderno o histórico. | Media | Sí |
-| `redondilla_cruzada` | ? | Crear `cuarteta` como forma canónica o conservarla como configuración histórica documentada de redondilla. | Baja | Sí |
-| `redondilla_doble_abbaacca` | F | Candidata a forma canónica `redondilla_doble`, con relación a redondilla. | Media | Sí |
-| `redondilla_heptasilaba` | C | Configuración heptasílaba de redondilla. | Alta | No |
-| `redondilla_hexasilaba` | C | Configuración hexasílaba; corregir la relación métrica de origen a 6. | Alta | No |
-| `redondilla_regular` | A | Fusionar con `redondilla` si se adopta `abba` octosílabo como definición canónica. | Media | Sí |
+| `redondilla` | F | Conservar como la única forma `redondilla`. | Alta | No |
+| `redondilla_cruzada` | P | Transformar en el patrón de rima cruzada `abab`; «Cuarteta» es su denominación equivalente. | Alta | No |
+| `redondilla_doble_abbaacca` | C | Transformar en la configuración doble enlazada `abba:acca`. | Alta | No |
+| `redondilla_heptasilaba` | P | Transformar en el patrón métrico admitido de cuatro heptasílabos. | Alta | No |
+| `redondilla_hexasilaba` | P | Transformar en el patrón métrico admitido de cuatro hexasílabos y corregir la relación legada de 7 a 6. | Alta | No |
+| `redondilla_regular` | C | Transformar en la configuración simple de cuatro versos. | Alta | No |
+
+No se crea una familia. La configuración simple combina tres patrones métricos con dos
+patrones de rima; la doble cambia la arquitectura y se valida en unidades de ocho. Véase
+[la revisión específica](./revisiones-formas/redondilla.md).
 
 ## 16. Romance y vocales de la asonancia
 
@@ -367,12 +371,10 @@ Estas decisiones se aplican a todas las filas de la matriz:
 
 ### Decisiones que cambian identidades
 
-1. `redondilla_cruzada`: cuarteta o configuración histórica.
-2. `redondilla_doble_abbaacca`: forma propia o configuración.
-3. `cancion_sin_rima`: canción libre como forma o configuración.
-4. `silva_libre`: redefinición, cambio de nombre o forma diferente.
-5. Creación de una forma general `pareado`.
-6. Patrón exacto que el proyecto admite como sextilla de pie quebrado.
+1. `cancion_sin_rima`: canción libre como forma o configuración.
+2. `silva_libre`: redefinición, cambio de nombre o forma diferente.
+3. Creación de una forma general `pareado`.
+4. Patrón exacto que el proyecto admite como sextilla de pie quebrado.
 
 ### Decisiones sobre configuraciones lexicalizadas
 
@@ -389,7 +391,7 @@ Estas decisiones se aplican a todas las filas de la matriz:
 
 ## 34. Orden de revisión recomendado
 
-1. Resolver las seis decisiones que cambian identidades.
+1. Resolver las cuatro decisiones que cambian identidades.
 2. Aprobar las formas residuales disponibles para el editor.
 3. Revisar configuraciones lexicalizadas.
 4. Aprobar en bloque las transformaciones evidentes de patrones de rima.

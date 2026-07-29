@@ -108,3 +108,15 @@ Véase [decimas.md](./decimas.md).
 
 Resuelto en el modelo: `decima` es una familia no seleccionable, no una forma duplicada.
 La espinela y la aumentada son formas fijas sin preguntas propias en el registrador.
+
+## Redondilla
+
+Véase [redondilla.md](./redondilla.md).
+
+1. ¿Debe incorporarse «octavilla» como denominación relacionada o resultaría
+   demasiado amplia?
+
+Resuelto en el modelo: existe una única forma `redondilla`; la realización simple
+admite 6, 7 u 8 sílabas y los patrones `abba` y `abab`; «Cuarteta» es denominación
+equivalente del patrón cruzado; la doble es una configuración estructural de ocho
+versos; la hexasílaba se corrige a seis sílabas.

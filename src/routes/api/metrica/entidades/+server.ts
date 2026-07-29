@@ -68,15 +68,16 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		booleanFields: ['es_principal']
 	},
 	aliases: {
-		table: 'forma_aliases',
+		table: 'denominaciones_metricas',
 		keys: ['alias_id'],
 		fields: [
-			'forma_id',
+			'destino',
 			'nombre',
 			'slug_normalizado',
 			'tipo_alias',
 			'idioma',
-			'preferente'
+			'preferente',
+			'fuente_id'
 		],
 		booleanFields: ['preferente']
 	},
@@ -420,6 +421,20 @@ function normalizeValues(
 		delete output.medida;
 		output.metro_id = type === 'metro' && id ? id : null;
 		output.modelo_verso_id = type === 'modelo' && id ? id : null;
+	}
+	if (resource === 'aliases' && 'destino' in output) {
+		const targetFields = [
+			'forma_id',
+			'configuracion_id',
+			'patron_metrico_id',
+			'patron_rima_id',
+			'seccion_id',
+			'patron_repeticion_id'
+		];
+		const [type, id] = String(output.destino ?? '').split(':', 2);
+		delete output.destino;
+		for (const field of targetFields) output[field] = null;
+		if (targetFields.includes(type) && id) output[type] = id;
 	}
 	if (resource === 'sourceClaims' && 'destino' in output) {
 		const targetFields = [
