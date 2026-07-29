@@ -308,7 +308,7 @@ No se conservarán porcentajes exactos de versos rimados o pareados. Las configu
 | `soneto_con_tercetos_de_rima_nuclear_ABBAABBACDCEDE` | P | Patrón de rima admitido. | Alta | No |
 | `soneto_con_tercetos_de_rima_paralela_ABBAABBACDECDE` | P | Patrón de rima admitido. | Alta | No |
 | `soneto_de_esdrújulos` | R | Soneto más rasgo esdrújulo. | Alta | No |
-| `soneto_regular_ABBAABBACDCDCD` | P | Configuración o patrón principal; no forma independiente. | Alta | No |
+| `soneto_regular_ABBAABBACDCDCD` | P | Patrón de rima preferente de la configuración endecasílaba; no forma independiente. | Alta | No |
 
 ## 27. Terceto
 
