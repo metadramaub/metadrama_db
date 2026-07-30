@@ -259,7 +259,7 @@ Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede apl
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `sexta_rima` | F | Conservar como forma canónica; sustituir la bibliografía `****`. | Alta | No |
+| `sexta_rima` | F | Resuelto: forma fija de seis endecasílabos consonantes `ABABCC`; bibliografía sustituida por Domínguez Caparrós (2014, p. 199). | Alta | No |
 
 ## 21. Sexteto
 

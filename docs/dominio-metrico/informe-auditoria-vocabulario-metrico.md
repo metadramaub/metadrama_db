@@ -86,7 +86,7 @@ La falta de datos propios en un hijo no es necesariamente un error: puede expres
 | [`pareado_endecasilabo`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=f44a79b4-46d1-47c1-87cf-50e2e4b72f08) | Definición vacía | La explicación se ha introducido erróneamente como equivalencia. | Moverla a definición y retirar el umbral 99–100 % salvo justificación bibliográfica expresa. |
 | [`redondilla`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=1affe499-c92d-4cf0-a0f6-46c76a26f88f) | Definición vacía | La raíz es candidata del demarcador y no documenta el criterio. | Añadir definición y decidir si es forma canónica o agrupador histórico. |
 | [`sexteto_lira_a3_abaBcC`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=d8fd022b-c275-46a7-a503-f0c205fd82ef) | Definición vacía | Es la única variante de la familia sin explicación. | Añadir definición o generar la descripción desde el patrón. |
-| [`sexta_rima`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=df645af0-0ab3-43f1-b357-b58793d39c2b) | Bibliografía: `****` | Es un marcador, no una referencia. | Sustituir por una cita normalizada. |
+| [`sexta_rima`](http://localhost:5173/dashboard/vocabularios/estrofa_tipo?termino=df645af0-0ab3-43f1-b357-b58793d39c2b) | Bibliografía anterior: `****` | Resuelto en el catálogo métrico. | Sustituido por Domínguez Caparrós (2014, p. 199). |
 
 ### P0/P1 — datos incompletos que producen inferencias incorrectas
 
@@ -402,7 +402,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `romance_heroico` | 1 | Coherente; añadir bibliografía y aclarar equivalencia `romance real`. |
 | `romancillo` | 3 | Mantener alternativas 6/7 o derivarlas del metro; revisar el uso de `endecha` como equivalente de las tres. |
 | `seguidilla` | 1 | Modelar alternativas de 4 y 7 versos; separar simple y compuesta si procede. |
-| `sexta_rima` | 1 | Coherente; sustituir bibliografía ficticia. |
+| `sexta_rima` | 1 | Resuelto: seis endecasílabos consonantes `ABABCC` y fuente bibliográfica normalizada. |
 | `sexteto` | 1 | Coherente como familia abierta de seis versos de arte mayor; añadir fuente. |
 | `sexteto_lira` | 9 | Resuelto: cinco patrones métricos, tres de rima, siete combinaciones admitidas y esdrújulos como rasgo. |
 | `sextilla` | 3 | Declarar patrones métricos propios para con/sin quebrado; no heredar el conjunto genérico. |

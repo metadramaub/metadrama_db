@@ -42,7 +42,12 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    [zéjel](./revisiones-formas/zejel.md), la
    [coplas y sextillas, incluida la copla real](./revisiones-formas/coplas-y-sextillas.md),
    las [décimas](./revisiones-formas/decimas.md), la
-   [redondilla](./revisiones-formas/redondilla.md) y un
+   [redondilla](./revisiones-formas/redondilla.md), la
+   [octava real](./revisiones-formas/octava-real.md), la
+   [novena](./revisiones-formas/novena.md), la
+   [lira](./revisiones-formas/lira.md), el
+   [sexteto-lira](./revisiones-formas/sexteto-lira.md), la
+   [sexta rima](./revisiones-formas/sexta-rima.md) y un
    [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
 ## Decisiones consolidadas
