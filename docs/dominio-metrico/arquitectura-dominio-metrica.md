@@ -1220,18 +1220,11 @@ Casos mínimos:
 
 ## 21. Decisiones pendientes del IP
 
-- Inventario final de formas canónicas.
-- Alcance definitivo de la familia `decimas`; la raíz duplicada ya se ha transformado
-  en familia y la espinela conserva la identidad seleccionable.
-- Política octava real / octava real regular.
-- Tratamiento de copla real con pie quebrado.
-- Alcance de “copla de pie quebrado”.
-- Identidad y definición cualitativa de las variantes de silva.
-- Los metros hexasílabo y heptasílabo del romancillo son configuraciones exactas de
-  `romance`: comparten arquitectura y solo cambia la medida. La antigua raíz ambigua no
-  se conserva como entidad seleccionable.
-- Tratamiento de terceto octosílabo.
-- Qué salidas residuales deben estar disponibles para el editor.
-- Qué rasgos son observables y útiles para el demarcador.
+El registro único y actualizado es
+[Cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+No se duplica aquí la lista, porque las decisiones se van resolviendo durante la revisión
+forma por forma y una copia resumida quedaría desactualizada.
 
-Estas decisiones afectan a la carga del catálogo, pero no impiden aprobar la separación arquitectónica ni crear el esquema aditivo.
+Las cuestiones pendientes pueden modificar nombres, definiciones o alternativas
+catalogadas, pero no alteran la separación arquitectónica ya implementada. Las
+declaraciones reales de las secuencias no se migrarán hasta completar esta validación.
