@@ -3,7 +3,7 @@ import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 export type MetricUnitDraft = {
 	realizacion_prueba_id: string;
 	realizacion_padre_id: string | null;
-	seccion_id: string;
+	seccion_id: string | null;
 	orden: number;
 	v_ini: number;
 	v_fin: number;
@@ -18,6 +18,18 @@ export type MetricChoiceDraft = {
 	valor_texto?: string | null;
 	observaciones: string | null;
 };
+
+/** Extensión que la arquitectura declara para su unidad. Fija cuando ambos coinciden. */
+export type MetricUnitExtent = { minimum: number; maximum: number };
+
+/**
+ * Dónde se materializa la unidad de una arquitectura y cuánto mide.
+ *
+ * `sectionId` es nulo cuando la unidad no es ninguna sección: la forma declara su
+ * extensión y no describe partes internas. Cuando la arquitectura tiene una única
+ * sección raíz, esa sección es el recipiente de la unidad y la unidad se ancla en ella.
+ */
+export type MetricUnitAnchor = { sectionId: string | null; extent: MetricUnitExtent };
 
 function numeric(value: unknown, fallback: number): number {
 	const parsed = Number(value);
@@ -61,123 +73,57 @@ export function sectionHasFixedLength(section: MetricCatalogDomainRow): boolean 
 	return maximum !== null && maximum === sectionVerseMinimum(section);
 }
 
-export function isHierarchicalMetricStructure(
-	sections: MetricCatalogDomainRow[]
-): boolean {
+export function isHierarchicalMetricStructure(sections: MetricCatalogDomainRow[]): boolean {
 	return sections.some((section) => Boolean(section.seccion_padre_id));
 }
 
-export function flatRepeatedMetricSection(
+/** La extensión declarada por la arquitectura, si la declara. */
+export function metricUnitExtent(
+	configuration:
+		| { unidad_versos_min: number | null; unidad_versos_max: number | null }
+		| null
+		| undefined
+): MetricUnitExtent | null {
+	if (!configuration) return null;
+	const minimum = configuration.unidad_versos_min;
+	const maximum = configuration.unidad_versos_max;
+	if (minimum === null || maximum === null) return null;
+	const declaredMinimum = Math.max(1, numeric(minimum, 1));
+	return { minimum: declaredMinimum, maximum: Math.max(declaredMinimum, numeric(maximum, 1)) };
+}
+
+/**
+ * La unidad del pasaje. Sustituye a las tres detecciones que la derivaban de las
+ * secciones raíz: cuántas unidades contiene la secuencia se deduce del rango y de la
+ * extensión declarada, no de una sección que existiera para decir que la unidad se repite.
+ *
+ * Devuelve nulo cuando la arquitectura no declara su unidad —las series— o cuando tiene
+ * varias secciones raíz y la unidad no se materializa en una sola realización.
+ */
+export function metricUnitAnchor(
+	extent: MetricUnitExtent | null,
 	sections: MetricCatalogDomainRow[]
-): MetricCatalogDomainRow | null {
+): MetricUnitAnchor | null {
+	if (!extent) return null;
 	const roots = rootSections(sections);
-	if (
-		roots.length !== 1 ||
-		sections.length !== 1 ||
-		sectionMaximum(roots[0]) !== null ||
-		sectionMinimum(roots[0]) < 1 ||
-		!sectionHasFixedLength(roots[0])
-	) {
-		return null;
-	}
-	return roots[0];
+	if (roots.length > 1) return null;
+	return { sectionId: roots.length === 1 ? sectionId(roots[0]) : null, extent };
 }
 
-export function flatVariableRepeatedMetricSection(
-	sections: MetricCatalogDomainRow[]
-): MetricCatalogDomainRow | null {
-	const roots = rootSections(sections);
-	if (
-		roots.length !== 1 ||
-		sections.length !== 1 ||
-		sectionMaximum(roots[0]) !== null ||
-		sectionMinimum(roots[0]) < 1 ||
-		sectionHasFixedLength(roots[0])
-	) {
-		return null;
-	}
-	return roots[0];
+export function hasFixedMetricUnit(anchor: MetricUnitAnchor | null): boolean {
+	if (!anchor) return false;
+	return anchor.extent.minimum === anchor.extent.maximum;
 }
 
-function fixedSectionInstanceLength(
-	section: MetricCatalogDomainRow,
-	sections: MetricCatalogDomainRow[],
-	visiting = new Set<string>()
-): number | null {
-	const id = sectionId(section);
-	if (visiting.has(id)) return null;
-	visiting.add(id);
-
-	const children = childrenOfSection(sections, id);
-	let length: number | null;
-	if (children.length === 0) {
-		length = sectionHasFixedLength(section) ? sectionVerseMinimum(section) : null;
-	} else {
-		const childLengths = children.map((child) => {
-			const childLength = fixedSectionInstanceLength(child, sections, visiting);
-			const minimum = sectionMinimum(child);
-			const maximum = sectionMaximum(child);
-			return childLength !== null && maximum !== null && minimum === maximum
-				? childLength * minimum
-				: null;
-		});
-		length = childLengths.every((value): value is number => value !== null)
-			? childLengths.reduce((total, value) => total + value, 0)
-			: null;
-	}
-
-	visiting.delete(id);
-	return length;
-}
-
-export function hierarchicalRepeatedMetricSection(
-	sections: MetricCatalogDomainRow[]
-): { section: MetricCatalogDomainRow; unitLength: number } | null {
-	const roots = rootSections(sections);
-	if (
-		roots.length !== 1 ||
-		sections.length < 2 ||
-		sectionMaximum(roots[0]) !== null ||
-		sectionMinimum(roots[0]) < 1
-	) {
-		return null;
-	}
-	const unitLength = fixedSectionInstanceLength(roots[0], sections);
-	return unitLength && unitLength > 0 ? { section: roots[0], unitLength } : null;
-}
-
-export function ensureRequiredFlatMetricStructure(
-	units: MetricUnitDraft[],
-	sections: MetricCatalogDomainRow[],
-	sequenceStart: number,
-	choices: MetricChoiceDraft[] = [],
-	options: MetricCatalogDomainRow[] = []
-): MetricUnitDraft[] {
-	const section = flatVariableRepeatedMetricSection(sections);
-	if (!section) return units;
-
-	let next = [...units];
-	const existing = next.filter(
-		(unit) => unit.realizacion_padre_id === null && unit.seccion_id === sectionId(section)
-	).length;
-	for (let index = existing; index < sectionMinimum(section); index += 1) {
-		next = addSectionInstance(
-			next,
-			sections,
-			sectionId(section),
-			null,
-			sequenceStart,
-			choices,
-			options
-		);
-	}
-	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
+function isUnitOf(unit: MetricUnitDraft, anchor: MetricUnitAnchor): boolean {
+	return unit.realizacion_padre_id === null && unit.seccion_id === anchor.sectionId;
 }
 
 export function childrenOfSection(
 	sections: MetricCatalogDomainRow[],
-	parentSectionId: string
+	parentSectionId: string | null
 ): MetricCatalogDomainRow[] {
+	if (parentSectionId === null) return [];
 	return sections
 		.filter((section) => sectionParentId(section) === parentSectionId)
 		.sort(
@@ -187,9 +133,7 @@ export function childrenOfSection(
 		);
 }
 
-export function rootSections(
-	sections: MetricCatalogDomainRow[]
-): MetricCatalogDomainRow[] {
+export function rootSections(sections: MetricCatalogDomainRow[]): MetricCatalogDomainRow[] {
 	return sections
 		.filter((section) => !sectionParentId(section))
 		.sort(
@@ -200,15 +144,16 @@ export function rootSections(
 }
 
 function defaultUnit(
-	section: MetricCatalogDomainRow,
+	section: MetricCatalogDomainRow | null,
 	parentUnitId: string | null,
-	start: number
+	start: number,
+	fallbackLength: number
 ): MetricUnitDraft {
-	const length = sectionVerseMinimum(section);
+	const length = section ? sectionVerseMinimum(section) : fallbackLength;
 	return {
 		realizacion_prueba_id: crypto.randomUUID(),
 		realizacion_padre_id: parentUnitId,
-		seccion_id: sectionId(section),
+		seccion_id: section ? sectionId(section) : null,
 		orden: 1,
 		v_ini: start,
 		v_fin: start + length - 1,
@@ -226,12 +171,34 @@ function appendRequiredDescendants(
 	let next = units;
 	for (const childSection of childrenOfSection(sections, parentUnit.seccion_id)) {
 		for (let index = 0; index < sectionMinimum(childSection); index += 1) {
-			const child = defaultUnit(childSection, parentUnit.realizacion_prueba_id, start);
+			const child = defaultUnit(childSection, parentUnit.realizacion_prueba_id, start, 1);
 			next = [...next, child];
 			next = appendRequiredDescendants(next, child, sections, start);
 		}
 	}
 	return next;
+}
+
+function appendUnit(
+	units: MetricUnitDraft[],
+	sections: MetricCatalogDomainRow[],
+	section: MetricCatalogDomainRow | null,
+	parentUnitId: string | null,
+	sequenceStart: number,
+	fallbackLength: number,
+	choices: MetricChoiceDraft[],
+	options: MetricCatalogDomainRow[]
+): MetricUnitDraft[] {
+	const unit = defaultUnit(section, parentUnitId, sequenceStart, fallbackLength);
+	unit.orden =
+		units.reduce((maximum, existingUnit) => Math.max(maximum, existingUnit.orden), 0) + 1;
+	const withRequiredChildren = appendRequiredDescendants(
+		[...units, unit],
+		unit,
+		sections,
+		sequenceStart
+	);
+	return reflowMetricUnits(withRequiredChildren, sections, sequenceStart, choices, options);
 }
 
 export function addSectionInstance(
@@ -245,26 +212,106 @@ export function addSectionInstance(
 ): MetricUnitDraft[] {
 	const section = sections.find((row) => sectionId(row) === targetSectionId);
 	if (!section) return units;
+	return appendUnit(units, sections, section, parentUnitId, sequenceStart, 1, choices, options);
+}
 
-	const unit = defaultUnit(section, parentUnitId, sequenceStart);
-	unit.orden =
-		units.reduce(
-			(maximum, existingUnit) => Math.max(maximum, existingUnit.orden),
-			0
-		) + 1;
-	const withRequiredChildren = appendRequiredDescendants(
-		[...units, unit],
-		unit,
+/** Añade una realización de la unidad que define la forma. */
+export function addMetricUnit(
+	units: MetricUnitDraft[],
+	sections: MetricCatalogDomainRow[],
+	anchor: MetricUnitAnchor,
+	sequenceStart: number,
+	choices: MetricChoiceDraft[] = [],
+	options: MetricCatalogDomainRow[] = []
+): MetricUnitDraft[] {
+	const section = anchor.sectionId
+		? (sections.find((row) => sectionId(row) === anchor.sectionId) ?? null)
+		: null;
+	if (anchor.sectionId && !section) return units;
+	return appendUnit(
+		units,
 		sections,
-		sequenceStart
-	);
-	return reflowMetricUnits(
-		withRequiredChildren,
-		sections,
+		section,
+		null,
 		sequenceStart,
+		anchor.extent.minimum,
 		choices,
 		options
 	);
+}
+
+/**
+ * Reparte el rango en unidades completas. Solo se aplica cuando la unidad es fija: con
+ * una unidad de extensión variable el rango no dice cuántas hay y las decide el editor.
+ */
+export function syncRepeatedMetricUnits(
+	units: MetricUnitDraft[],
+	sections: MetricCatalogDomainRow[],
+	anchor: MetricUnitAnchor | null,
+	sequenceStart: number,
+	sequenceEnd: number,
+	choices: MetricChoiceDraft[] = [],
+	options: MetricCatalogDomainRow[] = []
+): { units: MetricUnitDraft[]; removedUnitIds: string[]; compatible: boolean } {
+	if (!anchor || !hasFixedMetricUnit(anchor)) {
+		return { units, removedUnitIds: [], compatible: false };
+	}
+
+	const unitExtent = anchor.extent.minimum;
+	const sequenceLength = Math.max(0, sequenceEnd - sequenceStart + 1);
+	if (sequenceLength < unitExtent || sequenceLength % unitExtent !== 0) {
+		return { units, removedUnitIds: [], compatible: false };
+	}
+
+	const desiredCount = sequenceLength / unitExtent;
+	const anchoredUnits = units
+		.filter((unit) => isUnitOf(unit, anchor))
+		.sort(
+			(a, b) =>
+				a.orden - b.orden ||
+				a.v_ini - b.v_ini ||
+				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
+		);
+
+	let next = [...units];
+	const removedUnitIds = anchoredUnits
+		.slice(desiredCount)
+		.flatMap((unit) => [...unitIdsInTree(next, unit.realizacion_prueba_id)]);
+	if (removedUnitIds.length > 0) {
+		const removed = new Set(removedUnitIds);
+		next = next.filter((unit) => !removed.has(unit.realizacion_prueba_id));
+	}
+
+	for (let index = anchoredUnits.length; index < desiredCount; index += 1) {
+		next = addMetricUnit(next, sections, anchor, sequenceStart, choices, options);
+	}
+
+	return {
+		units: reflowMetricUnits(next, sections, sequenceStart, choices, options),
+		removedUnitIds,
+		compatible: true
+	};
+}
+
+/**
+ * Garantiza que exista al menos una realización de la unidad cuando su extensión es
+ * variable y el rango, por tanto, no basta para deducir cuántas hay.
+ */
+export function ensureRequiredMetricUnits(
+	units: MetricUnitDraft[],
+	sections: MetricCatalogDomainRow[],
+	anchor: MetricUnitAnchor | null,
+	sequenceStart: number,
+	choices: MetricChoiceDraft[] = [],
+	options: MetricCatalogDomainRow[] = []
+): MetricUnitDraft[] {
+	if (!anchor) return units;
+
+	let next = [...units];
+	if (!next.some((unit) => isUnitOf(unit, anchor))) {
+		next = addMetricUnit(next, sections, anchor, sequenceStart, choices, options);
+	}
+	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
 }
 
 export function ensureRequiredMetricStructure(
@@ -319,119 +366,6 @@ export function ensureRequiredMetricStructure(
 	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
 }
 
-export function syncFlatRepeatedMetricUnits(
-	units: MetricUnitDraft[],
-	sections: MetricCatalogDomainRow[],
-	sequenceStart: number,
-	sequenceEnd: number,
-	choices: MetricChoiceDraft[] = [],
-	options: MetricCatalogDomainRow[] = []
-): { units: MetricUnitDraft[]; removedUnitIds: string[]; compatible: boolean } {
-	const section = flatRepeatedMetricSection(sections);
-	if (!section) return { units, removedUnitIds: [], compatible: false };
-
-	const unitLength = sectionVerseMinimum(section);
-	const sequenceLength = Math.max(0, sequenceEnd - sequenceStart + 1);
-	if (sequenceLength < unitLength * sectionMinimum(section) || sequenceLength % unitLength !== 0) {
-		return { units, removedUnitIds: [], compatible: false };
-	}
-
-	const desiredCount = sequenceLength / unitLength;
-	const sectionUnits = units
-		.filter(
-			(unit) => unit.realizacion_padre_id === null && unit.seccion_id === sectionId(section)
-		)
-		.sort(
-			(a, b) =>
-				a.orden - b.orden ||
-				a.v_ini - b.v_ini ||
-				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
-		);
-	let next = [...units];
-	const removedUnitIds = sectionUnits
-		.slice(desiredCount)
-		.flatMap((unit) => [...unitIdsInTree(next, unit.realizacion_prueba_id)]);
-	if (removedUnitIds.length > 0) {
-		const removed = new Set(removedUnitIds);
-		next = next.filter((unit) => !removed.has(unit.realizacion_prueba_id));
-	}
-
-	for (let index = sectionUnits.length; index < desiredCount; index += 1) {
-		next = addSectionInstance(
-			next,
-			sections,
-			sectionId(section),
-			null,
-			sequenceStart,
-			choices,
-			options
-		);
-	}
-
-	return {
-		units: reflowMetricUnits(next, sections, sequenceStart, choices, options),
-		removedUnitIds,
-		compatible: true
-	};
-}
-
-export function syncHierarchicalRepeatedMetricUnits(
-	units: MetricUnitDraft[],
-	sections: MetricCatalogDomainRow[],
-	sequenceStart: number,
-	sequenceEnd: number,
-	choices: MetricChoiceDraft[] = [],
-	options: MetricCatalogDomainRow[] = []
-): { units: MetricUnitDraft[]; removedUnitIds: string[]; compatible: boolean } {
-	const repeated = hierarchicalRepeatedMetricSection(sections);
-	if (!repeated) return { units, removedUnitIds: [], compatible: false };
-
-	const sequenceLength = Math.max(0, sequenceEnd - sequenceStart + 1);
-	if (
-		sequenceLength < repeated.unitLength * sectionMinimum(repeated.section) ||
-		sequenceLength % repeated.unitLength !== 0
-	) {
-		return { units, removedUnitIds: [], compatible: false };
-	}
-
-	const desiredCount = sequenceLength / repeated.unitLength;
-	const rootId = sectionId(repeated.section);
-	const rootUnits = units
-		.filter(
-			(unit) =>
-				unit.realizacion_padre_id === null && unit.seccion_id === rootId
-		)
-		.sort(
-			(a, b) =>
-				a.orden - b.orden ||
-				a.v_ini - b.v_ini ||
-				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
-		);
-	const removedUnitIds = rootUnits
-		.slice(desiredCount)
-		.flatMap((unit) => [...unitIdsInTree(units, unit.realizacion_prueba_id)]);
-	const removed = new Set(removedUnitIds);
-	let next = units.filter((unit) => !removed.has(unit.realizacion_prueba_id));
-
-	for (let index = rootUnits.length; index < desiredCount; index += 1) {
-		next = addSectionInstance(
-			next,
-			sections,
-			rootId,
-			null,
-			sequenceStart,
-			choices,
-			options
-		);
-	}
-
-	return {
-		units: reflowMetricUnits(next, sections, sequenceStart, choices, options),
-		removedUnitIds,
-		compatible: true
-	};
-}
-
 export function removeMetricUnitTree(
 	units: MetricUnitDraft[],
 	unitId: string,
@@ -475,9 +409,7 @@ function lengthForUnit(
 	choices: MetricChoiceDraft[],
 	options: MetricCatalogDomainRow[]
 ): number {
-	const fixed = sectionHasFixedLength(section)
-		? sectionVerseMinimum(section)
-		: unitLength(unit);
+	const fixed = sectionHasFixedLength(section) ? sectionVerseMinimum(section) : unitLength(unit);
 
 	const effectOption = options.find(
 		(option) =>
@@ -509,6 +441,8 @@ export function reflowMetricUnits(
 	options: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
 	const sectionById = new Map(sections.map((section) => [sectionId(section), section]));
+	const sectionOf = (unit: MetricUnitDraft) =>
+		unit.seccion_id ? sectionById.get(unit.seccion_id) : undefined;
 	const originalOrder = new Map(
 		units.map((unit, index) => [unit.realizacion_prueba_id, unit.orden || index + 1])
 	);
@@ -517,20 +451,17 @@ export function reflowMetricUnits(
 	let nextOrder = 1;
 
 	const sortInstances = (items: MetricUnitDraft[]) =>
-		[...items].sort((a, b) => {
-			const sectionA = sectionById.get(a.seccion_id);
-			const sectionB = sectionById.get(b.seccion_id);
-			return (
-				numeric(sectionA?.orden, 999) - numeric(sectionB?.orden, 999) ||
+		[...items].sort(
+			(a, b) =>
+				numeric(sectionOf(a)?.orden, 999) - numeric(sectionOf(b)?.orden, 999) ||
 				numeric(originalOrder.get(a.realizacion_prueba_id), 999) -
 					numeric(originalOrder.get(b.realizacion_prueba_id), 999)
-			);
-		});
+		);
 
 	const flowUnit = (unitId: string, start: number): number => {
 		const unit = updated.get(unitId);
 		if (!unit) return start;
-		const section = sectionById.get(unit.seccion_id);
+		const section = sectionOf(unit);
 		const children = sortInstances(
 			[...updated.values()].filter(
 				(candidate) => candidate.realizacion_padre_id === unit.realizacion_prueba_id
@@ -584,17 +515,13 @@ export function syncChoiceMaterializedSections(
 ): MetricUnitDraft[] {
 	const managedSectionIds = new Set(
 		groupOptions
-			.map((option) =>
-				option.materializa_seccion_id ? String(option.materializa_seccion_id) : ''
-			)
+			.map((option) => (option.materializa_seccion_id ? String(option.materializa_seccion_id) : ''))
 			.filter(Boolean)
 	);
 	const desiredSectionIds = new Set(
 		groupOptions
 			.filter((option) => selectedOptionIds.includes(String(option.opcion_eleccion_id)))
-			.map((option) =>
-				option.materializa_seccion_id ? String(option.materializa_seccion_id) : ''
-			)
+			.map((option) => (option.materializa_seccion_id ? String(option.materializa_seccion_id) : ''))
 			.filter(Boolean)
 	);
 
@@ -602,6 +529,7 @@ export function syncChoiceMaterializedSections(
 		(unit) =>
 			!(
 				unit.realizacion_padre_id === parentUnitId &&
+				unit.seccion_id !== null &&
 				managedSectionIds.has(unit.seccion_id) &&
 				!desiredSectionIds.has(unit.seccion_id)
 			)
@@ -611,8 +539,7 @@ export function syncChoiceMaterializedSections(
 		if (
 			!next.some(
 				(unit) =>
-					unit.realizacion_padre_id === parentUnitId &&
-					unit.seccion_id === targetSectionId
+					unit.realizacion_padre_id === parentUnitId && unit.seccion_id === targetSectionId
 			)
 		) {
 			next = addSectionInstance(

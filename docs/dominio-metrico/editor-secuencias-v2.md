@@ -18,7 +18,7 @@ realización efectiva =
     forma
     + configuración
     + elecciones entre alternativas admitidas
-    + unidades internas realizadas
+    + realizaciones de la unidad y de sus secciones
     + desviaciones respecto de lo admitido
 
 o, cuando no existe una forma reconocible:
@@ -95,8 +95,10 @@ unidades equivalentes; el editor cambia únicamente las excepciones.
 
 - `escenarios_editor_metrico`: sustituye temporalmente a una obra ficticia.
 - `secuencias_editor_metrico`: rango, forma y configuración de cada prueba.
-- `unidades_editor_metrico`: coplas, cabezas, estribillos, represas u otras secciones enlazadas
-  jerárquicamente mediante `unidad_padre_id`.
+- `realizaciones_editor_metrico`: las unidades del pasaje y, dentro de ellas, coplas,
+  cabezas, estribillos, represas u otras secciones enlazadas jerárquicamente mediante
+  `realizacion_padre_id`. Una realización sin `seccion_id` es la unidad que define la
+  forma: no es parte de nada y no cuelga de ninguna otra.
 - `elecciones_editor_metrico`: respuesta general o por unidad.
 - `desviaciones_editor_metrico`: diferencias localizadas respecto de lo admitido.
 
@@ -111,11 +113,12 @@ y desviaciones en una transacción.
    seleccionar una.
 3. Se muestran únicamente los grupos activos de esa configuración.
 4. Las preguntas generales se responden una vez.
-5. Si la configuración no tiene estructura interna editable, no aparece ningún constructor
-   de unidades.
+5. Si la configuración no tiene ni unidad declarada ni estructura interna editable, no
+   aparece ningún constructor de unidades.
 6. En una forma compuesta, las secciones obligatorias y sus rangos se derivan; el editor solo
    añade secciones opcionales e indica longitudes variables.
 7. Las preguntas con alcance por unidad aparecen en su sección exacta, no en el contenedor.
+   Una pregunta sin sección se refiere a la unidad entera y aparece en ella.
 8. Una respuesta puede copiarse a todas las unidades equivalentes y después corregirse donde
    cambie.
 9. El bloque de desviaciones permanece vacío por defecto.
@@ -125,8 +128,11 @@ y desviaciones en una transacción.
     configuración. La comprobación se deriva del catálogo y se repite en la base de datos.
 13. En una tirada de unidades fijas, el editor materializa silenciosamente una unidad por
     cada tramo: 48 versos de redondillas producen 12 filas de 4 versos en
-    `unidades_editor_metrico`. El formulario muestra el recuento, pero no obliga a editar
-    cada unidad si todas cumplen la misma norma.
+    `realizaciones_editor_metrico`. El formulario muestra el recuento, pero no obliga a
+    editar cada unidad si todas cumplen la misma norma. Cuántas unidades hay se deriva del
+    rango y de la extensión declarada por la arquitectura, así que no se añaden ni se
+    quitan a mano; con una unidad de extensión variable —la copla de pie quebrado— ocurre
+    al revés y es el rango el que se calcula.
 
 ## Compatibilidad de longitud
 

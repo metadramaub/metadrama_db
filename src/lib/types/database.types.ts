@@ -219,12 +219,13 @@ export type Database = {
           forma_id: string
           grado: string
           nombre: string
-          numero_versos: number | null
           orden: number | null
           origen_termino_id: string | null
           principal: boolean
           slug: string
           tipo_rima_id: string | null
+          unidad_versos_max: number | null
+          unidad_versos_min: number | null
           updated_at: string
           updated_by: string | null
         }
@@ -239,12 +240,13 @@ export type Database = {
           forma_id: string
           grado?: string
           nombre: string
-          numero_versos?: number | null
           orden?: number | null
           origen_termino_id?: string | null
           principal?: boolean
           slug: string
           tipo_rima_id?: string | null
+          unidad_versos_max?: number | null
+          unidad_versos_min?: number | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -259,12 +261,13 @@ export type Database = {
           forma_id?: string
           grado?: string
           nombre?: string
-          numero_versos?: number | null
           orden?: number | null
           origen_termino_id?: string | null
           principal?: boolean
           slug?: string
           tipo_rima_id?: string | null
+          unidad_versos_max?: number | null
+          unidad_versos_min?: number | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -3111,7 +3114,7 @@ export type Database = {
           orden: number
           realizacion_padre_id: string | null
           realizacion_prueba_id: string
-          seccion_id: string
+          seccion_id: string | null
           secuencia_prueba_id: string
           updated_at: string
           v_fin: number
@@ -3124,7 +3127,7 @@ export type Database = {
           orden: number
           realizacion_padre_id?: string | null
           realizacion_prueba_id: string
-          seccion_id: string
+          seccion_id?: string | null
           secuencia_prueba_id: string
           updated_at?: string
           v_fin: number
@@ -3137,7 +3140,7 @@ export type Database = {
           orden?: number
           realizacion_padre_id?: string | null
           realizacion_prueba_id?: string
-          seccion_id?: string
+          seccion_id?: string | null
           secuencia_prueba_id?: string
           updated_at?: string
           v_fin?: number

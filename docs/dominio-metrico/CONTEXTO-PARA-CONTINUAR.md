@@ -11,10 +11,13 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `44`.
-- La última migración es `20260730190000_metro_unificado.sql` y está aplicada.
+- La versión requerida del modelo es `45`.
+- La última migración es `20260730200000_unidad_explicita.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
-  de rima, variedad, tramo sin forma, grado de especificación.
+  de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
+  además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
+  sección existe ya para decir que la unidad se repite: cuántas unidades contiene el pasaje
+  se deriva del rango.
 - `/dashboard/metrica` es el gestor permanente del catálogo y contiene también el editor
   V2 de prueba y la compilación del demarcador.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
@@ -57,9 +60,12 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
 forma
 + arquitectura
 + elecciones entre alternativas admitidas
-+ unidades o secciones realizadas, cuando proceda
++ realizaciones de la unidad y de sus secciones, cuando proceda
 + desviaciones localizadas
 ```
+
+Cuántas unidades contiene la secuencia no se declara: se deriva del rango y de la extensión
+que la arquitectura declara para su unidad.
 
 Si no existe una forma reconocible:
 
@@ -129,8 +135,9 @@ La ontología quedó revisada desde la base el 30 de julio de 2026. Queda por ll
 decisiones a la implementación:
 
 1. Migración estructural, en los cuatro bloques del
-   [contrato de implementación](./contrato-implementacion.md). **Los bloques A —renombrados— y
-   B —metro unificado— están aplicados.** Quedan: unidad explícita y limpieza.
+   [contrato de implementación](./contrato-implementacion.md). **Los bloques A
+   —renombrados—, B —metro unificado— y C —unidad explícita— están aplicados.** Queda el
+   bloque D: limpieza.
 2. Migración de datos: poblar tradiciones desde `tipo_forma`, retirar familias, borrar
    `patron_acentual`, `tipo_relacion` y `es_principal`.
 3. Corregir los defectos del [informe de conformidad](./informe-conformidad-catalogo.md)

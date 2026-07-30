@@ -375,22 +375,26 @@ const DEFECTOS = [
 	},
 	{
 		id: 'D4',
-		titulo: 'numero_versos incompatible con la extensión derivada de las secciones',
-		criterio: 'Una extensión declarada no puede contradecir la que producen las secciones.',
+		titulo: 'La unidad declarada contradice la extensión que producen las secciones',
+		criterio:
+			'La arquitectura declara cuántos versos tiene su unidad; sus secciones describen el interior de esa unidad y no pueden sumar otra cosa.',
 		detectar(model) {
 			return model.configuraciones
-				.filter((configuracion) => configuracion.numero_versos !== null)
+				.filter((configuracion) => configuracion.unidad_versos_min !== null)
 				.map((configuracion) => ({
 					configuracion,
 					derivada: extensionDerivada(model, configuracion.arquitectura_id)
 				}))
-				.filter(
-					({ configuracion, derivada }) =>
-						derivada !== null && derivada !== configuracion.numero_versos
-				)
+				.filter(({ configuracion, derivada }) => {
+					if (derivada === null) return false;
+					return (
+						derivada < configuracion.unidad_versos_min ||
+						derivada > configuracion.unidad_versos_max
+					);
+				})
 				.map(({ configuracion, derivada }) => ({
 					sujeto: etiqueta(model, configuracion.arquitectura_id),
-					detalle: `declara ${configuracion.numero_versos} y las secciones producen ${derivada}`
+					detalle: `declara una unidad de ${configuracion.unidad_versos_min}–${configuracion.unidad_versos_max} y las secciones producen ${derivada}`
 				}));
 		}
 	},
@@ -924,7 +928,7 @@ function construirInforme(model) {
 	escribir('| Esquema | Formas |');
 	escribir('| --- | --- |');
 	for (const fila of esquemasCoincidentes(model)) {
-		escribir(`| ${celda(fila.notacion)} | ${fila.formas.join(', ')} |`);
+		escribir(`| ${celda(fila.esquema)} | ${fila.formas.join(', ')} |`);
 	}
 	escribir();
 

@@ -78,7 +78,8 @@ export type MetricCatalogConfiguration = {
 	demarcable: boolean;
 	grado: MetricConfigurationGrade;
 	tipo_rima_id: string | null;
-	numero_versos: number | null;
+	unidad_versos_min: number | null;
+	unidad_versos_max: number | null;
 	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	orden: number | null;
@@ -95,7 +96,7 @@ export type MetricLengthRule = {
 	residuo_versos: number;
 	minimo_versos: number;
 	origen:
-		| 'numero_versos'
+		| 'unidad'
 		| 'secciones_fijas'
 		| 'secciones_repetibles'
 		| 'ciclo_rima'

@@ -25,7 +25,7 @@ type QueryError = {
 const FORM_SELECT =
 	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,grado_especificacion,estado_revision,activo,orden,origen_termino_id,updated_at';
 const CONFIGURATION_SELECT =
-	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,numero_versos,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,unidad_versos_min,unidad_versos_max,estado_revision,activo,orden,origen_termino_id,updated_at';
 
 function isMissingCatalogError(error: QueryError | null): boolean {
 	return error?.code === '42P01' || error?.code === 'PGRST205' || error?.code === 'PGRST204';
@@ -128,7 +128,7 @@ function buildIssues(input: {
 			configuration.patrones_metro > 0 ||
 			configuration.esquemas_rima > 0 ||
 			configuration.tipo_rima_id !== null ||
-			configuration.numero_versos !== null;
+			configuration.unidad_versos_min !== null;
 		if (!hasStructuredModel) {
 			issues.push({
 				code: 'configuracion_sin_modelo',
@@ -289,7 +289,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 43
+		Number(stateResponse.data?.modelo_version ?? 0) < 45
 	) {
 		return {
 			migrationPending: true,

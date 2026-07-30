@@ -8,9 +8,10 @@ pregunta responde cada una y por qué existe**. Es la lectura previa a todo lo d
 [arquitectura técnica](./arquitectura-dominio-metrica.md) describe cómo se implementa y
 las [fichas de revisión](./revisiones-formas/) documentan qué se decidió para cada forma.
 
-> **Estado de la implementación.** La base habla ya este vocabulario: los bloques A y B de
-> la migración estructural se aplicaron el 30 de julio de 2026. Lo que queda por implementar
-> está marcado en el apartado 11 y detallado en el
+> **Estado de la implementación.** La base habla ya este vocabulario: los bloques A, B y C
+> de la migración estructural se aplicaron el 30 de julio de 2026. La unidad se declara y
+> las secciones describen solo el interior de la unidad. Lo que queda por implementar está
+> marcado en el apartado 11 y detallado en el
 > [contrato de implementación](./contrato-implementacion.md).
 
 ## 1 · Qué problema resuelve
@@ -57,7 +58,8 @@ cerrada, y libre cuando la unidad es una serie.
 ### Dos repeticiones distintas
 
 - **Repetición del pasaje** — cuántas unidades contiene la secuencia. **No se declara en
-  el catálogo**: se deriva del rango que el editor delimita.
+  el catálogo**: se deriva del rango que el editor delimita y de la extensión que la
+  arquitectura declara para su unidad.
 - **Repetición interna** — cuántas veces se repite una parte dentro de la unidad: los dos
   cuartetos del soneto, las seis estrofas de la sextina, las coplas del villancico, los
   tercetos encadenados dentro de su serie. **Esa pertenece a la arquitectura.**
@@ -503,12 +505,12 @@ usa aquí con esos sentidos.
 | Concepto | Tabla | Cambio pendiente |
 | --- | --- | --- |
 | Forma · tramo sin forma | `formas_metricas` | — |
-| Arquitectura | `arquitecturas_forma` | declarar la extensión de la unidad (bloque C) |
+| Arquitectura | `arquitecturas_forma` | — |
 | Esquema métrico | `esquemas_metricos` | — |
 | Esquema de rima | `esquemas_rima` | — |
 | Variedad | `variedades_arquitectura` | — |
 | Metro | `metros` · `metro_segmentos` | — |
-| Sección | `estructuras_secciones` | retirar las nueve que solo repiten la unidad (bloque C) |
+| Sección | `estructuras_secciones` | — |
 | Realización de sección | `realizaciones_editor_metrico` | — |
 | Repetición | `repeticiones_metricas` | — |
 | Rasgo | `rasgos_metricos` · `arquitectura_rasgos` | poblar con las propiedades cualitativas hoy en restricciones |

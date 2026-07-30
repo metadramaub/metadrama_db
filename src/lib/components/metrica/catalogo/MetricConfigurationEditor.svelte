@@ -38,7 +38,7 @@
 				row.arquitectura_id === draft.arquitectura_id
 		).length
 	);
-	const supportsDirectVerseCount = $derived(
+	const declaresUnitExtent = $derived(
 		props.formLevel === 'estrofa' || props.formLevel === 'composicion'
 	);
 
@@ -70,7 +70,10 @@
 					demarcable: draft.demarcable,
 					grado: draft.grado,
 					tipo_rima_id: draft.tipo_rima_id,
-					numero_versos: supportsDirectVerseCount ? draft.numero_versos : null,
+					unidad_versos_min: declaresUnitExtent ? draft.unidad_versos_min : null,
+					unidad_versos_max: declaresUnitExtent
+						? (draft.unidad_versos_max ?? draft.unidad_versos_min)
+						: null,
 					estado_revision: draft.estado_revision,
 					activo: draft.activo,
 					orden: draft.orden
@@ -147,29 +150,42 @@
 				</p>
 			</div>
 			<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-				{#if supportsDirectVerseCount}
+				{#if declaresUnitExtent}
 					<label class="space-y-1">
-						<span class="text-sm font-medium">Número fijo de versos</span>
+						<span class="text-sm font-medium">Versos de la unidad (mínimo)</span>
 						<input
 							type="number"
 							min="1"
 							class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-							value={draft.numero_versos ?? ''}
+							value={draft.unidad_versos_min ?? ''}
 							oninput={(event) =>
-								(draft.numero_versos = nullablePositiveInteger(event.currentTarget.value))}
+								(draft.unidad_versos_min = nullablePositiveInteger(event.currentTarget.value))}
 						/>
 						<span class="block text-xs leading-5 text-[color:var(--muted-foreground)]">
-							Déjalo vacío si la unidad no tiene un total fijo. En formas compuestas se calcula
-							desde sus secciones.
+							Cuántos versos tiene la unidad que define la forma. Cuántas contiene el pasaje no
+							se declara: se deriva del rango.
+						</span>
+					</label>
+					<label class="space-y-1">
+						<span class="text-sm font-medium">Versos de la unidad (máximo)</span>
+						<input
+							type="number"
+							min="1"
+							class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
+							value={draft.unidad_versos_max ?? ''}
+							oninput={(event) =>
+								(draft.unidad_versos_max = nullablePositiveInteger(event.currentTarget.value))}
+						/>
+						<span class="block text-xs leading-5 text-[color:var(--muted-foreground)]">
+							Repite el mínimo cuando la unidad es fija. Déjalos vacíos si esta arquitectura no
+							fija su extensión.
 						</span>
 					</label>
 				{:else}
 					<p class="text-sm leading-6 text-[color:var(--muted-foreground)] md:col-span-2">
 						{props.formLevel === 'verso'
 							? 'La extensión es un verso y se deriva del nivel estructural.'
-							: props.formLevel === 'serie'
-								? 'La extensión total depende de sus ciclos y repeticiones.'
-								: 'La extensión total se obtiene de sus secciones y repeticiones.'}
+							: 'La unidad es la serie entera y su extensión no se declara.'}
 					</p>
 				{/if}
 				<label class="space-y-1">
