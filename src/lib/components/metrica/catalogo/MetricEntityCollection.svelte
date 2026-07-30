@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { untrack } from 'svelte';
+	import type { Snippet } from 'svelte';
 	import type {
 		MetricCatalogDomainRow,
 		MetricCatalogResource
@@ -36,6 +37,7 @@
 		labelFields?: string[];
 		emptyMessage?: string;
 		compact?: boolean;
+		rowContent?: Snippet<[MetricCatalogDomainRow]>;
 	}>();
 
 	let drafts = $state<Record<string, MetricCatalogDomainRow>>(
@@ -332,6 +334,11 @@
 							{/if}
 						{/each}
 					</div>
+					{#if props.rowContent}
+						<div class="border-t border-[color:var(--border)] pt-4">
+							{@render props.rowContent(draft)}
+						</div>
+					{/if}
 					<div class="flex flex-wrap justify-end gap-2">
 						<button
 							type="button"

@@ -47,6 +47,8 @@ function labelForVocabularyOption(row: {
 
 function emptyDomain(): MetricCatalogDomainData {
 	return {
+		forms: [],
+		configurations: [],
 		families: [],
 		familyForms: [],
 		traditions: [],
@@ -446,6 +448,8 @@ export async function loadMetricCatalog(
 		sourceClaimsDomain
 	] = domainResponses;
 	const domain: MetricCatalogDomainData = {
+		forms: formsResponse.data ?? [],
+		configurations: configurationsResponse.data ?? [],
 		families: familiesDomain.data ?? [],
 		familyForms: familyFormsDomain.data ?? [],
 		traditions: traditionsDomain.data ?? [],

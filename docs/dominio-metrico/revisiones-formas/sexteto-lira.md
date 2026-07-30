@@ -102,9 +102,23 @@ Las siete tipologías concretas proceden de los datos estructurados por el IP pa
 proyecto. La fuente bibliográfica sustenta la identidad general, no se usa para
 sustituir ese repertorio aurisecular.
 
+## Posible relajación del repertorio
+
+Las siete combinaciones se consideran por ahora las reconocidas por el proyecto, no
+necesariamente un inventario universal cerrado. Si el IP confirma que existen otras
+parejas admisibles pero no que medida y rima se combinen libremente, se conservará el
+modelo actual y se añadirán las nuevas combinaciones al catálogo cuando se documenten.
+
+Solo se eliminaría el acoplamiento y se ofrecerían por separado patrón métrico y patrón
+de rima si el IP confirma que ambos ejes son independientes y que cualquier pareja es
+válida. Para hallazgos todavía no catalogados puede incorporarse una opción «Otra
+combinación» que despliegue ambas elecciones y deje la observación pendiente de
+validación, sin tratarla automáticamente como desviación.
+
 ## Dudas para el IP
 
-1. ¿Las siete tipologías forman un repertorio cerrado o son las reconocidas hasta ahora?
+1. ¿Las siete tipologías forman un repertorio cerrado, son las reconocidas hasta ahora
+   o medida y rima pueden combinarse libremente?
 2. ¿A1 debe seguir mostrándose públicamente como la tipología habitual o preferente?
 3. ¿Una tirada puede cambiar de tipología entre estrofas sin dejar de constituir una
    única secuencia?

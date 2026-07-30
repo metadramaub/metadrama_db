@@ -1,4 +1,4 @@
-# Cuestiones para el IP
+si# Cuestiones para el IP
 
 Actualizado: 29 de julio de 2026
 
@@ -146,7 +146,10 @@ copiar sus patrones.
 
 Véase [sexteto-lira.md](./sexteto-lira.md).
 
-1. ¿Las siete tipologías son un repertorio cerrado o las reconocidas hasta ahora?
+1. ¿Las siete tipologías son un repertorio cerrado, las reconocidas hasta ahora o
+   medida y rima pueden combinarse libremente? Si aparecen otras parejas restringidas,
+   se ampliarían las combinaciones; solo si ambos ejes son independientes se
+   preguntarían por separado.
 2. ¿A1 debe seguir presentándose como tipología habitual o preferente?
 3. ¿Una tirada puede cambiar de tipología entre estrofas sin dejar de constituir una
    única secuencia?
