@@ -286,7 +286,7 @@
 			<h2 class="font-semibold">Falta aplicar las migraciones</h2>
 			<p class="mt-2 text-sm leading-6 text-amber-950">{data.migrationMessage}</p>
 			<p class="mt-2 font-mono text-xs text-amber-950">
-				Última requerida: 20260730101000_formalizacion_sexteto_y_esquemas_observados.sql
+				Última requerida: 20260730102000_formalizacion_seguidilla.sql
 			</p>
 		</div>
 	{:else}

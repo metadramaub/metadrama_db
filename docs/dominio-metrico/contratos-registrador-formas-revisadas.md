@@ -1,6 +1,6 @@
 # Contratos del registrador para formas revisadas
 
-Estado: implementado en el editor V2 · 29 de julio de 2026
+Estado: implementado en el editor V2 · 30 de julio de 2026
 
 Este documento separa lo que el catálogo conoce, lo que el editor debe responder y lo
 que se guarda como desviación. Una forma no se considera preparada para el registrador
@@ -38,6 +38,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Sexteto-lira | 6 versos, medidas y rima de cada tipología admitida | tipología combinada por estrofa; final esdrújulo si caracteriza | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Sexta rima | 6 endecasílabos, consonancia y `ABABCC` | nada | múltiplo de 6 |
 | Sexteto residual | 6 versos de arte mayor y consonancia | medidas presentes y esquema de rima de cada unidad | múltiplo de 6; materializa una unidad por cada 6 versos |
+| Seguidilla simple | 4 versos, `7-5-7-5`, asonancia `-a-a` | nada | múltiplo de 4; materializa una unidad por cada 4 versos |
+| Seguidilla compuesta | 7 versos, `7-5-7-5 + 5-7-5`, asonancia `-a-a + b-b` y secciones | nada | múltiplo de 7; materializa una unidad por cada 7 versos |
 
 ## Recorridos mínimos
 
@@ -71,6 +73,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Sexta rima: forma y guardar; toda la norma se deriva.
 - Sexteto residual: forma, medidas y esquema de la primera unidad; aplicar a todas y
   cambiar solo los sextetos diferentes.
+- Seguidilla: forma, configuración simple o compuesta y guardar; toda la norma se
+  deriva.
 
 ## Criterio de las desviaciones
 

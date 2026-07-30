@@ -253,7 +253,7 @@ Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede apl
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `seguidilla` | F | Conservar y crear configuraciones simple y compuesta; el tamaño no puede quedar fijado solo en 4. | Alta | Sí |
+| `seguidilla` | F | Resuelto: una forma con configuración simple `7-5-7-5 / -a-a` y compuesta `7-5-7-5 + 5-7-5 / -a-a + b-b`. | Alta | No |
 
 ## 20. Sexta rima
 

@@ -48,7 +48,8 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    [lira](./revisiones-formas/lira.md), el
    [sexteto-lira](./revisiones-formas/sexteto-lira.md), la
    [sexta rima](./revisiones-formas/sexta-rima.md), el
-   [sexteto](./revisiones-formas/sexteto.md) y un
+   [sexteto](./revisiones-formas/sexteto.md), la
+   [seguidilla](./revisiones-formas/seguidilla.md) y un
    [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
 ## Decisiones consolidadas
