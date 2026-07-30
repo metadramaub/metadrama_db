@@ -70,6 +70,17 @@
 			label: String(row.nombre || row.esquema || `Patrón de rima ${index + 1}`)
 		}))
 	);
+	const patternCombinations = $derived(
+		props.domain.patternCombinations
+			.filter(
+				(row: MetricCatalogDomainRow) =>
+					row.configuracion_id === props.configurationId
+			)
+			.sort(
+				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
+					Number(a.orden ?? 999) - Number(b.orden ?? 999)
+			)
+	);
 	const repetitionPatterns = $derived(
 		props.domain.repetitionPatterns.filter(
 			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
@@ -296,6 +307,36 @@
 		{ key: 'suelto', label: 'Verso suelto', type: 'checkbox' },
 		{ key: 'opcional', label: 'Opcional', type: 'checkbox' },
 		{ key: 'nota', label: 'Nota', type: 'textarea' }
+	]);
+	const patternCombinationFields = $derived<MetricEntityField[]>([
+		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'slug', label: 'Slug', required: true },
+		{ key: 'nombre', label: 'Nombre visible', required: true },
+		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
+		{
+			key: 'patron_metrico_id',
+			label: 'Patrón métrico',
+			type: 'select',
+			options: metricPatternOptions,
+			required: true
+		},
+		{
+			key: 'patron_rima_id',
+			label: 'Patrón de rima',
+			type: 'select',
+			options: rhymePatternOptions,
+			required: true
+		},
+		{ key: 'preferente', label: 'Tipología preferente', type: 'checkbox' },
+		{ key: 'orden', label: 'Orden', type: 'number' },
+		{
+			key: 'estado_revision',
+			label: 'Estado',
+			type: 'select',
+			options: reviewOptions,
+			required: true
+		},
+		{ key: 'activo', label: 'Activa', type: 'checkbox' }
 	]);
 	const rhymeLinkFields = $derived<MetricEntityField[]>([
 		{
@@ -580,6 +621,29 @@
 					{/each}
 				</div>
 			</details>
+		</div>
+	</details>
+
+	<details>
+		<summary class="cursor-pointer text-sm font-semibold">Combinaciones admitidas</summary>
+		<div class="mt-4">
+			<MetricEntityCollection
+				resource="patternCombinations"
+				title="Tipologías que acoplan medida y rima"
+				description="Úsalas cuando no todas las combinaciones entre los patrones métricos y de rima sean válidas. Cada fila enlaza una pareja admitida sin crear otra configuración."
+				rows={patternCombinations}
+				keyFields={['combinacion_id']}
+				fields={patternCombinationFields}
+				defaults={{
+					configuracion_id: props.configurationId,
+					preferente: false,
+					estado_revision: 'borrador',
+					activo: true,
+					orden: 1
+				}}
+				emptyMessage="Los patrones métricos y de rima son independientes o todavía no se han declarado combinaciones."
+				compact
+			/>
 		</div>
 	</details>
 

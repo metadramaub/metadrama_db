@@ -132,6 +132,7 @@
 			}`;
 		}
 		if (destination.familia_id) return 'Familia métrica';
+		if (destination.combinacion_id) return 'Combinación de medida y rima';
 		if (destination.patron_metrico_id) return 'Patrón métrico';
 		if (destination.patron_rima_id) return 'Patrón de rima';
 		if (destination.valor_rasgo_id) return 'Valor de rasgo';

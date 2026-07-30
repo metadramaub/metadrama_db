@@ -62,6 +62,7 @@ function emptyDomain(): MetricCatalogDomainData {
 		rhymePositions: [],
 		rhymeLinks: [],
 		rhymeRestrictions: [],
+		patternCombinations: [],
 		sections: [],
 		repetitionPatterns: [],
 		repetitionPositions: [],
@@ -287,7 +288,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 30
+		Number(stateResponse.data?.modelo_version ?? 0) < 34
 	) {
 		return {
 			migrationPending: true,
@@ -357,7 +358,7 @@ export async function loadMetricCatalog(
 		db
 			.from('migracion_termino_destinos')
 			.select(
-				'destino_id,termino_id,tipo_operacion,forma_id,familia_id,configuracion_id,patron_metrico_id,patron_rima_id,rasgo_id,valor_rasgo_id,alias_id'
+				'destino_id,termino_id,tipo_operacion,forma_id,familia_id,configuracion_id,combinacion_id,patron_metrico_id,patron_rima_id,rasgo_id,valor_rasgo_id,alias_id'
 			),
 		db
 			.from('vocabularios')
@@ -401,6 +402,7 @@ export async function loadMetricCatalog(
 		db.from('patron_rima_posiciones').select('*').order('posicion'),
 		db.from('patron_rima_enlaces').select('*'),
 		db.from('patron_rima_restricciones').select('*'),
+		db.from('combinaciones_patrones_configuracion').select('*').order('orden'),
 		db.from('estructuras_secciones').select('*').order('orden'),
 		db.from('patrones_repeticion').select('*'),
 		db.from('patron_repeticion_posiciones').select('*').order('posicion'),
@@ -431,6 +433,7 @@ export async function loadMetricCatalog(
 		rhymePositionsDomain,
 		rhymeLinksDomain,
 		rhymeRestrictionsDomain,
+		patternCombinationsDomain,
 		sectionsDomain,
 		repetitionPatternsDomain,
 		repetitionPositionsDomain,
@@ -478,6 +481,7 @@ export async function loadMetricCatalog(
 		rhymePositions: rhymePositionsDomain.data ?? [],
 		rhymeLinks: rhymeLinksDomain.data ?? [],
 		rhymeRestrictions: rhymeRestrictionsDomain.data ?? [],
+		patternCombinations: patternCombinationsDomain.data ?? [],
 		sections: sectionsDomain.data ?? [],
 		repetitionPatterns: repetitionPatternsDomain.data ?? [],
 		repetitionPositions: repetitionPositionsDomain.data ?? [],
@@ -490,6 +494,7 @@ export async function loadMetricCatalog(
 				'metro_id',
 				'patron_metrico_id',
 				'patron_rima_id',
+				'combinacion_id',
 				'seccion_id',
 				'patron_repeticion_id',
 				'rasgo_id',

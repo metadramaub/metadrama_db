@@ -66,6 +66,7 @@
 			options: [
 				{ value: 'metro', label: 'Medida' },
 				{ value: 'rima', label: 'Rima' },
+				{ value: 'combinacion', label: 'Combinación de medida y rima' },
 				{ value: 'estructura', label: 'Estructura' },
 				{ value: 'repeticion', label: 'Repetición' },
 				{ value: 'rasgo', label: 'Rasgo' }
@@ -164,6 +165,17 @@
 						row,
 						String(row.nombre || row.esquema || `Patrón de rima ${index + 1}`)
 					)
+				}));
+		}
+		if (dimension === 'combinacion') {
+			return props.domain.patternCombinations
+				.filter(
+					(row: MetricCatalogDomainRow) =>
+						configurationIds.has(String(row.configuracion_id))
+				)
+				.map((row: MetricCatalogDomainRow) => ({
+					value: `combinacion_id:${row.combinacion_id}`,
+					label: targetLabel(row, String(row.nombre))
 				}));
 		}
 		if (dimension === 'estructura') {
@@ -294,7 +306,7 @@
 			<MetricEntityCollection
 				resource="choiceOptions"
 				title={`Respuestas: ${String(group.nombre)}`}
-				description="Cada respuesta apunta a un metro, patrón, sección, repetición o valor de rasgo ya formalizado."
+				description="Cada respuesta apunta a un metro, patrón, combinación, sección, repetición o valor de rasgo ya formalizado."
 				rows={props.domain.choiceOptions.filter(
 					(row: MetricCatalogDomainRow) =>
 						row.grupo_eleccion_id === group.grupo_eleccion_id

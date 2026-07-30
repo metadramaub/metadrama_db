@@ -24,6 +24,7 @@ export const METRIC_CONFIGURATION_GRADES = [
 export const METRIC_CHOICE_DIMENSIONS = [
 	'metro',
 	'rima',
+	'combinacion',
 	'estructura',
 	'repeticion',
 	'rasgo'
@@ -145,6 +146,7 @@ export type MetricCatalogMigrationRow = {
 		forma_id: string | null;
 		familia_id: string | null;
 		configuracion_id: string | null;
+		combinacion_id: string | null;
 		patron_metrico_id: string | null;
 		patron_rima_id: string | null;
 		rasgo_id: string | null;
@@ -206,6 +208,7 @@ export const METRIC_CATALOG_RESOURCES = [
 	'rhymePositions',
 	'rhymeLinks',
 	'rhymeRestrictions',
+	'patternCombinations',
 	'sections',
 	'repetitionPatterns',
 	'repetitionPositions',
