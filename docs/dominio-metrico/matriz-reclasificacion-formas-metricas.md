@@ -129,10 +129,10 @@ Se retiran los umbrales porcentuales 50/98/99 usados para formalizar «mayoría�
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `irregular` | E | Mantener como salida “forma regular no identificada”. | Alta | Sí |
-| `irregular_arte_mayor` | D | Retirar como forma; derivar arte mayor de los metros observados. | Alta | No |
-| `irregular_arte_menor` | D | Retirar como forma; derivar arte menor de los metros observados. | Alta | No |
-| `irregular_mixto` | D | Retirar como forma; derivar mezcla de los metros observados. | Alta | No |
+| `irregular` | E | Resuelto: salida editorial `Versificación irregular` para pasajes de dos o más versos sin forma reconocible. | Alta | No |
+| `irregular_arte_mayor` | D | Resuelto: fusionar con la salida irregular; conservar o derivar la clase de arte como observación. | Alta | No |
+| `irregular_arte_menor` | D | Resuelto: fusionar con la salida irregular; conservar o derivar la clase de arte como observación. | Alta | No |
+| `irregular_mixto` | D | Resuelto: fusionar con la salida irregular; conservar o derivar la clase de arte como observación. | Alta | No |
 
 ## 10. Lira
 
@@ -340,9 +340,10 @@ No se conservarán porcentajes exactos de versos rimados o pareados. Las configu
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `verso suelto` | E | Mantener como categoría editorial residual para un verso aislado, fuera del catálogo de formas demarcables. | Alta | Sí |
+| `verso suelto` | E | Resuelto: salida editorial `Verso aislado`, exactamente un verso; el nombre legado se conserva como denominación histórica. | Alta | No |
 
-Debe normalizarse el slug técnico aunque se conserve “Verso suelto” como etiqueta.
+El nombre público evita confundir esta salida con un verso sin rima dentro de un patrón
+o con una serie de versos blancos.
 
 ## 30. Villancico
 
@@ -388,9 +389,8 @@ Estas decisiones se aplican a todas las filas de la matriz:
 
 ### Decisiones sobre salidas residuales
 
-1. si `irregular` basta como salida;
+1. confirmar si `Verso aislado` será la etiqueta pública definitiva;
 2. si hace falta “otra copla de pie quebrado”;
-3. si `verso suelto` pertenece al mismo selector o a una caracterización distinta.
 
 ## 34. Orden de revisión recomendado
 

@@ -76,6 +76,7 @@
 					nombre: draft.nombre,
 					definicion: draft.definicion?.trim() || null,
 					nivel_estructural: draft.nivel_estructural,
+					tipo_registro: draft.tipo_registro,
 					seleccionable: draft.seleccionable,
 					residual: draft.residual,
 					estado_revision: draft.estado_revision,
@@ -185,7 +186,7 @@
 			></textarea>
 		</label>
 
-		<div class="grid gap-4 md:grid-cols-2">
+		<div class="grid gap-4 md:grid-cols-3">
 			<label class="space-y-1">
 				<span class="text-sm font-medium">Nivel estructural</span>
 				<select
@@ -195,6 +196,24 @@
 					{#each METRIC_STRUCTURAL_LEVELS as level}
 						<option value={level}>{metricStructuralLevelLabel(level)}</option>
 					{/each}
+				</select>
+			</label>
+			<label class="space-y-1">
+				<span class="text-sm font-medium">Tipo de entrada</span>
+				<select
+					class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
+					value={draft.tipo_registro}
+					onchange={(event) => {
+						draft.tipo_registro = event.currentTarget
+							.value as MetricCatalogForm['tipo_registro'];
+						if (draft.tipo_registro === 'salida_editorial') {
+							draft.residual = true;
+							draft.seleccionable = true;
+						}
+					}}
+				>
+					<option value="forma">Forma métrica</option>
+					<option value="salida_editorial">Salida editorial</option>
 				</select>
 			</label>
 			<label class="space-y-1">
@@ -212,13 +231,18 @@
 
 		<div class="flex flex-wrap gap-x-6 gap-y-3 border-y border-[color:var(--border)] py-4 text-sm">
 			<label class="inline-flex items-center gap-2">
-				<input type="checkbox" bind:checked={draft.seleccionable} />
+				<input
+					type="checkbox"
+					bind:checked={draft.seleccionable}
+					disabled={draft.tipo_registro === 'salida_editorial'}
+				/>
 				Seleccionable por el editor
 			</label>
 			<label class="inline-flex items-center gap-2">
 				<input
 					type="checkbox"
 					checked={draft.residual}
+					disabled={draft.tipo_registro === 'salida_editorial'}
 					onchange={(event) => {
 						draft.residual = event.currentTarget.checked;
 						if (draft.residual) draft.seleccionable = true;
@@ -252,7 +276,8 @@
 		</div>
 	</section>
 
-	<section class="space-y-4 border-t border-[color:var(--border)] pt-6">
+	{#if draft.tipo_registro === 'forma'}
+		<section class="space-y-4 border-t border-[color:var(--border)] pt-6">
 		<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 			<div>
 				<p class="text-xs font-semibold uppercase tracking-[0.12em] text-[color:var(--muted-foreground)]">
@@ -403,5 +428,13 @@
 				</p>
 			{/each}
 		</div>
-	</section>
+		</section>
+	{:else}
+		<section class="border-t border-[color:var(--border)] pt-6">
+			<p class="text-sm leading-6 text-[color:var(--muted-foreground)]">
+				Las salidas editoriales no tienen configuraciones, patrones ni desviaciones respecto de
+				una norma. Solo permiten delimitar el rango y añadir una observación opcional.
+			</p>
+		</section>
+	{/if}
 </div>

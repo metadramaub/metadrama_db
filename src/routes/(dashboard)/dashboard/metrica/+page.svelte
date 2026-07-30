@@ -22,6 +22,7 @@
 		type MetricCatalogPageData,
 		type MetricCatalogPreviewVersion,
 		type MetricCatalogReviewState,
+		type MetricEntryType,
 		type MetricStructuralLevel
 	} from '$lib/metrica/catalogo';
 	import { pushToast } from '$lib/stores/toast';
@@ -63,6 +64,7 @@
 		nombre: '',
 		definicion: '',
 		nivel_estructural: 'estrofa' as MetricStructuralLevel,
+		tipo_registro: 'forma' as MetricEntryType,
 		seleccionable: true,
 		residual: false,
 		estado_revision: 'borrador' as MetricCatalogReviewState,
@@ -165,6 +167,7 @@
 			nombre: '',
 			definicion: '',
 			nivel_estructural: 'estrofa',
+			tipo_registro: 'forma',
 			seleccionable: true,
 			residual: false,
 			estado_revision: 'borrador',
@@ -286,7 +289,7 @@
 			<h2 class="font-semibold">Falta aplicar las migraciones</h2>
 			<p class="mt-2 text-sm leading-6 text-amber-950">{data.migrationMessage}</p>
 			<p class="mt-2 font-mono text-xs text-amber-950">
-				Última requerida: 20260730106000_formalizacion_romancillos.sql
+				Última requerida: 20260730107000_salidas_editoriales_irregular_verso_aislado.sql
 			</p>
 		</div>
 	{:else}
@@ -359,7 +362,11 @@
 								<span class="block text-sm font-medium">{form.nombre}</span>
 								<span class="mt-0.5 block text-xs text-[color:var(--muted-foreground)]">
 									{metricReviewStateLabel(form.estado_revision)}
-									{form.residual ? ' · residual' : ''}
+									{form.tipo_registro === 'salida_editorial'
+										? ' · salida editorial'
+										: form.residual
+											? ' · residual'
+											: ''}
 								</span>
 							</button>
 						{:else}
@@ -403,7 +410,7 @@
 									bind:value={newForm.definicion}
 								></textarea>
 							</label>
-							<div class="grid gap-4 md:grid-cols-2">
+							<div class="grid gap-4 md:grid-cols-3">
 								<label class="space-y-1">
 									<span class="text-sm font-medium">Nivel</span>
 									<select
@@ -413,6 +420,23 @@
 										{#each METRIC_STRUCTURAL_LEVELS as level}
 											<option value={level}>{metricStructuralLevelLabel(level)}</option>
 										{/each}
+									</select>
+								</label>
+								<label class="space-y-1">
+									<span class="text-sm font-medium">Tipo de entrada</span>
+									<select
+										class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
+										value={newForm.tipo_registro}
+										onchange={(event) => {
+											newForm.tipo_registro = event.currentTarget.value as MetricEntryType;
+											if (newForm.tipo_registro === 'salida_editorial') {
+												newForm.residual = true;
+												newForm.seleccionable = true;
+											}
+										}}
+									>
+										<option value="forma">Forma métrica</option>
+										<option value="salida_editorial">Salida editorial</option>
 									</select>
 								</label>
 								<label class="space-y-1">
@@ -429,13 +453,18 @@
 							</div>
 							<div class="flex flex-wrap gap-x-6 gap-y-3 text-sm">
 								<label class="inline-flex items-center gap-2">
-									<input type="checkbox" bind:checked={newForm.seleccionable} />
+									<input
+										type="checkbox"
+										bind:checked={newForm.seleccionable}
+										disabled={newForm.tipo_registro === 'salida_editorial'}
+									/>
 									Seleccionable
 								</label>
 								<label class="inline-flex items-center gap-2">
 									<input
 										type="checkbox"
 										checked={newForm.residual}
+										disabled={newForm.tipo_registro === 'salida_editorial'}
 										onchange={(event) => {
 											newForm.residual = event.currentTarget.checked;
 											if (newForm.residual) newForm.seleccionable = true;

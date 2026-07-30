@@ -39,6 +39,7 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    [romance](./revisiones-formas/romance.md), el
    [romance heroico](./revisiones-formas/romance-heroico.md), el
    [romancillo](./revisiones-formas/romancillo.md), el
+   tratamiento de las [salidas editoriales](./revisiones-formas/salidas-editoriales.md), el
    [soneto](./revisiones-formas/soneto.md), el
    [villancico](./revisiones-formas/villancico.md), el
    [zéjel](./revisiones-formas/zejel.md), la

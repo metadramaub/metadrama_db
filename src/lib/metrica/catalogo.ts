@@ -13,6 +13,8 @@ export const METRIC_STRUCTURAL_LEVELS = [
 	'compuesta'
 ] as const;
 
+export const METRIC_ENTRY_TYPES = ['forma', 'salida_editorial'] as const;
+
 export const METRIC_CONFIGURATION_GRADES = [
 	'fija',
 	'canonica',
@@ -46,6 +48,7 @@ export const METRIC_MIGRATION_CLASSIFICATIONS = [
 
 export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[number];
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
+export type MetricEntryType = (typeof METRIC_ENTRY_TYPES)[number];
 export type MetricConfigurationGrade = (typeof METRIC_CONFIGURATION_GRADES)[number];
 export type MetricMigrationClassification = (typeof METRIC_MIGRATION_CLASSIFICATIONS)[number];
 export type MetricChoiceDimension = (typeof METRIC_CHOICE_DIMENSIONS)[number];
@@ -57,6 +60,7 @@ export type MetricCatalogForm = {
 	nombre: string;
 	definicion: string | null;
 	nivel_estructural: MetricStructuralLevel;
+	tipo_registro: MetricEntryType;
 	seleccionable: boolean;
 	residual: boolean;
 	estado_revision: MetricCatalogReviewState;

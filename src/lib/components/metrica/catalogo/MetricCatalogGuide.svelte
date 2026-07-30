@@ -201,9 +201,18 @@
 					</dd>
 				</div>
 				<div>
+					<dt class="font-medium">Tipo de entrada</dt>
+					<dd class="text-[color:var(--muted-foreground)]">
+						<em>Forma métrica</em> posee una norma expresada mediante configuraciones.
+						<em>Salida editorial</em> sirve para Versificación irregular o Verso aislado:
+						comparte el selector, pero no es una forma ni admite configuraciones.
+					</dd>
+				</div>
+				<div>
 					<dt class="font-medium">Categoría residual</dt>
 					<dd class="text-[color:var(--muted-foreground)]">
-						Salida como «irregular» o «verso suelto» para casos sin identificación suficiente; no compite como forma canónica.
+						Indica que la entrada solo aparece cuando no encaja una opción más precisa.
+						Puede ser una forma estructurada residual o una salida editorial.
 					</dd>
 				</div>
 				<div>

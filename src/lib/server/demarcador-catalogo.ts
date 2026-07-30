@@ -539,6 +539,34 @@ function candidateFromConfiguration(input: {
 	};
 }
 
+function editorialOutputCandidate(form: FormRow): CandidatoDemarcadorNuevo {
+	return {
+		id: form.forma_id,
+		slug: form.slug,
+		etiqueta: form.nombre,
+		definicion: form.definicion,
+		familiaId: form.forma_id,
+		familiaSlug: form.slug,
+		familiaEtiqueta: form.nombre,
+		esFamilia: true,
+		esResidual: true,
+		rasgos: {
+			metros: [],
+			rima: null,
+			naturaleza: null,
+			tamanio: null,
+			estructura: null,
+			estructuraEtiqueta: null,
+			repeticion: null,
+			repeticionEtiqueta: null,
+			patron: null,
+			patronEtiqueta: null,
+			predominioRima: null,
+			organizacionPareados: null
+		}
+	};
+}
+
 export async function generateDemarcatorFromMetricCatalog(
 	supabase: App.Locals['supabase']
 ): Promise<{
@@ -872,9 +900,17 @@ export async function generateDemarcatorFromMetricCatalog(
 		})
 		.sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es'));
 	const families = compileFamilies(forms.filter((form) => !form.residual));
-	const residuals = compileFamilies(forms.filter((form) => form.residual)).map(
-		(family) => family.raiz
-	);
+	const residualForms = forms.filter((form) => form.residual);
+	const residuals = [
+		...compileFamilies(
+			residualForms.filter(
+				(form) => (configurationsByForm.get(form.forma_id) ?? []).length > 0
+			)
+		).map((family) => family.raiz),
+		...residualForms
+			.filter((form) => (configurationsByForm.get(form.forma_id) ?? []).length === 0)
+			.map(editorialOutputCandidate)
+	].sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es'));
 
 	const generatedAt = new Date().toISOString();
 	const sourceUpdatedAt =
@@ -903,7 +939,8 @@ export async function generateDemarcatorFromMetricCatalog(
 			JSON.stringify({
 				source: 'catalogo_metrico',
 				catalogRevision,
-				families: artifact.familias
+				families: artifact.familias,
+				residuals: artifact.residuales
 			})
 		)
 		.digest('hex');

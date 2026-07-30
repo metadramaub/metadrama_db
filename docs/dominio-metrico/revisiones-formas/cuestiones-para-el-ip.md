@@ -214,3 +214,15 @@ Véase [romancillo.md](./romancillo.md).
 Resuelto en el modelo: no se crea una forma ni una familia Romancillo. Las realizaciones
 de 6 y 7 sílabas son configuraciones exactas de `romance`; la antigua raíz ambigua solo
 obliga a revisar las secuencias heredadas que no permitan determinar su medida.
+
+## Salidas editoriales
+
+Véase [salidas-editoriales.md](./salidas-editoriales.md).
+
+1. Confirmar si `Verso aislado` debe ser la etiqueta pública definitiva de la antigua
+   entrada `verso suelto`.
+
+Resuelto en el modelo: `Versificación irregular` y `Verso aislado` son salidas
+editoriales, no formas. La primera exige dos o más versos y la segunda exactamente uno.
+Una forma reconocible con excepciones se registra mediante desviaciones y no mediante
+estas salidas.
