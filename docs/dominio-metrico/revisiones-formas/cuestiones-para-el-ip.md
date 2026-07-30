@@ -181,3 +181,16 @@ Véase [sextina.md](./sextina.md).
   la doble y ambas conservan la misma regla de permutación.
 - Confirmar únicamente si debe fijarse el orden de las seis palabras dentro del remate.
   Por ahora se exige su presencia —tres interiores y tres finales— sin imponer parejas.
+
+## Canción petrarquista
+
+Véase [cancion-petrarquista.md](./cancion-petrarquista.md).
+
+1. ¿La canción sin rima o canción libre debe seguir siendo configuración de la canción
+   petrarquista o tiene identidad suficiente para ser forma?
+2. ¿Debe exigirse siempre remate o envío en las canciones registradas?
+3. ¿Se mantiene el mínimo de 5 versos por estancia fijado por el proyecto, pese al
+   mínimo de 9 indicado por Domínguez Caparrós?
+
+Resuelto en el modelo: 8, 9 y 15 son extensiones de estancia; una estancia solo
+endecasílaba se obtiene eligiendo 11 sílabas en todas sus posiciones.

@@ -50,7 +50,8 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    [sexta rima](./revisiones-formas/sexta-rima.md), el
    [sexteto](./revisiones-formas/sexteto.md), la
    [seguidilla](./revisiones-formas/seguidilla.md), la
-   [sextina](./revisiones-formas/sextina.md) y un
+   [sextina](./revisiones-formas/sextina.md), la
+   [canción petrarquista](./revisiones-formas/cancion-petrarquista.md) y un
    [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
 ## Decisiones consolidadas

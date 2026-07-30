@@ -185,6 +185,47 @@
 		);
 	}
 
+	function applyUnitLengthToEquivalentUnits(sourceUnit: MetricUnitDraft) {
+		const length = sourceUnit.v_fin - sourceUnit.v_ini + 1;
+		const equivalentUnitIds = new Set(
+			props.units
+				.filter((unit: MetricUnitDraft) => unit.seccion_id === sourceUnit.seccion_id)
+				.map((unit: MetricUnitDraft) => unit.unidad_prueba_id)
+		);
+		const changed = props.units.map((unit: MetricUnitDraft) =>
+			equivalentUnitIds.has(unit.unidad_prueba_id)
+				? { ...unit, v_fin: unit.v_ini + length - 1 }
+				: unit
+		);
+		const hiddenPositionalOptionIds = new Set(
+			props.options
+				.filter(
+					(option: MetricCatalogDomainRow) =>
+						Number(option.posicion_unidad ?? 0) > length
+				)
+				.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id))
+		);
+		if (hiddenPositionalOptionIds.size > 0) {
+			props.onChoicesChange(
+				props.choices.filter(
+					(choice: MetricChoiceDraft) =>
+						!equivalentUnitIds.has(choice.unidad_prueba_id ?? '') ||
+						!choice.opcion_eleccion_id ||
+						!hiddenPositionalOptionIds.has(choice.opcion_eleccion_id)
+				)
+			);
+		}
+		commitUnits(
+			reflowMetricUnits(
+				changed,
+				props.sections,
+				props.sequenceStart,
+				props.choices,
+				props.options
+			)
+		);
+	}
+
 	function setChoices(
 		group: MetricCatalogDomainRow,
 		unit: MetricUnitDraft,
@@ -410,18 +451,32 @@
 								{sectionVerseMinimum(section) === 1 ? 'verso' : 'versos'} según la norma.
 							</p>
 						{:else}
-							<label class="form-field w-36">
-								<span class="form-label">N.º de versos</span>
-								<input
-									type="number"
-									min={sectionVerseMinimum(section)}
-									max={sectionVerseMaximum(section) ?? undefined}
-									class="h-10 border border-[color:var(--border)] px-3"
-									value={unit.v_fin - unit.v_ini + 1}
-									onchange={(event) =>
-										setUnitLength(unit, Number(event.currentTarget.value))}
-								/>
-							</label>
+							<div class="flex flex-wrap items-end gap-3">
+								<label class="form-field w-36">
+									<span class="form-label">N.º de versos</span>
+									<input
+										type="number"
+										min={sectionVerseMinimum(section)}
+										max={sectionVerseMaximum(section) ?? undefined}
+										class="h-10 border border-[color:var(--border)] px-3"
+										value={unit.v_fin - unit.v_ini + 1}
+										onchange={(event) =>
+											setUnitLength(unit, Number(event.currentTarget.value))}
+									/>
+								</label>
+								{#if props.units.filter(
+									(candidate: MetricUnitDraft) =>
+										candidate.seccion_id === unit.seccion_id
+								).length > 1}
+									<button
+										type="button"
+										class="h-10 text-xs font-medium text-[color:var(--primary)] hover:underline"
+										onclick={() => applyUnitLengthToEquivalentUnits(unit)}
+									>
+										Aplicar esta extensión a todas las unidades equivalentes
+									</button>
+								{/if}
+							</div>
 						{/if}
 					{/if}
 

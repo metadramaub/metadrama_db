@@ -865,11 +865,31 @@
 					)
 					.map((option: MetricCatalogDomainRow) => Number(option.posicion_unidad));
 				const unitLength = unit.v_fin - unit.v_ini + 1;
+				const visiblePositionalOptions = choiceOptionsForDraft.filter(
+					(option: MetricCatalogDomainRow) =>
+						String(option.grupo_eleccion_id) === String(group.grupo_eleccion_id) &&
+						Number(option.posicion_unidad ?? 0) > 0 &&
+						Number(option.posicion_unidad) <= unitLength
+				);
+				const hasAlternativesByPosition = visiblePositionalOptions.some(
+					(option: MetricCatalogDomainRow, index: number, options: MetricCatalogDomainRow[]) =>
+						options.findIndex(
+							(candidate: MetricCatalogDomainRow) =>
+								Number(candidate.posicion_unidad) === Number(option.posicion_unidad)
+						) !== index
+				);
 				if (selectedPositions.some((position: number) => position > unitLength)) {
 					return `Revisa las posiciones de «${String(group.nombre)}» en la unidad ${unit.orden}.`;
 				}
 				if (
-					String(group.slug) === 'posiciones_pies_quebrados' &&
+					hasAlternativesByPosition &&
+					(new Set(selectedPositions).size !== unitLength ||
+						selectedPositions.length !== unitLength)
+				) {
+					return `Indica la medida de cada verso en «${String(group.nombre)}» para la unidad ${unit.orden}.`;
+				}
+				if (
+					String(group.slug).startsWith('posiciones_pie') &&
 					selectedPositions.length >= unitLength
 				) {
 					return `Debe quedar al menos un octosílabo en la unidad ${unit.orden}.`;

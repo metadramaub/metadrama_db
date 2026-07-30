@@ -55,14 +55,14 @@ Se han señalado 48 entradas para revisión expresa del IP. Esto no significa qu
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `cancion_petrarquista` | F | Conservar como forma compuesta; formalizar estancias y alternativas. | Alta | Sí |
-| `cancion_de_15_versos` | C | Configuración de estancia de 15 versos. | Alta | No |
-| `cancion_de_8_versos` | C | Configuración de estancia de 8 versos. | Alta | No |
-| `cancion_de_9_versos` | C | Configuración de estancia de 9 versos. | Alta | No |
-| `cancion_endecasilaba` | C | Configuración isométrica endecasílaba; revisar si está lexicalizada como subtipo. | Media | Sí |
-| `cancion_regular_abCabCcdeeDfF` | P | Patrón de rima y metro admitido por una configuración regular. | Alta | No |
-| `cancion_sin_rima` | ? | Decidir entre forma `cancion_libre` documentada o configuración sin rima. | Baja | Sí |
-| `cancion_sin_rima_de_esdrujulos` | R | Forma de destino de `cancion_sin_rima` más rasgo esdrújulo. | Alta | Sí |
+| `cancion_petrarquista` | F | Resuelto: forma compuesta con tres configuraciones y estancias explícitas. | Alta | Sí |
+| `cancion_de_15_versos` | D | Extensión observada de la estancia; no identidad propia. | Alta | No |
+| `cancion_de_8_versos` | D | Extensión observada de la estancia; no identidad propia. | Alta | No |
+| `cancion_de_9_versos` | D | Extensión observada de la estancia; no identidad propia. | Alta | No |
+| `cancion_endecasilaba` | R | Realización con 11 sílabas en todas las posiciones; no configuración propia. | Alta | No |
+| `cancion_regular_abCabCcdeeDfF` | P | Resuelto: configuración regular que acopla patrón métrico y rima de 13 posiciones. | Alta | No |
+| `cancion_sin_rima` | C | Configuración de cuerpo suelto y pareado consonante final; confirmar identidad con el IP. | Media | Sí |
+| `cancion_sin_rima_de_esdrujulos` | R | Configuración sin rima más `final_acentual = esdrujulo`. | Alta | No |
 
 ## 3. Copla de arte mayor
 
@@ -371,7 +371,8 @@ Estas decisiones se aplican a todas las filas de la matriz:
 
 ### Decisiones que cambian identidades
 
-1. `cancion_sin_rima`: canción libre como forma o configuración.
+1. `cancion_sin_rima`: se ha modelado provisionalmente como configuración; confirmar
+   si «canción libre» tiene identidad suficiente para convertirse en forma.
 2. `silva_libre`: redefinición, cambio de nombre o forma diferente.
 3. Creación de una forma general `pareado`.
 4. Patrón exacto que el proyecto admite como sextilla de pie quebrado.
