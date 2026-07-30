@@ -168,6 +168,11 @@ sustituyen por una sola.
 
 Cuatro bloques, en este orden y con el código de cada uno en el mismo commit.
 
+Antes de aplicar el bloque A se hizo una copia de seguridad completa de la base enlazada
+en `backups/supabase/20260730-180007/` —esquema y datos—. Esa carpeta está en
+`.gitignore`, así que no viaja en el repositorio: si hiciera falta revertir, es el punto de
+partida. Conviene repetir la copia antes de cada bloque.
+
 **A · Renombrados. Aplicado.** Tablas, columnas y valores controlados; recreación de las
 quince funciones que los nombraban y de la vista; `modelo_version` a 43. El informe de
 conformidad dio exactamente los mismos 53 defectos antes y después, que era el criterio de
