@@ -448,6 +448,24 @@ Esto permite formalizar:
 
 No se introducirán porcentajes exactos para traducir expresiones como «mayoría». Esas expresiones se conservarán como modalidades cualitativas —definitoria, habitual, admitida o destacable— salvo que una fuente y un objetivo analítico justifiquen expresamente otra cosa.
 
+### 9.6.1. `combinaciones_patrones_configuracion`
+
+Se utiliza cuando una configuración admite varios patrones métricos y varios patrones
+de rima, pero no todas sus parejas son válidas. Cada fila enlaza:
+
+- una configuración;
+- un patrón métrico de esa configuración;
+- un patrón de rima de esa configuración;
+- un nombre y un `slug` estables;
+- su condición preferente o admitida;
+- estado de revisión, orden y término de origen.
+
+La combinación no es una forma ni una configuración adicional. Es una tipología
+elegible de la misma norma. El sexteto-lira, por ejemplo, contiene cinco patrones
+métricos y tres de rima, pero solo siete combinaciones reconocidas por el proyecto.
+Sin esta entidad, dos desplegables independientes producirían quince parejas posibles
+o se necesitarían siete configuraciones artificiales.
+
 ### 9.7. `estructuras_secciones`
 
 Necesaria para villancico, zéjel, sextina, canción y otras formas compuestas:

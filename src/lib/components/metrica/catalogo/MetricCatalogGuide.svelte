@@ -51,6 +51,15 @@
 			]
 		},
 		{
+			title: 'Combinaciones de patrones',
+			rows: [
+				['Cuándo se usan', 'Cuando existen varios patrones métricos y de rima, pero no todas sus parejas están admitidas.'],
+				['Qué enlazan', 'Una combinación apunta a un patrón métrico y a un patrón de rima de la misma configuración.'],
+				['Qué no crean', 'No son formas ni configuraciones nuevas; son tipologías elegibles de una misma norma.'],
+				['Preferente', 'Marca la combinación prototípica cuando el proyecto reconoce una como habitual.']
+			]
+		},
+		{
 			title: 'Posiciones y enlaces de rima',
 			rows: [
 				['Bloque', 'Unidad repetida o sección a la que pertenece la posición.'],
@@ -140,8 +149,8 @@
 		<p class="max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
 			Una posibilidad formalizada no obliga por sí sola a añadir un campo. Se crea un grupo de
 			elección cuando existen varias realizaciones admitidas y distinguirlas aporta información al
-			corpus. Cada respuesta sigue apuntando a un metro, patrón, sección, repetición o valor de
-			rasgo normalizado.
+			corpus. Cada respuesta sigue apuntando a un metro, patrón, combinación de patrones,
+			sección, repetición o valor de rasgo normalizado.
 		</p>
 		<div class="grid gap-4 text-sm leading-6 lg:grid-cols-3">
 			<div>

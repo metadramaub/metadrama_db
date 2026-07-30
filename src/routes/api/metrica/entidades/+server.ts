@@ -232,6 +232,24 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		booleanFields: ['obligatoria'],
 		numberFields: ['valor_numero']
 	},
+	patternCombinations: {
+		table: 'combinaciones_patrones_configuracion',
+		keys: ['combinacion_id'],
+		fields: [
+			'configuracion_id',
+			'slug',
+			'nombre',
+			'descripcion',
+			'patron_metrico_id',
+			'patron_rima_id',
+			'preferente',
+			'estado_revision',
+			'activo',
+			'orden'
+		],
+		booleanFields: ['preferente', 'activo'],
+		numberFields: ['orden']
+	},
 	sections: {
 		table: 'estructuras_secciones',
 		keys: ['seccion_id'],
@@ -457,6 +475,7 @@ function normalizeValues(
 			'metro_id',
 			'patron_metrico_id',
 			'patron_rima_id',
+			'combinacion_id',
 			'seccion_id',
 			'patron_repeticion_id',
 			'rasgo_id',

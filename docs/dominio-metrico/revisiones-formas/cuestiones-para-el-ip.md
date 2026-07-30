@@ -141,3 +141,12 @@ Véase [novena.md](./novena.md).
 Resuelto en el modelo: `novena_canonica` y `novena_invertida` son configuraciones de una
 única forma; las secciones reutilizan las configuraciones de redondilla y quintilla sin
 copiar sus patrones.
+
+## Sexteto-lira
+
+Véase [sexteto-lira.md](./sexteto-lira.md).
+
+1. ¿Las siete tipologías son un repertorio cerrado o las reconocidas hasta ahora?
+2. ¿A1 debe seguir presentándose como tipología habitual o preferente?
+3. ¿Una tirada puede cambiar de tipología entre estrofas sin dejar de constituir una
+   única secuencia?

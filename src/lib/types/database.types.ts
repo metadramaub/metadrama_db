@@ -540,6 +540,93 @@ export type Database = {
           },
         ]
       }
+      combinaciones_patrones_configuracion: {
+        Row: {
+          activo: boolean
+          combinacion_id: string
+          configuracion_id: string
+          created_at: string
+          descripcion: string | null
+          estado_revision: string
+          nombre: string
+          orden: number | null
+          origen_termino_id: string | null
+          patron_metrico_id: string
+          patron_rima_id: string
+          preferente: boolean
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          combinacion_id?: string
+          configuracion_id: string
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          nombre: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          patron_metrico_id: string
+          patron_rima_id: string
+          preferente?: boolean
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          combinacion_id?: string
+          configuracion_id?: string
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          nombre?: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          patron_metrico_id?: string
+          patron_rima_id?: string
+          preferente?: boolean
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "combinaciones_patrones_configuracion_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "combinaciones_patrones_configuracion_configuracion_id_fkey"
+            columns: ["configuracion_id"]
+            isOneToOne: false
+            referencedRelation: "configuraciones_forma_reglas_longitud"
+            referencedColumns: ["configuracion_id"]
+          },
+          {
+            foreignKeyName: "combinaciones_patrones_configuracion_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "combinaciones_patrones_configuracion_patron_metrico_id_fkey"
+            columns: ["patron_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_metricos"
+            referencedColumns: ["patron_metrico_id"]
+          },
+          {
+            foreignKeyName: "combinaciones_patrones_configuracion_patron_rima_id_fkey"
+            columns: ["patron_rima_id"]
+            isOneToOne: false
+            referencedRelation: "patrones_rima"
+            referencedColumns: ["patron_rima_id"]
+          },
+        ]
+      }
       configuracion_rasgos: {
         Row: {
           configuracion_id: string
@@ -1914,6 +2001,7 @@ export type Database = {
       migracion_termino_destinos: {
         Row: {
           alias_id: string | null
+          combinacion_id: string | null
           configuracion_id: string | null
           created_at: string
           destino_id: string
@@ -1930,6 +2018,7 @@ export type Database = {
         }
         Insert: {
           alias_id?: string | null
+          combinacion_id?: string | null
           configuracion_id?: string | null
           created_at?: string
           destino_id?: string
@@ -1946,6 +2035,7 @@ export type Database = {
         }
         Update: {
           alias_id?: string | null
+          combinacion_id?: string | null
           configuracion_id?: string | null
           created_at?: string
           destino_id?: string
@@ -1967,6 +2057,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "denominaciones_metricas"
             referencedColumns: ["alias_id"]
+          },
+          {
+            foreignKeyName: "migracion_termino_destinos_combinacion_id_fkey"
+            columns: ["combinacion_id"]
+            isOneToOne: false
+            referencedRelation: "combinaciones_patrones_configuracion"
+            referencedColumns: ["combinacion_id"]
           },
           {
             foreignKeyName: "migracion_termino_destinos_configuracion_id_fkey"
@@ -2437,6 +2534,7 @@ export type Database = {
       opciones_eleccion_metrica: {
         Row: {
           activo: boolean
+          combinacion_id: string | null
           created_at: string
           descripcion: string | null
           extension_desde_seccion_id: string | null
@@ -2458,6 +2556,7 @@ export type Database = {
         }
         Insert: {
           activo?: boolean
+          combinacion_id?: string | null
           created_at?: string
           descripcion?: string | null
           extension_desde_seccion_id?: string | null
@@ -2479,6 +2578,7 @@ export type Database = {
         }
         Update: {
           activo?: boolean
+          combinacion_id?: string | null
           created_at?: string
           descripcion?: string | null
           extension_desde_seccion_id?: string | null
@@ -2499,6 +2599,13 @@ export type Database = {
           valor_rasgo_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "opciones_eleccion_metrica_combinacion_id_fkey"
+            columns: ["combinacion_id"]
+            isOneToOne: false
+            referencedRelation: "combinaciones_patrones_configuracion"
+            referencedColumns: ["combinacion_id"]
+          },
           {
             foreignKeyName: "opciones_eleccion_metrica_extension_desde_seccion_id_fkey"
             columns: ["extension_desde_seccion_id"]

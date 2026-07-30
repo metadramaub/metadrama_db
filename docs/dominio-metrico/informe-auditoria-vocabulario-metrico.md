@@ -404,7 +404,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `seguidilla` | 1 | Modelar alternativas de 4 y 7 versos; separar simple y compuesta si procede. |
 | `sexta_rima` | 1 | Coherente; sustituir bibliografía ficticia. |
 | `sexteto` | 1 | Coherente como familia abierta de seis versos de arte mayor; añadir fuente. |
-| `sexteto_lira` | 9 | Corregir tamaños; mover esquemas a patrones y esdrújulos a rasgo. |
+| `sexteto_lira` | 9 | Resuelto: cinco patrones métricos, tres de rima, siete combinaciones admitidas y esdrújulos como rasgo. |
 | `sextilla` | 3 | Declarar patrones métricos propios para con/sin quebrado; no heredar el conjunto genérico. |
 | `sextina` | 1 | Modelar composición 6 × 6 + 3 y permutación de palabras finales. |
 | `silva` | 5 | Revisar “silva libre”, tipos de rima y umbrales de densidad; conservar subtipos solo con criterio documentado. |

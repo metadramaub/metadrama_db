@@ -271,15 +271,15 @@ Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede apl
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `sexteto_lira` | F | Conservar como forma canónica. | Alta | No |
-| `sexteto_lira_a1_aBaBcC` | P | Patrón admitido `aBaBcC`. | Alta | No |
-| `sexteto_lira_a2_AbaBcC` | P | Patrón admitido `AbaBcC`. | Alta | No |
-| `sexteto_lira_a3_abaBcC` | P | Patrón admitido `abaBcC`; completar definición. | Alta | No |
-| `sexteto_lira_b1_abbacC` | P | Patrón admitido `abbacC`. | Alta | No |
-| `sexteto_lira_b2_AbbACC` | P | Patrón admitido `AbbACC`. | Alta | No |
-| `sexteto_lira_c1_AabBcC` | P | Patrón admitido `AabBcC`; corregir tamaño 4 → 6. | Alta | No |
-| `sexteto_lira_c2_AabBCC` | P | Patrón admitido `AabBCC`. | Alta | No |
-| `sexteto_lira_de_esdrujulos` | R | Sexteto-lira más rasgo esdrújulo; corregir tamaño 5 → 6 mientras exista la entrada. | Alta | No |
+| `sexteto_lira` | F | Resuelto: una forma con configuración heterométrica consonante. | Alta | No |
+| `sexteto_lira_a1_aBaBcC` | P | Resuelto: combinación preferente A1. | Alta | No |
+| `sexteto_lira_a2_AbaBcC` | P | Resuelto: combinación admitida A2. | Alta | No |
+| `sexteto_lira_a3_abaBcC` | P | Resuelto: combinación admitida A3 y descripción derivada de sus patrones. | Alta | No |
+| `sexteto_lira_b1_abbacC` | P | Resuelto: combinación admitida B1. | Alta | No |
+| `sexteto_lira_b2_AbbACC` | P | Resuelto: combinación admitida B2. | Alta | No |
+| `sexteto_lira_c1_AabBcC` | P | Resuelto: combinación admitida C1; la extensión se deriva como 6. | Alta | No |
+| `sexteto_lira_c2_AabBCC` | P | Resuelto: combinación admitida C2. | Alta | No |
+| `sexteto_lira_de_esdrujulos` | R | Resuelto: `final_acentual = esdrujulo`; la extensión se deriva como 6. | Alta | No |
 
 ## 23. Sextilla
 

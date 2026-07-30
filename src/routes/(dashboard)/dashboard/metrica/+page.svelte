@@ -286,26 +286,7 @@
 			<h2 class="font-semibold">Falta aplicar las migraciones</h2>
 			<p class="mt-2 text-sm leading-6 text-amber-950">{data.migrationMessage}</p>
 			<p class="mt-2 font-mono text-xs text-amber-950">
-				20260728150000_catalogo_metrico.sql ·
-				20260728151000_catalogo_metrico_importacion_inicial.sql ·
-				20260728153000_patrones_rima_comportamiento_romance.sql ·
-				20260728154000_nombres_patrones_metricos_romance.sql ·
-				20260728155000_formalizacion_quintilla_fuentes_bibliograficas.sql ·
-				20260728156000_quintilla_patrones_explicitos.sql ·
-				20260728157000_longitud_derivada_patron_quintilla.sql ·
-				20260728158000_eliminar_longitud_patrones_metricos.sql ·
-				20260728159000_numero_versos_configuracion.sql ·
-				20260728160000_formalizacion_tercetos.sql ·
-				20260728161000_formalizacion_tercetos_sin_encadenar.sql ·
-				20260728162000_formalizacion_silva.sql ·
-				20260728163000_formalizacion_series_endecasilabicas.sql ·
-				20260729100000_formalizacion_soneto.sql ·
-				20260729101000_formalizacion_villancico.sql ·
-				20260729102000_elecciones_editor_metrico_v2.sql ·
-				20260729104000_editor_metrico_jerarquico.sql ·
-				20260729105000_guardado_editor_metrico_jerarquico.sql ·
-				20260729106000_contratos_editoriales_y_longitud.sql ·
-				20260729108000_villancico_estribillo_y_represa.sql
+				Última requerida: 20260729123000_formalizacion_sexteto_lira.sql
 			</p>
 		</div>
 	{:else}
