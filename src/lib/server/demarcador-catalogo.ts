@@ -28,7 +28,8 @@ type ConfigurationRow = {
 	descripcion: string | null;
 	principal: boolean;
 	tipo_rima_id: string | null;
-	numero_versos: number | null;
+	unidad_versos_min: number | null;
+	unidad_versos_max: number | null;
 	updated_at: string;
 };
 
@@ -272,7 +273,13 @@ function configurationSize(
 	sections: SectionRow[]
 ): number | null {
 	if (form.nivel_estructural === 'verso') return 1;
-	if (configuration.numero_versos !== null) return configuration.numero_versos;
+	if (
+		configuration.unidad_versos_min !== null &&
+		configuration.unidad_versos_min === configuration.unidad_versos_max
+	) {
+		return configuration.unidad_versos_min;
+	}
+	if (configuration.unidad_versos_min !== null) return null;
 	if (sections.length === 0) return null;
 
 	const childrenByParent = new Map<string, SectionRow[]>();
@@ -585,7 +592,7 @@ export async function generateDemarcatorFromMetricCatalog(
 		db
 			.from('arquitecturas_forma')
 			.select(
-				'arquitectura_id,forma_id,slug,nombre,descripcion,principal,tipo_rima_id,numero_versos,updated_at'
+				'arquitectura_id,forma_id,slug,nombre,descripcion,principal,tipo_rima_id,unidad_versos_min,unidad_versos_max,updated_at'
 			)
 			.eq('activo', true)
 			.eq('demarcable', true),

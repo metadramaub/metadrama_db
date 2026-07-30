@@ -37,7 +37,8 @@
 		demarcable: true,
 		grado: 'admitida' as (typeof METRIC_CONFIGURATION_GRADES)[number],
 		tipo_rima_id: null as string | null,
-		numero_versos: null as number | null,
+		unidad_versos_min: null as number | null,
+		unidad_versos_max: null as number | null,
 		estado_revision: 'borrador' as (typeof METRIC_CATALOG_REVIEW_STATES)[number],
 		activo: true,
 		orden: null as number | null
@@ -52,7 +53,7 @@
 				a.nombre.localeCompare(b.nombre, 'es')
 		)
 	);
-	const newConfigurationSupportsDirectVerseCount = $derived(
+	const newConfigurationDeclaresUnitExtent = $derived(
 		draft.nivel_estructural === 'estrofa' || draft.nivel_estructural === 'composicion'
 	);
 
@@ -110,8 +111,11 @@
 				body: JSON.stringify({
 					...newConfiguration,
 					forma_id: props.form.forma_id,
-					numero_versos: newConfigurationSupportsDirectVerseCount
-						? newConfiguration.numero_versos
+					unidad_versos_min: newConfigurationDeclaresUnitExtent
+						? newConfiguration.unidad_versos_min
+						: null,
+					unidad_versos_max: newConfigurationDeclaresUnitExtent
+						? (newConfiguration.unidad_versos_max ?? newConfiguration.unidad_versos_min)
 						: null,
 					descripcion: newConfiguration.descripcion.trim() || null
 				})
@@ -334,23 +338,36 @@
 				<div class="space-y-4 border-y border-[color:var(--border)] py-4">
 					<h5 class="text-sm font-medium">Norma básica</h5>
 					<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-						{#if newConfigurationSupportsDirectVerseCount}
+						{#if newConfigurationDeclaresUnitExtent}
 							<label class="space-y-1">
-								<span class="text-sm font-medium">Número fijo de versos</span>
+								<span class="text-sm font-medium">Versos de la unidad (mínimo)</span>
 								<input
 									type="number"
 									min="1"
 									class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-									value={newConfiguration.numero_versos ?? ''}
+									value={newConfiguration.unidad_versos_min ?? ''}
 									oninput={(event) =>
-										(newConfiguration.numero_versos = nullablePositiveInteger(
+										(newConfiguration.unidad_versos_min = nullablePositiveInteger(
+											event.currentTarget.value
+										))}
+								/>
+							</label>
+							<label class="space-y-1">
+								<span class="text-sm font-medium">Versos de la unidad (máximo)</span>
+								<input
+									type="number"
+									min="1"
+									class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
+									value={newConfiguration.unidad_versos_max ?? ''}
+									oninput={(event) =>
+										(newConfiguration.unidad_versos_max = nullablePositiveInteger(
 											event.currentTarget.value
 										))}
 								/>
 							</label>
 						{:else}
 							<p class="text-sm leading-6 text-[color:var(--muted-foreground)] md:col-span-2">
-								La extensión se derivará del nivel, de las secciones o de las repeticiones.
+								La unidad es la serie entera y su extensión no se declara.
 							</p>
 						{/if}
 						<label class="space-y-1">

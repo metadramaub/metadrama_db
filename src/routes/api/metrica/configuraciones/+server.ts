@@ -29,16 +29,35 @@ const fieldsSchema = z
 		demarcable: z.boolean(),
 		grado: z.enum(METRIC_CONFIGURATION_GRADES),
 		tipo_rima_id: z.uuid().nullable(),
-		numero_versos: nullablePositiveInteger,
+		unidad_versos_min: nullablePositiveInteger,
+		unidad_versos_max: nullablePositiveInteger,
 		estado_revision: z.enum(METRIC_CATALOG_REVIEW_STATES),
 		activo: z.boolean(),
 		orden: z.number().int().nullable()
 	});
 
-const createSchema = fieldsSchema;
-const updateSchema = fieldsSchema.extend({ arquitectura_id: z.uuid() });
+/** La unidad se declara entera: o tiene intervalo, o no se declara. */
+function unidadDeclaradaEntera(fields: {
+	unidad_versos_min: number | null;
+	unidad_versos_max: number | null;
+}): boolean {
+	if (fields.unidad_versos_min === null || fields.unidad_versos_max === null) {
+		return fields.unidad_versos_min === null && fields.unidad_versos_max === null;
+	}
+	return fields.unidad_versos_max >= fields.unidad_versos_min;
+}
+
+const unidadCoherente = {
+	error: 'Declara la extensión de la unidad entera: un mínimo y un máximo que no lo contradiga.',
+	path: ['unidad_versos_max']
+};
+
+const createSchema = fieldsSchema.refine(unidadDeclaradaEntera, unidadCoherente);
+const updateSchema = fieldsSchema
+	.extend({ arquitectura_id: z.uuid() })
+	.refine(unidadDeclaradaEntera, unidadCoherente);
 const configurationSelect =
-	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,numero_versos,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,unidad_versos_min,unidad_versos_max,estado_revision,activo,orden,origen_termino_id,updated_at';
 
 async function requireCatalogManager(locals: App.Locals) {
 	const profile = await requireEditorProfile({ locals });

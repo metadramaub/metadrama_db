@@ -1,6 +1,6 @@
 # Contrato de implementación del dominio métrico
 
-Estado: vigente · bloques A y B aplicados el 30 de julio de 2026
+Estado: vigente · bloques A, B y C aplicados el 30 de julio de 2026
 
 Contrasta [la ontología](./ontologia-metrica.md) con lo que la base y el código expresan
 hoy, concepto a concepto, y fija qué hay que cambiar antes de corregir ningún dato. El
@@ -17,12 +17,12 @@ Comprobado antes de planificar nada:
   `estructuras_secciones` ni `familias_metricas`. Su métrica es la heredada: componentes
   de visualización y el demarcador legado basado en JSON. Renombrar tablas del catálogo no
   puede romper la versión desplegada.
-- **Existe una barrera de versión.** `catalogo_metrico_estado.modelo_version` vale hoy
-  `42`, y [catalogo-metrico.ts:293](../../src/lib/server/catalogo-metrico.ts#L293) muestra
-  «falta aplicar migraciones» si es menor. Protege la dirección «base sin migrar, código
-  nuevo», pero **no la contraria**: código antiguo contra base migrada pasaría la
-  comprobación y fallaría al consultar tablas renombradas. Migración y código deben
-  entrar juntos.
+- **Existe una barrera de versión.** `catalogo_metrico_estado.modelo_version` valía `42`
+  antes de empezar y vale `45` tras el bloque C, y
+  [catalogo-metrico.ts](../../src/lib/server/catalogo-metrico.ts) muestra «falta aplicar
+  migraciones» si es menor. Protege la dirección «base sin migrar, código nuevo», pero
+  **no la contraria**: código antiguo contra base migrada pasaría la comprobación y
+  fallaría al consultar tablas renombradas. Migración y código deben entrar juntos.
 - **Ninguna secuencia real depende del catálogo.** `secuencias_metricas` sigue apuntando a
   `vocabularios`. Las únicas filas que se verían afectadas son las de prueba del editor V2,
   hoy un escenario y cero secuencias.
@@ -58,49 +58,66 @@ cada concepto, la tabla de correspondencia de [la ontología](./ontologia-metric
 
 Lo demás son renombrados. Estos exigen decisiones de esquema.
 
-### 3.1 · La unidad no se declara en ninguna parte
+### 3.1 · La unidad no se declara en ninguna parte · resuelto en el bloque C
 
-Es el hueco que arrastra a los demás. Hoy la extensión de la unidad vive en tres sitios
-distintos según la forma: en `numero_versos` cuando es fija y la forma es estrofa o
+Es el hueco que arrastra a los demás. Antes del bloque C la extensión de la unidad vivía en tres sitios
+distintos según la forma: en `numero_versos` cuando era fija y la forma era estrofa o
 composición; en una sección raíz cuando alguien la creó; y en ninguna parte para lira,
-octava real, terceto, sexta rima y pareado, que por eso **no pueden materializar sus
-unidades** aunque la regla de longitud funcione.
+octava real, terceto, sexta rima y pareado, que por eso **no podían materializar sus
+unidades** aunque la regla de longitud funcionara.
 
-`numero_versos` no basta: la unidad puede tener rango. La copla de pie quebrado va de 5 a
-12 versos y hoy ese intervalo lo lleva una sección fantasma. La migración
+`numero_versos` no bastaba: la unidad puede tener rango. La copla de pie quebrado va de 5 a
+12 versos y ese intervalo lo llevaba una sección fantasma. La migración
 [20260728159000](../../supabase/migrations/20260728159000_numero_versos_configuracion.sql)
 sustituyó `versos_min`/`versos_max` por `numero_versos` porque entonces ninguna
 configuración tenía extremos distintos; con la unidad explícita vuelve a hacer falta el
 intervalo, ahora por una razón documentada.
 
-**Cambio:** la arquitectura declara `unidad_versos_min` y `unidad_versos_max`; fija cuando
-coinciden. `numero_versos` desaparece absorbida. Las nueve secciones fantasma se retiran, y
-con ellas el trigger que anula la extensión según el nivel, que existía solo para
-proteger un campo mal ubicado.
+**Cambio aplicado:** la arquitectura declara `unidad_versos_min` y `unidad_versos_max`;
+fija cuando coinciden. `numero_versos` desapareció absorbida, y con ella el disparador que
+anulaba la extensión según el nivel, que existía solo para proteger un campo mal ubicado.
+Veintinueve arquitecturas declaran hoy su unidad: las veintiocho que tenían `numero_versos`
+y la copla de pie quebrado, que recibe por fin su intervalo de 5 a 12.
 
-**Pero la sección fantasma no es una fila muerta.** Comprobado el 30 de julio de 2026:
-**ocho grupos de elección de alcance `unidad` cuelgan de ella** —los de quintilla,
-redondilla ×2, sexteto ×2, sexteto-lira y copla de pie quebrado ×2—, y el editor la usa
-para materializar las unidades del pasaje. Hoy hace dos trabajos a la vez: declarar la
+**La sección fantasma no era una fila muerta.** Comprobado el 30 de julio de 2026:
+**ocho grupos de elección de alcance `unidad` colgaban de ella** —los de quintilla,
+redondilla ×2, sexteto ×2, sexteto-lira y copla de pie quebrado ×2—, y el editor la usaba
+para materializar las unidades del pasaje. Hacía dos trabajos a la vez: declarar la
 extensión de la unidad y servir de ancla a lo que se pregunta por unidad.
 
-Retirarla exige, por tanto, más que borrar nueve filas:
+Retirarla exigió, por tanto, más que borrar nueve filas:
 
 1. Que una pregunta por unidad pueda no apuntar a ninguna sección: `seccion_id` a nulo
-   cuando la pregunta se refiere a la unidad entera y no a una parte suya.
+   cuando la pregunta se refiere a la unidad entera y no a una parte suya. Los ocho grupos
+   lo tienen ya a nulo.
 2. Que `realizaciones_editor_metrico.seccion_id` admita nulo: la realización de la unidad
-   no es la realización de una sección.
-3. Ajustar `validar_eleccion_editor_metrico` y `validar_unidad_editor_metrico`, que hoy
-   emparejan la sección del grupo con la de la unidad.
+   no es la realización de una sección. Una restricción impide que una realización sin
+   sección cuelgue de otra.
+3. Ajustar `validar_eleccion_editor_metrico` y `validar_unidad_editor_metrico`, que
+   emparejaban la sección del grupo con la de la unidad. Una pregunta sin sección se aplica
+   ahora a la realización que no cuelga de ninguna otra.
 4. Sustituir en [editor-model.ts](../../src/lib/components/metrica/editor-v2/editor-model.ts)
-   las tres funciones que detectan la repetición del pasaje a partir de las secciones raíz
+   las tres funciones que detectaban la repetición del pasaje a partir de las secciones raíz
    —`flatRepeatedMetricSection`, `flatVariableRepeatedMetricSection` y
-   `hierarchicalRepeatedMetricSection`— por una sola que la derive del rango y de la
-   extensión declarada de la unidad.
+   `hierarchicalRepeatedMetricSection`— por una sola, `metricUnitAnchor`, que la deriva del
+   rango y de la extensión declarada de la unidad.
 
-Es el primer bloque que cambia comportamiento del editor y no solo representación, y el
-único cuya migración y cuyo código no pueden separarse en dos pasos sin dejar el editor
-roto en medio. Conviene abordarlo con capacidad completa.
+Hicieron falta dos ajustes más, que el inventario previo no había anticipado:
+
+- `validar_estructura_secuencia_editor_metrico` comprobaba la repetición de las secciones
+  raíz contra la secuencia entera. Cuando la arquitectura declara su unidad, esa cuenta es
+  el número de unidades y lo gobierna el rango, así que la comprobación se limita ahora a
+  las arquitecturas sin unidad declarada. Sin ello, las formas cuya sección raíz declaraba
+  `1–1` —copla de arte mayor, doble sextilla, copla manriqueña, sextina— no habrían podido
+  registrar más de una unidad por secuencia.
+- `guardar_secuencia_editor_metrico_prueba` emparejaba las preguntas por unidad con
+  `grupo.seccion_id is null or grupo.seccion_id = unidad.seccion_id`, que con la sección
+  nula habría aplicado la pregunta a cualquier realización, incluidas las partes internas.
+
+Es el primer bloque que cambia comportamiento del editor y no solo representación. Su
+efecto visible: las formas sin secciones —lira, octava real, terceto, sexta rima, pareado y
+las nueve que perdieron su sección fantasma— materializan por fin sus unidades, y la
+repetición del pasaje se deriva del rango en toda arquitectura que declare su unidad.
 
 ### 3.2 · El metro tiene dos representaciones
 
@@ -178,15 +195,18 @@ Las diecisiete funciones son: `guardar_secuencia_editor_metrico_prueba`,
 `validar_opcion_eleccion_metrica`, `validar_posicion_opcion_eleccion_metrica`,
 `validar_secuencia_editor_metrico` y `validar_unidad_editor_metrico`.
 
-Dos de ellas se simplifican con el cambio: `regla_longitud_configuracion_metrica` deja de
-recorrer secciones para derivar el múltiplo, porque la unidad lo declara; y
-`normalizar_extension_configuracion_metrica` desaparece con el campo que protegía.
+Dos de ellas se simplificaron en el bloque C: `regla_longitud_configuracion_metrica` deriva
+el múltiplo de la unidad declarada y solo recorre secciones cuando no hay unidad —es decir,
+en las series, donde la sección repetible describe el ritmo interno de la propia serie—; y
+`normalizar_extension_configuracion_metrica` desapareció con el campo que protegía, junto
+con `normalizar_extensiones_al_cambiar_nivel_metrico`.
 
 En el código, [editor-model.ts](../../src/lib/components/metrica/editor-v2/editor-model.ts)
-deriva hoy la repetición del pasaje de las secciones raíz
+derivaba la repetición del pasaje de las secciones raíz
 —`flatRepeatedMetricSection`, `flatVariableRepeatedMetricSection`,
-`hierarchicalRepeatedMetricSection`—. Con la unidad declarada, esas tres funciones se
-sustituyen por una sola.
+`hierarchicalRepeatedMetricSection`—. Con la unidad declarada, esas tres funciones son ya
+una sola: `metricUnitAnchor`, que dice dónde se materializa la unidad —en la única sección
+raíz, si la arquitectura la tiene; en ninguna, si no— y cuánto mide.
 
 ## 5 · Orden de la migración
 
@@ -218,15 +238,32 @@ las sílabas: no se declara ni puede divergir. El catálogo pasa de ocho metros 
 porque el dodecasílabo simple y el compuesto `6 + 6` dejan de ser el mismo, y el
 alejandrino recibe sus dos hemistiquios heptasílabos.
 
-**C · Unidad explícita.** Intervalo en la arquitectura, retirada de las nueve secciones
-fantasma, simplificación de la regla de longitud y del modelo del editor.
+**C · Unidad explícita. Aplicado.** Intervalo en la arquitectura, retirada de las nueve
+secciones fantasma, simplificación de la regla de longitud y del modelo del editor;
+`modelo_version` a 45.
+
+Es el único bloque que debía mover el informe, y lo movió como estaba previsto: de 53
+defectos a 44, con los nueve D11 desaparecidos y ninguna otra regla alterada. De paso se
+corrigió en `audit-catalogo-metrico.mjs` una columna que el renombrado del bloque A había
+dejado muda: la tabla 2.6 imprimía `notacion` sobre filas que traen `esquema`, así que
+mostraba diez esquemas coincidentes sin decir cuáles.
+
+Dos advertencias para quien continúe. Las secciones raíz que envuelven la unidad
+—`copla_real`, `novena`, `decima_espinela`, `decima_aumentada`— conservan su repetición
+`1–null`, que ya no significa nada: la comprobación de estructura la ignora cuando hay
+unidad declarada. Y las arquitecturas con varias secciones raíz —soneto, villancico, zéjel,
+seguidilla compuesta— siguen registrando una sola unidad por secuencia, porque la unidad no
+se materializa en una sola realización y no hay nada que la agrupe. Un pasaje de tres
+sonetos sigue sin poder registrarse; hacerlo posible pide una realización de la unidad que
+envuelva a las secciones raíz, y eso no entraba aquí.
 
 **D · Limpieza.** Familias fuera; `tipo_relacion` y `es_principal` fuera; tipo `posterior`
 y destino a variedad en las denominaciones; restricciones renombradas.
 
-El bloque A es el más ruidoso y el que menos riesgo tiene, porque no cambia significado. B
-y C sí lo cambian y cada uno debe dejar el informe de conformidad en un estado explicable:
-C, en particular, debe hacer desaparecer los nueve defectos D11.
+El bloque A fue el más ruidoso y el que menos riesgo tenía, porque no cambiaba significado.
+B y C sí lo cambian y cada uno debía dejar el informe de conformidad en un estado
+explicable: A y B no lo movieron, y C hizo desaparecer los nueve defectos D11 sin tocar
+ninguna otra regla.
 
 ## 6 · Lo que no entra
 

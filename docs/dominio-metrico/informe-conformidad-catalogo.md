@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-30 20:44
+Generado: 2026-07-30 21:35
 
-Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 81 patrones de rima · 84 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
+Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 81 patrones de rima · 75 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -47,9 +47,9 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 
 Sin incidencias.
 
-### D4 · numero_versos incompatible con la extensión derivada de las secciones — 0
+### D4 · La unidad declarada contradice la extensión que producen las secciones — 0
 
-> Una extensión declarada no puede contradecir la que producen las secciones.
+> La arquitectura declara cuántos versos tiene su unidad; sus secciones describen el interior de esa unidad y no pueden sumar otra cosa.
 
 Sin incidencias.
 
@@ -120,21 +120,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D11 · Sección que solo existe para repetir la unidad — 9
+### D11 · Sección que solo existe para repetir la unidad — 0
 
 > Una sección describe el interior de la unidad. Que el pasaje contenga varias unidades se deriva del rango, no se declara como sección. Se exceptúan las series, donde la sección repetible describe el ritmo interno de la propia serie.
 
-| Sujeto | Detalle |
-| --- | --- |
-| sexteto_lira · heterometrica_consonante | «sexteto_lira» v=6–6 rep=1–null, sin partes internas |
-| sextilla · isometrica | «sextilla» v=6–6 rep=1–1, sin partes internas |
-| copla_de_pie_quebrado · variable_5_12 | «copla_pie_quebrado» v=5–12 rep=1–null, sin partes internas |
-| redondilla · simple | «redondilla» v=4–4 rep=1–null, sin partes internas |
-| sexteto · arte_mayor_consonante_variable | «sexteto» v=6–6 rep=1–null, sin partes internas |
-| seguidilla · simple_7575_asonante | «seguidilla_simple» v=4–4 rep=1–1, sin partes internas |
-| quintilla · octosilabica_consonante | «quintilla» v=5–5 rep=1–null, sin partes internas |
-| sextilla · pie_quebrado_884884 | «sextilla» v=6–6 rep=1–1, sin partes internas |
-| redondilla · doble_enlazada | «redondilla_doble» v=8–8 rep=1–null, sin partes internas |
+Sin incidencias.
 
 ### D12 · Pregunta estructural con alcance de secuencia — 6
 
@@ -247,16 +237,16 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
-|  | copla_real×2, quintilla |
-|  | copla_real×2, quintilla |
-|  | copla_real×2, quintilla |
-|  | redondilla, villancico×2 |
-|  | copla_real×2, quintilla |
-|  | copla_real×2, quintilla |
-|  | redondilla, villancico×2 |
-|  | copla_real×2, quintilla |
-|  | copla_real×2, quintilla |
-|  | copla_real×2, quintilla |
+| aabab | copla_real×2, quintilla |
+| aabba | copla_real×2, quintilla |
+| abaab | copla_real×2, quintilla |
+| abab | redondilla, villancico×2 |
+| ababa | copla_real×2, quintilla |
+| ababb | copla_real×2, quintilla |
+| abba | redondilla, villancico×2 |
+| abbaa | copla_real×2, quintilla |
+| abbab | copla_real×2, quintilla |
+| abbba | copla_real×2, quintilla |
 
 ## 3 · Cobertura del contrato del registrador
 
@@ -264,5 +254,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 53.
+Total de defectos detectados: 44.
 

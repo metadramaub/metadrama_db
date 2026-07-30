@@ -16,12 +16,12 @@
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
 	import {
 		childrenOfSection,
-		ensureRequiredFlatMetricStructure,
 		ensureRequiredMetricStructure,
-		flatRepeatedMetricSection,
-		flatVariableRepeatedMetricSection,
-		hierarchicalRepeatedMetricSection,
+		ensureRequiredMetricUnits,
+		hasFixedMetricUnit,
 		isHierarchicalMetricStructure,
+		metricUnitAnchor,
+		metricUnitExtent,
 		reflowMetricUnits,
 		rootSections as structuredRootSections,
 		sectionId as structuredSectionId,
@@ -30,10 +30,10 @@
 		sectionMinimum,
 		sectionVerseMaximum,
 		sectionVerseMinimum,
-		syncFlatRepeatedMetricUnits,
-		syncHierarchicalRepeatedMetricUnits,
+		syncRepeatedMetricUnits,
 		syncChoiceMaterializedSections,
 		type MetricChoiceDraft,
+		type MetricUnitAnchor,
 		type MetricUnitDraft
 	} from './editor-model';
 
@@ -196,37 +196,31 @@
 		)
 	);
 	const hasHierarchicalEditor = $derived(isHierarchicalMetricStructure(sectionsForDraft));
-	const hierarchicalRepeatedSectionForDraft = $derived(
-		hierarchicalRepeatedMetricSection(sectionsForDraft)
+	// La unidad declarada por la arquitectura: cuántas contiene el pasaje se deriva del
+	// rango, no de ninguna sección que exista para decir que la unidad se repite.
+	const unitAnchorForDraft = $derived(
+		metricUnitAnchor(metricUnitExtent(selectedConfiguration), sectionsForDraft)
 	);
-	const hasHierarchicalRepeatedUnits = $derived(
-		Boolean(hierarchicalRepeatedSectionForDraft)
-	);
-	const flatRepeatedSectionForDraft = $derived(flatRepeatedMetricSection(sectionsForDraft));
-	const hasFlatRepeatedUnits = $derived(Boolean(flatRepeatedSectionForDraft));
-	const hasFlatRepeatedEditor = $derived(
-		hasFlatRepeatedUnits && unitChoiceGroups.length > 0
-	);
-	const hasFlatVariableEditor = $derived(
-		Boolean(flatVariableRepeatedMetricSection(sectionsForDraft)) && unitChoiceGroups.length > 0
-	);
+	const hasDerivedUnitCount = $derived(hasFixedMetricUnit(unitAnchorForDraft));
+	const hasVariableUnits = $derived(Boolean(unitAnchorForDraft) && !hasDerivedUnitCount);
 	const hasStructuredEditor = $derived(
-		hasHierarchicalEditor || hasFlatRepeatedEditor || hasFlatVariableEditor
+		hasHierarchicalEditor ||
+			(Boolean(unitAnchorForDraft) && (unitChoiceGroups.length > 0 || hasVariableUnits))
 	);
 	const hasCalculatedRange = $derived(
-		(hasHierarchicalEditor && !hasHierarchicalRepeatedUnits) || hasFlatVariableEditor
+		(hasHierarchicalEditor && !unitAnchorForDraft) || hasVariableUnits
 	);
 	const hasSequenceChoices = $derived(sequenceChoiceGroups.length > 0);
 	const structureStepNumber = $derived(hasSequenceChoices ? 3 : 2);
 	const deviationStepNumber = $derived(
 		2 + (hasSequenceChoices ? 1 : 0) + (hasStructuredEditor ? 1 : 0)
 	);
-	const automaticFlatUnitCount = $derived(
-		draft && flatRepeatedSectionForDraft
+	const derivedUnitCount = $derived(
+		draft && unitAnchorForDraft
 			? draft.unidades.filter(
 					(unit: MetricUnitDraft) =>
 						unit.realizacion_padre_id === null &&
-						unit.seccion_id === structuredSectionId(flatRepeatedSectionForDraft)
+						unit.seccion_id === unitAnchorForDraft.sectionId
 				).length
 			: 0
 	);
@@ -380,6 +374,17 @@
 		return { sections, groups, options };
 	}
 
+	function unitAnchorFor(
+		configurationId: string,
+		sections: MetricCatalogDomainRow[]
+	): MetricUnitAnchor | null {
+		const configuration =
+			props.data.configurations.find(
+				(row: MetricCatalogConfiguration) => row.arquitectura_id === configurationId
+			) ?? null;
+		return metricUnitAnchor(metricUnitExtent(configuration), sections);
+	}
+
 	function normalizeStructuredUnits(
 		units: MetricUnitDraft[],
 		choices: MetricChoiceDraft[],
@@ -388,78 +393,39 @@
 		sequenceEnd: number
 	): MetricUnitDraft[] {
 		const { sections, groups, options } = catalogParts(configurationId);
-		const hasUnitQuestions = groups.some(
-			(row: MetricCatalogDomainRow) => row.alcance === 'unidad'
-		);
-		const flatSection = flatRepeatedMetricSection(sections);
-		const hierarchicalSection = hierarchicalRepeatedMetricSection(sections);
-		const variableFlatSection = hasUnitQuestions
-			? flatVariableRepeatedMetricSection(sections)
-			: null;
-		if (!isHierarchicalMetricStructure(sections) && !flatSection && !variableFlatSection) {
-			return units;
-		}
+		const anchor = unitAnchorFor(configurationId, sections);
 
-		if (flatSection) {
-			const synchronized = syncFlatRepeatedMetricUnits(
-				units,
-				sections,
-				sequenceStart,
-				sequenceEnd,
-				choices,
-				options
-			);
-			if (synchronized.compatible) return synchronized.units;
-			if (units.length > 0) {
-				return reflowMetricUnits(units, sections, sequenceStart, choices, options);
+		if (anchor) {
+			// La unidad es fija: el rango dice cuántas hay.
+			if (hasFixedMetricUnit(anchor)) {
+				const synchronized = syncRepeatedMetricUnits(
+					units,
+					sections,
+					anchor,
+					sequenceStart,
+					sequenceEnd,
+					choices,
+					options
+				);
+				if (synchronized.compatible) return synchronized.units;
+				if (units.length > 0) {
+					return reflowMetricUnits(units, sections, sequenceStart, choices, options);
+				}
+				return syncRepeatedMetricUnits(
+					units,
+					sections,
+					anchor,
+					sequenceStart,
+					sequenceStart + anchor.extent.minimum - 1,
+					choices,
+					options
+				).units;
 			}
-			return syncFlatRepeatedMetricUnits(
-				units,
-				sections,
-				sequenceStart,
-				sequenceStart +
-					sectionVerseMinimum(flatSection) * sectionMinimum(flatSection) -
-					1,
-				choices,
-				options
-			).units;
+			// La unidad tiene rango: cuántas hay lo decide el editor.
+			return ensureRequiredMetricUnits(units, sections, anchor, sequenceStart, choices, options);
 		}
 
-		if (hierarchicalSection) {
-			const synchronized = syncHierarchicalRepeatedMetricUnits(
-				units,
-				sections,
-				sequenceStart,
-				sequenceEnd,
-				choices,
-				options
-			);
-			if (synchronized.compatible) return synchronized.units;
-			if (units.length > 0) {
-				return reflowMetricUnits(units, sections, sequenceStart, choices, options);
-			}
-			return syncHierarchicalRepeatedMetricUnits(
-				units,
-				sections,
-				sequenceStart,
-				sequenceStart +
-					hierarchicalSection.unitLength *
-						sectionMinimum(hierarchicalSection.section) -
-					1,
-				choices,
-				options
-			).units;
-		}
-
-		if (variableFlatSection) {
-			return ensureRequiredFlatMetricStructure(
-				units,
-				sections,
-				sequenceStart,
-				choices,
-				options
-			);
-		}
+		if (!isHierarchicalMetricStructure(sections)) return units;
 
 		let next = ensureRequiredMetricStructure(
 			units,
@@ -520,14 +486,10 @@
 		draft.elecciones = [];
 		draft.desviaciones = [];
 		const parts = catalogParts(configurationId);
-		const flatSection = flatRepeatedMetricSection(parts.sections);
-		const variableFlatSection = flatVariableRepeatedMetricSection(parts.sections);
+		const anchor = unitAnchorFor(configurationId, parts.sections);
 		if (
-			isHierarchicalMetricStructure(parts.sections) ||
-			variableFlatSection ||
-			(flatSection &&
-				previousLength <
-					sectionVerseMinimum(flatSection) * sectionMinimum(flatSection))
+			(isHierarchicalMetricStructure(parts.sections) && !anchor) ||
+			(anchor && (!hasFixedMetricUnit(anchor) || previousLength < anchor.extent.minimum))
 		) {
 			draft.v_fin = draft.unidades.reduce(
 				(maximum: number, unit: MetricUnitDraft) => Math.max(maximum, unit.v_fin),
@@ -671,9 +633,10 @@
 			draft.v_fin
 		);
 		const openedSections = catalogParts(draft.arquitectura_id).sections;
+		const openedAnchor = unitAnchorFor(draft.arquitectura_id, openedSections);
 		if (
-			isHierarchicalMetricStructure(openedSections) ||
-			Boolean(flatVariableRepeatedMetricSection(openedSections))
+			(isHierarchicalMetricStructure(openedSections) && !openedAnchor) ||
+			(openedAnchor !== null && !hasFixedMetricUnit(openedAnchor))
 		) {
 			draft.v_fin = draft.unidades.reduce(
 				(maximum: number, unit: MetricUnitDraft) => Math.max(maximum, unit.v_fin),
@@ -711,26 +674,18 @@
 			draft.v_fin = draft.v_ini;
 			return;
 		}
-		if (hasFlatRepeatedUnits || hasHierarchicalRepeatedUnits) {
+		if (hasDerivedUnitCount) {
 			draft.v_fin = draft.v_ini + previousLength - 1;
 			const { sections, options } = catalogParts(draft.arquitectura_id);
-			const synchronized = hasFlatRepeatedUnits
-				? syncFlatRepeatedMetricUnits(
-						draft.unidades,
-						sections,
-						draft.v_ini,
-						draft.v_fin,
-						draft.elecciones,
-						options
-					)
-				: syncHierarchicalRepeatedMetricUnits(
-						draft.unidades,
-						sections,
-						draft.v_ini,
-						draft.v_fin,
-						draft.elecciones,
-						options
-					);
+			const synchronized = syncRepeatedMetricUnits(
+				draft.unidades,
+				sections,
+				unitAnchorForDraft,
+				draft.v_ini,
+				draft.v_fin,
+				draft.elecciones,
+				options
+			);
 			if (synchronized.compatible) {
 				removeStructuredReferences(synchronized.removedUnitIds);
 				draft.unidades = synchronized.units;
@@ -758,25 +713,17 @@
 			return;
 		}
 		draft.v_fin = Math.max(1, value);
-		if (!hasFlatRepeatedUnits && !hasHierarchicalRepeatedUnits) return;
+		if (!hasDerivedUnitCount) return;
 		const { sections, options } = catalogParts(draft.arquitectura_id);
-		const synchronized = hasFlatRepeatedUnits
-			? syncFlatRepeatedMetricUnits(
-					draft.unidades,
-					sections,
-					draft.v_ini,
-					draft.v_fin,
-					draft.elecciones,
-					options
-				)
-			: syncHierarchicalRepeatedMetricUnits(
-					draft.unidades,
-					sections,
-					draft.v_ini,
-					draft.v_fin,
-					draft.elecciones,
-					options
-				);
+		const synchronized = syncRepeatedMetricUnits(
+			draft.unidades,
+			sections,
+			unitAnchorForDraft,
+			draft.v_ini,
+			draft.v_fin,
+			draft.elecciones,
+			options
+		);
 		if (!synchronized.compatible) return;
 		removeStructuredReferences(synchronized.removedUnitIds);
 		draft.unidades = synchronized.units;
@@ -822,17 +769,22 @@
 			if (unit.v_fin < unit.v_ini || unit.v_ini < draft.v_ini || unit.v_fin > draft.v_fin) {
 				return `La unidad ${unit.orden} queda fuera del rango de la secuencia.`;
 			}
+			const unitLength = unit.v_fin - unit.v_ini + 1;
 			const section = sectionsForDraft.find(
 				(row: MetricCatalogDomainRow) => structuredSectionId(row) === unit.seccion_id
 			);
 			if (section) {
-				const unitLength = unit.v_fin - unit.v_ini + 1;
 				const maximum = sectionVerseMaximum(section);
 				if (
 					unitLength < sectionVerseMinimum(section) ||
 					(maximum !== null && unitLength > maximum)
 				) {
 					return `Revisa el número de versos de «${structuredSectionLabel(section)}».`;
+				}
+			} else if (unit.seccion_id === null && unitAnchorForDraft) {
+				const { minimum, maximum } = unitAnchorForDraft.extent;
+				if (unitLength < minimum || unitLength > maximum) {
+					return `La unidad ${unit.orden} debe tener entre ${minimum} y ${maximum} versos.`;
 				}
 			}
 		}
@@ -844,9 +796,11 @@
 						unit.seccion_id === structuredSectionId(root)
 				);
 				const maximum = sectionMaximum(root);
+				// Cuando la arquitectura declara su unidad, cuántas hay lo gobierna el rango.
 				if (
-					rootUnits.length < sectionMinimum(root) ||
-					(maximum !== null && rootUnits.length > maximum)
+					!unitAnchorForDraft &&
+					(rootUnits.length < sectionMinimum(root) ||
+						(maximum !== null && rootUnits.length > maximum))
 				) {
 					return `Revisa el número de unidades «${structuredSectionLabel(root)}».`;
 				}
@@ -881,9 +835,11 @@
 			}
 		}
 		for (const group of unitChoiceGroups) {
-			const applicableUnits = draft.unidades.filter(
-				(unit: MetricUnitDraft) =>
-					!group.seccion_id || String(group.seccion_id) === unit.seccion_id
+			// Una pregunta sin sección se refiere a la unidad entera, no a una parte suya.
+			const applicableUnits = draft.unidades.filter((unit: MetricUnitDraft) =>
+				group.seccion_id
+					? String(group.seccion_id) === unit.seccion_id
+					: unit.realizacion_padre_id === null
 			);
 			for (const unit of applicableUnits) {
 				const selectedIds = selectedChoiceIds(
@@ -1302,12 +1258,13 @@
 											{selectedConfiguration.descripcion}
 										</p>
 									{/if}
-									{#if flatRepeatedSectionForDraft && automaticFlatUnitCount > 0}
+									{#if unitAnchorForDraft && derivedUnitCount > 0}
 										<p class="mt-1 text-[color:var(--muted-foreground)]">
-											El rango se guarda como {automaticFlatUnitCount}
-											{automaticFlatUnitCount === 1 ? ' unidad' : ' unidades'} de tipo
-											«{structuredSectionLabel(flatRepeatedSectionForDraft)}» de
-											{sectionVerseMinimum(flatRepeatedSectionForDraft)} versos.
+											El rango se guarda como {derivedUnitCount}
+											{derivedUnitCount === 1 ? ' unidad' : ' unidades'} de
+											{hasDerivedUnitCount
+												? `${unitAnchorForDraft.extent.minimum} versos`
+												: `${unitAnchorForDraft.extent.minimum} a ${unitAnchorForDraft.extent.maximum} versos`}.
 										</p>
 									{/if}
 								</div>
@@ -1344,6 +1301,8 @@
 									<MetricStructureEditor
 										sequenceStart={draft.v_ini}
 										sections={sectionsForDraft}
+										unitAnchor={unitAnchorForDraft}
+										unitCountIsDerived={hasDerivedUnitCount}
 										groups={unitChoiceGroups}
 										options={choiceOptionsForDraft}
 										units={draft.unidades}

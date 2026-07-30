@@ -3,13 +3,12 @@ import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 import {
 	addSectionInstance,
 	ensureRequiredMetricStructure,
-	flatRepeatedMetricSection,
-	flatVariableRepeatedMetricSection,
-	hierarchicalRepeatedMetricSection,
-	ensureRequiredFlatMetricStructure,
+	ensureRequiredMetricUnits,
+	hasFixedMetricUnit,
 	isHierarchicalMetricStructure,
-	syncFlatRepeatedMetricUnits,
-	syncHierarchicalRepeatedMetricUnits,
+	metricUnitAnchor,
+	metricUnitExtent,
+	syncRepeatedMetricUnits,
 	syncChoiceMaterializedSections,
 	type MetricChoiceDraft
 } from './editor-model';
@@ -79,7 +78,7 @@ const sections: MetricCatalogDomainRow[] = [
 		seccion_id: 'represa',
 		seccion_padre_id: 'ciclo',
 		tipo_seccion: 'represa',
-		nombre: 'Represa',
+		nombre: 'Represa del estribillo',
 		orden: 2,
 		repeticiones_min: 0,
 		repeticiones_max: 1,
@@ -107,92 +106,112 @@ const repetitionOptions: MetricCatalogDomainRow[] = [
 	}
 ];
 
-describe('editor métrico jerárquico', () => {
-	it('no crea trabajo adicional en una configuración sin jerarquía', () => {
-		const simpleSections = [{ ...sections[0], repeticiones_min: 1 }];
-		expect(isHierarchicalMetricStructure(simpleSections)).toBe(false);
-		expect(ensureRequiredMetricStructure([], simpleSections, 1)).toEqual([]);
+const novenaSections: MetricCatalogDomainRow[] = [
+	{
+		seccion_id: 'novena',
+		seccion_padre_id: null,
+		tipo_seccion: 'novena',
+		nombre: 'Novena',
+		orden: 1,
+		repeticiones_min: 1,
+		repeticiones_max: 1
+	},
+	{
+		seccion_id: 'redondilla',
+		seccion_padre_id: 'novena',
+		tipo_seccion: 'redondilla',
+		nombre: 'Redondilla',
+		orden: 1,
+		repeticiones_min: 1,
+		repeticiones_max: 1,
+		versos_min: 4,
+		versos_max: 4
+	},
+	{
+		seccion_id: 'quintilla',
+		seccion_padre_id: 'novena',
+		tipo_seccion: 'quintilla',
+		nombre: 'Quintilla',
+		orden: 2,
+		repeticiones_min: 1,
+		repeticiones_max: 1,
+		versos_min: 5,
+		versos_max: 5
+	}
+];
+
+const fixedUnit = (versos: number) =>
+	metricUnitExtent({ unidad_versos_min: versos, unidad_versos_max: versos });
+
+describe('la unidad declarada por la arquitectura', () => {
+	it('no existe cuando la arquitectura no la declara', () => {
+		expect(metricUnitExtent({ unidad_versos_min: null, unidad_versos_max: null })).toBeNull();
+		expect(metricUnitAnchor(null, [])).toBeNull();
 	});
 
-	it('genera unidades repetidas desde un rango compatible', () => {
-		const quintilla = [
-			{
-				seccion_id: 'quintilla',
-				seccion_padre_id: null,
-				tipo_seccion: 'quintilla',
-				nombre: 'Quintilla',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: null,
-				versos_min: 5,
-				versos_max: 5
-			}
-		];
-		expect(flatRepeatedMetricSection(quintilla)).toEqual(quintilla[0]);
-		const synchronized = syncFlatRepeatedMetricUnits([], quintilla, 1, 15);
+	it('no es ninguna sección cuando la forma no describe partes internas', () => {
+		const anchor = metricUnitAnchor(fixedUnit(4), []);
+		expect(anchor).toEqual({ sectionId: null, extent: { minimum: 4, maximum: 4 } });
+		expect(hasFixedMetricUnit(anchor)).toBe(true);
+	});
+
+	it('se ancla en la única sección raíz cuando esa sección es su recipiente', () => {
+		expect(metricUnitAnchor(fixedUnit(9), novenaSections)?.sectionId).toBe('novena');
+	});
+
+	it('no se materializa en una sola realización cuando hay varias secciones raíz', () => {
+		expect(metricUnitAnchor(fixedUnit(7), sections)).toBeNull();
+	});
+
+	it('reconoce la unidad de extensión variable', () => {
+		const anchor = metricUnitAnchor(
+			metricUnitExtent({ unidad_versos_min: 5, unidad_versos_max: 12 }),
+			[]
+		);
+		expect(hasFixedMetricUnit(anchor)).toBe(false);
+	});
+});
+
+describe('cuántas unidades contiene el pasaje', () => {
+	it('descompone 48 versos en doce redondillas sin necesidad de una sección', () => {
+		const anchor = metricUnitAnchor(fixedUnit(4), []);
+		const synchronized = syncRepeatedMetricUnits([], [], anchor, 1, 48);
+
+		expect(synchronized.compatible).toBe(true);
+		expect(synchronized.units).toHaveLength(12);
+		expect(synchronized.units.every((unit) => unit.seccion_id === null)).toBe(true);
+		expect(synchronized.units[0]).toMatchObject({ orden: 1, v_ini: 1, v_fin: 4 });
+		expect(synchronized.units[11]).toMatchObject({ orden: 12, v_ini: 45, v_fin: 48 });
+	});
+
+	it('descompone 48 versos en seis unidades de redondilla doble', () => {
+		const anchor = metricUnitAnchor(fixedUnit(8), []);
+		const synchronized = syncRepeatedMetricUnits([], [], anchor, 1, 48);
+
+		expect(synchronized.compatible).toBe(true);
+		expect(synchronized.units).toHaveLength(6);
+		expect(synchronized.units[5]).toMatchObject({ orden: 6, v_ini: 41, v_fin: 48 });
+	});
+
+	it('materializa las unidades de una lira, que no tiene ninguna sección', () => {
+		const anchor = metricUnitAnchor(fixedUnit(5), []);
+		const synchronized = syncRepeatedMetricUnits([], [], anchor, 100, 114);
+
 		expect(synchronized.compatible).toBe(true);
 		expect(synchronized.units.map((unit) => [unit.v_ini, unit.v_fin])).toEqual([
-			[1, 5],
-			[6, 10],
-			[11, 15]
+			[100, 104],
+			[105, 109],
+			[110, 114]
 		]);
 	});
 
-	it('genera novenas jerárquicas completas desde el rango', () => {
-		const novena = [
-			{
-				seccion_id: 'novena',
-				seccion_padre_id: null,
-				tipo_seccion: 'novena',
-				nombre: 'Novena',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: null
-			},
-			{
-				seccion_id: 'redondilla',
-				seccion_padre_id: 'novena',
-				tipo_seccion: 'redondilla',
-				nombre: 'Redondilla',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: 1,
-				versos_min: 4,
-				versos_max: 4
-			},
-			{
-				seccion_id: 'quintilla',
-				seccion_padre_id: 'novena',
-				tipo_seccion: 'quintilla',
-				nombre: 'Quintilla',
-				orden: 2,
-				repeticiones_min: 1,
-				repeticiones_max: 1,
-				versos_min: 5,
-				versos_max: 5
-			}
-		];
-		expect(hierarchicalRepeatedMetricSection(novena)).toMatchObject({
-			section: novena[0],
-			unitLength: 9
-		});
+	it('genera novenas completas con sus partes internas', () => {
+		const anchor = metricUnitAnchor(fixedUnit(9), novenaSections);
+		const synchronized = syncRepeatedMetricUnits([], novenaSections, anchor, 10, 27);
 
-		const synchronized = syncHierarchicalRepeatedMetricUnits([], novena, 10, 27);
 		expect(synchronized.compatible).toBe(true);
 		expect(
-			synchronized.units
-				.filter((unit) => unit.seccion_id === 'novena')
-				.map((unit) => [unit.v_ini, unit.v_fin])
-		).toEqual([
-			[10, 18],
-			[19, 27]
-		]);
-		expect(
-			synchronized.units.map((unit) => [
-				unit.seccion_id,
-				unit.v_ini,
-				unit.v_fin
-			])
+			synchronized.units.map((unit) => [unit.seccion_id, unit.v_ini, unit.v_fin])
 		).toEqual([
 			['novena', 10, 18],
 			['redondilla', 10, 13],
@@ -203,85 +222,28 @@ describe('editor métrico jerárquico', () => {
 		]);
 	});
 
-	it('descompone 48 versos en doce redondillas sin convertirlos en una sola estrofa', () => {
-		const redondilla = [
-			{
-				seccion_id: 'redondilla',
-				seccion_padre_id: null,
-				tipo_seccion: 'redondilla',
-				nombre: 'Redondilla',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: null,
-				versos_min: 4,
-				versos_max: 4
-			}
-		];
-		const synchronized = syncFlatRepeatedMetricUnits([], redondilla, 1, 48);
+	it('no inventa unidades para un rango incompatible', () => {
+		const anchor = metricUnitAnchor(fixedUnit(5), []);
+		const synchronized = syncRepeatedMetricUnits([], [], anchor, 1, 48);
 
-		expect(synchronized.compatible).toBe(true);
-		expect(synchronized.units).toHaveLength(12);
-		expect(synchronized.units[0]).toMatchObject({ orden: 1, v_ini: 1, v_fin: 4 });
-		expect(synchronized.units[11]).toMatchObject({ orden: 12, v_ini: 45, v_fin: 48 });
+		expect(synchronized.compatible).toBe(false);
+		expect(synchronized.units).toEqual([]);
 	});
 
-	it('descompone 48 versos en seis unidades de redondilla doble', () => {
-		const redondillaDoble = [
-			{
-				seccion_id: 'redondilla-doble',
-				seccion_padre_id: null,
-				tipo_seccion: 'redondilla_doble',
-				nombre: 'Redondilla doble',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: null,
-				versos_min: 8,
-				versos_max: 8
-			}
-		];
-		const synchronized = syncFlatRepeatedMetricUnits([], redondillaDoble, 1, 48);
-
-		expect(synchronized.compatible).toBe(true);
-		expect(synchronized.units).toHaveLength(6);
-		expect(synchronized.units[0]).toMatchObject({ orden: 1, v_ini: 1, v_fin: 8 });
-		expect(synchronized.units[5]).toMatchObject({ orden: 6, v_ini: 41, v_fin: 48 });
-	});
-
-	it('crea la unidad mínima de una estructura plana con longitud variable', () => {
-		const variable = [
-			{
-				seccion_id: 'copla',
-				seccion_padre_id: null,
-				tipo_seccion: 'copla_pie_quebrado',
-				nombre: 'Copla',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: null,
-				versos_min: 5,
-				versos_max: 12
-			}
-		];
-		expect(flatVariableRepeatedMetricSection(variable)).toEqual(variable[0]);
-		expect(ensureRequiredFlatMetricStructure([], variable, 20)).toMatchObject([
-			{ v_ini: 20, v_fin: 24, seccion_id: 'copla' }
+	it('no reparte el rango cuando la unidad tiene extensión variable', () => {
+		const anchor = metricUnitAnchor(
+			metricUnitExtent({ unidad_versos_min: 5, unidad_versos_max: 12 }),
+			[]
+		);
+		expect(syncRepeatedMetricUnits([], [], anchor, 20, 30).compatible).toBe(false);
+		expect(ensureRequiredMetricUnits([], [], anchor, 20)).toMatchObject([
+			{ v_ini: 20, v_fin: 24, seccion_id: null }
 		]);
 	});
 
-	it('conserva la identidad y las respuestas de las quintillas existentes al añadir otra', () => {
-		const quintilla = [
-			{
-				seccion_id: 'quintilla',
-				seccion_padre_id: null,
-				tipo_seccion: 'quintilla',
-				nombre: 'Quintilla',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: null,
-				versos_min: 5,
-				versos_max: 5
-			}
-		];
-		const initial = syncFlatRepeatedMetricUnits([], quintilla, 1, 10).units;
+	it('conserva la identidad y las respuestas de las unidades existentes al ampliar el rango', () => {
+		const anchor = metricUnitAnchor(fixedUnit(5), []);
+		const initial = syncRepeatedMetricUnits([], [], anchor, 1, 10).units;
 		const initialIds = initial.map((unit) => unit.realizacion_prueba_id);
 		const secondChoice: MetricChoiceDraft = {
 			realizacion_prueba_id: initialIds[1],
@@ -290,48 +252,35 @@ describe('editor métrico jerárquico', () => {
 			observaciones: null
 		};
 
-		const expanded = syncFlatRepeatedMetricUnits(
-			initial,
-			quintilla,
-			1,
-			15,
-			[secondChoice]
-		).units;
+		const expanded = syncRepeatedMetricUnits(initial, [], anchor, 1, 15, [secondChoice]).units;
 
 		expect(expanded.slice(0, 2).map((unit) => unit.realizacion_prueba_id)).toEqual(initialIds);
 		expect(secondChoice.realizacion_prueba_id).toBe(expanded[1].realizacion_prueba_id);
-		expect(secondChoice.realizacion_prueba_id).not.toBe(expanded[2].realizacion_prueba_id);
 		expect(expanded[2].realizacion_prueba_id).not.toBe(initialIds[0]);
 		expect(expanded[2].realizacion_prueba_id).not.toBe(initialIds[1]);
 	});
 
-	it('no inventa unidades para un rango incompatible', () => {
-		const quintilla = [
-			{
-				seccion_id: 'quintilla',
-				seccion_padre_id: null,
-				tipo_seccion: 'quintilla',
-				nombre: 'Quintilla',
-				orden: 1,
-				repeticiones_min: 1,
-				repeticiones_max: null,
-				versos_min: 5,
-				versos_max: 5
-			}
-		];
-		const synchronized = syncFlatRepeatedMetricUnits([], quintilla, 1, 48);
-		expect(synchronized.compatible).toBe(false);
-		expect(synchronized.units).toEqual([]);
+	it('retira las unidades sobrantes al acortar el rango', () => {
+		const anchor = metricUnitAnchor(fixedUnit(4), []);
+		const initial = syncRepeatedMetricUnits([], [], anchor, 1, 12).units;
+		const reduced = syncRepeatedMetricUnits(initial, [], anchor, 1, 8);
+
+		expect(reduced.compatible).toBe(true);
+		expect(reduced.units).toHaveLength(2);
+		expect(reduced.removedUnitIds).toEqual([initial[2].realizacion_prueba_id]);
+	});
+});
+
+describe('editor métrico jerárquico', () => {
+	it('no crea trabajo adicional en una configuración sin jerarquía', () => {
+		const simpleSections = [{ ...sections[0], repeticiones_min: 1 }];
+		expect(isHierarchicalMetricStructure(simpleSections)).toBe(false);
+		expect(ensureRequiredMetricStructure([], simpleSections, 1)).toEqual([]);
 	});
 
 	it('crea la cabeza, el ciclo, la copla y su mudanza obligatoria', () => {
 		const units = ensureRequiredMetricStructure([], sections, 1);
-		expect(units.map((unit) => unit.seccion_id)).toEqual([
-			'head',
-			'ciclo',
-			'copla',
-			'mudanza'
-		]);
+		expect(units.map((unit) => unit.seccion_id)).toEqual(['head', 'ciclo', 'copla', 'mudanza']);
 		expect(units.find((unit) => unit.seccion_id === 'mudanza')).toMatchObject({
 			realizacion_padre_id: 'unit-3',
 			v_ini: 3,

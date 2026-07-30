@@ -17,7 +17,7 @@ function rule(
 		modulo_versos,
 		residuo_versos,
 		minimo_versos,
-		origen: 'numero_versos',
+		origen: 'unidad',
 		explicacion: `unidades de ${modulo_versos} versos`
 	};
 }
