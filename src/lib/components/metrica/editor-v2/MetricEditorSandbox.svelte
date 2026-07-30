@@ -111,6 +111,14 @@
 				a.nombre.localeCompare(b.nombre, 'es')
 			)
 	);
+	const metricForms = $derived(
+		activeForms.filter((form: MetricCatalogForm) => form.tipo_registro === 'forma')
+	);
+	const editorialOutputs = $derived(
+		activeForms.filter(
+			(form: MetricCatalogForm) => form.tipo_registro === 'salida_editorial'
+		)
+	);
 	const configurationsForDraft = $derived(
 		draft
 			? props.data.configurations.filter(
@@ -134,6 +142,8 @@
 				) ?? null
 			: null
 	);
+	const isEditorialOutput = $derived(selectedForm?.tipo_registro === 'salida_editorial');
+	const isIsolatedVerse = $derived(selectedForm?.slug === 'verso_aislado');
 	const selectedLengthRule = $derived(
 		draft
 			? props.data.lengthRules.find(
@@ -529,6 +539,18 @@
 	function changeForm(formId: string) {
 		if (!draft) return;
 		draft.forma_id = formId;
+		const form = props.data.forms.find(
+			(item: MetricCatalogForm) => item.forma_id === formId
+		);
+		if (form?.tipo_registro === 'salida_editorial') {
+			resetForConfiguration('');
+			if (form.slug === 'verso_aislado') {
+				draft.v_fin = draft.v_ini;
+			} else if (form.slug === 'irregular' && draft.v_fin === draft.v_ini) {
+				draft.v_fin = draft.v_ini + 1;
+			}
+			return;
+		}
 		const configurations = props.data.configurations.filter(
 			(configuration: MetricCatalogConfiguration) =>
 				configuration.forma_id === formId && configuration.activo
@@ -575,7 +597,7 @@
 			v_ini: Number(row.v_ini),
 			v_fin: Number(row.v_fin),
 			forma_id: String(row.forma_id),
-			configuracion_id: String(row.configuracion_id),
+			configuracion_id: row.configuracion_id ? String(row.configuracion_id) : '',
 			observaciones: String(row.observaciones ?? ''),
 			unidades: props.data.editorSandbox.units
 				.filter(
@@ -685,6 +707,10 @@
 		if (!draft) return;
 		const previousLength = draft.v_fin - draft.v_ini + 1;
 		draft.v_ini = Math.max(1, value);
+		if (isIsolatedVerse) {
+			draft.v_fin = draft.v_ini;
+			return;
+		}
 		if (hasFlatRepeatedUnits || hasHierarchicalRepeatedUnits) {
 			draft.v_fin = draft.v_ini + previousLength - 1;
 			const { sections, options } = catalogParts(draft.configuracion_id);
@@ -727,6 +753,10 @@
 
 	function updateSequenceEnd(value: number) {
 		if (!draft) return;
+		if (isIsolatedVerse) {
+			draft.v_fin = draft.v_ini;
+			return;
+		}
 		draft.v_fin = Math.max(1, value);
 		if (!hasFlatRepeatedUnits && !hasHierarchicalRepeatedUnits) return;
 		const { sections, options } = catalogParts(draft.configuracion_id);
@@ -768,8 +798,17 @@
 
 	function validateDraft(): string | null {
 		if (!draft) return 'No hay ninguna secuencia abierta.';
-		if (!draft.forma_id || !draft.configuracion_id) {
-			return 'Selecciona una forma y su configuración.';
+		if (!draft.forma_id) {
+			return 'Selecciona una forma o una salida editorial.';
+		}
+		if (!isEditorialOutput && !draft.configuracion_id) {
+			return 'Selecciona la configuración de la forma.';
+		}
+		if (selectedForm?.slug === 'irregular' && draft.v_fin - draft.v_ini + 1 < 2) {
+			return 'Versificación irregular debe abarcar al menos dos versos.';
+		}
+		if (isIsolatedVerse && draft.v_fin !== draft.v_ini) {
+			return 'Verso aislado debe abarcar exactamente un verso.';
 		}
 		if (draft.v_fin < draft.v_ini) return 'El verso final no puede ser anterior al inicial.';
 		const lengthError = metricLengthError(
@@ -987,6 +1026,7 @@
 			const payload = await callApi({
 				action: 'save_sequence',
 				...draft,
+				configuracion_id: draft.configuracion_id || null,
 				observaciones: cleanText(draft.observaciones),
 				unidades: draft.unidades.map((unit: MetricUnitDraft) => ({
 					...unit,
@@ -1179,7 +1219,7 @@
 										class="h-10 border border-[color:var(--border)] px-3 disabled:bg-[color:var(--muted)]"
 										value={draft.v_fin}
 										onchange={(event) => updateSequenceEnd(Number(event.currentTarget.value))}
-										disabled={hasCalculatedRange}
+										disabled={hasCalculatedRange || isIsolatedVerse}
 									/>
 								</label>
 							</div>
@@ -1197,46 +1237,60 @@
 										value={draft.forma_id}
 										onchange={(event) => changeForm(event.currentTarget.value)}
 									>
-										<option value="">Seleccionar forma</option>
-										{#each activeForms as form (form.forma_id)}
-											<option value={form.forma_id}>
-												{form.nombre}{form.residual ? ' · residual' : ''}
-											</option>
-										{/each}
+										<option value="">Seleccionar</option>
+										<optgroup label="Formas métricas">
+											{#each metricForms as form (form.forma_id)}
+												<option value={form.forma_id}>
+													{form.nombre}{form.residual ? ' · residual' : ''}
+												</option>
+											{/each}
+										</optgroup>
+										<optgroup label="Solo si no encaja en una forma">
+											{#each editorialOutputs as form (form.forma_id)}
+												<option value={form.forma_id}>{form.nombre}</option>
+											{/each}
+										</optgroup>
 									</select>
 								</label>
-								<label class="form-field">
-									<span class="form-label">
-										{selectedForm?.slug === 'villancico'
-											? '¿Dónde aparece por primera vez el estribillo? *'
-											: selectedForm?.slug === 'copla_real'
-												? '¿Aparecen versos de pie quebrado? *'
-												: selectedForm?.slug === 'redondilla'
-													? '¿Cómo se organizan las redondillas? *'
-												: 'Configuración *'}
-									</span>
-									<select
-										class="h-10 border border-[color:var(--border)] bg-white px-3"
-										value={draft.configuracion_id}
-										onchange={(event) => resetForConfiguration(event.currentTarget.value)}
-										disabled={!draft.forma_id}
-									>
-										<option value="">
+								{#if !isEditorialOutput}
+									<label class="form-field">
+										<span class="form-label">
 											{selectedForm?.slug === 'villancico'
-												? 'Seleccionar posición'
+												? '¿Dónde aparece por primera vez el estribillo? *'
 												: selectedForm?.slug === 'copla_real'
-													? 'Seleccionar realización'
+													? '¿Aparecen versos de pie quebrado? *'
 													: selectedForm?.slug === 'redondilla'
-														? 'Seleccionar organización'
-													: 'Seleccionar configuración'}
-										</option>
-										{#each configurationsForDraft as configuration (configuration.configuracion_id)}
-											<option value={configuration.configuracion_id}>
-												{configuration.nombre}
+														? '¿Cómo se organizan las redondillas? *'
+													: 'Configuración *'}
+										</span>
+										<select
+											class="h-10 border border-[color:var(--border)] bg-white px-3"
+											value={draft.configuracion_id}
+											onchange={(event) => resetForConfiguration(event.currentTarget.value)}
+											disabled={!draft.forma_id}
+										>
+											<option value="">
+												{selectedForm?.slug === 'villancico'
+													? 'Seleccionar posición'
+													: selectedForm?.slug === 'copla_real'
+														? 'Seleccionar realización'
+														: selectedForm?.slug === 'redondilla'
+															? 'Seleccionar organización'
+														: 'Seleccionar configuración'}
 											</option>
-										{/each}
-									</select>
-								</label>
+											{#each configurationsForDraft as configuration (configuration.configuracion_id)}
+												<option value={configuration.configuracion_id}>
+													{configuration.nombre}
+												</option>
+											{/each}
+										</select>
+									</label>
+								{:else if selectedForm}
+									<div class="bg-amber-50 p-3 text-sm leading-6 text-amber-950">
+										<p class="font-medium">Salida editorial, no forma métrica</p>
+										<p class="mt-1">{selectedForm.definicion}</p>
+									</div>
+								{/if}
 							</div>
 							{#if selectedConfiguration}
 								<div class="bg-[color:var(--muted)] p-3 text-sm leading-6">
@@ -1375,6 +1429,17 @@
 							<label class="form-field">
 								<span class="form-label">Observaciones generales de la prueba</span>
 								<textarea class="min-h-24 border border-[color:var(--border)] p-3" bind:value={draft.observaciones}></textarea>
+							</label>
+						{:else if isEditorialOutput}
+							<label class="form-field">
+								<span class="form-label">Observación opcional</span>
+								<textarea
+									class="min-h-24 border border-[color:var(--border)] p-3"
+									bind:value={draft.observaciones}
+									placeholder={isIsolatedVerse
+										? 'Solo si hace falta explicar por qué el verso no se integra en los tramos contiguos.'
+										: 'Solo si ayuda a describir por qué no se reconoce una forma del catálogo.'}
+								></textarea>
 							</label>
 						{/if}
 					</div>

@@ -124,7 +124,9 @@ Los hijos de quintilla se ocultan del selector principal y se guardan como subti
 
 ## 6. Principios del nuevo modelo
 
-1. **Una forma es asignable.** Si una entrada no puede identificar una secuencia, no pertenece a `formas_metricas`.
+1. **Una forma es asignable.** Si una entrada no posee identidad normativa, no puede
+   registrarse como `tipo_registro = forma`; solo puede compartir la tabla como salida
+   editorial explícitamente discriminada.
 2. **Una familia organiza.** No se guarda como clasificación de una secuencia.
 3. **Una configuración formaliza una alternativa.** Dos configuraciones de una forma no son automáticamente dos formas.
 4. **Un patrón describe orden.** Los metros no se reducen a un conjunto sin posiciones.
@@ -168,6 +170,7 @@ flowchart TD
     CF --> PF
 
     SM[Secuencias métricas] --> F
+    SM --> SR[Salida editorial, si no hay forma reconocible]
     SM --> SC[Configuración seleccionada]
     SM --> UM[Unidades métricas internas]
     SM --> SE[Elecciones de realización]
@@ -203,8 +206,9 @@ Representa una identidad métrica seleccionable o una salida editorial residual.
 | `nombre` | `text` | Nombre preferido visible. |
 | `definicion` | `text` | Definición editorial. |
 | `nivel_estructural_id` | FK | Verso, estrofa, serie, composición o forma compuesta. |
+| `tipo_registro` | valor controlado | `forma` o `salida_editorial`. La segunda no admite configuración normativa. |
 | `seleccionable` | `boolean` | Puede asignarse a una secuencia. |
-| `residual` | `boolean` | Salida editorial, no candidata ordinaria del demarcador. |
+| `residual` | `boolean` | Solo se ofrece cuando no encaja una forma más precisa; puede marcar una forma estructurada residual o una salida editorial. |
 | `estado_revision` | FK o valor controlado | Borrador, revisada, aprobada o retirada. |
 | `activo` | `boolean` | Disponible para nuevos usos. |
 | `orden` | `integer` | Orden técnico opcional. No se muestra en la edición ordinaria ni expresa jerarquía semántica. |
@@ -744,7 +748,20 @@ contra la longitud de la unidad sin crear una entidad normativa nueva por cada p
 encontrado. Esta vía se reserva para dominios finitos en estructura pero no enumerables
 de manera útil en la interfaz, como la distribución consonante variable de un sexteto.
 
-Cuando una secuencia no pueda describirse razonablemente desde una forma conocida, el editor utilizará una salida residual como `irregular`, en lugar de acumular un número arbitrario de desviaciones sobre una forma que ya no resulta reconocible.
+Cuando una secuencia no pueda describirse razonablemente desde una forma conocida, el
+editor utilizará una salida editorial, en lugar de acumular un número arbitrario de
+desviaciones sobre una forma que ya no resulta reconocible. Estas entradas comparten la
+tabla y el selector por razones operativas, pero
+`formas_metricas.tipo_registro = salida_editorial` declara expresamente que no son
+formas y que carecen de configuración normativa.
+
+Se distinguen dos salidas mínimas:
+
+- `irregular`: Versificación irregular, para dos o más versos;
+- `verso_aislado`: un único verso no integrable en las secuencias contiguas.
+
+El término métrico `verso suelto` permanece reservado para una posición sin rima o para
+una serie de versos blancos.
 
 Una salida residual puede conservar estructura positiva suficiente para ser analizable.
 `copla_de_pie_quebrado`, por ejemplo, declara unidades de 5 a 12 versos, octosílabo
@@ -1170,7 +1187,8 @@ Casos mínimos:
 7. Silva con una diferencia cualitativa respecto de la rima, sin porcentaje artificial.
 8. Villancico con secciones.
 9. Sextina como composición 6 × 6 + 3.
-10. Forma residual irregular sin competir como candidata normal.
+10. Salidas editoriales Versificación irregular y Verso aislado, sin configuraciones ni
+    competencia como candidatas normales.
 11. Filtro de metro que no atribuye medidas meramente posibles.
 12. Perfil de obra que no cuenta patrones como formas distintas.
 13. Igual número de secuencias antes y después de la migración.

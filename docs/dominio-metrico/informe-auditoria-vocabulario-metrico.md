@@ -210,12 +210,14 @@ Puede haber excepciones con nombre histórico asentado —por ejemplo, espinela 
 
 ### 5.4. Decisiones editoriales convertidas en formas
 
-`irregular`, sus tres hijos por arte métrico y `verso suelto` son categorías necesarias para editar obras, pero no deben competir como formas normales en el demarcador. Deben aparecer como salidas residuales:
+`irregular`, sus tres hijos por arte métrico y `verso suelto` son categorías necesarias para editar obras, pero no deben competir como formas normales en el demarcador. Se resuelven como salidas editoriales discriminadas:
 
-- “No corresponde a una forma regular identificable”;
-- “Verso aislado fuera de un segmento métrico”.
+- `Versificación irregular`: pasaje de dos o más versos sin forma reconocible;
+- `Verso aislado`: exactamente un verso fuera de los segmentos contiguos.
 
-El arte menor/mayor/mixto de una forma irregular puede derivarse de los versos observados; no necesita tres términos estróficos.
+El arte menor/mayor/mixto se conserva como observación heredada o se deriva de los
+versos observados; no necesita tres términos estróficos. `Verso suelto` queda reservado
+para sus significados métricos relativos a la rima.
 
 ### 5.5. `otras` como tipo de rima
 
@@ -391,7 +393,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `decima` | 3 | Resolver duplicación entre raíz y espinela; mantener aumentada como subtipo si se documenta. |
 | `doble_sextilla` | 3 | Marcar la raíz como agrupador; manriqueña como subtipo lexicalizado; evitar duplicar “alternativa” y padre. |
 | `endecasilabo_suelto` | 7 | Trasladar esdrújulos, dístico final y densidad de pareados a rasgos; documentar umbrales. |
-| `irregular` | 4 | Categoría residual, no candidata normal; derivar arte menor/mayor/mixto. |
+| `irregular` | 4 | Resuelto como salida editorial; derivar o conservar como observación el arte menor/mayor/mixto. |
 | `lira` | 1 | Resuelto en el nuevo catálogo: patrón métrico `7-11-7-7-11`, rima `aBabB`, fuente y denominaciones normalizadas. |
 | `novena` | 3 | Resuelto: una forma, configuraciones 4 + 5 / 5 + 4 y reutilización de redondilla y quintilla como componentes. |
 | `octava_real` | 3 | Resuelto: raíz y “regular” fusionadas; esdrújulos trasladados a rasgo transversal. |
@@ -412,7 +414,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `soneto` | 6 | Resuelto en el nuevo catálogo: una forma, una configuración endecasílaba, cuatro patrones de rima y el final esdrújulo como rasgo transversal. |
 | `terceto` | 5 | Corregir tamaño; distinguir unidad y serie encadenada; esdrújulos a rasgo. |
 | `terceto_octosilabo` | 1 | Estructura coherente; añadir fuente y patrón de rima. |
-| `verso suelto` | 1 | Mover a categoría editorial residual; no es una forma estrófica. |
+| `verso suelto` | 1 | Resuelto como salida editorial `Verso aislado`; no es una forma estrófica. |
 | `villancico` | 1 | Resuelto en el nuevo catálogo: dos configuraciones según la primera aparición del estribillo; copla y represa son secciones hermanas, con mudanza y enlace o vuelta dentro de la copla. |
 | `zejel` | 1 | Modelar forma compuesta con estribillo, mudanza y vuelta. |
 

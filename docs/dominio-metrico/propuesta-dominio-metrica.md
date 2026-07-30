@@ -51,7 +51,11 @@ Añadir más campos o excepciones agravaría el acoplamiento.
 
 ### Catálogo
 
-`formas_metricas` contendrá exclusivamente formas que puedan constituir una identificación editorial real: romance, quintilla, copla real, soneto, silva, etc.
+`formas_metricas` contendrá formas que puedan constituir una identificación editorial
+real: romance, quintilla, copla real, soneto, silva, etc. Las dos salidas necesarias
+para operar desde el mismo selector se conservarán en la tabla mediante el discriminador
+`tipo_registro = salida_editorial`: no se tratarán como formas, no tendrán
+configuraciones y se excluirán del análisis comparativo.
 
 Las agrupaciones de navegación y estudio se modelarán como `familias_metricas`. Una familia no tiene por qué ser seleccionable ni constituir una forma.
 

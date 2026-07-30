@@ -4,7 +4,11 @@ import type { RequestHandler } from './$types';
 import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios } from '$lib/utils/permissions';
-import { METRIC_CATALOG_REVIEW_STATES, METRIC_STRUCTURAL_LEVELS } from '$lib/metrica/catalogo';
+import {
+	METRIC_CATALOG_REVIEW_STATES,
+	METRIC_ENTRY_TYPES,
+	METRIC_STRUCTURAL_LEVELS
+} from '$lib/metrica/catalogo';
 
 type UntypedSupabaseClient = {
 	from: (table: string) => any;
@@ -22,6 +26,7 @@ const formFieldsSchema = z.object({
 	nombre: z.string().trim().min(1).max(240),
 	definicion: z.string().trim().max(30_000).nullable(),
 	nivel_estructural: z.enum(METRIC_STRUCTURAL_LEVELS),
+	tipo_registro: z.enum(METRIC_ENTRY_TYPES),
 	seleccionable: z.boolean(),
 	residual: z.boolean(),
 	estado_revision: z.enum(METRIC_CATALOG_REVIEW_STATES),
@@ -57,6 +62,18 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			{ status: 422 }
 		);
 	}
+	if (
+		parsed.data.tipo_registro === 'salida_editorial' &&
+		(!parsed.data.residual || !parsed.data.seleccionable)
+	) {
+		return json(
+			{
+				error: 'validation_error',
+				message: 'Una salida editorial debe ser residual y seleccionable.'
+			},
+			{ status: 422 }
+		);
+	}
 
 	const db = locals.supabase as unknown as UntypedSupabaseClient;
 	const { data, error } = await db
@@ -67,7 +84,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			updated_by: access.profile.userId
 		})
 		.select(
-			'forma_id,slug,nombre,definicion,nivel_estructural,seleccionable,residual,estado_revision,activo,orden,origen_termino_id,updated_at'
+			'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,residual,estado_revision,activo,orden,origen_termino_id,updated_at'
 		)
 		.single();
 
@@ -102,6 +119,18 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 			{ status: 422 }
 		);
 	}
+	if (
+		parsed.data.tipo_registro === 'salida_editorial' &&
+		(!parsed.data.residual || !parsed.data.seleccionable)
+	) {
+		return json(
+			{
+				error: 'validation_error',
+				message: 'Una salida editorial debe ser residual y seleccionable.'
+			},
+			{ status: 422 }
+		);
+	}
 
 	const { forma_id, ...fields } = parsed.data;
 	const db = locals.supabase as unknown as UntypedSupabaseClient;
@@ -110,7 +139,7 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 		.update({ ...fields, updated_by: access.profile.userId })
 		.eq('forma_id', forma_id)
 		.select(
-			'forma_id,slug,nombre,definicion,nivel_estructural,seleccionable,residual,estado_revision,activo,orden,origen_termino_id,updated_at'
+			'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,residual,estado_revision,activo,orden,origen_termino_id,updated_at'
 		)
 		.single();
 

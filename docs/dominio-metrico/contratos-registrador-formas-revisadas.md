@@ -12,6 +12,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Romancillo hexasílabo | 6 sílabas, asonancia en pares, impares sueltos | cambiar a la configuración hexasílaba y elegir las vocales de la asonancia | múltiplo de 2 |
 | Romancillo heptasílabo | 7 sílabas, asonancia en pares, impares sueltos | cambiar a la configuración heptasílaba y elegir las vocales de la asonancia | múltiplo de 2 |
 | Romance heroico | endecasílabo, asonancia en pares, impares sueltos | cambiar a la configuración heroica y elegir las vocales de la asonancia | múltiplo de 2 |
+| Versificación irregular | no existe norma de forma | únicamente el rango y, si hace falta, una observación | mínimo 2 versos |
+| Verso aislado | no existe norma de forma | únicamente la posición y, si hace falta, una observación | exactamente 1 verso |
 | Quintilla | 5 octosílabos, consonancia | esquema de cada quintilla | múltiplo de 5 |
 | Terceto | 3 endecasílabos, consonancia 1-3 | final esdrújulo, solo si caracteriza la secuencia | múltiplo de 3 |
 | Terceto encadenado | encadenamiento y cierre `YZYZ` | configuración métrica, si hay más de una | bloques de 3 más el verso final |
@@ -56,6 +58,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
   vocales de la asonancia y guardar.
 - Romance heroico: forma Romance, cambiar la configuración principal a Heroico,
   vocales de la asonancia y guardar.
+- Salidas editoriales: elegir Versificación irregular o Verso aislado, delimitar el
+  rango y guardar; no se solicita configuración ni desviaciones.
 - Quintilla: forma, esquema de la primera unidad, aplicar a todas si coincide y corregir
   solo las excepciones.
 - Terceto: forma y guardar; el rasgo esdrújulo queda vacío por defecto.

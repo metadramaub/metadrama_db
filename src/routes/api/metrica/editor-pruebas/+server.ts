@@ -88,7 +88,7 @@ const requestSchema = z.discriminatedUnion('action', [
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
 		forma_id: uuid,
-		configuracion_id: uuid,
+		configuracion_id: nullableUuid,
 		observaciones: z.string().trim().max(30_000).nullable(),
 		unidades: z.array(unitSchema).max(500),
 		elecciones: z.array(choiceSchema).max(2_000),
@@ -180,27 +180,29 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			{ status: 422 }
 		);
 	}
-	const { data: lengthRuleData, error: lengthRuleError } = await db
-		.from('configuraciones_forma_reglas_longitud')
-		.select(
-			'configuracion_id,configuracion_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
-		)
-		.eq('configuracion_id', input.configuracion_id)
-		.maybeSingle();
-	if (lengthRuleError) {
-		return databaseError(
-			lengthRuleError,
-			'No se pudo comprobar la longitud de la secuencia.'
+	if (input.configuracion_id) {
+		const { data: lengthRuleData, error: lengthRuleError } = await db
+			.from('configuraciones_forma_reglas_longitud')
+			.select(
+				'configuracion_id,configuracion_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+			)
+			.eq('configuracion_id', input.configuracion_id)
+			.maybeSingle();
+		if (lengthRuleError) {
+			return databaseError(
+				lengthRuleError,
+				'No se pudo comprobar la longitud de la secuencia.'
+			);
+		}
+		const lengthError = metricLengthError(
+			(lengthRuleData as MetricLengthRule | null) ?? null,
+			input.v_ini,
+			input.v_fin,
+			lengthRuleData?.configuracion_nombre
 		);
-	}
-	const lengthError = metricLengthError(
-		(lengthRuleData as MetricLengthRule | null) ?? null,
-		input.v_ini,
-		input.v_fin,
-		lengthRuleData?.configuracion_nombre
-	);
-	if (lengthError) {
-		return json({ error: 'validation_error', message: lengthError }, { status: 422 });
+		if (lengthError) {
+			return json({ error: 'validation_error', message: lengthError }, { status: 422 });
+		}
 	}
 	for (const unit of input.unidades) {
 		if (unit.v_fin < unit.v_ini || unit.v_ini < input.v_ini || unit.v_fin > input.v_fin) {

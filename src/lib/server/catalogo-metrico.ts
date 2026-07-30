@@ -23,7 +23,7 @@ type QueryError = {
 };
 
 const FORM_SELECT =
-	'forma_id,slug,nombre,definicion,nivel_estructural,seleccionable,residual,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,residual,estado_revision,activo,orden,origen_termino_id,updated_at';
 const CONFIGURATION_SELECT =
 	'configuracion_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,numero_versos,estado_revision,activo,orden,origen_termino_id,updated_at';
 
@@ -290,7 +290,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 41
+		Number(stateResponse.data?.modelo_version ?? 0) < 42
 	) {
 		return {
 			migrationPending: true,
