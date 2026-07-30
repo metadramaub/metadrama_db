@@ -533,8 +533,12 @@
 			(configuration: MetricCatalogConfiguration) =>
 				configuration.forma_id === formId && configuration.activo
 		);
+		const principalConfiguration = configurations.find(
+			(configuration: MetricCatalogConfiguration) => configuration.principal
+		);
 		resetForConfiguration(
-			configurations.length === 1 ? configurations[0].configuracion_id : ''
+			principalConfiguration?.configuracion_id ??
+				(configurations.length === 1 ? configurations[0].configuracion_id : '')
 		);
 	}
 

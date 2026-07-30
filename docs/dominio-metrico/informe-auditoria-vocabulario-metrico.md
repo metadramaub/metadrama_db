@@ -400,8 +400,8 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `quintilla` | 9 | Corregir tamaños; separar `abbba` como irregular; mover esquemas a patrones. |
 | `redondilla` | 6 | Añadir definición; corregir hexasílaba; revisar cuarteta `abab`; separar doble redondilla. |
 | `romance` | 20 | Mover los 19 valores de asonancia a un campo de rima; mantener una sola forma. |
-| `romance_heroico` | 1 | Coherente; añadir bibliografía y aclarar equivalencia `romance real`. |
-| `romancillo` | 3 | Mantener alternativas 6/7 o derivarlas del metro; revisar el uso de `endecha` como equivalente de las tres. |
+| `romance_heroico` | 1 | Resuelto: configuración endecasílaba de romance; bibliografía añadida y `romance real` conservado como denominación equivalente del proyecto. |
+| `romancillo` | 3 | Resuelto: 6 y 7 son configuraciones exactas de Romance; la raíz ambigua se retira y `endecha` queda pendiente de confirmación terminológica. |
 | `seguidilla` | 1 | Resuelto: configuraciones simple de 4 versos y compuesta de 7, con patrones métricos, rima y secciones normalizados. |
 | `sexta_rima` | 1 | Resuelto: seis endecasílabos consonantes `ABABCC` y fuente bibliográfica normalizada. |
 | `sexteto` | 1 | Resuelto como forma residual positiva: seis versos de arte mayor consonantes, con medidas y esquema observados por unidad. |

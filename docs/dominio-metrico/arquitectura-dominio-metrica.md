@@ -1209,7 +1209,9 @@ Casos mínimos:
 - Tratamiento de copla real con pie quebrado.
 - Alcance de “copla de pie quebrado”.
 - Identidad y definición cualitativa de las variantes de silva.
-- Si los metros de romancillo constituyen formas o configuraciones.
+- Los metros hexasílabo y heptasílabo del romancillo son configuraciones exactas de
+  `romance`: comparten arquitectura y solo cambia la medida. La antigua raíz ambigua no
+  se conserva como entidad seleccionable.
 - Tratamiento de terceto octosílabo.
 - Qué salidas residuales deben estar disponibles para el editor.
 - Qué rasgos son observables y útiles para el demarcador.

@@ -237,17 +237,19 @@ Los cuatro valores de una sola vocal necesitan una convención explícita que lo
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `romance_heroico` | F | Conservar como forma lexicalizada y relacionarla con romance. | Alta | No |
+| `romance_heroico` | C | Resuelto: configuración endecasílaba lexicalizada de `romance`; `romance real` es denominación equivalente. | Alta | No |
 
 ## 18. Romancillo
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `romancillo` | F | Conservar como forma canónica de serie asonantada de arte menor. | Alta | Sí |
-| `romancillo_heptasilabo` | C | Configuración heptasílaba. | Alta | Sí |
-| `romancillo_hexasilabo` | C | Configuración hexasílaba. | Alta | Sí |
+| `romancillo` | D | Resuelto: retirar como entidad autónoma ambigua; revisar las futuras secuencias que solo declaren la raíz. | Alta | Sí |
+| `romancillo_heptasilabo` | C | Resuelto: configuración exacta heptasílaba de `romance`. | Alta | No |
+| `romancillo_hexasilabo` | C | Resuelto: configuración exacta hexasílaba de `romance`. | Alta | No |
 
-Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede aplicarse de forma indiferenciada a todas las configuraciones.
+El modelo no crea una familia ni una configuración genérica de romancillo. Debe
+confirmarse únicamente si `endecha` y `romance endecha` son equivalentes de ambas
+configuraciones, como indican los datos del IP, o solo de la heptasílaba.
 
 ## 19. Seguidilla
 
@@ -381,7 +383,7 @@ Estas decisiones se aplican a todas las filas de la matriz:
 
 1. canción endecasílaba;
 2. silva de endecasílabos;
-3. romancillo heptasílabo y hexasílabo;
+3. equivalencia de `endecha` en los romancillos heptasílabo y hexasílabo;
 4. terceto octosílabo.
 
 ### Decisiones sobre salidas residuales
