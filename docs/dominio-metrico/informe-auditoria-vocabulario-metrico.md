@@ -162,7 +162,10 @@ La bibliografía muestra que “copla de pie quebrado” es una familia históri
 
 ### 4.7. Seguidilla
 
-La ficha declara tamaño 4, pero la definición dice que puede tener cuatro o siete versos. Debe distinguirse entre seguidilla simple y seguidilla compuesta, o representarse una alternativa estructural 4/7. Un único entero no puede expresar ambas posibilidades.
+Resuelto en el nuevo catálogo como una forma con dos configuraciones fijas: simple de
+cuatro versos (`7-5-7-5`, `-a-a`) y compuesta de siete, que añade un estribillo
+`5-7-5` con asonancia propia. El registrador deriva la norma y valida el rango según la
+configuración.
 
 ### 4.8. Terceto
 
@@ -401,7 +404,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `romance` | 20 | Mover los 19 valores de asonancia a un campo de rima; mantener una sola forma. |
 | `romance_heroico` | 1 | Coherente; añadir bibliografía y aclarar equivalencia `romance real`. |
 | `romancillo` | 3 | Mantener alternativas 6/7 o derivarlas del metro; revisar el uso de `endecha` como equivalente de las tres. |
-| `seguidilla` | 1 | Modelar alternativas de 4 y 7 versos; separar simple y compuesta si procede. |
+| `seguidilla` | 1 | Resuelto: configuraciones simple de 4 versos y compuesta de 7, con patrones métricos, rima y secciones normalizados. |
 | `sexta_rima` | 1 | Resuelto: seis endecasílabos consonantes `ABABCC` y fuente bibliográfica normalizada. |
 | `sexteto` | 1 | Resuelto como forma residual positiva: seis versos de arte mayor consonantes, con medidas y esquema observados por unidad. |
 | `sexteto_lira` | 9 | Resuelto: cinco patrones métricos, tres de rima, siete combinaciones admitidas y esdrújulos como rasgo. |

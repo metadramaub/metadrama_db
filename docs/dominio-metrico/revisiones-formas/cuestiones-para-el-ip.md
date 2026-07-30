@@ -1,6 +1,6 @@
-si# Cuestiones para el IP
+# Cuestiones para el IP
 
-Actualizado: 29 de julio de 2026
+Actualizado: 30 de julio de 2026
 
 Este archivo reúne solo decisiones pendientes. Las decisiones ya tomadas están en la
 ficha de cada revisión.
@@ -162,3 +162,13 @@ Véase [sexteto.md](./sexteto.md).
   consonantes.
 - Si el corpus documenta un sexteto que combine arte mayor y menor y no sea
   sexteto-lira, confirmar si debe ampliarse la configuración residual o crearse otra.
+
+## Seguidilla
+
+Véase [seguidilla.md](./seguidilla.md).
+
+- No bloquea el registro actual: se distinguen las configuraciones simple y compuesta
+  con la norma asonante fijada por el proyecto.
+- Si las oscilaciones métricas o las realizaciones consonantes fueran recurrentes en el
+  corpus, confirmar si deben seguir siendo desviaciones o convertirse en opciones
+  admitidas.
