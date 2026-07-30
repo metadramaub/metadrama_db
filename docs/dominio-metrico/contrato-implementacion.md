@@ -78,6 +78,30 @@ coinciden. `numero_versos` desaparece absorbida. Las nueve secciones fantasma se
 con ellas el trigger que anula la extensión según el nivel, que existía solo para
 proteger un campo mal ubicado.
 
+**Pero la sección fantasma no es una fila muerta.** Comprobado el 30 de julio de 2026:
+**ocho grupos de elección de alcance `unidad` cuelgan de ella** —los de quintilla,
+redondilla ×2, sexteto ×2, sexteto-lira y copla de pie quebrado ×2—, y el editor la usa
+para materializar las unidades del pasaje. Hoy hace dos trabajos a la vez: declarar la
+extensión de la unidad y servir de ancla a lo que se pregunta por unidad.
+
+Retirarla exige, por tanto, más que borrar nueve filas:
+
+1. Que una pregunta por unidad pueda no apuntar a ninguna sección: `seccion_id` a nulo
+   cuando la pregunta se refiere a la unidad entera y no a una parte suya.
+2. Que `realizaciones_editor_metrico.seccion_id` admita nulo: la realización de la unidad
+   no es la realización de una sección.
+3. Ajustar `validar_eleccion_editor_metrico` y `validar_unidad_editor_metrico`, que hoy
+   emparejan la sección del grupo con la de la unidad.
+4. Sustituir en [editor-model.ts](../../src/lib/components/metrica/editor-v2/editor-model.ts)
+   las tres funciones que detectan la repetición del pasaje a partir de las secciones raíz
+   —`flatRepeatedMetricSection`, `flatVariableRepeatedMetricSection` y
+   `hierarchicalRepeatedMetricSection`— por una sola que la derive del rango y de la
+   extensión declarada de la unidad.
+
+Es el primer bloque que cambia comportamiento del editor y no solo representación, y el
+único cuya migración y cuyo código no pueden separarse en dos pasos sin dejar el editor
+roto en medio. Conviene abordarlo con capacidad completa.
+
 ### 3.2 · El metro tiene dos representaciones
 
 `patron_metrico_posiciones` obliga por `check` a elegir entre `metro_id` —hacia el
