@@ -172,3 +172,12 @@ Véase [seguidilla.md](./seguidilla.md).
 - Si las oscilaciones métricas o las realizaciones consonantes fueran recurrentes en el
   corpus, confirmar si deben seguir siendo desviaciones o convertirse en opciones
   admitidas.
+
+## Sextina
+
+Véase [sextina.md](./sextina.md).
+
+- No bloquea el registro: la definición del proyecto permite distinguir la clásica de
+  la doble y ambas conservan la misma regla de permutación.
+- Confirmar únicamente si debe fijarse el orden de las seis palabras dentro del remate.
+  Por ahora se exige su presencia —tres interiores y tres finales— sin imponer parejas.

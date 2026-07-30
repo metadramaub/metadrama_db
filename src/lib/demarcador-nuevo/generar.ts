@@ -117,6 +117,8 @@ function rasgosDe(
 		tamanio: item.tamanio_unidad_estrofica,
 		estructura: null,
 		estructuraEtiqueta: null,
+		repeticion: null,
+		repeticionEtiqueta: null,
 		patron: item.patron_especifico?.trim() || null,
 		patronEtiqueta: item.patron_especifico?.trim() || null
 	};

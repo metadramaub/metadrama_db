@@ -193,6 +193,33 @@ describe('motor nuevo del demarcador', () => {
 		expect(pregunta?.pregunta).toBe('¿Cómo se ordenan las partes de la forma?');
 	});
 
+	it('usa una repetición formalizada para distinguir formas sin patrón de rima', () => {
+		const sextina = candidato('sextina', [11], {
+			tamanio: 39,
+			repeticion: 'permutacion-seis-palabras',
+			repeticionEtiqueta: 'Seis palabras finales permutadas'
+		});
+		const otra = candidato('otra-forma', [11], {
+			tamanio: 39,
+			repeticion: 'sin-repeticion',
+			repeticionEtiqueta: 'Sin repetición estructural'
+		});
+
+		const pregunta = construirPreguntas([sextina, otra], 'familias').find(
+			(item) => item.rasgo === 'repeticion'
+		);
+
+		expect(pregunta).toMatchObject({
+			rasgo: 'repeticion',
+			tipo: 'opciones',
+			pregunta: '¿Cómo se organiza la repetición?'
+		});
+		expect(pregunta?.opciones).toContainEqual({
+			valor: 'permutacion-seis-palabras',
+			etiqueta: 'Seis palabras finales permutadas'
+		});
+	});
+
 	it('permite comparar patrones en la prueba compilada desde el catálogo', () => {
 		const candidatos = [
 			candidato('quintilla-ababa', [8], { tamanio: 5, patron: 'ababa' }),

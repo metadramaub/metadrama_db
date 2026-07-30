@@ -120,6 +120,26 @@ type SectionRow = {
 	configuracion_referenciada_id: string | null;
 };
 
+type RepetitionPatternRow = {
+	patron_repeticion_id: string;
+	configuracion_id: string;
+	tipo: 'palabra_final' | 'verso' | 'estribillo' | 'seccion' | 'otro';
+	ambito: 'unidad' | 'estrofa' | 'serie' | 'seccion' | 'composicion';
+	regla: string;
+	fijeza: 'fija' | 'canonica' | 'habitual' | 'admitida';
+	descripcion: string | null;
+};
+
+type RepetitionPositionRow = {
+	patron_repeticion_id: string;
+	bloque: number;
+	posicion: number;
+	bloque_origen: number | null;
+	posicion_origen: number | null;
+	etiqueta_funcional: string | null;
+	condicion: string | null;
+};
+
 type CompiledRhymePattern = {
 	tipo_rima_id: string | null;
 	signature: string | null;
@@ -129,6 +149,11 @@ type CompiledRhymePattern = {
 };
 
 type CompiledStructure = {
+	signature: string;
+	label: string;
+};
+
+type CompiledRepetition = {
 	signature: string;
 	label: string;
 };
@@ -320,6 +345,46 @@ function compileStructure(
 	};
 }
 
+function compileRepetition(
+	patterns: RepetitionPatternRow[],
+	positionsByPattern: Map<string, RepetitionPositionRow[]>
+): CompiledRepetition | null {
+	if (patterns.length === 0) return null;
+
+	const compiled = [...patterns]
+		.sort(
+			(a, b) =>
+				a.tipo.localeCompare(b.tipo, 'es') ||
+				a.regla.localeCompare(b.regla, 'es')
+		)
+		.map((pattern) => ({
+			tipo: pattern.tipo,
+			ambito: pattern.ambito,
+			fijeza: pattern.fijeza,
+			regla: pattern.regla,
+			posiciones: [...(positionsByPattern.get(pattern.patron_repeticion_id) ?? [])]
+				.sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion)
+				.map((position) => ({
+					bloque: position.bloque,
+					posicion: position.posicion,
+					bloqueOrigen: position.bloque_origen,
+					posicionOrigen: position.posicion_origen,
+					etiqueta: position.etiqueta_funcional,
+					condicion: position.condicion
+				}))
+		}));
+	const labels = [
+		...new Set(
+			patterns.map((pattern) => pattern.descripcion?.trim() || pattern.regla.trim())
+		)
+	];
+
+	return {
+		signature: JSON.stringify(compiled),
+		label: labels.join(' · ')
+	};
+}
+
 function compileRhymePattern(
 	pattern: RhymePatternRow,
 	positions: RhymePositionRow[],
@@ -425,6 +490,7 @@ function candidateFromConfiguration(input: {
 	metres: ValorCatalogado[];
 	rhymePattern: CompiledRhymePattern | null;
 	structure: CompiledStructure | null;
+	repetition: CompiledRepetition | null;
 	size: number | null;
 	vocabularyById: Map<string, VocabularyRow>;
 }): CandidatoDemarcadorNuevo {
@@ -435,6 +501,7 @@ function candidateFromConfiguration(input: {
 		metres,
 		rhymePattern,
 		structure,
+		repetition,
 		size,
 		vocabularyById
 	} = input;
@@ -448,6 +515,10 @@ function candidateFromConfiguration(input: {
 		tamanio: size,
 		estructura: structure?.signature ?? null,
 		estructuraEtiqueta: structure?.label ?? null,
+		// En el catálogo nuevo rige el criterio editorial de mundo cerrado:
+		// si no se declara una repetición normativa, se asume que no existe.
+		repeticion: repetition?.signature ?? 'sin_repeticion_estructural',
+		repeticionEtiqueta: repetition?.label ?? 'Sin repetición estructural',
 		patron: rhymePattern?.signature ?? null,
 		patronEtiqueta: rhymePattern?.label ?? null,
 		predominioRima: rhymePattern?.predominioRima ?? null,
@@ -490,6 +561,8 @@ export async function generateDemarcatorFromMetricCatalog(
 		rhymeLinksResponse,
 		rhymeRestrictionsResponse,
 		sectionsResponse,
+		repetitionPatternsResponse,
+		repetitionPositionsResponse,
 		vocabularyResponse
 	] = await Promise.all([
 		db.from('catalogo_metrico_estado').select('revision,actualizado_en').eq('id', true).single(),
@@ -535,6 +608,16 @@ export async function generateDemarcatorFromMetricCatalog(
 				'seccion_id,configuracion_id,seccion_padre_id,tipo_seccion,nombre,orden,repeticiones_min,repeticiones_max,versos_min,versos_max,configuracion_referenciada_id'
 			),
 		db
+			.from('patrones_repeticion')
+			.select(
+				'patron_repeticion_id,configuracion_id,tipo,ambito,regla,fijeza,descripcion'
+			),
+		db
+			.from('patron_repeticion_posiciones')
+			.select(
+				'patron_repeticion_id,bloque,posicion,bloque_origen,posicion_origen,etiqueta_funcional,condicion'
+			),
+		db
 			.from('vocabularios')
 			.select('termino_id,termino,etiqueta,numero_silabas')
 			.in('categoria', ['tipo_rima', 'naturaleza_estrofica', 'metro'])
@@ -558,6 +641,14 @@ export async function generateDemarcatorFromMetricCatalog(
 		rhymeRestrictionsResponse.error
 	);
 	throwIfError('No se pudieron cargar las secciones métricas', sectionsResponse.error);
+	throwIfError(
+		'No se pudieron cargar los patrones de repetición',
+		repetitionPatternsResponse.error
+	);
+	throwIfError(
+		'No se pudieron cargar las posiciones de repetición',
+		repetitionPositionsResponse.error
+	);
 	throwIfError('No se pudieron cargar los vocabularios auxiliares', vocabularyResponse.error);
 
 	const forms = (formsResponse.data ?? []) as FormRow[];
@@ -686,6 +777,26 @@ export async function generateDemarcatorFromMetricCatalog(
 		});
 	}
 
+	const repetitionPositionsByPattern = new Map<string, RepetitionPositionRow[]>();
+	for (const position of (repetitionPositionsResponse.data ?? []) as RepetitionPositionRow[]) {
+		repetitionPositionsByPattern.set(position.patron_repeticion_id, [
+			...(repetitionPositionsByPattern.get(position.patron_repeticion_id) ?? []),
+			position
+		]);
+	}
+	const repetitionPatternsByConfiguration = new Map<string, RepetitionPatternRow[]>();
+	for (const pattern of (repetitionPatternsResponse.data ?? []) as RepetitionPatternRow[]) {
+		repetitionPatternsByConfiguration.set(pattern.configuracion_id, [
+			...(repetitionPatternsByConfiguration.get(pattern.configuracion_id) ?? []),
+			pattern
+		]);
+	}
+	const repetitionByConfiguration = new Map<string, CompiledRepetition>();
+	for (const [configurationId, patterns] of repetitionPatternsByConfiguration) {
+		const compiled = compileRepetition(patterns, repetitionPositionsByPattern);
+		if (compiled) repetitionByConfiguration.set(configurationId, compiled);
+	}
+
 	const configurationsByForm = new Map<string, ConfigurationRow[]>();
 	for (const configuration of configurations) {
 		configurationsByForm.set(configuration.forma_id, [
@@ -728,6 +839,8 @@ export async function generateDemarcatorFromMetricCatalog(
 						),
 						configurationById
 					),
+					repetition:
+						repetitionByConfiguration.get(configuration.configuracion_id) ?? null,
 					size: configurationSize(
 						form,
 						configuration,
