@@ -4,6 +4,9 @@
 		type MetricEntityOption
 	} from './MetricEntityCollection.svelte';
 	import MetricChoiceGroupsEditor from './MetricChoiceGroupsEditor.svelte';
+	import MetricPositionSequence, {
+		type MetricPositionSequenceItem
+	} from './MetricPositionSequence.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
 		metricReviewStateLabel,
@@ -47,17 +50,11 @@
 			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
 		)
 	);
-	const metricPatternIds = $derived(
-		new Set(metricPatterns.map((row: MetricCatalogDomainRow) => String(row.patron_metrico_id)))
-	);
 	const metricPatternOptions = $derived(
 		metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: String(row.patron_metrico_id),
 			label: String(row.nombre || `Patrón métrico ${index + 1}`)
 		}))
-	);
-	const soleMetricPatternId = $derived(
-		metricPatterns.length === 1 ? String(metricPatterns[0].patron_metrico_id) : null
 	);
 	const rhymePatterns = $derived(
 		props.domain.rhymePatterns.filter(
@@ -80,6 +77,29 @@
 				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
 					Number(a.orden ?? 999) - Number(b.orden ?? 999)
 			)
+	);
+	const configurationTraits = $derived(
+		props.domain.configurationTraits
+			.filter(
+				(row: MetricCatalogDomainRow) =>
+					row.configuracion_id === props.configurationId
+			)
+			.map((row: MetricCatalogDomainRow) => {
+				const trait = props.domain.traits.find(
+					(candidate: MetricCatalogDomainRow) =>
+						candidate.rasgo_id === row.rasgo_id
+				);
+				const value = props.domain.traitValues.find(
+					(candidate: MetricCatalogDomainRow) =>
+						candidate.valor_id === row.valor_id
+				);
+				return {
+					...row,
+					nombre: value
+						? `${String(trait?.nombre ?? 'Rasgo')} · ${String(value.nombre)}`
+						: String(trait?.nombre ?? row.modalidad ?? 'Rasgo')
+				};
+			})
 	);
 	const repetitionPatterns = $derived(
 		props.domain.repetitionPatterns.filter(
@@ -211,7 +231,7 @@
 		{
 			key: 'patron_metrico_id',
 			label: 'Patrón',
-			type: soleMetricPatternId ? 'hidden' : 'select',
+			type: 'select',
 			options: metricPatternOptions,
 			required: true,
 			help: 'Solo se elige cuando esta configuración contiene varios patrones métricos.'
@@ -227,7 +247,7 @@
 		{
 			key: 'patron_metrico_id',
 			label: 'Patrón',
-			type: soleMetricPatternId ? 'hidden' : 'select',
+			type: 'select',
 			options: metricPatternOptions,
 			required: true
 		},
@@ -504,6 +524,14 @@
 	const groupedRhymePositionFields = $derived(hideRhymePatternField(rhymePositionFields));
 	const groupedRhymeLinkFields = $derived(hideRhymePatternField(rhymeLinkFields));
 	const groupedRhymeRestrictionFields = $derived(hideRhymePatternField(rhymeRestrictionFields));
+	const groupedMetricPositionFields = $derived(hideMetricPatternField(metricPositionFields));
+	const groupedMetricOptionFields = $derived(hideMetricPatternField(metricOptionFields));
+
+	function hideMetricPatternField(fields: MetricEntityField[]): MetricEntityField[] {
+		return fields.map((field) =>
+			field.key === 'patron_metrico_id' ? { ...field, type: 'hidden' } : field
+		);
+	}
 
 	function hideRhymePatternField(fields: MetricEntityField[]): MetricEntityField[] {
 		return fields.map((field) =>
@@ -511,43 +539,168 @@
 		);
 	}
 
-	function rhymePatternLabel(pattern: MetricCatalogDomainRow, index: number): string {
-		return String(pattern.nombre || pattern.esquema || `Patrón de rima ${index + 1}`);
+	function rowsForMetricPattern(
+		rows: MetricCatalogDomainRow[],
+		patternId: string
+	): MetricCatalogDomainRow[] {
+		return rows
+			.filter((row) => String(row.patron_metrico_id) === patternId)
+			.sort(
+				(a, b) =>
+					Number(a.alternativa ?? 1) - Number(b.alternativa ?? 1) ||
+					Number(a.posicion ?? 0) - Number(b.posicion ?? 0)
+			);
 	}
 
 	function rowsForRhymePattern(
 		rows: MetricCatalogDomainRow[],
 		patternId: string
 	): MetricCatalogDomainRow[] {
-		return rows.filter((row) => String(row.patron_rima_id) === patternId);
+		return rows
+			.filter((row) => String(row.patron_rima_id) === patternId)
+			.sort(
+				(a, b) =>
+					Number(a.bloque ?? 0) - Number(b.bloque ?? 0) ||
+					Number(a.posicion ?? 0) - Number(b.posicion ?? 0)
+			);
+	}
+
+	function metricMeasureLabel(row: MetricCatalogDomainRow): string {
+		if (row.metro_id) {
+			return (
+				props.metres.find(
+					(option: MetricCatalogOption) => option.id === row.metro_id
+				)?.label ?? 'Metro'
+			);
+		}
+		if (row.modelo_verso_id) {
+			return String(
+				props.domain.verseModels.find(
+					(model: MetricCatalogDomainRow) =>
+						model.modelo_verso_id === row.modelo_verso_id
+				)?.nombre ?? 'Modelo de verso'
+			);
+		}
+		return 'Sin medida';
+	}
+
+	function metricPreviewItems(patternId: string): MetricPositionSequenceItem[] {
+		const rows = rowsForMetricPattern(props.domain.metricPositions, patternId);
+		const alternatives = new Set(rows.map((row) => Number(row.alternativa ?? 1)));
+		return rows.map((row) => ({
+			key: String(row.posicion_id),
+			position: Number(row.posicion),
+			label: metricMeasureLabel(row),
+			context:
+				alternatives.size > 1 ? `Alternativa ${Number(row.alternativa ?? 1)}` : null,
+			optional: Boolean(row.opcional)
+		}));
+	}
+
+	function rhymePreviewItems(patternId: string): MetricPositionSequenceItem[] {
+		return rowsForRhymePattern(props.domain.rhymePositions, patternId).map((row) => ({
+			key: String(row.posicion_id),
+			position: Number(row.posicion),
+			label: row.suelto ? '—' : String(row.clase_rima ?? '?'),
+			context: [row.seccion ? String(row.seccion) : null, row.bloque ? `bloque ${row.bloque}` : null]
+				.filter(Boolean)
+				.join(' · '),
+			optional: Boolean(row.opcional)
+		}));
 	}
 </script>
 
 <div class="space-y-5 border-t border-[color:var(--border)] pt-5">
-	<details>
-		<summary class="cursor-pointer text-sm font-semibold">Medida de los versos</summary>
-		<div class="mt-4 space-y-4">
-			<MetricEntityCollection resource="metricPatterns" title="Patrones métricos" rows={metricPatterns}
-				keyFields={['patron_metrico_id']} fields={metricPatternFields}
-				defaults={{ configuracion_id: props.configurationId, ambito: defaultScope, tipo: 'secuencia_fija', estado_revision: 'borrador' }} compact />
-			<MetricEntityCollection resource="metricPositions" title="Posiciones ordenadas"
-				rows={props.domain.metricPositions.filter((row: MetricCatalogDomainRow) => metricPatternIds.has(String(row.patron_metrico_id)))}
-				keyFields={['posicion_id']} fields={metricPositionFields}
-				defaults={{ patron_metrico_id: soleMetricPatternId, alternativa: 1, posicion: 1, opcional: false }} compact />
-			<MetricEntityCollection resource="metricOptions" title="Conjunto de medidas permitidas"
-				rows={props.domain.metricOptions.filter((row: MetricCatalogDomainRow) => metricPatternIds.has(String(row.patron_metrico_id)))}
-				keyFields={['patron_metrico_id', 'metro_id']} fields={metricOptionFields}
-				defaults={{ patron_metrico_id: soleMetricPatternId }} compact />
+	<details open={patternCombinations.length > 0}>
+		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
+			<span>Medida de los versos</span>
+			<span class="font-normal text-[color:var(--muted-foreground)]">
+				{metricPatterns.length} {metricPatterns.length === 1 ? 'patrón' : 'patrones'}
+			</span>
+		</summary>
+		<div class="mt-4 space-y-5">
+			<MetricEntityCollection
+				resource="metricPatterns"
+				title="Patrones métricos"
+				description="Abre un patrón para editar sus datos y la secuencia de versos que lo descompone."
+				rows={metricPatterns}
+				keyFields={['patron_metrico_id']}
+				fields={metricPatternFields}
+				defaults={{ configuracion_id: props.configurationId, ambito: defaultScope, tipo: 'secuencia_fija', estado_revision: 'borrador' }}
+				compact
+			>
+				{#snippet rowContent(pattern)}
+					{@const patternId = String(pattern.patron_metrico_id)}
+					{@const positions = rowsForMetricPattern(props.domain.metricPositions, patternId)}
+					{@const options = rowsForMetricPattern(props.domain.metricOptions, patternId)}
+					<div class="space-y-4">
+						<div>
+							<p class="mb-2 text-xs font-medium uppercase tracking-wide text-[color:var(--muted-foreground)]">
+								Secuencia de versos
+							</p>
+							<MetricPositionSequence
+								items={metricPreviewItems(patternId)}
+								emptyMessage={options.length > 0
+									? 'Este patrón se define mediante un conjunto de medidas, no por posiciones.'
+									: 'Todavía no se han declarado posiciones para este patrón.'}
+							/>
+						</div>
+
+						<details>
+							<summary class="cursor-pointer text-sm font-medium">
+								Editar {positions.length} {positions.length === 1 ? 'posición' : 'posiciones'}
+							</summary>
+							<div class="mt-4">
+								<MetricEntityCollection
+									resource="metricPositions"
+									title="Posiciones de este patrón"
+									rows={positions}
+									keyFields={['posicion_id']}
+									fields={groupedMetricPositionFields}
+									defaults={{ patron_metrico_id: patternId, alternativa: 1, posicion: positions.length + 1, opcional: false }}
+									emptyMessage="Este patrón no tiene posiciones ordenadas."
+									compact
+								/>
+							</div>
+						</details>
+
+						{#if pattern.tipo === 'conjunto_permitido' || options.length > 0}
+							<details>
+								<summary class="cursor-pointer text-sm font-medium">
+									Editar {options.length} {options.length === 1 ? 'medida permitida' : 'medidas permitidas'}
+								</summary>
+								<div class="mt-4">
+									<MetricEntityCollection
+										resource="metricOptions"
+										title="Conjunto de este patrón"
+										rows={options}
+										keyFields={['patron_metrico_id', 'metro_id']}
+										fields={groupedMetricOptionFields}
+										defaults={{ patron_metrico_id: patternId }}
+										emptyMessage="Todavía no se han declarado medidas permitidas."
+										compact
+									/>
+								</div>
+							</details>
+						{/if}
+					</div>
+				{/snippet}
+			</MetricEntityCollection>
 		</div>
 	</details>
 
-	<details>
-		<summary class="cursor-pointer text-sm font-semibold">Rima</summary>
+	<details open={patternCombinations.length > 0}>
+		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
+			<span>Rima</span>
+			<span class="font-normal text-[color:var(--muted-foreground)]">
+				{rhymePatterns.length} {rhymePatterns.length === 1 ? 'patrón' : 'patrones'}
+			</span>
+		</summary>
 		<div class="mt-4 space-y-4">
 			<MetricEntityCollection
 				resource="rhymePatterns"
-				title="Alternativas de rima"
-				description="Cada registro es una distribución posible dentro de esta configuración. Cambiar el esquema no crea por sí solo otra configuración."
+				title="Patrones de rima"
+				description="Abre un patrón para editar sus datos, leer el esquema por versos y gestionar sus reglas."
 				rows={rhymePatterns}
 				keyFields={['patron_rima_id']}
 				fields={rhymePatternFields}
@@ -555,77 +708,89 @@
 				emptyMessage="Esta configuración todavía no tiene alternativas de rima."
 				defaults={{ configuracion_id: props.configurationId, ambito: defaultScope, comportamiento: 'secuencia_fija', fijeza: 'admitido', estado_revision: 'borrador' }}
 				compact
-			/>
-
-			<details class="border-l-2 border-[color:var(--border)] pl-4">
-				<summary class="cursor-pointer text-sm font-medium">Estructura computable de los patrones</summary>
-				<div class="mt-3 space-y-3">
-					<p class="max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-						Las letras del esquema se guardan también como posiciones para que el sistema pueda
-						compararlas. En una estrofa de cinco versos, cada patrón tiene cinco posiciones.
-						Normalmente basta con editar el esquema; abre un patrón solo para revisar su detalle.
-					</p>
-
-					{#each rhymePatterns as pattern, index (String(pattern.patron_rima_id))}
-						{@const patternId = String(pattern.patron_rima_id)}
-						<details class="border border-[color:var(--border)] bg-[color:var(--background)]">
-							<summary class="flex cursor-pointer items-center justify-between gap-3 px-4 py-3 text-sm">
-								<span class="font-medium">{rhymePatternLabel(pattern, index)}</span>
+			>
+				{#snippet rowContent(pattern)}
+					{@const patternId = String(pattern.patron_rima_id)}
+					{@const positions = rowsForRhymePattern(props.domain.rhymePositions, patternId)}
+					{@const links = rowsForRhymePattern(props.domain.rhymeLinks, patternId)}
+					{@const restrictions = rowsForRhymePattern(props.domain.rhymeRestrictions, patternId)}
+					<div class="space-y-4">
+						<div>
+							<div class="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+								<p class="text-xs font-medium uppercase tracking-wide text-[color:var(--muted-foreground)]">
+									Secuencia de rimas
+								</p>
 								{#if pattern.esquema}
-									<code class="shrink-0 text-xs">{String(pattern.esquema)}</code>
+									<code class="text-xs">{String(pattern.esquema)}</code>
 								{/if}
+							</div>
+							<MetricPositionSequence
+								items={rhymePreviewItems(patternId)}
+								emptyMessage="Todavía no se han declarado posiciones para este patrón."
+							/>
+						</div>
+
+						<details>
+							<summary class="cursor-pointer text-sm font-medium">
+								Editar {positions.length} {positions.length === 1 ? 'posición' : 'posiciones'}
 							</summary>
-							<div class="space-y-5 border-t border-[color:var(--border)] p-4">
+							<div class="mt-4">
 								<MetricEntityCollection
 									resource="rhymePositions"
-									title="Posiciones del esquema"
-									description="Una posición por verso; la clase de rima corresponde a la letra del esquema."
-									rows={rowsForRhymePattern(props.domain.rhymePositions, patternId)}
+									title="Posiciones de este patrón"
+									description="Una posición por verso; la clase corresponde a la letra del esquema."
+									rows={positions}
 									keyFields={['posicion_id']}
 									fields={groupedRhymePositionFields}
-									defaults={{ patron_rima_id: patternId, bloque: 1, posicion: 1, ubicacion: 'final', suelto: false, opcional: false }}
+									defaults={{ patron_rima_id: patternId, bloque: 1, posicion: positions.length + 1, ubicacion: 'final', suelto: false, opcional: false }}
 									compact
 								/>
-
-								<details>
-									<summary class="cursor-pointer text-sm font-medium">Reglas avanzadas</summary>
-									<div class="mt-4 space-y-5 border-l-2 border-[color:var(--border)] pl-4">
-										<MetricEntityCollection
-											resource="rhymeLinks"
-											title="Enlaces"
-											rows={rowsForRhymePattern(props.domain.rhymeLinks, patternId)}
-											keyFields={['enlace_id']}
-											fields={groupedRhymeLinkFields}
-											defaults={{ patron_rima_id: patternId, bloque_origen: 1, ubicacion_origen: 'final', desplazamiento_bloque: 0, ubicacion_destino: 'final', tipo_enlace: 'misma_rima', obligatorio: true }}
-											emptyMessage="Este patrón no necesita enlaces adicionales."
-											compact
-										/>
-										<MetricEntityCollection
-											resource="rhymeRestrictions"
-											title="Restricciones"
-											rows={rowsForRhymePattern(props.domain.rhymeRestrictions, patternId)}
-											keyFields={['restriccion_id']}
-											fields={groupedRhymeRestrictionFields}
-											defaults={{ patron_rima_id: patternId, tipo: 'otra', obligatoria: true }}
-											emptyMessage="Este patrón no necesita restricciones adicionales."
-											compact
-										/>
-									</div>
-								</details>
 							</div>
 						</details>
-					{:else}
-						<p class="text-sm text-[color:var(--muted-foreground)]">
-							Añade primero una alternativa de rima.
-						</p>
-					{/each}
-				</div>
-			</details>
+
+						<details>
+							<summary class="cursor-pointer text-sm font-medium">
+								Enlaces y restricciones
+								<span class="font-normal text-[color:var(--muted-foreground)]">
+									({links.length + restrictions.length})
+								</span>
+							</summary>
+							<div class="mt-4 space-y-5 border-l-2 border-[color:var(--border)] pl-4">
+								<MetricEntityCollection
+									resource="rhymeLinks"
+									title="Enlaces"
+									rows={links}
+									keyFields={['enlace_id']}
+									fields={groupedRhymeLinkFields}
+									defaults={{ patron_rima_id: patternId, bloque_origen: 1, ubicacion_origen: 'final', desplazamiento_bloque: 0, ubicacion_destino: 'final', tipo_enlace: 'misma_rima', obligatorio: true }}
+									emptyMessage="Este patrón no necesita enlaces adicionales."
+									compact
+								/>
+								<MetricEntityCollection
+									resource="rhymeRestrictions"
+									title="Restricciones"
+									rows={restrictions}
+									keyFields={['restriccion_id']}
+									fields={groupedRhymeRestrictionFields}
+									defaults={{ patron_rima_id: patternId, tipo: 'otra', obligatoria: true }}
+									emptyMessage="Este patrón no necesita restricciones adicionales."
+									compact
+								/>
+							</div>
+						</details>
+					</div>
+				{/snippet}
+			</MetricEntityCollection>
 		</div>
 	</details>
 
-	<details>
-		<summary class="cursor-pointer text-sm font-semibold">Combinaciones admitidas</summary>
+	<details open={patternCombinations.length > 0}>
+		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
+			<span>Combinaciones admitidas</span>
+			<span class="font-normal text-[color:var(--muted-foreground)]">
+				{patternCombinations.length}
+			</span>
+		</summary>
 		<div class="mt-4">
 			<MetricEntityCollection
 				resource="patternCombinations"
@@ -663,11 +828,16 @@
 		</div>
 	</details>
 
-	<details>
-		<summary class="cursor-pointer text-sm font-semibold">Rasgos transversales</summary>
+	<details open={configurationTraits.length > 0}>
+		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
+			<span>Rasgos transversales</span>
+			<span class="font-normal text-[color:var(--muted-foreground)]">
+				{configurationTraits.length}
+			</span>
+		</summary>
 		<div class="mt-4">
 			<MetricEntityCollection resource="configurationTraits" title="Rasgos de esta configuración"
-				rows={props.domain.configurationTraits.filter((row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId)}
+				rows={configurationTraits}
 				keyFields={['configuracion_id', 'rasgo_id', 'modalidad']} fields={configurationTraitFields}
 				defaults={{ configuracion_id: props.configurationId, modalidad: 'definitoria' }} compact />
 		</div>

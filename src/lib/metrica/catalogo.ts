@@ -223,10 +223,10 @@ export const METRIC_CATALOG_RESOURCES = [
 
 export type MetricCatalogResource = (typeof METRIC_CATALOG_RESOURCES)[number];
 export type MetricCatalogDomainRow = Record<string, unknown>;
-export type MetricCatalogDomainData = Record<
-	MetricCatalogResource,
-	MetricCatalogDomainRow[]
->;
+export type MetricCatalogDomainData = Record<MetricCatalogResource, MetricCatalogDomainRow[]> & {
+	forms: MetricCatalogDomainRow[];
+	configurations: MetricCatalogDomainRow[];
+};
 
 export type MetricEditorSandboxData = {
 	scenarios: MetricCatalogDomainRow[];
