@@ -1294,11 +1294,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "patron_metrico_opciones_metro_id_fkey"
+            foreignKeyName: "esquema_metrico_opciones_metro_id_fkey"
             columns: ["metro_id"]
             isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
           },
           {
             foreignKeyName: "patron_metrico_opciones_patron_metrico_id_fkey"
@@ -1315,8 +1315,7 @@ export type Database = {
           created_at: string
           esquema_metrico_id: string
           grupo_repeticion: string | null
-          metro_id: string | null
-          modelo_verso_id: string | null
+          metro_id: string
           nota: string | null
           opcional: boolean
           posicion: number
@@ -1328,8 +1327,7 @@ export type Database = {
           created_at?: string
           esquema_metrico_id: string
           grupo_repeticion?: string | null
-          metro_id?: string | null
-          modelo_verso_id?: string | null
+          metro_id: string
           nota?: string | null
           opcional?: boolean
           posicion: number
@@ -1341,8 +1339,7 @@ export type Database = {
           created_at?: string
           esquema_metrico_id?: string
           grupo_repeticion?: string | null
-          metro_id?: string | null
-          modelo_verso_id?: string | null
+          metro_id?: string
           nota?: string | null
           opcional?: boolean
           posicion?: number
@@ -1351,18 +1348,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "patron_metrico_posiciones_metro_id_fkey"
+            foreignKeyName: "esquema_metrico_posiciones_metro_id_fkey"
             columns: ["metro_id"]
             isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-          {
-            foreignKeyName: "patron_metrico_posiciones_modelo_verso_id_fkey"
-            columns: ["modelo_verso_id"]
-            isOneToOne: false
-            referencedRelation: "modelos_verso"
-            referencedColumns: ["modelo_verso_id"]
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
           },
           {
             foreignKeyName: "patron_metrico_posiciones_patron_metrico_id_fkey"
@@ -2310,6 +2300,112 @@ export type Database = {
           },
         ]
       }
+      metro_segmentos: {
+        Row: {
+          alternativa: number
+          created_at: string
+          funcion: string | null
+          metro_id: string
+          nota: string | null
+          pausa_posterior: string | null
+          posicion: number
+          segmento_id: string
+          silabas: number
+          updated_at: string
+        }
+        Insert: {
+          alternativa?: number
+          created_at?: string
+          funcion?: string | null
+          metro_id: string
+          nota?: string | null
+          pausa_posterior?: string | null
+          posicion: number
+          segmento_id?: string
+          silabas: number
+          updated_at?: string
+        }
+        Update: {
+          alternativa?: number
+          created_at?: string
+          funcion?: string | null
+          metro_id?: string
+          nota?: string | null
+          pausa_posterior?: string | null
+          posicion?: number
+          segmento_id?: string
+          silabas?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "metro_segmentos_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
+          },
+        ]
+      }
+      metros: {
+        Row: {
+          activo: boolean
+          arte: string | null
+          created_at: string
+          descripcion: string | null
+          estado_revision: string
+          metro_id: string
+          nombre: string
+          orden: number | null
+          origen_termino_id: string | null
+          silabas: number
+          slug: string
+          tipo: string
+          tipo_cesura: string | null
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          arte?: string | null
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          metro_id?: string
+          nombre: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          silabas: number
+          slug: string
+          tipo?: string
+          tipo_cesura?: string | null
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          arte?: string | null
+          created_at?: string
+          descripcion?: string | null
+          estado_revision?: string
+          metro_id?: string
+          nombre?: string
+          orden?: number | null
+          origen_termino_id?: string | null
+          silabas?: number
+          slug?: string
+          tipo?: string
+          tipo_cesura?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "metros_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: true
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       migracion_termino_destinos: {
         Row: {
           alias_id: string | null
@@ -2497,109 +2593,6 @@ export type Database = {
             foreignKeyName: "migracion_terminos_metricos_termino_id_fkey"
             columns: ["termino_id"]
             isOneToOne: true
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
-        ]
-      }
-      modelo_verso_segmentos: {
-        Row: {
-          alternativa: number
-          created_at: string
-          funcion: string | null
-          modelo_verso_id: string
-          nota: string | null
-          pausa_posterior: string | null
-          posicion: number
-          segmento_id: string
-          silabas: number
-          updated_at: string
-        }
-        Insert: {
-          alternativa?: number
-          created_at?: string
-          funcion?: string | null
-          modelo_verso_id: string
-          nota?: string | null
-          pausa_posterior?: string | null
-          posicion: number
-          segmento_id?: string
-          silabas: number
-          updated_at?: string
-        }
-        Update: {
-          alternativa?: number
-          created_at?: string
-          funcion?: string | null
-          modelo_verso_id?: string
-          nota?: string | null
-          pausa_posterior?: string | null
-          posicion?: number
-          segmento_id?: string
-          silabas?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "modelo_verso_segmentos_modelo_verso_id_fkey"
-            columns: ["modelo_verso_id"]
-            isOneToOne: false
-            referencedRelation: "modelos_verso"
-            referencedColumns: ["modelo_verso_id"]
-          },
-        ]
-      }
-      modelos_verso: {
-        Row: {
-          activo: boolean
-          created_at: string
-          descripcion: string | null
-          estado_revision: string
-          metro_id: string | null
-          modelo_verso_id: string
-          nombre: string
-          patron_acentual: string | null
-          silabas_totales: number | null
-          slug: string
-          tipo: string
-          tipo_cesura: string | null
-          updated_at: string
-        }
-        Insert: {
-          activo?: boolean
-          created_at?: string
-          descripcion?: string | null
-          estado_revision?: string
-          metro_id?: string | null
-          modelo_verso_id?: string
-          nombre: string
-          patron_acentual?: string | null
-          silabas_totales?: number | null
-          slug: string
-          tipo: string
-          tipo_cesura?: string | null
-          updated_at?: string
-        }
-        Update: {
-          activo?: boolean
-          created_at?: string
-          descripcion?: string | null
-          estado_revision?: string
-          metro_id?: string | null
-          modelo_verso_id?: string
-          nombre?: string
-          patron_acentual?: string | null
-          silabas_totales?: number | null
-          slug?: string
-          tipo?: string
-          tipo_cesura?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "modelos_verso_metro_id_fkey"
-            columns: ["metro_id"]
-            isOneToOne: false
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
           },
@@ -2943,8 +2936,8 @@ export type Database = {
             foreignKeyName: "opciones_eleccion_metrica_metro_id_fkey"
             columns: ["metro_id"]
             isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
           },
           {
             foreignKeyName: "opciones_eleccion_metrica_patron_metrico_id_fkey"

@@ -142,10 +142,7 @@ function buildIssues(input: {
 	}
 
 	const configurationById = new Map(
-		input.configurations.map((configuration) => [
-			configuration.arquitectura_id,
-			configuration
-		])
+		input.configurations.map((configuration) => [configuration.arquitectura_id, configuration])
 	);
 	const genericScopeConfigurationIds = new Set(
 		[
@@ -174,7 +171,10 @@ function buildIssues(input: {
 	const metricOptionPatternIds = new Set(
 		input.domain.metricOptions.map((row) => String(row.esquema_metrico_id))
 	);
-	const metricPatternsByConfiguration = new Map<string, MetricCatalogDomainData['metricPatterns']>();
+	const metricPatternsByConfiguration = new Map<
+		string,
+		MetricCatalogDomainData['metricPatterns']
+	>();
 	for (const pattern of input.domain.metricPatterns) {
 		const configurationId = String(pattern.arquitectura_id);
 		metricPatternsByConfiguration.set(configurationId, [
@@ -259,10 +259,7 @@ function buildIssues(input: {
 					'Tiene una secuencia de rima sin posiciones estructuradas. El esquema textual no basta para compilarla.'
 			});
 		}
-		if (
-			pattern.comportamiento === 'restricciones' &&
-			!rhymeRestrictionPatternIds.has(patternId)
-		) {
+		if (pattern.comportamiento === 'restricciones' && !rhymeRestrictionPatternIds.has(patternId)) {
 			issues.push({
 				code: 'patron_rima_sin_regla',
 				level: 'warning',
@@ -397,8 +394,8 @@ export async function loadMetricCatalog(
 		db.from('formas_tradiciones').select('*'),
 		db.from('denominaciones_metricas').select('*').order('nombre'),
 		db.from('forma_relaciones').select('*'),
-		db.from('modelos_verso').select('*').order('nombre'),
-		db.from('modelo_verso_segmentos').select('*').order('posicion'),
+		db.from('metros').select('*').order('silabas'),
+		db.from('metro_segmentos').select('*').order('posicion'),
 		db.from('esquemas_metricos').select('*'),
 		db.from('esquema_metrico_posiciones').select('*').order('posicion'),
 		db.from('esquema_metrico_opciones').select('*').order('orden'),
@@ -476,11 +473,7 @@ export async function loadMetricCatalog(
 		metricPatterns: metricPatternsDomain.data ?? [],
 		metricPositions: (metricPositionsDomain.data ?? []).map((row: any) => ({
 			...row,
-			medida: row.metro_id
-				? `metro:${row.metro_id}`
-				: row.modelo_verso_id
-					? `modelo:${row.modelo_verso_id}`
-					: null
+			medida: row.metro_id ? `metro:${row.metro_id}` : null
 		})),
 		metricOptions: metricOptionsDomain.data ?? [],
 		rhymePatterns: rhymePatternsDomain.data ?? [],
@@ -546,10 +539,7 @@ export async function loadMetricCatalog(
 	throwQueryError('No se pudieron cargar los términos de origen', sourceTermsResponse.error);
 	throwQueryError('No se pudieron cargar los patrones métricos', metrePatternsResponse.error);
 	throwQueryError('No se pudieron cargar los patrones de rima', rhymePatternsResponse.error);
-	throwQueryError(
-		'No se pudieron derivar las reglas de longitud',
-		lengthRulesResponse.error
-	);
+	throwQueryError('No se pudieron derivar las reglas de longitud', lengthRulesResponse.error);
 	throwQueryError('No se pudieron cargar las opciones métricas', optionsResponse.error);
 	throwQueryError(
 		'No se pudieron cargar las pruebas del demarcador',
@@ -687,7 +677,11 @@ export async function loadMetricCatalog(
 		},
 		options: {
 			rhymeTypes: toOptions('tipo_rima'),
-			metres: toOptions('metro')
+			// Los metros son ya entidades del dominio, no términos del vocabulario genérico.
+			metres: (verseModelsDomain.data ?? []).map((row: any) => ({
+				id: String(row.metro_id),
+				label: `${row.nombre} · ${row.silabas} sílabas${row.tipo === 'compuesto' ? ' (compuesto)' : ''}`
+			}))
 		},
 		issues,
 		stats: {
