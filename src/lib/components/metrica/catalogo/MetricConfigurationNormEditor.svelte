@@ -7,6 +7,7 @@
 	import MetricPositionSequence, {
 		type MetricPositionSequenceItem
 	} from './MetricPositionSequence.svelte';
+	import MetricRepetitionPreview from './MetricRepetitionPreview.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
 		metricReviewStateLabel,
@@ -104,13 +105,6 @@
 	const repetitionPatterns = $derived(
 		props.domain.repetitionPatterns.filter(
 			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
-		)
-	);
-	const repetitionPatternIds = $derived(
-		new Set(
-			repetitionPatterns.map((row: MetricCatalogDomainRow) =>
-				String(row.patron_repeticion_id)
-			)
 		)
 	);
 	const repetitionPatternOptions = $derived(
@@ -526,6 +520,9 @@
 	const groupedRhymeRestrictionFields = $derived(hideRhymePatternField(rhymeRestrictionFields));
 	const groupedMetricPositionFields = $derived(hideMetricPatternField(metricPositionFields));
 	const groupedMetricOptionFields = $derived(hideMetricPatternField(metricOptionFields));
+	const groupedRepetitionPositionFields = $derived(
+		hideRepetitionPatternField(repetitionPositionFields)
+	);
 
 	function hideMetricPatternField(fields: MetricEntityField[]): MetricEntityField[] {
 		return fields.map((field) =>
@@ -536,6 +533,12 @@
 	function hideRhymePatternField(fields: MetricEntityField[]): MetricEntityField[] {
 		return fields.map((field) =>
 			field.key === 'patron_rima_id' ? { ...field, type: 'hidden' } : field
+		);
+	}
+
+	function hideRepetitionPatternField(fields: MetricEntityField[]): MetricEntityField[] {
+		return fields.map((field) =>
+			field.key === 'patron_repeticion_id' ? { ...field, type: 'hidden' } : field
 		);
 	}
 
@@ -558,6 +561,19 @@
 	): MetricCatalogDomainRow[] {
 		return rows
 			.filter((row) => String(row.patron_rima_id) === patternId)
+			.sort(
+				(a, b) =>
+					Number(a.bloque ?? 0) - Number(b.bloque ?? 0) ||
+					Number(a.posicion ?? 0) - Number(b.posicion ?? 0)
+			);
+	}
+
+	function rowsForRepetitionPattern(
+		rows: MetricCatalogDomainRow[],
+		patternId: string
+	): MetricCatalogDomainRow[] {
+		return rows
+			.filter((row) => String(row.patron_repeticion_id) === patternId)
 			.sort(
 				(a, b) =>
 					Number(a.bloque ?? 0) - Number(b.bloque ?? 0) ||
@@ -820,11 +836,39 @@
 				defaults={{ configuracion_id: props.configurationId, orden: 1 }} compact />
 			<MetricEntityCollection resource="repetitionPatterns" title="Patrones de repetición" rows={repetitionPatterns}
 				keyFields={['patron_repeticion_id']} fields={repetitionFields}
-				defaults={{ configuracion_id: props.configurationId, tipo: 'otro', ambito: defaultScope, fijeza: 'admitida', estado_revision: 'borrador' }} compact />
-			<MetricEntityCollection resource="repetitionPositions" title="Posiciones de repetición"
-				rows={props.domain.repetitionPositions.filter((row: MetricCatalogDomainRow) => repetitionPatternIds.has(String(row.patron_repeticion_id)))}
-				keyFields={['posicion_id']} fields={repetitionPositionFields}
-				defaults={{ patron_repeticion_id: soleRepetitionPatternId, bloque: 1, posicion: 1 }} compact />
+				defaults={{ configuracion_id: props.configurationId, tipo: 'otro', ambito: defaultScope, fijeza: 'admitida', estado_revision: 'borrador' }} compact>
+				{#snippet rowContent(pattern)}
+					{@const patternId = String(pattern.patron_repeticion_id)}
+					{@const positions = rowsForRepetitionPattern(props.domain.repetitionPositions, patternId)}
+					<div class="space-y-4">
+						<div>
+							<p class="mb-2 text-xs font-medium uppercase tracking-wide text-[color:var(--muted-foreground)]">
+								Orden de repetición
+							</p>
+							<MetricRepetitionPreview
+								{positions}
+								blockLabel={pattern.tipo === 'palabra_final' ? 'Estrofa' : 'Bloque'}
+							/>
+						</div>
+						<details>
+							<summary class="cursor-pointer text-sm font-medium">
+								Editar {positions.length} {positions.length === 1 ? 'posición' : 'posiciones'}
+							</summary>
+							<div class="mt-4">
+								<MetricEntityCollection
+									resource="repetitionPositions"
+									title="Posiciones de este patrón"
+									rows={positions}
+									keyFields={['posicion_id']}
+									fields={groupedRepetitionPositionFields}
+									defaults={{ patron_repeticion_id: patternId, bloque: 1, posicion: positions.length + 1 }}
+									compact
+								/>
+							</div>
+						</details>
+					</div>
+				{/snippet}
+			</MetricEntityCollection>
 		</div>
 	</details>
 

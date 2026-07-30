@@ -8,6 +8,7 @@ export type ClaveRasgoDemarcador =
 	| 'naturaleza'
 	| 'tamanio'
 	| 'estructura'
+	| 'repeticion'
 	| 'patron';
 
 export type ValorCatalogado = {
@@ -22,6 +23,8 @@ export type RasgosCandidatoDemarcador = {
 	tamanio: number | null;
 	estructura?: string | null;
 	estructuraEtiqueta?: string | null;
+	repeticion?: string | null;
+	repeticionEtiqueta?: string | null;
 	patron: string | null;
 	patronEtiqueta?: string | null;
 	/** Predominio observable de versos rimados o sueltos en una serie abierta. */

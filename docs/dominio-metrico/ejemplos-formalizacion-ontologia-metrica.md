@@ -429,28 +429,35 @@ Un soneto endecasílabo presenta el esquema `ABBAABBACDCEDE` y mayoría de final
 ```mermaid
 flowchart TB
     F["formas_metricas<br/>sextina"]
-    C["configuraciones_forma<br/>sextina_clasica · principal"]
+    C1["configuraciones_forma<br/>clasica_6x6_mas_3 · principal"]
+    C2["configuraciones_forma<br/>doble_12x6_mas_3"]
 
-    E1["estructuras_secciones<br/>6 estrofas"]
+    E1["estructuras_secciones<br/>6 o 12 estrofas"]
     E2["estructuras_secciones<br/>cada estrofa: 6 versos"]
     E3["estructuras_secciones<br/>remate: 3 versos"]
 
-    PM["patrones_metricos<br/>secuencia fija · 39 versos"]
-    PMP["patron_metrico_posiciones<br/>39 posiciones de 11 sílabas"]
+    PM["patrones_metricos<br/>endecasílabo repetido"]
+    PMP["patron_metrico_posiciones<br/>una posición de 11 sílabas"]
 
-    PR["patrones_rima<br/>rima convencional: no aplica"]
+    PR["configuraciones_forma.tipo_rima_id<br/>sin rima convencional"]
 
     PRE["patrones_repeticion<br/>6 palabras finales"]
-    PREP["patron_repeticion_posiciones<br/>orden de permutación por estrofa<br/>y presencia en el remate"]
+    PREP["patron_repeticion_posiciones<br/>orden de permutación por estrofa"]
 
-    F --> C
-    C --> E1
+    F --> C1
+    F --> C2
+    C1 --> E1
+    C2 --> E1
     E1 --> E2
-    C --> E3
-    C --> PM
+    C1 --> E3
+    C2 --> E3
+    C1 --> PM
+    C2 --> PM
     PM --> PMP
-    C --> PR
-    C --> PRE
+    C1 --> PR
+    C2 --> PR
+    C1 --> PRE
+    C2 --> PRE
     PRE --> PREP
 ```
 
@@ -461,8 +468,8 @@ Una sextina conserva seis palabras finales, las permuta a lo largo de seis estro
 | Tabla | Registro conceptual |
 | --- | --- |
 | `secuencias_metricas` | Rango completo y `forma_metrica_id = sextina`. |
-| `secuencia_configuraciones` | `configuracion_id = sextina_clasica`. |
-| `unidades_metricas` | Seis estrofas y un remate con sus rangos. |
+| `secuencia_configuraciones` | `configuracion_id = clasica_6x6_mas_3` o `doble_12x6_mas_3`. |
+| `unidades_metricas` | Seis o doce estrofas y un remate con sus rangos. |
 
 El metro y la ausencia de rima convencional se infieren de la configuración. Las palabras concretas pertenecen a la realización de la obra y solo se almacenarían si el proyecto incorpora ese nivel de edición; no son necesarias para caracterizar la secuencia.
 
@@ -470,9 +477,9 @@ El metro y la ausencia de rima convencional se infieren de la configuración. La
 
 | Nivel | Acción |
 | --- | --- |
-| Mínimo | Seleccionar “Sextina”. |
-| Recomendado | Ninguna acción adicional. |
-| Avanzado | Delimitar estrofas y remate o registrar las palabras finales. |
+| Mínimo | Seleccionar “Sextina” y la configuración clásica o doble. |
+| Recomendado | Ninguna acción adicional; estrofas y remate se materializan automáticamente. |
+| Diferencia | Localizar una alteración del metro, la permutación o el remate. |
 
 ### Utilidad
 

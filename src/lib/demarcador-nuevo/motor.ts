@@ -22,6 +22,7 @@ const PESO_RESPONDIBILIDAD: Record<ClaveRasgoDemarcador, number> = {
 	organizacionPareados: 0.9,
 	naturaleza: 0.72,
 	estructura: 0.86,
+	repeticion: 0.7,
 	patron: 0.48
 };
 
@@ -33,6 +34,7 @@ const ORDEN_RASGOS: ClaveRasgoDemarcador[] = [
 	'organizacionPareados',
 	'naturaleza',
 	'estructura',
+	'repeticion',
 	'patron'
 ];
 
@@ -90,6 +92,16 @@ function valorDe(candidato: CandidatoDemarcadorNuevo, rasgo: ClaveRasgoDemarcado
 				etiqueta:
 					candidato.rasgos.estructuraEtiqueta ??
 					candidato.rasgos.estructura ??
+					'',
+				miembros: []
+			};
+		case 'repeticion':
+			return {
+				conocido: Boolean(candidato.rasgos.repeticion),
+				clave: candidato.rasgos.repeticion ?? '',
+				etiqueta:
+					candidato.rasgos.repeticionEtiqueta ??
+					candidato.rasgos.repeticion ??
 					'',
 				miembros: []
 			};
@@ -174,6 +186,11 @@ function textosPregunta(
 					pregunta: `¿Las partes siguen el orden ${etiquetaObjetivo}?`,
 					ayuda: 'Observa el orden de las unidades internas, no el esquema completo de sus rimas.'
 				};
+			case 'repeticion':
+				return {
+					pregunta: `¿Se cumple esta repetición: ${etiquetaObjetivo}?`,
+					ayuda: 'Observa qué palabras, versos o secciones reaparecen y en qué orden.'
+				};
 			case 'patron':
 				return {
 					pregunta: `¿Coincide con el patrón ${etiquetaObjetivo}?`,
@@ -217,6 +234,11 @@ function textosPregunta(
 			return {
 				pregunta: '¿Cómo se ordenan las partes de la forma?',
 				ayuda: 'Elige el orden de las unidades internas, por ejemplo redondilla + quintilla.'
+			};
+		case 'repeticion':
+			return {
+				pregunta: '¿Cómo se organiza la repetición?',
+				ayuda: 'Elige la regla que describe las palabras, versos o secciones que reaparecen.'
 			};
 		case 'patron':
 			return {

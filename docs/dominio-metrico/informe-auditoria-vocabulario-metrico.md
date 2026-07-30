@@ -181,12 +181,10 @@ Ambos se marcan como `estrofa_cerrada`, pero sus definiciones describen formas c
 
 ### 4.10. Sextina
 
-El tamaño 39 corresponde a la composición completa, mientras que otros tamaños del mismo campo corresponden a una estrofa. La sextina no usa rima convencional, sino permutación de palabras finales. Debe separar:
-
-- seis estrofas de seis versos;
-- remate de tres;
-- repetición/permutación de palabras finales;
-- total de 39 versos.
+Resuelto en el nuevo catálogo como composición completa, no como estrofa de 39 versos.
+La configuración clásica formaliza seis estrofas de seis versos y remate de tres; la
+doble, doce estrofas y el mismo remate. La ausencia de rima convencional y la
+permutación de seis palabras finales se conservan en dimensiones distintas.
 
 ## 5. Mezclas taxonómicas que conviene desmontar
 
@@ -409,7 +407,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `sexteto` | 1 | Resuelto como forma residual positiva: seis versos de arte mayor consonantes, con medidas y esquema observados por unidad. |
 | `sexteto_lira` | 9 | Resuelto: cinco patrones métricos, tres de rima, siete combinaciones admitidas y esdrújulos como rasgo. |
 | `sextilla` | 3 | Declarar patrones métricos propios para con/sin quebrado; no heredar el conjunto genérico. |
-| `sextina` | 1 | Modelar composición 6 × 6 + 3 y permutación de palabras finales. |
+| `sextina` | 1 | Resuelto: configuraciones de 39 y 75 versos, secciones, metro y permutación de palabras finales normalizados. |
 | `silva` | 5 | Revisar “silva libre”, tipos de rima y umbrales de densidad; conservar subtipos solo con criterio documentado. |
 | `soneto` | 6 | Resuelto en el nuevo catálogo: una forma, una configuración endecasílaba, cuatro patrones de rima y el final esdrújulo como rasgo transversal. |
 | `terceto` | 5 | Corregir tamaño; distinguir unidad y serie encadenada; esdrújulos a rasgo. |

@@ -293,7 +293,7 @@ Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede apl
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `sextina` | F | Conservar como forma compuesta; formalizar 6 × 6 + 3 y la permutación de palabras finales. | Alta | Sí |
+| `sextina` | F | Resuelto: una forma con configuraciones clásica `6 × 6 + 3` y doble `12 × 6 + 3`; permutación léxica formalizada. | Alta | No |
 
 ## 25. Silva
 
