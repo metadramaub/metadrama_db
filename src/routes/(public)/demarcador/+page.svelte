@@ -366,7 +366,7 @@
 								<h3 class="text-lg font-semibold">{candidata.etiqueta}</h3>
 								{#if candidata.esResidual}
 									<p class="mt-1 text-xs font-medium text-amber-800">
-										Salida residual: úsala solo si no corresponde a una forma más precisa
+										Forma general: úsala cuando ninguna forma más específica corresponda
 									</p>
 								{/if}
 								{#if !candidata.esFamilia}

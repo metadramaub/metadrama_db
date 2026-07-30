@@ -62,20 +62,20 @@
 	);
 	const configurationOptions = $derived(
 		props.configurations.map((row: MetricCatalogConfiguration) => ({
-			value: row.configuracion_id,
+			value: row.arquitectura_id,
 			label: `${props.forms.find((form: MetricCatalogForm) => form.forma_id === row.forma_id)?.nombre ?? 'Forma'}: ${row.nombre}`
 		}))
 	);
 	const metricPatternOptions = $derived(
 		props.domain.metricPatterns.map((row: MetricCatalogDomainRow) => ({
-			value: String(row.patron_metrico_id),
+			value: String(row.notacion_metrico_id),
 			label: String(row.nombre || `${row.tipo} · ${row.ambito}`)
 		}))
 	);
 	const rhymePatternOptions = $derived(
 		props.domain.rhymePatterns.map((row: MetricCatalogDomainRow) => ({
-			value: String(row.patron_rima_id),
-			label: String(row.nombre || row.esquema || 'Patrón sin nombre')
+			value: String(row.notacion_rima_id),
+			label: String(row.nombre || row.notacion || 'Patrón sin nombre')
 		}))
 	);
 	const claimTargetOptions = $derived([
@@ -92,15 +92,15 @@
 			label: `Tradición: ${option.label}`
 		})),
 		...configurationOptions.map((option: MetricEntityOption) => ({
-			value: `configuracion_id:${option.value}`,
+			value: `arquitectura_id:${option.value}`,
 			label: `Configuración: ${option.label}`
 		})),
 		...metricPatternOptions.map((option: MetricEntityOption) => ({
-			value: `patron_metrico_id:${option.value}`,
+			value: `esquema_metrico_id:${option.value}`,
 			label: `Patrón métrico: ${option.label}`
 		})),
 		...rhymePatternOptions.map((option: MetricEntityOption) => ({
-			value: `patron_rima_id:${option.value}`,
+			value: `esquema_rima_id:${option.value}`,
 			label: `Patrón de rima: ${option.label}`
 		})),
 		...traitOptions.map((option: MetricEntityOption) => ({

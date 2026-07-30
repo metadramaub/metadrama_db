@@ -1,8 +1,8 @@
 import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 export type MetricUnitDraft = {
-	unidad_prueba_id: string;
-	unidad_padre_id: string | null;
+	realizacion_prueba_id: string;
+	realizacion_padre_id: string | null;
 	seccion_id: string;
 	orden: number;
 	v_ini: number;
@@ -12,7 +12,7 @@ export type MetricUnitDraft = {
 };
 
 export type MetricChoiceDraft = {
-	unidad_prueba_id: string | null;
+	realizacion_prueba_id: string | null;
 	grupo_eleccion_id: string;
 	opcion_eleccion_id: string | null;
 	valor_texto?: string | null;
@@ -158,7 +158,7 @@ export function ensureRequiredFlatMetricStructure(
 
 	let next = [...units];
 	const existing = next.filter(
-		(unit) => unit.unidad_padre_id === null && unit.seccion_id === sectionId(section)
+		(unit) => unit.realizacion_padre_id === null && unit.seccion_id === sectionId(section)
 	).length;
 	for (let index = existing; index < sectionMinimum(section); index += 1) {
 		next = addSectionInstance(
@@ -206,8 +206,8 @@ function defaultUnit(
 ): MetricUnitDraft {
 	const length = sectionVerseMinimum(section);
 	return {
-		unidad_prueba_id: crypto.randomUUID(),
-		unidad_padre_id: parentUnitId,
+		realizacion_prueba_id: crypto.randomUUID(),
+		realizacion_padre_id: parentUnitId,
 		seccion_id: sectionId(section),
 		orden: 1,
 		v_ini: start,
@@ -226,7 +226,7 @@ function appendRequiredDescendants(
 	let next = units;
 	for (const childSection of childrenOfSection(sections, parentUnit.seccion_id)) {
 		for (let index = 0; index < sectionMinimum(childSection); index += 1) {
-			const child = defaultUnit(childSection, parentUnit.unidad_prueba_id, start);
+			const child = defaultUnit(childSection, parentUnit.realizacion_prueba_id, start);
 			next = [...next, child];
 			next = appendRequiredDescendants(next, child, sections, start);
 		}
@@ -279,7 +279,7 @@ export function ensureRequiredMetricStructure(
 	let next = [...units];
 	for (const root of rootSections(sections)) {
 		const existing = next.filter(
-			(unit) => unit.unidad_padre_id === null && unit.seccion_id === sectionId(root)
+			(unit) => unit.realizacion_padre_id === null && unit.seccion_id === sectionId(root)
 		).length;
 		for (let index = existing; index < sectionMinimum(root); index += 1) {
 			next = addSectionInstance(
@@ -299,7 +299,7 @@ export function ensureRequiredMetricStructure(
 		for (const childSection of childrenOfSection(sections, parent.seccion_id)) {
 			const existing = next.filter(
 				(unit) =>
-					unit.unidad_padre_id === parent.unidad_prueba_id &&
+					unit.realizacion_padre_id === parent.realizacion_prueba_id &&
 					unit.seccion_id === sectionId(childSection)
 			).length;
 			for (let index = existing; index < sectionMinimum(childSection); index += 1) {
@@ -307,7 +307,7 @@ export function ensureRequiredMetricStructure(
 					next,
 					sections,
 					sectionId(childSection),
-					parent.unidad_prueba_id,
+					parent.realizacion_prueba_id,
 					sequenceStart,
 					choices,
 					options
@@ -339,21 +339,21 @@ export function syncFlatRepeatedMetricUnits(
 	const desiredCount = sequenceLength / unitLength;
 	const sectionUnits = units
 		.filter(
-			(unit) => unit.unidad_padre_id === null && unit.seccion_id === sectionId(section)
+			(unit) => unit.realizacion_padre_id === null && unit.seccion_id === sectionId(section)
 		)
 		.sort(
 			(a, b) =>
 				a.orden - b.orden ||
 				a.v_ini - b.v_ini ||
-				a.unidad_prueba_id.localeCompare(b.unidad_prueba_id)
+				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
 		);
 	let next = [...units];
 	const removedUnitIds = sectionUnits
 		.slice(desiredCount)
-		.flatMap((unit) => [...unitIdsInTree(next, unit.unidad_prueba_id)]);
+		.flatMap((unit) => [...unitIdsInTree(next, unit.realizacion_prueba_id)]);
 	if (removedUnitIds.length > 0) {
 		const removed = new Set(removedUnitIds);
-		next = next.filter((unit) => !removed.has(unit.unidad_prueba_id));
+		next = next.filter((unit) => !removed.has(unit.realizacion_prueba_id));
 	}
 
 	for (let index = sectionUnits.length; index < desiredCount; index += 1) {
@@ -399,19 +399,19 @@ export function syncHierarchicalRepeatedMetricUnits(
 	const rootUnits = units
 		.filter(
 			(unit) =>
-				unit.unidad_padre_id === null && unit.seccion_id === rootId
+				unit.realizacion_padre_id === null && unit.seccion_id === rootId
 		)
 		.sort(
 			(a, b) =>
 				a.orden - b.orden ||
 				a.v_ini - b.v_ini ||
-				a.unidad_prueba_id.localeCompare(b.unidad_prueba_id)
+				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
 		);
 	const removedUnitIds = rootUnits
 		.slice(desiredCount)
-		.flatMap((unit) => [...unitIdsInTree(units, unit.unidad_prueba_id)]);
+		.flatMap((unit) => [...unitIdsInTree(units, unit.realizacion_prueba_id)]);
 	const removed = new Set(removedUnitIds);
-	let next = units.filter((unit) => !removed.has(unit.unidad_prueba_id));
+	let next = units.filter((unit) => !removed.has(unit.realizacion_prueba_id));
 
 	for (let index = rootUnits.length; index < desiredCount; index += 1) {
 		next = addSectionInstance(
@@ -446,17 +446,17 @@ export function removeMetricUnitTree(
 		changed = false;
 		for (const unit of units) {
 			if (
-				unit.unidad_padre_id &&
-				removed.has(unit.unidad_padre_id) &&
-				!removed.has(unit.unidad_prueba_id)
+				unit.realizacion_padre_id &&
+				removed.has(unit.realizacion_padre_id) &&
+				!removed.has(unit.realizacion_prueba_id)
 			) {
-				removed.add(unit.unidad_prueba_id);
+				removed.add(unit.realizacion_prueba_id);
 				changed = true;
 			}
 		}
 	}
 	return reflowMetricUnits(
-		units.filter((unit) => !removed.has(unit.unidad_prueba_id)),
+		units.filter((unit) => !removed.has(unit.realizacion_prueba_id)),
 		sections,
 		sequenceStart,
 		choices,
@@ -486,7 +486,7 @@ function lengthForUnit(
 			choices.some(
 				(choice) =>
 					choice.opcion_eleccion_id === String(option.opcion_eleccion_id) &&
-					choice.unidad_prueba_id === unit.unidad_padre_id
+					choice.realizacion_prueba_id === unit.realizacion_padre_id
 			)
 	);
 	const referenceId = effectOption?.extension_desde_seccion_id
@@ -510,9 +510,9 @@ export function reflowMetricUnits(
 ): MetricUnitDraft[] {
 	const sectionById = new Map(sections.map((section) => [sectionId(section), section]));
 	const originalOrder = new Map(
-		units.map((unit, index) => [unit.unidad_prueba_id, unit.orden || index + 1])
+		units.map((unit, index) => [unit.realizacion_prueba_id, unit.orden || index + 1])
 	);
-	const updated = new Map(units.map((unit) => [unit.unidad_prueba_id, { ...unit }]));
+	const updated = new Map(units.map((unit) => [unit.realizacion_prueba_id, { ...unit }]));
 	const visited = new Set<string>();
 	let nextOrder = 1;
 
@@ -522,8 +522,8 @@ export function reflowMetricUnits(
 			const sectionB = sectionById.get(b.seccion_id);
 			return (
 				numeric(sectionA?.orden, 999) - numeric(sectionB?.orden, 999) ||
-				numeric(originalOrder.get(a.unidad_prueba_id), 999) -
-					numeric(originalOrder.get(b.unidad_prueba_id), 999)
+				numeric(originalOrder.get(a.realizacion_prueba_id), 999) -
+					numeric(originalOrder.get(b.realizacion_prueba_id), 999)
 			);
 		});
 
@@ -533,16 +533,16 @@ export function reflowMetricUnits(
 		const section = sectionById.get(unit.seccion_id);
 		const children = sortInstances(
 			[...updated.values()].filter(
-				(candidate) => candidate.unidad_padre_id === unit.unidad_prueba_id
+				(candidate) => candidate.realizacion_padre_id === unit.realizacion_prueba_id
 			)
 		);
-		visited.add(unit.unidad_prueba_id);
+		visited.add(unit.realizacion_prueba_id);
 		unit.orden = nextOrder;
 		nextOrder += 1;
 
 		if (children.length > 0) {
 			let cursor = start;
-			for (const child of children) cursor = flowUnit(child.unidad_prueba_id, cursor);
+			for (const child of children) cursor = flowUnit(child.realizacion_prueba_id, cursor);
 			unit.v_ini = start;
 			unit.v_fin = Math.max(start, cursor - 1);
 			return unit.v_fin + 1;
@@ -558,15 +558,15 @@ export function reflowMetricUnits(
 
 	let cursor = Math.max(1, sequenceStart);
 	const roots = sortInstances(
-		[...updated.values()].filter((unit) => unit.unidad_padre_id === null)
+		[...updated.values()].filter((unit) => unit.realizacion_padre_id === null)
 	);
-	for (const root of roots) cursor = flowUnit(root.unidad_prueba_id, cursor);
+	for (const root of roots) cursor = flowUnit(root.realizacion_prueba_id, cursor);
 
 	for (const orphan of sortInstances(
-		[...updated.values()].filter((unit) => !visited.has(unit.unidad_prueba_id))
+		[...updated.values()].filter((unit) => !visited.has(unit.realizacion_prueba_id))
 	)) {
-		orphan.unidad_padre_id = null;
-		cursor = flowUnit(orphan.unidad_prueba_id, cursor);
+		orphan.realizacion_padre_id = null;
+		cursor = flowUnit(orphan.realizacion_prueba_id, cursor);
 	}
 
 	return [...updated.values()].sort((a, b) => a.orden - b.orden);
@@ -601,7 +601,7 @@ export function syncChoiceMaterializedSections(
 	let next = units.filter(
 		(unit) =>
 			!(
-				unit.unidad_padre_id === parentUnitId &&
+				unit.realizacion_padre_id === parentUnitId &&
 				managedSectionIds.has(unit.seccion_id) &&
 				!desiredSectionIds.has(unit.seccion_id)
 			)
@@ -611,7 +611,7 @@ export function syncChoiceMaterializedSections(
 		if (
 			!next.some(
 				(unit) =>
-					unit.unidad_padre_id === parentUnitId &&
+					unit.realizacion_padre_id === parentUnitId &&
 					unit.seccion_id === targetSectionId
 			)
 		) {
@@ -637,11 +637,11 @@ export function unitIdsInTree(units: MetricUnitDraft[], rootUnitId: string): Set
 		changed = false;
 		for (const unit of units) {
 			if (
-				unit.unidad_padre_id &&
-				ids.has(unit.unidad_padre_id) &&
-				!ids.has(unit.unidad_prueba_id)
+				unit.realizacion_padre_id &&
+				ids.has(unit.realizacion_padre_id) &&
+				!ids.has(unit.realizacion_prueba_id)
 			) {
-				ids.add(unit.unidad_prueba_id);
+				ids.add(unit.realizacion_prueba_id);
 				changed = true;
 			}
 		}

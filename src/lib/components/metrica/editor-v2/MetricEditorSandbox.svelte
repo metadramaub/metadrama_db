@@ -40,7 +40,7 @@
 	const props = $props<{ data: MetricCatalogPageData }>();
 
 	type DeviationDraft = {
-		unidad_prueba_id: string | null;
+		realizacion_prueba_id: string | null;
 		v_ini: number;
 		v_fin: number;
 		dimension: 'medida' | 'rima' | 'estructura' | 'repeticion' | 'rasgo';
@@ -56,9 +56,9 @@
 			| 'sustitucion'
 			| 'otra';
 		metro_observado_id: string | null;
-		patron_rima_observado_id: string | null;
+		esquema_rima_observado_id: string | null;
 		seccion_observada_id: string | null;
-		patron_repeticion_observado_id: string | null;
+		repeticion_observada_id: string | null;
 		valor_rasgo_observado_id: string | null;
 		observaciones: string;
 	};
@@ -70,7 +70,7 @@
 		v_ini: number;
 		v_fin: number;
 		forma_id: string;
-		configuracion_id: string;
+		arquitectura_id: string;
 		observaciones: string;
 		unidades: MetricUnitDraft[];
 		elecciones: MetricChoiceDraft[];
@@ -116,7 +116,7 @@
 	);
 	const editorialOutputs = $derived(
 		activeForms.filter(
-			(form: MetricCatalogForm) => form.tipo_registro === 'salida_editorial'
+			(form: MetricCatalogForm) => form.tipo_registro === 'sin_forma'
 		)
 	);
 	const configurationsForDraft = $derived(
@@ -138,16 +138,16 @@
 		draft
 			? props.data.configurations.find(
 					(configuration: MetricCatalogConfiguration) =>
-						configuration.configuracion_id === draft?.configuracion_id
+						configuration.arquitectura_id === draft?.arquitectura_id
 				) ?? null
 			: null
 	);
-	const isEditorialOutput = $derived(selectedForm?.tipo_registro === 'salida_editorial');
+	const isEditorialOutput = $derived(selectedForm?.tipo_registro === 'sin_forma');
 	const isIsolatedVerse = $derived(selectedForm?.slug === 'verso_aislado');
 	const selectedLengthRule = $derived(
 		draft
 			? props.data.lengthRules.find(
-					(rule: MetricLengthRule) => rule.configuracion_id === draft?.configuracion_id
+					(rule: MetricLengthRule) => rule.arquitectura_id === draft?.arquitectura_id
 				) ?? null
 			: null
 	);
@@ -156,7 +156,7 @@
 			? props.data.domain.sections
 					.filter(
 						(row: MetricCatalogDomainRow) =>
-							row.configuracion_id === draft?.configuracion_id
+							row.arquitectura_id === draft?.arquitectura_id
 					)
 					.sort(
 						(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
@@ -169,7 +169,7 @@
 			? props.data.domain.choiceGroups
 					.filter(
 						(row: MetricCatalogDomainRow) =>
-							row.configuracion_id === draft?.configuracion_id && row.activo
+							row.arquitectura_id === draft?.arquitectura_id && row.activo
 					)
 					.sort(
 						(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
@@ -225,7 +225,7 @@
 		draft && flatRepeatedSectionForDraft
 			? draft.unidades.filter(
 					(unit: MetricUnitDraft) =>
-						unit.unidad_padre_id === null &&
+						unit.realizacion_padre_id === null &&
 						unit.seccion_id === structuredSectionId(flatRepeatedSectionForDraft)
 				).length
 			: 0
@@ -256,7 +256,7 @@
 	function configurationLabel(id: string): string {
 		return (
 			props.data.configurations.find(
-				(configuration: MetricCatalogConfiguration) => configuration.configuracion_id === id
+				(configuration: MetricCatalogConfiguration) => configuration.arquitectura_id === id
 			)?.nombre ?? id
 		);
 	}
@@ -286,7 +286,7 @@
 			.filter(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.unidad_prueba_id === unitId &&
+					choice.realizacion_prueba_id === unitId &&
 					Boolean(choice.opcion_eleccion_id)
 			)
 			.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
@@ -298,7 +298,7 @@
 			draft.elecciones.find(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.unidad_prueba_id === unitId &&
+					choice.realizacion_prueba_id === unitId &&
 					Boolean(choice.valor_texto)
 			)?.valor_texto ?? ''
 		);
@@ -315,11 +315,11 @@
 				(choice: MetricChoiceDraft) =>
 					!(
 						choice.grupo_eleccion_id === groupId &&
-						choice.unidad_prueba_id === unitId
+						choice.realizacion_prueba_id === unitId
 					)
 			),
 			...optionIds.map((optionId) => ({
-				unidad_prueba_id: unitId,
+				realizacion_prueba_id: unitId,
 				grupo_eleccion_id: groupId,
 				opcion_eleccion_id: optionId,
 				valor_texto: null,
@@ -336,13 +336,13 @@
 				(choice: MetricChoiceDraft) =>
 					!(
 						choice.grupo_eleccion_id === groupId &&
-						choice.unidad_prueba_id === unitId
+						choice.realizacion_prueba_id === unitId
 					)
 			),
 			...(normalized
 				? [
 						{
-							unidad_prueba_id: unitId,
+							realizacion_prueba_id: unitId,
 							grupo_eleccion_id: groupId,
 							opcion_eleccion_id: null,
 							valor_texto: normalized,
@@ -358,17 +358,17 @@
 		return draft.elecciones.filter(
 			(choice: MetricChoiceDraft) =>
 				choice.grupo_eleccion_id === groupId &&
-				choice.unidad_prueba_id === unitId
+				choice.realizacion_prueba_id === unitId
 		).length;
 	}
 
 	function catalogParts(configurationId: string) {
 		const sections = props.data.domain.sections.filter(
-			(row: MetricCatalogDomainRow) => row.configuracion_id === configurationId
+			(row: MetricCatalogDomainRow) => row.arquitectura_id === configurationId
 		);
 		const groups = props.data.domain.choiceGroups.filter(
 			(row: MetricCatalogDomainRow) =>
-				row.configuracion_id === configurationId && row.activo
+				row.arquitectura_id === configurationId && row.activo
 		);
 		const groupIds = new Set(
 			groups.map((group: MetricCatalogDomainRow) => String(group.grupo_eleccion_id))
@@ -487,14 +487,14 @@
 					.filter(
 						(choice: MetricChoiceDraft) =>
 							choice.grupo_eleccion_id === groupId &&
-							choice.unidad_prueba_id === unit.unidad_prueba_id &&
+							choice.realizacion_prueba_id === unit.realizacion_prueba_id &&
 							Boolean(choice.opcion_eleccion_id)
 					)
 					.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
 				next = syncChoiceMaterializedSections(
 					next,
 					sections,
-					unit.unidad_prueba_id,
+					unit.realizacion_prueba_id,
 					groupOptions,
 					selected,
 					sequenceStart,
@@ -508,7 +508,7 @@
 
 	function resetForConfiguration(configurationId: string) {
 		if (!draft) return;
-		draft.configuracion_id = configurationId;
+		draft.arquitectura_id = configurationId;
 		const previousLength = Math.max(1, draft.v_fin - draft.v_ini + 1);
 		draft.unidades = normalizeStructuredUnits(
 			[],
@@ -542,7 +542,7 @@
 		const form = props.data.forms.find(
 			(item: MetricCatalogForm) => item.forma_id === formId
 		);
-		if (form?.tipo_registro === 'salida_editorial') {
+		if (form?.tipo_registro === 'sin_forma') {
 			resetForConfiguration('');
 			if (form.slug === 'verso_aislado') {
 				draft.v_fin = draft.v_ini;
@@ -559,8 +559,8 @@
 			(configuration: MetricCatalogConfiguration) => configuration.principal
 		);
 		resetForConfiguration(
-			principalConfiguration?.configuracion_id ??
-				(configurations.length === 1 ? configurations[0].configuracion_id : '')
+			principalConfiguration?.arquitectura_id ??
+				(configurations.length === 1 ? configurations[0].arquitectura_id : '')
 		);
 	}
 
@@ -579,7 +579,7 @@
 			v_ini: nextVerse,
 			v_fin: nextVerse,
 			forma_id: '',
-			configuracion_id: '',
+			arquitectura_id: '',
 			observaciones: '',
 			unidades: [],
 			elecciones: [],
@@ -597,7 +597,7 @@
 			v_ini: Number(row.v_ini),
 			v_fin: Number(row.v_fin),
 			forma_id: String(row.forma_id),
-			configuracion_id: row.configuracion_id ? String(row.configuracion_id) : '',
+			arquitectura_id: row.arquitectura_id ? String(row.arquitectura_id) : '',
 			observaciones: String(row.observaciones ?? ''),
 			unidades: props.data.editorSandbox.units
 				.filter(
@@ -605,8 +605,8 @@
 						String(unit.secuencia_prueba_id) === sequenceId
 				)
 				.map((unit: MetricCatalogDomainRow) => ({
-					unidad_prueba_id: String(unit.unidad_prueba_id),
-					unidad_padre_id: unit.unidad_padre_id ? String(unit.unidad_padre_id) : null,
+					realizacion_prueba_id: String(unit.realizacion_prueba_id),
+					realizacion_padre_id: unit.realizacion_padre_id ? String(unit.realizacion_padre_id) : null,
 					seccion_id: String(unit.seccion_id),
 					orden: Number(unit.orden),
 					v_ini: Number(unit.v_ini),
@@ -620,8 +620,8 @@
 						String(choice.secuencia_prueba_id) === sequenceId
 				)
 				.map((choice: MetricCatalogDomainRow) => ({
-					unidad_prueba_id: choice.unidad_prueba_id
-						? String(choice.unidad_prueba_id)
+					realizacion_prueba_id: choice.realizacion_prueba_id
+						? String(choice.realizacion_prueba_id)
 						: null,
 					grupo_eleccion_id: String(choice.grupo_eleccion_id),
 					opcion_eleccion_id: choice.opcion_eleccion_id
@@ -636,8 +636,8 @@
 						String(deviation.secuencia_prueba_id) === sequenceId
 				)
 				.map((deviation: MetricCatalogDomainRow) => ({
-					unidad_prueba_id: deviation.unidad_prueba_id
-						? String(deviation.unidad_prueba_id)
+					realizacion_prueba_id: deviation.realizacion_prueba_id
+						? String(deviation.realizacion_prueba_id)
 						: null,
 					v_ini: Number(deviation.v_ini),
 					v_fin: Number(deviation.v_fin),
@@ -647,15 +647,15 @@
 					metro_observado_id: deviation.metro_observado_id
 						? String(deviation.metro_observado_id)
 						: null,
-					patron_rima_observado_id: deviation.patron_rima_observado_id
-						? String(deviation.patron_rima_observado_id)
+					esquema_rima_observado_id: deviation.esquema_rima_observado_id
+						? String(deviation.esquema_rima_observado_id)
 						: null,
 					seccion_observada_id: deviation.seccion_observada_id
 						? String(deviation.seccion_observada_id)
 						: null,
-					patron_repeticion_observado_id:
-						deviation.patron_repeticion_observado_id
-							? String(deviation.patron_repeticion_observado_id)
+					repeticion_observada_id:
+						deviation.repeticion_observada_id
+							? String(deviation.repeticion_observada_id)
 							: null,
 					valor_rasgo_observado_id: deviation.valor_rasgo_observado_id
 						? String(deviation.valor_rasgo_observado_id)
@@ -666,11 +666,11 @@
 		draft.unidades = normalizeStructuredUnits(
 			draft.unidades,
 			draft.elecciones,
-			draft.configuracion_id,
+			draft.arquitectura_id,
 			draft.v_ini,
 			draft.v_fin
 		);
-		const openedSections = catalogParts(draft.configuracion_id).sections;
+		const openedSections = catalogParts(draft.arquitectura_id).sections;
 		if (
 			isHierarchicalMetricStructure(openedSections) ||
 			Boolean(flatVariableRepeatedMetricSection(openedSections))
@@ -688,15 +688,15 @@
 		draft.desviaciones = [
 			...draft.desviaciones,
 			{
-				unidad_prueba_id: null,
+				realizacion_prueba_id: null,
 				v_ini: draft.v_ini,
 				v_fin: draft.v_fin,
 				dimension: 'medida',
 				relacion_norma: 'diferente',
 				metro_observado_id: null,
-				patron_rima_observado_id: null,
+				esquema_rima_observado_id: null,
 				seccion_observada_id: null,
-				patron_repeticion_observado_id: null,
+				repeticion_observada_id: null,
 				valor_rasgo_observado_id: null,
 				observaciones: ''
 			}
@@ -713,7 +713,7 @@
 		}
 		if (hasFlatRepeatedUnits || hasHierarchicalRepeatedUnits) {
 			draft.v_fin = draft.v_ini + previousLength - 1;
-			const { sections, options } = catalogParts(draft.configuracion_id);
+			const { sections, options } = catalogParts(draft.arquitectura_id);
 			const synchronized = hasFlatRepeatedUnits
 				? syncFlatRepeatedMetricUnits(
 						draft.unidades,
@@ -759,7 +759,7 @@
 		}
 		draft.v_fin = Math.max(1, value);
 		if (!hasFlatRepeatedUnits && !hasHierarchicalRepeatedUnits) return;
-		const { sections, options } = catalogParts(draft.configuracion_id);
+		const { sections, options } = catalogParts(draft.arquitectura_id);
 		const synchronized = hasFlatRepeatedUnits
 			? syncFlatRepeatedMetricUnits(
 					draft.unidades,
@@ -787,11 +787,11 @@
 		const removed = new Set(unitIds);
 		draft.elecciones = draft.elecciones.filter(
 			(choice: MetricChoiceDraft) =>
-				!choice.unidad_prueba_id || !removed.has(choice.unidad_prueba_id)
+				!choice.realizacion_prueba_id || !removed.has(choice.realizacion_prueba_id)
 		);
 		draft.desviaciones = draft.desviaciones.map((deviation: DeviationDraft) =>
-			deviation.unidad_prueba_id && removed.has(deviation.unidad_prueba_id)
-				? { ...deviation, unidad_prueba_id: null }
+			deviation.realizacion_prueba_id && removed.has(deviation.realizacion_prueba_id)
+				? { ...deviation, realizacion_prueba_id: null }
 				: deviation
 		);
 	}
@@ -801,7 +801,7 @@
 		if (!draft.forma_id) {
 			return 'Selecciona una forma o una salida editorial.';
 		}
-		if (!isEditorialOutput && !draft.configuracion_id) {
+		if (!isEditorialOutput && !draft.arquitectura_id) {
 			return 'Selecciona la configuración de la forma.';
 		}
 		if (selectedForm?.slug === 'irregular' && draft.v_fin - draft.v_ini + 1 < 2) {
@@ -840,7 +840,7 @@
 			for (const root of structuredRootSections(sectionsForDraft)) {
 				const rootUnits = draft.unidades.filter(
 					(unit: MetricUnitDraft) =>
-						unit.unidad_padre_id === null &&
+						unit.realizacion_padre_id === null &&
 						unit.seccion_id === structuredSectionId(root)
 				);
 				const maximum = sectionMaximum(root);
@@ -857,7 +857,7 @@
 					)) {
 						const childTotal = draft.unidades.filter(
 							(unit: MetricUnitDraft) =>
-								unit.unidad_padre_id === rootUnit.unidad_prueba_id &&
+								unit.realizacion_padre_id === rootUnit.realizacion_prueba_id &&
 								unit.seccion_id === structuredSectionId(child)
 						).length;
 						const childMaximum = sectionMaximum(child);
@@ -888,11 +888,11 @@
 			for (const unit of applicableUnits) {
 				const selectedIds = selectedChoiceIds(
 					String(group.grupo_eleccion_id),
-					unit.unidad_prueba_id
+					unit.realizacion_prueba_id
 				);
 				const total = choiceCount(
 					String(group.grupo_eleccion_id),
-					unit.unidad_prueba_id
+					unit.realizacion_prueba_id
 				);
 				if (
 					total < Number(group.selecciones_min) ||
@@ -1026,7 +1026,7 @@
 			const payload = await callApi({
 				action: 'save_sequence',
 				...draft,
-				configuracion_id: draft.configuracion_id || null,
+				arquitectura_id: draft.arquitectura_id || null,
 				observaciones: cleanText(draft.observaciones),
 				unidades: draft.unidades.map((unit: MetricUnitDraft) => ({
 					...unit,
@@ -1241,7 +1241,7 @@
 										<optgroup label="Formas métricas">
 											{#each metricForms as form (form.forma_id)}
 												<option value={form.forma_id}>
-													{form.nombre}{form.residual ? ' · residual' : ''}
+													{form.nombre}{form.grado_especificacion === 'general' ? ' · general' : ''}
 												</option>
 											{/each}
 										</optgroup>
@@ -1265,7 +1265,7 @@
 										</span>
 										<select
 											class="h-10 border border-[color:var(--border)] bg-white px-3"
-											value={draft.configuracion_id}
+											value={draft.arquitectura_id}
 											onchange={(event) => resetForConfiguration(event.currentTarget.value)}
 											disabled={!draft.forma_id}
 										>
@@ -1278,8 +1278,8 @@
 															? 'Seleccionar organización'
 														: 'Seleccionar configuración'}
 											</option>
-											{#each configurationsForDraft as configuration (configuration.configuracion_id)}
-												<option value={configuration.configuracion_id}>
+											{#each configurationsForDraft as configuration (configuration.arquitectura_id)}
+												<option value={configuration.arquitectura_id}>
 													{configuration.nombre}
 												</option>
 											{/each}
@@ -1295,7 +1295,7 @@
 							{#if selectedConfiguration}
 								<div class="bg-[color:var(--muted)] p-3 text-sm leading-6">
 									<p class="font-medium">
-										Norma seleccionada: {configurationLabel(selectedConfiguration.configuracion_id)}
+										Norma seleccionada: {configurationLabel(selectedConfiguration.arquitectura_id)}
 									</p>
 									{#if selectedConfiguration.descripcion}
 										<p class="mt-1 text-[color:var(--muted-foreground)]">
@@ -1314,7 +1314,7 @@
 							{/if}
 						</section>
 
-						{#if draft.configuracion_id}
+						{#if draft.arquitectura_id}
 							{#if hasSequenceChoices}
 								<section class="space-y-4">
 									<h4 class="font-semibold">2. Datos de esta realización</h4>

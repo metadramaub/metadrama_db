@@ -23,9 +23,9 @@ type QueryError = {
 };
 
 const FORM_SELECT =
-	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,residual,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,grado_especificacion,estado_revision,activo,orden,origen_termino_id,updated_at';
 const CONFIGURATION_SELECT =
-	'configuracion_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,numero_versos,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,numero_versos,estado_revision,activo,orden,origen_termino_id,updated_at';
 
 function isMissingCatalogError(error: QueryError | null): boolean {
 	return error?.code === '42P01' || error?.code === 'PGRST205' || error?.code === 'PGRST204';
@@ -103,7 +103,9 @@ function buildIssues(input: {
 		]);
 	}
 
-	for (const form of input.forms.filter((item) => item.activo && !item.residual)) {
+	for (const form of input.forms.filter(
+		(item) => item.activo && item.grado_especificacion === 'especifica'
+	)) {
 		const configurations = (configurationsByForm.get(form.forma_id) ?? []).filter(
 			(configuration) => configuration.activo
 		);
@@ -124,14 +126,14 @@ function buildIssues(input: {
 	)) {
 		const hasStructuredModel =
 			configuration.patrones_metro > 0 ||
-			configuration.patrones_rima > 0 ||
+			configuration.esquemas_rima > 0 ||
 			configuration.tipo_rima_id !== null ||
 			configuration.numero_versos !== null;
 		if (!hasStructuredModel) {
 			issues.push({
 				code: 'configuracion_sin_modelo',
 				level: 'warning',
-				entityId: configuration.configuracion_id,
+				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message:
 					'Está marcada como demarcable, pero aún no tiene ningún dato estructurado. Puede ser válida si la apertura es intencional.'
@@ -141,7 +143,7 @@ function buildIssues(input: {
 
 	const configurationById = new Map(
 		input.configurations.map((configuration) => [
-			configuration.configuracion_id,
+			configuration.arquitectura_id,
 			configuration
 		])
 	);
@@ -152,7 +154,7 @@ function buildIssues(input: {
 			...input.domain.repetitionPatterns
 		]
 			.filter((pattern) => pattern.ambito === 'unidad')
-			.map((pattern) => String(pattern.configuracion_id))
+			.map((pattern) => String(pattern.arquitectura_id))
 	);
 	for (const configurationId of genericScopeConfigurationIds) {
 		const configuration = configurationById.get(configurationId);
@@ -160,21 +162,21 @@ function buildIssues(input: {
 		issues.push({
 			code: 'configuracion_con_ambito_generico',
 			level: 'warning',
-			entityId: configuration.configuracion_id,
+			entityId: configuration.arquitectura_id,
 			label: configuration.nombre,
 			message:
 				'Conserva al menos un patrón importado con ámbito «unidad genérica». Debe precisarse como estrofa, serie, sección o composición.'
 		});
 	}
 	const metricPositionPatternIds = new Set(
-		input.domain.metricPositions.map((row) => String(row.patron_metrico_id))
+		input.domain.metricPositions.map((row) => String(row.esquema_metrico_id))
 	);
 	const metricOptionPatternIds = new Set(
-		input.domain.metricOptions.map((row) => String(row.patron_metrico_id))
+		input.domain.metricOptions.map((row) => String(row.esquema_metrico_id))
 	);
 	const metricPatternsByConfiguration = new Map<string, MetricCatalogDomainData['metricPatterns']>();
 	for (const pattern of input.domain.metricPatterns) {
-		const configurationId = String(pattern.configuracion_id);
+		const configurationId = String(pattern.arquitectura_id);
 		metricPatternsByConfiguration.set(configurationId, [
 			...(metricPatternsByConfiguration.get(configurationId) ?? []),
 			pattern
@@ -189,15 +191,15 @@ function buildIssues(input: {
 		issues.push({
 			code: 'patron_metrico_sin_nombre',
 			level: 'warning',
-			entityId: configuration.configuracion_id,
+			entityId: configuration.arquitectura_id,
 			label: configuration.nombre,
 			message:
 				'Tiene varios patrones métricos y alguno carece de nombre breve para distinguirlo en la interfaz.'
 		});
 	}
 	for (const pattern of input.domain.metricPatterns) {
-		const patternId = String(pattern.patron_metrico_id);
-		const configuration = configurationById.get(String(pattern.configuracion_id));
+		const patternId = String(pattern.esquema_metrico_id);
+		const configuration = configurationById.get(String(pattern.arquitectura_id));
 		if (!configuration) continue;
 		if (
 			(pattern.tipo === 'secuencia_fija' || pattern.tipo === 'secuencia_repetible') &&
@@ -206,7 +208,7 @@ function buildIssues(input: {
 			issues.push({
 				code: 'patron_metrico_sin_posiciones',
 				level: 'warning',
-				entityId: configuration.configuracion_id,
+				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message: 'Tiene un patrón métrico ordenado sin posiciones declaradas.'
 			});
@@ -215,7 +217,7 @@ function buildIssues(input: {
 			issues.push({
 				code: 'patron_metrico_sin_opciones',
 				level: 'warning',
-				entityId: configuration.configuracion_id,
+				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message: 'Tiene un conjunto de medidas permitidas sin ninguna medida declarada.'
 			});
@@ -223,20 +225,20 @@ function buildIssues(input: {
 	}
 
 	const rhymePositionPatternIds = new Set(
-		input.domain.rhymePositions.map((row) => String(row.patron_rima_id))
+		input.domain.rhymePositions.map((row) => String(row.esquema_rima_id))
 	);
 	const rhymeRestrictionPatternIds = new Set(
-		input.domain.rhymeRestrictions.map((row) => String(row.patron_rima_id))
+		input.domain.rhymeRestrictions.map((row) => String(row.esquema_rima_id))
 	);
 	for (const pattern of input.domain.rhymePatterns) {
-		const patternId = String(pattern.patron_rima_id);
-		const configuration = configurationById.get(String(pattern.configuracion_id));
+		const patternId = String(pattern.esquema_rima_id);
+		const configuration = configurationById.get(String(pattern.arquitectura_id));
 		if (!configuration) continue;
 		if (pattern.comportamiento === 'pendiente_revision') {
 			issues.push({
 				code: 'patron_rima_comportamiento_pendiente',
 				level: 'warning',
-				entityId: configuration.configuracion_id,
+				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message:
 					'Tiene un patrón de rima importado cuyo comportamiento todavía no se ha formalizado.'
@@ -251,7 +253,7 @@ function buildIssues(input: {
 			issues.push({
 				code: 'patron_rima_sin_regla',
 				level: 'warning',
-				entityId: configuration.configuracion_id,
+				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message:
 					'Tiene una secuencia de rima sin posiciones estructuradas. El esquema textual no basta para compilarla.'
@@ -264,7 +266,7 @@ function buildIssues(input: {
 			issues.push({
 				code: 'patron_rima_sin_regla',
 				level: 'warning',
-				entityId: configuration.configuracion_id,
+				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message: 'Declara reglas combinatorias, pero no tiene ninguna restricción estructurada.'
 			});
@@ -290,7 +292,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 42
+		Number(stateResponse.data?.modelo_version ?? 0) < 43
 	) {
 		return {
 			migrationPending: true,
@@ -337,7 +339,7 @@ export async function loadMetricCatalog(
 	] = await Promise.all([
 		db.from('formas_metricas').select(FORM_SELECT).order('nombre', { ascending: true }),
 		db
-			.from('configuraciones_forma')
+			.from('arquitecturas_forma')
 			.select(CONFIGURATION_SELECT)
 			.order('principal', { ascending: false })
 			.order('orden', { ascending: true })
@@ -360,18 +362,18 @@ export async function loadMetricCatalog(
 		db
 			.from('migracion_termino_destinos')
 			.select(
-				'destino_id,termino_id,tipo_operacion,forma_id,familia_id,configuracion_id,combinacion_id,patron_metrico_id,patron_rima_id,rasgo_id,valor_rasgo_id,alias_id'
+				'destino_id,termino_id,tipo_operacion,forma_id,familia_id,arquitectura_id,variedad_id,esquema_metrico_id,esquema_rima_id,rasgo_id,valor_rasgo_id,alias_id'
 			),
 		db
 			.from('vocabularios')
 			.select('termino_id,termino,etiqueta,definicion,termino_padre_id')
 			.eq('categoria', 'estrofa_tipo'),
-		db.from('patrones_metricos').select('patron_metrico_id,configuracion_id'),
-		db.from('patrones_rima').select('patron_rima_id,configuracion_id'),
+		db.from('esquemas_metricos').select('esquema_metrico_id,arquitectura_id'),
+		db.from('esquemas_rima').select('esquema_rima_id,arquitectura_id'),
 		db
-			.from('configuraciones_forma_reglas_longitud')
+			.from('arquitecturas_reglas_longitud')
 			.select(
-				'configuracion_id,configuracion_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
 			),
 		db
 			.from('vocabularios')
@@ -397,20 +399,20 @@ export async function loadMetricCatalog(
 		db.from('forma_relaciones').select('*'),
 		db.from('modelos_verso').select('*').order('nombre'),
 		db.from('modelo_verso_segmentos').select('*').order('posicion'),
-		db.from('patrones_metricos').select('*'),
-		db.from('patron_metrico_posiciones').select('*').order('posicion'),
-		db.from('patron_metrico_opciones').select('*').order('orden'),
-		db.from('patrones_rima').select('*'),
-		db.from('patron_rima_posiciones').select('*').order('posicion'),
-		db.from('patron_rima_enlaces').select('*'),
-		db.from('patron_rima_restricciones').select('*'),
-		db.from('combinaciones_patrones_configuracion').select('*').order('orden'),
+		db.from('esquemas_metricos').select('*'),
+		db.from('esquema_metrico_posiciones').select('*').order('posicion'),
+		db.from('esquema_metrico_opciones').select('*').order('orden'),
+		db.from('esquemas_rima').select('*'),
+		db.from('esquema_rima_posiciones').select('*').order('posicion'),
+		db.from('esquema_rima_enlaces').select('*'),
+		db.from('esquema_rima_restricciones').select('*'),
+		db.from('variedades_arquitectura').select('*').order('orden'),
 		db.from('estructuras_secciones').select('*').order('orden'),
-		db.from('patrones_repeticion').select('*'),
-		db.from('patron_repeticion_posiciones').select('*').order('posicion'),
+		db.from('repeticiones_metricas').select('*'),
+		db.from('repeticion_posiciones').select('*').order('posicion'),
 		db.from('rasgos_metricos').select('*').order('nombre'),
 		db.from('rasgo_valores').select('*').order('orden'),
-		db.from('configuracion_rasgos').select('*'),
+		db.from('arquitectura_rasgos').select('*'),
 		db.from('grupos_eleccion_metrica').select('*').order('orden'),
 		db.from('opciones_eleccion_metrica').select('*').order('orden'),
 		db.from('fuentes_metricas').select('*').order('titulo'),
@@ -457,11 +459,11 @@ export async function loadMetricCatalog(
 		aliases: (aliasesDomain.data ?? []).map((row: any) => {
 			const targetField = [
 				'forma_id',
-				'configuracion_id',
-				'patron_metrico_id',
-				'patron_rima_id',
+				'arquitectura_id',
+				'esquema_metrico_id',
+				'esquema_rima_id',
 				'seccion_id',
-				'patron_repeticion_id'
+				'repeticion_id'
 			].find((field) => row[field]);
 			return {
 				...row,
@@ -496,11 +498,11 @@ export async function loadMetricCatalog(
 		choiceOptions: (choiceOptionsDomain.data ?? []).map((row: any) => {
 			const targetField = [
 				'metro_id',
-				'patron_metrico_id',
-				'patron_rima_id',
-				'combinacion_id',
+				'esquema_metrico_id',
+				'esquema_rima_id',
+				'variedad_id',
 				'seccion_id',
-				'patron_repeticion_id',
+				'repeticion_id',
 				'rasgo_id',
 				'valor_rasgo_id'
 			].find((field) => row[field]);
@@ -515,9 +517,9 @@ export async function loadMetricCatalog(
 				'forma_id',
 				'familia_id',
 				'tradicion_id',
-				'configuracion_id',
-				'patron_metrico_id',
-				'patron_rima_id',
+				'arquitectura_id',
+				'esquema_metrico_id',
+				'esquema_rima_id',
 				'rasgo_id'
 			].find((field) => row[field]);
 			return {
@@ -556,26 +558,26 @@ export async function loadMetricCatalog(
 
 	const forms = (formsResponse.data ?? []) as MetricCatalogForm[];
 	const rawConfigurations = (configurationsResponse.data ?? []) as Array<
-		Omit<MetricCatalogConfiguration, 'patrones_metro' | 'patrones_rima'>
+		Omit<MetricCatalogConfiguration, 'patrones_metro' | 'esquemas_rima'>
 	>;
 	const metrePatternCounts = new Map<string, number>();
 	for (const row of metrePatternsResponse.data ?? []) {
 		metrePatternCounts.set(
-			row.configuracion_id,
-			(metrePatternCounts.get(row.configuracion_id) ?? 0) + 1
+			row.arquitectura_id,
+			(metrePatternCounts.get(row.arquitectura_id) ?? 0) + 1
 		);
 	}
 	const rhymePatternCounts = new Map<string, number>();
 	for (const row of rhymePatternsResponse.data ?? []) {
 		rhymePatternCounts.set(
-			row.configuracion_id,
-			(rhymePatternCounts.get(row.configuracion_id) ?? 0) + 1
+			row.arquitectura_id,
+			(rhymePatternCounts.get(row.arquitectura_id) ?? 0) + 1
 		);
 	}
 	const configurations: MetricCatalogConfiguration[] = rawConfigurations.map((row) => ({
 		...row,
-		patrones_metro: metrePatternCounts.get(row.configuracion_id) ?? 0,
-		patrones_rima: rhymePatternCounts.get(row.configuracion_id) ?? 0
+		patrones_metro: metrePatternCounts.get(row.arquitectura_id) ?? 0,
+		esquemas_rima: rhymePatternCounts.get(row.arquitectura_id) ?? 0
 	}));
 
 	const familyFormCounts = new Map<string, number>();
@@ -645,7 +647,7 @@ export async function loadMetricCatalog(
 	const editorSandboxResponses = await Promise.all([
 		db.from('escenarios_editor_metrico').select('*').order('updated_at', { ascending: false }),
 		db.from('secuencias_editor_metrico').select('*').order('orden'),
-		db.from('unidades_editor_metrico').select('*').order('orden'),
+		db.from('realizaciones_editor_metrico').select('*').order('orden'),
 		db.from('elecciones_editor_metrico').select('*'),
 		db.from('desviaciones_editor_metrico').select('*').order('v_ini')
 	]);

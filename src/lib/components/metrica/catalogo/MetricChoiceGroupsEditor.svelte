@@ -20,7 +20,7 @@
 	const groups = $derived(
 		props.domain.choiceGroups
 			.filter(
-				(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+				(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
 			)
 			.sort(
 				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
@@ -29,7 +29,7 @@
 	);
 	const sections = $derived(
 		props.domain.sections.filter(
-			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+			(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
 		)
 	);
 	const sectionOptions = $derived<MetricEntityOption[]>(
@@ -44,7 +44,7 @@
 	}));
 
 	const groupFields = $derived<MetricEntityField[]>([
-		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
 		{ key: 'slug', label: 'Slug', required: true },
 		{
 			key: 'nombre',
@@ -123,17 +123,17 @@
 			(row: MetricCatalogDomainRow) =>
 				String(row.seccion_id) === String(group.seccion_id ?? '')
 		);
-		if (section?.configuracion_referenciada_id) {
-			ids.add(String(section.configuracion_referenciada_id));
+		if (section?.arquitectura_referenciada_id) {
+			ids.add(String(section.arquitectura_referenciada_id));
 		}
 		return ids;
 	}
 
 	function targetLabel(row: MetricCatalogDomainRow, fallback: string): string {
-		if (String(row.configuracion_id) === props.configurationId) return fallback;
+		if (String(row.arquitectura_id) === props.configurationId) return fallback;
 		const configuration = props.domain.configurations.find(
 			(candidate: MetricCatalogDomainRow) =>
-				candidate.configuracion_id === row.configuracion_id
+				candidate.arquitectura_id === row.arquitectura_id
 		);
 		const form = props.domain.forms.find(
 			(candidate: MetricCatalogDomainRow) =>
@@ -148,7 +148,7 @@
 		if (dimension === 'metro') {
 			const metricPatterns = props.domain.metricPatterns.filter(
 				(row: MetricCatalogDomainRow) =>
-					configurationIds.has(String(row.configuracion_id))
+					configurationIds.has(String(row.arquitectura_id))
 			);
 			return [
 				...props.metres.map((option: MetricCatalogOption) => ({
@@ -156,7 +156,7 @@
 					label: option.label
 				})),
 				...metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-					value: `patron_metrico_id:${row.patron_metrico_id}`,
+					value: `esquema_metrico_id:${row.notacion_metrico_id}`,
 					label: targetLabel(
 						row,
 						`Patrón: ${String(row.nombre || `métrico ${index + 1}`)}`
@@ -167,14 +167,14 @@
 		if (dimension === 'rima') {
 			return props.domain.rhymePatterns
 				.filter(
-					(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
-						|| configurationIds.has(String(row.configuracion_id))
+					(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
+						|| configurationIds.has(String(row.arquitectura_id))
 				)
 				.map((row: MetricCatalogDomainRow, index: number) => ({
-					value: `patron_rima_id:${row.patron_rima_id}`,
+					value: `esquema_rima_id:${row.notacion_rima_id}`,
 					label: targetLabel(
 						row,
-						String(row.nombre || row.esquema || `Patrón de rima ${index + 1}`)
+						String(row.nombre || row.notacion || `Patrón de rima ${index + 1}`)
 					)
 				}));
 		}
@@ -182,10 +182,10 @@
 			return props.domain.patternCombinations
 				.filter(
 					(row: MetricCatalogDomainRow) =>
-						configurationIds.has(String(row.configuracion_id))
+						configurationIds.has(String(row.arquitectura_id))
 				)
 				.map((row: MetricCatalogDomainRow) => ({
-					value: `combinacion_id:${row.combinacion_id}`,
+					value: `variedad_id:${row.variedad_id}`,
 					label: targetLabel(row, String(row.nombre))
 				}));
 		}
@@ -199,10 +199,10 @@
 			return props.domain.repetitionPatterns
 				.filter(
 					(row: MetricCatalogDomainRow) =>
-						configurationIds.has(String(row.configuracion_id))
+						configurationIds.has(String(row.arquitectura_id))
 				)
 				.map((row: MetricCatalogDomainRow, index: number) => ({
-					value: `patron_repeticion_id:${row.patron_repeticion_id}`,
+					value: `repeticion_id:${row.repeticion_id}`,
 					label: targetLabel(
 						row,
 						String(row.descripcion || row.regla || `Repetición ${index + 1}`)
@@ -213,7 +213,7 @@
 		const admittedTraitIds = new Set(
 			props.domain.configurationTraits
 				.filter(
-					(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+					(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
 				)
 				.map((row: MetricCatalogDomainRow) => String(row.rasgo_id))
 		);
@@ -298,7 +298,7 @@
 		keyFields={['grupo_eleccion_id']}
 		fields={groupFields}
 		defaults={{
-			configuracion_id: props.configurationId,
+			arquitectura_id: props.configurationId,
 			dimension: 'rima',
 			tipo_control: 'opciones',
 			alcance: 'secuencia',

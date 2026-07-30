@@ -282,9 +282,9 @@ describe('editor métrico jerárquico', () => {
 			}
 		];
 		const initial = syncFlatRepeatedMetricUnits([], quintilla, 1, 10).units;
-		const initialIds = initial.map((unit) => unit.unidad_prueba_id);
+		const initialIds = initial.map((unit) => unit.realizacion_prueba_id);
 		const secondChoice: MetricChoiceDraft = {
-			unidad_prueba_id: initialIds[1],
+			realizacion_prueba_id: initialIds[1],
 			grupo_eleccion_id: 'esquema-rima',
 			opcion_eleccion_id: 'abbab',
 			observaciones: null
@@ -298,11 +298,11 @@ describe('editor métrico jerárquico', () => {
 			[secondChoice]
 		).units;
 
-		expect(expanded.slice(0, 2).map((unit) => unit.unidad_prueba_id)).toEqual(initialIds);
-		expect(secondChoice.unidad_prueba_id).toBe(expanded[1].unidad_prueba_id);
-		expect(secondChoice.unidad_prueba_id).not.toBe(expanded[2].unidad_prueba_id);
-		expect(expanded[2].unidad_prueba_id).not.toBe(initialIds[0]);
-		expect(expanded[2].unidad_prueba_id).not.toBe(initialIds[1]);
+		expect(expanded.slice(0, 2).map((unit) => unit.realizacion_prueba_id)).toEqual(initialIds);
+		expect(secondChoice.realizacion_prueba_id).toBe(expanded[1].realizacion_prueba_id);
+		expect(secondChoice.realizacion_prueba_id).not.toBe(expanded[2].realizacion_prueba_id);
+		expect(expanded[2].realizacion_prueba_id).not.toBe(initialIds[0]);
+		expect(expanded[2].realizacion_prueba_id).not.toBe(initialIds[1]);
 	});
 
 	it('no inventa unidades para un rango incompatible', () => {
@@ -333,12 +333,12 @@ describe('editor métrico jerárquico', () => {
 			'mudanza'
 		]);
 		expect(units.find((unit) => unit.seccion_id === 'mudanza')).toMatchObject({
-			unidad_padre_id: 'unit-3',
+			realizacion_padre_id: 'unit-3',
 			v_ini: 3,
 			v_fin: 6
 		});
 		expect(units.find((unit) => unit.seccion_id === 'copla')).toMatchObject({
-			unidad_padre_id: 'unit-2',
+			realizacion_padre_id: 'unit-2',
 			v_ini: 3,
 			v_fin: 6
 		});
@@ -357,7 +357,7 @@ describe('editor métrico jerárquico', () => {
 			units,
 			sections,
 			'enlace',
-			copla?.unidad_prueba_id ?? null,
+			copla?.realizacion_prueba_id ?? null,
 			1
 		);
 		expect(units.find((unit) => unit.seccion_id === 'enlace')).toMatchObject({
@@ -378,8 +378,8 @@ describe('editor métrico jerárquico', () => {
 
 		expect(coplas).toHaveLength(2);
 		expect(mudanzas).toHaveLength(2);
-		expect(mudanzas.map((unit) => unit.unidad_padre_id)).toEqual(
-			coplas.map((unit) => unit.unidad_prueba_id)
+		expect(mudanzas.map((unit) => unit.realizacion_padre_id)).toEqual(
+			coplas.map((unit) => unit.realizacion_prueba_id)
 		);
 		expect(coplas.map((unit) => [unit.v_ini, unit.v_fin])).toEqual([
 			[3, 6],
@@ -392,7 +392,7 @@ describe('editor métrico jerárquico', () => {
 		const ciclo = units.find((unit) => unit.seccion_id === 'ciclo');
 		const choices: MetricChoiceDraft[] = [
 			{
-				unidad_prueba_id: ciclo?.unidad_prueba_id ?? null,
+				realizacion_prueba_id: ciclo?.realizacion_prueba_id ?? null,
 				grupo_eleccion_id: 'repetition',
 				opcion_eleccion_id: 'total',
 				observaciones: null
@@ -402,7 +402,7 @@ describe('editor métrico jerárquico', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			sections,
-			ciclo?.unidad_prueba_id ?? null,
+			ciclo?.realizacion_prueba_id ?? null,
 			repetitionOptions,
 			['total'],
 			1,
@@ -418,7 +418,7 @@ describe('editor métrico jerárquico', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			sections,
-			ciclo?.unidad_prueba_id ?? null,
+			ciclo?.realizacion_prueba_id ?? null,
 			repetitionOptions,
 			['implicit'],
 			1,
@@ -511,7 +511,7 @@ describe('editor métrico jerárquico', () => {
 		const cycle = units.find((unit) => unit.seccion_id === 'ciclo-posterior');
 		const choices: MetricChoiceDraft[] = [
 			{
-				unidad_prueba_id: cycle?.unidad_prueba_id ?? null,
+				realizacion_prueba_id: cycle?.realizacion_prueba_id ?? null,
 				grupo_eleccion_id: 'repetition-posterior',
 				opcion_eleccion_id: 'total-posterior',
 				observaciones: null
@@ -521,7 +521,7 @@ describe('editor métrico jerárquico', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			postposedSections,
-			cycle?.unidad_prueba_id ?? null,
+			cycle?.realizacion_prueba_id ?? null,
 			[totalOption],
 			['total-posterior'],
 			1,
@@ -629,7 +629,7 @@ describe('editor métrico jerárquico', () => {
 
 		const choices: MetricChoiceDraft[] = [
 			{
-				unidad_prueba_id: cycle?.unidad_prueba_id ?? null,
+				realizacion_prueba_id: cycle?.realizacion_prueba_id ?? null,
 				grupo_eleccion_id: 'repetition-zejel',
 				opcion_eleccion_id: 'total-zejel',
 				observaciones: null
@@ -638,7 +638,7 @@ describe('editor métrico jerárquico', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			zejelSections,
-			cycle?.unidad_prueba_id ?? null,
+			cycle?.realizacion_prueba_id ?? null,
 			[totalOption],
 			['total-zejel'],
 			1,

@@ -1,6 +1,6 @@
 # Contrato de implementación del dominio métrico
 
-Estado: vigente · 30 de julio de 2026
+Estado: vigente · bloque A aplicado el 30 de julio de 2026
 
 Contrasta [la ontología](./ontologia-metrica.md) con lo que la base y el código expresan
 hoy, concepto a concepto, y fija qué hay que cambiar antes de corregir ningún dato. El
@@ -29,7 +29,11 @@ Comprobado antes de planificar nada:
 
 ## 2 · Concepto a concepto
 
-| Concepto de la ontología | Hoy | Veredicto |
+Fotografía del estado **antes** de empezar, que es lo que justifica el plan del apartado 5.
+Los renombrados de la columna «Veredicto» están ya aplicados; para el estado vigente de
+cada concepto, la tabla de correspondencia de [la ontología](./ontologia-metrica.md).
+
+| Concepto de la ontología | Antes | Veredicto |
 | --- | --- | --- |
 | Forma | `formas_metricas` | Renombrar valores de `tipo_registro`; `residual` pasa a grado de especificación |
 | Tramo sin forma | `tipo_registro = 'salida_editorial'` | Renombrar a `sin_forma`. Le falta la capa de observación descriptiva |
@@ -164,9 +168,15 @@ sustituyen por una sola.
 
 Cuatro bloques, en este orden y con el código de cada uno en el mismo commit.
 
-**A · Renombrados.** Tablas, columnas y valores controlados; recreación de las diecisiete
-funciones y de la vista; `modelo_version` a 43. Sin cambio semántico: al terminar, el
-informe de conformidad debe dar exactamente los mismos 53 defectos.
+**A · Renombrados. Aplicado.** Tablas, columnas y valores controlados; recreación de las
+quince funciones que los nombraban y de la vista; `modelo_version` a 43. El informe de
+conformidad dio exactamente los mismos 53 defectos antes y después, que era el criterio de
+aceptación.
+
+Dos cosas que conviene recordar de su ejecución. Los disparadores de `formas_metricas`
+tuvieron que recrearse **antes** de tocar los datos: el primer intento falló al actualizar
+`tipo_registro` porque un disparador aún nombraba `configuraciones_forma`. Y renombrar una
+vista no renombra sus columnas de salida, así que hubo que eliminarla y recrearla.
 
 **B · Metro unificado.** Tabla nueva, absorción de los modelos de verso, repunte de las 348
 referencias, retirada de `patron_acentual` y del `check` de exclusividad.

@@ -49,23 +49,23 @@
 			label: `Forma · ${form.nombre}`
 		})),
 		...props.configurations.map((configuration: MetricCatalogConfiguration) => ({
-			value: `configuracion_id:${configuration.configuracion_id}`,
+			value: `arquitectura_id:${configuration.arquitectura_id}`,
 			label: `Configuración · ${configuration.nombre}`
 		})),
 		...props.domain.metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: `patron_metrico_id:${row.patron_metrico_id}`,
+			value: `esquema_metrico_id:${row.notacion_metrico_id}`,
 			label: `Patrón métrico · ${String(row.nombre || `Patrón ${index + 1}`)}`
 		})),
 		...props.domain.rhymePatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: `patron_rima_id:${row.patron_rima_id}`,
-			label: `Patrón de rima · ${String(row.nombre || row.esquema || `Patrón ${index + 1}`)}`
+			value: `esquema_rima_id:${row.notacion_rima_id}`,
+			label: `Patrón de rima · ${String(row.nombre || row.notacion || `Patrón ${index + 1}`)}`
 		})),
 		...props.domain.sections.map((row: MetricCatalogDomainRow) => ({
 			value: `seccion_id:${row.seccion_id}`,
 			label: `Sección · ${String(row.nombre || row.tipo_seccion)}`
 		})),
 		...props.domain.repetitionPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: `patron_repeticion_id:${row.patron_repeticion_id}`,
+			value: `repeticion_id:${row.repeticion_id}`,
 			label: `Repetición · ${String(row.descripcion || row.regla || `Patrón ${index + 1}`)}`
 		}))
 	]);

@@ -5,15 +5,12 @@ export const METRIC_CATALOG_REVIEW_STATES = [
 	'retirada'
 ] as const;
 
-export const METRIC_STRUCTURAL_LEVELS = [
-	'verso',
-	'estrofa',
-	'serie',
-	'composicion',
-	'compuesta'
-] as const;
+export const METRIC_STRUCTURAL_LEVELS = ['verso', 'estrofa', 'serie', 'composicion'] as const;
 
-export const METRIC_ENTRY_TYPES = ['forma', 'salida_editorial'] as const;
+export const METRIC_ENTRY_TYPES = ['forma', 'sin_forma'] as const;
+
+/** Cuánto acota la norma de una forma. Nulo en los tramos sin forma. */
+export const METRIC_SPECIFICATION_DEGREES = ['general', 'especifica'] as const;
 
 export const METRIC_CONFIGURATION_GRADES = [
 	'fija',
@@ -49,6 +46,7 @@ export const METRIC_MIGRATION_CLASSIFICATIONS = [
 export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[number];
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
 export type MetricEntryType = (typeof METRIC_ENTRY_TYPES)[number];
+export type MetricSpecificationDegree = (typeof METRIC_SPECIFICATION_DEGREES)[number];
 export type MetricConfigurationGrade = (typeof METRIC_CONFIGURATION_GRADES)[number];
 export type MetricMigrationClassification = (typeof METRIC_MIGRATION_CLASSIFICATIONS)[number];
 export type MetricChoiceDimension = (typeof METRIC_CHOICE_DIMENSIONS)[number];
@@ -62,7 +60,7 @@ export type MetricCatalogForm = {
 	nivel_estructural: MetricStructuralLevel;
 	tipo_registro: MetricEntryType;
 	seleccionable: boolean;
-	residual: boolean;
+	grado_especificacion: MetricSpecificationDegree | null;
 	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	orden: number | null;
@@ -71,7 +69,7 @@ export type MetricCatalogForm = {
 };
 
 export type MetricCatalogConfiguration = {
-	configuracion_id: string;
+	arquitectura_id: string;
 	forma_id: string;
 	slug: string;
 	nombre: string;
@@ -87,12 +85,12 @@ export type MetricCatalogConfiguration = {
 	origen_termino_id: string | null;
 	updated_at: string;
 	patrones_metro: number;
-	patrones_rima: number;
+	esquemas_rima: number;
 };
 
 export type MetricLengthRule = {
-	configuracion_id: string;
-	configuracion_nombre: string;
+	arquitectura_id: string;
+	arquitectura_nombre: string;
 	modulo_versos: number;
 	residuo_versos: number;
 	minimo_versos: number;
@@ -149,10 +147,10 @@ export type MetricCatalogMigrationRow = {
 		tipo_operacion: string;
 		forma_id: string | null;
 		familia_id: string | null;
-		configuracion_id: string | null;
-		combinacion_id: string | null;
-		patron_metrico_id: string | null;
-		patron_rima_id: string | null;
+		arquitectura_id: string | null;
+		variedad_id: string | null;
+		esquema_metrico_id: string | null;
+		esquema_rima_id: string | null;
 		rasgo_id: string | null;
 		valor_rasgo_id: string | null;
 		alias_id: string | null;
@@ -291,7 +289,6 @@ export function metricReviewStateLabel(state: MetricCatalogReviewState): string 
 export function metricStructuralLevelLabel(level: MetricStructuralLevel): string {
 	if (level === 'verso') return 'Verso';
 	if (level === 'estrofa') return 'Estrofa';
-	if (level === 'serie') return 'Serie';
-	if (level === 'composicion') return 'Composición';
-	return 'Forma compuesta';
+	if (level === 'serie') return 'Serie no estrófica';
+	return 'Composición de estructura fija';
 }

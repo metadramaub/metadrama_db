@@ -66,7 +66,7 @@
 		nivel_estructural: 'estrofa' as MetricStructuralLevel,
 		tipo_registro: 'forma' as MetricEntryType,
 		seleccionable: true,
-		residual: false,
+		grado_especificacion: 'especifica' as 'general' | 'especifica' | null,
 		estado_revision: 'borrador' as MetricCatalogReviewState,
 		activo: true,
 		orden: null as number | null
@@ -153,7 +153,7 @@
 			(form: MetricCatalogForm) => form.forma_id === entityId
 		);
 		const configuration = data.configurations.find(
-			(item: MetricCatalogConfiguration) => item.configuracion_id === entityId
+			(item: MetricCatalogConfiguration) => item.arquitectura_id === entityId
 		);
 		const formId = directForm?.forma_id ?? configuration?.forma_id ?? null;
 		if (!formId) return;
@@ -169,7 +169,7 @@
 			nivel_estructural: 'estrofa',
 			tipo_registro: 'forma',
 			seleccionable: true,
-			residual: false,
+			grado_especificacion: 'especifica',
 			estado_revision: 'borrador',
 			activo: true,
 			orden: null
@@ -362,10 +362,10 @@
 								<span class="block text-sm font-medium">{form.nombre}</span>
 								<span class="mt-0.5 block text-xs text-[color:var(--muted-foreground)]">
 									{metricReviewStateLabel(form.estado_revision)}
-									{form.tipo_registro === 'salida_editorial'
-										? ' · salida editorial'
-										: form.residual
-											? ' · residual'
+									{form.tipo_registro === 'sin_forma'
+										? ' · tramo sin forma'
+										: form.grado_especificacion === 'general'
+											? ' · general'
 											: ''}
 								</span>
 							</button>
@@ -429,14 +429,16 @@
 										value={newForm.tipo_registro}
 										onchange={(event) => {
 											newForm.tipo_registro = event.currentTarget.value as MetricEntryType;
-											if (newForm.tipo_registro === 'salida_editorial') {
-												newForm.residual = true;
+											if (newForm.tipo_registro === 'sin_forma') {
+												newForm.grado_especificacion = null;
 												newForm.seleccionable = true;
+											} else if (newForm.grado_especificacion === null) {
+												newForm.grado_especificacion = 'especifica';
 											}
 										}}
 									>
 										<option value="forma">Forma métrica</option>
-										<option value="salida_editorial">Salida editorial</option>
+										<option value="sin_forma">Tramo sin forma</option>
 									</select>
 								</label>
 								<label class="space-y-1">
@@ -456,21 +458,27 @@
 									<input
 										type="checkbox"
 										bind:checked={newForm.seleccionable}
-										disabled={newForm.tipo_registro === 'salida_editorial'}
+										disabled={newForm.tipo_registro === 'sin_forma'}
 									/>
 									Seleccionable
 								</label>
 								<label class="inline-flex items-center gap-2">
-									<input
-										type="checkbox"
-										checked={newForm.residual}
-										disabled={newForm.tipo_registro === 'salida_editorial'}
+									<span>Grado</span>
+									<select
+										class="border border-[color:var(--border)] bg-white px-2 py-1 text-sm"
+										value={newForm.grado_especificacion ?? ''}
+										disabled={newForm.tipo_registro === 'sin_forma'}
 										onchange={(event) => {
-											newForm.residual = event.currentTarget.checked;
-											if (newForm.residual) newForm.seleccionable = true;
+											const valor = event.currentTarget.value;
+											newForm.grado_especificacion =
+												valor === '' ? null : (valor as 'general' | 'especifica');
+											if (newForm.grado_especificacion === 'general')
+												newForm.seleccionable = true;
 										}}
-									/>
-									Categoría residual
+									>
+										<option value="especifica">Específica</option>
+										<option value="general">General</option>
+									</select>
 								</label>
 							</div>
 							{#if createFormError}
