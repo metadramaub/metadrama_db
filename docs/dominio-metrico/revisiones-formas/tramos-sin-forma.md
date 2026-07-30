@@ -4,7 +4,7 @@ Estado: revisado con los datos del proyecto y bibliografía · 30 de julio de 20
 
 ## Decisión
 
-No son formas métricas. Son salidas editoriales de último recurso que comparten el
+No son formas métricas. Son tramos sin forma que comparten el
 selector con las formas por razones operativas, pero se distinguen mediante
 `formas_metricas.tipo_registro = salida_editorial`.
 
@@ -29,7 +29,7 @@ general es opcional.
 Una redondilla con un verso hipométrico sigue siendo redondilla. Una tirada que solo
 recuerda vagamente una redondilla y exige convertir casi todos sus versos en excepciones
 se registra como Versificación irregular. Las desviaciones explican diferencias respecto
-de una norma reconocible; una salida editorial declara que no existe tal norma para ese
+de una norma reconocible; un tramo sin forma declara que no existe tal norma para ese
 tramo.
 
 ## Terminología
@@ -67,12 +67,12 @@ forma». En Verso aislado, el verso final se mantiene igual al inicial.
 
 ## Demarcador y análisis
 
-Las salidas editoriales no intervienen en las preguntas ni en las distancias entre
+Los tramos sin forma no intervienen en las preguntas ni en las distancias entre
 formas. Solo aparecen cuando ya no queda una candidata ordinaria y no se incluyen en los
 recuentos de diversidad de formas. Sí pueden contabilizarse por separado como cobertura
 residual del corpus.
 
-La copla de pie quebrado residual sigue siendo una forma: conserva una estructura
+La copla de pie quebrado sigue siendo una forma, general pero plena: conserva una estructura
 positiva formalizable. La distinción `tipo_registro` evita confundir ese caso con estas
 dos salidas sin norma.
 
@@ -83,7 +83,7 @@ José Domínguez Caparrós, *Métrica española*, Madrid, UNED, 2014:
 - p. 159: distingue la versificación irregular o anisosilábica de la regular;
 - p. 232: usa verso suelto, libre o blanco para una serie de versos sin rima.
 
-La bibliografía justifica la distinción terminológica. Las dos salidas editoriales y su
+La bibliografía justifica la distinción terminológica. Los dos tramos sin forma y su
 límite de uso son una decisión metodológica del proyecto.
 
 ## Duda para el IP

@@ -1,3 +1,17 @@
+# Ejemplos de formalización (histórico)
+
+Fecha: 30 de julio de 2026 · **Documento superado**
+
+Explicaba el modelo forma por forma cuando todavía no existía un documento de ontología.
+Su función la cumplen ahora [la ontología métrica](../ontologia-metrica.md), con sus cinco
+arquetipos diagramados, y las fichas de [revisiones-formas](../revisiones-formas/), que
+documentan cada forma en detalle.
+
+Usa la terminología anterior —configuración, patrón, familia— y describe tablas que ya no
+existen. Se conserva por los ejemplos de secuencia y de interacción del editor.
+
+---
+
 # Ejemplos de formalización con la ontología métrica
 
 Fecha: 30 de julio de 2026
@@ -7,7 +21,7 @@ Estado: documento explicativo del modelo implementado en `develop`
 Documentos relacionados:
 
 - [Propuesta conceptual](./propuesta-dominio-metrica.md)
-- [Arquitectura del dominio métrico](./arquitectura-dominio-metrica.md)
+- [Arquitectura del dominio métrico](../arquitectura-dominio-metrica.md)
 - [Matriz de reclasificación](./matriz-reclasificacion-formas-metricas.md)
 
 ## 1. Propósito

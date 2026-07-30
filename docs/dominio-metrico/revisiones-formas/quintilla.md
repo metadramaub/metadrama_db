@@ -96,6 +96,6 @@ trabaja con un criterio específico para el corpus áureo.
 
 1. ¿Los ocho esquemas forman un repertorio cerrado o son los reconocidos hasta ahora?
 2. ¿Por qué no se incluye `aabaa`?
-3. ¿`abbaa` y `ababb`, con pareado final, son tipologías ordinarias del proyecto?
+3. ¿`abbaa` y `ababb`, con pareado final, son variedades ordinarias del proyecto?
 4. ¿La definición pública debe explicar expresamente la diferencia con la preceptiva
    general?

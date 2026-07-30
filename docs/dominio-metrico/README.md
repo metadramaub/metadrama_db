@@ -2,7 +2,8 @@
 
 Fecha de consolidación: 30 de julio de 2026
 
-Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura propuestas para separar las formas métricas del vocabulario genérico de METADRAMA.
+Esta carpeta reúne la ontología, los criterios y la arquitectura del dominio métrico de
+METADRAMA, separado del vocabulario genérico del proyecto.
 
 ## Documentos
 
@@ -10,17 +11,33 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
 Estado operativo, decisiones vigentes, fronteras de seguridad y ruta de lectura para
 retomar el proyecto en otro chat.
 
+0. [La ontología métrica](./ontologia-metrica.md)
+   Qué entidades componen el dominio, qué pregunta responde cada una y por qué existe.
+   Con arquetipos diagramados, lo que queda fuera a propósito y la correspondencia con
+   los nombres actuales de la base. **Lectura previa a todo lo demás.**
+
 1. [Síntesis narrativa del nuevo dominio métrico](./sintesis-narrativa-dominio-metrico.md)
    Explicación general, con un lenguaje poco técnico, para presentar el problema, la propuesta y sus beneficios.
 
-2. [Informe de auditoría del vocabulario métrico](./informe-auditoria-vocabulario-metrico.md)
-   Diagnóstico de las 119 entradas actuales, contradicciones de datos y problemas de la jerarquía padre/hijo.
+2. [Criterios de nivel](./criterios-de-nivel.md)
+   Cómo se decide, ante un hecho observado, en qué nivel se registra. Incluye las reglas
+   comprobables y las decisiones que corresponden al IP.
 
-3. [Propuesta conceptual del dominio](./propuesta-dominio-metrica.md)
-   Decisiones generales: formas, familias, tradiciones, configuraciones, elecciones de realización, desviaciones, demarcador y redes.
+3. [Informe de conformidad del catálogo](./informe-conformidad-catalogo.md)
+   Estado de los datos poblados frente a esos criterios. Se regenera con
+   `npm run audit:metrica`.
 
-4. [Arquitectura del dominio métrico](./arquitectura-dominio-metrica.md)
-   Modelo relacional, anotación editorial, migración, interfaces, proyecciones y criterios de aceptación.
+3bis. [Contrato de implementación](./contrato-implementacion.md)
+   Qué expresa hoy la base frente a la ontología, concepto a concepto, y en qué orden hay
+   que cambiarlo. Se ejecuta antes de corregir datos.
+
+4. [Arquitectura técnica](./arquitectura-dominio-metrica.md)
+   Capas, proyecciones, consumidores, invalidación de derivados, integridad y permisos.
+   No especifica tablas: la fuente de verdad del esquema es la base de datos.
+
+4bis. [Plan de migración de las anotaciones](./plan-migracion-anotaciones.md)
+   Qué hay que hacer para llevar las declaraciones reales al catálogo nuevo, con sus
+   condiciones previas y criterios de aceptación. No iniciado.
 
 5. [Editor de secuencias métricas V2](./editor-secuencias-v2.md)
    Grupos de elección, escenarios aislados, persistencia de pruebas y contrato de la interfaz futura.
@@ -28,13 +45,13 @@ retomar el proyecto en otro chat.
 6. [Contratos del registrador para formas revisadas](./contratos-registrador-formas-revisadas.md)
    Qué se deriva, qué pregunta el editor, qué se guarda y cómo se valida cada forma ya revisada.
 
-7. [Matriz de reclasificación](./matriz-reclasificacion-formas-metricas.md)
-   Destino preliminar de cada una de las 119 entradas del vocabulario actual.
+7. [Histórico](./historico/)
+   Documentos del proceso que ya no describen el estado actual pero conservan
+   trazabilidad y razonamiento: diagnóstico del vocabulario legado, matriz de
+   reclasificación de las 119 entradas, propuesta conceptual inicial y especificación de
+   tablas superada.
 
-8. [Ejemplos de formalización](./ejemplos-formalizacion-ontologia-metrica.md)
-   Grafos y ejemplos de cómo se traducen formas y secuencias concretas a las tablas propuestas.
-
-9. [Revisiones de formas](./revisiones-formas/)
+8. [Revisiones de formas](./revisiones-formas/)
    Contraste forma por forma entre el criterio especializado del IP, la bibliografía y su
    traducción al catálogo. Incluye la [quintilla](./revisiones-formas/quintilla.md), la
    revisión de [terceto y terceto encadenado](./revisiones-formas/tercetos.md), la
@@ -43,7 +60,7 @@ retomar el proyecto en otro chat.
    [romance](./revisiones-formas/romance.md), el
    [romance heroico](./revisiones-formas/romance-heroico.md), el
    [romancillo](./revisiones-formas/romancillo.md), el
-   tratamiento de las [salidas editoriales](./revisiones-formas/salidas-editoriales.md), el
+   tratamiento de los [tramos sin forma](./revisiones-formas/tramos-sin-forma.md), el
    [soneto](./revisiones-formas/soneto.md), el
    [villancico](./revisiones-formas/villancico.md), el
    [zéjel](./revisiones-formas/zejel.md), la
@@ -63,24 +80,32 @@ retomar el proyecto en otro chat.
 
 ## Decisiones consolidadas
 
-- Las formas métricas constituirán un dominio propio.
-- `formas_metricas` distingue expresamente las formas de las salidas editoriales
-  mediante `tipo_registro`; estas últimas comparten el selector, pero no poseen
-  configuraciones ni intervienen como formas en los análisis.
-- Familia, tradición, configuración, patrón, rasgo y alias son conceptos diferentes.
-- Las tradiciones documentadas son relaciones muchos-a-muchos, no padres estructurales.
-- Las tradiciones solo se asignan con apoyo documental; los nombres precargados en la prueba inicial no constituyen afirmaciones bibliográficas.
-- Una configuración prototípica es opcional. El alcance genérico `unidad` queda como residuo de importación y debe precisarse durante la revisión.
-- El orden técnico se oculta salvo donde cambia el significado métrico: posiciones, secciones y repeticiones.
-- Los patrones de rima separan su comportamiento computable de la etiqueta de esquema.
-  Romance utiliza el ciclo repetible `suelto + a`; sus realizaciones de 6, 7, 8 y 11
-  sílabas son configuraciones exactas de una misma forma.
+- Las formas métricas constituyen un dominio propio.
+- El nivel de cada hecho se decide con la pregunta de la variación: lo que puede cambiar
+  dentro de una secuencia es esquema, variedad o rasgo; lo constante que no cambia el
+  nombre es arquitectura; lo que obligaría a cortar la secuencia es otra forma.
+- Forma, arquitectura, esquema métrico, esquema de rima, variedad, sección, repetición,
+  rasgo, elección, denominación, tradición y relación son conceptos distintos.
+- Las formas se distinguen de los tramos sin forma por su tipo de registro. Estos
+  comparten el selector, pero no tienen norma ni intervienen como formas en los análisis.
+- Tipo de registro y prioridad de identificación son ejes independientes: una forma
+  estructurada puede ser de último recurso sin dejar de ser forma.
+- El metro es una entidad del dominio, con sus sílabas y, si es compuesto, sus
+  hemistiquios y su cesura. El arte mayor o menor se deriva, no se almacena.
+- Las tradiciones son pertenencias muchos-a-muchos, sin herencia estructural. Proceden de
+  la clasificación previa del proyecto, que es autoridad suficiente para asignarlas.
+- No existe el concepto de familia: agrupar formas para contar es una categoría del
+  estudio y se declara en la capa de proyección, no en la ontología.
+- Los esquemas de rima separan su comportamiento computable de la notación legible.
+  Romance usa el ciclo repetible `suelto + a`; sus realizaciones de 6, 7, 8 y 11 sílabas
+  son arquitecturas exactas de una misma forma.
+- Un componente ya formalizado se reutiliza; no se copia.
 - El criterio especializado del IP para el corpus se conserva cuando una preceptiva general difiere; la bibliografía documenta y permite revisar la divergencia, pero no la sobrescribe automáticamente.
 - Las fuentes declaradas del catálogo son publicaciones bibliográficas académicas identificables, no páginas web ni vídeos. Una URL puede localizar una publicación digital, pero no constituye por sí sola la autoridad de la fuente.
-- Los slugs de configuración describen la alternativa y no su condición de prototípica; el romance usa `octosilabico_asonante`. Los selectores de patrón solo aparecen cuando hay varias opciones reales.
-- La estructura interna del verso y los enlaces de rima se formalizan en el catálogo.
-- No se usan porcentajes artificiales para traducir «mayoría».
-- La anotación de secuencias sigue el modelo `configuración normativa + diferencias`.
+- El orden técnico se oculta salvo donde cambia el significado métrico: posiciones, secciones y repeticiones.
+- No se usan porcentajes artificiales para traducir «mayoría»: el matiz vive en la
+  modalidad con que un rasgo interviene en una arquitectura.
+- La anotación de secuencias sigue el modelo `norma + elecciones + diferencias`.
 - Una secuencia guardada sin diferencias se considera conforme con la norma.
 - No se piden al editor certeza ni estado de revisión.
 - Las observaciones reutilizan metros, rimas, estructuras y rasgos normalizados.
@@ -91,6 +116,7 @@ retomar el proyecto en otro chat.
 - Una forma reconocible con excepciones conserva su identidad y registra desviaciones;
   `Versificación irregular` y `Verso aislado` se reservan para tramos sin una forma
   reconocible.
+- El ritmo acentual de los versos queda fuera del alcance del proyecto.
 - El JSON del demarcador y las redes de similitud son artefactos regenerables.
 
 ## Estado
@@ -105,11 +131,16 @@ migraciones deben aplicarse antes de abrir la nueva sección. Las decisiones que
 requieren criterio del IP están reunidas en un único registro de cuestiones y no se
 ocultan mediante arreglos temporales de exportación.
 
-El gestor permanente cubre formas y configuraciones; familias, tradiciones,
-alias y relaciones; modelos de verso, patrones métricos y de rima, secciones y
-repeticiones; rasgos y valores controlados; y fuentes con sus afirmaciones. La
-matriz de las 119 entradas se conserva como trazabilidad de importación: sus
-pendientes no bloquean la validación ni el demarcador.
+El gestor permanente cubre formas y sus arquitecturas; tradiciones, denominaciones y
+relaciones; metros, esquemas métricos y de rima, secciones, repeticiones y variedades;
+rasgos y valores controlados; elecciones; y fuentes con sus afirmaciones. La matriz de las
+119 entradas se conserva como trazabilidad de importación: sus pendientes no bloquean la
+validación ni el demarcador.
+
+La ontología quedó revisada desde la base el 30 de julio de 2026. Los nombres definitivos
+están en [la ontología](./ontologia-metrica.md); la base todavía usa los anteriores y la
+migración de renombrado está pendiente, igual que la unificación del metro, la población
+de tradiciones y la retirada de las familias.
 
 Las declaraciones reales de las secuencias no se han migrado ni se consultan
 desde el nuevo catálogo; ese cambio queda expresamente aplazado hasta que el

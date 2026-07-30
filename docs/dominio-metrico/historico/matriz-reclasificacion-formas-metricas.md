@@ -12,7 +12,7 @@ Documentos relacionados:
 
 - [Auditoría del vocabulario actual](./informe-auditoria-vocabulario-metrico.md)
 - [Propuesta conceptual](./propuesta-dominio-metrica.md)
-- [Arquitectura del dominio métrico](./arquitectura-dominio-metrica.md)
+- [Arquitectura del dominio métrico](../arquitectura-dominio-metrica.md)
 
 ## 1. Cómo leer la matriz
 
@@ -101,7 +101,7 @@ forma tipificada.
 
 La copla real se incorpora a la misma familia. `decima_espinela` sucede históricamente
 a `copla_real` en el uso dominante; `decima_aumentada` se relaciona como derivada de
-la espinela. Véase [la revisión específica](./revisiones-formas/decimas.md).
+la espinela. Véase [la revisión específica](../revisiones-formas/decimas.md).
 
 ## 7. Doble sextilla
 
@@ -204,7 +204,7 @@ Las unidades internas actuales de quintilla deberán migrarse a `unidades_metric
 
 No se crea una familia. La configuración simple combina tres patrones métricos con dos
 patrones de rima; la doble cambia la arquitectura y se valida en unidades de ocho. Véase
-[la revisión específica](./revisiones-formas/redondilla.md).
+[la revisión específica](../revisiones-formas/redondilla.md).
 
 ## 16. Romance y vocales de la asonancia
 

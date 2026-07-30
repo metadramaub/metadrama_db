@@ -7,7 +7,7 @@ Estado: propuesta conceptual aprobada como punto de partida; no implementada
 Documentos relacionados:
 
 - [Auditoría del vocabulario métrico](./informe-auditoria-vocabulario-metrico.md)
-- [Arquitectura del dominio métrico](./arquitectura-dominio-metrica.md)
+- [Arquitectura del dominio métrico](../arquitectura-dominio-metrica.md)
 - [Matriz de reclasificación](./matriz-reclasificacion-formas-metricas.md)
 - [Ejemplos de formalización](./ejemplos-formalizacion-ontologia-metrica.md)
 

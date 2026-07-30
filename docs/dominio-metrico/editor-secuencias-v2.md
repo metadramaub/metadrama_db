@@ -23,7 +23,7 @@ realización efectiva =
 
 o, cuando no existe una forma reconocible:
 
-    salida editorial
+    tramo sin forma
     + rango
     + observación opcional
 ```

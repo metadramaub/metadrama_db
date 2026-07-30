@@ -29,7 +29,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Zéjel | cabeza, mudanza monorrima de 3 versos y vuelta de 1 a la rima del estribillo | medidas y presencia material de la represa | calculada desde cabeza, coplas fijas de 4 y represas |
 | Copla real | 10 versos, estructura `5 + 5`, consonancia y presencia de pie quebrado según configuración | esquema de cada quintilla y posiciones quebradas cuando corresponda | múltiplo de 10 |
 | Copla de arte mayor | 8 dodecasílabos compuestos `6 + 6`, consonancia y estructura `4 + 4` | uno de los tres esquemas reconocidos | múltiplo de 8 |
-| Copla de pie quebrado (residual) | octosílabo dominante, consonancia y unidades de 5–12 versos | extensión de cada unidad, medida o medidas de los quebrados y sus posiciones | cada unidad entre 5 y 12 |
+| Copla de pie quebrado (general) | octosílabo dominante, consonancia y unidades de 5–12 versos | extensión de cada unidad, medida o medidas de los quebrados y sus posiciones | cada unidad entre 5 y 12 |
 | Sextilla | 6 versos, consonancia y configuración isométrica o `8-8-4-8-8-4` | medida común solo en la isométrica | múltiplo de 6 |
 | Doble sextilla | dos sextillas de pie quebrado y esquema regular no manriqueño | ninguna elección cerrada adicional | múltiplo de 12 |
 | Copla manriqueña | dos sextillas `8-8-4-8-8-4` y `abcabc:defdef` | ninguna | múltiplo de 12 |
@@ -40,9 +40,9 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Octava real | 8 endecasílabos consonantes y `ABABABCC` | final esdrújulo, solo si caracteriza | múltiplo de 8 |
 | Novena | 9 octosílabos consonantes y orden de secciones según configuración | esquema de la redondilla y de la quintilla en cada unidad | múltiplo de 9; materializa una novena y sus dos partes por cada 9 versos |
 | Lira | 5 versos, patrón `7-11-7-7-11`, consonancia y `aBabB` | nada | múltiplo de 5 |
-| Sexteto-lira | 6 versos, medidas y rima de cada tipología admitida | tipología combinada por estrofa; final esdrújulo si caracteriza | múltiplo de 6; materializa una unidad por cada 6 versos |
+| Sexteto-lira | 6 versos, medidas y rima de cada variedad reconocida | variedad reconocida por estrofa; final esdrújulo si caracteriza | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Sexta rima | 6 endecasílabos, consonancia y `ABABCC` | nada | múltiplo de 6 |
-| Sexteto residual | 6 versos de arte mayor y consonancia | medidas presentes y esquema de rima de cada unidad | múltiplo de 6; materializa una unidad por cada 6 versos |
+| Sexteto (general) | 6 versos de arte mayor y consonancia | medidas presentes y esquema de rima de cada unidad | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Seguidilla simple | 4 versos, `7-5-7-5`, asonancia `-a-a` | nada | múltiplo de 4; materializa una unidad por cada 4 versos |
 | Seguidilla compuesta | 7 versos, `7-5-7-5 + 5-7-5`, asonancia `-a-a + b-b` y secciones | nada | múltiplo de 7; materializa una unidad por cada 7 versos |
 | Sextina clásica | 39 endecasílabos, 6 estrofas × 6 + remate de 3 y permutación fija de seis palabras | nada | múltiplo de 39; materializa estrofas y remate |
@@ -58,7 +58,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
   vocales de la asonancia y guardar.
 - Romance heroico: forma Romance, cambiar la configuración principal a Heroico,
   vocales de la asonancia y guardar.
-- Salidas editoriales: elegir Versificación irregular o Verso aislado, delimitar el
+- Tramos sin forma: elegir Versificación irregular o Verso aislado, delimitar el
   rango y guardar; no se solicita configuración ni desviaciones.
 - Quintilla: forma, esquema de la primera unidad, aplicar a todas si coincide y corregir
   solo las excepciones.
@@ -84,10 +84,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Novena: forma, orden de secciones y los dos esquemas de la primera unidad; aplicar a
   toda la tirada y cambiar solo las unidades distintas.
 - Lira: forma y guardar; toda la norma se deriva.
-- Sexteto-lira: forma, tipología de la primera unidad y aplicar a todas; cambiar solo
+- Sexteto-lira: forma, variedad reconocida de la primera unidad y aplicar a todas; cambiar solo
   las estrofas diferentes y dejar vacío el rasgo esdrújulo por defecto.
 - Sexta rima: forma y guardar; toda la norma se deriva.
-- Sexteto residual: forma, medidas y esquema de la primera unidad; aplicar a todas y
+- Sexteto: forma, medidas y esquema de la primera unidad; aplicar a todas y
   cambiar solo los sextetos diferentes.
 - Seguidilla: forma, configuración simple o compuesta y guardar; toda la norma se
   deriva.
