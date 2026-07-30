@@ -76,6 +76,11 @@ En una copla real con pie quebrado, las opciones posicionales apuntan todas al m
 4 sílabas y distinguen las posiciones 1-10. El editor las presenta como una única fila
 compacta y guarda una o dos respuestas, no diez preguntas.
 
+Una posición también puede admitir alternativas. En una estancia de canción
+petrarquista, cada posición ofrece 7 u 11 sílabas mediante un selector propio. La
+respuesta completa y la extensión de la estancia se pueden aplicar a todas las
+unidades equivalentes; el editor cambia únicamente las excepciones.
+
 ## Tablas exclusivas de prueba
 
 - `escenarios_editor_metrico`: sustituye temporalmente a una obra ficticia.

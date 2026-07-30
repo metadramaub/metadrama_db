@@ -29,9 +29,28 @@
 				)
 			: props.options
 	);
+	const positionalAlternatives = $derived(
+		positional &&
+			visibleOptions.some(
+				(option: MetricCatalogDomainRow, index: number, options: MetricCatalogDomainRow[]) =>
+					options.findIndex(
+						(candidate: MetricCatalogDomainRow) =>
+							Number(candidate.posicion_unidad) === Number(option.posicion_unidad)
+					) !== index
+			)
+	);
+	const visiblePositions = $derived(
+		Array.from(
+			new Set<number>(
+				visibleOptions.map((option: MetricCatalogDomainRow) =>
+					Number(option.posicion_unidad)
+				)
+			)
+		).sort((a: number, b: number) => a - b)
+	);
 	const effectiveMaximum = $derived(
 		positional && typeof props.positionLimit === 'number'
-			? Math.min(maximum, Math.max(1, props.positionLimit - 1))
+			? Math.min(maximum, Math.max(1, props.positionLimit))
 			: maximum
 	);
 	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
@@ -50,6 +69,20 @@
 			current.delete(optionId);
 		}
 		props.onChange([...current]);
+	}
+
+	function changePosition(position: number, optionId: string) {
+		const positionOptionIds = new Set(
+			visibleOptions
+				.filter(
+					(option: MetricCatalogDomainRow) =>
+						Number(option.posicion_unidad) === position
+				)
+				.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id))
+		);
+		const next = props.selectedIds.filter((selectedId: string) => !positionOptionIds.has(selectedId));
+		if (optionId) next.push(optionId);
+		props.onChange(next);
 	}
 </script>
 
@@ -91,6 +124,40 @@
 				<option value={String(option.opcion_eleccion_id)}>{String(option.nombre)}</option>
 			{/each}
 		</select>
+	{:else if positionalAlternatives}
+		<div class="space-y-2">
+			{#each visiblePositions as position}
+				{@const positionOptions = visibleOptions.filter(
+					(option: MetricCatalogDomainRow) =>
+						Number(option.posicion_unidad) === position
+				)}
+				{@const positionOptionIds = new Set(
+					positionOptions.map((option: MetricCatalogDomainRow) =>
+						String(option.opcion_eleccion_id)
+					)
+				)}
+				<label class="grid items-center gap-2 sm:grid-cols-[5.5rem_1fr]">
+					<span class="text-sm text-[color:var(--muted-foreground)]">Verso {position}</span>
+					<select
+						class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
+						value={props.selectedIds.find((selectedId: string) =>
+							positionOptionIds.has(selectedId)
+						) ?? ''}
+						onchange={(event) => changePosition(position, event.currentTarget.value)}
+					>
+						<option value="">Seleccionar medida</option>
+						{#each positionOptions as option (String(option.opcion_eleccion_id))}
+							<option value={String(option.opcion_eleccion_id)}>
+								{String(option.nombre)}
+							</option>
+						{/each}
+					</select>
+				</label>
+			{/each}
+		</div>
+		<p class="text-xs text-[color:var(--muted-foreground)]">
+			{props.selectedIds.length} de {visiblePositions.length} versos caracterizados
+		</p>
 	{:else if positional}
 		<div class="flex flex-wrap gap-2">
 			{#each visibleOptions as option (String(option.opcion_eleccion_id))}

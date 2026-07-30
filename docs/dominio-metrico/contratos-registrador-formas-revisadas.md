@@ -42,6 +42,9 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Seguidilla compuesta | 7 versos, `7-5-7-5 + 5-7-5`, asonancia `-a-a + b-b` y secciones | nada | múltiplo de 7; materializa una unidad por cada 7 versos |
 | Sextina clásica | 39 endecasílabos, 6 estrofas × 6 + remate de 3 y permutación fija de seis palabras | nada | múltiplo de 39; materializa estrofas y remate |
 | Sextina doble | 75 endecasílabos, 12 estrofas × 6 + remate de 3 y dos ciclos de permutación | nada | múltiplo de 75; materializa estrofas y remate |
+| Canción petrarquista · estancias variables | 3 o más estancias, consonancia y repetición de la norma entre estancias | extensión, medida por posición y esquema de la primera estancia | calculada desde estancias de 5–20 versos y remate opcional |
+| Canción petrarquista · regular de 13 | 3 o más estancias, patrón `abCabC:cdeeDfF` | nada salvo número de estancias y remate | calculada desde estancias de 13 versos y remate opcional |
+| Canción sin rima | cuerpo suelto y pareado consonante final en cada estancia | extensión del cuerpo, medida por posición y final esdrújulo si caracteriza | calculada desde cuerpos de 3–18 versos más pareado final |
 
 ## Recorridos mínimos
 
@@ -79,6 +82,9 @@ solo por tener datos normalizados: debe cumplir también este contrato.
   deriva.
 - Sextina: forma, configuración clásica o doble y guardar; toda la estructura y la
   repetición léxica se derivan.
+- Canción petrarquista: forma y configuración; en la regular solo se añaden las
+  estancias. En las variables se caracteriza la primera estancia y se aplican su
+  extensión, medidas y rima a las demás.
 
 ## Criterio de las desviaciones
 

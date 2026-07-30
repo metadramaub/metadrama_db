@@ -384,7 +384,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 
 | Familia raíz | Nodos revisados | Diagnóstico y acción principal |
 | --- | ---: | --- |
-| `cancion_petrarquista` | 8 | Separar tamaño, patrón, ausencia de rima y esdrújulos; conservar solo subtipos con identidad filológica. |
+| `cancion_petrarquista` | 8 | Resuelto: una forma, tres configuraciones; tamaños y realización endecasílaba pasan a datos observados y esdrújulos a rasgo. |
 | `copla_de_arte_mayor` | 4 | Mantener la forma y trasladar los tres esquemas a patrones admitidos. Completar naturaleza. |
 | `copla_de_pie_quebrado` | 1 | Convertir en agrupador o residual explícito; eliminar la falsa equivalencia con sextilla. |
 | `copla_real` | 3 | Mantener alternativas con y sin quebrado; firma familiar disyuntiva y naturaleza explícita. |
