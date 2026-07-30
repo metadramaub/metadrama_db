@@ -8,8 +8,8 @@ pregunta responde cada una y por qué existe**. Es la lectura previa a todo lo d
 [arquitectura técnica](./arquitectura-dominio-metrica.md) describe cómo se implementa y
 las [fichas de revisión](./revisiones-formas/) documentan qué se decidió para cada forma.
 
-> **Estado de la implementación.** La base habla ya este vocabulario: el bloque A de la
-> migración estructural se aplicó el 30 de julio de 2026. Lo que queda por implementar
+> **Estado de la implementación.** La base habla ya este vocabulario: los bloques A y B de
+> la migración estructural se aplicaron el 30 de julio de 2026. Lo que queda por implementar
 > está marcado en el apartado 11 y detallado en el
 > [contrato de implementación](./contrato-implementacion.md).
 
@@ -507,7 +507,7 @@ usa aquí con esos sentidos.
 | Esquema métrico | `esquemas_metricos` | — |
 | Esquema de rima | `esquemas_rima` | — |
 | Variedad | `variedades_arquitectura` | — |
-| Metro | `vocabularios` + `modelos_verso` | unificar en el dominio; borrar `patron_acentual` (bloque B) |
+| Metro | `metros` · `metro_segmentos` | — |
 | Sección | `estructuras_secciones` | retirar las nueve que solo repiten la unidad (bloque C) |
 | Realización de sección | `realizaciones_editor_metrico` | — |
 | Repetición | `repeticiones_metricas` | — |

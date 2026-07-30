@@ -1,6 +1,6 @@
 # Contrato de implementación del dominio métrico
 
-Estado: vigente · bloque A aplicado el 30 de julio de 2026
+Estado: vigente · bloques A y B aplicados el 30 de julio de 2026
 
 Contrasta [la ontología](./ontologia-metrica.md) con lo que la base y el código expresan
 hoy, concepto a concepto, y fija qué hay que cambiar antes de corregir ningún dato. El
@@ -183,8 +183,16 @@ tuvieron que recrearse **antes** de tocar los datos: el primer intento falló al
 `tipo_registro` porque un disparador aún nombraba `configuraciones_forma`. Y renombrar una
 vista no renombra sus columnas de salida, así que hubo que eliminarla y recrearla.
 
-**B · Metro unificado.** Tabla nueva, absorción de los modelos de verso, repunte de las 348
-referencias, retirada de `patron_acentual` y del `check` de exclusividad.
+**B · Metro unificado. Aplicado.** Tabla `metros` con sus segmentos, absorción de los
+modelos de verso, retirada de `patron_acentual` y del `check` de exclusividad.
+
+Las 348 referencias no hubo que reescribirlas: los metros conservan el UUID del término de
+origen y el compuesto conserva el del modelo de verso, así que solo cambió la tabla a la
+que apuntan las claves ajenas. `esquema_metrico_posiciones.metro_id` es ahora `not null` y
+`modelo_verso_id` desapareció. El arte mayor o menor es una columna generada a partir de
+las sílabas: no se declara ni puede divergir. El catálogo pasa de ocho metros a nueve,
+porque el dodecasílabo simple y el compuesto `6 + 6` dejan de ser el mismo, y el
+alejandrino recibe sus dos hemistiquios heptasílabos.
 
 **C · Unidad explícita.** Intervalo en la arquitectura, retirada de las nueve secciones
 fantasma, simplificación de la regla de longitud y del modelo del editor.
