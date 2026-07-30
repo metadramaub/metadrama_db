@@ -37,6 +37,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Lira | 5 versos, patrón `7-11-7-7-11`, consonancia y `aBabB` | nada | múltiplo de 5 |
 | Sexteto-lira | 6 versos, medidas y rima de cada tipología admitida | tipología combinada por estrofa; final esdrújulo si caracteriza | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Sexta rima | 6 endecasílabos, consonancia y `ABABCC` | nada | múltiplo de 6 |
+| Sexteto residual | 6 versos de arte mayor y consonancia | medidas presentes y esquema de rima de cada unidad | múltiplo de 6; materializa una unidad por cada 6 versos |
 
 ## Recorridos mínimos
 
@@ -68,6 +69,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Sexteto-lira: forma, tipología de la primera unidad y aplicar a todas; cambiar solo
   las estrofas diferentes y dejar vacío el rasgo esdrújulo por defecto.
 - Sexta rima: forma y guardar; toda la norma se deriva.
+- Sexteto residual: forma, medidas y esquema de la primera unidad; aplicar a todas y
+  cambiar solo los sextetos diferentes.
 
 ## Criterio de las desviaciones
 

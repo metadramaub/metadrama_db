@@ -340,6 +340,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'nombre',
 			'ayuda_editor',
 			'dimension',
+			'tipo_control',
 			'alcance',
 			'seccion_id',
 			'selecciones_min',

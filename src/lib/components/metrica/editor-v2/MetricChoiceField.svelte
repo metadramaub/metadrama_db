@@ -6,6 +6,8 @@
 		options: MetricCatalogDomainRow[];
 		selectedIds: string[];
 		onChange: (ids: string[]) => void;
+		textValue?: string;
+		onTextChange?: (value: string) => void;
 		onApplyAll?: () => void;
 		positionLimit?: number;
 	}>();
@@ -32,6 +34,7 @@
 			? Math.min(maximum, Math.max(1, props.positionLimit - 1))
 			: maximum
 	);
+	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
 
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;
@@ -65,7 +68,17 @@
 		</span>
 	</div>
 
-	{#if maximum === 1}
+	{#if isRhymeScheme}
+		<input
+			type="text"
+			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 font-mono text-sm uppercase tracking-wide"
+			value={props.textValue ?? ''}
+			placeholder="AABCCB"
+			autocomplete="off"
+			spellcheck="false"
+			oninput={(event) => props.onTextChange?.(event.currentTarget.value)}
+		/>
+	{:else if maximum === 1}
 		<select
 			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
 			value={props.selectedIds[0] ?? ''}
@@ -131,7 +144,7 @@
 			type="button"
 			class="text-xs font-medium text-[color:var(--primary)] hover:underline disabled:opacity-40"
 			onclick={props.onApplyAll}
-			disabled={props.selectedIds.length === 0}
+		disabled={isRhymeScheme ? !(props.textValue ?? '').trim() : props.selectedIds.length === 0}
 		>
 			Aplicar esta respuesta a todas las unidades equivalentes
 		</button>

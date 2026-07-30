@@ -403,7 +403,7 @@ La publicación de rasgos y reglas debe seguir siendo una decisión del IP y que
 | `romancillo` | 3 | Mantener alternativas 6/7 o derivarlas del metro; revisar el uso de `endecha` como equivalente de las tres. |
 | `seguidilla` | 1 | Modelar alternativas de 4 y 7 versos; separar simple y compuesta si procede. |
 | `sexta_rima` | 1 | Resuelto: seis endecasílabos consonantes `ABABCC` y fuente bibliográfica normalizada. |
-| `sexteto` | 1 | Coherente como familia abierta de seis versos de arte mayor; añadir fuente. |
+| `sexteto` | 1 | Resuelto como forma residual positiva: seis versos de arte mayor consonantes, con medidas y esquema observados por unidad. |
 | `sexteto_lira` | 9 | Resuelto: cinco patrones métricos, tres de rima, siete combinaciones admitidas y esdrújulos como rasgo. |
 | `sextilla` | 3 | Declarar patrones métricos propios para con/sin quebrado; no heredar el conjunto genérico. |
 | `sextina` | 1 | Modelar composición 6 × 6 + 3 y permutación de palabras finales. |

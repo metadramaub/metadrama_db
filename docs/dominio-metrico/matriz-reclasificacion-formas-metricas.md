@@ -265,7 +265,7 @@ Debe revisarse la equivalencia con `endecha`, porque no necesariamente puede apl
 
 | Entrada actual | Destino | Resultado propuesto | Certeza | Revisión del IP |
 | --- | :---: | --- | :---: | :---: |
-| `sexteto` | F | Conservar como forma abierta de seis versos de arte mayor. | Alta | Sí |
+| `sexteto` | E | Resuelto: salida residual positiva de seis versos de arte mayor y rima consonante; medidas y esquema se registran por unidad. | Alta | No |
 
 ## 22. Sexteto-lira
 

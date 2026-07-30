@@ -153,3 +153,12 @@ Véase [sexteto-lira.md](./sexteto-lira.md).
 2. ¿A1 debe seguir presentándose como tipología habitual o preferente?
 3. ¿Una tirada puede cambiar de tipología entre estrofas sin dejar de constituir una
    única secuencia?
+
+## Sexteto
+
+Véase [sexteto.md](./sexteto.md).
+
+- No bloquea el registro actual: el proyecto lo delimita como seis versos de arte mayor
+  consonantes.
+- Si el corpus documenta un sexteto que combine arte mayor y menor y no sea
+  sexteto-lira, confirmar si debe ampliarse la configuración residual o crearse otra.
