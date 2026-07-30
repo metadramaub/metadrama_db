@@ -48,9 +48,12 @@ preguntas editoriales guardadas en la base.
 
 ## Relaciones
 
-No se crea por ahora una familia ni una relación con `sexteto` o `sexteto_lira`.
-Compartir seis versos o una parte del nombre no basta para afirmar una relación
-ontológica. Se decidirá al revisar el sexteto como categoría abierta.
+La sexta rima se relaciona como `subtipo_de` sexteto: fija como `ABABCC` una realización
+endecasilábica que satisface su definición general. En el registrador y el demarcador se
+elige siempre esta forma específica, no la salida residual sexteto.
+
+No se crea relación con `sexteto_lira`: compartir seis versos o una parte del nombre no
+basta para afirmar una relación ontológica.
 
 ## Trazabilidad
 

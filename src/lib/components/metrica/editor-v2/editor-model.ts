@@ -14,7 +14,8 @@ export type MetricUnitDraft = {
 export type MetricChoiceDraft = {
 	unidad_prueba_id: string | null;
 	grupo_eleccion_id: string;
-	opcion_eleccion_id: string;
+	opcion_eleccion_id: string | null;
+	valor_texto?: string | null;
 	observaciones: string | null;
 };
 

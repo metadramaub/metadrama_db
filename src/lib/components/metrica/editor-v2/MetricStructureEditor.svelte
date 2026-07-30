@@ -69,9 +69,25 @@
 			.filter(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.unidad_prueba_id === unitId
+					choice.unidad_prueba_id === unitId &&
+					Boolean(choice.opcion_eleccion_id)
 			)
-			.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id);
+			.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
+	}
+
+	function choiceTextValue(groupId: string, unitId: string): string {
+		return (
+			props.choices.find(
+				(choice: MetricChoiceDraft) =>
+					choice.grupo_eleccion_id === groupId &&
+					choice.unidad_prueba_id === unitId &&
+					Boolean(choice.valor_texto)
+			)?.valor_texto ?? ''
+		);
+	}
+
+	function normalizeRhymeScheme(value: string): string {
+		return value.replace(/\s+/g, '').toLocaleUpperCase('es');
 	}
 
 	function commitUnits(next: MetricUnitDraft[], previous = props.units) {
@@ -153,6 +169,7 @@
 				props.choices.filter(
 					(choice: MetricChoiceDraft) =>
 						choice.unidad_prueba_id !== unit.unidad_prueba_id ||
+						!choice.opcion_eleccion_id ||
 						!hiddenPositionalOptionIds.has(choice.opcion_eleccion_id)
 				)
 			);
@@ -186,6 +203,7 @@
 				unidad_prueba_id: unit.unidad_prueba_id,
 				grupo_eleccion_id: groupId,
 				opcion_eleccion_id: optionId,
+				valor_texto: null,
 				observaciones: null
 			}))
 		];
@@ -203,12 +221,47 @@
 		commitUnits(nextUnits);
 	}
 
+	function setChoiceText(
+		group: MetricCatalogDomainRow,
+		unit: MetricUnitDraft,
+		value: string
+	) {
+		const groupId = String(group.grupo_eleccion_id);
+		const normalized = normalizeRhymeScheme(value);
+		const nextChoices = [
+			...props.choices.filter(
+				(choice: MetricChoiceDraft) =>
+					!(
+						choice.grupo_eleccion_id === groupId &&
+						choice.unidad_prueba_id === unit.unidad_prueba_id
+					)
+			),
+			...(normalized
+				? [
+						{
+							unidad_prueba_id: unit.unidad_prueba_id,
+							grupo_eleccion_id: groupId,
+							opcion_eleccion_id: null,
+							valor_texto: normalized,
+							observaciones: null
+						}
+					]
+				: [])
+		];
+		props.onChoicesChange(nextChoices);
+	}
+
 	function applyChoiceToEquivalentUnits(
 		group: MetricCatalogDomainRow,
 		sourceUnit: MetricUnitDraft
 	) {
 		const groupId = String(group.grupo_eleccion_id);
 		const selected = selectedChoiceIds(groupId, sourceUnit.unidad_prueba_id);
+		const sourceChoices = props.choices.filter(
+			(choice: MetricChoiceDraft) =>
+				choice.grupo_eleccion_id === groupId &&
+				choice.unidad_prueba_id === sourceUnit.unidad_prueba_id
+		);
 		let nextChoices = [...props.choices];
 		let nextUnits = [...props.units];
 		const equivalentUnits = props.units.filter(
@@ -224,11 +277,9 @@
 							choice.unidad_prueba_id === unit.unidad_prueba_id
 						)
 				),
-				...selected.map((optionId) => ({
-					unidad_prueba_id: unit.unidad_prueba_id,
-					grupo_eleccion_id: groupId,
-					opcion_eleccion_id: optionId,
-					observaciones: null
+				...sourceChoices.map((choice: MetricChoiceDraft) => ({
+					...choice,
+					unidad_prueba_id: unit.unidad_prueba_id
 				}))
 			];
 			nextUnits = syncChoiceMaterializedSections(
@@ -387,6 +438,11 @@
 								unit.unidad_prueba_id
 							)}
 							onChange={(ids) => setChoices(group, unit, ids)}
+							textValue={choiceTextValue(
+								String(group.grupo_eleccion_id),
+								unit.unidad_prueba_id
+							)}
+							onTextChange={(value) => setChoiceText(group, unit, value)}
 							onApplyAll={() => applyChoiceToEquivalentUnits(group, unit)}
 							positionLimit={unit.v_fin - unit.v_ini + 1}
 						/>

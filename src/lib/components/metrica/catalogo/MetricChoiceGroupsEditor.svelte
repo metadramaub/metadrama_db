@@ -73,6 +73,17 @@
 			]
 		},
 		{
+			key: 'tipo_control',
+			label: 'Tipo de respuesta',
+			type: 'select',
+			required: true,
+			options: [
+				{ value: 'opciones', label: 'Elegir entre respuestas catalogadas' },
+				{ value: 'esquema_rima', label: 'Escribir un esquema de rima observado' }
+			],
+			help: 'El esquema abierto se valida y normaliza; no crea un patrón nuevo en el catálogo.'
+		},
+		{
 			key: 'alcance',
 			label: 'Dónde se responde',
 			type: 'select',
@@ -289,6 +300,7 @@
 		defaults={{
 			configuracion_id: props.configurationId,
 			dimension: 'rima',
+			tipo_control: 'opciones',
 			alcance: 'secuencia',
 			selecciones_min: 1,
 			selecciones_max: 1,
@@ -303,24 +315,31 @@
 
 	{#each groups as group (String(group.grupo_eleccion_id))}
 		<div class="border-l-2 border-[color:var(--border)] pl-4">
-			<MetricEntityCollection
-				resource="choiceOptions"
-				title={`Respuestas: ${String(group.nombre)}`}
-				description="Cada respuesta apunta a un metro, patrón, combinación, sección, repetición o valor de rasgo ya formalizado."
-				rows={props.domain.choiceOptions.filter(
-					(row: MetricCatalogDomainRow) =>
-						row.grupo_eleccion_id === group.grupo_eleccion_id
-				)}
-				keyFields={['opcion_eleccion_id']}
-				fields={optionFields(group)}
-				defaults={{
-					grupo_eleccion_id: group.grupo_eleccion_id,
-					activo: true,
-					orden: 1
-				}}
-				emptyMessage="Añade al menos una respuesta posible."
-				compact
-			/>
+			{#if group.tipo_control === 'esquema_rima'}
+				<p class="text-sm leading-6 text-[color:var(--muted-foreground)]">
+					Respuesta abierta controlada: el editor escribe una letra por verso y puede usar
+					guiones para versos sueltos. No necesita opciones precargadas.
+				</p>
+			{:else}
+				<MetricEntityCollection
+					resource="choiceOptions"
+					title={`Respuestas: ${String(group.nombre)}`}
+					description="Cada respuesta apunta a un metro, patrón, combinación, sección, repetición o valor de rasgo ya formalizado."
+					rows={props.domain.choiceOptions.filter(
+						(row: MetricCatalogDomainRow) =>
+							row.grupo_eleccion_id === group.grupo_eleccion_id
+					)}
+					keyFields={['opcion_eleccion_id']}
+					fields={optionFields(group)}
+					defaults={{
+						grupo_eleccion_id: group.grupo_eleccion_id,
+						activo: true,
+						orden: 1
+					}}
+					emptyMessage="Añade al menos una respuesta posible."
+					compact
+				/>
+			{/if}
 		</div>
 	{/each}
 </section>

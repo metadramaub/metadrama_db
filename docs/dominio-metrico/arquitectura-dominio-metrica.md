@@ -738,6 +738,12 @@ consecuencia:
 - las alternativas admitidas se registran solo mediante grupos declarados por el catálogo;
 - si cambia una norma, las secuencias afectadas se adaptan o invalidan mediante una migración o regeneración técnica.
 
+Las alternativas cerradas apuntan a una opción catalogada. Las formas abiertas pueden
+declarar un control de esquema observado: almacena una cadena normalizada y validada
+contra la longitud de la unidad sin crear una entidad normativa nueva por cada patrón
+encontrado. Esta vía se reserva para dominios finitos en estructura pero no enumerables
+de manera útil en la interfaz, como la distribución consonante variable de un sexteto.
+
 Cuando una secuencia no pueda describirse razonablemente desde una forma conocida, el editor utilizará una salida residual como `irregular`, en lugar de acumular un número arbitrario de desviaciones sobre una forma que ya no resulta reconocible.
 
 Una salida residual puede conservar estructura positiva suficiente para ser analizable.

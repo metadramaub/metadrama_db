@@ -26,12 +26,18 @@ const unitSchema = z.object({
 	observaciones: z.string().trim().max(10_000).nullable()
 });
 
-const choiceSchema = z.object({
-	unidad_prueba_id: nullableUuid,
-	grupo_eleccion_id: uuid,
-	opcion_eleccion_id: uuid,
-	observaciones: z.string().trim().max(10_000).nullable()
-});
+const choiceSchema = z
+	.object({
+		unidad_prueba_id: nullableUuid,
+		grupo_eleccion_id: uuid,
+		opcion_eleccion_id: nullableUuid,
+		valor_texto: z.string().trim().min(1).max(240).nullable(),
+		observaciones: z.string().trim().max(10_000).nullable()
+	})
+	.refine(
+		(choice) => Number(choice.opcion_eleccion_id !== null) + Number(choice.valor_texto !== null) === 1,
+		{ message: 'Cada respuesta debe contener una opción o un valor textual, pero no ambos.' }
+	);
 
 const deviationSchema = z.object({
 	unidad_prueba_id: nullableUuid,

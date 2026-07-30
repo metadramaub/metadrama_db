@@ -56,6 +56,12 @@ Cada respuesta apunta mediante FK a un dato normalizado:
 Así se controla lo que puede elegir el editor sin duplicar la ontología ni guardar respuestas
 textuales difíciles de analizar.
 
+La excepción son los esquemas observados de formas abiertas. Un grupo con
+`tipo_control = esquema_rima` no enumera previamente todas las particiones posibles:
+guarda una cadena validada con una posición por verso, letras normalizadas y guiones
+para versos sueltos. La respuesta sigue vinculada a la pregunta, la configuración y la
+unidad; no se convierte en observación libre ni en desviación.
+
 Una opción puede declarar además un efecto de formulario:
 
 - materializar una sección cuando la respuesta implica versos presentes;

@@ -276,9 +276,26 @@
 			.filter(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.unidad_prueba_id === unitId
+					choice.unidad_prueba_id === unitId &&
+					Boolean(choice.opcion_eleccion_id)
 			)
-			.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id);
+			.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
+	}
+
+	function choiceTextValue(groupId: string, unitId: string | null): string {
+		if (!draft) return '';
+		return (
+			draft.elecciones.find(
+				(choice: MetricChoiceDraft) =>
+					choice.grupo_eleccion_id === groupId &&
+					choice.unidad_prueba_id === unitId &&
+					Boolean(choice.valor_texto)
+			)?.valor_texto ?? ''
+		);
+	}
+
+	function normalizeRhymeScheme(value: string): string {
+		return value.replace(/\s+/g, '').toLocaleUpperCase('es');
 	}
 
 	function setChoices(groupId: string, unitId: string | null, optionIds: string[]) {
@@ -295,9 +312,44 @@
 				unidad_prueba_id: unitId,
 				grupo_eleccion_id: groupId,
 				opcion_eleccion_id: optionId,
+				valor_texto: null,
 				observaciones: null
 			}))
 		];
+	}
+
+	function setChoiceText(groupId: string, unitId: string | null, value: string) {
+		if (!draft) return;
+		const normalized = normalizeRhymeScheme(value);
+		draft.elecciones = [
+			...draft.elecciones.filter(
+				(choice: MetricChoiceDraft) =>
+					!(
+						choice.grupo_eleccion_id === groupId &&
+						choice.unidad_prueba_id === unitId
+					)
+			),
+			...(normalized
+				? [
+						{
+							unidad_prueba_id: unitId,
+							grupo_eleccion_id: groupId,
+							opcion_eleccion_id: null,
+							valor_texto: normalized,
+							observaciones: null
+						}
+					]
+				: [])
+		];
+	}
+
+	function choiceCount(groupId: string, unitId: string | null): number {
+		if (!draft) return 0;
+		return draft.elecciones.filter(
+			(choice: MetricChoiceDraft) =>
+				choice.grupo_eleccion_id === groupId &&
+				choice.unidad_prueba_id === unitId
+		).length;
 	}
 
 	function catalogParts(configurationId: string) {
@@ -425,9 +477,10 @@
 					.filter(
 						(choice: MetricChoiceDraft) =>
 							choice.grupo_eleccion_id === groupId &&
-							choice.unidad_prueba_id === unit.unidad_prueba_id
+							choice.unidad_prueba_id === unit.unidad_prueba_id &&
+							Boolean(choice.opcion_eleccion_id)
 					)
-					.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id);
+					.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
 				next = syncChoiceMaterializedSections(
 					next,
 					sections,
@@ -545,7 +598,10 @@
 						? String(choice.unidad_prueba_id)
 						: null,
 					grupo_eleccion_id: String(choice.grupo_eleccion_id),
-					opcion_eleccion_id: String(choice.opcion_eleccion_id),
+					opcion_eleccion_id: choice.opcion_eleccion_id
+						? String(choice.opcion_eleccion_id)
+						: null,
+					valor_texto: choice.valor_texto ? String(choice.valor_texto) : null,
 					observaciones: choice.observaciones ? String(choice.observaciones) : null
 				})),
 			desviaciones: props.data.editorSandbox.deviations
@@ -773,7 +829,7 @@
 			}
 		}
 		for (const group of sequenceChoiceGroups) {
-			const total = selectedChoiceIds(String(group.grupo_eleccion_id), null).length;
+			const total = choiceCount(String(group.grupo_eleccion_id), null);
 			if (
 				total < Number(group.selecciones_min) ||
 				total > Number(group.selecciones_max)
@@ -791,7 +847,10 @@
 					String(group.grupo_eleccion_id),
 					unit.unidad_prueba_id
 				);
-				const total = selectedIds.length;
+				const total = choiceCount(
+					String(group.grupo_eleccion_id),
+					unit.unidad_prueba_id
+				);
 				if (
 					total < Number(group.selecciones_min) ||
 					total > Number(group.selecciones_max)
@@ -1187,6 +1246,9 @@
 											options={optionsForGroup(String(group.grupo_eleccion_id))}
 											selectedIds={selectedChoiceIds(String(group.grupo_eleccion_id), null)}
 											onChange={(ids) => setChoices(String(group.grupo_eleccion_id), null, ids)}
+											textValue={choiceTextValue(String(group.grupo_eleccion_id), null)}
+											onTextChange={(value) =>
+												setChoiceText(String(group.grupo_eleccion_id), null, value)}
 										/>
 									{/each}
 								</section>
