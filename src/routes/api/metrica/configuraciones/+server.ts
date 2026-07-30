@@ -36,9 +36,9 @@ const fieldsSchema = z
 	});
 
 const createSchema = fieldsSchema;
-const updateSchema = fieldsSchema.extend({ configuracion_id: z.uuid() });
+const updateSchema = fieldsSchema.extend({ arquitectura_id: z.uuid() });
 const configurationSelect =
-	'configuracion_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,numero_versos,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,numero_versos,estado_revision,activo,orden,origen_termino_id,updated_at';
 
 async function requireCatalogManager(locals: App.Locals) {
 	const profile = await requireEditorProfile({ locals });
@@ -72,7 +72,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const { principal, ...fields } = parsed.data;
 	const db = locals.supabase as unknown as UntypedSupabaseClient;
 	const { data: inserted, error: insertError } = await db
-		.from('configuraciones_forma')
+		.from('arquitecturas_forma')
 		.insert({
 			...fields,
 			principal: false,
@@ -97,7 +97,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	const principalError = await markAsPrincipal(
 		db,
-		inserted.configuracion_id,
+		inserted.arquitectura_id,
 		principal && fields.activo
 	);
 	if (principalError) {
@@ -111,9 +111,9 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 
 	const { data, error } = await db
-		.from('configuraciones_forma')
+		.from('arquitecturas_forma')
 		.select(configurationSelect)
-		.eq('configuracion_id', inserted.configuracion_id)
+		.eq('arquitectura_id', inserted.arquitectura_id)
 		.single();
 
 	if (error) {
@@ -131,16 +131,16 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 	const parsed = updateSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
 
-	const { configuracion_id, principal, ...fields } = parsed.data;
+	const { arquitectura_id, principal, ...fields } = parsed.data;
 	const db = locals.supabase as unknown as UntypedSupabaseClient;
 	const { error: updateError } = await db
-		.from('configuraciones_forma')
+		.from('arquitecturas_forma')
 		.update({
 			...fields,
 			principal: false,
 			updated_by: access.profile.userId
 		})
-		.eq('configuracion_id', configuracion_id);
+		.eq('arquitectura_id', arquitectura_id);
 
 	if (updateError) {
 		const conflict = updateError.code === '23505';
@@ -155,7 +155,7 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 		);
 	}
 
-	const principalError = await markAsPrincipal(db, configuracion_id, principal && fields.activo);
+	const principalError = await markAsPrincipal(db, arquitectura_id, principal && fields.activo);
 	if (principalError) {
 		return json(
 			{
@@ -167,9 +167,9 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 	}
 
 	const { data, error } = await db
-		.from('configuraciones_forma')
+		.from('arquitecturas_forma')
 		.select(configurationSelect)
-		.eq('configuracion_id', configuracion_id)
+		.eq('arquitectura_id', arquitectura_id)
 		.single();
 
 	if (error) {

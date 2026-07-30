@@ -8,9 +8,10 @@ pregunta responde cada una y por qué existe**. Es la lectura previa a todo lo d
 [arquitectura técnica](./arquitectura-dominio-metrica.md) describe cómo se implementa y
 las [fichas de revisión](./revisiones-formas/) documentan qué se decidió para cada forma.
 
-> **Estado de la implementación.** Los nombres de este documento son los definitivos. La
-> base de datos todavía usa los anteriores: la migración de renombrado está pendiente y
-> el mapa está en el apartado 11.
+> **Estado de la implementación.** La base habla ya este vocabulario: el bloque A de la
+> migración estructural se aplicó el 30 de julio de 2026. Lo que queda por implementar
+> está marcado en el apartado 11 y detallado en el
+> [contrato de implementación](./contrato-implementacion.md).
 
 ## 1 · Qué problema resuelve
 
@@ -499,20 +500,20 @@ Caparrós titula así el capítulo dedicado a las estrofas castellanas—, y **p
 significa en la métrica computacional el patrón acentual del verso. Ninguno de los dos se
 usa aquí con esos sentidos.
 
-| Concepto | Tabla actual | Cambio pendiente |
+| Concepto | Tabla | Cambio pendiente |
 | --- | --- | --- |
-| Forma · tramo sin forma | `formas_metricas` | `salida_editorial` pasa a `sin_forma`; `residual` pasa a grado de especificación |
-| Arquitectura | `configuraciones_forma` | renombrar |
-| Esquema métrico | `patrones_metricos` | renombrar |
-| Esquema de rima | `patrones_rima` | renombrar; `esquema` pasa a `notacion` |
-| Variedad | `combinaciones_patrones_configuracion` | renombrar |
-| Metro | `vocabularios` + `modelos_verso` | unificar en el dominio; borrar `patron_acentual` |
-| Sección | `estructuras_secciones` | retirar las que solo repiten la unidad |
-| Realización de sección | `unidades_editor_metrico` | renombrar a realizaciones |
-| Repetición | `patrones_repeticion` | — |
-| Rasgo | `rasgos_metricos` · `configuracion_rasgos` | poblar con las propiedades cualitativas hoy en restricciones |
+| Forma · tramo sin forma | `formas_metricas` | — |
+| Arquitectura | `arquitecturas_forma` | declarar la extensión de la unidad (bloque C) |
+| Esquema métrico | `esquemas_metricos` | — |
+| Esquema de rima | `esquemas_rima` | — |
+| Variedad | `variedades_arquitectura` | — |
+| Metro | `vocabularios` + `modelos_verso` | unificar en el dominio; borrar `patron_acentual` (bloque B) |
+| Sección | `estructuras_secciones` | retirar las nueve que solo repiten la unidad (bloque C) |
+| Realización de sección | `realizaciones_editor_metrico` | — |
+| Repetición | `repeticiones_metricas` | — |
+| Rasgo | `rasgos_metricos` · `arquitectura_rasgos` | poblar con las propiedades cualitativas hoy en restricciones |
 | Elección | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` | — |
-| Denominación | `denominaciones_metricas` | añadir el tipo `posterior` y reclasificar «Cuarteta» |
-| Tradición | `tradiciones_metricas` · `formas_tradiciones` | poblar; quitar `tipo_relacion` y `es_principal` |
+| Denominación | `denominaciones_metricas` | añadir el tipo `posterior`, el destino a variedad y reclasificar «Cuarteta» (bloque D) |
+| Tradición | `tradiciones_metricas` · `formas_tradiciones` | quitar `tipo_relacion` y `es_principal` (bloque D); poblar después |
 | Relación | `forma_relaciones` | — |
-| Niveles estructurales | `formas_metricas.nivel_estructural` | fundir `composicion` y `compuesta` |
+| Niveles estructurales | `formas_metricas.nivel_estructural` | — |

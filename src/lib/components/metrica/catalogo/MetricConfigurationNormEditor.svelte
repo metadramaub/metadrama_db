@@ -48,31 +48,31 @@
 	);
 	const metricPatterns = $derived(
 		props.domain.metricPatterns.filter(
-			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+			(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
 		)
 	);
 	const metricPatternOptions = $derived(
 		metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: String(row.patron_metrico_id),
+			value: String(row.notacion_metrico_id),
 			label: String(row.nombre || `Patrón métrico ${index + 1}`)
 		}))
 	);
 	const rhymePatterns = $derived(
 		props.domain.rhymePatterns.filter(
-			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+			(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
 		)
 	);
 	const rhymePatternOptions = $derived(
 		rhymePatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: String(row.patron_rima_id),
-			label: String(row.nombre || row.esquema || `Patrón de rima ${index + 1}`)
+			value: String(row.notacion_rima_id),
+			label: String(row.nombre || row.notacion || `Patrón de rima ${index + 1}`)
 		}))
 	);
 	const patternCombinations = $derived(
 		props.domain.patternCombinations
 			.filter(
 				(row: MetricCatalogDomainRow) =>
-					row.configuracion_id === props.configurationId
+					row.arquitectura_id === props.configurationId
 			)
 			.sort(
 				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
@@ -83,7 +83,7 @@
 		props.domain.configurationTraits
 			.filter(
 				(row: MetricCatalogDomainRow) =>
-					row.configuracion_id === props.configurationId
+					row.arquitectura_id === props.configurationId
 			)
 			.map((row: MetricCatalogDomainRow) => {
 				const trait = props.domain.traits.find(
@@ -104,23 +104,23 @@
 	);
 	const repetitionPatterns = $derived(
 		props.domain.repetitionPatterns.filter(
-			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+			(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
 		)
 	);
 	const repetitionPatternOptions = $derived(
 		repetitionPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: String(row.patron_repeticion_id),
+			value: String(row.repeticion_id),
 			label: String(row.regla || `Repetición ${index + 1}`)
 		}))
 	);
 	const soleRepetitionPatternId = $derived(
 		repetitionPatterns.length === 1
-			? String(repetitionPatterns[0].patron_repeticion_id)
+			? String(repetitionPatterns[0].repeticion_id)
 			: null
 	);
 	const sections = $derived(
 		props.domain.sections.filter(
-			(row: MetricCatalogDomainRow) => row.configuracion_id === props.configurationId
+			(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
 		)
 	);
 	const sectionOptions = $derived(
@@ -133,7 +133,7 @@
 		props.domain.configurations
 			.filter(
 				(row: MetricCatalogDomainRow) =>
-					String(row.configuracion_id) !== props.configurationId && row.activo
+					String(row.arquitectura_id) !== props.configurationId && row.activo
 			)
 			.map((row: MetricCatalogDomainRow) => {
 				const form = props.domain.forms.find(
@@ -141,7 +141,7 @@
 						candidate.forma_id === row.forma_id
 				);
 				return {
-					value: String(row.configuracion_id),
+					value: String(row.arquitectura_id),
 					label: `${String(form?.nombre ?? 'Forma')} · ${String(row.nombre)}`
 				};
 			})
@@ -191,7 +191,7 @@
 	);
 
 	const metricPatternFields: MetricEntityField[] = [
-		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
 		{
 			key: 'nombre',
 			label: 'Nombre breve',
@@ -223,7 +223,7 @@
 	];
 	const metricPositionFields = $derived<MetricEntityField[]>([
 		{
-			key: 'patron_metrico_id',
+			key: 'esquema_metrico_id',
 			label: 'Patrón',
 			type: 'select',
 			options: metricPatternOptions,
@@ -239,7 +239,7 @@
 	]);
 	const metricOptionFields = $derived<MetricEntityField[]>([
 		{
-			key: 'patron_metrico_id',
+			key: 'esquema_metrico_id',
 			label: 'Patrón',
 			type: 'select',
 			options: metricPatternOptions,
@@ -249,9 +249,9 @@
 		{ key: 'nota', label: 'Nota', type: 'textarea' }
 	]);
 	const rhymePatternFields = $derived<MetricEntityField[]>([
-		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
 		{ key: 'nombre', label: 'Nombre interno' },
-		{ key: 'esquema', label: 'Esquema', placeholder: 'ABBAACCDDC' },
+		{ key: 'notacion', label: 'Notación', placeholder: 'ABBAACCDDC' },
 		{ key: 'tipo_rima_id', label: 'Tipo de rima', type: 'select', options: rhymeTypeOptions },
 		{
 			key: 'ambito',
@@ -298,7 +298,7 @@
 	]);
 	const rhymePositionFields = $derived<MetricEntityField[]>([
 		{
-			key: 'patron_rima_id',
+			key: 'esquema_rima_id',
 			label: 'Patrón',
 			type: 'select',
 			options: rhymePatternOptions,
@@ -323,19 +323,19 @@
 		{ key: 'nota', label: 'Nota', type: 'textarea' }
 	]);
 	const patternCombinationFields = $derived<MetricEntityField[]>([
-		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
 		{ key: 'slug', label: 'Slug', required: true },
 		{ key: 'nombre', label: 'Nombre visible', required: true },
 		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
 		{
-			key: 'patron_metrico_id',
+			key: 'esquema_metrico_id',
 			label: 'Patrón métrico',
 			type: 'select',
 			options: metricPatternOptions,
 			required: true
 		},
 		{
-			key: 'patron_rima_id',
+			key: 'esquema_rima_id',
 			label: 'Patrón de rima',
 			type: 'select',
 			options: rhymePatternOptions,
@@ -354,7 +354,7 @@
 	]);
 	const rhymeLinkFields = $derived<MetricEntityField[]>([
 		{
-			key: 'patron_rima_id',
+			key: 'esquema_rima_id',
 			label: 'Patrón',
 			type: 'select',
 			options: rhymePatternOptions,
@@ -385,7 +385,7 @@
 	]);
 	const rhymeRestrictionFields = $derived<MetricEntityField[]>([
 		{
-			key: 'patron_rima_id',
+			key: 'esquema_rima_id',
 			label: 'Patrón',
 			type: 'select',
 			options: rhymePatternOptions,
@@ -410,7 +410,7 @@
 		{ key: 'obligatoria', label: 'Obligatoria', type: 'checkbox' }
 	]);
 	const sectionFields = $derived<MetricEntityField[]>([
-		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
 		{ key: 'seccion_padre_id', label: 'Sección superior', type: 'select', options: sectionOptions },
 		{ key: 'tipo_seccion', label: 'Tipo de sección', required: true },
 		{ key: 'nombre', label: 'Nombre' },
@@ -430,18 +430,18 @@
 			help: 'En una sección fija se guarda el mismo valor como mínimo y máximo.'
 		},
 		{
-			key: 'configuracion_referenciada_id',
+			key: 'arquitectura_referenciada_id',
 			label: 'Configuración reutilizada',
 			type: 'select',
 			options: reusableConfigurationOptions,
 			help: 'Úsala cuando la sección sea una realización de otra forma ya formalizada, como una redondilla dentro de una novena.'
 		},
-		{ key: 'patron_metrico_id', label: 'Patrón métrico', type: 'select', options: metricPatternOptions },
-		{ key: 'patron_rima_id', label: 'Patrón de rima', type: 'select', options: rhymePatternOptions },
+		{ key: 'esquema_metrico_id', label: 'Patrón métrico', type: 'select', options: metricPatternOptions },
+		{ key: 'esquema_rima_id', label: 'Patrón de rima', type: 'select', options: rhymePatternOptions },
 		{ key: 'nota', label: 'Nota', type: 'textarea' }
 	]);
 	const repetitionFields: MetricEntityField[] = [
-		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
 		{
 			key: 'tipo',
 			label: 'Tipo',
@@ -481,7 +481,7 @@
 	];
 	const repetitionPositionFields = $derived<MetricEntityField[]>([
 		{
-			key: 'patron_repeticion_id',
+			key: 'repeticion_id',
 			label: 'Patrón',
 			type: soleRepetitionPatternId ? 'hidden' : 'select',
 			options: repetitionPatternOptions,
@@ -495,7 +495,7 @@
 		{ key: 'condicion', label: 'Condición', type: 'textarea' }
 	]);
 	const configurationTraitFields = $derived<MetricEntityField[]>([
-		{ key: 'configuracion_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
 		{ key: 'rasgo_id', label: 'Rasgo', type: 'select', options: traitOptions, required: true },
 		{
 			key: 'modalidad',
@@ -526,19 +526,19 @@
 
 	function hideMetricPatternField(fields: MetricEntityField[]): MetricEntityField[] {
 		return fields.map((field) =>
-			field.key === 'patron_metrico_id' ? { ...field, type: 'hidden' } : field
+			field.key === 'esquema_metrico_id' ? { ...field, type: 'hidden' } : field
 		);
 	}
 
 	function hideRhymePatternField(fields: MetricEntityField[]): MetricEntityField[] {
 		return fields.map((field) =>
-			field.key === 'patron_rima_id' ? { ...field, type: 'hidden' } : field
+			field.key === 'esquema_rima_id' ? { ...field, type: 'hidden' } : field
 		);
 	}
 
 	function hideRepetitionPatternField(fields: MetricEntityField[]): MetricEntityField[] {
 		return fields.map((field) =>
-			field.key === 'patron_repeticion_id' ? { ...field, type: 'hidden' } : field
+			field.key === 'repeticion_id' ? { ...field, type: 'hidden' } : field
 		);
 	}
 
@@ -547,7 +547,7 @@
 		patternId: string
 	): MetricCatalogDomainRow[] {
 		return rows
-			.filter((row) => String(row.patron_metrico_id) === patternId)
+			.filter((row) => String(row.notacion_metrico_id) === patternId)
 			.sort(
 				(a, b) =>
 					Number(a.alternativa ?? 1) - Number(b.alternativa ?? 1) ||
@@ -560,7 +560,7 @@
 		patternId: string
 	): MetricCatalogDomainRow[] {
 		return rows
-			.filter((row) => String(row.patron_rima_id) === patternId)
+			.filter((row) => String(row.notacion_rima_id) === patternId)
 			.sort(
 				(a, b) =>
 					Number(a.bloque ?? 0) - Number(b.bloque ?? 0) ||
@@ -573,7 +573,7 @@
 		patternId: string
 	): MetricCatalogDomainRow[] {
 		return rows
-			.filter((row) => String(row.patron_repeticion_id) === patternId)
+			.filter((row) => String(row.repeticion_id) === patternId)
 			.sort(
 				(a, b) =>
 					Number(a.bloque ?? 0) - Number(b.bloque ?? 0) ||
@@ -640,13 +640,13 @@
 				title="Patrones métricos"
 				description="Abre un patrón para editar sus datos y la secuencia de versos que lo descompone."
 				rows={metricPatterns}
-				keyFields={['patron_metrico_id']}
+				keyFields={['esquema_metrico_id']}
 				fields={metricPatternFields}
-				defaults={{ configuracion_id: props.configurationId, ambito: defaultScope, tipo: 'secuencia_fija', estado_revision: 'borrador' }}
+				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, tipo: 'secuencia_fija', estado_revision: 'borrador' }}
 				compact
 			>
 				{#snippet rowContent(pattern)}
-					{@const patternId = String(pattern.patron_metrico_id)}
+					{@const patternId = String(pattern.esquema_metrico_id)}
 					{@const positions = rowsForMetricPattern(props.domain.metricPositions, patternId)}
 					{@const options = rowsForMetricPattern(props.domain.metricOptions, patternId)}
 					<div class="space-y-4">
@@ -673,7 +673,7 @@
 									rows={positions}
 									keyFields={['posicion_id']}
 									fields={groupedMetricPositionFields}
-									defaults={{ patron_metrico_id: patternId, alternativa: 1, posicion: positions.length + 1, opcional: false }}
+									defaults={{ esquema_metrico_id: patternId, alternativa: 1, posicion: positions.length + 1, opcional: false }}
 									emptyMessage="Este patrón no tiene posiciones ordenadas."
 									compact
 								/>
@@ -690,9 +690,9 @@
 										resource="metricOptions"
 										title="Conjunto de este patrón"
 										rows={options}
-										keyFields={['patron_metrico_id', 'metro_id']}
+										keyFields={['esquema_metrico_id', 'metro_id']}
 										fields={groupedMetricOptionFields}
-										defaults={{ patron_metrico_id: patternId }}
+										defaults={{ esquema_metrico_id: patternId }}
 										emptyMessage="Todavía no se han declarado medidas permitidas."
 										compact
 									/>
@@ -718,15 +718,15 @@
 				title="Patrones de rima"
 				description="Abre un patrón para editar sus datos, leer el esquema por versos y gestionar sus reglas."
 				rows={rhymePatterns}
-				keyFields={['patron_rima_id']}
+				keyFields={['esquema_rima_id']}
 				fields={rhymePatternFields}
-				labelFields={['nombre', 'esquema']}
+				labelFields={['nombre', 'notacion']}
 				emptyMessage="Esta configuración todavía no tiene alternativas de rima."
-				defaults={{ configuracion_id: props.configurationId, ambito: defaultScope, comportamiento: 'secuencia_fija', fijeza: 'admitido', estado_revision: 'borrador' }}
+				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, comportamiento: 'secuencia_fija', fijeza: 'admitido', estado_revision: 'borrador' }}
 				compact
 			>
 				{#snippet rowContent(pattern)}
-					{@const patternId = String(pattern.patron_rima_id)}
+					{@const patternId = String(pattern.esquema_rima_id)}
 					{@const positions = rowsForRhymePattern(props.domain.rhymePositions, patternId)}
 					{@const links = rowsForRhymePattern(props.domain.rhymeLinks, patternId)}
 					{@const restrictions = rowsForRhymePattern(props.domain.rhymeRestrictions, patternId)}
@@ -736,8 +736,8 @@
 								<p class="text-xs font-medium uppercase tracking-wide text-[color:var(--muted-foreground)]">
 									Secuencia de rimas
 								</p>
-								{#if pattern.esquema}
-									<code class="text-xs">{String(pattern.esquema)}</code>
+								{#if pattern.notacion}
+									<code class="text-xs">{String(pattern.notacion)}</code>
 								{/if}
 							</div>
 							<MetricPositionSequence
@@ -758,7 +758,7 @@
 									rows={positions}
 									keyFields={['posicion_id']}
 									fields={groupedRhymePositionFields}
-									defaults={{ patron_rima_id: patternId, bloque: 1, posicion: positions.length + 1, ubicacion: 'final', suelto: false, opcional: false }}
+									defaults={{ esquema_rima_id: patternId, bloque: 1, posicion: positions.length + 1, ubicacion: 'final', suelto: false, opcional: false }}
 									compact
 								/>
 							</div>
@@ -778,7 +778,7 @@
 									rows={links}
 									keyFields={['enlace_id']}
 									fields={groupedRhymeLinkFields}
-									defaults={{ patron_rima_id: patternId, bloque_origen: 1, ubicacion_origen: 'final', desplazamiento_bloque: 0, ubicacion_destino: 'final', tipo_enlace: 'misma_rima', obligatorio: true }}
+									defaults={{ esquema_rima_id: patternId, bloque_origen: 1, ubicacion_origen: 'final', desplazamiento_bloque: 0, ubicacion_destino: 'final', tipo_enlace: 'misma_rima', obligatorio: true }}
 									emptyMessage="Este patrón no necesita enlaces adicionales."
 									compact
 								/>
@@ -788,7 +788,7 @@
 									rows={restrictions}
 									keyFields={['restriccion_id']}
 									fields={groupedRhymeRestrictionFields}
-									defaults={{ patron_rima_id: patternId, tipo: 'otra', obligatoria: true }}
+									defaults={{ esquema_rima_id: patternId, tipo: 'otra', obligatoria: true }}
 									emptyMessage="Este patrón no necesita restricciones adicionales."
 									compact
 								/>
@@ -813,10 +813,10 @@
 				title="Tipologías que acoplan medida y rima"
 				description="Úsalas cuando no todas las combinaciones entre los patrones métricos y de rima sean válidas. Cada fila enlaza una pareja admitida sin crear otra configuración."
 				rows={patternCombinations}
-				keyFields={['combinacion_id']}
+				keyFields={['variedad_id']}
 				fields={patternCombinationFields}
 				defaults={{
-					configuracion_id: props.configurationId,
+					arquitectura_id: props.configurationId,
 					preferente: false,
 					estado_revision: 'borrador',
 					activo: true,
@@ -833,12 +833,12 @@
 		<div class="mt-4 space-y-4">
 			<MetricEntityCollection resource="sections" title="Estructura interna" rows={sections}
 				keyFields={['seccion_id']} fields={sectionFields}
-				defaults={{ configuracion_id: props.configurationId, orden: 1 }} compact />
+				defaults={{ arquitectura_id: props.configurationId, orden: 1 }} compact />
 			<MetricEntityCollection resource="repetitionPatterns" title="Patrones de repetición" rows={repetitionPatterns}
-				keyFields={['patron_repeticion_id']} fields={repetitionFields}
-				defaults={{ configuracion_id: props.configurationId, tipo: 'otro', ambito: defaultScope, fijeza: 'admitida', estado_revision: 'borrador' }} compact>
+				keyFields={['repeticion_id']} fields={repetitionFields}
+				defaults={{ arquitectura_id: props.configurationId, tipo: 'otro', ambito: defaultScope, fijeza: 'admitida', estado_revision: 'borrador' }} compact>
 				{#snippet rowContent(pattern)}
-					{@const patternId = String(pattern.patron_repeticion_id)}
+					{@const patternId = String(pattern.repeticion_id)}
 					{@const positions = rowsForRepetitionPattern(props.domain.repetitionPositions, patternId)}
 					<div class="space-y-4">
 						<div>
@@ -861,7 +861,7 @@
 									rows={positions}
 									keyFields={['posicion_id']}
 									fields={groupedRepetitionPositionFields}
-									defaults={{ patron_repeticion_id: patternId, bloque: 1, posicion: positions.length + 1 }}
+									defaults={{ repeticion_id: patternId, bloque: 1, posicion: positions.length + 1 }}
 									compact
 								/>
 							</div>
@@ -882,8 +882,8 @@
 		<div class="mt-4">
 			<MetricEntityCollection resource="configurationTraits" title="Rasgos de esta configuración"
 				rows={configurationTraits}
-				keyFields={['configuracion_id', 'rasgo_id', 'modalidad']} fields={configurationTraitFields}
-				defaults={{ configuracion_id: props.configurationId, modalidad: 'definitoria' }} compact />
+				keyFields={['arquitectura_id', 'rasgo_id', 'modalidad']} fields={configurationTraitFields}
+				defaults={{ arquitectura_id: props.configurationId, modalidad: 'definitoria' }} compact />
 		</div>
 	</details>
 

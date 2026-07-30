@@ -16,10 +16,6 @@ npm run audit:metrica                       # contra la base enlazada
 npm run audit:metrica -- --dump copia.sql   # contra un volcado local
 ```
 
-> El informe todavía nombra las entidades como se llaman hoy en la base —configuración,
-> patrón métrico, patrón de rima—. La migración de renombrado está pendiente; la
-> correspondencia está en el apartado 11 de la ontología.
-
 ## 1 · El procedimiento
 
 Ante un hecho observado, la primera pregunta es siempre la de la variación, y se responde
@@ -44,7 +40,7 @@ Si el hecho varía, una segunda pregunta decide en qué dimensión vive:
 ¿De qué habla?
 ├── de medidas ordenadas o admitidas ──► ESQUEMA MÉTRICO
 ├── de correspondencias de rima ───────► ESQUEMA DE RIMA
-├── de parejas válidas de ambos ───────► TIPOLOGÍA
+├── de parejas reconocidas de ambos ───► VARIEDAD
 ├── de material que se repite y la rima no expresa ──► REPETICIÓN
 ├── de una parte con extensión propia ─► SECCIÓN
 └── de una propiedad del tramo sin posición fija ──► RASGO
@@ -60,7 +56,7 @@ Y una tercera decide si el editor debe intervenir:
     └── no → se deja abierta en la norma y no se pregunta
 ```
 
-Dos casos quedan fuera del recorrido: si el tramo no conserva una norma reconocible es una
+Dos casos quedan fuera del recorrido: si el pasaje no conserva una norma reconocible es un
 **tramo sin forma**, y si el hecho solo es otro nombre de algo ya formalizado es una
 **denominación**.
 

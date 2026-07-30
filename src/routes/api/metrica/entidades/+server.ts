@@ -129,10 +129,10 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		numberFields: ['posicion', 'silabas', 'alternativa']
 	},
 	metricPatterns: {
-		table: 'patrones_metricos',
-		keys: ['patron_metrico_id'],
+		table: 'esquemas_metricos',
+		keys: ['esquema_metrico_id'],
 		fields: [
-			'configuracion_id',
+			'arquitectura_id',
 			'nombre',
 			'ambito',
 			'tipo',
@@ -141,10 +141,10 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		]
 	},
 	metricPositions: {
-		table: 'patron_metrico_posiciones',
+		table: 'esquema_metrico_posiciones',
 		keys: ['posicion_id'],
 		fields: [
-			'patron_metrico_id',
+			'esquema_metrico_id',
 			'medida',
 			'posicion',
 			'opcional',
@@ -156,18 +156,18 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		numberFields: ['posicion', 'alternativa']
 	},
 	metricOptions: {
-		table: 'patron_metrico_opciones',
-		keys: ['patron_metrico_id', 'metro_id'],
+		table: 'esquema_metrico_opciones',
+		keys: ['esquema_metrico_id', 'metro_id'],
 		fields: ['orden', 'nota'],
 		numberFields: ['orden']
 	},
 	rhymePatterns: {
-		table: 'patrones_rima',
-		keys: ['patron_rima_id'],
+		table: 'esquemas_rima',
+		keys: ['esquema_rima_id'],
 		fields: [
-			'configuracion_id',
+			'arquitectura_id',
 			'nombre',
-			'esquema',
+			'notacion',
 			'tipo_rima_id',
 			'ambito',
 			'comportamiento',
@@ -177,10 +177,10 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		]
 	},
 	rhymePositions: {
-		table: 'patron_rima_posiciones',
+		table: 'esquema_rima_posiciones',
 		keys: ['posicion_id'],
 		fields: [
-			'patron_rima_id',
+			'esquema_rima_id',
 			'bloque',
 			'seccion',
 			'posicion',
@@ -194,10 +194,10 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		numberFields: ['bloque', 'posicion']
 	},
 	rhymeLinks: {
-		table: 'patron_rima_enlaces',
+		table: 'esquema_rima_enlaces',
 		keys: ['enlace_id'],
 		fields: [
-			'patron_rima_id',
+			'esquema_rima_id',
 			'bloque_origen',
 			'posicion_origen',
 			'ubicacion_origen',
@@ -219,10 +219,10 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		]
 	},
 	rhymeRestrictions: {
-		table: 'patron_rima_restricciones',
+		table: 'esquema_rima_restricciones',
 		keys: ['restriccion_id'],
 		fields: [
-			'patron_rima_id',
+			'esquema_rima_id',
 			'tipo',
 			'valor_numero',
 			'valor_texto',
@@ -233,15 +233,15 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		numberFields: ['valor_numero']
 	},
 	patternCombinations: {
-		table: 'combinaciones_patrones_configuracion',
-		keys: ['combinacion_id'],
+		table: 'variedades_arquitectura',
+		keys: ['variedad_id'],
 		fields: [
-			'configuracion_id',
+			'arquitectura_id',
 			'slug',
 			'nombre',
 			'descripcion',
-			'patron_metrico_id',
-			'patron_rima_id',
+			'esquema_metrico_id',
+			'esquema_rima_id',
 			'preferente',
 			'estado_revision',
 			'activo',
@@ -254,7 +254,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		table: 'estructuras_secciones',
 		keys: ['seccion_id'],
 		fields: [
-			'configuracion_id',
+			'arquitectura_id',
 			'seccion_padre_id',
 			'tipo_seccion',
 			'nombre',
@@ -263,9 +263,9 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'repeticiones_max',
 			'versos_min',
 			'versos_max',
-			'configuracion_referenciada_id',
-			'patron_metrico_id',
-			'patron_rima_id',
+			'arquitectura_referenciada_id',
+			'esquema_metrico_id',
+			'esquema_rima_id',
 			'nota'
 		],
 		numberFields: [
@@ -277,10 +277,10 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		]
 	},
 	repetitionPatterns: {
-		table: 'patrones_repeticion',
-		keys: ['patron_repeticion_id'],
+		table: 'repeticiones_metricas',
+		keys: ['repeticion_id'],
 		fields: [
-			'configuracion_id',
+			'arquitectura_id',
 			'tipo',
 			'ambito',
 			'regla',
@@ -290,10 +290,10 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		]
 	},
 	repetitionPositions: {
-		table: 'patron_repeticion_posiciones',
+		table: 'repeticion_posiciones',
 		keys: ['posicion_id'],
 		fields: [
-			'patron_repeticion_id',
+			'repeticion_id',
 			'bloque',
 			'posicion',
 			'bloque_origen',
@@ -326,8 +326,8 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		numberFields: ['orden']
 	},
 	configurationTraits: {
-		table: 'configuracion_rasgos',
-		keys: ['configuracion_id', 'rasgo_id', 'modalidad'],
+		table: 'arquitectura_rasgos',
+		keys: ['arquitectura_id', 'rasgo_id', 'modalidad'],
 		fields: ['valor_id', 'valor_numero', 'valor_texto', 'nota'],
 		numberFields: ['valor_numero']
 	},
@@ -335,7 +335,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		table: 'grupos_eleccion_metrica',
 		keys: ['grupo_eleccion_id'],
 		fields: [
-			'configuracion_id',
+			'arquitectura_id',
 			'slug',
 			'nombre',
 			'ayuda_editor',
@@ -445,11 +445,11 @@ function normalizeValues(
 	if (resource === 'aliases' && 'destino' in output) {
 		const targetFields = [
 			'forma_id',
-			'configuracion_id',
-			'patron_metrico_id',
-			'patron_rima_id',
+			'arquitectura_id',
+			'esquema_metrico_id',
+			'esquema_rima_id',
 			'seccion_id',
-			'patron_repeticion_id'
+			'repeticion_id'
 		];
 		const [type, id] = String(output.destino ?? '').split(':', 2);
 		delete output.destino;
@@ -461,9 +461,9 @@ function normalizeValues(
 			'forma_id',
 			'familia_id',
 			'tradicion_id',
-			'configuracion_id',
-			'patron_metrico_id',
-			'patron_rima_id',
+			'arquitectura_id',
+			'esquema_metrico_id',
+			'esquema_rima_id',
 			'rasgo_id'
 		];
 		const [type, id] = String(output.destino ?? '').split(':', 2);
@@ -474,11 +474,11 @@ function normalizeValues(
 	if (resource === 'choiceOptions' && 'objetivo' in output) {
 		const targetFields = [
 			'metro_id',
-			'patron_metrico_id',
-			'patron_rima_id',
-			'combinacion_id',
+			'esquema_metrico_id',
+			'esquema_rima_id',
+			'variedad_id',
 			'seccion_id',
-			'patron_repeticion_id',
+			'repeticion_id',
 			'rasgo_id',
 			'valor_rasgo_id'
 		];

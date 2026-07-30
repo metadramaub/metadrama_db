@@ -15,13 +15,13 @@ type FormRow = {
 	slug: string;
 	nombre: string;
 	definicion: string | null;
-	nivel_estructural: 'verso' | 'estrofa' | 'serie' | 'composicion' | 'compuesta';
-	residual: boolean;
+	nivel_estructural: 'verso' | 'estrofa' | 'serie' | 'composicion';
+	grado_especificacion: 'general' | 'especifica' | null;
 	updated_at: string;
 };
 
 type ConfigurationRow = {
-	configuracion_id: string;
+	arquitectura_id: string;
 	forma_id: string;
 	slug: string;
 	nombre: string;
@@ -40,12 +40,12 @@ type VocabularyRow = {
 };
 
 type PatternRow = {
-	patron_metrico_id: string;
-	configuracion_id: string;
+	esquema_metrico_id: string;
+	arquitectura_id: string;
 };
 
 type MetricPositionRow = {
-	patron_metrico_id: string;
+	esquema_metrico_id: string;
 	metro_id: string | null;
 	modelo_verso_id: string | null;
 	posicion: number;
@@ -61,11 +61,11 @@ type VerseModelRow = {
 };
 
 type RhymePatternRow = {
-	patron_rima_id: string;
-	configuracion_id: string;
+	esquema_rima_id: string;
+	arquitectura_id: string;
 	nombre: string | null;
 	tipo_rima_id: string | null;
-	esquema: string | null;
+	notacion: string | null;
 	comportamiento:
 		| 'secuencia_fija'
 		| 'secuencia_repetible'
@@ -75,7 +75,7 @@ type RhymePatternRow = {
 };
 
 type RhymePositionRow = {
-	patron_rima_id: string;
+	esquema_rima_id: string;
 	bloque: number;
 	posicion: number;
 	ubicacion: 'final' | 'interior';
@@ -85,7 +85,7 @@ type RhymePositionRow = {
 };
 
 type RhymeLinkRow = {
-	patron_rima_id: string;
+	esquema_rima_id: string;
 	bloque_origen: number;
 	posicion_origen: number;
 	ubicacion_origen: 'final' | 'interior';
@@ -98,7 +98,7 @@ type RhymeLinkRow = {
 };
 
 type RhymeRestrictionRow = {
-	patron_rima_id: string;
+	esquema_rima_id: string;
 	tipo: string;
 	valor_numero: number | null;
 	valor_texto: string | null;
@@ -108,7 +108,7 @@ type RhymeRestrictionRow = {
 
 type SectionRow = {
 	seccion_id: string;
-	configuracion_id: string;
+	arquitectura_id: string;
 	seccion_padre_id: string | null;
 	tipo_seccion: string;
 	nombre: string | null;
@@ -117,12 +117,12 @@ type SectionRow = {
 	repeticiones_max: number | null;
 	versos_min: number | null;
 	versos_max: number | null;
-	configuracion_referenciada_id: string | null;
+	arquitectura_referenciada_id: string | null;
 };
 
 type RepetitionPatternRow = {
-	patron_repeticion_id: string;
-	configuracion_id: string;
+	repeticion_id: string;
+	arquitectura_id: string;
 	tipo: 'palabra_final' | 'verso' | 'estribillo' | 'seccion' | 'otro';
 	ambito: 'unidad' | 'estrofa' | 'serie' | 'seccion' | 'composicion';
 	regla: string;
@@ -131,7 +131,7 @@ type RepetitionPatternRow = {
 };
 
 type RepetitionPositionRow = {
-	patron_repeticion_id: string;
+	repeticion_id: string;
 	bloque: number;
 	posicion: number;
 	bloque_origen: number | null;
@@ -217,16 +217,18 @@ function derivedStructuralNature(
 	size: number | null,
 	vocabularyById: Map<string, VocabularyRow>
 ): ValorCatalogado | null {
+	// Los niveles `composicion` y `compuesta` se fundieron: lo que distinguía a una de
+	// otra era tener o no una extensión total fija, así que ahora lo decide el tamaño.
 	const slug =
 		form.nivel_estructural === 'serie'
 			? 'tirada_abierta'
-			: form.nivel_estructural === 'compuesta'
-				? 'forma_compuesta'
-				: form.nivel_estructural === 'estrofa' && size !== null
-					? 'estrofa_cerrada'
-					: form.nivel_estructural === 'composicion' && size !== null
+			: form.nivel_estructural === 'estrofa' && size !== null
+				? 'estrofa_cerrada'
+				: form.nivel_estructural === 'composicion'
+					? size !== null
 						? 'forma_fija'
-						: null;
+						: 'forma_compuesta'
+					: null;
 	return cataloguedValueBySlug(slug, vocabularyById);
 }
 
@@ -241,7 +243,9 @@ function fixedSectionTotal(
 	const children = childrenByParent.get(section.seccion_id) ?? [];
 	let unitSize: number | null;
 	if (children.length > 0) {
-		const childSizes = children.map((child) => fixedSectionTotal(child, childrenByParent, visiting));
+		const childSizes = children.map((child) =>
+			fixedSectionTotal(child, childrenByParent, visiting)
+		);
 		unitSize = childSizes.every((value): value is number => value !== null)
 			? childSizes.reduce((total, value) => total + value, 0)
 			: null;
@@ -258,8 +262,7 @@ function fixedSectionTotal(
 	const repetitions =
 		section.repeticiones_min === null && section.repeticiones_max === null
 			? 1
-			: section.repeticiones_min !== null &&
-				  section.repeticiones_min === section.repeticiones_max
+			: section.repeticiones_min !== null && section.repeticiones_min === section.repeticiones_max
 				? section.repeticiones_min
 				: null;
 	return repetitions === null ? null : unitSize * repetitions;
@@ -296,7 +299,7 @@ function compileStructure(
 ): CompiledStructure | null {
 	if (
 		sections.length < 2 &&
-		!sections.some((section) => Boolean(section.configuracion_referenciada_id))
+		!sections.some((section) => Boolean(section.arquitectura_referenciada_id))
 	) {
 		return null;
 	}
@@ -313,10 +316,7 @@ function compileStructure(
 		[...items].sort(
 			(a, b) =>
 				a.orden - b.orden ||
-				(a.nombre ?? a.tipo_seccion).localeCompare(
-					b.nombre ?? b.tipo_seccion,
-					'es'
-				)
+				(a.nombre ?? a.tipo_seccion).localeCompare(b.nombre ?? b.tipo_seccion, 'es')
 		);
 	const node = (section: SectionRow): Record<string, unknown> => ({
 		tipo: section.tipo_seccion,
@@ -324,13 +324,10 @@ function compileStructure(
 		repeticiones: [section.repeticiones_min, section.repeticiones_max],
 		versos: [section.versos_min, section.versos_max],
 		configuracionReferenciada:
-			configurationById.get(section.configuracion_referenciada_id ?? '')?.slug ??
-			null,
+			configurationById.get(section.arquitectura_referenciada_id ?? '')?.slug ?? null,
 		partes: sortSections(childrenByParent.get(section.seccion_id) ?? []).map(node)
 	});
-	const roots = sortSections(
-		sections.filter((section) => section.seccion_padre_id === null)
-	);
+	const roots = sortSections(sections.filter((section) => section.seccion_padre_id === null));
 	if (roots.length === 0) return null;
 
 	const visibleParts =
@@ -339,9 +336,7 @@ function compileStructure(
 			: roots;
 	return {
 		signature: JSON.stringify(roots.map(node)),
-		label: visibleParts
-			.map((section) => section.nombre?.trim() || section.tipo_seccion)
-			.join(' + ')
+		label: visibleParts.map((section) => section.nombre?.trim() || section.tipo_seccion).join(' + ')
 	};
 }
 
@@ -352,17 +347,13 @@ function compileRepetition(
 	if (patterns.length === 0) return null;
 
 	const compiled = [...patterns]
-		.sort(
-			(a, b) =>
-				a.tipo.localeCompare(b.tipo, 'es') ||
-				a.regla.localeCompare(b.regla, 'es')
-		)
+		.sort((a, b) => a.tipo.localeCompare(b.tipo, 'es') || a.regla.localeCompare(b.regla, 'es'))
 		.map((pattern) => ({
 			tipo: pattern.tipo,
 			ambito: pattern.ambito,
 			fijeza: pattern.fijeza,
 			regla: pattern.regla,
-			posiciones: [...(positionsByPattern.get(pattern.patron_repeticion_id) ?? [])]
+			posiciones: [...(positionsByPattern.get(pattern.repeticion_id) ?? [])]
 				.sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion)
 				.map((position) => ({
 					bloque: position.bloque,
@@ -374,9 +365,7 @@ function compileRepetition(
 				}))
 		}));
 	const labels = [
-		...new Set(
-			patterns.map((pattern) => pattern.descripcion?.trim() || pattern.regla.trim())
-		)
+		...new Set(patterns.map((pattern) => pattern.descripcion?.trim() || pattern.regla.trim()))
 	];
 
 	return {
@@ -395,7 +384,7 @@ function compileRhymePattern(
 	if (pattern.comportamiento === 'libre') {
 		return {
 			signature: JSON.stringify({ comportamiento: 'libre' }),
-			label: pattern.esquema?.trim() || 'Distribución libre'
+			label: pattern.notacion?.trim() || 'Distribución libre'
 		};
 	}
 	if (pattern.comportamiento === 'restricciones') {
@@ -419,7 +408,7 @@ function compileRhymePattern(
 				restricciones: orderedRestrictions
 			}),
 			label:
-				pattern.esquema?.trim() ||
+				pattern.notacion?.trim() ||
 				pattern.nombre?.trim() ||
 				restrictions
 					.map((restriction) => restriction.descripcion?.trim())
@@ -433,9 +422,7 @@ function compileRhymePattern(
 	const orderedPositions = [...positions]
 		.sort(
 			(a, b) =>
-				a.bloque - b.bloque ||
-				a.posicion - b.posicion ||
-				a.ubicacion.localeCompare(b.ubicacion)
+				a.bloque - b.bloque || a.posicion - b.posicion || a.ubicacion.localeCompare(b.ubicacion)
 		)
 		.map((position) => ({
 			bloque: position.bloque,
@@ -446,12 +433,10 @@ function compileRhymePattern(
 			opcional: position.opcional
 		}));
 	const compactScheme = orderedPositions
-		.map((position) => (position.suelto ? '-' : position.clase ?? '?'))
+		.map((position) => (position.suelto ? '-' : (position.clase ?? '?')))
 		.join('');
 	const generatedLabel =
-		pattern.comportamiento === 'secuencia_repetible'
-			? `${compactScheme}…`
-			: compactScheme;
+		pattern.comportamiento === 'secuencia_repetible' ? `${compactScheme}…` : compactScheme;
 	const orderedLinks = [...links]
 		.sort(
 			(a, b) =>
@@ -479,7 +464,7 @@ function compileRhymePattern(
 			posiciones: orderedPositions,
 			enlaces: orderedLinks
 		}),
-		label: pattern.esquema?.trim() || generatedLabel
+		label: pattern.notacion?.trim() || generatedLabel
 	};
 }
 
@@ -526,7 +511,7 @@ function candidateFromConfiguration(input: {
 	};
 
 	return {
-		id: isFamily ? form.forma_id : configuration.configuracion_id,
+		id: isFamily ? form.forma_id : configuration.arquitectura_id,
 		slug: isFamily ? form.slug : `${form.slug}--${configuration.slug}`,
 		etiqueta: isFamily ? form.nombre : `${form.nombre}: ${configuration.nombre}`,
 		definicion: (isFamily ? form.definicion : configuration.descripcion)?.trim() || form.definicion,
@@ -534,7 +519,7 @@ function candidateFromConfiguration(input: {
 		familiaSlug: form.slug,
 		familiaEtiqueta: form.nombre,
 		esFamilia: isFamily,
-		esResidual: form.residual,
+		esResidual: form.grado_especificacion !== 'especifica',
 		rasgos: traits
 	};
 }
@@ -596,54 +581,52 @@ export async function generateDemarcatorFromMetricCatalog(
 		db.from('catalogo_metrico_estado').select('revision,actualizado_en').eq('id', true).single(),
 		db
 			.from('formas_metricas')
-			.select('forma_id,slug,nombre,definicion,nivel_estructural,residual,updated_at')
+			.select('forma_id,slug,nombre,definicion,nivel_estructural,grado_especificacion,updated_at')
 			.eq('activo', true)
 			.eq('seleccionable', true),
 		db
-			.from('configuraciones_forma')
+			.from('arquitecturas_forma')
 			.select(
-				'configuracion_id,forma_id,slug,nombre,descripcion,principal,tipo_rima_id,numero_versos,updated_at'
+				'arquitectura_id,forma_id,slug,nombre,descripcion,principal,tipo_rima_id,numero_versos,updated_at'
 			)
 			.eq('activo', true)
 			.eq('demarcable', true),
-		db.from('patrones_metricos').select('patron_metrico_id,configuracion_id'),
-		db.from('patron_metrico_opciones').select('patron_metrico_id,metro_id,orden'),
+		db.from('esquemas_metricos').select('esquema_metrico_id,arquitectura_id'),
+		db.from('esquema_metrico_opciones').select('esquema_metrico_id,metro_id,orden'),
 		db
-			.from('patron_metrico_posiciones')
-			.select('patron_metrico_id,metro_id,modelo_verso_id,posicion'),
+			.from('esquema_metrico_posiciones')
+			.select('esquema_metrico_id,metro_id,modelo_verso_id,posicion'),
 		db
 			.from('modelos_verso')
 			.select('modelo_verso_id,metro_id,silabas_totales,nombre,slug,tipo')
 			.eq('activo', true),
 		db
-			.from('patrones_rima')
-			.select('patron_rima_id,configuracion_id,nombre,tipo_rima_id,esquema,comportamiento')
+			.from('esquemas_rima')
+			.select('esquema_rima_id,arquitectura_id,nombre,tipo_rima_id,notacion,comportamiento')
 			.order('fijeza', { ascending: true }),
 		db
-			.from('patron_rima_posiciones')
-			.select('patron_rima_id,bloque,posicion,ubicacion,clase_rima,suelto,opcional'),
+			.from('esquema_rima_posiciones')
+			.select('esquema_rima_id,bloque,posicion,ubicacion,clase_rima,suelto,opcional'),
 		db
-			.from('patron_rima_enlaces')
+			.from('esquema_rima_enlaces')
 			.select(
-				'patron_rima_id,bloque_origen,posicion_origen,ubicacion_origen,desplazamiento_bloque,bloque_destino,posicion_destino,ubicacion_destino,tipo_enlace,obligatorio'
+				'esquema_rima_id,bloque_origen,posicion_origen,ubicacion_origen,desplazamiento_bloque,bloque_destino,posicion_destino,ubicacion_destino,tipo_enlace,obligatorio'
 			),
 		db
-			.from('patron_rima_restricciones')
-			.select('patron_rima_id,tipo,valor_numero,valor_texto,descripcion,obligatoria'),
+			.from('esquema_rima_restricciones')
+			.select('esquema_rima_id,tipo,valor_numero,valor_texto,descripcion,obligatoria'),
 		db
 			.from('estructuras_secciones')
 			.select(
-				'seccion_id,configuracion_id,seccion_padre_id,tipo_seccion,nombre,orden,repeticiones_min,repeticiones_max,versos_min,versos_max,configuracion_referenciada_id'
+				'seccion_id,arquitectura_id,seccion_padre_id,tipo_seccion,nombre,orden,repeticiones_min,repeticiones_max,versos_min,versos_max,arquitectura_referenciada_id'
 			),
 		db
-			.from('patrones_repeticion')
-			.select(
-				'patron_repeticion_id,configuracion_id,tipo,ambito,regla,fijeza,descripcion'
-			),
+			.from('repeticiones_metricas')
+			.select('repeticion_id,arquitectura_id,tipo,ambito,regla,fijeza,descripcion'),
 		db
-			.from('patron_repeticion_posiciones')
+			.from('repeticion_posiciones')
 			.select(
-				'patron_repeticion_id,bloque,posicion,bloque_origen,posicion_origen,etiqueta_funcional,condicion'
+				'repeticion_id,bloque,posicion,bloque_origen,posicion_origen,etiqueta_funcional,condicion'
 			),
 		db
 			.from('vocabularios')
@@ -664,10 +647,7 @@ export async function generateDemarcatorFromMetricCatalog(
 	throwIfError('No se pudieron cargar los patrones de rima', rhymePatternsResponse.error);
 	throwIfError('No se pudieron cargar las posiciones de rima', rhymePositionsResponse.error);
 	throwIfError('No se pudieron cargar los enlaces de rima', rhymeLinksResponse.error);
-	throwIfError(
-		'No se pudieron cargar las restricciones de rima',
-		rhymeRestrictionsResponse.error
-	);
+	throwIfError('No se pudieron cargar las restricciones de rima', rhymeRestrictionsResponse.error);
 	throwIfError('No se pudieron cargar las secciones métricas', sectionsResponse.error);
 	throwIfError(
 		'No se pudieron cargar los patrones de repetición',
@@ -682,10 +662,7 @@ export async function generateDemarcatorFromMetricCatalog(
 	const forms = (formsResponse.data ?? []) as FormRow[];
 	const configurations = (configurationsResponse.data ?? []) as ConfigurationRow[];
 	const configurationById = new Map(
-		configurations.map((configuration) => [
-			configuration.configuracion_id,
-			configuration
-		])
+		configurations.map((configuration) => [configuration.arquitectura_id, configuration])
 	);
 	const sections = (sectionsResponse.data ?? []) as SectionRow[];
 	const metricPatterns = (metricPatternsResponse.data ?? []) as PatternRow[];
@@ -693,7 +670,7 @@ export async function generateDemarcatorFromMetricCatalog(
 		((vocabularyResponse.data ?? []) as VocabularyRow[]).map((row) => [row.termino_id, row])
 	);
 	const configurationByPattern = new Map(
-		metricPatterns.map((pattern) => [pattern.patron_metrico_id, pattern.configuracion_id])
+		metricPatterns.map((pattern) => [pattern.esquema_metrico_id, pattern.arquitectura_id])
 	);
 	const verseModelsById = new Map<string, VerseModelRow>(
 		((verseModelsResponse.data ?? []) as VerseModelRow[]).map((row) => [row.modelo_verso_id, row])
@@ -711,7 +688,7 @@ export async function generateDemarcatorFromMetricCatalog(
 				? verseModelsById.get(metricPosition.modelo_verso_id)?.metro_id
 				: null);
 		if (!metreId) continue;
-		const configurationId = configurationByPattern.get(relation.patron_metrico_id);
+		const configurationId = configurationByPattern.get(relation.esquema_metrico_id);
 		const metre = vocabularyById.get(metreId);
 		if (!configurationId || !metre) continue;
 		const values = metresByConfiguration.get(configurationId) ?? new Map<string, ValorCatalogado>();
@@ -729,29 +706,29 @@ export async function generateDemarcatorFromMetricCatalog(
 
 	const rhymePatternsByConfiguration = new Map<string, RhymePatternRow[]>();
 	for (const pattern of (rhymePatternsResponse.data ?? []) as RhymePatternRow[]) {
-		rhymePatternsByConfiguration.set(pattern.configuracion_id, [
-			...(rhymePatternsByConfiguration.get(pattern.configuracion_id) ?? []),
+		rhymePatternsByConfiguration.set(pattern.arquitectura_id, [
+			...(rhymePatternsByConfiguration.get(pattern.arquitectura_id) ?? []),
 			pattern
 		]);
 	}
 	const rhymePositionsByPattern = new Map<string, RhymePositionRow[]>();
 	for (const position of (rhymePositionsResponse.data ?? []) as RhymePositionRow[]) {
-		rhymePositionsByPattern.set(position.patron_rima_id, [
-			...(rhymePositionsByPattern.get(position.patron_rima_id) ?? []),
+		rhymePositionsByPattern.set(position.esquema_rima_id, [
+			...(rhymePositionsByPattern.get(position.esquema_rima_id) ?? []),
 			position
 		]);
 	}
 	const rhymeLinksByPattern = new Map<string, RhymeLinkRow[]>();
 	for (const link of (rhymeLinksResponse.data ?? []) as RhymeLinkRow[]) {
-		rhymeLinksByPattern.set(link.patron_rima_id, [
-			...(rhymeLinksByPattern.get(link.patron_rima_id) ?? []),
+		rhymeLinksByPattern.set(link.esquema_rima_id, [
+			...(rhymeLinksByPattern.get(link.esquema_rima_id) ?? []),
 			link
 		]);
 	}
 	const rhymeRestrictionsByPattern = new Map<string, RhymeRestrictionRow[]>();
 	for (const restriction of (rhymeRestrictionsResponse.data ?? []) as RhymeRestrictionRow[]) {
-		rhymeRestrictionsByPattern.set(restriction.patron_rima_id, [
-			...(rhymeRestrictionsByPattern.get(restriction.patron_rima_id) ?? []),
+		rhymeRestrictionsByPattern.set(restriction.esquema_rima_id, [
+			...(rhymeRestrictionsByPattern.get(restriction.esquema_rima_id) ?? []),
 			restriction
 		]);
 	}
@@ -762,9 +739,9 @@ export async function generateDemarcatorFromMetricCatalog(
 				pattern,
 				compiled: compileRhymePattern(
 					pattern,
-					rhymePositionsByPattern.get(pattern.patron_rima_id) ?? [],
-					rhymeLinksByPattern.get(pattern.patron_rima_id) ?? [],
-					rhymeRestrictionsByPattern.get(pattern.patron_rima_id) ?? []
+					rhymePositionsByPattern.get(pattern.esquema_rima_id) ?? [],
+					rhymeLinksByPattern.get(pattern.esquema_rima_id) ?? [],
+					rhymeRestrictionsByPattern.get(pattern.esquema_rima_id) ?? []
 				)
 			}))
 			.filter(
@@ -779,15 +756,12 @@ export async function generateDemarcatorFromMetricCatalog(
 		const labels = [...new Set(compiled.map((item) => item.compiled.label))];
 		const qualitativeTraits = patterns
 			.map((pattern) =>
-				qualitativeRhymeTraits(
-					rhymeRestrictionsByPattern.get(pattern.patron_rima_id) ?? []
-				)
+				qualitativeRhymeTraits(rhymeRestrictionsByPattern.get(pattern.esquema_rima_id) ?? [])
 			)
 			.reduce(
 				(result, traits) => ({
 					predominioRima: result.predominioRima ?? traits.predominioRima,
-					organizacionPareados:
-						result.organizacionPareados ?? traits.organizacionPareados
+					organizacionPareados: result.organizacionPareados ?? traits.organizacionPareados
 				}),
 				{
 					predominioRima: null,
@@ -796,10 +770,7 @@ export async function generateDemarcatorFromMetricCatalog(
 			);
 		rhymePatternByConfiguration.set(configurationId, {
 			tipo_rima_id: patterns.find((pattern) => pattern.tipo_rima_id)?.tipo_rima_id ?? null,
-			signature:
-				signatures.length > 0
-					? JSON.stringify({ alternativas: signatures })
-					: null,
+			signature: signatures.length > 0 ? JSON.stringify({ alternativas: signatures }) : null,
 			label: labels.length > 0 ? labels.join(' / ') : null,
 			...qualitativeTraits
 		});
@@ -807,15 +778,15 @@ export async function generateDemarcatorFromMetricCatalog(
 
 	const repetitionPositionsByPattern = new Map<string, RepetitionPositionRow[]>();
 	for (const position of (repetitionPositionsResponse.data ?? []) as RepetitionPositionRow[]) {
-		repetitionPositionsByPattern.set(position.patron_repeticion_id, [
-			...(repetitionPositionsByPattern.get(position.patron_repeticion_id) ?? []),
+		repetitionPositionsByPattern.set(position.repeticion_id, [
+			...(repetitionPositionsByPattern.get(position.repeticion_id) ?? []),
 			position
 		]);
 	}
 	const repetitionPatternsByConfiguration = new Map<string, RepetitionPatternRow[]>();
 	for (const pattern of (repetitionPatternsResponse.data ?? []) as RepetitionPatternRow[]) {
-		repetitionPatternsByConfiguration.set(pattern.configuracion_id, [
-			...(repetitionPatternsByConfiguration.get(pattern.configuracion_id) ?? []),
+		repetitionPatternsByConfiguration.set(pattern.arquitectura_id, [
+			...(repetitionPatternsByConfiguration.get(pattern.arquitectura_id) ?? []),
 			pattern
 		]);
 	}
@@ -836,76 +807,76 @@ export async function generateDemarcatorFromMetricCatalog(
 	const warnings: string[] = [];
 	const compileFamilies = (selectedForms: FormRow[]) =>
 		selectedForms
-		.flatMap((form) => {
-			const formConfigurations = configurationsByForm.get(form.forma_id) ?? [];
-			if (formConfigurations.length === 0) {
-				warnings.push(`«${form.nombre}» no tiene configuraciones demarcables.`);
-				return [];
-			}
-			const hasMultipleConfigurations = formConfigurations.length > 1;
+			.flatMap((form) => {
+				const formConfigurations = configurationsByForm.get(form.forma_id) ?? [];
+				if (formConfigurations.length === 0) {
+					warnings.push(`«${form.nombre}» no tiene configuraciones demarcables.`);
+					return [];
+				}
+				const hasMultipleConfigurations = formConfigurations.length > 1;
 
-			return formConfigurations.map((configuration) => {
-				const familyId = hasMultipleConfigurations ? configuration.configuracion_id : form.forma_id;
-				const familySlug = hasMultipleConfigurations
-					? `${form.slug}--${configuration.slug}`
-					: form.slug;
-				const familyLabel = hasMultipleConfigurations
-					? `${form.nombre}: ${configuration.nombre}`
-					: form.nombre;
-				const candidate = candidateFromConfiguration({
-					form,
-					configuration,
-					isFamily: !hasMultipleConfigurations,
-					metres: [
-						...(metresByConfiguration.get(configuration.configuracion_id)?.values() ?? [])
-					].sort((a, b) => a.clave.localeCompare(b.clave, 'es', { numeric: true })),
-					rhymePattern: rhymePatternByConfiguration.get(configuration.configuracion_id) ?? null,
-					structure: compileStructure(
-						sections.filter(
-							(section) =>
-								section.configuracion_id === configuration.configuracion_id
-						),
-						configurationById
-					),
-					repetition:
-						repetitionByConfiguration.get(configuration.configuracion_id) ?? null,
-					size: configurationSize(
+				return formConfigurations.map((configuration) => {
+					const familyId = hasMultipleConfigurations
+						? configuration.arquitectura_id
+						: form.forma_id;
+					const familySlug = hasMultipleConfigurations
+						? `${form.slug}--${configuration.slug}`
+						: form.slug;
+					const familyLabel = hasMultipleConfigurations
+						? `${form.nombre}: ${configuration.nombre}`
+						: form.nombre;
+					const candidate = candidateFromConfiguration({
 						form,
 						configuration,
-						sections.filter(
-							(section) => section.configuracion_id === configuration.configuracion_id
-						)
-					),
-					vocabularyById
-				});
+						isFamily: !hasMultipleConfigurations,
+						metres: [
+							...(metresByConfiguration.get(configuration.arquitectura_id)?.values() ?? [])
+						].sort((a, b) => a.clave.localeCompare(b.clave, 'es', { numeric: true })),
+						rhymePattern: rhymePatternByConfiguration.get(configuration.arquitectura_id) ?? null,
+						structure: compileStructure(
+							sections.filter(
+								(section) => section.arquitectura_id === configuration.arquitectura_id
+							),
+							configurationById
+						),
+						repetition: repetitionByConfiguration.get(configuration.arquitectura_id) ?? null,
+						size: configurationSize(
+							form,
+							configuration,
+							sections.filter(
+								(section) => section.arquitectura_id === configuration.arquitectura_id
+							)
+						),
+						vocabularyById
+					});
 
-				return {
-					id: familyId,
-					slug: familySlug,
-					etiqueta: familyLabel,
-					politica: 'familia' as const,
-					raiz: {
-						...candidate,
+					return {
 						id: familyId,
 						slug: familySlug,
 						etiqueta: familyLabel,
-						familiaId: familyId,
-						familiaSlug: familySlug,
-						familiaEtiqueta: familyLabel,
-						esFamilia: true
-					},
-					variantes: []
-				};
-			});
-		})
-		.sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es'));
-	const families = compileFamilies(forms.filter((form) => !form.residual));
-	const residualForms = forms.filter((form) => form.residual);
+						politica: 'familia' as const,
+						raiz: {
+							...candidate,
+							id: familyId,
+							slug: familySlug,
+							etiqueta: familyLabel,
+							familiaId: familyId,
+							familiaSlug: familySlug,
+							familiaEtiqueta: familyLabel,
+							esFamilia: true
+						},
+						variantes: []
+					};
+				});
+			})
+			.sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es'));
+	const families = compileFamilies(
+		forms.filter((form) => form.grado_especificacion === 'especifica')
+	);
+	const residualForms = forms.filter((form) => form.grado_especificacion !== 'especifica');
 	const residuals = [
 		...compileFamilies(
-			residualForms.filter(
-				(form) => (configurationsByForm.get(form.forma_id) ?? []).length > 0
-			)
+			residualForms.filter((form) => (configurationsByForm.get(form.forma_id) ?? []).length > 0)
 		).map((family) => family.raiz),
 		...residualForms
 			.filter((form) => (configurationsByForm.get(form.forma_id) ?? []).length === 0)

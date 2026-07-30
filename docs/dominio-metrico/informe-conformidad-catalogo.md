@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-30 15:37
+Generado: 2026-07-30 16:20
 
 Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 81 patrones de rima · 84 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
 
@@ -85,7 +85,7 @@ Sin incidencias.
 
 ### D8 · Componente copiado en lugar de reutilizado — 1
 
-> Cuando una forma declara `compuesta_por` o `subtipo_de` otra, sus secciones reutilizan la configuración del componente mediante configuracion_referenciada_id. Copiar sus patrones obliga a mantener el repertorio en varios sitios y rompe la comparación.
+> Cuando una forma declara `compuesta_por` o `subtipo_de` otra, sus secciones reutilizan la configuración del componente mediante arquitectura_referenciada_id. Copiar sus patrones obliga a mantener el repertorio en varios sitios y rompe la comparación.
 
 | Sujeto | Detalle |
 | --- | --- |
@@ -155,9 +155,9 @@ Sin incidencias.
 
 | Forma | Nivel | Cfg | Prot. | Medida vive en | Rima vive en | Grupos | Alcance |
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
-| cancion_petrarquista | compuesta | 3 | — | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
+| cancion_petrarquista | composicion | 3 | — | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | secuencia |
-| copla_de_pie_quebrado ·res | estrofa | 1 | sí | conjunto, eleccion | patrón único | 2 | unidad |
+| copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 2 | unidad |
 | copla_manriqueña | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | copla_real | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | elección | 5 | unidad |
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
@@ -174,7 +174,7 @@ Sin incidencias.
 | romance | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
 | seguidilla | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
 | sexta_rima | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| sexteto ·res | estrofa | 1 | sí | conjunto, eleccion | esquema libre | 2 | unidad |
+| sexteto ·gral | estrofa | 1 | sí | conjunto, eleccion | esquema libre | 2 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
 | sextilla | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | patrón único | 1 | secuencia |
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
@@ -183,8 +183,8 @@ Sin incidencias.
 | terceto | estrofa | 1 | sí | posiciones | sin patrón | 1 | secuencia |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único, sin patrón | 0 | — |
 | tercetos_sin_encadenar | serie | 1 | sí | posiciones | elección | 1 | secuencia |
-| villancico | compuesta | 2 | sí | conjunto, eleccion | cualitativa, elección | 7 | secuencia, unidad |
-| zejel | compuesta | 1 | sí | conjunto, eleccion | cualitativa, patrón único | 2 | secuencia, unidad |
+| villancico | composicion | 2 | sí | conjunto, eleccion | cualitativa, elección | 7 | secuencia, unidad |
+| zejel | composicion | 1 | sí | conjunto, eleccion | cualitativa, patrón único | 2 | secuencia, unidad |
 
 ### 2.2 · Reparto de la medida
 
@@ -247,16 +247,16 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
-| aabab | copla_real×2, quintilla |
-| aabba | copla_real×2, quintilla |
-| abaab | copla_real×2, quintilla |
-| abab | redondilla, villancico×2 |
-| ababa | copla_real×2, quintilla |
-| ababb | copla_real×2, quintilla |
-| abba | redondilla, villancico×2 |
-| abbaa | copla_real×2, quintilla |
-| abbab | copla_real×2, quintilla |
-| abbba | copla_real×2, quintilla |
+|  | copla_real×2, quintilla |
+|  | copla_real×2, quintilla |
+|  | copla_real×2, quintilla |
+|  | redondilla, villancico×2 |
+|  | copla_real×2, quintilla |
+|  | copla_real×2, quintilla |
+|  | redondilla, villancico×2 |
+|  | copla_real×2, quintilla |
+|  | copla_real×2, quintilla |
+|  | copla_real×2, quintilla |
 
 ## 3 · Cobertura del contrato del registrador
 

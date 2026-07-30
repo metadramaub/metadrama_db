@@ -193,47 +193,47 @@ function build(tables) {
 	const get = (name) => tables.get(name) ?? [];
 	const model = {
 		formas: get('formas_metricas'),
-		configuraciones: get('configuraciones_forma'),
-		patronesMetricos: get('patrones_metricos'),
-		posicionesMetricas: get('patron_metrico_posiciones'),
-		opcionesMetricas: get('patron_metrico_opciones'),
-		patronesRima: get('patrones_rima'),
-		posicionesRima: get('patron_rima_posiciones'),
-		restriccionesRima: get('patron_rima_restricciones'),
+		configuraciones: get('arquitecturas_forma'),
+		patronesMetricos: get('esquemas_metricos'),
+		posicionesMetricas: get('esquema_metrico_posiciones'),
+		opcionesMetricas: get('esquema_metrico_opciones'),
+		patronesRima: get('esquemas_rima'),
+		posicionesRima: get('esquema_rima_posiciones'),
+		restriccionesRima: get('esquema_rima_restricciones'),
 		secciones: get('estructuras_secciones'),
-		repeticiones: get('patrones_repeticion'),
-		combinaciones: get('combinaciones_patrones_configuracion'),
+		repeticiones: get('repeticiones_metricas'),
+		combinaciones: get('variedades_arquitectura'),
 		grupos: get('grupos_eleccion_metrica'),
 		opciones: get('opciones_eleccion_metrica'),
 		rasgos: get('rasgos_metricos'),
 		valoresRasgo: get('rasgo_valores'),
-		configuracionRasgos: get('configuracion_rasgos'),
+		configuracionRasgos: get('arquitectura_rasgos'),
 		denominaciones: get('denominaciones_metricas'),
 		relaciones: get('forma_relaciones'),
 		vocabularios: get('vocabularios')
 	};
 
 	model.formaPorId = index(model.formas, 'forma_id');
-	model.configuracionPorId = index(model.configuraciones, 'configuracion_id');
-	model.patronMetricoPorId = index(model.patronesMetricos, 'patron_metrico_id');
-	model.patronRimaPorId = index(model.patronesRima, 'patron_rima_id');
+	model.configuracionPorId = index(model.configuraciones, 'arquitectura_id');
+	model.patronMetricoPorId = index(model.patronesMetricos, 'esquema_metrico_id');
+	model.patronRimaPorId = index(model.patronesRima, 'esquema_rima_id');
 	model.seccionPorId = index(model.secciones, 'seccion_id');
 	model.grupoPorId = index(model.grupos, 'grupo_eleccion_id');
 	model.rasgoPorId = index(model.rasgos, 'rasgo_id');
 	model.terminoPorId = index(model.vocabularios, 'termino_id');
 
 	model.configuracionesPorForma = group(model.configuraciones, 'forma_id');
-	model.patronesMetricosPorConfiguracion = group(model.patronesMetricos, 'configuracion_id');
-	model.patronesRimaPorConfiguracion = group(model.patronesRima, 'configuracion_id');
-	model.seccionesPorConfiguracion = group(model.secciones, 'configuracion_id');
-	model.repeticionesPorConfiguracion = group(model.repeticiones, 'configuracion_id');
-	model.combinacionesPorConfiguracion = group(model.combinaciones, 'configuracion_id');
-	model.gruposPorConfiguracion = group(model.grupos, 'configuracion_id');
-	model.rasgosPorConfiguracion = group(model.configuracionRasgos, 'configuracion_id');
-	model.posicionesPorPatronMetrico = group(model.posicionesMetricas, 'patron_metrico_id');
-	model.opcionesPorPatronMetrico = group(model.opcionesMetricas, 'patron_metrico_id');
-	model.posicionesPorPatronRima = group(model.posicionesRima, 'patron_rima_id');
-	model.restriccionesPorPatronRima = group(model.restriccionesRima, 'patron_rima_id');
+	model.patronesMetricosPorConfiguracion = group(model.patronesMetricos, 'arquitectura_id');
+	model.patronesRimaPorConfiguracion = group(model.patronesRima, 'arquitectura_id');
+	model.seccionesPorConfiguracion = group(model.secciones, 'arquitectura_id');
+	model.repeticionesPorConfiguracion = group(model.repeticiones, 'arquitectura_id');
+	model.combinacionesPorConfiguracion = group(model.combinaciones, 'arquitectura_id');
+	model.gruposPorConfiguracion = group(model.grupos, 'arquitectura_id');
+	model.rasgosPorConfiguracion = group(model.configuracionRasgos, 'arquitectura_id');
+	model.posicionesPorPatronMetrico = group(model.posicionesMetricas, 'esquema_metrico_id');
+	model.opcionesPorPatronMetrico = group(model.opcionesMetricas, 'esquema_metrico_id');
+	model.posicionesPorPatronRima = group(model.posicionesRima, 'esquema_rima_id');
+	model.restriccionesPorPatronRima = group(model.restriccionesRima, 'esquema_rima_id');
 	model.opcionesPorGrupo = group(model.opciones, 'grupo_eleccion_id');
 
 	return model;
@@ -257,10 +257,10 @@ function etiqueta(model, configuracionId) {
 function metrosDeConfiguracion(model, configuracionId) {
 	const metros = new Set();
 	for (const patron of listOf(model.patronesMetricosPorConfiguracion, configuracionId)) {
-		for (const posicion of listOf(model.posicionesPorPatronMetrico, patron.patron_metrico_id)) {
+		for (const posicion of listOf(model.posicionesPorPatronMetrico, patron.esquema_metrico_id)) {
 			if (posicion.metro_id) metros.add(posicion.metro_id);
 		}
-		for (const opcion of listOf(model.opcionesPorPatronMetrico, patron.patron_metrico_id)) {
+		for (const opcion of listOf(model.opcionesPorPatronMetrico, patron.esquema_metrico_id)) {
 			metros.add(opcion.metro_id);
 		}
 	}
@@ -302,15 +302,15 @@ const DEFECTOS = [
 			return model.configuraciones
 				.filter(
 					(configuracion) =>
-						listOf(model.patronesMetricosPorConfiguracion, configuracion.configuracion_id)
-							.length === 0 &&
-						listOf(model.patronesRimaPorConfiguracion, configuracion.configuracion_id).length ===
+						listOf(model.patronesMetricosPorConfiguracion, configuracion.arquitectura_id).length ===
 							0 &&
-						listOf(model.seccionesPorConfiguracion, configuracion.configuracion_id).length === 0 &&
-						listOf(model.combinacionesPorConfiguracion, configuracion.configuracion_id).length === 0
+						listOf(model.patronesRimaPorConfiguracion, configuracion.arquitectura_id).length ===
+							0 &&
+						listOf(model.seccionesPorConfiguracion, configuracion.arquitectura_id).length === 0 &&
+						listOf(model.combinacionesPorConfiguracion, configuracion.arquitectura_id).length === 0
 				)
 				.map((configuracion) => ({
-					sujeto: etiqueta(model, configuracion.configuracion_id),
+					sujeto: etiqueta(model, configuracion.arquitectura_id),
 					detalle: `principal=${configuracion.principal} · demarcable=${configuracion.demarcable}`
 				}));
 		}
@@ -325,12 +325,12 @@ const DEFECTOS = [
 				.filter(
 					(patron) =>
 						patron.fijeza !== 'no_aplica' &&
-						!patron.esquema &&
-						listOf(model.posicionesPorPatronRima, patron.patron_rima_id).length === 0 &&
-						listOf(model.restriccionesPorPatronRima, patron.patron_rima_id).length === 0
+						!patron.notacion &&
+						listOf(model.posicionesPorPatronRima, patron.esquema_rima_id).length === 0 &&
+						listOf(model.restriccionesPorPatronRima, patron.esquema_rima_id).length === 0
 				)
 				.map((patron) => ({
-					sujeto: etiqueta(model, patron.configuracion_id),
+					sujeto: etiqueta(model, patron.arquitectura_id),
 					detalle: `${patron.nombre ?? 'sin nombre'} · fijeza=${patron.fijeza}`
 				}));
 		}
@@ -343,16 +343,16 @@ const DEFECTOS = [
 		detectar(model) {
 			return model.configuraciones
 				.filter((configuracion) => {
-					const id = configuracion.configuracion_id;
+					const id = configuracion.arquitectura_id;
 					if (listOf(model.patronesRimaPorConfiguracion, id).length > 0) return false;
 					if (listOf(model.repeticionesPorConfiguracion, id).length > 0) return false;
 					return !listOf(model.seccionesPorConfiguracion, id).some(
-						(seccion) => seccion.patron_rima_id || seccion.configuracion_referenciada_id
+						(seccion) => seccion.esquema_rima_id || seccion.arquitectura_referenciada_id
 					);
 				})
 				.map((configuracion) => ({
-					sujeto: etiqueta(model, configuracion.configuracion_id),
-					detalle: `${listOf(model.seccionesPorConfiguracion, configuracion.configuracion_id).length} sección(es), sin patrón de rima accesible`
+					sujeto: etiqueta(model, configuracion.arquitectura_id),
+					detalle: `${listOf(model.seccionesPorConfiguracion, configuracion.arquitectura_id).length} sección(es), sin patrón de rima accesible`
 				}));
 		}
 	},
@@ -364,11 +364,11 @@ const DEFECTOS = [
 			return model.patronesMetricos
 				.filter(
 					(patron) =>
-						listOf(model.posicionesPorPatronMetrico, patron.patron_metrico_id).length === 0 &&
-						listOf(model.opcionesPorPatronMetrico, patron.patron_metrico_id).length === 0
+						listOf(model.posicionesPorPatronMetrico, patron.esquema_metrico_id).length === 0 &&
+						listOf(model.opcionesPorPatronMetrico, patron.esquema_metrico_id).length === 0
 				)
 				.map((patron) => ({
-					sujeto: etiqueta(model, patron.configuracion_id),
+					sujeto: etiqueta(model, patron.arquitectura_id),
 					detalle: `${patron.ambito} · ${patron.tipo}`
 				}));
 		}
@@ -382,14 +382,14 @@ const DEFECTOS = [
 				.filter((configuracion) => configuracion.numero_versos !== null)
 				.map((configuracion) => ({
 					configuracion,
-					derivada: extensionDerivada(model, configuracion.configuracion_id)
+					derivada: extensionDerivada(model, configuracion.arquitectura_id)
 				}))
 				.filter(
 					({ configuracion, derivada }) =>
 						derivada !== null && derivada !== configuracion.numero_versos
 				)
 				.map(({ configuracion, derivada }) => ({
-					sujeto: etiqueta(model, configuracion.configuracion_id),
+					sujeto: etiqueta(model, configuracion.arquitectura_id),
 					detalle: `declara ${configuracion.numero_versos} y las secciones producen ${derivada}`
 				}));
 		}
@@ -402,14 +402,14 @@ const DEFECTOS = [
 		detectar(model) {
 			const hallazgos = [];
 			for (const opcion of model.opciones) {
-				if (!opcion.patron_rima_id) continue;
-				const patron = model.patronRimaPorId.get(opcion.patron_rima_id);
-				if (!patron?.esquema || !ESQUEMA.test(opcion.slug)) continue;
-				if (opcion.slug.length >= patron.esquema.length) continue;
+				if (!opcion.esquema_rima_id) continue;
+				const patron = model.patronRimaPorId.get(opcion.esquema_rima_id);
+				if (!patron?.notacion || !ESQUEMA.test(opcion.slug)) continue;
+				if (opcion.slug.length >= patron.notacion.length) continue;
 				const grupo = model.grupoPorId.get(opcion.grupo_eleccion_id);
 				hallazgos.push({
-					sujeto: etiqueta(model, patron.configuracion_id),
-					detalle: `${grupo?.slug ?? '?'} · opción «${opcion.slug}» (${opcion.slug.length}) apunta a «${patron.esquema}» (${patron.esquema.length}), ámbito ${patron.ambito}`
+					sujeto: etiqueta(model, patron.arquitectura_id),
+					detalle: `${grupo?.slug ?? '?'} · opción «${opcion.slug}» (${opcion.slug.length}) apunta a «${patron.notacion}» (${patron.notacion.length}), ámbito ${patron.ambito}`
 				});
 			}
 			return hallazgos;
@@ -425,7 +425,7 @@ const DEFECTOS = [
 				.map((opcion) => {
 					const grupo = model.grupoPorId.get(opcion.grupo_eleccion_id);
 					return {
-						sujeto: grupo ? etiqueta(model, grupo.configuracion_id) : '?',
+						sujeto: grupo ? etiqueta(model, grupo.arquitectura_id) : '?',
 						detalle: `${grupo?.slug ?? '?'} · ${opcion.slug}`
 					};
 				});
@@ -450,7 +450,7 @@ const DEFECTOS = [
 					if (total < 2) continue;
 					const rasgo = model.rasgoPorId.get(rasgoId);
 					hallazgos.push({
-						sujeto: etiqueta(model, grupo.configuracion_id),
+						sujeto: etiqueta(model, grupo.arquitectura_id),
 						detalle: `${grupo.slug} repite el rasgo «${rasgo?.slug ?? rasgoId}» (${rasgo?.tipo_valor ?? '?'}) en ${total} posiciones`
 					});
 				}
@@ -462,7 +462,7 @@ const DEFECTOS = [
 		id: 'D8',
 		titulo: 'Componente copiado en lugar de reutilizado',
 		criterio:
-			'Cuando una forma declara `compuesta_por` o `subtipo_de` otra, sus secciones reutilizan la configuración del componente mediante configuracion_referenciada_id. Copiar sus patrones obliga a mantener el repertorio en varios sitios y rompe la comparación.',
+			'Cuando una forma declara `compuesta_por` o `subtipo_de` otra, sus secciones reutilizan la configuración del componente mediante arquitectura_referenciada_id. Copiar sus patrones obliga a mantener el repertorio en varios sitios y rompe la comparación.',
 		detectar(model) {
 			const compone = new Set();
 			for (const relacion of model.relaciones) {
@@ -473,12 +473,12 @@ const DEFECTOS = [
 
 			const porEsquema = new Map();
 			for (const patron of model.patronesRima) {
-				if (!patron.esquema) continue;
-				const forma = formaDeConfiguracion(model, patron.configuracion_id);
+				if (!patron.notacion) continue;
+				const forma = formaDeConfiguracion(model, patron.arquitectura_id);
 				if (!forma) continue;
-				const bucket = porEsquema.get(patron.esquema) ?? new Map();
+				const bucket = porEsquema.get(patron.notacion) ?? new Map();
 				bucket.set(forma.forma_id, (bucket.get(forma.forma_id) ?? 0) + 1);
-				porEsquema.set(patron.esquema, bucket);
+				porEsquema.set(patron.notacion, bucket);
 			}
 
 			const acumulado = new Map();
@@ -511,8 +511,8 @@ const DEFECTOS = [
 			const porValor = new Map();
 			for (const restriccion of model.restriccionesRima) {
 				if (restriccion.tipo !== 'otra' || !restriccion.valor_texto) continue;
-				const patron = model.patronRimaPorId.get(restriccion.patron_rima_id);
-				const forma = patron ? formaDeConfiguracion(model, patron.configuracion_id) : null;
+				const patron = model.patronRimaPorId.get(restriccion.esquema_rima_id);
+				const forma = patron ? formaDeConfiguracion(model, patron.arquitectura_id) : null;
 				const bucket = porValor.get(restriccion.valor_texto) ?? new Set();
 				if (forma) bucket.add(forma.slug);
 				porValor.set(restriccion.valor_texto, bucket);
@@ -531,12 +531,10 @@ const DEFECTOS = [
 		criterio:
 			'Un tramo sin forma no tiene arquitectura. Y la taxonomía va en una sola dirección: lo específico es subtipo de lo general, nunca al revés.',
 		detectar(model) {
-			// Mientras no se aplique el renombrado, `residual` marca las formas generales
-			// y `salida_editorial`, los tramos sin forma.
 			const hallazgos = [];
 			for (const forma of model.formas) {
 				if (
-					forma.tipo_registro === 'salida_editorial' &&
+					forma.tipo_registro === 'sin_forma' &&
 					listOf(model.configuracionesPorForma, forma.forma_id).length > 0
 				) {
 					hallazgos.push({ sujeto: forma.slug, detalle: 'tramo sin forma con arquitectura' });
@@ -547,7 +545,10 @@ const DEFECTOS = [
 				const origen = model.formaPorId.get(relacion.forma_origen_id);
 				const destino = model.formaPorId.get(relacion.forma_destino_id);
 				if (!origen || !destino) continue;
-				if (origen.residual && !destino.residual) {
+				if (
+					origen.grado_especificacion === 'general' &&
+					destino.grado_especificacion === 'especifica'
+				) {
 					hallazgos.push({
 						sujeto: `${origen.slug} subtipo_de ${destino.slug}`,
 						detalle: 'una forma general no puede ser subtipo de una específica'
@@ -567,11 +568,11 @@ const DEFECTOS = [
 			for (const configuracion of model.configuraciones) {
 				const forma = model.formaPorId.get(configuracion.forma_id);
 				if (!forma || forma.nivel_estructural === 'serie') continue;
-				const secciones = listOf(model.seccionesPorConfiguracion, configuracion.configuracion_id);
+				const secciones = listOf(model.seccionesPorConfiguracion, configuracion.arquitectura_id);
 				if (secciones.length !== 1 || secciones[0].seccion_padre_id) continue;
 				const raiz = secciones[0];
 				hallazgos.push({
-					sujeto: etiqueta(model, configuracion.configuracion_id),
+					sujeto: etiqueta(model, configuracion.arquitectura_id),
 					detalle: `«${raiz.tipo_seccion}» v=${raiz.versos_min}–${raiz.versos_max} rep=${raiz.repeticiones_min}–${raiz.repeticiones_max}, sin partes internas`
 				});
 			}
@@ -588,11 +589,11 @@ const DEFECTOS = [
 			return model.grupos
 				.filter((grupo) => {
 					if (grupo.alcance !== 'secuencia' || !estructurales.has(grupo.dimension)) return false;
-					const forma = formaDeConfiguracion(model, grupo.configuracion_id);
+					const forma = formaDeConfiguracion(model, grupo.arquitectura_id);
 					return Boolean(forma) && forma.nivel_estructural !== 'serie';
 				})
 				.map((grupo) => ({
-					sujeto: etiqueta(model, grupo.configuracion_id),
+					sujeto: etiqueta(model, grupo.arquitectura_id),
 					detalle: `${grupo.slug} · dimensión ${grupo.dimension} · ${listOf(model.opcionesPorGrupo, grupo.grupo_eleccion_id).length} opciones`
 				}));
 		}
@@ -609,7 +610,7 @@ function viasDeMedida(model, forma) {
 
 	const firmas = new Set(
 		configuraciones.map((configuracion) =>
-			[...metrosDeConfiguracion(model, configuracion.configuracion_id)].sort().join('|')
+			[...metrosDeConfiguracion(model, configuracion.arquitectura_id)].sort().join('|')
 		)
 	);
 	if (configuraciones.length > 1 && firmas.size > 1) vias.add('configuracion');
@@ -617,16 +618,16 @@ function viasDeMedida(model, forma) {
 	for (const configuracion of configuraciones) {
 		for (const patron of listOf(
 			model.patronesMetricosPorConfiguracion,
-			configuracion.configuracion_id
+			configuracion.arquitectura_id
 		)) {
-			if (listOf(model.posicionesPorPatronMetrico, patron.patron_metrico_id).length > 0) {
+			if (listOf(model.posicionesPorPatronMetrico, patron.esquema_metrico_id).length > 0) {
 				vias.add('posiciones');
 			}
-			if (listOf(model.opcionesPorPatronMetrico, patron.patron_metrico_id).length > 0) {
+			if (listOf(model.opcionesPorPatronMetrico, patron.esquema_metrico_id).length > 0) {
 				vias.add('conjunto');
 			}
 		}
-		for (const grupo of listOf(model.gruposPorConfiguracion, configuracion.configuracion_id)) {
+		for (const grupo of listOf(model.gruposPorConfiguracion, configuracion.arquitectura_id)) {
 			if (grupo.dimension === 'metro') vias.add('eleccion');
 		}
 	}
@@ -636,8 +637,8 @@ function viasDeMedida(model, forma) {
 function viasDeRima(model, forma) {
 	const vias = new Set();
 	for (const configuracion of listOf(model.configuracionesPorForma, forma.forma_id)) {
-		const patrones = listOf(model.patronesRimaPorConfiguracion, configuracion.configuracion_id);
-		const grupos = listOf(model.gruposPorConfiguracion, configuracion.configuracion_id);
+		const patrones = listOf(model.patronesRimaPorConfiguracion, configuracion.arquitectura_id);
+		const grupos = listOf(model.gruposPorConfiguracion, configuracion.arquitectura_id);
 
 		if (patrones.length === 0) vias.add('sin patrón');
 		for (const grupo of grupos) {
@@ -653,7 +654,7 @@ function viasDeRima(model, forma) {
 		if (patrones.length === 1 && !tieneEleccion) vias.add('patrón único');
 		if (patrones.length > 1 && !tieneEleccion) vias.add('varios patrones sin pregunta');
 		for (const patron of patrones) {
-			const restricciones = listOf(model.restriccionesPorPatronRima, patron.patron_rima_id);
+			const restricciones = listOf(model.restriccionesPorPatronRima, patron.esquema_rima_id);
 			if (restricciones.some((restriccion) => restriccion.tipo === 'otra')) vias.add('cualitativa');
 		}
 	}
@@ -666,12 +667,12 @@ function fichaPorForma(model) {
 		.map((forma) => {
 			const configuraciones = listOf(model.configuracionesPorForma, forma.forma_id);
 			const grupos = configuraciones.flatMap((configuracion) =>
-				listOf(model.gruposPorConfiguracion, configuracion.configuracion_id)
+				listOf(model.gruposPorConfiguracion, configuracion.arquitectura_id)
 			);
 			return {
 				forma: forma.slug,
 				nivel: forma.nivel_estructural,
-				residual: forma.residual,
+				general: forma.grado_especificacion === 'general',
 				configuraciones: configuraciones.length,
 				principal: configuraciones.some((configuracion) => configuracion.principal),
 				medida: [...viasDeMedida(model, forma)].sort(),
@@ -687,19 +688,19 @@ function fichaPorForma(model) {
 function estrategiasRimaVariable(model) {
 	const filas = [];
 	for (const configuracion of model.configuraciones) {
-		const id = configuracion.configuracion_id;
+		const id = configuracion.arquitectura_id;
 		const patrones = listOf(model.patronesRimaPorConfiguracion, id);
 		const grupos = listOf(model.gruposPorConfiguracion, id);
 		const abiertos = patrones.filter(
 			(patron) =>
 				patron.fijeza !== 'no_aplica' &&
-				!patron.esquema &&
-				listOf(model.posicionesPorPatronRima, patron.patron_rima_id).length === 0
+				!patron.notacion &&
+				listOf(model.posicionesPorPatronRima, patron.esquema_rima_id).length === 0
 		);
 		if (abiertos.length === 0) continue;
 
 		const conRestricciones = abiertos.filter(
-			(patron) => listOf(model.restriccionesPorPatronRima, patron.patron_rima_id).length > 0
+			(patron) => listOf(model.restriccionesPorPatronRima, patron.esquema_rima_id).length > 0
 		).length;
 		const controlAbierto = grupos.some((grupo) => grupo.tipo_control === 'esquema_rima');
 
@@ -725,12 +726,12 @@ function estrategiasRimaVariable(model) {
 function esquemasCoincidentes(model) {
 	const porEsquema = new Map();
 	for (const patron of model.patronesRima) {
-		if (!patron.esquema) continue;
-		const forma = formaDeConfiguracion(model, patron.configuracion_id);
+		if (!patron.notacion) continue;
+		const forma = formaDeConfiguracion(model, patron.arquitectura_id);
 		if (!forma) continue;
-		const bucket = porEsquema.get(patron.esquema) ?? new Map();
+		const bucket = porEsquema.get(patron.notacion) ?? new Map();
 		bucket.set(forma.slug, (bucket.get(forma.slug) ?? 0) + 1);
-		porEsquema.set(patron.esquema, bucket);
+		porEsquema.set(patron.notacion, bucket);
 	}
 	return [...porEsquema.entries()]
 		.filter(([, formas]) => formas.size > 1)
@@ -746,7 +747,7 @@ function esquemasCoincidentes(model) {
 function matrizAlcance(model) {
 	const filas = new Map();
 	for (const grupo of model.grupos) {
-		const forma = formaDeConfiguracion(model, grupo.configuracion_id);
+		const forma = formaDeConfiguracion(model, grupo.arquitectura_id);
 		if (!forma) continue;
 		const clave = `${grupo.dimension} · ${grupo.alcance}`;
 		const bucket = filas.get(clave) ?? new Set();
@@ -761,7 +762,7 @@ function matrizAlcance(model) {
 function matrizAmbitoRima(model) {
 	const filas = new Map();
 	for (const patron of model.patronesRima) {
-		const forma = formaDeConfiguracion(model, patron.configuracion_id);
+		const forma = formaDeConfiguracion(model, patron.arquitectura_id);
 		if (!forma) continue;
 		const bucket = filas.get(patron.ambito) ?? new Map();
 		bucket.set(forma.slug, (bucket.get(forma.slug) ?? 0) + 1);
@@ -811,7 +812,7 @@ function construirInforme(model) {
 	const escribir = (texto = '') => lineas.push(texto);
 
 	const formasReales = model.formas.filter((forma) => forma.tipo_registro === 'forma');
-	const salidas = model.formas.filter((forma) => forma.tipo_registro === 'salida_editorial');
+	const salidas = model.formas.filter((forma) => forma.tipo_registro === 'sin_forma');
 
 	escribir('# Informe de conformidad del catálogo métrico');
 	escribir();
@@ -863,7 +864,7 @@ function construirInforme(model) {
 	const fichas = fichaPorForma(model);
 	for (const ficha of fichas) {
 		escribir(
-			`| ${ficha.forma}${ficha.residual ? ' ·res' : ''} | ${ficha.nivel} | ${ficha.configuraciones} | ` +
+			`| ${ficha.forma}${ficha.general ? ' ·gral' : ''} | ${ficha.nivel} | ${ficha.configuraciones} | ` +
 				`${ficha.principal ? 'sí' : '—'} | ${ficha.medida.join(', ') || '—'} | ` +
 				`${ficha.rima.join(', ') || '—'} | ${ficha.grupos} | ${ficha.alcances.join(', ') || '—'} |`
 		);
@@ -923,7 +924,7 @@ function construirInforme(model) {
 	escribir('| Esquema | Formas |');
 	escribir('| --- | --- |');
 	for (const fila of esquemasCoincidentes(model)) {
-		escribir(`| ${celda(fila.esquema)} | ${fila.formas.join(', ')} |`);
+		escribir(`| ${celda(fila.notacion)} | ${fila.formas.join(', ')} |`);
 	}
 	escribir();
 

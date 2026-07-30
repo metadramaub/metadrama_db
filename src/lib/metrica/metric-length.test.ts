@@ -12,8 +12,8 @@ function rule(
 	minimo_versos: number
 ): MetricLengthRule {
 	return {
-		configuracion_id: 'configuracion',
-		configuracion_nombre: 'Configuración',
+		arquitectura_id: 'configuracion',
+		arquitectura_nombre: 'Configuración',
 		modulo_versos,
 		residuo_versos,
 		minimo_versos,

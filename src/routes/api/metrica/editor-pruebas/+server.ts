@@ -16,8 +16,8 @@ const uuid = z.uuid();
 const nullableUuid = uuid.nullable();
 
 const unitSchema = z.object({
-	unidad_prueba_id: uuid,
-	unidad_padre_id: nullableUuid,
+	realizacion_prueba_id: uuid,
+	realizacion_padre_id: nullableUuid,
 	seccion_id: uuid,
 	orden: z.number().int().positive(),
 	v_ini: z.number().int().positive(),
@@ -28,7 +28,7 @@ const unitSchema = z.object({
 
 const choiceSchema = z
 	.object({
-		unidad_prueba_id: nullableUuid,
+		realizacion_prueba_id: nullableUuid,
 		grupo_eleccion_id: uuid,
 		opcion_eleccion_id: nullableUuid,
 		valor_texto: z.string().trim().min(1).max(240).nullable(),
@@ -40,7 +40,7 @@ const choiceSchema = z
 	);
 
 const deviationSchema = z.object({
-	unidad_prueba_id: nullableUuid,
+	realizacion_prueba_id: nullableUuid,
 	v_ini: z.number().int().positive(),
 	v_fin: z.number().int().positive(),
 	dimension: z.enum(['medida', 'rima', 'estructura', 'repeticion', 'rasgo']),
@@ -57,9 +57,9 @@ const deviationSchema = z.object({
 		'otra'
 	]),
 	metro_observado_id: nullableUuid,
-	patron_rima_observado_id: nullableUuid,
+	esquema_rima_observado_id: nullableUuid,
 	seccion_observada_id: nullableUuid,
-	patron_repeticion_observado_id: nullableUuid,
+	repeticion_observada_id: nullableUuid,
 	valor_rasgo_observado_id: nullableUuid,
 	observaciones: z.string().trim().max(10_000).nullable()
 });
@@ -88,7 +88,7 @@ const requestSchema = z.discriminatedUnion('action', [
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
 		forma_id: uuid,
-		configuracion_id: nullableUuid,
+		arquitectura_id: nullableUuid,
 		observaciones: z.string().trim().max(30_000).nullable(),
 		unidades: z.array(unitSchema).max(500),
 		elecciones: z.array(choiceSchema).max(2_000),
@@ -180,13 +180,13 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			{ status: 422 }
 		);
 	}
-	if (input.configuracion_id) {
+	if (input.arquitectura_id) {
 		const { data: lengthRuleData, error: lengthRuleError } = await db
-			.from('configuraciones_forma_reglas_longitud')
+			.from('arquitecturas_reglas_longitud')
 			.select(
-				'configuracion_id,configuracion_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
 			)
-			.eq('configuracion_id', input.configuracion_id)
+			.eq('arquitectura_id', input.arquitectura_id)
 			.maybeSingle();
 		if (lengthRuleError) {
 			return databaseError(
@@ -198,7 +198,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			(lengthRuleData as MetricLengthRule | null) ?? null,
 			input.v_ini,
 			input.v_fin,
-			lengthRuleData?.configuracion_nombre
+			lengthRuleData?.arquitectura_nombre
 		);
 		if (lengthError) {
 			return json({ error: 'validation_error', message: lengthError }, { status: 422 });

@@ -11,9 +11,10 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `42`.
-- La última migración es
-  `20260730107000_salidas_editoriales_irregular_verso_aislado.sql` y está aplicada.
+- La versión requerida del modelo es `43`.
+- La última migración es `20260730180000_renombrado_ontologia_metrica.sql` y está aplicada.
+  La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
+  de rima, variedad, tramo sin forma, grado de especificación.
 - `/dashboard/metrica` es el gestor permanente del catálogo y contiene también el editor
   V2 de prueba y la compilación del demarcador.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
@@ -128,8 +129,8 @@ La ontología quedó revisada desde la base el 30 de julio de 2026. Queda por ll
 decisiones a la implementación:
 
 1. Migración estructural, en los cuatro bloques del
-   [contrato de implementación](./contrato-implementacion.md): renombrados, metro
-   unificado, unidad explícita y limpieza.
+   [contrato de implementación](./contrato-implementacion.md). **El bloque A —renombrados—
+   está aplicado.** Quedan: metro unificado, unidad explícita y limpieza.
 2. Migración de datos: poblar tradiciones desde `tipo_forma`, retirar familias, borrar
    `patron_acentual`, `tipo_relacion` y `es_principal`.
 3. Corregir los defectos del [informe de conformidad](./informe-conformidad-catalogo.md)

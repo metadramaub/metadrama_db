@@ -78,7 +78,7 @@
 					nivel_estructural: draft.nivel_estructural,
 					tipo_registro: draft.tipo_registro,
 					seleccionable: draft.seleccionable,
-					residual: draft.residual,
+					grado_especificacion: draft.grado_especificacion,
 					estado_revision: draft.estado_revision,
 					activo: draft.activo,
 					orden: draft.orden
@@ -206,14 +206,16 @@
 					onchange={(event) => {
 						draft.tipo_registro = event.currentTarget
 							.value as MetricCatalogForm['tipo_registro'];
-						if (draft.tipo_registro === 'salida_editorial') {
-							draft.residual = true;
+						if (draft.tipo_registro === 'sin_forma') {
+							draft.grado_especificacion = null;
 							draft.seleccionable = true;
+						} else if (draft.grado_especificacion === null) {
+							draft.grado_especificacion = 'especifica';
 						}
 					}}
 				>
 					<option value="forma">Forma métrica</option>
-					<option value="salida_editorial">Salida editorial</option>
+					<option value="sin_forma">Tramo sin forma</option>
 				</select>
 			</label>
 			<label class="space-y-1">
@@ -234,29 +236,33 @@
 				<input
 					type="checkbox"
 					bind:checked={draft.seleccionable}
-					disabled={draft.tipo_registro === 'salida_editorial'}
+					disabled={draft.tipo_registro === 'sin_forma'}
 				/>
 				Seleccionable por el editor
 			</label>
 			<label class="inline-flex items-center gap-2">
-				<input
-					type="checkbox"
-					checked={draft.residual}
-					disabled={draft.tipo_registro === 'salida_editorial'}
+				<span>Grado de especificación</span>
+				<select
+					class="border border-[color:var(--border)] bg-white px-2 py-1 text-sm"
+					value={draft.grado_especificacion ?? ''}
+					disabled={draft.tipo_registro === 'sin_forma'}
 					onchange={(event) => {
-						draft.residual = event.currentTarget.checked;
-						if (draft.residual) draft.seleccionable = true;
+						const valor = event.currentTarget.value;
+						draft.grado_especificacion = valor === '' ? null : (valor as 'general' | 'especifica');
+						if (draft.grado_especificacion === 'general') draft.seleccionable = true;
 					}}
-				/>
-				Categoría residual
+				>
+					<option value="especifica">Específica</option>
+					<option value="general">General</option>
+				</select>
 			</label>
 			<label class="inline-flex items-center gap-2">
 				<input type="checkbox" bind:checked={draft.activo} />
 				Activa
 			</label>
 			<p class="basis-full text-xs leading-5 text-[color:var(--muted-foreground)]">
-				Una categoría residual puede seleccionarse para casos no identificables, pero no compite
-				como forma canónica en el demarcador.
+				Una forma general se define por rasgos amplios y no se ha especializado: el demarcador
+				ofrece siempre la más específica que encaje y recurre a ella cuando ninguna corresponde.
 			</p>
 		</div>
 
@@ -414,7 +420,7 @@
 		{/if}
 
 		<div class="space-y-3">
-			{#each configurations as configuration (configuration.configuracion_id)}
+			{#each configurations as configuration (configuration.arquitectura_id)}
 				<MetricConfigurationEditor
 					{configuration}
 					formLevel={draft.nivel_estructural}

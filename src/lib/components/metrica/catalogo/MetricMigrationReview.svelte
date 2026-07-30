@@ -65,7 +65,7 @@
 	const configurationsById = $derived(
 		new Map<string, MetricCatalogConfiguration>(
 			props.configurations.map((configuration: MetricCatalogConfiguration) => [
-				configuration.configuracion_id,
+				configuration.arquitectura_id,
 				configuration
 			])
 		)
@@ -125,16 +125,16 @@
 		if (destination.forma_id) {
 			return `Forma: ${formsById.get(destination.forma_id)?.nombre ?? destination.forma_id}`;
 		}
-		if (destination.configuracion_id) {
+		if (destination.arquitectura_id) {
 			return `Configuración: ${
-				configurationsById.get(destination.configuracion_id)?.nombre ??
-				destination.configuracion_id
+				configurationsById.get(destination.arquitectura_id)?.nombre ??
+				destination.arquitectura_id
 			}`;
 		}
 		if (destination.familia_id) return 'Familia métrica';
-		if (destination.combinacion_id) return 'Combinación de medida y rima';
-		if (destination.patron_metrico_id) return 'Patrón métrico';
-		if (destination.patron_rima_id) return 'Patrón de rima';
+		if (destination.variedad_id) return 'Combinación de medida y rima';
+		if (destination.esquema_metrico_id) return 'Patrón métrico';
+		if (destination.esquema_rima_id) return 'Patrón de rima';
 		if (destination.valor_rasgo_id) return 'Valor de rasgo';
 		if (destination.rasgo_id) return 'Rasgo métrico';
 		if (destination.alias_id) return 'Alias';

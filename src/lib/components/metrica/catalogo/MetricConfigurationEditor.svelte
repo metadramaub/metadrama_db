@@ -29,13 +29,13 @@
 	const metricPatternCount = $derived(
 		props.domain.metricPatterns.filter(
 			(row: import('$lib/metrica/catalogo').MetricCatalogDomainRow) =>
-				row.configuracion_id === draft.configuracion_id
+				row.arquitectura_id === draft.arquitectura_id
 		).length
 	);
 	const rhymePatternCount = $derived(
 		props.domain.rhymePatterns.filter(
 			(row: import('$lib/metrica/catalogo').MetricCatalogDomainRow) =>
-				row.configuracion_id === draft.configuracion_id
+				row.arquitectura_id === draft.arquitectura_id
 		).length
 	);
 	const supportsDirectVerseCount = $derived(
@@ -61,7 +61,7 @@
 				method: 'PATCH',
 				headers: { 'content-type': 'application/json' },
 				body: JSON.stringify({
-					configuracion_id: draft.configuracion_id,
+					arquitectura_id: draft.arquitectura_id,
 					forma_id: draft.forma_id,
 					slug: draft.slug,
 					nombre: draft.nombre,
@@ -201,7 +201,7 @@
 		</div>
 
 		<MetricConfigurationNormEditor
-			configurationId={draft.configuracion_id}
+			configurationId={draft.arquitectura_id}
 			formLevel={props.formLevel}
 			domain={props.domain}
 			metres={props.metres}

@@ -69,7 +69,7 @@
 			'titulo',
 			'slug',
 			'regla',
-			'esquema',
+			'notacion',
 			'tipo',
 			'posicion',
 			'descripcion'

@@ -209,10 +209,10 @@
 					</dd>
 				</div>
 				<div>
-					<dt class="font-medium">Categoría residual</dt>
+					<dt class="font-medium">Grado de especificación</dt>
 					<dd class="text-[color:var(--muted-foreground)]">
 						Indica que la entrada solo aparece cuando no encaja una opción más precisa.
-						Puede ser una forma estructurada residual o una salida editorial.
+						Una forma general se define por rasgos amplios y no se ha especializado; una específica fija esa norma.
 					</dd>
 				</div>
 				<div>
