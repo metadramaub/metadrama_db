@@ -1,0 +1,150 @@
+# Plan de migración de las anotaciones métricas
+
+Estado: vigente, no iniciado · 30 de julio de 2026
+
+Este documento recoge lo que hay que hacer para llevar las declaraciones métricas reales
+de las obras del vocabulario legado al catálogo nuevo. Estaba disperso en la arquitectura
+y se separa aquí porque es la única parte del proyecto métrico que todavía no ha
+empezado y que no debe empezar hasta que se cumplan sus condiciones previas.
+
+**No se ejecutará** hasta que el IP haya presentado y corregido la ontología, el editor
+V2 funcione como se espera con datos de prueba y el demarcador resulte útil. Hay editores
+trabajando sobre los datos actuales y esa frontera no se adelanta.
+
+## 1 · Situación de partida
+
+Comprobado el 30 de julio de 2026 sobre la base enlazada:
+
+- 246 secuencias métricas reales, todas apuntando a `vocabularios.estrofa_tipo_id`;
+- 337 filas en `secuencias_subtipos_estrofa`;
+- 225 caracterizaciones por rango;
+- `secuencias_metricas` **no tiene todavía** `forma_metrica_id`;
+- las tablas `*_editor_metrico` son de prueba y no alimentan nada público.
+
+## 2 · Datos que deben preservarse
+
+- filas de `secuencias_metricas`;
+- obra, rango `v_ini`–`v_fin` y número de versos de cada secuencia;
+- `estrofa_tipo_id` actual como evidencia de la clasificación realizada;
+- subtipos o unidades internas y sus rangos;
+- caracterizaciones métricas por rango;
+- observaciones editoriales;
+- relaciones necesarias para identificar autoría y contexto de la anotación;
+- fechas y responsables disponibles.
+
+Antes de modificar estos datos se hará una copia de seguridad y un inventario de uso por
+UUID. Ninguna entrada utilizada se migrará mediante una regla genérica no revisada.
+
+## 3 · Datos que pueden descartarse y regenerarse
+
+- `obras_resumen` y `autores_resumen`;
+- perfiles, tramos y facetas precomputadas;
+- payloads de las fichas públicas de prueba;
+- índices o artefactos del laboratorio derivados de esos resúmenes;
+- versiones de prueba del demarcador que no estén publicadas como referencia.
+
+La web no está abierta al público y las fichas actuales son de prueba. No hace falta
+mantener compatibilidad de contenido con esas proyecciones: se reconstruirán desde el
+modelo nuevo una vez validadas las anotaciones.
+
+## 4 · Trazabilidad
+
+`migracion_terminos_metricos` conserva un registro por `vocabularios.termino_id` con su
+clasificación, decisión, certeza técnica y notas. `migracion_termino_destinos` permite
+que un término legado produzca varios destinos, porque casos como
+`soneto_de_esdrújulos` se transforman en una forma más un rasgo, no en un registro
+equivalente.
+
+Cuando una entrada sobreviva como forma canónica se reutiliza su UUID en
+`formas_metricas`, lo que facilita el backfill. Las entradas transformadas en patrones o
+rasgos conservan su UUID legado solo en la tabla de correspondencias.
+
+Los términos ambiguos no se asignan por conjetura. La antigua raíz `romancillo`, por
+ejemplo, exige saber si la secuencia es hexasílaba o heptasílaba, y esa decisión es
+editorial.
+
+## 5 · Auditoría obligatoria antes del backfill
+
+Se generará un informe con:
+
+- número de secuencias total y por `estrofa_tipo_id`;
+- términos activos e inactivos realmente utilizados;
+- secuencias que apuntan a raíces, hijos o entradas pendientes;
+- número y rango de `secuencias_subtipos_estrofa`;
+- caracterizaciones por rango relacionadas con métrica;
+- correspondencia de `hipometrico`, `hipermetrico`, `rima_defectuosa` y finales
+  acentuales con las observaciones normalizadas;
+- referencias huérfanas o inconsistentes;
+- obras afectadas por cada regla de reclasificación.
+
+Ese informe será la línea base de aceptación.
+
+## 6 · Fases
+
+### Condición previa
+
+El catálogo cumple los [criterios de nivel](./criterios-de-nivel.md), el
+[informe de conformidad](./informe-conformidad-catalogo.md) no tiene defectos abiertos y
+existe la capa de observación real, que hoy solo está implementada en el sandbox.
+
+### Fase A · Esquema de anotación
+
+- crear la capa de observaciones y desviaciones sobre `secuencias_metricas`;
+- añadir `forma_metrica_id` de manera aditiva, junto a `estrofa_tipo_id`;
+- sellar cada anotación con la revisión del catálogo vigente.
+
+### Fase B · Backfill
+
+- migrar las asignaciones directas;
+- transformar los hijos que eran patrones o rasgos;
+- migrar `secuencias_subtipos_estrofa` a unidades y elecciones;
+- migrar las irregularidades por rango a observaciones normalizadas sin inventar valores
+  exactos: los casos que solo afirman hipometría o hipermetría conservan
+  `menor_que_norma` o `mayor_que_norma` y dejan la medida sin determinar;
+- conservar `cantado`, `prosa` y `laguna` en su dominio general;
+- fusionar los subtipos residuales de irregular por arte con Versificación irregular,
+  conservando su información como observación o derivándola de las medidas disponibles;
+- producir informes de discrepancias.
+
+### Fase C · Editor de obras
+
+- sustituir el selector de vocabulario por el del dominio;
+- eliminar la excepción específica de quintilla;
+- mantener lectura de registros legados durante la transición.
+
+### Fase D · Proyecciones públicas
+
+- vaciar las proyecciones de prueba;
+- rediseñar fichas, catálogo, autores y laboratorio;
+- recalcular perfiles canónicos y generar facetas separadas;
+- validar semánticamente las nuevas facetas.
+
+### Fase E · Retirada
+
+- hacer `estrofa_tipo` de solo lectura;
+- retirar FKs y servicios legados sin consumidores;
+- conservar tablas de correspondencia e historial;
+- eliminar columnas métricas de `vocabularios` solo si ninguna otra categoría las usa.
+
+## 7 · Criterios de aceptación
+
+1. Igual número de secuencias antes y después.
+2. Igualdad exacta de obra, `v_ini`, `v_fin` y `n_versos`.
+3. Toda asignación legada puede trazarse hasta sus destinos nuevos.
+4. Todos los subtipos internos conservan su rango como unidad o incidencia revisable.
+5. Cada transformación compuesta conserva forma, configuración y rasgos.
+6. Un verso legado marcado solo como hipométrico no recibe un número de sílabas inventado.
+7. Una secuencia sin observaciones se interpreta como plenamente conforme con su norma.
+8. Ninguna proyección pública consulta ya la jerarquía de `estrofa_tipo`.
+9. Una restauración de la copia de seguridad ha quedado ensayada.
+
+## 8 · Riesgos
+
+| Riesgo | Mitigación |
+| --- | --- |
+| Reclasificar erróneamente una entrada usada | Matriz revisada, correspondencias y lectura dual |
+| Perder anotaciones de hijos actuales | Copia de seguridad y auditoría de cada UUID usado |
+| Inventar precisión en datos legados | Conservar relaciones cualitativas cuando no exista medida o rima exacta |
+| Cambiar una norma y reinterpretar secuencias en silencio | Sellado de revisión e invalidación técnica de lo afectado |
+| Duplicar fuentes de verdad | Definir por fase qué tablas admiten escritura |
+| Migrar mientras hay editores trabajando | Coordinar el corte y evitar la escritura dual prolongada |

@@ -83,12 +83,24 @@ consultable, no una familia, y todas estas realizaciones pertenecen a la misma f
 | Distribución | abrazada `abba` o cruzada `abab` |
 | Repetición | una o más unidades |
 
-Los patrones métricos y de rima son dimensiones independientes: cualquiera de las tres
-medidas puede combinarse con cualquiera de las dos distribuciones.
+Medida y distribución son dimensiones independientes: cualquiera de las tres medidas puede
+combinarse con cualquiera de las dos distribuciones.
 
-En el registrador, ambas preguntas se responden por unidad. El editor puede aplicar la
-respuesta de la primera redondilla a toda la tirada y cambiar solo las unidades que
-difieran. Una realización admitida distinta no se registra como desviación.
+**Revisado el 30 de julio de 2026.** La redondilla es isosilábica, así que la medida no
+puede cambiar entre estrofas de una misma tirada: **es arquitectura, no pregunta**. Lo que
+antes era una única configuración simple con tres medidas elegibles pasa a ser tres
+arquitecturas —octosilábica, heptasilábica y hexasilábica—, en paralelo exacto con las
+cuatro del romance. Si una tirada cambia de medida, o empieza otra secuencia o hay un
+anisosilabismo que se registra como desviación.
+
+La distribución `abba` / `abab` se mantiene como esquema elegido por unidad mientras no se
+confirme si puede alternar dentro de una misma tirada; es la primera de las
+[cuestiones pendientes](./cuestiones-para-el-ip.md). El editor puede aplicar la respuesta
+de la primera redondilla a toda la tirada y cambiar solo las unidades que difieran. Una
+realización admitida distinta no se registra como desviación.
+
+Ninguna de estas arquitecturas declara una sección: la unidad es la estrofa de cuatro
+versos y cuántas contiene el pasaje se deriva del rango.
 
 ## Configuración doble enlazada
 

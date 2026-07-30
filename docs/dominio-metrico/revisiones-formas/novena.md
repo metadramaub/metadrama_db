@@ -41,7 +41,7 @@ otra configuración ya formalizada. La novena no copia los esquemas:
 
 - la sección redondilla referencia `redondilla.simple` y ofrece `abba` o `abab`;
 - la sección quintilla referencia `quintilla.octosilabica_consonante` y ofrece las ocho
-  tipologías reconocidas por el proyecto.
+  variedades reconocidas por el proyecto.
 
 Las opciones guardadas apuntan a los mismos `patrones_rima`. Un cambio aprobado en esos
 repertorios se propaga a las formas compuestas que los reutilizan.
@@ -87,7 +87,7 @@ del orden inverso proceden del criterio ya estructurado por el proyecto.
 
 1. ¿Las rimas de redondilla y quintilla son siempre independientes o debe registrarse
    también que alguna clase de rima continúa entre ambas secciones?
-2. ¿Las ocho tipologías actuales de quintilla son el repertorio que debe ofrecerse
+2. ¿Las ocho variedades actuales de quintilla son el repertorio que debe ofrecerse
    dentro de toda novena?
 3. ¿Se excluyen deliberadamente otras estrofas de nueve versos o se incorporarán solo
    cuando aparezcan en el corpus?

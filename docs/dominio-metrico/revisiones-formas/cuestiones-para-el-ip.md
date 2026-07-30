@@ -11,7 +11,7 @@ Véase [quintilla.md](./quintilla.md).
 
 1. ¿Los ocho esquemas forman un repertorio cerrado o son los reconocidos hasta ahora?
 2. ¿Por qué no se incluye `aabaa`?
-3. ¿`abbaa` y `ababb`, con pareado final, son tipologías ordinarias?
+3. ¿`abbaa` y `ababb`, con pareado final, son variedades ordinarias?
 4. ¿La definición pública debe explicar la diferencia con la preceptiva general?
 
 ## Tercetos
@@ -56,7 +56,7 @@ Véase [villancico.md](./villancico.md).
 3. ¿`abba` y `abab` son esquemas cerrados o solo habituales?
 
 Resuelto en el modelo: la ausencia de cabeza no se trata como omisión. Si el estribillo
-aparece por primera vez después de la primera copla, se selecciona una configuración
+aparece por primera vez después de la primera copla, se selecciona una arquitectura
 propia; las apariciones posteriores se registran como represas y la implícita no crea
 versos ficticios. Una sección final aislada solo se considera estribillo si existe
 evidencia funcional.
@@ -76,7 +76,7 @@ Véase [coplas-y-sextillas.md](./coplas-y-sextillas.md).
 1. ¿Los quebrados pueden ocupar cualquiera de las diez posiciones?
 2. ¿Se admiten únicamente tetrasílabos o también pentasílabos?
 3. ¿Las dos quintillas reutilizan el repertorio de ocho esquemas ya reconocido?
-4. ¿La configuración quebrada es admitida o canónica para el proyecto?
+4. ¿La arquitectura quebrada es admitida o canónica para el proyecto?
 
 ## Coplas y sextillas
 
@@ -91,35 +91,43 @@ Véase [coplas-y-sextillas.md](./coplas-y-sextillas.md).
 6. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el
    corpus?
 
-Resuelto en el modelo: `copla_de_pie_quebrado` no es una familia, pero sí una salida
-residual registrable de 5–12 versos para casos no tipificados. El rasgo `pie_quebrado`
-permanece separado y reutilizable. La migración futura podrá conservar en la residual
-las declaraciones antiguas que todavía no permitan una identificación más precisa.
+Resuelto en el modelo: `copla_de_pie_quebrado` es una forma general, registrable, de 5–12
+versos, para los casos que no encajan en una forma más específica. El rasgo `pie_quebrado`
+permanece separado y reutilizable. La migración futura podrá conservar en ella las
+declaraciones antiguas que todavía no permitan una identificación más precisa.
 
 ## Décimas
 
 Véase [decimas.md](./decimas.md).
 
-1. ¿La familia debe limitarse por ahora a copla real, décima espinela y décima
+1. ¿El linaje debe limitarse por ahora a copla real, décima espinela y décima
    aumentada?
 2. ¿Se mantiene «Décima aumentada» como nombre público preferente?
 3. ¿La definición pública de la espinela debe conservar la expresión «dos redondillas
    enlazadas por dos versos puente»?
 
-Resuelto en el modelo: `decima` es una familia no seleccionable, no una forma duplicada.
-La espinela y la aumentada son formas fijas sin preguntas propias en el registrador.
+Resuelto en el modelo: `decima` no es una forma. Lo que une a la espinela, la copla real y
+la aumentada son relaciones tipadas —`sucede_historicamente_a` y `derivada_de`—, no una
+pertenencia. La espinela y la aumentada son formas fijas sin preguntas propias en el
+registrador.
 
 ## Redondilla
 
 Véase [redondilla.md](./redondilla.md).
 
-1. ¿Debe incorporarse «octavilla» como denominación relacionada o resultaría
+1. **¿Puede alternar `abba` y `abab` dentro de una misma tirada?** Si no puede, son dos
+   arquitecturas más y la redondilla se registra sin ninguna pregunta. Mientras la duda
+   siga abierta se mantiene como esquema elegido por unidad, que es la opción reversible:
+   corregirlo después es reclasificar filas, mientras que haberlo tratado como
+   arquitectura habría partido secuencias que no debían partirse.
+2. ¿Debe incorporarse «octavilla» como denominación relacionada o resultaría
    demasiado amplia?
 
-Resuelto en el modelo: existe una única forma `redondilla`; la realización simple
-admite 6, 7 u 8 sílabas y los patrones `abba` y `abab`; «Cuarteta» es denominación
-equivalente del patrón cruzado; la doble es una configuración estructural de ocho
-versos; la hexasílaba se corrige a seis sílabas.
+Resuelto en el modelo: existe una única forma `redondilla`. Por su isosilabismo, las
+medidas 6, 7 y 8 son tres arquitecturas y no una elección; la doble enlazada es una cuarta,
+de ocho versos; «Cuarteta» es denominación **posterior** del esquema cruzado, no
+equivalente, porque en el Siglo de Oro ambas disposiciones eran redondillas; la hexasílaba
+se corrige a seis sílabas.
 
 ## Octava real
 
@@ -135,23 +143,23 @@ Véase [novena.md](./novena.md).
 
 1. ¿Las rimas de redondilla y quintilla son siempre independientes o debe registrarse
    una clase compartida entre ambas secciones?
-2. ¿Las ocho tipologías actuales de quintilla se ofrecen dentro de toda novena?
+2. ¿Las ocho variedades actuales de quintilla se ofrecen dentro de toda novena?
 3. ¿Las demás estrofas de nueve versos quedan fuera salvo que aparezcan en el corpus?
 
-Resuelto en el modelo: `novena_canonica` y `novena_invertida` son configuraciones de una
-única forma; las secciones reutilizan las configuraciones de redondilla y quintilla sin
-copiar sus patrones.
+Resuelto en el modelo: `novena_canonica` y `novena_invertida` son arquitecturas de una
+única forma; sus secciones reutilizan las arquitecturas de redondilla y quintilla sin
+copiar sus esquemas.
 
 ## Sexteto-lira
 
 Véase [sexteto-lira.md](./sexteto-lira.md).
 
-1. ¿Las siete tipologías son un repertorio cerrado, las reconocidas hasta ahora o
+1. ¿Las siete variedades son un repertorio cerrado, las reconocidas hasta ahora o
    medida y rima pueden combinarse libremente? Si aparecen otras parejas restringidas,
    se ampliarían las combinaciones; solo si ambos ejes son independientes se
    preguntarían por separado.
-2. ¿A1 debe seguir presentándose como tipología habitual o preferente?
-3. ¿Una tirada puede cambiar de tipología entre estrofas sin dejar de constituir una
+2. ¿A1 debe seguir presentándose como variedad habitual o preferente?
+3. ¿Una tirada puede cambiar de variedad entre estrofas sin dejar de constituir una
    única secuencia?
 
 ## Sexteto
@@ -161,13 +169,13 @@ Véase [sexteto.md](./sexteto.md).
 - No bloquea el registro actual: el proyecto lo delimita como seis versos de arte mayor
   consonantes.
 - Si el corpus documenta un sexteto que combine arte mayor y menor y no sea
-  sexteto-lira, confirmar si debe ampliarse la configuración residual o crearse otra.
+  sexteto-lira, confirmar si debe ampliarse la arquitectura general o crearse otra forma.
 
 ## Seguidilla
 
 Véase [seguidilla.md](./seguidilla.md).
 
-- No bloquea el registro actual: se distinguen las configuraciones simple y compuesta
+- No bloquea el registro actual: se distinguen las arquitecturas simple y compuesta
   con la norma asonante fijada por el proyecto.
 - Si las oscilaciones métricas o las realizaciones consonantes fueran recurrentes en el
   corpus, confirmar si deben seguir siendo desviaciones o convertirse en opciones
@@ -186,7 +194,7 @@ Véase [sextina.md](./sextina.md).
 
 Véase [cancion-petrarquista.md](./cancion-petrarquista.md).
 
-1. ¿La canción sin rima o canción libre debe seguir siendo configuración de la canción
+1. ¿La canción sin rima o canción libre debe seguir siendo arquitectura de la canción
    petrarquista o tiene identidad suficiente para ser forma?
 2. ¿Debe exigirse siempre remate o envío en las canciones registradas?
 3. ¿Se mantiene el mínimo de 5 versos por estancia fijado por el proyecto, pese al
@@ -199,7 +207,7 @@ endecasílaba se obtiene eligiendo 11 sílabas en todas sus posiciones.
 
 Véase [romance-heroico.md](./romance-heroico.md).
 
-Sin cuestiones pendientes. Se modela como configuración endecasílaba de romance porque
+Sin cuestiones pendientes. Se modela como arquitectura endecasílaba de romance porque
 conserva íntegramente su arquitectura y solo cambia la medida. `Romance real` se
 mantiene como denominación equivalente conforme al criterio del IP.
 
@@ -211,13 +219,13 @@ Véase [romancillo.md](./romancillo.md).
    tanto del romancillo hexasílabo como del heptasílabo, según los datos actuales del
    IP, o reservarse para el heptasílabo?
 
-Resuelto en el modelo: no se crea una forma ni una familia Romancillo. Las realizaciones
-de 6 y 7 sílabas son configuraciones exactas de `romance`; la antigua raíz ambigua solo
+Resuelto en el modelo: no se crea una forma Romancillo. Las realizaciones
+de 6 y 7 sílabas son arquitecturas exactas de `romance`; la antigua raíz ambigua solo
 obliga a revisar las secuencias heredadas que no permitan determinar su medida.
 
-## Salidas editoriales
+## Tramos sin forma
 
-Véase [salidas-editoriales.md](./salidas-editoriales.md).
+Véase [tramos-sin-forma.md](./tramos-sin-forma.md).
 
 1. Confirmar si `Verso aislado` debe ser la etiqueta pública definitiva de la antigua
    entrada `verso suelto`.

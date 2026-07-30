@@ -4,7 +4,7 @@ Estado: revisado con los datos del proyecto y bibliografía · 29 de julio de 20
 
 ## Decisión
 
-Una forma, una configuración y siete tipologías admitidas. Las tipologías no son
+Una forma, una configuración y siete variedades admitidas. Las variedades no son
 formas ni configuraciones: cada una enlaza un patrón métrico con un patrón de rima.
 
 | Elemento | Valor |
@@ -15,7 +15,7 @@ formas ni configuraciones: cada una enlaza un patrón métrico con un patrón de
 | Medidas | heptasílabos y endecasílabos |
 | Rima | consonante, tres clases |
 | Cierre | pareado con la tercera rima |
-| Tipologías | siete combinaciones reconocidas por el proyecto |
+| Variedades | siete combinaciones reconocidas por el proyecto |
 | Rasgo admitido | `final_acentual = esdrujulo` |
 
 ## Por qué hace falta una combinación
@@ -41,7 +41,7 @@ Y tres patrones de rima:
 No se admite su producto cartesiano de quince parejas. El proyecto reconoce estas
 siete:
 
-| Tipología | Patrón métrico | Rima | Fórmula conjunta |
+| Variedad | Patrón métrico | Rima | Fórmula conjunta |
 | --- | --- | --- | --- |
 | A1, preferente | M1 | R1 | `aBaBcC` |
 | A2 | M2 | R1 | `AbaBcC` |
@@ -62,10 +62,10 @@ siete:
 Una tirada se registra como una secuencia cuyo rango debe ser múltiplo de seis. El
 editor responde en cada unidad:
 
-1. «¿Qué tipología de sexteto-lira presenta?»;
+1. «¿Qué variedad de sexteto-lira presenta?»;
 2. opcionalmente, una vez para la secuencia, si predominan finales esdrújulos.
 
-La interfaz permite aplicar la tipología de la primera estrofa a toda la tirada y
+La interfaz permite aplicar la variedad de la primera estrofa a toda la tirada y
 cambiar únicamente las unidades diferentes. Una fórmula admitida es una elección, no
 una desviación.
 
@@ -89,7 +89,7 @@ sexteto_lira                       → FORMA Sexteto-lira
 └── sexteto_lira_de_esdrujulos    → RASGO final_acentual = esdrujulo
 ```
 
-Los tamaños erróneos heredados dejan de intervenir: toda tipología deriva seis versos
+Los tamaños erróneos heredados dejan de intervenir: toda variedad deriva seis versos
 de la configuración y de las seis posiciones normalizadas.
 
 ## Fuente
@@ -98,7 +98,7 @@ José Domínguez Caparrós, *Métrica española*, Madrid, UNED, 2014, p. 198: de
 sexteto-lira como combinación de heptasílabos y endecasílabos con rima consonante y
 señala que puede presentar distintos esquemas.
 
-Las siete tipologías concretas proceden de los datos estructurados por el IP para el
+Las siete variedades concretas proceden de los datos estructurados por el IP para el
 proyecto. La fuente bibliográfica sustenta la identidad general, no se usa para
 sustituir ese repertorio aurisecular.
 
@@ -117,8 +117,8 @@ validación, sin tratarla automáticamente como desviación.
 
 ## Dudas para el IP
 
-1. ¿Las siete tipologías forman un repertorio cerrado, son las reconocidas hasta ahora
+1. ¿Las siete variedades forman un repertorio cerrado, son las reconocidas hasta ahora
    o medida y rima pueden combinarse libremente?
-2. ¿A1 debe seguir mostrándose públicamente como la tipología habitual o preferente?
-3. ¿Una tirada puede cambiar de tipología entre estrofas sin dejar de constituir una
+2. ¿A1 debe seguir mostrándose públicamente como la variedad habitual o preferente?
+3. ¿Una tirada puede cambiar de variedad entre estrofas sin dejar de constituir una
    única secuencia?
