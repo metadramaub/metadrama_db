@@ -29,7 +29,7 @@
 	);
 	const verseModelOptions = $derived(
 		props.domain.verseModels.map((row: MetricCatalogDomainRow) => ({
-			value: String(row.modelo_verso_id),
+			value: String(row.metro_id),
 			label: String(row.nombre)
 		}))
 	);
@@ -112,7 +112,6 @@
 	const verseModelFields = $derived<MetricEntityField[]>([
 		{ key: 'nombre', label: 'Nombre', required: true },
 		{ key: 'slug', label: 'Slug', required: true },
-		{ key: 'metro_id', label: 'Metro total', type: 'select', options: metreOptions },
 		{
 			key: 'tipo',
 			label: 'Tipo',
@@ -123,15 +122,15 @@
 				{ value: 'compuesto', label: 'Compuesto' }
 			]
 		},
-		{ key: 'silabas_totales', label: 'Sílabas totales', type: 'number' },
+		{ key: 'silabas', label: 'Sílabas', type: 'number', required: true },
 		{ key: 'tipo_cesura', label: 'Tipo de cesura' },
-		{ key: 'patron_acentual', label: 'Patrón acentual' },
+		{ key: 'orden', label: 'Orden', type: 'number' },
 		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
 		{ key: 'estado_revision', label: 'Estado', type: 'select', options: reviewOptions, required: true },
 		{ key: 'activo', label: 'Activo', type: 'checkbox' }
 	]);
 	const segmentFields = $derived<MetricEntityField[]>([
-		{ key: 'modelo_verso_id', label: 'Modelo', type: 'select', options: verseModelOptions, required: true },
+		{ key: 'metro_id', label: 'Metro', type: 'select', options: verseModelOptions, required: true },
 		{ key: 'alternativa', label: 'Alternativa', type: 'number', required: true },
 		{ key: 'posicion', label: 'Posición', type: 'number', required: true },
 		{ key: 'silabas', label: 'Sílabas', type: 'number', required: true },
@@ -210,10 +209,10 @@
 <div class="space-y-6">
 	<MetricEntityCollection
 		resource="verseModels"
-		title="Modelos de verso"
-		description="Permiten distinguir, por ejemplo, un dodecasílabo simple de uno compuesto por hemistiquios."
+		title="Metros"
+		description="Tipos de verso: su medida y, cuando es compuesto, sus hemistiquios. El arte mayor o menor se deriva de las sílabas."
 		rows={props.domain.verseModels}
-		keyFields={['modelo_verso_id']}
+		keyFields={['metro_id']}
 		fields={verseModelFields}
 		defaults={{ tipo: 'simple', estado_revision: 'borrador', activo: true }}
 	/>

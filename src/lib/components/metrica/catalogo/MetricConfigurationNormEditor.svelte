@@ -161,22 +161,12 @@
 			label: option.label
 		}))
 	);
-	const verseModelOptions = $derived(
-		props.domain.verseModels.map((row: MetricCatalogDomainRow) => ({
-			value: String(row.modelo_verso_id),
-			label: String(row.nombre)
-		}))
-	);
-	const measureOptions = $derived([
-		...metreOptions.map((option: MetricEntityOption) => ({
+	const measureOptions = $derived(
+		metreOptions.map((option: MetricEntityOption) => ({
 			value: `metro:${option.value}`,
 			label: option.label
-		})),
-		...verseModelOptions.map((option: MetricEntityOption) => ({
-			value: `modelo:${option.value}`,
-			label: `Modelo: ${option.label}`
 		}))
-	]);
+	);
 	const traitOptions = $derived(
 		props.domain.traits.map((row: MetricCatalogDomainRow) => ({
 			value: String(row.rasgo_id),
@@ -587,14 +577,6 @@
 				props.metres.find(
 					(option: MetricCatalogOption) => option.id === row.metro_id
 				)?.label ?? 'Metro'
-			);
-		}
-		if (row.modelo_verso_id) {
-			return String(
-				props.domain.verseModels.find(
-					(model: MetricCatalogDomainRow) =>
-						model.modelo_verso_id === row.modelo_verso_id
-				)?.nombre ?? 'Modelo de verso'
 			);
 		}
 		return 'Sin medida';

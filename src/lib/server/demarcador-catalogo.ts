@@ -46,17 +46,15 @@ type PatternRow = {
 
 type MetricPositionRow = {
 	esquema_metrico_id: string;
-	metro_id: string | null;
-	modelo_verso_id: string | null;
+	metro_id: string;
 	posicion: number;
 };
 
-type VerseModelRow = {
-	modelo_verso_id: string;
-	metro_id: string | null;
-	silabas_totales: number | null;
-	nombre: string;
+type MetreRow = {
+	metro_id: string;
 	slug: string;
+	nombre: string;
+	silabas: number;
 	tipo: 'simple' | 'compuesto';
 };
 
@@ -593,13 +591,8 @@ export async function generateDemarcatorFromMetricCatalog(
 			.eq('demarcable', true),
 		db.from('esquemas_metricos').select('esquema_metrico_id,arquitectura_id'),
 		db.from('esquema_metrico_opciones').select('esquema_metrico_id,metro_id,orden'),
-		db
-			.from('esquema_metrico_posiciones')
-			.select('esquema_metrico_id,metro_id,modelo_verso_id,posicion'),
-		db
-			.from('modelos_verso')
-			.select('modelo_verso_id,metro_id,silabas_totales,nombre,slug,tipo')
-			.eq('activo', true),
+		db.from('esquema_metrico_posiciones').select('esquema_metrico_id,metro_id,posicion'),
+		db.from('metros').select('metro_id,slug,nombre,silabas,tipo').eq('activo', true),
 		db
 			.from('esquemas_rima')
 			.select('esquema_rima_id,arquitectura_id,nombre,tipo_rima_id,notacion,comportamiento')
@@ -672,8 +665,8 @@ export async function generateDemarcatorFromMetricCatalog(
 	const configurationByPattern = new Map(
 		metricPatterns.map((pattern) => [pattern.esquema_metrico_id, pattern.arquitectura_id])
 	);
-	const verseModelsById = new Map<string, VerseModelRow>(
-		((verseModelsResponse.data ?? []) as VerseModelRow[]).map((row) => [row.modelo_verso_id, row])
+	const metresById = new Map<string, MetreRow>(
+		((verseModelsResponse.data ?? []) as MetreRow[]).map((row) => [row.metro_id, row])
 	);
 	const metresByConfiguration = new Map<string, Map<string, ValorCatalogado>>();
 
@@ -682,25 +675,13 @@ export async function generateDemarcatorFromMetricCatalog(
 		...(metricPositionsResponse.data ?? [])
 	]) {
 		const metricPosition = relation as MetricPositionRow;
-		const metreId =
-			metricPosition.metro_id ??
-			(metricPosition.modelo_verso_id
-				? verseModelsById.get(metricPosition.modelo_verso_id)?.metro_id
-				: null);
-		if (!metreId) continue;
+		if (!metricPosition.metro_id) continue;
 		const configurationId = configurationByPattern.get(relation.esquema_metrico_id);
-		const metre = vocabularyById.get(metreId);
+		const metre = metresById.get(metricPosition.metro_id);
 		if (!configurationId || !metre) continue;
 		const values = metresByConfiguration.get(configurationId) ?? new Map<string, ValorCatalogado>();
-		const key =
-			typeof metre.numero_silabas === 'number' ? String(metre.numero_silabas) : metre.termino;
-		values.set(key, {
-			clave: key,
-			etiqueta:
-				typeof metre.numero_silabas === 'number'
-					? `${metre.numero_silabas} sílabas`
-					: metre.etiqueta?.trim() || metre.termino
-		});
+		const key = String(metre.silabas);
+		values.set(key, { clave: key, etiqueta: `${metre.silabas} sílabas` });
 		metresByConfiguration.set(configurationId, values);
 	}
 

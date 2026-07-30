@@ -1,10 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { z } from 'zod';
 import type { RequestHandler } from './$types';
-import {
-	METRIC_CATALOG_RESOURCES,
-	type MetricCatalogResource
-} from '$lib/metrica/catalogo';
+import { METRIC_CATALOG_RESOURCES, type MetricCatalogResource } from '$lib/metrica/catalogo';
 import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios } from '$lib/utils/permissions';
@@ -97,28 +94,27 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		numberFields: ['cantidad_min', 'cantidad_max', 'orden_composicion']
 	},
 	verseModels: {
-		table: 'modelos_verso',
-		keys: ['modelo_verso_id'],
+		table: 'metros',
+		keys: ['metro_id'],
 		fields: [
 			'slug',
 			'nombre',
-			'metro_id',
+			'silabas',
 			'tipo',
-			'silabas_totales',
 			'tipo_cesura',
-			'patron_acentual',
 			'descripcion',
 			'estado_revision',
-			'activo'
+			'activo',
+			'orden'
 		],
 		booleanFields: ['activo'],
-		numberFields: ['silabas_totales']
+		numberFields: ['silabas', 'orden']
 	},
 	verseSegments: {
-		table: 'modelo_verso_segmentos',
+		table: 'metro_segmentos',
 		keys: ['segmento_id'],
 		fields: [
-			'modelo_verso_id',
+			'metro_id',
 			'posicion',
 			'silabas',
 			'funcion',
@@ -131,14 +127,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 	metricPatterns: {
 		table: 'esquemas_metricos',
 		keys: ['esquema_metrico_id'],
-		fields: [
-			'arquitectura_id',
-			'nombre',
-			'ambito',
-			'tipo',
-			'descripcion',
-			'estado_revision'
-		]
+		fields: ['arquitectura_id', 'nombre', 'ambito', 'tipo', 'descripcion', 'estado_revision']
 	},
 	metricPositions: {
 		table: 'esquema_metrico_posiciones',
@@ -268,13 +257,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'esquema_rima_id',
 			'nota'
 		],
-		numberFields: [
-			'orden',
-			'repeticiones_min',
-			'repeticiones_max',
-			'versos_min',
-			'versos_max'
-		]
+		numberFields: ['orden', 'repeticiones_min', 'repeticiones_max', 'versos_min', 'versos_max']
 	},
 	repetitionPatterns: {
 		table: 'repeticiones_metricas',
@@ -380,14 +363,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 	sourceClaims: {
 		table: 'afirmaciones_fuentes_metricas',
 		keys: ['afirmacion_id'],
-		fields: [
-			'fuente_id',
-			'destino',
-			'localizador',
-			'resumen',
-			'confianza',
-			'estado_revision'
-		]
+		fields: ['fuente_id', 'destino', 'localizador', 'resumen', 'confianza', 'estado_revision']
 	}
 };
 
@@ -440,7 +416,6 @@ function normalizeValues(
 		const [type, id] = String(output.medida ?? '').split(':', 2);
 		delete output.medida;
 		output.metro_id = type === 'metro' && id ? id : null;
-		output.modelo_verso_id = type === 'modelo' && id ? id : null;
 	}
 	if (resource === 'aliases' && 'destino' in output) {
 		const targetFields = [
@@ -525,7 +500,10 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		values = normalizeValues(parsed.data.resource, definition, parsed.data.values ?? {}, true);
 	} catch (error) {
 		return json(
-			{ error: 'validation_error', message: error instanceof Error ? error.message : 'Datos inválidos.' },
+			{
+				error: 'validation_error',
+				message: error instanceof Error ? error.message : 'Datos inválidos.'
+			},
 			{ status: 422 }
 		);
 	}
@@ -556,7 +534,10 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 		return json({ row: data });
 	} catch (error) {
 		return json(
-			{ error: 'validation_error', message: error instanceof Error ? error.message : 'Datos inválidos.' },
+			{
+				error: 'validation_error',
+				message: error instanceof Error ? error.message : 'Datos inválidos.'
+			},
 			{ status: 422 }
 		);
 	}
@@ -564,7 +545,8 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 
 export const DELETE: RequestHandler = async ({ locals, request }) => {
 	const profile = await requireCatalogManager(locals);
-	if (!profile) return forbiddenResponse('Solo admin o IP pueden retirar datos del catálogo métrico.');
+	if (!profile)
+		return forbiddenResponse('Solo admin o IP pueden retirar datos del catálogo métrico.');
 	const parsed = mutationSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
 	const definition = resources[parsed.data.resource];
@@ -578,7 +560,10 @@ export const DELETE: RequestHandler = async ({ locals, request }) => {
 		return json({ deleted: true });
 	} catch (error) {
 		return json(
-			{ error: 'validation_error', message: error instanceof Error ? error.message : 'Datos inválidos.' },
+			{
+				error: 'validation_error',
+				message: error instanceof Error ? error.message : 'Datos inválidos.'
+			},
 			{ status: 422 }
 		);
 	}
