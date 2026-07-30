@@ -1,8 +1,8 @@
 # Ejemplos de formalización con la ontología métrica
 
-Fecha: 28 de julio de 2026
+Fecha: 30 de julio de 2026
 
-Estado: documento explicativo del modelo propuesto
+Estado: documento explicativo del modelo implementado en `develop`
 
 Documentos relacionados:
 
@@ -32,7 +32,7 @@ Estas tablas definen la ontología y son mantenidas por el IP o por responsables
 
 | Tabla | Función |
 | --- | --- |
-| `formas_metricas` | Identidades métricas asignables. |
+| `formas_metricas` | Formas y salidas editoriales asignables, distinguidas mediante `tipo_registro`. |
 | `familias_metricas` | Agrupaciones organizativas no asignables. |
 | `familias_formas` | Pertenencia de formas a familias. |
 | `tradiciones_metricas` | Tradiciones históricas o culturales no heredables. |

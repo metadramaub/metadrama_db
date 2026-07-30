@@ -20,11 +20,21 @@ realización efectiva =
     + elecciones entre alternativas admitidas
     + unidades internas realizadas
     + desviaciones respecto de lo admitido
+
+o, cuando no existe una forma reconocible:
+
+    salida editorial
+    + rango
+    + observación opcional
 ```
 
 Una elección ordinaria no es una desviación. En el villancico, `abba` y `abab` son respuestas
 posibles a la pregunta por la rima de la mudanza; una ruptura que no encaje en ninguna de
 ellas sí se registra como desviación.
+
+`Versificación irregular` y `Verso aislado` siguen la segunda vía: no tienen
+configuración, norma, unidades ni desviaciones. La primera abarca dos o más versos; la
+segunda, exactamente uno.
 
 ## Tablas del catálogo
 

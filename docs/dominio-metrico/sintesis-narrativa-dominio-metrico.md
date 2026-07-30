@@ -32,6 +32,13 @@ además, exigen representar relaciones más complejas: versos compuestos con
 hemistiquios, rimas que enlazan una estrofa con la siguiente o restricciones
 que permiten varios esquemas válidos sin reducirlos a una única cadena fija.
 
+El catálogo describe también qué decisiones debe tomar el editor en cada caso.
+Algunas formas quedan resueltas con su sola selección; otras permiten escoger
+una configuración, un patrón, una sección o una repetición entre posibilidades
+previamente admitidas. Estas elecciones no son irregularidades: describen la
+realización concreta y se guardan porque tienen valor para filtrar y analizar
+el corpus. La interfaz solo muestra las preguntas aplicables a la forma elegida.
+
 La riqueza del modelo no implica, sin embargo, que el editor tenga que rellenar
 muchos más datos al describir una secuencia. La complejidad se concentra en el
 catálogo de formas, que se prepara y revisa previamente. Cuando el editor
@@ -55,6 +62,14 @@ prosa, canto o laguna— pueden seguir existiendo en su ámbito general. Así se
 evita forzar todos los fenómenos dentro de una única tabla y, al mismo tiempo,
 se mantiene una interfaz sencilla.
 
+También se distingue entre una forma residual todavía describible y una simple
+salida editorial. Una copla de pie quebrado puede ser residual y conservar, no
+obstante, una estructura formalizable. En cambio, «Versificación irregular» y
+«Verso aislado» no son formas: se utilizan únicamente cuando no puede reconocerse
+una identidad del catálogo. La primera abarca dos o más versos; la segunda, un
+solo verso que no pertenece a los tramos contiguos. Ambas quedan fuera de las
+comparaciones entre formas.
+
 El demarcador se beneficia directamente de esta organización. En lugar de
 recorrer una jerarquía rígida de padres e hijos, trabaja con las propiedades
 efectivas de cada configuración y formula solo preguntas que el editor puede
@@ -76,12 +91,13 @@ permitirá corregir o ampliar el catálogo sin que el demarcador quede
 desactualizado y hará posible mostrar gráficamente familias, tradiciones,
 variantes y semejanzas sin confundir unas relaciones con otras.
 
-La transformación debe hacerse de forma gradual y reversible, porque las
-anotaciones existentes en las obras son datos reales. Primero se construirá y
-revisará el nuevo catálogo; después se establecerá para cada término actual si
+La transformación se está haciendo de forma gradual y reversible, porque las
+anotaciones existentes en las obras son datos reales. Ya se ha construido el
+nuevo catálogo y se ha establecido para cada término actual si
 corresponde a una forma, una configuración, un rasgo, un alias, una tradición
-o un concepto que debe conservarse únicamente como histórico. Solo entonces
-se migrarán las secuencias, manteniendo la referencia de procedencia y
+o un concepto que debe conservarse únicamente como histórico. La revisión del
+IP y la validación mediante el editor y el demarcador precederán a la futura
+migración de las secuencias, manteniendo la referencia de procedencia y
 comprobando los casos ambiguos. El resultado será un sistema más fiel a la
 teoría métrica, más fácil de usar para los editores y mucho más sólido para la
 búsqueda, la comparación y futuros análisis computacionales.
