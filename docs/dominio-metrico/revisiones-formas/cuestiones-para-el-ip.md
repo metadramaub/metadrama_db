@@ -194,3 +194,23 @@ Véase [cancion-petrarquista.md](./cancion-petrarquista.md).
 
 Resuelto en el modelo: 8, 9 y 15 son extensiones de estancia; una estancia solo
 endecasílaba se obtiene eligiendo 11 sílabas en todas sus posiciones.
+
+## Romance heroico
+
+Véase [romance-heroico.md](./romance-heroico.md).
+
+Sin cuestiones pendientes. Se modela como configuración endecasílaba de romance porque
+conserva íntegramente su arquitectura y solo cambia la medida. `Romance real` se
+mantiene como denominación equivalente conforme al criterio del IP.
+
+## Romancillos
+
+Véase [romancillo.md](./romancillo.md).
+
+1. ¿`Endecha` y `Romance endecha` deben mantenerse como denominaciones equivalentes
+   tanto del romancillo hexasílabo como del heptasílabo, según los datos actuales del
+   IP, o reservarse para el heptasílabo?
+
+Resuelto en el modelo: no se crea una forma ni una familia Romancillo. Las realizaciones
+de 6 y 7 sílabas son configuraciones exactas de `romance`; la antigua raíz ambigua solo
+obliga a revisar las secuencias heredadas que no permitan determinar su medida.

@@ -37,6 +37,8 @@ Esta carpeta reúne la auditoría, las decisiones conceptuales y la arquitectura
    [silva](./revisiones-formas/silva.md), la frontera entre
    [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md), el
    [romance](./revisiones-formas/romance.md), el
+   [romance heroico](./revisiones-formas/romance-heroico.md), el
+   [romancillo](./revisiones-formas/romancillo.md), el
    [soneto](./revisiones-formas/soneto.md), el
    [villancico](./revisiones-formas/villancico.md), el
    [zéjel](./revisiones-formas/zejel.md), la

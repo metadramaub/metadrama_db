@@ -286,7 +286,7 @@
 			<h2 class="font-semibold">Falta aplicar las migraciones</h2>
 			<p class="mt-2 text-sm leading-6 text-amber-950">{data.migrationMessage}</p>
 			<p class="mt-2 font-mono text-xs text-amber-950">
-				Última requerida: 20260730104000_formalizacion_cancion_petrarquista.sql
+				Última requerida: 20260730106000_formalizacion_romancillos.sql
 			</p>
 		</div>
 	{:else}
