@@ -510,37 +510,35 @@ begin
 		(v_configuracion_id, 'R2 · abbacc', 'abbacc', v_consonante_id, 'estrofa', 'secuencia_fija', 'admitido', 'Rima abrazada abba en los cuatro primeros versos y pareado final cc.', 'revisada'),
 		(v_configuracion_id, 'R3 · aabbcc', 'aabbcc', v_consonante_id, 'estrofa', 'secuencia_fija', 'admitido', 'Tres pareados consecutivos aa bb cc.', 'revisada');
 
-	for v_patron in
-		select patron_rima_id, esquema
-		from public.patrones_rima
-		where configuracion_id = v_configuracion_id
-	loop
-		insert into public.patron_rima_posiciones (
-			patron_rima_id,
-			bloque,
-			seccion,
-			posicion,
-			ubicacion,
-			clase_rima,
-			suelto,
-			opcional,
-			nota
-		)
-		select
-			v_patron.patron_rima_id,
-			case when posicion <= 4 then 1 else 2 end,
-			case when posicion <= 4 then 'cuerpo' else 'pareado_final' end,
-			posicion,
-			'final',
-			substring(v_patron.esquema from posicion for 1),
-			false,
-			false,
-			case
-				when posicion <= 4 then 'Posición del cuerpo de cuatro versos.'
-				else 'Posición del pareado final.'
-			end
-		from generate_series(1, 6) as serie(posicion);
-	end loop;
+	-- El disparador sincronizar_posiciones_patron_rima_fijo ya ha creado las
+	-- seis posiciones a partir de cada esquema. Aquí solo se precisa su
+	-- organización interna; volver a insertarlas violaría la clave única.
+	update public.patron_rima_posiciones posicion
+	set
+		bloque = case when posicion.posicion <= 4 then 1 else 2 end,
+		seccion = case
+			when posicion.posicion <= 4 then 'cuerpo'
+			else 'pareado_final'
+		end,
+		nota = case
+			when posicion.posicion <= 4 then 'Posición del cuerpo de cuatro versos.'
+			else 'Posición del pareado final.'
+		end
+	from public.patrones_rima patron
+	where posicion.patron_rima_id = patron.patron_rima_id
+		and patron.configuracion_id = v_configuracion_id;
+
+	select count(*) into v_total
+	from public.patron_rima_posiciones posicion
+	join public.patrones_rima patron
+		on patron.patron_rima_id = posicion.patron_rima_id
+	where patron.configuracion_id = v_configuracion_id;
+
+	if v_total <> 18 then
+		raise exception
+			'Se esperaban dieciocho posiciones de rima para el sexteto-lira y se encontraron %',
+			v_total;
+	end if;
 
 	insert into public.combinaciones_patrones_configuracion (
 		configuracion_id,
