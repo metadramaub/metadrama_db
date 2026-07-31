@@ -109,15 +109,18 @@ La pregunta anterior decide el nivel. Estas dos deciden la tabla:
 De ahí salen dos consecuencias que conviene enunciar, porque separan casos que se parecen:
 
 **La medida es arquitectura cuando la forma es isosilábica, y solo entonces.** Una tirada de
-redondillas no cambia de medida a mitad de camino: si cambia, ha empezado otra secuencia. En
-cambio el sexteto admite que convivan varias medidas de arte mayor dentro de la misma
-estrofa, así que su medida no es arquitectura sino conjunto permitido.
+redondillas no cambia de medida a mitad de camino: si cambia, ha empezado otra secuencia. Lo
+mismo vale para el romance, la sextilla y el sexteto, que tienen una arquitectura por medida.
+Solo se pregunta por la medida cuando lo que varía es una **posición** dentro de la unidad
+—dónde cae un quebrado y cuánto mide— o la medida de una **sección**, no la de la unidad
+entera.
 
-**Un nombre tradicional no crea una forma.** Cuando la tradición nombra una pareja concreta
-de medida y rima dentro de una forma que ya existe, eso es una **variedad reconocida** con su
-**denominación**, no una forma aparte: la sexta rima —el sexteto clásico— es el sexteto
-endecasílabo que responde `ABABCC`, y la copla manriqueña es la doble sextilla que responde
-`abcabc:defdef`. La forma se reserva para lo que tiene norma propia.
+**Un nombre tradicional no crea una forma.** Cuando la tradición nombra una realización
+concreta dentro de una forma que ya existe, eso es una **variedad reconocida** o una
+**denominación**, no una forma aparte: la sexta rima —el sexteto clásico— es la variedad del
+sexteto endecasílabo que responde `ABABCC`, y «copla manriqueña» es el nombre del esquema
+`abcabc:defdef` de la sextilla doble de pie quebrado. La forma se reserva para lo que tiene
+norma propia.
 
 **Pero la genealogía separa lo que la estructura acerca.** Dos formas pueden parecerse mucho
 y no ser la misma cosa si nacen de principios constructivos distintos. El sexteto-lira tiene
@@ -398,8 +401,9 @@ Un vínculo tipado entre dos formas: `subtipo_de` para la taxonomía, `compuesta
 la arquitectura, `derivada_de`, `sucede_historicamente_a`, `relacionada_con`,
 `contrasta_con`. Ninguna convierte a una forma en padre de otra ni transmite propiedades.
 
-La copla manriqueña es subtipo de la doble sextilla y está compuesta por dos sextillas: ni
-una cosa ni la otra hacen de la sextilla un padre taxonómico.
+La copla real está compuesta por dos quintillas y la décima espinela sucede históricamente a
+la copla real: ni una cosa ni la otra hacen de la quintilla o de la copla real un padre
+taxonómico.
 
 ## 6 · Cinco arquetipos
 

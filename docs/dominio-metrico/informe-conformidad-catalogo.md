@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 16:13
+Generado: 2026-07-31 16:20
 
-Inventario: 25 formas y 2 tramos sin forma · 55 configuraciones · 58 patrones métricos · 74 patrones de rima · 55 secciones · 40 grupos de elección · 304 opciones · 3 rasgos.
+Inventario: 25 formas y 2 tramos sin forma · 55 configuraciones · 58 patrones métricos · 74 patrones de rima · 55 secciones · 41 grupos de elección · 306 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -143,7 +143,7 @@ Sin incidencias.
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
 | silva | serie | 4 | — | configuracion, conjunto, posiciones | cualitativa, patrón único | 0 | — |
 | soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
-| terceto | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 1 | secuencia |
+| terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único, sin patrón | 0 | — |
 | villancico | composicion | 2 | sí | conjunto, eleccion | cualitativa, elección | 7 | secuencia, unidad |
 | zejel | composicion | 1 | sí | conjunto, eleccion | cualitativa, patrón único | 2 | secuencia, unidad |
@@ -167,7 +167,7 @@ Sin incidencias.
 | rasgo · secuencia | cancion_petrarquista, octava_real, romance, sexteto_lira, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
 | rima · secuencia | copla_de_arte_mayor |
-| rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, sextilla, soneto, villancico |
+| rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
