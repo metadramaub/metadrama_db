@@ -98,7 +98,9 @@ unidades equivalentes; el editor cambia únicamente las excepciones.
 - `realizaciones_editor_metrico`: las unidades del pasaje y, dentro de ellas, coplas,
   cabezas, estribillos, represas u otras secciones enlazadas jerárquicamente mediante
   `realizacion_padre_id`. Una realización sin `seccion_id` es la unidad que define la
-  forma: no es parte de nada y no cuelga de ninguna otra.
+  forma: no es parte de nada y no cuelga de ninguna otra. La equivalencia es estricta y la
+  base la impone: una realización no realiza ninguna sección exactamente cuando no tiene
+  realización superior.
 - `elecciones_editor_metrico`: respuesta general o por unidad.
 - `desviaciones_editor_metrico`: diferencias localizadas respecto de lo admitido.
 
@@ -133,6 +135,10 @@ y desviaciones en una transacción.
     rango y de la extensión declarada por la arquitectura, así que no se añaden ni se
     quitan a mano; con una unidad de extensión variable —la copla de pie quebrado— ocurre
     al revés y es el rango el que se calcula.
+14. Una composición se registra igual que una estrofa: tres sonetos seguidos son tres
+    unidades de catorce versos, cada una con sus dos cuartetos y sus dos tercetos. Cuando
+    la composición no declara su extensión —el villancico, el zéjel, la canción— el editor
+    añade y quita unidades a mano y el rango se calcula desde ellas.
 
 ## Compatibilidad de longitud
 

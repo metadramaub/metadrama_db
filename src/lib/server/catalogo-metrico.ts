@@ -1,7 +1,6 @@
 import type {
 	MetricCatalogConfiguration,
 	MetricCatalogDomainData,
-	MetricCatalogFamily,
 	MetricCatalogForm,
 	MetricCatalogIssue,
 	MetricCatalogMigrationRow,
@@ -49,8 +48,6 @@ function emptyDomain(): MetricCatalogDomainData {
 	return {
 		forms: [],
 		configurations: [],
-		families: [],
-		familyForms: [],
 		traditions: [],
 		formTraditions: [],
 		aliases: [],
@@ -289,7 +286,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 45
+		Number(stateResponse.data?.modelo_version ?? 0) < 47
 	) {
 		return {
 			migrationPending: true,
@@ -299,7 +296,6 @@ export async function loadMetricCatalog(
 			forms: [],
 			configurations: [],
 			lengthRules: [],
-			families: [],
 			traditions: [],
 			migrationRows: [],
 			previewVersions: [],
@@ -321,8 +317,6 @@ export async function loadMetricCatalog(
 	const [
 		formsResponse,
 		configurationsResponse,
-		familiesResponse,
-		familyFormsResponse,
 		traditionsResponse,
 		formTraditionsResponse,
 		migrationResponse,
@@ -342,11 +336,6 @@ export async function loadMetricCatalog(
 			.order('orden', { ascending: true })
 			.order('nombre', { ascending: true }),
 		db
-			.from('familias_metricas')
-			.select('familia_id,slug,nombre,descripcion,estado_revision,activo')
-			.order('nombre', { ascending: true }),
-		db.from('familias_formas').select('familia_id,forma_id'),
-		db
 			.from('tradiciones_metricas')
 			.select('tradicion_id,slug,nombre,descripcion,estado_revision,activo')
 			.order('nombre', { ascending: true }),
@@ -359,7 +348,7 @@ export async function loadMetricCatalog(
 		db
 			.from('migracion_termino_destinos')
 			.select(
-				'destino_id,termino_id,tipo_operacion,forma_id,familia_id,arquitectura_id,variedad_id,esquema_metrico_id,esquema_rima_id,rasgo_id,valor_rasgo_id,alias_id'
+				'destino_id,termino_id,tipo_operacion,forma_id,arquitectura_id,variedad_id,esquema_metrico_id,esquema_rima_id,rasgo_id,valor_rasgo_id,alias_id'
 			),
 		db
 			.from('vocabularios')
@@ -388,8 +377,6 @@ export async function loadMetricCatalog(
 	]);
 
 	const domainResponses = await Promise.all([
-		db.from('familias_metricas').select('*').order('nombre'),
-		db.from('familias_formas').select('*'),
 		db.from('tradiciones_metricas').select('*').order('nombre'),
 		db.from('formas_tradiciones').select('*'),
 		db.from('denominaciones_metricas').select('*').order('nombre'),
@@ -419,8 +406,6 @@ export async function loadMetricCatalog(
 		throwQueryError('No se pudo cargar una sección del catálogo métrico', response.error);
 	}
 	const [
-		familiesDomain,
-		familyFormsDomain,
 		traditionsDomain,
 		formTraditionsDomain,
 		aliasesDomain,
@@ -449,8 +434,6 @@ export async function loadMetricCatalog(
 	const domain: MetricCatalogDomainData = {
 		forms: formsResponse.data ?? [],
 		configurations: configurationsResponse.data ?? [],
-		families: familiesDomain.data ?? [],
-		familyForms: familyFormsDomain.data ?? [],
 		traditions: traditionsDomain.data ?? [],
 		formTraditions: formTraditionsDomain.data ?? [],
 		aliases: (aliasesDomain.data ?? []).map((row: any) => {
@@ -508,7 +491,6 @@ export async function loadMetricCatalog(
 		sourceClaims: (sourceClaimsDomain.data ?? []).map((row: any) => {
 			const targetField = [
 				'forma_id',
-				'familia_id',
 				'tradicion_id',
 				'arquitectura_id',
 				'esquema_metrico_id',
@@ -524,8 +506,6 @@ export async function loadMetricCatalog(
 
 	throwQueryError('No se pudieron cargar las formas métricas', formsResponse.error);
 	throwQueryError('No se pudieron cargar las configuraciones', configurationsResponse.error);
-	throwQueryError('No se pudieron cargar las familias métricas', familiesResponse.error);
-	throwQueryError('No se pudieron cargar las relaciones de familias', familyFormsResponse.error);
 	throwQueryError('No se pudieron cargar las tradiciones métricas', traditionsResponse.error);
 	throwQueryError(
 		'No se pudieron cargar las relaciones de tradiciones',
@@ -568,15 +548,6 @@ export async function loadMetricCatalog(
 		...row,
 		patrones_metro: metrePatternCounts.get(row.arquitectura_id) ?? 0,
 		esquemas_rima: rhymePatternCounts.get(row.arquitectura_id) ?? 0
-	}));
-
-	const familyFormCounts = new Map<string, number>();
-	for (const row of familyFormsResponse.data ?? []) {
-		familyFormCounts.set(row.familia_id, (familyFormCounts.get(row.familia_id) ?? 0) + 1);
-	}
-	const families: MetricCatalogFamily[] = (familiesResponse.data ?? []).map((row: any) => ({
-		...row,
-		formas: familyFormCounts.get(row.familia_id) ?? 0
 	}));
 
 	const traditionFormCounts = new Map<string, number>();
@@ -663,7 +634,6 @@ export async function loadMetricCatalog(
 		forms,
 		configurations,
 		lengthRules: (lengthRulesResponse.data ?? []) as MetricLengthRule[],
-		families,
 		traditions,
 		migrationRows,
 		previewVersions: (previewVersionsResponse.data ?? []) as MetricCatalogPreviewVersion[],

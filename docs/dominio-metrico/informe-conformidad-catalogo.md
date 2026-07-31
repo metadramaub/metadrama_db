@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-30 21:35
+Generado: 2026-07-31 06:37
 
-Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 81 patrones de rima · 75 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
+Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 81 patrones de rima · 61 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 

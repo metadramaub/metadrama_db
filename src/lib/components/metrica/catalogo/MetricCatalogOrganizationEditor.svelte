@@ -25,12 +25,6 @@
 	const formOptions = $derived(
 		props.forms.map((form: MetricCatalogForm) => ({ value: form.forma_id, label: form.nombre }))
 	);
-	const familyOptions = $derived(
-		props.domain.families.map((row: MetricCatalogDomainRow) => ({
-			value: String(row.familia_id),
-			label: String(row.nombre)
-		}))
-	);
 	const traditionOptions = $derived(
 		props.domain.traditions.map((row: MetricCatalogDomainRow) => ({
 			value: String(row.tradicion_id),
@@ -53,11 +47,11 @@
 			label: `Configuración · ${configuration.nombre}`
 		})),
 		...props.domain.metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: `esquema_metrico_id:${row.notacion_metrico_id}`,
+			value: `esquema_metrico_id:${row.esquema_metrico_id}`,
 			label: `Patrón métrico · ${String(row.nombre || `Patrón ${index + 1}`)}`
 		})),
 		...props.domain.rhymePatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-			value: `esquema_rima_id:${row.notacion_rima_id}`,
+			value: `esquema_rima_id:${row.esquema_rima_id}`,
 			label: `Patrón de rima · ${String(row.nombre || row.notacion || `Patrón ${index + 1}`)}`
 		})),
 		...props.domain.sections.map((row: MetricCatalogDomainRow) => ({
@@ -67,23 +61,13 @@
 		...props.domain.repetitionPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: `repeticion_id:${row.repeticion_id}`,
 			label: `Repetición · ${String(row.descripcion || row.regla || `Patrón ${index + 1}`)}`
+		})),
+		...props.domain.patternCombinations.map((row: MetricCatalogDomainRow, index: number) => ({
+			value: `variedad_id:${row.variedad_id}`,
+			label: `Variedad · ${String(row.nombre || `Variedad ${index + 1}`)}`
 		}))
 	]);
 
-	const familyFields = $derived<MetricEntityField[]>([
-		{ key: 'nombre', label: 'Nombre', required: true },
-		{ key: 'slug', label: 'Slug', required: true },
-		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
-		{ key: 'familia_padre_id', label: 'Familia superior', type: 'select', options: familyOptions },
-		{ key: 'estado_revision', label: 'Estado', type: 'select', options: reviewOptions, required: true },
-		{ key: 'activo', label: 'Activa', type: 'checkbox' }
-	]);
-	const familyFormFields = $derived<MetricEntityField[]>([
-		{ key: 'familia_id', label: 'Familia', type: 'select', options: familyOptions, required: true },
-		{ key: 'forma_id', label: 'Forma', type: 'select', options: formOptions, required: true },
-		{ key: 'es_principal', label: 'Familia principal de la forma', type: 'checkbox' },
-		{ key: 'nota', label: 'Nota', type: 'textarea' }
-	]);
 	const traditionFields = $derived<MetricEntityField[]>([
 		{ key: 'nombre', label: 'Nombre', required: true },
 		{ key: 'slug', label: 'Slug', required: true },
@@ -94,19 +78,6 @@
 	const formTraditionFields = $derived<MetricEntityField[]>([
 		{ key: 'forma_id', label: 'Forma', type: 'select', options: formOptions, required: true },
 		{ key: 'tradicion_id', label: 'Tradición', type: 'select', options: traditionOptions, required: true },
-		{
-			key: 'tipo_relacion',
-			label: 'Relación',
-			type: 'select',
-			required: true,
-			options: [
-				{ value: 'origen', label: 'Origen' },
-				{ value: 'adaptacion', label: 'Adaptación' },
-				{ value: 'difusion', label: 'Difusión' },
-				{ value: 'uso', label: 'Uso' }
-			]
-		},
-		{ key: 'es_principal', label: 'Relación principal', type: 'checkbox' },
 		{ key: 'cronologia', label: 'Cronología' },
 		{ key: 'nota', label: 'Nota', type: 'textarea' }
 	]);
@@ -117,7 +88,7 @@
 			type: 'select',
 			options: denominationTargetOptions,
 			required: true,
-			help: 'El nombre debe apuntar al nivel exacto: forma, configuración, patrón o sección.'
+			help: 'El nombre debe apuntar al nivel exacto que nombra: forma, arquitectura, esquema, variedad, sección o repetición.'
 		},
 		{ key: 'nombre', label: 'Nombre alternativo', required: true },
 		{ key: 'slug_normalizado', label: 'Slug normalizado', required: true },
@@ -130,6 +101,7 @@
 				{ value: 'equivalente', label: 'Equivalente' },
 				{ value: 'variante_grafica', label: 'Variante gráfica' },
 				{ value: 'historico', label: 'Histórico' },
+				{ value: 'posterior', label: 'Posterior (nombre moderno)' },
 				{ value: 'abreviatura', label: 'Abreviatura' }
 			]
 		},
@@ -166,26 +138,9 @@
 
 <div class="space-y-6">
 	<MetricEntityCollection
-		resource="families"
-		title="Familias estructurales"
-		description="Agrupan formas emparentadas sin convertir la familia en una forma seleccionable."
-		rows={props.domain.families}
-		keyFields={['familia_id']}
-		fields={familyFields}
-		defaults={{ estado_revision: 'borrador', activo: true }}
-	/>
-	<MetricEntityCollection
-		resource="familyForms"
-		title="Pertenencia de formas a familias"
-		rows={props.domain.familyForms}
-		keyFields={['familia_id', 'forma_id']}
-		fields={familyFormFields}
-		defaults={{ es_principal: false }}
-	/>
-	<MetricEntityCollection
 		resource="traditions"
 		title="Tradiciones métricas"
-		description="Un marco histórico se registra aquí, separado de las familias, solo cuando está documentado. La cronología concreta pertenece a la relación con cada forma."
+		description="El ámbito histórico del que procede una forma. Es una pertenencia, no una herencia: no organiza el selector ni transmite rasgos."
 		rows={props.domain.traditions}
 		keyFields={['tradicion_id']}
 		fields={traditionFields}
@@ -195,9 +150,8 @@
 		resource="formTraditions"
 		title="Relaciones entre formas y tradiciones"
 		rows={props.domain.formTraditions}
-		keyFields={['forma_id', 'tradicion_id', 'tipo_relacion']}
+		keyFields={['forma_id', 'tradicion_id']}
 		fields={formTraditionFields}
-		defaults={{ tipo_relacion: 'uso', es_principal: false }}
 	/>
 	<MetricEntityCollection
 		resource="aliases"

@@ -104,16 +104,6 @@ export type MetricLengthRule = {
 	explicacion: string;
 };
 
-export type MetricCatalogFamily = {
-	familia_id: string;
-	slug: string;
-	nombre: string;
-	descripcion: string | null;
-	estado_revision: MetricCatalogReviewState;
-	activo: boolean;
-	formas: number;
-};
-
 export type MetricCatalogTradition = {
 	tradicion_id: string;
 	slug: string;
@@ -147,7 +137,6 @@ export type MetricCatalogMigrationRow = {
 		destino_id: string;
 		tipo_operacion: string;
 		forma_id: string | null;
-		familia_id: string | null;
 		arquitectura_id: string | null;
 		variedad_id: string | null;
 		esquema_metrico_id: string | null;
@@ -196,8 +185,6 @@ export type MetricCatalogPreviewVersion = {
 };
 
 export const METRIC_CATALOG_RESOURCES = [
-	'families',
-	'familyForms',
 	'traditions',
 	'formTraditions',
 	'aliases',
@@ -246,7 +233,6 @@ export type MetricCatalogPageData = {
 	forms: MetricCatalogForm[];
 	configurations: MetricCatalogConfiguration[];
 	lengthRules: MetricLengthRule[];
-	families: MetricCatalogFamily[];
 	traditions: MetricCatalogTradition[];
 	migrationRows: MetricCatalogMigrationRow[];
 	previewVersions: MetricCatalogPreviewVersion[];
