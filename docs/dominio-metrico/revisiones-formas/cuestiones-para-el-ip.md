@@ -7,7 +7,7 @@ ficha de cada revisión.
 
 ## Los defectos del informe que esperan una decisión
 
-El [informe de conformidad](../informe-conformidad-catalogo.md) señala **20 defectos**. Ni
+El [informe de conformidad](../informe-conformidad-catalogo.md) señala **19 defectos**. Ni
 uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
 que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
 corregidos.
@@ -17,12 +17,12 @@ preguntas están desarrolladas en el apartado de cada forma, más abajo.
 
 | Defecto | Cuántos | Qué hay que decidir |
 | --- | ---: | --- |
-| D9 · rasgos cualitativos como restricciones sin catalogar | 15 | Qué rasgos existen, qué valores admite cada uno y con qué modalidad interviene en cada arquitectura. Quince literales sueltos —`pareados_sistematicos`, `predominio_versos_sueltos`, `distico_final`…— esperan una taxonomía, no una traducción mecánica. |
+| D9 · rasgos cualitativos como restricciones sin catalogar | 14 | Qué rasgos existen, qué valores admite cada uno y con qué modalidad interviene en cada arquitectura. Catorce literales sueltos —`predominio_versos_sueltos`, `distico_final`, `enlace_vuelta`…— esperan una taxonomía, no una traducción mecánica. |
 | D12 · preguntas con alcance de secuencia | 4 | Si los tres esquemas de la copla de arte mayor pueden alternar dentro de una tirada; si las medidas del villancico y del zéjel forman repertorio cerrado. |
 | D2b · arquitecturas sin ninguna declaración de rima | 1 | Qué rima declara el terceto encadenado octosílabo. |
 
-Los quince primeros son en realidad **una sola decisión**: la taxonomía de rasgos
-cualitativos. Sin ella, quince propiedades transversales siguen siendo literales sueltos
+Los catorce primeros son en realidad **una sola decisión**: la taxonomía de rasgos
+cualitativos. Sin ella, catorce propiedades transversales siguen siendo literales sueltos
 colgados de un esquema de rima.
 
 Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
@@ -65,20 +65,17 @@ Véase [silva.md](./silva.md).
 
 Véase [series-endecasilabicas.md](./series-endecasilabicas.md).
 
-1. ¿El pareado de arte menor admite rima asonante además de consonante? El vocabulario
-   heredado dejó su tipo de rima como «otras» y el modelo lo conserva sin declarar; si la
-   norma exige consonancia, basta con declararla.
-2. ¿El arte mayor del pareado debe limitarse al endecasílabo o conviene mantener abierto el
-   rango a dodecasílabos y alejandrinos, que hoy se ofrecen?
+Sin decisiones imprescindibles pendientes.
 
 Resuelto en el modelo: el pareado es **cualquier dístico** —dos versos que riman entre sí,
 sea cual sea su medida— y una forma general que puede formar series, como el terceto o el
-sexteto. Quedan dos arquitecturas, arte menor y arte mayor, porque el arte es el corte que
-la tradición hace y el que se corresponde con el régimen de rima. La medida exacta no es
-arquitectura: el pareado no tiene repertorio cerrado de medidas, así que la declara el pasaje
-y se pregunta por posición, lo que además permite registrar el dístico heterométrico.
-`pareados_endecasilabos` era una tirada de pareados de arte mayor, y `pareado_hexasilabo` y
-`pareado_octosilabo` eran dos medidas dentro del arte menor, no dos arquitecturas.
+sexteto. Tiene una sola arquitectura: el arte no se modela, se deriva del metro elegido, y
+además no separa regímenes de rima, porque el pareado admite consonancia y asonancia en
+cualquier medida. Ni la medida ni el tipo de rima son arquitectura, porque el pareado no
+tiene repertorio cerrado de ninguno de los dos: los declara el pasaje y se preguntan. La
+medida se pregunta por posición, lo que además permite registrar el dístico heterométrico.
+`pareados_endecasilabos` era una tirada de pareados, y `pareado_hexasilabo`,
+`pareado_octosilabo` y `pareado_endecasilabo` eran medidas, no arquitecturas.
 
 ## Soneto
 

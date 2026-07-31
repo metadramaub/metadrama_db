@@ -81,8 +81,8 @@ Cada uno de esos movimientos fue una decisión.
 | Término heredado | Definición | Hoy es |
 | --- | --- | --- |
 | `terceto_octosilabo` | Adapta a octosílabos los tercetos encadenados endecasílabos de raíz italiana | `terceto_encadenado · octosilabico` |
-| `pareado_de_arte_menor` | Un dístico o una serie de dísticos de arte menor | `pareado · arte_menor` |
-| `pareado_endecasilabo` | — | `pareado · arte_mayor` |
+| `pareado_de_arte_menor` | Un dístico o una serie de dísticos de arte menor | `pareado · cualquier_medida` |
+| `pareado_endecasilabo` | — | Respuesta de medida en `pareado · cualquier_medida` |
 | `romance_heroico` | Serie indefinida de endecasílabos con rima asonante en los pares | `romance · endecasilabico` |
 | `doble_sextilla` | Doce versos en dos sextillas de pie quebrado | `sextilla · doble_pie_quebrado` |
 | `sexta_rima` | Sexteto de seis endecasílabos con esquema `ABABCC` | Variedad de `sexteto · endecasilabica` |
@@ -133,7 +133,7 @@ solo si la norma admite que varíe **de una unidad a otra dentro de la misma sec
 | `lira` | 1 | heptasilabica_endecasilabica: {7,11} | no |
 | `novena` | 2 | redondilla_quintilla: {8} · quintilla_redondilla: {8} | no |
 | `octava_real` | 1 | endecasilabica_consonante: {11} | no |
-| `pareado` | 2 | arte_menor: {4,5,6,7,8} · arte_mayor: {11,12,14} | **sí** |
+| `pareado` | 1 | cualquier_medida: {4,5,6,7,8,11,12,14} | **sí** |
 | `quintilla` | 1 | octosilabica_consonante: {8} | no |
 | `redondilla` | 4 | heptasilabica: {7} · hexasilabica: {6} · octosilabica: {8} · doble_enlazada: {8} | no |
 | `romance` | 4 | heptasilabico: {7} · hexasilabico: {6} · octosilabico: {8} · endecasilabico: {11} | no |
@@ -157,7 +157,8 @@ otra cosa:
   quebrado y cuánto mide es un hecho que solo el pasaje declara;
 - el **pareado** pregunta porque su medida no es normativa en absoluto: la norma dice que
   dos versos riman entre sí y nada más, así que la medida de cada uno la declara el pasaje.
-  Lo normativo ahí es el arte —menor o mayor—, y eso sí es arquitectura;
+  Es la única forma isosilábica sin repertorio de medidas, y por eso la única donde la
+  medida no es arquitectura;
 - el **villancico** y el **zéjel** preguntan por la medida de sus **secciones**, y si esos
   repertorios son cerrados sigue siendo cuestión abierta en sus fichas.
 
