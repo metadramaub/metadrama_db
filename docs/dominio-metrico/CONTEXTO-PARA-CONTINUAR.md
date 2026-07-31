@@ -12,7 +12,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
 - La versión requerida del modelo es `51`.
-- La última migración es `20260731320000_terceto_encadenado_octosilabico.sql` y está aplicada.
+- La última migración es `20260731330000_medida_por_seccion.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
@@ -162,10 +162,11 @@ decisiones a la implementación:
    cambios de nivel respecto del vocabulario heredado y las señales de que algo puede estar
    donde no le toca. Es material para el IP, y algunas de sus respuestas cierran defectos
    del informe.
-4. Corregir los defectos del [informe de conformidad](./informe-conformidad-catalogo.md).
-   Quedan 4 y **ninguno se puede corregir sin una decisión del IP**: el triaje, defecto por
-   defecto, está en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
-4. Crear la capa de desviaciones sobre las secuencias reales.
-5. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
+4. ~~Corregir los defectos del informe de conformidad.~~ **El
+   [informe](./informe-conformidad-catalogo.md) no señala ninguno.** Lo que queda en
+   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md) son precisiones
+   filológicas que el catálogo puede esperar sin quedar mal formado.
+5. Crear la capa de desviaciones sobre las secuencias reales.
+6. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
    rasgos.
-6. Solo entonces, la [migración de las anotaciones](./plan-migracion-anotaciones.md).
+7. Solo entonces, la [migración de las anotaciones](./plan-migracion-anotaciones.md).

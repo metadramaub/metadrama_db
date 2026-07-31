@@ -38,9 +38,13 @@ por las tres posiciones `B` del patrón de rima.
 
 La configuración se resuelve automáticamente porque solo hay una. El editor:
 
-1. indica si aparecen versos de 6, de 8 o de ambas medidas;
+1. indica la medida de cada sección: cabeza, mudanza, vuelta y represa;
 2. delimita la cabeza y las coplas;
 3. responde, para cada ciclo, si el estribillo reaparece materialmente.
+
+Lo habitual es que el zéjel sea isosilábico, pero puede combinar medidas, así que se
+pregunta donde puede variar. Se ofrecen 6 y 8 por ser las típicas; otra distinta se registra
+como desviación.
 
 La mudanza de tres versos, su monorrimia, el verso de vuelta y su relación con el estribillo
 se derivan del catálogo. No se preguntan. Si hay represa total, el registrador crea su
@@ -83,7 +87,7 @@ después de la primera.
 
 | secuencia_id | unidad_id | grupo_eleccion_id | opcion_eleccion_id |
 | --- | --- | --- | --- |
-| `SEC-ZEJ-1` | `NULL` | `medidas_realizadas` | `octosilabo` |
+| `SEC-ZEJ-1` | `CAB-1` | `medida_cabeza` | `octosilabo` |
 | `SEC-ZEJ-1` | `CIC-1` | `represa_estribillo` | `total` |
 | `SEC-ZEJ-1` | `CIC-2` | `represa_estribillo` | `sin_represa_material` |
 
@@ -121,5 +125,5 @@ monorrima de tres versos y vuelta consonante a la rima del dístico.
    reservar el zéjel estricto para el dístico?
 2. ¿La represa parcial debe admitirse cuando aparezca en el corpus o se tratará como
    desviación respecto de esta configuración?
-3. ¿Hexasílabo y octosílabo forman un repertorio cerrado para el corpus o cualquier otra
-   medida documentada se registrará como desviación?
+3. ~~¿Hexasílabo y octosílabo forman un repertorio cerrado?~~ **Resuelto: no.** Son las
+   medidas típicas y por eso se registran; cualquier otra se anota como desviación.

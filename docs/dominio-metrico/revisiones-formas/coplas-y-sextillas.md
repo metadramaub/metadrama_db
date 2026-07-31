@@ -96,7 +96,9 @@ que concretan la realización observada.
 
 ## Registrador
 
-- **Copla de arte mayor**: elegir uno de los tres esquemas.
+- **Copla de arte mayor**: elegir uno de los tres esquemas **en cada copla**. Los tres
+  alternan de estrofa en estrofa; si toda la tirada usa el mismo, la respuesta se aplica a
+  todas.
 - **Copla de pie quebrado**: indicar la extensión de cada unidad, entre 5 y 12 versos, y
   señalar qué versos son quebrados y con qué medida, entre 4 y 7 sílabas. El resto son
   octosílabos y debe quedar al menos uno.
@@ -146,7 +148,8 @@ los versos cortos en las formas de pie quebrado.
    segunda mitad dependen de la primera. Hoy lo afirma el editor al elegir arquitectura.
    ¿Debe seguir siendo así o hay un criterio observable que lo decida?
 4. ¿Debe registrarse el esquema exacto de las dobles sextillas no manriqueñas?
-5. ¿Los tres esquemas de copla de arte mayor son un repertorio cerrado?
+5. ¿Los tres esquemas de copla de arte mayor son un repertorio cerrado? Que alternen entre
+   coplas de una misma tirada ya está resuelto: la pregunta es por unidad.
 6. ¿Los quebrados de la copla real pueden ocupar cualquiera de sus diez posiciones, y solo
    tetrasílabos o también pentasílabos?
 7. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el corpus?

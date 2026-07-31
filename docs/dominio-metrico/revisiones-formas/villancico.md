@@ -72,8 +72,8 @@ partir de la mudanza y el enlace o vuelta.
 
 | secuencia_id | unidad_id | grupo_eleccion_id | opcion_eleccion_id |
 | --- | --- | --- | --- |
-| `SEC-VIL-1` | `NULL` | `medidas_realizadas` | `hexasilabo` |
-| `SEC-VIL-1` | `NULL` | `medidas_realizadas` | `octosilabo` |
+| `SEC-VIL-1` | `CAB-1` | `medida_cabeza` | `hexasilabo` |
+| `SEC-VIL-1` | `MUD-1` | `medida_mudanza` | `octosilabo` |
 | `SEC-VIL-1` | `MUD-1` | `rima_mudanza` | `abab` |
 | `SEC-VIL-1` | `CIC-1` | `represa_estribillo` | `parcial` |
 
@@ -115,10 +115,19 @@ aparte de las posibilidades del catálogo produce una desviación.
 El editor pregunta primero dónde aparece por primera vez el estribillo mediante las dos
 configuraciones. Después muestra solo:
 
-1. las medidas presentes;
-2. el patrón de cada mudanza;
+1. la medida de cada sección;
+2. el esquema de cada mudanza;
 3. el enlace o vuelta, solo si se añade;
 4. el modo de cada represa.
+
+**La medida se pregunta por sección, no por secuencia.** Lo habitual es que un villancico
+sea isosilábico, pero puede combinar medidas —una cabeza hexasílaba con coplas
+octosílabas—, y afirmarlo en bloque registraría que hay seises y ochos sin decir dónde. Que
+el editor pueda declarar de una vez que toda la composición usa una sola medida es un atajo
+de interfaz, no una afirmación del modelo.
+
+Se ofrecen 6 y 8 porque son las medidas típicas. Otra distinta se registra como desviación,
+que es el mecanismo previsto para lo que la norma no contempla.
 
 El demarcador puede usar la presencia y posición del estribillo, la mudanza y el enlace o
 vuelta sin exigir que el usuario conozca toda la terminología técnica.

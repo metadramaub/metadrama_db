@@ -7,27 +7,21 @@ ficha de cada revisión.
 
 ## Los defectos del informe que esperan una decisión
 
-El [informe de conformidad](../informe-conformidad-catalogo.md) señala **4 defectos**. Ni
-uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
-que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
-corregidos.
+El [informe de conformidad](../informe-conformidad-catalogo.md) **no señala ningún
+defecto**. Todos los que dependían de una decisión de modelado están resueltos y aplicados;
+lo que queda en este archivo son precisiones filológicas que el catálogo puede esperar sin
+quedar mal formado.
 
-Esta es la correspondencia entre cada defecto y la decisión que lo desbloquea. Las
-preguntas están desarrolladas en el apartado de cada forma, más abajo.
+Las últimas en cerrarse fueron las cuatro preguntas con alcance de secuencia. Eran el mismo
+malentendido de nivel visto cuatro veces: una pregunta con alcance de secuencia se responde
+una vez para todo el pasaje, es decir, afirma que el hecho **no varía**; y lo que no varía y
+además es estructural —metro o rima— no se pregunta, lo declara la arquitectura. El alcance
+de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estructura.
 
-| Defecto | Cuántos | Qué hay que decidir |
-| --- | ---: | --- |
-| D12 · preguntas con alcance de secuencia | 4 | Si los tres esquemas de la copla de arte mayor pueden alternar entre coplas de una misma tirada; si un villancico o un zéjel pueden combinar hexasílabos y octosílabos y, de poder, en qué secciones. |
-
-Los cuatro son el mismo malentendido de nivel: una pregunta con alcance de secuencia se
-responde una vez para todo el pasaje, es decir, afirma que el hecho **no varía**. Y lo que no
-varía y además es estructural —metro o rima— no se pregunta: lo declara la arquitectura. El
-alcance de secuencia está reservado a los rasgos, que describen el pasaje sin cambiar su
-estructura. Cualquiera de las dos respuestas cierra el defecto; lo que no puede sostenerse es
-la posición actual, que afirma la constancia y a la vez la pregunta.
-
-Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
-bloquean es la comparación entre formas, que es para lo que existe el informe.
+- El villancico y el zéjel preguntan ahora la medida **de cada sección**, porque pueden
+  combinarlas; 6 y 8 son las registradas por típicas y otra se anota como desviación.
+- La copla de arte mayor elige su esquema **en cada copla**, como la quintilla o el soneto:
+  los tres alternan de estrofa en estrofa.
 
 ## Quintilla
 
@@ -106,6 +100,9 @@ Véase [villancico.md](./villancico.md).
 2. ¿El enlace o vuelta puede tener cualquier extensión desde un verso?
 3. ¿`abba` y `abab` son esquemas cerrados o solo habituales?
 
+Resuelto en el modelo: la medida se pregunta por sección, no por secuencia, porque un
+villancico puede combinar medidas aunque lo habitual sea que no lo haga.
+
 Resuelto en el modelo: la ausencia de cabeza no se trata como omisión. Si el estribillo
 aparece por primera vez después de la primera copla, se selecciona una arquitectura
 propia; las apariciones posteriores se registran como represas y la implícita no crea
@@ -118,7 +115,9 @@ Véase [zejel.md](./zejel.md).
 
 1. ¿Se admiten estribillos de uno y de dos versos o el zéjel estricto exige dístico?
 2. ¿Una represa parcial es posibilidad admitida o desviación?
-3. ¿Las medidas 6 y 8 forman un repertorio cerrado para el corpus?
+
+Resuelto en el modelo: 6 y 8 no son un repertorio cerrado sino las medidas típicas, y se
+preguntan por sección. Cualquier otra se registra como desviación.
 
 ## Copla real
 
