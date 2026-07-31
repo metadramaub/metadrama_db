@@ -131,7 +131,6 @@
 				destination.arquitectura_id
 			}`;
 		}
-		if (destination.familia_id) return 'Familia métrica';
 		if (destination.variedad_id) return 'Combinación de medida y rima';
 		if (destination.esquema_metrico_id) return 'Patrón métrico';
 		if (destination.esquema_rima_id) return 'Patrón de rima';

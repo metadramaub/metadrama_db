@@ -23,13 +23,17 @@ export type MetricChoiceDraft = {
 export type MetricUnitExtent = { minimum: number; maximum: number };
 
 /**
- * Dónde se materializa la unidad de una arquitectura y cuánto mide.
+ * Cómo materializa el editor la unidad de una arquitectura.
  *
- * `sectionId` es nulo cuando la unidad no es ninguna sección: la forma declara su
- * extensión y no describe partes internas. Cuando la arquitectura tiene una única
- * sección raíz, esa sección es el recipiente de la unidad y la unidad se ancla en ella.
+ * La unidad es siempre la realización que no cuelga de ninguna otra, y no realiza ninguna
+ * sección: las secciones describen su interior y se realizan dentro de ella.
  */
-export type MetricUnitAnchor = { sectionId: string | null; extent: MetricUnitExtent };
+export type MetricUnitPlan = {
+	/** Extensión declarada por la arquitectura; nula cuando no la declara. */
+	extent: MetricUnitExtent | null;
+	/** La extensión es fija, así que cuántas unidades hay se deriva del rango. */
+	countFromRange: boolean;
+};
 
 function numeric(value: unknown, fallback: number): number {
 	const parsed = Number(value);
@@ -73,10 +77,6 @@ export function sectionHasFixedLength(section: MetricCatalogDomainRow): boolean 
 	return maximum !== null && maximum === sectionVerseMinimum(section);
 }
 
-export function isHierarchicalMetricStructure(sections: MetricCatalogDomainRow[]): boolean {
-	return sections.some((section) => Boolean(section.seccion_padre_id));
-}
-
 /** La extensión declarada por la arquitectura, si la declara. */
 export function metricUnitExtent(
 	configuration:
@@ -93,37 +93,41 @@ export function metricUnitExtent(
 }
 
 /**
- * La unidad del pasaje. Sustituye a las tres detecciones que la derivaban de las
- * secciones raíz: cuántas unidades contiene la secuencia se deduce del rango y de la
- * extensión declarada, no de una sección que existiera para decir que la unidad se repite.
+ * Cómo se materializa la unidad de una arquitectura. Es la única detección: cuántas
+ * unidades contiene la secuencia se deduce del rango y de la extensión declarada, nunca de
+ * una sección que exista para decir que la unidad se repite.
  *
- * Devuelve nulo cuando la arquitectura no declara su unidad —las series— o cuando tiene
- * varias secciones raíz y la unidad no se materializa en una sola realización.
+ * Devuelve nulo cuando el editor no materializa unidades: en una serie la secuencia
+ * contiene una sola unidad de extensión libre, y una arquitectura que no declara su unidad
+ * ni describe sus partes no tiene nada que materializar.
  */
-export function metricUnitAnchor(
-	extent: MetricUnitExtent | null,
-	sections: MetricCatalogDomainRow[]
-): MetricUnitAnchor | null {
-	if (!extent) return null;
-	const roots = rootSections(sections);
-	if (roots.length > 1) return null;
-	return { sectionId: roots.length === 1 ? sectionId(roots[0]) : null, extent };
+export function metricUnitPlan(
+	configuration:
+		| { unidad_versos_min: number | null; unidad_versos_max: number | null }
+		| null
+		| undefined,
+	sections: MetricCatalogDomainRow[],
+	structuralLevel: string | null | undefined
+): MetricUnitPlan | null {
+	if (structuralLevel === 'serie' || structuralLevel === 'verso') return null;
+	const extent = metricUnitExtent(configuration);
+	if (!extent && sections.length === 0) return null;
+	return { extent, countFromRange: extent !== null && extent.minimum === extent.maximum };
 }
 
-export function hasFixedMetricUnit(anchor: MetricUnitAnchor | null): boolean {
-	if (!anchor) return false;
-	return anchor.extent.minimum === anchor.extent.maximum;
+function isMetricUnit(unit: MetricUnitDraft): boolean {
+	return unit.realizacion_padre_id === null && unit.seccion_id === null;
 }
 
-function isUnitOf(unit: MetricUnitDraft, anchor: MetricUnitAnchor): boolean {
-	return unit.realizacion_padre_id === null && unit.seccion_id === anchor.sectionId;
-}
-
+/**
+ * Las partes de una sección. Las partes de la unidad —cuya realización no realiza ninguna
+ * sección— son las secciones raíz de la arquitectura.
+ */
 export function childrenOfSection(
 	sections: MetricCatalogDomainRow[],
 	parentSectionId: string | null
 ): MetricCatalogDomainRow[] {
-	if (parentSectionId === null) return [];
+	if (parentSectionId === null) return rootSections(sections);
 	return sections
 		.filter((section) => sectionParentId(section) === parentSectionId)
 		.sort(
@@ -215,26 +219,25 @@ export function addSectionInstance(
 	return appendUnit(units, sections, section, parentUnitId, sequenceStart, 1, choices, options);
 }
 
-/** Añade una realización de la unidad que define la forma. */
+/**
+ * Añade una realización de la unidad que define la forma, con las secciones que su
+ * interior exige.
+ */
 export function addMetricUnit(
 	units: MetricUnitDraft[],
 	sections: MetricCatalogDomainRow[],
-	anchor: MetricUnitAnchor,
+	extent: MetricUnitExtent | null,
 	sequenceStart: number,
 	choices: MetricChoiceDraft[] = [],
 	options: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
-	const section = anchor.sectionId
-		? (sections.find((row) => sectionId(row) === anchor.sectionId) ?? null)
-		: null;
-	if (anchor.sectionId && !section) return units;
 	return appendUnit(
 		units,
 		sections,
-		section,
+		null,
 		null,
 		sequenceStart,
-		anchor.extent.minimum,
+		extent?.minimum ?? 1,
 		choices,
 		options
 	);
@@ -247,25 +250,25 @@ export function addMetricUnit(
 export function syncRepeatedMetricUnits(
 	units: MetricUnitDraft[],
 	sections: MetricCatalogDomainRow[],
-	anchor: MetricUnitAnchor | null,
+	extent: MetricUnitExtent | null,
 	sequenceStart: number,
 	sequenceEnd: number,
 	choices: MetricChoiceDraft[] = [],
 	options: MetricCatalogDomainRow[] = []
 ): { units: MetricUnitDraft[]; removedUnitIds: string[]; compatible: boolean } {
-	if (!anchor || !hasFixedMetricUnit(anchor)) {
+	if (!extent || extent.minimum !== extent.maximum) {
 		return { units, removedUnitIds: [], compatible: false };
 	}
 
-	const unitExtent = anchor.extent.minimum;
+	const unitExtent = extent.minimum;
 	const sequenceLength = Math.max(0, sequenceEnd - sequenceStart + 1);
 	if (sequenceLength < unitExtent || sequenceLength % unitExtent !== 0) {
 		return { units, removedUnitIds: [], compatible: false };
 	}
 
 	const desiredCount = sequenceLength / unitExtent;
-	const anchoredUnits = units
-		.filter((unit) => isUnitOf(unit, anchor))
+	const existingUnits = units
+		.filter(isMetricUnit)
 		.sort(
 			(a, b) =>
 				a.orden - b.orden ||
@@ -274,7 +277,7 @@ export function syncRepeatedMetricUnits(
 		);
 
 	let next = [...units];
-	const removedUnitIds = anchoredUnits
+	const removedUnitIds = existingUnits
 		.slice(desiredCount)
 		.flatMap((unit) => [...unitIdsInTree(next, unit.realizacion_prueba_id)]);
 	if (removedUnitIds.length > 0) {
@@ -282,8 +285,8 @@ export function syncRepeatedMetricUnits(
 		next = next.filter((unit) => !removed.has(unit.realizacion_prueba_id));
 	}
 
-	for (let index = anchoredUnits.length; index < desiredCount; index += 1) {
-		next = addMetricUnit(next, sections, anchor, sequenceStart, choices, options);
+	for (let index = existingUnits.length; index < desiredCount; index += 1) {
+		next = addMetricUnit(next, sections, extent, sequenceStart, choices, options);
 	}
 
 	return {
@@ -300,49 +303,18 @@ export function syncRepeatedMetricUnits(
 export function ensureRequiredMetricUnits(
 	units: MetricUnitDraft[],
 	sections: MetricCatalogDomainRow[],
-	anchor: MetricUnitAnchor | null,
+	extent: MetricUnitExtent | null,
 	sequenceStart: number,
 	choices: MetricChoiceDraft[] = [],
 	options: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
-	if (!anchor) return units;
-
 	let next = [...units];
-	if (!next.some((unit) => isUnitOf(unit, anchor))) {
-		next = addMetricUnit(next, sections, anchor, sequenceStart, choices, options);
-	}
-	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
-}
-
-export function ensureRequiredMetricStructure(
-	units: MetricUnitDraft[],
-	sections: MetricCatalogDomainRow[],
-	sequenceStart: number,
-	choices: MetricChoiceDraft[] = [],
-	options: MetricCatalogDomainRow[] = []
-): MetricUnitDraft[] {
-	if (!isHierarchicalMetricStructure(sections)) return units;
-
-	let next = [...units];
-	for (const root of rootSections(sections)) {
-		const existing = next.filter(
-			(unit) => unit.realizacion_padre_id === null && unit.seccion_id === sectionId(root)
-		).length;
-		for (let index = existing; index < sectionMinimum(root); index += 1) {
-			next = addSectionInstance(
-				next,
-				sections,
-				sectionId(root),
-				null,
-				sequenceStart,
-				choices,
-				options
-			);
-		}
+	if (!next.some(isMetricUnit)) {
+		next = addMetricUnit(next, sections, extent, sequenceStart, choices, options);
 	}
 
-	const parentSnapshot = [...next];
-	for (const parent of parentSnapshot) {
+	// Cada unidad ya materializada debe contener las secciones que su interior exige.
+	for (const parent of [...next]) {
 		for (const childSection of childrenOfSection(sections, parent.seccion_id)) {
 			const existing = next.filter(
 				(unit) =>

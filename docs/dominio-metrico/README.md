@@ -137,10 +137,12 @@ rasgos y valores controlados; elecciones; y fuentes con sus afirmaciones. La mat
 119 entradas se conserva como trazabilidad de importación: sus pendientes no bloquean la
 validación ni el demarcador.
 
-La ontología quedó revisada desde la base el 30 de julio de 2026. Los nombres definitivos
-están en [la ontología](./ontologia-metrica.md); la base todavía usa los anteriores y la
-migración de renombrado está pendiente, igual que la unificación del metro, la población
-de tradiciones y la retirada de las familias.
+La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración
+estructural se completó el 31: la base habla ya los nombres definitivos de
+[la ontología](./ontologia-metrica.md), el metro es una entidad del dominio, la unidad se
+declara y las familias han desaparecido. Queda por poblar las tradiciones desde
+`tipo_forma` y por corregir los defectos de datos del
+[informe de conformidad](./informe-conformidad-catalogo.md).
 
 Las declaraciones reales de las secuencias no se han migrado ni se consultan
 desde el nuevo catálogo; ese cambio queda expresamente aplazado hasta que el

@@ -19,28 +19,6 @@ type ResourceDefinition = {
 };
 
 const resources: Record<MetricCatalogResource, ResourceDefinition> = {
-	families: {
-		table: 'familias_metricas',
-		keys: ['familia_id'],
-		fields: [
-			'slug',
-			'nombre',
-			'descripcion',
-			'familia_padre_id',
-			'estado_revision',
-			'activo',
-			'orden'
-		],
-		booleanFields: ['activo'],
-		numberFields: ['orden']
-	},
-	familyForms: {
-		table: 'familias_formas',
-		keys: ['familia_id', 'forma_id'],
-		fields: ['es_principal', 'orden', 'nota'],
-		booleanFields: ['es_principal'],
-		numberFields: ['orden']
-	},
 	traditions: {
 		table: 'tradiciones_metricas',
 		keys: ['tradicion_id'],
@@ -60,9 +38,8 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 	},
 	formTraditions: {
 		table: 'formas_tradiciones',
-		keys: ['forma_id', 'tradicion_id', 'tipo_relacion'],
-		fields: ['es_principal', 'cronologia', 'nota'],
-		booleanFields: ['es_principal']
+		keys: ['forma_id', 'tradicion_id'],
+		fields: ['cronologia', 'nota']
 	},
 	aliases: {
 		table: 'denominaciones_metricas',
@@ -434,7 +411,6 @@ function normalizeValues(
 	if (resource === 'sourceClaims' && 'destino' in output) {
 		const targetFields = [
 			'forma_id',
-			'familia_id',
 			'tradicion_id',
 			'arquitectura_id',
 			'esquema_metrico_id',

@@ -1,6 +1,6 @@
 # Contrato de implementación del dominio métrico
 
-Estado: vigente · bloques A, B y C aplicados el 30 de julio de 2026
+Estado: **migración estructural completa** · bloques A, B y C aplicados el 30 de julio de 2026; la unidad envolvente y el bloque D, el 31
 
 Contrasta [la ontología](./ontologia-metrica.md) con lo que la base y el código expresan
 hoy, concepto a concepto, y fija qué hay que cambiar antes de corregir ningún dato. El
@@ -18,7 +18,7 @@ Comprobado antes de planificar nada:
   de visualización y el demarcador legado basado en JSON. Renombrar tablas del catálogo no
   puede romper la versión desplegada.
 - **Existe una barrera de versión.** `catalogo_metrico_estado.modelo_version` valía `42`
-  antes de empezar y vale `45` tras el bloque C, y
+  antes de empezar y vale `47` al terminar, y
   [catalogo-metrico.ts](../../src/lib/server/catalogo-metrico.ts) muestra «falta aplicar
   migraciones» si es menor. Protege la dirección «base sin migrar, código nuevo», pero
   **no la contraria**: código antiguo contra base migrada pasaría la comprobación y
@@ -99,17 +99,17 @@ Retirarla exigió, por tanto, más que borrar nueve filas:
 4. Sustituir en [editor-model.ts](../../src/lib/components/metrica/editor-v2/editor-model.ts)
    las tres funciones que detectaban la repetición del pasaje a partir de las secciones raíz
    —`flatRepeatedMetricSection`, `flatVariableRepeatedMetricSection` y
-   `hierarchicalRepeatedMetricSection`— por una sola, `metricUnitAnchor`, que la deriva del
-   rango y de la extensión declarada de la unidad.
+   `hierarchicalRepeatedMetricSection`— por una sola, hoy `metricUnitPlan`, que la deriva
+   del rango y de la extensión declarada de la unidad.
 
 Hicieron falta dos ajustes más, que el inventario previo no había anticipado:
 
 - `validar_estructura_secuencia_editor_metrico` comprobaba la repetición de las secciones
-  raíz contra la secuencia entera. Cuando la arquitectura declara su unidad, esa cuenta es
-  el número de unidades y lo gobierna el rango, así que la comprobación se limita ahora a
-  las arquitecturas sin unidad declarada. Sin ello, las formas cuya sección raíz declaraba
-  `1–1` —copla de arte mayor, doble sextilla, copla manriqueña, sextina— no habrían podido
-  registrar más de una unidad por secuencia.
+  raíz contra la secuencia entera, cuando lo que esa repetición declara es cuántas veces
+  aparece la sección dentro de cada unidad. Sin corregirlo, las formas cuya sección raíz
+  declaraba `1–1` —copla de arte mayor, doble sextilla, copla manriqueña, sextina— no
+  habrían podido registrar más de una unidad por secuencia. La unidad envolvente lo dejó en
+  su forma definitiva: cada sección se cuenta dentro de la realización que la contiene.
 - `guardar_secuencia_editor_metrico_prueba` emparejaba las preguntas por unidad con
   `grupo.seccion_id is null or grupo.seccion_id = unidad.seccion_id`, que con la sección
   nula habría aplicado la pregunta a cualquier realización, incluidas las partes internas.
@@ -118,6 +118,25 @@ Es el primer bloque que cambia comportamiento del editor y no solo representaci�
 efecto visible: las formas sin secciones —lira, octava real, terceto, sexta rima, pareado y
 las nueve que perdieron su sección fantasma— materializan por fin sus unidades, y la
 repetición del pasaje se deriva del rango en toda arquitectura que declare su unidad.
+
+**La unidad envolvente cerró lo que quedaba abierto.** El bloque C dejó dos maneras de
+expresar lo mismo: en unas arquitecturas la unidad era una sección raíz que contenía a las
+demás, y en otras no era ninguna sección. Las que tienen varias secciones raíz —soneto,
+villancico, zéjel, seguidilla compuesta— no podían por eso registrar más de una unidad por
+secuencia, y un pasaje de tres sonetos seguidos seguía sin poder delimitarse.
+
+Catorce secciones eran en realidad la unidad. Comprobado el 31 de julio de 2026: ninguna
+declaraba esquema métrico, esquema de rima ni arquitectura referenciada —solo una nota que
+explicaba de qué se compone la unidad, que es lo que la extensión declarada y las partes ya
+dicen—, y solo cinco grupos de elección colgaban de ellas, los de las dos coplas reales.
+Se disolvieron: sus partes son ahora las partes de la unidad, y esos cinco grupos preguntan
+por la unidad entera, que es lo que preguntaban.
+
+Queda una sola regla, sin excepciones: **la unidad es la realización que no cuelga de
+ninguna otra, y toda sección se realiza dentro de una unidad.** La restricción
+`(seccion_id is null) = (realizacion_padre_id is null)` la enuncia en la base, y
+`validar_estructura_secuencia_editor_metrico` cuenta cada sección dentro de la realización
+que la contiene, no dentro de la secuencia.
 
 ### 3.2 · El metro tiene dos representaciones
 
@@ -159,14 +178,16 @@ tramo irregular no puede registrar ni sus metros.
 fuera de esta migración**: pertenece a la capa de anotación, que se diseña junto con la de
 las secuencias reales. Se registra aquí para que no se pierda.
 
-### 3.5 · Detalles menores del mismo bloque
+### 3.5 · Detalles menores del mismo bloque · resueltos en el bloque D
 
-- `denominaciones_metricas` no admite apuntar a una variedad, y sus restricciones
-  conservan el nombre `forma_aliases_*` de antes del renombrado.
-- El tipo `posterior` no existe: «Cuarteta» está registrada como `equivalente`, lo que
-  afirma que así se las llamaba en el Siglo de Oro.
-- `formas_tradiciones` obliga a un `tipo_relacion` que el dato de origen no tiene, y su
-  `es_principal` protege una invariante vacía cuando la pertenencia es única.
+- `denominaciones_metricas` no admitía apuntar a una variedad, y sus restricciones
+  conservaban el nombre `forma_aliases_*` de antes del renombrado. Ya tiene `variedad_id`
+  entre sus destinos posibles.
+- El tipo `posterior` no existía: «Cuarteta» estaba registrada como `equivalente`, lo que
+  afirma que así se las llamaba en el Siglo de Oro. Ya está reclasificada.
+- `formas_tradiciones` obligaba a un `tipo_relacion` que el dato de origen no tiene, y su
+  `es_principal` protegía una invariante vacía cuando la pertenencia es única. Ambas
+  columnas desaparecieron y la clave primaria es ya `(forma_id, tradicion_id)`.
 
 ## 4 · Superficie de impacto
 
@@ -257,13 +278,28 @@ se materializa en una sola realización y no hay nada que la agrupe. Un pasaje d
 sonetos sigue sin poder registrarse; hacerlo posible pide una realización de la unidad que
 envuelva a las secciones raíz, y eso no entraba aquí.
 
-**D · Limpieza.** Familias fuera; `tipo_relacion` y `es_principal` fuera; tipo `posterior`
-y destino a variedad en las denominaciones; restricciones renombradas.
+**D · Limpieza. Aplicado.** Familias fuera; `tipo_relacion` y `es_principal` fuera; tipo
+`posterior` y destino a variedad en las denominaciones; restricciones renombradas.
+
+Las tres familias pobladas no aportaban ningún vínculo que `forma_relaciones` no exprese ya
+—`terceto_encadenado relacionada_con terceto`, `pareados_endecasilabos relacionada_con
+pareado`, `decima_espinela sucede_historicamente_a copla_real`, `decima_aumentada
+derivada_de decima_espinela`—, así que retirarlas no pierde información. Lo que colgaba de
+una familia —una afirmación bibliográfica y una traza de migración— pasa a colgar de la
+forma que la representaba.
+
+Ciento ochenta identificadores —restricciones, índices, políticas y disparadores— dejaron
+de nombrar configuraciones, patrones, combinaciones y unidades. Los nombres de las
+funciones no entraron: `regla_longitud_configuracion_metrica`,
+`marcar_configuracion_metrica_principal` y `validar_configuracion_forma_no_editorial`
+siguen diciendo «configuración», y renombrarlas obliga a recrear la vista de reglas de
+longitud y a tocar la ruta de API que las invoca.
 
 El bloque A fue el más ruidoso y el que menos riesgo tenía, porque no cambiaba significado.
 B y C sí lo cambian y cada uno debía dejar el informe de conformidad en un estado
 explicable: A y B no lo movieron, y C hizo desaparecer los nueve defectos D11 sin tocar
-ninguna otra regla.
+ninguna otra regla. La unidad envolvente y el bloque D tampoco lo movieron: 44 defectos
+antes y después, regla por regla.
 
 ## 6 · Lo que no entra
 

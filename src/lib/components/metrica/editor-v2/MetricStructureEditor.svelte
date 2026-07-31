@@ -18,8 +18,8 @@
 		syncChoiceMaterializedSections,
 		unitIdsInTree,
 		type MetricChoiceDraft,
-		type MetricUnitAnchor,
-		type MetricUnitDraft
+		type MetricUnitDraft,
+		type MetricUnitPlan
 	} from './editor-model';
 
 	const props = $props<{
@@ -29,8 +29,7 @@
 		options: MetricCatalogDomainRow[];
 		units: MetricUnitDraft[];
 		choices: MetricChoiceDraft[];
-		unitAnchor: MetricUnitAnchor | null;
-		unitCountIsDerived: boolean;
+		unitPlan: MetricUnitPlan | null;
 		onUnitsChange: (units: MetricUnitDraft[]) => void;
 		onChoicesChange: (choices: MetricChoiceDraft[]) => void;
 		onUnitsRemoved: (unitIds: string[]) => void;
@@ -38,16 +37,15 @@
 	}>();
 
 	/**
-	 * Los nodos de primer nivel son las realizaciones de la unidad. Cuando la unidad no es
-	 * ninguna sección —la forma declara su extensión y no describe partes internas— se
-	 * representa igual, con la sección nula.
+	 * El nodo de primer nivel es siempre la unidad, que no realiza ninguna sección. Las
+	 * secciones raíz son sus partes y se representan dentro de ella.
 	 */
 	const roots = $derived<(MetricCatalogDomainRow | null)[]>(
-		props.unitAnchor && props.unitAnchor.sectionId === null ? [null] : rootSections(props.sections)
+		props.unitPlan ? [null] : rootSections(props.sections)
 	);
 
 	/** La unidad entera, cuando el nodo no realiza ninguna sección. */
-	const unitExtent = $derived(props.unitAnchor?.extent ?? null);
+	const unitExtent = $derived(props.unitPlan?.extent ?? null);
 
 	function nodeSectionId(section: MetricCatalogDomainRow | null): string | null {
 		return section ? sectionId(section) : null;
@@ -58,11 +56,7 @@
 	}
 
 	function isUnitNode(section: MetricCatalogDomainRow | null, parentUnitId: string | null): boolean {
-		return (
-			parentUnitId === null &&
-			props.unitAnchor !== null &&
-			nodeSectionId(section) === props.unitAnchor.sectionId
-		);
+		return parentUnitId === null && section === null && props.unitPlan !== null;
 	}
 
 	function nodeVerseMinimum(section: MetricCatalogDomainRow | null): number {
@@ -155,12 +149,12 @@
 
 	function addInstance(targetSectionId: string | null, parentUnitId: string | null) {
 		if (targetSectionId === null) {
-			if (!props.unitAnchor) return;
+			if (!props.unitPlan) return;
 			commitUnits(
 				addMetricUnit(
 					props.units,
 					props.sections,
-					props.unitAnchor,
+					props.unitPlan.extent,
 					props.sequenceStart,
 					props.choices,
 					props.options
@@ -411,7 +405,7 @@
 
 	function canAdd(section: MetricCatalogDomainRow | null, parentUnitId: string | null): boolean {
 		// Cuántas unidades contiene el pasaje se deriva del rango: no se añaden a mano.
-		if (isUnitNode(section, parentUnitId)) return !props.unitCountIsDerived;
+		if (isUnitNode(section, parentUnitId)) return !(props.unitPlan?.countFromRange ?? false);
 		if (!section) return false;
 		const maximum = sectionMaximum(section);
 		return maximum === null || instances(section, parentUnitId).length < maximum;
@@ -422,7 +416,7 @@
 		parentUnitId: string | null
 	): boolean {
 		if (isUnitNode(section, parentUnitId)) {
-			return !props.unitCountIsDerived && instances(section, parentUnitId).length > 1;
+			return !(props.unitPlan?.countFromRange ?? false) && instances(section, parentUnitId).length > 1;
 		}
 		if (!section) return false;
 		return instances(section, parentUnitId).length > sectionMinimum(section);

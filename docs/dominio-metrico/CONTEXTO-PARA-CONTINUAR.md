@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 30 de julio de 2026
+Actualizado: 31 de julio de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
 enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
@@ -11,13 +11,16 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `45`.
-- La última migración es `20260730200000_unidad_explicita.sql` y está aplicada.
+- La versión requerida del modelo es `47`.
+- La última migración es `20260731120000_nombres_restantes.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
   sección existe ya para decir que la unidad se repite: cuántas unidades contiene el pasaje
-  se deriva del rango.
+  se deriva del rango. La unidad es la realización que no cuelga de ninguna otra y no
+  realiza ninguna sección; las secciones describen su interior. No existen familias, la
+  pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
+  variedad y declararse posteriores.
 - `/dashboard/metrica` es el gestor permanente del catálogo y contiene también el editor
   V2 de prueba y la compilación del demarcador.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
@@ -134,12 +137,13 @@ estas últimas son el material de las decisiones pendientes del IP, no errores.
 La ontología quedó revisada desde la base el 30 de julio de 2026. Queda por llevar esas
 decisiones a la implementación:
 
-1. Migración estructural, en los cuatro bloques del
-   [contrato de implementación](./contrato-implementacion.md). **Los bloques A
-   —renombrados—, B —metro unificado— y C —unidad explícita— están aplicados.** Queda el
-   bloque D: limpieza.
-2. Migración de datos: poblar tradiciones desde `tipo_forma`, retirar familias, borrar
-   `patron_acentual`, `tipo_relacion` y `es_principal`.
+1. Migración estructural: **completa**. Los cuatro bloques del
+   [contrato de implementación](./contrato-implementacion.md) —renombrados, metro
+   unificado, unidad explícita y limpieza— están aplicados, junto con la unidad envolvente
+   que cerró el tercero.
+2. Migración de datos: poblar las tradiciones desde `tipo_forma`. Es lo único que queda de
+   este apartado: `patron_acentual` se retiró en el bloque B, y las familias,
+   `tipo_relacion` y `es_principal` en el D.
 3. Corregir los defectos del [informe de conformidad](./informe-conformidad-catalogo.md)
    y resolver las decisiones abiertas de los criterios de nivel con el IP.
 4. Crear la capa de desviaciones sobre las secuencias reales.

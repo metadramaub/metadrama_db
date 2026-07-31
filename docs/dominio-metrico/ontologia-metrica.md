@@ -1,6 +1,6 @@
 # La ontología métrica de METADRAMA
 
-Estado: vigente · 30 de julio de 2026
+Estado: vigente · 31 de julio de 2026
 
 Este es el documento que explica **qué entidades componen el dominio métrico, qué
 pregunta responde cada una y por qué existe**. Es la lectura previa a todo lo demás: los
@@ -8,10 +8,10 @@ pregunta responde cada una y por qué existe**. Es la lectura previa a todo lo d
 [arquitectura técnica](./arquitectura-dominio-metrica.md) describe cómo se implementa y
 las [fichas de revisión](./revisiones-formas/) documentan qué se decidió para cada forma.
 
-> **Estado de la implementación.** La base habla ya este vocabulario: los bloques A, B y C
-> de la migración estructural se aplicaron el 30 de julio de 2026. La unidad se declara y
-> las secciones describen solo el interior de la unidad. Lo que queda por implementar está
-> marcado en el apartado 11 y detallado en el
+> **Estado de la implementación.** La migración estructural está completa: sus cuatro
+> bloques se aplicaron entre el 30 y el 31 de julio de 2026. La base habla este
+> vocabulario, la unidad se declara y las secciones describen solo su interior. Lo que
+> queda es corrección de datos, detallada en el
 > [contrato de implementación](./contrato-implementacion.md).
 
 ## 1 · Qué problema resuelve
@@ -233,9 +233,11 @@ Una parte **del interior de la unidad**, con extensión y repetición propias: l
 las mudanzas del villancico, los cuartetos y tercetos del soneto, las estancias de la
 canción, los tercetos dentro de la serie encadenada.
 
-Una sección no existe nunca para decir que la unidad se repite. La redondilla es una
-estrofa: su arquitectura ya declara que la unidad tiene cuatro versos, y que un pasaje sea
-una serie de redondillas se deriva del rango, sin necesidad de una sección «redondilla».
+Una sección no existe nunca para decir que la unidad se repite, ni para ser la unidad. La
+redondilla es una estrofa: su arquitectura ya declara que la unidad tiene cuatro versos, y
+que un pasaje sea una serie de redondillas se deriva del rango, sin necesidad de una
+sección «redondilla». Tampoco la copla real necesita una sección «copla real» que contenga
+a sus dos quintillas: la unidad las contiene.
 
 Una sección puede **reutilizar la arquitectura de otra forma** en lugar de copiarla: las
 secciones de la novena reutilizan las de la redondilla y la quintilla, y heredan sus
@@ -511,11 +513,11 @@ usa aquí con esos sentidos.
 | Variedad | `variedades_arquitectura` | — |
 | Metro | `metros` · `metro_segmentos` | — |
 | Sección | `estructuras_secciones` | — |
-| Realización de sección | `realizaciones_editor_metrico` | — |
+| Realización de la unidad y de sus secciones | `realizaciones_editor_metrico` | — |
 | Repetición | `repeticiones_metricas` | — |
 | Rasgo | `rasgos_metricos` · `arquitectura_rasgos` | poblar con las propiedades cualitativas hoy en restricciones |
 | Elección | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` | — |
-| Denominación | `denominaciones_metricas` | añadir el tipo `posterior`, el destino a variedad y reclasificar «Cuarteta» (bloque D) |
-| Tradición | `tradiciones_metricas` · `formas_tradiciones` | quitar `tipo_relacion` y `es_principal` (bloque D); poblar después |
+| Denominación | `denominaciones_metricas` | — |
+| Tradición | `tradiciones_metricas` · `formas_tradiciones` | poblar desde `tipo_forma` |
 | Relación | `forma_relaciones` | — |
 | Niveles estructurales | `formas_metricas.nivel_estructural` | — |
