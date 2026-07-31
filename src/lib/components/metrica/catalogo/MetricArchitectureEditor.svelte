@@ -3,13 +3,13 @@
 	import { untrack } from 'svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
-		METRIC_CONFIGURATION_GRADES,
+		METRIC_ARCHITECTURE_GRADES,
 		metricReviewStateLabel,
 		type MetricCatalogConfiguration,
 		type MetricCatalogOption
 	} from '$lib/metrica/catalogo';
 	import { pushToast } from '$lib/stores/toast';
-	import MetricConfigurationNormEditor from './MetricConfigurationNormEditor.svelte';
+	import MetricArchitectureNormEditor from './MetricArchitectureNormEditor.svelte';
 
 	const props = $props<{
 		configuration: MetricCatalogConfiguration;
@@ -84,14 +84,14 @@
 				throw new Error(
 					payload.message ??
 						payload.details?.[0]?.message ??
-						'No se pudo guardar la configuración.'
+						'No se pudo guardar la arquitectura.'
 				);
 			}
-			pushToast('success', `Configuración «${draft.nombre}» guardada.`);
+			pushToast('success', `Arquitectura «${draft.nombre}» guardada.`);
 			await invalidateAll();
 		} catch (error) {
 			errorMessage =
-				error instanceof Error ? error.message : 'No se pudo guardar la configuración.';
+				error instanceof Error ? error.message : 'No se pudo guardar la arquitectura.';
 		} finally {
 			saving = false;
 		}
@@ -128,7 +128,7 @@
 					bind:value={draft.slug}
 				/>
 				<span class="block text-xs leading-5 text-[color:var(--muted-foreground)]">
-					Identifica esta configuración dentro de la forma. No indica si es prototípica.
+					Identifica esta arquitectura dentro de la forma. No indica si es prototípica.
 				</span>
 			</label>
 		</div>
@@ -146,7 +146,7 @@
 			<div>
 				<h4 class="font-medium">Norma básica</h4>
 				<p class="mt-1 text-xs leading-5 text-[color:var(--muted-foreground)]">
-					Primero define la arquitectura general; después concreta sus patrones.
+					Primero define la arquitectura general; después concreta sus esquemas.
 				</p>
 			</div>
 			<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -207,16 +207,16 @@
 
 		<div class="grid gap-3 border-y border-[color:var(--border)] py-3 text-sm sm:grid-cols-2">
 			<p>
-				<span class="text-[color:var(--muted-foreground)]">Patrones métricos:</span>
+				<span class="text-[color:var(--muted-foreground)]">Esquemas métricos:</span>
 				{metricPatternCount}
 			</p>
 			<p>
-				<span class="text-[color:var(--muted-foreground)]">Patrones de rima:</span>
+				<span class="text-[color:var(--muted-foreground)]">Esquemas de rima:</span>
 				{rhymePatternCount}
 			</p>
 		</div>
 
-		<MetricConfigurationNormEditor
+		<MetricArchitectureNormEditor
 			configurationId={draft.arquitectura_id}
 			formLevel={props.formLevel}
 			domain={props.domain}
@@ -233,7 +233,7 @@
 						class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 						bind:value={draft.grado}
 					>
-						{#each METRIC_CONFIGURATION_GRADES as grade}
+						{#each METRIC_ARCHITECTURE_GRADES as grade}
 							<option value={grade}>{grade.replaceAll('_', ' ')}</option>
 						{/each}
 					</select>
@@ -253,7 +253,7 @@
 			<div class="flex flex-wrap gap-x-6 gap-y-3 text-sm">
 				<label class="inline-flex items-center gap-2">
 					<input type="checkbox" bind:checked={draft.principal} />
-					Configuración prototípica (opcional)
+					Arquitectura prototípica (opcional)
 				</label>
 				<label class="inline-flex items-center gap-2">
 					<input type="checkbox" bind:checked={draft.demarcable} />
@@ -277,7 +277,7 @@
 				disabled={!changed || saving}
 				onclick={save}
 			>
-				{saving ? 'Guardando…' : 'Guardar configuración'}
+				{saving ? 'Guardando…' : 'Guardar arquitectura'}
 			</button>
 		</div>
 	</div>

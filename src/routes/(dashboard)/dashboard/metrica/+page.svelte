@@ -74,7 +74,7 @@
 
 	const tabs = [
 		{ id: 'guide', label: 'Guía del modelo' },
-		{ id: 'catalog', label: 'Formas y configuraciones' },
+		{ id: 'catalog', label: 'Formas y arquitecturas' },
 		{ id: 'organization', label: 'Organización' },
 		{ id: 'reference', label: 'Modelos, rasgos y fuentes' },
 		{ id: 'editor', label: 'Editor de prueba' },
@@ -271,7 +271,7 @@
 					Catálogo métrico
 				</h1>
 				<p class="mt-2 max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-					Gestiona las formas, sus configuraciones y las relaciones del nuevo dominio. Esta
+					Gestiona las formas, sus arquitecturas y las relaciones del nuevo dominio. Esta
 					sección es independiente de las formas que los editores están declarando actualmente
 					en las secuencias.
 				</p>
@@ -303,7 +303,7 @@
 				<p class="mt-1 text-2xl font-semibold">{data.stats.approvedForms}</p>
 			</div>
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-				<p class="text-xs text-[color:var(--muted-foreground)]">Configuraciones activas</p>
+				<p class="text-xs text-[color:var(--muted-foreground)]">Arquitecturas activas</p>
 				<p class="mt-1 text-2xl font-semibold">{data.stats.configurations}</p>
 			</div>
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
@@ -594,7 +594,7 @@
 						</p>
 						<p class="mt-2 text-3xl font-semibold">{demarcableConfigurations}</p>
 						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-							configuraciones activas y demarcables
+							arquitecturas activas y demarcables
 						</p>
 						<p class={`mt-4 text-sm font-medium ${demarcatorReady ? 'text-green-700' : 'text-amber-800'}`}>
 							{demarcatorReady
@@ -629,7 +629,7 @@
 							<p class="mt-3 text-xs leading-5 text-[color:var(--muted-foreground)]">
 								Versión {latestPreview.numero}, compilada desde la revisión
 								{latestPreview.catalogo_revision ?? 'sin identificar'} del catálogo:
-								{latestPreview.total_familias} formas o configuraciones candidatas.
+								{latestPreview.total_familias} formas o arquitecturas candidatas.
 							</p>
 							{#if !previewIsCurrent}
 								<p class="mt-2 text-sm leading-6 text-amber-800">

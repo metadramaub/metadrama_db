@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 07:36
+Generado: 2026-07-31 11:08
 
-Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 82 patrones de rima · 61 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
+Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 66 patrones de rima · 61 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -25,11 +25,11 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 | cancion_petrarquista · estancias_consonantes_variables | Esquema consonante repetido entre estancias · fijeza=libre |
 | sexteto · arte_mayor_consonante_variable | Distribución consonante variable · fijeza=libre |
 | sextilla · isometrica | Distribución variable · fijeza=libre |
-| sextilla · pie_quebrado_884884 | Distribución variable · fijeza=libre |
-| pareado · pareado_de_arte_menor | Patrón principal · fijeza=admitido |
-| pareado · pareado_hexasilabo | Patrón principal · fijeza=admitido |
-| pareado · pareado_octosilabo | Patrón principal · fijeza=admitido |
-| copla_de_pie_quebrado · variable_5_12 | Distribución variable · fijeza=libre |
+| sextilla · pie_quebrado | Distribución variable · fijeza=libre |
+| copla_de_pie_quebrado · octosilabica_con_quebrados | Distribución variable · fijeza=libre |
+| pareado · arte_menor | sin nombre · fijeza=admitido |
+| pareado · hexasilabico | sin nombre · fijeza=admitido |
+| pareado · octosilabico | sin nombre · fijeza=admitido |
 
 ### D2b · Configuración sin ninguna declaración de rima ni de repetición — 3
 
@@ -37,8 +37,8 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 
 | Sujeto | Detalle |
 | --- | --- |
-| terceto · endecasilabico_consonante | 0 sección(es), sin patrón de rima accesible |
 | pareado · principal | 0 sección(es), sin patrón de rima accesible |
+| terceto · endecasilabico_consonante | 0 sección(es), sin patrón de rima accesible |
 | terceto_encadenado · octosilabico | 0 sección(es), sin patrón de rima accesible |
 
 ### D3 · Patrón métrico sin posiciones ni opciones — 0
@@ -71,15 +71,13 @@ Sin incidencias.
 
 | Sujeto | Detalle |
 | --- | --- |
-| copla_de_pie_quebrado · variable_5_12 | posiciones_pies_quebrados repite el rasgo «pie_quebrado» (booleano) en 12 posiciones |
+| copla_de_pie_quebrado · octosilabica_con_quebrados | posiciones_pies_quebrados repite el rasgo «pie_quebrado» (booleano) en 12 posiciones |
 
-### D8 · Componente copiado en lugar de reutilizado — 1
+### D8 · Componente copiado en lugar de reutilizado — 0
 
 > Cuando una forma declara `compuesta_por` o `subtipo_de` otra, sus secciones reutilizan la configuración del componente mediante arquitectura_referenciada_id. Copiar sus patrones obliga a mantener el repertorio en varios sitios y rompe la comparación.
 
-| Sujeto | Detalle |
-| --- | --- |
-| quintilla / copla_real | 8 esquema(s) copiados: ababa, abbab, ababb, abbaa, aabba, aabab, abaab, abbba |
+Sin incidencias.
 
 ### D9 · Rasgo cualitativo almacenado como restricción de rima sin catalogar — 16
 
@@ -126,7 +124,7 @@ Sin incidencias.
 | villancico · estribillo_inicial | medidas_realizadas · dimensión metro · 2 opciones |
 | villancico · estribillo_tras_primera_copla | medidas_realizadas · dimensión metro · 2 opciones |
 | zejel · estribillo_y_coplas_monorrimas | medidas_realizadas · dimensión metro · 2 opciones |
-| copla_de_arte_mayor · ocho_dodecasilabos_compuestos | esquema_rima · dimensión rima · 3 opciones |
+| copla_de_arte_mayor · dodecasilabica_compuesta | esquema_rima · dimensión rima · 3 opciones |
 
 ## 2 · Homogeneidad de criterio
 
@@ -138,7 +136,7 @@ Sin incidencias.
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | secuencia |
 | copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 2 | unidad |
 | copla_manriqueña | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| copla_real | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | elección | 5 | unidad |
+| copla_real | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | elección, sin patrón | 5 | unidad |
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | decima_espinela | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | doble_sextilla | estrofa | 1 | sí | posiciones | cualitativa, patrón único | 0 | — |
@@ -193,7 +191,7 @@ Sin incidencias.
 | --- | ---: | --- |
 | composicion | 3 | villancico×2, zejel×1 |
 | estrofa | 32 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, copla_manriqueña×1, decima_aumentada×1, decima_espinela×1, doble_sextilla×1, lira×1, octava_real×1, quintilla×8, redondilla×3, seguidilla×2, sexta_rima×1, sexteto×1, sexteto_lira×3, sextilla×2 |
-| seccion | 27 | cancion_petrarquista×2, copla_real×16, soneto×5, villancico×4 |
+| seccion | 11 | cancion_petrarquista×2, soneto×5, villancico×4 |
 | serie | 17 | endecasilabo_suelto×5, pareados_endecasilabos×1, romance×4, silva×4, terceto_encadenado×1, tercetos_sin_encadenar×2 |
 | unidad | 3 | pareado×3 |
 
@@ -203,18 +201,18 @@ Sin incidencias.
 | --- | ---: | --- |
 | cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema |
 | sexteto · arte_mayor_consonante_variable | 1 | control abierto de esquema |
-| copla_de_pie_quebrado · variable_5_12 | 1 | patrón vacío, sin sustituto |
-| pareado · pareado_de_arte_menor | 1 | patrón vacío, sin sustituto |
-| pareado · pareado_hexasilabo | 1 | patrón vacío, sin sustituto |
-| pareado · pareado_octosilabo | 1 | patrón vacío, sin sustituto |
+| copla_de_pie_quebrado · octosilabica_con_quebrados | 1 | patrón vacío, sin sustituto |
+| pareado · arte_menor | 1 | patrón vacío, sin sustituto |
+| pareado · hexasilabico | 1 | patrón vacío, sin sustituto |
+| pareado · octosilabico | 1 | patrón vacío, sin sustituto |
 | sextilla · isometrica | 1 | patrón vacío, sin sustituto |
-| sextilla · pie_quebrado_884884 | 1 | patrón vacío, sin sustituto |
+| sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
+| endecasilabo_suelto · con_pareados_con_distico_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · con_pareados_sin_distico_final | 1 | restricciones cualitativas (1) |
-| endecasilabo_suelto · con_pareados_y_distico_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · encadenado_interior | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · puro_con_distico_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · puro_sin_distico_final | 1 | restricciones cualitativas (1) |
-| silva · consonantes_irregular | 1 | restricciones cualitativas (1) |
+| silva · consonante_irregular | 1 | restricciones cualitativas (1) |
 | silva · endecasilabica | 1 | restricciones cualitativas (1) |
 | silva · libre | 1 | restricciones cualitativas (1) |
 | villancico · estribillo_inicial | 1 | restricciones cualitativas (1) |
@@ -226,16 +224,8 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
-| aabab | copla_real×2, quintilla |
-| aabba | copla_real×2, quintilla |
-| abaab | copla_real×2, quintilla |
 | abab | redondilla, villancico×2 |
-| ababa | copla_real×2, quintilla |
-| ababb | copla_real×2, quintilla |
 | abba | redondilla, villancico×2 |
-| abbaa | copla_real×2, quintilla |
-| abbab | copla_real×2, quintilla |
-| abbba | copla_real×2, quintilla |
 
 ## 3 · Cobertura del contrato del registrador
 
@@ -243,5 +233,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 35.
+Total de defectos detectados: 34.
 

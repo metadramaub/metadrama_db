@@ -1531,6 +1531,7 @@ export type Database = {
           esquema_metrico_id: string
           estado_revision: string
           nombre: string | null
+          slug: string
           tipo: string
           updated_at: string
         }
@@ -1542,6 +1543,7 @@ export type Database = {
           esquema_metrico_id?: string
           estado_revision?: string
           nombre?: string | null
+          slug: string
           tipo: string
           updated_at?: string
         }
@@ -1553,6 +1555,7 @@ export type Database = {
           esquema_metrico_id?: string
           estado_revision?: string
           nombre?: string | null
+          slug?: string
           tipo?: string
           updated_at?: string
         }
@@ -1586,6 +1589,7 @@ export type Database = {
           nombre: string | null
           notacion: string | null
           origen_termino_id: string | null
+          slug: string
           tipo_rima_id: string | null
           updated_at: string
         }
@@ -1601,6 +1605,7 @@ export type Database = {
           nombre?: string | null
           notacion?: string | null
           origen_termino_id?: string | null
+          slug: string
           tipo_rima_id?: string | null
           updated_at?: string
         }
@@ -1616,6 +1621,7 @@ export type Database = {
           nombre?: string | null
           notacion?: string | null
           origen_termino_id?: string | null
+          slug?: string
           tipo_rima_id?: string | null
           updated_at?: string
         }

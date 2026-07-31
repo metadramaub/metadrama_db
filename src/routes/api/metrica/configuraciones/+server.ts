@@ -4,7 +4,7 @@ import type { RequestHandler } from './$types';
 import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
 import { canManageVocabularios } from '$lib/utils/permissions';
-import { METRIC_CATALOG_REVIEW_STATES, METRIC_CONFIGURATION_GRADES } from '$lib/metrica/catalogo';
+import { METRIC_CATALOG_REVIEW_STATES, METRIC_ARCHITECTURE_GRADES } from '$lib/metrica/catalogo';
 
 type UntypedSupabaseClient = {
 	from: (table: string) => any;
@@ -27,7 +27,7 @@ const fieldsSchema = z
 		descripcion: z.string().trim().max(30_000).nullable(),
 		principal: z.boolean(),
 		demarcable: z.boolean(),
-		grado: z.enum(METRIC_CONFIGURATION_GRADES),
+		grado: z.enum(METRIC_ARCHITECTURE_GRADES),
 		tipo_rima_id: z.uuid().nullable(),
 		unidad_versos_min: nullablePositiveInteger,
 		unidad_versos_max: nullablePositiveInteger,

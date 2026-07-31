@@ -11,8 +11,8 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `49`.
-- La última migración es `20260731170000_modelo_del_soneto.sql` y está aplicada.
+- La versión requerida del modelo es `50`.
+- La última migración es `20260731200000_nomenclatura_catalogo.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
@@ -20,7 +20,9 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   se deriva del rango. La unidad es la realización que no cuelga de ninguna otra y no
   realiza ninguna sección; las secciones describen su interior. No existen familias, la
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
-  variedad y declararse posteriores. Las veintiocho formas con clasificación previa tienen
+  variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
+  nombre y slug, registrada en
+  [la revisión de nomenclatura](./revision-nomenclatura.md). Las veintiocho formas con clasificación previa tienen
   ya su tradición; las cuatro restantes no la tienen porque no hay de dónde tomarla.
 - `/dashboard/metrica` es el gestor permanente del catálogo y contiene también el editor
   V2 de prueba y la compilación del demarcador.
@@ -146,7 +148,7 @@ decisiones a la implementación:
    `patron_acentual` se retiró en el bloque B, y las familias, `tipo_relacion` y
    `es_principal` en el D.
 3. Corregir los defectos del [informe de conformidad](./informe-conformidad-catalogo.md).
-   Quedan 35 y **ninguno se puede corregir sin una decisión del IP**: el triaje, defecto por
+   Quedan 34 y **ninguno se puede corregir sin una decisión del IP**: el triaje, defecto por
    defecto, está en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 4. Crear la capa de desviaciones sobre las secuencias reales.
 5. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de

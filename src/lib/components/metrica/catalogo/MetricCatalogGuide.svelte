@@ -2,17 +2,17 @@
 	const scopeRows = [
 		{
 			value: 'Estrofa',
-			meaning: 'El patrón se completa y vuelve a empezar en cada estrofa.',
+			meaning: 'El esquema se completa y vuelve a empezar en cada estrofa.',
 			example: 'Redondilla: abba.'
 		},
 		{
 			value: 'Serie',
-			meaning: 'El patrón gobierna una tirada no estrófica de extensión abierta.',
+			meaning: 'El esquema gobierna una tirada no estrófica de extensión abierta.',
 			example: 'Romance: -a-a-a…'
 		},
 		{
 			value: 'Sección',
-			meaning: 'El patrón solo corresponde a una parte interna de una forma compuesta.',
+			meaning: 'El esquema solo corresponde a una parte interna de una forma compuesta.',
 			example: 'La mudanza, la copla o la represa de un villancico.'
 		},
 		{
@@ -23,11 +23,11 @@
 	];
 
 	const rigidityRows = [
-		{ value: 'Fijo', meaning: 'La configuración exige ese patrón.' },
-		{ value: 'Preferente', meaning: 'Es el patrón prototípico, pero existen alternativas normales.' },
+		{ value: 'Fijo', meaning: 'La arquitectura exige ese esquema.' },
+		{ value: 'Preferente', meaning: 'Es el esquema prototípico, pero existen alternativas normales.' },
 		{ value: 'Admitido', meaning: 'Es una posibilidad documentada, no la norma dominante.' },
 		{ value: 'Libre', meaning: 'La forma exige rima, pero no una distribución fija de sus clases.' },
-		{ value: 'No aplicable', meaning: 'La configuración no se caracteriza mediante un patrón de rima.' }
+		{ value: 'No aplicable', meaning: 'La arquitectura no se caracteriza mediante un esquema de rima.' }
 	];
 
 	const fieldGroups = [
@@ -43,19 +43,19 @@
 		{
 			title: 'Posiciones métricas',
 			rows: [
-				['Alternativa', 'Separa dos secuencias completas posibles dentro del mismo patrón.'],
+				['Alternativa', 'Separa dos secuencias completas posibles dentro del mismo esquema.'],
 				['Posición', 'Lugar del verso dentro de la secuencia; aquí el orden sí es semántico.'],
 				['Medida o modelo', 'Número de sílabas o verso compuesto previamente formalizado.'],
-				['Opcional', 'La posición puede faltar sin que deje de cumplirse la configuración.'],
+				['Opcional', 'La posición puede faltar sin que deje de cumplirse la arquitectura.'],
 				['Grupo de repetición', 'Identifica el ciclo que vuelve a comenzar cuando la secuencia es repetible.']
 			]
 		},
 		{
-			title: 'Combinaciones de patrones',
+			title: 'Variedades',
 			rows: [
-				['Cuándo se usan', 'Cuando existen varios patrones métricos y de rima, pero no todas sus parejas están admitidas.'],
-				['Qué enlazan', 'Una combinación apunta a un patrón métrico y a un patrón de rima de la misma configuración.'],
-				['Qué no crean', 'No son formas ni configuraciones nuevas; son tipologías elegibles de una misma norma.'],
+				['Cuándo se usan', 'Cuando existen varios esquemas métricos y de rima, pero no todas sus parejas están admitidas.'],
+				['Qué enlazan', 'Una combinación apunta a un esquema métrico y a un esquema de rima de la misma arquitectura.'],
+				['Qué no crean', 'No son formas ni arquitecturas nuevas; son tipologías elegibles de una misma norma.'],
 				['Preferente', 'Marca la combinación prototípica cuando el proyecto reconoce una como habitual.']
 			]
 		},
@@ -66,7 +66,7 @@
 				['Posición', 'Verso concreto dentro del bloque.'],
 				['Ubicación', 'Rima al final o en el interior del verso.'],
 				['Clase de rima', 'Letra abstracta que enlaza posiciones; no son las vocales concretas de una asonancia.'],
-				['Verso suelto', 'Esa posición no participa en la rima final del patrón.'],
+				['Verso suelto', 'Esa posición no participa en la rima final del esquema.'],
 				['Desplazamiento de bloque', 'Permite enlazar una posición con el bloque anterior o siguiente.'],
 				['Obligatorio', 'El enlace forma parte de la norma, no de una realización ocasional.']
 			]
@@ -78,8 +78,8 @@
 				['Tipo y nombre', 'Función estructural controlada y denominación legible: cabeza, mudanza, enlace o vuelta, represa, remate…'],
 				['Repeticiones mínimas y máximas', 'Cuántas veces puede aparecer la sección; vacío significa que no se fija.'],
 				['Versos mínimos y máximos', 'Extensión propia de esa sección.'],
-				['Configuración reutilizada', 'Indica que la sección realiza otra forma ya formalizada y reutiliza sus posibilidades, por ejemplo una redondilla dentro de una novena.'],
-				['Patrón asociado', 'Metro o rima que solo gobierna esa sección.'],
+				['Arquitectura reutilizada', 'Indica que la sección realiza otra forma ya formalizada y reutiliza sus posibilidades, por ejemplo una redondilla dentro de una novena.'],
+				['Esquema asociado', 'Metro o rima que solo gobierna esa sección.'],
 				['Regla de repetición', 'Qué elemento reaparece y cómo: palabra final, verso, estribillo o sección.']
 			]
 		},
@@ -101,11 +101,11 @@
 				['Variante gráfica', 'Diferencia solo ortográfica.'],
 				['Nombre histórico', 'Denominación localizada en una época o fuente.'],
 				['Abreviatura', 'Forma abreviada del nombre.'],
-				['Rasgo definitorio', 'Debe cumplirse para esa configuración.'],
+				['Rasgo definitorio', 'Debe cumplirse para esa arquitectura.'],
 				['Rasgo habitual', 'Es frecuente, pero no obligatorio.'],
 				['Rasgo admitido', 'Está documentado como posibilidad.'],
 				['Rasgo destacable', 'Puede anotarse cuando resulta analíticamente relevante.'],
-				['Afirmación de fuente', 'Vincula una proposición bibliográfica concreta con la forma, configuración, patrón o rasgo que respalda.']
+				['Afirmación de fuente', 'Vincula una proposición bibliográfica concreta con la forma, arquitectura, esquema o rasgo que respalda.']
 			]
 		}
 	];
@@ -120,7 +120,7 @@
 		<p class="mt-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
 			El catálogo separa la identidad de una forma de sus realizaciones posibles. No hay que
 			rellenar todos los campos: solo se declara aquello que define, caracteriza o documenta una
-			configuración. En una secuencia concreta se eligen las alternativas admitidas que sean
+			arquitectura. En una secuencia concreta se eligen las alternativas admitidas que sean
 			analíticamente útiles; solo lo que queda fuera de ellas se registra como desviación.
 		</p>
 	</header>
@@ -128,8 +128,8 @@
 	<section class="grid gap-4 lg:grid-cols-4">
 		{#each [
 			['1', 'Forma', 'La identidad reconocible y seleccionable: romance, lira, soneto.'],
-			['2', 'Configuración', 'Una norma o alternativa interna que no necesita convertirse en otra forma.'],
-			['3', 'Patrones', 'Metro, rima, secciones y repeticiones que formalizan esa configuración.'],
+			['2', 'Arquitectura', 'Una norma o alternativa interna que no necesita convertirse en otra forma.'],
+			['3', 'Esquemas', 'Metro, rima, secciones y repeticiones que formalizan esa arquitectura.'],
 			['4', 'Registro editorial', 'El editor elige forma, alternativas observadas y, solo cuando existen, desviaciones.']
 		] as item}
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
@@ -145,14 +145,14 @@
 		<p class="max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
 			Una posibilidad formalizada no obliga por sí sola a añadir un campo. Se crea un grupo de
 			elección cuando existen varias realizaciones admitidas y distinguirlas aporta información al
-			corpus. Cada respuesta sigue apuntando a un metro, patrón, combinación de patrones,
+			corpus. Cada respuesta sigue apuntando a un metro, esquema, variedad,
 			sección, repetición o valor de rasgo normalizado.
 		</p>
 		<div class="grid gap-4 text-sm leading-6 lg:grid-cols-3">
 			<div>
 				<h4 class="font-medium">Resultado único</h4>
 				<p class="mt-1 text-[color:var(--muted-foreground)]">
-					Se deriva de la configuración y no se pregunta.
+					Se deriva de la arquitectura y no se pregunta.
 				</p>
 			</div>
 			<div>
@@ -169,7 +169,7 @@
 			</div>
 		</div>
 		<p class="border-l-2 border-[color:var(--primary)] pl-3 text-sm">
-			<strong>Realización efectiva:</strong> forma + configuración + elecciones admitidas +
+			<strong>Realización efectiva:</strong> forma + arquitectura + elecciones admitidas +
 			unidades realizadas + desviaciones registradas.
 		</p>
 	</section>
@@ -199,9 +199,9 @@
 				<div>
 					<dt class="font-medium">Tipo de entrada</dt>
 					<dd class="text-[color:var(--muted-foreground)]">
-						<em>Forma métrica</em> posee una norma expresada mediante configuraciones.
+						<em>Forma métrica</em> posee una norma expresada mediante arquitecturas.
 						<em>Salida editorial</em> sirve para Versificación irregular o Verso aislado:
-						comparte el selector, pero no es una forma ni admite configuraciones.
+						comparte el selector, pero no es una forma ni admite arquitecturas.
 					</dd>
 				</div>
 				<div>
@@ -222,7 +222,7 @@
 
 		<div class="space-y-4 border border-[color:var(--border)] bg-[color:var(--card)] p-5">
 			<div>
-				<h3 class="text-lg font-semibold">Configuración</h3>
+				<h3 class="text-lg font-semibold">Arquitectura</h3>
 				<p class="mt-1 text-sm leading-6 text-[color:var(--muted-foreground)]">
 					Reúne una combinación coherente de rasgos de la forma.
 				</p>
@@ -235,7 +235,7 @@
 					</dd>
 				</div>
 				<div>
-					<dt class="font-medium">Slug de configuración</dt>
+					<dt class="font-medium">Slug de arquitectura</dt>
 					<dd class="text-[color:var(--muted-foreground)]">
 						Describe establemente la alternativa, por ejemplo <code>octosilabico_asonante</code>.
 						No debe llamarse <code>principal</code>, porque la condición de prototípica puede cambiar.
@@ -268,7 +268,7 @@
 
 	<section class="space-y-4">
 		<div>
-			<h3 class="text-lg font-semibold">Ámbito de un patrón</h3>
+			<h3 class="text-lg font-semibold">Ámbito de un esquema</h3>
 			<p class="mt-1 max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
 				Indica dónde empieza, termina o se reinicia una regla. «Unidad genérica» fue un valor de
 				importación provisional: no debe elegirse al formalizar una forma; los registros que lo
@@ -299,11 +299,11 @@
 
 	<section class="grid gap-6 xl:grid-cols-2">
 		<div class="space-y-4 border border-[color:var(--border)] bg-[color:var(--card)] p-5">
-			<h3 class="text-lg font-semibold">Patrón métrico</h3>
+			<h3 class="text-lg font-semibold">Esquema métrico</h3>
 			<p class="text-sm leading-6 text-[color:var(--muted-foreground)]">
-				El nombre breve distingue patrones dentro de una misma configuración; la descripción
+				El nombre breve distingue esquemas dentro de una misma arquitectura; la descripción
 				explica su funcionamiento. La medida se enlaza de forma normalizada en cada posición:
-				por eso un patrón de cinco octosílabos contiene cinco posiciones que apuntan al mismo
+				por eso un esquema de cinco octosílabos contiene cinco posiciones que apuntan al mismo
 				metro. La interfaz puede resumirlo como «5 × octosílabo».
 			</p>
 			<dl class="space-y-3 text-sm leading-6">
@@ -313,8 +313,8 @@
 				<div><dt class="font-medium">Abierta</dt><dd class="text-[color:var(--muted-foreground)]">La medida no sigue una secuencia cerrada formalizable.</dd></div>
 			</dl>
 			<p class="border-l-4 border-[color:var(--primary)] bg-[color:var(--muted)] p-3 text-sm leading-6">
-				El número total pertenece a la configuración cuando la unidad es fija. En una secuencia
-				métrica posicional, la longitud del patrón se deriva de sus posiciones. Si solo se aplica
+				El número total pertenece a la arquitectura cuando la unidad es fija. En una secuencia
+				métrica posicional, la longitud del esquema se deriva de sus posiciones. Si solo se aplica
 				a una parte de la forma, la extensión de esa parte se declara en su sección.
 			</p>
 			<p class="text-sm leading-6 text-[color:var(--muted-foreground)]">
@@ -324,7 +324,7 @@
 		</div>
 
 		<div class="space-y-4 border border-[color:var(--border)] bg-[color:var(--card)] p-5">
-			<h3 class="text-lg font-semibold">Patrón de rima</h3>
+			<h3 class="text-lg font-semibold">Esquema de rima</h3>
 			<p class="text-sm leading-6 text-[color:var(--muted-foreground)]">
 				En el esquema, una misma letra indica una misma clase de rima; letras distintas, rimas
 				distintas; el guion representa verso suelto y la elipsis una continuación indefinida. Las

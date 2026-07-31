@@ -104,7 +104,15 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 	metricPatterns: {
 		table: 'esquemas_metricos',
 		keys: ['esquema_metrico_id'],
-		fields: ['arquitectura_id', 'nombre', 'ambito', 'tipo', 'descripcion', 'estado_revision']
+		fields: [
+			'arquitectura_id',
+			'slug',
+			'nombre',
+			'ambito',
+			'tipo',
+			'descripcion',
+			'estado_revision'
+		]
 	},
 	metricPositions: {
 		table: 'esquema_metrico_posiciones',
@@ -132,6 +140,7 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		keys: ['esquema_rima_id'],
 		fields: [
 			'arquitectura_id',
+			'slug',
 			'nombre',
 			'notacion',
 			'tipo_rima_id',

@@ -44,15 +44,15 @@
 		})),
 		...props.configurations.map((configuration: MetricCatalogConfiguration) => ({
 			value: `arquitectura_id:${configuration.arquitectura_id}`,
-			label: `Configuración · ${configuration.nombre}`
+			label: `Arquitectura · ${configuration.nombre}`
 		})),
 		...props.domain.metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: `esquema_metrico_id:${row.esquema_metrico_id}`,
-			label: `Patrón métrico · ${String(row.nombre || `Patrón ${index + 1}`)}`
+			label: `Esquema métrico · ${String(row.nombre || `Esquema ${index + 1}`)}`
 		})),
 		...props.domain.rhymePatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: `esquema_rima_id:${row.esquema_rima_id}`,
-			label: `Patrón de rima · ${String(row.nombre || row.notacion || `Patrón ${index + 1}`)}`
+			label: `Esquema de rima · ${String(row.nombre || row.notacion || `Esquema ${index + 1}`)}`
 		})),
 		...props.domain.sections.map((row: MetricCatalogDomainRow) => ({
 			value: `seccion_id:${row.seccion_id}`,
@@ -60,7 +60,7 @@
 		})),
 		...props.domain.repetitionPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: `repeticion_id:${row.repeticion_id}`,
-			label: `Repetición · ${String(row.descripcion || row.regla || `Patrón ${index + 1}`)}`
+			label: `Repetición · ${String(row.descripcion || row.regla || `Esquema ${index + 1}`)}`
 		})),
 		...props.domain.patternCombinations.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: `variedad_id:${row.variedad_id}`,
@@ -156,7 +156,7 @@
 	<MetricEntityCollection
 		resource="aliases"
 		title="Denominaciones alternativas"
-		description="Nombres equivalentes, históricos o abreviados asociados a la entidad exacta. Por ejemplo, «Cuarteta» denomina el patrón cruzado abab de redondilla, no toda la forma."
+		description="Nombres equivalentes, históricos o abreviados asociados a la entidad exacta. Por ejemplo, «Cuarteta» denomina el esquema cruzado abab de redondilla, no toda la forma."
 		rows={props.domain.aliases}
 		keyFields={['alias_id']}
 		fields={aliasFields}

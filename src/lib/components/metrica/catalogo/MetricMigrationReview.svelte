@@ -126,14 +126,14 @@
 			return `Forma: ${formsById.get(destination.forma_id)?.nombre ?? destination.forma_id}`;
 		}
 		if (destination.arquitectura_id) {
-			return `Configuración: ${
+			return `Arquitectura: ${
 				configurationsById.get(destination.arquitectura_id)?.nombre ??
 				destination.arquitectura_id
 			}`;
 		}
 		if (destination.variedad_id) return 'Combinación de medida y rima';
-		if (destination.esquema_metrico_id) return 'Patrón métrico';
-		if (destination.esquema_rima_id) return 'Patrón de rima';
+		if (destination.esquema_metrico_id) return 'Esquema métrico';
+		if (destination.esquema_rima_id) return 'Esquema de rima';
 		if (destination.valor_rasgo_id) return 'Valor de rasgo';
 		if (destination.rasgo_id) return 'Rasgo métrico';
 		if (destination.alias_id) return 'Alias';

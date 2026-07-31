@@ -44,13 +44,13 @@
 	}));
 
 	const groupFields = $derived<MetricEntityField[]>([
-		{ key: 'arquitectura_id', label: 'Configuración', type: 'hidden' },
+		{ key: 'arquitectura_id', label: 'Arquitectura', type: 'hidden' },
 		{ key: 'slug', label: 'Slug', required: true },
 		{
 			key: 'nombre',
 			label: 'Pregunta que verá el editor',
 			required: true,
-			placeholder: '¿Qué patrón tiene la mudanza?'
+			placeholder: '¿Qué esquema tiene la mudanza?'
 		},
 		{
 			key: 'ayuda_editor',
@@ -81,7 +81,7 @@
 				{ value: 'opciones', label: 'Elegir entre respuestas catalogadas' },
 				{ value: 'esquema_rima', label: 'Escribir un esquema de rima observado' }
 			],
-			help: 'El esquema abierto se valida y normaliza; no crea un patrón nuevo en el catálogo.'
+			help: 'El esquema abierto se valida y normaliza; no crea un esquema nuevo en el catálogo.'
 		},
 		{
 			key: 'alcance',
@@ -165,7 +165,7 @@
 					value: `esquema_metrico_id:${row.notacion_metrico_id}`,
 					label: targetLabel(
 						row,
-						`Patrón: ${String(row.nombre || `métrico ${index + 1}`)}`
+						`Esquema: ${String(row.nombre || `métrico ${index + 1}`)}`
 					)
 				}))
 			];
@@ -180,7 +180,7 @@
 					value: `esquema_rima_id:${row.notacion_rima_id}`,
 					label: targetLabel(
 						row,
-						String(row.nombre || row.notacion || `Patrón de rima ${index + 1}`)
+						String(row.nombre || row.notacion || `Esquema de rima ${index + 1}`)
 					)
 				}));
 		}
@@ -316,7 +316,7 @@
 			activo: true,
 			orden: 1
 		}}
-		emptyMessage="Esta configuración no plantea ninguna elección explícita al editor."
+		emptyMessage="Esta arquitectura no plantea ninguna elección explícita al editor."
 		compact
 	/>
 
@@ -331,7 +331,7 @@
 				<MetricEntityCollection
 					resource="choiceOptions"
 					title={`Respuestas: ${String(group.nombre)}`}
-					description="Cada respuesta apunta a un metro, patrón, combinación, sección, repetición o valor de rasgo ya formalizado."
+					description="Cada respuesta apunta a un metro, esquema, variedad, sección, repetición o valor de rasgo ya formalizado."
 					rows={props.domain.choiceOptions.filter(
 						(row: MetricCatalogDomainRow) =>
 							row.grupo_eleccion_id === group.grupo_eleccion_id

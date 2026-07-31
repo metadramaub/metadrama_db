@@ -69,7 +69,7 @@
 	const rhymePatternOptions = $derived(
 		props.domain.rhymePatterns.map((row: MetricCatalogDomainRow) => ({
 			value: String(row.notacion_rima_id),
-			label: String(row.nombre || row.notacion || 'Patrón sin nombre')
+			label: String(row.nombre || row.notacion || 'Esquema sin nombre')
 		}))
 	);
 	const claimTargetOptions = $derived([
@@ -83,15 +83,15 @@
 		})),
 		...configurationOptions.map((option: MetricEntityOption) => ({
 			value: `arquitectura_id:${option.value}`,
-			label: `Configuración: ${option.label}`
+			label: `Arquitectura: ${option.label}`
 		})),
 		...metricPatternOptions.map((option: MetricEntityOption) => ({
 			value: `esquema_metrico_id:${option.value}`,
-			label: `Patrón métrico: ${option.label}`
+			label: `Esquema métrico: ${option.label}`
 		})),
 		...rhymePatternOptions.map((option: MetricEntityOption) => ({
 			value: `esquema_rima_id:${option.value}`,
-			label: `Patrón de rima: ${option.label}`
+			label: `Esquema de rima: ${option.label}`
 		})),
 		...traitOptions.map((option: MetricEntityOption) => ({
 			value: `rasgo_id:${option.value}`,

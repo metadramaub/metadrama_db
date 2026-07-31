@@ -319,7 +319,7 @@ partir la secuencia.
 Cuidado con extenderlo por parecido. El sexteto también admite cualquier disposición
 consonante de seis posiciones, y sin embargo **no** declara norma: su patrón de rima es
 «variable y registrado en cada unidad», y que dos sextetos de una tirada difieran está
-previsto. Si esto es así o no en cada forma no lo decide el modelo, lo decide el IP; es la
+previsto. Si esto es así o no en cada forma no lo decide el modelo, lo decide el proyecto; es la
 misma pregunta abierta que la de `abba` frente a `abab` en la redondilla.
 
 ### Denominación
