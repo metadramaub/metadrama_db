@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 17:47
+Generado: 2026-07-31 18:06
 
-Inventario: 25 formas y 2 tramos sin forma · 51 configuraciones · 55 patrones métricos · 72 patrones de rima · 55 secciones · 43 grupos de elección · 326 opciones · 3 rasgos.
+Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 65 patrones de rima · 55 secciones · 47 grupos de elección · 336 opciones · 6 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -64,26 +64,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D9 · Rasgo cualitativo almacenado como restricción de rima sin catalogar — 14
+### D9 · Rasgo cualitativo almacenado como restricción de rima sin catalogar — 0
 
 > Una propiedad transversal es un rasgo con modalidad declarada, no un literal libre colgado de un patrón.
 
-| Sujeto | Detalle |
-| --- | --- |
-| pareados_no_sistematicos | 2 forma(s): endecasilabo_suelto, silva |
-| distico_final | 1 forma(s): endecasilabo_suelto |
-| encadenamiento_final_interior | 1 forma(s): endecasilabo_suelto |
-| enlace_vuelta | 1 forma(s): villancico |
-| mudanza_monorrima_y_vuelta_al_estribillo | 1 forma(s): zejel |
-| pareados_habituales | 1 forma(s): silva |
-| pareados_intercalados_ocasionales | 1 forma(s): endecasilabo_suelto |
-| pareados_predominantes | 1 forma(s): silva |
-| predominio_versos_rimados | 1 forma(s): silva |
-| predominio_versos_sueltos | 1 forma(s): endecasilabo_suelto |
-| rima_minoritaria | 1 forma(s): endecasilabo_suelto |
-| sin_distico_final | 1 forma(s): endecasilabo_suelto |
-| sin_organizacion_normativa_en_pareados | 1 forma(s): silva |
-| sin_pareados_intercalados | 1 forma(s): endecasilabo_suelto |
+Sin incidencias.
 
 ### D10 · Coherencia del tipo de registro y del grado de especificación — 0
 
@@ -120,7 +105,7 @@ Sin incidencias.
 | copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | decima_espinela | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| endecasilabo_suelto | serie | 5 | — | posiciones | cualitativa, patrón único | 0 | — |
+| endecasilabo_suelto | serie | 1 | sí | posiciones | patrón único | 2 | secuencia |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
 | octava_real | estrofa | 1 | sí | posiciones | patrón único | 1 | secuencia |
@@ -133,12 +118,12 @@ Sin incidencias.
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
 | sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
-| silva | serie | 4 | — | configuracion, conjunto, posiciones | cualitativa, patrón único | 0 | — |
+| silva | serie | 3 | sí | configuracion, conjunto, posiciones | patrón único | 2 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único, sin patrón | 0 | — |
-| villancico | composicion | 2 | sí | conjunto, eleccion | cualitativa, elección | 7 | secuencia, unidad |
-| zejel | composicion | 1 | sí | conjunto, eleccion | cualitativa, patrón único | 2 | secuencia, unidad |
+| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 7 | secuencia, unidad |
+| zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 2 | secuencia, unidad |
 
 ### 2.2 · Reparto de la medida
 
@@ -156,7 +141,7 @@ Sin incidencias.
 | combinacion · unidad | sexteto_lira |
 | metro · secuencia | villancico, zejel |
 | metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado |
-| rasgo · secuencia | cancion_petrarquista, octava_real, romance, sexteto_lira, soneto, terceto |
+| rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, octava_real, romance, sexteto_lira, silva, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
 | rima · secuencia | copla_de_arte_mayor |
 | rima · unidad | cancion_petrarquista, copla_real, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
@@ -165,10 +150,10 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| composicion | 3 | villancico×2, zejel×1 |
+| composicion | 1 | zejel×1 |
 | estrofa | 44 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, decima_aumentada×1, decima_espinela×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, terceto×2 |
 | seccion | 11 | cancion_petrarquista×2, soneto×5, villancico×4 |
-| serie | 14 | endecasilabo_suelto×5, romance×4, silva×4, terceto_encadenado×1 |
+| serie | 9 | endecasilabo_suelto×1, romance×4, silva×3, terceto_encadenado×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -184,16 +169,9 @@ Sin incidencias.
 | sextilla · hexasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
-| endecasilabo_suelto · con_pareados_con_distico_final | 1 | restricciones cualitativas (1) |
-| endecasilabo_suelto · con_pareados_sin_distico_final | 1 | restricciones cualitativas (1) |
-| endecasilabo_suelto · encadenado_interior | 1 | restricciones cualitativas (1) |
-| endecasilabo_suelto · puro_con_distico_final | 1 | restricciones cualitativas (1) |
-| endecasilabo_suelto · puro_sin_distico_final | 1 | restricciones cualitativas (1) |
+| endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
 | silva · consonante_irregular | 1 | restricciones cualitativas (1) |
 | silva · endecasilabica | 1 | restricciones cualitativas (1) |
-| silva · libre | 1 | restricciones cualitativas (1) |
-| villancico · estribillo_inicial | 1 | restricciones cualitativas (1) |
-| villancico · estribillo_tras_primera_copla | 1 | restricciones cualitativas (1) |
 
 ### 2.6 · Esquemas que coinciden literalmente en varias formas
 
@@ -210,5 +188,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 19.
+Total de defectos detectados: 5.
 

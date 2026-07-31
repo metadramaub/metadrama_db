@@ -17,11 +17,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Quintilla | 5 octosílabos, consonancia | esquema de cada quintilla | múltiplo de 5 |
 | Terceto | 3 endecasílabos, consonancia entre dos de los tres | qué verso queda suelto, `A-A` o `-AA`; final esdrújulo si caracteriza | múltiplo de 3 |
 | Terceto encadenado | encadenamiento y cierre `YZYZ` | arquitectura métrica, si hay más de una | bloques de 3 más el verso final |
-| Silva libre | norma completa de la arquitectura | nada más | abierta |
-| Silva de consonantes regular | pareados `7 + 11` | nada más | múltiplo de 2 |
-| Silva de consonantes irregular | 7 y 11, pareados predominantes | nada más | abierta |
-| Silva endecasílaba | 11, predominio de rimados, pareados no sistemáticos | nada más | abierta |
-| Endecasílabo suelto | norma de la arquitectura elegida | nada más | abierta |
+| Silva · consonante de orden libre | 7 y 11 sin orden fijo, consonancia y versos sueltos admitidos | cuánto organizan los pareados la serie | abierta |
+| Silva · consonante regular | ciclo `7 + 11` y pareados regulares | nada | múltiplo de 2 |
+| Silva · endecasilábica | 11 y consonancia | cuánto organizan los pareados la serie | abierta |
+| Endecasílabo suelto | 11 y predominio de versos sueltos | si hay pareados intercalados; dístico final y encadenamiento interior si caracterizan | abierta |
 | Pareado | dos versos que riman entre sí, `aa` | la medida de cada uno de los dos versos y si la rima es consonante o asonante | múltiplo de 2 |
 | Soneto | 14 endecasílabos, `ABBA ABBA`, estructura `4 + 4 + 3 + 3` | esquema de tercetos; final esdrújulo si caracteriza | múltiplo de 14 |
 | Villancico | posición de la primera aparición del estribillo y secciones obligatorias | medidas, esquema de cada mudanza, enlace o vuelta y tipo de represa | calculada desde cabeza/estribillo, coplas y represas |
@@ -62,8 +61,9 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Terceto: forma, verso suelto de la primera unidad y aplicar a todas; el rasgo
   esdrújulo queda vacío por defecto.
 - Terceto encadenado: forma, arquitectura si se solicita y guardar.
-- Silva: forma, arquitectura y guardar.
-- Endecasílabo suelto: forma, arquitectura y guardar.
+- Silva: forma, arquitectura y organización en pareados; la regular no pregunta nada.
+- Endecasílabo suelto: forma, pareados intercalados y, si caracterizan, dístico final o
+  encadenamiento interior.
 - Pareado: forma, medida de los dos versos del primer dístico y tipo de rima; aplicar a
   toda la tirada y cambiar solo los que difieran.
 - Soneto: forma, esquema de los tercetos y guardar.

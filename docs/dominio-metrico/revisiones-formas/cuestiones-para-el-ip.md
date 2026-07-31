@@ -7,7 +7,7 @@ ficha de cada revisión.
 
 ## Los defectos del informe que esperan una decisión
 
-El [informe de conformidad](../informe-conformidad-catalogo.md) señala **19 defectos**. Ni
+El [informe de conformidad](../informe-conformidad-catalogo.md) señala **5 defectos**. Ni
 uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
 que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
 corregidos.
@@ -17,13 +17,8 @@ preguntas están desarrolladas en el apartado de cada forma, más abajo.
 
 | Defecto | Cuántos | Qué hay que decidir |
 | --- | ---: | --- |
-| D9 · rasgos cualitativos como restricciones sin catalogar | 14 | Qué rasgos existen, qué valores admite cada uno y con qué modalidad interviene en cada arquitectura. Catorce literales sueltos —`predominio_versos_sueltos`, `distico_final`, `enlace_vuelta`…— esperan una taxonomía, no una traducción mecánica. |
 | D12 · preguntas con alcance de secuencia | 4 | Si los tres esquemas de la copla de arte mayor pueden alternar dentro de una tirada; si las medidas del villancico y del zéjel forman repertorio cerrado. |
 | D2b · arquitecturas sin ninguna declaración de rima | 1 | Qué rima declara el terceto encadenado octosílabo. |
-
-Los catorce primeros son en realidad **una sola decisión**: la taxonomía de rasgos
-cualitativos. Sin ella, catorce propiedades transversales siguen siendo literales sueltos
-colgados de un esquema de rima.
 
 Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
 bloquean es la comparación entre formas, que es para lo que existe el informe.
@@ -60,6 +55,16 @@ Véase [silva.md](./silva.md).
 
 1. ¿`silva libre` tiene el alcance específico del corpus —7 y 11, consonancia libre— o
    el alcance moderno más amplio?
+2. La silva libre deja de ser una arquitectura y pasa a ser el valor `ninguna` del rasgo
+   `organizacion_en_pareados`. **El modelo no permite hoy que una denominación apunte a un
+   valor de rasgo**, así que ese nombre no queda registrado en ninguna parte. ¿Hace falta que
+   lo esté?
+
+Resuelto en el modelo: cuánto organizan los pareados la serie es un **rasgo transversal con
+valores cerrados** —ninguna, ocasionales, habituales, predominantes, regulares—, no cuatro
+arquitecturas ni cuatro frases en prosa. Su escala corre por el endecasílabo suelto, la silva
+y el pareado, de modo que la respuesta del editor apunta a la misma fila del catálogo venga
+de la forma que venga.
 
 ## Series endecasilábicas y pareado
 

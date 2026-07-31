@@ -326,6 +326,14 @@ Un rasgo se vincula a una arquitectura declarando **con qué modalidad** intervi
 definitoria, habitual, admitida o destacable. Ahí vive el matiz cualitativo, y por eso el
 proyecto no traduce «mayoría» a porcentajes inventados.
 
+Cuando el matiz tiene grados, el rasgo declara **valores cerrados y ordenados** en vez de una
+frase. `organizacion_en_pareados` —ninguna, ocasionales, habituales, predominantes,
+regulares— es el ejemplo: una sola escala que recorre el endecasílabo suelto, la silva y el
+pareado. Escribirla como texto libre en una restricción la habría hecho incomparable, porque
+cada forma habría inventado su cadena; catalogada, la respuesta del editor apunta a la misma
+fila venga de la forma que venga. **Esa es la prueba de que un rasgo está bien puesto: que
+dos formas distintas puedan nombrar el mismo valor.**
+
 Prueba de contraste: si necesita una posición, no es un rasgo, es parte del esquema. Un
 rasgo booleano repetido doce veces para señalar qué versos son quebrados es un esquema
 métrico disfrazado.

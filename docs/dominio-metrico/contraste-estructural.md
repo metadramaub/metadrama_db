@@ -129,7 +129,7 @@ solo si la norma admite que varíe **de una unidad a otra dentro de la misma sec
 | `copla_de_arte_mayor` | 1 | dodecasilabica_compuesta: {12} | no |
 | `copla_de_pie_quebrado` | 1 | octosilabica_con_quebrados: {4,5,6,7,8} | **sí** |
 | `copla_real` | 1 | octosilabica_consonante: {4,8} | **sí** |
-| `endecasilabo_suelto` | 5 | las cinco: {11} | no |
+| `endecasilabo_suelto` | 1 | endecasilabica: {11} | no |
 | `lira` | 1 | heptasilabica_endecasilabica: {7,11} | no |
 | `novena` | 2 | redondilla_quintilla: {8} · quintilla_redondilla: {8} | no |
 | `octava_real` | 1 | endecasilabica_consonante: {11} | no |
@@ -142,7 +142,7 @@ solo si la norma admite que varíe **de una unidad a otra dentro de la misma sec
 | `sexteto_lira` | 1 | heterometrica_consonante: {7,11} | no |
 | `sextilla` | 5 | heptasilabica: {7} · hexasilabica: {6} · octosilabica: {8} · pie_quebrado: {4,8} · doble_pie_quebrado: {4,8} | no |
 | `sextina` | 2 | doble: {11} · clasica: {11} | no |
-| `silva` | 4 | consonante_irregular: {7,11} · consonante_regular: {7,11} · endecasilabica: {11} · libre: {7,11} | no |
+| `silva` | 3 | consonante_irregular: {7,11} · consonante_regular: {7,11} · endecasilabica: {11} | no |
 | `soneto` | 1 | endecasilabico_consonante: {11} | no |
 | `terceto` | 1 | endecasilabico_consonante: {11} | no |
 | `terceto_encadenado` | 2 | octosilabico: {8} · endecasilabico_consonante: {11} | no |
@@ -203,7 +203,8 @@ ninguna especialización.
 - **`romance_heroico` es hoy una arquitectura** cuyo nombre tradicional no está registrado
   como denominación, a diferencia de «Romance real» y «Endecha», que sí lo están. Si el
   nombre no vive en ninguna parte, deja de ser recuperable, y eso incumple el principio de
-  asignabilidad.
+  asignabilidad. Lo mismo le ocurre ahora a **«silva libre»**, que pasa a ser un valor de
+  rasgo, y una denominación no puede apuntar a un valor de rasgo.
 - **Nada distingue dos sextillas consecutivas de una doble sextilla.** Los versos, las
   medidas y el tipo de rima son idénticos; solo cambia si las rimas de la segunda mitad
   dependen de la primera. Hoy lo afirma el editor al elegir arquitectura.
