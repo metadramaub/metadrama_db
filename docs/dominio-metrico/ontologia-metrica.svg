@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="960" viewBox="0 0 1440 960" role="img" aria-labelledby="title desc">
+  <title id="title">Ontología métrica de METADRAMA</title>
+  <desc id="desc">Esquema de la secuencia métrica, su forma, arquitectura, componentes normativos y realización.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f6f2; }
+      .ink { fill: #20201e; }
+      .muted { fill: #6d6b65; }
+      .line { fill: none; stroke: #a6a39a; stroke-width: 1.5; }
+      .line-strong { fill: none; stroke: #55534e; stroke-width: 1.8; }
+      .line-dashed { fill: none; stroke: #a6a39a; stroke-width: 1.5; stroke-dasharray: 5 6; }
+      .node { fill: #fff; stroke: #cbc8bf; stroke-width: 1.3; }
+      .node-core { fill: #20201e; stroke: #20201e; stroke-width: 1.3; }
+      .node-soft { fill: #efede6; stroke: #cbc8bf; stroke-width: 1.3; }
+      .node-accent { fill: #e6ede8; stroke: #9eafa2; stroke-width: 1.3; }
+      .node-warn { fill: #f2e9e2; stroke: #c8aa98; stroke-width: 1.3; }
+      .label { font: 600 13px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .08em; }
+      .title { font: 600 31px Georgia, serif; }
+      .subtitle { font: 400 15px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .heading { font: 600 18px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .body { font: 400 14px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .small { font: 400 12px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .white { fill: #fff; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#55534e"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a6a39a"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1440" height="960"/>
+
+  <text x="72" y="70" class="title ink">Ontología métrica</text>
+  <text x="1368" y="73" text-anchor="end" class="small muted">31 · 07 · 2026</text>
+
+  <!-- Secuencia -->
+  <rect x="72" y="145" width="1296" height="92" rx="8" class="node-core"/>
+  <text x="104" y="180" class="label white">SECUENCIA</text>
+  <text x="104" y="207" class="body white">Pasaje delimitado por versos inicial y final · contiene una sola forma y una sola arquitectura</text>
+  <text x="1336" y="180" text-anchor="end" class="small white">nivel analítico del texto</text>
+
+  <!-- Main fork -->
+  <path d="M 720 237 L 720 275 L 425 275 L 425 307" class="line-strong" marker-end="url(#arrow)"/>
+  <path d="M 720 275 L 1080 275 L 1080 307" class="line-strong" marker-end="url(#arrow)"/>
+
+  <rect x="222" y="307" width="406" height="112" rx="8" class="node-accent"/>
+  <text x="250" y="340" class="label ink">FORMA</text>
+  <text x="250" y="368" class="heading ink">Identidad métrica reconocible</text>
+  <text x="250" y="394" class="body muted">Define una unidad · puede tener varias arquitecturas</text>
+
+  <rect x="877" y="307" width="406" height="112" rx="8" class="node-warn"/>
+  <text x="905" y="340" class="label ink">TRAMO SIN FORMA</text>
+  <text x="905" y="368" class="heading ink">No hay norma reconocible</text>
+  <text x="905" y="394" class="body muted">Versificación irregular · verso aislado</text>
+
+  <!-- Form to architecture -->
+  <path d="M 425 419 L 425 466" class="line-strong" marker-end="url(#arrow)"/>
+  <text x="441" y="450" class="small muted">se concreta en</text>
+
+  <rect x="222" y="466" width="406" height="122" rx="8" class="node"/>
+  <text x="250" y="499" class="label ink">ARQUITECTURA</text>
+  <text x="250" y="527" class="heading ink">Estructura constante de la unidad</text>
+  <text x="250" y="553" class="body muted">Extensión · secciones · repetición interna</text>
+  <text x="250" y="575" class="body muted">enlaces de rima · metro cuando es constante</text>
+
+  <!-- Unit -->
+  <rect x="72" y="466" width="122" height="122" rx="8" class="node-soft"/>
+  <text x="94" y="499" class="label ink">UNIDAD</text>
+  <text x="94" y="527" class="body ink">estrofa</text>
+  <text x="94" y="550" class="body ink">poema</text>
+  <text x="94" y="573" class="body ink">serie abierta</text>
+  <path d="M 194 527 L 222 527" class="line" marker-end="url(#arrow-muted)"/>
+
+  <!-- No-form branch -->
+  <path d="M 1080 419 L 1080 466" class="line-strong" marker-end="url(#arrow)"/>
+  <rect x="877" y="466" width="406" height="122" rx="8" class="node"/>
+  <text x="905" y="499" class="label ink">OBSERVACIÓN DIRECTA</text>
+  <text x="905" y="527" class="heading ink">Describe sin comparar</text>
+  <text x="905" y="553" class="body muted">Metros · rima · rasgos · extensión</text>
+  <text x="905" y="575" class="body muted">No hay elecciones ni desviaciones</text>
+
+  <!-- Architecture children -->
+  <path d="M 425 588 L 425 625 L 167 625 L 167 653" class="line"/>
+  <path d="M 425 625 L 339 625 L 339 653" class="line"/>
+  <path d="M 425 625 L 511 625 L 511 653" class="line"/>
+  <path d="M 425 625 L 683 625 L 683 653" class="line"/>
+
+  <rect x="86" y="653" width="162" height="92" rx="7" class="node"/>
+  <text x="167" y="684" text-anchor="middle" class="label ink">ESQUEMAS</text>
+  <text x="167" y="710" text-anchor="middle" class="body muted">métrico · rima</text>
+  <text x="167" y="731" text-anchor="middle" class="small muted">orden y posiciones</text>
+
+  <rect x="258" y="653" width="162" height="92" rx="7" class="node"/>
+  <text x="339" y="684" text-anchor="middle" class="label ink">SECCIONES</text>
+  <text x="339" y="710" text-anchor="middle" class="body muted">partes de la unidad</text>
+  <text x="339" y="731" text-anchor="middle" class="small muted">pueden reutilizar</text>
+
+  <rect x="430" y="653" width="162" height="92" rx="7" class="node"/>
+  <text x="511" y="684" text-anchor="middle" class="label ink">REPETICIÓN</text>
+  <text x="511" y="710" text-anchor="middle" class="body muted">material recurrente</text>
+  <text x="511" y="731" text-anchor="middle" class="small muted">dentro de la unidad</text>
+
+  <rect x="602" y="653" width="162" height="92" rx="7" class="node"/>
+  <text x="683" y="684" text-anchor="middle" class="label ink">RASGOS</text>
+  <text x="683" y="710" text-anchor="middle" class="body muted">propiedades sin</text>
+  <text x="683" y="731" text-anchor="middle" class="small muted">posición fija</text>
+
+  <!-- Variety -->
+  <rect x="86" y="775" width="334" height="72" rx="7" class="node-soft"/>
+  <text x="108" y="805" class="label ink">VARIEDAD</text>
+  <text x="108" y="829" class="body muted">Pareja reconocida de esquema métrico + rima</text>
+  <path d="M 167 745 L 167 760 L 253 760 L 253 775" class="line" marker-end="url(#arrow-muted)"/>
+
+  <!-- Election -->
+  <rect x="452" y="775" width="312" height="72" rx="7" class="node-accent"/>
+  <text x="474" y="805" class="label ink">ELECCIÓN</text>
+  <text x="474" y="829" class="body muted">Lo variable que el catálogo pregunta</text>
+  <path d="M 420 811 L 452 811" class="line" marker-end="url(#arrow-muted)"/>
+  <path d="M 683 745 L 683 760 L 608 760 L 608 775" class="line" marker-end="url(#arrow-muted)"/>
+
+  <!-- Realization -->
+  <path d="M 608 847 L 608 883 L 877 883" class="line-strong" marker-end="url(#arrow)"/>
+  <path d="M 1283 527 L 1296 527 L 1296 883 L 1283 883" class="line-strong" marker-end="url(#arrow)"/>
+  <rect x="877" y="847" width="406" height="72" rx="8" class="node-core"/>
+  <text x="905" y="878" class="label white">REALIZACIÓN</text>
+  <text x="905" y="902" class="body white">Lo que hace el pasaje concreto</text>
+
+  <!-- Deviations -->
+  <rect x="877" y="653" width="406" height="92" rx="8" class="node-warn"/>
+  <text x="905" y="684" class="label ink">DESVIACIÓN</text>
+  <text x="905" y="710" class="body ink">Lo observado que la norma no prevé</text>
+  <text x="905" y="731" class="small muted">localizada por rango y dimensión</text>
+  <path d="M 877 699 L 800 699 L 800 527 L 628 527" class="line-dashed" marker-end="url(#arrow-muted)"/>
+  <path d="M 1283 699 L 1296 699" class="line" marker-end="url(#arrow-muted)"/>
+
+  <!-- Context entities -->
+  <rect x="877" y="775" width="406" height="48" rx="7" class="node-soft"/>
+  <text x="1080" y="805" text-anchor="middle" class="body ink">Denominaciones · tradiciones · relaciones entre formas</text>
+  <path d="M 1283 799 L 1320 799 L 1320 363 L 1283 363" class="line-dashed" marker-end="url(#arrow-muted)"/>
+
+  <!-- Footer rule -->
+  <line x1="72" y1="939" x2="1368" y2="939" class="line"/>
+  <text x="72" y="956" class="small muted">Principio: cada hecho se registra en el nivel que le corresponde · la taxonomía no transmite comportamiento</text>
+</svg>
