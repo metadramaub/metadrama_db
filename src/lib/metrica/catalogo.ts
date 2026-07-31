@@ -31,24 +31,11 @@ export const METRIC_CHOICE_DIMENSIONS = [
 
 export const METRIC_CHOICE_SCOPES = ['secuencia', 'unidad'] as const;
 
-export const METRIC_MIGRATION_CLASSIFICATIONS = [
-	'F',
-	'G',
-	'C',
-	'P',
-	'R',
-	'A',
-	'E',
-	'D',
-	'?'
-] as const;
-
 export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[number];
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
 export type MetricEntryType = (typeof METRIC_ENTRY_TYPES)[number];
 export type MetricSpecificationDegree = (typeof METRIC_SPECIFICATION_DEGREES)[number];
 export type MetricArchitectureGrade = (typeof METRIC_ARCHITECTURE_GRADES)[number];
-export type MetricMigrationClassification = (typeof METRIC_MIGRATION_CLASSIFICATIONS)[number];
 export type MetricChoiceDimension = (typeof METRIC_CHOICE_DIMENSIONS)[number];
 export type MetricChoiceScope = (typeof METRIC_CHOICE_SCOPES)[number];
 
@@ -122,31 +109,6 @@ export type MetricCatalogSourceTerm = {
 	termino_padre_id: string | null;
 };
 
-export type MetricCatalogMigrationRow = {
-	termino_id: string;
-	clasificacion_propuesta: MetricMigrationClassification;
-	clasificacion_decidida: MetricMigrationClassification | null;
-	propuesta: string;
-	certeza: 'alta' | 'media' | 'baja';
-	requiere_revision: boolean;
-	estado_revision: 'pendiente' | 'revisada';
-	notas_ip: string | null;
-	revisado_en: string | null;
-	fuente: MetricCatalogSourceTerm;
-	destinos: Array<{
-		destino_id: string;
-		tipo_operacion: string;
-		forma_id: string | null;
-		arquitectura_id: string | null;
-		variedad_id: string | null;
-		esquema_metrico_id: string | null;
-		esquema_rima_id: string | null;
-		rasgo_id: string | null;
-		valor_rasgo_id: string | null;
-		alias_id: string | null;
-	}>;
-};
-
 export type MetricCatalogOption = {
 	id: string;
 	slug: string;
@@ -163,8 +125,6 @@ export type MetricCatalogIssue = {
 		| 'patron_metrico_sin_nombre'
 		| 'patron_rima_sin_regla'
 		| 'patron_rima_comportamiento_pendiente'
-		| 'termino_sin_destino'
-		| 'revision_prioritaria'
 		| 'configuracion_con_ambito_generico';
 	level: 'error' | 'warning' | 'info';
 	entityId: string;
@@ -234,7 +194,6 @@ export type MetricCatalogPageData = {
 	configurations: MetricCatalogConfiguration[];
 	lengthRules: MetricLengthRule[];
 	traditions: MetricCatalogTradition[];
-	migrationRows: MetricCatalogMigrationRow[];
 	previewVersions: MetricCatalogPreviewVersion[];
 	domain: MetricCatalogDomainData;
 	editorSandbox: MetricEditorSandboxData;
@@ -247,26 +206,8 @@ export type MetricCatalogPageData = {
 		forms: number;
 		approvedForms: number;
 		configurations: number;
-		pendingTerms: number;
-		priorityPendingTerms: number;
-		unresolvedTerms: number;
 	};
 };
-
-export const METRIC_MIGRATION_CLASSIFICATION_LABELS: Record<MetricMigrationClassification, string> =
-	{
-		F: 'Forma',
-		// La clasificación es la que se propuso al importar el vocabulario heredado; se
-		// etiqueta con el vocabulario de hoy, y la familia ya no existe como destino.
-		G: 'Familia (retirada)',
-		C: 'Arquitectura',
-		P: 'Esquema',
-		R: 'Rasgo o valor',
-		A: 'Alias o fusión',
-		E: 'Residual editorial',
-		D: 'Derivado o retirado',
-		'?': 'Decisión abierta'
-	};
 
 export function metricReviewStateLabel(state: MetricCatalogReviewState): string {
 	if (state === 'borrador') return 'Borrador';
