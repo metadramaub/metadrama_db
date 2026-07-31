@@ -7,7 +7,7 @@ ficha de cada revisión.
 
 ## Los defectos del informe que esperan una decisión
 
-El [informe de conformidad](../informe-conformidad-catalogo.md) señala **5 defectos**. Ni
+El [informe de conformidad](../informe-conformidad-catalogo.md) señala **4 defectos**. Ni
 uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
 que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
 corregidos.
@@ -17,8 +17,14 @@ preguntas están desarrolladas en el apartado de cada forma, más abajo.
 
 | Defecto | Cuántos | Qué hay que decidir |
 | --- | ---: | --- |
-| D12 · preguntas con alcance de secuencia | 4 | Si los tres esquemas de la copla de arte mayor pueden alternar dentro de una tirada; si las medidas del villancico y del zéjel forman repertorio cerrado. |
-| D2b · arquitecturas sin ninguna declaración de rima | 1 | Qué rima declara el terceto encadenado octosílabo. |
+| D12 · preguntas con alcance de secuencia | 4 | Si los tres esquemas de la copla de arte mayor pueden alternar entre coplas de una misma tirada; si un villancico o un zéjel pueden combinar hexasílabos y octosílabos y, de poder, en qué secciones. |
+
+Los cuatro son el mismo malentendido de nivel: una pregunta con alcance de secuencia se
+responde una vez para todo el pasaje, es decir, afirma que el hecho **no varía**. Y lo que no
+varía y además es estructural —metro o rima— no se pregunta: lo declara la arquitectura. El
+alcance de secuencia está reservado a los rasgos, que describen el pasaje sin cambiar su
+estructura. Cualquiera de las dos respuestas cierra el defecto; lo que no puede sostenerse es
+la posición actual, que afirma la constancia y a la vez la pregunta.
 
 Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
 bloquean es la comparación entre formas, que es para lo que existe el informe.
@@ -36,14 +42,14 @@ Véase [quintilla.md](./quintilla.md).
 
 Véase [tercetos.md](./tercetos.md).
 
-1. ¿El terceto octosilábico conserva siempre el encadenamiento? Su arquitectura no declara
-   hoy ninguna rima.
-2. ¿Un verso excepcional sin rima es variante admitida o desviación?
-3. ¿La repetición de una rima cuatro veces es variante o desviación?
-4. ¿Cuántas unidades mínimas exige una serie encadenada?
-5. ¿Los cierres en pareado o cuarteto de las antiguas series sin encadenar son canónicos?
+1. ¿Un verso excepcional sin rima es variante admitida o desviación?
+2. ¿La repetición de una rima cuatro veces es variante o desviación?
+3. ¿Cuántas unidades mínimas exige una serie encadenada?
+4. ¿Los cierres en pareado o cuarteto de las antiguas series sin encadenar son canónicos?
 
-Resuelto en el modelo: `tercetos_sin_encadenar` no era una forma sino una tirada de
+Resuelto en el modelo: el terceto octosílabo es una arquitectura del encadenado por medida
+—adapta a octosílabos la misma norma y no cambia nada más—, y ya declara su encadenamiento y
+su cierre, en minúsculas. `tercetos_sin_encadenar` no era una forma sino una tirada de
 tercetos. Sus dos disposiciones —`A-A`, con el verso central suelto, y `-AA`, con el
 primero— son los dos esquemas de rima del terceto, y el editor elige entre ellas. El
 encadenado sigue siendo forma aparte porque su rima cruza el límite de la unidad y la

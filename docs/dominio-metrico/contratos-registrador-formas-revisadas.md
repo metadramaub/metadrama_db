@@ -16,7 +16,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Verso aislado | no existe norma de forma | únicamente la posición y, si hace falta, una observación | exactamente 1 verso |
 | Quintilla | 5 octosílabos, consonancia | esquema de cada quintilla | múltiplo de 5 |
 | Terceto | 3 endecasílabos, consonancia entre dos de los tres | qué verso queda suelto, `A-A` o `-AA`; final esdrújulo si caracteriza | múltiplo de 3 |
-| Terceto encadenado | encadenamiento y cierre `YZYZ` | arquitectura métrica, si hay más de una | bloques de 3 más el verso final |
+| Terceto encadenado | encadenamiento y cierre en serventesio | la medida: endecasílaba u octosílaba | bloques de 3 más el verso final |
 | Silva · consonante de orden libre | 7 y 11 sin orden fijo, consonancia y versos sueltos admitidos | cuánto organizan los pareados la serie | abierta |
 | Silva · consonante regular | ciclo `7 + 11` y pareados regulares | nada | múltiplo de 2 |
 | Silva · endecasilábica | 11 y consonancia | cuánto organizan los pareados la serie | abierta |
