@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 21:03
+Generado: 2026-07-31 21:20
 
-Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 66 patrones de rima · 57 secciones · 47 grupos de elección · 336 opciones · 6 rasgos.
+Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 66 patrones de rima · 57 secciones · 58 grupos de elección · 358 opciones · 6 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -80,16 +80,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D12 · Pregunta estructural con alcance de secuencia — 4
+### D12 · Pregunta estructural con alcance de secuencia — 0
 
 > Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad.
 
-| Sujeto | Detalle |
-| --- | --- |
-| villancico · estribillo_inicial | medidas_realizadas · dimensión metro · 2 opciones |
-| villancico · estribillo_tras_primera_copla | medidas_realizadas · dimensión metro · 2 opciones |
-| zejel · estribillo_y_coplas_monorrimas | medidas_realizadas · dimensión metro · 2 opciones |
-| copla_de_arte_mayor · dodecasilabica_compuesta | esquema_rima · dimensión rima · 3 opciones |
+Sin incidencias.
 
 ## 2 · Homogeneidad de criterio
 
@@ -98,7 +93,7 @@ Sin incidencias.
 | Forma | Nivel | Cfg | Prot. | Medida vive en | Rima vive en | Grupos | Alcance |
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
 | cancion_petrarquista | composicion | 3 | — | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
-| copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | secuencia |
+| copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
 | copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
@@ -120,8 +115,8 @@ Sin incidencias.
 | soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
-| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 7 | secuencia, unidad |
-| zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 2 | secuencia, unidad |
+| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 15 | unidad |
+| zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 5 | unidad |
 
 ### 2.2 · Reparto de la medida
 
@@ -137,12 +132,10 @@ Sin incidencias.
 | Dimensión · alcance | Formas |
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
-| metro · secuencia | villancico, zejel |
-| metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado |
+| metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
 | rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, octava_real, romance, sexteto_lira, silva, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
-| rima · secuencia | copla_de_arte_mayor |
-| rima · unidad | cancion_petrarquista, copla_real, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
+| rima · unidad | cancion_petrarquista, copla_de_arte_mayor, copla_real, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
@@ -186,5 +179,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 4.
+Total de defectos detectados: 0.
 

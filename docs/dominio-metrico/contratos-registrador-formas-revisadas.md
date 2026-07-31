@@ -23,10 +23,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Endecasílabo suelto | 11 y predominio de versos sueltos | si hay pareados intercalados; dístico final y encadenamiento interior si caracterizan | abierta |
 | Pareado | dos versos que riman entre sí, `aa` | la medida de cada uno de los dos versos y si la rima es consonante o asonante | múltiplo de 2 |
 | Soneto | 14 endecasílabos, `ABBA ABBA`, estructura `4 + 4 + 3 + 3` | esquema de tercetos; final esdrújulo si caracteriza | múltiplo de 14 |
-| Villancico | posición de la primera aparición del estribillo y secciones obligatorias | medidas, esquema de cada mudanza, enlace o vuelta y tipo de represa | calculada desde cabeza/estribillo, coplas y represas |
-| Zéjel | cabeza, mudanza monorrima de 3 versos y vuelta de 1 a la rima del estribillo | medidas y presencia material de la represa | calculada desde cabeza, coplas fijas de 4 y represas |
+| Villancico | posición de la primera aparición del estribillo y secciones obligatorias | la medida de cada sección, el esquema de cada mudanza, el enlace o vuelta y el tipo de represa | calculada desde cabeza/estribillo, coplas y represas |
+| Zéjel | cabeza, mudanza monorrima de 3 versos y vuelta de 1 a la rima del estribillo | la medida de cada sección y la presencia material de la represa | calculada desde cabeza, coplas fijas de 4 y represas |
 | Copla real | 10 versos, estructura `5 + 5` y consonancia; el pie quebrado es rasgo admitido | esquema de cada quintilla, reutilizado del de la quintilla, y las posiciones quebradas si las hay | múltiplo de 10 |
-| Copla de arte mayor | 8 dodecasílabos compuestos `6 + 6`, consonancia y estructura `4 + 4` | uno de los tres esquemas reconocidos | múltiplo de 8 |
+| Copla de arte mayor | 8 dodecasílabos compuestos `6 + 6`, consonancia y estructura `4 + 4` | uno de los tres esquemas reconocidos, en cada copla | múltiplo de 8 |
 | Copla de pie quebrado (general) | octosílabo dominante, consonancia y unidades de 5–12 versos | extensión de cada unidad, medida o medidas de los quebrados y sus posiciones | cada unidad entre 5 y 12 |
 | Sextilla | 6 versos, consonancia y la medida de su arquitectura: 8, 7, 6 o `8-8-4-8-8-4` | nada | múltiplo de 6 |
 | Sextilla · doble de pie quebrado | 12 versos en dos sextillas `8-8-4-8-8-4` con rimas independientes | marcar la disposición si es la manriqueña `abcabc:defdef` | múltiplo de 12 |
@@ -67,8 +67,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Pareado: forma, medida de los dos versos del primer dístico y tipo de rima; aplicar a
   toda la tirada y cambiar solo los que difieran.
 - Soneto: forma, esquema de los tercetos y guardar.
-- Villancico: forma, medidas y únicamente las unidades que realmente aparecen.
-- Zéjel: forma, medidas, extensión de la cabeza y presencia material de la represa; la
+- Villancico: forma, medida de cada sección y únicamente las unidades que realmente
+  aparecen.
+- Zéjel: forma, medida de cada sección, extensión de la cabeza y presencia material de la
+  represa; la
   estructura `BBB + A` no se pregunta.
 - Copla real: forma y los dos esquemas de quintilla; marcar una o dos posiciones
   quebradas solo si la copla las tiene.
