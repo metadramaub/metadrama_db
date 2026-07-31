@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 17:22
+Generado: 2026-07-31 17:47
 
-Inventario: 25 formas y 2 tramos sin forma · 52 configuraciones · 56 patrones métricos · 72 patrones de rima · 55 secciones · 43 grupos de elección · 324 opciones · 3 rasgos.
+Inventario: 25 formas y 2 tramos sin forma · 51 configuraciones · 55 patrones métricos · 72 patrones de rima · 55 secciones · 43 grupos de elección · 326 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -64,14 +64,13 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D9 · Rasgo cualitativo almacenado como restricción de rima sin catalogar — 15
+### D9 · Rasgo cualitativo almacenado como restricción de rima sin catalogar — 14
 
 > Una propiedad transversal es un rasgo con modalidad declarada, no un literal libre colgado de un patrón.
 
 | Sujeto | Detalle |
 | --- | --- |
 | pareados_no_sistematicos | 2 forma(s): endecasilabo_suelto, silva |
-| predominio_versos_rimados | 2 forma(s): pareado, silva |
 | distico_final | 1 forma(s): endecasilabo_suelto |
 | encadenamiento_final_interior | 1 forma(s): endecasilabo_suelto |
 | enlace_vuelta | 1 forma(s): villancico |
@@ -79,7 +78,7 @@ Sin incidencias.
 | pareados_habituales | 1 forma(s): silva |
 | pareados_intercalados_ocasionales | 1 forma(s): endecasilabo_suelto |
 | pareados_predominantes | 1 forma(s): silva |
-| pareados_sistematicos | 1 forma(s): pareado |
+| predominio_versos_rimados | 1 forma(s): silva |
 | predominio_versos_sueltos | 1 forma(s): endecasilabo_suelto |
 | rima_minoritaria | 1 forma(s): endecasilabo_suelto |
 | sin_distico_final | 1 forma(s): endecasilabo_suelto |
@@ -125,7 +124,7 @@ Sin incidencias.
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
 | octava_real | estrofa | 1 | sí | posiciones | patrón único | 1 | secuencia |
-| pareado | estrofa | 2 | sí | configuracion, conjunto, eleccion | cualitativa, patrón único | 2 | unidad |
+| pareado | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
 | quintilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | redondilla | estrofa | 4 | sí | configuracion, posiciones | elección, patrón único | 3 | unidad |
 | romance | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
@@ -145,7 +144,7 @@ Sin incidencias.
 
 | Vía | Formas |
 | --- | --- |
-| configuracion (7) | pareado, redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
+| configuracion (6) | redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
 | conjunto (6) | cancion_petrarquista, copla_de_pie_quebrado, pareado, silva, villancico, zejel |
 | eleccion (6) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
 | posiciones (21) | cancion_petrarquista, copla_de_arte_mayor, copla_real, decima_aumentada, decima_espinela, endecasilabo_suelto, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado |
@@ -160,7 +159,7 @@ Sin incidencias.
 | rasgo · secuencia | cancion_petrarquista, octava_real, romance, sexteto_lira, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
 | rima · secuencia | copla_de_arte_mayor |
-| rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
+| rima · unidad | cancion_petrarquista, copla_real, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
@@ -202,7 +201,6 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
-| AA | cancion_petrarquista, pareado |
 | abab | redondilla×3, villancico×2 |
 | abba | redondilla×3, villancico×2 |
 
@@ -212,5 +210,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 20.
+Total de defectos detectados: 19.
 

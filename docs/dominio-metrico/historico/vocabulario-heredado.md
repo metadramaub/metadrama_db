@@ -334,7 +334,7 @@ describen nada actual.
 | Naturaleza estrófica | estrofa_cerrada |
 | Tipo de rima | otras |
 | Metros declarados | 4, 5, 6, 7, 8 sílabas |
-| **Destino actual** | **arquitectura** `pareado · arte_menor` |
+| **Destino actual** | **arquitectura** `pareado · cualquier_medida` |
 | Propuesta de importación | C · certeza media |
 
 > Un dístico o una serie de dísticos de arte menor.
@@ -343,8 +343,8 @@ describen nada actual.
 
 | Subtipo | Patrón | Metros | Destino actual |
 | --- | --- | --- | --- |
-| `pareado_hexasilabo` · Pareado hexasílabo | — | 6 | **respuesta** de medida en `pareado · arte_menor` |
-| `pareado_octosilabo` · Pareado octosílabo | — | 8 | **respuesta** de medida en `pareado · arte_menor` |
+| `pareado_hexasilabo` · Pareado hexasílabo | — | 6 | **respuesta** de medida en `pareado · cualquier_medida` |
+| `pareado_octosilabo` · Pareado octosílabo | — | 8 | **respuesta** de medida en `pareado · cualquier_medida` |
 
 - `pareado_hexasilabo`: Dísticos de hexasílabos.
 - `pareado_octosilabo`: Dísticos de octosílabos.
@@ -361,7 +361,7 @@ describen nada actual.
 | Tipo de rima | consonante |
 | Metros declarados | 11 sílabas |
 | Equivalencias | Dístico o tirada de dísticos endecasílabos en su práctica totalidad (99-100%). |
-| **Destino actual** | **arquitectura** `pareado · arte_mayor` |
+| **Destino actual** | **respuesta** de medida en `pareado · cualquier_medida` |
 | Propuesta de importación | F · certeza alta |
 
 ### Quintilla
