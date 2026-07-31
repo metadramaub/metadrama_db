@@ -319,12 +319,18 @@ const DEFECTOS = [
 		id: 'D2',
 		titulo: 'Patrón de rima sin contenido alguno',
 		criterio:
-			'Un patrón debe aportar algo computable: esquema, posiciones o restricciones. Un patrón vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúa fijeza=no_aplica, que afirma la ausencia de rima.',
+			'Un patrón debe aportar algo computable: esquema, posiciones o restricciones. Un patrón vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúan dos casos que sí la declaran: fijeza=no_aplica, que afirma la ausencia de rima, y fijeza=libre con un tipo de rima declarado, que afirma que la norma exige ese tipo y deja abierta la disposición, como corresponde a una forma general.',
 		detectar(model) {
+			const declaraTipoDeRima = (patron) =>
+				Boolean(
+					patron.tipo_rima_id ||
+						model.configuracionPorId.get(patron.arquitectura_id)?.tipo_rima_id
+				);
 			return model.patronesRima
 				.filter(
 					(patron) =>
 						patron.fijeza !== 'no_aplica' &&
+						!(patron.fijeza === 'libre' && declaraTipoDeRima(patron)) &&
 						!patron.notacion &&
 						listOf(model.posicionesPorPatronRima, patron.esquema_rima_id).length === 0 &&
 						listOf(model.restriccionesPorPatronRima, patron.esquema_rima_id).length === 0

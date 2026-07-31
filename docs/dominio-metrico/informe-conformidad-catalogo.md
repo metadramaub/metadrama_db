@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 14:22
+Generado: 2026-07-31 16:13
 
-Inventario: 29 formas y 2 tramos sin forma · 55 configuraciones · 58 patrones métricos · 72 patrones de rima · 59 secciones · 41 grupos de elección · 308 opciones · 3 rasgos.
+Inventario: 25 formas y 2 tramos sin forma · 55 configuraciones · 58 patrones métricos · 74 patrones de rima · 55 secciones · 40 grupos de elección · 304 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -16,40 +16,30 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 | --- | --- |
 | pareado · principal | principal=true · demarcable=true |
 
-### D2 · Patrón de rima sin contenido alguno — 10
+### D2 · Patrón de rima sin contenido alguno — 3
 
-> Un patrón debe aportar algo computable: esquema, posiciones o restricciones. Un patrón vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúa fijeza=no_aplica, que afirma la ausencia de rima.
+> Un patrón debe aportar algo computable: esquema, posiciones o restricciones. Un patrón vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúan dos casos que sí la declaran: fijeza=no_aplica, que afirma la ausencia de rima, y fijeza=libre con un tipo de rima declarado, que afirma que la norma exige ese tipo y deja abierta la disposición, como corresponde a una forma general.
 
 | Sujeto | Detalle |
 | --- | --- |
-| cancion_petrarquista · estancias_consonantes_variables | Esquema consonante repetido entre estancias · fijeza=libre |
-| sextilla · isometrica | Distribución variable · fijeza=libre |
-| sextilla · pie_quebrado | Distribución variable · fijeza=libre |
-| sexteto · endecasilabica | Distribución consonante variable · fijeza=libre |
-| sexteto · dodecasilabica | Distribución consonante variable · fijeza=libre |
-| copla_de_pie_quebrado · octosilabica_con_quebrados | Distribución variable · fijeza=libre |
-| sexteto · alejandrina | Distribución consonante variable · fijeza=libre |
 | pareado · arte_menor | sin nombre · fijeza=admitido |
 | pareado · hexasilabico | sin nombre · fijeza=admitido |
 | pareado · octosilabico | sin nombre · fijeza=admitido |
 
-### D2b · Configuración sin ninguna declaración de rima ni de repetición — 3
+### D2b · Configuración sin ninguna declaración de rima ni de repetición — 2
 
 > Toda configuración debe declarar cómo se comporta la rima: un patrón propio, una sección que lo aporte o lo reutilice, o un patrón de repetición que ocupe su lugar.
 
 | Sujeto | Detalle |
 | --- | --- |
 | pareado · principal | 0 sección(es), sin patrón de rima accesible |
-| terceto · endecasilabico_consonante | 0 sección(es), sin patrón de rima accesible |
 | terceto_encadenado · octosilabico | 0 sección(es), sin patrón de rima accesible |
 
-### D3 · Patrón métrico sin posiciones ni opciones — 1
+### D3 · Patrón métrico sin posiciones ni opciones — 0
 
 > Un patrón métrico debe declarar posiciones ordenadas o un conjunto permitido.
 
-| Sujeto | Detalle |
-| --- | --- |
-| sexteto · alejandrina | estrofa · secuencia_fija |
+Sin incidencias.
 
 ### D4 · La unidad declarada contradice la extensión que producen las secciones — 0
 
@@ -81,23 +71,22 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D9 · Rasgo cualitativo almacenado como restricción de rima sin catalogar — 16
+### D9 · Rasgo cualitativo almacenado como restricción de rima sin catalogar — 15
 
 > Una propiedad transversal es un rasgo con modalidad declarada, no un literal libre colgado de un patrón.
 
 | Sujeto | Detalle |
 | --- | --- |
 | pareados_no_sistematicos | 2 forma(s): endecasilabo_suelto, silva |
-| predominio_versos_rimados | 2 forma(s): pareados_endecasilabos, silva |
+| predominio_versos_rimados | 2 forma(s): pareado, silva |
 | distico_final | 1 forma(s): endecasilabo_suelto |
-| distinto_de_abcabc_defdef | 1 forma(s): doble_sextilla |
 | encadenamiento_final_interior | 1 forma(s): endecasilabo_suelto |
 | enlace_vuelta | 1 forma(s): villancico |
 | mudanza_monorrima_y_vuelta_al_estribillo | 1 forma(s): zejel |
 | pareados_habituales | 1 forma(s): silva |
 | pareados_intercalados_ocasionales | 1 forma(s): endecasilabo_suelto |
 | pareados_predominantes | 1 forma(s): silva |
-| pareados_sistematicos | 1 forma(s): pareados_endecasilabos |
+| pareados_sistematicos | 1 forma(s): pareado |
 | predominio_versos_sueltos | 1 forma(s): endecasilabo_suelto |
 | rima_minoritaria | 1 forma(s): endecasilabo_suelto |
 | sin_distico_final | 1 forma(s): endecasilabo_suelto |
@@ -116,13 +105,12 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D12 · Pregunta estructural con alcance de secuencia — 5
+### D12 · Pregunta estructural con alcance de secuencia — 4
 
 > Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad.
 
 | Sujeto | Detalle |
 | --- | --- |
-| sextilla · isometrica | medida_comun · dimensión metro · 3 opciones |
 | villancico · estribillo_inicial | medidas_realizadas · dimensión metro · 2 opciones |
 | villancico · estribillo_tras_primera_copla | medidas_realizadas · dimensión metro · 2 opciones |
 | zejel · estribillo_y_coplas_monorrimas | medidas_realizadas · dimensión metro · 2 opciones |
@@ -137,30 +125,26 @@ Sin incidencias.
 | cancion_petrarquista | composicion | 3 | — | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | secuencia |
 | copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
-| copla_manriqueña | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | decima_espinela | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| doble_sextilla | estrofa | 1 | sí | posiciones | cualitativa, patrón único | 0 | — |
 | endecasilabo_suelto | serie | 5 | — | posiciones | cualitativa, patrón único | 0 | — |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
 | octava_real | estrofa | 1 | sí | posiciones | patrón único | 1 | secuencia |
-| pareado | estrofa | 4 | sí | configuracion, conjunto | patrón único, sin patrón | 0 | — |
-| pareados_endecasilabos | serie | 1 | sí | posiciones | cualitativa, patrón único | 0 | — |
+| pareado | estrofa | 5 | sí | configuracion, conjunto, posiciones | cualitativa, patrón único, sin patrón | 0 | — |
 | quintilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | redondilla | estrofa | 4 | sí | configuracion, posiciones | elección, patrón único | 3 | unidad |
 | romance | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
 | seguidilla | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
 | sexteto ·gral | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
-| sextilla | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | patrón único | 1 | secuencia |
+| sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
 | silva | serie | 4 | — | configuracion, conjunto, posiciones | cualitativa, patrón único | 0 | — |
 | soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
-| terceto | estrofa | 1 | sí | posiciones | sin patrón | 1 | secuencia |
+| terceto | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 1 | secuencia |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único, sin patrón | 0 | — |
-| tercetos_sin_encadenar | serie | 1 | sí | posiciones | elección | 1 | secuencia |
 | villancico | composicion | 2 | sí | conjunto, eleccion | cualitativa, elección | 7 | secuencia, unidad |
 | zejel | composicion | 1 | sí | conjunto, eleccion | cualitativa, patrón único | 2 | secuencia, unidad |
 
@@ -169,30 +153,30 @@ Sin incidencias.
 | Vía | Formas |
 | --- | --- |
 | configuracion (7) | pareado, redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
-| conjunto (7) | cancion_petrarquista, copla_de_pie_quebrado, pareado, sextilla, silva, villancico, zejel |
-| eleccion (6) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, sextilla, villancico, zejel |
-| posiciones (25) | cancion_petrarquista, copla_de_arte_mayor, copla_manriqueña, copla_real, decima_aumentada, decima_espinela, doble_sextilla, endecasilabo_suelto, lira, novena, octava_real, pareados_endecasilabos, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado, tercetos_sin_encadenar |
+| conjunto (6) | cancion_petrarquista, copla_de_pie_quebrado, pareado, silva, villancico, zejel |
+| eleccion (5) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, villancico, zejel |
+| posiciones (22) | cancion_petrarquista, copla_de_arte_mayor, copla_real, decima_aumentada, decima_espinela, endecasilabo_suelto, lira, novena, octava_real, pareado, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
 
 | Dimensión · alcance | Formas |
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
-| metro · secuencia | sextilla, villancico, zejel |
+| metro · secuencia | villancico, zejel |
 | metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real |
 | rasgo · secuencia | cancion_petrarquista, octava_real, romance, sexteto_lira, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
-| rima · secuencia | copla_de_arte_mayor, tercetos_sin_encadenar |
-| rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, soneto, villancico |
+| rima · secuencia | copla_de_arte_mayor |
+| rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, sextilla, soneto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
 | composicion | 3 | villancico×2, zejel×1 |
-| estrofa | 38 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, copla_manriqueña×1, decima_aumentada×1, decima_espinela×1, doble_sextilla×1, lira×1, octava_real×1, quintilla×8, redondilla×7, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×2 |
+| estrofa | 42 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, decima_aumentada×1, decima_espinela×1, lira×1, octava_real×1, quintilla×8, redondilla×7, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, terceto×2 |
 | seccion | 11 | cancion_petrarquista×2, soneto×5, villancico×4 |
-| serie | 17 | endecasilabo_suelto×5, pareados_endecasilabos×1, romance×4, silva×4, terceto_encadenado×1, tercetos_sin_encadenar×2 |
+| serie | 15 | endecasilabo_suelto×5, pareado×1, romance×4, silva×4, terceto_encadenado×1 |
 | unidad | 3 | pareado×3 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
@@ -207,7 +191,10 @@ Sin incidencias.
 | pareado · arte_menor | 1 | patrón vacío, sin sustituto |
 | pareado · hexasilabico | 1 | patrón vacío, sin sustituto |
 | pareado · octosilabico | 1 | patrón vacío, sin sustituto |
-| sextilla · isometrica | 1 | patrón vacío, sin sustituto |
+| sextilla · doble_pie_quebrado | 1 | patrón vacío, sin sustituto |
+| sextilla · heptasilabica | 1 | patrón vacío, sin sustituto |
+| sextilla · hexasilabica | 1 | patrón vacío, sin sustituto |
+| sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
 | endecasilabo_suelto · con_pareados_con_distico_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · con_pareados_sin_distico_final | 1 | restricciones cualitativas (1) |
@@ -235,5 +222,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 36.
+Total de defectos detectados: 25.
 
