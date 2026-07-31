@@ -12,7 +12,7 @@ export const METRIC_ENTRY_TYPES = ['forma', 'sin_forma'] as const;
 /** Cuánto acota la norma de una forma. Nulo en los tramos sin forma. */
 export const METRIC_SPECIFICATION_DEGREES = ['general', 'especifica'] as const;
 
-export const METRIC_CONFIGURATION_GRADES = [
+export const METRIC_ARCHITECTURE_GRADES = [
 	'fija',
 	'canonica',
 	'admitida',
@@ -47,7 +47,7 @@ export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[num
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
 export type MetricEntryType = (typeof METRIC_ENTRY_TYPES)[number];
 export type MetricSpecificationDegree = (typeof METRIC_SPECIFICATION_DEGREES)[number];
-export type MetricConfigurationGrade = (typeof METRIC_CONFIGURATION_GRADES)[number];
+export type MetricArchitectureGrade = (typeof METRIC_ARCHITECTURE_GRADES)[number];
 export type MetricMigrationClassification = (typeof METRIC_MIGRATION_CLASSIFICATIONS)[number];
 export type MetricChoiceDimension = (typeof METRIC_CHOICE_DIMENSIONS)[number];
 export type MetricChoiceScope = (typeof METRIC_CHOICE_SCOPES)[number];
@@ -76,7 +76,7 @@ export type MetricCatalogConfiguration = {
 	descripcion: string | null;
 	principal: boolean;
 	demarcable: boolean;
-	grado: MetricConfigurationGrade;
+	grado: MetricArchitectureGrade;
 	tipo_rima_id: string | null;
 	unidad_versos_min: number | null;
 	unidad_versos_max: number | null;
@@ -256,9 +256,11 @@ export type MetricCatalogPageData = {
 export const METRIC_MIGRATION_CLASSIFICATION_LABELS: Record<MetricMigrationClassification, string> =
 	{
 		F: 'Forma',
-		G: 'Familia',
-		C: 'Configuración',
-		P: 'Patrón',
+		// La clasificación es la que se propuso al importar el vocabulario heredado; se
+		// etiqueta con el vocabulario de hoy, y la familia ya no existe como destino.
+		G: 'Familia (retirada)',
+		C: 'Arquitectura',
+		P: 'Esquema',
 		R: 'Rasgo o valor',
 		A: 'Alias o fusión',
 		E: 'Residual editorial',

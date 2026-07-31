@@ -7,12 +7,13 @@ ficha de cada revisión.
 
 ## Los defectos del informe que esperan una decisión
 
-El [informe de conformidad](../informe-conformidad-catalogo.md) señala **35 defectos**. Ni
+El [informe de conformidad](../informe-conformidad-catalogo.md) señala **34 defectos**. Ni
 uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
 que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
 corregidos: cuatro slugs con un UUID incrustado, el alcance del esquema de tercetos del
-soneto —que la ontología ya resolvía por unidad— y el modelo de rima del soneto, cuyos
-cuatro esquemas describen ya los tercetos y no los catorce versos.
+soneto —que la ontología ya resolvía por unidad—, el modelo de rima del soneto, cuyos
+cuatro esquemas describen ya los tercetos y no los catorce versos, y la reutilización del
+repertorio de la quintilla por la copla real, que el IP confirmó.
 
 Esta es la correspondencia entre cada defecto y la decisión que lo desbloquea. Las
 preguntas están desarrolladas en el apartado de cada forma, más abajo.
@@ -25,7 +26,6 @@ preguntas están desarrolladas en el apartado de cada forma, más abajo.
 | D2b · configuraciones sin ninguna declaración de rima | 3 | Qué rima declara el terceto endecasílabo aislado, el terceto encadenado octosílabo y el pareado. |
 | D1 · configuración sin contenido normativo | 1 | Qué es `pareado · principal`: una arquitectura general que falta por describir o un resto que debe retirarse dejando principal a otra. |
 | D7 · rasgo booleano usado como vector de posiciones | 1 | En qué posiciones puede caer el quebrado de la copla de pie quebrado. Doce rasgos booleanos ocupan hoy el lugar de un esquema métrico. |
-| D8 · componente copiado en lugar de reutilizado | 1 | Si las dos quintillas de la copla real reutilizan el repertorio de ocho esquemas de la quintilla en vez de copiarlo. |
 
 Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
 bloquean es la comparación entre formas, que es para lo que existe el informe.
@@ -100,7 +100,9 @@ Véase [coplas-y-sextillas.md](./coplas-y-sextillas.md).
 
 1. ¿Los quebrados pueden ocupar cualquiera de las diez posiciones?
 2. ¿Se admiten únicamente tetrasílabos o también pentasílabos?
-3. ¿Las dos quintillas reutilizan el repertorio de ocho esquemas ya reconocido?
+3. ~~¿Las dos quintillas reutilizan el repertorio de ocho esquemas ya reconocido?~~
+   **Resuelto: sí.** Cada sección declara la arquitectura de la quintilla con
+   `arquitectura_referenciada_id` y sus opciones señalan los ocho esquemas de la quintilla.
 4. ¿La arquitectura quebrada es admitida o canónica para el proyecto?
 
 ## Coplas y sextillas

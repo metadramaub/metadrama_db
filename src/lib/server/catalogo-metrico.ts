@@ -112,7 +112,7 @@ function buildIssues(input: {
 				level: 'error',
 				entityId: form.forma_id,
 				label: form.nombre,
-				message: 'No tiene ninguna configuración activa.'
+				message: 'No tiene ninguna arquitectura activa.'
 			});
 			continue;
 		}
@@ -159,7 +159,7 @@ function buildIssues(input: {
 			entityId: configuration.arquitectura_id,
 			label: configuration.nombre,
 			message:
-				'Conserva al menos un patrón importado con ámbito «unidad genérica». Debe precisarse como estrofa, serie, sección o composición.'
+				'Conserva al menos un esquema importado con ámbito «unidad genérica». Debe precisarse como estrofa, serie, sección o composición.'
 		});
 	}
 	const metricPositionPatternIds = new Set(
@@ -191,7 +191,7 @@ function buildIssues(input: {
 			entityId: configuration.arquitectura_id,
 			label: configuration.nombre,
 			message:
-				'Tiene varios patrones métricos y alguno carece de nombre breve para distinguirlo en la interfaz.'
+				'Tiene varios esquemas métricos y alguno carece de nombre breve para distinguirlo en la interfaz.'
 		});
 	}
 	for (const pattern of input.domain.metricPatterns) {
@@ -207,7 +207,7 @@ function buildIssues(input: {
 				level: 'warning',
 				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
-				message: 'Tiene un patrón métrico ordenado sin posiciones declaradas.'
+				message: 'Tiene un esquema métrico ordenado sin posiciones declaradas.'
 			});
 		}
 		if (pattern.tipo === 'conjunto_permitido' && !metricOptionPatternIds.has(patternId)) {
@@ -238,7 +238,7 @@ function buildIssues(input: {
 				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message:
-					'Tiene un patrón de rima importado cuyo comportamiento todavía no se ha formalizado.'
+					'Tiene un esquema de rima importado cuyo comportamiento todavía no se ha formalizado.'
 			});
 			continue;
 		}
@@ -286,7 +286,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 49
+		Number(stateResponse.data?.modelo_version ?? 0) < 50
 	) {
 		return {
 			migrationPending: true,

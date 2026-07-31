@@ -754,7 +754,7 @@
 			return 'Selecciona una forma o una salida editorial.';
 		}
 		if (!isEditorialOutput && !draft.arquitectura_id) {
-			return 'Selecciona la configuración de la forma.';
+			return 'Selecciona la arquitectura de la forma.';
 		}
 		if (selectedForm?.slug === 'irregular' && draft.v_fin - draft.v_ini + 1 < 2) {
 			return 'Versificación irregular debe abarcar al menos dos versos.';
@@ -1213,7 +1213,7 @@
 													? '¿Aparecen versos de pie quebrado? *'
 													: selectedForm?.slug === 'redondilla'
 														? '¿Cómo se organizan las redondillas? *'
-													: 'Configuración *'}
+													: 'Arquitectura *'}
 										</span>
 										<select
 											class="h-10 border border-[color:var(--border)] bg-white px-3"
@@ -1228,7 +1228,7 @@
 														? 'Seleccionar realización'
 														: selectedForm?.slug === 'redondilla'
 															? 'Seleccionar organización'
-														: 'Seleccionar configuración'}
+														: 'Seleccionar arquitectura'}
 											</option>
 											{#each configurationsForDraft as configuration (configuration.arquitectura_id)}
 												<option value={configuration.arquitectura_id}>
@@ -1408,7 +1408,7 @@
 						<div>
 							<h3 class="font-semibold">Selecciona o crea una secuencia</h3>
 							<p class="mt-2 max-w-md text-sm leading-6 text-[color:var(--muted-foreground)]">
-								La prueba mostrará únicamente las preguntas declaradas por la configuración elegida.
+								La prueba mostrará únicamente las preguntas declaradas por la arquitectura elegida.
 							</p>
 						</div>
 					</div>

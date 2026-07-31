@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { untrack } from 'svelte';
-	import MetricConfigurationEditor from './MetricConfigurationEditor.svelte';
+	import MetricArchitectureEditor from './MetricArchitectureEditor.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
-		METRIC_CONFIGURATION_GRADES,
+		METRIC_ARCHITECTURE_GRADES,
 		METRIC_STRUCTURAL_LEVELS,
 		metricReviewStateLabel,
 		metricStructuralLevelLabel,
@@ -30,12 +30,12 @@
 	let creatingConfiguration = $state(false);
 	let newConfigurationError = $state('');
 	let newConfiguration = $state({
-		slug: 'nueva_configuracion',
-		nombre: 'Nueva configuración',
+		slug: 'nueva_arquitectura',
+		nombre: 'Nueva arquitectura',
 		descripcion: '',
 		principal: false,
 		demarcable: true,
-		grado: 'admitida' as (typeof METRIC_CONFIGURATION_GRADES)[number],
+		grado: 'admitida' as (typeof METRIC_ARCHITECTURE_GRADES)[number],
 		tipo_rima_id: null as string | null,
 		unidad_versos_min: null as number | null,
 		unidad_versos_max: null as number | null,
@@ -125,15 +125,15 @@
 				throw new Error(
 					payload.message ??
 						payload.details?.[0]?.message ??
-						'No se pudo crear la configuración.'
+						'No se pudo crear la arquitectura.'
 				);
 			}
-			pushToast('success', `Configuración «${newConfiguration.nombre}» creada.`);
+			pushToast('success', `Arquitectura «${newConfiguration.nombre}» creada.`);
 			showNewConfiguration = false;
 			await invalidateAll();
 		} catch (error) {
 			newConfigurationError =
-				error instanceof Error ? error.message : 'No se pudo crear la configuración.';
+				error instanceof Error ? error.message : 'No se pudo crear la arquitectura.';
 		} finally {
 			creatingConfiguration = false;
 		}
@@ -293,7 +293,7 @@
 				<p class="text-xs font-semibold uppercase tracking-[0.12em] text-[color:var(--muted-foreground)]">
 					Norma formal
 				</p>
-				<h3 class="mt-1 text-xl font-semibold">Configuraciones</h3>
+				<h3 class="mt-1 text-xl font-semibold">Arquitecturas</h3>
 				<p class="mt-1 max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
 					Las alternativas se describen aquí sin convertir cada cambio de metro o rima en una
 					forma nueva.
@@ -304,13 +304,13 @@
 				class="border border-[color:var(--border)] px-4 py-2 text-sm font-medium hover:bg-[color:var(--muted)]"
 				onclick={() => (showNewConfiguration = !showNewConfiguration)}
 			>
-				{showNewConfiguration ? 'Cancelar' : 'Añadir configuración'}
+				{showNewConfiguration ? 'Cancelar' : 'Añadir arquitectura'}
 			</button>
 		</div>
 
 		{#if showNewConfiguration}
 			<div class="space-y-4 border border-[color:var(--border)] bg-[color:var(--muted)] p-4">
-				<h4 class="font-medium">Nueva configuración</h4>
+				<h4 class="font-medium">Nueva arquitectura</h4>
 				<div class="grid gap-4 md:grid-cols-2">
 					<label class="space-y-1">
 						<span class="text-sm font-medium">Nombre</span>
@@ -393,7 +393,7 @@
 							class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
 							bind:value={newConfiguration.grado}
 						>
-							{#each METRIC_CONFIGURATION_GRADES as grade}
+							{#each METRIC_ARCHITECTURE_GRADES as grade}
 								<option value={grade}>{grade.replaceAll('_', ' ')}</option>
 							{/each}
 						</select>
@@ -430,7 +430,7 @@
 						disabled={creatingConfiguration}
 						onclick={createConfiguration}
 					>
-						{creatingConfiguration ? 'Creando…' : 'Crear configuración'}
+						{creatingConfiguration ? 'Creando…' : 'Crear arquitectura'}
 					</button>
 				</div>
 			</div>
@@ -438,7 +438,7 @@
 
 		<div class="space-y-3">
 			{#each configurations as configuration (configuration.arquitectura_id)}
-				<MetricConfigurationEditor
+				<MetricArchitectureEditor
 					{configuration}
 					formLevel={draft.nivel_estructural}
 					domain={props.domain}
@@ -447,7 +447,7 @@
 				/>
 			{:else}
 				<p class="border border-dashed border-[color:var(--border)] p-4 text-sm text-[color:var(--muted-foreground)]">
-					Esta forma todavía no tiene configuraciones.
+					Esta forma todavía no tiene arquitecturas.
 				</p>
 			{/each}
 		</div>
@@ -455,7 +455,7 @@
 	{:else}
 		<section class="border-t border-[color:var(--border)] pt-6">
 			<p class="text-sm leading-6 text-[color:var(--muted-foreground)]">
-				Las salidas editoriales no tienen configuraciones, patrones ni desviaciones respecto de
+				Las salidas editoriales no tienen arquitecturas, esquemas ni desviaciones respecto de
 				una norma. Solo permiten delimitar el rango y añadir una observación opcional.
 			</p>
 		</section>
