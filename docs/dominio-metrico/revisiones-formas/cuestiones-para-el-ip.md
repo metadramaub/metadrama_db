@@ -7,7 +7,7 @@ ficha de cada revisión.
 
 ## Los defectos del informe que esperan una decisión
 
-El [informe de conformidad](../informe-conformidad-catalogo.md) señala **25 defectos**. Ni
+El [informe de conformidad](../informe-conformidad-catalogo.md) señala **20 defectos**. Ni
 uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
 que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
 corregidos.
@@ -19,12 +19,11 @@ preguntas están desarrolladas en el apartado de cada forma, más abajo.
 | --- | ---: | --- |
 | D9 · rasgos cualitativos como restricciones sin catalogar | 15 | Qué rasgos existen, qué valores admite cada uno y con qué modalidad interviene en cada arquitectura. Quince literales sueltos —`pareados_sistematicos`, `predominio_versos_sueltos`, `distico_final`…— esperan una taxonomía, no una traducción mecánica. |
 | D12 · preguntas con alcance de secuencia | 4 | Si los tres esquemas de la copla de arte mayor pueden alternar dentro de una tirada; si las medidas del villancico y del zéjel forman repertorio cerrado. |
-| D2 · esquemas de rima sin contenido | 3 | Qué rima declaran las tres arquitecturas de arte menor del pareado. |
-| D2b · arquitecturas sin ninguna declaración de rima | 2 | Qué rima declaran `pareado · principal` y el terceto encadenado octosílabo. |
-| D1 · arquitectura sin contenido normativo | 1 | Qué es `pareado · principal`: una arquitectura general que falta por describir o un resto que debe retirarse dejando principal a otra. |
+| D2b · arquitecturas sin ninguna declaración de rima | 1 | Qué rima declara el terceto encadenado octosílabo. |
 
-Cinco de los diez defectos que no son rasgos cualitativos se concentran en el **pareado**,
-la única forma del catálogo cuyo reparto interno sigue sin decidirse.
+Los quince primeros son en realidad **una sola decisión**: la taxonomía de rasgos
+cualitativos. Sin ella, quince propiedades transversales siguen siendo literales sueltos
+colgados de un esquema de rima.
 
 Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
 bloquean es la comparación entre formas, que es para lo que existe el informe.
@@ -66,19 +65,20 @@ Véase [silva.md](./silva.md).
 
 Véase [series-endecasilabicas.md](./series-endecasilabicas.md).
 
-**El pareado es la única forma del catálogo cuyo reparto interno sigue sin decidirse**, y de
-él salen cinco de los veinticinco defectos del informe.
+1. ¿El pareado de arte menor admite rima asonante además de consonante? El vocabulario
+   heredado dejó su tipo de rima como «otras» y el modelo lo conserva sin declarar; si la
+   norma exige consonancia, basta con declararla.
+2. ¿El arte mayor del pareado debe limitarse al endecasílabo o conviene mantener abierto el
+   rango a dodecasílabos y alejandrinos, que hoy se ofrecen?
 
-1. ¿Qué rima declaran las arquitecturas de arte menor del pareado? Hoy `arte_menor`,
-   `hexasilabico` y `octosilabico` tienen un esquema sin contenido.
-2. ¿`pareado · principal` es una arquitectura general por describir o un resto que debe
-   retirarse dejando principal a otra? Hoy no declara ni metro ni rima.
-3. ¿`arte_menor`, que admite de 4 a 8 sílabas, hace innecesarias las arquitecturas
-   hexasilábica y octosilábica, o cada una responde a un uso distinto?
-
-Resuelto en el modelo: `pareados_endecasilabos` no era una forma sino una tirada de
-pareados. Su arquitectura es hoy `pareado · endecasilabico` y cuántos contiene el pasaje se
-deriva del rango.
+Resuelto en el modelo: el pareado es **cualquier dístico** —dos versos que riman entre sí,
+sea cual sea su medida— y una forma general que puede formar series, como el terceto o el
+sexteto. Quedan dos arquitecturas, arte menor y arte mayor, porque el arte es el corte que
+la tradición hace y el que se corresponde con el régimen de rima. La medida exacta no es
+arquitectura: el pareado no tiene repertorio cerrado de medidas, así que la declara el pasaje
+y se pregunta por posición, lo que además permite registrar el dístico heterométrico.
+`pareados_endecasilabos` era una tirada de pareados de arte mayor, y `pareado_hexasilabo` y
+`pareado_octosilabo` eran dos medidas dentro del arte menor, no dos arquitecturas.
 
 ## Soneto
 

@@ -22,7 +22,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Silva de consonantes irregular | 7 y 11, pareados predominantes | nada más | abierta |
 | Silva endecasílaba | 11, predominio de rimados, pareados no sistemáticos | nada más | abierta |
 | Endecasílabo suelto | norma de la arquitectura elegida | nada más | abierta |
-| Pareado · endecasilábico | dístico consonante de 11 | nada más | múltiplo de 2 |
+| Pareado · de arte menor | dos versos de arte menor que riman entre sí, `aa` | la medida de cada uno de los dos versos | múltiplo de 2 |
+| Pareado · de arte mayor | dos versos de arte mayor con rima consonante, `AA` | la medida de cada uno de los dos versos | múltiplo de 2 |
 | Soneto | 14 endecasílabos, `ABBA ABBA`, estructura `4 + 4 + 3 + 3` | esquema de tercetos; final esdrújulo si caracteriza | múltiplo de 14 |
 | Villancico | posición de la primera aparición del estribillo y secciones obligatorias | medidas, esquema de cada mudanza, enlace o vuelta y tipo de represa | calculada desde cabeza/estribillo, coplas y represas |
 | Zéjel | cabeza, mudanza monorrima de 3 versos y vuelta de 1 a la rima del estribillo | medidas y presencia material de la represa | calculada desde cabeza, coplas fijas de 4 y represas |
@@ -64,7 +65,8 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Terceto encadenado: forma, arquitectura si se solicita y guardar.
 - Silva: forma, arquitectura y guardar.
 - Endecasílabo suelto: forma, arquitectura y guardar.
-- Pareado endecasilábico: forma, arquitectura y guardar.
+- Pareado: forma, arte menor o mayor y la medida de los dos versos del primer dístico;
+  aplicar a toda la tirada y cambiar solo los que difieran.
 - Soneto: forma, esquema de los tercetos y guardar.
 - Villancico: forma, medidas y únicamente las unidades que realmente aparecen.
 - Zéjel: forma, medidas, extensión de la cabeza y presencia material de la represa; la
