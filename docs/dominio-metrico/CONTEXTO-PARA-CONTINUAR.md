@@ -11,8 +11,8 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `48`.
-- La última migración es `20260731150000_defectos_sin_decision_editorial.sql` y está aplicada.
+- La versión requerida del modelo es `49`.
+- La última migración es `20260731170000_modelo_del_soneto.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
@@ -146,12 +146,8 @@ decisiones a la implementación:
    `patron_acentual` se retiró en el bloque B, y las familias, `tipo_relacion` y
    `es_principal` en el D.
 3. Corregir los defectos del [informe de conformidad](./informe-conformidad-catalogo.md).
-   Quedan 39 y **ninguno se puede corregir sin una decisión del IP**: el triaje, defecto por
+   Quedan 35 y **ninguno se puede corregir sin una decisión del IP**: el triaje, defecto por
    defecto, está en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
-3bis. Queda además un hueco de esquema que no se asignó a ningún bloque: la respuesta que
-   define la norma, en el §3.3 del [contrato](./contrato-implementacion.md). Sin ella el
-   editor puede guardar una canción con estancias de esquemas distintos, que es justo lo
-   que su norma prohíbe.
 4. Crear la capa de desviaciones sobre las secuencias reales.
 5. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
    rasgos.

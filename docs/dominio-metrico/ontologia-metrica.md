@@ -296,12 +296,31 @@ ontología se presenta como pregunta**. Y una elección nunca es una desviación
 Un caso aparte que conviene no confundir con la elección. Algunas formas no fijan su
 esquema de antemano: lo fija la primera realización y las demás lo repiten. La canción
 petrarquista mantiene idéntico en todas sus estancias un esquema que el catálogo no
-enumera; el sexteto admite cualquier disposición consonante de seis posiciones.
+enumera, y también la distribución de heptasílabos y endecasílabos: **se reconoce por una
+composición de estancias que repiten su estructura**, de modo que si no se repite no es una
+canción.
 
 En esos casos el editor no elige entre alternativas catalogadas: **declara la norma de ese
 pasaje**, con una respuesta abierta y validada contra la extensión de la unidad. No se crea
-una entidad nueva por cada esquema que aparezca en el corpus, y lo declarado rige para toda
-la secuencia.
+una entidad nueva por cada esquema que aparezca en el corpus.
+
+Lo que distingue esta respuesta de una elección ordinaria es **cuántas veces puede
+responderse distinto**, no dónde se pregunta. Por eso el catálogo lo marca con un booleano,
+`define_norma`, y no con un alcance nuevo: la pregunta se sigue haciendo donde le
+corresponde —en cada estancia, en cada unidad— y lo que se añade es que todas sus
+realizaciones deben coincidir dentro del ámbito que las contiene. En la canción, ese ámbito
+es la unidad: las estancias de una misma canción comparten esquema, pero dos canciones
+distintas del mismo pasaje no tienen por qué.
+
+Se responde en cada realización, no una sola vez, y a propósito: así una estancia que se
+salga de la norma podrá registrarse mañana como desviación localizada en vez de obligar a
+partir la secuencia.
+
+Cuidado con extenderlo por parecido. El sexteto también admite cualquier disposición
+consonante de seis posiciones, y sin embargo **no** declara norma: su patrón de rima es
+«variable y registrado en cada unidad», y que dos sextetos de una tirada difieran está
+previsto. Si esto es así o no en cada forma no lo decide el modelo, lo decide el IP; es la
+misma pregunta abierta que la de `abba` frente a `abab` en la redondilla.
 
 ### Denominación
 
@@ -377,14 +396,20 @@ registran como rasgo: no crean subformas.
 flowchart TD
     F["FORMA · Soneto<br/>unidad: el poema, 14 versos"] --> A["ARQUITECTURA · endecasílabo consonante"]
     A --> S1["SECCIÓN · cuarteto ×2"]
-    A --> S2["SECCIÓN · tercetos"]
+    A --> S2["SECCIÓN · terceto ×2<br/>reutiliza la arquitectura del terceto"]
     S1 --> R1["ESQUEMA · ABBA"]
-    S2 --> R2["ESQUEMAS<br/>CDCDCD · CDECDE · CDEDCE · CDCEDE"]
+    A --> R2["ESQUEMAS de los tercetos<br/>CDCDCD · CDECDE · CDEDCE · CDCEDE"]
     R2 --> E["ELECCIÓN por unidad<br/>¿qué esquema de tercetos?"]
 ```
 
 Las repeticiones `×2` son internas a la unidad. Que un pasaje contenga tres sonetos
 seguidos se deriva del rango, y cada uno conserva su propia elección de tercetos.
+
+El esquema de los tercetos no cuelga de la sección sino de la arquitectura, y es el único
+caso de los arquetipos en que eso ocurre: sus seis posiciones describen cómo se entrelazan
+las rimas de un terceto con las del otro, así que abarca las dos secciones sin pertenecer a
+ninguna. La pregunta se hace una vez por unidad y el editor la presenta uniendo ambos. Que
+una pregunta abarque dos secciones no obliga a fundirlas en una.
 
 ### Composición con estribillo · villancico
 
@@ -517,6 +542,7 @@ usa aquí con esos sentidos.
 | Repetición | `repeticiones_metricas` | — |
 | Rasgo | `rasgos_metricos` · `arquitectura_rasgos` | poblar con las propiedades cualitativas hoy en restricciones |
 | Elección | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` | — |
+| Respuesta que define la norma | `grupos_eleccion_metrica.define_norma` | — |
 | Denominación | `denominaciones_metricas` | — |
 | Tradición | `tradiciones_metricas` · `formas_tradiciones` | — |
 | Relación | `forma_relaciones` | — |

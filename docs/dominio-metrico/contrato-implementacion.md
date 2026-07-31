@@ -155,7 +155,7 @@ estructura `7 + 7`.
 `vocabularios` conserva su categoría `metro` mientras las secuencias reales sigan
 apuntando ahí; los dos catálogos coexisten hasta la migración de anotaciones.
 
-### 3.3 · La respuesta que define la norma no se distingue de una elección · **pendiente**
+### 3.3 · La respuesta que define la norma no se distingue de una elección · resuelto
 
 La canción petrarquista y el sexteto usan `tipo_control = 'esquema_rima'` con
 `alcance = 'unidad'` y `permite_aplicar_global`. Funciona, pero dice otra cosa de la que
@@ -167,11 +167,20 @@ distintos en una canción, que es justo lo que su norma prohíbe.
 a una sola respuesta por secuencia y la aplique a todas las unidades. Es pequeño y evita
 que el editor pueda guardar algo que la forma no admite.
 
-**No se asignó a ningún bloque y sigue sin hacerse.** Es el único hueco de esquema que
-queda abierto: los otros cuatro se cerraron entre el 30 y el 31 de julio de 2026. Elegir
-entre el alcance nuevo y el booleano es una decisión de diseño que conviene tomar
-explícitamente, porque el alcance nuevo obliga a revisar cada sitio que hoy distingue
-`secuencia` de `unidad` y el booleano deja el alcance como está.
+**Resuelto con el booleano.** `alcance` sigue diciendo dónde se pregunta y `define_norma`
+dice cuántas veces puede responderse distinto: son cosas ortogonales, y separarlas evita que
+cada sitio que hoy distingue `secuencia` de `unidad` tenga que aprender un tercer valor. La
+respuesta se sigue guardando en cada realización —lo que permitirá registrar mañana una
+desviación localizada— y lo que se añade es la comprobación de que todas coinciden dentro
+del ámbito que las contiene.
+
+Dos precisiones que el análisis anterior no tenía. El ámbito es **la unidad, no la
+secuencia**: lo que debe coincidir son las estancias de una misma canción, no dos canciones
+distintas del mismo pasaje, así que el nombre `norma_de_secuencia` describía mal el único
+caso real. Y **el sexteto no es uno de ellos**: su ficha dice que su patrón de rima es
+«variable y registrado en cada unidad», y que dos sextetos de una tirada difieran está
+previsto. Queda activado solo en la canción petrarquista, en sus dos preguntas por estancia:
+el esquema de rima y la medida por posición.
 
 ### 3.4 · Los tramos sin forma no tienen dónde describirse
 
@@ -317,7 +326,6 @@ antes y después, regla por regla.
 
 - La capa de observación con sus dos modos, y con ella la posibilidad de describir un tramo
   sin forma.
-- La respuesta que define la norma, del apartado 3.3.
 - La corrección de los defectos de datos del informe, que necesita al IP: el triaje está en
   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 - El sellado de la revisión del catálogo en cada anotación.

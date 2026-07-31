@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 07:04
+Generado: 2026-07-31 07:36
 
-Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 81 patrones de rima · 61 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
+Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 82 patrones de rima · 61 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -53,16 +53,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D5 · La opción distingue menos posiciones que el patrón al que apunta — 4
+### D5 · La opción distingue menos posiciones que el patrón al que apunta — 0
 
 > El patrón debe modelar el nivel que la pregunta distingue; si la opción nombra un esquema más corto, la alternativa vive en un nivel inferior.
 
-| Sujeto | Detalle |
-| --- | --- |
-| soneto · endecasilabo_consonante | esquema_tercetos · opción «CDEDCE» (6) apunta a «ABBAABBACDEDCE» (14), ámbito composicion |
-| soneto · endecasilabo_consonante | esquema_tercetos · opción «CDCEDE» (6) apunta a «ABBAABBACDCEDE» (14), ámbito composicion |
-| soneto · endecasilabo_consonante | esquema_tercetos · opción «CDECDE» (6) apunta a «ABBAABBACDECDE» (14), ámbito composicion |
-| soneto · endecasilabo_consonante | esquema_tercetos · opción «CDCDCD» (6) apunta a «ABBAABBACDCDCD» (14), ámbito composicion |
+Sin incidencias.
 
 ### D6 · Slug de opción con UUID incrustado — 0
 
@@ -196,9 +191,9 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| composicion | 7 | soneto×4, villancico×2, zejel×1 |
+| composicion | 3 | villancico×2, zejel×1 |
 | estrofa | 32 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, copla_manriqueña×1, decima_aumentada×1, decima_espinela×1, doble_sextilla×1, lira×1, octava_real×1, quintilla×8, redondilla×3, seguidilla×2, sexta_rima×1, sexteto×1, sexteto_lira×3, sextilla×2 |
-| seccion | 22 | cancion_petrarquista×2, copla_real×16, villancico×4 |
+| seccion | 27 | cancion_petrarquista×2, copla_real×16, soneto×5, villancico×4 |
 | serie | 17 | endecasilabo_suelto×5, pareados_endecasilabos×1, romance×4, silva×4, terceto_encadenado×1, tercetos_sin_encadenar×2 |
 | unidad | 3 | pareado×3 |
 
@@ -248,5 +243,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 39.
+Total de defectos detectados: 35.
 
