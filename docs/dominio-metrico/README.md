@@ -140,9 +140,9 @@ validación ni el demarcador.
 La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración
 estructural se completó el 31: la base habla ya los nombres definitivos de
 [la ontología](./ontologia-metrica.md), el metro es una entidad del dominio, la unidad se
-declara y las familias han desaparecido. Queda por poblar las tradiciones desde
-`tipo_forma` y por corregir los defectos de datos del
-[informe de conformidad](./informe-conformidad-catalogo.md).
+declara, las familias han desaparecido y las tradiciones están pobladas. Queda un hueco de
+esquema —la respuesta que define la norma— y los defectos de datos del
+[informe de conformidad](./informe-conformidad-catalogo.md), que necesitan al IP.
 
 Las declaraciones reales de las secuencias no se han migrado ni se consultan
 desde el nuevo catálogo; ese cambio queda expresamente aplazado hasta que el

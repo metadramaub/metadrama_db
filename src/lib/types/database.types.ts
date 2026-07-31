@@ -1066,18 +1066,18 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "desviaciones_editor_metrico_esquema_rima_observado_id_fkey"
+            columns: ["esquema_rima_observado_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_rima"
+            referencedColumns: ["esquema_rima_id"]
+          },
+          {
             foreignKeyName: "desviaciones_editor_metrico_metro_observado_id_fkey"
             columns: ["metro_observado_id"]
             isOneToOne: false
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
-          },
-          {
-            foreignKeyName: "desviaciones_editor_metrico_patron_rima_observado_id_fkey"
-            columns: ["esquema_rima_observado_id"]
-            isOneToOne: false
-            referencedRelation: "esquemas_rima"
-            referencedColumns: ["esquema_rima_id"]
           },
           {
             foreignKeyName: "desviaciones_editor_metrico_realizacion_prueba_id_fkey"
@@ -3706,8 +3706,8 @@ export type Database = {
         Args: { p_datos: Json }
         Returns: string
       }
-      marcar_configuracion_metrica_principal: {
-        Args: { p_configuracion_id: string }
+      marcar_arquitectura_metrica_principal: {
+        Args: { p_arquitectura_id: string }
         Returns: undefined
       }
       mark_public_data_dirty_for_autor: {
@@ -3805,8 +3805,8 @@ export type Database = {
         Args: { p_estrofa_tipo_id: string }
         Returns: undefined
       }
-      regla_longitud_configuracion_metrica: {
-        Args: { p_configuracion_id: string }
+      regla_longitud_arquitectura_metrica: {
+        Args: { p_arquitectura_id: string }
         Returns: {
           explicacion: string
           minimo_versos: number

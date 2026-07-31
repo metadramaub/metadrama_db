@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 06:37
+Generado: 2026-07-31 07:04
 
 Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 81 patrones de rima · 61 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
 
@@ -64,16 +64,11 @@ Sin incidencias.
 | soneto · endecasilabo_consonante | esquema_tercetos · opción «CDECDE» (6) apunta a «ABBAABBACDECDE» (14), ámbito composicion |
 | soneto · endecasilabo_consonante | esquema_tercetos · opción «CDCDCD» (6) apunta a «ABBAABBACDCDCD» (14), ámbito composicion |
 
-### D6 · Slug de opción con UUID incrustado — 4
+### D6 · Slug de opción con UUID incrustado — 0
 
 > Los slugs son identificadores estables y legibles; serán clave de comparación.
 
-| Sujeto | Detalle |
-| --- | --- |
-| copla_de_pie_quebrado · variable_5_12 | medidas_pies_quebrados · 4_silabas_b7d3c277-feaf-4f2f-905a-cfddc45773c4 |
-| copla_de_pie_quebrado · variable_5_12 | medidas_pies_quebrados · 5_silabas_eac128ba-e438-49b4-8a13-057733271b38 |
-| copla_de_pie_quebrado · variable_5_12 | medidas_pies_quebrados · 6_silabas_6e6e3a7e-40d2-4aff-bab7-27044174b5e5 |
-| copla_de_pie_quebrado · variable_5_12 | medidas_pies_quebrados · 7_silabas_4f2d2610-1e55-40a2-8ad4-e57708d80489 |
+Sin incidencias.
 
 ### D7 · Rasgo booleano usado como vector de posiciones — 1
 
@@ -126,14 +121,13 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D12 · Pregunta estructural con alcance de secuencia — 6
+### D12 · Pregunta estructural con alcance de secuencia — 5
 
 > Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad.
 
 | Sujeto | Detalle |
 | --- | --- |
 | sextilla · isometrica | medida_comun · dimensión metro · 3 opciones |
-| soneto · endecasilabo_consonante | esquema_tercetos · dimensión rima · 4 opciones |
 | villancico · estribillo_inicial | medidas_realizadas · dimensión metro · 2 opciones |
 | villancico · estribillo_tras_primera_copla | medidas_realizadas · dimensión metro · 2 opciones |
 | zejel · estribillo_y_coplas_monorrimas | medidas_realizadas · dimensión metro · 2 opciones |
@@ -169,7 +163,7 @@ Sin incidencias.
 | sextilla | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | patrón único | 1 | secuencia |
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
 | silva | serie | 4 | — | configuracion, conjunto, posiciones | cualitativa, patrón único | 0 | — |
-| soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia |
+| soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | sin patrón | 1 | secuencia |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único, sin patrón | 0 | — |
 | tercetos_sin_encadenar | serie | 1 | sí | posiciones | elección | 1 | secuencia |
@@ -195,8 +189,8 @@ Sin incidencias.
 | rasgo · secuencia | cancion_petrarquista, octava_real, romance, sexteto_lira, soneto, terceto |
 | rasgo · unidad | copla_de_pie_quebrado |
 | repeticion · unidad | villancico, zejel |
-| rima · secuencia | copla_de_arte_mayor, soneto, tercetos_sin_encadenar |
-| rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, villancico |
+| rima · secuencia | copla_de_arte_mayor, tercetos_sin_encadenar |
+| rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, soneto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
@@ -254,5 +248,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 44.
+Total de defectos detectados: 39.
 

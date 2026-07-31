@@ -1,9 +1,34 @@
 # Cuestiones para el IP
 
-Actualizado: 30 de julio de 2026
+Actualizado: 31 de julio de 2026
 
 Este archivo reúne solo decisiones pendientes. Las decisiones ya tomadas están en la
 ficha de cada revisión.
+
+## Los defectos del informe que esperan una decisión
+
+El [informe de conformidad](../informe-conformidad-catalogo.md) señala **39 defectos**. Ni
+uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
+que vive un hecho métrico. Los dos que no dependían de una decisión editorial ya están
+corregidos —cuatro slugs con un UUID incrustado y el alcance del esquema de tercetos del
+soneto, que la ontología ya resolvía por unidad—.
+
+Esta es la correspondencia entre cada defecto y la decisión que lo desbloquea. Las
+preguntas están desarrolladas en el apartado de cada forma, más abajo.
+
+| Defecto | Cuántos | Qué hay que decidir |
+| --- | ---: | --- |
+| D9 · rasgos cualitativos como restricciones sin catalogar | 16 | Qué rasgos existen, qué valores admite cada uno y con qué modalidad interviene en cada arquitectura. Dieciséis literales sueltos —`pareados_sistematicos`, `predominio_versos_sueltos`, `distico_final`…— esperan una taxonomía, no una traducción mecánica. |
+| D2 · patrones de rima sin contenido | 8 | Si la canción, el sexteto, las dos sextillas y la copla de pie quebrado deben declarar restricciones cualitativas, dejar el patrón abierto o retirarlo. Los tres del pareado dependen de cómo se modele esa forma. |
+| D12 · preguntas estructurales con alcance de secuencia | 5 | Si la medida de la sextilla isométrica es arquitectura, como ya se decidió en la redondilla; si los tres esquemas de la copla de arte mayor pueden alternar dentro de una tirada; si las medidas del villancico y del zéjel forman repertorio cerrado. |
+| D5 · la opción distingue menos posiciones que su patrón | 4 | Si el esquema de tercetos del soneto sigue apuntando al patrón completo de catorce posiciones —lo que [soneto.md](./soneto.md) decidió— o pasa a ser un esquema de la sección, como dibuja la ontología. El informe y la ficha discrepan, y esa discrepancia es la decisión. |
+| D2b · configuraciones sin ninguna declaración de rima | 3 | Qué rima declara el terceto endecasílabo aislado, el terceto encadenado octosílabo y el pareado. |
+| D1 · configuración sin contenido normativo | 1 | Qué es `pareado · principal`: una arquitectura general que falta por describir o un resto que debe retirarse dejando principal a otra. |
+| D7 · rasgo booleano usado como vector de posiciones | 1 | En qué posiciones puede caer el quebrado de la copla de pie quebrado. Doce rasgos booleanos ocupan hoy el lugar de un esquema métrico. |
+| D8 · componente copiado en lugar de reutilizado | 1 | Si las dos quintillas de la copla real reutilizan el repertorio de ocho esquemas de la quintilla en vez de copiarlo. |
+
+Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
+bloquean es la comparación entre formas, que es para lo que existe el informe.
 
 ## Quintilla
 

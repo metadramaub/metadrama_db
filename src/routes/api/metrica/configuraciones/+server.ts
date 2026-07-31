@@ -73,8 +73,8 @@ async function markAsPrincipal(
 	shouldBePrincipal: boolean
 ) {
 	if (!shouldBePrincipal) return null;
-	const { error } = await db.rpc('marcar_configuracion_metrica_principal', {
-		p_configuracion_id: configurationId
+	const { error } = await db.rpc('marcar_arquitectura_metrica_principal', {
+		p_arquitectura_id: configurationId
 	});
 	return error;
 }
