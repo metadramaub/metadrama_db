@@ -5,7 +5,6 @@
 	import { untrack } from 'svelte';
 	import { get } from 'svelte/store';
 	import MetricFormEditor from '$lib/components/metrica/catalogo/MetricFormEditor.svelte';
-	import MetricMigrationReview from '$lib/components/metrica/catalogo/MetricMigrationReview.svelte';
 	import MetricCatalogOrganizationEditor from '$lib/components/metrica/catalogo/MetricCatalogOrganizationEditor.svelte';
 	import MetricCatalogReferenceEditor from '$lib/components/metrica/catalogo/MetricCatalogReferenceEditor.svelte';
 	import MetricCatalogGuide from '$lib/components/metrica/catalogo/MetricCatalogGuide.svelte';
@@ -78,8 +77,7 @@
 		{ id: 'organization', label: 'Organización' },
 		{ id: 'reference', label: 'Modelos, rasgos y fuentes' },
 		{ id: 'editor', label: 'Editor de prueba' },
-		{ id: 'validation', label: 'Validación y demarcador' },
-		{ id: 'traceability', label: 'Trazabilidad de importación' }
+		{ id: 'validation', label: 'Validación y demarcador' }
 	];
 
 	const filteredForms = $derived.by(() => {
@@ -539,16 +537,6 @@
 			{/key}
 		{:else if activeTab === 'editor'}
 			<MetricEditorSandbox {data} />
-		{:else if activeTab === 'traceability'}
-			<div class="mb-5 border-l-4 border-sky-500 bg-sky-50 p-4 text-sm leading-6 text-sky-950">
-				Esta sección conserva cómo se transformó el vocabulario anterior. Es un informe de
-				trazabilidad: sus pendientes no bloquean la edición, la validación ni el demarcador.
-			</div>
-			<MetricMigrationReview
-				rows={data.migrationRows}
-				forms={data.forms}
-				configurations={data.configurations}
-			/>
 		{:else}
 			<div class="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(20rem,1fr)]">
 				<section class="space-y-4">

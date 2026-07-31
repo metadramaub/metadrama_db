@@ -3,11 +3,9 @@ import type {
 	MetricCatalogDomainData,
 	MetricCatalogForm,
 	MetricCatalogIssue,
-	MetricCatalogMigrationRow,
 	MetricCatalogOption,
 	MetricCatalogPageData,
 	MetricCatalogPreviewVersion,
-	MetricCatalogSourceTerm,
 	MetricCatalogTradition,
 	MetricLengthRule
 } from '$lib/metrica/catalogo';
@@ -286,7 +284,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 50
+		Number(stateResponse.data?.modelo_version ?? 0) < 51
 	) {
 		return {
 			migrationPending: true,
@@ -297,7 +295,6 @@ export async function loadMetricCatalog(
 			configurations: [],
 			lengthRules: [],
 			traditions: [],
-			migrationRows: [],
 			previewVersions: [],
 			domain: emptyDomain(),
 			editorSandbox: emptyEditorSandbox(),
@@ -307,9 +304,6 @@ export async function loadMetricCatalog(
 				forms: 0,
 				approvedForms: 0,
 				configurations: 0,
-				pendingTerms: 0,
-				priorityPendingTerms: 0,
-				unresolvedTerms: 0
 			}
 		};
 	}
@@ -319,9 +313,6 @@ export async function loadMetricCatalog(
 		configurationsResponse,
 		traditionsResponse,
 		formTraditionsResponse,
-		migrationResponse,
-		destinationsResponse,
-		sourceTermsResponse,
 		metrePatternsResponse,
 		rhymePatternsResponse,
 		lengthRulesResponse,
@@ -340,20 +331,6 @@ export async function loadMetricCatalog(
 			.select('tradicion_id,slug,nombre,descripcion,estado_revision,activo')
 			.order('nombre', { ascending: true }),
 		db.from('formas_tradiciones').select('tradicion_id,forma_id'),
-		db
-			.from('migracion_terminos_metricos')
-			.select(
-				'termino_id,clasificacion_propuesta,clasificacion_decidida,propuesta,certeza,requiere_revision,estado_revision,notas_ip,revisado_en'
-			),
-		db
-			.from('migracion_termino_destinos')
-			.select(
-				'destino_id,termino_id,tipo_operacion,forma_id,arquitectura_id,variedad_id,esquema_metrico_id,esquema_rima_id,rasgo_id,valor_rasgo_id,alias_id'
-			),
-		db
-			.from('vocabularios')
-			.select('termino_id,termino,etiqueta,definicion,termino_padre_id')
-			.eq('categoria', 'estrofa_tipo'),
 		db.from('esquemas_metricos').select('esquema_metrico_id,arquitectura_id'),
 		db.from('esquemas_rima').select('esquema_rima_id,arquitectura_id'),
 		db
@@ -511,12 +488,6 @@ export async function loadMetricCatalog(
 		'No se pudieron cargar las relaciones de tradiciones',
 		formTraditionsResponse.error
 	);
-	throwQueryError('No se pudo cargar la revisión inicial', migrationResponse.error);
-	throwQueryError(
-		'No se pudieron cargar los destinos de la importación',
-		destinationsResponse.error
-	);
-	throwQueryError('No se pudieron cargar los términos de origen', sourceTermsResponse.error);
 	throwQueryError('No se pudieron cargar los patrones métricos', metrePatternsResponse.error);
 	throwQueryError('No se pudieron cargar los patrones de rima', rhymePatternsResponse.error);
 	throwQueryError('No se pudieron derivar las reglas de longitud', lengthRulesResponse.error);
@@ -559,38 +530,6 @@ export async function loadMetricCatalog(
 		formas: traditionFormCounts.get(row.tradicion_id) ?? 0
 	}));
 
-	const sourceTerms = new Map<string, MetricCatalogSourceTerm>(
-		((sourceTermsResponse.data ?? []) as MetricCatalogSourceTerm[]).map((row) => [
-			row.termino_id,
-			row
-		])
-	);
-	const destinationsByTerm = new Map<string, MetricCatalogMigrationRow['destinos']>();
-	for (const row of destinationsResponse.data ?? []) {
-		destinationsByTerm.set(row.termino_id, [
-			...(destinationsByTerm.get(row.termino_id) ?? []),
-			row
-		]);
-	}
-	const migrationRows: MetricCatalogMigrationRow[] = (migrationResponse.data ?? [])
-		.map((row: Omit<MetricCatalogMigrationRow, 'fuente' | 'destinos'>) => ({
-			...row,
-			fuente: sourceTerms.get(row.termino_id) ?? {
-				termino_id: row.termino_id,
-				termino: row.termino_id,
-				etiqueta: null,
-				definicion: null,
-				termino_padre_id: null
-			},
-			destinos: destinationsByTerm.get(row.termino_id) ?? []
-		}))
-		.sort((a: MetricCatalogMigrationRow, b: MetricCatalogMigrationRow) =>
-			(a.fuente.etiqueta?.trim() || a.fuente.termino).localeCompare(
-				b.fuente.etiqueta?.trim() || b.fuente.termino,
-				'es'
-			)
-		);
-
 	const optionsRows = optionsResponse.data ?? [];
 	const toOptions = (category: string): MetricCatalogOption[] =>
 		optionsRows
@@ -622,11 +561,6 @@ export async function loadMetricCatalog(
 		editorChoicesResponse,
 		editorDeviationsResponse
 	] = editorSandboxResponses;
-	const pendingTerms = migrationRows.filter((row) => row.estado_revision === 'pendiente');
-	const unresolvedTerms = migrationRows.filter(
-		(row) => row.destinos.length === 0 && row.clasificacion_propuesta !== 'D'
-	);
-
 	return {
 		migrationPending: false,
 		migrationMessage: null,
@@ -635,7 +569,6 @@ export async function loadMetricCatalog(
 		configurations,
 		lengthRules: (lengthRulesResponse.data ?? []) as MetricLengthRule[],
 		traditions,
-		migrationRows,
 		previewVersions: (previewVersionsResponse.data ?? []) as MetricCatalogPreviewVersion[],
 		domain,
 		editorSandbox: {
@@ -659,9 +592,6 @@ export async function loadMetricCatalog(
 			approvedForms: forms.filter((form) => form.activo && form.estado_revision === 'aprobada')
 				.length,
 			configurations: configurations.filter((configuration) => configuration.activo).length,
-			pendingTerms: pendingTerms.length,
-			priorityPendingTerms: pendingTerms.filter((row) => row.requiere_revision).length,
-			unresolvedTerms: unresolvedTerms.length
 		}
 	};
 }
