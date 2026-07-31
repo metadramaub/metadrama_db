@@ -48,12 +48,6 @@
 	const formOptions = $derived(
 		props.forms.map((form: MetricCatalogForm) => ({ value: form.forma_id, label: form.nombre }))
 	);
-	const familyOptions = $derived(
-		props.domain.families.map((row: MetricCatalogDomainRow) => ({
-			value: String(row.familia_id),
-			label: String(row.nombre)
-		}))
-	);
 	const traditionOptions = $derived(
 		props.domain.traditions.map((row: MetricCatalogDomainRow) => ({
 			value: String(row.tradicion_id),
@@ -82,10 +76,6 @@
 		...formOptions.map((option: MetricEntityOption) => ({
 			value: `forma_id:${option.value}`,
 			label: `Forma: ${option.label}`
-		})),
-		...familyOptions.map((option: MetricEntityOption) => ({
-			value: `familia_id:${option.value}`,
-			label: `Familia: ${option.label}`
 		})),
 		...traditionOptions.map((option: MetricEntityOption) => ({
 			value: `tradicion_id:${option.value}`,
@@ -257,7 +247,7 @@
 	<MetricEntityCollection
 		resource="sourceClaims"
 		title="Afirmaciones documentadas"
-		description="Vincula una fuente con exactamente una forma, familia, tradición, configuración, patrón o rasgo."
+		description="Vincula una fuente con exactamente una forma, tradición, arquitectura, esquema o rasgo."
 		rows={props.domain.sourceClaims}
 		keyFields={['afirmacion_id']}
 		fields={claimFields}

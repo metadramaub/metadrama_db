@@ -155,7 +155,7 @@ estructura `7 + 7`.
 `vocabularios` conserva su categoría `metro` mientras las secuencias reales sigan
 apuntando ahí; los dos catálogos coexisten hasta la migración de anotaciones.
 
-### 3.3 · La respuesta que define la norma no se distingue de una elección
+### 3.3 · La respuesta que define la norma no se distingue de una elección · **pendiente**
 
 La canción petrarquista y el sexteto usan `tipo_control = 'esquema_rima'` con
 `alcance = 'unidad'` y `permite_aplicar_global`. Funciona, pero dice otra cosa de la que
@@ -166,6 +166,12 @@ distintos en una canción, que es justo lo que su norma prohíbe.
 **Cambio:** un `alcance = 'norma_de_secuencia'`, o un booleano `define_norma`, que obligue
 a una sola respuesta por secuencia y la aplique a todas las unidades. Es pequeño y evita
 que el editor pueda guardar algo que la forma no admite.
+
+**No se asignó a ningún bloque y sigue sin hacerse.** Es el único hueco de esquema que
+queda abierto: los otros cuatro se cerraron entre el 30 y el 31 de julio de 2026. Elegir
+entre el alcance nuevo y el booleano es una decisión de diseño que conviene tomar
+explícitamente, porque el alcance nuevo obliga a revisar cada sitio que hoy distingue
+`secuencia` de `unidad` y el booleano deja el alcance como está.
 
 ### 3.4 · Los tramos sin forma no tienen dónde describirse
 
@@ -290,10 +296,16 @@ forma que la representaba.
 
 Ciento ochenta identificadores —restricciones, índices, políticas y disparadores— dejaron
 de nombrar configuraciones, patrones, combinaciones y unidades. Los nombres de las
-funciones no entraron: `regla_longitud_configuracion_metrica`,
-`marcar_configuracion_metrica_principal` y `validar_configuracion_forma_no_editorial`
-siguen diciendo «configuración», y renombrarlas obliga a recrear la vista de reglas de
-longitud y a tocar la ruta de API que las invoca.
+funciones entraron después, en una migración aparte, porque renombrarlas obliga a recrear
+la vista de reglas de longitud y a cambiar el nombre de un parámetro que la ruta de API
+pasa por su nombre.
+
+Al releer esos cuerpos apareció un resto del bloque A que nadie había ejecutado:
+`sincronizar_posiciones_patron_rima_fijo` seguía leyendo `new.esquema`, la columna que
+aquel bloque renombró a `notacion`. El disparador salta al insertar o actualizar un esquema
+de rima, así que cualquier alta de un esquema `secuencia_fija` habría fallado con «record
+"new" has no field "esquema"». Desde el bloque A no se dio de alta ninguno, y por eso no se
+notó.
 
 El bloque A fue el más ruidoso y el que menos riesgo tenía, porque no cambiaba significado.
 B y C sí lo cambian y cada uno debía dejar el informe de conformidad en un estado
@@ -305,8 +317,9 @@ antes y después, regla por regla.
 
 - La capa de observación con sus dos modos, y con ella la posibilidad de describir un tramo
   sin forma.
-- La población de tradiciones desde `tipo_forma`.
-- La corrección de los defectos de datos del informe.
+- La respuesta que define la norma, del apartado 3.3.
+- La corrección de los defectos de datos del informe, que necesita al IP: el triaje está en
+  [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 - El sellado de la revisión del catálogo en cada anotación.
 - La reescritura del demarcador para que consuma rasgos y elecciones en lugar de su vector
   fijo de nueve.

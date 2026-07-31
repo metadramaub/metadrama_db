@@ -84,13 +84,9 @@
 			]
 		},
 		{
-			title: 'Familias, tradiciones y relaciones',
+			title: 'Tradiciones y relaciones',
 			rows: [
-				['Familia principal', 'Agrupación preferida para presentar una forma que pertenece a varias familias. Es opcional.'],
-				['Origen', 'La forma nace dentro de esa tradición según la bibliografía.'],
-				['Adaptación', 'La tradición transforma un modelo procedente de otra.'],
-				['Difusión', 'La tradición transmite o extiende la forma.'],
-				['Uso', 'La forma está documentada en la tradición sin afirmar origen ni dependencia.'],
+				['Tradición', 'Ámbito histórico del que procede la forma. Es una pertenencia, no una herencia, y no se tipifica: pertenecer a dos ya expresa que nació en una y se aclimató en otra.'],
 				['Subtipo de', 'La identidad añade una restricción estable a otra identidad más general.'],
 				['Variante histórica de', 'Es una realización históricamente diferenciada de otra forma.'],
 				['Derivada de', 'Existe dependencia genética o formal documentada.'],
@@ -197,7 +193,7 @@
 				<div>
 					<dt class="font-medium">Seleccionable por el editor</dt>
 					<dd class="text-[color:var(--muted-foreground)]">
-						La identidad puede asignarse a una secuencia. Una familia o un mero patrón no deben ser seleccionables.
+						La identidad puede asignarse a una secuencia. Un mero esquema no debe ser seleccionable.
 					</dd>
 				</div>
 				<div>
@@ -390,7 +386,7 @@
 		<h3 class="font-semibold">Cuándo importa el orden</h3>
 		<p class="mt-1">
 			Solo se introduce orden cuando altera la estructura: sucesión de medidas, posiciones de
-			rima, partes internas o permutaciones. Las formas, familias, tradiciones, valores de un
+			rima, partes internas o permutaciones. Las formas, tradiciones, valores de un
 			conjunto y relaciones se muestran por nombre; su orden técnico no forma parte de la
 			descripción métrica.
 		</p>

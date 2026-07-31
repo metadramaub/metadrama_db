@@ -518,6 +518,6 @@ usa aquí con esos sentidos.
 | Rasgo | `rasgos_metricos` · `arquitectura_rasgos` | poblar con las propiedades cualitativas hoy en restricciones |
 | Elección | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` | — |
 | Denominación | `denominaciones_metricas` | — |
-| Tradición | `tradiciones_metricas` · `formas_tradiciones` | poblar desde `tipo_forma` |
+| Tradición | `tradiciones_metricas` · `formas_tradiciones` | — |
 | Relación | `forma_relaciones` | — |
 | Niveles estructurales | `formas_metricas.nivel_estructural` | — |

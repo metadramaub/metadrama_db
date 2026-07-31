@@ -307,8 +307,8 @@
 				<p class="mt-1 text-2xl font-semibold">{data.stats.configurations}</p>
 			</div>
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-				<p class="text-xs text-[color:var(--muted-foreground)]">Familias estructurales</p>
-				<p class="mt-1 text-2xl font-semibold">{data.domain.families.length}</p>
+				<p class="text-xs text-[color:var(--muted-foreground)]">Tradiciones</p>
+				<p class="mt-1 text-2xl font-semibold">{data.traditions.length}</p>
 			</div>
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
 				<p class="text-xs text-[color:var(--muted-foreground)]">Rasgos transversales</p>
@@ -656,20 +656,6 @@
 					</section>
 
 					<section class="border border-[color:var(--border)] bg-[color:var(--card)] p-5">
-						<h3 class="font-semibold">Familias estructurales</h3>
-						<div class="mt-3 space-y-2">
-							{#each data.families as family}
-								<div class="flex items-baseline justify-between gap-4 text-sm">
-									<span>{family.nombre}</span>
-									<span class="text-[color:var(--muted-foreground)]">{family.formas} formas</span>
-								</div>
-							{:else}
-								<p class="text-sm text-[color:var(--muted-foreground)]">Sin familias.</p>
-							{/each}
-						</div>
-					</section>
-
-					<section class="border border-[color:var(--border)] bg-[color:var(--card)] p-5">
 						<h3 class="font-semibold">Tradiciones</h3>
 						<div class="mt-3 space-y-2">
 							{#each data.traditions as tradition}
@@ -680,8 +666,8 @@
 							{/each}
 						</div>
 						<p class="mt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
-							Las tradiciones se mantienen separadas de las familias y todavía no se han inferido
-							pertenencias automáticas.
+							El ámbito histórico del que procede una forma. Es una pertenencia, no una herencia:
+							no organiza el selector ni transmite rasgos estructurales.
 						</p>
 					</section>
 				</aside>
