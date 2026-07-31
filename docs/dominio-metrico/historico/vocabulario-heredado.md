@@ -343,8 +343,8 @@ describen nada actual.
 
 | Subtipo | Patrón | Metros | Destino actual |
 | --- | --- | --- | --- |
-| `pareado_hexasilabo` · Pareado hexasílabo | — | 6 | **arquitectura** `pareado · hexasilabico` |
-| `pareado_octosilabo` · Pareado octosílabo | — | 8 | **arquitectura** `pareado · octosilabico` |
+| `pareado_hexasilabo` · Pareado hexasílabo | — | 6 | **respuesta** de medida en `pareado · arte_menor` |
+| `pareado_octosilabo` · Pareado octosílabo | — | 8 | **respuesta** de medida en `pareado · arte_menor` |
 
 - `pareado_hexasilabo`: Dísticos de hexasílabos.
 - `pareado_octosilabo`: Dísticos de octosílabos.
@@ -361,7 +361,7 @@ describen nada actual.
 | Tipo de rima | consonante |
 | Metros declarados | 11 sílabas |
 | Equivalencias | Dístico o tirada de dísticos endecasílabos en su práctica totalidad (99-100%). |
-| **Destino actual** | **forma** `pareados_endecasilabos`; **arquitectura** `pareados_endecasilabos · endecasilabicos_consonantes` |
+| **Destino actual** | **arquitectura** `pareado · arte_mayor` |
 | Propuesta de importación | F · certeza alta |
 
 ### Quintilla
