@@ -70,9 +70,8 @@ retomar el proyecto en otro chat.
    [octava real](./revisiones-formas/octava-real.md), la
    [novena](./revisiones-formas/novena.md), la
    [lira](./revisiones-formas/lira.md), el
-   [sexteto-lira](./revisiones-formas/sexteto-lira.md), la
-   [sexta rima](./revisiones-formas/sexta-rima.md), el
-   [sexteto](./revisiones-formas/sexteto.md), la
+   [sexteto-lira](./revisiones-formas/sexteto-lira.md), el
+   [sexteto, con la sexta rima](./revisiones-formas/sexteto.md), la
    [seguidilla](./revisiones-formas/seguidilla.md), la
    [sextina](./revisiones-formas/sextina.md), la
    [canción petrarquista](./revisiones-formas/cancion-petrarquista.md) y un

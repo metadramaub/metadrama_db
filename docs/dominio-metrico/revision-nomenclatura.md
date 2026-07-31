@@ -18,6 +18,12 @@ Dos precisiones sobre lo que finalmente se hizo:
 - **Los dieciséis «Quintilla xxxxx» de la copla real ya no existen**: la copla real
   reutiliza el repertorio de la quintilla en vez de copiarlo, y con ello desaparece el
   defecto D8.
+- **Algunas filas nombran entidades que después se reorganizaron.** Las de `sexta_rima`,
+  `doble_sextilla`, `copla_manriqueña`, `tercetos_sin_encadenar` y `pareados_endecasilabos`
+  se conservan tal como se aplicaron; esas formas se disolvieron más tarde en la
+  arquitectura, la variedad o el esquema que les correspondía, sin que cambiaran los
+  criterios de nombre y slug que este documento fijó. El estado vigente de cada una está en
+  su ficha de revisión.
 
 ---
 

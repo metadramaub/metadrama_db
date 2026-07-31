@@ -1,111 +1,53 @@
 # Redondilla
 
-Estado: revisado con decisiones del proyecto · 29 de julio de 2026
+Estado: revisado con decisiones del proyecto · 31 de julio de 2026
 
 ## Decisión
 
-El catálogo contiene una única forma seleccionable, `redondilla`, con dos
-configuraciones estructurales:
+Una sola forma, `redondilla`, con cuatro arquitecturas.
 
-- `simple`: una unidad repetible de cuatro versos;
-- `doble_enlazada`: una unidad repetible de ocho versos formada por dos redondillas
-  abrazadas que comparten la rima exterior.
+| Arquitectura | Metro | Rima | Unidad |
+| --- | --- | --- | ---: |
+| `octosilabica` · principal | 4 × 8 | `abba` o `abab` | 4 |
+| `heptasilabica` | 4 × 7 | `abba` o `abab` | 4 |
+| `hexasilabica` | 4 × 6 | `abba` o `abab` | 4 |
+| `doble_enlazada` | 8 × 8 | `abbaacca` | 8 |
 
-La configuración simple admite:
+La redondilla es isosilábica, así que la medida no puede cambiar entre estrofas de una
+misma tirada: **es arquitectura, no pregunta**, en paralelo exacto con las cuatro medidas
+del romance. Si una tirada cambia de medida, o empieza otra secuencia o hay un
+anisosilabismo que se registra como desviación.
 
-- patrones métricos de 8, 7 o 6 sílabas;
-- patrón de rima abrazado `abba`;
-- patrón de rima cruzado `abab`.
+La distribución `abba` / `abab` sí se elige por unidad, mientras no se confirme si puede
+alternar dentro de una misma tirada. Es la opción reversible: corregirlo después es
+reclasificar filas, mientras que haberlo tratado como arquitectura habría partido
+secuencias que no debían partirse. Es la primera de las
+[cuestiones pendientes](./cuestiones-para-el-ip.md).
 
-«Cuarteta» es una denominación equivalente del patrón cruzado, no una forma ni una
-configuración independiente.
+Ninguna de estas arquitecturas declara secciones: la unidad es la estrofa y cuántas
+contiene el pasaje se deriva del rango.
 
-## Del vocabulario jerárquico al catálogo
-
-```text
-redondilla                         → FORMA Redondilla
-├── redondilla_regular            → CONFIGURACIÓN simple
-├── redondilla_cruzada            → PATRÓN DE RIMA cruzado abab
-├── redondilla_hexasilaba         → PATRÓN MÉTRICO 4 × 6
-├── redondilla_heptasilaba        → PATRÓN MÉTRICO 4 × 7
-└── redondilla_doble_abbaacca     → CONFIGURACIÓN doble enlazada
-```
+## Del vocabulario anterior al catálogo
 
 | Entrada anterior | Destino actual |
 | --- | --- |
 | `redondilla` | Forma `redondilla` |
-| `redondilla_regular` | Configuración `simple` |
-| `redondilla_cruzada` | Patrón de rima `cruzada`, esquema `abab` |
-| `redondilla_heptasilaba` | Patrón métrico de cuatro heptasílabos |
-| `redondilla_hexasilaba` | Patrón métrico de cuatro hexasílabos |
-| `redondilla_doble_abbaacca` | Configuración `doble_enlazada` |
+| `redondilla_regular` | Arquitectura `octosilabica` |
+| `redondilla_cruzada` | Esquema de rima `abab` |
+| `redondilla_heptasilaba` | Arquitectura `heptasilabica` |
+| `redondilla_hexasilaba` | Arquitectura `hexasilabica` |
+| `redondilla_doble_abbaacca` | Arquitectura `doble_enlazada` |
 
-La asociación errónea de `redondilla_hexasilaba` con el metro heptasílabo permanece
-corregida en el vocabulario legado. Los UUID anteriores se conservan en la traza de
-migración siempre que el tipo de entidad lo permite.
-
-## Grafo
-
-```mermaid
-flowchart TD
-    R["FORMA<br/>Redondilla"]
-    S["CONFIGURACIÓN<br/>De cuatro versos"]
-    D["CONFIGURACIÓN<br/>Doble enlazada"]
-    M8["PATRÓN MÉTRICO<br/>4 × 8"]
-    M7["PATRÓN MÉTRICO<br/>4 × 7"]
-    M6["PATRÓN MÉTRICO<br/>4 × 6"]
-    A["PATRÓN DE RIMA<br/>Abrazada · abba"]
-    C["PATRÓN DE RIMA<br/>Cruzada · abab"]
-    CU["DENOMINACIÓN EQUIVALENTE<br/>Cuarteta"]
-    DB["PATRÓN FIJO<br/>abba:acca"]
-
-    R --> S
-    R --> D
-    S --> M8
-    S --> M7
-    S --> M6
-    S --> A
-    S --> C
-    C -.-> CU
-    D --> DB
-```
+La asociación errónea de `redondilla_hexasilaba` con el metro heptasílabo queda corregida:
+la hexasílaba mide seis.
 
 No se crea una familia `redondillas`: cuatro versos es una propiedad estructural
-consultable, no una familia, y todas estas realizaciones pertenecen a la misma forma.
+consultable, no una agrupación ontológica, y todas estas realizaciones pertenecen a la
+misma forma.
 
-## Configuración simple
+## La doble enlazada
 
-| Dimensión | Posibilidades |
-| --- | --- |
-| Extensión de la unidad | 4 versos |
-| Medida | 8, 7 o 6 sílabas |
-| Tipo de rima | consonante |
-| Distribución | abrazada `abba` o cruzada `abab` |
-| Repetición | una o más unidades |
-
-Medida y distribución son dimensiones independientes: cualquiera de las tres medidas puede
-combinarse con cualquiera de las dos distribuciones.
-
-**Revisado el 30 de julio de 2026.** La redondilla es isosilábica, así que la medida no
-puede cambiar entre estrofas de una misma tirada: **es arquitectura, no pregunta**. Lo que
-antes era una única configuración simple con tres medidas elegibles pasa a ser tres
-arquitecturas —octosilábica, heptasilábica y hexasilábica—, en paralelo exacto con las
-cuatro del romance. Si una tirada cambia de medida, o empieza otra secuencia o hay un
-anisosilabismo que se registra como desviación.
-
-La distribución `abba` / `abab` se mantiene como esquema elegido por unidad mientras no se
-confirme si puede alternar dentro de una misma tirada; es la primera de las
-[cuestiones pendientes](./cuestiones-para-el-ip.md). El editor puede aplicar la respuesta
-de la primera redondilla a toda la tirada y cambiar solo las unidades que difieran. Una
-realización admitida distinta no se registra como desviación.
-
-Ninguna de estas arquitecturas declara una sección: la unidad es la estrofa de cuatro
-versos y cuántas contiene el pasaje se deriva del rango.
-
-## Configuración doble enlazada
-
-La configuración doble cambia la arquitectura y por eso no es un tercer patrón de rima
-de la configuración simple:
+Cambia la unidad, y por eso no es un tercer esquema de rima de las simples:
 
 ```text
 unidad de 8 versos
@@ -113,87 +55,66 @@ unidad de 8 versos
 └── segunda redondilla:  a c c a
 ```
 
-El patrón `abbaacca` se formaliza en dos bloques. Los enlaces declaran que las
-posiciones exteriores de ambos bloques comparten la clase `a`. La división interna se
-deriva de esas posiciones; no se duplican subunidades en cada registro cuando el editor
-no necesita caracterizarlas por separado.
+Las dos mitades comparten la clase exterior `a`. La división interna se deriva de esas
+posiciones; no se materializan subunidades cuando el editor no necesita caracterizarlas por
+separado.
 
-## Cómo se registra una tirada
+## «Cuarteta»
 
-### Doce redondillas simples
-
-```text
-SECUENCIA
-forma: Redondilla
-configuración: De cuatro versos
-rango: 1–48
-
-UNIDADES DERIVADAS
-1:  versos 1–4
-2:  versos 5–8
-...
-12: versos 45–48
-```
-
-Cada unidad guarda su elección de medida y disposición. Si todas coinciden, la interfaz
-permite aplicar las dos respuestas a la tirada completa.
-
-### Seis redondillas dobles
+`denominaciones_metricas` sustituye el alcance limitado de `forma_aliases`: cada nombre
+apunta exactamente a una entidad —forma, arquitectura, esquema, sección o variedad—.
 
 ```text
-SECUENCIA
-forma: Redondilla
-configuración: Doble enlazada
-rango: 1–48
-
-UNIDADES DERIVADAS
-1: versos 1–8
-2: versos 9–16
-...
-6: versos 41–48
-```
-
-La primera configuración exige múltiplos de 4; la doble, múltiplos de 8. Un rango
-incompatible se rechaza para que el editor revise la delimitación, la fuente o una
-posible laguna.
-
-## Denominaciones métricas
-
-`denominaciones_metricas` sustituye el alcance limitado de `forma_aliases`. Cada nombre
-apunta exactamente a una sola entidad: forma, configuración, patrón métrico, patrón de
-rima, sección o patrón de repetición.
-
-En este caso:
-
-```text
-Cuarteta
-└── patrón de rima Cruzada · abab
-    └── configuración De cuatro versos
+Cuarteta  ·  denominación posterior
+└── esquema de rima abab
+    └── arquitectura octosilabica
         └── forma Redondilla
 ```
 
-Buscar «Cuarteta» puede conducir a esa realización concreta sin crear una forma falsa ni
-aplicar el nombre a las redondillas abrazadas.
+Es **posterior**, no equivalente: en el Siglo de Oro ambas disposiciones eran redondillas, y
+la reserva de «cuarteta» para la cruzada es una distinción que la preceptiva impone después.
+Buscar «Cuarteta» conduce a esa realización concreta sin crear una forma falsa ni aplicar el
+nombre a las abrazadas.
+
+## Cómo se registra una tirada
+
+```text
+SECUENCIA
+forma: Redondilla · arquitectura: Octosilábica · rango 1–48
+→ 12 unidades derivadas de cuatro versos
+
+SECUENCIA
+forma: Redondilla · arquitectura: Doble enlazada · rango 1–48
+→ 6 unidades derivadas de ocho versos
+```
+
+Cada unidad guarda su disposición de rima; si todas coinciden, la interfaz permite aplicar
+la respuesta a la tirada completa. Las simples exigen múltiplos de 4 y la doble, de 8. Un
+rango incompatible se rechaza para que el editor revise la delimitación, la fuente o una
+posible laguna.
 
 ## Demarcador
 
-El demarcador obtiene dos candidatos estructurales de la forma:
-
-- redondilla de cuatro versos: medidas admitidas 6, 7 y 8; rima `abba` o `abab`;
-- redondilla doble enlazada: ocho octosílabos y `abbaacca`.
-
-Dentro de la configuración simple puede preguntar medida y distribución de la rima. En
-el registrador de secuencias, esas mismas posibilidades se guardan como elecciones
-normalizadas por unidad.
+Obtiene cuatro candidatos: tres redondillas simples que se distinguen por la medida —6, 7 y
+8—, con rima `abba` o `abab`, y la doble enlazada de ocho octosílabos con `abbaacca`. Dentro
+de cada simple puede preguntar la distribución, que en el registrador se guarda como
+elección normalizada por unidad.
 
 ## Fuentes
 
-- José Domínguez Caparrós, *Diccionario de métrica española*, 3.ª ed., Madrid,
-  Alianza Editorial, 2016, voces «redondilla» y «cuarteta».
+- José Domínguez Caparrós, *Diccionario de métrica española*, 3.ª ed., Madrid, Alianza
+  Editorial, 2016, voces «redondilla» y «cuarteta».
 - Rudolf Baehr, *Manual de versificación española*, Madrid, Gredos, 1970.
-- Daniel Devoto, «De la redondilla y su familia», *Boletín de la Real Academia
-  Española*, 63 (1983), pp. 475-482.
+- Daniel Devoto, «De la redondilla y su familia», *Boletín de la Real Academia Española*,
+  63 (1983), pp. 475-482.
 
-La bibliografía documenta usos terminológicos distintos. La organización ontológica
+La bibliografía documenta usos terminológicos distintos. La organización del catálogo
 expresa el criterio adoptado por el proyecto y conserva las fuentes en las entidades
-concretas que sustentan.
+concretas que las sustentan.
+
+## Dudas para el IP
+
+1. **¿Puede alternar `abba` y `abab` dentro de una misma tirada?** Si no puede, son dos
+   arquitecturas más por medida y la redondilla se registra sin ninguna pregunta.
+2. ¿Debe incorporarse «octavilla» como denominación relacionada de la doble enlazada o
+   resultaría demasiado amplia?

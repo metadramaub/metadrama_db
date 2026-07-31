@@ -107,7 +107,7 @@ Hicieron falta dos ajustes más, que el inventario previo no había anticipado:
 - `validar_estructura_secuencia_editor_metrico` comprobaba la repetición de las secciones
   raíz contra la secuencia entera, cuando lo que esa repetición declara es cuántas veces
   aparece la sección dentro de cada unidad. Sin corregirlo, las formas cuya sección raíz
-  declaraba `1–1` —copla de arte mayor, doble sextilla, copla manriqueña, sextina— no
+  declaraba `1–1` —copla de arte mayor, sextilla doble, sextina— no
   habrían podido registrar más de una unidad por secuencia. La unidad envolvente lo dejó en
   su forma definitiva: cada sección se cuenta dentro de la realización que la contiene.
 - `guardar_secuencia_editor_metrico_prueba` emparejaba las preguntas por unidad con
@@ -297,9 +297,9 @@ envuelva a las secciones raíz, y eso no entraba aquí.
 `posterior` y destino a variedad en las denominaciones; restricciones renombradas.
 
 Las tres familias pobladas no aportaban ningún vínculo que `forma_relaciones` no exprese ya
-—`terceto_encadenado relacionada_con terceto`, `pareados_endecasilabos relacionada_con
-pareado`, `decima_espinela sucede_historicamente_a copla_real`, `decima_aumentada
-derivada_de decima_espinela`—, así que retirarlas no pierde información. Lo que colgaba de
+—`terceto_encadenado relacionada_con terceto`, `decima_espinela sucede_historicamente_a
+copla_real`, `decima_aumentada derivada_de decima_espinela`—, así que retirarlas no pierde
+información. Lo que colgaba de
 una familia —una afirmación bibliográfica y una traza de migración— pasa a colgar de la
 forma que la representaba.
 

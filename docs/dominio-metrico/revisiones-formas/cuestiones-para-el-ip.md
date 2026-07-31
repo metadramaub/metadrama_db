@@ -10,22 +10,21 @@ ficha de cada revisión.
 El [informe de conformidad](../informe-conformidad-catalogo.md) señala **25 defectos**. Ni
 uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
 que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
-corregidos: cuatro slugs con un UUID incrustado, el alcance del esquema de tercetos del
-soneto —que la ontología ya resolvía por unidad—, el modelo de rima del soneto, cuyos
-cuatro esquemas describen ya los tercetos y no los catorce versos, y la reutilización del
-repertorio de la quintilla por la copla real, que el IP confirmó.
+corregidos.
 
 Esta es la correspondencia entre cada defecto y la decisión que lo desbloquea. Las
 preguntas están desarrolladas en el apartado de cada forma, más abajo.
 
 | Defecto | Cuántos | Qué hay que decidir |
 | --- | ---: | --- |
-| D9 · rasgos cualitativos como restricciones sin catalogar | 16 | Qué rasgos existen, qué valores admite cada uno y con qué modalidad interviene en cada arquitectura. Dieciséis literales sueltos —`pareados_sistematicos`, `predominio_versos_sueltos`, `distico_final`…— esperan una taxonomía, no una traducción mecánica. |
-| D2 · patrones de rima sin contenido | 8 | Si la canción, el sexteto, las dos sextillas y la copla de pie quebrado deben declarar restricciones cualitativas, dejar el patrón abierto o retirarlo. Los tres del pareado dependen de cómo se modele esa forma. |
-| D12 · preguntas estructurales con alcance de secuencia | 5 | Si la medida de la sextilla isométrica es arquitectura, como ya se decidió en la redondilla; si los tres esquemas de la copla de arte mayor pueden alternar dentro de una tirada; si las medidas del villancico y del zéjel forman repertorio cerrado. |
-| D2b · configuraciones sin ninguna declaración de rima | 3 | Qué rima declara el terceto endecasílabo aislado, el terceto encadenado octosílabo y el pareado. |
-| D1 · configuración sin contenido normativo | 1 | Qué es `pareado · principal`: una arquitectura general que falta por describir o un resto que debe retirarse dejando principal a otra. |
-| D7 · rasgo booleano usado como vector de posiciones | 1 | En qué posiciones puede caer el quebrado de la copla de pie quebrado. Doce rasgos booleanos ocupan hoy el lugar de un esquema métrico. |
+| D9 · rasgos cualitativos como restricciones sin catalogar | 15 | Qué rasgos existen, qué valores admite cada uno y con qué modalidad interviene en cada arquitectura. Quince literales sueltos —`pareados_sistematicos`, `predominio_versos_sueltos`, `distico_final`…— esperan una taxonomía, no una traducción mecánica. |
+| D12 · preguntas con alcance de secuencia | 4 | Si los tres esquemas de la copla de arte mayor pueden alternar dentro de una tirada; si las medidas del villancico y del zéjel forman repertorio cerrado. |
+| D2 · esquemas de rima sin contenido | 3 | Qué rima declaran las tres arquitecturas de arte menor del pareado. |
+| D2b · arquitecturas sin ninguna declaración de rima | 2 | Qué rima declaran `pareado · principal` y el terceto encadenado octosílabo. |
+| D1 · arquitectura sin contenido normativo | 1 | Qué es `pareado · principal`: una arquitectura general que falta por describir o un resto que debe retirarse dejando principal a otra. |
+
+Cinco de los diez defectos que no son rasgos cualitativos se concentran en el **pareado**,
+la única forma del catálogo cuyo reparto interno sigue sin decidirse.
 
 Ninguno bloquea el registro: el editor funciona con el catálogo tal como está. Lo que
 bloquean es la comparación entre formas, que es para lo que existe el informe.
@@ -43,11 +42,18 @@ Véase [quintilla.md](./quintilla.md).
 
 Véase [tercetos.md](./tercetos.md).
 
-1. ¿El terceto octosilábico conserva siempre el encadenamiento?
+1. ¿El terceto octosilábico conserva siempre el encadenamiento? Su arquitectura no declara
+   hoy ninguna rima.
 2. ¿Un verso excepcional sin rima es variante admitida o desviación?
 3. ¿La repetición de una rima cuatro veces es variante o desviación?
 4. ¿Cuántas unidades mínimas exige una serie encadenada?
-5. ¿Los cierres en pareado o cuarteto de las series sin encadenar son canónicos?
+5. ¿Los cierres en pareado o cuarteto de las antiguas series sin encadenar son canónicos?
+
+Resuelto en el modelo: `tercetos_sin_encadenar` no era una forma sino una tirada de
+tercetos. Sus dos disposiciones —`A-A`, con el verso central suelto, y `-AA`, con el
+primero— son los dos esquemas de rima del terceto, y el editor elige entre ellas. El
+encadenado sigue siendo forma aparte porque su rima cruza el límite de la unidad y la
+secuencia entera es una sola unidad abierta.
 
 ## Silva
 
@@ -56,11 +62,23 @@ Véase [silva.md](./silva.md).
 1. ¿`silva libre` tiene el alcance específico del corpus —7 y 11, consonancia libre— o
    el alcance moderno más amplio?
 
-## Series endecasilábicas
+## Series endecasilábicas y pareado
 
 Véase [series-endecasilabicas.md](./series-endecasilabicas.md).
 
-Sin decisiones imprescindibles pendientes.
+**El pareado es la única forma del catálogo cuyo reparto interno sigue sin decidirse**, y de
+él salen cinco de los veinticinco defectos del informe.
+
+1. ¿Qué rima declaran las arquitecturas de arte menor del pareado? Hoy `arte_menor`,
+   `hexasilabico` y `octosilabico` tienen un esquema sin contenido.
+2. ¿`pareado · principal` es una arquitectura general por describir o un resto que debe
+   retirarse dejando principal a otra? Hoy no declara ni metro ni rima.
+3. ¿`arte_menor`, que admite de 4 a 8 sílabas, hace innecesarias las arquitecturas
+   hexasilábica y octosilábica, o cada una responde a un uso distinto?
+
+Resuelto en el modelo: `pareados_endecasilabos` no era una forma sino una tirada de
+pareados. Su arquitectura es hoy `pareado · endecasilabico` y cuántos contiene el pasaje se
+deriva del rango.
 
 ## Soneto
 
@@ -103,25 +121,35 @@ Véase [coplas-y-sextillas.md](./coplas-y-sextillas.md).
 3. ~~¿Las dos quintillas reutilizan el repertorio de ocho esquemas ya reconocido?~~
    **Resuelto: sí.** Cada sección declara la arquitectura de la quintilla con
    `arquitectura_referenciada_id` y sus opciones señalan los ocho esquemas de la quintilla.
-4. ¿La arquitectura quebrada es admitida o canónica para el proyecto?
+4. ~~¿La arquitectura quebrada es admitida o canónica?~~ **Resuelto: es un rasgo, no una
+   arquitectura.** Llevar quebrados no cambia la norma —diez octosílabos en dos
+   quintillas—, así que las dos arquitecturas se han fundido en una y `pie_quebrado` queda
+   como rasgo admitido.
 
 ## Coplas y sextillas
 
 Véase [coplas-y-sextillas.md](./coplas-y-sextillas.md).
 
-1. ¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`?
-2. ¿Las medidas 6, 7 y 8 de la sextilla isométrica forman un repertorio cerrado?
-3. ¿`doble_sextilla` reúne todos los esquemas regulares distintos de
-   `abcabc:defdef`?
+1. **Nada en el modelo distingue dos sextillas consecutivas de una doble sextilla.** Los
+   versos, las medidas y el tipo de rima son los mismos; solo cambia si las rimas de la
+   segunda mitad dependen de la primera. Hoy lo afirma el editor al elegir arquitectura.
+   ¿Debe seguir siendo así o hay un criterio observable que lo decida?
+2. ¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`? La bibliografía documenta
+   también sextillas heterométricas con otra distribución; si el corpus las trae, serían una
+   arquitectura más.
+3. ¿Las medidas 6, 7 y 8 forman un repertorio cerrado para la sextilla isométrica?
 4. ¿Debe registrarse el esquema exacto de las dobles sextillas no manriqueñas?
 5. ¿Los tres esquemas de copla de arte mayor son un repertorio cerrado?
 6. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el
    corpus?
 
-Resuelto en el modelo: `copla_de_pie_quebrado` es una forma general, registrable, de 5–12
-versos, para los casos que no encajan en una forma más específica. El rasgo `pie_quebrado`
-permanece separado y reutilizable. La migración futura podrá conservar en ella las
-declaraciones antiguas que todavía no permitan una identificación más precisa.
+Resuelto en el modelo: la medida de la sextilla es arquitectura y no pregunta, porque es
+isosilábica; la doble sextilla es su arquitectura de doce versos y no otra forma; y «copla
+manriqueña» es la denominación del esquema `abcabc:defdef` de esa arquitectura, no una
+forma. `copla_de_pie_quebrado` sigue siendo una forma general, registrable, de 5–12 versos,
+para los casos que no encajan en una más específica, y sus quebrados se registran como
+medida de una posición, no como doce casillas sueltas. El rasgo `pie_quebrado` permanece
+separado y reutilizable.
 
 ## Décimas
 
@@ -150,11 +178,11 @@ Véase [redondilla.md](./redondilla.md).
 2. ¿Debe incorporarse «octavilla» como denominación relacionada o resultaría
    demasiado amplia?
 
-Resuelto en el modelo: existe una única forma `redondilla`. Por su isosilabismo, las
-medidas 6, 7 y 8 son tres arquitecturas y no una elección; la doble enlazada es una cuarta,
-de ocho versos; «Cuarteta» es denominación **posterior** del esquema cruzado, no
-equivalente, porque en el Siglo de Oro ambas disposiciones eran redondillas; la hexasílaba
-se corrige a seis sílabas.
+Resuelto en el modelo y aplicado en el dato: existe una única forma `redondilla`. Por su
+isosilabismo, las medidas 6, 7 y 8 son tres arquitecturas y no una elección; la doble
+enlazada es una cuarta, de ocho versos; «Cuarteta» es denominación **posterior** del esquema
+cruzado, no equivalente, porque en el Siglo de Oro ambas disposiciones eran redondillas; la
+hexasílaba se corrige a seis sílabas.
 
 ## Octava real
 
@@ -194,9 +222,17 @@ Véase [sexteto-lira.md](./sexteto-lira.md).
 Véase [sexteto.md](./sexteto.md).
 
 - No bloquea el registro actual: el proyecto lo delimita como seis versos de arte mayor
-  consonantes.
-- Si el corpus documenta un sexteto que combine arte mayor y menor y no sea
-  sexteto-lira, confirmar si debe ampliarse la arquitectura general o crearse otra forma.
+  consonantes, repartidos en tres arquitecturas por medida —11, 12 y 14—.
+- Si el corpus documenta un sexteto que combine arte mayor y menor y no sea sexteto-lira,
+  confirmar si debe ampliarse la forma o crearse otra.
+- ¿Las medidas 11, 12 y 14 forman un repertorio cerrado?
+
+Resuelto en el modelo: la sexta rima no es una forma sino una **variedad** de la
+arquitectura endecasilábica del sexteto, con «Sexta rima» y «Sexteto clásico» como
+denominaciones. No añade ninguna norma que la arquitectura no tenga ya: concreta una de sus
+realizaciones y le pone nombre. El sexteto-lira, en cambio, no es ni arquitectura ni
+variedad suya: su heterometría es principio constructivo y su genealogía va a la lira,
+declarada como `sexteto_lira derivada_de lira`.
 
 ## Seguidilla
 
