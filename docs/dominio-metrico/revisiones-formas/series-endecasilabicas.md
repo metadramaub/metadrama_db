@@ -4,19 +4,35 @@ Estado: revisado · 31 de julio de 2026
 
 ## Las series
 
-Dos series de endecasílabos se distinguen mediante dos rasgos observables, sin porcentajes.
+Las tres series de endecasílabos se ordenan sobre un mismo eje: **cuánto organizan los
+pareados la serie**. Es un rasgo con valores cerrados, no un porcentaje.
 
-| Forma | Predominan rimados | Pareados sistemáticos |
-| --- | :---: | :---: |
-| `endecasilabo_suelto` | No | No |
-| `silva` · arquitectura endecasilábica | Sí | No |
+| Forma | Organización en pareados |
+| --- | --- |
+| `endecasilabo_suelto` | ninguna u ocasionales |
+| `silva` · arquitectura endecasilábica | habituales |
+| `pareado` | regulares |
 
 Cuando los pareados son sistemáticos ya no hay una serie que nombrar: hay N pareados.
-`pareados_endecasilabos` era una serie cuya única sección se repetía, así que pasa al
-pareado y cuántos contiene el pasaje se deriva del rango.
+`pareados_endecasilabos` era una serie cuya única sección se repetía, así que pasa al pareado
+y cuántos contiene el pasaje se deriva del rango.
 
-El endecasílabo suelto mantiene cinco arquitecturas: con o sin pareados intercalados, con o
-sin dístico final, y encadenamiento interior.
+El endecasílabo suelto tiene **una sola arquitectura**. Antes tenía cinco, y lo único que las
+separaba era una frase en prosa colgada de un esquema de rima vacío: eran el producto
+cartesiano de dos booleanos —¿pareados intercalados? ¿dístico final?— más el encadenamiento
+interior. Hoy los tres son rasgos catalogados y el editor los responde.
+
+| Rasgo | Valores |
+| --- | --- |
+| `organizacion_en_pareados` | ninguna · ocasionales |
+| `distico_final` | presente o no |
+| `encadenamiento_interior` | presente o no |
+
+Que sean rasgos catalogados y no frases significa que la respuesta del editor apunta a la
+misma fila del catálogo que la norma de otra forma, y por tanto se puede comparar entre
+secuencias. Su definición —predominan los versos sueltos y las rimas son minoritarias— pasa a
+una restricción tipada `versos_sueltos = predominantes`, que decía lo mismo que dos literales
+distintos y ahora es un solo hecho computable.
 
 ## El pareado
 
@@ -65,21 +81,21 @@ subtipos y otra como raíz. Hoy todas son respuestas posibles a la pregunta por 
 
 ## Registrador
 
-- **Endecasílabo suelto**: elegir la arquitectura registra directamente la presencia de
-  pareados, dístico final o encadenamiento interior; no se repiten esas preguntas.
-- **Silva endecasílaba**: queda descrita por su arquitectura.
+- **Endecasílabo suelto**: responder si hay pareados intercalados y marcar el dístico final
+  o el encadenamiento interior si caracterizan la serie.
+- **Silva endecasílaba**: responder cuánto organizan los pareados la serie.
 - **Pareado**: elegir la medida de los dos versos del primer dístico y si riman en
   consonante o en asonante; aplicar a la tirada y cambiar solo los que difieran. El rango
   debe ser par.
 
 ## Demarcador
 
-1. ¿Predominan los versos rimados?
-2. ¿La serie está organizada sistemáticamente en pareados?
+1. ¿Predominan los versos rimados o los sueltos?
+2. ¿Cuánto organizan los pareados la serie?
 
-Las preguntas se generan desde los rasgos almacenados en el catálogo. Los detalles del
-endecasílabo suelto solo aparecen si aún hace falta distinguir sus arquitecturas. Si la
-respuesta a la segunda es que sí, la salida es el pareado, cualquiera que sea su medida.
+Las preguntas se generan desde los rasgos almacenados en el catálogo, que ahora tienen
+valores ordenados: basta con situar la serie en la escala. Si la organización es regular, la
+salida es el pareado, cualquiera que sea su medida.
 
 ## Fuente
 

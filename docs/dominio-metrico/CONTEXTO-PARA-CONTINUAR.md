@@ -12,7 +12,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
 - La versión requerida del modelo es `51`.
-- La última migración es `20260731300000_pareado_una_arquitectura.sql` y está aplicada.
+- La última migración es `20260731310000_rasgos_cualitativos.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
@@ -163,7 +163,7 @@ decisiones a la implementación:
    donde no le toca. Es material para el IP, y algunas de sus respuestas cierran defectos
    del informe.
 4. Corregir los defectos del [informe de conformidad](./informe-conformidad-catalogo.md).
-   Quedan 19 y **ninguno se puede corregir sin una decisión del IP**: el triaje, defecto por
+   Quedan 5 y **ninguno se puede corregir sin una decisión del IP**: el triaje, defecto por
    defecto, está en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 4. Crear la capa de desviaciones sobre las secuencias reales.
 5. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
