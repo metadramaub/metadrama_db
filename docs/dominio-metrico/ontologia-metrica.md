@@ -115,9 +115,20 @@ estrofa, así que su medida no es arquitectura sino conjunto permitido.
 
 **Un nombre tradicional no crea una forma.** Cuando la tradición nombra una pareja concreta
 de medida y rima dentro de una forma que ya existe, eso es una **variedad reconocida** con su
-**denominación**, no una forma aparte: la sexta rima es el sexteto endecasílabo que responde
-`ABABCC`, y la copla manriqueña es la doble sextilla que responde `abcabc:defdef`. La forma se
-reserva para lo que tiene norma propia.
+**denominación**, no una forma aparte: la sexta rima —el sexteto clásico— es el sexteto
+endecasílabo que responde `ABABCC`, y la copla manriqueña es la doble sextilla que responde
+`abcabc:defdef`. La forma se reserva para lo que tiene norma propia.
+
+**Pero la genealogía separa lo que la estructura acerca.** Dos formas pueden parecerse mucho
+y no ser la misma cosa si nacen de principios constructivos distintos. El sexteto-lira tiene
+seis versos consonantes como el sexteto, pero no es un sexteto modificado: es una ampliación
+de la lira garcilasiana, y su heterometría de 7 y 11 no es una medida más sino su principio
+—el contraste entre el verso que impulsa y el que reposa—. Eso lo hace **forma**, y su
+parentesco se registra con una relación `derivada_de`, que es lo que las relaciones tipadas
+existen para decir.
+
+Así que el criterio tiene dos mitades y hacen falta las dos: **el nombre no basta para
+separar, y la estructura no basta para unir.**
 
 ### Cuándo un cambio rompe la secuencia
 
