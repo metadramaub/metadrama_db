@@ -7,7 +7,7 @@ ficha de cada revisión.
 
 ## Los defectos del informe que esperan una decisión
 
-El [informe de conformidad](../informe-conformidad-catalogo.md) señala **34 defectos**. Ni
+El [informe de conformidad](../informe-conformidad-catalogo.md) señala **25 defectos**. Ni
 uno solo puede corregirse sin decidir algo: todos tocan la norma de una forma o el nivel en
 que vive un hecho métrico. Los que no dependían de una decisión editorial ya están
 corregidos: cuatro slugs con un UUID incrustado, el alcance del esquema de tercetos del
