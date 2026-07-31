@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 11:08
+Generado: 2026-07-31 14:22
 
-Inventario: 30 formas y 2 tramos sin forma · 53 configuraciones · 58 patrones métricos · 66 patrones de rima · 61 secciones · 42 grupos de elección · 294 opciones · 3 rasgos.
+Inventario: 29 formas y 2 tramos sin forma · 55 configuraciones · 58 patrones métricos · 72 patrones de rima · 59 secciones · 41 grupos de elección · 308 opciones · 3 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -16,17 +16,19 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 | --- | --- |
 | pareado · principal | principal=true · demarcable=true |
 
-### D2 · Patrón de rima sin contenido alguno — 8
+### D2 · Patrón de rima sin contenido alguno — 10
 
 > Un patrón debe aportar algo computable: esquema, posiciones o restricciones. Un patrón vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúa fijeza=no_aplica, que afirma la ausencia de rima.
 
 | Sujeto | Detalle |
 | --- | --- |
 | cancion_petrarquista · estancias_consonantes_variables | Esquema consonante repetido entre estancias · fijeza=libre |
-| sexteto · arte_mayor_consonante_variable | Distribución consonante variable · fijeza=libre |
 | sextilla · isometrica | Distribución variable · fijeza=libre |
 | sextilla · pie_quebrado | Distribución variable · fijeza=libre |
+| sexteto · endecasilabica | Distribución consonante variable · fijeza=libre |
+| sexteto · dodecasilabica | Distribución consonante variable · fijeza=libre |
 | copla_de_pie_quebrado · octosilabica_con_quebrados | Distribución variable · fijeza=libre |
+| sexteto · alejandrina | Distribución consonante variable · fijeza=libre |
 | pareado · arte_menor | sin nombre · fijeza=admitido |
 | pareado · hexasilabico | sin nombre · fijeza=admitido |
 | pareado · octosilabico | sin nombre · fijeza=admitido |
@@ -41,11 +43,13 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 | terceto · endecasilabico_consonante | 0 sección(es), sin patrón de rima accesible |
 | terceto_encadenado · octosilabico | 0 sección(es), sin patrón de rima accesible |
 
-### D3 · Patrón métrico sin posiciones ni opciones — 0
+### D3 · Patrón métrico sin posiciones ni opciones — 1
 
 > Un patrón métrico debe declarar posiciones ordenadas o un conjunto permitido.
 
-Sin incidencias.
+| Sujeto | Detalle |
+| --- | --- |
+| sexteto · alejandrina | estrofa · secuencia_fija |
 
 ### D4 · La unidad declarada contradice la extensión que producen las secciones — 0
 
@@ -65,13 +69,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D7 · Rasgo booleano usado como vector de posiciones — 1
+### D7 · Rasgo booleano usado como vector de posiciones — 0
 
 > Un rasgo describe una propiedad, no una posición. Una alternativa posicional pertenece al patrón métrico o a una opción de metro con posicion_unidad.
 
-| Sujeto | Detalle |
-| --- | --- |
-| copla_de_pie_quebrado · octosilabica_con_quebrados | posiciones_pies_quebrados repite el rasgo «pie_quebrado» (booleano) en 12 posiciones |
+Sin incidencias.
 
 ### D8 · Componente copiado en lugar de reutilizado — 0
 
@@ -134,9 +136,9 @@ Sin incidencias.
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
 | cancion_petrarquista | composicion | 3 | — | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | secuencia |
-| copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 2 | unidad |
+| copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
 | copla_manriqueña | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| copla_real | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | elección, sin patrón | 5 | unidad |
+| copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | decima_espinela | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | doble_sextilla | estrofa | 1 | sí | posiciones | cualitativa, patrón único | 0 | — |
@@ -147,11 +149,10 @@ Sin incidencias.
 | pareado | estrofa | 4 | sí | configuracion, conjunto | patrón único, sin patrón | 0 | — |
 | pareados_endecasilabos | serie | 1 | sí | posiciones | cualitativa, patrón único | 0 | — |
 | quintilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
-| redondilla | estrofa | 2 | sí | configuracion, eleccion, posiciones | elección, patrón único | 2 | unidad |
+| redondilla | estrofa | 4 | sí | configuracion, posiciones | elección, patrón único | 3 | unidad |
 | romance | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
 | seguidilla | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
-| sexta_rima | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| sexteto ·gral | estrofa | 1 | sí | conjunto, eleccion | esquema libre | 2 | unidad |
+| sexteto ·gral | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
 | sextilla | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | patrón único | 1 | secuencia |
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
@@ -167,10 +168,10 @@ Sin incidencias.
 
 | Vía | Formas |
 | --- | --- |
-| configuracion (7) | copla_real, pareado, redondilla, romance, sextilla, silva, terceto_encadenado |
-| conjunto (9) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, sexteto, sextilla, silva, villancico, zejel |
-| eleccion (8) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, redondilla, sexteto, sextilla, villancico, zejel |
-| posiciones (25) | cancion_petrarquista, copla_de_arte_mayor, copla_manriqueña, copla_real, decima_aumentada, decima_espinela, doble_sextilla, endecasilabo_suelto, lira, novena, octava_real, pareados_endecasilabos, quintilla, redondilla, romance, seguidilla, sexta_rima, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado, tercetos_sin_encadenar |
+| configuracion (7) | pareado, redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
+| conjunto (7) | cancion_petrarquista, copla_de_pie_quebrado, pareado, sextilla, silva, villancico, zejel |
+| eleccion (6) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, sextilla, villancico, zejel |
+| posiciones (25) | cancion_petrarquista, copla_de_arte_mayor, copla_manriqueña, copla_real, decima_aumentada, decima_espinela, doble_sextilla, endecasilabo_suelto, lira, novena, octava_real, pareados_endecasilabos, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado, tercetos_sin_encadenar |
 
 ### 2.3 · Alcance de las preguntas por dimensión
 
@@ -178,9 +179,8 @@ Sin incidencias.
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
 | metro · secuencia | sextilla, villancico, zejel |
-| metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, redondilla, sexteto |
+| metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real |
 | rasgo · secuencia | cancion_petrarquista, octava_real, romance, sexteto_lira, soneto, terceto |
-| rasgo · unidad | copla_de_pie_quebrado |
 | repeticion · unidad | villancico, zejel |
 | rima · secuencia | copla_de_arte_mayor, tercetos_sin_encadenar |
 | rima · unidad | cancion_petrarquista, copla_real, novena, quintilla, redondilla, sexteto, soneto, villancico |
@@ -190,7 +190,7 @@ Sin incidencias.
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
 | composicion | 3 | villancico×2, zejel×1 |
-| estrofa | 32 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, copla_manriqueña×1, decima_aumentada×1, decima_espinela×1, doble_sextilla×1, lira×1, octava_real×1, quintilla×8, redondilla×3, seguidilla×2, sexta_rima×1, sexteto×1, sexteto_lira×3, sextilla×2 |
+| estrofa | 38 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, copla_manriqueña×1, decima_aumentada×1, decima_espinela×1, doble_sextilla×1, lira×1, octava_real×1, quintilla×8, redondilla×7, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×2 |
 | seccion | 11 | cancion_petrarquista×2, soneto×5, villancico×4 |
 | serie | 17 | endecasilabo_suelto×5, pareados_endecasilabos×1, romance×4, silva×4, terceto_encadenado×1, tercetos_sin_encadenar×2 |
 | unidad | 3 | pareado×3 |
@@ -200,7 +200,9 @@ Sin incidencias.
 | Configuración | Patrones abiertos | Estrategia |
 | --- | ---: | --- |
 | cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema |
-| sexteto · arte_mayor_consonante_variable | 1 | control abierto de esquema |
+| sexteto · alejandrina | 1 | control abierto de esquema |
+| sexteto · dodecasilabica | 1 | control abierto de esquema |
+| sexteto · endecasilabica | 1 | control abierto de esquema |
 | copla_de_pie_quebrado · octosilabica_con_quebrados | 1 | patrón vacío, sin sustituto |
 | pareado · arte_menor | 1 | patrón vacío, sin sustituto |
 | pareado · hexasilabico | 1 | patrón vacío, sin sustituto |
@@ -224,8 +226,8 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
-| abab | redondilla, villancico×2 |
-| abba | redondilla, villancico×2 |
+| abab | redondilla×3, villancico×2 |
+| abba | redondilla×3, villancico×2 |
 
 ## 3 · Cobertura del contrato del registrador
 
@@ -233,5 +235,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 34.
+Total de defectos detectados: 36.
 
