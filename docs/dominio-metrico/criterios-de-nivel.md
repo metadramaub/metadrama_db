@@ -3,9 +3,10 @@
 Estado: vigente · 30 de julio de 2026
 
 Este documento responde a una sola pregunta: **ante un hecho métrico observado, ¿en qué
-nivel del catálogo debe registrarse?** Presupone la
-[ontología](./ontologia-metrica.md), que define qué es cada entidad; aquí se aplica caso
-por caso y se fijan las reglas comprobables.
+nivel del catálogo debe registrarse?** Presupone el
+[meta-modelo](./meta-modelo-metrico.md), que define qué es cada entidad y su procedimiento
+de nivel; aquí se aplica caso por caso a la métrica española y se fijan las reglas
+comprobables.
 
 Las reglas numeradas del apartado 6 se verifican contra los datos poblados. El resultado
 vigente está en [informe-conformidad-catalogo.md](./informe-conformidad-catalogo.md) y se

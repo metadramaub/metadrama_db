@@ -112,9 +112,11 @@ resulte útil.
 
 Leer solo lo necesario para la tarea:
 
-1. [La ontología métrica](./ontologia-metrica.md): qué es cada entidad y por qué existe.
-   Lectura previa a todo lo demás.
-1bis. [README del dominio](./README.md): índice y decisiones consolidadas.
+1. [Meta-modelo métrico](./meta-modelo-metrico.md): qué tipos de entidad existen y qué
+   reglas los gobiernan, sin atarse a ninguna tradición. Lectura previa a todo lo demás.
+1bis. [La ontología métrica de METADRAMA](./ontologia-metrica.md): cómo se aplica a la
+   métrica española y qué decidió el proyecto para su corpus.
+1ter. [README del dominio](./README.md): índice y decisiones consolidadas.
 2. [Criterios de nivel](./criterios-de-nivel.md): en qué nivel se registra cada hecho
    métrico. De lectura obligada antes de formalizar o corregir una forma.
 2bis. [Arquitectura técnica](./arquitectura-dominio-metrica.md): capas, proyecciones,

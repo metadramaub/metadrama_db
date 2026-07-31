@@ -11,10 +11,15 @@ METADRAMA, separado del vocabulario genérico del proyecto.
 Estado operativo, decisiones vigentes, fronteras de seguridad y ruta de lectura para
 retomar el proyecto en otro chat.
 
-0. [La ontología métrica](./ontologia-metrica.md)
-   Qué entidades componen el dominio, qué pregunta responde cada una y por qué existe.
-   Con arquetipos diagramados, lo que queda fuera a propósito y la correspondencia con
-   los nombres actuales de la base. **Lectura previa a todo lo demás.**
+0. [Meta-modelo métrico](./meta-modelo-metrico.md)
+   Qué tipos de entidad componen un dominio métrico y qué reglas los gobiernan, sin
+   comprometerse con ninguna tradición de verso. Es la capa reutilizable y no contiene
+   ningún ejemplo español. **Lectura previa a todo lo demás.**
+
+0bis. [La ontología métrica de METADRAMA](./ontologia-metrica.md)
+   Cómo se aplica ese meta-modelo a la métrica española y qué decidió el proyecto para su
+   corpus. Con arquetipos diagramados, el estado de la implementación y la correspondencia
+   con los nombres de la base.
 
 1. [Síntesis narrativa del nuevo dominio métrico](./sintesis-narrativa-dominio-metrico.md)
    Explicación general, con un lenguaje poco técnico, para presentar el problema, la propuesta y sus beneficios.
