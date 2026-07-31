@@ -44,6 +44,17 @@ El editor materializa un mínimo de tres estancias. En las configuraciones varia
 cada posición ofrece únicamente 7 u 11 sílabas. La extensión, la distribución métrica
 y el esquema de rima pueden copiarse a todas las estancias equivalentes.
 
+**La distribución métrica y el esquema de rima declaran la norma de la canción, y la base
+lo comprueba.** Ambas preguntas llevan `define_norma`: se responden en cada estancia, pero
+todas las estancias de una misma canción deben coincidir. Antes esa regla vivía solo en el
+texto de ayuda al editor y nada impedía guardar una canción con estancias de esquemas
+distintos, que es justo lo que su norma prohíbe. Dos canciones distintas del mismo pasaje sí
+pueden diferir entre sí: el ámbito de la comparación es la unidad, no la secuencia.
+
+La extensión de la estancia no está cubierta por esa comprobación: no es una pregunta del
+catálogo sino la longitud de cada realización. Si se quisiera exigir también su igualdad,
+haría falta una comprobación aparte.
+
 En la configuración sin rima no se pregunta por la rima: el cuerpo suelto y el pareado
 final se derivan de la norma. El campo esdrújulo queda vacío por defecto.
 

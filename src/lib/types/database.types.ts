@@ -2062,6 +2062,7 @@ export type Database = {
           arquitectura_id: string
           ayuda_editor: string | null
           created_at: string
+          define_norma: boolean
           dimension: string
           estado_revision: string
           grupo_eleccion_id: string
@@ -2081,6 +2082,7 @@ export type Database = {
           arquitectura_id: string
           ayuda_editor?: string | null
           created_at?: string
+          define_norma?: boolean
           dimension: string
           estado_revision?: string
           grupo_eleccion_id?: string
@@ -2100,6 +2102,7 @@ export type Database = {
           arquitectura_id?: string
           ayuda_editor?: string | null
           created_at?: string
+          define_norma?: boolean
           dimension?: string
           estado_revision?: string
           grupo_eleccion_id?: string

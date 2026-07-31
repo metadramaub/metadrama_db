@@ -112,6 +112,12 @@
 			label: 'Permitir aplicar la respuesta a todas las unidades',
 			type: 'checkbox'
 		},
+		{
+			key: 'define_norma',
+			label: 'La respuesta declara la norma del pasaje',
+			type: 'checkbox',
+			help: 'La respuesta no elige entre alternativas: fija la norma que las demás realizaciones repiten. Todas deben coincidir, y la base lo comprueba al guardar.'
+		},
 		{ key: 'orden', label: 'Orden', type: 'number' },
 		{ key: 'estado_revision', label: 'Estado', type: 'select', options: reviewOptions, required: true },
 		{ key: 'activo', label: 'Activo', type: 'checkbox' }
@@ -305,6 +311,7 @@
 			selecciones_min: 1,
 			selecciones_max: 1,
 			permite_aplicar_global: false,
+			define_norma: false,
 			estado_revision: 'borrador',
 			activo: true,
 			orden: 1

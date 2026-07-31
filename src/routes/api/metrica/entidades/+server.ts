@@ -306,11 +306,12 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'selecciones_min',
 			'selecciones_max',
 			'permite_aplicar_global',
+			'define_norma',
 			'estado_revision',
 			'activo',
 			'orden'
 		],
-		booleanFields: ['permite_aplicar_global', 'activo'],
+		booleanFields: ['permite_aplicar_global', 'define_norma', 'activo'],
 		numberFields: ['selecciones_min', 'selecciones_max', 'orden']
 	},
 	choiceOptions: {

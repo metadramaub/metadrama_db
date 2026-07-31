@@ -15,8 +15,8 @@ tercetos no son subformas. El soneto de esdrújulos es un rasgo transversal.
 | Configuración | `endecasilabo_consonante` |
 | Extensión | 14 versos |
 | Metro | 11 sílabas |
-| Secciones | 2 cuartetos de 4 + 2 tercetos de 3 |
-| Cuartetos | `ABBA ABBA` |
+| Secciones | cuarteto ×2 de 4 versos · terceto ×2 de 3, vinculados con la arquitectura del terceto |
+| Cuartetos | `ABBA`, declarado en la sección y repetido en sus dos realizaciones |
 | Tercetos reconocidos | `CDCDCD`, `CDECDE`, `CDEDCE`, `CDCEDE` |
 | Rasgo admitido | `final_acentual = esdrujulo` |
 
@@ -27,10 +27,24 @@ declara exhaustiva: la definición del IP dice «entre otras variantes».
 ## Registrador
 
 La configuración se resuelve automáticamente porque solo hay una. El editor elige
-únicamente qué esquema presentan los tercetos; la respuesta referencia el
-`patron_rima` completo correspondiente. Los catorce versos, el endecasílabo, la
-consonancia, `ABBA ABBA` y la división `4 + 4 + 3 + 3` se derivan de la norma y no se
-vuelven a preguntar. El rango solo es válido si contiene un múltiplo de catorce versos.
+únicamente qué esquema presentan los tercetos, y esa respuesta referencia ya **un esquema de
+seis posiciones anclado en la sección de los tercetos**, no el esquema completo de catorce.
+Los catorce versos, el endecasílabo, la consonancia, `ABBA` y la división `4 + 4 + 6` se
+derivan de la norma y no se vuelven a preguntar. El rango solo es válido si contiene un
+múltiplo de catorce versos, y un pasaje de tres sonetos seguidos se registra como tres
+unidades, cada una con su propia elección de tercetos.
+
+Los tercetos son **dos secciones de tres versos**, y cada una se vincula con la
+arquitectura endecasílaba consonante del terceto igual que las secciones de la novena se
+vinculan con la redondilla y la quintilla: la sección no copia lo que el componente ya
+declara, lo referencia.
+
+El esquema, en cambio, es de **seis posiciones y no se ancla en ninguna de las dos**. No es
+una comodidad: `CDECDE` sí se leería como dos tercetos `CDE`, pero `CDCDCD` es `CDC` y
+`DCD`, y lo que distingue a los cuatro esquemas entre sí es precisamente cómo se entrelazan
+las rimas de un terceto con las del otro. La pregunta se hace una vez por unidad y el editor
+la presenta uniendo los dos tercetos; que la pregunta abarque dos secciones no obliga a que
+las secciones dejen de ser dos.
 
 ## Ejemplo de almacenamiento definitivo
 
