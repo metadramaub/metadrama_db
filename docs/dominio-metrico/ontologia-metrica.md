@@ -83,6 +83,42 @@ De aquí sale también el alcance de las preguntas del registrador: lo que puede
 pregunta por unidad; lo que es constante ya está dicho por la arquitectura y no se
 pregunta.
 
+### Dónde vive cada hecho
+
+La pregunta anterior decide el nivel. Estas dos deciden la tabla:
+
+> **1 · ¿Lo fija la norma o lo declara el pasaje?**
+> Lo que fija la norma vive en el catálogo. Lo que declara el pasaje vive en la respuesta
+> del editor.
+>
+> **2 · Si vive en el catálogo, ¿es constante en toda la secuencia o posicional dentro de la
+> unidad?**
+> Constante → **arquitectura**. Posicional → **esquema**.
+
+| Hecho | Ejemplo | Dónde vive |
+| --- | --- | --- |
+| Medida de una forma isosilábica | la redondilla octosilábica | arquitectura |
+| Extensión de la unidad | la redondilla doble, de ocho versos | arquitectura |
+| Sucesión de medidas que la norma fija | la lira, `7-11-7-7-11` | esquema métrico |
+| Conjunto de medidas que la norma admite | la silva, 7 y 11 sin orden | esquema métrico |
+| Esquema de rima que la norma fija | la espinela, `abbaaccddc` | esquema de rima |
+| Esquema de rima entre los admitidos | `abba` o `abab` en la redondilla | respuesta por unidad |
+| Esquema que inventa el pasaje | la estancia de una canción | respuesta por unidad, con norma declarada |
+| Posición de un quebrado que la norma no fija | la copla de pie quebrado | respuesta por unidad |
+
+De ahí salen dos consecuencias que conviene enunciar, porque separan casos que se parecen:
+
+**La medida es arquitectura cuando la forma es isosilábica, y solo entonces.** Una tirada de
+redondillas no cambia de medida a mitad de camino: si cambia, ha empezado otra secuencia. En
+cambio el sexteto admite que convivan varias medidas de arte mayor dentro de la misma
+estrofa, así que su medida no es arquitectura sino conjunto permitido.
+
+**Un nombre tradicional no crea una forma.** Cuando la tradición nombra una pareja concreta
+de medida y rima dentro de una forma que ya existe, eso es una **variedad reconocida** con su
+**denominación**, no una forma aparte: la sexta rima es el sexteto endecasílabo que responde
+`ABABCC`, y la copla manriqueña es la doble sextilla que responde `abcabc:defdef`. La forma se
+reserva para lo que tiene norma propia.
+
 ### Cuándo un cambio rompe la secuencia
 
 - El cambio coincide con el final de una unidad completa y **se sostiene** → son dos
