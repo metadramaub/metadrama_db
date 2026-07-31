@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 18:06
+Generado: 2026-07-31 21:03
 
-Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 65 patrones de rima · 55 secciones · 47 grupos de elección · 336 opciones · 6 rasgos.
+Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 66 patrones de rima · 57 secciones · 47 grupos de elección · 336 opciones · 6 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -20,13 +20,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D2b · Configuración sin ninguna declaración de rima ni de repetición — 1
+### D2b · Configuración sin ninguna declaración de rima ni de repetición — 0
 
 > Toda configuración debe declarar cómo se comporta la rima: un patrón propio, una sección que lo aporte o lo reutilice, o un patrón de repetición que ocupe su lugar.
 
-| Sujeto | Detalle |
-| --- | --- |
-| terceto_encadenado · octosilabico | 0 sección(es), sin patrón de rima accesible |
+Sin incidencias.
 
 ### D3 · Patrón métrico sin posiciones ni opciones — 0
 
@@ -121,7 +119,7 @@ Sin incidencias.
 | silva | serie | 3 | sí | configuracion, conjunto, posiciones | patrón único | 2 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
-| terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único, sin patrón | 0 | — |
+| terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
 | villancico | composicion | 2 | sí | conjunto, eleccion | elección | 7 | secuencia, unidad |
 | zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 2 | secuencia, unidad |
 
@@ -153,7 +151,7 @@ Sin incidencias.
 | composicion | 1 | zejel×1 |
 | estrofa | 44 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, decima_aumentada×1, decima_espinela×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, terceto×2 |
 | seccion | 11 | cancion_petrarquista×2, soneto×5, villancico×4 |
-| serie | 9 | endecasilabo_suelto×1, romance×4, silva×3, terceto_encadenado×1 |
+| serie | 10 | endecasilabo_suelto×1, romance×4, silva×3, terceto_encadenado×2 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -188,5 +186,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 5.
+Total de defectos detectados: 4.
 
