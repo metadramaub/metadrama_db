@@ -9,7 +9,7 @@ Dos formas, no tres. Una estrofa de tres versos y una serie cuya rima enlaza las
 | Forma | Nivel | Norma |
 | --- | --- | --- |
 | `terceto` | estrofa | 3 endecasílabos consonantes; uno de los tres queda suelto |
-| `terceto_encadenado` | serie | `ABA \| BCB \| CDC \| … \| YZYZ` |
+| `terceto_encadenado` | serie | encadenamiento y cierre en serventesio, en dos medidas |
 
 `tercetos_sin_encadenar` no era una forma sino una tirada: una serie cuya única sección se
 repetía es N tercetos, y cuántos contiene un pasaje lo dice el rango. Sus dos disposiciones
@@ -21,7 +21,21 @@ límite de la unidad, de modo que la secuencia entera es **una sola unidad abier
 una repetición de unidades independientes. El cierre añade un verso al último terceto para
 formar el serventesio `YZYZ`.
 
-`terceto_octosilabo` queda como arquitectura no demarcable del encadenado.
+El encadenado tiene dos arquitecturas, que se distinguen **solo por la medida**:
+
+| Arquitectura | Metro | Rima |
+| --- | --- | --- |
+| `endecasilabico_consonante` · principal | 11 | `ABA \| BCB \| CDC \| … \| YZYZ` |
+| `octosilabico` | 8 | `aba \| bcb \| cdc \| … \| yzyz` |
+
+El terceto octosílabo adapta a los octosílabos españoles los tercetos encadenados de raíz
+italiana y no cambia nada más: mismo encadenamiento, mismo cierre, mismas dos secciones. Por
+eso es una arquitectura por medida, como las cuatro del romance, y no una forma.
+
+Su esquema de rima se copia en vez de reutilizarse porque un esquema pertenece a una sola
+arquitectura. Es el precio conocido de repartir por medidas: el romance lo paga con cuatro
+copias de su asonancia y la redondilla con dos disposiciones por medida.
+
 `terceto_de_esdrujulos` es un rasgo transversal, no una forma.
 
 ## Del vocabulario anterior al catálogo
@@ -33,7 +47,7 @@ formar el serventesio `YZYZ`.
 | `tercetos_sin_encadenar` | Los dos esquemas de rima del terceto |
 | `AXABYB` | Esquema `verso-central-suelto`, notación `A-A` |
 | `XAAYBB` | Esquema `primer-verso-suelto`, notación `-AA` |
-| `terceto_octosilabo` | Arquitectura `octosilabico` del encadenado |
+| `terceto_octosilabo` | Arquitectura `octosilabico` del encadenado, con su rima propia |
 | `terceto_de_esdrujulos` | Rasgo transversal |
 
 ## Registrador
@@ -60,10 +74,8 @@ METADRAMA adopta por ahora `YZYZ`, según el IP.
 
 ## Dudas para el IP
 
-1. ¿El terceto octosilábico conserva siempre el encadenamiento? Hoy su arquitectura no
-   declara ninguna rima.
-2. ¿Un verso excepcional sin rima es variante admitida o desviación?
-3. ¿La repetición de una misma rima cuatro veces es variante o desviación?
-4. ¿Cuántas unidades mínimas exige una serie encadenada?
-5. ¿Los cierres en pareado o cuarteto de las antiguas series sin encadenar son canónicos o
+1. ¿Un verso excepcional sin rima es variante admitida o desviación?
+2. ¿La repetición de una misma rima cuatro veces es variante o desviación?
+3. ¿Cuántas unidades mínimas exige una serie encadenada?
+4. ¿Los cierres en pareado o cuarteto de las antiguas series sin encadenar son canónicos o
    desviaciones documentadas?
