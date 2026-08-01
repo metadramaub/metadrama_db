@@ -31,6 +31,10 @@ cruzada, igual que «Cuarteta» lo es en el arte menor.
 El [soneto](./soneto.md): sus cuartetos declaran `arquitectura_referenciada_id` a esta
 arquitectura y su pregunta ofrece las dos disposiciones desde aquí, sin copiarlas.
 
+Y el [terceto encadenado](./tercetos.md), que cierra su cadena con un serventesio: su sección
+final reutiliza esta arquitectura en la versión endecasilábica, y la octosilábica cierra con
+una cuarteta reutilizando la redondilla. Cada arte cierra con su estrofa de cuatro versos.
+
 Reutilizar **no afirma parentesco**. El soneto no se formó sumando cuartetos y tercetos, así
 que no declara `compuesta_por`. Esa relación se reserva para lo que sí ocurrió: la copla
 real, que se formó de dos quintillas.
