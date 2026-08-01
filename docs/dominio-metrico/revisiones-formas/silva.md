@@ -6,11 +6,12 @@ Estado: revisada, pendiente de una precisión terminológica · 1 de agosto de 2
 
 Una forma de nivel serie y tres arquitecturas. No se crea una familia `silva`.
 
-| Arquitectura | Metro | Rima |
-| --- | --- | --- |
-| `consonante_irregular` · principal | 7 y 11 sin orden fijo | consonante de orden libre |
-| `consonante_regular` | ciclo `7 + 11` | `aA \| bB \| cC \| …` |
-| `endecasilabica` | 11 | consonante, pareados no sistemáticos |
+| Arquitectura | Metro | Rima | Pareados |
+| --- | --- | --- | --- |
+| `consonante_irregular` · principal | 7 y 11 sin orden fijo | consonante de orden libre | predominantes |
+| `libre` | 7 y 11 sin orden fijo | consonante de orden libre | **ninguno** |
+| `consonante_regular` | ciclo `7 + 11` | `aA \| bB \| cC \| …` | regulares |
+| `endecasilabica` | 11 | consonante, pareados no sistemáticos | habituales |
 
 La forma es una serie abierta, no estrófica, con rima consonante y posibilidad de versos
 sueltos. En la regular, un verso suelto es una desviación; en las demás puede formar parte
@@ -18,9 +19,17 @@ de la norma.
 
 ## Cuánto organizan los pareados es un rasgo, no una arquitectura
 
-Antes había cuatro arquitecturas y dos de ellas —`libre` y `consonante_irregular`— no se
-distinguían por nada computable: las separaba una frase en prosa colgada de su esquema de
-rima. Hoy ambas son la misma arquitectura, y el grado se responde:
+La **silva libre** es la más irregular: no se organiza en pareados y, si aparece alguno, es un
+caso aislado. Es la que el editor elige cuando lo que encuentra no encaja con ninguna de las
+otras.
+
+Y por eso vuelve a ser arquitectura propia. Se había fundido con la irregular porque solo las
+separaba una frase en prosa; hoy el grado de organización en pareados es un rasgo con valores
+catalogados, así que la distinción es computable. Además hacía falta que viviera ahí: «Silva
+libre» es un nombre de la tradición, y una denominación **no puede apuntar al valor de un
+rasgo**, solo a una forma, una arquitectura, un esquema o una variedad.
+
+Cada arquitectura declara su grado como rasgo definitorio en lugar de preguntarlo:
 
 | Valor | Qué dice |
 | --- | --- |
@@ -35,9 +44,8 @@ silva el centro, y la tirada de pareados el extremo alto. Que sea un rasgo catal
 una frase significa que la respuesta del editor apunta a la misma fila que la norma de otra
 forma, y por tanto se puede comparar entre secuencias.
 
-La arquitectura regular no pregunta: declara `regulares` como rasgo definitorio, porque su
-alternancia `7 + 11` y su esquema `aA | bB | cC` ya lo fijan. Fue la única de las cuatro que
-nunca dependió de un literal.
+La regular lo tenía ya declarado así: su alternancia `7 + 11` y su esquema `aA | bB | cC` lo
+fijan, y fue la única de las cuatro que nunca dependió de un literal.
 
 ## Registrador
 
@@ -57,9 +65,9 @@ sustituye a los umbrales del vocabulario heredado.
 | --- | --- |
 | `silva` | Forma `silva` |
 | `silva--consonantes-regular` | Arquitectura `consonante_regular` |
-| `silva--consonantes-irregular` | Arquitectura `consonante_irregular`, valor `predominantes` |
-| `silva--libre` | La misma arquitectura, valor `ninguna` |
-| `silva--endecasilabica` | Arquitectura `endecasilabica`, valor `habituales` |
+| `silva--consonantes-irregular` | Arquitectura `consonante_irregular` |
+| `silva--libre` | Arquitectura `libre`, con «Silva libre» como denominación |
+| `silva--endecasilabica` | Arquitectura `endecasilabica` |
 
 Las denominaciones del IP se conservan mediante `origen_termino_id`. En la comprobación del
 28 de julio de 2026 no había secuencias asociadas.
@@ -73,9 +81,7 @@ moderno más amplio de «silva libre».
 
 ## Dudas para el IP
 
-1. ¿`silva libre` tiene deliberadamente el alcance específico del corpus —7 y 11,
-   consonancia libre— o pretende coincidir con la categoría moderna más amplia?
-2. La silva libre deja de ser una arquitectura y pasa a ser el valor `ninguna` del rasgo.
-   **El modelo no permite hoy que una denominación apunte a un valor de rasgo**, solo a una
-   forma, arquitectura, esquema, variedad o sección, así que ese nombre no queda registrado
-   en ninguna parte. ¿Hace falta que lo esté?
+Ninguna pendiente. **Resuelto:** la silva libre tiene el alcance específico del corpus —siete
+y once, consonancia al arbitrio del poeta, versos sueltos admitidos y sin organización en
+pareados—, y es la arquitectura que el editor elige cuando lo observado no encaja con las
+demás.

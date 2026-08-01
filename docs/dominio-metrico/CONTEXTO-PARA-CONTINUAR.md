@@ -22,7 +22,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **26 formas y
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **27 formas y
   2 tramos sin forma**: la medida de toda forma isosilábica es arquitectura y ya no se
   pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
   sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el

@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-01 10:12
+Generado: 2026-08-01 10:56
 
-Inventario: 26 formas y 2 tramos sin forma · 47 configuraciones · 50 patrones métricos · 67 patrones de rima · 57 secciones · 60 grupos de elección · 362 opciones · 6 rasgos.
+Inventario: 27 formas y 2 tramos sin forma · 49 configuraciones · 52 patrones métricos · 69 patrones de rima · 57 secciones · 59 grupos de elección · 359 opciones · 6 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -100,6 +100,7 @@ Sin incidencias.
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | decima_espinela | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | endecasilabo_suelto | serie | 1 | sí | posiciones | patrón único | 2 | secuencia |
+| endecha_real | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
 | octava_real | estrofa | 1 | sí | posiciones | patrón único | 1 | secuencia |
@@ -112,7 +113,7 @@ Sin incidencias.
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
 | sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
-| silva | serie | 3 | sí | configuracion, conjunto, posiciones | patrón único | 2 | secuencia |
+| silva | serie | 4 | sí | configuracion, conjunto, posiciones | patrón único | 1 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
@@ -126,7 +127,7 @@ Sin incidencias.
 | configuracion (6) | redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
 | conjunto (6) | cancion_petrarquista, copla_de_pie_quebrado, pareado, silva, villancico, zejel |
 | eleccion (6) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
-| posiciones (21) | cancion_petrarquista, copla_de_arte_mayor, cuarteto, decima_aumentada, decima_espinela, endecasilabo_suelto, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado |
+| posiciones (22) | cancion_petrarquista, copla_de_arte_mayor, cuarteto, decima_aumentada, decima_espinela, endecasilabo_suelto, endecha_real, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
 
@@ -143,7 +144,7 @@ Sin incidencias.
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
 | seccion | 12 | cancion_petrarquista×4, soneto×4, villancico×4 |
-| unidad | 55 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima_aumentada×1, decima_espinela×1, endecasilabo_suelto×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, silva×3, terceto×2, terceto_encadenado×2, zejel×1 |
+| unidad | 57 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima_aumentada×1, decima_espinela×1, endecasilabo_suelto×1, endecha_real×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, silva×4, terceto×2, terceto_encadenado×2, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -163,6 +164,7 @@ Sin incidencias.
 | endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
 | silva · consonante_irregular | 1 | restricciones cualitativas (1) |
 | silva · endecasilabica | 1 | restricciones cualitativas (1) |
+| silva · libre | 1 | restricciones cualitativas (1) |
 
 ### 2.6 · Esquemas que coinciden literalmente en varias formas
 
@@ -170,12 +172,13 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
+| -a-a | endecha_real, seguidilla |
 | abab | redondilla×3, villancico×2 |
 | abba | redondilla×3, villancico×2 |
 
 ## 3 · Cobertura del contrato del registrador
 
-Formas sin contrato editorial declarado (1): cuarteto.
+Formas sin contrato editorial declarado (2): cuarteto, endecha_real.
 
 ---
 

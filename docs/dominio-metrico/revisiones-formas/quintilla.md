@@ -94,7 +94,8 @@ trabaja con un criterio específico para el corpus áureo.
 
 ## Dudas para el IP
 
-1. ¿Los ocho esquemas forman un repertorio cerrado o son los reconocidos hasta ahora?
+1. ~~¿Los ocho esquemas forman un repertorio cerrado?~~ **Resuelto: sí**, son los posibles con
+   dos clases de rima sobre cinco posiciones sin dejar ningún verso suelto.
 2. ¿La definición pública debe explicar expresamente la diferencia con la preceptiva
    general?
 

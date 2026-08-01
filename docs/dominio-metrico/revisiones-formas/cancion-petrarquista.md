@@ -121,7 +121,10 @@ fuente.
 
 ## Dudas para el IP
 
-1. Confirmar si la canción sin rima debe seguir siendo una configuración de la canción
-   petrarquista o adquirir identidad como forma.
+1. ~~¿La canción sin rima debe ser arquitectura o forma?~~ **Resuelto: arquitectura.**
+   Combina heptasílabos y endecasílabos como la regular y mantiene la estructura de estancias;
+   lo que la distingue es que prescinde de la rima en el cuerpo y conserva solo el pareado
+   consonante final, que cierra cada unidad y marca la transición. Eso es otra realización de
+   la misma forma, no otra forma.
 2. Confirmar si toda canción del corpus debe exigir remate o envío.
 3. Confirmar el límite inferior de la estancia: 5 según el proyecto y 9 en la fuente.

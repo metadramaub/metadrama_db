@@ -56,7 +56,7 @@ decir.
 | Sextilla | `octosilabica` | 6 × 8 | consonante, disposición abierta | 6 |
 | Sextilla | `heptasilabica` | 6 × 7 | consonante, disposición abierta | 6 |
 | Sextilla | `hexasilabica` | 6 × 6 | consonante, disposición abierta | 6 |
-| Sextilla | `pie_quebrado` | `8-8-4-8-8-4` | consonante, disposición abierta | 6 |
+| Sextilla | `pie_quebrado` | `8-8-4o5-8-8-4o5` | consonante, disposición abierta | 6 |
 | Sextilla | `doble_pie_quebrado` | `8-8-4` × 4 | consonante; `abcabc:defdef` es la manriqueña | 12 |
 
 La sextilla es isosilábica, así que su medida no puede cambiar a mitad de una tirada: es
@@ -67,6 +67,18 @@ de esquemas, de modo que el esquema declara el tipo de rima y deja libre el orde
 La copla de arte mayor conserva sus tres esquemas y su modelo de verso `6 + 6` referencia
 también el metro dodecasílabo: el demarcador puede encontrarla como dodecasílaba mientras
 los segmentos conservan su estructura compuesta.
+
+## El quebrado: dónde va y cuánto mide
+
+La **posición** no varía: el quebrado ocupa el tercer verso y el sexto. Lo que varía es la
+**medida**, porque el quebrado es la mitad del verso largo o algo semejante, y sobre octosílabo
+eso admite tanto el tetrasílabo como el pentasílabo. Las dos se declaran como alternativas de
+la misma posición.
+
+Ese criterio —la mitad del verso largo— implicaría que una sextilla hexasílaba o heptasílaba
+necesitara un quebrado aún más breve, y que no cupiera una de seis con quebrado de cinco.
+**No se formaliza**, porque lo típico y lo que el corpus necesita es la sextilla de octosílabos
+con quebrado de cuatro o de cinco; lo demás queda como posible y se registrará cuando aparezca.
 
 ## La copla real es una sola arquitectura
 
@@ -175,16 +187,16 @@ los versos cortos en las formas de pie quebrado.
 
 ## Dudas para el IP
 
-1. ¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`? La bibliografía documenta
-   también sextillas heterométricas con otra distribución.
-2. ¿Las medidas 6, 7 y 8 forman un repertorio cerrado para la sextilla isométrica?
-3. **Nada en el modelo distingue dos sextillas consecutivas de una doble sextilla.** Los
+1. **Nada en el modelo distingue dos sextillas consecutivas de una doble sextilla.** Los
    versos, las medidas y el tipo de rima son los mismos; solo cambia si las rimas de la
    segunda mitad dependen de la primera. Hoy lo afirma el editor al elegir arquitectura.
    ¿Debe seguir siendo así o hay un criterio observable que lo decida?
-4. ¿Debe registrarse el esquema exacto de las dobles sextillas no manriqueñas?
-5. ¿Los tres esquemas de copla de arte mayor son un repertorio cerrado? Que alternen entre
-   coplas de una misma tirada ya está resuelto: la pregunta es por unidad.
-6. ¿Los quebrados de la copla real pueden ocupar cualquiera de sus diez posiciones, y solo
+2. ¿Debe registrarse el esquema exacto de las dobles sextillas no manriqueñas?
+3. ¿Los quebrados de la copla real pueden ocupar cualquiera de sus diez posiciones, y solo
    tetrasílabos o también pentasílabos?
-7. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el corpus?
+4. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el corpus?
+5. ¿Las medidas 6, 7 y 8 forman un repertorio cerrado para la sextilla isométrica?
+
+**Resuelto:** el quebrado va siempre en tercero y sexto, y mide cuatro o cinco sílabas. Y los
+tres esquemas de la copla de arte mayor **no** son un repertorio cerrado: son los reconocidos
+hasta ahora por ser los más típicos, y pueden aparecer otros.
