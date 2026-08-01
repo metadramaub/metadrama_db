@@ -46,6 +46,11 @@ copias de su asonancia y la redondilla con dos disposiciones por medida.
 
 `terceto_de_esdrujulos` es un rasgo transversal, no una forma.
 
+**El terceto monorrimo queda fuera a propósito.** Existe —tres versos con una sola clase de
+rima— pero no se espera en el corpus del Siglo de Oro, así que no se registra. Si alguna
+secuencia lo necesita, entra como un tercer esquema de rima de esta misma arquitectura, sin
+tocar nada más.
+
 ## Del vocabulario anterior al catálogo
 
 | Entrada anterior | Destino actual |

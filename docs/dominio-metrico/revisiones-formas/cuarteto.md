@@ -63,5 +63,7 @@ de rima `ABAB`.
 
 1. ¿Debe registrarse alguna otra medida de arte mayor —dodecasílabo, alejandrino— o basta el
    endecasílabo mientras el corpus no documente otra?
-2. ¿La **cuaderna vía**, cuatro alejandrinos monorrimos, entraría como arquitectura de esta
-   forma o como forma propia? Su monorrimia y su genealogía la separan bastante.
+**Resuelto:** la **cuaderna vía** queda fuera porque no aparece en el Siglo de Oro. Si
+hiciera falta, entraría como **arquitectura de esta forma** —cuatro alejandrinos monorrimos—,
+no como forma propia: comparte la extensión y el arte, y solo cambia la disposición de la
+rima.

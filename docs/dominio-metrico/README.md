@@ -71,6 +71,7 @@ retomar el proyecto en otro chat.
    las [décimas](./revisiones-formas/decimas.md), la
    [redondilla](./revisiones-formas/redondilla.md), el
    [cuarteto](./revisiones-formas/cuarteto.md), la
+   [endecha real](./revisiones-formas/endecha-real.md), la
    [octava real](./revisiones-formas/octava-real.md), la
    [novena](./revisiones-formas/novena.md), la
    [lira](./revisiones-formas/lira.md), el

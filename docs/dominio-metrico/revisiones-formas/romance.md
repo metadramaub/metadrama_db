@@ -13,7 +13,7 @@ vocales concretas de la asonancia son un rasgo observado, no subformas.
 | `octosilabico` · principal | 8 | Romance |
 | `hexasilabico` | 6 | Romancillo hexasílabo |
 | `heptasilabico` | 7 | Romancillo heptasílabo · Endecha |
-| `endecasilabico` | 11 | Romance heroico · Romance real |
+| `endecasilabico` | 11 | Romance heroico · Romance real · Romance mayor |
 
 El romance es isosilábico, así que la medida es arquitectura y no pregunta. Y como ninguna
 de las cuatro cambia nada más —el ciclo de rima es el mismo `-a-a-a…` en las cuatro—, lo que
@@ -40,19 +40,22 @@ asignará por conjetura**.
 
 ## Denominaciones
 
-```text
-Romance real     → arquitectura endecasilabico
-Endecha          → arquitecturas hexasilabico y heptasilabico
-Romance endecha  → arquitecturas hexasilabico y heptasilabico
-```
+| Arquitectura | Denominaciones |
+| --- | --- |
+| `hexasilabico` | Romancillo hexasílabo |
+| `heptasilabico` | Romancillo heptasílabo · Endecha · Romance endecha |
+| `endecasilabico` | Romance heroico · Romance real · Romance mayor |
 
-«Romancillo hexasílabo» y «Romancillo heptasílabo» son los nombres preferentes del proyecto
-para esas dos arquitecturas; «Endecha» y «Romance endecha» quedan como equivalentes de ambas,
-según el criterio del IP.
+**«Endecha» y «Romance endecha» nombran el heptasílabo, no el hexasílabo.** Estaban en las dos
+medidas menores y era un error: el romance de seis o menos sílabas es el romancillo, y el de
+siete admite los dos nombres.
 
-**«Romance heroico» no está registrado como denominación**, a diferencia de «Romance real».
-Si el nombre no vive en ninguna parte deja de ser recuperable, y eso incumple el principio de
-asignabilidad.
+Todas están registradas, incluidas las tres del endecasílabo: un nombre que no vive en ninguna
+parte deja de ser recuperable, y eso incumpliría el principio de asignabilidad.
+
+De la endecha heptasílaba deriva además una forma aparte, la
+[endecha real](./endecha-real.md), que rompe la serie introduciendo un endecasílabo al cerrar
+cada estrofa de cuatro versos.
 
 ## Registrador
 
@@ -94,7 +97,6 @@ sin sobrescribir el criterio del corpus.
 
 ## Dudas para el IP
 
-1. ¿`Endecha` y `Romance endecha` deben seguir siendo equivalentes de las dos arquitecturas
-   menores o reservarse para la heptasílaba? No bloquea el registro.
-2. ¿Debe registrarse «Romance heroico» como denominación de la arquitectura endecasílaba?
-   Hoy solo está «Romance real».
+Ninguna pendiente. **Resuelto:** «Endecha» y «Romance endecha» corresponden al heptasílabo;
+el hexasílabo es el romancillo; y el endecasílabo lleva «Romance heroico», «Romance real» y
+«Romance mayor».

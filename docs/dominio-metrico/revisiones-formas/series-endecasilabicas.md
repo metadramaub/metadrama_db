@@ -105,5 +105,6 @@ series procede del IP, igual que la delimitación del pareado como cualquier dí
 
 ## Dudas para el IP
 
-Ninguna imprescindible. El pareado se registra hoy con dos respuestas —medida y tipo de
-rima— y no hay ningún repertorio cerrado que confirmar, porque la forma no lo tiene.
+Ninguna. **Resuelto:** se ofrecen todas las medidas del catálogo, porque todas son posibles
+en un dístico, aunque no se espere encontrarlas todas en el corpus. Un pareado es cualquier
+dístico y el catálogo no debe estrechar eso.
