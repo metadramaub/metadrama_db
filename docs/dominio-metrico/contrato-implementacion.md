@@ -2,7 +2,7 @@
 
 Estado: **migración estructural completa** · bloques A, B y C aplicados el 30 de julio de 2026; la unidad envolvente y el bloque D, el 31
 
-Contrasta [la ontología](./ontologia-metrica.md) con lo que la base y el código expresan
+Contrasta [la implementación](./implementacion-metrica.md) con lo que la base y el código expresan
 hoy, concepto a concepto, y fija qué hay que cambiar antes de corregir ningún dato. El
 orden importa: nueve de los defectos del [informe de conformidad](./informe-conformidad-catalogo.md)
 no se pueden arreglar sin cambiar antes el esquema, así que corregir datos primero
@@ -31,7 +31,7 @@ Comprobado antes de planificar nada:
 
 Fotografía del estado **antes** de empezar, que es lo que justifica el plan del apartado 5.
 Los renombrados de la columna «Veredicto» están ya aplicados; para el estado vigente de
-cada concepto, la tabla de correspondencia de [la ontología](./ontologia-metrica.md).
+cada concepto, la tabla de correspondencia de [la implementación](./implementacion-metrica.md).
 
 | Concepto de la ontología | Antes | Veredicto |
 | --- | --- | --- |

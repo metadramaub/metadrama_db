@@ -1,6 +1,6 @@
 # Sextina
 
-Estado: revisada con los datos del proyecto y bibliografía · 30 de julio de 2026
+Estado: revisada con los datos del proyecto y bibliografía · 1 de agosto de 2026
 
 ## Decisión
 
@@ -8,8 +8,8 @@ Una forma de nivel composición con dos configuraciones fijas.
 
 | Configuración | Extensión | Estructura |
 | --- | ---: | --- |
-| `clasica_6x6_mas_3` | 39 versos | 6 estrofas × 6 versos + remate de 3 |
-| `doble_12x6_mas_3` | 75 versos | 12 estrofas × 6 versos + remate de 3 |
+| `clasica` | 39 versos | 6 estrofas × 6 versos + remate de 3 |
+| `doble` | 75 versos | 12 estrofas × 6 versos + remate de 3 |
 
 Todos los versos son endecasílabos. No hay rima convencional: seis palabras finales
 ocupan las posiciones `ABCDEF` de la primera estrofa y se permutan así:
@@ -55,8 +55,8 @@ La sextina se reconoce por la conjunción de:
 4. ausencia de rima convencional;
 5. permutación de seis palabras finales y recuperación de las seis en el remate.
 
-La repetición léxica se compila desde `patrones_repeticion` y
-`patron_repeticion_posiciones`. No depende de una regla manual del demarcador.
+La repetición léxica se compila desde `repeticiones_metricas` y
+`repeticion_posiciones`. No depende de una regla manual del demarcador.
 
 ## Relaciones y tradiciones
 

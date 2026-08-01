@@ -1,6 +1,6 @@
 # Cuestiones para el IP
 
-Actualizado: 31 de julio de 2026
+Actualizado: 1 de agosto de 2026
 
 Este archivo reúne solo decisiones pendientes. Las decisiones ya tomadas están en la
 ficha de cada revisión.
@@ -208,7 +208,7 @@ Véase [novena.md](./novena.md).
 2. ¿Las ocho variedades actuales de quintilla se ofrecen dentro de toda novena?
 3. ¿Las demás estrofas de nueve versos quedan fuera salvo que aparezcan en el corpus?
 
-Resuelto en el modelo: `novena_canonica` y `novena_invertida` son arquitecturas de una
+Resuelto en el modelo: `redondilla_quintilla` y `quintilla_redondilla` son arquitecturas de una
 única forma; sus secciones reutilizan las arquitecturas de redondilla y quintilla sin
 copiar sus esquemas.
 
@@ -273,25 +273,21 @@ Véase [cancion-petrarquista.md](./cancion-petrarquista.md).
 Resuelto en el modelo: 8, 9 y 15 son extensiones de estancia; una estancia solo
 endecasílaba se obtiene eligiendo 11 sílabas en todas sus posiciones.
 
-## Romance heroico
+## Romance
 
-Véase [romance-heroico.md](./romance-heroico.md).
+Véase [romance.md](./romance.md).
 
-Sin cuestiones pendientes. Se modela como arquitectura endecasílaba de romance porque
-conserva íntegramente su arquitectura y solo cambia la medida. `Romance real` se
-mantiene como denominación equivalente conforme al criterio del IP.
+1. ¿`Endecha` y `Romance endecha` deben mantenerse como denominaciones equivalentes tanto
+   de la arquitectura hexasílaba como de la heptasílaba, o reservarse para la heptasílaba?
+2. ¿Debe registrarse «Romance heroico» como denominación de la arquitectura endecasílaba?
+   Hoy solo está «Romance real», y un nombre que no vive en ninguna parte deja de ser
+   recuperable.
 
-## Romancillos
-
-Véase [romancillo.md](./romancillo.md).
-
-1. ¿`Endecha` y `Romance endecha` deben mantenerse como denominaciones equivalentes
-   tanto del romancillo hexasílabo como del heptasílabo, según los datos actuales del
-   IP, o reservarse para el heptasílabo?
-
-Resuelto en el modelo: no se crea una forma Romancillo. Las realizaciones
-de 6 y 7 sílabas son arquitecturas exactas de `romance`; la antigua raíz ambigua solo
-obliga a revisar las secuencias heredadas que no permitan determinar su medida.
+Resuelto en el modelo: ni el romancillo ni el romance heroico son formas. Las cuatro
+medidas —6, 7, 8 y 11— son arquitecturas de `romance` y solo se distinguen por ese dato;
+sus nombres tradicionales viven como denominaciones. La antigua raíz ambigua `romancillo`
+mezclaba dos medidas y no tiene destino: obliga a revisar las secuencias heredadas que no
+permitan determinar cuál era.
 
 ## Tramos sin forma
 

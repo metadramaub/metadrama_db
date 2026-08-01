@@ -1,6 +1,6 @@
 # Quintilla
 
-Estado: revisada, pendiente del IP · 28 de julio de 2026
+Estado: revisada, pendiente del IP · 1 de agosto de 2026
 
 ## Decisión
 
@@ -41,13 +41,13 @@ entidades del catálogo.
 | --- | --- | ---: | ---: | ---: | --- |
 | `SEC-QUI-1` | `OBRA-1` | 20 | 34 | 15 | `quintilla` |
 
-### `secuencia_configuraciones`
+### `secuencia_arquitecturas`
 
-| secuencia_id | configuracion_id | observaciones |
+| secuencia_id | arquitectura_id | observaciones |
 | --- | --- | --- |
 | `SEC-QUI-1` | `octosilabica_consonante` | `NULL` |
 
-### `unidades_metricas`
+### `realizaciones_metricas`
 
 | unidad_id | secuencia_id | unidad_padre_id | seccion_id | orden | v_ini | v_fin |
 | --- | --- | --- | --- | ---: | ---: | ---: |
@@ -63,7 +63,7 @@ entidades del catálogo.
 | `SEC-QUI-1` | `QUI-2` | `esquema_rima` | `abbab` |
 | `SEC-QUI-1` | `QUI-3` | `esquema_rima` | `ababa` |
 
-Cada opción referencia su fila de `patrones_rima`. El octosílabo, la consonancia y la
+Cada opción referencia su fila de `esquemas_rima`. El octosílabo, la consonancia y la
 extensión de cinco versos se derivan de `octosilabica_consonante`; no se repiten por
 quintilla.
 
@@ -95,7 +95,10 @@ trabaja con un criterio específico para el corpus áureo.
 ## Dudas para el IP
 
 1. ¿Los ocho esquemas forman un repertorio cerrado o son los reconocidos hasta ahora?
-2. ¿Por qué no se incluye `aabaa`?
-3. ¿`abbaa` y `ababb`, con pareado final, son variedades ordinarias del proyecto?
-4. ¿La definición pública debe explicar expresamente la diferencia con la preceptiva
+2. ¿La definición pública debe explicar expresamente la diferencia con la preceptiva
    general?
+
+Resuelto: **el criterio del repertorio es que ningún verso quede suelto.** Con dos clases
+de rima sobre cinco posiciones, `aabaa` deja la `b` sin pareja, y por eso no es una
+quintilla. `abbaa` y `ababb` sí lo cumplen y solo son infrecuentes; los ocho esquemas están
+ordenados de más a menos típico, y el octavo se marca «excepcional» por eso.

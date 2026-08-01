@@ -1,6 +1,6 @@
 # Zéjel
 
-Estado: revisado, con dudas acotadas · 29 de julio de 2026
+Estado: revisado, con dudas acotadas · 1 de agosto de 2026
 
 ## Decisión
 
@@ -62,13 +62,13 @@ después de la primera.
 | --- | --- | ---: | ---: | ---: | --- |
 | `SEC-ZEJ-1` | `OBRA-1` | 1 | 12 | 12 | `zejel` |
 
-### `secuencia_configuraciones`
+### `secuencia_arquitecturas`
 
-| secuencia_id | configuracion_id | observaciones |
+| secuencia_id | arquitectura_id | observaciones |
 | --- | --- | --- |
 | `SEC-ZEJ-1` | `estribillo_y_coplas_monorrimas` | `NULL` |
 
-### `unidades_metricas`
+### `realizaciones_metricas`
 
 | unidad_id | secuencia_id | unidad_padre_id | seccion_id | orden | v_ini | v_fin |
 | --- | --- | --- | --- | ---: | ---: | ---: |

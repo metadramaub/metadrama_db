@@ -3,10 +3,10 @@
 Estado: vigente · 30 de julio de 2026
 
 Este documento responde a una sola pregunta: **ante un hecho métrico observado, ¿en qué
-nivel del catálogo debe registrarse?** Presupone el
-[meta-modelo](./meta-modelo-metrico.md), que define qué es cada entidad y su procedimiento
-de nivel; aquí se aplica caso por caso a la métrica española y se fijan las reglas
-comprobables.
+nivel del catálogo debe registrarse?** Presupone la
+[ontología del verso español](./ontologia-verso-espanol.md), que define qué es cada
+fenómeno, y el procedimiento de nivel de [la implementación](./implementacion-metrica.md);
+aquí se aplica caso por caso y se fijan las reglas comprobables.
 
 Las reglas numeradas del apartado 6 se verifican contra los datos poblados. El resultado
 vigente está en [informe-conformidad-catalogo.md](./informe-conformidad-catalogo.md) y se
@@ -178,7 +178,7 @@ dístico— **son rasgos**. Se predican de un tramo, no dependen de una posició
 más de una forma.
 
 Se declaran como rasgos con sus valores y se vinculan a la arquitectura con su modalidad:
-definitoria, habitual, admitida o destacable. Ahí vive el matiz, y por eso no se traducen a
+definitoria, preferente, admitida o excepcional. Ahí vive el matiz, y por eso no se traducen a
 porcentajes.
 
 Las restricciones del esquema de rima quedan reservadas a reglas combinatorias cerradas y

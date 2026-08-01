@@ -12,13 +12,26 @@ export const METRIC_ENTRY_TYPES = ['forma', 'sin_forma'] as const;
 /** Cuánto acota la norma de una forma. Nulo en los tramos sin forma. */
 export const METRIC_SPECIFICATION_DEGREES = ['general', 'especifica'] as const;
 
-export const METRIC_ARCHITECTURE_GRADES = [
-	'fija',
-	'canonica',
-	'admitida',
-	'rara',
-	'irregular_documentada'
+/**
+ * Cuánto ha fijado la norma o la crítica una realización. No mide permiso: en este modelo
+ * todo es posible aunque no tenga nombre. Una arquitectura nunca es `definitoria`, porque
+ * una realización no define su forma.
+ */
+export const METRIC_MODALITIES = ['definitoria', 'preferente', 'admitida', 'excepcional'] as const;
+
+export const METRIC_ARCHITECTURE_MODALITIES = ['preferente', 'admitida', 'excepcional'] as const;
+
+/** Qué forma tiene la secuencia declarada por un esquema, métrico o de rima. */
+export const METRIC_SEQUENCE_TYPES = [
+	'ciclo',
+	'secuencia',
+	'conjunto',
+	'restricciones',
+	'abierta'
 ] as const;
+
+/** Si un esquema describe la unidad entera o una parte suya. */
+export const METRIC_SCHEME_SCOPES = ['unidad', 'seccion'] as const;
 
 export const METRIC_CHOICE_DIMENSIONS = [
 	'metro',
@@ -35,7 +48,10 @@ export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[num
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
 export type MetricEntryType = (typeof METRIC_ENTRY_TYPES)[number];
 export type MetricSpecificationDegree = (typeof METRIC_SPECIFICATION_DEGREES)[number];
-export type MetricArchitectureGrade = (typeof METRIC_ARCHITECTURE_GRADES)[number];
+export type MetricModality = (typeof METRIC_MODALITIES)[number];
+export type MetricArchitectureModality = (typeof METRIC_ARCHITECTURE_MODALITIES)[number];
+export type MetricSequenceType = (typeof METRIC_SEQUENCE_TYPES)[number];
+export type MetricSchemeScope = (typeof METRIC_SCHEME_SCOPES)[number];
 export type MetricChoiceDimension = (typeof METRIC_CHOICE_DIMENSIONS)[number];
 export type MetricChoiceScope = (typeof METRIC_CHOICE_SCOPES)[number];
 
@@ -63,7 +79,7 @@ export type MetricCatalogConfiguration = {
 	descripcion: string | null;
 	principal: boolean;
 	demarcable: boolean;
-	grado: MetricArchitectureGrade;
+	modalidad: MetricArchitectureModality;
 	tipo_rima_id: string | null;
 	unidad_versos_min: number | null;
 	unidad_versos_max: number | null;
@@ -123,9 +139,7 @@ export type MetricCatalogIssue = {
 		| 'patron_metrico_sin_posiciones'
 		| 'patron_metrico_sin_opciones'
 		| 'patron_metrico_sin_nombre'
-		| 'patron_rima_sin_regla'
-		| 'patron_rima_comportamiento_pendiente'
-		| 'configuracion_con_ambito_generico';
+		| 'patron_rima_sin_regla';
 	level: 'error' | 'warning' | 'info';
 	entityId: string;
 	label: string;

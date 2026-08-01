@@ -1,6 +1,6 @@
 # Redondilla
 
-Estado: revisado con decisiones del proyecto · 31 de julio de 2026
+Estado: revisado con decisiones del proyecto · 1 de agosto de 2026
 
 ## Decisión
 

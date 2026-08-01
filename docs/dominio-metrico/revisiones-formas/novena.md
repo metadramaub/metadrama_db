@@ -1,6 +1,6 @@
 # Novena
 
-Estado: revisada, pendiente de precisiones del IP · 29 de julio de 2026
+Estado: revisada, pendiente de precisiones del IP · 1 de agosto de 2026
 
 ## Decisión
 
@@ -43,7 +43,7 @@ otra configuración ya formalizada. La novena no copia los esquemas:
 - la sección quintilla referencia `quintilla.octosilabica_consonante` y ofrece las ocho
   variedades reconocidas por el proyecto.
 
-Las opciones guardadas apuntan a los mismos `patrones_rima`. Un cambio aprobado en esos
+Las opciones guardadas apuntan a los mismos `esquemas_rima`. Un cambio aprobado en esos
 repertorios se propaga a las formas compuestas que los reutilizan.
 
 ## Registrador
@@ -74,7 +74,7 @@ novena
 └── novena_invertida → CONFIGURACIÓN quintilla_redondilla
 ```
 
-Los UUID anteriores se conservan en `migracion_termino_destinos`.
+Los UUID anteriores se conservan en `origen_termino_id`.
 
 ## Fuente
 

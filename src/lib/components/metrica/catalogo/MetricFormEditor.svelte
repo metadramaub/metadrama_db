@@ -4,7 +4,7 @@
 	import MetricArchitectureEditor from './MetricArchitectureEditor.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
-		METRIC_ARCHITECTURE_GRADES,
+		METRIC_ARCHITECTURE_MODALITIES,
 		METRIC_STRUCTURAL_LEVELS,
 		metricReviewStateLabel,
 		metricStructuralLevelLabel,
@@ -35,7 +35,7 @@
 		descripcion: '',
 		principal: false,
 		demarcable: true,
-		grado: 'admitida' as (typeof METRIC_ARCHITECTURE_GRADES)[number],
+		modalidad: 'admitida' as (typeof METRIC_ARCHITECTURE_MODALITIES)[number],
 		tipo_rima_id: null as string | null,
 		unidad_versos_min: null as number | null,
 		unidad_versos_max: null as number | null,
@@ -391,9 +391,9 @@
 						<span class="text-sm font-medium">Grado</span>
 						<select
 							class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-							bind:value={newConfiguration.grado}
+							bind:value={newConfiguration.modalidad}
 						>
-							{#each METRIC_ARCHITECTURE_GRADES as grade}
+							{#each METRIC_ARCHITECTURE_MODALITIES as grade}
 								<option value={grade}>{grade.replaceAll('_', ' ')}</option>
 							{/each}
 						</select>

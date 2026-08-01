@@ -11,15 +11,15 @@ METADRAMA, separado del vocabulario genérico del proyecto.
 Estado operativo, decisiones vigentes, fronteras de seguridad y ruta de lectura para
 retomar el proyecto en otro chat.
 
-0. [Meta-modelo métrico](./meta-modelo-metrico.md)
-   Qué tipos de entidad componen un dominio métrico y qué reglas los gobiernan, sin
-   comprometerse con ninguna tradición de verso. Es la capa reutilizable y no contiene
-   ningún ejemplo español. **Lectura previa a todo lo demás.**
+0. [Ontología del verso español](./ontologia-verso-espanol.md)
+   Qué es el verso español y de qué está hecho: medida, ritmo, rima, agrupación, forma y la
+   relación entre norma y realización. Describe posibilidades, no un corpus.
+   **Lectura previa a todo lo demás.** Con [diagrama](./ontologia-verso-espanol.svg).
 
-0bis. [La ontología métrica de METADRAMA](./ontologia-metrica.md)
-   Cómo se aplica ese meta-modelo a la métrica española y qué decidió el proyecto para su
-   corpus. Con arquetipos diagramados, el estado de la implementación y la correspondencia
-   con los nombres de la base.
+0bis. [La implementación de METADRAMA](./implementacion-metrica.md)
+   Qué parte de esa ontología se realiza, qué se restringe por el corpus y cómo se recoge el
+   dato: el catálogo, las preguntas del editor y el registro. Con arquetipos diagramados y la
+   correspondencia con las tablas. Y su [diagrama](./implementacion-metrica.svg).
 
 1. [Síntesis narrativa del nuevo dominio métrico](./sintesis-narrativa-dominio-metrico.md)
    Explicación general, con un lenguaje poco técnico, para presentar el problema, la propuesta y sus beneficios.
@@ -62,9 +62,7 @@ retomar el proyecto en otro chat.
    revisión de [terceto y terceto encadenado](./revisiones-formas/tercetos.md), la
    [silva](./revisiones-formas/silva.md), la frontera entre
    [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md), el
-   [romance](./revisiones-formas/romance.md), el
-   [romance heroico](./revisiones-formas/romance-heroico.md), el
-   [romancillo](./revisiones-formas/romancillo.md), el
+   [romance, con el romancillo y el heroico](./revisiones-formas/romance.md), el
    tratamiento de los [tramos sin forma](./revisiones-formas/tramos-sin-forma.md), el
    [soneto](./revisiones-formas/soneto.md), el
    [villancico](./revisiones-formas/villancico.md), el
@@ -143,7 +141,7 @@ validación ni el demarcador.
 
 La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración
 estructural se completó el 31: la base habla ya los nombres definitivos de
-[la ontología](./ontologia-metrica.md), el metro es una entidad del dominio, la unidad se
+[la implementación](./implementacion-metrica.md), el metro es una entidad del dominio, la unidad se
 declara, las familias han desaparecido y las tradiciones están pobladas. Queda un hueco de
 esquema —la respuesta que define la norma— y los defectos de datos del
 [informe de conformidad](./informe-conformidad-catalogo.md), que necesitan al IP.

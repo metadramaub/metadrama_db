@@ -1,6 +1,6 @@
 # Décimas
 
-Estado: revisado, con decisiones del proyecto por confirmar · 29 de julio de 2026
+Estado: revisado, con decisiones del proyecto por confirmar · 1 de agosto de 2026
 
 ## Decisión
 
@@ -59,8 +59,8 @@ una única forma anterior.
 | Forma | Configuración | Metro | Rima | Estructura |
 | --- | --- | --- | --- | --- |
 | Copla real | Véase su revisión propia | arte menor; con o sin quebrados | dos esquemas de quintilla | `5 + 5` |
-| Décima espinela | `octosilabica_abbaaccddc` | 10 × 8 | consonante `abbaaccddc` | `4 + 2 + 4` |
-| Décima aumentada | `octosilabica_abbaaccddeed` | 12 × 8 | consonante `abbaaccddeed` | `4 + 8` |
+| Décima espinela | `octosilabica` | 10 × 8 | consonante `abbaaccddc` | `4 + 2 + 4` |
+| Décima aumentada | `octosilabica` | 12 × 8 | consonante `abbaaccddeed` | `4 + 8` |
 
 En la espinela, los bloques normalizados son:
 

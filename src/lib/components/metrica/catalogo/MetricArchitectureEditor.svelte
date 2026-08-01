@@ -3,7 +3,7 @@
 	import { untrack } from 'svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
-		METRIC_ARCHITECTURE_GRADES,
+		METRIC_ARCHITECTURE_MODALITIES,
 		metricReviewStateLabel,
 		type MetricCatalogConfiguration,
 		type MetricCatalogOption
@@ -68,7 +68,7 @@
 					descripcion: draft.descripcion?.trim() || null,
 					principal: draft.principal,
 					demarcable: draft.demarcable,
-					grado: draft.grado,
+					modalidad: draft.modalidad,
 					tipo_rima_id: draft.tipo_rima_id,
 					unidad_versos_min: declaresUnitExtent ? draft.unidad_versos_min : null,
 					unidad_versos_max: declaresUnitExtent
@@ -231,9 +231,9 @@
 					<span class="text-sm font-medium">Grado</span>
 					<select
 						class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-						bind:value={draft.grado}
+						bind:value={draft.modalidad}
 					>
-						{#each METRIC_ARCHITECTURE_GRADES as grade}
+						{#each METRIC_ARCHITECTURE_MODALITIES as grade}
 							<option value={grade}>{grade.replaceAll('_', ' ')}</option>
 						{/each}
 					</select>

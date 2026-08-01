@@ -1,6 +1,6 @@
 # Sexteto
 
-Estado: revisado con los datos del proyecto y bibliografía · 31 de julio de 2026
+Estado: revisado con los datos del proyecto y bibliografía · 1 de agosto de 2026
 
 ## Decisión
 

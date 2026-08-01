@@ -270,7 +270,7 @@
 			help: 'Dónde se completa o reinicia la distribución de rimas.'
 		},
 		{
-			key: 'comportamiento',
+			key: 'tipo_secuencia',
 			label: 'Comportamiento',
 			type: 'select',
 			required: true,
@@ -285,10 +285,10 @@
 					disabled: true
 				}
 			],
-			help: 'Describe la lógica computable del esquema. La fijeza indica después cuánto obliga esa lógica.'
+			help: 'Describe la forma de la secuencia. La modalidad indica después cuánto la ha fijado la tradición.'
 		},
 		{
-			key: 'fijeza',
+			key: 'modalidad',
 			label: 'Fijeza',
 			type: 'select',
 			required: true,
@@ -473,7 +473,7 @@
 		},
 		{ key: 'regla', label: 'Regla', type: 'textarea', required: true },
 		{
-			key: 'fijeza',
+			key: 'modalidad',
 			label: 'Fijeza',
 			type: 'select',
 			required: true,
@@ -642,7 +642,7 @@
 				rows={metricPatterns}
 				keyFields={['esquema_metrico_id']}
 				fields={metricPatternFields}
-				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, tipo: 'secuencia_fija', estado_revision: 'borrador' }}
+				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, tipo_secuencia: 'secuencia', estado_revision: 'borrador' }}
 				compact
 			>
 				{#snippet rowContent(pattern)}
@@ -722,7 +722,7 @@
 				fields={rhymePatternFields}
 				labelFields={['nombre', 'notacion']}
 				emptyMessage="Esta arquitectura todavía no tiene alternativas de rima."
-				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, comportamiento: 'secuencia_fija', fijeza: 'admitido', estado_revision: 'borrador' }}
+				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, tipo_secuencia: 'secuencia', modalidad: 'admitida', estado_revision: 'borrador' }}
 				compact
 			>
 				{#snippet rowContent(pattern)}
@@ -836,7 +836,7 @@
 				defaults={{ arquitectura_id: props.configurationId, orden: 1 }} compact />
 			<MetricEntityCollection resource="repetitionPatterns" title="Repeticiones" rows={repetitionPatterns}
 				keyFields={['repeticion_id']} fields={repetitionFields}
-				defaults={{ arquitectura_id: props.configurationId, tipo: 'otro', ambito: defaultScope, fijeza: 'admitida', estado_revision: 'borrador' }} compact>
+				defaults={{ arquitectura_id: props.configurationId, tipo: 'otro', ambito: defaultScope, modalidad: 'admitida', estado_revision: 'borrador' }} compact>
 				{#snippet rowContent(pattern)}
 					{@const patternId = String(pattern.repeticion_id)}
 					{@const positions = rowsForRepetitionPattern(props.domain.repetitionPositions, patternId)}

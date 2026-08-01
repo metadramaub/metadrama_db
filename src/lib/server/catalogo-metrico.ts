@@ -22,7 +22,7 @@ type QueryError = {
 const FORM_SELECT =
 	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,grado_especificacion,estado_revision,activo,orden,origen_termino_id,updated_at';
 const CONFIGURATION_SELECT =
-	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,grado,tipo_rima_id,unidad_versos_min,unidad_versos_max,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,modalidad,tipo_rima_id,unidad_versos_min,unidad_versos_max,estado_revision,activo,orden,origen_termino_id,updated_at';
 
 function isMissingCatalogError(error: QueryError | null): boolean {
 	return error?.code === '42P01' || error?.code === 'PGRST205' || error?.code === 'PGRST204';
@@ -139,27 +139,6 @@ function buildIssues(input: {
 	const configurationById = new Map(
 		input.configurations.map((configuration) => [configuration.arquitectura_id, configuration])
 	);
-	const genericScopeConfigurationIds = new Set(
-		[
-			...input.domain.metricPatterns,
-			...input.domain.rhymePatterns,
-			...input.domain.repetitionPatterns
-		]
-			.filter((pattern) => pattern.ambito === 'unidad')
-			.map((pattern) => String(pattern.arquitectura_id))
-	);
-	for (const configurationId of genericScopeConfigurationIds) {
-		const configuration = configurationById.get(configurationId);
-		if (!configuration) continue;
-		issues.push({
-			code: 'configuracion_con_ambito_generico',
-			level: 'warning',
-			entityId: configuration.arquitectura_id,
-			label: configuration.nombre,
-			message:
-				'Conserva al menos un esquema importado con ámbito «unidad genérica». Debe precisarse como estrofa, serie, sección o composición.'
-		});
-	}
 	const metricPositionPatternIds = new Set(
 		input.domain.metricPositions.map((row) => String(row.esquema_metrico_id))
 	);
@@ -229,20 +208,8 @@ function buildIssues(input: {
 		const patternId = String(pattern.esquema_rima_id);
 		const configuration = configurationById.get(String(pattern.arquitectura_id));
 		if (!configuration) continue;
-		if (pattern.comportamiento === 'pendiente_revision') {
-			issues.push({
-				code: 'patron_rima_comportamiento_pendiente',
-				level: 'warning',
-				entityId: configuration.arquitectura_id,
-				label: configuration.nombre,
-				message:
-					'Tiene un esquema de rima importado cuyo comportamiento todavía no se ha formalizado.'
-			});
-			continue;
-		}
 		if (
-			(pattern.comportamiento === 'secuencia_fija' ||
-				pattern.comportamiento === 'secuencia_repetible') &&
+			(pattern.tipo_secuencia === 'secuencia' || pattern.tipo_secuencia === 'ciclo') &&
 			!rhymePositionPatternIds.has(patternId)
 		) {
 			issues.push({
@@ -254,7 +221,7 @@ function buildIssues(input: {
 					'Tiene una secuencia de rima sin posiciones estructuradas. El esquema textual no basta para compilarla.'
 			});
 		}
-		if (pattern.comportamiento === 'restricciones' && !rhymeRestrictionPatternIds.has(patternId)) {
+		if (pattern.tipo_secuencia === 'restricciones' && !rhymeRestrictionPatternIds.has(patternId)) {
 			issues.push({
 				code: 'patron_rima_sin_regla',
 				level: 'warning',
@@ -284,7 +251,7 @@ export async function loadMetricCatalog(
 
 	if (
 		isMissingCatalogError(stateResponse.error) ||
-		Number(stateResponse.data?.modelo_version ?? 0) < 51
+		Number(stateResponse.data?.modelo_version ?? 0) < 52
 	) {
 		return {
 			migrationPending: true,

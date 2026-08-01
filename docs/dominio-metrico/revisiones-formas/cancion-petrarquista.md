@@ -1,6 +1,6 @@
 # Canción petrarquista
 
-Estado: revisada con los datos del proyecto y bibliografía · 30 de julio de 2026
+Estado: revisada con los datos del proyecto y bibliografía · 1 de agosto de 2026
 
 ## Decisión
 
@@ -10,7 +10,7 @@ Una forma de nivel composición con tres configuraciones:
 | --- | --- | --- |
 | `estancias_consonantes_variables` | 5–20 versos; 7 y 11 sílabas por posición | esquema consonante observado y repetido |
 | `regular_13_abCabC_cdeeDfF` | 13 versos: `7-7-11-7-7-11-7-7-7-7-11-7-11` | `ABCABCCDEEDFF` |
-| `cuerpo_sin_rima_pareado_final` | cuerpo variable + 2 versos finales; 7 y 11 sílabas | cuerpo suelto + pareado consonante |
+| `sin_rima_con_pareado_final` | cuerpo variable + 2 versos finales; 7 y 11 sílabas | cuerpo suelto + pareado consonante |
 
 La configuración general es la principal. Las estancias de 8, 9 y 15 versos no son
 configuraciones: son extensiones observadas del mismo componente. La antigua canción

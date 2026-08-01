@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-07-31 21:20
+Generado: 2026-08-01 08:38
 
 Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 66 patrones de rima · 57 secciones · 58 grupos de elección · 358 opciones · 6 rasgos.
 
@@ -16,7 +16,7 @@ Sin incidencias.
 
 ### D2 · Patrón de rima sin contenido alguno — 0
 
-> Un patrón debe aportar algo computable: esquema, posiciones o restricciones. Un patrón vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúan dos casos que sí la declaran: fijeza=no_aplica, que afirma la ausencia de rima, y fijeza=libre con un tipo de rima declarado, que afirma que la norma exige ese tipo y deja abierta la disposición, como corresponde a una forma general.
+> Un esquema debe aportar algo computable: notación, posiciones o restricciones. Un esquema vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúa el de tipo abierta con un tipo de rima declarado: afirma que la norma exige ese tipo y deja libre la disposición, como corresponde a una forma general.
 
 Sin incidencias.
 
@@ -141,10 +141,8 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| composicion | 1 | zejel×1 |
-| estrofa | 44 | cancion_petrarquista×2, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, decima_aumentada×1, decima_espinela×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, terceto×2 |
-| seccion | 11 | cancion_petrarquista×2, soneto×5, villancico×4 |
-| serie | 10 | endecasilabo_suelto×1, romance×4, silva×3, terceto_encadenado×2 |
+| seccion | 13 | cancion_petrarquista×4, soneto×5, villancico×4 |
+| unidad | 53 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, decima_aumentada×1, decima_espinela×1, endecasilabo_suelto×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, silva×3, terceto×2, terceto_encadenado×2, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -160,6 +158,7 @@ Sin incidencias.
 | sextilla · hexasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
+| cancion_petrarquista · sin_rima_con_pareado_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
 | silva · consonante_irregular | 1 | restricciones cualitativas (1) |
 | silva · endecasilabica | 1 | restricciones cualitativas (1) |

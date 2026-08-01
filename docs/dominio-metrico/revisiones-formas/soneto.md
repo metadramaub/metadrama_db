@@ -1,6 +1,6 @@
 # Soneto
 
-Estado: revisado, con dudas de alcance · 29 de julio de 2026
+Estado: revisado, con dudas de alcance · 1 de agosto de 2026
 
 ## Decisión
 
@@ -12,7 +12,7 @@ tercetos no son subformas. El soneto de esdrújulos es un rasgo transversal.
 | Elemento | Valor |
 | --- | --- |
 | Forma | `soneto` · composición fija |
-| Configuración | `endecasilabo_consonante` |
+| Configuración | `endecasilabico_consonante` |
 | Extensión | 14 versos |
 | Metro | 11 sílabas |
 | Secciones | cuarteto ×2 de 4 versos · terceto ×2 de 3, vinculados con la arquitectura del terceto |
@@ -59,13 +59,13 @@ pruebas.
 | --- | --- | ---: | ---: | ---: | --- |
 | `SEC-SON-1` | `OBRA-1` | 101 | 114 | 14 | `soneto` |
 
-### `secuencia_configuraciones`
+### `secuencia_arquitecturas`
 
-| secuencia_id | configuracion_id | observaciones |
+| secuencia_id | arquitectura_id | observaciones |
 | --- | --- | --- |
-| `SEC-SON-1` | `endecasilabo_consonante` | `NULL` |
+| `SEC-SON-1` | `endecasilabico_consonante` | `NULL` |
 
-### `unidades_metricas`
+### `realizaciones_metricas`
 
 | unidad_id | secuencia_id | unidad_padre_id | seccion_id | orden | v_ini | v_fin |
 | --- | --- | --- | --- | ---: | ---: | ---: |
@@ -82,7 +82,7 @@ de 28 o más versos contenga varios sonetos y que cada uno conserve sus propias 
 | `SEC-SON-1` | `SON-1` | `esquema_tercetos` | `CDECDE` |
 | `SEC-SON-1` | `SON-1` | `final_acentual_destacado` | `esdrujulo` |
 
-La opción `CDECDE` referencia el `patron_rima` completo
+La opción `CDECDE` referencia el `esquema_rima` completo
 `ABBAABBACDECDE`. La segunda elección referencia el valor `esdrujulo` del rasgo
 `final_acentual`; no crea una forma «soneto de esdrújulos».
 
@@ -104,7 +104,7 @@ elección de tercetos del registrador, porque el dato sí es necesario para el a
 
 ## Trazabilidad
 
-Los cuatro términos de esquema conservan `origen_termino_id` en `patrones_rima`.
+Los cuatro términos de esquema conservan `origen_termino_id` en `esquemas_rima`.
 `soneto_de_esdrújulos` conserva su destino en el valor del rasgo. Ninguna de las seis
 entradas heredadas tenía usos en secuencias el 29 de julio de 2026.
 

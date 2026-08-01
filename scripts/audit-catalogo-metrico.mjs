@@ -319,7 +319,7 @@ const DEFECTOS = [
 		id: 'D2',
 		titulo: 'Patrón de rima sin contenido alguno',
 		criterio:
-			'Un patrón debe aportar algo computable: esquema, posiciones o restricciones. Un patrón vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúan dos casos que sí la declaran: fijeza=no_aplica, que afirma la ausencia de rima, y fijeza=libre con un tipo de rima declarado, que afirma que la norma exige ese tipo y deja abierta la disposición, como corresponde a una forma general.',
+			'Un esquema debe aportar algo computable: notación, posiciones o restricciones. Un esquema vacío no declara norma y solo ocupa un hueco en la interfaz. Se exceptúa el de tipo abierta con un tipo de rima declarado: afirma que la norma exige ese tipo y deja libre la disposición, como corresponde a una forma general.',
 		detectar(model) {
 			const declaraTipoDeRima = (patron) =>
 				Boolean(
@@ -329,15 +329,14 @@ const DEFECTOS = [
 			return model.patronesRima
 				.filter(
 					(patron) =>
-						patron.fijeza !== 'no_aplica' &&
-						!(patron.fijeza === 'libre' && declaraTipoDeRima(patron)) &&
+						!(patron.tipo_secuencia === 'abierta' && declaraTipoDeRima(patron)) &&
 						!patron.notacion &&
 						listOf(model.posicionesPorPatronRima, patron.esquema_rima_id).length === 0 &&
 						listOf(model.restriccionesPorPatronRima, patron.esquema_rima_id).length === 0
 				)
 				.map((patron) => ({
 					sujeto: etiqueta(model, patron.arquitectura_id),
-					detalle: `${patron.nombre ?? 'sin nombre'} · fijeza=${patron.fijeza}`
+					detalle: `${patron.nombre ?? 'sin nombre'} · ${patron.tipo_secuencia}`
 				}));
 		}
 	},
@@ -375,7 +374,7 @@ const DEFECTOS = [
 				)
 				.map((patron) => ({
 					sujeto: etiqueta(model, patron.arquitectura_id),
-					detalle: `${patron.ambito} · ${patron.tipo}`
+					detalle: `${patron.ambito} · ${patron.tipo_secuencia}`
 				}));
 		}
 	},
@@ -703,7 +702,6 @@ function estrategiasRimaVariable(model) {
 		const grupos = listOf(model.gruposPorConfiguracion, id);
 		const abiertos = patrones.filter(
 			(patron) =>
-				patron.fijeza !== 'no_aplica' &&
 				!patron.notacion &&
 				listOf(model.posicionesPorPatronRima, patron.esquema_rima_id).length === 0
 		);
