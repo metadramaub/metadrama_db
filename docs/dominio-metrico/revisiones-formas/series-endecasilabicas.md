@@ -1,6 +1,6 @@
 # Series endecasilábicas y pareado
 
-Estado: revisado · 31 de julio de 2026
+Estado: revisado · 1 de agosto de 2026
 
 ## Las series
 

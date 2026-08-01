@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1170" viewBox="0 0 1440 1170" role="img" aria-labelledby="title desc">
+  <title id="title">Ontología del verso español</title>
+  <desc id="desc">Composición del verso español desde la sílaba métrica hasta el poema, sus planos constitutivos de medida, ritmo y rima, los fenómenos relacionales, la forma como identidad nombrada y la relación entre norma y realización.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f6f2; }
+      .ink { fill: #1c1c1a; }
+      .mid { fill: #55534e; }
+      .muted { fill: #8a8780; }
+      .rule { fill: none; stroke: #d6d2c8; stroke-width: 1; }
+      .hair { fill: none; stroke: #e0dcd2; stroke-width: 1; }
+      .spine { fill: none; stroke: #c2beb4; stroke-width: 1.4; }
+      .flow { fill: none; stroke: #6f6d67; stroke-width: 1.6; }
+      .dot { fill: #f7f6f2; stroke: #a6a39a; stroke-width: 1.6; }
+      .dot-core { fill: #1c1c1a; stroke: #1c1c1a; stroke-width: 1.6; }
+      .band { fill: #1c1c1a; }
+      .chip { fill: #fff; stroke: #d6d2c8; stroke-width: 1.2; }
+      .chip-accent { fill: #e8eee9; stroke: #a9bcae; stroke-width: 1.2; }
+      .chip-warn { fill: #f3ebe4; stroke: #cdb2a0; stroke-width: 1.2; }
+      .display { font: 400 36px Georgia, 'Times New Roman', serif; }
+      .numeral { font: italic 400 26px Georgia, 'Times New Roman', serif; fill: #c2beb4; }
+      .section { font: 600 11.5px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .18em; }
+      .node { font: 600 13px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .12em; }
+      .lead { font: 400 15px Georgia, 'Times New Roman', serif; }
+      .item { font: 400 13.5px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .small { font: 400 12px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .note { font: italic 400 13px Georgia, 'Times New Roman', serif; }
+      .white { fill: #fff; }
+    </style>
+    <marker id="tip" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M 0 0.5 L 9 5 L 0 9.5 z" fill="#6f6d67"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1440" height="1170"/>
+
+  <!-- Cabecera -->
+  <text x="140" y="94" class="display ink">Ontología del verso español</text>
+  <text x="140" y="124" class="note muted">Las posibilidades de la métrica hispánica. No describe ningún corpus.</text>
+  <text x="1368" y="94" text-anchor="end" class="small muted">31 · 07 · 2026</text>
+  <line x1="140" y1="152" x2="1368" y2="152" class="rule"/>
+
+  <!-- I · Composición -->
+  <text x="72" y="216" class="numeral">I</text>
+  <text x="140" y="212" class="section mid">CÓMO SE COMPONE</text>
+
+  <line x1="200" y1="262" x2="1300" y2="262" class="spine"/>
+
+  <circle cx="200" cy="262" r="5" class="dot"/>
+  <text x="200" y="240" text-anchor="middle" class="node ink">SÍLABA MÉTRICA</text>
+  <text x="200" y="292" text-anchor="middle" class="small muted">la unidad de cómputo</text>
+
+  <circle cx="475" cy="262" r="9" class="dot-core"/>
+  <text x="475" y="240" text-anchor="middle" class="node ink">VERSO</text>
+  <text x="475" y="292" text-anchor="middle" class="small muted">medida · ritmo · rima</text>
+
+  <circle cx="750" cy="262" r="5" class="dot"/>
+  <text x="750" y="240" text-anchor="middle" class="node ink">UNIDAD</text>
+  <text x="750" y="292" text-anchor="middle" class="small muted">estrofa · serie · composición</text>
+
+  <circle cx="1025" cy="262" r="5" class="dot"/>
+  <text x="1025" y="240" text-anchor="middle" class="node ink">SECUENCIA</text>
+  <text x="1025" y="292" text-anchor="middle" class="small muted">N unidades sobre un rango</text>
+
+  <circle cx="1300" cy="262" r="5" class="dot"/>
+  <text x="1300" y="240" text-anchor="middle" class="node ink">POEMA</text>
+  <text x="1300" y="292" text-anchor="middle" class="small muted">el texto completo</text>
+
+  <text x="750" y="330" text-anchor="middle" class="note muted">Cuántas unidades contiene la secuencia es propiedad del pasaje, no de la forma.</text>
+
+  <!-- II · El verso -->
+  <text x="72" y="394" class="numeral">II</text>
+  <text x="140" y="390" class="section mid">DE QUÉ ESTÁ HECHO EL VERSO</text>
+
+  <line x1="532" y1="412" x2="532" y2="606" class="hair"/>
+  <line x1="944" y1="412" x2="944" y2="606" class="hair"/>
+
+  <text x="140" y="442" class="node ink">MEDIDA</text>
+  <text x="140" y="474" class="lead mid">Número de sílabas métricas</text>
+  <text x="140" y="512" class="item muted">sinalefa · dialefa · sinéresis · diéresis</text>
+  <text x="140" y="540" class="item muted">ley del acento final</text>
+  <text x="140" y="564" class="small muted">agudo +1 · llano 0 · esdrújulo −1</text>
+  <text x="140" y="596" class="item muted">arte menor y mayor, derivados</text>
+
+  <text x="552" y="442" class="node ink">RITMO</text>
+  <text x="552" y="474" class="lead mid">Distribución de las prominencias</text>
+  <text x="552" y="512" class="item muted">acento estrófico, en la penúltima</text>
+  <text x="552" y="540" class="item muted">ictus rítmicos, extrarrítmicos</text>
+  <text x="552" y="564" class="small muted">y antirrítmicos</text>
+  <text x="552" y="596" class="item muted">cláusula trocaica o dactílica</text>
+
+  <text x="964" y="442" class="node ink">RIMA</text>
+  <text x="964" y="474" class="lead mid">Desde la última vocal tónica</text>
+  <text x="964" y="512" class="item muted">consonante total · asonante parcial</text>
+  <text x="964" y="540" class="item muted">verso suelto y verso blanco</text>
+  <text x="964" y="564" class="small muted">posición del esquema y forma, no lo mismo</text>
+  <text x="964" y="596" class="item muted">clase de rima y esquema</text>
+
+  <line x1="140" y1="636" x2="1368" y2="636" class="hair"/>
+  <text x="140" y="662" class="note muted">El verso español es silábico-acentual: cuenta sílabas y sitúa acentos, pero no construye pies.</text>
+  <text x="1368" y="662" text-anchor="end" class="note muted">El pie y la mora pertenecen a otras tradiciones.</text>
+
+  <!-- III · Fenómenos relacionales -->
+  <text x="72" y="730" class="numeral">III</text>
+  <text x="140" y="726" class="section mid">FENÓMENOS QUE OCURREN ENTRE DOS COSAS</text>
+
+  <text x="140" y="772" class="node ink">CESURA</text>
+  <text x="140" y="800" class="item muted">Divide el verso en hemistiquios,</text>
+  <text x="140" y="824" class="item muted">y cada uno se computa aparte</text>
+
+  <text x="552" y="772" class="node ink">ENLACE DE RIMA</text>
+  <text x="552" y="800" class="item muted">Cruza el límite de la unidad</text>
+  <text x="552" y="824" class="item muted">y no cabe en la notación de una</text>
+
+  <text x="964" y="772" class="node ink">ENCABALGAMIENTO</text>
+  <text x="964" y="800" class="item muted">La sintaxis atraviesa la pausa</text>
+  <text x="964" y="824" class="item muted">versal: es de dos versos, no de la forma</text>
+
+  <!-- IV · La forma -->
+  <text x="72" y="898" class="numeral">IV</text>
+  <text x="140" y="894" class="section mid">LO QUE RECIBE NOMBRE</text>
+
+  <rect x="140" y="914" width="1228" height="78" rx="4" class="band"/>
+  <text x="172" y="948" class="node white">FORMA</text>
+  <text x="172" y="974" class="lead white">Combinación que una tradición reconoce y nombra · fija unas cosas, admite variación en otras, deja el resto abierto</text>
+
+  <line x1="428" y1="1016" x2="428" y2="1078" class="hair"/>
+  <line x1="744" y1="1016" x2="744" y2="1078" class="hair"/>
+  <line x1="1060" y1="1016" x2="1060" y2="1078" class="hair"/>
+
+  <text x="140" y="1042" class="node ink">GENERAL · ESPECÍFICA</text>
+  <text x="140" y="1068" class="item muted">La general no es defectuosa</text>
+
+  <text x="456" y="1042" class="node ink">VARIEDAD</text>
+  <text x="456" y="1068" class="item muted">Pareja reconocida de esquemas</text>
+
+  <text x="772" y="1042" class="node ink">DENOMINACIÓN</text>
+  <text x="772" y="1068" class="item muted">Con su época y su escuela</text>
+
+  <text x="1088" y="1042" class="node ink">TRADICIÓN · RELACIÓN</text>
+  <text x="1088" y="1068" class="item muted">No transmiten propiedades</text>
+
+  <!-- V · Norma y realización -->
+  <text x="72" y="1136" class="numeral">V</text>
+  <text x="140" y="1120" class="section mid">NORMA Y REALIZACIÓN</text>
+
+  <rect x="308" y="1100" width="196" height="34" rx="4" class="band"/>
+  <text x="406" y="1122" text-anchor="middle" class="node white">NORMA · @met</text>
+
+  <path d="M 514 1117 L 548 1117" class="flow" marker-end="url(#tip)"/>
+
+  <rect x="558" y="1100" width="174" height="34" rx="4" class="chip-accent"/>
+  <text x="645" y="1122" text-anchor="middle" class="item ink">variación admitida</text>
+
+  <rect x="742" y="1100" width="120" height="34" rx="4" class="chip"/>
+  <text x="802" y="1122" text-anchor="middle" class="item ink">licencia</text>
+
+  <rect x="872" y="1100" width="140" height="34" rx="4" class="chip-warn"/>
+  <text x="942" y="1122" text-anchor="middle" class="item ink">desviación</text>
+
+  <path d="M 1022 1117 L 1056 1117" class="flow" marker-end="url(#tip)"/>
+
+  <rect x="1066" y="1100" width="230" height="34" rx="4" class="band"/>
+  <text x="1181" y="1122" text-anchor="middle" class="node white">REALIZACIÓN · @real</text>
+
+  <!-- Cierre -->
+  <line x1="140" y1="1156" x2="1368" y2="1156" class="rule"/>
+</svg>

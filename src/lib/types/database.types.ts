@@ -207,7 +207,7 @@ export type Database = {
           descripcion: string | null
           estado_revision: string
           forma_id: string
-          grado: string
+          modalidad: string
           nombre: string
           orden: number | null
           origen_termino_id: string | null
@@ -228,7 +228,7 @@ export type Database = {
           descripcion?: string | null
           estado_revision?: string
           forma_id: string
-          grado?: string
+          modalidad?: string
           nombre: string
           orden?: number | null
           origen_termino_id?: string | null
@@ -249,7 +249,7 @@ export type Database = {
           descripcion?: string | null
           estado_revision?: string
           forma_id?: string
-          grado?: string
+          modalidad?: string
           nombre?: string
           orden?: number | null
           origen_termino_id?: string | null
@@ -1076,8 +1076,8 @@ export type Database = {
             foreignKeyName: "desviaciones_editor_metrico_metro_observado_id_fkey"
             columns: ["metro_observado_id"]
             isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
           },
           {
             foreignKeyName: "desviaciones_editor_metrico_realizacion_prueba_id_fkey"
@@ -1532,7 +1532,7 @@ export type Database = {
           estado_revision: string
           nombre: string | null
           slug: string
-          tipo: string
+          tipo_secuencia: string
           updated_at: string
         }
         Insert: {
@@ -1544,7 +1544,7 @@ export type Database = {
           estado_revision?: string
           nombre?: string | null
           slug: string
-          tipo: string
+          tipo_secuencia: string
           updated_at?: string
         }
         Update: {
@@ -1556,7 +1556,7 @@ export type Database = {
           estado_revision?: string
           nombre?: string | null
           slug?: string
-          tipo?: string
+          tipo_secuencia?: string
           updated_at?: string
         }
         Relationships: [
@@ -1580,49 +1580,49 @@ export type Database = {
         Row: {
           ambito: string
           arquitectura_id: string
-          comportamiento: string
           created_at: string
           descripcion: string | null
           esquema_rima_id: string
           estado_revision: string
-          fijeza: string
+          modalidad: string
           nombre: string | null
           notacion: string | null
           origen_termino_id: string | null
           slug: string
           tipo_rima_id: string | null
+          tipo_secuencia: string
           updated_at: string
         }
         Insert: {
           ambito?: string
           arquitectura_id: string
-          comportamiento?: string
           created_at?: string
           descripcion?: string | null
           esquema_rima_id?: string
           estado_revision?: string
-          fijeza?: string
+          modalidad?: string
           nombre?: string | null
           notacion?: string | null
           origen_termino_id?: string | null
           slug: string
           tipo_rima_id?: string | null
+          tipo_secuencia?: string
           updated_at?: string
         }
         Update: {
           ambito?: string
           arquitectura_id?: string
-          comportamiento?: string
           created_at?: string
           descripcion?: string | null
           esquema_rima_id?: string
           estado_revision?: string
-          fijeza?: string
+          modalidad?: string
           nombre?: string | null
           notacion?: string | null
           origen_termino_id?: string | null
           slug?: string
           tipo_rima_id?: string | null
+          tipo_secuencia?: string
           updated_at?: string
         }
         Relationships: [
@@ -2913,7 +2913,7 @@ export type Database = {
           created_at: string
           descripcion: string | null
           estado_revision: string
-          fijeza: string
+          modalidad: string
           regla: string
           repeticion_id: string
           tipo: string
@@ -2925,7 +2925,7 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           estado_revision?: string
-          fijeza?: string
+          modalidad?: string
           regla: string
           repeticion_id?: string
           tipo: string
@@ -2937,7 +2937,7 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           estado_revision?: string
-          fijeza?: string
+          modalidad?: string
           regla?: string
           repeticion_id?: string
           tipo?: string

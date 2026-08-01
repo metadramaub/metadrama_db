@@ -1,6 +1,6 @@
 # Lira
 
-Estado: revisada con los datos del proyecto y bibliografía · 29 de julio de 2026
+Estado: revisada con los datos del proyecto y bibliografía · 1 de agosto de 2026
 
 ## Decisión
 
@@ -9,7 +9,7 @@ Una forma y una configuración fija.
 | Elemento | Valor |
 | --- | --- |
 | Forma | `lira` · estrofa |
-| Configuración | `heptasilabica_endecasilabica_consonante` |
+| Configuración | `heptasilabica_endecasilabica` |
 | Extensión | 5 versos |
 | Patrón métrico | `7-11-7-7-11` |
 | Rima | consonante |

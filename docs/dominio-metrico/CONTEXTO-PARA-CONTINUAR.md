@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 31 de julio de 2026
+Actualizado: 1 de agosto de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
 enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
@@ -11,8 +11,8 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `51`.
-- La última migración es `20260731330000_medida_por_seccion.sql` y está aplicada.
+- La versión requerida del modelo es `52`.
+- La última migración es `20260801120000_alias_contenedor.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
@@ -112,10 +112,10 @@ resulte útil.
 
 Leer solo lo necesario para la tarea:
 
-1. [Meta-modelo métrico](./meta-modelo-metrico.md): qué tipos de entidad existen y qué
-   reglas los gobiernan, sin atarse a ninguna tradición. Lectura previa a todo lo demás.
-1bis. [La ontología métrica de METADRAMA](./ontologia-metrica.md): cómo se aplica a la
-   métrica española y qué decidió el proyecto para su corpus.
+1. [Ontología del verso español](./ontologia-verso-espanol.md): qué es el verso español y
+   de qué está hecho. Describe posibilidades, no este corpus. Lectura previa a todo lo demás.
+1bis. [La implementación de METADRAMA](./implementacion-metrica.md): qué parte se realiza,
+   qué se restringe por el corpus y cómo se recoge el dato.
 1ter. [README del dominio](./README.md): índice y decisiones consolidadas.
 2. [Criterios de nivel](./criterios-de-nivel.md): en qué nivel se registra cada hecho
    métrico. De lectura obligada antes de formalizar o corregir una forma.

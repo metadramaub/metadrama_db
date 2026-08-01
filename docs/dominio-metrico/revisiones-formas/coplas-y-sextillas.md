@@ -1,6 +1,6 @@
 # Coplas y sextillas
 
-Estado: revisado, con decisiones del proyecto por confirmar · 31 de julio de 2026
+Estado: revisado, con decisiones del proyecto por confirmar · 1 de agosto de 2026
 
 ## Decisión general
 

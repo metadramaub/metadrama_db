@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1200" viewBox="0 0 1440 1200" role="img" aria-labelledby="title desc">
+  <title id="title">La implementación métrica de METADRAMA</title>
+  <desc id="desc">Qué parte de la ontología del verso español implementa el proyecto, dónde está la frontera, cómo recorre el dato el catálogo, la pregunta y el registro, y qué falta por implementar.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f6f2; }
+      .ink { fill: #1c1c1a; }
+      .mid { fill: #55534e; }
+      .muted { fill: #8a8780; }
+      .faint { fill: #b0ada5; }
+      .rule { fill: none; stroke: #d6d2c8; stroke-width: 1; }
+      .hair { fill: none; stroke: #e0dcd2; stroke-width: 1; }
+      .cut { fill: none; stroke: #c8aa98; stroke-width: 1.4; stroke-dasharray: 6 7; }
+      .flow { fill: none; stroke: #6f6d67; stroke-width: 1.6; }
+      .band { fill: #1c1c1a; }
+      .box { fill: #fff; stroke: #d6d2c8; stroke-width: 1.2; }
+      .box-accent { fill: #e8eee9; stroke: #a9bcae; stroke-width: 1.2; }
+      .box-soft { fill: #efede6; stroke: #d6d2c8; stroke-width: 1.2; }
+      .box-warn { fill: #f3ebe4; stroke: #cdb2a0; stroke-width: 1.2; }
+      .display { font: 400 36px Georgia, 'Times New Roman', serif; }
+      .numeral { font: italic 400 26px Georgia, 'Times New Roman', serif; fill: #c2beb4; }
+      .section { font: 600 11.5px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .18em; }
+      .node { font: 600 13px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .12em; }
+      .lead { font: 400 15px Georgia, 'Times New Roman', serif; }
+      .item { font: 400 13.5px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .small { font: 400 12px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .note { font: italic 400 13px Georgia, 'Times New Roman', serif; }
+      .white { fill: #fff; }
+    </style>
+    <marker id="tip" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M 0 0.5 L 9 5 L 0 9.5 z" fill="#6f6d67"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1440" height="1200"/>
+
+  <!-- Cabecera -->
+  <text x="140" y="94" class="display ink">La implementación de METADRAMA</text>
+  <text x="140" y="124" class="note muted">Qué parte de la ontología se realiza, qué se restringe por el corpus y cómo se recoge el dato.</text>
+  <text x="1368" y="94" text-anchor="end" class="small muted">31 · 07 · 2026</text>
+  <line x1="140" y1="152" x2="1368" y2="152" class="rule"/>
+
+  <!-- I · La frontera -->
+  <text x="72" y="216" class="numeral">I</text>
+  <text x="140" y="212" class="section mid">LA FRONTERA</text>
+
+  <line x1="754" y1="232" x2="754" y2="400" class="cut"/>
+
+  <text x="140" y="244" class="node ink">SE IMPLEMENTA</text>
+  <text x="140" y="278" class="item mid">Medida del verso · el arte se deriva</text>
+  <text x="140" y="306" class="item mid">Verso compuesto, cesura y hemistiquios</text>
+  <text x="140" y="334" class="item mid">Rima: tipo, clase, esquema, posiciones, enlaces</text>
+  <text x="140" y="362" class="item mid">Unidad, secciones, repetición léxica</text>
+  <text x="140" y="390" class="item mid">Forma, variedad, denominación, tradición, relación</text>
+
+  <text x="800" y="244" class="node faint">QUEDA FUERA</text>
+  <text x="800" y="278" class="item faint">Ley del acento final</text>
+  <text x="800" y="306" class="item faint">Sinalefa, dialefa, sinéresis, diéresis</text>
+  <text x="800" y="334" class="item faint">Ritmo: acentos, ictus, cláusulas, perfiles</text>
+  <text x="800" y="362" class="item faint">Encabalgamiento y pausas</text>
+  <text x="800" y="390" class="item faint">Licencias métricas · certeza de la anotación</text>
+
+  <text x="140" y="436" class="note muted">El proyecto no almacena el texto de las obras: esa es la frontera que decide qué mitad de la ontología puede implementarse aquí.</text>
+  <text x="1368" y="436" text-anchor="end" class="note muted">El verso libre y el fluctuante son formas en la ontología; aquí, tramos sin forma.</text>
+
+  <!-- II · El recorrido del dato -->
+  <text x="72" y="500" class="numeral">II</text>
+  <text x="140" y="496" class="section mid">EL RECORRIDO DEL DATO</text>
+
+  <text x="140" y="540" class="node ink">CATÁLOGO</text>
+  <text x="560" y="540" class="node ink">PREGUNTA</text>
+  <text x="980" y="540" class="node ink">REGISTRO</text>
+
+  <!-- Catálogo -->
+  <rect x="140" y="558" width="372" height="54" rx="4" class="box-accent"/>
+  <text x="166" y="583" class="node ink">FORMA</text>
+  <text x="166" y="603" class="small muted">identidad asignable a una secuencia</text>
+
+  <rect x="140" y="628" width="372" height="54" rx="4" class="box"/>
+  <text x="166" y="653" class="node ink">ARQUITECTURA</text>
+  <text x="166" y="673" class="small muted">estructura constante de la unidad</text>
+
+  <rect x="140" y="698" width="372" height="82" rx="4" class="box-soft"/>
+  <text x="166" y="723" class="item ink">Esquema métrico · esquema de rima</text>
+  <text x="166" y="747" class="item ink">Secciones · repeticiones</text>
+  <text x="166" y="771" class="item ink">Rasgos con valores · variedades</text>
+
+  <path d="M 326 612 L 326 628" class="flow" marker-end="url(#tip)"/>
+  <path d="M 326 682 L 326 698" class="flow" marker-end="url(#tip)"/>
+
+  <!-- Pregunta -->
+  <rect x="560" y="558" width="372" height="54" rx="4" class="box"/>
+  <text x="586" y="583" class="node ink">ELECCIÓN</text>
+  <text x="586" y="603" class="small muted">lo variable que no se puede derivar</text>
+
+  <rect x="560" y="628" width="372" height="54" rx="4" class="box"/>
+  <text x="586" y="653" class="node ink">ALCANCE</text>
+  <text x="586" y="673" class="small muted">por unidad · por secuencia solo los rasgos</text>
+
+  <rect x="560" y="698" width="372" height="82" rx="4" class="box-soft"/>
+  <text x="586" y="723" class="item ink">Toda opción apunta a una entidad</text>
+  <text x="586" y="747" class="item ink">ya normalizada, nunca a texto libre</text>
+  <text x="586" y="771" class="small muted">define_norma: la respuesta que fija la norma</text>
+
+  <path d="M 746 612 L 746 628" class="flow" marker-end="url(#tip)"/>
+  <path d="M 746 682 L 746 698" class="flow" marker-end="url(#tip)"/>
+
+  <!-- Registro -->
+  <rect x="980" y="558" width="388" height="54" rx="4" class="band"/>
+  <text x="1006" y="583" class="node white">SECUENCIA</text>
+  <text x="1006" y="603" class="small white">forma · arquitectura · rango</text>
+
+  <rect x="980" y="628" width="388" height="54" rx="4" class="box"/>
+  <text x="1006" y="653" class="node ink">REALIZACIONES</text>
+  <text x="1006" y="673" class="small muted">la unidad y sus secciones</text>
+
+  <rect x="980" y="698" width="388" height="82" rx="4" class="box-soft"/>
+  <text x="1006" y="723" class="item ink">Respuestas registradas</text>
+  <text x="1006" y="747" class="item ink">Desviaciones localizadas por rango</text>
+  <text x="1006" y="771" class="small muted">mundo cerrado: sin desviaciones, es conforme</text>
+
+  <path d="M 1174 612 L 1174 628" class="flow" marker-end="url(#tip)"/>
+  <path d="M 1174 682 L 1174 698" class="flow" marker-end="url(#tip)"/>
+
+  <path d="M 512 585 L 560 585" class="flow" marker-end="url(#tip)"/>
+  <path d="M 932 585 L 980 585" class="flow" marker-end="url(#tip)"/>
+
+  <line x1="140" y1="816" x2="1368" y2="816" class="hair"/>
+  <text x="140" y="844" class="note muted">Lo que la arquitectura fija no se pregunta y no se escribe: se deriva. Lo que el pasaje declara se pregunta una vez y se guarda.</text>
+
+  <!-- III · Lo que falta -->
+  <text x="72" y="912" class="numeral">III</text>
+  <text x="140" y="908" class="section mid">LO QUE FALTA</text>
+
+  <rect x="140" y="930" width="1228" height="86" rx="4" class="box-warn"/>
+  <text x="172" y="962" class="node ink">LA REALIZACIÓN NO ESTÁ MATERIALIZADA</text>
+  <text x="172" y="990" class="lead mid">Saber qué mide el verso 47 obliga a resolver la norma uniendo por el catálogo, en vez de leerlo del registro</text>
+
+  <line x1="428" y1="1050" x2="428" y2="1116" class="hair"/>
+  <line x1="744" y1="1050" x2="744" y2="1116" class="hair"/>
+  <line x1="1060" y1="1050" x2="1060" y2="1116" class="hair"/>
+
+  <text x="140" y="1076" class="item ink">Desviaciones</text>
+  <text x="140" y="1102" class="small muted">solo en el editor de pruebas</text>
+
+  <text x="456" y="1076" class="item ink">Error de transmisión</text>
+  <text x="456" y="1102" class="small muted">no se distingue de la desviación</text>
+
+  <text x="772" y="1076" class="item ink">Nombre de un valor de rasgo</text>
+  <text x="772" y="1102" class="small muted">«silva libre» no tiene dónde vivir</text>
+
+  <text x="1088" y="1076" class="item ink">Procedencia normativa</text>
+  <text x="1088" y="1102" class="small muted">vive en prosa, no en el dato</text>
+
+  <!-- Cierre -->
+  <line x1="140" y1="1156" x2="1368" y2="1156" class="rule"/>
+  <text x="140" y="1180" class="note muted">Regla de comparabilidad: un hecho debe quedar registrado igual venga de la norma, de una elección o de una desviación.</text>
+</svg>

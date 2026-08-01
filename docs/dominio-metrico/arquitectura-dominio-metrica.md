@@ -9,10 +9,10 @@ especifica las tablas, porque la fuente de verdad del esquema es la base de dato
 
 Documentos relacionados:
 
-- [Meta-modelo métrico](./meta-modelo-metrico.md): qué tipos de entidad existen y qué
-  reglas los gobiernan. La capa reutilizable.
-- [La ontología métrica de METADRAMA](./ontologia-metrica.md): su aplicación a la métrica
-  española y las decisiones del corpus.
+- [Ontología del verso español](./ontologia-verso-espanol.md): qué es el verso español y de
+  qué está hecho. Describe posibilidades, no este corpus.
+- [La implementación de METADRAMA](./implementacion-metrica.md): qué parte se realiza, qué
+  se restringe y cómo se recoge el dato.
 - [Criterios de nivel](./criterios-de-nivel.md): en qué nivel se registra cada hecho.
 - [Informe de conformidad](./informe-conformidad-catalogo.md): estado de los datos.
 - [Contratos del registrador](./contratos-registrador-formas-revisadas.md).
@@ -26,8 +26,8 @@ Documentos relacionados:
 | --- | --- |
 | Qué tablas y restricciones existen | La base de datos: `npx supabase db dump --linked -f esquema.sql` |
 | Qué datos hay poblados y si son coherentes | `npm run audit:metrica` |
-| Qué significa cada entidad | [Meta-modelo métrico](./meta-modelo-metrico.md) |
-| Qué decidió el proyecto sobre la métrica española | [La ontología métrica](./ontologia-metrica.md) |
+| Qué es cada fenómeno del verso | [Ontología del verso español](./ontologia-verso-espanol.md) |
+| Qué implementa el proyecto y qué restringe | [La implementación](./implementacion-metrica.md) |
 | En qué nivel se registra un hecho | [Criterios de nivel](./criterios-de-nivel.md) |
 | Qué decidió el proyecto sobre una forma | Su ficha en [revisiones-formas](./revisiones-formas/) |
 | Qué pregunta el editor en cada forma | [Contratos del registrador](./contratos-registrador-formas-revisadas.md) |

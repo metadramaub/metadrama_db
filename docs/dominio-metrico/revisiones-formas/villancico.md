@@ -1,6 +1,6 @@
 # Villancico
 
-Estado: revisado, con dudas acotadas · 29 de julio de 2026
+Estado: revisado, con dudas acotadas · 1 de agosto de 2026
 
 ## Decisión
 
@@ -48,13 +48,13 @@ o vuelta y represa parcial de dos versos.
 | --- | --- | ---: | ---: | ---: | --- |
 | `SEC-VIL-1` | `OBRA-1` | 1 | 10 | 10 | `villancico` |
 
-### `secuencia_configuraciones`
+### `secuencia_arquitecturas`
 
-| secuencia_id | configuracion_id | observaciones |
+| secuencia_id | arquitectura_id | observaciones |
 | --- | --- | --- |
 | `SEC-VIL-1` | `estribillo_inicial` | `NULL` |
 
-### `unidades_metricas`
+### `realizaciones_metricas`
 
 | unidad_id | secuencia_id | unidad_padre_id | seccion_id | orden | v_ini | v_fin |
 | --- | --- | --- | --- | ---: | ---: | ---: |
@@ -82,13 +82,13 @@ partir de la mudanza y el enlace o vuelta.
 La secuencia efectiva es `copla → estribillo → copla → represa`. El primer estribillo no
 es cabeza porque ocupa los versos 5–7.
 
-### `secuencia_configuraciones`
+### `secuencia_arquitecturas`
 
-| secuencia_id | configuracion_id | observaciones |
+| secuencia_id | arquitectura_id | observaciones |
 | --- | --- | --- |
 | `SEC-VIL-2` | `estribillo_tras_primera_copla` | `NULL` |
 
-### `unidades_metricas`
+### `realizaciones_metricas`
 
 | unidad_id | secuencia_id | unidad_padre_id | seccion_id | orden | v_ini | v_fin |
 | --- | --- | --- | --- | ---: | ---: | ---: |

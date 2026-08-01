@@ -1,6 +1,6 @@
 # Seguidilla
 
-Estado: revisada con los datos del proyecto y bibliografía · 30 de julio de 2026
+Estado: revisada con los datos del proyecto y bibliografía · 1 de agosto de 2026
 
 ## Decisión
 
@@ -8,8 +8,8 @@ Una forma con dos configuraciones fijas.
 
 | Configuración | Extensión | Patrón métrico | Patrón de rima |
 | --- | ---: | --- | --- |
-| `simple_7575_asonante` | 4 versos | `7-5-7-5` | `-a-a` |
-| `compuesta_7575575_asonante` | 7 versos | `7-5-7-5 + 5-7-5` | `-a-a + b-b` |
+| `simple` | 4 versos | `7-5-7-5` | `-a-a` |
+| `compuesta` | 7 versos | `7-5-7-5 + 5-7-5` | `-a-a + b-b` |
 
 Ambas configuraciones son de arte menor y rima asonante. La compuesta reutiliza la
 seguidilla simple como cuerpo y añade un estribillo final de tres versos: sus

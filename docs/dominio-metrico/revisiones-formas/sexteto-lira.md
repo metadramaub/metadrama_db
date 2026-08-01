@@ -1,6 +1,6 @@
 # Sexteto-lira
 
-Estado: revisado con los datos del proyecto y bibliografía · 29 de julio de 2026
+Estado: revisado con los datos del proyecto y bibliografía · 1 de agosto de 2026
 
 ## Decisión
 
@@ -51,7 +51,7 @@ siete:
 | C1 | M2 | R3 | `AabBcC` |
 | C2 | M5 | R3 | `AabBCC` |
 
-`combinaciones_patrones_configuracion` guarda estas parejas exactas. Así se evita:
+`variedades_arquitectura` guarda estas parejas exactas. Así se evita:
 
 - ofrecer combinaciones no documentadas;
 - copiar un mismo patrón en varias configuraciones;

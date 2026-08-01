@@ -1,6 +1,6 @@
 # Silva
 
-Estado: revisada, pendiente de una precisión terminológica · 31 de julio de 2026
+Estado: revisada, pendiente de una precisión terminológica · 1 de agosto de 2026
 
 ## Decisión
 

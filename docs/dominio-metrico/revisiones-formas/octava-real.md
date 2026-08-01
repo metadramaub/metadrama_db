@@ -1,6 +1,6 @@
 # Octava real
 
-Estado: revisada · 29 de julio de 2026
+Estado: revisada · 1 de agosto de 2026
 
 ## Decisión
 

@@ -329,7 +329,7 @@
 				En el esquema, una misma letra indica una misma clase de rima; letras distintas, rimas
 				distintas; el guion representa verso suelto y la elipsis una continuación indefinida. Las
 				mayúsculas y minúsculas pueden conservar la convención de arte mayor y menor. El esquema
-				es una etiqueta legible: la lógica se guarda mediante el comportamiento y las posiciones.
+				es una etiqueta legible: la lógica se guarda mediante el tipo de secuencia y las posiciones.
 			</p>
 			<p class="border-l-4 border-[color:var(--primary)] bg-[color:var(--muted)] p-3 font-mono text-sm">
 				Romance: -a-a-a…

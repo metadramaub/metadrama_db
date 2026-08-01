@@ -3,7 +3,7 @@
 Fecha: 30 de julio de 2026 · **Documento superado**
 
 Explicaba el modelo forma por forma cuando todavía no existía un documento de ontología.
-Su función la cumplen ahora [la ontología métrica](../ontologia-metrica.md), con sus cinco
+Su función la cumplen ahora [la implementación métrica](../implementacion-metrica.md), con sus cinco
 arquetipos diagramados, y las fichas de [revisiones-formas](../revisiones-formas/), que
 documentan cada forma en detalle.
 
