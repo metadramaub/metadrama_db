@@ -380,27 +380,40 @@ const DEFECTOS = [
 	},
 	{
 		id: 'D4',
-		titulo: 'La unidad declarada contradice la extensión que producen las secciones',
+		titulo: 'La extensión de la unidad no se declara ni se puede derivar',
 		criterio:
-			'La arquitectura declara cuántos versos tiene su unidad; sus secciones describen el interior de esa unidad y no pueden sumar otra cosa.',
+			'Una arquitectura declara cuántos versos tiene su unidad, y entonces sus secciones no pueden sumar otra cosa; o la deja sin declarar, y entonces tiene que haber secciones de las que derivarla. Lo que no puede es no decirlo por ninguna de las dos vías.',
 		detectar(model) {
-			return model.configuraciones
-				.filter((configuracion) => configuracion.unidad_versos_min !== null)
-				.map((configuracion) => ({
-					configuracion,
-					derivada: extensionDerivada(model, configuracion.arquitectura_id)
-				}))
-				.filter(({ configuracion, derivada }) => {
-					if (derivada === null) return false;
-					return (
-						derivada < configuracion.unidad_versos_min ||
-						derivada > configuracion.unidad_versos_max
+			const hallazgos = [];
+			for (const configuracion of model.configuraciones) {
+				const derivada = extensionDerivada(model, configuracion.arquitectura_id);
+				if (configuracion.unidad_versos_min === null) {
+					// La unidad sin declarar es legítima cuando la extensión varía con el pasaje,
+					// pero entonces las secciones son las que la producen.
+					const secciones = listOf(
+						model.seccionesPorConfiguracion,
+						configuracion.arquitectura_id
 					);
-				})
-				.map(({ configuracion, derivada }) => ({
-					sujeto: etiqueta(model, configuracion.arquitectura_id),
-					detalle: `declara una unidad de ${configuracion.unidad_versos_min}–${configuracion.unidad_versos_max} y las secciones producen ${derivada}`
-				}));
+					if (secciones.length === 0 && formaDeConfiguracion(model, configuracion.arquitectura_id)?.nivel_estructural !== 'serie') {
+						hallazgos.push({
+							sujeto: etiqueta(model, configuracion.arquitectura_id),
+							detalle: 'no declara unidad y no tiene secciones de las que derivarla'
+						});
+					}
+					continue;
+				}
+				if (derivada === null) continue;
+				if (
+					derivada < configuracion.unidad_versos_min ||
+					derivada > configuracion.unidad_versos_max
+				) {
+					hallazgos.push({
+						sujeto: etiqueta(model, configuracion.arquitectura_id),
+						detalle: `declara una unidad de ${configuracion.unidad_versos_min}–${configuracion.unidad_versos_max} y las secciones producen ${derivada}`
+					});
+				}
+			}
+			return hallazgos;
 		}
 	},
 	{

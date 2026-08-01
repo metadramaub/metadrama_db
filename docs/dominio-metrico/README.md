@@ -32,9 +32,9 @@ retomar el proyecto en otro chat.
    Estado de los datos poblados frente a esos criterios. Se regenera con
    `npm run audit:metrica`.
 
-3bis. [Contrato de implementación](./contrato-implementacion.md)
-   Qué expresa hoy la base frente a la ontología, concepto a concepto, y en qué orden hay
-   que cambiarlo. Se ejecuta antes de corregir datos.
+3bis. [Auditoría del catálogo](./auditoria-catalogo.md)
+   Lo que las reglas del informe no alcanzan: coherencia de la implementación con la
+   ontología, huecos del modelo y estado de las fichas. Con lo aplicado marcado.
 
 4. [Arquitectura técnica](./arquitectura-dominio-metrica.md)
    Capas, proyecciones, consumidores, invalidación de derivados, integridad y permisos.

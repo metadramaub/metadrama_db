@@ -2,9 +2,13 @@
 
 Estado: **migración estructural completa** · bloques A, B y C aplicados el 30 de julio de 2026; la unidad envolvente y el bloque D, el 31
 
-Contrasta [la implementación](./implementacion-metrica.md) con lo que la base y el código expresan
+> **Archivado el 1 de agosto de 2026.** La migración estructural que este contrato ordenaba
+> está aplicada. Se conserva como registro de qué se cambió y en qué orden.
+
+
+Contrasta [la implementación](../implementacion-metrica.md) con lo que la base y el código expresan
 hoy, concepto a concepto, y fija qué hay que cambiar antes de corregir ningún dato. El
-orden importa: nueve de los defectos del [informe de conformidad](./informe-conformidad-catalogo.md)
+orden importa: nueve de los defectos del [informe de conformidad](../informe-conformidad-catalogo.md)
 no se pueden arreglar sin cambiar antes el esquema, así que corregir datos primero
 obligaría a migrarlos dos veces.
 
@@ -31,7 +35,7 @@ Comprobado antes de planificar nada:
 
 Fotografía del estado **antes** de empezar, que es lo que justifica el plan del apartado 5.
 Los renombrados de la columna «Veredicto» están ya aplicados; para el estado vigente de
-cada concepto, la tabla de correspondencia de [la implementación](./implementacion-metrica.md).
+cada concepto, la tabla de correspondencia de [la implementación](../implementacion-metrica.md).
 
 | Concepto de la ontología | Antes | Veredicto |
 | --- | --- | --- |
@@ -68,7 +72,7 @@ unidades** aunque la regla de longitud funcionara.
 
 `numero_versos` no bastaba: la unidad puede tener rango. La copla de pie quebrado va de 5 a
 12 versos y ese intervalo lo llevaba una sección fantasma. La migración
-[20260728159000](../../supabase/migrations/20260728159000_numero_versos_configuracion.sql)
+[20260728159000](../../../supabase/migrations/20260728159000_numero_versos_configuracion.sql)
 sustituyó `versos_min`/`versos_max` por `numero_versos` porque entonces ninguna
 configuración tenía extremos distintos; con la unidad explícita vuelve a hacer falta el
 intervalo, ahora por una razón documentada.
@@ -327,7 +331,7 @@ antes y después, regla por regla.
 - La capa de observación con sus dos modos, y con ella la posibilidad de describir un tramo
   sin forma.
 - La corrección de los defectos de datos del informe, que necesita al IP: el triaje está en
-  [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+  [cuestiones para el IP](../revisiones-formas/cuestiones-para-el-ip.md).
 - El sellado de la revisión del catálogo en cada anotación.
 - La reescritura del demarcador para que consuma rasgos y elecciones en lugar de su vector
   fijo de nueve.

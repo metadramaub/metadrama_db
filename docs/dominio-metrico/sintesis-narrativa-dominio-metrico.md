@@ -1,102 +1,103 @@
-# Hacia un dominio métrico propio en METADRAMA
+# El dominio métrico de METADRAMA
 
-El punto de partida de esta propuesta es un problema que se hizo visible al
-intentar construir el demarcador de formas estróficas. El vocabulario actual
-contiene mucha información valiosa, pero reúne bajo una misma jerarquía
-realidades de naturaleza distinta. En ella conviven formas métricas propiamente
-dichas, variantes de una forma, patrones de rima, denominaciones históricas,
-tradiciones nacionales y rasgos que pueden aparecer en muchas formas. Esta
-mezcla no solo dificulta decidir qué debe considerarse padre o hijo: también
-obliga al demarcador a comparar elementos que no se encuentran en el mismo
-nivel y complica los filtros y análisis posteriores.
+Estado: vigente · 1 de agosto de 2026
 
-Por eso, la propuesta no consiste simplemente en añadir más campos al
-vocabulario existente, sino en reconocer que la métrica necesita un dominio
-propio. En ese dominio, una forma —por ejemplo, el romance, el soneto o la
-copla real— se describe mediante una arquitectura normativa: cuántos versos
-tiene, qué medidas admite, cómo se organiza internamente, qué tipo de rima
-emplea y qué relaciones se establecen entre sus versos o entre sus estrofas.
-Junto a esa norma pueden registrarse arquitecturas alternativas, variantes
-históricas, nombres equivalentes, tradiciones y fuentes bibliográficas. De este
-modo, cada dato ocupa un lugar preciso y deja de ser necesario crear una nueva
-«subforma» cada vez que cambia un único rasgo.
+Este documento explica en pocas páginas y sin tecnicismos **qué se ha construido y para
+qué**. Es la lectura de acompañamiento de los dos documentos que lo detallan: la
+[ontología del verso español](./ontologia-verso-espanol.md), que describe el objeto, y
+[la implementación de METADRAMA](./implementacion-metrica.md), que describe qué se ha hecho
+con él aquí.
 
-Esta separación permite distinguir mejor varios conceptos que hasta ahora
-aparecían mezclados. Una tradición, como la italiana o la española, indica un
-contexto histórico de procedencia, pero no convierte automáticamente una forma
-en hija de otra. Un esquema de rima describe una organización, mientras que un
-rasgo como el pie quebrado, el verso agudo o la asonancia en unas vocales
-determinadas puede formar parte de distintas arquitecturas. Algunas formas,
-además, exigen representar relaciones más complejas: versos compuestos con
-hemistiquios, rimas que enlazan una estrofa con la siguiente o restricciones
-que permiten varios esquemas válidos sin reducirlos a una única cadena fija.
+## El problema que lo motivó
 
-El catálogo describe también qué decisiones debe tomar el editor en cada caso.
-Algunas formas quedan resueltas con su sola selección; otras permiten escoger
-una arquitectura, un esquema, una sección o una repetición entre posibilidades
-previamente admitidas. Estas elecciones no son irregularidades: describen la
-realización concreta y se guardan porque tienen valor para filtrar y analizar
-el corpus. La interfaz solo muestra las preguntas aplicables a la forma elegida.
+El vocabulario anterior era una jerarquía de padres e hijos, y bajo el mismo tipo de arista
+convivían cosas de naturaleza distinta: formas métricas, variantes de una forma, esquemas de
+rima, nombres históricos, tradiciones y propiedades que pueden darse en muchas formas a la
+vez. `romance` era padre de `romance_e-a`; `redondilla`, de `redondilla_cruzada` y de
+`redondilla_hexasilaba`. Pero `e-a` es un timbre observado, `cruzada` una disposición de rima
+y `hexasílaba` una medida.
 
-La riqueza del modelo no implica, sin embargo, que el editor tenga que rellenar
-muchos más datos al describir una secuencia. La complejidad se concentra en el
-catálogo de formas, que se prepara y revisa previamente. Cuando el editor
-selecciona una forma, el sistema ya conoce su comportamiento normal. Su tarea
-consiste ante todo en indicar dónde la secuencia concreta se aparta de esa
-norma. Si una copla que debería tener versos octosílabos presenta uno de siete
-sílabas, se registra esa diferencia y su extensión; si la rima se incumple en
-un tramo, se señala la desviación sin obligar a inventar una nueva rima cuando
-el texto no se transcribe. También pueden anotarse alteraciones estructurales o
-rasgos especialmente relevantes. Si no se consigna ninguna diferencia, se
-entiende que la secuencia cumple la arquitectura seleccionada. No se añaden
-campos de certeza, revisión o pendiente: la secuencia se guarda completa y lo
-no señalado se considera conforme a la norma.
+Eso tenía tres consecuencias prácticas. Reordenar el vocabulario cambiaba cálculos aunque
+solo se pretendiera ordenar nombres. El editor tenía que elegir entre decenas de hijos que no
+eran alternativas comparables. Y cualquier recuento —cuántas formas usa un autor, cuánto se
+parecen dos obras— mezclaba órdenes distintos y producía cifras que no significaban lo mismo
+en cada forma.
 
-Este planteamiento conserva lo útil del registro actual de irregularidades,
-pero lo hace más preciso. Las desviaciones métricas dejan de depender de
-descripciones aisladas y reutilizan los mismos conceptos normalizados con los
-que se define la forma: medidas, rimas, posiciones, estructuras y rasgos. Las
-caracterizaciones por rango que no son estrictamente métricas —por ejemplo,
-prosa, canto o laguna— pueden seguir existiendo en su ámbito general. Así se
-evita forzar todos los fenómenos dentro de una única tabla y, al mismo tiempo,
-se mantiene una interfaz sencilla.
+## Qué se ha hecho
 
-También se distingue entre una forma general, todavía describible, y un tramo del que no
-puede afirmarse una forma. Una copla de pie quebrado puede ser general y conservar, no
-obstante, una estructura formalizable. En cambio, «Versificación irregular» y
-«Verso aislado» no son formas: se utilizan únicamente cuando no puede reconocerse
-una identidad del catálogo. La primera abarca dos o más versos; la segunda, un
-solo verso que no pertenece a los tramos contiguos. Ambas quedan fuera de las
-comparaciones entre formas.
+Se ha separado **lo que el verso español es** de **lo que este proyecto registra de él**.
 
-El demarcador se beneficia directamente de esta organización. En lugar de
-recorrer una jerarquía rígida de padres e hijos, trabaja con las propiedades
-efectivas de cada arquitectura y formula solo preguntas que el editor puede
-responder con facilidad. Cada respuesta descarta incompatibilidades y conserva
-como indeterminadas las formas sobre las que todavía faltan datos. «No sé»
-sigue siendo una respuesta válida durante la búsqueda; no equivale a afirmar
-ni a negar un rasgo. Las preguntas pueden ordenarse según su capacidad real
-para separar las candidatas restantes, por lo que el recorrido se adapta a
-cada caso. La inteligencia principal del sistema procede de datos bien
-estructurados y de reglas transparentes. Un pequeño modelo de inteligencia
-artificial podría ayudar más adelante a interpretar una descripción libre o
-proponer preguntas, pero no debería sustituir ni ocultar este razonamiento.
+La ontología describe el objeto: la sílaba métrica y su cómputo, la ley del acento final, el
+ritmo, la rima, cómo se agrupan los versos en unidades y las unidades en pasajes, qué
+convierte a una combinación en una forma con nombre. Describe posibilidades, no un corpus, y
+por eso incluye cosas que aquí no se analizan —el ritmo acentual, el encabalgamiento— pero
+que otro proyecto podría necesitar.
 
-La base de datos seguirá siendo la fuente de verdad. A partir de ella podrán
-generarse automáticamente una versión optimizada para el demarcador, las
-fichas públicas y las redes de relaciones entre formas. Estos productos serán
-instantáneas regenerables, no copias que haya que mantener manualmente. Esto
-permitirá corregir o ampliar el catálogo sin que el demarcador quede
-desactualizado y hará posible mostrar gráficamente tradiciones, variantes y
-semejanzas sin confundir unas relaciones con otras.
+La implementación dice qué parte de eso se realiza y qué se restringe. La frontera principal
+es que **el proyecto no almacena el texto de las obras**: sin texto no hay sílabas que contar
+ni acentos que situar, y eso decide qué mitad de la ontología es implementable aquí.
 
-La transformación se está haciendo de forma gradual y reversible, porque las
-anotaciones existentes en las obras son datos reales. Ya se ha construido el
-nuevo catálogo y se ha establecido para cada término actual si
-corresponde a una forma, una arquitectura, un rasgo, una denominación, una tradición
-o un concepto que debe conservarse únicamente como histórico. La revisión del
-IP y la validación mediante el editor y el demarcador precederán a la futura
-migración de las secuencias, manteniendo la referencia de procedencia y
-comprobando los casos ambiguos. El resultado será un sistema más fiel a la
-teoría métrica, más fácil de usar para los editores y mucho más sólido para la
-búsqueda, la comparación y futuros análisis computacionales.
+## Cómo funciona el catálogo
+
+Una forma —el romance, el soneto, la copla real— declara una **arquitectura**: cuántos versos
+tiene su unidad, cómo se divide en secciones, qué medidas admite, cómo se comporta la rima.
+Junto a esa norma se registran arquitecturas alternativas, variedades reconocidas, nombres
+equivalentes con su época, tradiciones y fuentes. Cada dato ocupa un lugar preciso y deja de
+hacer falta inventar una «subforma» cada vez que cambia un rasgo.
+
+Tres decisiones ordenan todo lo demás.
+
+**La medida de una forma isosilábica es arquitectura, no pregunta.** Una tirada de
+redondillas no cambia de medida a mitad de camino: si cambia, empieza otra secuencia. Por eso
+el romance tiene cuatro arquitecturas y no una pregunta por la medida.
+
+**Las estrofas básicas existen una vez y las formas complejas las reutilizan.** Los cuartetos
+del soneto son cuartetos, las dos mitades de la copla real son quintillas, la cadena del
+terceto encadenado cierra con un serventesio. Ninguna de esas formas copia el repertorio de
+la otra: lo referencia. Reutilizar es mecánico y no afirma parentesco; para eso están las
+relaciones tipadas, que se declaran aparte y solo cuando son ciertas.
+
+**Se registran las combinaciones típicas y se nombra a las que han recibido nombre.** Lo
+demás es posible aunque no esté registrado. La escala que acompaña a cada realización
+—definitoria, preferente, admitida, excepcional— no dice qué está permitido, porque nada está
+prohibido: dice cuánto ha fijado la norma o la crítica esa combinación, que es lo que después
+se puede analizar.
+
+## Qué hace el editor
+
+La complejidad se concentra en el catálogo, que se prepara y revisa antes. Cuando el editor
+elige una forma, el sistema ya conoce su norma, y solo se le pregunta lo que no puede
+derivarse: qué disposición de rima presenta esta redondilla, qué medida tiene esta sección,
+qué esquema traen los tercetos de este soneto.
+
+Esas respuestas no son irregularidades: describen la realización y se guardan porque sirven
+para comparar. Lo que sí es una irregularidad se registra como **desviación**, localizada por
+su rango: si una copla de octosílabos trae un verso de siete, se anota esa diferencia y dónde
+está, sin inventar una forma nueva.
+
+Rige una convención de mundo cerrado: **una secuencia guardada sin desviaciones se considera
+conforme**. No se piden campos de certeza ni de revisión.
+
+## Qué se gana
+
+**Comparabilidad.** Un hecho registrado significa lo mismo venga de la forma que venga,
+porque todos apuntan a los mismos catálogos: el mismo octosílabo, la misma clase de rima, el
+mismo valor de rasgo. Sin eso, contar cuántas redondillas hay en un corpus produce una cifra
+que solo su autor sabe leer.
+
+**Un demarcador que razona con datos.** En lugar de recorrer una jerarquía rígida, trabaja
+con las propiedades efectivas de cada arquitectura y pregunta solo lo que separa candidatas.
+«No sé» sigue siendo una respuesta válida y no equivale a negar nada.
+
+**Un modelo publicable.** La ontología del verso español no depende de este corpus y puede
+reutilizarla quien quiera construir su propio catálogo. Esa separación es deliberada: lo que
+aquí se decidió para el teatro del Siglo de Oro está marcado como decisión y no como hecho de
+la métrica.
+
+## Dónde está ahora
+
+El catálogo tiene veintiséis formas y dos tramos sin forma, y el informe de conformidad no
+señala ningún defecto. Las anotaciones existentes en las obras siguen usando el vocabulario
+anterior: su migración se hará cuando el IP haya validado el catálogo y el editor se haya
+probado con casos reales, conservando la referencia de procedencia y sin asignar por
+conjetura lo que un registro antiguo no permita determinar.

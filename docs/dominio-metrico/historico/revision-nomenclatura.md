@@ -2,10 +2,14 @@
 
 Estado: **aplicado** · 31 de julio de 2026
 
+> **Archivado el 1 de agosto de 2026.** Los renombrados están aplicados. Se conserva como
+> registro de los criterios de nombre y slug que sigue el catálogo.
+
+
 Las arquitecturas y los esquemas se fueron creando forma por forma, cada uno con el
 criterio del momento. Este documento miró los 193 de una vez, fijó unas convenciones y
 listó qué cambiaba con ellas. Está **aplicado** en la migración
-[20260731200000](../../supabase/migrations/20260731200000_nomenclatura_catalogo.sql), y se
+[20260731200000](../../../supabase/migrations/20260731200000_nomenclatura_catalogo.sql), y se
 conserva como el registro de qué se cambió y por qué.
 
 Dos precisiones sobre lo que finalmente se hizo:
