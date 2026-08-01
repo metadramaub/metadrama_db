@@ -143,6 +143,11 @@ octosílabas—, y afirmarlo en bloque registraría que hay seises y ochos sin d
 el editor pueda declarar de una vez que toda la composición usa una sola medida es un atajo
 de interfaz, no una afirmación del modelo.
 
+**El atajo existe**: al responder la medida de cualquier sección aparece «Toda la composición
+usa esta medida», que la lleva a las demás. Sin él, la arquitectura con estribillo tardío
+obligaba a responder seis veces lo mismo en el caso normal, que es precisamente el
+isosilábico.
+
 Se ofrecen 6 y 8 porque son las medidas típicas. Otra distinta se registra como desviación,
 que es el mecanismo previsto para lo que la norma no contempla.
 
