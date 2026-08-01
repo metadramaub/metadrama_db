@@ -11,8 +11,8 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `52`.
-- La última migración es `20260801120000_alias_contenedor.sql` y está aplicada.
+- La versión requerida del modelo es `53`.
+- La última migración es `20260801140000_slug_secciones_repeticiones.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna

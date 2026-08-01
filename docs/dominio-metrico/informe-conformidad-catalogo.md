@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-01 08:38
+Generado: 2026-08-01 09:14
 
 Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 66 patrones de rima · 57 secciones · 58 grupos de elección · 358 opciones · 6 rasgos.
 
@@ -92,7 +92,7 @@ Sin incidencias.
 
 | Forma | Nivel | Cfg | Prot. | Medida vive en | Rima vive en | Grupos | Alcance |
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
-| cancion_petrarquista | composicion | 3 | — | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
+| cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
 | copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
