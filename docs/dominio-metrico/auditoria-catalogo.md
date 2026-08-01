@@ -106,7 +106,13 @@ comprueba que las secciones no contradigan la unidad, no pueda examinarlas.
 
 ## B · Huecos del modelo y de la validación
 
-### B1 · Las secciones no tienen identificador legible
+### B1 · Las secciones no tenían identificador legible · **RESUELTO**
+
+> Aplicado en `20260801140000_slug_secciones_repeticiones.sql`, junto con B2. Secciones y
+> repeticiones reciben `slug`, único dentro de su arquitectura, con la misma nomenclatura que
+> el resto del catálogo. Las preguntas de medida dejan de numerarse por orden de aparición:
+> `medida_mudanza_2` pasa a `medida_mudanza_inicial`, distinguida por el ciclo al que
+> pertenece y no por el sitio que ocupaba en la lista.
 
 `estructuras_secciones` es la única entidad del catálogo sin `slug`. Todas las demás
 —formas, arquitecturas, esquemas, rasgos, valores, variedades, metros— lo tienen.
@@ -152,12 +158,12 @@ base. La pregunta, por tanto, no es si todo lo necesita, sino si algo lo referen
 fuera de su fila. Las secciones sí: las apuntan las preguntas, las opciones, otras secciones
 como padre, y las apuntarían las denominaciones.
 
-### B2 · Las repeticiones tampoco tienen nombre ni slug
+### B2 · Las repeticiones tampoco tenían slug · **RESUELTO**
 
-Diez filas en `repeticiones_metricas`, identificadas solo por UUID, `tipo` y `ambito`. Tres
-de ellas son `villancico · estribillo_inicial · tipo=estribillo · ambito=seccion ·
-fijeza=admitida` — **idénticas entre sí en todos los campos legibles**. Sin abrir la tabla de
-opciones no hay manera de saber cuál es cuál.
+Eran diez filas identificadas solo por UUID, y tres del villancico resultaban idénticas en
+todos sus campos legibles. Lo que las distinguía estaba en la opción que las apuntaba, no en
+la fila: son las tres modalidades de represa. Hoy se llaman `represa_total`,
+`represa_parcial`, `represa_implicita` y `represa_ausente`.
 
 ### B3 · Una elección posicional puede señalar una posición que no existe
 
@@ -319,13 +325,12 @@ como texto de presentación, en cuyo caso hay que reescribirla en pasado.
 | --- | --- |
 | ~~El tipo del esquema métrico~~ **aplicado** | A1 |
 | ~~Se retira `fija`~~ **aplicado**, con la unificación de vocabularios | A2 |
-| Declarar el tipo de rima de los cinco esquemas que no lo tienen | B4 |
-| Marcar una arquitectura principal en la canción petrarquista | B5 |
+| ~~Declarar el tipo de rima de los cinco esquemas~~ **aplicado** | B4 |
+| ~~Arquitectura principal de la canción~~ **aplicado**: la regular de trece versos | B5 |
 
 ### Pendiente de decisión tuya
 
-1. Dar `slug` a secciones y repeticiones, o asumir el coste de no tenerlo (B1, B2).
-2. Validar que una posición quepa en la unidad, para la copla de pie quebrado (B3).
+1. Validar que una posición quepa en la unidad, para la copla de pie quebrado (B3).
 3. Escribir la convención de unidad `null` en composiciones de extensión variable (A3).
 4. Resolver la doble declaración de metro en la seguidilla compuesta y la copla real (B6).
 5. Archivar los cuatro documentos de E.

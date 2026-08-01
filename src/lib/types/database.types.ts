@@ -1706,6 +1706,7 @@ export type Database = {
           repeticiones_min: number | null
           seccion_id: string
           seccion_padre_id: string | null
+          slug: string
           tipo_seccion: string
           updated_at: string
           versos_max: number | null
@@ -1724,6 +1725,7 @@ export type Database = {
           repeticiones_min?: number | null
           seccion_id?: string
           seccion_padre_id?: string | null
+          slug: string
           tipo_seccion: string
           updated_at?: string
           versos_max?: number | null
@@ -1742,6 +1744,7 @@ export type Database = {
           repeticiones_min?: number | null
           seccion_id?: string
           seccion_padre_id?: string | null
+          slug?: string
           tipo_seccion?: string
           updated_at?: string
           versos_max?: number | null
@@ -2916,6 +2919,7 @@ export type Database = {
           modalidad: string
           regla: string
           repeticion_id: string
+          slug: string
           tipo: string
           updated_at: string
         }
@@ -2928,6 +2932,7 @@ export type Database = {
           modalidad?: string
           regla: string
           repeticion_id?: string
+          slug: string
           tipo: string
           updated_at?: string
         }
@@ -2940,6 +2945,7 @@ export type Database = {
           modalidad?: string
           regla?: string
           repeticion_id?: string
+          slug?: string
           tipo?: string
           updated_at?: string
         }
