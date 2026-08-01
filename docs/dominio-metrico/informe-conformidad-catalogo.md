@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-01 09:59
+Generado: 2026-08-01 10:12
 
 Inventario: 26 formas y 2 tramos sin forma · 47 configuraciones · 50 patrones métricos · 67 patrones de rima · 57 secciones · 60 grupos de elección · 362 opciones · 6 rasgos.
 
@@ -32,9 +32,9 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D4 · La unidad declarada contradice la extensión que producen las secciones — 0
+### D4 · La extensión de la unidad no se declara ni se puede derivar — 0
 
-> La arquitectura declara cuántos versos tiene su unidad; sus secciones describen el interior de esa unidad y no pueden sumar otra cosa.
+> Una arquitectura declara cuántos versos tiene su unidad, y entonces sus secciones no pueden sumar otra cosa; o la deja sin declarar, y entonces tiene que haber secciones de las que derivarla. Lo que no puede es no decirlo por ninguna de las dos vías.
 
 Sin incidencias.
 

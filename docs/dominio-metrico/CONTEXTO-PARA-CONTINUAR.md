@@ -22,7 +22,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./revision-nomenclatura.md). El catálogo tiene **26 formas y
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **26 formas y
   2 tramos sin forma**: la medida de toda forma isosilábica es arquitectura y ya no se
   pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
   sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el
@@ -152,18 +152,13 @@ estas últimas son el material de las decisiones pendientes del IP, no errores.
 La ontología quedó revisada desde la base el 30 de julio de 2026. Queda por llevar esas
 decisiones a la implementación:
 
-1. Migración estructural: **completa**. Los cuatro bloques del
-   [contrato de implementación](./contrato-implementacion.md) —renombrados, metro
-   unificado, unidad explícita y limpieza— están aplicados, junto con la unidad envolvente
-   que cerró el tercero.
-2. Migración de datos: **completa**. Las tradiciones se poblaron desde `tipo_forma`;
-   `patron_acentual` se retiró en el bloque B, y las familias, `tipo_relacion` y
-   `es_principal` en el D.
-3. Contrastar el catálogo por rasgos y no por nombres: el
-   [contraste estructural](./contraste-estructural.md) reúne los vecindarios de formas, los
-   cambios de nivel respecto del vocabulario heredado y las señales de que algo puede estar
-   donde no le toca. Es material para el IP, y algunas de sus respuestas cierran defectos
-   del informe.
+1. Migración estructural y de datos: **completas**. Sus cuatro bloques y la unidad
+   envolvente están aplicados; el registro de qué se cambió y por qué está en
+   [histórico](./historico/).
+2. Vocabulario unificado: **completo**. Una escala de modalidad, un tipo de secuencia, el
+   ámbito reducido a unidad y sección.
+3. Contraste del catálogo por rasgos y no por nombres: **hecho**, y actuado. Lo que salió de
+   ahí está en la [auditoría](./auditoria-catalogo.md), con lo aplicado marcado.
 4. ~~Corregir los defectos del informe de conformidad.~~ **El
    [informe](./informe-conformidad-catalogo.md) no señala ninguno.** Lo que queda en
    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md) son precisiones

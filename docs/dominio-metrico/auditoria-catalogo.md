@@ -90,7 +90,14 @@ diecinueve idénticos sin marcar.
 
 Que no admita variación se seguirá sabiendo, porque no tendrá preguntas.
 
-### A3 · Las composiciones declaran su unidad, o no, según cuál
+### A3 · Las composiciones declaran su unidad, o no, según cuál · **RESUELTO**
+
+> La convención queda escrita y comprobada. `unidad_versos_min` y `unidad_versos_max` en nulo
+> significan que **la extensión la producen las secciones, no la declara la arquitectura**, y
+> es lo correcto cuando esa extensión varía con el pasaje: un villancico dura lo que duren sus
+> coplas. La regla D4 pasa a comprobar las dos vías —que la unidad declarada no contradiga a
+> las secciones, y que la unidad sin declarar tenga secciones de las que derivarse—, de modo
+> que ninguna arquitectura pueda quedarse sin decirlo por ninguno de los dos caminos.
 
 | Forma | Unidad declarada |
 | --- | --- |
@@ -304,15 +311,14 @@ denominación no puede apuntar a un valor de rasgo.
 
 ## E · Documentos que conviene archivar
 
-| Documento | Estado |
-| --- | --- |
-| `contrato-implementacion.md` | Fijaba qué cambiar antes de corregir datos en la migración estructural. **Aplicado y cerrado**: sus condiciones de seguridad son las únicas que siguen valiendo, y esas están en el contexto |
-| `revision-nomenclatura.md` | Tabla de 193 filas, **aplicada**. Es registro histórico de qué se renombró y por qué |
-| `contraste-estructural.md` | Su análisis está actuado: los vecindarios y los cambios de nivel llevaron a las decisiones de los días 30 y 31. Queda como instantánea |
-| `sintesis-narrativa-dominio-metrico.md` | Presentaba el problema antes de resolverlo. Sigue siendo útil para explicar el proyecto, pero describe el vocabulario anterior como si fuera el presente |
+**RESUELTO.** Tres pasan a `historico/` y uno se reescribe.
 
-Los cuatro pueden pasar a `historico/`, salvo la síntesis narrativa si se quiere conservar
-como texto de presentación, en cuyo caso hay que reescribirla en pasado.
+| Documento | Qué se hizo |
+| --- | --- |
+| `contrato-implementacion.md` | Archivado. Fijaba qué cambiar antes de corregir datos; aplicado y cerrado |
+| `revision-nomenclatura.md` | Archivado. Registro de los 193 nombres revisados y por qué |
+| `contraste-estructural.md` | Archivado. Su análisis está actuado: llevó a las decisiones de los días 30 y 31 |
+| `sintesis-narrativa-dominio-metrico.md` | **Reescrito.** Se conserva como texto de acompañamiento de la ontología y la implementación, contando el estado actual en vez de la propuesta |
 
 ---
 
@@ -336,8 +342,7 @@ como texto de presentación, en cuyo caso hay que reescribirla en pasado.
 
 ### Pendiente de decisión tuya
 
-1. Escribir la convención de unidad `null` en composiciones de extensión variable (A3).
-2. Archivar los cuatro documentos de E.
+Nada. Todo lo que dependía de una decisión de modelado está aplicado.
 
 ### Pendiente del IP
 

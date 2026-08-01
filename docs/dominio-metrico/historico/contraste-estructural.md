@@ -2,6 +2,11 @@
 
 Estado: **para revisar con el IP** · 31 de julio de 2026
 
+> **Archivado el 1 de agosto de 2026.** Su análisis está actuado: los vecindarios y los
+> cambios de nivel llevaron a las decisiones de los días 30 y 31 de julio. Se conserva como
+> instantánea del catálogo en ese momento.
+
+
 El catálogo se pobló forma por forma, y cada forma se decidió con su ficha delante. Este
 documento hace la lectura contraria: compara las veinticinco formas **por sus rasgos, no
 por sus nombres**, para ver dónde el nombre que instaló la tradición ha separado cosas que
