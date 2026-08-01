@@ -87,6 +87,36 @@ Dónde caen los quebrados no lo fija la norma: lo observa el editor. Se pregunta
 medida de una posición —«el verso 3 es tetrasílabo»— y no como diez casillas sueltas que no
 se ligan con ninguna medida.
 
+## Lo abierta que es la copla de pie quebrado
+
+Es la forma **general** del quebrado: la salida para las coplas que combinan octosílabos con
+versos más breves y no encajan en ninguna forma más específica. El vocabulario heredado lo
+decía literalmente —«en esta categoría encajarían todas aquellas que no correspondan con la
+sextilla de pie quebrado, la copla manriqueña y la doble sextilla»— y por eso su grado de
+especificación es **general**.
+
+Su norma fija muy poco, y conviene tener presente cuánto:
+
+| Dimensión | Qué fija |
+| --- | --- |
+| Unidad | **de 5 a 12 versos**, y lo dice el pasaje |
+| Metro | conjunto de 4 a 8 sílabas; el octosílabo domina y los quebrados son su mitad |
+| Rima | consonante, disposición **abierta** |
+| Secciones | ninguna |
+
+De ahí sale su pregunta: **48 opciones**, doce posiciones por cuatro medidas, generadas para
+el caso máximo porque el catálogo no puede saber cuántos versos tendrá cada copla.
+
+**Esa apertura tiene un precio y hay que conocerlo.** Como la unidad es un rango y las
+opciones cubren el máximo, el catálogo por sí solo no puede impedir que se responda sobre un
+verso que no existe —«el verso 11 es tetrasílabo» en una copla de cinco— ni que se den dos
+medidas distintas para la misma posición. Es la única forma del catálogo con unidad variable
+y opciones posicionales, así que es la única que puede desbordar.
+
+La comprobación no cabe en el catálogo, donde la unidad es un rango: solo es posible **al
+guardar**, cuando ya se sabe cuántos versos tiene esa realización concreta. Ahí es donde
+está, en un disparador sobre las elecciones.
+
 ## El rasgo `pie_quebrado`
 
 | Arquitectura | Modalidad |

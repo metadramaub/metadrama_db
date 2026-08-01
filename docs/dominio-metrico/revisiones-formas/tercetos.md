@@ -17,9 +17,17 @@ repetía es N tercetos, y cuántos contiene un pasaje lo dice el rango. Sus dos 
 esquemas de rima del terceto, entre los que el editor elige.
 
 El encadenado sí es forma aparte, y por una razón que no es de grado: su rima cruza el
-límite de la unidad, de modo que la secuencia entera es **una sola unidad abierta** y no
-una repetición de unidades independientes. El cierre añade un verso al último terceto para
-formar el serventesio `YZYZ`.
+límite de la unidad, de modo que la secuencia entera es **una sola unidad abierta** y no una
+repetición de unidades independientes.
+
+Y **cierra con una estrofa cruzada de cuatro versos**, no con un terceto y un verso suelto
+detrás. La endecasilábica cierra con un serventesio y reutiliza `cuarteto · endecasilabica`;
+la octosilábica cierra con una cuarteta y reutiliza `redondilla · octosilabica`. Cada una
+termina en la estrofa de cuatro versos de su propio arte, cuyas dos primeras clases vienen del
+último terceto de la cadena.
+
+La extensión no cambia por decirlo así: una cadena de n tercetos más un verso y una cadena de
+n−1 tercetos más un serventesio son el mismo número de versos, `3n + 1`.
 
 El encadenado tiene dos arquitecturas, que se distinguen **solo por la medida**:
 

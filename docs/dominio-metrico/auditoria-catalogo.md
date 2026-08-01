@@ -336,10 +336,8 @@ como texto de presentación, en cuyo caso hay que reescribirla en pasado.
 
 ### Pendiente de decisión tuya
 
-1. Validar que una posición quepa en la unidad, para la copla de pie quebrado (B3).
-3. Escribir la convención de unidad `null` en composiciones de extensión variable (A3).
-4. Resolver la doble declaración de metro en la seguidilla compuesta y la copla real (B6).
-5. Archivar los cuatro documentos de E.
+1. Escribir la convención de unidad `null` en composiciones de extensión variable (A3).
+2. Archivar los cuatro documentos de E.
 
 ### Pendiente del IP
 
