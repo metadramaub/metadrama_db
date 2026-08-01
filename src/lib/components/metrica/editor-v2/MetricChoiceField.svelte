@@ -9,6 +9,7 @@
 		textValue?: string;
 		onTextChange?: (value: string) => void;
 		onApplyAll?: () => void;
+		onApplyToEverySection?: () => void;
 		positionLimit?: number;
 	}>();
 
@@ -69,6 +70,41 @@
 			current.delete(optionId);
 		}
 		props.onChange([...current]);
+	}
+
+	/** El metro de la primera respuesta, para poder repetirlo en las demás posiciones. */
+	const metroRespondido = $derived(
+		visibleOptions.find((option: MetricCatalogDomainRow) =>
+			props.selectedIds.includes(String(option.opcion_eleccion_id))
+		)?.metro_id ?? null
+	);
+	const puedeRellenarPosiciones = $derived(
+		positional && Boolean(metroRespondido) && visiblePositions.length > props.selectedIds.length
+	);
+
+	/**
+	 * Repite la medida ya respondida en todas las posiciones que quedan. Ahorra teclear la
+	 * misma sílaba una vez por verso cuando el pasaje es isosilábico.
+	 */
+	function rellenarPosiciones() {
+		if (!metroRespondido) return;
+		const siguientes: string[] = [];
+		for (const position of visiblePositions) {
+			const yaRespondida = visibleOptions.find(
+				(option: MetricCatalogDomainRow) =>
+					Number(option.posicion_unidad) === position &&
+					props.selectedIds.includes(String(option.opcion_eleccion_id))
+			);
+			const elegida =
+				yaRespondida ??
+				visibleOptions.find(
+					(option: MetricCatalogDomainRow) =>
+						Number(option.posicion_unidad) === position &&
+						String(option.metro_id) === String(metroRespondido)
+				);
+			if (elegida) siguientes.push(String(elegida.opcion_eleccion_id));
+		}
+		props.onChange(siguientes.slice(0, effectiveMaximum));
 	}
 
 	function changePosition(position: number, optionId: string) {
@@ -206,14 +242,39 @@
 		</div>
 	{/if}
 
-	{#if props.onApplyAll && props.group.permite_aplicar_global}
-		<button
-			type="button"
-			class="text-xs font-medium text-[color:var(--primary)] hover:underline disabled:opacity-40"
-			onclick={props.onApplyAll}
-		disabled={isRhymeScheme ? !(props.textValue ?? '').trim() : props.selectedIds.length === 0}
-		>
-			Aplicar esta respuesta a todas las unidades equivalentes
-		</button>
-	{/if}
+	<div class="flex flex-wrap gap-x-4 gap-y-1">
+		{#if props.onApplyAll && props.group.permite_aplicar_global}
+			<button
+				type="button"
+				class="text-xs font-medium text-[color:var(--primary)] hover:underline disabled:opacity-40"
+				onclick={props.onApplyAll}
+				disabled={isRhymeScheme
+					? !(props.textValue ?? '').trim()
+					: props.selectedIds.length === 0}
+			>
+				Aplicar esta respuesta a todas las unidades equivalentes
+			</button>
+		{/if}
+
+		{#if props.onApplyToEverySection}
+			<button
+				type="button"
+				class="text-xs font-medium text-[color:var(--primary)] hover:underline disabled:opacity-40"
+				onclick={props.onApplyToEverySection}
+				disabled={props.selectedIds.length === 0}
+			>
+				Toda la composición usa esta medida
+			</button>
+		{/if}
+
+		{#if puedeRellenarPosiciones}
+			<button
+				type="button"
+				class="text-xs font-medium text-[color:var(--primary)] hover:underline"
+				onclick={rellenarPosiciones}
+			>
+				Repetir esta medida en las demás posiciones
+			</button>
+		{/if}
+	</div>
 </fieldset>

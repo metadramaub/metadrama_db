@@ -318,6 +318,73 @@
 		commitUnits(nextUnits);
 	}
 
+	/**
+	 * Las demás preguntas de medida de la misma arquitectura, cada una colgada de otra
+	 * sección. Son las que hacen que un villancico isosilábico obligue a responder seis
+	 * veces lo mismo.
+	 */
+	function siblingMeasureGroups(group: MetricCatalogDomainRow): MetricCatalogDomainRow[] {
+		if (group.dimension !== 'metro' || !group.seccion_id) return [];
+		return props.groups.filter(
+			(candidate: MetricCatalogDomainRow) =>
+				candidate.dimension === 'metro' &&
+				candidate.seccion_id &&
+				String(candidate.grupo_eleccion_id) !== String(group.grupo_eleccion_id)
+		);
+	}
+
+	/**
+	 * Lleva la medida respondida a las demás secciones. Propaga el metro y no la opción,
+	 * porque cada sección tiene sus propias opciones apuntando a los mismos metros.
+	 */
+	function applyMeasureToEverySection(
+		group: MetricCatalogDomainRow,
+		sourceUnit: MetricUnitDraft
+	) {
+		const groupId = String(group.grupo_eleccion_id);
+		const selected = new Set(selectedChoiceIds(groupId, sourceUnit.realizacion_prueba_id));
+		const metros = new Set(
+			optionsForGroup(groupId)
+				.filter((option: MetricCatalogDomainRow) =>
+					selected.has(String(option.opcion_eleccion_id))
+				)
+				.map((option: MetricCatalogDomainRow) => String(option.metro_id))
+		);
+		if (metros.size === 0) return;
+
+		let nextChoices = [...props.choices];
+		for (const target of siblingMeasureGroups(group)) {
+			const targetId = String(target.grupo_eleccion_id);
+			const targetOptions = optionsForGroup(targetId).filter(
+				(option: MetricCatalogDomainRow) => metros.has(String(option.metro_id))
+			);
+			if (targetOptions.length === 0) continue;
+
+			const targetUnits = props.units.filter(
+				(unit: MetricUnitDraft) => unit.seccion_id === String(target.seccion_id)
+			);
+			for (const unit of targetUnits) {
+				nextChoices = [
+					...nextChoices.filter(
+						(choice: MetricChoiceDraft) =>
+							!(
+								choice.grupo_eleccion_id === targetId &&
+								choice.realizacion_prueba_id === unit.realizacion_prueba_id
+							)
+					),
+					...targetOptions.map((option: MetricCatalogDomainRow) => ({
+						realizacion_prueba_id: unit.realizacion_prueba_id,
+						grupo_eleccion_id: targetId,
+						opcion_eleccion_id: String(option.opcion_eleccion_id),
+						valor_texto: null,
+						observaciones: null
+					}))
+				];
+			}
+		}
+		props.onChoicesChange(nextChoices);
+	}
+
 	function setChoiceText(
 		group: MetricCatalogDomainRow,
 		unit: MetricUnitDraft,
@@ -565,6 +632,9 @@
 							)}
 							onTextChange={(value) => setChoiceText(group, unit, value)}
 							onApplyAll={() => applyChoiceToEquivalentUnits(group, unit)}
+							onApplyToEverySection={siblingMeasureGroups(group).length > 0
+								? () => applyMeasureToEverySection(group, unit)
+								: undefined}
 							positionLimit={unit.v_fin - unit.v_ini + 1}
 						/>
 					{/each}
