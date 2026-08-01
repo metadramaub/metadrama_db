@@ -171,10 +171,22 @@ Ambas generan:
 
 | Alcance | Dato |
 | --- | --- |
-| Secuencia | Medidas presentes: 6, 8 o ambas. |
+| Cada sección que pone versos | Medida: 6 u 8 sílabas. |
 | Cada mudanza | Patrón: `abba` o `abab`. |
 | Cada copla | Enlace o vuelta como sección opcional, sin una pregunta redundante de presencia. |
-| Cada ciclo posterior | Represa total, parcial o implícita del estribillo. |
+| Cada ciclo posterior | El estribillo se repite entero, en parte o se sobreentiende. |
+
+La repetición del estribillo no declara medida: sus versos son los del estribillo, así que su
+medida se deriva y no se pregunta. La regla no nombra formas: ninguna sección cuyos versos los
+pone otra sección declara medida propia.
+
+En el formulario, la medida se pregunta una sola vez para toda la composición y las secciones
+solo se abren de una en una cuando alguna difiere. El atajo es de interfaz: lo que se guarda
+sigue siendo la medida de cada sección.
+
+«Represa» se conserva como identidad analítica —el `slug` de la sección y el de cada
+respuesta—, pero al editor se le muestra «Repetición del estribillo». El término técnico queda
+en la nota de la sección y en la ayuda de la pregunta.
 
 La configuración inicial crea la cabeza y el primer ciclo; la posterior crea una primera
 copla seguida del primer estribillo. Cada copla contiene su mudanza y posible enlace o

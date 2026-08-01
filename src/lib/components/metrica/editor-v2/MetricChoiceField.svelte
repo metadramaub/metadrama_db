@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 	const props = $props<{
@@ -107,6 +108,41 @@
 		props.onChange(siguientes.slice(0, effectiveMaximum));
 	}
 
+	/**
+	 * Los controles de varias líneas —una fila por verso, una casilla por posición— ocupan
+	 * tanto como el resto del formulario junto. Cuando ya están contestados se recogen en su
+	 * respuesta: la pregunta contestada debe encoger, no seguir pesando lo mismo.
+	 */
+	let expanded = $state(false);
+
+	const multiline = $derived(
+		positionalAlternatives || positional || (!isRhymeScheme && maximum !== 1)
+	);
+	const answered = $derived(
+		isRhymeScheme
+			? Boolean((props.textValue ?? '').trim())
+			: positionalAlternatives
+				? visiblePositions.length > 0 && props.selectedIds.length === visiblePositions.length
+				: props.selectedIds.length > 0 && props.selectedIds.length >= minimum
+	);
+	const collapsed = $derived(multiline && answered && !expanded);
+	const answerSummary = $derived.by(() => {
+		const names = visibleOptions
+			.filter((option: MetricCatalogDomainRow) =>
+				props.selectedIds.includes(String(option.opcion_eleccion_id))
+			)
+			.sort(
+				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
+					Number(a.posicion_unidad ?? 0) - Number(b.posicion_unidad ?? 0)
+			)
+			.map((option: MetricCatalogDomainRow) => String(option.nombre));
+		const distinct = [...new Set(names)];
+		if (names.length > 1 && distinct.length === 1) {
+			return `${distinct[0]} · ${names.length} posiciones`;
+		}
+		return names.join(' · ');
+	});
+
 	function changePosition(position: number, optionId: string) {
 		const positionOptionIds = new Set(
 			visibleOptions
@@ -122,22 +158,31 @@
 	}
 </script>
 
-<fieldset class="space-y-2 border-l-2 border-[color:var(--border)] pl-3">
-	<div class="flex flex-wrap items-start justify-between gap-2">
-		<div>
-			<legend class="text-sm font-medium">{String(props.group.nombre)}</legend>
+<fieldset class="form-field">
+	<legend class="form-label">
+		<span class="form-label-with-help">
+			{String(props.group.nombre)}{optional ? '' : ' *'}
 			{#if props.group.ayuda_editor}
-				<p class="mt-1 text-xs leading-5 text-[color:var(--muted-foreground)]">
-					{String(props.group.ayuda_editor)}
-				</p>
+				<FieldHelpTooltip
+					text={String(props.group.ayuda_editor)}
+					label={`Ayuda sobre «${String(props.group.nombre)}»`}
+				/>
 			{/if}
-		</div>
-		<span class="text-[0.7rem] uppercase tracking-wide text-[color:var(--muted-foreground)]">
-			{optional ? 'Opcional' : 'Obligatoria'}
 		</span>
-	</div>
+	</legend>
 
-	{#if isRhymeScheme}
+	{#if collapsed}
+		<div class="flex flex-wrap items-baseline justify-between gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
+			<span>{answerSummary}</span>
+			<button
+				type="button"
+				class="text-xs font-medium text-[color:var(--primary)] hover:underline"
+				onclick={() => (expanded = true)}
+			>
+				Cambiar
+			</button>
+		</div>
+	{:else if isRhymeScheme}
 		<input
 			type="text"
 			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 font-mono text-sm uppercase tracking-wide"
@@ -242,7 +287,7 @@
 		</div>
 	{/if}
 
-	<div class="flex flex-wrap gap-x-4 gap-y-1">
+	<div class={`flex flex-wrap gap-x-4 gap-y-1 ${collapsed ? 'hidden' : 'mt-1'}`}>
 		{#if props.onApplyAll && props.group.permite_aplicar_global}
 			<button
 				type="button"
