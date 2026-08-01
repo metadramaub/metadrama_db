@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-01 09:14
+Generado: 2026-08-01 09:30
 
-Inventario: 25 formas y 2 tramos sin forma · 46 configuraciones · 50 patrones métricos · 66 patrones de rima · 57 secciones · 58 grupos de elección · 358 opciones · 6 rasgos.
+Inventario: 26 formas y 2 tramos sin forma · 47 configuraciones · 50 patrones métricos · 67 patrones de rima · 57 secciones · 60 grupos de elección · 362 opciones · 6 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -95,7 +95,8 @@ Sin incidencias.
 | cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
-| copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
+| copla_real | estrofa | 1 | sí | eleccion | elección, sin patrón | 3 | unidad |
+| cuarteto | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | decima_espinela | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | endecasilabo_suelto | serie | 1 | sí | posiciones | patrón único | 2 | secuencia |
@@ -112,7 +113,7 @@ Sin incidencias.
 | sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
 | sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
 | silva | serie | 3 | sí | configuracion, conjunto, posiciones | patrón único | 2 | secuencia |
-| soneto | composicion | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
+| soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
 | villancico | composicion | 2 | sí | conjunto, eleccion | elección | 15 | unidad |
@@ -125,7 +126,7 @@ Sin incidencias.
 | configuracion (6) | redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
 | conjunto (6) | cancion_petrarquista, copla_de_pie_quebrado, pareado, silva, villancico, zejel |
 | eleccion (6) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
-| posiciones (21) | cancion_petrarquista, copla_de_arte_mayor, copla_real, decima_aumentada, decima_espinela, endecasilabo_suelto, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado |
+| posiciones (21) | cancion_petrarquista, copla_de_arte_mayor, cuarteto, decima_aumentada, decima_espinela, endecasilabo_suelto, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
 
@@ -135,14 +136,14 @@ Sin incidencias.
 | metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
 | rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, octava_real, romance, sexteto_lira, silva, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
-| rima · unidad | cancion_petrarquista, copla_de_arte_mayor, copla_real, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
+| rima · unidad | cancion_petrarquista, copla_de_arte_mayor, copla_real, cuarteto, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| seccion | 13 | cancion_petrarquista×4, soneto×5, villancico×4 |
-| unidad | 53 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, decima_aumentada×1, decima_espinela×1, endecasilabo_suelto×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, silva×3, terceto×2, terceto_encadenado×2, zejel×1 |
+| seccion | 12 | cancion_petrarquista×4, soneto×4, villancico×4 |
+| unidad | 55 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima_aumentada×1, decima_espinela×1, endecasilabo_suelto×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, silva×3, terceto×2, terceto_encadenado×2, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -174,7 +175,7 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 ## 3 · Cobertura del contrato del registrador
 
-Todas las formas aparecen en el contrato del registrador.
+Formas sin contrato editorial declarado (1): cuarteto.
 
 ---
 

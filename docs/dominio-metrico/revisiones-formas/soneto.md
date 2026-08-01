@@ -16,7 +16,7 @@ tercetos no son subformas. El soneto de esdrújulos es un rasgo transversal.
 | Extensión | 14 versos |
 | Metro | 11 sílabas |
 | Secciones | cuarteto ×2 de 4 versos · terceto ×2 de 3, vinculados con la arquitectura del terceto |
-| Cuartetos | `ABBA`, declarado en la sección y repetido en sus dos realizaciones |
+| Cuartetos | Reutilizan el [cuarteto](./cuarteto.md): `ABBA` preferente, `ABAB` admitida |
 | Tercetos reconocidos | `CDCDCD`, `CDECDE`, `CDEDCE`, `CDCEDE` |
 | Rasgo admitido | `final_acentual = esdrujulo` |
 
@@ -29,8 +29,9 @@ declara exhaustiva: la definición del IP dice «entre otras variantes».
 La configuración se resuelve automáticamente porque solo hay una. El editor elige
 únicamente qué esquema presentan los tercetos, y esa respuesta referencia ya **un esquema de
 seis posiciones anclado en la sección de los tercetos**, no el esquema completo de catorce.
-Los catorce versos, el endecasílabo, la consonancia, `ABBA` y la división `4 + 4 + 6` se
-derivan de la norma y no se vuelven a preguntar. El rango solo es válido si contiene un
+Los catorce versos, el endecasílabo, la consonancia y la división `4 + 4 + 6` se derivan de
+la norma y no se vuelven a preguntar. Sí se pregunta la disposición de los cuartetos, porque
+el soneto admite las dos: `ABBA ABBA` es lo esperable y `ABAB ABAB` está documentado. El rango solo es válido si contiene un
 múltiplo de catorce versos, y un pasaje de tres sonetos seguidos se registra como tres
 unidades, cada una con su propia elección de tercetos.
 
@@ -95,6 +96,22 @@ declaradas. La ausencia de observaciones significa conformidad.
 Los catorce endecasílabos, la consonancia, los cuartetos `ABBA ABBA` y la estructura
 `4 + 4 + 3 + 3` se consultan desde el catálogo; no se duplican en las tablas editoriales.
 
+## Los cuartetos y los tercetos se reutilizan
+
+Ninguna de las dos secciones declara su propio repertorio: los cuartetos apuntan a la
+arquitectura del [cuarteto](./cuarteto.md) y los tercetos a la del [terceto](./tercetos.md).
+Lo que trae esa reutilización es el metro y el repertorio de esquemas; lo que no trae son los
+enlaces entre secciones, que solo el soneto puede declarar.
+
+**Reutilizar no afirma parentesco.** El soneto no se formó sumando cuartetos y tercetos: es
+una composición fija de catorce versos cuyas partes coinciden con estrofas que también existen
+sueltas. Por eso no declara `compuesta_por`, a diferencia de la copla real, que sí se formó de
+dos quintillas.
+
+El esquema de los tercetos sigue colgando de la arquitectura y no de la sección, porque sus
+seis posiciones describen cómo se entrelazan las rimas de un terceto con las del otro: abarca
+las dos secciones sin pertenecer a ninguna.
+
 ## Demarcador
 
 Debe identificar el soneto por catorce endecasílabos, rima consonante y arquitectura
@@ -120,8 +137,10 @@ decisión del proyecto.
 
 1. ¿`CDCDCD` debe seguir siendo el patrón preferente o «regular» solo era una etiqueta
    heredada?
-2. ¿`ABBA ABBA` es una condición deliberadamente cerrada para el corpus o deben admitirse
-   también cuartetos `ABAB ABAB`?
+2. ~~¿`ABBA ABBA` es una condición cerrada o deben admitirse cuartetos `ABAB ABAB`?~~
+   **Resuelto: se admiten.** El soneto cruzado existe y el catálogo no debe negarlo; lo que
+   dice la escala de modalidad es cuál es la disposición típica, no cuál está permitida. `ABBA`
+   queda como preferente y `ABAB` como admitida.
 3. ¿Los cuatro esquemas de tercetos son los reconocidos hasta ahora o un repertorio
    cerrado?
 4. ¿Soneto con estrambote y sonetillo se incorporarán solo si aparecen en el corpus?

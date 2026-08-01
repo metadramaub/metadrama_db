@@ -78,6 +78,11 @@ Sus dos secciones de cinco versos no copian el repertorio de la quintilla: lo re
 mediante `arquitectura_referenciada_id`, y sus preguntas ofrecen los ocho esquemas desde su
 origen. El repertorio se mantiene en un solo sitio.
 
+Y **tampoco declara su propio metro**: la copla real es octosilábica precisamente por ser dos
+quintillas, y sus dos secciones cubren sus diez versos. La copla real es además la única forma
+del catálogo que declara `compuesta_por`, porque es la única que efectivamente se formó
+sumando otra estrofa.
+
 Dónde caen los quebrados no lo fija la norma: lo observa el editor. Se pregunta como
 medida de una posición —«el verso 3 es tetrasílabo»— y no como diez casillas sueltas que no
 se ligan con ninguna medida.

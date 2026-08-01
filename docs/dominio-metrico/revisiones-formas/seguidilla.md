@@ -74,6 +74,16 @@ La fuente documenta también fluctuaciones de medida y realizaciones consonantes
 catálogo conserva como norma el criterio más estricto fijado por el IP para el corpus;
 los demás casos se anotan como desviaciones.
 
+## El cuerpo reutiliza la seguidilla simple
+
+Los cuatro primeros versos de la compuesta **son** una seguidilla simple, así que su sección
+reutiliza esa arquitectura. La compuesta declara solo lo que la reutilización no cubre: el
+esquema `5-7-5` del estribillo final, que cuelga de esa sección.
+
+Antes declaraba las siete posiciones enteras mientras su cuerpo ya reutilizaba la simple. Las
+cuatro primeras estaban dichas en dos sitios; coincidían, pero si una hubiera cambiado la otra
+no se habría enterado.
+
 ## Dudas para el IP
 
 Ninguna imprescindible para registrar o demarcar la forma. Solo debe confirmarse en el
