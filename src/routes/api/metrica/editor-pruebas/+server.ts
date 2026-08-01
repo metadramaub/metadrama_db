@@ -18,7 +18,9 @@ const nullableUuid = uuid.nullable();
 const unitSchema = z.object({
 	realizacion_prueba_id: uuid,
 	realizacion_padre_id: nullableUuid,
-	seccion_id: uuid,
+	// La unidad no realiza ninguna sección: es la realización que no cuelga de ninguna otra.
+	// Solo sus partes declaran cuál realizan.
+	seccion_id: nullableUuid,
 	orden: z.number().int().positive(),
 	v_ini: z.number().int().positive(),
 	v_fin: z.number().int().positive(),
@@ -43,7 +45,7 @@ const deviationSchema = z.object({
 	realizacion_prueba_id: nullableUuid,
 	v_ini: z.number().int().positive(),
 	v_fin: z.number().int().positive(),
-	dimension: z.enum(['medida', 'rima', 'estructura', 'repeticion', 'rasgo']),
+	dimension: z.enum(['metro', 'rima', 'estructura', 'repeticion', 'rasgo', 'combinacion']),
 	relacion_norma: z.enum([
 		'diferente',
 		'menor_que_norma',

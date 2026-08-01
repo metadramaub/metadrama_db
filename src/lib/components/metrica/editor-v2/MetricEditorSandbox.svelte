@@ -38,7 +38,7 @@
 		realizacion_prueba_id: string | null;
 		v_ini: number;
 		v_fin: number;
-		dimension: 'medida' | 'rima' | 'estructura' | 'repeticion' | 'rasgo';
+		dimension: 'metro' | 'rima' | 'estructura' | 'repeticion' | 'rasgo' | 'combinacion';
 		relacion_norma:
 			| 'diferente'
 			| 'menor_que_norma'
@@ -659,7 +659,7 @@
 				realizacion_prueba_id: null,
 				v_ini: draft.v_ini,
 				v_fin: draft.v_fin,
-				dimension: 'medida',
+				dimension: 'metro',
 				relacion_norma: 'diferente',
 				metro_observado_id: null,
 				esquema_rima_observado_id: null,
@@ -1333,11 +1333,12 @@
 										<label class="form-field">
 											<span class="form-label">Dimensión</span>
 											<select class="h-10 border border-[color:var(--border)] bg-white px-2" bind:value={deviation.dimension}>
-												<option value="medida">Medida</option>
+												<option value="metro">Metro</option>
 												<option value="rima">Rima</option>
 												<option value="estructura">Estructura</option>
 												<option value="repeticion">Repetición</option>
 												<option value="rasgo">Rasgo</option>
+												<option value="combinacion">Variedad</option>
 											</select>
 										</label>
 										<label class="form-field lg:col-span-2">
