@@ -69,7 +69,8 @@ retomar el proyecto en otro chat.
    [zéjel](./revisiones-formas/zejel.md), la
    [coplas y sextillas, incluida la copla real](./revisiones-formas/coplas-y-sextillas.md),
    las [décimas](./revisiones-formas/decimas.md), la
-   [redondilla](./revisiones-formas/redondilla.md), la
+   [redondilla](./revisiones-formas/redondilla.md), el
+   [cuarteto](./revisiones-formas/cuarteto.md), la
    [octava real](./revisiones-formas/octava-real.md), la
    [novena](./revisiones-formas/novena.md), la
    [lira](./revisiones-formas/lira.md), el

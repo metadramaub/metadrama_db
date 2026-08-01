@@ -193,7 +193,13 @@ sí lo declaran; solo el de los cuartetos se quedó sin él.
 Es la única forma del catálogo con más de una arquitectura y ninguna marcada como principal.
 El editor no tiene qué ofrecer por defecto.
 
-### B6 · La seguidilla compuesta declara su metro dos veces
+### B6 · La seguidilla compuesta declaraba su metro dos veces · **RESUELTO**
+
+> Aplicado en `20260801150000_estrofas_basicas_y_reutilizacion.sql`. La regla que lo resuelve:
+> **la reutilización trae el metro y el repertorio de esquemas de esa sección, pero no los
+> enlaces entre secciones**, que solo la forma contenedora puede declarar. La seguidilla
+> compuesta declara ahora solo el `5-7-5` de su estribillo y la copla real no declara metro
+> propio; la espinela conserva su esquema de diez posiciones, porque ahí vive el trabado.
 
 Su esquema propio es `7-5-7-5-5-7-5`, siete posiciones. Y su primera sección **reutiliza la
 arquitectura `simple`**, que declara `7-5-7-5`. Las cuatro primeras posiciones están dichas

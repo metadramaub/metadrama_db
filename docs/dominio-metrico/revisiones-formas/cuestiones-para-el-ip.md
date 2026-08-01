@@ -87,7 +87,7 @@ medida se pregunta por posición, lo que además permite registrar el dístico h
 Véase [soneto.md](./soneto.md).
 
 1. ¿`CDCDCD` debe seguir siendo el patrón preferente?
-2. ¿`ABBA ABBA` es obligatorio para el corpus o se admite `ABAB ABAB`?
+2. ~~¿`ABBA ABBA` es obligatorio o se admite `ABAB ABAB`?~~ **Resuelto: se admite.**
 3. ¿Los cuatro esquemas de tercetos son un repertorio abierto o cerrado?
 4. ¿Estrambote y sonetillo se incorporarán solo si aparecen en el corpus?
 

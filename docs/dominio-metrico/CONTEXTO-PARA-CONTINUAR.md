@@ -11,8 +11,8 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `53`.
-- La última migración es `20260801140000_slug_secciones_repeticiones.sql` y está aplicada.
+- La versión requerida del modelo es `54`.
+- La última migración es `20260801150000_estrofas_basicas_y_reutilizacion.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
@@ -22,7 +22,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./revision-nomenclatura.md). El catálogo tiene **25 formas y
+  [la revisión de nomenclatura](./revision-nomenclatura.md). El catálogo tiene **26 formas y
   2 tramos sin forma**: la medida de toda forma isosilábica es arquitectura y ya no se
   pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
   sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el

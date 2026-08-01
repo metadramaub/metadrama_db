@@ -37,6 +37,23 @@ a afirmar que la sección situada después de la primera copla cumple la funció
 estribillo por una rúbrica, indicación musical u otra evidencia. Una sección final aislada
 no se clasifica automáticamente como estribillo: puede ser cierre, remate o epílogo.
 
+## La mudanza reutiliza la redondilla, y el villancico no es una tirada de redondillas
+
+La mudanza son cuatro octosílabos con `abba` o `abab`: **estructuralmente es una redondilla**,
+y por eso reutiliza su arquitectura en vez de copiar su repertorio. Un pasaje que sea una
+mudanza suelta se analiza con las mismas categorías que cualquier otra redondilla, que es para
+lo que sirve tener las estrofas básicas desgranadas.
+
+Pero **el villancico no está compuesto de redondillas**, y esa relación no se declara. La
+reutilización es mecánica —trae el repertorio de esquemas y autoriza a la pregunta a apuntar a
+ellos— y no afirma ningún parentesco. Para afirmarlo está `compuesta_por`, que se declara
+aparte y solo cuando es cierto: el villancico se formó como composición con estribillo, no
+sumando redondillas, y su mudanza es una parte que nunca aparece sola.
+
+Es la misma distinción que separa a la copla real, que **sí** declara `compuesta_por
+quintilla` porque efectivamente se formó de dos quintillas, del soneto, que reutiliza el
+repertorio del terceto sin haberse formado de tercetos.
+
 ## Ejemplo de almacenamiento definitivo: estribillo inicial
 
 Villancico de diez versos: cabeza de tres, una copla con mudanza `abab`, un verso de enlace
