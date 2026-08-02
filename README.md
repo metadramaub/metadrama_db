@@ -1,6 +1,25 @@
-# MetaDrama DB
+# Versología
 
-Aplicación SvelteKit + Supabase para edición y consulta de datos métricos.
+Base de datos y herramientas de estilometría estrófica para el verso dramático español,
+de Gaston Gilabert y David Merino Recalde. Se publica en `versologia.metadrama.org`. Este
+repositorio se llama `metadrama_db` y la marca interna antigua es METADRAMA: son el mismo
+proyecto.
+
+La aplicación es un SvelteKit + Supabase con dos caras: un **dashboard** donde el equipo
+editorial anota las obras, y una **zona pública** de consulta —catálogo, ficha de obra,
+autores, laboratorio y demarcador— alimentada por datos precomputados. Toda la web está
+tras una contraseña global mientras el proyecto no se abre.
+
+## Por dónde empezar
+
+- **[CLAUDE.md](CLAUDE.md)** — mapa del proyecto: los tres subsistemas, dónde vive cada
+  cosa, las reglas duras y qué documentación leer según la tarea. Es la puerta de entrada.
+- **[docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md)**
+  — el dominio métrico nuevo (catálogo, editor V2, demarcador), que está en construcción.
+- **[docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md)** — qué mide
+  cada dato precomputado de obra y autor, y por qué.
+
+El resto de este archivo cubre el arranque y la operativa de la base de datos.
 
 ## Requisitos
 
@@ -80,7 +99,7 @@ No aplicar migraciones si alguno de los archivos queda con `Length` 0 o si la CL
 npx supabase db dump --linked -s public -f supabase/schema.snapshot.sql
 ```
 
--> Hacerlo de vez en ucando para tener foto legible del modelo actual y no depender solo de navegar migraciones.
+-> Hacerlo de vez en cuando para tener foto legible del modelo actual y no depender solo de navegar migraciones.
 
 ### Tipos TypeScript tras cambios de esquema
 
@@ -90,8 +109,14 @@ npm run db:types
 
 ## Flujo cuando hay cambios de BD
 
-1. Crear o ajustar migración en `supabase/migrations`.
+1. Crear una migración nueva en `supabase/migrations`.
 2. Aplicar cambios en remoto con `npm run db:push`.
 3. Regenerar tipos con `npm run db:types`.
 4. Bajar snapshot actualizado con:
    `npx supabase db dump --linked -s public -f supabase/schema.snapshot.sql`
+
+> **Una migración aplicada no se edita.** `db push` solo aplica las que aún no están
+> registradas en `supabase_migrations.schema_migrations`, así que editar una ya aplicada
+> se ignora en silencio. Para cambiar algo ya migrado, escribir una migración nueva con
+> sentencias idempotentes (`add column if not exists`, `create or replace function`).
+> Si el cambio afecta a funciones de recompute, ejecutar después `recompute_all()`.

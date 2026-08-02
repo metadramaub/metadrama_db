@@ -2,7 +2,6 @@
 	import { browser } from '$app/environment';
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { untrack } from 'svelte';
 	import { get } from 'svelte/store';
 	import MetricFormEditor from '$lib/components/metrica/catalogo/MetricFormEditor.svelte';
 	import MetricCatalogOrganizationEditor from '$lib/components/metrica/catalogo/MetricCatalogOrganizationEditor.svelte';
@@ -19,7 +18,6 @@
 		type MetricCatalogForm,
 		type MetricCatalogIssue,
 		type MetricCatalogPageData,
-		type MetricCatalogPreviewVersion,
 		type MetricCatalogReviewState,
 		type MetricEntryType,
 		type MetricStructuralLevel
@@ -52,12 +50,6 @@
 	let showCreateForm = $state(false);
 	let creatingForm = $state(false);
 	let createFormError = $state('');
-	let generatingPreview = $state(false);
-	let previewError = $state('');
-	let previewWarnings = $state<string[]>([]);
-	let latestPreview = $state<MetricCatalogPreviewVersion | null>(
-		untrack(() => data.previewVersions[0] ?? null)
-	);
 	let newForm = $state({
 		slug: '',
 		nombre: '',
@@ -124,13 +116,6 @@
 	const demarcatorReady = $derived(
 			data.issues.filter((issue: MetricCatalogIssue) => issue.level === 'error').length === 0 &&
 			data.stats.approvedForms > 0
-	);
-	const previewIsCurrent = $derived(
-		Boolean(
-			latestPreview &&
-				data.revision !== null &&
-				latestPreview.catalogo_revision === data.revision
-		)
 	);
 
 	function resolveTab(value: string | null | undefined): ActiveTab {
@@ -223,35 +208,6 @@
 		}
 	}
 
-	async function generatePreview() {
-		if (generatingPreview) return;
-		generatingPreview = true;
-		previewError = '';
-		previewWarnings = [];
-		try {
-			const response = await fetch('/api/metrica/demarcador', { method: 'POST' });
-			const payload = await response.json().catch(() => ({}));
-			if (!response.ok) {
-				throw new Error(payload.message ?? 'No se pudo generar la prueba del demarcador.');
-			}
-			latestPreview = payload.version as MetricCatalogPreviewVersion;
-			previewWarnings = Array.isArray(payload.warnings) ? payload.warnings : [];
-			pushToast(
-				'success',
-				payload.reused
-					? 'La prueba existente ya corresponde a esta revisión.'
-					: 'Se ha generado una nueva prueba del demarcador.'
-			);
-			await invalidateAll();
-		} catch (error) {
-			previewError =
-				error instanceof Error
-					? error.message
-					: 'No se pudo generar la prueba del demarcador.';
-		} finally {
-			generatingPreview = false;
-		}
-	}
 </script>
 
 <svelte:head>
@@ -291,26 +247,14 @@
 			</p>
 		</div>
 	{:else}
-		<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+		<div class="grid max-w-xl gap-3 sm:grid-cols-2">
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-				<p class="text-xs text-[color:var(--muted-foreground)]">Formas activas</p>
+				<p class="text-xs text-[color:var(--muted-foreground)]">Formas métricas</p>
 				<p class="mt-1 text-2xl font-semibold">{data.stats.forms}</p>
 			</div>
 			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-				<p class="text-xs text-[color:var(--muted-foreground)]">Formas aprobadas</p>
-				<p class="mt-1 text-2xl font-semibold">{data.stats.approvedForms}</p>
-			</div>
-			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-				<p class="text-xs text-[color:var(--muted-foreground)]">Arquitecturas activas</p>
+				<p class="text-xs text-[color:var(--muted-foreground)]">Arquitecturas</p>
 				<p class="mt-1 text-2xl font-semibold">{data.stats.configurations}</p>
-			</div>
-			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-				<p class="text-xs text-[color:var(--muted-foreground)]">Tradiciones</p>
-				<p class="mt-1 text-2xl font-semibold">{data.traditions.length}</p>
-			</div>
-			<div class="border border-[color:var(--border)] bg-[color:var(--card)] p-4">
-				<p class="text-xs text-[color:var(--muted-foreground)]">Rasgos transversales</p>
-				<p class="mt-1 text-2xl font-semibold">{data.domain.traits.length}</p>
 			</div>
 		</div>
 
@@ -586,61 +530,17 @@
 						</p>
 						<p class={`mt-4 text-sm font-medium ${demarcatorReady ? 'text-green-700' : 'text-amber-800'}`}>
 							{demarcatorReady
-								? 'El catálogo cumple las condiciones básicas para compilar una prueba.'
+								? 'El demarcador puede consultar directamente el catálogo actual.'
 								: 'Resuelve primero las incidencias estructurales y aprueba al menos una forma.'}
 						</p>
-						<div class="mt-5 flex flex-wrap gap-2">
-							<button
-								type="button"
-								class="bg-[color:var(--foreground)] px-4 py-2 text-sm font-medium text-[color:var(--background)] disabled:opacity-40"
-								disabled={generatingPreview}
-								onclick={generatePreview}
-							>
-								{generatingPreview
-									? 'Generando…'
-									: latestPreview && !previewIsCurrent
-										? 'Actualizar prueba'
-										: 'Generar prueba'}
-							</button>
-							{#if latestPreview}
-								<a
-									class="border border-[color:var(--border)] px-4 py-2 text-sm font-medium hover:bg-[color:var(--muted)]"
-									href={`/demarcador?version=${latestPreview.version_id}`}
-									target="_blank"
-									rel="noreferrer"
-								>
-									Abrir prueba
-								</a>
-							{/if}
-						</div>
-						{#if latestPreview}
-							<p class="mt-3 text-xs leading-5 text-[color:var(--muted-foreground)]">
-								Versión {latestPreview.numero}, compilada desde la revisión
-								{latestPreview.catalogo_revision ?? 'sin identificar'} del catálogo:
-								{latestPreview.total_familias} formas o arquitecturas candidatas.
-							</p>
-							{#if !previewIsCurrent}
-								<p class="mt-2 text-sm leading-6 text-amber-800">
-									El catálogo está ahora en la revisión {data.revision}. Actualiza la prueba para
-									que el demarcador incorpore los últimos cambios.
-								</p>
-							{/if}
-						{/if}
-						{#if previewError}
-							<p class="mt-3 text-sm text-red-700">{previewError}</p>
-						{/if}
-						{#if previewWarnings.length > 0}
-							<div class="mt-3 border-l-2 border-amber-500 pl-3">
-								<p class="text-xs font-medium uppercase tracking-wide text-amber-800">
-									Formas omitidas de la prueba
-								</p>
-								<ul class="mt-1 space-y-1 text-xs leading-5 text-amber-950">
-									{#each previewWarnings as warning}
-										<li>{warning}</li>
-									{/each}
-								</ul>
-							</div>
-						{/if}
+						<a
+							class="mt-5 inline-flex bg-[color:var(--foreground)] px-4 py-2 text-sm font-medium text-[color:var(--background)]"
+							href="/demarcador"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Abrir demarcador
+						</a>
 					</section>
 
 					<section class="border border-[color:var(--border)] bg-[color:var(--card)] p-5">

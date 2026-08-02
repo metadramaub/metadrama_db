@@ -5,7 +5,6 @@ import type {
 	MetricCatalogIssue,
 	MetricCatalogOption,
 	MetricCatalogPageData,
-	MetricCatalogPreviewVersion,
 	MetricCatalogTradition,
 	MetricLengthRule
 } from '$lib/metrica/catalogo';
@@ -262,7 +261,6 @@ export async function loadMetricCatalog(
 			configurations: [],
 			lengthRules: [],
 			traditions: [],
-			previewVersions: [],
 			domain: emptyDomain(),
 			editorSandbox: emptyEditorSandbox(),
 			options: { rhymeTypes: [], metres: [] },
@@ -283,8 +281,7 @@ export async function loadMetricCatalog(
 		metrePatternsResponse,
 		rhymePatternsResponse,
 		lengthRulesResponse,
-		optionsResponse,
-		previewVersionsResponse
+		optionsResponse
 	] = await Promise.all([
 		db.from('formas_metricas').select(FORM_SELECT).order('nombre', { ascending: true }),
 		db
@@ -309,15 +306,7 @@ export async function loadMetricCatalog(
 			.from('vocabularios')
 			.select('termino_id,categoria,termino,etiqueta,numero_silabas')
 			.in('categoria', ['tipo_rima', 'metro'])
-			.eq('activo', true),
-		db
-			.from('demarcador_versiones')
-			.select(
-				'version_id,numero,estado,catalogo_revision,fuente_actualizada_en,total_familias,total_familias_variantes,total_variantes_demarcables,generado_en'
-			)
-			.eq('fuente_tipo', 'catalogo_metrico')
-			.order('generado_en', { ascending: false })
-			.limit(10)
+			.eq('activo', true)
 	]);
 
 	const domainResponses = await Promise.all([
@@ -459,11 +448,6 @@ export async function loadMetricCatalog(
 	throwQueryError('No se pudieron cargar los patrones de rima', rhymePatternsResponse.error);
 	throwQueryError('No se pudieron derivar las reglas de longitud', lengthRulesResponse.error);
 	throwQueryError('No se pudieron cargar las opciones métricas', optionsResponse.error);
-	throwQueryError(
-		'No se pudieron cargar las pruebas del demarcador',
-		previewVersionsResponse.error
-	);
-
 	const forms = (formsResponse.data ?? []) as MetricCatalogForm[];
 	const rawConfigurations = (configurationsResponse.data ?? []) as Array<
 		Omit<MetricCatalogConfiguration, 'patrones_metro' | 'esquemas_rima'>
@@ -536,7 +520,6 @@ export async function loadMetricCatalog(
 		configurations,
 		lengthRules: (lengthRulesResponse.data ?? []) as MetricLengthRule[],
 		traditions,
-		previewVersions: (previewVersionsResponse.data ?? []) as MetricCatalogPreviewVersion[],
 		domain,
 		editorSandbox: {
 			scenarios: editorScenariosResponse.data ?? [],
@@ -555,9 +538,13 @@ export async function loadMetricCatalog(
 		},
 		issues,
 		stats: {
-			forms: forms.filter((form) => form.activo).length,
-			approvedForms: forms.filter((form) => form.activo && form.estado_revision === 'aprobada')
-				.length,
+			forms: forms.filter((form) => form.activo && form.tipo_registro === 'forma').length,
+			approvedForms: forms.filter(
+				(form) =>
+					form.activo &&
+					form.tipo_registro === 'forma' &&
+					form.estado_revision === 'aprobada'
+			).length,
 			configurations: configurations.filter((configuration) => configuration.activo).length,
 		}
 	};

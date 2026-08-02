@@ -146,18 +146,6 @@ export type MetricCatalogIssue = {
 	message: string;
 };
 
-export type MetricCatalogPreviewVersion = {
-	version_id: string;
-	numero: number;
-	estado: string;
-	catalogo_revision: number | null;
-	fuente_actualizada_en: string | null;
-	total_familias: number;
-	total_familias_variantes: number;
-	total_variantes_demarcables: number;
-	generado_en: string;
-};
-
 export const METRIC_CATALOG_RESOURCES = [
 	'traditions',
 	'formTraditions',
@@ -192,6 +180,19 @@ export type MetricCatalogDomainData = Record<MetricCatalogResource, MetricCatalo
 	configurations: MetricCatalogDomainRow[];
 };
 
+/**
+ * Lo único que el editor de secuencias necesita saber del catálogo para generar sus
+ * preguntas. Es deliberadamente más estrecho que `MetricCatalogPageData`: el editor no
+ * conoce escenarios de prueba, ni estadísticas, ni versiones del demarcador, así que el
+ * mismo componente sirve en el laboratorio y, cuando se apruebe, en el editor de obras.
+ */
+export type MetricCatalogForEditor = {
+	forms: MetricCatalogForm[];
+	configurations: MetricCatalogConfiguration[];
+	lengthRules: MetricLengthRule[];
+	domain: MetricCatalogDomainData;
+};
+
 export type MetricEditorSandboxData = {
 	scenarios: MetricCatalogDomainRow[];
 	sequences: MetricCatalogDomainRow[];
@@ -208,7 +209,6 @@ export type MetricCatalogPageData = {
 	configurations: MetricCatalogConfiguration[];
 	lengthRules: MetricLengthRule[];
 	traditions: MetricCatalogTradition[];
-	previewVersions: MetricCatalogPreviewVersion[];
 	domain: MetricCatalogDomainData;
 	editorSandbox: MetricEditorSandboxData;
 	options: {

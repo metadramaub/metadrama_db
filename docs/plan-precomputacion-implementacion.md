@@ -10,11 +10,10 @@
 > Donde el documento y la DB difieren, **manda la DB** y se corrige el contrato, no se inventa
 > un mapeo para forzar la equivalencia.
 >
-> Relación con [plan-zona-publica.md](plan-zona-publica.md): aquel construyó el control de
-> visibilidad por secciones/scope (Fases 0–6) y la reescritura de catálogo + ficha. Este plan
-> aporta la **capa de datos métricos precomputados** que alimenta esas superficies. Las fases
-> de consumo (ficha, catálogo, autor, laboratorio) son la cara de datos de la Fase 6 de aquel
-> plan.
+> El control de visibilidad por secciones/scope y la reescritura de catálogo + ficha se
+> completaron aparte (su plan se retiró al terminar; las invariantes vigentes están en
+> [CLAUDE.md](../CLAUDE.md)). Este plan aporta la **capa de datos métricos precomputados**
+> que alimenta esas superficies.
 
 ---
 
@@ -242,12 +241,13 @@ El doc dice "obras catalogadas y publicadas". Pero el público ve `publicado AND
 **Decidir** si el perfil de autor agrega sobre publicadas, o publicadas-y-visibles, y si el agregado
 puede filtrarse a una obra que el visitante no debería ver. Coherente con el choque nº1.
 
-### 🟡 12. Restricción operativa de migraciones (no es del doc, pero condiciona todo)
+### ✅ 12. Restricción operativa de migraciones — resuelta
 
-El puerto 5432 está bloqueado: **las migraciones se aplican a mano por el SQL Editor** y los tipos se
-editan a mano ([database.types.ts](src/lib/types/database.types.ts)); ver nota en
-[plan-zona-publica.md](plan-zona-publica.md). Cada fase con SQL debe contemplar este flujo (registro
-en `supabase_migrations.schema_migrations` con INSERT manual y edición manual de tipos).
+Esta nota decía que el puerto 5432 estaba bloqueado y que las migraciones se aplicaban a mano
+por el SQL Editor con INSERT manual en `supabase_migrations.schema_migrations`. **Ya no es así:**
+las migraciones se aplican con `npm run db:push` y los tipos se regeneran con `npm run db:types`.
+La regla que sí sigue vigente es que **una migración aplicada no se edita**: para cambiar algo
+ya migrado se escribe una migración nueva. Ver [CLAUDE.md](../CLAUDE.md).
 
 ---
 

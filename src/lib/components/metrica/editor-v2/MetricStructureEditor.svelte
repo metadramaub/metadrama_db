@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import {
@@ -38,6 +39,8 @@
 		onUnitsRemoved: (unitIds: string[]) => void;
 		onRangeChange: (end: number) => void;
 		globalQuestions?: Snippet;
+		/** Cómo se llama la unidad que define la forma: su nombre, no «Unidad». */
+		unitLabel?: string;
 	}>();
 
 	/**
@@ -59,8 +62,13 @@
 		return section ? sectionId(section) : null;
 	}
 
+	/**
+	 * La unidad que define la forma no realiza ninguna sección, así que el catálogo no le
+	 * pone nombre. Llamarla «Unidad» deja al editor leyendo «+ Añadir unidad» donde debería
+	 * leer «+ Añadir villancico»: el nombre se toma de la forma cuando el contenedor lo da.
+	 */
 	function nodeLabel(section: MetricCatalogDomainRow | null): string {
-		return section ? sectionLabel(section) : 'Unidad';
+		return section ? sectionLabel(section) : (props.unitLabel ?? 'Unidad');
 	}
 
 	function isUnitNode(section: MetricCatalogDomainRow | null, parentUnitId: string | null): boolean {
@@ -431,6 +439,134 @@
 		return props.units.filter((candidate: MetricUnitDraft) =>
 			ids.has(candidate.realizacion_prueba_id)
 		);
+	}
+
+	/**
+	 * Qué contesta una realización, sin sus identificadores: dos unidades con la misma
+	 * firma dicen exactamente lo mismo. Sirve para no pintar doce tarjetas iguales cuando
+	 * una tirada de redondillas responde doce veces la misma norma.
+	 */
+	function unitSignature(unit: MetricUnitDraft): string {
+		const parts: string[] = [];
+		for (const node of subtreeUnits(unit)) {
+			const answers = props.choices
+				.filter(
+					(choice: MetricChoiceDraft) =>
+						choice.realizacion_prueba_id === node.realizacion_prueba_id
+				)
+				.map(
+					(choice: MetricChoiceDraft) =>
+						`${choice.grupo_eleccion_id}:${choice.opcion_eleccion_id ?? ''}:${choice.valor_texto ?? ''}`
+				)
+				.sort();
+			parts.push(
+				`${node.seccion_id ?? 'unidad'}#${node.v_fin - node.v_ini + 1}[${answers.join(',')}]`
+			);
+		}
+		return parts.sort().join('|');
+	}
+
+	/** Las repeticiones desplegadas a mano, por sección y contenedor. */
+	let expandedRepeatKeys = $state<Set<string>>(new Set());
+
+	function repeatKey(
+		section: MetricCatalogDomainRow | null,
+		parentUnitId: string | null
+	): string {
+		return `${nodeSectionId(section) ?? 'unidad'}|${parentUnitId ?? 'raiz'}`;
+	}
+
+	function toggleRepeatFold(key: string) {
+		const next = new Set(expandedRepeatKeys);
+		if (next.has(key)) next.delete(key);
+		else next.add(key);
+		expandedRepeatKeys = next;
+	}
+
+	/** Todas las repeticiones dicen lo mismo, así que basta con enseñar una. */
+	function instancesAreUniform(units: MetricUnitDraft[]): boolean {
+		if (units.length < 2) return false;
+		const first = unitSignature(units[0]);
+		return units.every((unit: MetricUnitDraft) => unitSignature(unit) === first);
+	}
+
+	/**
+	 * Responde en la realización que se está viendo y repite la respuesta en todas sus
+	 * equivalentes. Es lo que hace que editar la tarjeta única de «12 redondillas» no
+	 * desparejе en silencio la primera de las once restantes.
+	 */
+	function setChoicesAcrossEquivalents(
+		group: MetricCatalogDomainRow,
+		sourceUnit: MetricUnitDraft,
+		optionIds: string[],
+		siblings: MetricUnitDraft[]
+	) {
+		const groupId = String(group.grupo_eleccion_id);
+		let nextChoices = [...props.choices];
+		let nextUnits = [...props.units];
+		for (const unit of siblings) {
+			nextChoices = [
+				...nextChoices.filter(
+					(choice: MetricChoiceDraft) =>
+						!(
+							choice.grupo_eleccion_id === groupId &&
+							choice.realizacion_prueba_id === unit.realizacion_prueba_id
+						)
+				),
+				...optionIds.map((optionId) => ({
+					realizacion_prueba_id: unit.realizacion_prueba_id,
+					grupo_eleccion_id: groupId,
+					opcion_eleccion_id: optionId,
+					valor_texto: null,
+					observaciones: null
+				}))
+			];
+			nextUnits = syncChoiceMaterializedSections(
+				nextUnits,
+				props.sections,
+				unit.realizacion_prueba_id,
+				optionsForGroup(groupId),
+				optionIds,
+				props.sequenceStart,
+				nextChoices,
+				props.options
+			);
+		}
+		props.onChoicesChange(nextChoices);
+		commitUnits(nextUnits);
+	}
+
+	function setChoiceTextAcrossEquivalents(
+		group: MetricCatalogDomainRow,
+		value: string,
+		siblings: MetricUnitDraft[]
+	) {
+		const groupId = String(group.grupo_eleccion_id);
+		const normalized = normalizeRhymeScheme(value);
+		let nextChoices = [...props.choices];
+		for (const unit of siblings) {
+			nextChoices = [
+				...nextChoices.filter(
+					(choice: MetricChoiceDraft) =>
+						!(
+							choice.grupo_eleccion_id === groupId &&
+							choice.realizacion_prueba_id === unit.realizacion_prueba_id
+						)
+				),
+				...(normalized
+					? [
+							{
+								realizacion_prueba_id: unit.realizacion_prueba_id,
+								grupo_eleccion_id: groupId,
+								opcion_eleccion_id: null,
+								valor_texto: normalized,
+								observaciones: null
+							}
+						]
+					: [])
+			];
+		}
+		props.onChoicesChange(nextChoices);
 	}
 
 	/** Una repetición está resuelta cuando no le falta ninguna respuesta obligatoria. */
@@ -908,10 +1044,62 @@
 	{@const numbered = section
 		? sectionMaximum(section) === null || Number(sectionMaximum(section)) > 1
 		: true}
-	<div class={depth === 0 ? 'space-y-3' : 'space-y-3 pl-3'}>
-		{#each sectionInstances as unit, unitIndex (unit.realizacion_prueba_id)}
+	{@const foldKey = repeatKey(section, parentUnitId)}
+	{@const uniform = instancesAreUniform(sectionInstances)}
+	<!--
+		Una repetición solo merece plegarse si dentro hay algo que responder. La estancia
+		regular de la canción petrarquista tiene medida y rima fijadas por la norma: ofrecer
+		«editar una concreta» prometería una edición que no existe. En ese caso las
+		realizaciones se resumen en una línea y se acabó.
+	-->
+	{@const editableInstances = sectionInstances.some(
+		(unit: MetricUnitDraft) =>
+			childSections.length > 0 ||
+			groupsForUnit(unit).length > 0 ||
+			(!selectedExtensionReference(unit) && !nodeHasFixedLength(section))
+	)}
+	{@const settledRepeat = uniform && !editableInstances}
+	<!-- Doce redondillas que dicen lo mismo son una tarjeta y un recuento, no doce tarjetas. -->
+	{@const uniformRepeat = uniform && editableInstances && !expandedRepeatKeys.has(foldKey)}
+	{@const shownInstances = settledRepeat
+		? []
+		: uniformRepeat
+			? sectionInstances.slice(0, 1)
+			: sectionInstances}
+	<div
+		class={depth === 0
+			? 'space-y-3'
+			: 'space-y-3 border-l border-[color:var(--border)] pl-3'}
+	>
+		{#if settledRepeat}
+			{@const first = sectionInstances[0]}
+			{@const last = sectionInstances[sectionInstances.length - 1]}
+			{@const length = first.v_fin - first.v_ini + 1}
+			<p class="text-sm text-[color:var(--muted-foreground)]">
+				{nodeLabel(section)} · {sectionInstances.length} realizaciones · vv. {first.v_ini}–{last.v_fin}
+				· {length} versos cada una
+			</p>
+		{:else if uniformRepeat}
+			<p class="flex flex-wrap items-baseline justify-between gap-2 text-sm">
+				<span class="text-[color:var(--muted-foreground)]">
+					{nodeLabel(section)} · {sectionInstances.length} realizaciones iguales
+				</span>
+				<button type="button" class="link-action" onclick={() => toggleRepeatFold(foldKey)}>
+					Editar una concreta
+				</button>
+			</p>
+		{:else if sectionInstances.length > 1 && uniform && expandedRepeatKeys.has(foldKey)}
+			<p class="flex justify-end">
+				<button type="button" class="link-action" onclick={() => toggleRepeatFold(foldKey)}>
+					Volver a la vista única
+				</button>
+			</p>
+		{/if}
+		{#each shownInstances as unit, unitIndex (unit.realizacion_prueba_id)}
 			{@const extensionReference = selectedExtensionReference(unit)}
-			{@const heading = `${nodeLabel(section)}${numbered ? ` ${unitIndex + 1}` : ''}`}
+			{@const heading = uniformRepeat
+				? `Cada ${nodeLabel(section).toLocaleLowerCase('es')}`
+				: `${nodeLabel(section)}${numbered ? ` ${unitIndex + 1}` : ''}`}
 			<!-- Una sección cuya extensión ya está decidida y que no pregunta nada no necesita
 			     ni tarjeta ni cabecera: se resume en la línea que dice dónde empieza y acaba. -->
 			{@const settled =
@@ -940,7 +1128,7 @@
 					{#if canRemove(section, parentUnitId)}
 						<button
 							type="button"
-							class="text-xs text-red-700 hover:underline"
+							class="link-action link-action--danger link-action--sm"
 							onclick={() => removeInstance(unit)}
 						>
 							Quitar
@@ -959,7 +1147,7 @@
 					<span class="flex shrink-0 gap-3">
 						<button
 							type="button"
-							class="text-xs font-medium text-[color:var(--primary)] hover:underline"
+							class="link-action link-action--sm"
 							onclick={() => toggleUnitFold(unit)}
 						>
 							Editar
@@ -967,7 +1155,7 @@
 						{#if canRemove(section, parentUnitId)}
 							<button
 								type="button"
-								class="text-xs text-red-700 hover:underline"
+								class="link-action link-action--danger link-action--sm"
 								onclick={() => removeInstance(unit)}
 							>
 								Quitar
@@ -1007,7 +1195,7 @@
 						{#if depth > 0 && expandedUnitIds.has(unit.realizacion_prueba_id) && subtreeAnswered(unit)}
 							<button
 								type="button"
-								class="text-sm font-medium text-[color:var(--primary)] hover:underline"
+								class="link-action"
 								onclick={() => toggleUnitFold(unit)}
 							>
 								Plegar
@@ -1016,7 +1204,7 @@
 						{#if canRemove(section, parentUnitId)}
 							<button
 								type="button"
-								class="text-sm text-red-700 hover:underline"
+								class="link-action link-action--danger"
 								onclick={() => removeInstance(unit)}
 							>
 								Quitar
@@ -1047,7 +1235,7 @@
 								).length > 1}
 									<button
 										type="button"
-										class="h-10 text-xs font-medium text-[color:var(--primary)] hover:underline"
+										class="link-action link-action--sm h-10"
 										onclick={() => applyUnitLengthToEquivalentUnits(unit)}
 									>
 										Aplicar esta extensión a todas las unidades equivalentes
@@ -1069,13 +1257,21 @@
 								String(group.grupo_eleccion_id),
 								unit.realizacion_prueba_id
 							)}
-							onChange={(ids) => setChoices(group, unit, ids)}
+							onChange={(ids) =>
+								uniformRepeat
+									? setChoicesAcrossEquivalents(group, unit, ids, sectionInstances)
+									: setChoices(group, unit, ids)}
 							textValue={choiceTextValue(
 								String(group.grupo_eleccion_id),
 								unit.realizacion_prueba_id
 							)}
-							onTextChange={(value) => setChoiceText(group, unit, value)}
-							onApplyAll={() => applyChoiceToEquivalentUnits(group, unit)}
+							onTextChange={(value) =>
+								uniformRepeat
+									? setChoiceTextAcrossEquivalents(group, value, sectionInstances)
+									: setChoiceText(group, unit, value)}
+							onApplyAll={uniformRepeat
+								? undefined
+								: () => applyChoiceToEquivalentUnits(group, unit)}
 							onApplyToEverySection={siblingMeasureGroups(group).length > 0
 								? () => applyMeasureToEverySection(group, unit)
 								: undefined}
@@ -1109,8 +1305,8 @@
 				<button
 					type="button"
 					class={depth === 0
-						? 'border border-dashed border-[color:var(--border)] px-4 py-3 text-sm font-medium text-[color:var(--primary)] hover:bg-[color:var(--muted)]'
-						: 'text-sm font-medium text-[color:var(--primary)] hover:underline'}
+						? 'w-full border border-dashed border-[color:var(--border)] px-4 py-3 text-sm font-medium text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)]'
+						: 'link-action'}
 					onclick={() => addInstance(nodeSectionId(section), parentUnitId)}
 				>
 					+ Añadir {nodeLabel(section).toLocaleLowerCase('es')}
@@ -1130,6 +1326,11 @@
 			{#each foldableFamilies as family (family.key)}
 				{@const state = familyState(family)}
 				{@const familyFolded = isFamilyFolded(family)}
+				{@const options = familyOptions(family)}
+				{@const items = options.map((option: MetricCatalogDomainRow) => ({
+					id: String(option.slug),
+					label: String(option.nombre)
+				}))}
 				<div class="form-field">
 					<span class="form-label">
 						<span class="form-label-with-help">
@@ -1143,24 +1344,36 @@
 						</span>
 					</span>
 					<div class="flex flex-wrap items-center gap-3">
-						<select
-							class="h-10 border border-[color:var(--border)] bg-white px-3 text-sm"
-							value={state.uniform ?? ''}
-							onchange={(event) => setFamilyChoice(family, event.currentTarget.value)}
-						>
-							<option value="">
-								{state.uniform === null && state.answered > 0
-									? 'Distintas respuestas'
-									: 'Seleccionar respuesta'}
-							</option>
-							{#each familyOptions(family) as option (String(option.opcion_eleccion_id))}
-								<option value={String(option.slug)}>{String(option.nombre)}</option>
-							{/each}
-						</select>
+						{#if items.length > 0 && items.length <= 4 && items.every((item: { label: string }) => item.label.length <= 24)}
+							<SegmentedChoice
+								{items}
+								value={state.uniform ?? null}
+								onChange={(slug) => slug && setFamilyChoice(family, slug)}
+								ariaLabel={family.label}
+							/>
+							{#if state.uniform === null && state.answered > 0}
+								<span class="text-xs text-[color:var(--muted-foreground)]">Distintas respuestas</span>
+							{/if}
+						{:else}
+							<select
+								class="h-10 border border-[color:var(--border)] bg-white px-3 text-sm"
+								value={state.uniform ?? ''}
+								onchange={(event) => setFamilyChoice(family, event.currentTarget.value)}
+							>
+								<option value="">
+									{state.uniform === null && state.answered > 0
+										? 'Distintas respuestas'
+										: 'Seleccionar respuesta'}
+								</option>
+								{#each options as option (String(option.opcion_eleccion_id))}
+									<option value={String(option.slug)}>{String(option.nombre)}</option>
+								{/each}
+							</select>
+						{/if}
 						{#if state.units.length > 1}
 							<button
 								type="button"
-								class="text-xs font-medium text-[color:var(--primary)] hover:underline"
+								class="link-action link-action--sm"
 								onclick={() => toggleFamilyFold(family)}
 							>
 								{familyFolded
@@ -1177,24 +1390,15 @@
 				<div class="form-field">
 					<span class="form-label">¿Aparece «{sectionLabel(section)}»?</span>
 					<div class="flex flex-wrap items-center gap-3">
-						<div class="inline-flex" role="radiogroup" aria-label={`¿Aparece ${sectionLabel(section)}?`}>
-							{#each [{ value: true, label: presence.parents.length > 1 ? 'En todas' : 'Sí' }, { value: false, label: presence.parents.length > 1 ? 'En ninguna' : 'No' }] as choice}
-								{@const active = choice.value ? presence.everywhere : presence.nowhere}
-								<button
-									type="button"
-									role="radio"
-									aria-checked={active}
-									class={`relative -ml-px border px-3 py-1.5 text-sm font-medium transition-colors first:ml-0 ${
-										active
-											? 'z-10 border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)]'
-											: 'border-[color:var(--border)] bg-white text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)]'
-									}`}
-									onclick={() => setOptionalSectionEverywhere(section, choice.value)}
-								>
-									{choice.label}
-								</button>
-							{/each}
-						</div>
+						<SegmentedChoice
+							items={[
+								{ id: 'si', label: presence.parents.length > 1 ? 'En todas' : 'Sí' },
+								{ id: 'no', label: presence.parents.length > 1 ? 'En ninguna' : 'No' }
+							]}
+							value={presence.everywhere ? 'si' : presence.nowhere ? 'no' : null}
+							onChange={(id) => setOptionalSectionEverywhere(section, id === 'si')}
+							ariaLabel={`¿Aparece ${sectionLabel(section)}?`}
+						/>
 						{#if !presence.everywhere && !presence.nowhere}
 							<span class="text-xs text-[color:var(--muted-foreground)]">
 								Aparece en {presence.present} de {presence.parents.length}; se corrige abajo.

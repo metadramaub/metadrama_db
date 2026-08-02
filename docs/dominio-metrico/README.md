@@ -11,6 +11,8 @@ METADRAMA, separado del vocabulario genérico del proyecto.
 Estado operativo, decisiones vigentes, fronteras de seguridad y ruta de lectura para
 retomar el proyecto en otro chat.
 
+**Demarcador:** [contrato, matemática y decisiones de producto](./demarcador-metrico.md).
+
 0. [Ontología del verso español](./ontologia-verso-espanol.md)
    Qué es el verso español y de qué está hecho: medida, ritmo, rima, agrupación, forma y la
    relación entre norma y realización. Describe posibilidades, no un corpus.

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 	const props = $props<{
@@ -56,6 +57,29 @@
 			: maximum
 	);
 	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
+
+	/**
+	 * Una respuesta única entre pocas alternativas se enseña entera. Por encima de este
+	 * número las opciones dejan de leerse de un vistazo y compensa el desplegable; las
+	 * etiquetas largas —un esquema descrito con palabras— tampoco caben en fila.
+	 */
+	const SEGMENTED_MAX_OPTIONS = 4;
+	const SEGMENTED_MAX_LABEL = 24;
+	const showAsSegmented = $derived(
+		!isRhymeScheme &&
+			maximum === 1 &&
+			visibleOptions.length > 0 &&
+			visibleOptions.length <= SEGMENTED_MAX_OPTIONS &&
+			visibleOptions.every(
+				(option: MetricCatalogDomainRow) => String(option.nombre).length <= SEGMENTED_MAX_LABEL
+			)
+	);
+	const segmentedItems = $derived(
+		visibleOptions.map((option: MetricCatalogDomainRow) => ({
+			id: String(option.opcion_eleccion_id),
+			label: String(option.nombre)
+		}))
+	);
 
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;
@@ -174,13 +198,7 @@
 	{#if collapsed}
 		<div class="flex flex-wrap items-baseline justify-between gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
 			<span>{answerSummary}</span>
-			<button
-				type="button"
-				class="text-xs font-medium text-[color:var(--primary)] hover:underline"
-				onclick={() => (expanded = true)}
-			>
-				Cambiar
-			</button>
+			<button type="button" class="link-action" onclick={() => (expanded = true)}>Cambiar</button>
 		</div>
 	{:else if isRhymeScheme}
 		<input
@@ -192,6 +210,19 @@
 			spellcheck="false"
 			oninput={(event) => props.onTextChange?.(event.currentTarget.value)}
 		/>
+	{:else if showAsSegmented}
+		<div class="flex flex-wrap items-center gap-2">
+			<SegmentedChoice
+				items={segmentedItems}
+				value={props.selectedIds[0] ?? null}
+				onChange={(id) => props.onChange(id ? [id] : [])}
+				ariaLabel={String(props.group.nombre)}
+				allowClear={optional}
+			/>
+			{#if optional && props.selectedIds.length === 0}
+				<span class="text-xs text-[color:var(--muted-foreground)]">No aparece / no se aplica</span>
+			{/if}
+		</div>
 	{:else if maximum === 1}
 		<select
 			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
@@ -291,7 +322,7 @@
 		{#if props.onApplyAll && props.group.permite_aplicar_global}
 			<button
 				type="button"
-				class="text-xs font-medium text-[color:var(--primary)] hover:underline disabled:opacity-40"
+				class="link-action"
 				onclick={props.onApplyAll}
 				disabled={isRhymeScheme
 					? !(props.textValue ?? '').trim()
@@ -304,7 +335,7 @@
 		{#if props.onApplyToEverySection}
 			<button
 				type="button"
-				class="text-xs font-medium text-[color:var(--primary)] hover:underline disabled:opacity-40"
+				class="link-action"
 				onclick={props.onApplyToEverySection}
 				disabled={props.selectedIds.length === 0}
 			>
@@ -313,11 +344,7 @@
 		{/if}
 
 		{#if puedeRellenarPosiciones}
-			<button
-				type="button"
-				class="text-xs font-medium text-[color:var(--primary)] hover:underline"
-				onclick={rellenarPosiciones}
-			>
+			<button type="button" class="link-action" onclick={rellenarPosiciones}>
 				Repetir esta medida en las demás posiciones
 			</button>
 		{/if}

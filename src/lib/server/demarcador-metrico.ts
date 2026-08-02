@@ -1,0 +1,386 @@
+import type {
+	CatalogoDemarcador,
+	EvidenciaNormativa,
+	FormaDemarcable,
+	HipotesisMetrica,
+	ModalidadEvidencia,
+	ObservabilidadEvidencia,
+	ValorEvidencia
+} from '$lib/demarcador-metrico/modelo';
+
+type DbClient = { rpc: (name: string) => any };
+type Row = Record<string, any>;
+
+function fallo(etiqueta: string, error: { message?: string } | null | undefined): void {
+	if (error) throw new Error(`${etiqueta}: ${error.message ?? 'error desconocido'}`);
+}
+
+function modalidad(value: unknown, fallback: ModalidadEvidencia = 'definitoria'): ModalidadEvidencia {
+	return value === 'preferente' || value === 'admitida' || value === 'excepcional'
+		? value
+		: value === 'definitoria'
+			? value
+			: fallback;
+}
+
+function observabilidad(value: unknown): ObservabilidadEvidencia {
+	return value === 'especializada' || value === 'derivada' ? value : 'directa';
+}
+
+function valor(clave: string, etiqueta: string): ValorEvidencia {
+	return { clave, etiqueta };
+}
+
+function agregarEvidencia(
+	lista: EvidenciaNormativa[],
+	evidencia: EvidenciaNormativa
+): void {
+	const existente = lista.find((item) => item.dimension === evidencia.dimension);
+	if (!existente) {
+		lista.push(evidencia);
+		return;
+	}
+	for (const item of evidencia.valores) {
+		if (!existente.valores.some((actual) => actual.clave === item.clave)) existente.valores.push(item);
+	}
+	if (existente.minimo === null || (evidencia.minimo !== null && evidencia.minimo < existente.minimo)) {
+		existente.minimo = evidencia.minimo;
+	}
+	if (existente.maximo === null || evidencia.maximo === null) existente.maximo = null;
+	else existente.maximo = Math.max(existente.maximo, evidencia.maximo);
+}
+
+function evidenciaBase(
+	override: Partial<EvidenciaNormativa> &
+		Pick<EvidenciaNormativa, 'dimension' | 'familiaCognitiva' | 'etiqueta' | 'pregunta'>
+): EvidenciaNormativa {
+	return {
+		dimension: override.dimension,
+		familiaCognitiva: override.familiaCognitiva,
+		etiqueta: override.etiqueta,
+		pregunta: override.pregunta,
+		ayuda: override.ayuda ?? '',
+		tipo: override.tipo ?? 'categoria',
+		valores: override.valores ?? [],
+		minimo: override.minimo ?? null,
+		maximo: override.maximo ?? null,
+		modalidad: override.modalidad ?? 'definitoria',
+		observabilidad: override.observabilidad ?? 'directa',
+		coste: override.coste ?? 0.3,
+		orden: override.orden ?? 50,
+		fuente: override.fuente ?? 'norma'
+	};
+}
+
+function etiquetaVocabulario(row: Row | undefined, fallback: string): string {
+	return row?.etiqueta?.trim() || row?.termino?.trim() || fallback;
+}
+
+function grupoMetro(silabas: number[]): ValorEvidencia {
+	const unicas = [...new Set(silabas)].sort((a, b) => a - b);
+	if (unicas.length !== 1) return valor('combinada_variable', 'Combinación de medidas o medida variable');
+	if (unicas[0] <= 8) return valor('arte_menor', 'Arte menor (hasta 8 sílabas)');
+	if (unicas[0] === 11) return valor('endecasilabos', 'Endecasílabos (11 sílabas)');
+	return valor('otro_arte_mayor', 'Otro verso de arte mayor');
+}
+
+function esquemaRima(pattern: Row, positions: Row[]): string | null {
+	const notation = pattern.notacion?.trim();
+	if (notation) return notation;
+	const finales = positions
+		.filter((position) => position.ubicacion === 'final')
+		.sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion);
+	if (finales.length === 0) return null;
+	const compact = finales
+		.map((position) => (position.suelto ? '-' : position.clase_rima?.trim() || '?'))
+		.join('');
+	return pattern.tipo_secuencia === 'ciclo' ? `${compact}…` : compact;
+}
+
+function etiquetaEstructura(sections: Row[]): string | null {
+	const ordered = [...sections]
+		.filter((section) => section.seccion_padre_id === null)
+		.sort((a, b) => a.orden - b.orden);
+	const visible =
+		ordered.length === 1
+			? [...sections]
+					.filter((section) => section.seccion_padre_id === ordered[0].seccion_id)
+					.sort((a, b) => a.orden - b.orden)
+			: ordered;
+	if (visible.length < 2) return null;
+	return visible.map((section) => section.nombre?.trim() || section.tipo_seccion).join(' + ');
+}
+
+function familiaEleccion(dimension: string): EvidenciaNormativa['familiaCognitiva'] {
+	if (dimension === 'metro') return 'metro';
+	if (dimension === 'rima') return 'rima';
+	if (dimension === 'repeticion') return 'repeticion';
+	if (dimension === 'estructura' || dimension === 'combinacion') return 'estructura';
+	return 'rasgo';
+}
+
+export async function cargarCatalogoDemarcador(client: unknown): Promise<CatalogoDemarcador> {
+	const db = client as DbClient;
+	const projection = await db.rpc('obtener_catalogo_demarcador');
+	fallo('No se pudo cargar la proyección pública del catálogo', projection.error);
+	const payload = (projection.data ?? {}) as Record<string, Row[]>;
+	const responses = [
+		'forms', 'architectures', 'metricPatterns', 'metricPositions', 'metricOptions', 'metres',
+		'rhymePatterns', 'rhymePositions', 'sections', 'repetitions', 'traits', 'traitValues',
+		'architectureTraits', 'choiceGroups', 'choiceOptions', 'vocabularies'
+	].map((key) => ({ data: Array.isArray(payload[key]) ? payload[key] : [], error: null }));
+
+	const labels = [
+		'formas', 'arquitecturas', 'esquemas métricos', 'posiciones métricas', 'opciones métricas',
+		'metros', 'esquemas de rima', 'posiciones de rima', 'secciones', 'repeticiones',
+		'rasgos', 'valores de rasgo', 'rasgos de arquitectura', 'grupos de elección',
+		'opciones de elección', 'vocabularios'
+	];
+	responses.forEach((response, index) => fallo(`No se pudieron cargar ${labels[index]}`, response.error));
+	const [
+		formsResponse, architecturesResponse, metricPatternsResponse, metricPositionsResponse,
+		metricOptionsResponse, metresResponse, rhymePatternsResponse, rhymePositionsResponse,
+		sectionsResponse, repetitionsResponse, traitsResponse, traitValuesResponse,
+		architectureTraitsResponse, choiceGroupsResponse, choiceOptionsResponse, vocabulariesResponse
+	] = responses;
+
+	const forms = (formsResponse.data ?? []) as Row[];
+	const architectures = (architecturesResponse.data ?? []) as Row[];
+	const formById = new Map(forms.map((form) => [form.forma_id, form]));
+	const vocabularyById = new Map(
+		((vocabulariesResponse.data ?? []) as Row[]).map((item) => [item.termino_id, item])
+	);
+	const metreById = new Map(((metresResponse.data ?? []) as Row[]).map((item) => [item.metro_id, item]));
+	const patternArchitecture = new Map(
+		((metricPatternsResponse.data ?? []) as Row[])
+			.filter((pattern) => pattern.ambito === 'unidad')
+			.map((pattern) => [pattern.esquema_metrico_id, pattern.arquitectura_id])
+	);
+	const metresByArchitecture = new Map<string, Row[]>();
+	for (const row of [
+		...((metricPositionsResponse.data ?? []) as Row[]),
+		...((metricOptionsResponse.data ?? []) as Row[])
+	]) {
+		const architectureId = patternArchitecture.get(row.esquema_metrico_id);
+		const metre = metreById.get(row.metro_id);
+		if (!architectureId || !metre) continue;
+		const current = metresByArchitecture.get(architectureId) ?? [];
+		if (!current.some((item) => item.metro_id === metre.metro_id)) current.push(metre);
+		metresByArchitecture.set(architectureId, current);
+	}
+
+	const rhymePositionsByPattern = new Map<string, Row[]>();
+	for (const position of (rhymePositionsResponse.data ?? []) as Row[]) {
+		rhymePositionsByPattern.set(position.esquema_rima_id, [
+			...(rhymePositionsByPattern.get(position.esquema_rima_id) ?? []), position
+		]);
+	}
+	const rhymePatternsByArchitecture = new Map<string, Row[]>();
+	for (const pattern of (rhymePatternsResponse.data ?? []) as Row[]) {
+		if (pattern.ambito !== 'unidad') continue;
+		rhymePatternsByArchitecture.set(pattern.arquitectura_id, [
+			...(rhymePatternsByArchitecture.get(pattern.arquitectura_id) ?? []), pattern
+		]);
+	}
+	const sectionsByArchitecture = new Map<string, Row[]>();
+	for (const section of (sectionsResponse.data ?? []) as Row[]) {
+		sectionsByArchitecture.set(section.arquitectura_id, [
+			...(sectionsByArchitecture.get(section.arquitectura_id) ?? []), section
+		]);
+	}
+	const repetitionsByArchitecture = new Map<string, Row[]>();
+	for (const repetition of (repetitionsResponse.data ?? []) as Row[]) {
+		repetitionsByArchitecture.set(repetition.arquitectura_id, [
+			...(repetitionsByArchitecture.get(repetition.arquitectura_id) ?? []), repetition
+		]);
+	}
+	const traitById = new Map(((traitsResponse.data ?? []) as Row[]).map((item) => [item.rasgo_id, item]));
+	const traitValueById = new Map(
+		((traitValuesResponse.data ?? []) as Row[]).map((item) => [item.valor_id, item])
+	);
+	const traitsByArchitecture = new Map<string, Row[]>();
+	for (const item of (architectureTraitsResponse.data ?? []) as Row[]) {
+		if (!traitById.has(item.rasgo_id)) continue;
+		traitsByArchitecture.set(item.arquitectura_id, [
+			...(traitsByArchitecture.get(item.arquitectura_id) ?? []), item
+		]);
+	}
+	const optionsByGroup = new Map<string, Row[]>();
+	for (const option of (choiceOptionsResponse.data ?? []) as Row[]) {
+		optionsByGroup.set(option.grupo_eleccion_id, [
+			...(optionsByGroup.get(option.grupo_eleccion_id) ?? []), option
+		]);
+	}
+	const groupsByArchitecture = new Map<string, Row[]>();
+	for (const group of (choiceGroupsResponse.data ?? []) as Row[]) {
+		groupsByArchitecture.set(group.arquitectura_id, [
+			...(groupsByArchitecture.get(group.arquitectura_id) ?? []), group
+		]);
+	}
+
+	const advertencias: string[] = [];
+	const hipotesis: HipotesisMetrica[] = [];
+	for (const architecture of architectures) {
+		const form = formById.get(architecture.forma_id);
+		if (!form || form.tipo_registro !== 'forma') continue;
+		const evidencias: EvidenciaNormativa[] = [];
+		const metres = (metresByArchitecture.get(architecture.arquitectura_id) ?? []).sort(
+			(a, b) => a.silabas - b.silabas
+		);
+		if (metres.length > 0) {
+			const syllables = metres.map((metre) => Number(metre.silabas));
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: 'metro:grupo', familiaCognitiva: 'metro', etiqueta: 'Medida predominante',
+				pregunta: '¿Qué medida predomina en los versos?',
+				ayuda: 'No necesitas decidir la medida exacta: distingue entre arte menor, endecasílabos, otro arte mayor o una combinación.',
+				valores: [grupoMetro(syllables)], observabilidad: 'directa', coste: 0.12, orden: 1, fuente: 'esquema'
+			}));
+			const exactLabel = metres.map((metre) => `${metre.silabas} sílabas`).join(' + ');
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: 'metro:exacto', familiaCognitiva: 'metro', etiqueta: 'Medida exacta',
+				pregunta: '¿Cuál es la medida métrica de los versos?',
+				ayuda: 'Elige esta precisión solo si has realizado o comprobado el cómputo métrico.',
+				valores: [valor(syllables.join('+'), exactLabel)], observabilidad: 'especializada', coste: 0.55, orden: 40, fuente: 'esquema'
+			}));
+		}
+
+		if (architecture.unidad_versos_min !== null || architecture.unidad_versos_max !== null) {
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: 'extension:versos', familiaCognitiva: 'extension', etiqueta: 'Extensión de la unidad',
+				pregunta: '¿Cuántos versos tiene la unidad completa que estás analizando?',
+				ayuda: 'Puede ser una estrofa, una serie o toda la composición. Si no sabes dónde empieza o termina, responde «No sé».',
+				tipo: 'numero', minimo: architecture.unidad_versos_min, maximo: architecture.unidad_versos_max,
+				observabilidad: 'directa', coste: 0.28, orden: 8, fuente: 'norma'
+			}));
+		}
+
+		const rhymeTypeId = architecture.tipo_rima_id ?? rhymePatternsByArchitecture
+			.get(architecture.arquitectura_id)?.find((pattern) => pattern.tipo_rima_id)?.tipo_rima_id;
+		if (rhymeTypeId) {
+			const vocabulary = vocabularyById.get(rhymeTypeId);
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: 'rima:tipo', familiaCognitiva: 'rima', etiqueta: 'Tipo de rima',
+				pregunta: '¿Qué relación de rima predomina?',
+				ayuda: 'En la asonancia coinciden las vocales finales; en la consonancia coinciden vocales y consonantes.',
+				valores: [valor(vocabulary?.termino ?? rhymeTypeId, etiquetaVocabulario(vocabulary, rhymeTypeId))],
+				observabilidad: 'especializada', coste: 0.42, orden: 15, fuente: 'norma'
+			}));
+		}
+		for (const pattern of rhymePatternsByArchitecture.get(architecture.arquitectura_id) ?? []) {
+			const label = esquemaRima(pattern, rhymePositionsByPattern.get(pattern.esquema_rima_id) ?? []);
+			if (!label) continue;
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: 'rima:distribucion', familiaCognitiva: 'rima', etiqueta: 'Distribución de la rima',
+				pregunta: '¿Cómo se distribuyen los versos rimados y sueltos?',
+				ayuda: 'Las letras iguales representan rimas iguales y el guion un verso suelto.',
+				valores: [valor(pattern.slug ?? pattern.esquema_rima_id, label)], modalidad: modalidad(pattern.modalidad),
+				observabilidad: 'especializada', coste: 0.6, orden: 45, fuente: 'esquema'
+			}));
+		}
+
+		const sections = sectionsByArchitecture.get(architecture.arquitectura_id) ?? [];
+		const structureLabel = etiquetaEstructura(sections);
+		agregarEvidencia(evidencias, evidenciaBase({
+			dimension: 'estructura:secciones', familiaCognitiva: 'estructura', etiqueta: 'Secciones internas',
+			pregunta: '¿Se distinguen varias partes o secciones internas?',
+			ayuda: 'Busca cambios claros de organización, estrofas con funciones distintas o una división repetida.',
+			tipo: 'booleano', valores: [valor(structureLabel ? 'si' : 'no', structureLabel ? 'Sí' : 'No')],
+			observabilidad: 'directa', coste: 0.26, orden: 20, fuente: 'seccion'
+		}));
+		if (structureLabel) {
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: 'estructura:orden', familiaCognitiva: 'estructura', etiqueta: 'Organización interna',
+				pregunta: '¿Qué organización interna reconoces?',
+				ayuda: 'Elige el orden de las partes solo si puedes reconocer la unidad completa.',
+				valores: [valor(structureLabel, structureLabel)], observabilidad: 'especializada', coste: 0.64, orden: 55, fuente: 'seccion'
+			}));
+		}
+
+		const repetitions = repetitionsByArchitecture.get(architecture.arquitectura_id) ?? [];
+		agregarEvidencia(evidencias, evidenciaBase({
+			dimension: 'repeticion:presencia', familiaCognitiva: 'repeticion', etiqueta: 'Repetición estructural',
+			pregunta: '¿Hay palabras, versos o secciones que reaparecen de forma reconocible?',
+			ayuda: 'Cuenta solo repeticiones que organizan la forma, como un estribillo o palabras finales recurrentes.',
+			tipo: 'booleano', valores: [valor(repetitions.length > 0 ? 'si' : 'no', repetitions.length > 0 ? 'Sí' : 'No')],
+			observabilidad: 'directa', coste: 0.22, orden: 18, fuente: 'repeticion'
+		}));
+		for (const repetition of repetitions) {
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: 'repeticion:tipo', familiaCognitiva: 'repeticion', etiqueta: 'Tipo de repetición',
+				pregunta: '¿Qué elemento se repite de forma estructural?',
+				ayuda: repetition.descripcion?.trim() || 'Elige el elemento que reaparece y organiza la forma.',
+				valores: [valor(repetition.tipo, repetition.descripcion?.trim() || repetition.tipo)],
+				modalidad: modalidad(repetition.modalidad), observabilidad: 'directa', coste: 0.34, orden: 28, fuente: 'repeticion'
+			}));
+		}
+
+		for (const item of traitsByArchitecture.get(architecture.arquitectura_id) ?? []) {
+			const trait = traitById.get(item.rasgo_id);
+			if (!trait) continue;
+			const traitValue = traitValueById.get(item.valor_id);
+			const rawValue = traitValue?.slug ?? item.valor_texto ?? item.valor_numero ?? 'si';
+			const rawLabel = traitValue?.nombre ?? item.valor_texto ?? (item.valor_numero !== null ? String(item.valor_numero) : 'Sí');
+			const boolean = trait.tipo_valor === 'booleano';
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: `rasgo:${trait.slug}`, familiaCognitiva: 'rasgo', etiqueta: trait.nombre,
+				pregunta: boolean ? `¿Se observa ${trait.nombre.toLocaleLowerCase('es')}?` : `¿Qué valor presenta «${trait.nombre}»?`,
+				ayuda: trait.descripcion?.trim() || item.nota?.trim() || '', tipo: boolean ? 'booleano' : 'categoria',
+				valores: [valor(boolean ? 'si' : String(rawValue), boolean ? 'Sí' : String(rawLabel))],
+				modalidad: modalidad(item.modalidad), observabilidad: observabilidad(trait.observabilidad),
+				coste: trait.observabilidad === 'especializada' ? 0.62 : 0.38, orden: 60, fuente: 'rasgo'
+			}));
+		}
+
+		for (const group of groupsByArchitecture.get(architecture.arquitectura_id) ?? []) {
+			const options = [...(optionsByGroup.get(group.grupo_eleccion_id) ?? [])].sort(
+				(a, b) => (a.orden ?? 999) - (b.orden ?? 999)
+			);
+			if (options.length < 2) continue;
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: `eleccion:${group.grupo_eleccion_id}`, familiaCognitiva: familiaEleccion(group.dimension),
+				etiqueta: group.nombre, pregunta: group.nombre.endsWith('?') ? group.nombre : `¿${group.nombre}?`,
+				ayuda: group.ayuda_editor?.trim() || 'Esta precisión solo se usa cuando puede observarse con seguridad.',
+				valores: options.map((option) => valor(option.slug, option.nombre)), modalidad: group.define_norma ? 'definitoria' : 'admitida',
+				observabilidad: 'especializada', coste: 0.7, orden: 70, fuente: 'eleccion'
+			}));
+		}
+
+		hipotesis.push({
+			id: architecture.arquitectura_id,
+			formaId: form.forma_id,
+			formaSlug: form.slug,
+			formaNombre: form.nombre,
+			formaDefinicion: form.definicion?.trim() || null,
+			gradoEspecificacion: form.grado_especificacion,
+			arquitecturaId: architecture.arquitectura_id,
+			arquitecturaSlug: architecture.slug,
+			arquitecturaNombre: architecture.nombre,
+			arquitecturaDescripcion: architecture.descripcion?.trim() || null,
+			arquitecturaPrincipal: Boolean(architecture.principal),
+			evidencias
+		});
+	}
+
+	for (const form of forms.filter((item) => item.tipo_registro === 'forma')) {
+		if (!hipotesis.some((item) => item.formaId === form.forma_id)) {
+			advertencias.push(`«${form.nombre}» no tiene arquitecturas activas y demarcables.`);
+		}
+	}
+	const formas: FormaDemarcable[] = [...new Set(hipotesis.map((item) => item.formaId))]
+		.map((formId) => {
+			const form = formById.get(formId)!;
+			return {
+				id: form.forma_id,
+				slug: form.slug,
+				nombre: form.nombre,
+				definicion: form.definicion?.trim() || null,
+				gradoEspecificacion: form.grado_especificacion,
+				arquitecturas: hipotesis
+					.filter((item) => item.formaId === formId)
+					.map((item) => ({ id: item.arquitecturaId, nombre: item.arquitecturaNombre, descripcion: item.arquitecturaDescripcion }))
+			};
+		})
+		.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+
+	return { formas, hipotesis, advertencias };
+}
