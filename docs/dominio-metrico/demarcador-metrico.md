@@ -1,0 +1,180 @@
+# Demarcador métrico
+
+Este documento describe el contrato conceptual, la matemática y las decisiones de producto
+del demarcador conectado al catálogo métrico. Debe actualizarse cuando cambie el motor, no
+cuando se modifique una forma concreta del catálogo.
+
+## Objetivo
+
+El demarcador orienta la identificación de una forma a partir de hechos observables en un
+pasaje. No clasifica automáticamente el texto ni exige que el usuario conozca de antemano la
+norma que intenta identificar.
+
+Hay dos recorridos:
+
+1. **Identificación guiada**: parte de observaciones generales y propone formas compatibles.
+2. **Comprobación de hipótesis**: prioriza preguntas definitorias de una forma elegida, pero no
+   modifica artificialmente su puntuación ni oculta alternativas.
+
+La identidad principal del resultado es siempre la **forma**. La **arquitectura** aparece como
+una precisión subordinada de su realización estructural.
+
+## Fuente de verdad
+
+El demarcador consulta el catálogo actual al cargar la página. No mantiene JSON estáticos,
+instantáneas ni versiones propias. La proyección se genera en
+`src/lib/server/demarcador-metrico.ts` y consume únicamente formas seleccionables y
+arquitecturas activas y demarcables.
+
+Durante la fase de pruebas la función de lectura solo devuelve datos a perfiles admin o IP.
+Ampliarla a otros editores o habilitar su ejecución para el rol anónimo es una decisión de
+publicación y debe autorizarse después de revisar los campos expuestos.
+
+La proyección transforma en evidencias:
+
+- esquemas métricos y metros;
+- extensión mínima y máxima de la unidad;
+- tipo y esquemas de rima con ámbito de unidad;
+- secciones internas;
+- repeticiones estructurales;
+- rasgos métricos marcados como demarcables;
+- elecciones declaradas por cada arquitectura.
+
+Los esquemas con ámbito de sección no se presentan como esquemas completos de la forma.
+
+## Norma y observación
+
+La interfaz solo debe preguntar hechos que el usuario pueda observar. Los hechos derivados
+—por ejemplo, que la norma sea una tirada abierta o una forma fija— se calculan y nunca se
+preguntan directamente.
+
+Cada evidencia conserva dos escalas del catálogo:
+
+### Observabilidad
+
+| Valor | Uso |
+| --- | --- |
+| `directa` | Puede preguntarse en el recorrido ordinario. |
+| `especializada` | Solo se pregunta cuando la ganancia esperada justifica el coste. |
+| `derivada` | No se pregunta; se obtiene de otras evidencias. |
+
+### Modalidad
+
+| Valor | Coincidencia | Contradicción |
+| --- | ---: | ---: |
+| `definitoria` | 1,00 | 1,25 |
+| `preferente` | 0,62 | 0,45 |
+| `admitida` | 0,28 | 0,10 |
+| `excepcional` | 0,12 | 0,00 |
+
+La asimetría es deliberada. Contradecir una condición definitoria pesa más que confirmarla;
+no observar algo meramente admitido o excepcional apenas debe perjudicar una hipótesis.
+
+## Puntuación de compatibilidad
+
+El motor trabaja con hipótesis de arquitectura y después las agrupa por forma. Para una
+hipótesis `h` y un conjunto de respuestas `R`:
+
+```text
+S(h) = P(h) + Σ ajuste(h, r), para cada r en R
+```
+
+`P(h)` es un desempate mínimo a favor de la arquitectura principal (`0,05`), no una
+probabilidad previa. Para cada respuesta:
+
+```text
+si coincide:     ajuste =  fiabilidad(observabilidad) × peso_positivo(modalidad)
+si contradice:   ajuste = -fiabilidad(observabilidad) × peso_negativo(modalidad)
+si no se sabe:   ajuste = 0
+si no hay dato:  ajuste = 0
+```
+
+La fiabilidad vale `1` para observación directa, `0,65` para especializada y `0` para
+derivada. Una respuesta nunca elimina por sí sola una forma.
+
+La puntuación de una forma es la de su arquitectura más compatible:
+
+```text
+S(forma) = max S(arquitectura de la forma)
+```
+
+Este máximo expresa que basta con que una realización estructural admitida sea compatible.
+También evita favorecer a las formas que tienen más arquitecturas.
+
+Las etiquetas «Muy compatible», «Compatible», «Posible» y «Poco compatible» expresan
+distancias relativas entre resultados. No son porcentajes ni probabilidades estadísticas.
+
+## Selección de la siguiente pregunta
+
+Las preguntas posibles se agrupan por dimensión observable. Su utilidad aproximada es:
+
+```text
+U(q) = separación(q)
+     × cobertura(q)
+     × respondibilidad(q)
+     × (1 - coste(q))
+     × penalización_por_no_sé(q)
+     × impulso_de_hipótesis(q)
+```
+
+- `separación` es la entropía de las respuestas predichas entre las candidatas actuales;
+- `cobertura` es la proporción de candidatas que declaran esa dimensión;
+- `respondibilidad` procede de la observabilidad;
+- `coste` representa dificultad cognitiva o técnica;
+- después de «No sé», las preguntas de la misma familia cognitiva se multiplican por `0,22`;
+- al comprobar una hipótesis, una pregunta definitoria suya se multiplica por `1,35`.
+
+En el recorrido guiado la entrada preferida es una agrupación amplia de la medida —arte
+menor, endecasílabos, otro arte mayor o combinación—, nunca una pregunta binaria arbitraria
+como «¿hay versos de once sílabas?».
+
+## Criterio de parada
+
+El recorrido se detiene provisionalmente cuando:
+
+- hay al menos dos respuestas concluyentes;
+- la primera hipótesis acumula al menos dos coincidencias;
+- su forma aventaja a la siguiente en `0,75` puntos;
+
+o cuando no quedan preguntas útiles. El usuario puede solicitar afinamiento, pero el sistema
+no fuerza preguntas especializadas para producir una falsa respuesta única.
+
+## Explicabilidad
+
+Cada resultado debe mostrar:
+
+1. nombre de la forma;
+2. arquitectura mejor situada, en segundo nivel;
+3. grado cualitativo de compatibilidad;
+4. evidencias que coinciden;
+5. cuando sea útil, contradicciones y datos todavía desconocidos.
+
+La interfaz no muestra la puntuación numérica porque sirve para ordenar, no para comunicar
+certeza.
+
+## Límites actuales
+
+- El demarcador no escande versos automáticamente.
+- No interpreta por sí solo dónde empieza o termina una unidad si el usuario no puede verla.
+- Las relaciones entre formas sirven para contextualizar resultados próximos, pero todavía
+  no alteran la puntuación.
+- Una propiedad derivada o no demarcable puede aparecer en la explicación final, pero nunca
+  debe convertirse automáticamente en pregunta.
+
+## Validación antes de publicar
+
+La publicación requiere un corpus de recorridos esperados, como mínimo:
+
+- romance y romancillo;
+- soneto y sus arquitecturas;
+- redondilla, cuarteta y formas generales próximas;
+- silva, serie endecasilábica y verso suelto;
+- villancico, zéjel y formas con repetición;
+- casos incompletos y recorridos con varios «No sé».
+
+Para cada caso se debe registrar: respuestas disponibles para un usuario no especialista,
+posición esperada de la forma, preguntas evitadas, criterio de parada y explicaciones
+mostradas. Los cambios de pesos se justifican contra este conjunto y se anotan aquí.
+
+Antes de abrir la herramienta sin sesión también se debe revisar la función
+`obtener_catalogo_demarcador()` y conceder explícitamente su ejecución al rol `anon`.

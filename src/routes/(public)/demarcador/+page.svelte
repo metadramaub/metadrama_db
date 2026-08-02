@@ -1,426 +1,421 @@
 <script lang="ts">
 	import {
-		crearRespuestaNueva,
-		elegirSiguientePreguntaNueva,
-		filtrarCandidatosNuevos
-	} from '$lib/demarcador-nuevo/motor';
+		crearRespuesta,
+		elegirPregunta,
+		etiquetaNivel,
+		ordenarFormas
+	} from '$lib/demarcador-metrico/motor';
 	import type {
-		ArtefactoDemarcadorNuevo,
-		CandidatoDemarcadorNuevo,
-		FamiliaDemarcadorNuevo,
-		PreguntaDemarcadorNueva,
-		RespuestaDemarcadorNueva
-	} from '$lib/demarcador-nuevo/modelo';
+		CatalogoDemarcador,
+		ModoDemarcador,
+		PreguntaDemarcador,
+		RespuestaDemarcador
+	} from '$lib/demarcador-metrico/modelo';
 
-	type PageDataDemarcador = {
-		artefacto: ArtefactoDemarcadorNuevo | null;
-		version: {
-			version_id: string;
-			numero: number;
-			estado: string;
-			catalogo_revision: number | null;
-			generado_en: string;
-			publicado_en: string | null;
-		} | null;
-		esVersionSolicitada: boolean;
-		catalogoRevisionActual: number | null;
-		catalogoDesactualizado: boolean;
-	};
+	let { data } = $props<{
+		data: { catalogo: CatalogoDemarcador; accesoRestringido: boolean };
+	}>();
+	let modo = $state<ModoDemarcador | null>(null);
+	let formaObjetivoId = $state<string | null>(null);
+	let formaPendienteId = $state('');
+	let respuestas = $state<RespuestaDemarcador[]>([]);
+	let instruccionesAbiertas = $state(false);
+	let afinamientoSolicitado = $state(false);
+	let numeroRespuesta = $state('');
 
-	let { data } = $props<{ data: PageDataDemarcador }>();
-
-	let respuestasFamilias = $state<RespuestaDemarcadorNueva[]>([]);
-	let preguntasFamilias = $state<PreguntaDemarcadorNueva[]>([]);
-	let respuestasVariantes = $state<RespuestaDemarcadorNueva[]>([]);
-	let preguntasVariantes = $state<PreguntaDemarcadorNueva[]>([]);
-
-	const familias = $derived(data.artefacto?.familias ?? []);
-	const esCatalogoMetrico = $derived(data.artefacto?.origen === 'catalogo_metrico');
-	const candidatosFamiliaBase = $derived(
-		familias.map((familia: FamiliaDemarcadorNuevo) => familia.raiz)
-	);
-	const candidatosResiduales = $derived(
-		filtrarCandidatosNuevos(
-			data.artefacto?.residuales ?? [],
-			preguntasFamilias,
-			respuestasFamilias
-		)
-	);
-	const candidatosFamilia = $derived(
-		filtrarCandidatosNuevos(
-			candidatosFamiliaBase,
-			preguntasFamilias,
-			respuestasFamilias
-		)
-	);
-	const incluirPatronEnFamilias = $derived(
-		data.artefacto?.origen === 'catalogo_metrico'
-	);
-	const familiaUnica = $derived.by(() => {
-		if (candidatosFamilia.length !== 1) return null;
-		return (
-			familias.find(
-				(familia: FamiliaDemarcadorNuevo) => familia.id === candidatosFamilia[0].familiaId
-			) ?? null
-		);
-	});
-	const afinandoVariantes = $derived(
-		Boolean(
-			familiaUnica &&
-				familiaUnica.politica === 'variantes' &&
-				familiaUnica.variantes.length > 0
-		)
-	);
-	const candidatosVarianteBase = $derived(
-		afinandoVariantes && familiaUnica ? familiaUnica.variantes : []
-	);
-	const candidatosVariante = $derived(
-		filtrarCandidatosNuevos(
-			candidatosVarianteBase,
-			preguntasVariantes,
-			respuestasVariantes
-		)
-	);
-	const preguntaFamilia = $derived(
-		elegirSiguientePreguntaNueva(candidatosFamilia, 'familias', respuestasFamilias, {
-			incluirPatronEnFamilias
-		})
-	);
-	const preguntaVariante = $derived(
-		afinandoVariantes
-			? elegirSiguientePreguntaNueva(
-					candidatosVariante,
-					'variantes',
-					respuestasVariantes
-				)
+	const formasOrdenadas = $derived(ordenarFormas(data.catalogo, respuestas));
+	const pregunta = $derived(
+		modo
+			? elegirPregunta(data.catalogo, respuestas, modo, formaObjetivoId)
 			: null
 	);
-	const preguntaActual = $derived(afinandoVariantes ? preguntaVariante : preguntaFamilia);
-	const etapaActual = $derived(afinandoVariantes ? 'variantes' : 'familias');
-	const respuestas = $derived([...respuestasFamilias, ...respuestasVariantes]);
-	const candidatasResultado = $derived.by(() => {
-		if (candidatosFamilia.length === 0) return candidatosResiduales;
-		if (candidatosFamilia.length !== 1 || !familiaUnica) return candidatosFamilia;
-		if (afinandoVariantes) return candidatosVariante;
-		return [familiaUnica.raiz];
-	});
+	const diferenciaPrincipal = $derived(
+		formasOrdenadas.length > 1
+			? formasOrdenadas[0].puntuacion - formasOrdenadas[1].puntuacion
+			: Number.POSITIVE_INFINITY
+	);
+	const resultadoSuficiente = $derived(
+		respuestas.filter((respuesta) => respuesta.valor !== 'desconocido').length >= 2 &&
+		(formasOrdenadas[0]?.arquitecturas[0]?.coincidencias ?? 0) >= 2 &&
+		diferenciaPrincipal >= 0.75
+	);
+	const recorridoDetenido = $derived(
+		Boolean(modo && (resultadoSuficiente || !pregunta) && !afinamientoSolicitado)
+	);
+	const resultadosVisibles = $derived(
+		respuestas.length > 0 ? formasOrdenadas.slice(0, resultadoSuficiente ? 3 : 5) : []
+	);
+	const formaObjetivo = $derived(
+		formaObjetivoId
+			? formasOrdenadas.find((forma) => forma.formaId === formaObjetivoId) ?? null
+			: null
+	);
 
-	function responder(valor: string | 'desconocido', etiqueta: string) {
-		if (!preguntaActual) return;
-		const respuesta = crearRespuestaNueva(preguntaActual, valor, etiqueta);
-		if (etapaActual === 'variantes') {
-			preguntasVariantes = [...preguntasVariantes, preguntaActual];
-			respuestasVariantes = [...respuestasVariantes, respuesta];
-			return;
-		}
-		preguntasFamilias = [...preguntasFamilias, preguntaActual];
-		respuestasFamilias = [...respuestasFamilias, respuesta];
-		respuestasVariantes = [];
-		preguntasVariantes = [];
+	function comenzar(modoElegido: ModoDemarcador) {
+		if (modoElegido === 'hipotesis' && !formaPendienteId) return;
+		modo = modoElegido;
+		formaObjetivoId = modoElegido === 'hipotesis' ? formaPendienteId : null;
+		respuestas = [];
+		afinamientoSolicitado = false;
+		numeroRespuesta = '';
 	}
 
-	function reiniciar() {
-		respuestasFamilias = [];
-		preguntasFamilias = [];
-		respuestasVariantes = [];
-		preguntasVariantes = [];
+	function responder(
+		preguntaActual: PreguntaDemarcador,
+		valor: string | number | 'desconocido',
+		etiqueta: string
+	) {
+		respuestas = [...respuestas, crearRespuesta(preguntaActual, valor, etiqueta)];
+		afinamientoSolicitado = false;
+		numeroRespuesta = '';
+	}
+
+	function responderNumero(preguntaActual: PreguntaDemarcador) {
+		const numero = Number(numeroRespuesta);
+		if (!Number.isInteger(numero) || numero < 1) return;
+		responder(preguntaActual, numero, `${numero} versos`);
 	}
 
 	function deshacer() {
-		if (respuestasVariantes.length > 0) {
-			respuestasVariantes = respuestasVariantes.slice(0, -1);
-			preguntasVariantes = preguntasVariantes.slice(0, -1);
-			return;
-		}
-		if (respuestasFamilias.length > 0) {
-			respuestasFamilias = respuestasFamilias.slice(0, -1);
-			preguntasFamilias = preguntasFamilias.slice(0, -1);
-		}
+		respuestas = respuestas.slice(0, -1);
+		afinamientoSolicitado = false;
 	}
 
-	function tituloResultado(): string {
-		if (candidatasResultado.length === 0) return 'No hay formas compatibles';
-		if (candidatasResultado.length === 1) {
-			if (esCatalogoMetrico) return 'Forma o configuración probable';
-			return afinandoVariantes ? 'Variante probable' : 'Familia probable';
-		}
-		if (!preguntaActual) return 'Formas todavía compatibles';
-		if (esCatalogoMetrico) return 'Formas o configuraciones compatibles';
-		return etapaActual === 'variantes' ? 'Variantes compatibles' : 'Familias compatibles';
+	function reiniciar() {
+		modo = null;
+		formaObjetivoId = null;
+		formaPendienteId = '';
+		respuestas = [];
+		afinamientoSolicitado = false;
+		numeroRespuesta = '';
 	}
 
-	function describirMetros(candidato: CandidatoDemarcadorNuevo): string {
-		return candidato.rasgos.metros.map((metro) => metro.etiqueta).join(' + ');
+	function cerrarInstrucciones() {
+		instruccionesAbiertas = false;
+	}
+
+	function manejarTeclado(event: KeyboardEvent) {
+		if (event.key === 'Escape' && instruccionesAbiertas) cerrarInstrucciones();
 	}
 </script>
+
+<svelte:window onkeydown={manejarTeclado} />
 
 <svelte:head>
 	<title>Demarcador métrico | MetaDrama</title>
 	<meta
 		name="description"
-		content="Asistente en pruebas para identificar formas métricas desde el nuevo catálogo estructurado."
+		content="Herramienta para orientar la identificación de formas métricas mediante evidencias observables."
 	/>
 </svelte:head>
 
-{#if !data.artefacto}
+{#if data.accesoRestringido}
 	<section class="mx-auto max-w-3xl py-10">
 		<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-			Recurso editorial
+			Herramienta en pruebas
 		</p>
 		<h1 class="font-display mt-2 text-3xl text-[color:var(--gray-900)] md:text-4xl">
 			Demarcador métrico
 		</h1>
 		<p class="mt-5 text-base leading-7 text-[color:var(--gray-700)]">
-			Todavía no se ha compilado ninguna prueba desde el nuevo catálogo métrico.
+			Durante esta fase, el catálogo del demarcador solo está disponible para los perfiles que
+			administran el dominio métrico.
 		</p>
-		<a
-			class="mt-6 inline-flex border border-[color:var(--border)] px-4 py-2 text-sm font-semibold"
-			href="/dashboard/metrica?tab=validation"
-		>
-			Ir al catálogo métrico
-		</a>
 	</section>
 {:else}
-	<section class="grid gap-6">
-		{#if data.catalogoDesactualizado}
-			<div class="border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-				Esta prueba se compiló con la revisión {data.version?.catalogo_revision ?? 'desconocida'},
-				pero el catálogo ya está en la revisión {data.catalogoRevisionActual}. Genera una prueba
-				nueva desde «Modelo y validación».
+<section class="grid gap-7">
+	<header class="border-b border-[color:var(--border)] pb-6">
+		<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+			Herramienta de análisis
+		</p>
+		<div class="mt-2 flex flex-col items-start justify-between gap-4 sm:flex-row sm:gap-8">
+			<div>
+				<h1 class="font-display text-3xl text-[color:var(--gray-900)] md:text-4xl">
+					Demarcador métrico
+				</h1>
+				<p class="mt-3 max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
+					Contrasta lo que observas en el texto con las formas y arquitecturas del catálogo
+					métrico. Puedes comenzar desde cero o comprobar una identificación que ya tengas en mente.
+				</p>
 			</div>
-		{:else if data.esVersionSolicitada}
-			<div class="border border-sky-300 bg-sky-50 px-4 py-3 text-sm text-sky-950">
-				Prueba guardada de la revisión {data.version?.catalogo_revision ?? 'desconocida'} del
-				catálogo.
-			</div>
-		{/if}
+			<button
+				type="button"
+				class="shrink-0 border border-[color:var(--border)] bg-white px-4 py-2 text-sm font-semibold transition-colors hover:border-[color:var(--gray-800)]"
+				onclick={() => (instruccionesAbiertas = true)}
+			>
+				Cómo utilizarlo
+			</button>
+		</div>
+	</header>
 
-		<header class="border-b border-[color:var(--border)] pb-6">
-			<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-				Recurso
-			</p>
-			<h1 class="font-display mt-2 text-3xl text-[color:var(--gray-900)] md:text-4xl">
-				Demarcador métrico
-			</h1>
-			<p class="mt-3 max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-				{#if esCatalogoMetrico}
-					Prueba interna compilada desde el nuevo catálogo. Compara las formas y sus
-					configuraciones demarcables sin modificar ningún dato editorial. «No sé» nunca
-					descarta candidatas.
-				{:else}
-					Responde solo a aquello que puedas observar. La herramienta identifica primero una
-					familia métrica y, cuando procede, intenta precisar su variante. «No sé» nunca
-					descarta formas.
-				{/if}
-			</p>
-		</header>
+	{#if !modo}
+		<div class="grid gap-5 lg:grid-cols-2">
+			<section class="card flex flex-col p-6">
+				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+					Recorrido guiado
+				</p>
+				<h2 class="font-display mt-3 text-2xl">Identificar una forma</h2>
+				<p class="mt-3 flex-1 text-sm leading-6 text-[color:var(--gray-700)]">
+					Empieza por observaciones accesibles. Las propiedades técnicas se deducen y solo se
+					preguntan cuando pueden aportar una diferencia clara.
+				</p>
+				<button
+					type="button"
+					class="mt-6 bg-[color:var(--foreground)] px-4 py-3 text-sm font-semibold text-[color:var(--background)]"
+					onclick={() => comenzar('guiado')}
+				>
+					Empezar identificación
+				</button>
+			</section>
 
-		<div class="grid gap-3 sm:grid-cols-3" aria-live="polite">
-			<div class="card p-4">
+			<section class="card flex flex-col p-6">
 				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-					Etapa
+					Comprobación
 				</p>
-				<p class="mt-2 text-lg font-semibold">
-					{esCatalogoMetrico
-						? 'Identificar forma'
-						: afinandoVariantes
-							? 'Precisar variante'
-							: 'Identificar familia'}
+				<h2 class="font-display mt-3 text-2xl">Tengo una hipótesis</h2>
+				<p class="mt-3 text-sm leading-6 text-[color:var(--gray-700)]">
+					Selecciona la forma que estás considerando. El demarcador priorizará sus rasgos
+					definitorios sin ocultar otras identificaciones posibles.
+				</p>
+				<label class="mt-5 text-sm font-medium" for="forma-objetivo">Forma que quieres comprobar</label>
+				<select
+					id="forma-objetivo"
+					class="mt-2 w-full border border-[color:var(--border)] bg-white px-3 py-3 text-sm"
+					bind:value={formaPendienteId}
+				>
+					<option value="">Selecciona una forma</option>
+					{#each data.catalogo.formas as forma}
+						<option value={forma.id}>{forma.nombre}</option>
+					{/each}
+				</select>
+				<button
+					type="button"
+					class="mt-3 border border-[color:var(--foreground)] px-4 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
+					disabled={!formaPendienteId}
+					onclick={() => comenzar('hipotesis')}
+				>
+					Comprobar hipótesis
+				</button>
+			</section>
+		</div>
+	{:else}
+		<div class="flex flex-wrap items-center justify-between gap-3 text-sm">
+			<div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+				<p class="font-semibold">
+					{modo === 'guiado' ? 'Identificación guiada' : `Comprobando: ${formaObjetivo?.formaNombre ?? ''}`}
+				</p>
+				<p class="text-[color:var(--muted-foreground)]">
+					{respuestas.length} {respuestas.length === 1 ? 'respuesta' : 'respuestas'}
 				</p>
 			</div>
-			<div class="card p-4">
-				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-					Candidatas
-				</p>
-				<p class="mt-2 text-3xl font-semibold">{candidatasResultado.length}</p>
-			</div>
-			<div class="card p-4">
-				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-					Respuestas
-				</p>
-				<p class="mt-2 text-3xl font-semibold">{respuestas.length}</p>
-			</div>
+			<button type="button" class="text-sm font-medium underline underline-offset-4" onclick={reiniciar}>
+				Cambiar recorrido
+			</button>
 		</div>
 
-		<div class="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.5fr)]">
-			<div class="grid content-start gap-5">
-				<section class="card p-5">
-					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-						{afinandoVariantes && familiaUnica
-							? `Familia identificada: ${familiaUnica.etiqueta}`
-							: 'Pregunta actual'}
-					</p>
-
-					{#if preguntaActual}
-						<h2 class="font-display mt-4 text-xl leading-7 text-[color:var(--gray-900)]">
-							{preguntaActual.pregunta}
-						</h2>
-						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-							{preguntaActual.ayuda}
+		<div class="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.35fr)]">
+			<div class="grid content-start gap-4">
+				<section class="card p-5 sm:p-6">
+					{#if pregunta && !recorridoDetenido}
+						<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+							Pregunta {respuestas.length + 1}
 						</p>
+						<h2 class="font-display mt-4 text-xl leading-7 text-[color:var(--gray-900)]">
+							{pregunta.pregunta}
+						</h2>
+						{#if pregunta.ayuda}
+							<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
+								{pregunta.ayuda}
+							</p>
+						{/if}
 
-						{#if preguntaActual.tipo === 'opciones'}
-							<div class="mt-5 grid gap-2">
-								{#each preguntaActual.opciones as opcion}
+						{#if pregunta.tipo === 'numero'}
+							<form class="mt-5 flex gap-2" onsubmit={(event) => { event.preventDefault(); responderNumero(pregunta); }}>
+								<label class="sr-only" for="numero-versos">Número de versos</label>
+								<input
+									id="numero-versos"
+									type="number"
+									min="1"
+									step="1"
+									placeholder="Número de versos"
+									class="min-w-0 flex-1 border border-[color:var(--border)] px-3 py-3 text-sm"
+									bind:value={numeroRespuesta}
+								/>
+								<button class="border border-[color:var(--foreground)] px-4 py-3 text-sm font-semibold" type="submit">
+									Responder
+								</button>
+							</form>
+						{:else}
+							<div class={`mt-5 grid gap-2 ${pregunta.tipo === 'booleano' ? 'grid-cols-2' : ''}`}>
+								{#each pregunta.opciones as opcion}
 									<button
 										type="button"
 										class="border border-[color:var(--border)] bg-white px-3 py-3 text-left text-sm font-medium transition-colors hover:border-[color:var(--gray-800)]"
-										onclick={() => responder(opcion.valor, opcion.etiqueta)}
+										onclick={() => responder(pregunta, opcion.clave, opcion.etiqueta)}
 									>
 										{opcion.etiqueta}
 									</button>
 								{/each}
 							</div>
-						{:else}
-							<div class="mt-5 grid grid-cols-2 gap-2">
-								<button
-									type="button"
-									class="bg-[color:var(--gray-800)] px-3 py-3 text-sm font-semibold text-white"
-									onclick={() => responder('si', 'Sí')}
-								>
-									Sí
-								</button>
-								<button
-									type="button"
-									class="border border-[color:var(--border)] bg-white px-3 py-3 text-sm font-semibold"
-									onclick={() => responder('no', 'No')}
-								>
-									No
-								</button>
-							</div>
 						{/if}
 						<button
 							type="button"
-							class="mt-2 w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-3 text-sm font-semibold"
-							onclick={() => responder('desconocido', 'No sé')}
+							class="mt-2 w-full border border-[color:var(--border)] bg-white px-3 py-3 text-sm font-semibold text-[color:var(--muted-foreground)] transition-colors hover:border-[color:var(--gray-800)] hover:text-[color:var(--foreground)]"
+							onclick={() => responder(pregunta, 'desconocido', 'No sé')}
 						>
 							No sé
 						</button>
 					{:else}
-						<h2 class="font-display mt-4 text-xl text-[color:var(--gray-900)]">
-							No quedan preguntas útiles
-						</h2>
-						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-							El resultado conserva todas las formas
-							{esCatalogoMetrico ? ' y configuraciones' : ''}
-							que no contradicen tus respuestas.
+						<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+							Resultado provisional
 						</p>
+						<h2 class="font-display mt-3 text-xl">Ya hay una orientación suficiente</h2>
+						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
+							El motor se detiene antes de pedir precisiones difíciles que aportarían poca información.
+						</p>
+						{#if pregunta}
+							<button
+								type="button"
+								class="mt-5 border border-[color:var(--border)] px-4 py-2 text-sm font-semibold"
+								onclick={() => (afinamientoSolicitado = true)}
+							>
+								Seguir afinando
+							</button>
+						{/if}
 					{/if}
 				</section>
 
-				<div class="grid grid-cols-2 gap-2">
-					<button
-						type="button"
-						class="border border-[color:var(--border)] px-3 py-2 text-sm font-medium disabled:opacity-40"
-						disabled={respuestas.length === 0}
-						onclick={deshacer}
-					>
-						Deshacer
-					</button>
-					<button
-						type="button"
-						class="border border-[color:var(--border)] px-3 py-2 text-sm font-medium"
-						onclick={reiniciar}
-					>
-						Reiniciar
-					</button>
-				</div>
-
 				{#if respuestas.length > 0}
-					<details class="card p-4">
-						<summary class="cursor-pointer text-sm font-semibold">
-							Ver historial ({respuestas.length})
-						</summary>
-						<ol class="mt-4 space-y-3">
-							{#each respuestas as respuesta, index}
-								<li class="border-l-2 border-[color:var(--primary)] pl-3 text-sm">
-									<p class="font-medium">{index + 1}. {respuesta.etiqueta}</p>
-									<p class="mt-1 text-[color:var(--muted-foreground)]">
-										{respuesta.pregunta}
-									</p>
-								</li>
-							{/each}
-						</ol>
-					</details>
+					<div class="grid grid-cols-2 gap-2">
+						<button
+							type="button"
+							class="border border-[color:var(--border)] px-3 py-2 text-sm font-medium"
+							onclick={deshacer}
+						>
+							Deshacer
+						</button>
+						<button
+							type="button"
+							class="border border-[color:var(--border)] px-3 py-2 text-sm font-medium"
+							onclick={() => comenzar(modo!)}
+						>
+							Reiniciar
+						</button>
+					</div>
 				{/if}
 			</div>
 
 			<section class="card overflow-hidden">
 				<div class="border-b border-[color:var(--border)] p-5">
 					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-						Resultado
+						Orientación
 					</p>
-					<h2 class="font-display mt-2 text-2xl">{tituloResultado()}</h2>
-					{#if candidatasResultado.length > 1 && !preguntaActual}
-						<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-							Los datos estructurados no permiten separar más estas
-							{esCatalogoMetrico ? ' candidatas' : ' formas'} con preguntas razonables.
-						</p>
-					{/if}
+					<h2 class="font-display mt-2 text-2xl">
+						{respuestas.length === 0 ? 'Todavía sin resultados' : 'Formas más compatibles'}
+					</h2>
+					<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
+						La forma aparece como identidad principal; la arquitectura solo precisa una realización estructural.
+					</p>
 				</div>
 
-				{#if candidatasResultado.length > 0}
-					<ul class="divide-y divide-[color:var(--border)]">
-						{#each candidatasResultado as candidata}
+				{#if resultadosVisibles.length > 0}
+					<ol class="divide-y divide-[color:var(--border)]">
+						{#each resultadosVisibles as forma, index}
 							<li class="p-5">
-								<h3 class="text-lg font-semibold">{candidata.etiqueta}</h3>
-								{#if candidata.esResidual}
-									<p class="mt-1 text-xs font-medium text-amber-800">
-										Forma general: úsala cuando ninguna forma más específica corresponda
-									</p>
+								<div class="flex items-start justify-between gap-4">
+									<div>
+										<p class="text-xs font-medium text-[color:var(--muted-foreground)]">{index + 1}</p>
+										<h3 class="mt-1 text-xl font-semibold">{forma.formaNombre}</h3>
+										<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+											Arquitectura: {forma.arquitecturas[0].hipotesis.arquitecturaNombre}
+										</p>
+									</div>
+									<span class="border border-[color:var(--border)] px-2 py-1 text-xs font-medium">
+										{etiquetaNivel(forma.nivel)}
+									</span>
+								</div>
+								{#if forma.formaDefinicion}
+									<p class="mt-3 text-sm leading-6 text-[color:var(--gray-700)]">{forma.formaDefinicion}</p>
 								{/if}
-								{#if !candidata.esFamilia}
-									<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
-										Variante de {candidata.familiaEtiqueta}
-									</p>
+								{#if forma.arquitecturas[0].detalles.some((detalle) => detalle.estado === 'coincide')}
+									<div class="mt-4">
+										<p class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+											Coincide en
+										</p>
+										<ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+											{#each forma.arquitecturas[0].detalles.filter((detalle) => detalle.estado === 'coincide').slice(0, 4) as detalle}
+												<li>{detalle.etiqueta}</li>
+											{/each}
+										</ul>
+									</div>
 								{/if}
-								{#if candidata.definicion}
-									<p class="mt-3 text-sm leading-6 text-[color:var(--gray-700)]">
-										{candidata.definicion}
-									</p>
-								{/if}
-								<dl class="mt-4 grid gap-x-4 gap-y-2 text-sm sm:grid-cols-2">
-									{#if candidata.rasgos.metros.length > 0}
-										<div>
-											<dt class="text-xs text-[color:var(--muted-foreground)]">Metro</dt>
-											<dd>{describirMetros(candidata)}</dd>
-										</div>
-									{/if}
-									{#if candidata.rasgos.rima}
-										<div>
-											<dt class="text-xs text-[color:var(--muted-foreground)]">Rima</dt>
-											<dd>{candidata.rasgos.rima.etiqueta}</dd>
-										</div>
-									{/if}
-									{#if candidata.rasgos.tamanio}
-										<div>
-											<dt class="text-xs text-[color:var(--muted-foreground)]">Tamaño</dt>
-											<dd>{candidata.rasgos.tamanio} versos</dd>
-										</div>
-									{/if}
-									{#if candidata.rasgos.patron}
-										<div>
-											<dt class="text-xs text-[color:var(--muted-foreground)]">Patrón</dt>
-											<dd class="font-mono">{candidata.rasgos.patronEtiqueta ?? candidata.rasgos.patron}</dd>
-										</div>
-									{/if}
-								</dl>
 							</li>
 						{/each}
-					</ul>
+					</ol>
 				{:else}
 					<p class="p-5 text-sm leading-6 text-[color:var(--muted-foreground)]">
-						Ninguna forma declara rasgos compatibles con todas las respuestas. Deshaz la última
-						respuesta o reinicia el recorrido.
+						La orientación aparecerá después de la primera respuesta. Ninguna respuesta descarta por sí sola una forma.
 					</p>
 				{/if}
 			</section>
 		</div>
+	{/if}
 
-		<footer class="border-t border-[color:var(--border)] pt-4 text-xs text-[color:var(--muted-foreground)]">
-			Prueba {data.version?.numero}, compilada desde la revisión
-			{data.version?.catalogo_revision ?? 'desconocida'} del catálogo. La herramienta propone
-			identificaciones compatibles, no una clasificación definitiva.
-		</footer>
-	</section>
+	<footer class="border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
+		El resultado expresa compatibilidad con las evidencias declaradas en el catálogo. No sustituye el análisis métrico ni la revisión editorial.
+	</footer>
+</section>
+{/if}
+
+{#if instruccionesAbiertas}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4 py-6"
+		role="presentation"
+		onclick={(event) => {
+			if (event.currentTarget === event.target) cerrarInstrucciones();
+		}}
+	>
+		<div
+			class="max-h-full w-full max-w-2xl overflow-y-auto border border-[color:var(--border)] bg-white p-5 shadow-xl sm:p-7"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="instrucciones-demarcador-titulo"
+		>
+			<div class="flex items-start justify-between gap-5">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">Instrucciones</p>
+					<h2 id="instrucciones-demarcador-titulo" class="font-display mt-2 text-2xl">Cómo utilizar el demarcador</h2>
+				</div>
+				<button type="button" class="border border-[color:var(--border)] px-3 py-1.5 text-sm font-medium" onclick={cerrarInstrucciones}>Cerrar</button>
+			</div>
+			<div class="mt-6 space-y-6 text-sm leading-6 text-[color:var(--gray-700)]">
+				<section>
+					<h3 class="font-semibold text-[color:var(--foreground)]">Dos maneras de empezar</h3>
+					<p class="mt-1"><strong>Identificar una forma</strong> parte de observaciones generales. <strong>Tengo una hipótesis</strong> comprueba una forma concreta sin favorecerla artificialmente en el resultado.</p>
+				</section>
+				<section>
+					<h3 class="font-semibold text-[color:var(--foreground)]">Responde solo por lo que ves</h3>
+					<ul class="mt-1 list-disc space-y-1 pl-5">
+						<li>Analiza una unidad completa cuando puedas reconocerla.</li>
+						<li>«No sé» no afirma ni niega y reduce la prioridad de preguntas similares.</li>
+						<li>Una coincidencia preferente o admitida orienta, pero no se trata como una regla absoluta.</li>
+						<li>El recorrido se detiene si las precisiones restantes son difíciles y aportan poco.</li>
+					</ul>
+				</section>
+				<section>
+					<h3 class="font-semibold text-[color:var(--foreground)]">Conceptos básicos</h3>
+					<dl class="mt-2 grid gap-3 sm:grid-cols-[8rem_1fr]">
+						<dt class="font-medium text-[color:var(--foreground)]">Metro</dt><dd>Medida métrica de los versos, con sinalefas y ajustes acentuales.</dd>
+						<dt class="font-medium text-[color:var(--foreground)]">Unidad</dt><dd>Estrofa, serie o composición completa a la que pertenece la norma.</dd>
+						<dt class="font-medium text-[color:var(--foreground)]">Rima</dt><dd>Relación entre las terminaciones; puede ser consonante, asonante o ausente.</dd>
+						<dt class="font-medium text-[color:var(--foreground)]">Arquitectura</dt><dd>Una realización estructural admitida dentro de una forma. Nunca sustituye su nombre.</dd>
+					</dl>
+				</section>
+				<section class="border-t border-[color:var(--border)] pt-5">
+					<h3 class="font-semibold text-[color:var(--foreground)]">Interpretar la orientación</h3>
+					<p class="mt-1">«Muy compatible» significa que coinciden varias evidencias relevantes y hay una diferencia clara respecto de otras formas. Las demás formas no desaparecen: una variante, una excepción o un fragmento incompleto pueden cambiar la lectura.</p>
+				</section>
+			</div>
+		</div>
+	</div>
 {/if}

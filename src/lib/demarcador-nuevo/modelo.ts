@@ -43,6 +43,7 @@ export type CandidatoDemarcadorNuevo = {
 	familiaEtiqueta: string;
 	esFamilia: boolean;
 	esResidual?: boolean;
+	tipoResidual?: 'forma_general' | 'sin_forma';
 	rasgos: RasgosCandidatoDemarcador;
 };
 

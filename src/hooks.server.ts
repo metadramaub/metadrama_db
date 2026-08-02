@@ -47,13 +47,30 @@ function clearStaleSupabaseAuthCookies(cookies: Cookies) {
 export const handle: Handle = async ({ event, resolve }) => {
 	const { supabaseUrl, supabaseAnonKey } = readSupabaseEnv();
 
+	// Supabase refresca el token en segundo plano y avisa a sus suscriptores, que piden
+	// escribir las cookies nuevas. Ese aviso puede llegar cuando la respuesta ya ha salido:
+	// SvelteKit lo rechaza y, como la llamada viene de una cadena asíncrona que nadie
+	// recoge, el rechazo tumba el proceso entero. Terminada la respuesta no hay dónde
+	// escribir, así que se ignora; la siguiente petición vuelve a refrescar y sí guarda.
+	let responseSettled = false;
+
 	event.locals.supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
 		cookies: {
 			getAll: () => event.cookies.getAll(),
 			setAll: (cookiesToSet) => {
-				cookiesToSet.forEach(({ name, value, options }) =>
-					event.cookies.set(name, value, { ...options, path: '/' })
-				);
+				if (responseSettled) return;
+				try {
+					cookiesToSet.forEach(({ name, value, options }) =>
+						event.cookies.set(name, value, { ...options, path: '/' })
+					);
+				} catch (error) {
+					// Carrera con el cierre de la respuesta: el mismo caso que el anterior, pero
+					// avisado entre que se genera la respuesta y se marca como terminada.
+					console.warn(
+						'[auth] cookies de sesión descartadas: la respuesta ya estaba generada.',
+						error instanceof Error ? error.message : error
+					);
+				}
 			}
 		}
 	});
@@ -83,13 +100,21 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return { session: null, user };
 	};
 
-	const accessPassword = privateEnv[GLOBAL_ACCESS_PASSWORD_ENV]?.trim() ?? '';
-	if (requiresGlobalAccess(event.url.pathname) && !hasValidGlobalAccess(event.cookies, accessPassword)) {
-		const redirectTo = encodeURIComponent(event.url.pathname + event.url.search);
-		throw redirect(303, `/acceso?redirectTo=${redirectTo}`);
-	}
+	try {
+		const accessPassword = privateEnv[GLOBAL_ACCESS_PASSWORD_ENV]?.trim() ?? '';
+		if (
+			requiresGlobalAccess(event.url.pathname) &&
+			!hasValidGlobalAccess(event.cookies, accessPassword)
+		) {
+			const redirectTo = encodeURIComponent(event.url.pathname + event.url.search);
+			throw redirect(303, `/acceso?redirectTo=${redirectTo}`);
+		}
 
-	return resolve(event);
+		return await resolve(event);
+	} finally {
+		// Cubre las dos salidas, la respuesta normal y la redirección del acceso global.
+		responseSettled = true;
+	}
 };
 
 function requiresGlobalAccess(pathname: string): boolean {

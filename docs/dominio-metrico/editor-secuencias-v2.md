@@ -2,6 +2,27 @@
 
 Estado: primera versión de prueba en `develop`, aislada del editor de obras.
 
+## Cómo está repartido el código
+
+El formulario y el laboratorio son piezas distintas, para que la aprobación no obligue a
+reescribir nada:
+
+- `MetricSequenceEditor.svelte` es **el editor**. Recibe el catálogo —en el tipo estrecho
+  `MetricCatalogForEditor`, sin escenarios ni estadísticas— y un borrador de partida; se
+  queda con ese borrador, lo normaliza contra la arquitectura y devuelve su estado
+  (resumen, progreso y el motivo por el que aún no se puede guardar). No conoce la ventana
+  que lo abre ni la API que lo guarda, así que pasa al editor de obras sin tocarlo.
+- `MetricStructureEditor`, `MetricChoiceField`, `MetricLengthAlert`, `editor-model.ts` y
+  `sequence-draft.ts` son suyos y viajan con él.
+- `MetricEditorSandbox.svelte` es **el laboratorio**, y es desechable: escenarios, tabla,
+  réplica del panel de producción y llamadas a `/api/metrica/editor-pruebas`.
+- El editor deja dos huecos al contenedor: `bodyExtra`, para el resto del formulario de la
+  secuencia, y `extraRailItems`, para que esas secciones aparezcan en el mapa. En el
+  laboratorio los rellena la réplica; en producción los rellenarán las caracterizaciones,
+  la intervención de personajes y la sinopsis reales. El editor no las conoce.
+- El control segmentado vive en `ui/segmented-choice.svelte`, fuera del dominio métrico,
+  porque no tiene nada de métrico.
+
 ## Objetivo
 
 Comprobar con casos reales si el catálogo genera un formulario breve, comprensible y
@@ -107,6 +128,50 @@ unidades equivalentes; el editor cambia únicamente las excepciones.
 Todas tienen RLS para `admin` e `IP`. La función
 `guardar_secuencia_editor_metrico_prueba` guarda cada secuencia con sus unidades, elecciones
 y desviaciones en una transacción.
+
+## Presentación
+
+El formulario se reparte en dos zonas dentro de la caja que lo contenga: un raíl estrecho
+que es el **mapa** de la secuencia —identificación resuelta, contenido con lo que falta,
+acciones para añadir— y un cuerpo ancho donde se responde una cosa cada vez. En pantalla
+estrecha el raíl pasa arriba y el formulario queda en una columna.
+
+El cuerpo lleva la secuencia entera, no solo lo métrico: las caracterizaciones, la
+intervención de personajes y la sinopsis van a continuación, en el mismo flujo, porque el
+editor las rellena en la misma pasada. En el laboratorio son una réplica que no guarda
+nada, pero se muestran siempre y con su sitio real: la prueba consiste en juzgar cuánto
+ocupa lo métrico dentro del panel completo, y eso no se puede ver si el resto está oculto.
+
+- **La identificación se pliega.** Elegidas forma y arquitectura, versos y forma se
+  resumen en una línea con «Cambiar versos o forma». El sitio es para las preguntas.
+- **Las respuestas de dos a cuatro alternativas se enseñan enteras**, en un control
+  segmentado, en lugar de esconderse tras un desplegable. Por encima de cuatro opciones, o
+  con etiquetas largas, se vuelve al desplegable.
+- **Las repeticiones idénticas son una tarjeta.** Doce redondillas que responden lo mismo
+  se muestran como «Cada redondilla» y un recuento; contestar ahí contesta las doce. Se
+  puede desplegar para hacer una excepción, y si alguna deja de coincidir la lista se abre
+  sola, porque ya no dicen lo mismo.
+- **La jerarquía se marca con un filete a la izquierda**, no solo con sangría.
+- **El dorado del proyecto queda reservado** a la respuesta activa y a lo que falta por
+  contestar. Las acciones secundarias van en gris subrayado (`.link-action`).
+- **La cabecera dice cuántas respuestas obligatorias faltan** antes de pulsar Guardar.
+- **El raíl queda fijo** mientras el cuerpo se desplaza, y cada grupo del mapa se
+  corresponde con un grupo plegable del cuerpo, con su mismo título.
+
+### La observación libre de una forma no existe
+
+Una secuencia con forma reconocida **no** tiene campo de observaciones. Lo que el editor
+quiera anotar sobre ella va a los comentarios internos, que ya se anclan a la secuencia
+(`comentarios_internos.secuencia_id`), se tipifican —general, revisión, técnico, estado—,
+guardan autoría y fecha, y pueden hacerse públicos. Un campo libre paralelo no aportaba
+ninguna de esas cuatro cosas y partía en dos el mismo trabajo.
+
+Se conservan dos usos que no son comentarios:
+
+- la **observación del tramo sin forma**, que el modelo declara como parte del registro
+  (`tramo sin forma + rango + observación opcional`);
+- la **descripción de cada desviación**, que va pegada a la desviación y es dato
+  estructurado.
 
 ## Comportamiento del formulario
 

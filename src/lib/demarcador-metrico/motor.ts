@@ -1,0 +1,297 @@
+import type {
+	CatalogoDemarcador,
+	EvidenciaNormativa,
+	FormaPuntuada,
+	HipotesisMetrica,
+	HipotesisPuntuada,
+	ModoDemarcador,
+	ModalidadEvidencia,
+	ObservabilidadEvidencia,
+	PreguntaDemarcador,
+	RespuestaDemarcador,
+	ValorEvidencia
+} from './modelo';
+
+const PESO_MODALIDAD: Record<ModalidadEvidencia, { coincide: number; contradice: number }> = {
+	definitoria: { coincide: 1, contradice: 1.25 },
+	preferente: { coincide: 0.62, contradice: 0.45 },
+	admitida: { coincide: 0.28, contradice: 0.1 },
+	excepcional: { coincide: 0.12, contradice: 0 }
+};
+
+const FIABILIDAD: Record<ObservabilidadEvidencia, number> = {
+	directa: 1,
+	especializada: 0.65,
+	derivada: 0
+};
+
+const MAX_OPCIONES = 7;
+
+function evidenciaDe(
+	hipotesis: HipotesisMetrica,
+	dimension: string
+): EvidenciaNormativa | null {
+	return hipotesis.evidencias.find((evidencia) => evidencia.dimension === dimension) ?? null;
+}
+
+function coincide(evidencia: EvidenciaNormativa, valor: string | number): boolean {
+	if (evidencia.tipo === 'numero') {
+		if (typeof valor !== 'number') return false;
+		return (
+			(evidencia.minimo === null || valor >= evidencia.minimo) &&
+			(evidencia.maximo === null || valor <= evidencia.maximo)
+		);
+	}
+	return typeof valor === 'string' && evidencia.valores.some((item) => item.clave === valor);
+}
+
+export function puntuarHipotesis(
+	hipotesis: HipotesisMetrica,
+	respuestas: RespuestaDemarcador[]
+): HipotesisPuntuada {
+	let puntuacion = hipotesis.arquitecturaPrincipal ? 0.05 : 0;
+	let coincidencias = 0;
+	let contradicciones = 0;
+	const detalles: HipotesisPuntuada['detalles'] = [];
+
+	for (const respuesta of respuestas) {
+		if (respuesta.valor === 'desconocido') continue;
+		const evidencia = evidenciaDe(hipotesis, respuesta.dimension);
+		if (!evidencia) {
+			detalles.push({
+				dimension: respuesta.dimension,
+				etiqueta: respuesta.pregunta,
+				estado: 'sin_datos',
+				peso: 0
+			});
+			continue;
+		}
+		const pesos = PESO_MODALIDAD[evidencia.modalidad];
+		const fiabilidad = FIABILIDAD[evidencia.observabilidad];
+		if (coincide(evidencia, respuesta.valor)) {
+			const peso = pesos.coincide * fiabilidad;
+			puntuacion += peso;
+			coincidencias += 1;
+			detalles.push({
+				dimension: respuesta.dimension,
+				etiqueta: evidencia.etiqueta,
+				estado: 'coincide',
+				peso
+			});
+		} else {
+			const peso = pesos.contradice * fiabilidad;
+			puntuacion -= peso;
+			contradicciones += 1;
+			detalles.push({
+				dimension: respuesta.dimension,
+				etiqueta: evidencia.etiqueta,
+				estado: 'contradice',
+				peso: -peso
+			});
+		}
+	}
+
+	return {
+		hipotesis,
+		puntuacion: Math.round(puntuacion * 1000) / 1000,
+		coincidencias,
+		contradicciones,
+		detalles
+	};
+}
+
+export function ordenarFormas(
+	catalogo: CatalogoDemarcador,
+	respuestas: RespuestaDemarcador[]
+): FormaPuntuada[] {
+	const porForma = new Map<string, HipotesisPuntuada[]>();
+	for (const hipotesis of catalogo.hipotesis) {
+		const puntuada = puntuarHipotesis(hipotesis, respuestas);
+		porForma.set(hipotesis.formaId, [...(porForma.get(hipotesis.formaId) ?? []), puntuada]);
+	}
+	const formas = [...porForma.entries()]
+		.map(([formaId, arquitecturas]) => {
+			const ordenadas = [...arquitecturas].sort(
+				(a, b) => b.puntuacion - a.puntuacion || a.hipotesis.arquitecturaNombre.localeCompare(b.hipotesis.arquitecturaNombre, 'es')
+			);
+			const mejor = ordenadas[0];
+			return {
+				formaId,
+				formaSlug: mejor.hipotesis.formaSlug,
+				formaNombre: mejor.hipotesis.formaNombre,
+				formaDefinicion: mejor.hipotesis.formaDefinicion,
+				gradoEspecificacion: mejor.hipotesis.gradoEspecificacion,
+				puntuacion: mejor.puntuacion,
+				nivel: 'posible' as FormaPuntuada['nivel'],
+				arquitecturas: ordenadas
+			};
+		})
+		.sort((a, b) => b.puntuacion - a.puntuacion || a.formaNombre.localeCompare(b.formaNombre, 'es'));
+
+	const maxima = formas[0]?.puntuacion ?? 0;
+	return formas.map((forma, index) => {
+		const distancia = maxima - forma.puntuacion;
+		const nivel: FormaPuntuada['nivel'] =
+			index === 0 && forma.arquitecturas[0].coincidencias >= 2 && distancia === 0
+				? 'muy_compatible'
+				: distancia <= 0.45
+					? 'compatible'
+					: distancia <= 1.25
+						? 'posible'
+						: 'poco_compatible';
+		return { ...forma, nivel };
+	});
+}
+
+function entropia(pesos: number[]): number {
+	const total = pesos.reduce((suma, peso) => suma + peso, 0);
+	if (total <= 0) return 0;
+	return pesos.reduce((resultado, peso) => {
+		if (peso <= 0) return resultado;
+		const probabilidad = peso / total;
+		return resultado - probabilidad * Math.log2(probabilidad);
+	}, 0);
+}
+
+function clavePredicha(evidencia: EvidenciaNormativa): string {
+	if (evidencia.tipo === 'numero') return `${evidencia.minimo ?? ''}:${evidencia.maximo ?? ''}`;
+	return evidencia.valores.map((valor) => valor.clave).sort().join('|');
+}
+
+function preguntasPosibles(
+	hipotesis: HipotesisMetrica[],
+	respuestas: RespuestaDemarcador[],
+	modo: ModoDemarcador,
+	formaObjetivoId: string | null
+): PreguntaDemarcador[] {
+	const respondidas = new Set(respuestas.map((respuesta) => respuesta.dimension));
+	const familiasDesconocidas = new Set(
+		respuestas
+			.filter((respuesta) => respuesta.valor === 'desconocido')
+			.map((respuesta) => respuesta.familiaCognitiva)
+	);
+	const definiciones = new Map<string, EvidenciaNormativa[]>();
+	for (const candidata of hipotesis) {
+		for (const evidencia of candidata.evidencias) {
+			if (evidencia.observabilidad === 'derivada' || respondidas.has(evidencia.dimension)) continue;
+			definiciones.set(evidencia.dimension, [
+				...(definiciones.get(evidencia.dimension) ?? []),
+				evidencia
+			]);
+		}
+	}
+
+	const resultado: PreguntaDemarcador[] = [];
+	for (const [dimension, evidencias] of definiciones) {
+		const modelo = [...evidencias].sort((a, b) => a.orden - b.orden)[0];
+		const grupos = new Map<string, number>();
+		const arquitecturasPorForma = new Map<string, number>();
+		for (const candidata of hipotesis) {
+			arquitecturasPorForma.set(
+				candidata.formaId,
+				(arquitecturasPorForma.get(candidata.formaId) ?? 0) + 1
+			);
+		}
+		let cobertura = 0;
+		for (const candidata of hipotesis) {
+			const pesoForma = 1 / (arquitecturasPorForma.get(candidata.formaId) ?? 1);
+			const evidencia = evidenciaDe(candidata, dimension);
+			if (!evidencia) {
+				grupos.set('__sin_datos__', (grupos.get('__sin_datos__') ?? 0) + pesoForma);
+				continue;
+			}
+			cobertura += pesoForma;
+			const clave = clavePredicha(evidencia);
+			grupos.set(clave, (grupos.get(clave) ?? 0) + pesoForma);
+		}
+		if (grupos.size < 2) continue;
+
+		const opcionesPorClave = new Map<string, ValorEvidencia>();
+		for (const evidencia of evidencias) {
+			for (const valor of evidencia.valores) opcionesPorClave.set(valor.clave, valor);
+		}
+		const opciones =
+			modelo.tipo === 'booleano'
+				? [
+						{ clave: 'si', etiqueta: 'Sí' },
+						{ clave: 'no', etiqueta: 'No' }
+					]
+				: [...opcionesPorClave.values()];
+		if (modelo.tipo !== 'numero' && (opciones.length < 2 || opciones.length > MAX_OPCIONES)) continue;
+
+		const separacion = entropia([...grupos.values()]);
+		const proporcionCobertura = cobertura / Math.max(1, arquitecturasPorForma.size);
+		const respondibilidad = FIABILIDAD[modelo.observabilidad];
+		const penalizacionDesconocida = familiasDesconocidas.has(modelo.familiaCognitiva) ? 0.22 : 1;
+		const impulsoObjetivo =
+			modo === 'hipotesis' && formaObjetivoId &&
+			hipotesis.some(
+				(candidata) =>
+					candidata.formaId === formaObjetivoId &&
+					evidenciaDe(candidata, dimension)?.modalidad === 'definitoria'
+			)
+				? 1.35
+				: 1;
+		const utilidad =
+			separacion *
+			proporcionCobertura *
+			respondibilidad *
+			(1 - modelo.coste) *
+			penalizacionDesconocida *
+			impulsoObjetivo;
+		resultado.push({
+			id: `pregunta:${dimension}`,
+			dimension,
+			familiaCognitiva: modelo.familiaCognitiva,
+			pregunta: modelo.pregunta,
+			ayuda: modelo.ayuda,
+			tipo: modelo.tipo,
+			opciones: opciones.sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es', { numeric: true })),
+			observabilidad: modelo.observabilidad,
+			coste: modelo.coste,
+			utilidad: Math.round(utilidad * 10000) / 10000
+		});
+	}
+	return resultado.sort((a, b) => b.utilidad - a.utilidad || a.pregunta.localeCompare(b.pregunta, 'es'));
+}
+
+export function elegirPregunta(
+	catalogo: CatalogoDemarcador,
+	respuestas: RespuestaDemarcador[],
+	modo: ModoDemarcador,
+	formaObjetivoId: string | null = null
+): PreguntaDemarcador | null {
+	const formasOrdenadas = ordenarFormas(catalogo, respuestas);
+	const candidatas = respuestas.length === 0
+		? catalogo.hipotesis
+		: formasOrdenadas
+			.filter((forma, index) => index < 12 || forma.nivel !== 'poco_compatible')
+			.flatMap((forma) => forma.arquitecturas.map((item) => item.hipotesis));
+	const preguntas = preguntasPosibles(candidatas, respuestas, modo, formaObjetivoId);
+	if (respuestas.length === 0 && modo === 'guiado') {
+		return preguntas.find((pregunta) => pregunta.dimension === 'metro:grupo') ?? preguntas[0] ?? null;
+	}
+	return preguntas[0] ?? null;
+}
+
+export function crearRespuesta(
+	pregunta: PreguntaDemarcador,
+	valor: string | number | 'desconocido',
+	etiqueta: string
+): RespuestaDemarcador {
+	return {
+		preguntaId: pregunta.id,
+		dimension: pregunta.dimension,
+		familiaCognitiva: pregunta.familiaCognitiva,
+		pregunta: pregunta.pregunta,
+		valor,
+		etiqueta
+	};
+}
+
+export function etiquetaNivel(nivel: FormaPuntuada['nivel']): string {
+	if (nivel === 'muy_compatible') return 'Muy compatible';
+	if (nivel === 'compatible') return 'Compatible';
+	if (nivel === 'posible') return 'Posible';
+	return 'Poco compatible';
+}

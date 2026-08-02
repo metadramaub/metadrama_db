@@ -275,6 +275,45 @@ textarea {
 	font-size: 0.875rem;
 }
 
+/*
+ * Acción secundaria escrita como enlace: «Aplicar a todas», «Cambiar», «Plegar». Van en
+ * gris y no en el dorado del proyecto: el acento tiene que quedar libre para la respuesta
+ * activa y para lo que falta por contestar, que es lo único que debe reclamar la vista.
+ */
+.link-action {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--muted-foreground);
+	text-decoration: underline;
+	text-decoration-color: var(--border);
+	text-underline-offset: 2px;
+	transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+
+.link-action:hover:not(:disabled) {
+	color: var(--foreground);
+	text-decoration-color: var(--muted-foreground);
+}
+
+.link-action:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.link-action--sm {
+	font-size: 0.7rem;
+}
+
+/* Solo para destruir: quitar una sección, borrar una desviación. */
+.link-action--danger {
+	color: var(--danger);
+}
+
+.link-action--danger:hover:not(:disabled) {
+	color: var(--danger);
+	text-decoration-color: var(--danger);
+}
+
 .form-switch {
 	position: relative;
 	display: inline-flex;

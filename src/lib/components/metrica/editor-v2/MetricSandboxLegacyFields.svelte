@@ -10,6 +10,11 @@
 	 * una secuencia además de la forma métrica. No guarda nada ni sale de la pantalla; está
 	 * aquí para que la parte nueva se pruebe con el espacio y el desplazamiento reales.
 	 */
+	const props = $props<{
+		/** Qué parte del panel se pinta. El contenedor las agrupa como en producción. */
+		block: 'caracterizaciones' | 'sinopsis' | 'comentarios';
+	}>();
+
 	type IntervencionValue = 'sin_intervencion' | 'exclusiva' | 'compartida';
 
 	const intervencionItems = [
@@ -38,7 +43,8 @@
 	</span>
 {/snippet}
 
-<section class="bg-white p-4">
+{#if props.block === 'caracterizaciones'}
+<section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
 		<h4 class="form-section-title mb-0">Caracterizaciones por rango</h4>
 		<div class="flex items-center gap-2">
@@ -49,7 +55,7 @@
 	<p class="form-help">Sin caracterizaciones por rango registradas en esta secuencia.</p>
 </section>
 
-<section class="bg-white p-4">
+<section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
 		<h4 class="form-section-title mb-0">
 			<span class="form-label-with-help">
@@ -99,7 +105,7 @@
 	</div>
 </section>
 
-<section class="bg-white p-4">
+<section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
 		<h4 class="form-section-title mb-0">Otras caracterizaciones</h4>
 		{@render replicaTag()}
@@ -173,7 +179,10 @@
 	</div>
 </section>
 
-<section class="bg-white p-4">
+{/if}
+
+{#if props.block === 'sinopsis'}
+<section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
 		<h4 class="form-section-title mb-0">Sinopsis argumental</h4>
 		{@render replicaTag()}
@@ -190,7 +199,10 @@
 	</label>
 </section>
 
-<section class="bg-white p-4">
+{/if}
+
+{#if props.block === 'comentarios'}
+<section>
 	<div class="flex flex-wrap items-center justify-between gap-2">
 		<h4 class="form-section-title mb-0">Comentarios internos de secuencia</h4>
 		<div class="flex items-center gap-2">
@@ -199,3 +211,4 @@
 		</div>
 	</div>
 </section>
+{/if}

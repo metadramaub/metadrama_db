@@ -92,6 +92,8 @@ componente: las preguntas y posibilidades deben proceder del catálogo.
 
 ## Demarcador
 
+- El contrato vigente, la matemática de compatibilidad y el criterio de parada están en
+  [Demarcador métrico](./demarcador-metrico.md).
 - Se compila desde el catálogo nuevo, no desde el JSON legado.
 - Las preguntas se ordenan por su capacidad de separar las candidatas restantes.
 - Solo pregunta rasgos observables y razonables para el editor.
