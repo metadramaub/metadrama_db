@@ -24,6 +24,13 @@
 	);
 	let saving = $state(false);
 	let errorMessage = $state('');
+	/**
+	 * Abierto o cerrado lo decide quien edita, no el estado de la arquitectura. Con
+	 * `open={draft.principal}` la interacción no era la fuente de verdad y cualquier
+	 * reevaluación devolvía el desplegable a su valor inicial: escribir en el nombre o en
+	 * el slug lo cerraba letra a letra.
+	 */
+	let open = $state(untrack(() => Boolean(props.configuration.principal)));
 
 	const changed = $derived(JSON.stringify(draft) !== JSON.stringify(props.configuration));
 	const metricPatternCount = $derived(
@@ -98,7 +105,7 @@
 	}
 </script>
 
-<details class="border border-[color:var(--border)] bg-[color:var(--background)]" open={draft.principal}>
+<details class="border border-[color:var(--border)] bg-[color:var(--background)]" bind:open>
 	<summary class="cursor-pointer px-4 py-3">
 		<span class="font-medium">{draft.nombre}</span>
 		<span class="ml-2 font-mono text-xs text-[color:var(--muted-foreground)]">{draft.slug}</span>
@@ -121,16 +128,18 @@
 					bind:value={draft.nombre}
 				/>
 			</label>
-			<label class="space-y-1">
-				<span class="text-sm font-medium">Slug</span>
-				<input
-					class="w-full border border-[color:var(--border)] bg-white px-3 py-2 font-mono text-sm"
-					bind:value={draft.slug}
-				/>
+			<div class="space-y-1">
+				<span class="block text-sm font-medium">Slug</span>
+				<p
+					class="w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 font-mono text-sm text-[color:var(--muted-foreground)]"
+				>
+					{draft.slug}
+				</p>
 				<span class="block text-xs leading-5 text-[color:var(--muted-foreground)]">
-					Identifica esta arquitectura dentro de la forma. No indica si es prototípica.
+					Clave técnica: la usan el código y las migraciones, así que solo cambia por
+					migración. Para renombrar esta arquitectura, edita el nombre.
 				</span>
-			</label>
+			</div>
 		</div>
 
 		<label class="block space-y-1">
