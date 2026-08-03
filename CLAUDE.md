@@ -137,6 +137,9 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 - [docs/precomputacion-estrategias.md](docs/precomputacion-estrategias.md) y
   [docs/plan-precomputacion-implementacion.md](docs/plan-precomputacion-implementacion.md)
   — decisiones y estado de la capa precomputada.
+- [docs/revision-de-vocabularios.md](docs/revision-de-vocabularios.md) — los tres sitios
+  donde viven hoy los vocabularios y el inventario de los 60 enums en `CHECK`. Anotado, sin
+  decidir: se revisa cuando el dominio métrico pase a `main`.
 - `README.md` — arranque, migraciones y backups.
 
 ## Convenciones
