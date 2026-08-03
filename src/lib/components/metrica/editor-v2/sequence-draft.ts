@@ -26,19 +26,14 @@ export type MetricDeviationDimension =
 	| 'rima'
 	| 'estructura'
 	| 'repeticion'
-	| 'rasgo'
-	| 'combinacion';
+	| 'rasgo';
 
 export type MetricDeviationRelation =
 	| 'diferente'
+	| 'falta'
+	| 'sobra'
 	| 'menor_que_norma'
 	| 'mayor_que_norma'
-	| 'falta_elemento_esperado'
-	| 'aparece_elemento_no_esperado'
-	| 'ruptura'
-	| 'omision'
-	| 'adicion'
-	| 'sustitucion'
 	| 'otra';
 
 export const METRIC_DEVIATION_DIMENSIONS: { value: MetricDeviationDimension; label: string }[] = [
@@ -46,65 +41,36 @@ export const METRIC_DEVIATION_DIMENSIONS: { value: MetricDeviationDimension; lab
 	{ value: 'rima', label: 'Rima' },
 	{ value: 'estructura', label: 'Estructura' },
 	{ value: 'repeticion', label: 'Repetición' },
-	{ value: 'rasgo', label: 'Rasgo' },
-	{ value: 'combinacion', label: 'Variedad' }
+	{ value: 'rasgo', label: 'Rasgo' }
 ];
 
 const DEVIATION_RELATION_LABELS: Record<MetricDeviationRelation, string> = {
-	diferente: 'Diferente',
+	diferente: 'Es otra',
+	falta: 'Falta',
+	sobra: 'Sobra',
 	menor_que_norma: 'Menor que la norma',
 	mayor_que_norma: 'Mayor que la norma',
-	falta_elemento_esperado: 'Falta un elemento esperado',
-	aparece_elemento_no_esperado: 'Aparece un elemento no esperado',
-	ruptura: 'Ruptura',
-	omision: 'Omisión',
-	adicion: 'Adición',
-	sustitucion: 'Sustitución',
 	otra: 'Otra'
 };
 
 /**
- * Qué relaciones con la norma tienen sentido en cada dimensión. Ofrecerlas todas obliga
- * al editor a descartar a mano opciones que no significan nada ahí: una rima no es «menor
- * que la norma» y un rasgo no se «rompe».
+ * Qué relaciones con la norma tienen sentido en cada dimensión, en el mismo orden que la
+ * restricción de la base. Ofrecerlas todas obliga al editor a descartar a mano opciones
+ * que no significan nada ahí: una rima no es «menor que la norma» y un rasgo no se rompe.
  *
- * Es una lectura del vocabulario, no una regla sobre formas concretas, así que vive junto
- * al tipo y no en el componente. Si el IP la afina, su sitio natural es el catálogo, como
- * el resto de lo que el editor pregunta.
+ * La relación lleva siempre el hecho; el valor observado es precisión añadida, no una vía
+ * alternativa. Por eso `metro` no ofrece «es otra»: una medida solo puede sobrar o faltar,
+ * y cuál es exactamente se dice en el metro observado.
  */
 const DEVIATION_RELATIONS_BY_DIMENSION: Record<
 	MetricDeviationDimension,
 	MetricDeviationRelation[]
 > = {
-	// Una medida es distinta, más corta, más larga o sustituida por otra.
-	metro: ['diferente', 'menor_que_norma', 'mayor_que_norma', 'sustitucion', 'otra'],
-	// Una rima se rompe, difiere o se sustituye; no es mayor ni menor.
-	rima: ['diferente', 'ruptura', 'sustitucion', 'otra'],
-	// La estructura admite todo el repertorio de faltas, adiciones y desajustes de tamaño.
-	estructura: [
-		'diferente',
-		'menor_que_norma',
-		'mayor_que_norma',
-		'falta_elemento_esperado',
-		'aparece_elemento_no_esperado',
-		'omision',
-		'adicion',
-		'otra'
-	],
-	// Una repetición falta, sobra, cambia de tamaño o se rompe.
-	repeticion: [
-		'diferente',
-		'menor_que_norma',
-		'mayor_que_norma',
-		'falta_elemento_esperado',
-		'aparece_elemento_no_esperado',
-		'ruptura',
-		'otra'
-	],
-	// Un rasgo está o no está; no tiene tamaño ni se rompe.
-	rasgo: ['falta_elemento_esperado', 'aparece_elemento_no_esperado', 'diferente', 'otra'],
-	// Una variedad se realiza de otra manera o se sustituye por otra.
-	combinacion: ['diferente', 'sustitucion', 'otra']
+	metro: ['menor_que_norma', 'mayor_que_norma', 'otra'],
+	rima: ['diferente', 'otra'],
+	estructura: ['falta', 'sobra', 'menor_que_norma', 'mayor_que_norma', 'diferente', 'otra'],
+	repeticion: ['falta', 'sobra', 'menor_que_norma', 'mayor_que_norma', 'diferente', 'otra'],
+	rasgo: ['falta', 'sobra', 'diferente', 'otra']
 };
 
 export function metricDeviationRelations(
@@ -303,12 +269,14 @@ export function normalizeStructuredUnits(
 }
 
 export function emptyDeviation(vIni: number, vFin: number): MetricDeviationDraft {
+	const dimension: MetricDeviationDimension = 'metro';
 	return {
 		realizacion_prueba_id: null,
 		v_ini: vIni,
 		v_fin: vFin,
-		dimension: 'metro',
-		relacion_norma: 'diferente',
+		dimension,
+		// Se toma del mapa para que no pueda quedar una combinación que la base rechaza.
+		relacion_norma: DEVIATION_RELATIONS_BY_DIMENSION[dimension][0],
 		metro_observado_id: null,
 		esquema_rima_observado_id: null,
 		seccion_observada_id: null,

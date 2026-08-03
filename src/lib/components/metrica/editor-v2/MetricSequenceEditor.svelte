@@ -498,6 +498,131 @@
 		draft.desviaciones = [...draft.desviaciones, emptyDeviation(draft.v_ini, draft.v_fin)];
 	}
 
+	// ------------------------------------------------------------------
+	// El valor observado de una desviación
+	//
+	// Cada dimensión nombra lo observado en su propio vocabulario, y la base exige que la
+	// columna corresponda a la dimensión declarada. Aquí vive esa correspondencia una sola
+	// vez: qué columna toca, de dónde salen sus opciones y cómo se limpian las demás.
+	// ------------------------------------------------------------------
+
+	const OBSERVED_COLUMNS = {
+		metro: 'metro_observado_id',
+		rima: 'esquema_rima_observado_id',
+		estructura: 'seccion_observada_id',
+		repeticion: 'repeticion_observada_id',
+		rasgo: 'valor_rasgo_observado_id'
+	} as const;
+
+	function observedOptions(
+		dimension: MetricDeviationDimension
+	): { id: string; label: string }[] {
+		const domain = props.catalog.domain;
+		const rows: MetricCatalogDomainRow[] =
+			dimension === 'metro'
+				? domain.verseModels
+				: dimension === 'rima'
+					? domain.rhymePatterns.filter(
+							(row: MetricCatalogDomainRow) => row.arquitectura_id === draft.arquitectura_id
+						)
+					: dimension === 'estructura'
+						? sectionsForDraft
+						: dimension === 'repeticion'
+							? domain.repetitionPatterns.filter(
+									(row: MetricCatalogDomainRow) =>
+										row.arquitectura_id === draft.arquitectura_id
+								)
+							: domain.traitValues;
+		return rows
+			.filter((row: MetricCatalogDomainRow) => row.activo !== false)
+			.map((row: MetricCatalogDomainRow) => ({
+				id: String(
+					row.metro_id ??
+						row.esquema_rima_id ??
+						row.seccion_id ??
+						row.repeticion_id ??
+						row.valor_id
+				),
+				label: String(row.nombre || row.notacion || row.slug || '')
+			}))
+			.filter((option) => option.id !== 'undefined' && option.label)
+			.sort((a, b) => a.label.localeCompare(b.label, 'es'));
+	}
+
+	function observedValue(deviation: MetricDeviationDraft): string {
+		return String(deviation[OBSERVED_COLUMNS[deviation.dimension]] ?? '');
+	}
+
+	/** Deja puesta solo la columna que corresponde a la dimensión, como exige la base. */
+	function setObserved(deviation: MetricDeviationDraft, value: string) {
+		for (const column of Object.values(OBSERVED_COLUMNS)) {
+			deviation[column] = null;
+		}
+		if (value) deviation[OBSERVED_COLUMNS[deviation.dimension]] = value;
+	}
+
+	/**
+	 * Las sílabas que la arquitectura fija para sus versos, cuando fija una sola. Sirve para
+	 * decirle al editor qué diferencia supone el metro que acaba de elegir, sin guardarlo:
+	 * la hipometría se enseña, no se almacena.
+	 */
+	const normSyllables = $derived.by(() => {
+		if (!draft.arquitectura_id) return null;
+		const schemeIds = new Set(
+			props.catalog.domain.metricPatterns
+				.filter((row: MetricCatalogDomainRow) => row.arquitectura_id === draft.arquitectura_id)
+				.map((row: MetricCatalogDomainRow) => String(row.esquema_metrico_id))
+		);
+		if (schemeIds.size === 0) return null;
+		const metreIds = new Set(
+			props.catalog.domain.metricPositions
+				.filter((row: MetricCatalogDomainRow) =>
+					schemeIds.has(String(row.esquema_metrico_id))
+				)
+				.map((row: MetricCatalogDomainRow) => String(row.metro_id))
+		);
+		// Con más de un metro la norma no es una cifra y no hay diferencia que anunciar.
+		if (metreIds.size !== 1) return null;
+		const metre = props.catalog.domain.verseModels.find(
+			(row: MetricCatalogDomainRow) => String(row.metro_id) === [...metreIds][0]
+		);
+		return metre ? { silabas: Number(metre.silabas), nombre: String(metre.nombre) } : null;
+	});
+
+	/** «Una sílaba menos que la norma (octosílabo)», calculado en el momento. */
+	function observedMetreNote(deviation: MetricDeviationDraft): string {
+		if (deviation.dimension !== 'metro' || !deviation.metro_observado_id) return '';
+		const metre = props.catalog.domain.verseModels.find(
+			(row: MetricCatalogDomainRow) => String(row.metro_id) === deviation.metro_observado_id
+		);
+		if (!metre) return '';
+		const silabas = Number(metre.silabas);
+		if (!normSyllables) return `${silabas} sílabas`;
+		const diferencia = silabas - normSyllables.silabas;
+		if (diferencia === 0) {
+			return `${silabas} sílabas · coincide con la norma (${normSyllables.nombre})`;
+		}
+		const cuantas = Math.abs(diferencia);
+		return `${cuantas} ${cuantas === 1 ? 'sílaba' : 'sílabas'} ${
+			diferencia < 0 ? 'menos' : 'más'
+		} que la norma (${normSyllables.nombre})`;
+	}
+
+	/** ¿Concuerdan la relación declarada y el metro observado? Invariante 2 del plan. */
+	function observedContradiction(deviation: MetricDeviationDraft): boolean {
+		if (deviation.dimension !== 'metro' || !deviation.metro_observado_id || !normSyllables) {
+			return false;
+		}
+		const metre = props.catalog.domain.verseModels.find(
+			(row: MetricCatalogDomainRow) => String(row.metro_id) === deviation.metro_observado_id
+		);
+		if (!metre) return false;
+		const diferencia = Number(metre.silabas) - normSyllables.silabas;
+		if (deviation.relacion_norma === 'menor_que_norma') return diferencia >= 0;
+		if (deviation.relacion_norma === 'mayor_que_norma') return diferencia <= 0;
+		return false;
+	}
+
 	function updateSequenceStart(value: number) {
 		const previousLength = draft.v_fin - draft.v_ini + 1;
 		draft.v_ini = Math.max(1, value);
@@ -1106,11 +1231,13 @@
 										const next = event.currentTarget.value as MetricDeviationDimension;
 										deviation.dimension = next;
 										// Al cambiar de dimensión, la relación elegida puede dejar de
-										// aplicar: se sustituye por la primera que sí lo hace.
+										// aplicar: se sustituye por la primera que sí lo hace. Y el
+										// valor observado se vacía, porque pertenecía a la otra.
 										deviation.relacion_norma = defaultRelationFor(
 											next,
 											deviation.relacion_norma
 										);
+										setObserved(deviation, '');
 									}}
 								>
 									{#each METRIC_DEVIATION_DIMENSIONS as option (option.value)}
@@ -1122,13 +1249,55 @@
 								<span class="form-label">Relación con la norma</span>
 								<select
 									class="h-10 w-full border border-[color:var(--border)] bg-white px-2 text-sm"
-									bind:value={deviation.relacion_norma}
+									value={deviation.relacion_norma}
+									onchange={(event) => {
+										deviation.relacion_norma = event.currentTarget
+											.value as MetricDeviationDraft['relacion_norma'];
+										// «Falta» no admite valor observado: no había nada que observar.
+										if (deviation.relacion_norma === 'falta') setObserved(deviation, '');
+									}}
 								>
 									{#each metricDeviationRelations(deviation.dimension) as option (option.value)}
 										<option value={option.value}>{option.label}</option>
 									{/each}
 								</select>
 							</label>
+							<!-- Lo observado: la precisión que hace analizable la desviación. Con
+							     «Falta» no hay nada que observar, y la base lo exige vacío. -->
+							{#if deviation.relacion_norma !== 'falta'}
+								{@const opciones = observedOptions(deviation.dimension)}
+								{#if opciones.length > 0}
+									<label class="form-field sm:col-span-2 xl:col-span-3">
+										<span class="form-label">
+											{deviation.dimension === 'metro' ? 'Metro observado' : 'Observado'}
+										</span>
+										<select
+											class="h-10 w-full border border-[color:var(--border)] bg-white px-2 text-sm"
+											value={observedValue(deviation)}
+											onchange={(event) => setObserved(deviation, event.currentTarget.value)}
+										>
+											<option value="">Sin precisar</option>
+											{#each opciones as option (option.id)}
+												<option value={option.id}>{option.label}</option>
+											{/each}
+										</select>
+										{#if observedMetreNote(deviation)}
+											<span
+												class={`form-help ${
+													observedContradiction(deviation)
+														? 'text-[color:var(--danger)]'
+														: ''
+												}`}
+											>
+												{observedMetreNote(deviation)}
+												{#if observedContradiction(deviation)}
+													· no concuerda con la relación elegida
+												{/if}
+											</span>
+										{/if}
+									</label>
+								{/if}
+							{/if}
 							<label class="form-field">
 								<span class="form-label">V. inicial</span>
 								<input

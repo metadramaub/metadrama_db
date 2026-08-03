@@ -46,6 +46,12 @@ retomar el proyecto en otro chat.
    Qué hay que hacer para llevar las declaraciones reales al catálogo nuevo, con sus
    condiciones previas y criterios de aceptación. No iniciado.
 
+4ter. [Plan de desviaciones y caracterizaciones](./plan-desviaciones-y-caracterizaciones.md)
+   Cierra el vocabulario de las desviaciones —cinco dimensiones, seis relaciones, tres
+   invariantes— y reparte lo que hoy es «caracterización por rango» entre desviación, rasgo
+   y caracterización real. Con el uso medido sobre la base y el trabajo en tres bloques.
+   Decidido, no ejecutado.
+
 5. [Editor de secuencias métricas V2](./editor-secuencias-v2.md)
    Grupos de elección, escenarios aislados, persistencia de pruebas y contrato de la interfaz futura.
 
