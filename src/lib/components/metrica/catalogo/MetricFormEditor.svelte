@@ -172,13 +172,18 @@
 					bind:value={draft.nombre}
 				/>
 			</label>
-			<label class="space-y-1">
-				<span class="text-sm font-medium">Slug estable</span>
-				<input
-					class="w-full border border-[color:var(--border)] bg-white px-3 py-2 font-mono text-sm"
-					bind:value={draft.slug}
-				/>
-			</label>
+			<div class="space-y-1">
+				<span class="block text-sm font-medium">Slug estable</span>
+				<p
+					class="w-full border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 font-mono text-sm text-[color:var(--muted-foreground)]"
+				>
+					{draft.slug}
+				</p>
+				<span class="block text-xs leading-5 text-[color:var(--muted-foreground)]">
+					Clave técnica: hay código y migraciones que dependen de ella, así que solo cambia
+					por migración. Para renombrar la forma, edita el nombre.
+				</span>
+			</div>
 		</div>
 
 		<label class="block space-y-1">

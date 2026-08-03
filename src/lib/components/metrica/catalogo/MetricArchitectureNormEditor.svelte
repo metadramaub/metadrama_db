@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import MetricEntityCollection, {
 		type MetricEntityField,
 		type MetricEntityOption
@@ -68,6 +69,31 @@
 			label: String(row.nombre || row.notacion || `Esquema de rima ${index + 1}`)
 		}))
 	);
+	/**
+	 * Cada bloque se abre según lo que ya haya declarado, pero a partir de ahí manda quien
+	 * edita: con `open={...length > 0}` el desplegable se cerraba o se abría solo al añadir
+	 * o quitar una fila, justo mientras se estaba trabajando dentro.
+	 */
+	let openMeasure = $state(untrack(() => initiallyHasCombinations()));
+	let openRhyme = $state(untrack(() => initiallyHasCombinations()));
+	let openCombinations = $state(untrack(() => initiallyHasCombinations()));
+	let openTraits = $state(
+		untrack(
+			() =>
+				props.domain.configurationTraits.filter(
+					(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
+				).length > 0
+		)
+	);
+
+	function initiallyHasCombinations(): boolean {
+		return (
+			props.domain.patternCombinations.filter(
+				(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
+			).length > 0
+		);
+	}
+
 	const patternCombinations = $derived(
 		props.domain.patternCombinations
 			.filter(
@@ -627,7 +653,7 @@
 </script>
 
 <div class="space-y-5 border-t border-[color:var(--border)] pt-5">
-	<details open={patternCombinations.length > 0}>
+	<details bind:open={openMeasure}>
 		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
 			<span>Medida de los versos</span>
 			<span class="font-normal text-[color:var(--muted-foreground)]">
@@ -705,7 +731,7 @@
 		</div>
 	</details>
 
-	<details open={patternCombinations.length > 0}>
+	<details bind:open={openRhyme}>
 		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
 			<span>Rima</span>
 			<span class="font-normal text-[color:var(--muted-foreground)]">
@@ -800,7 +826,7 @@
 		</div>
 	</details>
 
-	<details open={patternCombinations.length > 0}>
+	<details bind:open={openCombinations}>
 		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
 			<span>Combinaciones admitidas</span>
 			<span class="font-normal text-[color:var(--muted-foreground)]">
@@ -872,7 +898,7 @@
 		</div>
 	</details>
 
-	<details open={configurationTraits.length > 0}>
+	<details bind:open={openTraits}>
 		<summary class="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
 			<span>Rasgos transversales</span>
 			<span class="font-normal text-[color:var(--muted-foreground)]">
