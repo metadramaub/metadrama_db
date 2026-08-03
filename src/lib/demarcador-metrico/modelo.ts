@@ -2,6 +2,7 @@ export type ModalidadEvidencia = 'definitoria' | 'preferente' | 'admitida' | 'ex
 export type ObservabilidadEvidencia = 'directa' | 'especializada' | 'derivada';
 export type TipoEvidencia = 'categoria' | 'booleano' | 'numero';
 export type ModoDemarcador = 'guiado' | 'hipotesis';
+export type NivelEstructural = 'verso' | 'estrofa' | 'serie' | 'composicion';
 
 export type ValorEvidencia = {
 	clave: string;
@@ -18,6 +19,9 @@ export type EvidenciaNormativa = {
 	valores: ValorEvidencia[];
 	minimo: number | null;
 	maximo: number | null;
+	modulo: number | null;
+	residuo: number | null;
+	reglaLongitud: string | null;
 	modalidad: ModalidadEvidencia;
 	observabilidad: ObservabilidadEvidencia;
 	coste: number;
@@ -31,13 +35,44 @@ export type HipotesisMetrica = {
 	formaSlug: string;
 	formaNombre: string;
 	formaDefinicion: string | null;
+	nivelEstructural: NivelEstructural;
 	gradoEspecificacion: 'general' | 'especifica' | null;
 	arquitecturaId: string;
 	arquitecturaSlug: string;
 	arquitecturaNombre: string;
 	arquitecturaDescripcion: string | null;
 	arquitecturaPrincipal: boolean;
+	unidadVersos: number | null;
+	presentacion: PresentacionArquitectura;
 	evidencias: EvidenciaNormativa[];
+};
+
+export type EsquemaVisual = {
+	id: string;
+	nombre: string | null;
+	notacion: string;
+	modalidad: ModalidadEvidencia;
+};
+
+export type RasgoVisual = {
+	nombre: string;
+	valor: string;
+	descripcion: string | null;
+	modalidad: ModalidadEvidencia;
+};
+
+export type PresentacionArquitectura = {
+	metro: {
+		descripcion: string | null;
+		esquemas: string[][];
+	};
+	rima: {
+		tipo: string | null;
+		esquemas: EsquemaVisual[];
+	};
+	estructura: string | null;
+	repeticiones: string[];
+	rasgos: RasgoVisual[];
 };
 
 export type FormaDemarcable = {
@@ -45,6 +80,7 @@ export type FormaDemarcable = {
 	slug: string;
 	nombre: string;
 	definicion: string | null;
+	nivelEstructural: NivelEstructural;
 	gradoEspecificacion: 'general' | 'especifica' | null;
 	arquitecturas: Array<{
 		id: string;
@@ -90,11 +126,29 @@ export type DetalleCompatibilidad = {
 	peso: number;
 };
 
+export type DesviacionLongitud = {
+	observada: number;
+	regularAnterior: number | null;
+	regularSiguiente: number | null;
+	diferenciaMinima: number;
+	regla: string | null;
+};
+
+export type InterpretacionLongitud = {
+	observada: number;
+	tipo: 'unidad' | 'repeticion' | 'serie' | 'pasaje';
+	unidades: number | null;
+	versosPorUnidad: number | null;
+	regla: string | null;
+};
+
 export type HipotesisPuntuada = {
 	hipotesis: HipotesisMetrica;
 	puntuacion: number;
 	coincidencias: number;
 	contradicciones: number;
+	interpretacionLongitud: InterpretacionLongitud | null;
+	desviacionLongitud: DesviacionLongitud | null;
 	detalles: DetalleCompatibilidad[];
 };
 

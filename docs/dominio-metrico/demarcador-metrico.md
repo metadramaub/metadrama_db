@@ -33,7 +33,8 @@ publicación y debe autorizarse después de revisar los campos expuestos.
 La proyección transforma en evidencias:
 
 - esquemas métricos y metros;
-- extensión mínima y máxima de la unidad;
+- extensión mínima y máxima de la unidad y reglas de longitud derivadas;
+- nivel estructural de la forma: verso, estrofa, serie o composición;
 - tipo y esquemas de rima con ámbito de unidad;
 - secciones internas;
 - repeticiones estructurales;
@@ -92,6 +93,39 @@ si no hay dato:  ajuste = 0
 La fiabilidad vale `1` para observación directa, `0,65` para especializada y `0` para
 derivada. Una respuesta nunca elimina por sí sola una forma.
 
+### Longitud regular y desviaciones
+
+La extensión no se compara solo con un mínimo y un máximo. El motor consume la regla que el
+catálogo deriva de la arquitectura y comprueba:
+
+```text
+L >= mínimo
+L <= máximo, si existe
+(L - residuo) mod módulo = 0, si existe congruencia
+```
+
+Así, el terceto encadenado admite regularmente `L = 3n + 1`: 4, 7, 10, 13, 16 versos,
+etc. Catorce versos no son una coincidencia regular.
+
+Una longitud no regular tampoco elimina la hipótesis. El motor calcula las realizaciones
+regulares inmediatamente anterior y posterior. Para 14 versos en un terceto encadenado son
+13 y 16: puede sobrar un verso respecto de la primera o faltar dos respecto de la segunda.
+La interfaz presenta entonces «Posible con desviación» y explicita ambas distancias. La causa
+puede ser una laguna, una adición, una desviación histórica o autorial, un error textual o una
+delimitación incorrecta del pasaje; el demarcador no decide cuál sin evidencia adicional.
+
+La pregunta se refiere a los versos del **pasaje seleccionado**, no a una unidad que el usuario
+deba haber reconocido de antemano. El nivel estructural decide cómo se explica una coincidencia:
+
+- 25 versos en una quintilla son cinco unidades regulares de 5 versos;
+- 28 versos en un soneto son dos composiciones completas de 14, no un soneto de 28;
+- 25 versos en un terceto encadenado forman una sola serie que cumple `3n + 1`.
+
+Cuando dos lecturas cumplen la longitud —por ejemplo, cinco quintillas y un terceto encadenado
+octosilábico— ninguna debe desaparecer. La siguiente pregunta busca una diferencia observable,
+como la presencia de grupos independientes de cinco versos o de una serie articulada en grupos
+de tres y un cierre.
+
 La puntuación de una forma es la de su arquitectura más compatible:
 
 ```text
@@ -147,7 +181,22 @@ Cada resultado debe mostrar:
 2. arquitectura mejor situada, en segundo nivel;
 3. grado cualitativo de compatibilidad;
 4. evidencias que coinciden;
-5. cuando sea útil, contradicciones y datos todavía desconocidos.
+5. cuando sea útil, contradicciones y datos todavía desconocidos;
+6. si la extensión no es regular, las longitudes regulares vecinas y los versos que faltan o
+   sobran.
+
+La explicación de la arquitectura reúne solo información ya normalizada en el catálogo:
+
+- interpretación de la longitud del pasaje y número de unidades, si procede;
+- patrón métrico representado por posiciones;
+- tipo de rima y esquemas admitidos en notación compacta;
+- organización de secciones y repeticiones;
+- rasgos de la arquitectura con su modalidad;
+- otras arquitecturas disponibles dentro de la misma forma.
+
+La definición de la forma expresa lo común. El origen italiano del terceto encadenado
+endecasilábico y su adaptación octosilábica al metro español pertenecen a las descripciones de
+sus arquitecturas y deben mostrarse junto al resultado correspondiente.
 
 La interfaz no muestra la puntuación numérica porque sirve para ordenar, no para comunicar
 certeza.

@@ -44,25 +44,57 @@ const payload = {
 	]
 };
 
+const lengthRules = [
+	{ arquitectura_id: 'romance-8', arquitectura_nombre: 'Octosilábica', modulo_versos: 2, residuo_versos: 0, minimo_versos: 4, origen: 'ciclo_rima', explicacion: 'ciclos de rima completos de 2 versos' },
+	{ arquitectura_id: 'soneto-11', arquitectura_nombre: 'Canónica', modulo_versos: 14, residuo_versos: 0, minimo_versos: 14, origen: 'secciones_fijas', explicacion: 'estructuras completas de 14 versos' }
+];
+
+const structuralLevels = [
+	{ forma_id: 'romance', nivel_estructural: 'serie' },
+	{ forma_id: 'soneto', nivel_estructural: 'composicion' }
+];
+
+const client = {
+	rpc: async () => ({ data: payload, error: null }),
+	from: (table: string) => ({
+		select: async () => ({
+			data: table === 'arquitecturas_reglas_longitud' ? lengthRules : structuralLevels,
+			error: null
+		})
+	})
+};
+
 describe('proyección del catálogo para el demarcador', () => {
 	it('mantiene la forma como identidad y la arquitectura como precisión', async () => {
-		const catalogo = await cargarCatalogoDemarcador({
-			rpc: async () => ({ data: payload, error: null })
-		});
+		const catalogo = await cargarCatalogoDemarcador(client);
 		const romance = catalogo.hipotesis.find((item) => item.formaId === 'romance');
 
 		expect(catalogo.formas.find((item) => item.id === 'romance')?.nombre).toBe('Romance');
 		expect(romance?.arquitecturaNombre).toBe('Octosilábica');
+		expect(romance?.nivelEstructural).toBe('serie');
 		expect(romance?.evidencias.find((item) => item.dimension === 'metro:grupo')?.valores[0].clave).toBe('arte_menor');
 	});
 
 	it('no convierte un esquema de sección del soneto en patrón de la unidad completa', async () => {
-		const catalogo = await cargarCatalogoDemarcador({
-			rpc: async () => ({ data: payload, error: null })
-		});
+		const catalogo = await cargarCatalogoDemarcador(client);
 		const soneto = catalogo.hipotesis.find((item) => item.formaId === 'soneto');
 
 		expect(soneto?.evidencias.some((item) => item.dimension === 'rima:distribucion')).toBe(false);
 		expect(soneto?.evidencias.find((item) => item.dimension === 'estructura:orden')?.valores[0].etiqueta).toBe('Cuartetos + Tercetos');
+		expect(soneto?.evidencias.find((item) => item.dimension === 'extension:versos')).toMatchObject({
+			minimo: 14,
+			maximo: null,
+			modulo: 14,
+			residuo: 0,
+			reglaLongitud: 'estructuras completas de 14 versos'
+		});
+		expect(soneto?.unidadVersos).toBe(14);
+		expect(soneto?.presentacion.metro.esquemas[0]).toHaveLength(14);
+		expect(soneto?.evidencias).toContainEqual(
+			expect.objectContaining({
+				dimension: 'estructura:agrupacion:14',
+				pregunta: '¿Se distinguen grupos regulares de 14 versos dentro del pasaje?'
+			})
+		);
 	});
 });
