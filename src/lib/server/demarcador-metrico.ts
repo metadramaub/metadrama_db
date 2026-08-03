@@ -4,11 +4,15 @@ import type {
 	FormaDemarcable,
 	HipotesisMetrica,
 	ModalidadEvidencia,
+	NivelEstructural,
 	ObservabilidadEvidencia,
 	ValorEvidencia
 } from '$lib/demarcador-metrico/modelo';
 
-type DbClient = { rpc: (name: string) => any };
+type DbClient = {
+	rpc: (name: string) => any;
+	from: (table: string) => { select: (columns: string) => any };
+};
 type Row = Record<string, any>;
 
 function fallo(etiqueta: string, error: { message?: string } | null | undefined): void {
@@ -25,6 +29,10 @@ function modalidad(value: unknown, fallback: ModalidadEvidencia = 'definitoria')
 
 function observabilidad(value: unknown): ObservabilidadEvidencia {
 	return value === 'especializada' || value === 'derivada' ? value : 'directa';
+}
+
+function nivelEstructural(value: unknown): NivelEstructural {
+	return value === 'verso' || value === 'serie' || value === 'composicion' ? value : 'estrofa';
 }
 
 function valor(clave: string, etiqueta: string): ValorEvidencia {
@@ -64,6 +72,9 @@ function evidenciaBase(
 		valores: override.valores ?? [],
 		minimo: override.minimo ?? null,
 		maximo: override.maximo ?? null,
+		modulo: override.modulo ?? null,
+		residuo: override.residuo ?? null,
+		reglaLongitud: override.reglaLongitud ?? null,
 		modalidad: override.modalidad ?? 'definitoria',
 		observabilidad: override.observabilidad ?? 'directa',
 		coste: override.coste ?? 0.3,
@@ -121,13 +132,24 @@ function familiaEleccion(dimension: string): EvidenciaNormativa['familiaCognitiv
 
 export async function cargarCatalogoDemarcador(client: unknown): Promise<CatalogoDemarcador> {
 	const db = client as DbClient;
-	const projection = await db.rpc('obtener_catalogo_demarcador');
+	const [projection, lengthRulesProjection, structuralLevelsProjection] = await Promise.all([
+		db.rpc('obtener_catalogo_demarcador'),
+		db
+			.from('arquitecturas_reglas_longitud')
+			.select(
+				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+			),
+		db.from('formas_metricas').select('forma_id,nivel_estructural')
+	]);
 	fallo('No se pudo cargar la proyección pública del catálogo', projection.error);
+	fallo('No se pudieron cargar las reglas de longitud', lengthRulesProjection.error);
+	fallo('No se pudieron cargar los niveles estructurales', structuralLevelsProjection.error);
 	const payload = (projection.data ?? {}) as Record<string, Row[]>;
+	payload.lengthRules = Array.isArray(lengthRulesProjection.data) ? lengthRulesProjection.data : [];
 	const responses = [
 		'forms', 'architectures', 'metricPatterns', 'metricPositions', 'metricOptions', 'metres',
 		'rhymePatterns', 'rhymePositions', 'sections', 'repetitions', 'traits', 'traitValues',
-		'architectureTraits', 'choiceGroups', 'choiceOptions', 'vocabularies'
+		'architectureTraits', 'choiceGroups', 'choiceOptions', 'vocabularies', 'lengthRules'
 	].map((key) => ({ data: Array.isArray(payload[key]) ? payload[key] : [], error: null }));
 
 	const labels = [
@@ -141,14 +163,24 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		formsResponse, architecturesResponse, metricPatternsResponse, metricPositionsResponse,
 		metricOptionsResponse, metresResponse, rhymePatternsResponse, rhymePositionsResponse,
 		sectionsResponse, repetitionsResponse, traitsResponse, traitValuesResponse,
-		architectureTraitsResponse, choiceGroupsResponse, choiceOptionsResponse, vocabulariesResponse
+		architectureTraitsResponse, choiceGroupsResponse, choiceOptionsResponse, vocabulariesResponse,
+		lengthRulesResponse
 	] = responses;
 
 	const forms = (formsResponse.data ?? []) as Row[];
 	const architectures = (architecturesResponse.data ?? []) as Row[];
 	const formById = new Map(forms.map((form) => [form.forma_id, form]));
+	const structuralLevelByForm = new Map(
+		((structuralLevelsProjection.data ?? []) as Row[]).map((form) => [
+			form.forma_id,
+			nivelEstructural(form.nivel_estructural)
+		])
+	);
 	const vocabularyById = new Map(
 		((vocabulariesResponse.data ?? []) as Row[]).map((item) => [item.termino_id, item])
+	);
+	const lengthRuleByArchitecture = new Map(
+		((lengthRulesResponse.data ?? []) as Row[]).map((rule) => [rule.arquitectura_id, rule])
 	);
 	const metreById = new Map(((metresResponse.data ?? []) as Row[]).map((item) => [item.metro_id, item]));
 	const patternArchitecture = new Map(
@@ -157,6 +189,20 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			.map((pattern) => [pattern.esquema_metrico_id, pattern.arquitectura_id])
 	);
 	const metresByArchitecture = new Map<string, Row[]>();
+	const metricPositionsByPattern = new Map<string, Row[]>();
+	for (const row of (metricPositionsResponse.data ?? []) as Row[]) {
+		metricPositionsByPattern.set(row.esquema_metrico_id, [
+			...(metricPositionsByPattern.get(row.esquema_metrico_id) ?? []),
+			row
+		]);
+	}
+	const metricOptionsByPattern = new Map<string, Row[]>();
+	for (const row of (metricOptionsResponse.data ?? []) as Row[]) {
+		metricOptionsByPattern.set(row.esquema_metrico_id, [
+			...(metricOptionsByPattern.get(row.esquema_metrico_id) ?? []),
+			row
+		]);
+	}
 	for (const row of [
 		...((metricPositionsResponse.data ?? []) as Row[]),
 		...((metricOptionsResponse.data ?? []) as Row[])
@@ -223,10 +269,17 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 	for (const architecture of architectures) {
 		const form = formById.get(architecture.forma_id);
 		if (!form || form.tipo_registro !== 'forma') continue;
+		const formLevel = structuralLevelByForm.get(form.forma_id) ?? nivelEstructural(form.nivel_estructural);
+		const unitVerses =
+			architecture.unidad_versos_min !== null &&
+			architecture.unidad_versos_min === architecture.unidad_versos_max
+				? Number(architecture.unidad_versos_min)
+				: null;
 		const evidencias: EvidenciaNormativa[] = [];
 		const metres = (metresByArchitecture.get(architecture.arquitectura_id) ?? []).sort(
 			(a, b) => a.silabas - b.silabas
 		);
+		let metricDescription: string | null = null;
 		if (metres.length > 0) {
 			const syllables = metres.map((metre) => Number(metre.silabas));
 			agregarEvidencia(evidencias, evidenciaBase({
@@ -236,6 +289,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				valores: [grupoMetro(syllables)], observabilidad: 'directa', coste: 0.12, orden: 1, fuente: 'esquema'
 			}));
 			const exactLabel = metres.map((metre) => `${metre.silabas} sílabas`).join(' + ');
+			metricDescription = exactLabel;
 			agregarEvidencia(evidencias, evidenciaBase({
 				dimension: 'metro:exacto', familiaCognitiva: 'metro', etiqueta: 'Medida exacta',
 				pregunta: '¿Cuál es la medida métrica de los versos?',
@@ -244,20 +298,40 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			}));
 		}
 
-		if (architecture.unidad_versos_min !== null || architecture.unidad_versos_max !== null) {
+		const lengthRule = lengthRuleByArchitecture.get(architecture.arquitectura_id);
+		if (lengthRule || architecture.unidad_versos_min !== null || architecture.unidad_versos_max !== null) {
 			agregarEvidencia(evidencias, evidenciaBase({
-				dimension: 'extension:versos', familiaCognitiva: 'extension', etiqueta: 'Extensión de la unidad',
-				pregunta: '¿Cuántos versos tiene la unidad completa que estás analizando?',
-				ayuda: 'Puede ser una estrofa, una serie o toda la composición. Si no sabes dónde empieza o termina, responde «No sé».',
-				tipo: 'numero', minimo: architecture.unidad_versos_min, maximo: architecture.unidad_versos_max,
+				dimension: 'extension:versos', familiaCognitiva: 'extension', etiqueta: 'Extensión del pasaje',
+				pregunta: '¿Cuántos versos abarca el pasaje que quieres identificar?',
+				ayuda: 'Cuenta todo el fragmento seleccionado. Puede contener una sola unidad o varias; el demarcador comprobará si se divide regularmente.',
+				tipo: 'numero',
+				minimo: lengthRule?.minimo_versos ?? architecture.unidad_versos_min,
+				maximo: lengthRule ? null : architecture.unidad_versos_max,
+				modulo: lengthRule?.modulo_versos ?? null,
+				residuo: lengthRule?.residuo_versos ?? null,
+				reglaLongitud: lengthRule?.explicacion ?? null,
 				observabilidad: 'directa', coste: 0.28, orden: 8, fuente: 'norma'
+			}));
+		}
+		if (unitVerses !== null && unitVerses > 1 && formLevel !== 'serie') {
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: `estructura:agrupacion:${unitVerses}`,
+				familiaCognitiva: 'estructura',
+				etiqueta: `Grupos de ${unitVerses} versos`,
+				pregunta: `¿Se distinguen grupos regulares de ${unitVerses} versos dentro del pasaje?`,
+				ayuda: 'No necesitas nombrar la estrofa: comprueba únicamente si las fronteras se repiten a esa distancia.',
+				tipo: 'booleano',
+				valores: [valor('si', 'Sí')],
+				observabilidad: 'directa', coste: 0.2, orden: 9, fuente: 'norma'
 			}));
 		}
 
 		const rhymeTypeId = architecture.tipo_rima_id ?? rhymePatternsByArchitecture
 			.get(architecture.arquitectura_id)?.find((pattern) => pattern.tipo_rima_id)?.tipo_rima_id;
+		let rhymeTypeLabel: string | null = null;
 		if (rhymeTypeId) {
 			const vocabulary = vocabularyById.get(rhymeTypeId);
+			rhymeTypeLabel = etiquetaVocabulario(vocabulary, rhymeTypeId);
 			agregarEvidencia(evidencias, evidenciaBase({
 				dimension: 'rima:tipo', familiaCognitiva: 'rima', etiqueta: 'Tipo de rima',
 				pregunta: '¿Qué relación de rima predomina?',
@@ -266,9 +340,21 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				observabilidad: 'especializada', coste: 0.42, orden: 15, fuente: 'norma'
 			}));
 		}
+		const visualRhymeSchemes: Array<{
+			id: string;
+			nombre: string | null;
+			notacion: string;
+			modalidad: ModalidadEvidencia;
+		}> = [];
 		for (const pattern of rhymePatternsByArchitecture.get(architecture.arquitectura_id) ?? []) {
 			const label = esquemaRima(pattern, rhymePositionsByPattern.get(pattern.esquema_rima_id) ?? []);
 			if (!label) continue;
+			visualRhymeSchemes.push({
+				id: pattern.esquema_rima_id,
+				nombre: pattern.nombre?.trim() || null,
+				notacion: label,
+				modalidad: modalidad(pattern.modalidad)
+			});
 			agregarEvidencia(evidencias, evidenciaBase({
 				dimension: 'rima:distribucion', familiaCognitiva: 'rima', etiqueta: 'Distribución de la rima',
 				pregunta: '¿Cómo se distribuyen los versos rimados y sueltos?',
@@ -280,6 +366,36 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 
 		const sections = sectionsByArchitecture.get(architecture.arquitectura_id) ?? [];
 		const structureLabel = etiquetaEstructura(sections);
+		const topSections = sections.filter((section) => section.seccion_padre_id === null);
+		const openSection = topSections.find(
+			(section) =>
+				section.repeticiones_max === null &&
+				section.versos_min !== null &&
+				section.versos_min === section.versos_max
+		);
+		const fixedClosureVerses = topSections
+			.filter(
+				(section) =>
+					section !== openSection &&
+					section.versos_min !== null &&
+					section.versos_min === section.versos_max &&
+					section.repeticiones_min === section.repeticiones_max
+			)
+			.reduce(
+				(total, section) => total + Number(section.versos_min) * Number(section.repeticiones_min ?? 1),
+				0
+			);
+		if (openSection && fixedClosureVerses > 0) {
+			agregarEvidencia(evidencias, evidenciaBase({
+				dimension: `estructura:serie:${openSection.versos_min}:${fixedClosureVerses}`,
+				familiaCognitiva: 'estructura',
+				etiqueta: 'Serie con cierre',
+				pregunta: `¿Se observan grupos sucesivos de ${openSection.versos_min} versos y un cierre final de ${fixedClosureVerses}?`,
+				ayuda: 'Busca la articulación del pasaje; la pregunta no exige conocer el nombre de la forma.',
+				tipo: 'booleano', valores: [valor('si', 'Sí')], observabilidad: 'especializada',
+				coste: 0.42, orden: 24, fuente: 'seccion'
+			}));
+		}
 		agregarEvidencia(evidencias, evidenciaBase({
 			dimension: 'estructura:secciones', familiaCognitiva: 'estructura', etiqueta: 'Secciones internas',
 			pregunta: '¿Se distinguen varias partes o secciones internas?',
@@ -314,6 +430,12 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			}));
 		}
 
+		const visualTraits: Array<{
+			nombre: string;
+			valor: string;
+			descripcion: string | null;
+			modalidad: ModalidadEvidencia;
+		}> = [];
 		for (const item of traitsByArchitecture.get(architecture.arquitectura_id) ?? []) {
 			const trait = traitById.get(item.rasgo_id);
 			if (!trait) continue;
@@ -321,6 +443,12 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			const rawValue = traitValue?.slug ?? item.valor_texto ?? item.valor_numero ?? 'si';
 			const rawLabel = traitValue?.nombre ?? item.valor_texto ?? (item.valor_numero !== null ? String(item.valor_numero) : 'Sí');
 			const boolean = trait.tipo_valor === 'booleano';
+			visualTraits.push({
+				nombre: trait.nombre,
+				valor: boolean ? 'Sí' : String(rawLabel),
+				descripcion: trait.descripcion?.trim() || item.nota?.trim() || null,
+				modalidad: modalidad(item.modalidad)
+			});
 			agregarEvidencia(evidencias, evidenciaBase({
 				dimension: `rasgo:${trait.slug}`, familiaCognitiva: 'rasgo', etiqueta: trait.nombre,
 				pregunta: boolean ? `¿Se observa ${trait.nombre.toLocaleLowerCase('es')}?` : `¿Qué valor presenta «${trait.nombre}»?`,
@@ -330,6 +458,35 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				coste: trait.observabilidad === 'especializada' ? 0.62 : 0.38, orden: 60, fuente: 'rasgo'
 			}));
 		}
+
+		const visualMetricSchemes = ((metricPatternsResponse.data ?? []) as Row[])
+			.filter(
+				(pattern) =>
+					pattern.arquitectura_id === architecture.arquitectura_id && pattern.ambito === 'unidad'
+			)
+			.map((pattern) => {
+				const positions = [...(metricPositionsByPattern.get(pattern.esquema_metrico_id) ?? [])]
+					.sort((a, b) => a.posicion - b.posicion)
+					.map((position) => metreById.get(position.metro_id))
+					.filter((metre): metre is Row => Boolean(metre))
+					.map((metre) => String(metre.silabas));
+				const options = [...(metricOptionsByPattern.get(pattern.esquema_metrico_id) ?? [])]
+					.sort((a, b) => (a.orden ?? 999) - (b.orden ?? 999))
+					.map((option) => metreById.get(option.metro_id))
+					.filter((metre): metre is Row => Boolean(metre))
+					.map((metre) => String(metre.silabas));
+				let tokens = positions.length > 0 ? positions : options.length > 0 ? [options.join('/')] : [];
+				if (tokens.length === 1 && unitVerses !== null) {
+					tokens = [
+						...Array.from({ length: Math.min(unitVerses, 16) }, () => tokens[0]),
+						...(unitVerses > 16 ? ['…'] : [])
+					];
+				} else if (tokens.length === 1 && formLevel === 'serie') {
+					tokens = [tokens[0], tokens[0], tokens[0], '…'];
+				}
+				return tokens;
+			})
+			.filter((tokens) => tokens.length > 0);
 
 		for (const group of groupsByArchitecture.get(architecture.arquitectura_id) ?? []) {
 			const options = [...(optionsByGroup.get(group.grupo_eleccion_id) ?? [])].sort(
@@ -351,12 +508,23 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			formaSlug: form.slug,
 			formaNombre: form.nombre,
 			formaDefinicion: form.definicion?.trim() || null,
+			nivelEstructural: formLevel,
 			gradoEspecificacion: form.grado_especificacion,
 			arquitecturaId: architecture.arquitectura_id,
 			arquitecturaSlug: architecture.slug,
 			arquitecturaNombre: architecture.nombre,
 			arquitecturaDescripcion: architecture.descripcion?.trim() || null,
 			arquitecturaPrincipal: Boolean(architecture.principal),
+			unidadVersos: unitVerses,
+			presentacion: {
+				metro: { descripcion: metricDescription, esquemas: visualMetricSchemes },
+				rima: { tipo: rhymeTypeLabel, esquemas: visualRhymeSchemes },
+				estructura: structureLabel,
+				repeticiones: repetitions
+					.map((repetition) => repetition.descripcion?.trim() || repetition.regla?.trim())
+					.filter((description): description is string => Boolean(description)),
+				rasgos: visualTraits
+			},
 			evidencias
 		});
 	}
@@ -374,6 +542,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				slug: form.slug,
 				nombre: form.nombre,
 				definicion: form.definicion?.trim() || null,
+				nivelEstructural: structuralLevelByForm.get(form.forma_id) ?? nivelEstructural(form.nivel_estructural),
 				gradoEspecificacion: form.grado_especificacion,
 				arquitecturas: hipotesis
 					.filter((item) => item.formaId === formId)

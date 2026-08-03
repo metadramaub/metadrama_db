@@ -2,9 +2,9 @@
 	import {
 		crearRespuesta,
 		elegirPregunta,
-		etiquetaNivel,
 		ordenarFormas
 	} from '$lib/demarcador-metrico/motor';
+	import DemarcadorResultCard from '$lib/components/demarcador/DemarcadorResultCard.svelte';
 	import type {
 		CatalogoDemarcador,
 		ModoDemarcador,
@@ -43,7 +43,9 @@
 		Boolean(modo && (resultadoSuficiente || !pregunta) && !afinamientoSolicitado)
 	);
 	const resultadosVisibles = $derived(
-		respuestas.length > 0 ? formasOrdenadas.slice(0, resultadoSuficiente ? 3 : 5) : []
+		respuestas.length > 0
+			? formasOrdenadas.slice(0, resultadoSuficiente ? 3 : 5)
+			: []
 	);
 	const formaObjetivo = $derived(
 		formaObjetivoId
@@ -97,6 +99,7 @@
 	function manejarTeclado(event: KeyboardEvent) {
 		if (event.key === 'Escape' && instruccionesAbiertas) cerrarInstrucciones();
 	}
+
 </script>
 
 <svelte:window onkeydown={manejarTeclado} />
@@ -321,35 +324,7 @@
 				{#if resultadosVisibles.length > 0}
 					<ol class="divide-y divide-[color:var(--border)]">
 						{#each resultadosVisibles as forma, index}
-							<li class="p-5">
-								<div class="flex items-start justify-between gap-4">
-									<div>
-										<p class="text-xs font-medium text-[color:var(--muted-foreground)]">{index + 1}</p>
-										<h3 class="mt-1 text-xl font-semibold">{forma.formaNombre}</h3>
-										<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-											Arquitectura: {forma.arquitecturas[0].hipotesis.arquitecturaNombre}
-										</p>
-									</div>
-									<span class="border border-[color:var(--border)] px-2 py-1 text-xs font-medium">
-										{etiquetaNivel(forma.nivel)}
-									</span>
-								</div>
-								{#if forma.formaDefinicion}
-									<p class="mt-3 text-sm leading-6 text-[color:var(--gray-700)]">{forma.formaDefinicion}</p>
-								{/if}
-								{#if forma.arquitecturas[0].detalles.some((detalle) => detalle.estado === 'coincide')}
-									<div class="mt-4">
-										<p class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-											Coincide en
-										</p>
-										<ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-											{#each forma.arquitecturas[0].detalles.filter((detalle) => detalle.estado === 'coincide').slice(0, 4) as detalle}
-												<li>{detalle.etiqueta}</li>
-											{/each}
-										</ul>
-									</div>
-								{/if}
-							</li>
+							<DemarcadorResultCard {forma} {index} />
 						{/each}
 					</ol>
 				{:else}
@@ -396,7 +371,8 @@
 				<section>
 					<h3 class="font-semibold text-[color:var(--foreground)]">Responde solo por lo que ves</h3>
 					<ul class="mt-1 list-disc space-y-1 pl-5">
-						<li>Analiza una unidad completa cuando puedas reconocerla.</li>
+						<li>Selecciona el pasaje que quieres identificar; puede contener una o varias unidades.</li>
+						<li>No necesitas decidir de antemano dónde termina cada unidad: el demarcador propondrá agrupaciones posibles.</li>
 						<li>«No sé» no afirma ni niega y reduce la prioridad de preguntas similares.</li>
 						<li>Una coincidencia preferente o admitida orienta, pero no se trata como una regla absoluta.</li>
 						<li>El recorrido se detiene si las precisiones restantes son difíciles y aportan poco.</li>
@@ -406,7 +382,7 @@
 					<h3 class="font-semibold text-[color:var(--foreground)]">Conceptos básicos</h3>
 					<dl class="mt-2 grid gap-3 sm:grid-cols-[8rem_1fr]">
 						<dt class="font-medium text-[color:var(--foreground)]">Metro</dt><dd>Medida métrica de los versos, con sinalefas y ajustes acentuales.</dd>
-						<dt class="font-medium text-[color:var(--foreground)]">Unidad</dt><dd>Estrofa, serie o composición completa a la que pertenece la norma.</dd>
+						<dt class="font-medium text-[color:var(--foreground)]">Pasaje</dt><dd>Fragmento completo seleccionado para el análisis; puede contener una estrofa, una serie, una composición o varias unidades consecutivas.</dd>
 						<dt class="font-medium text-[color:var(--foreground)]">Rima</dt><dd>Relación entre las terminaciones; puede ser consonante, asonante o ausente.</dd>
 						<dt class="font-medium text-[color:var(--foreground)]">Arquitectura</dt><dd>Una realización estructural admitida dentro de una forma. Nunca sustituye su nombre.</dd>
 					</dl>

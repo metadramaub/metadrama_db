@@ -1,9 +1,11 @@
 import type {
 	CatalogoDemarcador,
+	DesviacionLongitud,
 	EvidenciaNormativa,
 	FormaPuntuada,
 	HipotesisMetrica,
 	HipotesisPuntuada,
+	InterpretacionLongitud,
 	ModoDemarcador,
 	ModalidadEvidencia,
 	ObservabilidadEvidencia,
@@ -34,13 +36,99 @@ function evidenciaDe(
 	return hipotesis.evidencias.find((evidencia) => evidencia.dimension === dimension) ?? null;
 }
 
+function restoNormalizado(valor: number, modulo: number): number {
+	return ((valor % modulo) + modulo) % modulo;
+}
+
+function longitudValida(evidencia: EvidenciaNormativa, valor: number): boolean {
+	if (evidencia.minimo !== null && valor < evidencia.minimo) return false;
+	if (evidencia.maximo !== null && valor > evidencia.maximo) return false;
+	if (evidencia.modulo === null || evidencia.residuo === null) return true;
+	return restoNormalizado(valor - evidencia.residuo, evidencia.modulo) === 0;
+}
+
+function desviacionDeLongitud(
+	evidencia: EvidenciaNormativa,
+	observada: number
+): DesviacionLongitud | null {
+	if (evidencia.familiaCognitiva !== 'extension') return null;
+	const minimo = evidencia.minimo ?? 1;
+	const maximo = evidencia.maximo ?? Number.POSITIVE_INFINITY;
+	const modulo = evidencia.modulo;
+	const residuo = evidencia.residuo;
+
+	const limiteAnterior = Math.min(observada - 1, maximo);
+	let regularAnterior: number | null = null;
+	if (limiteAnterior >= minimo) {
+		const candidata =
+			modulo !== null && residuo !== null
+				? limiteAnterior - restoNormalizado(limiteAnterior - residuo, modulo)
+				: limiteAnterior;
+		if (candidata >= minimo && longitudValida(evidencia, candidata)) regularAnterior = candidata;
+	}
+
+	const limiteSiguiente = Math.max(observada + 1, minimo);
+	let regularSiguiente: number | null = null;
+	if (limiteSiguiente <= maximo) {
+		const candidata =
+			modulo !== null && residuo !== null
+				? limiteSiguiente + restoNormalizado(residuo - limiteSiguiente, modulo)
+				: limiteSiguiente;
+		if (candidata <= maximo && longitudValida(evidencia, candidata)) regularSiguiente = candidata;
+	}
+
+	const diferencias = [regularAnterior, regularSiguiente]
+		.filter((valor): valor is number => valor !== null)
+		.map((valor) => Math.abs(observada - valor));
+	if (diferencias.length === 0) return null;
+	return {
+		observada,
+		regularAnterior,
+		regularSiguiente,
+		diferenciaMinima: Math.min(...diferencias),
+		regla: evidencia.reglaLongitud
+	};
+}
+
+function interpretarLongitud(
+	hipotesis: HipotesisMetrica,
+	evidencia: EvidenciaNormativa,
+	observada: number
+): InterpretacionLongitud | null {
+	if (evidencia.familiaCognitiva !== 'extension') return null;
+	if (hipotesis.nivelEstructural === 'serie') {
+		return {
+			observada,
+			tipo: 'serie',
+			unidades: null,
+			versosPorUnidad: null,
+			regla: evidencia.reglaLongitud
+		};
+	}
+	const unidad = hipotesis.unidadVersos;
+	if (unidad !== null && observada % unidad === 0) {
+		const unidades = observada / unidad;
+		return {
+			observada,
+			tipo: unidades === 1 ? 'unidad' : 'repeticion',
+			unidades,
+			versosPorUnidad: unidad,
+			regla: evidencia.reglaLongitud
+		};
+	}
+	return {
+		observada,
+		tipo: 'pasaje',
+		unidades: null,
+		versosPorUnidad: null,
+		regla: evidencia.reglaLongitud
+	};
+}
+
 function coincide(evidencia: EvidenciaNormativa, valor: string | number): boolean {
 	if (evidencia.tipo === 'numero') {
 		if (typeof valor !== 'number') return false;
-		return (
-			(evidencia.minimo === null || valor >= evidencia.minimo) &&
-			(evidencia.maximo === null || valor <= evidencia.maximo)
-		);
+		return longitudValida(evidencia, valor);
 	}
 	return typeof valor === 'string' && evidencia.valores.some((item) => item.clave === valor);
 }
@@ -52,6 +140,8 @@ export function puntuarHipotesis(
 	let puntuacion = hipotesis.arquitecturaPrincipal ? 0.05 : 0;
 	let coincidencias = 0;
 	let contradicciones = 0;
+	let interpretacionLongitud: InterpretacionLongitud | null = null;
+	let desviacionLongitud: DesviacionLongitud | null = null;
 	const detalles: HipotesisPuntuada['detalles'] = [];
 
 	for (const respuesta of respuestas) {
@@ -72,6 +162,9 @@ export function puntuarHipotesis(
 			const peso = pesos.coincide * fiabilidad;
 			puntuacion += peso;
 			coincidencias += 1;
+			if (typeof respuesta.valor === 'number') {
+				interpretacionLongitud = interpretarLongitud(hipotesis, evidencia, respuesta.valor);
+			}
 			detalles.push({
 				dimension: respuesta.dimension,
 				etiqueta: evidencia.etiqueta,
@@ -82,6 +175,9 @@ export function puntuarHipotesis(
 			const peso = pesos.contradice * fiabilidad;
 			puntuacion -= peso;
 			contradicciones += 1;
+			if (typeof respuesta.valor === 'number') {
+				desviacionLongitud = desviacionDeLongitud(evidencia, respuesta.valor);
+			}
 			detalles.push({
 				dimension: respuesta.dimension,
 				etiqueta: evidencia.etiqueta,
@@ -96,6 +192,8 @@ export function puntuarHipotesis(
 		puntuacion: Math.round(puntuacion * 1000) / 1000,
 		coincidencias,
 		contradicciones,
+		interpretacionLongitud,
+		desviacionLongitud,
 		detalles
 	};
 }
@@ -126,7 +224,9 @@ export function ordenarFormas(
 				arquitecturas: ordenadas
 			};
 		})
-		.sort((a, b) => b.puntuacion - a.puntuacion || a.formaNombre.localeCompare(b.formaNombre, 'es'));
+		.sort(
+			(a, b) => b.puntuacion - a.puntuacion || a.formaNombre.localeCompare(b.formaNombre, 'es')
+		);
 
 	const maxima = formas[0]?.puntuacion ?? 0;
 	return formas.map((forma, index) => {
@@ -154,7 +254,9 @@ function entropia(pesos: number[]): number {
 }
 
 function clavePredicha(evidencia: EvidenciaNormativa): string {
-	if (evidencia.tipo === 'numero') return `${evidencia.minimo ?? ''}:${evidencia.maximo ?? ''}`;
+	if (evidencia.tipo === 'numero') {
+		return `${evidencia.minimo ?? ''}:${evidencia.maximo ?? ''}:${evidencia.modulo ?? ''}:${evidencia.residuo ?? ''}`;
+	}
 	return evidencia.valores.map((valor) => valor.clave).sort().join('|');
 }
 
