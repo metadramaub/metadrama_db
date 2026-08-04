@@ -129,6 +129,16 @@ con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
 > la matriz de importación se retiró en julio. El mapa vigente es `origen_termino_id`, y es
 > el que hay que consultar.
 
+**Lo que el mapa no dice.** `origen_termino_id` registra supervivencias y transformaciones,
+nunca disoluciones: un término que desapareció a propósito —`redondilla_hexasilaba`, porque
+la medida es hoy arquitectura— no deja rastro y es indistinguible de uno olvidado. De los
+119 términos legados, 90 declaran equivalencia y **29 no**; cinco de esos 29 están en uso y
+bloquean 15 secuencias. La lista completa, con lo que dijo la matriz de julio y dónde
+contradice ya a la ontología, está en
+[equivalencias pendientes](./equivalencias-pendientes.md). **Resolverla es condición para la
+fase B**, no para la fase 0: en sombra se puede anotar sin ella, simplemente esas secuencias
+aparecen «sin correspondencia» y el editor elige a mano.
+
 **Qué se mira al final.** Un recuento agregado que responde la pregunta que decide el resto:
 de las secuencias anotadas en los dos modelos, cuántas coinciden, cuántas difieren y
 cuántas no tienen todavía correspondencia en el catálogo.
