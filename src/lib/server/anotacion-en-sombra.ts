@@ -9,6 +9,7 @@
  */
 
 import type {
+	ShadowAnswer,
 	ShadowAnnotationData,
 	ShadowCandidateWork,
 	ShadowSequence,
@@ -59,7 +60,14 @@ export async function loadShadowAnnotation(
 
 	// La vista entera son ~260 filas: cabe de sobra, y con ella se calculan a la vez las
 	// secuencias de las obras abiertas y las candidatas del selector.
-	const [proposalResponse, shadowResponse, subtypeResponse, characterizationResponse, obrasResponse] =
+	const [
+		proposalResponse,
+		shadowResponse,
+		subtypeResponse,
+		characterizationResponse,
+		obrasResponse,
+		answersResponse
+	] =
 		await Promise.all([
 			db
 				.from('propuesta_metrica_secuencia')
@@ -73,11 +81,15 @@ export async function loadShadowAnnotation(
 				.not('secuencia_id', 'is', null),
 			db.from('secuencias_subtipos_estrofa').select('secuencia_id'),
 			db.from('secuencias_caracterizaciones_rango').select('secuencia_id'),
-			db.from('obras').select('obra_id,titulo')
+			db.from('obras').select('obra_id,titulo'),
+			db
+				.from('propuesta_elecciones_secuencia')
+				.select('secuencia_id,grupo_eleccion_id,pregunta,opcion_eleccion_id,respuesta,alcance')
 		]);
 
 	throwQueryError('No se pudo cargar la propuesta métrica', proposalResponse.error);
 	throwQueryError('No se pudieron cargar las obras', obrasResponse.error);
+	throwQueryError('No se pudieron cargar las respuestas propuestas', answersResponse.error);
 	throwQueryError('No se pudieron cargar las anotaciones en sombra', shadowResponse.error);
 	throwQueryError('No se pudieron cargar los subtipos estróficos', subtypeResponse.error);
 	throwQueryError(
@@ -98,6 +110,20 @@ export async function loadShadowAnnotation(
 		}
 		return counts;
 	};
+	const answersBySequence = new Map<string, ShadowAnswer[]>();
+	for (const row of answersResponse.data ?? []) {
+		const key = String(row.secuencia_id);
+		const list = answersBySequence.get(key) ?? [];
+		list.push({
+			grupoEleccionId: String(row.grupo_eleccion_id),
+			pregunta: String(row.pregunta),
+			opcionEleccionId: String(row.opcion_eleccion_id),
+			respuesta: String(row.respuesta),
+			alcance: row.alcance === 'unidad' ? 'unidad' : 'secuencia'
+		});
+		answersBySequence.set(key, list);
+	}
+
 	const subtypeCounts = countBy(subtypeResponse.data);
 	const characterizationCounts = countBy(characterizationResponse.data);
 
@@ -121,6 +147,7 @@ export async function loadShadowAnnotation(
 			via: (row.via ?? 'sin_tipo') as ShadowSequence['via'],
 			detalle: row.detalle ?? null,
 			heredadoDe: row.heredado_de ?? null,
+			respuestas: answersBySequence.get(secuenciaId) ?? [],
 			subtipos: subtypeCounts.get(secuenciaId) ?? 0,
 			caracterizaciones: characterizationCounts.get(secuenciaId) ?? 0,
 			pruebaId: shadow ? String(shadow.secuencia_prueba_id) : null,

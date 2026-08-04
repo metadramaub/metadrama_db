@@ -33,6 +33,20 @@ export const SHADOW_RESOLUTION_LABEL: Record<ShadowResolution, string> = {
 	sin_tipo: 'Sin forma'
 };
 
+/**
+ * Una respuesta del formulario que se deduce del término legado: la asonancia de un
+ * romance, el esquema de los tercetos de un soneto. La calcula la vista
+ * `propuesta_elecciones_secuencia`.
+ */
+export type ShadowAnswer = {
+	grupoEleccionId: string;
+	pregunta: string;
+	opcionEleccionId: string;
+	respuesta: string;
+	/** Las de ámbito unidad solo llegan cuando la secuencia es una sola unidad. */
+	alcance: 'secuencia' | 'unidad';
+};
+
 /** Una obra abierta a la anotación en sombra. */
 export type ShadowWork = {
 	obraId: string;
@@ -65,6 +79,8 @@ export type ShadowSequence = {
 	detalle: string | null;
 	/** Término del que se heredó la forma, cuando no la reclama el término mismo. */
 	heredadoDe: string | null;
+	/** Respuestas que el término legado ya permite dar por el editor. */
+	respuestas: ShadowAnswer[];
 	/** Cuántos subtipos y caracterizaciones traía la anotación vieja. */
 	subtipos: number;
 	caracterizaciones: number;

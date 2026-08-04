@@ -17,6 +17,7 @@ function sequence(overrides: Partial<ShadowSequence> = {}): ShadowSequence {
 		via: 'directa',
 		detalle: null,
 		heredadoDe: null,
+		respuestas: [],
 		subtipos: 0,
 		caracterizaciones: 0,
 		pruebaId: null,

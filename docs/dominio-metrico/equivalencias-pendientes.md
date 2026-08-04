@@ -58,6 +58,12 @@ Lo resuelve la vista **`propuesta_metrica_secuencia`**, y de ahí lo leen sus do
 Reparto actual: 134 directas, 71 por rasgo, 7 por ascendencia, 1 sin destino y 3 sin forma
 declarada.
 
+Y una vista hermana, **`propuesta_elecciones_secuencia`**, deduce además **las respuestas**
+que el término legado ya contenía: 71 asonancias de romance y 10 respuestas de ámbito unidad
+—los tercetos de siete sonetos y tres tipologías de sexteto-lira—. Las de ámbito unidad solo
+se proponen cuando la secuencia es una sola unidad: si contiene varias, el término legado
+decía una sola cosa de todas ellas y darla por buena afirmaría que son idénticas.
+
 **Hay una sola fuente: la vista.** Desde el 4 de agosto el informe no calcula nada — consulta
 `propuesta_metrica_secuencia` y se limita a redactar. Cambiar una regla es cambiar la vista, y
 los dos sitios cambian a la vez. El procedimiento completo está en
