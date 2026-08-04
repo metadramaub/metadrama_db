@@ -117,13 +117,12 @@ formulario se propone solo a partir de su `estrofa_tipo_id`, siguiendo el
 `origen_termino_id` que cada entidad del catálogo declara. El editor no reanota: revisa una
 propuesta y corrige. Eso cambia lo que se está probando, y a mejor: no solo la ergonomía
 del formulario, sino **si el mapa de correspondencias acierta**, que es justamente lo que
-hay que saber antes de migrar 260 secuencias de golpe.
+hay que saber antes de migrar el corpus de golpe.
 
-**Cobertura medida el 3 de agosto.** De los 46 términos `estrofa_tipo` que las obras usan,
-37 tienen origen declarado en el catálogo: **238 de 260 secuencias, el 91,5 %**. Quedan
-nueve términos sin correspondencia —`endecasilabo_suelto_puro` (6 secuencias), `decima`
-(5), tres `sexteto_lira_*`, dos pareados, `copla_real_de_pie_quebrado`— y tres secuencias
-con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
+**Cobertura medida el 4 de agosto**, ya sin la obra de pruebas: **205 de 216 secuencias, el
+94,9 %**. Solo tres términos en uso siguen sin correspondencia —`endecasilabo_suelto_puro`
+(6 secuencias), `pareado_endecasilabo` (1) y `copla_real_de_pie_quebrado` (1)—, más tres
+secuencias con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
 
 > Las tablas `migracion_terminos_metricos` y `migracion_termino_destinos` **están vacías**:
 > la matriz de importación se retiró en julio. El mapa vigente es `origen_termino_id`, y es
@@ -132,8 +131,8 @@ con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
 **Lo que el mapa no dice.** `origen_termino_id` registra supervivencias y transformaciones,
 nunca disoluciones: un término que desapareció a propósito —`redondilla_hexasilaba`, porque
 la medida es hoy arquitectura— no deja rastro y es indistinguible de uno olvidado. De los
-119 términos legados, 90 declaran equivalencia y **29 no**; cinco de esos 29 están en uso y
-bloquean 15 secuencias. La lista completa, con lo que dijo la matriz de julio y dónde
+119 términos legados, 91 declaran equivalencia y **28 no**; tres de esos 28 están en uso y
+bloquean 8 secuencias. La lista completa, con lo que dijo la matriz de julio y dónde
 contradice ya a la ontología, está en
 [equivalencias pendientes](./equivalencias-pendientes.md). **Resolverla es condición para la
 fase B**, no para la fase 0: en sombra se puede anotar sin ella, simplemente esas secuencias
@@ -145,7 +144,7 @@ cuántas no tienen todavía correspondencia en el catálogo.
 
 No se construye una pantalla de contraste lado a lado: para ver una obra en los dos modelos
 se abre el editor de siempre en otra pestaña, que enseña el dato real y no una copia suya.
-Lo que no se puede obtener así es el agregado —habría que contar a mano sobre 91 obras—, y
+Lo que no se puede obtener así es el agregado —habría que contar a mano 216 secuencias—, y
 por eso es lo único que se implementa. Que «sin correspondencia» se cuente aparte y no como
 desacuerdo es deliberado: es una pieza que falta en el catálogo, no una discrepancia entre
 modelos, y mezclarlas haría parecer que la fase va peor de lo que va.

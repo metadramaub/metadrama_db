@@ -37,7 +37,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   con `secuencias_editor_metrico.secuencia_id`, sin que la secuencia cambie nada:
   `obras_editor_metrico_v2` dice qué obras están abiertas, la vista
   `propuesta_metrica_secuencia` traduce cada `estrofa_tipo_id` a su forma y arquitectura
-  —91,5 % de cobertura medida— y el formulario llega propuesto desde ahí, de modo que el
+  —94,9 % de cobertura medida— y el formulario llega propuesto desde ahí, de modo que el
   editor revisa en vez de reanotar. El recuento de acuerdo entre modelos está en la misma
   pestaña; para ver una obra en los dos modelos se abre el editor de siempre en otra
   pestaña, no hay pantalla doble. Es la fase 0 de
