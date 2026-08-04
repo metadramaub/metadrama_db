@@ -2,10 +2,16 @@
 
 Estado: **abierto, a completar por el IP** · 4 de agosto de 2026
 
-De los 119 términos de `vocabularios.categoria = 'estrofa_tipo'`, **90 declaran hoy su
-equivalencia en el catálogo nuevo y 29 no**. A nivel de secuencias reales: **242 de 260
-(93,1 %)**; las 15 restantes —más 3 secuencias sin `estrofa_tipo_id`— dependen de los cinco
-términos que sí están en uso.
+De los 119 términos de `vocabularios.categoria = 'estrofa_tipo'`, **91 declaran hoy su
+equivalencia en el catálogo nuevo y 28 no**. A nivel de secuencias reales: **205 de 216
+(94,9 %)**; las 8 restantes —más 3 secuencias sin `estrofa_tipo_id`— dependen de los tres
+términos que siguen en uso.
+
+> **Las cifras de uso cambiaron el 4 de agosto** al retirarse «Los ramilletes de Madrid
+> (prueba)», la obra de pruebas del proyecto, cuyos datos eran inventados. Se llevaba 44 de
+> las 260 secuencias y era la única que escogía raíces genéricas: `decima`, `romance`,
+> `octava_real`, `pareado_octosilabo`, `terceto`, `soneto` y `silva` se quedaron sin uso
+> real. El corpus de verdad siempre elige una hija concreta.
 
 ## El problema no es solo que falten: es que el mapa no puede expresarlos
 
@@ -25,7 +31,7 @@ Los tres casos comprobados el 4 de agosto:
 - Los valores de rasgo **«Agudo» y «Esdrújulo» no declaran origen ninguno**, y necesitan
   recibir seis términos `*_de_esdrujulos` a la vez.
 
-Consecuencia: parte de los 29 no son un olvido sino **un límite de forma del mapa**.
+Consecuencia: parte de los 28 no son un olvido sino **un límite de forma del mapa**.
 `migracion_termino_destinos` existía justamente para lo de varios a uno, y está vacía. Hay
 que decidir si se rellena esa tabla, si se admite una lista en el destino, o si la
 correspondencia de varios a uno se resuelve solo en el script de backfill.
@@ -34,7 +40,7 @@ Añadido: `origen_termino_id` registra supervivencias y transformaciones, **nunc
 disoluciones**. `redondilla_hexasilaba` desapareció a propósito y no dejó rastro; en la base
 es indistinguible de un olvido.
 
-La intención está escrita para los 29 en
+La intención está escrita para los 28 en
 [la matriz de reclasificación](./historico/matriz-reclasificacion-formas-metricas.md), del
 28 de julio, declarada «propuesta para revisión del IP; no aplicada». Es dos días anterior a
 la revisión de la ontología y **la contradice en cuatro casos**.
@@ -46,15 +52,14 @@ la revisión de la ontología y **la contradice en cuatro casos**.
   mide el riesgo de la decisión: un término sin uso propio dentro de una familia muy usada
   toca una zona delicada del corpus.
 
-Por familia, de más a menos: **redondilla 76** · décima 23 · silva 13 · soneto 9 · octava
-real 7 · endecasílabo suelto 6 · terceto 4 · sexteto-lira 4 · irregular 3 · copla real 3 ·
-pareado 2 · **canción petrarquista 0**.
+Por familia, de más a menos: **redondilla 63** · décima 18 · silva 12 · soneto 7 ·
+endecasílabo suelto 6 · octava real 4 · sexteto-lira 4 · copla real 3 · terceto 2 ·
+irregular 1 · **pareado 0** · **canción petrarquista 0**.
 
 ## 1 · El destino no existe todavía: hay que decidirlo
 
 | Término legado | Propias | Familia | La matriz decía | Estado real | Destino definitivo |
 | --- | ---: | ---: | --- | --- | --- |
-| `decima` | **5** | **23** | Familia no seleccionable `decimas` | **Choca: no existen familias.** Hay «Décima espinela» (18 secuencias) y «Décima aumentada», pero no una Décima general | |
 | `copla_real_de_pie_quebrado` | **1** | 3 | Arquitectura con uno o dos tetrasílabos por unidad | Copla real tiene **una sola arquitectura**, «Octosilábica consonante», ya reclamada por `copla_real_sin_quebrado`. El rasgo «Pie quebrado» existe **sin ningún valor** | |
 | `endecasilabo_suelto_encadenado` | 0 | 6 | Arquitectura con rima interna encadenada + rasgo. **Certeza media, revisión del IP** | No hay tal arquitectura | |
 | `endecasilabo_suelto_con_pareados` | 0 | 6 | Arquitectura con pareados intercalados y dístico final | No hay tal arquitectura | |
@@ -67,11 +72,11 @@ Aquí no falta modelar: falta poder decir «varios vienen a este».
 | Término legado | Propias | Familia | Destino | Quién lo reclama ya | Destino definitivo |
 | --- | ---: | ---: | --- | --- | --- |
 | `endecasilabo_suelto_puro` | **6** | 6 | Endecasílabo suelto · Endecasilábica | `endecasilabo_suelto_puro_sin_distico_final` | |
-| `pareado_octosilabo` | **2** | 2 | Pareado · De cualquier medida | `pareado_de_arte_menor` (el padre) | |
-| `pareado_hexasilabo` | 0 | 2 | Pareado · De cualquier medida | Ídem | |
-| `soneto_de_esdrújulos` | 0 | **9** | Soneto + rasgo `final_acentual = esdrujulo` | «Esdrújulo» no declara origen; lo necesitan seis términos | |
-| `octava_real_de_esdrujulos` | 0 | 7 | Octava real + mismo rasgo | Ídem | |
-| `terceto_de_esdrujulos` | 0 | 4 | Terceto + mismo rasgo (corregir tamaño 1 → 3) | Ídem | |
+| `pareado_octosilabo` | 0 | 0 | Pareado · De cualquier medida | `pareado_de_arte_menor` (el padre) | |
+| `pareado_hexasilabo` | 0 | 0 | Pareado · De cualquier medida | Ídem | |
+| `soneto_de_esdrújulos` | 0 | 7 | Soneto + rasgo `final_acentual = esdrujulo` | «Esdrújulo» no declara origen; lo necesitan seis términos | |
+| `octava_real_de_esdrujulos` | 0 | 4 | Octava real + mismo rasgo | Ídem | |
+| `terceto_de_esdrujulos` | 0 | 2 | Terceto + mismo rasgo (corregir tamaño 1 → 3) | Ídem | |
 | `sexteto_lira_de_esdrujulos` | 0 | 4 | Sexteto-lira + mismo rasgo; extensión derivada como 6 | Ídem | |
 | `endecasilabo_suelto_de_esdrujulos` | 0 | 6 | Endecasílabo suelto + mismo rasgo | Ídem | |
 | `cancion_sin_rima_de_esdrujulos` | 0 | 0 | Arquitectura sin rima + mismo rasgo | La arquitectura «Sin rima, con pareado final» la reclama `cancion_sin_rima` | |
@@ -80,23 +85,26 @@ Aquí no falta modelar: falta poder decir «varios vienen a este».
 
 | Término legado | Propias | Familia | Destino disponible en el catálogo | Destino definitivo |
 | --- | ---: | ---: | --- | --- |
-| `redondilla_heptasilaba` | 0 | **76** | Redondilla · Heptasilábica (sin origen declarado) | |
-| `redondilla_hexasilaba` | 0 | **76** | Redondilla · Hexasilábica (sin origen declarado) | |
-| `silva_libre` | 0 | 13 | Silva · Libre (sin origen declarado) | |
+| `redondilla_heptasilaba` | 0 | **63** | Redondilla · Heptasilábica (sin origen declarado) | |
+| `redondilla_hexasilaba` | 0 | **63** | Redondilla · Hexasilábica (sin origen declarado) | |
+| `silva_libre` | 0 | 12 | Silva · Libre (sin origen declarado) | |
 
 ## 4 · Resueltos por el IP el 4 de agosto de 2026
 
 | Término legado | Propias | Familia | Decisión |
 | --- | ---: | ---: | --- |
-| `redondilla_cruzada` | 0 | **76** | Esquema de rima `abab` de la redondilla. **«Redondilla cruzada» es el nombre preferente y «cuarteta» su denominación equivalente en uso actual: son exactamente lo mismo.** No confundir con la forma «Cuarteto» del catálogo, que es otra cosa |
+| `redondilla_cruzada` | 0 | **63** | Esquema de rima `abab` de la redondilla. **«Redondilla cruzada» es el nombre preferente y «cuarteta» su denominación equivalente en uso actual: son exactamente lo mismo.** No confundir con la forma «Cuarteto» del catálogo, que es otra cosa |
+| `decima` | 0 | 18 | **Aplicado** en `20260804110000`. Una sola forma **Décima** con dos arquitecturas: **Espinela** (10 versos, principal) y **Aumentada** (12). La raíz legada y `decima_espinela` eran el mismo texto con el mismo patrón, no una forma general. La aumentada vuelve dentro porque la extensión la declara la arquitectura, no la forma —igual que la redondilla, de cuatro versos, aloja «Doble enlazada», de ocho—. No se creó arquitectura genérica: en el corpus no hay ninguna décima de diez versos que no sea espinela. La definición lleva la articulación 4 + 2 + 4 y no solo la medida, porque la copla real es también diez octosílabos consonantes y se separa por la pausa (5 + 5) |
+| `decima_espinela` | — | — | Arquitectura «Espinela» de Décima; conserva su nombre como denominación |
+| `decima_aumentada` | — | — | Arquitectura «Aumentada» de Décima; conserva su nombre como denominación |
 
 ## 5 · Disoluciones deliberadas: no hay destino porque no debe haberlo
 
 | Término legado | Propias | Familia | Decisión de la matriz |
 | --- | ---: | ---: | --- |
-| `irregular_arte_mayor` | 0 | 3 | Fundir con Versificación irregular; el arte se conserva o se deriva como observación |
-| `irregular_arte_menor` | 0 | 3 | Ídem |
-| `irregular_mixto` | 0 | 3 | Ídem |
+| `irregular_arte_mayor` | 0 | 1 | Fundir con Versificación irregular; el arte se conserva o se deriva como observación |
+| `irregular_arte_menor` | 0 | 1 | Ídem |
+| `irregular_mixto` | 0 | 1 | Ídem |
 | `cancion_de_8_versos` | 0 | 0 | Extensión observada de la estancia; no identidad propia |
 | `cancion_de_9_versos` | 0 | 0 | Ídem |
 | `cancion_de_15_versos` | 0 | 0 | Ídem |
