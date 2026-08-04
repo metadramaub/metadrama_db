@@ -49,6 +49,8 @@
 	let sequenceSaving = $state(false);
 	let openDraft = $state<MetricSequenceDraft | null>(null);
 	let openSequenceId = $state<string | null>(null);
+	/** Respuestas por unidad de la secuencia abierta: las aplica el editor al materializarlas. */
+	let openUnitAnswers = $state<{ grupo_eleccion_id: string; opcion_eleccion_id: string }[]>([]);
 	let openToken = $state(0);
 	let editorState = $state<MetricSequenceEditorState | null>(null);
 	let baselineToken = $state(-1);
@@ -159,6 +161,8 @@
 			(row: MetricCatalogDomainRow) => String(row.secuencia_id ?? '') === sequence.secuenciaId
 		);
 		if (saved) {
+			// Ya anotada: lo guardado manda, no se vuelve a proponer nada.
+			openUnitAnswers = [];
 			openDraft = draftFromRows(saved, {
 				units: props.data.editorSandbox.units,
 				choices: props.data.editorSandbox.choices,
@@ -169,9 +173,16 @@
 			// Esas respuestas llegan contestadas para que el editor las revise, no las repita.
 			// Las de ámbito unidad se dejan para cuando el formulario haya materializado sus
 			// unidades: aquí todavía no existen y no habría dónde colgarlas.
-			const respuestas = (sequence.respuestas as ShadowAnswer[]).filter(
+			const todas = sequence.respuestas as ShadowAnswer[];
+			const respuestas = todas.filter(
 				(respuesta: ShadowAnswer) => respuesta.alcance === 'secuencia'
 			);
+			openUnitAnswers = todas
+				.filter((respuesta: ShadowAnswer) => respuesta.alcance === 'unidad')
+				.map((respuesta: ShadowAnswer) => ({
+					grupo_eleccion_id: respuesta.grupoEleccionId,
+					opcion_eleccion_id: respuesta.opcionEleccionId
+				}));
 			openDraft = {
 				secuencia_prueba_id: null,
 				escenario_id: null,
@@ -201,6 +212,7 @@
 	function closeEditor() {
 		openDraft = null;
 		openSequenceId = null;
+		openUnitAnswers = [];
 		editorState = null;
 		draftBaseline = '';
 	}
@@ -611,6 +623,7 @@
 					<MetricSequenceEditor
 						{catalog}
 						initialDraft={openDraft}
+						initialUnitAnswers={openUnitAnswers}
 						onStateChange={handleEditorState}
 					/>
 				{/key}

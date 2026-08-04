@@ -273,6 +273,58 @@ export function normalizeStructuredUnits(
 	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
 }
 
+/** Una respuesta deducida del término legado que hay que colgar de las unidades. */
+export type MetricProposedUnitAnswer = {
+	grupo_eleccion_id: string;
+	opcion_eleccion_id: string;
+};
+
+/**
+ * Cuelga de sus unidades las respuestas que llegan ya deducidas del término legado.
+ *
+ * No pueden venir dentro del borrador porque cuando se construye las unidades no existen: las
+ * materializa el editor al conocer la arquitectura. Una pregunta sin sección va a la unidad
+ * entera —la realización que no cuelga de ninguna otra—; una anclada en una sección, a las
+ * realizaciones de esa sección. Es el mismo criterio que aplica la función de guardado.
+ *
+ * Lo ya respondido no se toca: la propuesta solo rellena huecos.
+ */
+export function applyProposedUnitAnswers(
+	units: MetricUnitDraft[],
+	choices: MetricChoiceDraft[],
+	groups: MetricCatalogDomainRow[],
+	answers: MetricProposedUnitAnswer[]
+): MetricChoiceDraft[] {
+	const next = [...choices];
+	for (const answer of answers) {
+		const group = groups.find(
+			(candidate) => String(candidate.grupo_eleccion_id) === answer.grupo_eleccion_id
+		);
+		if (!group) continue;
+		const targets = units.filter((unit) =>
+			group.seccion_id
+				? String(group.seccion_id) === unit.seccion_id
+				: unit.realizacion_padre_id === null
+		);
+		for (const unit of targets) {
+			const answered = next.some(
+				(choice) =>
+					choice.grupo_eleccion_id === answer.grupo_eleccion_id &&
+					choice.realizacion_prueba_id === unit.realizacion_prueba_id
+			);
+			if (answered) continue;
+			next.push({
+				realizacion_prueba_id: unit.realizacion_prueba_id,
+				grupo_eleccion_id: answer.grupo_eleccion_id,
+				opcion_eleccion_id: answer.opcion_eleccion_id,
+				valor_texto: null,
+				observaciones: null
+			});
+		}
+	}
+	return next;
+}
+
 /** Las filas guardadas de una prueba, tal como las devuelve la base. */
 export type MetricSavedSequenceRows = {
 	units: MetricCatalogDomainRow[];

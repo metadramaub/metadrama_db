@@ -64,6 +64,11 @@ que el término legado ya contenía: 71 asonancias de romance y 10 respuestas de
 se proponen cuando la secuencia es una sola unidad: si contiene varias, el término legado
 decía una sola cosa de todas ellas y darla por buena afirmaría que son idénticas.
 
+Las dos clases se rellenan solas en el formulario. Las de unidad se aplican cuando el editor
+materializa las unidades, que es cuando existen: una pregunta sin sección va a la unidad
+entera y una anclada en una sección, a las realizaciones de esa sección, con el mismo
+criterio que usa la función de guardado.
+
 **Hay una sola fuente: la vista.** Desde el 4 de agosto el informe no calcula nada — consulta
 `propuesta_metrica_secuencia` y se limita a redactar. Cambiar una regla es cambiar la vista, y
 los dos sitios cambian a la vez. El procedimiento completo está en
