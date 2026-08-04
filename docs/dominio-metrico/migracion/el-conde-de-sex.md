@@ -1,7 +1,8 @@
 # Migración métrica · El conde de Sex
 
 Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano:**
-se regenera y se pierde lo escrito. Las decisiones van a
+se regenera y se pierde lo escrito. El procedimiento está en
+[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
 
 - **Editor asignado:** Rosa Bono
@@ -40,9 +41,9 @@ Resolución: 10 directas · 17 con rasgo propio · 0 por ascendencia · 1 sin de
 | 1327–1328 | 2 | `romance_e-o` | Romance | Octosílabo | Vocales de la asonancia = e-o | rasgo + forma del padre |
 | 1329–1368 | 40 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
 | 1369–1438 | 70 | `romance_e-o` | Romance | Octosílabo | Vocales de la asonancia = e-o | rasgo + forma del padre |
-| 1439–1452 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | — | directa |
+| 1439–1452 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | esquema de rima «Tercetos de rima cruzada» | directa |
 | 1453–1454 | 2 | `romance_e-o` | Romance | Octosílabo | Vocales de la asonancia = e-o | rasgo + forma del padre |
-| 1455–1468 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | — | directa |
+| 1455–1468 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | esquema de rima «Tercetos de rima cruzada» | directa |
 | 1469–1554 | 86 | `romance_e-o` | Romance | Octosílabo | Vocales de la asonancia = e-o | rasgo + forma del padre |
 | 1555–1634 | 80 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 1635–1886 | 252 | `romance_e-a` | Romance | Octosílabo | Vocales de la asonancia = e-a | rasgo + forma del padre |

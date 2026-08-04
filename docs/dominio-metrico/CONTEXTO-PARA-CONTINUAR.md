@@ -139,9 +139,11 @@ Leer solo lo necesario para la tarea:
    mínimo de las formas revisadas.
 5. [Cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md): única lista
    vigente de dudas filológicas.
-5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): los 29 términos legados que
-   todavía no declaran su destino en el catálogo, cinco de ellos en uso. Es lo que hay que
-   cerrar antes del backfill.
+5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): los términos legados que
+   todavía no declaran su destino en el catálogo. Es lo que hay que cerrar antes del backfill.
+5ter. [Cómo se migra una obra](./como-se-migra-una-obra.md): el procedimiento, escrito para
+   poder explicárselo a quien anotó cada obra. Los informes por obra se generan con
+   `npm run migracion:informe` y viven en [migracion/](./migracion/).
 6. La revisión específica de una forma, solo si la nueva tarea afecta a esa forma.
 
 [El vocabulario heredado](./historico/vocabulario-heredado.md) conserva los 119 términos

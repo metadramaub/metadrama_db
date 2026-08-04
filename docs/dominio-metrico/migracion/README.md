@@ -3,8 +3,9 @@
 Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano.**
 
 Un documento por obra con secuencias métricas, para revisar con quien la anotó.
-Las decisiones que salgan de esas revisiones van a
-[equivalencias pendientes](../equivalencias-pendientes.md), que es el documento vivo.
+El procedimiento está en [cómo se migra una obra](../como-se-migra-una-obra.md);
+las decisiones que salgan de cada revisión van a
+[equivalencias pendientes](../equivalencias-pendientes.md).
 
 | Obra | Editor | Secs | Directas | Rasgo | Ascend. | Dudas |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |

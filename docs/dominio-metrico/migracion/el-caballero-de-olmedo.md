@@ -1,7 +1,8 @@
 # Migración métrica · El caballero de Olmedo
 
 Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano:**
-se regenera y se pierde lo escrito. Las decisiones van a
+se regenera y se pierde lo escrito. El procedimiento está en
+[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
 
 - **Editor asignado:** María Isabel Cuena
@@ -28,7 +29,7 @@ Resolución: 33 directas · 12 con rasgo propio · 1 por ascendencia · 0 sin de
 | 408–460 | 53 | `romance_a-a` | Romance | Octosílabo | Vocales de la asonancia = a-a | rasgo + forma del padre |
 | 461–490 | 30 | `decima_espinela` | Décima | Espinela | — | directa |
 | 491–502 | 12 | `redondilla` | Redondilla | Octosilábica | — | directa |
-| 503–516 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | — | directa |
+| 503–516 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | esquema de rima «Tercetos de rima cruzada» | directa |
 | 517–532 | 16 | `redondilla` | Redondilla | Octosilábica | — | directa |
 | 533–570 | 38 | `romance_a-e` | Romance | Octosílabo | Vocales de la asonancia = a-e | rasgo + forma del padre |
 | 571–622 | 52 | `redondilla` | Redondilla | Octosilábica | — | directa |
