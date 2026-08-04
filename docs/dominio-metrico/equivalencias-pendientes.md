@@ -2,16 +2,22 @@
 
 Estado: **abierto, a completar por el IP** · 4 de agosto de 2026
 
-De los 119 términos de `vocabularios.categoria = 'estrofa_tipo'`, **91 declaran hoy su
-equivalencia en el catálogo nuevo y 28 no**. A nivel de secuencias reales: **205 de 216
-(94,9 %)**; las 8 restantes —más 3 secuencias sin `estrofa_tipo_id`— dependen de los tres
-términos que siguen en uso.
+**Desde el 4 de agosto de 2026 no queda ninguna secuencia sin resolver: 212 de 212.** El
+reparto es 134 directas, 71 por rasgo y 7 por ascendencia. Lo que sigue abierto no bloquea la
+migración: son decisiones de modelado sobre términos que nadie usa, más las
+[cuestiones de la serie de arte mayor](./revisiones-formas/cuestiones-para-el-ip.md).
 
-> **Las cifras de uso cambiaron el 4 de agosto** al retirarse «Los ramilletes de Madrid
-> (prueba)», la obra de pruebas del proyecto, cuyos datos eran inventados. Se llevaba 44 de
-> las 260 secuencias y era la única que escogía raíces genéricas: `decima`, `romance`,
-> `octava_real`, `pareado_octosilabo`, `terceto`, `soneto` y `silva` se quedaron sin uso
-> real. El corpus de verdad siempre elige una hija concreta.
+De los 119 términos de `vocabularios.categoria = 'estrofa_tipo'`, 92 declaran hoy su
+equivalencia en el catálogo nuevo. Los que no la declaran, o se resuelven por ascendencia o
+no los usa nadie.
+
+> **Las cifras de uso cambiaron dos veces el 4 de agosto.** Primero al retirarse «Los
+> ramilletes de Madrid (prueba)», la obra de pruebas del proyecto, cuyos datos eran
+> inventados: se llevaba 44 secuencias y era la única que escogía raíces genéricas, así que
+> `decima`, `romance`, `octava_real`, `pareado_octosilabo`, `terceto`, `soneto` y `silva` se
+> quedaron sin uso real. Después al borrarse las cuatro secuencias de prueba de
+> Fuenteovejuna, que se volverán a introducir con el modelo nuevo. El corpus queda en **212
+> secuencias sobre 10 obras**, y el de verdad siempre elige una hija concreta.
 
 ## El problema no es solo que falten: es que el mapa no puede expresarlos
 

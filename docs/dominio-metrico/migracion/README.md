@@ -9,7 +9,6 @@ las decisiones que salgan de cada revisión van a
 
 | Obra | Editor | Secs | Directas | Rasgo | Ascend. | Dudas |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| [Fuenteovejuna](./fuenteovejuna.md) | David Merino Recalde | 4 | 1 | 0 | 0 | **3** |
 | [El esclavo del demonio](./el-esclavo-del-demonio.md) | Blanca Ballester Morell | 30 | 19 | 5 | 6 | — |
 | [El caballero de Olmedo](./el-caballero-de-olmedo.md) | María Isabel Cuena | 46 | 33 | 12 | 1 | — |
 | [El amor al uso](./el-amor-al-uso.md) | Ana Vicente | 28 | 17 | 11 | 0 | — |
@@ -21,4 +20,4 @@ las decisiones que salgan de cada revisión van a
 | [Cegar para ver mejor](./cegar-para-ver-mejor.md) | Gabriel López | 3 | 2 | 1 | 0 | — |
 | [El ganso de oro](./el-ganso-de-oro.md) | Gaston Gilabert | 1 | 1 | 0 | 0 | — |
 
-**216 secuencias en 11 obras:** 135 directas, 71 con rasgo propio, 7 por ascendencia, 3 por decidir.
+**212 secuencias en 10 obras:** 134 directas, 71 con rasgo propio, 7 por ascendencia, 0 por decidir.
