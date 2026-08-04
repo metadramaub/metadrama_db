@@ -59,10 +59,25 @@ Reparto actual: 134 directas, 71 por rasgo, 7 por ascendencia, 1 sin destino y 3
 declarada.
 
 Y una vista hermana, **`propuesta_elecciones_secuencia`**, deduce además **las respuestas**
-que el término legado ya contenía: 71 asonancias de romance y 10 respuestas de ámbito unidad
-—los tercetos de siete sonetos y tres tipologías de sexteto-lira—. Las de ámbito unidad solo
-se proponen cuando la secuencia es una sola unidad: si contiene varias, el término legado
-decía una sola cosa de todas ellas y darla por buena afirmaría que son idénticas.
+que el término legado ya contenía: **88 en total**, entre 71 asonancias de romance y 17 de
+ámbito unidad —los cuartetos y los tercetos de siete sonetos, y tres tipologías de
+sexteto-lira—. Las de ámbito unidad solo se proponen cuando la secuencia es una sola unidad:
+si contiene varias, el término legado decía una sola cosa de todas ellas y darla por buena
+afirmaría que son idénticas.
+
+Esa vista bebe de dos sitios, porque `origen_termino_id` no llega a todo:
+
+1. **Lo que se deduce siguiendo `origen_termino_id`** hasta la opción que selecciona esa
+   entidad. Sirve mientras la correspondencia sea de uno a uno.
+2. **`equivalencias_respuestas_legadas`**, una tabla que declara a mano lo que un término
+   implica cuando varios términos comparten destino y la columna única no da de sí. El caso
+   que la hizo necesaria: los cuatro términos específicos de soneto empiezan por `ABBAABBA`
+   y por tanto implican cuartetos abrazados, pero el esquema «Abrazada» solo puede declarar
+   un origen y esos términos ya están reclamados por sus esquemas de tercetos.
+
+Es la respuesta, acotada a respuestas, a la limitación de varios a uno que aparece también
+en el endecasílabo suelto, el pareado y los esdrújulos. Solo se rellena con lo que el término
+dice sin lugar a duda, y cada fila lleva su justificación en `nota`.
 
 Las dos clases se rellenan solas en el formulario. Las de unidad se aplican cuando el editor
 materializa las unidades, que es cuando existen: una pregunta sin sección va a la unidad
