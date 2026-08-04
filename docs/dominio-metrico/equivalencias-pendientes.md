@@ -48,6 +48,33 @@ La intención está escrita para los 28 en
 28 de julio, declarada «propuesta para revisión del IP; no aplicada». Es dos días anterior a
 la revisión de la ontología y **la contradice en cuatro casos**.
 
+## La jerarquía ya lleva la respuesta en 24 de los 28
+
+Medido el 4 de agosto. Si, cuando un término no tiene reclamación directa, se sube por
+`termino_padre_id` hasta encontrar un ascendiente que sí la tenga, **24 de los 28 se
+resuelven solos**: redondillas, pareados, canciones, sonetos de esdrújulos, irregulares,
+copla real de pie quebrado, silva libre y los seis hijos del endecasílabo suelto.
+
+Sobre las secuencias reales el resultado es: **205 resuelven de forma directa, 7 por
+ascendencia, 1 no resuelve y 3 no declaran forma**. Es decir, 212 de 216.
+
+Dos advertencias:
+
+- La ascendencia da **forma y arquitectura, no las respuestas**. Un `endecasilabo_suelto_puro`
+  resuelve a «Endecasílabo suelto · Endecasilábica», pero «¿hay pareados intercalados?» y
+  «¿dístico final?» las sigue contestando el editor. Rellenarlas automáticamente exige un
+  mapa compuesto, que es otra cosa.
+- La propuesta debe **declarar que viene por ascendencia** y no hacerla pasar por directa.
+  Si no, el recuento de la fase 0 contaría como acierto algo menos preciso de lo que parece.
+
+Subir al padre tiene un límite que conviene no confundir: una **raíz** sin reclamación
+directa parece huérfana aunque todos sus hijos estén mapeados, porque no hay adónde subir.
+Es el caso de `romancillo`, cuyos dos hijos reclaman ya las arquitecturas Hexasílabo y
+Heptasílabo del romance. No es un hueco: es una raíz disuelta.
+
+Huérfanos de verdad quedan **tres**, y solo uno está en uso: `pareado_endecasilabo`
+(1 secuencia), `doble_sextilla` (0) y `copla_manriqueña` (0).
+
 ## Cómo leer las columnas de uso
 
 - **Propias**: secuencias reales que declaran ese término exacto.
