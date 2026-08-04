@@ -123,8 +123,17 @@ directa parece huérfana aunque todos sus hijos estén mapeados, porque no hay a
 Es el caso de `romancillo`, cuyos dos hijos reclaman ya las arquitecturas Hexasílabo y
 Heptasílabo del romance. No es un hueco: es una raíz disuelta.
 
-Huérfanos de verdad quedan **tres**, y solo uno está en uso: `pareado_endecasilabo`
-(1 secuencia), `doble_sextilla` (0) y `copla_manriqueña` (0).
+Huérfanos quedan **dos**, ninguno en uso: `doble_sextilla` (0) y `copla_manriqueña` (0).
+
+`pareado_endecasilabo` se resolvió el 4 de agosto. Su única secuencia mide **dos versos** y
+está aislada entre dos romances octosílabos —El conde de Sex, vv. 1887-1888—, así que no es
+el extremo del continuo endecasilábico de Morley y Bruerton sino un dístico. Le corresponde
+la forma Pareado, que el catálogo define más ancha que M&B a propósito, con la medida y la
+rima declaradas como respuestas.
+
+Con eso **toda secuencia que declara una forma resuelve**: 135 directas, 71 por rasgo, 7 por
+ascendencia. Las 3 que quedan no declaran forma ninguna y son un problema de dato en
+Fuenteovejuna, no de equivalencia.
 
 ## Cómo leer las columnas de uso
 

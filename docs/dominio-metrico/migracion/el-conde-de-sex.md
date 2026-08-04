@@ -10,17 +10,11 @@ se regenera y se pierde lo escrito. El procedimiento está en
 - **Subtipos estróficos:** 0
 - **Caracterizaciones por rango:** 0
 
-## Qué hay que consultar
+## Nada que consultar
 
-- **1 secuencia(s) sin equivalencia.** Es lo que hay que decidir con el editor.
+La equivalencia de todas las secuencias se resuelve sin ambigüedad.
 
-Resolución: 10 directas · 17 con rasgo propio · 0 por ascendencia · 1 sin destino · 0 sin forma declarada.
-
-## Dudas, una por una
-
-| Versos | Término actual | Qué pasa |
-| --- | --- | --- |
-| 1887–1888 (2 v) | `pareado_endecasilabo` | `pareado_endecasilabo` no tiene equivalencia en el catálogo nuevo, ni él ni ningún ascendiente suyo. |
+Resolución: 11 directas · 17 con rasgo propio · 0 por ascendencia · 0 sin destino · 0 sin forma declarada.
 
 ## Secuencias
 
@@ -47,7 +41,7 @@ Resolución: 10 directas · 17 con rasgo propio · 0 por ascendencia · 1 sin de
 | 1469–1554 | 86 | `romance_e-o` | Romance | Octosílabo | Vocales de la asonancia = e-o | rasgo + forma del padre |
 | 1555–1634 | 80 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 1635–1886 | 252 | `romance_e-a` | Romance | Octosílabo | Vocales de la asonancia = e-a | rasgo + forma del padre |
-| 1887–1888 | 2 | `pareado_endecasilabo` | — | — | — | **sin destino** |
+| 1887–1888 | 2 | `pareado_endecasilabo` | Pareado | De cualquier medida | — | directa |
 | 1889–2030 | 142 | `romance_e-e` | Romance | Octosílabo | Vocales de la asonancia = e-e | rasgo + forma del padre |
 | 2031–2140 | 110 | `decima_espinela` | Décima | Espinela | — | directa |
 | 2141–2316 | 176 | `romance_e-e` | Romance | Octosílabo | Vocales de la asonancia = e-e | rasgo + forma del padre |
