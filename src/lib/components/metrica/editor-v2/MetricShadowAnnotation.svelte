@@ -11,6 +11,7 @@
 	} from '$lib/metrica/catalogo';
 	import {
 		shadowAgreement,
+		SHADOW_RESOLUTION_LABEL,
 		type ShadowAnnotationData,
 		type ShadowCandidateWork,
 		type ShadowSequence,
@@ -130,6 +131,10 @@
 		difiere: 'Difiere',
 		sin_propuesta: 'Sin correspondencia'
 	};
+
+	function resolutionLabel(sequence: ShadowSequence): string {
+		return SHADOW_RESOLUTION_LABEL[sequence.via] ?? String(sequence.via);
+	}
 
 	function agreementClass(sequence: ShadowSequence): string {
 		switch (shadowAgreement(sequence)) {
@@ -439,6 +444,7 @@
 							<th class="px-4 py-2 font-medium">Versos</th>
 							<th class="px-4 py-2 font-medium">Modelo actual</th>
 							<th class="px-4 py-2 font-medium">Propuesta del catálogo</th>
+							<th class="px-4 py-2 font-medium">Vía</th>
 							<th class="px-4 py-2 font-medium">Estado</th>
 							<th class="px-4 py-2"></th>
 						</tr>
@@ -478,6 +484,9 @@
 										</span>
 									{/if}
 								</td>
+								<td class="whitespace-nowrap px-4 py-2 text-xs text-[color:var(--muted-foreground)]">
+									{resolutionLabel(sequence)}
+								</td>
 								<td class={`whitespace-nowrap px-4 py-2 ${agreementClass(sequence)}`}>
 									{AGREEMENT_LABEL[shadowAgreement(sequence)]}
 								</td>
@@ -503,7 +512,7 @@
 							</tr>
 						{:else}
 							<tr>
-								<td class="px-4 py-4 text-[color:var(--muted-foreground)]" colspan="5">
+								<td class="px-4 py-4 text-[color:var(--muted-foreground)]" colspan="6">
 									Esta obra no tiene secuencias métricas registradas.
 								</td>
 							</tr>

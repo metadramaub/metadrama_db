@@ -14,6 +14,9 @@ function sequence(overrides: Partial<ShadowSequence> = {}): ShadowSequence {
 		formaPropuesta: 'Redondilla',
 		arquitecturaPropuestaId: 'arq-1',
 		arquitecturaPropuesta: 'abba',
+		via: 'directa',
+		detalle: null,
+		heredadoDe: null,
 		subtipos: 0,
 		caracterizaciones: 0,
 		pruebaId: null,
@@ -46,11 +49,31 @@ describe('shadowAgreement', () => {
 	 * que la fase pareciera ir peor de lo que va.
 	 */
 	it('sin correspondencia no cuenta como desacuerdo, esté anotada o no', () => {
-		expect(shadowAgreement(sequence({ formaPropuestaId: null }))).toBe('sin_propuesta');
+		expect(shadowAgreement(sequence({ formaPropuestaId: null, via: 'sin_destino' }))).toBe(
+			'sin_propuesta'
+		);
 		expect(
 			shadowAgreement(
-				sequence({ formaPropuestaId: null, pruebaId: 'prueba-1', formaAnotadaId: 'forma-9' })
+				sequence({
+					formaPropuestaId: null,
+					via: 'sin_tipo',
+					pruebaId: 'prueba-1',
+					formaAnotadaId: 'forma-9'
+				})
 			)
 		).toBe('sin_propuesta');
+	});
+
+	/**
+	 * Una propuesta heredada acierta la forma pero no las respuestas. Para el recuento sigue
+	 * siendo un acuerdo —la forma es la misma—, y lo que avisa de su menor precisión es la vía,
+	 * que viaja aparte y se enseña en la tabla.
+	 */
+	it('una propuesta heredada que se confirma cuenta como coincidencia', () => {
+		expect(
+			shadowAgreement(
+				sequence({ via: 'ascendencia', heredadoDe: 'endecasilabo_suelto', pruebaId: 'p', formaAnotadaId: 'forma-1' })
+			)
+		).toBe('coincide');
 	});
 });

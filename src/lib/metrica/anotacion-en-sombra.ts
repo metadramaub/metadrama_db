@@ -5,6 +5,34 @@
  * produce, el componente los pinta, y ninguno de los dos depende del otro.
  */
 
+/**
+ * Por qué vía el catálogo nuevo llega a una propuesta. Lo calcula la vista
+ * `propuesta_metrica_secuencia` y lo replica `npm run migracion:informe`: los dos
+ * implementan el mismo sistema de equivalencias y deben decir lo mismo.
+ *
+ * - `directa` — algo del catálogo reclama el término y de ahí sale la forma.
+ * - `rasgo` — lo reclama un valor de rasgo o un metro, que no dicen forma: esa viene del
+ *   padre y el término aporta precisión. Es el caso de los romances y su asonancia.
+ * - `ascendencia` — no lo reclama nadie, pero sí un ascendiente. Da forma y arquitectura,
+ *   **no las respuestas**, que las sigue contestando el editor.
+ * - `sin_destino` — nadie lo reclama en toda su línea.
+ * - `sin_tipo` — la secuencia no declara forma ninguna.
+ */
+export type ShadowResolution =
+	| 'directa'
+	| 'rasgo'
+	| 'ascendencia'
+	| 'sin_destino'
+	| 'sin_tipo';
+
+export const SHADOW_RESOLUTION_LABEL: Record<ShadowResolution, string> = {
+	directa: 'Directa',
+	rasgo: 'Rasgo propio',
+	ascendencia: 'Heredada',
+	sin_destino: 'Sin destino',
+	sin_tipo: 'Sin forma'
+};
+
 /** Una obra abierta a la anotación en sombra. */
 export type ShadowWork = {
 	obraId: string;
@@ -26,11 +54,17 @@ export type ShadowSequence = {
 	/** El término del vocabulario legado, que es lo que dice hoy el modelo viejo. */
 	terminoLegado: string | null;
 	estrofaTipoId: string | null;
-	/** Lo que el catálogo nuevo propone, siguiendo `origen_termino_id`. */
+	/** Lo que el catálogo nuevo propone, siguiendo el sistema de equivalencias. */
 	formaPropuestaId: string | null;
 	formaPropuesta: string | null;
 	arquitecturaPropuestaId: string | null;
 	arquitecturaPropuesta: string | null;
+	/** Por qué vía se llegó a esa propuesta. Una propuesta heredada es menos precisa. */
+	via: ShadowResolution;
+	/** Lo que el término aporta además de la forma: la asonancia, una variedad, un metro. */
+	detalle: string | null;
+	/** Término del que se heredó la forma, cuando no la reclama el término mismo. */
+	heredadoDe: string | null;
 	/** Cuántos subtipos y caracterizaciones traía la anotación vieja. */
 	subtipos: number;
 	caracterizaciones: number;

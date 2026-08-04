@@ -48,6 +48,29 @@ La intención está escrita para los 28 en
 28 de julio, declarada «propuesta para revisión del IP; no aplicada». Es dos días anterior a
 la revisión de la ontología y **la contradice en cuatro casos**.
 
+## Dónde vive el sistema de equivalencias
+
+Está implementado **en dos sitios que deben decir lo mismo**, y comprobado el 4 de agosto de
+que lo dicen: 134 directas, 71 por rasgo, 7 por ascendencia, 1 sin destino y 3 sin forma
+declarada, idéntico en los dos.
+
+- La vista **`propuesta_metrica_secuencia`**, que es lo que consume la anotación en sombra.
+- El comando **`npm run migracion:informe`**, que escribe [los informes por obra](./migracion/).
+
+**Si se cambia una regla, se cambian los dos.** No hay una fuente única todavía: la vista no
+puede llamar al script ni al revés, así que la coherencia se mantiene a mano y se comprueba
+comparando los recuentos.
+
+Las tres vías:
+
+| Vía | Qué significa |
+| --- | --- |
+| `directa` | Algo del catálogo reclama el término y de ahí sale la forma |
+| `rasgo` | Lo reclama un valor de rasgo o un metro, que no dicen forma: esa viene del padre y el término aporta precisión. Es el caso de los romances y su asonancia |
+| `ascendencia` | No lo reclama nadie, pero sí un ascendiente. Da forma y arquitectura, **no las respuestas** |
+| `sin_destino` | Nadie lo reclama en toda su línea |
+| `sin_tipo` | La secuencia no declara forma |
+
 ## La jerarquía ya lleva la respuesta en 24 de los 28
 
 Medido el 4 de agosto. Si, cuando un término no tiene reclamación directa, se sube por
