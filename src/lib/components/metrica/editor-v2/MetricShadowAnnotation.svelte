@@ -12,6 +12,7 @@
 	import {
 		shadowAgreement,
 		SHADOW_RESOLUTION_LABEL,
+		type ShadowAnswer,
 		type ShadowAnnotationData,
 		type ShadowCandidateWork,
 		type ShadowSequence,
@@ -164,6 +165,13 @@
 				deviations: props.data.editorSandbox.deviations
 			});
 		} else {
+			// El término legado no solo dice la forma: `romance_o-e` dice además la asonancia.
+			// Esas respuestas llegan contestadas para que el editor las revise, no las repita.
+			// Las de ámbito unidad se dejan para cuando el formulario haya materializado sus
+			// unidades: aquí todavía no existen y no habría dónde colgarlas.
+			const respuestas = (sequence.respuestas as ShadowAnswer[]).filter(
+				(respuesta: ShadowAnswer) => respuesta.alcance === 'secuencia'
+			);
 			openDraft = {
 				secuencia_prueba_id: null,
 				escenario_id: null,
@@ -175,7 +183,13 @@
 				arquitectura_id: sequence.arquitecturaPropuestaId ?? '',
 				observaciones: '',
 				unidades: [],
-				elecciones: [],
+				elecciones: respuestas.map((respuesta: ShadowAnswer) => ({
+					realizacion_prueba_id: null,
+					grupo_eleccion_id: respuesta.grupoEleccionId,
+					opcion_eleccion_id: respuesta.opcionEleccionId,
+					valor_texto: null,
+					observaciones: null
+				})),
 				desviaciones: []
 			};
 		}

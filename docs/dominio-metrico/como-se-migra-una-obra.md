@@ -31,7 +31,7 @@ resuelve 212, pero **por tres vías que no valen lo mismo**:
 | Vía | Qué significa | Cuántas |
 | --- | --- | ---: |
 | **directa** | El término viejo tiene su equivalente exacto en el catálogo. No hay nada que decidir | 134 |
-| **rasgo** | El término codificaba un rasgo, no una forma: `romance_a-o` dice «romance» *y* «asonancia a-o». La forma viene de su padre y el rasgo se conserva aparte | 71 |
+| **rasgo** | El término codificaba un rasgo, no una forma: `romance_a-o` dice «romance» *y* «asonancia a-o». La forma viene de su padre, y **la asonancia llega ya contestada en el formulario** | 71 |
 | **ascendencia** | Nadie reclama el término, pero sí su padre. **Da la forma, no las respuestas** | 7 |
 | **sin resolver** | Hay que decidirlo | 4 |
 
@@ -85,8 +85,13 @@ Con la obra ya sin dudas, se abre a la **anotación en sombra**: `/dashboard/met
 pestaña «Anotación en sombra» → «Abrir una obra».
 
 Ahí se anota con el modelo nuevo **sobre las secuencias reales**, sin que producción se
-entere: la secuencia real no cambia ni una columna y todo lo anotado cuelga aparte. El
-formulario llega ya propuesto, así que el trabajo es revisar y corregir.
+entere: la secuencia real no cambia ni una columna y todo lo anotado cuelga aparte.
+
+El formulario llega con **la forma, la arquitectura y las respuestas que el término legado
+ya permitía deducir**: la asonancia de un romance, el esquema de los tercetos de un soneto,
+la tipología de un sexteto-lira. Son 81 respuestas en 81 secuencias. En esos casos el
+trabajo es leer y guardar. Lo que no se deduce se pregunta, y se ve en pantalla en verde qué
+llega contestado.
 
 La pantalla lleva el recuento que decide cuándo termina la fase: de lo anotado en los dos
 modelos, cuántas secuencias **coinciden**, cuántas **difieren** y cuántas no tienen
