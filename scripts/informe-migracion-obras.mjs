@@ -8,167 +8,67 @@
  * Se genera, no se escribe a mano: cada decisión que se toma sobre el catálogo lo cambia, y
  * un documento escrito a mano caducaría el mismo día.
  *
+ * **La equivalencia no se calcula aquí.** La resuelve la vista `propuesta_metrica_secuencia`,
+ * la misma que consume la anotación en sombra del dashboard. Antes este script llevaba su
+ * propia copia de las reglas y había que mantener las dos a la vez; ahora hay una sola
+ * fuente, y cambiar la vista cambia los dos sitios.
+ *
  * Uso:
- *   node scripts/informe-migracion-obras.mjs                  # vuelca la base enlazada
- *   node scripts/informe-migracion-obras.mjs --dump copia.sql
+ *   node scripts/informe-migracion-obras.mjs
  *   node scripts/informe-migracion-obras.mjs --salida docs/dominio-metrico/migracion
  */
 
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dumpLinkedDatabase, readDump } from './lib/volcado.mjs';
+import { query } from './lib/consulta.mjs';
 
 const SALIDA_POR_DEFECTO = fileURLToPath(
 	new URL('../docs/dominio-metrico/migracion', import.meta.url)
 );
 
-/** Entidades del catálogo que pueden declarar de qué término legado salieron. */
-const TABLAS_CON_ORIGEN = [
-	'formas_metricas',
-	'arquitecturas_forma',
-	'esquemas_rima',
-	'esquemas_metricos',
-	'rasgo_valores',
-	'denominaciones_metricas',
-	'repeticiones_metricas',
-	'metros',
-	'variedades_arquitectura'
-];
-
 function parseArguments(argv) {
-	const options = { dump: null, salida: SALIDA_POR_DEFECTO };
+	const options = { salida: SALIDA_POR_DEFECTO };
 	for (let index = 0; index < argv.length; index += 1) {
-		if (argv[index] === '--dump') options.dump = argv[index + 1] ?? null;
 		if (argv[index] === '--salida') options.salida = argv[index + 1] ?? options.salida;
 	}
 	return options;
 }
 
 // --------------------------------------------------------------------------
-// Resolución de la equivalencia
+// Datos
 // --------------------------------------------------------------------------
 
-function construir(tables) {
-	const t = (name) => tables.get(name) ?? [];
+/** Una fila por secuencia real, ya resuelta por la vista. */
+const SQL_SECUENCIAS = `
+	select
+		p.secuencia_id, p.obra_id, o.titulo as obra_titulo,
+		e.nombre_completo as editor,
+		p.v_ini, p.v_fin, s.n_versos,
+		p.termino_legado, p.forma_propuesta, p.arquitectura_propuesta_id,
+		p.arquitectura_propuesta, p.via, p.detalle, p.heredado_de,
+		a.unidad_versos_min, a.unidad_versos_max
+	from public.propuesta_metrica_secuencia p
+	join public.secuencias_metricas s on s.secuencia_id = p.secuencia_id
+	join public.obras o on o.obra_id = p.obra_id
+	left join public.editores e on e.user_id = o.editor_asignado
+	left join public.arquitecturas_forma a on a.arquitectura_id = p.arquitectura_propuesta_id
+	order by o.titulo, p.v_ini
+`;
 
-	const vocabulario = new Map(t('vocabularios').map((row) => [row.termino_id, row]));
-	const formas = new Map(t('formas_metricas').map((row) => [row.forma_id, row]));
-	const arquitecturas = t('arquitecturas_forma');
+const SQL_SUBTIPOS = `
+	select sse.secuencia_id, v.termino
+	from public.secuencias_subtipos_estrofa sse
+	left join public.vocabularios v on v.termino_id = sse.subtipo_estrofa_id
+`;
 
-	// Quién reclama cada término legado, y con qué entidad.
-	const reclamado = new Map();
-	for (const tabla of TABLAS_CON_ORIGEN) {
-		for (const row of t(tabla)) {
-			if (row.origen_termino_id) reclamado.set(row.origen_termino_id, { tabla, row });
-		}
-	}
-	// Una forma que reutiliza el UUID del término legado también lo reclama.
-	for (const forma of formas.values()) {
-		if (vocabulario.has(forma.forma_id) && !reclamado.has(forma.forma_id)) {
-			reclamado.set(forma.forma_id, { tabla: 'formas_metricas', row: forma });
-		}
-	}
+const SQL_CARACTERIZACIONES = `
+	select scr.secuencia_id, v.termino
+	from public.secuencias_caracterizaciones_rango scr
+	left join public.vocabularios v on v.termino_id = scr.tipo_caracterizacion_rango_id
+`;
 
-	const arquitecturaPrincipal = new Map();
-	for (const arquitectura of arquitecturas) {
-		if (arquitectura.activo === false) continue;
-		const actual = arquitecturaPrincipal.get(arquitectura.forma_id);
-		if (!actual || arquitectura.principal === true) {
-			arquitecturaPrincipal.set(arquitectura.forma_id, arquitectura);
-		}
-	}
-
-	/** La forma a la que apunta una entidad del catálogo, sea cual sea su tabla. */
-	function formaDe(entrada) {
-		if (!entrada) return null;
-		const { tabla, row } = entrada;
-		if (tabla === 'formas_metricas') return row;
-		if (row.forma_id) return formas.get(row.forma_id) ?? null;
-		if (row.arquitectura_id) {
-			const arquitectura = arquitecturas.find((a) => a.arquitectura_id === row.arquitectura_id);
-			return arquitectura ? (formas.get(arquitectura.forma_id) ?? null) : null;
-		}
-		return null;
-	}
-
-	function arquitecturaDe(entrada, forma) {
-		if (!entrada) return null;
-		const { tabla, row } = entrada;
-		if (tabla === 'arquitecturas_forma') return row;
-		if (row.arquitectura_id) {
-			return arquitecturas.find((a) => a.arquitectura_id === row.arquitectura_id) ?? null;
-		}
-		return forma ? (arquitecturaPrincipal.get(forma.forma_id) ?? null) : null;
-	}
-
-	const rasgos = new Map(t('rasgos_metricos').map((row) => [row.rasgo_id, row.nombre]));
-
-	/** Qué aporta la entidad que reclama un término: a veces una forma, a veces solo un rasgo. */
-	function detalleDe(entrada) {
-		if (entrada.tabla === 'rasgo_valores') {
-			const rasgo = rasgos.get(entrada.row.rasgo_id);
-			return `${rasgo ?? 'rasgo'} = ${entrada.row.nombre ?? entrada.row.slug}`;
-		}
-		if (entrada.tabla === 'esquemas_rima') return `esquema de rima «${entrada.row.nombre}»`;
-		if (entrada.tabla === 'esquemas_metricos') return `esquema métrico «${entrada.row.nombre}»`;
-		if (entrada.tabla === 'variedades_arquitectura') return `variedad «${entrada.row.nombre}»`;
-		if (entrada.tabla === 'repeticiones_metricas') return `repetición «${entrada.row.nombre}»`;
-		return null;
-	}
-
-	/** Sube por la jerarquía hasta el primer ascendiente que aporte una forma. */
-	function formaPorAscendencia(terminoId) {
-		let actual = vocabulario.get(terminoId);
-		let saltos = 0;
-		while (actual?.termino_padre_id && saltos < 8) {
-			actual = vocabulario.get(actual.termino_padre_id);
-			saltos += 1;
-			if (!actual) break;
-			const heredado = reclamado.get(actual.termino_id);
-			const forma = formaDe(heredado);
-			if (forma) return { forma, arquitectura: arquitecturaDe(heredado, forma), desde: actual.termino };
-		}
-		return null;
-	}
-
-	/**
-	 * Cómo se resuelve un término legado:
-	 *   directa      — algo del catálogo lo reclama y de ahí sale la forma;
-	 *   rasgo        — lo reclama un rasgo o un esquema, que no dice forma: esa viene del padre.
-	 *                  Es el caso de los romances, cuyo término codifica la asonancia;
-	 *   ascendencia  — no lo reclama nadie, pero un ascendiente sí. Da forma y arquitectura,
-	 *                  no las respuestas;
-	 *   sin_destino  — nadie lo reclama en toda su línea;
-	 *   sin_tipo     — la secuencia no declara forma.
-	 */
-	function resolver(terminoId) {
-		if (!terminoId) return { via: 'sin_tipo' };
-
-		const directo = reclamado.get(terminoId);
-		if (directo) {
-			const forma = formaDe(directo);
-			if (forma) {
-				return { via: 'directa', forma, arquitectura: arquitecturaDe(directo, forma) };
-			}
-			// Lo reclamado no es una forma: hay que buscarla arriba y quedarse con el detalle.
-			const heredado = formaPorAscendencia(terminoId);
-			return {
-				via: 'rasgo',
-				forma: heredado?.forma ?? null,
-				arquitectura: heredado?.arquitectura ?? null,
-				desde: heredado?.desde ?? null,
-				detalle: detalleDe(directo)
-			};
-		}
-
-		const heredado = formaPorAscendencia(terminoId);
-		if (heredado) return { via: 'ascendencia', ...heredado };
-		return { via: 'sin_destino' };
-	}
-
-	return { t, vocabulario, resolver };
-}
+const SQL_JORNADAS = `select obra_id, v_ini, v_fin from public.jornadas`;
 
 // --------------------------------------------------------------------------
 // Redacción
@@ -192,6 +92,15 @@ function slugify(texto) {
 		.slice(0, 80);
 }
 
+function contar(filas, clave) {
+	const cuenta = new Map();
+	for (const fila of filas) {
+		const valor = fila[clave] ?? '(sin término)';
+		cuenta.set(valor, (cuenta.get(valor) ?? 0) + 1);
+	}
+	return [...cuenta].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]), 'es'));
+}
+
 /**
  * Tramos que el modelo viejo obligó a partir y el nuevo recoge como una sola secuencia.
  *
@@ -206,11 +115,8 @@ function slugify(texto) {
  * Se respeta además la frontera de jornada: partir ahí es una decisión editorial, no un
  * artefacto del vocabulario.
  */
-function tramosFundibles({ secuencias, resueltas, jornadas }) {
-	const porSecuencia = new Map(resueltas.map((fila) => [fila.secuencia.secuencia_id, fila]));
-	const ordenadas = [...secuencias].sort((a, b) => a.v_ini - b.v_ini);
+function tramosFundibles(secuencias, jornadas) {
 	const cortes = new Set(jornadas.map((jornada) => Number(jornada.v_fin)));
-
 	const tramos = [];
 	let actual = [];
 
@@ -219,62 +125,54 @@ function tramosFundibles({ secuencias, resueltas, jornadas }) {
 		actual = [];
 	};
 
-	for (const secuencia of ordenadas) {
-		const fila = porSecuencia.get(secuencia.secuencia_id);
-		const arquitectura = fila?.resultado.arquitectura ?? null;
-		// Sin arquitectura, o con unidad sin extensión declarada, no hay nada que fundir.
-		const unidadAcotada =
-			arquitectura?.unidad_versos_min != null && arquitectura?.unidad_versos_max != null;
+	for (const fila of secuencias) {
+		const unidadAcotada = fila.unidad_versos_min != null && fila.unidad_versos_max != null;
 		if (!unidadAcotada) {
 			cerrar();
 			continue;
 		}
 		if (actual.length === 0) {
-			actual = [{ secuencia, fila }];
+			actual = [fila];
 			continue;
 		}
 		const anterior = actual[actual.length - 1];
-		const contigua = Number(secuencia.v_ini) === Number(anterior.secuencia.v_fin) + 1;
+		const contigua = Number(fila.v_ini) === Number(anterior.v_fin) + 1;
 		const mismaArquitectura =
-			anterior.fila?.resultado.arquitectura?.arquitectura_id === arquitectura.arquitectura_id;
-		const cruzaJornada = cortes.has(Number(anterior.secuencia.v_fin));
+			anterior.arquitectura_propuesta_id === fila.arquitectura_propuesta_id;
+		const cruzaJornada = cortes.has(Number(anterior.v_fin));
 
-		if (contigua && mismaArquitectura && !cruzaJornada) actual.push({ secuencia, fila });
+		if (contigua && mismaArquitectura && !cruzaJornada) actual.push(fila);
 		else {
 			cerrar();
-			actual = [{ secuencia, fila }];
+			actual = [fila];
 		}
 	}
 	cerrar();
 	return tramos;
 }
 
-function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fecha, jornadas }) {
-	const nombre = (id) => vocabulario.get(id)?.termino ?? null;
-	const idsSecuencia = new Set(secuencias.map((s) => s.secuencia_id));
-	const subtipos = t('secuencias_subtipos_estrofa').filter((r) => idsSecuencia.has(r.secuencia_id));
-	const caracterizaciones = t('secuencias_caracterizaciones_rango').filter((r) =>
-		idsSecuencia.has(r.secuencia_id)
-	);
-
-	const resueltas = secuencias.map((secuencia) => ({
-		secuencia,
-		resultado: resolver(secuencia.estrofa_tipo_id)
-	}));
+function informeDeObra({
+	titulo,
+	editor,
+	secuencias,
+	subtipos,
+	caracterizaciones,
+	jornadas,
+	fecha
+}) {
 	const cuenta = { directa: 0, rasgo: 0, ascendencia: 0, sin_destino: 0, sin_tipo: 0 };
-	for (const fila of resueltas) cuenta[fila.resultado.via] += 1;
+	for (const fila of secuencias) cuenta[fila.via] = (cuenta[fila.via] ?? 0) + 1;
 
-	const dudas = resueltas.filter(
-		(fila) => fila.resultado.via === 'sin_destino' || fila.resultado.via === 'sin_tipo'
-	);
-	const porAscendencia = resueltas.filter((fila) => fila.resultado.via === 'ascendencia');
-	const fundibles = tramosFundibles({ secuencias, resueltas, jornadas });
+	const dudas = secuencias.filter((fila) => fila.via === 'sin_destino' || fila.via === 'sin_tipo');
+	const porAscendencia = secuencias.filter((fila) => fila.via === 'ascendencia');
+	const fundibles = tramosFundibles(secuencias, jornadas);
 
 	const lineas = [];
-	lineas.push(`# Migración métrica · ${obra.titulo}`);
+	lineas.push(`# Migración métrica · ${titulo}`);
 	lineas.push('');
 	lineas.push(`Generado el ${fecha} por \`npm run migracion:informe\`. **No editar a mano:**`);
-	lineas.push('se regenera y se pierde lo escrito. Las decisiones van a');
+	lineas.push('se regenera y se pierde lo escrito. El procedimiento está en');
+	lineas.push('[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a');
 	lineas.push('[equivalencias pendientes](../equivalencias-pendientes.md).');
 	lineas.push('');
 	lineas.push(`- **Editor asignado:** ${editor ?? '—'}`);
@@ -283,11 +181,10 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 	lineas.push(`- **Caracterizaciones por rango:** ${caracterizaciones.length}`);
 	lineas.push('');
 
-	// Lo primero es saber si hay que llamar a alguien.
 	if (dudas.length === 0 && porAscendencia.length === 0 && fundibles.length === 0) {
 		lineas.push('## Nada que consultar');
 		lineas.push('');
-		lineas.push('Todas las secuencias resuelven su equivalencia de forma directa.');
+		lineas.push('La equivalencia de todas las secuencias se resuelve sin ambigüedad.');
 	} else {
 		lineas.push('## Qué hay que consultar');
 		lineas.push('');
@@ -336,29 +233,29 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 		lineas.push('con las quintillas.');
 		lineas.push('');
 		for (const tramo of fundibles) {
-			const desde = tramo[0].secuencia.v_ini;
-			const hasta = tramo[tramo.length - 1].secuencia.v_fin;
-			const forma = tramo[0].fila?.resultado.forma?.nombre ?? '—';
-			const arquitectura = tramo[0].fila?.resultado.arquitectura?.nombre ?? '—';
-			const unidad = tramo[0].fila?.resultado.arquitectura?.unidad_versos_min ?? null;
-			const versos = Number(hasta) - Number(desde) + 1;
-			const unidades = unidad ? versos / Number(unidad) : null;
+			const desde = Number(tramo[0].v_ini);
+			const hasta = Number(tramo[tramo.length - 1].v_fin);
+			const unidad = Number(tramo[0].unidad_versos_min);
+			const versos = hasta - desde + 1;
+			const unidades = versos / unidad;
 			lineas.push(
-				`**vv. ${desde}–${hasta}** → ${forma} · ${arquitectura} — ${tramo.length} secuencias en una` +
-					(unidades ? `, con ${Number.isInteger(unidades) ? unidades : `¿${versos} / ${unidad}?`} unidades de ${unidad} versos` : '')
+				`**vv. ${desde}–${hasta}** → ${tramo[0].forma_propuesta} · ${tramo[0].arquitectura_propuesta}` +
+					` — ${tramo.length} secuencias en una, con ` +
+					(Number.isInteger(unidades) ? `${unidades}` : `¿${versos} / ${unidad}?`) +
+					` unidades de ${unidad} versos`
 			);
 			lineas.push('');
 			lineas.push('| Versos | v | Término actual | Pasa a ser |');
 			lineas.push('| --- | ---: | --- | --- |');
-			for (const { secuencia, fila } of tramo) {
-				const termino = nombre(secuencia.estrofa_tipo_id);
+			for (const fila of tramo) {
 				lineas.push(
-					`| ${secuencia.v_ini}–${secuencia.v_fin} | ${secuencia.n_versos} | ` +
-						`${termino ? `\`${termino}\`` : '—'} | unidad con ${fila?.resultado.detalle ?? 'su propia respuesta'} |`
+					`| ${fila.v_ini}–${fila.v_fin} | ${fila.n_versos} | ` +
+						`${fila.termino_legado ? `\`${fila.termino_legado}\`` : '—'} | ` +
+						`unidad con ${fila.detalle ?? 'su propia respuesta'} |`
 				);
 			}
 			lineas.push('');
-			if (unidades !== null && !Number.isInteger(unidades)) {
+			if (!Number.isInteger(unidades)) {
 				lineas.push(
 					`> El tramo mide ${versos} versos y la unidad ${unidad}: no es múltiplo exacto, así que hay`
 				);
@@ -373,14 +270,14 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 		lineas.push('');
 		lineas.push('| Versos | Término actual | Qué pasa |');
 		lineas.push('| --- | --- | --- |');
-		for (const { secuencia, resultado } of dudas.sort((a, b) => a.secuencia.v_ini - b.secuencia.v_ini)) {
-			const termino = nombre(secuencia.estrofa_tipo_id);
+		for (const fila of dudas) {
 			const que =
-				resultado.via === 'sin_tipo'
+				fila.via === 'sin_tipo'
 					? 'La secuencia no declara ninguna forma métrica.'
-					: `\`${termino}\` no tiene equivalencia en el catálogo nuevo, ni él ni ningún ascendiente suyo.`;
+					: `\`${fila.termino_legado}\` no tiene equivalencia en el catálogo nuevo, ni él ni ningún ascendiente suyo.`;
 			lineas.push(
-				`| ${secuencia.v_ini}–${secuencia.v_fin} (${secuencia.n_versos} v) | ${termino ? `\`${termino}\`` : '—'} | ${que} |`
+				`| ${fila.v_ini}–${fila.v_fin} (${fila.n_versos} v) | ` +
+					`${fila.termino_legado ? `\`${fila.termino_legado}\`` : '—'} | ${que} |`
 			);
 		}
 		lineas.push('');
@@ -390,26 +287,19 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 	lineas.push('');
 	lineas.push('| Versos | v | Término actual | Forma propuesta | Arquitectura | Además | Vía |');
 	lineas.push('| --- | ---: | --- | --- | --- | --- | --- |');
-	for (const { secuencia, resultado } of resueltas.sort((a, b) => a.secuencia.v_ini - b.secuencia.v_ini)) {
-		const termino = nombre(secuencia.estrofa_tipo_id);
+	for (const fila of secuencias) {
 		const via =
-			resultado.via === 'ascendencia'
-				? `por ascendencia (${resultado.desde})`
-				: ETIQUETA_VIA[resultado.via];
+			fila.via === 'ascendencia' ? `por ascendencia (${fila.heredado_de})` : ETIQUETA_VIA[fila.via];
 		lineas.push(
-			`| ${secuencia.v_ini}–${secuencia.v_fin} | ${secuencia.n_versos} | ${termino ? `\`${termino}\`` : '—'} | ` +
-				`${resultado.forma?.nombre ?? '—'} | ${resultado.arquitectura?.nombre ?? '—'} | ` +
-				`${resultado.detalle ?? '—'} | ${via} |`
+			`| ${fila.v_ini}–${fila.v_fin} | ${fila.n_versos} | ` +
+				`${fila.termino_legado ? `\`${fila.termino_legado}\`` : '—'} | ` +
+				`${fila.forma_propuesta ?? '—'} | ${fila.arquitectura_propuesta ?? '—'} | ` +
+				`${fila.detalle ?? '—'} | ${via} |`
 		);
 	}
 	lineas.push('');
 
 	if (subtipos.length > 0) {
-		const porTermino = new Map();
-		for (const fila of subtipos) {
-			const clave = nombre(fila.subtipo_estrofa_id) ?? '(sin término)';
-			porTermino.set(clave, (porTermino.get(clave) ?? 0) + 1);
-		}
 		lineas.push('## Subtipos estróficos');
 		lineas.push('');
 		lineas.push(
@@ -419,18 +309,13 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 		lineas.push('');
 		lineas.push('| Subtipo | Rangos |');
 		lineas.push('| --- | ---: |');
-		for (const [clave, total] of [...porTermino].sort((a, b) => b[1] - a[1])) {
+		for (const [clave, total] of contar(subtipos, 'termino')) {
 			lineas.push(`| \`${clave}\` | ${total} |`);
 		}
 		lineas.push('');
 	}
 
 	if (caracterizaciones.length > 0) {
-		const porTipo = new Map();
-		for (const fila of caracterizaciones) {
-			const clave = nombre(fila.tipo_caracterizacion_rango_id) ?? '(sin tipo)';
-			porTipo.set(clave, (porTipo.get(clave) ?? 0) + 1);
-		}
 		lineas.push('## Caracterizaciones por rango');
 		lineas.push('');
 		lineas.push(
@@ -443,7 +328,7 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 		lineas.push('');
 		lineas.push('| Tipo | Rangos |');
 		lineas.push('| --- | ---: |');
-		for (const [clave, total] of [...porTipo].sort((a, b) => b[1] - a[1])) {
+		for (const [clave, total] of contar(caracterizaciones, 'termino')) {
 			lineas.push(`| \`${clave}\` | ${total} |`);
 		}
 		lineas.push('');
@@ -457,59 +342,78 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 // --------------------------------------------------------------------------
 
 const options = parseArguments(process.argv.slice(2));
-const tables = readDump(options.dump ?? dumpLinkedDatabase());
-const { t, vocabulario, resolver } = construir(tables);
+
+const secuencias = query(SQL_SECUENCIAS);
+const subtipos = query(SQL_SUBTIPOS);
+const caracterizaciones = query(SQL_CARACTERIZACIONES);
+const jornadas = query(SQL_JORNADAS);
+
+const agrupar = (filas, clave) => {
+	const grupos = new Map();
+	for (const fila of filas) {
+		const lista = grupos.get(fila[clave]) ?? [];
+		lista.push(fila);
+		grupos.set(fila[clave], lista);
+	}
+	return grupos;
+};
+
+const secuenciasPorObra = agrupar(secuencias, 'obra_id');
+const jornadasPorObra = agrupar(jornadas, 'obra_id');
+const secuenciaAObra = new Map(secuencias.map((fila) => [fila.secuencia_id, fila.obra_id]));
+
+const porObra = (filas) => {
+	const grupos = new Map();
+	for (const fila of filas) {
+		const obraId = secuenciaAObra.get(fila.secuencia_id);
+		if (!obraId) continue;
+		const lista = grupos.get(obraId) ?? [];
+		lista.push(fila);
+		grupos.set(obraId, lista);
+	}
+	return grupos;
+};
+const subtiposPorObra = porObra(subtipos);
+const caracterizacionesPorObra = porObra(caracterizaciones);
 
 const fecha = new Date().toISOString().slice(0, 10);
-const editores = new Map(
-	t('editores').map((row) => [
-		row.user_id,
-		row.nombre_completo ?? row.nombre ?? row.email ?? row.user_id
-	])
-);
-
-const secuenciasPorObra = new Map();
-for (const secuencia of t('secuencias_metricas')) {
-	const lista = secuenciasPorObra.get(secuencia.obra_id) ?? [];
-	lista.push(secuencia);
-	secuenciasPorObra.set(secuencia.obra_id, lista);
-}
-
-const obras = t('obras')
-	.filter((obra) => secuenciasPorObra.has(obra.obra_id))
-	.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es'));
 
 mkdirSync(options.salida, { recursive: true });
 // Una obra que deja de tener secuencias no debe dejar su informe atrás mintiendo.
 for (const fichero of readdirSync(options.salida)) {
-	if (fichero.endsWith('.md') && fichero !== 'README.md') {
-		rmSync(join(options.salida, fichero));
-	}
+	if (fichero.endsWith('.md')) rmSync(join(options.salida, fichero));
 }
 
 const resumen = [];
-for (const obra of obras) {
-	const secuencias = secuenciasPorObra.get(obra.obra_id);
-	const editor = editores.get(obra.editor_asignado) ?? null;
-	const jornadas = t('jornadas').filter((j) => j.obra_id === obra.obra_id);
-	const texto = informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fecha, jornadas });
-	const fichero = `${slugify(obra.titulo)}.md`;
+for (const [obraId, filas] of secuenciasPorObra) {
+	const titulo = filas[0].obra_titulo;
+	const editor = filas[0].editor ?? null;
+	const texto = informeDeObra({
+		titulo,
+		editor,
+		secuencias: filas,
+		subtipos: subtiposPorObra.get(obraId) ?? [],
+		caracterizaciones: caracterizacionesPorObra.get(obraId) ?? [],
+		jornadas: jornadasPorObra.get(obraId) ?? [],
+		fecha
+	});
+	const fichero = `${slugify(titulo)}.md`;
 	writeFileSync(join(options.salida, fichero), `${texto}\n`, 'utf-8');
 
 	const cuenta = { directa: 0, rasgo: 0, ascendencia: 0, sin_destino: 0, sin_tipo: 0 };
-	for (const secuencia of secuencias) cuenta[resolver(secuencia.estrofa_tipo_id).via] += 1;
-	resumen.push({ obra, editor, fichero, cuenta, total: secuencias.length });
+	for (const fila of filas) cuenta[fila.via] = (cuenta[fila.via] ?? 0) + 1;
+	resumen.push({ titulo, editor, fichero, cuenta, total: filas.length });
 }
 
-// Índice, para saber a quién hay que llamar sin abrir once ficheros.
 const indice = [];
 indice.push('# Migración métrica, obra por obra');
 indice.push('');
 indice.push(`Generado el ${fecha} por \`npm run migracion:informe\`. **No editar a mano.**`);
 indice.push('');
 indice.push('Un documento por obra con secuencias métricas, para revisar con quien la anotó.');
-indice.push('Las decisiones que salgan de esas revisiones van a');
-indice.push('[equivalencias pendientes](../equivalencias-pendientes.md), que es el documento vivo.');
+indice.push('El procedimiento está en [cómo se migra una obra](../como-se-migra-una-obra.md);');
+indice.push('las decisiones que salgan de cada revisión van a');
+indice.push('[equivalencias pendientes](../equivalencias-pendientes.md).');
 indice.push('');
 indice.push('| Obra | Editor | Secs | Directas | Rasgo | Ascend. | Dudas |');
 indice.push('| --- | --- | ---: | ---: | ---: | ---: | ---: |');
@@ -521,7 +425,7 @@ for (const fila of resumen.sort(
 )) {
 	const dudas = fila.cuenta.sin_destino + fila.cuenta.sin_tipo;
 	indice.push(
-		`| [${fila.obra.titulo}](./${fila.fichero}) | ${fila.editor ?? '—'} | ${fila.total} | ` +
+		`| [${fila.titulo}](./${fila.fichero}) | ${fila.editor ?? '—'} | ${fila.total} | ` +
 			`${fila.cuenta.directa} | ${fila.cuenta.rasgo} | ${fila.cuenta.ascendencia} | ` +
 			`${dudas > 0 ? `**${dudas}**` : '—'} |`
 	);

@@ -1,7 +1,8 @@
 # Migración métrica · El amor al uso
 
 Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano:**
-se regenera y se pierde lo escrito. Las decisiones van a
+se regenera y se pierde lo escrito. El procedimiento está en
+[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
 
 - **Editor asignado:** Ana Vicente
@@ -11,7 +12,7 @@ se regenera y se pierde lo escrito. Las decisiones van a
 
 ## Nada que consultar
 
-Todas las secuencias resuelven su equivalencia de forma directa.
+La equivalencia de todas las secuencias se resuelve sin ambigüedad.
 
 Resolución: 17 directas · 11 con rasgo propio · 0 por ascendencia · 0 sin destino · 0 sin forma declarada.
 
@@ -36,7 +37,7 @@ Resolución: 17 directas · 11 con rasgo propio · 0 por ascendencia · 0 sin de
 | 1538–1729 | 192 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 1730–2037 | 308 | `romance_i-o` | Romance | Octosílabo | Vocales de la asonancia = i-o | rasgo + forma del padre |
 | 2038–2102 | 65 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
-| 2103–2116 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | — | directa |
+| 2103–2116 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | esquema de rima «Tercetos de rima cruzada» | directa |
 | 2117–2156 | 40 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
 | 2157–2544 | 388 | `romance_a-o` | Romance | Octosílabo | Vocales de la asonancia = a-o | rasgo + forma del padre |
 | 2545–2612 | 68 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | directa |
@@ -67,8 +68,8 @@ de sílabas observado, así que hay que revisarlas con quien las anotó.
 
 | Tipo | Rangos |
 | --- | ---: |
-| `rima_defectuosa` | 2 |
 | `hipermetrico` | 2 |
 | `hipometrico` | 2 |
+| `rima_defectuosa` | 2 |
 | `cantado` | 1 |
 

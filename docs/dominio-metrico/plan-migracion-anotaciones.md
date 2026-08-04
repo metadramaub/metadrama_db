@@ -72,6 +72,16 @@ Los términos ambiguos no se asignan por conjetura. La antigua raíz `romancillo
 ejemplo, exige saber si la secuencia es hexasílaba o heptasílaba, y esa decisión es
 editorial.
 
+## 4bis · El procedimiento por obra
+
+Cómo se hace en la práctica —informe, revisión con el editor, decisión, anotación en sombra
+y contraste— está en [cómo se migra una obra](./como-se-migra-una-obra.md), escrito para
+poder explicárselo a quien anotó cada una.
+
+Las reglas de equivalencia viven en **un solo sitio**, la vista `propuesta_metrica_secuencia`.
+La consultan igual la anotación en sombra del dashboard y `npm run migracion:informe`, así
+que no pueden separarse.
+
 ## 5 · Auditoría obligatoria antes del backfill
 
 Se generará un informe con:

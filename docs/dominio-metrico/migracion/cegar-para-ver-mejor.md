@@ -1,7 +1,8 @@
 # Migración métrica · Cegar para ver mejor
 
 Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano:**
-se regenera y se pierde lo escrito. Las decisiones van a
+se regenera y se pierde lo escrito. El procedimiento está en
+[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
 
 - **Editor asignado:** Gabriel López
@@ -11,7 +12,7 @@ se regenera y se pierde lo escrito. Las decisiones van a
 
 ## Nada que consultar
 
-Todas las secuencias resuelven su equivalencia de forma directa.
+La equivalencia de todas las secuencias se resuelve sin ambigüedad.
 
 Resolución: 2 directas · 1 con rasgo propio · 0 por ascendencia · 0 sin destino · 0 sin forma declarada.
 

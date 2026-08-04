@@ -50,16 +50,18 @@ la revisión de la ontología y **la contradice en cuatro casos**.
 
 ## Dónde vive el sistema de equivalencias
 
-Está implementado **en dos sitios que deben decir lo mismo**, y comprobado el 4 de agosto de
-que lo dicen: 134 directas, 71 por rasgo, 7 por ascendencia, 1 sin destino y 3 sin forma
-declarada, idéntico en los dos.
+Lo resuelve la vista **`propuesta_metrica_secuencia`**, y de ahí lo leen sus dos consumidores:
 
-- La vista **`propuesta_metrica_secuencia`**, que es lo que consume la anotación en sombra.
-- El comando **`npm run migracion:informe`**, que escribe [los informes por obra](./migracion/).
+- la **anotación en sombra** del dashboard;
+- el comando **`npm run migracion:informe`**, que escribe [los informes por obra](./migracion/).
 
-**Si se cambia una regla, se cambian los dos.** No hay una fuente única todavía: la vista no
-puede llamar al script ni al revés, así que la coherencia se mantiene a mano y se comprueba
-comparando los recuentos.
+Reparto actual: 134 directas, 71 por rasgo, 7 por ascendencia, 1 sin destino y 3 sin forma
+declarada.
+
+**Hay una sola fuente: la vista.** Desde el 4 de agosto el informe no calcula nada — consulta
+`propuesta_metrica_secuencia` y se limita a redactar. Cambiar una regla es cambiar la vista, y
+los dos sitios cambian a la vez. El procedimiento completo está en
+[cómo se migra una obra](./como-se-migra-una-obra.md).
 
 Las tres vías:
 

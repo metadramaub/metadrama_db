@@ -1,7 +1,8 @@
 # Migración métrica · Dido y Eneas
 
 Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano:**
-se regenera y se pierde lo escrito. Las decisiones van a
+se regenera y se pierde lo escrito. El procedimiento está en
+[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
 
 - **Editor asignado:** Gaston Gilabert
@@ -27,10 +28,10 @@ con las quintillas.
 
 | Versos | v | Término actual | Pasa a ser |
 | --- | ---: | --- | --- |
-| 169–174 | 6 | `sexteto_lira_a2_AbaBcC` | unidad con su propia respuesta |
-| 175–180 | 6 | `sexteto_lira_a1_aBaBcC` | unidad con su propia respuesta |
-| 181–186 | 6 | `sexteto_lira_a3_abaBcC` | unidad con su propia respuesta |
-| 187–379 | 193 | `sexteto_lira_a1_aBaBcC` | unidad con su propia respuesta |
+| 169–174 | 6 | `sexteto_lira_a2_AbaBcC` | unidad con variedad «A2 · AbaBcC» |
+| 175–180 | 6 | `sexteto_lira_a1_aBaBcC` | unidad con variedad «A1 · aBaBcC» |
+| 181–186 | 6 | `sexteto_lira_a3_abaBcC` | unidad con variedad «A3 · abaBcC» |
+| 187–379 | 193 | `sexteto_lira_a1_aBaBcC` | unidad con variedad «A1 · aBaBcC» |
 
 > El tramo mide 211 versos y la unidad 6: no es múltiplo exacto, así que hay
 > algo que revisar antes de fundirlo.
@@ -40,10 +41,10 @@ con las quintillas.
 | Versos | v | Término actual | Forma propuesta | Arquitectura | Además | Vía |
 | --- | ---: | --- | --- | --- | --- | --- |
 | 1–168 | 168 | `octava_real_regular` | Octava real | Endecasilábica consonante | — | directa |
-| 169–174 | 6 | `sexteto_lira_a2_AbaBcC` | Sexteto-lira | Heterométrica consonante | — | directa |
-| 175–180 | 6 | `sexteto_lira_a1_aBaBcC` | Sexteto-lira | Heterométrica consonante | — | directa |
-| 181–186 | 6 | `sexteto_lira_a3_abaBcC` | Sexteto-lira | Heterométrica consonante | — | directa |
-| 187–379 | 193 | `sexteto_lira_a1_aBaBcC` | Sexteto-lira | Heterométrica consonante | — | directa |
+| 169–174 | 6 | `sexteto_lira_a2_AbaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A2 · AbaBcC» | directa |
+| 175–180 | 6 | `sexteto_lira_a1_aBaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A1 · aBaBcC» | directa |
+| 181–186 | 6 | `sexteto_lira_a3_abaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A3 · abaBcC» | directa |
+| 187–379 | 193 | `sexteto_lira_a1_aBaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A1 · aBaBcC» | directa |
 | 380–543 | 164 | `romance_o-e` | Romance | Octosílabo | Vocales de la asonancia = o-e | rasgo + forma del padre |
 | 544–623 | 80 | `redondilla` | Redondilla | Octosilábica | — | directa |
 | 624–771 | 148 | `romance_o-a` | Romance | Octosílabo | Vocales de la asonancia = o-a | rasgo + forma del padre |
