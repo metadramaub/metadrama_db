@@ -83,9 +83,55 @@ Ese informe será la línea base de aceptación.
 
 ### Condición previa
 
-El catálogo cumple los [criterios de nivel](./criterios-de-nivel.md), el
-[informe de conformidad](./informe-conformidad-catalogo.md) no tiene defectos abiertos y
-existe la capa de observación real, que hoy solo está implementada en el sandbox.
+El catálogo cumple los [criterios de nivel](./criterios-de-nivel.md) y el
+[informe de conformidad](./informe-conformidad-catalogo.md) no tiene defectos abiertos.
+
+La capa de observación real no se crea a ciegas: la fase 0 sirve para saber, con obras de
+verdad, si el modelo aguanta antes de abrirle la puerta a `secuencias_metricas`.
+
+### Fase 0 · Anotación en sombra
+
+Decidida el 3 de agosto de 2026. Es el ensayo: anotar secuencias **reales** con el modelo
+nuevo sin que producción se entere, para validar a la vez el editor, el catálogo y el mapa
+de correspondencias.
+
+**Cómo se conecta.** `secuencias_editor_metrico` gana una columna `secuencia_id` nullable
+que apunta a `secuencias_metricas`. Todo el árbol nuevo —realizaciones, elecciones,
+desviaciones— sigue colgando de la prueba, no de la secuencia. La secuencia real no cambia
+ni una columna y **no sabe que la están anotando**. Se revierte borrando la columna.
+
+Una prueba tiene entonces dos modos: cuelga de un escenario ficticio, como hasta ahora, o
+señala una secuencia real. Nunca las dos cosas.
+
+**Cómo se elige qué obra.** Un interruptor por obra, no por rol: solo las obras marcadas
+abren el editor nuevo. Se eligen por las formas que traen —conviene que haya villancicos,
+canciones y tercetos encadenados—, no por quién las anota.
+
+**El editor no empieza en blanco.** Al abrir por primera vez una secuencia real, el
+formulario se propone solo a partir de su `estrofa_tipo_id`, siguiendo el
+`origen_termino_id` que cada entidad del catálogo declara. El editor no reanota: revisa una
+propuesta y corrige. Eso cambia lo que se está probando, y a mejor: no solo la ergonomía
+del formulario, sino **si el mapa de correspondencias acierta**, que es justamente lo que
+hay que saber antes de migrar 260 secuencias de golpe.
+
+**Cobertura medida el 3 de agosto.** De los 46 términos `estrofa_tipo` que las obras usan,
+37 tienen origen declarado en el catálogo: **238 de 260 secuencias, el 91,5 %**. Quedan
+nueve términos sin correspondencia —`endecasilabo_suelto_puro` (6 secuencias), `decima`
+(5), tres `sexteto_lira_*`, dos pareados, `copla_real_de_pie_quebrado`— y tres secuencias
+con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
+
+> Las tablas `migracion_terminos_metricos` y `migracion_termino_destinos` **están vacías**:
+> la matriz de importación se retiró en julio. El mapa vigente es `origen_termino_id`, y es
+> el que hay que consultar.
+
+**Qué se mira al final.** Una pantalla de contraste por obra: rango, lo que dice el modelo
+viejo, lo que dice el nuevo, y las diferencias marcadas. Y un recuento agregado que
+responde la pregunta que decide el resto: de las secuencias anotadas en los dos modelos,
+cuántas coinciden, cuántas difieren y en qué dimensión.
+
+**Criterio de salida.** La fase 0 termina cuando ese contraste dice que el modelo nuevo
+recoge sin pérdida lo que decía el viejo, y las diferencias que quedan son correcciones
+deliberadas y no defectos del modelo. Solo entonces se abre la fase A.
 
 ### Fase A · Esquema de anotación
 
