@@ -8,6 +8,7 @@
 	import MetricCatalogReferenceEditor from '$lib/components/metrica/catalogo/MetricCatalogReferenceEditor.svelte';
 	import MetricCatalogGuide from '$lib/components/metrica/catalogo/MetricCatalogGuide.svelte';
 	import MetricEditorSandbox from '$lib/components/metrica/editor-v2/MetricEditorSandbox.svelte';
+	import MetricShadowAnnotation from '$lib/components/metrica/editor-v2/MetricShadowAnnotation.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
@@ -30,6 +31,7 @@
 		| 'organization'
 		| 'reference'
 		| 'editor'
+		| 'shadow'
 		| 'validation'
 		| 'traceability';
 	const activeTabs = new Set<ActiveTab>([
@@ -38,6 +40,7 @@
 		'organization',
 		'reference',
 		'editor',
+		'shadow',
 		'validation',
 		'traceability'
 	]);
@@ -69,6 +72,7 @@
 		{ id: 'organization', label: 'Organización' },
 		{ id: 'reference', label: 'Modelos, rasgos y fuentes' },
 		{ id: 'editor', label: 'Editor de prueba' },
+		{ id: 'shadow', label: 'Anotación en sombra' },
 		{ id: 'validation', label: 'Validación y demarcador' }
 	];
 
@@ -481,6 +485,8 @@
 			{/key}
 		{:else if activeTab === 'editor'}
 			<MetricEditorSandbox {data} />
+		{:else if activeTab === 'shadow'}
+			<MetricShadowAnnotation {data} />
 		{:else}
 			<div class="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(20rem,1fr)]">
 				<section class="space-y-4">

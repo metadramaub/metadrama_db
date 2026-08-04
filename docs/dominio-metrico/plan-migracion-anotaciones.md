@@ -105,7 +105,12 @@ señala una secuencia real. Nunca las dos cosas.
 
 **Cómo se elige qué obra.** Un interruptor por obra, no por rol: solo las obras marcadas
 abren el editor nuevo. Se eligen por las formas que traen —conviene que haya villancicos,
-canciones y tercetos encadenados—, no por quién las anota.
+canciones y tercetos encadenados—, no por quién las anota. El selector enseña por eso los
+términos legados de cada obra y cuántas de sus secuencias no tienen correspondencia.
+
+Retirar una obra no borra lo anotado: deja de poder anotarse, nada más. El rango de una
+anotación en sombra lo manda siempre la secuencia real —la sombra dice qué es ese pasaje, no
+dónde empieza—, porque si además se moviera el contraste dejaría de comparar lo mismo.
 
 **El editor no empieza en blanco.** Al abrir por primera vez una secuencia real, el
 formulario se propone solo a partir de su `estrofa_tipo_id`, siguiendo el
@@ -124,10 +129,16 @@ con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
 > la matriz de importación se retiró en julio. El mapa vigente es `origen_termino_id`, y es
 > el que hay que consultar.
 
-**Qué se mira al final.** Una pantalla de contraste por obra: rango, lo que dice el modelo
-viejo, lo que dice el nuevo, y las diferencias marcadas. Y un recuento agregado que
-responde la pregunta que decide el resto: de las secuencias anotadas en los dos modelos,
-cuántas coinciden, cuántas difieren y en qué dimensión.
+**Qué se mira al final.** Un recuento agregado que responde la pregunta que decide el resto:
+de las secuencias anotadas en los dos modelos, cuántas coinciden, cuántas difieren y
+cuántas no tienen todavía correspondencia en el catálogo.
+
+No se construye una pantalla de contraste lado a lado: para ver una obra en los dos modelos
+se abre el editor de siempre en otra pestaña, que enseña el dato real y no una copia suya.
+Lo que no se puede obtener así es el agregado —habría que contar a mano sobre 91 obras—, y
+por eso es lo único que se implementa. Que «sin correspondencia» se cuente aparte y no como
+desacuerdo es deliberado: es una pieza que falta en el catálogo, no una discrepancia entre
+modelos, y mezclarlas haría parecer que la fase va peor de lo que va.
 
 **Criterio de salida.** La fase 0 termina cuando ese contraste dice que el modelo nuevo
 recoge sin pérdida lo que decía el viejo, y las diferencias que quedan son correcciones

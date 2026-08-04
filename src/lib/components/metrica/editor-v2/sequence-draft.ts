@@ -107,7 +107,12 @@ export type MetricDeviationDraft = {
 
 export type MetricSequenceDraft = {
 	secuencia_prueba_id: string | null;
-	escenario_id: string;
+	/**
+	 * De dónde cuelga la prueba: un escenario ficticio o una secuencia real que se anota en
+	 * sombra. Siempre uno de los dos, nunca los dos ni ninguno.
+	 */
+	escenario_id: string | null;
+	secuencia_id: string | null;
 	orden: number;
 	v_ini: number;
 	v_fin: number;
@@ -266,6 +271,70 @@ export function normalizeStructuredUnits(
 
 	next = applyMaterializedSections(next, sections, groups, options, choices, sequenceStart);
 	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
+}
+
+/** Las filas guardadas de una prueba, tal como las devuelve la base. */
+export type MetricSavedSequenceRows = {
+	units: MetricCatalogDomainRow[];
+	choices: MetricCatalogDomainRow[];
+	deviations: MetricCatalogDomainRow[];
+};
+
+/**
+ * Reconstruye el borrador de una prueba ya guardada. Lo usan por igual el laboratorio de
+ * escenarios y la anotación en sombra: una prueba se lee igual venga de donde venga.
+ */
+export function draftFromRows(
+	sequence: MetricCatalogDomainRow,
+	rows: MetricSavedSequenceRows
+): MetricSequenceDraft {
+	const sequenceId = String(sequence.secuencia_prueba_id);
+	const belongs = (row: MetricCatalogDomainRow) =>
+		String(row.secuencia_prueba_id) === sequenceId;
+	const text = (value: unknown): string => String(value ?? '');
+	const id = (value: unknown): string | null => (value ? String(value) : null);
+
+	return {
+		secuencia_prueba_id: sequenceId,
+		escenario_id: id(sequence.escenario_id),
+		secuencia_id: id(sequence.secuencia_id),
+		orden: Number(sequence.orden),
+		v_ini: Number(sequence.v_ini),
+		v_fin: Number(sequence.v_fin),
+		forma_id: String(sequence.forma_id),
+		arquitectura_id: text(sequence.arquitectura_id),
+		observaciones: text(sequence.observaciones),
+		unidades: rows.units.filter(belongs).map((unit) => ({
+			realizacion_prueba_id: String(unit.realizacion_prueba_id),
+			realizacion_padre_id: id(unit.realizacion_padre_id),
+			seccion_id: String(unit.seccion_id),
+			orden: Number(unit.orden),
+			v_ini: Number(unit.v_ini),
+			v_fin: Number(unit.v_fin),
+			etiqueta: text(unit.etiqueta),
+			observaciones: text(unit.observaciones)
+		})),
+		elecciones: rows.choices.filter(belongs).map((choice) => ({
+			realizacion_prueba_id: id(choice.realizacion_prueba_id),
+			grupo_eleccion_id: String(choice.grupo_eleccion_id),
+			opcion_eleccion_id: id(choice.opcion_eleccion_id),
+			valor_texto: choice.valor_texto ? String(choice.valor_texto) : null,
+			observaciones: choice.observaciones ? String(choice.observaciones) : null
+		})),
+		desviaciones: rows.deviations.filter(belongs).map((deviation) => ({
+			realizacion_prueba_id: id(deviation.realizacion_prueba_id),
+			v_ini: Number(deviation.v_ini),
+			v_fin: Number(deviation.v_fin),
+			dimension: deviation.dimension as MetricDeviationDimension,
+			relacion_norma: deviation.relacion_norma as MetricDeviationRelation,
+			metro_observado_id: id(deviation.metro_observado_id),
+			esquema_rima_observado_id: id(deviation.esquema_rima_observado_id),
+			seccion_observada_id: id(deviation.seccion_observada_id),
+			repeticion_observada_id: id(deviation.repeticion_observada_id),
+			valor_rasgo_observado_id: id(deviation.valor_rasgo_observado_id),
+			observaciones: text(deviation.observaciones)
+		}))
+	};
 }
 
 export function emptyDeviation(vIni: number, vFin: number): MetricDeviationDraft {
