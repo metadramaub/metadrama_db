@@ -192,7 +192,64 @@ function slugify(texto) {
 		.slice(0, 80);
 }
 
-function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fecha }) {
+/**
+ * Tramos que el modelo viejo obligó a partir y el nuevo recoge como una sola secuencia.
+ *
+ * El criterio lo da la propia arquitectura. Si declara la extensión de su unidad —una
+ * quintilla son cinco versos, un sexteto-lira seis—, el pasaje se compone de unidades
+ * repetidas y lo que varía entre ellas es una respuesta por unidad: cuatro sextetos-lira
+ * seguidos con esquemas distintos son **una** secuencia de cuatro unidades. Si la unidad no
+ * tiene extensión declarada —romance, silva—, la secuencia *es* la unidad y su norma vale
+ * para todo el tramo: dos romances contiguos con asonancia distinta son dos tiradas y no se
+ * tocan.
+ *
+ * Se respeta además la frontera de jornada: partir ahí es una decisión editorial, no un
+ * artefacto del vocabulario.
+ */
+function tramosFundibles({ secuencias, resueltas, jornadas }) {
+	const porSecuencia = new Map(resueltas.map((fila) => [fila.secuencia.secuencia_id, fila]));
+	const ordenadas = [...secuencias].sort((a, b) => a.v_ini - b.v_ini);
+	const cortes = new Set(jornadas.map((jornada) => Number(jornada.v_fin)));
+
+	const tramos = [];
+	let actual = [];
+
+	const cerrar = () => {
+		if (actual.length > 1) tramos.push(actual);
+		actual = [];
+	};
+
+	for (const secuencia of ordenadas) {
+		const fila = porSecuencia.get(secuencia.secuencia_id);
+		const arquitectura = fila?.resultado.arquitectura ?? null;
+		// Sin arquitectura, o con unidad sin extensión declarada, no hay nada que fundir.
+		const unidadAcotada =
+			arquitectura?.unidad_versos_min != null && arquitectura?.unidad_versos_max != null;
+		if (!unidadAcotada) {
+			cerrar();
+			continue;
+		}
+		if (actual.length === 0) {
+			actual = [{ secuencia, fila }];
+			continue;
+		}
+		const anterior = actual[actual.length - 1];
+		const contigua = Number(secuencia.v_ini) === Number(anterior.secuencia.v_fin) + 1;
+		const mismaArquitectura =
+			anterior.fila?.resultado.arquitectura?.arquitectura_id === arquitectura.arquitectura_id;
+		const cruzaJornada = cortes.has(Number(anterior.secuencia.v_fin));
+
+		if (contigua && mismaArquitectura && !cruzaJornada) actual.push({ secuencia, fila });
+		else {
+			cerrar();
+			actual = [{ secuencia, fila }];
+		}
+	}
+	cerrar();
+	return tramos;
+}
+
+function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fecha, jornadas }) {
 	const nombre = (id) => vocabulario.get(id)?.termino ?? null;
 	const idsSecuencia = new Set(secuencias.map((s) => s.secuencia_id));
 	const subtipos = t('secuencias_subtipos_estrofa').filter((r) => idsSecuencia.has(r.secuencia_id));
@@ -211,6 +268,7 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 		(fila) => fila.resultado.via === 'sin_destino' || fila.resultado.via === 'sin_tipo'
 	);
 	const porAscendencia = resueltas.filter((fila) => fila.resultado.via === 'ascendencia');
+	const fundibles = tramosFundibles({ secuencias, resueltas, jornadas });
 
 	const lineas = [];
 	lineas.push(`# Migración métrica · ${obra.titulo}`);
@@ -226,7 +284,7 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 	lineas.push('');
 
 	// Lo primero es saber si hay que llamar a alguien.
-	if (dudas.length === 0 && porAscendencia.length === 0) {
+	if (dudas.length === 0 && porAscendencia.length === 0 && fundibles.length === 0) {
 		lineas.push('## Nada que consultar');
 		lineas.push('');
 		lineas.push('Todas las secuencias resuelven su equivalencia de forma directa.');
@@ -247,6 +305,16 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 			);
 			lineas.push('  encadenamiento— no se deducen y las tiene que confirmar quien anotó.');
 		}
+		if (fundibles.length > 0) {
+			const total = fundibles.reduce((suma, tramo) => suma + tramo.length, 0);
+			lineas.push(
+				`- **${total} secuencias que pasan a ser ${fundibles.length}.** El vocabulario viejo obligaba a`
+			);
+			lineas.push(
+				'  partirlas porque el esquema cambiaba de estrofa a estrofa; en el modelo nuevo son una sola'
+			);
+			lineas.push('  secuencia con varias unidades. Conviene confirmarlo antes de fundirlas.');
+		}
 	}
 	lineas.push('');
 	lineas.push(
@@ -255,6 +323,50 @@ function informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fec
 			`${cuenta.sin_tipo} sin forma declarada.`
 	);
 	lineas.push('');
+
+	if (fundibles.length > 0) {
+		lineas.push('## Secuencias que se funden en una');
+		lineas.push('');
+		lineas.push(
+			'Cada tramo pasa a ser **una** secuencia con tantas unidades como tenía de secuencias, y lo'
+		);
+		lineas.push(
+			'que las distinguía se conserva como respuesta de cada unidad. Es lo mismo que ya se hacía'
+		);
+		lineas.push('con las quintillas.');
+		lineas.push('');
+		for (const tramo of fundibles) {
+			const desde = tramo[0].secuencia.v_ini;
+			const hasta = tramo[tramo.length - 1].secuencia.v_fin;
+			const forma = tramo[0].fila?.resultado.forma?.nombre ?? '—';
+			const arquitectura = tramo[0].fila?.resultado.arquitectura?.nombre ?? '—';
+			const unidad = tramo[0].fila?.resultado.arquitectura?.unidad_versos_min ?? null;
+			const versos = Number(hasta) - Number(desde) + 1;
+			const unidades = unidad ? versos / Number(unidad) : null;
+			lineas.push(
+				`**vv. ${desde}–${hasta}** → ${forma} · ${arquitectura} — ${tramo.length} secuencias en una` +
+					(unidades ? `, con ${Number.isInteger(unidades) ? unidades : `¿${versos} / ${unidad}?`} unidades de ${unidad} versos` : '')
+			);
+			lineas.push('');
+			lineas.push('| Versos | v | Término actual | Pasa a ser |');
+			lineas.push('| --- | ---: | --- | --- |');
+			for (const { secuencia, fila } of tramo) {
+				const termino = nombre(secuencia.estrofa_tipo_id);
+				lineas.push(
+					`| ${secuencia.v_ini}–${secuencia.v_fin} | ${secuencia.n_versos} | ` +
+						`${termino ? `\`${termino}\`` : '—'} | unidad con ${fila?.resultado.detalle ?? 'su propia respuesta'} |`
+				);
+			}
+			lineas.push('');
+			if (unidades !== null && !Number.isInteger(unidades)) {
+				lineas.push(
+					`> El tramo mide ${versos} versos y la unidad ${unidad}: no es múltiplo exacto, así que hay`
+				);
+				lineas.push('> algo que revisar antes de fundirlo.');
+				lineas.push('');
+			}
+		}
+	}
 
 	if (dudas.length > 0) {
 		lineas.push('## Dudas, una por una');
@@ -379,7 +491,8 @@ const resumen = [];
 for (const obra of obras) {
 	const secuencias = secuenciasPorObra.get(obra.obra_id);
 	const editor = editores.get(obra.editor_asignado) ?? null;
-	const texto = informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fecha });
+	const jornadas = t('jornadas').filter((j) => j.obra_id === obra.obra_id);
+	const texto = informeDeObra({ obra, secuencias, t, vocabulario, resolver, editor, fecha, jornadas });
 	const fichero = `${slugify(obra.titulo)}.md`;
 	writeFileSync(join(options.salida, fichero), `${texto}\n`, 'utf-8');
 

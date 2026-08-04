@@ -9,11 +9,31 @@ se regenera y se pierde lo escrito. Las decisiones van a
 - **Subtipos estróficos:** 61
 - **Caracterizaciones por rango:** 7
 
-## Nada que consultar
+## Qué hay que consultar
 
-Todas las secuencias resuelven su equivalencia de forma directa.
+- **4 secuencias que pasan a ser 1.** El vocabulario viejo obligaba a
+  partirlas porque el esquema cambiaba de estrofa a estrofa; en el modelo nuevo son una sola
+  secuencia con varias unidades. Conviene confirmarlo antes de fundirlas.
 
 Resolución: 16 directas · 8 con rasgo propio · 0 por ascendencia · 0 sin destino · 0 sin forma declarada.
+
+## Secuencias que se funden en una
+
+Cada tramo pasa a ser **una** secuencia con tantas unidades como tenía de secuencias, y lo
+que las distinguía se conserva como respuesta de cada unidad. Es lo mismo que ya se hacía
+con las quintillas.
+
+**vv. 169–379** → Sexteto-lira · Heterométrica consonante — 4 secuencias en una, con ¿211 / 6? unidades de 6 versos
+
+| Versos | v | Término actual | Pasa a ser |
+| --- | ---: | --- | --- |
+| 169–174 | 6 | `sexteto_lira_a2_AbaBcC` | unidad con su propia respuesta |
+| 175–180 | 6 | `sexteto_lira_a1_aBaBcC` | unidad con su propia respuesta |
+| 181–186 | 6 | `sexteto_lira_a3_abaBcC` | unidad con su propia respuesta |
+| 187–379 | 193 | `sexteto_lira_a1_aBaBcC` | unidad con su propia respuesta |
+
+> El tramo mide 211 versos y la unidad 6: no es múltiplo exacto, así que hay
+> algo que revisar antes de fundirlo.
 
 ## Secuencias
 
