@@ -25,6 +25,7 @@
 	import MetricSandboxLegacyFields from './MetricSandboxLegacyFields.svelte';
 	import MetricSequenceEditor from './MetricSequenceEditor.svelte';
 	import type { MetricUnitDraft } from './editor-model';
+	import { draftFromRows } from './sequence-draft';
 	import type {
 		MetricDeviationDraft,
 		MetricSequenceDraft,
@@ -213,6 +214,8 @@
 		openDraft = {
 			secuencia_prueba_id: null,
 			escenario_id: selectedScenarioId,
+			// El laboratorio nunca anota una secuencia real: eso es la anotación en sombra.
+			secuencia_id: null,
 			orden:
 				scenarioSequences.reduce(
 					(max: number, row: MetricCatalogDomainRow) => Math.max(max, Number(row.orden)),
@@ -232,78 +235,11 @@
 	}
 
 	function openSequence(row: MetricCatalogDomainRow) {
-		const sequenceId = String(row.secuencia_prueba_id);
-		openDraft = {
-			secuencia_prueba_id: sequenceId,
-			escenario_id: String(row.escenario_id),
-			orden: Number(row.orden),
-			v_ini: Number(row.v_ini),
-			v_fin: Number(row.v_fin),
-			forma_id: String(row.forma_id),
-			arquitectura_id: row.arquitectura_id ? String(row.arquitectura_id) : '',
-			observaciones: String(row.observaciones ?? ''),
-			unidades: props.data.editorSandbox.units
-				.filter(
-					(unit: MetricCatalogDomainRow) => String(unit.secuencia_prueba_id) === sequenceId
-				)
-				.map((unit: MetricCatalogDomainRow) => ({
-					realizacion_prueba_id: String(unit.realizacion_prueba_id),
-					realizacion_padre_id: unit.realizacion_padre_id
-						? String(unit.realizacion_padre_id)
-						: null,
-					seccion_id: String(unit.seccion_id),
-					orden: Number(unit.orden),
-					v_ini: Number(unit.v_ini),
-					v_fin: Number(unit.v_fin),
-					etiqueta: String(unit.etiqueta ?? ''),
-					observaciones: String(unit.observaciones ?? '')
-				})),
-			elecciones: props.data.editorSandbox.choices
-				.filter(
-					(choice: MetricCatalogDomainRow) => String(choice.secuencia_prueba_id) === sequenceId
-				)
-				.map((choice: MetricCatalogDomainRow) => ({
-					realizacion_prueba_id: choice.realizacion_prueba_id
-						? String(choice.realizacion_prueba_id)
-						: null,
-					grupo_eleccion_id: String(choice.grupo_eleccion_id),
-					opcion_eleccion_id: choice.opcion_eleccion_id
-						? String(choice.opcion_eleccion_id)
-						: null,
-					valor_texto: choice.valor_texto ? String(choice.valor_texto) : null,
-					observaciones: choice.observaciones ? String(choice.observaciones) : null
-				})),
-			desviaciones: props.data.editorSandbox.deviations
-				.filter(
-					(deviation: MetricCatalogDomainRow) =>
-						String(deviation.secuencia_prueba_id) === sequenceId
-				)
-				.map((deviation: MetricCatalogDomainRow) => ({
-					realizacion_prueba_id: deviation.realizacion_prueba_id
-						? String(deviation.realizacion_prueba_id)
-						: null,
-					v_ini: Number(deviation.v_ini),
-					v_fin: Number(deviation.v_fin),
-					dimension: deviation.dimension as MetricDeviationDraft['dimension'],
-					relacion_norma: deviation.relacion_norma as MetricDeviationDraft['relacion_norma'],
-					metro_observado_id: deviation.metro_observado_id
-						? String(deviation.metro_observado_id)
-						: null,
-					esquema_rima_observado_id: deviation.esquema_rima_observado_id
-						? String(deviation.esquema_rima_observado_id)
-						: null,
-					seccion_observada_id: deviation.seccion_observada_id
-						? String(deviation.seccion_observada_id)
-						: null,
-					repeticion_observada_id: deviation.repeticion_observada_id
-						? String(deviation.repeticion_observada_id)
-						: null,
-					valor_rasgo_observado_id: deviation.valor_rasgo_observado_id
-						? String(deviation.valor_rasgo_observado_id)
-						: null,
-					observaciones: String(deviation.observaciones ?? '')
-				}))
-		};
+		openDraft = draftFromRows(row, {
+			units: props.data.editorSandbox.units,
+			choices: props.data.editorSandbox.choices,
+			deviations: props.data.editorSandbox.deviations
+		});
 		openToken += 1;
 		errorMessage = '';
 	}

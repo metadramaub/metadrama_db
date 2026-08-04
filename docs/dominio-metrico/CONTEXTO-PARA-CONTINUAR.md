@@ -32,14 +32,17 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   V2 de prueba y la compilación del demarcador.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
   las secuencias reales y no alimenta fichas, buscadores ni resúmenes públicos.
-- **La anotación en sombra está abierta a nivel de esquema** desde el 3 de agosto de 2026:
-  una prueba puede señalar una secuencia real con `secuencias_editor_metrico.secuencia_id`,
-  sin que la secuencia cambie nada. `obras_editor_metrico_v2` dice qué obras la usan y la
-  vista `propuesta_metrica_secuencia` traduce cada `estrofa_tipo_id` a la forma y
-  arquitectura que le corresponden, con un 91,5 % de cobertura medida. **Falta la interfaz**:
-  la función de guardado sigue exigiendo escenario y el editor todavía no sabe abrir una
-  secuencia real. Es la fase 0 de
+- **La anotación en sombra funciona** desde el 4 de agosto de 2026, en la pestaña
+  «Anotación en sombra» de `/dashboard/metrica`. Una prueba puede señalar una secuencia real
+  con `secuencias_editor_metrico.secuencia_id`, sin que la secuencia cambie nada:
+  `obras_editor_metrico_v2` dice qué obras están abiertas, la vista
+  `propuesta_metrica_secuencia` traduce cada `estrofa_tipo_id` a su forma y arquitectura
+  —91,5 % de cobertura medida— y el formulario llega propuesto desde ahí, de modo que el
+  editor revisa en vez de reanotar. El recuento de acuerdo entre modelos está en la misma
+  pestaña; para ver una obra en los dos modelos se abre el editor de siempre en otra
+  pestaña, no hay pantalla doble. Es la fase 0 de
   [el plan de migración](./plan-migracion-anotaciones.md).
+  **Nada de esto se ha visto todavía en pantalla con datos reales.**
 - Las declaraciones métricas existentes en las obras siguen usando el vocabulario legado.
   Su migración se hará más adelante, cuando el IP haya validado el catálogo y el
   demarcador. Hay editores trabajando y esta frontera no debe adelantarse.

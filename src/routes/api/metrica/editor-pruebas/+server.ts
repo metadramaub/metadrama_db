@@ -41,21 +41,20 @@ const choiceSchema = z
 		{ message: 'Cada respuesta debe contener una opción o un valor textual, pero no ambos.' }
 	);
 
+// El vocabulario vive en la base (20260803100000_vocabulario_de_las_desviaciones.sql). Aquí
+// solo se replica para rechazar pronto lo que la base rechazaría de todos modos: cinco
+// dimensiones y seis relaciones, sin sinónimos.
 const deviationSchema = z.object({
 	realizacion_prueba_id: nullableUuid,
 	v_ini: z.number().int().positive(),
 	v_fin: z.number().int().positive(),
-	dimension: z.enum(['metro', 'rima', 'estructura', 'repeticion', 'rasgo', 'combinacion']),
+	dimension: z.enum(['metro', 'rima', 'estructura', 'repeticion', 'rasgo']),
 	relacion_norma: z.enum([
 		'diferente',
+		'falta',
+		'sobra',
 		'menor_que_norma',
 		'mayor_que_norma',
-		'falta_elemento_esperado',
-		'aparece_elemento_no_esperado',
-		'ruptura',
-		'omision',
-		'adicion',
-		'sustitucion',
 		'otra'
 	]),
 	metro_observado_id: nullableUuid,
@@ -85,7 +84,10 @@ const requestSchema = z.discriminatedUnion('action', [
 	z.object({
 		action: z.literal('save_sequence'),
 		secuencia_prueba_id: nullableUuid,
-		escenario_id: uuid,
+		// Una prueba cuelga de un escenario ficticio o anota una secuencia real. La
+		// exclusividad se comprueba en el handler para poder explicarla.
+		escenario_id: nullableUuid.default(null),
+		secuencia_id: nullableUuid.default(null),
 		orden: z.number().int().positive(),
 		v_ini: z.number().int().positive(),
 		v_fin: z.number().int().positive(),
@@ -99,6 +101,15 @@ const requestSchema = z.discriminatedUnion('action', [
 	z.object({
 		action: z.literal('delete_sequence'),
 		secuencia_prueba_id: uuid
+	}),
+	z.object({
+		action: z.literal('open_work'),
+		obra_id: uuid,
+		nota: z.string().trim().max(2_000).nullable()
+	}),
+	z.object({
+		action: z.literal('close_work'),
+		obra_id: uuid
 	})
 ]);
 
@@ -176,7 +187,64 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		return json({ deleted: true });
 	}
 
-	if (input.v_fin < input.v_ini) {
+	if (input.action === 'open_work') {
+		const { data, error } = await db
+			.from('obras_editor_metrico_v2')
+			.upsert(
+				{ obra_id: input.obra_id, nota: input.nota, created_by: profile.userId },
+				{ onConflict: 'obra_id' }
+			)
+			.select('*')
+			.single();
+		if (error) return databaseError(error, 'No se pudo abrir la obra al editor V2.');
+		return json({ work: data }, { status: 201 });
+	}
+
+	if (input.action === 'close_work') {
+		// Cerrar la obra no borra lo anotado: las pruebas siguen colgando de sus secuencias.
+		const { error } = await db
+			.from('obras_editor_metrico_v2')
+			.delete()
+			.eq('obra_id', input.obra_id);
+		if (error) return databaseError(error, 'No se pudo cerrar la obra.');
+		return json({ deleted: true });
+	}
+
+	if (Number(input.escenario_id !== null) + Number(input.secuencia_id !== null) !== 1) {
+		return json(
+			{
+				error: 'validation_error',
+				message:
+					'Una prueba anota un escenario ficticio o una secuencia real, nunca las dos ni ninguna.'
+			},
+			{ status: 422 }
+		);
+	}
+
+	// En la anotación en sombra el rango lo manda la secuencia real, igual que en la base:
+	// validar contra lo que mande el cliente comprobaría un rango que no se va a guardar.
+	let rangeStart = input.v_ini;
+	let rangeEnd = input.v_fin;
+	if (input.secuencia_id) {
+		const { data: realSequence, error: realSequenceError } = await db
+			.from('secuencias_metricas')
+			.select('v_ini,v_fin')
+			.eq('secuencia_id', input.secuencia_id)
+			.maybeSingle();
+		if (realSequenceError) {
+			return databaseError(realSequenceError, 'No se pudo leer la secuencia real.');
+		}
+		if (!realSequence) {
+			return json(
+				{ error: 'validation_error', message: 'La secuencia real no existe.' },
+				{ status: 422 }
+			);
+		}
+		rangeStart = Number(realSequence.v_ini);
+		rangeEnd = Number(realSequence.v_fin);
+	}
+
+	if (rangeEnd < rangeStart) {
 		return json(
 			{ error: 'validation_error', message: 'El verso final no puede ser anterior al inicial.' },
 			{ status: 422 }
@@ -198,8 +266,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		}
 		const lengthError = metricLengthError(
 			(lengthRuleData as MetricLengthRule | null) ?? null,
-			input.v_ini,
-			input.v_fin,
+			rangeStart,
+			rangeEnd,
 			lengthRuleData?.arquitectura_nombre
 		);
 		if (lengthError) {
@@ -207,7 +275,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		}
 	}
 	for (const unit of input.unidades) {
-		if (unit.v_fin < unit.v_ini || unit.v_ini < input.v_ini || unit.v_fin > input.v_fin) {
+		if (unit.v_fin < unit.v_ini || unit.v_ini < rangeStart || unit.v_fin > rangeEnd) {
 			return json(
 				{
 					error: 'validation_error',
@@ -220,8 +288,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	for (const deviation of input.desviaciones) {
 		if (
 			deviation.v_fin < deviation.v_ini ||
-			deviation.v_ini < input.v_ini ||
-			deviation.v_fin > input.v_fin
+			deviation.v_ini < rangeStart ||
+			deviation.v_fin > rangeEnd
 		) {
 			return json(
 				{
@@ -234,7 +302,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 
 	const { data, error } = await db.rpc('guardar_secuencia_editor_metrico_prueba', {
-		p_datos: input
+		p_datos: { ...input, v_ini: rangeStart, v_fin: rangeEnd }
 	});
 	if (error) return databaseError(error, 'No se pudo guardar la secuencia métrica de prueba.');
 	return json({ secuencia_prueba_id: data });
