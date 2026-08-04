@@ -23,6 +23,37 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 - La copla de arte mayor elige su esquema **en cada copla**, como la quintilla o el soneto:
   los tres alternan de estrofa en estrofa.
 
+## La serie de arte mayor: sueltos, silvas y pareados endecasílabos
+
+Abierto el 4 de agosto de 2026, al revisar el endecasílabo suelto contra las definiciones de
+Morley y Bruerton. El análisis y la corrección acordada están en
+[equivalencias pendientes](../equivalencias-pendientes.md).
+
+Lo acordado: las cinco arquitecturas repartidas hoy entre «Endecasílabo suelto» y «Silva»
+son una rejilla de dos ejes —composición métrica × densidad de pareados—, y se reducen a dos
+arquitecturas por composición métrica, con la densidad como rasgo y los nombres de la
+tradición colgados de las variedades.
+
+**Lo que queda por decidir:**
+
+1. **¿Siguen siendo dos formas o una?** La serie endecasilábica y la silva heterométrica
+   comparten el mismo eje de densidad de rima y se distinguen solo por la composición
+   métrica, que en el modelo es arquitectura. Si son una sola forma, ¿cómo se llama? «Silva»
+   arrastra la connotación heterométrica; «serie de arte mayor» es exacto pero no es un
+   nombre de la tradición.
+2. **¿Es «endecasílabo suelto» una forma o el nombre de una densidad de rima nula?** Dicho de
+   otro modo: si lo que lo define es «versos sueltos de once sílabas», ¿no es el mismo
+   fenómeno que unos octosílabos sueltos, con la medida en otra posición? Si lo es, la medida
+   es arquitectura y «suelto» es el grado cero del rasgo, no una forma. El catálogo ya lo
+   clasifica como `serie` y no como estrofa, así que la pregunta es si merece ser forma.
+   El precedente es el pareado: se resolvió haciendo de la medida una respuesta en vez de
+   una forma por cada medida.
+3. **¿Dónde va el grado «Regulares»?** Ninguna arquitectura lo ofrece hoy. Es el 99-100 % de
+   versos rimados: los «pareados endecasílabos» de M&B. Con la medida como arquitectura sería
+   una variedad más, pero conviene confirmar que en el corpus se distingue de la silva 1.
+4. **¿Se recoge la silva 4** —«versos de 7 y 11 mezclados irregularmente, todas las rimas en
+   los pares»—? No está en el catálogo ni se usa en el corpus.
+
 ## Quintilla
 
 Véase [quintilla.md](./quintilla.md).
