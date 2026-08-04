@@ -89,7 +89,8 @@ entere: la secuencia real no cambia ni una columna y todo lo anotado cuelga apar
 
 El formulario llega con **la forma, la arquitectura y las respuestas que el término legado
 ya permitía deducir**: la asonancia de un romance, el esquema de los tercetos de un soneto,
-la tipología de un sexteto-lira. Son 81 respuestas en 81 secuencias, y **se rellenan solas,
+la tipología de un sexteto-lira, el esquema de sus cuartetos. Son 88 respuestas, y **se
+rellenan solas,
 tanto las de la secuencia entera como las de cada unidad**. En esos casos el trabajo es leer
 y guardar. Lo que no se deduce se pregunta, y en la tabla se ve en verde qué llega
 contestado antes de abrir.
