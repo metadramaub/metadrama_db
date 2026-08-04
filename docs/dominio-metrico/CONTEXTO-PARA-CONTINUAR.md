@@ -138,7 +138,10 @@ Leer solo lo necesario para la tarea:
 4. [Contratos del registrador](./contratos-registrador-formas-revisadas.md): comportamiento
    mínimo de las formas revisadas.
 5. [Cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md): única lista
-   vigente de dudas.
+   vigente de dudas filológicas.
+5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): los 29 términos legados que
+   todavía no declaran su destino en el catálogo, cinco de ellos en uso. Es lo que hay que
+   cerrar antes del backfill.
 6. La revisión específica de una forma, solo si la nueva tarea afecta a esa forma.
 
 [El vocabulario heredado](./historico/vocabulario-heredado.md) conserva los 119 términos
