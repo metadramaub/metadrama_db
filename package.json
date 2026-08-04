@@ -20,7 +20,8 @@
 		"db:push": "npx supabase db push",
 		"db:seed": "npx supabase db push --include-seed --yes",
 		"db:types": "node scripts/gen-types.mjs",
-		"audit:metrica": "node scripts/audit-catalogo-metrico.mjs"
+		"audit:metrica": "node scripts/audit-catalogo-metrico.mjs",
+		"migracion:informe": "node scripts/informe-migracion-obras.mjs"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",
