@@ -49,15 +49,24 @@ modelo nuevo una vez validadas las anotaciones.
 
 ## 4 · Trazabilidad
 
-`migracion_terminos_metricos` conserva un registro por `vocabularios.termino_id` con su
-clasificación, decisión, certeza técnica y notas. `migracion_termino_destinos` permite
-que un término legado produzca varios destinos, porque casos como
-`soneto_de_esdrújulos` se transforman en una forma más un rasgo, no en un registro
-equivalente.
+**No hay hoy ninguna tabla de correspondencias.** `migracion_terminos_metricos` y
+`migracion_termino_destinos` se describían aquí como el mecanismo de trazabilidad, pero
+**no existen en el esquema**: se retiraron con la matriz de importación en julio de 2026.
+Comprobado sobre la base el 4 de agosto.
 
-Cuando una entrada sobreviva como forma canónica se reutiliza su UUID en
-`formas_metricas`, lo que facilita el backfill. Las entradas transformadas en patrones o
-rasgos conservan su UUID legado solo en la tabla de correspondencias.
+Lo único que queda es `origen_termino_id`, una columna en cada entidad del catálogo, y dos
+mecanismos heredados:
+
+- cuando una entrada sobrevive como forma canónica se reutiliza su UUID en
+  `formas_metricas`, lo que facilita el backfill;
+- las demás declaran su procedencia en `origen_termino_id`.
+
+Eso basta para las correspondencias de uno a uno, pero **no para las de varios a uno ni
+para los destinos compuestos**, que son justamente los casos difíciles: `soneto_de_esdrújulos`
+es una forma más un rasgo, y los cuatro hijos del endecasílabo suelto son una misma
+arquitectura con respuestas distintas. Una columna única no expresa ninguna de las dos
+cosas. Decidir dónde viven esas correspondencias es parte de
+[equivalencias pendientes](./equivalencias-pendientes.md).
 
 Los términos ambiguos no se asignan por conjetura. La antigua raíz `romancillo`, por
 ejemplo, exige saber si la secuencia es hexasílaba o heptasílaba, y esa decisión es
@@ -124,9 +133,9 @@ hay que saber antes de migrar el corpus de golpe.
 (6 secuencias), `pareado_endecasilabo` (1) y `copla_real_de_pie_quebrado` (1)—, más tres
 secuencias con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
 
-> Las tablas `migracion_terminos_metricos` y `migracion_termino_destinos` **están vacías**:
-> la matriz de importación se retiró en julio. El mapa vigente es `origen_termino_id`, y es
-> el que hay que consultar.
+> Las tablas `migracion_terminos_metricos` y `migracion_termino_destinos` **ya no existen**:
+> se retiraron con la matriz de importación en julio. El mapa vigente es `origen_termino_id`,
+> y es el que hay que consultar.
 
 **Lo que el mapa no dice.** `origen_termino_id` registra supervivencias y transformaciones,
 nunca disoluciones: un término que desapareció a propósito —`redondilla_hexasilaba`, porque

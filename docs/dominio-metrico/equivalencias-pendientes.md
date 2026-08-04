@@ -15,9 +15,10 @@ términos que siguen en uso.
 
 ## El problema no es solo que falten: es que el mapa no puede expresarlos
 
-El mapa vigente es `origen_termino_id`, **una columna en el destino**. Eso permite decir
-«esta arquitectura viene de aquel término», pero **no permite que varios términos legados
-apunten al mismo destino**. Y la ontología hizo exactamente eso a propósito: disolvió la
+El mapa vigente es `origen_termino_id`, **una columna única en el destino**. Eso permite
+decir «esta arquitectura viene de aquel término», pero **no permite que varios términos
+legados apunten al mismo destino**, ni que un término apunte a un destino compuesto —una
+arquitectura más un juego de respuestas—. Y la ontología hizo exactamente eso a propósito: disolvió la
 medida en la arquitectura y los esdrújulos en un rasgo, de modo que varios términos viejos
 colapsan en uno nuevo.
 
@@ -32,9 +33,11 @@ Los tres casos comprobados el 4 de agosto:
   recibir seis términos `*_de_esdrujulos` a la vez.
 
 Consecuencia: parte de los 28 no son un olvido sino **un límite de forma del mapa**.
-`migracion_termino_destinos` existía justamente para lo de varios a uno, y está vacía. Hay
-que decidir si se rellena esa tabla, si se admite una lista en el destino, o si la
-correspondencia de varios a uno se resuelve solo en el script de backfill.
+`migracion_termino_destinos` existía justamente para lo de varios a uno, pero **ya no
+existe**: se retiró con la matriz de importación y no está en el esquema (comprobado el 4 de
+agosto). Hoy no hay ningún sitio en la base donde escribir una correspondencia compuesta.
+Hay que decidir si se recrea esa tabla, si se admite una lista en el destino, o si esas
+correspondencias se resuelven solo en el script de backfill.
 
 Añadido: `origen_termino_id` registra supervivencias y transformaciones, **nunca
 disoluciones**. `redondilla_hexasilaba` desapareció a propósito y no dejó rastro; en la base
