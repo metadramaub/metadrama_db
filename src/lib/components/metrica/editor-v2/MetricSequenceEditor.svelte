@@ -33,6 +33,7 @@
 		defaultRelationFor,
 		emptyDeviation,
 		metricDeviationRelations,
+		applyProposedUnitAnswers,
 		normalizeStructuredUnits,
 		unitPlanFor,
 		METRIC_DEVIATION_DIMENSIONS,
@@ -67,6 +68,13 @@
 		extraRailItems?: { id: string; label: string }[];
 		/** Contenido suelto al final del raíl. */
 		railExtra?: import('svelte').Snippet;
+		/**
+		 * Respuestas de ámbito unidad que llegan ya deducidas —el esquema de los tercetos de un
+		 * soneto, la tipología de un sexteto-lira—. No pueden venir dentro de `initialDraft`
+		 * porque en ese momento las unidades no existen todavía: las materializa este editor al
+		 * conocer la arquitectura. Se aplican en cuanto existen.
+		 */
+		initialUnitAnswers?: { grupo_eleccion_id: string; opcion_eleccion_id: string }[];
 	}>();
 
 	// El borrador es del editor, no del contenedor: así ningún componente de fuera muta un
@@ -88,6 +96,15 @@
 				initial.v_fin
 			);
 			const parts = catalogParts(props.catalog, initial.arquitectura_id);
+
+			// Ya hay unidades: se pueden colgar de ellas las respuestas que llegan deducidas.
+			initial.elecciones = applyProposedUnitAnswers(
+				initial.unidades,
+				initial.elecciones,
+				parts.groups,
+				props.initialUnitAnswers ?? []
+			);
+
 			const plan = unitPlanFor(props.catalog, initial.arquitectura_id, parts.sections);
 			// Con una unidad de extensión variable el rango se calcula desde sus partes.
 			if (plan !== null && !plan.countFromRange) {
