@@ -237,7 +237,7 @@
 				<div>
 					<dt class="font-medium">Slug de arquitectura</dt>
 					<dd class="text-[color:var(--muted-foreground)]">
-						Describe establemente la alternativa, por ejemplo <code>octosilabico_asonante</code>.
+						Describe establemente la alternativa, por ejemplo <code>octosilabica_asonante</code>.
 						No debe llamarse <code>principal</code>, porque la condición de prototípica puede cambiar.
 					</dd>
 				</div>
