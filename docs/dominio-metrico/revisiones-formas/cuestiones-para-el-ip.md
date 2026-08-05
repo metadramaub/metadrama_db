@@ -5,6 +5,31 @@ Actualizado: 1 de agosto de 2026
 Este archivo reúne solo decisiones pendientes. Las decisiones ya tomadas están en la
 ficha de cada revisión.
 
+## Dónde vive la información de cada forma
+
+Desde el 4 de agosto de 2026 existe un **catálogo público de formas** en `/formas`, generado
+del dato: cada forma con sus arquitecturas, esquemas, secciones, variedades, rasgos,
+denominaciones y lo que dicen las fuentes. Se apaga y se abre desde
+`/dashboard/publicacion`, sección `formas`, y nace en `admin_ip` para poder revisarlo antes
+de enseñarlo.
+
+El reparto al que se va:
+
+- **El catálogo público describe.** Qué es cada forma y cómo está codificada. Sale del dato,
+  así que no puede quedarse viejo.
+- **Este archivo pregunta.** Solo lo que sigue sin decidir.
+- **Las fichas de `revisiones-formas/` sobran a medida que su contenido entra en el dato.**
+  No se borran de golpe: llevan el *porqué* de muchas decisiones, y ese porqué tiene que
+  mudarse antes a `definicion`, `descripcion`, `nota` o `afirmaciones_fuentes_metricas`.
+
+**Cuidado con la duplicación.** Hay tres sitios donde puede vivir una explicación —definición
+de la forma, descripción de la arquitectura y nota de una sección o un rasgo— y hoy nada
+impide decir lo mismo en los tres. Está sin auditar a propósito: primero se mueve el
+contenido y se suman las fuentes que faltan, y después se revisa qué debe vivir dónde.
+
+Estado del contenido el 4 de agosto: 28 formas, todas con definición; 49 arquitecturas, todas
+con descripción; 23 denominaciones; 39 afirmaciones sobre 11 fuentes.
+
 ## Los defectos del informe que esperan una decisión
 
 El [informe de conformidad](../informe-conformidad-catalogo.md) **no señala ningún

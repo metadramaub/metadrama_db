@@ -24,6 +24,7 @@ export const PUBLIC_NAV: NavGroup[] = [
 		label: 'RECURSOS',
 		items: [
 			{ label: 'DEMARCADOR', href: '/demarcador' },
+			{ label: 'FORMAS MÉTRICAS', href: '/formas' },
 			{ label: 'VOCABULARIOS', href: '/recursos/vocabularios' },
 			{ label: 'GUÍA', href: '/recursos/guia' }
 		]
