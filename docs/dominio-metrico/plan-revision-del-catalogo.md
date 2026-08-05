@@ -71,11 +71,27 @@ a fichero y leerlo con codificación explícita. Y una comprobación mal acotada
 positivos: la primera versión de la guarda encontró 39 errores cruzando los cinco metros del
 sexteto-lira contra sus tres rimas.
 
-### Queda una duda menor
+### Y la caja cuando la medida no se fija verso a verso
 
-La canción sin rima declara su pareado final como `AA`, dos versos de arte mayor. Su esquema
-métrico es un conjunto —heptasílabo o endecasílabo—, así que la caja no puede comprobarse
-contra el dato y hay que decidirla leyendo. No se ha tocado.
+La primera comprobación solo alcanzaba a las arquitecturas que declaran una medida por
+posición. Las que declaran un **conjunto** de medidas admisibles quedaban fuera, y ahí había
+dos notaciones que afirmaban un arte que la medida no sostiene.
+
+La regla que faltaba: **si todas las medidas admisibles comparten arte, se usa el suyo; si lo
+cruzan, el arte no está determinado y se escribe en minúscula**, que es la forma no marcada.
+No es una invención: el pareado ya lo hacía así, con medidas de cuatro a catorce sílabas y
+notación `aa`.
+
+- **Zéjel**, hexasílabo u octosílabo, o sea arte menor, escribía `A(A) | [BBBA]…`. Su hermano
+  el villancico, con las mismas medidas, ya escribía `abba` y `abab`.
+- **Canción sin rima**, pareado final. Escribía `AA` sobre una arquitectura de siete y once
+  sílabas, afirmando dos endecasílabos sin que nada lo sostuviera. Ni la definición del
+  proyecto ni Morley y Bruerton fijan esa medida, y el pareado final de la canción regular es
+  `fF` —siete más once—, así que el `AA` venía de llamarlos «pareados consonantes» y no de la
+  medida. Queda `aa`.
+
+Con eso el catálogo no afirma en ninguna notación un arte que su medida no sostenga, y la
+comprobación queda en la migración para que no vuelva a colarse.
 
 ### El estado anterior, para referencia
 
