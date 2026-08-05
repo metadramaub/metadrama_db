@@ -19,7 +19,65 @@ el catálogo dos veces.
 
 ---
 
-## A · Normalizar nombres
+## A · Normalizar nombres — **hecho el 5 de agosto de 2026**
+
+Auditadas las 110 entidades con nombre y slug: arquitecturas, esquemas métricos y variedades.
+Salieron cuatro cosas y las cuatro están aplicadas.
+
+| Qué | Cuántas |
+| --- | ---: |
+| Slugs de variedad con mayúsculas (sexteto-lira) | 7 |
+| Nombres con el adjetivo en masculino | 4 |
+| Slugs con el adjetivo en masculino | 8 |
+| Nombres que repetían el de su forma | 1 |
+| Arquitecturas del romance nombradas en sustantivo | 4 |
+
+**El criterio del género**: el adjetivo concuerda con «arquitectura», que es lo que el nombre
+califica, no con la forma. Lo prueba que el cuarteto y el sexteto, formas masculinas, ya se
+nombraban «Endecasilábica». Eran dieciocho en femenino contra cuatro en masculino.
+
+**Lo del romance admite discusión y se aplicó igualmente**: «romance octosílabo» es como lo
+dice la tradición, pero su slug ya usaba el adjetivo y las otras cuarenta y cinco
+arquitecturas también. Si se prefiere el sustantivo, revertir esas cuatro filas no afecta a
+nada más.
+
+### La caja de la notación de rima
+
+Mayúscula arte mayor, minúscula arte menor. No es decoración: `aA` son un heptasílabo y un
+endecasílabo que riman, y escribirlo `AA` pierde la mitad. Comprobado contra la medida de
+cada posición, había **once posiciones con la caja contraria a su verso**:
+
+- **Canción petrarquista**, `ABCABC:CDEEDFF` sobre 7-7-11-7-7-11-7-7-7-7-11-7-13. Nueve
+  posiciones heptasílabas en mayúscula. Lo correcto es `abCabC:cdeeDfF`, que es exactamente
+  lo que decía el término legado, `cancion_regular_abCabC_cdeeDfF`: la caja se perdió al
+  normalizar en algún momento.
+- **Endecha real**, `-a-a` sobre 7-7-7-11 → `-a-A`.
+- **Romance endecasílabo**, el heroico, `[-a]…` → `[-A]…`. Sus tres hermanos son arte menor.
+
+**Y por eso los slugs pueden llevar mayúsculas.** Bajar a minúsculas los de las variedades
+del sexteto-lira dejó `a1_ababcc`, `a2_ababcc` y `a3_ababcc` **idénticos**: la caja era lo
+único que separaba `aBaBcC` de `AbaBcC` y de `abaBcC`. La regla de minúsculas vale para el
+texto descriptivo; una notación de rima conserva su caja.
+
+**Dónde se comprueba y dónde no.** Solo puede comprobarse si la arquitectura tiene un único
+esquema métrico. El sexteto-lira tiene cinco —M1 a M5— y tres de rima, y la rima es
+independiente del metro: la caja no se decide hasta combinarlos en una variedad. Ahí sí se
+comprueba, y sus siete variedades cuadran.
+
+**Lo que enseñó hacerlo**: la auditoría del día anterior dio un resultado falso porque el
+acento de `sílabo` cae en la *i* y el de `silábica` en la *a*, y una expresión regular escrita
+para uno no encuentra el otro. Las tuberías de consola corrompen los acentos: hay que volcar
+a fichero y leerlo con codificación explícita. Y una comprobación mal acotada da falsos
+positivos: la primera versión de la guarda encontró 39 errores cruzando los cinco metros del
+sexteto-lira contra sus tres rimas.
+
+### Queda una duda menor
+
+La canción sin rima declara su pareado final como `AA`, dos versos de arte mayor. Su esquema
+métrico es un conjunto —heptasílabo o endecasílabo—, así que la caja no puede comprobarse
+contra el dato y hay que decidirla leyendo. No se ha tocado.
+
+### El estado anterior, para referencia
 
 La convención ya está fijada en
 [la revisión de nomenclatura](./historico/revision-nomenclatura.md): **adjetivo en `-ico`**
