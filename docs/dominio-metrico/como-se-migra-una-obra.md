@@ -25,15 +25,14 @@ Conviene decirlo antes que nada, porque es lo que preocupa:
 
 ## Por qué hay que revisar, si la correspondencia es automática
 
-Porque automática no quiere decir completa. De las 216 secuencias del corpus, el sistema
-resuelve 212, pero **por tres vías que no valen lo mismo**:
+Porque automática no quiere decir completa. El sistema resuelve **las 212 secuencias del
+corpus**, pero **por tres vías que no valen lo mismo**:
 
 | Vía | Qué significa | Cuántas |
 | --- | --- | ---: |
 | **directa** | El término viejo tiene su equivalente exacto en el catálogo. No hay nada que decidir | 134 |
 | **rasgo** | El término codificaba un rasgo, no una forma: `romance_a-o` dice «romance» *y* «asonancia a-o». La forma viene de su padre, y **la asonancia llega ya contestada en el formulario** | 71 |
 | **ascendencia** | Nadie reclama el término, pero sí su padre. **Da la forma, no las respuestas** | 7 |
-| **sin resolver** | Hay que decidirlo | 4 |
 
 Las de **ascendencia** son las que necesitan al editor. Ejemplo real: seis secuencias de
 *El esclavo del demonio* están anotadas como `endecasilabo_suelto_puro`. El catálogo sabe
@@ -89,10 +88,9 @@ entere: la secuencia real no cambia ni una columna y todo lo anotado cuelga apar
 
 El formulario llega con **la forma, la arquitectura y las respuestas que el término legado
 ya permitía deducir**: la asonancia de un romance, el esquema de los tercetos de un soneto,
-la tipología de un sexteto-lira, el esquema de sus cuartetos. Son 88 respuestas, y **se
-rellenan solas,
-tanto las de la secuencia entera como las de cada unidad**. En esos casos el trabajo es leer
-y guardar. Lo que no se deduce se pregunta, y en la tabla se ve en verde qué llega
+la tipología de un sexteto-lira, el esquema de sus cuartetos. Son **91 respuestas**, y se
+rellenan solas tanto las de la secuencia entera como las de cada unidad. En esos casos el
+trabajo es leer y guardar. Lo que no se deduce se pregunta, y en la tabla se ve en verde qué llega
 contestado antes de abrir.
 
 Lo ya contestado por el editor nunca se pisa: la propuesta solo rellena huecos.
@@ -110,17 +108,17 @@ backfill sobre esa obra. Antes hay copia de seguridad.
 
 ## Quién tiene trabajo, hoy
 
+**Ninguna obra tiene ya dudas de equivalencia.** Lo que queda es estructura:
+
 | Obra | Editor | Qué hay que mirar |
 | --- | --- | --- |
-| Fuenteovejuna | David Merino Recalde | 3 secuencias que no declaran forma |
-| El conde de Sex | Rosa Bono | 1 secuencia: `pareado_endecasilabo` |
-| El esclavo del demonio | Blanca Ballester Morell | 6 secuencias heredadas + 225 subtipos |
-| Dido y Eneas | Gaston Gilabert | 4 sextetos-lira que se funden; el tramo no cuadra en múltiplos de 6 |
+| El esclavo del demonio | Blanca Ballester Morell | 225 subtipos, y las 6 secuencias heredadas cuyas respuestas hay que confirmar |
 | Valor, agravio y mujer | María Isabel Cuena | 160 caracterizaciones por rango |
 | El caballero de Olmedo | María Isabel Cuena | 50 caracterizaciones por rango |
-| El amor al uso | Ana Vicente | 28 subtipos |
 | El mágico prodigioso | Emma González Mesas | 52 subtipos |
-| Cegar para ver mejor · El ganso de oro · La tragedia del duque de Berganza | | nada |
+| Dido y Eneas | Gaston Gilabert | 4 sextetos-lira que se funden; el tramo no cuadra en múltiplos de 6 |
+| El amor al uso | Ana Vicente | 28 subtipos |
+| El conde de Sex · Cegar para ver mejor · El ganso de oro · La tragedia del duque de Berganza | | nada |
 
 Las cifras se actualizan solas al regenerar; el reparto de nombres, no.
 

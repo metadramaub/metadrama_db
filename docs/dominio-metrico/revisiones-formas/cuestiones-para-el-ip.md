@@ -23,37 +23,6 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 - La copla de arte mayor elige su esquema **en cada copla**, como la quintilla o el soneto:
   los tres alternan de estrofa en estrofa.
 
-## La serie de arte mayor: sueltos, silvas y pareados endecasílabos
-
-Abierto el 4 de agosto de 2026, al revisar el endecasílabo suelto contra las definiciones de
-Morley y Bruerton. El análisis y la corrección acordada están en
-[equivalencias pendientes](../equivalencias-pendientes.md).
-
-Lo acordado: las cinco arquitecturas repartidas hoy entre «Endecasílabo suelto» y «Silva»
-son una rejilla de dos ejes —composición métrica × densidad de pareados—, y se reducen a dos
-arquitecturas por composición métrica, con la densidad como rasgo y los nombres de la
-tradición colgados de las variedades.
-
-**Lo que queda por decidir:**
-
-1. **¿Siguen siendo dos formas o una?** La serie endecasilábica y la silva heterométrica
-   comparten el mismo eje de densidad de rima y se distinguen solo por la composición
-   métrica, que en el modelo es arquitectura. Si son una sola forma, ¿cómo se llama? «Silva»
-   arrastra la connotación heterométrica; «serie de arte mayor» es exacto pero no es un
-   nombre de la tradición.
-2. **¿Es «endecasílabo suelto» una forma o el nombre de una densidad de rima nula?** Dicho de
-   otro modo: si lo que lo define es «versos sueltos de once sílabas», ¿no es el mismo
-   fenómeno que unos octosílabos sueltos, con la medida en otra posición? Si lo es, la medida
-   es arquitectura y «suelto» es el grado cero del rasgo, no una forma. El catálogo ya lo
-   clasifica como `serie` y no como estrofa, así que la pregunta es si merece ser forma.
-   El precedente es el pareado: se resolvió haciendo de la medida una respuesta en vez de
-   una forma por cada medida.
-3. **¿Dónde va el grado «Regulares»?** Ninguna arquitectura lo ofrece hoy. Es el 99-100 % de
-   versos rimados: los «pareados endecasílabos» de M&B. Con la medida como arquitectura sería
-   una variedad más, pero conviene confirmar que en el corpus se distingue de la silva 1.
-4. **¿Se recoge la silva 4** —«versos de 7 y 11 mezclados irregularmente, todas las rimas en
-   los pares»—? No está en el catálogo ni se usa en el corpus.
-
 ## Quintilla
 
 Véase [quintilla.md](./quintilla.md).
@@ -91,11 +60,21 @@ Véase [silva.md](./silva.md).
    valor de rasgo**, así que ese nombre no queda registrado en ninguna parte. ¿Hace falta que
    lo esté?
 
+3. **`Silva · Endecasilábica` ofrece hoy el valor `ninguna`**, que según el reparto acordado
+   pertenece al endecasílabo suelto. Mientras siga ofreciéndolo, una serie endecasilábica sin
+   pareados encaja en las dos formas y el demarcador no puede separarlas. Comprobado en el
+   dato el 4 de agosto. ¿Se retira ese valor de la silva?
+4. ¿Se recoge la **silva 4** de Morley y Bruerton —7 y 11 mezclados, todas las rimas en los
+   pares—? No está en el catálogo ni aparece en el corpus.
+
 Resuelto en el modelo: cuánto organizan los pareados la serie es un **rasgo transversal con
 valores cerrados** —ninguna, ocasionales, habituales, predominantes, regulares—, no cuatro
 arquitecturas ni cuatro frases en prosa. Su escala corre por el endecasílabo suelto, la silva
 y el pareado, de modo que la respuesta del editor apunta a la misma fila del catálogo venga
-de la forma que venga.
+de la forma que venga. Cada arquitectura **declara** su grado como rasgo definitorio en vez
+de preguntarlo, y por eso «Silva libre» sigue siendo arquitectura pese a compartir esquemas
+con la irregular: es el único sitio donde ese nombre de la tradición puede vivir mientras una
+denominación no pueda apuntar al valor de un rasgo.
 
 ## Series endecasilábicas y pareado
 
@@ -199,10 +178,23 @@ Véase [decimas.md](./decimas.md).
 3. ¿La definición pública de la espinela debe conservar la expresión «dos redondillas
    enlazadas por dos versos puente»?
 
-Resuelto en el modelo: `decima` no es una forma. Lo que une a la espinela, la copla real y
-la aumentada son relaciones tipadas —`sucede_historicamente_a` y `derivada_de`—, no una
-pertenencia. La espinela y la aumentada son formas fijas sin preguntas propias en el
-registrador.
+Resuelto el 4 de agosto de 2026 y **aplicado**, revisando la decisión anterior: existe una
+forma **Décima** con dos arquitecturas, **Espinela** (10 versos) y **Aumentada** (12), y los
+nombres tradicionales se conservan como denominaciones de cada una.
+
+Antes se había retirado `decima` porque su definición y su patrón duplicaban los de la
+espinela —lo cual es cierto: son el mismo texto y el mismo `abbaaccddc`, y cada término
+declara al otro en `equivalencias`—. Pero de ahí no se sigue que la décima no sea forma, sino
+que la raíz vieja **era** la espinela. Y la aumentada había quedado fuera porque doce versos
+no cabían en una forma de diez, obstáculo que desapareció cuando la extensión pasó a
+declararla la arquitectura: la redondilla, de cuatro versos, aloja «Doble enlazada», de ocho.
+
+No se creó arquitectura genérica: en el corpus no hay ninguna décima de diez versos que no
+sea espinela. La definición lleva la articulación 4 + 2 + 4 y no solo la medida, porque la
+copla real es también diez octosílabos consonantes y lo que las separa es dónde cae la pausa.
+
+Lo que **no** cambia: la copla real sigue siendo forma aparte, y lo que la une a la décima son
+relaciones tipadas, no pertenencia. No hay familia.
 
 ## Redondilla
 
