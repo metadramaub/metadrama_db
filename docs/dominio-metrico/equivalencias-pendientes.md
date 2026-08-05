@@ -34,7 +34,8 @@ Los tres casos comprobados el 4 de agosto:
   `endecasilabo_suelto_puro_sin_distico_final`. Los otros cinco hijos se quedan fuera —
   incluido `endecasilabo_suelto_puro`, **que es el único que se usa, con 6 secuencias**.
 - **Pareado** tiene una sola arquitectura, «De cualquier medida», y la reclama el padre
-  `pareado_de_arte_menor`. Sus dos hijos no pueden reclamarla.
+  `pareado_de_arte_menor`. Sus dos hijos no pueden reclamarla. *(Resuelto el 4 de agosto: la
+  forma reclama `pareado_endecasilabo` y los hijos resuelven por ascendencia.)*
 - Los valores de rasgo **«Agudo» y «Esdrújulo» no declaran origen ninguno**, y necesitan
   recibir seis términos `*_de_esdrujulos` a la vez.
 
@@ -61,13 +62,12 @@ Lo resuelve la vista **`propuesta_metrica_secuencia`**, y de ahí lo leen sus do
 - la **anotación en sombra** del dashboard;
 - el comando **`npm run migracion:informe`**, que escribe [los informes por obra](./migracion/).
 
-Reparto actual: 134 directas, 71 por rasgo, 7 por ascendencia, 1 sin destino y 3 sin forma
-declarada.
+Reparto actual: **134 directas, 71 por rasgo y 7 por ascendencia. Ninguna sin resolver.**
 
 Y una vista hermana, **`propuesta_elecciones_secuencia`**, deduce además **las respuestas**
-que el término legado ya contenía: **88 en total**, entre 71 asonancias de romance y 17 de
-ámbito unidad —los cuartetos y los tercetos de siete sonetos, y tres tipologías de
-sexteto-lira—. Las de ámbito unidad solo se proponen cuando la secuencia es una sola unidad:
+que el término legado ya contenía: **91 en total**, entre 71 asonancias de romance y 20 de
+ámbito unidad —los cuartetos y los tercetos de siete sonetos, tres tipologías de sexteto-lira
+y la medida y la rima del pareado endecasílabo—. Las de ámbito unidad solo se proponen cuando la secuencia es una sola unidad:
 si contiene varias, el término legado decía una sola cosa de todas ellas y darla por buena
 afirmaría que son idénticas.
 
@@ -112,8 +112,8 @@ Medido el 4 de agosto. Si, cuando un término no tiene reclamación directa, se 
 resuelven solos**: redondillas, pareados, canciones, sonetos de esdrújulos, irregulares,
 copla real de pie quebrado, silva libre y los seis hijos del endecasílabo suelto.
 
-Sobre las secuencias reales el resultado es: **205 resuelven de forma directa, 7 por
-ascendencia, 1 no resuelve y 3 no declaran forma**. Es decir, 212 de 216.
+Sobre las secuencias reales, tras resolver la décima y el pareado endecasílabo y retirar los
+datos de prueba, el resultado es **212 de 212**.
 
 Dos advertencias:
 
@@ -137,9 +137,8 @@ el extremo del continuo endecasilábico de Morley y Bruerton sino un dístico. L
 la forma Pareado, que el catálogo define más ancha que M&B a propósito, con la medida y la
 rima declaradas como respuestas.
 
-Con eso **toda secuencia que declara una forma resuelve**: 135 directas, 71 por rasgo, 7 por
-ascendencia. Las 3 que quedan no declaran forma ninguna y son un problema de dato en
-Fuenteovejuna, no de equivalencia.
+Con eso **toda secuencia resuelve**: 134 directas, 71 por rasgo, 7 por ascendencia. Las tres
+que no declaraban forma eran datos de prueba de Fuenteovejuna y se borraron el mismo día.
 
 ## Cómo leer las columnas de uso
 
@@ -189,7 +188,7 @@ Aquí no falta modelar: falta poder decir «varios vienen a este».
 
 | Término legado | Propias | Familia | Decisión |
 | --- | ---: | ---: | --- |
-| `redondilla_cruzada` | 0 | **63** | Esquema de rima `abab` de la redondilla. **«Redondilla cruzada» es el nombre preferente y «cuarteta» su denominación equivalente en uso actual: son exactamente lo mismo.** No confundir con la forma «Cuarteto» del catálogo, que es otra cosa |
+| `redondilla_cruzada` | 0 | **63** | Esquema de rima `abab` de la redondilla. Es exactamente la misma cosa que la cuarteta: «redondilla cruzada» es el nombre preferente y «cuarteta» el que se usa hoy. En el catálogo va como denominación **posterior**, no equivalente, porque en el Siglo de Oro ambas disposiciones eran redondillas —así lo razona [redondilla.md](./revisiones-formas/redondilla.md)—. No confundir con la forma «Cuarteto», que es otra cosa |
 | `decima` | 0 | 18 | **Aplicado** en `20260804110000`. Una sola forma **Décima** con dos arquitecturas: **Espinela** (10 versos, principal) y **Aumentada** (12). La raíz legada y `decima_espinela` eran el mismo texto con el mismo patrón, no una forma general. La aumentada vuelve dentro porque la extensión la declara la arquitectura, no la forma —igual que la redondilla, de cuatro versos, aloja «Doble enlazada», de ocho—. No se creó arquitectura genérica: en el corpus no hay ninguna décima de diez versos que no sea espinela. La definición lleva la articulación 4 + 2 + 4 y no solo la medida, porque la copla real es también diez octosílabos consonantes y se separa por la pausa (5 + 5) |
 | `decima_espinela` | — | — | Arquitectura «Espinela» de Décima; conserva su nombre como denominación |
 | `decima_aumentada` | — | — | Arquitectura «Aumentada» de Décima; conserva su nombre como denominación |

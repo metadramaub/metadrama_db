@@ -1,20 +1,44 @@
 # Décimas
 
-Estado: revisado, con decisiones del proyecto por confirmar · 1 de agosto de 2026
+Estado: revisado y aplicado · **revisado de nuevo el 4 de agosto de 2026**
 
-## Decisión
+## Decisión vigente
 
-`decima` pasa a ser la familia no seleccionable `decimas`. La antigua entrada raíz
-duplicaba la definición y el patrón de la espinela; ya no produce una cuarta forma.
+Existe una forma **Décima** con dos arquitecturas:
 
-La familia reúne:
+| Arquitectura | Extensión | Esquema | Denominación |
+| --- | ---: | --- | --- |
+| **Espinela** · principal | 10 versos | `abba:accddc`, 4 + 2 + 4 | Décima espinela |
+| **Aumentada** | 12 versos | `abba:accddeed`, 4 + 8 | Décima aumentada |
 
-- `decima_espinela`;
-- `copla_real`;
-- `decima_aumentada`.
+La **copla real** queda fuera: son también diez octosílabos consonantes, pero se articula en
+5 + 5 y la pausa cae tras el quinto verso, no tras el cuarto. Esa pausa es lo que las separa,
+así que la definición de la décima lleva la articulación y no solo la medida.
 
-No se crea una forma genérica «décima antigua»: no existe como entrada del proyecto ni
-es necesaria para registrar las secuencias actuales.
+No se crea arquitectura genérica: en el corpus no hay ninguna décima de diez versos que no
+sea espinela. Si aparece una —la décima antigua, la italiana—, se añade entonces.
+
+## Por qué se revisó la decisión anterior
+
+La decisión del 1 de agosto retiraba `decima` y dejaba la espinela y la aumentada como formas
+fijas, agrupadas en una familia no seleccionable. Se apoyaba en un hecho cierto: la raíz
+`decima` duplicaba la definición y el patrón de la espinela. Comprobado en la base, son
+literalmente el mismo texto, el mismo `abbaaccddc` y el mismo tamaño 10, y cada término
+declara al otro en `equivalencias`.
+
+Pero de ese hecho no se sigue que la décima no sea una forma. Se sigue que **la raíz vieja
+era la espinela**: no había una décima genérica que retirar, había un duplicado.
+
+Y la aumentada había salido fuera por un obstáculo que ya no existe. Doce versos no cabían en
+una forma de diez cuando la extensión era de la forma; hoy la declara la arquitectura
+—`unidad_versos_min` y `unidad_versos_max`—, y hay precedente en producción: la redondilla,
+de cuatro versos, aloja «Doble enlazada», de ocho.
+
+Las familias, además, dejaron de existir en la revisión de la ontología del 30 de julio, así
+que la solución anterior ya no era aplicable tal cual.
+
+Lo que no cambia: lo que une a la décima y la copla real son relaciones tipadas
+—`sucede_historicamente_a`, `derivada_de`—, no una pertenencia.
 
 ## Del vocabulario jerárquico al catálogo
 
