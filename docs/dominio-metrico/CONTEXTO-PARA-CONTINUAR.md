@@ -146,6 +146,9 @@ Leer solo lo necesario para la tarea:
    vigente de dudas filológicas.
 5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): los términos legados que
    todavía no declaran su destino en el catálogo. Es lo que hay que cerrar antes del backfill.
+5bis-1. [Plan de revisión del catálogo](./plan-revision-del-catalogo.md): qué queda por hacer
+   sobre el catálogo y **en qué orden** —normalizar nombres, luego definiciones y fuentes,
+   luego auditar el resto—, con el porqué de ese orden y el método que funcionó.
 5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): definición, descripción
    y nota son tres sitios para lo mismo. Anotado para auditar cuando se sumen las fuentes que
    faltan; hasta entonces no se toca.
