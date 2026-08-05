@@ -30,6 +30,11 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   restantes no la tienen porque no hay de dónde tomarla.
 - `/dashboard/metrica` es el gestor permanente del catálogo y contiene también el editor
   V2 de prueba y la compilación del demarcador.
+- **El catálogo de formas se publica en `/formas`** desde el 4 de agosto de 2026, generado
+  del dato: cada forma con sus arquitecturas, esquemas, secciones, rasgos, denominaciones y
+  lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
+  cambiando el `scope_minimo` de la sección `formas`. No lleva texto redactado: si algo se
+  lee mal, está mal en el catálogo.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
   las secuencias reales y no alimenta fichas, buscadores ni resúmenes públicos.
 - **La anotación en sombra funciona** desde el 4 de agosto de 2026, en la pestaña
@@ -141,6 +146,9 @@ Leer solo lo necesario para la tarea:
    vigente de dudas filológicas.
 5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): los términos legados que
    todavía no declaran su destino en el catálogo. Es lo que hay que cerrar antes del backfill.
+5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): definición, descripción
+   y nota son tres sitios para lo mismo. Anotado para auditar cuando se sumen las fuentes que
+   faltan; hasta entonces no se toca.
 5ter. [Cómo se migra una obra](./como-se-migra-una-obra.md): el procedimiento, escrito para
    poder explicárselo a quien anotó cada obra. Los informes por obra se generan con
    `npm run migracion:informe` y viven en [migracion/](./migracion/).
