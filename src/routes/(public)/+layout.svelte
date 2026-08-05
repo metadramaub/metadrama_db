@@ -30,7 +30,8 @@
 		'/catalogo': 'catalogo',
 		'/autores': 'autores',
 		'/laboratorio': 'laboratorio',
-		'/demarcador': 'demarcador'
+		'/demarcador': 'demarcador',
+		'/formas': 'formas'
 	};
 
 	function navItemVisible(href: string | undefined): boolean {
