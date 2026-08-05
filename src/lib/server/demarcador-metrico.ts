@@ -105,7 +105,10 @@ function esquemaRima(pattern: Row, positions: Row[]): string | null {
 	const compact = finales
 		.map((position) => (position.suelto ? '-' : position.clase_rima?.trim() || '?'))
 		.join('');
-	return pattern.tipo_secuencia === 'ciclo' ? `${compact}…` : compact;
+	// Misma convención que la notación guardada: un ciclo se marca `[…]…`, con sus posiciones
+	// escritas una sola vez. Hoy no se llega aquí —toda rima con posiciones tiene notación—,
+	// pero si se llegara, la etiqueta derivada debe leerse igual que la declarada.
+	return pattern.tipo_secuencia === 'ciclo' ? `[${compact}]…` : compact;
 }
 
 function etiquetaEstructura(sections: Row[]): string | null {
