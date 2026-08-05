@@ -8,6 +8,15 @@
 	const { data } = $props<{ data: { formas: PublicFormSummary[] } }>();
 
 	let busqueda = $state('');
+	let tradicion = $state<string | null>(null);
+	let rima = $state<string | null>(null);
+
+	/** Los valores que de verdad hay, no una lista escrita a mano que pueda quedarse vieja. */
+	const valoresUnicos = (elegir: (forma: PublicFormSummary) => string[]): string[] =>
+		[...new Set(data.formas.flatMap(elegir) as string[])].sort((a, b) => a.localeCompare(b, 'es'));
+
+	const tradiciones = $derived(valoresUnicos((forma) => forma.tradiciones));
+	const rimas = $derived(valoresUnicos((forma) => forma.tiposRima));
 
 	const normalizar = (texto: string) =>
 		texto
@@ -17,13 +26,23 @@
 
 	const filtradas = $derived.by(() => {
 		const termino = normalizar(busqueda.trim());
-		if (!termino) return data.formas;
-		return data.formas.filter((forma: PublicFormSummary) =>
-			[forma.nombre, forma.definicion ?? '', ...forma.denominaciones].some((campo) =>
+		return data.formas.filter((forma: PublicFormSummary) => {
+			if (tradicion && !forma.tradiciones.includes(tradicion)) return false;
+			if (rima && !forma.tiposRima.includes(rima)) return false;
+			if (!termino) return true;
+			return [forma.nombre, forma.definicion ?? '', ...forma.denominaciones].some((campo) =>
 				normalizar(campo).includes(termino)
-			)
-		);
+			);
+		});
 	});
+
+	const hayFiltro = $derived(Boolean(busqueda.trim() || tradicion || rima));
+
+	function limpiar() {
+		busqueda = '';
+		tradicion = null;
+		rima = null;
+	}
 
 	// Los tramos sin forma no son formas comparables y van aparte, no mezclados en la lista.
 	const formas = $derived(
@@ -62,7 +81,53 @@
 				bind:value={busqueda}
 			/>
 		</label>
-		<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+		<div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+			{#if tradiciones.length > 1}
+				<div class="flex flex-wrap items-center gap-2">
+					<span class="text-sm text-[color:var(--muted-foreground)]">Tradición</span>
+					{#each tradiciones as valor (valor)}
+						<button
+							type="button"
+							class={`border px-3 py-1 text-sm transition ${
+								tradicion === valor
+									? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--gray-50)]'
+									: 'border-[color:var(--border)] hover:bg-[color:var(--gray-50)]'
+							}`}
+							aria-pressed={tradicion === valor}
+							onclick={() => (tradicion = tradicion === valor ? null : valor)}
+						>
+							{valor}
+						</button>
+					{/each}
+				</div>
+			{/if}
+			{#if rimas.length > 1}
+				<div class="flex flex-wrap items-center gap-2">
+					<span class="text-sm text-[color:var(--muted-foreground)]">Rima</span>
+					{#each rimas as valor (valor)}
+						<button
+							type="button"
+							class={`border px-3 py-1 text-sm transition ${
+								rima === valor
+									? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--gray-50)]'
+									: 'border-[color:var(--border)] hover:bg-[color:var(--gray-50)]'
+							}`}
+							aria-pressed={rima === valor}
+							onclick={() => (rima = rima === valor ? null : valor)}
+						>
+							{valor}
+						</button>
+					{/each}
+				</div>
+			{/if}
+			{#if hayFiltro}
+				<button type="button" class="link-action link-action--sm" onclick={limpiar}>
+					Quitar filtros
+				</button>
+			{/if}
+		</div>
+
+		<p class="mt-3 text-sm text-[color:var(--muted-foreground)]">
 			{formas.length}
 			{formas.length === 1 ? 'forma' : 'formas'}{sinForma.length > 0
 				? ` · ${sinForma.length} ${sinForma.length === 1 ? 'tramo sin forma' : 'tramos sin forma'}`
@@ -96,6 +161,11 @@
 					{#if forma.denominaciones.length > 0}
 						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 							También: {forma.denominaciones.join(' · ')}
+						</p>
+					{/if}
+					{#if forma.tradiciones.length > 0 || forma.tiposRima.length > 0}
+						<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+							{[...forma.tradiciones, ...forma.tiposRima].join(' · ')}
 						</p>
 					{/if}
 				</a>

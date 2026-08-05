@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type {
 		PublicArchitecture,
-		PublicChoice,
 		PublicFormDetail,
+		PublicRhymeLink,
+		PublicRhymeScheme,
 		PublicScheme,
 		PublicSection,
 		PublicSourceClaim,
@@ -34,6 +35,32 @@
 		return `de ${min ?? 0} a ${max}`;
 	}
 
+	/**
+	 * Qué pasa con la rima de una repetición a la siguiente. Es lo que la notación no puede
+	 * decir: `[aA]…` y `[-a]…` se escriben igual, pero la silva estrena rima en cada pareado
+	 * y el romance mantiene una sola asonancia. Lo dice el enlace, o su ausencia.
+	 */
+	function comportamientoDeLaRima(esquema: PublicRhymeScheme): string | null {
+		if (esquema.enlaces.length === 0) {
+			return esquema.cicla ? 'Cada repetición estrena rimas nuevas.' : null;
+		}
+		return null;
+	}
+
+	function describirEnlace(enlace: PublicRhymeLink, cicla: boolean): string {
+		const bloque = cicla ? 'repetición' : 'bloque';
+		const destino =
+			enlace.desplazamiento > 0
+				? `${bloque} siguiente`
+				: enlace.desplazamiento < 0
+					? `${bloque} anterior`
+					: `mismo ${bloque}`;
+		if (enlace.desde === enlace.hasta && enlace.desplazamiento !== 0) {
+			return `El verso ${enlace.desde} conserva su rima en cada ${bloque}.`;
+		}
+		return `La rima del verso ${enlace.desde} vuelve en el verso ${enlace.hasta} del ${destino}.`;
+	}
+
 	function versos(seccion: PublicSection): string | null {
 		const { versosMin: min, versosMax: max } = seccion;
 		if (min == null && max == null) return null;
@@ -42,12 +69,6 @@
 		return `de ${min} a ${max} versos`;
 	}
 
-	function cuantasRespuestas(pregunta: PublicChoice): string {
-		const { seleccionesMin: min, seleccionesMax: max } = pregunta;
-		if (min === max) return min === 1 ? 'una respuesta' : `${min} respuestas`;
-		if (min === 0) return `hasta ${max}`;
-		return `de ${min} a ${max}`;
-	}
 </script>
 
 <svelte:head>
@@ -67,7 +88,9 @@
 		<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
 			{forma.tipoRegistro === 'forma' ? 'Forma' : 'Tramo sin forma'} · nivel {forma.nivelEstructural}{forma.gradoEspecificacion
 				? ` · ${forma.gradoEspecificacion}`
-				: ''}{forma.tradiciones.length > 0 ? ` · ${forma.tradiciones.join(', ')}` : ''}
+				: ''}{forma.tradiciones.length > 0
+				? ` · tradición ${forma.tradiciones.join(' y ').toLowerCase()}`
+				: ''}{forma.tiposRima.length > 0 ? ` · rima ${forma.tiposRima.join(' o ')}` : ''}
 		</p>
 		{#if forma.definicion}
 			<p class="mt-4 max-w-3xl text-lg leading-8">{forma.definicion}</p>
@@ -104,8 +127,7 @@
 				{forma.arquitecturas_.length === 1 ? 'Arquitectura' : 'Arquitecturas'}
 			</h2>
 			<p class="mt-2 max-w-3xl leading-7 text-[color:var(--muted-foreground)]">
-				Cada arquitectura es una manera de realizar la forma. Lo que declara es su norma; lo
-				que pregunta, lo que puede variar de un pasaje a otro.
+				Cada arquitectura es una manera de realizar la forma: su medida, su rima y sus partes.
 			</p>
 
 			<div class="mt-6 space-y-8">
@@ -164,6 +186,16 @@
 													{#if esquema.descripcion}
 														<span class="block text-[color:var(--muted-foreground)]">
 															{esquema.descripcion}
+														</span>
+													{/if}
+													{#each esquema.enlaces as enlace, indice (indice)}
+														<span class="block text-[color:var(--muted-foreground)]">
+															{enlace.nota ?? describirEnlace(enlace, esquema.cicla)}
+														</span>
+													{/each}
+													{#if comportamientoDeLaRima(esquema)}
+														<span class="block text-[color:var(--muted-foreground)]">
+															{comportamientoDeLaRima(esquema)}
 														</span>
 													{/if}
 												</li>
@@ -243,28 +275,6 @@
 							</div>
 						{/if}
 
-						{#if arquitectura.preguntas.length > 0}
-							<div class="mt-5">
-								<h4 class="text-sm font-semibold">Lo que se pregunta al anotar</h4>
-								<ul class="mt-2 space-y-2 text-sm">
-									{#each arquitectura.preguntas as pregunta (pregunta.pregunta)}
-										<li>
-											<span class="font-medium">{pregunta.pregunta}</span>
-											<span class="text-[color:var(--muted-foreground)]">
-												· {cuantasRespuestas(pregunta)} · {pregunta.alcance === 'unidad'
-													? 'en cada unidad'
-													: 'una vez por pasaje'}
-											</span>
-											{#if pregunta.opciones.length > 0}
-												<span class="block text-[color:var(--muted-foreground)]">
-													{pregunta.opciones.join(' · ')}
-												</span>
-											{/if}
-										</li>
-									{/each}
-								</ul>
-							</div>
-						{/if}
 					</section>
 				{/each}
 			</div>
