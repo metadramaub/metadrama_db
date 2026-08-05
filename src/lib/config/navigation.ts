@@ -25,7 +25,6 @@ export const PUBLIC_NAV: NavGroup[] = [
 		items: [
 			{ label: 'DEMARCADOR', href: '/demarcador' },
 			{ label: 'FORMAS MÉTRICAS', href: '/formas' },
-			{ label: 'VOCABULARIOS', href: '/recursos/vocabularios' },
 			{ label: 'GUÍA', href: '/recursos/guia' }
 		]
 	},
@@ -49,7 +48,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
 			{ label: 'CATÁLOGO', href: '/catalogo' },
 			{ label: 'AUTORES', href: '/autores' },
 			{ label: 'LABORATORIO', href: '/laboratorio' },
-			{ label: 'VOCABULARIOS', href: '/recursos/vocabularios' },
+			{ label: 'FORMAS MÉTRICAS', href: '/formas' },
 			{ label: 'GUÍA', href: '/recursos/guia' }
 		]
 	},

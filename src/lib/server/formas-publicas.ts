@@ -12,8 +12,13 @@ import type {
 	PublicArchitecture,
 	PublicFormDetail,
 	PublicFormSummary,
+	PublicRhymeScheme,
 	PublicSourceClaim
 } from '$lib/metrica/formas-publicas.types';
+
+/** Ordena por nombre entendiendo los números: «Tipología 2» antes que «Tipología 10». */
+const porNombre = (a: { nombre: string }, b: { nombre: string }) =>
+	a.nombre.localeCompare(b.nombre, 'es', { numeric: true });
 
 type UntypedSupabaseClient = { from: (table: string) => any };
 type QueryError = { code?: string; message: string } | null;
@@ -44,88 +49,82 @@ function agrupar<T>(rows: T[], clave: (row: T) => string | null): Map<string, T[
 }
 
 async function cargarTodo(db: UntypedSupabaseClient) {
-	const responses = await Promise.all([
-		db
+	const consultas = {
+		formas: db
 			.from('formas_metricas')
 			.select(
 				'forma_id,slug,nombre,definicion,tipo_registro,nivel_estructural,grado_especificacion,orden'
 			)
 			.eq('activo', true)
 			.order('nombre'),
-		db
+		arquitecturas: db
 			.from('arquitecturas_forma')
 			.select(
-				'arquitectura_id,forma_id,slug,nombre,descripcion,principal,modalidad,unidad_versos_min,unidad_versos_max,orden'
+				'arquitectura_id,forma_id,slug,nombre,descripcion,principal,modalidad,unidad_versos_min,unidad_versos_max,tipo_rima_id,orden'
 			)
 			.eq('activo', true)
 			.order('orden'),
-		db.from('esquemas_metricos').select('arquitectura_id,nombre,descripcion'),
-		db.from('esquemas_rima').select('arquitectura_id,nombre,notacion,descripcion'),
-		db
+		esquemasMetricos: db.from('esquemas_metricos').select('arquitectura_id,nombre,descripcion'),
+		esquemasRima: db
+			.from('esquemas_rima')
+			.select('esquema_rima_id,arquitectura_id,nombre,notacion,descripcion'),
+		enlacesRima: db
+			.from('esquema_rima_enlaces')
+			.select('esquema_rima_id,posicion_origen,posicion_destino,desplazamiento_bloque,nota'),
+		secciones: db
 			.from('estructuras_secciones')
 			.select(
 				'arquitectura_id,nombre,nota,versos_min,versos_max,repeticiones_min,repeticiones_max,arquitectura_referenciada_id,orden'
 			)
 			.order('orden'),
-		db
+		variedades: db
 			.from('variedades_arquitectura')
 			.select('arquitectura_id,nombre,descripcion,orden')
 			.eq('activo', true)
 			.order('orden'),
-		db
-			.from('grupos_eleccion_metrica')
-			.select('grupo_eleccion_id,arquitectura_id,nombre,alcance,selecciones_min,selecciones_max,orden')
-			.eq('activo', true)
-			.order('orden'),
-		db
-			.from('opciones_eleccion_metrica')
-			.select('grupo_eleccion_id,nombre,orden')
-			.eq('activo', true)
-			.order('orden'),
-		db.from('arquitectura_rasgos').select('arquitectura_id,rasgo_id,valor_id,modalidad,nota'),
-		db.from('rasgos_metricos').select('rasgo_id,nombre'),
-		db.from('rasgo_valores').select('valor_id,nombre'),
-		db
+		arquitecturaRasgos: db
+			.from('arquitectura_rasgos')
+			.select('arquitectura_id,rasgo_id,valor_id,modalidad,nota'),
+		rasgos: db.from('rasgos_metricos').select('rasgo_id,nombre'),
+		valores: db.from('rasgo_valores').select('valor_id,nombre'),
+		tiposRima: db
+			.from('vocabularios')
+			.select('termino_id,termino,etiqueta')
+			.eq('categoria', 'tipo_rima'),
+		denominaciones: db
 			.from('denominaciones_metricas')
 			.select('forma_id,arquitectura_id,nombre,tipo_alias,preferente'),
-		db.from('tradiciones_metricas').select('tradicion_id,nombre'),
-		db.from('formas_tradiciones').select('forma_id,tradicion_id'),
-		db
+		tradiciones: db.from('tradiciones_metricas').select('tradicion_id,nombre'),
+		formasTradiciones: db.from('formas_tradiciones').select('forma_id,tradicion_id'),
+		afirmaciones: db
 			.from('afirmaciones_fuentes_metricas')
 			.select('fuente_id,forma_id,arquitectura_id,localizador,resumen,confianza'),
-		db.from('fuentes_metricas').select('fuente_id,cita,autoria,titulo,anio')
-	]);
+		fuentes: db.from('fuentes_metricas').select('fuente_id,cita,autoria,titulo,anio')
+	};
 
-	const contextos = [
-		'formas',
-		'arquitecturas',
-		'esquemas métricos',
-		'esquemas de rima',
-		'secciones',
-		'variedades',
-		'preguntas',
-		'opciones',
-		'rasgos de arquitectura',
-		'rasgos',
-		'valores de rasgo',
-		'denominaciones',
-		'tradiciones',
-		'formas y tradiciones',
-		'afirmaciones',
-		'fuentes'
-	];
-	responses.forEach((response, index) => {
-		throwQueryError(`No se pudo cargar el catálogo de formas (${contextos[index]})`, response.error);
+	const claves = Object.keys(consultas) as (keyof typeof consultas)[];
+	const respuestas = await Promise.all(claves.map((clave) => consultas[clave]));
+
+	const datos = {} as Record<keyof typeof consultas, any[]>;
+	claves.forEach((clave, indice) => {
+		throwQueryError(`No se pudo cargar el catálogo de formas (${clave})`, respuestas[indice].error);
+		datos[clave] = respuestas[indice].data ?? [];
 	});
-
-	return responses.map((response) => response.data ?? []);
+	return datos;
 }
 
 /** Índice: una línea por forma, con lo justo para buscarla y situarla. */
 export async function loadPublicForms(client: unknown): Promise<PublicFormSummary[]> {
 	const db = client as UntypedSupabaseClient;
-	const [formas, arquitecturas, , , , , , , , , , denominaciones, tradiciones, formasTradiciones] =
+	const { formas, arquitecturas, tiposRima, denominaciones, tradiciones, formasTradiciones } =
 		await cargarTodo(db);
+
+	const nombreTipoRima = new Map(
+		(tiposRima as any[]).map((row) => [
+			String(row.termino_id),
+			String(row.etiqueta ?? row.termino)
+		])
+	);
 
 	const nombreTradicion = new Map(
 		(tradiciones as any[]).map((row) => [String(row.tradicion_id), String(row.nombre)])
@@ -148,6 +147,14 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 		tradiciones: (tradicionesPorForma.get(String(forma.forma_id)) ?? [])
 			.map((row) => nombreTradicion.get(String(row.tradicion_id)))
 			.filter((nombre): nombre is string => Boolean(nombre)),
+		// Una forma puede admitir varios regímenes: la seguidilla asona y el pareado hace las dos.
+		tiposRima: [
+			...new Set(
+				(arquitecturasPorForma.get(String(forma.forma_id)) ?? [])
+					.map((row) => (row.tipo_rima_id ? nombreTipoRima.get(String(row.tipo_rima_id)) : null))
+					.filter((nombre): nombre is string => Boolean(nombre))
+			)
+		],
 		denominaciones: (denominacionesPorForma.get(String(forma.forma_id)) ?? []).map((row) =>
 			String(row.nombre)
 		)
@@ -160,24 +167,24 @@ export async function loadPublicForm(
 	slug: string
 ): Promise<PublicFormDetail | null> {
 	const db = client as UntypedSupabaseClient;
-	const [
+	const {
 		formas,
 		arquitecturas,
 		esquemasMetricos,
 		esquemasRima,
+		enlacesRima,
 		secciones,
 		variedades,
-		grupos,
-		opciones,
 		arquitecturaRasgos,
 		rasgos,
 		valores,
+		tiposRima,
 		denominaciones,
 		tradiciones,
 		formasTradiciones,
 		afirmaciones,
 		fuentes
-	] = await cargarTodo(db);
+	} = await cargarTodo(db);
 
 	const forma = (formas as any[]).find((row) => String(row.slug) === slug);
 	if (!forma) return null;
@@ -195,6 +202,9 @@ export async function loadPublicForm(
 	const nombreTradicion = new Map(
 		(tradiciones as any[]).map((row) => [String(row.tradicion_id), String(row.nombre)])
 	);
+	const nombreTipoRima = new Map(
+		(tiposRima as any[]).map((row) => [String(row.termino_id), String(row.etiqueta ?? row.termino)])
+	);
 	const citaFuente = new Map(
 		(fuentes as any[]).map((row) => [
 			String(row.fuente_id),
@@ -206,16 +216,17 @@ export async function loadPublicForm(
 	const porArquitectura = <T extends { arquitectura_id?: unknown }>(rows: T[]) =>
 		agrupar(rows, (row) => (row.arquitectura_id ? String(row.arquitectura_id) : null));
 
+	const enlacesPorEsquema = agrupar(enlacesRima as any[], (row) =>
+		String(row.esquema_rima_id)
+	);
 	const metricosPor = porArquitectura(esquemasMetricos as any[]);
 	const rimaPor = porArquitectura(esquemasRima as any[]);
 	const seccionesPor = porArquitectura(secciones as any[]);
 	const variedadesPor = porArquitectura(variedades as any[]);
-	const gruposPor = porArquitectura(grupos as any[]);
 	const rasgosPor = porArquitectura(arquitecturaRasgos as any[]);
 	const denominacionesPorArquitectura = porArquitectura(
 		(denominaciones as any[]).filter((row) => row.arquitectura_id)
 	);
-	const opcionesPorGrupo = agrupar(opciones as any[], (row) => String(row.grupo_eleccion_id));
 
 	const misArquitecturas: PublicArchitecture[] = (arquitecturas as any[])
 		.filter((row) => String(row.forma_id) === formaId)
@@ -229,16 +240,31 @@ export async function loadPublicForm(
 				modalidad: texto(row.modalidad),
 				unidadMin: numero(row.unidad_versos_min),
 				unidadMax: numero(row.unidad_versos_max),
-				esquemasMetricos: (metricosPor.get(id) ?? []).map((e) => ({
-					nombre: String(e.nombre ?? '—'),
-					notacion: null,
-					descripcion: texto(e.descripcion)
-				})),
-				esquemasRima: (rimaPor.get(id) ?? []).map((e) => ({
-					nombre: String(e.nombre ?? '—'),
-					notacion: texto(e.notacion),
-					descripcion: texto(e.descripcion)
-				})),
+				esquemasMetricos: (metricosPor.get(id) ?? [])
+					.map((e) => ({
+						nombre: String(e.nombre ?? '—'),
+						notacion: null,
+						descripcion: texto(e.descripcion)
+					}))
+					.sort(porNombre),
+				// `esquemas_rima` no tiene columna de orden, así que se ordena por nombre.
+				esquemasRima: (rimaPor.get(id) ?? [])
+					.map(
+						(e): PublicRhymeScheme => ({
+							nombre: String(e.nombre ?? '—'),
+							notacion: texto(e.notacion),
+							descripcion: texto(e.descripcion),
+							// El ciclo lo marca la notación: es la única declaración que hay.
+							cicla: String(e.notacion ?? '').includes(']…'),
+							enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
+								desde: Number(l.posicion_origen),
+								hasta: Number(l.posicion_destino),
+								desplazamiento: Number(l.desplazamiento_bloque),
+								nota: texto(l.nota)
+							}))
+						})
+					)
+					.sort(porNombre),
 				secciones: (seccionesPor.get(id) ?? []).map((s) => ({
 					nombre: String(s.nombre),
 					nota: texto(s.nota),
@@ -254,15 +280,6 @@ export async function loadPublicForm(
 					nombre: String(v.nombre),
 					notacion: null,
 					descripcion: texto(v.descripcion)
-				})),
-				preguntas: (gruposPor.get(id) ?? []).map((g) => ({
-					pregunta: String(g.nombre),
-					alcance: String(g.alcance),
-					seleccionesMin: Number(g.selecciones_min ?? 0),
-					seleccionesMax: Number(g.selecciones_max ?? 1),
-					opciones: (opcionesPorGrupo.get(String(g.grupo_eleccion_id)) ?? []).map((o) =>
-						String(o.nombre)
-					)
 				})),
 				rasgos: (rasgosPor.get(id) ?? []).map((r) => ({
 					nombre: nombreRasgo.get(String(r.rasgo_id)) ?? '—',
@@ -314,6 +331,14 @@ export async function loadPublicForm(
 			.filter((row) => String(row.forma_id) === formaId)
 			.map((row) => nombreTradicion.get(String(row.tradicion_id)))
 			.filter((nombre): nombre is string => Boolean(nombre)),
+		tiposRima: [
+			...new Set(
+				(arquitecturas as any[])
+					.filter((row) => String(row.forma_id) === formaId)
+					.map((row) => (row.tipo_rima_id ? nombreTipoRima.get(String(row.tipo_rima_id)) : null))
+					.filter((nombre): nombre is string => Boolean(nombre))
+			)
+		],
 		denominaciones: misDenominaciones.map((d) => d.nombre),
 		denominacionesDetalle: misDenominaciones,
 		arquitecturas_: misArquitecturas,

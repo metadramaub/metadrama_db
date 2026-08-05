@@ -1,3 +1,18 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { isSectionVisible, type SectionVisibilityMap } from '$lib/secciones-publicas';
+
+	// La portada no carga datos propios, pero el layout baja el mapa de secciones. Sin él no
+	// se enseña la tarjeta: mejor esconder de más que enlazar a algo que va a fallar.
+	const formasVisible = $derived(
+		isSectionVisible(
+			(($page.data as { sectionVisibility?: SectionVisibilityMap }).sectionVisibility ??
+				{}) as SectionVisibilityMap,
+			'formas'
+		)
+	);
+</script>
+
 <section class="flex min-h-[74vh] items-center">
 	<div class="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
 		<h1 class="font-display font-semibold text-3xl leading-tight text-[color:var(--gray-900)] md:text-5xl">
@@ -63,17 +78,21 @@
 			</a>
 		</article>
 
-		<article class="card flex min-h-[20rem] flex-col p-5">
-			<h2 class="font-display text-lg leading-tight text-[color:var(--gray-900)]">CONSULTA EL GLOSARIO DE ESTROFAS</h2>
-			<p class="mt-3 flex-1 text-sm text-[color:var(--muted-foreground)]">
-				Accede a definiciones normalizadas de formas estróficas y conceptos métricos.
-			</p>
-			<a
-				href="/recursos/vocabularios"
-				class="mt-5 border border-[color:var(--primary)] bg-[color:var(--primary)] px-3 py-2 text-center text-xs font-semibold tracking-[0.06em] text-[color:var(--gray-50)]"
-			>
-				VOCABULARIOS
-			</a>
-		</article>
+		{#if formasVisible}
+			<article class="card flex min-h-[20rem] flex-col p-5">
+				<h2 class="font-display text-lg leading-tight text-[color:var(--gray-900)]">
+					CONSULTA EL CATÁLOGO DE FORMAS
+				</h2>
+				<p class="mt-3 flex-1 text-sm text-[color:var(--muted-foreground)]">
+					Cada forma métrica con sus arquitecturas, esquemas, rasgos y lo que dicen las fuentes.
+				</p>
+				<a
+					href="/formas"
+					class="mt-5 border border-[color:var(--primary)] bg-[color:var(--primary)] px-3 py-2 text-center text-xs font-semibold tracking-[0.06em] text-[color:var(--gray-50)]"
+				>
+					FORMAS MÉTRICAS
+				</a>
+			</article>
+		{/if}
 	</div>
 </section>

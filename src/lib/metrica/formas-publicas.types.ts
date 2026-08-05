@@ -18,6 +18,8 @@ export type PublicFormSummary = {
 	gradoEspecificacion: string | null;
 	arquitecturas: number;
 	tradiciones: string[];
+	/** Los regímenes de rima que admite alguna de sus arquitecturas. */
+	tiposRima: string[];
 	/** Nombres alternativos, para que el buscador los encuentre por ellos. */
 	denominaciones: string[];
 };
@@ -26,6 +28,29 @@ export type PublicScheme = {
 	nombre: string;
 	notacion: string | null;
 	descripcion: string | null;
+};
+
+/**
+ * Qué rima se arrastra de un bloque a otro.
+ *
+ * Es lo que la notación no puede decir: `[aA]…` y `[-a]…` tienen la misma forma, pero la
+ * silva estrena rima en cada pareado y el romance mantiene una sola asonancia. Lo que las
+ * separa es este enlace, o su ausencia.
+ */
+export type PublicRhymeLink = {
+	/** Verso del que sale la rima, dentro de su bloque. */
+	desde: number;
+	/** Verso al que llega. */
+	hasta: number;
+	/** +1 al bloque siguiente, −1 al anterior, 0 dentro del mismo. */
+	desplazamiento: number;
+	nota: string | null;
+};
+
+export type PublicRhymeScheme = PublicScheme & {
+	/** El bloque se repite indefinidamente: la notación lo marca con `[ ]…`. */
+	cicla: boolean;
+	enlaces: PublicRhymeLink[];
 };
 
 export type PublicSection = {
@@ -37,15 +62,6 @@ export type PublicSection = {
 	repeticionesMax: number | null;
 	/** Cuando la sección reutiliza el repertorio de otra forma, cuál. */
 	reutiliza: string | null;
-};
-
-export type PublicChoice = {
-	pregunta: string;
-	/** `secuencia` o `unidad`: si se responde una vez o en cada unidad. */
-	alcance: string;
-	seleccionesMin: number;
-	seleccionesMax: number;
-	opciones: string[];
 };
 
 export type PublicTrait = {
@@ -64,10 +80,9 @@ export type PublicArchitecture = {
 	unidadMin: number | null;
 	unidadMax: number | null;
 	esquemasMetricos: PublicScheme[];
-	esquemasRima: PublicScheme[];
+	esquemasRima: PublicRhymeScheme[];
 	secciones: PublicSection[];
 	variedades: PublicScheme[];
-	preguntas: PublicChoice[];
 	rasgos: PublicTrait[];
 	denominaciones: string[];
 };
