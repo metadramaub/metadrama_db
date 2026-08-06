@@ -17,23 +17,11 @@ reales serán [la ontología](./ontologia-verso-espanol.md) y
 [la implementación](./implementacion-metrica.md) contrastadas con el catálogo, que es el modelo
 ya poblado: eso basta, y sobra el resto de documentos.
 
-**Si se cambia el modelo**, hay que revisar esos dos. Hasta ahora la revisión de definiciones y
-fuentes no lo ha tocado: se ha corregido prosa, se han declarado partes que ya estaban
-implícitas y se ha retirado `tipo_alias`, que era una clasificación sin uso, no una pieza del
-modelo.
-
-
-## Series endecasilábicas y pareado
-
-Resuelto en el modelo: el pareado es **cualquier dístico** —dos versos que riman entre sí,
-sea cual sea su medida— y una forma general que puede formar series, como el terceto o el
-sexteto. Tiene una sola arquitectura: el arte no se modela, se deriva del metro elegido, y
-además no separa regímenes de rima, porque el pareado admite consonancia y asonancia en
-cualquier medida. Ni la medida ni el tipo de rima son arquitectura, porque el pareado no
-tiene repertorio cerrado de ninguno de los dos: los declara el pasaje y se preguntan. La
-medida se pregunta por posición, lo que además permite registrar el dístico heterométrico.
-`pareados_endecasilabos` era una tirada de pareados, y `pareado_hexasilabo`,
-`pareado_octosilabo` y `pareado_endecasilabo` eran medidas, no arquitecturas.
+**Si se cambia el modelo**, hay que revisar esos dos. La revisión de definiciones y fuentes lo
+ha tocado en tres puntos, todos anotados en
+[el estado de la revisión](./revision-del-catalogo-estado.md): se separó **bloque de sección**,
+se retiró `tipo_alias` y se retiró `grado_especificacion`. Se comprobó que ninguno de los dos
+documentos mencionaba las dos columnas retiradas, así que el modelo canónico no cambió.
 
 ## Villancico
 

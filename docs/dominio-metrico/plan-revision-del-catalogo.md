@@ -1,10 +1,14 @@
 # Plan de revisión del catálogo
 
-Estado: **A hecho · B/C en curso, 5 formas de 33 · D pendiente** · 5 de agosto de 2026
+Estado: **A hecho · B/C en curso · D se resuelve por el camino** · 5 de agosto de 2026
+
+> **La cuenta de formas revisadas no está aquí**, sino en
+> [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md), que es donde se lleva.
+> Este documento conserva **por qué el orden es A → B/C → D** y el registro de la fase A, ya
+> cerrada. Se escribió antes de empezar y no se actualiza forma por forma.
 
 Qué queda por hacer sobre el catálogo métrico, en qué orden y por qué ese orden. Se escribió
-antes de empezar para que la sesión que lo retome no tenga que reconstruir el razonamiento, y
-se va anotando a medida que cada parte se cierra.
+antes de empezar para que la sesión que lo retome no tenga que reconstruir el razonamiento.
 
 ## El orden importa, y es este
 

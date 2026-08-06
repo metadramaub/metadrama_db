@@ -74,6 +74,12 @@ todo el razonamiento vive en `docs/dominio-metrico/` porque el diseño sigue abi
 **Empieza por [docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md).**
 No leas los 20 documentos: ese archivo dice cuáles tocan según la tarea.
 
+**El trabajo en curso es la revisión del catálogo contra seis monografías**, forma por forma,
+corrigiendo el dato donde la bibliografía demuestra que estaba mal. Su estado —qué formas están
+hechas, cuáles faltan, el método y el orden— está en
+[docs/dominio-metrico/revision-del-catalogo-estado.md](docs/dominio-metrico/revision-del-catalogo-estado.md),
+que es el único sitio donde se lleva esa cuenta.
+
 ## Reglas duras
 
 **La frontera entre lo viejo y lo nuevo.** Las secuencias reales de las obras usan

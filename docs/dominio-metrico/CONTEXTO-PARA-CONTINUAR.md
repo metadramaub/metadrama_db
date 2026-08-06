@@ -1,9 +1,14 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 1 de agosto de 2026
+Actualizado: 6 de agosto de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
 enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
+
+> **El trabajo en curso es la revisión del catálogo contra las fuentes**, y su estado vive en
+> **[revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md)**: qué formas están
+> hechas, cuáles faltan, con qué método y en qué orden. Si vienes a continuar esa revisión, ese
+> documento es el que manda; este da el marco.
 
 ## Estado actual
 
@@ -11,9 +16,10 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   permanecer estable hasta decidir la integración.
 - `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
-- La versión requerida del modelo es `54`.
-- La última migración es `20260801150000_estrofas_basicas_y_reutilizacion.sql` y está aplicada.
-  La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
+- La versión del modelo y la última migración **no se anotan aquí**: quedan viejas en cuanto se
+  aplica una migración más. Se consultan en la base —`select modelo_version from
+  catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
+- La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
   sección existe ya para decir que la unidad se repite: cuántas unidades contiene el pasaje
@@ -22,7 +28,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **27 formas y
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **26 formas y
   2 tramos sin forma**: la medida de toda forma isosilábica es arquitectura y ya no se
   pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
   sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el
@@ -146,12 +152,13 @@ Leer solo lo necesario para la tarea:
    vigente de dudas filológicas.
 5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): los términos legados que
    todavía no declaran su destino en el catálogo. Es lo que hay que cerrar antes del backfill.
-5bis-1. [Plan de revisión del catálogo](./plan-revision-del-catalogo.md): qué queda por hacer
-   sobre el catálogo y **en qué orden** —normalizar nombres, luego definiciones y fuentes,
-   luego auditar el resto—, con el porqué de ese orden y el método que funcionó.
-5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): definición, descripción
-   y nota son tres sitios para lo mismo. Anotado para auditar cuando se sumen las fuentes que
-   faltan; hasta entonces no se toca.
+5bis-1. [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md): **el trabajo en
+   curso**. Qué formas están contrastadas con las seis fuentes, cuáles faltan, el procedimiento
+   y el orden. Su antecedente, [el plan](./plan-revision-del-catalogo.md), conserva el porqué
+   del orden A/B/C/D y el registro de la fase A, ya cerrada.
+5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de
+   redacción que rigen todo lo que se escribe en el catálogo, y dónde va cada cosa —definición,
+   descripción, nota—.
 5ter. [Cómo se migra una obra](./como-se-migra-una-obra.md): el procedimiento, escrito para
    poder explicárselo a quien anotó cada obra. Los informes por obra se generan con
    `npm run migracion:informe` y viven en [migracion/](./migracion/).
@@ -178,8 +185,8 @@ estas últimas son el material de las decisiones pendientes del IP, no errores.
 
 ## Siguiente fase prevista
 
-La ontología quedó revisada desde la base el 30 de julio de 2026. Queda por llevar esas
-decisiones a la implementación:
+La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración estructural
+se completó el 31. Lo que sigue:
 
 1. Migración estructural y de datos: **completas**. Sus cuatro bloques y la unidad
    envolvente están aplicados; el registro de qué se cambió y por qué está en
@@ -188,11 +195,17 @@ decisiones a la implementación:
    ámbito reducido a unidad y sección.
 3. Contraste del catálogo por rasgos y no por nombres: **hecho**, y actuado. Lo que salió de
    ahí está en la [auditoría](./auditoria-catalogo.md), con lo aplicado marcado.
-4. ~~Corregir los defectos del informe de conformidad.~~ **El
-   [informe](./informe-conformidad-catalogo.md) no señala ninguno.** Lo que queda en
-   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md) son precisiones
-   filológicas que el catálogo puede esperar sin quedar mal formado.
+4. **Revisión del catálogo contra las fuentes: en curso, 12 formas de 28.** Es el trabajo de
+   ahora mismo, y su estado está en
+   [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Va destapando además
+   defectos del modelo que se corrigen por el camino.
 5. Crear la capa de desviaciones sobre las secuencias reales.
 6. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
    rasgos.
 7. Solo entonces, la [migración de las anotaciones](./plan-migracion-anotaciones.md).
+
+**Sobre los defectos del informe de conformidad**: el
+[informe](./informe-conformidad-catalogo.md) no señala ninguno de los tipificados como D1–D12
+salvo cuatro incidencias de D5 que son **falsos positivos conocidos** —las opciones de tercetos
+del soneto, cuya notación lleva un espacio (`CDE DCE`) que la regla cuenta como posición—. Al
+revisar una forma conviene regenerarlo: introducir un defecto nuevo es fácil.
