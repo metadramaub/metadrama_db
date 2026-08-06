@@ -63,7 +63,6 @@ export type MetricCatalogForm = {
 	nivel_estructural: MetricStructuralLevel;
 	tipo_registro: MetricEntryType;
 	seleccionable: boolean;
-	grado_especificacion: MetricSpecificationDegree | null;
 	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	orden: number | null;

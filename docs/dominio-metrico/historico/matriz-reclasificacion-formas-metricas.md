@@ -101,7 +101,7 @@ forma tipificada.
 
 La copla real se incorpora a la misma familia. `decima_espinela` sucede históricamente
 a `copla_real` en el uso dominante; `decima_aumentada` se relaciona como derivada de
-la espinela. Véase [la revisión específica](../revisiones-formas/decimas.md).
+la espinela. La forma vive hoy en el catálogo, en `/formas/decima`.
 
 ## 7. Doble sextilla
 
@@ -204,7 +204,7 @@ Las unidades internas actuales de quintilla deberán migrarse a `unidades_metric
 
 No se crea una familia. La configuración simple combina tres patrones métricos con dos
 patrones de rima; la doble cambia la arquitectura y se valida en unidades de ocho. Véase
-[la revisión específica](../revisiones-formas/redondilla.md).
+el catálogo, en `/formas/redondilla`.
 
 ## 16. Romance y vocales de la asonancia
 

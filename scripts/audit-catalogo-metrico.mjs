@@ -428,21 +428,6 @@ const DEFECTOS = [
 					hallazgos.push({ sujeto: forma.slug, detalle: 'tramo sin forma con arquitectura' });
 				}
 			}
-			for (const relacion of model.relaciones) {
-				if (relacion.tipo_relacion !== 'subtipo_de') continue;
-				const origen = model.formaPorId.get(relacion.forma_origen_id);
-				const destino = model.formaPorId.get(relacion.forma_destino_id);
-				if (!origen || !destino) continue;
-				if (
-					origen.grado_especificacion === 'general' &&
-					destino.grado_especificacion === 'especifica'
-				) {
-					hallazgos.push({
-						sujeto: `${origen.slug} subtipo_de ${destino.slug}`,
-						detalle: 'una forma general no puede ser subtipo de una específica'
-					});
-				}
-			}
 			return hallazgos;
 		}
 	},
@@ -560,7 +545,6 @@ function fichaPorForma(model) {
 			return {
 				forma: forma.slug,
 				nivel: forma.nivel_estructural,
-				general: forma.grado_especificacion === 'general',
 				configuraciones: configuraciones.length,
 				principal: configuraciones.some((configuracion) => configuracion.principal),
 				medida: [...viasDeMedida(model, forma)].sort(),

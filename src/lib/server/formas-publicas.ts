@@ -13,7 +13,8 @@ import type {
 	PublicFormDetail,
 	PublicFormSummary,
 	PublicRhymeScheme,
-	PublicSourceClaim
+	PublicSchemePart,
+	PublicSource
 } from '$lib/metrica/formas-publicas.types';
 
 /** Ordena por nombre entendiendo los números: «Tipología 2» antes que «Tipología 10». */
@@ -53,7 +54,7 @@ async function cargarTodo(db: UntypedSupabaseClient) {
 		formas: db
 			.from('formas_metricas')
 			.select(
-				'forma_id,slug,nombre,definicion,tipo_registro,nivel_estructural,grado_especificacion,orden'
+				'forma_id,slug,nombre,definicion,tipo_registro,nivel_estructural,orden'
 			)
 			.eq('activo', true)
 			.order('nombre'),
@@ -67,15 +68,29 @@ async function cargarTodo(db: UntypedSupabaseClient) {
 		esquemasMetricos: db.from('esquemas_metricos').select('arquitectura_id,nombre,descripcion'),
 		esquemasRima: db
 			.from('esquemas_rima')
-			.select('esquema_rima_id,arquitectura_id,nombre,notacion,descripcion'),
+			.select('esquema_rima_id,arquitectura_id,nombre,notacion,descripcion,ambito'),
 		enlacesRima: db
 			.from('esquema_rima_enlaces')
 			.select('esquema_rima_id,posicion_origen,posicion_destino,desplazamiento_bloque,nota'),
+		posicionesRima: db
+			.from('esquema_rima_posiciones')
+			.select('esquema_rima_id,bloque,posicion,seccion,nota')
+			.not('seccion', 'is', null)
+			.order('bloque')
+			.order('posicion'),
 		secciones: db
 			.from('estructuras_secciones')
 			.select(
-				'arquitectura_id,nombre,nota,versos_min,versos_max,repeticiones_min,repeticiones_max,arquitectura_referenciada_id,orden'
+				'seccion_id,arquitectura_id,nombre,nota,versos_min,versos_max,repeticiones_min,repeticiones_max,arquitectura_referenciada_id,orden'
 			)
+			.order('orden'),
+		gruposEleccion: db
+			.from('grupos_eleccion_metrica')
+			.select('grupo_eleccion_id,seccion_id,dimension')
+			.eq('activo', true),
+		opcionesEleccion: db
+			.from('opciones_eleccion_metrica')
+			.select('grupo_eleccion_id,esquema_rima_id,nombre,orden')
 			.order('orden'),
 		variedades: db
 			.from('variedades_arquitectura')
@@ -93,13 +108,16 @@ async function cargarTodo(db: UntypedSupabaseClient) {
 			.eq('categoria', 'tipo_rima'),
 		denominaciones: db
 			.from('denominaciones_metricas')
-			.select('forma_id,arquitectura_id,nombre,tipo_alias,preferente'),
+			.select('forma_id,arquitectura_id,esquema_rima_id,nombre,preferente'),
 		tradiciones: db.from('tradiciones_metricas').select('tradicion_id,nombre'),
 		formasTradiciones: db.from('formas_tradiciones').select('forma_id,tradicion_id'),
 		afirmaciones: db
 			.from('afirmaciones_fuentes_metricas')
 			.select('fuente_id,forma_id,arquitectura_id,localizador,resumen,confianza'),
-		fuentes: db.from('fuentes_metricas').select('fuente_id,cita,autoria,titulo,anio')
+		fuentes: db.from('fuentes_metricas').select('fuente_id,cita,autoria,titulo,anio'),
+		relaciones: db
+			.from('forma_relaciones')
+			.select('forma_origen_id,forma_destino_id,tipo_relacion,nota')
 	};
 
 	const claves = Object.keys(consultas) as (keyof typeof consultas)[];
@@ -142,7 +160,6 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 		definicion: texto(forma.definicion),
 		tipoRegistro: String(forma.tipo_registro),
 		nivelEstructural: String(forma.nivel_estructural),
-		gradoEspecificacion: texto(forma.grado_especificacion),
 		arquitecturas: (arquitecturasPorForma.get(String(forma.forma_id)) ?? []).length,
 		tradiciones: (tradicionesPorForma.get(String(forma.forma_id)) ?? [])
 			.map((row) => nombreTradicion.get(String(row.tradicion_id)))
@@ -173,7 +190,10 @@ export async function loadPublicForm(
 		esquemasMetricos,
 		esquemasRima,
 		enlacesRima,
+		posicionesRima,
 		secciones,
+		gruposEleccion,
+		opcionesEleccion,
 		variedades,
 		arquitecturaRasgos,
 		rasgos,
@@ -183,7 +203,8 @@ export async function loadPublicForm(
 		tradiciones,
 		formasTradiciones,
 		afirmaciones,
-		fuentes
+		fuentes,
+		relaciones
 	} = await cargarTodo(db);
 
 	const forma = (formas as any[]).find((row) => String(row.slug) === slug);
@@ -205,11 +226,15 @@ export async function loadPublicForm(
 	const nombreTipoRima = new Map(
 		(tiposRima as any[]).map((row) => [String(row.termino_id), String(row.etiqueta ?? row.termino)])
 	);
-	const citaFuente = new Map(
+	const datosFuente = new Map(
 		(fuentes as any[]).map((row) => [
 			String(row.fuente_id),
-			texto(row.cita) ??
-				[texto(row.autoria), texto(row.titulo), texto(row.anio)].filter(Boolean).join(', ')
+			{
+				cita:
+					texto(row.cita) ??
+					[texto(row.autoria), texto(row.titulo), texto(row.anio)].filter(Boolean).join(', '),
+				anio: typeof row.anio === 'number' ? row.anio : null
+			}
 		])
 	);
 
@@ -219,6 +244,64 @@ export async function loadPublicForm(
 	const enlacesPorEsquema = agrupar(enlacesRima as any[], (row) =>
 		String(row.esquema_rima_id)
 	);
+	const posicionesPorEsquema = agrupar(posicionesRima as any[], (row) =>
+		String(row.esquema_rima_id)
+	);
+
+	/**
+	 * Las partes con nombre de un esquema, con el verso donde empieza y acaba cada una. Las
+	 * posiciones vienen ordenadas por bloque y posición, así que el verso es su orden de
+	 * lectura: la doble enlazada tiene dos bloques de cuatro y sus versos van del 1 al 8.
+	 */
+	const partesDe = (esquemaRimaId: string): PublicSchemePart[] => {
+		const partes: PublicSchemePart[] = [];
+		(posicionesPorEsquema.get(esquemaRimaId) ?? []).forEach((row, indice) => {
+			const nombre = String(row.seccion);
+			const ultima = partes.at(-1);
+			if (ultima?.nombre === nombre) {
+				ultima.hasta = indice + 1;
+				ultima.nota ??= texto(row.nota);
+			} else {
+				partes.push({ nombre, desde: indice + 1, hasta: indice + 1, nota: texto(row.nota) });
+			}
+		});
+		return partes;
+	};
+	/**
+	 * Toda la rima de una arquitectura, repartida por la parte de la que es y en el orden en
+	 * que esas partes se leen. Una sección aporta las disposiciones que admite; lo que quede
+	 * sin parte es de la unidad entera y va al final.
+	 */
+	const rimaAgrupadaPorParte = (arquitecturaId: string): PublicRhymeScheme[] => {
+		const misSecciones = seccionesPor.get(arquitecturaId) ?? [];
+		const deSecciones = misSecciones.flatMap((s) =>
+			rimaDeSeccion(s.seccion_id, String(s.nombre))
+		);
+		const yaPuestos = new Set(deSecciones.map((e) => e.notacion));
+
+		// Los que cuelgan de la arquitectura pero se declaran de ámbito «sección» pertenecen a
+		// una parte aunque su grupo no esté atado a ella. Se les asigna la única sección que
+		// aún no tiene rima; si hay más de una candidata, no se adivina y quedan sin parte.
+		const sinRima = misSecciones.filter(
+			(s) => rimaDeSeccion(s.seccion_id, String(s.nombre)).length === 0
+		);
+		const huerfana = sinRima.length === 1 ? String(sinRima[0].nombre) : null;
+
+		const deLaUnidad = rimaDe(arquitecturaId)
+			.filter((e) => !yaPuestos.has(e.notacion))
+			.map((e) => (e.ambito === 'seccion' && huerfana ? { ...e, deLaSeccion: huerfana } : e));
+
+		const conParte = deLaUnidad.filter((e) => e.deLaSeccion);
+		const sinParte = deLaUnidad.filter((e) => !e.deLaSeccion);
+		const orden = new Map(misSecciones.map((s, i) => [String(s.nombre), i]));
+		return [...deSecciones, ...conParte]
+			.sort(
+				(a, b) =>
+					(orden.get(a.deLaSeccion ?? '') ?? 0) - (orden.get(b.deLaSeccion ?? '') ?? 0)
+			)
+			.concat(sinParte);
+	};
+
 	const metricosPor = porArquitectura(esquemasMetricos as any[]);
 	const rimaPor = porArquitectura(esquemasRima as any[]);
 	const seccionesPor = porArquitectura(secciones as any[]);
@@ -227,6 +310,91 @@ export async function loadPublicForm(
 	const denominacionesPorArquitectura = porArquitectura(
 		(denominaciones as any[]).filter((row) => row.arquitectura_id)
 	);
+	// Un nombre puede colgar de un esquema de rima y no de la forma: «cuarteta» nombra la
+	// redondilla cruzada, no la redondilla. `denominaciones_metricas` admite ese destino.
+	const denominacionesPorRima = agrupar(
+		(denominaciones as any[]).filter((row) => row.esquema_rima_id),
+		(row) => (row.esquema_rima_id ? String(row.esquema_rima_id) : null)
+	);
+
+	/** Los esquemas de rima de una arquitectura, ordenados por nombre porque la tabla no ordena. */
+	const mapearRima = (e: any): PublicRhymeScheme => ({
+		nombre: String(e.nombre ?? '—'),
+		notacion: texto(e.notacion),
+		descripcion: texto(e.descripcion),
+		// El ciclo lo marca la notación: es la única declaración que hay.
+		cicla: String(e.notacion ?? '').includes(']…'),
+		enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
+			desde: Number(l.posicion_origen),
+			hasta: Number(l.posicion_destino),
+			desplazamiento: Number(l.desplazamiento_bloque),
+			nota: texto(l.nota)
+		})),
+		denominaciones: (denominacionesPorRima.get(String(e.esquema_rima_id)) ?? []).map((d) =>
+			String(d.nombre)
+		),
+		partes: partesDe(String(e.esquema_rima_id)),
+		deLaSeccion: null,
+		ambito: texto(e.ambito)
+	});
+
+	/** Todos los esquemas, indexados por id, para resolverlos desde una opción de elección. */
+	const esquemaRimaPorId = new Map(
+		(esquemasRima as any[]).map((e) => [String(e.esquema_rima_id), mapearRima(e)])
+	);
+
+	/** Los esquemas de rima de una arquitectura, ordenados por nombre: la tabla no ordena. */
+	const rimaDe = (arquitecturaId: string): PublicRhymeScheme[] =>
+		(rimaPor.get(arquitecturaId) ?? []).map(mapearRima).sort(porNombre);
+
+	/**
+	 * Las disposiciones de rima que admite una sección, según su grupo de elección.
+	 *
+	 * Una sección que reutiliza otra forma no tiene rima propia: la del cuarteto del soneto
+	 * vive en la arquitectura del cuarteto endecasílabo. Se resuelve por el grupo y no por la
+	 * arquitectura referenciada porque el grupo es el recorte exacto —el terceto admite `-AA`,
+	 * que en un soneto no existe—.
+	 */
+	const opcionesPorGrupo = agrupar(opcionesEleccion as any[], (row) =>
+		String(row.grupo_eleccion_id)
+	);
+	const gruposPorSeccion = agrupar(
+		(gruposEleccion as any[]).filter((row) => row.seccion_id && row.dimension === 'rima'),
+		(row) => String(row.seccion_id)
+	);
+	const rimaDeSeccion = (seccionId: unknown, nombreSeccion?: string): PublicRhymeScheme[] => {
+		if (!seccionId) return [];
+		// El nombre lo pone la **opción**, no el esquema: el mismo `ABBA` se llama «Abrazada»
+		// en el cuarteto, que es su dueño, y «ABBA ABBA» en el soneto, que lo repite dos veces.
+		// Desde una forma se lee el nombre que esa forma le da.
+		const opciones = (gruposPorSeccion.get(String(seccionId)) ?? []).flatMap((g) =>
+			(opcionesPorGrupo.get(String(g.grupo_eleccion_id)) ?? []).filter((o) => o.esquema_rima_id)
+		);
+		const vistos = new Set<string>();
+		const esquemas = opciones.flatMap((o) => {
+			const id = String(o.esquema_rima_id);
+			if (vistos.has(id)) return [];
+			vistos.add(id);
+			const esquema = esquemaRimaPorId.get(id);
+			// La etiqueta de la opción ya trae la repetición escrita —«ABBA ABBA» frente al
+			// «ABBA» del esquema—, así que sirve de notación desde esta forma. El nombre propio
+			// del esquema pasa a ser la glosa.
+			const etiqueta = texto(o.nombre);
+			return esquema
+				? [
+						{
+							...esquema,
+							notacion: etiqueta ?? esquema.notacion,
+							nombre: esquema.nombre
+						}
+					]
+				: [];
+		});
+		// Las opciones de un mismo grupo son excluyentes —el cuarteto del soneto es abrazado o
+		// cruzado, nunca las dos cosas—, y agruparlas bajo el nombre de su parte ya lo dice.
+		return esquemas.map((e) => ({ ...e, deLaSeccion: nombreSeccion ?? null }));
+	};
+
 
 	const misArquitecturas: PublicArchitecture[] = (arquitecturas as any[])
 		.filter((row) => String(row.forma_id) === formaId)
@@ -248,23 +416,18 @@ export async function loadPublicForm(
 					}))
 					.sort(porNombre),
 				// `esquemas_rima` no tiene columna de orden, así que se ordena por nombre.
-				esquemasRima: (rimaPor.get(id) ?? [])
-					.map(
-						(e): PublicRhymeScheme => ({
-							nombre: String(e.nombre ?? '—'),
-							notacion: texto(e.notacion),
-							descripcion: texto(e.descripcion),
-							// El ciclo lo marca la notación: es la única declaración que hay.
-							cicla: String(e.notacion ?? '').includes(']…'),
-							enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
-								desde: Number(l.posicion_origen),
-								hasta: Number(l.posicion_destino),
-								desplazamiento: Number(l.desplazamiento_bloque),
-								nota: texto(l.nota)
-							}))
-						})
-					)
-					.sort(porNombre),
+				// Bajo «Rima» va toda la de la forma: la que declara la unidad y la que declaran
+				// sus secciones. Repartirlas entre «Rima» y «Partes» partía en dos sitios lo que
+				// el lector busca junto —los tercetos del soneto arriba y sus cuartetos abajo—.
+				// Toda la rima de la forma, agrupada por la parte de la que es y en el orden en
+				// que se leen las partes: los cuartetos del soneto antes que sus tercetos.
+				//
+				// Los tercetos llegan por otro camino que los cuartetos. Su grupo de elección no
+				// está atado a la sección —su esquema entrelaza los dos tercetos y no cabe en una
+				// sección de tres versos—, así que cuelgan de la arquitectura. Pero se declaran
+				// de `ambito = 'seccion'`, y esa es la pista para ponerlos bajo su parte en vez
+				// de dejarlos sueltos.
+				esquemasRima: rimaAgrupadaPorParte(id),
 				secciones: (seccionesPor.get(id) ?? []).map((s) => ({
 					nombre: String(s.nombre),
 					nota: texto(s.nota),
@@ -274,7 +437,17 @@ export async function loadPublicForm(
 					repeticionesMax: numero(s.repeticiones_max),
 					reutiliza: s.arquitectura_referenciada_id
 						? (nombreArquitectura.get(String(s.arquitectura_referenciada_id)) ?? null)
-						: null
+						: null,
+					// La rima de una sección son **las disposiciones que esa sección admite**, que
+					// el catálogo declara como opciones de su grupo de elección. Sin esto, las dos
+					// de los cuartetos del soneto no se leían en ninguna parte: pertenecen a la
+					// arquitectura del cuarteto endecasílabo, que el soneto reutiliza en vez de
+					// duplicar, y la ficha agrupa los esquemas por arquitectura.
+					//
+					// No sirve traer el repertorio entero de la arquitectura referenciada: el
+					// terceto admite `-AA` y `A-A`, que en un soneto no existen. El grupo de
+					// elección es justo el recorte que hace falta.
+					esquemasRima: rimaDeSeccion(s.seccion_id, String(s.nombre))
 				})),
 				variedades: (variedadesPor.get(id) ?? []).map((v) => ({
 					nombre: String(v.nombre),
@@ -299,25 +472,40 @@ export async function loadPublicForm(
 			.map((row) => [String(row.arquitectura_id), String(row.nombre)])
 	);
 
-	const misFuentes: PublicSourceClaim[] = (afirmaciones as any[])
-		.filter(
-			(row) =>
-				String(row.forma_id ?? '') === formaId ||
-				(row.arquitectura_id && arquitecturaDeId.has(String(row.arquitectura_id)))
-		)
-		.map((row) => ({
-			cita: citaFuente.get(String(row.fuente_id)) ?? 'Fuente sin referencia',
-			resumen: texto(row.resumen),
-			localizador: texto(row.localizador),
-			confianza: texto(row.confianza),
-			sobre: row.arquitectura_id
-				? (arquitecturaDeId.get(String(row.arquitectura_id)) ?? String(forma.nombre))
-				: String(forma.nombre)
-		}));
+	// Agrupadas bajo su fuente y las fuentes por año: el orden cronológico es el único que no
+	// insinúa una jerarquía entre monografías que el catálogo no quiere establecer.
+	const misFuentes: PublicSource[] = [
+		...(afirmaciones as any[])
+			.filter(
+				(row) =>
+					String(row.forma_id ?? '') === formaId ||
+					(row.arquitectura_id && arquitecturaDeId.has(String(row.arquitectura_id)))
+			)
+			.reduce((acc, row) => {
+				const id = String(row.fuente_id);
+				const datos = datosFuente.get(id);
+				const fuente = acc.get(id) ?? {
+					cita: datos?.cita ?? 'Fuente sin referencia',
+					anio: datos?.anio ?? null,
+					afirmaciones: []
+				};
+				fuente.afirmaciones.push({
+					resumen: texto(row.resumen),
+					localizador: texto(row.localizador),
+					confianza: texto(row.confianza),
+					sobre: row.arquitectura_id
+						? (arquitecturaDeId.get(String(row.arquitectura_id)) ?? String(forma.nombre))
+						: String(forma.nombre)
+				});
+				acc.set(id, fuente);
+				return acc;
+			}, new Map<string, PublicSource>())
+			.values()
+	].sort((a, b) => (a.anio ?? 0) - (b.anio ?? 0));
 
 	const misDenominaciones = (denominaciones as any[])
 		.filter((row) => String(row.forma_id ?? '') === formaId)
-		.map((row) => ({ nombre: String(row.nombre), tipo: String(row.tipo_alias ?? 'equivalente') }));
+		.map((row) => String(row.nombre));
 
 	return {
 		slug: String(forma.slug),
@@ -325,7 +513,6 @@ export async function loadPublicForm(
 		definicion: texto(forma.definicion),
 		tipoRegistro: String(forma.tipo_registro),
 		nivelEstructural: String(forma.nivel_estructural),
-		gradoEspecificacion: texto(forma.grado_especificacion),
 		arquitecturas: misArquitecturas.length,
 		tradiciones: (formasTradiciones as any[])
 			.filter((row) => String(row.forma_id) === formaId)
@@ -339,8 +526,31 @@ export async function loadPublicForm(
 					.filter((nombre): nombre is string => Boolean(nombre))
 			)
 		],
-		denominaciones: misDenominaciones.map((d) => d.nombre),
-		denominacionesDetalle: misDenominaciones,
+		denominaciones: misDenominaciones,
+		// Las relaciones se declaran en una dirección, pero interesan en las dos: el terceto
+		// encadenado dice que se construye con tercetos, y esa frase es tan útil leída desde el
+		// terceto como desde la serie.
+		relaciones: (relaciones as any[])
+			.filter(
+				(row) =>
+					String(row.forma_origen_id) === formaId || String(row.forma_destino_id) === formaId
+			)
+			.map((row) => {
+				const esOrigen = String(row.forma_origen_id) === formaId;
+				const otra = (formas as any[]).find(
+					(f) =>
+						String(f.forma_id) === String(esOrigen ? row.forma_destino_id : row.forma_origen_id)
+				);
+				return {
+					nombre: String(otra?.nombre ?? '—'),
+					slug: String(otra?.slug ?? ''),
+					tipo: String(row.tipo_relacion),
+					nota: texto(row.nota),
+					esOrigen
+				};
+			})
+			.filter((r) => r.slug)
+			.sort(porNombre),
 		arquitecturas_: misArquitecturas,
 		fuentes: misFuentes
 	};

@@ -68,9 +68,17 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D10 · Coherencia del tipo de registro y del grado de especificación — 0
+### D10 · Coherencia del tipo de registro — 0
 
-> Un tramo sin forma no tiene arquitectura. Y la taxonomía va en una sola dirección: lo específico es subtipo de lo general, nunca al revés.
+> Un tramo sin forma no tiene arquitectura; toda forma con norma declara al menos una.
+
+**Cambiado el 5 de agosto de 2026.** Esta comprobación miraba antes el grado de
+especificación, que se retiró del catálogo: su propósito —ordenar las hipótesis del
+demarcador— nunca se implementó, y la regla que lo usaba, «una forma general no puede ser
+subtipo de una específica», no podía dispararse porque no hay ninguna relación `subtipo_de`.
+La clasificación que queda es `nivel_estructural`, y el criterio que excluye a «Verso aislado»
+y «Versificación irregular» de tener arquitectura es `tipo_registro = 'sin_forma'`, que es su
+razón verdadera.
 
 Sin incidencias.
 

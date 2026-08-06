@@ -36,7 +36,6 @@ export type HipotesisMetrica = {
 	formaNombre: string;
 	formaDefinicion: string | null;
 	nivelEstructural: NivelEstructural;
-	gradoEspecificacion: 'general' | 'especifica' | null;
 	arquitecturaId: string;
 	arquitecturaSlug: string;
 	arquitecturaNombre: string;
@@ -81,7 +80,6 @@ export type FormaDemarcable = {
 	nombre: string;
 	definicion: string | null;
 	nivelEstructural: NivelEstructural;
-	gradoEspecificacion: 'general' | 'especifica' | null;
 	arquitecturas: Array<{
 		id: string;
 		nombre: string;
@@ -157,7 +155,6 @@ export type FormaPuntuada = {
 	formaSlug: string;
 	formaNombre: string;
 	formaDefinicion: string | null;
-	gradoEspecificacion: 'general' | 'especifica' | null;
 	puntuacion: number;
 	nivel: 'muy_compatible' | 'compatible' | 'posible' | 'poco_compatible';
 	arquitecturas: HipotesisPuntuada[];

@@ -28,6 +28,26 @@ function sanitizeUrl(url: string): string {
 	return '#';
 }
 
+/**
+ * Markdown de una sola línea: negrita, cursiva, código y enlaces, sin envolver en `<p>`.
+ *
+ * Para la prosa breve del catálogo métrico —definiciones, descripciones, notas, resúmenes de
+ * fuente—, que es siempre un párrafo y vive dentro del marcado que la ficha ya le da. Escapa
+ * el HTML antes de nada, así que el texto del catálogo no puede inyectar etiquetas.
+ */
+export function renderInlineMarkdown(markdown: string): string {
+	return renderInline(markdown);
+}
+
+/** El mismo texto sin marcas, para donde no cabe HTML: `<meta>`, `<title>`, atributos. */
+export function stripMarkdown(markdown: string): string {
+	return markdown
+		.replace(/\[(.*?)\]\((.*?)\)/g, '$1')
+		.replaceAll('**', '')
+		.replaceAll('`', '')
+		.replace(/(^|\s)\*(\S.*?\S|\S)\*(?=\s|$|[.,;:)])/g, '$1$2');
+}
+
 function renderInline(markdown: string): string {
 	let output = escapeHtml(markdown);
 	const codeTokens: string[] = [];

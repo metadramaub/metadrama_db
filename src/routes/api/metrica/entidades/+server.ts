@@ -48,7 +48,6 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 			'destino',
 			'nombre',
 			'slug_normalizado',
-			'tipo_alias',
 			'idioma',
 			'preferente',
 			'fuente_id'

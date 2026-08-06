@@ -3,12 +3,15 @@
 		PublicArchitecture,
 		PublicFormDetail,
 		PublicRhymeLink,
+		PublicFormRelation,
+		PublicSchemePart,
 		PublicRhymeScheme,
 		PublicScheme,
 		PublicSection,
 		PublicSourceClaim,
 		PublicTrait
 	} from '$lib/metrica/formas-publicas.types';
+	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
 
 	/**
 	 * Ficha de una forma, generada del catálogo. No hay texto redactado aquí: si algo falta o
@@ -47,6 +50,62 @@
 		return null;
 	}
 
+	/**
+	 * Agrupa la rima por la parte de la que es. Las de la unidad van primero y sin rótulo; las
+	 * de una sección, bajo su nombre, porque «ABBA o ABAB» solo se entiende si se sabe que es
+	 * de los cuartetos.
+	 */
+	function agruparRima(
+		esquemas: PublicRhymeScheme[]
+	): { parte: string | null; esquemas: PublicRhymeScheme[] }[] {
+		const grupos: { parte: string | null; esquemas: PublicRhymeScheme[] }[] = [];
+		for (const esquema of esquemas) {
+			const ultimo = grupos.at(-1);
+			if (ultimo && ultimo.parte === esquema.deLaSeccion) ultimo.esquemas.push(esquema);
+			else grupos.push({ parte: esquema.deLaSeccion, esquemas: [esquema] });
+		}
+		return grupos;
+	}
+
+	/**
+	 * Cómo se lee una relación entre formas. El catálogo la declara en una dirección, así que
+	 * la misma fila dice una cosa desde el origen y otra desde el destino: la copla real está
+	 * «compuesta por» quintillas, y la quintilla «entra en la composición de» la copla real.
+	 */
+	function describirRelacion(relacion: PublicFormRelation): string {
+		const desde: Record<string, string> = {
+			compuesta_por: 'Se compone de',
+			subtipo_de: 'Es un tipo de',
+			variante_historica_de: 'Es variante histórica de',
+			derivada_de: 'Deriva de',
+			sucede_historicamente_a: 'Sucede históricamente a',
+			relacionada_con: 'Se relaciona con',
+			contrasta_con: 'Contrasta con',
+			equivalente_de: 'Equivale a'
+		};
+		const hacia: Record<string, string> = {
+			compuesta_por: 'Entra en la composición de',
+			subtipo_de: 'Tiene como tipo',
+			variante_historica_de: 'Tiene como variante histórica',
+			derivada_de: 'Da origen a',
+			sucede_historicamente_a: 'Precede históricamente a',
+			relacionada_con: 'Se relaciona con',
+			contrasta_con: 'Contrasta con',
+			equivalente_de: 'Equivale a'
+		};
+		const mapa = relacion.esOrigen ? desde : hacia;
+		return mapa[relacion.tipo] ?? relacion.tipo.replaceAll('_', ' ');
+	}
+
+	/** «Fronte, versos 1-6». Los nombres vienen en slug del catálogo y se leen en castellano. */
+	function describirParte(parte: PublicSchemePart): string {
+		const nombre = parte.nombre.replaceAll('_', ' ');
+		const legible = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+		return parte.desde === parte.hasta
+			? `${legible}, verso ${parte.desde}`
+			: `${legible}, versos ${parte.desde}-${parte.hasta}`;
+	}
+
 	function describirEnlace(enlace: PublicRhymeLink, cicla: boolean): string {
 		const bloque = cicla ? 'repetición' : 'bloque';
 		const destino =
@@ -74,7 +133,7 @@
 <svelte:head>
 	<title>{forma.nombre} · Catálogo de formas · Versología</title>
 	{#if forma.definicion}
-		<meta name="description" content={forma.definicion} />
+		<meta name="description" content={stripMarkdown(forma.definicion)} />
 	{/if}
 </svelte:head>
 
@@ -86,14 +145,12 @@
 	<header class="mt-4">
 		<h1 class="font-display text-3xl">{forma.nombre}</h1>
 		<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-			{forma.tipoRegistro === 'forma' ? 'Forma' : 'Tramo sin forma'} · nivel {forma.nivelEstructural}{forma.gradoEspecificacion
-				? ` · ${forma.gradoEspecificacion}`
-				: ''}{forma.tradiciones.length > 0
+			{forma.tipoRegistro === 'forma' ? 'Forma' : 'Tramo sin forma'} · nivel {forma.nivelEstructural}{forma.tradiciones.length > 0
 				? ` · tradición ${forma.tradiciones.join(' y ').toLowerCase()}`
 				: ''}{forma.tiposRima.length > 0 ? ` · rima ${forma.tiposRima.join(' o ')}` : ''}
 		</p>
 		{#if forma.definicion}
-			<p class="mt-4 max-w-3xl text-lg leading-8">{forma.definicion}</p>
+			<p class="mt-4 max-w-3xl text-lg leading-8">{@html renderInlineMarkdown(forma.definicion)}</p>
 		{:else}
 			<p class="mt-4 text-[color:var(--muted-foreground)]">
 				Esta forma todavía no tiene definición en el catálogo.
@@ -101,21 +158,12 @@
 		{/if}
 	</header>
 
-	{#if forma.denominacionesDetalle.length > 0}
+	{#if forma.denominaciones.length > 0}
 		<section class="mt-8">
 			<h2 class="font-display text-xl">También llamada</h2>
 			<ul class="mt-2 space-y-1">
-				{#each forma.denominacionesDetalle as denominacion (denominacion.nombre)}
-					<li class="leading-7">
-						{denominacion.nombre}
-						<span class="text-sm text-[color:var(--muted-foreground)]">
-							· {denominacion.tipo === 'posterior'
-								? 'denominación posterior'
-								: denominacion.tipo === 'historico'
-									? 'denominación histórica'
-									: denominacion.tipo}
-						</span>
-					</li>
+				{#each forma.denominaciones as nombre (nombre)}
+					<li class="leading-7">{nombre}</li>
 				{/each}
 			</ul>
 		</section>
@@ -148,7 +196,7 @@
 						</div>
 
 						{#if arquitectura.descripcion}
-							<p class="mt-2 max-w-3xl leading-7">{arquitectura.descripcion}</p>
+							<p class="mt-2 max-w-3xl leading-7">{@html renderInlineMarkdown(arquitectura.descripcion)}</p>
 						{/if}
 
 						{#if arquitectura.denominaciones.length > 0}
@@ -168,7 +216,7 @@
 													{esquema.nombre}
 													{#if esquema.descripcion}
 														<span class="block text-[color:var(--muted-foreground)]">
-															{esquema.descripcion}
+															{@html renderInlineMarkdown(esquema.descripcion)}
 														</span>
 													{/if}
 												</li>
@@ -180,25 +228,49 @@
 									<div>
 										<h4 class="text-sm font-semibold">Rima</h4>
 										<ul class="mt-1 space-y-1 text-sm">
-											{#each arquitectura.esquemasRima as esquema (esquema.nombre)}
-												<li>
-													{esquema.nombre}{esquema.notacion ? ` · ${esquema.notacion}` : ''}
-													{#if esquema.descripcion}
-														<span class="block text-[color:var(--muted-foreground)]">
-															{esquema.descripcion}
-														</span>
-													{/if}
-													{#each esquema.enlaces as enlace, indice (indice)}
-														<span class="block text-[color:var(--muted-foreground)]">
-															{enlace.nota ?? describirEnlace(enlace, esquema.cicla)}
-														</span>
-													{/each}
-													{#if comportamientoDeLaRima(esquema)}
-														<span class="block text-[color:var(--muted-foreground)]">
-															{comportamientoDeLaRima(esquema)}
-														</span>
-													{/if}
-												</li>
+											{#each agruparRima(arquitectura.esquemasRima) as grupo (grupo.parte ?? '—')}
+												{#if grupo.parte}
+													<li class="pt-2 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+														{grupo.parte}
+													</li>
+												{/if}
+												{#each grupo.esquemas as esquema (esquema.nombre)}
+													<li class={grupo.parte ? 'pl-3' : ''}>
+														<details class="group">
+															<summary
+																class="cursor-pointer list-none marker:content-none hover:underline"
+															>
+																<span class="font-mono">{esquema.notacion ?? '—'}</span>
+																<span class="text-[color:var(--muted-foreground)]">
+																	{esquema.nombre}{esquema.denominaciones.length > 0
+																		? ` · también ${esquema.denominaciones.join(', ')}`
+																		: ''}
+																</span>
+															</summary>
+															<div class="mt-1 space-y-1 text-[color:var(--muted-foreground)]">
+																{#if esquema.descripcion}
+																	<p>{@html renderInlineMarkdown(esquema.descripcion)}</p>
+																{/if}
+																{#if esquema.partes.length > 0}
+																	<p>{esquema.partes.map(describirParte).join(' · ')}</p>
+																{/if}
+																{#each esquema.partes.filter((p: PublicSchemePart) => p.nota) as parte (parte.nombre)}
+																	<p>{@html renderInlineMarkdown(parte.nota ?? '')}</p>
+																{/each}
+																{#each esquema.enlaces as enlace, i (i)}
+																	<p>
+																		{@html renderInlineMarkdown(
+																			enlace.nota ?? describirEnlace(enlace, esquema.cicla)
+																		)}
+																	</p>
+																{/each}
+																{#if comportamientoDeLaRima(esquema)}
+																	<p>{comportamientoDeLaRima(esquema)}</p>
+																{/if}
+															</div>
+														</details>
+													</li>
+												{/each}
 											{/each}
 										</ul>
 									</div>
@@ -220,14 +292,9 @@
 														.join(' ')}
 												</span>
 											{/if}
-											{#if seccion.reutiliza}
-												<span class="block text-[color:var(--muted-foreground)]">
-													Reutiliza el repertorio de «{seccion.reutiliza}»
-												</span>
-											{/if}
 											{#if seccion.nota}
 												<span class="block text-[color:var(--muted-foreground)]">
-													{seccion.nota}
+													{@html renderInlineMarkdown(seccion.nota)}
 												</span>
 											{/if}
 										</li>
@@ -245,7 +312,7 @@
 											{variedad.nombre}
 											{#if variedad.descripcion}
 												<span class="block text-[color:var(--muted-foreground)]">
-													{variedad.descripcion}
+													{@html renderInlineMarkdown(variedad.descripcion)}
 												</span>
 											{/if}
 										</li>
@@ -267,7 +334,7 @@
 												</span>
 											{/if}
 											{#if rasgo.nota}
-												<span class="block text-[color:var(--muted-foreground)]">{rasgo.nota}</span>
+												<span class="block text-[color:var(--muted-foreground)]">{@html renderInlineMarkdown(rasgo.nota)}</span>
 											{/if}
 										</li>
 									{/each}
@@ -281,18 +348,48 @@
 		</section>
 	{/if}
 
+	{#if forma.relaciones.length > 0}
+		<section class="mt-10">
+			<h2 class="font-display text-2xl">Con qué se relaciona</h2>
+			<ul class="mt-4 space-y-3">
+				{#each forma.relaciones as relacion (relacion.slug + relacion.tipo)}
+					<li class="leading-7">
+						<span class="text-[color:var(--muted-foreground)]">{describirRelacion(relacion)}</span>
+						<a class="underline hover:no-underline" href="/formas/{relacion.slug}">
+							{relacion.nombre}
+						</a>
+						{#if relacion.nota}
+							<span class="block text-sm text-[color:var(--muted-foreground)]">
+								{@html renderInlineMarkdown(relacion.nota)}
+							</span>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		</section>
+	{/if}
+
 	{#if forma.fuentes.length > 0}
 		<section class="mt-10">
 			<h2 class="font-display text-2xl">Lo que dicen las fuentes</h2>
-			<ul class="mt-4 space-y-4">
+			<ul class="mt-4 space-y-6">
 				{#each forma.fuentes as fuente, indice (indice)}
 					<li class="border-l-2 border-[color:var(--border)] pl-4">
-						{#if fuente.resumen}
-							<p class="leading-7">{fuente.resumen}</p>
-						{/if}
-						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-							{fuente.cita}{fuente.localizador ? `, ${fuente.localizador}` : ''} · sobre {fuente.sobre}
-						</p>
+						<p class="text-sm text-[color:var(--muted-foreground)]">{fuente.cita}</p>
+						<ul class="mt-2 space-y-3">
+							{#each fuente.afirmaciones as afirmacion, i (i)}
+								<li>
+									{#if afirmacion.resumen}
+										<p class="leading-7">{@html renderInlineMarkdown(afirmacion.resumen)}</p>
+									{/if}
+									<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+										{afirmacion.localizador ?? 'Sin localizar'}{afirmacion.sobre !== forma.nombre
+											? ` · sobre ${afirmacion.sobre}`
+											: ''}
+									</p>
+								</li>
+							{/each}
+						</ul>
 					</li>
 				{/each}
 			</ul>

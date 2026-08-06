@@ -92,19 +92,6 @@
 		},
 		{ key: 'nombre', label: 'Nombre alternativo', required: true },
 		{ key: 'slug_normalizado', label: 'Slug normalizado', required: true },
-		{
-			key: 'tipo_alias',
-			label: 'Tipo',
-			type: 'select',
-			required: true,
-			options: [
-				{ value: 'equivalente', label: 'Equivalente' },
-				{ value: 'variante_grafica', label: 'Variante gráfica' },
-				{ value: 'historico', label: 'Histórico' },
-				{ value: 'posterior', label: 'Posterior (nombre moderno)' },
-				{ value: 'abreviatura', label: 'Abreviatura' }
-			]
-		},
 		{ key: 'idioma', label: 'Idioma' },
 		{ key: 'fuente_id', label: 'Fuente', type: 'select', options: sourceOptions },
 		{ key: 'preferente', label: 'Preferente', type: 'checkbox' }
@@ -160,7 +147,7 @@
 		rows={props.domain.aliases}
 		keyFields={['alias_id']}
 		fields={aliasFields}
-		defaults={{ tipo_alias: 'equivalente', preferente: false }}
+		defaults={{ preferente: false }}
 	/>
 	<MetricEntityCollection
 		resource="formRelations"

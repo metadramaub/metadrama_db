@@ -512,7 +512,6 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			formaNombre: form.nombre,
 			formaDefinicion: form.definicion?.trim() || null,
 			nivelEstructural: formLevel,
-			gradoEspecificacion: form.grado_especificacion,
 			arquitecturaId: architecture.arquitectura_id,
 			arquitecturaSlug: architecture.slug,
 			arquitecturaNombre: architecture.nombre,
@@ -546,8 +545,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				nombre: form.nombre,
 				definicion: form.definicion?.trim() || null,
 				nivelEstructural: structuralLevelByForm.get(form.forma_id) ?? nivelEstructural(form.nivel_estructural),
-				gradoEspecificacion: form.grado_especificacion,
-				arquitecturas: hipotesis
+					arquitecturas: hipotesis
 					.filter((item) => item.formaId === formId)
 					.map((item) => ({ id: item.arquitecturaId, nombre: item.arquitecturaNombre, descripcion: item.arquitecturaDescripcion }))
 			};
