@@ -15,7 +15,9 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Versificación irregular | no existe norma de forma | únicamente el rango y, si hace falta, una observación | mínimo 2 versos |
 | Verso aislado | no existe norma de forma | únicamente la posición y, si hace falta, una observación | exactamente 1 verso |
 | Quintilla | 5 octosílabos, consonancia | esquema de cada quintilla | múltiplo de 5 |
-| Endecha real | ciclo `7-7-7-11`, asonancia sostenida en el endecasílabo y heptasílabos sueltos | la disposición del pasaje —asonantada, suelta, cruzada, abrazada o con redondilla— y las vocales de la asonancia | múltiplo de 4; múltiplo de 5 en la variedad con redondilla |
+| Endecha real | ciclo `7-7-7-11`, asonancia sostenida en el endecasílabo y heptasílabos sueltos | la disposición del pasaje —asonantada, suelta, cruzada o abrazada— y las vocales de la asonancia | múltiplo de 4 |
+| Endecha real · heptasilábica de cinco versos | ciclo `7-7-7-7-11` y `abbaA` | las vocales de la asonancia | múltiplo de 5 |
+| Endecha real · hexasilábica | ciclo `6-6-6-11`, asonancia sostenida y hexasílabos sueltos | las vocales de la asonancia | múltiplo de 4 |
 | Cuarteto | 4 endecasílabos consonantes con dos rimas | disposición `ABBA` o `ABAB` | múltiplo de 4 |
 | Terceto | 3 endecasílabos, consonancia entre dos de los tres | qué verso queda suelto, `A-A` o `-AA`; final esdrújulo si caracteriza | múltiplo de 3 |
 | Terceto encadenado | encadenamiento y cierre en serventesio | la medida: endecasílaba u octosílaba | bloques de 3 más el verso final |
