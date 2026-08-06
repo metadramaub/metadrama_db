@@ -4,6 +4,11 @@ Estado: **para revisar** · 1 de agosto de 2026
 
 > Las correcciones de documentación ya están aplicadas; las de base de datos, no. El
 > resumen final dice qué queda en cada sitio.
+>
+> **Es una foto del 1 de agosto y no se actualiza.** Sus recuentos ya no cuadran con la base:
+> desde entonces la [revisión contra las fuentes](./revision-del-catalogo-estado.md) ha
+> corregido doce formas. Lo que conserva su valor es el **razonamiento** de cada apartado, no
+> las cifras. Para el estado actual, `npm run audit:metrica`.
 
 El [informe de conformidad](./informe-conformidad-catalogo.md) está en cero defectos, pero
 solo comprueba las doce reglas que sabe comprobar. Esta auditoría mira lo que esas reglas no

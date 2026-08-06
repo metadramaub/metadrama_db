@@ -11,6 +11,10 @@ METADRAMA, separado del vocabulario genérico del proyecto.
 Estado operativo, decisiones vigentes, fronteras de seguridad y ruta de lectura para
 retomar el proyecto en otro chat.
 
+**Trabajo en curso:** [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md).
+El catálogo se está contrastando forma por forma con seis monografías. Ese documento dice qué
+está hecho, qué falta, con qué método y en qué orden.
+
 **Demarcador:** [contrato, matemática y decisiones de producto](./demarcador-metrico.md).
 
 0. [Ontología del verso español](./ontologia-verso-espanol.md)
@@ -71,21 +75,11 @@ retomar el proyecto en otro chat.
    **Estas fichas están en retirada.** Desde el 5 de agosto de 2026 lo descriptivo vive en el
    catálogo y se lee en `/formas`, generado del dato: un `.md` paralelo solo puede quedarse
    viejo. A medida que una forma se revisa, su prosa se muda al dato, sus dudas resueltas se
-   tachan y su ficha se borra. Ya se han retirado las de romance, redondilla, décima, silva,
-   soneto, quintilla, lira, octava real, cuarteto, terceto y terceto encadenado.
+   podan y su ficha se borra.
 
-   Quedan las de [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md),
-   [tramos sin forma](./revisiones-formas/tramos-sin-forma.md),
-   [villancico](./revisiones-formas/villancico.md),
-   [zéjel](./revisiones-formas/zejel.md),
-   [coplas y sextillas, incluida la copla real](./revisiones-formas/coplas-y-sextillas.md),
-   [endecha real](./revisiones-formas/endecha-real.md),
-   [novena](./revisiones-formas/novena.md),
-   [sexteto-lira](./revisiones-formas/sexteto-lira.md),
-   [sexteto, con la sexta rima](./revisiones-formas/sexteto.md),
-   [seguidilla](./revisiones-formas/seguidilla.md),
-   [sextina](./revisiones-formas/sextina.md) y
-   [canción petrarquista](./revisiones-formas/cancion-petrarquista.md).
+   **Cuáles quedan es lo que hay en la carpeta**, y no se lista aquí para que no se desajuste.
+   El estado de la revisión —qué formas están hechas y cuáles faltan— vive en
+   [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md).
 
    Y el [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md),
    que **no** se retira: es donde vive lo que sigue sin decidir.
@@ -152,9 +146,12 @@ validación ni el demarcador.
 La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración
 estructural se completó el 31: la base habla ya los nombres definitivos de
 [la implementación](./implementacion-metrica.md), el metro es una entidad del dominio, la unidad se
-declara, las familias han desaparecido y las tradiciones están pobladas. Queda un hueco de
-esquema —la respuesta que define la norma— y los defectos de datos del
-[informe de conformidad](./informe-conformidad-catalogo.md), que necesitan al IP.
+declara, las familias han desaparecido y las tradiciones están pobladas.
+
+Desde el 5 de agosto está en curso la **revisión del catálogo contra las fuentes**, que
+contrasta cada forma con seis monografías y corrige el dato donde la bibliografía demuestra que
+estaba mal. Va por 12 formas de 28, y su estado detallado está en
+[revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md).
 
 Las declaraciones reales de las secuencias no se han migrado ni se consultan
 desde el nuevo catálogo; ese cambio queda expresamente aplazado hasta que el

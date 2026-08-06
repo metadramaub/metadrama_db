@@ -305,5 +305,8 @@ factuales sobre el corpus, no dilemas de modelado.
 5. Reutilizar los componentes ya formalizados en lugar de copiarlos.
 6. Añadir una elección solo si la respuesta no puede derivarse.
 7. Comprobar que el orden de resolución del apartado 5 puede aplicarse.
-8. Ejecutar `npm run audit:metrica` y dejar la ficha en `revisiones-formas/`, incluidas
-   las excepciones justificadas.
+8. Ejecutar `npm run audit:metrica`, y escribir el porqué **en el catálogo** —definición,
+   descripción de la arquitectura o afirmación de fuente—, no en una ficha aparte. Las de
+   `revisiones-formas/` están en retirada desde el 5 de agosto de 2026: lo descriptivo vive en
+   el dato y se lee en `/formas`. Las excepciones justificadas que no caben en el dato van al
+   [registro de cuestiones](./revisiones-formas/cuestiones-para-el-ip.md).

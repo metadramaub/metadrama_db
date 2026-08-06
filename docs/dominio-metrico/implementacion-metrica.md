@@ -6,9 +6,11 @@ Este documento explica **qué parte de la [ontología del verso español](./onto
 implementa METADRAMA, qué restringe por su corpus y cómo recoge el dato**. La ontología
 describe las posibilidades del verso; aquí empiezan las decisiones.
 
-Los [criterios de nivel](./criterios-de-nivel.md) aplican esto caso por caso, la
-[arquitectura técnica](./arquitectura-dominio-metrica.md) describe las capas y las
-[fichas de revisión](./revisiones-formas/) documentan qué se decidió para cada forma.
+Los [criterios de nivel](./criterios-de-nivel.md) aplican esto caso por caso y la
+[arquitectura técnica](./arquitectura-dominio-metrica.md) describe las capas. Qué se decidió
+sobre cada forma lo dice **el catálogo**, que se lee en `/formas`; las
+[fichas de revisión](./revisiones-formas/) solo cubren ya las formas pendientes de contrastar
+con las fuentes, y desaparecen a medida que se revisan.
 
 ## 1 · Qué problema resolvió aquí
 

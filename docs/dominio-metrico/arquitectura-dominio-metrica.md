@@ -29,7 +29,8 @@ Documentos relacionados:
 | Qué es cada fenómeno del verso | [Ontología del verso español](./ontologia-verso-espanol.md) |
 | Qué implementa el proyecto y qué restringe | [La implementación](./implementacion-metrica.md) |
 | En qué nivel se registra un hecho | [Criterios de nivel](./criterios-de-nivel.md) |
-| Qué decidió el proyecto sobre una forma | Su ficha en [revisiones-formas](./revisiones-formas/) |
+| Qué decidió el proyecto sobre una forma | El catálogo mismo, leído en `/formas`. Solo las formas aún sin revisar conservan ficha en [revisiones-formas](./revisiones-formas/) |
+| Qué formas están ya contrastadas con las fuentes | [Estado de la revisión](./revision-del-catalogo-estado.md) |
 | Qué pregunta el editor en cada forma | [Contratos del registrador](./contratos-registrador-formas-revisadas.md) |
 
 Ningún documento repite la especificación de columnas. Cuando lo hizo, quedó desfasado en
