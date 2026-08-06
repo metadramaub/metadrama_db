@@ -1,9 +1,10 @@
 # Plan de revisión del catálogo
 
-Estado: **preparado, no empezado** · 5 de agosto de 2026
+Estado: **A hecho · B/C en curso, 5 formas de 33 · D pendiente** · 5 de agosto de 2026
 
-Qué queda por hacer sobre el catálogo métrico, en qué orden y por qué ese orden. Se escribe
-antes de empezar para que la sesión que lo retome no tenga que reconstruir el razonamiento.
+Qué queda por hacer sobre el catálogo métrico, en qué orden y por qué ese orden. Se escribió
+antes de empezar para que la sesión que lo retome no tenga que reconstruir el razonamiento, y
+se va anotando a medida que cada parte se cierra.
 
 ## El orden importa, y es este
 
@@ -51,7 +52,10 @@ cada posición, había **once posiciones con la caja contraria a su verso**:
   posiciones heptasílabas en mayúscula. Lo correcto es `abCabC:cdeeDfF`, que es exactamente
   lo que decía el término legado, `cancion_regular_abCabC_cdeeDfF`: la caja se perdió al
   normalizar en algún momento.
-- **Endecha real**, `-a-a` sobre 7-7-7-11 → `-a-A`.
+- **Endecha real**, `-a-a` sobre 7-7-7-11 → `-a-A`. La revisión posterior de la forma
+  desmontó ese esquema entero —la asonancia no se cierra en el cuarteto— y `-a-A` quedó como
+  una de sus variedades. La corrección de caja sigue valiendo; lo que cambió es cuál es la
+  rima definitoria.
 - **Romance endecasílabo**, el heroico, `[-a]…` → `[-A]…`. Sus tres hermanos son arte menor.
 
 **Y por eso los slugs pueden llevar mayúsculas.** Bajar a minúsculas los de las variedades
@@ -201,13 +205,31 @@ que haya que ocultar ni una corrección que haya que aplicar.
 
 Por lo que más pesa en el corpus, que es donde un error costaría más caro:
 
-| Forma | Secuencias |
-| --- | ---: |
-| Romance | 71 |
-| Redondilla | 63 |
-| Décima | 18 |
-| Silva | 12 |
-| Soneto | 7 |
+| Forma | Secuencias | Estado |
+| --- | ---: | --- |
+| Romance | 71 | **hecho** el 5 de agosto |
+| Redondilla | 63 | **hecho** el 5 de agosto |
+| Décima | 18 | **hecho** el 5 de agosto |
+| Silva | 12 | **hecho** el 5 de agosto |
+| Soneto | 7 | **hecho** el 5 de agosto |
+
+### Lo que las dos primeras enseñaron
+
+Tres cosas que no estaban en el plan y valen para las 31 restantes. Las tres están escritas
+como norma en [dónde vive la prosa](./donde-vive-la-prosa.md).
+
+1. **No escribir lo que la ficha deriva.** El romance decía dos veces, seguidas, que la
+   asonancia se conserva: una en la descripción del esquema y otra en la nota del enlace, que
+   la ficha ya genera del dato. Lo mismo pasaba en la redondilla con «Dos rimas consonantes
+   dispuestas de forma abrazada» sobre un esquema que se llama «Abrazada» y se escribe `abba`.
+2. **Usar las seis fuentes, no las dos cómodas.** El romance salió con dos y las otras cuatro
+   sí tenían algo propio que decir. Y una afirmación solo entra si **añade**: si parafrasea la
+   definición, sobra por autorizada que sea la fuente.
+3. **Mirar si el dato tiene ya su sitio.** «Cuarteta» vivía en prosa dentro de la descripción
+   de un esquema de rima, cuando `denominaciones_metricas` tiene columna para colgar de un
+   esquema. La redondilla no tenía **ninguna** denominación registrada; ahora tiene cinco.
+   Esto obligó además a cablear la ficha, que solo leía las denominaciones de forma y de
+   arquitectura.
 
 ---
 
@@ -234,6 +256,42 @@ Lo que la experiencia de hoy enseña sobre dónde mirar:
    cuatro y cinco sílabas; el de la copla real, solo cuatro.
 3. **Lo que se escribe a mano y podría derivarse.** Las etiquetas de las opciones de rima
    divergieron porque se escribían; ahora se derivan del esquema.
+4. **Denominaciones enterradas en prosa.** `denominaciones_metricas` admite colgar de la
+   forma, la arquitectura, el esquema métrico, el esquema de rima, la variedad, la sección o
+   la repetición. Cualquier nombre propio que aparezca dentro de una descripción está en el
+   sitio equivocado. La redondilla tenía uno; conviene barrer las 31 formas restantes.
+
+### Las partes de un esquema de rima — **hecho el 5 de agosto**
+
+Se resolvió al revisar la redondilla y destapó algo peor que una columna vacía. Los dos
+enlaces de la doble enlazada decían `bloque_origen = 1, desplazamiento_bloque = 1`: hablaban
+de **dos bloques de cuatro versos**. Pero las ocho posiciones estaban en el bloque 1,
+numeradas de 1 a 8, de modo que el enlace afirmaba una repetición siguiente que no existe,
+porque el esquema no cicla. Los enlaces tenían razón y las posiciones no.
+
+Lo que quedó fijado:
+
+| | |
+| --- | --- |
+| `bloque` | Unidad de repetición y de enlace: lo que cuenta `desplazamiento_bloque` |
+| `seccion` | La parte con nombre a la que pertenece el verso |
+| `\|` en la notación | Frontera de bloque. Sus segmentos son tantos como bloques declarados |
+| `:` en la notación | Pausa **dentro** de un bloque, que no lo parte |
+
+No son lo mismo y el catálogo ya lo demostraba: en el zéjel el bloque 2 contiene dos
+secciones, mudanza y vuelta; y la silva declara «pareado» con un bloque solo. La migración
+deja una comprobación que impide que vuelvan a divergir.
+
+Arreglado en cuatro formas: la redondilla doble enlazada (dos bloques y `abba|acca`), la
+sextilla de doble pie quebrado (ya tenía los bloques, le faltaba escribir el `|`), la canción
+petrarquista (fronte, eslabón y sirima, que la entrada «estancia» del Diccionario nombra y la
+medida confirma verso a verso) y la décima (primera redondilla, versos de enlace y segunda
+redondilla, en las palabras de Quilis).
+
+Los quince esquemas sin notación ni posiciones **no** son un hueco: se llaman «Distribución
+variable», «de orden libre» o «Predominio de…», y ahí el vacío es el dato. La forma declara
+que la rima es consonante y que su orden no está fijado; inventarle posiciones sería afirmar
+lo que la forma niega.
 
 **Y una regla que vale para todo:** no fiarse de las migraciones para saber qué hay. Consultar
 siempre el catálogo en vivo y leer el esquema de las tablas antes de sacar conclusiones: se
