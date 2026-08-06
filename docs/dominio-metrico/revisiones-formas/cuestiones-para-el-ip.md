@@ -62,12 +62,20 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
    minúsculas—, pero antes hay que comprobar si alguna forma ya poblada depende de la conducta
    actual.
 
-2. **Sor Juana entra en el catálogo por una variedad de cinco versos.** La variedad `abbaA`
-   —redondilla heptasílaba más endecasílabo— está documentada por Navarro Tomás y por Jauralde,
-   pero es de sor Juana Inés de la Cruz y no consta en el teatro español, que es nuestro corpus.
-   Se declara porque el IP pidió las cuatro variedades que las fuentes dan con nombre y ejemplo.
-   Si se prefiere un catálogo ceñido al corpus, esta es la primera candidata a salir, y la
-   afirmación de fuente conservaría el dato igualmente.
+2. **Las dos arquitecturas de sor Juana están fuera del teatro áureo, y habría que comprobar
+   si eso importa.** La de cinco versos (`7-7-7-7-11`, `abbaA`) y la hexasílaba (`6-6-6-11`)
+   se declaran porque Navarro Tomás y Jauralde las documentan, pero los dos las atribuyen a
+   sor Juana y a la poesía culta del XVII-XVIII —Trillo y Figueroa, Vaca de Guzmán, Iriarte,
+   Bello—, no al teatro. **Ninguna fuente dice que no aparezcan en teatro**; simplemente no lo
+   tratan. Queda por decidir si el catálogo recoge todo lo que la teoría documenta o solo lo
+   que el corpus dramático puede dar, y esa decisión afecta a más formas que a esta.
+
+3. **Faltan dos cosas que Navarro Tomás documenta y no tienen dónde ir.** Sor Juana hizo
+   también el último verso **decasílabo de dos adónicos**, y en los *Nocturnos de San Pedro*
+   combina endecha real y sexteto con un pie quebrado que repite en eco la rima del segundo
+   heptasílabo. Jauralde trata esa segunda entre las **estrofas de seis versos**, con el título
+   «Variedad de la endecha real». Están registradas como afirmación de fuente; su sitio como
+   forma, si lo tienen, está en el sexteto, y conviene mirarlo al revisarlo.
 
 ## Quintilla
 
