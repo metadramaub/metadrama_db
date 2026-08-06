@@ -23,7 +23,7 @@ Comprobado antes de planificar nada:
   puede romper la versión desplegada.
 - **Existe una barrera de versión.** `catalogo_metrico_estado.modelo_version` valía `42`
   antes de empezar y vale `47` al terminar, y
-  [catalogo-metrico.ts](../../src/lib/server/catalogo-metrico.ts) muestra «falta aplicar
+  [catalogo-metrico.ts](../../../src/lib/server/catalogo-metrico.ts) muestra «falta aplicar
   migraciones» si es menor. Protege la dirección «base sin migrar, código nuevo», pero
   **no la contraria**: código antiguo contra base migrada pasaría la comprobación y
   fallaría al consultar tablas renombradas. Migración y código deben entrar juntos.
@@ -100,7 +100,7 @@ Retirarla exigió, por tanto, más que borrar nueve filas:
 3. Ajustar `validar_eleccion_editor_metrico` y `validar_unidad_editor_metrico`, que
    emparejaban la sección del grupo con la de la unidad. Una pregunta sin sección se aplica
    ahora a la realización que no cuelga de ninguna otra.
-4. Sustituir en [editor-model.ts](../../src/lib/components/metrica/editor-v2/editor-model.ts)
+4. Sustituir en [editor-model.ts](../../../src/lib/components/metrica/editor-v2/editor-model.ts)
    las tres funciones que detectaban la repetición del pasaje a partir de las secciones raíz
    —`flatRepeatedMetricSection`, `flatVariableRepeatedMetricSection` y
    `hierarchicalRepeatedMetricSection`— por una sola, hoy `metricUnitPlan`, que la deriva
@@ -241,7 +241,7 @@ en las series, donde la sección repetible describe el ritmo interno de la propi
 `normalizar_extension_configuracion_metrica` desapareció con el campo que protegía, junto
 con `normalizar_extensiones_al_cambiar_nivel_metrico`.
 
-En el código, [editor-model.ts](../../src/lib/components/metrica/editor-v2/editor-model.ts)
+En el código, [editor-model.ts](../../../src/lib/components/metrica/editor-v2/editor-model.ts)
 derivaba la repetición del pasaje de las secciones raíz
 —`flatRepeatedMetricSection`, `flatVariableRepeatedMetricSection`,
 `hierarchicalRepeatedMetricSection`—. Con la unidad declarada, esas tres funciones son ya

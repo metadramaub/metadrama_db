@@ -1,23 +1,26 @@
-# Auditoría del catálogo métrico
+# Auditoría del catálogo métrico · archivada
 
-Estado: **para revisar** · 1 de agosto de 2026
+Hecha el 1 de agosto de 2026, archivada el 6.
 
-> Las correcciones de documentación ya están aplicadas; las de base de datos, no. El
-> resumen final dice qué queda en cada sitio.
+> **Todo lo que señalaba está resuelto y aplicado.** Sus once apartados llevan marca de
+> RESUELTO, su resumen dice «pendiente de decisión: nada», y las fichas de forma que critica
+> en el apartado C ya no existen: se borraron al absorberse cada forma en el catálogo.
 >
-> **Es una foto del 1 de agosto y no se actualiza.** Sus recuentos ya no cuadran con la base:
-> desde entonces la [revisión contra las fuentes](./revision-del-catalogo-estado.md) ha
-> corregido doce formas. Lo que conserva su valor es el **razonamiento** de cada apartado, no
-> las cifras. Para el estado actual, `npm run audit:metrica`.
+> Se conserva por el **razonamiento**: por qué el mismo hecho no puede estar en dos niveles,
+> por qué las secciones necesitaban identificador legible, por qué `aabaa` no es una quintilla.
+> Sus cifras son del 1 de agosto y no cuadran con la base.
+>
+> Para el estado actual, `npm run audit:metrica` y
+> [el informe de conformidad](../informe-conformidad-catalogo.md).
 
-El [informe de conformidad](./informe-conformidad-catalogo.md) está en cero defectos, pero
+El [informe de conformidad](../informe-conformidad-catalogo.md) está en cero defectos, pero
 solo comprueba las doce reglas que sabe comprobar. Esta auditoría mira lo que esas reglas no
 alcanzan: si la implementación es coherente con la
-[ontología](./ontologia-verso-espanol.md), si hay huecos, y si las fichas de forma dicen la
+[ontología](../ontologia-verso-espanol.md), si hay huecos, y si las fichas de forma dicen la
 verdad sobre el catálogo.
 
 Se ha contrastado el dato de la base contra la ontología, contra el
-[vocabulario heredado](./historico/vocabulario-heredado.md) y contra la bibliografía del
+[vocabulario heredado](./vocabulario-heredado.md) y contra la bibliografía del
 repositorio. **No se ha modificado nada.**
 
 Inventario en el momento de auditar: 25 formas y 2 tramos sin forma · 46 arquitecturas ·
