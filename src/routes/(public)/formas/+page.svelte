@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PublicFormSummary } from '$lib/metrica/formas-publicas.types';
+	import { renderInlineMarkdown } from '$lib/utils/markdown';
 
 	/**
 	 * Catálogo de formas. Todo lo que se lee aquí sale del catálogo métrico: si algo está mal
@@ -142,9 +143,7 @@
 					<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
 						<h2 class="font-display text-xl">{forma.nombre}</h2>
 						<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-							{forma.nivelEstructural}{forma.gradoEspecificacion === 'general'
-								? ' · general'
-								: ''}
+							{forma.nivelEstructural}
 						</span>
 						{#if forma.arquitecturas > 0}
 							<span class="text-xs text-[color:var(--muted-foreground)]">
@@ -155,7 +154,7 @@
 					</div>
 					{#if forma.definicion}
 						<p class="mt-1 max-w-3xl leading-6 text-[color:var(--muted-foreground)]">
-							{forma.definicion}
+							{@html renderInlineMarkdown(forma.definicion)}
 						</p>
 					{/if}
 					{#if forma.denominaciones.length > 0}
@@ -194,7 +193,7 @@
 							<h3 class="font-display text-lg">{forma.nombre}</h3>
 							{#if forma.definicion}
 								<p class="mt-1 max-w-3xl leading-6 text-[color:var(--muted-foreground)]">
-									{forma.definicion}
+									{@html renderInlineMarkdown(forma.definicion)}
 								</p>
 							{/if}
 						</a>

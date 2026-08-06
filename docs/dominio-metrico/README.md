@@ -66,29 +66,29 @@ retomar el proyecto en otro chat.
 
 8. [Revisiones de formas](./revisiones-formas/)
    Contraste forma por forma entre el criterio especializado del IP, la bibliografía y su
-   traducción al catálogo. Incluye la [quintilla](./revisiones-formas/quintilla.md), la
-   revisión de [terceto y terceto encadenado](./revisiones-formas/tercetos.md), la
-   [silva](./revisiones-formas/silva.md), la frontera entre
-   [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md), el
-   [romance, con el romancillo y el heroico](./revisiones-formas/romance.md), el
-   tratamiento de los [tramos sin forma](./revisiones-formas/tramos-sin-forma.md), el
-   [soneto](./revisiones-formas/soneto.md), el
-   [villancico](./revisiones-formas/villancico.md), el
-   [zéjel](./revisiones-formas/zejel.md), la
+   traducción al catálogo.
+
+   **Estas fichas están en retirada.** Desde el 5 de agosto de 2026 lo descriptivo vive en el
+   catálogo y se lee en `/formas`, generado del dato: un `.md` paralelo solo puede quedarse
+   viejo. A medida que una forma se revisa, su prosa se muda al dato, sus dudas resueltas se
+   tachan y su ficha se borra. Ya se han retirado las de romance, redondilla, décima, silva,
+   soneto, quintilla, lira, octava real, cuarteto, terceto y terceto encadenado.
+
+   Quedan las de [series endecasilábicas](./revisiones-formas/series-endecasilabicas.md),
+   [tramos sin forma](./revisiones-formas/tramos-sin-forma.md),
+   [villancico](./revisiones-formas/villancico.md),
+   [zéjel](./revisiones-formas/zejel.md),
    [coplas y sextillas, incluida la copla real](./revisiones-formas/coplas-y-sextillas.md),
-   las [décimas](./revisiones-formas/decimas.md), la
-   [redondilla](./revisiones-formas/redondilla.md), el
-   [cuarteto](./revisiones-formas/cuarteto.md), la
-   [endecha real](./revisiones-formas/endecha-real.md), la
-   [octava real](./revisiones-formas/octava-real.md), la
-   [novena](./revisiones-formas/novena.md), la
-   [lira](./revisiones-formas/lira.md), el
-   [sexteto-lira](./revisiones-formas/sexteto-lira.md), el
-   [sexteto, con la sexta rima](./revisiones-formas/sexteto.md), la
-   [seguidilla](./revisiones-formas/seguidilla.md), la
-   [sextina](./revisiones-formas/sextina.md), la
-   [canción petrarquista](./revisiones-formas/cancion-petrarquista.md) y un
-   [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+   [endecha real](./revisiones-formas/endecha-real.md),
+   [novena](./revisiones-formas/novena.md),
+   [sexteto-lira](./revisiones-formas/sexteto-lira.md),
+   [sexteto, con la sexta rima](./revisiones-formas/sexteto.md),
+   [seguidilla](./revisiones-formas/seguidilla.md),
+   [sextina](./revisiones-formas/sextina.md) y
+   [canción petrarquista](./revisiones-formas/cancion-petrarquista.md).
+
+   Y el [registro vivo de cuestiones para confirmar con el IP](./revisiones-formas/cuestiones-para-el-ip.md),
+   que **no** se retira: es donde vive lo que sigue sin decidir.
 
 ## Decisiones consolidadas
 

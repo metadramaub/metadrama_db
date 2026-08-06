@@ -60,7 +60,6 @@
 		nivel_estructural: 'estrofa' as MetricStructuralLevel,
 		tipo_registro: 'forma' as MetricEntryType,
 		seleccionable: true,
-		grado_especificacion: 'especifica' as 'general' | 'especifica' | null,
 		estado_revision: 'borrador' as MetricCatalogReviewState,
 		activo: true,
 		orden: null as number | null
@@ -156,7 +155,6 @@
 			nivel_estructural: 'estrofa',
 			tipo_registro: 'forma',
 			seleccionable: true,
-			grado_especificacion: 'especifica',
 			estado_revision: 'borrador',
 			activo: true,
 			orden: null
@@ -308,11 +306,7 @@
 								<span class="block text-sm font-medium">{form.nombre}</span>
 								<span class="mt-0.5 block text-xs text-[color:var(--muted-foreground)]">
 									{metricReviewStateLabel(form.estado_revision)}
-									{form.tipo_registro === 'sin_forma'
-										? ' · tramo sin forma'
-										: form.grado_especificacion === 'general'
-											? ' · general'
-											: ''}
+									{form.tipo_registro === 'sin_forma' ? ' · tramo sin forma' : ''}
 								</span>
 							</button>
 						{:else}
@@ -375,12 +369,7 @@
 										value={newForm.tipo_registro}
 										onchange={(event) => {
 											newForm.tipo_registro = event.currentTarget.value as MetricEntryType;
-											if (newForm.tipo_registro === 'sin_forma') {
-												newForm.grado_especificacion = null;
-												newForm.seleccionable = true;
-											} else if (newForm.grado_especificacion === null) {
-												newForm.grado_especificacion = 'especifica';
-											}
+											if (newForm.tipo_registro === 'sin_forma') newForm.seleccionable = true;
 										}}
 									>
 										<option value="forma">Forma métrica</option>
@@ -407,24 +396,6 @@
 										disabled={newForm.tipo_registro === 'sin_forma'}
 									/>
 									Seleccionable
-								</label>
-								<label class="inline-flex items-center gap-2">
-									<span>Grado</span>
-									<select
-										class="border border-[color:var(--border)] bg-white px-2 py-1 text-sm"
-										value={newForm.grado_especificacion ?? ''}
-										disabled={newForm.tipo_registro === 'sin_forma'}
-										onchange={(event) => {
-											const valor = event.currentTarget.value;
-											newForm.grado_especificacion =
-												valor === '' ? null : (valor as 'general' | 'especifica');
-											if (newForm.grado_especificacion === 'general')
-												newForm.seleccionable = true;
-										}}
-									>
-										<option value="especifica">Específica</option>
-										<option value="general">General</option>
-									</select>
 								</label>
 							</div>
 							{#if createFormError}

@@ -19,7 +19,7 @@ type QueryError = {
 };
 
 const FORM_SELECT =
-	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,grado_especificacion,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,estado_revision,activo,orden,origen_termino_id,updated_at';
 const CONFIGURATION_SELECT =
 	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,modalidad,tipo_rima_id,unidad_versos_min,unidad_versos_max,estado_revision,activo,orden,origen_termino_id,updated_at';
 
@@ -97,8 +97,10 @@ function buildIssues(input: {
 		]);
 	}
 
+	// Toda forma con norma declara al menos una arquitectura. Los tramos sin forma quedan
+	// fuera porque no tienen norma por diseño: «Verso aislado» y «Versificación irregular».
 	for (const form of input.forms.filter(
-		(item) => item.activo && item.grado_especificacion === 'especifica'
+		(item) => item.activo && item.tipo_registro !== 'sin_forma'
 	)) {
 		const configurations = (configurationsByForm.get(form.forma_id) ?? []).filter(
 			(configuration) => configuration.activo

@@ -14,8 +14,6 @@ export type PublicFormSummary = {
 	/** `forma` o `sin_forma`: los tramos sin forma no son formas comparables. */
 	tipoRegistro: string;
 	nivelEstructural: string;
-	/** `general` o `especifica`; nulo en los tramos sin forma. */
-	gradoEspecificacion: string | null;
 	arquitecturas: number;
 	tradiciones: string[];
 	/** Los regímenes de rima que admite alguna de sus arquitecturas. */
@@ -47,15 +45,44 @@ export type PublicRhymeLink = {
 	nota: string | null;
 };
 
+/** Una parte con nombre dentro de un esquema: la fronte de la estancia, la vuelta del zéjel. */
+export type PublicSchemePart = {
+	nombre: string;
+	/** Versos que abarca, contados en orden de lectura desde el 1. */
+	desde: number;
+	hasta: number;
+	nota: string | null;
+};
+
 export type PublicRhymeScheme = PublicScheme & {
 	/** El bloque se repite indefinidamente: la notación lo marca con `[ ]…`. */
 	cicla: boolean;
 	enlaces: PublicRhymeLink[];
+	partes: PublicSchemePart[];
+	/**
+	 * De qué parte de la forma es esta rima, cuando no es de la unidad entera: «Cuartetos».
+	 * El soneto declara la de sus cuartetos en la sección y la de sus tercetos en la unidad,
+	 * y las dos tienen que leerse juntas bajo «Rima».
+	 */
+	deLaSeccion: string | null;
+	/** `unidad` o `seccion`: si describe la forma entera o solo una de sus partes. */
+	ambito: string | null;
+	/**
+	 * Nombres que la tradición da a esta disposición y no a la forma entera: «cuarteta» es la
+	 * redondilla cruzada, no la redondilla.
+	 */
+	denominaciones: string[];
 };
 
 export type PublicSection = {
 	nombre: string;
 	nota: string | null;
+	/**
+	 * La rima de la sección. Cuando reutiliza el repertorio de otra forma, es la de aquella:
+	 * los cuartetos del soneto riman como el cuarteto endecasílabo, y sus dos disposiciones
+	 * están declaradas allí, no en el soneto.
+	 */
+	esquemasRima: PublicRhymeScheme[];
 	versosMin: number | null;
 	versosMax: number | null;
 	repeticionesMin: number | null;
@@ -89,7 +116,6 @@ export type PublicArchitecture = {
 
 /** Lo que una fuente afirma sobre esta forma, con su referencia. */
 export type PublicSourceClaim = {
-	cita: string;
 	resumen: string | null;
 	localizador: string | null;
 	confianza: string | null;
@@ -97,8 +123,31 @@ export type PublicSourceClaim = {
 	sobre: string;
 };
 
+/**
+ * Una fuente con todo lo que dice de una forma. Se agrupa porque la referencia bibliográfica
+ * completa es larga y una misma monografía suele decir varias cosas: repetirla en cada
+ * afirmación ahogaba el texto que importa.
+ */
+export type PublicSource = {
+	cita: string;
+	anio: number | null;
+	afirmaciones: PublicSourceClaim[];
+};
+
+/** Otra forma con la que esta se relaciona, y en qué consiste la relación. */
+export type PublicFormRelation = {
+	/** Nombre de la otra forma, y su slug para enlazarla. */
+	nombre: string;
+	slug: string;
+	/** `compuesta_por`, `contrasta_con`, `relacionada_con`… tal como lo declara el catálogo. */
+	tipo: string;
+	nota: string | null;
+	/** Si esta forma es el origen de la relación o su destino, que cambia cómo se lee. */
+	esOrigen: boolean;
+};
+
 export type PublicFormDetail = PublicFormSummary & {
-	denominacionesDetalle: { nombre: string; tipo: string }[];
+	relaciones: PublicFormRelation[];
 	arquitecturas_: PublicArchitecture[];
-	fuentes: PublicSourceClaim[];
+	fuentes: PublicSource[];
 };

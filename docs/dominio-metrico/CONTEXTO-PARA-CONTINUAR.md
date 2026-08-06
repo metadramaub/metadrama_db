@@ -14,7 +14,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
 - La versión requerida del modelo es `54`.
 - La última migración es `20260801150000_estrofas_basicas_y_reutilizacion.sql` y está aplicada.
   La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
-  de rima, variedad, tramo sin forma, grado de especificación. La arquitectura declara
+  de rima, variedad, tramo sin forma. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
   sección existe ya para decir que la unidad se repite: cuántas unidades contiene el pasaje
   se deriva del rango. La unidad es la realización que no cuelga de ninguna otra y no

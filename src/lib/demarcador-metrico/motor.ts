@@ -218,7 +218,6 @@ export function ordenarFormas(
 				formaSlug: mejor.hipotesis.formaSlug,
 				formaNombre: mejor.hipotesis.formaNombre,
 				formaDefinicion: mejor.hipotesis.formaDefinicion,
-				gradoEspecificacion: mejor.hipotesis.gradoEspecificacion,
 				puntuacion: mejor.puntuacion,
 				nivel: 'posible' as FormaPuntuada['nivel'],
 				arquitecturas: ordenadas

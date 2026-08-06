@@ -110,6 +110,13 @@ export type Database = {
             referencedColumns: ["forma_id"]
           },
           {
+            foreignKeyName: "afirmaciones_fuentes_metricas_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
+          },
+          {
             foreignKeyName: "afirmaciones_fuentes_metricas_fuente_id_fkey"
             columns: ["fuente_id"]
             isOneToOne: false
@@ -275,6 +282,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "formas_metricas"
             referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "arquitecturas_forma_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
           },
           {
             foreignKeyName: "arquitecturas_forma_origen_termino_id_fkey"
@@ -671,6 +685,20 @@ export type Database = {
             foreignKeyName: "comentarios_internos_secuencia_id_fkey"
             columns: ["secuencia_id"]
             isOneToOne: false
+            referencedRelation: "propuesta_elecciones_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "comentarios_internos_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "comentarios_internos_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
             referencedRelation: "secuencias_metricas"
             referencedColumns: ["secuencia_id"]
           },
@@ -897,7 +925,6 @@ export type Database = {
           repeticion_id: string | null
           seccion_id: string | null
           slug_normalizado: string
-          tipo_alias: string
           updated_at: string
           variedad_id: string | null
         }
@@ -916,7 +943,6 @@ export type Database = {
           repeticion_id?: string | null
           seccion_id?: string | null
           slug_normalizado: string
-          tipo_alias?: string
           updated_at?: string
           variedad_id?: string | null
         }
@@ -935,7 +961,6 @@ export type Database = {
           repeticion_id?: string | null
           seccion_id?: string | null
           slug_normalizado?: string
-          tipo_alias?: string
           updated_at?: string
           variedad_id?: string | null
         }
@@ -974,6 +999,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "formas_metricas"
             referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
           },
           {
             foreignKeyName: "denominaciones_metricas_fuente_id_fkey"
@@ -1203,6 +1235,13 @@ export type Database = {
             referencedColumns: ["grupo_eleccion_id"]
           },
           {
+            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_elecciones_secuencia"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
             foreignKeyName: "elecciones_editor_metrico_opcion_eleccion_id_fkey"
             columns: ["opcion_eleccion_id"]
             isOneToOne: false
@@ -1222,6 +1261,59 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "secuencias_editor_metrico"
             referencedColumns: ["secuencia_prueba_id"]
+          },
+        ]
+      }
+      equivalencias_respuestas_legadas: {
+        Row: {
+          created_at: string
+          grupo_eleccion_id: string
+          nota: string | null
+          opcion_eleccion_id: string
+          termino_id: string
+        }
+        Insert: {
+          created_at?: string
+          grupo_eleccion_id: string
+          nota?: string | null
+          opcion_eleccion_id: string
+          termino_id: string
+        }
+        Update: {
+          created_at?: string
+          grupo_eleccion_id?: string
+          nota?: string | null
+          opcion_eleccion_id?: string
+          termino_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_elecciones_secuencia"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_opcion_eleccion_id_fkey"
+            columns: ["opcion_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "opciones_eleccion_metrica"
+            referencedColumns: ["opcion_eleccion_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_termino_id_fkey"
+            columns: ["termino_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
           },
         ]
       }
@@ -1851,11 +1943,25 @@ export type Database = {
             referencedColumns: ["forma_id"]
           },
           {
+            foreignKeyName: "forma_relaciones_forma_destino_id_fkey"
+            columns: ["forma_destino_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
+          },
+          {
             foreignKeyName: "forma_relaciones_forma_origen_id_fkey"
             columns: ["forma_origen_id"]
             isOneToOne: false
             referencedRelation: "formas_metricas"
             referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "forma_relaciones_forma_origen_id_fkey"
+            columns: ["forma_origen_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
           },
         ]
       }
@@ -1867,7 +1973,6 @@ export type Database = {
           definicion: string | null
           estado_revision: string
           forma_id: string
-          grado_especificacion: string | null
           nivel_estructural: string
           nombre: string
           orden: number | null
@@ -1885,7 +1990,6 @@ export type Database = {
           definicion?: string | null
           estado_revision?: string
           forma_id?: string
-          grado_especificacion?: string | null
           nivel_estructural?: string
           nombre: string
           orden?: number | null
@@ -1903,7 +2007,6 @@ export type Database = {
           definicion?: string | null
           estado_revision?: string
           forma_id?: string
-          grado_especificacion?: string | null
           nivel_estructural?: string
           nombre?: string
           orden?: number | null
@@ -1970,6 +2073,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "formas_metricas"
             referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "formas_tradiciones_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
           },
           {
             foreignKeyName: "formas_tradiciones_tradicion_id_fkey"
@@ -2393,6 +2503,42 @@ export type Database = {
           },
         ]
       }
+      obras_editor_metrico_v2: {
+        Row: {
+          created_at: string
+          created_by: string
+          nota: string | null
+          obra_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          nota?: string | null
+          obra_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          nota?: string | null
+          obra_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "obras_editor_metrico_v2_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "obras_editor_metrico_v2_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: true
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
       obras_resumen: {
         Row: {
           actualizado_en: string | null
@@ -2632,6 +2778,13 @@ export type Database = {
             columns: ["grupo_eleccion_id"]
             isOneToOne: false
             referencedRelation: "grupos_eleccion_metrica"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_elecciones_secuencia"
             referencedColumns: ["grupo_eleccion_id"]
           },
           {
@@ -3032,6 +3185,20 @@ export type Database = {
             foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
             columns: ["secuencia_id"]
             isOneToOne: false
+            referencedRelation: "propuesta_elecciones_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
             referencedRelation: "secuencias_metricas"
             referencedColumns: ["secuencia_id"]
           },
@@ -3049,10 +3216,11 @@ export type Database = {
           arquitectura_id: string | null
           created_at: string
           created_by: string
-          escenario_id: string
+          escenario_id: string | null
           forma_id: string
           observaciones: string | null
           orden: number
+          secuencia_id: string | null
           secuencia_prueba_id: string
           updated_at: string
           updated_by: string
@@ -3063,10 +3231,11 @@ export type Database = {
           arquitectura_id?: string | null
           created_at?: string
           created_by?: string
-          escenario_id: string
+          escenario_id?: string | null
           forma_id: string
           observaciones?: string | null
           orden?: number
+          secuencia_id?: string | null
           secuencia_prueba_id?: string
           updated_at?: string
           updated_by?: string
@@ -3077,10 +3246,11 @@ export type Database = {
           arquitectura_id?: string | null
           created_at?: string
           created_by?: string
-          escenario_id?: string
+          escenario_id?: string | null
           forma_id?: string
           observaciones?: string | null
           orden?: number
+          secuencia_id?: string | null
           secuencia_prueba_id?: string
           updated_at?: string
           updated_by?: string
@@ -3122,6 +3292,34 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "formas_metricas"
             referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_elecciones_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "secuencias_editor_metrico_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "secuencias_metricas"
+            referencedColumns: ["secuencia_id"]
           },
           {
             foreignKeyName: "secuencias_editor_metrico_updated_by_fkey"
@@ -3233,6 +3431,20 @@ export type Database = {
           v_ini?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "secuencias_subtipos_estrofa_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_elecciones_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "secuencias_subtipos_estrofa_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
           {
             foreignKeyName: "secuencias_subtipos_estrofa_secuencia_id_fkey"
             columns: ["secuencia_id"]
@@ -3510,6 +3722,50 @@ export type Database = {
         }
         Relationships: []
       }
+      propuesta_elecciones_secuencia: {
+        Row: {
+          alcance: string | null
+          grupo_eleccion_id: string | null
+          opcion_eleccion_id: string | null
+          pregunta: string | null
+          respuesta: string | null
+          secuencia_id: string | null
+        }
+        Relationships: []
+      }
+      propuesta_metrica_secuencia: {
+        Row: {
+          arquitectura_propuesta: string | null
+          arquitectura_propuesta_id: string | null
+          detalle: string | null
+          estrofa_tipo_id: string | null
+          forma_propuesta: string | null
+          forma_propuesta_id: string | null
+          heredado_de: string | null
+          obra_id: string | null
+          secuencia_id: string | null
+          termino_legado: string | null
+          v_fin: number | null
+          v_ini: number | null
+          via: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "secuencias_metricas_estrofa_tipo_id_fkey"
+            columns: ["estrofa_tipo_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "secuencias_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
     }
     Functions: {
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
@@ -3562,6 +3818,7 @@ export type Database = {
         Args: { p_obra_id: string; p_user: string }
         Returns: boolean
       }
+      obtener_catalogo_demarcador: { Args: never; Returns: Json }
       perfil_formas_hijos_rango: {
         Args: { p_obra_id: string; p_v_fin?: number; p_v_ini?: number }
         Returns: Json

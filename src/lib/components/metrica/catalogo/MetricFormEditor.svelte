@@ -79,7 +79,6 @@
 					nivel_estructural: draft.nivel_estructural,
 					tipo_registro: draft.tipo_registro,
 					seleccionable: draft.seleccionable,
-					grado_especificacion: draft.grado_especificacion,
 					estado_revision: draft.estado_revision,
 					activo: draft.activo,
 					orden: draft.orden
@@ -215,12 +214,7 @@
 					onchange={(event) => {
 						draft.tipo_registro = event.currentTarget
 							.value as MetricCatalogForm['tipo_registro'];
-						if (draft.tipo_registro === 'sin_forma') {
-							draft.grado_especificacion = null;
-							draft.seleccionable = true;
-						} else if (draft.grado_especificacion === null) {
-							draft.grado_especificacion = 'especifica';
-						}
+						if (draft.tipo_registro === 'sin_forma') draft.seleccionable = true;
 					}}
 				>
 					<option value="forma">Forma métrica</option>
@@ -248,22 +242,6 @@
 					disabled={draft.tipo_registro === 'sin_forma'}
 				/>
 				Seleccionable por el editor
-			</label>
-			<label class="inline-flex items-center gap-2">
-				<span>Grado de especificación</span>
-				<select
-					class="border border-[color:var(--border)] bg-white px-2 py-1 text-sm"
-					value={draft.grado_especificacion ?? ''}
-					disabled={draft.tipo_registro === 'sin_forma'}
-					onchange={(event) => {
-						const valor = event.currentTarget.value;
-						draft.grado_especificacion = valor === '' ? null : (valor as 'general' | 'especifica');
-						if (draft.grado_especificacion === 'general') draft.seleccionable = true;
-					}}
-				>
-					<option value="especifica">Específica</option>
-					<option value="general">General</option>
-				</select>
 			</label>
 			<label class="inline-flex items-center gap-2">
 				<input type="checkbox" bind:checked={draft.activo} />

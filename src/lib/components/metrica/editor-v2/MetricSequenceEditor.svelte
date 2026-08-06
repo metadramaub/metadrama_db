@@ -1076,7 +1076,7 @@
 								<optgroup label="Formas métricas">
 									{#each metricForms as form (form.forma_id)}
 										<option value={form.forma_id}>
-											{form.nombre}{form.grado_especificacion === 'general' ? ' · general' : ''}
+											{form.nombre}
 										</option>
 									{/each}
 								</optgroup>

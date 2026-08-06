@@ -50,7 +50,6 @@ function hipotesis(
 		formaNombre,
 		formaDefinicion: null,
 		nivelEstructural: 'estrofa',
-		gradoEspecificacion: 'especifica',
 		arquitecturaId: `${formaId}:arquitectura`,
 		arquitecturaSlug: 'principal',
 		arquitecturaNombre,
