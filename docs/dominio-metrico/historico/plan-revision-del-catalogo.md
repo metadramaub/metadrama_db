@@ -1,14 +1,17 @@
-# Plan de revisión del catálogo
+# Plan de revisión del catálogo · archivado
 
-Estado: **A hecho · B/C en curso · D se resuelve por el camino** · 5 de agosto de 2026
+Archivado el 6 de agosto de 2026. Escrito el 5, antes de empezar la revisión.
 
-> **La cuenta de formas revisadas no está aquí**, sino en
-> [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md), que es donde se lleva.
-> Este documento conserva **por qué el orden es A → B/C → D** y el registro de la fase A, ya
-> cerrada. Se escribió antes de empezar y no se actualiza forma por forma.
+> **Este documento ya no dirige nada.** El método vigente y el estado de la revisión están en
+> [revision-del-catalogo-estado.md](../revision-del-catalogo-estado.md), donde se fundió lo que
+> seguía valiendo.
+>
+> Se conserva porque es **el diario de la fase A** —la normalización de nombres y la corrección
+> de la caja de la rima, con las once posiciones que estaban al revés y el porqué de cada una—,
+> y porque explica **por qué el orden fue A → B/C → D**. Lo que dice de las fases B/C y D está
+> superado: sus cuentas eran de aquel día y sus «hay que decidir» ya se decidieron.
 
-Qué queda por hacer sobre el catálogo métrico, en qué orden y por qué ese orden. Se escribió
-antes de empezar para que la sesión que lo retome no tenga que reconstruir el razonamiento.
+Qué quedaba por hacer sobre el catálogo métrico, en qué orden y por qué ese orden.
 
 ## El orden importa, y es este
 
@@ -104,7 +107,7 @@ comprobación queda en la migración para que no vuelva a colarse.
 ### El estado anterior, para referencia
 
 La convención ya está fijada en
-[la revisión de nomenclatura](./historico/revision-nomenclatura.md): **adjetivo en `-ico`**
+[la revisión de nomenclatura](./revision-nomenclatura.md): **adjetivo en `-ico`**
 para las arquitecturas, slug en minúsculas sin tildes, y el nombre no repite el de la forma
 —«Octosilábica», no «Redondilla octosilábica»—.
 
@@ -177,7 +180,7 @@ registro, no de la quintilla.
 | `estructuras_secciones.nota`, `arquitectura_rasgos.nota` | Precisión sobre una parte o un rasgo |
 | `afirmaciones_fuentes_metricas` | Lo que **una fuente** dice, con localizador y confianza |
 
-Lo que hay que cazar está en [dónde vive la prosa](./donde-vive-la-prosa.md): definiciones que
+Lo que hay que cazar está en [dónde vive la prosa](../donde-vive-la-prosa.md): definiciones que
 son decisiones, descripciones que repiten la definición, y el porqué que hoy solo vive en
 `revisiones-formas/`.
 
@@ -220,7 +223,7 @@ Por lo que más pesa en el corpus, que es donde un error costaría más caro:
 ### Lo que las dos primeras enseñaron
 
 Tres cosas que no estaban en el plan y valen para las 31 restantes. Las tres están escritas
-como norma en [dónde vive la prosa](./donde-vive-la-prosa.md).
+como norma en [dónde vive la prosa](../donde-vive-la-prosa.md).
 
 1. **No escribir lo que la ficha deriva.** El romance decía dos veces, seguidas, que la
    asonancia se conserva: una en la descripción del esquema y otra en la nota del enlace, que

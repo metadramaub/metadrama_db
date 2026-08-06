@@ -30,7 +30,7 @@ Al terminar, cada forma debe tener:
 
 | Fuente | Volcado en `bibliografía/txt/` |
 | --- | --- |
-| Morley y Bruerton 1968, *Cronología de las comedias de Lope de Vega* | no hay volcado |
+| Morley y Bruerton 1968, *Cronología de las comedias de Lope de Vega* | sus definiciones, ya en `.md` |
 | Quilis 1969, *Métrica española* | `Quilis-1969-metrica-espanola.txt` |
 | Navarro Tomás 1972, *Métrica española* | `Navarro-Tomas-1972-metrica-espanola.txt` |
 | Domínguez Caparrós 2014, *Métrica española* | `Dominguez-Caparros-2014-metrica-espanola.txt` |
@@ -40,10 +40,20 @@ Al terminar, cada forma debe tener:
 **El fichero del Diccionario dice 1999 en su nombre y es la 3.ª edición de 2016.** El nombre
 está mal; la fuente en la base es correcta.
 
+El directorio `bibliografía/` está fuera de git. Si faltan los volcados se regeneran con
+`pdftotext -layout -enc UTF-8`; el epub de Jauralde se extrajo descomprimiéndolo y limpiando
+etiquetas. **`metrica-clasificacion.pdf` no sirve para esto**: es un artículo sobre repertorios
+métricos, no un manual de definiciones.
+
+**Morley y Bruerton describen a Lope**, no el Siglo de Oro entero, y el catálogo es
+deliberadamente más amplio en varios puntos —la redondilla cruzada, la copla real—. Esa
+diferencia se registra como afirmación propia; no es un desacuerdo que haya que ocultar.
+
 Antes había once fuentes. Las otras cinco se retiraron porque no cumplían el criterio de
 autoridad —publicación bibliográfica académica identificable—, y con ellas se fueron siete
 afirmaciones que aún no se han recuperado en las seis autorizadas: villancico, redondilla
-doble, zéjel, copla de pie quebrado, copla real y décima. **Eso sigue pendiente.**
+doble, zéjel, copla de pie quebrado, copla real y décima. **Eso sigue pendiente**, y se
+resuelve al revisar cada una de esas formas.
 
 ### Cómo se localiza un pasaje
 
@@ -136,6 +146,32 @@ que se escribe en el catálogo. Los tres que más se olvidan:
 - **Los títulos de obra van en cursiva**, con Markdown: la prosa del catálogo lo admite y la
   ficha lo renderiza.
 
+### Qué buscar en cada forma, además de las fuentes
+
+1. **Definiciones que son decisiones del proyecto.** «El catálogo reconoce realizaciones de
+   seis, siete y ocho sílabas» es una decisión, no una definición de la redondilla: su sitio es
+   la descripción de cada arquitectura.
+2. **Descripciones que repiten la definición** de su forma, palabra por palabra o casi.
+3. **Razonamientos que solo viven en la ficha `.md`** y no en el dato. Si merecen sobrevivir,
+   su sitio es el catálogo; si no, se van con la ficha.
+4. **Dónde el proyecto se aparta de la bibliografía**, que merece afirmación propia.
+5. **Las afirmaciones perdidas** con las cinco fuentes retiradas, si la forma es una de las
+   seis afectadas.
+
+### Lo que un cambio en el catálogo puede romper
+
+| | Cómo se comprueba |
+| --- | --- |
+| **Catálogo público** `/formas` | Se genera del dato: cambia solo |
+| **Demarcador** | Se compila del catálogo; subir `catalogo_metrico_estado.revision` lo marca desactualizado |
+| **Editor V2** | Lee nombres de opciones y esquemas: un renombrado se ve ahí |
+| **Equivalencias** | `select via, count(*) from propuesta_metrica_secuencia group by via` — deben seguir siendo 212 |
+| **Respuestas propuestas** | `select count(*) from propuesta_elecciones_secuencia` — deben seguir siendo 91 |
+
+**Y una regla que vale para todo**: no fiarse de las migraciones para saber qué hay. Consultar
+siempre el catálogo en vivo y leer el esquema de las tablas antes de sacar conclusiones. Las
+migraciones solo cuentan lo que pasó aquel día.
+
 ---
 
 ## Lo que esta revisión ha cambiado en el modelo
@@ -174,8 +210,9 @@ mayor. Está anotado en [cuestiones para el IP](./revisiones-formas/cuestiones-p
   lo que sigue sin decidir. Se poda a medida que se resuelve.
 - [informe-conformidad-catalogo.md](./informe-conformidad-catalogo.md) — se regenera con
   `npm run audit:metrica`.
-- [plan-revision-del-catalogo.md](./plan-revision-del-catalogo.md) — el orden A/B/C/D y el
-  registro de lo ya hecho en la fase A.
+- [historico/plan-revision-del-catalogo.md](./historico/plan-revision-del-catalogo.md) — el
+  diario de la fase A, ya cerrada: la normalización de nombres y la corrección de la caja de la
+  rima. Archivado; su método vigente está fundido en este documento.
 
 Las fichas `.md` de `revisiones-formas/` **están en retirada**: quedan solo las de las formas
 sin revisar, y cada una desaparece cuando su forma se absorbe en el catálogo. Una ficha que

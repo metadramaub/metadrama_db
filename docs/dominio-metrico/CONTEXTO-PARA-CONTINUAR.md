@@ -154,8 +154,7 @@ Leer solo lo necesario para la tarea:
    todavía no declaran su destino en el catálogo. Es lo que hay que cerrar antes del backfill.
 5bis-1. [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md): **el trabajo en
    curso**. Qué formas están contrastadas con las seis fuentes, cuáles faltan, el procedimiento
-   y el orden. Su antecedente, [el plan](./plan-revision-del-catalogo.md), conserva el porqué
-   del orden A/B/C/D y el registro de la fase A, ya cerrada.
+   y el orden. Es el único sitio donde se lleva esa cuenta.
 5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de
    redacción que rigen todo lo que se escribe en el catálogo, y dónde va cada cosa —definición,
    descripción, nota—.
@@ -194,7 +193,8 @@ se completó el 31. Lo que sigue:
 2. Vocabulario unificado: **completo**. Una escala de modalidad, un tipo de secuencia, el
    ámbito reducido a unidad y sección.
 3. Contraste del catálogo por rasgos y no por nombres: **hecho**, y actuado. Lo que salió de
-   ahí está en la [auditoría](./auditoria-catalogo.md), con lo aplicado marcado.
+   ahí está aplicado; el razonamiento, en la
+   [auditoría archivada](./historico/auditoria-catalogo.md).
 4. **Revisión del catálogo contra las fuentes: en curso, 12 formas de 28.** Es el trabajo de
    ahora mismo, y su estado está en
    [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Va destapando además
