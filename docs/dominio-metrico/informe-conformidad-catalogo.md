@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-01 10:56
+Generado: 2026-08-07 12:49
 
-Inventario: 27 formas y 2 tramos sin forma · 49 configuraciones · 52 patrones métricos · 69 patrones de rima · 57 secciones · 59 grupos de elección · 359 opciones · 6 rasgos.
+Inventario: 27 formas y 2 tramos sin forma · 53 configuraciones · 57 patrones métricos · 75 patrones de rima · 59 secciones · 60 grupos de elección · 400 opciones · 6 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -38,11 +38,16 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D5 · La opción distingue menos posiciones que el patrón al que apunta — 0
+### D5 · La opción distingue menos posiciones que el patrón al que apunta — 4
 
 > El patrón debe modelar el nivel que la pregunta distingue; si la opción nombra un esquema más corto, la alternativa vive en un nivel inferior.
 
-Sin incidencias.
+| Sujeto | Detalle |
+| --- | --- |
+| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDEDCE» (6) apunta a «CDE DCE» (7), ámbito seccion |
+| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDCEDE» (6) apunta a «CDC EDE» (7), ámbito seccion |
+| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDECDE» (6) apunta a «CDE CDE» (7), ámbito seccion |
+| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDCDCD» (6) apunta a «CDC DCD» (7), ámbito seccion |
 
 ### D6 · Slug de opción con UUID incrustado — 0
 
@@ -68,17 +73,9 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D10 · Coherencia del tipo de registro — 0
+### D10 · Coherencia del tipo de registro y del grado de especificación — 0
 
-> Un tramo sin forma no tiene arquitectura; toda forma con norma declara al menos una.
-
-**Cambiado el 5 de agosto de 2026.** Esta comprobación miraba antes el grado de
-especificación, que se retiró del catálogo: su propósito —ordenar las hipótesis del
-demarcador— nunca se implementó, y la regla que lo usaba, «una forma general no puede ser
-subtipo de una específica», no podía dispararse porque no hay ninguna relación `subtipo_de`.
-La clasificación que queda es `nivel_estructural`, y el criterio que excluye a «Verso aislado»
-y «Versificación irregular» de tener arquitectura es `tipo_registro = 'sin_forma'`, que es su
-razón verdadera.
+> Un tramo sin forma no tiene arquitectura. Y la taxonomía va en una sola dirección: lo específico es subtipo de lo general, nunca al revés.
 
 Sin incidencias.
 
@@ -102,13 +99,12 @@ Sin incidencias.
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
 | cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
-| copla_de_pie_quebrado ·gral | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
-| copla_real | estrofa | 1 | sí | eleccion | elección, sin patrón | 3 | unidad |
+| copla_de_pie_quebrado | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
+| copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | cuarteto | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
-| decima_aumentada | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| decima_espinela | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
+| decima | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
 | endecasilabo_suelto | serie | 1 | sí | posiciones | patrón único | 2 | secuencia |
-| endecha_real | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
+| endecha_real | serie | 3 | sí | configuracion, posiciones | elección, patrón único | 4 | secuencia |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
 | octava_real | estrofa | 1 | sí | posiciones | patrón único | 1 | secuencia |
@@ -117,25 +113,26 @@ Sin incidencias.
 | redondilla | estrofa | 4 | sí | configuracion, posiciones | elección, patrón único | 3 | unidad |
 | romance | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
 | seguidilla | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
-| sexteto ·gral | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
+| sexteto | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
 | sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
-| sextina | composicion | 2 | sí | posiciones | sin patrón | 0 | — |
+| sextina | composicion | 3 | sí | posiciones | sin patrón | 0 | — |
+| sextina_estrofa | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | silva | serie | 4 | sí | configuracion, conjunto, posiciones | patrón único | 1 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
-| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 15 | unidad |
-| zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 5 | unidad |
+| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 13 | unidad |
+| zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 4 | unidad |
 
 ### 2.2 · Reparto de la medida
 
 | Vía | Formas |
 | --- | --- |
-| configuracion (6) | redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
+| configuracion (7) | endecha_real, redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
 | conjunto (6) | cancion_petrarquista, copla_de_pie_quebrado, pareado, silva, villancico, zejel |
 | eleccion (6) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
-| posiciones (22) | cancion_petrarquista, copla_de_arte_mayor, cuarteto, decima_aumentada, decima_espinela, endecasilabo_suelto, endecha_real, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, silva, soneto, terceto, terceto_encadenado |
+| posiciones (23) | cancion_petrarquista, copla_de_arte_mayor, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
 
@@ -143,8 +140,9 @@ Sin incidencias.
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
 | metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
-| rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, octava_real, romance, sexteto_lira, silva, soneto, terceto |
+| rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_real, romance, sexteto_lira, silva, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
+| rima · secuencia | endecha_real |
 | rima · unidad | cancion_petrarquista, copla_de_arte_mayor, copla_real, cuarteto, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
@@ -152,7 +150,7 @@ Sin incidencias.
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
 | seccion | 12 | cancion_petrarquista×4, soneto×4, villancico×4 |
-| unidad | 57 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima_aumentada×1, decima_espinela×1, endecasilabo_suelto×1, endecha_real×1, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, silva×4, terceto×2, terceto_encadenado×2, zejel×1 |
+| unidad | 63 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×6, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, sextina_estrofa×1, silva×4, terceto×2, terceto_encadenado×2, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -180,15 +178,15 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
-| -a-a | endecha_real, seguidilla |
+| aa | cancion_petrarquista, pareado×2 |
 | abab | redondilla×3, villancico×2 |
 | abba | redondilla×3, villancico×2 |
 
 ## 3 · Cobertura del contrato del registrador
 
-Formas sin contrato editorial declarado (2): cuarteto, endecha_real.
+Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 0.
+Total de defectos detectados: 4.
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PublicFormSummary } from '$lib/metrica/formas-publicas.types';
+	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
 	import { renderInlineMarkdown } from '$lib/utils/markdown';
 
 	/**
@@ -143,7 +144,7 @@
 					<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
 						<h2 class="font-display text-xl">{forma.nombre}</h2>
 						<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-							{forma.nivelEstructural}
+							{metricStructuralLevelLabel(forma.nivelEstructural)}
 						</span>
 						{#if forma.arquitecturas > 0}
 							<span class="text-xs text-[color:var(--muted-foreground)]">

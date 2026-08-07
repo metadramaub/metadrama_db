@@ -5,6 +5,7 @@
 	} from './MetricEntityCollection.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
+		metricFormLabel,
 		metricReviewStateLabel,
 		type MetricCatalogDomainRow,
 		type MetricCatalogDomainData,
@@ -23,7 +24,7 @@
 		label: metricReviewStateLabel(state)
 	}));
 	const formOptions = $derived(
-		props.forms.map((form: MetricCatalogForm) => ({ value: form.forma_id, label: form.nombre }))
+		props.forms.map((form: MetricCatalogForm) => ({ value: form.forma_id, label: metricFormLabel(form) }))
 	);
 	const traditionOptions = $derived(
 		props.domain.traditions.map((row: MetricCatalogDomainRow) => ({
@@ -40,7 +41,7 @@
 	const denominationTargetOptions = $derived<MetricEntityOption[]>([
 		...props.forms.map((form: MetricCatalogForm) => ({
 			value: `forma_id:${form.forma_id}`,
-			label: `Forma · ${form.nombre}`
+			label: `Forma · ${metricFormLabel(form)}`
 		})),
 		...props.configurations.map((configuration: MetricCatalogConfiguration) => ({
 			value: `arquitectura_id:${configuration.arquitectura_id}`,

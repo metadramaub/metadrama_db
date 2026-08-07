@@ -92,7 +92,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Sexteto | 1 | 1 | **pendiente** |
 | Sexteto-lira | 1 | 1 | **pendiente** |
 | Sextilla | 1 | 1 | **pendiente** |
-| Sextina | 1 | 1 | **pendiente** |
+| Sextina (estrofa y composición) | 6 | 7 | revisada |
 | Villancico | 1 | 1 | **pendiente** |
 | Copla de pie quebrado | 6 | 6 | revisada |
 | Copla real | 0 | 0 | **pendiente** |
@@ -107,8 +107,8 @@ norma que contrastar; se revisan al final, con él.
 
 ### Orden sugerido para continuar
 
-Las de estructura media primero, que son las más rápidas: **copla de pie quebrado, sextina,
-novena, seguidilla**. Luego las compuestas: **villancico, zéjel, canción petrarquista,
+Las de estructura media primero, que son las más rápidas: **novena, seguidilla**. Luego las
+compuestas: **villancico, zéjel, canción petrarquista,
 sextilla, sexteto, sexteto-lira, copla real, copla de arte mayor**. Y al final el
 **endecasílabo suelto** con los dos tramos sin forma.
 
@@ -194,10 +194,23 @@ No estaba previsto, pero recorrer el catálogo destapó cosas del modelo. Todas 
 **Los esquemas abiertos necesitan una representación paramétrica general.** Las formas muy
 estructuradas declaran medidas y rimas por posición; las más libres acaban repartiendo su
 norma entre conjuntos permitidos, prosa y preguntas editoriales declaradas a mano. Cuando
-termine la revisión filológica de las 28 formas, hay que comparar juntas todas estas formas
+termine la revisión filológica de las 27 formas, hay que comparar juntas todas estas formas
 difíciles y diseñar restricciones computables —sin enumerar cada realización posible y sin
 debilitar el modelo posicional de las formas fijas—. No se resolverá este problema adaptando
 el modelo por separado a cada forma durante la revisión.
+
+**La modalidad y la primacía necesitan una lectura transversal.** Al terminar la revisión de
+las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,
+`preferente`, `admitida`, `excepcional`, etc.— significan y se usan igual en todo el catálogo,
+y aclarar qué relación existe entre ambos mecanismos. No se normalizarán forma por forma.
+
+**Hay que precisar qué hereda y qué puede restringir una reutilización.** El soneto reutiliza
+el terceto aunque determina la rima de sus dos secciones, mientras el remate de la sextina
+coincide con él en medida y extensión pero no en su norma consonante. Al cerrar la revisión
+hay que auditar juntas todas las secciones reutilizadas y decidir si una composición puede
+sobrescribir explícitamente parte de la arquitectura referenciada, si `Terceto` debe tener una
+definición más amplia o si hace falta otra relación. No se corregirá un caso aislado antes de
+resolver el significado general de la reutilización.
 
 **La caja de las letras no es la clase de rima.**
 

@@ -305,7 +305,7 @@
 							>
 								<span class="block text-sm font-medium">{form.nombre}</span>
 								<span class="mt-0.5 block text-xs text-[color:var(--muted-foreground)]">
-									{metricReviewStateLabel(form.estado_revision)}
+									{metricStructuralLevelLabel(form.nivel_estructural)} · {metricReviewStateLabel(form.estado_revision)}
 									{form.tipo_registro === 'sin_forma' ? ' · tramo sin forma' : ''}
 								</span>
 							</button>

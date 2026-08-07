@@ -5,6 +5,7 @@
 	} from './MetricEntityCollection.svelte';
 	import {
 		METRIC_CATALOG_REVIEW_STATES,
+		metricFormLabel,
 		metricReviewStateLabel,
 		type MetricCatalogConfiguration,
 		type MetricCatalogDomainData,
@@ -46,8 +47,12 @@
 		}))
 	);
 	const formOptions = $derived(
-		props.forms.map((form: MetricCatalogForm) => ({ value: form.forma_id, label: form.nombre }))
+		props.forms.map((form: MetricCatalogForm) => ({ value: form.forma_id, label: metricFormLabel(form) }))
 	);
+	function formLabel(formId: string): string {
+		const form = props.forms.find((candidate: MetricCatalogForm) => candidate.forma_id === formId);
+		return form ? metricFormLabel(form) : 'Forma';
+	}
 	const traditionOptions = $derived(
 		props.domain.traditions.map((row: MetricCatalogDomainRow) => ({
 			value: String(row.tradicion_id),
@@ -57,7 +62,7 @@
 	const configurationOptions = $derived(
 		props.configurations.map((row: MetricCatalogConfiguration) => ({
 			value: row.arquitectura_id,
-			label: `${props.forms.find((form: MetricCatalogForm) => form.forma_id === row.forma_id)?.nombre ?? 'Forma'}: ${row.nombre}`
+			label: `${formLabel(String(row.forma_id))}: ${row.nombre}`
 		}))
 	);
 	const metricPatternOptions = $derived(

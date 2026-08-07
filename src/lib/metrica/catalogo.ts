@@ -235,3 +235,10 @@ export function metricStructuralLevelLabel(level: MetricStructuralLevel): string
 	if (level === 'serie') return 'Serie no estrófica';
 	return 'Composición de estructura fija';
 }
+
+/** Desambigua formas homónimas, como Sextina estrofa y Sextina composición. */
+export function metricFormLabel(
+	form: Pick<MetricCatalogForm, 'nombre' | 'nivel_estructural'>
+): string {
+	return `${form.nombre} · ${metricStructuralLevelLabel(form.nivel_estructural)}`;
+}
