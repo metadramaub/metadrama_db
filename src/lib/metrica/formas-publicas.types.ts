@@ -95,6 +95,8 @@ export type PublicSection = {
 	repeticionesMax: number | null;
 	/** Cuando la sección reutiliza el repertorio de otra forma, cuál. */
 	reutiliza: string | null;
+	/** Secciones contenidas, conservando la jerarquía declarada en el catálogo. */
+	hijas: PublicSection[];
 };
 
 export type PublicTrait = {

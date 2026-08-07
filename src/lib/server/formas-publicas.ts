@@ -141,7 +141,7 @@ export async function loadPublicForm(
 		fuentes,
 		relaciones,
 		repeticiones
-	} = await cargarAgrupado(db, 'get_forma_metrica_publica', { p_slug: slug });
+	} = await cargarAgrupado(db, 'get_forma_metrica_publica_jerarquica', { p_slug: slug });
 
 	const forma = (formas as any[]).find((row) => String(row.slug) === slug);
 	if (!forma) return null;
@@ -341,6 +341,51 @@ export async function loadPublicForm(
 		return esquemas.map((e) => ({ ...e, deLaSeccion: nombreSeccion ?? null }));
 	};
 
+	/** Reconstruye el árbol porque `orden` solo ordena hermanos, no todas las filas juntas. */
+	const seccionesDe = (arquitecturaId: string): PublicSection[] => {
+		const filas = seccionesPor.get(arquitecturaId) ?? [];
+		const ordenPorId = new Map<string, number>();
+		const nodos = new Map<string, PublicSection>();
+
+		for (const s of filas) {
+			const id = String(s.seccion_id);
+			ordenPorId.set(id, Number(s.orden ?? 0));
+			nodos.set(id, {
+				id,
+				nombre: String(s.nombre),
+				nota: texto(s.nota),
+				versosMin: numero(s.versos_min),
+				versosMax: numero(s.versos_max),
+				repeticionesMin: numero(s.repeticiones_min),
+				repeticionesMax: numero(s.repeticiones_max),
+				reutiliza: s.arquitectura_referenciada_id
+					? (nombreArquitectura.get(String(s.arquitectura_referenciada_id)) ?? null)
+					: null,
+				esquemasRima: rimaDeSeccion(s.seccion_id, String(s.nombre)),
+				hijas: []
+			});
+		}
+
+		const raices: PublicSection[] = [];
+		for (const s of filas) {
+			const nodo = nodos.get(String(s.seccion_id));
+			if (!nodo) continue;
+			const padre = s.seccion_padre_id ? nodos.get(String(s.seccion_padre_id)) : null;
+			if (padre) padre.hijas.push(nodo);
+			else raices.push(nodo);
+		}
+
+		const ordenar = (lista: PublicSection[]): PublicSection[] =>
+			lista
+				.sort(
+					(a, b) =>
+						(ordenPorId.get(a.id) ?? 0) - (ordenPorId.get(b.id) ?? 0) || porNombre(a, b)
+				)
+				.map((seccion) => ({ ...seccion, hijas: ordenar(seccion.hijas) }));
+
+		return ordenar(raices);
+	};
+
 
 	const misArquitecturas: PublicArchitecture[] = (arquitecturas as any[])
 		.filter((row) => String(row.forma_id) === formaId)
@@ -374,28 +419,8 @@ export async function loadPublicForm(
 				// de `ambito = 'seccion'`, y esa es la pista para ponerlos bajo su parte en vez
 				// de dejarlos sueltos.
 				esquemasRima: rimaAgrupadaPorParte(id),
-				secciones: (seccionesPor.get(id) ?? []).map((s) => ({
-					id: String(s.seccion_id),
-					nombre: String(s.nombre),
-					nota: texto(s.nota),
-					versosMin: numero(s.versos_min),
-					versosMax: numero(s.versos_max),
-					repeticionesMin: numero(s.repeticiones_min),
-					repeticionesMax: numero(s.repeticiones_max),
-					reutiliza: s.arquitectura_referenciada_id
-						? (nombreArquitectura.get(String(s.arquitectura_referenciada_id)) ?? null)
-						: null,
-					// La rima de una sección son **las disposiciones que esa sección admite**, que
-					// el catálogo declara como opciones de su grupo de elección. Sin esto, las dos
-					// de los cuartetos del soneto no se leían en ninguna parte: pertenecen a la
-					// arquitectura del cuarteto endecasílabo, que el soneto reutiliza en vez de
-					// duplicar, y la ficha agrupa los esquemas por arquitectura.
-					//
-					// No sirve traer el repertorio entero de la arquitectura referenciada: el
-					// terceto admite `-AA` y `A-A`, que en un soneto no existen. El grupo de
-					// elección es justo el recorte que hace falta.
-					esquemasRima: rimaDeSeccion(s.seccion_id, String(s.nombre))
-				})),
+				// El árbol conserva contenedores y ordena cada grupo de hermanos por separado.
+				secciones: seccionesDe(id),
 				variedades: (variedadesPor.get(id) ?? []).map((v) => ({
 					nombre: String(v.nombre),
 					notacion: null,

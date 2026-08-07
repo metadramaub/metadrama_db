@@ -8,11 +8,11 @@
 		PublicSchemePart,
 		PublicRhymeScheme,
 		PublicScheme,
-		PublicSection,
 		PublicSourceClaim,
 		PublicTrait
 	} from '$lib/metrica/formas-publicas.types';
 	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
+	import PublicFormSectionTree from '$lib/components/metrica/PublicFormSectionTree.svelte';
 	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
 
 	/**
@@ -30,14 +30,6 @@
 			return min === max ? `${min} versos` : `de ${min} a ${max} versos`;
 		}
 		return min != null ? `desde ${min} versos` : `hasta ${max} versos`;
-	}
-
-	function repeticiones(seccion: PublicSection): string | null {
-		const { repeticionesMin: min, repeticionesMax: max } = seccion;
-		if (min == null && max == null) return null;
-		if (max == null) return `${min ?? 0} o más`;
-		if (min === max) return String(min);
-		return `de ${min ?? 0} a ${max}`;
 	}
 
 	/**
@@ -126,14 +118,6 @@
 			return `El verso ${enlace.desde} conserva su rima en cada ${bloque}.`;
 		}
 		return `La rima del verso ${enlace.desde} vuelve en el verso ${enlace.hasta} del ${destino}.`;
-	}
-
-	function versos(seccion: PublicSection): string | null {
-		const { versosMin: min, versosMax: max } = seccion;
-		if (min == null && max == null) return null;
-		if (max == null) return `${min} o más versos`;
-		if (min === max) return `${min} versos`;
-		return `de ${min} a ${max} versos`;
 	}
 
 	function nombreRepeticion(repeticion: PublicRepetition): string {
@@ -293,25 +277,7 @@
 						{#if arquitectura.secciones.length > 0}
 							<div class="mt-5">
 								<h4 class="text-sm font-semibold">Partes</h4>
-								<ul class="mt-2 space-y-2 text-sm">
-									{#each arquitectura.secciones as seccion (seccion.id)}
-										<li class="border-l-2 border-[color:var(--border)] pl-3">
-											<span class="font-medium">{seccion.nombre}</span>
-											{#if versos(seccion) || repeticiones(seccion)}
-												<span class="text-[color:var(--muted-foreground)]">
-													· {[versos(seccion), repeticiones(seccion) ? `×${repeticiones(seccion)}` : null]
-														.filter(Boolean)
-														.join(' ')}
-												</span>
-											{/if}
-											{#if seccion.nota}
-												<span class="block text-[color:var(--muted-foreground)]">
-													{@html renderInlineMarkdown(seccion.nota)}
-												</span>
-											{/if}
-										</li>
-									{/each}
-								</ul>
+								<PublicFormSectionTree sections={arquitectura.secciones} />
 							</div>
 						{/if}
 
