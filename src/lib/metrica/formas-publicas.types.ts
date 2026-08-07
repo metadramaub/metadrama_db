@@ -100,6 +100,14 @@ export type PublicTrait = {
 	nota: string | null;
 };
 
+/** Una regla de recurrencia declarada por la arquitectura. */
+export type PublicRepetition = {
+	tipo: string;
+	regla: string;
+	modalidad: string | null;
+	descripcion: string | null;
+};
+
 export type PublicArchitecture = {
 	slug: string;
 	nombre: string;
@@ -113,6 +121,7 @@ export type PublicArchitecture = {
 	secciones: PublicSection[];
 	variedades: PublicScheme[];
 	rasgos: PublicTrait[];
+	repeticiones: PublicRepetition[];
 	denominaciones: string[];
 };
 

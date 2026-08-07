@@ -12,6 +12,7 @@ import type {
 	PublicArchitecture,
 	PublicFormDetail,
 	PublicFormSummary,
+	PublicRepetition,
 	PublicRhymeScheme,
 	PublicSchemePart,
 	PublicSource
@@ -22,7 +23,10 @@ import type { MetricStructuralLevel } from '$lib/metrica/catalogo';
 const porNombre = (a: { nombre: string }, b: { nombre: string }) =>
 	a.nombre.localeCompare(b.nombre, 'es', { numeric: true });
 
-type UntypedSupabaseClient = { from: (table: string) => any };
+type UntypedSupabaseClient = {
+	from: (table: string) => any;
+	rpc: (fn: string, args?: Record<string, unknown>) => any;
+};
 type QueryError = { code?: string; message: string } | null;
 
 function throwQueryError(context: string, error: QueryError): void {
@@ -50,93 +54,23 @@ function agrupar<T>(rows: T[], clave: (row: T) => string | null): Map<string, T[
 	return grupos;
 }
 
-async function cargarTodo(db: UntypedSupabaseClient) {
-	const consultas = {
-		formas: db
-			.from('formas_metricas')
-			.select(
-				'forma_id,slug,nombre,definicion,tipo_registro,nivel_estructural,orden'
-			)
-			.eq('activo', true)
-			.order('nombre'),
-		arquitecturas: db
-			.from('arquitecturas_forma')
-			.select(
-				'arquitectura_id,forma_id,slug,nombre,descripcion,principal,modalidad,unidad_versos_min,unidad_versos_max,tipo_rima_id,orden'
-			)
-			.eq('activo', true)
-			.order('orden'),
-		esquemasMetricos: db.from('esquemas_metricos').select('arquitectura_id,nombre,descripcion'),
-		esquemasRima: db
-			.from('esquemas_rima')
-			.select('esquema_rima_id,arquitectura_id,nombre,notacion,descripcion,ambito'),
-		enlacesRima: db
-			.from('esquema_rima_enlaces')
-			.select('esquema_rima_id,posicion_origen,posicion_destino,desplazamiento_bloque,nota'),
-		posicionesRima: db
-			.from('esquema_rima_posiciones')
-			.select('esquema_rima_id,bloque,posicion,seccion,nota')
-			.not('seccion', 'is', null)
-			.order('bloque')
-			.order('posicion'),
-		secciones: db
-			.from('estructuras_secciones')
-			.select(
-				'seccion_id,arquitectura_id,nombre,nota,versos_min,versos_max,repeticiones_min,repeticiones_max,arquitectura_referenciada_id,orden'
-			)
-			.order('orden'),
-		gruposEleccion: db
-			.from('grupos_eleccion_metrica')
-			.select('grupo_eleccion_id,seccion_id,dimension')
-			.eq('activo', true),
-		opcionesEleccion: db
-			.from('opciones_eleccion_metrica')
-			.select('grupo_eleccion_id,esquema_rima_id,nombre,orden')
-			.order('orden'),
-		variedades: db
-			.from('variedades_arquitectura')
-			.select('arquitectura_id,nombre,descripcion,orden')
-			.eq('activo', true)
-			.order('orden'),
-		arquitecturaRasgos: db
-			.from('arquitectura_rasgos')
-			.select('arquitectura_id,rasgo_id,valor_id,modalidad,nota'),
-		rasgos: db.from('rasgos_metricos').select('rasgo_id,nombre'),
-		valores: db.from('rasgo_valores').select('valor_id,nombre'),
-		tiposRima: db
-			.from('vocabularios')
-			.select('termino_id,termino,etiqueta')
-			.eq('categoria', 'tipo_rima'),
-		denominaciones: db
-			.from('denominaciones_metricas')
-			.select('forma_id,arquitectura_id,esquema_rima_id,nombre,preferente'),
-		tradiciones: db.from('tradiciones_metricas').select('tradicion_id,nombre'),
-		formasTradiciones: db.from('formas_tradiciones').select('forma_id,tradicion_id'),
-		afirmaciones: db
-			.from('afirmaciones_fuentes_metricas')
-			.select('fuente_id,forma_id,arquitectura_id,localizador,resumen,confianza'),
-		fuentes: db.from('fuentes_metricas').select('fuente_id,cita,autoria,titulo,anio'),
-		relaciones: db
-			.from('forma_relaciones')
-			.select('forma_origen_id,forma_destino_id,tipo_relacion,nota')
-	};
+type RawPublicFormData = Record<string, any[]>;
 
-	const claves = Object.keys(consultas) as (keyof typeof consultas)[];
-	const respuestas = await Promise.all(claves.map((clave) => consultas[clave]));
-
-	const datos = {} as Record<keyof typeof consultas, any[]>;
-	claves.forEach((clave, indice) => {
-		throwQueryError(`No se pudo cargar el catálogo de formas (${clave})`, respuestas[indice].error);
-		datos[clave] = respuestas[indice].data ?? [];
-	});
-	return datos;
+async function cargarAgrupado(
+	db: UntypedSupabaseClient,
+	funcion: string,
+	args?: Record<string, unknown>
+): Promise<RawPublicFormData> {
+	const { data, error } = await db.rpc(funcion, args);
+	throwQueryError(`No se pudo cargar el catálogo de formas (${funcion})`, error);
+	return (data ?? {}) as RawPublicFormData;
 }
 
 /** Índice: una línea por forma, con lo justo para buscarla y situarla. */
 export async function loadPublicForms(client: unknown): Promise<PublicFormSummary[]> {
 	const db = client as UntypedSupabaseClient;
 	const { formas, arquitecturas, tiposRima, denominaciones, tradiciones, formasTradiciones } =
-		await cargarTodo(db);
+		await cargarAgrupado(db, 'get_catalogo_formas_publicas');
 
 	const nombreTipoRima = new Map(
 		(tiposRima as any[]).map((row) => [
@@ -205,8 +139,9 @@ export async function loadPublicForm(
 		formasTradiciones,
 		afirmaciones,
 		fuentes,
-		relaciones
-	} = await cargarTodo(db);
+		relaciones,
+		repeticiones
+	} = await cargarAgrupado(db, 'get_forma_metrica_publica', { p_slug: slug });
 
 	const forma = (formas as any[]).find((row) => String(row.slug) === slug);
 	if (!forma) return null;
@@ -308,6 +243,7 @@ export async function loadPublicForm(
 	const seccionesPor = porArquitectura(secciones as any[]);
 	const variedadesPor = porArquitectura(variedades as any[]);
 	const rasgosPor = porArquitectura(arquitecturaRasgos as any[]);
+	const repeticionesPor = porArquitectura(repeticiones as any[]);
 	const denominacionesPorArquitectura = porArquitectura(
 		(denominaciones as any[]).filter((row) => row.arquitectura_id)
 	);
@@ -461,6 +397,14 @@ export async function loadPublicForm(
 					modalidad: texto(r.modalidad),
 					nota: texto(r.nota)
 				})),
+				repeticiones: (repeticionesPor.get(id) ?? []).map(
+					(r): PublicRepetition => ({
+						tipo: String(r.tipo),
+						regla: String(r.regla),
+						modalidad: texto(r.modalidad),
+						descripcion: texto(r.descripcion)
+					})
+				),
 				denominaciones: (denominacionesPorArquitectura.get(id) ?? []).map((d) =>
 					String(d.nombre)
 				)
