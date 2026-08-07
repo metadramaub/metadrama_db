@@ -158,11 +158,19 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 
 ## Villancico
 
-
-1. ¿La mudanza se presenta como una sección de cuatro versos o como dos mudanzas
-   simétricas?
-2. ¿El enlace o vuelta puede tener cualquier extensión desde un verso?
-3. ¿`abba` y `abab` son esquemas cerrados o solo habituales?
+1. Las fuentes describen la mudanza estable de cuatro versos como dos mudanzas simétricas.
+   ¿Conviene segmentar esos dos miembros o conservar una sola sección de cuatro versos que
+   registre internamente su simetría?
+2. Domínguez Caparrós fija una vuelta canónica de tres o cuatro versos, mientras Navarro
+   Tomás documenta ampliaciones y también la supresión del enlace o la vuelta. ¿Separamos
+   esas realizaciones en configuraciones o mantenemos una vuelta abierta y opcional?
+3. Se han formalizado `abba`, `abab` y la asonantada `abcb`. Navarro Tomás documenta además
+   mudanzas excepcionales de seis versos: ¿deben entrar en el catálogo o quedar como
+   desviación?
+4. La configuración con estribillo posterior representa hoy una familia funcional abierta.
+   La fuente autorizada que la sustenta describe de manera concreta una cuarteta octosilábica
+   seguida por un estribillo en cuarteta hexasílaba. ¿La restringimos a esa modalidad moderna
+   o conservamos el alcance general actual?
 
 ## Zéjel
 
