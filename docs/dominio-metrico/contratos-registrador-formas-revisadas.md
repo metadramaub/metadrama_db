@@ -39,7 +39,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Redondilla · octosilábica, heptasilábica o hexasilábica | unidades de 4 versos consonantes de la medida de su arquitectura | disposición `abba` o `abab` | múltiplo de 4; materializa una unidad por cada 4 versos |
 | Redondilla · doble enlazada | unidades de 8 octosílabos, `abba:acca` | nada | múltiplo de 8; materializa una unidad por cada 8 versos |
 | Octava real | 8 endecasílabos consonantes y `ABABABCC` | final esdrújulo, solo si caracteriza | múltiplo de 8 |
-| Novena | 9 octosílabos consonantes y orden de secciones según arquitectura | esquema de la redondilla y de la quintilla en cada unidad | múltiplo de 9; materializa una novena y sus dos partes por cada 9 versos |
+| Novena · formalización provisional de la copla novena | 9 octosílabos consonantes y orden de secciones según arquitectura | esquema de la redondilla y de la quintilla en cada unidad | múltiplo de 9; materializa una novena y sus dos partes por cada 9 versos |
 | Lira | 5 versos, esquema `7-11-7-7-11`, consonancia y `aBabB` | nada | múltiplo de 5 |
 | Sexteto-lira | 6 versos, medidas y rima de cada variedad reconocida | variedad reconocida por estrofa; final esdrújulo si caracteriza | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Sexteto | 6 versos de arte mayor consonantes, de la medida de su arquitectura: 11, 12 o 14 | esquema de rima de cada unidad; `ABABCC` es la variedad llamada sexta rima | múltiplo de 6; materializa una unidad por cada 6 versos |
@@ -89,7 +89,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 - Sextilla: forma, arquitectura de la medida y guardar; en la doble de pie quebrado se
   marca además si la disposición es la manriqueña.
 - Octava real: forma y guardar; el rasgo esdrújulo queda vacío por defecto.
-- Novena: forma, orden de secciones y los dos esquemas de la primera unidad; aplicar a
+- Novena · formalización provisional de la copla novena: forma, orden de secciones y los dos esquemas de la primera unidad; aplicar a
   toda la tirada y cambiar solo las unidades distintas.
 - Lira: forma y guardar; toda la norma se deriva.
 - Sexteto-lira: forma, variedad reconocida de la primera unidad y aplicar a todas; cambiar solo

@@ -1,6 +1,6 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 7 de agosto de 2026 · **13 formas revisadas de 28**
+Actualizado: 7 de agosto de 2026 · **16 formas revisadas de 28**
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -49,6 +49,12 @@ métricos, no un manual de definiciones.
 deliberadamente más amplio en varios puntos —la redondilla cruzada, la copla real—. Esa
 diferencia se registra como afirmación propia; no es un desacuerdo que haya que ocultar.
 
+La revisión de las seis fuentes es **exhaustiva, no selectiva**. Cada fuente que menciona una
+forma recibe su propia afirmación, aunque repita sustancialmente lo dicho por otra. Las
+diferencias, variantes y aspectos no formalizados se destacan en el resumen, pero la
+coincidencia entre autores nunca es motivo para omitir una fuente. Una fuente solo queda fuera
+de una forma cuando, después de revisar el pasaje y su contexto, no la trata.
+
 Antes había once fuentes. Las otras cinco se retiraron porque no cumplían el criterio de
 autoridad —publicación bibliográfica académica identificable—, y con ellas se fueron siete
 afirmaciones que aún no se han recuperado en las seis autorizadas: villancico, redondilla
@@ -87,7 +93,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Terceto | 3 | 3 | revisada · las otras tres fuentes no lo tratan aparte |
 | Canción petrarquista | 1 | 1 | **pendiente** |
 | Copla de arte mayor | 1 | 1 | **pendiente** |
-| Novena | 1 | 1 | **pendiente** |
+| Novena | 4 | 4 | fuentes revisadas · separación y apertura aplazadas |
 | Seguidilla | 1 | 1 | **pendiente** |
 | Sexteto | 1 | 1 | **pendiente** |
 | Sexteto-lira | 1 | 1 | **pendiente** |
@@ -107,7 +113,7 @@ norma que contrastar; se revisan al final, con él.
 
 ### Orden sugerido para continuar
 
-Las de estructura media primero, que son las más rápidas: **novena, seguidilla**. Luego las
+Las de estructura media primero, que son las más rápidas: **seguidilla**. Luego las
 compuestas: **villancico, zéjel, canción petrarquista,
 sextilla, sexteto, sexteto-lira, copla real, copla de arte mayor**. Y al final el
 **endecasílabo suelto** con los dos tramos sin forma.
@@ -198,6 +204,14 @@ termine la revisión filológica de las 27 formas, hay que comparar juntas todas
 difíciles y diseñar restricciones computables —sin enumerar cada realización posible y sin
 debilitar el modelo posicional de las formas fijas—. No se resolverá este problema adaptando
 el modelo por separado a cada forma durante la revisión.
+
+**La Novena general y la copla novena deben separarse al resolver ese modelo abierto.**
+Caparrós y el *Diccionario* llaman novena a cualquier estrofa de nueve versos y niegan que
+comparta necesariamente otra norma; Navarro Tomás y Jauralde caracterizan la copla novena
+histórica como redondilla y quintilla, normalmente 4+5 y también 5+4. La copla novena tendrá
+identidad de forma subordinada, no de arquitectura, y recibirá las dos arquitecturas actuales.
+La separación no se aplica todavía porque falta decidir cómo hacer registrable y demarcable la
+Novena general sin clasificar por defecto cualquier pasaje de nueve versos.
 
 **La modalidad y la primacía necesitan una lectura transversal.** Al terminar la revisión de
 las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,

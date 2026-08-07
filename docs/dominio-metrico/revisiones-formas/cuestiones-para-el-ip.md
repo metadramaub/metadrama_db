@@ -224,11 +224,14 @@ Revisada el 5 de agosto, **aparece una decisión que sí conviene tomar**:
 
 ## Novena
 
-
-1. ¿Las rimas de redondilla y quintilla son siempre independientes o debe registrarse
-   una clase compartida entre ambas secciones?
-2. ¿Las ocho variedades actuales de quintilla se ofrecen dentro de toda novena?
-3. ¿Las demás estrofas de nueve versos quedan fuera salvo que aparezcan en el corpus?
+1. Al resolver el modelo de formas abiertas, aplicar la separación acordada entre **Novena**
+   general y **Copla novena** como forma subordinada. Las arquitecturas 4+5 y 5+4 pasarán a la
+   Copla novena; queda por decidir cómo se registra la Novena general sin demarcar por defecto
+   cualquier pasaje de nueve versos.
+2. ¿Cómo se representan las realizaciones tempranas en las que redondilla y quintilla comparten
+   una o dos clases de rima, frente a las posteriores con rimas independientes?
+3. ¿Las ocho variedades actuales de quintilla pertenecen al repertorio de la Copla novena o
+   deben restringirse según la documentación histórica?
 
 ## Sexteto-lira
 
