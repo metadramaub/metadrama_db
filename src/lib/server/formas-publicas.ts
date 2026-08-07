@@ -210,10 +210,18 @@ export async function loadPublicForm(
 	 */
 	const rimaAgrupadaPorParte = (arquitecturaId: string): PublicRhymeScheme[] => {
 		const misSecciones = seccionesPor.get(arquitecturaId) ?? [];
+		const vistosEnSecciones = new Set<string>();
 		const deSecciones = misSecciones.flatMap((s) =>
-			rimaDeSeccion(s.seccion_id, String(s.nombre))
+			rimaDeSeccion(s.seccion_id, String(s.nombre)).filter((esquema) => {
+				// Dos secciones distintas pueden llamarse «Mudanza» y apuntar al mismo repertorio.
+				// En la ficha se explica una sola vez bajo ese nombre, sin duplicar claves ni contenido.
+				const clave = `${String(s.nombre)}:${esquema.id}`;
+				if (vistosEnSecciones.has(clave)) return false;
+				vistosEnSecciones.add(clave);
+				return true;
+			})
 		);
-		const yaPuestos = new Set(deSecciones.map((e) => e.notacion));
+		const yaPuestos = new Set(deSecciones.map((e) => e.id));
 
 		// Los que cuelgan de la arquitectura pero se declaran de ámbito «sección» pertenecen a
 		// una parte aunque su grupo no esté atado a ella. Se les asigna la única sección que
@@ -224,7 +232,7 @@ export async function loadPublicForm(
 		const huerfana = sinRima.length === 1 ? String(sinRima[0].nombre) : null;
 
 		const deLaUnidad = rimaDe(arquitecturaId)
-			.filter((e) => !yaPuestos.has(e.notacion))
+			.filter((e) => !yaPuestos.has(e.id))
 			.map((e) => (e.ambito === 'seccion' && huerfana ? { ...e, deLaSeccion: huerfana } : e));
 
 		const conParte = deLaUnidad.filter((e) => e.deLaSeccion);
@@ -256,6 +264,7 @@ export async function loadPublicForm(
 
 	/** Los esquemas de rima de una arquitectura, ordenados por nombre porque la tabla no ordena. */
 	const mapearRima = (e: any): PublicRhymeScheme => ({
+		id: String(e.esquema_rima_id),
 		nombre: String(e.nombre ?? '—'),
 		notacion: texto(e.notacion),
 		descripcion: texto(e.descripcion),
@@ -366,6 +375,7 @@ export async function loadPublicForm(
 				// de dejarlos sueltos.
 				esquemasRima: rimaAgrupadaPorParte(id),
 				secciones: (seccionesPor.get(id) ?? []).map((s) => ({
+					id: String(s.seccion_id),
 					nombre: String(s.nombre),
 					nota: texto(s.nota),
 					versosMin: numero(s.versos_min),
