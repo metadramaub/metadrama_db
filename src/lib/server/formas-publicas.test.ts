@@ -109,7 +109,9 @@ describe('catálogo público de formas', () => {
 		const resultado = await loadPublicForm({ rpc }, 'villancico');
 
 		expect(rpc).toHaveBeenCalledOnce();
-		expect(rpc).toHaveBeenCalledWith('get_forma_metrica_publica', { p_slug: 'villancico' });
+		expect(rpc).toHaveBeenCalledWith('get_forma_metrica_publica_jerarquica', {
+			p_slug: 'villancico'
+		});
 		expect(resultado?.arquitecturas_[0].repeticiones).toEqual([
 			{
 				tipo: 'estribillo',
@@ -138,6 +140,7 @@ describe('catálogo público de formas', () => {
 				secciones: [
 					{
 						seccion_id: 'mudanza-inicial',
+						seccion_padre_id: null,
 						arquitectura_id: arquitectura.arquitectura_id,
 						nombre: 'Mudanza',
 						nota: null,
@@ -150,6 +153,7 @@ describe('catálogo público de formas', () => {
 					},
 					{
 						seccion_id: 'mudanza-posterior',
+						seccion_padre_id: 'mudanza-inicial',
 						arquitectura_id: arquitectura.arquitectura_id,
 						nombre: 'Mudanza',
 						nota: null,
@@ -194,9 +198,9 @@ describe('catálogo público de formas', () => {
 		const resultado = await loadPublicForm({ rpc }, 'villancico');
 
 		expect(resultado?.arquitecturas_[0].secciones.map((seccion) => seccion.id)).toEqual([
-			'mudanza-inicial',
-			'mudanza-posterior'
+			'mudanza-inicial'
 		]);
+		expect(resultado?.arquitecturas_[0].secciones[0].hijas[0].id).toBe('mudanza-posterior');
 		expect(resultado?.arquitecturas_[0].esquemasRima).toHaveLength(1);
 		expect(resultado?.arquitecturas_[0].esquemasRima[0].id).toBe('rima-abba');
 	});
