@@ -256,11 +256,13 @@ Revisada el 5 de agosto, **aparece una decisión que sí conviene tomar**:
 ## Seguidilla
 
 
-- No bloquea el registro actual: se distinguen las arquitecturas simple y compuesta
-  con la norma asonante fijada por el proyecto.
-- Si las oscilaciones métricas o las realizaciones consonantes fueran recurrentes en el
-  corpus, confirmar si deben seguir siendo desviaciones o convertirse en opciones
-  admitidas.
+- No bloquea el registro actual: se distinguen las arquitecturas simple, compuesta, de tres
+  versos, chamberga, gitana y real.
+- Al revisar conjuntamente las formas abiertas, decidir cómo se representa la fluctuación
+  histórica de la simple sin enumerar todas las combinaciones ni reducirla a prosa.
+- Revisar también cómo se declara la asonancia compartida entre unidades en la seguidilla
+  simple arromanzada, y si las realizaciones consonantes recurrentes deben ser opciones
+  admitidas o desviaciones.
 
 ## Canción petrarquista
 

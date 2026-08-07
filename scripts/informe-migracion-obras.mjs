@@ -47,6 +47,7 @@ const SQL_SECUENCIAS = `
 		p.v_ini, p.v_fin, s.n_versos,
 		p.termino_legado, p.forma_propuesta, p.arquitectura_propuesta_id,
 		p.arquitectura_propuesta, p.via, p.detalle, p.heredado_de,
+		p.longitud_compatible, p.motivo_revision,
 		a.unidad_versos_min, a.unidad_versos_max
 	from public.propuesta_metrica_secuencia p
 	join public.secuencias_metricas s on s.secuencia_id = p.secuencia_id
@@ -160,10 +161,20 @@ function informeDeObra({
 	jornadas,
 	fecha
 }) {
-	const cuenta = { directa: 0, rasgo: 0, ascendencia: 0, sin_destino: 0, sin_tipo: 0 };
+	const cuenta = {
+		directa: 0,
+		rasgo: 0,
+		ascendencia: 0,
+		sin_destino: 0,
+		sin_tipo: 0,
+		revision_longitud: 0
+	};
 	for (const fila of secuencias) cuenta[fila.via] = (cuenta[fila.via] ?? 0) + 1;
+	cuenta.revision_longitud = secuencias.filter((fila) => fila.motivo_revision).length;
 
-	const dudas = secuencias.filter((fila) => fila.via === 'sin_destino' || fila.via === 'sin_tipo');
+	const dudas = secuencias.filter(
+		(fila) => fila.via === 'sin_destino' || fila.via === 'sin_tipo' || fila.motivo_revision
+	);
 	const porAscendencia = secuencias.filter((fila) => fila.via === 'ascendencia');
 	const fundibles = tramosFundibles(secuencias, jornadas);
 
@@ -217,7 +228,7 @@ function informeDeObra({
 	lineas.push(
 		`Resolución: ${cuenta.directa} directas · ${cuenta.rasgo} con rasgo propio · ` +
 			`${cuenta.ascendencia} por ascendencia · ${cuenta.sin_destino} sin destino · ` +
-			`${cuenta.sin_tipo} sin forma declarada.`
+			`${cuenta.sin_tipo} sin forma declarada · ${cuenta.revision_longitud} con longitud por revisar.`
 	);
 	lineas.push('');
 
@@ -271,8 +282,9 @@ function informeDeObra({
 		lineas.push('| Versos | Término actual | Qué pasa |');
 		lineas.push('| --- | --- | --- |');
 		for (const fila of dudas) {
-			const que =
-				fila.via === 'sin_tipo'
+			const que = fila.motivo_revision
+				? fila.motivo_revision
+				: fila.via === 'sin_tipo'
 					? 'La secuencia no declara ninguna forma métrica.'
 					: `\`${fila.termino_legado}\` no tiene equivalencia en el catálogo nuevo, ni él ni ningún ascendiente suyo.`;
 			lineas.push(
@@ -294,7 +306,7 @@ function informeDeObra({
 			`| ${fila.v_ini}–${fila.v_fin} | ${fila.n_versos} | ` +
 				`${fila.termino_legado ? `\`${fila.termino_legado}\`` : '—'} | ` +
 				`${fila.forma_propuesta ?? '—'} | ${fila.arquitectura_propuesta ?? '—'} | ` +
-				`${fila.detalle ?? '—'} | ${via} |`
+				`${fila.motivo_revision ? `**Revisar:** ${fila.motivo_revision}` : fila.detalle ?? '—'} | ${via} |`
 		);
 	}
 	lineas.push('');
@@ -400,7 +412,14 @@ for (const [obraId, filas] of secuenciasPorObra) {
 	const fichero = `${slugify(titulo)}.md`;
 	writeFileSync(join(options.salida, fichero), `${texto}\n`, 'utf-8');
 
-	const cuenta = { directa: 0, rasgo: 0, ascendencia: 0, sin_destino: 0, sin_tipo: 0 };
+	const cuenta = {
+		directa: 0,
+		rasgo: 0,
+		ascendencia: 0,
+		sin_destino: 0,
+		sin_tipo: 0,
+		revision_longitud: filas.filter((fila) => fila.motivo_revision).length
+	};
 	for (const fila of filas) cuenta[fila.via] = (cuenta[fila.via] ?? 0) + 1;
 	resumen.push({ titulo, editor, fichero, cuenta, total: filas.length });
 }
@@ -419,11 +438,14 @@ indice.push('| Obra | Editor | Secs | Directas | Rasgo | Ascend. | Dudas |');
 indice.push('| --- | --- | ---: | ---: | ---: | ---: | ---: |');
 for (const fila of resumen.sort(
 	(a, b) =>
-		b.cuenta.sin_destino + b.cuenta.sin_tipo - (a.cuenta.sin_destino + a.cuenta.sin_tipo) ||
+		b.cuenta.sin_destino +
+			b.cuenta.sin_tipo +
+			b.cuenta.revision_longitud -
+			(a.cuenta.sin_destino + a.cuenta.sin_tipo + a.cuenta.revision_longitud) ||
 		b.cuenta.ascendencia - a.cuenta.ascendencia ||
 		b.total - a.total
 )) {
-	const dudas = fila.cuenta.sin_destino + fila.cuenta.sin_tipo;
+	const dudas = fila.cuenta.sin_destino + fila.cuenta.sin_tipo + fila.cuenta.revision_longitud;
 	indice.push(
 		`| [${fila.titulo}](./${fila.fichero}) | ${fila.editor ?? '—'} | ${fila.total} | ` +
 			`${fila.cuenta.directa} | ${fila.cuenta.rasgo} | ${fila.cuenta.ascendencia} | ` +
@@ -437,7 +459,11 @@ const totales = resumen.reduce(
 		directa: acumulado.directa + fila.cuenta.directa,
 		rasgo: acumulado.rasgo + fila.cuenta.rasgo,
 		ascendencia: acumulado.ascendencia + fila.cuenta.ascendencia,
-		dudas: acumulado.dudas + fila.cuenta.sin_destino + fila.cuenta.sin_tipo
+		dudas:
+			acumulado.dudas +
+			fila.cuenta.sin_destino +
+			fila.cuenta.sin_tipo +
+			fila.cuenta.revision_longitud
 	}),
 	{ total: 0, directa: 0, rasgo: 0, ascendencia: 0, dudas: 0 }
 );

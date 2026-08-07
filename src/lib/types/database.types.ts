@@ -3742,6 +3742,8 @@ export type Database = {
           forma_propuesta: string | null
           forma_propuesta_id: string | null
           heredado_de: string | null
+          longitud_compatible: boolean | null
+          motivo_revision: string | null
           obra_id: string | null
           secuencia_id: string | null
           termino_legado: string | null

@@ -72,7 +72,7 @@ export async function loadShadowAnnotation(
 			db
 				.from('propuesta_metrica_secuencia')
 				.select(
-					'secuencia_id,obra_id,v_ini,v_fin,estrofa_tipo_id,termino_legado,forma_propuesta_id,forma_propuesta,arquitectura_propuesta_id,arquitectura_propuesta,via,detalle,heredado_de'
+					'secuencia_id,obra_id,v_ini,v_fin,estrofa_tipo_id,termino_legado,forma_propuesta_id,forma_propuesta,arquitectura_propuesta_id,arquitectura_propuesta,via,detalle,heredado_de,longitud_compatible,motivo_revision'
 				)
 				.order('v_ini', { ascending: true }),
 			db
@@ -147,6 +147,8 @@ export async function loadShadowAnnotation(
 			via: (row.via ?? 'sin_tipo') as ShadowSequence['via'],
 			detalle: row.detalle ?? null,
 			heredadoDe: row.heredado_de ?? null,
+			longitudCompatible: row.longitud_compatible ?? null,
+			motivoRevision: row.motivo_revision ?? null,
 			respuestas: answersBySequence.get(secuenciaId) ?? [],
 			subtipos: subtypeCounts.get(secuenciaId) ?? 0,
 			caracterizaciones: characterizationCounts.get(secuenciaId) ?? 0,

@@ -504,6 +504,11 @@
 												{sequence.arquitecturaPropuesta}
 											</span>
 										{/if}
+										{#if sequence.motivoRevision}
+											<span class="mt-1 block text-xs text-amber-700">
+												{sequence.motivoRevision}
+											</span>
+										{/if}
 									{:else}
 										<span class="text-[color:var(--muted-foreground)]">
 											El término legado no tiene correspondencia

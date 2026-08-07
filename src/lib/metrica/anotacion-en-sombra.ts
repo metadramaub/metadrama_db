@@ -79,6 +79,10 @@ export type ShadowSequence = {
 	detalle: string | null;
 	/** Término del que se heredó la forma, cuando no la reclama el término mismo. */
 	heredadoDe: string | null;
+	/** Si la extensión del rango cabe en la arquitectura propuesta. */
+	longitudCompatible: boolean | null;
+	/** Explicación de la incompatibilidad que debe resolver el editor de la obra. */
+	motivoRevision: string | null;
 	/** Respuestas que el término legado ya permite dar por el editor. */
 	respuestas: ShadowAnswer[];
 	/** Cuántos subtipos y caracterizaciones traía la anotación vieja. */
