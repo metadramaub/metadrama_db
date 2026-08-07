@@ -51,12 +51,6 @@ para los casos que no encajan en una más específica, y sus quebrados se regist
 medida de una posición, no como doce casillas sueltas. El rasgo `pie_quebrado` permanece
 separado y reutilizable.
 
-## Novena
-
-Resuelto en el modelo: `redondilla_quintilla` y `quintilla_redondilla` son arquitecturas de una
-única forma; sus secciones reutilizan las arquitecturas de redondilla y quintilla sin
-copiar sus esquemas.
-
 ## Sexteto
 
 Resuelto en el modelo: la sexta rima no es una forma sino una **variedad** de la
