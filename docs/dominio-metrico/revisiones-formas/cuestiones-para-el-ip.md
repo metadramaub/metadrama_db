@@ -1,6 +1,6 @@
 # Cuestiones para el IP
 
-Actualizado: 5 de agosto de 2026
+Actualizado: 7 de agosto de 2026
 
 Este archivo reúne solo decisiones pendientes. **Lo descriptivo ya no vive aquí ni en fichas
 sueltas: vive en el catálogo, y se lee en `/formas`.** A medida que una forma se revisa, su
@@ -8,7 +8,9 @@ prosa se muda al dato, sus dudas resueltas se borran de aquí y su ficha `.md` s
 catálogo es el documento vivo y un `.md` paralelo solo puede quedarse viejo.
 
 Revisadas y con ficha ya retirada: romance, redondilla, décima, silva, soneto, quintilla, lira,
-octava real, cuarteto, terceto, terceto encadenado y pareado.
+octava real, cuarteto, terceto, terceto encadenado, pareado y endecha real. La copla de pie
+quebrado está revisada; su ficha es compartida con la sextilla y las otras coplas pendientes,
+por lo que se retirará cuando se absorban también esas formas.
 
 ## Dónde vive la información de cada forma
 
@@ -49,6 +51,18 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
   combinarlas; 6 y 8 son las registradas por típicas y otra se anota como desviación.
 - La copla de arte mayor elige su esquema **en cada copla**, como la quintilla o el soneto:
   los tres alternan de estrofa en estrofa.
+
+## Demarcador
+
+1. **Las formas generales positivas no tienen prioridad residual.** La copla de pie quebrado
+   recibe, por criterio del IP, las unidades de cinco a doce versos que combinan octosílabos y
+   quebrados pero no corresponden a las arquitecturas simple o doble de la sextilla. El
+   sexteto cumple una función semejante frente a formas más específicas de seis versos de arte
+   mayor. El antiguo `grado_especificacion` pretendía que el demarcador ofreciera la forma más
+   específica, pero se retiró porque el motor nunca lo usó; hoy todas las hipótesis se puntúan
+   al mismo nivel. Hace falta una regla explícita de prioridad o una salida final separada. No
+   es una relación `subtipo_de` ni `compuesta_por`: esas relaciones describen la ontología de
+   las formas, no el orden en que el motor propone una clasificación.
 
 ## Endecha real
 

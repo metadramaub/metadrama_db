@@ -1,6 +1,6 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 6 de agosto de 2026 · **12 formas revisadas de 28**
+Actualizado: 7 de agosto de 2026 · **13 formas revisadas de 28**
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -94,7 +94,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Sextilla | 1 | 1 | **pendiente** |
 | Sextina | 1 | 1 | **pendiente** |
 | Villancico | 1 | 1 | **pendiente** |
-| Copla de pie quebrado | 0 | 0 | **pendiente** |
+| Copla de pie quebrado | 6 | 6 | revisada |
 | Copla real | 0 | 0 | **pendiente** |
 | Zéjel | 0 | 0 | **pendiente** |
 | Endecasílabo suelto | 1 | 1 | **pendiente · se deja para el final** |

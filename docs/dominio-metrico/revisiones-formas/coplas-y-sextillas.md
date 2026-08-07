@@ -1,6 +1,6 @@
 # Coplas y sextillas
 
-Estado: revisado, con decisiones del proyecto por confirmar · 1 de agosto de 2026
+Estado: copla de pie quebrado revisada contra las seis fuentes; las demás formas siguen pendientes · 7 de agosto de 2026
 
 ## Decisión general
 
@@ -51,7 +51,7 @@ decir.
 | Forma | Arquitectura | Metro | Rima | Unidad |
 | --- | --- | --- | --- | ---: |
 | Copla de arte mayor | `dodecasilabica_compuesta` | 8 × `6 + 6` | consonante; tres esquemas admitidos | 8 |
-| Copla de pie quebrado | `octosilabica_con_quebrados` | octosílabos y quebrados de 4 a 7 | consonante, disposición abierta | 5–12 |
+| Copla de pie quebrado | `octosilabica_con_quebrados` | octosílabos y quebrados de 4 o 5 | consonante, disposición abierta | 5–12 |
 | Copla real | `octosilabica_consonante` | 10 × 8, con uno o dos quebrados posibles | esquema de cada quintilla | 10 |
 | Sextilla | `octosilabica` | 6 × 8 | consonante, disposición abierta | 6 |
 | Sextilla | `heptasilabica` | 6 × 7 | consonante, disposición abierta | 6 |
@@ -112,11 +112,11 @@ Su norma fija muy poco, y conviene tener presente cuánto:
 | Dimensión | Qué fija |
 | --- | --- |
 | Unidad | **de 5 a 12 versos**, y lo dice el pasaje |
-| Metro | conjunto de 4 a 8 sílabas; el octosílabo domina y los quebrados son su mitad |
+| Metro | octosílabo dominante y quebrados de 4 o 5 sílabas |
 | Rima | consonante, disposición **abierta** |
 | Secciones | ninguna |
 
-De ahí sale su pregunta: **48 opciones**, doce posiciones por cuatro medidas, generadas para
+De ahí sale su pregunta: **24 opciones**, doce posiciones por dos medidas, generadas para
 el caso máximo porque el catálogo no puede saber cuántos versos tendrá cada copla.
 
 **Esa apertura tiene un precio y hay que conocerlo.** Como la unidad es un rango y las
@@ -147,7 +147,7 @@ que concretan la realización observada.
   alternan de estrofa en estrofa; si toda la tirada usa el mismo, la respuesta se aplica a
   todas.
 - **Copla de pie quebrado**: indicar la extensión de cada unidad, entre 5 y 12 versos, y
-  señalar qué versos son quebrados y con qué medida, entre 4 y 7 sílabas. El resto son
+  señalar qué versos son quebrados y con qué medida, cuatro o cinco sílabas. El resto son
   octosílabos y debe quedar al menos uno.
 - **Copla real**: escoger de manera independiente el esquema de cada quintilla y, si los
   hay, marcar una o dos posiciones tetrasílabas. Elegir el mismo esquema en las dos mitades
