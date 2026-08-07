@@ -108,6 +108,7 @@ export type PublicTrait = {
 
 /** Una regla de recurrencia declarada por la arquitectura. */
 export type PublicRepetition = {
+	slug: string;
 	tipo: string;
 	regla: string;
 	modalidad: string | null;

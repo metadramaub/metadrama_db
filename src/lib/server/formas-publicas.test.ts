@@ -77,6 +77,7 @@ describe('catálogo público de formas', () => {
 				repeticiones: [
 					{
 						arquitectura_id: arquitectura.arquitectura_id,
+						slug: 'represa_total',
 						tipo: 'estribillo',
 						regla: 'La represa reproduce el estribillo.',
 						modalidad: 'admitida',
@@ -114,6 +115,7 @@ describe('catálogo público de formas', () => {
 		});
 		expect(resultado?.arquitecturas_[0].repeticiones).toEqual([
 			{
+				slug: 'represa_total',
 				tipo: 'estribillo',
 				regla: 'La represa reproduce el estribillo.',
 				modalidad: 'admitida',
