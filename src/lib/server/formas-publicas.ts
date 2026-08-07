@@ -434,6 +434,7 @@ export async function loadPublicForm(
 				})),
 				repeticiones: (repeticionesPor.get(id) ?? []).map(
 					(r): PublicRepetition => ({
+						slug: String(r.slug),
 						tipo: String(r.tipo),
 						regla: String(r.regla),
 						modalidad: texto(r.modalidad),

@@ -121,7 +121,8 @@
 	}
 
 	function nombreRepeticion(repeticion: PublicRepetition): string {
-		return repeticion.tipo.charAt(0).toUpperCase() + repeticion.tipo.slice(1);
+		const nombre = repeticion.slug.replaceAll('_', ' ');
+		return nombre.charAt(0).toUpperCase() + nombre.slice(1);
 	}
 
 </script>
