@@ -31,7 +31,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Zéjel | cabeza, mudanza monorrima de 3 versos y vuelta de 1 a la rima del estribillo | la medida de cada sección y la presencia material de la represa | calculada desde cabeza, coplas fijas de 4 y represas |
 | Copla real | 10 versos, estructura `5 + 5` y consonancia; el pie quebrado es rasgo admitido | esquema de cada quintilla, reutilizado del de la quintilla, y las posiciones quebradas si las hay | múltiplo de 10 |
 | Copla de arte mayor | 8 dodecasílabos compuestos `6 + 6`, consonancia y estructura `4 + 4` | uno de los tres esquemas reconocidos, en cada copla | múltiplo de 8 |
-| Copla de pie quebrado (general) | octosílabo dominante, consonancia y unidades de 5–12 versos | extensión de cada unidad, medida o medidas de los quebrados y sus posiciones | cada unidad entre 5 y 12 |
+| Copla de pie quebrado (general) | octosílabo dominante, consonancia, quebrados de 4 o 5 sílabas y unidades de 5–12 versos | extensión de cada unidad y posiciones de los quebrados, con su medida | cada unidad entre 5 y 12 |
 | Sextilla | 6 versos, consonancia y la medida de su arquitectura: 8, 7, 6 o `8-8-4-8-8-4` | nada | múltiplo de 6 |
 | Sextilla · doble de pie quebrado | 12 versos en dos sextillas `8-8-4-8-8-4` con rimas independientes | marcar la disposición si es la manriqueña `abcabc:defdef` | múltiplo de 12 |
 | Décima espinela | 10 octosílabos, consonancia, `abbaaccddc` y estructura `4 + 2 + 4` | nada | múltiplo de 10 |
