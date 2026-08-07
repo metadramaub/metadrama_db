@@ -8,9 +8,11 @@ prosa se muda al dato, sus dudas resueltas se borran de aquí y su ficha `.md` s
 catálogo es el documento vivo y un `.md` paralelo solo puede quedarse viejo.
 
 Revisadas y con ficha ya retirada: romance, redondilla, décima, silva, soneto, quintilla, lira,
-octava real, cuarteto, terceto, terceto encadenado, pareado y endecha real. La copla de pie
-quebrado está revisada; su ficha es compartida con la sextilla y las otras coplas pendientes,
-por lo que se retirará cuando se absorban también esas formas.
+octava real, cuarteto, terceto, terceto encadenado, pareado, endecha real, seguidilla, sextina
+—como estrofa y como composición— y villancico. La copla de pie quebrado está revisada; su
+ficha es compartida con la sextilla y las otras coplas pendientes, por lo que se retirará
+cuando se absorban también esas formas. Las fuentes de la novena están revisadas y su ficha se
+retiró, pero su separación respecto de la copla novena depende del modelo abierto pendiente.
 
 ## Dónde vive la información de cada forma
 
@@ -32,7 +34,8 @@ El reparto al que se va:
 **Dónde va cada cosa** está resuelto en [dónde vive la prosa](../donde-vive-la-prosa.md), que
 recoge los ocho criterios que gobiernan el barrido.
 
-Estado del contenido el 5 de agosto: 28 formas y 49 arquitecturas; 37 denominaciones; 98 afirmaciones sobre 6 fuentes; 8 relaciones entre formas.
+Estado consultado en Supabase el 7 de agosto: 27 formas y 2 tramos sin forma; 57
+arquitecturas; 39 denominaciones; 134 afirmaciones sobre 6 fuentes; 9 relaciones entre formas.
 
 ## Los defectos del informe que esperan una decisión
 
@@ -176,7 +179,7 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 
 
 1. ¿Se admiten estribillos de uno y de dos versos o el zéjel estricto exige dístico?
-2. ¿Una represa parcial es posibilidad admitida o desviación?
+2. ¿Una repetición parcial del estribillo es posibilidad admitida o desviación?
 
 ## Copla real
 

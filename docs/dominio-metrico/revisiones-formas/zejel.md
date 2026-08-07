@@ -1,11 +1,11 @@
 # Zéjel
 
-Estado: revisado, con dudas acotadas · 1 de agosto de 2026
+Estado: formalización técnica revisada; contraste con las seis fuentes pendiente · 7 de agosto de 2026
 
 ## Decisión
 
 El zéjel se conserva como una forma compuesta con una configuración canónica. Reutiliza
-las funciones estructurales `cabeza`, `copla`, `mudanza`, `vuelta` y `represa`, pero no
+las funciones estructurales de cabeza, copla, mudanza, vuelta y repetición del estribillo, pero no
 la arquitectura completa del villancico. Su rasgo distintivo es una copla fija de cuatro
 versos: tres monorrimos de mudanza y un verso de vuelta que recupera la rima del
 estribillo, sin enlace independiente.
@@ -18,12 +18,12 @@ estribillo, sin enlace independiente.
 | Configuración | `estribillo_y_coplas_monorrimas` |
 | Metro | normalmente 6 u 8 sílabas, sin orden fijo |
 | Cabeza | primera aparición del estribillo · 1 o 2 versos |
-| Ciclo repetible | copla + posible represa |
+| Ciclo repetible | copla + posible repetición del estribillo |
 | Copla | mudanza de 3 versos + vuelta de 1 |
 | Rima | consonante · `A(A) \| BBBA` |
 | Mudanza | tres versos monorrimos con una rima nueva |
 | Vuelta | recupera directamente la rima del estribillo |
-| Represa | total o sin realización material |
+| Repetición del estribillo | total o sin realización material |
 
 Las letras `A` y `B` expresan relaciones, no timbres concretos. Cada copla puede introducir
 una nueva rima para su mudanza, mientras la vuelta conserva la relación con el estribillo.
@@ -38,7 +38,7 @@ por las tres posiciones `B` del patrón de rima.
 
 La configuración se resuelve automáticamente porque solo hay una. El editor:
 
-1. indica la medida de cada sección: cabeza, mudanza, vuelta y represa;
+1. indica la medida de cada sección: cabeza, mudanza, vuelta y repetición del estribillo;
 2. delimita la cabeza y las coplas;
 3. responde, para cada ciclo, si el estribillo reaparece materialmente.
 
@@ -47,13 +47,13 @@ pregunta donde puede variar. Se ofrecen 6 y 8 por ser las típicas; otra distint
 como desviación.
 
 La mudanza de tres versos, su monorrimia, el verso de vuelta y su relación con el estribillo
-se derivan del catálogo. No se preguntan. Si hay represa total, el registrador crea su
+se derivan del catálogo. No se preguntan. Si hay repetición total del estribillo, el registrador crea su
 sección y deriva su extensión de la cabeza; si no aparece materialmente, no inventa versos
 ni afirma que la repetición quede implícita.
 
 ## Ejemplo de almacenamiento definitivo
 
-Zéjel octosilábico de doce versos: cabeza de dos versos, dos coplas y una represa total
+Zéjel octosilábico de doce versos: cabeza de dos versos, dos coplas y una repetición total del estribillo
 después de la primera.
 
 ### `secuencias_metricas`
@@ -123,7 +123,7 @@ monorrima de tres versos y vuelta consonante a la rima del dístico.
 
 1. ¿El catálogo del proyecto admite tanto estribillos de un verso como dísticos o debe
    reservar el zéjel estricto para el dístico?
-2. ¿La represa parcial debe admitirse cuando aparezca en el corpus o se tratará como
+2. ¿La repetición parcial del estribillo debe admitirse cuando aparezca en el corpus o se tratará como
    desviación respecto de esta configuración?
 3. ~~¿Hexasílabo y octosílabo forman un repertorio cerrado?~~ **Resuelto: no.** Son las
    medidas típicas y por eso se registran; cualquier otra se anota como desviación.

@@ -121,6 +121,11 @@
 	}
 
 	function nombreRepeticion(repeticion: PublicRepetition): string {
+		if (repeticion.tipo === 'estribillo') {
+			if (repeticion.slug.endsWith('_total')) return 'Repetición total del estribillo';
+			if (repeticion.slug.endsWith('_parcial')) return 'Repetición parcial del estribillo';
+			if (repeticion.slug.endsWith('_implicita')) return 'Repetición implícita del estribillo';
+		}
 		const nombre = repeticion.slug.replaceAll('_', ' ');
 		return nombre.charAt(0).toUpperCase() + nombre.slice(1);
 	}

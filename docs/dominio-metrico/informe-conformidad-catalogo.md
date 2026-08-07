@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-07 12:49
+Generado: 2026-08-07 15:41
 
-Inventario: 27 formas y 2 tramos sin forma · 53 configuraciones · 57 patrones métricos · 75 patrones de rima · 59 secciones · 60 grupos de elección · 400 opciones · 6 rasgos.
+Inventario: 27 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 81 patrones de rima · 61 secciones · 61 grupos de elección · 406 opciones · 6 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -112,7 +112,7 @@ Sin incidencias.
 | quintilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | redondilla | estrofa | 4 | sí | configuracion, posiciones | elección, patrón único | 3 | unidad |
 | romance | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
-| seguidilla | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
+| seguidilla | estrofa | 6 | sí | configuracion, eleccion, posiciones | patrón único | 1 | unidad |
 | sexteto | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
 | sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
@@ -129,9 +129,9 @@ Sin incidencias.
 
 | Vía | Formas |
 | --- | --- |
-| configuracion (7) | endecha_real, redondilla, romance, sexteto, sextilla, silva, terceto_encadenado |
+| configuracion (8) | endecha_real, redondilla, romance, seguidilla, sexteto, sextilla, silva, terceto_encadenado |
 | conjunto (6) | cancion_petrarquista, copla_de_pie_quebrado, pareado, silva, villancico, zejel |
-| eleccion (6) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
+| eleccion (7) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, seguidilla, villancico, zejel |
 | posiciones (23) | cancion_petrarquista, copla_de_arte_mayor, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
@@ -139,7 +139,7 @@ Sin incidencias.
 | Dimensión · alcance | Formas |
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
-| metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, villancico, zejel |
+| metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, seguidilla, villancico, zejel |
 | rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_real, romance, sexteto_lira, silva, soneto, terceto |
 | repeticion · unidad | villancico, zejel |
 | rima · secuencia | endecha_real |
@@ -149,8 +149,8 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| seccion | 12 | cancion_petrarquista×4, soneto×4, villancico×4 |
-| unidad | 63 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×6, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×2, sexteto×4, sexteto_lira×3, sextilla×6, sextina_estrofa×1, silva×4, terceto×2, terceto_encadenado×2, zejel×1 |
+| seccion | 14 | cancion_petrarquista×4, soneto×4, villancico×6 |
+| unidad | 67 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×6, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×6, sexteto×4, sexteto_lira×3, sextilla×6, sextina_estrofa×1, silva×4, terceto×2, terceto_encadenado×2, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 

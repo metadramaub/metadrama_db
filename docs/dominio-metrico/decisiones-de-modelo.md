@@ -17,24 +17,10 @@ reales serán [la ontología](./ontologia-verso-espanol.md) y
 [la implementación](./implementacion-metrica.md) contrastadas con el catálogo, que es el modelo
 ya poblado: eso basta, y sobra el resto de documentos.
 
-**Si se cambia el modelo**, hay que revisar esos dos. La revisión de definiciones y fuentes lo
-ha tocado en tres puntos, todos anotados en
-[el estado de la revisión](./revision-del-catalogo-estado.md): se separó **bloque de sección**,
-se retiró `tipo_alias` y se retiró `grado_especificacion`. Se comprobó que ninguno de los dos
-documentos mencionaba las dos columnas retiradas, así que el modelo canónico no cambió.
-
-## Villancico
-
-Resuelto en el modelo: la medida se pregunta por sección, no por secuencia, porque un
-villancico puede combinar medidas aunque lo habitual sea que no lo haga.
-
-## Villancico
-
-Resuelto en el modelo: la ausencia de cabeza no se trata como omisión. Si el estribillo
-aparece por primera vez después de la primera copla, se selecciona una arquitectura
-propia; las apariciones posteriores se registran como represas y la implícita no crea
-versos ficticios. Una sección final aislada solo se considera estribillo si existe
-evidencia funcional.
+**Si se cambia el modelo**, hay que revisar esos dos. La lista vigente de cambios aplicados y
+defectos aplazados vive únicamente en
+[el estado de la revisión](./revision-del-catalogo-estado.md); no se duplica aquí porque esta
+lista se vacía a medida que las formas quedan absorbidas en el catálogo.
 
 ## Zéjel
 
