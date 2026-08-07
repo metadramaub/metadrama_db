@@ -4,6 +4,7 @@
 		PublicFormDetail,
 		PublicRhymeLink,
 		PublicFormRelation,
+		PublicRepetition,
 		PublicSchemePart,
 		PublicRhymeScheme,
 		PublicScheme,
@@ -127,6 +128,10 @@
 		if (max == null) return `${min} o más versos`;
 		if (min === max) return `${min} versos`;
 		return `de ${min} a ${max} versos`;
+	}
+
+	function nombreRepeticion(repeticion: PublicRepetition): string {
+		return repeticion.tipo.charAt(0).toUpperCase() + repeticion.tipo.slice(1);
 	}
 
 </script>
@@ -314,6 +319,32 @@
 											{#if variedad.descripcion}
 												<span class="block text-[color:var(--muted-foreground)]">
 													{@html renderInlineMarkdown(variedad.descripcion)}
+												</span>
+											{/if}
+										</li>
+									{/each}
+								</ul>
+							</div>
+						{/if}
+
+						{#if arquitectura.repeticiones.length > 0}
+							<div class="mt-5">
+								<h4 class="text-sm font-semibold">Repetición</h4>
+								<ul class="mt-1 space-y-2 text-sm">
+									{#each arquitectura.repeticiones as repeticion (repeticion.regla)}
+										<li>
+											<span class="font-medium">{nombreRepeticion(repeticion)}</span>
+											{#if repeticion.modalidad}
+												<span class="text-[color:var(--muted-foreground)]">
+													· {repeticion.modalidad}
+												</span>
+											{/if}
+											<span class="block text-[color:var(--muted-foreground)]">
+												{@html renderInlineMarkdown(repeticion.regla)}
+											</span>
+											{#if repeticion.descripcion}
+												<span class="block text-[color:var(--muted-foreground)]">
+													{@html renderInlineMarkdown(repeticion.descripcion)}
 												</span>
 											{/if}
 										</li>
