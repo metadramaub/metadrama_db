@@ -56,10 +56,9 @@ coincidencia entre autores nunca es motivo para omitir una fuente. Una fuente so
 de una forma cuando, después de revisar el pasaje y su contexto, no la trata.
 
 Antes había once fuentes. Las otras cinco se retiraron porque no cumplían el criterio de
-autoridad —publicación bibliográfica académica identificable—, y con ellas se fueron siete
-afirmaciones que aún no se han recuperado en las seis autorizadas: villancico, redondilla
-doble, zéjel, copla de pie quebrado, copla real y décima. **Eso sigue pendiente**, y se
-resuelve al revisar cada una de esas formas.
+autoridad —publicación bibliográfica académica identificable—. Las afirmaciones perdidas de
+Décima, Copla de pie quebrado y Villancico ya se han recuperado desde las seis fuentes
+autorizadas; siguen pendientes las de Redondilla doble, Zéjel y Copla real.
 
 ### Cómo se localiza un pasaje
 
@@ -99,7 +98,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Sexteto-lira | 1 | 1 | **pendiente** |
 | Sextilla | 1 | 1 | **pendiente** |
 | Sextina (estrofa y composición) | 6 | 7 | revisada |
-| Villancico | 1 | 1 | **pendiente** |
+| Villancico | 5 | 5 | revisada · normalización interna aplazada |
 | Copla de pie quebrado | 6 | 6 | revisada |
 | Copla real | 0 | 0 | **pendiente** |
 | Zéjel | 0 | 0 | **pendiente** |
@@ -113,7 +112,7 @@ norma que contrastar; se revisan al final, con él.
 
 ### Orden sugerido para continuar
 
-Las compuestas primero: **villancico, zéjel, canción petrarquista,
+Las compuestas primero: **zéjel, canción petrarquista,
 sextilla, sexteto, sexteto-lira, copla real, copla de arte mayor**. Y al final el
 **endecasílabo suelto** con los dos tramos sin forma.
 
