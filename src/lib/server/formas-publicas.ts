@@ -16,6 +16,7 @@ import type {
 	PublicSchemePart,
 	PublicSource
 } from '$lib/metrica/formas-publicas.types';
+import type { MetricStructuralLevel } from '$lib/metrica/catalogo';
 
 /** Ordena por nombre entendiendo los números: «Tipología 2» antes que «Tipología 10». */
 const porNombre = (a: { nombre: string }, b: { nombre: string }) =>
@@ -159,7 +160,7 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 		nombre: String(forma.nombre),
 		definicion: texto(forma.definicion),
 		tipoRegistro: String(forma.tipo_registro),
-		nivelEstructural: String(forma.nivel_estructural),
+		nivelEstructural: String(forma.nivel_estructural) as MetricStructuralLevel,
 		arquitecturas: (arquitecturasPorForma.get(String(forma.forma_id)) ?? []).length,
 		tradiciones: (tradicionesPorForma.get(String(forma.forma_id)) ?? [])
 			.map((row) => nombreTradicion.get(String(row.tradicion_id)))
@@ -512,7 +513,7 @@ export async function loadPublicForm(
 		nombre: String(forma.nombre),
 		definicion: texto(forma.definicion),
 		tipoRegistro: String(forma.tipo_registro),
-		nivelEstructural: String(forma.nivel_estructural),
+		nivelEstructural: String(forma.nivel_estructural) as MetricStructuralLevel,
 		arquitecturas: misArquitecturas.length,
 		tradiciones: (formasTradiciones as any[])
 			.filter((row) => String(row.forma_id) === formaId)
@@ -544,6 +545,7 @@ export async function loadPublicForm(
 				return {
 					nombre: String(otra?.nombre ?? '—'),
 					slug: String(otra?.slug ?? ''),
+					nivelEstructural: String(otra?.nivel_estructural) as MetricStructuralLevel,
 					tipo: String(row.tipo_relacion),
 					nota: texto(row.nota),
 					esOrigen

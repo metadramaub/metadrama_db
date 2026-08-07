@@ -45,8 +45,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Sexteto | 6 versos de arte mayor consonantes, de la medida de su arquitectura: 11, 12 o 14 | esquema de rima de cada unidad; `ABABCC` es la variedad llamada sexta rima | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Seguidilla simple | 4 versos, `7-5-7-5`, asonancia `-a-a` | nada | múltiplo de 4; materializa una unidad por cada 4 versos |
 | Seguidilla compuesta | 7 versos, `7-5-7-5 + 5-7-5`, asonancia `-a-a + b-b` y secciones | nada | múltiplo de 7; materializa una unidad por cada 7 versos |
-| Sextina clásica | 39 endecasílabos, 6 estrofas × 6 + remate de 3 y permutación fija de seis palabras | nada | múltiplo de 39; materializa estrofas y remate |
-| Sextina doble | 75 endecasílabos, 12 estrofas × 6 + remate de 3 y dos ciclos de permutación | nada | múltiplo de 75; materializa estrofas y remate |
+| Sextina · estrofa | 6 endecasílabos sin rima convencional, con seis palabras finales distintas | nada | múltiplo de 6; materializa una estrofa por cada 6 versos |
+| Sextina · clásica | 39 endecasílabos, 6 sextinas + remate de 3 y permutación fija de seis palabras | nada | múltiplo de 39; materializa sextinas y remate |
+| Sextina · doble petrarquista | 75 endecasílabos, 12 sextinas + remate de 3 y dos ciclos canónicos | nada | múltiplo de 75; materializa sextinas y remate |
+| Sextina · doble de Montemayor | 78 endecasílabos, 12 sextinas con combinaciones distintas + 2 remates de 3 | nada | múltiplo de 78; materializa sextinas y los dos remates; no inventa las permutaciones no documentadas |
 | Canción petrarquista · estancias variables | 3 o más estancias, consonancia y repetición de la norma entre estancias | extensión, medida por posición y esquema de la primera estancia | calculada desde estancias de 5–20 versos y remate opcional |
 | Canción petrarquista · regular de 13 | 3 o más estancias, esquema `abCabC:cdeeDfF` | nada salvo número de estancias y remate | calculada desde estancias de 13 versos y remate opcional |
 | Canción sin rima | cuerpo suelto y pareado consonante final en cada estancia | extensión del cuerpo, medida por posición y final esdrújulo si caracteriza | calculada desde cuerpos de 3–18 versos más pareado final |
@@ -96,8 +98,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
   todas y cambiar solo los sextetos diferentes.
 - Seguidilla: forma, arquitectura simple o compuesta y guardar; toda la norma se
   deriva.
-- Sextina: forma, arquitectura clásica o doble y guardar; toda la estructura y la
-  repetición léxica se derivan.
+- Sextina estrófica: forma y guardar; su extensión y medida se derivan.
+- Sextina composición: forma, arquitectura clásica, doble petrarquista o doble de Montemayor
+  y guardar; la estructura y la repetición documentada se derivan. La arquitectura de
+  Montemayor no completa las doce permutaciones que la fuente no enumera.
 - Canción petrarquista: forma y arquitectura; en la regular solo se añaden las
   estancias. En las variables se caracteriza la primera estancia y se aplican su
   extensión, medidas y rima a las demás.

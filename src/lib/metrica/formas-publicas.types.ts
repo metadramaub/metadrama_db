@@ -6,6 +6,8 @@
  * dos dependa del otro.
  */
 
+import type { MetricStructuralLevel } from '$lib/metrica/catalogo';
+
 /** Una entrada del índice. */
 export type PublicFormSummary = {
 	slug: string;
@@ -13,7 +15,7 @@ export type PublicFormSummary = {
 	definicion: string | null;
 	/** `forma` o `sin_forma`: los tramos sin forma no son formas comparables. */
 	tipoRegistro: string;
-	nivelEstructural: string;
+	nivelEstructural: MetricStructuralLevel;
 	arquitecturas: number;
 	tradiciones: string[];
 	/** Los regímenes de rima que admite alguna de sus arquitecturas. */
@@ -139,6 +141,7 @@ export type PublicFormRelation = {
 	/** Nombre de la otra forma, y su slug para enlazarla. */
 	nombre: string;
 	slug: string;
+	nivelEstructural: MetricStructuralLevel;
 	/** `compuesta_por`, `contrasta_con`, `relacionada_con`… tal como lo declara el catálogo. */
 	tipo: string;
 	nota: string | null;

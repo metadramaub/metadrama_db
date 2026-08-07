@@ -11,6 +11,7 @@
 		PublicSourceClaim,
 		PublicTrait
 	} from '$lib/metrica/formas-publicas.types';
+	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
 	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
 
 	/**
@@ -145,7 +146,7 @@
 	<header class="mt-4">
 		<h1 class="font-display text-3xl">{forma.nombre}</h1>
 		<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-			{forma.tipoRegistro === 'forma' ? 'Forma' : 'Tramo sin forma'} · nivel {forma.nivelEstructural}{forma.tradiciones.length > 0
+			{forma.tipoRegistro === 'forma' ? 'Forma' : 'Tramo sin forma'} · {metricStructuralLevelLabel(forma.nivelEstructural)}{forma.tradiciones.length > 0
 				? ` · tradición ${forma.tradiciones.join(' y ').toLowerCase()}`
 				: ''}{forma.tiposRima.length > 0 ? ` · rima ${forma.tiposRima.join(' o ')}` : ''}
 		</p>
@@ -356,7 +357,7 @@
 					<li class="leading-7">
 						<span class="text-[color:var(--muted-foreground)]">{describirRelacion(relacion)}</span>
 						<a class="underline hover:no-underline" href="/formas/{relacion.slug}">
-							{relacion.nombre}
+							{relacion.nombre} · {metricStructuralLevelLabel(relacion.nivelEstructural)}
 						</a>
 						{#if relacion.nota}
 							<span class="block text-sm text-[color:var(--muted-foreground)]">

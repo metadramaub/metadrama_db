@@ -10,6 +10,7 @@
 		MetricCatalogForm,
 		MetricLengthRule
 	} from '$lib/metrica/catalogo';
+	import { metricFormLabel } from '$lib/metrica/catalogo';
 	import { metricLengthError } from '$lib/metrica/metric-length';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricLengthAlert from './MetricLengthAlert.svelte';
@@ -1076,7 +1077,7 @@
 								<optgroup label="Formas métricas">
 									{#each metricForms as form (form.forma_id)}
 										<option value={form.forma_id}>
-											{form.nombre}
+											{metricFormLabel(form)}
 										</option>
 									{/each}
 								</optgroup>

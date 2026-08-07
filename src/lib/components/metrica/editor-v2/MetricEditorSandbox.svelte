@@ -21,6 +21,7 @@
 		MetricCatalogForm,
 		MetricCatalogPageData
 	} from '$lib/metrica/catalogo';
+	import { metricFormLabel } from '$lib/metrica/catalogo';
 	import { pushToast } from '$lib/stores/toast';
 	import MetricSandboxLegacyFields from './MetricSandboxLegacyFields.svelte';
 	import MetricSequenceEditor from './MetricSequenceEditor.svelte';
@@ -118,7 +119,7 @@
 			: orderedSequences
 	);
 	const formFilterItems = $derived(
-		activeForms.map((form: MetricCatalogForm) => ({ id: form.forma_id, label: form.nombre }))
+		activeForms.map((form: MetricCatalogForm) => ({ id: form.forma_id, label: metricFormLabel(form) }))
 	);
 	const sequenceOverlapIssues = $derived(
 		analyzeSequenceRangeConsistency(
