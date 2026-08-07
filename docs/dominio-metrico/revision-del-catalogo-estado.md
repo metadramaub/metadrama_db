@@ -189,7 +189,17 @@ No estaba previsto, pero recorrer el catálogo destapó cosas del modelo. Todas 
 - **Una forma `serie` aparte solo se justifica cuando seriar cambia la estructura**, porque una
   estrofa ya se seria dentro de su propia forma.
 
-### Y un defecto del modelo, abierto
+### Defectos del modelo aplazados
+
+**Los esquemas abiertos necesitan una representación paramétrica general.** Las formas muy
+estructuradas declaran medidas y rimas por posición; las más libres acaban repartiendo su
+norma entre conjuntos permitidos, prosa y preguntas editoriales declaradas a mano. Cuando
+termine la revisión filológica de las 28 formas, hay que comparar juntas todas estas formas
+difíciles y diseñar restricciones computables —sin enumerar cada realización posible y sin
+debilitar el modelo posicional de las formas fijas—. No se resolverá este problema adaptando
+el modelo por separado a cada forma durante la revisión.
+
+**La caja de las letras no es la clase de rima.**
 
 `sincronizar_posiciones_esquema_rima_fijo` deriva las posiciones de la notación letra a letra y
 **toma la caja por clase de rima**: de `-a-A` saca dos rimas donde hay una. La caja dice el arte

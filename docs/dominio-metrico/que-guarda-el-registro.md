@@ -197,9 +197,11 @@ pasaje: la arquitectura admite de cinco a doce.
 | `R-30` | `medidas_pies_quebrados` | `verso_9_4_silabas` | 9 | `tetrasilabo` |
 
 **De dónde sale que el quebrado mide cuatro y no cinco: lo dice la opción elegida.** Cada una
-de las 48 opciones encoge posición y medida en un solo dato —«Verso 3 · 4 sílabas»—, y el
-editor elige la que observa. No se asume nada de la arquitectura: la arquitectura solo declara
-el conjunto de medidas posibles, de 4 a 8.
+de las 24 opciones encoge posición y medida en un solo dato —«Verso 3 · 4 sílabas»—, y el
+editor elige la que observa. Son doce posiciones posibles por las dos medidas admitidas para
+el quebrado; no son 24 esquemas métricos. La arquitectura declara el conjunto {4, 5, 8}, pero
+el esquema estructurado todavía no distingue el octosílabo base de las dos medidas del
+quebrado: esa regla sigue expresada en las descripciones y en la pregunta editorial.
 
 Eso fue precisamente lo que corrigió el defecto D7. Antes había doce casillas para decir *dónde*
 caía el quebrado y una pregunta aparte para decir *cuánto* medía, y nada ligaba «hay quebrado en
