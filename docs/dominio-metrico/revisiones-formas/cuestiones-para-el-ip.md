@@ -262,10 +262,24 @@ Revisada el 5 de agosto, **aparece una decisión que sí conviene tomar**:
 ## Sextina
 
 
-- No bloquea el registro: la definición del proyecto permite distinguir la clásica de
-  la doble y ambas conservan la misma regla de permutación.
-- Confirmar únicamente si debe fijarse el orden de las seis palabras dentro del remate.
-  Por ahora se exige su presencia —tres interiores y tres finales— sin imponer parejas.
+1. **Hay dos sextinas dobles documentadas que no son la misma arquitectura.** La actual,
+   de 75 versos, repite dos veces el ciclo canónico de seis estrofas y añade un solo terceto
+   final (`12 × 6 + 3`); corresponde al modelo de la sextina doble de Petrarca, *Rerum
+   vulgarium fragmenta* 332. Navarro Tomás, § 115, documenta en cambio una sextina de
+   Montemayor con los seis vocablos «en doce estrofas con combinaciones distintas y en dos
+   tercetos finales», es decir, 78 versos (`12 × 6 + 2 × 3`). Si el catálogo admite ambas,
+   deben ser dos arquitecturas distintas; si solo admite una, el IP debe decidir cuál responde
+   al alcance del corpus. La atribución habitual a Dante necesita precisión: su llamada
+   *sestina doppia* o *rinterzata* no presenta la repetición simple de doce estrofas del modelo
+   petrarquista.
+2. **¿Se formaliza también la sextina como forma estrófica de seis versos?** Quilis,
+   § 5.4.5.1, llama *sextina* a la estrofa de seis endecasílabos que forma parte, junto con
+   otras cinco y un terceto, de la composición homónima. Crearla permitiría que las secciones
+   de la composición reutilizaran su arquitectura, igual que el soneto reutiliza cuarteto y
+   terceto. Habría que mantenerla separada de la *sextina real* `ABABCC` —equivalente a la
+   sexta rima— y del sexteto general.
+3. Confirmar si debe fijarse el orden de las seis palabras dentro del remate. Por ahora se
+   exige su presencia —tres interiores y tres finales— sin imponer parejas.
 
 ## Canción petrarquista
 
