@@ -57,6 +57,8 @@ export type PublicSchemePart = {
 };
 
 export type PublicRhymeScheme = PublicScheme & {
+	/** Identificador estable del esquema; también evita colisiones entre nombres iguales. */
+	id: string;
 	/** El bloque se repite indefinidamente: la notación lo marca con `[ ]…`. */
 	cicla: boolean;
 	enlaces: PublicRhymeLink[];
@@ -77,6 +79,8 @@ export type PublicRhymeScheme = PublicScheme & {
 };
 
 export type PublicSection = {
+	/** Identificador estable: una arquitectura puede repetir nombres como «Mudanza». */
+	id: string;
 	nombre: string;
 	nota: string | null;
 	/**

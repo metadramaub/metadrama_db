@@ -120,4 +120,84 @@ describe('catálogo público de formas', () => {
 		]);
 		expect(resultado?.fuentes).toHaveLength(1);
 	});
+
+	it('conserva ids de sección y no duplica una misma rima en mudanzas homónimas', async () => {
+		const rpc = vi.fn().mockResolvedValue({
+			data: {
+				...detalleVacio,
+				esquemasRima: [
+					{
+						esquema_rima_id: 'rima-abba',
+						arquitectura_id: arquitectura.arquitectura_id,
+						nombre: 'Mudanza en redondilla',
+						notacion: 'abba',
+						descripcion: null,
+						ambito: 'seccion'
+					}
+				],
+				secciones: [
+					{
+						seccion_id: 'mudanza-inicial',
+						arquitectura_id: arquitectura.arquitectura_id,
+						nombre: 'Mudanza',
+						nota: null,
+						versos_min: 4,
+						versos_max: 4,
+						repeticiones_min: 1,
+						repeticiones_max: 1,
+						arquitectura_referenciada_id: null,
+						orden: 1
+					},
+					{
+						seccion_id: 'mudanza-posterior',
+						arquitectura_id: arquitectura.arquitectura_id,
+						nombre: 'Mudanza',
+						nota: null,
+						versos_min: 4,
+						versos_max: 4,
+						repeticiones_min: 1,
+						repeticiones_max: 1,
+						arquitectura_referenciada_id: null,
+						orden: 2
+					}
+				],
+				gruposEleccion: [
+					{
+						grupo_eleccion_id: 'grupo-inicial',
+						seccion_id: 'mudanza-inicial',
+						dimension: 'rima'
+					},
+					{
+						grupo_eleccion_id: 'grupo-posterior',
+						seccion_id: 'mudanza-posterior',
+						dimension: 'rima'
+					}
+				],
+				opcionesEleccion: [
+					{
+						grupo_eleccion_id: 'grupo-inicial',
+						esquema_rima_id: 'rima-abba',
+						nombre: 'abba — redondilla',
+						orden: 1
+					},
+					{
+						grupo_eleccion_id: 'grupo-posterior',
+						esquema_rima_id: 'rima-abba',
+						nombre: 'abba — redondilla',
+						orden: 1
+					}
+				]
+			},
+			error: null
+		});
+
+		const resultado = await loadPublicForm({ rpc }, 'villancico');
+
+		expect(resultado?.arquitecturas_[0].secciones.map((seccion) => seccion.id)).toEqual([
+			'mudanza-inicial',
+			'mudanza-posterior'
+		]);
+		expect(resultado?.arquitecturas_[0].esquemasRima).toHaveLength(1);
+		expect(resultado?.arquitecturas_[0].esquemasRima[0].id).toBe('rima-abba');
+	});
 });

@@ -59,12 +59,18 @@
 	 */
 	function agruparRima(
 		esquemas: PublicRhymeScheme[]
-	): { parte: string | null; esquemas: PublicRhymeScheme[] }[] {
-		const grupos: { parte: string | null; esquemas: PublicRhymeScheme[] }[] = [];
+	): { clave: string; parte: string | null; esquemas: PublicRhymeScheme[] }[] {
+		const grupos: { clave: string; parte: string | null; esquemas: PublicRhymeScheme[] }[] = [];
+		const porParte = new Map<string, (typeof grupos)[number]>();
 		for (const esquema of esquemas) {
-			const ultimo = grupos.at(-1);
-			if (ultimo && ultimo.parte === esquema.deLaSeccion) ultimo.esquemas.push(esquema);
-			else grupos.push({ parte: esquema.deLaSeccion, esquemas: [esquema] });
+			const clave = esquema.deLaSeccion ?? '__unidad__';
+			const grupo = porParte.get(clave);
+			if (grupo) grupo.esquemas.push(esquema);
+			else {
+				const nuevo = { clave, parte: esquema.deLaSeccion, esquemas: [esquema] };
+				porParte.set(clave, nuevo);
+				grupos.push(nuevo);
+			}
 		}
 		return grupos;
 	}
@@ -217,7 +223,7 @@
 									<div>
 										<h4 class="text-sm font-semibold">Medida</h4>
 										<ul class="mt-1 space-y-1 text-sm">
-											{#each arquitectura.esquemasMetricos as esquema (esquema.nombre)}
+											{#each arquitectura.esquemasMetricos as esquema, i (`${esquema.nombre}:${i}`)}
 												<li>
 													{esquema.nombre}
 													{#if esquema.descripcion}
@@ -234,13 +240,13 @@
 									<div>
 										<h4 class="text-sm font-semibold">Rima</h4>
 										<ul class="mt-1 space-y-1 text-sm">
-											{#each agruparRima(arquitectura.esquemasRima) as grupo (grupo.parte ?? '—')}
+										{#each agruparRima(arquitectura.esquemasRima) as grupo (grupo.clave)}
 												{#if grupo.parte}
 													<li class="pt-2 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
 														{grupo.parte}
 													</li>
 												{/if}
-												{#each grupo.esquemas as esquema (esquema.nombre)}
+											{#each grupo.esquemas as esquema (esquema.id)}
 													<li class={grupo.parte ? 'pl-3' : ''}>
 														<details class="group">
 															<summary
@@ -260,7 +266,7 @@
 																{#if esquema.partes.length > 0}
 																	<p>{esquema.partes.map(describirParte).join(' · ')}</p>
 																{/if}
-																{#each esquema.partes.filter((p: PublicSchemePart) => p.nota) as parte (parte.nombre)}
+													{#each esquema.partes.filter((p: PublicSchemePart) => p.nota) as parte (`${parte.nombre}:${parte.desde}:${parte.hasta}`)}
 																	<p>{@html renderInlineMarkdown(parte.nota ?? '')}</p>
 																{/each}
 																{#each esquema.enlaces as enlace, i (i)}
@@ -288,7 +294,7 @@
 							<div class="mt-5">
 								<h4 class="text-sm font-semibold">Partes</h4>
 								<ul class="mt-2 space-y-2 text-sm">
-									{#each arquitectura.secciones as seccion (seccion.nombre)}
+									{#each arquitectura.secciones as seccion (seccion.id)}
 										<li class="border-l-2 border-[color:var(--border)] pl-3">
 											<span class="font-medium">{seccion.nombre}</span>
 											{#if versos(seccion) || repeticiones(seccion)}
@@ -313,7 +319,7 @@
 							<div class="mt-5">
 								<h4 class="text-sm font-semibold">Variedades</h4>
 								<ul class="mt-1 space-y-1 text-sm">
-									{#each arquitectura.variedades as variedad (variedad.nombre)}
+									{#each arquitectura.variedades as variedad, i (`${variedad.nombre}:${i}`)}
 										<li>
 											{variedad.nombre}
 											{#if variedad.descripcion}
@@ -331,7 +337,7 @@
 							<div class="mt-5">
 								<h4 class="text-sm font-semibold">Repetición</h4>
 								<ul class="mt-1 space-y-2 text-sm">
-									{#each arquitectura.repeticiones as repeticion (repeticion.regla)}
+									{#each arquitectura.repeticiones as repeticion, i (`${repeticion.regla}:${i}`)}
 										<li>
 											<span class="font-medium">{nombreRepeticion(repeticion)}</span>
 											{#if repeticion.modalidad}
@@ -357,7 +363,7 @@
 							<div class="mt-5">
 								<h4 class="text-sm font-semibold">Rasgos que admite</h4>
 								<ul class="mt-1 space-y-1 text-sm">
-									{#each arquitectura.rasgos as rasgo (rasgo.nombre + (rasgo.valor ?? ''))}
+									{#each arquitectura.rasgos as rasgo, i (`${rasgo.nombre}:${rasgo.valor ?? ''}:${i}`)}
 										<li>
 											{rasgo.nombre}{rasgo.valor ? `: ${rasgo.valor}` : ''}
 											{#if rasgo.modalidad}
@@ -384,7 +390,7 @@
 		<section class="mt-10">
 			<h2 class="font-display text-2xl">Con qué se relaciona</h2>
 			<ul class="mt-4 space-y-3">
-				{#each forma.relaciones as relacion (relacion.slug + relacion.tipo)}
+				{#each forma.relaciones as relacion (`${relacion.slug}:${relacion.tipo}:${relacion.esOrigen}`)}
 					<li class="leading-7">
 						<span class="text-[color:var(--muted-foreground)]">{describirRelacion(relacion)}</span>
 						<a class="underline hover:no-underline" href="/formas/{relacion.slug}">
