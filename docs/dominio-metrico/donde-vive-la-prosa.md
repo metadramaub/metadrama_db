@@ -14,9 +14,15 @@ la norma que la gobierna: qué se escribe en cada campo y cuándo entra una fuen
 | Campo | Dónde | Qué dice |
 | --- | --- | --- |
 | `definicion` | `formas_metricas` | Qué **es** la forma, en tercera persona. No qué decidió el proyecto sobre ella, ni cómo se anota, ni qué hace el demarcador |
-| `descripcion` | `arquitecturas_forma`, `variedades_arquitectura`, `esquemas_*` | Qué distingue a **esa** realización de sus hermanas. Si vale igual para todas, pertenece a la definición |
+| `descripcion` | `arquitecturas_forma`, `variedades_arquitectura`, `esquemas_*`, `repeticiones_metricas` | Qué distingue a **esa** realización de sus hermanas. Si vale igual para todas, pertenece a la definición; si el nombre y los datos estructurados ya lo dicen, puede quedar vacía |
 | `nota` | `estructuras_secciones`, `arquitectura_rasgos`, `esquema_rima_enlaces` | Una precisión sobre esa parte concreta, **y solo si la ficha no la deriva ya del dato** |
 | `afirmaciones_fuentes_metricas` | — | Lo que una fuente **añade**, con su localizador |
+
+`repeticiones_metricas.regla` no debe convertirse en un quinto depósito de prosa. Su nombre
+promete una restricción computable, pero hoy es texto libre y el editor calcula el efecto desde
+las opciones de elección. Resolver ese contrato y derivar de él la explicación pública queda
+anotado como revisión transversal en
+[el estado del catálogo](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
 
 Ninguno de los cuatro cuenta **cuándo se rellena** ni **de qué término legado vino**. «Solo se
 declara cuando caracteriza la secuencia» describe el formulario; «heredada de
@@ -146,10 +152,10 @@ que el catálogo no tiene, conviene anotarlo en
    catálogo cubre el Siglo de Oro y algo más, y en varios puntos es deliberadamente más
    amplio —la redondilla cruzada, la copla real—. Esa diferencia es información que merece
    afirmación propia, no un desacuerdo que haya que ocultar.
-5. **Las siete afirmaciones que se fueron con las fuentes retiradas.** Villancico, redondilla
-   doble, zéjel, copla de pie quebrado, copla real y décima perdieron su respaldo al quedarse
-   el catálogo en seis fuentes autorizadas. Lo que decían sigue en las definiciones que
-   justificaban; al revisar cada una de esas formas se busca su equivalente en las seis.
+5. **Las afirmaciones que se fueron con las fuentes retiradas.** Villancico, copla de pie
+   quebrado y décima ya recuperaron su respaldo tras consultar las seis fuentes autorizadas.
+   Siguen pendientes redondilla doble, zéjel y copla real; al revisar cada una se busca en las
+   seis el equivalente de lo que sostenían las fuentes retiradas.
 
 ## El destino de `revisiones-formas/`
 

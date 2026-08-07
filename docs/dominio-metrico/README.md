@@ -177,7 +177,7 @@ declara, las familias han desaparecido y las tradiciones están pobladas.
 
 Desde el 5 de agosto está en curso la **revisión del catálogo contra las fuentes**, que
 contrasta cada forma con seis monografías y corrige el dato donde la bibliografía demuestra que
-estaba mal. Va por 12 formas de 28, y su estado detallado está en
+estaba mal. Va por 18 formas de 27, y su estado detallado está en
 [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md).
 
 Las declaraciones reales de las secuencias no se han migrado ni se consultan

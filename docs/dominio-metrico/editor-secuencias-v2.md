@@ -49,7 +49,8 @@ o, cuando no existe una forma reconocible:
     + observación opcional
 ```
 
-Una elección ordinaria no es una desviación. En el villancico, `abba` y `abab` son respuestas
+Una elección ordinaria no es una desviación. En el villancico, `abba`, `abab` y la realización
+asonantada `abcb` son respuestas
 posibles a la pregunta por la rima de la mudanza; una ruptura que no encaje en ninguna de
 ellas sí se registra como desviación.
 
@@ -99,8 +100,8 @@ Una opción puede declarar además un efecto de formulario:
 - derivar su extensión de otra sección ya registrada.
 - aplicar el valor a una `posicion_unidad` concreta, cuando la alternativa es posicional.
 
-El efecto no sustituye el valor normalizado. «Represa total», por ejemplo, sigue
-apuntando a su patrón de repetición y hace aparecer una represa cuyo número de versos se
+El efecto no sustituye el valor normalizado. «Repetición total del estribillo», por ejemplo,
+sigue apuntando a su patrón de repetición y hace aparecer una sección cuyo número de versos se
 calcula desde la primera aparición del estribillo.
 
 En una copla real con pie quebrado, las opciones posicionales apuntan todas al metro de
@@ -117,7 +118,8 @@ unidades equivalentes; el editor cambia únicamente las excepciones.
 - `escenarios_editor_metrico`: sustituye temporalmente a una obra ficticia.
 - `secuencias_editor_metrico`: rango, forma y configuración de cada prueba.
 - `realizaciones_editor_metrico`: las unidades del pasaje y, dentro de ellas, coplas,
-  cabezas, estribillos, represas u otras secciones enlazadas jerárquicamente mediante
+  cabezas, estribillos, repeticiones del estribillo u otras secciones enlazadas
+  jerárquicamente mediante
   `realizacion_padre_id`. Una realización sin `seccion_id` es la unidad que define la
   forma: no es parte de nada y no cuelga de ninguna otra. La equivalencia es estricta y la
   base la impone: una realización no realiza ninguna sección exactamente cuando no tiene
@@ -237,7 +239,7 @@ Ambas generan:
 | Alcance | Dato |
 | --- | --- |
 | Cada sección que pone versos | Medida: 6 u 8 sílabas. |
-| Cada mudanza | Patrón: `abba` o `abab`. |
+| Cada mudanza | Patrón: `abba`, `abab` o la realización asonantada `abcb`. |
 | Cada copla | Enlace o vuelta como sección opcional, sin una pregunta redundante de presencia. |
 | Cada ciclo posterior | El estribillo se repite entero, en parte o se sobreentiende. |
 
@@ -249,13 +251,15 @@ En el formulario, la medida se pregunta una sola vez para toda la composición y
 solo se abren de una en una cuando alguna difiere. El atajo es de interfaz: lo que se guarda
 sigue siendo la medida de cada sección.
 
-«Represa» se conserva como identidad analítica —el `slug` de la sección y el de cada
-respuesta—, pero al editor se le muestra «Repetición del estribillo». El término técnico queda
-en la nota de la sección y en la ayuda de la pregunta.
+Los slugs técnicos heredados conservan `represa` para no romper referencias estables, pero no
+se muestran como terminología del catálogo ni del editor: en ambos se lee siempre «Repetición
+del estribillo». El uso bibliográfico de *represa* queda en las afirmaciones de las fuentes que
+emplean ese término.
 
 La configuración inicial crea la cabeza y el primer ciclo; la posterior crea una primera
 copla seguida del primer estribillo. Cada copla contiene su mudanza y posible enlace o
-vuelta. La represa es hermana de la copla, no hija suya. Una represa total o parcial
+vuelta. La repetición del estribillo es hermana de la copla, no hija suya. Una repetición total
+o parcial
 materializa versos; la implícita no inventa un rango. El formulario no infiere que una
 sección final aislada sea estribillo: elegir esa función exige evidencia editorial.
 

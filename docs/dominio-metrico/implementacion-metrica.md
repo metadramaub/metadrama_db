@@ -1,6 +1,6 @@
 # La implementación métrica de METADRAMA
 
-Estado: vigente · 31 de julio de 2026
+Estado: vigente · 7 de agosto de 2026
 
 Este documento explica **qué parte de la [ontología del verso español](./ontologia-verso-espanol.md)
 implementa METADRAMA, qué restringe por su corpus y cómo recoge el dato**. La ontología
@@ -62,13 +62,13 @@ con el IP para el teatro del Siglo de Oro.
 
 | Decisión | Qué se decidió |
 | --- | --- |
-| Alcance del catálogo | Cubre lo que el teatro del Siglo de Oro necesita. No pretende cubrir la métrica española |
+| Alcance del catálogo | Prioriza lo que necesita el teatro del Siglo de Oro, pero el modelo y el catálogo aspiran a admitir formas documentadas fuera del corpus sin presentarse todavía como repertorio exhaustivo de la métrica española |
 | Repertorios cerrados | Cuando una forma tiene un repertorio finito de esquemas o de medidas, ese cierre es decisión del corpus y está anotado en la ficha |
 | Delimitación de formas generales | El sexteto se delimita como seis versos de arte mayor consonantes, más estricto que la definición bibliográfica |
 | Certeza editorial | No se pregunta. Rige mundo cerrado |
 | Ritmo | Fuera de alcance |
 | Agrupamientos de formas | No se modelan. Contar por «décimas» es una categoría del estudio; se declarará en la capa de proyección |
-| Variantes ajenas al corpus | No se incorporan hasta que aparezcan |
+| Variantes ajenas al corpus | Pueden incorporarse cuando la bibliografía autorizada las documenta y ayudan a mantener un modelo general; su ausencia del corpus se conserva como dato de alcance |
 | Verso libre y fluctuante | Se tratan como tramos sin forma, no como formas. Si el corpus documentara alguno, sería una forma con su norma |
 
 Las dudas todavía abiertas están en
@@ -259,17 +259,21 @@ ninguna. Que una pregunta abarque dos secciones no obliga a fundirlas.
 flowchart TD
     F["FORMA · Villancico<br/>unidad: la composición"] --> A["ARQUITECTURA · estribillo inicial"]
     A --> C["SECCIÓN · cabeza<br/>2–4 versos"]
-    A --> Z["SECCIÓN · ciclo de copla<br/>repetible dentro de la unidad"]
-    Z --> MU["SECCIÓN · mudanza<br/>4 versos"]
-    Z --> EN["SECCIÓN · enlace o vuelta<br/>opcional"]
-    Z --> RE["SECCIÓN · represa<br/>opcional"]
-    MU --> ER["ELECCIÓN por unidad<br/>¿abba o abab?"]
-    RE --> REP["REPETICIÓN · estribillo<br/>total · parcial · implícita"]
+    A --> Z["SECCIÓN · ciclo de copla y repetición<br/>repetible dentro de la unidad"]
+    Z --> CO["SECCIÓN · copla"]
+    Z --> RE["SECCIÓN · repetición del estribillo<br/>opcional"]
+    CO --> MU["SECCIÓN · mudanza<br/>4 versos"]
+    CO --> EN["SECCIÓN · enlace o vuelta<br/>opcional"]
+    MU --> ER["ELECCIÓN por unidad<br/>abba · abab · abcb asonantado"]
+    RE --> REP["REPETICIÓN DEL ESTRIBILLO<br/>total · parcial · implícita"]
 ```
 
-Las secciones opcionales solo se materializan si aparecen, y cada una declara su medida: una
-cabeza hexasílaba con coplas octosílabas es un villancico, no dos secuencias. Una represa
-implícita no crea versos que no existen.
+Las secciones opcionales solo se materializan si aparecen. La medida se declara en la sección
+que aporta los versos y la repetición del estribillo la deriva de su primera aparición: una
+cabeza hexasílaba con coplas octosílabas es un villancico, no dos secuencias. Una repetición
+implícita no crea versos que no existen. En la arquitectura sin cabeza, la
+secuencia inicial agrupa la primera copla y la primera aparición del estribillo; la continuación
+agrupa los ciclos posteriores sin convertir esos contenedores en partes métricas nuevas.
 
 ### Estrofa con variedades · sexteto-lira
 
@@ -329,7 +333,7 @@ desviación.
 | Variedad | `variedades_arquitectura` |
 | Metro | `metros` · `metro_segmentos` |
 | Sección | `estructuras_secciones` |
-| Repetición léxica | `repeticiones_metricas` |
+| Repetición métrica o léxica | `repeticiones_metricas` · `repeticion_posiciones` |
 | Rasgo | `rasgos_metricos` · `rasgo_valores` · `arquitectura_rasgos` |
 | Elección | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` |
 | Norma declarada por el pasaje | `grupos_eleccion_metrica.define_norma` |

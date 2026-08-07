@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 6 de agosto de 2026
+Actualizado: 7 de agosto de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
 enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
@@ -28,7 +28,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **26 formas y
+   [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **27 formas y
   2 tramos sin forma**: la medida de toda forma isosilábica es arquitectura y ya no se
   pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
   sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el
@@ -40,7 +40,9 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   del dato: cada forma con sus arquitecturas, esquemas, secciones, rasgos, denominaciones y
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
   cambiando el `scope_minimo` de la sección `formas`. No lleva texto redactado: si algo se
-  lee mal, está mal en el catálogo.
+  lee mal, está mal en el catálogo. El listado carga los 29 registros activos en una sola
+  consulta y los conserva para el filtrado en ejecución; cada ficha usa otra consulta agregada
+  que mantiene los identificadores y la jerarquía padre-hijo de sus secciones.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
   las secuencias reales y no alimenta fichas, buscadores ni resúmenes públicos.
 - **La anotación en sombra funciona** desde el 4 de agosto de 2026, en la pestaña
@@ -195,7 +197,7 @@ se completó el 31. Lo que sigue:
 3. Contraste del catálogo por rasgos y no por nombres: **hecho**, y actuado. Lo que salió de
    ahí está aplicado; el razonamiento, en la
    [auditoría archivada](./historico/auditoria-catalogo.md).
-4. **Revisión del catálogo contra las fuentes: en curso, 12 formas de 28.** Es el trabajo de
+4. **Revisión del catálogo contra las fuentes: en curso, 18 formas de 27.** Es el trabajo de
    ahora mismo, y su estado está en
    [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Va destapando además
    defectos del modelo que se corrigen por el camino.

@@ -1,6 +1,6 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 7 de agosto de 2026 · **17 formas revisadas de 28**
+Actualizado: 7 de agosto de 2026 · **18 formas revisadas de 27**
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -57,7 +57,7 @@ de una forma cuando, después de revisar el pasaje y su contexto, no la trata.
 
 Antes había once fuentes. Las otras cinco se retiraron porque no cumplían el criterio de
 autoridad —publicación bibliográfica académica identificable—. Las afirmaciones perdidas de
-Décima, Copla de pie quebrado y Villancico ya se han recuperado desde las seis fuentes
+Décima, Copla de pie quebrado y Villancico ya se han recuperado tras revisar las seis fuentes
 autorizadas; siguen pendientes las de Redondilla doble, Zéjel y Copla real.
 
 ### Cómo se localiza un pasaje
@@ -98,7 +98,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Sexteto-lira | 1 | 1 | **pendiente** |
 | Sextilla | 1 | 1 | **pendiente** |
 | Sextina (estrofa y composición) | 6 | 7 | revisada |
-| Villancico | 5 | 5 | revisada · normalización interna aplazada |
+| Villancico | 5 | 5 | revisada · jerarquía pública corregida; normalización paramétrica aplazada |
 | Copla de pie quebrado | 6 | 6 | revisada |
 | Copla real | 0 | 0 | **pendiente** |
 | Zéjel | 0 | 0 | **pendiente** |
@@ -109,6 +109,10 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 El endecasílabo suelto se dejó expresamente para el final por decisión del IP: es el más
 problemático y conviene llegar a él con el resto resuelto. Los dos tramos sin forma no tienen
 norma que contrastar; se revisan al final, con él.
+
+La fila «Sextina» reúne dos formas activas distintas —la estrofa y la composición— revisadas
+en una sola unidad de trabajo. El denominador cuenta las 27 formas activas y excluye los dos
+tramos sin forma.
 
 ### Orden sugerido para continuar
 
@@ -170,7 +174,7 @@ que se escribe en el catálogo. Los tres que más se olvidan:
 
 | | Cómo se comprueba |
 | --- | --- |
-| **Catálogo público** `/formas` | Se genera del dato: cambia solo |
+| **Catálogo público** `/formas` | Se genera del dato, pero hay que verificar que la consulta agregada conserve ids, jerarquía y claves únicas; el villancico demostró que una respuesta completa puede representarse mal si se aplana |
 | **Demarcador** | Se compila del catálogo; subir `catalogo_metrico_estado.revision` lo marca desactualizado |
 | **Editor V2** | Lee nombres de opciones y esquemas: un renombrado se ve ahí |
 | **Equivalencias** | La vista debe seguir devolviendo 212 filas; revisar también `longitud_compatible` y `motivo_revision` para los usos de la forma |
@@ -222,6 +226,16 @@ Novena general sin clasificar por defecto cualquier pasaje de nueve versos.
 las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,
 `preferente`, `admitida`, `excepcional`, etc.— significan y se usan igual en todo el catálogo,
 y aclarar qué relación existe entre ambos mecanismos. No se normalizarán forma por forma.
+
+**Las reglas de repetición deben ser computables y la prosa debe tener responsabilidades
+separadas.** Hoy `repeticiones_metricas.regla` es texto libre: el editor V2 no lo interpreta,
+sino que calcula la aparición y la extensión mediante `materializa_seccion_id` y
+`extension_desde_seccion_id`; el demarcador solo usa `regla` o `descripcion` para presentar un
+resultado. Al cerrar la revisión hay que decidir si ese comportamiento estructurado pertenece
+a la repetición, cómo se relaciona con las opciones de elección y qué texto público se deriva
+de él. En la misma lectura transversal se precisará la separación entre `definicion`,
+`descripcion`, `nota` y cualquier explicación derivada, sin duplicar un mismo dato en dos
+campos.
 
 **Hay que precisar qué hereda y qué puede restringir una reutilización.** El soneto reutiliza
 el terceto aunque determina la rima de sus dos secciones, mientras el remate de la sextina
