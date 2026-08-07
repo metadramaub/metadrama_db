@@ -45,6 +45,10 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Sexteto | 6 versos de arte mayor consonantes, de la medida de su arquitectura: 11, 12 o 14 | esquema de rima de cada unidad; `ABABCC` es la variedad llamada sexta rima | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Seguidilla simple | 4 versos, `7-5-7-5`, asonancia `-a-a` | nada | múltiplo de 4; materializa una unidad por cada 4 versos |
 | Seguidilla compuesta | 7 versos, `7-5-7-5 + 5-7-5`, asonancia `-a-a + b-b` y secciones | nada | múltiplo de 7; materializa una unidad por cada 7 versos |
+| Seguidilla de tres versos | 3 versos, `5-7-5`, asonancia `a-a` | nada | múltiplo de 3; materializa una unidad por cada 3 versos |
+| Seguidilla chamberga | 10 versos, `7-5-7-5 + 3-7 + 3-7 + 3-7`, asonancias `-a-a + bb + cc + dd` y secciones | nada | múltiplo de 10; materializa el cuerpo y los tres pareados añadidos |
+| Seguidilla gitana | 4 versos, `6-6-(10/11/12)-6`, asonancia `-a-a` | medida del tercer verso | múltiplo de 4; materializa una unidad por cada 4 versos |
+| Seguidilla real | 4 versos, `10-6-10-6`, asonancia `-a-a` | nada | múltiplo de 4; materializa una unidad por cada 4 versos |
 | Sextina · estrofa | 6 endecasílabos sin rima convencional, con seis palabras finales distintas | nada | múltiplo de 6; materializa una estrofa por cada 6 versos |
 | Sextina · clásica | 39 endecasílabos, 6 sextinas + remate de 3 y permutación fija de seis palabras | nada | múltiplo de 39; materializa sextinas y remate |
 | Sextina · doble petrarquista | 75 endecasílabos, 12 sextinas + remate de 3 y dos ciclos canónicos | nada | múltiplo de 75; materializa sextinas y remate |

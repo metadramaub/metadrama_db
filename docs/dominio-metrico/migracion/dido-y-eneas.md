@@ -1,6 +1,6 @@
 # Migración métrica · Dido y Eneas
 
-Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano:**
+Generado el 2026-08-07 por `npm run migracion:informe`. **No editar a mano:**
 se regenera y se pierde lo escrito. El procedimiento está en
 [cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
@@ -12,11 +12,15 @@ se regenera y se pierde lo escrito. El procedimiento está en
 
 ## Qué hay que consultar
 
+- **4 secuencia(s) sin equivalencia.** Es lo que hay que decidir con el editor.
+- **1 secuencia(s) resueltas por ascendencia.** La forma y la arquitectura
+  se heredan del término padre, pero las respuestas concretas —pareados, dístico final,
+  encadenamiento— no se deducen y las tiene que confirmar quien anotó.
 - **4 secuencias que pasan a ser 1.** El vocabulario viejo obligaba a
   partirlas porque el esquema cambiaba de estrofa a estrofa; en el modelo nuevo son una sola
   secuencia con varias unidades. Conviene confirmarlo antes de fundirlas.
 
-Resolución: 16 directas · 8 con rasgo propio · 0 por ascendencia · 0 sin destino · 0 sin forma declarada.
+Resolución: 15 directas · 8 con rasgo propio · 1 por ascendencia · 0 sin destino · 0 sin forma declarada · 4 con longitud por revisar.
 
 ## Secuencias que se funden en una
 
@@ -36,34 +40,43 @@ con las quintillas.
 > El tramo mide 211 versos y la unidad 6: no es múltiplo exacto, así que hay
 > algo que revisar antes de fundirlo.
 
+## Dudas, una por una
+
+| Versos | Término actual | Qué pasa |
+| --- | --- | --- |
+| 187–379 (193 v) | `sexteto_lira_a1_aBaBcC` | La arquitectura «Heterométrica consonante» no admite una secuencia de 193 versos: unidades completas de 6 versos. |
+| 1304–1494 (191 v) | `redondilla_regular` | La arquitectura «Octosilábica» no admite una secuencia de 191 versos: unidades completas de 4 versos. |
+| 1799–1876 (78 v) | `terceto_encadenado` | Ninguna arquitectura activa de «Terceto encadenado» admite una secuencia de 78 versos. |
+| 2382–2851 (470 v) | `redondilla_regular` | La arquitectura «Octosilábica» no admite una secuencia de 470 versos: unidades completas de 4 versos. |
+
 ## Secuencias
 
 | Versos | v | Término actual | Forma propuesta | Arquitectura | Además | Vía |
 | --- | ---: | --- | --- | --- | --- | --- |
-| 1–168 | 168 | `octava_real_regular` | Octava real | Endecasilábica consonante | — | directa |
+| 1–168 | 168 | `octava_real_regular` | Octava real | Endecasilábica consonante | — | por ascendencia (octava_real) |
 | 169–174 | 6 | `sexteto_lira_a2_AbaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A2 · AbaBcC» | directa |
 | 175–180 | 6 | `sexteto_lira_a1_aBaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A1 · aBaBcC» | directa |
 | 181–186 | 6 | `sexteto_lira_a3_abaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A3 · abaBcC» | directa |
-| 187–379 | 193 | `sexteto_lira_a1_aBaBcC` | Sexteto-lira | Heterométrica consonante | variedad «A1 · aBaBcC» | directa |
-| 380–543 | 164 | `romance_o-e` | Romance | Octosílabo | Vocales de la asonancia = o-e | rasgo + forma del padre |
+| 187–379 | 193 | `sexteto_lira_a1_aBaBcC` | Sexteto-lira | Heterométrica consonante | **Revisar:** La arquitectura «Heterométrica consonante» no admite una secuencia de 193 versos: unidades completas de 6 versos. | directa |
+| 380–543 | 164 | `romance_o-e` | Romance | Octosilábica | Vocales de la asonancia = o-e | rasgo + forma del padre |
 | 544–623 | 80 | `redondilla` | Redondilla | Octosilábica | — | directa |
-| 624–771 | 148 | `romance_o-a` | Romance | Octosílabo | Vocales de la asonancia = o-a | rasgo + forma del padre |
+| 624–771 | 148 | `romance_o-a` | Romance | Octosilábica | Vocales de la asonancia = o-a | rasgo + forma del padre |
 | 772–943 | 172 | `redondilla` | Redondilla | Octosilábica | — | directa |
-| 944–1045 | 102 | `romance_e-a` | Romance | Octosílabo | Vocales de la asonancia = e-a | rasgo + forma del padre |
+| 944–1045 | 102 | `romance_e-a` | Romance | Octosilábica | Vocales de la asonancia = e-a | rasgo + forma del padre |
 | 1046–1095 | 50 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
-| 1096–1223 | 128 | `romance_a-o` | Romance | Octosílabo | Vocales de la asonancia = a-o | rasgo + forma del padre |
+| 1096–1223 | 128 | `romance_a-o` | Romance | Octosilábica | Vocales de la asonancia = a-o | rasgo + forma del padre |
 | 1224–1303 | 80 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
-| 1304–1494 | 191 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
+| 1304–1494 | 191 | `redondilla_regular` | Redondilla | Octosilábica | **Revisar:** La arquitectura «Octosilábica» no admite una secuencia de 191 versos: unidades completas de 4 versos. | directa |
 | 1495–1574 | 80 | `decima_espinela` | Décima | Espinela | — | directa |
 | 1575–1798 | 224 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
-| 1799–1876 | 78 | `terceto_encadenado` | Terceto encadenado | Endecasilábico consonante | — | directa |
-| 1877–2052 | 176 | `romance_e-e` | Romance | Octosílabo | Vocales de la asonancia = e-e | rasgo + forma del padre |
+| 1799–1876 | 78 | `terceto_encadenado` | Terceto encadenado | Endecasilábica consonante | **Revisar:** Ninguna arquitectura activa de «Terceto encadenado» admite una secuencia de 78 versos. | directa |
+| 1877–2052 | 176 | `romance_e-e` | Romance | Octosilábica | Vocales de la asonancia = e-e | rasgo + forma del padre |
 | 2053–2227 | 175 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
-| 2228–2381 | 154 | `romance_e-o` | Romance | Octosílabo | Vocales de la asonancia = e-o | rasgo + forma del padre |
-| 2382–2851 | 470 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
-| 2852–2969 | 118 | `romance_a-a` | Romance | Octosílabo | Vocales de la asonancia = a-a | rasgo + forma del padre |
+| 2228–2381 | 154 | `romance_e-o` | Romance | Octosilábica | Vocales de la asonancia = e-o | rasgo + forma del padre |
+| 2382–2851 | 470 | `redondilla_regular` | Redondilla | Octosilábica | **Revisar:** La arquitectura «Octosilábica» no admite una secuencia de 470 versos: unidades completas de 4 versos. | directa |
+| 2852–2969 | 118 | `romance_a-a` | Romance | Octosilábica | Vocales de la asonancia = a-a | rasgo + forma del padre |
 | 2970–3013 | 44 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
-| 3014–3071 | 58 | `romance_e-a` | Romance | Octosílabo | Vocales de la asonancia = e-a | rasgo + forma del padre |
+| 3014–3071 | 58 | `romance_e-a` | Romance | Octosilábica | Vocales de la asonancia = e-a | rasgo + forma del padre |
 
 ## Subtipos estróficos
 

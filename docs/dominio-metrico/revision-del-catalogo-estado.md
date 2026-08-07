@@ -1,6 +1,6 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 7 de agosto de 2026 · **16 formas revisadas de 28**
+Actualizado: 7 de agosto de 2026 · **17 formas revisadas de 28**
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -94,7 +94,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Canción petrarquista | 1 | 1 | **pendiente** |
 | Copla de arte mayor | 1 | 1 | **pendiente** |
 | Novena | 4 | 4 | fuentes revisadas · separación y apertura aplazadas |
-| Seguidilla | 1 | 1 | **pendiente** |
+| Seguidilla | 6 | 6 | revisada |
 | Sexteto | 1 | 1 | **pendiente** |
 | Sexteto-lira | 1 | 1 | **pendiente** |
 | Sextilla | 1 | 1 | **pendiente** |
@@ -113,8 +113,7 @@ norma que contrastar; se revisan al final, con él.
 
 ### Orden sugerido para continuar
 
-Las de estructura media primero, que son las más rápidas: **seguidilla**. Luego las
-compuestas: **villancico, zéjel, canción petrarquista,
+Las compuestas primero: **villancico, zéjel, canción petrarquista,
 sextilla, sexteto, sexteto-lira, copla real, copla de arte mayor**. Y al final el
 **endecasílabo suelto** con los dos tramos sin forma.
 
@@ -127,13 +126,17 @@ sextilla, sexteto, sexteto-lira, copla real, copla de arte mayor**. Y al final e
 2. **Buscar la forma en las seis fuentes** y leer los pasajes enteros, no la primera frase.
 3. **Comparar y decidir**. Cuando la bibliografía contradice el dato, manda la bibliografía,
    salvo que el criterio del IP para el corpus sea deliberado y esté justificado.
-4. **Escribir la migración**, con el razonamiento en la cabecera y una guarda al final que
+4. **Comprobar las equivalencias legadas de la forma**. Hay que consultar sus usos en
+   `propuesta_metrica_secuencia` y verificar que forma, arquitectura y longitud sean
+   compatibles. Si el informe se equivoca, se corrige la regla común; no se retoca el informe
+   generado ni se migra la anotación de la obra durante esta revisión.
+5. **Escribir la migración**, con el razonamiento en la cabecera y una guarda al final que
    compruebe lo que acaba de escribirse.
-5. **Aplicar** con `npm run db:push` y **verificar en vivo** consultando la base.
-6. **Auditar** con `npm run audit:metrica` — introducir un defecto nuevo es fácil.
-7. **Añadir la forma al contrato del registrador**, si no está: la auditoría lo comprueba.
-8. **Borrar su ficha `.md`** y podar lo que quede resuelto en el registro de dudas.
-9. **Commit**, en español, con el porqué en el cuerpo.
+6. **Aplicar** con `npm run db:push` y **verificar en vivo** consultando la base.
+7. **Auditar** con `npm run audit:metrica` — introducir un defecto nuevo es fácil.
+8. **Añadir la forma al contrato del registrador**, si no está: la auditoría lo comprueba.
+9. **Borrar su ficha `.md`** y podar lo que quede resuelto en el registro de dudas.
+10. **Commit**, en español, con el porqué en el cuerpo.
 
 ### Cómo consultar la base
 
@@ -171,7 +174,7 @@ que se escribe en el catálogo. Los tres que más se olvidan:
 | **Catálogo público** `/formas` | Se genera del dato: cambia solo |
 | **Demarcador** | Se compila del catálogo; subir `catalogo_metrico_estado.revision` lo marca desactualizado |
 | **Editor V2** | Lee nombres de opciones y esquemas: un renombrado se ve ahí |
-| **Equivalencias** | `select via, count(*) from propuesta_metrica_secuencia group by via` — deben seguir siendo 212 |
+| **Equivalencias** | La vista debe seguir devolviendo 212 filas; revisar también `longitud_compatible` y `motivo_revision` para los usos de la forma |
 | **Respuestas propuestas** | `select count(*) from propuesta_elecciones_secuencia` — deben seguir siendo 91 |
 
 **Y una regla que vale para todo**: no fiarse de las migraciones para saber qué hay. Consultar
@@ -194,6 +197,9 @@ No estaba previsto, pero recorrer el catálogo destapó cosas del modelo. Todas 
 - **Las relaciones entre formas se ven en la ficha pública**, que no las mostraba.
 - **Una forma `serie` aparte solo se justifica cuando seriar cambia la estructura**, porque una
   estrofa ya se seria dentro de su propia forma.
+- **La equivalencia de un término genérico ya no impone siempre la arquitectura principal.**
+  Primero descarta las arquitecturas incompatibles con la extensión; si ninguna encaja,
+  conserva la forma y deja una duda explícita para el informe y el dashboard.
 
 ### Defectos del modelo aplazados
 

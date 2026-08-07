@@ -1,6 +1,6 @@
 # Migración métrica · El esclavo del demonio
 
-Generado el 2026-08-04 por `npm run migracion:informe`. **No editar a mano:**
+Generado el 2026-08-07 por `npm run migracion:informe`. **No editar a mano:**
 se regenera y se pierde lo escrito. El procedimiento está en
 [cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
@@ -12,18 +12,25 @@ se regenera y se pierde lo escrito. El procedimiento está en
 
 ## Qué hay que consultar
 
+- **1 secuencia(s) sin equivalencia.** Es lo que hay que decidir con el editor.
 - **6 secuencia(s) resueltas por ascendencia.** La forma y la arquitectura
   se heredan del término padre, pero las respuestas concretas —pareados, dístico final,
   encadenamiento— no se deducen y las tiene que confirmar quien anotó.
 
-Resolución: 19 directas · 5 con rasgo propio · 6 por ascendencia · 0 sin destino · 0 sin forma declarada.
+Resolución: 19 directas · 5 con rasgo propio · 6 por ascendencia · 0 sin destino · 0 sin forma declarada · 1 con longitud por revisar.
+
+## Dudas, una por una
+
+| Versos | Término actual | Qué pasa |
+| --- | --- | --- |
+| 2936–3073 (138 v) | `redondilla` | Ninguna arquitectura activa de «Redondilla» admite una secuencia de 138 versos. |
 
 ## Secuencias
 
 | Versos | v | Término actual | Forma propuesta | Arquitectura | Además | Vía |
 | --- | ---: | --- | --- | --- | --- | --- |
 | 1–235 | 235 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
-| 236–399 | 164 | `romance_o-a` | Romance | Octosílabo | Vocales de la asonancia = o-a | rasgo + forma del padre |
+| 236–399 | 164 | `romance_o-a` | Romance | Octosilábica | Vocales de la asonancia = o-a | rasgo + forma del padre |
 | 400–614 | 215 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
 | 615–640 | 26 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasilábica | — | por ascendencia (endecasilabo_suelto) |
 | 641–790 | 150 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
@@ -33,25 +40,25 @@ Resolución: 19 directas · 5 con rasgo propio · 6 por ascendencia · 0 sin des
 | 1079–1198 | 120 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 1199–1408 | 210 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
 | 1409–1552 | 144 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
-| 1553–1566 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábico consonante | esquema de rima «Tercetos de rima cruzada» | directa |
+| 1553–1566 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábica consonante | esquema de rima «Tercetos de rima cruzada» | directa |
 | 1567–1614 | 48 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 1615–1648 | 34 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasilábica | — | por ascendencia (endecasilabo_suelto) |
-| 1649–1760 | 112 | `romance_a-e` | Romance | Octosílabo | Vocales de la asonancia = a-e | rasgo + forma del padre |
+| 1649–1760 | 112 | `romance_a-e` | Romance | Octosilábica | Vocales de la asonancia = a-e | rasgo + forma del padre |
 | 1761–1840 | 80 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 1841–1877 | 37 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasilábica | — | por ascendencia (endecasilabo_suelto) |
 | 1878–2001 | 124 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 2002–2038 | 37 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasilábica | — | por ascendencia (endecasilabo_suelto) |
-| 2039–2052 | 14 | `soneto_con_tercetos_de_rima_paralela_ABBAABBACDECDE` | Soneto | Endecasilábico consonante | esquema de rima «Tercetos de rima paralela» | directa |
+| 2039–2052 | 14 | `soneto_con_tercetos_de_rima_paralela_ABBAABBACDECDE` | Soneto | Endecasilábica consonante | esquema de rima «Tercetos de rima paralela» | directa |
 | 2053–2200 | 148 | `redondilla_regular` | Redondilla | Octosilábica | — | directa |
 | 2201–2232 | 32 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasilábica | — | por ascendencia (endecasilabo_suelto) |
 | 2233–2427 | 195 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
-| 2428–2579 | 152 | `romance_a-o` | Romance | Octosílabo | Vocales de la asonancia = a-o | rasgo + forma del padre |
-| 2580–2751 | 172 | `romance_a-a` | Romance | Octosílabo | Vocales de la asonancia = a-a | rasgo + forma del padre |
-| 2752–2765 | 14 | `soneto_con_tercetos_de_rima_conclusiva_ABBAABBACDEDCE` | Soneto | Endecasilábico consonante | esquema de rima «Tercetos de rima conclusiva» | directa |
+| 2428–2579 | 152 | `romance_a-o` | Romance | Octosilábica | Vocales de la asonancia = a-o | rasgo + forma del padre |
+| 2580–2751 | 172 | `romance_a-a` | Romance | Octosilábica | Vocales de la asonancia = a-a | rasgo + forma del padre |
+| 2752–2765 | 14 | `soneto_con_tercetos_de_rima_conclusiva_ABBAABBACDEDCE` | Soneto | Endecasilábica consonante | esquema de rima «Tercetos de rima conclusiva» | directa |
 | 2766–2935 | 170 | `quintilla` | Quintilla | Octosilábica consonante | — | directa |
-| 2936–3073 | 138 | `redondilla` | Redondilla | Octosilábica | — | directa |
+| 2936–3073 | 138 | `redondilla` | Redondilla | Octosilábica | **Revisar:** Ninguna arquitectura activa de «Redondilla» admite una secuencia de 138 versos. | directa |
 | 3074–3131 | 58 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasilábica | — | por ascendencia (endecasilabo_suelto) |
-| 3132–3295 | 164 | `romance_e-a` | Romance | Octosílabo | Vocales de la asonancia = e-a | rasgo + forma del padre |
+| 3132–3295 | 164 | `romance_e-a` | Romance | Octosilábica | Vocales de la asonancia = e-a | rasgo + forma del padre |
 
 ## Subtipos estróficos
 
