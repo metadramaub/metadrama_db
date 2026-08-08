@@ -1,6 +1,6 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 8 de agosto de 2026 · **19 formas revisadas de 27**
+Actualizado: 8 de agosto de 2026 · **21 formas revisadas de 27**
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -95,8 +95,8 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Novena | 4 | 4 | fuentes revisadas · separación y apertura aplazadas |
 | Seguidilla | 6 | 6 | revisada |
 | Sexteto | 6 | 6 | revisada · las fuentes lo definen más ancho; el recorte del corpus queda anotado |
-| Sexteto-lira | 1 | 1 | **pendiente** |
-| Sextilla | 1 | 1 | **pendiente** |
+| Sexteto-lira | 6 | 6 | revisada · es una lira de seis versos; el repertorio de tipologías no es cerrado |
+| Sextilla | 6 | 6 | revisada · sus disposiciones tienen nombre; el quebrado no siempre va en 3 y 6 |
 | Sextina (estrofa y composición) | 6 | 7 | revisada |
 | Villancico | 5 | 5 | revisada · jerarquía pública corregida; normalización paramétrica aplazada |
 | Copla de pie quebrado | 6 | 6 | revisada |
@@ -116,15 +116,13 @@ tramos sin forma.
 
 ### Orden sugerido para continuar
 
-Las compuestas primero: **zéjel, canción petrarquista,
-sextilla, sexteto-lira, copla real, copla de arte mayor**. Y al final el
+Quedan: **zéjel, canción petrarquista, copla real, copla de arte mayor**. Y al final el
 **endecasílabo suelto** con los dos tramos sin forma.
 
-Conviene tomar **sextilla y sexteto-lira pronto**, ahora que el sexteto está leído: las tres se
-reparten el mismo territorio de seis versos y las fuentes las delimitan entre sí. El sexteto
-dejó anotado que Caparrós 2014 y el *Diccionario* admiten en él el arte menor —que aquí es la
-sextilla— y la mezcla de medidas —que aquí es el sexteto-lira—, de modo que las dos revisiones
-tienen que confirmar por dónde pasa la frontera.
+El territorio de los seis versos está cerrado —sexteto, sextilla y sexteto-lira—, y la lectura
+confirmó que **las tres formas están bien separadas**: la frontera la marcan el metro y la
+genealogía, no la extensión. Ninguna fuente las confunde, aunque varias usen un mismo nombre
+para dos de ellas.
 
 ---
 
@@ -183,8 +181,14 @@ que se escribe en el catálogo. Los tres que más se olvidan:
 | **Catálogo público** `/formas` | Se genera del dato, pero hay que verificar que la consulta agregada conserve ids, jerarquía y claves únicas; el villancico demostró que una respuesta completa puede representarse mal si se aplana |
 | **Demarcador** | Se compila del catálogo; subir `catalogo_metrico_estado.revision` lo marca desactualizado |
 | **Editor V2** | Lee nombres de opciones y esquemas: un renombrado se ve ahí |
-| **Equivalencias** | La vista debe seguir devolviendo 212 filas; revisar también `longitud_compatible` y `motivo_revision` para los usos de la forma |
-| **Respuestas propuestas** | `select count(*) from propuesta_elecciones_secuencia` — deben seguir siendo 91 |
+| **Equivalencias** | Hoy la vista devuelve 212 filas; revisar también `longitud_compatible` y `motivo_revision` para los usos de la forma |
+| **Respuestas propuestas** | Hoy `select count(*) from propuesta_elecciones_secuencia` da 91 |
+
+**Las dos cifras son un aviso, no una invariante.** Sirven para notar que algo se movió sin
+querer, pero moverse no es de suyo un error: la revisión encuentra equivalencias mal hechas o
+poco precisas, y corregirlas cambia el recuento con toda la razón. Lo que no vale es que
+cambien sin explicación. Si cambian, se dice por qué en el cuerpo del commit y se actualiza la
+cifra aquí.
 
 **Y una regla que vale para todo**: no fiarse de las migraciones para saber qué hay. Consultar
 siempre el catálogo en vivo y leer el esquema de las tablas antes de sacar conclusiones. Las
@@ -227,6 +231,27 @@ histórica como redondilla y quintilla, normalmente 4+5 y también 5+4. La copla
 identidad de forma subordinada, no de arquitectura, y recibirá las dos arquitecturas actuales.
 La separación no se aplica todavía porque falta decidir cómo hacer registrable y demarcable la
 Novena general sin clasificar por defecto cualquier pasaje de nueve versos.
+
+**La variedad apenas se usa, y hay que decidir si el concepto se sostiene.** Una variedad es
+una disposición concreta entre las posibilidades que la arquitectura deja abiertas —la sexta
+rima dentro del sexteto endecasílabo—. Pero el catálogo solo tiene **8 variedades repartidas en
+2 arquitecturas de las 57 activas**, y 7 de las 8 son las tipologías del sexteto-lira. Es
+decir: el concepto lo sostiene casi enteramente una sola forma. Al cerrar la revisión hay que
+mirar juntas esas ocho y decidir si la variedad es un nivel que el modelo necesita o si es un
+esquema de rima con nombre; y, si se conserva, por qué tantas formas con disposiciones
+reconocidas —las combinaciones de la quintilla, los tercetos del soneto— no la usan. La
+pregunta es del modelo, no de una forma: no se resuelve dando o quitando variedades a la que
+toque revisar.
+
+La revisión del sexteto-lira lo agrava y da el material para decidirlo. **Sus siete tipologías
+no son un repertorio cerrado**: Navarro Tomás enumera `aBaBCC`, `AbAbcC`, `AbbAcC`, `AabBCC`
+«etc.», y Morley y Bruerton `aBaBcC`, `abbacC`, `AabBcC`, `AabBCC` «etc.»; entre ellas
+`AbAbcC` y `AbbAcC` no están en el catálogo. Añadirlas una a una es justamente lo que no debe
+hacerse antes de resolver el modelo, porque el problema no es que falten dos: es que la
+variedad acopla medida y rima en un solo registro y el número de parejas documentadas no tiene
+cierre. Al abrir esa lectura hay que decidir si esas parejas son variedades, si son la
+combinación de dos elecciones independientes —patrón métrico y patrón de rima— o si el
+acoplamiento debe declararse como restricción entre ambas.
 
 **La modalidad y la primacía necesitan una lectura transversal.** Al terminar la revisión de
 las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,
