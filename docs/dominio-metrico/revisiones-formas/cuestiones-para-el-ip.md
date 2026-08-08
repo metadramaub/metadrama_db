@@ -1,6 +1,6 @@
 # Cuestiones para el IP
 
-Actualizado: 7 de agosto de 2026
+Actualizado: 8 de agosto de 2026
 
 Este archivo reúne solo decisiones pendientes. **Lo descriptivo ya no vive aquí ni en fichas
 sueltas: vive en el catálogo, y se lee en `/formas`.** A medida que una forma se revisa, su
@@ -9,10 +9,14 @@ catálogo es el documento vivo y un `.md` paralelo solo puede quedarse viejo.
 
 Revisadas y con ficha ya retirada: romance, redondilla, décima, silva, soneto, quintilla, lira,
 octava real, cuarteto, terceto, terceto encadenado, pareado, endecha real, seguidilla, sextina
-—como estrofa y como composición— y villancico. La copla de pie quebrado está revisada; su
-ficha es compartida con la sextilla y las otras coplas pendientes, por lo que se retirará
-cuando se absorban también esas formas. Las fuentes de la novena están revisadas y su ficha se
-retiró, pero su separación respecto de la copla novena depende del modelo abierto pendiente.
+—como estrofa y como composición—, villancico, sexteto, sextilla, sexteto-lira y las cuatro
+coplas: de pie quebrado, real, de arte mayor y la sextilla que compartía ficha con ellas. La
+ficha de las coplas se retiró al quedar revisadas las cuatro. Las fuentes de la novena están
+revisadas y su ficha se retiró, pero su separación respecto de la copla novena depende del
+modelo abierto pendiente.
+
+Quedan por revisar: **zéjel y canción petrarquista**, y al final el **endecasílabo suelto** con
+los dos tramos sin forma.
 
 ## Dónde vive la información de cada forma
 
@@ -183,9 +187,16 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 
 ## Copla real
 
+Revisada contra las seis fuentes el 8 de agosto de 2026, partiendo de cero afirmaciones: era
+una de las tres formas que se quedaron sin respaldo al retirarse las cinco fuentes no
+autorizadas. Las dudas de abajo siguen abiertas y las dos nuevas están en «Coplas y sextillas»,
+con el resto de las coplas.
 
-1. ¿Los quebrados pueden ocupar cualquiera de las diez posiciones?
-2. ¿Se admiten únicamente tetrasílabos o también pentasílabos?
+1. ¿Los quebrados pueden ocupar cualquiera de las diez posiciones? El *Diccionario* dice que la
+   estrofa «admite algún verso quebrado (tetrasílabo)» sin fijar dónde, y Jauralde solo señala
+   que con el tiempo llegó a quebrar alguno de sus versos.
+2. ¿Se admiten únicamente tetrasílabos o también pentasílabos? Las seis fuentes solo nombran el
+   tetrasílabo para esta forma; el pentasílabo aparece en la copla de pie quebrado.
 
 ## Coplas y sextillas
 
@@ -204,9 +215,29 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
    ordena las sextillas por medida y describe también **tetrasilábicas y pentasilábicas**. Las
    tres del catálogo son las del corpus, no las de la bibliografía.
 4. ¿Debe registrarse el esquema exacto de las dobles sextillas no manriqueñas?
-5. ¿Los tres esquemas de copla de arte mayor son un repertorio cerrado?
+5. **¿Los tres esquemas de copla de arte mayor son un repertorio cerrado?** Siguen siendo tres,
+   pero **ya no son los mismos**: la revisión del 8 de agosto de 2026 retiró `ABBACDCD` y
+   `ABABCDCD`, que no enlazaban los dos cuartetos, y los sustituyó por `ABABBCCB` y `ABBAACAC`,
+   que es la lista que dan Caparrós 2014 y el *Diccionario*. Cuatro fuentes exigen el enlace
+   —una rima común y los versos cuarto y quinto rimando entre sí—, así que un esquema de cuatro
+   rimas contradice la forma. Navarro Tomás registra uno, `ABBA:CDDC`, en una carta de Tirso de
+   Molina, pero como caso singular cuyos personajes aluden a lo antiguo de la estrofa. ¿Se
+   admite esa excepción como desviación registrable?
 6. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el
-   corpus?
+   corpus? Las seis fuentes las tratan como formas aparte de las cuatro que el catálogo tiene:
+   la de arte menor son ocho octosílabos en dos redondillas con enlace, y la castellana, la
+   combinación `abba:cddc` que Navarro Tomás documenta con lugar importante en el teatro del
+   siglo XVI.
+7. **Nuevo: ¿la copla real admite la estructura 4-6?** El catálogo fija 5+5. Jauralde advierte
+   que las semiestrofas «no son necesariamente iguales» y que la forma 4-6 **precede** a la 5-5,
+   mayoritaria solo a finales del siglo XV; Navarro Tomás describe el mismo proceso desde el
+   modelo 4-4. Si el corpus áureo solo da 5+5, la arquitectura actual basta; conviene
+   confirmarlo antes de que aparezca una anotación que no encaje.
+8. **Nuevo: ¿debe restringirse el par de quintillas de la copla real?** Hoy las dos preguntas
+   ofrecen los ocho esquemas con independencia. Morley y Bruerton, que describen a Lope,
+   afirman que las dos quintillas son **de tipo diferente**: la segunda siempre `AABBA` y la
+   primera casi siempre `ABABA`. No se ha restringido, porque las otras cinco fuentes describen
+   libertad de disposición y el catálogo cubre más que a Lope.
 
 ## Décimas
 

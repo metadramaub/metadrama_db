@@ -197,7 +197,7 @@ se completó el 31. Lo que sigue:
 3. Contraste del catálogo por rasgos y no por nombres: **hecho**, y actuado. Lo que salió de
    ahí está aplicado; el razonamiento, en la
    [auditoría archivada](./historico/auditoria-catalogo.md).
-4. **Revisión del catálogo contra las fuentes: en curso, 21 formas de 27.** Es el trabajo de
+4. **Revisión del catálogo contra las fuentes: en curso, 23 formas de 27.** Es el trabajo de
    ahora mismo, y su estado está en
    [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Va destapando además
    defectos del modelo que se corrigen por el camino.
