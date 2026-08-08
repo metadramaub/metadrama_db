@@ -270,6 +270,29 @@ cierre. Al abrir esa lectura hay que decidir si esas parejas son variedades, si 
 combinación de dos elecciones independientes —patrón métrico y patrón de rima— o si el
 acoplamiento debe declararse como restricción entre ambas.
 
+**Las preguntas del editor deberían derivarse del dato, no mantenerse a mano.** Hoy cada forma
+lleva sus grupos de elección y sus opciones escritos uno a uno en migraciones: **61 grupos y 406
+opciones**. Eso es lo que hace caro mantener el catálogo, porque una corrección filológica
+obliga a tocar dos sitios —el dato y la pregunta—, como pasó al sustituir dos esquemas de la
+copla de arte mayor, donde hubo que repuntar además las opciones que los referenciaban.
+
+La medida invita al optimismo: **las 406 opciones apuntan ya a un dato codificado** —79 a un
+esquema de rima, 167 a un metro, 145 a un valor de rasgo, 7 a una variedad— y **ninguna es texto
+libre**. Es decir, la opción casi nunca añade información: repite en forma de pregunta algo que
+la arquitectura ya declara. Si es así, buena parte de los grupos podría generarse recorriendo
+los esquemas admitidos, los rasgos declarados y las variedades de cada arquitectura, y lo escrito
+a mano quedaría reducido al enunciado y al orden.
+
+Al cerrar la revisión hay que auditar los 61 grupos juntos y decidir **cuánto se automatiza**:
+qué parte se deriva de la arquitectura, qué parte necesita seguir declarada —el enunciado, la
+ayuda al editor, `permite_aplicar_global`, el alcance— y qué casos se resisten. Los que ya se
+sabe que se resisten son los tres que esta revisión ha ido encontrando: las **24 opciones
+posicionales de la copla de pie quebrado**, generadas para una unidad que es un rango; las
+**siete tipologías del sexteto-lira**, que acoplan medida y rima; y las **133 vocales de
+asonancia** del romance y la endecha real, que son un vocabulario cerrado y no una norma de la
+forma. Es la misma lectura en la que se decide el destino de la variedad, porque las dos
+preguntas se responden con el mismo material.
+
 **La modalidad y la primacía necesitan una lectura transversal.** Al terminar la revisión de
 las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,
 `preferente`, `admitida`, `excepcional`, etc.— significan y se usan igual en todo el catálogo,
@@ -300,6 +323,20 @@ resolver el significado general de la reutilización.
 del verso, no con quién rima —la lira escribe `aBabB` y son dos rimas, no cuatro—. En la endecha
 real hubo que corregirlo a mano. Volverá a pasar en cualquier rima entre arte menor y arte
 mayor. Está anotado en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+
+**Y la caja tampoco vive en el slug.** Conviene tenerlo claro porque induce a error: la caja es
+dato —la mayúscula dice arte mayor— y se conserva en la columna `notacion`, `ABBAACCA`. Pero el
+**slug de un esquema de rima va siempre en minúsculas**, sin excepción en todo el catálogo: la
+octava real es `abababcc`, la lira `ababb`, el sexteto `ababcc`. Lo fija
+[la norma de nomenclatura](./historico/revision-nomenclatura.md) —«la notación en
+minúsculas»—, que incluso renombró un slug de la canción petrarquista por llevar mayúsculas.
+
+Los slugs de caja mixta que sí existen están en **otras dos tablas**: `variedades_arquitectura`
+—las siete tipologías del sexteto-lira, `a2_AbaBcC`— y once opciones de elección del soneto y
+del propio sexteto-lira. Que existan ahí no significa que la convención de `esquemas_rima` haya
+cambiado. Consultado el 8 de agosto de 2026: **se mantiene en minúsculas**, porque cambiarla
+obligaría a renombrar todos los esquemas de rima del catálogo a cambio de nada que no diga ya
+`notacion`.
 
 ---
 
