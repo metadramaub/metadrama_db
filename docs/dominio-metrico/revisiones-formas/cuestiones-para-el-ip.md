@@ -194,10 +194,15 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
    versos, las medidas y el tipo de rima son los mismos; solo cambia si las rimas de la
    segunda mitad dependen de la primera. Hoy lo afirma el editor al elegir arquitectura.
    ¿Debe seguir siendo así o hay un criterio observable que lo decida?
-2. ¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`? La bibliografía documenta
-   también sextillas heterométricas con otra distribución; si el corpus las trae, serían una
-   arquitectura más.
-3. ¿Las medidas 6, 7 y 8 forman un repertorio cerrado para la sextilla isométrica?
+2. **¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`?** La revisión del 8 de agosto
+   de 2026 lo confirma como lo típico y **descarta que sea lo único**: el *Diccionario* ilustra
+   su entrada con una estrofa de Lucas Fernández quebrada en **segundo y quinto**, y Jauralde
+   documenta las sextillas de Ricardo Gil con el tetrasílabo en esas mismas posiciones. La nota
+   del rasgo ya no afirma que la posición sea invariable. Si el corpus trae una de esas, ¿es
+   una arquitectura más o una desviación de la existente?
+3. **¿Las medidas 6, 7 y 8 forman un repertorio cerrado para la sextilla isométrica?** Jauralde
+   ordena las sextillas por medida y describe también **tetrasilábicas y pentasilábicas**. Las
+   tres del catálogo son las del corpus, no las de la bibliografía.
 4. ¿Debe registrarse el esquema exacto de las dobles sextillas no manriqueñas?
 5. ¿Los tres esquemas de copla de arte mayor son un repertorio cerrado?
 6. ¿Copla de arte menor y copla castellana se incorporarán solo si aparecen en el
@@ -246,14 +251,32 @@ Revisada el 5 de agosto, **aparece una decisión que sí conviene tomar**:
 
 ## Sexteto-lira
 
+Revisado contra las seis fuentes el 8 de agosto de 2026. La primera duda ya no es una duda:
+**el repertorio no está cerrado, y está demostrado**.
 
-1. ¿Las siete variedades son un repertorio cerrado, las reconocidas hasta ahora o
-   medida y rima pueden combinarse libremente? Si aparecen otras parejas restringidas,
-   se ampliarían las combinaciones; solo si ambos ejes son independientes se
-   preguntarían por separado.
-2. ¿A1 debe seguir presentándose como variedad habitual o preferente?
-3. ¿Una tirada puede cambiar de variedad entre estrofas sin dejar de constituir una
-   única secuencia?
+1. **Faltan tipologías documentadas.** Navarro Tomás enumera `aBaBCC`, `AbAbcC`, `AbbAcC`,
+   `AabBCC` «etc.»; Morley y Bruerton, `aBaBcC`, `abbacC`, `AabBcC`, `AabBCC` «etc.». De ellas,
+   **`AbAbcC` y `AbbAcC` no están en el catálogo**. No se han añadido: el problema no es que
+   falten dos, sino que la variedad acopla medida y rima y el número de parejas documentadas no
+   tiene cierre. Va a la
+   [lectura transversal de la variedad](../revision-del-catalogo-estado.md#defectos-del-modelo-aplazados),
+   donde hay que decidir si son variedades, dos elecciones independientes o una restricción
+   entre ambas.
+2. ¿A1 debe seguir presentándose como variedad habitual o preferente? Navarro Tomás y Morley y
+   Bruerton coinciden en que `aBaBcC` es la forma regular, así que la preferencia tiene
+   respaldo; queda decidir si el editor debe verla marcada.
+3. ¿Una tirada puede cambiar de variedad entre estrofas sin dejar de constituir una única
+   secuencia? Morley y Bruerton observan que el tipo adoptado al comienzo de un pasaje suele
+   conservarse a lo largo de él, lo que apoya tratar el cambio como excepción, no como norma.
+4. **Nuevo: ¿debe llamarse sexteto-lira o lira?** Las seis fuentes la subordinan a la lira, y
+   Morley y Bruerton —la fuente del verso dramático de Lope— la llaman simplemente **Lira**,
+   que es el nombre con el que está descrita la métrica de las comedias. El catálogo conserva
+   «Sexteto-lira» porque distingue de la lira de cinco versos, y «Lira» queda registrada como
+   denominación; conviene confirmar que esa es la preferencia.
+5. Navarro Tomás documenta el sexteto simétrico `abC:abC` de san Juan de la Cruz, de seis
+   versos de siete y once sílabas pero **sin pareado final**, de modo que no cabe en la
+   definición actual. ¿Es otra forma, una tipología que obliga a ensanchar la definición, o
+   queda fuera del corpus?
 
 ## Sexteto
 

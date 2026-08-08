@@ -1,6 +1,14 @@
 # Coplas y sextillas
 
-Estado: copla de pie quebrado revisada contra las seis fuentes; las demás formas siguen pendientes · 7 de agosto de 2026
+Estado: copla de pie quebrado y **sextilla** revisadas contra las seis fuentes; copla real y
+copla de arte mayor siguen pendientes · 8 de agosto de 2026
+
+> **Lo que esta ficha dice de la sextilla ya no manda.** Su revisión se absorbió en el catálogo
+> el 8 de agosto de 2026 y el dato vivo está ahí. En particular, dos cosas que se leen abajo
+> quedaron corregidas: el quebrado **no** va siempre en tercero y sexto —el *Diccionario* y
+> Jauralde documentan segundo y quinto—, y sus disposiciones tienen nombre en la bibliografía
+> —alterna, correlativa, simétrica o paralela—, que el catálogo ya registra. Esta ficha se
+> conserva solo por las dos coplas que faltan.
 
 ## Decisión general
 
