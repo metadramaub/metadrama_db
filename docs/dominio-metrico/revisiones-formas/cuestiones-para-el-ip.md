@@ -257,12 +257,27 @@ Revisada el 5 de agosto, **aparece una decisión que sí conviene tomar**:
 
 ## Sexteto
 
+Revisado contra las seis fuentes el 8 de agosto de 2026. Las dos dudas siguen abiertas, pero
+la lectura las precisa: **las fuentes empujan hacia una definición más ancha que la del
+catálogo**, y el recorte es del proyecto.
 
-- No bloquea el registro actual: el proyecto lo delimita como seis versos de arte mayor
-  consonantes, repartidos en tres arquitecturas por medida —11, 12 y 14—.
-- Si el corpus documenta un sexteto que combine arte mayor y menor y no sea sexteto-lira,
-  confirmar si debe ampliarse la forma o crearse otra.
-- ¿Las medidas 11, 12 y 14 forman un repertorio cerrado?
+- No bloquea el registro actual: el proyecto lo delimita como seis versos isosilábicos de arte
+  mayor consonantes, repartidos en tres arquitecturas por medida —11, 12 y 14—.
+- **¿Se admite el sexteto que combina arte mayor y menor?** Ya no es una hipótesis sobre el
+  corpus: Caparrós 2014 lo incluye en la definición —«de arte mayor, o de arte mayor y menor
+  combinados entre sí»—, el *Diccionario* añade que a veces el término cubre también el arte
+  menor, y Jauralde reserva un grupo a los «sextetos mixtos». Si el corpus documenta uno que no
+  sea sexteto-lira, hay que decidir si se amplía la forma o se crea otra.
+- **¿Las medidas 11, 12 y 14 forman un repertorio cerrado?** Jauralde describe además sextetos
+  eneasilábicos, decasilábicos y pentadecasilábicos. Las tres del catálogo son las del corpus,
+  no las de la bibliografía.
+- **¿La consonancia es exigible?** Navarro Tomás documenta en el modernismo el sexteto asonante
+  abcbDB y tipos que dejan sueltos varios versos. En el corpus áureo la consonancia es la
+  norma; conviene confirmar que ninguna secuencia obligue a relajarla.
+- Sigue pendiente lo anotado en la endecha real: la variedad que Navarro Tomás describe en los
+  *Nocturnos de San Pedro* —endecha real y sexteto con un pie quebrado que repite en eco la
+  rima del segundo heptasílabo— no tiene todavía sitio como forma. Ninguna de las seis fuentes
+  la formaliza como sexteto autónomo, de modo que la revisión no la ha creado.
 
 ## Seguidilla
 

@@ -1,6 +1,6 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 7 de agosto de 2026 · **18 formas revisadas de 27**
+Actualizado: 8 de agosto de 2026 · **19 formas revisadas de 27**
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -37,8 +37,8 @@ Al terminar, cada forma debe tener:
 | Domínguez Caparrós 2016, *Diccionario de métrica española* | `Dominguez-Caparros-1999-diccionario-metrica.txt` |
 | Jauralde Pou 2020, *Métrica española* | `Jauralde-Pou-2020-metrica-espanola.txt` |
 
-**El fichero del Diccionario dice 1999 en su nombre y es la 3.ª edición de 2016.** El nombre
-está mal; la fuente en la base es correcta.
+**El fichero del Diccionario dice 1999 en su nombre pero es la 3.ª edición de 2016.** El nombre
+refiere a la edición original.
 
 El directorio `bibliografía/` está fuera de git. Si faltan los volcados se regeneran con
 `pdftotext -layout -enc UTF-8`; el epub de Jauralde se extrajo descomprimiéndolo y limpiando
@@ -94,7 +94,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Copla de arte mayor | 1 | 1 | **pendiente** |
 | Novena | 4 | 4 | fuentes revisadas · separación y apertura aplazadas |
 | Seguidilla | 6 | 6 | revisada |
-| Sexteto | 1 | 1 | **pendiente** |
+| Sexteto | 6 | 6 | revisada · las fuentes lo definen más ancho; el recorte del corpus queda anotado |
 | Sexteto-lira | 1 | 1 | **pendiente** |
 | Sextilla | 1 | 1 | **pendiente** |
 | Sextina (estrofa y composición) | 6 | 7 | revisada |
@@ -117,8 +117,14 @@ tramos sin forma.
 ### Orden sugerido para continuar
 
 Las compuestas primero: **zéjel, canción petrarquista,
-sextilla, sexteto, sexteto-lira, copla real, copla de arte mayor**. Y al final el
+sextilla, sexteto-lira, copla real, copla de arte mayor**. Y al final el
 **endecasílabo suelto** con los dos tramos sin forma.
+
+Conviene tomar **sextilla y sexteto-lira pronto**, ahora que el sexteto está leído: las tres se
+reparten el mismo territorio de seis versos y las fuentes las delimitan entre sí. El sexteto
+dejó anotado que Caparrós 2014 y el *Diccionario* admiten en él el arte menor —que aquí es la
+sextilla— y la mezcla de medidas —que aquí es el sexteto-lira—, de modo que las dos revisiones
+tienen que confirmar por dónde pasa la frontera.
 
 ---
 
