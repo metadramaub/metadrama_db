@@ -1,6 +1,6 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 8 de agosto de 2026 · **21 formas revisadas de 27**
+Actualizado: 8 de agosto de 2026 · **23 formas revisadas de 27**
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -58,7 +58,8 @@ de una forma cuando, después de revisar el pasaje y su contexto, no la trata.
 Antes había once fuentes. Las otras cinco se retiraron porque no cumplían el criterio de
 autoridad —publicación bibliográfica académica identificable—. Las afirmaciones perdidas de
 Décima, Copla de pie quebrado y Villancico ya se han recuperado tras revisar las seis fuentes
-autorizadas; siguen pendientes las de Redondilla doble, Zéjel y Copla real.
+autorizadas, y la Copla real recuperó el suyo el 8 de agosto de 2026 partiendo de cero
+afirmaciones; siguen pendientes las de Redondilla doble y Zéjel.
 
 ### Cómo se localiza un pasaje
 
@@ -91,7 +92,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Endecha real | 5 | 12 | revisada |
 | Terceto | 3 | 3 | revisada · las otras tres fuentes no lo tratan aparte |
 | Canción petrarquista | 1 | 1 | **pendiente** |
-| Copla de arte mayor | 1 | 1 | **pendiente** |
+| Copla de arte mayor | 6 | 6 | revisada · **dos de sus tres esquemas contradecían a las fuentes** |
 | Novena | 4 | 4 | fuentes revisadas · separación y apertura aplazadas |
 | Seguidilla | 6 | 6 | revisada |
 | Sexteto | 6 | 6 | revisada · las fuentes lo definen más ancho; el recorte del corpus queda anotado |
@@ -100,7 +101,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Sextina (estrofa y composición) | 6 | 7 | revisada |
 | Villancico | 5 | 5 | revisada · jerarquía pública corregida; normalización paramétrica aplazada |
 | Copla de pie quebrado | 6 | 6 | revisada |
-| Copla real | 0 | 0 | **pendiente** |
+| Copla real | 6 | 6 | revisada · recuperado su respaldo; cuatro denominaciones |
 | Zéjel | 0 | 0 | **pendiente** |
 | Endecasílabo suelto | 1 | 1 | **pendiente · se deja para el final** |
 | Versificación irregular | 1 | 1 | tramo sin forma |
@@ -116,13 +117,22 @@ tramos sin forma.
 
 ### Orden sugerido para continuar
 
-Quedan: **zéjel, canción petrarquista, copla real, copla de arte mayor**. Y al final el
-**endecasílabo suelto** con los dos tramos sin forma.
+Quedan: **zéjel y canción petrarquista**. Y al final el **endecasílabo suelto** con los dos
+tramos sin forma.
 
 El territorio de los seis versos está cerrado —sexteto, sextilla y sexteto-lira—, y la lectura
 confirmó que **las tres formas están bien separadas**: la frontera la marcan el metro y la
 genealogía, no la extensión. Ninguna fuente las confunde, aunque varias usen un mismo nombre
 para dos de ellas.
+
+Las coplas también quedan cerradas, y **también están bien separadas, pero por otra razón**.
+Las cuatro no comparten extensión —6, 8, 10 y de 5 a 12 versos—, así que nunca compiten. Lo que
+la revisión aclara es que «copla» no nombra un parentesco: la de arte mayor es una octava culta
+del siglo XV, la real son dos quintillas octosilábicas, la sextilla es una estrofa de seis y la
+de pie quebrado es la salida general del quebrado. La única relación real que las fuentes
+documentan entre dos de ellas es la de la copla real con la décima espinela, y es de contraste
+—rimas independientes frente a rima común—, no de familia. El reparto en cuatro formas
+distintas, sin familia que las agrupe, es el que corresponde.
 
 ---
 
@@ -210,6 +220,13 @@ No estaba previsto, pero recorrer el catálogo destapó cosas del modelo. Todas 
 - **Las relaciones entre formas se ven en la ficha pública**, que no las mostraba.
 - **Una forma `serie` aparte solo se justifica cuando seriar cambia la estructura**, porque una
   estrofa ya se seria dentro de su propia forma.
+- **Un esquema de rima puede afirmar de una forma algo que la bibliografía niega.** La copla de
+  arte mayor declaraba `ABBACDCD` y `ABABCDCD`, cuyo segundo cuarteto estrena dos rimas nuevas.
+  Cuatro fuentes exigen lo contrario —una rima común a los dos cuartetos y los versos cuarto y
+  quinto rimando entre sí—, así que la estrofa lleva dos o tres rimas y nunca cuatro. Se
+  sustituyeron por los dos que las fuentes documentan. Al retirar un esquema hay que repuntar
+  las opciones de elección que lo referencian: la clave foránea lo impide y, sobre todo, la
+  pregunta del editor debe ofrecer el dato corregido.
 - **La equivalencia de un término genérico ya no impone siempre la arquitectura principal.**
   Primero descarta las arquitecturas incompatibles con la extensión; si ninguna encaja,
   conserva la forma y deja una duda explícita para el informe y el dashboard.
