@@ -15,6 +15,7 @@ import type {
 	PublicRepetition,
 	PublicRhymeScheme,
 	PublicSchemePart,
+	PublicSection,
 	PublicSource
 } from '$lib/metrica/formas-publicas.types';
 import type { MetricStructuralLevel } from '$lib/metrica/catalogo';
