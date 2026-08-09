@@ -224,8 +224,12 @@ la deja, y por eso aparecen en esta lista.
 ## Además
 
 - Tres secuencias reales tienen `estrofa_tipo_id` **nulo**: no declaran forma ninguna.
-- El rasgo **«Pie quebrado» no tiene valores**, y hace falta para
-  `copla_real_de_pie_quebrado`.
+- El rasgo **«Pie quebrado» sigue sin valores**, y hace falta para
+  `copla_real_de_pie_quebrado`: el término legado necesita un valor al que apuntar. Lo que sí
+  quedó declarado el 9 de agosto de 2026 son **las medidas** del quebrado, que hasta entonces
+  solo existían en las opciones de la pregunta: `esquema_metrico_opciones` dice ahora, con su
+  columna `rol`, que el octosílabo es el metro dominante de la copla real y que el tetrasílabo y
+  el pentasílabo son sus quebrados.
 - **Cuarteto** y **Endecha real** son formas nuevas sin equivalente legado: no hay nada que
   migrar y no son un problema. Muchas otras formas del catálogo tampoco se han usado aún, y
   ahí la migración será trivial —**canción petrarquista, con 0 secuencias**, es el caso

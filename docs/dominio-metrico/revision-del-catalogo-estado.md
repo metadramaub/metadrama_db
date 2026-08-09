@@ -345,18 +345,49 @@ entidad del catálogo.
 `definitoria` con valor fijo se deriva y no se pregunta; `admitida` con valor fijo produce una
 pregunta opcional de un solo valor; `admitida` sin valor deja el eje abierto.
 
-#### Lo que falta declarar, que es siempre lo mismo
+#### Los cinco huecos · declarados el 9 de agosto de 2026
 
-Los cinco huecos son **el mismo tipo de carencia**: *qué subconjunto de lo posible admite esta
-arquitectura*. Se resuelven declarándolo, no preguntándolo.
+Eran **el mismo tipo de carencia**: *qué subconjunto de lo posible admite esta arquitectura*.
+Uno resultó no ser un hueco y los otros cuatro se resolvieron con dos cambios de estructura
+(migración `20260809150000`).
 
-| Caso | Qué ofrece hoy la pregunta | Qué falta declarar |
-| --- | --- | --- |
-| Sextilla · esquema de rima | 1 de los 2 esquemas de su arquitectura | Por qué el otro no se ofrece |
-| Copla de pie quebrado · medidas | 2 de los 3 metros de su esquema | Cuál es el metro dominante y cuáles el quebrado |
-| Copla real · posiciones quebradas | Tetrasílabo y pentasílabo | Su arquitectura no declara ningún conjunto de metros |
-| Silva · organización en pareados | 2 de los 5 grados | Qué grados admite, cuando el rasgo va `admitida` sin valor |
-| Endecasílabo suelto · ídem | Otros 2 de los 5 grados | Ídem |
+**No era un hueco: la sextilla.** Ofrece uno de sus dos esquemas de rima porque el otro es de
+tipo `abierta`, y **ningún esquema abierto se ofrece nunca como opción** —0 de 11 en todo el
+catálogo, y 0 de 4 entre los de tipo `restricciones`—. Un esquema abierto declara que la norma
+no fija la disposición; no es una alternativa elegible. Con eso, las reglas de la rima quedan
+completas y sin nada que declarar:
+
+| Situación de la arquitectura | Qué genera |
+| --- | --- |
+| Un solo esquema concreto | Nada: se deriva |
+| Varios concretos | Pregunta con esos como opciones |
+| Solo esquema abierto | Respuesta abierta, ya marcada con `tipo_control` |
+| Abierto más concreto | Pregunta opcional para marcar el concreto |
+
+**Cambio 1 · el papel del metro.** `esquema_metrico_opciones` gana la columna `rol`: nulo es
+una alternativa entre iguales —el hexasílabo o el octosílabo del villancico—, `dominante` es el
+verso base y `quebrado` el verso corto que lo interrumpe. La copla de pie quebrado ya declaraba
+sus tres metros sin decir cuál era cuál; la copla real no declaraba ninguno, aunque su pregunta
+ofrecía tetrasílabo y pentasílabo. Ahora las dos lo declaran y la pregunta se deriva: los
+quebrados son los metros de rol `quebrado`.
+
+**Cambio 2 · el subconjunto admitido de un rasgo.** `arquitectura_rasgos` podía decir «vale X»
+o «queda abierto», pero no «admite estos dos de los cinco». Su clave primaria pasa a incluir el
+valor, con `nulls not distinct` para que siga habiendo una sola fila cuando el eje se deja
+abierto de verdad. La silva endecasilábica declara ahora `habituales` y `predominantes`; el
+endecasílabo suelto, `ninguna` y `ocasionales`.
+
+Que la carencia era real lo probaba la propia nota del endecasílabo suelto, que decía en prosa
+«Ninguna u ocasionales»: **el dato estaba escrito, pero como texto y no como hecho computable**.
+Es el ejemplo exacto de lo que la ontología quiere evitar.
+
+Este cambio resuelve además parte de la transversal de los rasgos —la de las dos magnitudes, más
+abajo—: declarar qué grados admite cada arquitectura hace explícito que la silva y el
+endecasílabo suelto ocupan **tramos distintos de la misma escala**, que era justo lo que no se
+podía expresar.
+
+Con esto, **los 61 grupos son derivables** y la retirada del sistema de preguntas y respuestas
+deja de depender de ninguna decisión filológica pendiente.
 
 #### Los enunciados no son información
 
@@ -381,6 +412,46 @@ Nada de contenido métrico. Solo presentación: **el orden** en que se muestran 
 si se quiere conservar, una ayuda al editor por dimensión y no por forma. Todo lo demás sale del
 catálogo, que es donde el IP quiere que esté.
 
+#### Un sexto hueco: la cardinalidad
+
+Al declarar los cinco anteriores apareció otro que el barrido por dimensiones no veía, porque no
+está en las opciones sino en el grupo: **cuántas respuestas admite una pregunta**. Doce grupos
+tienen una cardinalidad distinta de «exactamente una», y once se derivan —el mínimo cero sale de
+la modalidad `admitida`, el máximo sale de la extensión de la unidad o de la sección, el 2 del
+pareado sale de sus dos versos—.
+
+**El que no se deriva es la copla real**, cuya pregunta admite de cero a dos posiciones
+quebradas. Nada en el catálogo dice que **como mucho dos** de sus diez versos puedan quebrarse:
+esa norma vive en `selecciones_max` y, otra vez, en una nota en prosa —«Uno o dos de los diez
+versos pueden ser quebrados»—. Es el mismo patrón que los otros cinco y se resolverá igual, pero
+conviene tenerlo presente: **retirar las preguntas sin declararlo perdería una norma**.
+
+### Datos asumidos que siguen viviendo en prosa
+
+Barrido del 9 de agosto de 2026 sobre las notas y descripciones del catálogo, a petición del IP:
+buscar información que se dé por supuesta en texto sin haberse convertido en dato procesable.
+De 46 pasajes con aspecto de llevar dato, la mayoría **describen lo que el catálogo ya declara**
+—«Endecasílabos en las posiciones 1, 4 y 6»— y son redundancia, no carencia; el criterio de
+[dónde vive la prosa](./donde-vive-la-prosa.md) ya prohíbe escribir lo que la ficha deriva.
+
+Los que sí señalan carencia:
+
+- **La articulación de la estancia no está modelada.** Una nota dice «la fronte ocupa los versos
+  1–6 y la sirima los versos 7–13; el verso 7 es el eslabón», pero la canción petrarquista no
+  declara esas partes como secciones. Las tres son unidades con nombre tradicional y extensión
+  propia, y hoy solo existen como frase.
+- **La simetría de la mudanza tampoco.** «Normalmente organizada en dos miembros simétricos»
+  aparece en tres notas del villancico, y es justamente la duda 1 de esa forma en
+  [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#villancico).
+- **El límite de dos quebrados de la copla real**, arriba.
+
+Y una redundancia recién creada, que conviene podar: la nota de la copla de pie quebrado dice
+«El octosílabo es la medida dominante. Los pies quebrados son tetrasílabos o pentasílabos», que
+desde el 9 de agosto **es exactamente lo que declara la columna `rol`**.
+
+Al cerrar las transversales conviene repetir este barrido, porque cada cosa que se convierte en
+dato deja atrás una frase que la repite.
+
 **Un rasgo puede estar midiendo dos magnitudes a la vez.** Salió el 9 de agosto de 2026 al
 intentar recuperar los porcentajes de Morley y Bruerton en `organizacion_en_pareados`, que es
 el eje que separa la silva del endecasílabo suelto y del pareado. M&B cuentan **versos
@@ -396,6 +467,13 @@ declarativo y no verificable. **El IP decidió no cuantificar hasta separar las 
 Al abrir la lectura de los rasgos hay que revisar si otros tienen el mismo problema, porque la
 escala de cinco grados se extendió desde la silva al endecasílabo suelto y al pareado sin
 comprobar que midiera lo mismo en los tres.
+
+**Parte del problema se alivió el 9 de agosto**, al declarar los subconjuntos admitidos para
+poder derivar las preguntas. Ahora la silva endecasilábica dice que admite `habituales` y
+`predominantes`, y el endecasílabo suelto, `ninguna` y `ocasionales`: **los tramos son
+explícitos y no se solapan**, de modo que la escala se lee sin ambigüedad aunque siga sin tener
+cifras. Lo que queda por resolver es lo de fondo —que `ninguna` significa «ningún pareado» en la
+silva libre, que sí rima— y sigue exigiendo separar las dos magnitudes.
 
 **La modalidad y la primacía necesitan una lectura transversal.** Al terminar la revisión de
 las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,
