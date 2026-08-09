@@ -433,7 +433,32 @@ ningún verso— y `admitida` permite ninguna. Declararlo habría sido escribir 
 añadir una columna que nadie rellenaría con algo distinto de lo que ya se deduce es exactamente
 lo que le pasó a `valor_numero`.
 
-Con esto **los 61 grupos son derivables sin excepción**.
+#### Un séptimo hueco, encontrado al probar la derivación
+
+Al escribir la derivación y **contrastarla contra las 405 opciones escritas a mano**, la
+dimensión del metro no cuadró: 39 derivadas frente a 167. El diagnóstico destapó un hecho
+métrico que el catálogo no declara.
+
+Las preguntas de medida son de dos clases y **nada las distingue en el dato**:
+
+| Clase | Cómo se responde | Formas |
+| --- | --- | --- |
+| **Uniforme** | Una sola medida para toda la sección | Villancico y zéjel: «¿qué miden los versos de la mudanza?» |
+| **Por posición** | Una medida por cada verso | Canción petrarquista, pareado, copla real, copla de pie quebrado |
+
+Las dos usan un esquema métrico de tipo `conjunto` y las dos pueden estar ancladas a una
+sección, de modo que ni el tipo ni el anclaje las separan. **Lo que las separa vive en la
+prosa**: la descripción del conjunto de la canción dice «cada posición de la estancia se
+registra como heptasílaba o endecasílaba», y la del villancico, «sin imponer un orden fijo».
+
+Es un hecho de métrica y no de formulario: la mudanza del villancico **es isosilábica** y la
+estancia de la canción **es heterométrica por posición**. Declararlo —un `conjunto` que dice si
+su medida es uniforme en el tramo o varía verso a verso— cierra el hueco y hace derivable toda
+la dimensión.
+
+*Queda pendiente, y es el único que separa hoy de la derivación completa.*
+
+Con él declarado, **los 61 grupos serían derivables sin excepción**.
 
 ### Datos asumidos que siguen viviendo en prosa
 
