@@ -132,7 +132,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `romance_i` | valor de rasgo · i | 0 | 71 |
 | `romance_u-a` | valor de rasgo · u-a | 0 | 71 |
 | `romancillo_hexasilabo` | arquitectura · Romance · Hexasilábica | 0 | 1 |
-| `sexta_rima` | variedad · Sexta rima | 0 | 0 |
+| `sexta_rima` | denominación · Sexta rima | 0 | 0 |
 | `sexteto` | forma · Sexteto | 0 | 0 |
 | `sexteto_lira` | forma · Sexteto-lira | 0 | 4 |
 | `sexteto_lira_b1_abbacC` | variedad · B1 · abbacC | 0 | 4 |

@@ -263,27 +263,46 @@ export async function loadPublicForm(
 		(row) => (row.esquema_rima_id ? String(row.esquema_rima_id) : null)
 	);
 
+	/**
+	 * Los nombres de un esquema de rima, con el preferente delante.
+	 *
+	 * El orden importa porque el primero puede acabar siendo **el nombre del esquema**: muchas
+	 * disposiciones no tienen `nombre` propio —se identifican por su notación— y el nombre que
+	 * les dio la tradición vive como denominación. Al dejar de ser formas hijas, ahí acabaron:
+	 * «Sexta rima» nombra hoy el esquema `ABABCC` del sexteto, y «Cuarteta», el cruzado de la
+	 * redondilla.
+	 */
+	const nombresDeRima = (esquemaRimaId: string): string[] =>
+		(denominacionesPorRima.get(esquemaRimaId) ?? [])
+			.slice()
+			.sort((a, b) => Number(Boolean(b.preferente)) - Number(Boolean(a.preferente)))
+			.map((d) => String(d.nombre));
+
 	/** Los esquemas de rima de una arquitectura, ordenados por nombre porque la tabla no ordena. */
-	const mapearRima = (e: any): PublicRhymeScheme => ({
-		id: String(e.esquema_rima_id),
-		nombre: String(e.nombre ?? '—'),
-		notacion: texto(e.notacion),
-		descripcion: texto(e.descripcion),
-		// El ciclo lo marca la notación: es la única declaración que hay.
-		cicla: String(e.notacion ?? '').includes(']…'),
-		enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
-			desde: Number(l.posicion_origen),
-			hasta: Number(l.posicion_destino),
-			desplazamiento: Number(l.desplazamiento_bloque),
-			nota: texto(l.nota)
-		})),
-		denominaciones: (denominacionesPorRima.get(String(e.esquema_rima_id)) ?? []).map((d) =>
-			String(d.nombre)
-		),
-		partes: partesDe(String(e.esquema_rima_id)),
-		deLaSeccion: null,
-		ambito: texto(e.ambito)
-	});
+	const mapearRima = (e: any): PublicRhymeScheme => {
+		const nombres = nombresDeRima(String(e.esquema_rima_id));
+		// Un esquema sin nombre propio se presenta con el que la tradición le dio, y entonces
+		// ese nombre no se repite en la lista de los demás.
+		const propio = texto(e.nombre);
+		return {
+			id: String(e.esquema_rima_id),
+			nombre: propio ?? nombres[0] ?? '—',
+			notacion: texto(e.notacion),
+			descripcion: texto(e.descripcion),
+			// El ciclo lo marca la notación: es la única declaración que hay.
+			cicla: String(e.notacion ?? '').includes(']…'),
+			enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
+				desde: Number(l.posicion_origen),
+				hasta: Number(l.posicion_destino),
+				desplazamiento: Number(l.desplazamiento_bloque),
+				nota: texto(l.nota)
+			})),
+			denominaciones: propio ? nombres : nombres.slice(1),
+			partes: partesDe(String(e.esquema_rima_id)),
+			deLaSeccion: null,
+			ambito: texto(e.ambito)
+		};
+	};
 
 	/** Todos los esquemas, indexados por id, para resolverlos desde una opción de elección. */
 	const esquemaRimaPorId = new Map(
