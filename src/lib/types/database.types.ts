@@ -3980,11 +3980,12 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: boolean
       }
-      generar_opciones_eleccion_metrica: {
-        Args: { p_aplicar?: boolean }
+      comparar_opciones_eleccion_metrica: {
+        Args: never
         Returns: {
           derivadas: number
           escritas: number
+          etiquetas_distintas: number
           forma: string
           grupo: string
           veredicto: string
@@ -4047,6 +4048,7 @@ export type Database = {
         Returns: {
           esquema_metrico_id: string
           esquema_rima_id: string
+          etiqueta: string
           extension_desde_seccion_id: string
           grupo_eleccion_id: string
           materializa_seccion_id: string

@@ -531,9 +531,16 @@ rasgos independientes —dístico final y encadenamiento interior— en una list
 un rasgo con varios valores, sino dos preguntas de sí o no presentadas juntas, y su `rasgo_id`
 queda nulo a propósito.
 
-**La función no escribe.** Devuelve qué cambiaría; aplicar está deliberadamente sin implementar,
-porque las etiquetas de las opciones se siguen escribiendo a mano. Mientras tanto, pedir el
-informe es la manera de comprobar que el dato y el formulario no se han separado.
+**Todas las opciones se derivan ya**, sin excepción, desde que la última pregunta que no lo
+hacía —`rasgos_de_la_serie`— se partió en dos. Las 4 de respuesta abierta no se generan por
+definición.
+
+**Y no hay que escribirlas.** La función tuvo un `p_aplicar` que se retiró sin llegar a
+implementarse: **materializar solo hacía falta mientras las respuestas apuntaran a la opción**, y
+dejaron de hacerlo. Con la respuesta atada al dato del catálogo, las opciones pueden calcularse
+al leer, y entonces no hay nada que sincronizar ni que se pueda desincronizar. Lo que queda,
+`comparar_opciones_eleccion_metrica()`, es lo que de verdad era: una comprobación mientras las
+dos convivan.
 
 #### Cómo se derivan las etiquetas
 
@@ -556,6 +563,15 @@ sin que la repetición tuviera dónde decir cómo se llama. Declarado el 9 de ag
 guarda que exige que el nombre de la repetición y el de su opción coincidan: si se separaran, la
 etiqueta derivada cambiaría lo que el editor ve.
 
+La derivación las produce ya, y **206 de las 405 salen distintas de las escritas a mano**. No es
+un problema: es el efecto buscado. Hoy la misma clase de opción se rotula de maneras distintas
+según la forma —«Tipología 7 · ababb», «CDE CDE · rima paralela», «Redondilla cruzada · abab
+(cuarteta)»—, porque se escribieron una a una. Derivarlas las homogeneiza.
+
+Destapó además un defecto que la etiqueta manual tapaba: **siete metros estaban escritos sin
+tilde** —«Endecasilabo», «Octosilabo»— y no se veía porque la opción decía «11 sílabas». Es el
+patrón de siempre: lo que se escribe a mano esconde lo que el dato tiene mal.
+
 #### Borrar catálogo no borra anotación
 
 Corrección de un error introducido el mismo día. Al soltar la respuesta de la opción se le
@@ -572,6 +588,20 @@ perderla. Comprobado con un borrado real contra la base.
 edita la notación de un esquema, la respuesta antigua reflejará la nueva. Para conservar «lo que
 el editor vio aquel día» haría falta versionar el catálogo, que es otra decisión y no está
 tomada.*
+
+#### Pendiente: simplificar el gestor del catálogo
+
+Decidido por el IP el 9 de agosto, sin fecha. **El catálogo nuevo lo edita solo el IP**, y que
+otra persona toque una arquitectura o un esquema puede desordenar lo que la revisión ha ido
+asentando. Además, en cuanto las opciones se deriven, editarlas a mano en pantalla sería escribir
+algo que la siguiente lectura descarta.
+
+La intención es dejar `/dashboard/metrica` **para ver y para editar prosa** —definiciones,
+descripciones, afirmaciones de fuente— y que **todo lo estructural pase por migración**, que es
+lo que permite revisar qué queda afectado antes de aplicarlo y deja constancia del porqué. Para
+solo mirar, además, ya está el catálogo público de `/formas`.
+
+No se toca todavía: se valora cuando la derivación esté en vivo.
 
 ### Datos asumidos que siguen viviendo en prosa
 
