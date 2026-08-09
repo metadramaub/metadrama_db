@@ -628,8 +628,9 @@ con relación `derivada_de` hacia esta.
    León» para la de cinco. El catálogo conserva las dos formas separadas, mantiene la relación
    `derivada_de` que ya existía y registra «Lira» como denominación del sexteto-lira, con su
    fuente. La equivalencia legada no las cruza: son términos distintos, cada uno con su forma.
-   *Queda una pregunta de presentación, no de modelo, en
-   [Sexteto-lira](#sexteto-lira) 4: cuál de los dos nombres debe ser el preferente.*
+   **El IP confirmó el 9 de agosto de 2026 que ese es el reparto**: se guarda «Sexteto-lira»
+   para distinguirlo de la lira de cinco versos, y se registra que algunos lo llaman solo
+   «Lira» —véase [Sexteto-lira](#sexteto-lira) 4—.
 
 ## Sexteto
 
@@ -721,20 +722,27 @@ forma que concentra **7 de las 8 variedades de todo el catálogo**.
    dos ejes son libres, la [contraprueba del modelo](../criterios-de-nivel.md) dice que la
    variedad «no hace falta». Va con la
    [lectura transversal](../revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).*
-2. **¿A1 debe seguir marcada como preferente?** Hoy lo está. Navarro Tomás y Morley y Bruerton
-   coinciden en que `aBaBcC` es la forma regular, así que la preferencia tiene respaldo. *Queda
-   decidir si el editor debe verla destacada en la interfaz.*
-3. **¿Una tirada puede cambiar de tipología entre estrofas y seguir siendo una secuencia?** Hoy
-   el editor puede responder una distinta en cada unidad. Morley y Bruerton observan que el tipo
-   adoptado al comienzo de un pasaje **suele conservarse a lo largo de él**, lo que apoya tratar
-   el cambio como excepción y no como norma. *Si se decide que no puede cambiar, un cambio pasa
-   a ser una desviación o el corte entre dos secuencias.*
-4. **¿Debe llamarse sexteto-lira o lira?** Las seis fuentes la subordinan a la lira, y **Morley
-   y Bruerton —la fuente del verso dramático de Lope— la llaman simplemente *Lira***, que es el
-   nombre con el que está descrita la métrica de las comedias. El catálogo conserva
-   «Sexteto-lira» porque lo distingue de la lira de cinco versos, y «Lira» quedó registrada como
-   denominación con su fuente. *Conviene confirmar que ese es el orden de preferencia y no al
-   revés.*
+2. ~~**¿A1 debe seguir marcada como preferente?**~~ **Resuelto por el IP el 9 de agosto de 2026:
+   sí, se deja como está.** Navarro Tomás y Morley y Bruerton coinciden en que `aBaBcC` es la
+   forma regular, de modo que la preferencia tiene respaldo bibliográfico. *Ya estaba así en el
+   dato: no hizo falta cambiar nada.*
+3. ~~**¿Una tirada puede cambiar de tipología entre estrofas y seguir siendo una secuencia?**~~
+   **Resuelto por el IP el 9 de agosto de 2026: sí, y el cambio es admitido.** El sexteto-lira
+   **se comporta como la quintilla**: la tipología se elige por estrofa, y que una estrofa
+   difiera de la anterior **no es desviación ni corta la secuencia**. Morley y Bruerton observan
+   que el tipo adoptado al comienzo suele conservarse, así que el editor puede declarar uno para
+   toda la tirada y corregir después las que cambien; pero eso es una comodidad de registro, no
+   una norma que el cambio incumpla.
+
+   *Comprobado el 9 de agosto: el dato ya lo implementaba así, y con la misma configuración que
+   la quintilla —alcance de unidad, `permite_aplicar_global` verdadero y una ayuda al editor que
+   dice justamente eso—. No hizo falta cambiar nada.*
+4. ~~**¿Debe llamarse sexteto-lira o lira?**~~ **Resuelto por el IP el 9 de agosto de 2026: se
+   guarda como «Sexteto-lira», para distinguirlo de la lira de cinco versos, y se registra que
+   algunos lo llaman solo «Lira».** Es lo que ya hace el catálogo: la forma se llama
+   «Sexteto-lira» y «Lira» es una de sus tres denominaciones, con Morley y Bruerton —la fuente
+   del verso dramático de Lope— como respaldo, junto a «Sexteto alirado» y «Lira-sestina» del
+   *Diccionario*. *No hizo falta cambiar nada.*
 5. **¿Dónde va el `abC:abC` de san Juan de la Cruz?** Navarro Tomás lo documenta en la *Llama de
    amor viva*: seis versos de siete y once sílabas, pero **sin pareado final**, de modo que no
    cabe en la definición actual, que exige el pareado de tercera rima. *¿Es otra forma, una
