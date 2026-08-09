@@ -93,10 +93,16 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
     forma.
 11. Las restricciones de longitud obligan a revisar rangos incompatibles: múltiplos de la
     unidad fija, ciclos repetibles, composiciones cerradas y estructuras calculadas.
-12. **El catálogo no guarda lo que puede calcular.** Las preguntas del editor no se escriben:
-    `opciones_eleccion_metrica` es una vista que las deriva de las entidades, con la etiqueta y
-    la explicación de cada una. Lo que se quede sin poder derivarse no es una excepción que
-    justifique escribirlo a mano: es una carencia del catálogo, y la solución es declararla.
+12. **El catálogo no guarda lo que puede calcular.** El formulario del editor no se escribe: las
+    respuestas salen de `opciones_eleccion_metrica`, que es una vista, y el enunciado de
+    `grupos_eleccion_metrica_resueltos`, que lo compone con la dimensión y la sección. Lo que se
+    quede sin poder derivarse no es una excepción que justifique escribirlo a mano: es una
+    carencia del catálogo, y la solución es declararla.
+13. **Una función SQL no está probada hasta que se ejecuta.** Un cuerpo entrecomillado no se
+    revalida al borrar una columna y PL/pgSQL resuelve los campos de un `record` en ejecución, de
+    modo que `db push`, `check` y las pruebas pasan sobre código roto. Ha mordido tres veces en
+    dos días, una de ellas dejando el demarcador cinco días sin funcionar. Las guardas de las
+    migraciones **ejecutan** lo que tocan.
 
 ## Cómo se registra una secuencia
 

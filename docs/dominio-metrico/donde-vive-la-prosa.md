@@ -9,10 +9,11 @@ información podía vivir en tres sitios distintos**, con las duplicaciones que 
 Este documento era un aviso para auditar más tarde. Con la revisión ya en marcha pasa a ser
 la norma que la gobierna: qué se escribe en cada campo y cuándo entra una fuente.
 
-## Los cuatro sitios
+## Los cinco sitios
 
 | Campo | Dónde | Qué dice |
 | --- | --- | --- |
+| `pregunta` | `rasgos_metricos` | Cómo se le pregunta al editor por ese rasgo. Una sola por rasgo, para que no se pregunte de dos maneras en dos formas |
 | `definicion` | `formas_metricas` | Qué **es** la forma, en tercera persona. No qué decidió el proyecto sobre ella, ni cómo se anota, ni qué hace el demarcador |
 | `descripcion` | `arquitecturas_forma`, `variedades_arquitectura`, `esquemas_*`, `repeticiones_metricas`, `rasgo_valores` | Qué distingue a **esa** realización de sus hermanas. Si vale igual para todas, pertenece a la definición; si el nombre y los datos estructurados ya lo dicen, puede quedar vacía |
 | `nota` | `estructuras_secciones`, `arquitectura_rasgos`, `esquema_rima_enlaces` | Una precisión sobre esa parte concreta, **y solo si la ficha no la deriva ya del dato** |
@@ -38,6 +39,18 @@ catálogo, su etiqueta es el nombre de la entidad y su explicación es la `descr
 entidad: no hay dónde escribir prosa a la altura de la opción, ni falta. Escribirla dos veces
 fue justamente lo que dejó a la quintilla describiendo su `aabab` como «cruzada, también llamada
 Cuarteta», copiado de la redondilla, mientras su propio esquema decía lo correcto.
+
+Tampoco el enunciado, desde el 10 de agosto de 2026: se compone con la dimensión y el nombre de
+la sección. La única prosa que interviene es `rasgos_metricos.pregunta`, y por eso está en la
+tabla de arriba: cómo se pregunta por un rasgo se dice una vez, en el rasgo, y no una por cada
+forma que lo use. Antes `final_acentual` se preguntaba de dos maneras según la forma.
+
+Lo que sí sigue escribiéndose es `grupos_eleccion_metrica.ayuda_editor`, y con la misma regla que
+la `nota`: **no debe decir lo que el catálogo ya declara**. El barrido del 10 de agosto retiró
+nueve ayudas que lo hacían —tres repetían `permite_aplicar_global`, dos glosaban denominaciones
+ya registradas y dos contaban cuántas tipologías hay—. Las 53 restantes llevan criterio que no
+está en ninguna columna: «si la organizan sistemáticamente, la secuencia no es una silva sino una
+tirada de pareados».
 
 Ninguno de los cuatro cuenta **cuándo se rellena** ni **de qué término legado vino**. «Solo se
 declara cuando caracteriza la secuencia» describe el formulario; «heredada de

@@ -309,7 +309,6 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 		fields: [
 			'arquitectura_id',
 			'slug',
-			'nombre',
 			'ayuda_editor',
 			'dimension',
 			'tipo_control',

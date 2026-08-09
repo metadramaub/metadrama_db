@@ -65,7 +65,7 @@ segunda, exactamente uno.
 Define una pregunta que interesa responder:
 
 - configuración;
-- texto y ayuda para el editor;
+- ayuda para el editor;
 - dimensión;
 - alcance en toda la secuencia o en cada unidad;
 - sección a la que se aplica;
@@ -73,6 +73,16 @@ Define una pregunta que interesa responder:
 - posibilidad de aplicar la respuesta a todas las unidades equivalentes.
 
 No se crea un grupo para un resultado único que pueda derivarse automáticamente.
+
+**El enunciado no está entre sus columnas: se deriva.** Desde el 10 de agosto de 2026 se lee de
+`grupos_eleccion_metrica_resueltos`, que lo compone con la dimensión y el nombre de la sección
+—«Mudanza · Esquema de rima», «Medida de los quebrados»—, y en las preguntas de rasgo lo toma de
+`rasgos_metricos.pregunta`, para que el mismo rasgo no se pregunte de dos maneras en dos formas.
+
+Va corto y sin artículo porque el catálogo no declara el género de nada. Y lleva la sección
+dentro, no aparte, porque **el enunciado es además la clave con la que el editor pliega
+preguntas**: las que comparten dimensión y enunciado se responden juntas, y así las dos mudanzas
+del villancico —dos secciones distintas con el mismo nombre— siguen siendo una sola pregunta.
 
 ### `opciones_eleccion_metrica` — ya no es una tabla
 

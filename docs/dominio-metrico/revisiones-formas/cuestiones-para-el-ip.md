@@ -830,6 +830,20 @@ reutilizan el cuarteto y el terceto.
    **heptasílabo que rime con él** —`ABBA ABBA CDE CDE eFF`—, y lo ejemplifica con el «Voto a
    Dios que me espanta esta grandeza» de Cervantes. *Es el más probable de los dos en un corpus
    áureo, y hoy no cabe: un soneto de diecisiete versos no encaja en la arquitectura.*
+3. **¿Tienen los tercetos del soneto una sección propia de seis versos?** Lo destapó la
+   derivación de los enunciados el 10 de agosto de 2026. El soneto tiene dos secciones,
+   `cuarteto` (4 versos) y `terceto` (3), y **ambas remiten a la forma suelta correspondiente**.
+   La pregunta de los cuartetos se apoya en la suya y sale bien: los cuartetos del soneto *son*
+   cuartetos, y sus esquemas —`ABBA`, `ABAB`— son los de la forma. Pero la pregunta de los
+   tercetos **no se apoya en ninguna**: sus cuatro esquemas abarcan los seis versos de una vez y
+   riman los dos tercetos entre sí, mientras que la forma Terceto pregunta otra cosa —«¿qué
+   verso queda suelto?»—. Por eso ese grupo se quedó sin `seccion_id`, y derivado su enunciado
+   dice «Esquema de rima» a secas, al lado de «Cuartetos · Esquema de rima».
+   *Se intentó declarar la sección de tres versos y la guarda lo paró: la pregunta habría pasado
+   a ofrecer los esquemas del terceto suelto y se perdían siete de las 91 respuestas propuestas.
+   La salida sería una sección de seis versos que no remita a ninguna forma, pero eso es afirmar
+   que el soneto tiene una parte «tercetos» distinta de sus dos tercetos, y **es una decisión
+   sobre la estructura del soneto, no un arreglo técnico**.*
 
 ---
 
