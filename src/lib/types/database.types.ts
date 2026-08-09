@@ -1327,26 +1327,48 @@ export type Database = {
       equivalencias_respuestas_legadas: {
         Row: {
           created_at: string
+          esquema_rima_id: string | null
           grupo_eleccion_id: string
+          metro_id: string | null
           nota: string | null
-          opcion_eleccion_id: string
+          posicion_unidad: number | null
+          repeticion_id: string | null
           termino_id: string
+          valor_rasgo_id: string | null
+          variedad_id: string | null
         }
         Insert: {
           created_at?: string
+          esquema_rima_id?: string | null
           grupo_eleccion_id: string
+          metro_id?: string | null
           nota?: string | null
-          opcion_eleccion_id: string
+          posicion_unidad?: number | null
+          repeticion_id?: string | null
           termino_id: string
+          valor_rasgo_id?: string | null
+          variedad_id?: string | null
         }
         Update: {
           created_at?: string
+          esquema_rima_id?: string | null
           grupo_eleccion_id?: string
+          metro_id?: string | null
           nota?: string | null
-          opcion_eleccion_id?: string
+          posicion_unidad?: number | null
+          repeticion_id?: string | null
           termino_id?: string
+          valor_rasgo_id?: string | null
+          variedad_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_esquema_rima_id_fkey"
+            columns: ["esquema_rima_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_rima"
+            referencedColumns: ["esquema_rima_id"]
+          },
           {
             foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
             columns: ["grupo_eleccion_id"]
@@ -1362,18 +1384,18 @@ export type Database = {
             referencedColumns: ["grupo_eleccion_id"]
           },
           {
-            foreignKeyName: "equivalencias_respuestas_legadas_opcion_eleccion_id_fkey"
-            columns: ["opcion_eleccion_id"]
+            foreignKeyName: "equivalencias_respuestas_legadas_metro_id_fkey"
+            columns: ["metro_id"]
             isOneToOne: false
-            referencedRelation: "elecciones_editor_metrico_resueltas"
-            referencedColumns: ["opcion_eleccion_id"]
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
           },
           {
-            foreignKeyName: "equivalencias_respuestas_legadas_opcion_eleccion_id_fkey"
-            columns: ["opcion_eleccion_id"]
+            foreignKeyName: "equivalencias_respuestas_legadas_repeticion_id_fkey"
+            columns: ["repeticion_id"]
             isOneToOne: false
-            referencedRelation: "opciones_eleccion_metrica"
-            referencedColumns: ["opcion_eleccion_id"]
+            referencedRelation: "repeticiones_metricas"
+            referencedColumns: ["repeticion_id"]
           },
           {
             foreignKeyName: "equivalencias_respuestas_legadas_termino_id_fkey"
@@ -1381,6 +1403,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_valor_rasgo_id_fkey"
+            columns: ["valor_rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_variedad_id_fkey"
+            columns: ["variedad_id"]
+            isOneToOne: false
+            referencedRelation: "variedades_arquitectura"
+            referencedColumns: ["variedad_id"]
           },
         ]
       }
@@ -2760,7 +2796,7 @@ export type Database = {
           },
         ]
       }
-      opciones_eleccion_metrica: {
+      opciones_eleccion_metrica_manual: {
         Row: {
           activo: boolean
           created_at: string
@@ -3927,6 +3963,31 @@ export type Database = {
           },
         ]
       }
+      opciones_eleccion_metrica: {
+        Row: {
+          activo: boolean | null
+          created_at: string | null
+          descripcion: string | null
+          esquema_metrico_id: string | null
+          esquema_rima_id: string | null
+          extension_desde_seccion_id: string | null
+          grupo_eleccion_id: string | null
+          materializa_seccion_id: string | null
+          metro_id: string | null
+          nombre: string | null
+          opcion_eleccion_id: string | null
+          orden: number | null
+          posicion_unidad: number | null
+          rasgo_id: string | null
+          repeticion_id: string | null
+          seccion_id: string | null
+          slug: string | null
+          updated_at: string | null
+          valor_rasgo_id: string | null
+          variedad_id: string | null
+        }
+        Relationships: []
+      }
       propuesta_elecciones_secuencia: {
         Row: {
           alcance: string | null
@@ -3985,7 +4046,6 @@ export type Database = {
         Returns: {
           derivadas: number
           escritas: number
-          etiquetas_distintas: number
           forma: string
           grupo: string
           veredicto: string
@@ -4046,6 +4106,7 @@ export type Database = {
       opciones_eleccion_derivadas: {
         Args: never
         Returns: {
+          descripcion: string
           esquema_metrico_id: string
           esquema_rima_id: string
           etiqueta: string
