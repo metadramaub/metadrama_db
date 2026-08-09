@@ -45,12 +45,6 @@
 		{ key: 'arquitectura_id', label: 'Arquitectura', type: 'hidden' },
 		{ key: 'slug', label: 'Slug', required: true },
 		{
-			key: 'nombre',
-			label: 'Pregunta que verá el editor',
-			required: true,
-			placeholder: '¿Qué esquema tiene la mudanza?'
-		},
-		{
 			key: 'ayuda_editor',
 			label: 'Ayuda breve',
 			type: 'textarea',
@@ -142,6 +136,11 @@
 			Aquí se declaran únicamente las alternativas admitidas que interesa registrar en el
 			corpus. Una norma con un único resultado no genera pregunta; una diferencia respecto de
 			estas opciones se registra después como desviación.
+		</p>
+		<p class="mt-1 max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
+			Ni el enunciado ni las respuestas se escriben: salen del catálogo. El enunciado lo
+			componen la dimensión y la sección a la que se refiere la pregunta, y en las de rasgo
+			es la pregunta que declara el propio rasgo.
 		</p>
 	</div>
 

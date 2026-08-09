@@ -332,7 +332,7 @@ export async function loadMetricCatalog(
 		db.from('rasgos_metricos').select('*').order('nombre'),
 		db.from('rasgo_valores').select('*').order('orden'),
 		db.from('arquitectura_rasgos').select('*'),
-		db.from('grupos_eleccion_metrica').select('*').order('orden'),
+		db.from('grupos_eleccion_metrica_resueltos').select('*').order('orden'),
 		db.from('opciones_eleccion_metrica').select('*').order('orden'),
 		db.from('fuentes_metricas').select('*').order('titulo'),
 		db.from('afirmaciones_fuentes_metricas').select('*')

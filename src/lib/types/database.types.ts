@@ -1270,6 +1270,13 @@ export type Database = {
             foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
             columns: ["grupo_eleccion_id"]
             isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica_resueltos"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
             referencedRelation: "propuesta_elecciones_secuencia"
             referencedColumns: ["grupo_eleccion_id"]
           },
@@ -1374,6 +1381,13 @@ export type Database = {
             columns: ["grupo_eleccion_id"]
             isOneToOne: false
             referencedRelation: "grupos_eleccion_metrica"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica_resueltos"
             referencedColumns: ["grupo_eleccion_id"]
           },
           {
@@ -2294,7 +2308,6 @@ export type Database = {
           dimension: string
           estado_revision: string
           grupo_eleccion_id: string
-          nombre: string
           orden: number | null
           permite_aplicar_global: boolean
           rasgo_id: string | null
@@ -2315,7 +2328,6 @@ export type Database = {
           dimension: string
           estado_revision?: string
           grupo_eleccion_id?: string
-          nombre: string
           orden?: number | null
           permite_aplicar_global?: boolean
           rasgo_id?: string | null
@@ -2336,7 +2348,6 @@ export type Database = {
           dimension?: string
           estado_revision?: string
           grupo_eleccion_id?: string
-          nombre?: string
           orden?: number | null
           permite_aplicar_global?: boolean
           rasgo_id?: string | null
@@ -2903,6 +2914,13 @@ export type Database = {
             foreignKeyName: "opciones_eleccion_metrica_grupo_eleccion_id_fkey"
             columns: ["grupo_eleccion_id"]
             isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica_resueltos"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "opciones_eleccion_metrica_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
             referencedRelation: "propuesta_elecciones_secuencia"
             referencedColumns: ["grupo_eleccion_id"]
           },
@@ -3037,6 +3055,7 @@ export type Database = {
           estado_revision: string
           nombre: string
           observabilidad: string
+          pregunta: string | null
           rasgo_id: string
           slug: string
           tipo_valor: string
@@ -3050,6 +3069,7 @@ export type Database = {
           estado_revision?: string
           nombre: string
           observabilidad?: string
+          pregunta?: string | null
           rasgo_id?: string
           slug: string
           tipo_valor?: string
@@ -3063,6 +3083,7 @@ export type Database = {
           estado_revision?: string
           nombre?: string
           observabilidad?: string
+          pregunta?: string | null
           rasgo_id?: string
           slug?: string
           tipo_valor?: string
@@ -3909,6 +3930,13 @@ export type Database = {
             foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
             columns: ["grupo_eleccion_id"]
             isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica_resueltos"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
             referencedRelation: "propuesta_elecciones_secuencia"
             referencedColumns: ["grupo_eleccion_id"]
           },
@@ -3960,6 +3988,59 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "variedades_arquitectura"
             referencedColumns: ["variedad_id"]
+          },
+        ]
+      }
+      grupos_eleccion_metrica_resueltos: {
+        Row: {
+          activo: boolean | null
+          alcance: string | null
+          arquitectura_id: string | null
+          ayuda_editor: string | null
+          created_at: string | null
+          define_norma: boolean | null
+          dimension: string | null
+          estado_revision: string | null
+          grupo_eleccion_id: string | null
+          nombre: string | null
+          orden: number | null
+          permite_aplicar_global: boolean | null
+          rasgo_id: string | null
+          seccion_id: string | null
+          selecciones_max: number | null
+          selecciones_min: number | null
+          slug: string | null
+          tipo_control: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grupos_eleccion_metrica_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_forma"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_reglas_longitud"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
           },
         ]
       }

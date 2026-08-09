@@ -633,6 +633,67 @@ vista están todas restringidas a admin/IP con la misma política, y una vista s
 con los permisos de su dueño. Se creó con `security_invoker`, de modo que conserva exactamente
 el acceso que tenía la tabla.
 
+#### Los enunciados también se derivan
+
+Aplicado el 10 de agosto (migraciones `20260810120000` a `20260810140000`). Cubiertas las
+respuestas, quedaba la pregunta. Estaba escrita a mano, una por grupo, y decía siempre lo mismo
+de maneras distintas: «¿Qué esquema de rima presenta la estancia?», «¿Qué esquema tiene la
+primera quintilla?», «¿Cómo se distribuyen las dos rimas?», «¿Qué patrón tiene la mudanza?»,
+«Disposición de la rima». **62 preguntas y unos cuarenta modos de decirlo; ahora 26 enunciados
+distintos**, y ninguno escrito.
+
+El enunciado pasa a ser corto y sin artículo, con la sección delante cuando la hay: «Mudanza ·
+Esquema de rima», «Estancia · Medida de cada verso», «Medida de los quebrados». Sin artículo
+porque el catálogo no declara el género de nada y no hacía falta inventarlo para escribir «la
+mudanza» y «el enlace».
+
+**La sección va dentro del enunciado, y no aparte, por una razón que casi se me escapa.** El
+enunciado no es decoración: el editor pliega en una sola pregunta las que comparten dimensión y
+enunciado, y así es como las dos mudanzas del villancico se responden juntas. Resulta que son
+**dos secciones distintas con el mismo nombre** —la de la primera copla y la de las siguientes—,
+de modo que derivar del identificador habría roto ese plegado sin que nada avisara. Del nombre,
+se conserva. La guarda de la migración exige que se plieguen exactamente tres preguntas, las del
+villancico, y ninguna más.
+
+**El rasgo se pregunta desde el rasgo.** Es el hueco que destapó la lectura, y es el décimo:
+`final_acentual` se preguntaba «¿Predominan los finales esdrújulos?» en la canción y «¿Presenta
+un final acentual destacado?» en otras cuatro formas; `organizacion_en_pareados`, «¿Hay pareados
+intercalados?» en el endecasílabo suelto y «¿Cuánto organizan los pareados la serie?» en la
+silva. El mismo rasgo preguntado de dos maneras porque no tenía dónde guardar la suya. Ahora la
+tiene, en `rasgos_metricos.pregunta`. *De `organizacion_en_pareados` se conserva la pregunta de
+la silva, la que admite grado; que el endecasílabo suelto preguntara por sí o por no es el asunto
+de la transversal de los rasgos que miden dos magnitudes.*
+
+**Y se podó la ayuda que repetía dato.** Nueve grupos decían en prosa lo que el catálogo ya
+declara: tres que «puedes aplicar la misma respuesta a todas y corregir las excepciones», que es
+`permite_aplicar_global`; dos que glosaban denominaciones ya registradas; y dos que contaban
+«las ocho tipologías», que se cuentan solas. Quedan 53 con ayuda, y esas llevan criterio real.
+
+**Un hallazgo que no se arregla ahí.** El grupo de los tercetos del soneto no declara sección, y
+derivado se queda en «Esquema de rima» sin decir de qué. Parecía descuido, se intentó declarar
+la sección «Tercetos» que ya existe, y la guarda lo paró: esa sección remite a la forma Terceto,
+así que la pregunta habría pasado a ofrecer los esquemas del terceto suelto y se perdían siete de
+las 91 respuestas propuestas. No falta una clave foránea: falta decidir si el soneto tiene una
+sección de seis versos. Está en
+[cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
+
+##### Dos funciones que llevaban rotas sin que nadie lo supiera
+
+Al retirar la columna hubo que rehacer lo que la leía, y **ejecutar cada función destapó dos
+averías anteriores a este cambio**:
+
+- `obtener_catalogo_demarcador()` pedía `formas_metricas.grado_especificacion`, retirada el 5 de
+  agosto. **La proyección del demarcador nuevo llevaba cinco días sin funcionar.** Pedía también
+  `arquitectura_rasgos.valor_numero` y `valor_texto`, retiradas el 9.
+- `guardar_secuencia_editor_metrico_prueba()` usa `v_grupo.nombre` en los tres mensajes que le
+  dicen al editor qué pregunta está mal respondida. Habría reventado **solo al avisar de un
+  fallo**, es decir, justo cuando hace falta el aviso.
+
+Ninguna de las dos la detectó nada: un cuerpo entrecomillado no se revalida al borrar una
+columna, y PL/pgSQL resuelve los campos de un `record` en ejecución. *Es la tercera vez en dos
+días que muerde lo mismo. La regla ya está escrita —ejercitar, no solo migrar— y ahora las
+guardas ejecutan la función en vez de conformarse con crearla.*
+
 #### Pendiente: simplificar el gestor del catálogo
 
 Decidido por el IP el 9 de agosto, sin fecha. **El catálogo nuevo lo edita solo el IP**, y que

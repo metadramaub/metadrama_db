@@ -442,9 +442,11 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		for (const item of traitsByArchitecture.get(architecture.arquitectura_id) ?? []) {
 			const trait = traitById.get(item.rasgo_id);
 			if (!trait) continue;
+			// El valor de un rasgo es siempre de vocabulario desde el 9 de agosto de 2026: cuando
+			// no lo declara, la arquitectura solo dice que el rasgo está presente.
 			const traitValue = traitValueById.get(item.valor_id);
-			const rawValue = traitValue?.slug ?? item.valor_texto ?? item.valor_numero ?? 'si';
-			const rawLabel = traitValue?.nombre ?? item.valor_texto ?? (item.valor_numero !== null ? String(item.valor_numero) : 'Sí');
+			const rawValue = traitValue?.slug ?? 'si';
+			const rawLabel = traitValue?.nombre ?? 'Sí';
 			const boolean = trait.tipo_valor === 'booleano';
 			visualTraits.push({
 				nombre: trait.nombre,
