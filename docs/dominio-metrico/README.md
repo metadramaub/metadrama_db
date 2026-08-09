@@ -80,8 +80,12 @@ está hecho, qué falta, con qué método y en qué orden.
     y caracterización real. Decidido, no ejecutado.
 
 13. [Equivalencias pendientes](./equivalencias-pendientes.md)
-    Los términos legados que todavía no declaran su destino en el catálogo. Es lo que hay que
-    cerrar antes del backfill.
+    **Por qué** algunos términos legados no declaran todavía su destino en el catálogo y qué
+    decidió el IP sobre cada uno. Es lo que hay que cerrar antes del backfill.
+
+13bis. [Estado de las equivalencias](./informe-equivalencias.md) · **generado**
+    Cuántos términos declaran destino, cuáles no, cuánto se usa cada uno y cómo resuelve cada
+    secuencia. No se edita: lo produce `npm run equivalencias:informe`.
 
 ### Trabajo abierto y trazabilidad
 
