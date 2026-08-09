@@ -504,7 +504,37 @@ nada porque una función de PL/pgSQL no se compila hasta que se ejecuta y ningun
 en esa tabla. Lo destapó una inserción de prueba contra la base. *Al tocar una tabla con
 disparadores, conviene ejercitarla, no solo migrarla.*
 
-Lo que queda es escribir la generación y decidir qué pasa con las tablas.
+#### La generación, escrita y comprobada
+
+Aplicado el 9 de agosto (migraciones `20260809210000` y `20260809220000`).
+
+Antes hubo que **mudar a `repeticiones_metricas` el comportamiento que llevaba la opción**: si
+la repetición materializa una sección y de dónde toma su extensión. La correspondencia era uno a
+uno —cada opción apunta a una repetición distinta y cada repetición tiene un comportamiento
+fijo—, así que el comportamiento es de la repetición y no de la pregunta que la ofrece. Con eso
+avanza también la transversal de las reglas de repetición, que preguntaba justo eso.
+
+`opciones_eleccion_derivadas()` produce las opciones de cada pregunta desde el catálogo, y
+`generar_opciones_eleccion_metrica()` las compara con las escritas a mano. **De las 61
+preguntas, 56 coinciden exactamente** —403 de las 405 opciones—, 4 son respuesta abierta y no se
+generan, y una queda sin derivar.
+
+**Dos huecos más, encontrados al escribirla.** El octavo: **un grupo de dimensión rasgo no
+declaraba sobre qué rasgo pregunta**, cosa que solo se sabía mirando sus opciones, que es
+justamente lo que se quiere regenerar; ahora lo declara con `rasgo_id`. Y una regla que faltaba
+aplicar: **una sección contenedora no declara su extensión, se deriva de sus partes** —la
+estancia sin rima de la canción mide lo que suman su cuerpo y su pareado final—, que es la regla
+que el modelo ya tenía escrita y que la derivación no estaba usando.
+
+**Lo que queda sin derivar es uno solo**: `rasgos_de_la_serie` del endecasílabo suelto reúne dos
+rasgos independientes —dístico final y encadenamiento interior— en una lista de casillas. No es
+un rasgo con varios valores, sino dos preguntas de sí o no presentadas juntas, y su `rasgo_id`
+queda nulo a propósito.
+
+**La función no escribe.** Devuelve qué cambiaría; aplicar está deliberadamente sin implementar,
+porque las etiquetas de las opciones se siguen escribiendo a mano y hay que decidir cómo se
+derivan antes de sobrescribirlas. Mientras tanto, pedir el informe es la manera de comprobar que
+el dato y el formulario no se han separado.
 
 ### Datos asumidos que siguen viviendo en prosa
 
