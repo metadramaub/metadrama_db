@@ -316,6 +316,22 @@ asonancia** del romance y la endecha real, que son un vocabulario cerrado y no u
 forma. Es la misma lectura en la que se decide el destino de la variedad, porque las dos
 preguntas se responden con el mismo material.
 
+**Un rasgo puede estar midiendo dos magnitudes a la vez.** Salió el 9 de agosto de 2026 al
+intentar recuperar los porcentajes de Morley y Bruerton en `organizacion_en_pareados`, que es
+el eje que separa la silva del endecasílabo suelto y del pareado. M&B cuentan **versos
+rimados** —sueltos por debajo del 50 %, silva 3.ª del 50 al 98 %—, pero la arquitectura `Silva ·
+Libre` declara el grado `ninguna` **y sí rima**: lo que no tiene son pareados. En esa forma
+`ninguna` significa «ningún pareado», no «ninguna rima», de modo que un mismo grado se lee de
+dos maneras según la arquitectura que lo declare.
+
+Aparecieron a la vez otros dos obstáculos: `habituales` y `predominantes` caerían en el mismo
+intervalo, porque las fuentes solo dan dos cortes y la distinción entre ambos es una partición
+cualitativa propia del IP; y nada cuenta hoy los versos rimados, así que el porcentaje sería
+declarativo y no verificable. **El IP decidió no cuantificar hasta separar las dos magnitudes.**
+Al abrir la lectura de los rasgos hay que revisar si otros tienen el mismo problema, porque la
+escala de cinco grados se extendió desde la silva al endecasílabo suelto y al pareado sin
+comprobar que midiera lo mismo en los tres.
+
 **La modalidad y la primacía necesitan una lectura transversal.** Al terminar la revisión de
 las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,
 `preferente`, `admitida`, `excepcional`, etc.— significan y se usan igual en todo el catálogo,

@@ -148,11 +148,14 @@ secuencias con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
 > y es el que hay que consultar.
 
 **Lo que el mapa no dice.** `origen_termino_id` registra supervivencias y transformaciones,
-nunca disoluciones: un término que desapareció a propósito —`redondilla_hexasilaba`, porque
-la medida es hoy arquitectura— no deja rastro y es indistinguible de uno olvidado. De los
-119 términos legados, 91 declaran equivalencia y **28 no**; tres de esos 28 están en uso y
-bloquean 8 secuencias. La lista completa, con lo que dijo la matriz de julio y dónde
-contradice ya a la ontología, está en
+nunca disoluciones: un término que desapareció a propósito, porque su contenido se disolvió en
+otro nivel, no deja rastro y es indistinguible de uno olvidado. De los 119 términos legados,
+**92 declaran equivalencia y 27 no** (comprobado el 9 de agosto de 2026). **Ninguna secuencia
+queda sin resolver**: la única que no propone arquitectura es un pasaje de `irregular`, y los
+tramos sin forma no tienen arquitectura por diseño. Tres de los que faltaban —`redondilla_hexasilaba`, `redondilla_heptasilaba`
+y `silva_libre`— se daban por disueltos y no lo estaban: sus arquitecturas existían con el mismo
+alcance, y desde el 9 de agosto lo declaran. La lista completa, con lo que dijo la matriz de
+julio y dónde contradice ya a la ontología, está en
 [equivalencias pendientes](./equivalencias-pendientes.md). **Resolverla es condición para la
 fase B**, no para la fase 0: en sombra se puede anotar sin ella, simplemente esas secuencias
 aparecen «sin correspondencia» y el editor elige a mano.
