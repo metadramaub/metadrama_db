@@ -501,7 +501,10 @@ export async function loadMetricCatalog(
 		db.from('escenarios_editor_metrico').select('*').order('updated_at', { ascending: false }),
 		db.from('secuencias_editor_metrico').select('*').order('orden'),
 		db.from('realizaciones_editor_metrico').select('*').order('orden'),
-		db.from('elecciones_editor_metrico').select('*'),
+		// La respuesta guarda el dato del catálogo que se eligió, no la opción que lo ofrecía,
+		// para que las preguntas puedan regenerarse sin dejarla huérfana. La vista resuelve la
+		// opción de vuelta, que es lo que el formulario pinta y marca como seleccionado.
+		db.from('elecciones_editor_metrico_resueltas').select('*'),
 		db.from('desviaciones_editor_metrico').select('*').order('v_ini')
 	]);
 	for (const response of editorSandboxResponses) {
