@@ -319,28 +319,67 @@ ninguno de los dos casos**, y el nivel se quedaría sin uso. La alternativa para
 dos preguntas cerradas —secuencia de medidas y disposición de rima— que cubren las quince
 combinaciones y admiten lo que las fuentes documentan y el catálogo no tiene.
 
-**Las preguntas del editor deberían derivarse del dato, no mantenerse a mano.** Hoy cada forma
-lleva sus grupos de elección y sus opciones escritos uno a uno en migraciones: **61 grupos y 406
-opciones**. Eso es lo que hace caro mantener el catálogo, porque una corrección filológica
-obliga a tocar dos sitios —el dato y la pregunta—, como pasó al sustituir dos esquemas de la
-copla de arte mayor, donde hubo que repuntar además las opciones que los referenciaban.
+### Las preguntas del editor · auditoría del 9 de agosto de 2026
 
-La medida invita al optimismo: **las 406 opciones apuntan ya a un dato codificado** —79 a un
-esquema de rima, 167 a un metro, 145 a un valor de rasgo, 7 a una variedad— y **ninguna es texto
-libre**. Es decir, la opción casi nunca añade información: repite en forma de pregunta algo que
-la arquitectura ya declara. Si es así, buena parte de los grupos podría generarse recorriendo
-los esquemas admitidos, los rasgos declarados y las variedades de cada arquitectura, y lo escrito
-a mano quedaría reducido al enunciado y al orden.
+**El objetivo del IP es retirar por completo el sistema de preguntas y respuestas**, y tratar
+todo lo que quede sin poder derivarse como lo que es: **una carencia de declaración del
+catálogo**, no una razón para conservar la tabla. La auditoría dice que es viable.
 
-Al cerrar la revisión hay que auditar los 61 grupos juntos y decidir **cuánto se automatiza**:
-qué parte se deriva de la arquitectura, qué parte necesita seguir declarada —el enunciado, la
-ayuda al editor, `permite_aplicar_global`, el alcance— y qué casos se resisten. Los que ya se
-sabe que se resisten son los tres que esta revisión ha ido encontrando: las **24 opciones
-posicionales de la copla de pie quebrado**, generadas para una unidad que es un rango; las
-**siete tipologías del sexteto-lira**, que acoplan medida y rima; y las **133 vocales de
-asonancia** del romance y la endecha real, que son un vocabulario cerrado y no una norma de la
-forma. Es la misma lectura en la que se decide el destino de la variedad, porque las dos
-preguntas se responden con el mismo material.
+Hoy hay **61 grupos de elección y 405 opciones** escritos uno a uno en migraciones. Eso es lo
+que encarece el mantenimiento, porque una corrección filológica obliga a tocar dos sitios: pasó
+con la copla de arte mayor, donde al sustituir dos esquemas hubo que repuntar además las
+opciones que los referenciaban.
+
+**Se derivan 56 de los 61 grupos.** Ninguna opción es texto libre: todas apuntan ya a una
+entidad del catálogo.
+
+| Dimensión | Grupos | De dónde salen las opciones | Sin declarar |
+| --- | ---: | --- | ---: |
+| Rima | 25 | 13 de los esquemas de su arquitectura · 7 de la arquitectura referenciada por la sección · 4 son respuesta abierta, ya marcada con `tipo_control = 'esquema_rima'` | 1 |
+| Metro | 17 | 14 de `esquema_metrico_opciones`, que declara qué metros admite un esquema de tipo conjunto · 1 de las alternativas de `esquema_metrico_posiciones` | 2 |
+| Rasgo | 15 | 13 de `arquitectura_rasgos` cruzado con `rasgo_valores` | 2 |
+| Repetición | 3 | De las repeticiones declaradas | 0 |
+| Combinación | 1 | De las variedades | 0 |
+
+**El patrón del rasgo resultó ser el más limpio de todos**, y basta para generar la pregunta:
+`definitoria` con valor fijo se deriva y no se pregunta; `admitida` con valor fijo produce una
+pregunta opcional de un solo valor; `admitida` sin valor deja el eje abierto.
+
+#### Lo que falta declarar, que es siempre lo mismo
+
+Los cinco huecos son **el mismo tipo de carencia**: *qué subconjunto de lo posible admite esta
+arquitectura*. Se resuelven declarándolo, no preguntándolo.
+
+| Caso | Qué ofrece hoy la pregunta | Qué falta declarar |
+| --- | --- | --- |
+| Sextilla · esquema de rima | 1 de los 2 esquemas de su arquitectura | Por qué el otro no se ofrece |
+| Copla de pie quebrado · medidas | 2 de los 3 metros de su esquema | Cuál es el metro dominante y cuáles el quebrado |
+| Copla real · posiciones quebradas | Tetrasílabo y pentasílabo | Su arquitectura no declara ningún conjunto de metros |
+| Silva · organización en pareados | 2 de los 5 grados | Qué grados admite, cuando el rasgo va `admitida` sin valor |
+| Endecasílabo suelto · ídem | Otros 2 de los 5 grados | Ídem |
+
+#### Los enunciados no son información
+
+Es el hallazgo que hace viable la retirada total. **Solo 10 de los 61 enunciados citan
+literalmente su sección**; los otros 51 son prosa redactada. Pero al cotejarlos con la entidad
+que preguntan, resulta que **no añaden nada al nombre de esa entidad** —y que han derivado,
+porque el mismo rasgo se pregunta de dos maneras según la forma:
+
+| Rasgo | Enunciados que conviven hoy |
+| --- | --- |
+| Organización en pareados | «¿Cuánto organizan los pareados la serie?» y «¿Hay pareados intercalados?» |
+| Final acentual | «¿Predominan los finales esdrújulos?» y «¿Presenta un final acentual destacado?», cuatro veces |
+| Vocales de la asonancia | «¿Qué vocales caracterizan la asonancia?», siete veces idéntico |
+
+Es exactamente la deriva que produce mantener a mano lo que puede derivarse. Un rótulo generado
+—dimensión más nombre de la entidad— sería **más consistente que los 51 textos actuales**, no
+menos.
+
+#### Qué quedaría declarado
+
+Nada de contenido métrico. Solo presentación: **el orden** en que se muestran las preguntas y,
+si se quiere conservar, una ayuda al editor por dimensión y no por forma. Todo lo demás sale del
+catálogo, que es donde el IP quiere que esté.
 
 **Un rasgo puede estar midiendo dos magnitudes a la vez.** Salió el 9 de agosto de 2026 al
 intentar recuperar los porcentajes de Morley y Bruerton en `organizacion_en_pareados`, que es
