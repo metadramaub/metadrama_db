@@ -74,19 +74,26 @@ Define una pregunta que interesa responder:
 
 No se crea un grupo para un resultado único que pueda derivarse automáticamente.
 
-### `opciones_eleccion_metrica`
+### `opciones_eleccion_metrica` — ya no es una tabla
 
-Cada respuesta apunta mediante FK a un dato normalizado:
+Desde el 9 de agosto de 2026 es una **vista** que calcula las respuestas al leer, desde el
+catálogo. No se escriben en ninguna parte: el gestor las muestra y el endpoint de entidades
+las rechaza. Para cambiar una respuesta se cambia el esquema, el rasgo, la repetición o la
+variedad de la que sale.
 
-- metro;
-- patrón métrico;
-- patrón de rima;
-- sección;
-- patrón de repetición;
-- rasgo o valor de rasgo.
+La derivación vive en `opciones_eleccion_derivadas()` y es la única definición de qué se
+admite y cómo se rotula. Cada respuesta sigue apuntando a un dato normalizado —metro, patrón
+métrico, patrón de rima, sección, patrón de repetición, valor de rasgo o variedad—, con la
+diferencia de que ahora ese vínculo no se declara: es de donde la respuesta nace.
 
-Así se controla lo que puede elegir el editor sin duplicar la ontología ni guardar respuestas
-textuales difíciles de analizar.
+Su etiqueta es el nombre de la entidad, compuesto con la posición cuando la pregunta es
+posicional, y su explicación es la `descripcion` de la entidad. Nada de eso se escribe dos
+veces, que era justo lo que se estaba separando: la quintilla llegó a describir su `aabab`
+como «cruzada, también llamada Cuarteta», copiado de la redondilla.
+
+La tabla anterior se conserva apartada como `opciones_eleccion_metrica_manual`, y
+`comparar_opciones_eleccion_metrica()` contrasta ambas. Las dos se retiran cuando la
+derivación se haya usado con datos reales.
 
 La excepción son los esquemas observados de formas abiertas. Un grupo con
 `tipo_control = esquema_rima` no enumera previamente todas las particiones posibles:
@@ -94,15 +101,17 @@ guarda una cadena validada con una posición por verso, letras normalizadas y gu
 para versos sueltos. La respuesta sigue vinculada a la pregunta, la configuración y la
 unidad; no se convierte en observación libre ni en desviación.
 
-Una opción puede declarar además un efecto de formulario:
+Una opción puede llevar además un efecto de formulario:
 
 - materializar una sección cuando la respuesta implica versos presentes;
 - derivar su extensión de otra sección ya registrada.
 - aplicar el valor a una `posicion_unidad` concreta, cuando la alternativa es posicional.
 
-El efecto no sustituye el valor normalizado. «Repetición total del estribillo», por ejemplo,
-sigue apuntando a su patrón de repetición y hace aparecer una sección cuyo número de versos se
-calcula desde la primera aparición del estribillo.
+Los dos primeros los declara la propia repetición, en `repeticiones_metricas`, y la opción los
+arrastra; el tercero sale de la posición que la derivación recorre. El efecto no sustituye al
+valor normalizado. «Repetición total del estribillo», por ejemplo, sigue apuntando a su patrón
+de repetición y hace aparecer una sección cuyo número de versos se calcula desde la primera
+aparición del estribillo.
 
 En una copla real con pie quebrado, las opciones posicionales apuntan todas al metro de
 4 sílabas y distinguen las posiciones 1-10. El editor las presenta como una única fila

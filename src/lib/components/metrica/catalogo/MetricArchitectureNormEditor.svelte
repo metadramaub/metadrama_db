@@ -916,6 +916,5 @@
 	<MetricChoiceGroupsEditor
 		configurationId={props.configurationId}
 		domain={props.domain}
-		metres={props.metres}
 	/>
 </div>

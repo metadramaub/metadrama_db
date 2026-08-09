@@ -18,7 +18,11 @@ type ResourceDefinition = {
 	numberFields?: string[];
 };
 
-const resources: Record<MetricCatalogResource, ResourceDefinition> = {
+/**
+ * Los recursos del catálogo que se escriben. No están todos: `choiceOptions` se deriva del
+ * catálogo y se lee de una vista, así que no admite escritura por ningún camino.
+ */
+const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 	traditions: {
 		table: 'tradiciones_metricas',
 		keys: ['tradicion_id'],
@@ -322,24 +326,6 @@ const resources: Record<MetricCatalogResource, ResourceDefinition> = {
 		booleanFields: ['permite_aplicar_global', 'define_norma', 'activo'],
 		numberFields: ['selecciones_min', 'selecciones_max', 'orden']
 	},
-	choiceOptions: {
-		table: 'opciones_eleccion_metrica',
-		keys: ['opcion_eleccion_id'],
-		fields: [
-			'grupo_eleccion_id',
-			'slug',
-			'nombre',
-			'descripcion',
-			'objetivo',
-			'materializa_seccion_id',
-			'extension_desde_seccion_id',
-			'posicion_unidad',
-			'activo',
-			'orden'
-		],
-		booleanFields: ['activo'],
-		numberFields: ['posicion_unidad', 'orden']
-	},
 	sources: {
 		table: 'fuentes_metricas',
 		keys: ['fuente_id'],
@@ -431,22 +417,6 @@ function normalizeValues(
 		for (const field of targetFields) output[field] = null;
 		if (targetFields.includes(type) && id) output[type] = id;
 	}
-	if (resource === 'choiceOptions' && 'objetivo' in output) {
-		const targetFields = [
-			'metro_id',
-			'esquema_metrico_id',
-			'esquema_rima_id',
-			'variedad_id',
-			'seccion_id',
-			'repeticion_id',
-			'rasgo_id',
-			'valor_rasgo_id'
-		];
-		const [type, id] = String(output.objetivo ?? '').split(':', 2);
-		delete output.objetivo;
-		for (const field of targetFields) output[field] = null;
-		if (targetFields.includes(type) && id) output[type] = id;
-	}
 	return output;
 }
 
@@ -459,6 +429,20 @@ function applyKeys(query: any, definition: ResourceDefinition, keys: Record<stri
 		query = query.eq(field, value);
 	}
 	return query;
+}
+
+/**
+ * Un recurso derivado no se escribe. Se responde con un error explícito en vez de dejar que
+ * falle contra la vista, para que quede claro que la vía es cambiar el catálogo.
+ */
+function derivedResourceResponse(resource: MetricCatalogResource) {
+	return json(
+		{
+			error: 'derived_resource',
+			message: `«${resource}» se deriva del catálogo y no se puede escribir: cambia la entidad de la que sale.`
+		},
+		{ status: 409 }
+	);
 }
 
 function databaseError(error: { code?: string; message: string }) {
@@ -480,6 +464,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const parsed = mutationSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
 	const definition = resources[parsed.data.resource];
+	if (!definition) return derivedResourceResponse(parsed.data.resource);
 	let values: Record<string, unknown>;
 	try {
 		values = normalizeValues(parsed.data.resource, definition, parsed.data.values ?? {}, true);
@@ -507,6 +492,7 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 	const parsed = mutationSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
 	const definition = resources[parsed.data.resource];
+	if (!definition) return derivedResourceResponse(parsed.data.resource);
 	let values: Record<string, unknown>;
 	try {
 		values = normalizeValues(parsed.data.resource, definition, parsed.data.values ?? {}, false);
@@ -535,6 +521,7 @@ export const DELETE: RequestHandler = async ({ locals, request }) => {
 	const parsed = mutationSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
 	const definition = resources[parsed.data.resource];
+	if (!definition) return derivedResourceResponse(parsed.data.resource);
 	try {
 		let query = (locals.supabase as unknown as UntypedSupabaseClient)
 			.from(definition.table)

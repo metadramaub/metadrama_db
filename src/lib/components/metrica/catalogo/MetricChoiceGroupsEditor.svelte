@@ -7,14 +7,12 @@
 		METRIC_CATALOG_REVIEW_STATES,
 		metricReviewStateLabel,
 		type MetricCatalogDomainData,
-		type MetricCatalogDomainRow,
-		type MetricCatalogOption
+		type MetricCatalogDomainRow
 	} from '$lib/metrica/catalogo';
 
 	const props = $props<{
 		configurationId: string;
 		domain: MetricCatalogDomainData;
-		metres: MetricCatalogOption[];
 	}>();
 
 	const groups = $derived(
@@ -123,167 +121,17 @@
 		{ key: 'activo', label: 'Activo', type: 'checkbox' }
 	]);
 
-	function targetConfigurationIds(group: MetricCatalogDomainRow): Set<string> {
-		const ids = new Set([props.configurationId]);
-		const section = sections.find(
-			(row: MetricCatalogDomainRow) =>
-				String(row.seccion_id) === String(group.seccion_id ?? '')
-		);
-		if (section?.arquitectura_referenciada_id) {
-			ids.add(String(section.arquitectura_referenciada_id));
-		}
-		return ids;
-	}
-
-	function targetLabel(row: MetricCatalogDomainRow, fallback: string): string {
-		if (String(row.arquitectura_id) === props.configurationId) return fallback;
-		const configuration = props.domain.configurations.find(
-			(candidate: MetricCatalogDomainRow) =>
-				candidate.arquitectura_id === row.arquitectura_id
-		);
-		const form = props.domain.forms.find(
-			(candidate: MetricCatalogDomainRow) =>
-				candidate.forma_id === configuration?.forma_id
-		);
-		return `${String(form?.nombre ?? 'Componente')} · ${fallback}`;
-	}
-
-	function targetOptions(group: MetricCatalogDomainRow): MetricEntityOption[] {
-		const dimension = String(group.dimension);
-		const configurationIds = targetConfigurationIds(group);
-		if (dimension === 'metro') {
-			const metricPatterns = props.domain.metricPatterns.filter(
+	/** Las respuestas que el catálogo produce hoy para una pregunta. Se leen, no se editan. */
+	function optionsOf(group: MetricCatalogDomainRow): MetricCatalogDomainRow[] {
+		return props.domain.choiceOptions
+			.filter(
 				(row: MetricCatalogDomainRow) =>
-					configurationIds.has(String(row.arquitectura_id))
+					row.grupo_eleccion_id === group.grupo_eleccion_id
+			)
+			.sort(
+				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
+					Number(a.orden ?? 999) - Number(b.orden ?? 999)
 			);
-			return [
-				...props.metres.map((option: MetricCatalogOption) => ({
-					value: `metro_id:${option.id}`,
-					label: option.label
-				})),
-				...metricPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
-					value: `esquema_metrico_id:${row.notacion_metrico_id}`,
-					label: targetLabel(
-						row,
-						`Esquema: ${String(row.nombre || `métrico ${index + 1}`)}`
-					)
-				}))
-			];
-		}
-		if (dimension === 'rima') {
-			return props.domain.rhymePatterns
-				.filter(
-					(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
-						|| configurationIds.has(String(row.arquitectura_id))
-				)
-				.map((row: MetricCatalogDomainRow, index: number) => ({
-					value: `esquema_rima_id:${row.notacion_rima_id}`,
-					label: targetLabel(
-						row,
-						String(row.nombre || row.notacion || `Esquema de rima ${index + 1}`)
-					)
-				}));
-		}
-		if (dimension === 'combinacion') {
-			return props.domain.patternCombinations
-				.filter(
-					(row: MetricCatalogDomainRow) =>
-						configurationIds.has(String(row.arquitectura_id))
-				)
-				.map((row: MetricCatalogDomainRow) => ({
-					value: `variedad_id:${row.variedad_id}`,
-					label: targetLabel(row, String(row.nombre))
-				}));
-		}
-		if (dimension === 'estructura') {
-			return sections.map((row: MetricCatalogDomainRow) => ({
-				value: `seccion_id:${row.seccion_id}`,
-				label: String(row.nombre || row.tipo_seccion)
-			}));
-		}
-		if (dimension === 'repeticion') {
-			return props.domain.repetitionPatterns
-				.filter(
-					(row: MetricCatalogDomainRow) =>
-						configurationIds.has(String(row.arquitectura_id))
-				)
-				.map((row: MetricCatalogDomainRow, index: number) => ({
-					value: `repeticion_id:${row.repeticion_id}`,
-					label: targetLabel(
-						row,
-						String(row.descripcion || row.regla || `Repetición ${index + 1}`)
-					)
-				}));
-		}
-
-		const admittedTraitIds = new Set(
-			props.domain.configurationTraits
-				.filter(
-					(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
-				)
-				.map((row: MetricCatalogDomainRow) => String(row.rasgo_id))
-		);
-		const traits = props.domain.traits.filter((row: MetricCatalogDomainRow) =>
-			admittedTraitIds.has(String(row.rasgo_id))
-		);
-		const values = props.domain.traitValues.filter((row: MetricCatalogDomainRow) =>
-			admittedTraitIds.has(String(row.rasgo_id))
-		);
-		return [
-			...traits
-				.filter((row: MetricCatalogDomainRow) => row.tipo_valor === 'booleano')
-				.map((row: MetricCatalogDomainRow) => ({
-					value: `rasgo_id:${row.rasgo_id}`,
-					label: String(row.nombre)
-				})),
-			...values.map((row: MetricCatalogDomainRow) => {
-				const trait = traits.find(
-					(item: MetricCatalogDomainRow) => item.rasgo_id === row.rasgo_id
-				);
-				return {
-					value: `valor_rasgo_id:${row.valor_id}`,
-					label: `${String(trait?.nombre ?? 'Rasgo')}: ${String(row.nombre)}`
-				};
-			})
-		];
-	}
-
-	function optionFields(group: MetricCatalogDomainRow): MetricEntityField[] {
-		return [
-			{ key: 'grupo_eleccion_id', label: 'Grupo', type: 'hidden' },
-			{ key: 'slug', label: 'Slug', required: true },
-			{ key: 'nombre', label: 'Respuesta visible', required: true },
-			{ key: 'descripcion', label: 'Explicación', type: 'textarea' },
-			{
-				key: 'objetivo',
-				label: 'Dato normalizado que representa',
-				type: 'select',
-				options: targetOptions(group),
-				required: true
-			},
-			{
-				key: 'materializa_seccion_id',
-				label: 'Si se elige, pedir el rango de',
-				type: 'select',
-				options: sectionOptions,
-				help: 'Déjalo vacío salvo que esta respuesta haga aparecer materialmente una sección.'
-			},
-			{
-				key: 'extension_desde_seccion_id',
-				label: 'Calcular su extensión desde',
-				type: 'select',
-				options: sectionOptions,
-				help: 'Opcional. Evita volver a pedir una longitud que coincide con otra sección, como la repetición total de una cabeza.'
-			},
-			{
-				key: 'posicion_unidad',
-				label: 'Posición dentro de la unidad',
-				type: 'number',
-				help: 'Úsala solo cuando la respuesta asigna un metro u otro valor a una posición concreta.'
-			},
-			{ key: 'orden', label: 'Orden', type: 'number' },
-			{ key: 'activo', label: 'Activa', type: 'checkbox' }
-		];
 	}
 </script>
 
@@ -328,24 +176,29 @@
 					guiones para versos sueltos. No necesita opciones precargadas.
 				</p>
 			{:else}
-				<MetricEntityCollection
-					resource="choiceOptions"
-					title={`Respuestas: ${String(group.nombre)}`}
-					description="Cada respuesta apunta a un metro, esquema, variedad, sección, repetición o valor de rasgo ya formalizado."
-					rows={props.domain.choiceOptions.filter(
-						(row: MetricCatalogDomainRow) =>
-							row.grupo_eleccion_id === group.grupo_eleccion_id
-					)}
-					keyFields={['opcion_eleccion_id']}
-					fields={optionFields(group)}
-					defaults={{
-						grupo_eleccion_id: group.grupo_eleccion_id,
-						activo: true,
-						orden: 1
-					}}
-					emptyMessage="Añade al menos una respuesta posible."
-					compact
-				/>
+				<h5 class="font-medium">Respuestas: {String(group.nombre)}</h5>
+				<p class="mt-1 text-sm leading-6 text-[color:var(--muted-foreground)]">
+					No se escriben: salen del catálogo. Para cambiarlas, cambia el esquema, el rasgo,
+					la repetición o la variedad de los que se derivan.
+				</p>
+				{#if optionsOf(group).length}
+					<ul class="mt-2 space-y-1 text-sm">
+						{#each optionsOf(group) as option (String(option.opcion_eleccion_id))}
+							<li>
+								<span class="font-medium">{String(option.nombre)}</span>
+								{#if option.descripcion}
+									<span class="text-[color:var(--muted-foreground)]">
+										— {String(option.descripcion)}
+									</span>
+								{/if}
+							</li>
+						{/each}
+					</ul>
+				{:else}
+					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+						El catálogo no produce ninguna respuesta para esta pregunta.
+					</p>
+				{/if}
 			{/if}
 		</div>
 	{/each}

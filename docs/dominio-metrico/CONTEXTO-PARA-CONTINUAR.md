@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 8 de agosto de 2026
+Actualizado: 9 de agosto de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
 enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
@@ -35,7 +35,13 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   nivel que le corresponde. Las formas con clasificación previa tienen ya su tradición; las
   restantes no la tienen porque no hay de dónde tomarla.
 - `/dashboard/metrica` es el gestor permanente del catálogo y contiene también el editor
-  V2 de prueba y la compilación del demarcador.
+  V2 de prueba y la compilación del demarcador. **Las respuestas del editor ya no se editan
+  ahí**: se derivan del catálogo y el gestor solo las muestra. Está anotado simplificar el resto
+  del gestor en la misma dirección.
+- **La respuesta guardada no depende del catálogo que la ofreció.** `elecciones_editor_metrico`
+  apunta al dato elegido —el esquema, el metro, el valor de rasgo, la repetición, la variedad—,
+  no a una opción, y el catálogo se niega a borrar algo que una anotación use. Para leerla con
+  la opción que hoy la ofrece está `elecciones_editor_metrico_resueltas`.
 - **El catálogo de formas se publica en `/formas`** desde el 4 de agosto de 2026, generado
   del dato: cada forma con sus arquitecturas, esquemas, secciones, rasgos, denominaciones y
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
@@ -87,6 +93,10 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
     forma.
 11. Las restricciones de longitud obligan a revisar rangos incompatibles: múltiplos de la
     unidad fija, ciclos repetibles, composiciones cerradas y estructuras calculadas.
+12. **El catálogo no guarda lo que puede calcular.** Las preguntas del editor no se escriben:
+    `opciones_eleccion_metrica` es una vista que las deriva de las entidades, con la etiqueta y
+    la explicación de cada una. Lo que se quede sin poder derivarse no es una excepción que
+    justifique escribirlo a mano: es una carencia del catálogo, y la solución es declararla.
 
 ## Cómo se registra una secuencia
 
