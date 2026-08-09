@@ -34,7 +34,8 @@ Son las que no se ven leyendo una sola sección, y por eso van aquí arriba:
 
 | Cruce | Dónde | Estado |
 | --- | --- | --- |
-| **Silva endecasilábica y endecasílabo suelto ofrecen los dos el valor `ninguna`** de organización en pareados, así que una serie de once sin pareados encaja en las dos formas | [Silva](#silva) 2 · [Endecasílabo suelto](#endecasílabo-suelto) 3 | **abierto y comprobado en el dato el 9 de agosto**; es el único solape real del catálogo |
+| **Silva endecasilábica y endecasílabo suelto ofrecían los dos el valor `ninguna`** de organización en pareados, así que una serie de once sin pareados encajaba en las dos formas | [Silva](#silva) 2 · [Endecasílabo suelto](#endecasílabo-suelto) 3 | **resuelto el 9 de agosto**: se retiró de la silva, siguiendo el corte cuantitativo de Morley y Bruerton. Era el único solape del catálogo |
+| **El umbral del 50 % que separa sueltos de silva vive solo en las afirmaciones**: los grados del rasgo son cualitativos y nada declara la correspondencia | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | abierto ⇒ transversal de las preguntas |
 | Qué es una **variedad**, si el repertorio del sexteto-lira no tiene cierre | [Sexteto-lira](#sexteto-lira) 1 · [Sexteto](#sexteto) · [Quintilla](#quintilla) | ⇒ transversal de la variedad |
 | Qué **repertorios están cerrados** —medidas, esquemas— y cuáles son recortes del corpus | [Sexteto](#sexteto) 2 · [Sextilla](#sextilla) 2 · [Quintilla](#quintilla) 1 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | ⇒ transversal de la modalidad |
 | Qué **elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Sexteto-lira](#sexteto-lira) 1 | ⇒ transversal de las preguntas |
@@ -107,82 +108,112 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 
 ## Silva
 
-**Qué tiene hoy el catálogo:** cuatro arquitecturas —`consonante_regular`,
-`consonante_irregular` («Consonante de orden libre»), `libre` y `endecasilabica`—, todas
-consonantes. El rasgo `organizacion_en_pareados` tiene cinco grados ordenados —ninguna,
-ocasionales, habituales, predominantes, regulares— y es el eje que separa la silva del
-endecasílabo suelto y del pareado.
+**Qué tiene hoy el catálogo:** cuatro arquitecturas, todas consonantes, y el rasgo
+`organizacion_en_pareados`, que es el eje que separa la silva del endecasílabo suelto y de la
+tirada de pareados.
 
-1. La silva libre deja de ser una arquitectura y pasa a ser el valor `ninguna` del rasgo
-   `organizacion_en_pareados`. **El modelo no permite hoy que una denominación apunte a un
-   valor de rasgo**, así que ese nombre no queda registrado en ninguna parte. ¿Hace falta que
-   lo esté?
+| Arquitectura nueva | Viene del término legado | Grados que ofrece hoy |
+| --- | --- | --- |
+| `consonante_regular` · Consonante regular | `silva_de_consonantes_regular` | — (el pareado es la unidad) |
+| `consonante_irregular` · Consonante de orden libre | `silva_de_consonantes_irregular` | — |
+| `libre` · Libre | *ninguno* | — (no declara pregunta) |
+| `endecasilabica` · Endecasilábica | `silva_de_endecasilabos` | `habituales`, `predominantes` |
 
-2. **`Silva · Endecasilábica` ofrece hoy el valor `ninguna`**, que según el reparto acordado
-   pertenece al endecasílabo suelto. Mientras siga ofreciéndolo, una serie endecasilábica sin
-   pareados encaja en las dos formas y el demarcador no puede separarlas. ¿Se retira ese valor
-   de la silva?
+El rasgo tiene **cinco grados ordenados y cualitativos**: `ninguna` (1), `ocasionales` (2),
+`habituales` (3), `predominantes` (4), `regulares` (5).
 
-   **Sigue abierto, y vuelto a comprobar en el dato el 9 de agosto**: la silva endecasilábica
-   ofrece `ninguna`, `habituales` y `predominantes`; el endecasílabo suelto, `ninguna` y
-   `ocasionales`. **`ninguna` está en las dos.** Es el único solape declarado del catálogo y
-   la única duda de este archivo que produce ambigüedad real al demarcar.
+### El vocabulario: quién llama cómo a qué
 
-   **Contrastado con las seis fuentes el 9 de agosto: cinco respaldan retirarlo de la silva, y
-   Morley y Bruerton ya habían resuelto este mismo problema con un número.** Su silva 3.ª son
-   versos «todos de 11 sílabas, la mayoría (**50 al 98 %**) rimados», y sus sueltos, aquellos
-   en que «el porcentaje de los versos rimados es **menos de 50**»; advierten expresamente que
-   la silva 3.ª «se puede parecer a los sueltos», de modo que el solape les constaba y lo
-   cortaron por la proporción de rima. Navarro Tomás (§ 158) dice que en la silva los versos
-   podían estar rimados en su totalidad o quedar sueltos **algunos** de ellos. Caparrós 2014
-   llama al caso sin ninguna rima **verso suelto**, aunque lo clasifique como «una clase de
-   silva». Quilis lleva los poemas sin rima a su epígrafe aparte de versos sueltos (§ 6.4.3), y
-   Jauralde trata el verso blanco como fenómeno de ausencia de rima, no como silva.
+Es el punto que más se enreda, porque **la misma palabra significa cosas distintas en cada
+capa**. El reparto exacto:
 
-   La única fuente que admite una silva sin rima es el *Diccionario* —«también se considera
-   silva la combinación de endecasílabos y heptasílabos sin rima»—, y con dos salvedades: habla
-   de **7 y 11**, no de la serie solo endecasilábica que produce el conflicto, y es la misma
-   fuente de la que el catálogo ya se apartó razonadamente en la pregunta 4.
+| Concepto | Morley y Bruerton | Vocabulario legado del IP | Catálogo nuevo |
+| --- | --- | --- | --- |
+| Pareados sistemáticos de 7 y 11 | silva **1.ª**, «se podría llamar pareados de 7 y 11» | `silva_de_consonantes_regular` | `Silva · Consonante regular` |
+| 7 y 11 sin orden fijo, con algunos sueltos | silva **2.ª** | `silva_libre` | `Silva · Libre` |
+| Lo mismo, pero con pareados predominando | — *(distinción propia del IP)* | `silva_de_consonantes_irregular` | `Silva · Consonante de orden libre` |
+| Solo endecasílabos, **50-98 % rimados** | silva **3.ª** | `silva_de_endecasilabos` | `Silva · Endecasilábica` |
+| 7 y 11, todas las rimas en los pares | silva **4.ª** | — | — *(véase la duda 3)* |
+| Endecasílabos con **menos del 50 %** rimado | **sueltos** | `endecasilabo_suelto` | forma `Endecasílabo suelto` |
 
-   *Es decir: `ninguna` en la silva endecasilábica describe lo que la fuente del corpus
-   dramático clasifica como sueltos, no como silva. Retirarlo alinea el reparto con Morley y
-   Bruerton y con la decisión ya tomada en la pregunta 4, deja `ninguna` solo en el
-   endecasílabo suelto y **no afecta a ninguna anotación**: comprobado que ninguna secuencia ni
-   prueba del editor responde hoy ese grupo de elección.* Va con la pregunta 4, que es el mismo
-   corte visto desde la rima.
-3. ¿Se recoge la **silva 4** de Morley y Bruerton —7 y 11 mezclados, todas las rimas en los
-   pares—? Sigue abierta, pero el 5 de agosto se comprobó una cosa que la enmarca: **tampoco
-   estaba en el vocabulario viejo**. En los 119 términos de `estrofa_tipo` solo la familia del
-   romance menciona los versos pares. No se perdió en la migración; no se declaró nunca.
+**Que el vocabulario legado se hizo sobre Morley y Bruerton no es conjetura**:
+`silva_de_endecasilabos` copia su cifra literalmente —«del 50 al 98 % son rimados»— y
+`silva_libre` traduce casi palabra por palabra su tipo 2. Lo que el IP añadió por su cuenta es
+`silva_de_consonantes_irregular`, partiendo el tipo 2 según si los pareados predominan; y el
+rasgo `organizacion_en_pareados` del catálogo nuevo es **la sistematización de esa distinción
+suya**, llevada a cinco grados y extendida al endecasílabo suelto y al pareado.
 
-   El cotejo aclara además de dónde salen las cuatro silvas del vocabulario:
+**Cuidado con «libre», que nombra tres cosas.** En M&B, su silva 2.ª. En el catálogo, el
+extremo bajo de la escala de pareados —y la descripción de la arquitectura ya lo advierte—. Y
+en la crítica moderna, la *silva libre* de medidas mezcladas y por lo común sin rima, que **no
+es ninguna de las dos** y no está en el catálogo.
 
-   | Morley y Bruerton | Vocabulario del IP | Catálogo nuevo |
-   | --- | --- | --- |
-   | 1 · silva de consonantes `aAbBcC` | `silva_de_consonantes_regular` | Regular · Regulares |
-   | 2 · 7 y 11 sin orden fijo de extensión ni rima | `silva_libre` | Libre · Ninguna |
-   | — | `silva_de_consonantes_irregular` | Orden libre · Predominantes |
-   | 3 · solo de once, 50-98 % rimados | `silva_de_endecasilabos` | Endecasilábica |
-   | 4 · rimas en los pares | — | — |
+1. **El nombre «silva libre» no está registrado en ninguna parte.** Al convertirse en el valor
+   `ninguna` del rasgo, el nombre se quedó sin sitio: **el modelo no permite que una
+   denominación apunte a un valor de rasgo**. *¿Hace falta que lo esté? Hoy solo vive en la
+   descripción de la arquitectura `Libre`, en prosa.*
 
-   Que el vocabulario se hizo sobre Morley y Bruerton no es conjetura: `silva_de_endecasilabos`
-   copia su cifra literalmente, «del 50 al 98% son rimados», y `silva_libre` traduce casi
-   palabra por palabra su tipo 2. Lo que el IP añadió por su cuenta es
-   `silva_de_consonantes_irregular`, partiendo el tipo 2 según si los pareados predominan — y
-   el rasgo `Organización en pareados` del catálogo nuevo es la sistematización de esa
-   distinción suya, llevada a cinco grados y extendida al endecasílabo suelto y al pareado.
+2. ~~**`Silva · Endecasilábica` ofrecía el valor `ninguna`**, que según el reparto acordado
+   pertenece al endecasílabo suelto, de modo que una serie de once sin pareados encajaba en las
+   dos formas.~~ **Resuelto el 9 de agosto de 2026: se retiró de la silva.** Era el único
+   solape declarado del catálogo.
 
-   Junto a la silva 4 conviene decidir la **silva arromanzada** o silva-romance, que el
-   Diccionario recoge (p. 395) y tampoco está: todos los versos pares con una misma rima
-   **asonante**. Las cuatro arquitecturas del catálogo son consonantes, así que ninguna la
-   acoge.
-4. **¿La silva exige rima?** El Diccionario admite como silva la combinación de 7 y 11 sin
-   rima. El catálogo no, y la definición ahora lo dice expresamente: «un pasaje de siete y
-   once enteramente suelto no es una silva». La razón es de corpus y la respalda Navarro
-   Tomás, § 158: desde 1588 Lope intercalaba pareados en pasajes de 7 y 11 **sueltos**, así
-   que en la comedia lo que separa la silva del pasaje suelto es precisamente que rime.
-   Conviene que el IP confirme ese corte, porque es el mismo que separa la silva del
-   endecasílabo suelto en la pregunta 2.
+   **Lo que dice cada fuente**, que es lo que sostiene la decisión:
+
+   | Fuente | Qué dice de una serie de once sin rima |
+   | --- | --- |
+   | **Morley y Bruerton** | Su silva 3.ª son versos «todos de 11 sílabas, la mayoría (**del 50 al 98 %**) rimados»; clasifican como **sueltos** aquellos pasajes en que «el porcentaje de los versos rimados es **menos de 50**». Advierten expresamente que la silva 3.ª «se puede parecer a los sueltos o pareados de 11» |
+   | **Navarro Tomás** (§ 158) | En la silva los versos «podían estar rimados en su totalidad o bien **algunos** de ellos… podían quedar sueltos» |
+   | **Caparrós 2014** (pp. 232-233) | Llama **verso suelto** al caso en que «ninguno lleva rima», aunque lo clasifique como «una clase de silva» |
+   | **Quilis** (§ 6.4.3) | Lleva los poemas sin rima a un epígrafe aparte, «poemas de versos sueltos» |
+   | **Jauralde** | Trata el **verso blanco** como fenómeno de ausencia de rima, no como silva; y es categoría moderna, no descripción de la silva áurea |
+   | **Diccionario** | **La excepción**: «también se considera silva la combinación de endecasílabos y heptasílabos sin rima» |
+
+   El argumento decisivo es que **el valor contradecía a la fuente de la que sale la propia
+   arquitectura**: `Silva · Endecasilábica` viene de `silva_de_endecasilabos`, que es la silva
+   3.ª de M&B, definida por tener entre el 50 y el 98 % de versos rimados. Ofrecer `ninguna`
+   era admitir el 0 % en una arquitectura definida por no tenerlo. M&B ya habían visto el
+   parecido entre su silva 3.ª y los sueltos y lo cortaron por la proporción de rima, de modo
+   que las dos definiciones encajan sin hueco ni solape.
+
+   La excepción del *Diccionario* se conserva **solo en las afirmaciones de fuente y no se
+   codifica como opción**, por decisión del IP: habla de **siete y once**, no de la serie solo
+   endecasilábica que producía el conflicto, y es la misma lectura de la que el catálogo ya se
+   aparta en la duda 4.
+
+   *Qué cambió exactamente: la pregunta de la silva endecasilábica pasó de tres grados a dos
+   —`habituales` y `predominantes`—, y `ninguna` queda solo en el endecasílabo suelto. No se
+   tocó la arquitectura `Libre` ni el rasgo, que conserva sus cinco grados porque los usan
+   otras formas. Ninguna anotación resultó afectada.*
+
+3. **Los porcentajes de Morley y Bruerton no están en el dato, y esto es un hueco.** Los cinco
+   grados del rasgo son **cualitativos**: «Los pareados son frecuentes, aunque no obligatorios»,
+   «Los pareados organizan predominantemente la serie». Las cifras —menos del 50 %, del 50 al
+   98 %— viven **únicamente en las afirmaciones de fuente**, como prosa, y **nada declara la
+   correspondencia entre una y otra escala**. *Un editor que observe un pasaje con el 40 % de
+   versos rimados no tiene en el catálogo con qué decidir si eso es `ocasionales` o
+   `habituales`. Si el proyecto quiere el criterio cuantificador de M&B, hay que decidir si esa
+   correspondencia se declara —y dónde— o si se acepta que el grado lo estime el editor.*
+   **⇒ transversal de las preguntas**, junto con lo que se derive del dato.
+4. **¿Se recoge la silva 4.ª de Morley y Bruerton** —7 y 11 mezclados, **todas las rimas en los
+   pares**—? **Sigue abierta por decisión del IP.** El 5 de agosto se comprobó una cosa que la
+   enmarca: **tampoco estaba en el vocabulario legado**. En los 119 términos de `estrofa_tipo`
+   solo la familia del romance menciona los versos pares, de modo que no se perdió en la
+   migración: no se declaró nunca. *Si entra, es una arquitectura más, y hay que decidir si su
+   rima en los pares la acerca al romance heroico.*
+
+   Junto a ella conviene decidir la **silva arromanzada** o silva-romance, que el *Diccionario*
+   recoge (p. 395) y tampoco está: todos los versos pares con una misma rima **asonante**. Las
+   cuatro arquitecturas del catálogo son consonantes, así que ninguna la acoge.
+
+5. **¿La silva exige rima?** El *Diccionario* admite como silva la combinación de 7 y 11 sin
+   rima. El catálogo no, y la definición lo dice expresamente: «un pasaje de siete y once
+   enteramente suelto no es una silva». La razón es de corpus y la respalda Navarro Tomás
+   (§ 158): desde 1588 Lope intercalaba pareados en pasajes de 7 y 11 **sueltos**, así que en
+   la comedia lo que separa la silva del pasaje suelto es precisamente que rime. *Es el mismo
+   corte que la duda 2 resolvió para la serie endecasilábica, visto ahora en la heterométrica.
+   Por decisión del IP la lectura del Diccionario se conserva en las afirmaciones de fuente y
+   no se codifica como opción; conviene confirmar que el corte vale también aquí.*
 
 ## Endecasílabo suelto
 
@@ -191,27 +222,46 @@ con el pareado y la silva, ya se retiró.*
 
 **Qué tiene hoy el catálogo:** una arquitectura, `endecasilabica`, con la restricción
 `versos_sueltos = predominantes` y tres rasgos que el editor observa —`organizacion_en_pareados`
-(ninguna u ocasionales), `distico_final` y `encadenamiento_interior`—. Seis secuencias reales lo
-usan hoy a través del término legado `endecasilabo_suelto_puro`.
+(`ninguna` u `ocasionales`), `distico_final` y `encadenamiento_interior`—. Seis secuencias
+reales lo usan hoy a través del término legado `endecasilabo_suelto_puro`.
 
-1. **La restricción «predominan los sueltos» ya tiene umbral, y no está formalizado.** Morley y
-   Bruerton clasifican un pasaje como sueltos «cuando el porcentaje de los versos rimados es
-   menos de 50». El catálogo dice lo mismo en palabras pero no cuenta versos rimados, así que el
-   umbral vive en la afirmación y no en el dato. *¿Debe hacerse computable? Es el mismo eje que
-   separa esta forma de la silva endecasílaba y de la tirada de pareados.*
+**El vocabulario, capa por capa.** Conviene tenerlo delante porque las tres capas usan palabras
+distintas para lo mismo, y una de ellas —«verso blanco»— pertenece además a otra época:
+
+| Concepto | Morley y Bruerton | Vocabulario legado del IP | Catálogo nuevo | Otras fuentes |
+| --- | --- | --- | --- | --- |
+| Serie de once con menos del 50 % rimado | **sueltos** (`su.`) | `endecasilabo_suelto`, `endecasilabo_suelto_puro` | forma `Endecasílabo suelto` | **verso suelto** (*Diccionario*, Quilis, Caparrós) |
+| Serie de once con 50-98 % rimado | silva **3.ª** | `silva_de_endecasilabos` | `Silva · Endecasilábica` | — |
+| Ausencia **sistemática** de rima | — | — | — *(no se distingue)* | **verso blanco** (Jauralde, *Diccionario* como sinónimo) |
+
+**«Verso blanco» es categoría moderna y no describe la práctica áurea.** Jauralde la separa
+expresamente del verso suelto —sistemática frente a esporádica— y la sitúa como fenómeno del
+siglo XX; el *Diccionario* la da como sinónimo de verso suelto. El catálogo **no la distingue**,
+y por decisión del IP se queda así: la registra como denominación de esta forma, sin crear un
+nivel que el corpus dramático no necesita.
+
+1. **La restricción «predominan los sueltos» tiene umbral en la fuente y no está formalizado.**
+   Morley y Bruerton clasifican un pasaje como sueltos «cuando el porcentaje de los versos
+   rimados es **menos de 50**», y su silva 3.ª entre el **50 y el 98 %**: las dos definiciones
+   encajan sin hueco, y **son el criterio cuantificador que el proyecto quiere seguir**. Pero el
+   catálogo lo dice solo en palabras: la restricción declara `versos_sueltos = predominantes` y
+   los grados del rasgo son cualitativos, sin ninguna cifra. *El umbral vive hoy únicamente en
+   la afirmación de fuente. Si ha de ser operativo —que el editor o el demarcador puedan aplicar
+   el 50 %—, hay que decidir dónde se declara la correspondencia entre porcentaje y grado.* Es
+   la misma pregunta que la duda 3 de la [Silva](#silva). **⇒ transversal de las preguntas.**
 2. **¿Se admiten series sueltas de otras medidas?** Esta forma es endecasilábica por definición.
    Caparrós documenta el heptasílabo sin rima de Francisco de la Torre y ocho octosílabos
    sueltos de Hurtado de Mendoza; el *Diccionario* añade series de pentasílabos. **Y Navarro
    Tomás documenta en el teatro áureo la mezcla de endecasílabos y heptasílabos sueltos**, en
    las tragedias *Nise* de Jerónimo Bermúdez. *Ese último caso es el que más probablemente
    aparezca en el corpus y hoy no cabe: sería una desviación métrica sobre cada heptasílabo.*
-3. **Comparte con la silva endecasilábica el valor `ninguna`, y eso hace ambiguo el
-   demarcador.** Las dos arquitecturas lo ofrecen, así que una serie de once sin pareados
-   encaja en ambas formas. **Es el único solape real del catálogo.** La decisión es de la
-   silva, que ofrece un valor que su definición no necesita, y está razonada con las seis
-   fuentes en [Silva](#silva) 2: cinco respaldan retirarlo, y **Morley y Bruerton ya habían
-   cortado este mismo problema por la proporción de rima** —sueltos por debajo del 50 % de
-   versos rimados, silva 3.ª entre el 50 y el 98 %—.
+3. ~~**Comparte con la silva endecasilábica el valor `ninguna`**, de modo que una serie de once
+   sin pareados encaja en las dos formas y el demarcador no puede separarlas.~~ **Resuelto el 9
+   de agosto de 2026**: el valor se retiró de la silva, no de aquí. El reparto queda
+   `ninguna` y `ocasionales` en el endecasílabo suelto; `habituales` y `predominantes` en la
+   silva endecasilábica. El razonamiento con las seis fuentes está en [Silva](#silva) 2, donde
+   vivía el problema: era la silva la que ofrecía un valor que su propia fuente —la silva 3.ª
+   de Morley y Bruerton, «del 50 al 98 % rimados»— excluye.
 4. **¿Es «una clase de silva», como dice Caparrós 2014?** El catálogo las tiene como formas
    distintas unidas por `contrasta_con`, y la nota de esa relación ya explica el eje —predominio
    de sueltos frente a predominio de rimados—. Ninguna otra fuente las identifica. *No se han
