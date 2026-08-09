@@ -7,16 +7,11 @@ sueltas: vive en el catálogo, y se lee en `/formas`.** A medida que una forma s
 prosa se muda al dato, sus dudas resueltas se borran de aquí y su ficha `.md` se retira: el
 catálogo es el documento vivo y un `.md` paralelo solo puede quedarse viejo.
 
-Revisadas y con ficha ya retirada: romance, redondilla, décima, silva, soneto, quintilla, lira,
-octava real, cuarteto, terceto, terceto encadenado, pareado, endecha real, seguidilla, sextina
-—como estrofa y como composición—, villancico, sexteto, sextilla, sexteto-lira y las cuatro
-coplas: de pie quebrado, real, de arte mayor y la sextilla que compartía ficha con ellas. La
-ficha de las coplas se retiró al quedar revisadas las cuatro. Las fuentes de la novena están
-revisadas y su ficha se retiró, pero su separación respecto de la copla novena depende del
-modelo abierto pendiente.
-
-Quedan por revisar: **zéjel y canción petrarquista**, y al final el **endecasílabo suelto** con
-los dos tramos sin forma.
+**La revisión filológica está terminada.** Las 27 formas activas y los dos tramos sin forma se
+han contrastado con las seis monografías, y **este archivo es lo único que queda en
+`revisiones-formas/`**: todas las fichas `.md` se han retirado porque su contenido descriptivo
+vive ya en el catálogo. Las fuentes de la novena están revisadas, pero su separación respecto
+de la copla novena depende del modelo abierto pendiente.
 
 **Muchas de estas dudas no se responden una a una.** Varias son la misma pregunta vista desde
 formas distintas —qué repertorios están cerrados, qué elecciones dependen de otras, qué se
@@ -191,9 +186,32 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 
 ## Zéjel
 
+*Revisado el 8 de agosto de 2026, partiendo de cero afirmaciones: era la última de las tres
+formas que se quedaron sin respaldo al retirarse las cinco fuentes no autorizadas. Su ficha ya
+se retiró.*
 
-1. ¿Se admiten estribillos de uno y de dos versos o el zéjel estricto exige dístico?
-2. ¿Una repetición parcial del estribillo es posibilidad admitida o desviación?
+**Qué tiene hoy el catálogo:** una arquitectura, `estribillo_y_coplas_monorrimas`, con cabeza
+de uno o dos versos y un ciclo repetible de copla —mudanza de tres versos monorrimos más un
+verso de vuelta— y posible reaparición del estribillo. El editor responde la medida de cada
+sección, entre 6 y 8 sílabas, y si el estribillo reaparece materialmente. La mudanza, su
+monorrimia y la vuelta se derivan y no se preguntan.
+
+1. ~~¿Se admiten estribillos de uno y de dos versos o el zéjel estricto exige dístico?~~
+   **Resuelto: uno o dos, como está.** Caparrós 2014 y el *Diccionario* dicen «un estribillo de
+   uno o dos versos»; Quilis precisa que en el zéjel «de ordinario, son dos», frente al
+   villancico, donde suelen ser tres o cuatro. El dístico es lo ordinario, no lo exigido.
+2. **¿Una repetición parcial del estribillo es posibilidad admitida o desviación?** Hoy la
+   sección `represa` es total o no aparece: el editor responde sí o no. Ninguna de las cinco
+   fuentes que tratan el zéjel describe repetición parcial —sí lo hace Jauralde para el
+   villancico—. *Si el corpus la trae, hoy no cabe más que como desviación.*
+3. **¿Se admite la mudanza de dos versos?** Hoy la mudanza es de tres, y es lo definitorio de
+   la forma. Navarro Tomás documenta la variante `aa:bba`, con la mudanza reducida a dos
+   versos, **también en el Siglo de Oro**. No se ha añadido: relajar la mudanza toca el núcleo
+   de la definición y es decisión del IP.
+4. **¿Y el zéjel en arte mayor?** Hoy el esquema métrico ofrece 6 u 8 sílabas. Navarro Tomás
+   registra dos zéjeles en arte mayor en el *Cancionero de Baena*, y variantes que modifican
+   estribillo y vuelta —`aba:cccba`, `abba:cccaca`—. Son medievales y cultas, no del corpus
+   dramático; se dejan fuera a la espera de que aparezcan.
 
 ## Copla real
 
@@ -444,15 +462,80 @@ registro actual.
 
 ## Canción petrarquista
 
+*Revisada el 8 de agosto de 2026. Su ficha ya se retiró.*
 
-1. ¿La canción sin rima o canción libre debe seguir siendo arquitectura de la canción
-   petrarquista o tiene identidad suficiente para ser forma?
-2. ¿Debe exigirse siempre remate o envío en las canciones registradas?
-3. ¿Se mantiene el mínimo de 5 versos por estancia fijado por el proyecto, pese al
-   mínimo de 9 indicado por Domínguez Caparrós?
+**Qué tiene hoy el catálogo:** tres arquitecturas —`regular_13_versos` (principal, esquema
+`abCabC:cdeeDfF`), `estancias_consonantes_variables` (estancias de 5 a 20 versos) y
+`sin_rima_con_pareado_final`—. Todas exigen un mínimo de tres estancias y admiten un remate
+opcional. La distribución métrica y el esquema de rima llevan `define_norma`: se responden en
+cada estancia, pero todas las de una misma canción deben coincidir, y la base lo comprueba.
+
+1. **¿La canción sin rima debe seguir siendo arquitectura o tiene identidad de forma?** Sigue
+   abierta, pero la revisión aporta un dato que la ficha no tenía: **no es una aportación sin
+   fuente**. La ficha decía que procedía del criterio del IP y que no se atribuía a ninguna
+   fuente; Morley y Bruerton la registran como categoría propia —«Canción sin rima»— y la
+   describen igual que el catálogo. *Que la fuente la liste aparte, junto a la canción, es
+   argumento para cualquiera de las dos respuestas; lo que ya no cabe es decidirlo sin ella.*
+2. **¿Debe exigirse siempre remate o envío?** Hoy la sección `remate` es opcional
+   (`repeticiones_min = 0`). Las cinco fuentes que describen la composición lo dan como lo
+   normal —Caparrós: «acaba en un fragmento de estancia»; Jauralde: «termina con otra mucho
+   más breve»— pero ninguna lo declara imprescindible. *Si se exige, las canciones sin remate
+   registradas pasarían a incumplir la norma.*
+3. ~~¿Se mantiene el mínimo de 5 versos por estancia, pese al mínimo de 9 de Caparrós?~~
+   **Resuelto: sí, y con fuente.** El 5 no lo fijó el proyecto: **Morley y Bruerton dicen
+   literalmente «estrofas de 5 a 20 versos»** al describir la canción de Lope. Caparrós 2014 y
+   el *Diccionario* dan 9-20 para la estancia italiana; el catálogo sigue a la fuente
+   especializada en el corpus dramático, que es lo que corresponde.
+4. **Nuevo: el tramo bajo del intervalo solapa con la lira.** Jauralde sitúa la estancia
+   «normalmente por encima de los ocho versos (para diferenciarla de las liras)», y el
+   *Diccionario* describe la canción alirada como la variante cuya unidad estrófica oscila
+   entre cuatro y ocho versos. Es decir, una estancia de 5 a 8 versos es territorio de la lira
+   y del sexteto-lira. *No se ha tocado el intervalo, que es el de Morley y Bruerton, pero
+   conviene saber que ahí las formas se rozan.*
+
+## Endecasílabo suelto
+
+*Revisado el 8 de agosto de 2026, el último de las 27 por decisión del IP. Su ficha, compartida
+con el pareado y la silva, ya se retiró.*
+
+**Qué tiene hoy el catálogo:** una arquitectura, `endecasilabica`, con la restricción
+`versos_sueltos = predominantes` y tres rasgos que el editor observa —`organizacion_en_pareados`
+(ninguna u ocasionales), `distico_final` y `encadenamiento_interior`—. Seis secuencias reales lo
+usan hoy a través del término legado `endecasilabo_suelto_puro`.
+
+1. **La restricción «predominan los sueltos» ya tiene umbral, y no está formalizado.** Morley y
+   Bruerton clasifican un pasaje como sueltos «cuando el porcentaje de los versos rimados es
+   menos de 50». El catálogo dice lo mismo en palabras pero no cuenta versos rimados, así que el
+   umbral vive en la afirmación y no en el dato. *¿Debe hacerse computable? Es el mismo eje que
+   separa esta forma de la silva endecasílaba y de la tirada de pareados.*
+2. **¿Se admiten series sueltas de otras medidas?** Esta forma es endecasilábica por definición.
+   Caparrós documenta el heptasílabo sin rima de Francisco de la Torre y ocho octosílabos
+   sueltos de Hurtado de Mendoza; el *Diccionario* añade series de pentasílabos. **Y Navarro
+   Tomás documenta en el teatro áureo la mezcla de endecasílabos y heptasílabos sueltos**, en
+   las tragedias *Nise* de Jerónimo Bermúdez. *Ese último caso es el que más probablemente
+   aparezca en el corpus y hoy no cabe: sería una desviación métrica sobre cada heptasílabo.*
+3. **¿Es «una clase de silva», como dice Caparrós 2014?** El catálogo las tiene como formas
+   distintas unidas por `contrasta_con`, y la nota de esa relación ya explica el eje —predominio
+   de sueltos frente a predominio de rimados—. Ninguna otra fuente las identifica. *No se han
+   fusionado; queda registrado que una de las seis las clasifica juntas.*
 
 ## Tramos sin forma
 
+*Revisados el 8 de agosto de 2026. Su ficha ya se retiró. No son formas: no tienen arquitectura,
+norma, unidades ni desviaciones, y una guarda en migración lo comprueba.*
 
-1. Confirmar si `Verso aislado` debe ser la etiqueta pública definitiva de la antigua
-   entrada `verso suelto`.
+1. ~~Confirmar si `Verso aislado` debe ser la etiqueta pública definitiva de la antigua entrada
+   `verso suelto`.~~ **Resuelto: sí.** El *Diccionario* registra la entrada «verso único», que
+   atribuye a Navarro Tomás y define como el verso que no se integra en la estructura de una
+   estrofa, y al explicarla usa literalmente la expresión **«un verso aislado»**. El nombre no
+   es una invención del catálogo, y «Verso único» queda declarado como denominación.
+2. **Nuevo: el quebrado no es versificación irregular, y conviene vigilarlo al anotar.** El
+   *Diccionario* lo advierte expresamente —la combinación de versos largos con sus quebrados no
+   se considera irregular— y Caparrós 2014 lo confirma al incluir la proporcionalidad en la
+   definición de lo regular. Un pasaje 8-8-4 pertenece a la copla o a la sextilla de pie
+   quebrado, no a este tramo. La definición ya lo dice. *Merece comprobarse contra las
+   anotaciones existentes cuando se haga el informe de migración.*
+3. **Jauralde llama a esto de otra manera y no se ha seguido.** Prefiere «verso libre o
+   liberado» para el conjunto que no busca ninguna proporción aparente, y reserva «irregular»
+   para otro caso. El catálogo conserva «Versificación irregular» por ser el término de las
+   otras fuentes y del vocabulario legado. *Queda registrada la divergencia.*

@@ -1,6 +1,12 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
-Actualizado: 8 de agosto de 2026 · **23 formas revisadas de 27**
+Actualizado: 8 de agosto de 2026 · **27 formas revisadas de 27, y los dos tramos sin forma**
+
+> **La revisión filológica está terminada.** Las 27 formas activas y los dos tramos sin forma
+> se han contrastado con las seis monografías, y no queda ninguna ficha `.md` en
+> `revisiones-formas/` salvo la lista de cuestiones para el IP. Lo que sigue abierto no es
+> filológico sino de modelo, y está en [defectos aplazados](#defectos-del-modelo-aplazados):
+> son lecturas transversales que se hacen sobre el catálogo entero, no forma por forma.
 
 Este documento dice **en qué punto está la revisión del catálogo métrico y cómo se continúa**.
 Es el único sitio donde se lleva la cuenta. Si retomas el trabajo, empieza aquí.
@@ -59,7 +65,9 @@ Antes había once fuentes. Las otras cinco se retiraron porque no cumplían el c
 autoridad —publicación bibliográfica académica identificable—. Las afirmaciones perdidas de
 Décima, Copla de pie quebrado y Villancico ya se han recuperado tras revisar las seis fuentes
 autorizadas, y la Copla real recuperó el suyo el 8 de agosto de 2026 partiendo de cero
-afirmaciones; siguen pendientes las de Redondilla doble y Zéjel.
+afirmaciones, y el Zéjel el suyo el mismo día, también desde cero. **Las tres formas que se
+quedaron sin respaldo lo han recuperado**; la Redondilla doble no es hoy una forma del
+catálogo, sino una arquitectura de la redondilla, revisada con ella.
 
 ### Cómo se localiza un pasaje
 
@@ -91,7 +99,7 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Terceto encadenado | 5 | 5 | revisada |
 | Endecha real | 5 | 12 | revisada |
 | Terceto | 3 | 3 | revisada · las otras tres fuentes no lo tratan aparte |
-| Canción petrarquista | 1 | 1 | **pendiente** |
+| Canción petrarquista | 6 | 6 | revisada · el intervalo 5-20 y la canción sin rima son de Morley y Bruerton |
 | Copla de arte mayor | 6 | 6 | revisada · **dos de sus tres esquemas contradecían a las fuentes** |
 | Novena | 4 | 4 | fuentes revisadas · separación y apertura aplazadas |
 | Seguidilla | 6 | 6 | revisada |
@@ -102,23 +110,29 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Villancico | 5 | 5 | revisada · jerarquía pública corregida; normalización paramétrica aplazada |
 | Copla de pie quebrado | 6 | 6 | revisada |
 | Copla real | 6 | 6 | revisada · recuperado su respaldo; cuatro denominaciones |
-| Zéjel | 0 | 0 | **pendiente** |
-| Endecasílabo suelto | 1 | 1 | **pendiente · se deja para el final** |
-| Versificación irregular | 1 | 1 | tramo sin forma |
-| Verso aislado | 1 | 1 | tramo sin forma |
+| Zéjel | 5 | 5 | revisada · Morley y Bruerton no lo tratan |
+| Endecasílabo suelto | 6 | 6 | revisada · Morley y Bruerton dan el umbral del 50 % |
+| Versificación irregular | 4 | 4 | tramo sin forma · revisado |
+| Verso aislado | 2 | 2 | tramo sin forma · revisado |
 
-El endecasílabo suelto se dejó expresamente para el final por decisión del IP: es el más
-problemático y conviene llegar a él con el resto resuelto. Los dos tramos sin forma no tienen
-norma que contrastar; se revisan al final, con él.
+El endecasílabo suelto se dejó expresamente para el final por decisión del IP, por ser el más
+problemático. Resultó serlo menos de lo temido: las seis fuentes coinciden con lo que el
+catálogo ya modelaba y **Morley y Bruerton dieron el umbral que faltaba** —un pasaje es de
+sueltos cuando los versos rimados son menos del 50 %—.
 
 La fila «Sextina» reúne dos formas activas distintas —la estrofa y la composición— revisadas
 en una sola unidad de trabajo. El denominador cuenta las 27 formas activas y excluye los dos
-tramos sin forma.
+tramos sin forma, que se revisaron aparte porque no tienen norma que contrastar.
 
-### Orden sugerido para continuar
+### Lo que queda, y ya no es forma por forma
 
-Quedan: **zéjel y canción petrarquista**. Y al final el **endecasílabo suelto** con los dos
-tramos sin forma.
+No queda ninguna forma por revisar. Lo abierto son las **lecturas transversales** de
+[defectos aplazados](#defectos-del-modelo-aplazados), que se hacen sobre el catálogo entero:
+el concepto de variedad, la modalidad y la primacía, las reglas de repetición, la
+reutilización de secciones, el modelo de esquemas abiertos y la automatización de las
+preguntas del editor. Las dudas filológicas que siguen abiertas están en
+[cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md), y muchas se responden
+juntas dentro de esas lecturas.
 
 El territorio de los seis versos está cerrado —sexteto, sextilla y sexteto-lira—, y la lectura
 confirmó que **las tres formas están bien separadas**: la frontera la marcan el metro y la
@@ -133,6 +147,15 @@ de pie quebrado es la salida general del quebrado. La única relación real que 
 documentan entre dos de ellas es la de la copla real con la décima espinela, y es de contraste
 —rimas independientes frente a rima común—, no de familia. El reparto en cuatro formas
 distintas, sin familia que las agrupe, es el que corresponde.
+
+Y las últimas cuatro dejaron una lección sobre el propio método: **buena parte de lo que las
+fichas atribuían al criterio del IP estaba en la bibliografía y nadie lo había buscado**. El
+intervalo 5-20 de la estancia y la arquitectura de canción sin rima, que la ficha declaraba
+aportación del proyecto sin fuente, son literalmente de Morley y Bruerton; el umbral que separa
+el endecasílabo suelto de la silva lo cuantifican ellos mismos; y «Verso aislado», que se
+anotaba como duda de nomenclatura, es la expresión con que el *Diccionario* explica el verso
+único de Navarro Tomás. Conviene recordarlo al abrir las lecturas transversales: antes de
+declarar que algo es criterio propio, hay que haber leído a las seis.
 
 ---
 
@@ -355,6 +378,6 @@ obligaría a renombrar todos los esquemas de rima del catálogo a cambio de nada
   diario de la fase A, ya cerrada: la normalización de nombres y la corrección de la caja de la
   rima. Archivado; su método vigente está fundido en este documento.
 
-Las fichas `.md` de `revisiones-formas/` **están en retirada**: quedan solo las de las formas
-sin revisar, y cada una desaparece cuando su forma se absorbe en el catálogo. Una ficha que
-sobreviva a su revisión es un documento que se quedará viejo.
+Las fichas `.md` de `revisiones-formas/` **se han retirado todas**. Del directorio solo queda
+[cuestiones-para-el-ip.md](./revisiones-formas/cuestiones-para-el-ip.md), que no describe
+formas sino decisiones pendientes. Lo descriptivo vive en el catálogo y se lee en `/formas`.
