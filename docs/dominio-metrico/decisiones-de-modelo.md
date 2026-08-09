@@ -39,12 +39,16 @@ separado y reutilizable.
 
 ## Sexteto
 
-Resuelto en el modelo: la sexta rima no es una forma sino una **variedad** de la
-arquitectura endecasilábica del sexteto, con «Sexta rima» y «Sexteto clásico» como
-denominaciones. No añade ninguna norma que la arquitectura no tenga ya: concreta una de sus
-realizaciones y le pone nombre. El sexteto-lira, en cambio, no es ni arquitectura ni
-variedad suya: su heterometría es principio constructivo y su genealogía va a la lira,
-declarada como `sexteto_lira derivada_de lira`.
+Resuelto en el modelo: la sexta rima no es una forma. **Desde el 9 de agosto de 2026 es una
+denominación del esquema de rima `ABABCC`** de la arquitectura endecasilábica del sexteto, y
+no una variedad como estuvo hasta entonces: una variedad restringe qué parejas de esquema
+métrico y de rima se admiten, y esa arquitectura tiene un solo esquema métrico, de modo que no
+hay parejas que restringir. Lo que hace es dar nombre a una disposición, que es el trabajo de
+la denominación. Con ella viajaron «Sexteto clásico», «Sextina real» y «Sextina antigua».
+
+El sexteto-lira, en cambio, no es ni arquitectura ni variedad suya: su heterometría es
+principio constructivo y su genealogía va a la lira, declarada como
+`sexteto_lira derivada_de lira`.
 
 ## Canción petrarquista
 

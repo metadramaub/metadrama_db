@@ -42,7 +42,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Novena · formalización provisional de la copla novena | 9 octosílabos consonantes y orden de secciones según arquitectura | esquema de la redondilla y de la quintilla en cada unidad | múltiplo de 9; materializa una novena y sus dos partes por cada 9 versos |
 | Lira | 5 versos, esquema `7-11-7-7-11`, consonancia y `aBabB` | nada | múltiplo de 5 |
 | Sexteto-lira | 6 versos, medidas y rima de cada variedad reconocida | variedad reconocida por estrofa; final esdrújulo si caracteriza | múltiplo de 6; materializa una unidad por cada 6 versos |
-| Sexteto | 6 versos de arte mayor consonantes, de la medida de su arquitectura: 11, 12 o 14 | esquema de rima de cada unidad; `ABABCC` es la variedad llamada sexta rima | múltiplo de 6; materializa una unidad por cada 6 versos |
+| Sexteto | 6 versos de arte mayor consonantes, de la medida de su arquitectura: 11, 12 o 14 | esquema de rima de cada unidad; el esquema `ABABCC` se llama sexta rima | múltiplo de 6; materializa una unidad por cada 6 versos |
 | Seguidilla simple | 4 versos, `7-5-7-5`, asonancia `-a-a` | nada | múltiplo de 4; materializa una unidad por cada 4 versos |
 | Seguidilla compuesta | 7 versos, `7-5-7-5 + 5-7-5`, asonancia `-a-a + b-b` y secciones | nada | múltiplo de 7; materializa una unidad por cada 7 versos |
 | Seguidilla de tres versos | 3 versos, `5-7-5`, asonancia `a-a` | nada | múltiplo de 3; materializa una unidad por cada 3 versos |

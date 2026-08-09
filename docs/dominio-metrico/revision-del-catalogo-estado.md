@@ -272,26 +272,52 @@ identidad de forma subordinada, no de arquitectura, y recibirá las dos arquitec
 La separación no se aplica todavía porque falta decidir cómo hacer registrable y demarcable la
 Novena general sin clasificar por defecto cualquier pasaje de nueve versos.
 
-**La variedad apenas se usa, y hay que decidir si el concepto se sostiene.** Una variedad es
-una disposición concreta entre las posibilidades que la arquitectura deja abiertas —la sexta
-rima dentro del sexteto endecasílabo—. Pero el catálogo solo tiene **8 variedades repartidas en
-2 arquitecturas de las 57 activas**, y 7 de las 8 son las tipologías del sexteto-lira. Es
-decir: el concepto lo sostiene casi enteramente una sola forma. Al cerrar la revisión hay que
-mirar juntas esas ocho y decidir si la variedad es un nivel que el modelo necesita o si es un
-esquema de rima con nombre; y, si se conserva, por qué tantas formas con disposiciones
-reconocidas —las combinaciones de la quintilla, los tercetos del soneto— no la usan. La
-pregunta es del modelo, no de una forma: no se resuelve dando o quitando variedades a la que
-toque revisar.
+### La variedad · lectura hecha el 9 de agosto de 2026
 
-La revisión del sexteto-lira lo agrava y da el material para decidirlo. **Sus siete tipologías
-no son un repertorio cerrado**: Navarro Tomás enumera `aBaBCC`, `AbAbcC`, `AbbAcC`, `AabBCC`
-«etc.», y Morley y Bruerton `aBaBcC`, `abbacC`, `AabBcC`, `AabBCC` «etc.»; entre ellas
-`AbAbcC` y `AbbAcC` no están en el catálogo. Añadirlas una a una es justamente lo que no debe
-hacerse antes de resolver el modelo, porque el problema no es que falten dos: es que la
-variedad acopla medida y rima en un solo registro y el número de parejas documentadas no tiene
-cierre. Al abrir esa lectura hay que decidir si esas parejas son variedades, si son la
-combinación de dos elecciones independientes —patrón métrico y patrón de rima— o si el
-acoplamiento debe declararse como restricción entre ambas.
+**El concepto está bien definido, y ninguno de sus dos usos lo cumple.** Es el resultado de la
+lectura, y deja una decisión de fondo para el IP.
+
+**Qué es una variedad, según el modelo.** «Parejas de esquema métrico y esquema de rima que el
+proyecto reconoce dentro de una arquitectura». Su prueba discriminante en
+[criterios-de-nivel.md](./criterios-de-nivel.md) es *«restringe qué parejas de esquemas reconoce
+el proyecto»*, y su contraprueba, *«si los dos ejes son libres, no hace falta»*. El esquema lo
+impone: `esquema_metrico_id` y `esquema_rima_id` son **ambos NOT NULL**, de modo que una
+variedad no puede existir sin sus dos patas. La definición es coherente en la tabla, en los
+criterios y en la guía del editor, y **no se solapa con arquitectura**: el criterio explícito es
+que la arquitectura cambia cuando cambia el recipiente, y una disposición de rima no crea nunca
+una arquitectura.
+
+**Uso real: 8 variedades en 2 arquitecturas de las 57 activas.** Y las dos fallan la
+contraprueba:
+
+- **La sexta rima** (sexteto endecasílabo) está en una arquitectura con **un solo esquema
+  métrico**: no hay parejas que restringir. Lo que hace es dar nombre a la disposición
+  `ABABCC`, que es el trabajo de una denominación. *Decidido por el IP: pasa a denominación.*
+- **Las siete del sexteto-lira** están en la única arquitectura del catálogo con más de un
+  esquema métrico y más de uno de rima —5 × 3 = 15 parejas posibles, 7 declaradas—. Pero
+  **los dos ejes son libres**: nada impide combinar cualquier secuencia de medidas con
+  cualquier disposición. Las siete no salen de una restricción documentada sino del vocabulario
+  legado, donde eran siete subtipos escritos uno a uno; y ninguna de las seis fuentes prohíbe
+  combinación alguna —dos cierran su enumeración en «y otras»—. El detalle, con el mapa de las
+  quince casillas, en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#sexteto-lira).
+
+**Lo que la lectura descarta.** Extender la variedad al resto del catálogo **no es viable**, y
+no por criterio sino por estructura: **las 25 preguntas de rima están todas en arquitecturas con
+un solo esquema métrico**. Convertirlas en variedades emparejaría cada disposición con el único
+métrico disponible, es decir, información cero en la primera pata: 79 filas para repetir lo que
+ya dicen los 79 esquemas de rima.
+
+**Dar nombre no es su trabajo.** Para eso está la denominación, que ya admite colgar de forma,
+arquitectura, esquema de rima, esquema métrico, sección, repetición o variedad —hoy hay **11
+denominaciones sobre esquemas de rima**: «Cuarteta» sobre la redondilla cruzada, «Sextilla
+alterna» sobre `ababab`—. Una opción que elige solo un esquema de rima no puede ser variedad:
+le falta la otra pata, y dársela obligaría a inventarle un esquema métrico.
+
+**Lo que queda por decidir**, y es del IP porque toca al concepto entero: si los dos ejes del
+sexteto-lira son libres, la contraprueba del modelo dice que la variedad no hace falta **en
+ninguno de los dos casos**, y el nivel se quedaría sin uso. La alternativa para esa forma son
+dos preguntas cerradas —secuencia de medidas y disposición de rima— que cubren las quince
+combinaciones y admiten lo que las fuentes documentan y el catálogo no tiene.
 
 **Las preguntas del editor deberían derivarse del dato, no mantenerse a mano.** Hoy cada forma
 lleva sus grupos de elección y sus opciones escritos uno a uno en migraciones: **61 grupos y 406

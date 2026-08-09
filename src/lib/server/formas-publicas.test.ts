@@ -206,4 +206,68 @@ describe('catálogo público de formas', () => {
 		expect(resultado?.arquitecturas_[0].esquemasRima).toHaveLength(1);
 		expect(resultado?.arquitecturas_[0].esquemasRima[0].id).toBe('rima-abba');
 	});
+
+	it('presenta el esquema sin nombre propio con la denominación que le dio la tradición', async () => {
+		// Muchas disposiciones se identifican por su notación y no llevan `nombre`; el nombre
+		// tradicional vive como denominación, que es donde acabó al dejar de ser forma hija.
+		const rpc = vi.fn().mockResolvedValue({
+			data: {
+				...detalleVacio,
+				esquemasRima: [
+					{
+						esquema_rima_id: 'rima-ababcc',
+						arquitectura_id: arquitectura.arquitectura_id,
+						nombre: null,
+						notacion: 'ABABCC',
+						descripcion: null,
+						ambito: 'unidad'
+					}
+				],
+				denominaciones: [
+					{
+						esquema_rima_id: 'rima-ababcc',
+						nombre: 'Sexteto clásico',
+						preferente: false
+					},
+					{ esquema_rima_id: 'rima-ababcc', nombre: 'Sexta rima', preferente: true }
+				]
+			},
+			error: null
+		});
+
+		const resultado = await loadPublicForm({ rpc }, 'villancico');
+		const esquema = resultado?.arquitecturas_[0].esquemasRima[0];
+
+		// La preferente da el nombre, y por eso no se repite entre las demás.
+		expect(esquema?.nombre).toBe('Sexta rima');
+		expect(esquema?.denominaciones).toEqual(['Sexteto clásico']);
+	});
+
+	it('conserva el nombre propio del esquema y lista todas sus denominaciones', async () => {
+		const rpc = vi.fn().mockResolvedValue({
+			data: {
+				...detalleVacio,
+				esquemasRima: [
+					{
+						esquema_rima_id: 'rima-abab',
+						arquitectura_id: arquitectura.arquitectura_id,
+						nombre: 'Cruzada',
+						notacion: 'abab',
+						descripcion: null,
+						ambito: 'unidad'
+					}
+				],
+				denominaciones: [
+					{ esquema_rima_id: 'rima-abab', nombre: 'Cuarteta', preferente: true }
+				]
+			},
+			error: null
+		});
+
+		const resultado = await loadPublicForm({ rpc }, 'villancico');
+		const esquema = resultado?.arquitecturas_[0].esquemasRima[0];
+
+		expect(esquema?.nombre).toBe('Cruzada');
+		expect(esquema?.denominaciones).toEqual(['Cuarteta']);
+	});
 });

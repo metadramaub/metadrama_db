@@ -36,7 +36,7 @@ Son las que no se ven leyendo una sola sección, y por eso van aquí arriba:
 | --- | --- | --- |
 | **Silva endecasilábica y endecasílabo suelto ofrecían los dos el valor `ninguna`** de organización en pareados, así que una serie de once sin pareados encajaba en las dos formas | [Silva](#silva) 2 · [Endecasílabo suelto](#endecasílabo-suelto) 3 | **resuelto el 9 de agosto**: se retiró de la silva, siguiendo el corte cuantitativo de Morley y Bruerton. Era el único solape del catálogo |
 | **`organizacion_en_pareados` mezcla dos magnitudes**: M&B cuentan versos *rimados*, pero la Silva Libre declara `ninguna` y sí rima —lo que no tiene es *pareados*—. Al intentar cuantificar los grados sale además que `habituales` y `predominantes` compartirían intervalo | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | **abierto**; el IP decidió el 9 de agosto no cuantificar hasta separar las dos magnitudes ⇒ transversal de los rasgos |
-| Qué es una **variedad**, si el repertorio del sexteto-lira no tiene cierre | [Sexteto-lira](#sexteto-lira) 1 · [Sexteto](#sexteto) · [Quintilla](#quintilla) | ⇒ transversal de la variedad |
+| Qué es una **variedad**, si el repertorio del sexteto-lira no tiene cierre | [Sexteto-lira](#sexteto-lira) 1 · [Sexteto](#sexteto) | **lectura hecha el 9 de agosto**: la sexta rima pasó a denominación y quedan solo las 7 del sexteto-lira, cuyos dos ejes resultan ser libres. Decidir si el nivel se conserva es del IP |
 | Qué **repertorios están cerrados** —medidas, esquemas— y cuáles son recortes del corpus | [Sexteto](#sexteto) 2 · [Sextilla](#sextilla) 2 · [Quintilla](#quintilla) 1 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | ⇒ transversal de la modalidad |
 | Qué **elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Sexteto-lira](#sexteto-lira) 1 | ⇒ transversal de las preguntas |
 | Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 3 · [Seguidilla](#seguidilla) · [Novena](#novena) 1 · [Copla de pie quebrado](#copla-de-pie-quebrado) | ⇒ transversal de los esquemas abiertos |
@@ -638,7 +638,10 @@ con relación `derivada_de` hacia esta.
 **Qué tiene hoy el catálogo:** tres arquitecturas por medida —`endecasilabica` (principal),
 `dodecasilabica`, `alejandrina`—, seis versos isosilábicos de arte mayor con rima consonante y
 disposición abierta. El editor elige la medida y anota el esquema observado. La disposición
-`ABABCC` es la variedad **sexta rima**, que Jauralde llama en cambio *sextina real*.
+`ABABCC` se llama **sexta rima** —y también «sexteto clásico», «sextina antigua» y, en
+Jauralde, *sextina real*—: desde el 9 de agosto de 2026 son **denominaciones del esquema de
+rima** y no una variedad, porque esta arquitectura tiene un solo esquema métrico y una variedad
+existe para restringir parejas.
 
 **El hilo común de las tres primeras dudas:** las fuentes definen el sexteto **más ancho que el
 catálogo**, y el recorte es una decisión del proyecto, no un descuido. Ninguna bloquea el
@@ -673,13 +676,51 @@ de 7 y 11 sílabas, y **siete tipologías** que acoplan cada patrón métrico co
 `aBaBcC` (preferente), A2, A3, B1, B2, C1, C2—. El editor elige una tipología por estrofa. Es la
 forma que concentra **7 de las 8 variedades de todo el catálogo**.
 
-1. **El repertorio no está cerrado, y ya no es una duda: está demostrado.** Navarro Tomás
-   enumera `aBaBCC`, `AbAbcC`, `AbbAcC`, `AabBCC` «etc.»; Morley y Bruerton, `aBaBcC`, `abbacC`,
-   `AabBcC`, `AabBCC` «etc.». De ellas, **`AbAbcC` y `AbbAcC` no están en el catálogo**. No se
-   añadieron a propósito: el problema no es que falten dos, sino que la variedad acopla medida y
-   rima en un solo registro y las parejas documentadas no tienen cierre. *Va a la
-   [lectura transversal de la variedad](../revision-del-catalogo-estado.md#defectos-del-modelo-aplazados):
-   ¿son variedades, dos elecciones independientes, o una restricción entre ambas?*
+1. **¿Por qué esas siete combinaciones y no otras?** Es la duda de fondo, y la revisión
+   transversal de la variedad —9 de agosto de 2026— la deja documentada así:
+
+   **De dónde salen las siete.** No de una restricción documentada, sino del vocabulario
+   legado: eran **siete subtipos escritos uno a uno** —`sexteto_lira_a1_aBaBcC`,
+   `_a2_AbaBcC`…— y la matriz de importación los mandó a `variedad`. Que sean siete de quince
+   es el resultado de tener siete filas, no una decisión sobre qué se puede combinar.
+
+   **Los dos ejes son libres.** Comprobado en el dato: las cinco secuencias de medidas y las
+   tres disposiciones de rima **son independientes**, y nada impide combinarlas. El mapa
+   completo, con las ocho parejas que hoy no existen:
+
+   | Medidas | `ababcc` | `abbacc` | `aabbcc` |
+   | --- | :---: | :---: | :---: |
+   | `7-11-7-11-7-11` | **A1** | — | — |
+   | `11-7-7-11-7-11` | **A2** | — | **C1** |
+   | `7-7-7-11-7-11` | **A3** | — | — |
+   | `7-7-7-7-7-11` | — | **B1** | — |
+   | `11-7-7-11-11-11` | — | **B2** | **C2** |
+
+   **Lo que dicen las fuentes.** Ninguna de las seis prohíbe combinación alguna, y dos terminan
+   la enumeración en abierto: Morley y Bruerton dan `aBaBcC` como regular y citan `abbacC`,
+   `AabBcC`, `AabBCC` **«entre otras»**; Navarro Tomás enumera `aBaBCC`, `AbAbcC`, `AbbAcC`,
+   `AabBCC` **«y otras»**; Caparrós dice que «puede presentar distintos esquemas».
+
+   **Tres que las fuentes nombran y el catálogo no tiene**, y no son el mismo caso:
+
+   | Fórmula | Medidas que implica | Qué haría falta |
+   | --- | --- | --- |
+   | `AbbAcC` (Navarro Tomás) | `11-7-7-11-7-11` | **Solo la pareja**: las dos patas ya existen, es una de las ocho casillas vacías |
+   | `AbAbcC` (Navarro Tomás) | `11-7-11-7-7-11` | Un **esquema métrico nuevo** |
+   | `aBaBCC` (Navarro Tomás) | `7-11-7-11-11-11` | Un **esquema métrico nuevo** |
+
+   *Con los ejes libres, `AbbAcC` cabría sin añadir nada. Las otras dos exigen declarar su
+   secuencia de medidas, se decida lo que se decida sobre el acoplamiento.*
+
+   **Lo que está en juego.** Hoy es **una pregunta con siete opciones**. La alternativa son
+   **dos preguntas cerradas** —¿qué secuencia de medidas? (5 opciones) y ¿qué disposición de
+   rima? (3)—, que cubren las quince y no dejan fuera lo documentado. No es respuesta abierta:
+   las opciones siguen siendo cerradas y siguen apuntando al catálogo.
+
+   *La decisión es del IP y toca al concepto entero de variedad, no solo a esta forma: si los
+   dos ejes son libres, la [contraprueba del modelo](../criterios-de-nivel.md) dice que la
+   variedad «no hace falta». Va con la
+   [lectura transversal](../revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).*
 2. **¿A1 debe seguir marcada como preferente?** Hoy lo está. Navarro Tomás y Morley y Bruerton
    coinciden en que `aBaBcC` es la forma regular, así que la preferencia tiene respaldo. *Queda
    decidir si el editor debe verla destacada en la interfaz.*
