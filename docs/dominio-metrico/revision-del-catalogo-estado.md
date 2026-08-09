@@ -452,13 +452,31 @@ prosa**: la descripción del conjunto de la canción dice «cada posición de la
 registra como heptasílaba o endecasílaba», y la del villancico, «sin imponer un orden fijo».
 
 Es un hecho de métrica y no de formulario: la mudanza del villancico **es isosilábica** y la
-estancia de la canción **es heterométrica por posición**. Declararlo —un `conjunto` que dice si
-su medida es uniforme en el tramo o varía verso a verso— cierra el hueco y hace derivable toda
-la dimensión.
+estancia de la canción **es heterométrica por posición**.
 
-*Queda pendiente, y es el único que separa hoy de la derivación completa.*
+**Declarado el 9 de agosto** (migración `20260809180000`): `esquemas_metricos` gana
+`medida_uniforme`, verdadero cuando todos los versos del tramo comparten medida y falso cuando
+cada posición tiene la suya. Tres esquemas son uniformes —los del villancico y el zéjel— y siete
+heterométricos.
 
-Con él declarado, **los 61 grupos serían derivables sin excepción**.
+#### La derivación, comprobada
+
+La migración lleva una guarda que **recorre cada pregunta de medida y compara las opciones
+escritas a mano con las que salen del catálogo** —posiciones por metros admitidos, o un solo
+juego cuando la medida es uniforme—. Pasa: la derivación reproduce las **167 opciones de metro**
+sin una sola diferencia.
+
+Contrastadas después las tres dimensiones con una consulta de una pasada, **49 de los 53 grupos
+con opciones se reproducen exactamente**, y los que no son **dos mecanismos ya estructurados que
+esa consulta no cubría**, no carencias:
+
+- la seguidilla gitana, cuyas tres medidas del tercer verso salen de las **alternativas de una
+  posición** en `esquema_metrico_posiciones`, no de un conjunto;
+- el grupo `rasgos_de_la_serie` del endecasílabo suelto, que **reúne dos rasgos distintos** en
+  una sola pregunta.
+
+Con los siete huecos declarados, **el catálogo contiene ya todo lo que hace falta para generar
+el formulario**. Lo que queda es escribir la generación y decidir qué pasa con las tablas.
 
 ### Datos asumidos que siguen viviendo en prosa
 
