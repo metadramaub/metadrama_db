@@ -2,14 +2,15 @@
 
 Estado: **abierto, a completar por el IP** · actualizado el 9 de agosto de 2026
 
-**Desde el 4 de agosto de 2026 no queda ninguna secuencia sin resolver: 212 de 212.** El
-reparto, comprobado el 9 de agosto, es **130 directas, 71 por rasgo y 11 por ascendencia**. Lo
-que sigue abierto no bloquea la migración: son decisiones de modelado sobre términos que nadie
-usa, más las [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+> **Las cifras no están aquí.** Cuántos términos declaran destino, cuáles no, cuánto se usa
+> cada uno y cómo resuelve cada secuencia se consultan en
+> **[informe-equivalencias.md](./informe-equivalencias.md)**, que genera
+> `npm run equivalencias:informe`. Este documento explica **por qué** faltan los que faltan y
+> **qué decidió el IP**; eso no lo puede generar un script.
 
-De los 119 términos de `vocabularios.categoria = 'estrofa_tipo'`, **92 declaran hoy su
-equivalencia** en el catálogo nuevo. Los que no la declaran, o se resuelven por ascendencia o
-no los usa nadie.
+Desde el 4 de agosto de 2026 **no queda ninguna secuencia sin resolver**, y lo que sigue
+abierto no bloquea la migración: son decisiones de modelado sobre términos que casi nadie usa,
+más las [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
 > **Las cifras de uso cambiaron dos veces el 4 de agosto.** Primero al retirarse «Los
 > ramilletes de Madrid (prueba)», la obra de pruebas del proyecto, cuyos datos eran
@@ -69,7 +70,8 @@ Lo resuelve la vista **`propuesta_metrica_secuencia`**, y de ahí lo leen sus do
 - la **anotación en sombra** del dashboard;
 - el comando **`npm run migracion:informe`**, que escribe [los informes por obra](./migracion/).
 
-Reparto actual: **134 directas, 71 por rasgo y 7 por ascendencia. Ninguna sin resolver.**
+El reparto por vía, siempre al día, está en
+[el informe generado](./informe-equivalencias.md#cómo-se-resuelve-cada-secuencia).
 
 Y una vista hermana, **`propuesta_elecciones_secuencia`**, deduce además **las respuestas**
 que el término legado ya contenía: **91 en total**, entre 71 asonancias de romance y 20 de
@@ -148,61 +150,45 @@ el extremo del continuo endecasilábico de Morley y Bruerton sino un dístico. L
 la forma Pareado, que el catálogo define más ancha que M&B a propósito, con la medida y la
 rima declaradas como respuestas.
 
-Con eso **toda secuencia resuelve**: 134 directas, 71 por rasgo, 7 por ascendencia. Las tres
-que no declaraban forma eran datos de prueba de Fuenteovejuna y se borraron el mismo día.
+Con eso **toda secuencia resuelve**; el reparto por vía, en
+[el informe](./informe-equivalencias.md#cómo-se-resuelve-cada-secuencia). Las tres que no
+declaraban forma eran datos de prueba de Fuenteovejuna y se borraron el mismo día.
 
-## Cómo leer las columnas de uso
+## Qué falta, término a término
 
-- **Propias**: secuencias reales que declaran ese término exacto.
-- **Familia**: secuencias que declaran la raíz o cualquiera de sus descendientes. Es la que
-  mide el riesgo de la decisión: un término sin uso propio dentro de una familia muy usada
-  toca una zona delicada del corpus.
+**No se escribe aquí: se genera.** El estado —qué términos declaran destino, cuáles no, cuánto
+se usa cada uno y cómo resuelve cada secuencia— está en
+**[informe-equivalencias.md](./informe-equivalencias.md)**, que produce
+`npm run equivalencias:informe` consultando la base.
 
-Por familia, de más a menos: **redondilla 63** · décima 18 · silva 12 · soneto 7 ·
-endecasílabo suelto 6 · octava real 4 · sexteto-lira 4 · copla real 3 · terceto 2 ·
-irregular 1 · **pareado 0** · **canción petrarquista 0**.
+Vivía en este documento en tres tablas, y sus cifras se repetían además en el plan de migración
+y en el estado del catálogo: cuatro copias que había que corregir a mano y que caducaban por
+separado cada vez que se aplicaba una migración. **Al generarlo por primera vez, el 9 de agosto
+de 2026, apareció que la familia de la redondilla eran 62 secuencias y no 63**: el 63 venía de
+antes de retirarse la obra de pruebas, y nadie lo había vuelto a contar.
 
-## 1 · El destino no existe todavía: hay que decidirlo
+Lo que sigue en este documento es lo que **no** puede generarse: por qué faltan los que faltan,
+y qué decidió el IP sobre cada uno.
 
-| Término legado | Propias | Familia | La matriz decía | Estado real | Destino definitivo |
-| --- | ---: | ---: | --- | --- | --- |
-| `copla_real_de_pie_quebrado` | **1** | 3 | Arquitectura con uno o dos tetrasílabos por unidad | Copla real tiene **una sola arquitectura**, «Octosilábica consonante», ya reclamada por `copla_real_sin_quebrado`. El rasgo «Pie quebrado» existe **sin ningún valor** | |
-| `endecasilabo_suelto_encadenado` | 0 | 6 | Arquitectura con rima interna encadenada + rasgo. **Certeza media, revisión del IP** | No hay tal arquitectura | |
-| `endecasilabo_suelto_con_pareados` | 0 | 6 | Arquitectura con pareados intercalados y dístico final | No hay tal arquitectura | |
-| `endecasilabo_suelto_con_pareados_y_sin_distico_final` | 0 | 6 | Arquitectura con pareados y sin dístico final | No hay tal arquitectura | |
+### Los que esperan decisión, y por qué
 
-## 2 · El destino existe pero ya lo reclamó otro término
+Agrupados por la razón de que falten, que es lo que determina cómo se resuelven:
 
-Aquí no falta modelar: falta poder decir «varios vienen a este».
+**a) El destino no existe todavía: hay que decidirlo.** `copla_real_de_pie_quebrado`, y tres
+hijos del endecasílabo suelto —`_encadenado`, `_con_pareados`,
+`_con_pareados_y_sin_distico_final`—. La matriz de julio proponía crear una arquitectura para
+cada uno; la ontología del 30 de julio los convirtió en rasgos del pasaje, de modo que la
+arquitectura que la matriz daba por hecha no existe. El rasgo «Pie quebrado» de la copla real
+existe **sin ningún valor**.
 
-| Término legado | Propias | Familia | Destino | Quién lo reclama ya | Destino definitivo |
-| --- | ---: | ---: | --- | --- | --- |
-| `endecasilabo_suelto_puro` | **6** | 6 | Endecasílabo suelto · Endecasilábica | `endecasilabo_suelto_puro_sin_distico_final` | |
-| `pareado_octosilabo` | 0 | 0 | Pareado · De cualquier medida | `pareado_de_arte_menor` (el padre) | |
-| `pareado_hexasilabo` | 0 | 0 | Pareado · De cualquier medida | Ídem | |
-| `soneto_de_esdrújulos` | 0 | 7 | Soneto + rasgo `final_acentual = esdrujulo` | «Esdrújulo» no declara origen; lo necesitan seis términos | |
-| `octava_real_de_esdrujulos` | 0 | 4 | Octava real + mismo rasgo | Ídem | |
-| `terceto_de_esdrujulos` | 0 | 2 | Terceto + mismo rasgo (corregir tamaño 1 → 3) | Ídem | |
-| `sexteto_lira_de_esdrujulos` | 0 | 4 | Sexteto-lira + mismo rasgo; extensión derivada como 6 | Ídem | |
-| `endecasilabo_suelto_de_esdrujulos` | 0 | 6 | Endecasílabo suelto + mismo rasgo | Ídem | |
-| `cancion_sin_rima_de_esdrujulos` | 0 | 0 | Arquitectura sin rima + mismo rasgo | La arquitectura «Sin rima, con pareado final» la reclama `cancion_sin_rima` | |
+**b) El destino existe pero ya lo reclamó otro término.** Es el límite del mapa descrito arriba,
+no un olvido. Lo sufren `endecasilabo_suelto_puro` —el único de los cuatro que se usa, con 6
+secuencias—, los dos hijos del pareado y los **seis términos `*_de_esdrujulos`**, que necesitan
+apuntar todos al mismo valor de rasgo.
 
-## 3 · El destino existe y está libre: solo falta declararlo
+**c) Disoluciones deliberadas.** No hay destino porque no debe haberlo; el detalle, más abajo.
 
-**Vacía desde el 9 de agosto de 2026.** Los tres casos que contenía están aplicados en la
-migración `20260809130000`: la arquitectura declara ya el término del que viene.
-
-| Término legado | Propias | Familia | Destino, ya declarado |
-| --- | ---: | ---: | --- |
-| `redondilla_heptasilaba` | 0 | **63** | **Aplicado.** `Redondilla · Heptasilábica` |
-| `redondilla_hexasilaba` | 0 | **63** | **Aplicado.** `Redondilla · Hexasilábica` |
-| `silva_libre` | 0 | 12 | **Aplicado.** `Silva · Libre` |
-
-Ninguno de los tres lo usa hoy ninguna obra, de modo que la vista no cambió de tamaño: la
-migración prepara el destino para cuando aparezcan. Las cifras de «familia» cuentan secuencias
-que usan un término hermano, y esas seguían resolviendo ya.
-
-## 4 · Resueltos por el IP el 4 de agosto de 2026
+## Resueltos por el IP el 4 de agosto de 2026
 
 | Término legado | Propias | Familia | Decisión |
 | --- | ---: | ---: | --- |
@@ -211,7 +197,7 @@ que usan un término hermano, y esas seguían resolviendo ya.
 | `decima_espinela` | — | — | Arquitectura «Espinela» de Décima; conserva su nombre como denominación |
 | `decima_aumentada` | — | — | Arquitectura «Aumentada» de Décima; conserva su nombre como denominación |
 
-## 5 · Disoluciones deliberadas: no hay destino porque no debe haberlo
+## Disoluciones deliberadas: no hay destino porque no debe haberlo
 
 | Término legado | Propias | Familia | Decisión de la matriz |
 | --- | ---: | ---: | --- |
@@ -227,7 +213,7 @@ que usan un término hermano, y esas seguían resolviendo ya.
 Queda por decidir si una disolución deliberada debe dejar constancia en algún sitio. Hoy no
 la deja, y por eso aparecen en esta lista.
 
-## 6 · Superadas por la ontología del 30 de julio
+## Superadas por la ontología del 30 de julio
 
 | Término legado | Propias | Familia | La matriz decía | Por qué ya no vale | Destino definitivo |
 | --- | ---: | ---: | --- | --- | --- |
@@ -235,7 +221,7 @@ la deja, y por eso aparecen en esta lista.
 | `doble_sextilla` | 0 | 0 | Conservar como forma de doce versos | Ídem. Sextilla tiene ya la arquitectura «Doble, de pie quebrado», que reclama `doble_sextilla_alternativa` | |
 | `copla_manriqueña` | 0 | 0 | Conservar como forma lexicalizada, subtipo de doble sextilla | Ídem, y no existe la relación padre/hijo | |
 
-## 7 · Además
+## Además
 
 - Tres secuencias reales tienen `estrofa_tipo_id` **nulo**: no declaran forma ninguna.
 - El rasgo **«Pie quebrado» no tiene valores**, y hace falta para

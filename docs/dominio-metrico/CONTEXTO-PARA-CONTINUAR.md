@@ -152,11 +152,14 @@ Leer solo lo necesario para la tarea:
    mínimo de las formas revisadas.
 5. [Cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md): única lista
    vigente de dudas filológicas.
-5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): los términos legados que
-   todavía no declaran su destino en el catálogo. Es lo que hay que cerrar antes del backfill.
-5bis-1. [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md): **el trabajo en
-   curso**. Qué formas están contrastadas con las seis fuentes, cuáles faltan, el procedimiento
-   y el orden. Es el único sitio donde se lleva esa cuenta.
+5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): **por qué** algunos términos
+   legados no declaran todavía su destino y qué decidió el IP sobre cada uno. Es lo que hay que
+   cerrar antes del backfill. **El estado —cuántos faltan, cuáles y cuánto se usan— no se
+   escribe: lo genera `npm run equivalencias:informe`** en
+   [informe-equivalencias.md](./informe-equivalencias.md).
+5bis-1. [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md): la revisión
+   filológica, **ya terminada**, y las lecturas transversales que dejó abiertas. Se mantiene al
+   día: es el único sitio donde se lleva esa cuenta.
 5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de
    redacción que rigen todo lo que se escribe en el catálogo, y dónde va cada cosa —definición,
    descripción, nota—.
