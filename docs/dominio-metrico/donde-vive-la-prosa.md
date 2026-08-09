@@ -18,6 +18,14 @@ la norma que la gobierna: qué se escribe en cada campo y cuándo entra una fuen
 | `nota` | `estructuras_secciones`, `arquitectura_rasgos`, `esquema_rima_enlaces` | Una precisión sobre esa parte concreta, **y solo si la ficha no la deriva ya del dato** |
 | `afirmaciones_fuentes_metricas` | — | Lo que una fuente **añade**, con su localizador |
 
+**Y una `nota` no debe llevar un dato que el catálogo podría declarar.** Es la regla 1 vista al
+revés, y el barrido del 9 de agosto de 2026 encontró tres casos: la nota del endecasílabo suelto
+decía «Ninguna u ocasionales», que era el subconjunto de grados admitidos y ahora es dato en
+`arquitectura_rasgos`; la de la copla de pie quebrado decía cuál era el metro dominante, que
+ahora lo dice `esquema_metrico_opciones.rol`; y la copla real sigue diciendo en prosa que solo
+uno o dos de sus diez versos pueden quebrarse, que aún no es dato. El inventario está en
+[el estado del catálogo](./revision-del-catalogo-estado.md#datos-asumidos-que-siguen-viviendo-en-prosa).
+
 `repeticiones_metricas.regla` no debe convertirse en un quinto depósito de prosa. Su nombre
 promete una restricción computable, pero hoy es texto libre y el editor calcula el efecto desde
 las opciones de elección. Resolver ese contrato y derivar de él la explicación pública queda

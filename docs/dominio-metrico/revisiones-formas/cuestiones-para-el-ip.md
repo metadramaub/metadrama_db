@@ -493,10 +493,15 @@ quebrado es rasgo admitido, no definitorio.
    ofrece las diez. Ninguna fuente fija dónde caen: el *Diccionario* solo dice que la estrofa
    «admite algún verso quebrado (tetrasílabo)» y Jauralde que con el tiempo llegó a quebrar
    alguno de sus versos. *Si se restringe, hay que decir a qué posiciones.*
-2. **¿Solo tetrasílabos, o también pentasílabos?** Hoy la pregunta ofrece las dos medidas, como
-   en la copla de pie quebrado. Pero las seis fuentes, al hablar de la copla real, **solo
-   nombran el tetrasílabo**; el pentasílabo aparece en la otra forma. *Si vale solo el
-   tetrasílabo, la pregunta pasa de 20 opciones a 10.*
+2. **¿Solo tetrasílabos, o también pentasílabos?** Las seis fuentes, al hablar de la copla real,
+   **solo nombran el tetrasílabo**; el pentasílabo aparece en la otra forma.
+
+   *Desde el 9 de agosto de 2026 esto ya no es solo una pregunta: es una declaración del
+   catálogo.* Antes las dos medidas existían únicamente en las opciones escritas a mano; ahora
+   la arquitectura declara en `esquema_metrico_opciones` que su octosílabo es el metro
+   `dominante` y que el tetrasílabo y el pentasílabo son sus `quebrado`. **Si se decide que solo
+   vale el tetrasílabo, lo que se retira es esa fila**, y la pregunta se estrecha sola de veinte
+   opciones a diez.
 3. **¿Admite la estructura 4-6, o solo 5+5?** Hoy el catálogo fija 5+5 y lo declara con dos
    secciones de cinco versos que reutilizan el repertorio de la quintilla. Jauralde advierte que
    las semiestrofas «no son necesariamente iguales» y que **la forma 4-6 precede a la 5-5**,
