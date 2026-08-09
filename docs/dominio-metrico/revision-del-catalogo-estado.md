@@ -420,11 +420,20 @@ tienen una cardinalidad distinta de «exactamente una», y once se derivan —el
 la modalidad `admitida`, el máximo sale de la extensión de la unidad o de la sección, el 2 del
 pareado sale de sus dos versos—.
 
-**El que no se deriva es la copla real**, cuya pregunta admite de cero a dos posiciones
-quebradas. Nada en el catálogo dice que **como mucho dos** de sus diez versos puedan quebrarse:
-esa norma vive en `selecciones_max` y, otra vez, en una nota en prosa —«Uno o dos de los diez
-versos pueden ser quebrados»—. Es el mismo patrón que los otros cinco y se resolverá igual, pero
-conviene tenerlo presente: **retirar las preguntas sin declararlo perdería una norma**.
+**El que no se derivaba era la copla real**, cuya pregunta admite de cero a dos posiciones
+quebradas: nada decía que **como mucho dos** de sus diez versos pudieran quebrarse. Esa norma
+vivía en `selecciones_max` y, otra vez, en una nota en prosa —«Uno o dos de los diez versos
+pueden ser quebrados»—.
+
+**Declarado el 9 de agosto** (migración `20260809160000`): `arquitectura_rasgos` gana
+`posiciones_max`, que dice cuántas posiciones de la unidad puede ocupar el rasgo cuando el techo
+es más bajo que la propia unidad. Solo el máximo: **el mínimo lo da la modalidad**, porque
+`definitoria` exige al menos una posición —la copla de pie quebrado no lo es si no quiebra
+ningún verso— y `admitida` permite ninguna. Declararlo habría sido escribir lo derivable, y
+añadir una columna que nadie rellenaría con algo distinto de lo que ya se deduce es exactamente
+lo que le pasó a `valor_numero`.
+
+Con esto **los 61 grupos son derivables sin excepción**.
 
 ### Datos asumidos que siguen viviendo en prosa
 
