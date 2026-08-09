@@ -476,7 +476,35 @@ esa consulta no cubría**, no carencias:
   una sola pregunta.
 
 Con los siete huecos declarados, **el catálogo contiene ya todo lo que hace falta para generar
-el formulario**. Lo que queda es escribir la generación y decidir qué pasa con las tablas.
+el formulario**.
+
+#### La respuesta ya no depende de la opción
+
+Aplicado el 9 de agosto (migraciones `20260809190000` y `20260809200000`). Era la condición para
+poder generar las preguntas: mientras una respuesta guardara `opcion_eleccion_id`, **regenerar
+las opciones habría dejado huérfanas las respuestas**.
+
+Ahora `elecciones_editor_metrico` guarda **el dato del catálogo que se eligió** —un metro, un
+esquema, un valor de rasgo, una variedad, una repetición— y la posición cuando la hay. La
+opción sigue existiendo y sigue siendo lo que el editor pinta; una vista,
+`elecciones_editor_metrico_resueltas`, la resuelve de vuelta, de modo que **el formulario no
+cambió**. La validación comprueba lo mismo que antes —que la elección esté admitida—, pero
+sobre la entidad: cuando las opciones se deriven, cambiará de fuente sin tocar lo guardado.
+
+La correspondencia resultó exacta en las cinco dimensiones, incluida la de repetición, donde
+cada opción apunta a una repetición distinta. **Lo que sigue viviendo en la opción es cómo se
+realiza esa repetición** —`materializa_seccion_id` y `extension_desde_seccion_id`—, y tendrá que
+mudarse a `repeticiones_metricas` antes de poder retirar las opciones. Es exactamente lo que
+anota la transversal de las reglas de repetición, que queda así enlazada con esta.
+
+**Una lección de método.** El cambio pasó `db push`, `npm run check` y las 296 pruebas, y aun
+así estaba roto: un segundo disparador, `validar_posicion_eleccion_editor_metrico`, seguía
+leyendo la columna retirada, y **cualquier intento de guardar habría fallado**. No lo detectó
+nada porque una función de PL/pgSQL no se compila hasta que se ejecuta y ninguna prueba escribe
+en esa tabla. Lo destapó una inserción de prueba contra la base. *Al tocar una tabla con
+disparadores, conviene ejercitarla, no solo migrarla.*
+
+Lo que queda es escribir la generación y decidir qué pasa con las tablas.
 
 ### Datos asumidos que siguen viviendo en prosa
 
