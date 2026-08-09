@@ -1,14 +1,14 @@
 # Equivalencias pendientes entre el vocabulario legado y el catálogo
 
-Estado: **abierto, a completar por el IP** · 4 de agosto de 2026
+Estado: **abierto, a completar por el IP** · actualizado el 9 de agosto de 2026
 
 **Desde el 4 de agosto de 2026 no queda ninguna secuencia sin resolver: 212 de 212.** El
-reparto es 134 directas, 71 por rasgo y 7 por ascendencia. Lo que sigue abierto no bloquea la
-migración: son decisiones de modelado sobre términos que nadie usa, más las
-[cuestiones de la serie de arte mayor](./revisiones-formas/cuestiones-para-el-ip.md).
+reparto, comprobado el 9 de agosto, es **130 directas, 71 por rasgo y 11 por ascendencia**. Lo
+que sigue abierto no bloquea la migración: son decisiones de modelado sobre términos que nadie
+usa, más las [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
-De los 119 términos de `vocabularios.categoria = 'estrofa_tipo'`, 92 declaran hoy su
-equivalencia en el catálogo nuevo. Los que no la declaran, o se resuelven por ascendencia o
+De los 119 términos de `vocabularios.categoria = 'estrofa_tipo'`, **92 declaran hoy su
+equivalencia** en el catálogo nuevo. Los que no la declaran, o se resuelven por ascendencia o
 no los usa nadie.
 
 > **Las cifras de uso cambiaron dos veces el 4 de agosto.** Primero al retirarse «Los
@@ -39,7 +39,7 @@ Los tres casos comprobados el 4 de agosto:
 - Los valores de rasgo **«Agudo» y «Esdrújulo» no declaran origen ninguno**, y necesitan
   recibir seis términos `*_de_esdrujulos` a la vez.
 
-Consecuencia: parte de los 28 no son un olvido sino **un límite de forma del mapa**.
+Consecuencia: parte de los que faltan no son un olvido sino **un límite de forma del mapa**.
 `migracion_termino_destinos` existía justamente para lo de varios a uno, pero **ya no
 existe**: se retiró con la matriz de importación y no está en el esquema (comprobado el 4 de
 agosto). Hoy no hay ningún sitio en la base donde escribir una correspondencia compuesta.
@@ -47,8 +47,15 @@ Hay que decidir si se recrea esa tabla, si se admite una lista en el destino, o 
 correspondencias se resuelven solo en el script de backfill.
 
 Añadido: `origen_termino_id` registra supervivencias y transformaciones, **nunca
-disoluciones**. `redondilla_hexasilaba` desapareció a propósito y no dejó rastro; en la base
-es indistinguible de un olvido.
+disoluciones**. Un término que desapareció a propósito, porque su contenido se disolvió en otro
+nivel, es en la base indistinguible de un olvido: las dos cosas se ven como una columna a nulo.
+
+**El 9 de agosto se comprobó que ese razonamiento se había aplicado mal a tres términos.**
+`redondilla_hexasilaba`, `redondilla_heptasilaba` y `silva_libre` se daban por disueltos, pero
+sus destinos existían con el mismo alcance y el mismo nombre —`Redondilla · Hexasilábica`,
+`Redondilla · Heptasilábica`, `Silva · Libre`—: no eran disoluciones sino supervivencias sin
+declarar. Ya lo declaran. *Conviene la misma comprobación sobre el resto de columnas a nulo
+antes de concluir que un término se disolvió.*
 
 La intención está escrita para los 28 en
 [la matriz de reclasificación](./historico/matriz-reclasificacion-formas-metricas.md), del
@@ -105,12 +112,16 @@ Las tres vías:
 | `sin_destino` | Nadie lo reclama en toda su línea |
 | `sin_tipo` | La secuencia no declara forma |
 
-## La jerarquía ya lleva la respuesta en 24 de los 28
+## La jerarquía ya lleva la respuesta en casi todos
 
-Medido el 4 de agosto. Si, cuando un término no tiene reclamación directa, se sube por
-`termino_padre_id` hasta encontrar un ascendiente que sí la tenga, **24 de los 28 se
-resuelven solos**: redondillas, pareados, canciones, sonetos de esdrújulos, irregulares,
-copla real de pie quebrado, silva libre y los seis hijos del endecasílabo suelto.
+Medido el 4 de agosto sobre los 28 términos que entonces no declaraban destino. Si, cuando un
+término no tiene reclamación directa, se sube por `termino_padre_id` hasta encontrar un
+ascendiente que sí la tenga, **24 de aquellos 28 se resolvían solos**: redondillas, pareados,
+canciones, sonetos de esdrújulos, irregulares, copla real de pie quebrado, silva libre y los
+seis hijos del endecasílabo suelto.
+
+**Desde el 9 de agosto son 27**, porque `redondilla_hexasilaba`, `redondilla_heptasilaba` y
+`silva_libre` pasaron a declarar destino directo en vez de resolverse por ascendencia.
 
 Sobre las secuencias reales, tras resolver la décima y el pareado endecasílabo y retirar los
 datos de prueba, el resultado es **212 de 212**.
@@ -178,11 +189,18 @@ Aquí no falta modelar: falta poder decir «varios vienen a este».
 
 ## 3 · El destino existe y está libre: solo falta declararlo
 
-| Término legado | Propias | Familia | Destino disponible en el catálogo | Destino definitivo |
-| --- | ---: | ---: | --- | --- |
-| `redondilla_heptasilaba` | 0 | **63** | Redondilla · Heptasilábica (sin origen declarado) | |
-| `redondilla_hexasilaba` | 0 | **63** | Redondilla · Hexasilábica (sin origen declarado) | |
-| `silva_libre` | 0 | 12 | Silva · Libre (sin origen declarado) | |
+**Vacía desde el 9 de agosto de 2026.** Los tres casos que contenía están aplicados en la
+migración `20260809130000`: la arquitectura declara ya el término del que viene.
+
+| Término legado | Propias | Familia | Destino, ya declarado |
+| --- | ---: | ---: | --- |
+| `redondilla_heptasilaba` | 0 | **63** | **Aplicado.** `Redondilla · Heptasilábica` |
+| `redondilla_hexasilaba` | 0 | **63** | **Aplicado.** `Redondilla · Hexasilábica` |
+| `silva_libre` | 0 | 12 | **Aplicado.** `Silva · Libre` |
+
+Ninguno de los tres lo usa hoy ninguna obra, de modo que la vista no cambió de tamaño: la
+migración prepara el destino para cuando aparezcan. Las cifras de «familia» cuentan secuencias
+que usan un término hermano, y esas seguían resolviendo ya.
 
 ## 4 · Resueltos por el IP el 4 de agosto de 2026
 

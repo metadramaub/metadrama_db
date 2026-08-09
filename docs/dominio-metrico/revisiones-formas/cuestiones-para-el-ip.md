@@ -35,7 +35,7 @@ Son las que no se ven leyendo una sola sección, y por eso van aquí arriba:
 | Cruce | Dónde | Estado |
 | --- | --- | --- |
 | **Silva endecasilábica y endecasílabo suelto ofrecían los dos el valor `ninguna`** de organización en pareados, así que una serie de once sin pareados encajaba en las dos formas | [Silva](#silva) 2 · [Endecasílabo suelto](#endecasílabo-suelto) 3 | **resuelto el 9 de agosto**: se retiró de la silva, siguiendo el corte cuantitativo de Morley y Bruerton. Era el único solape del catálogo |
-| **El umbral del 50 % que separa sueltos de silva vive solo en las afirmaciones**: los grados del rasgo son cualitativos y nada declara la correspondencia | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | abierto ⇒ transversal de las preguntas |
+| **`organizacion_en_pareados` mezcla dos magnitudes**: M&B cuentan versos *rimados*, pero la Silva Libre declara `ninguna` y sí rima —lo que no tiene es *pareados*—. Al intentar cuantificar los grados sale además que `habituales` y `predominantes` compartirían intervalo | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | **abierto**; el IP decidió el 9 de agosto no cuantificar hasta separar las dos magnitudes ⇒ transversal de los rasgos |
 | Qué es una **variedad**, si el repertorio del sexteto-lira no tiene cierre | [Sexteto-lira](#sexteto-lira) 1 · [Sexteto](#sexteto) · [Quintilla](#quintilla) | ⇒ transversal de la variedad |
 | Qué **repertorios están cerrados** —medidas, esquemas— y cuáles son recortes del corpus | [Sexteto](#sexteto) 2 · [Sextilla](#sextilla) 2 · [Quintilla](#quintilla) 1 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | ⇒ transversal de la modalidad |
 | Qué **elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Sexteto-lira](#sexteto-lira) 1 | ⇒ transversal de las preguntas |
@@ -157,13 +157,15 @@ la arquitectura `Silva · Libre`, **que es esa misma silva 2.ª** y declara el v
 en la crítica moderna, la *silva libre* de medidas mezcladas y por lo común sin rima, que no es
 ninguna de las dos y no está en el catálogo; la descripción de la arquitectura ya lo advierte.
 
-1. **El término legado `silva_libre` no lo reclama nada, y la equivalencia se queda coja.**
-   La arquitectura `Silva · Libre` existe y lleva su nombre, pero **no declara
-   `origen_termino_id`**, de modo que ninguna cadena de equivalencia lleva el término legado
-   hasta ella: comprobado el 9 de agosto, `silva_libre` no aparece en
-   `propuesta_metrica_secuencia` y no lo reclama ninguna arquitectura, esquema, variedad ni
-   denominación. *Hoy ninguna obra lo usa, así que no rompe nada; pero si apareciera, resolvería
-   a la forma Silva sin arquitectura, cuando existe una que le corresponde exactamente.*
+1. ~~**Falta el puente entre el término legado `silva_libre` y la arquitectura `Silva ·
+   Libre`.**~~ **Resuelto el 9 de agosto de 2026** (migración `20260809130000`). Los dos
+   existían —el término en `vocabularios`, la arquitectura con su nombre y su grado `ninguna`
+   definitorio— pero la arquitectura tenía `origen_termino_id` a nulo, de modo que ninguna
+   cadena de equivalencia los unía y el término habría resuelto a la forma Silva **sin proponer
+   arquitectura**. Ahora lo declara. Se cerraron a la vez los otros dos casos iguales que
+   registraba [equivalencias pendientes](../equivalencias-pendientes.md),
+   `redondilla_heptasilaba` y `redondilla_hexasilaba`. *Ninguna obra usa hoy los tres términos,
+   así que la vista no cambió de tamaño: lo que se preparó es el destino.*
 
 2. ~~**`Silva · Endecasilábica` ofrecía el valor `ninguna`**, que según el reparto acordado
    pertenece al endecasílabo suelto, de modo que una serie de once sin pareados encajaba en las
@@ -200,15 +202,41 @@ ninguna de las dos y no está en el catálogo; la descripción de la arquitectur
    una serie sin rima—, ni la escala de cinco grados del rasgo, que la usan también el pareado
    y el endecasílabo suelto. Ninguna anotación resultó afectada.*
 
-3. **Los porcentajes de Morley y Bruerton no están en el dato, y esto es un hueco.** Los cinco
-   grados del rasgo son **cualitativos**: «Los pareados son frecuentes, aunque no obligatorios»,
-   «Los pareados organizan predominantemente la serie». Las cifras —menos del 50 %, del 50 al
-   98 %— viven **únicamente en las afirmaciones de fuente**, como prosa, y **nada declara la
-   correspondencia entre una y otra escala**. *Un editor que observe un pasaje con el 40 % de
-   versos rimados no tiene en el catálogo con qué decidir si eso es `ocasionales` o
-   `habituales`. Si el proyecto quiere el criterio cuantificador de M&B, hay que decidir si esa
-   correspondencia se declara —y dónde— o si se acepta que el grado lo estime el editor.*
-   **⇒ transversal de las preguntas**, junto con lo que se derive del dato.
+3. **Los porcentajes no están en el dato, y al intentar recuperarlos aparece que el rasgo mide
+   dos magnitudes distintas.** Es el hallazgo del 9 de agosto de 2026, y es más de fondo que la
+   duda con la que empezó.
+
+   Los cinco grados son **cualitativos** —«Los pareados son frecuentes, aunque no
+   obligatorios»— y las cifras viven solo en las afirmaciones de fuente. Se planteó añadirles
+   el intervalo como dato, para que el criterio cuantificador de Morley y Bruerton fuera
+   operativo y no una cita. **Al hacerlo salieron tres problemas que impiden aplicarlo tal
+   cual:**
+
+   **a) El rasgo mezcla «% de versos rimados» y «% de versos en pareado».** Morley y Bruerton
+   cuentan **versos rimados**: sueltos por debajo del 50 %, silva 3.ª del 50 al 98 %. Pero la
+   arquitectura `Silva · Libre` declara el grado `ninguna` **y sí rima**: el vocabulario legado
+   dice que tiene «rima consonante distribuida al arbitrio del poeta» y que lo que **no**
+   contiene es pareados. Es decir, en la silva libre `ninguna` significa «ningún pareado», no
+   «ninguna rima». *Ponerle 0 % a ese grado afirmaría que la silva libre no rima, que es falso.*
+
+   **b) `habituales` y `predominantes` caerían en el mismo intervalo.** Las fuentes solo dan
+   dos cortes —el 50 % y el 99 %— y el vocabulario legado un tercero. La distinción entre esos
+   dos grados es una partición propia del IP, cualitativa: «pareados mayoritarios pero sin
+   patrón fijo» frente a «predominantemente». *Cuantificarla exigiría inventar un corte que
+   ninguna fuente da.*
+
+   **c) Nada cuenta los versos rimados.** Un porcentaje solo es operativo si algo lo calcula, y
+   la anotación no registra hoy qué versos riman. Sería un dato declarativo, no verificable.
+
+   Además, la conversión a grados cualitativos **fue deliberada**: la
+   [matriz de reclasificación](../historico/matriz-reclasificacion-formas-metricas.md) dejó
+   escrito que «no se conservarán porcentajes exactos… las configuraciones utilizarán
+   modalidades cualitativas».
+
+   *Decisión del IP el 9 de agosto: **no se cuantifica ahora**. El problema no es ponerle
+   cifras a una escala, sino que un solo rasgo está sirviendo a dos magnitudes; separarlas
+   afecta a la vez a la silva, al endecasílabo suelto y al pareado.* **⇒ transversal**, y
+   conviene mirarlo junto con el resto de los rasgos, no solo con las preguntas.
 4. **¿Se recoge la silva 4.ª de Morley y Bruerton** —7 y 11 mezclados, **todas las rimas en los
    pares**—? **Sigue abierta por decisión del IP.** El 5 de agosto se comprobó una cosa que la
    enmarca: **tampoco estaba en el vocabulario legado**. En los 119 términos de `estrofa_tipo`
@@ -257,12 +285,14 @@ nivel que el corpus dramático no necesita.
 1. **La restricción «predominan los sueltos» tiene umbral en la fuente y no está formalizado.**
    Morley y Bruerton clasifican un pasaje como sueltos «cuando el porcentaje de los versos
    rimados es **menos de 50**», y su silva 3.ª entre el **50 y el 98 %**: las dos definiciones
-   encajan sin hueco, y **son el criterio cuantificador que el proyecto quiere seguir**. Pero el
-   catálogo lo dice solo en palabras: la restricción declara `versos_sueltos = predominantes` y
-   los grados del rasgo son cualitativos, sin ninguna cifra. *El umbral vive hoy únicamente en
-   la afirmación de fuente. Si ha de ser operativo —que el editor o el demarcador puedan aplicar
-   el 50 %—, hay que decidir dónde se declara la correspondencia entre porcentaje y grado.* Es
-   la misma pregunta que la duda 3 de la [Silva](#silva). **⇒ transversal de las preguntas.**
+   encajan sin hueco. Pero el catálogo lo dice solo en palabras: la restricción declara
+   `versos_sueltos = predominantes` y los grados del rasgo son cualitativos, sin ninguna cifra.
+
+   *Se planteó el 9 de agosto añadir los intervalos al rasgo y **el IP decidió no hacerlo
+   todavía**, porque al intentarlo aparece que `organizacion_en_pareados` mezcla dos magnitudes
+   —versos rimados y versos en pareado— y que dos de sus grados compartirían intervalo. El
+   razonamiento completo está en la duda 3 de la [Silva](#silva).* **⇒ transversal de los
+   rasgos.**
 2. **¿Se admiten series sueltas de otras medidas?** Esta forma es endecasilábica por definición.
    Caparrós documenta el heptasílabo sin rima de Francisco de la Torre y ocho octosílabos
    sueltos de Hurtado de Mendoza; el *Diccionario* añade series de pentasílabos. **Y Navarro
