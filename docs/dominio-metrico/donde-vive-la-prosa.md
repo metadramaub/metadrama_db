@@ -14,7 +14,7 @@ la norma que la gobierna: qué se escribe en cada campo y cuándo entra una fuen
 | Campo | Dónde | Qué dice |
 | --- | --- | --- |
 | `definicion` | `formas_metricas` | Qué **es** la forma, en tercera persona. No qué decidió el proyecto sobre ella, ni cómo se anota, ni qué hace el demarcador |
-| `descripcion` | `arquitecturas_forma`, `variedades_arquitectura`, `esquemas_*`, `repeticiones_metricas` | Qué distingue a **esa** realización de sus hermanas. Si vale igual para todas, pertenece a la definición; si el nombre y los datos estructurados ya lo dicen, puede quedar vacía |
+| `descripcion` | `arquitecturas_forma`, `variedades_arquitectura`, `esquemas_*`, `repeticiones_metricas`, `rasgo_valores` | Qué distingue a **esa** realización de sus hermanas. Si vale igual para todas, pertenece a la definición; si el nombre y los datos estructurados ya lo dicen, puede quedar vacía |
 | `nota` | `estructuras_secciones`, `arquitectura_rasgos`, `esquema_rima_enlaces` | Una precisión sobre esa parte concreta, **y solo si la ficha no la deriva ya del dato** |
 | `afirmaciones_fuentes_metricas` | — | Lo que una fuente **añade**, con su localizador |
 
@@ -27,10 +27,17 @@ uno o dos de sus diez versos pueden quebrarse, que aún no es dato. El inventari
 [el estado del catálogo](./revision-del-catalogo-estado.md#datos-asumidos-que-siguen-viviendo-en-prosa).
 
 `repeticiones_metricas.regla` no debe convertirse en un quinto depósito de prosa. Su nombre
-promete una restricción computable, pero hoy es texto libre y el editor calcula el efecto desde
-las opciones de elección. Resolver ese contrato y derivar de él la explicación pública queda
-anotado como revisión transversal en
+promete una restricción computable, pero hoy es texto libre. El efecto sí es ya dato de la
+repetición —`materializa_seccion_id` y `extension_desde_seccion_id`, que dejaron de vivir en la
+opción el 9 de agosto de 2026—; lo que queda es resolver qué dice `regla` y derivar de ella la
+explicación pública. Anotado como revisión transversal en
 [el estado del catálogo](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
+
+**Y la pregunta del editor no es un quinto sitio.** Desde que las opciones se derivan del
+catálogo, su etiqueta es el nombre de la entidad y su explicación es la `descripcion` de la
+entidad: no hay dónde escribir prosa a la altura de la opción, ni falta. Escribirla dos veces
+fue justamente lo que dejó a la quintilla describiendo su `aabab` como «cruzada, también llamada
+Cuarteta», copiado de la redondilla, mientras su propio esquema decía lo correcto.
 
 Ninguno de los cuatro cuenta **cuándo se rellena** ni **de qué término legado vino**. «Solo se
 declara cuando caracteriza la secuencia» describe el formulario; «heredada de

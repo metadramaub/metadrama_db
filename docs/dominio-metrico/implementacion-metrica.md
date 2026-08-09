@@ -335,7 +335,7 @@ desviación.
 | Sección | `estructuras_secciones` |
 | Repetición métrica o léxica | `repeticiones_metricas` · `repeticion_posiciones` |
 | Rasgo | `rasgos_metricos` · `rasgo_valores` · `arquitectura_rasgos` |
-| Elección | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` |
+| Elección | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` (vista derivada) |
 | Norma declarada por el pasaje | `grupos_eleccion_metrica.define_norma` |
 | Denominación | `denominaciones_metricas` |
 | Tradición | `tradiciones_metricas` · `formas_tradiciones` |

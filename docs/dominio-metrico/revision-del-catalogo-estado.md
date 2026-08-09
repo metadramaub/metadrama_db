@@ -514,10 +514,10 @@ uno —cada opción apunta a una repetición distinta y cada repetición tiene u
 fijo—, así que el comportamiento es de la repetición y no de la pregunta que la ofrece. Con eso
 avanza también la transversal de las reglas de repetición, que preguntaba justo eso.
 
-`opciones_eleccion_derivadas()` produce las opciones de cada pregunta desde el catálogo, y
-`generar_opciones_eleccion_metrica()` las compara con las escritas a mano. **De las 61
-preguntas, 56 coinciden exactamente** —403 de las 405 opciones—, 4 son respuesta abierta y no se
-generan, y una queda sin derivar.
+`opciones_eleccion_derivadas()` produce las opciones de cada pregunta desde el catálogo, y una
+segunda función las compara con las escritas a mano. En esa primera pasada, **de las 61
+preguntas, 56 coincidían exactamente** —403 de las 405 opciones—, 4 eran respuesta abierta y no
+se generan, y una quedaba sin derivar.
 
 **Dos huecos más, encontrados al escribirla.** El octavo: **un grupo de dimensión rasgo no
 declaraba sobre qué rasgo pregunta**, cosa que solo se sabía mirando sus opciones, que es
@@ -589,6 +589,50 @@ edita la notación de un esquema, la respuesta antigua reflejará la nueva. Para
 el editor vio aquel día» haría falta versionar el catálogo, que es otra decisión y no está
 tomada.*
 
+#### Las opciones dejan de ser una tabla
+
+Aplicado el 9 de agosto (migraciones `20260809270000`, `20260809280000` y `20260809290000`).
+Es el final del camino: `opciones_eleccion_metrica` **es ahora una vista**.
+
+Antes hubo que soltar la última atadura. `equivalencias_respuestas_legadas` —las siete
+declaraciones del soneto que dicen a mano lo que `origen_termino_id` no da de sí— apuntaba
+todavía a una opción, y mientras existiera esa clave foránea las opciones no podían dejar de ser
+una tabla. Pasó a apuntar al dato, como ya había hecho la respuesta del editor.
+
+**Vista y no regeneración**, y la razón es la de siempre en este catálogo: materializar obliga a
+regenerar con cada cambio y abre la puerta a que las dos cosas se separen, que es el problema que
+se venía arrastrando. Calculada al leer, la pregunta no puede quedarse vieja. Con 405 opciones el
+coste es irrelevante.
+
+La identidad de la opción se deriva de su contenido —la pregunta, el dato al que apunta y la
+posición—, y es estable mientras lo sea el catálogo. Puede serlo porque **ya no hay nada
+guardado que dependa de ella**: ni las respuestas, ni las equivalencias, ni ninguna clave
+foránea. La tabla se conserva apartada como `opciones_eleccion_metrica_manual` y
+`comparar_opciones_eleccion_metrica()` contrasta ambas; las dos se retiran cuando la derivación
+se haya usado con datos reales.
+
+La escritura se cerró a la vez y por todos los caminos: el endpoint de entidades ya no declara
+el recurso y responde con un error explícito, y el gestor **muestra** las respuestas en vez de
+editarlas. Eso permitió borrar unas cien líneas de `MetricChoiceGroupsEditor.svelte` cuyo único
+oficio era ofrecer, en un desplegable, el dato normalizado al que una opción debía apuntar.
+
+**La descripción también pasa a salir de la entidad, y ahí se destapó un error real.** De las
+191 escritas a mano, 107 eran de metro y repetían la etiqueta —«El verso 17 tiene 11 sílabas»—.
+Pero las de la quintilla estaban **copiadas de la redondilla y eran falsas**: a `aabab` se le
+atribuía «dos rimas dispuestas de forma cruzada» y la denominación «Cuarteta», que describen
+`abab` y no una quintilla. Su esquema, en cambio, decía lo correcto —«abre con un pareado y
+sigue alternando; la bibliografía la registra como muy rara»—, y es lo que el editor ve ahora.
+
+Seis entidades sí tenían en la opción una prosa que les faltaba a ellas, y ese hueco se rellenó
+donde toca. El caso del rasgo lo enseña bien: «Esdrújulo» estaba descrito de **tres maneras
+distintas** en tres opciones, porque cada una se escribió por su lado. Dicho en el valor, se dice
+una vez. *Derivar no solo homogeneiza: destapa.*
+
+Un detalle de acceso que convenía no perder por el camino. Las trece tablas de las que sale la
+vista están todas restringidas a admin/IP con la misma política, y una vista se lee por defecto
+con los permisos de su dueño. Se creó con `security_invoker`, de modo que conserva exactamente
+el acceso que tenía la tabla.
+
 #### Pendiente: simplificar el gestor del catálogo
 
 Decidido por el IP el 9 de agosto, sin fecha. **El catálogo nuevo lo edita solo el IP**, y que
@@ -601,7 +645,8 @@ descripciones, afirmaciones de fuente— y que **todo lo estructural pase por mi
 lo que permite revisar qué queda afectado antes de aplicarlo y deja constancia del porqué. Para
 solo mirar, además, ya está el catálogo público de `/formas`.
 
-No se toca todavía: se valora cuando la derivación esté en vivo.
+De las respuestas ya está hecho, porque la derivación lo obligó: no se editan por ningún camino.
+Falta el resto del gestor, y ahora que la derivación está en vivo se puede valorar.
 
 ### Datos asumidos que siguen viviendo en prosa
 
