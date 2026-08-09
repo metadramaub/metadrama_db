@@ -5,10 +5,10 @@ Actualizado: 8 de agosto de 2026
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
 enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
 
-> **El trabajo en curso es la revisión del catálogo contra las fuentes**, y su estado vive en
-> **[revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md)**: qué formas están
-> hechas, cuáles faltan, con qué método y en qué orden. Si vienes a continuar esa revisión, ese
-> documento es el que manda; este da el marco.
+> **La revisión del catálogo contra las fuentes está terminada** desde el 8 de agosto de 2026:
+> las 27 formas y los dos tramos sin forma. Lo que dejó hecho, lo que corrigió y lo que dejó
+> abierto vive en **[revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md)**. Lo
+> pendiente ya no es forma por forma, sino lecturas transversales sobre el catálogo entero.
 
 ## Estado actual
 
@@ -197,10 +197,12 @@ se completó el 31. Lo que sigue:
 3. Contraste del catálogo por rasgos y no por nombres: **hecho**, y actuado. Lo que salió de
    ahí está aplicado; el razonamiento, en la
    [auditoría archivada](./historico/auditoria-catalogo.md).
-4. **Revisión del catálogo contra las fuentes: en curso, 23 formas de 27.** Es el trabajo de
-   ahora mismo, y su estado está en
-   [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Va destapando además
-   defectos del modelo que se corrigen por el camino.
+4. **Revisión del catálogo contra las fuentes: completa.** Las 27 formas activas y los dos
+   tramos sin forma están contrastados con las seis monografías, y las fichas `.md` de
+   `revisiones-formas/` se han retirado todas. El resultado y lo que dejó abierto están en
+   [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Destapó por el camino
+   defectos del modelo: los corregidos están aplicados y los aplazados son **lecturas
+   transversales** sobre el catálogo entero, no trabajo forma por forma.
 5. Crear la capa de desviaciones sobre las secuencias reales.
 6. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
    rasgos.
