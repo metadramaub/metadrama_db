@@ -299,7 +299,7 @@ todavía no refleja.
 | La realización se registra por verso, con la procedencia de cada hecho | **No implementada.** Hoy la realización guarda punteros al catálogo y lo que fija la arquitectura no se escribe: hay que resolverlo uniendo por el catálogo |
 | Capa de desviaciones sobre las secuencias reales | Solo existe en el editor de pruebas |
 | Error de transmisión distinto de desviación del autor | No modelado |
-| Denominación de un valor de rasgo | No soportada: «silva libre» y «romance heroico» no tienen hoy dónde vivir como nombre |
+| Denominación de un valor de rasgo | No soportada: un nombre solo puede colgar de una forma, arquitectura, esquema, sección, repetición o variedad, nunca de un valor de rasgo. **Los dos ejemplos que se citaban aquí ya no lo son**: «silva libre» nombra la arquitectura `Silva · Libre` y «romance heroico» es denominación de `Romance · Endecasilábica`. Comprobado el 9 de agosto de 2026: la limitación sigue existiendo, pero hoy no deja ningún nombre sin sitio |
 | Marca de procedencia normativa en el dato | La separación entre métrica española y decisión del corpus vive en prosa, no en el catálogo |
 
 La primera es la más importante: incumple la

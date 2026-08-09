@@ -110,48 +110,60 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 
 **Qué tiene hoy el catálogo:** cuatro arquitecturas, todas consonantes, y el rasgo
 `organizacion_en_pareados`, que es el eje que separa la silva del endecasílabo suelto y de la
-tirada de pareados.
+tirada de pareados. El rasgo tiene **cinco grados ordenados y cualitativos**: `ninguna` (1),
+`ocasionales` (2), `habituales` (3), `predominantes` (4), `regulares` (5).
 
-| Arquitectura nueva | Viene del término legado | Grados que ofrece hoy |
-| --- | --- | --- |
-| `consonante_regular` · Consonante regular | `silva_de_consonantes_regular` | — (el pareado es la unidad) |
-| `consonante_irregular` · Consonante de orden libre | `silva_de_consonantes_irregular` | — |
-| `libre` · Libre | *ninguno* | — (no declara pregunta) |
-| `endecasilabica` · Endecasilábica | `silva_de_endecasilabos` | `habituales`, `predominantes` |
-
-El rasgo tiene **cinco grados ordenados y cualitativos**: `ninguna` (1), `ocasionales` (2),
-`habituales` (3), `predominantes` (4), `regulares` (5).
+**Cada arquitectura se sitúa en ese eje**, y tres de las cuatro lo hacen sin preguntar nada: lo
+declaran como rasgo `definitorio` con un valor fijo. La tabla del apartado siguiente cruza cada
+una con su término legado y con la fuente de la que sale.
 
 ### El vocabulario: quién llama cómo a qué
 
 Es el punto que más se enreda, porque **la misma palabra significa cosas distintas en cada
 capa**. El reparto exacto:
 
-| Concepto | Morley y Bruerton | Vocabulario legado del IP | Catálogo nuevo |
-| --- | --- | --- | --- |
-| Pareados sistemáticos de 7 y 11 | silva **1.ª**, «se podría llamar pareados de 7 y 11» | `silva_de_consonantes_regular` | `Silva · Consonante regular` |
-| 7 y 11 sin orden fijo, con algunos sueltos | silva **2.ª** | `silva_libre` | `Silva · Libre` |
-| Lo mismo, pero con pareados predominando | — *(distinción propia del IP)* | `silva_de_consonantes_irregular` | `Silva · Consonante de orden libre` |
-| Solo endecasílabos, **50-98 % rimados** | silva **3.ª** | `silva_de_endecasilabos` | `Silva · Endecasilábica` |
-| 7 y 11, todas las rimas en los pares | silva **4.ª** | — | — *(véase la duda 3)* |
-| Endecasílabos con **menos del 50 %** rimado | **sueltos** | `endecasilabo_suelto` | forma `Endecasílabo suelto` |
+| Concepto | Morley y Bruerton | Vocabulario legado del IP | Catálogo nuevo | Grado de pareados |
+| --- | --- | --- | --- | --- |
+| Pareados de 7 y 11 **siempre igual** (`aAbBcC`) | silva **1.ª**, «se podría llamar pareados de 7 y 11» | `silva_de_consonantes_regular` | `Silva · Consonante regular` | `regulares`, fijo |
+| Pareados **mayoritarios pero sin patrón fijo** (`AABbcCDDEe`) | — *(partición propia del IP)* | `silva_de_consonantes_irregular` | `Silva · Consonante de orden libre` | `predominantes`, fijo |
+| 7 y 11 sin orden fijo, **sin pareados**, con algunos sueltos | silva **2.ª** | `silva_libre` | `Silva · Libre` | `ninguna`, fijo |
+| Solo endecasílabos, **50-98 % rimados** | silva **3.ª** | `silva_de_endecasilabos` | `Silva · Endecasilábica` | se **pregunta**: `habituales` o `predominantes` |
+| 7 y 11, todas las rimas en los pares | silva **4.ª** | — | — *(véase la duda 4)* | — |
+| Endecasílabos con **menos del 50 %** rimado | **sueltos** | `endecasilabo_suelto` | forma `Endecasílabo suelto` | se pregunta: `ninguna` u `ocasionales` |
 
-**Que el vocabulario legado se hizo sobre Morley y Bruerton no es conjetura**:
-`silva_de_endecasilabos` copia su cifra literalmente —«del 50 al 98 % son rimados»— y
-`silva_libre` traduce casi palabra por palabra su tipo 2. Lo que el IP añadió por su cuenta es
-`silva_de_consonantes_irregular`, partiendo el tipo 2 según si los pareados predominan; y el
-rasgo `organizacion_en_pareados` del catálogo nuevo es **la sistematización de esa distinción
-suya**, llevada a cinco grados y extendida al endecasílabo suelto y al pareado.
+**Tres de las cuatro arquitecturas no preguntan nada**: declaran su grado como rasgo
+`definitorio` y fijo. Solo la endecasilábica pregunta, porque es la única cuya fuente le da un
+intervalo —del 50 al 98 %— en vez de un valor.
 
-**Cuidado con «libre», que nombra tres cosas.** En M&B, su silva 2.ª. En el catálogo, el
-extremo bajo de la escala de pareados —y la descripción de la arquitectura ya lo advierte—. Y
-en la crítica moderna, la *silva libre* de medidas mezcladas y por lo común sin rima, que **no
-es ninguna de las dos** y no está en el catálogo.
+**De dónde sale cada cosa.** Que el vocabulario legado se hizo sobre Morley y Bruerton no es
+conjetura: `silva_de_endecasilabos` copia su cifra literalmente —«del 50 al 98 % son
+rimados»— y `silva_libre` traduce casi palabra por palabra su tipo 2. Lo que el IP añadió por
+su cuenta es **partir la silva 1.ª en dos**: la de pareados sistemáticos, que conserva el
+nombre `silva_de_consonantes_regular`, y la de pareados mayoritarios pero de disposición
+variable, `silva_de_consonantes_irregular` —de ahí que las dos se llamen «de consonantes»—.
 
-1. **El nombre «silva libre» no está registrado en ninguna parte.** Al convertirse en el valor
-   `ninguna` del rasgo, el nombre se quedó sin sitio: **el modelo no permite que una
-   denominación apunte a un valor de rasgo**. *¿Hace falta que lo esté? Hoy solo vive en la
-   descripción de la arquitectura `Libre`, en prosa.*
+**Y el eje de los pareados ya estaba en el vocabulario legado, con porcentajes.** La definición
+de `silva_de_endecasilabos` lo dice entera: «la mayoría son rimados (del 50 al 98 %)… Si los
+pareados suponen un porcentaje **menor**, estamos ante **endecasílabo suelto**; si suponen entre
+el **99-100 %**, estamos ante **pareado endecasílabo**». El rasgo `organizacion_en_pareados` del
+catálogo nuevo **no inventa esa escala: la formaliza**, y la
+[matriz de reclasificación](../historico/matriz-reclasificacion-formas-metricas.md) dejó dicho
+que la conversión a grados cualitativos era deliberada —«no se conservarán porcentajes exactos…
+las configuraciones utilizarán modalidades cualitativas»—. Es el origen del hueco que describe
+la duda 3.
+
+**Cuidado con «libre», que nombra tres cosas distintas.** En M&B, su silva 2.ª. En el catálogo,
+la arquitectura `Silva · Libre`, **que es esa misma silva 2.ª** y declara el valor `ninguna`. Y
+en la crítica moderna, la *silva libre* de medidas mezcladas y por lo común sin rima, que no es
+ninguna de las dos y no está en el catálogo; la descripción de la arquitectura ya lo advierte.
+
+1. **El término legado `silva_libre` no lo reclama nada, y la equivalencia se queda coja.**
+   La arquitectura `Silva · Libre` existe y lleva su nombre, pero **no declara
+   `origen_termino_id`**, de modo que ninguna cadena de equivalencia lleva el término legado
+   hasta ella: comprobado el 9 de agosto, `silva_libre` no aparece en
+   `propuesta_metrica_secuencia` y no lo reclama ninguna arquitectura, esquema, variedad ni
+   denominación. *Hoy ninguna obra lo usa, así que no rompe nada; pero si apareciera, resolvería
+   a la forma Silva sin arquitectura, cuando existe una que le corresponde exactamente.*
 
 2. ~~**`Silva · Endecasilábica` ofrecía el valor `ninguna`**, que según el reparto acordado
    pertenece al endecasílabo suelto, de modo que una serie de once sin pareados encajaba en las
@@ -181,10 +193,12 @@ es ninguna de las dos** y no está en el catálogo.
    endecasilábica que producía el conflicto, y es la misma lectura de la que el catálogo ya se
    aparta en la duda 4.
 
-   *Qué cambió exactamente: la pregunta de la silva endecasilábica pasó de tres grados a dos
-   —`habituales` y `predominantes`—, y `ninguna` queda solo en el endecasílabo suelto. No se
-   tocó la arquitectura `Libre` ni el rasgo, que conserva sus cinco grados porque los usan
-   otras formas. Ninguna anotación resultó afectada.*
+   *Qué cambió exactamente: la pregunta de la silva endecasilábica pasó de tres opciones a dos
+   —`habituales` y `predominantes`—, y `ninguna` queda solo en el endecasílabo suelto, que es la
+   otra arquitectura que pregunta. **No se tocó nada más**: ni la arquitectura `Silva · Libre`,
+   que sigue declarando `ninguna` como rasgo definitorio y fijo —eso es la silva 2.ª de M&B, no
+   una serie sin rima—, ni la escala de cinco grados del rasgo, que la usan también el pareado
+   y el endecasílabo suelto. Ninguna anotación resultó afectada.*
 
 3. **Los porcentajes de Morley y Bruerton no están en el dato, y esto es un hueco.** Los cinco
    grados del rasgo son **cualitativos**: «Los pareados son frecuentes, aunque no obligatorios»,
