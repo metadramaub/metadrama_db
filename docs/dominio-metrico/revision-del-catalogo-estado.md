@@ -532,9 +532,46 @@ un rasgo con varios valores, sino dos preguntas de sí o no presentadas juntas, 
 queda nulo a propósito.
 
 **La función no escribe.** Devuelve qué cambiaría; aplicar está deliberadamente sin implementar,
-porque las etiquetas de las opciones se siguen escribiendo a mano y hay que decidir cómo se
-derivan antes de sobrescribirlas. Mientras tanto, pedir el informe es la manera de comprobar que
-el dato y el formulario no se han separado.
+porque las etiquetas de las opciones se siguen escribiendo a mano. Mientras tanto, pedir el
+informe es la manera de comprobar que el dato y el formulario no se han separado.
+
+#### Cómo se derivan las etiquetas
+
+Analizadas las 405 escritas a mano, la regla es una: **la etiqueta es el nombre de la entidad**,
+compuesto con la posición cuando la pregunta es posicional.
+
+| Dimensión | Etiqueta |
+| --- | --- |
+| Combinación | El nombre de la variedad — coincide en 7 de 7 |
+| Rasgo, un solo rasgo | El nombre del valor — coincide en 137 de 144 |
+| Rasgo, varios rasgos | El nombre del **rasgo**, porque el valor es solo «Presente» |
+| Rima | El nombre del esquema, y su notación cuando no tiene nombre |
+| Metro | El nombre del metro, precedido del verso cuando la medida varía por posición |
+| Repetición | El nombre de la repetición |
+
+**Donde la regla no funcionaba era porque a la entidad le faltaba el nombre**, no porque la
+etiqueta llevase información propia. Ese fue el **noveno hueco**: las repeticiones no tenían
+`nombre`, y sus opciones se rotulaban «Se repite entero» o «Se sobreentiende, no está escrito»
+sin que la repetición tuviera dónde decir cómo se llama. Declarado el 9 de agosto, con una
+guarda que exige que el nombre de la repetición y el de su opción coincidan: si se separaran, la
+etiqueta derivada cambiaría lo que el editor ve.
+
+#### Borrar catálogo no borra anotación
+
+Corrección de un error introducido el mismo día. Al soltar la respuesta de la opción se le
+dieron claves foráneas al catálogo **con borrado en cascada**, copiando el patrón de las
+opciones —donde tiene sentido, porque una opción *es* catálogo—. Pero una respuesta **es dato
+sobre una obra**: que borrar un esquema de rima se llevara las anotaciones que lo usaban es lo
+contrario de lo que se buscaba al hacer el cambio.
+
+Pasaron a `restrict`, como ya estaban el metro y el valor de rasgo. **El catálogo se niega ahora
+a borrar algo que una anotación use**, lo que obliga a mirar la anotación antes en vez de
+perderla. Comprobado con un borrado real contra la base.
+
+*Queda un matiz que conviene tener presente: la respuesta guarda un puntero, no una copia. Si se
+edita la notación de un esquema, la respuesta antigua reflejará la nueva. Para conservar «lo que
+el editor vio aquel día» haría falta versionar el catálogo, que es otra decisión y no está
+tomada.*
 
 ### Datos asumidos que siguen viviendo en prosa
 

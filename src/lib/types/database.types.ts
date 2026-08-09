@@ -2261,6 +2261,7 @@ export type Database = {
           nombre: string
           orden: number | null
           permite_aplicar_global: boolean
+          rasgo_id: string | null
           seccion_id: string | null
           selecciones_max: number
           selecciones_min: number
@@ -2281,6 +2282,7 @@ export type Database = {
           nombre: string
           orden?: number | null
           permite_aplicar_global?: boolean
+          rasgo_id?: string | null
           seccion_id?: string | null
           selecciones_max?: number
           selecciones_min?: number
@@ -2301,6 +2303,7 @@ export type Database = {
           nombre?: string
           orden?: number | null
           permite_aplicar_global?: boolean
+          rasgo_id?: string | null
           seccion_id?: string | null
           selecciones_max?: number
           selecciones_min?: number
@@ -2322,6 +2325,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "arquitecturas_reglas_longitud"
             referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
           },
           {
             foreignKeyName: "grupos_eleccion_metrica_seccion_id_fkey"
@@ -3142,7 +3152,10 @@ export type Database = {
           created_at: string
           descripcion: string | null
           estado_revision: string
+          extension_desde_seccion_id: string | null
+          materializa_seccion_id: string | null
           modalidad: string
+          nombre: string
           regla: string
           repeticion_id: string
           slug: string
@@ -3155,7 +3168,10 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           estado_revision?: string
+          extension_desde_seccion_id?: string | null
+          materializa_seccion_id?: string | null
           modalidad?: string
+          nombre: string
           regla: string
           repeticion_id?: string
           slug: string
@@ -3168,7 +3184,10 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           estado_revision?: string
+          extension_desde_seccion_id?: string | null
+          materializa_seccion_id?: string | null
           modalidad?: string
+          nombre?: string
           regla?: string
           repeticion_id?: string
           slug?: string
@@ -3189,6 +3208,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "arquitecturas_reglas_longitud"
             referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "repeticiones_metricas_extension_desde_seccion_id_fkey"
+            columns: ["extension_desde_seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "repeticiones_metricas_materializa_seccion_id_fkey"
+            columns: ["materializa_seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
           },
         ]
       }
@@ -3947,6 +3980,16 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: boolean
       }
+      generar_opciones_eleccion_metrica: {
+        Args: { p_aplicar?: boolean }
+        Returns: {
+          derivadas: number
+          escritas: number
+          forma: string
+          grupo: string
+          veredicto: string
+        }[]
+      }
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }
       get_catalogo_formas_publicas: { Args: never; Returns: Json }
@@ -3999,6 +4042,23 @@ export type Database = {
         Returns: boolean
       }
       obtener_catalogo_demarcador: { Args: never; Returns: Json }
+      opciones_eleccion_derivadas: {
+        Args: never
+        Returns: {
+          esquema_metrico_id: string
+          esquema_rima_id: string
+          extension_desde_seccion_id: string
+          grupo_eleccion_id: string
+          materializa_seccion_id: string
+          metro_id: string
+          orden: number
+          posicion_unidad: number
+          repeticion_id: string
+          seccion_id: string
+          valor_rasgo_id: string
+          variedad_id: string
+        }[]
+      }
       perfil_formas_hijos_rango: {
         Args: { p_obra_id: string; p_v_fin?: number; p_v_ini?: number }
         Returns: Json
