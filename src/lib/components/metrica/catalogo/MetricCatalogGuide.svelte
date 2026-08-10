@@ -132,7 +132,7 @@
 
 	<section class="grid gap-4 lg:grid-cols-4">
 		{#each [
-			['1', 'Forma', 'La identidad reconocible y seleccionable: romance, lira, soneto.'],
+			['1', 'Forma', 'La identidad reconocible: romance, lira, soneto.'],
 			['2', 'Arquitectura', 'Una norma o alternativa interna que no necesita convertirse en otra forma.'],
 			['3', 'Esquemas', 'Metro, rima, secciones y repeticiones que formalizan esa arquitectura.'],
 			['4', 'Registro editorial', 'El editor elige forma, alternativas observadas y, solo cuando existen, desviaciones.']
@@ -193,12 +193,6 @@
 					<dd class="text-[color:var(--muted-foreground)]">
 						<em>Verso</em>, <em>estrofa</em>, <em>serie</em>, <em>composición</em> o
 						<em>compuesta</em>. «Compuesta» indica que posee secciones internas con funciones distintas.
-					</dd>
-				</div>
-				<div>
-					<dt class="font-medium">Seleccionable por el editor</dt>
-					<dd class="text-[color:var(--muted-foreground)]">
-						La identidad puede asignarse a una secuencia. Un mero esquema no debe ser seleccionable.
 					</dd>
 				</div>
 				<div>

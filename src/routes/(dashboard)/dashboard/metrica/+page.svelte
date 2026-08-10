@@ -59,7 +59,6 @@
 		definicion: '',
 		nivel_estructural: 'estrofa' as MetricStructuralLevel,
 		tipo_registro: 'forma' as MetricEntryType,
-		seleccionable: true,
 		estado_revision: 'borrador' as MetricCatalogReviewState,
 		activo: true,
 		orden: null as number | null
@@ -154,8 +153,7 @@
 			definicion: '',
 			nivel_estructural: 'estrofa',
 			tipo_registro: 'forma',
-			seleccionable: true,
-			estado_revision: 'borrador',
+				estado_revision: 'borrador',
 			activo: true,
 			orden: null
 		};
@@ -369,7 +367,6 @@
 										value={newForm.tipo_registro}
 										onchange={(event) => {
 											newForm.tipo_registro = event.currentTarget.value as MetricEntryType;
-											if (newForm.tipo_registro === 'sin_forma') newForm.seleccionable = true;
 										}}
 									>
 										<option value="forma">Forma métrica</option>
@@ -386,16 +383,6 @@
 											<option value={state}>{metricReviewStateLabel(state)}</option>
 										{/each}
 									</select>
-								</label>
-							</div>
-							<div class="flex flex-wrap gap-x-6 gap-y-3 text-sm">
-								<label class="inline-flex items-center gap-2">
-									<input
-										type="checkbox"
-										bind:checked={newForm.seleccionable}
-										disabled={newForm.tipo_registro === 'sin_forma'}
-									/>
-									Seleccionable
 								</label>
 							</div>
 							{#if createFormError}

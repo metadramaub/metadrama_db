@@ -127,11 +127,33 @@ pregunta de vocabularios**: no discuten *dónde vive* un enum sino que **dicen m
 | --- | --- | --- |
 | ~~`definitoria` mezclada en la escala~~ | 5 tablas del catálogo | **Resuelto sin cambio el 10 de agosto**: no eran dos ejes. Ver [el cabo que resultó no serlo](#un-cabo-que-result%C3%B3-no-serlo) |
 | Las restricciones solo pueden colgar de un esquema | `esquema_rima_restricciones` | La norma de la silva y de la quintilla es de su arquitectura, y se apoya en un esquema abierto por no poder decirlo |
-| Seis columnas que no distinguen nada | Catálogo y editor V2 | Cada una es una distinción que se declaró y nunca se hizo, como `grado_especificacion` |
+| ~~Seis columnas que no distinguen nada~~ | Catálogo y editor V2 | **Rehecho el 10 de agosto: eran tres grupos.** Cuatro retiradas, `activo` a la fusión. Ver abajo |
 
 **Y hacerlos ahora abarata la mudanza**, que es el argumento de fondo: cuando toque decidir dónde
 vive cada vocabulario habrá menos enums, mejor definidos y sin los que sobran. Mover un
 vocabulario mal definido a un sitio mejor no lo arregla; lo consagra.
+
+#### Las cuatro columnas que se fueron
+
+Rehecho el inventario en vivo el 10 de agosto, «seis columnas que no distinguen nada» resultó ser
+**tres problemas distintos**. Cuatro se retiraron ese día porque duplicaban una distinción ya
+codificada:
+
+| Columna | Lo que ya lo decía |
+| --- | --- |
+| `formas_metricas.seleccionable` | `tipo_registro`, con sus 27 `forma` y sus 2 `sin_forma`. El gestor incluso **forzaba** el flag a `true` cuando el registro era `sin_forma`: el único caso que podía ponerlo en falso estaba codificado para no hacerlo |
+| `esquema_rima_enlaces.obligatorio` | `modalidad` |
+| `esquema_rima_restricciones.obligatoria` | `modalidad` — y antes que el dato, el concepto: **una restricción que no obliga no es una restricción** |
+| `esquema_rima_enlaces.tipo_enlace` | Nada: valía siempre `misma_rima`, y ningún objeto SQL la leía |
+
+No cambió ninguna conducta. El demarcador ya filtraba además por `tipo_registro`, y el disparador
+del editor V2 trata el caso `sin_forma` por su cuenta unas líneas más abajo.
+
+**`activo` se queda, y por una razón distinta de las suyas**: no es una columna vacía sino un
+mecanismo de retirada sin estrenar. La leen diecisiete objetos SQL, así que quitarla es reescribir
+diecisiete cuerpos entrecomillados —el fallo que ya ha mordido cuatro veces—, y jubilar una forma
+sin borrarla es plausible justo cuando se migren las secuencias del vocabulario legado. Por eso
+baja a la tabla de la fusión.
 
 ### A la fusión — toca producción o el código compartido
 
@@ -142,6 +164,7 @@ vocabulario mal definido a un sitio mejor no lo arregla; lo consagra.
 | `estado_revision` en los dos sitios | Hay que comprobar antes si son la misma idea o dos homónimas, y afecta a doce tablas del catálogo más una categoría de producción |
 | El mapa dimensión × relación duplicado | Quitar la duplicación pide una tabla de enlace o un disparador; el editor V2 aún va a cambiar |
 | Los dos enums de `vocabularios` | Que la tabla de vocabularios lleve enums en `CHECK` es el caso más claro, y el más fácil de hacer al final |
+| `activo` en las ocho tablas del catálogo | No es una columna vacía sino un mecanismo de retirada sin estrenar. Lo leen 17 objetos SQL, y retirarlo es reescribir diecisiete cuerpos entrecomillados: solo compensa si al migrar las secuencias se decide que jubilar una forma sin borrarla no hará falta |
 
 ## Un cabo que resultó no serlo
 

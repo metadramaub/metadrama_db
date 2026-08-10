@@ -228,8 +228,7 @@ export async function loadPublicForm(
 			};
 			// La descripción manda cuando la hay: está escrita para esa forma y dice más.
 			return {
-				texto: texto(r.descripcion) ?? redactada[String(r.tipo)] ?? String(r.tipo),
-				obligatoria: r.obligatoria !== false
+				texto: texto(r.descripcion) ?? redactada[String(r.tipo)] ?? String(r.tipo)
 			};
 		});
 

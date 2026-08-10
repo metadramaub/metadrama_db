@@ -27,7 +27,6 @@ const formFieldsSchema = z.object({
 	definicion: z.string().trim().max(30_000).nullable(),
 	nivel_estructural: z.enum(METRIC_STRUCTURAL_LEVELS),
 	tipo_registro: z.enum(METRIC_ENTRY_TYPES),
-	seleccionable: z.boolean(),
 	estado_revision: z.enum(METRIC_CATALOG_REVIEW_STATES),
 	activo: z.boolean(),
 	orden: z.number().int().nullable()
@@ -52,20 +51,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	const parsed = createSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
-	if (
-		parsed.data.tipo_registro === 'sin_forma' &&
-		!parsed.data.seleccionable
-	) {
-		return json(
-			{
-				error: 'validation_error',
-				message:
-					'Un tramo sin forma no tiene grado de especificación y debe seguir siendo seleccionable.'
-			},
-			{ status: 422 }
-		);
-	}
-
 	const db = locals.supabase as unknown as UntypedSupabaseClient;
 	const { data, error } = await db
 		.from('formas_metricas')
@@ -75,7 +60,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			updated_by: access.profile.userId
 		})
 		.select(
-			'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,estado_revision,activo,orden,origen_termino_id,updated_at'
+			'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,estado_revision,activo,orden,origen_termino_id,updated_at'
 		)
 		.single();
 
@@ -101,20 +86,6 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 
 	const parsed = updateSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
-	if (
-		parsed.data.tipo_registro === 'sin_forma' &&
-		!parsed.data.seleccionable
-	) {
-		return json(
-			{
-				error: 'validation_error',
-				message:
-					'Un tramo sin forma no tiene grado de especificación y debe seguir siendo seleccionable.'
-			},
-			{ status: 422 }
-		);
-	}
-
 	const { forma_id, ...fields } = parsed.data;
 	const db = locals.supabase as unknown as UntypedSupabaseClient;
 	const { data, error } = await db
@@ -122,7 +93,7 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 		.update({ ...fields, updated_by: access.profile.userId })
 		.eq('forma_id', forma_id)
 		.select(
-			'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,seleccionable,estado_revision,activo,orden,origen_termino_id,updated_at'
+			'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,estado_revision,activo,orden,origen_termino_id,updated_at'
 		)
 		.single();
 

@@ -203,11 +203,13 @@ hacerlas antes obliga a hacerlas dos veces.
 5. **`tipo` y `ambito` de las repeticiones están perfectamente correlacionados**: `estribillo` con
    sección y `palabra_final` con unidad, sin excepción en las once filas. Con dos clases puede ser
    casualidad; conviene mirarlo cuando haya una tercera.
-6. **Seis columnas no distinguen nada.** `activo` es `true` en las ocho tablas donde existe,
-   `seleccionable` en las 29 formas, `esquema_rima_enlaces.obligatorio` en sus trece filas,
-   `tipo_enlace` vale siempre `misma_rima` y `esquema_rima_restricciones.obligatoria` siempre
-   `true`. Algunas son borrado suave y defendibles; otras declaran una distinción que no se ha
-   hecho nunca, como `grado_especificacion`, que se retiró por eso.
+6. ~~**Seis columnas no distinguen nada.**~~ **Rehecho el inventario en vivo el 10 de agosto: no
+   eran seis del mismo problema, sino tres grupos.** Se retiraron las cuatro que duplicaban una
+   distinción ya codificada —`seleccionable` decía lo que dice `tipo_registro`, y `obligatorio`,
+   `obligatoria` y `tipo_enlace` decían lo que dice `modalidad`—. **`activo`, en las ocho tablas,
+   se queda**: no es una columna vacía sino un mecanismo de retirada sin estrenar, lo leen 17
+   objetos SQL, y el IP decidió resolverlo al fusionar con `main`. Anotado en
+   [la revisión de vocabularios](../revision-de-vocabularios.md#lo-que-se-hace-ahora-y-lo-que-espera).
 7. **El aviso `patron_rima_sin_regla` se ha vuelto ruido.** Salta en los ocho esquemas abiertos sin
    restricciones, y la revisión del 10 de agosto comprobó que **los ocho están bien**: la norma no
    fija más que el tipo de rima. O se afina o se baja a informativo.
