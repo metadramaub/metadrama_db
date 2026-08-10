@@ -230,6 +230,16 @@ hacerlas antes obliga a hacerlas dos veces.
    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
 9. **Las 27 equivalencias del vocabulario legado sin destino**, en
    [equivalencias-pendientes.md](./equivalencias-pendientes.md).
+10. **El editor V2 aún no pregunta por realización.** `alcance` admite desde el 10 de agosto un
+   tercer valor —una respuesta por cada aparición de su sección— y las tres preguntas de la represa
+   ya lo usan, pero el editor las trata como de unidad para que no desaparezcan de la pantalla. El
+   criterio está en un solo sitio, [alcance.ts](../../src/lib/metrica/alcance.ts), y el almacén ya
+   existe: `elecciones_editor_metrico.realizacion_prueba_id`.
+11. **Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
+   mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
+   misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo
+   cual funciona pero deja el caso sin decir. Si aparece un esquema que deba señalar sección **y**
+   servir a varias, habrá que emparejar por `tipo_seccion` en vez de por identidad.
 
 ### Superficies, después del modelo
 

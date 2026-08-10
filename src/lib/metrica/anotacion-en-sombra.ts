@@ -43,8 +43,12 @@ export type ShadowAnswer = {
 	pregunta: string;
 	opcionEleccionId: string;
 	respuesta: string;
-	/** Las de ámbito unidad solo llegan cuando la secuencia es una sola unidad. */
-	alcance: 'secuencia' | 'unidad';
+	/**
+	 * Las de ámbito unidad solo llegan cuando la secuencia es una sola unidad. Las de `realizacion`
+	 * se responden en cada aparición de su sección; hasta que el editor V2 lo implemente se tratan
+	 * como de unidad, para que ninguna pregunta desaparezca de la pantalla.
+	 */
+	alcance: 'secuencia' | 'unidad' | 'realizacion';
 };
 
 /** Una obra abierta a la anotación en sombra. */

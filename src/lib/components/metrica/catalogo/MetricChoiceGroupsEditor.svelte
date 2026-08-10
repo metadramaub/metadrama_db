@@ -82,7 +82,8 @@
 			required: true,
 			options: [
 				{ value: 'secuencia', label: 'Una vez para toda la secuencia' },
-				{ value: 'unidad', label: 'En cada unidad interna aplicable' }
+				{ value: 'unidad', label: 'En cada unidad interna aplicable' },
+				{ value: 'realizacion', label: 'En cada aparición de su sección' }
 			]
 		},
 		{
@@ -90,7 +91,7 @@
 			label: 'Clase de unidad',
 			type: 'select',
 			options: sectionOptions,
-			help: 'Solo se utiliza con alcance por unidad. Limita la pregunta, por ejemplo, a cada copla.'
+			help: 'Limita la pregunta, por ejemplo, a cada copla. Obligatoria si se responde en cada aparición.'
 		},
 		{
 			key: 'selecciones_min',

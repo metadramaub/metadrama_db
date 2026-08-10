@@ -5,6 +5,7 @@
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import { controlDeRespuestaUnica } from '$lib/metrica/controles-formulario';
 	import MetricChoiceField from './MetricChoiceField.svelte';
+	import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 	import {
 		addMetricUnit,
 		addSectionInstance,
@@ -114,7 +115,7 @@
 
 	function groupsForUnit(unit: MetricUnitDraft): MetricCatalogDomainRow[] {
 		return props.groups.filter((group: MetricCatalogDomainRow) => {
-			if (group.alcance !== 'unidad') return false;
+			if (!seRespondeDentroDeLaUnidad(group.alcance)) return false;
 			// Una pregunta sin sección se refiere a la unidad entera, no a una parte suya.
 			return group.seccion_id
 				? String(group.seccion_id) === unit.seccion_id
@@ -169,7 +170,7 @@
 	// composición se hace desde el principio y no aparece a media faena, cuando se añade la
 	// segunda copla, cambiando de sitio lo que el editor ya estaba mirando.
 	function isGroupFoldable(group: MetricCatalogDomainRow): boolean {
-		if (group.alcance !== 'unidad') return false;
+		if (!seRespondeDentroDeLaUnidad(group.alcance)) return false;
 		if (!group.permite_aplicar_global) return false;
 		if (Number(group.selecciones_max ?? 1) !== 1) return false;
 		if (group.tipo_control === 'esquema_rima') return false;

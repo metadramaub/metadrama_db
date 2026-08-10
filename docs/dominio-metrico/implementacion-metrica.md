@@ -174,6 +174,33 @@ declare por su cuenta.
 forma. Y `arquitectura_rasgos` usa solo `definitoria` y `admitida`, que es lo único que tiene
 sentido ahí —un rasgo caracteriza la arquitectura o solo se admite en ella—.*
 
+## De qué se responde una pregunta
+
+Lo dice **`alcance`**, y son tres niveles:
+
+| Valor | Se responde |
+| --- | --- |
+| `secuencia` | Una sola vez para todo el pasaje |
+| `unidad` | Una vez por unidad |
+| `realizacion` | Una vez por cada aparición de su sección, y exige declarar cuál |
+
+El tercero no se deduce de la estructura, **se declara**, porque dos preguntas atadas a la misma
+clase de sección repetida pueden querer cosas distintas: la medida de la estancia de la canción es
+la misma en todas las estancias y se responde una vez, mientras que la vuelta del estribillo puede
+darse entera tras una copla y en parte tras la siguiente. Lo que decide no es la estructura sino la
+norma.
+
+La respuesta por realización cuelga de `elecciones_editor_metrico.realizacion_prueba_id`, que ya
+existía. *El editor V2 todavía no pregunta así y las trata como de unidad; el criterio está en un
+solo sitio, `src/lib/metrica/alcance.ts`.*
+
+## Dos secciones pueden ser la misma cosa
+
+`tipo_seccion` dice de qué clase es una parte, y es lo que permite que **una misma cosa aparezca
+en sitios distintos**: la copla inicial es una copla, la mudanza inicial es una mudanza, y la
+cabeza y la repetición del estribillo son el mismo estribillo. El `slug` y el `nombre` distinguen
+qué aparición es; el tipo dice que el contenido es uno.
+
 ## De qué parte habla cada cosa
 
 Un esquema métrico o de rima puede describir la unidad entera o solo una de sus partes, y lo dice

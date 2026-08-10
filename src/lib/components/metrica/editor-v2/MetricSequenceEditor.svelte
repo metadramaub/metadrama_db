@@ -29,6 +29,7 @@
 		type MetricChoiceDraft,
 		type MetricUnitDraft
 	} from './editor-model';
+	import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 	import {
 		catalogParts,
 		defaultRelationFor,
@@ -180,7 +181,9 @@
 		choiceGroupsForDraft.filter((row: MetricCatalogDomainRow) => row.alcance === 'secuencia')
 	);
 	const unitChoiceGroups = $derived(
-		choiceGroupsForDraft.filter((row: MetricCatalogDomainRow) => row.alcance === 'unidad')
+		choiceGroupsForDraft.filter((row: MetricCatalogDomainRow) =>
+			seRespondeDentroDeLaUnidad(row.alcance)
+		)
 	);
 	const choiceOptionsForDraft = $derived(
 		props.catalog.domain.choiceOptions.filter(
