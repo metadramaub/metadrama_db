@@ -207,6 +207,7 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 			'tipo',
 			'valor_numero',
 			'valor_texto',
+			'esquema_referido_id',
 			'descripcion',
 			'obligatoria'
 		],
