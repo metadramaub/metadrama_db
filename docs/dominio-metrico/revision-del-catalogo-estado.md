@@ -135,7 +135,7 @@ Eran seis; a 10 de agosto de 2026 quedan tres:
 | El concepto de variedad | Hecha el 9 de agosto |
 | La automatización de las preguntas del editor | Hecha entre el 9 y el 10: se derivan respuestas y enunciados |
 | La reutilización de secciones | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
-| La modalidad y la primacía | Hecha el 10 de agosto, salvo el romance |
+| La modalidad y la primacía | Hecha el 10 de agosto |
 | **Las reglas de repetición** | Abierta a medias: el comportamiento ya es dato de la repetición; queda qué dice `regla`, que sigue siendo texto libre |
 | **El modelo de esquemas abiertos** | Abierta |
 
@@ -809,9 +809,14 @@ SQL rotas: nada lo comprueba, porque nadie había intentado guardar esos valores
 
 #### Lo que queda abierto
 
-- **El romance**, cuyas cuatro medidas tienen nombre propio en la tradición —romancillo, endecha,
-  romance heroico— y por eso eran las cuatro `preferente`. Con `habitual` la respuesta es que solo
-  la octosilábica lo es, pero ninguna afirmación declarada lo dice: hay que ampliar fuentes.
+- ~~**El romance** necesita ampliar fuentes.~~ **Resuelto el mismo día, y era un error de
+  método.** Se buscaron las afirmaciones que hablan de frecuencia y se pasaron por alto las dos
+  que deciden el caso sin nombrarla: la definición de la forma —«el octosílabo es su realización
+  no marcada; cuando se dice *romance* sin más, se entiende octosílabo, y las demás medidas
+  reciben nombre propio»— y el *Diccionario*, que dice lo mismo desde el otro lado. Las otras tres
+  bajan a `admitida`. *Que tengan nombre propio no las hace corrientes: las hace **nombrables**,
+  que es otra cosa, y esos nombres viven en `denominaciones_metricas`. Era justo la confusión que
+  hacía inútil la columna.*
 - **`definitoria` no pertenece a la misma escala.** Lo señaló el IP: `habitual · admitida ·
   excepcional` gradúan frecuencia y `definitoria` afirma necesidad. No siempre son excluyentes
   —la asonantada de la endecha real es constitutiva **y además** lo corriente, y hoy solo cabe
@@ -869,7 +874,6 @@ silva libre, que sí rima— y sigue exigiendo separar las dos magnitudes.
 
 ~~**La modalidad y la primacía necesitan una lectura transversal.**~~ **Hecha el 10 de agosto de
 2026**, y está contada abajo en [su propio apartado](#la-modalidad--lectura-hecha-el-10-de-agosto-de-2026).
-Queda solo el romance, cuyas cuatro medidas necesitan una fuente que las jerarquice.
 
 **Las reglas de repetición deben ser computables y la prosa debe tener responsabilidades
 separadas.** Hoy `repeticiones_metricas.regla` es texto libre: el editor V2 no lo interpreta,
