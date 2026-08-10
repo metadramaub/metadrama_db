@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 9 de agosto de 2026
+Actualizado: 10 de agosto de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
 enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
@@ -8,7 +8,8 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
 > **La revisión del catálogo contra las fuentes está terminada** desde el 8 de agosto de 2026:
 > las 27 formas y los dos tramos sin forma. Lo que dejó hecho, lo que corrigió y lo que dejó
 > abierto vive en **[revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md)**. Lo
-> pendiente ya no es forma por forma, sino lecturas transversales sobre el catálogo entero.
+> pendiente está inventariado en [qué queda pendiente](#qué-queda-pendiente): las seis lecturas
+> transversales se cerraron el 10 de agosto.
 
 ## Estado actual
 
@@ -68,41 +69,9 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
 
 ## Decisiones que gobiernan el modelo
 
-1. La base de datos es la fuente de verdad. El artefacto del demarcador, las fichas y las
-   redes son proyecciones regenerables.
-2. Forma, arquitectura, esquema, variedad, sección, repetición, rasgo, elección,
-   denominación, tradición y relación son conceptos distintos. La antigua jerarquía
-   padre/hijo no se reproduce automáticamente y no existe el concepto de familia.
-3. El criterio especializado incorporado por el IP para el corpus se conserva. La
-   bibliografía académica documenta contrastes, pero no lo sustituye silenciosamente.
-4. Las fuentes declaradas deben ser publicaciones bibliográficas autorizadas; una página
-   web o un vídeo no constituyen por sí solos una fuente del catálogo.
-5. El nivel de cada hecho se decide preguntando si puede variar dentro de una misma
-   secuencia. Una arquitectura prototípica es opcional.
-6. El editor debe responder lo mínimo. Los resultados únicos se derivan; solo se muestran
-   alternativas con valor analítico y desviaciones reales.
-7. Rige una convención de mundo cerrado: una secuencia guardada sin desviaciones cumple
-   la norma y las elecciones realizadas. No se piden certeza, revisión ni pendiente.
-8. Las alternativas admitidas no son desviaciones. Las desviaciones reutilizan metros,
-   rimas, estructuras, repeticiones y rasgos normalizados.
-9. Las formas reconocibles conservan su identidad aunque tengan excepciones localizadas.
-   `Versificación irregular` y `Verso aislado` son tramos sin forma, sin arquitectura,
-   no formas comparables.
-10. Una forma general no ha llegado a especializarse, pero es forma plena. La copla de pie
-    quebrado y el sexteto son generales; eso no las equipara a los dos tramos sin
-    forma.
-11. Las restricciones de longitud obligan a revisar rangos incompatibles: múltiplos de la
-    unidad fija, ciclos repetibles, composiciones cerradas y estructuras calculadas.
-12. **El catálogo no guarda lo que puede calcular.** El formulario del editor no se escribe: las
-    respuestas salen de `opciones_eleccion_metrica`, que es una vista, y el enunciado de
-    `grupos_eleccion_metrica_resueltos`, que lo compone con la dimensión y la sección. Lo que se
-    quede sin poder derivarse no es una excepción que justifique escribirlo a mano: es una
-    carencia del catálogo, y la solución es declararla.
-13. **Una función SQL no está probada hasta que se ejecuta.** Un cuerpo entrecomillado no se
-    revalida al borrar una columna y PL/pgSQL resuelve los campos de un `record` en ejecución, de
-    modo que `db push`, `check` y las pruebas pasan sobre código roto. Ha mordido tres veces en
-    dos días, una de ellas dejando el demarcador cinco días sin funcionar. Las guardas de las
-    migraciones **ejecutan** lo que tocan.
+Son dieciocho y viven en [el modelo aplicado](./implementacion-metrica.md#las-decisiones-que-gobiernan-el-modelo),
+en un solo sitio desde el 10 de agosto de 2026. **Léelas antes de tocar el catálogo**: la mitad
+de los errores de estos días venían de no saber que una de ellas existía.
 
 ## Cómo se registra una secuencia
 
@@ -156,9 +125,9 @@ Leer solo lo necesario para la tarea:
 
 1. [Ontología del verso español](./ontologia-verso-espanol.md): qué es el verso español y
    de qué está hecho. Describe posibilidades, no este corpus. Lectura previa a todo lo demás.
-1bis. [La implementación de METADRAMA](./implementacion-metrica.md): qué parte se realiza,
-   qué se restringe por el corpus y cómo se recoge el dato.
-1ter. [README del dominio](./README.md): índice y decisiones consolidadas.
+1bis. [El modelo métrico aplicado](./implementacion-metrica.md): qué parte se realiza, qué se
+   restringe por el corpus, cómo se recoge el dato y **las dieciocho decisiones que lo gobiernan**.
+1ter. [README del dominio](./README.md): índice de los diecinueve documentos.
 2. [Criterios de nivel](./criterios-de-nivel.md): en qué nivel se registra cada hecho
    métrico. De lectura obligada antes de formalizar o corregir una forma.
 3. [Editor V2](./editor-secuencias-v2.md): aislamiento, persistencia y comportamiento.

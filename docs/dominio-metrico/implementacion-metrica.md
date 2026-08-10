@@ -29,6 +29,60 @@ días, y la versión de entonces está en
 | Qué se revisó y qué quedó abierto | [Estado de la revisión](./revision-del-catalogo-estado.md) |
 | Qué sigue pendiente | [CONTEXTO](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente) |
 
+## Las decisiones que gobiernan el modelo
+
+**Esta es la lista, y no hay otra.** Hasta el 10 de agosto de 2026 vivía repetida en tres sitios
+—aquí, en el README del dominio y en CONTEXTO— con redacciones que ya no coincidían.
+
+*Qué es el modelo*
+
+1. Las formas métricas constituyen un **dominio propio**, separado del vocabulario genérico.
+2. **Forma, arquitectura, esquema métrico, esquema de rima, variedad, sección, repetición, rasgo,
+   elección, denominación, tradición y relación son conceptos distintos.** No existe el concepto
+   de familia ni se reproduce la antigua jerarquía padre/hijo: agrupar formas para contar es una
+   categoría del estudio y se declara en la proyección.
+3. **El nivel de cada hecho se decide con la pregunta de la variación**: lo que puede cambiar
+   dentro de una secuencia es esquema, variedad o rasgo; lo constante que no cambia el nombre es
+   arquitectura; lo que obligaría a cortar la secuencia es otra forma.
+4. **Las formas se distinguen de los tramos sin forma por su tipo de registro.** Una forma general
+   —la copla de pie quebrado, el sexteto— no ha llegado a especializarse, pero es forma plena y no
+   se equipara a `Versificación irregular` ni a `Verso aislado`.
+5. **El metro es una entidad del dominio**, con sus sílabas y, si es compuesto, sus hemistiquios y
+   su cesura. El arte mayor o menor se deriva, no se almacena.
+6. **Las tradiciones son pertenencias muchos-a-muchos, sin herencia estructural.**
+7. **Los esquemas de rima separan su comportamiento computable de la notación legible.**
+8. **Un componente ya formalizado se reutiliza; no se copia.** Lo que la sección reutiliza hereda
+   de su forma lo que no declare por su cuenta.
+9. **El ritmo acentual queda fuera del alcance del proyecto.**
+
+*De dónde sale lo que el catálogo afirma*
+
+10. **El criterio especializado del IP se conserva.** La bibliografía documenta contrastes y
+    permite revisarlos, pero no lo sobrescribe silenciosamente.
+11. **Las fuentes son publicaciones bibliográficas identificables**, no páginas web ni vídeos. Una
+    URL puede localizar una publicación digital; no es por sí sola la autoridad.
+12. **No se traducen las palabras de las fuentes a porcentajes inventados.** El matiz vive en la
+    modalidad y en valores cerrados y ordenados, no en umbrales que nadie sostiene.
+
+*Cómo se registra*
+
+13. **La anotación sigue `norma + elecciones + diferencias`, en mundo cerrado.** Una secuencia
+    guardada sin diferencias cumple la norma; no se piden certeza, revisión ni pendiente.
+14. **El editor responde lo mínimo.** Los resultados únicos se derivan y solo se preguntan las
+    alternativas con valor analítico.
+15. **Las alternativas admitidas no son desviaciones**, y las desviaciones reutilizan metros,
+    rimas, estructuras, repeticiones y rasgos ya normalizados: no hay vocabulario paralelo.
+16. **Las caracterizaciones no métricas por rango** —cantado, prosa, laguna— se conservan en su
+    dominio general.
+
+*Qué se guarda y qué se calcula*
+
+17. **La base de datos es la fuente de verdad.** El artefacto del demarcador, las fichas públicas
+    y las redes son proyecciones regenerables.
+18. **El catálogo no guarda lo que puede calcular.** El formulario del editor no se escribe: sus
+    respuestas y sus enunciados se derivan. Lo que no se pueda derivar no es una excepción que
+    justifique escribirlo a mano: es una carencia del catálogo, y la solución es declararla.
+
 ## Las tres capas
 
 | Capa | Qué guarda | Dónde |
