@@ -22,10 +22,11 @@ está hecho, qué falta, con qué método y en qué orden.
    relación entre norma y realización. Describe posibilidades, no un corpus.
    **Lectura previa a todo lo demás.** Con [diagrama](./ontologia-verso-espanol.svg).
 
-0bis. [La implementación de METADRAMA](./implementacion-metrica.md)
+0bis. [El modelo métrico aplicado](./implementacion-metrica.md)
    Qué parte de esa ontología se realiza, qué se restringe por el corpus y cómo se recoge el
    dato: el catálogo, las preguntas del editor y el registro. Con arquetipos diagramados y la
-   correspondencia con las tablas. Y su [diagrama](./implementacion-metrica.svg).
+   correspondencia con las tablas, las capas, los consumidores y las garantías de la base.
+   Absorbió en agosto de 2026 la antigua «Arquitectura técnica». Con [diagrama](./implementacion-metrica.svg).
 
 1. [Síntesis narrativa del nuevo dominio métrico](./sintesis-narrativa-dominio-metrico.md)
    Explicación general, con un lenguaje poco técnico, para presentar el problema, la propuesta y sus beneficios.
@@ -54,11 +55,7 @@ está hecho, qué falta, con qué método y en qué orden.
 
 ### El registro y su migración
 
-7. [Arquitectura técnica](./arquitectura-dominio-metrica.md)
-   Capas, proyecciones, consumidores, invalidación de derivados, integridad y permisos.
-   No especifica tablas: la fuente de verdad del esquema es la base de datos.
-
-8. [Qué guarda el registro](./que-guarda-el-registro.md)
+7. [Qué guarda el registro](./que-guarda-el-registro.md)
    Tres secuencias inventadas, fila a fila, para ver qué escribe cada tabla y qué se deriva
    después. Es donde se entiende la capa resuelta.
 

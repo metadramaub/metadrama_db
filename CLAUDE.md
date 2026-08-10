@@ -76,13 +76,18 @@ todo el razonamiento vive en `docs/dominio-metrico/` porque el diseño sigue abi
 **Empieza por [docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md).**
 No leas los 20 documentos: ese archivo dice cuáles tocan según la tarea.
 
-**La revisión del catálogo contra seis monografías está terminada** desde el 8 de agosto de
-2026: las 27 formas activas y los dos tramos sin forma, corrigiendo el dato donde la
-bibliografía demostró que estaba mal. Lo que quedó abierto son **lecturas transversales** sobre
-el catálogo entero —el concepto de variedad, la modalidad, la automatización de las preguntas
-del editor— y no trabajo forma por forma. Todo ello, en
+**La revisión del catálogo está terminada.** Las 27 formas activas y los dos tramos sin forma se
+contrastaron con seis monografías hasta el 8 de agosto de 2026, y **las seis lecturas
+transversales sobre el catálogo entero quedaron cerradas el 10**: el concepto de variedad, la
+automatización de las preguntas del editor, la reutilización de secciones, la modalidad y la
+primacía, las reglas de repetición y el modelo de esquemas abiertos. El relato está en
 [docs/dominio-metrico/revision-del-catalogo-estado.md](docs/dominio-metrico/revision-del-catalogo-estado.md),
 que es el único sitio donde se lleva esa cuenta.
+
+**Lo que queda pendiente está inventariado** en
+[CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente),
+y el orden lo fijó el IP: **primero terminar el modelo; el editor V2, el gestor del catálogo y
+el demarcador, al final**, porque se derivan de él y hacerlos antes obliga a hacerlos dos veces.
 
 ## Reglas duras
 
