@@ -235,7 +235,12 @@ hacerlas antes obliga a hacerlas dos veces.
    ya lo usan, pero el editor las trata como de unidad para que no desaparezcan de la pantalla. El
    criterio está en un solo sitio, [alcance.ts](../../src/lib/metrica/alcance.ts), y el almacén ya
    existe: `elecciones_editor_metrico.realizacion_prueba_id`.
-11. **Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
+11. **¿Son una sola arquitectura las dos del villancico?** Tras quitar la duplicación del ciclo, lo
+   único que las separa es dónde aparece el estribillo por primera vez, y eso podría ser una
+   pregunta. Queda abierto por decisión del IP: el demarcador distingue por arquitectura. Ver
+   [Villancico](./revisiones-formas/cuestiones-para-el-ip.md#villancico) 6 y 7, donde va también la
+   norma que se perdió al simplificar.
+12. **Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
    mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
    misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo
    cual funciona pero deja el caso sin decir. Si aparece un esquema que deba señalar sección **y**
