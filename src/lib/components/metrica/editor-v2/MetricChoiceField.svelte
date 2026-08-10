@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import { controlDeRespuestaUnica } from '$lib/metrica/controles-formulario';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 	const props = $props<{
@@ -57,17 +58,6 @@
 	);
 	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
 
-	/**
-	 * Qué control usa una pregunta sale de la pregunta, no de cómo de largas sean sus
-	 * etiquetas. Medirlas hacía que dos preguntas hermanas se vieran distintas —los cuartetos
-	 * del soneto con botones y sus tercetos con desplegable— sin que nada del catálogo lo
-	 * justificara.
-	 *
-	 * Una respuesta única entre pocas se enseña entera, en lista, para que quepan la etiqueta
-	 * y su explicación. Por encima de este número deja de leerse de un vistazo y compensa el
-	 * desplegable.
-	 */
-	const MAX_OPCIONES_A_LA_VISTA = 5;
 	/** Un rasgo con un solo valor no es una elección entre alternativas: está o no está. */
 	const showAsCheckbox = $derived(
 		!isRhymeScheme && !positional && maximum === 1 && optional && visibleOptions.length === 1
@@ -77,8 +67,7 @@
 			!positional &&
 			!showAsCheckbox &&
 			maximum === 1 &&
-			visibleOptions.length > 0 &&
-			visibleOptions.length <= MAX_OPCIONES_A_LA_VISTA
+			controlDeRespuestaUnica(visibleOptions.length) === 'lista'
 	);
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;
