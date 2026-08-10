@@ -138,6 +138,40 @@ diga su densidad o deje calcularla por alguno de los dos.
 > distinto número de clases. La densidad y la **concentración de la rima** son dos cosas, y hoy
 > solo está modelada la primera.
 
+## Cuánto fija la norma cada cosa
+
+Lo dice **`modalidad`**, con la misma escala en las cinco tablas que la usan, y reporta lo que
+sostiene la bibliografía declarada, no lo que muestre el corpus:
+
+| Valor | Qué dice |
+| --- | --- |
+| `definitoria` | **Sin esto, la arquitectura no sería la que es.** No es una realización: es la norma |
+| `habitual` | Las fuentes la dan como la corriente |
+| `admitida` | Las fuentes la documentan sin destacarla |
+| `excepcional` | Las fuentes la documentan advirtiendo que es rara |
+
+**`definitoria` no compite en frecuencia con las otras tres**, y conviene tenerlo claro porque
+invita a confundirse. Los treinta y nueve esquemas definitorios caen en tres formas —treinta y uno
+son el único de su arquitectura, cinco son el esquema abierto que declara el criterio, y tres son
+una parte complementaria, como el pareado final de la canción— y las tres dicen lo mismo. Cuando
+un definitorio convive con hermanos graduados, como la quintilla con sus ocho tipologías, lo que
+hay no es una lista de cinco alternativas: hay **una norma y sus realizaciones**.
+
+*En agosto de 2026 se sospechó que la columna mezclaba dos ejes, necesidad y frecuencia, y que
+había que partirla. Se comprobó y no: ningún definitorio es descrito como raro, y no puede serlo,
+porque lo que la norma exige está siempre. El razonamiento está en
+[la revisión de vocabularios](../revision-de-vocabularios.md#un-cabo-que-result%C3%B3-no-serlo).*
+
+**Que la norma no fije algo no se declara con un valor: se declara no declarándolo**, y se
+comprueba. Un esquema de rima es abierto cuando no tiene ni una posición, y entonces su norma son
+sus restricciones. Y la herencia tampoco depende de que un campo sea nulo: una sección que
+reutiliza otra arquitectura lo dice con `arquitectura_referenciada_id` y hereda de ella lo que no
+declare por su cuenta.
+
+*`arquitecturas_forma` no admite `definitoria`, y es coherente: una realización no define su
+forma. Y `arquitectura_rasgos` usa solo `definitoria` y `admitida`, que es lo único que tiene
+sentido ahí —un rasgo caracteriza la arquitectura o solo se admite en ella—.*
+
 ## Las tres capas
 
 | Capa | Qué guarda | Dónde |

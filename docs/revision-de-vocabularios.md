@@ -125,7 +125,7 @@ pregunta de vocabularios**: no discuten *dónde vive* un enum sino que **dicen m
 
 | Qué | Dónde | Por qué no espera |
 | --- | --- | --- |
-| `definitoria` mezclada en la escala de la modalidad | 5 tablas del catálogo | Una escala que confunde necesidad con frecuencia da datos mal clasificados desde hoy |
+| ~~`definitoria` mezclada en la escala~~ | 5 tablas del catálogo | **Resuelto sin cambio el 10 de agosto**: no eran dos ejes. Ver [el cabo que resultó no serlo](#un-cabo-que-result%C3%B3-no-serlo) |
 | Las restricciones solo pueden colgar de un esquema | `esquema_rima_restricciones` | La norma de la silva y de la quintilla es de su arquitectura, y se apoya en un esquema abierto por no poder decirlo |
 | Seis columnas que no distinguen nada | Catálogo y editor V2 | Cada una es una distinción que se declaró y nunca se hizo, como `grado_especificacion` |
 
@@ -143,22 +143,38 @@ vocabulario mal definido a un sitio mejor no lo arregla; lo consagra.
 | El mapa dimensión × relación duplicado | Quitar la duplicación pide una tabla de enlace o un disparador; el editor V2 aún va a cambiar |
 | Los dos enums de `vocabularios` | Que la tabla de vocabularios lleve enums en `CHECK` es el caso más claro, y el más fácil de hacer al final |
 
-## Tres cabos sueltos
+## Un cabo que resultó no serlo
 
-**`modalidad` mezcla dos ejes en una escala.** Lo señaló el IP el 10 de agosto de 2026 al revisar
-esa columna: `habitual · admitida · excepcional` gradúan **cuán corriente** es algo, y
-`definitoria` afirma **que es necesario**. Son preguntas distintas, y no siempre excluyentes: la
-asonancia de la endecha real es constitutiva de la forma **y además** es lo corriente, y hoy solo
-cabe declarar una de las dos cosas. Pide separarse en una columna de necesidad y otra de
-frecuencia, en las cinco tablas que hoy comparten el enum: `esquemas_rima`, `arquitecturas_forma`,
-`arquitectura_rasgos`, `repeticiones_metricas` y `variedades_arquitectura`.
+~~**`modalidad` mezcla dos ejes en una escala.**~~ **Comprobado el 10 de agosto de 2026 y
+descartado.** El IP preguntó qué añade `definitoria` frente a `habitual`, y la respuesta que di
+—que son dos ejes, necesidad y frecuencia, y que hacía falta partir la columna en las cinco
+tablas— **era un error de categoría**. Tres comprobaciones lo deshacen:
 
-*Dos datos para cuando se resuelva. `definitoria` no significa «la única»: 7 de los 38 esquemas
-definitorios tienen hermanos, porque describen otra parte de la unidad —el pareado final de la
-canción y su cuerpo sin rima son las dos definitorios— o porque son la restricción abierta junto
-a las realizaciones enumeradas. Y `arquitectura_rasgos` usa solo dos de los cuatro valores,
-`definitoria` y `admitida`, que es lo único que tiene sentido ahí: un rasgo caracteriza la
-arquitectura o solo se admite en ella.*
+- **Ningún esquema definitorio es descrito como raro por las fuentes.** Si fueran ejes
+  independientes tendría que existir algo constitutivo e infrecuente a la vez, y no puede: lo que
+  la norma exige está siempre.
+- **Solo cuatro definitorios conviven con hermanos graduados**, y los cuatro son el mismo caso: el
+  esquema abierto que declara la norma frente a las disposiciones concretas que la cumplen —la
+  quintilla y sus ocho tipologías, la sextilla octosilábica y sus tres, el sexteto y su `ababcc`,
+  la endecha real y sus tres disposiciones—.
+- **El caso con que se justificó la separación no se sostiene.** Se dijo que la asonancia de la
+  endecha real es constitutiva «y además lo corriente». No: la asonancia es la **norma** y sus
+  tres hermanas son las **disposiciones** que caben dentro de ella. La norma no compite con ellas
+  en frecuencia.
+
+Los 39 esquemas definitorios caen en tres formas —31 son el único de su arquitectura, 5 son el
+esquema abierto que declara la norma y 3 son una parte complementaria, como el pareado final de
+la canción— y **las tres dicen lo mismo**: *sin esto, la arquitectura no sería la que es*. Lo
+mismo en las otras tablas: el rasgo que la arquitectura exige, la permutación que hace sextina a
+la sextina.
+
+Así que `definitoria` es **el tope de la misma escala**, y la escala mide lo que su comentario
+dice: cuánto ha fijado la tradición, desde «la norma lo exige» hasta «se documenta advirtiendo que
+es raro». No hay nada que partir.
+
+*Queda una observación menor, que no pide cambio: `arquitectura_rasgos` usa solo dos de los cuatro
+valores, `definitoria` y `admitida`, y es lo único que tiene sentido ahí —un rasgo caracteriza la
+arquitectura o solo se admite en ella—. Un enum puede usar parte de su vocabulario sin estar mal.*
 
 ## Dos cabos más
 
