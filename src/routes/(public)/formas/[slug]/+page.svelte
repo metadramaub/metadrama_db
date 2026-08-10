@@ -236,6 +236,14 @@
 								{#if arquitectura.esquemasRima.length > 0}
 									<div>
 										<h4 class="text-sm font-semibold">Rima</h4>
+										<!-- La convención vale para todo el catálogo, así que se dice una vez
+										     aquí y no en la descripción de cada esquema, donde estuvo. -->
+										{#if arquitectura.esquemasRima.some((e: PublicRhymeScheme) => /[a-z]/.test(e.notacion ?? '') && /[A-Z]/.test(e.notacion ?? ''))}
+											<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+												En la notación, las mayúsculas marcan los versos de arte mayor y las
+												minúsculas los de arte menor: no son clases de rima distintas.
+											</p>
+										{/if}
 										<ul class="mt-1 space-y-1 text-sm">
 										{#each agruparRima(arquitectura.esquemasRima) as grupo (grupo.clave)}
 												{#if grupo.parte}
