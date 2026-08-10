@@ -263,6 +263,21 @@
 																{#if esquema.partes.length > 1}
 																	<p>{esquema.partes.map(describirParte).join(' · ')}</p>
 																{/if}
+																{#if esquema.restricciones.length > 0}
+																	<!-- La norma de un esquema abierto: lo que acota la
+																	     disposición sin fijarla. Va como lista porque
+																	     son condiciones que se cumplen todas. -->
+																	<ul class="ml-4 list-disc space-y-0.5">
+																		{#each esquema.restricciones as restriccion, i (i)}
+																			<li>
+																				{restriccion.texto}
+																				{#if !restriccion.obligatoria}
+																					<span class="opacity-70">(no siempre)</span>
+																				{/if}
+																			</li>
+																		{/each}
+																	</ul>
+																{/if}
 													{#each esquema.partes.filter((p: PublicSchemePart) => p.nota) as parte (`${parte.nombre}:${parte.desde}:${parte.hasta}`)}
 																	<p>{@html renderInlineMarkdown(parte.nota ?? '')}</p>
 																{/each}
