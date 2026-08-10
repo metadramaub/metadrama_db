@@ -437,14 +437,28 @@
 			required: true,
 			options: [
 				{ value: 'numero_clases', label: 'Número de clases de rima' },
-				{ value: 'max_consecutivos', label: 'Máximo de versos consecutivos' },
+				{ value: 'max_consecutivos', label: 'Máximo de versos seguidos con la misma rima' },
+				{ value: 'min_alternancias', label: 'Mínimo de veces que la rima cambia de clase' },
 				{ value: 'prohibe_pareado_final', label: 'Prohíbe pareado final' },
 				{ value: 'versos_sueltos', label: 'Regla de versos sueltos' },
+				{
+					value: 'identidad_entre_repeticiones',
+					label: 'El esquema vuelve idéntico en cada repetición'
+				},
+				{ value: 'regularidad', label: 'Exige regularidad, sin fijar cuál' },
+				{ value: 'excluye_esquema', label: 'No puede coincidir con otro esquema' },
 				{ value: 'otra', label: 'Otra' }
 			]
 		},
 		{ key: 'valor_numero', label: 'Valor numérico', type: 'number' },
 		{ key: 'valor_texto', label: 'Valor textual' },
+		{
+			key: 'esquema_referido_id',
+			label: 'Esquema al que se refiere',
+			type: 'select',
+			options: rhymePatternOptions,
+			help: 'Solo para «no puede coincidir con otro esquema».'
+		},
 		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
 		{ key: 'obligatoria', label: 'Obligatoria', type: 'checkbox' }
 	]);

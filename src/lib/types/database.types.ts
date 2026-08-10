@@ -1694,6 +1694,7 @@ export type Database = {
         Row: {
           created_at: string
           descripcion: string | null
+          esquema_referido_id: string | null
           esquema_rima_id: string
           obligatoria: boolean
           restriccion_id: string
@@ -1705,6 +1706,7 @@ export type Database = {
         Insert: {
           created_at?: string
           descripcion?: string | null
+          esquema_referido_id?: string | null
           esquema_rima_id: string
           obligatoria?: boolean
           restriccion_id?: string
@@ -1716,6 +1718,7 @@ export type Database = {
         Update: {
           created_at?: string
           descripcion?: string | null
+          esquema_referido_id?: string | null
           esquema_rima_id?: string
           obligatoria?: boolean
           restriccion_id?: string
@@ -1725,6 +1728,13 @@ export type Database = {
           valor_texto?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "esquema_rima_restricciones_esquema_referido_id_fkey"
+            columns: ["esquema_referido_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_rima"
+            referencedColumns: ["esquema_rima_id"]
+          },
           {
             foreignKeyName: "esquema_rima_restricciones_esquema_rima_id_fkey"
             columns: ["esquema_rima_id"]
