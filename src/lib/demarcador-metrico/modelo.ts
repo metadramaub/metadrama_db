@@ -1,4 +1,4 @@
-export type ModalidadEvidencia = 'definitoria' | 'preferente' | 'admitida' | 'excepcional';
+export type ModalidadEvidencia = 'definitoria' | 'habitual' | 'admitida' | 'excepcional';
 export type ObservabilidadEvidencia = 'directa' | 'especializada' | 'derivada';
 export type TipoEvidencia = 'categoria' | 'booleano' | 'numero';
 export type ModoDemarcador = 'guiado' | 'hipotesis';

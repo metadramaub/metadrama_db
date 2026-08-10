@@ -16,7 +16,7 @@ import type {
 
 const PESO_MODALIDAD: Record<ModalidadEvidencia, { coincide: number; contradice: number }> = {
 	definitoria: { coincide: 1, contradice: 1.25 },
-	preferente: { coincide: 0.62, contradice: 0.45 },
+	habitual: { coincide: 0.62, contradice: 0.45 },
 	admitida: { coincide: 0.28, contradice: 0.1 },
 	excepcional: { coincide: 0.12, contradice: 0 }
 };

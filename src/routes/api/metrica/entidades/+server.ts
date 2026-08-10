@@ -220,12 +220,12 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 			'descripcion',
 			'esquema_metrico_id',
 			'esquema_rima_id',
-			'preferente',
+			'modalidad',
 			'estado_revision',
 			'activo',
 			'orden'
 		],
-		booleanFields: ['preferente', 'activo'],
+		booleanFields: ['activo'],
 		numberFields: ['orden']
 	},
 	sections: {

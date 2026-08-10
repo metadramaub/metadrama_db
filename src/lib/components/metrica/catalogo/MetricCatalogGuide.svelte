@@ -22,12 +22,17 @@
 		}
 	];
 
+	/**
+	 * La escala de la modalidad, tal como la aceptan las cinco tablas que la usan. Hasta el 10
+	 * de agosto de 2026 esta guía y el propio gestor ofrecían otra —«Fijo, Preferente, Admitido,
+	 * Libre, No aplicable»— que la base nunca aceptó: cuatro de sus cinco valores fallaban al
+	 * guardar.
+	 */
 	const rigidityRows = [
-		{ value: 'Fijo', meaning: 'La arquitectura exige ese esquema.' },
-		{ value: 'Preferente', meaning: 'Es el esquema prototípico, pero existen alternativas normales.' },
-		{ value: 'Admitido', meaning: 'Es una posibilidad documentada, no la norma dominante.' },
-		{ value: 'Libre', meaning: 'La forma exige rima, pero no una distribución fija de sus clases.' },
-		{ value: 'No aplicable', meaning: 'La arquitectura no se caracteriza mediante un esquema de rima.' }
+		{ value: 'Definitoria', meaning: 'Sin esta disposición la arquitectura sería otra.' },
+		{ value: 'Habitual', meaning: 'Las fuentes la dan como la corriente.' },
+		{ value: 'Admitida', meaning: 'Las fuentes la documentan sin destacarla.' },
+		{ value: 'Excepcional', meaning: 'Las fuentes la documentan advirtiendo que es rara.' }
 	];
 
 	const fieldGroups = [
@@ -56,7 +61,7 @@
 				['Cuándo se usan', 'Cuando existen varios esquemas métricos y de rima, pero no todas sus parejas están admitidas.'],
 				['Qué enlazan', 'Una combinación apunta a un esquema métrico y a un esquema de rima de la misma arquitectura.'],
 				['Qué no crean', 'No son formas ni arquitecturas nuevas; son tipologías elegibles de una misma norma.'],
-				['Preferente', 'Marca la combinación prototípica cuando el proyecto reconoce una como habitual.']
+				['Fijeza', 'Gradúa cada tipología con la misma escala que el resto del catálogo, porque las fuentes no las tratan por igual: de las siete del sexteto-lira dan una por regular y citan otras tres.']
 			]
 		},
 		{

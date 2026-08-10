@@ -319,13 +319,12 @@
 			type: 'select',
 			required: true,
 			options: [
-				{ value: 'fijo', label: 'Fijo' },
-				{ value: 'preferente', label: 'Preferente' },
-				{ value: 'admitido', label: 'Admitido' },
-				{ value: 'libre', label: 'Libre' },
-				{ value: 'no_aplica', label: 'No aplicable' }
+				{ value: 'definitoria', label: 'Definitoria' },
+				{ value: 'habitual', label: 'Habitual' },
+				{ value: 'admitida', label: 'Admitida' },
+				{ value: 'excepcional', label: 'Excepcional' }
 			],
-			help: 'Indica cuánto obliga este esquema dentro de la arquitectura.'
+			help: 'Cuánto ha fijado la tradición esta disposición, según la bibliografía declarada: definitoria si sin ella la arquitectura sería otra, habitual si las fuentes la dan por corriente, admitida si la documentan sin destacarla, excepcional si advierten que es rara.'
 		},
 		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
 		{ key: 'estado_revision', label: 'Estado', type: 'select', options: reviewOptions, required: true }
@@ -375,7 +374,19 @@
 			options: rhymePatternOptions,
 			required: true
 		},
-		{ key: 'preferente', label: 'Tipología preferente', type: 'checkbox' },
+		{
+			key: 'modalidad',
+			label: 'Fijeza',
+			type: 'select',
+			required: true,
+			options: [
+				{ value: 'definitoria', label: 'Definitoria' },
+				{ value: 'habitual', label: 'Habitual' },
+				{ value: 'admitida', label: 'Admitida' },
+				{ value: 'excepcional', label: 'Excepcional' }
+			],
+			help: 'Las tipologías de una arquitectura no son todas iguales: de las siete del sexteto-lira, las fuentes dan una por regular y citan otras tres.'
+		},
 		{ key: 'orden', label: 'Orden', type: 'number' },
 		{
 			key: 'estado_revision',
@@ -843,7 +854,7 @@
 				fields={patternCombinationFields}
 				defaults={{
 					arquitectura_id: props.configurationId,
-					preferente: false,
+					modalidad: 'admitida',
 					estado_revision: 'borrador',
 					activo: true,
 					orden: 1
