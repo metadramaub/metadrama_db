@@ -11,8 +11,8 @@ const payload = {
 		{ arquitectura_id: 'soneto-11', forma_id: 'soneto', slug: 'canonica', nombre: 'Canónica', descripcion: null, principal: true, tipo_rima_id: 'consonante', unidad_versos_min: 14, unidad_versos_max: 14 }
 	],
 	metricPatterns: [
-		{ esquema_metrico_id: 'metro-romance', arquitectura_id: 'romance-8', ambito: 'unidad' },
-		{ esquema_metrico_id: 'metro-soneto', arquitectura_id: 'soneto-11', ambito: 'unidad' }
+		{ esquema_metrico_id: 'metro-romance', arquitectura_id: 'romance-8', seccion_id: null },
+		{ esquema_metrico_id: 'metro-soneto', arquitectura_id: 'soneto-11', seccion_id: null }
 	],
 	metricPositions: [
 		{ esquema_metrico_id: 'metro-romance', metro_id: 'm8', posicion: 1 },
@@ -24,8 +24,8 @@ const payload = {
 		{ metro_id: 'm11', slug: 'endecasilabo', nombre: 'Endecasílabo', silabas: 11 }
 	],
 	rhymePatterns: [
-		{ esquema_rima_id: 'rima-romance', arquitectura_id: 'romance-8', slug: 'pares', nombre: 'Pares', notacion: '-a-a…', tipo_rima_id: 'asonante', tipo_secuencia: 'ciclo', ambito: 'unidad', modalidad: 'definitoria' },
-		{ esquema_rima_id: 'rima-tercetos', arquitectura_id: 'soneto-11', slug: 'tercetos', nombre: 'Tercetos', notacion: 'CDECDE', tipo_rima_id: 'consonante', tipo_secuencia: 'secuencia', ambito: 'seccion', modalidad: 'admitida' }
+		{ esquema_rima_id: 'rima-romance', arquitectura_id: 'romance-8', slug: 'pares', nombre: 'Pares', notacion: '-a-a…', tipo_rima_id: 'asonante', tipo_secuencia: 'ciclo', seccion_id: null, modalidad: 'definitoria' },
+		{ esquema_rima_id: 'rima-tercetos', arquitectura_id: 'soneto-11', slug: 'tercetos', nombre: 'Tercetos', notacion: 'CDECDE', tipo_rima_id: 'consonante', tipo_secuencia: 'secuencia', seccion_id: 'seccion-tercetos', modalidad: 'admitida' }
 	],
 	rhymePositions: [],
 	sections: [

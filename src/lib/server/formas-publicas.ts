@@ -271,17 +271,19 @@ export async function loadPublicForm(
 		);
 		const yaPuestos = new Set(deSecciones.map((e) => e.id));
 
-		// Los que cuelgan de la arquitectura pero se declaran de ámbito «sección» pertenecen a
-		// una parte aunque su grupo no esté atado a ella. Se les asigna la única sección que
-		// aún no tiene rima; si hay más de una candidata, no se adivina y quedan sin parte.
-		const sinRima = misSecciones.filter(
-			(s) => rimaDeSeccion(s.seccion_id, String(s.nombre)).length === 0
+		// Los que cuelgan de la arquitectura pero señalan una sección pertenecen a esa parte,
+		// aunque su grupo de elección no esté atado a ella: es el caso de los tercetos del soneto,
+		// cuyo esquema entrelaza los dos y no cabe en una sección de tres versos.
+		const nombreDeSeccion = new Map(
+			misSecciones.map((s) => [String(s.seccion_id), String(s.nombre)])
 		);
-		const huerfana = sinRima.length === 1 ? String(sinRima[0].nombre) : null;
 
 		const deLaUnidad = rimaDe(arquitecturaId)
 			.filter((e) => !yaPuestos.has(e.id))
-			.map((e) => (e.ambito === 'seccion' && huerfana ? { ...e, deLaSeccion: huerfana } : e));
+			.map((e) => {
+				const parte = e.seccionId ? nombreDeSeccion.get(e.seccionId) : undefined;
+				return parte ? { ...e, deLaSeccion: parte } : e;
+			});
 
 		const conParte = deLaUnidad.filter((e) => e.deLaSeccion);
 		const sinParte = deLaUnidad.filter((e) => !e.deLaSeccion);
@@ -348,7 +350,7 @@ export async function loadPublicForm(
 			partes: partesDe(String(e.esquema_rima_id)),
 			restricciones: restriccionesDe(String(e.esquema_rima_id)),
 			deLaSeccion: null,
-			ambito: texto(e.ambito)
+			seccionId: e.seccion_id ? String(e.seccion_id) : null
 		};
 	};
 
@@ -489,9 +491,8 @@ export async function loadPublicForm(
 				//
 				// Los tercetos llegan por otro camino que los cuartetos. Su grupo de elección no
 				// está atado a la sección —su esquema entrelaza los dos tercetos y no cabe en una
-				// sección de tres versos—, así que cuelgan de la arquitectura. Pero se declaran
-				// de `ambito = 'seccion'`, y esa es la pista para ponerlos bajo su parte en vez
-				// de dejarlos sueltos.
+				// sección de tres versos—, así que cuelgan de la arquitectura. Pero señalan su
+				// sección, y eso los coloca bajo su parte en vez de dejarlos sueltos.
 				esquemasRima: rimaAgrupadaPorParte(id),
 				// El árbol conserva contenedores y ordena cada grupo de hermanos por separado.
 				secciones: seccionesDe(id),

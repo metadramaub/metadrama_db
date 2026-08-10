@@ -1737,7 +1737,6 @@ export type Database = {
       }
       esquemas_metricos: {
         Row: {
-          ambito: string
           arquitectura_id: string
           created_at: string
           descripcion: string | null
@@ -1745,12 +1744,12 @@ export type Database = {
           estado_revision: string
           medida_uniforme: boolean | null
           nombre: string | null
+          seccion_id: string | null
           slug: string
           tipo_secuencia: string
           updated_at: string
         }
         Insert: {
-          ambito?: string
           arquitectura_id: string
           created_at?: string
           descripcion?: string | null
@@ -1758,12 +1757,12 @@ export type Database = {
           estado_revision?: string
           medida_uniforme?: boolean | null
           nombre?: string | null
+          seccion_id?: string | null
           slug: string
           tipo_secuencia: string
           updated_at?: string
         }
         Update: {
-          ambito?: string
           arquitectura_id?: string
           created_at?: string
           descripcion?: string | null
@@ -1771,6 +1770,7 @@ export type Database = {
           estado_revision?: string
           medida_uniforme?: boolean | null
           nombre?: string | null
+          seccion_id?: string | null
           slug?: string
           tipo_secuencia?: string
           updated_at?: string
@@ -1790,11 +1790,17 @@ export type Database = {
             referencedRelation: "arquitecturas_reglas_longitud"
             referencedColumns: ["arquitectura_id"]
           },
+          {
+            foreignKeyName: "esquemas_metricos_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
         ]
       }
       esquemas_rima: {
         Row: {
-          ambito: string
           arquitectura_id: string
           created_at: string
           descripcion: string | null
@@ -1811,7 +1817,6 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          ambito?: string
           arquitectura_id: string
           created_at?: string
           descripcion?: string | null
@@ -1828,7 +1833,6 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          ambito?: string
           arquitectura_id?: string
           created_at?: string
           descripcion?: string | null
@@ -3064,7 +3068,6 @@ export type Database = {
       }
       repeticiones_metricas: {
         Row: {
-          ambito: string
           arquitectura_id: string
           created_at: string
           descripcion: string | null
@@ -3079,7 +3082,6 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          ambito?: string
           arquitectura_id: string
           created_at?: string
           descripcion?: string | null
@@ -3094,7 +3096,6 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          ambito?: string
           arquitectura_id?: string
           created_at?: string
           descripcion?: string | null

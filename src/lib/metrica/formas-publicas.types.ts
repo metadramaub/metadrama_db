@@ -82,7 +82,8 @@ export type PublicRhymeScheme = PublicScheme & {
 	 */
 	deLaSeccion: string | null;
 	/** `unidad` o `seccion`: si describe la forma entera o solo una de sus partes. */
-	ambito: string | null;
+	/** La parte de la que es el esquema. Nulo cuando es de la unidad entera. */
+	seccionId: string | null;
 	/**
 	 * Nombres que la tradición da a esta disposición y no a la forma entera: «cuarteta» es la
 	 * redondilla cruzada, no la redondilla.

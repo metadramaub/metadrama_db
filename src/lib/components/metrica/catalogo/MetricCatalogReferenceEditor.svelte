@@ -68,7 +68,7 @@
 	const metricPatternOptions = $derived(
 		props.domain.metricPatterns.map((row: MetricCatalogDomainRow) => ({
 			value: String(row.notacion_metrico_id),
-			label: String(row.nombre || `${row.tipo_secuencia} · ${row.ambito}`)
+			label: String(row.nombre || row.tipo_secuencia)
 		}))
 	);
 	const rhymePatternOptions = $derived(

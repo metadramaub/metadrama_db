@@ -188,7 +188,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 	const metreById = new Map(((metresResponse.data ?? []) as Row[]).map((item) => [item.metro_id, item]));
 	const patternArchitecture = new Map(
 		((metricPatternsResponse.data ?? []) as Row[])
-			.filter((pattern) => pattern.ambito === 'unidad')
+			.filter((pattern) => !pattern.seccion_id)
 			.map((pattern) => [pattern.esquema_metrico_id, pattern.arquitectura_id])
 	);
 	const metresByArchitecture = new Map<string, Row[]>();
@@ -226,7 +226,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 	}
 	const rhymePatternsByArchitecture = new Map<string, Row[]>();
 	for (const pattern of (rhymePatternsResponse.data ?? []) as Row[]) {
-		if (pattern.ambito !== 'unidad') continue;
+		if (pattern.seccion_id) continue;
 		rhymePatternsByArchitecture.set(pattern.arquitectura_id, [
 			...(rhymePatternsByArchitecture.get(pattern.arquitectura_id) ?? []), pattern
 		]);
@@ -467,7 +467,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		const visualMetricSchemes = ((metricPatternsResponse.data ?? []) as Row[])
 			.filter(
 				(pattern) =>
-					pattern.arquitectura_id === architecture.arquitectura_id && pattern.ambito === 'unidad'
+					pattern.arquitectura_id === architecture.arquitectura_id && !pattern.seccion_id
 			)
 			.map((pattern) => {
 				const positions = [...(metricPositionsByPattern.get(pattern.esquema_metrico_id) ?? [])]
