@@ -206,9 +206,13 @@ hacerlas antes obliga a hacerlas dos veces.
    una decisión del IP que puede retirarlo: Navarro Tomás y el Diccionario llaman endecha real a la
    que no rima, y Jauralde dice que el nombre llegó cuando recibió rimas. Ver
    [Endecha real](./revisiones-formas/cuestiones-para-el-ip.md#endecha-real) 4.*
-5. **`tipo` y `ambito` de las repeticiones están perfectamente correlacionados**: `estribillo` con
-   sección y `palabra_final` con unidad, sin excepción en las once filas. Con dos clases puede ser
-   casualidad; conviene mirarlo cuando haya una tercera.
+5. ~~**`tipo` y `ambito` de las repeticiones están perfectamente correlacionados.**~~ **Cerrado el
+   10 de agosto, y el hueco era mayor.** Al mirarlo salió que `ambito` no era una columna de las
+   repeticiones sino **el antepasado grueso de `seccion_id`**: nació con cinco valores, se estrechó
+   a dos y quedó respondiendo «¿de una sección?» donde `seccion_id` responde «¿de cuál?». Donde
+   convivían se contradecían, y la ficha pública tenía que **adivinar** la parte. Se dio su sección
+   a los seis esquemas del villancico y a los cuatro métricos —`esquemas_metricos` ganó la columna—,
+   y `ambito` se retiró de las tres tablas: ahora se deriva.
 6. ~~**Seis columnas no distinguen nada.**~~ **Rehecho el inventario en vivo el 10 de agosto: no
    eran seis del mismo problema, sino tres grupos.** Se retiraron las cuatro que duplicaban una
    distinción ya codificada —`seleccionable` decía lo que dice `tipo_registro`, y `obligatorio`,

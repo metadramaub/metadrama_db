@@ -174,6 +174,16 @@ declare por su cuenta.
 forma. Y `arquitectura_rasgos` usa solo `definitoria` y `admitida`, que es lo único que tiene
 sentido ahí —un rasgo caracteriza la arquitectura o solo se admite en ella—.*
 
+## De qué parte habla cada cosa
+
+Un esquema métrico o de rima puede describir la unidad entera o solo una de sus partes, y lo dice
+**señalando la sección**: `seccion_id`. Nulo significa que habla de la unidad. No hay un valor
+aparte que lo declare, porque decir «hablo de una parte» sin decir de cuál no sirve a nadie —ni a
+la ficha, que tendría que adivinarla, ni al editor, ni al registro de una secuencia observada—.
+
+Las repeticiones no lo necesitan: su `tipo` ya dice de qué hablan, porque un estribillo y una
+sección son secciones, y una palabra final es una palabra.
+
 ## Un esquema abierto junto a otros concretos
 
 Una arquitectura puede declarar un esquema abierto **y además** esquemas concretos, y eso significa

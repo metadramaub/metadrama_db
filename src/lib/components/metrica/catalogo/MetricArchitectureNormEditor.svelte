@@ -29,24 +29,6 @@
 		value: state,
 		label: metricReviewStateLabel(state)
 	}));
-	const scopeOptions: MetricEntityOption[] = [
-		{ value: 'estrofa', label: 'Estrofa' },
-		{ value: 'serie', label: 'Serie' },
-		{ value: 'seccion', label: 'Sección' },
-		{ value: 'composicion', label: 'Composición' },
-		{
-			value: 'unidad',
-			label: 'Unidad genérica — valor importado que debe revisarse',
-			disabled: true
-		}
-	];
-	const defaultScope = $derived(
-		props.formLevel === 'estrofa'
-			? 'estrofa'
-			: props.formLevel === 'serie'
-				? 'serie'
-				: 'composicion'
-	);
 	const metricPatterns = $derived(
 		props.domain.metricPatterns.filter(
 			(row: MetricCatalogDomainRow) => row.arquitectura_id === props.configurationId
@@ -206,7 +188,8 @@
 		}))
 	);
 
-	const metricPatternFields: MetricEntityField[] = [
+	// Derivado porque la lista de secciones cambia al editarlas, y el campo debe seguirla.
+	const metricPatternFields = $derived<MetricEntityField[]>([
 		{ key: 'arquitectura_id', label: 'Arquitectura', type: 'hidden' },
 		{
 			key: 'slug',
@@ -223,12 +206,11 @@
 		},
 		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
 		{
-			key: 'ambito',
-			label: 'Ámbito de aplicación',
+			key: 'seccion_id',
+			label: 'Parte de la que habla',
 			type: 'select',
-			options: scopeOptions,
-			required: true,
-			help: 'Dónde se completa o reinicia el esquema. «Unidad genérica» es un valor provisional que debe sustituirse.'
+			options: sectionOptions,
+			help: 'Déjalo vacío si el esquema es de la unidad entera. La ficha lo usa para colocarlo bajo su parte.'
 		},
 		{
 			key: 'tipo_secuencia',
@@ -242,7 +224,7 @@
 			]
 		},
 		{ key: 'estado_revision', label: 'Estado', type: 'select', options: reviewOptions, required: true }
-	];
+	]);
 	const metricPositionFields = $derived<MetricEntityField[]>([
 		{
 			key: 'esquema_metrico_id',
@@ -287,12 +269,11 @@
 		{ key: 'notacion', label: 'Notación', placeholder: 'ABBAACCDDC' },
 		{ key: 'tipo_rima_id', label: 'Tipo de rima', type: 'select', options: rhymeTypeOptions },
 		{
-			key: 'ambito',
-			label: 'Ámbito de aplicación',
+			key: 'seccion_id',
+			label: 'Parte de la que habla',
 			type: 'select',
-			options: scopeOptions,
-			required: true,
-			help: 'Dónde se completa o reinicia la distribución de rimas.'
+			options: sectionOptions,
+			help: 'Déjalo vacío si el esquema es de la unidad entera. La ficha lo usa para colocarlo bajo su parte.'
 		},
 		{
 			key: 'tipo_secuencia',
@@ -506,14 +487,6 @@
 			]
 		},
 		{
-			key: 'ambito',
-			label: 'Ámbito de aplicación',
-			type: 'select',
-			options: scopeOptions,
-			required: true,
-			help: 'Dónde opera la regla de repetición.'
-		},
-		{
 			key: 'modalidad',
 			label: 'Fijeza',
 			type: 'select',
@@ -683,7 +656,7 @@
 				rows={metricPatterns}
 				keyFields={['esquema_metrico_id']}
 				fields={metricPatternFields}
-				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, tipo_secuencia: 'secuencia', estado_revision: 'borrador' }}
+				defaults={{ arquitectura_id: props.configurationId, tipo_secuencia: 'secuencia', estado_revision: 'borrador' }}
 				compact
 			>
 				{#snippet rowContent(pattern)}
@@ -763,7 +736,7 @@
 				fields={rhymePatternFields}
 				labelFields={['nombre', 'notacion']}
 				emptyMessage="Esta arquitectura todavía no tiene alternativas de rima."
-				defaults={{ arquitectura_id: props.configurationId, ambito: defaultScope, tipo_secuencia: 'secuencia', modalidad: 'admitida', estado_revision: 'borrador' }}
+				defaults={{ arquitectura_id: props.configurationId, tipo_secuencia: 'secuencia', modalidad: 'admitida', estado_revision: 'borrador' }}
 				compact
 			>
 				{#snippet rowContent(pattern)}
@@ -877,7 +850,7 @@
 				defaults={{ arquitectura_id: props.configurationId, orden: 1 }} compact />
 			<MetricEntityCollection resource="repetitionPatterns" title="Repeticiones" rows={repetitionPatterns}
 				keyFields={['repeticion_id']} fields={repetitionFields}
-				defaults={{ arquitectura_id: props.configurationId, tipo: 'otro', ambito: defaultScope, modalidad: 'admitida', estado_revision: 'borrador' }} compact>
+				defaults={{ arquitectura_id: props.configurationId, tipo: 'otro', modalidad: 'admitida', estado_revision: 'borrador' }} compact>
 				{#snippet rowContent(pattern)}
 					{@const patternId = String(pattern.repeticion_id)}
 					{@const positions = rowsForRepetitionPattern(props.domain.repetitionPositions, patternId)}

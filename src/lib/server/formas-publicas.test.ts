@@ -137,7 +137,7 @@ describe('catálogo público de formas', () => {
 						nombre: 'Mudanza en redondilla',
 						notacion: 'abba',
 						descripcion: null,
-						ambito: 'seccion'
+						seccion_id: 'mudanza-inicial'
 					}
 				],
 				secciones: [
@@ -223,7 +223,7 @@ describe('catálogo público de formas', () => {
 						nombre: 'Disposición variable',
 						notacion: null,
 						descripcion: null,
-						ambito: 'unidad'
+						seccion_id: null
 					},
 					{
 						esquema_rima_id: 'rima-manriquena',
@@ -231,7 +231,7 @@ describe('catálogo público de formas', () => {
 						nombre: 'Manriqueña',
 						notacion: 'abcabc|defdef',
 						descripcion: null,
-						ambito: 'unidad'
+						seccion_id: null
 					}
 				],
 				restriccionesRima: [
@@ -295,7 +295,7 @@ describe('catálogo público de formas', () => {
 						nombre: null,
 						notacion: 'ABABCC',
 						descripcion: null,
-						ambito: 'unidad'
+						seccion_id: null
 					}
 				],
 				denominaciones: [
@@ -329,7 +329,7 @@ describe('catálogo público de formas', () => {
 						nombre: 'Cruzada',
 						notacion: 'abab',
 						descripcion: null,
-						ambito: 'unidad'
+						seccion_id: null
 					}
 				],
 				denominaciones: [
