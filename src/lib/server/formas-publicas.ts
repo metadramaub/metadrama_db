@@ -217,6 +217,7 @@ export async function loadPublicForm(
 				// las tres de la silva decían lo mismo con tres redacciones distintas.
 				versos_sueltos:
 					{
+						ninguno: 'Ningún verso queda suelto',
 						todos: 'Todos los versos quedan sueltos',
 						predominantes: 'Predominan los versos sueltos sobre los rimados',
 						admitidos: 'Admite versos sueltos intercalados'

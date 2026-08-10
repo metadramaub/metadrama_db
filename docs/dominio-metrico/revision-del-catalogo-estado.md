@@ -126,9 +126,9 @@ tramos sin forma, que se revisaron aparte porque no tienen norma que contrastar.
 
 ### Lo que queda, y ya no es forma por forma
 
-No queda ninguna forma por revisar. Lo abierto son las **lecturas transversales** de
-[defectos aplazados](#defectos-del-modelo-aplazados), que se hacen sobre el catálogo entero.
-Eran seis; a 10 de agosto de 2026 quedan tres:
+No queda ninguna forma por revisar, y **las seis lecturas transversales están hechas** a 10 de
+agosto de 2026. Se hicieron sobre el catálogo entero, no forma por forma, y son las de
+[defectos aplazados](#defectos-del-modelo-aplazados):
 
 | Lectura | Estado |
 | --- | --- |
@@ -137,7 +137,13 @@ Eran seis; a 10 de agosto de 2026 quedan tres:
 | La reutilización de secciones | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
 | La modalidad y la primacía | Hecha el 10 de agosto |
 | Las reglas de repetición | Hecha el 10 de agosto: `regla` se retiró |
-| **El modelo de esquemas abiertos** | Abierta |
+| El modelo de esquemas abiertos | Hecha el 10 de agosto |
+
+Lo que queda abierto ya no es una lectura sino trabajo suelto: **los rasgos que miden dos
+magnitudes** —`versos_sueltos` y `organizacion_en_pareados` gradúan «cuánto» sin decir «cuánto de
+qué»—, **el maquetado del editor V2**, que se dejó deliberadamente para después de las
+transversales porque el formulario se deriva del modelo, y **simplificar el gestor del catálogo**
+para que lo estructural pase por migración.
 
 Las dudas filológicas que siguen abiertas están en
 [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md), y muchas se responden
@@ -265,13 +271,41 @@ No estaba previsto, pero recorrer el catálogo destapó cosas del modelo. Todas 
 
 ### Defectos del modelo aplazados
 
-**Los esquemas abiertos necesitan una representación paramétrica general.** Las formas muy
-estructuradas declaran medidas y rimas por posición; las más libres acaban repartiendo su
-norma entre conjuntos permitidos, prosa y preguntas editoriales declaradas a mano. Cuando
-termine la revisión filológica de las 27 formas, hay que comparar juntas todas estas formas
-difíciles y diseñar restricciones computables —sin enumerar cada realización posible y sin
-debilitar el modelo posicional de las formas fijas—. No se resolverá este problema adaptando
-el modelo por separado a cada forma durante la revisión.
+~~**Los esquemas abiertos necesitan una representación paramétrica general.**~~ **Hecha el 10 de
+agosto de 2026**, y no hizo falta diseñar el modelo: **ya existía y estaba sin usar**.
+`esquema_rima_restricciones` admitía cinco tipos y el dato usaba uno, `versos_sueltos`, en cinco
+filas. Lo que se hizo fue:
+
+- **Fundir `abierta` y `restricciones`**, que no eran dos formas de disposición sino la ausencia
+  de una. La silva estaba declarada de las dos maneras en dos arquitecturas, con la misma
+  restricción: era el caso frontera y no había modo de saber cuál poner. Lo abierto pasa a ser
+  comprobable —equivale a no declarar ni una posición— y dos guardas lo exigen.
+- **Añadir los cuatro tipos que faltaban** para que la norma que vivía en la prosa fuera dato:
+  `identidad_entre_repeticiones`, `regularidad`, `excluye_esquema` y `min_alternancias`. De las
+  seis descripciones que parecían llevar norma **solo dos la llevaban**; las otras cuatro decían
+  «la rima es consonante sin disposición fija», que ya declaran `tipo_rima_id` y `abierta`.
+- **Enseñarlas en la ficha pública**, que no las mostraba en absoluto. Sin eso no se podía podar
+  la prosa que duplican, porque la norma habría desaparecido de la página.
+- **Ir a la bibliografía por los que no declaraban nada.** De cinco, tres estaban mudos con razón;
+  la sextilla hexasílaba no, y lo que Navarro Tomás le documenta quedó registrado como afirmación
+  de fuente y planteado en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#sextilla).
+
+**Y la quintilla cerró la lectura demostrando para qué sirve todo esto.** Su criterio —«que no
+quede un verso sin rima»— vivía fuera del catálogo, y al formalizarlo se vio que **estaba
+incompleto**: genera diez disposiciones y el catálogo declara ocho. Las dos que sobraban, `aaabb`
+y `aabbb`, son las únicas en que cada clase ocupa un bloque seguido, de modo que la estrofa se
+parte en un terceto y un pareado sin entrelazarse. Faltaba la cláusula **la rima cambia de clase
+al menos dos veces**, y con ella el criterio genera exactamente las ocho.
+
+El criterio se declara como el **esquema abierto** de la arquitectura, con sus tres restricciones,
+y las ocho concretas quedan como sus realizaciones documentadas: es la fila «abierto más
+concreto» de las reglas que el catálogo ya tenía escritas. Como ningún esquema abierto se ofrece
+como opción, el editor sigue viendo las mismas ocho. *Se descartó hacer que una restricción
+pudiera colgar de una arquitectura además de un esquema —sería más fiel en general, porque las de
+la silva también son norma de su arquitectura— por no abrir una columna nueva por un caso.*
+
+Lo que se gana es la guarda: **las ocho se contrastan contra el criterio en cada migración**.
+Hasta ahora la enumeración y el criterio no podían contradecirse porque el criterio no era dato.
 
 **La Novena general y la copla novena deben separarse al resolver ese modelo abierto.**
 Caparrós y el *Diccionario* llaman novena a cualquier estrofa de nueve versos y niegan que
