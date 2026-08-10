@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
-	import { controlDeRespuestaUnica } from '$lib/metrica/controles-formulario';
+	import { controlDePregunta } from '$lib/metrica/controles-formulario';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 	const props = $props<{
@@ -59,15 +59,12 @@
 	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
 
 	/** Un rasgo con un solo valor no es una elección entre alternativas: está o no está. */
+	const control = $derived(controlDePregunta(visibleOptions.length, minimum));
 	const showAsCheckbox = $derived(
-		!isRhymeScheme && !positional && maximum === 1 && optional && visibleOptions.length === 1
+		!isRhymeScheme && !positional && maximum === 1 && optional && control === 'casilla'
 	);
 	const showAsList = $derived(
-		!isRhymeScheme &&
-			!positional &&
-			!showAsCheckbox &&
-			maximum === 1 &&
-			controlDeRespuestaUnica(visibleOptions.length) === 'lista'
+		!isRhymeScheme && !positional && !showAsCheckbox && maximum === 1 && control === 'lista'
 	);
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;

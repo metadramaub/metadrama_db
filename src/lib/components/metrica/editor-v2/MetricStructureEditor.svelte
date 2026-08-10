@@ -3,7 +3,7 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
-	import { controlDeRespuestaUnica } from '$lib/metrica/controles-formulario';
+	import { controlDePregunta } from '$lib/metrica/controles-formulario';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 	import {
@@ -162,6 +162,11 @@
 	 * el de las siguientes por separado. Para el editor es una sola pregunta, así que se
 	 * agrupan por dimensión y enunciado y se responden juntas. Cada grupo guarda lo suyo.
 	 */
+	/** Lo que la familia exige responder. Sus grupos formulan la misma pregunta en cada unidad. */
+	function familyMinimum(family: MetricQuestionFamily): number {
+		return Number(family.groups[0]?.selecciones_min ?? 0);
+	}
+
 	function familyKeyOf(group: MetricCatalogDomainRow): string {
 		return `${String(group.dimension)}|${String(group.nombre)}`;
 	}
@@ -1319,6 +1324,15 @@
 {/snippet}
 
 <div class="space-y-4">
+	<!-- Veintiuna de las treinta y siete arquitecturas del catálogo no preguntan nada: la forma
+	     queda registrada al elegirla. Es el caso más frecuente y hasta ahora se veía como un
+	     hueco, que se lee como «falta algo» en vez de como «ya está». -->
+	{#if props.groups.length === 0}
+		<p class="border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
+			Esta forma no necesita ninguna respuesta: su arquitectura la fija entera.
+		</p>
+	{/if}
+
 	{#if props.globalQuestions || foldableFamilies.length > 0 || uniformOptionalSections.length > 0}
 		<div class="space-y-3 border-b border-[color:var(--border)] pb-4">
 			<p class="form-section-title mb-0">Así es toda la composición</p>
@@ -1329,6 +1343,7 @@
 				{@const state = familyState(family)}
 				{@const familyFolded = isFamilyFolded(family)}
 				{@const options = familyOptions(family)}
+				{@const control = controlDePregunta(options.length, familyMinimum(family))}
 				<div class="form-field">
 					<span class="form-label">
 						<span class="form-label-with-help">
@@ -1342,7 +1357,18 @@
 						</span>
 					</span>
 					<div class="flex flex-wrap items-center gap-3">
-						{#if controlDeRespuestaUnica(options.length) === 'lista'}
+						{#if control === 'casilla'}
+							{@const unico = String(options[0]?.slug ?? '')}
+							<label class="flex cursor-pointer items-center gap-2 text-sm">
+								<input
+									type="checkbox"
+									checked={state.uniform === unico}
+									onchange={(event) =>
+										setFamilyChoice(family, event.currentTarget.checked ? unico : '')}
+								/>
+								<span>{String(options[0]?.nombre ?? '')}</span>
+							</label>
+						{:else if control === 'lista'}
 							<div class="w-full space-y-1">
 								{#each options as option (String(option.opcion_eleccion_id))}
 									{@const slug = String(option.slug)}
@@ -1372,7 +1398,9 @@
 								{/each}
 							</div>
 							{#if state.uniform === null && state.answered > 0}
-								<span class="text-xs text-[color:var(--muted-foreground)]">Distintas respuestas</span>
+								<span class="text-xs text-[color:var(--muted-foreground)]">
+									Varían entre unidades; cada una conserva la suya
+								</span>
 							{/if}
 						{:else}
 							<select
@@ -1382,7 +1410,7 @@
 							>
 								<option value="">
 									{state.uniform === null && state.answered > 0
-										? 'Distintas respuestas'
+										? 'Varían entre unidades'
 										: 'Seleccionar respuesta'}
 								</option>
 								{#each options as option (String(option.opcion_eleccion_id))}
@@ -1397,8 +1425,8 @@
 								onclick={() => toggleFamilyFold(family)}
 							>
 								{familyFolded
-									? `Responder una por una (${state.units.length})`
-									: 'Ocultar las respuestas una por una'}
+									? `Corregir alguna de las ${state.units.length}`
+									: 'Volver a una sola respuesta'}
 							</button>
 						{/if}
 					</div>
