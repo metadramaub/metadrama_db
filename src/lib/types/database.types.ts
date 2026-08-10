@@ -1803,6 +1803,7 @@ export type Database = {
           nombre: string | null
           notacion: string | null
           origen_termino_id: string | null
+          seccion_id: string | null
           slug: string
           tipo_rima_id: string | null
           tipo_secuencia: string
@@ -1819,6 +1820,7 @@ export type Database = {
           nombre?: string | null
           notacion?: string | null
           origen_termino_id?: string | null
+          seccion_id?: string | null
           slug: string
           tipo_rima_id?: string | null
           tipo_secuencia?: string
@@ -1835,6 +1837,7 @@ export type Database = {
           nombre?: string | null
           notacion?: string | null
           origen_termino_id?: string | null
+          seccion_id?: string | null
           slug?: string
           tipo_rima_id?: string | null
           tipo_secuencia?: string
@@ -1861,6 +1864,13 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "esquemas_rima_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
           },
           {
             foreignKeyName: "esquemas_rima_tipo_rima_id_fkey"

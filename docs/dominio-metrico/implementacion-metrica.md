@@ -241,17 +241,44 @@ flowchart TD
     A --> S1["SECCIÓN · cuarteto ×2"]
     A --> S2["SECCIÓN · terceto ×2<br/>reutiliza la arquitectura del terceto"]
     S1 --> R1["ESQUEMA · ABBA"]
-    A --> R2["ESQUEMAS de los tercetos<br/>CDCDCD · CDECDE · CDEDCE · CDCEDE"]
+    A --> R2["ESQUEMAS de los tercetos<br/>dos bloques de tres<br/>CDC·DCD · CDE·CDE · CDE·DCE · CDC·EDE"]
     R2 --> E["ELECCIÓN por unidad<br/>¿qué esquema de tercetos?"]
 ```
 
 Las repeticiones `×2` son internas a la unidad. Que un pasaje contenga tres sonetos seguidos
 se deriva del rango, y cada uno conserva su elección de tercetos.
 
-El esquema de los tercetos no cuelga de la sección sino de la arquitectura, y es el único
-caso de los arquetipos en que eso ocurre: sus seis posiciones describen cómo se entrelazan
-las rimas de un terceto con las del otro, así que abarca las dos secciones sin pertenecer a
-ninguna. Que una pregunta abarque dos secciones no obliga a fundirlas.
+El esquema de los tercetos cuelga de la arquitectura y no de la sección, y es el único caso de
+los arquetipos en que eso ocurre: describe cómo se entrelazan las rimas de un terceto con las
+del otro, así que habla de las dos realizaciones a la vez. **Sus posiciones van en dos bloques
+de tres**, no en una tirada de seis: el soneto no tiene un pasaje de seis versos seguidos, y
+declararlo así hacía saltar como anomalía el blanco que separa los tercetos. Que una pregunta
+abarque las dos realizaciones de una sección no obliga a fundirlas.
+
+#### La regla de reutilización
+
+Sale de este caso y vale para todo el catálogo.
+
+> **Una sección que remite a otra arquitectura hereda de ella lo que la hace esa forma** —su
+> medida, su extensión, su identidad—. Lo que la arquitectura contenedora declara para esa
+> sección gana sobre lo heredado; lo heredado es el valor por defecto.
+
+Los tercetos del soneto *son* tercetos: de ahí sale que midan once sílabas y tengan tres versos.
+Lo que no heredan es la rima, porque riman entre sí y la forma Terceto pregunta otra cosa —qué
+verso queda suelto—. Para eso no hace falta ninguna pieza nueva: el esquema específico se declara
+en el soneto y se reparte en bloques.
+
+Y hay que distinguir **dónde se responde** de **de qué trata**, que son dos cosas y hasta el 10
+de agosto de 2026 viajaban en una:
+
+| Campo | Qué dice |
+| --- | --- |
+| `grupos_eleccion_metrica.seccion_id` | Dónde se responde: el editor plantea la pregunta **en cada realización** de esa sección |
+| `esquemas_rima.seccion_id` | De qué trata la respuesta, sin decir dónde se pregunta |
+
+Los tercetos necesitan las dos por separado: la respuesta es una sola por soneto —si el grupo
+declarase la sección, el editor preguntaría dos veces— pero habla de los tercetos, y de ahí toma
+su sujeto el enunciado, «Tercetos · Esquema de rima».
 
 ### Composición con estribillo · villancico
 

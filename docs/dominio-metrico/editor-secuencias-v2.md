@@ -84,6 +84,12 @@ dentro, no aparte, porque **el enunciado es además la clave con la que el edito
 preguntas**: las que comparten dimensión y enunciado se responden juntas, y así las dos mudanzas
 del villancico —dos secciones distintas con el mismo nombre— siguen siendo una sola pregunta.
 
+**`seccion_id` dice dónde se responde, no de qué trata.** El editor plantea la pregunta en cada
+realización de esa sección, así que un grupo que la declare se pregunta tantas veces como veces
+aparezca. Cuando la respuesta es una sola pero habla de una sección concreta —los cuatro esquemas
+de tercetos del soneto describen sus dos realizaciones a la vez—, el grupo la deja sin declarar y
+el sujeto lo ponen los esquemas, con `esquemas_rima.seccion_id`.
+
 ### `opciones_eleccion_metrica` — ya no es una tabla
 
 Desde el 9 de agosto de 2026 es una **vista** que calcula las respuestas al leer, desde el
