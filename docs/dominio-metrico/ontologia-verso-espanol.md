@@ -1,6 +1,6 @@
 # Ontología del verso español
 
-Estado: vigente · 1 de agosto de 2026
+Estado: vigente · 10 de agosto de 2026 · con [diagrama](./ontologia-verso-espanol.svg)
 
 Este documento describe **qué es el verso español y de qué está hecho**: sus unidades, sus
 fenómenos y las estructuras en que se combinan. Describe posibilidades, no un corpus.
@@ -15,6 +15,8 @@ METADRAMA implementa de todo esto, y lo que restringe por su corpus, está en
 > construirá con ella un catálogo —de la época, del autor o del género que le interese— y las
 > cifras que obtenga serán comparables con las de otro catálogo construido igual. Esa
 > comparabilidad es el objetivo; todo lo demás son medios.
+
+![Diagrama de la ontología del verso español](./ontologia-verso-espanol.svg)
 
 ## 1 · Qué es una norma métrica
 
