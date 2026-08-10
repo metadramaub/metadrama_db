@@ -3236,7 +3236,6 @@ export type Database = {
           materializa_seccion_id: string | null
           modalidad: string
           nombre: string
-          regla: string
           repeticion_id: string
           slug: string
           tipo: string
@@ -3252,7 +3251,6 @@ export type Database = {
           materializa_seccion_id?: string | null
           modalidad?: string
           nombre: string
-          regla: string
           repeticion_id?: string
           slug: string
           tipo: string
@@ -3268,7 +3266,6 @@ export type Database = {
           materializa_seccion_id?: string | null
           modalidad?: string
           nombre?: string
-          regla?: string
           repeticion_id?: string
           slug?: string
           tipo?: string

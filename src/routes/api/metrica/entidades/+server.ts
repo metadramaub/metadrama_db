@@ -112,10 +112,12 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 			'slug',
 			'nombre',
 			'ambito',
-			'tipo',
+			'tipo_secuencia',
+			'medida_uniforme',
 			'descripcion',
 			'estado_revision'
-		]
+		],
+		booleanFields: ['medida_uniforme']
 	},
 	metricPositions: {
 		table: 'esquema_metrico_posiciones',
@@ -148,8 +150,9 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 			'notacion',
 			'tipo_rima_id',
 			'ambito',
-			'comportamiento',
-			'fijeza',
+			'seccion_id',
+			'tipo_secuencia',
+			'modalidad',
 			'descripcion',
 			'estado_revision'
 		]
@@ -253,10 +256,11 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 		keys: ['repeticion_id'],
 		fields: [
 			'arquitectura_id',
+			'slug',
 			'tipo',
 			'ambito',
-			'regla',
-			'fijeza',
+			'nombre',
+			'modalidad',
 			'descripcion',
 			'estado_revision'
 		]
@@ -299,9 +303,11 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 	},
 	configurationTraits: {
 		table: 'arquitectura_rasgos',
-		keys: ['arquitectura_id', 'rasgo_id', 'modalidad'],
-		fields: ['valor_id', 'valor_numero', 'valor_texto', 'nota'],
-		numberFields: ['valor_numero']
+		// El valor de un rasgo es siempre de vocabulario desde el 9 de agosto de 2026: se
+		// retiraron `valor_numero` y `valor_texto`, y esta lista seguía nombrándolas.
+		keys: ['arquitectura_id', 'rasgo_id', 'modalidad', 'valor_id'],
+		fields: ['valor_id', 'posiciones_max', 'nota'],
+		numberFields: ['posiciones_max']
 	},
 	choiceGroups: {
 		table: 'grupos_eleccion_metrica',

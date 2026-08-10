@@ -68,7 +68,6 @@
 			'nombre',
 			'titulo',
 			'slug',
-			'regla',
 			'notacion',
 			'tipo',
 			'posicion',

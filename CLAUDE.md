@@ -22,6 +22,7 @@ npm run lint           # eslint
 npm run db:push        # aplica migraciones al Supabase enlazado
 npm run db:types       # regenera src/lib/types/database.types.ts
 npm run audit:metrica  # audita el catálogo métrico contra los criterios de nivel
+npm run audit:campos   # comprueba que los campos editables del gestor existen como columna
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
 ```

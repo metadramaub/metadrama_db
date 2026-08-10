@@ -61,7 +61,7 @@
 		})),
 		...props.domain.repetitionPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: `repeticion_id:${row.repeticion_id}`,
-			label: `Repetición · ${String(row.descripcion || row.regla || `Esquema ${index + 1}`)}`
+			label: `Repetición · ${String(row.nombre || row.descripcion || `Esquema ${index + 1}`)}`
 		})),
 		...props.domain.patternCombinations.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: `variedad_id:${row.variedad_id}`,

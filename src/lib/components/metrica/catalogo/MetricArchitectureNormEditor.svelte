@@ -136,7 +136,7 @@
 	const repetitionPatternOptions = $derived(
 		repetitionPatterns.map((row: MetricCatalogDomainRow, index: number) => ({
 			value: String(row.repeticion_id),
-			label: String(row.regla || `Repetición ${index + 1}`)
+			label: String(row.nombre || `Repetición ${index + 1}`)
 		}))
 	);
 	const soleRepetitionPatternId = $derived(
@@ -508,7 +508,6 @@
 			required: true,
 			help: 'Dónde opera la regla de repetición.'
 		},
-		{ key: 'regla', label: 'Regla', type: 'textarea', required: true },
 		{
 			key: 'modalidad',
 			label: 'Fijeza',

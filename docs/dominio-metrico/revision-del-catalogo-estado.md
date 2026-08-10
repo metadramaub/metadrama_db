@@ -136,7 +136,7 @@ Eran seis; a 10 de agosto de 2026 quedan tres:
 | La automatización de las preguntas del editor | Hecha entre el 9 y el 10: se derivan respuestas y enunciados |
 | La reutilización de secciones | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
 | La modalidad y la primacía | Hecha el 10 de agosto |
-| **Las reglas de repetición** | Abierta a medias: el comportamiento ya es dato de la repetición; queda qué dice `regla`, que sigue siendo texto libre |
+| Las reglas de repetición | Hecha el 10 de agosto: `regla` se retiró |
 | **El modelo de esquemas abiertos** | Abierta |
 
 Las dudas filológicas que siguen abiertas están en
@@ -875,15 +875,43 @@ silva libre, que sí rima— y sigue exigiendo separar las dos magnitudes.
 ~~**La modalidad y la primacía necesitan una lectura transversal.**~~ **Hecha el 10 de agosto de
 2026**, y está contada abajo en [su propio apartado](#la-modalidad--lectura-hecha-el-10-de-agosto-de-2026).
 
-**Las reglas de repetición deben ser computables y la prosa debe tener responsabilidades
-separadas.** Hoy `repeticiones_metricas.regla` es texto libre: el editor V2 no lo interpreta,
-sino que calcula la aparición y la extensión mediante `materializa_seccion_id` y
-`extension_desde_seccion_id`; el demarcador solo usa `regla` o `descripcion` para presentar un
-resultado. Al cerrar la revisión hay que decidir si ese comportamiento estructurado pertenece
-a la repetición, cómo se relaciona con las opciones de elección y qué texto público se deriva
-de él. En la misma lectura transversal se precisará la separación entre `definicion`,
-`descripcion`, `nota` y cualquier explicación derivada, sin duplicar un mismo dato en dos
-campos.
+~~**Las reglas de repetición deben ser computables.**~~ **Hecha el 10 de agosto de 2026.**
+Preguntaba tres cosas y dos ya estaban respondidas desde el 9, cuando el comportamiento se mudó
+de la opción a la repetición: `materializa_seccion_id` dice qué sección hace aparecer,
+`extension_desde_seccion_id` de dónde toma su extensión, y las opciones del editor se derivan de
+ella y no al revés.
+
+Quedaba `regla`, y **no era una regla**. De sus once filas, en las ocho represas parafraseaba a
+`descripcion` —«La repetición reproduce íntegramente la primera aparición del estribillo» frente
+a «Represa total: el estribillo vuelve entero, con todos sus versos»— y en dos de las tres
+sextinas repetía en prosa el ciclo `ABCDEF → FAEBDC → …` que ya está como dato en
+`repeticion_posiciones`, con sus 36 y 72 filas. Tampoco la leía nada que calculara: el `regla`
+que enseña el demarcador es el de las reglas de longitud, otra columna.
+
+Lo único suyo eran las **salvedades** de las tres sextinas sobre lo que la fuente *no* fija —«la
+forma no impone una única asociación por parejas»—, que son notas y no reglas. Se conservaron en
+la `descripcion` y la columna se retiró.
+
+*Queda anotado para la revisión de vocabularios que `tipo` y `ambito` están perfectamente
+correlacionados en las once filas —`estribillo`↔sección, `palabra_final`↔unidad—, aunque con dos
+clases puede ser casualidad.*
+
+##### El fallo que destapó, que era el grande
+
+Al quitar `regla` del gestor apareció que el endpoint de entidades declaraba escribibles **siete
+campos que no existen como columna**: `regla` y `fijeza` en las repeticiones, `tipo` en los
+esquemas métricos, `comportamiento` y `fijeza` en los de rima, y `valor_numero` y `valor_texto`
+en los rasgos de arquitectura, retiradas el 9 de agosto.
+
+Y no fallaban al guardar: `normalizeValues` **descarta en silencio** lo que no está en la lista,
+de modo que un nombre mal escrito no da error, hace que ese dato **no se guarde nunca**. Así
+estaba la modalidad de los esquemas de rima, que el gestor dejaba editar y la base no llegaba a
+recibir —y es la columna que esta misma semana se ha estado clasificando—.
+
+Es el mismo modo de fallo que el vocabulario fantasma del gestor y que las funciones SQL rotas:
+nada lo comprueba porque nadie había intentado usarlo. Van tres veces en una semana, así que
+ahora hay un control, `npm run audit:campos`, que contrasta los 22 recursos del gestor contra las
+columnas reales.
 
 **Hay que precisar qué hereda y qué puede restringir una reutilización.** El soneto reutiliza
 el terceto aunque determina la rima de sus dos secciones, mientras el remate de la sextina
