@@ -470,6 +470,76 @@ const DEFECTOS = [
 					detalle: `${grupo.slug} · dimensión ${grupo.dimension} · ${listOf(model.opcionesPorGrupo, grupo.grupo_eleccion_id).length} opciones`
 				}));
 		}
+	},
+	{
+		id: 'D13',
+		titulo: 'Un esquema concreto contradice el criterio de su esquema abierto',
+		criterio:
+			'Cuando una arquitectura declara un esquema abierto con restricciones y además esquemas concretos sobre el mismo tramo, el abierto es la norma y los concretos son sus realizaciones documentadas: tienen que cumplirla. Se exceptúa el concreto que el propio criterio excluye —ahí el abierto no es la norma sino la alternativa que queda—, y los que ocupan otra sección, que no compiten con él sino que completan la estrofa.',
+		detectar(model) {
+			const resumir = (patron) => {
+				const posiciones = listOf(model.posicionesPorPatronRima, patron.esquema_rima_id)
+					.slice()
+					.sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion);
+				if (posiciones.length === 0) return null;
+				const veces = new Map();
+				for (const p of posiciones) veces.set(p.clase_rima, (veces.get(p.clase_rima) ?? 0) + 1);
+				let alternancias = 0;
+				for (let i = 1; i < posiciones.length; i += 1) {
+					if (posiciones[i].clase_rima !== posiciones[i - 1].clase_rima) alternancias += 1;
+				}
+				return {
+					clases: veces.size,
+					alternancias,
+					// Un verso sin rima es una clase que aparece una sola vez, esté marcado o no.
+					sueltos: posiciones.filter((p) => p.suelto).length + [...veces.values()].filter((n) => n === 1).length
+				};
+			};
+
+			const incumple = (restriccion, resumen) => {
+				const numero = Number(restriccion.valor_numero);
+				if (restriccion.tipo === 'numero_clases') return resumen.clases !== numero;
+				if (restriccion.tipo === 'min_alternancias') return resumen.alternancias < numero;
+				if (restriccion.tipo === 'versos_sueltos') {
+					if (restriccion.valor_texto === 'ninguno') return resumen.sueltos > 0;
+					if (restriccion.valor_texto === 'todos') return resumen.sueltos === 0;
+				}
+				// `regularidad` e `identidad_entre_repeticiones` hablan de la serie, no de una
+				// disposición suelta, y no se pueden contrastar contra un esquema concreto.
+				return false;
+			};
+
+			const hallazgos = [];
+			for (const [arquitecturaId, patrones] of model.patronesRimaPorConfiguracion) {
+				const abiertos = patrones.filter((p) => p.tipo_secuencia === 'abierta');
+				for (const abierto of abiertos) {
+					const restricciones = listOf(model.restriccionesPorPatronRima, abierto.esquema_rima_id);
+					if (restricciones.length === 0) continue;
+					const excluidos = new Set(
+						restricciones
+							.filter((r) => r.tipo === 'excluye_esquema' && r.esquema_referido_id)
+							.map((r) => r.esquema_referido_id)
+					);
+					for (const concreto of patrones) {
+						if (concreto.tipo_secuencia === 'abierta') continue;
+						if (excluidos.has(concreto.esquema_rima_id)) continue;
+						// La sección dice de qué tramo habla cada esquema. Si difieren, son partes
+						// complementarias —el cuerpo y el pareado final de la canción— y no se miden
+						// con la misma vara.
+						if ((concreto.seccion_id ?? null) !== (abierto.seccion_id ?? null)) continue;
+						const resumen = resumir(concreto);
+						if (!resumen) continue;
+						const rotas = restricciones.filter((r) => incumple(r, resumen));
+						if (rotas.length === 0) continue;
+						hallazgos.push({
+							sujeto: etiqueta(model, arquitecturaId),
+							detalle: `${concreto.slug} incumple ${rotas.map((r) => r.tipo).join(', ')} de «${abierto.slug}» · ${resumen.clases} clases, ${resumen.alternancias} alternancias, ${resumen.sueltos} sueltos`
+						});
+					}
+				}
+			}
+			return hallazgos;
+		}
 	}
 ];
 

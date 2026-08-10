@@ -191,9 +191,15 @@ hacerlas antes obliga a hacerlas dos veces.
    modalidad**. Falló en un sitio, la endecha real, y se corrigió con las fuentes en la mano. El
    razonamiento entero, en
    [la revisión de vocabularios](../revision-de-vocabularios.md#un-cabo-que-result%C3%B3-no-serlo).
-3. **Una restricción solo puede colgar de un esquema, no de una arquitectura.** Las de la silva y
-   las de la quintilla son norma de su arquitectura; hoy se apoyan en su esquema abierto, que
-   funciona pero no es lo que son. Se descartó abrir la columna por un caso.
+3. ~~**Una restricción solo puede colgar de un esquema, no de una arquitectura.**~~ **Cerrado el
+   10 de agosto, y en contra de lo que decía este punto.** Con las once delante, **dos serían
+   falsas a nivel de arquitectura** —la exclusión de la sextilla se excluiría a sí misma, y el
+   «todos los versos sueltos» de la canción alcanzaría al pareado final, que rima— y ocho viven en
+   arquitecturas de un solo esquema, donde los dos niveles son indistinguibles. Lo que faltaba no
+   era una columna sino **una comprobación**: los concretos de una arquitectura cumplen el criterio
+   de su abierto, y ahora lo verifica `D13` de `npm run audit:metrica`. Las tres relaciones
+   posibles entre un abierto y sus hermanos, en
+   [el modelo aplicado](./implementacion-metrica.md#un-esquema-abierto-junto-a-otros-concretos).
 4. **La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** `[----]…` dice
    cuatro versos sueltos y nadie los expandió. O se expanden o se admite que la notación baste
    —pero entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—. *Espera además

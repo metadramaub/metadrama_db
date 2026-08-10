@@ -126,7 +126,7 @@ pregunta de vocabularios**: no discuten *dónde vive* un enum sino que **dicen m
 | Qué | Dónde | Por qué no espera |
 | --- | --- | --- |
 | ~~`definitoria` mezclada en la escala~~ | 5 tablas del catálogo | **Resuelto sin cambio el 10 de agosto**: no eran dos ejes. Ver [el cabo que resultó no serlo](#un-cabo-que-result%C3%B3-no-serlo) |
-| Las restricciones solo pueden colgar de un esquema | `esquema_rima_restricciones` | La norma de la silva y de la quintilla es de su arquitectura, y se apoya en un esquema abierto por no poder decirlo |
+| ~~Las restricciones solo pueden colgar de un esquema~~ | `esquema_rima_restricciones` | **Resuelto sin cambio el 10 de agosto**: dos de las once serían falsas a nivel de arquitectura. Lo que faltaba era una comprobación, no una columna |
 | ~~Seis columnas que no distinguen nada~~ | Catálogo y editor V2 | **Rehecho el 10 de agosto: eran tres grupos.** Cuatro retiradas, `activo` a la fusión. Ver abajo |
 
 **Y hacerlos ahora abarata la mudanza**, que es el argumento de fondo: cuando toque decidir dónde

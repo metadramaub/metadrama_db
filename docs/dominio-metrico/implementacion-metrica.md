@@ -182,6 +182,31 @@ declare por su cuenta.
 forma. Y `arquitectura_rasgos` usa solo `definitoria` y `admitida`, que es lo único que tiene
 sentido ahí —un rasgo caracteriza la arquitectura o solo se admite en ella—.*
 
+## Un esquema abierto junto a otros concretos
+
+Cuatro arquitecturas declaran un esquema abierto **y además** esquemas concretos, y no siempre
+significa lo mismo. Son tres relaciones distintas con la misma forma, y **el modelo ya las
+distingue sin necesidad de una columna que las nombre**:
+
+| Relación | Cómo se reconoce | Ejemplo |
+| --- | --- | --- |
+| **Norma y realizaciones** | El abierto lleva restricciones y no excluye a nadie | La quintilla: el criterio, y las ocho tipologías que lo cumplen |
+| **Alternativa residual** | El abierto **excluye** a su hermano con `excluye_esquema` | La sextilla de doble pie quebrado: «cualquier disposición regular *que no sea* la manriqueña» |
+| **Partes complementarias** | Ocupan **secciones distintas** | La canción: el cuerpo sin rima y el pareado final, que no compiten sino que completan la estrofa |
+
+En el primer caso los concretos **tienen que cumplir** el criterio del abierto, y eso se comprueba:
+es el defecto `D13` de `npm run audit:metrica`, que hoy contrasta las ocho tipologías de la
+quintilla contra sus tres restricciones. En los otros dos no aplica, y por eso el chequeo salta al
+excluido y a los de otra sección.
+
+*Aquí se descartó, con el dato delante, que una restricción pudiera colgar de una arquitectura
+además de un esquema. Parecía más fiel —«la norma de la quintilla es de su arquitectura, no de su
+esquema»— pero **dos de las once restricciones serían falsas a ese nivel**: la exclusión de la
+sextilla se excluiría a sí misma, y el «todos los versos sueltos» de la canción alcanzaría al
+pareado final, que rima. Y ocho de las once viven en arquitecturas de un solo esquema, donde los
+dos niveles son indistinguibles. La columna nueva no arreglaba nada y habilitaba un sitio donde
+poner la norma en el nivel equivocado.*
+
 ## Las tres capas
 
 | Capa | Qué guarda | Dónde |
