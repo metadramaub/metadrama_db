@@ -97,7 +97,14 @@
 		return mapa[relacion.tipo] ?? relacion.tipo.replaceAll('_', ' ');
 	}
 
-	/** «Fronte, versos 1-6». Los nombres vienen en slug del catálogo y se leen en castellano. */
+	/**
+	 * «Fronte, versos 1-6». Los nombres vienen en slug del catálogo y se leen en castellano.
+	 *
+	 * Solo se enumeran cuando el esquema tiene **más de una** parte, que es cuando decir dónde
+	 * empieza cada una añade algo. Una sola parte que abarca el esquema entero repite el rótulo
+	 * bajo el que ya está —«Terceto, versos 1-6» dentro de «Tercetos»— y además invita a
+	 * contarlos desde el principio de la forma, cuando en el soneto son los versos 9 a 14.
+	 */
 	function describirParte(parte: PublicSchemePart): string {
 		const nombre = parte.nombre.replaceAll('_', ' ');
 		const legible = nombre.charAt(0).toUpperCase() + nombre.slice(1);
@@ -253,7 +260,7 @@
 																{#if esquema.descripcion}
 																	<p>{@html renderInlineMarkdown(esquema.descripcion)}</p>
 																{/if}
-																{#if esquema.partes.length > 0}
+																{#if esquema.partes.length > 1}
 																	<p>{esquema.partes.map(describirParte).join(' · ')}</p>
 																{/if}
 													{#each esquema.partes.filter((p: PublicSchemePart) => p.nota) as parte (`${parte.nombre}:${parte.desde}:${parte.hasta}`)}
