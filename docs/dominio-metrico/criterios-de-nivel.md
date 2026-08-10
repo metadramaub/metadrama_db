@@ -178,7 +178,7 @@ dístico— **son rasgos**. Se predican de un tramo, no dependen de una posició
 más de una forma.
 
 Se declaran como rasgos con sus valores y se vinculan a la arquitectura con su modalidad:
-definitoria, preferente, admitida o excepcional. Ahí vive el matiz, y por eso no se traducen a
+definitoria, habitual, admitida o excepcional. Ahí vive el matiz, y por eso no se traducen a
 porcentajes.
 
 Las restricciones del esquema de rima quedan reservadas a reglas combinatorias cerradas y

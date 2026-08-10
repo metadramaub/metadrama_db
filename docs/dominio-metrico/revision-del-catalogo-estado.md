@@ -135,7 +135,7 @@ Eran seis; a 10 de agosto de 2026 quedan tres:
 | El concepto de variedad | Hecha el 9 de agosto |
 | La automatización de las preguntas del editor | Hecha entre el 9 y el 10: se derivan respuestas y enunciados |
 | La reutilización de secciones | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
-| **La modalidad y la primacía** | Abierta |
+| La modalidad y la primacía | Hecha el 10 de agosto, salvo el romance |
 | **Las reglas de repetición** | Abierta a medias: el comportamiento ya es dato de la repetición; queda qué dice `regla`, que sigue siendo texto libre |
 | **El modelo de esquemas abiertos** | Abierta |
 
@@ -745,6 +745,79 @@ solo mirar, además, ya está el catálogo público de `/formas`.
 De las respuestas ya está hecho, porque la derivación lo obligó: no se editan por ningún camino.
 Falta el resto del gestor, y ahora que la derivación está en vivo se puede valorar.
 
+### La modalidad · lectura hecha el 10 de agosto de 2026
+
+Salió de una petición concreta del IP: no bastaba con que el formulario mirase la columna, había
+que ver **si estaba bien usada y si se solapaba con otras**, como pasó con `grado_especificacion`,
+que se retiró al comprobar que nadie la usaba. El resultado es que el eje estaba bien concebido
+y mal nombrado, y que lo peor no estaba en el dato.
+
+**Ni `principal` ni `modalidad` sobran, y no se derivan la una de la otra.** El romance lo
+demuestra: sus cuatro medidas eran `preferente`, así que la modalidad no señalaba una sola y
+borrar `principal` habría dejado al editor sin saber cuál proponer. Al revés tampoco: `principal`
+es un bit por forma y no distingue entre la endecha real, cuyas dos arquitecturas no principales
+son `excepcional`, y la seguidilla, cuyas cuatro son solo `admitida`.
+
+Lo que hacía posible la confusión es que **de las siete columnas de la familia solo una estaba
+declarada**. Ahora lo están las siete, y los dos ejes quedan separados sin ambigüedad:
+
+| | Qué responde |
+| --- | --- |
+| `principal` | Cuál es la realización **general**, aquella de la que las demás son especializaciones. Una por forma |
+| `modalidad` | **Cuán corriente** es cada una, según la bibliografía declarada |
+
+*La regla de `principal` la fijó el IP contra mi propuesta, y es mejor: la sextilla propone la
+octosilábica aunque la de pie quebrado esté más documentada, porque la de pie quebrado es una
+especialización de aquella. El editor abre por la estrofa simple y baja a la especialización
+cuando la encuentra.*
+
+**`preferente` pasó a llamarse `habitual`.** Estorbaba porque sonaba al oficio de `principal`. La
+prueba de que la palabra era mala es que **la interfaz ya la traducía**: el demarcador mostraba
+«habitual» donde la columna decía «preferente». La escala queda `definitoria · habitual ·
+admitida · excepcional`.
+
+**Y reporta lo que sostiene la bibliografía, no lo que muestre el corpus.** Lo pidió el IP y
+conviene tenerlo presente antes de clasificar nada: si el recuento acaba diciendo que una
+disposición rara no lo era tanto, eso es un hallazgo del proyecto y pide **su propia columna**. No
+se corrige a Morley y Bruerton sobrescribiendo lo que dijeron.
+
+#### Lo que la lectura encontró, por tramos
+
+- **Arquitecturas (57): ningún cambio.** Los cuatro casos que parecían errores eran tres
+  respuestas correctas y una regla sin escribir. Que el sexteto y la silva no tengan ninguna
+  `habitual` **es la respuesta correcta**: Navarro Tomás dice que el sexteto endecasílabo «se usó
+  poco en el Siglo de Oro» y ninguna de sus realizaciones está asentada. De ahí sale la regla que
+  gobernó el resto de la lectura: **`habitual` solo donde una fuente lo diga; la ausencia es un
+  estado legítimo y no un hueco por rellenar.**
+- **Esquemas de rima (86): doce cambios.** Era el tramo donde el eje no servía para nada —**ninguno
+  de los 86 era `excepcional`**— y donde la distinción vivía en la prosa y hasta en la etiqueta:
+  la quintilla tenía una tipología llamada «Tipología 8 **excepcional**» clasificada como
+  admitida, igual que la que su propia descripción llamaba «la más frecuente».
+- **Variedades (7), rasgos de arquitectura (26) y repeticiones (11): ningún cambio.** Las
+  variedades quedaron bien al pasar de booleano a escala; los rasgos usan solo dos de los cuatro
+  niveles y es lo coherente —un rasgo caracteriza la arquitectura o solo se admite en ella, y
+  decir que el final esdrújulo es «habitual» en el soneto sería falso—; y ninguna fuente
+  jerarquiza las tres represas del villancico.
+
+#### Lo peor no estaba en el dato
+
+Al recorrer el código para renombrar el valor apareció que **el gestor del catálogo ofrecía para
+`modalidad` un vocabulario que la base nunca aceptó**: «Fijo, Preferente, Admitido, Libre, No
+aplicable». Solo uno de los cinco era válido; los otros cuatro fallaban al guardar. Y la guía del
+catálogo documentaba esa misma escala inexistente. Es el mismo modo de fallo que las funciones
+SQL rotas: nada lo comprueba, porque nadie había intentado guardar esos valores.
+
+#### Lo que queda abierto
+
+- **El romance**, cuyas cuatro medidas tienen nombre propio en la tradición —romancillo, endecha,
+  romance heroico— y por eso eran las cuatro `preferente`. Con `habitual` la respuesta es que solo
+  la octosilábica lo es, pero ninguna afirmación declarada lo dice: hay que ampliar fuentes.
+- **`definitoria` no pertenece a la misma escala.** Lo señaló el IP: `habitual · admitida ·
+  excepcional` gradúan frecuencia y `definitoria` afirma necesidad. No siempre son excluyentes
+  —la asonantada de la endecha real es constitutiva **y además** lo corriente, y hoy solo cabe
+  decir una de las dos—. Pide partirse en dos columnas, y su sitio es
+  [la revisión de vocabularios](../revision-de-vocabularios.md).
+
 ### Datos asumidos que siguen viviendo en prosa
 
 Barrido del 9 de agosto de 2026 sobre las notas y descripciones del catálogo, a petición del IP:
@@ -794,10 +867,9 @@ explícitos y no se solapan**, de modo que la escala se lee sin ambigüedad aunq
 cifras. Lo que queda por resolver es lo de fondo —que `ninguna` significa «ningún pareado» en la
 silva libre, que sí rima— y sigue exigiendo separar las dos magnitudes.
 
-**La modalidad y la primacía necesitan una lectura transversal.** Al terminar la revisión de
-las formas hay que comprobar que `principal` y los valores de modalidad —`definitoria`,
-`preferente`, `admitida`, `excepcional`, etc.— significan y se usan igual en todo el catálogo,
-y aclarar qué relación existe entre ambos mecanismos. No se normalizarán forma por forma.
+~~**La modalidad y la primacía necesitan una lectura transversal.**~~ **Hecha el 10 de agosto de
+2026**, y está contada abajo en [su propio apartado](#la-modalidad--lectura-hecha-el-10-de-agosto-de-2026).
+Queda solo el romance, cuyas cuatro medidas necesitan una fuente que las jerarquice.
 
 **Las reglas de repetición deben ser computables y la prosa debe tener responsabilidades
 separadas.** Hoy `repeticiones_metricas.regla` es texto libre: el editor V2 no lo interpreta,
