@@ -184,10 +184,12 @@ hacerlas antes obliga a hacerlas dos veces.
    dibujan los que riman—. La silva y el endecasílabo suelto quedan en rangos disjuntos, que es
    el umbral del 50 % de Morley y Bruerton, y una guarda impide que se solapen. Contado en
    [el estado de la revisión](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
-2. **`definitoria` no pertenece a la escala de la modalidad.** `habitual · admitida · excepcional`
-   gradúan frecuencia y `definitoria` afirma necesidad; no siempre son excluyentes. Afecta a cinco
-   tablas y está anotado en [la revisión de vocabularios](../revision-de-vocabularios.md), que es
-   donde debe resolverse junto a los otros 60 enums.
+2. ~~**`definitoria` no pertenece a la escala de la modalidad.**~~ **Comprobado el 10 de agosto y
+   descartado: no eran dos ejes.** Los 39 esquemas definitorios dicen todos lo mismo —sin esto la
+   arquitectura no sería la que es— y ninguno es descrito como raro, que es lo que tendría que
+   ocurrir si necesidad y frecuencia fueran independientes. `definitoria` es el tope de la misma
+   escala. El razonamiento y su refutación, en
+   [la revisión de vocabularios](../revision-de-vocabularios.md#un-cabo-que-result%C3%B3-no-serlo).
 3. **Una restricción solo puede colgar de un esquema, no de una arquitectura.** Las de la silva y
    las de la quintilla son norma de su arquitectura; hoy se apoyan en su esquema abierto, que
    funciona pero no es lo que son. Se descartó abrir la columna por un caso.
