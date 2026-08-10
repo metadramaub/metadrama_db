@@ -107,9 +107,10 @@ posicional, y su explicación es la `descripcion` de la entidad. Nada de eso se 
 veces, que era justo lo que se estaba separando: la quintilla llegó a describir su `aabab`
 como «cruzada, también llamada Cuarteta», copiado de la redondilla.
 
-La tabla anterior se conserva apartada como `opciones_eleccion_metrica_manual`, y
-`comparar_opciones_eleccion_metrica()` contrasta ambas. Las dos se retiran cuando la
-derivación se haya usado con datos reales.
+La tabla anterior se conservó apartada mientras se comprobaba la derivación, y **se retiró el 10
+de agosto de 2026** junto con la función que las contrastaba: el guardado se había ejercitado
+contra la vista con una inserción real y la derivación había sostenido cuatro migraciones más sin
+que las 405 opciones se movieran. Lo que hubo está en el historial.
 
 La excepción son los esquemas observados de formas abiertas. Un grupo con
 `tipo_control = esquema_rima` no enumera previamente todas las particiones posibles:

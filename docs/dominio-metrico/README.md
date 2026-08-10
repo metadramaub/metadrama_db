@@ -59,7 +59,7 @@ está hecho, qué falta, con qué método y en qué orden.
    Tres secuencias inventadas, fila a fila, para ver qué escribe cada tabla y qué se deriva
    después. Es donde se entiende la capa resuelta.
 
-9. [Editor de secuencias métricas V2](./editor-secuencias-v2.md)
+8. [Editor de secuencias métricas V2](./editor-secuencias-v2.md)
    Grupos de elección, escenarios aislados, persistencia de pruebas y contrato de la interfaz
    futura.
 
@@ -114,44 +114,9 @@ está hecho, qué falta, con qué método y en qué orden.
 
 ## Decisiones consolidadas
 
-- Las formas métricas constituyen un dominio propio.
-- El nivel de cada hecho se decide con la pregunta de la variación: lo que puede cambiar
-  dentro de una secuencia es esquema, variedad o rasgo; lo constante que no cambia el
-  nombre es arquitectura; lo que obligaría a cortar la secuencia es otra forma.
-- Forma, arquitectura, esquema métrico, esquema de rima, variedad, sección, repetición,
-  rasgo, elección, denominación, tradición y relación son conceptos distintos.
-- Las formas se distinguen de los tramos sin forma por su tipo de registro. Estos
-  comparten el selector, pero no tienen norma ni intervienen como formas en los análisis.
-- Tipo de registro y prioridad de identificación son ejes independientes: una forma
-  estructurada puede ser de último recurso sin dejar de ser forma.
-- El metro es una entidad del dominio, con sus sílabas y, si es compuesto, sus
-  hemistiquios y su cesura. El arte mayor o menor se deriva, no se almacena.
-- Las tradiciones son pertenencias muchos-a-muchos, sin herencia estructural. Proceden de
-  la clasificación previa del proyecto, que es autoridad suficiente para asignarlas.
-- No existe el concepto de familia: agrupar formas para contar es una categoría del
-  estudio y se declara en la capa de proyección, no en la ontología.
-- Los esquemas de rima separan su comportamiento computable de la notación legible.
-  Romance usa el ciclo repetible `suelto + a`; sus realizaciones de 6, 7, 8 y 11 sílabas
-  son arquitecturas exactas de una misma forma.
-- Un componente ya formalizado se reutiliza; no se copia.
-- El criterio especializado del IP para el corpus se conserva cuando una preceptiva general difiere; la bibliografía documenta y permite revisar la divergencia, pero no la sobrescribe automáticamente.
-- Las fuentes declaradas del catálogo son publicaciones bibliográficas académicas identificables, no páginas web ni vídeos. Una URL puede localizar una publicación digital, pero no constituye por sí sola la autoridad de la fuente.
-- El orden técnico se oculta salvo donde cambia el significado métrico: posiciones, secciones y repeticiones.
-- No se usan porcentajes artificiales para traducir «mayoría»: el matiz vive en la
-  modalidad con que un rasgo interviene en una arquitectura.
-- La anotación de secuencias sigue el modelo `norma + elecciones + diferencias`.
-- Una secuencia guardada sin diferencias se considera conforme con la norma.
-- No se piden al editor certeza ni estado de revisión.
-- Las observaciones reutilizan metros, rimas, estructuras y rasgos normalizados.
-- Las alternativas previstas por el catálogo se registran como elecciones, no como
-  desviaciones. Las secciones y repeticiones solo se materializan cuando la forma las
-  necesita.
-- Las caracterizaciones no métricas por rango se conservan en su dominio general.
-- Una forma reconocible con excepciones conserva su identidad y registra desviaciones;
-  `Versificación irregular` y `Verso aislado` se reservan para tramos sin una forma
-  reconocible.
-- El ritmo acentual de los versos queda fuera del alcance del proyecto.
-- El JSON del demarcador y las redes de similitud son artefactos regenerables.
+Viven en un solo sitio: [las decisiones que gobiernan el modelo](./implementacion-metrica.md#las-decisiones-que-gobiernan-el-modelo).
+Hasta el 10 de agosto de 2026 estaban repetidas aquí, en el documento del modelo aplicado y en
+CONTEXTO, con redacciones que ya no coincidían.
 
 ## Estado
 

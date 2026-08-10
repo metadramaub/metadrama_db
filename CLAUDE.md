@@ -91,6 +91,24 @@ el demarcador, al final**, porque se derivan de él y hacerlos antes obliga a ha
 
 ## Reglas duras
 
+**Ningún documento es verdad: se contrasta con la base en vivo.** La documentación describe lo que
+alguien creyó en su momento, y en agosto de 2026 se encontraron columnas retiradas, vocabularios
+que la base nunca aceptó y garantías «implementadas» que no existían. Antes de apoyarte en una
+afirmación sobre una tabla, una columna, un valor admitido o un disparador, **compruébala**.
+
+**Al cambiar el modelo, revisa lo que lo describe.** Un cambio en el catálogo casi siempre obliga
+a tocar [el modelo aplicado](docs/dominio-metrico/implementacion-metrica.md) —tablas, decisiones,
+garantías— y a veces
+[la ontología](docs/dominio-metrico/ontologia-verso-espanol.md), aunque esta es tan general que
+rara vez la mueve un cambio pequeño: solo cuando aparece una manera nueva de decir algo, como
+declarar lo que la norma no fija. Los dos diagramas `.svg` quedan pendientes de rehacer.
+
+**Una función SQL no está probada hasta que se ejecuta.** Un cuerpo entrecomillado no se revalida
+al borrar una columna, y PL/pgSQL resuelve los campos de un `record` en ejecución: `db push`,
+`npm run check` y las pruebas pasan sobre código roto. En una semana mordió cuatro veces, una de
+ellas dejando el demarcador cinco días sin funcionar y otra todas las fichas de `/formas`. **Las
+guardas de las migraciones ejecutan lo que tocan**, no solo comprueban el dato.
+
 **La frontera entre lo viejo y lo nuevo.** Las secuencias reales de las obras usan
 `secuencias_metricas` con `estrofa_tipo_id` y el vocabulario métrico legado. El editor V2
 escribe **únicamente** en tablas `*_editor_metrico`: no crea obras, no toca

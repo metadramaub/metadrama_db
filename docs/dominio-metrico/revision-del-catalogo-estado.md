@@ -650,9 +650,9 @@ coste es irrelevante.
 La identidad de la opción se deriva de su contenido —la pregunta, el dato al que apunta y la
 posición—, y es estable mientras lo sea el catálogo. Puede serlo porque **ya no hay nada
 guardado que dependa de ella**: ni las respuestas, ni las equivalencias, ni ninguna clave
-foránea. La tabla se conserva apartada como `opciones_eleccion_metrica_manual` y
-`comparar_opciones_eleccion_metrica()` contrasta ambas; las dos se retiran cuando la derivación
-se haya usado con datos reales.
+foránea. La tabla se conservó apartada mientras se comprobaba, y **se retiró el 10 de agosto**
+junto con la función que las contrastaba y con dos disparadores que llevaban un día validando una
+tabla que ya nadie escribía.
 
 La escritura se cerró a la vez y por todos los caminos: el endpoint de entidades ya no declara
 el recurso y responde con un error explícito, y el gestor **muestra** las respuestas en vez de
