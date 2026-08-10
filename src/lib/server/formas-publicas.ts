@@ -213,7 +213,14 @@ export async function loadPublicForm(
 				max_consecutivos: `No más de ${cifra ?? '—'} versos seguidos con la misma rima`,
 				min_alternancias: `La rima cambia de clase al menos ${cifra ?? '—'} veces`,
 				prohibe_pareado_final: 'No termina en pareado',
-				versos_sueltos: `Versos sueltos: ${valor ?? '—'}`,
+				// El valor lo dice todo, así que se redacta aquí en vez de describirse una a una:
+				// las tres de la silva decían lo mismo con tres redacciones distintas.
+				versos_sueltos:
+					{
+						todos: 'Todos los versos quedan sueltos',
+						predominantes: 'Predominan los versos sueltos sobre los rimados',
+						admitidos: 'Admite versos sueltos intercalados'
+					}[String(valor)] ?? `Versos sueltos: ${valor ?? '—'}`,
 				identidad_entre_repeticiones: 'La disposición, sea cual sea, vuelve idéntica en cada repetición',
 				regularidad: 'La disposición debe ser regular, aunque la norma no fije cuál',
 				excluye_esquema: `No puede coincidir con «${referido}»`
