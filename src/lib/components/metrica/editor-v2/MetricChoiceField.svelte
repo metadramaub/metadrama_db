@@ -1,6 +1,5 @@
 <script lang="ts">
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
-	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 	const props = $props<{
@@ -59,28 +58,28 @@
 	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
 
 	/**
-	 * Una respuesta única entre pocas alternativas se enseña entera. Por encima de este
-	 * número las opciones dejan de leerse de un vistazo y compensa el desplegable; las
-	 * etiquetas largas —un esquema descrito con palabras— tampoco caben en fila.
+	 * Qué control usa una pregunta sale de la pregunta, no de cómo de largas sean sus
+	 * etiquetas. Medirlas hacía que dos preguntas hermanas se vieran distintas —los cuartetos
+	 * del soneto con botones y sus tercetos con desplegable— sin que nada del catálogo lo
+	 * justificara.
+	 *
+	 * Una respuesta única entre pocas se enseña entera, en lista, para que quepan la etiqueta
+	 * y su explicación. Por encima de este número deja de leerse de un vistazo y compensa el
+	 * desplegable.
 	 */
-	const SEGMENTED_MAX_OPTIONS = 4;
-	const SEGMENTED_MAX_LABEL = 24;
-	const showAsSegmented = $derived(
+	const MAX_OPCIONES_A_LA_VISTA = 5;
+	/** Un rasgo con un solo valor no es una elección entre alternativas: está o no está. */
+	const showAsCheckbox = $derived(
+		!isRhymeScheme && !positional && maximum === 1 && optional && visibleOptions.length === 1
+	);
+	const showAsList = $derived(
 		!isRhymeScheme &&
+			!positional &&
+			!showAsCheckbox &&
 			maximum === 1 &&
 			visibleOptions.length > 0 &&
-			visibleOptions.length <= SEGMENTED_MAX_OPTIONS &&
-			visibleOptions.every(
-				(option: MetricCatalogDomainRow) => String(option.nombre).length <= SEGMENTED_MAX_LABEL
-			)
+			visibleOptions.length <= MAX_OPCIONES_A_LA_VISTA
 	);
-	const segmentedItems = $derived(
-		visibleOptions.map((option: MetricCatalogDomainRow) => ({
-			id: String(option.opcion_eleccion_id),
-			label: String(option.nombre)
-		}))
-	);
-
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;
 		props.onChange(value ? [value] : []);
@@ -210,17 +209,64 @@
 			spellcheck="false"
 			oninput={(event) => props.onTextChange?.(event.currentTarget.value)}
 		/>
-	{:else if showAsSegmented}
-		<div class="flex flex-wrap items-center gap-2">
-			<SegmentedChoice
-				items={segmentedItems}
-				value={props.selectedIds[0] ?? null}
-				onChange={(id) => props.onChange(id ? [id] : [])}
-				ariaLabel={String(props.group.nombre)}
-				allowClear={optional}
+	{:else if showAsCheckbox}
+		{@const unica = visibleOptions[0]}
+		<label class="flex items-start gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
+			<input
+				type="checkbox"
+				class="mt-0.5"
+				checked={props.selectedIds.length > 0}
+				onchange={(event) =>
+					props.onChange(
+						event.currentTarget.checked ? [String(unica.opcion_eleccion_id)] : []
+					)}
 			/>
-			{#if optional && props.selectedIds.length === 0}
-				<span class="text-xs text-[color:var(--muted-foreground)]">No aparece / no se aplica</span>
+			<span>
+				{String(unica.nombre)}
+				{#if unica.descripcion}
+					<span class="block text-xs text-[color:var(--muted-foreground)]">
+						{String(unica.descripcion)}
+					</span>
+				{/if}
+			</span>
+		</label>
+	{:else if showAsList}
+		<div class="space-y-1">
+			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
+				{@const id = String(option.opcion_eleccion_id)}
+				<label
+					class={`flex cursor-pointer items-start gap-2 border px-3 py-2 text-sm ${
+						props.selectedIds.includes(id)
+							? 'border-[color:var(--primary)] bg-[color:var(--muted)]'
+							: 'border-[color:var(--border)] bg-white'
+					}`}
+				>
+					<input
+						type="radio"
+						class="mt-0.5"
+						name={String(props.group.grupo_eleccion_id)}
+						checked={props.selectedIds.includes(id)}
+						onchange={() => props.onChange([id])}
+					/>
+					<span>
+						{String(option.nombre)}
+						{#if option.descripcion}
+							<span class="block text-xs text-[color:var(--muted-foreground)]">
+								{String(option.descripcion)}
+							</span>
+						{/if}
+					</span>
+				</label>
+			{/each}
+			{#if optional}
+				<button
+					type="button"
+					class="link-action text-xs"
+					disabled={props.selectedIds.length === 0}
+					onclick={() => props.onChange([])}
+				>
+					No aparece / no se aplica
+				</button>
 			{/if}
 		</div>
 	{:else if maximum === 1}

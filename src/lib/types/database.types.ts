@@ -2110,6 +2110,7 @@ export type Database = {
           nombre: string
           orden: number | null
           origen_termino_id: string | null
+          pregunta_arquitectura: string | null
           seleccionable: boolean
           slug: string
           tipo_registro: string
@@ -2127,6 +2128,7 @@ export type Database = {
           nombre: string
           orden?: number | null
           origen_termino_id?: string | null
+          pregunta_arquitectura?: string | null
           seleccionable?: boolean
           slug: string
           tipo_registro?: string
@@ -2144,6 +2146,7 @@ export type Database = {
           nombre?: string
           orden?: number | null
           origen_termino_id?: string | null
+          pregunta_arquitectura?: string | null
           seleccionable?: boolean
           slug?: string
           tipo_registro?: string
