@@ -197,9 +197,13 @@ solo sitio, `src/lib/metrica/alcance.ts`.*
 ## Dos secciones pueden ser la misma cosa
 
 `tipo_seccion` dice de qué clase es una parte, y es lo que permite que **una misma cosa aparezca
-en sitios distintos**: la copla inicial es una copla, la mudanza inicial es una mudanza, y la
-cabeza y la repetición del estribillo son el mismo estribillo. El `slug` y el `nombre` distinguen
-qué aparición es; el tipo dice que el contenido es uno.
+en sitios distintos**: la cabeza y la repetición del estribillo son el mismo estribillo, y las dos
+quintillas de la copla real son quintillas las dos. El `slug` y el `nombre` distinguen qué
+aparición es; el tipo dice que el contenido es uno.
+
+De ahí sale una regla de escritura: **la clase nunca lleva un ordinal**. No hay `primera_quintilla`
+ni `segunda_quintilla`, porque eso sería declarar que son dos cosas distintas; hay dos secciones
+`quintilla` que se llaman «Primera quintilla» y «Segunda quintilla».
 
 ## De qué parte habla cada cosa
 
