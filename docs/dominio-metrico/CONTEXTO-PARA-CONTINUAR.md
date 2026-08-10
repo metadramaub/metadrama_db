@@ -161,8 +161,6 @@ Leer solo lo necesario para la tarea:
 1ter. [README del dominio](./README.md): índice y decisiones consolidadas.
 2. [Criterios de nivel](./criterios-de-nivel.md): en qué nivel se registra cada hecho
    métrico. De lectura obligada antes de formalizar o corregir una forma.
-2bis. [Arquitectura técnica](./arquitectura-dominio-metrica.md): capas, proyecciones,
-   integridad y permisos. No especifica tablas: para el esquema, volcar la base.
 3. [Editor V2](./editor-secuencias-v2.md): aislamiento, persistencia y comportamiento.
 4. [Contratos del registrador](./contratos-registrador-formas-revisadas.md): comportamiento
    mínimo de las formas revisadas.
@@ -203,6 +201,59 @@ contrasta los datos poblados. El resultado vigente está en
 los incumplimientos objetivos de las matrices que describen dónde vive cada dimensión;
 estas últimas son el material de las decisiones pendientes del IP, no errores.
 
+## Qué queda pendiente
+
+Inventario hecho el 10 de agosto de 2026, al cerrar las seis lecturas transversales. Incluye lo
+registrado y lo que fue apareciendo por el camino. **El orden lo fija el IP: primero terminar el
+modelo, y las superficies —editor, gestor, demarcador— al final**, porque se derivan de él y
+hacerlas antes obliga a hacerlas dos veces.
+
+### Modelo
+
+1. **Un rasgo puede estar midiendo dos magnitudes.** `organizacion_en_pareados` gradúa *ninguna ·
+   ocasionales · habituales · predominantes · regulares* y `versos_sueltos` *ninguno · admitidos ·
+   predominantes · todos*. Las dos dicen «cuánto» sin decir «cuánto de qué», y en la silva libre
+   `ninguna` significa «ningún pareado» aunque sí haya rima. Es el problema que más veces ha
+   estorbado —silva, endecasílabo suelto y esquemas abiertos— y el IP pidió verlo caso por caso.
+2. **`definitoria` no pertenece a la escala de la modalidad.** `habitual · admitida · excepcional`
+   gradúan frecuencia y `definitoria` afirma necesidad; no siempre son excluyentes. Afecta a cinco
+   tablas y está anotado en [la revisión de vocabularios](../revision-de-vocabularios.md), que es
+   donde debe resolverse junto a los otros 60 enums.
+3. **Una restricción solo puede colgar de un esquema, no de una arquitectura.** Las de la silva y
+   las de la quintilla son norma de su arquitectura; hoy se apoyan en su esquema abierto, que
+   funciona pero no es lo que son. Se descartó abrir la columna por un caso.
+4. **La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** `[----]…` dice
+   cuatro versos sueltos y nadie los expandió. O se expanden o se admite que la notación baste
+   —pero entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—.
+5. **`tipo` y `ambito` de las repeticiones están perfectamente correlacionados**: `estribillo` con
+   sección y `palabra_final` con unidad, sin excepción en las once filas. Con dos clases puede ser
+   casualidad; conviene mirarlo cuando haya una tercera.
+6. **Seis columnas no distinguen nada.** `activo` es `true` en las ocho tablas donde existe,
+   `seleccionable` en las 29 formas, `esquema_rima_enlaces.obligatorio` en sus trece filas,
+   `tipo_enlace` vale siempre `misma_rima` y `esquema_rima_restricciones.obligatoria` siempre
+   `true`. Algunas son borrado suave y defendibles; otras declaran una distinción que no se ha
+   hecho nunca, como `grado_especificacion`, que se retiró por eso.
+7. **El aviso `patron_rima_sin_regla` se ha vuelto ruido.** Salta en los ocho esquemas abiertos sin
+   restricciones, y la revisión del 10 de agosto comprobó que **los ocho están bien**: la norma no
+   fija más que el tipo de rima. O se afina o se baja a informativo.
+8. **La sección de seis versos del soneto**, en
+   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
+9. **Las 27 equivalencias del vocabulario legado sin destino**, en
+   [equivalencias-pendientes.md](./equivalencias-pendientes.md).
+
+### Superficies, después del modelo
+
+10. **El maquetado del editor V2.** Aprobado el diseño —estructura pintada a la izquierda,
+    elecciones alineadas a la derecha, sin clics para navegar— y aplazado a propósito: el
+    formulario se deriva del catálogo, así que cada cambio del modelo lo cambia gratis. El
+    interruptor es «la arquitectura declara secciones», que es dato y no una lista de formas.
+11. **Simplificar el gestor del catálogo** para que solo edite prosa y lo estructural pase por
+    migración. Es lo que acabaría con los vocabularios y campos fantasma: en una semana
+    aparecieron cuatro, y `npm run audit:campos` solo cubre los nombres de campo, no sus valores.
+12. **Recompilar el demarcador** sobre la ontología en vez de su vector fijo de rasgos.
+13. **Repaso visual del catálogo público**: el nombre de la copla manriqueña se pierde entre su
+    notación, y un esquema sin nombre ni denominación muestra un guion de relleno.
+
 ## Siguiente fase prevista
 
 La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración estructural
@@ -220,12 +271,16 @@ se completó el 31. Lo que sigue:
    tramos sin forma están contrastados con las seis monografías, y las fichas `.md` de
    `revisiones-formas/` se han retirado todas. El resultado y lo que dejó abierto están en
    [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Destapó por el camino
-   defectos del modelo: los corregidos están aplicados y los aplazados son **lecturas
-   transversales** sobre el catálogo entero, no trabajo forma por forma.
-5. Crear la capa de desviaciones sobre las secuencias reales.
-6. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
+   defectos del modelo: los corregidos están aplicados y los aplazados eran **lecturas
+   transversales** sobre el catálogo entero.
+5. **Las seis lecturas transversales: completas** el 10 de agosto de 2026. El concepto de
+   variedad, la automatización de las preguntas del editor, la reutilización de secciones, la
+   modalidad y la primacía, las reglas de repetición y el modelo de esquemas abiertos. Lo que
+   dejaron abierto está arriba, en [qué queda pendiente](#qué-queda-pendiente).
+6. Crear la capa de desviaciones sobre las secuencias reales.
+7. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
    rasgos.
-7. Solo entonces, la [migración de las anotaciones](./plan-migracion-anotaciones.md).
+8. Solo entonces, la [migración de las anotaciones](./plan-migracion-anotaciones.md).
 
 **Sobre los defectos del informe de conformidad**: el
 [informe](./informe-conformidad-catalogo.md) no señala ninguno de los tipificados como D1–D12

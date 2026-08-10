@@ -1,16 +1,44 @@
-# La implementación métrica de METADRAMA
+# El modelo métrico aplicado
 
-Estado: vigente · 7 de agosto de 2026
+Estado: vigente · contrastado contra la base el 10 de agosto de 2026
 
 Este documento explica **qué parte de la [ontología del verso español](./ontologia-verso-espanol.md)
-implementa METADRAMA, qué restringe por su corpus y cómo recoge el dato**. La ontología
-describe las posibilidades del verso; aquí empiezan las decisiones.
+implementa METADRAMA, qué restringe por su corpus, cómo recoge el dato y cómo se organiza
+técnicamente**. La ontología describe las posibilidades del verso; aquí empiezan las decisiones.
 
-Los [criterios de nivel](./criterios-de-nivel.md) aplican esto caso por caso y la
-[arquitectura técnica](./arquitectura-dominio-metrica.md) describe las capas. Qué se decidió
-sobre cada forma lo dice **el catálogo**, que se lee en `/formas`; las
-[fichas de revisión](./revisiones-formas/) solo cubren ya las formas pendientes de contrastar
-con las fuentes, y desaparecen a medida que se revisan.
+*El 10 de agosto de 2026 absorbió el antiguo «Arquitectura técnica del dominio métrico», que
+repetía sus principios y su convención de mundo cerrado y solo tenía de propio las capas, los
+consumidores y las garantías. Eran dos documentos del modelo aplicado.*
+
+![Diagrama del modelo aplicado](./implementacion-metrica.svg)
+
+## Dónde está la verdad
+
+**Ningún documento repite la especificación de columnas.** Cuando lo hizo quedó desfasado en dos
+días, y la versión de entonces está en
+[historico/especificacion-tablas-2026-07-28.md](./historico/especificacion-tablas-2026-07-28.md).
+
+| Pregunta | Dónde se responde |
+| --- | --- |
+| Qué tablas, columnas y restricciones existen | La base: `npx supabase db dump --linked -f esquema.sql` |
+| Si los datos son coherentes con los criterios | `npm run audit:metrica` |
+| Si el gestor declara campos que no existen | `npm run audit:campos` |
+| Qué es cada fenómeno del verso | [La ontología](./ontologia-verso-espanol.md) |
+| En qué nivel se registra un hecho | [Criterios de nivel](./criterios-de-nivel.md) |
+| Qué decidió el proyecto sobre una forma | El catálogo mismo, en `/formas` |
+| Qué se revisó y qué quedó abierto | [Estado de la revisión](./revision-del-catalogo-estado.md) |
+| Qué sigue pendiente | [CONTEXTO](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente) |
+
+## Las tres capas
+
+| Capa | Qué guarda | Dónde |
+| --- | --- | --- |
+| **Catálogo formal** | Qué formas, arquitecturas, esquemas y rasgos reconoce el proyecto | 25 tablas, editadas hoy en `/dashboard/metrica` |
+| **Anotación editorial** | Qué se identificó u observó en una secuencia concreta | Solo en las tablas de prueba `*_editor_metrico`; las secuencias reales siguen en el vocabulario legado |
+| **Proyecciones derivadas** | Qué se publica, filtra, agrega o compila | Vistas y artefactos regenerables |
+
+La base normalizada es la fuente de verdad. El artefacto del demarcador, las fichas públicas y
+las redes son proyecciones: se regeneran, no se corrigen a mano.
 
 ## 1 · Qué problema resolvió aquí
 
@@ -134,10 +162,10 @@ repertorio de medidas y la declara el pasaje.
 
 **El tipo del esquema métrico dice si es un ciclo o una secuencia, no cuántos versos abarca.**
 Un esquema isosilábico se declara con una sola posición repetida —`11-repetido`— y cuántas
-veces se repite lo dice la extensión de la unidad. `secuencia_fija` queda para los esquemas
-en que las medidas cambian, como la lira. Los ciclos heterométricos que sí se repiten
-—`8-8-4` de la sextilla de pie quebrado, `7-5` de la seguidilla— se declaran desarrollados,
-porque conviven con esquemas hermanos que no son cíclicos.
+veces se repite lo dice la extensión de la unidad. `secuencia` queda para los esquemas en que
+las medidas cambian, como la lira. Los ciclos heterométricos que sí se repiten —`8-8-4` de la
+sextilla de pie quebrado, `7-5` de la seguidilla— se declaran desarrollados, porque conviven con
+esquemas hermanos que no son cíclicos.
 
 ### La elección
 
@@ -376,3 +404,81 @@ misma —Domínguez Caparrós titula así el capítulo dedicado a las estrofas c
 **patrón métrico** significa en la métrica computacional el patrón acentual del verso.
 Ninguno de los dos se usa aquí con esos sentidos, y por eso el catálogo dice *arquitectura* y
 *esquema*.
+
+## 9 · Qué garantiza la base
+
+*Contrastado contra los disparadores vivos el 10 de agosto de 2026. La versión anterior de este
+apartado enumeraba nueve garantías «implementadas como restricciones y disparadores» y **varias
+no existían**: no hay control de ciclos para `subtipo_de` —que además no se usa en ninguna fila—
+ni una regla que impida borrar una forma en uso.*
+
+Lo que de verdad valida un disparador, y solo eso:
+
+| Qué se impide | Dónde |
+| --- | --- |
+| Que una forma con norma no tenga arquitectura, o que un tramo sin forma la tenga | `arquitecturas_forma`, `formas_metricas` |
+| Que un grupo de elección pregunte algo incoherente con su dimensión o su alcance | `grupos_eleccion_metrica` |
+| Que una variedad apunte a esquemas de otra arquitectura | `variedades_arquitectura` |
+| Que una respuesta del editor no esté entre las que su pregunta ofrece, o caiga en una posición que no existe | `elecciones_editor_metrico` |
+| Que una unidad se salga del rango de su secuencia o rompa la estructura declarada | `realizaciones_editor_metrico`, `secuencias_editor_metrico` |
+| Que una desviación no se apoye en las entidades normalizadas del catálogo | `desviaciones_editor_metrico` |
+
+Y dos automatismos que no impiden sino que mantienen: `sincronizar_posiciones_esquema_rima_fijo`
+deriva las posiciones de un esquema desde su notación, y `marcar_catalogo_metrico_actualizado`
+sube la revisión del catálogo en las veinte tablas que lo componen.
+
+**Lo demás son claves foráneas y `CHECK`**, que es donde vive la mayor parte de la integridad: la
+unicidad de cada `slug` en su ámbito, que una arquitectura pertenezca a una sola forma, que una
+restricción excluya un esquema hermano y no ajeno, que una respuesta guarde exactamente una
+entidad. Se leen del volcado del esquema, no de aquí.
+
+## 10 · Proyecciones y consumidores
+
+**El gestor del catálogo** (`/dashboard/metrica`) mantiene todo lo anterior. Está previsto
+reducirlo a ver y editar prosa, y que lo estructural pase por migración: en una semana
+aparecieron cuatro vocabularios y listas de campos que la base nunca aceptó, y que no fallaban al
+guardar sino que descartaban el dato en silencio.
+
+**El registrador de secuencias** pregunta lo mínimo: forma, arquitectura cuando hay más de una,
+las elecciones que el catálogo declara, las unidades internas donde la estructura las exige y las
+diferencias si las hay. El formulario es adaptativo y **las preguntas proceden del catálogo, no
+del componente**: desde el 10 de agosto se derivan también sus enunciados.
+
+**Las fichas públicas y el buscador** se alimentan de proyecciones, no de las tablas crudas. Las
+facetas se separan —formas, tradiciones, metros, regímenes de rima, arquitecturas y rasgos— y no
+se presenta una lista combinada de formas y subtipos.
+
+**El laboratorio de autoría y datación** calcula sobre formas canónicas, con arquitecturas y
+rasgos como dimensiones separadas, para que dos obras no parezcan distintas solo porque una
+codificó un esquema como hijo y otra no. La convención de mundo cerrado permite derivar
+distribuciones, transiciones y tasas; que eso alimente un modelo de atribución no garantiza una
+conclusión, porque hay que controlar forma, género, extensión, cronología y dependencia entre
+secuencias de una misma obra.
+
+**El demarcador** compila un artefacto versionado desde el catálogo, con la revisión con que se
+generó y la procedencia de cada regla. Ordena sus preguntas por capacidad de separar candidatas,
+solo pregunta lo observable y conserva candidatas ante un «no sé».
+
+**Los grafos y la interoperabilidad** se calculan, no se almacenan como relaciones canónicas.
+Para el tamaño del catálogo no hace falta una base de grafos.
+
+## 11 · Cuándo caduca un dato derivado
+
+`catalogo_metrico_estado.revision` sube con cada cambio del catálogo, y sirve para saber con qué
+revisión se calculó un resumen, marcar como obsoletas las proyecciones afectadas y recompilar el
+demarcador.
+
+Un cambio editorial —una etiqueta— se resuelve en lectura. Un cambio semántico obliga a invalidar
+o regenerar. **Pendiente: ninguna anotación registra todavía con qué revisión se guardó**, de
+modo que hoy no se puede saber si una anotación es anterior a la norma que la juzga.
+
+## 12 · Quién puede qué
+
+| | Catálogo | Anotación |
+| --- | --- | --- |
+| Público | Lee lo publicado | — |
+| Editor | Lee | Escribe dentro de sus obras |
+| Admin o IP | Edita, revisa y aprueba | Escribe |
+
+Las trece tablas del catálogo están restringidas a admin/IP con la misma política, y las vistas
+derivadas la conservan con `security_invoker`.

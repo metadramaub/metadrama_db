@@ -186,6 +186,23 @@ las que se esperan sueltas, los enlaces y las restricciones combinatorias.
 **El timbre concreto no forma parte de la identidad de la forma.** Un romance en `e-a` y otro
 en `a-o` son el mismo romance. El timbre es una realización observada.
 
+**Y una norma puede fijar la rima sin fijar su disposición.** La quintilla exige consonancia, dos
+clases y que ningún verso quede suelto, pero no dice en qué orden; la sextilla admite «distintas
+distribuciones»; la canción deja libre el esquema de la estancia y solo exige que vuelva idéntico
+en todas. Eso no es ausencia de norma: es una norma expresada como **restricciones** en vez de
+como posiciones.
+
+Las dos maneras dicen lo mismo por dos caminos, y conviene verlo: de las restricciones de la
+quintilla se **deriva** que sus disposiciones posibles son ocho, exactamente las que la tradición
+nombra. Por eso un esquema sin posiciones no está incompleto —está diciendo otra cosa— y por eso
+las restricciones y la enumeración deben poder contrastarse: si una disposición declarada no
+cumpliera el criterio, una de las dos estaría mal.
+
+> **Prueba de que una restricción está bien puesta: que sirva para juzgar un pasaje que nadie
+> haya enumerado.** «No más de dos versos seguidos con la misma rima» lo hace; «la rima es
+> consonante y su orden varía» no, porque eso ya lo dicen el tipo de rima y la ausencia de
+> posiciones.
+
 ### La posición y el enlace
 
 Lo normal es que la rima ocupe el final del verso, pero no es lo único posible: hay **rima
