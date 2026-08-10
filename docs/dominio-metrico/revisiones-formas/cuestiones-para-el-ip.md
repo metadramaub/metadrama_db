@@ -458,6 +458,20 @@ tres disposiciones que la tradición nombra —alterna `ababab`, correlativa `ab
    tiene dos esquemas: el manriqueño `abcabc|defdef`, que se marca si es el observado, y uno de
    distribución variable para todo lo demás, que **no guarda cuál fue**. *Si interesa comparar
    dobles sextillas entre sí, esa información hoy se pierde.*
+5. **¿Se admiten las tres disposiciones que Navarro Tomás documenta para la hexasílaba?**
+   Apareció el 10 de agosto de 2026 al revisar los esquemas abiertos que no declaran nada: la
+   hexasílaba estaba muda y resultó que la fuente sí habla. Navarro Tomás le documenta
+   **rimas alternas** en las cantigas de ciegos y de loores de Juan Ruiz (§ 30); la **aguda
+   `aaé:bbé`** en el *Diálogo de París y Elena* de Eugenio Gerardo Lobo (§ 245); y el **lay**,
+   que define como «breve canción amorosa de origen francoprovenzal en sextillas hexasílabas con
+   insistentes rimas agudas», con el ejemplo **`ááá:ááé`** de don Álvaro de Luna (glosario). *La
+   afirmación ya está registrada en el catálogo; las disposiciones no.*
+   **No se registraron por criterio cronológico**, el mismo que se aplicó al romance heroico:
+   Juan Ruiz es del XIV, Álvaro de Luna del XV y Lobo del XVIII, de modo que nada de eso cae en
+   el teatro áureo. *Si el corpus trae una sextilla hexasílaba aguda, ¿se declara entonces, o se
+   declaran ya las tres?* Ojo a las agudas: **la rima aguda no es una clase de rima sino una
+   cualidad del final**, y el catálogo la lleva en el rasgo `final_acentual`, así que declararlas
+   obligaría a decidir cómo se escribe `aaé:bbé` sin confundir las dos cosas.
 
 ## Copla de pie quebrado
 
