@@ -101,7 +101,8 @@ a tocar [el modelo aplicado](docs/dominio-metrico/implementacion-metrica.md) —
 garantías— y a veces
 [la ontología](docs/dominio-metrico/ontologia-verso-espanol.md), aunque esta es tan general que
 rara vez la mueve un cambio pequeño: solo cuando aparece una manera nueva de decir algo, como
-declarar lo que la norma no fija. Los dos diagramas `.svg` quedan pendientes de rehacer.
+declarar lo que la norma no fija. **Los dos diagramas `.svg` se rehicieron el 10 de agosto de
+2026** y cada documento muestra el suyo: si cambias el modelo, míralos.
 
 **Una función SQL no está probada hasta que se ejecuta.** Un cuerpo entrecomillado no se revalida
 al borrar una columna, y PL/pgSQL resuelve los campos de un `record` en ejecución: `db push`,

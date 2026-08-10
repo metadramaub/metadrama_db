@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1170" viewBox="0 0 1440 1170" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1250" viewBox="0 0 1440 1250" role="img" aria-labelledby="title desc">
   <title id="title">Ontología del verso español</title>
   <desc id="desc">Composición del verso español desde la sílaba métrica hasta el poema, sus planos constitutivos de medida, ritmo y rima, los fenómenos relacionales, la forma como identidad nombrada y la relación entre norma y realización.</desc>
   <defs>
@@ -32,12 +32,12 @@
     </marker>
   </defs>
 
-  <rect class="bg" width="1440" height="1170"/>
+  <rect class="bg" width="1440" height="1250"/>
 
   <!-- Cabecera -->
   <text x="140" y="94" class="display ink">Ontología del verso español</text>
   <text x="140" y="124" class="note muted">Las posibilidades de la métrica hispánica. No describe ningún corpus.</text>
-  <text x="1368" y="94" text-anchor="end" class="small muted">31 · 07 · 2026</text>
+  <text x="1368" y="94" text-anchor="end" class="small muted">10 · 08 · 2026</text>
   <line x1="140" y1="152" x2="1368" y2="152" class="rule"/>
 
   <!-- I · Composición -->
@@ -93,12 +93,13 @@
   <text x="964" y="474" class="lead mid">Desde la última vocal tónica</text>
   <text x="964" y="512" class="item muted">consonante total · asonante parcial</text>
   <text x="964" y="540" class="item muted">verso suelto y verso blanco</text>
-  <text x="964" y="564" class="small muted">posición del esquema y forma, no lo mismo</text>
-  <text x="964" y="596" class="item muted">clase de rima y esquema</text>
+  <text x="964" y="564" class="small muted">clase de rima, esquema y enlace</text>
+  <text x="964" y="596" class="item muted">la norma se dice con posiciones o con restricciones</text>
 
   <line x1="140" y1="636" x2="1368" y2="636" class="hair"/>
   <text x="140" y="662" class="note muted">El verso español es silábico-acentual: cuenta sílabas y sitúa acentos, pero no construye pies.</text>
   <text x="1368" y="662" text-anchor="end" class="note muted">El pie y la mora pertenecen a otras tradiciones.</text>
+  <text x="140" y="688" class="note muted">Una norma puede fijar la rima sin fijar su disposición: eso no es ausencia de norma, es una norma dicha como restricciones. De las de la quintilla se derivan sus ocho disposiciones.</text>
 
   <!-- III · Fenómenos relacionales -->
   <text x="72" y="730" class="numeral">III</text>
@@ -142,27 +143,29 @@
 
   <!-- V · Norma y realización -->
   <text x="72" y="1136" class="numeral">V</text>
-  <text x="140" y="1120" class="section mid">NORMA Y REALIZACIÓN</text>
+  <text x="140" y="1132" class="section mid">NORMA Y REALIZACIÓN</text>
 
-  <rect x="308" y="1100" width="196" height="34" rx="4" class="band"/>
-  <text x="406" y="1122" text-anchor="middle" class="node white">NORMA · @met</text>
+  <rect x="140" y="1170" width="196" height="34" rx="4" class="band"/>
+  <text x="238" y="1192" text-anchor="middle" class="node white">NORMA · @met</text>
 
-  <path d="M 514 1117 L 548 1117" class="flow" marker-end="url(#tip)"/>
+  <path d="M 346 1187 L 380 1187" class="flow" marker-end="url(#tip)"/>
 
-  <rect x="558" y="1100" width="174" height="34" rx="4" class="chip-accent"/>
-  <text x="645" y="1122" text-anchor="middle" class="item ink">variación admitida</text>
+  <rect x="390" y="1170" width="174" height="34" rx="4" class="chip-accent"/>
+  <text x="477" y="1192" text-anchor="middle" class="item ink">variación admitida</text>
 
-  <rect x="742" y="1100" width="120" height="34" rx="4" class="chip"/>
-  <text x="802" y="1122" text-anchor="middle" class="item ink">licencia</text>
+  <rect x="574" y="1170" width="120" height="34" rx="4" class="chip"/>
+  <text x="634" y="1192" text-anchor="middle" class="item ink">licencia</text>
 
-  <rect x="872" y="1100" width="140" height="34" rx="4" class="chip-warn"/>
-  <text x="942" y="1122" text-anchor="middle" class="item ink">desviación</text>
+  <rect x="704" y="1170" width="140" height="34" rx="4" class="chip-warn"/>
+  <text x="774" y="1192" text-anchor="middle" class="item ink">desviación</text>
 
-  <path d="M 1022 1117 L 1056 1117" class="flow" marker-end="url(#tip)"/>
+  <path d="M 854 1187 L 888 1187" class="flow" marker-end="url(#tip)"/>
 
-  <rect x="1066" y="1100" width="230" height="34" rx="4" class="band"/>
-  <text x="1181" y="1122" text-anchor="middle" class="node white">REALIZACIÓN · @real</text>
+  <rect x="898" y="1170" width="230" height="34" rx="4" class="band"/>
+  <text x="1013" y="1192" text-anchor="middle" class="node white">REALIZACIÓN · @real</text>
+
+  <text x="1368" y="1192" text-anchor="end" class="note muted">Un hecho se registra igual venga de donde venga.</text>
 
   <!-- Cierre -->
-  <line x1="140" y1="1156" x2="1368" y2="1156" class="rule"/>
+  <line x1="140" y1="1226" x2="1368" y2="1226" class="rule"/>
 </svg>
