@@ -59,7 +59,7 @@ relaciones tipadas, que se declaran aparte y solo cuando son ciertas.
 
 **Se registran las combinaciones típicas y se nombra a las que han recibido nombre.** Lo
 demás es posible aunque no esté registrado. La escala que acompaña a cada realización
-—definitoria, preferente, admitida, excepcional— no dice qué está permitido, porque nada está
+—definitoria, habitual, admitida, excepcional— no dice qué está permitido, porque nada está
 prohibido: dice cuánto ha fijado la norma o la crítica esa combinación, que es lo que después
 se puede analizar.
 

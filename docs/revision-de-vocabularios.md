@@ -87,7 +87,24 @@ un humano lee y cuyas etiquetas están hoy incrustadas en TypeScript— serían:
 Se quedarían en `CHECK` incluso dentro del catálogo: `estado_revision`, que es flujo y no
 vocabulario editorial, y `tipo` (`simple`/`compuesto` de los metros), que es estructura.
 
-## Dos cabos sueltos
+## Tres cabos sueltos
+
+**`modalidad` mezcla dos ejes en una escala.** Lo señaló el IP el 10 de agosto de 2026 al revisar
+esa columna: `habitual · admitida · excepcional` gradúan **cuán corriente** es algo, y
+`definitoria` afirma **que es necesario**. Son preguntas distintas, y no siempre excluyentes: la
+asonancia de la endecha real es constitutiva de la forma **y además** es lo corriente, y hoy solo
+cabe declarar una de las dos cosas. Pide separarse en una columna de necesidad y otra de
+frecuencia, en las cinco tablas que hoy comparten el enum: `esquemas_rima`, `arquitecturas_forma`,
+`arquitectura_rasgos`, `repeticiones_metricas` y `variedades_arquitectura`.
+
+*Dos datos para cuando se resuelva. `definitoria` no significa «la única»: 7 de los 38 esquemas
+definitorios tienen hermanos, porque describen otra parte de la unidad —el pareado final de la
+canción y su cuerpo sin rima son las dos definitorios— o porque son la restricción abierta junto
+a las realizaciones enumeradas. Y `arquitectura_rasgos` usa solo dos de los cuatro valores,
+`definitoria` y `admitida`, que es lo único que tiene sentido ahí: un rasgo caracteriza la
+arquitectura o solo se admite en ella.*
+
+## Dos cabos más
 
 **`estado_revision` aparece en los dos sitios.** Hay una categoría con ese nombre en
 `vocabularios`, declarada como protegida en `src/lib/utils/permissions.ts`, cuyos términos no

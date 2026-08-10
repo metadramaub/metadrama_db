@@ -55,7 +55,7 @@ públicas y las redes son proyecciones.
 - Representar como formas solo las identidades métricas asignables a una secuencia.
 - Separar arquitecturas, esquemas, variedades y rasgos.
 - Expresar alternativas y secuencias ordenadas de metros.
-- Distinguir lo fijo, lo admitido, lo preferente, lo variable y lo desconocido.
+- Distinguir lo definitorio, lo habitual, lo admitido, lo excepcional y lo desconocido.
 - Mantener procedencia y estado de revisión.
 - Permitir preguntas reproducibles y explicables en el demarcador.
 - Producir filtros públicos semánticamente independientes.

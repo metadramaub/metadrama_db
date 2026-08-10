@@ -64,7 +64,7 @@ Cada evidencia conserva dos escalas del catálogo:
 | Valor | Coincidencia | Contradicción |
 | --- | ---: | ---: |
 | `definitoria` | 1,00 | 1,25 |
-| `preferente` | 0,62 | 0,45 |
+| `habitual` | 0,62 | 0,45 |
 | `admitida` | 0,28 | 0,10 |
 | `excepcional` | 0,12 | 0,00 |
 
