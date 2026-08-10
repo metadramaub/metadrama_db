@@ -46,7 +46,8 @@ const detalleVacio = {
 	afirmaciones: [],
 	fuentes: [],
 	relaciones: [],
-	repeticiones: []
+	repeticiones: [],
+	restriccionesRima: []
 };
 
 describe('catálogo público de formas', () => {
@@ -205,6 +206,84 @@ describe('catálogo público de formas', () => {
 		expect(resultado?.arquitecturas_[0].secciones[0].hijas[0].id).toBe('mudanza-posterior');
 		expect(resultado?.arquitecturas_[0].esquemasRima).toHaveLength(1);
 		expect(resultado?.arquitecturas_[0].esquemasRima[0].id).toBe('rima-abba');
+	});
+
+	/**
+	 * Un esquema abierto no tiene posiciones que enseñar: su norma son sus restricciones. Si no
+	 * se leyeran, la ficha diría de esas formas únicamente que su rima es consonante.
+	 */
+	it('lee la norma de un esquema abierto en sus restricciones', async () => {
+		const rpc = vi.fn().mockResolvedValue({
+			data: {
+				...detalleVacio,
+				esquemasRima: [
+					{
+						esquema_rima_id: 'rima-abierta',
+						arquitectura_id: arquitectura.arquitectura_id,
+						nombre: 'Disposición variable',
+						notacion: null,
+						descripcion: null,
+						ambito: 'unidad'
+					},
+					{
+						esquema_rima_id: 'rima-manriquena',
+						arquitectura_id: arquitectura.arquitectura_id,
+						nombre: 'Manriqueña',
+						notacion: 'abcabc|defdef',
+						descripcion: null,
+						ambito: 'unidad'
+					}
+				],
+				restriccionesRima: [
+					{
+						esquema_rima_id: 'rima-abierta',
+						tipo: 'regularidad',
+						valor_numero: null,
+						valor_texto: null,
+						esquema_referido_id: null,
+						obligatoria: true,
+						descripcion: null
+					},
+					{
+						esquema_rima_id: 'rima-abierta',
+						tipo: 'excluye_esquema',
+						valor_numero: null,
+						valor_texto: null,
+						esquema_referido_id: 'rima-manriquena',
+						obligatoria: true,
+						descripcion: null
+					},
+					{
+						esquema_rima_id: 'rima-abierta',
+						tipo: 'max_consecutivos',
+						valor_numero: 2,
+						valor_texto: null,
+						esquema_referido_id: null,
+						obligatoria: false,
+						descripcion: null
+					}
+				]
+			},
+			error: null
+		});
+
+		const resultado = await loadPublicForm({ rpc }, 'villancico');
+		const abierta = resultado?.arquitecturas_[0].esquemasRima.find(
+			(esquema) => esquema.id === 'rima-abierta'
+		);
+
+		expect(abierta?.restricciones.map((r) => r.texto)).toEqual([
+			'La disposición debe ser regular, aunque la norma no fije cuál',
+			// La exclusión nombra al esquema al que apunta, no su identificador.
+			'No puede coincidir con «Manriqueña»',
+			'No más de 2 versos seguidos con la misma rima'
+		]);
+		expect(abierta?.restricciones.map((r) => r.obligatoria)).toEqual([true, true, false]);
+		// Y un esquema cerrado no arrastra ninguna.
+		expect(
+			resultado?.arquitecturas_[0].esquemasRima.find((e) => e.id === 'rima-manriquena')
+				?.restricciones
+		).toEqual([]);
 	});
 
 	it('presenta el esquema sin nombre propio con la denominación que le dio la tradición', async () => {

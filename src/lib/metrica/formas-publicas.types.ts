@@ -56,6 +56,17 @@ export type PublicSchemePart = {
 	nota: string | null;
 };
 
+/**
+ * Una restricción de un esquema abierto: lo que acota la disposición sin fijarla. Es la norma
+ * de los esquemas que no tienen posiciones que enseñar.
+ */
+export type PublicRhymeRestriction = {
+	/** Ya redactada para leerse: la componen el tipo y su valor. */
+	texto: string;
+	/** Si la norma la exige o solo la admite. */
+	obligatoria: boolean;
+};
+
 export type PublicRhymeScheme = PublicScheme & {
 	/** Identificador estable del esquema; también evita colisiones entre nombres iguales. */
 	id: string;
@@ -63,6 +74,8 @@ export type PublicRhymeScheme = PublicScheme & {
 	cicla: boolean;
 	enlaces: PublicRhymeLink[];
 	partes: PublicSchemePart[];
+	/** Vacío en los esquemas cerrados: su norma son sus posiciones. */
+	restricciones: PublicRhymeRestriction[];
 	/**
 	 * De qué parte de la forma es esta rima, cuando no es de la unidad entera: «Cuartetos».
 	 * El soneto declara la de sus cuartetos en la sección y la de sus tercetos en la unidad,

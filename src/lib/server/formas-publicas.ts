@@ -13,6 +13,7 @@ import type {
 	PublicFormDetail,
 	PublicFormSummary,
 	PublicRepetition,
+	PublicRhymeRestriction,
 	PublicRhymeScheme,
 	PublicSchemePart,
 	PublicSection,
@@ -141,7 +142,8 @@ export async function loadPublicForm(
 		afirmaciones,
 		fuentes,
 		relaciones,
-		repeticiones
+		repeticiones,
+		restriccionesRima
 	} = await cargarAgrupado(db, 'get_forma_metrica_publica_jerarquica', { p_slug: slug });
 
 	const forma = (formas as any[]).find((row) => String(row.slug) === slug);
@@ -184,6 +186,44 @@ export async function loadPublicForm(
 	const posicionesPorEsquema = agrupar(posicionesRima as any[], (row) =>
 		String(row.esquema_rima_id)
 	);
+	const restriccionesPorEsquema = agrupar((restriccionesRima ?? []) as any[], (row) =>
+		String(row.esquema_rima_id)
+	);
+	/** El nombre con que un esquema se cita desde otro, para las exclusiones. */
+	const nombreDeEsquema = new Map(
+		(esquemasRima as any[]).map((e) => [
+			String(e.esquema_rima_id),
+			texto(e.nombre) ?? texto(e.notacion) ?? 'otro esquema'
+		])
+	);
+
+	/**
+	 * Una restricción, redactada. La norma de un esquema abierto no se puede enseñar como una
+	 * notación, porque justamente lo que declara es que no hay una: se lee en palabras.
+	 */
+	const restriccionesDe = (esquemaRimaId: string): PublicRhymeRestriction[] =>
+		(restriccionesPorEsquema.get(esquemaRimaId) ?? []).map((r) => {
+			const cifra = numero(r.valor_numero);
+			const valor = texto(r.valor_texto);
+			const referido = r.esquema_referido_id
+				? (nombreDeEsquema.get(String(r.esquema_referido_id)) ?? 'otro esquema')
+				: null;
+			const redactada: Record<string, string> = {
+				numero_clases: `Emplea ${cifra ?? '—'} clases de rima`,
+				max_consecutivos: `No más de ${cifra ?? '—'} versos seguidos con la misma rima`,
+				min_alternancias: `La rima cambia de clase al menos ${cifra ?? '—'} veces`,
+				prohibe_pareado_final: 'No termina en pareado',
+				versos_sueltos: `Versos sueltos: ${valor ?? '—'}`,
+				identidad_entre_repeticiones: 'La disposición, sea cual sea, vuelve idéntica en cada repetición',
+				regularidad: 'La disposición debe ser regular, aunque la norma no fije cuál',
+				excluye_esquema: `No puede coincidir con «${referido}»`
+			};
+			// La descripción manda cuando la hay: está escrita para esa forma y dice más.
+			return {
+				texto: texto(r.descripcion) ?? redactada[String(r.tipo)] ?? String(r.tipo),
+				obligatoria: r.obligatoria !== false
+			};
+		});
 
 	/**
 	 * Las partes con nombre de un esquema, con el verso donde empieza y acaba cada una. Las
@@ -299,6 +339,7 @@ export async function loadPublicForm(
 			})),
 			denominaciones: propio ? nombres : nombres.slice(1),
 			partes: partesDe(String(e.esquema_rima_id)),
+			restricciones: restriccionesDe(String(e.esquema_rima_id)),
 			deLaSeccion: null,
 			ambito: texto(e.ambito)
 		};
