@@ -222,13 +222,16 @@ function buildIssues(input: {
 					'Tiene una secuencia de rima sin posiciones estructuradas. El esquema textual no basta para compilarla.'
 			});
 		}
-		if (pattern.tipo_secuencia === 'restricciones' && !rhymeRestrictionPatternIds.has(patternId)) {
+		// Un esquema abierto no fija la disposición, así que la norma que le queda son sus
+		// restricciones. Sin ninguna no declara nada: ni cómo se dispone la rima ni qué la limita.
+		if (pattern.tipo_secuencia === 'abierta' && !rhymeRestrictionPatternIds.has(patternId)) {
 			issues.push({
 				code: 'patron_rima_sin_regla',
 				level: 'warning',
 				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
-				message: 'Declara reglas combinatorias, pero no tiene ninguna restricción estructurada.'
+				message:
+					'Deja la disposición abierta y no declara ninguna restricción, de modo que no dice nada de su rima salvo el tipo.'
 			});
 		}
 	}
