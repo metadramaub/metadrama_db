@@ -19,7 +19,7 @@ export type AlcanceDePregunta = 'secuencia' | 'unidad' | 'realizacion';
  * Si la pregunta se responde dentro de la unidad y no una sola vez para el pasaje.
  *
  * Es el criterio que reparte las preguntas entre las dos pantallas del editor, y vive aquí para
- * que la provisionalidad de `realizacion` esté escrita una vez y no repartida por los componentes.
+ * que el reparto esté escrito una vez y no repartido por los componentes.
  */
 export function seRespondeDentroDeLaUnidad(alcance: unknown): boolean {
 	return alcance === 'unidad' || alcance === 'realizacion';
