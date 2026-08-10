@@ -127,10 +127,19 @@ tramos sin forma, que se revisaron aparte porque no tienen norma que contrastar.
 ### Lo que queda, y ya no es forma por forma
 
 No queda ninguna forma por revisar. Lo abierto son las **lecturas transversales** de
-[defectos aplazados](#defectos-del-modelo-aplazados), que se hacen sobre el catálogo entero:
-el concepto de variedad, la modalidad y la primacía, las reglas de repetición, la
-reutilización de secciones, el modelo de esquemas abiertos y la automatización de las
-preguntas del editor. Las dudas filológicas que siguen abiertas están en
+[defectos aplazados](#defectos-del-modelo-aplazados), que se hacen sobre el catálogo entero.
+Eran seis; a 10 de agosto de 2026 quedan tres:
+
+| Lectura | Estado |
+| --- | --- |
+| El concepto de variedad | Hecha el 9 de agosto |
+| La automatización de las preguntas del editor | Hecha entre el 9 y el 10: se derivan respuestas y enunciados |
+| La reutilización de secciones | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
+| **La modalidad y la primacía** | Abierta |
+| **Las reglas de repetición** | Abierta a medias: el comportamiento ya es dato de la repetición; queda qué dice `regla`, que sigue siendo texto libre |
+| **El modelo de esquemas abiertos** | Abierta |
+
+Las dudas filológicas que siguen abiertas están en
 [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md), y muchas se responden
 juntas dentro de esas lecturas.
 
