@@ -42,6 +42,23 @@ describe('applyProposedUnitAnswers', () => {
 	});
 
 	/**
+	 * `seccion_id` dice dónde se responde y `seccion_tratada_id` de qué trata. Los dos grupos
+	 * del soneto hablan de una sección que se realiza dos veces —sus cuartetos, sus tercetos—
+	 * pero se responden una sola vez, porque su esquema describe las dos realizaciones a la
+	 * vez. Confundirlas haría preguntar dos veces lo mismo.
+	 */
+	it('una pregunta que habla de una sección pero no se ancla en ella se responde una vez', () => {
+		const units = [
+			unit('soneto'),
+			unit('cuarteto-1', { realizacion_padre_id: 'soneto', seccion_id: 'sec-cuartetos' }),
+			unit('cuarteto-2', { realizacion_padre_id: 'soneto', seccion_id: 'sec-cuartetos' })
+		];
+		const groups = [{ grupo_eleccion_id: 'g1', seccion_tratada_id: 'sec-cuartetos' }];
+		const result = applyProposedUnitAnswers(units, [], groups, [RESPUESTA]);
+		expect(result.map((choice) => choice.realizacion_prueba_id)).toEqual(['soneto']);
+	});
+
+	/**
 	 * La propuesta rellena huecos, no corrige. Si el editor ya contestó, lo suyo manda: no
 	 * tendría sentido que abrir la secuencia otra vez le deshiciera la respuesta.
 	 */
