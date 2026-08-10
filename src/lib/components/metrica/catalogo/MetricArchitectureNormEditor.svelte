@@ -231,15 +231,14 @@
 			help: 'Dónde se completa o reinicia el esquema. «Unidad genérica» es un valor provisional que debe sustituirse.'
 		},
 		{
-			key: 'tipo',
+			key: 'tipo_secuencia',
 			label: 'Comportamiento',
 			type: 'select',
 			required: true,
 			options: [
-				{ value: 'secuencia_fija', label: 'Secuencia fija' },
-				{ value: 'conjunto_permitido', label: 'Conjunto de medidas permitidas' },
-				{ value: 'secuencia_repetible', label: 'Secuencia repetible' },
-				{ value: 'abierta', label: 'Abierta' }
+				{ value: 'secuencia', label: 'Secuencia — se lee de una vez' },
+				{ value: 'ciclo', label: 'Ciclo — se repite' },
+				{ value: 'conjunto', label: 'Conjunto — sus posiciones no llevan orden' }
 			]
 		},
 		{ key: 'estado_revision', label: 'Estado', type: 'select', options: reviewOptions, required: true }
@@ -301,15 +300,10 @@
 			type: 'select',
 			required: true,
 			options: [
-				{ value: 'secuencia_fija', label: 'Secuencia fija' },
-				{ value: 'secuencia_repetible', label: 'Secuencia repetible' },
-				{ value: 'restricciones', label: 'Reglas combinatorias' },
-				{ value: 'libre', label: 'Distribución libre' },
-				{
-					value: 'pendiente_revision',
-					label: 'Pendiente de formalizar — valor importado',
-					disabled: true
-				}
+				{ value: 'secuencia', label: 'Secuencia — se lee de una vez' },
+				{ value: 'ciclo', label: 'Ciclo — se repite' },
+				{ value: 'conjunto', label: 'Conjunto — sus posiciones no llevan orden' },
+				{ value: 'abierta', label: 'Abierta — la norma no fija la disposición' }
 			],
 			help: 'Describe la forma de la secuencia. La modalidad indica después cuánto la ha fijado la tradición.'
 		},

@@ -23,7 +23,6 @@ export const METRIC_SEQUENCE_TYPES = [
 	'ciclo',
 	'secuencia',
 	'conjunto',
-	'restricciones',
 	'abierta'
 ] as const;
 
