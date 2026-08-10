@@ -108,14 +108,40 @@ de secuencia queda para los rasgos, que describen el pasaje sin cambiar su estru
 
 ## Silva
 
-**Qué tiene hoy el catálogo:** cuatro arquitecturas, todas consonantes, y el rasgo
-`organizacion_en_pareados`, que es el eje que separa la silva del endecasílabo suelto y de la
-tirada de pareados. El rasgo tiene **cinco grados ordenados y cualitativos**: `ninguna` (1),
-`ocasionales` (2), `habituales` (3), `predominantes` (4), `regulares` (5).
+**Qué tiene hoy el catálogo:** cuatro arquitecturas, todas consonantes, situadas en **dos ejes**
+desde el 10 de agosto de 2026. `densidad_de_rima` dice cuántos versos riman —*ninguna ·
+esporádica · mayoritaria · total*— y `organizacion_en_pareados` qué figura dibujan los que riman
+—*ninguna · ocasionales · habituales · predominantes · regulares*—. Antes los dos iban en una
+sola escala, y por eso la frontera con el endecasílabo suelto estaba escrita en el eje
+equivocado: no se distinguen por los pareados sino por cuánta rima hay.
 
-**Cada arquitectura se sitúa en ese eje**, y tres de las cuatro lo hacen sin preguntar nada: lo
-declaran como rasgo `definitorio` con un valor fijo. La tabla del apartado siguiente cruza cada
-una con su término legado y con la fuente de la que sale.
+La tabla del apartado siguiente cruza cada arquitectura con su término legado y con la fuente de
+la que sale.
+
+0. **¿Dos de las cuatro silvas se diferencian solo por un valor de rasgo?** Es la duda que abren
+   los dos ejes, y conviene debatirla en el proyecto antes de anotar silvas de verdad.
+
+   | | esquema de rima | densidad | pareados |
+   | --- | --- | --- | --- |
+   | Consonante de orden libre | `consonante-orden-libre` | mayoritaria · total | **predominantes** |
+   | Libre | `consonante-orden-libre` | mayoritaria · total | **ninguna** |
+
+   **Comparten el mismo esquema, la misma medida y la misma densidad admitida.** Lo único que las
+   separa es el valor de un rasgo. Y un rasgo es una respuesta *dentro* de una norma, no una
+   norma: si dos arquitecturas no se distinguen más que por él, una de las dos es un **nombre**,
+   no una realización estructural.
+
+   *A favor de dejarlas:* las cuatro salen de los cuatro tipos que distinguen Morley y Bruerton,
+   y el corpus todavía no ha hablado. Retirar una ahora sería decidir por intuición justo lo que
+   este modelo permite decidir por evidencia.
+
+   *A favor de fundirlas:* el editor tiene que elegir entre dos arquitecturas cuya diferencia no
+   puede observar antes de haber contado los pareados —que es lo que el rasgo pregunta después—.
+   Si se fundieran en una, el rasgo respondería lo mismo y la elección desaparecería.
+
+   **Es exactamente la clase de caso que el modelo está hecho para resolver con datos**: cuando
+   haya silvas anotadas, se mira si alguna cae en `predominantes` sin ser también otra cosa. Hasta
+   entonces, queda anotado como la primera arquitectura que hay que mirar.
 
 ### El vocabulario: quién llama cómo a qué
 
