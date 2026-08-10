@@ -82,7 +82,7 @@ function emptyEditorSandbox() {
 	};
 }
 
-function buildIssues(input: {
+export function buildIssues(input: {
 	forms: MetricCatalogForm[];
 	configurations: MetricCatalogConfiguration[];
 	domain: MetricCatalogDomainData;
@@ -205,6 +205,21 @@ function buildIssues(input: {
 	const rhymeRestrictionPatternIds = new Set(
 		input.domain.rhymeRestrictions.map((row) => String(row.esquema_rima_id))
 	);
+	const rhymeDensityTraitIds = new Set(
+		input.domain.traits
+			.filter((row) => String(row.slug) === 'densidad_de_rima')
+			.map((row) => String(row.rasgo_id))
+	);
+	const configurationsDeclaringRhymeDensity = new Set(
+		input.domain.configurationTraits
+			.filter((row) => rhymeDensityTraitIds.has(String(row.rasgo_id)))
+			.map((row) => String(row.arquitectura_id))
+	);
+	const configurationsWithConcreteRhyme = new Set(
+		input.domain.rhymePatterns
+			.filter((row) => row.tipo_secuencia !== 'abierta')
+			.map((row) => String(row.arquitectura_id))
+	);
 	for (const pattern of input.domain.rhymePatterns) {
 		const patternId = String(pattern.esquema_rima_id);
 		const configuration = configurationById.get(String(pattern.arquitectura_id));
@@ -222,16 +237,23 @@ function buildIssues(input: {
 					'Tiene una secuencia de rima sin posiciones estructuradas. El esquema textual no basta para compilarla.'
 			});
 		}
-		// Un esquema abierto no fija la disposición, así que la norma que le queda son sus
-		// restricciones. Sin ninguna no declara nada: ni cómo se dispone la rima ni qué la limita.
-		if (pattern.tipo_secuencia === 'abierta' && !rhymeRestrictionPatternIds.has(patternId)) {
+		// Un esquema abierto no fija la disposición, y eso por sí solo no es un defecto: es lo que
+		// hace una forma general. Solo lo es cuando la arquitectura entera no dice nada más de su
+		// rima, y tiene tres maneras de decirlo —las restricciones del propio esquema, la densidad
+		// declarada, o unos esquemas concretos que la realizan y de los que se calcula—.
+		if (
+			pattern.tipo_secuencia === 'abierta' &&
+			!rhymeRestrictionPatternIds.has(patternId) &&
+			!configurationsDeclaringRhymeDensity.has(String(pattern.arquitectura_id)) &&
+			!configurationsWithConcreteRhyme.has(String(pattern.arquitectura_id))
+		) {
 			issues.push({
 				code: 'patron_rima_sin_regla',
 				level: 'warning',
 				entityId: configuration.arquitectura_id,
 				label: configuration.nombre,
 				message:
-					'Deja la disposición abierta y no declara ninguna restricción, de modo que no dice nada de su rima salvo el tipo.'
+					'Deja la disposición abierta y no declara ninguna restricción, ni su densidad de rima, ni ningún esquema concreto: no dice nada de su rima salvo el tipo.'
 			});
 		}
 	}

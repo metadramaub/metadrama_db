@@ -216,9 +216,12 @@ hacerlas antes obliga a hacerlas dos veces.
    se queda**: no es una columna vacía sino un mecanismo de retirada sin estrenar, lo leen 17
    objetos SQL, y el IP decidió resolverlo al fusionar con `main`. Anotado en
    [la revisión de vocabularios](../revision-de-vocabularios.md#lo-que-se-hace-ahora-y-lo-que-espera).
-7. **El aviso `patron_rima_sin_regla` se ha vuelto ruido.** Salta en los ocho esquemas abiertos sin
-   restricciones, y la revisión del 10 de agosto comprobó que **los ocho están bien**: la norma no
-   fija más que el tipo de rima. O se afina o se baja a informativo.
+7. ~~**El aviso `patron_rima_sin_regla` se ha vuelto ruido.**~~ **Afinado el 10 de agosto.** Dejar
+   la disposición abierta no es un defecto —es lo que hace una forma general—; lo es que la
+   arquitectura no diga nada más de su rima, y tiene tres maneras de decirlo: las restricciones del
+   esquema, la densidad declarada o unos esquemas concretos de los que se calcula. El aviso miraba
+   solo la primera. Los ocho dejan de saltar, y al callar el ruido **queda a la vista el único
+   acierto que tenía**: la `suelta` de la endecha real, un ciclo sin posiciones —punto 4—.
 8. **La sección de seis versos del soneto**, en
    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
 9. **Las 27 equivalencias del vocabulario legado sin destino**, en
