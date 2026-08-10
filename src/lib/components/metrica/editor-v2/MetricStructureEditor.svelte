@@ -3,6 +3,7 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
+	import { controlDeRespuestaUnica } from '$lib/metrica/controles-formulario';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import {
 		addMetricUnit,
@@ -1327,10 +1328,6 @@
 				{@const state = familyState(family)}
 				{@const familyFolded = isFamilyFolded(family)}
 				{@const options = familyOptions(family)}
-				{@const items = options.map((option: MetricCatalogDomainRow) => ({
-					id: String(option.slug),
-					label: String(option.nombre)
-				}))}
 				<div class="form-field">
 					<span class="form-label">
 						<span class="form-label-with-help">
@@ -1344,13 +1341,35 @@
 						</span>
 					</span>
 					<div class="flex flex-wrap items-center gap-3">
-						{#if items.length > 0 && items.length <= 4 && items.every((item: { label: string }) => item.label.length <= 24)}
-							<SegmentedChoice
-								{items}
-								value={state.uniform ?? null}
-								onChange={(slug) => slug && setFamilyChoice(family, slug)}
-								ariaLabel={family.label}
-							/>
+						{#if controlDeRespuestaUnica(options.length) === 'lista'}
+							<div class="w-full space-y-1">
+								{#each options as option (String(option.opcion_eleccion_id))}
+									{@const slug = String(option.slug)}
+									<label
+										class={`flex cursor-pointer items-start gap-2 border px-3 py-2 text-sm ${
+											state.uniform === slug
+												? 'border-[color:var(--primary)] bg-[color:var(--muted)]'
+												: 'border-[color:var(--border)] bg-white'
+										}`}
+									>
+										<input
+											type="radio"
+											class="mt-0.5"
+											name={family.key}
+											checked={state.uniform === slug}
+											onchange={() => setFamilyChoice(family, slug)}
+										/>
+										<span>
+											{String(option.nombre)}
+											{#if option.descripcion}
+												<span class="block text-xs text-[color:var(--muted-foreground)]">
+													{String(option.descripcion)}
+												</span>
+											{/if}
+										</span>
+									</label>
+								{/each}
+							</div>
 							{#if state.uniform === null && state.answered > 0}
 								<span class="text-xs text-[color:var(--muted-foreground)]">Distintas respuestas</span>
 							{/if}
