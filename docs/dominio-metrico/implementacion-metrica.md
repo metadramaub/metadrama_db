@@ -145,21 +145,31 @@ sostiene la bibliografía declarada, no lo que muestre el corpus:
 
 | Valor | Qué dice |
 | --- | --- |
-| `definitoria` | **Sin esto, la arquitectura no sería la que es.** No es una realización: es la norma |
+| `definitoria` | Se da **siempre**: sin esto, la arquitectura no sería la que es |
 | `habitual` | Las fuentes la dan como la corriente |
-| `admitida` | Las fuentes la documentan sin destacarla |
+| `admitida` | Se da lo bastante como para que la crítica ya no la extrañe |
 | `excepcional` | Las fuentes la documentan advirtiendo que es rara |
 
-**`definitoria` no compite en frecuencia con las otras tres**, y conviene tenerlo claro porque
-invita a confundirse. Los treinta y nueve esquemas definitorios caen en tres formas —treinta y uno
-son el único de su arquitectura, cinco son el esquema abierto que declara el criterio, y tres son
-una parte complementaria, como el pareado final de la canción— y las tres dicen lo mismo. Cuando
-un definitorio convive con hermanos graduados, como la quintilla con sus ocho tipologías, lo que
-hay no es una lista de cinco alternativas: hay **una norma y sus realizaciones**.
+**Es una sola escala, y mide frecuencia**, porque la norma métrica española no es prescriptiva:
+lo que hace que algo esté `admitido` es que se dio suficientes veces como para que la crítica
+dejara de verlo como una rareza. La normativa es resultado de la práctica. Por eso `definitoria`
+no es otro eje sino **el tope del mismo**: lo que se da en el cien por cien de los casos deja de
+poder describirse como frecuente y pasa a describir la forma. Necesidad es el límite de frecuencia.
 
-*En agosto de 2026 se sospechó que la columna mezclaba dos ejes, necesidad y frecuencia, y que
-había que partirla. Se comprobó y no: ningún definitorio es descrito como raro, y no puede serlo,
-porque lo que la norma exige está siempre. El razonamiento está en
+De ahí sale una propiedad que la base sostiene: **ninguna pregunta ofrece nunca una realización
+definitoria junto a otra modalidad**. Una definitoria no es una alternativa entre las que elegir,
+sino la norma que las alternativas cumplen. Los treinta y ocho esquemas definitorios lo confirman
+—treinta y uno son el único de su arquitectura, cinco son el esquema abierto que declara el
+criterio, y dos son una parte complementaria, como el pareado final de la canción—; cuando uno
+convive con hermanos graduados, como la quintilla con sus ocho tipologías, lo que hay no es una
+lista de nueve alternativas: hay **una norma y sus realizaciones**.
+
+*El invariante se comprobó primero y falló en un sitio: la endecha real ofrecía la asonancia como
+definitoria al lado de la abrazada, la cruzada y la suelta, es decir la norma y su negación como
+hermanas. Las fuentes no la sostenían —Navarro Tomás no la define, narra que «se generalizó»— y
+pasó a `habitual`. Esa arquitectura se quedó sin ningún esquema de rima definitorio, y es correcto:
+a la endecha real la define el metro. Desde entonces la propiedad va escrita como guarda. El
+razonamiento completo está en
 [la revisión de vocabularios](../revision-de-vocabularios.md#un-cabo-que-result%C3%B3-no-serlo).*
 
 **Que la norma no fije algo no se declara con un valor: se declara no declarándolo**, y se

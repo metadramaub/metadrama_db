@@ -184,18 +184,22 @@ hacerlas antes obliga a hacerlas dos veces.
    dibujan los que riman—. La silva y el endecasílabo suelto quedan en rangos disjuntos, que es
    el umbral del 50 % de Morley y Bruerton, y una guarda impide que se solapen. Contado en
    [el estado de la revisión](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
-2. ~~**`definitoria` no pertenece a la escala de la modalidad.**~~ **Comprobado el 10 de agosto y
-   descartado: no eran dos ejes.** Los 39 esquemas definitorios dicen todos lo mismo —sin esto la
-   arquitectura no sería la que es— y ninguno es descrito como raro, que es lo que tendría que
-   ocurrir si necesidad y frecuencia fueran independientes. `definitoria` es el tope de la misma
-   escala. El razonamiento y su refutación, en
+2. ~~**`definitoria` no pertenece a la escala de la modalidad.**~~ **Cerrado el 10 de agosto.** No
+   eran dos ejes: la escala es de frecuencia y `definitoria` es su tope —lo que se da siempre—,
+   porque la norma métrica es resultado de la práctica y no al revés. De ahí salió un invariante
+   que ahora sostiene una guarda: **ninguna pregunta ofrece una definitoria junto a otra
+   modalidad**. Falló en un sitio, la endecha real, y se corrigió con las fuentes en la mano. El
+   razonamiento entero, en
    [la revisión de vocabularios](../revision-de-vocabularios.md#un-cabo-que-result%C3%B3-no-serlo).
 3. **Una restricción solo puede colgar de un esquema, no de una arquitectura.** Las de la silva y
    las de la quintilla son norma de su arquitectura; hoy se apoyan en su esquema abierto, que
    funciona pero no es lo que son. Se descartó abrir la columna por un caso.
 4. **La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** `[----]…` dice
    cuatro versos sueltos y nadie los expandió. O se expanden o se admite que la notación baste
-   —pero entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—.
+   —pero entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—. *Espera además
+   una decisión del IP que puede retirarlo: Navarro Tomás y el Diccionario llaman endecha real a la
+   que no rima, y Jauralde dice que el nombre llegó cuando recibió rimas. Ver
+   [Endecha real](./revisiones-formas/cuestiones-para-el-ip.md#endecha-real) 4.*
 5. **`tipo` y `ambito` de las repeticiones están perfectamente correlacionados**: `estribillo` con
    sección y `palabra_final` con unidad, sin excepción en las once filas. Con dos clases puede ser
    casualidad; conviene mirarlo cuando haya una tercera.
