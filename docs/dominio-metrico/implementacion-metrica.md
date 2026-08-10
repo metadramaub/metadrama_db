@@ -156,21 +156,13 @@ dejara de verlo como una rareza. La normativa es resultado de la práctica. Por 
 no es otro eje sino **el tope del mismo**: lo que se da en el cien por cien de los casos deja de
 poder describirse como frecuente y pasa a describir la forma. Necesidad es el límite de frecuencia.
 
-De ahí sale una propiedad que la base sostiene: **ninguna pregunta ofrece nunca una realización
+De ahí sale una propiedad que una guarda sostiene: **ninguna pregunta ofrece una realización
 definitoria junto a otra modalidad**. Una definitoria no es una alternativa entre las que elegir,
-sino la norma que las alternativas cumplen. Los treinta y ocho esquemas definitorios lo confirman
-—treinta y uno son el único de su arquitectura, cinco son el esquema abierto que declara el
-criterio, y dos son una parte complementaria, como el pareado final de la canción—; cuando uno
-convive con hermanos graduados, como la quintilla con sus ocho tipologías, lo que hay no es una
-lista de nueve alternativas: hay **una norma y sus realizaciones**.
+sino la norma que las alternativas cumplen; cuando convive con hermanas graduadas, lo que hay no
+es una lista de opciones sino **una norma y sus realizaciones**.
 
-*El invariante se comprobó primero y falló en un sitio: la endecha real ofrecía la asonancia como
-definitoria al lado de la abrazada, la cruzada y la suelta, es decir la norma y su negación como
-hermanas. Las fuentes no la sostenían —Navarro Tomás no la define, narra que «se generalizó»— y
-pasó a `habitual`. Esa arquitectura se quedó sin ningún esquema de rima definitorio, y es correcto:
-a la endecha real la define el metro. Desde entonces la propiedad va escrita como guarda. El
-razonamiento completo está en
-[la revisión de vocabularios](../revision-de-vocabularios.md#un-cabo-que-result%C3%B3-no-serlo).*
+Una arquitectura puede quedarse sin ningún esquema de rima definitorio, y no es un hueco: hay
+formas a las que define el metro y no la rima.
 
 **Que la norma no fije algo no se declara con un valor: se declara no declarándolo**, y se
 comprueba. Un esquema de rima es abierto cuando no tiene ni una posición, y entonces su norma son
@@ -184,28 +176,19 @@ sentido ahí —un rasgo caracteriza la arquitectura o solo se admite en ella—
 
 ## Un esquema abierto junto a otros concretos
 
-Cuatro arquitecturas declaran un esquema abierto **y además** esquemas concretos, y no siempre
-significa lo mismo. Son tres relaciones distintas con la misma forma, y **el modelo ya las
-distingue sin necesidad de una columna que las nombre**:
+Una arquitectura puede declarar un esquema abierto **y además** esquemas concretos, y eso significa
+tres cosas distintas. Cuál de las tres **se reconoce por el dato**, sin una columna que lo nombre:
 
-| Relación | Cómo se reconoce | Ejemplo |
+| Relación | Cómo se reconoce | Qué implica |
 | --- | --- | --- |
-| **Norma y realizaciones** | El abierto lleva restricciones y no excluye a nadie | La quintilla: el criterio, y las ocho tipologías que lo cumplen |
-| **Alternativa residual** | El abierto **excluye** a su hermano con `excluye_esquema` | La sextilla de doble pie quebrado: «cualquier disposición regular *que no sea* la manriqueña» |
-| **Partes complementarias** | Ocupan **secciones distintas** | La canción: el cuerpo sin rima y el pareado final, que no compiten sino que completan la estrofa |
+| **Norma y realizaciones** | El abierto lleva restricciones y no excluye a nadie | Los concretos tienen que cumplir el criterio |
+| **Alternativa residual** | El abierto excluye a su hermano con `excluye_esquema` | El abierto es lo que queda fuera del concreto, no su norma |
+| **Partes complementarias** | Ocupan secciones distintas | No compiten: completan la estrofa entre los dos |
 
-En el primer caso los concretos **tienen que cumplir** el criterio del abierto, y eso se comprueba:
-es el defecto `D13` de `npm run audit:metrica`, que hoy contrasta las ocho tipologías de la
-quintilla contra sus tres restricciones. En los otros dos no aplica, y por eso el chequeo salta al
-excluido y a los de otra sección.
-
-*Aquí se descartó, con el dato delante, que una restricción pudiera colgar de una arquitectura
-además de un esquema. Parecía más fiel —«la norma de la quintilla es de su arquitectura, no de su
-esquema»— pero **dos de las once restricciones serían falsas a ese nivel**: la exclusión de la
-sextilla se excluiría a sí misma, y el «todos los versos sueltos» de la canción alcanzaría al
-pareado final, que rima. Y ocho de las once viven en arquitecturas de un solo esquema, donde los
-dos niveles son indistinguibles. La columna nueva no arreglaba nada y habilitaba un sitio donde
-poner la norma en el nivel equivocado.*
+Solo la primera obliga, y esa obligación se comprueba: es el defecto `D13` de
+`npm run audit:metrica`. La restricción se declara siempre sobre el esquema, nunca sobre la
+arquitectura, porque hay restricciones que solo son ciertas de un esquema —la que excluye a un
+hermano, o la que habla del cuerpo de la estrofa y no de su pareado final—.
 
 ## Las tres capas
 
