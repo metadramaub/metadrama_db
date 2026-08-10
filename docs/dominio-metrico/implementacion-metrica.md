@@ -83,6 +83,61 @@ días, y la versión de entonces está en
     respuestas y sus enunciados se derivan. Lo que no se pueda derivar no es una excepción que
     justifique escribirlo a mano: es una carencia del catálogo, y la solución es declararla.
 
+## Para qué sirve modelar así
+
+Es la pregunta que justifica el trabajo, y conviene tenerla escrita antes que ninguna tabla.
+
+**Un nombre métrico es una abreviatura de un conjunto de características.** «Silva de
+consonantes», «endecasílabo suelto», «copla manriqueña» no son cosas: son etiquetas que la
+tradición puso a combinaciones que le parecieron estables. Un repertorio que guarde solo el
+nombre puede contar cuántas silvas hay, y nada más.
+
+Este catálogo guarda **el nombre y cada característica por separado**, como dato. Y de ahí salen
+tres cosas que con solo el nombre no se pueden hacer:
+
+**Se puede preguntar por rasgos que cruzan formas.** Cuántos pasajes riman más de la mitad de sus
+versos, se llamen como se llamen; en cuáles los pareados organizan la serie; qué formas comparten
+terminación esdrújula. La pregunta no la limita la clasificación previa.
+
+**Se puede revisar la clasificación con el propio corpus.** Si las cuatro silvas que Morley y
+Bruerton distinguen no se separan en los datos, el dato lo dirá, y esa arquitectura se retirará
+con evidencia y no por intuición. Cuando la característica solo vive en el nombre, la
+clasificación no se puede poner a prueba sin rehacerla entera.
+
+**Se puede fechar y atribuir sobre magnitudes, no sobre etiquetas.** Navarro Tomás data la silva
+dramática en 1588 diciendo que Lope empezó a rimar pasajes que antes iban sueltos. Esa afirmación
+es una hipótesis sobre **una magnitud que sube en el tiempo** —cuánta rima hay—, y solo se puede
+contrastar si esa magnitud está guardada aparte del nombre. Con «silva» y «endecasílabo suelto»
+como cajas cerradas, la transición es invisible: cada pasaje cae en una o en otra y el proceso
+desaparece.
+
+*Esa es también la razón de que los dos ejes se separaran. Mientras «cuánta rima hay» y «cómo se
+organiza» compartían escala, la frontera entre las dos formas estaba escrita en el eje
+equivocado, y la pregunta de Navarro Tomás no se podía formular.*
+
+## Los dos ejes de la rima libre
+
+Cuando la norma no fija qué versos riman, hacen falta dos medidas independientes:
+
+| Rasgo | Qué mide | Escala |
+| --- | --- | --- |
+| `densidad_de_rima` | Cuántos versos riman frente a los que quedan sueltos | ninguna · esporádica · mayoritaria · total |
+| `organizacion_en_pareados` | Qué figura dibujan los que riman | ninguna · ocasionales · habituales · predominantes · regulares |
+
+Son independientes: una silva libre rima casi todo **sin** formar pareados, y un endecasílabo
+suelto con algún dístico intercalado forma pareados **sin apenas** rimar.
+
+**La densidad se declara solo donde la norma deja el reparto abierto**, y se calcula en los demás
+casos por dos caminos: desde las posiciones del propio esquema —el romance rima la mitad de sus
+versos porque su ciclo `[----]…` lo fija— o desde las secciones que reutilizan otra forma —la
+copla real son dos quintillas y hereda la suya—. Una guarda exige que toda arquitectura activa
+diga su densidad o deje calcularla por alguno de los dos.
+
+> **Pendiente, cuando se escriba esa derivación.** Contar los versos rimados no basta: `ABAB` y
+> `ABCABC` riman todos sus versos y no tienen la misma textura, porque reparten esos versos entre
+> distinto número de clases. La densidad y la **concentración de la rima** son dos cosas, y hoy
+> solo está modelada la primera.
+
 ## Las tres capas
 
 | Capa | Qué guarda | Dónde |
