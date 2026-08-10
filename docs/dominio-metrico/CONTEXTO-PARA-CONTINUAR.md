@@ -179,11 +179,11 @@ hacerlas antes obliga a hacerlas dos veces.
 
 ### Modelo
 
-1. **Un rasgo puede estar midiendo dos magnitudes.** `organizacion_en_pareados` gradúa *ninguna ·
-   ocasionales · habituales · predominantes · regulares* y `versos_sueltos` *ninguno · admitidos ·
-   predominantes · todos*. Las dos dicen «cuánto» sin decir «cuánto de qué», y en la silva libre
-   `ninguna` significa «ningún pareado» aunque sí haya rima. Es el problema que más veces ha
-   estorbado —silva, endecasílabo suelto y esquemas abiertos— y el IP pidió verlo caso por caso.
+1. ~~**Un rasgo puede estar midiendo dos magnitudes.**~~ **Hecho el 10 de agosto de 2026.** Se
+   separó en `densidad_de_rima` —cuántos versos riman— y `organizacion_en_pareados` —qué figura
+   dibujan los que riman—. La silva y el endecasílabo suelto quedan en rangos disjuntos, que es
+   el umbral del 50 % de Morley y Bruerton, y una guarda impide que se solapen. Contado en
+   [el estado de la revisión](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
 2. **`definitoria` no pertenece a la escala de la modalidad.** `habitual · admitida · excepcional`
    gradúan frecuencia y `definitoria` afirma necesidad; no siempre son excluyentes. Afecta a cinco
    tablas y está anotado en [la revisión de vocabularios](../revision-de-vocabularios.md), que es

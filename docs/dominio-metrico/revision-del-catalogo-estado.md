@@ -883,6 +883,34 @@ desde el 9 de agosto **es exactamente lo que declara la columna `rol`**.
 Al cerrar las transversales conviene repetir este barrido, porque cada cosa que se convierte en
 dato deja atrás una frase que la repite.
 
+~~**Un rasgo puede estar midiendo dos magnitudes a la vez.**~~ **Resuelto el 10 de agosto de
+2026**, migración `20260810310000`. Se separó en dos rasgos:
+
+| | Qué mide | Escala |
+| --- | --- | --- |
+| `densidad_de_rima` | Cuántos versos riman frente a los que quedan sueltos | ninguna · esporádica · mayoritaria · total |
+| `organizacion_en_pareados` | Qué figura dibujan los que riman | ninguna · ocasionales · habituales · predominantes · regulares |
+
+**Y con eso la frontera queda declarada donde estaba de verdad.** La silva y el endecasílabo
+suelto no se distinguen por los pareados sino por cuánta rima hay: el suelto admite `ninguna` y
+`esporádica`, la silva `mayoritaria` y `total`, **rangos disjuntos** que reproducen el umbral del
+50 % de Morley y Bruerton, y una guarda impide que vuelvan a solaparse. Los pareados son la
+*figura* que esa rima toma en el teatro, que es lo que Navarro Tomás describe al datar la silva
+dramática: «desde 1588 Lope intercaló pareados en los pasajes escritos en endecasílabos y
+heptasílabos sueltos… La silva dramática nace de rimar un pasaje que antes iba suelto».
+
+**Solo se declara donde la norma deja el reparto abierto.** Donde el esquema dice qué posiciones
+quedan sueltas, la densidad se calcula: el romance rima la mitad de sus versos porque su ciclo lo
+fija, no porque nadie lo declare. Quedan cuatro arquitecturas —tres silvas y el endecasílabo
+suelto—, y una guarda lo sostiene: al primer intento de declarar la silva consonante regular la
+paró, porque su esquema `aA | bB | cC` ya rima todos los versos.
+
+*Los porcentajes siguen sin guardarse, y a propósito: nada cuenta hoy los versos rimados de un
+pasaje, así que una cifra sería declarativa y no verificable. Los umbrales de M&B viven en la
+descripción de cada valor, que es donde se pueden citar sin fingir que se midieron.*
+
+El diagnóstico original, tal como se anotó:
+
 **Un rasgo puede estar midiendo dos magnitudes a la vez.** Salió el 9 de agosto de 2026 al
 intentar recuperar los porcentajes de Morley y Bruerton en `organizacion_en_pareados`, que es
 el eje que separa la silva del endecasílabo suelto y del pareado. M&B cuentan **versos
