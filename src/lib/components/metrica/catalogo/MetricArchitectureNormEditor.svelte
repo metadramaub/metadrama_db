@@ -480,10 +480,7 @@
 			required: true,
 			options: [
 				{ value: 'palabra_final', label: 'Palabra final' },
-				{ value: 'verso', label: 'Verso' },
-				{ value: 'estribillo', label: 'Estribillo' },
-				{ value: 'seccion', label: 'Sección' },
-				{ value: 'otro', label: 'Otro' }
+				{ value: 'estribillo', label: 'Estribillo' }
 			]
 		},
 		{
