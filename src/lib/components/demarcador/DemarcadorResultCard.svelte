@@ -44,7 +44,7 @@
 	}
 
 	function etiquetaModalidad(modalidad: ModalidadEvidencia): string {
-		if (modalidad === 'preferente') return 'habitual';
+		if (modalidad === 'habitual') return 'habitual';
 		if (modalidad === 'admitida') return 'admitido';
 		if (modalidad === 'excepcional') return 'excepcional';
 		return 'definitorio';

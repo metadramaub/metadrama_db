@@ -18,7 +18,7 @@ const arquitectura = {
 	nombre: 'Estribillo inicial',
 	descripcion: 'La cabeza abre la composición.',
 	principal: true,
-	modalidad: 'preferente',
+	modalidad: 'habitual',
 	unidad_versos_min: null,
 	unidad_versos_max: null,
 	tipo_rima_id: null,

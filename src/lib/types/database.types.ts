@@ -3722,10 +3722,10 @@ export type Database = {
           esquema_metrico_id: string
           esquema_rima_id: string
           estado_revision: string
+          modalidad: string
           nombre: string
           orden: number | null
           origen_termino_id: string | null
-          preferente: boolean
           slug: string
           updated_at: string
           variedad_id: string
@@ -3738,10 +3738,10 @@ export type Database = {
           esquema_metrico_id: string
           esquema_rima_id: string
           estado_revision?: string
+          modalidad?: string
           nombre: string
           orden?: number | null
           origen_termino_id?: string | null
-          preferente?: boolean
           slug: string
           updated_at?: string
           variedad_id?: string
@@ -3754,10 +3754,10 @@ export type Database = {
           esquema_metrico_id?: string
           esquema_rima_id?: string
           estado_revision?: string
+          modalidad?: string
           nombre?: string
           orden?: number | null
           origen_termino_id?: string | null
-          preferente?: boolean
           slug?: string
           updated_at?: string
           variedad_id?: string

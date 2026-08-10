@@ -20,7 +20,7 @@ function fallo(etiqueta: string, error: { message?: string } | null | undefined)
 }
 
 function modalidad(value: unknown, fallback: ModalidadEvidencia = 'definitoria'): ModalidadEvidencia {
-	return value === 'preferente' || value === 'admitida' || value === 'excepcional'
+	return value === 'habitual' || value === 'admitida' || value === 'excepcional'
 		? value
 		: value === 'definitoria'
 			? value

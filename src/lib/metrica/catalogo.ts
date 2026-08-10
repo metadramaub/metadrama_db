@@ -9,17 +9,14 @@ export const METRIC_STRUCTURAL_LEVELS = ['verso', 'estrofa', 'serie', 'composici
 
 export const METRIC_ENTRY_TYPES = ['forma', 'sin_forma'] as const;
 
-/** Cuánto acota la norma de una forma. Nulo en los tramos sin forma. */
-export const METRIC_SPECIFICATION_DEGREES = ['general', 'especifica'] as const;
-
 /**
  * Cuánto ha fijado la norma o la crítica una realización. No mide permiso: en este modelo
  * todo es posible aunque no tenga nombre. Una arquitectura nunca es `definitoria`, porque
  * una realización no define su forma.
  */
-export const METRIC_MODALITIES = ['definitoria', 'preferente', 'admitida', 'excepcional'] as const;
+export const METRIC_MODALITIES = ['definitoria', 'habitual', 'admitida', 'excepcional'] as const;
 
-export const METRIC_ARCHITECTURE_MODALITIES = ['preferente', 'admitida', 'excepcional'] as const;
+export const METRIC_ARCHITECTURE_MODALITIES = ['habitual', 'admitida', 'excepcional'] as const;
 
 /** Qué forma tiene la secuencia declarada por un esquema, métrico o de rima. */
 export const METRIC_SEQUENCE_TYPES = [
@@ -47,7 +44,6 @@ export const METRIC_CHOICE_SCOPES = ['secuencia', 'unidad'] as const;
 export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[number];
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
 export type MetricEntryType = (typeof METRIC_ENTRY_TYPES)[number];
-export type MetricSpecificationDegree = (typeof METRIC_SPECIFICATION_DEGREES)[number];
 export type MetricModality = (typeof METRIC_MODALITIES)[number];
 export type MetricArchitectureModality = (typeof METRIC_ARCHITECTURE_MODALITIES)[number];
 export type MetricSequenceType = (typeof METRIC_SEQUENCE_TYPES)[number];
