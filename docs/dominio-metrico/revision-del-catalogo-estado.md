@@ -677,6 +677,33 @@ las 91 respuestas propuestas. No falta una clave foránea: falta decidir si el s
 sección de seis versos. Está en
 [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
 
+##### Y los tercetos del soneto, que no era lo que parecía
+
+Resuelto el 10 de agosto, migración `20260810150000`. La pregunta abierta el día anterior —«¿tiene
+el soneto una sección de seis versos para sus tercetos?»— tenía una respuesta mejor: **no, y el
+problema estaba en otro sitio**. Los cuatro esquemas de tercetos guardaban sus seis posiciones en
+un solo bloque, seguidas, declarando una tirada de seis versos que el soneto no tiene. Por eso el
+blanco que separa los tercetos saltaba como anomalía al auditar.
+
+El modelo ya sabía decirlo bien y el soneto no lo decía: la redondilla `abbaacca` reparte sus
+posiciones en dos bloques y las nombra con su sección. Los tercetos hacen ya lo mismo, dos bloques
+de tres, con las clases C, D y E compartidas entre ambos —que es justo lo que distingue al soneto
+de dos tercetos sueltos—.
+
+De ahí sale una regla general que faltaba escribir y que ya está en
+[implementación](./implementacion-metrica.md#la-regla-de-reutilización): **una sección que remite a
+otra arquitectura hereda lo que la hace esa forma, y lo que la contenedora declara para ella gana
+sobre lo heredado**. Reutilizar una forma con rima propia no necesita ninguna pieza nueva.
+
+Y obligó a separar dos cosas que iban en una sola columna: `grupos_eleccion_metrica.seccion_id`
+dice **dónde se responde** —el editor plantea la pregunta en cada realización de esa sección— y el
+nuevo `esquemas_rima.seccion_id` dice **de qué trata**. Los tercetos necesitan las dos por
+separado: si el grupo declarase la sección, el editor preguntaría dos veces, pero la respuesta
+habla de los tercetos y de ahí toma su sujeto el enunciado.
+
+*La propuesta que hice primero —una sección contenedora de seis versos— habría consagrado en el
+modelo justo el error que hacía saltar el blanco. La descartó el IP antes de escribirla.*
+
 ##### Dos funciones que llevaban rotas sin que nadie lo supiera
 
 Al retirar la columna hubo que rehacer lo que la leía, y **ejecutar cada función destapó dos
