@@ -4,6 +4,7 @@ import type {
 	MetricCatalogForEditor,
 	MetricCatalogForm
 } from '$lib/metrica/catalogo';
+import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 import {
 	ensureRequiredMetricUnits,
 	metricUnitPlan,
@@ -188,7 +189,7 @@ export function applyMaterializedSections(
 	sequenceStart: number
 ): MetricUnitDraft[] {
 	let next = units;
-	for (const group of groups.filter((row: MetricCatalogDomainRow) => row.alcance === 'unidad')) {
+	for (const group of groups.filter((row: MetricCatalogDomainRow) => seRespondeDentroDeLaUnidad(row.alcance))) {
 		const groupId = String(group.grupo_eleccion_id);
 		const groupOptions = options.filter(
 			(option: MetricCatalogDomainRow) => String(option.grupo_eleccion_id) === groupId

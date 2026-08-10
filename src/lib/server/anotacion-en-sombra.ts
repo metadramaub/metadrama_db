@@ -119,7 +119,8 @@ export async function loadShadowAnnotation(
 			pregunta: String(row.pregunta),
 			opcionEleccionId: String(row.opcion_eleccion_id),
 			respuesta: String(row.respuesta),
-			alcance: row.alcance === 'unidad' ? 'unidad' : 'secuencia'
+			alcance:
+				row.alcance === 'unidad' || row.alcance === 'realizacion' ? 'unidad' : 'secuencia'
 		});
 		answersBySequence.set(key, list);
 	}

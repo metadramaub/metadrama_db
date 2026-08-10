@@ -377,6 +377,14 @@ posterior—, con secciones de estribillo, ciclo de copla, mudanza, enlace y vue
 del estribillo. La jerarquía padre-hijo de esas secciones se corrigió el 7 de agosto para que
 la ficha pública la conserve. Contrasta con el zéjel por la forma de la mudanza.
 
+*El 10 de agosto de 2026 se revisó su codificación. La cabeza y la represa dejaron de ser dos tipos
+de sección distintos: son **el mismo estribillo** en dos apariciones, como confirmó el IP —«bajo las
+denominaciones son exactamente lo mismo»—, y lo que las separa, dónde aparece, es ya lo que separa a
+las dos arquitecturas. El zéjel fue con él, por tener la misma estructura. Y la pregunta de la
+represa pasó a responderse **en cada aparición**, porque Navarro Tomás documenta repeticiones
+parciales y totales dentro de una misma composición y hasta entonces solo cabía una respuesta para
+todo el villancico.*
+
 1. **¿Se segmenta la mudanza de cuatro versos en dos miembros simétricos?** Las fuentes la
    describen como dos mudanzas simétricas; el catálogo conserva **una sola sección de cuatro**.
    *Segmentarla daría dos secciones hermanas donde hoy hay una, y afectaría a la ficha pública
@@ -388,7 +396,14 @@ la ficha pública la conserve. Contrasta con el zéjel por la forma de la mudanz
 3. **¿Entran las mudanzas de seis versos?** Están formalizadas `abba`, `abab` y la asonantada
    `abcb`; Navarro Tomás documenta además mudanzas excepcionales de seis. *Hoy solo caben como
    desviación.*
-4. **¿Se restringe la arquitectura de estribillo posterior?** Representa una familia funcional
+4. **¿Hasta dónde llega el estribillo: cuatro versos o siete?** Domínguez Caparrós fija la cabeza
+   en **dos a cuatro** versos en 2014 y en 2016; Navarro Tomás recoge estribillos de **dos a
+   siete**. *El IP decidió el 10 de agosto de 2026 quedarse en 2-4, de modo que un estribillo de
+   cinco a siete versos entra como desviación y no como realización admitida. Queda anotado porque
+   es la misma disyuntiva que la vuelta —donde se optó por lo contrario, dejarla abierta— y conviene
+   revisarlas juntas si algún día se unifica el criterio.*
+
+5. **¿Se restringe la arquitectura de estribillo posterior?** Representa una familia funcional
    abierta, pero la fuente que la sustenta describe algo concreto: una cuarteta octosilábica
    seguida de un estribillo en cuarteta hexasílaba. *Restringirla la haría verificable; dejarla
    abierta permite registrar realizaciones que la fuente no describe.*
