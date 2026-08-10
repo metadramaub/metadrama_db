@@ -1099,14 +1099,11 @@
 								</p>
 							</div>
 						{:else if draft.forma_id && !isEditorialOutput}
-							{@const architectureLabel =
-								selectedForm?.slug === 'villancico'
-									? '¿Dónde aparece por primera vez el estribillo? *'
-									: selectedForm?.slug === 'copla_real'
-										? '¿Aparecen versos de pie quebrado? *'
-										: selectedForm?.slug === 'redondilla'
-											? '¿Cómo se organizan las redondillas? *'
-											: 'Arquitectura *'}
+							<!-- La pregunta la declara la forma; «Arquitectura» es lo que se dice
+							     cuando no hay una manera mejor de decirlo. -->
+							{@const architectureLabel = `${
+								selectedForm?.pregunta_arquitectura?.trim() || 'Arquitectura'
+							} *`}
 							{@const architectureItems = configurationsForDraft.map(
 								(configuration: MetricCatalogConfiguration) => ({
 									id: configuration.arquitectura_id,
