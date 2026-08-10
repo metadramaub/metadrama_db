@@ -656,6 +656,27 @@ pares. Ninguna duda bloquea el registro.
    hueco en el catálogo: o se le da forma propia, o se registra como desviación de la endecha
    real, que es la forma con la que Navarro Tomás la combina.*
 
+4. **¿Es endecha real la que no rima?** Al comprobar que ninguna pregunta ofrezca la norma junto
+   a sus realizaciones apareció que la asonancia estaba declarada `definitoria` frente a la
+   abrazada, la cruzada y la suelta —es decir, **la norma y su negación como hermanas**—. Las
+   fuentes no sostienen esa lectura y el 10 de agosto de 2026 pasó a `habitual`: Navarro Tomás
+   § 207 no la define, **narra** que «hacia mediados del siglo XVII se generalizó», y el
+   *Diccionario* de 2016 advierte que la endecha real «puede encontrarse sin rima». Lo definitorio
+   de la forma es el metro —tres heptasílabos y un endecasílabo—, en lo que coinciden las seis.
+
+   **Lo que queda por decidir es la `suelta`, y las fuentes se contradicen.** Navarro Tomás § 207
+   dice que Bermúdez y Cervantes emplearon la endecha real **en versos sueltos**, `abcD`, y el
+   *Diccionario* lo admite. Jauralde § 3.6 dice lo contrario: el cuarteto se usó suelto, sí, pero
+   «**se denominó endecha real cuando recibió rimas**», de modo que sin rima sería una cuarteta de
+   heptasílabos y no una endecha real. Es un desacuerdo entre fuentes autorizadas, no un descuido
+   del catálogo. *Hoy la `suelta` está como `admitida`. Según se resuelva, se queda, baja a
+   `excepcional` o sale de la forma.* Toca también a la ficha pública, que hoy la ofrece como una
+   disposición más.
+
+   *Aparte de la modalidad, ese esquema sigue siendo un `ciclo` con notación `[----]…` y **cero
+   posiciones**, que es el pendiente ya inventariado: un ciclo que no declara nada. Si la decisión
+   es conservarlo, lo que dice —que ningún verso rima— se declara mejor como restricción.*
+
 ---
 
 # Estrofas de arte mayor e italianas

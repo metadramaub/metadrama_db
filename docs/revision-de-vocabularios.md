@@ -146,31 +146,53 @@ vocabulario mal definido a un sitio mejor no lo arregla; lo consagra.
 ## Un cabo que resultó no serlo
 
 ~~**`modalidad` mezcla dos ejes en una escala.**~~ **Comprobado el 10 de agosto de 2026 y
-descartado.** El IP preguntó qué añade `definitoria` frente a `habitual`, y la respuesta que di
-—que son dos ejes, necesidad y frecuencia, y que hacía falta partir la columna en las cinco
-tablas— **era un error de categoría**. Tres comprobaciones lo deshacen:
+descartado, pero el malestar del IP tenía razón y apuntaba a otro sitio.**
 
-- **Ningún esquema definitorio es descrito como raro por las fuentes.** Si fueran ejes
-  independientes tendría que existir algo constitutivo e infrecuente a la vez, y no puede: lo que
-  la norma exige está siempre.
-- **Solo cuatro definitorios conviven con hermanos graduados**, y los cuatro son el mismo caso: el
-  esquema abierto que declara la norma frente a las disposiciones concretas que la cumplen —la
-  quintilla y sus ocho tipologías, la sextilla octosilábica y sus tres, el sexteto y su `ababcc`,
-  la endecha real y sus tres disposiciones—.
-- **El caso con que se justificó la separación no se sostiene.** Se dijo que la asonancia de la
-  endecha real es constitutiva «y además lo corriente». No: la asonancia es la **norma** y sus
-  tres hermanas son las **disposiciones** que caben dentro de ella. La norma no compite con ellas
-  en frecuencia.
+El IP preguntó qué añade `definitoria` frente a `habitual`, y la respuesta que di —que son dos
+ejes, necesidad y frecuencia, y que hacía falta partir la columna en las cinco tablas— **era un
+error de categoría**. Ningún esquema definitorio es descrito como raro por las fuentes, y no puede
+serlo: si fueran ejes independientes tendría que existir algo constitutivo e infrecuente a la vez.
 
-Los 39 esquemas definitorios caen en tres formas —31 son el único de su arquitectura, 5 son el
-esquema abierto que declara la norma y 3 son una parte complementaria, como el pareado final de
-la canción— y **las tres dicen lo mismo**: *sin esto, la arquitectura no sería la que es*. Lo
-mismo en las otras tablas: el rasgo que la arquitectura exige, la permutación que hace sextina a
-la sextina.
+**El IP dio la lectura que faltaba.** La escala sí es de frecuencia, porque la norma métrica
+española no es prescriptiva: lo que hace que algo esté `admitido` es que se dio suficientes veces
+como para que la crítica dejara de verlo como una rareza. La normativa es resultado de la
+práctica, y los dos conceptos se cruzan por eso. Con esa lectura `definitoria` deja de ser un
+intruso y pasa a ser **el tope del mismo eje** —lo que se da siempre—: *necesidad es el límite de
+frecuencia*.
 
-Así que `definitoria` es **el tope de la misma escala**, y la escala mide lo que su comentario
-dice: cuánto ha fijado la tradición, desde «la norma lo exige» hasta «se documenta advirtiendo que
-es raro». No hay nada que partir.
+### La versión comprobable
+
+La escala solo se lee mal si una definitoria puede aparecer **como una opción al lado de otra
+modalidad**, porque entonces se estaría pidiendo elegir entre la norma y algo que la cumple. Así
+que el invariante es: **ninguna pregunta ofrece una definitoria junto a otra modalidad.**
+
+Se comprobó sobre las preguntas derivadas del catálogo entero y **falló en una sola**: la
+disposición de rima de la endecha real heptasílaba ofrecía «asonancia sostenida en los cuartos»
+como definitoria junto a la abrazada, la cruzada y **la suelta** —la norma y su negación como
+hermanas—.
+
+Las fuentes no sostenían esa lectura. Navarro Tomás § 207 no define la asonancia: **narra** que
+«hacia mediados del siglo XVII se generalizó», que es exactamente lo que dice `habitual`; su
+glosario admite las cruzadas; el *Diccionario* de 2016 advierte que «puede encontrarse sin rima»;
+Jauralde recuerda que el cuarteto se usó suelto. Solo Domínguez Caparrós 2014 la da como parte de
+la definición, y el mismo autor la relaja en 2016. Lo definitorio de la endecha real, en las seis,
+es **el metro**. Pasó a `habitual`, y esa arquitectura se quedó sin ningún esquema de rima
+definitorio: hay formas a las que define el metro y no la rima.
+
+Desde entonces el invariante va escrito como guarda, así que la escala no depende de que nadie
+recuerde esto.
+
+### Cómo queda el reparto
+
+Los 38 esquemas definitorios caen en tres formas —31 son el único de su arquitectura, 5 son el
+esquema abierto que declara la norma y 2 son una parte complementaria, como el pareado final de la
+canción— y **las tres dicen lo mismo**: *se da siempre*. Lo mismo en las otras tablas: el rasgo que
+la arquitectura exige, la permutación que hace sextina a la sextina. Cuando un definitorio convive
+con hermanos graduados no hay una lista de alternativas: hay **una norma y sus realizaciones**.
+
+*Sobre el nombre: se valoró renombrarlo a `exigida` para que los cuatro valores sonaran al mismo
+registro, y se descartó. Choca con `obligatorio`/`obligatoria`, y lee mal en los rasgos —el pie
+quebrado no está «exigido» en la copla de pie quebrado: la **caracteriza**—.*
 
 *Queda una observación menor, que no pide cambio: `arquitectura_rasgos` usa solo dos de los cuatro
 valores, `definitoria` y `admitida`, y es lo único que tiene sentido ahí —un rasgo caracteriza la
