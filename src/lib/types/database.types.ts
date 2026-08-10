@@ -2322,6 +2322,7 @@ export type Database = {
           permite_aplicar_global: boolean
           rasgo_id: string | null
           seccion_id: string | null
+          seccion_tratada_id: string | null
           selecciones_max: number
           selecciones_min: number
           slug: string
@@ -2342,6 +2343,7 @@ export type Database = {
           permite_aplicar_global?: boolean
           rasgo_id?: string | null
           seccion_id?: string | null
+          seccion_tratada_id?: string | null
           selecciones_max?: number
           selecciones_min?: number
           slug: string
@@ -2362,6 +2364,7 @@ export type Database = {
           permite_aplicar_global?: boolean
           rasgo_id?: string | null
           seccion_id?: string | null
+          seccion_tratada_id?: string | null
           selecciones_max?: number
           selecciones_min?: number
           slug?: string
@@ -2393,6 +2396,13 @@ export type Database = {
           {
             foreignKeyName: "grupos_eleccion_metrica_seccion_id_fkey"
             columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_seccion_tratada_id_fkey"
+            columns: ["seccion_tratada_id"]
             isOneToOne: false
             referencedRelation: "estructuras_secciones"
             referencedColumns: ["seccion_id"]
@@ -4017,6 +4027,7 @@ export type Database = {
           permite_aplicar_global: boolean | null
           rasgo_id: string | null
           seccion_id: string | null
+          seccion_tratada_id: string | null
           selecciones_max: number | null
           selecciones_min: number | null
           slug: string | null
@@ -4048,6 +4059,13 @@ export type Database = {
           {
             foreignKeyName: "grupos_eleccion_metrica_seccion_id_fkey"
             columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_seccion_tratada_id_fkey"
+            columns: ["seccion_tratada_id"]
             isOneToOne: false
             referencedRelation: "estructuras_secciones"
             referencedColumns: ["seccion_id"]

@@ -324,9 +324,15 @@ export async function loadPublicForm(
 	const opcionesPorGrupo = agrupar(opcionesEleccion as any[], (row) =>
 		String(row.grupo_eleccion_id)
 	);
+	// La sección puede venir por dos caminos: `seccion_id` cuando la pregunta se hace en cada
+	// realización, y `seccion_tratada_id` cuando se hace una sola vez para todas —los cuartetos
+	// del soneto comparten sus rimas, así que se eligen de una vez—. Para leer la ficha son lo
+	// mismo: la parte de la que habla ese esquema.
 	const gruposPorSeccion = agrupar(
-		(gruposEleccion as any[]).filter((row) => row.seccion_id && row.dimension === 'rima'),
-		(row) => String(row.seccion_id)
+		(gruposEleccion as any[]).filter(
+			(row) => (row.seccion_id || row.seccion_tratada_id) && row.dimension === 'rima'
+		),
+		(row) => String(row.seccion_id ?? row.seccion_tratada_id)
 	);
 	const rimaDeSeccion = (seccionId: unknown, nombreSeccion?: string): PublicRhymeScheme[] => {
 		if (!seccionId) return [];
