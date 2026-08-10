@@ -1587,10 +1587,8 @@ export type Database = {
           enlace_id: string
           esquema_rima_id: string
           nota: string | null
-          obligatorio: boolean
           posicion_destino: number
           posicion_origen: number
-          tipo_enlace: string
           ubicacion_destino: string
           ubicacion_origen: string
           updated_at: string
@@ -1603,10 +1601,8 @@ export type Database = {
           enlace_id?: string
           esquema_rima_id: string
           nota?: string | null
-          obligatorio?: boolean
           posicion_destino: number
           posicion_origen: number
-          tipo_enlace?: string
           ubicacion_destino?: string
           ubicacion_origen?: string
           updated_at?: string
@@ -1619,10 +1615,8 @@ export type Database = {
           enlace_id?: string
           esquema_rima_id?: string
           nota?: string | null
-          obligatorio?: boolean
           posicion_destino?: number
           posicion_origen?: number
-          tipo_enlace?: string
           ubicacion_destino?: string
           ubicacion_origen?: string
           updated_at?: string
@@ -1696,7 +1690,6 @@ export type Database = {
           descripcion: string | null
           esquema_referido_id: string | null
           esquema_rima_id: string
-          obligatoria: boolean
           restriccion_id: string
           tipo: string
           updated_at: string
@@ -1708,7 +1701,6 @@ export type Database = {
           descripcion?: string | null
           esquema_referido_id?: string | null
           esquema_rima_id: string
-          obligatoria?: boolean
           restriccion_id?: string
           tipo: string
           updated_at?: string
@@ -1720,7 +1712,6 @@ export type Database = {
           descripcion?: string | null
           esquema_referido_id?: string | null
           esquema_rima_id?: string
-          obligatoria?: boolean
           restriccion_id?: string
           tipo?: string
           updated_at?: string
@@ -2121,7 +2112,6 @@ export type Database = {
           orden: number | null
           origen_termino_id: string | null
           pregunta_arquitectura: string | null
-          seleccionable: boolean
           slug: string
           tipo_registro: string
           updated_at: string
@@ -2139,7 +2129,6 @@ export type Database = {
           orden?: number | null
           origen_termino_id?: string | null
           pregunta_arquitectura?: string | null
-          seleccionable?: boolean
           slug: string
           tipo_registro?: string
           updated_at?: string
@@ -2157,7 +2146,6 @@ export type Database = {
           orden?: number | null
           origen_termino_id?: string | null
           pregunta_arquitectura?: string | null
-          seleccionable?: boolean
           slug?: string
           tipo_registro?: string
           updated_at?: string

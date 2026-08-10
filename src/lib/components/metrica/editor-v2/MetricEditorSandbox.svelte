@@ -103,7 +103,7 @@
 	);
 	const activeForms = $derived(
 		props.data.forms
-			.filter((form: MetricCatalogForm) => form.activo && form.seleccionable)
+			.filter((form: MetricCatalogForm) => form.activo)
 			.sort((a: MetricCatalogForm, b: MetricCatalogForm) => a.nombre.localeCompare(b.nombre, 'es'))
 	);
 

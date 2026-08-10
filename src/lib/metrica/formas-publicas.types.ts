@@ -64,7 +64,6 @@ export type PublicRhymeRestriction = {
 	/** Ya redactada para leerse: la componen el tipo y su valor. */
 	texto: string;
 	/** Si la norma la exige o solo la admite. */
-	obligatoria: boolean;
 };
 
 export type PublicRhymeScheme = PublicScheme & {

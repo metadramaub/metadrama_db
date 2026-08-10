@@ -59,7 +59,6 @@ export type MetricCatalogForm = {
 	tipo_registro: MetricEntryType;
 	/** Cómo se pregunta cuál de sus arquitecturas tiene el pasaje, cuando tiene más de una. */
 	pregunta_arquitectura: string | null;
-	seleccionable: boolean;
 	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	orden: number | null;

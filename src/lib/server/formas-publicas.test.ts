@@ -241,7 +241,6 @@ describe('catálogo público de formas', () => {
 						valor_numero: null,
 						valor_texto: null,
 						esquema_referido_id: null,
-						obligatoria: true,
 						descripcion: null
 					},
 					{
@@ -250,7 +249,6 @@ describe('catálogo público de formas', () => {
 						valor_numero: null,
 						valor_texto: null,
 						esquema_referido_id: 'rima-manriquena',
-						obligatoria: true,
 						descripcion: null
 					},
 					{
@@ -259,7 +257,6 @@ describe('catálogo público de formas', () => {
 						valor_numero: 2,
 						valor_texto: null,
 						esquema_referido_id: null,
-						obligatoria: false,
 						descripcion: null
 					}
 				]
@@ -278,7 +275,6 @@ describe('catálogo público de formas', () => {
 			'No puede coincidir con «Manriqueña»',
 			'No más de 2 versos seguidos con la misma rima'
 		]);
-		expect(abierta?.restricciones.map((r) => r.obligatoria)).toEqual([true, true, false]);
 		// Y un esquema cerrado no arrastra ninguna.
 		expect(
 			resultado?.arquitecturas_[0].esquemasRima.find((e) => e.id === 'rima-manriquena')

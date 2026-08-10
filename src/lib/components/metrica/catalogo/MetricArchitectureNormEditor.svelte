@@ -418,8 +418,6 @@
 			options: [{ value: 'final', label: 'Final' }, { value: 'interior', label: 'Interior' }],
 			required: true
 		},
-		{ key: 'tipo_enlace', label: 'Tipo de enlace', required: true },
-		{ key: 'obligatorio', label: 'Obligatorio', type: 'checkbox' },
 		{ key: 'nota', label: 'Nota', type: 'textarea' }
 	]);
 	const rhymeRestrictionFields = $derived<MetricEntityField[]>([
@@ -459,8 +457,7 @@
 			options: rhymePatternOptions,
 			help: 'Solo para «no puede coincidir con otro esquema».'
 		},
-		{ key: 'descripcion', label: 'Descripción', type: 'textarea' },
-		{ key: 'obligatoria', label: 'Obligatoria', type: 'checkbox' }
+		{ key: 'descripcion', label: 'Descripción', type: 'textarea' }
 	]);
 	const sectionFields = $derived<MetricEntityField[]>([
 		{ key: 'arquitectura_id', label: 'Arquitectura', type: 'hidden' },
@@ -822,7 +819,7 @@
 									rows={links}
 									keyFields={['enlace_id']}
 									fields={groupedRhymeLinkFields}
-									defaults={{ esquema_rima_id: patternId, bloque_origen: 1, ubicacion_origen: 'final', desplazamiento_bloque: 0, ubicacion_destino: 'final', tipo_enlace: 'misma_rima', obligatorio: true }}
+									defaults={{ esquema_rima_id: patternId, bloque_origen: 1, ubicacion_origen: 'final', desplazamiento_bloque: 0, ubicacion_destino: 'final' }}
 									emptyMessage="Este esquema no necesita enlaces adicionales."
 									compact
 								/>
@@ -832,7 +829,7 @@
 									rows={restrictions}
 									keyFields={['restriccion_id']}
 									fields={groupedRhymeRestrictionFields}
-									defaults={{ esquema_rima_id: patternId, tipo: 'otra', obligatoria: true }}
+									defaults={{ esquema_rima_id: patternId, tipo: 'otra' }}
 									emptyMessage="Este esquema no necesita restricciones adicionales."
 									compact
 								/>

@@ -186,11 +186,8 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 			'bloque_destino',
 			'posicion_destino',
 			'ubicacion_destino',
-			'tipo_enlace',
-			'obligatorio',
 			'nota'
 		],
-		booleanFields: ['obligatorio'],
 		numberFields: [
 			'bloque_origen',
 			'posicion_origen',
@@ -208,10 +205,8 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 			'valor_numero',
 			'valor_texto',
 			'esquema_referido_id',
-			'descripcion',
-			'obligatoria'
+			'descripcion'
 		],
-		booleanFields: ['obligatoria'],
 		numberFields: ['valor_numero']
 	},
 	patternCombinations: {

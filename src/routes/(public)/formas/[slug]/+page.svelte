@@ -279,9 +279,6 @@
 																		{#each esquema.restricciones as restriccion, i (i)}
 																			<li>
 																				{restriccion.texto}
-																				{#if !restriccion.obligatoria}
-																					<span class="opacity-70">(no siempre)</span>
-																				{/if}
 																			</li>
 																		{/each}
 																	</ul>
