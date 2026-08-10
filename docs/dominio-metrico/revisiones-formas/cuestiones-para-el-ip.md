@@ -385,6 +385,26 @@ represa pasó a responderse **en cada aparición**, porque Navarro Tomás docume
 parciales y totales dentro de una misma composición y hasta entonces solo cabía una respuesta para
 todo el villancico.*
 
+*Ese mismo día se quitó la duplicación de la arquitectura de estribillo posterior, que tenía diez
+secciones y ocho preguntas frente a las seis y cinco de la otra para decir lo mismo. Tres de las
+cinco parejas no se diferenciaban en nada —`mudanza_inicial` y `mudanza` compartían hasta la nota
+palabra por palabra—, y la copia existía solo para poder decir que el primer ciclo es distinto de
+los demás. Desde que una pregunta se responde por aparición, eso sale del orden y no de una rama
+paralela. Queda un ciclo de 1 a ∞ con su copla y su estribillo.*
+
+6. **¿Son una sola arquitectura?** Simplificado el ciclo, lo único que separa a las dos
+   arquitecturas del villancico es **dónde aparece el estribillo por primera vez**: antes de la
+   primera copla o después. Podría resolverse con una pregunta dentro de una sola arquitectura, que
+   es lo que el IP dejó apuntado el 10 de agosto de 2026. *No se hizo porque el demarcador distingue
+   por arquitectura y perdería capacidad de identificar, y porque las fuentes presentan la cabeza
+   inicial como el modelo del villancico y la otra como una modalidad.*
+
+7. **Se perdió una norma al simplificar, y conviene saberlo.** La estructura decía que el estribillo
+   es obligatorio en el primer ciclo y opcional en los siguientes —1-1 frente a 0-1—. Con un solo
+   ciclo no cabe distinguirlo y queda en 0-1, de modo que nada impide registrar un villancico cuyo
+   estribillo no aparezca nunca. *Nada lo validaba antes tampoco; desde ahora quien lo dice es la
+   respuesta por aparición, y si se quiere exigir habrá que declararlo.*
+
 1. **¿Se segmenta la mudanza de cuatro versos en dos miembros simétricos?** Las fuentes la
    describen como dos mudanzas simétricas; el catálogo conserva **una sola sección de cuatro**.
    *Segmentarla daría dos secciones hermanas donde hoy hay una, y afectaría a la ficha pública
