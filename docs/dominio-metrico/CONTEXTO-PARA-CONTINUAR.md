@@ -67,6 +67,15 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   Su migración se hará más adelante, cuando el IP haya validado el catálogo y el
   demarcador. Hay editores trabajando y esta frontera no debe adelantarse.
 
+## El editor V2 espera una reforma de pantalla
+
+Las mejoras sueltas dejaron de mejorarlo y el IP lo comprobó probándolo. La causa está medida:
+**seis interruptores de plegado independientes**, de modo que una misma pregunta puede aparecer en
+tres sitios según qué combinación esté abierta. La propuesta para rehacerlo —una pregunta vive
+siempre en su unidad, una tarjeta nunca se enseña sin contenido, una sola acción para separar una
+unidad del grupo— está en
+[propuesta-editor-v2.md](./propuesta-editor-v2.md). **No toca el modelo ni lo que se guarda.**
+
 ## Decisiones que gobiernan el modelo
 
 Son dieciocho y viven en [el modelo aplicado](./implementacion-metrica.md#las-decisiones-que-gobiernan-el-modelo),
