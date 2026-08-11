@@ -12,8 +12,10 @@ reescribir nada:
   queda con ese borrador, lo normaliza contra la arquitectura y devuelve su estado
   (resumen, progreso y el motivo por el que aún no se puede guardar). No conoce la ventana
   que lo abre ni la API que lo guarda, así que pasa al editor de obras sin tocarlo.
-- `MetricStructureEditor`, `MetricChoiceField`, `MetricLengthAlert`, `editor-model.ts` y
-  `sequence-draft.ts` son suyos y viajan con él.
+- `MetricStructureEditor`, `MetricChoiceField`, `MetricFamilyControl`, `MetricGridRow`,
+  `MetricLengthAlert`, `editor-model.ts`, `grid-rows.ts` y `sequence-draft.ts` son suyos y
+  viajan con él. `grid-rows.ts` decide qué filas pinta la rejilla y no toca la pantalla:
+  está aparte para poder probarlo.
 - `MetricEditorSandbox.svelte` es **el laboratorio**, y es desechable: escenarios, tabla,
   réplica del panel de producción y llamadas a `/api/metrica/editor-pruebas`.
 - El editor deja dos huecos al contenedor: `bodyExtra`, para el resto del formulario de la
@@ -170,21 +172,68 @@ editor las rellena en la misma pasada. En el laboratorio son una réplica que no
 nada, pero se muestran siempre y con su sitio real: la prueba consiste en juzgar cuánto
 ocupa lo métrico dentro del panel completo, y eso no se puede ver si el resto está oculto.
 
+### La estructura es una rejilla, y no se pliega
+
+Desde el 11 de agosto de 2026. Antes había **seis interruptores de plegado independientes**,
+de modo que una misma pregunta podía aparecer en tres sitios según qué combinación estuviera
+abierta; de ahí salían tarjetas con cabecera y sin contenido y dos botones que llevaban al
+mismo sitio por caminos distintos. El diagnóstico y las dos alternativas que se estudiaron
+están en [propuesta-editor-v2.md](./propuesta-editor-v2.md).
+
+**A la izquierda la secuencia dibujada verso a verso, a la derecha lo que hay que responder
+de cada parte.** Tres reglas la gobiernan:
+
+1. **Una pregunta tiene un solo lugar estructural.** Conserva la realización donde se guarda,
+   pero puede mostrarse en la sección de la que trata; no hay dos sitios donde responderla.
+2. **Nada se enseña sin contenido.** Un bloque cuyas realizaciones no preguntan nada, no se
+   pueden alargar ni quitar, se resume en una línea. No hay cabeceras vacías.
+3. **Una sección que no pregunta nada no pinta contenedor.** La copla del villancico solo
+   contiene la mudanza; sin esta regla, llegar a su esquema de rima costaba tres niveles de
+   anidamiento para un desplegable. El enunciado que el catálogo deriva ya dice de qué
+   sección habla —«Mudanza · Esquema de rima»—, así que la pregunta sube sin perder sujeto.
+
+Arriba, en «Se responde una vez para todas», está el atajo: una línea por cada pregunta que
+apunte a **dos o más** realizaciones y admita `permite_aplicar_global`. **No es un segundo
+domicilio de la pregunta**: las filas de abajo siguen enseñando qué guarda cada realización.
+Cuando todas coinciden, la fila recoge el control en un resumen con «Cambiar»; si alguna
+diverge, vuelve a enseñar el control completo. Con una sola realización el atajo no aparece,
+porque diría lo mismo que su fila.
+
+El atajo no se limita a preguntas de una respuesta. Una serie posicional completa también se
+puede copiar: en el pareado aparecen juntos «Medida de cada verso» —dos selectores, uno por
+posición— y «Esquema de rima». Elegirlos arriba sigue escribiendo tres elecciones en cada
+dístico; únicamente evita repetir los controles mientras todos dicen lo mismo.
+
+Qué filas existen se decide en `grid-rows.ts`, aparte del componente, que es donde se puede
+probar: las cuatro formas de referencia —quintilla, villancico, soneto y romance— están en
+`grid-rows.test.ts` con los datos del catálogo.
+
 - **La identificación se pliega.** Elegidas forma y arquitectura, versos y forma se
-  resumen en una línea con «Cambiar versos o forma». El sitio es para las preguntas.
+  resumen en una línea con «Cambiar versos o forma». El sitio es para las preguntas. No
+  lleva encima un segundo plegado que diga lo mismo.
 - **Las respuestas de dos a cuatro alternativas se enseñan enteras**, en un control
-  segmentado, en lugar de esconderse tras un desplegable. Por encima de cuatro opciones, o
-  con etiquetas largas, se vuelve al desplegable.
-- **Las repeticiones idénticas son una tarjeta.** Doce redondillas que responden lo mismo
-  se muestran como «Cada redondilla» y un recuento; contestar ahí contesta las doce. Se
-  puede desplegar para hacer una excepción, y si alguna deja de coincidir la lista se abre
-  sola, porque ya no dicen lo mismo.
+  segmentado, cuando el campo ocupa el ancho del formulario. **Dentro de la rejilla van
+  siempre en desplegable**, aunque sean pocas, porque una lista de tres con sus
+  explicaciones ocuparía más que la composición entera; a cambio, la explicación que el
+  catálogo deriva de la respuesta elegida se lee debajo del control, y allí donde aporta:
+  en el atajo y en la realización que diverge.
+- **Una respuesta común contestada se resume en cada realización.** El valor sigue visible y
+  «Cambiar» abre solo esa realización para registrar una excepción; no se vuelve a dibujar el
+  mismo desplegable en todas las filas.
 - **La jerarquía se marca con un filete a la izquierda**, no solo con sangría.
 - **El dorado del proyecto queda reservado** a la respuesta activa y a lo que falta por
   contestar. Las acciones secundarias van en gris subrayado (`.link-action`).
-- **La cabecera dice cuántas respuestas obligatorias faltan** antes de pulsar Guardar.
-- **El raíl queda fijo** mientras el cuerpo se desplaza, y cada grupo del mapa se
-  corresponde con un grupo plegable del cuerpo, con su mismo título.
+- **La cabecera dice cuántas respuestas obligatorias faltan** antes de pulsar Guardar, y
+  cuenta una por realización: lo mismo que hay en pantalla.
+- **El raíl queda fijo** mientras el cuerpo se desplaza, y cada destino del mapa se
+  corresponde con una sección del cuerpo, con su mismo título.
+- **Una sección que aparece porque una respuesta la materializa no se quita a mano.** Se
+  quita cambiando la respuesta. Quitarla dejaba «se repite entero» apuntando a una
+  repetición que ya no existía.
+- **La pregunta que materializa una sección se coloca en esa sección.** En el villancico, la
+  repetición se guarda en el ciclo pero se pregunta después de mudanza y enlace o vuelta,
+  donde aparece el estribillo. Si se sobreentiende y no materializa versos, conserva una fila
+  funcional en ese mismo lugar; no se inventa rango ni realización.
 
 ### La observación libre de una forma no existe
 
@@ -273,9 +322,13 @@ La repetición del estribillo no declara medida: sus versos son los del estribil
 medida se deriva y no se pregunta. La regla no nombra formas: ninguna sección cuyos versos los
 pone otra sección declara medida propia.
 
-En el formulario, la medida se pregunta una sola vez para toda la composición y las secciones
-solo se abren de una en una cuando alguna difiere. El atajo es de interfaz: lo que se guarda
-sigue siendo la medida de cada sección.
+En el formulario, la medida se pregunta una vez para toda la composición, en la primera línea
+del atajo, **sin dejar de verse la de cada sección** en su fila. Son dos ejes distintos y los
+dos hacen falta: uno recorre las secciones y otro las realizaciones de una sola. El villancico
+heterométrico que documenta Navarro Tomás —cuarteta octosilábica seguida de estribillo en
+cuarteta hexasílaba— se registra respondiendo la composición entera y corrigiendo después el
+estribillo, en sus tres ciclos, de una vez. El atajo es de interfaz: lo que se guarda sigue
+siendo la medida de cada sección.
 
 Los slugs técnicos heredados conservan `represa` para no romper referencias estables, pero no
 se muestran como terminología del catálogo ni del editor: en ambos se lee siempre «Repetición
