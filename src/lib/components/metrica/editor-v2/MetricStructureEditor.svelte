@@ -5,6 +5,7 @@
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import { controlDePregunta } from '$lib/metrica/controles-formulario';
 	import MetricChoiceField from './MetricChoiceField.svelte';
+	import MetricFamilyControl from './MetricFamilyControl.svelte';
 	import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 	import {
 		addMetricUnit,
@@ -1084,15 +1085,21 @@
 			{@const length = first.v_fin - first.v_ini + 1}
 			<p class="text-sm text-[color:var(--muted-foreground)]">
 				{nodeLabel(section)} · {sectionInstances.length} realizaciones · vv. {first.v_ini}–{last.v_fin}
-				· {length} versos cada una
+				· {length} versos cada una · la norma las fija enteras
 			</p>
 		{:else if uniformRepeat}
+			<!-- Decir «4 realizaciones iguales» obliga a abrirlas para saber en qué quedaron.
+			     Con lo respondido delante, la línea se lee sola y el botón deja de ser una
+			     comprobación obligatoria para ser una corrección voluntaria. -->
+			{@const acordado = subtreeSummary(sectionInstances[0])}
 			<p class="flex flex-wrap items-baseline justify-between gap-2 text-sm">
 				<span class="text-[color:var(--muted-foreground)]">
-					{nodeLabel(section)} · {sectionInstances.length} realizaciones iguales
+					{nodeLabel(section)} · las {sectionInstances.length} iguales{acordado
+						? ` · ${acordado}`
+						: ''}
 				</span>
 				<button type="button" class="link-action" onclick={() => toggleRepeatFold(foldKey)}>
-					Editar una concreta
+					Corregir una concreta
 				</button>
 			</p>
 		{:else if sectionInstances.length > 1 && uniform && expandedRepeatKeys.has(foldKey)}
@@ -1357,67 +1364,14 @@
 						</span>
 					</span>
 					<div class="flex flex-wrap items-center gap-3">
-						{#if control === 'casilla'}
-							{@const unico = String(options[0]?.slug ?? '')}
-							<label class="flex cursor-pointer items-center gap-2 text-sm">
-								<input
-									type="checkbox"
-									checked={state.uniform === unico}
-									onchange={(event) =>
-										setFamilyChoice(family, event.currentTarget.checked ? unico : '')}
-								/>
-								<span>{String(options[0]?.nombre ?? '')}</span>
-							</label>
-						{:else if control === 'lista'}
-							<div class="w-full space-y-1">
-								{#each options as option (String(option.opcion_eleccion_id))}
-									{@const slug = String(option.slug)}
-									<label
-										class={`flex cursor-pointer items-start gap-2 border px-3 py-2 text-sm ${
-											state.uniform === slug
-												? 'border-[color:var(--primary)] bg-[color:var(--muted)]'
-												: 'border-[color:var(--border)] bg-white'
-										}`}
-									>
-										<input
-											type="radio"
-											class="mt-0.5"
-											name={family.key}
-											checked={state.uniform === slug}
-											onchange={() => setFamilyChoice(family, slug)}
-										/>
-										<span>
-											{String(option.nombre)}
-											{#if option.descripcion}
-												<span class="block text-xs text-[color:var(--muted-foreground)]">
-													{String(option.descripcion)}
-												</span>
-											{/if}
-										</span>
-									</label>
-								{/each}
-							</div>
-							{#if state.uniform === null && state.answered > 0}
-								<span class="text-xs text-[color:var(--muted-foreground)]">
-									Varían entre unidades; cada una conserva la suya
-								</span>
-							{/if}
-						{:else}
-							<select
-								class="h-10 border border-[color:var(--border)] bg-white px-3 text-sm"
-								value={state.uniform ?? ''}
-								onchange={(event) => setFamilyChoice(family, event.currentTarget.value)}
-							>
-								<option value="">
-									{state.uniform === null && state.answered > 0
-										? 'Varían entre unidades'
-										: 'Seleccionar respuesta'}
-								</option>
-								{#each options as option (String(option.opcion_eleccion_id))}
-									<option value={String(option.slug)}>{String(option.nombre)}</option>
-								{/each}
-							</select>
-						{/if}
+						<MetricFamilyControl
+							{control}
+							{options}
+							uniform={state.uniform}
+							answered={state.answered}
+							name={family.key}
+							onChoose={(slug) => setFamilyChoice(family, slug)}
+						/>
 						{#if state.units.length > 1}
 							<button
 								type="button"
