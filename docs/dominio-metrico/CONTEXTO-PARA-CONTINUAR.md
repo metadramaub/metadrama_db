@@ -67,14 +67,27 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   Su migración se hará más adelante, cuando el IP haya validado el catálogo y el
   demarcador. Hay editores trabajando y esta frontera no debe adelantarse.
 
-## El editor V2 espera una reforma de pantalla
+## El editor V2 ya tiene su pantalla nueva
 
-Las mejoras sueltas dejaron de mejorarlo y el IP lo comprobó probándolo. La causa está medida:
-**seis interruptores de plegado independientes**, de modo que una misma pregunta puede aparecer en
-tres sitios según qué combinación esté abierta. La propuesta para rehacerlo —una pregunta vive
-siempre en su unidad, una tarjeta nunca se enseña sin contenido, una sola acción para separar una
-unidad del grupo— está en
-[propuesta-editor-v2.md](./propuesta-editor-v2.md). **No toca el modelo ni lo que se guarda.**
+**Hecho el 11 de agosto de 2026.** Los seis interruptores de plegado que hacían que la misma
+pregunta pudiera aparecer en tres sitios se han retirado, y la estructura es ahora una **rejilla**:
+la secuencia dibujada verso a verso a la izquierda, lo que hay que responder de cada parte a la
+derecha, y nada oculto. Arriba, una línea por cada pregunta que apunte a dos o más realizaciones
+para responderlas de una vez, que es un atajo y no un segundo domicilio. El atajo admite también
+series posicionales —los dos metros del pareado— y las filas que coinciden recogen el control en
+un resumen; «Cambiar» abre únicamente la excepción. En estructuras cíclicas, una pregunta que
+materializa una sección se coloca donde aparece esa sección aunque siga guardándose en el
+contenedor: la repetición del estribillo queda después de la copla, no en la cabecera del ciclo.
+
+- Cómo quedó: [Editor V2 · Presentación](./editor-secuencias-v2.md#la-estructura-es-una-rejilla-y-no-se-pliega).
+- Por qué: [propuesta-editor-v2.md](./propuesta-editor-v2.md), con el diagnóstico medido y lo que
+  cambió respecto de lo que se propuso.
+
+**No toca el modelo ni lo que se guarda**: cada realización conserva su propia respuesta, y
+`npm run audit:editor` da la misma salida que antes. Qué filas se pintan vive en
+`grid-rows.ts`, aparte del componente, y las cuatro formas de referencia —quintilla, villancico,
+soneto y romance— están cubiertas en `grid-rows.test.ts`. **Falta que el IP la pruebe en pantalla
+con datos reales.**
 
 ## Decisiones que gobiernan el modelo
 
@@ -257,10 +270,11 @@ hacerlas antes obliga a hacerlas dos veces.
 
 ### Superficies, después del modelo
 
-10. **El maquetado del editor V2.** Aprobado el diseño —estructura pintada a la izquierda,
-    elecciones alineadas a la derecha, sin clics para navegar— y aplazado a propósito: el
-    formulario se deriva del catálogo, así que cada cambio del modelo lo cambia gratis. El
-    interruptor es «la arquitectura declara secciones», que es dato y no una lista de formas.
+10. ~~**El maquetado del editor V2.**~~ **Hecho el 11 de agosto de 2026**, y con el diseño que
+    estaba aprobado: estructura pintada a la izquierda, elecciones alineadas a la derecha, sin
+    clics para navegar. Se adelantó al resto de las superficies porque el formulario había dejado
+    de ser usable, no porque el modelo lo pidiera. Sigue derivándose del catálogo, así que cada
+    cambio del modelo lo cambia gratis. Ver [arriba](#el-editor-v2-ya-tiene-su-pantalla-nueva).
 11. **Simplificar el gestor del catálogo** para que solo edite prosa y lo estructural pase por
     migración. Es lo que acabaría con los vocabularios y campos fantasma: en una semana
     aparecieron cuatro, y `npm run audit:campos` solo cubre los nombres de campo, no sus valores.

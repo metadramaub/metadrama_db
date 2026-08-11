@@ -1,6 +1,12 @@
 # Un solo sitio para cada pregunta
 
-Estado: **propuesta** · 11 de agosto de 2026 · sin implementar
+Estado: **aplicado** · 11 de agosto de 2026
+
+> El IP eligió la **rejilla** entre las dos maneras que se maquetaron, y esa es la que está en
+> `develop`. Cómo quedó se describe en
+> [Editor V2 · Presentación](./editor-secuencias-v2.md#la-estructura-es-una-rejilla-y-no-se-pliega);
+> lo que sigue es el diagnóstico que lo motivó, que se conserva porque explica por qué la
+> pantalla es como es. **Lo que cambió respecto de lo que aquí se propone está al final.**
 
 Este documento existe porque las mejoras sueltas sobre el editor V2 dejaron de mejorarlo. El IP
 probó el formulario de la quintilla y describió lo que veía: dos botones que parecen lo mismo,
@@ -79,13 +85,38 @@ Se conservan también los dos aciertos del editor actual: que las repeticiones s
 responder se resuman en una línea, y que el catálogo diga cuándo una forma no necesita ninguna
 respuesta, que son veintiuna de las treinta y siete arquitecturas.
 
-## Por dónde empezar
+## En qué se apartó de esto lo que se hizo
 
-1. Quitar `expandedFamilyKeys` y su bloque, moviendo esas preguntas a la tarjeta de la unidad.
-2. Sustituir `expandedRepeatKeys` y `expandedUnitIds` por un solo conjunto: qué unidades se han
-   separado del grupo.
-3. Rehacer `renderSection` con la regla 2 delante: si hay contenido, tarjeta; si no, línea.
-4. Medir antes y después con `npm run audit:editor`, que ya cuenta cuántas respuestas exige cada
-   forma y no debería cambiar: esto es una reforma de la pantalla, no del catálogo.
+Se maquetaron dos maneras de cumplir las tres reglas y el IP eligió la segunda:
 
-*El paso 3 es el grueso y conviene hacerlo con la pantalla delante, no a ciegas.*
+- **Grupo y excepciones**, que es lo dibujado arriba: una tarjeta para las N iguales y una
+  acción por unidad para separarla.
+- **Rejilla**, la elegida: la estructura a la izquierda verso a verso, las respuestas a la
+  derecha, y **ninguna unidad oculta**. No hay acción de separar —se cambia la fila que sea—
+  ni interruptor que la haga aparecer. El coste aceptado es que quince quintillas son quince
+  filas; el IP lo dio por bueno porque las tiradas largas no son lo corriente.
+
+Cinco cosas que la propuesta no preveía y que hicieron falta:
+
+1. **La pregunta de la composición vive en la composición.** «Medida de los versos» son cuatro
+   grupos del catálogo, uno por sección. Con la regla 1 a secas, el villancico obligaba a decir
+   «octosílabo» siete veces. Se responde en la composición, y **sin dejar de verse la de cada
+   sección**: son dos ejes —uno recorre secciones, otro realizaciones— y el villancico
+   heterométrico de Navarro Tomás necesita los dos.
+2. **Una sección que no pregunta nada no pinta contenedor.** La copla dejaba el esquema de la
+   mudanza a tres niveles de anidamiento. El enunciado derivado ya nombra su sección, así que la
+   pregunta sube sin perder sujeto.
+3. **Una sección que materializa una respuesta no se quita a mano.** Salió al mirar la pantalla
+   renderizada: quitarla dejaba «se repite entero» apuntando a una repetición inexistente. Era
+   un defecto anterior que el plegado tapaba.
+4. **El atajo admite respuestas posicionales completas.** El pareado necesita dos metros por
+   dístico, de modo que filtrar el atajo a `selecciones_max = 1` dejaba arriba solo la rima. Los
+   dos metros se responden ahora junto a ella y las filas coincidentes muestran un resumen;
+   el control completo se abre únicamente para cambiar una excepción.
+5. **El propietario de guardado no impone el orden visual.** La repetición del estribillo se
+   guarda en el ciclo, pero sus opciones materializan una sección hermana de la copla. Se pregunta
+   por eso después de mudanza y enlace o vuelta; si se sobreentiende, mantiene allí una fila sin
+   versos en vez de subir a la cabecera del ciclo.
+
+`npm run audit:editor` da lo mismo antes y después —0 defectos, salida idéntica—, que era la
+prueba de que la reforma es de pantalla y no del catálogo.

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
-	import CollapsibleGroup from '$lib/components/ui/collapsible-group.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type {
@@ -21,6 +20,7 @@
 		valorObservado
 	} from './desviaciones';
 	import MetricChoiceField from './MetricChoiceField.svelte';
+	import MetricGridRow from './MetricGridRow.svelte';
 	import MetricLengthAlert from './MetricLengthAlert.svelte';
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
 	import {
@@ -127,10 +127,8 @@
 		})
 	);
 
-	let showMeasuresBySection = $state(false);
 	/** El editor ha vuelto a abrir la identificación ya resuelta para corregirla. */
 	let identificationForced = $state(false);
-	let identificationGroupOpen = $state(true);
 
 	const configurationsForDraft = $derived(
 		props.catalog.configurations.filter(
@@ -222,9 +220,10 @@
 	);
 
 	// La medida se pregunta en cada sección con versos, así que un villancico isosilábico
-	// obliga a responder seis veces lo mismo. La pregunta única las responde todas y las de
-	// sección solo se abren cuando alguna difiere: lo que se guarda sigue siendo la medida de
-	// cada sección, que es lo que declara el catálogo.
+	// obliga a responder seis veces lo mismo. La pregunta única las responde todas de golpe y
+	// vive donde le corresponde: en la composición, que es la realización de la que habla. Ya
+	// no esconde las de cada sección —eso era uno de los seis interruptores—; las de sección
+	// siguen visibles en su fila, y lo que se guarda sigue siendo la medida de cada una.
 	const measureGroups = $derived(
 		unitChoiceGroups.filter(
 			(group: MetricCatalogDomainRow) =>
@@ -270,21 +269,8 @@
 			? measureAnswers.metres[0]
 			: null
 	);
-	const measuresFoldable = $derived(
-		measureGroups.length >= 2 && (uniformMetreId !== null || measureAnswers.answered === 0)
-	);
-	const measuresFolded = $derived(measuresFoldable && !showMeasuresBySection);
-	const structureGroups = $derived(
-		measuresFolded
-			? unitChoiceGroups.filter(
-					(group: MetricCatalogDomainRow) =>
-						!measureGroups.some(
-							(measure: MetricCatalogDomainRow) =>
-								String(measure.grupo_eleccion_id) === String(group.grupo_eleccion_id)
-						)
-				)
-			: unitChoiceGroups
-	);
+	/** Cuándo hay una medida que valga para toda la composición: cuando hay varias secciones. */
+	const hasCompositionMeasure = $derived(measureGroups.length >= 2);
 
 	const identificationResolved = $derived(
 		Boolean(draft.forma_id) && (isEditorialOutput || Boolean(draft.arquitectura_id))
@@ -474,7 +460,6 @@
 	}
 
 	function resetForConfiguration(configurationId: string) {
-		showMeasuresBySection = false;
 		draft.arquitectura_id = configurationId;
 		const previousLength = Math.max(1, draft.v_fin - draft.v_ini + 1);
 		draft.unidades = normalizeStructuredUnits(
@@ -645,12 +630,7 @@
 				answered += 1;
 			}
 		}
-		// La medida recogida en la pregunta única cuenta como una sola, que es como se ve.
-		if (measuresFolded) {
-			total += 1;
-			if (uniformMetreId !== null) answered += 1;
-		}
-		for (const group of structureGroups) {
+		for (const group of unitChoiceGroups) {
 			if (Number(group.selecciones_min) < 1) continue;
 			for (const unit of unitsForGroup(group)) {
 				total += 1;
@@ -756,15 +736,6 @@
 					unit.realizacion_prueba_id
 				);
 				if (total < Number(group.selecciones_min) || total > Number(group.selecciones_max)) {
-					// La pregunta puede estar recogida arriba, en la norma de la composición: el
-					// aviso tiene que señalar el campo que el editor está viendo.
-					const folded =
-						measuresFolded &&
-						measureGroups.some(
-							(measure: MetricCatalogDomainRow) =>
-								String(measure.grupo_eleccion_id) === String(group.grupo_eleccion_id)
-						);
-					if (folded) return 'Indica la medida de toda la composición.';
 					const unanswered = applicableUnits.every(
 						(candidate: MetricUnitDraft) =>
 							choiceCount(
@@ -925,27 +896,26 @@
 
 	<!-- Cuerpo: una cosa cada vez. Lo métrico va junto, bajo un solo título. -->
 	<div class="min-w-0 space-y-4 bg-[color:var(--gray-50)] p-5">
-		<CollapsibleGroup
-			id="identificacion"
-			title="Identificación métrica"
-			summary={identificationResolved ? identificationSummary : 'Sin forma elegida'}
-			open={identificationGroupOpen}
-			onToggle={(next) => (identificationGroupOpen = next)}
-		>
-		{#if identificationOpen}
-			<section>
-				<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-					<h4 class="form-section-title mb-0">Versos y forma</h4>
-					{#if identificationResolved && identificationForced}
-						<button
-							type="button"
-							class="link-action"
-							onclick={() => (identificationForced = false)}
-						>
-							Plegar
-						</button>
-					{/if}
-				</div>
+		<!--
+			La identificación se pliega sola en cuanto está resuelta, y se abre con «Cambiar
+			versos o forma». No lleva encima un segundo plegado que diga lo mismo: eran dos
+			resúmenes de la misma cosa, y uno de los seis interruptores que sobraban.
+		-->
+		<section id="identificacion" class="space-y-4">
+			{#if identificationOpen}
+				<div>
+					<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+						<h4 class="form-section-title mb-0">Versos y forma</h4>
+						{#if identificationResolved && identificationForced}
+							<button
+								type="button"
+								class="link-action"
+								onclick={() => (identificationForced = false)}
+							>
+								Plegar
+							</button>
+						{/if}
+					</div>
 				<div class="grid gap-3 sm:grid-cols-2">
 					<label class="form-field">
 						<span class="form-label">Verso inicial</span>
@@ -1078,18 +1048,19 @@
 						</div>
 					{/if}
 				</div>
-			</section>
-		{:else}
-			<!-- Resuelta, la identificación pesa una línea: el sitio es para las preguntas. -->
-			<div
-				class="flex flex-wrap items-baseline justify-between gap-3 border border-[color:var(--border)] bg-white px-4 py-2.5 text-sm"
-			>
-				<span>{identificationSummary}</span>
-				<button type="button" class="link-action" onclick={() => (identificationForced = true)}>
-					Cambiar versos o forma
-				</button>
-			</div>
-		{/if}
+				</div>
+			{:else}
+				<!-- Resuelta, la identificación pesa una línea: el sitio es para las preguntas. -->
+				<div
+					class="flex flex-wrap items-baseline justify-between gap-3 border border-[color:var(--border)] bg-white px-4 py-2.5 text-sm"
+				>
+					<span>{identificationSummary}</span>
+					<button type="button" class="link-action" onclick={() => (identificationForced = true)}>
+						Cambiar versos o forma
+					</button>
+				</div>
+			{/if}
+		</section>
 
 		{#if draft.arquitectura_id}
 			{#if hasSequenceChoices}
@@ -1117,12 +1088,13 @@
 							sequenceStart={draft.v_ini}
 							sections={sectionsForDraft}
 							unitPlan={unitPlanForDraft}
-							groups={structureGroups}
+							groups={unitChoiceGroups}
 							options={choiceOptionsForDraft}
+							schemes={props.catalog.domain.rhymePatterns}
 							units={draft.unidades}
 							choices={draft.elecciones}
 							unitLabel={selectedForm?.nombre}
-							globalQuestions={measureGroups.length >= 2 ? compositionMeasure : undefined}
+							globalQuestions={hasCompositionMeasure ? compositionMeasure : undefined}
 							onUnitsChange={(units) => (draft.unidades = units)}
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}
@@ -1287,7 +1259,6 @@
 				</label>
 			</section>
 		{/if}
-		</CollapsibleGroup>
 
 		<!-- El resto de la secuencia: no es métrico, pero el editor lo rellena en la misma
 		     pasada, así que se ve en el mismo flujo y no en una columna aparte. -->
@@ -1295,55 +1266,52 @@
 	</div>
 </div>
 
+<!--
+	La medida de toda la composición: una fila más de la rejilla, la primera. No esconde las
+	de cada sección, que siguen visibles en su fila; solo las responde todas de una vez, que
+	es lo que evita decir «octosílabo» siete veces en un villancico de tres ciclos.
+-->
 {#snippet compositionMeasure()}
-	<div class="form-field">
-		<span class="form-label">
-			<span class="form-label-with-help">
-				Medida de toda la composición
-				<FieldHelpTooltip
-					text="Lo habitual es que toda la composición use una sola medida. Si alguna sección difiere, ábrelas por sección y corrige solo esa."
-					label="Ayuda sobre la medida de toda la composición"
-				/>
-			</span>
-		</span>
+	<MetricGridRow
+		label="Medida de los versos"
+		rango={`las ${measureAnswers.total} secciones con versos`}
+		variant="comun"
+	>
 		<div class="flex flex-wrap items-center gap-3">
 			{#if measureMetres.length > 0 && measureMetres.length <= 4}
 				<SegmentedChoice
 					items={measureMetres}
 					value={uniformMetreId}
 					onChange={(id) => id && applyMetreToAllSections(id)}
-					ariaLabel="Medida de toda la composición"
+					ariaLabel="Medida de los versos de toda la composición"
+					size="sm"
 				/>
-				{#if !measuresFolded && uniformMetreId === null}
-					<span class="text-xs text-[color:var(--muted-foreground)]">
-						Distintas medidas por sección
-					</span>
-				{/if}
 			{:else}
 				<select
-					class="h-10 border border-[color:var(--border)] bg-white px-3 text-sm"
+					class="h-9 border border-[color:var(--border)] bg-white px-3 text-sm"
 					value={uniformMetreId ?? ''}
+					aria-label="Medida de los versos de toda la composición"
 					onchange={(event) => applyMetreToAllSections(event.currentTarget.value)}
 				>
 					<option value="">
-						{measuresFolded ? 'Seleccionar medida' : 'Distintas medidas por sección'}
+						{uniformMetreId === null && measureAnswers.answered > 0
+							? 'Varían: cada sección conserva la suya'
+							: 'Responder todas de una vez'}
 					</option>
 					{#each measureMetres as metre (metre.id)}
 						<option value={metre.id}>{metre.label}</option>
 					{/each}
 				</select>
 			{/if}
-			{#if measuresFoldable}
-				<button
-					type="button"
-					class="link-action"
-					onclick={() => (showMeasuresBySection = !showMeasuresBySection)}
-				>
-					{showMeasuresBySection
-						? 'Ocultar las medidas por sección'
-						: `Ver la medida de cada sección (${measureGroups.length})`}
-				</button>
+			{#if uniformMetreId === null && measureAnswers.answered > 0}
+				<span class="text-xs text-[color:var(--muted-foreground)]">
+					Varían por sección; cada una conserva la suya
+				</span>
 			{/if}
+			<FieldHelpTooltip
+				text="Lo habitual es que toda la composición use una sola medida. Responde aquí las de todas las secciones a la vez, y corrige después la que difiera en su propia fila."
+				label="Ayuda sobre la medida de los versos"
+			/>
 		</div>
-	</div>
+	</MetricGridRow>
 {/snippet}

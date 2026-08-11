@@ -11,9 +11,31 @@
 		textValue?: string;
 		onTextChange?: (value: string) => void;
 		onApplyAll?: () => void;
-		onApplyToEverySection?: () => void;
 		positionLimit?: number;
+		/**
+		 * `celda` es la variante de la rejilla: una sola línea de alto, para que la fila de
+		 * cada realización quepa junto a las demás. Las alternativas se enseñan en un
+		 * desplegable aunque sean pocas, porque una lista de tres con sus explicaciones
+		 * ocuparía más que la composición entera.
+		 */
+		variant?: 'campo' | 'celda';
+		/**
+		 * El enunciado, cuando la fila ya nombra la sección de la que habla y repetirla sobra:
+		 * «Esquema de rima» en la fila de los cuartetos, no «Cuartetos · Esquema de rima».
+		 */
+		label?: string;
+		/**
+		 * La explicación que el catálogo deriva de la respuesta elegida. Es lo que la rejilla
+		 * se dejaría por el camino al comprimir las listas en desplegables, así que se
+		 * recupera debajo, y solo donde aporta: en la respuesta común y en la que diverge.
+		 */
+		showDescription?: boolean;
+		/** Resume una respuesta común y deja el control completo para cuando se crea una excepción. */
+		compact?: boolean;
+		onExpand?: () => void;
 	}>();
+
+	const celda = $derived(props.variant === 'celda');
 
 	const minimum = $derived(Number(props.group.selecciones_min ?? 0));
 	const maximum = $derived(Number(props.group.selecciones_max ?? 1));
@@ -64,7 +86,24 @@
 		!isRhymeScheme && !positional && maximum === 1 && optional && control === 'casilla'
 	);
 	const showAsList = $derived(
-		!isRhymeScheme && !positional && !showAsCheckbox && maximum === 1 && control === 'lista'
+		!celda &&
+			!isRhymeScheme &&
+			!positional &&
+			!showAsCheckbox &&
+			maximum === 1 &&
+			control === 'lista'
+	);
+
+	/** Lo que dice el catálogo de la respuesta elegida, cuando hay una sola. */
+	const descripcionElegida = $derived(
+		props.selectedIds.length === 1
+			? String(
+					visibleOptions.find(
+						(option: MetricCatalogDomainRow) =>
+							String(option.opcion_eleccion_id) === props.selectedIds[0]
+					)?.descripcion ?? ''
+				)
+			: ''
 	);
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;
@@ -134,7 +173,7 @@
 				? visiblePositions.length > 0 && props.selectedIds.length === visiblePositions.length
 				: props.selectedIds.length > 0 && props.selectedIds.length >= minimum
 	);
-	const collapsed = $derived(multiline && answered && !expanded);
+	const collapsed = $derived(answered && (props.compact || (multiline && !expanded)));
 	const answerSummary = $derived.by(() => {
 		const names = visibleOptions
 			.filter((option: MetricCatalogDomainRow) =>
@@ -165,12 +204,18 @@
 		if (optionId) next.push(optionId);
 		props.onChange(next);
 	}
+
+	function optionLabelForPosition(option: MetricCatalogDomainRow, position: number): string {
+		const label = String(option.nombre);
+		const prefix = `Verso ${position} · `;
+		return label.startsWith(prefix) ? label.slice(prefix.length) : label;
+	}
 </script>
 
 <fieldset class="form-field">
 	<legend class="form-label">
 		<span class="form-label-with-help">
-			{String(props.group.nombre)}{optional ? '' : ' *'}
+			{props.label ?? String(props.group.nombre)}{optional ? '' : ' *'}
 			{#if props.group.ayuda_editor}
 				<FieldHelpTooltip
 					text={String(props.group.ayuda_editor)}
@@ -183,7 +228,13 @@
 	{#if collapsed}
 		<div class="flex flex-wrap items-baseline justify-between gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
 			<span>{answerSummary}</span>
-			<button type="button" class="link-action" onclick={() => (expanded = true)}>Cambiar</button>
+			<button
+				type="button"
+				class="link-action"
+				onclick={() => (props.onExpand ? props.onExpand() : (expanded = true))}
+			>
+				Cambiar
+			</button>
 		</div>
 	{:else if isRhymeScheme}
 		<input
@@ -257,7 +308,13 @@
 		</div>
 	{:else if maximum === 1}
 		<select
-			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
+			class={`w-full border bg-white px-3 text-sm ${
+				celda ? 'h-9 max-w-sm' : 'h-10'
+			} ${
+				props.selectedIds.length === 0 && !optional
+					? 'border-[color:var(--primary)]'
+					: 'border-[color:var(--border)]'
+			}`}
 			value={props.selectedIds[0] ?? ''}
 			onchange={changeSingle}
 		>
@@ -265,7 +322,9 @@
 				{optional ? 'No aparece / no se aplica' : 'Seleccionar una respuesta'}
 			</option>
 			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
-				<option value={String(option.opcion_eleccion_id)}>{String(option.nombre)}</option>
+				<option value={String(option.opcion_eleccion_id)} title={String(option.descripcion ?? '')}>
+					{String(option.nombre)}
+				</option>
 			{/each}
 		</select>
 	{:else if positionalAlternatives}
@@ -292,7 +351,7 @@
 						<option value="">Seleccionar medida</option>
 						{#each positionOptions as option (String(option.opcion_eleccion_id))}
 							<option value={String(option.opcion_eleccion_id)}>
-								{String(option.nombre)}
+								{optionLabelForPosition(option, position)}
 							</option>
 						{/each}
 					</select>
@@ -350,6 +409,10 @@
 		</div>
 	{/if}
 
+	{#if props.showDescription && !collapsed && descripcionElegida}
+		<p class="form-help">{descripcionElegida}</p>
+	{/if}
+
 	<div class={`flex flex-wrap gap-x-4 gap-y-1 ${collapsed ? 'hidden' : 'mt-1'}`}>
 		{#if props.onApplyAll && props.group.permite_aplicar_global}
 			<button
@@ -361,17 +424,6 @@
 					: props.selectedIds.length === 0}
 			>
 				Aplicar esta respuesta a todas las unidades equivalentes
-			</button>
-		{/if}
-
-		{#if props.onApplyToEverySection}
-			<button
-				type="button"
-				class="link-action"
-				onclick={props.onApplyToEverySection}
-				disabled={props.selectedIds.length === 0}
-			>
-				Toda la composición usa esta medida
 			</button>
 		{/if}
 
