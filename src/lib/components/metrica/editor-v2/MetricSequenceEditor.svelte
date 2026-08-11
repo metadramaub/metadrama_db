@@ -12,6 +12,14 @@
 	} from '$lib/metrica/catalogo';
 	import { metricFormLabel } from '$lib/metrica/catalogo';
 	import { metricLengthError } from '$lib/metrica/metric-length';
+	import {
+		contradiceLaRelacion,
+		fijarValorObservado,
+		medidaDeLaNorma,
+		notaDelMetroObservado,
+		opcionesObservadas,
+		valorObservado
+	} from './desviaciones';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricLengthAlert from './MetricLengthAlert.svelte';
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
@@ -519,129 +527,32 @@
 		draft.desviaciones = [...draft.desviaciones, emptyDeviation(draft.v_ini, draft.v_fin)];
 	}
 
-	// ------------------------------------------------------------------
-	// El valor observado de una desviación
-	//
-	// Cada dimensión nombra lo observado en su propio vocabulario, y la base exige que la
-	// columna corresponda a la dimensión declarada. Aquí vive esa correspondencia una sola
-	// vez: qué columna toca, de dónde salen sus opciones y cómo se limpian las demás.
-	// ------------------------------------------------------------------
+	// El valor observado de una desviación vive en `desviaciones.ts`: son funciones puras y
+	// merecen prueba. Aquí quedan solo los envoltorios que las atan al borrador vivo.
 
-	const OBSERVED_COLUMNS = {
-		metro: 'metro_observado_id',
-		rima: 'esquema_rima_observado_id',
-		estructura: 'seccion_observada_id',
-		repeticion: 'repeticion_observada_id',
-		rasgo: 'valor_rasgo_observado_id'
-	} as const;
+	const normSyllables = $derived(medidaDeLaNorma(props.catalog.domain, draft.arquitectura_id));
 
-	function observedOptions(
-		dimension: MetricDeviationDimension
-	): { id: string; label: string }[] {
-		const domain = props.catalog.domain;
-		const rows: MetricCatalogDomainRow[] =
-			dimension === 'metro'
-				? domain.verseModels
-				: dimension === 'rima'
-					? domain.rhymePatterns.filter(
-							(row: MetricCatalogDomainRow) => row.arquitectura_id === draft.arquitectura_id
-						)
-					: dimension === 'estructura'
-						? sectionsForDraft
-						: dimension === 'repeticion'
-							? domain.repetitionPatterns.filter(
-									(row: MetricCatalogDomainRow) =>
-										row.arquitectura_id === draft.arquitectura_id
-								)
-							: domain.traitValues;
-		return rows
-			.filter((row: MetricCatalogDomainRow) => row.activo !== false)
-			.map((row: MetricCatalogDomainRow) => ({
-				id: String(
-					row.metro_id ??
-						row.esquema_rima_id ??
-						row.seccion_id ??
-						row.repeticion_id ??
-						row.valor_id
-				),
-				label: String(row.nombre || row.notacion || row.slug || '')
-			}))
-			.filter((option) => option.id !== 'undefined' && option.label)
-			.sort((a, b) => a.label.localeCompare(b.label, 'es'));
+	function observedOptions(dimension: MetricDeviationDimension) {
+		return opcionesObservadas(
+			props.catalog.domain,
+			dimension,
+			draft.arquitectura_id,
+			sectionsForDraft
+		);
 	}
 
-	function observedValue(deviation: MetricDeviationDraft): string {
-		return String(deviation[OBSERVED_COLUMNS[deviation.dimension]] ?? '');
-	}
+	const observedValue = valorObservado;
 
-	/** Deja puesta solo la columna que corresponde a la dimensión, como exige la base. */
 	function setObserved(deviation: MetricDeviationDraft, value: string) {
-		for (const column of Object.values(OBSERVED_COLUMNS)) {
-			deviation[column] = null;
-		}
-		if (value) deviation[OBSERVED_COLUMNS[deviation.dimension]] = value;
+		fijarValorObservado(deviation, value);
 	}
 
-	/**
-	 * Las sílabas que la arquitectura fija para sus versos, cuando fija una sola. Sirve para
-	 * decirle al editor qué diferencia supone el metro que acaba de elegir, sin guardarlo:
-	 * la hipometría se enseña, no se almacena.
-	 */
-	const normSyllables = $derived.by(() => {
-		if (!draft.arquitectura_id) return null;
-		const schemeIds = new Set(
-			props.catalog.domain.metricPatterns
-				.filter((row: MetricCatalogDomainRow) => row.arquitectura_id === draft.arquitectura_id)
-				.map((row: MetricCatalogDomainRow) => String(row.esquema_metrico_id))
-		);
-		if (schemeIds.size === 0) return null;
-		const metreIds = new Set(
-			props.catalog.domain.metricPositions
-				.filter((row: MetricCatalogDomainRow) =>
-					schemeIds.has(String(row.esquema_metrico_id))
-				)
-				.map((row: MetricCatalogDomainRow) => String(row.metro_id))
-		);
-		// Con más de un metro la norma no es una cifra y no hay diferencia que anunciar.
-		if (metreIds.size !== 1) return null;
-		const metre = props.catalog.domain.verseModels.find(
-			(row: MetricCatalogDomainRow) => String(row.metro_id) === [...metreIds][0]
-		);
-		return metre ? { silabas: Number(metre.silabas), nombre: String(metre.nombre) } : null;
-	});
-
-	/** «Una sílaba menos que la norma (octosílabo)», calculado en el momento. */
 	function observedMetreNote(deviation: MetricDeviationDraft): string {
-		if (deviation.dimension !== 'metro' || !deviation.metro_observado_id) return '';
-		const metre = props.catalog.domain.verseModels.find(
-			(row: MetricCatalogDomainRow) => String(row.metro_id) === deviation.metro_observado_id
-		);
-		if (!metre) return '';
-		const silabas = Number(metre.silabas);
-		if (!normSyllables) return `${silabas} sílabas`;
-		const diferencia = silabas - normSyllables.silabas;
-		if (diferencia === 0) {
-			return `${silabas} sílabas · coincide con la norma (${normSyllables.nombre})`;
-		}
-		const cuantas = Math.abs(diferencia);
-		return `${cuantas} ${cuantas === 1 ? 'sílaba' : 'sílabas'} ${
-			diferencia < 0 ? 'menos' : 'más'
-		} que la norma (${normSyllables.nombre})`;
+		return notaDelMetroObservado(props.catalog.domain, deviation, normSyllables);
 	}
 
-	/** ¿Concuerdan la relación declarada y el metro observado? Invariante 2 del plan. */
 	function observedContradiction(deviation: MetricDeviationDraft): boolean {
-		if (deviation.dimension !== 'metro' || !deviation.metro_observado_id || !normSyllables) {
-			return false;
-		}
-		const metre = props.catalog.domain.verseModels.find(
-			(row: MetricCatalogDomainRow) => String(row.metro_id) === deviation.metro_observado_id
-		);
-		if (!metre) return false;
-		const diferencia = Number(metre.silabas) - normSyllables.silabas;
-		if (deviation.relacion_norma === 'menor_que_norma') return diferencia >= 0;
-		if (deviation.relacion_norma === 'mayor_que_norma') return diferencia <= 0;
-		return false;
+		return contradiceLaRelacion(props.catalog.domain, deviation, normSyllables);
 	}
 
 	function updateSequenceStart(value: number) {
