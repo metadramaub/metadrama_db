@@ -75,10 +75,7 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 		await cargarAgrupado(db, 'get_catalogo_formas_publicas');
 
 	const nombreTipoRima = new Map(
-		(tiposRima as any[]).map((row) => [
-			String(row.termino_id),
-			String(row.etiqueta ?? row.termino)
-		])
+		(tiposRima as any[]).map((row) => [String(row.termino_id), String(row.etiqueta ?? row.termino)])
 	);
 
 	const nombreTradicion = new Map(
@@ -180,9 +177,7 @@ export async function loadPublicForm(
 	const porArquitectura = <T extends { arquitectura_id?: unknown }>(rows: T[]) =>
 		agrupar(rows, (row) => (row.arquitectura_id ? String(row.arquitectura_id) : null));
 
-	const enlacesPorEsquema = agrupar(enlacesRima as any[], (row) =>
-		String(row.esquema_rima_id)
-	);
+	const enlacesPorEsquema = agrupar(enlacesRima as any[], (row) => String(row.esquema_rima_id));
 	const posicionesPorEsquema = agrupar(posicionesRima as any[], (row) =>
 		String(row.esquema_rima_id)
 	);
@@ -222,7 +217,8 @@ export async function loadPublicForm(
 						predominantes: 'Predominan los versos sueltos sobre los rimados',
 						admitidos: 'Admite versos sueltos intercalados'
 					}[String(valor)] ?? `Versos sueltos: ${valor ?? '—'}`,
-				identidad_entre_repeticiones: 'La disposición, sea cual sea, vuelve idéntica en cada repetición',
+				identidad_entre_repeticiones:
+					'La disposición, sea cual sea, vuelve idéntica en cada repetición',
 				regularidad: 'La disposición debe ser regular, aunque la norma no fije cuál',
 				excluye_esquema: `No puede coincidir con «${referido}»`
 			};
@@ -289,10 +285,7 @@ export async function loadPublicForm(
 		const sinParte = deLaUnidad.filter((e) => !e.deLaSeccion);
 		const orden = new Map(misSecciones.map((s, i) => [String(s.nombre), i]));
 		return [...deSecciones, ...conParte]
-			.sort(
-				(a, b) =>
-					(orden.get(a.deLaSeccion ?? '') ?? 0) - (orden.get(b.deLaSeccion ?? '') ?? 0)
-			)
+			.sort((a, b) => (orden.get(a.deLaSeccion ?? '') ?? 0) - (orden.get(b.deLaSeccion ?? '') ?? 0))
 			.concat(sinParte);
 	};
 
@@ -454,14 +447,12 @@ export async function loadPublicForm(
 		const ordenar = (lista: PublicSection[]): PublicSection[] =>
 			lista
 				.sort(
-					(a, b) =>
-						(ordenPorId.get(a.id) ?? 0) - (ordenPorId.get(b.id) ?? 0) || porNombre(a, b)
+					(a, b) => (ordenPorId.get(a.id) ?? 0) - (ordenPorId.get(b.id) ?? 0) || porNombre(a, b)
 				)
 				.map((seccion) => ({ ...seccion, hijas: ordenar(seccion.hijas) }));
 
 		return ordenar(raices);
 	};
-
 
 	const misArquitecturas: PublicArchitecture[] = (arquitecturas as any[])
 		.filter((row) => String(row.forma_id) === formaId)
@@ -511,14 +502,13 @@ export async function loadPublicForm(
 					(r): PublicRepetition => ({
 						slug: String(r.slug),
 						tipo: String(r.tipo),
+						nombre: String(r.nombre),
 						regla: String(r.regla),
 						modalidad: texto(r.modalidad),
 						descripcion: texto(r.descripcion)
 					})
 				),
-				denominaciones: (denominacionesPorArquitectura.get(id) ?? []).map((d) =>
-					String(d.nombre)
-				)
+				denominaciones: (denominacionesPorArquitectura.get(id) ?? []).map((d) => String(d.nombre))
 			};
 		});
 
@@ -588,8 +578,7 @@ export async function loadPublicForm(
 		// terceto como desde la serie.
 		relaciones: (relaciones as any[])
 			.filter(
-				(row) =>
-					String(row.forma_origen_id) === formaId || String(row.forma_destino_id) === formaId
+				(row) => String(row.forma_origen_id) === formaId || String(row.forma_destino_id) === formaId
 			)
 			.map((row) => {
 				const esOrigen = String(row.forma_origen_id) === formaId;

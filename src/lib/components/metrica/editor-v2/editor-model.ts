@@ -374,15 +374,24 @@ function unitLength(unit: MetricUnitDraft): number {
 	return Math.max(1, unit.v_fin - unit.v_ini + 1);
 }
 
-function lengthForUnit(
+/**
+ * La realización concreta de la que otra toma su extensión.
+ *
+ * Algunas repeticiones apuntan a una sección distinta (la represa toma la cabeza), pero en
+ * el villancico con estribillo posterior la referencia es deliberadamente autorreferente:
+ * cada aparición total toma la extensión de la primera aparición de `estribillo`. La primera
+ * no puede tomarse a sí misma como fuente y sigue siendo editable.
+ *
+ * Durante el reflujo `availableUnitIds` limita la búsqueda a lo que ya apareció en la
+ * secuencia. Fuera de él, el rango ya calculado permite reconocer las apariciones anteriores.
+ */
+export function extensionSourceUnitFor(
 	unit: MetricUnitDraft,
-	section: MetricCatalogDomainRow,
 	units: MetricUnitDraft[],
 	choices: MetricChoiceDraft[],
-	options: MetricCatalogDomainRow[]
-): number {
-	const fixed = sectionHasFixedLength(section) ? sectionVerseMinimum(section) : unitLength(unit);
-
+	options: MetricCatalogDomainRow[],
+	availableUnitIds?: ReadonlySet<string>
+): MetricUnitDraft | null {
 	const effectOption = options.find(
 		(option) =>
 			String(option.materializa_seccion_id ?? '') === unit.seccion_id &&
@@ -393,12 +402,39 @@ function lengthForUnit(
 					choice.realizacion_prueba_id === unit.realizacion_padre_id
 			)
 	);
-	const referenceId = effectOption?.extension_desde_seccion_id
-		? String(effectOption.extension_desde_seccion_id)
-		: null;
-	const referenceUnit = referenceId
-		? units.find((candidate) => candidate.seccion_id === referenceId)
-		: null;
+	if (!effectOption?.extension_desde_seccion_id) return null;
+
+	const referenceSectionId = String(effectOption.extension_desde_seccion_id);
+	const selfReference = referenceSectionId === unit.seccion_id;
+	return (
+		units
+			.filter(
+				(candidate) =>
+					candidate.realizacion_prueba_id !== unit.realizacion_prueba_id &&
+					candidate.seccion_id === referenceSectionId &&
+					(availableUnitIds
+						? availableUnitIds.has(candidate.realizacion_prueba_id)
+						: !selfReference || candidate.v_ini < unit.v_ini)
+			)
+			.sort(
+				(a, b) =>
+					a.v_ini - b.v_ini ||
+					a.orden - b.orden ||
+					a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
+			)[0] ?? null
+	);
+}
+
+function lengthForUnit(
+	unit: MetricUnitDraft,
+	section: MetricCatalogDomainRow,
+	units: MetricUnitDraft[],
+	choices: MetricChoiceDraft[],
+	options: MetricCatalogDomainRow[],
+	availableUnitIds: ReadonlySet<string>
+): number {
+	const fixed = sectionHasFixedLength(section) ? sectionVerseMinimum(section) : unitLength(unit);
+	const referenceUnit = extensionSourceUnitFor(unit, units, choices, options, availableUnitIds);
 	const proposed = referenceUnit ? unitLength(referenceUnit) : fixed;
 	const minimum = sectionVerseMinimum(section);
 	const maximum = sectionVerseMaximum(section);
@@ -452,7 +488,7 @@ export function reflowMetricUnits(
 		}
 
 		const length = section
-			? lengthForUnit(unit, section, [...updated.values()], choices, options)
+			? lengthForUnit(unit, section, [...updated.values()], choices, options, visited)
 			: unitLength(unit);
 		unit.v_ini = start;
 		unit.v_fin = start + length - 1;
@@ -510,8 +546,7 @@ export function syncChoiceMaterializedSections(
 	for (const targetSectionId of desiredSectionIds) {
 		if (
 			!next.some(
-				(unit) =>
-					unit.realizacion_padre_id === parentUnitId && unit.seccion_id === targetSectionId
+				(unit) => unit.realizacion_padre_id === parentUnitId && unit.seccion_id === targetSectionId
 			)
 		) {
 			next = addSectionInstance(

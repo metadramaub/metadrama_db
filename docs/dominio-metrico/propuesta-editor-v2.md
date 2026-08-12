@@ -4,7 +4,7 @@ Estado: **aplicado** · 11 de agosto de 2026
 
 > El IP eligió la **rejilla** entre las dos maneras que se maquetaron, y esa es la que está en
 > `develop`. Cómo quedó se describe en
-> [Editor V2 · Presentación](./editor-secuencias-v2.md#la-estructura-es-una-rejilla-y-no-se-pliega);
+> [especificación histórica del primer corte](./historico/editor-secuencias-v2-2026-08-11.md#la-estructura-es-una-rejilla-y-no-se-pliega);
 > lo que sigue es el diagnóstico que lo motivó, que se conserva porque explica por qué la
 > pantalla es como es. **Lo que cambió respecto de lo que aquí se propone está al final.**
 
@@ -17,14 +17,14 @@ qué hayas pulsado antes. Tenía razón, y la causa no es la redacción de los b
 
 **Hay seis interruptores independientes** repartidos por el editor:
 
-| Dónde | Cuál | Qué pliega |
-| --- | --- | --- |
-| `MetricStructureEditor` | `expandedFamilyKeys` | Una pregunta que se responde para todas las unidades |
-| `MetricStructureEditor` | `expandedRepeatKeys` | Una sección que se repite y cuyas realizaciones son iguales |
-| `MetricStructureEditor` | `expandedUnitIds` | Una unidad ya respondida |
-| `MetricSequenceEditor` | `showMeasuresBySection` | La medida, preguntada de una vez o por partes |
-| `MetricSequenceEditor` | `identificationGroupOpen` | El bloque de versos y forma |
-| `MetricChoiceField` | `expanded` | Las opciones de una pregunta larga |
+| Dónde                   | Cuál                      | Qué pliega                                                  |
+| ----------------------- | ------------------------- | ----------------------------------------------------------- |
+| `MetricStructureEditor` | `expandedFamilyKeys`      | Una pregunta que se responde para todas las unidades        |
+| `MetricStructureEditor` | `expandedRepeatKeys`      | Una sección que se repite y cuyas realizaciones son iguales |
+| `MetricStructureEditor` | `expandedUnitIds`         | Una unidad ya respondida                                    |
+| `MetricSequenceEditor`  | `showMeasuresBySection`   | La medida, preguntada de una vez o por partes               |
+| `MetricSequenceEditor`  | `identificationGroupOpen` | El bloque de versos y forma                                 |
+| `MetricChoiceField`     | `expanded`                | Las opciones de una pregunta larga                          |
 
 Son ortogonales, así que **una misma pregunta puede aparecer en tres lugares distintos** según qué
 combinación esté abierta: en «así es toda la composición», dentro de la tarjeta de la repetición
@@ -83,7 +83,7 @@ solo que con una acción en vez de tres.
 
 Se conservan también los dos aciertos del editor actual: que las repeticiones sin nada que
 responder se resuman en una línea, y que el catálogo diga cuándo una forma no necesita ninguna
-respuesta, que son veintiuna de las treinta y siete arquitecturas.
+respuesta, sin mantener un recuento manual que quede obsoleto al crecer el catálogo.
 
 ## En qué se apartó de esto lo que se hizo
 
@@ -96,13 +96,12 @@ Se maquetaron dos maneras de cumplir las tres reglas y el IP eligió la segunda:
   ni interruptor que la haga aparecer. El coste aceptado es que quince quintillas son quince
   filas; el IP lo dio por bueno porque las tiradas largas no son lo corriente.
 
-Cinco cosas que la propuesta no preveía y que hicieron falta:
+Seis cosas que la propuesta no preveía y que hicieron falta:
 
-1. **La pregunta de la composición vive en la composición.** «Medida de los versos» son cuatro
-   grupos del catálogo, uno por sección. Con la regla 1 a secas, el villancico obligaba a decir
-   «octosílabo» siete veces. Se responde en la composición, y **sin dejar de verse la de cada
-   sección**: son dos ejes —uno recorre secciones, otro realizaciones— y el villancico
-   heterométrico de Navarro Tomás necesita los dos.
+1. **La pregunta común solo sirve en repeticiones simples.** Se probó primero una medida para
+   toda la composición además de las medidas de cada sección. En el villancico real mezclaba
+   tres escalas —composición, sección y ciclo— y se retiró: las composiciones variables se
+   responden por partes; el atajo queda para unidades simples repetidas como el pareado.
 2. **Una sección que no pregunta nada no pinta contenedor.** La copla dejaba el esquema de la
    mudanza a tres niveles de anidamiento. El enunciado derivado ya nombra su sección, así que la
    pregunta sube sin perder sujeto.
@@ -117,6 +116,9 @@ Cinco cosas que la propuesta no preveía y que hicieron falta:
    guarda en el ciclo, pero sus opciones materializan una sección hermana de la copla. Se pregunta
    por eso después de mudanza y enlace o vuelta; si se sobreentiende, mantiene allí una fila sin
    versos en vez de subir a la cabecera del ciclo.
+6. **La composición variable no se multiplica dentro de la secuencia.** El villancico, el zéjel
+   y la canción conservan una sola unidad raíz; lo que se añade o quita son sus ciclos. Cada
+   ciclo tiene cabecera propia y acciones individuales, no un contador separado de la estructura.
 
 `npm run audit:editor` da lo mismo antes y después —0 defectos, salida idéntica—, que era la
 prueba de que la reforma es de pantalla y no del catálogo.

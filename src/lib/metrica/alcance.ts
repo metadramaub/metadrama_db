@@ -3,9 +3,8 @@
  *
  * - `secuencia`: una sola vez para todo el pasaje.
  * - `unidad`: una vez por unidad.
- * - `realizacion`: una vez por cada aparición de su sección. Lo pide la represa del villancico,
- *   que puede volver entera tras una copla, en parte tras la siguiente y no volver tras la
- *   tercera —Navarro Tomás documenta repeticiones «parciales o totales» en la misma composición—.
+ * - `realizacion`: una vez por cada aparición de su sección. Lo usa la repetición del estribillo
+ *   del villancico, que puede volver entera tras una copla y en parte tras la siguiente.
  *
  * **`realizacion` está declarado en el modelo y todavía no lo implementa el editor V2.** Hasta que
  * lo haga se responde como si fuera de unidad, de modo que la pregunta sigue apareciendo y se

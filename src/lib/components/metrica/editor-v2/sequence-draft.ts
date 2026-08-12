@@ -225,8 +225,9 @@ export function applyMaterializedSections(
 
 /**
  * Deja las realizaciones coherentes con lo que declara la arquitectura. Con una unidad de
- * extensión fija el rango dice cuántas hay; con una variable, las decide el editor y el
- * rango se calcula desde ellas.
+ * extensión fija el rango dice cuántas hay; con una variable, las decide el editor. En ambos
+ * casos el rango sigue siendo una declaración editorial independiente y nunca se reescribe
+ * desde las unidades.
  */
 export function normalizeStructuredUnits(
 	catalog: MetricCatalogForEditor,

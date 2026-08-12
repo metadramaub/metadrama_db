@@ -19,12 +19,7 @@ export const METRIC_MODALITIES = ['definitoria', 'habitual', 'admitida', 'excepc
 export const METRIC_ARCHITECTURE_MODALITIES = ['habitual', 'admitida', 'excepcional'] as const;
 
 /** Qué forma tiene la secuencia declarada por un esquema, métrico o de rima. */
-export const METRIC_SEQUENCE_TYPES = [
-	'ciclo',
-	'secuencia',
-	'conjunto',
-	'abierta'
-] as const;
+export const METRIC_SEQUENCE_TYPES = ['ciclo', 'secuencia', 'conjunto', 'abierta'] as const;
 
 /** Si un esquema describe la unidad entera o una parte suya. */
 export const METRIC_SCHEME_SCOPES = ['unidad', 'seccion'] as const;
@@ -38,7 +33,7 @@ export const METRIC_CHOICE_DIMENSIONS = [
 	'rasgo'
 ] as const;
 
-export const METRIC_CHOICE_SCOPES = ['secuencia', 'unidad'] as const;
+export const METRIC_CHOICE_SCOPES = ['secuencia', 'unidad', 'realizacion'] as const;
 
 export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[number];
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
@@ -57,8 +52,6 @@ export type MetricCatalogForm = {
 	definicion: string | null;
 	nivel_estructural: MetricStructuralLevel;
 	tipo_registro: MetricEntryType;
-	/** Cómo se pregunta cuál de sus arquitecturas tiene el pasaje, cuando tiene más de una. */
-	pregunta_arquitectura: string | null;
 	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	orden: number | null;
@@ -93,12 +86,7 @@ export type MetricLengthRule = {
 	modulo_versos: number;
 	residuo_versos: number;
 	minimo_versos: number;
-	origen:
-		| 'unidad'
-		| 'secciones_fijas'
-		| 'secciones_repetibles'
-		| 'ciclo_rima'
-		| 'ciclo_metrico';
+	origen: 'unidad' | 'secciones_fijas' | 'secciones_repetibles' | 'ciclo_rima' | 'ciclo_metrico';
 	explicacion: string;
 };
 

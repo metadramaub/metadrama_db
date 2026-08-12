@@ -59,7 +59,7 @@ está hecho, qué falta, con qué método y en qué orden.
    Tres secuencias inventadas, fila a fila, para ver qué escribe cada tabla y qué se deriva
    después. Es donde se entiende la capa resuelta.
 
-8. [Editor de secuencias métricas V2](./editor-secuencias-v2.md)
+8. [Editor de secuencias métricas V2 · especificación histórica](./historico/editor-secuencias-v2-2026-08-11.md)
    Grupos de elección, escenarios aislados, persistencia de pruebas y contrato de la interfaz
    futura.
 
@@ -121,8 +121,8 @@ CONTEXTO, con redacciones que ya no coincidían.
 ## Estado
 
 La fase aditiva y la primera revisión técnica del catálogo están implementadas en la
-rama `develop`: esquema del catálogo, importación trazable de las 119 entradas, gestor permanente en
-`/dashboard/metrica` y compilación de pruebas internas del demarcador. `/demarcador`
+rama `develop`: esquema del catálogo, importación trazable de las 119 entradas, superficie de
+trabajo en `/dashboard/metrica` y compilación de pruebas internas del demarcador. `/demarcador`
 abre por defecto la última prueba compilada desde este catálogo; si el catálogo
 cambia, la interfaz señala que debe actualizarse la prueba. La antigua ruta de
 auditoría `/dashboard/demarcador` redirige a «Validación y demarcador». Las
@@ -130,11 +130,11 @@ migraciones deben aplicarse antes de abrir la nueva sección. Las decisiones que
 requieren criterio del IP están reunidas en un único registro de cuestiones y no se
 ocultan mediante arreglos temporales de exportación.
 
-El gestor permanente cubre formas y sus arquitecturas; tradiciones, denominaciones y
-relaciones; metros, esquemas métricos y de rima, secciones, repeticiones y variedades;
-rasgos y valores controlados; elecciones; y fuentes con sus afirmaciones. La matriz de las
-119 entradas se conserva como trazabilidad de importación: sus pendientes no bloquean la
-validación ni el demarcador.
+El catálogo público cubre formas y sus arquitecturas; tradiciones, denominaciones y relaciones;
+metros, esquemas métricos y de rima, secciones, repeticiones y variedades; rasgos y valores
+controlados; y fuentes con sus afirmaciones. El dashboard no lo edita: todos los cambios se
+aplican por migración. La matriz de las 119 entradas se conserva como trazabilidad de importación:
+sus pendientes no bloquean la validación ni el demarcador.
 
 La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración
 estructural se completó el 31: la base habla ya los nombres definitivos de

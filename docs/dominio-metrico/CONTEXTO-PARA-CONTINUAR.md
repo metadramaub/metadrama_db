@@ -19,7 +19,7 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
 - La versión del modelo y la última migración **no se anotan aquí**: quedan viejas en cuanto se
   aplica una migración más. Se consultan en la base —`select modelo_version from
-  catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
+catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
 - La base habla ya el vocabulario de la ontología: arquitectura, esquema métrico, esquema
   de rima, variedad, tramo sin forma. La arquitectura declara
   además la extensión de su unidad —`unidad_versos_min` y `unidad_versos_max`—, y ninguna
@@ -29,16 +29,15 @@ enlaza la documentación detallada; no sustituye las revisiones filológicas de 
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-   [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **27 formas y
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **27 formas y
   2 tramos sin forma**: la medida de toda forma isosilábica es arquitectura y ya no se
   pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
   sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el
   nivel que le corresponde. Las formas con clasificación previa tienen ya su tradición; las
   restantes no la tienen porque no hay de dónde tomarla.
-- `/dashboard/metrica` es el gestor permanente del catálogo y contiene también el editor
-  V2 de prueba y la compilación del demarcador. **Las respuestas del editor ya no se editan
-  ahí**: se derivan del catálogo y el gestor solo las muestra. Está anotado simplificar el resto
-  del gestor en la misma dirección.
+- `/dashboard/metrica` es la superficie de trabajo del dominio: contiene la guía, el Editor V2 de
+  prueba, la anotación en sombra y la validación del demarcador. El gestor mutable se retiró el 11
+  de agosto: el catálogo se consulta en `/formas` y todos sus cambios se hacen por migración.
 - **La respuesta guardada no depende del catálogo que la ofreció.** `elecciones_editor_metrico`
   apunta al dato elegido —el esquema, el metro, el valor de rasgo, la repetición, la variedad—,
   no a una opción, y el catálogo se niega a borrar algo que una anotación use. Para leerla con
@@ -78,8 +77,14 @@ series posicionales —los dos metros del pareado— y las filas que coinciden r
 un resumen; «Cambiar» abre únicamente la excepción. En estructuras cíclicas, una pregunta que
 materializa una sección se coloca donde aparece esa sección aunque siga guardándose en el
 contenedor: la repetición del estribillo queda después de la copla, no en la cabecera del ciclo.
+Las composiciones variables con ciclos —villancico, zéjel, canción— no muestran esa zona común:
+se contestan por partes, cada ciclo abre un bloque visual y la única unidad raíz crece añadiendo
+ciclos, no sumando composiciones.
 
-- Cómo quedó: [Editor V2 · Presentación](./editor-secuencias-v2.md#la-estructura-es-una-rejilla-y-no-se-pliega).
+- Cómo se genera hoy: `src/lib/components/metrica/editor-v2/grid-rows.ts` decide las filas y
+  `MetricStructureEditor.svelte` las presenta. La [especificación que sirvió para construir la
+  primera versión](./historico/editor-secuencias-v2-2026-08-11.md) queda archivada y no es una
+  descripción vigente.
 - Por qué: [propuesta-editor-v2.md](./propuesta-editor-v2.md), con el diagnóstico medido y lo que
   cambió respecto de lo que se propuso.
 
@@ -147,28 +152,30 @@ Leer solo lo necesario para la tarea:
 
 1. [Ontología del verso español](./ontologia-verso-espanol.md): qué es el verso español y
    de qué está hecho. Describe posibilidades, no este corpus. Lectura previa a todo lo demás.
-1bis. [El modelo métrico aplicado](./implementacion-metrica.md): qué parte se realiza, qué se
+   1bis. [El modelo métrico aplicado](./implementacion-metrica.md): qué parte se realiza, qué se
    restringe por el corpus, cómo se recoge el dato y **las dieciocho decisiones que lo gobiernan**.
-1ter. [README del dominio](./README.md): índice de los diecinueve documentos.
+   1ter. [README del dominio](./README.md): índice de los diecinueve documentos.
 2. [Criterios de nivel](./criterios-de-nivel.md): en qué nivel se registra cada hecho
    métrico. De lectura obligada antes de formalizar o corregir una forma.
-3. [Editor V2](./editor-secuencias-v2.md): aislamiento, persistencia y comportamiento.
+3. Editor V2: el comportamiento vigente está en `src/lib/components/metrica/editor-v2/` y en
+   sus pruebas; la persistencia, en [el modelo aplicado](./implementacion-metrica.md). La
+   [especificación inicial](./historico/editor-secuencias-v2-2026-08-11.md) es histórica.
 4. [Contratos del registrador](./contratos-registrador-formas-revisadas.md): comportamiento
    mínimo de las formas revisadas.
 5. [Cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md): única lista
    vigente de dudas filológicas.
-5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): **por qué** algunos términos
+   5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): **por qué** algunos términos
    legados no declaran todavía su destino y qué decidió el IP sobre cada uno. Es lo que hay que
    cerrar antes del backfill. **El estado —cuántos faltan, cuáles y cuánto se usan— no se
    escribe: lo genera `npm run equivalencias:informe`** en
    [informe-equivalencias.md](./informe-equivalencias.md).
-5bis-1. [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md): la revisión
+   5bis-1. [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md): la revisión
    filológica, **ya terminada**, y las lecturas transversales que dejó abiertas. Se mantiene al
    día: es el único sitio donde se lleva esa cuenta.
-5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de
+   5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de
    redacción que rigen todo lo que se escribe en el catálogo, y dónde va cada cosa —definición,
    descripción, nota—.
-5ter. [Cómo se migra una obra](./como-se-migra-una-obra.md): el procedimiento, escrito para
+   5ter. [Cómo se migra una obra](./como-se-migra-una-obra.md): el procedimiento, escrito para
    poder explicárselo a quien anotó cada obra. Los informes por obra se generan con
    `npm run migracion:informe` y viven en [migracion/](./migracion/).
 6. La revisión específica de una forma, solo si la nueva tarea afecta a esa forma.
@@ -224,10 +231,10 @@ hacerlas antes obliga a hacerlas dos veces.
    [el modelo aplicado](./implementacion-metrica.md#un-esquema-abierto-junto-a-otros-concretos).
 4. **La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** `[----]…` dice
    cuatro versos sueltos y nadie los expandió. O se expanden o se admite que la notación baste
-   —pero entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—. *Espera además
+   —pero entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—. _Espera además
    una decisión del IP que puede retirarlo: Navarro Tomás y el Diccionario llaman endecha real a la
    que no rima, y Jauralde dice que el nombre llegó cuando recibió rimas. Ver
-   [Endecha real](./revisiones-formas/cuestiones-para-el-ip.md#endecha-real) 4.*
+   [Endecha real](./revisiones-formas/cuestiones-para-el-ip.md#endecha-real) 4._
 5. ~~**`tipo` y `ambito` de las repeticiones están perfectamente correlacionados.**~~ **Cerrado el
    10 de agosto, y el hueco era mayor.** Al mirarlo salió que `ambito` no era una columna de las
    repeticiones sino **el antepasado grueso de `seccion_id`**: nació con cinco valores, se estrechó
@@ -252,21 +259,21 @@ hacerlas antes obliga a hacerlas dos veces.
    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
 9. **Las 27 equivalencias del vocabulario legado sin destino**, en
    [equivalencias-pendientes.md](./equivalencias-pendientes.md).
-10. **El editor V2 aún no pregunta por realización.** `alcance` admite desde el 10 de agosto un
-   tercer valor —una respuesta por cada aparición de su sección— y las tres preguntas de la represa
-   ya lo usan, pero el editor las trata como de unidad para que no desaparezcan de la pantalla. El
-   criterio está en un solo sitio, [alcance.ts](../../src/lib/metrica/alcance.ts), y el almacén ya
-   existe: `elecciones_editor_metrico.realizacion_prueba_id`.
+10. ~~**El editor V2 aún no pregunta por realización.**~~ **Resuelto el 11 de agosto.** `alcance`
+    admite una respuesta por cada aparición de su sección y el editor construye esas filas. En el
+    villancico con estribillo posterior, la primera aparición declara el estribillo y la pregunta de
+    repetición empieza en el ciclo siguiente; el criterio se deriva de la relación entre la sección
+    materializada y la sección de la que toma su extensión.
 11. **¿Son una sola arquitectura las dos del villancico?** Tras quitar la duplicación del ciclo, lo
-   único que las separa es dónde aparece el estribillo por primera vez, y eso podría ser una
-   pregunta. Queda abierto por decisión del IP: el demarcador distingue por arquitectura. Ver
-   [Villancico](./revisiones-formas/cuestiones-para-el-ip.md#villancico) 6 y 7, donde va también la
-   norma que se perdió al simplificar.
+    único que las separa es dónde aparece el estribillo por primera vez, y eso podría ser una
+    pregunta. Queda abierto por decisión del IP: el demarcador distingue por arquitectura. Ver
+    [Villancico](./revisiones-formas/cuestiones-para-el-ip.md#villancico) 6 y 7, donde va también la
+    norma que se perdió al simplificar.
 12. **Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
-   mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
-   misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo
-   cual funciona pero deja el caso sin decir. Si aparece un esquema que deba señalar sección **y**
-   servir a varias, habrá que emparejar por `tipo_seccion` en vez de por identidad.
+    mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
+    misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo
+    cual funciona pero deja el caso sin decir. Si aparece un esquema que deba señalar sección **y**
+    servir a varias, habrá que emparejar por `tipo_seccion` en vez de por identidad.
 
 ### Superficies, después del modelo
 
@@ -275,9 +282,9 @@ hacerlas antes obliga a hacerlas dos veces.
     clics para navegar. Se adelantó al resto de las superficies porque el formulario había dejado
     de ser usable, no porque el modelo lo pidiera. Sigue derivándose del catálogo, así que cada
     cambio del modelo lo cambia gratis. Ver [arriba](#el-editor-v2-ya-tiene-su-pantalla-nueva).
-11. **Simplificar el gestor del catálogo** para que solo edite prosa y lo estructural pase por
-    migración. Es lo que acabaría con los vocabularios y campos fantasma: en una semana
-    aparecieron cuatro, y `npm run audit:campos` solo cubre los nombres de campo, no sus valores.
+11. ~~**Simplificar el gestor del catálogo.**~~ **Resuelto el 11 de agosto.** Se retiraron del
+    dashboard las pantallas mutables de forma, organización y referencia. `/formas` es la consulta
+    legible y los cambios, incluida la prosa, pasan por migración revisable.
 12. **Recompilar el demarcador** sobre la ontología en vez de su vector fijo de rasgos.
 13. **Repaso visual del catálogo público**: el nombre de la copla manriqueña se pierde entre su
     notación, y un esquema sin nombre ni denominación muestra un guion de relleno.

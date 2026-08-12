@@ -34,14 +34,14 @@ Al terminar, cada forma debe tener:
 
 ## Las seis fuentes, y por qué solo seis
 
-| Fuente | Volcado en `bibliografía/txt/` |
-| --- | --- |
-| Morley y Bruerton 1968, *Cronología de las comedias de Lope de Vega* | sus definiciones, ya en `.md` |
-| Quilis 1969, *Métrica española* | `Quilis-1969-metrica-espanola.txt` |
-| Navarro Tomás 1972, *Métrica española* | `Navarro-Tomas-1972-metrica-espanola.txt` |
-| Domínguez Caparrós 2014, *Métrica española* | `Dominguez-Caparros-2014-metrica-espanola.txt` |
-| Domínguez Caparrós 2016, *Diccionario de métrica española* | `Dominguez-Caparros-1999-diccionario-metrica.txt` |
-| Jauralde Pou 2020, *Métrica española* | `Jauralde-Pou-2020-metrica-espanola.txt` |
+| Fuente                                                               | Volcado en `bibliografía/txt/`                    |
+| -------------------------------------------------------------------- | ------------------------------------------------- |
+| Morley y Bruerton 1968, _Cronología de las comedias de Lope de Vega_ | sus definiciones, ya en `.md`                     |
+| Quilis 1969, _Métrica española_                                      | `Quilis-1969-metrica-espanola.txt`                |
+| Navarro Tomás 1972, _Métrica española_                               | `Navarro-Tomas-1972-metrica-espanola.txt`         |
+| Domínguez Caparrós 2014, _Métrica española_                          | `Dominguez-Caparros-2014-metrica-espanola.txt`    |
+| Domínguez Caparrós 2016, _Diccionario de métrica española_           | `Dominguez-Caparros-1999-diccionario-metrica.txt` |
+| Jauralde Pou 2020, _Métrica española_                                | `Jauralde-Pou-2020-metrica-espanola.txt`          |
 
 **El fichero del Diccionario dice 1999 en su nombre pero es la 3.ª edición de 2016.** El nombre
 refiere a la edición original.
@@ -84,36 +84,36 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 
 **Revisada** significa contrastada con las seis fuentes, prosa reescrita, ficha `.md` borrada.
 
-| Forma | Fuentes | Afirmaciones | |
-| --- | ---: | ---: | --- |
-| Romance | 6 | 7 | revisada |
-| Redondilla | 6 | 9 | revisada |
-| Décima | 6 | 7 | revisada |
-| Silva | 6 | 7 | revisada |
-| Soneto | 6 | 7 | revisada |
-| Quintilla | 6 | 6 | revisada |
-| Lira | 6 | 6 | revisada |
-| Octava real | 6 | 6 | revisada |
-| Cuarteto | 6 | 7 | revisada |
-| Pareado | 6 | 6 | revisada |
-| Terceto encadenado | 5 | 5 | revisada |
-| Endecha real | 5 | 12 | revisada |
-| Terceto | 3 | 3 | revisada · las otras tres fuentes no lo tratan aparte |
-| Canción petrarquista | 6 | 6 | revisada · el intervalo 5-20 y la canción sin rima son de Morley y Bruerton |
-| Copla de arte mayor | 6 | 6 | revisada · **dos de sus tres esquemas contradecían a las fuentes** |
-| Novena | 4 | 4 | fuentes revisadas · separación y apertura aplazadas |
-| Seguidilla | 6 | 6 | revisada |
-| Sexteto | 6 | 6 | revisada · las fuentes lo definen más ancho; el recorte del corpus queda anotado |
-| Sexteto-lira | 6 | 6 | revisada · es una lira de seis versos; el repertorio de tipologías no es cerrado |
-| Sextilla | 6 | 6 | revisada · sus disposiciones tienen nombre; el quebrado no siempre va en 3 y 6 |
-| Sextina (estrofa y composición) | 6 | 7 | revisada |
-| Villancico | 5 | 5 | revisada · jerarquía pública corregida; normalización paramétrica aplazada |
-| Copla de pie quebrado | 6 | 6 | revisada |
-| Copla real | 6 | 6 | revisada · recuperado su respaldo; cuatro denominaciones |
-| Zéjel | 5 | 5 | revisada · Morley y Bruerton no lo tratan |
-| Endecasílabo suelto | 6 | 6 | revisada · Morley y Bruerton dan el umbral del 50 % |
-| Versificación irregular | 4 | 4 | tramo sin forma · revisado |
-| Verso aislado | 2 | 2 | tramo sin forma · revisado |
+| Forma                           | Fuentes | Afirmaciones |                                                                                  |
+| ------------------------------- | ------: | -----------: | -------------------------------------------------------------------------------- |
+| Romance                         |       6 |            7 | revisada                                                                         |
+| Redondilla                      |       6 |            9 | revisada                                                                         |
+| Décima                          |       6 |            7 | revisada                                                                         |
+| Silva                           |       6 |            7 | revisada                                                                         |
+| Soneto                          |       6 |            7 | revisada                                                                         |
+| Quintilla                       |       6 |            6 | revisada                                                                         |
+| Lira                            |       6 |            6 | revisada                                                                         |
+| Octava real                     |       6 |            6 | revisada                                                                         |
+| Cuarteto                        |       6 |            7 | revisada                                                                         |
+| Pareado                         |       6 |            6 | revisada                                                                         |
+| Terceto encadenado              |       5 |            5 | revisada                                                                         |
+| Endecha real                    |       5 |           12 | revisada                                                                         |
+| Terceto                         |       3 |            3 | revisada · las otras tres fuentes no lo tratan aparte                            |
+| Canción petrarquista            |       6 |            6 | revisada · el intervalo 5-20 y la canción sin rima son de Morley y Bruerton      |
+| Copla de arte mayor             |       6 |            6 | revisada · **dos de sus tres esquemas contradecían a las fuentes**               |
+| Novena                          |       4 |            4 | fuentes revisadas · separación y apertura aplazadas                              |
+| Seguidilla                      |       6 |            6 | revisada                                                                         |
+| Sexteto                         |       6 |            6 | revisada · las fuentes lo definen más ancho; el recorte del corpus queda anotado |
+| Sexteto-lira                    |       6 |            6 | revisada · es una lira de seis versos; el repertorio de tipologías no es cerrado |
+| Sextilla                        |       6 |            6 | revisada · sus disposiciones tienen nombre; el quebrado no siempre va en 3 y 6   |
+| Sextina (estrofa y composición) |       6 |            7 | revisada                                                                         |
+| Villancico                      |       5 |            5 | revisada · jerarquía pública corregida; normalización paramétrica aplazada       |
+| Copla de pie quebrado           |       6 |            6 | revisada                                                                         |
+| Copla real                      |       6 |            6 | revisada · recuperado su respaldo; cuatro denominaciones                         |
+| Zéjel                           |       5 |            5 | revisada · Morley y Bruerton no lo tratan                                        |
+| Endecasílabo suelto             |       6 |            6 | revisada · Morley y Bruerton dan el umbral del 50 %                              |
+| Versificación irregular         |       4 |            4 | tramo sin forma · revisado                                                       |
+| Verso aislado                   |       2 |            2 | tramo sin forma · revisado                                                       |
 
 El endecasílabo suelto se dejó expresamente para el final por decisión del IP, por ser el más
 problemático. Resultó serlo menos de lo temido: las seis fuentes coinciden con lo que el
@@ -130,20 +130,19 @@ No queda ninguna forma por revisar, y **las seis lecturas transversales están h
 agosto de 2026. Se hicieron sobre el catálogo entero, no forma por forma, y son las de
 [defectos aplazados](#defectos-del-modelo-aplazados):
 
-| Lectura | Estado |
-| --- | --- |
-| El concepto de variedad | Hecha el 9 de agosto |
-| La automatización de las preguntas del editor | Hecha entre el 9 y el 10: se derivan respuestas y enunciados |
-| La reutilización de secciones | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
-| La modalidad y la primacía | Hecha el 10 de agosto |
-| Las reglas de repetición | Hecha el 10 de agosto: `regla` se retiró |
-| El modelo de esquemas abiertos | Hecha el 10 de agosto |
+| Lectura                                       | Estado                                                                                                                     |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| El concepto de variedad                       | Hecha el 9 de agosto                                                                                                       |
+| La automatización de las preguntas del editor | Hecha entre el 9 y el 10: se derivan respuestas y enunciados                                                               |
+| La reutilización de secciones                 | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
+| La modalidad y la primacía                    | Hecha el 10 de agosto                                                                                                      |
+| Las reglas de repetición                      | Hecha el 10 de agosto: `regla` se retiró                                                                                   |
+| El modelo de esquemas abiertos                | Hecha el 10 de agosto                                                                                                      |
 
 Lo que queda abierto ya no es una lectura sino trabajo suelto: **los rasgos que miden dos
 magnitudes** —`versos_sueltos` y `organizacion_en_pareados` gradúan «cuánto» sin decir «cuánto de
-qué»—, **el maquetado del editor V2**, que se dejó deliberadamente para después de las
-transversales porque el formulario se deriva del modelo, y **simplificar el gestor del catálogo**
-para que lo estructural pase por migración.
+qué»—. El maquetado del Editor V2 y la retirada del gestor mutable quedaron resueltos el 11 de
+agosto; el formulario se deriva del modelo y todos los cambios del catálogo pasan por migración.
 
 Las dudas filológicas que siguen abiertas están en
 [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md), y muchas se responden
@@ -168,7 +167,7 @@ fichas atribuían al criterio del IP estaba en la bibliografía y nadie lo habí
 intervalo 5-20 de la estancia y la arquitectura de canción sin rima, que la ficha declaraba
 aportación del proyecto sin fuente, son literalmente de Morley y Bruerton; el umbral que separa
 el endecasílabo suelto de la silva lo cuantifican ellos mismos; y «Verso aislado», que se
-anotaba como duda de nomenclatura, es la expresión con que el *Diccionario* explica el verso
+anotaba como duda de nomenclatura, es la expresión con que el _Diccionario_ explica el verso
 único de Navarro Tomás. Conviene recordarlo al abrir las lecturas transversales: antes de
 declarar que algo es criterio propio, hay que haber leído a las seis.
 
@@ -224,13 +223,13 @@ que se escribe en el catálogo. Los tres que más se olvidan:
 
 ### Lo que un cambio en el catálogo puede romper
 
-| | Cómo se comprueba |
-| --- | --- |
+|                                | Cómo se comprueba                                                                                                                                                                                   |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Catálogo público** `/formas` | Se genera del dato, pero hay que verificar que la consulta agregada conserve ids, jerarquía y claves únicas; el villancico demostró que una respuesta completa puede representarse mal si se aplana |
-| **Demarcador** | Se compila del catálogo; subir `catalogo_metrico_estado.revision` lo marca desactualizado |
-| **Editor V2** | Lee nombres de opciones y esquemas: un renombrado se ve ahí |
-| **Equivalencias** | Hoy la vista devuelve 212 filas; revisar también `longitud_compatible` y `motivo_revision` para los usos de la forma |
-| **Respuestas propuestas** | Hoy `select count(*) from propuesta_elecciones_secuencia` da 91 |
+| **Demarcador**                 | Se compila del catálogo; subir `catalogo_metrico_estado.revision` lo marca desactualizado                                                                                                           |
+| **Editor V2**                  | Lee nombres de opciones y esquemas: un renombrado se ve ahí                                                                                                                                         |
+| **Equivalencias**              | Hoy la vista devuelve 212 filas; revisar también `longitud_compatible` y `motivo_revision` para los usos de la forma                                                                                |
+| **Respuestas propuestas**      | Hoy `select count(*) from propuesta_elecciones_secuencia` da 91                                                                                                                                     |
 
 **Las dos cifras son un aviso, no una invariante.** Sirven para notar que algo se movió sin
 querer, pero moverse no es de suyo un error: la revisión encuentra equivalencias mal hechas o
@@ -300,15 +299,15 @@ al menos dos veces**, y con ella el criterio genera exactamente las ocho.
 El criterio se declara como el **esquema abierto** de la arquitectura, con sus tres restricciones,
 y las ocho concretas quedan como sus realizaciones documentadas: es la fila «abierto más
 concreto» de las reglas que el catálogo ya tenía escritas. Como ningún esquema abierto se ofrece
-como opción, el editor sigue viendo las mismas ocho. *Se descartó hacer que una restricción
+como opción, el editor sigue viendo las mismas ocho. _Se descartó hacer que una restricción
 pudiera colgar de una arquitectura además de un esquema —sería más fiel en general, porque las de
-la silva también son norma de su arquitectura— por no abrir una columna nueva por un caso.*
+la silva también son norma de su arquitectura— por no abrir una columna nueva por un caso._
 
 Lo que se gana es la guarda: **las ocho se contrastan contra el criterio en cada migración**.
 Hasta ahora la enumeración y el criterio no podían contradecirse porque el criterio no era dato.
 
 **La Novena general y la copla novena deben separarse al resolver ese modelo abierto.**
-Caparrós y el *Diccionario* llaman novena a cualquier estrofa de nueve versos y niegan que
+Caparrós y el _Diccionario_ llaman novena a cualquier estrofa de nueve versos y niegan que
 comparta necesariamente otra norma; Navarro Tomás y Jauralde caracterizan la copla novena
 histórica como redondilla y quintilla, normalmente 4+5 y también 5+4. La copla novena tendrá
 identidad de forma subordinada, no de arquitectura, y recibirá las dos arquitecturas actuales.
@@ -322,8 +321,8 @@ lectura, y deja una decisión de fondo para el IP.
 
 **Qué es una variedad, según el modelo.** «Parejas de esquema métrico y esquema de rima que el
 proyecto reconoce dentro de una arquitectura». Su prueba discriminante en
-[criterios-de-nivel.md](./criterios-de-nivel.md) es *«restringe qué parejas de esquemas reconoce
-el proyecto»*, y su contraprueba, *«si los dos ejes son libres, no hace falta»*. El esquema lo
+[criterios-de-nivel.md](./criterios-de-nivel.md) es _«restringe qué parejas de esquemas reconoce
+el proyecto»_, y su contraprueba, _«si los dos ejes son libres, no hace falta»_. El esquema lo
 impone: `esquema_metrico_id` y `esquema_rima_id` son **ambos NOT NULL**, de modo que una
 variedad no puede existir sin sus dos patas. La definición es coherente en la tabla, en los
 criterios y en la guía del editor, y **no se solapa con arquitectura**: el criterio explícito es
@@ -335,7 +334,7 @@ contraprueba:
 
 - **La sexta rima** (sexteto endecasílabo) está en una arquitectura con **un solo esquema
   métrico**: no hay parejas que restringir. Lo que hace es dar nombre a la disposición
-  `ABABCC`, que es el trabajo de una denominación. *Decidido por el IP: pasa a denominación.*
+  `ABABCC`, que es el trabajo de una denominación. _Decidido por el IP: pasa a denominación._
 - **Las siete del sexteto-lira** están en la única arquitectura del catálogo con más de un
   esquema métrico y más de uno de rima —5 × 3 = 15 parejas posibles, 7 declaradas—. Pero
   **los dos ejes son libres**: nada impide combinar cualquier secuencia de medidas con
@@ -376,13 +375,13 @@ opciones que los referenciaban.
 **Se derivan 56 de los 61 grupos.** Ninguna opción es texto libre: todas apuntan ya a una
 entidad del catálogo.
 
-| Dimensión | Grupos | De dónde salen las opciones | Sin declarar |
-| --- | ---: | --- | ---: |
-| Rima | 25 | 13 de los esquemas de su arquitectura · 7 de la arquitectura referenciada por la sección · 4 son respuesta abierta, ya marcada con `tipo_control = 'esquema_rima'` | 1 |
-| Metro | 17 | 14 de `esquema_metrico_opciones`, que declara qué metros admite un esquema de tipo conjunto · 1 de las alternativas de `esquema_metrico_posiciones` | 2 |
-| Rasgo | 15 | 13 de `arquitectura_rasgos` cruzado con `rasgo_valores` | 2 |
-| Repetición | 3 | De las repeticiones declaradas | 0 |
-| Combinación | 1 | De las variedades | 0 |
+| Dimensión   | Grupos | De dónde salen las opciones                                                                                                                                        | Sin declarar |
+| ----------- | -----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -----------: |
+| Rima        |     25 | 13 de los esquemas de su arquitectura · 7 de la arquitectura referenciada por la sección · 4 son respuesta abierta, ya marcada con `tipo_control = 'esquema_rima'` |            1 |
+| Metro       |     17 | 14 de `esquema_metrico_opciones`, que declara qué metros admite un esquema de tipo conjunto · 1 de las alternativas de `esquema_metrico_posiciones`                |            2 |
+| Rasgo       |     15 | 13 de `arquitectura_rasgos` cruzado con `rasgo_valores`                                                                                                            |            2 |
+| Repetición  |      3 | De las repeticiones declaradas                                                                                                                                     |            0 |
+| Combinación |      1 | De las variedades                                                                                                                                                  |            0 |
 
 **El patrón del rasgo resultó ser el más limpio de todos**, y basta para generar la pregunta:
 `definitoria` con valor fijo se deriva y no se pregunta; `admitida` con valor fijo produce una
@@ -390,7 +389,7 @@ pregunta opcional de un solo valor; `admitida` sin valor deja el eje abierto.
 
 #### Los cinco huecos · declarados el 9 de agosto de 2026
 
-Eran **el mismo tipo de carencia**: *qué subconjunto de lo posible admite esta arquitectura*.
+Eran **el mismo tipo de carencia**: _qué subconjunto de lo posible admite esta arquitectura_.
 Uno resultó no ser un hueco y los otros cuatro se resolvieron con dos cambios de estructura
 (migración `20260809150000`).
 
@@ -400,12 +399,12 @@ catálogo, y 0 de 4 entre los de tipo `restricciones`—. Un esquema abierto dec
 no fija la disposición; no es una alternativa elegible. Con eso, las reglas de la rima quedan
 completas y sin nada que declarar:
 
-| Situación de la arquitectura | Qué genera |
-| --- | --- |
-| Un solo esquema concreto | Nada: se deriva |
-| Varios concretos | Pregunta con esos como opciones |
-| Solo esquema abierto | Respuesta abierta, ya marcada con `tipo_control` |
-| Abierto más concreto | Pregunta opcional para marcar el concreto |
+| Situación de la arquitectura | Qué genera                                       |
+| ---------------------------- | ------------------------------------------------ |
+| Un solo esquema concreto     | Nada: se deriva                                  |
+| Varios concretos             | Pregunta con esos como opciones                  |
+| Solo esquema abierto         | Respuesta abierta, ya marcada con `tipo_control` |
+| Abierto más concreto         | Pregunta opcional para marcar el concreto        |
 
 **Cambio 1 · el papel del metro.** `esquema_metrico_opciones` gana la columna `rol`: nulo es
 una alternativa entre iguales —el hexasílabo o el octosílabo del villancico—, `dominante` es el
@@ -439,11 +438,11 @@ literalmente su sección**; los otros 51 son prosa redactada. Pero al cotejarlos
 que preguntan, resulta que **no añaden nada al nombre de esa entidad** —y que han derivado,
 porque el mismo rasgo se pregunta de dos maneras según la forma:
 
-| Rasgo | Enunciados que conviven hoy |
-| --- | --- |
-| Organización en pareados | «¿Cuánto organizan los pareados la serie?» y «¿Hay pareados intercalados?» |
-| Final acentual | «¿Predominan los finales esdrújulos?» y «¿Presenta un final acentual destacado?», cuatro veces |
-| Vocales de la asonancia | «¿Qué vocales caracterizan la asonancia?», siete veces idéntico |
+| Rasgo                    | Enunciados que conviven hoy                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------- |
+| Organización en pareados | «¿Cuánto organizan los pareados la serie?» y «¿Hay pareados intercalados?»                     |
+| Final acentual           | «¿Predominan los finales esdrújulos?» y «¿Presenta un final acentual destacado?», cuatro veces |
+| Vocales de la asonancia  | «¿Qué vocales caracterizan la asonancia?», siete veces idéntico                                |
 
 Es exactamente la deriva que produce mantener a mano lo que puede derivarse. Un rótulo generado
 —dimensión más nombre de la entidad— sería **más consistente que los 51 textos actuales**, no
@@ -484,10 +483,10 @@ métrico que el catálogo no declara.
 
 Las preguntas de medida son de dos clases y **nada las distingue en el dato**:
 
-| Clase | Cómo se responde | Formas |
-| --- | --- | --- |
-| **Uniforme** | Una sola medida para toda la sección | Villancico y zéjel: «¿qué miden los versos de la mudanza?» |
-| **Por posición** | Una medida por cada verso | Canción petrarquista, pareado, copla real, copla de pie quebrado |
+| Clase            | Cómo se responde                     | Formas                                                           |
+| ---------------- | ------------------------------------ | ---------------------------------------------------------------- |
+| **Uniforme**     | Una sola medida para toda la sección | Villancico y zéjel: «¿qué miden los versos de la mudanza?»       |
+| **Por posición** | Una medida por cada verso            | Canción petrarquista, pareado, copla real, copla de pie quebrado |
 
 Las dos usan un esquema métrico de tipo `conjunto` y las dos pueden estar ancladas a una
 sección, de modo que ni el tipo ni el anclaje las separan. **Lo que las separa vive en la
@@ -544,8 +543,8 @@ anota la transversal de las reglas de repetición, que queda así enlazada con e
 así estaba roto: un segundo disparador, `validar_posicion_eleccion_editor_metrico`, seguía
 leyendo la columna retirada, y **cualquier intento de guardar habría fallado**. No lo detectó
 nada porque una función de PL/pgSQL no se compila hasta que se ejecuta y ninguna prueba escribe
-en esa tabla. Lo destapó una inserción de prueba contra la base. *Al tocar una tabla con
-disparadores, conviene ejercitarla, no solo migrarla.*
+en esa tabla. Lo destapó una inserción de prueba contra la base. _Al tocar una tabla con
+disparadores, conviene ejercitarla, no solo migrarla._
 
 #### La generación, escrita y comprobada
 
@@ -590,14 +589,14 @@ dos convivan.
 Analizadas las 405 escritas a mano, la regla es una: **la etiqueta es el nombre de la entidad**,
 compuesto con la posición cuando la pregunta es posicional.
 
-| Dimensión | Etiqueta |
-| --- | --- |
-| Combinación | El nombre de la variedad — coincide en 7 de 7 |
-| Rasgo, un solo rasgo | El nombre del valor — coincide en 137 de 144 |
-| Rasgo, varios rasgos | El nombre del **rasgo**, porque el valor es solo «Presente» |
-| Rima | El nombre del esquema, y su notación cuando no tiene nombre |
-| Metro | El nombre del metro, precedido del verso cuando la medida varía por posición |
-| Repetición | El nombre de la repetición |
+| Dimensión            | Etiqueta                                                                     |
+| -------------------- | ---------------------------------------------------------------------------- |
+| Combinación          | El nombre de la variedad — coincide en 7 de 7                                |
+| Rasgo, un solo rasgo | El nombre del valor — coincide en 137 de 144                                 |
+| Rasgo, varios rasgos | El nombre del **rasgo**, porque el valor es solo «Presente»                  |
+| Rima                 | El nombre del esquema, y su notación cuando no tiene nombre                  |
+| Metro                | El nombre del metro, precedido del verso cuando la medida varía por posición |
+| Repetición           | El nombre de la repetición                                                   |
 
 **Donde la regla no funcionaba era porque a la entidad le faltaba el nombre**, no porque la
 etiqueta llevase información propia. Ese fue el **noveno hueco**: las repeticiones no tenían
@@ -619,7 +618,7 @@ patrón de siempre: lo que se escribe a mano esconde lo que el dato tiene mal.
 
 Corrección de un error introducido el mismo día. Al soltar la respuesta de la opción se le
 dieron claves foráneas al catálogo **con borrado en cascada**, copiando el patrón de las
-opciones —donde tiene sentido, porque una opción *es* catálogo—. Pero una respuesta **es dato
+opciones —donde tiene sentido, porque una opción _es_ catálogo—. Pero una respuesta **es dato
 sobre una obra**: que borrar un esquema de rima se llevara las anotaciones que lo usaban es lo
 contrario de lo que se buscaba al hacer el cambio.
 
@@ -627,10 +626,10 @@ Pasaron a `restrict`, como ya estaban el metro y el valor de rasgo. **El catálo
 a borrar algo que una anotación use**, lo que obliga a mirar la anotación antes en vez de
 perderla. Comprobado con un borrado real contra la base.
 
-*Queda un matiz que conviene tener presente: la respuesta guarda un puntero, no una copia. Si se
+_Queda un matiz que conviene tener presente: la respuesta guarda un puntero, no una copia. Si se
 edita la notación de un esquema, la respuesta antigua reflejará la nueva. Para conservar «lo que
 el editor vio aquel día» haría falta versionar el catálogo, que es otra decisión y no está
-tomada.*
+tomada._
 
 #### Las opciones dejan de ser una tabla
 
@@ -669,7 +668,7 @@ sigue alternando; la bibliografía la registra como muy rara»—, y es lo que e
 Seis entidades sí tenían en la opción una prosa que les faltaba a ellas, y ese hueco se rellenó
 donde toca. El caso del rasgo lo enseña bien: «Esdrújulo» estaba descrito de **tres maneras
 distintas** en tres opciones, porque cada una se escribió por su lado. Dicho en el valor, se dice
-una vez. *Derivar no solo homogeneiza: destapa.*
+una vez. _Derivar no solo homogeneiza: destapa._
 
 Un detalle de acceso que convenía no perder por el camino. Las trece tablas de las que sale la
 vista están todas restringidas a admin/IP con la misma política, y una vista se lee por defecto
@@ -698,19 +697,21 @@ de modo que derivar del identificador habría roto ese plegado sin que nada avis
 se conserva. La guarda de la migración exige que se plieguen exactamente tres preguntas, las del
 villancico, y ninguna más.
 
-**El rasgo se pregunta desde el rasgo.** Es el hueco que destapó la lectura, y es el décimo:
+**El rasgo se rotula desde el rasgo.** Es el hueco que destapó la lectura, y es el décimo:
 `final_acentual` se preguntaba «¿Predominan los finales esdrújulos?» en la canción y «¿Presenta
 un final acentual destacado?» en otras cuatro formas; `organizacion_en_pareados`, «¿Hay pareados
 intercalados?» en el endecasílabo suelto y «¿Cuánto organizan los pareados la serie?» en la
-silva. El mismo rasgo preguntado de dos maneras porque no tenía dónde guardar la suya. Ahora la
-tiene, en `rasgos_metricos.pregunta`. *De `organizacion_en_pareados` se conserva la pregunta de
-la silva, la que admite grado; que el endecasílabo suelto preguntara por sí o por no es el asunto
-de la transversal de los rasgos que miden dos magnitudes.*
+silva. El mismo rasgo se preguntaba de dos maneras. La solución provisional del 10 de agosto fue
+`rasgos_metricos.pregunta`; la revisión transversal del día 11 comprobó que los nombres ya son
+etiquetas nominales suficientes y retiró esa columna. El criterio que cambia la clasificación
+permanece, una sola vez, en `grupos_eleccion_metrica.ayuda_editor`.
 
 **Y se podó la ayuda que repetía dato.** Nueve grupos decían en prosa lo que el catálogo ya
 declara: tres que «puedes aplicar la misma respuesta a todas y corregir las excepciones», que es
 `permite_aplicar_global`; dos que glosaban denominaciones ya registradas; y dos que contaban
-«las ocho tipologías», que se cuentan solas. Quedan 53 con ayuda, y esas llevan criterio real.
+«las ocho tipologías», que se cuentan solas. El barrido transversal del 11 de agosto volvió a
+vaciar todas las ayudas y repuso solo formatos de entrada, criterios clasificatorios y precisiones
+imprescindibles para saber qué observar.
 
 **Un hallazgo que no se arregla ahí.** El grupo de los tercetos del soneto no declara sección, y
 derivado se queda en «Esquema de rima» sin decir de qué. Parecía descuido, se intentó declarar
@@ -744,8 +745,8 @@ nuevo `esquemas_rima.seccion_id` dice **de qué trata**. Los tercetos necesitan 
 separado: si el grupo declarase la sección, el editor preguntaría dos veces, pero la respuesta
 habla de los tercetos y de ahí toma su sujeto el enunciado.
 
-*La propuesta que hice primero —una sección contenedora de seis versos— habría consagrado en el
-modelo justo el error que hacía saltar el blanco. La descartó el IP antes de escribirla.*
+_La propuesta que hice primero —una sección contenedora de seis versos— habría consagrado en el
+modelo justo el error que hacía saltar el blanco. La descartó el IP antes de escribirla._
 
 ##### Dos funciones que llevaban rotas sin que nadie lo supiera
 
@@ -760,24 +761,24 @@ averías anteriores a este cambio**:
   fallo**, es decir, justo cuando hace falta el aviso.
 
 Ninguna de las dos la detectó nada: un cuerpo entrecomillado no se revalida al borrar una
-columna, y PL/pgSQL resuelve los campos de un `record` en ejecución. *Es la tercera vez en dos
+columna, y PL/pgSQL resuelve los campos de un `record` en ejecución. _Es la tercera vez en dos
 días que muerde lo mismo. La regla ya está escrita —ejercitar, no solo migrar— y ahora las
-guardas ejecutan la función en vez de conformarse con crearla.*
+guardas ejecutan la función en vez de conformarse con crearla._
 
-#### Pendiente: simplificar el gestor del catálogo
+#### Resuelto: retirar el gestor mutable del catálogo
 
-Decidido por el IP el 9 de agosto, sin fecha. **El catálogo nuevo lo edita solo el IP**, y que
+Decidido por el IP el 9 de agosto y aplicado el 11. **El catálogo nuevo lo edita solo el IP**, y que
 otra persona toque una arquitectura o un esquema puede desordenar lo que la revisión ha ido
 asentando. Además, en cuanto las opciones se deriven, editarlas a mano en pantalla sería escribir
 algo que la siguiente lectura descarta.
 
-La intención es dejar `/dashboard/metrica` **para ver y para editar prosa** —definiciones,
-descripciones, afirmaciones de fuente— y que **todo lo estructural pase por migración**, que es
-lo que permite revisar qué queda afectado antes de aplicarlo y deja constancia del porqué. Para
-solo mirar, además, ya está el catálogo público de `/formas`.
+La decisión final fue más sencilla: `/dashboard/metrica` conserva la guía, las pruebas del editor
+y las validaciones, pero no edita ni estructura ni prosa. **Todo cambio pasa por migración**, que
+permite revisar qué queda afectado y deja constancia del porqué; la lectura está en el catálogo
+público de `/formas`.
 
-De las respuestas ya está hecho, porque la derivación lo obligó: no se editan por ningún camino.
-Falta el resto del gestor, y ahora que la derivación está en vivo se puede valorar.
+Las respuestas ya se derivaban. Al retirar las demás pestañas mutables desaparece también el
+último camino de edición manual del dashboard.
 
 ### La modalidad · lectura hecha el 10 de agosto de 2026
 
@@ -795,15 +796,15 @@ son `excepcional`, y la seguidilla, cuyas cuatro son solo `admitida`.
 Lo que hacía posible la confusión es que **de las siete columnas de la familia solo una estaba
 declarada**. Ahora lo están las siete, y los dos ejes quedan separados sin ambigüedad:
 
-| | Qué responde |
-| --- | --- |
+|             | Qué responde                                                                                         |
+| ----------- | ---------------------------------------------------------------------------------------------------- |
 | `principal` | Cuál es la realización **general**, aquella de la que las demás son especializaciones. Una por forma |
-| `modalidad` | **Cuán corriente** es cada una, según la bibliografía declarada |
+| `modalidad` | **Cuán corriente** es cada una, según la bibliografía declarada                                      |
 
-*La regla de `principal` la fijó el IP contra mi propuesta, y es mejor: la sextilla propone la
+_La regla de `principal` la fijó el IP contra mi propuesta, y es mejor: la sextilla propone la
 octosilábica aunque la de pie quebrado esté más documentada, porque la de pie quebrado es una
 especialización de aquella. El editor abre por la estrofa simple y baja a la especialización
-cuando la encuentra.*
+cuando la encuentra._
 
 **`preferente` pasó a llamarse `habitual`.** Estorbaba porque sonaba al oficio de `principal`. La
 prueba de que la palabra era mala es que **la interfaz ya la traducía**: el demarcador mostraba
@@ -846,13 +847,13 @@ SQL rotas: nada lo comprueba, porque nadie había intentado guardar esos valores
 - ~~**El romance** necesita ampliar fuentes.~~ **Resuelto el mismo día, y era un error de
   método.** Se buscaron las afirmaciones que hablan de frecuencia y se pasaron por alto las dos
   que deciden el caso sin nombrarla: la definición de la forma —«el octosílabo es su realización
-  no marcada; cuando se dice *romance* sin más, se entiende octosílabo, y las demás medidas
-  reciben nombre propio»— y el *Diccionario*, que dice lo mismo desde el otro lado. Las otras tres
-  bajan a `admitida`. *Que tengan nombre propio no las hace corrientes: las hace **nombrables**,
+  no marcada; cuando se dice _romance_ sin más, se entiende octosílabo, y las demás medidas
+  reciben nombre propio»— y el _Diccionario_, que dice lo mismo desde el otro lado. Las otras tres
+  bajan a `admitida`. _Que tengan nombre propio no las hace corrientes: las hace **nombrables**,
   que es otra cosa, y esos nombres viven en `denominaciones_metricas`. Era justo la confusión que
-  hacía inútil la columna.*
+  hacía inútil la columna._
 - **`definitoria` no pertenece a la misma escala.** Lo señaló el IP: `habitual · admitida ·
-  excepcional` gradúan frecuencia y `definitoria` afirma necesidad. No siempre son excluyentes
+excepcional` gradúan frecuencia y `definitoria` afirma necesidad. No siempre son excluyentes
   —la asonantada de la endecha real es constitutiva **y además** lo corriente, y hoy solo cabe
   decir una de las dos—. Pide partirse en dos columnas, y su sitio es
   [la revisión de vocabularios](../revision-de-vocabularios.md).
@@ -886,16 +887,16 @@ dato deja atrás una frase que la repite.
 ~~**Un rasgo puede estar midiendo dos magnitudes a la vez.**~~ **Resuelto el 10 de agosto de
 2026**, migración `20260810310000`. Se separó en dos rasgos:
 
-| | Qué mide | Escala |
-| --- | --- | --- |
-| `densidad_de_rima` | Cuántos versos riman frente a los que quedan sueltos | ninguna · esporádica · mayoritaria · total |
-| `organizacion_en_pareados` | Qué figura dibujan los que riman | ninguna · ocasionales · habituales · predominantes · regulares |
+|                            | Qué mide                                             | Escala                                                         |
+| -------------------------- | ---------------------------------------------------- | -------------------------------------------------------------- |
+| `densidad_de_rima`         | Cuántos versos riman frente a los que quedan sueltos | ninguna · esporádica · mayoritaria · total                     |
+| `organizacion_en_pareados` | Qué figura dibujan los que riman                     | ninguna · ocasionales · habituales · predominantes · regulares |
 
 **Y con eso la frontera queda declarada donde estaba de verdad.** La silva y el endecasílabo
 suelto no se distinguen por los pareados sino por cuánta rima hay: el suelto admite `ninguna` y
 `esporádica`, la silva `mayoritaria` y `total`, **rangos disjuntos** que reproducen el umbral del
 50 % de Morley y Bruerton, y una guarda impide que vuelvan a solaparse. Los pareados son la
-*figura* que esa rima toma en el teatro, que es lo que Navarro Tomás describe al datar la silva
+_figura_ que esa rima toma en el teatro, que es lo que Navarro Tomás describe al datar la silva
 dramática: «desde 1588 Lope intercaló pareados en los pasajes escritos en endecasílabos y
 heptasílabos sueltos… La silva dramática nace de rimar un pasaje que antes iba suelto».
 
@@ -905,9 +906,9 @@ fija, no porque nadie lo declare. Quedan cuatro arquitecturas —tres silvas y e
 suelto—, y una guarda lo sostiene: al primer intento de declarar la silva consonante regular la
 paró, porque su esquema `aA | bB | cC` ya rima todos los versos.
 
-*Los porcentajes siguen sin guardarse, y a propósito: nada cuenta hoy los versos rimados de un
+_Los porcentajes siguen sin guardarse, y a propósito: nada cuenta hoy los versos rimados de un
 pasaje, así que una cifra sería declarativa y no verificable. Los umbrales de M&B viven en la
-descripción de cada valor, que es donde se pueden citar sin fingir que se midieron.*
+descripción de cada valor, que es donde se pueden citar sin fingir que se midieron._
 
 El diagnóstico original, tal como se anotó:
 
@@ -950,13 +951,13 @@ sextinas repetía en prosa el ciclo `ABCDEF → FAEBDC → …` que ya está com
 `repeticion_posiciones`, con sus 36 y 72 filas. Tampoco la leía nada que calculara: el `regla`
 que enseña el demarcador es el de las reglas de longitud, otra columna.
 
-Lo único suyo eran las **salvedades** de las tres sextinas sobre lo que la fuente *no* fija —«la
+Lo único suyo eran las **salvedades** de las tres sextinas sobre lo que la fuente _no_ fija —«la
 forma no impone una única asociación por parejas»—, que son notas y no reglas. Se conservaron en
 la `descripcion` y la columna se retiró.
 
-*Queda anotado para la revisión de vocabularios que `tipo` y `ambito` están perfectamente
+_Queda anotado para la revisión de vocabularios que `tipo` y `ambito` están perfectamente
 correlacionados en las once filas —`estribillo`↔sección, `palabra_final`↔unidad—, aunque con dos
-clases puede ser casualidad.*
+clases puede ser casualidad._
 
 ##### El fallo que destapó, que era el grande
 

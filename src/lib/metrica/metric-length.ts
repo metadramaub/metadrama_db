@@ -23,10 +23,12 @@ export function metricLengthError(
 	rule: MetricLengthRule | null | undefined,
 	start: number,
 	end: number,
-	configurationName?: string
+	configurationName?: string,
+	formName?: string
 ): string | null {
 	if (!rule || isMetricLengthCompatible(rule, start, end)) return null;
 	const length = inclusiveMetricLength(start, end);
-	const subject = configurationName ? `«${configurationName}» exige` : 'La configuración exige';
+	const selectedName = [formName, configurationName].filter(Boolean).join(' · ');
+	const subject = selectedName ? `«${selectedName}» exige` : 'La configuración exige';
 	return `La secuencia contiene ${length} ${length === 1 ? 'verso' : 'versos'}. ${subject} ${rule.explicacion}. Revisa el rango. Si la fuente presenta una laguna, incorpora el verso que ocupa esa posición y regístrala como desviación.`;
 }

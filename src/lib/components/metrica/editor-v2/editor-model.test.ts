@@ -6,6 +6,7 @@ import {
 	ensureRequiredMetricUnits,
 	metricUnitExtent,
 	metricUnitPlan,
+	reflowMetricUnits,
 	syncRepeatedMetricUnits,
 	syncChoiceMaterializedSections,
 	type MetricChoiceDraft,
@@ -203,9 +204,7 @@ describe('cuántas unidades contiene el pasaje', () => {
 		const synchronized = syncRepeatedMetricUnits([], novenaSections, fixedExtent(9), 10, 27);
 
 		expect(synchronized.compatible).toBe(true);
-		expect(
-			synchronized.units.map((unit) => [unit.seccion_id, unit.v_ini, unit.v_fin])
-		).toEqual([
+		expect(synchronized.units.map((unit) => [unit.seccion_id, unit.v_ini, unit.v_fin])).toEqual([
 			[null, 10, 18],
 			['redondilla', 10, 13],
 			['quintilla', 14, 18],
@@ -240,7 +239,9 @@ describe('cuántas unidades contiene el pasaje', () => {
 			observaciones: null
 		};
 
-		const expanded = syncRepeatedMetricUnits(initial, [], fixedExtent(5), 1, 15, [secondChoice]).units;
+		const expanded = syncRepeatedMetricUnits(initial, [], fixedExtent(5), 1, 15, [
+			secondChoice
+		]).units;
 
 		expect(expanded.slice(0, 2).map((unit) => unit.realizacion_prueba_id)).toEqual(initialIds);
 		expect(secondChoice.realizacion_prueba_id).toBe(expanded[1].realizacion_prueba_id);
@@ -314,13 +315,7 @@ describe('la unidad envuelve a las secciones', () => {
 		});
 		expect(copla).toMatchObject({ v_ini: 3, v_fin: 6 });
 
-		units = addSectionInstance(
-			units,
-			sections,
-			'enlace',
-			copla?.realizacion_prueba_id ?? null,
-			1
-		);
+		units = addSectionInstance(units, sections, 'enlace', copla?.realizacion_prueba_id ?? null, 1);
 		expect(units.find((unit) => unit.seccion_id === 'enlace')).toMatchObject({
 			v_ini: 7,
 			v_fin: 7
@@ -505,6 +500,108 @@ describe('la unidad envuelve a las secciones', () => {
 		expect(units.find((unit) => unit.seccion_id === 'represa-posterior')).toMatchObject({
 			v_ini: 12,
 			v_fin: 14
+		});
+	});
+
+	it('deja que el primer estribillo fije la extensión y la aplica a los posteriores', () => {
+		const selfReferencedSections: MetricCatalogDomainRow[] = [
+			{
+				seccion_id: 'ciclo',
+				seccion_padre_id: null,
+				tipo_seccion: 'ciclo_copla',
+				nombre: 'Ciclo',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: null
+			},
+			{
+				seccion_id: 'estribillo',
+				seccion_padre_id: 'ciclo',
+				tipo_seccion: 'estribillo',
+				nombre: 'Estribillo',
+				orden: 1,
+				repeticiones_min: 0,
+				repeticiones_max: 1,
+				versos_min: 1,
+				versos_max: 4
+			}
+		];
+		const total: MetricCatalogDomainRow = {
+			opcion_eleccion_id: 'total',
+			grupo_eleccion_id: 'repeticion',
+			slug: 'total',
+			materializa_seccion_id: 'estribillo',
+			extension_desde_seccion_id: 'estribillo',
+			activo: true
+		};
+		const choices: MetricChoiceDraft[] = ['ciclo-1', 'ciclo-2'].map((cycleId) => ({
+			realizacion_prueba_id: cycleId,
+			grupo_eleccion_id: 'repeticion',
+			opcion_eleccion_id: 'total',
+			observaciones: null
+		}));
+		const units: MetricUnitDraft[] = [
+			{
+				realizacion_prueba_id: 'raiz',
+				realizacion_padre_id: null,
+				seccion_id: null,
+				orden: 1,
+				v_ini: 1,
+				v_fin: 4,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'ciclo-1',
+				realizacion_padre_id: 'raiz',
+				seccion_id: 'ciclo',
+				orden: 2,
+				v_ini: 1,
+				v_fin: 3,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'estribillo-1',
+				realizacion_padre_id: 'ciclo-1',
+				seccion_id: 'estribillo',
+				orden: 3,
+				v_ini: 1,
+				v_fin: 3,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'ciclo-2',
+				realizacion_padre_id: 'raiz',
+				seccion_id: 'ciclo',
+				orden: 4,
+				v_ini: 4,
+				v_fin: 4,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'estribillo-2',
+				realizacion_padre_id: 'ciclo-2',
+				seccion_id: 'estribillo',
+				orden: 5,
+				v_ini: 4,
+				v_fin: 4,
+				etiqueta: '',
+				observaciones: ''
+			}
+		];
+
+		const flowed = reflowMetricUnits(units, selfReferencedSections, 1, choices, [total]);
+
+		expect(flowed.find((unit) => unit.realizacion_prueba_id === 'estribillo-1')).toMatchObject({
+			v_ini: 1,
+			v_fin: 3
+		});
+		expect(flowed.find((unit) => unit.realizacion_prueba_id === 'estribillo-2')).toMatchObject({
+			v_ini: 4,
+			v_fin: 6
 		});
 	});
 

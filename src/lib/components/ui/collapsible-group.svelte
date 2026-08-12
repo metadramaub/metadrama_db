@@ -36,7 +36,7 @@
 			aria-controls={`${props.id}-cuerpo`}
 			onclick={toggle}
 		>
-			<span class="form-section-title mb-0">{props.title}</span>
+			<span class="form-panel-title">{props.title}</span>
 			<span class="flex min-w-0 items-center gap-2">
 				{#if !open && props.summary}
 					<span class="truncate text-xs text-[color:var(--muted-foreground)]">

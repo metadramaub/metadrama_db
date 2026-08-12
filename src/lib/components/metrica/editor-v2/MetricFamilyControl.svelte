@@ -1,5 +1,5 @@
 <script lang="ts">
-	// El control de una pregunta que se responde para todas las realizaciones a la vez.
+	// El control de una pregunta preparada para copiarse a varias realizaciones.
 	//
 	// Vive aparte porque su interior es el mismo que el de una pregunta suelta —casilla o
 	// desplegable según si admite quedarse vacía— y tenerlo escrito dos veces ya hizo que
@@ -10,8 +10,16 @@
 	// pocas, porque la fila de al lado tiene que caber al lado y no debajo. Lo que la lista
 	// enseñaba —la explicación de cada respuesta— se recupera debajo, para la elegida.
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
+	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
+	import MetricPartialPositionField from './MetricPartialPositionField.svelte';
+	import {
+		arePositionalOptions,
+		haveAlternativesByPosition,
+		isPartialPositionalSelection
+	} from './positional-options';
 
 	const props: {
+		group: MetricCatalogDomainRow;
 		options: MetricCatalogDomainRow[];
 		/** Los slugs que comparten todas las realizaciones, o nulo si no coinciden. */
 		uniform: string[] | null;
@@ -21,27 +29,32 @@
 		realizaciones: number;
 		onChoose: (slugs: string[]) => void;
 		ariaLabel: string;
+		positionLimit?: number;
 	} = $props();
 
-	const first = $derived(props.options[0]);
-	const positional = $derived(
-		props.options.length > 0 &&
-			props.options.every(
-				(option: MetricCatalogDomainRow) => Number(option.posicion_unidad ?? 0) > 0
-			)
+	const positional = $derived(arePositionalOptions(props.options));
+	const visibleOptions = $derived(
+		positional && typeof props.positionLimit === 'number'
+			? props.options.filter(
+					(option: MetricCatalogDomainRow) =>
+						Number(option.posicion_unidad) <= props.positionLimit!
+				)
+			: props.options
 	);
+	const first = $derived(visibleOptions[0]);
 	const positions = $derived(
 		Array.from(
 			new Set(
-				props.options.map((option: MetricCatalogDomainRow) => Number(option.posicion_unidad))
+				visibleOptions.map((option: MetricCatalogDomainRow) => Number(option.posicion_unidad))
 			)
 		).sort((a, b) => a - b)
 	);
-	const positionalAlternatives = $derived(
-		positional && positions.some((position) => optionsAt(position).length > 1)
+	const positionalAlternatives = $derived(haveAlternativesByPosition(visibleOptions));
+	const partialPositionalSelection = $derived(
+		isPartialPositionalSelection(props.group, visibleOptions)
 	);
 	/** Un rasgo con un solo valor no es una elección entre alternativas: está o no está. */
-	const esCasilla = $derived(!positional && props.options.length === 1);
+	const esCasilla = $derived(!positional && visibleOptions.length === 1);
 	const descripcion = $derived(
 		String(
 			props.options.find(
@@ -51,7 +64,7 @@
 	);
 
 	function optionsAt(position: number): MetricCatalogDomainRow[] {
-		return props.options.filter(
+		return visibleOptions.filter(
 			(option: MetricCatalogDomainRow) => Number(option.posicion_unidad) === position
 		);
 	}
@@ -88,7 +101,7 @@
 	}
 </script>
 
-<div class="flex min-w-0 flex-col gap-1">
+<div class="flex w-full min-w-0 flex-1 flex-col gap-1">
 	{#if esCasilla}
 		<label class="flex cursor-pointer items-center gap-2 text-sm">
 			<input
@@ -99,6 +112,17 @@
 			/>
 			<span>{String(first?.nombre ?? '')}</span>
 		</label>
+	{:else if partialPositionalSelection}
+		<MetricPartialPositionField
+			options={visibleOptions}
+			selectedKeys={props.uniform}
+			keyField="slug"
+			minimum={Number(props.group.selecciones_min ?? 0)}
+			maximum={Number(props.group.selecciones_max ?? positions.length)}
+			mixed={props.uniform === null && props.answered > 0}
+			ariaLabel={props.ariaLabel}
+			onChange={props.onChoose}
+		/>
 	{:else if positionalAlternatives}
 		<div class="grid gap-2 sm:grid-cols-2">
 			{#each positions as position}
@@ -120,7 +144,7 @@
 		</div>
 	{:else if positional}
 		<div class="flex flex-wrap gap-2">
-			{#each props.options as option (String(option.opcion_eleccion_id))}
+			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
 				<label
 					class={`flex min-h-9 min-w-9 cursor-pointer items-center justify-center border px-3 text-sm ${
 						props.uniform?.includes(String(option.slug))
@@ -153,16 +177,16 @@
 			<option value="">
 				{props.uniform === null && props.answered > 0
 					? 'Varían: cada una conserva la suya'
-					: `Responder las ${props.realizaciones} de una vez`}
+					: 'Seleccionar una respuesta'}
 			</option>
-			{#each props.options as option (String(option.opcion_eleccion_id))}
-				<option value={String(option.slug)} title={String(option.descripcion ?? '')}>
+			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
+				<option value={String(option.slug)} title={stripMarkdown(String(option.descripcion ?? ''))}>
 					{String(option.nombre)}
 				</option>
 			{/each}
 		</select>
 	{/if}
 	{#if descripcion}
-		<p class="form-help mt-0">{descripcion}</p>
+		<p class="form-help mt-0">{@html renderInlineMarkdown(String(descripcion))}</p>
 	{/if}
 </div>

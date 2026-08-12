@@ -1,4 +1,10 @@
-# Editor de secuencias métricas V2
+# Editor de secuencias métricas V2 — fotografía del 11 de agosto de 2026
+
+> **Documento histórico.** Sirvió para construir la primera versión del editor y conserva las
+> decisiones de ese corte, pero no se mantiene sincronizado con la interfaz. El comportamiento
+> vigente se deriva del catálogo y vive en `src/lib/components/metrica/editor-v2/`, con sus
+> pruebas junto al código. La persistencia y las garantías del modelo se documentan en
+> `implementacion-metrica.md`.
 
 Estado: primera versión de prueba en `develop`, aislada del editor de obras.
 
@@ -78,8 +84,8 @@ No se crea un grupo para un resultado único que pueda derivarse automáticament
 
 **El enunciado no está entre sus columnas: se deriva.** Desde el 10 de agosto de 2026 se lee de
 `grupos_eleccion_metrica_resueltos`, que lo compone con la dimensión y el nombre de la sección
-—«Mudanza · Esquema de rima», «Medida de los quebrados»—, y en las preguntas de rasgo lo toma de
-`rasgos_metricos.pregunta`, para que el mismo rasgo no se pregunte de dos maneras en dos formas.
+—«Mudanza · Esquema de rima», «Medida de los quebrados»—, y en las elecciones de rasgo usa
+`rasgos_metricos.nombre`. No hay columnas de preguntas redactadas a mano.
 
 Va corto y sin artículo porque el catálogo no declara el género de nada. Y lleva la sección
 dentro, no aparte, porque **el enunciado es además la clave con la que el editor pliega
@@ -199,6 +205,10 @@ Cuando todas coinciden, la fila recoge el control en un resumen con «Cambiar»;
 diverge, vuelve a enseñar el control completo. Con una sola realización el atajo no aparece,
 porque diría lo mismo que su fila.
 
+**Las composiciones variables formadas por ciclos no usan esta zona.** En el villancico, el
+zéjel o la canción, juntar «toda la composición», «todas las mudanzas» y «cada ciclo» vuelve
+menos legible la estructura. Se responde directamente en cada parte, en orden de aparición.
+
 El atajo no se limita a preguntas de una respuesta. Una serie posicional completa también se
 puede copiar: en el pareado aparecen juntos «Medida de cada verso» —dos selectores, uno por
 posición— y «Esquema de rima». Elegirlos arriba sigue escribiendo tres elecciones en cada
@@ -234,6 +244,9 @@ probar: las cuatro formas de referencia —quintilla, villancico, soneto y roman
   repetición se guarda en el ciclo pero se pregunta después de mudanza y enlace o vuelta,
   donde aparece el estribillo. Si se sobreentiende y no materializa versos, conserva una fila
   funcional en ese mismo lugar; no se inventa rango ni realización.
+- **Cada ciclo repetible abre un bloque visual.** Se añade con una acción al final y, cuando
+  sobra alguno, se quita desde su propia cabecera. La composición raíz no tiene contador:
+  una secuencia contiene un villancico y este crece mediante sus ciclos.
 
 ### La observación libre de una forma no existe
 
@@ -277,10 +290,11 @@ Se conservan dos usos que no son comentarios:
     rango y de la extensión declarada por la arquitectura, así que no se añaden ni se
     quitan a mano; con una unidad de extensión variable —la copla de pie quebrado— ocurre
     al revés y es el rango el que se calcula.
-14. Una composición se registra igual que una estrofa: tres sonetos seguidos son tres
+14. Una composición fija se registra igual que una estrofa: tres sonetos seguidos son tres
     unidades de catorce versos, cada una con sus dos cuartetos y sus dos tercetos. Cuando
-    la composición no declara su extensión —el villancico, el zéjel, la canción— el editor
-    añade y quita unidades a mano y el rango se calcula desde ellas.
+    la composición no declara su extensión —el villancico, el zéjel, la canción— hay una sola
+    unidad raíz y el editor añade o quita sus ciclos y secciones; el rango se calcula desde
+    esas partes.
 
 ## Compatibilidad de longitud
 
@@ -288,11 +302,11 @@ La regla no se mantiene como una lista de nombres de formas. Se deriva, por este
 número de versos de la configuración, de sus secciones exactas y de sus ciclos repetibles
 de rima o medida.
 
-| Caso | Regla derivada |
-| --- | --- |
-| Quintilla | múltiplo de 5 |
-| Romance | múltiplo de 2 |
-| Soneto | múltiplo de 14 |
+| Caso               | Regla derivada                           |
+| ------------------ | ---------------------------------------- |
+| Quintilla          | múltiplo de 5                            |
+| Romance            | múltiplo de 2                            |
+| Soneto             | múltiplo de 14                           |
 | Terceto encadenado | grupos de 3 más el verso final de cierre |
 
 El formulario calcula siempre `v_fin - v_ini + 1`. Un rango incompatible impide guardar y
@@ -311,36 +325,43 @@ La forma ofrece dos configuraciones legibles:
 
 Ambas generan:
 
-| Alcance | Dato |
-| --- | --- |
-| Cada sección que pone versos | Medida: 6 u 8 sílabas. |
-| Cada mudanza | Patrón: `abba`, `abab` o la realización asonantada `abcb`. |
-| Cada copla | Enlace o vuelta como sección opcional, sin una pregunta redundante de presencia. |
-| Cada ciclo posterior | El estribillo se repite entero, en parte o se sobreentiende. |
+| Alcance                      | Dato                                                                             |
+| ---------------------------- | -------------------------------------------------------------------------------- |
+| Cada sección que pone versos | Medida: 6 u 8 sílabas.                                                           |
+| Cada mudanza                 | Patrón: `abba`, `abab` o la realización asonantada `abcb`.                       |
+| Cada copla                   | Enlace o vuelta como sección opcional, sin una pregunta redundante de presencia. |
+| Cada ciclo posterior         | El estribillo se repite entero o en parte.                                       |
 
 La repetición del estribillo no declara medida: sus versos son los del estribillo, así que su
 medida se deriva y no se pregunta. La regla no nombra formas: ninguna sección cuyos versos los
 pone otra sección declara medida propia.
 
-En el formulario, la medida se pregunta una vez para toda la composición, en la primera línea
-del atajo, **sin dejar de verse la de cada sección** en su fila. Son dos ejes distintos y los
-dos hacen falta: uno recorre las secciones y otro las realizaciones de una sola. El villancico
+En `estribillo_tras_primera_copla`, la referencia de extensión apunta a la misma sección porque
+la primera aparición y las reapariciones son realizaciones de un único `estribillo`. El editor la
+resuelve por orden: la primera aparición permite declarar sus 1–4 versos y una aparición posterior
+marcada como repetición total toma esa extensión. La primera nunca se toma a sí misma como fuente.
+
+En el formulario, cada medida se responde en la sección a la que pertenece. El villancico
 heterométrico que documenta Navarro Tomás —cuarteta octosilábica seguida de estribillo en
-cuarteta hexasílaba— se registra respondiendo la composición entera y corrigiendo después el
-estribillo, en sus tres ciclos, de una vez. El atajo es de interfaz: lo que se guarda sigue
-siendo la medida de cada sección.
+cuarteta hexasílaba— se registra sin pasar por una respuesta global ambigua: cabeza, mudanza,
+enlace o vuelta y repetición se leen en su orden. Cada ciclo tiene una cabecera propia y la
+composición crece con «Añadir ciclo», no con un contador de villancicos.
 
 Los slugs técnicos heredados conservan `represa` para no romper referencias estables, pero no
 se muestran como terminología del catálogo ni del editor: en ambos se lee siempre «Repetición
-del estribillo». El uso bibliográfico de *represa* queda en las afirmaciones de las fuentes que
+del estribillo». El uso bibliográfico de _represa_ queda en las afirmaciones de las fuentes que
 emplean ese término.
 
 La configuración inicial crea la cabeza y el primer ciclo; la posterior crea una primera
 copla seguida del primer estribillo. Cada copla contiene su mudanza y posible enlace o
-vuelta. La repetición del estribillo es hermana de la copla, no hija suya. Una repetición total
-o parcial
-materializa versos; la implícita no inventa un rango. El formulario no infiere que una
-sección final aislada sea estribillo: elegir esa función exige evidencia editorial.
+vuelta. La repetición del estribillo es hermana de la copla, no hija suya. La primera aparición
+posterior declara sus versos y no pregunta modalidad; desde el segundo ciclo, cada repetición
+es total o parcial y materializa únicamente los versos que ofrece la edición crítica.
+
+Tras elegir forma y arquitectura, el Editor V2 muestra solo la norma estructurada que ya fija el
+catálogo —extensión, partes, medidas y rimas fijas— y un enlace a la ficha pública completa. No
+repite allí las definiciones: las decisiones variables aparecen justo después, en sus controles,
+y la teoría general queda en la guía del dashboard.
 
 ## Segundo caso: soneto
 

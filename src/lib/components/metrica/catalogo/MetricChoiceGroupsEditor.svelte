@@ -132,7 +132,7 @@
 
 <section class="space-y-4 border-t border-[color:var(--border)] pt-5">
 	<div>
-		<h4 class="font-medium">Preguntas derivadas para el editor</h4>
+		<h4 class="font-medium">Elecciones derivadas para el editor</h4>
 		<p class="mt-1 max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
 			Aquí se declaran únicamente las alternativas admitidas que interesa registrar en el
 			corpus. Una norma con un único resultado no genera pregunta; una diferencia respecto de

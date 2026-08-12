@@ -6,6 +6,12 @@
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricFamilyControl from './MetricFamilyControl.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
+	import MetricVersePatternField from './MetricVersePatternField.svelte';
+	import { compactRhymeNotation } from './rhyme-notation';
+	import {
+		haveAlternativesByPosition,
+		isPartialPositionalSelection
+	} from './positional-options';
 	import {
 		addMetricUnit,
 		addSectionInstance,
@@ -30,7 +36,11 @@
 		parentInstancesOf,
 		seccionesOpcionalesUniformes,
 		unitsForGroup,
+		usaRespuestasPorPartes,
 		type GridRowContext,
+		type GridFijasRow,
+		type GridRealizacionRow,
+		type GridRow,
 		type PreguntaCompartida,
 		type PreguntaEnFila
 	} from './grid-rows';
@@ -40,10 +50,9 @@
 	 * —unidades, secciones y sus rangos, en orden de verso—, a la derecha lo que hay que
 	 * responder de cada parte.
 	 *
-	 * **No hay nada plegado.** Lo que se ve es lo que hay, y una fila no cambia de sitio ni
-	 * aparece al pulsar nada. Arriba, cuando una pregunta apunta a dos o más realizaciones,
-	 * hay una línea que las responde de una vez: no es un segundo domicilio de la pregunta,
-	 * es un atajo, y las filas de abajo siguen enseñando lo que cada realización guarda.
+	 * Las unidades son siempre el domicilio visible de sus respuestas. Cuando una pregunta
+	 * apunta a varias realizaciones, el panel de edición conjunta es una operación por lotes:
+	 * se abre a petición, declara sus destinatarias y solo escribe al confirmar.
 	 *
 	 * Qué filas existen se decide en `grid-rows.ts`, que es donde se puede probar.
 	 */
@@ -60,7 +69,6 @@
 		onUnitsChange: (units: MetricUnitDraft[]) => void;
 		onChoicesChange: (choices: MetricChoiceDraft[]) => void;
 		onUnitsRemoved: (unitIds: string[]) => void;
-		onRangeChange: (end: number) => void;
 		/**
 		 * Preguntas que el contenedor responde para toda la composición, ya como filas. La
 		 * medida es la única por ahora: recorre las secciones, que es un eje que el editor de
@@ -86,13 +94,50 @@
 		unitLabel: props.unitLabel ?? 'Unidad'
 	});
 
+	/**
+	 * En una composición que crece por ciclos, responder arriba y por parte mezcla dos escalas
+	 * incompatibles. Se responde únicamente en cabeza, mudanza, enlace y estribillo.
+	 */
+	const respondePorPartes = $derived(usaRespuestasPorPartes(context));
 	const rows = $derived(buildGridRows(context));
-	const comunes = $derived(preguntasCompartidas(context));
-	const opcionales = $derived(seccionesOpcionalesUniformes(context));
+	const comunes = $derived(respondePorPartes ? [] : preguntasCompartidas(context));
+	const opcionales = $derived(respondePorPartes ? [] : seccionesOpcionalesUniformes(context));
 	let respuestasComunesAbiertas = $state(new Set<string>());
-	const hayZonaComun = $derived(
-		Boolean(props.globalQuestions) || comunes.length > 0 || opcionales.length > 0
+	let unidadesPlegadas = $state(new Set<string>());
+	let pendingPositionsByAnswer = $state<Record<string, number[]>>({});
+	let batchOpen = $state(false);
+	let batchDrafts = $state<Record<string, string[]>>({});
+	const unitShortName = $derived(
+		String(props.unitLabel ?? 'unidad').split(/\s+/)[0].toLocaleLowerCase('es')
 	);
+	const hayAjustesDeComposicion = $derived(
+		(!respondePorPartes && Boolean(props.globalQuestions)) || opcionales.length > 0
+	);
+	const hayZonaComun = $derived(hayAjustesDeComposicion || comunes.length > 0);
+	const batchUnitCount = $derived.by(() =>
+		comunes.reduce(
+			(maximum: number, pregunta: PreguntaCompartida) =>
+				Math.max(maximum, comunState(pregunta).total),
+			0
+		)
+	);
+	const batchChangeCount = $derived(Object.keys(batchDrafts).length);
+
+	function pendingAnswerKey(groupId: string, unitId: string): string {
+		return `${groupId}|${unitId}`;
+	}
+
+	function pendingPositionsFor(groupId: string, unitId: string): number[] {
+		return pendingPositionsByAnswer[pendingAnswerKey(groupId, unitId)] ?? [];
+	}
+
+	function setPendingPositionsFor(groupId: string, unitId: string, positions: number[]) {
+		const key = pendingAnswerKey(groupId, unitId);
+		const next = { ...pendingPositionsByAnswer };
+		if (positions.length > 0) next[key] = positions;
+		else delete next[key];
+		pendingPositionsByAnswer = next;
+	}
 
 	function optionsForGroup(groupId: string): MetricCatalogDomainRow[] {
 		return props.options
@@ -129,7 +174,76 @@
 	}
 
 	function normalizeRhymeScheme(value: string): string {
-		return value.replace(/\s+/g, '').toLocaleUpperCase('es');
+		return compactRhymeNotation(value);
+	}
+
+	function sectionDefinesPattern(section: MetricCatalogDomainRow | null): boolean {
+		return section?.primera_realizacion_define_patron === true;
+	}
+
+	function patternUnits(row: GridRealizacionRow): MetricUnitDraft[] {
+		return props.units
+			.filter(
+				(unit: MetricUnitDraft) =>
+					unit.seccion_id === row.unit.seccion_id &&
+					unit.realizacion_padre_id === row.unit.realizacion_padre_id
+			)
+			.sort((left: MetricUnitDraft, right: MetricUnitDraft) => left.v_ini - right.v_ini);
+	}
+
+	function patternSource(row: GridRealizacionRow): MetricUnitDraft {
+		return patternUnits(row)[0] ?? row.unit;
+	}
+
+	function patternQuestion(row: GridRealizacionRow, dimension: 'metro' | 'rima') {
+		return row.preguntas.find(
+			(question: PreguntaEnFila) => String(question.group.dimension) === dimension
+		);
+	}
+
+	function optionSyllables(optionId: string): string {
+		const option = props.options.find(
+			(candidate: MetricCatalogDomainRow) =>
+				String(candidate.opcion_eleccion_id) === optionId
+		);
+		const exact = Number(option?.metro_silabas);
+		if (Number.isFinite(exact)) return String(exact);
+		return String(option?.nombre ?? '').match(/\b(\d+)\b/)?.[1] ?? '?';
+	}
+
+	function patternSummary(row: GridRealizacionRow): string {
+		const source = patternSource(row);
+		const metro = patternQuestion(row, 'metro');
+		const rhyme = patternQuestion(row, 'rima');
+		const length = source.v_fin - source.v_ini + 1;
+		const measures = metro
+			? selectedChoiceIds(
+					String(metro.group.grupo_eleccion_id),
+					source.realizacion_prueba_id
+				)
+					.map((optionId) => ({
+						position: Number(
+							props.options.find(
+								(option: MetricCatalogDomainRow) =>
+									String(option.opcion_eleccion_id) === optionId
+							)?.posicion_unidad ?? 0
+						),
+						value: optionSyllables(optionId)
+					}))
+					.sort((left, right) => left.position - right.position)
+					.map((item) => item.value)
+					.join('·')
+			: '';
+		const rhymeValue = rhyme
+			? choiceTextValue(String(rhyme.group.grupo_eleccion_id), source.realizacion_prueba_id).trim()
+			: '';
+		return [
+			`${length} ${length === 1 ? 'verso' : 'versos'}`,
+			measures || null,
+			rhymeValue || null
+		]
+			.filter(Boolean)
+			.join(' · ');
 	}
 
 	function commitUnits(next: MetricUnitDraft[], previous = props.units) {
@@ -141,11 +255,6 @@
 			.filter((unitId: string) => !remainingIds.has(unitId));
 		if (removedIds.length > 0) props.onUnitsRemoved(removedIds);
 		props.onUnitsChange(next);
-		const lastVerse = next.reduce(
-			(maximum, unit) => Math.max(maximum, unit.v_fin),
-			props.sequenceStart
-		);
-		props.onRangeChange(lastVerse);
 	}
 
 	// ------------------------------------------------------------------
@@ -206,6 +315,28 @@
 		);
 	}
 
+	/**
+	 * La estancia modelo no ofrece una operación por lotes: escribir en ella actualiza la norma
+	 * y materializa la misma respuesta en todas las estancias que la heredan.
+	 */
+	function setPatternChoices(
+		row: GridRealizacionRow,
+		group: MetricCatalogDomainRow,
+		optionIds: string[]
+	) {
+		const groupId = String(group.grupo_eleccion_id);
+		let nextChoices = [...props.choices];
+		for (const unit of patternUnits(row)) {
+			nextChoices = escribirRespuesta(
+				nextChoices,
+				groupId,
+				unit.realizacion_prueba_id,
+				optionIds
+			);
+		}
+		props.onChoicesChange(nextChoices);
+	}
+
 	function setChoiceText(
 		group: MetricCatalogDomainRow,
 		unit: MetricUnitDraft,
@@ -233,6 +364,40 @@
 					]
 				: [])
 		]);
+	}
+
+	function setPatternRhyme(
+		row: GridRealizacionRow,
+		group: MetricCatalogDomainRow,
+		value: string
+	) {
+		const groupId = String(group.grupo_eleccion_id);
+		// Durante la edición posicional los espacios conservan los huecos aún sin responder.
+		const normalized = value.normalize('NFC');
+		let nextChoices = [...props.choices];
+		for (const unit of patternUnits(row)) {
+			nextChoices = [
+				...nextChoices.filter(
+					(choice: MetricChoiceDraft) =>
+						!(
+							choice.grupo_eleccion_id === groupId &&
+							choice.realizacion_prueba_id === unit.realizacion_prueba_id
+						)
+				),
+				...(normalized.trim()
+					? [
+							{
+								realizacion_prueba_id: unit.realizacion_prueba_id,
+								grupo_eleccion_id: groupId,
+								opcion_eleccion_id: null,
+								valor_texto: normalized,
+								observaciones: null
+							}
+						]
+					: [])
+			];
+		}
+		props.onChoicesChange(nextChoices);
 	}
 
 	/** Copia lo respondido en una realización a todas sus equivalentes. */
@@ -281,7 +446,7 @@
 	}
 
 	// ------------------------------------------------------------------
-	// Las preguntas que se responden de una vez
+	// Las preguntas que pueden copiarse en una operación conjunta
 	// ------------------------------------------------------------------
 
 	function optionSlugOf(optionId: string): string {
@@ -294,6 +459,19 @@
 
 	function comunOptions(pregunta: PreguntaCompartida): MetricCatalogDomainRow[] {
 		return optionsForGroup(String(pregunta.groups[0]?.grupo_eleccion_id ?? ''));
+	}
+
+	/**
+	 * Una respuesta común solo puede utilizar posiciones que existan en todas sus unidades.
+	 * Así una copla de cinco versos no recibe las doce posiciones máximas del catálogo.
+	 */
+	function comunPositionLimit(pregunta: PreguntaCompartida): number | undefined {
+		const lengths = pregunta.groups.flatMap((group: MetricCatalogDomainRow) =>
+			unitsForGroup(context, group).map(
+				(unit: MetricUnitDraft) => unit.v_fin - unit.v_ini + 1
+			)
+		);
+		return lengths.length > 0 ? Math.min(...lengths) : undefined;
 	}
 
 	/** Qué han contestado las realizaciones a las que apunta: si coinciden y cuántas van. */
@@ -323,16 +501,20 @@
 	 * grupos que la formulan. La respuesta viaja por slug porque cada grupo tiene sus propias
 	 * opciones apuntando al mismo dato.
 	 */
-	function setComunChoice(pregunta: PreguntaCompartida, slugs: string[]) {
-		if (slugs.length === 0) return;
-		let nextChoices = [...props.choices];
-		let nextUnits = [...props.units];
+	function writeComunChoice(
+		pregunta: PreguntaCompartida,
+		slugs: string[],
+		baseChoices: MetricChoiceDraft[],
+		baseUnits: MetricUnitDraft[]
+	): { choices: MetricChoiceDraft[]; units: MetricUnitDraft[] } {
+		let nextChoices = [...baseChoices];
+		let nextUnits = [...baseUnits];
 		for (const group of pregunta.groups) {
 			const groupId = String(group.grupo_eleccion_id);
 			const optionIds = optionsForGroup(groupId)
 				.filter((candidate: MetricCatalogDomainRow) => slugs.includes(String(candidate.slug)))
 				.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id));
-			if (optionIds.length === 0) continue;
+			if (slugs.length > 0 && optionIds.length === 0) continue;
 			for (const unit of unitsForGroup(context, group)) {
 				nextChoices = escribirRespuesta(
 					nextChoices,
@@ -352,12 +534,201 @@
 				);
 			}
 		}
+		return { choices: nextChoices, units: nextUnits };
+	}
+
+	function stagedComunChoice(
+		pregunta: PreguntaCompartida,
+		uniform: string[] | null
+	): string[] | null {
+		return Object.hasOwn(batchDrafts, pregunta.key) ? batchDrafts[pregunta.key] : uniform;
+	}
+
+	function stageComunChoice(pregunta: PreguntaCompartida, slugs: string[]) {
+		batchDrafts = { ...batchDrafts, [pregunta.key]: slugs };
+	}
+
+	function openBatch() {
+		batchDrafts = {};
+		batchOpen = true;
+	}
+
+	function closeBatch() {
+		batchDrafts = {};
+		batchOpen = false;
+	}
+
+	function applyBatch() {
+		let nextChoices = [...props.choices];
+		let nextUnits = [...props.units];
+		for (const pregunta of comunes) {
+			if (!Object.hasOwn(batchDrafts, pregunta.key)) continue;
+			const result = writeComunChoice(
+				pregunta,
+				batchDrafts[pregunta.key],
+				nextChoices,
+				nextUnits
+			);
+			nextChoices = result.choices;
+			nextUnits = result.units;
+		}
 		props.onChoicesChange(nextChoices);
 		commitUnits(nextUnits);
+		closeBatch();
 	}
 
 	function abrirRespuestaComun(groupId: string, unitId: string) {
 		respuestasComunesAbiertas = new Set(respuestasComunesAbiertas).add(`${groupId}|${unitId}`);
+	}
+
+	function tieneRespuestaComun(group: MetricCatalogDomainRow): boolean {
+		const groupId = String(group.grupo_eleccion_id);
+		return comunes.some((comun: PreguntaCompartida) =>
+			comun.groups.some(
+				(miembro: MetricCatalogDomainRow) =>
+					String(miembro.grupo_eleccion_id) === groupId
+			)
+		);
+	}
+
+	function preguntaRespondida(pregunta: PreguntaEnFila): boolean {
+		const groupId = String(pregunta.group.grupo_eleccion_id);
+		if (pregunta.group.tipo_control === 'esquema_rima') {
+			return Boolean(choiceTextValue(groupId, pregunta.owner.realizacion_prueba_id).trim());
+		}
+		const selected = selectedChoiceIds(groupId, pregunta.owner.realizacion_prueba_id);
+		const options = optionsForGroup(groupId);
+		if (isPartialPositionalSelection(pregunta.group, options)) {
+			return selected.length >= Number(pregunta.group.selecciones_min ?? 0);
+		}
+		return (
+			selected.length > 0 &&
+			selected.length >= Number(pregunta.group.selecciones_min ?? 0)
+		);
+	}
+
+	function esFilaPosicionalParcial(row: GridRealizacionRow): boolean {
+		return row.preguntas.some((pregunta: PreguntaEnFila) => {
+			const groupId = String(pregunta.group.grupo_eleccion_id);
+			return isPartialPositionalSelection(pregunta.group, optionsForGroup(groupId));
+		});
+	}
+
+	function preguntasPosicionalesParciales(row: GridRealizacionRow): PreguntaEnFila[] {
+		return row.preguntas.filter((pregunta: PreguntaEnFila) => {
+			const groupId = String(pregunta.group.grupo_eleccion_id);
+			return isPartialPositionalSelection(pregunta.group, optionsForGroup(groupId));
+		});
+	}
+
+	function preguntaPosicionalCompleta(row: GridRealizacionRow): PreguntaEnFila | null {
+		return (
+			row.preguntas.find((pregunta: PreguntaEnFila) => {
+				const options = optionsForGroup(String(pregunta.group.grupo_eleccion_id));
+				return (
+					!isPartialPositionalSelection(pregunta.group, options) &&
+					haveAlternativesByPosition(options)
+				);
+			}) ?? null
+		);
+	}
+
+	function partesFijasConRima(row: GridRealizacionRow): GridFijasRow[] {
+		const parts = rows
+			.filter(
+				(candidate: GridRow): candidate is GridFijasRow =>
+					candidate.kind === 'fijas' &&
+					candidate.parentUnitId === row.unit.realizacion_prueba_id &&
+					Boolean(candidate.section?.esquema_rima_id)
+			)
+			.sort((left: GridFijasRow, right: GridFijasRow) => left.v_ini - right.v_ini);
+		if (parts.length < 2 || parts[0].v_ini !== row.unit.v_ini) return [];
+		let expectedStart = row.unit.v_ini;
+		for (const part of parts) {
+			if (part.v_ini !== expectedStart) return [];
+			expectedStart = part.v_fin + 1;
+		}
+		return expectedStart === row.unit.v_fin + 1 ? parts : [];
+	}
+
+	function fixedRhymesFor(row: GridRealizacionRow, parts: GridFijasRow[]): string[] {
+		const output = Array.from(
+			{ length: row.unit.v_fin - row.unit.v_ini + 1 },
+			() => '—'
+		);
+		for (const part of parts) {
+			const scheme = props.schemes.find(
+				(candidate: MetricCatalogDomainRow) =>
+					String(candidate.esquema_rima_id) === String(part.section?.esquema_rima_id)
+			);
+			const notation = String(scheme?.notacion ?? '').replace(/[^A-Za-zÑñ-]/g, '');
+			for (let verse = part.v_ini; verse <= part.v_fin; verse += 1) {
+				const local = verse - row.unit.v_ini;
+				output[local] = notation ? (Array.from(notation)[verse - part.v_ini] ?? '—') : '—';
+			}
+		}
+		return output;
+	}
+
+	/**
+	 * Si una unidad con medidas posicionales se divide en partes fijas que cubren todo su
+	 * rango, la medida se pinta dentro de esas partes. Es el caso de la copla real: cada
+	 * quintilla reúne su rima y sus cinco versos, aunque la respuesta métrica siga guardándose
+	 * una sola vez en la copla.
+	 */
+	function partesIntegradas(row: GridRealizacionRow): GridFijasRow[] {
+		if (preguntasPosicionalesParciales(row).length === 0) return [];
+		const parts = rows
+			.filter(
+				(candidate: GridRow): candidate is GridFijasRow =>
+					candidate.kind === 'fijas' &&
+					candidate.parentUnitId === row.unit.realizacion_prueba_id &&
+					candidate.preguntas.length > 0
+			)
+			.sort((left: GridFijasRow, right: GridFijasRow) => left.v_ini - right.v_ini);
+		if (parts.length < 2) return [];
+		let expectedStart = row.unit.v_ini;
+		for (const part of parts) {
+			if (part.v_ini !== expectedStart || part.v_fin < part.v_ini) return [];
+			expectedStart = part.v_fin + 1;
+		}
+		if (expectedStart !== row.unit.v_fin + 1) return [];
+		return parts;
+	}
+
+	function esParteIntegrada(row: GridRow): boolean {
+		if (row.kind !== 'fijas') return false;
+		return rows.some(
+			(candidate: GridRow) =>
+				candidate.kind === 'realizacion' &&
+				[
+					...partesIntegradas(candidate),
+					...partesFijasConRima(candidate)
+				].some((part: GridFijasRow) => part.key === row.key)
+		);
+	}
+
+	function puedePlegarCompuesta(row: GridRealizacionRow, parts: GridFijasRow[]): boolean {
+		return (
+			row.preguntas.every(preguntaRespondida) &&
+			parts.every((part: GridFijasRow) => part.preguntas.every(preguntaRespondida))
+		);
+	}
+
+	function puedePlegar(row: GridRealizacionRow): boolean {
+		return (
+			!row.container &&
+			row.preguntas.length > 0 &&
+			esFilaPosicionalParcial(row) &&
+			row.preguntas.every(preguntaRespondida)
+		);
+	}
+
+	function setUnidadPlegada(unitId: string, plegada: boolean) {
+		const next = new Set(unidadesPlegadas);
+		if (plegada) next.add(unitId);
+		else next.delete(unitId);
+		unidadesPlegadas = next;
 	}
 
 	// ------------------------------------------------------------------
@@ -403,6 +774,66 @@
 	// ------------------------------------------------------------------
 	// Cuántas hay y cuántos versos miden
 	// ------------------------------------------------------------------
+
+	function inheritPatternInNewUnits(
+		section: MetricCatalogDomainRow,
+		parentUnitId: string | null,
+		units: MetricUnitDraft[],
+		choices: MetricChoiceDraft[]
+	): { units: MetricUnitDraft[]; choices: MetricChoiceDraft[] } {
+		if (!sectionDefinesPattern(section)) return { units, choices };
+		const peers = units
+			.filter(
+				(unit: MetricUnitDraft) =>
+					unit.seccion_id === sectionId(section) &&
+					unit.realizacion_padre_id === parentUnitId
+			)
+			.sort((left: MetricUnitDraft, right: MetricUnitDraft) => left.v_ini - right.v_ini);
+		const source = peers[0];
+		if (!source) return { units, choices };
+		const length = source.v_fin - source.v_ini + 1;
+		let nextUnits = units.map((unit: MetricUnitDraft) =>
+			peers.some((peer) => peer.realizacion_prueba_id === unit.realizacion_prueba_id)
+				? { ...unit, v_fin: unit.v_ini + length - 1 }
+				: unit
+		);
+		let nextChoices = [...choices];
+		const patternGroups = props.groups.filter(
+			(group: MetricCatalogDomainRow) =>
+				group.define_norma === true && String(group.seccion_id ?? '') === sectionId(section)
+		);
+		for (const group of patternGroups) {
+			const groupId = String(group.grupo_eleccion_id);
+			const sourceChoices = choices.filter(
+				(choice: MetricChoiceDraft) =>
+					choice.grupo_eleccion_id === groupId &&
+					choice.realizacion_prueba_id === source.realizacion_prueba_id
+			);
+			for (const target of peers.slice(1)) {
+				nextChoices = [
+					...nextChoices.filter(
+						(choice: MetricChoiceDraft) =>
+							!(
+								choice.grupo_eleccion_id === groupId &&
+								choice.realizacion_prueba_id === target.realizacion_prueba_id
+							)
+					),
+					...sourceChoices.map((choice: MetricChoiceDraft) => ({
+						...choice,
+						realizacion_prueba_id: target.realizacion_prueba_id
+					}))
+				];
+			}
+		}
+		nextUnits = reflowMetricUnits(
+			nextUnits,
+			props.sections,
+			props.sequenceStart,
+			nextChoices,
+			props.options
+		);
+		return { units: nextUnits, choices: nextChoices };
+	}
 
 	function setInstanceCount(
 		section: MetricCatalogDomainRow | null,
@@ -456,6 +887,17 @@
 				);
 			}
 		}
+		if (section && sectionDefinesPattern(section)) {
+			const inherited = inheritPatternInNewUnits(
+				section,
+				parentUnitId,
+				nextUnits,
+				props.choices
+			);
+			props.onChoicesChange(inherited.choices);
+			commitUnits(inherited.units);
+			return;
+		}
 		commitUnits(nextUnits);
 	}
 
@@ -474,8 +916,10 @@
 			);
 			return;
 		}
-		commitUnits(
-			addSectionInstance(
+		const section = props.sections.find(
+			(candidate: MetricCatalogDomainRow) => sectionId(candidate) === targetSectionId
+		);
+		const added = addSectionInstance(
 				props.units,
 				props.sections,
 				targetSectionId,
@@ -483,8 +927,19 @@
 				props.sequenceStart,
 				props.choices,
 				props.options
-			)
-		);
+			);
+		if (section && sectionDefinesPattern(section)) {
+			const inherited = inheritPatternInNewUnits(
+				section,
+				parentUnitId,
+				added,
+				props.choices
+			);
+			props.onChoicesChange(inherited.choices);
+			commitUnits(inherited.units);
+			return;
+		}
+		commitUnits(added);
 	}
 
 	function removeInstance(unit: MetricUnitDraft) {
@@ -499,9 +954,6 @@
 		);
 		props.onUnitsRemoved(removedIds);
 		props.onUnitsChange(remaining);
-		props.onRangeChange(
-			remaining.reduce((maximum, item) => Math.max(maximum, item.v_fin), props.sequenceStart)
-		);
 	}
 
 	function verseMinimum(section: MetricCatalogDomainRow | null): number {
@@ -560,6 +1012,42 @@
 		);
 	}
 
+	function setPatternLength(
+		row: GridRealizacionRow,
+		section: MetricCatalogDomainRow | null,
+		value: number
+	) {
+		if (!section) return;
+		const minimum = verseMinimum(section);
+		const maximum = verseMaximum(section);
+		const length = Math.max(minimum, maximum === null ? value : Math.min(maximum, value));
+		const peerIds = new Set(
+			patternUnits(row).map((unit: MetricUnitDraft) => unit.realizacion_prueba_id)
+		);
+		const sobran = positionalChoicesBeyond(length);
+		const nextChoices = props.choices.filter(
+			(choice: MetricChoiceDraft) =>
+				!peerIds.has(choice.realizacion_prueba_id ?? '') ||
+				!choice.opcion_eleccion_id ||
+				!sobran.has(choice.opcion_eleccion_id)
+		);
+		const changed = props.units.map((unit: MetricUnitDraft) =>
+			peerIds.has(unit.realizacion_prueba_id)
+				? { ...unit, v_fin: unit.v_ini + length - 1 }
+				: unit
+		);
+		if (nextChoices.length !== props.choices.length) props.onChoicesChange(nextChoices);
+		commitUnits(
+			reflowMetricUnits(
+				changed,
+				props.sections,
+				props.sequenceStart,
+				nextChoices,
+				props.options
+			)
+		);
+	}
+
 	function applyUnitLengthToEquivalentUnits(sourceUnit: MetricUnitDraft) {
 		const length = sourceUnit.v_fin - sourceUnit.v_ini + 1;
 		const equivalentUnitIds = new Set(
@@ -593,55 +1081,42 @@
 			)
 		);
 	}
+
+	/** El atajo solo aporta cuando alguna unidad equivalente tiene otra extensión. */
+	function equivalentLengthDiffers(sourceUnit: MetricUnitDraft): boolean {
+		const length = sourceUnit.v_fin - sourceUnit.v_ini + 1;
+		return props.units.some(
+			(unit: MetricUnitDraft) =>
+				unit.seccion_id === sourceUnit.seccion_id &&
+				unit.realizacion_prueba_id !== sourceUnit.realizacion_prueba_id &&
+				unit.v_fin - unit.v_ini + 1 !== length
+		);
+	}
 </script>
 
 <div class="space-y-3">
 	<!-- Veintiuna de las treinta y siete arquitecturas del catálogo no preguntan nada: la forma
 	     queda registrada al elegirla. Es el caso más frecuente y hasta ahora se veía como un
 	     hueco, que se lee como «falta algo» en vez de como «ya está». -->
-	{#if props.groups.length === 0 && !props.globalQuestions}
+	{#if props.groups.length === 0 && !hayZonaComun && rows.length === 0}
 		<p class="border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2 text-sm text-[color:var(--muted-foreground)]">
-			Esta forma no necesita ninguna respuesta: su arquitectura la fija entera.
+			La forma no requiere más datos.
 		</p>
 	{/if}
 
 	<div class="border border-[color:var(--border)]">
-		{#if hayZonaComun}
-			<!-- Lo que se responde de una vez. No es otro sitio donde vivan estas preguntas: es
-			     un atajo que escribe en todas, y abajo cada realización sigue enseñando la suya. -->
-			<p class="form-section-title mb-0 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
-				Se responde una vez para todas
+		{#if hayAjustesDeComposicion}
+			<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+				Datos comunes de la composición
 			</p>
 
 			{@render props.globalQuestions?.()}
-
-			{#each comunes as pregunta (pregunta.key)}
-				{@const state = comunState(pregunta)}
-				<MetricGridRow label={pregunta.label} rango={`las ${state.total}`} variant="comun">
-					<div class="flex flex-wrap items-start gap-2">
-						<MetricFamilyControl
-							options={comunOptions(pregunta)}
-							uniform={state.uniform}
-							answered={state.answered}
-							realizaciones={state.total}
-							ariaLabel={pregunta.label}
-							onChoose={(slug) => setComunChoice(pregunta, slug)}
-						/>
-						{#if pregunta.help}
-							<FieldHelpTooltip
-								text={pregunta.help}
-								label={`Ayuda sobre «${pregunta.label}»`}
-							/>
-						{/if}
-					</div>
-				</MetricGridRow>
-			{/each}
 
 			{#each opcionales as section (sectionId(section))}
 				{@const presencia = presenciaDeSeccion(context, section)}
 				<MetricGridRow
 					label={`¿Aparece «${sectionLabel(section)}»?`}
-					rango={presencia.parents.length > 1 ? `en las ${presencia.parents.length}` : ''}
+					rango={presencia.parents.length > 1 ? `en ${presencia.parents.length} unidades` : ''}
 					variant="comun"
 				>
 					<div class="flex flex-wrap items-center gap-3">
@@ -665,18 +1140,86 @@
 			{/each}
 		{/if}
 
+		{#if comunes.length > 0}
+			<div class={hayAjustesDeComposicion ? 'border-t border-[color:var(--border)]' : ''}>
+				<div class="flex flex-wrap items-center justify-between gap-3 bg-[color:var(--muted)] px-3 py-2">
+					<div>
+						<p class="form-grid-title">Edición de las unidades</p>
+						<p class="mt-0.5 text-xs font-normal normal-case tracking-normal text-[color:var(--muted-foreground)]">
+							{batchOpen
+								? `Preparando una respuesta para ${batchUnitCount} unidades actuales.`
+								: 'Las respuestas se editan abajo, unidad por unidad.'}
+						</p>
+					</div>
+					{#if batchOpen}
+						<button type="button" class="link-action" onclick={closeBatch}>Cancelar edición conjunta</button>
+					{:else}
+						<button type="button" class="link-action" onclick={openBatch}>
+							Aplicar una respuesta en conjunto
+						</button>
+					{/if}
+				</div>
+
+				{#if batchOpen}
+					<div class="border-t border-amber-300 bg-amber-50">
+						<p class="border-b border-amber-200 px-3 py-2 text-xs text-amber-950">
+							Solo afectará a las {batchUnitCount} unidades que existen ahora. Las que añadas después
+							quedarán sin responder hasta que las edites o vuelvas a aplicar una respuesta conjunta.
+						</p>
+						{#each comunes as pregunta (pregunta.key)}
+							{@const state = comunState(pregunta)}
+							<MetricGridRow label={pregunta.label} rango={`${state.total} unidades`} variant="comun">
+								<div class="flex flex-wrap items-start gap-2">
+									<MetricFamilyControl
+										group={pregunta.groups[0]}
+										options={comunOptions(pregunta)}
+										uniform={stagedComunChoice(pregunta, state.uniform)}
+										answered={state.answered}
+										realizaciones={state.total}
+										ariaLabel={pregunta.label}
+										positionLimit={comunPositionLimit(pregunta)}
+										onChoose={(slugs) => stageComunChoice(pregunta, slugs)}
+									/>
+									{#if pregunta.help}
+										<FieldHelpTooltip
+											text={pregunta.help}
+											label={`Ayuda sobre «${pregunta.label}»`}
+										/>
+									{/if}
+								</div>
+							</MetricGridRow>
+						{/each}
+						<div class="flex flex-wrap items-center justify-end gap-3 border-t border-amber-200 px-3 py-2.5">
+							<span class="text-xs text-amber-900">
+								{batchChangeCount === 0
+									? 'Elige al menos una respuesta para aplicarla.'
+									: `${batchChangeCount} ${batchChangeCount === 1 ? 'respuesta preparada' : 'respuestas preparadas'}`}
+							</span>
+							<button
+								type="button"
+								class="h-9 bg-[color:var(--primary)] px-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+								disabled={batchChangeCount === 0}
+								onclick={applyBatch}
+							>
+								Aplicar a las {batchUnitCount} unidades actuales
+							</button>
+						</div>
+					</div>
+				{/if}
+			</div>
+		{/if}
+
 		{#if rows.length > 0}
-			<p class="form-section-title mb-0 border-b border-t border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+			<p class="form-grid-title border-b border-t border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
 				La secuencia, verso a verso
 			</p>
 		{/if}
 
 		{#each rows as row (row.key)}
+			{#if !esParteIntegrada(row)}
 			{#if row.kind === 'pregunta'}
 				<MetricGridRow label={row.label} depth={row.depth}>
-					{#each row.preguntas as pregunta (String(pregunta.group.grupo_eleccion_id))}
-						{@render campo(pregunta)}
-					{/each}
+					{@render camposDeLaParte(row.preguntas)}
 				</MetricGridRow>
 			{:else if row.kind === 'fijas'}
 				<!--
@@ -696,9 +1239,7 @@
 					variant={row.preguntas.length > 0 ? 'normal' : 'resumen'}
 				>
 					{#if row.preguntas.length > 0}
-						{#each row.preguntas as pregunta (String(pregunta.group.grupo_eleccion_id))}
-							{@render campo(pregunta)}
-						{/each}
+						{@render camposDeLaParte(row.preguntas)}
 					{:else}
 						<span class="text-sm text-[color:var(--muted-foreground)]" title={EXTENT_HELP}>
 							{norma} · la norma las fija enteras
@@ -709,7 +1250,7 @@
 				<MetricGridRow
 					label={row.modo === 'contar'
 						? `N.º de ${row.label.toLocaleLowerCase('es')}`
-						: ''}
+						: row.label}
 					depth={row.depth}
 					variant="resumen"
 				>
@@ -740,18 +1281,174 @@
 									row.parentUnitId
 								)}
 						>
-							+ Añadir {row.label.toLocaleLowerCase('es')}
+							+ Añadir
 						</button>
 					{/if}
 				</MetricGridRow>
 			{:else}
+				{@const parts = partesIntegradas(row)}
+				{@const fixedRhymeParts = partesFijasConRima(row)}
+				{@const completePatternQuestion = preguntaPosicionalCompleta(row)}
+				{@const partialQuestions = preguntasPosicionalesParciales(row)}
+				{@const otherQuestions = row.preguntas.filter(
+					(pregunta: PreguntaEnFila) => !partialQuestions.includes(pregunta)
+				)}
+				{@const plegable = parts.length > 0 ? puedePlegarCompuesta(row, parts) : puedePlegar(row)}
+				{@const plegada = plegable && unidadesPlegadas.has(row.unit.realizacion_prueba_id)}
 				<MetricGridRow
 					label={row.label}
 					rango={`vv. ${row.unit.v_ini}–${row.unit.v_fin}`}
 					nota={row.nota}
-					notaAyuda={row.nota ? EXTENT_HELP : undefined}
 					depth={row.depth}
+					variant={row.container || parts.length > 0 || fixedRhymeParts.length > 0 ? 'grupo' : 'normal'}
+					actionLabel={plegable ? (plegada ? 'Desplegar' : 'Plegar') : undefined}
+					onAction={plegable
+						? () => setUnidadPlegada(row.unit.realizacion_prueba_id, !plegada)
+						: undefined}
 				>
+					{#if sectionDefinesPattern(row.section)}
+						{@const source = patternSource(row)}
+						{@const metroQuestion = patternQuestion(row, 'metro')}
+						{@const rhymeQuestion = patternQuestion(row, 'rima')}
+						{#if source.realizacion_prueba_id !== row.unit.realizacion_prueba_id}
+							<div class="border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2">
+								<p class="text-sm font-medium">{patternSummary(row)}</p>
+								<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+									Resultado heredado de la estancia modelo. Si el testimonio no lo cumple,
+									registra una desviación.
+								</p>
+							</div>
+						{:else}
+							<div class="space-y-3">
+								<label class="flex items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
+									<span>N.º de versos</span>
+									<input
+										type="number"
+										min={verseMinimum(row.section)}
+										max={verseMaximum(row.section) ?? undefined}
+										class="h-9 w-24 border border-[color:var(--border)] bg-white px-2 text-sm"
+										value={row.unit.v_fin - row.unit.v_ini + 1}
+										onchange={(event) =>
+											setPatternLength(row, row.section, Number(event.currentTarget.value))}
+									/>
+									<span>Se aplicará a todas las estancias.</span>
+								</label>
+
+								{#if metroQuestion}
+									<div>
+										<p class="form-label mb-1.5 flex items-center gap-2">
+											<span>Patrón de la estancia <span aria-hidden="true">*</span></span>
+											{#if rhymeQuestion?.group.ayuda_editor}
+												<FieldHelpTooltip
+													text={String(rhymeQuestion.group.ayuda_editor)}
+													label="Ayuda sobre la notación de la rima"
+												/>
+											{/if}
+										</p>
+										<p class="mb-2 text-xs text-[color:var(--muted-foreground)]">
+											Elige la medida y la clase de rima de cada verso. Las demás estancias
+											repetirán esta disposición.
+										</p>
+										<MetricVersePatternField
+											length={row.unit.v_fin - row.unit.v_ini + 1}
+											options={optionsForGroup(String(metroQuestion.group.grupo_eleccion_id))}
+											selectedIds={selectedChoiceIds(
+												String(metroQuestion.group.grupo_eleccion_id),
+												row.unit.realizacion_prueba_id
+											)}
+											onMeasureChange={(ids) =>
+												setPatternChoices(row, metroQuestion.group, ids)}
+											rhymeValue={rhymeQuestion
+												? choiceTextValue(
+														String(rhymeQuestion.group.grupo_eleccion_id),
+														row.unit.realizacion_prueba_id
+													)
+												: undefined}
+											onRhymeChange={rhymeQuestion
+												? (value) => setPatternRhyme(row, rhymeQuestion.group, value)
+												: undefined}
+										/>
+									</div>
+								{/if}
+							</div>
+						{/if}
+
+						{#if row.removable}
+							<button
+								type="button"
+								class="link-action link-action--danger self-start"
+								onclick={() => removeInstance(row.unit)}
+							>
+								Quitar {nodeLabel(context, row.section).toLocaleLowerCase('es')}
+							</button>
+						{/if}
+					{:else if completePatternQuestion && fixedRhymeParts.length > 0}
+						<div class="space-y-3">
+							<p class="text-xs text-[color:var(--muted-foreground)]">
+								La medida y la rima se leen juntas. La rima ya está fijada por las partes de
+								la estancia; solo hay que indicar si cada verso mide 7 u 11 sílabas.
+							</p>
+							<MetricVersePatternField
+								length={row.unit.v_fin - row.unit.v_ini + 1}
+								options={optionsForGroup(
+									String(completePatternQuestion.group.grupo_eleccion_id)
+								)}
+								selectedIds={selectedChoiceIds(
+									String(completePatternQuestion.group.grupo_eleccion_id),
+									row.unit.realizacion_prueba_id
+								)}
+								onMeasureChange={(ids) =>
+									setChoices(completePatternQuestion.group, row.unit, ids)}
+								fixedRhymes={fixedRhymesFor(row, fixedRhymeParts)}
+							/>
+							<div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--muted-foreground)]">
+								{#each fixedRhymeParts as part (part.key)}
+									<span>{part.label}: vv. {part.v_ini}–{part.v_fin}</span>
+								{/each}
+							</div>
+						</div>
+					{:else if plegada}
+						{#if parts.length > 0}
+							<span class="text-sm text-[color:var(--muted-foreground)]">
+								Respuesta registrada en {parts.length} partes.
+							</span>
+						{:else}
+							{@render camposDeLaParte(
+								row.preguntas,
+								row.equivalentes,
+								true,
+								() => setUnidadPlegada(row.unit.realizacion_prueba_id, false)
+							)}
+						{/if}
+					{:else}
+					{#if parts.length > 0}
+						{@render camposDeLaParte(otherQuestions, row.equivalentes)}
+						<div class="space-y-3">
+							{#each parts as part (part.key)}
+								<section class="border border-[color:var(--border)] bg-white">
+									<div class="border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+										<p class="text-sm font-medium">{part.label}</p>
+										<p class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
+											vv. {part.v_ini}–{part.v_fin} · {part.versos} versos
+										</p>
+									</div>
+									<div class="space-y-4 p-3">
+										{@render camposDeLaParte(part.preguntas, row.equivalentes)}
+										{#each partialQuestions as pregunta (String(pregunta.group.grupo_eleccion_id))}
+											{@render campo(
+												pregunta,
+												row.equivalentes,
+												false,
+												undefined,
+												part.v_ini - row.unit.v_ini + 1,
+												part.v_fin - row.unit.v_ini + 1
+											)}
+										{/each}
+									</div>
+								</section>
+							{/each}
+						</div>
+					{:else}
 					{#if row.lengthEditable}
 						<div class="flex flex-wrap items-center gap-3">
 							<label class="flex items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
@@ -766,21 +1463,25 @@
 										setUnitLength(row.unit, row.section, Number(event.currentTarget.value))}
 								/>
 							</label>
-							{#if row.equivalentes > 1}
+							{#if row.equivalentes > 1 && equivalentLengthDiffers(row.unit)}
 								<button
 									type="button"
 									class="link-action"
 									onclick={() => applyUnitLengthToEquivalentUnits(row.unit)}
 								>
-									Esta extensión en las {row.equivalentes}
+									Aplicar esta extensión a las {row.equivalentes} unidades
 								</button>
 							{/if}
 						</div>
 					{/if}
 
-					{#each row.preguntas as pregunta (String(pregunta.group.grupo_eleccion_id))}
-						{@render campo(pregunta, row.equivalentes)}
-					{/each}
+					{#if row.preguntas.length === 0 && !row.lengthEditable}
+						<span class="text-sm text-[color:var(--muted-foreground)]">
+							{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
+						</span>
+					{:else}
+						{@render camposDeLaParte(row.preguntas, row.equivalentes)}
+					{/if}
 
 					{#if row.removable}
 						<button
@@ -791,11 +1492,36 @@
 							Quitar {nodeLabel(context, row.section).toLocaleLowerCase('es')}
 						</button>
 					{/if}
+					{/if}
+					{/if}
 				</MetricGridRow>
+			{/if}
 			{/if}
 		{/each}
 	</div>
 </div>
+
+{#snippet camposDeLaParte(
+	preguntas: PreguntaEnFila[],
+	equivalentes = 1,
+	forceCompact = false,
+	onOpenUnit: (() => void) | undefined = undefined,
+	positionStart: number | undefined = undefined,
+	positionEnd: number | undefined = undefined
+)}
+	<div class={preguntas.length > 1 ? 'metric-choice-group' : 'contents'}>
+		{#each preguntas as pregunta (String(pregunta.group.grupo_eleccion_id))}
+			{@render campo(
+				pregunta,
+				equivalentes,
+				forceCompact,
+				onOpenUnit,
+				positionStart,
+				positionEnd
+			)}
+		{/each}
+	</div>
+{/snippet}
 
 <!--
 	Una pregunta dentro de una fila.
@@ -808,42 +1534,72 @@
 	izquierda y de la pregunta común de arriba, pero deducirlo es trabajo, y lo que se ganaba
 	quitándolo no compensa tener que averiguar de qué va un desplegable.
 -->
-{#snippet campo(pregunta: PreguntaEnFila, equivalentes = 1)}
+{#snippet campo(
+	pregunta: PreguntaEnFila,
+	equivalentes = 1,
+	forceCompact = false,
+	onOpenUnit: (() => void) | undefined = undefined,
+	positionStart: number | undefined = undefined,
+	positionEnd: number | undefined = undefined
+)}
 	{@const group = pregunta.group}
 	{@const groupId = String(group.grupo_eleccion_id)}
 	{@const unit = pregunta.owner}
 	{@const estado = estadoDeRespuesta(context, group, unit)}
-	{@const yaArriba = comunes.some((comun: PreguntaCompartida) =>
-		comun.groups.some(
-			(miembro: MetricCatalogDomainRow) => String(miembro.grupo_eleccion_id) === groupId
-		)
-	)}
+	{@const yaArriba = tieneRespuestaComun(group)}
 	{@const claveComun = `${groupId}|${unit.realizacion_prueba_id}`}
-	{@const compacta =
+	{@const comunAbierta = respuestasComunesAbiertas.has(claveComun)}
+	{@const compactaComun =
 		yaArriba && estado === 'igual' && !respuestasComunesAbiertas.has(claveComun)}
+	{@const compacta = forceCompact || compactaComun}
 	<!--
-		La respuesta que coincide con la de sus equivalentes se atenúa: ya se lee arriba y aquí
-		solo confirma. La que diverge y la que falta se leen enteras.
+		La respuesta que coincide con todas sus equivalentes se resume para aligerar la lista.
+		La que solo coincide con algunas, la individual y la que falta se leen enteras.
 	-->
-	<div class={estado === 'igual' ? 'opacity-70' : ''}>
+	<div>
+		{#if yaArriba && !compactaComun}
+			<p class="mb-2 text-xs font-medium text-amber-800">
+				{estado === 'compartida'
+					? 'Esta respuesta coincide en varias unidades, pero no en todas'
+					: estado === 'propia'
+					? `Respuesta diferente en esta ${unitShortName}`
+					: comunAbierta
+						? `Editando solo esta ${unitShortName}`
+						: `Esta ${unitShortName} está sin responder`}
+			</p>
+		{/if}
 		<MetricChoiceField
 			{group}
 			variant="celda"
 			label={pregunta.label}
 			showDescription={estado !== 'igual'}
 			compact={compacta}
+			compactNote={compactaComun
+				? 'Coincide con las demás unidades'
+				: forceCompact
+					? `Respuesta de esta ${unitShortName}`
+					: undefined}
+			changeLabel={compactaComun ? `Editar esta ${unitShortName}` : 'Cambiar'}
+			hideCompactAction={forceCompact}
 			onExpand={compacta
-				? () => abrirRespuestaComun(groupId, unit.realizacion_prueba_id)
+				? () => {
+						onOpenUnit?.();
+						if (compactaComun) abrirRespuestaComun(groupId, unit.realizacion_prueba_id);
+					}
 				: undefined}
 			options={optionsForGroup(groupId)}
 			selectedIds={selectedChoiceIds(groupId, unit.realizacion_prueba_id)}
 			onChange={(ids) => setChoices(group, unit, ids)}
 			textValue={choiceTextValue(groupId, unit.realizacion_prueba_id)}
 			onTextChange={(value) => setChoiceText(group, unit, value)}
-			onApplyAll={!yaArriba && equivalentes > 1
+			onApplyAll={!respondePorPartes && !yaArriba && equivalentes > 1
 				? () => applyChoiceToEquivalentUnits(group, unit)
 				: undefined}
-			positionLimit={unit.v_fin - unit.v_ini + 1}
+			positionStart={positionStart}
+			positionLimit={positionEnd ?? unit.v_fin - unit.v_ini + 1}
+			pendingPositions={pendingPositionsFor(groupId, unit.realizacion_prueba_id)}
+			onPendingPositionsChange={(positions) =>
+				setPendingPositionsFor(groupId, unit.realizacion_prueba_id, positions)}
 		/>
 	</div>
 {/snippet}

@@ -80,6 +80,7 @@ describe('catálogo público de formas', () => {
 						arquitectura_id: arquitectura.arquitectura_id,
 						slug: 'represa_total',
 						tipo: 'estribillo',
+						nombre: 'Repetición total del estribillo',
 						regla: 'La represa reproduce el estribillo.',
 						modalidad: 'admitida',
 						descripcion: 'Reaparición material.'
@@ -118,6 +119,7 @@ describe('catálogo público de formas', () => {
 			{
 				slug: 'represa_total',
 				tipo: 'estribillo',
+				nombre: 'Repetición total del estribillo',
 				regla: 'La represa reproduce el estribillo.',
 				modalidad: 'admitida',
 				descripcion: 'Reaparición material.'
@@ -332,9 +334,7 @@ describe('catálogo público de formas', () => {
 						seccion_id: null
 					}
 				],
-				denominaciones: [
-					{ esquema_rima_id: 'rima-abab', nombre: 'Cuarteta', preferente: true }
-				]
+				denominaciones: [{ esquema_rima_id: 'rima-abab', nombre: 'Cuarteta', preferente: true }]
 			},
 			error: null
 		});

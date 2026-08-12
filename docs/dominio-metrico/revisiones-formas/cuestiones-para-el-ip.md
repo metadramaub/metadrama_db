@@ -343,9 +343,11 @@ nivel que el corpus dramático no necesita.
 
 **Qué tiene hoy el catálogo:** tres arquitecturas —`regular_13_versos` (principal, esquema
 `abCabC:cdeeDfF`), `estancias_consonantes_variables` (estancias de 5 a 20 versos) y
-`sin_rima_con_pareado_final`—. Todas exigen un mínimo de tres estancias y admiten un remate
-opcional. La distribución métrica y el esquema de rima llevan `define_norma`: se responden en
-cada estancia, pero todas las de una misma canción deben coincidir, y la base lo comprueba.
+`sin_rima_con_pareado_final`—. Todas exigen un mínimo de tres estancias. Las dos arquitecturas
+consonantes admiten un remate opcional; la arquitectura sin rima no lo declara. En las estancias
+consonantes variables, la primera realización declara extensión, distribución métrica y esquema
+de rima, y las demás lo heredan. La canción sin rima mantiene por ahora `define_norma` en su
+distribución métrica, aunque la fuente que la distingue no explicita esa identidad posicional.
 
 1. **¿La canción sin rima debe seguir siendo arquitectura o tiene identidad de forma?** Sigue
    abierta, pero la revisión aporta un dato que la ficha no tenía: **no es una aportación sin
@@ -354,10 +356,12 @@ cada estancia, pero todas las de una misma canción deben coincidir, y la base l
    describen igual que el catálogo. *Que la fuente la liste aparte, junto a la canción, es
    argumento para cualquiera de las dos respuestas; lo que ya no cabe es decidirlo sin ella.*
 2. **¿Debe exigirse siempre remate o envío?** Hoy la sección `remate` es opcional
-   (`repeticiones_min = 0`). Las cinco fuentes que describen la composición lo dan como lo
+   (`repeticiones_min = 0`) en las dos arquitecturas consonantes y no existe en la canción sin
+   rima. Las cinco fuentes que describen la composición lo dan como lo
    normal —Caparrós: «acaba en un fragmento de estancia»; Jauralde: «termina con otra mucho
    más breve»— pero ninguna lo declara imprescindible. *Si se exige, las canciones sin remate
-   registradas pasarían a incumplir la norma.*
+   registradas pasarían a incumplir la norma; antes habría que decidir además si la canción sin
+   rima participa de ese cierre.*
 3. ~~¿Se mantiene el mínimo de 5 versos por estancia, pese al mínimo de 9 de Caparrós?~~
    **Resuelto: sí, y con fuente.** El 5 no lo fijó el proyecto: **Morley y Bruerton dicen
    literalmente «estrofas de 5 a 20 versos»** al describir la canción de Lope. Caparrós 2014 y
@@ -369,6 +373,12 @@ cada estancia, pero todas las de una misma canción deben coincidir, y la base l
    entre cuatro y ocho versos. Es decir, una estancia de 5 a 8 versos es territorio de la lira
    y del sexteto-lira. *No se ha tocado el intervalo, que es el de Morley y Bruerton, pero
    conviene saber que ahí las formas se rozan.*
+5. **¿Las estancias de la canción sin rima repiten también la distribución posicional de 7 y
+   11?** El catálogo lo exige hoy mediante `define_norma`. Morley y Bruerton la describen como
+   «versos de siete y once sílabas, agrupados en estrofas sin rima, excepto un pareado final»,
+   pero no añaden aquí que el orden métrico sea idéntico entre estrofas, como sí hacen
+   explícitamente al definir la canción consonante. *Hasta que el IP lo decida, el editor deja
+   cada estancia editable y conserva la validación vigente de la base.*
 
 ## Villancico
 

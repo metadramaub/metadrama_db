@@ -7,10 +7,17 @@
 		start: number;
 		end: number;
 		configurationName?: string;
+		formName?: string;
 	}>();
 
 	const message = $derived(
-		metricLengthError(props.rule, props.start, props.end, props.configurationName)
+		metricLengthError(
+			props.rule,
+			props.start,
+			props.end,
+			props.configurationName,
+			props.formName
+		)
 	);
 </script>
 
