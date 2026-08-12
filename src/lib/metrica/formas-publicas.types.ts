@@ -123,6 +123,7 @@ export type PublicTrait = {
 export type PublicRepetition = {
 	slug: string;
 	tipo: string;
+	nombre: string;
 	regla: string;
 	modalidad: string | null;
 	descripcion: string | null;

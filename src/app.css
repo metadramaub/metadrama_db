@@ -268,6 +268,48 @@ textarea {
 	text-transform: uppercase;
 }
 
+/*
+ * Tres niveles explícitos para los formularios largos. El panel separa grandes áreas de
+ * trabajo; la subsección ordena tareas dentro del panel; la rejilla solo rotula zonas del
+ * control estructural. Antes los tres reutilizaban `.form-section-title` y parecían hermanos.
+ */
+.form-panel-title {
+	font-size: 0.8125rem;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.055em;
+	color: var(--foreground);
+	text-transform: uppercase;
+}
+
+.form-subsection-title {
+	margin-bottom: 0.6rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	color: var(--muted-foreground);
+	text-transform: uppercase;
+}
+
+.form-grid-title {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.055em;
+	color: var(--muted-foreground);
+	text-transform: uppercase;
+}
+
+/* Preguntas que describen juntas una misma parte —por ejemplo, rima y medida de la mudanza—. */
+.metric-choice-group {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+	gap: 0.75rem;
+	border-left: 2px solid var(--border);
+	padding-left: 0.75rem;
+}
+
 .form-inline-toggle {
 	display: inline-flex;
 	align-items: center;

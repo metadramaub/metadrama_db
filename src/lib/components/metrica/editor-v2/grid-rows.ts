@@ -26,6 +26,7 @@ import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 import {
 	childrenOfSection,
+	extensionSourceUnitFor,
 	rootSections,
 	sectionHasFixedLength,
 	sectionId,
@@ -76,6 +77,8 @@ export type GridRealizacionRow = {
 	parentUnitId: string | null;
 	depth: number;
 	label: string;
+	/** Abre un grupo estructural con partes propias, como un ciclo del villancico. */
+	container: boolean;
 	preguntas: PreguntaEnFila[];
 	/** Lo que se dice del rango cuando no se puede tocar. */
 	nota: string;
@@ -149,7 +152,16 @@ export type PreguntaCompartida = {
  * Cómo se lee la respuesta de una realización frente a la de sus equivalentes. Sirve para
  * que se vea de un vistazo cuál diverge, sin esconder ninguna.
  */
-export type EstadoDeRespuesta = 'sin_responder' | 'unica' | 'igual' | 'propia';
+export type EstadoDeRespuesta = 'sin_responder' | 'unica' | 'igual' | 'compartida' | 'propia';
+
+/** Las composiciones variables crecen por sus partes; no mezclan atajos globales con ciclos. */
+export function usaRespuestasPorPartes(context: GridRowContext): boolean {
+	return Boolean(
+		context.unitPlan &&
+		!context.unitPlan.countFromRange &&
+		rootSections(context.sections).length > 0
+	);
+}
 
 function nodeSectionId(section: MetricCatalogDomainRow | null): string | null {
 	return section ? sectionId(section) : null;
@@ -176,10 +188,7 @@ function nodeHasFixedLength(
 	return extent !== null && extent.minimum === extent.maximum;
 }
 
-function nodeVerseMinimum(
-	context: GridRowContext,
-	section: MetricCatalogDomainRow | null
-): number {
+function nodeVerseMinimum(context: GridRowContext, section: MetricCatalogDomainRow | null): number {
 	if (section) return sectionVerseMinimum(section);
 	return context.unitPlan?.extent?.minimum ?? 1;
 }
@@ -198,9 +207,7 @@ export function instancesOf(
 export function controlledSectionIds(options: MetricCatalogDomainRow[]): Set<string> {
 	return new Set(
 		options
-			.map((option) =>
-				option.materializa_seccion_id ? String(option.materializa_seccion_id) : ''
-			)
+			.map((option) => (option.materializa_seccion_id ? String(option.materializa_seccion_id) : ''))
 			.filter(Boolean)
 	);
 }
@@ -242,7 +249,8 @@ export function seccionSujetoDeGrupo(
 ): string | null {
 	if (group.seccion_id) return null;
 	const opciones = context.options.filter(
-		(option) => String(option.grupo_eleccion_id) === String(group.grupo_eleccion_id) && option.activo
+		(option) =>
+			String(option.grupo_eleccion_id) === String(group.grupo_eleccion_id) && option.activo
 	);
 	if (opciones.length === 0) return null;
 	const secciones = new Set<string>();
@@ -277,16 +285,50 @@ export function groupsForUnit(
 	});
 }
 
+/**
+ * Una repetición que toma su extensión de la misma sección que materializa empieza después de
+ * la primera aparición: esa primera realización es la fuente, no una repetición de sí misma.
+ */
+export function groupStartsAfterFirstOccurrence(
+	group: MetricCatalogDomainRow,
+	options: MetricCatalogDomainRow[]
+): boolean {
+	if (group.dimension !== 'repeticion') return false;
+	return options.some(
+		(option) =>
+			String(option.grupo_eleccion_id) === String(group.grupo_eleccion_id) &&
+			Boolean(option.materializa_seccion_id) &&
+			String(option.materializa_seccion_id) === String(option.extension_desde_seccion_id ?? '')
+	);
+}
+
+/** Las realizaciones propietarias de una pregunta, con su ordinal estructural aplicado. */
+export function targetUnitsForGroup(
+	units: MetricUnitDraft[],
+	group: MetricCatalogDomainRow,
+	options: MetricCatalogDomainRow[]
+): MetricUnitDraft[] {
+	const targets = units
+		.filter((unit) =>
+			group.seccion_id
+				? String(group.seccion_id) === unit.seccion_id
+				: unit.realizacion_padre_id === null
+		)
+		.sort(
+			(a, b) =>
+				a.v_ini - b.v_ini ||
+				a.orden - b.orden ||
+				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
+		);
+	return groupStartsAfterFirstOccurrence(group, options) ? targets.slice(1) : targets;
+}
+
 /** Las realizaciones a las que apunta una pregunta, estén donde estén en el árbol. */
 export function unitsForGroup(
 	context: GridRowContext,
 	group: MetricCatalogDomainRow
 ): MetricUnitDraft[] {
-	return context.units.filter((unit) =>
-		group.seccion_id
-			? String(group.seccion_id) === unit.seccion_id
-			: unit.realizacion_padre_id === null
-	);
+	return targetUnitsForGroup(context.units, group, context.options);
 }
 
 /**
@@ -308,11 +350,9 @@ export function extensionReferenceFor(
 			)
 	);
 	if (!option?.extension_desde_seccion_id) return null;
+	if (!extensionSourceUnitFor(unit, context.units, context.choices, context.options)) return null;
 	const referenceSectionId = String(option.extension_desde_seccion_id);
-	if (!context.units.some((candidate) => candidate.seccion_id === referenceSectionId)) return null;
-	return (
-		context.sections.find((section) => sectionId(section) === referenceSectionId) ?? null
-	);
+	return context.sections.find((section) => sectionId(section) === referenceSectionId) ?? null;
 }
 
 function canAddHere(
@@ -324,6 +364,9 @@ function canAddHere(
 	// Cuántas unidades contiene el pasaje se deriva del rango: no se añaden a mano.
 	if (section === null) {
 		if (parentUnitId !== null || context.unitPlan === null) return false;
+		// Una composición de extensión variable crece mediante sus ciclos o secciones, no
+		// añadiendo otra composición dentro de la misma secuencia.
+		if (usaRespuestasPorPartes(context)) return false;
 		return !context.unitPlan.countFromRange;
 	}
 	const maximum = sectionMaximum(section);
@@ -338,6 +381,7 @@ function canRemoveHere(
 	const list = instancesOf(context.units, nodeSectionId(section), parentUnitId);
 	if (section === null) {
 		if (parentUnitId !== null || context.unitPlan === null) return false;
+		if (usaRespuestasPorPartes(context)) return false;
 		return !context.unitPlan.countFromRange && list.length > 1;
 	}
 	return list.length > sectionMinimum(section);
@@ -394,9 +438,8 @@ function unidadDe(context: GridRowContext, unitId: string | null): MetricUnitDra
 	let actual = context.units.find((unit) => unit.realizacion_prueba_id === unitId) ?? null;
 	while (actual && actual.realizacion_padre_id !== null) {
 		actual =
-			context.units.find(
-				(unit) => unit.realizacion_prueba_id === actual!.realizacion_padre_id
-			) ?? null;
+			context.units.find((unit) => unit.realizacion_prueba_id === actual!.realizacion_padre_id) ??
+			null;
 	}
 	return actual;
 }
@@ -483,7 +526,11 @@ function walk(
 	// Y una sección que aparece porque una respuesta la materializa tampoco se quita a mano:
 	// se quita cambiando la respuesta. Quitarla dejaba «se repite entero» apuntando a una
 	// repetición que ya no existe, y nada volvía a crearla hasta tocar la respuesta otra vez.
-	const cuentaVisible = !controlada && countable && (puedeAnadir || puedeQuitar);
+	// Los contenedores repetibles se gestionan como unidades legibles: «Añadir ciclo» y
+	// «Quitar ciclo». Un contador numérico separa la acción de la parte a la que afecta.
+	const accionesIndividuales = section !== null && children.length > 0 && !controlada && countable;
+	const cuentaVisible =
+		!accionesIndividuales && !controlada && countable && (puedeAnadir || puedeQuitar);
 	const removable = puedeQuitar && !cuentaVisible && !controlada;
 
 	// Regla 2: un bloque que la norma fija entero y que no pregunta nada es una línea.
@@ -498,8 +545,7 @@ function walk(
 		!removable &&
 		nodeHasFixedLength(context, section) &&
 		list.every(
-			(unit) =>
-				groupsForUnit(context, unit).length === 0 && !extensionReferenceFor(context, unit)
+			(unit) => groupsForUnit(context, unit).length === 0 && !extensionReferenceFor(context, unit)
 		);
 
 	if (bloqueFijo) {
@@ -535,6 +581,7 @@ function walk(
 				groups.length === 0 &&
 				!lengthEditable &&
 				!removable &&
+				!accionesIndividuales &&
 				(section === null || !cuentaVisible);
 
 			if (!transparente) {
@@ -545,7 +592,14 @@ function walk(
 					section,
 					parentUnitId,
 					depth,
-					label: numerada ? `${label} ${index + 1}` : label,
+					label: section?.primera_realizacion_define_patron
+						? index === 0
+							? `${label} modelo`
+							: `${label} ${index + 1}`
+						: numerada
+							? `${label} ${index + 1}`
+							: label,
+					container: children.length > 0,
 					preguntas: [
 						// Las del bloque solo en la primera: se responden una vez para todas.
 						...(index === 0 ? preguntasDelBloque : []),
@@ -553,10 +607,14 @@ function walk(
 						...groups.map((group) => ({
 							group,
 							owner: unit,
-							label: String(group.nombre)
+							label: sinPrefijoDeSeccion(String(group.nombre), label)
 						}))
 					],
-					nota: notaFor(context, section, unit),
+					nota: section?.primera_realizacion_define_patron
+						? index === 0
+							? 'Declara el patrón que repiten las demás estancias'
+							: 'Repite extensión, medidas y rima de la estancia modelo'
+						: notaFor(context, section, unit),
 					lengthEditable,
 					equivalentes: context.units.filter(
 						(candidate) => candidate.seccion_id === unit.seccion_id
@@ -566,13 +624,7 @@ function walk(
 			}
 
 			for (const child of children) {
-				walk(
-					context,
-					child,
-					unit.realizacion_prueba_id,
-					transparente ? depth : depth + 1,
-					out
-				);
+				walk(context, child, unit.realizacion_prueba_id, transparente ? depth : depth + 1, out);
 			}
 		}
 	}
@@ -648,8 +700,7 @@ export function preguntasCompartidas(context: GridRowContext): PreguntaCompartid
 				String(option.grupo_eleccion_id) === String(group.grupo_eleccion_id) && option.activo
 		);
 		const esPosicional =
-			opciones.length > 0 &&
-			opciones.every((option) => Number(option.posicion_unidad ?? 0) > 0);
+			opciones.length > 0 && opciones.every((option) => Number(option.posicion_unidad ?? 0) > 0);
 		// Las respuestas múltiples ordinarias no tienen un único valor que copiar. Las
 		// posicionales sí: se copia la serie completa, una respuesta por posición. Es el caso
 		// del pareado, cuya medida declara por separado sus dos versos.
@@ -672,9 +723,7 @@ export function preguntasCompartidas(context: GridRowContext): PreguntaCompartid
 }
 
 /** Las secciones opcionales que están o no en todas las realizaciones de su contenedor. */
-export function seccionesOpcionalesUniformes(
-	context: GridRowContext
-): MetricCatalogDomainRow[] {
+export function seccionesOpcionalesUniformes(context: GridRowContext): MetricCatalogDomainRow[] {
 	const controladas = controlledSectionIds(context.options);
 	return context.sections.filter((section) => {
 		if (sectionMinimum(section) !== 0 || sectionMaximum(section) !== 1) return false;
@@ -717,8 +766,7 @@ export function firmaDeRespuesta(
 ): string {
 	return choices
 		.filter(
-			(choice) =>
-				choice.grupo_eleccion_id === groupId && choice.realizacion_prueba_id === unitId
+			(choice) => choice.grupo_eleccion_id === groupId && choice.realizacion_prueba_id === unitId
 		)
 		.map((choice) => `${choice.opcion_eleccion_id ?? ''}:${choice.valor_texto ?? ''}`)
 		.sort()
@@ -744,5 +792,6 @@ export function estadoDeRespuesta(
 	const todas = equivalentes.map((candidate) =>
 		firmaDeRespuesta(context.choices, groupId, candidate.realizacion_prueba_id)
 	);
-	return todas.every((firma) => firma === propia) ? 'igual' : 'propia';
+	if (todas.every((firma) => firma === propia)) return 'igual';
+	return todas.filter((firma) => firma === propia).length > 1 ? 'compartida' : 'propia';
 }

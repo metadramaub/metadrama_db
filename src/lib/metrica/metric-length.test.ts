@@ -47,8 +47,9 @@ describe('metric length validation', () => {
 	});
 
 	it('explica cómo resolver una incompatibilidad sin permitir ignorarla', () => {
-		const message = metricLengthError(rule(14, 0, 14), 1, 13, 'Soneto');
-		expect(message).toContain('13 versos');
+		const message = metricLengthError(rule(4, 0, 4), 116, 124, 'Simple', 'Seguidilla');
+		expect(message).toContain('«Seguidilla · Simple» exige');
+		expect(message).toContain('9 versos');
 		expect(message).toContain('fuente presenta una laguna');
 	});
 });

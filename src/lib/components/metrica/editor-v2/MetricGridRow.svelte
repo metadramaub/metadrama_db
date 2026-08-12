@@ -20,8 +20,10 @@
 		notaAyuda?: string;
 		/** Sangrado: 0 es la unidad, 1 sus secciones, 2 las partes de estas. */
 		depth?: number;
-		/** `comun` para lo que se responde de una vez; `resumen` para lo que la norma fija. */
-		variant?: 'normal' | 'comun' | 'resumen';
+		/** `grupo` abre un bloque estructural, como cada ciclo del villancico. */
+		variant?: 'normal' | 'comun' | 'resumen' | 'grupo';
+		actionLabel?: string;
+		onAction?: () => void;
 		children?: Snippet;
 	}>();
 
@@ -30,27 +32,36 @@
 </script>
 
 <div
-	class={`grid gap-x-4 gap-y-2 border-b border-[color:var(--border)] px-3 py-2 last:border-b-0 sm:grid-cols-[minmax(9rem,15rem)_minmax(0,1fr)] ${
+	class={`grid gap-x-4 gap-y-2 border-b border-[color:var(--border)] px-3 last:border-b-0 sm:grid-cols-[minmax(9rem,15rem)_minmax(0,1fr)] ${
 		variant === 'comun'
-			? 'bg-[color:var(--muted)]'
+			? 'bg-[color:var(--muted)] py-2'
 			: variant === 'resumen'
-				? 'bg-[color:var(--gray-50)]'
-				: 'bg-white'
+				? 'bg-[color:var(--gray-50)] py-2'
+				: variant === 'grupo'
+					? 'border-t border-t-[color:var(--border)] bg-[color:var(--muted)] py-3'
+					: 'bg-white py-2'
 	}`}
 >
 	<div
 		class={depth > 0 ? 'border-l border-[color:var(--border)] pl-3' : ''}
 		style={depth > 1 ? `margin-left:${(depth - 1) * 0.9}rem` : undefined}
 	>
-		<span
-			class={`block text-sm leading-snug ${
-				variant === 'resumen'
-					? 'text-[color:var(--muted-foreground)]'
-					: 'font-medium text-[color:var(--foreground)]'
-			}`}
-		>
-			{props.label}
-		</span>
+		<div class="flex items-start justify-between gap-2">
+			<span
+				class={`block text-sm leading-snug ${
+					variant === 'resumen'
+						? 'text-[color:var(--muted-foreground)]'
+						: 'font-medium text-[color:var(--foreground)]'
+				}`}
+			>
+				{props.label}
+			</span>
+			{#if props.actionLabel && props.onAction}
+				<button type="button" class="link-action shrink-0 text-xs" onclick={props.onAction}>
+					{props.actionLabel}
+				</button>
+			{/if}
+		</div>
 		{#if props.rango}
 			<span
 				class="block text-xs leading-snug tabular-nums text-[color:var(--muted-foreground)]"

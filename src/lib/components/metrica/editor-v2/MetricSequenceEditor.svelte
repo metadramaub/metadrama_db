@@ -22,7 +22,12 @@
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
 	import MetricLengthAlert from './MetricLengthAlert.svelte';
+	import MetricNormSummary from './MetricNormSummary.svelte';
+	import MetricStructureCoverage from './MetricStructureCoverage.svelte';
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
+	import { metricNormFacts } from './norm-summary';
+	import { compactRhymeNotation } from './rhyme-notation';
+	import { metricStructureCoverage } from './structure-coverage';
 	import {
 		childrenOfSection,
 		metricUnitPlan,
@@ -38,6 +43,7 @@
 		type MetricUnitDraft
 	} from './editor-model';
 	import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
+	import { targetUnitsForGroup } from './grid-rows';
 	import {
 		catalogParts,
 		defaultRelationFor,
@@ -115,14 +121,6 @@
 				props.initialUnitAnswers ?? []
 			);
 
-			const plan = unitPlanFor(props.catalog, initial.arquitectura_id, parts.sections);
-			// Con una unidad de extensión variable el rango se calcula desde sus partes.
-			if (plan !== null && !plan.countFromRange) {
-				initial.v_fin = initial.unidades.reduce(
-					(maximum: number, unit: MetricUnitDraft) => Math.max(maximum, unit.v_fin),
-					initial.v_ini
-				);
-			}
 			return initial;
 		})
 	);
@@ -191,6 +189,34 @@
 			seRespondeDentroDeLaUnidad(row.alcance)
 		)
 	);
+	const dominantMetreSyllables = $derived.by(() => {
+		if (!draft.arquitectura_id) return null;
+		const patternIds = new Set(
+			props.catalog.domain.metricPatterns
+				.filter(
+					(pattern: MetricCatalogDomainRow) =>
+						pattern.arquitectura_id === draft.arquitectura_id
+				)
+				.map((pattern: MetricCatalogDomainRow) => String(pattern.esquema_metrico_id))
+		);
+		const metreIds = new Set(
+			props.catalog.domain.metricOptions
+				.filter(
+					(option: MetricCatalogDomainRow) =>
+						patternIds.has(String(option.esquema_metrico_id)) && option.rol === 'dominante'
+				)
+				.map((option: MetricCatalogDomainRow) => String(option.metro_id))
+		);
+		const syllables = [
+			...new Set(
+				props.catalog.domain.verseModels
+					.filter((metre: MetricCatalogDomainRow) => metreIds.has(String(metre.metro_id)))
+					.map((metre: MetricCatalogDomainRow) => Number(metre.silabas))
+					.filter((value: number) => Number.isFinite(value) && value > 0)
+			)
+		];
+		return syllables.length === 1 ? syllables[0] : null;
+	});
 	const choiceOptionsForDraft = $derived(
 		props.catalog.domain.choiceOptions.filter(
 			(row: MetricCatalogDomainRow) =>
@@ -198,7 +224,16 @@
 				choiceGroupsForDraft.some(
 					(group: MetricCatalogDomainRow) => group.grupo_eleccion_id === row.grupo_eleccion_id
 				)
-		)
+		).map((row: MetricCatalogDomainRow) => {
+			const metre = props.catalog.domain.verseModels.find(
+				(candidate: MetricCatalogDomainRow) => candidate.metro_id === row.metro_id
+			);
+			return {
+				...row,
+				metro_silabas: metre?.silabas ?? null,
+				metro_base_silabas: dominantMetreSyllables
+			};
+		})
 	);
 	const unitPlanForDraft = $derived(
 		metricUnitPlan(selectedConfiguration, sectionsForDraft, selectedForm?.nivel_estructural)
@@ -208,7 +243,16 @@
 		Boolean(unitPlanForDraft) &&
 			(unitChoiceGroups.length > 0 || sectionsForDraft.length > 0 || !hasDerivedUnitCount)
 	);
-	const hasCalculatedRange = $derived(Boolean(unitPlanForDraft) && !hasDerivedUnitCount);
+	const normFacts = $derived(
+		draft.arquitectura_id
+			? metricNormFacts({
+					architectureId: draft.arquitectura_id,
+					domain: props.catalog.domain,
+					unitPlan: unitPlanForDraft,
+					lengthRule: selectedLengthRule
+				})
+			: []
+	);
 	const hasSequenceChoices = $derived(sequenceChoiceGroups.length > 0);
 	const materializedUnitCount = $derived(
 		unitPlanForDraft
@@ -218,12 +262,13 @@
 				).length
 			: 0
 	);
+	const structureCoverage = $derived(
+		metricStructureCoverage(draft.v_ini, draft.v_fin, draft.unidades)
+	);
 
-	// La medida se pregunta en cada sección con versos, así que un villancico isosilábico
-	// obliga a responder seis veces lo mismo. La pregunta única las responde todas de golpe y
-	// vive donde le corresponde: en la composición, que es la realización de la que habla. Ya
-	// no esconde las de cada sección —eso era uno de los seis interruptores—; las de sección
-	// siguen visibles en su fila, y lo que se guarda sigue siendo la medida de cada una.
+	// Algunas arquitecturas no cíclicas pueden compartir la medida de varias secciones. Las
+	// composiciones variables se excluyen: mezclar composición, sección y ciclo en una zona
+	// común confundía más de lo que ahorraba, y se responden directamente por partes.
 	const measureGroups = $derived(
 		unitChoiceGroups.filter(
 			(group: MetricCatalogDomainRow) =>
@@ -269,8 +314,14 @@
 			? measureAnswers.metres[0]
 			: null
 	);
-	/** Cuándo hay una medida que valga para toda la composición: cuando hay varias secciones. */
-	const hasCompositionMeasure = $derived(measureGroups.length >= 2);
+	const hasCompositionMeasure = $derived(
+		measureGroups.length >= 2 &&
+			!Boolean(
+				unitPlanForDraft &&
+					!unitPlanForDraft.countFromRange &&
+					sectionsForDraft.length > 0
+			)
+	);
 
 	const identificationResolved = $derived(
 		Boolean(draft.forma_id) && (isEditorialOutput || Boolean(draft.arquitectura_id))
@@ -361,7 +412,7 @@
 	}
 
 	function normalizeRhymeScheme(value: string): string {
-		return value.replace(/\s+/g, '').toLocaleUpperCase('es');
+		return compactRhymeNotation(value);
 	}
 
 	function setChoices(groupId: string, unitId: string | null, optionIds: string[]) {
@@ -410,11 +461,7 @@
 
 	/** Las realizaciones a las que se dirige una pregunta por unidad. */
 	function unitsForGroup(group: MetricCatalogDomainRow): MetricUnitDraft[] {
-		return draft.unidades.filter((unit: MetricUnitDraft) =>
-			group.seccion_id
-				? String(group.seccion_id) === unit.seccion_id
-				: unit.realizacion_padre_id === null
-		);
+		return targetUnitsForGroup(draft.unidades, group, choiceOptionsForDraft);
 	}
 
 	/** Responde de una vez la medida de todas las secciones con versos. */
@@ -461,7 +508,6 @@
 
 	function resetForConfiguration(configurationId: string) {
 		draft.arquitectura_id = configurationId;
-		const previousLength = Math.max(1, draft.v_fin - draft.v_ini + 1);
 		draft.unidades = normalizeStructuredUnits(
 			props.catalog,
 			[],
@@ -472,14 +518,6 @@
 		);
 		draft.elecciones = [];
 		draft.desviaciones = [];
-		const parts = catalogParts(props.catalog, configurationId);
-		const plan = unitPlanFor(props.catalog, configurationId, parts.sections);
-		if (plan && (!plan.countFromRange || previousLength < (plan.extent?.minimum ?? 1))) {
-			draft.v_fin = draft.unidades.reduce(
-				(maximum: number, unit: MetricUnitDraft) => Math.max(maximum, unit.v_fin),
-				draft.v_ini
-			);
-		}
 	}
 
 	function changeForm(formId: string) {
@@ -573,10 +611,6 @@
 			draft.elecciones,
 			choiceOptionsForDraft
 		);
-		draft.v_fin = draft.unidades.reduce(
-			(maximum: number, unit: MetricUnitDraft) => Math.max(maximum, unit.v_fin),
-			draft.v_ini
-		);
 	}
 
 	function updateSequenceEnd(value: number) {
@@ -663,9 +697,16 @@
 			selectedLengthRule,
 			draft.v_ini,
 			draft.v_fin,
-			selectedConfiguration?.nombre
+			selectedConfiguration?.nombre,
+			selectedForm?.nombre
 		);
 		if (lengthError) return lengthError;
+		if (hasStructuredEditor && structureCoverage.state !== 'complete') {
+			const difference = Math.abs(structureCoverage.difference);
+			return structureCoverage.state === 'missing'
+				? `La estructura deja ${difference} ${difference === 1 ? 'verso' : 'versos'} del rango sin asignar.`
+				: `La estructura rebasa el rango declarado en ${difference} ${difference === 1 ? 'verso' : 'versos'}.`;
+		}
 		for (const unit of draft.unidades) {
 			if (unit.v_fin < unit.v_ini || unit.v_ini < draft.v_ini || unit.v_fin > draft.v_fin) {
 				return `La unidad ${unit.orden} queda fuera del rango de la secuencia.`;
@@ -896,26 +937,26 @@
 
 	<!-- Cuerpo: una cosa cada vez. Lo métrico va junto, bajo un solo título. -->
 	<div class="min-w-0 space-y-4 bg-[color:var(--gray-50)] p-5">
-		<!--
-			La identificación se pliega sola en cuanto está resuelta, y se abre con «Cambiar
-			versos o forma». No lleva encima un segundo plegado que diga lo mismo: eran dos
-			resúmenes de la misma cosa, y uno de los seis interruptores que sobraban.
-		-->
-		<section id="identificacion" class="space-y-4">
+		<!-- El bloque métrico es un panel principal, al mismo nivel que caracterizaciones,
+		     sinopsis y comentarios. Sus títulos internos son subsecciones, no paneles hermanos. -->
+		<section id="identificacion" class="border border-[color:var(--border)] bg-white">
+			<div
+				class="flex flex-wrap items-center justify-between gap-2 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-4 py-2.5"
+			>
+				<h3 class="form-panel-title">Versos y forma</h3>
+				{#if identificationResolved && identificationForced}
+					<button
+						type="button"
+						class="link-action"
+						onclick={() => (identificationForced = false)}
+					>
+						Plegar identificación
+					</button>
+				{/if}
+			</div>
+			<div class="space-y-6 p-4">
 			{#if identificationOpen}
-				<div>
-					<div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-						<h4 class="form-section-title mb-0">Versos y forma</h4>
-						{#if identificationResolved && identificationForced}
-							<button
-								type="button"
-								class="link-action"
-								onclick={() => (identificationForced = false)}
-							>
-								Plegar
-							</button>
-						{/if}
-					</div>
+				<div class="space-y-3">
 				<div class="grid gap-3 sm:grid-cols-2">
 					<label class="form-field">
 						<span class="form-label">Verso inicial</span>
@@ -928,16 +969,14 @@
 						/>
 					</label>
 					<label class="form-field">
-						<span class="form-label">
-							Verso final{hasCalculatedRange ? ' · calculado' : ''}
-						</span>
+						<span class="form-label">Verso final</span>
 						<input
 							type="number"
 							min="1"
 							class="h-10 w-full border border-[color:var(--border)] px-3 disabled:bg-[color:var(--muted)]"
 							value={draft.v_fin}
 							onchange={(event) => updateSequenceEnd(Number(event.currentTarget.value))}
-							disabled={hasCalculatedRange || isIsolatedVerse}
+							disabled={isIsolatedVerse}
 						/>
 					</label>
 				</div>
@@ -948,6 +987,7 @@
 						start={draft.v_ini}
 						end={draft.v_fin}
 						configurationName={selectedConfiguration?.nombre}
+						formName={selectedForm?.nombre}
 					/>
 					<div class="grid gap-3 lg:grid-cols-2">
 						<label class="form-field">
@@ -983,11 +1023,7 @@
 								</p>
 							</div>
 						{:else if draft.forma_id && !isEditorialOutput}
-							<!-- La pregunta la declara la forma; «Arquitectura» es lo que se dice
-							     cuando no hay una manera mejor de decirlo. -->
-							{@const architectureLabel = `${
-								selectedForm?.pregunta_arquitectura?.trim() || 'Arquitectura'
-							} *`}
+							{@const architectureLabel = 'Arquitectura *'}
 							{@const architectureItems = configurationsForDraft.map(
 								(configuration: MetricCatalogConfiguration) => ({
 									id: configuration.arquitectura_id,
@@ -1021,38 +1057,15 @@
 						{:else if selectedForm}
 							<div class="bg-amber-50 p-3 text-sm leading-6 text-amber-950">
 								<p class="font-medium">Salida editorial, no forma métrica</p>
-								<p class="mt-1">{selectedForm.definicion}</p>
 							</div>
 						{/if}
 					</div>
-					{#if selectedConfiguration}
-						<div class="text-sm leading-6 text-[color:var(--muted-foreground)]">
-							{#if selectedConfiguration.descripcion}
-								<p>{selectedConfiguration.descripcion}</p>
-							{/if}
-							{#if unitPlanForDraft && materializedUnitCount > 0}
-								<p>
-									{#if unitPlanForDraft.extent}
-										El rango se guarda como {materializedUnitCount}
-										{materializedUnitCount === 1 ? ' unidad' : ' unidades'} de
-										{hasDerivedUnitCount
-											? `${unitPlanForDraft.extent.minimum} versos`
-											: `${unitPlanForDraft.extent.minimum} a ${unitPlanForDraft.extent.maximum} versos`}.
-									{:else}
-										El pasaje contiene {materializedUnitCount}
-										{materializedUnitCount === 1 ? ' unidad' : ' unidades'}; el rango se calcula
-										desde sus partes.
-									{/if}
-								</p>
-							{/if}
-						</div>
-					{/if}
 				</div>
 				</div>
 			{:else}
 				<!-- Resuelta, la identificación pesa una línea: el sitio es para las preguntas. -->
 				<div
-					class="flex flex-wrap items-baseline justify-between gap-3 border border-[color:var(--border)] bg-white px-4 py-2.5 text-sm"
+					class="flex flex-wrap items-baseline justify-between gap-3 bg-[color:var(--gray-50)] px-3 py-2.5 text-sm"
 				>
 					<span>{identificationSummary}</span>
 					<button type="button" class="link-action" onclick={() => (identificationForced = true)}>
@@ -1060,12 +1073,16 @@
 					</button>
 				</div>
 			{/if}
-		</section>
+			{#if selectedConfiguration && selectedForm}
+				<div class="mt-3">
+					<MetricNormSummary facts={normFacts} catalogHref={`/formas/${selectedForm.slug}`} />
+				</div>
+			{/if}
 
 		{#if draft.arquitectura_id}
 			{#if hasSequenceChoices}
-				<section id="secuencia" class="space-y-4">
-					<h4 class="form-section-title mb-0">Datos de esta realización</h4>
+				<section id="secuencia" class="space-y-4 border-t border-[color:var(--border)] pt-5">
+					<h4 class="form-subsection-title mb-0">Datos de esta realización</h4>
 					{#each sequenceChoiceGroups as group (String(group.grupo_eleccion_id))}
 						<MetricChoiceField
 							{group}
@@ -1080,8 +1097,12 @@
 			{/if}
 
 			{#if hasStructuredEditor}
-				<section id="estructura" class="space-y-4">
-					<h4 class="form-section-title mb-0">Estructura</h4>
+				<section id="estructura" class="space-y-4 border-t border-[color:var(--border)] pt-5">
+					<h4 class="form-subsection-title mb-0">Estructura</h4>
+					<MetricStructureCoverage
+						coverage={structureCoverage}
+						unitCount={materializedUnitCount}
+					/>
 
 					{#key `${draft.secuencia_prueba_id ?? 'nueva'}-${draft.arquitectura_id}`}
 						<MetricStructureEditor
@@ -1098,7 +1119,6 @@
 							onUnitsChange={(units) => (draft.unidades = units)}
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}
-							onRangeChange={(end) => (draft.v_fin = end)}
 						/>
 					{/key}
 				</section>
@@ -1107,10 +1127,10 @@
 			{#if draft.desviaciones.length > 0}
 				<section
 					id="desviaciones"
-					class="space-y-4"
+					class="space-y-4 border-t border-[color:var(--border)] pt-5"
 				>
 					<div class="flex flex-wrap items-center justify-between gap-3">
-						<h4 class="form-section-title mb-0">
+						<h4 class="form-subsection-title mb-0">
 							<span class="form-label-with-help">
 								Desviaciones
 								<FieldHelpTooltip
@@ -1244,8 +1264,8 @@
 			     secuencia va a los comentarios internos, que ya se anclan a ella, se tipifican
 			     y pueden hacerse públicos. Duplicarlo aquí partiría el mismo trabajo en dos. -->
 		{:else if isEditorialOutput}
-			<section id="observaciones">
-				<h4 class="form-section-title">Observación opcional</h4>
+			<section id="observaciones" class="border-t border-[color:var(--border)] pt-5">
+				<h4 class="form-subsection-title">Observación opcional</h4>
 				<label class="form-field">
 					<span class="sr-only">Observación opcional</span>
 					<textarea
@@ -1259,6 +1279,8 @@
 				</label>
 			</section>
 		{/if}
+			</div>
+		</section>
 
 		<!-- El resto de la secuencia: no es métrico, pero el editor lo rellena en la misma
 		     pasada, así que se ve en el mismo flujo y no en una columna aparte. -->
@@ -1266,11 +1288,7 @@
 	</div>
 </div>
 
-<!--
-	La medida de toda la composición: una fila más de la rejilla, la primera. No esconde las
-	de cada sección, que siguen visibles en su fila; solo las responde todas de una vez, que
-	es lo que evita decir «octosílabo» siete veces en un villancico de tres ciclos.
--->
+<!-- La medida común de arquitecturas no cíclicas con varias secciones. -->
 {#snippet compositionMeasure()}
 	<MetricGridRow
 		label="Medida de los versos"
@@ -1308,10 +1326,6 @@
 					Varían por sección; cada una conserva la suya
 				</span>
 			{/if}
-			<FieldHelpTooltip
-				text="Lo habitual es que toda la composición use una sola medida. Responde aquí las de todas las secciones a la vez, y corrige después la que difiera en su propia fila."
-				label="Ayuda sobre la medida de los versos"
-			/>
 		</div>
 	</MetricGridRow>
 {/snippet}

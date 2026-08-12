@@ -14,6 +14,8 @@ import {
 	estadoDeRespuesta,
 	preguntasCompartidas,
 	seccionesOpcionalesUniformes,
+	unitsForGroup,
+	usaRespuestasPorPartes,
 	type GridRow,
 	type GridRowContext
 } from './grid-rows';
@@ -62,9 +64,7 @@ function pintar(rows: GridRow[]): string[] {
 			return `${sangria}[${row.modo}] ${row.label} · ${row.cuantas}`;
 		}
 		if (row.kind === 'pregunta') {
-			const preguntas = row.preguntas
-				.map((pregunta) => String(pregunta.group.slug))
-				.join(', ');
+			const preguntas = row.preguntas.map((pregunta) => String(pregunta.group.slug)).join(', ');
 			return `${sangria}${row.label} · sin versos materializados · ${preguntas}`;
 		}
 		const preguntas = row.preguntas.map((pregunta) => String(pregunta.group.slug)).join(', ');
@@ -94,8 +94,22 @@ const quintillaGrupo: MetricCatalogDomainRow = {
 };
 
 const quintillaOpciones: MetricCatalogDomainRow[] = [
-	{ opcion_eleccion_id: 'o-abaab', grupo_eleccion_id: 'g-quintilla', slug: 'abaab', nombre: 'Tipología 3 · abaab', orden: 3, activo: true },
-	{ opcion_eleccion_id: 'o-aabba', grupo_eleccion_id: 'g-quintilla', slug: 'aabba', nombre: 'Tipología 5 · aabba', orden: 5, activo: true }
+	{
+		opcion_eleccion_id: 'o-abaab',
+		grupo_eleccion_id: 'g-quintilla',
+		slug: 'abaab',
+		nombre: 'Tipología 3 · abaab',
+		orden: 3,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'o-aabba',
+		grupo_eleccion_id: 'g-quintilla',
+		slug: 'aabba',
+		nombre: 'Tipología 5 · aabba',
+		orden: 5,
+		activo: true
+	}
 ];
 
 function quintilla(vIni: number, vFin: number) {
@@ -136,28 +150,58 @@ describe('quintilla · dos unidades de cinco versos', () => {
 		const ctx = quintilla(116, 125);
 		const [primera, segunda] = ctx.units;
 		ctx.choices = [
-			{ realizacion_prueba_id: primera.realizacion_prueba_id, grupo_eleccion_id: 'g-quintilla', opcion_eleccion_id: 'o-abaab', valor_texto: null, observaciones: null },
-			{ realizacion_prueba_id: segunda.realizacion_prueba_id, grupo_eleccion_id: 'g-quintilla', opcion_eleccion_id: 'o-abaab', valor_texto: null, observaciones: null }
+			{
+				realizacion_prueba_id: primera.realizacion_prueba_id,
+				grupo_eleccion_id: 'g-quintilla',
+				opcion_eleccion_id: 'o-abaab',
+				valor_texto: null,
+				observaciones: null
+			},
+			{
+				realizacion_prueba_id: segunda.realizacion_prueba_id,
+				grupo_eleccion_id: 'g-quintilla',
+				opcion_eleccion_id: 'o-abaab',
+				valor_texto: null,
+				observaciones: null
+			}
 		];
 		expect(estadoDeRespuesta(ctx, quintillaGrupo, primera)).toBe('igual');
 		expect(estadoDeRespuesta(ctx, quintillaGrupo, segunda)).toBe('igual');
 
 		// La segunda se cambia: se guardan dos respuestas distintas, una por unidad.
-		ctx.choices = [
-			ctx.choices[0],
-			{ ...ctx.choices[1], opcion_eleccion_id: 'o-aabba' }
-		];
+		ctx.choices = [ctx.choices[0], { ...ctx.choices[1], opcion_eleccion_id: 'o-aabba' }];
 		expect(estadoDeRespuesta(ctx, quintillaGrupo, primera)).toBe('propia');
 		expect(estadoDeRespuesta(ctx, quintillaGrupo, segunda)).toBe('propia');
-		expect(ctx.choices.map((choice) => choice.opcion_eleccion_id)).toEqual([
-			'o-abaab',
-			'o-aabba'
-		]);
+		expect(ctx.choices.map((choice) => choice.opcion_eleccion_id)).toEqual(['o-abaab', 'o-aabba']);
 	});
 
 	it('sin responder no se atenúa: es lo que falta', () => {
 		const ctx = quintilla(116, 125);
 		expect(estadoDeRespuesta(ctx, quintillaGrupo, ctx.units[0])).toBe('sin_responder');
+	});
+
+	it('distingue una respuesta compartida por varias unidades de una excepción individual', () => {
+		const ctx = quintilla(116, 130);
+		const [primera, segunda, tercera] = ctx.units;
+		ctx.choices = [
+			...([primera, segunda].map((unit) => ({
+				realizacion_prueba_id: unit.realizacion_prueba_id,
+				grupo_eleccion_id: 'g-quintilla',
+				opcion_eleccion_id: 'o-abaab',
+				valor_texto: null,
+				observaciones: null
+			}))),
+			{
+				realizacion_prueba_id: tercera.realizacion_prueba_id,
+				grupo_eleccion_id: 'g-quintilla',
+				opcion_eleccion_id: 'o-aabba',
+				valor_texto: null,
+				observaciones: null
+			}
+		];
+		expect(estadoDeRespuesta(ctx, quintillaGrupo, primera)).toBe('compartida');
+		expect(estadoDeRespuesta(ctx, quintillaGrupo, segunda)).toBe('compartida');
+		expect(estadoDeRespuesta(ctx, quintillaGrupo, tercera)).toBe('propia');
 	});
 
 	it('ocho unidades son ocho filas, que es lo que el IP aceptó', () => {
@@ -202,12 +246,62 @@ const pareadoRima: MetricCatalogDomainRow = {
 };
 
 const pareadoOpciones: MetricCatalogDomainRow[] = [
-	{ opcion_eleccion_id: 'p-v1-8', grupo_eleccion_id: 'g-medida-pareado', slug: 'verso-1-octosilabo', nombre: 'Verso 1 · Octosílabo', posicion_unidad: 1, metro_id: 'm-8', orden: 1, activo: true },
-	{ opcion_eleccion_id: 'p-v1-11', grupo_eleccion_id: 'g-medida-pareado', slug: 'verso-1-endecasilabo', nombre: 'Verso 1 · Endecasílabo', posicion_unidad: 1, metro_id: 'm-11', orden: 2, activo: true },
-	{ opcion_eleccion_id: 'p-v2-8', grupo_eleccion_id: 'g-medida-pareado', slug: 'verso-2-octosilabo', nombre: 'Verso 2 · Octosílabo', posicion_unidad: 2, metro_id: 'm-8', orden: 3, activo: true },
-	{ opcion_eleccion_id: 'p-v2-11', grupo_eleccion_id: 'g-medida-pareado', slug: 'verso-2-endecasilabo', nombre: 'Verso 2 · Endecasílabo', posicion_unidad: 2, metro_id: 'm-11', orden: 4, activo: true },
-	{ opcion_eleccion_id: 'p-aa', grupo_eleccion_id: 'g-rima-pareado', slug: 'asonante-aa', nombre: 'Asonante · aa', orden: 1, activo: true },
-	{ opcion_eleccion_id: 'p-AA', grupo_eleccion_id: 'g-rima-pareado', slug: 'consonante-aa', nombre: 'Consonante · aa', orden: 2, activo: true }
+	{
+		opcion_eleccion_id: 'p-v1-8',
+		grupo_eleccion_id: 'g-medida-pareado',
+		slug: 'verso-1-octosilabo',
+		nombre: 'Verso 1 · Octosílabo',
+		posicion_unidad: 1,
+		metro_id: 'm-8',
+		orden: 1,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'p-v1-11',
+		grupo_eleccion_id: 'g-medida-pareado',
+		slug: 'verso-1-endecasilabo',
+		nombre: 'Verso 1 · Endecasílabo',
+		posicion_unidad: 1,
+		metro_id: 'm-11',
+		orden: 2,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'p-v2-8',
+		grupo_eleccion_id: 'g-medida-pareado',
+		slug: 'verso-2-octosilabo',
+		nombre: 'Verso 2 · Octosílabo',
+		posicion_unidad: 2,
+		metro_id: 'm-8',
+		orden: 3,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'p-v2-11',
+		grupo_eleccion_id: 'g-medida-pareado',
+		slug: 'verso-2-endecasilabo',
+		nombre: 'Verso 2 · Endecasílabo',
+		posicion_unidad: 2,
+		metro_id: 'm-11',
+		orden: 4,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'p-aa',
+		grupo_eleccion_id: 'g-rima-pareado',
+		slug: 'asonante-aa',
+		nombre: 'Asonante · aa',
+		orden: 1,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'p-AA',
+		grupo_eleccion_id: 'g-rima-pareado',
+		slug: 'consonante-aa',
+		nombre: 'Consonante · aa',
+		orden: 2,
+		activo: true
+	}
 ];
 
 function pareado(vIni: number, vFin: number) {
@@ -242,8 +336,20 @@ describe('pareado · dos dísticos', () => {
 	it('la medida sigue siendo dos elecciones guardadas por cada dístico', () => {
 		const ctx = pareado(116, 119);
 		ctx.choices = ctx.units.flatMap((unit) => [
-			{ realizacion_prueba_id: unit.realizacion_prueba_id, grupo_eleccion_id: 'g-medida-pareado', opcion_eleccion_id: 'p-v1-8', valor_texto: null, observaciones: null },
-			{ realizacion_prueba_id: unit.realizacion_prueba_id, grupo_eleccion_id: 'g-medida-pareado', opcion_eleccion_id: 'p-v2-8', valor_texto: null, observaciones: null }
+			{
+				realizacion_prueba_id: unit.realizacion_prueba_id,
+				grupo_eleccion_id: 'g-medida-pareado',
+				opcion_eleccion_id: 'p-v1-8',
+				valor_texto: null,
+				observaciones: null
+			},
+			{
+				realizacion_prueba_id: unit.realizacion_prueba_id,
+				grupo_eleccion_id: 'g-medida-pareado',
+				opcion_eleccion_id: 'p-v2-8',
+				valor_texto: null,
+				observaciones: null
+			}
 		]);
 		expect(ctx.choices).toHaveLength(4);
 		expect(estadoDeRespuesta(ctx, pareadoMedida, ctx.units[0])).toBe('igual');
@@ -259,14 +365,62 @@ const SONETO_PLAN: MetricUnitPlan = {
 };
 
 const sonetoSecciones: MetricCatalogDomainRow[] = [
-	{ seccion_id: 's-cuarteto', seccion_padre_id: null, slug: 'cuarteto', tipo_seccion: 'cuarteto', nombre: 'Cuartetos', orden: 1, repeticiones_min: 2, repeticiones_max: 2, versos_min: 4, versos_max: 4 },
-	{ seccion_id: 's-terceto', seccion_padre_id: null, slug: 'terceto', tipo_seccion: 'terceto', nombre: 'Tercetos', orden: 2, repeticiones_min: 2, repeticiones_max: 2, versos_min: 3, versos_max: 3 }
+	{
+		seccion_id: 's-cuarteto',
+		seccion_padre_id: null,
+		slug: 'cuarteto',
+		tipo_seccion: 'cuarteto',
+		nombre: 'Cuartetos',
+		orden: 1,
+		repeticiones_min: 2,
+		repeticiones_max: 2,
+		versos_min: 4,
+		versos_max: 4
+	},
+	{
+		seccion_id: 's-terceto',
+		seccion_padre_id: null,
+		slug: 'terceto',
+		tipo_seccion: 'terceto',
+		nombre: 'Tercetos',
+		orden: 2,
+		repeticiones_min: 2,
+		repeticiones_max: 2,
+		versos_min: 3,
+		versos_max: 3
+	}
 ];
 
 // Las dos preguntas cuelgan de la unidad —`seccion_id` nulo—, no de sus secciones.
 const sonetoGrupos: MetricCatalogDomainRow[] = [
-	{ grupo_eleccion_id: 'g-cuartetos', slug: 'esquema_cuartetos', nombre: 'Cuartetos · Esquema de rima', dimension: 'rima', alcance: 'unidad', tipo_control: 'opciones', permite_aplicar_global: true, selecciones_min: 1, selecciones_max: 1, seccion_id: null, orden: 1, activo: true },
-	{ grupo_eleccion_id: 'g-tercetos', slug: 'esquema_tercetos', nombre: 'Tercetos · Esquema de rima', dimension: 'rima', alcance: 'unidad', tipo_control: 'opciones', permite_aplicar_global: false, selecciones_min: 1, selecciones_max: 1, seccion_id: null, orden: 1, activo: true }
+	{
+		grupo_eleccion_id: 'g-cuartetos',
+		slug: 'esquema_cuartetos',
+		nombre: 'Cuartetos · Esquema de rima',
+		dimension: 'rima',
+		alcance: 'unidad',
+		tipo_control: 'opciones',
+		permite_aplicar_global: true,
+		selecciones_min: 1,
+		selecciones_max: 1,
+		seccion_id: null,
+		orden: 1,
+		activo: true
+	},
+	{
+		grupo_eleccion_id: 'g-tercetos',
+		slug: 'esquema_tercetos',
+		nombre: 'Tercetos · Esquema de rima',
+		dimension: 'rima',
+		alcance: 'unidad',
+		tipo_control: 'opciones',
+		permite_aplicar_global: false,
+		selecciones_min: 1,
+		selecciones_max: 1,
+		seccion_id: null,
+		orden: 1,
+		activo: true
+	}
 ];
 
 // Las dos preguntas no declaran sección, pero sus esquemas sí: es lo que dice de cuál hablan.
@@ -277,20 +431,46 @@ const sonetoEsquemas: MetricCatalogDomainRow[] = [
 	{ esquema_rima_id: 'e-t2', seccion_id: 's-terceto' }
 ];
 const sonetoOpciones: MetricCatalogDomainRow[] = [
-	{ opcion_eleccion_id: 'sc1', grupo_eleccion_id: 'g-cuartetos', esquema_rima_id: 'e-c1', slug: 'abba', nombre: 'Cuartetos de rima abrazada · ABBA ABBA', orden: 1, activo: true },
-	{ opcion_eleccion_id: 'sc2', grupo_eleccion_id: 'g-cuartetos', esquema_rima_id: 'e-c2', slug: 'abab', nombre: 'Cuartetos de rima cruzada · ABAB ABAB', orden: 2, activo: true },
-	{ opcion_eleccion_id: 'st1', grupo_eleccion_id: 'g-tercetos', esquema_rima_id: 'e-t1', slug: 'cdcdcd', nombre: 'Tercetos de rima cruzada · CDC DCD', orden: 1, activo: true },
-	{ opcion_eleccion_id: 'st2', grupo_eleccion_id: 'g-tercetos', esquema_rima_id: 'e-t2', slug: 'cdecde', nombre: 'Tercetos de rima paralela · CDE CDE', orden: 3, activo: true }
+	{
+		opcion_eleccion_id: 'sc1',
+		grupo_eleccion_id: 'g-cuartetos',
+		esquema_rima_id: 'e-c1',
+		slug: 'abba',
+		nombre: 'Cuartetos de rima abrazada · ABBA ABBA',
+		orden: 1,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'sc2',
+		grupo_eleccion_id: 'g-cuartetos',
+		esquema_rima_id: 'e-c2',
+		slug: 'abab',
+		nombre: 'Cuartetos de rima cruzada · ABAB ABAB',
+		orden: 2,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'st1',
+		grupo_eleccion_id: 'g-tercetos',
+		esquema_rima_id: 'e-t1',
+		slug: 'cdcdcd',
+		nombre: 'Tercetos de rima cruzada · CDC DCD',
+		orden: 1,
+		activo: true
+	},
+	{
+		opcion_eleccion_id: 'st2',
+		grupo_eleccion_id: 'g-tercetos',
+		esquema_rima_id: 'e-t2',
+		slug: 'cdecde',
+		nombre: 'Tercetos de rima paralela · CDE CDE',
+		orden: 3,
+		activo: true
+	}
 ];
 
 function soneto(vIni: number, vFin: number) {
-	const { units } = syncRepeatedMetricUnits(
-		[],
-		sonetoSecciones,
-		SONETO_PLAN.extent,
-		vIni,
-		vFin
-	);
+	const { units } = syncRepeatedMetricUnits([], sonetoSecciones, SONETO_PLAN.extent, vIni, vFin);
 	return contexto({
 		sections: sonetoSecciones,
 		groups: sonetoGrupos,
@@ -360,26 +540,181 @@ describe('soneto · tres seguidos', () => {
 // ───────────────────────────── Villancico ─────────────────────────────
 
 const villancicoSecciones: MetricCatalogDomainRow[] = [
-	{ seccion_id: 's-cabeza', seccion_padre_id: null, slug: 'cabeza', tipo_seccion: 'estribillo', nombre: 'Cabeza', orden: 1, repeticiones_min: 1, repeticiones_max: 1, versos_min: 2, versos_max: 4 },
-	{ seccion_id: 's-ciclo', seccion_padre_id: null, slug: 'ciclo_copla', tipo_seccion: 'ciclo_copla', nombre: 'Ciclo de copla y estribillo', orden: 2, repeticiones_min: 1, repeticiones_max: null, versos_min: null, versos_max: null },
-	{ seccion_id: 's-copla', seccion_padre_id: 's-ciclo', slug: 'copla', tipo_seccion: 'copla', nombre: 'Copla', orden: 1, repeticiones_min: 1, repeticiones_max: 1, versos_min: null, versos_max: null },
-	{ seccion_id: 's-represa', seccion_padre_id: 's-ciclo', slug: 'represa', tipo_seccion: 'estribillo', nombre: 'Repetición del estribillo', orden: 2, repeticiones_min: 0, repeticiones_max: 1, versos_min: 1, versos_max: 4 },
-	{ seccion_id: 's-mudanza', seccion_padre_id: 's-copla', slug: 'mudanza', tipo_seccion: 'mudanza', nombre: 'Mudanza', orden: 1, repeticiones_min: 1, repeticiones_max: 1, versos_min: 4, versos_max: 4 },
-	{ seccion_id: 's-enlace', seccion_padre_id: 's-copla', slug: 'enlace_vuelta', tipo_seccion: 'enlace_vuelta', nombre: 'Enlace o vuelta', orden: 2, repeticiones_min: 0, repeticiones_max: 1, versos_min: 1, versos_max: null }
+	{
+		seccion_id: 's-cabeza',
+		seccion_padre_id: null,
+		slug: 'cabeza',
+		tipo_seccion: 'estribillo',
+		nombre: 'Cabeza',
+		orden: 1,
+		repeticiones_min: 1,
+		repeticiones_max: 1,
+		versos_min: 2,
+		versos_max: 4
+	},
+	{
+		seccion_id: 's-ciclo',
+		seccion_padre_id: null,
+		slug: 'ciclo_copla',
+		tipo_seccion: 'ciclo_copla',
+		nombre: 'Ciclo de copla y estribillo',
+		orden: 2,
+		repeticiones_min: 1,
+		repeticiones_max: null,
+		versos_min: null,
+		versos_max: null
+	},
+	{
+		seccion_id: 's-copla',
+		seccion_padre_id: 's-ciclo',
+		slug: 'copla',
+		tipo_seccion: 'copla',
+		nombre: 'Copla',
+		orden: 1,
+		repeticiones_min: 1,
+		repeticiones_max: 1,
+		versos_min: null,
+		versos_max: null
+	},
+	{
+		seccion_id: 's-represa',
+		seccion_padre_id: 's-ciclo',
+		slug: 'represa',
+		tipo_seccion: 'estribillo',
+		nombre: 'Repetición del estribillo',
+		orden: 2,
+		repeticiones_min: 0,
+		repeticiones_max: 1,
+		versos_min: 1,
+		versos_max: 4
+	},
+	{
+		seccion_id: 's-mudanza',
+		seccion_padre_id: 's-copla',
+		slug: 'mudanza',
+		tipo_seccion: 'mudanza',
+		nombre: 'Mudanza',
+		orden: 1,
+		repeticiones_min: 1,
+		repeticiones_max: 1,
+		versos_min: 4,
+		versos_max: 4
+	},
+	{
+		seccion_id: 's-enlace',
+		seccion_padre_id: 's-copla',
+		slug: 'enlace_vuelta',
+		tipo_seccion: 'enlace_vuelta',
+		nombre: 'Enlace o vuelta',
+		orden: 2,
+		repeticiones_min: 0,
+		repeticiones_max: 1,
+		versos_min: 1,
+		versos_max: null
+	}
 ];
 
 const villancicoGrupos: MetricCatalogDomainRow[] = [
-	{ grupo_eleccion_id: 'g-medida-cabeza', slug: 'medida_cabeza', nombre: 'Cabeza · Medida de los versos', dimension: 'metro', alcance: 'unidad', tipo_control: 'opciones', permite_aplicar_global: true, selecciones_min: 1, selecciones_max: 1, seccion_id: 's-cabeza', orden: 1, activo: true },
-	{ grupo_eleccion_id: 'g-medida-mudanza', slug: 'medida_mudanza', nombre: 'Mudanza · Medida de los versos', dimension: 'metro', alcance: 'unidad', tipo_control: 'opciones', permite_aplicar_global: true, selecciones_min: 1, selecciones_max: 1, seccion_id: 's-mudanza', orden: 2, activo: true },
-	{ grupo_eleccion_id: 'g-rima-mudanza', slug: 'rima_mudanza', nombre: 'Mudanza · Esquema de rima', dimension: 'rima', alcance: 'unidad', tipo_control: 'opciones', permite_aplicar_global: true, selecciones_min: 1, selecciones_max: 1, seccion_id: 's-mudanza', orden: 2, activo: true },
-	{ grupo_eleccion_id: 'g-represa', slug: 'represa_estribillo', nombre: 'Repetición del estribillo', dimension: 'repeticion', alcance: 'realizacion', tipo_control: 'opciones', permite_aplicar_global: true, selecciones_min: 1, selecciones_max: 1, seccion_id: 's-ciclo', orden: 3, activo: true },
-	{ grupo_eleccion_id: 'g-medida-enlace', slug: 'medida_enlace_vuelta', nombre: 'Enlace o vuelta · Medida de los versos', dimension: 'metro', alcance: 'unidad', tipo_control: 'opciones', permite_aplicar_global: true, selecciones_min: 1, selecciones_max: 1, seccion_id: 's-enlace', orden: 3, activo: true }
+	{
+		grupo_eleccion_id: 'g-medida-cabeza',
+		slug: 'medida_cabeza',
+		nombre: 'Cabeza · Medida de los versos',
+		dimension: 'metro',
+		alcance: 'unidad',
+		tipo_control: 'opciones',
+		permite_aplicar_global: true,
+		selecciones_min: 1,
+		selecciones_max: 1,
+		seccion_id: 's-cabeza',
+		orden: 1,
+		activo: true
+	},
+	{
+		grupo_eleccion_id: 'g-medida-mudanza',
+		slug: 'medida_mudanza',
+		nombre: 'Mudanza · Medida de los versos',
+		dimension: 'metro',
+		alcance: 'unidad',
+		tipo_control: 'opciones',
+		permite_aplicar_global: true,
+		selecciones_min: 1,
+		selecciones_max: 1,
+		seccion_id: 's-mudanza',
+		orden: 2,
+		activo: true
+	},
+	{
+		grupo_eleccion_id: 'g-rima-mudanza',
+		slug: 'rima_mudanza',
+		nombre: 'Mudanza · Esquema de rima',
+		dimension: 'rima',
+		alcance: 'unidad',
+		tipo_control: 'opciones',
+		permite_aplicar_global: true,
+		selecciones_min: 1,
+		selecciones_max: 1,
+		seccion_id: 's-mudanza',
+		orden: 2,
+		activo: true
+	},
+	{
+		grupo_eleccion_id: 'g-represa',
+		slug: 'represa_estribillo',
+		nombre: 'Repetición del estribillo',
+		dimension: 'repeticion',
+		alcance: 'realizacion',
+		tipo_control: 'opciones',
+		permite_aplicar_global: true,
+		selecciones_min: 1,
+		selecciones_max: 1,
+		seccion_id: 's-ciclo',
+		orden: 3,
+		activo: true
+	},
+	{
+		grupo_eleccion_id: 'g-medida-enlace',
+		slug: 'medida_enlace_vuelta',
+		nombre: 'Enlace o vuelta · Medida de los versos',
+		dimension: 'metro',
+		alcance: 'unidad',
+		tipo_control: 'opciones',
+		permite_aplicar_global: true,
+		selecciones_min: 1,
+		selecciones_max: 1,
+		seccion_id: 's-enlace',
+		orden: 3,
+		activo: true
+	}
 ];
 
 const villancicoOpciones: MetricCatalogDomainRow[] = [
-	{ opcion_eleccion_id: 'o-represa-entera', grupo_eleccion_id: 'g-represa', slug: 'total', nombre: 'Se repite entero', orden: 1, activo: true, materializa_seccion_id: 's-represa', extension_desde_seccion_id: 's-cabeza' },
-	{ opcion_eleccion_id: 'o-represa-parcial', grupo_eleccion_id: 'g-represa', slug: 'parcial', nombre: 'Se repite solo en parte', orden: 2, activo: true, materializa_seccion_id: 's-represa' },
-	{ opcion_eleccion_id: 'o-represa-implicita', grupo_eleccion_id: 'g-represa', slug: 'implicita', nombre: 'Se sobreentiende, no está escrito', orden: 3, activo: true }
+	{
+		opcion_eleccion_id: 'o-represa-entera',
+		grupo_eleccion_id: 'g-represa',
+		slug: 'total',
+		nombre: 'Se repite entero',
+		orden: 1,
+		activo: true,
+		materializa_seccion_id: 's-represa',
+		extension_desde_seccion_id: 's-cabeza'
+	},
+	{
+		opcion_eleccion_id: 'o-represa-parcial',
+		grupo_eleccion_id: 'g-represa',
+		slug: 'parcial',
+		nombre: 'Se repite solo en parte',
+		orden: 2,
+		activo: true,
+		materializa_seccion_id: 's-represa'
+	},
+	{
+		opcion_eleccion_id: 'o-represa-implicita',
+		grupo_eleccion_id: 'g-represa',
+		slug: 'implicita',
+		nombre: 'Se sobreentiende, no está escrito',
+		orden: 3,
+		activo: true
+	}
 ];
 
 /** Un villancico con `ciclos` ciclos, con enlace y con el estribillo repetido entero. */
@@ -448,6 +783,78 @@ function villancico(ciclos: number) {
 	});
 }
 
+describe('canción petrarquista · la primera estancia declara el patrón', () => {
+	const estancia: MetricCatalogDomainRow = {
+		seccion_id: 's-estancia',
+		seccion_padre_id: null,
+		slug: 'estancia',
+		nombre: 'Estancia',
+		tipo_seccion: 'estancia',
+		orden: 1,
+		repeticiones_min: 3,
+		repeticiones_max: null,
+		versos_min: 5,
+		versos_max: 20,
+		primera_realizacion_define_patron: true
+	};
+	const medida: MetricCatalogDomainRow = {
+		grupo_eleccion_id: 'g-medida-estancia',
+		slug: 'medida_estancia',
+		nombre: 'Estancia · Medida de cada verso',
+		dimension: 'metro',
+		alcance: 'unidad',
+		seccion_id: 's-estancia',
+		define_norma: true,
+		permite_aplicar_global: true,
+		selecciones_min: 5,
+		selecciones_max: 20,
+		activo: true
+	};
+	const rima: MetricCatalogDomainRow = {
+		...medida,
+		grupo_eleccion_id: 'g-rima-estancia',
+		slug: 'esquema_rima_estancia',
+		nombre: 'Estancia · Esquema de rima observado',
+		dimension: 'rima',
+		tipo_control: 'esquema_rima',
+		selecciones_min: 1,
+		selecciones_max: 1
+	};
+	const units: MetricUnitDraft[] = [
+		{ realizacion_prueba_id: 'cancion', realizacion_padre_id: null, seccion_id: null, orden: 1, v_ini: 1, v_fin: 18, etiqueta: '', observaciones: '' },
+		{ realizacion_prueba_id: 'e1', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 1, v_ini: 1, v_fin: 6, etiqueta: '', observaciones: '' },
+		{ realizacion_prueba_id: 'e2', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 2, v_ini: 7, v_fin: 12, etiqueta: '', observaciones: '' },
+		{ realizacion_prueba_id: 'e3', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 3, v_ini: 13, v_fin: 18, etiqueta: '', observaciones: '' }
+	];
+
+	it('distingue la estancia modelo de sus resultados heredados', () => {
+		const rows = buildGridRows(
+			contexto({
+				sections: [estancia],
+				groups: [medida, rima],
+				units,
+				unitPlan: { extent: null, countFromRange: false },
+				unitLabel: 'Canción petrarquista'
+			})
+		);
+		expect(pintar(rows).slice(0, 3)).toEqual([
+			'Estancia modelo · vv. 1–6 · medida_estancia, esquema_rima_estancia · Declara el patrón que repiten las demás estancias',
+			'Estancia 2 · vv. 7–12 · medida_estancia, esquema_rima_estancia · Repite extensión, medidas y rima de la estancia modelo',
+			'Estancia 3 · vv. 13–18 · medida_estancia, esquema_rima_estancia · Repite extensión, medidas y rima de la estancia modelo'
+		]);
+		expect(
+			usaRespuestasPorPartes(
+				contexto({
+					sections: [estancia],
+					groups: [medida, rima],
+					units,
+					unitPlan: { extent: null, countFromRange: false }
+				})
+			)
+		).toBe(true);
+	});
+});
+
 describe('villancico · estribillo inicial, tres ciclos', () => {
 	it('dibuja la composición verso a verso, sin la copla, que no pregunta nada', () => {
 		// La cabeza nace con su mínimo —2 versos— y el enlace con el suyo —1—, que es lo que
@@ -466,10 +873,7 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 			'  Mudanza · vv. 17–20 · medida_mudanza, rima_mudanza · 4 versos fijos',
 			'  Enlace o vuelta · vv. 21–21 · medida_enlace_vuelta',
 			'  Repetición del estribillo · vv. 22–23 · represa_estribillo · 2 versos, calculados desde «Cabeza»',
-			'[contar] Ciclo de copla y estribillo · 3',
-			// La composición no declara su extensión, así que un segundo villancico se añade a
-			// mano. Mientras haya uno, no ocupa fila propia pero su cuenta sigue disponible.
-			'[contar] Villancico · 1'
+			'[anadir] Ciclo de copla y estribillo · 3'
 		]);
 	});
 
@@ -478,6 +882,18 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 		expect(rows.some((row) => row.kind === 'realizacion' && row.label === 'Villancico')).toBe(
 			false
 		);
+	});
+
+	it('presenta rima y medida como propiedades de la mudanza sin repetir su nombre', () => {
+		const mudanza = buildGridRows(villancico(1)).find(
+			(row) => row.kind === 'realizacion' && row.label === 'Mudanza'
+		);
+		expect(mudanza?.kind).toBe('realizacion');
+		if (mudanza?.kind !== 'realizacion') return;
+		expect(mudanza.preguntas.map((pregunta) => pregunta.label)).toEqual([
+			'Medida de los versos',
+			'Esquema de rima'
+		]);
 	});
 
 	it('ofrece arriba solo las preguntas que apuntan a dos o más realizaciones', () => {
@@ -490,6 +906,26 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 			'Mudanza · Medida de los versos',
 			'Repetición del estribillo'
 		]);
+	});
+
+	it('se responde por partes y no ofrece una segunda composición raíz', () => {
+		const ctx = villancico(2);
+		expect(usaRespuestasPorPartes(ctx)).toBe(true);
+		const acciones = buildGridRows(ctx).filter(
+			(row): row is Extract<GridRow, { kind: 'acciones' }> => row.kind === 'acciones'
+		);
+		expect(acciones.some((row) => row.section === null)).toBe(false);
+		expect(acciones.map((row) => row.section?.slug)).toContain('ciclo_copla');
+	});
+
+	it('diferencia cada ciclo como contenedor y permite quitarlo si sobra', () => {
+		const ciclos = buildGridRows(villancico(2)).filter(
+			(row) => row.kind === 'realizacion' && row.section?.slug === 'ciclo_copla'
+		);
+		expect(ciclos).toHaveLength(2);
+		expect(
+			ciclos.every((row) => row.kind === 'realizacion' && row.container && row.removable)
+		).toBe(true);
 	});
 
 	it('mantiene el atajo por sección aunque exista el de toda la composición', () => {
@@ -536,7 +972,7 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 		expect(rows).toContain(
 			'Ciclo de copla y estribillo · vv. 3–9 · rango calculado desde sus partes'
 		);
-		expect(rows).toContain('[contar] Ciclo de copla y estribillo · 1');
+		expect(rows).toContain('[anadir] Ciclo de copla y estribillo · 1');
 	});
 
 	it('coloca la pregunta después de la copla aunque el estribillo se sobreentienda', () => {
@@ -575,10 +1011,171 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 			'  Repetición del estribillo · sin versos materializados · represa_estribillo'
 		);
 		const pregunta = rows[repeticion];
-		expect(
-			pregunta.kind === 'pregunta' &&
-				pregunta.preguntas[0].owner.realizacion_prueba_id
-		).toBe(ciclo.realizacion_prueba_id);
+		expect(pregunta.kind === 'pregunta' && pregunta.preguntas[0].owner.realizacion_prueba_id).toBe(
+			ciclo.realizacion_prueba_id
+		);
+	});
+});
+
+describe('villancico · estribillo tras la primera copla', () => {
+	it('pide la extensión en la primera aparición y la deriva solo en las siguientes', () => {
+		const sections: MetricCatalogDomainRow[] = [
+			{
+				seccion_id: 'ciclo',
+				seccion_padre_id: null,
+				slug: 'ciclo_copla',
+				tipo_seccion: 'ciclo_copla',
+				nombre: 'Ciclo de copla y estribillo',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: null
+			},
+			{
+				seccion_id: 'estribillo',
+				seccion_padre_id: 'ciclo',
+				slug: 'estribillo',
+				tipo_seccion: 'estribillo',
+				nombre: 'Estribillo',
+				orden: 1,
+				repeticiones_min: 1,
+				repeticiones_max: 1,
+				versos_min: 1,
+				versos_max: 4
+			}
+		];
+		const groups: MetricCatalogDomainRow[] = [
+			{
+				grupo_eleccion_id: 'repeticion',
+				seccion_id: 'ciclo',
+				slug: 'represa_estribillo',
+				nombre: 'Repetición del estribillo',
+				dimension: 'repeticion',
+				alcance: 'realizacion',
+				tipo_control: 'opciones',
+				permite_aplicar_global: true,
+				selecciones_min: 1,
+				selecciones_max: 1,
+				orden: 1,
+				activo: true
+			},
+			{
+				grupo_eleccion_id: 'medida',
+				seccion_id: 'estribillo',
+				slug: 'medida_estribillo',
+				nombre: 'Estribillo · Medida de los versos',
+				dimension: 'metro',
+				alcance: 'unidad',
+				tipo_control: 'opciones',
+				permite_aplicar_global: true,
+				selecciones_min: 1,
+				selecciones_max: 1,
+				orden: 2,
+				activo: true
+			}
+		];
+		const options: MetricCatalogDomainRow[] = [
+			{
+				opcion_eleccion_id: 'total',
+				grupo_eleccion_id: 'repeticion',
+				slug: 'total',
+				nombre: 'Se repite entero',
+				materializa_seccion_id: 'estribillo',
+				extension_desde_seccion_id: 'estribillo',
+				orden: 1,
+				activo: true
+			}
+		];
+		const choices: MetricChoiceDraft[] = ['ciclo-1', 'ciclo-2'].map((cycleId) => ({
+			realizacion_prueba_id: cycleId,
+			grupo_eleccion_id: 'repeticion',
+			opcion_eleccion_id: 'total',
+			observaciones: null
+		}));
+		const units: MetricUnitDraft[] = [
+			{
+				realizacion_prueba_id: 'raiz',
+				realizacion_padre_id: null,
+				seccion_id: null,
+				orden: 1,
+				v_ini: 1,
+				v_fin: 6,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'ciclo-1',
+				realizacion_padre_id: 'raiz',
+				seccion_id: 'ciclo',
+				orden: 2,
+				v_ini: 1,
+				v_fin: 3,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'estribillo-1',
+				realizacion_padre_id: 'ciclo-1',
+				seccion_id: 'estribillo',
+				orden: 3,
+				v_ini: 1,
+				v_fin: 3,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'ciclo-2',
+				realizacion_padre_id: 'raiz',
+				seccion_id: 'ciclo',
+				orden: 4,
+				v_ini: 4,
+				v_fin: 6,
+				etiqueta: '',
+				observaciones: ''
+			},
+			{
+				realizacion_prueba_id: 'estribillo-2',
+				realizacion_padre_id: 'ciclo-2',
+				seccion_id: 'estribillo',
+				orden: 5,
+				v_ini: 4,
+				v_fin: 6,
+				etiqueta: '',
+				observaciones: ''
+			}
+		];
+		const rows = buildGridRows(
+			contexto({
+				sections,
+				groups,
+				options,
+				choices,
+				units,
+				unitPlan: { extent: null, countFromRange: false },
+				unitLabel: 'Villancico'
+			})
+		).filter(
+			(row): row is Extract<GridRow, { kind: 'realizacion' }> =>
+				row.kind === 'realizacion' && row.section?.slug === 'estribillo'
+		);
+
+		expect(rows).toHaveLength(2);
+		expect(rows[0]).toMatchObject({ lengthEditable: true, nota: '' });
+		expect(rows[1]).toMatchObject({
+			lengthEditable: false,
+			nota: '3 versos, calculados desde «Estribillo»'
+		});
+		const context = contexto({
+			sections,
+			groups,
+			options,
+			choices,
+			units,
+			unitPlan: { extent: null, countFromRange: false },
+			unitLabel: 'Villancico'
+		});
+		expect(unitsForGroup(context, groups[0]).map((unit) => unit.realizacion_prueba_id)).toEqual([
+			'ciclo-2'
+		]);
 	});
 });
 
@@ -659,9 +1256,9 @@ describe('ninguna realización se queda sin pintar', () => {
 					!enFilas.has(unit.realizacion_prueba_id) &&
 					!enResumen.includes(unit.realizacion_prueba_id)
 			);
-			expect(sinPintar.every((unit) => unit.seccion_id === 's-copla' || unit.seccion_id === null)).toBe(
-				true
-			);
+			expect(
+				sinPintar.every((unit) => unit.seccion_id === 's-copla' || unit.seccion_id === null)
+			).toBe(true);
 		}
 	});
 });

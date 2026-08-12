@@ -9,15 +9,14 @@ información podía vivir en tres sitios distintos**, con las duplicaciones que 
 Este documento era un aviso para auditar más tarde. Con la revisión ya en marcha pasa a ser
 la norma que la gobierna: qué se escribe en cada campo y cuándo entra una fuente.
 
-## Los cinco sitios
+## La prosa del catálogo y la ayuda del editor
 
-| Campo | Dónde | Qué dice |
-| --- | --- | --- |
-| `pregunta` | `rasgos_metricos` | Cómo se le pregunta al editor por ese rasgo. Una sola por rasgo, para que no se pregunte de dos maneras en dos formas |
-| `definicion` | `formas_metricas` | Qué **es** la forma, en tercera persona. No qué decidió el proyecto sobre ella, ni cómo se anota, ni qué hace el demarcador |
-| `descripcion` | `arquitecturas_forma`, `variedades_arquitectura`, `esquemas_*`, `repeticiones_metricas`, `rasgo_valores` | Qué distingue a **esa** realización de sus hermanas. Si vale igual para todas, pertenece a la definición; si el nombre y los datos estructurados ya lo dicen, puede quedar vacía |
-| `nota` | `estructuras_secciones`, `arquitectura_rasgos`, `esquema_rima_enlaces` | Una precisión sobre esa parte concreta, **y solo si la ficha no la deriva ya del dato** |
-| `afirmaciones_fuentes_metricas` | — | Lo que una fuente **añade**, con su localizador |
+| Campo                           | Dónde                                                                                                    | Qué dice                                                                                                                                                                         |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `definicion`                    | `formas_metricas`                                                                                        | Qué **es** la forma, en tercera persona. No qué decidió el proyecto sobre ella, ni cómo se anota, ni qué hace el demarcador                                                      |
+| `descripcion`                   | `arquitecturas_forma`, `variedades_arquitectura`, `esquemas_*`, `repeticiones_metricas`, `rasgo_valores` | Qué distingue a **esa** realización de sus hermanas. Si vale igual para todas, pertenece a la definición; si el nombre y los datos estructurados ya lo dicen, puede quedar vacía |
+| `nota`                          | `estructuras_secciones`, `arquitectura_rasgos`, `esquema_rima_enlaces`                                   | Una precisión sobre esa parte concreta, **y solo si la ficha no la deriva ya del dato**                                                                                          |
+| `afirmaciones_fuentes_metricas` | —                                                                                                        | Lo que una fuente **añade**, con su localizador                                                                                                                                  |
 
 **Y una `nota` no debe llevar un dato que el catálogo podría declarar.** Es la regla 1 vista al
 revés, y el barrido del 9 de agosto de 2026 encontró tres casos: la nota del endecasílabo suelto
@@ -34,25 +33,32 @@ opción el 9 de agosto de 2026—; lo que queda es resolver qué dice `regla` y 
 explicación pública. Anotado como revisión transversal en
 [el estado del catálogo](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
 
-**Y la pregunta del editor no es un quinto sitio.** Desde que las opciones se derivan del
+**La pregunta del editor no es otro sitio de prosa.** Desde que las opciones se derivan del
 catálogo, su etiqueta es el nombre de la entidad y su explicación es la `descripcion` de la
 entidad: no hay dónde escribir prosa a la altura de la opción, ni falta. Escribirla dos veces
 fue justamente lo que dejó a la quintilla describiendo su `aabab` como «cruzada, también llamada
 Cuarteta», copiado de la redondilla, mientras su propio esquema decía lo correcto.
 
-Tampoco el enunciado, desde el 10 de agosto de 2026: se compone con la dimensión y el nombre de
-la sección. La única prosa que interviene es `rasgos_metricos.pregunta`, y por eso está en la
-tabla de arriba: cómo se pregunta por un rasgo se dice una vez, en el rasgo, y no una por cada
-forma que lo use. Antes `final_acentual` se preguntaba de dos maneras según la forma.
+Tampoco el enunciado: se compone con la dimensión y el nombre de la sección. Para una elección de
+rasgo se usa directamente `rasgos_metricos.nombre`. Las antiguas columnas
+`formas_metricas.pregunta_arquitectura` y `rasgos_metricos.pregunta` solo reformulaban esos
+nombres y se retiraron el 11 de agosto de 2026. El selector de arquitectura se llama siempre
+«Arquitectura»; el contexto lo dan las opciones, no una pregunta especial escrita a mano.
 
-Lo que sí sigue escribiéndose es `grupos_eleccion_metrica.ayuda_editor`, y con la misma regla que
-la `nota`: **no debe decir lo que el catálogo ya declara**. El barrido del 10 de agosto retiró
-nueve ayudas que lo hacían —tres repetían `permite_aplicar_global`, dos glosaban denominaciones
-ya registradas y dos contaban cuántas tipologías hay—. Las 53 restantes llevan criterio que no
-está en ninguna columna: «si la organizan sistemáticamente, la secuencia no es una silva sino una
-tirada de pareados».
+Lo único específico del formulario que sigue escribiéndose es
+`grupos_eleccion_metrica.ayuda_editor`, en el lugar exacto donde se toma la decisión. Su regla es
+más estricta que la de una `nota`: **solo existe si hace falta un criterio para responder y ese
+criterio no está ya en el nombre, las opciones, la descripción de estas, el rango o el control**.
+El barrido del 11 de agosto retiró ayudas que repetían esos datos y conservó, por ejemplo, el
+límite clasificatorio «si los pareados organizan sistemáticamente toda la secuencia, se registra
+como tirada de pareados y no como silva».
 
-Ninguno de los cuatro cuenta **cuándo se rellena** ni **de qué término legado vino**. «Solo se
+El Editor V2 no vuelca las definiciones de la forma y la arquitectura. Muestra un resumen
+estructurado de la norma elegida —extensión, partes, medidas y rimas fijas— y enlaza la ficha
+pública completa en una pestaña nueva. Lo variable aparece en los controles inmediatamente
+inferiores. Las explicaciones generales o complejas pertenecen a la guía del dashboard.
+
+Ninguno de los campos del catálogo cuenta **cuándo se rellena** ni **de qué término legado vino**. «Solo se
 declara cuando caracteriza la secuencia» describe el formulario; «heredada de
 `octava_real_de_esdrujulos`» cuenta la migración. Estaba en cinco `arquitectura_rasgos.nota` y
 ahora dice qué es el rasgo en esa forma: «Terminación esdrújula sostenida en los finales de
@@ -71,8 +77,8 @@ solo cuando la derivada se queda corta.
 > conserva al repetir el ciclo» (nota del enlace). La descripción dice la **forma del
 > ciclo**; el enlace dice **qué se conserva al repetirlo**, y eso la ficha lo deriva.
 
-**2 · Una fuente entra cuando añade.** La pregunta que decide es: *¿qué sé después de leer
-esta afirmación que no supiera por la definición?* Si la respuesta es «nada», la afirmación
+**2 · Una fuente entra cuando añade.** La pregunta que decide es: _¿qué sé después de leer
+esta afirmación que no supiera por la definición?_ Si la respuesta es «nada», la afirmación
 sobra por muy autorizada que sea la fuente. Parafrasear la definición con firma no la
 respalda: la alarga.
 
@@ -116,7 +122,7 @@ romancillo heptasílabo— y no del reparto de nombres en general.
 
 ## Se escribe en Markdown
 
-Los cuatro campos admiten Markdown de una línea y la web lo interpreta: `**negrita**`,
+Los campos de prosa admiten Markdown de una línea y la web lo interpreta: `**negrita**`,
 `*cursiva*`, `` `código` `` y `[enlaces](/ruta)`. Lo hace
 [`renderInlineMarkdown`](../../src/lib/utils/markdown.ts), que escapa el HTML antes de
 interpretar las marcas, de modo que el texto del catálogo no puede inyectar etiquetas.
@@ -137,14 +143,14 @@ negrita no destaca nada.
 En castellano llano: nada de `s. v.`, `op. cit.` ni `ibid.`, que el lector de la web no
 tiene por qué descifrar. Cada volumen tiene su unidad estable:
 
-| Fuente | Se cita por | Por qué |
-| --- | --- | --- |
-| Domínguez Caparrós 2014 | Página | El volcado conserva las 252 páginas |
-| Diccionario 2016 | Entrada, y su página | Es alfabético: la entrada localiza mejor que el número |
-| Quilis 1969 | Página | Escaneado por pliegos de dos, así que el bloque da un par |
-| Navarro Tomás 1972 | Epígrafe numerado | Conserva 37 números en todo el libro; los `§` sí son fiables |
-| Jauralde Pou 2020 | Título de sección | Viene de un epub sin paginar |
-| Morley y Bruerton 1968 | Capítulo y epígrafe | Se trabaja sobre el `.md` |
+| Fuente                  | Se cita por          | Por qué                                                      |
+| ----------------------- | -------------------- | ------------------------------------------------------------ |
+| Domínguez Caparrós 2014 | Página               | El volcado conserva las 252 páginas                          |
+| Diccionario 2016        | Entrada, y su página | Es alfabético: la entrada localiza mejor que el número       |
+| Quilis 1969             | Página               | Escaneado por pliegos de dos, así que el bloque da un par    |
+| Navarro Tomás 1972      | Epígrafe numerado    | Conserva 37 números en todo el libro; los `§` sí son fiables |
+| Jauralde Pou 2020       | Título de sección    | Viene de un epub sin paginar                                 |
+| Morley y Bruerton 1968  | Capítulo y epígrafe  | Se trabaja sobre el `.md`                                    |
 
 [`scripts/lib/localizar.mjs`](../../scripts/lib/localizar.mjs) da la página de un pasaje
 sobre los volcados de `bibliografía/txt/`: parte por saltos de página y devuelve los números

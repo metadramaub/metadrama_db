@@ -1,7 +1,15 @@
 <script lang="ts">
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
 	import { controlDePregunta } from '$lib/metrica/controles-formulario';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
+	import MetricPartialPositionField from './MetricPartialPositionField.svelte';
+	import MetricVersePatternField from './MetricVersePatternField.svelte';
+	import {
+		arePositionalOptions,
+		haveAlternativesByPosition,
+		isPartialPositionalSelection
+	} from './positional-options';
 
 	const props = $props<{
 		group: MetricCatalogDomainRow;
@@ -11,7 +19,10 @@
 		textValue?: string;
 		onTextChange?: (value: string) => void;
 		onApplyAll?: () => void;
+		positionStart?: number;
 		positionLimit?: number;
+		pendingPositions?: number[];
+		onPendingPositionsChange?: (positions: number[]) => void;
 		/**
 		 * `celda` es la variante de la rejilla: una sola línea de alto, para que la fila de
 		 * cada realización quepa junto a las demás. Las alternativas se enseñan en un
@@ -33,6 +44,10 @@
 		/** Resume una respuesta común y deja el control completo para cuando se crea una excepción. */
 		compact?: boolean;
 		onExpand?: () => void;
+		/** Explica si el resumen procede de la respuesta común o de esta unidad. */
+		compactNote?: string;
+		changeLabel?: string;
+		hideCompactAction?: boolean;
 	}>();
 
 	const celda = $derived(props.variant === 'celda');
@@ -40,29 +55,21 @@
 	const minimum = $derived(Number(props.group.selecciones_min ?? 0));
 	const maximum = $derived(Number(props.group.selecciones_max ?? 1));
 	const optional = $derived(minimum === 0);
-	const positional = $derived(
-		props.options.length > 0 &&
-			props.options.every(
-				(option: MetricCatalogDomainRow) => Number(option.posicion_unidad ?? 0) > 0
-			)
-	);
+	const positional = $derived(arePositionalOptions(props.options));
 	const visibleOptions = $derived(
-		positional && typeof props.positionLimit === 'number'
+		positional
 			? props.options.filter(
 					(option: MetricCatalogDomainRow) =>
-						Number(option.posicion_unidad) <= props.positionLimit!
+						(typeof props.positionStart !== 'number' ||
+							Number(option.posicion_unidad) >= props.positionStart) &&
+						(typeof props.positionLimit !== 'number' ||
+							Number(option.posicion_unidad) <= props.positionLimit)
 				)
 			: props.options
 	);
-	const positionalAlternatives = $derived(
-		positional &&
-			visibleOptions.some(
-				(option: MetricCatalogDomainRow, index: number, options: MetricCatalogDomainRow[]) =>
-					options.findIndex(
-						(candidate: MetricCatalogDomainRow) =>
-							Number(candidate.posicion_unidad) === Number(option.posicion_unidad)
-					) !== index
-			)
+	const positionalAlternatives = $derived(haveAlternativesByPosition(visibleOptions));
+	const partialPositionalSelection = $derived(
+		isPartialPositionalSelection(props.group, visibleOptions)
 	);
 	const visiblePositions = $derived(
 		Array.from(
@@ -128,7 +135,10 @@
 		)?.metro_id ?? null
 	);
 	const puedeRellenarPosiciones = $derived(
-		positional && Boolean(metroRespondido) && visiblePositions.length > props.selectedIds.length
+		positional &&
+			!partialPositionalSelection &&
+			Boolean(metroRespondido) &&
+			visiblePositions.length > props.selectedIds.length
 	);
 
 	/**
@@ -170,20 +180,43 @@
 		isRhymeScheme
 			? Boolean((props.textValue ?? '').trim())
 			: positionalAlternatives
-				? visiblePositions.length > 0 && props.selectedIds.length === visiblePositions.length
+				? partialPositionalSelection
+					? props.selectedIds.length >= minimum
+					: visiblePositions.length > 0 && props.selectedIds.length === visiblePositions.length
 				: props.selectedIds.length > 0 && props.selectedIds.length >= minimum
 	);
-	const collapsed = $derived(answered && (props.compact || (multiline && !expanded)));
+	const collapsed = $derived(
+		answered && (props.compact || (!partialPositionalSelection && multiline && !expanded))
+	);
 	const answerSummary = $derived.by(() => {
-		const names = visibleOptions
+		const selectedOptions = visibleOptions
 			.filter((option: MetricCatalogDomainRow) =>
 				props.selectedIds.includes(String(option.opcion_eleccion_id))
 			)
 			.sort(
 				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
 					Number(a.posicion_unidad ?? 0) - Number(b.posicion_unidad ?? 0)
-			)
-			.map((option: MetricCatalogDomainRow) => String(option.nombre));
+			);
+		if (partialPositionalSelection) {
+			const base = Number(visibleOptions[0]?.metro_base_silabas);
+			if (selectedOptions.length === 0) {
+				return `Ningún verso quebrado${Number.isFinite(base) ? ` · todos, ${base} síl.` : ''}`;
+			}
+			const broken = selectedOptions.map((option: MetricCatalogDomainRow) => {
+				const position = Number(option.posicion_unidad);
+				const syllables = Number(option.metro_silabas);
+				return Number.isFinite(syllables)
+					? `v. ${position} (${syllables} síl.)`
+					: String(option.nombre);
+			});
+			const remaining = visiblePositions.length - selectedOptions.length;
+			return `Quebrados: ${broken.join(', ')}${
+				remaining > 0 && Number.isFinite(base)
+					? ` · los demás, ${base} síl.`
+					: ''
+			}`;
+		}
+		const names = selectedOptions.map((option: MetricCatalogDomainRow) => String(option.nombre));
 		const distinct = [...new Set(names)];
 		if (names.length > 1 && distinct.length === 1) {
 			return `${distinct[0]} · ${names.length} posiciones`;
@@ -191,25 +224,6 @@
 		return names.join(' · ');
 	});
 
-	function changePosition(position: number, optionId: string) {
-		const positionOptionIds = new Set(
-			visibleOptions
-				.filter(
-					(option: MetricCatalogDomainRow) =>
-						Number(option.posicion_unidad) === position
-				)
-				.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id))
-		);
-		const next = props.selectedIds.filter((selectedId: string) => !positionOptionIds.has(selectedId));
-		if (optionId) next.push(optionId);
-		props.onChange(next);
-	}
-
-	function optionLabelForPosition(option: MetricCatalogDomainRow, position: number): string {
-		const label = String(option.nombre);
-		const prefix = `Verso ${position} · `;
-		return label.startsWith(prefix) ? label.slice(prefix.length) : label;
-	}
 </script>
 
 <fieldset class="form-field">
@@ -226,22 +240,31 @@
 	</legend>
 
 	{#if collapsed}
-		<div class="flex flex-wrap items-baseline justify-between gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
-			<span>{answerSummary}</span>
-			<button
-				type="button"
-				class="link-action"
-				onclick={() => (props.onExpand ? props.onExpand() : (expanded = true))}
-			>
-				Cambiar
-			</button>
+		<div class="border border-[color:var(--border)] bg-white text-sm">
+			{#if props.compactNote}
+				<p class="border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)]">
+					{props.compactNote}
+				</p>
+			{/if}
+			<div class="flex flex-wrap items-baseline justify-between gap-2 px-3 py-2">
+				<span>{answerSummary}</span>
+				{#if !props.hideCompactAction}
+					<button
+						type="button"
+						class="link-action"
+						onclick={() => (props.onExpand ? props.onExpand() : (expanded = true))}
+					>
+						{props.changeLabel ?? 'Cambiar'}
+					</button>
+				{/if}
+			</div>
 		</div>
 	{:else if isRhymeScheme}
 		<input
 			type="text"
-			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 font-mono text-sm uppercase tracking-wide"
+			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 font-mono text-sm tracking-wide"
 			value={props.textValue ?? ''}
-			placeholder="AABCCB"
+			placeholder="aBaBcC"
 			autocomplete="off"
 			spellcheck="false"
 			oninput={(event) => props.onTextChange?.(event.currentTarget.value)}
@@ -262,7 +285,7 @@
 				{String(unica.nombre)}
 				{#if unica.descripcion}
 					<span class="block text-xs text-[color:var(--muted-foreground)]">
-						{String(unica.descripcion)}
+						{@html renderInlineMarkdown(String(unica.descripcion))}
 					</span>
 				{/if}
 			</span>
@@ -289,7 +312,7 @@
 						{String(option.nombre)}
 						{#if option.descripcion}
 							<span class="block text-xs text-[color:var(--muted-foreground)]">
-								{String(option.descripcion)}
+								{@html renderInlineMarkdown(String(option.descripcion))}
 							</span>
 						{/if}
 					</span>
@@ -302,7 +325,7 @@
 					disabled={props.selectedIds.length === 0}
 					onclick={() => props.onChange([])}
 				>
-					No aparece / no se aplica
+					Quitar selección
 				</button>
 			{/if}
 		</div>
@@ -319,48 +342,34 @@
 			onchange={changeSingle}
 		>
 			<option value="">
-				{optional ? 'No aparece / no se aplica' : 'Seleccionar una respuesta'}
+				{optional ? 'Sin seleccionar' : 'Seleccionar una respuesta'}
 			</option>
 			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
-				<option value={String(option.opcion_eleccion_id)} title={String(option.descripcion ?? '')}>
+				<option value={String(option.opcion_eleccion_id)} title={stripMarkdown(String(option.descripcion ?? ''))}>
 					{String(option.nombre)}
 				</option>
 			{/each}
 		</select>
+	{:else if partialPositionalSelection}
+		<MetricPartialPositionField
+			options={visibleOptions}
+			selectedKeys={props.selectedIds}
+			keyField="opcion_eleccion_id"
+			minimum={minimum}
+			maximum={effectiveMaximum}
+			pendingPositions={props.pendingPositions}
+			onPendingPositionsChange={props.onPendingPositionsChange}
+			ariaLabel={props.label ?? String(props.group.nombre)}
+			onChange={props.onChange}
+		/>
 	{:else if positionalAlternatives}
-		<div class="space-y-2">
-			{#each visiblePositions as position}
-				{@const positionOptions = visibleOptions.filter(
-					(option: MetricCatalogDomainRow) =>
-						Number(option.posicion_unidad) === position
-				)}
-				{@const positionOptionIds = new Set(
-					positionOptions.map((option: MetricCatalogDomainRow) =>
-						String(option.opcion_eleccion_id)
-					)
-				)}
-				<label class="grid items-center gap-2 sm:grid-cols-[5.5rem_1fr]">
-					<span class="text-sm text-[color:var(--muted-foreground)]">Verso {position}</span>
-					<select
-						class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
-						value={props.selectedIds.find((selectedId: string) =>
-							positionOptionIds.has(selectedId)
-						) ?? ''}
-						onchange={(event) => changePosition(position, event.currentTarget.value)}
-					>
-						<option value="">Seleccionar medida</option>
-						{#each positionOptions as option (String(option.opcion_eleccion_id))}
-							<option value={String(option.opcion_eleccion_id)}>
-								{optionLabelForPosition(option, position)}
-							</option>
-						{/each}
-					</select>
-				</label>
-			{/each}
-		</div>
-		<p class="text-xs text-[color:var(--muted-foreground)]">
-			{props.selectedIds.length} de {visiblePositions.length} versos caracterizados
-		</p>
+		<MetricVersePatternField
+			length={visiblePositions.length}
+			positionStart={visiblePositions[0] ?? 1}
+			options={visibleOptions}
+			selectedIds={props.selectedIds}
+			onMeasureChange={props.onChange}
+		/>
 	{:else if positional}
 		<div class="flex flex-wrap gap-2">
 			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
@@ -410,7 +419,7 @@
 	{/if}
 
 	{#if props.showDescription && !collapsed && descripcionElegida}
-		<p class="form-help">{descripcionElegida}</p>
+		<p class="form-help">{@html renderInlineMarkdown(descripcionElegida)}</p>
 	{/if}
 
 	<div class={`flex flex-wrap gap-x-4 gap-y-1 ${collapsed ? 'hidden' : 'mt-1'}`}>

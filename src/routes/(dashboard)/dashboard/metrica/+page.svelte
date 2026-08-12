@@ -1,118 +1,44 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
-	import MetricFormEditor from '$lib/components/metrica/catalogo/MetricFormEditor.svelte';
-	import MetricCatalogOrganizationEditor from '$lib/components/metrica/catalogo/MetricCatalogOrganizationEditor.svelte';
-	import MetricCatalogReferenceEditor from '$lib/components/metrica/catalogo/MetricCatalogReferenceEditor.svelte';
 	import MetricCatalogGuide from '$lib/components/metrica/catalogo/MetricCatalogGuide.svelte';
 	import MetricEditorSandbox from '$lib/components/metrica/editor-v2/MetricEditorSandbox.svelte';
 	import MetricShadowAnnotation from '$lib/components/metrica/editor-v2/MetricShadowAnnotation.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import {
-		METRIC_CATALOG_REVIEW_STATES,
-		METRIC_STRUCTURAL_LEVELS,
-		metricReviewStateLabel,
-		metricStructuralLevelLabel,
 		type MetricCatalogConfiguration,
 		type MetricCatalogForm,
 		type MetricCatalogIssue,
-		type MetricCatalogPageData,
-		type MetricCatalogReviewState,
-		type MetricEntryType,
-		type MetricStructuralLevel
+		type MetricCatalogPageData
 	} from '$lib/metrica/catalogo';
-	import { pushToast } from '$lib/stores/toast';
 
 	type ActiveTab =
 		| 'guide'
-		| 'catalog'
-		| 'organization'
-		| 'reference'
 		| 'editor'
 		| 'shadow'
-		| 'validation'
-		| 'traceability';
+		| 'validation';
 	const activeTabs = new Set<ActiveTab>([
 		'guide',
-		'catalog',
-		'organization',
-		'reference',
 		'editor',
 		'shadow',
-		'validation',
-		'traceability'
+		'validation'
 	]);
 
 	let { data } = $props<{ data: MetricCatalogPageData }>();
 	let activeTab = $state<ActiveTab>(resolveTab(get(page).url.searchParams.get('tab')));
-	let selectedFormId = $state<string | null>(null);
-	let search = $state('');
-	let formStateFilter = $state<'active' | 'draft' | 'approved' | 'all'>('active');
-	let showCreateForm = $state(false);
-	let creatingForm = $state(false);
-	let createFormError = $state('');
-	let newForm = $state({
-		slug: '',
-		nombre: '',
-		definicion: '',
-		nivel_estructural: 'estrofa' as MetricStructuralLevel,
-		tipo_registro: 'forma' as MetricEntryType,
-		estado_revision: 'borrador' as MetricCatalogReviewState,
-		activo: true,
-		orden: null as number | null
-	});
 
 	const tabs = [
 		{ id: 'guide', label: 'Guía del modelo' },
-		{ id: 'catalog', label: 'Formas y arquitecturas' },
-		{ id: 'organization', label: 'Organización' },
-		{ id: 'reference', label: 'Modelos, rasgos y fuentes' },
 		{ id: 'editor', label: 'Editor de prueba' },
 		{ id: 'shadow', label: 'Anotación en sombra' },
 		{ id: 'validation', label: 'Validación y demarcador' }
 	];
 
-	const filteredForms = $derived.by(() => {
-		const term = search.trim().toLocaleLowerCase('es');
-		return data.forms.filter((form: MetricCatalogForm) => {
-			const matchesSearch =
-				!term ||
-				form.nombre.toLocaleLowerCase('es').includes(term) ||
-				form.slug.toLocaleLowerCase('es').includes(term);
-			if (!matchesSearch) return false;
-			if (formStateFilter === 'active') return form.activo;
-			if (formStateFilter === 'draft') return form.estado_revision === 'borrador';
-			if (formStateFilter === 'approved') return form.estado_revision === 'aprobada';
-			return true;
-		});
-	});
-
-	const effectiveSelectedFormId = $derived(
-		selectedFormId &&
-			data.forms.some((form: MetricCatalogForm) => form.forma_id === selectedFormId)
-			? selectedFormId
-			: filteredForms[0]?.forma_id ?? data.forms[0]?.forma_id ?? null
-	);
-	const selectedForm = $derived(
-		data.forms.find(
-			(form: MetricCatalogForm) => form.forma_id === effectiveSelectedFormId
-		) ?? null
-	);
-	const selectedConfigurations = $derived(
-		selectedForm
-			? data.configurations.filter(
-					(configuration: MetricCatalogConfiguration) =>
-						configuration.forma_id === selectedForm.forma_id
-				)
-			: []
-	);
 	const demarcableConfigurations = $derived(
 		data.configurations.filter(
 			(configuration: MetricCatalogConfiguration) =>
-				configuration.activo &&
-				configuration.demarcable
+				configuration.activo && configuration.demarcable
 		).length
 	);
 	const demarcatorReady = $derived(
@@ -121,8 +47,8 @@
 	);
 
 	function resolveTab(value: string | null | undefined): ActiveTab {
-		if (!value) return 'catalog';
-		return activeTabs.has(value as ActiveTab) ? (value as ActiveTab) : 'catalog';
+		if (!value) return 'editor';
+		return activeTabs.has(value as ActiveTab) ? (value as ActiveTab) : 'editor';
 	}
 
 	function selectTab(id: string) {
@@ -140,78 +66,19 @@
 		const configuration = data.configurations.find(
 			(item: MetricCatalogConfiguration) => item.arquitectura_id === entityId
 		);
-		const formId = directForm?.forma_id ?? configuration?.forma_id ?? null;
-		if (!formId) return;
-		selectedFormId = formId;
-		activeTab = 'catalog';
-	}
-
-	function resetNewForm() {
-		newForm = {
-			slug: '',
-			nombre: '',
-			definicion: '',
-			nivel_estructural: 'estrofa',
-			tipo_registro: 'forma',
-				estado_revision: 'borrador',
-			activo: true,
-			orden: null
-		};
-		createFormError = '';
-	}
-
-	function cancelCreateForm() {
-		if (creatingForm) return;
-		resetNewForm();
-		showCreateForm = false;
-	}
-
-	function toggleCreateForm() {
-		if (showCreateForm) {
-			cancelCreateForm();
-			return;
-		}
-		resetNewForm();
-		showCreateForm = true;
-	}
-
-	async function createForm() {
-		if (creatingForm) return;
-		creatingForm = true;
-		createFormError = '';
-		try {
-			const response = await fetch('/api/metrica/formas', {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({
-					...newForm,
-					definicion: newForm.definicion.trim() || null
-				})
-			});
-			const payload = await response.json().catch(() => ({}));
-			if (!response.ok) {
-				throw new Error(
-					payload.message ?? payload.details?.[0]?.message ?? 'No se pudo crear la forma.'
-				);
-			}
-			const created = payload.form as MetricCatalogForm;
-			selectedFormId = created.forma_id;
-			showCreateForm = false;
-			resetNewForm();
-			pushToast('success', `Forma «${created.nombre}» creada.`);
-			await invalidateAll();
-		} catch (error) {
-			createFormError =
-				error instanceof Error ? error.message : 'No se pudo crear la forma.';
-		} finally {
-			creatingForm = false;
-		}
+		const form =
+			directForm ??
+			data.forms.find(
+				(item: MetricCatalogForm) => item.forma_id === configuration?.forma_id
+			);
+		if (!form || !browser) return;
+		window.open(`/formas/${form.slug}`, '_blank', 'noopener,noreferrer');
 	}
 
 </script>
 
 <svelte:head>
-	<title>Catálogo métrico | METADRAMA</title>
+	<title>Dominio métrico | METADRAMA</title>
 </svelte:head>
 
 <section class="mx-auto w-full max-w-[95rem] space-y-6 px-4 py-6 sm:px-6 lg:px-8">
@@ -222,13 +89,20 @@
 		<div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
 			<div>
 				<h1 class="text-2xl font-semibold tracking-tight text-[color:var(--foreground)] sm:text-3xl">
-					Catálogo métrico
+					Dominio métrico
 				</h1>
 				<p class="mt-2 max-w-4xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-					Gestiona las formas, sus arquitecturas y las relaciones del nuevo dominio. Esta
-					sección es independiente de las formas que los editores están declarando actualmente
-					en las secuencias.
+					Prueba el Editor V2 y revisa el estado del modelo y del demarcador. Los cambios
+					estructurales del catálogo se aplican mediante migraciones.
 				</p>
+				<a
+					class="mt-2 inline-flex text-sm font-medium underline underline-offset-4"
+					href="/formas"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Abrir catálogo público ↗
+				</a>
 			</div>
 			{#if data.revision !== null}
 				<p class="text-xs text-[color:var(--muted-foreground)]">
@@ -262,185 +136,6 @@
 
 		{#if activeTab === 'guide'}
 			<MetricCatalogGuide />
-		{:else if activeTab === 'catalog'}
-			<div class="grid min-h-[42rem] border border-[color:var(--border)] bg-[color:var(--card)] lg:grid-cols-[19rem_minmax(0,1fr)]">
-				<aside class="border-b border-[color:var(--border)] p-4 lg:border-b-0 lg:border-r">
-					<div class="space-y-3">
-						<input
-							type="search"
-							class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
-							placeholder="Buscar forma"
-							bind:value={search}
-						/>
-						<select
-							class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
-							bind:value={formStateFilter}
-						>
-							<option value="active">Formas activas</option>
-							<option value="draft">En borrador</option>
-							<option value="approved">Aprobadas</option>
-							<option value="all">Todas</option>
-						</select>
-						<button
-							type="button"
-							class="h-10 w-full border border-[color:var(--foreground)] px-3 text-sm font-medium hover:bg-[color:var(--muted)]"
-							onclick={toggleCreateForm}
-						>
-							{showCreateForm ? 'Cancelar nueva forma' : 'Crear forma'}
-						</button>
-					</div>
-
-					<nav class="mt-4 max-h-[55rem] space-y-1 overflow-y-auto pr-1" aria-label="Formas métricas">
-						{#each filteredForms as form (form.forma_id)}
-							<button
-								type="button"
-								class={`w-full border-l-2 px-3 py-2 text-left transition-colors ${
-									effectiveSelectedFormId === form.forma_id
-										? 'border-[color:var(--primary)] bg-[color:var(--muted)]'
-										: 'border-transparent hover:bg-[color:var(--muted)]'
-								}`}
-								onclick={() => (selectedFormId = form.forma_id)}
-							>
-								<span class="block text-sm font-medium">{form.nombre}</span>
-								<span class="mt-0.5 block text-xs text-[color:var(--muted-foreground)]">
-									{metricStructuralLevelLabel(form.nivel_estructural)} · {metricReviewStateLabel(form.estado_revision)}
-									{form.tipo_registro === 'sin_forma' ? ' · tramo sin forma' : ''}
-								</span>
-							</button>
-						{:else}
-							<p class="p-3 text-sm text-[color:var(--muted-foreground)]">
-								No hay formas que coincidan.
-							</p>
-						{/each}
-					</nav>
-				</aside>
-
-				<div class="min-w-0 p-4 sm:p-6">
-					{#if showCreateForm}
-						<section class="space-y-4">
-							<div>
-								<p class="text-xs font-semibold uppercase tracking-[0.12em] text-[color:var(--muted-foreground)]">
-									Nueva entrada
-								</p>
-								<h2 class="mt-1 text-xl font-semibold">Crear forma métrica</h2>
-							</div>
-							<div class="grid gap-4 md:grid-cols-2">
-								<label class="space-y-1">
-									<span class="text-sm font-medium">Nombre</span>
-									<input
-										class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-										bind:value={newForm.nombre}
-									/>
-								</label>
-								<label class="space-y-1">
-									<span class="text-sm font-medium">Slug</span>
-									<input
-										class="w-full border border-[color:var(--border)] bg-white px-3 py-2 font-mono text-sm"
-										bind:value={newForm.slug}
-									/>
-								</label>
-							</div>
-							<label class="block space-y-1">
-								<span class="text-sm font-medium">Definición</span>
-								<textarea
-									rows="6"
-									class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm leading-6"
-									bind:value={newForm.definicion}
-								></textarea>
-							</label>
-							<div class="grid gap-4 md:grid-cols-3">
-								<label class="space-y-1">
-									<span class="text-sm font-medium">Nivel</span>
-									<select
-										class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-										bind:value={newForm.nivel_estructural}
-									>
-										{#each METRIC_STRUCTURAL_LEVELS as level}
-											<option value={level}>{metricStructuralLevelLabel(level)}</option>
-										{/each}
-									</select>
-								</label>
-								<label class="space-y-1">
-									<span class="text-sm font-medium">Tipo de entrada</span>
-									<select
-										class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-										value={newForm.tipo_registro}
-										onchange={(event) => {
-											newForm.tipo_registro = event.currentTarget.value as MetricEntryType;
-										}}
-									>
-										<option value="forma">Forma métrica</option>
-										<option value="sin_forma">Tramo sin forma</option>
-									</select>
-								</label>
-								<label class="space-y-1">
-									<span class="text-sm font-medium">Estado</span>
-									<select
-										class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-										bind:value={newForm.estado_revision}
-									>
-										{#each METRIC_CATALOG_REVIEW_STATES as state}
-											<option value={state}>{metricReviewStateLabel(state)}</option>
-										{/each}
-									</select>
-								</label>
-							</div>
-							{#if createFormError}
-								<p class="text-sm text-red-700">{createFormError}</p>
-							{/if}
-							<div class="flex justify-end gap-2">
-								<button
-									type="button"
-									class="border border-[color:var(--border)] px-4 py-2 text-sm font-medium hover:bg-[color:var(--muted)] disabled:opacity-40"
-									disabled={creatingForm}
-									onclick={cancelCreateForm}
-								>
-									Cancelar
-								</button>
-								<button
-									type="button"
-									class="bg-[color:var(--foreground)] px-4 py-2 text-sm font-medium text-[color:var(--background)] disabled:opacity-40"
-									disabled={creatingForm || !newForm.nombre.trim() || !newForm.slug.trim()}
-									onclick={createForm}
-								>
-									{creatingForm ? 'Creando…' : 'Crear forma'}
-								</button>
-							</div>
-						</section>
-					{:else if selectedForm}
-						{#key selectedForm.forma_id}
-							<MetricFormEditor
-								form={selectedForm}
-								configurations={selectedConfigurations}
-								domain={data.domain}
-								metres={data.options.metres}
-								rhymeTypes={data.options.rhymeTypes}
-							/>
-						{/key}
-					{:else}
-						<p class="text-sm text-[color:var(--muted-foreground)]">
-							Selecciona o crea una forma métrica.
-						</p>
-					{/if}
-				</div>
-			</div>
-		{:else if activeTab === 'organization'}
-			{#key data.revision}
-				<MetricCatalogOrganizationEditor
-					domain={data.domain}
-					forms={data.forms}
-					configurations={data.configurations}
-				/>
-			{/key}
-		{:else if activeTab === 'reference'}
-			{#key data.revision}
-				<MetricCatalogReferenceEditor
-					domain={data.domain}
-					forms={data.forms}
-					configurations={data.configurations}
-					metres={data.options.metres}
-				/>
-			{/key}
 		{:else if activeTab === 'editor'}
 			<MetricEditorSandbox {data} />
 		{:else if activeTab === 'shadow'}

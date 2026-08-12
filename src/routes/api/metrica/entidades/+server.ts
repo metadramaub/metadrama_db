@@ -242,8 +242,10 @@ const resources: Partial<Record<MetricCatalogResource, ResourceDefinition>> = {
 			'arquitectura_referenciada_id',
 			'esquema_metrico_id',
 			'esquema_rima_id',
+			'primera_realizacion_define_patron',
 			'nota'
 		],
+		booleanFields: ['primera_realizacion_define_patron'],
 		numberFields: ['orden', 'repeticiones_min', 'repeticiones_max', 'versos_min', 'versos_max']
 	},
 	repetitionPatterns: {

@@ -1932,6 +1932,7 @@ export type Database = {
           nombre: string | null
           nota: string | null
           orden: number
+		  primera_realizacion_define_patron: boolean
           repeticiones_max: number | null
           repeticiones_min: number | null
           seccion_id: string
@@ -1951,6 +1952,7 @@ export type Database = {
           nombre?: string | null
           nota?: string | null
           orden: number
+		  primera_realizacion_define_patron?: boolean
           repeticiones_max?: number | null
           repeticiones_min?: number | null
           seccion_id?: string
@@ -1970,6 +1972,7 @@ export type Database = {
           nombre?: string | null
           nota?: string | null
           orden?: number
+		  primera_realizacion_define_patron?: boolean
           repeticiones_max?: number | null
           repeticiones_min?: number | null
           seccion_id?: string
@@ -2115,7 +2118,6 @@ export type Database = {
           nombre: string
           orden: number | null
           origen_termino_id: string | null
-          pregunta_arquitectura: string | null
           slug: string
           tipo_registro: string
           updated_at: string
@@ -2132,7 +2134,6 @@ export type Database = {
           nombre: string
           orden?: number | null
           origen_termino_id?: string | null
-          pregunta_arquitectura?: string | null
           slug: string
           tipo_registro?: string
           updated_at?: string
@@ -2149,7 +2150,6 @@ export type Database = {
           nombre?: string
           orden?: number | null
           origen_termino_id?: string | null
-          pregunta_arquitectura?: string | null
           slug?: string
           tipo_registro?: string
           updated_at?: string
@@ -2919,7 +2919,6 @@ export type Database = {
           estado_revision: string
           nombre: string
           observabilidad: string
-          pregunta: string | null
           rasgo_id: string
           slug: string
           tipo_valor: string
@@ -2933,7 +2932,6 @@ export type Database = {
           estado_revision?: string
           nombre: string
           observabilidad?: string
-          pregunta?: string | null
           rasgo_id?: string
           slug: string
           tipo_valor?: string
@@ -2947,7 +2945,6 @@ export type Database = {
           estado_revision?: string
           nombre?: string
           observabilidad?: string
-          pregunta?: string | null
           rasgo_id?: string
           slug?: string
           tipo_valor?: string

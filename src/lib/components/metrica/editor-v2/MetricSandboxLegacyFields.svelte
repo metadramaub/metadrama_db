@@ -46,7 +46,7 @@
 {#if props.block === 'caracterizaciones'}
 <section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-		<h4 class="form-section-title mb-0">Caracterizaciones por rango</h4>
+		<h4 class="form-subsection-title mb-0">Caracterizaciones por rango</h4>
 		<div class="flex items-center gap-2">
 			{@render replicaTag()}
 			<Button variant="secondary" disabled>Añadir caracterización</Button>
@@ -57,7 +57,7 @@
 
 <section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-		<h4 class="form-section-title mb-0">
+		<h4 class="form-subsection-title mb-0">
 			<span class="form-label-with-help">
 				Intervención de personajes
 				<FieldHelpTooltip text={INTERVENCION_HELP} label="Ayuda sobre la intervención de personajes" />
@@ -107,7 +107,7 @@
 
 <section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-		<h4 class="form-section-title mb-0">Otras caracterizaciones</h4>
+		<h4 class="form-subsection-title mb-0">Otras caracterizaciones</h4>
 		{@render replicaTag()}
 	</div>
 	<div class="grid gap-3 sm:grid-cols-2">
@@ -184,7 +184,7 @@
 {#if props.block === 'sinopsis'}
 <section>
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-		<h4 class="form-section-title mb-0">Sinopsis argumental</h4>
+		<h4 class="form-subsection-title mb-0">Sinopsis argumental</h4>
 		{@render replicaTag()}
 	</div>
 	<label class="form-field">
@@ -204,7 +204,7 @@
 {#if props.block === 'comentarios'}
 <section>
 	<div class="flex flex-wrap items-center justify-between gap-2">
-		<h4 class="form-section-title mb-0">Comentarios internos de secuencia</h4>
+		<h4 class="form-subsection-title mb-0">Comentarios internos de secuencia</h4>
 		<div class="flex items-center gap-2">
 			{@render replicaTag()}
 			<Button variant="secondary" disabled>Ver</Button>
