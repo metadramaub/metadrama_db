@@ -17,6 +17,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dumpLinkedDatabase, readDump } from './lib/volcado.mjs';
+import { query } from './lib/consulta.mjs';
 
 // --------------------------------------------------------------------------
 // Argumentos
@@ -482,11 +483,15 @@ const DEFECTOS = [
 					.slice()
 					.sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion);
 				if (posiciones.length === 0) return null;
+				// La caja de la clase marca el arte del verso, no una clase distinta: en la silva
+				// regular el pareado es `aA` y rima consigo mismo, y en la canción el eslabón `c`
+				// rima con el endecasílabo `C`. Contarlas aparte inventaba clases y alternancias.
+				const clase = (p) => (p.clase_rima ?? '').toLocaleLowerCase('es');
 				const veces = new Map();
-				for (const p of posiciones) veces.set(p.clase_rima, (veces.get(p.clase_rima) ?? 0) + 1);
+				for (const p of posiciones) veces.set(clase(p), (veces.get(clase(p)) ?? 0) + 1);
 				let alternancias = 0;
 				for (let i = 1; i < posiciones.length; i += 1) {
-					if (posiciones[i].clase_rima !== posiciones[i - 1].clase_rima) alternancias += 1;
+					if (clase(posiciones[i]) !== clase(posiciones[i - 1])) alternancias += 1;
 				}
 				return {
 					clases: veces.size,
@@ -539,6 +544,103 @@ const DEFECTOS = [
 				}
 			}
 			return hallazgos;
+		}
+	},
+	{
+		id: 'D14',
+		titulo: 'La notación de un esquema y sus clases de rima no cuadran',
+		criterio:
+			'La notación es lo que se publica y las posiciones son lo que se dibuja: tienen que decir lo mismo. Las letras de la notación, en orden de lectura, son las clases guardadas, con su caja —la mayúscula marca el arte mayor y no una clase distinta— y sin contar los versos sueltos, que la notación escribe con guion y las posiciones dejan sin clase. Ocho esquemas incumplían esto hasta el 12 de agosto de 2026, y se veía al dibujar la rejilla: las letras contradecían la notación impresa debajo.',
+		detectar(model) {
+			const hallazgos = [];
+			for (const patron of model.patronesRima) {
+				const notacion = patron.notacion?.trim();
+				if (!notacion) continue;
+				const posiciones = listOf(model.posicionesPorPatronRima, patron.esquema_rima_id)
+					.slice()
+					.sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion);
+				if (posiciones.length === 0) continue;
+				const letras = notacion.replace(/[^a-zA-Z]/g, '');
+				const clases = posiciones
+					.map((p) => p.clase_rima)
+					.filter((clase) => clase !== null && clase !== undefined)
+					.join('');
+				if (letras === clases) continue;
+				hallazgos.push({
+					sujeto: etiqueta(model, patron.arquitectura_id),
+					detalle: `${patron.slug} · la notación «${notacion}» da «${letras}» y las posiciones guardan «${clases}»`
+				});
+			}
+			return hallazgos;
+		}
+	},
+	{
+		id: 'D15',
+		titulo: 'Arquitectura sin régimen de rima declarado en ningún nivel',
+		criterio:
+			'El régimen —consonante, asonante, sin rima— se declara siempre, en el nivel que le corresponde: en la arquitectura cuando es uno solo, y en cada disposición cuando dentro de ella varía. El villancico lo declara abajo porque admite `abba` consonante junto a la asonantada `abcb`, y la canción sin rima porque su cuerpo no rima y su pareado final sí. Lo que no vale es que no esté en ninguno de los dos: es lo primero que hay que saber de una rima, y ocho arquitecturas lo callaban hasta el 12 de agosto de 2026.',
+		detectar(model) {
+			return model.configuraciones
+				.filter((configuracion) => {
+					if (configuracion.tipo_rima_id) return false;
+					const patrones = listOf(
+						model.patronesRimaPorConfiguracion,
+						configuracion.arquitectura_id
+					);
+					// Una arquitectura sin ninguna disposición no tiene dónde declararlo abajo;
+					// la señala D2b, que es de quien es ese hueco.
+					if (patrones.length === 0) return false;
+					return patrones.some((patron) => !patron.tipo_rima_id);
+				})
+				.map((configuracion) => {
+					const patrones = listOf(
+						model.patronesRimaPorConfiguracion,
+						configuracion.arquitectura_id
+					);
+					const mudos = patrones.filter((patron) => !patron.tipo_rima_id);
+					return {
+						sujeto: etiqueta(model, configuracion.arquitectura_id),
+						detalle: `ni la arquitectura ni ${mudos.length} de sus ${patrones.length} disposiciones lo declaran: ${mudos.map((p) => p.slug).join(', ')}`
+					};
+				});
+		}
+	},
+	{
+		id: 'D16',
+		titulo: 'Reutilización entre formas sin relación ontológica',
+		criterio:
+			'Cuando una sección reutiliza una arquitectura de otra forma, la precisión estructural vive en arquitectura_referenciada_id y el vínculo navegable vive en forma_relaciones. Tiene que existir al menos una relación entre ambas formas, declarada una sola vez en cualquiera de las dos direcciones.',
+		detectar(model) {
+			const relacionadas = new Set();
+			for (const relacion of model.relaciones) {
+				relacionadas.add(`${relacion.forma_origen_id}>${relacion.forma_destino_id}`);
+				relacionadas.add(`${relacion.forma_destino_id}>${relacion.forma_origen_id}`);
+			}
+
+			const faltantes = new Map();
+			for (const seccion of model.secciones) {
+				if (!seccion.arquitectura_referenciada_id) continue;
+				const propia = model.configuracionPorId.get(seccion.arquitectura_id);
+				const reutilizada = model.configuracionPorId.get(seccion.arquitectura_referenciada_id);
+				if (!propia || !reutilizada || propia.forma_id === reutilizada.forma_id) continue;
+				if (relacionadas.has(`${propia.forma_id}>${reutilizada.forma_id}`)) continue;
+
+				const origen = model.formaPorId.get(propia.forma_id);
+				const destino = model.formaPorId.get(reutilizada.forma_id);
+				const clave = `${propia.forma_id}>${reutilizada.forma_id}`;
+				const secciones = faltantes.get(clave) ?? {
+					sujeto: origen?.nombre ?? origen?.slug ?? propia.forma_id,
+					destino: destino?.nombre ?? destino?.slug ?? reutilizada.forma_id,
+					nombres: []
+				};
+				secciones.nombres.push(`${propia.slug} · ${seccion.nombre}`);
+				faltantes.set(clave, secciones);
+			}
+
+			return [...faltantes.values()].map((faltante) => ({
+				sujeto: faltante.sujeto,
+				detalle: `reutiliza «${faltante.destino}» en ${faltante.nombres.join(', ')} sin forma_relacion`
+			}));
 		}
 	}
 ];
@@ -900,11 +1002,36 @@ function construirInforme(model) {
 
 const options = parseArguments(process.argv.slice(2));
 const dumpPath = options.dump ?? dumpLinkedDatabase();
-const model = build(readDump(dumpPath));
+const tables = readDump(dumpPath);
+
+// `opciones_eleccion_metrica` dejó de ser una tabla el 11 de agosto de 2026: hoy es una vista
+// derivada de `opciones_eleccion_derivadas()`. **Un volcado de datos no contiene vistas**, así
+// que desde ese día el informe leía cero opciones y decía «0 defectos» sin haber mirado ninguna:
+// D5, D6 y D12 y las matrices de opciones corrían en vacío. Se pide por consulta, que es
+// exactamente para lo que existe `consulta.mjs`.
+if (tables.get('opciones_eleccion_metrica')?.length !== undefined) {
+	// Nada que hacer: el volcado la traía, luego volvió a ser una tabla.
+} else if (!options.dump) {
+	tables.set('opciones_eleccion_metrica', query('select * from public.opciones_eleccion_metrica'));
+} else {
+	console.error(
+		'Aviso: con --dump no se pueden leer las opciones de elección, que hoy son una vista.\n' +
+			'El informe saldrá sin D5, D6, D12 ni las matrices de opciones.'
+	);
+}
+
+const model = build(tables);
 
 if (model.formas.length === 0) {
 	console.error(
 		'El volcado no contiene formas métricas. ¿Es un volcado del esquema public con datos?'
+	);
+	process.exit(1);
+}
+if (model.opciones.length === 0) {
+	console.error(
+		'El modelo no tiene ninguna opción de elección. Con 62 grupos activos eso no puede ser: ' +
+			'algo dejó de leerse y el informe diría «0 defectos» sin haber mirado.'
 	);
 	process.exit(1);
 }

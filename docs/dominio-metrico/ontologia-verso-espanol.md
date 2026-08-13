@@ -352,6 +352,12 @@ aclimató en otro.
 Una **relación** es un vínculo tipado entre dos formas —taxonomía, composición, derivación,
 sucesión histórica, contraste—. Ninguna convierte a una forma en padre de otra.
 
+La relación se declara una sola vez, con una dirección que expresa su significado —el soneto
+se compone de cuartetos, no al revés—, aunque pueda leerse desde ambos extremos: desde el
+cuarteto interesa saber también que entra en la composición del soneto. La relación vincula las
+**formas**; qué realización estructural concreta interviene en una composición pertenece a la
+arquitectura y a sus secciones, no crea otra relación ontológica.
+
 > **Dos criterios opuestos, y hacen falta los dos.** Un nombre tradicional no crea una forma:
 > cuando la tradición nombra una realización concreta dentro de una forma que ya existe, eso
 > es una variedad o una denominación. Pero la genealogía separa lo que la estructura acerca:

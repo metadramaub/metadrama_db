@@ -53,6 +53,11 @@ está hecho, qué falta, con qué método y en qué orden.
 6. [Contratos del registrador para formas revisadas](./contratos-registrador-formas-revisadas.md)
    Qué se deriva, qué pregunta el editor, qué se guarda y cómo se valida cada forma ya revisada.
 
+6ter. [Poda de la prosa que la ficha ya dibuja](./poda-de-la-prosa.md)
+   Propuesta frase a frase, generada del catálogo: qué prosa dejó de aportar cuando la ficha
+   empezó a dibujar la estructura. **Es una propuesta pendiente de aprobación del IP**, no un
+   estado; se regenera con el barrido y desaparece cuando se aplique.
+
 ### El registro y su migración
 
 7. [Qué guarda el registro](./que-guarda-el-registro.md)

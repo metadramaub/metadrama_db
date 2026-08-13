@@ -57,7 +57,8 @@ function hipotesis(
 		arquitecturaPrincipal: true,
 		unidadVersos: null,
 		presentacion: {
-			metro: { descripcion: null, esquemas: [] },
+			rejilla: null,
+			metro: { descripcion: null },
 			rima: { tipo: null, esquemas: [] },
 			estructura: null,
 			repeticiones: [],

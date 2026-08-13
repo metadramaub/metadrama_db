@@ -199,6 +199,13 @@ contrasta los datos poblados. El resultado vigente está en
 los incumplimientos objetivos de las matrices que describen dónde vive cada dimensión;
 estas últimas son el material de las decisiones pendientes del IP, no errores.
 
+**Un volcado no trae vistas, y hay una que el informe necesita.** `opciones_eleccion_metrica` es
+una vista derivada desde el 11 de agosto de 2026, así que durante un día el informe leyó cero
+opciones y firmó «0 defectos» sin haber mirado las reglas que dependen de ellas. Ahora esa
+relación se pide por consulta y el informe **se planta** si el modelo se queda sin opciones. Si
+otra tabla del catálogo se convierte en vista, hay que hacer lo mismo: `--dump` sobre una copia
+local no puede verla.
+
 ## Qué queda pendiente
 
 Inventario hecho el 10 de agosto de 2026, al cerrar las seis lecturas transversales. Incluye lo
@@ -269,11 +276,47 @@ hacerlas antes obliga a hacerlas dos veces.
     pregunta. Queda abierto por decisión del IP: el demarcador distingue por arquitectura. Ver
     [Villancico](./revisiones-formas/cuestiones-para-el-ip.md#villancico) 6 y 7, donde va también la
     norma que se perdió al simplificar.
+12bis. ~~**Ocho esquemas guardan la clase de rima en una caja y la notación en otra.**~~ **Cerrado
+    el 12 de agosto de 2026**, y salió al dibujar la rejilla. `clase_rima` decía `abba` donde
+    `notacion` dice `abbA`, y al revés: el zéjel guardaba `AABBBA` y publica `a(a) | [bbba]…`. La
+    notación acertaba en los ocho, comprobado contra su esquema métrico, y se corrigieron 23
+    posiciones. De ahí quedó escrito el criterio que faltaba —**la caja marca el arte del verso, no
+    una clase distinta**, [criterios de nivel § 3.3](./criterios-de-nivel.md)—, su comprobación
+    permanente `D14`, y el corolario de que `D13` no puede contar clases distinguiendo caja.
+
+12ter. **Nueve esquemas abiertos no declaran ninguna restricción: pendientes de revisión contra las
+    fuentes.** Dicen «distribución variable» y nada más, así que la ficha no puede enseñar de ellos
+    ni un dibujo ni una norma —su fila de rima queda vacía, y ahí se ve—. Son el sexteto
+    alejandrino, dodecasílabo y endecasílabo; la sextilla octosilábica, heptasilábica, hexasilábica
+    y de pie quebrado; la copla de pie quebrado; y la `suelta` de la endecha real, que además es el
+    punto 4. La pregunta que hay que hacerle a cada fuente es la misma que respondió la quintilla:
+    **cuántas clases de rima, cuántas alternancias como mínimo y si admite versos sueltos**. Con eso
+    el esquema abierto pasa a declarar norma y `D13` puede contrastar contra él las disposiciones
+    concretas. Sale del barrido del 12 de agosto de 2026.
+
 12. **Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
     mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
     misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo
     cual funciona pero deja el caso sin decir. Si aparece un esquema que deba señalar sección **y**
     servir a varias, habrá que emparejar por `tipo_seccion` en vez de por identidad.
+
+14. ~~**La prosa de los niveles bajos repetía lo que la nueva ficha ya derivaba.**~~ **Cerrado el 13
+    de agosto de 2026.** El barrido iniciado el día 12 se revisó entrada a entrada con la base viva
+    y terminó en las migraciones `20260812270000`–`20260812330000`. No se podaron
+    `formas_metricas.definicion` ni `arquitecturas_forma.descripcion`, porque sitúan la forma; las
+    notas de enlaces, repeticiones, rasgos y relaciones se mejoraron sin vaciarlas. Las
+    atribuciones que podían perderse se trasladaron antes a `afirmaciones_fuentes_metricas` y se
+    contrastaron con los TXT originales cuando fue necesario. Una revisión retrospectiva añadió
+    dos que la poda había dejado solo en glosas: Jauralde sobre `ababa` como fórmula más simple y
+    antigua de la quintilla, y Navarro Tomás sobre `CDE CDE` como disposición preferida por
+    Garcilaso y Herrera (`20260812340000`).
+
+    El [informe regenerable](./poda-de-la-prosa.md) queda en **0 frases pendientes de 191**. Las
+    prosas que se conservaron por decisión expresa —por ejemplo, la renovación de la clase de rima
+    en la silva consonante regular— están registradas en `scripts/informe-poda-prosa.mjs`; regenerar
+    el informe no vuelve a abrirlas. Sigue vigente la regla 1 de
+    [dónde vive la prosa](./donde-vive-la-prosa.md#las-tres-reglas): no escribir lo que la ficha
+    deriva.
 
 ### Superficies, después del modelo
 
@@ -286,8 +329,54 @@ hacerlas antes obliga a hacerlas dos veces.
     dashboard las pantallas mutables de forma, organización y referencia. `/formas` es la consulta
     legible y los cambios, incluida la prosa, pasan por migración revisable.
 12. **Recompilar el demarcador** sobre la ontología en vez de su vector fijo de rasgos.
-13. **Repaso visual del catálogo público**: el nombre de la copla manriqueña se pierde entre su
-    notación, y un esquema sin nombre ni denominación muestra un guion de relleno.
+13. ~~**Repaso visual del catálogo público**.~~ **Hecho el 12 de agosto de 2026, en dos tramos.**
+    Primero, la arquitectura dibujada **verso a verso** con una rejilla que comparten la ficha, el
+    demarcador y el recuadro de la norma del editor V2 —`src/lib/metrica/rejilla.ts`, con sus
+    pruebas—. Después, al verla en pantalla, **la ficha entera rehecha**: la figura se estaba
+    sumando a la prosa que ya la decía, y ahora la arquitectura se lee **dimensión a dimensión**
+    —extensión, medida, rima, partes, repetición, rasgos—, cada una marcada según la fije la norma,
+    la elija la realización o se observe al anotar
+    (`src/lib/components/metrica/PublicArchitectureCard.svelte`). La rima lleva sus partes dentro,
+    con su cuenta —«Cuartetos, se elige una de 2»—, el reparto dejó de ser una dimensión aparte
+    porque es de la rima, y la glosa de una disposición se abre como una columna de la rejilla en
+    vez de flotar, que se recortaba contra el contenedor con scroll. El razonamiento del día en que se hizo
+    quedó [archivado](./historico/catalogo-publico-2026-08-12.md); lo vigente vive donde se
+    comprueba: los moldes y los perfiles en `rejilla.ts` y sus pruebas, y por qué la pantalla es
+    así en el propio componente. De paso
+    cayeron los tres defectos que sangraban: el `undefined` del bloque «Repetición» —`regla` no es
+    una columna de `repeticiones_metricas`—, las alternativas que el demarcador contaba como
+    posiciones y las partes de un esquema con dos bloques iguales, que se fundían en una.
+
+13bis. ~~**El régimen de rima no se enseñaba en ninguna ficha y ocho arquitecturas no lo
+    declaraban.**~~ **Cerrado el 12 de agosto de 2026.** No eran ocho huecos: `esquemas_rima`
+    también lo declara y lo tenía en 81 de 87, así que el dato vivía abajo. De ahí salió el
+    criterio —**se declara siempre, arriba si el régimen es uno y en cada disposición si dentro de
+    la arquitectura varía**, [§ 3.3](./criterios-de-nivel.md)—, su comprobación permanente `D15` y
+    la corrección de los seis que sí faltaban, con Navarro Tomás § 207, Jauralde y Morley y
+    Bruerton delante. El villancico y la canción sin rima **siguen sin declararlo arriba, y es lo
+    correcto**: mezclan regímenes.
+
+13ter. **Revisar en conjunto las etiquetas que explican cómo se conoce cada dimensión en la
+    ficha pública.** La distinción conceptual es válida —la norma fija, la realización elige y la
+    anotación observa—, pero los rótulos concretos no se están aplicando siempre bien ni son todos
+    precisos. Una única disposición `habitual`, por ejemplo, aparece hoy como «la fija la norma»;
+    también hay que revisar «puede no darse» y el resto de etiquetas, no corregir solo el caso que
+    lo hizo visible. Queda aplazado por decisión del IP hasta poder leerlas todas juntas.
+
+13quater. **Revisar juntos el terceto y el terceto encadenado.** La poda conservó la distinción
+    vigente —el segundo enlaza la rima central de cada unidad con la siguiente y no se divide en
+    tercetos independientes—, pero el IP quiere volver sobre algún aspecto de ambas fichas. No se
+    abre ni se concreta durante la poda: queda anotado para una revisión específica posterior.
+
+13quinquies. ~~**La reutilización de arquitecturas no siempre tenía su relación entre formas.**~~
+    **Cerrado el 13 de agosto de 2026.** Son dos niveles complementarios: `forma_relaciones`
+    declara el vínculo ontológico una sola vez y la ficha lo lee desde ambos extremos;
+    `estructuras_secciones.arquitectura_referenciada_id` señala qué realización concreta reutiliza
+    la sección. Se añadieron las relaciones del soneto con cuarteto y terceto, y las que faltaban
+    para novena, décima, terceto encadenado, cuarteto y redondilla (`20260812350000`–`360000`). La
+    comprobación permanente **D16** impide que una reutilización entre formas vuelva a quedar sin
+    relación ontológica. No hace falta una tabla de relaciones entre arquitecturas para la
+    composición: la propia sección ya ocupa ese nivel preciso.
 
 ## Siguiente fase prevista
 
@@ -317,8 +406,8 @@ se completó el 31. Lo que sigue:
    rasgos.
 8. Solo entonces, la [migración de las anotaciones](./plan-migracion-anotaciones.md).
 
-**Sobre los defectos del informe de conformidad**: el
-[informe](./informe-conformidad-catalogo.md) no señala ninguno de los tipificados como D1–D12
-salvo cuatro incidencias de D5 que son **falsos positivos conocidos** —las opciones de tercetos
-del soneto, cuya notación lleva un espacio (`CDE DCE`) que la regla cuenta como posición—. Al
-revisar una forma conviene regenerarlo: introducir un defecto nuevo es fácil.
+**Sobre los defectos del informe de conformidad**: el auditor tipifica ya **D1–D16** y termina en
+**0 defectos** contra la base viva. Incluye la correspondencia entre notación y clases de rima
+(D14), la declaración del régimen de rima (D15) y la correspondencia entre reutilización
+estructural y relación ontológica (D16). Al revisar una forma conviene regenerarlo: introducir un
+defecto nuevo es fácil.

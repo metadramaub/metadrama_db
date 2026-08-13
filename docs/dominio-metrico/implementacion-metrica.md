@@ -51,8 +51,9 @@ _Qué es el modelo_
    su cesura. El arte mayor o menor se deriva, no se almacena.
 6. **Las tradiciones son pertenencias muchos-a-muchos, sin herencia estructural.**
 7. **Los esquemas de rima separan su comportamiento computable de la notación legible.**
-8. **Un componente ya formalizado se reutiliza; no se copia.** Lo que la sección reutiliza hereda
-   de su forma lo que no declare por su cuenta.
+8. **Un componente ya formalizado se reutiliza; no se copia.** La relación entre las formas se
+   declara en `forma_relaciones`; la sección señala con `arquitectura_referenciada_id` qué
+   realización concreta reutiliza y hereda de ella lo que no declare por su cuenta.
 9. **El ritmo acentual queda fuera del alcance del proyecto.**
 
 _De dónde sale lo que el catálogo afirma_
@@ -470,7 +471,7 @@ registra como rasgo observado: no crea subformas.
 ```mermaid
 flowchart TD
     F["FORMA · Soneto<br/>unidad: el poema, 14 versos"] --> A["ARQUITECTURA · endecasílabo consonante"]
-    A --> S1["SECCIÓN · cuarteto ×2"]
+    A --> S1["SECCIÓN · cuarteto ×2<br/>reutiliza la arquitectura del cuarteto"]
     A --> S2["SECCIÓN · terceto ×2<br/>reutiliza la arquitectura del terceto"]
     S1 --> R1["ESQUEMA · ABBA"]
     A --> R2["ESQUEMAS de los tercetos<br/>dos bloques de tres<br/>CDC·DCD · CDE·CDE · CDE·DCE · CDC·EDE"]
@@ -499,6 +500,24 @@ Los tercetos del soneto _son_ tercetos: de ahí sale que midan once sílabas y t
 Lo que no heredan es la rima, porque riman entre sí y la forma Terceto pregunta otra cosa —qué
 verso queda suelto—. Para eso no hace falta ninguna pieza nueva: el esquema específico se declara
 en el soneto y se reparte en bloques.
+
+La reutilización estructural y la relación ontológica son dos declaraciones complementarias:
+
+| Declaración | Pregunta que responde | Dirección y lectura |
+| --- | --- | --- |
+| `forma_relaciones` | ¿Qué formas componen, derivan o contrastan con esta forma? | Se guarda una sola dirección semántica y la ficha la lee desde ambos extremos |
+| `estructuras_secciones.arquitectura_referenciada_id` | ¿Qué arquitectura exacta realiza esta sección? | Va de la sección contenedora a la arquitectura reutilizada |
+
+El soneto declara por ello `compuesta_por` cuarteto y terceto, y además cada una de sus dos
+secciones remite a la arquitectura endecasilábica correspondiente. La primera declaración permite
+navegar también desde el cuarteto y el terceto; la segunda aporta medida, extensión y repertorio
+concretos. **Una no sustituye a la otra**: el auditor marca como defecto cualquier reutilización
+entre formas que no tenga alguna relación ontológica entre ellas (**D16**).
+
+No se usa una tabla general de relaciones entre arquitecturas para expresar esta composición: la
+sección ya es el vínculo estructural preciso. Un vínculo directo entre arquitecturas solo tendría
+sentido para relaciones que no pasen por una sección —por ejemplo, que una realización sea
+variante o ampliación de otra— y no forma parte del modelo actual.
 
 Y hay que distinguir **dónde se responde** de **de qué trata**, que son dos cosas y hasta el 10
 de agosto de 2026 viajaban en una:
@@ -599,7 +618,8 @@ desviación.
 | Norma declarada por el pasaje            | `grupos_eleccion_metrica.define_norma` · `estructuras_secciones.primera_realizacion_define_patron`  |
 | Denominación                             | `denominaciones_metricas`                                                                           |
 | Tradición                                | `tradiciones_metricas` · `formas_tradiciones`                                                       |
-| Relación                                 | `forma_relaciones`                                                                                  |
+| Relación entre formas                    | `forma_relaciones`                                                                                  |
+| Arquitectura reutilizada por una sección | `estructuras_secciones.arquitectura_referenciada_id`                                                |
 | Realización de la unidad y sus secciones | `realizaciones_editor_metrico`                                                                      |
 | Respuesta registrada                     | `elecciones_editor_metrico`                                                                         |
 | Desviación                               | `desviaciones_editor_metrico`                                                                       |

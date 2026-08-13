@@ -22,7 +22,11 @@
 </script>
 
 {#snippet tree(items: PublicSection[], depth: number)}
-	<ul class={depth === 0 ? 'mt-2 space-y-2 text-sm' : 'mt-2 ml-3 space-y-2 border-l border-[color:var(--border)] pl-3'}>
+	<ul
+		class={depth === 0
+			? 'mt-2 space-y-2 text-sm'
+			: 'mt-2 ml-3 space-y-2 border-l border-[color:var(--border)] pl-3'}
+	>
 		{#each items as section (section.id)}
 			<li>
 				<span class="font-medium">{section.nombre}</span>
@@ -31,6 +35,20 @@
 						· {[versos(section), repeticiones(section) ? `×${repeticiones(section)}` : null]
 							.filter(Boolean)
 							.join(' ')}
+					</span>
+				{/if}
+				<!-- Que una parte reutilice otra forma es el dato más útil de la ficha: dice dónde
+				     está declarada su rima y lleva allí. Se calculaba y se tiraba. -->
+				{#if section.reutiliza}
+					<span class="block text-[color:var(--muted-foreground)]">
+						Rima como
+						{#if section.reutiliza.slug}
+							<a class="underline hover:no-underline" href="/formas/{section.reutiliza.slug}">
+								{section.reutiliza.nombre}
+							</a>
+						{:else}
+							{section.reutiliza.nombre}
+						{/if}
 					</span>
 				{/if}
 				{#if section.nota}

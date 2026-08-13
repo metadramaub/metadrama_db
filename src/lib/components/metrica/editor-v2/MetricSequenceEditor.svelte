@@ -25,7 +25,7 @@
 	import MetricNormSummary from './MetricNormSummary.svelte';
 	import MetricStructureCoverage from './MetricStructureCoverage.svelte';
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
-	import { metricNormFacts } from './norm-summary';
+	import { metricNormFacts, metricNormGrid } from './norm-summary';
 	import { compactRhymeNotation } from './rhyme-notation';
 	import { metricStructureCoverage } from './structure-coverage';
 	import {
@@ -252,6 +252,14 @@
 					lengthRule: selectedLengthRule
 				})
 			: []
+	);
+	const normGrid = $derived(
+		draft.arquitectura_id
+			? metricNormGrid({
+					architectureId: draft.arquitectura_id,
+					domain: props.catalog.domain
+				})
+			: null
 	);
 	const hasSequenceChoices = $derived(sequenceChoiceGroups.length > 0);
 	const materializedUnitCount = $derived(
@@ -1075,7 +1083,7 @@
 			{/if}
 			{#if selectedConfiguration && selectedForm}
 				<div class="mt-3">
-					<MetricNormSummary facts={normFacts} catalogHref={`/formas/${selectedForm.slug}`} />
+					<MetricNormSummary facts={normFacts} rejilla={normGrid} catalogHref={`/formas/${selectedForm.slug}`} />
 				</div>
 			{/if}
 

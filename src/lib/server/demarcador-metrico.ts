@@ -8,6 +8,7 @@ import type {
 	ObservabilidadEvidencia,
 	ValorEvidencia
 } from '$lib/demarcador-metrico/modelo';
+import { construirRejilla } from '$lib/metrica/rejilla';
 
 type DbClient = {
 	rpc: (name: string) => any;
@@ -163,6 +164,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		'metres',
 		'rhymePatterns',
 		'rhymePositions',
+		'rhymeLinks',
 		'sections',
 		'repetitions',
 		'traits',
@@ -183,6 +185,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		'metros',
 		'esquemas de rima',
 		'posiciones de rima',
+		'enlaces de rima',
 		'secciones',
 		'repeticiones',
 		'rasgos',
@@ -204,6 +207,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		metresResponse,
 		rhymePatternsResponse,
 		rhymePositionsResponse,
+		rhymeLinksResponse,
 		sectionsResponse,
 		repetitionsResponse,
 		traitsResponse,
@@ -272,6 +276,27 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			position
 		]);
 	}
+	const rhymeLinksByPattern = new Map<string, Row[]>();
+	for (const link of (rhymeLinksResponse.data ?? []) as Row[]) {
+		rhymeLinksByPattern.set(link.esquema_rima_id, [
+			...(rhymeLinksByPattern.get(link.esquema_rima_id) ?? []),
+			link
+		]);
+	}
+	/** Las sílabas de un metro, que es lo único que la rejilla dibuja de él. */
+	const silabasDe = (metreId: unknown): string | null => {
+		const metre = metreById.get(metreId);
+		return metre?.silabas === null || metre?.silabas === undefined ? null : String(metre.silabas);
+	};
+	const sectionNameById = new Map(
+		((sectionsResponse.data ?? []) as Row[]).map((section) => [
+			String(section.seccion_id),
+			String(section.nombre)
+		])
+	);
+	const architectureNameById = new Map(
+		architectures.map((item) => [String(item.arquitectura_id), String(item.nombre)])
+	);
 	const rhymePatternsByArchitecture = new Map<string, Row[]>();
 	for (const pattern of (rhymePatternsResponse.data ?? []) as Row[]) {
 		if (pattern.seccion_id) continue;
@@ -648,34 +673,90 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			);
 		}
 
-		const visualMetricSchemes = ((metricPatternsResponse.data ?? []) as Row[])
-			.filter(
-				(pattern) => pattern.arquitectura_id === architecture.arquitectura_id && !pattern.seccion_id
-			)
-			.map((pattern) => {
-				const positions = [...(metricPositionsByPattern.get(pattern.esquema_metrico_id) ?? [])]
-					.sort((a, b) => a.posicion - b.posicion)
-					.map((position) => metreById.get(position.metro_id))
-					.filter((metre): metre is Row => Boolean(metre))
-					.map((metre) => String(metre.silabas));
-				const options = [...(metricOptionsByPattern.get(pattern.esquema_metrico_id) ?? [])]
-					.sort((a, b) => (a.orden ?? 999) - (b.orden ?? 999))
-					.map((option) => metreById.get(option.metro_id))
-					.filter((metre): metre is Row => Boolean(metre))
-					.map((metre) => String(metre.silabas));
-				let tokens =
-					positions.length > 0 ? positions : options.length > 0 ? [options.join('/')] : [];
-				if (tokens.length === 1 && unitVerses !== null) {
-					tokens = [
-						...Array.from({ length: Math.min(unitVerses, 16) }, () => tokens[0]),
-						...(unitVerses > 16 ? ['…'] : [])
-					];
-				} else if (tokens.length === 1 && formLevel === 'serie') {
-					tokens = [tokens[0], tokens[0], tokens[0], '…'];
-				}
-				return tokens;
-			})
-			.filter((tokens) => tokens.length > 0);
+		// La misma rejilla que dibuja la ficha pública. Antes esto se pintaba aquí a mano, fila a
+		// fila de la tabla de posiciones, y por eso las alternativas de una posición se contaban
+		// como posiciones distintas.
+		const rejilla = construirRejilla({
+			metricos: ((metricPatternsResponse.data ?? []) as Row[])
+				.filter((pattern) => pattern.arquitectura_id === architecture.arquitectura_id)
+				.map((pattern) => ({
+					tipoSecuencia: pattern.tipo_secuencia ? String(pattern.tipo_secuencia) : null,
+					medidaUniforme:
+						pattern.medida_uniforme === null || pattern.medida_uniforme === undefined
+							? null
+							: pattern.medida_uniforme === true,
+					seccion: pattern.seccion_id
+						? (sectionNameById.get(String(pattern.seccion_id)) ?? null)
+						: null,
+					posiciones: (metricPositionsByPattern.get(pattern.esquema_metrico_id) ?? []).map(
+						(position) => ({
+							posicion: Number(position.posicion),
+							silabas: silabasDe(position.metro_id),
+							alternativa:
+								position.alternativa === null || position.alternativa === undefined
+									? null
+									: Number(position.alternativa),
+							opcional: position.opcional === true
+						})
+					),
+					opciones: (metricOptionsByPattern.get(pattern.esquema_metrico_id) ?? []).map(
+						(option) => ({
+							silabas: silabasDe(option.metro_id),
+							rol: option.rol ? String(option.rol) : null
+						})
+					)
+				})),
+			rimas: ((rhymePatternsResponse.data ?? []) as Row[])
+				.filter((pattern) => pattern.arquitectura_id === architecture.arquitectura_id)
+				.map((pattern) => ({
+					id: String(pattern.esquema_rima_id),
+					nombre: pattern.nombre ? String(pattern.nombre) : null,
+					notacion: pattern.notacion ? String(pattern.notacion) : null,
+					seccion: pattern.seccion_id
+						? (sectionNameById.get(String(pattern.seccion_id)) ?? null)
+						: null,
+					modalidad: pattern.modalidad ? String(pattern.modalidad) : null,
+					posiciones: (rhymePositionsByPattern.get(pattern.esquema_rima_id) ?? []).map(
+						(position) => ({
+							bloque: Number(position.bloque ?? 1),
+							posicion: Number(position.posicion),
+							clase: position.clase_rima ? String(position.clase_rima) : null,
+							suelto: position.suelto === true,
+							seccion: position.seccion ? String(position.seccion) : null
+						})
+					),
+					enlaces: (rhymeLinksByPattern.get(pattern.esquema_rima_id) ?? []).map((link) => ({
+						desde: Number(link.posicion_origen),
+						hasta: Number(link.posicion_destino),
+						desplazamiento: Number(link.desplazamiento_bloque),
+						nota: link.nota ? String(link.nota) : null
+					}))
+				})),
+			secciones: (sectionsByArchitecture.get(architecture.arquitectura_id) ?? [])
+				.filter((section) => !section.seccion_padre_id)
+				.sort((a, b) => Number(a.orden ?? 0) - Number(b.orden ?? 0))
+				.map((section) => ({
+					nombre: String(section.nombre),
+					versosMin: section.versos_min === null ? null : Number(section.versos_min),
+					versosMax: section.versos_max === null ? null : Number(section.versos_max),
+					repeticionesMin:
+						section.repeticiones_min === null ? null : Number(section.repeticiones_min),
+					repeticionesMax:
+						section.repeticiones_max === null ? null : Number(section.repeticiones_max),
+					reutiliza: section.arquitectura_referenciada_id
+						? {
+								nombre:
+									architectureNameById.get(String(section.arquitectura_referenciada_id)) ??
+									'otra forma',
+								slug: null
+							}
+						: null
+				})),
+			unidadMin:
+				architecture.unidad_versos_min === null ? null : Number(architecture.unidad_versos_min),
+			unidadMax:
+				architecture.unidad_versos_max === null ? null : Number(architecture.unidad_versos_max)
+		});
 
 		for (const group of groupsByArchitecture.get(architecture.arquitectura_id) ?? []) {
 			const options = [...(optionsByGroup.get(group.grupo_eleccion_id) ?? [])].sort(
@@ -714,7 +795,8 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			arquitecturaPrincipal: Boolean(architecture.principal),
 			unidadVersos: unitVerses,
 			presentacion: {
-				metro: { descripcion: metricDescription, esquemas: visualMetricSchemes },
+				rejilla,
+				metro: { descripcion: metricDescription },
 				rima: { tipo: rhymeTypeLabel, esquemas: visualRhymeSchemes },
 				estructura: structureLabel,
 				repeticiones: repetitions

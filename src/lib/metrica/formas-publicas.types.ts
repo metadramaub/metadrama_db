@@ -7,6 +7,7 @@
  */
 
 import type { MetricStructuralLevel } from '$lib/metrica/catalogo';
+import type { PerfilDeArquitectura, Rejilla } from '$lib/metrica/rejilla';
 
 /** Una entrada del índice. */
 export type PublicFormSummary = {
@@ -28,6 +29,30 @@ export type PublicScheme = {
 	nombre: string;
 	notacion: string | null;
 	descripcion: string | null;
+	/** `definitoria`, `habitual`, `admitida` o `excepcional`. Es lo que dice cuál esperar. */
+	modalidad?: string | null;
+};
+
+/**
+ * Una medida que la norma no coloca: el repertorio del que la realización elige.
+ *
+ * Son dos casos distintos que se leían con la misma frase: en la silva elige **cada verso**
+ * —`uniforme: false`—, y en el villancico elige la composición entera y todos los versos la
+ * siguen. El `rol` separa la medida dominante de la que la quiebra.
+ */
+export type PublicMetreRepertoire = {
+	silabas: string;
+	rol: string | null;
+};
+
+export type PublicMetricScheme = PublicScheme & {
+	/** `ciclo`, `secuencia` o `conjunto`. */
+	tipoSecuencia: string | null;
+	/** La medida elegida vale para todo el pasaje y no verso a verso. */
+	uniforme: boolean;
+	repertorio: PublicMetreRepertoire[];
+	/** La parte a la que se aplica, cuando no es la unidad entera. */
+	deLaSeccion: string | null;
 };
 
 /**
@@ -50,6 +75,8 @@ export type PublicRhymeLink = {
 /** Una parte con nombre dentro de un esquema: la fronte de la estancia, la vuelta del zéjel. */
 export type PublicSchemePart = {
 	nombre: string;
+	/** Bloque del esquema al que pertenece: los dos cuartetos de `ABBA ABBA` son dos partes. */
+	bloque: number;
 	/** Versos que abarca, contados en orden de lectura desde el 1. */
 	desde: number;
 	hasta: number;
@@ -89,6 +116,14 @@ export type PublicRhymeScheme = PublicScheme & {
 	 * redondilla cruzada, no la redondilla.
 	 */
 	denominaciones: string[];
+	/** Sin posiciones que enseñar: lo que declara es que la disposición no está fijada. */
+	abierto: boolean;
+	/**
+	 * Consonante, asonante o sin rima **de esta disposición**. El catálogo lo declara en dos
+	 * niveles y no siempre coinciden: el villancico admite `abba` consonante y `abcb` asonantada,
+	 * así que su arquitectura no puede reducirse a un solo régimen y este es el que manda.
+	 */
+	tipoRima: string | null;
 };
 
 export type PublicSection = {
@@ -106,8 +141,11 @@ export type PublicSection = {
 	versosMax: number | null;
 	repeticionesMin: number | null;
 	repeticionesMax: number | null;
-	/** Cuando la sección reutiliza el repertorio de otra forma, cuál. */
-	reutiliza: string | null;
+	/**
+	 * La forma cuyo repertorio de rima reutiliza esta parte, con su enlace: los cuartetos del
+	 * soneto riman como el cuarteto endecasílabo, y la ficha debe poder llevar allí.
+	 */
+	reutiliza: { nombre: string; slug: string | null } | null;
 	/** Secciones contenidas, conservando la jerarquía declarada en el catálogo. */
 	hijas: PublicSection[];
 };
@@ -117,16 +155,53 @@ export type PublicTrait = {
 	valor: string | null;
 	modalidad: string | null;
 	nota: string | null;
+	/** Cuántas posiciones puede ocupar como mucho: la copla real admite hasta dos quebrados. */
+	posicionesMax: number | null;
 };
 
-/** Una regla de recurrencia declarada por la arquitectura. */
+/**
+ * Los rasgos de una arquitectura, repartidos por **cómo se leen**, que es lo que los separa y no
+ * se veía: la ficha los ponía los tres bajo «Rasgos que admite».
+ *
+ * - `declarados`: la arquitectura lo afirma y nadie lo pregunta. Es norma —la densidad total del
+ *   sexteto, el pie quebrado de la sextilla—, no algo que quede por observar.
+ * - `excluyentes`: un mismo rasgo con varios valores y una sola respuesta admitida. La silva
+ *   libre es de densidad `Total` **o** `Mayoritaria`, y en dos líneas seguidas parecía que era
+ *   las dos.
+ * - `opcionales`: un sí o un no que puede quedarse sin responder, como el final esdrújulo.
+ */
+export type PublicTraits = {
+	declarados: PublicTrait[];
+	excluyentes: { nombre: string; nota: string | null; valores: PublicTrait[] }[];
+	opcionales: PublicTrait[];
+};
+
+/**
+ * Una recurrencia declarada por la arquitectura.
+ *
+ * Son de dos clases y no se leen igual: la de la sextina es **norma de la forma** —las palabras
+ * finales vuelven—, y las del villancico son **las respuestas de una pregunta** —el estribillo
+ * vuelve entero, en parte o no vuelve—. Lo que las separa es si materializan una sección.
+ */
 export type PublicRepetition = {
 	slug: string;
 	tipo: string;
 	nombre: string;
-	regla: string;
 	modalidad: string | null;
 	descripcion: string | null;
+	/** Si es una alternativa entre las que el editor elige y no una propiedad de la forma. */
+	esAlternativa: boolean;
+};
+
+/** Una variedad empareja una medida con una rima: las siete del sexteto-lira. */
+export type PublicVariety = {
+	nombre: string;
+	descripcion: string | null;
+	modalidad: string | null;
+	/** La medida que emparejan, ya dibujada: `7-11-7-11-7-11`. */
+	medida: string | null;
+	/** La disposición de rima que emparejan: `ababcc`. */
+	rima: string | null;
 };
 
 export type PublicArchitecture = {
@@ -135,13 +210,42 @@ export type PublicArchitecture = {
 	descripcion: string | null;
 	principal: boolean;
 	modalidad: string | null;
+	/**
+	 * Consonante, asonante, sin rima… **de esta arquitectura**, que no siempre es el de la forma:
+	 * el pareado hace las dos. La ficha no lo enseñaba en ninguna, aunque es lo primero que hay
+	 * que saber de una rima.
+	 *
+	 * **Se declara siempre, en el nivel que le corresponde**: en la arquitectura cuando su régimen
+	 * es uno, y en cada disposición cuando varía dentro de ella —el villancico admite `abba`
+	 * consonante y `abcb` asonantada, y ahí reducirlo a un valor sería falsearlo—. La ficha lee
+	 * el nivel en que esté; lo que no hace es inventarse el de arriba a partir del de abajo,
+	 * porque eso taparía que falta declararlo.
+	 */
+	tipoRima: string | null;
+	/** El régimen vive en cada disposición porque dentro de la arquitectura varía. */
+	tipoRimaPorDisposicion: boolean;
+	/** No está declarado en ningún nivel: falta el dato y la ficha debe decirlo. */
+	tipoRimaSinDeclarar: boolean;
 	unidadMin: number | null;
 	unidadMax: number | null;
-	esquemasMetricos: PublicScheme[];
+	/** Cuál de los siete moldes es, derivado del catálogo. Decide qué zonas se enseñan. */
+	perfil: PerfilDeArquitectura;
+	/**
+	 * La arquitectura dibujada verso a verso. Nula cuando la norma no fija posiciones, que es
+	 * una respuesta legítima: la silva no tiene rejilla que enseñar.
+	 */
+	rejilla: Rejilla | null;
+	esquemasMetricos: PublicMetricScheme[];
 	esquemasRima: PublicRhymeScheme[];
 	secciones: PublicSection[];
-	variedades: PublicScheme[];
-	rasgos: PublicTrait[];
+	variedades: PublicVariety[];
+	/**
+	 * Cuando la arquitectura se elige por variedad, medida y rima **no son dos preguntas**: son
+	 * las dos caras de una. El sexteto-lira es el único caso del catálogo, y separarlas obligaba
+	 * a cruzar de memoria cinco medidas con tres disposiciones para reconstruir siete parejas.
+	 */
+	eligeVariedad: boolean;
+	rasgos: PublicTraits;
 	repeticiones: PublicRepetition[];
 	denominaciones: string[];
 };
