@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { etiquetaNivel } from '$lib/demarcador-metrico/motor';
+	import MetricPositionGrid from '$lib/components/metrica/MetricPositionGrid.svelte';
 	import type {
 		DesviacionLongitud,
 		FormaPuntuada,
@@ -100,20 +101,24 @@
 		</div>
 	{/if}
 
+	<!-- La misma rejilla que la ficha de `/formas`: una forma se ve igual dondequiera que se mire,
+	     y aquí sirve además para reconocerla en el pasaje que se está demarcando. -->
+	{#if arquitectura.hipotesis.presentacion.rejilla}
+		<div class="mt-4 border-t border-[color:var(--border)] pt-4">
+			<h4 class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+				Cómo se dibuja
+			</h4>
+			<div class="mt-2">
+				<MetricPositionGrid rejilla={arquitectura.hipotesis.presentacion.rejilla} />
+			</div>
+		</div>
+	{/if}
+
 	<div class="mt-5 grid gap-x-6 gap-y-5 border-t border-[color:var(--border)] pt-4 sm:grid-cols-2">
 		{#if arquitectura.hipotesis.presentacion.metro.descripcion}
 			<section>
 				<h4 class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">Metro</h4>
 				<p class="mt-1 text-sm">{arquitectura.hipotesis.presentacion.metro.descripcion}</p>
-				{#each arquitectura.hipotesis.presentacion.metro.esquemas as esquema}
-					<ol class="mt-2 flex flex-wrap" aria-label="Posiciones métricas">
-						{#each esquema as posicion}
-							<li class="min-w-8 border border-r-0 border-[color:var(--border)] px-1.5 py-1 text-center font-mono text-xs last:border-r">
-								{posicion}
-							</li>
-						{/each}
-					</ol>
-				{/each}
 			</section>
 		{/if}
 

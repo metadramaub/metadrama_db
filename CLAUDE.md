@@ -23,6 +23,7 @@ npm run db:push        # aplica migraciones al Supabase enlazado
 npm run db:types       # regenera src/lib/types/database.types.ts
 npm run audit:metrica  # audita el catálogo métrico contra los criterios de nivel
 npm run audit:campos   # comprueba que los campos editables del gestor existen como columna
+npm run poda:informe   # regenera la propuesta de poda de la prosa del catálogo
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
 ```
@@ -68,6 +69,16 @@ está en obras. **Convive con el sistema viejo sin tocarlo.**
 - `src/lib/components/metrica/editor-v2/` — el editor V2
 - `src/lib/server/catalogo-metrico.ts`, `src/lib/metrica/`, `src/routes/api/metrica/`
 - `src/lib/demarcador-nuevo/`
+- **`src/lib/metrica/rejilla.ts`** — la arquitectura dibujada verso a verso, y de dónde sale el
+  perfil de cada una. Es puro y está probado; lo pinta
+  `src/lib/components/metrica/MetricPositionGrid.svelte`, que consumen la ficha de `/formas`, el
+  demarcador y el recuadro de la norma del editor V2. Si una forma se dibuja mal, el fallo está en
+  el catálogo, no aquí: no hay reglas filológicas escritas en ese módulo.
+- **`src/lib/components/metrica/PublicArchitectureCard.svelte`** — la ficha de una arquitectura,
+  leída dimensión a dimensión y marcando qué fija la norma, qué elige la realización y qué se
+  observa al anotar. **Cada decisión de esa pantalla viene de un caso que se leía mal y está
+  comentada en el propio componente**; el razonamiento del día en que se rehízo quedó en
+  [histórico](docs/dominio-metrico/historico/catalogo-publico-2026-08-12.md).
 
 Cuando el editor V2 esté aprobado sustituirá al selector que hoy está en producción, y se
 migrarán todas las secuencias que ahora dependen del vocabulario viejo. Hasta entonces,

@@ -75,15 +75,19 @@ describe('catálogo público de formas', () => {
 		const rpc = vi.fn().mockResolvedValue({
 			data: {
 				...detalleVacio,
+				// Las columnas son las que la base tiene. `regla` **no existe** en
+				// `repeticiones_metricas`, y mientras este fixture se la inventó la ficha llevaba
+				// imprimiendo «undefined» en el villancico, el zéjel y las tres sextinas.
 				repeticiones: [
 					{
 						arquitectura_id: arquitectura.arquitectura_id,
+						repeticion_id: 'represa-total',
 						slug: 'represa_total',
 						tipo: 'estribillo',
 						nombre: 'Repetición total del estribillo',
-						regla: 'La represa reproduce el estribillo.',
 						modalidad: 'admitida',
-						descripcion: 'Reaparición material.'
+						descripcion: 'Reaparición material.',
+						materializa_seccion_id: 'seccion-estribillo'
 					}
 				],
 				afirmaciones: [
@@ -120,11 +124,16 @@ describe('catálogo público de formas', () => {
 				slug: 'represa_total',
 				tipo: 'estribillo',
 				nombre: 'Repetición total del estribillo',
-				regla: 'La represa reproduce el estribillo.',
 				modalidad: 'admitida',
-				descripcion: 'Reaparición material.'
+				descripcion: 'Reaparición material.',
+				// Materializa una sección: no es norma de la forma, es una de las respuestas.
+				esAlternativa: true
 			}
 		]);
+		// Ningún campo puede quedar en `undefined`: es lo que se imprimía en la página.
+		for (const valor of Object.values(resultado?.arquitecturas_[0].repeticiones[0] ?? {})) {
+			expect(valor).toBeDefined();
+		}
 		expect(resultado?.fuentes).toHaveLength(1);
 	});
 

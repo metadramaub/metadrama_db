@@ -12,14 +12,26 @@ import type {
 	PublicArchitecture,
 	PublicFormDetail,
 	PublicFormSummary,
+	PublicMetricScheme,
 	PublicRepetition,
 	PublicRhymeRestriction,
 	PublicRhymeScheme,
 	PublicSchemePart,
 	PublicSection,
-	PublicSource
+	PublicSource,
+	PublicTrait,
+	PublicTraits,
+	PublicVariety
 } from '$lib/metrica/formas-publicas.types';
 import type { MetricStructuralLevel } from '$lib/metrica/catalogo';
+import {
+	construirRejilla,
+	perfilDeArquitectura,
+	type EsquemaMetricoEntrada,
+	type EsquemaRimaEntrada,
+	type EntradaRejilla,
+	type SeccionEntrada
+} from '$lib/metrica/rejilla';
 
 /** Ordena por nombre entendiendo los números: «Tipología 2» antes que «Tipología 10». */
 const porNombre = (a: { nombre: string }, b: { nombre: string }) =>
@@ -122,9 +134,12 @@ export async function loadPublicForm(
 		formas,
 		arquitecturas,
 		esquemasMetricos,
+		posicionesMetricas,
+		opcionesMetricas,
 		esquemasRima,
 		enlacesRima,
 		posicionesRima,
+		posicionesRimaCompletas,
 		secciones,
 		gruposEleccion,
 		opcionesEleccion,
@@ -140,7 +155,9 @@ export async function loadPublicForm(
 		fuentes,
 		relaciones,
 		repeticiones,
-		restriccionesRima
+		restriccionesRima,
+		formasReferenciadas,
+		arquitecturasReutilizadas
 	} = await cargarAgrupado(db, 'get_forma_metrica_publica_jerarquica', { p_slug: slug });
 
 	const forma = (formas as any[]).find((row) => String(row.slug) === slug);
@@ -150,6 +167,26 @@ export async function loadPublicForm(
 	const nombreArquitectura = new Map(
 		(arquitecturas as any[]).map((row) => [String(row.arquitectura_id), String(row.nombre)])
 	);
+	/**
+	 * A qué forma lleva una parte que reutiliza otra arquitectura. Se enseña el nombre de la
+	 * forma —«Cuarteto endecasílabo» es una realización suya— y se enlaza su ficha.
+	 */
+	const formaDeArquitectura = new Map(
+		((formasReferenciadas ?? []) as any[]).map((row) => [
+			String(row.arquitectura_id),
+			{ nombre: String(row.forma_nombre), slug: texto(row.forma_slug) }
+		])
+	);
+	const reutilizacionDe = (
+		arquitecturaReferenciadaId: unknown
+	): { nombre: string; slug: string | null } | null => {
+		if (!arquitecturaReferenciadaId) return null;
+		const id = String(arquitecturaReferenciadaId);
+		const forma = formaDeArquitectura.get(id);
+		if (forma) return forma;
+		const nombre = nombreArquitectura.get(id);
+		return nombre ? { nombre, slug: null } : null;
+	};
 	const nombreRasgo = new Map(
 		(rasgos as any[]).map((row) => [String(row.rasgo_id), String(row.nombre)])
 	);
@@ -178,8 +215,19 @@ export async function loadPublicForm(
 		agrupar(rows, (row) => (row.arquitectura_id ? String(row.arquitectura_id) : null));
 
 	const enlacesPorEsquema = agrupar(enlacesRima as any[], (row) => String(row.esquema_rima_id));
+	// Las que llevan sección, para nombrar las partes de un esquema, y todas, para dibujarlas.
 	const posicionesPorEsquema = agrupar(posicionesRima as any[], (row) =>
 		String(row.esquema_rima_id)
+	);
+	const todasLasPosicionesPorEsquema = agrupar(
+		(posicionesRimaCompletas ?? []) as any[],
+		(row) => String(row.esquema_rima_id)
+	);
+	const posicionesMetricasPorEsquema = agrupar((posicionesMetricas ?? []) as any[], (row) =>
+		String(row.esquema_metrico_id)
+	);
+	const opcionesMetricasPorEsquema = agrupar((opcionesMetricas ?? []) as any[], (row) =>
+		String(row.esquema_metrico_id)
 	);
 	const restriccionesPorEsquema = agrupar((restriccionesRima ?? []) as any[], (row) =>
 		String(row.esquema_rima_id)
@@ -235,14 +283,27 @@ export async function loadPublicForm(
 	 */
 	const partesDe = (esquemaRimaId: string): PublicSchemePart[] => {
 		const partes: PublicSchemePart[] = [];
-		(posicionesPorEsquema.get(esquemaRimaId) ?? []).forEach((row, indice) => {
-			const nombre = String(row.seccion);
+		const todas = (todasLasPosicionesPorEsquema.get(esquemaRimaId) ?? []).length
+			? (todasLasPosicionesPorEsquema.get(esquemaRimaId) ?? [])
+			: (posicionesPorEsquema.get(esquemaRimaId) ?? []);
+		todas.forEach((row, indice) => {
+			const nombre = texto(row.seccion);
+			if (!nombre) return;
 			const ultima = partes.at(-1);
-			if (ultima?.nombre === nombre) {
+			// Dos bloques seguidos con el mismo nombre son dos partes, no una: `ABBA ABBA` son
+			// los dos cuartetos del soneto, y fundirlos dejaba una sola parte de 1 a 8 que, por
+			// ser única, no llegaba a enseñarse.
+			if (ultima?.nombre === nombre && ultima.hasta === indice && ultima.bloque === Number(row.bloque)) {
 				ultima.hasta = indice + 1;
 				ultima.nota ??= texto(row.nota);
 			} else {
-				partes.push({ nombre, desde: indice + 1, hasta: indice + 1, nota: texto(row.nota) });
+				partes.push({
+					nombre,
+					bloque: Number(row.bloque ?? 1),
+					desde: indice + 1,
+					hasta: indice + 1,
+					nota: texto(row.nota)
+				});
 			}
 		});
 		return partes;
@@ -331,6 +392,11 @@ export async function loadPublicForm(
 			nombre: propio ?? nombres[0] ?? '—',
 			notacion: texto(e.notacion),
 			descripcion: texto(e.descripcion),
+			// Qué esperar de esta disposición: la quintilla tiene una habitual, cuatro admitidas
+			// y tres excepcionales, y sin esto salían las ocho iguales.
+			modalidad: texto(e.modalidad),
+			tipoRima: e.tipo_rima_id ? (nombreTipoRima.get(String(e.tipo_rima_id)) ?? null) : null,
+			abierto: (todasLasPosicionesPorEsquema.get(String(e.esquema_rima_id)) ?? []).length === 0,
 			// El ciclo lo marca la notación: es la única declaración que hay.
 			cicla: String(e.notacion ?? '').includes(']…'),
 			enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
@@ -390,20 +456,11 @@ export async function loadPublicForm(
 			const id = String(o.esquema_rima_id);
 			if (vistos.has(id)) return [];
 			vistos.add(id);
-			const esquema = esquemaRimaPorId.get(id);
-			// La etiqueta de la opción ya trae la repetición escrita —«ABBA ABBA» frente al
-			// «ABBA» del esquema—, así que sirve de notación desde esta forma. El nombre propio
-			// del esquema pasa a ser la glosa.
-			const etiqueta = texto(o.nombre);
-			return esquema
-				? [
-						{
-							...esquema,
-							notacion: etiqueta ?? esquema.notacion,
-							nombre: esquema.nombre
-						}
-					]
-				: [];
+			// La etiqueta de la opción **se deriva** desde el 11 de agosto de 2026: es
+			// «nombre · notación» del propio esquema. Usarla como notación imprimía el nombre dos
+			// veces —«Cuartetos de rima cruzada · ABAB ABAB» y debajo «Cuartetos de rima
+			// cruzada»—. El esquema ya trae las dos cosas por separado.
+			return esquemaRimaPorId.get(id) ? [esquemaRimaPorId.get(id)!] : [];
 		});
 		// Las opciones de un mismo grupo son excluyentes —el cuarteto del soneto es abrazado o
 		// cruzado, nunca las dos cosas—, y agruparlas bajo el nombre de su parte ya lo dice.
@@ -427,9 +484,7 @@ export async function loadPublicForm(
 				versosMax: numero(s.versos_max),
 				repeticionesMin: numero(s.repeticiones_min),
 				repeticionesMax: numero(s.repeticiones_max),
-				reutiliza: s.arquitectura_referenciada_id
-					? (nombreArquitectura.get(String(s.arquitectura_referenciada_id)) ?? null)
-					: null,
+				reutiliza: reutilizacionDe(s.arquitectura_referenciada_id),
 				esquemasRima: rimaDeSeccion(s.seccion_id, String(s.nombre)),
 				hijas: []
 			});
@@ -454,24 +509,285 @@ export async function loadPublicForm(
 		return ordenar(raices);
 	};
 
+	/** El nombre de una sección, para saber a cuál se aplica un esquema métrico. */
+	const nombreDeSeccionPorId = new Map(
+		(secciones as any[]).map((s) => [String(s.seccion_id), String(s.nombre)])
+	);
+
+	/** Un esquema métrico tal como lo dibuja la rejilla: sus posiciones y su repertorio. */
+	const metricoEntrada = (e: any): EsquemaMetricoEntrada => ({
+		tipoSecuencia: texto(e.tipo_secuencia),
+		medidaUniforme: e.medida_uniforme === null ? null : e.medida_uniforme === true,
+		seccion: e.seccion_id ? (nombreDeSeccionPorId.get(String(e.seccion_id)) ?? null) : null,
+		posiciones: (posicionesMetricasPorEsquema.get(String(e.esquema_metrico_id)) ?? []).map((p) => ({
+			posicion: Number(p.posicion),
+			silabas: p.silabas === null || p.silabas === undefined ? null : String(p.silabas),
+			alternativa: numero(p.alternativa),
+			opcional: p.opcional === true
+		})),
+		opciones: (opcionesMetricasPorEsquema.get(String(e.esquema_metrico_id)) ?? []).map((o) => ({
+			silabas: o.silabas === null || o.silabas === undefined ? null : String(o.silabas),
+			rol: texto(o.rol)
+		}))
+	});
+
+	const rimaEntrada = (e: any, nombreSeccion: string | null): EsquemaRimaEntrada => ({
+		id: String(e.esquema_rima_id),
+		nombre: texto(e.nombre),
+		notacion: texto(e.notacion),
+		seccion: nombreSeccion,
+		modalidad: texto(e.modalidad),
+		posiciones: (todasLasPosicionesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((p) => ({
+			bloque: Number(p.bloque ?? 1),
+			posicion: Number(p.posicion),
+			clase: texto(p.clase_rima),
+			suelto: p.suelto === true,
+			seccion: texto(p.seccion)
+		})),
+		enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
+			desde: Number(l.posicion_origen),
+			hasta: Number(l.posicion_destino),
+			desplazamiento: Number(l.desplazamiento_bloque),
+			nota: texto(l.nota)
+		}))
+	});
+
+	/** La medida y la rima que una parte hereda de la arquitectura que reutiliza. */
+	const reutilizadaPorId = new Map(
+		((arquitecturasReutilizadas ?? []) as any[]).map((row) => [String(row.arquitectura_id), row])
+	);
+
+	/**
+	 * Lo que la rejilla necesita de una arquitectura. Las secciones son solo las raíces: las
+	 * hijas describen el interior de una parte y no dibujan columnas propias.
+	 */
+	const entradaDeRejilla = (arquitecturaId: string): EntradaRejilla => {
+		const filas = seccionesPor.get(arquitecturaId) ?? [];
+		const raices: SeccionEntrada[] = filas
+			.filter((s) => !s.seccion_padre_id)
+			.sort((a, b) => Number(a.orden ?? 0) - Number(b.orden ?? 0))
+			.map((s) => ({
+				nombre: String(s.nombre),
+				versosMin: numero(s.versos_min),
+				versosMax: numero(s.versos_max),
+				repeticionesMin: numero(s.repeticiones_min),
+				repeticionesMax: numero(s.repeticiones_max),
+				reutiliza: reutilizacionDe(s.arquitectura_referenciada_id)
+			}));
+
+		// Qué parte ofrece cada disposición. Un esquema puede no declarar `seccion_id` y aun así
+		// ser de una parte, porque quien lo ofrece es la pregunta de esa parte: las tres mudanzas
+		// del villancico cuelgan de la arquitectura y son de la mudanza.
+		const seccionOfrecida = new Map<string, string>();
+		for (const s of filas) {
+			for (const esquema of rimaDeSeccion(s.seccion_id, String(s.nombre))) {
+				if (!seccionOfrecida.has(esquema.id)) seccionOfrecida.set(esquema.id, String(s.nombre));
+			}
+		}
+
+		const rimas: EsquemaRimaEntrada[] = (rimaPor.get(arquitecturaId) ?? []).map((e) =>
+			rimaEntrada(
+				e,
+				e.seccion_id
+					? (nombreDeSeccionPorId.get(String(e.seccion_id)) ?? null)
+					: (seccionOfrecida.get(String(e.esquema_rima_id)) ?? null)
+			)
+		);
+		// La misma disposición puede servir a dos partes —las dos quintillas de la copla real
+		// eligen del mismo repertorio—, así que la clave es la pareja parte + esquema.
+		const vistos = new Set(rimas.map((rima) => `${rima.seccion ?? ''}:${rima.id}`));
+		const metricos: EsquemaMetricoEntrada[] = (metricosPor.get(arquitecturaId) ?? []).map(
+			metricoEntrada
+		);
+		for (const s of filas) {
+			const nombre = String(s.nombre);
+			for (const esquema of rimaDeSeccion(s.seccion_id, nombre)) {
+				if (vistos.has(`${nombre}:${esquema.id}`)) continue;
+				vistos.add(`${nombre}:${esquema.id}`);
+				const crudo = (esquemasRima as any[]).find((e) => String(e.esquema_rima_id) === esquema.id);
+				if (crudo) rimas.push(rimaEntrada(crudo, nombre));
+			}
+			// Lo que la parte hereda de la forma que reutiliza. Sin esto el cuerpo de la seguidilla
+			// compuesta y la estrofa de las sextinas se dibujaban sin medida.
+			const heredada = s.arquitectura_referenciada_id
+				? reutilizadaPorId.get(String(s.arquitectura_referenciada_id))
+				: null;
+			if (!heredada) continue;
+			if (!metricos.some((esquema) => esquema.seccion === nombre)) {
+				for (const em of (heredada.esquemas_metricos ?? []) as any[]) {
+					metricos.push({
+						tipoSecuencia: texto(em.tipo_secuencia),
+						medidaUniforme: em.medida_uniforme === null ? null : em.medida_uniforme === true,
+						seccion: nombre,
+						posiciones: ((em.posiciones ?? []) as any[]).map((p) => ({
+							posicion: Number(p.posicion),
+							silabas: p.silabas === null || p.silabas === undefined ? null : String(p.silabas),
+							alternativa: numero(p.alternativa),
+							opcional: p.opcional === true
+						})),
+						opciones: ((em.opciones ?? []) as any[]).map((o) => ({
+							silabas: o.silabas === null || o.silabas === undefined ? null : String(o.silabas),
+							rol: texto(o.rol)
+						}))
+					});
+				}
+			}
+			if (rimas.some((rima) => rima.seccion === nombre)) continue;
+			for (const er of (heredada.esquemas_rima ?? []) as any[]) {
+				rimas.push({
+					id: String(er.esquema_rima_id),
+					nombre: texto(er.nombre),
+					notacion: texto(er.notacion),
+					seccion: nombre,
+					modalidad: texto(er.modalidad),
+					posiciones: ((er.posiciones ?? []) as any[]).map((p) => ({
+						bloque: Number(p.bloque ?? 1),
+						posicion: Number(p.posicion),
+						clase: texto(p.clase_rima),
+						suelto: p.suelto === true,
+						seccion: texto(p.seccion)
+					})),
+					enlaces: []
+				});
+			}
+		}
+		const arquitectura = (arquitecturas as any[]).find(
+			(a) => String(a.arquitectura_id) === arquitecturaId
+		);
+		return {
+			metricos,
+			rimas,
+			secciones: raices,
+			unidadMin: numero(arquitectura?.unidad_versos_min),
+			unidadMax: numero(arquitectura?.unidad_versos_max)
+		};
+	};
+
+	/**
+	 * Los rasgos, repartidos por cómo se leen. Lo que los separa es su grupo de elección: si no
+	 * tienen, la arquitectura lo afirma; si lo tienen y admite una sola respuesta entre varias,
+	 * los valores son excluyentes; si es una sola opción que puede quedarse vacía, es un sí o un no.
+	 */
+	const rasgosDe = (arquitecturaId: string): PublicTraits => {
+		const grupoDeRasgo = new Map(
+			(gruposEleccion as any[])
+				.filter((g) => String(g.arquitectura_id) === arquitecturaId && g.rasgo_id)
+				.map((g) => [String(g.rasgo_id), g])
+		);
+		const opcionesDeGrupo = (grupoId: string) =>
+			(opcionesEleccion as any[]).filter(
+				(o) => String(o.grupo_eleccion_id) === grupoId && o.valor_rasgo_id
+			);
+
+		const declarados: PublicTrait[] = [];
+		const opcionales: PublicTrait[] = [];
+		const porRasgo = new Map<string, { nombre: string; nota: string | null; valores: PublicTrait[] }>();
+
+		for (const r of rasgosPor.get(arquitecturaId) ?? []) {
+			const nombre = nombreRasgo.get(String(r.rasgo_id)) ?? '—';
+			const rasgo: PublicTrait = {
+				nombre,
+				valor: r.valor_id ? (nombreValor.get(String(r.valor_id)) ?? null) : null,
+				modalidad: texto(r.modalidad),
+				nota: texto(r.nota),
+				posicionesMax: numero(r.posiciones_max)
+			};
+			const grupo = grupoDeRasgo.get(String(r.rasgo_id));
+			if (!grupo) {
+				declarados.push(rasgo);
+				continue;
+			}
+			const opciones = opcionesDeGrupo(String(grupo.grupo_eleccion_id));
+			// Una sola opción que se puede dejar sin responder no es una elección: es un sí o un no.
+			// Es el mismo criterio con el que el editor decide su control.
+			if (opciones.length <= 1 && Number(grupo.selecciones_min ?? 0) === 0) {
+				opcionales.push(rasgo);
+				continue;
+			}
+			const grupoDeValores = porRasgo.get(nombre) ?? { nombre, nota: null, valores: [] };
+			grupoDeValores.valores.push(rasgo);
+			grupoDeValores.nota ??= rasgo.nota;
+			porRasgo.set(nombre, grupoDeValores);
+		}
+
+		// Un rasgo que se pregunta pero del que solo se declaró un valor no es una disyuntiva.
+		const excluyentes = [...porRasgo.values()].filter((grupo) => grupo.valores.length > 1);
+		for (const grupo of porRasgo.values()) {
+			if (grupo.valores.length === 1) opcionales.push(grupo.valores[0]);
+		}
+		return { declarados, excluyentes, opcionales };
+	};
+
+	/**
+	 * El régimen de rima, leído en el nivel en que el catálogo lo declara.
+	 *
+	 * Se declara **siempre**: en la arquitectura si su régimen es uno, y en cada disposición si
+	 * dentro de ella varía. Lo que esta función no hace es rellenar el de la arquitectura con el
+	 * de sus disposiciones cuando coinciden: eso taparía que falta declararlo donde toca, y la
+	 * ficha existe justamente para que esos huecos se vean.
+	 */
+	const tipoDeRima = (
+		row: any,
+		esquemas: PublicRhymeScheme[]
+	): { tipoRima: string | null; tipoRimaPorDisposicion: boolean; tipoRimaSinDeclarar: boolean } => {
+		const declarado = row.tipo_rima_id
+			? (nombreTipoRima.get(String(row.tipo_rima_id)) ?? null)
+			: null;
+		if (declarado) {
+			return { tipoRima: declarado, tipoRimaPorDisposicion: false, tipoRimaSinDeclarar: false };
+		}
+		const conRegimen = esquemas.filter((esquema) => esquema.tipoRima);
+		const porDisposicion = conRegimen.length > 0 && conRegimen.length === esquemas.length;
+		return {
+			tipoRima: null,
+			tipoRimaPorDisposicion: porDisposicion,
+			tipoRimaSinDeclarar: !porDisposicion
+		};
+	};
+
 	const misArquitecturas: PublicArchitecture[] = (arquitecturas as any[])
 		.filter((row) => String(row.forma_id) === formaId)
 		.map((row) => {
 			const id = String(row.arquitectura_id);
+			const entrada = entradaDeRejilla(id);
+			// Una sola figura: dentro van ya todas las disposiciones, alineadas bajo la medida.
+			const rejilla = construirRejilla(entrada);
 			return {
 				slug: String(row.slug),
 				nombre: String(row.nombre),
 				descripcion: texto(row.descripcion),
 				principal: row.principal === true,
 				modalidad: texto(row.modalidad),
+				...tipoDeRima(row, rimaAgrupadaPorParte(id)),
 				unidadMin: numero(row.unidad_versos_min),
 				unidadMax: numero(row.unidad_versos_max),
+				perfil: perfilDeArquitectura({
+					...entrada,
+					variedades: (variedadesPor.get(id) ?? []).length,
+					tieneCicloDeEstribillo: (repeticionesPor.get(id) ?? []).some(
+						(r) => String(r.tipo) === 'estribillo'
+					)
+				}),
+				rejilla,
 				esquemasMetricos: (metricosPor.get(id) ?? [])
-					.map((e) => ({
-						nombre: String(e.nombre ?? '—'),
-						notacion: null,
-						descripcion: texto(e.descripcion)
-					}))
+					.map((e): PublicMetricScheme => {
+						const dibujable = metricoEntrada(e);
+						return {
+							nombre: String(e.nombre ?? '—'),
+							notacion: null,
+							descripcion: texto(e.descripcion),
+							modalidad: null,
+							tipoSecuencia: dibujable.tipoSecuencia,
+							// Solo un repertorio abierto declara si la medida elegida vale para todo
+							// el pasaje: en la silva elige cada verso; en el villancico, la
+							// composición entera.
+							uniforme: e.medida_uniforme === true,
+							repertorio: dibujable.opciones.flatMap((opcion) =>
+								opcion.silabas ? [{ silabas: opcion.silabas, rol: opcion.rol }] : []
+							),
+							deLaSeccion: dibujable.seccion
+						};
+					})
 					.sort(porNombre),
 				// `esquemas_rima` no tiene columna de orden, así que se ordena por nombre.
 				// Bajo «Rima» va toda la de la forma: la que declara la unidad y la que declaran
@@ -487,25 +803,47 @@ export async function loadPublicForm(
 				esquemasRima: rimaAgrupadaPorParte(id),
 				// El árbol conserva contenedores y ordena cada grupo de hermanos por separado.
 				secciones: seccionesDe(id),
-				variedades: (variedadesPor.get(id) ?? []).map((v) => ({
-					nombre: String(v.nombre),
-					notacion: null,
-					descripcion: texto(v.descripcion)
-				})),
-				rasgos: (rasgosPor.get(id) ?? []).map((r) => ({
-					nombre: nombreRasgo.get(String(r.rasgo_id)) ?? '—',
-					valor: r.valor_id ? (nombreValor.get(String(r.valor_id)) ?? null) : null,
-					modalidad: texto(r.modalidad),
-					nota: texto(r.nota)
-				})),
+				// Una variedad es un emparejamiento: la medida M1 con la rima R1. Enseñarla como
+				// nombre y descripción obligaba a escribir en prosa lo que ya está en los dos
+				// esquemas, y dejaba salir a la web los códigos internos «M1» y «R1».
+				variedades: (variedadesPor.get(id) ?? []).map((v): PublicVariety => {
+					const metrico = (esquemasMetricos as any[]).find(
+						(e) => String(e.esquema_metrico_id) === String(v.esquema_metrico_id)
+					);
+					const rima = (esquemasRima as any[]).find(
+						(e) => String(e.esquema_rima_id) === String(v.esquema_rima_id)
+					);
+					const medida = metrico
+						? metricoEntrada(metrico)
+								.posiciones.filter((posicion) => (posicion.alternativa ?? 1) === 1)
+								.sort((a, b) => a.posicion - b.posicion)
+								.map((posicion) => posicion.silabas ?? '?')
+								.join('-')
+						: '';
+					return {
+						nombre: String(v.nombre),
+						descripcion: texto(v.descripcion),
+						modalidad: texto(v.modalidad),
+						medida: medida || null,
+						rima: rima ? (texto(rima.notacion) ?? texto(rima.nombre)) : null
+					};
+				}),
+				eligeVariedad: (gruposEleccion as any[]).some(
+					(g) => String(g.arquitectura_id) === id && String(g.dimension) === 'combinacion'
+				),
+				rasgos: rasgosDe(id),
+				// `repeticiones_metricas` no tiene columna `regla`: la ficha llevaba imprimiendo
+				// «undefined» en el villancico, el zéjel y las tres sextinas. Lo que sí distingue a
+				// unas de otras es si materializan una sección, porque entonces no son norma de la
+				// forma sino las respuestas de una pregunta del editor.
 				repeticiones: (repeticionesPor.get(id) ?? []).map(
 					(r): PublicRepetition => ({
 						slug: String(r.slug),
 						tipo: String(r.tipo),
 						nombre: String(r.nombre),
-						regla: String(r.regla),
 						modalidad: texto(r.modalidad),
-						descripcion: texto(r.descripcion)
+						descripcion: texto(r.descripcion),
+						esAlternativa: Boolean(r.materializa_seccion_id) || String(r.tipo) === 'estribillo'
 					})
 				),
 				denominaciones: (denominacionesPorArquitectura.get(id) ?? []).map((d) => String(d.nombre))

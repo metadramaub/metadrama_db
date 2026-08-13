@@ -1,3 +1,5 @@
+import type { Rejilla } from '$lib/metrica/rejilla';
+
 export type ModalidadEvidencia = 'definitoria' | 'habitual' | 'admitida' | 'excepcional';
 export type ObservabilidadEvidencia = 'directa' | 'especializada' | 'derivada';
 export type TipoEvidencia = 'categoria' | 'booleano' | 'numero';
@@ -61,9 +63,15 @@ export type RasgoVisual = {
 };
 
 export type PresentacionArquitectura = {
+	/**
+	 * La arquitectura dibujada verso a verso, con la misma rejilla que la ficha de `/formas`.
+	 * Sustituye a la tira de casillas que el demarcador pintaba por su cuenta, que contaba las
+	 * alternativas de una posición como posiciones: la seguidilla gitana, que mide
+	 * 6-6-(10/11/12)-6, salía con doce casillas.
+	 */
+	rejilla: Rejilla | null;
 	metro: {
 		descripcion: string | null;
-		esquemas: string[][];
 	};
 	rima: {
 		tipo: string | null;

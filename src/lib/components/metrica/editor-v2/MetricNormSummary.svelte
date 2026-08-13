@@ -1,9 +1,13 @@
 <script lang="ts">
 	import type { MetricNormFact } from './norm-summary';
+	import type { Rejilla } from '$lib/metrica/rejilla';
+	import MetricPositionGrid from '$lib/components/metrica/MetricPositionGrid.svelte';
 
 	const props = $props<{
 		facts: MetricNormFact[];
 		catalogHref: string;
+		/** La arquitectura dibujada, cuando la norma fija posiciones que enseñar. */
+		rejilla?: Rejilla | null;
 	}>();
 </script>
 
@@ -19,6 +23,13 @@
 			Ver ficha completa ↗
 		</a>
 	</div>
+	<!-- La estructura antes de la lista: quien anota está reconociéndola en el texto, y una
+	     figura se compara con lo que tiene delante mejor que una frase. -->
+	{#if props.rejilla}
+		<div class="mt-2">
+			<MetricPositionGrid rejilla={props.rejilla} />
+		</div>
+	{/if}
 	{#if props.facts.length > 0}
 		<dl class="mt-2 grid gap-x-5 gap-y-1.5 sm:grid-cols-[max-content_minmax(0,1fr)]">
 			{#each props.facts as fact (`${fact.label}:${fact.value}`)}

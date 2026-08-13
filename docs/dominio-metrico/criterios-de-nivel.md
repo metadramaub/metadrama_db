@@ -146,6 +146,26 @@ observado como respuesta abierta, validada contra la extensión de la unidad. Lo
 vacíos que solo ocupan un hueco en la interfaz no son admisibles (**D2**), y toda
 arquitectura debe declarar de algún modo cómo se comporta su rima (**D2b**).
 
+**El régimen de rima se declara siempre, en el nivel que le corresponde.** Consonante, asonante o
+sin rima es lo primero que hay que saber de una rima, y el catálogo lo admite en dos sitios: en la
+arquitectura y en cada disposición. Va **arriba cuando el régimen es uno** —el soneto es consonante
+y se acabó— y **abajo cuando dentro de la arquitectura varía**: el villancico admite `abba` y
+`abab` consonantes junto a la asonantada `abcb`, y la canción sin rima tiene el cuerpo sin rimar y
+un pareado final consonante. Reducir esos dos a un valor sería falsearlos, y por eso dejan la
+casilla de arriba vacía a propósito. Lo que no vale es que no esté en ninguno de los dos, y eso lo
+comprueba **D15**. Ocho arquitecturas lo callaban hasta el 12 de agosto de 2026, cuando la ficha
+empezó a enseñarlo y se vio el hueco.
+
+**La caja de la clase marca el arte del verso, no una clase distinta.** `C` y `c` son la misma
+rima sobre un endecasílabo y sobre un heptasílabo: así rima el eslabón de la estancia con el
+sexto verso, y así rima consigo mismo el pareado `aA` de la silva regular. De ahí dos
+consecuencias. La primera: quien cuente clases o alternancias debe hacerlo **sin distinguir
+caja**, o inventará clases que no existen. La segunda: la notación que se publica y las
+posiciones que se guardan tienen que decir lo mismo, letra por letra y caja por caja, sin contar
+los versos sueltos —que la notación escribe con guion y las posiciones dejan sin clase— y eso lo
+comprueba **D14**. Ocho esquemas lo incumplían hasta el 12 de agosto de 2026; se vio al dibujar
+la rejilla, porque las letras contradecían la notación impresa debajo.
+
 ### 3.4 · Unidad, pasaje y secciones
 
 Una forma define una unidad; la secuencia contiene una o más realizaciones de ella. Cuántas
@@ -164,11 +184,14 @@ dos cuartetos del soneto, las seis estrofas de la sextina— pertenece a la arqu
 
 Cuando una sección realiza una arquitectura ya formalizada de otra forma, **se reutiliza;
 no se copia** (**D8**). La novena reutiliza las arquitecturas de la redondilla y la
-quintilla; la copla real, que duplica los ocho esquemas de la quintilla en cada una de sus
-dos arquitecturas, es el caso a corregir.
+quintilla; la copla real reutiliza la arquitectura de la quintilla en sus dos secciones.
 
-`compuesta_por` documenta la arquitectura; `subtipo_de`, la taxonomía. Ninguna convierte al
-componente en padre del compuesto.
+La composición se declara en dos niveles complementarios. `compuesta_por` vincula las
+**formas** y permite leer la relación desde ambos extremos; `arquitectura_referenciada_id`
+identifica la **arquitectura concreta** que realiza una sección y de la que hereda lo que no
+declare por su cuenta. Ninguna convierte al componente en padre del compuesto, y ninguna
+sustituye a la otra: toda reutilización que cruce dos formas debe tener al menos una relación
+ontológica entre ellas (**D16**). `subtipo_de` sigue reservado a la taxonomía.
 
 ### 3.6 · Propiedades cualitativas
 
@@ -260,6 +283,10 @@ No dependen de una decisión editorial: si una salta, hay algo mal formalizado.
 | D10 | Ninguna forma general es subtipo de una específica | 3.7 |
 | D11 | Ninguna sección existe solo para repetir la unidad | 3.4 |
 | D12 | Ninguna pregunta estructural tiene alcance de secuencia | 3.2 |
+| D13 | Ningún esquema concreto contradice el criterio de su esquema abierto | 3.3 |
+| D14 | La notación de un esquema y sus clases de rima dicen lo mismo | 3.3 |
+| D15 | Toda arquitectura declara su régimen de rima, arriba o en sus disposiciones | 3.3 |
+| D16 | Toda reutilización entre formas tiene una relación ontológica correspondiente | 3.5 |
 
 El informe añade matrices descriptivas —dónde vive la medida, dónde la rima, qué alcance
 tiene cada pregunta, qué ámbito declara cada esquema— que no son incumplimientos, sino el

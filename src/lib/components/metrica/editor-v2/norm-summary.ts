@@ -3,6 +3,7 @@ import type {
 	MetricCatalogDomainRow,
 	MetricLengthRule
 } from '$lib/metrica/catalogo';
+import { construirRejilla, type Rejilla } from '$lib/metrica/rejilla';
 import type { MetricUnitPlan } from './editor-model';
 
 export type MetricNormFact = {
@@ -513,6 +514,108 @@ function repetitionSummary(
 		.map((pattern) => String(pattern.descripcion || pattern.nombre || '').replace(/[.]$/, ''))
 		.filter(Boolean);
 	return values.length > 0 ? [...new Set(values)].join(' · ') : null;
+}
+
+/**
+ * La arquitectura dibujada verso a verso, con la misma rejilla que la ficha de `/formas` y el
+ * demarcador. En el editor sirve para que quien anota vea la estructura que está reconociendo
+ * mientras responde, sin salir de la pantalla ni traducir una frase a una figura.
+ */
+export function metricNormGrid(args: {
+	architectureId: string;
+	domain: MetricCatalogDomainData;
+}): Rejilla | null {
+	const { architectureId, domain } = args;
+	const syllables = (metreId: string): string | null => {
+		const metre = domain.verseModels.find((row) => id(row, 'metro_id') === metreId);
+		return metre?.silabas === null || metre?.silabas === undefined ? null : String(metre.silabas);
+	};
+	const sections = domain.sections.filter(
+		(section) => id(section, 'arquitectura_id') === architectureId
+	);
+	const sectionName = (sectionId: string): string | null =>
+		sections.find((section) => id(section, 'seccion_id') === sectionId)?.nombre
+			? String(sections.find((section) => id(section, 'seccion_id') === sectionId)?.nombre)
+			: null;
+	const architecture = domain.configurations.find(
+		(row) => id(row, 'arquitectura_id') === architectureId
+	);
+
+	return construirRejilla({
+		metricos: domain.metricPatterns
+			.filter((pattern) => id(pattern, 'arquitectura_id') === architectureId)
+			.map((pattern) => ({
+				tipoSecuencia: pattern.tipo_secuencia ? String(pattern.tipo_secuencia) : null,
+				medidaUniforme:
+					pattern.medida_uniforme === null || pattern.medida_uniforme === undefined
+						? null
+						: pattern.medida_uniforme === true,
+				seccion: pattern.seccion_id ? sectionName(id(pattern, 'seccion_id')) : null,
+				posiciones: domain.metricPositions
+					.filter(
+						(position) =>
+							id(position, 'esquema_metrico_id') === id(pattern, 'esquema_metrico_id')
+					)
+					.map((position) => ({
+						posicion: Number(position.posicion),
+						silabas: syllables(id(position, 'metro_id')),
+						alternativa:
+							position.alternativa === null || position.alternativa === undefined
+								? null
+								: Number(position.alternativa),
+						opcional: position.opcional === true
+					})),
+				opciones: domain.metricOptions
+					.filter(
+						(option) => id(option, 'esquema_metrico_id') === id(pattern, 'esquema_metrico_id')
+					)
+					.map((option) => ({
+						silabas: syllables(id(option, 'metro_id')),
+						rol: option.rol ? String(option.rol) : null
+					}))
+			})),
+		rimas: domain.rhymePatterns
+			.filter((pattern) => id(pattern, 'arquitectura_id') === architectureId)
+			.map((pattern) => ({
+				id: id(pattern, 'esquema_rima_id'),
+				nombre: pattern.nombre ? String(pattern.nombre) : null,
+				notacion: pattern.notacion ? String(pattern.notacion) : null,
+				seccion: pattern.seccion_id ? sectionName(id(pattern, 'seccion_id')) : null,
+				modalidad: pattern.modalidad ? String(pattern.modalidad) : null,
+				posiciones: domain.rhymePositions
+					.filter(
+						(position) => id(position, 'esquema_rima_id') === id(pattern, 'esquema_rima_id')
+					)
+					.map((position) => ({
+						bloque: Number(position.bloque ?? 1),
+						posicion: Number(position.posicion),
+						clase: position.clase_rima ? String(position.clase_rima) : null,
+						suelto: position.suelto === true,
+						seccion: position.seccion ? String(position.seccion) : null
+					})),
+				enlaces: domain.rhymeLinks
+					.filter((link) => id(link, 'esquema_rima_id') === id(pattern, 'esquema_rima_id'))
+					.map((link) => ({
+						desde: Number(link.posicion_origen),
+						hasta: Number(link.posicion_destino),
+						desplazamiento: Number(link.desplazamiento_bloque),
+						nota: link.nota ? String(link.nota) : null
+					}))
+			})),
+		secciones: sections
+			.filter((section) => !section.seccion_padre_id)
+			.sort((a, b) => Number(a.orden ?? 0) - Number(b.orden ?? 0))
+			.map((section) => ({
+				nombre: String(section.nombre),
+				versosMin: nonNegativeInteger(section.versos_min),
+				versosMax: nonNegativeInteger(section.versos_max),
+				repeticionesMin: nonNegativeInteger(section.repeticiones_min),
+				repeticionesMax: nonNegativeInteger(section.repeticiones_max),
+				reutiliza: null
+			})),
+		unidadMin: nonNegativeInteger(architecture?.unidad_versos_min),
+		unidadMax: nonNegativeInteger(architecture?.unidad_versos_max)
+	});
 }
 
 export function metricNormFacts(args: {

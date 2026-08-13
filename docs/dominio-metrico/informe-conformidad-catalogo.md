@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-07 15:41
+Generado: 2026-08-13 17:41
 
-Inventario: 27 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 81 patrones de rima · 61 secciones · 61 grupos de elección · 406 opciones · 6 rasgos.
+Inventario: 27 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 88 patrones de rima · 56 secciones · 62 grupos de elección · 403 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -38,16 +38,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D5 · La opción distingue menos posiciones que el patrón al que apunta — 4
+### D5 · La opción distingue menos posiciones que el patrón al que apunta — 0
 
 > El patrón debe modelar el nivel que la pregunta distingue; si la opción nombra un esquema más corto, la alternativa vive en un nivel inferior.
 
-| Sujeto | Detalle |
-| --- | --- |
-| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDEDCE» (6) apunta a «CDE DCE» (7), ámbito seccion |
-| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDCEDE» (6) apunta a «CDC EDE» (7), ámbito seccion |
-| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDECDE» (6) apunta a «CDE CDE» (7), ámbito seccion |
-| soneto · endecasilabica_consonante | esquema_tercetos · opción «CDCDCD» (6) apunta a «CDC DCD» (7), ámbito seccion |
+Sin incidencias.
 
 ### D6 · Slug de opción con UUID incrustado — 0
 
@@ -91,6 +86,30 @@ Sin incidencias.
 
 Sin incidencias.
 
+### D13 · Un esquema concreto contradice el criterio de su esquema abierto — 0
+
+> Cuando una arquitectura declara un esquema abierto con restricciones y además esquemas concretos sobre el mismo tramo, el abierto es la norma y los concretos son sus realizaciones documentadas: tienen que cumplirla. Se exceptúa el concreto que el propio criterio excluye —ahí el abierto no es la norma sino la alternativa que queda—, y los que ocupan otra sección, que no compiten con él sino que completan la estrofa.
+
+Sin incidencias.
+
+### D14 · La notación de un esquema y sus clases de rima no cuadran — 0
+
+> La notación es lo que se publica y las posiciones son lo que se dibuja: tienen que decir lo mismo. Las letras de la notación, en orden de lectura, son las clases guardadas, con su caja —la mayúscula marca el arte mayor y no una clase distinta— y sin contar los versos sueltos, que la notación escribe con guion y las posiciones dejan sin clase. Ocho esquemas incumplían esto hasta el 12 de agosto de 2026, y se veía al dibujar la rejilla: las letras contradecían la notación impresa debajo.
+
+Sin incidencias.
+
+### D15 · Arquitectura sin régimen de rima declarado en ningún nivel — 0
+
+> El régimen —consonante, asonante, sin rima— se declara siempre, en el nivel que le corresponde: en la arquitectura cuando es uno solo, y en cada disposición cuando dentro de ella varía. El villancico lo declara abajo porque admite `abba` consonante junto a la asonantada `abcb`, y la canción sin rima porque su cuerpo no rima y su pareado final sí. Lo que no vale es que no esté en ninguno de los dos: es lo primero que hay que saber de una rima, y ocho arquitecturas lo callaban hasta el 12 de agosto de 2026.
+
+Sin incidencias.
+
+### D16 · Reutilización entre formas sin relación ontológica — 0
+
+> Cuando una sección reutiliza una arquitectura de otra forma, la precisión estructural vive en arquitectura_referenciada_id y el vínculo navegable vive en forma_relaciones. Tiene que existir al menos una relación entre ambas formas, declarada una sola vez en cualquiera de las dos direcciones.
+
+Sin incidencias.
+
 ## 2 · Homogeneidad de criterio
 
 ### 2.1 · Dónde vive cada dimensión, forma por forma
@@ -100,10 +119,10 @@ Sin incidencias.
 | cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_de_pie_quebrado | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
-| copla_real | estrofa | 1 | sí | eleccion, posiciones | elección, sin patrón | 3 | unidad |
+| copla_real | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | cuarteto | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | decima | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
-| endecasilabo_suelto | serie | 1 | sí | posiciones | patrón único | 2 | secuencia |
+| endecasilabo_suelto | serie | 1 | sí | posiciones | patrón único | 4 | secuencia |
 | endecha_real | serie | 3 | sí | configuracion, posiciones | elección, patrón único | 4 | secuencia |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
@@ -115,22 +134,22 @@ Sin incidencias.
 | seguidilla | estrofa | 6 | sí | configuracion, eleccion, posiciones | patrón único | 1 | unidad |
 | sexteto | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
-| sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
+| sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único, varios patrones sin pregunta | 1 | unidad |
 | sextina | composicion | 3 | sí | posiciones | sin patrón | 0 | — |
 | sextina_estrofa | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| silva | serie | 4 | sí | configuracion, conjunto, posiciones | patrón único | 1 | secuencia |
+| silva | serie | 4 | sí | configuracion, conjunto, posiciones | patrón único | 3 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
-| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 13 | unidad |
-| zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 4 | unidad |
+| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 10 | realizacion, unidad |
+| zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 4 | realizacion, unidad |
 
 ### 2.2 · Reparto de la medida
 
 | Vía | Formas |
 | --- | --- |
 | configuracion (8) | endecha_real, redondilla, romance, seguidilla, sexteto, sextilla, silva, terceto_encadenado |
-| conjunto (6) | cancion_petrarquista, copla_de_pie_quebrado, pareado, silva, villancico, zejel |
+| conjunto (7) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, silva, villancico, zejel |
 | eleccion (7) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, seguidilla, villancico, zejel |
 | posiciones (23) | cancion_petrarquista, copla_de_arte_mayor, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
 
@@ -141,7 +160,7 @@ Sin incidencias.
 | combinacion · unidad | sexteto_lira |
 | metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, seguidilla, villancico, zejel |
 | rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_real, romance, sexteto_lira, silva, soneto, terceto |
-| repeticion · unidad | villancico, zejel |
+| repeticion · realizacion | villancico, zejel |
 | rima · secuencia | endecha_real |
 | rima · unidad | cancion_petrarquista, copla_de_arte_mayor, copla_real, cuarteto, novena, pareado, quintilla, redondilla, sexteto, sextilla, soneto, terceto, villancico |
 
@@ -149,25 +168,25 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| seccion | 14 | cancion_petrarquista×4, soneto×4, villancico×6 |
-| unidad | 67 | copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×6, lira×1, octava_real×1, pareado×2, quintilla×8, redondilla×7, romance×4, seguidilla×6, sexteto×4, sexteto_lira×3, sextilla×6, sextina_estrofa×1, silva×4, terceto×2, terceto_encadenado×2, zejel×1 |
+| undefined | 88 | cancion_petrarquista×4, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×7, lira×1, octava_real×1, pareado×2, quintilla×9, redondilla×7, romance×4, seguidilla×6, sexteto×4, sexteto_lira×3, sextilla×9, sextina_estrofa×1, silva×4, soneto×6, terceto×2, terceto_encadenado×2, villancico×6, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
 | Configuración | Patrones abiertos | Estrategia |
 | --- | ---: | --- |
-| cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema |
 | sexteto · alejandrina | 1 | control abierto de esquema |
 | sexteto · dodecasilabica | 1 | control abierto de esquema |
 | sexteto · endecasilabica | 1 | control abierto de esquema |
+| cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema + restricciones cualitativas (1) |
 | copla_de_pie_quebrado · octosilabica_con_quebrados | 1 | patrón vacío, sin sustituto |
-| sextilla · doble_pie_quebrado | 1 | patrón vacío, sin sustituto |
 | sextilla · heptasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · hexasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
 | cancion_petrarquista · sin_rima_con_pareado_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
+| quintilla · octosilabica_consonante | 1 | restricciones cualitativas (1) |
+| sextilla · doble_pie_quebrado | 1 | restricciones cualitativas (1) |
 | silva · consonante_irregular | 1 | restricciones cualitativas (1) |
 | silva · endecasilabica | 1 | restricciones cualitativas (1) |
 | silva · libre | 1 | restricciones cualitativas (1) |
@@ -188,5 +207,5 @@ Todas las formas aparecen en el contrato del registrador.
 
 ---
 
-Total de defectos detectados: 4.
+Total de defectos detectados: 0.
 
