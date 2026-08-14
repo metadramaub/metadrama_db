@@ -141,6 +141,8 @@ export type PublicSection = {
 	versosMax: number | null;
 	repeticionesMin: number | null;
 	repeticionesMax: number | null;
+	/** La primera aparición concreta establece el patrón que repetirán las siguientes. */
+	primeraRealizacionDefinePatron: boolean;
 	/**
 	 * La forma cuyo repertorio de rima reutiliza esta parte, con su enlace: los cuartetos del
 	 * soneto riman como el cuarteto endecasílabo, y la ficha debe poder llevar allí.
@@ -172,8 +174,31 @@ export type PublicTrait = {
  */
 export type PublicTraits = {
 	declarados: PublicTrait[];
-	excluyentes: { nombre: string; nota: string | null; valores: PublicTrait[] }[];
+	/** Posibilidades reconocidas que no caracterizan todas las realizaciones. */
+	permitidos: PublicTrait[];
+	excluyentes: {
+		nombre: string;
+		nota: string | null;
+		valores: PublicTrait[];
+		opcional: boolean;
+	}[];
 	opcionales: PublicTrait[];
+};
+
+/**
+ * Cómo se concreta una dimensión al realizar la arquitectura.
+ *
+ * La ficha conserva estos datos estructurados para derivar su grado de determinación. No son
+ * contenido editorial: proceden de los grupos que consume también el registrador.
+ */
+export type PublicChoiceGroup = {
+	dimension: string;
+	alcance: string | null;
+	tipoControl: string | null;
+	seleccionesMin: number;
+	seleccionesMax: number;
+	defineNorma: boolean;
+	opciones: number;
 };
 
 /**
@@ -247,6 +272,7 @@ export type PublicArchitecture = {
 	eligeVariedad: boolean;
 	rasgos: PublicTraits;
 	repeticiones: PublicRepetition[];
+	elecciones: PublicChoiceGroup[];
 	denominaciones: string[];
 };
 

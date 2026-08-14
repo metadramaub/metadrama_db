@@ -10,6 +10,7 @@
 
 import type {
 	PublicArchitecture,
+	PublicChoiceGroup,
 	PublicFormDetail,
 	PublicFormSummary,
 	PublicMetricScheme,
@@ -32,6 +33,7 @@ import {
 	type EntradaRejilla,
 	type SeccionEntrada
 } from '$lib/metrica/rejilla';
+import { compararPorModalidadYNombre } from '$lib/metrica/modalidad';
 
 /** Ordena por nombre entendiendo los números: «Tipología 2» antes que «Tipología 10». */
 const porNombre = (a: { nombre: string }, b: { nombre: string }) =>
@@ -219,9 +221,8 @@ export async function loadPublicForm(
 	const posicionesPorEsquema = agrupar(posicionesRima as any[], (row) =>
 		String(row.esquema_rima_id)
 	);
-	const todasLasPosicionesPorEsquema = agrupar(
-		(posicionesRimaCompletas ?? []) as any[],
-		(row) => String(row.esquema_rima_id)
+	const todasLasPosicionesPorEsquema = agrupar((posicionesRimaCompletas ?? []) as any[], (row) =>
+		String(row.esquema_rima_id)
 	);
 	const posicionesMetricasPorEsquema = agrupar((posicionesMetricas ?? []) as any[], (row) =>
 		String(row.esquema_metrico_id)
@@ -267,7 +268,7 @@ export async function loadPublicForm(
 					}[String(valor)] ?? `Versos sueltos: ${valor ?? '—'}`,
 				identidad_entre_repeticiones:
 					'La disposición, sea cual sea, vuelve idéntica en cada repetición',
-				regularidad: 'La disposición debe ser regular, aunque la norma no fije cuál',
+				regularidad: 'La disposición debe ser regular, aunque el catálogo no fije cuál',
 				excluye_esquema: `No puede coincidir con «${referido}»`
 			};
 			// La descripción manda cuando la hay: está escrita para esa forma y dice más.
@@ -293,7 +294,11 @@ export async function loadPublicForm(
 			// Dos bloques seguidos con el mismo nombre son dos partes, no una: `ABBA ABBA` son
 			// los dos cuartetos del soneto, y fundirlos dejaba una sola parte de 1 a 8 que, por
 			// ser única, no llegaba a enseñarse.
-			if (ultima?.nombre === nombre && ultima.hasta === indice && ultima.bloque === Number(row.bloque)) {
+			if (
+				ultima?.nombre === nombre &&
+				ultima.hasta === indice &&
+				ultima.bloque === Number(row.bloque)
+			) {
 				ultima.hasta = indice + 1;
 				ultima.nota ??= texto(row.nota);
 			} else {
@@ -346,8 +351,13 @@ export async function loadPublicForm(
 		const sinParte = deLaUnidad.filter((e) => !e.deLaSeccion);
 		const orden = new Map(misSecciones.map((s, i) => [String(s.nombre), i]));
 		return [...deSecciones, ...conParte]
-			.sort((a, b) => (orden.get(a.deLaSeccion ?? '') ?? 0) - (orden.get(b.deLaSeccion ?? '') ?? 0))
-			.concat(sinParte);
+			.sort(
+				(a, b) =>
+					(orden.get(a.deLaSeccion ?? '') ?? 0) -
+						(orden.get(b.deLaSeccion ?? '') ?? 0) ||
+					compararPorModalidadYNombre(a, b)
+			)
+			.concat(sinParte.sort(compararPorModalidadYNombre));
 	};
 
 	const metricosPor = porArquitectura(esquemasMetricos as any[]);
@@ -484,6 +494,7 @@ export async function loadPublicForm(
 				versosMax: numero(s.versos_max),
 				repeticionesMin: numero(s.repeticiones_min),
 				repeticionesMax: numero(s.repeticiones_max),
+				primeraRealizacionDefinePatron: s.primera_realizacion_define_patron === true,
 				reutiliza: reutilizacionDe(s.arquitectura_referenciada_id),
 				esquemasRima: rimaDeSeccion(s.seccion_id, String(s.nombre)),
 				hijas: []
@@ -663,10 +674,25 @@ export async function loadPublicForm(
 		};
 	};
 
+	/** Los grupos estructurados que permiten explicar qué queda fijo y qué concreta cada poema. */
+	const eleccionesDe = (arquitecturaId: string): PublicChoiceGroup[] =>
+		(gruposEleccion as any[])
+			.filter((grupo) => String(grupo.arquitectura_id) === arquitecturaId)
+			.map((grupo) => ({
+				dimension: String(grupo.dimension),
+				alcance: texto(grupo.alcance),
+				tipoControl: texto(grupo.tipo_control),
+				seleccionesMin: Number(grupo.selecciones_min ?? 0),
+				seleccionesMax: Number(grupo.selecciones_max ?? 1),
+				defineNorma: grupo.define_norma === true,
+				opciones: (opcionesPorGrupo.get(String(grupo.grupo_eleccion_id)) ?? []).length
+			}));
+
 	/**
-	 * Los rasgos, repartidos por cómo se leen. Lo que los separa es su grupo de elección: si no
-	 * tienen, la arquitectura lo afirma; si lo tienen y admite una sola respuesta entre varias,
-	 * los valores son excluyentes; si es una sola opción que puede quedarse vacía, es un sí o un no.
+	 * Los rasgos, repartidos por su grado de determinación.
+	 *
+	 * Los valores de una pregunta salen de **sus opciones**, no del número de filas genéricas de
+	 * `arquitectura_rasgos`: `vocales_asonancia` tiene una fila y diecinueve respuestas obligatorias.
 	 */
 	const rasgosDe = (arquitecturaId: string): PublicTraits => {
 		const grupoDeRasgo = new Map(
@@ -680,42 +706,60 @@ export async function loadPublicForm(
 			);
 
 		const declarados: PublicTrait[] = [];
+		const permitidos: PublicTrait[] = [];
 		const opcionales: PublicTrait[] = [];
-		const porRasgo = new Map<string, { nombre: string; nota: string | null; valores: PublicTrait[] }>();
+		const excluyentes: PublicTraits['excluyentes'] = [];
+		const filasPorRasgo = agrupar(rasgosPor.get(arquitecturaId) ?? [], (fila) =>
+			String(fila.rasgo_id)
+		);
 
-		for (const r of rasgosPor.get(arquitecturaId) ?? []) {
-			const nombre = nombreRasgo.get(String(r.rasgo_id)) ?? '—';
-			const rasgo: PublicTrait = {
-				nombre,
-				valor: r.valor_id ? (nombreValor.get(String(r.valor_id)) ?? null) : null,
-				modalidad: texto(r.modalidad),
-				nota: texto(r.nota),
-				posicionesMax: numero(r.posiciones_max)
-			};
-			const grupo = grupoDeRasgo.get(String(r.rasgo_id));
+		const presentar = (fila: any, valorId?: unknown): PublicTrait => ({
+			nombre: nombreRasgo.get(String(fila.rasgo_id)) ?? '—',
+			valor: valorId
+				? (nombreValor.get(String(valorId)) ?? null)
+				: fila.valor_id
+					? (nombreValor.get(String(fila.valor_id)) ?? null)
+					: null,
+			modalidad: texto(fila.modalidad),
+			nota: texto(fila.nota),
+			posicionesMax: numero(fila.posiciones_max)
+		});
+
+		for (const [rasgoId, filas] of filasPorRasgo) {
+			const grupo = grupoDeRasgo.get(rasgoId);
 			if (!grupo) {
-				declarados.push(rasgo);
+				for (const fila of filas) {
+					const destino = String(fila.modalidad) === 'definitoria' ? declarados : permitidos;
+					destino.push(presentar(fila));
+				}
 				continue;
 			}
+
 			const opciones = opcionesDeGrupo(String(grupo.grupo_eleccion_id));
-			// Una sola opción que se puede dejar sin responder no es una elección: es un sí o un no.
-			// Es el mismo criterio con el que el editor decide su control.
-			if (opciones.length <= 1 && Number(grupo.selecciones_min ?? 0) === 0) {
-				opcionales.push(rasgo);
+			const base = filas[0];
+			const vistos = new Set<string>();
+			const valores = opciones.flatMap((opcion) => {
+				const valorId = opcion.valor_rasgo_id ? String(opcion.valor_rasgo_id) : '';
+				if (!valorId || vistos.has(valorId)) return [];
+				vistos.add(valorId);
+				const propia = filas.find((fila) => String(fila.valor_id ?? '') === valorId) ?? base;
+				return [presentar(propia, valorId)];
+			});
+			const presentados = valores.length > 0 ? valores : filas.map((fila) => presentar(fila));
+			const opcional = Number(grupo.selecciones_min ?? 0) === 0;
+			if (opcional && presentados.length === 1) {
+				opcionales.push(presentados[0]);
 				continue;
 			}
-			const grupoDeValores = porRasgo.get(nombre) ?? { nombre, nota: null, valores: [] };
-			grupoDeValores.valores.push(rasgo);
-			grupoDeValores.nota ??= rasgo.nota;
-			porRasgo.set(nombre, grupoDeValores);
+			excluyentes.push({
+				nombre: nombreRasgo.get(rasgoId) ?? '—',
+				nota: presentados.find((rasgo) => rasgo.nota)?.nota ?? null,
+				valores: presentados,
+				opcional
+			});
 		}
 
-		// Un rasgo que se pregunta pero del que solo se declaró un valor no es una disyuntiva.
-		const excluyentes = [...porRasgo.values()].filter((grupo) => grupo.valores.length > 1);
-		for (const grupo of porRasgo.values()) {
-			if (grupo.valores.length === 1) opcionales.push(grupo.valores[0]);
-		}
-		return { declarados, excluyentes, opcionales };
+		return { declarados, permitidos, excluyentes, opcionales };
 	};
 
 	/**
@@ -846,9 +890,14 @@ export async function loadPublicForm(
 						esAlternativa: Boolean(r.materializa_seccion_id) || String(r.tipo) === 'estribillo'
 					})
 				),
+				elecciones: eleccionesDe(id),
 				denominaciones: (denominacionesPorArquitectura.get(id) ?? []).map((d) => String(d.nombre))
 			};
-		});
+		})
+		.sort(
+			(a, b) =>
+				Number(b.principal) - Number(a.principal) || compararPorModalidadYNombre(a, b)
+		);
 
 	const arquitecturaDeId = new Map(
 		(arquitecturas as any[])

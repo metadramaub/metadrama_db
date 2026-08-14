@@ -363,6 +363,21 @@ describe('la rejilla de posiciones', () => {
 		// no puede ocupar la fila.
 		expect(elegido?.id).toBe('ababa');
 	});
+
+	it('ordena las disposiciones de igual modalidad alfabéticamente por nombre', () => {
+		const rejilla = construirRejilla(
+			entrada({
+				unidadMin: 4,
+				unidadMax: 4,
+				rimas: [
+					{ ...rima('segunda', 'abba'), nombre: 'Zeta', modalidad: 'admitida' },
+					{ ...rima('primera', 'abab'), nombre: 'Alfa', modalidad: 'admitida' }
+				]
+			})
+		);
+
+		expect(rejilla?.filasDeRima.map((fila) => fila.nombre)).toEqual(['Alfa', 'Zeta']);
+	});
 });
 
 describe('el perfil de una arquitectura', () => {

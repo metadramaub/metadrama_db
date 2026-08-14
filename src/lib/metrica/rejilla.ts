@@ -1,3 +1,5 @@
+import { compararPorModalidadYNombre } from '$lib/metrica/modalidad';
+
 /**
  * La rejilla de posiciones: una arquitectura dibujada verso a verso.
  *
@@ -163,13 +165,6 @@ export type Rejilla = {
 	repeticionesDeLaParte: string | null;
 };
 
-const ORDEN_DE_MODALIDAD = ['definitoria', 'habitual', 'admitida', 'excepcional'];
-
-function rangoDeModalidad(modalidad: string | null): number {
-	const indice = ORDEN_DE_MODALIDAD.indexOf(String(modalidad ?? ''));
-	return indice < 0 ? ORDEN_DE_MODALIDAD.length : indice;
-}
-
 /** Las posiciones en orden de lectura: primero el bloque, luego la posición dentro del bloque. */
 function posicionesOrdenadas(esquema: EsquemaRimaEntrada): PosicionRimaEntrada[] {
 	return [...esquema.posiciones].sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion);
@@ -186,15 +181,7 @@ function posicionesOrdenadas(esquema: EsquemaRimaEntrada): PosicionRimaEntrada[]
 export function ordenarDisposiciones(esquemas: EsquemaRimaEntrada[]): EsquemaRimaEntrada[] {
 	return esquemas
 		.filter((esquema) => esquema.posiciones.length > 0)
-		.sort(
-			(a, b) =>
-				rangoDeModalidad(a.modalidad) - rangoDeModalidad(b.modalidad) ||
-				b.posiciones.length - a.posiciones.length ||
-				String(a.notacion ?? a.nombre ?? '').localeCompare(
-					String(b.notacion ?? b.nombre ?? ''),
-					'es'
-				)
-		);
+		.sort(compararPorModalidadYNombre);
 }
 
 export function esquemaRimaPrincipal(esquemas: EsquemaRimaEntrada[]): EsquemaRimaEntrada | null {
