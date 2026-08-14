@@ -65,9 +65,39 @@
 	}
 
 	function tituloDeMedida(valor: MedidaDeCelda | null): string | undefined {
-		if (!valor) return 'La norma no fija la medida de esta posición';
+		if (!valor) return 'La arquitectura no fija la medida de esta posición';
 		if (valor.silabas) return `${valor.silabas} sílabas`;
-		return `La realización elige entre ${valor.alternativas.join(', ')} sílabas`;
+		return `El poema concreta una de estas medidas: ${valor.alternativas.join(', ')} sílabas`;
+	}
+
+	function medidaEsDeArteMayor(valor: MedidaDeCelda | null): boolean {
+		if (!valor?.silabas) return false;
+		const silabas = Number(valor.silabas);
+		return Number.isFinite(silabas) && silabas > 8;
+	}
+
+	const PALETA_DE_RIMAS = [
+		'bg-rose-100 text-rose-950 ring-1 ring-inset ring-rose-200',
+		'bg-blue-100 text-blue-950 ring-1 ring-inset ring-blue-200',
+		'bg-emerald-100 text-emerald-950 ring-1 ring-inset ring-emerald-200',
+		'bg-violet-100 text-violet-950 ring-1 ring-inset ring-violet-200',
+		'bg-orange-100 text-orange-950 ring-1 ring-inset ring-orange-200',
+		'bg-cyan-100 text-cyan-950 ring-1 ring-inset ring-cyan-200',
+		'bg-fuchsia-100 text-fuchsia-950 ring-1 ring-inset ring-fuchsia-200',
+		'bg-lime-100 text-lime-950 ring-1 ring-inset ring-lime-200'
+	] as const;
+
+	/** La misma letra conserva el color aunque cambie de caja: `a` y `A` son la misma clase. */
+	function colorDeRima(clase: string | null): string {
+		const normalizada = String(clase ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+		let indice = 0;
+		for (const caracter of normalizada) indice = (indice * 31 + caracter.charCodeAt(0)) >>> 0;
+		return PALETA_DE_RIMAS[indice % PALETA_DE_RIMAS.length];
+	}
+
+	function esArteMayor(clase: string | null): boolean {
+		if (!clase) return false;
+		return clase !== clase.toLocaleLowerCase('es') && clase === clase.toLocaleUpperCase('es');
 	}
 
 	const enlacesEntreRepeticiones = $derived(
@@ -92,7 +122,9 @@
 				<div
 					class="{celda} {alto} {item.medida?.silabas
 						? ''
-						: 'text-[color:var(--muted-foreground)]'}"
+						: 'text-[color:var(--muted-foreground)]'} {medidaEsDeArteMayor(item.medida)
+						? 'bg-[color:var(--gray-50)] font-bold'
+						: ''}"
 					style="grid-column: {item.verso};"
 					title={tituloDeMedida(item.medida)}
 				>
@@ -113,7 +145,7 @@
 					<div
 						class="{celda} {alto} {clase.suelto
 							? 'text-[color:var(--muted-foreground)]'
-							: 'font-semibold'}"
+							: `${colorDeRima(clase.clase)} ${esArteMayor(clase.clase) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`}"
 						style="grid-column: {fila.desde + indice};"
 						title={clase.suelto ? 'Verso suelto: no rima' : `Clase de rima ${clase.clase}`}
 					>

@@ -356,12 +356,17 @@ hacerlas antes obliga a hacerlas dos veces.
     Bruerton delante. El villancico y la canción sin rima **siguen sin declararlo arriba, y es lo
     correcto**: mezclan regímenes.
 
-13ter. **Revisar en conjunto las etiquetas que explican cómo se conoce cada dimensión en la
-    ficha pública.** La distinción conceptual es válida —la norma fija, la realización elige y la
-    anotación observa—, pero los rótulos concretos no se están aplicando siempre bien ni son todos
-    precisos. Una única disposición `habitual`, por ejemplo, aparece hoy como «la fija la norma»;
-    también hay que revisar «puede no darse» y el resto de etiquetas, no corregir solo el caso que
-    lo hizo visible. Queda aplazado por decisión del IP hasta poder leerlas todas juntas.
+13ter. ~~**Revisar en conjunto las etiquetas que explican cómo se conoce cada dimensión en la
+    ficha pública.**~~ **Cerrado el 14 de agosto de 2026.** No era un eje de procedencia ni de
+    prescripción, sino de **grado de determinación**: qué permanece estable en una arquitectura y
+    qué concreta cada poema. La ficha deriva `Fijo`, `Acotado`, `Variable`, `Opcional`, `Permitido`,
+    `Abierto`, `No fijado` y `Fijado por la primera unidad` desde rangos, posiciones, restricciones
+    y grupos de elección; `modalidad` sigue diciendo por separado la frecuencia reconocida por la
+    teoría. La derivación vive en `src/lib/metrica/determinacion.ts`, sin columnas ni listas de
+    formas, y sus reglas estables están en
+    [el modelo aplicado](./implementacion-metrica.md#grado-de-determinaci%C3%B3n-qu%C3%A9-permanece-estable-en-la-arquitectura).
+    Al hacerla se corrigió además la clasificación de rasgos: las opciones obligatorias se leen del
+    grupo real, no del número de filas de `arquitectura_rasgos`.
 
 13quater. **Revisar juntos el terceto y el terceto encadenado.** La poda conservó la distinción
     vigente —el segundo enlaza la rima central de cada unidad con la siguiente y no se divide en

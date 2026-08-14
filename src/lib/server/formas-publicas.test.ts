@@ -137,6 +137,56 @@ describe('catálogo público de formas', () => {
 		expect(resultado?.fuentes).toHaveLength(1);
 	});
 
+	it('ordena las arquitecturas por principal, modalidad y nombre', async () => {
+		const rpc = vi.fn().mockResolvedValue({
+			data: {
+				...detalleVacio,
+				arquitecturas: [
+					{
+						...arquitectura,
+						arquitectura_id: 'habitual-zeta',
+						slug: 'habitual_zeta',
+						nombre: 'Zeta',
+						principal: false
+					},
+					{
+						...arquitectura,
+						arquitectura_id: 'admitida-principal',
+						slug: 'admitida_principal',
+						nombre: 'Principal admitida',
+						modalidad: 'admitida',
+						principal: true
+					},
+					{
+						...arquitectura,
+						arquitectura_id: 'admitida-beta',
+						slug: 'admitida_beta',
+						nombre: 'Beta',
+						modalidad: 'admitida',
+						principal: false
+					},
+					{
+						...arquitectura,
+						arquitectura_id: 'habitual-alfa',
+						slug: 'habitual_alfa',
+						nombre: 'Alfa',
+						principal: false
+					}
+				]
+			},
+			error: null
+		});
+
+		const resultado = await loadPublicForm({ rpc }, 'villancico');
+
+		expect(resultado?.arquitecturas_.map((item) => item.slug)).toEqual([
+			'admitida_principal',
+			'habitual_alfa',
+			'habitual_zeta',
+			'admitida_beta'
+		]);
+	});
+
 	it('conserva ids de sección y no duplica una misma rima en mudanzas homónimas', async () => {
 		const rpc = vi.fn().mockResolvedValue({
 			data: {
@@ -223,7 +273,7 @@ describe('catálogo público de formas', () => {
 	 * Un esquema abierto no tiene posiciones que enseñar: su norma son sus restricciones. Si no
 	 * se leyeran, la ficha diría de esas formas únicamente que su rima es consonante.
 	 */
-	it('lee la norma de un esquema abierto en sus restricciones', async () => {
+	it('lee los límites de un esquema abierto en sus restricciones', async () => {
 		const rpc = vi.fn().mockResolvedValue({
 			data: {
 				...detalleVacio,
@@ -281,7 +331,7 @@ describe('catálogo público de formas', () => {
 		);
 
 		expect(abierta?.restricciones.map((r) => r.texto)).toEqual([
-			'La disposición debe ser regular, aunque la norma no fije cuál',
+			'La disposición debe ser regular, aunque el catálogo no fije cuál',
 			// La exclusión nombra al esquema al que apunta, no su identificador.
 			'No puede coincidir con «Manriqueña»',
 			'No más de 2 versos seguidos con la misma rima'
@@ -327,6 +377,63 @@ describe('catálogo público de formas', () => {
 		// La preferente da el nombre, y por eso no se repite entre las demás.
 		expect(esquema?.nombre).toBe('Sexta rima');
 		expect(esquema?.denominaciones).toEqual(['Sexteto clásico']);
+	});
+
+	it('lee las opciones obligatorias de un rasgo aunque su declaración sea una sola fila', async () => {
+		const rasgoId = 'vocales-asonancia';
+		const rpc = vi.fn().mockResolvedValue({
+			data: {
+				...detalleVacio,
+				arquitecturaRasgos: [
+					{
+						arquitectura_id: arquitectura.arquitectura_id,
+						rasgo_id: rasgoId,
+						valor_id: null,
+						modalidad: 'admitida',
+						nota: null,
+						posiciones_max: null
+					}
+				],
+				rasgos: [{ rasgo_id: rasgoId, nombre: 'Vocales de la asonancia' }],
+				valores: [
+					{ valor_id: 'valor-a', nombre: 'a' },
+					{ valor_id: 'valor-e', nombre: 'e' }
+				],
+				gruposEleccion: [
+					{
+						grupo_eleccion_id: 'grupo-vocales',
+						arquitectura_id: arquitectura.arquitectura_id,
+						rasgo_id: rasgoId,
+						dimension: 'rasgo',
+						alcance: 'secuencia',
+						tipo_control: 'opciones',
+						selecciones_min: 1,
+						selecciones_max: 1,
+						define_norma: false
+					}
+				],
+				opcionesEleccion: [
+					{
+						opcion_eleccion_id: 'opcion-a',
+						grupo_eleccion_id: 'grupo-vocales',
+						valor_rasgo_id: 'valor-a'
+					},
+					{
+						opcion_eleccion_id: 'opcion-e',
+						grupo_eleccion_id: 'grupo-vocales',
+						valor_rasgo_id: 'valor-e'
+					}
+				]
+			},
+			error: null
+		});
+
+		const resultado = await loadPublicForm({ rpc }, 'villancico');
+		const grupo = resultado?.arquitecturas_[0].rasgos.excluyentes[0];
+
+		expect(grupo?.opcional).toBe(false);
+		expect(grupo?.valores.map((valor) => valor.valor)).toEqual(['a', 'e']);
+		expect(resultado?.arquitecturas_[0].rasgos.opcionales).toEqual([]);
 	});
 
 	it('conserva el nombre propio del esquema y lista todas sus denominaciones', async () => {

@@ -139,7 +139,7 @@ diga su densidad o deje calcularla por alguno de los dos.
 > distinto número de clases. La densidad y la **concentración de la rima** son dos cosas, y hoy
 > solo está modelada la primera.
 
-## Cuánto fija la norma cada cosa
+## Modalidad: frecuencia reconocida, no prescripción
 
 Lo dice **`modalidad`**, con la misma escala en las cinco tablas que la usan, y reporta lo que
 sostiene la bibliografía declarada, no lo que muestre el corpus:
@@ -151,29 +151,74 @@ sostiene la bibliografía declarada, no lo que muestre el corpus:
 | `admitida`    | Se da lo bastante como para que la crítica ya no la extrañe     |
 | `excepcional` | Las fuentes la documentan advirtiendo que es rara               |
 
-**Es una sola escala, y mide frecuencia**, porque la norma métrica española no es prescriptiva:
-lo que hace que algo esté `admitido` es que se dio suficientes veces como para que la crítica
-dejara de verlo como una rareza. La normativa es resultado de la práctica. Por eso `definitoria`
-no es otro eje sino **el tope del mismo**: lo que se da en el cien por cien de los casos deja de
-poder describirse como frecuente y pasa a describir la forma. Necesidad es el límite de frecuencia.
+**Es una sola escala, y mide frecuencia.** La teoría métrica reconoce como normativo lo que el uso
+ha asentado; no impone desde fuera lo que un poema deba hacer. Lo excepcional puede llegar a ser
+admitido o habitual si su empleo se extiende, y toda realización reconocida fue nueva en algún
+momento de su historia. Por eso `definitoria` no es otro eje sino **el tope del mismo**: lo que se
+da en el cien por cien de los casos deja de poder describirse como frecuente y pasa a caracterizar
+la arquitectura. Necesidad es el límite de frecuencia.
 
 De ahí sale una propiedad que una guarda sostiene: **ninguna pregunta ofrece una realización
 definitoria junto a otra modalidad**. Una definitoria no es una alternativa entre las que elegir,
-sino la norma que las alternativas cumplen; cuando convive con hermanas graduadas, lo que hay no
-es una lista de opciones sino **una norma y sus realizaciones**.
+sino el rasgo común que las alternativas cumplen; cuando convive con hermanas graduadas, lo que
+hay no es una lista de opciones homogéneas sino **una definición y sus realizaciones**.
 
 Una arquitectura puede quedarse sin ningún esquema de rima definitorio, y no es un hueco: hay
 formas a las que define el metro y no la rima.
 
-**Que la norma no fije algo no se declara con un valor: se declara no declarándolo**, y se
-comprueba. Un esquema de rima es abierto cuando no tiene ni una posición, y entonces su norma son
-sus restricciones. Y la herencia tampoco depende de que un campo sea nulo: una sección que
+**Que la arquitectura no fije algo no se declara con un valor: se declara no declarándolo**, y se
+comprueba. Un esquema de rima es abierto cuando no tiene ni una posición, y entonces sus límites
+son sus restricciones. Y la herencia tampoco depende de que un campo sea nulo: una sección que
 reutiliza otra arquitectura lo dice con `arquitectura_referenciada_id` y hereda de ella lo que no
 declare por su cuenta.
 
 _`arquitecturas_forma` no admite `definitoria`, y es coherente: una realización no define su
 forma. Y `arquitectura_rasgos` usa solo `definitoria` y `admitida`, que es lo único que tiene
 sentido ahí —un rasgo caracteriza la arquitectura o solo se admite en ella—._
+
+## Grado de determinación: qué permanece estable en la arquitectura
+
+La ficha pública presenta un eje distinto de `modalidad`: **cuánto queda determinado por la
+arquitectura y cuánto concreta cada poema**. No se guarda en una columna ni se redacta forma por
+forma. Se deriva en `src/lib/metrica/determinacion.ts` desde rangos, posiciones, restricciones,
+grupos de elección, alcance y declaraciones de patrón inicial; el componente solo presenta el
+resultado.
+
+| Grado | Qué significa |
+|---|---|
+| **Fijo** | La arquitectura determina un valor o patrón único |
+| **Acotado** | Determina límites o posiciones, pero no un único resultado |
+| **Variable** | El poema concreta una posibilidad de un repertorio reconocido |
+| **Opcional** | El elemento puede aparecer o no |
+| **Permitido** | La teoría lo reconoce en esa arquitectura, sin que la caracterice siempre |
+| **Abierto** | No hay repertorio cerrado; pueden existir restricciones |
+| **No fijado** | Hay una realización documentada, pero su modalidad no permite presentarla como fija |
+| **Fijado por la primera unidad** | La primera unidad establece un patrón que las siguientes repiten |
+
+La derivación sigue estas reglas generales, que son más estables que el inventario actual de
+formas:
+
+- un rango exacto es `Fijo`; un intervalo es `Acotado`; la ausencia de cierre es `Abierto`;
+- una posición con alternativas es `Acotado`, mientras que un repertorio elegible es `Variable`;
+- `selecciones_min = 0` hace opcional la pregunta; varias opciones obligatorias la hacen variable;
+- `define_norma` y `primera_realizacion_define_patron` producen `Fijado por la primera unidad`;
+- un rasgo sin pregunta es `Fijo` si es `definitoria` y `Permitido` si es `admitida`;
+- un esquema abierto es `Acotado` cuando declara restricciones y `Abierto` cuando no las declara;
+- una única realización no definitoria es `No fijado`, no `Fijo`.
+
+El grado puede llevar un modificador de alcance —`verso a verso`, `en cada ciclo`, `en posiciones
+concretas`—, pero el alcance no cambia su significado. La modalidad sigue mostrándose junto a cada
+realización: que una disposición sea `habitual` no implica que la arquitectura la fije, y que una
+dimensión sea `Variable` no vuelve equivalentes sus alternativas.
+
+La proyección pública conserva para ello los grupos de elección estructurados y clasifica los
+rasgos por sus **opciones reales**. El número de filas de `arquitectura_rasgos` no sirve para inferir
+cardinalidad: una sola declaración genérica puede ofrecer muchos valores obligatorios.
+
+La lectura sigue asimismo un orden derivado y estable: la arquitectura principal aparece primero;
+las demás siguen la escala de modalidad y, en caso de empate, el nombre. Las disposiciones de rima
+conservan el orden estructural de sus partes y dentro de cada parte siguen modalidad y nombre. No
+se depende de la posición en que las filas lleguen desde la base ni de listas de formas.
 
 ## De qué se responde una pregunta
 
@@ -189,7 +234,7 @@ El tercero no se deduce de la estructura, **se declara**, porque dos preguntas a
 clase de sección repetida pueden querer cosas distintas: la medida de la estancia de la canción es
 la misma en todas las estancias y se responde una vez, mientras que la vuelta del estribillo puede
 darse entera tras una copla y en parte tras la siguiente. Lo que decide no es la estructura sino la
-norma.
+declaración del grupo de elección.
 
 La respuesta por realización cuelga de `elecciones_editor_metrico.realizacion_prueba_id`, que ya
 existía. _El editor V2 todavía no pregunta así y las trata como de unidad; el criterio está en un

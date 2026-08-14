@@ -6,13 +6,23 @@
 	} from '$lib/metrica/formas-publicas.types';
 	import type { FilaDeRima } from '$lib/metrica/rejilla';
 	import MetricPositionGrid from './MetricPositionGrid.svelte';
+	import MetricDeterminationLabel from './MetricDeterminationLabel.svelte';
 	import PublicFormSectionTree from './PublicFormSectionTree.svelte';
+	import Badge from '$lib/components/ui/badge.svelte';
 	import { renderInlineMarkdown } from '$lib/utils/markdown';
+	import {
+		determinacionDeExtension,
+		determinacionDeMedida,
+		determinacionDePartes,
+		determinacionDeRepeticion,
+		determinacionDeRima,
+		type DeterminacionMetrica
+	} from '$lib/metrica/determinacion';
 
 	/**
 	 * Una arquitectura, leída **dimensión a dimensión**: extensión, medida, rima, partes,
-	 * repetición y rasgos, una fila por cada una y con marca de si la fija la norma o la elige
-	 * quien anota.
+	 * repetición y rasgos, una fila por cada una y con marca de cuánto deja determinado la
+	 * arquitectura y cuánto concreta cada poema.
 	 *
 	 * Lo que sustituye: una plantilla que enseñaba prosa y repetía cada hecho hasta cuatro veces
 	 * —el reparto en partes salía en la figura, en la lista de partes y en la glosa del esquema—.
@@ -57,6 +67,10 @@
 	const repeticionesElegibles = $derived(
 		arquitectura.repeticiones.filter((repeticion) => repeticion.esAlternativa)
 	);
+	const extensionDeterminada = $derived(determinacionDeExtension(arquitectura));
+	const medidaDeterminada = $derived(determinacionDeMedida(arquitectura));
+	const rimaDeterminada = $derived(determinacionDeRima(arquitectura));
+	const partesDeterminadas = $derived(determinacionDePartes(arquitectura));
 
 	/**
 	 * Las disposiciones agrupadas por la parte de la que son, en orden de lectura. El soneto
@@ -94,20 +108,12 @@
 	}
 </script>
 
-{#snippet dimension(rotulo: string, estado: 'fija' | 'elige' | null, nota: string | null)}
+{#snippet dimension(rotulo: string, determinacion: DeterminacionMetrica)}
 	<th class="w-40 py-2.5 pr-4 align-top text-left">
 		<span class="text-[0.66rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
 			{rotulo}
 		</span>
-		{#if nota}
-			<span
-				class="block text-[0.6rem] font-normal {estado === 'fija'
-					? 'text-[color:var(--success)]'
-					: 'text-[color:var(--warning)]'}"
-			>
-				{nota}
-			</span>
-		{/if}
+		<MetricDeterminationLabel valor={determinacion} />
 	</th>
 {/snippet}
 
@@ -136,12 +142,22 @@
 <section class="border border-[color:var(--border)] p-5">
 	<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
 		<h3 class="font-display text-xl">{arquitectura.nombre}</h3>
-		{#if arquitectura.principal}
-			<span class="text-xs uppercase tracking-wide text-[color:var(--primary)]">principal</span>
-		{/if}
-		<span class="text-sm text-[color:var(--muted-foreground)]">
-			{extension()}{arquitectura.modalidad ? ` · ${arquitectura.modalidad}` : ''}
-		</span>
+		<div class="flex flex-wrap items-center gap-1.5">
+			{#if arquitectura.principal}
+				<Badge
+					class="bg-[color:var(--gray-50)] text-[0.65rem] uppercase tracking-[0.06em] text-[color:var(--gray-700)]"
+				>
+					Principal
+				</Badge>
+			{/if}
+			{#if arquitectura.modalidad}
+				<Badge
+					class="bg-white text-[0.65rem] capitalize tracking-[0.04em] text-[color:var(--muted-foreground)]"
+				>
+					{arquitectura.modalidad}
+				</Badge>
+			{/if}
+		</div>
 	</div>
 
 	{#if arquitectura.descripcion}
@@ -156,7 +172,7 @@
 	<table class="mt-4 w-full border-collapse text-sm">
 		<tbody>
 			<tr class="border-t border-[color:var(--border)]">
-				{@render dimension('Extensión', 'fija', 'la fija la norma')}
+				{@render dimension('Extensión', extensionDeterminada)}
 				<td class="py-2.5 align-top">{extension()}</td>
 			</tr>
 
@@ -164,7 +180,7 @@
 			     son las dos caras de una, y separarlas obliga a recomponer las parejas de memoria. -->
 			{#if arquitectura.eligeVariedad}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Variedades', 'elige', 'se elige una: medida y rima')}
+					{@render dimension('Variedades', medidaDeterminada)}
 					<td class="py-2.5 align-top">
 						<ul class="space-y-1">
 							{#each arquitectura.variedades as variedad, i (`v:${i}`)}
@@ -183,9 +199,9 @@
 					</td>
 				</tr>
 			{:else}
-				{#if arquitectura.rejilla?.tieneMedida}
+				{#if repertoriosAbiertos.length === 0 && arquitectura.rejilla?.tieneMedida}
 					<tr class="border-t border-[color:var(--border)]">
-						{@render dimension('Medida', 'fija', 'la fija la norma')}
+						{@render dimension('Medida', medidaDeterminada)}
 						<td class="py-2.5 align-top">
 							<MetricPositionGrid rejilla={arquitectura.rejilla} mostrar="medida" bandas={false} />
 						</td>
@@ -196,8 +212,7 @@
 					<tr class="border-t border-[color:var(--border)]">
 						{@render dimension(
 							esquema.deLaSeccion ? `Medida · ${esquema.deLaSeccion}` : 'Medida',
-							'elige',
-							esquema.uniforme ? 'una para todo el pasaje' : 'verso a verso'
+							medidaDeterminada
 						)}
 						<td class="py-2.5 align-top">
 							<span class="font-medium">{repertorio(esquema)}</span>
@@ -211,11 +226,7 @@
 				{/each}
 
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension(
-						'Rima',
-						gruposDeRima.some((grupo) => grupo.filas.length > 1) ? 'elige' : 'fija',
-						gruposDeRima.length > 1 ? 'una por parte' : null
-					)}
+					{@render dimension('Rima', rimaDeterminada)}
 					<td class="py-2.5 align-top">
 						<!-- El régimen es lo primero que hay que saber de una rima, y se declara en el
 						     nivel que le corresponde: arriba si es uno, y en cada disposición si dentro
@@ -236,7 +247,7 @@
 									{grupo.parte}
 									<span class="normal-case tracking-normal">
 										— {grupo.filas.length > 1
-											? `se elige una de ${grupo.filas.length}`
+											? `una de ${grupo.filas.length}`
 											: 'disposición única'}
 									</span>
 								</p>
@@ -283,8 +294,8 @@
 											{esquema.restricciones.map((restriccion) => restriccion.texto).join('. ')}
 										{:else}
 											<span class="text-[color:var(--danger)]">
-												La norma no está declarada: «{esquema.nombre}» no fija la disposición ni
-												dice qué la acota.
+												El catálogo no declara restricciones: «{esquema.nombre}» no fija la
+												disposición ni dice qué la acota.
 											</span>
 										{/if}
 										{#if esquema.descripcion}
@@ -302,7 +313,7 @@
 
 			{#if arquitectura.secciones.length > 0}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Partes', 'fija', 'la fija la norma')}
+					{@render dimension('Partes', partesDeterminadas)}
 					<td class="py-2.5 align-top">
 						<PublicFormSectionTree sections={arquitectura.secciones} />
 					</td>
@@ -311,7 +322,7 @@
 
 			{#if repeticionesNorma.length > 0}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Repetición', 'fija', 'la fija la norma')}
+					{@render dimension('Repetición', determinacionDeRepeticion(arquitectura, false))}
 					<td class="py-2.5 align-top">
 						<ul class="space-y-1">
 							{#each repeticionesNorma as repeticion, i (`rn:${i}`)}
@@ -331,7 +342,7 @@
 
 			{#if repeticionesElegibles.length > 0}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Estribillo', 'elige', 'se responde en cada ciclo')}
+					{@render dimension('Estribillo', determinacionDeRepeticion(arquitectura, true))}
 					<td class="py-2.5 align-top">
 						<ul class="space-y-1">
 							{#each repeticionesElegibles as repeticion, i (`re:${i}`)}
@@ -356,7 +367,7 @@
 
 			{#if arquitectura.rasgos.declarados.length > 0}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Rasgos', 'fija', 'los afirma la arquitectura')}
+					{@render dimension('Rasgos', { grado: 'fijo' })}
 					<td class="py-2.5 align-top">
 						<ul class="space-y-1">
 							{#each arquitectura.rasgos.declarados as rasgo, i (`rd:${i}`)}
@@ -367,9 +378,27 @@
 				</tr>
 			{/if}
 
+			{#if arquitectura.rasgos.permitidos.length > 0}
+				<tr class="border-t border-[color:var(--border)]">
+					{@render dimension('Rasgos permitidos', { grado: 'permitido' })}
+					<td class="py-2.5 align-top">
+						<ul class="space-y-1">
+							{#each arquitectura.rasgos.permitidos as rasgo, i (`rp:${i}`)}
+								{@render rasgoLinea(rasgo)}
+							{/each}
+						</ul>
+					</td>
+				</tr>
+			{/if}
+
 			{#each arquitectura.rasgos.excluyentes as grupo, i (`rx:${i}`)}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension(grupo.nombre, 'elige', 'uno de estos, no varios')}
+					{@render dimension(
+						grupo.nombre,
+						grupo.opcional
+							? { grado: 'opcional', detalle: 'una posibilidad como máximo' }
+							: { grado: 'variable', detalle: 'una posibilidad' }
+					)}
 					<td class="py-2.5 align-top">
 						<ul class="space-y-1">
 							{#each grupo.valores as rasgo, j (`rxv:${j}`)}
@@ -392,7 +421,7 @@
 
 			{#if arquitectura.rasgos.opcionales.length > 0}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Se observa', 'elige', 'puede no darse')}
+					{@render dimension('Rasgos', { grado: 'opcional' })}
 					<td class="py-2.5 align-top">
 						<ul class="space-y-1">
 							{#each arquitectura.rasgos.opcionales as rasgo, i (`ro:${i}`)}
