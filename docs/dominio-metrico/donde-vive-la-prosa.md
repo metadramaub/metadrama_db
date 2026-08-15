@@ -116,6 +116,20 @@ forma aparte», no «reutiliza la configuración simple». Y cuidado con explica
 soneto no se formó sumando cuartetos» decía lo contrario de lo que se lee, porque el soneto
 está hecho justamente de dos cuartetos y dos tercetos.
 
+**9 · La descripción no cita; la afirmación no generaliza.** Es la regla 4 vista desde el otro
+lado, y salió al revisar la seguidilla el 15 de agosto de 2026: las descripciones y las
+afirmaciones se estaban diciendo lo mismo dos veces, una con firma y otra sin ella. Un nombre
+entra en una `definicion` o una `descripcion` solo si es **parte del hecho**, no si es **quien lo
+atestigua**. Sor Juana inventó la seguidilla real y por eso se llama así: el nombre es el hecho y
+se queda. Que Correas la diera por regular a principios del XVII es el testimonio de un hecho que
+se dice sin él —«ya era regular a principios del XVII»—, y Correas se va a su afirmación con su
+localizador. Al revés, la afirmación aporta **lo localizado** —el ejemplo, el pasaje, la cifra, el
+desacuerdo entre fuentes— y no repite la caracterización que la descripción ya hizo.
+
+> La descripción de la seguidilla de tres versos dice que «fue bastante corriente a principios del
+> siglo XVII»; la afirmación de Navarro Tomás § 216 trae el ejemplo de Lope en *Los pastores de
+> Belén*. La primera se lee sin la segunda, y la segunda añade la prueba.
+
 El destinatario por defecto es **la forma**. Una afirmación cuelga de una arquitectura solo
 cuando lo que dice la fuente es exclusivamente de esa realización —«endecha» nombrando al
 romancillo heptasílabo— y no del reparto de nombres en general.
