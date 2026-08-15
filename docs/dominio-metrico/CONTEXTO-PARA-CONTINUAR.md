@@ -294,6 +294,31 @@ hacerlas antes obliga a hacerlas dos veces.
     el esquema abierto pasa a declarar norma y `D13` puede contrastar contra él las disposiciones
     concretas. Sale del barrido del 12 de agosto de 2026.
 
+12quater. **La rejilla no sabe dibujar una unidad acotada: la convierte en ciclo.** Cuando
+    `unidad_versos_min` y `unidad_versos_max` existen pero difieren, `construirRejilla` cae en la
+    rama que toma las columnas del esquema de rima y **pone `cicla = true`**
+    (`src/lib/metrica/rejilla.ts`), de modo que la ficha imprimiría «⟳ Se repite hasta el final de
+    la serie» sobre una estrofa que no es una serie, y `perfilDeArquitectura` la clasificaría como
+    `serie_ciclica`. Salió el 15 de agosto de 2026 al querer abrir la seguidilla gitana a 3–4
+    versos, porque el Diccionario dice que «a veces puede presentarse sin su primer verso»: se
+    dejó en 4/4 y el dato quedó solo como afirmación. **El radio es hoy nulo** —la única otra
+    arquitectura con unidad acotada no fija, `copla_de_pie_quebrado/octosilabica_con_quebrados`,
+    tiene cero posiciones de rima y nunca llega a esa rama—, y por eso no urge: el IP decidió
+    aplazarlo porque esa gitana no aparece en el teatro que se analiza. El arreglo es una rama para
+    unidad acotada antes de la del ciclo, con su prueba en `rejilla.test.ts`.
+
+12quinquies. **Dos cosas de la seguidilla que quedaron anotadas y sin tocar** el 15 de agosto de
+    2026. La primera: el «Estribillo final» de la compuesta **duplica** la arquitectura «De tres
+    versos» —mismo 5-7-5, misma rima— en vez de referenciarla con
+    `arquitectura_referenciada_id`, como sí hace su «Cuerpo» con la simple; Navarro Tomás lo dice
+    literalmente, que la compuesta «suma la variedad de cuatro versos y la de tres». No se hizo
+    porque la reutilización añadiría bajo la parte una fila de rima `a-a` junto a la unitaria
+    `-a-ab-b`, con letras que chocan. La segunda: `tipo_seccion` vale `seguidilla_simple` en el
+    cuerpo de la compuesta y `cuerpo` en el de la chamberga, siendo dos secciones idénticas
+    —«Cuerpo», 4 versos, reutilizando la simple—. Ninguna de las dos es un defecto: `tipo_seccion`
+    solo se lee como etiqueta de reserva cuando `nombre` viene vacío, y aquí nunca llega a
+    dispararse. Se revisan y se unifican más adelante.
+
 12. **Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
     mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
     misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo
