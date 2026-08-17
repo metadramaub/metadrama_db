@@ -424,7 +424,7 @@ paralela. Queda un ciclo de 1 a ∞ con su copla y su estribillo.*
    supresión del enlace o de la vuelta. *Hoy es abierta y opcional, que es lo que absorbe las
    dos descripciones sin multiplicar arquitecturas.*
 3. **¿Entran las mudanzas de seis versos?** Están formalizadas `abba`, `abab` y la asonantada
-   `abcb`; Navarro Tomás documenta además mudanzas excepcionales de seis. *Hoy solo caben como
+   `-a-a`; Navarro Tomás documenta además mudanzas excepcionales de seis. *Hoy solo caben como
    desviación.*
 4. **¿Hasta dónde llega el estribillo: cuatro versos o siete?** Domínguez Caparrós fija la cabeza
    en **dos a cuatro** versos en 2014 y en 2016; Navarro Tomás recoge estribillos de **dos a
@@ -437,6 +437,13 @@ paralela. Queda un ciclo de 1 a ∞ con su copla y su estribillo.*
    abierta, pero la fuente que la sustenta describe algo concreto: una cuarteta octosilábica
    seguida de un estribillo en cuarteta hexasílaba. *Restringirla la haría verificable; dejarla
    abierta permite registrar realizaciones que la fuente no describe.*
+6. **¿Debe el Editor V2 registrar por separado la rima del estribillo y la del enlace o vuelta?**
+   La relación entre esas partes y la mudanza puede variar demasiado para codificarla como una
+   única disposición o restricción normativa. Hoy el editor pregunta por la rima de la mudanza,
+   pero no conserva las rimas concretas del estribillo ni del enlace o vuelta; sin esos datos no
+   podrá reconstruirse después cómo enlazan las secciones en cada realización. *Se deja sin
+   formalizar la relación general y queda por decidir si hacen falta esas dos observaciones por
+   sección.*
 
 ## Zéjel
 

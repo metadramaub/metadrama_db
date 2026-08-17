@@ -24,6 +24,7 @@
 		numeros = true,
 		bandas = true,
 		compacta = false,
+		pie = true,
 		glosas = {}
 	}: {
 		rejilla: Rejilla;
@@ -34,6 +35,13 @@
 		bandas?: boolean;
 		/** Para el recuadro del editor: sin números ni notas al pie. */
 		compacta?: boolean;
+		/**
+		 * Si se imprimen las notas al pie —el ciclo, el recorte y los enlaces entre repeticiones—.
+		 * Hablan del dibujo entero, no de una dimensión, así que cuando la misma rejilla se pide dos
+		 * veces —una para la medida y otra para la rima— solo la última debe llevarlas: si no, el
+		 * romance decía ocho veces que se repite hasta el final de la serie.
+		 */
+		pie?: boolean;
 		/** Glosa abierta de cada disposición, por identificador de esquema. */
 		glosas?: Record<string, string | null>;
 	} = $props();
@@ -104,6 +112,32 @@
 		rejilla.enlaces.filter((enlace) => enlace.sentido !== 'interior')
 	);
 
+	const PREPOSICIONES = new Set(['de', 'del', 'con', 'en', 'por', 'a', 'al', 'y', 'o', 'sin']);
+
+	/**
+	 * El plural llano de un rótulo de parte: «Pareado añadido» → «Pareados añadidos».
+	 *
+	 * Hace falta porque la banda y el árbol cuentan cosas distintas del mismo nombre. El árbol dice
+	 * qué es **una** parte —«Pareado añadido · 2 versos · × 3»— y la banda abarca las tres, ya
+	 * desdobladas sobre los versos 5 a 10. El catálogo lo resuelve a mano donde puede: las secciones
+	 * del soneto se llaman ya «Cuartetos» y «Tercetos».
+	 *
+	 * Se detiene en la primera preposición, que es lo que separa el núcleo del complemento: «Cadena
+	 * de tercetos» son «Cadenas de tercetos», no «Cadenas de tercetoses».
+	 */
+	function enPlural(nombre: string): string {
+		const palabras = nombre.split(' ');
+		const salida: string[] = [];
+		for (const palabra of palabras) {
+			if (PREPOSICIONES.has(palabra.toLocaleLowerCase('es'))) break;
+			if (/s$/i.test(palabra)) salida.push(palabra);
+			else if (/[aeiouáéíóú]$/i.test(palabra)) salida.push(`${palabra}s`);
+			else if (/z$/i.test(palabra)) salida.push(`${palabra.slice(0, -1)}ces`);
+			else salida.push(`${palabra}es`);
+		}
+		return [...salida, ...palabras.slice(salida.length)].join(' ');
+	}
+
 	const celda = 'border border-[color:var(--border)] text-center font-mono leading-none';
 	const alto = $derived(compacta ? 'px-1 py-1 text-[0.65rem]' : 'px-1 py-1.5 text-xs');
 </script>
@@ -162,6 +196,9 @@
 					{#if fila.modalidad}<span class="text-[color:var(--muted-foreground)]"
 							>· {fila.modalidad}</span
 						>{/if}
+					{#if fila.tipoRima}<span class="text-[color:var(--muted-foreground)]"
+							>· {fila.tipoRima}</span
+						>{/if}
 				</div>
 				{#if hayGlosa}
 					<div
@@ -189,36 +226,64 @@
 
 		{#if bandas && !compacta && rejilla.bandas.length > 0}
 			{#each rejilla.bandas as banda, indice (`${banda.nombre}:${banda.desde}:${indice}`)}
+				<!--
+					**Las líneas de las partes se alinean entre sí pase lo que pase debajo**, y para eso
+					hacen falta las dos cosas de aquí abajo.
+
+					`self-start`, porque el contenedor centra sus elementos —lo necesitan las filas de
+					celdas— y una banda más alta que otra quedaba con su borde superior a distinta
+					altura: la de «Cuerpo» crece al llevar debajo «rima como Simple», así que su línea
+					subía y la de al lado no. Anclándolas arriba, todas las líneas caen en la misma.
+
+					Y el rótulo **fuera del flujo**, porque como grid item su ancho entraba en el cálculo
+					de las columnas `auto` que abarca, y cada banda abarca un número distinto: unos
+					versos salían más anchos que otros y la línea dejaba de caer sobre sus celdas.
+
+					La regla, entonces: bajo una banda se puede escribir lo que haga falta —su cuenta, su
+					nota de reutilización, un nombre largo— sin mover ni las celdas ni las líneas.
+				-->
 				<div
-					class="mt-1 border-t border-[color:var(--foreground)] pt-1 text-center text-[0.68rem] leading-4"
+					class="relative mt-1 self-start border-t border-[color:var(--foreground)] pt-1"
 					style="grid-column: {banda.desde} / span {banda.hasta - banda.desde + 1};"
 				>
-					<span class="font-medium">{banda.nombre}</span>
-					{#if (banda.apariciones ?? 1) > 1}
-						<span class="text-[color:var(--muted-foreground)]">×{banda.apariciones}</span>
-					{/if}
-					{#if banda.repeticiones}
-						<span class="text-[color:var(--muted-foreground)]">{banda.repeticiones}</span>
-					{/if}
-					{#if banda.reutiliza}
-						<span class="block text-[color:var(--muted-foreground)]">
-							rima como
-							{#if banda.reutiliza.slug}
-								<a class="underline hover:no-underline" href="/formas/{banda.reutiliza.slug}">
-									{banda.reutiliza.nombre}
-								</a>
-							{:else}
-								{banda.reutiliza.nombre}
+					<div class={banda.reutiliza ? 'h-8' : 'h-4'}></div>
+					<div class="absolute inset-x-0 top-1 flex justify-center">
+						<span class="w-max text-center text-[0.68rem] leading-4">
+							<span class="font-medium">
+								{(banda.apariciones ?? 1) > 1 ? enPlural(banda.nombre) : banda.nombre}
+							</span>
+							<!--
+								`×N` dice aquí lo mismo que en el árbol de partes, que es donde está explicado:
+								cuántas veces aparece una parte dentro de lo que la contiene, **dibujada una sola
+								vez**. Cuando la banda abarca varias apariciones ya desdobladas —los tres pareados
+								de la chamberga ocupan los versos 5 a 10 y se ven los tres— no se rotula ninguna
+								cuenta: se cuentan en la figura, y ponerles «×3» encima hacía dudar si eran tres o
+								nueve.
+							-->
+							{#if banda.repeticiones}
+								<span class="text-[color:var(--muted-foreground)]">{banda.repeticiones}</span>
+							{/if}
+							{#if banda.reutiliza}
+								<span class="block text-[color:var(--muted-foreground)]">
+									rima como
+									{#if banda.reutiliza.slug}
+										<a class="underline hover:no-underline" href="/formas/{banda.reutiliza.slug}">
+											{banda.reutiliza.nombre}
+										</a>
+									{:else}
+										{banda.reutiliza.nombre}
+									{/if}
+								</span>
 							{/if}
 						</span>
-					{/if}
+					</div>
 				</div>
 			{/each}
 		{/if}
 	</div>
 </div>
 
-{#if !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0)}
+{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0)}
 	<div class="mt-2 space-y-1 text-xs text-[color:var(--muted-foreground)]">
 		{#if rejilla.cicla}
 			<p><span aria-hidden="true">⟳</span> Se repite hasta el final de la serie.</p>

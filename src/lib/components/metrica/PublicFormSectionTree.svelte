@@ -1,22 +1,25 @@
 <script lang="ts">
 	import type { PublicSection } from '$lib/metrica/formas-publicas.types';
-	import { renderInlineMarkdown } from '$lib/utils/markdown';
+	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 
 	const { sections } = $props<{ sections: PublicSection[] }>();
 
 	function repeticiones(seccion: PublicSection): string | null {
 		const { repeticionesMin: min, repeticionesMax: max } = seccion;
 		if (min == null && max == null) return null;
-		if (max == null) return `${min ?? 0} o más`;
-		if (min === max) return String(min);
-		return `de ${min ?? 0} a ${max}`;
+		if (min === 1 && max === 1) return null;
+		if (min === 0 && max === 1) return 'opcional';
+		if (min === 0 && max == null) return 'opcional · repetible';
+		if (max == null) return `× ${min ?? 0} o más`;
+		if (min === max) return `× ${min}`;
+		return `× ${min ?? 0}–${max}`;
 	}
 
 	function versos(seccion: PublicSection): string | null {
 		const { versosMin: min, versosMax: max } = seccion;
 		if (min == null && max == null) return null;
 		if (max == null) return `${min} o más versos`;
-		if (min === max) return `${min} versos`;
+		if (min === max) return `${min} ${min === 1 ? 'verso' : 'versos'}`;
 		return `de ${min} a ${max} versos`;
 	}
 </script>
@@ -29,19 +32,22 @@
 	>
 		{#each items as section (section.id)}
 			<li>
-				<span class="font-medium">{section.nombre}</span>
+				<span class={depth === 0 ? 'font-semibold' : 'font-medium'}>{section.nombre}</span>
 				{#if versos(section) || repeticiones(section)}
 					<span class="text-[color:var(--muted-foreground)]">
-						· {[versos(section), repeticiones(section) ? `×${repeticiones(section)}` : null]
+						· {[versos(section), repeticiones(section)]
 							.filter(Boolean)
-							.join(' ')}
+							.join(' · ')}
 					</span>
 				{/if}
-				<!-- Que una parte reutilice otra forma es el dato más útil de la ficha: dice dónde
-				     está declarada su rima y lleva allí. Se calculaba y se tiraba. -->
+				{#if section.nota}
+					<InlineNotePopover text={section.nota} label={`Mostrar nota sobre ${section.nombre}`} />
+				{/if}
+				<!-- La arquitectura reutilizada aporta la estructura de esa parte, incluida su medida
+				     y su rima, y enlaza la ficha donde está declarada. -->
 				{#if section.reutiliza}
 					<span class="block text-[color:var(--muted-foreground)]">
-						Rima como
+						Se estructura como
 						{#if section.reutiliza.slug}
 							<a class="underline hover:no-underline" href="/formas/{section.reutiliza.slug}">
 								{section.reutiliza.nombre}
@@ -49,11 +55,6 @@
 						{:else}
 							{section.reutiliza.nombre}
 						{/if}
-					</span>
-				{/if}
-				{#if section.nota}
-					<span class="block text-[color:var(--muted-foreground)]">
-						{@html renderInlineMarkdown(section.nota)}
 					</span>
 				{/if}
 				{#if section.hijas.length > 0}

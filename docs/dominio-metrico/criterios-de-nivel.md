@@ -150,7 +150,7 @@ arquitectura debe declarar de algún modo cómo se comporta su rima (**D2b**).
 sin rima es lo primero que hay que saber de una rima, y el catálogo lo admite en dos sitios: en la
 arquitectura y en cada disposición. Va **arriba cuando el régimen es uno** —el soneto es consonante
 y se acabó— y **abajo cuando dentro de la arquitectura varía**: el villancico admite `abba` y
-`abab` consonantes junto a la asonantada `abcb`, y la canción sin rima tiene el cuerpo sin rimar y
+`abab` consonantes junto a la asonantada `-a-a`, y la canción sin rima tiene el cuerpo sin rimar y
 un pareado final consonante. Reducir esos dos a un valor sería falsearlos, y por eso dejan la
 casilla de arriba vacía a propósito. Lo que no vale es que no esté en ninguno de los dos, y eso lo
 comprueba **D15**. Ocho arquitecturas lo callaban hasta el 12 de agosto de 2026, cuando la ficha

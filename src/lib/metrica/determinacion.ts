@@ -55,6 +55,9 @@ export function determinacionDeMedida(arquitectura: PublicArchitecture): Determi
 	if (grupos.some((grupo) => grupo.defineNorma)) {
 		return { grado: 'primera_unidad', detalle: 'las siguientes repiten el patrón' };
 	}
+	const seccionesQueEligen = new Set(
+		grupos.map((grupo) => grupo.seccion).filter((seccion): seccion is string => Boolean(seccion))
+	);
 
 	const repertorios = arquitectura.esquemasMetricos.filter(
 		(esquema) => esquema.repertorio.length > 1
@@ -62,9 +65,12 @@ export function determinacionDeMedida(arquitectura: PublicArchitecture): Determi
 	if (repertorios.length > 0) {
 		return {
 			grado: 'variable',
-			detalle: repertorios.every((esquema) => esquema.uniforme)
-				? 'una medida para todo el poema'
-				: 'verso a verso'
+			detalle:
+				seccionesQueEligen.size > 1
+					? 'una medida por parte'
+					: repertorios.every((esquema) => esquema.uniforme)
+						? 'una medida para toda la composición'
+						: 'verso a verso'
 		};
 	}
 

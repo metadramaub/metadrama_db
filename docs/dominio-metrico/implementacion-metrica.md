@@ -587,7 +587,7 @@ flowchart TD
     Z --> RE["SECCIÓN · repetición del estribillo<br/>opcional"]
     CO --> MU["SECCIÓN · mudanza<br/>4 versos"]
     CO --> EN["SECCIÓN · enlace o vuelta<br/>opcional"]
-    MU --> ER["ELECCIÓN por unidad<br/>abba · abab · abcb asonantado"]
+    MU --> ER["ELECCIÓN por unidad<br/>abba · abab · -a-a asonantado"]
     RE --> REP["REPETICIÓN DEL ESTRIBILLO<br/>total · parcial"]
 ```
 

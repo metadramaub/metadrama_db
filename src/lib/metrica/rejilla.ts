@@ -120,6 +120,8 @@ export type FilaDeRima = {
 	nombre: string | null;
 	notacion: string | null;
 	modalidad: string | null;
+	/** Solo se imprime por fila cuando dentro de la arquitectura varía el régimen. */
+	tipoRima?: string | null;
 	/** La parte de la que es la disposición, cuando no es de la unidad entera. */
 	parte: string | null;
 	desde: number;

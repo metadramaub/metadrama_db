@@ -179,11 +179,23 @@ export async function loadPublicForm(
 			{ nombre: String(row.forma_nombre), slug: texto(row.forma_slug) }
 		])
 	);
+	/** A qué forma pertenece cada arquitectura, para saber si una reutilización sale de la ficha. */
+	const formaDeLaArquitectura = new Map(
+		(arquitecturas as any[]).map((row) => [String(row.arquitectura_id), String(row.forma_id)])
+	);
 	const reutilizacionDe = (
 		arquitecturaReferenciadaId: unknown
 	): { nombre: string; slug: string | null } | null => {
 		if (!arquitecturaReferenciadaId) return null;
 		const id = String(arquitecturaReferenciadaId);
+		// Una forma puede reutilizar una arquitectura **suya**: el cuerpo de la seguidilla compuesta
+		// es una seguidilla simple. Nombrar entonces la forma la hacía apuntarse a sí misma —«Se
+		// estructura como Seguidilla», dentro de la ficha de la seguidilla, con enlace a la propia
+		// página—. Lo que identifica la parte ahí es la arquitectura, y no hay adónde enlazar.
+		if (formaDeLaArquitectura.get(id) === formaId) {
+			const propia = nombreArquitectura.get(id);
+			return propia ? { nombre: propia, slug: null } : null;
+		}
 		const forma = formaDeArquitectura.get(id);
 		if (forma) return forma;
 		const nombre = nombreArquitectura.get(id);
@@ -353,8 +365,7 @@ export async function loadPublicForm(
 		return [...deSecciones, ...conParte]
 			.sort(
 				(a, b) =>
-					(orden.get(a.deLaSeccion ?? '') ?? 0) -
-						(orden.get(b.deLaSeccion ?? '') ?? 0) ||
+					(orden.get(a.deLaSeccion ?? '') ?? 0) - (orden.get(b.deLaSeccion ?? '') ?? 0) ||
 					compararPorModalidadYNombre(a, b)
 			)
 			.concat(sinParte.sort(compararPorModalidadYNombre));
@@ -394,6 +405,12 @@ export async function loadPublicForm(
 	/** Los esquemas de rima de una arquitectura, ordenados por nombre porque la tabla no ordena. */
 	const mapearRima = (e: any): PublicRhymeScheme => {
 		const nombres = nombresDeRima(String(e.esquema_rima_id));
+		const posicionesFigura = (todasLasPosicionesPorEsquema.get(String(e.esquema_rima_id)) ?? [])
+			.slice()
+			.sort(
+				(a, b) =>
+					Number(a.bloque ?? 1) - Number(b.bloque ?? 1) || Number(a.posicion) - Number(b.posicion)
+			);
 		// Un esquema sin nombre propio se presenta con el que la tradición le dio, y entonces
 		// ese nombre no se repite en la lista de los demás.
 		const propio = texto(e.nombre);
@@ -406,6 +423,10 @@ export async function loadPublicForm(
 			// y tres excepcionales, y sin esto salían las ocho iguales.
 			modalidad: texto(e.modalidad),
 			tipoRima: e.tipo_rima_id ? (nombreTipoRima.get(String(e.tipo_rima_id)) ?? null) : null,
+			figura: posicionesFigura.map((posicion) => ({
+				clase: texto(posicion.clase_rima),
+				suelto: posicion.suelto === true
+			})),
 			abierto: (todasLasPosicionesPorEsquema.get(String(e.esquema_rima_id)) ?? []).length === 0,
 			// El ciclo lo marca la notación: es la única declaración que hay.
 			cicla: String(e.notacion ?? '').includes(']…'),
@@ -610,6 +631,21 @@ export async function loadPublicForm(
 		const metricos: EsquemaMetricoEntrada[] = (metricosPor.get(arquitecturaId) ?? []).map(
 			metricoEntrada
 		);
+		/**
+		 * Si la arquitectura ya dice cómo rima su unidad entera.
+		 *
+		 * Cuando lo dice, una parte **no** toma prestada además la rima de la forma que reutiliza:
+		 * esa ya está contada dentro de la disposición de la unidad. Prestarla igualmente hacía dos
+		 * daños. En la seguidilla compuesta dibujaba `– a – a` dos veces, una bajo el rótulo del
+		 * cuerpo y otra dentro de `– a – a b – b`. Y en la décima espinela era peor que redundante:
+		 * la redondilla suelta admite abrazada y cruzada, así que la ficha ofrecía «Primera
+		 * redondilla — una de 2» encima de su propio `abba:accddc`, que es definitorio y no admite
+		 * la cruzada. La herencia sigue haciendo falta donde la unidad no declara rima —el soneto,
+		 * la novena, la copla real, las sextinas—, que es para lo que se puso.
+		 */
+		const laUnidadDeclaraSuRima = rimas.some(
+			(rima) => !rima.seccion && rima.posiciones.length > 0
+		);
 		for (const s of filas) {
 			const nombre = String(s.nombre);
 			for (const esquema of rimaDeSeccion(s.seccion_id, nombre)) {
@@ -643,6 +679,7 @@ export async function loadPublicForm(
 					});
 				}
 			}
+			if (laUnidadDeclaraSuRima) continue;
 			if (rimas.some((rima) => rima.seccion === nombre)) continue;
 			for (const er of (heredada.esquemas_rima ?? []) as any[]) {
 				rimas.push({
@@ -681,6 +718,9 @@ export async function loadPublicForm(
 			.map((grupo) => ({
 				dimension: String(grupo.dimension),
 				alcance: texto(grupo.alcance),
+				seccion: grupo.seccion_id
+					? (nombreDeSeccionPorId.get(String(grupo.seccion_id)) ?? null)
+					: null,
 				tipoControl: texto(grupo.tipo_control),
 				seleccionesMin: Number(grupo.selecciones_min ?? 0),
 				seleccionesMax: Number(grupo.selecciones_max ?? 1),
@@ -822,9 +862,8 @@ export async function loadPublicForm(
 							descripcion: texto(e.descripcion),
 							modalidad: null,
 							tipoSecuencia: dibujable.tipoSecuencia,
-							// Solo un repertorio abierto declara si la medida elegida vale para todo
-							// el pasaje: en la silva elige cada verso; en el villancico, la
-							// composición entera.
+							// Un repertorio abierto declara si la elección vale uniformemente dentro
+							// del nivel al que se aplica o si puede cambiar verso a verso.
 							uniforme: e.medida_uniforme === true,
 							repertorio: dibujable.opciones.flatMap((opcion) =>
 								opcion.silabas ? [{ silabas: opcion.silabas, rol: opcion.rol }] : []
@@ -894,10 +933,7 @@ export async function loadPublicForm(
 				denominaciones: (denominacionesPorArquitectura.get(id) ?? []).map((d) => String(d.nombre))
 			};
 		})
-		.sort(
-			(a, b) =>
-				Number(b.principal) - Number(a.principal) || compararPorModalidadYNombre(a, b)
-		);
+		.sort((a, b) => Number(b.principal) - Number(a.principal) || compararPorModalidadYNombre(a, b));
 
 	const arquitecturaDeId = new Map(
 		(arquitecturas as any[])

@@ -2,13 +2,15 @@
 	import type {
 		PublicArchitecture,
 		PublicMetricScheme,
+		PublicRhymeScheme,
 		PublicTrait
 	} from '$lib/metrica/formas-publicas.types';
-	import type { FilaDeRima } from '$lib/metrica/rejilla';
+	import type { FilaDeRima, Rejilla } from '$lib/metrica/rejilla';
 	import MetricPositionGrid from './MetricPositionGrid.svelte';
 	import MetricDeterminationLabel from './MetricDeterminationLabel.svelte';
 	import PublicFormSectionTree from './PublicFormSectionTree.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
+	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import { renderInlineMarkdown } from '$lib/utils/markdown';
 	import {
 		determinacionDeExtension,
@@ -92,6 +94,15 @@
 		}
 		return grupos;
 	});
+	const esquemasRimaDibujados = $derived(
+		new Set(gruposDeRima.flatMap((grupo) => grupo.filas.map((fila) => fila.esquemaRimaId)))
+	);
+	/** Disposiciones cerradas que existen en el catálogo pero no caben en una rejilla abierta. */
+	const esquemasCerradosSinDibujo = $derived(
+		arquitectura.esquemasRima.filter(
+			(esquema) => !esquema.abierto && !esquemasRimaDibujados.has(esquema.id)
+		)
+	);
 
 	/** La glosa abierta, en el formato que consume la rejilla. */
 	const glosas = $derived.by(() => {
@@ -106,12 +117,49 @@
 	function alternarGlosa(esquemaRimaId: string) {
 		glosaAbierta = glosaAbierta === esquemaRimaId ? null : esquemaRimaId;
 	}
+
+	/** Una disposición autónoma cuando la arquitectura abierta no ofrece columnas comunes. */
+	function rejillaDeEsquema(esquema: PublicRhymeScheme): Rejilla {
+		return {
+			celdas: esquema.figura.map((_, indice) => ({ verso: indice + 1, medida: null })),
+			filasDeRima: [
+				{
+					esquemaRimaId: esquema.id,
+					nombre: esquema.nombre,
+					notacion: esquema.notacion,
+					modalidad: esquema.modalidad ?? null,
+					tipoRima: esquema.tipoRima,
+					parte: esquema.deLaSeccion,
+					desde: 1,
+					hasta: esquema.figura.length,
+					clases: esquema.figura
+				}
+			],
+			bandas: [],
+			enlaces: [],
+			cicla: esquema.cicla,
+			recortada: false,
+			tieneMedida: false,
+			tieneRima: true,
+			parte: esquema.deLaSeccion,
+			repeticionesDeLaParte: null
+		};
+	}
 </script>
 
-{#snippet dimension(rotulo: string, determinacion: DeterminacionMetrica)}
+{#snippet dimension(
+	rotulo: string,
+	determinacion: DeterminacionMetrica,
+	ayuda: string | null = null
+)}
 	<th class="w-40 py-2.5 pr-4 align-top text-left">
-		<span class="text-[0.66rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
+		<span
+			class="inline-flex items-center gap-1 text-[0.66rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]"
+		>
 			{rotulo}
+			{#if ayuda}
+				<InlineNotePopover text={ayuda} label={`Explicar ${rotulo.toLocaleLowerCase('es')}`} />
+			{/if}
 		</span>
 		<MetricDeterminationLabel valor={determinacion} />
 	</th>
@@ -132,9 +180,7 @@
 			</span>
 		{/if}
 		{#if rasgo.nota}
-			<span class="block text-[color:var(--muted-foreground)]">
-				{@html renderInlineMarkdown(rasgo.nota)}
-			</span>
+			<InlineNotePopover text={rasgo.nota} label={`Mostrar nota sobre ${rasgo.nombre}`} />
 		{/if}
 	</li>
 {/snippet}
@@ -203,7 +249,14 @@
 					<tr class="border-t border-[color:var(--border)]">
 						{@render dimension('Medida', medidaDeterminada)}
 						<td class="py-2.5 align-top">
-							<MetricPositionGrid rejilla={arquitectura.rejilla} mostrar="medida" bandas={false} />
+							<!-- Sin pie: el ciclo y los enlaces hablan del dibujo entero y se dicen una sola
+							     vez, abajo, donde está la rima que los produce. -->
+							<MetricPositionGrid
+								rejilla={arquitectura.rejilla}
+								mostrar="medida"
+								bandas={false}
+								pie={false}
+							/>
 						</td>
 					</tr>
 				{/if}
@@ -217,9 +270,10 @@
 						<td class="py-2.5 align-top">
 							<span class="font-medium">{repertorio(esquema)}</span>
 							{#if esquema.descripcion}
-								<span class="block text-[color:var(--muted-foreground)]">
-									{@html renderInlineMarkdown(esquema.descripcion)}
-								</span>
+								<InlineNotePopover
+									text={esquema.descripcion}
+									label="Mostrar explicación de la medida"
+								/>
 							{/if}
 						</td>
 					</tr>
@@ -281,6 +335,26 @@
 							{/if}
 						{/each}
 
+						{#if esquemasCerradosSinDibujo.length > 0}
+							<div class="mt-2 space-y-2">
+								{#each esquemasCerradosSinDibujo as esquema (esquema.id)}
+									<div class="flex items-start gap-1">
+										<MetricPositionGrid
+											rejilla={rejillaDeEsquema(esquema)}
+											mostrar="rima"
+											bandas={false}
+										/>
+										{#if esquema.descripcion}
+											<InlineNotePopover
+												text={esquema.descripcion}
+												label={`Mostrar explicación de ${esquema.nombre}`}
+											/>
+										{/if}
+									</div>
+								{/each}
+							</div>
+						{/if}
+
 						{#if esquemasAbiertos.length > 0}
 							<ul class="mt-2 space-y-1">
 								{#each esquemasAbiertos as esquema (esquema.id)}
@@ -313,7 +387,11 @@
 
 			{#if arquitectura.secciones.length > 0}
 				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Partes', partesDeterminadas)}
+					{@render dimension(
+						'Partes',
+						partesDeterminadas,
+						'El signo × indica cuántas veces puede aparecer una parte dentro de la estructura que la contiene. Cuando no se muestra, aparece una sola vez.'
+					)}
 					<td class="py-2.5 align-top">
 						<PublicFormSectionTree sections={arquitectura.secciones} />
 					</td>
@@ -327,11 +405,12 @@
 						<ul class="space-y-1">
 							{#each repeticionesNorma as repeticion, i (`rn:${i}`)}
 								<li>
-									<span class="font-medium">{repeticion.nombre}</span>
-									{#if repeticion.descripcion}
-										<span class="block text-[color:var(--muted-foreground)]">
-											{@html renderInlineMarkdown(repeticion.descripcion)}
-										</span>
+								<span class="font-medium">{repeticion.nombre}</span>
+								{#if repeticion.descripcion}
+									<InlineNotePopover
+										text={repeticion.descripcion}
+										label={`Mostrar explicación de ${repeticion.nombre}`}
+									/>
 									{/if}
 								</li>
 							{/each}
@@ -353,10 +432,11 @@
 											· {repeticion.modalidad}
 										</span>
 									{/if}
-									{#if repeticion.descripcion}
-										<span class="block text-[color:var(--muted-foreground)]">
-											{@html renderInlineMarkdown(repeticion.descripcion)}
-										</span>
+								{#if repeticion.descripcion}
+									<InlineNotePopover
+										text={repeticion.descripcion}
+										label={`Mostrar explicación de ${repeticion.nombre}`}
+									/>
 									{/if}
 								</li>
 							{/each}
@@ -408,9 +488,10 @@
 										<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
 									{/if}
 									{#if rasgo.nota}
-										<span class="block text-[color:var(--muted-foreground)]">
-											{@html renderInlineMarkdown(rasgo.nota)}
-										</span>
+										<InlineNotePopover
+											text={rasgo.nota}
+											label={`Mostrar nota sobre ${grupo.nombre}`}
+										/>
 									{/if}
 								</li>
 							{/each}
