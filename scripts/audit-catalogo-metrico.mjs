@@ -190,8 +190,7 @@ const DEFECTOS = [
 		detectar(model) {
 			const declaraTipoDeRima = (patron) =>
 				Boolean(
-					patron.tipo_rima_id ||
-						model.configuracionPorId.get(patron.arquitectura_id)?.tipo_rima_id
+					patron.tipo_rima_id || model.configuracionPorId.get(patron.arquitectura_id)?.tipo_rima_id
 				);
 			return model.patronesRima
 				.filter(
@@ -257,11 +256,12 @@ const DEFECTOS = [
 				if (configuracion.unidad_versos_min === null) {
 					// La unidad sin declarar es legítima cuando la extensión varía con el pasaje,
 					// pero entonces las secciones son las que la producen.
-					const secciones = listOf(
-						model.seccionesPorConfiguracion,
-						configuracion.arquitectura_id
-					);
-					if (secciones.length === 0 && formaDeConfiguracion(model, configuracion.arquitectura_id)?.nivel_estructural !== 'serie') {
+					const secciones = listOf(model.seccionesPorConfiguracion, configuracion.arquitectura_id);
+					if (
+						secciones.length === 0 &&
+						formaDeConfiguracion(model, configuracion.arquitectura_id)?.nivel_estructural !==
+							'serie'
+					) {
 						hallazgos.push({
 							sujeto: etiqueta(model, configuracion.arquitectura_id),
 							detalle: 'no declara unidad y no tiene secciones de las que derivarla'
@@ -497,7 +497,9 @@ const DEFECTOS = [
 					clases: veces.size,
 					alternancias,
 					// Un verso sin rima es una clase que aparece una sola vez, esté marcado o no.
-					sueltos: posiciones.filter((p) => p.suelto).length + [...veces.values()].filter((n) => n === 1).length
+					sueltos:
+						posiciones.filter((p) => p.suelto).length +
+						[...veces.values()].filter((n) => n === 1).length
 				};
 			};
 
@@ -578,7 +580,7 @@ const DEFECTOS = [
 		id: 'D15',
 		titulo: 'Arquitectura sin régimen de rima declarado en ningún nivel',
 		criterio:
-			'El régimen —consonante, asonante, sin rima— se declara siempre, en el nivel que le corresponde: en la arquitectura cuando es uno solo, y en cada disposición cuando dentro de ella varía. El villancico lo declara abajo porque admite `abba` consonante junto a la asonantada `abcb`, y la canción sin rima porque su cuerpo no rima y su pareado final sí. Lo que no vale es que no esté en ninguno de los dos: es lo primero que hay que saber de una rima, y ocho arquitecturas lo callaban hasta el 12 de agosto de 2026.',
+			'El régimen —consonante, asonante, sin rima— se declara siempre, en el nivel que le corresponde: en la arquitectura cuando es uno solo, y en cada disposición cuando dentro de ella varía. El villancico lo declara abajo porque admite `abba` consonante junto a la asonantada `-a-a`, y la canción sin rima porque su cuerpo no rima y su pareado final sí. Lo que no vale es que no esté en ninguno de los dos: es lo primero que hay que saber de una rima, y ocho arquitecturas lo callaban hasta el 12 de agosto de 2026.',
 		detectar(model) {
 			return model.configuraciones
 				.filter((configuracion) => {

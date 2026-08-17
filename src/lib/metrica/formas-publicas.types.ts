@@ -37,8 +37,8 @@ export type PublicScheme = {
  * Una medida que la norma no coloca: el repertorio del que la realización elige.
  *
  * Son dos casos distintos que se leían con la misma frase: en la silva elige **cada verso**
- * —`uniforme: false`—, y en el villancico elige la composición entera y todos los versos la
- * siguen. El `rol` separa la medida dominante de la que la quiebra.
+ * —`uniforme: false`—, mientras que otros repertorios eligen una medida uniforme dentro del
+ * nivel al que se aplican. El `rol` separa la medida dominante de la que la quiebra.
  */
 export type PublicMetreRepertoire = {
 	silabas: string;
@@ -120,10 +120,12 @@ export type PublicRhymeScheme = PublicScheme & {
 	abierto: boolean;
 	/**
 	 * Consonante, asonante o sin rima **de esta disposición**. El catálogo lo declara en dos
-	 * niveles y no siempre coinciden: el villancico admite `abba` consonante y `abcb` asonantada,
+	 * niveles y no siempre coinciden: el villancico admite `abba` consonante y `-a-a` asonantada,
 	 * así que su arquitectura no puede reducirse a un solo régimen y este es el que manda.
 	 */
 	tipoRima: string | null;
+	/** Posiciones que permiten dibujar la disposición aunque la arquitectura entera sea abierta. */
+	figura: { clase: string | null; suelto: boolean }[];
 };
 
 export type PublicSection = {
@@ -194,6 +196,8 @@ export type PublicTraits = {
 export type PublicChoiceGroup = {
 	dimension: string;
 	alcance: string | null;
+	/** Parte que concreta la elección; nula cuando pertenece a la unidad entera. */
+	seccion: string | null;
 	tipoControl: string | null;
 	seleccionesMin: number;
 	seleccionesMax: number;
@@ -242,7 +246,7 @@ export type PublicArchitecture = {
 	 *
 	 * **Se declara siempre, en el nivel que le corresponde**: en la arquitectura cuando su régimen
 	 * es uno, y en cada disposición cuando varía dentro de ella —el villancico admite `abba`
-	 * consonante y `abcb` asonantada, y ahí reducirlo a un valor sería falsearlo—. La ficha lee
+	 * consonante y `-a-a` asonantada, y ahí reducirlo a un valor sería falsearlo—. La ficha lee
 	 * el nivel en que esté; lo que no hace es inventarse el de arriba a partir del de abajo,
 	 * porque eso taparía que falta declararlo.
 	 */

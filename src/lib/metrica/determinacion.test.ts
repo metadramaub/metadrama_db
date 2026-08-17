@@ -88,6 +88,7 @@ describe('grado de determinación de una arquitectura', () => {
 						{
 							dimension: 'metro',
 							alcance: 'unidad',
+							seccion: null,
 							tipoControl: 'opciones',
 							seleccionesMin: 1,
 							seleccionesMax: 1,
@@ -98,6 +99,41 @@ describe('grado de determinación de una arquitectura', () => {
 				})
 			).grado
 		).toBe('primera_unidad');
+	});
+
+	it('reconoce una medida elegida por cada parte aunque cada parte sea isométrica', () => {
+		const esquema = {
+			nombre: 'Hexasílabo u octosílabo',
+			notacion: null,
+			descripcion: null,
+			modalidad: null,
+			tipoSecuencia: 'conjunto',
+			uniforme: true,
+			repertorio: [
+				{ silabas: '6', rol: null },
+				{ silabas: '8', rol: null }
+			],
+			deLaSeccion: null
+		};
+		const grupo = (seccion: string) => ({
+			dimension: 'metro',
+			alcance: 'unidad',
+			seccion,
+			tipoControl: 'opciones',
+			seleccionesMin: 1,
+			seleccionesMax: 1,
+			defineNorma: false,
+			opciones: 2
+		});
+
+		expect(
+			determinacionDeMedida(
+				arquitectura({
+					esquemasMetricos: [esquema],
+					elecciones: [grupo('Cabeza'), grupo('Mudanza'), grupo('Enlace o vuelta')]
+				})
+			)
+		).toEqual({ grado: 'variable', detalle: 'una medida por parte' });
 	});
 
 	it('no convierte una única disposición habitual en fija', () => {
@@ -112,6 +148,16 @@ describe('grado de determinación de una arquitectura', () => {
 							descripcion: null,
 							modalidad: 'habitual',
 							tipoRima: 'Consonante',
+							figura: [
+								{ clase: 'A', suelto: false },
+								{ clase: 'B', suelto: false },
+								{ clase: 'A', suelto: false },
+								{ clase: 'B', suelto: false },
+								{ clase: 'A', suelto: false },
+								{ clase: 'B', suelto: false },
+								{ clase: 'C', suelto: false },
+								{ clase: 'C', suelto: false }
+							],
 							abierto: false,
 							cicla: false,
 							enlaces: [],
@@ -139,6 +185,7 @@ describe('grado de determinación de una arquitectura', () => {
 							descripcion: null,
 							modalidad: 'definitoria',
 							tipoRima: 'Consonante',
+							figura: [],
 							abierto: true,
 							cicla: false,
 							enlaces: [],
@@ -153,6 +200,7 @@ describe('grado de determinación de una arquitectura', () => {
 						{
 							dimension: 'rima',
 							alcance: 'unidad',
+							seccion: null,
 							tipoControl: 'opciones',
 							seleccionesMin: 1,
 							seleccionesMax: 1,
