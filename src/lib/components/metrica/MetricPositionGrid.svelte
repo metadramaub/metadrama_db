@@ -243,9 +243,17 @@
 					nota de reutilización, un nombre largo— sin mover ni las celdas ni las líneas.
 				-->
 				<div
-					class="relative mt-1 self-start border-t border-[color:var(--foreground)] pt-1"
+					class="relative mx-0.5 mt-1 self-start border-t border-[color:var(--foreground)] pt-1"
 					style="grid-column: {banda.desde} / span {banda.hasta - banda.desde + 1};"
 				>
+					<!--
+						Los topes de los extremos cierran la línea en corchete. Alineadas todas a la misma
+						altura, dos partes contiguas se leían como una sola raya continua; el tope dice dónde
+						acaba una y empieza la siguiente. El aire lateral es de la banda, no de la rejilla, así
+						que las columnas no se mueven.
+					-->
+					<span class="absolute left-0 top-0 h-1.5 w-px bg-[color:var(--foreground)]"></span>
+					<span class="absolute right-0 top-0 h-1.5 w-px bg-[color:var(--foreground)]"></span>
 					<div class={banda.reutiliza ? 'h-8' : 'h-4'}></div>
 					<div class="absolute inset-x-0 top-1 flex justify-center">
 						<span class="w-max text-center text-[0.68rem] leading-4">
