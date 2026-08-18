@@ -20,6 +20,7 @@
 		determinacionDeRima,
 		type DeterminacionMetrica
 	} from '$lib/metrica/determinacion';
+	import { rangoDeModalidad } from '$lib/metrica/modalidad';
 
 	/**
 	 * Una arquitectura, leída **dimensión a dimensión**: extensión, medida, rima, partes,
@@ -115,24 +116,33 @@
 		Boolean(arquitectura.esquemasRima.find((item) => item.id === esquemaRimaId)?.descripcion);
 
 	/**
-	 * A partir de cuántos valores un rasgo excluyente se cuenta en vez de enumerarse.
+	 * A partir de cuántos valores un rasgo excluyente pasa de lista en columna a fila envuelta.
 	 *
-	 * Las diecinueve asonancias del romance son un catálogo cerrado que el lector no recorre: le
-	 * basta saber cuántas hay y poder abrirlas. Por debajo de este tope la lista sigue siendo más
-	 * informativa que su recuento, porque son dos o tres opciones que se leen de un vistazo.
+	 * Los dos o tres valores de un rasgo ordinario piden una línea cada uno, porque llevan detrás
+	 * su modalidad y a veces su nota. Un inventario cerrado y de nombres cortos —las diecinueve
+	 * asonancias— pide lo contrario: puestos en columna eran diecinueve líneas iguales, y en fila
+	 * caben en dos. **No se esconde ninguno**: el recuento acompaña a los valores, no los sustituye.
 	 */
 	const TOPE_ENUMERAR_RASGOS = 6;
 
-	/** El texto que abre el recuento: los valores, con su modalidad solo si no la comparten. */
-	const listaDeValores = (valores: PublicTrait[]) => {
-		const modalidades = new Set(valores.map((valor) => valor.modalidad ?? ''));
-		return valores
-			.map((valor) => {
-				const nombre = valor.valor ?? 'Sí';
-				return modalidades.size > 1 && valor.modalidad ? `${nombre} (${valor.modalidad})` : nombre;
-			})
-			.join(' · ');
-	};
+	/**
+	 * Un inventario largo se ordena por su nombre, dentro de cada modalidad.
+	 *
+	 * El `orden` que trae la opción no significa nada para estos valores: las mismas diecinueve
+	 * asonancias llegaban en un orden distinto en cada arquitectura del romance, de modo que el
+	 * mismo inventario parecía dos. Cuando nada distingue a unos valores de otros, el orden del
+	 * nombre es el único que el lector puede seguir. En `arquitectura_rasgos.nombre` está el
+	 * nombre del rasgo, igual en todas las filas, así que la comparación va por `valor`.
+	 */
+	const ordenarInventario = (valores: PublicTrait[]) =>
+		[...valores].sort(
+			(a, b) =>
+				rangoDeModalidad(a.modalidad) - rangoDeModalidad(b.modalidad) ||
+				String(a.valor ?? '').localeCompare(String(b.valor ?? ''), 'es', {
+					sensitivity: 'base',
+					numeric: true
+				})
+		);
 
 	/** La modalidad compartida por todos los valores, cuando la comparten. */
 	const modalidadComun = (valores: PublicTrait[]) => {
@@ -506,24 +516,34 @@
 							: { grado: 'variable', detalle: 'una posibilidad' }
 					)}
 					<td class="py-2.5 align-top">
-						<!-- Un catálogo largo se cuenta y se abre; una lista corta se lee entera. -->
+						<!-- Un inventario cerrado se enseña entero, en fila envuelta y sin repetir la
+						     modalidad en cada valor: las diecinueve asonancias del romance ocupan así
+						     dos líneas, y de un vistazo se ve que el inventario está cerrado. En
+						     columna, con su «· admitida» detrás, eran diecinueve líneas iguales. -->
 						{#if grupo.valores.length > TOPE_ENUMERAR_RASGOS}
-							<span class="font-medium">{grupo.valores.length} posibilidades</span>
-							{#if modalidadComun(grupo.valores)}
-								<span class="text-[color:var(--muted-foreground)]">
-									· {modalidadComun(grupo.valores)}
-								</span>
-							{/if}
-							<InlineNotePopover
-								text={listaDeValores(grupo.valores)}
-								label={`Ver las ${grupo.valores.length} posibilidades de ${grupo.nombre}`}
-							/>
-							{#if grupo.nota}
-								<InlineNotePopover
-									text={grupo.nota}
-									label={`Mostrar nota sobre ${grupo.nombre}`}
-								/>
-							{/if}
+							<ul class="flex flex-wrap gap-1">
+								{#each ordenarInventario(grupo.valores) as rasgo, j (`rxv:${j}`)}
+									<li
+										class="border border-[color:var(--border)] px-1.5 py-0.5 text-xs font-medium leading-5"
+									>
+										{rasgo.valor ?? 'Sí'}
+										{#if !modalidadComun(grupo.valores) && rasgo.modalidad}
+											<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
+										{/if}
+									</li>
+								{/each}
+							</ul>
+							<p class="mt-1.5 text-xs text-[color:var(--muted-foreground)]">
+								{grupo.valores.length} posibilidades{modalidadComun(grupo.valores)
+									? `, todas de modalidad ${modalidadComun(grupo.valores)}`
+									: ''}
+								{#if grupo.nota}
+									<InlineNotePopover
+										text={grupo.nota}
+										label={`Mostrar nota sobre ${grupo.nombre}`}
+									/>
+								{/if}
+							</p>
 						{:else}
 							<ul class="space-y-1">
 								{#each grupo.valores as rasgo, j (`rxv:${j}`)}
