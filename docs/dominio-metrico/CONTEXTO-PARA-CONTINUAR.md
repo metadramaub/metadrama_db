@@ -206,6 +206,33 @@ relación se pide por consulta y el informe **se planta** si el modelo se queda 
 otra tabla del catálogo se convierte en vista, hay que hacer lo mismo: `--dump` sobre una copia
 local no puede verla.
 
+### La revisión de la prosa va forma por forma
+
+Distinta de la revisión filológica y posterior a ella. Se audita una forma entera contra la base
+—definición, arquitecturas, esquemas, notas, denominaciones, relaciones y afirmaciones—, se
+contrasta con la ficha real de `/formas`, y se aplica **una sola migración por forma** para poder
+comprobar esa ficha antes de pasar a la siguiente. La norma de redacción es
+[dónde vive la prosa](./donde-vive-la-prosa.md).
+
+Se intentó primero como barrido global —hubo un informe de «segunda poda» con su generador— y no
+funcionó: un inventario de frases sueltas no deja ver la forma entera, y sus recuentos envejecían
+en cuanto se tocaba algo. Los tres documentos se retiraron el 18 de agosto de 2026; sus decisiones
+ya aplicadas están en las migraciones y en el historial de `git`.
+
+Llevan la prosa revisada, con su migración:
+
+| Forma | Migración |
+| --- | --- |
+| Villancico | `20260814090000_el_villancico_explica_sin_repetir_sus_partes` |
+| Zéjel | `20260814100000_el_zejel_deja_hablar_a_su_figura` |
+| Seguidilla | `20260815090000_la_seguidilla_dice_lo_que_su_figura_no_dibuja` (+ `20260815091000`) |
+| Romance | `20260818090000_el_romance_deja_de_repetir_su_rejilla` |
+
+**Tras cada migración, `npm run audit:metrica` debe dar 0 defectos** —necesita Docker levantado,
+porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en esta fase, leerlas
+una a una ha descubierto defectos de presentación que no se veían ni en el catálogo ni en el
+código.
+
 ## Qué queda pendiente
 
 Inventario hecho el 10 de agosto de 2026, al cerrar las seis lecturas transversales. Incluye lo
@@ -336,7 +363,7 @@ hacerlas antes obliga a hacerlas dos veces.
     antigua de la quintilla, y Navarro Tomás sobre `CDE CDE` como disposición preferida por
     Garcilaso y Herrera (`20260812340000`).
 
-    El [informe regenerable](./poda-de-la-prosa.md) queda en **0 frases pendientes de 191**. Las
+    El [informe regenerable](./historico/poda-de-la-prosa.md) queda en **0 frases pendientes de 191**. Las
     prosas que se conservaron por decisión expresa —por ejemplo, la renovación de la clase de rima
     en la silva consonante regular— están registradas en `scripts/informe-poda-prosa.mjs`; regenerar
     el informe no vuelve a abrirlas. Sigue vigente la regla 1 de

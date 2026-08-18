@@ -675,6 +675,28 @@ pares. Ninguna duda bloquea el registro.
    Caparrós 2014 recoge consonancia y rima de los impares como variantes atestiguadas. *Hoy la
    asonancia es definitoria, así que una seguidilla consonante es desviación.*
 
+## Romance
+
+*Su prosa se revisó el 18 de agosto de 2026 (migración
+`20260818090000_el_romance_deja_de_repetir_su_rejilla`). Todo lo descriptivo vive en el catálogo;
+esto es lo único que quedó abierto.*
+
+**Qué tiene hoy el catálogo:** cuatro arquitecturas, una por medida —octosilábica, hexasilábica,
+heptasilábica y endecasilábica—, todas con el mismo ciclo `[-a]…` de asonancia en los pares.
+Ninguna duda bloquea el registro.
+
+1. **Faltan los romancillos de cinco y de cuatro sílabas.** Jauralde extiende el nombre de
+   romancillo a los pentasílabos y los tetrasílabos, además del heptasílabo y el hexasílabo, y su
+   afirmación ya está registrada; las arquitecturas, no. El *Diccionario* lo dice de otro modo y
+   apunta al mismo sitio: romancillo es «el de versos de menos de ocho sílabas», que es un
+   conjunto abierto y no dos medidas. *El precedente es el criterio cronológico con que se
+   dejaron fuera las tres sextillas hexasílabas de Navarro Tomás: si no cae en el teatro áureo, no
+   se declara. La pregunta es si ese criterio vale también aquí —donde no se trata de
+   disposiciones raras sino de dos medidas más de una serie que el corpus usa a diario— o si
+   conviene declararlas ya, porque añadirlas es copiar la arquitectura hexasilábica cambiando el
+   metro.* Si entran, son dos arquitecturas más y dos denominaciones; si no entran, un romance
+   pentasílabo del corpus solo cabría hoy como desviación de medida.
+
 ## Endecha real
 
 1. **El trigger de posiciones toma la caja por clase de rima.**
