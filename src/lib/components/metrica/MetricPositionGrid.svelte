@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { FilaDeRima, MedidaDeCelda, Rejilla } from '$lib/metrica/rejilla';
 	import { renderInlineMarkdown } from '$lib/utils/markdown';
+	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 
 	/**
 	 * La rejilla de posiciones, dibujada.
@@ -112,28 +113,6 @@
 		rejilla.enlaces.filter((enlace) => enlace.sentido !== 'interior')
 	);
 
-	/**
-	 * Las precisiones que el catálogo guarda por posición, con el verso al que se refieren.
-	 *
-	 * Solo de las filas que se dibujan, y sin repetir un mismo texto en el mismo verso: una
-	 * disposición que ocupa varias apariciones de su parte repite sus posiciones.
-	 */
-	const notasDePosicion = $derived.by(() => {
-		const vistas = new Set<string>();
-		const notas: { verso: number; texto: string }[] = [];
-		for (const fila of filasVisibles) {
-			fila.clases.forEach((clase, indice) => {
-				if (!clase.nota) return;
-				const verso = fila.desde + indice;
-				const llave = `${verso}:${clase.nota}`;
-				if (vistas.has(llave)) return;
-				vistas.add(llave);
-				notas.push({ verso, texto: clase.nota });
-			});
-		}
-		return notas.sort((a, b) => a.verso - b.verso);
-	});
-
 	const PREPOSICIONES = new Set(['de', 'del', 'con', 'en', 'por', 'a', 'al', 'y', 'o', 'sin']);
 
 	/**
@@ -198,18 +177,42 @@
 		{#if conRima}
 			{#each filasVisibles as fila (fila.esquemaRimaId + ':' + fila.desde)}
 				{#each fila.clases as clase, indice (indice)}
-					<div
-						class="{celda} {alto} {clase.suelto
+					{@const estilo = `${celda} ${alto} ${
+						clase.suelto
 							? 'text-[color:var(--muted-foreground)]'
-							: `${colorDeRima(clase.clase)} ${esArteMayor(clase.clase) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`}"
-						class:underline={Boolean(clase.nota)}
-						class:decoration-dotted={Boolean(clase.nota)}
-						class:underline-offset-4={Boolean(clase.nota)}
-						style="grid-column: {fila.desde + indice};"
-						title={clase.suelto ? 'Verso suelto: no rima' : `Clase de rima ${clase.clase}`}
-					>
-						{clase.suelto ? '–' : (clase.clase ?? '·')}
-					</div>
+							: `${colorDeRima(clase.clase)} ${esArteMayor(clase.clase) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`
+					}`}
+					{@const rotulo = clase.suelto ? '–' : (clase.clase ?? '·')}
+					{#if clase.nota}
+						<!-- La celda anotada **es** el disparador: la precisión es de ese verso y en
+						     ningún otro sitio se lee mejor. Que se puede pulsar lo dice la marca de
+						     esquina —la convención de la hoja de cálculo—, más el cursor y el anillo
+						     al pasar por encima. -->
+						<InlineNotePopover
+							text={clase.nota}
+							label={`Ver la nota del verso ${fila.desde + indice}`}
+							claseRaiz="justify-stretch"
+							estiloRaiz="grid-column: {fila.desde + indice};"
+							claseBoton="{estilo} relative w-full cursor-pointer hover:outline hover:outline-1 hover:outline-[color:var(--foreground)] focus-visible:outline focus-visible:outline-1"
+						>
+							{#snippet disparador()}
+								{rotulo}
+								<span
+									class="pointer-events-none absolute right-0 top-0 size-3 bg-[color:var(--foreground)]"
+									style="clip-path: polygon(100% 0, 0 0, 100% 100%)"
+									aria-hidden="true"
+								></span>
+							{/snippet}
+						</InlineNotePopover>
+					{:else}
+						<div
+							class={estilo}
+							style="grid-column: {fila.desde + indice};"
+							title={clase.suelto ? 'Verso suelto: no rima' : `Clase de rima ${clase.clase}`}
+						>
+							{rotulo}
+						</div>
+					{/if}
 				{/each}
 				<div
 					class="whitespace-nowrap pl-2 text-[0.68rem] leading-4"
@@ -316,14 +319,8 @@
 	</div>
 </div>
 
-{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0 || notasDePosicion.length > 0)}
+{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0)}
 	<div class="mt-2 space-y-1 text-xs text-[color:var(--muted-foreground)]">
-		<!-- Lo que hay que saber de un verso concreto y la figura no dibuja. Va al pie, con su
-		     número delante, y la celda queda subrayada de puntos para que se vea a cuál se
-		     refiere: dentro de la celda no cabe, y en un párrafo aparte se pierde. -->
-		{#each notasDePosicion as nota (nota.verso + ':' + nota.texto)}
-			<p><span class="font-medium">Verso {nota.verso}</span> · {nota.texto}</p>
-		{/each}
 		{#if rejilla.cicla}
 			<p><span aria-hidden="true">⟳</span> Se repite hasta el final de la serie.</p>
 		{/if}
