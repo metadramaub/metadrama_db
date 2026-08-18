@@ -198,7 +198,7 @@
 							{#snippet disparador()}
 								{rotulo}
 								<span
-									class="pointer-events-none absolute right-0 top-0 size-3 bg-[color:var(--foreground)]"
+									class="pointer-events-none absolute right-0 top-0 size-2 bg-[color:var(--foreground)]"
 									style="clip-path: polygon(100% 0, 0 0, 100% 100%)"
 									aria-hidden="true"
 								></span>
