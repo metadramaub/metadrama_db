@@ -257,6 +257,18 @@ export type PublicArchitecture = {
 	tipoRimaPorDisposicion: boolean;
 	/** No está declarado en ningún nivel: falta el dato y la ficha debe decirlo. */
 	tipoRimaSinDeclarar: boolean;
+	/**
+	 * Si la arquitectura dice **de algún modo** cómo se comporta su rima.
+	 *
+	 * Dejar la disposición abierta no es un defecto: es lo que hace una forma general, y la
+	 * sextilla lo es —sus fuentes enumeran disposiciones y cierran la lista con un «etcétera»—.
+	 * El defecto es no decir nada por ninguna vía, y hay tres: las restricciones de un esquema
+	 * abierto, unos esquemas concretos de los que se calcula, o la densidad de rima declarada
+	 * como rasgo. Y una cuarta que las cubre todas: declarar el régimen `sin_rima`, porque
+	 * entonces no hay disposición que fijar —lo de la sextina son palabras finales permutadas—. El criterio se fijó el 10 de agosto de 2026 y se aplicó al auditor; la ficha
+	 * seguía mirando solo la primera, y por eso pintaba en rojo arquitecturas que sí lo dicen.
+	 */
+	declaraNormaDeRima: boolean;
 	unidadMin: number | null;
 	unidadMax: number | null;
 	/** Cuál de los siete moldes es, derivado del catálogo. Decide qué zonas se enseñan. */

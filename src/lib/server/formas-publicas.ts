@@ -233,6 +233,23 @@ export async function loadPublicForm(
 	const nombreRasgo = new Map(
 		(rasgos as any[]).map((row) => [String(row.rasgo_id), String(row.nombre)])
 	);
+	/**
+	 * El régimen que dice que **no hay rima**. Declararlo es la respuesta más completa posible a
+	 * cómo se comporta la rima de una arquitectura: no hay disposición que fijar. La sextina lo
+	 * declara en sus tres arquitecturas —lo suyo son palabras finales permutadas, no rimas— y era
+	 * la única ficha que salía en rojo al llevar el criterio a la pantalla.
+	 */
+	const regimenSinRima = new Set(
+		(tiposRima as any[])
+			.filter((row) => String(row.termino ?? '') === 'sin_rima')
+			.map((row) => String(row.termino_id))
+	);
+	/** Los rasgos que declaran cómo se comporta la rima, por su slug y no por su nombre visible. */
+	const rasgosDeDensidad = new Set(
+		(rasgos as any[])
+			.filter((row) => String(row.slug ?? '') === 'densidad_de_rima')
+			.map((row) => String(row.rasgo_id))
+	);
 	const nombreValor = new Map(
 		(valores as any[]).map((row) => [String(row.valor_id), String(row.nombre)])
 	);
@@ -889,6 +906,13 @@ export async function loadPublicForm(
 				principal: row.principal === true,
 				modalidad: texto(row.modalidad),
 				...tipoDeRima(row, rimaAgrupadaPorParte(id)),
+				// Las tres maneras de decir cómo se comporta la rima. Basta con una.
+				declaraNormaDeRima:
+					(row.tipo_rima_id ? regimenSinRima.has(String(row.tipo_rima_id)) : false) ||
+					rimaAgrupadaPorParte(id).some(
+						(esquema) => !esquema.abierto || esquema.restricciones.length > 0
+					) ||
+					(rasgosPor.get(id) ?? []).some((fila) => rasgosDeDensidad.has(String(fila.rasgo_id))),
 				unidadMin: numero(row.unidad_versos_min),
 				unidadMax: numero(row.unidad_versos_max),
 				perfil: perfilDeArquitectura({

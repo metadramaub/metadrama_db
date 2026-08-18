@@ -18,6 +18,7 @@ function arquitectura(cambios: Partial<PublicArchitecture> = {}): PublicArchitec
 		tipoRima: 'Consonante',
 		tipoRimaPorDisposicion: false,
 		tipoRimaSinDeclarar: false,
+		declaraNormaDeRima: true,
 		unidadMin: 4,
 		unidadMax: 4,
 		perfil: 'estrofa_elegible',
