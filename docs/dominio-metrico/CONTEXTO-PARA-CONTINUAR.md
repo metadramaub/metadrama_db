@@ -228,6 +228,7 @@ Llevan la prosa revisada, con su migración:
 | Seguidilla | `20260815090000_la_seguidilla_dice_lo_que_su_figura_no_dibuja` (+ `20260815091000`) |
 | Romance | `20260818090000_el_romance_deja_de_repetir_su_rejilla` |
 | Canción petrarquista | `20260818100000_la_cancion_ensena_por_dentro_la_estancia` |
+| Sextilla | `20260818130000_la_sextilla_declara_lo_que_su_norma_acota` |
 
 **Tras cada migración, `npm run audit:metrica` debe dar 0 defectos** —necesita Docker levantado,
 porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en esta fase, leerlas
@@ -312,8 +313,18 @@ hacerlas antes obliga a hacerlas dos veces.
     una clase distinta**, [criterios de nivel § 3.3](./criterios-de-nivel.md)—, su comprobación
     permanente `D14`, y el corolario de que `D13` no puede contar clases distinguiendo caja.
 
-12ter. **Nueve esquemas abiertos no declaran ninguna restricción: pendientes de revisión contra las
-    fuentes.** Dicen «distribución variable» y nada más, así que la ficha no puede enseñar de ellos
+12ter. **Cinco esquemas abiertos no declaran ninguna restricción: pendientes de revisión contra las
+    fuentes.** Eran nueve; **los cuatro de la sextilla se cerraron el 18 de agosto de 2026**
+    (`20260818130000_la_sextilla_declara_lo_que_su_norma_acota`), y de paso dejaron escrito que
+    **la pregunta de este punto no siempre tiene respuesta en las fuentes**: a diferencia de la
+    quintilla, ninguna de las seis enuncia una regla para la sextilla —«varias combinaciones de
+    rima», «variadas disposiciones», «la disposición varía de una a otra composición»—, así que lo
+    declarable hubo que **derivarlo del repertorio documentado**. Salieron `versos_sueltos` y
+    `min_alternancias`; `numero_clases` se quedó sin declarar porque las clases son dos o tres y la
+    columna admite un solo valor. Los detalles, en
+    [Sextilla](./revisiones-formas/cuestiones-para-el-ip.md#sextilla) 6. Quedan el sexteto
+    alejandrino, dodecasílabo y endecasílabo; la copla de pie quebrado; y la `suelta` de la endecha
+    real, que además es el punto 4. Texto original del apunte: Dicen «distribución variable» y nada más, así que la ficha no puede enseñar de ellos
     ni un dibujo ni una norma —su fila de rima queda vacía, y ahí se ve—. Son el sexteto
     alejandrino, dodecasílabo y endecasílabo; la sextilla octosilábica, heptasilábica, hexasilábica
     y de pie quebrado; la copla de pie quebrado; y la `suelta` de la endecha real, que además es el
