@@ -37,9 +37,33 @@
 	/** Qué glosa está abierta. La abre el lector con el icono de su disposición. */
 	let glosaAbierta = $state<string | null>(null);
 
+	/**
+	 * Los dos perfiles que **no** son una serie: lo que se repite en ellos es una parte con
+	 * nombre —la estancia de la canción, el ciclo de copla del villancico—, no un verso.
+	 */
+	const esComposicion = $derived(
+		arquitectura.perfil === 'estancias_declaradas' ||
+			arquitectura.perfil === 'composicion_con_estribillo'
+	);
+
+	/**
+	 * La extensión de la arquitectura.
+	 *
+	 * Una unidad sin extensión declarada era «serie abierta» viniera de donde viniera, y eso
+	 * imprimía «serie» sobre seis composiciones —las tres de la canción, las dos del villancico
+	 * y la del zéjel—, que no lo son y cuya propia cabecera dice «Composición». Una composición
+	 * no se mide en versos: se mide en cuántas veces vuelve su parte, y eso lo declara la parte.
+	 */
 	function extension(): string {
 		const { unidadMin: min, unidadMax: max } = arquitectura;
-		if (min == null && max == null) return 'serie abierta';
+		if (min == null && max == null) {
+			if (!esComposicion) return 'serie abierta';
+			const raiz = arquitectura.secciones.find(
+				(seccion) => (seccion.repeticionesMin ?? 0) >= 1 && seccion.repeticionesMax === null
+			);
+			if (!raiz) return 'composición abierta';
+			return `${raiz.repeticionesMin} o más apariciones de «${raiz.nombre}»`;
+		}
 		if (min != null && max != null) {
 			return min === max ? `${min} versos` : `de ${min} a ${max} versos`;
 		}

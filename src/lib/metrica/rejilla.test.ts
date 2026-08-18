@@ -240,6 +240,36 @@ describe('la rejilla de posiciones', () => {
 		expect(rejilla?.bandas[2]).toMatchObject({ desde: 8, hasta: 13 });
 	});
 
+	it('lleva hasta su celda la precisión que el catálogo guarda por posición', () => {
+		const nota = 'Rima con el último verso de la fronte, pero pertenece sintácticamente a la sirima.';
+		const estancia = rima('abcabccdeedff', 'abCabCcdeeDfF', { seccion: 'Estancia regular' });
+		estancia.posiciones = estancia.posiciones.map((posicion) =>
+			posicion.posicion === 7 ? { ...posicion, nota } : posicion
+		);
+
+		const rejilla = construirRejilla(
+			entrada({
+				metricos: [
+					metricoSecuencia(['7', '7', '11', '7', '7', '11', '7', '7', '7', '7', '11', '7', '11'])
+				],
+				secciones: [
+					seccion('Estancia regular', {
+						versosMin: 13,
+						versosMax: 13,
+						repeticionesMin: 3,
+						repeticionesMax: null
+					})
+				],
+				rimas: [estancia]
+			})
+		);
+
+		const clases = rejilla!.filasDeRima[0].clases;
+		expect(clases[6].nota).toBe(nota);
+		// Las demás no inventan nota: solo la lleva el verso que la tiene declarada.
+		expect(clases.filter((clase) => clase.nota).length).toBe(1);
+	});
+
 	it('trata las alternativas de una posición como una posición, no como varias', () => {
 		const rejilla = construirRejilla(
 			entrada({

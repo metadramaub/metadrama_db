@@ -48,6 +48,8 @@ export type PosicionRimaEntrada = {
 	suelto: boolean;
 	/** Parte con nombre dentro del esquema: la fronte de la estancia, la vuelta del zéjel. */
 	seccion: string | null;
+	/** Precisión sobre ese verso concreto, cuando la figura no puede decirla. */
+	nota?: string | null;
 };
 
 export type EnlaceEntrada = {
@@ -98,6 +100,12 @@ export type MedidaDeCelda = {
 export type RimaDeCelda = {
 	clase: string | null;
 	suelto: boolean;
+	/**
+	 * Lo que hay que saber de **ese** verso y la figura no dibuja: que el séptimo de la estancia
+	 * rima con la fronte pero pertenece ya a la sirima. Vivía en el catálogo sin llegar nunca a
+	 * la pantalla, y su sitio es la celda, no un párrafo aparte.
+	 */
+	nota?: string | null;
 };
 
 export type CeldaRejilla = {
@@ -475,7 +483,11 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 		const clases: RimaDeCelda[] = [];
 		for (let columna = desde; columna <= hasta; columna += 1) {
 			const posicion = posiciones[(columna - desde) % posiciones.length];
-			clases.push({ clase: posicion.clase, suelto: posicion.suelto });
+			clases.push({
+				clase: posicion.clase,
+				suelto: posicion.suelto,
+				nota: posicion.nota ?? null
+			});
 		}
 		return {
 			esquemaRimaId: esquema.id,

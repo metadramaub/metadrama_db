@@ -57,6 +57,37 @@ const texto = (value: unknown): string | null => {
 const numero = (value: unknown): number | null =>
 	value === null || value === undefined ? null : Number(value);
 
+/**
+ * Los regímenes de rima de una forma: los que declaran sus arquitecturas **y** los que declaran
+ * sus disposiciones.
+ *
+ * El régimen vive en dos niveles a propósito —arriba cuando es uno, en cada disposición cuando
+ * dentro de la arquitectura varía—, y el resumen de la forma miraba solo el de arriba. Las que
+ * mezclan quedaban descontadas en silencio: la canción se anunciaba «Consonante» ocultando su
+ * arquitectura sin rima, y el villancico, que no declara ninguno arriba, no salía bajo ningún
+ * filtro de rima del buscador.
+ *
+ * Esto **no rellena el nivel de arriba**: la tarjeta de cada arquitectura sigue diciendo «según
+ * la disposición» donde toca, y `D15` sigue viendo el hueco si falta declararlo en los dos.
+ */
+function regimenesDeLaForma(
+	arquitecturasDeLaForma: any[],
+	regimenesDeAbajo: (row: any) => unknown[],
+	nombreTipoRima: Map<string, string>
+): string[] {
+	const nombres = arquitecturasDeLaForma.flatMap((row) => [
+		row.tipo_rima_id ? String(row.tipo_rima_id) : null,
+		...regimenesDeAbajo(row).map((id) => (id ? String(id) : null))
+	]);
+	return [
+		...new Set(
+			nombres
+				.map((id) => (id ? nombreTipoRima.get(id) : null))
+				.filter((nombre): nombre is string => Boolean(nombre))
+		)
+	];
+}
+
 /** Agrupa filas por una clave, conservando el orden de llegada. */
 function agrupar<T>(rows: T[], clave: (row: T) => string | null): Map<string, T[]> {
 	const grupos = new Map<string, T[]>();
@@ -113,13 +144,11 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 			.map((row) => nombreTradicion.get(String(row.tradicion_id)))
 			.filter((nombre): nombre is string => Boolean(nombre)),
 		// Una forma puede admitir varios regímenes: la seguidilla asona y el pareado hace las dos.
-		tiposRima: [
-			...new Set(
-				(arquitecturasPorForma.get(String(forma.forma_id)) ?? [])
-					.map((row) => (row.tipo_rima_id ? nombreTipoRima.get(String(row.tipo_rima_id)) : null))
-					.filter((nombre): nombre is string => Boolean(nombre))
-			)
-		],
+		tiposRima: regimenesDeLaForma(
+			arquitecturasPorForma.get(String(forma.forma_id)) ?? [],
+			(row) => (Array.isArray(row.regimenes_de_disposicion) ? row.regimenes_de_disposicion : []),
+			nombreTipoRima
+		),
 		denominaciones: (denominacionesPorForma.get(String(forma.forma_id)) ?? []).map((row) =>
 			String(row.nombre)
 		)
@@ -381,6 +410,11 @@ export async function loadPublicForm(
 		(denominaciones as any[]).filter((row) => row.arquitectura_id)
 	);
 	// Un nombre puede colgar de un esquema de rima y no de la forma: «cuarteta» nombra la
+	/** Una parte con nombre propio puede llevar el suyo: el eslabón es también la «chiave». */
+	const denominacionesPorSeccion = agrupar(
+		(denominaciones as any[]).filter((row) => row.seccion_id),
+		(row) => String(row.seccion_id)
+	);
 	// redondilla cruzada, no la redondilla. `denominaciones_metricas` admite ese destino.
 	const denominacionesPorRima = agrupar(
 		(denominaciones as any[]).filter((row) => row.esquema_rima_id),
@@ -516,6 +550,9 @@ export async function loadPublicForm(
 				repeticionesMin: numero(s.repeticiones_min),
 				repeticionesMax: numero(s.repeticiones_max),
 				primeraRealizacionDefinePatron: s.primera_realizacion_define_patron === true,
+				denominaciones: (denominacionesPorSeccion.get(id) ?? []).map((row) =>
+					String(row.nombre)
+				),
 				reutiliza: reutilizacionDe(s.arquitectura_referenciada_id),
 				esquemasRima: rimaDeSeccion(s.seccion_id, String(s.nombre)),
 				hijas: []
@@ -574,7 +611,8 @@ export async function loadPublicForm(
 			posicion: Number(p.posicion),
 			clase: texto(p.clase_rima),
 			suelto: p.suelto === true,
-			seccion: texto(p.seccion)
+			seccion: texto(p.seccion),
+			nota: texto(p.nota)
 		})),
 		enlaces: (enlacesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((l) => ({
 			desde: Number(l.posicion_origen),
@@ -693,7 +731,8 @@ export async function loadPublicForm(
 						posicion: Number(p.posicion),
 						clase: texto(p.clase_rima),
 						suelto: p.suelto === true,
-						seccion: texto(p.seccion)
+						seccion: texto(p.seccion),
+						nota: texto(p.nota)
 					})),
 					enlaces: []
 				});
@@ -994,14 +1033,15 @@ export async function loadPublicForm(
 			.filter((row) => String(row.forma_id) === formaId)
 			.map((row) => nombreTradicion.get(String(row.tradicion_id)))
 			.filter((nombre): nombre is string => Boolean(nombre)),
-		tiposRima: [
-			...new Set(
-				(arquitecturas as any[])
-					.filter((row) => String(row.forma_id) === formaId)
-					.map((row) => (row.tipo_rima_id ? nombreTipoRima.get(String(row.tipo_rima_id)) : null))
-					.filter((nombre): nombre is string => Boolean(nombre))
-			)
-		],
+		// La ficha ya carga los esquemas, así que el nivel de abajo se lee de ellos directamente.
+		tiposRima: regimenesDeLaForma(
+			(arquitecturas as any[]).filter((row) => String(row.forma_id) === formaId),
+			(row) =>
+				(esquemasRima as any[])
+					.filter((esquema) => String(esquema.arquitectura_id) === String(row.arquitectura_id))
+					.map((esquema) => esquema.tipo_rima_id),
+			nombreTipoRima
+		),
 		denominaciones: misDenominaciones,
 		// Las relaciones se declaran en una dirección, pero interesan en las dos: el terceto
 		// encadenado dice que se construye con tercetos, y esa frase es tan útil leída desde el

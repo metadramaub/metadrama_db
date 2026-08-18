@@ -112,6 +112,28 @@
 		rejilla.enlaces.filter((enlace) => enlace.sentido !== 'interior')
 	);
 
+	/**
+	 * Las precisiones que el catálogo guarda por posición, con el verso al que se refieren.
+	 *
+	 * Solo de las filas que se dibujan, y sin repetir un mismo texto en el mismo verso: una
+	 * disposición que ocupa varias apariciones de su parte repite sus posiciones.
+	 */
+	const notasDePosicion = $derived.by(() => {
+		const vistas = new Set<string>();
+		const notas: { verso: number; texto: string }[] = [];
+		for (const fila of filasVisibles) {
+			fila.clases.forEach((clase, indice) => {
+				if (!clase.nota) return;
+				const verso = fila.desde + indice;
+				const llave = `${verso}:${clase.nota}`;
+				if (vistas.has(llave)) return;
+				vistas.add(llave);
+				notas.push({ verso, texto: clase.nota });
+			});
+		}
+		return notas.sort((a, b) => a.verso - b.verso);
+	});
+
 	const PREPOSICIONES = new Set(['de', 'del', 'con', 'en', 'por', 'a', 'al', 'y', 'o', 'sin']);
 
 	/**
@@ -180,6 +202,9 @@
 						class="{celda} {alto} {clase.suelto
 							? 'text-[color:var(--muted-foreground)]'
 							: `${colorDeRima(clase.clase)} ${esArteMayor(clase.clase) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`}"
+						class:underline={Boolean(clase.nota)}
+						class:decoration-dotted={Boolean(clase.nota)}
+						class:underline-offset-4={Boolean(clase.nota)}
 						style="grid-column: {fila.desde + indice};"
 						title={clase.suelto ? 'Verso suelto: no rima' : `Clase de rima ${clase.clase}`}
 					>
@@ -291,8 +316,14 @@
 	</div>
 </div>
 
-{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0)}
+{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0 || notasDePosicion.length > 0)}
 	<div class="mt-2 space-y-1 text-xs text-[color:var(--muted-foreground)]">
+		<!-- Lo que hay que saber de un verso concreto y la figura no dibuja. Va al pie, con su
+		     número delante, y la celda queda subrayada de puntos para que se vea a cuál se
+		     refiere: dentro de la celda no cabe, y en un párrafo aparte se pierde. -->
+		{#each notasDePosicion as nota (nota.verso + ':' + nota.texto)}
+			<p><span class="font-medium">Verso {nota.verso}</span> · {nota.texto}</p>
+		{/each}
 		{#if rejilla.cicla}
 			<p><span aria-hidden="true">⟳</span> Se repite hasta el final de la serie.</p>
 		{/if}

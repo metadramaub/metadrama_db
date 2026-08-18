@@ -145,6 +145,8 @@ export type PublicSection = {
 	repeticionesMax: number | null;
 	/** La primera aparición concreta establece el patrón que repetirán las siguientes. */
 	primeraRealizacionDefinePatron: boolean;
+	/** Los otros nombres de la parte: el eslabón de la estancia es también la «chiave». */
+	denominaciones: string[];
 	/**
 	 * La forma cuyo repertorio de rima reutiliza esta parte, con su enlace: los cuartetos del
 	 * soneto riman como el cuarteto endecasílabo, y la ficha debe poder llevar allí.
