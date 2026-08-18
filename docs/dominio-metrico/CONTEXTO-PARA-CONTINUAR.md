@@ -285,7 +285,14 @@ hacerlas antes obliga a hacerlas dos veces.
    se queda**: no es una columna vacía sino un mecanismo de retirada sin estrenar, lo leen 17
    objetos SQL, y el IP decidió resolverlo al fusionar con `main`. Anotado en
    [la revisión de vocabularios](../revision-de-vocabularios.md#lo-que-se-hace-ahora-y-lo-que-espera).
-7. ~~**El aviso `patron_rima_sin_regla` se ha vuelto ruido.**~~ **Afinado el 10 de agosto.** Dejar
+7. ~~**El aviso `patron_rima_sin_regla` se ha vuelto ruido.**~~ **Afinado el 10 de agosto** en el
+   auditor, y **llevado a la ficha el 18 de agosto de 2026**, que era donde seguía vivo el criterio
+   viejo: pintaba en rojo cualquier esquema abierto sin restricciones, sin mirar si la arquitectura
+   lo decía por otra vía. Al llevarlo apareció una cuarta manera que el apunte no recogía —**el
+   régimen `sin_rima`**, con el que no hay disposición que fijar—, y salió porque la sextina era la
+   única ficha que quedaba en rojo. Ahora el aviso es de la arquitectura, no del esquema, y un
+   esquema abierto sin restricciones dice «La disposición no está fijada», que informa en vez de
+   acusar. Dejar
    la disposición abierta no es un defecto —es lo que hace una forma general—; lo es que la
    arquitectura no diga nada más de su rima, y tiene tres maneras de decirlo: las restricciones del
    esquema, la densidad declarada o unos esquemas concretos de los que se calcula. El aviso miraba
@@ -319,9 +326,13 @@ hacerlas antes obliga a hacerlas dos veces.
     **la pregunta de este punto no siempre tiene respuesta en las fuentes**: a diferencia de la
     quintilla, ninguna de las seis enuncia una regla para la sextilla —«varias combinaciones de
     rima», «variadas disposiciones», «la disposición varía de una a otra composición»—, así que lo
-    declarable hubo que **derivarlo del repertorio documentado**. Salieron `versos_sueltos` y
-    `min_alternancias`; `numero_clases` se quedó sin declarar porque las clases son dos o tres y la
-    columna admite un solo valor. Los detalles, en
+    declarable hubo que **derivarlo del repertorio documentado — y eso resultó ser un error**: se
+    declararon `versos_sueltos` y `min_alternancias`, y las ocho restricciones se retiraron el
+    mismo día (`20260818140000`). Quilis cierra su lista con un «etc.», de modo que **la
+    enumeración de una fuente no es una norma**, y sacar de ella un mínimo convierte una muestra
+    en ley. **Este apunte, tal como estaba escrito, empujaba a ese error**: la pregunta que propone
+    solo tiene respuesta cuando la fuente enuncia una regla, como en la quintilla. Cuando solo
+    enumera, el esquema abierto no declara nada y eso no es un hueco. Los detalles, en
     [Sextilla](./revisiones-formas/cuestiones-para-el-ip.md#sextilla) 6. Quedan el sexteto
     alejandrino, dodecasílabo y endecasílabo; la copla de pie quebrado; y la `suelta` de la endecha
     real, que además es el punto 4. Texto original del apunte: Dicen «distribución variable» y nada más, así que la ficha no puede enseñar de ellos

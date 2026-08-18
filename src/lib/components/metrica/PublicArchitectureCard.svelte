@@ -430,6 +430,13 @@
 							</div>
 						{/if}
 
+						{#if !arquitectura.declaraNormaDeRima}
+							<p class="mt-2 text-[color:var(--danger)]">
+								El catálogo no dice cómo se comporta la rima de esta arquitectura: ni la acota
+								con restricciones, ni declara su densidad, ni recoge disposiciones concretas.
+							</p>
+						{/if}
+
 						{#if esquemasAbiertos.length > 0}
 							<ul class="mt-2 space-y-1">
 								{#each esquemasAbiertos as esquema (esquema.id)}
@@ -439,12 +446,14 @@
 												{esquema.deLaSeccion}:
 											</span>
 										{/if}
+						<!-- Un esquema abierto sin restricciones **no es un defecto**: es una forma
+						     que no fija su disposición, y decirlo es informar, no fallar. El aviso
+						     de que falta el dato es de la arquitectura entera y va más abajo. -->
 										{#if esquema.restricciones.length > 0}
 											{unirRestricciones(esquema.restricciones)}
 										{:else}
-											<span class="text-[color:var(--danger)]">
-												El catálogo no declara restricciones: «{esquema.nombre}» no fija la
-												disposición ni dice qué la acota.
+											<span class="text-[color:var(--muted-foreground)]">
+												La disposición no está fijada.
 											</span>
 										{/if}
 										{#if esquema.descripcion}

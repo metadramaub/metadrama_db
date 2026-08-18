@@ -565,27 +565,36 @@ tres disposiciones que la tradición nombra —alterna `ababab`, correlativa `ab
    recogen ya.*
 
    *Decisión del IP el 18 de agosto de 2026: **fuera por criterio cronológico**, el mismo del
-   punto 5 y del romance heroico —el* Martín Fierro *es de 1872—. Los cuatro esquemas abiertos
-   declaran por eso `versos_sueltos: ninguno`, y las tres notas de `Densidad de rima: Total` se
-   mantienen coherentes con ello.* **Lo que hay que saber si esto se reabre:** admitir el suelto
-   obliga a cambiar `versos_sueltos` en los cuatro esquemas **y** a retirar esas tres notas de
-   densidad, porque dejarían de ser ciertas. Y pesa en contra que sea justo el ejemplo con el que
-   Domínguez Caparrós 2014 define la sextilla, no un caso marginal.
+   punto 5 y del romance heroico —el* Martín Fierro *es de 1872—.* Es una decisión de **alcance
+   del corpus**, no una norma: el catálogo no admite anotarlo todavía, y eso no es lo mismo que
+   decir que la sextilla lo prohíba. La distinción importa y costó una rectificación: el primer
+   intento lo escribió como `versos_sueltos: ninguno` en los cuatro esquemas abiertos, que es
+   afirmar lo contrario de lo que dicen tres de las seis fuentes. Se retiró el mismo día
+   (`20260818140000_la_sextilla_no_convierte_su_muestra_en_norma`). *Si se reabre, no hay nada que
+   deshacer: basta con recoger la disposición.*
 
-   **Nota sobre lo declarable.** Al ir a las fuentes salió que, a diferencia de la quintilla,
-   **ninguna enuncia una regla** para la sextilla: Quilis dice «varias combinaciones de rima», el
-   *Diccionario* «variadas disposiciones» y Jauralde que «la disposición varía de una a otra
-   composición». Lo declarado se derivó del repertorio documentado, y dio dos restricciones y
-   media: `versos_sueltos` y `min_alternancias: 3` —el mínimo de `aabaab`, `aabccb`, `aababa`,
-   `ababab` y `abcabc`—, y **las clases de rima son dos o tres, que `numero_clases` no puede
-   expresar** porque admite un solo valor. Eso último se dice en la definición de la forma.
-   *Si alguna vez interesa comprobarlo, `numero_clases` necesitaría un rango, o un tipo nuevo.*
+   **Lo que dejó esto escrito, y vale para todo el catálogo.** El pendiente 12ter pedía preguntar
+   a cada fuente «cuántas clases de rima, cuántas alternancias y si admite sueltos», como
+   respondió la quintilla. Para la sextilla **ninguna de las seis enuncia una regla**: Quilis
+   escribe «con varias combinaciones de rima: aabaab, abcabc, ababab, **etc.**», el *Diccionario*
+   «variadas disposiciones» y Jauralde que «la disposición varía de una a otra composición».
 
-   **Y un tipo de restricción que no se comprueba:** `max_consecutivos` está en el `CHECK` de
+   Ese «etcétera» es la clave: **la enumeración de una fuente no es una norma, y derivar de ella
+   un mínimo es convertir una muestra en ley.** El primer intento lo hizo —`min_alternancias: 3`,
+   contado sobre las disposiciones recogidas— y se retiró. La prueba de que la muestra estaba
+   incompleta la dio el propio repertorio: `aabaab`, que documentan Quilis y el *Diccionario*, no
+   estaba, y se añadió como cuarta disposición admitida.
+
+   *Regla que queda: `numero_clases`, `min_alternancias` y `max_consecutivos` solo se declaran
+   cuando una fuente enuncia la regla. Para una forma cuya bibliografía solo enumera, el esquema
+   abierto no declara nada, y eso no es un hueco.* Lo que dice cómo se comporta su rima son los
+   esquemas concretos y la densidad declarada, que es lo que ya tenía.
+
+   **Un tipo de restricción que no se comprueba:** `max_consecutivos` está en el `CHECK` de
    `esquema_rima_restricciones.tipo` pero `incumple`, en `scripts/audit-catalogo-metrico.mjs`, no
-   lo evalúa —devuelve `false`—. Habría sido la restricción natural aquí («no más de dos versos
-   seguidos con la misma rima»); no se declaró para no escribir una norma sin guarda. *Arreglarlo
-   es calcular la racha máxima en `resumir` y añadir una rama a `incumple`.*
+   lo evalúa —devuelve `false`—. *Arreglarlo es calcular la racha máxima en `resumir` y añadir una
+   rama a `incumple`.* Y `numero_clases` admite un solo valor, así que no puede expresar «dos o
+   tres»: *necesitaría un rango, o un tipo nuevo.*
 
 ## Copla de pie quebrado
 
