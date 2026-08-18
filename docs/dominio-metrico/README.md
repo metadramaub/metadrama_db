@@ -53,10 +53,12 @@ está hecho, qué falta, con qué método y en qué orden.
 6. [Contratos del registrador para formas revisadas](./contratos-registrador-formas-revisadas.md)
    Qué se deriva, qué pregunta el editor, qué se guarda y cómo se valida cada forma ya revisada.
 
-6ter. [Poda de la prosa que la ficha ya dibuja](./poda-de-la-prosa.md)
+6ter. [Poda de la prosa que la ficha ya dibuja](./historico/poda-de-la-prosa.md) — **archivado**
    Propuesta frase a frase, generada del catálogo: qué prosa dejó de aportar cuando la ficha
-   empezó a dibujar la estructura. **Es una propuesta pendiente de aprobación del IP**, no un
-   estado; se regenera con el barrido y desaparece cuando se aplique.
+   empezó a dibujar la estructura. Quedó cerrada en 0 de 191 el 13 de agosto de 2026 y pasó a
+   `historico/`. Sigue siendo regenerable con `npm run poda:informe`, que reescribe el archivado.
+   La revisión que continúa hoy no usa este informe: va **forma por forma**, con una migración
+   por forma, porque un barrido global no permitía comprobar cada ficha antes de la siguiente.
 
 ### El registro y su migración
 

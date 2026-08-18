@@ -114,6 +114,32 @@
 	const tieneGlosa = (esquemaRimaId: string) =>
 		Boolean(arquitectura.esquemasRima.find((item) => item.id === esquemaRimaId)?.descripcion);
 
+	/**
+	 * A partir de cuántos valores un rasgo excluyente se cuenta en vez de enumerarse.
+	 *
+	 * Las diecinueve asonancias del romance son un catálogo cerrado que el lector no recorre: le
+	 * basta saber cuántas hay y poder abrirlas. Por debajo de este tope la lista sigue siendo más
+	 * informativa que su recuento, porque son dos o tres opciones que se leen de un vistazo.
+	 */
+	const TOPE_ENUMERAR_RASGOS = 6;
+
+	/** El texto que abre el recuento: los valores, con su modalidad solo si no la comparten. */
+	const listaDeValores = (valores: PublicTrait[]) => {
+		const modalidades = new Set(valores.map((valor) => valor.modalidad ?? ''));
+		return valores
+			.map((valor) => {
+				const nombre = valor.valor ?? 'Sí';
+				return modalidades.size > 1 && valor.modalidad ? `${nombre} (${valor.modalidad})` : nombre;
+			})
+			.join(' · ');
+	};
+
+	/** La modalidad compartida por todos los valores, cuando la comparten. */
+	const modalidadComun = (valores: PublicTrait[]) => {
+		const modalidades = new Set(valores.map((valor) => valor.modalidad ?? ''));
+		return modalidades.size === 1 ? (valores[0]?.modalidad ?? null) : null;
+	};
+
 	function alternarGlosa(esquemaRimaId: string) {
 		glosaAbierta = glosaAbierta === esquemaRimaId ? null : esquemaRimaId;
 	}
@@ -480,22 +506,42 @@
 							: { grado: 'variable', detalle: 'una posibilidad' }
 					)}
 					<td class="py-2.5 align-top">
-						<ul class="space-y-1">
-							{#each grupo.valores as rasgo, j (`rxv:${j}`)}
-								<li>
-									<span class="font-medium">{rasgo.valor ?? 'Sí'}</span>
-									{#if rasgo.modalidad}
-										<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
-									{/if}
-									{#if rasgo.nota}
-										<InlineNotePopover
-											text={rasgo.nota}
-											label={`Mostrar nota sobre ${grupo.nombre}`}
-										/>
-									{/if}
-								</li>
-							{/each}
-						</ul>
+						<!-- Un catálogo largo se cuenta y se abre; una lista corta se lee entera. -->
+						{#if grupo.valores.length > TOPE_ENUMERAR_RASGOS}
+							<span class="font-medium">{grupo.valores.length} posibilidades</span>
+							{#if modalidadComun(grupo.valores)}
+								<span class="text-[color:var(--muted-foreground)]">
+									· {modalidadComun(grupo.valores)}
+								</span>
+							{/if}
+							<InlineNotePopover
+								text={listaDeValores(grupo.valores)}
+								label={`Ver las ${grupo.valores.length} posibilidades de ${grupo.nombre}`}
+							/>
+							{#if grupo.nota}
+								<InlineNotePopover
+									text={grupo.nota}
+									label={`Mostrar nota sobre ${grupo.nombre}`}
+								/>
+							{/if}
+						{:else}
+							<ul class="space-y-1">
+								{#each grupo.valores as rasgo, j (`rxv:${j}`)}
+									<li>
+										<span class="font-medium">{rasgo.valor ?? 'Sí'}</span>
+										{#if rasgo.modalidad}
+											<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
+										{/if}
+										{#if rasgo.nota}
+											<InlineNotePopover
+												text={rasgo.nota}
+												label={`Mostrar nota sobre ${grupo.nombre}`}
+											/>
+										{/if}
+									</li>
+								{/each}
+							</ul>
+						{/if}
 					</td>
 				</tr>
 			{/each}

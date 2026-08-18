@@ -306,5 +306,5 @@ lineas.splice(
 	''
 );
 
-writeFileSync('docs/dominio-metrico/poda-de-la-prosa.md', lineas.join('\n'));
+writeFileSync('docs/dominio-metrico/historico/poda-de-la-prosa.md', lineas.join('\n'));
 console.log(`frases fuera: ${totalFuera}/${totalFrases} · textos enteros: ${enteros}`);

@@ -753,10 +753,17 @@ export async function loadPublicForm(
 			String(fila.rasgo_id)
 		);
 
-		const presentar = (fila: any, valorId?: unknown): PublicTrait => ({
+		/**
+		 * `nombreValor` solo trae los valores que **alguna fila de `arquitectura_rasgos` señala**.
+		 * Un rasgo declarado sin valor —el romance admite las diecinueve asonancias y no elige
+		 * ninguna— no señala ninguno, así que la búsqueda falla y el valor se queda en null: la
+		 * ficha imprimía diecinueve «Sí» seguidos. El nombre lo trae también la propia opción,
+		 * que es donde salen estas filas, y por eso sirve de respaldo.
+		 */
+		const presentar = (fila: any, valorId?: unknown, etiqueta?: unknown): PublicTrait => ({
 			nombre: nombreRasgo.get(String(fila.rasgo_id)) ?? '—',
 			valor: valorId
-				? (nombreValor.get(String(valorId)) ?? null)
+				? (nombreValor.get(String(valorId)) ?? texto(etiqueta))
 				: fila.valor_id
 					? (nombreValor.get(String(fila.valor_id)) ?? null)
 					: null,
@@ -783,7 +790,7 @@ export async function loadPublicForm(
 				if (!valorId || vistos.has(valorId)) return [];
 				vistos.add(valorId);
 				const propia = filas.find((fila) => String(fila.valor_id ?? '') === valorId) ?? base;
-				return [presentar(propia, valorId)];
+				return [presentar(propia, valorId, opcion.nombre)];
 			});
 			const presentados = valores.length > 0 ? valores : filas.map((fila) => presentar(fila));
 			const opcional = Number(grupo.selecciones_min ?? 0) === 0;
