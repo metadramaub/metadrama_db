@@ -227,6 +227,7 @@ Llevan la prosa revisada, con su migración:
 | Zéjel | `20260814100000_el_zejel_deja_hablar_a_su_figura` |
 | Seguidilla | `20260815090000_la_seguidilla_dice_lo_que_su_figura_no_dibuja` (+ `20260815091000`) |
 | Romance | `20260818090000_el_romance_deja_de_repetir_su_rejilla` |
+| Canción petrarquista | `20260818100000_la_cancion_ensena_por_dentro_la_estancia` |
 
 **Tras cada migración, `npm run audit:metrica` debe dar 0 defectos** —necesita Docker levantado,
 porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en esta fase, leerlas
