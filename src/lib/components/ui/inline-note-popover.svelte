@@ -1,14 +1,29 @@
 <script lang="ts">
 	import Info from 'lucide-svelte/icons/info';
-	import { tick } from 'svelte';
+	import { tick, type Snippet } from 'svelte';
 	import { renderInlineMarkdown } from '$lib/utils/markdown';
 
+	/**
+	 * El disparador por defecto es el icono de información, que sirve para una nota colgada de
+	 * una línea de texto. Pero a veces **lo anotado es un elemento que ya está en pantalla** —una
+	 * celda de la rejilla—, y entonces el icono al lado no cabe y separa la nota de su sitio: se
+	 * pasa `disparador` y es ese elemento el que abre. La colocación de la burbuja, que es lo
+	 * delicado, se reutiliza igual en los dos casos.
+	 */
 	const {
 		text,
-		label = 'Mostrar nota'
+		label = 'Mostrar nota',
+		disparador,
+		claseRaiz = '',
+		estiloRaiz = '',
+		claseBoton = ''
 	}: {
 		text: string;
 		label?: string;
+		disparador?: Snippet;
+		claseRaiz?: string;
+		estiloRaiz?: string;
+		claseBoton?: string;
 	} = $props();
 
 	let root = $state<HTMLSpanElement | null>(null);
@@ -75,15 +90,21 @@
 	});
 </script>
 
-<span class="relative inline-flex align-middle" bind:this={root}>
+<span class="relative inline-flex align-middle {claseRaiz}" style={estiloRaiz} bind:this={root}>
 	<button
 		type="button"
-		class="ml-1 inline-flex size-4 items-center justify-center text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1"
+		class={disparador
+			? claseBoton
+			: 'ml-1 inline-flex size-4 items-center justify-center text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1'}
 		aria-label={abierto ? 'Ocultar nota' : label}
 		aria-expanded={abierto}
 		onclick={alternar}
 	>
-		<Info size={13} strokeWidth={1.75} aria-hidden="true" />
+		{#if disparador}{@render disparador()}{:else}<Info
+				size={13}
+				strokeWidth={1.75}
+				aria-hidden="true"
+			/>{/if}
 	</button>
 	{#if abierto}
 		<span
