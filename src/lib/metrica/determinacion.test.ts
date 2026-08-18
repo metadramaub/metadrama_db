@@ -46,6 +46,7 @@ function seccion(cambios: Partial<PublicSection> = {}): PublicSection {
 		repeticionesMin: 1,
 		repeticionesMax: 1,
 		primeraRealizacionDefinePatron: false,
+		denominaciones: [],
 		reutiliza: null,
 		hijas: [],
 		...cambios

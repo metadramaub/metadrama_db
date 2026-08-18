@@ -40,6 +40,13 @@
 							.join(' · ')}
 					</span>
 				{/if}
+				<!-- Una parte con nombre propio puede llevar el suyo: el eslabón de la estancia es
+				     también la «chiave». Se lee igual que el «También» de una forma. -->
+				{#if section.denominaciones.length > 0}
+					<span class="text-[color:var(--muted-foreground)]">
+						· también {section.denominaciones.join(' · ')}
+					</span>
+				{/if}
 				{#if section.nota}
 					<InlineNotePopover text={section.nota} label={`Mostrar nota sobre ${section.nombre}`} />
 				{/if}
