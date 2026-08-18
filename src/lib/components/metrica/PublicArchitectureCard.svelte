@@ -2,6 +2,7 @@
 	import type {
 		PublicArchitecture,
 		PublicMetricScheme,
+		PublicRhymeRestriction,
 		PublicRhymeScheme,
 		PublicTrait
 	} from '$lib/metrica/formas-publicas.types';
@@ -167,6 +168,20 @@
 					numeric: true
 				})
 		);
+
+	/**
+	 * Las restricciones de un esquema abierto, en una sola frase.
+	 *
+	 * Se unían con `'. '`, y una descripción escrita a mano acaba en punto de forma natural, así
+	 * que salía «…de esta arquitectura.. La disposición debe ser regular». Hoy no queda ninguna
+	 * que acabe en punto —las redacciones por tipo no lo llevan—, pero la próxima que se escriba
+	 * volvería a romperlo.
+	 */
+	const unirRestricciones = (restricciones: PublicRhymeRestriction[]) =>
+		restricciones
+			.map((restriccion) => restriccion.texto.replace(/\s*\.\s*$/, ''))
+			.filter(Boolean)
+			.join('. ');
 
 	/** La modalidad compartida por todos los valores, cuando la comparten. */
 	const modalidadComun = (valores: PublicTrait[]) => {
@@ -425,7 +440,7 @@
 											</span>
 										{/if}
 										{#if esquema.restricciones.length > 0}
-											{esquema.restricciones.map((restriccion) => restriccion.texto).join('. ')}
+											{unirRestricciones(esquema.restricciones)}
 										{:else}
 											<span class="text-[color:var(--danger)]">
 												El catálogo no declara restricciones: «{esquema.nombre}» no fija la

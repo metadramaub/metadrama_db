@@ -522,12 +522,18 @@ tres disposiciones que la tradición nombra —alterna `ababab`, correlativa `ab
 1. **¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`?** El catálogo lo afirmaba como
    invariable y la revisión **lo desmiente**: el *Diccionario* ilustra su entrada con una
    estrofa de Lucas Fernández quebrada en **segundo y quinto**, y Jauralde documenta las
-   sextillas de Ricardo Gil con el tetrasílabo en esas mismas posiciones. La nota del rasgo ya
-   no dice que la posición sea fija. *Si el corpus trae una así, ¿es una arquitectura más o una
-   desviación de la existente?*
+   sextillas de Ricardo Gil con el tetrasílabo en esas mismas posiciones. Desde el 18 de agosto
+   de 2026 eso lo dice la **descripción de la arquitectura**, que es donde se lee; la nota del
+   rasgo que lo llevaba se retiró porque además contaba de dónde se derivaba el dato. *Si el
+   corpus trae una así, ¿es una arquitectura más o una desviación de la existente?*
 2. **¿Las medidas 6, 7 y 8 son un repertorio cerrado?** Jauralde ordena las sextillas por medida
    y describe también **tetrasilábicas y pentasilábicas**. Las tres del catálogo son las del
    corpus, no las de la bibliografía.
+   *Decisión del IP el 18 de agosto de 2026: **se quedan fuera**, por el mismo criterio
+   cronológico y de corpus que el resto. Queda anotado como **posible ampliación futura del
+   catálogo**, no como defecto: si el corpus trae una sextilla tetrasílaba o pentasílaba, añadirla
+   es copiar una arquitectura existente cambiando el metro.* El testimonio ya está en la
+   afirmación de Jauralde, que enumera las cinco medidas.
 3. **¿Nada distingue dos sextillas consecutivas de una doble sextilla?** Los versos, las medidas
    y el tipo de rima son idénticos; lo único que cambia es si las rimas de la segunda mitad
    dependen de la primera. Hoy **lo decide el editor al elegir arquitectura**, no un criterio
@@ -550,6 +556,36 @@ tres disposiciones que la tradición nombra —alterna `ababab`, correlativa `ab
    declaran ya las tres?* Ojo a las agudas: **la rima aguda no es una clase de rima sino una
    cualidad del final**, y el catálogo la lleva en el rasgo `final_acentual`, así que declararlas
    obligaría a decidir cómo se escribe `aaé:bbé` sin confundir las dos cosas.
+6. **¿Puede una sextilla dejar un verso suelto?** Salió el 18 de agosto de 2026 al cerrar el
+   pendiente 12ter contra las seis fuentes. **Tres de las seis documentan que sí**, y en el mismo
+   poema: las sextillas del *Martín Fierro* dejan sin rima el primer verso. Domínguez Caparrós
+   2014 lo escribe con guion, `- a a b b a`; Quilis marca la misma estrofa `abbccb`, llamando
+   clase `a` a un verso que no rima con ningún otro; y Navarro Tomás lo dice en palabras, «con el
+   primer verso suelto». *El desacuerdo es de notación, no de hecho, y las tres afirmaciones lo
+   recogen ya.*
+
+   *Decisión del IP el 18 de agosto de 2026: **fuera por criterio cronológico**, el mismo del
+   punto 5 y del romance heroico —el* Martín Fierro *es de 1872—. Los cuatro esquemas abiertos
+   declaran por eso `versos_sueltos: ninguno`, y las tres notas de `Densidad de rima: Total` se
+   mantienen coherentes con ello.* **Lo que hay que saber si esto se reabre:** admitir el suelto
+   obliga a cambiar `versos_sueltos` en los cuatro esquemas **y** a retirar esas tres notas de
+   densidad, porque dejarían de ser ciertas. Y pesa en contra que sea justo el ejemplo con el que
+   Domínguez Caparrós 2014 define la sextilla, no un caso marginal.
+
+   **Nota sobre lo declarable.** Al ir a las fuentes salió que, a diferencia de la quintilla,
+   **ninguna enuncia una regla** para la sextilla: Quilis dice «varias combinaciones de rima», el
+   *Diccionario* «variadas disposiciones» y Jauralde que «la disposición varía de una a otra
+   composición». Lo declarado se derivó del repertorio documentado, y dio dos restricciones y
+   media: `versos_sueltos` y `min_alternancias: 3` —el mínimo de `aabaab`, `aabccb`, `aababa`,
+   `ababab` y `abcabc`—, y **las clases de rima son dos o tres, que `numero_clases` no puede
+   expresar** porque admite un solo valor. Eso último se dice en la definición de la forma.
+   *Si alguna vez interesa comprobarlo, `numero_clases` necesitaría un rango, o un tipo nuevo.*
+
+   **Y un tipo de restricción que no se comprueba:** `max_consecutivos` está en el `CHECK` de
+   `esquema_rima_restricciones.tipo` pero `incumple`, en `scripts/audit-catalogo-metrico.mjs`, no
+   lo evalúa —devuelve `false`—. Habría sido la restricción natural aquí («no más de dos versos
+   seguidos con la misma rima»); no se declaró para no escribir una norma sin guarda. *Arreglarlo
+   es calcular la racha máxima en `resumir` y añadir una rama a `incumple`.*
 
 ## Copla de pie quebrado
 
