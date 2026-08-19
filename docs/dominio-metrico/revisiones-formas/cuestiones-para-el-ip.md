@@ -283,6 +283,26 @@ ninguna de las dos y no está en el catálogo; la descripción de la arquitectur
    y por eso la pregunta de si la acerca al romance heroico no es retórica: requeriría un esquema
    cíclico con posiciones, que es lo que ninguna silva tiene hoy.*
 
+   **Y no está en el vocabulario legado, comprobado de nuevo el 19 de agosto de 2026.** Hay cinco
+   términos de silva —`silva`, `silva_de_consonantes_regular`, `silva_de_consonantes_irregular`,
+   `silva_de_endecasilabos`, `silva_libre`— y **ninguno menciona los versos pares**; los únicos de
+   los 119 que lo hacen son los cinco de la familia del romance. *No se perdió en la migración ni
+   se nos pasó: no se declaró nunca, ni allí ni aquí.*
+
+6. **Tres arquitecturas declaran una sección cuyo único contenido es el periodo**, y conviene
+   mirar si en alguna sobra. La regla es que las secciones describen el **interior** de una
+   unidad, así que una parte se justifica cuando el periodo existe por algo más que la rima:
+
+   | Arquitectura | Sección | ¿El periodo es también métrico? |
+   | --- | --- | --- |
+   | Silva · Consonante regular | «Serie de pareados regulares» · 2 versos | **Sí**: `7-11-repetido` alterna las dos medidas |
+   | Terceto encadenado ×2 | «Cadena de tercetos» · 3 versos | No: `11-repetido` y `8-repetido` |
+   | Romance | *(ninguna, y es lo correcto)* | No: `8-repetido` |
+
+   *La de la silva se sostiene sola. La del terceto encadenado se parece más al romance, que no
+   declara ninguna, pero su ciclo `[ABA]…` con dos enlaces es bastante particular como para
+   mirarlo aparte antes de tocar nada.*
+
 4bis. **La silva arromanzada es otra cosa, y por eso se separa de la duda anterior.** El
    *Diccionario* la recoge (entrada «silva arromanzada», p. 395): todos los versos pares con una
    misma rima **asonante**. No es una arquitectura más sino **un régimen nuevo en la forma**: las
