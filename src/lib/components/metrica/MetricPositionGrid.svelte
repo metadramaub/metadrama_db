@@ -30,7 +30,9 @@
 		denominaciones = {},
 		palabraFinal = false,
 		cajaSegunMedida = false,
-		rotulos = true
+		rotulos = true,
+		modalidades = true,
+		prefijoDeFila = ''
 	}: {
 		rejilla: Rejilla;
 		mostrar?: 'todo' | 'medida' | 'rima';
@@ -70,6 +72,23 @@
 		 * coincidir con la de la variedad y se leía como una contradicción.
 		 */
 		rotulos?: boolean;
+		/**
+		 * Si el rótulo de cada fila lleva la modalidad de su disposición.
+		 *
+		 * En una variedad son dos cosas distintas y leerlas juntas parece una contradicción: la
+		 * disposición `A` es **habitual** y las variedades A2 y A3 que la usan son **admitidas**,
+		 * porque lo raro no es la rima sino ese reparto de medidas. La variedad ya lleva la suya
+		 * en su encabezado, así que la fila calla la del esquema.
+		 */
+		modalidades?: boolean;
+		/**
+		 * Qué precede al nombre de cada fila, cuando ese nombre solo no dice de qué habla.
+		 *
+		 * En una variedad conviven dos nombres cortos: el de la variedad —«A1»— y el de su
+		 * disposición de rima —«A»—, que es independiente de la estructura de sílabas. Sin decirlo,
+		 * la fila parecía una repetición del encabezado.
+		 */
+		prefijoDeFila?: string;
 	} = $props();
 
 	const columnas = $derived(rejilla.celdas.length);
@@ -311,11 +330,13 @@
 					class="whitespace-nowrap pl-2 text-[0.68rem] leading-4"
 					style="grid-column: {columnas + 1};"
 				>
-					{#if fila.nombre}<span>{fila.nombre}</span>{:else if fila.notacion}<span
+					{#if prefijoDeFila}<span class="text-[color:var(--muted-foreground)]"
+							>{prefijoDeFila}&nbsp;</span
+						>{/if}{#if fila.nombre}<span>{fila.nombre}</span>{:else if fila.notacion}<span
 							class="font-mono">{fila.notacion}</span
 						>{/if}
 
-					{#if fila.modalidad}<span class="text-[color:var(--muted-foreground)]"
+					{#if fila.modalidad && modalidades}<span class="text-[color:var(--muted-foreground)]"
 							>· {fila.modalidad}</span
 						>{/if}
 					{#if fila.tipoRima}<span class="text-[color:var(--muted-foreground)]"
