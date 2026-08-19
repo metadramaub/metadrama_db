@@ -27,7 +27,8 @@
 		compacta = false,
 		pie = true,
 		glosas = {},
-		denominaciones = {}
+		denominaciones = {},
+		palabraFinal = false
 	}: {
 		rejilla: Rejilla;
 		mostrar?: 'todo' | 'medida' | 'rima';
@@ -48,6 +49,8 @@
 		glosas?: Record<string, string | null>;
 		/** Los otros nombres de cada disposición: «cuarteta» es la redondilla cruzada. */
 		denominaciones?: Record<string, string[]>;
+		/** La arquitectura repite palabras finales en vez de rimar: la sextina. */
+		palabraFinal?: boolean;
 	} = $props();
 
 	const columnas = $derived(rejilla.celdas.length);
@@ -373,13 +376,21 @@
 	</div>
 </div>
 
-{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0)}
+{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0 || palabraFinal)}
 	<div class="mt-2 space-y-1 text-xs text-[color:var(--muted-foreground)]">
 		{#if rejilla.cicla}
 			<p><span aria-hidden="true">⟳</span> Se repite hasta el final de la serie.</p>
 		{/if}
 		{#if rejilla.recortada}
 			<p>Se dibujan las {columnas} primeras posiciones.</p>
+		{/if}
+		<!--
+			El guion dice la verdad —la sextina no rima— pero deja al lector sin saber qué la sostiene
+			entonces. Lo que vuelve es la palabra, y conviene decirlo aquí, junto al dibujo, y no solo
+			en la fila «Repetición» que queda más abajo y tras un icono.
+		-->
+		{#if palabraFinal}
+			<p>No hay rima: lo que vuelve de una estrofa a otra son las palabras finales.</p>
 		{/if}
 		{#if renuevaLaRima}
 			<p>La rima se renueva en cada repetición.</p>
