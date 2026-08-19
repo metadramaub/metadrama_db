@@ -228,7 +228,8 @@ Llevan la prosa revisada, con su migración:
 | Seguidilla | `20260815090000_la_seguidilla_dice_lo_que_su_figura_no_dibuja` (+ `20260815091000`) |
 | Romance | `20260818090000_el_romance_deja_de_repetir_su_rejilla` |
 | Canción petrarquista | `20260818100000_la_cancion_ensena_por_dentro_la_estancia` |
-| Sextilla | `20260818130000_la_sextilla_declara_lo_que_su_norma_acota` |
+| Sextilla | `20260818130000_la_sextilla_declara_lo_que_su_norma_acota` (+ `20260818140000`) |
+| Quintilla | `20260819090000_la_quintilla_se_define_por_lo_que_evita` (+ `20260819100000`) |
 
 **Tras cada migración, `npm run audit:metrica` debe dar 0 defectos** —necesita Docker levantado,
 porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en esta fase, leerlas
