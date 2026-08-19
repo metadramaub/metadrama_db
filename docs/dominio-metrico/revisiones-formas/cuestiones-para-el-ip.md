@@ -537,6 +537,39 @@ isométricas ofrecen los dos esquemas, `abba` y `abab`, y el editor elige uno **
    la lírica romántica. *Es forma de otro periodo; la duda es si el catálogo la nombra como
    pariente de la redondilla doble o la deja fuera.*
 
+## Terceto
+
+*Prosa revisada el 19 de agosto de 2026, junto con el modelo de su relación con el terceto
+encadenado (`20260819180000_el_serventesio_final_no_es_obligatorio`).*
+
+1. **¿Se amplía el terceto al tercetillo?** Domínguez Caparrós 2014 precisa que «el terceto en
+   versos de arte menor recibe nombre propio: tercetillo, tercerilla o tercerillo». El catálogo
+   solo tiene la arquitectura endecasilábica, así que un terceto octosílabo no cabe hoy en
+   ninguna parte. *Si entra, es una arquitectura más —y con denominación propia, que es lo que la
+   distingue de las demás medidas ausentes del catálogo: aquí la tradición no solo la documenta,
+   le da nombre.*
+
+   **Va con las otras cuatro** —romance, sextilla, quintilla y décima—, que piden lo mismo y que
+   conviene decidir de una vez; ver el punto 8bis de
+   [CONTEXTO](../CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
+
+2. ~~**¿Está bien separado del terceto encadenado?**~~ **Resuelto el 19 de agosto de 2026: sí, y
+   no por criterio sino por construcción.** `nivel_estructural` es columna de `formas_metricas` y
+   no de `arquitecturas_forma`, de modo que **dos niveles distintos no pueden ser dos
+   arquitecturas de una misma forma**: el terceto es `estrofa` y el encadenado es `serie`.
+
+   Es lo que explica la comparación que abrió la duda: la redondilla doble enlazada sí vive
+   dentro de la redondilla —sigue siendo una estrofa cerrada, de ocho versos—, y la doble sextilla
+   dentro de la sextilla, por lo mismo. La regla que ya opera es **mismo nivel, arquitectura;
+   distinto nivel, forma**.
+
+   Y no es la repetición lo que hace la diferencia: una tirada de quintillas también se repite.
+   Es que la cadena **no se deja cortar**, porque la rima central de cada unidad se resuelve en la
+   siguiente. Por eso la quintilla declara `unidad_versos = 5` y cuántas hay se deriva, y el
+   encadenado no declara ninguna. *El vocabulario legado los tenía juntos porque no tenía noción
+   de nivel estructural: metía en «terceto» la estrofa y la serie, con «terceto sin encadenar»
+   como subtipo.*
+
 ## Quintilla
 
 **Qué tiene hoy el catálogo:** una sola arquitectura, `octosilabica_consonante`, y ocho
