@@ -509,6 +509,34 @@ en un solo sitio.
    pasa de una arquitectura a tres y hay que decidir si el repertorio de ocho esquemas vale
    para las tres.* **⇒ transversal de la modalidad**, con el resto de los repertorios de medida.
 
+   *Revisada la prosa el 19 de agosto de 2026.* Al hacerlo se confirmó que **esta es la forma en
+   la que las restricciones declaradas describen en vez de inducir**, y conviene dejar dicho por
+   qué, porque es lo que la separa de la sextilla: aquí **las fuentes enuncian la regla**. Quilis
+   «deriva las disposiciones de las dos prohibiciones y concluye que las combinaciones posibles
+   son cinco», y el *Diccionario* fija cuatro condiciones. Donde la fuente enumera y cierra con un
+   «etc.», no hay regla que declarar; donde la fuente la enuncia, sí.
+
+2. **Faltan quintillas con verso suelto, y quedan fuera por alcance.** Jauralde registra `abcab`,
+   `abbca` y `abaca`, que él mismo describe como transgresión de las viejas normas. El catálogo
+   declara `versos_sueltos: ninguno` y por eso no caben. *Es una decisión de alcance del corpus,
+   no una norma —la misma distinción que costó una rectificación en la sextilla—: si el corpus las
+   trae, se recogen y se relaja la restricción, sin que eso desmienta nada.*
+
+3. **`min_alternancias: 2` no es la regla de las fuentes, y funciona igual.** La regla es «no más
+   de dos versos seguidos con la misma rima», que se expresaría con `max_consecutivos: 2` —el tipo
+   existe pero `incumple` no lo evalúa, ver la nota de la sextilla—. Con lo declarado, `abbba`
+   pasa el filtro: tiene dos alternancias **y** tres versos seguidos. *Eso es lo que se quiere,
+   porque el catálogo admite `abbba`; queda anotado para que nadie lo lea como un descuido.*
+
+4. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** —1 `ababa`, 2 `abbab`,
+   3 `abaab`, 4 `aabab`, 5 `aabba`, 6 `abbaa`, 7 `ababb`— y Morley y Bruerton dan las mismas
+   siete. `abbba` no lo numera nadie: lo registran como aparición suelta, que Morley y Bruerton
+   atribuyen a errata de imprenta o a adaptación expresiva y Jauralde recoge sin marcarlo.
+   *Decisión del IP el 19 de agosto: **se conserva el número 8**, a la espera de ver si el corpus
+   completo lo confirma como disposición real o lo deja en anécdota. Si se confirma, deja de ser
+   excepcional por frecuencia; si no aparece más, conviene renombrarlo para no atribuir a Navarro
+   Tomás un octavo tipo que no dio.*
+
 ## Sextilla
 
 *Revisada el 8 de agosto de 2026. Su ficha, compartida con las coplas, ya se retiró.*

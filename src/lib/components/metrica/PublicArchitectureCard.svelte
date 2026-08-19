@@ -35,9 +35,6 @@
 	 */
 	const { arquitectura }: { arquitectura: PublicArchitecture } = $props();
 
-	/** Qué glosa está abierta. La abre el lector con el icono de su disposición. */
-	let glosaAbierta = $state<string | null>(null);
-
 	/**
 	 * Los dos perfiles que **no** son una serie: lo que se repite en ellos es una parte con
 	 * nombre —la estancia de la canción, el ciclo de copla del villancico—, no un verso.
@@ -130,15 +127,21 @@
 		)
 	);
 
-	/** La glosa abierta, en el formato que consume la rejilla. */
-	const glosas = $derived.by(() => {
-		if (!glosaAbierta) return {};
-		const esquema = arquitectura.esquemasRima.find((item) => item.id === glosaAbierta);
-		return esquema?.descripcion ? { [glosaAbierta]: esquema.descripcion } : {};
-	});
-
-	const tieneGlosa = (esquemaRimaId: string) =>
-		Boolean(arquitectura.esquemasRima.find((item) => item.id === esquemaRimaId)?.descripcion);
+	/**
+	 * La glosa de cada disposición, para que la rejilla la ofrezca **en su fila**.
+	 *
+	 * Antes se abría desde un botón «Qué distingue X» debajo del dibujo y ocupaba una columna
+	 * entera. Eran dos sitios para una nota que es de una fila concreta, y el rótulo prometía un
+	 * contraste que la nota no siempre hace. Ahora es el icono de nota de siempre, junto al
+	 * nombre de la disposición, como el resto de las notas de la ficha.
+	 */
+	const glosas = $derived(
+		Object.fromEntries(
+			arquitectura.esquemasRima
+				.filter((esquema) => esquema.descripcion)
+				.map((esquema) => [esquema.id, esquema.descripcion])
+		)
+	);
 
 	/**
 	 * A partir de cuántos valores un rasgo excluyente pasa de lista en columna a fila envuelta.
@@ -188,10 +191,6 @@
 		const modalidades = new Set(valores.map((valor) => valor.modalidad ?? ''));
 		return modalidades.size === 1 ? (valores[0]?.modalidad ?? null) : null;
 	};
-
-	function alternarGlosa(esquemaRimaId: string) {
-		glosaAbierta = glosaAbierta === esquemaRimaId ? null : esquemaRimaId;
-	}
 
 	/** Una disposición autónoma cuando la arquitectura abierta no ofrece columnas comunes. */
 	function rejillaDeEsquema(esquema: PublicRhymeScheme): Rejilla {
@@ -391,23 +390,6 @@
 									{glosas}
 								/>
 							</div>
-							<!-- La glosa se pide aquí y se abre como una columna de la rejilla: flotando
-							     sobre ella se recortaba contra el borde del contenedor con scroll. -->
-							{#if grupo.filas.some((fila) => tieneGlosa(fila.esquemaRimaId))}
-								<p class="mt-1 flex flex-wrap gap-x-3 text-xs">
-									{#each grupo.filas.filter((fila) => tieneGlosa(fila.esquemaRimaId)) as fila (fila.esquemaRimaId)}
-										<button
-											type="button"
-											class="underline decoration-dotted hover:no-underline"
-											aria-expanded={glosaAbierta === fila.esquemaRimaId}
-											onclick={() => alternarGlosa(fila.esquemaRimaId)}
-										>
-											{glosaAbierta === fila.esquemaRimaId ? 'Ocultar' : 'Qué distingue'}
-											{fila.nombre ?? fila.notacion}
-										</button>
-									{/each}
-								</p>
-							{/if}
 						{/each}
 
 						{#if esquemasCerradosSinDibujo.length > 0}

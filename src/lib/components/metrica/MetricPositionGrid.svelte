@@ -51,7 +51,6 @@
 	const filasVisibles = $derived(filas ?? rejilla.filasDeRima);
 	const conMedida = $derived(mostrar !== 'rima' && rejilla.tieneMedida);
 	const conRima = $derived(mostrar !== 'medida' && filasVisibles.length > 0);
-	const hayGlosa = $derived(Object.values(glosas).some((texto) => Boolean(texto)));
 	/** La columna de rótulos solo existe cuando hay rima que rotular. */
 	const columnaRotulo = $derived(conRima ? 1 : 0);
 
@@ -148,9 +147,7 @@
 		class="inline-grid min-w-fit items-center gap-x-px gap-y-px"
 		style="grid-template-columns: repeat({columnas}, minmax({compacta
 			? '1.35rem'
-			: '1.75rem'}, auto)){columnaRotulo ? ' max-content' : ''}{hayGlosa
-			? ' minmax(12rem, 26rem)'
-			: ''};"
+			: '1.75rem'}, auto)){columnaRotulo ? ' max-content' : ''};"
 	>
 		{#if conMedida}
 			{#each rejilla.celdas as item (item.verso)}
@@ -171,7 +168,6 @@
 					sílabas
 				</div>
 			{/if}
-			{#if hayGlosa}<div></div>{/if}
 		{/if}
 
 		{#if conRima}
@@ -227,17 +223,15 @@
 					{#if fila.tipoRima}<span class="text-[color:var(--muted-foreground)]"
 							>· {fila.tipoRima}</span
 						>{/if}
+					<!-- La glosa de la disposición, junto a su nombre. Es de esta fila y de ninguna
+					     otra, así que no necesita ni botón aparte ni columna propia. -->
+					{#if glosas[fila.esquemaRimaId]}
+						<InlineNotePopover
+							text={glosas[fila.esquemaRimaId] ?? ''}
+							label={`Mostrar nota sobre ${fila.nombre ?? fila.notacion ?? 'esta disposición'}`}
+						/>
+					{/if}
 				</div>
-				{#if hayGlosa}
-					<div
-						class="px-3 text-[0.72rem] leading-5 text-[color:var(--muted-foreground)]"
-						style="grid-column: {columnas + 2};"
-					>
-						{#if glosas[fila.esquemaRimaId]}
-							{@html renderInlineMarkdown(glosas[fila.esquemaRimaId] ?? '')}
-						{/if}
-					</div>
-				{/if}
 			{/each}
 		{/if}
 
