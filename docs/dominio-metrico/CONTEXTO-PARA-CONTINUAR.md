@@ -237,7 +237,8 @@ Llevan la prosa revisada, con su migración:
 | Cuarteto | `20260819170000_el_cuarteto_dice_de_donde_le_vienen_sus_nombres` |
 | Terceto y terceto encadenado | `20260819180000_el_serventesio_final_no_es_obligatorio` |
 | Sextina (composición y estrofa) | `20260819190000_la_sextina_dice_que_lo_que_vuelve_es_la_palabra` |
-| Lira y sexteto-lira | `20260819200000_la_lira_dice_de_donde_viene_su_nombre` (+ `20260819210000`) |
+| Lira y sexteto-lira | `20260819200000_la_lira_dice_de_donde_viene_su_nombre` (+ `20260819210000`, `20260819220000`) |
+| Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
 en prosa lo que la figura dibuja, porque su función es que una forma se lea de corrido; las de la
@@ -245,6 +246,13 @@ seguidilla son el modelo. La regla de no escribir lo derivado se aplica con seve
 **notas** —de posición, de sección, de rasgo, y las descripciones de esquema—, no a ellas. Y su
 prosa no usa lenguaje de base de datos ni da por supuesto el Siglo de Oro: el catálogo aspira a
 ser más general que el corpus.
+
+**Que el auditor calle no prueba que la norma esté declarada.** El aviso `patron_rima_sin_regla`
+se apaga en cuanto la arquitectura tiene *o* una restricción, *o* una densidad, *o* un esquema
+concreto — y un esquema concreto no dice nada de la disposición abierta, que es la que la norma
+declara. Así se le pasó al sexteto la densidad de rima de su arquitectura principal, y así la
+tiene todavía la sextilla en dos de las suyas. Al revisar una forma con disposición abierta,
+comprobar la densidad **arquitectura por arquitectura**, no fiarse del recuento.
 
 **Tras cada migración, `npm run audit:metrica` debe dar 0 defectos** —necesita Docker levantado,
 porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en esta fase, leerlas
