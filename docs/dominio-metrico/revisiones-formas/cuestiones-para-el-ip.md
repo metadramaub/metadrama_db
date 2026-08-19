@@ -1094,6 +1094,21 @@ reutilizan el cuarteto y el terceto.
    **heptasílabo que rime con él** —`ABBA ABBA CDE CDE eFF`—, y lo ejemplifica con el «Voto a
    Dios que me espanta esta grandeza» de Cervantes. *Es el más probable de los dos en un corpus
    áureo, y hoy no cabe: un soneto de diecisiete versos no encaja en la arquitectura.*
+3bis. **¿Podrían los cuartetos heredar sus disposiciones del cuarteto en vez de declararlas?**
+   Planteado por el IP el 19 de agosto de 2026, y no está descartado. Hoy el soneto declara sus
+   propios esquemas de ocho posiciones en dos bloques —`ABBA ABBA`, `ABAB ABAB`— en vez de
+   heredar `ABBA` y `ABAB` del cuarteto y decir «×2». La razón es que **repetir una sección
+   renueva las rimas por defecto**: heredar y repetir se leería como `ABBA CDDC`, dos cuartetos
+   independientes, y lo que define al soneto es justamente que **los dos comparten A y B**.
+
+   *La vía que quedaría por explorar* es heredar la disposición y declarar la identidad con un
+   **enlace**, que es el mecanismo con que el romance dice que su rima vuelve. Sería más económico
+   y una disposición nueva del cuarteto se propagaría sola. **Dos cosas juegan en contra y ninguna
+   es definitiva:** la modalidad difiere —la cruzada es `admitida` como cuarteto suelto y
+   `excepcional` dentro del soneto, así que el soneto necesita su propio juicio— y **los tercetos
+   no pueden hacerlo de ninguna manera**, porque `CDC` y `DCD` son disposiciones distintas y no
+   una repetida. Declarar los cuartetos como los tercetos es, por eso, coherencia y no descuido.
+
 3. ~~**¿Tienen los tercetos del soneto una sección propia de seis versos?**~~ **Resuelto el 10 de
    agosto de 2026: no, y el problema era otro.** Los cuatro esquemas de tercetos tenían sus seis
    posiciones en un solo bloque, seguidas, declarando una tirada de seis versos que el soneto no

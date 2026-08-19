@@ -301,8 +301,14 @@ hacerlas antes obliga a hacerlas dos veces.
    esquema, la densidad declarada o unos esquemas concretos de los que se calcula. El aviso miraba
    solo la primera. Los ocho dejan de saltar, y al callar el ruido **queda a la vista el único
    acierto que tenía**: la `suelta` de la endecha real, un ciclo sin posiciones —punto 4—.
-8. **La sección de seis versos del soneto**, en
-   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
+8. **Dos cosas del soneto**, en
+   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto): si sus cuartetos
+   podrían heredar la disposición del cuarteto y declarar la identidad con un enlace, y **la
+   restricción `max_consecutivos: 2` de sus tercetos**, que la fuente enuncia y el catálogo no
+   declara. Lo segundo cuesta dos piezas contadas allí: un esquema abierto de la sección
+   `terceto` y **la evaluación de ese tipo en el auditor**, que hoy no existe —`incumple` devuelve
+   `false` para `max_consecutivos`—. Es la misma pieza que echó en falta la sextilla, así que
+   arreglarla sirve a las dos.
 9. **Las 27 equivalencias del vocabulario legado sin destino**, en
    [equivalencias-pendientes.md](./equivalencias-pendientes.md).
 10. ~~**El editor V2 aún no pregunta por realización.**~~ **Resuelto el 11 de agosto.** `alcance`
