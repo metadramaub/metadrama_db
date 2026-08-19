@@ -1027,6 +1027,36 @@ registro actual.
    formaliza como sexteto autónomo, así que la revisión **no la ha creado**. *Queda como forma
    sin hueco.*
 
+### Añadido en la revisión de la prosa, 19 de agosto de 2026
+
+5. **Hemos modelado para la alejandrina algo que en otras formas dejamos en las fuentes.** La
+   decisión 7 de esa revisión declaró el esquema `AABCCB` «Sexteto simétrico» y el rasgo de
+   finales agudos porque la descripción contaba en prosa una disposición que la ficha no podía
+   dibujar, y porque la endecasilábica sí declaraba la suya. Pero el sexteto alejandrino **no
+   está en el corpus**, y en otras formas lo documentado y no anotado se quedó en la afirmación
+   de la fuente sin llegar al modelo. *La inconsistencia es real: o el catálogo modela lo que
+   las fuentes describen aunque el corpus no lo traiga —y entonces faltan cosas en otras
+   formas—, o modela solo lo anotable, y entonces esta declaración sobra. Se hizo así porque
+   estaba a medias: la mitad endecasílaba ya estaba modelada.* El criterio conviene fijarlo de
+   una vez, porque vuelve en cada forma.
+
+6. **El criterio de cuándo la medida hace forma aparte no está escrito en ninguna parte.** Salió
+   al revisar la prosa, contrastando el catálogo entero: la medida es **arquitectura** casi
+   siempre —el romance tiene cuatro y dos de ellas se llaman «romancillo» y «endecha»—, y solo
+   hace forma aparte en dos casos, ambos por arte del verso: redondilla/cuarteto y
+   sextilla/sexteto. Lo que los separa del romancillo es verificable: la tradición **define a
+   cada uno por exclusión del otro** y ninguno de los dos nombres deriva del otro, mientras que
+   «romancillo» es el romance con un calificativo y hereda su definición. *Formulado así el
+   criterio no tiene excepciones en el catálogo actual, pero es un criterio de la tradición y no
+   estructural: conviene aprobarlo explícitamente y escribirlo en el modelo aplicado.*
+
+7. **La sextilla tiene el mismo agujero de densidad que tenía el sexteto.** Declara
+   `densidad_de_rima: total` en solo tres de sus cinco arquitecturas —`heptasilabica`,
+   `hexasilabica` y `pie_quebrado`—, y las otras dos se libran del aviso `patron_rima_sin_regla`
+   por tener esquemas concretos, que es exactamente el accidente que ocultaba el hueco en la
+   endecasilábica del sexteto. *Se arregla al revisar la sextilla; no se tocó desde la migración
+   del sexteto.*
+
 ## Sexteto-lira
 
 *Revisado el 8 de agosto de 2026. Su ficha ya se retiró.*
