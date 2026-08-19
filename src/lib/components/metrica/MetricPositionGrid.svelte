@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FilaDeRima, MedidaDeCelda, Rejilla } from '$lib/metrica/rejilla';
+	import type { BandaRejilla, FilaDeRima, MedidaDeCelda, Rejilla } from '$lib/metrica/rejilla';
 	import { renderInlineMarkdown } from '$lib/utils/markdown';
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 
@@ -128,6 +128,18 @@
 			enlacesEntreRepeticiones.length === 0 &&
 			filasVisibles.some((fila) => fila.clases.some((clase) => clase.clase && !clase.suelto))
 	);
+
+	/**
+	 * Dónde parte una banda que dibuja varias apariciones seguidas de la misma parte, en tanto
+	 * por ciento de su ancho. Ninguna si solo dibuja una.
+	 */
+	const divisionesInteriores = (banda: BandaRejilla): number[] => {
+		const apariciones = banda.apariciones ?? 1;
+		if (apariciones < 2) return [];
+		return Array.from({ length: apariciones - 1 }, (_, indice) =>
+			Math.round(((indice + 1) / apariciones) * 10000) / 100
+		);
+	};
 
 	const PREPOSICIONES = new Set(['de', 'del', 'con', 'en', 'por', 'a', 'al', 'y', 'o', 'sin']);
 
@@ -293,6 +305,20 @@
 					-->
 					<span class="absolute left-0 top-0 h-1.5 w-px bg-[color:var(--foreground)]"></span>
 					<span class="absolute right-0 top-0 h-1.5 w-px bg-[color:var(--foreground)]"></span>
+					<!--
+						Y una marca por cada división interior cuando la banda abarca varias apariciones de
+						la misma parte. Se daba por hecho que se contaban solas porque la disposición cambia
+						de letras entre una y otra —`CDC DCD` en los tercetos del soneto—, pero eso no vale
+						cuando se repiten iguales: en `ABBA ABBA` los ocho cuartetos se leían como un bloque
+						de ocho y no como dos de cuatro. La marca es más corta que los topes para que la
+						jerarquía se lea: los extremos cierran la parte, estas la dividen.
+					-->
+					{#each divisionesInteriores(banda) as porcentaje (porcentaje)}
+						<span
+							class="absolute top-0 h-1 w-px bg-[color:var(--muted-foreground)]"
+							style="left: {porcentaje}%"
+						></span>
+					{/each}
 					<div class={banda.reutiliza ? 'h-8' : 'h-4'}></div>
 					<div class="absolute inset-x-0 top-1 flex justify-center">
 						<span class="w-max text-center text-[0.68rem] leading-4">
