@@ -659,7 +659,20 @@ export async function loadPublicForm(
 				versosMax: numero(s.versos_max),
 				repeticionesMin: numero(s.repeticiones_min),
 				repeticionesMax: numero(s.repeticiones_max),
-				reutiliza: reutilizacionDe(s.arquitectura_referenciada_id)
+				/**
+				 * El rótulo bajo la banda dice «rima como X», y eso solo es cierto cuando la parte
+				 * **no** declara su propia rima. En diecisiete de las dieciocho secciones que
+				 * reutilizan otra arquitectura lo es; en las dos del soneto no, porque los cuartetos
+				 * y los tercetos traen sus propios esquemas y lo que heredan es la medida, la
+				 * extensión y la identidad. Que la parte se estructura como esa forma lo dice ya la
+				 * fila «Partes», así que aquí se calla en vez de decirlo mal.
+				 */
+				reutiliza:
+					(esquemasRima as any[]).some(
+						(er) => er.seccion_id && String(er.seccion_id) === String(s.seccion_id)
+					)
+						? null
+						: reutilizacionDe(s.arquitectura_referenciada_id)
 			}));
 
 		// Qué parte ofrece cada disposición. Un esquema puede no declarar `seccion_id` y aun así

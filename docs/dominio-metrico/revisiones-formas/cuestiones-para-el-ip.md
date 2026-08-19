@@ -1074,6 +1074,20 @@ reutilizan el cuarteto y el terceto.
    rimas de los tercetos del soneto áureo. *Si es abierto, hace falta una salida para el
    esquema no listado; hoy el editor solo puede elegir entre los cuatro.* **⇒ transversal de la
    modalidad.**
+
+   **Es abierto, y la fuente da la regla, no una lista.** El *Diccionario* dice que los tercetos
+   toman dos o tres clases distintas de las de los cuartetos y las reparten como sea «con tal de
+   que no haya más de dos versos seguidos con la misma rima». Desde el 19 de agosto de 2026 esa
+   regla está en la definición de la forma, que es donde el lector la necesita.
+
+   *Codificarla es barato y no es lío, pero son dos piezas y ninguna es de prosa:* un esquema
+   abierto de la sección `terceto` que declare `max_consecutivos: 2` junto a los cuatro
+   concretos, y **la evaluación de ese tipo en el auditor**, que hoy no existe —`incumple`, en
+   `scripts/audit-catalogo-metrico.mjs`, devuelve `false` para `max_consecutivos`—. Las cuatro
+   disposiciones actuales la cumplen: ninguna repite clase en dos versos seguidos. Lo que sí
+   cambia es el editor, porque el grupo `esquema_tercetos` pasaría de cuatro opciones a cinco, y
+   esa quinta **es justo la salida que esta duda pide**. `numero_clases` seguiría sin poder
+   declararse, porque son dos o tres y la columna admite un solo valor.
 2. **¿Estrambote y sonetillo se incorporarán solo si aparecen en el corpus?** No están en el
    catálogo. Quilis describe el estrambote como uno o varios tercetos añadidos cuando la idea
    excede los catorce versos, con la condición de que el verso que sigue al decimocuarto sea un
