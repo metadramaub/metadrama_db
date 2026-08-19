@@ -139,6 +139,37 @@ diga su densidad o deje calcularla por alguno de los dos.
 > distinto número de clases. La densidad y la **concentración de la rima** son dos cosas, y hoy
 > solo está modelada la primera.
 
+## De dónde sale la unidad que se dibuja
+
+La rejilla necesita saber **cuántos versos tiene la unidad**, y ninguna tabla lo declara sola. Se
+toma de la primera de estas cinco que responda:
+
+1. **Las secciones raíz de extensión fija**, sumadas: es lo que dibuja la seguidilla compuesta.
+2. **`unidad_versos_min` = `unidad_versos_max`**: el soneto son catorce y ahí acaba la pregunta.
+3. **Las posiciones del esquema de rima de la unidad.** El romance no declara extensión —es una
+   serie— y su `[-a]…` es lo único que dice que el ciclo son dos versos.
+4. **Las posiciones del esquema métrico**, cuando es una secuencia.
+5. **El ciclo métrico, aunque tenga una sola posición.** El endecasílabo suelto y la silva
+   endecasilábica son series isosilábicas de rima abierta, y hasta el 19 de agosto de 2026 este
+   paso no existía: sus fichas no decían en ninguna parte cuánto medían sus versos.
+
+**La rima va antes que la métrica por una razón, no por comodidad.** La medida de una forma
+isosilábica se declara como **ciclo de una posición** —«todos los versos son de once»—, y eso no
+dice cuántos versos hay: el soneto declara `11-repetido` más catorce en su unidad, no catorce
+onces. En **21 de las 32 arquitecturas** que declaran las dos cosas la métrica tiene una posición
+y la rima tiene N. Donde la rima cicla, es la única que lleva el periodo.
+
+**De ahí que el romance no declare una sección de dos versos, y no sea un olvido.** Las secciones
+describen **el interior** de una unidad, y el ciclo del romance no tiene interior: sus dos versos
+existen solo porque la rima vuelve. Nombrarlos «pareado» inventaría una parte que nada más
+sostiene —su medida es uniforme— y repetiría lo que ya dicen el ciclo y su enlace. Es distinto
+allí donde el periodo es **también métrico**: el pareado de la silva de consonantes alterna siete
+y once, de modo que la parte existe aunque se quite la rima.
+
+**Repetir una medida no es tener un ciclo.** Una serie isosilábica dibuja su celda con ⟳ porque
+todos sus versos miden igual, y eso es isometría: el perfil no la lee como serie cíclica, que es
+la que arrastra rima de una vuelta a la siguiente.
+
 ## La rima que vuelve se declara; la que se renueva, se deriva
 
 **`esquema_rima_enlaces` declara la conservación, y su ausencia significa renovación.** El
