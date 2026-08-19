@@ -234,6 +234,7 @@ Llevan la prosa revisada, con su migración:
 | Soneto | `20260819140000_el_soneto_dice_la_regla_de_sus_tercetos` |
 | Décima | `20260819150000_la_decima_explica_sus_nombres_y_su_pausa` |
 | Redondilla | `20260819160000_la_redondilla_dice_por_que_su_doble_es_una` |
+| Cuarteto | `20260819170000_el_cuarteto_dice_de_donde_le_vienen_sus_nombres` |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
 en prosa lo que la figura dibuja, porque su función es que una forma se lea de corrido; las de la
