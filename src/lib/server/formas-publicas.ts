@@ -619,7 +619,15 @@ export async function loadPublicForm(
 
 	const rimaEntrada = (e: any, nombreSeccion: string | null): EsquemaRimaEntrada => ({
 		id: String(e.esquema_rima_id),
-		nombre: texto(e.nombre),
+		/**
+		 * El mismo nombre que resuelve la tarjeta, no el crudo de la tabla.
+		 *
+		 * Muchas disposiciones no tienen `nombre` propio y el que les dio la tradición vive como
+		 * denominación: la tarjeta ya resolvía «Sexta rima» para el `ABABCC` del sexteto, pero la
+		 * rejilla leía la columna a secas y pintaba la notación. Resultado: la definición de la
+		 * forma nombraba la sexta rima y la figura no la mencionaba en ninguna parte.
+		 */
+		nombre: texto(e.nombre) ?? nombresDeRima(String(e.esquema_rima_id))[0] ?? null,
 		notacion: texto(e.notacion),
 		seccion: nombreSeccion,
 		modalidad: texto(e.modalidad),

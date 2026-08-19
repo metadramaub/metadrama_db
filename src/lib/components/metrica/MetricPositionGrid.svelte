@@ -249,18 +249,26 @@
 					{#if fila.nombre}<span>{fila.nombre}</span>{:else if fila.notacion}<span
 							class="font-mono">{fila.notacion}</span
 						>{/if}
-					<!-- El nombre que la tradición da a **esta disposición** y no a la forma entera. -->
-					{#if (denominaciones[fila.esquemaRimaId] ?? []).length > 0}
-						<span class="text-[color:var(--muted-foreground)]"
-							>· también {denominaciones[fila.esquemaRimaId].join(' · ')}</span
-						>
-					{/if}
+
 					{#if fila.modalidad}<span class="text-[color:var(--muted-foreground)]"
 							>· {fila.modalidad}</span
 						>{/if}
 					{#if fila.tipoRima}<span class="text-[color:var(--muted-foreground)]"
 							>· {fila.tipoRima}</span
 						>{/if}
+					<!--
+						Los nombres que la tradición da a **esta disposición** y no a la forma entera van
+						en su propia línea y en cursiva. En una sola línea y en el gris de la modalidad
+						se confundían con ella y empujaban la fila hasta el borde: el cuarteto cruzado
+						tiene tres nombres y el sexteto clásico cuatro, sesenta y un caracteres.
+					-->
+					{#if (denominaciones[fila.esquemaRimaId] ?? []).length > 0}
+						<span
+							class="block max-w-[15rem] whitespace-normal italic text-[color:var(--muted-foreground)]"
+						>
+							también {denominaciones[fila.esquemaRimaId].join(' · ')}
+						</span>
+					{/if}
 					<!-- La glosa de la disposición, junto a su nombre. Es de esta fila y de ninguna
 					     otra, así que no necesita ni botón aparte ni columna propia. -->
 					{#if glosas[fila.esquemaRimaId]}
