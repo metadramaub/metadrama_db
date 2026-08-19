@@ -28,7 +28,9 @@
 		pie = true,
 		glosas = {},
 		denominaciones = {},
-		palabraFinal = false
+		palabraFinal = false,
+		cajaSegunMedida = false,
+		rotulos = true
 	}: {
 		rejilla: Rejilla;
 		mostrar?: 'todo' | 'medida' | 'rima';
@@ -51,6 +53,23 @@
 		denominaciones?: Record<string, string[]>;
 		/** La arquitectura repite palabras finales en vez de rimar: la sextina. */
 		palabraFinal?: boolean;
+		/**
+		 * Si la caja de cada clase se deduce de la medida de su verso.
+		 *
+		 * El esquema de rima de una variedad **no puede llevarla**: lo comparten variedades de
+		 * medidas distintas, y la misma `b` cae en endecasílabo en una y en heptasílabo en otra. La
+		 * caja marca el arte del verso, así que solo se sabe aquí, donde medida y rima ya están
+		 * emparejadas.
+		 */
+		cajaSegunMedida?: boolean;
+		/**
+		 * Si cada fila de rima lleva su rótulo a la derecha.
+		 *
+		 * Una variedad ya viene encabezada con su nombre y su modalidad, y el rótulo del esquema
+		 * repetía ahí un nombre interno —«R1»— con **otra** modalidad, la del esquema, que puede no
+		 * coincidir con la de la variedad y se leía como una contradicción.
+		 */
+		rotulos?: boolean;
 	} = $props();
 
 	const columnas = $derived(rejilla.celdas.length);
@@ -58,7 +77,7 @@
 	const conMedida = $derived(mostrar !== 'rima' && rejilla.tieneMedida);
 	const conRima = $derived(mostrar !== 'medida' && filasVisibles.length > 0);
 	/** La columna de rótulos solo existe cuando hay rima que rotular. */
-	const columnaRotulo = $derived(conRima ? 1 : 0);
+	const columnaRotulo = $derived(conRima && rotulos ? 1 : 0);
 
 	/**
 	 * Qué se lee en la casilla de la medida. Un repertorio largo —el pareado admite nueve
@@ -146,6 +165,19 @@
 	 * distinguirse. Las letras las separan y son además la notación con que las fuentes escriben
 	 * el envío de la sextina —«BA-DF-EC»—.
 	 */
+	/**
+	 * La clase con la caja que le corresponde por la medida de su verso: mayúscula en arte mayor.
+	 *
+	 * Nueve sílabas es la frontera. Si la celda no declara una medida única —hay alternativas o no
+	 * hay medida— se deja la clase como viene, porque entonces el arte no está decidido.
+	 */
+	const cajaPorMedida = (clase: string | null, verso: number): string | null => {
+		if (!clase) return clase;
+		const silabas = Number(rejilla.celdas.find((celda) => celda.verso === verso)?.medida?.silabas);
+		if (!Number.isFinite(silabas)) return clase;
+		return silabas >= 9 ? clase.toLocaleUpperCase('es') : clase.toLocaleLowerCase('es');
+	};
+
 	const letraDePalabra = (indice: number): string =>
 		indice < 26 ? String.fromCharCode(65 + indice) : String(indice + 1);
 
@@ -218,12 +250,15 @@
 		{#if conRima}
 			{#each filasVisibles as fila (fila.esquemaRimaId + ':' + fila.desde)}
 				{#each fila.clases as clase, indice (indice)}
+					{@const clasePintada = cajaSegunMedida
+						? cajaPorMedida(clase.clase, fila.desde + indice)
+						: clase.clase}
 					{@const estilo = `${celda} ${alto} ${
 						palabraFinal
 							? 'text-[0.7rem] font-medium text-[color:var(--muted-foreground)]'
 							: clase.suelto
 								? 'text-[color:var(--muted-foreground)]'
-								: `${colorDeRima(clase.clase)} ${esArteMayor(clase.clase) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`
+								: `${colorDeRima(clase.clase)} ${esArteMayor(clasePintada) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`
 					}`}
 					<!--
 						Donde lo que vuelve es la palabra, la celda lleva el número de su palabra final en
@@ -236,7 +271,7 @@
 						? letraDePalabra(indice)
 						: clase.suelto
 							? '–'
-							: (clase.clase ?? '·')}
+							: (clasePintada ?? '·')}
 					{#if clase.nota}
 						<!-- La celda anotada **es** el disparador: la precisión es de ese verso y en
 						     ningún otro sitio se lee mejor. Que se puede pulsar lo dice la marca de

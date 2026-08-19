@@ -995,7 +995,7 @@ export async function loadPublicForm(
 				esquemasRima: rimaAgrupadaPorParte(id),
 				// El árbol conserva contenedores y ordena cada grupo de hermanos por separado.
 				secciones: seccionesDe(id),
-				// Una variedad es un emparejamiento: la medida M1 con la rima R1. Enseñarla como
+				// Una variedad es un emparejamiento: un orden de medidas con una disposición. Enseñarla como
 				// nombre y descripción obligaba a escribir en prosa lo que ya está en los dos
 				// esquemas, y dejaba salir a la web los códigos internos «M1» y «R1».
 				variedades: (variedadesPor.get(id) ?? []).map((v): PublicVariety => {
@@ -1012,12 +1012,34 @@ export async function loadPublicForm(
 								.map((posicion) => posicion.silabas ?? '?')
 								.join('-')
 						: '';
+					/**
+					 * La variedad dibujada, medida y rima verso a verso.
+					 *
+					 * Es la única manera de leerla sin cruzar de memoria dos cadenas: `7-11-7-11-7-11`
+					 * y `ababcc` puestas una al lado de otra obligan a contar posiciones. Y resuelve de
+					 * paso la caja de las clases, que el esquema **no puede llevar** porque lo comparten
+					 * tres variedades con medidas distintas: la misma `b` es endecasílaba en una y
+					 * heptasílaba en otra. La caja marca el arte del verso, así que solo se sabe aquí,
+					 * al emparejar.
+					 */
+					const rejillaDeVariedad =
+						metrico && rima
+							? construirRejilla({
+									metricos: [metricoEntrada(metrico)],
+									rimas: [rimaEntrada(rima, null)],
+									secciones: [],
+									unidadMin: null,
+									unidadMax: null
+								})
+							: null;
+
 					return {
 						nombre: String(v.nombre),
 						descripcion: texto(v.descripcion),
 						modalidad: texto(v.modalidad),
 						medida: medida || null,
-						rima: rima ? (texto(rima.notacion) ?? texto(rima.nombre)) : null
+						rima: rima ? (texto(rima.notacion) ?? texto(rima.nombre)) : null,
+						rejilla: rejillaDeVariedad
 					};
 				}),
 				eligeVariedad: (gruposEleccion as any[]).some(
