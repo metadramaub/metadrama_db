@@ -235,6 +235,7 @@ Llevan la prosa revisada, con su migración:
 | Décima | `20260819150000_la_decima_explica_sus_nombres_y_su_pausa` |
 | Redondilla | `20260819160000_la_redondilla_dice_por_que_su_doble_es_una` |
 | Cuarteto | `20260819170000_el_cuarteto_dice_de_donde_le_vienen_sus_nombres` |
+| Terceto y terceto encadenado | `20260819180000_el_serventesio_final_no_es_obligatorio` |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
 en prosa lo que la figura dibuja, porque su función es que una forma se lea de corrido; las de la
@@ -311,12 +312,20 @@ hacerlas antes obliga a hacerlas dos veces.
    esquema, la densidad declarada o unos esquemas concretos de los que se calcula. El aviso miraba
    solo la primera. Los ocho dejan de saltar, y al callar el ruido **queda a la vista el único
    acierto que tenía**: la `suelta` de la endecha real, un ciclo sin posiciones —punto 4—.
-8bis. **Cuatro formas piden medidas que el catálogo no tiene**, y una pide además un régimen:
-   romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla (hexa y
-   heptasílabas) y décima (tetra, hexa y endecasílabas, **y asonante**). Salió una por una al
+8bis. **Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
+   trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
+   (hexa y heptasílabas), décima (tetra, hexa y endecasílabas, **y asonante**) y terceto (**arte
+   menor, que la tradición llama tercetillo, tercerilla o tercerillo**). Salió una por una al
    revisar su prosa y ya son cuatro seguidas: *conviene decidirlo de una vez.* Cada caso está
    detallado en la sección de su forma en
    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+
+8quater. **El cierre del terceto encadenado dejó de ser obligatorio y hay que revisar dos
+   superficies.** Sus dos arquitecturas declaraban la sección de cierre con `repeticiones_min = 1`,
+   de modo que el catálogo exigía un serventesio —o una redondilla cruzada— al final de toda
+   cadena, y no lo es: la serie puede terminar sin él. Corregido el 19 de agosto de 2026
+   (`20260819180000`). **Quedan por revisar el demarcador y el Editor V2**, que daban el cierre
+   por hecho. *No se tocaron a la vez para no salirse de la revisión del catálogo.*
 
 8ter. **El editor no sabe anotar una décima aumentada entre décimas normales.** El catálogo
    sostiene que no es un error —lo dicen su descripción y Morley y Bruerton—, pero
