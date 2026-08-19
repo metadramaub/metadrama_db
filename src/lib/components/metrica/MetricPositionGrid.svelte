@@ -139,6 +139,16 @@
 	 * Dónde parte una banda que dibuja varias apariciones seguidas de la misma parte, en tanto
 	 * por ciento de su ancho. Ninguna si solo dibuja una.
 	 */
+	/**
+	 * La letra con que se nombra cada palabra final: A, B, C…
+	 *
+	 * Se numeraron primero, y la fila quedaba encima de la de números de verso sin poder
+	 * distinguirse. Las letras las separan y son además la notación con que las fuentes escriben
+	 * el envío de la sextina —«BA-DF-EC»—.
+	 */
+	const letraDePalabra = (indice: number): string =>
+		indice < 26 ? String.fromCharCode(65 + indice) : String(indice + 1);
+
 	const divisionesInteriores = (banda: BandaRejilla): number[] => {
 		const apariciones = banda.apariciones ?? 1;
 		if (apariciones < 2) return [];
@@ -209,11 +219,24 @@
 			{#each filasVisibles as fila (fila.esquemaRimaId + ':' + fila.desde)}
 				{#each fila.clases as clase, indice (indice)}
 					{@const estilo = `${celda} ${alto} ${
-						clase.suelto
-							? 'text-[color:var(--muted-foreground)]'
-							: `${colorDeRima(clase.clase)} ${esArteMayor(clase.clase) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`
+						palabraFinal
+							? 'text-[0.7rem] font-medium text-[color:var(--muted-foreground)]'
+							: clase.suelto
+								? 'text-[color:var(--muted-foreground)]'
+								: `${colorDeRima(clase.clase)} ${esArteMayor(clase.clase) ? 'text-[0.8rem] font-bold' : 'text-[0.7rem] font-medium'}`
 					}`}
-					{@const rotulo = clase.suelto ? '–' : (clase.clase ?? '·')}
+					<!--
+						Donde lo que vuelve es la palabra, la celda lleva el número de su palabra final en
+						vez del guion. El guion no solo se quedaba corto: decía «verso suelto, no rima» de
+						los versos más trabados del catálogo. Numerarlos dice lo que la primera estrofa
+						hace —fijar seis palabras en orden— y prepara la permutación que explican la
+						definición y la repetición.
+					-->
+					{@const rotulo = palabraFinal
+						? letraDePalabra(indice)
+						: clase.suelto
+							? '–'
+							: (clase.clase ?? '·')}
 					{#if clase.nota}
 						<!-- La celda anotada **es** el disparador: la precisión es de ese verso y en
 						     ningún otro sitio se lee mejor. Que se puede pulsar lo dice la marca de
@@ -239,7 +262,11 @@
 						<div
 							class={estilo}
 							style="grid-column: {fila.desde + indice};"
-							title={clase.suelto ? 'Verso suelto: no rima' : `Clase de rima ${clase.clase}`}
+							title={palabraFinal
+								? `Palabra final ${letraDePalabra(indice)}`
+								: clase.suelto
+									? 'Verso suelto: no rima'
+									: `Clase de rima ${clase.clase}`}
 						>
 							{rotulo}
 						</div>
