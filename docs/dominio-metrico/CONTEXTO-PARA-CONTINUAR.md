@@ -232,6 +232,7 @@ Llevan la prosa revisada, con su migración:
 | Quintilla | `20260819090000_la_quintilla_se_define_por_lo_que_evita` (+ `20260819100000`) |
 | Silva | `20260819110000_la_silva_dice_donde_acaba_y_que_la_separa_del_pareado` (+ `20260819120000`, `20260819130000`) |
 | Soneto | `20260819140000_el_soneto_dice_la_regla_de_sus_tercetos` |
+| Décima | `20260819150000_la_decima_explica_sus_nombres_y_su_pausa` |
 
 **Tras cada migración, `npm run audit:metrica` debe dar 0 defectos** —necesita Docker levantado,
 porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en esta fase, leerlas
@@ -301,6 +302,19 @@ hacerlas antes obliga a hacerlas dos veces.
    esquema, la densidad declarada o unos esquemas concretos de los que se calcula. El aviso miraba
    solo la primera. Los ocho dejan de saltar, y al callar el ruido **queda a la vista el único
    acierto que tenía**: la `suelta` de la endecha real, un ciclo sin posiciones —punto 4—.
+8bis. **Cuatro formas piden medidas que el catálogo no tiene**, y una pide además un régimen:
+   romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla (hexa y
+   heptasílabas) y décima (tetra, hexa y endecasílabas, **y asonante**). Salió una por una al
+   revisar su prosa y ya son cuatro seguidas: *conviene decidirlo de una vez.* Cada caso está
+   detallado en la sección de su forma en
+   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+
+8ter. **El editor no sabe anotar una décima aumentada entre décimas normales.** El catálogo
+   sostiene que no es un error —lo dicen su descripción y Morley y Bruerton—, pero
+   `secuencias_editor_metrico` lleva una sola arquitectura por secuencia, así que solo cabe
+   partir el pasaje o registrarla como desviación `estructura` / `mayor_que_norma`, que es
+   anotarla como el error que no es. **⇒ Editor V2.**
+
 8. **Dos cosas del soneto**, en
    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto): si sus cuartetos
    podrían heredar la disposición del cuarteto y declarar la identidad con un enlace, y **la

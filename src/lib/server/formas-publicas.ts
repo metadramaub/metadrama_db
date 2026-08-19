@@ -639,6 +639,25 @@ export async function loadPublicForm(
 		}))
 	});
 
+	/**
+	 * Si una parte hereda de verdad la rima de la arquitectura que reutiliza.
+	 *
+	 * No la hereda si la declara ella —tiene esquemas con su `seccion_id`— ni si la declara la
+	 * arquitectura entera con un esquema que abarca todos los versos. Es la misma condición con
+	 * que se decide prestarle o no el repertorio ajeno, leída aquí para el rótulo.
+	 */
+	const rimaHeredada = (arquitecturaId: string, seccion: any): boolean => {
+		if (!seccion.arquitectura_referenciada_id) return false;
+		const deLaArquitectura = (esquemasRima as any[]).filter(
+			(er) => String(er.arquitectura_id) === arquitecturaId
+		);
+		const propios = deLaArquitectura.some(
+			(er) => er.seccion_id && String(er.seccion_id) === String(seccion.seccion_id)
+		);
+		const laUnidadDeclara = deLaArquitectura.some((er) => !er.seccion_id);
+		return !propios && !laUnidadDeclara;
+	};
+
 	/** La medida y la rima que una parte hereda de la arquitectura que reutiliza. */
 	const reutilizadaPorId = new Map(
 		((arquitecturasReutilizadas ?? []) as any[]).map((row) => [String(row.arquitectura_id), row])
@@ -660,19 +679,18 @@ export async function loadPublicForm(
 				repeticionesMin: numero(s.repeticiones_min),
 				repeticionesMax: numero(s.repeticiones_max),
 				/**
-				 * El rótulo bajo la banda dice «rima como X», y eso solo es cierto cuando la parte
-				 * **no** declara su propia rima. En diecisiete de las dieciocho secciones que
-				 * reutilizan otra arquitectura lo es; en las dos del soneto no, porque los cuartetos
-				 * y los tercetos traen sus propios esquemas y lo que heredan es la medida, la
-				 * extensión y la identidad. Que la parte se estructura como esa forma lo dice ya la
-				 * fila «Partes», así que aquí se calla en vez de decirlo mal.
+				 * El rótulo bajo la banda dice «rima como X», y eso solo es cierto **cuando la rima
+				 * se hereda de verdad**. Deja de serlo por dos caminos, y los dos se ven en el
+				 * catálogo: cuando la parte trae sus propios esquemas —los cuartetos y los tercetos
+				 * del soneto— y cuando la rima la declara la arquitectura entera para todos sus
+				 * versos —el `abba:accddc` de la décima, que además **no admite** la cruzada que la
+				 * redondilla sí—. En los dos casos la parte hereda la medida, la extensión y la
+				 * identidad, no la rima. Que se estructura como esa forma lo dice ya la fila
+				 * «Partes», así que aquí se calla en vez de decirlo mal.
 				 */
-				reutiliza:
-					(esquemasRima as any[]).some(
-						(er) => er.seccion_id && String(er.seccion_id) === String(s.seccion_id)
-					)
-						? null
-						: reutilizacionDe(s.arquitectura_referenciada_id)
+				reutiliza: rimaHeredada(arquitecturaId, s)
+					? reutilizacionDe(s.arquitectura_referenciada_id)
+					: null
 			}));
 
 		// Qué parte ofrece cada disposición. Un esquema puede no declarar `seccion_id` y aun así

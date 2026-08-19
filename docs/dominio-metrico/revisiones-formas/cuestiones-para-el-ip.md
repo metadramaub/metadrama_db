@@ -749,6 +749,32 @@ ha aplicado**: sigue siendo una sola forma.
 
 ## Décima
 
+*Prosa revisada el 19 de agosto de 2026
+(`20260819150000_la_decima_explica_sus_nombres_y_su_pausa`).*
+
+1. **Faltan medidas y falta un régimen.** Jauralde registra décimas **tetrasílabas, hexasílabas
+   y endecasílabas**, y además **décimas rimadas en asonante**. El catálogo solo tiene la
+   octosilábica consonante, en dos arquitecturas.
+
+   **Es la cuarta forma seguida con este patrón** —romance (penta y tetrasílabos), sextilla
+   (tetra y pentasílabas), quintilla (hexa y heptasílabas) y ahora la décima—, de modo que ya no
+   es un caso suelto: *conviene decidirlo de una vez para las cuatro, y no forma a forma.* Lo que
+   la décima añade de nuevo es que aquí **no falta solo una medida sino un régimen**: una décima
+   asonante no cabe en ninguna de sus dos arquitecturas, que son consonantes, y admitirla
+   obligaría a la forma a declarar dos regímenes.
+
+2. **El editor no sabe anotar una aumentada entre décimas normales, y el catálogo dice que no es
+   un error.** La descripción de la arquitectura y la afirmación de Morley y Bruerton coinciden
+   en que la aumentada «aparece intercalada entre décimas normales» y es «demasiado frecuente
+   para considerarla defectuosa». Pero `secuencias_editor_metrico` lleva **un solo
+   `arquitectura_id` por secuencia**, así que hoy solo caben dos salidas y ninguna dice lo que el
+   catálogo sostiene: partir el pasaje en tres secuencias —décimas, aumentada, décimas— o
+   registrarla como **desviación** de dimensión `estructura` y relación `mayor_que_norma`, que es
+   anotarla precisamente como el error que no es.
+
+   *Planteado por el IP el 19 de agosto de 2026 al leer la descripción.* **⇒ toca el Editor V2**,
+   así que va con el resto de lo que se revisará cuando el modelo esté cerrado.
+
 **Qué tiene hoy el catálogo:** dos arquitecturas, `espinela` (principal) y `aumentada`, y una
 relación `sucede_historicamente_a` hacia la copla real. **No declara ninguna denominación**, de
 modo que «Décima aumentada» es hoy el nombre de una arquitectura, no un alias.
@@ -1108,6 +1134,11 @@ reutilizan el cuarteto y el terceto.
    `excepcional` dentro del soneto, así que el soneto necesita su propio juicio— y **los tercetos
    no pueden hacerlo de ninguna manera**, porque `CDC` y `DCD` son disposiciones distintas y no
    una repetida. Declarar los cuartetos como los tercetos es, por eso, coherencia y no descuido.
+
+   *Decisión del IP el 19 de agosto: **se queda como está**, por ser lo más limpio, **asumiendo
+   que falsea un poco la realidad**: los cuartetos del soneto riman así porque son cuartetos, y el
+   catálogo lo cuenta como si la disposición naciera en el soneto. Es el precio de que la
+   identidad entre los dos no tenga hoy otra manera de decirse.*
 
 3. ~~**¿Tienen los tercetos del soneto una sección propia de seis versos?**~~ **Resuelto el 10 de
    agosto de 2026: no, y el problema era otro.** Los cuatro esquemas de tercetos tenían sus seis
