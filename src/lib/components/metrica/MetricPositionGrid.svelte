@@ -26,7 +26,8 @@
 		bandas = true,
 		compacta = false,
 		pie = true,
-		glosas = {}
+		glosas = {},
+		denominaciones = {}
 	}: {
 		rejilla: Rejilla;
 		mostrar?: 'todo' | 'medida' | 'rima';
@@ -45,6 +46,8 @@
 		pie?: boolean;
 		/** Glosa abierta de cada disposición, por identificador de esquema. */
 		glosas?: Record<string, string | null>;
+		/** Los otros nombres de cada disposición: «cuarteta» es la redondilla cruzada. */
+		denominaciones?: Record<string, string[]>;
 	} = $props();
 
 	const columnas = $derived(rejilla.celdas.length);
@@ -246,6 +249,12 @@
 					{#if fila.nombre}<span>{fila.nombre}</span>{:else if fila.notacion}<span
 							class="font-mono">{fila.notacion}</span
 						>{/if}
+					<!-- El nombre que la tradición da a **esta disposición** y no a la forma entera. -->
+					{#if (denominaciones[fila.esquemaRimaId] ?? []).length > 0}
+						<span class="text-[color:var(--muted-foreground)]"
+							>· también {denominaciones[fila.esquemaRimaId].join(' · ')}</span
+						>
+					{/if}
 					{#if fila.modalidad}<span class="text-[color:var(--muted-foreground)]"
 							>· {fila.modalidad}</span
 						>{/if}
