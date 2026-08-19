@@ -274,6 +274,15 @@ ninguna de las dos y no está en el catálogo; la descripción de la arquitectur
    tipo no cambia de régimen, solo de sitio las rimas. Cabría por tanto como quinta arquitectura
    sin tocar la cabecera de la forma.
 
+   **Y no es ninguna de las cuatro que ya hay, ni un valor de rasgo que estas admitan.** No es la
+   `Consonante regular`, que es la silva 1.ª y son pareados `aAbBcC`. Y no cabe en las abiertas
+   por una razón estructural: **`consonante-orden-libre` no tiene posiciones**, de modo que no
+   puede declarar que la rima caiga en los pares. Tampoco encaja en `Libre`, porque con los
+   impares sueltos la densidad no llega a `mayoritaria`, que es el mínimo que esa arquitectura
+   admite. *Estructuralmente es la figura del romance —`[-a]…`— pero consonante y heterométrica,
+   y por eso la pregunta de si la acerca al romance heroico no es retórica: requeriría un esquema
+   cíclico con posiciones, que es lo que ninguna silva tiene hoy.*
+
 4bis. **La silva arromanzada es otra cosa, y por eso se separa de la duda anterior.** El
    *Diccionario* la recoge (entrada «silva arromanzada», p. 395): todos los versos pares con una
    misma rima **asonante**. No es una arquitectura más sino **un régimen nuevo en la forma**: las
