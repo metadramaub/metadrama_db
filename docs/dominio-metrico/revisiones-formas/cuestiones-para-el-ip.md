@@ -966,6 +966,31 @@ con relación `derivada_de` hacia esta.
    para distinguirlo de la lira de cinco versos, y se registra que algunos lo llaman solo
    «Lira» —véase [Sexteto-lira](#sexteto-lira) 4—.
 
+## Lira y sexteto-lira
+
+*Prosa revisada el 19 de agosto de 2026
+(`20260819200000_la_lira_dice_de_donde_viene_su_nombre` y `20260819210000`).*
+
+1. **Las formas aliradas se deciden aparte y en conjunto.** El IP tiene dudas sobre cómo integrar
+   la **octava lira**, la **novena lira** y las demás. *Es una decisión transversal —toca a la
+   lira, al sexteto-lira, a la canción alirada que ya aparece en las fuentes de la canción y
+   probablemente al sexteto— y de modelo, no de prosa, así que no se resuelve dentro de la
+   revisión de una forma.* Queda para abrirlo con contexto propio cuando termine la pasada por las
+   formas. Nada de lo escrito el 19 de agosto cierra puertas: la definición de la lira dice que de
+   ella salen «el sexteto-lira y las estrofas aliradas en general», que vale igual si luego entran
+   dos formas más.
+
+2. **El sexteto simétrico `abC:abC` de san Juan de la Cruz no está.** Lo documenta Navarro Tomás
+   junto al sexteto-lira, y **ninguna de las siete variedades lo acoge**: las siete cierran en
+   pareado y esta no. *Si entra, es una variedad más o una arquitectura aparte, según se decida si
+   el pareado final es definitorio del sexteto-lira.* Va con el punto anterior.
+
+3. **El grupo de elección se llama `tipologia` y lo que ofrece son variedades.** Es solo el slug
+   interno —nada del código lo lee, comprobado— pero arrastra la confusión que la definición de la
+   forma acaba de deshacer: una tipología es una disposición de rima, como las ocho de la
+   quintilla, y una variedad empareja medida **y** rima. *Renombrarlo a `variedad` es una línea y
+   no afecta a ninguna anotación, porque las elecciones apuntan al dato elegido y no al grupo.*
+
 ## Sexteto
 
 *Revisado el 8 de agosto de 2026. Su ficha ya se retiró.*

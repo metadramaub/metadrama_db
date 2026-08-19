@@ -331,16 +331,38 @@
 				<tr class="border-t border-[color:var(--border)]">
 					{@render dimension('Variedades', medidaDeterminada)}
 					<td class="py-2.5 align-top">
-						<ul class="space-y-1">
+						<!--
+							Una variedad empareja medida y rima, así que se dibuja como todo lo demás de la
+							ficha: las dos alineadas verso a verso. Antes se leía «A1 · aBaBcC», luego
+							`7-11-7-11-7-11` y luego `ababcc` en tres columnas, y había que cruzarlas de
+							memoria; encima la última va sin caja, porque el esquema lo comparten tres
+							variedades de medidas distintas y la caja depende de la medida. Dibujadas
+							juntas, la caja se deduce y las tres columnas sobran.
+						-->
+						<ul class="space-y-3">
 							{#each arquitectura.variedades as variedad, i (`v:${i}`)}
-								<li class="flex flex-wrap items-baseline gap-x-3">
-									<span class="min-w-36 font-medium">{variedad.nombre}</span>
-									{#if variedad.medida}<span class="font-mono text-xs">{variedad.medida}</span>{/if}
-									{#if variedad.rima}<span class="font-mono text-xs">{variedad.rima}</span>{/if}
-									{#if variedad.modalidad}
-										<span class="text-xs text-[color:var(--muted-foreground)]">
-											· {variedad.modalidad}
-										</span>
+								<li>
+									<p class="text-xs">
+										<span class="font-medium">{variedad.nombre}</span>
+										{#if variedad.modalidad}
+											<span class="text-[color:var(--muted-foreground)]">
+												· {variedad.modalidad}
+											</span>
+										{/if}
+									</p>
+									{#if variedad.rejilla}
+										<div class="mt-1">
+											<MetricPositionGrid
+												rejilla={variedad.rejilla}
+												bandas={false}
+												pie={false}
+												cajaSegunMedida
+											/>
+										</div>
+									{:else}
+										<p class="font-mono text-xs">
+											{[variedad.medida, variedad.rima].filter(Boolean).join(' · ')}
+										</p>
 									{/if}
 								</li>
 							{/each}

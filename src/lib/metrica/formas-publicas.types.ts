@@ -233,6 +233,13 @@ export type PublicVariety = {
 	medida: string | null;
 	/** La disposición de rima que emparejan: `ababcc`. */
 	rima: string | null;
+	/**
+	 * La variedad dibujada verso a verso, con su medida y su rima alineadas.
+	 *
+	 * Es donde se resuelve la caja de las clases: el esquema no puede llevarla porque lo comparten
+	 * variedades de medidas distintas, y la caja marca el arte del verso.
+	 */
+	rejilla: Rejilla | null;
 };
 
 export type PublicArchitecture = {
