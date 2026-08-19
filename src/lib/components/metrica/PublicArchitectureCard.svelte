@@ -502,12 +502,23 @@
 						<ul class="space-y-1">
 							{#each repeticionesNorma as repeticion, i (`rn:${i}`)}
 								<li>
-								<span class="font-medium">{repeticion.nombre}</span>
-								{#if repeticion.descripcion}
-									<InlineNotePopover
-										text={repeticion.descripcion}
-										label={`Mostrar explicación de ${repeticion.nombre}`}
-									/>
+									<span class="font-medium">{repeticion.nombre}</span>
+									<!--
+										La explicación de una repetición vive tras el icono porque la figura suele
+										contarla: el estribillo del villancico tiene su banda y su ciclo. La de la
+										sextina no tiene figura posible —la rejilla dibuja una estrofa y la
+										permutación necesita las seis—, así que ahí es lo único que hay y se lee
+										sin pulsar.
+									-->
+									{#if repeticion.descripcion && repeticion.tipo === 'palabra_final'}
+										<span class="block text-[color:var(--muted-foreground)]">
+											{@html renderInlineMarkdown(repeticion.descripcion)}
+										</span>
+									{:else if repeticion.descripcion}
+										<InlineNotePopover
+											text={repeticion.descripcion}
+											label={`Mostrar explicación de ${repeticion.nombre}`}
+										/>
 									{/if}
 								</li>
 							{/each}
