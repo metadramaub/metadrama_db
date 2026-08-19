@@ -151,6 +151,17 @@
 	 * ninguna parte**: la ficha de la redondilla enseñaba dos fuentes discutiendo la cuarteta sin
 	 * que la palabra apareciera en la figura.
 	 */
+	/**
+	 * Si lo que vuelve en esta arquitectura son palabras y no rimas.
+	 *
+	 * La sextina dibuja seis guiones bajo «Sin rima», que es cierto y deja al lector sin saber qué
+	 * la sostiene. Lo dice la fila «Repetición», pero queda más abajo y tras un icono, así que la
+	 * rejilla lo imprime también al pie, junto al dibujo que lo provoca.
+	 */
+	const palabraFinal = $derived(
+		arquitectura.repeticiones.some((repeticion) => repeticion.tipo === 'palabra_final')
+	);
+
 	const denominacionesDeRima = $derived(
 		Object.fromEntries(
 			arquitectura.esquemasRima
@@ -407,6 +418,7 @@
 									bandas={i === gruposDeRima.length - 1}
 									{glosas}
 									denominaciones={denominacionesDeRima}
+									{palabraFinal}
 								/>
 							</div>
 						{/each}

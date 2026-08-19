@@ -537,6 +537,26 @@ isométricas ofrecen los dos esquemas, `abba` y `abab`, y el editor elige uno **
    la lírica romántica. *Es forma de otro periodo; la duda es si el catálogo la nombra como
    pariente de la redondilla doble o la deja fuera.*
 
+## Sextina
+
+*Las dos formas —la composición y su estrofa— revisadas el 19 de agosto de 2026
+(`20260819190000_la_sextina_dice_que_lo_que_vuelve_es_la_palabra`).*
+
+1. **Son las dos únicas formas del catálogo con tres tradiciones** —provenzal, italiana y
+   española— y conviene mirarlo. Es cierto en la historia: la inventó Arnaut Daniel en provenzal,
+   la fijaron Dante y Petrarca en italiano y entró en España en el siglo XVI. Pero **ninguna otra
+   forma declara más de una**, incluidas las que tienen recorrido comparable —el soneto es solo
+   «italiana» y llegó por el mismo camino—. *La duda es si «tradición» quiere decir aquí el origen
+   remoto o la vía por la que entra en la métrica española, y si esas tres deben quedarse o
+   reducirse a la que la trajo.* Salió al arreglar la cabecera, que unía las tres con «y» y leía
+   «tradición provenzal y italiana y española».
+
+2. **El nombre repetido no se toca.** Composición y estrofa se llaman las dos «Sextina», y el
+   lector que sigue el enlace aterriza en una página con el mismo título. *Decisión del IP el 19
+   de agosto: se queda así, porque el nivel estructural desambigua —en `/formas`, en la cabecera
+   de cada ficha y en los desplegables—.* Lo que sí hay pendiente es una mejora de interfaz
+   general para que ese nivel se lea más claro dentro de la ficha, y va aparte de esta revisión.
+
 ## Terceto
 
 *Prosa revisada el 19 de agosto de 2026, junto con el modelo de su relación con el terceto

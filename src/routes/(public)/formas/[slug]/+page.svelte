@@ -3,6 +3,15 @@
 	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
 	import PublicArchitectureCard from '$lib/components/metrica/PublicArchitectureCard.svelte';
 	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
+	/**
+	 * Una enumeración en castellano: comas y una «y» final.
+	 *
+	 * Se unían todas con « y », y las dos sextinas —las únicas del catálogo con tres tradiciones—
+	 * leían «tradición provenzal y italiana y española».
+	 */
+	const enumerar = (partes: string[]): string =>
+		partes.length < 2 ? (partes[0] ?? '') : `${partes.slice(0, -1).join(', ')} y ${partes.at(-1)}`;
+
 
 	/**
 	 * Ficha de una forma, generada del catálogo. No hay texto redactado aquí: si algo falta o se
@@ -63,7 +72,7 @@
 			{forma.tipoRegistro === 'forma' ? 'Forma' : 'Tramo sin forma'} · {metricStructuralLevelLabel(
 				forma.nivelEstructural
 			)}{forma.tradiciones.length > 0
-				? ` · tradición ${forma.tradiciones.join(' y ').toLowerCase()}`
+				? ` · tradición ${enumerar(forma.tradiciones).toLowerCase()}`
 				: ''}{forma.tiposRima.length > 0 ? ` · rima ${forma.tiposRima.join(' o ')}` : ''}
 		</p>
 		{#if forma.definicion}
