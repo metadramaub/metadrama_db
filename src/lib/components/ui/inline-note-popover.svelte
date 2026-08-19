@@ -32,31 +32,55 @@
 	let lado = $state<'arriba' | 'abajo'>('arriba');
 	let izquierda = $state(0);
 	let arriba = $state(0);
+	/** Tope de altura cuando la nota no cabe entera en el hueco elegido. */
+	let maxAlto = $state<number | null>(null);
 
 	const margen = 8;
 	const separacion = 6;
 
+	/**
+	 * Coloca la burbuja donde más sitio hay.
+	 *
+	 * Antes prefería siempre arriba y solo bajaba si no cabía, de modo que una nota larga en la
+	 * mitad superior de la pantalla se quedaba arriba a la fuerza y se recortaba contra el borde.
+	 * Ahora se mide el hueco por los dos lados y gana el mayor cuando en ninguno cabe entera; la
+	 * burbuja se limita entonces a ese hueco y su texto se desplaza dentro.
+	 */
 	function colocar() {
 		if (!root || !bubble) return;
 		const disparador = root.getBoundingClientRect();
+
+		// Se mide con el tope de altura levantado: si no, la medición devuelve el tope anterior
+		// y la burbuja se va encogiendo a cada recolocación.
+		maxAlto = null;
 		const ancho = bubble.offsetWidth;
-		const alto = bubble.offsetHeight;
-		const izquierdaIdeal = disparador.right - ancho;
+		const alto = bubble.scrollHeight;
+
+		// Se abre **hacia la derecha** del icono, que es el sentido de lectura, y solo se vuelca
+		// hacia la izquierda cuando por la derecha no cabe.
+		const haciaLaDerecha = disparador.left;
+		const haciaLaIzquierda = disparador.right - ancho;
+		const cabeALaDerecha = haciaLaDerecha + ancho <= window.innerWidth - margen;
 		izquierda = Math.min(
-			Math.max(izquierdaIdeal, margen),
+			Math.max(cabeALaDerecha ? haciaLaDerecha : haciaLaIzquierda, margen),
 			Math.max(margen, window.innerWidth - margen - ancho)
 		);
 
-		const sobre = disparador.top - separacion - alto;
-		const debajo = disparador.bottom + separacion;
-		const cabeSobre = sobre >= margen;
-		const cabeDebajo = debajo + alto <= window.innerHeight - margen;
-		lado = cabeSobre || !cabeDebajo ? 'arriba' : 'abajo';
-		const arribaIdeal = lado === 'arriba' ? sobre : debajo;
-		arriba = Math.min(
-			Math.max(arribaIdeal, margen),
-			Math.max(margen, window.innerHeight - margen - alto)
-		);
+		const huecoArriba = disparador.top - separacion - margen;
+		const huecoAbajo = window.innerHeight - disparador.bottom - separacion - margen;
+
+		if (alto <= huecoArriba) lado = 'arriba';
+		else if (alto <= huecoAbajo) lado = 'abajo';
+		else lado = huecoArriba >= huecoAbajo ? 'arriba' : 'abajo';
+
+		const hueco = lado === 'arriba' ? huecoArriba : huecoAbajo;
+		maxAlto = alto > hueco ? Math.max(hueco, 64) : null;
+
+		const altoFinal = maxAlto ?? alto;
+		arriba =
+			lado === 'arriba'
+				? Math.max(disparador.top - separacion - altoFinal, margen)
+				: Math.min(disparador.bottom + separacion, window.innerHeight - margen - altoFinal);
 	}
 
 	async function alternar() {
@@ -108,8 +132,8 @@
 	</button>
 	{#if abierto}
 		<span
-			class="fixed z-40 w-max min-w-52 max-w-[min(22rem,calc(100vw-1rem))] border border-[color:var(--border)] bg-white px-3 py-2 text-left text-xs font-normal leading-5 text-[color:var(--foreground)] shadow-md"
-			style={`left:${izquierda}px;top:${arriba}px`}
+			class="fixed z-40 w-max min-w-52 max-w-[min(22rem,calc(100vw-1rem))] overflow-y-auto whitespace-normal break-words border border-[color:var(--border)] bg-white px-3 py-2 text-left text-xs font-normal leading-5 text-[color:var(--foreground)] shadow-md"
+			style={`left:${izquierda}px;top:${arriba}px${maxAlto === null ? '' : `;max-height:${maxAlto}px`}`}
 			role="tooltip"
 			data-side={lado}
 			bind:this={bubble}
