@@ -158,6 +158,16 @@
 	 * la sostiene. Lo dice la fila «Repetición», pero queda más abajo y tras un icono, así que la
 	 * rejilla lo imprime también al pie, junto al dibujo que lo provoca.
 	 */
+	/**
+	 * El código de una variedad, sin la notación que lleva detrás.
+	 *
+	 * Se llaman «A1 · aBaBcC», y aquí la notación sobra porque la rejilla la dibuja justo debajo y
+	 * con la caja ya deducida de la medida. **En el editor no sobra**: allí la opción se lee sin
+	 * dibujo al lado y «A1» a secas sería opaco, así que el nombre guardado se queda entero y es
+	 * la ficha la que se queda con la primera parte.
+	 */
+	const codigoDeVariedad = (nombre: string): string => nombre.split(' · ')[0].trim() || nombre;
+
 	const palabraFinal = $derived(
 		arquitectura.repeticiones.some((repeticion) => repeticion.tipo === 'palabra_final')
 	);
@@ -343,7 +353,7 @@
 							{#each arquitectura.variedades as variedad, i (`v:${i}`)}
 								<li>
 									<p class="text-xs">
-										<span class="font-medium">{variedad.nombre}</span>
+										<span class="font-medium">{codigoDeVariedad(variedad.nombre)}</span>
 										{#if variedad.modalidad}
 											<span class="text-[color:var(--muted-foreground)]">
 												· {variedad.modalidad}
@@ -356,6 +366,8 @@
 												rejilla={variedad.rejilla}
 												bandas={false}
 												pie={false}
+												modalidades={false}
+												prefijoDeFila="esquema"
 												cajaSegunMedida
 											/>
 										</div>
