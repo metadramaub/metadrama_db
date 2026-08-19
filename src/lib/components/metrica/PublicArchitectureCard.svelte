@@ -144,6 +144,22 @@
 	);
 
 	/**
+	 * Los otros nombres de cada disposición, para que la rejilla los ponga junto al suyo.
+	 *
+	 * `denominaciones_metricas` los guarda con `esquema_rima_id` y el tipo los trae desde el
+	 * principio —«cuarteta» es la redondilla cruzada, no la redondilla—, pero **no se pintaban en
+	 * ninguna parte**: la ficha de la redondilla enseñaba dos fuentes discutiendo la cuarteta sin
+	 * que la palabra apareciera en la figura.
+	 */
+	const denominacionesDeRima = $derived(
+		Object.fromEntries(
+			arquitectura.esquemasRima
+				.filter((esquema) => esquema.denominaciones.length > 0)
+				.map((esquema) => [esquema.id, esquema.denominaciones])
+		)
+	);
+
+	/**
 	 * A partir de cuántos valores un rasgo excluyente pasa de lista en columna a fila envuelta.
 	 *
 	 * Los dos o tres valores de un rasgo ordinario piden una línea cada uno, porque llevan detrás
@@ -390,6 +406,7 @@
 									numeros={i === gruposDeRima.length - 1}
 									bandas={i === gruposDeRima.length - 1}
 									{glosas}
+									denominaciones={denominacionesDeRima}
 								/>
 							</div>
 						{/each}

@@ -233,6 +233,14 @@ Llevan la prosa revisada, con su migración:
 | Silva | `20260819110000_la_silva_dice_donde_acaba_y_que_la_separa_del_pareado` (+ `20260819120000`, `20260819130000`) |
 | Soneto | `20260819140000_el_soneto_dice_la_regla_de_sus_tercetos` |
 | Décima | `20260819150000_la_decima_explica_sus_nombres_y_su_pausa` |
+| Redondilla | `20260819160000_la_redondilla_dice_por_que_su_doble_es_una` |
+
+**Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
+en prosa lo que la figura dibuja, porque su función es que una forma se lea de corrido; las de la
+seguidilla son el modelo. La regla de no escribir lo derivado se aplica con severidad a las
+**notas** —de posición, de sección, de rasgo, y las descripciones de esquema—, no a ellas. Y su
+prosa no usa lenguaje de base de datos ni da por supuesto el Siglo de Oro: el catálogo aspira a
+ser más general que el corpus.
 
 **Tras cada migración, `npm run audit:metrica` debe dar 0 defectos** —necesita Docker levantado,
 porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en esta fase, leerlas
