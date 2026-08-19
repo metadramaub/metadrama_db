@@ -112,6 +112,23 @@
 		rejilla.enlaces.filter((enlace) => enlace.sentido !== 'interior')
 	);
 
+	/**
+	 * Un ciclo que rima y no declara ningún enlace **renueva** su rima en cada vuelta.
+	 *
+	 * El modelo declara la conservación en positivo, con `esquema_rima_enlaces`: por eso el
+	 * romance dice «El verso 2 conserva su rima en cada repetición». La renovación era su
+	 * silencio, y el silencio no se distingue de un dato que falta. Aquí se dice.
+	 *
+	 * La condición de que rime no sobra: la `suelta` de la endecha real es un ciclo `[----]…` sin
+	 * ninguna clase, y hablar allí de renovar la rima no significaría nada.
+	 */
+	const renuevaLaRima = $derived(
+		rejilla.cicla &&
+			!rejilla.cicloSoloMetrico &&
+			enlacesEntreRepeticiones.length === 0 &&
+			filasVisibles.some((fila) => fila.clases.some((clase) => clase.clase && !clase.suelto))
+	);
+
 	const PREPOSICIONES = new Set(['de', 'del', 'con', 'en', 'por', 'a', 'al', 'y', 'o', 'sin']);
 
 	/**
@@ -320,6 +337,9 @@
 		{/if}
 		{#if rejilla.recortada}
 			<p>Se dibujan las {columnas} primeras posiciones.</p>
+		{/if}
+		{#if renuevaLaRima}
+			<p>La rima se renueva en cada repetición.</p>
 		{/if}
 		{#each enlacesEntreRepeticiones as enlace, indice (indice)}
 			<p>

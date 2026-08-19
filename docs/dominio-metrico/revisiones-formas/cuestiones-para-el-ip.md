@@ -270,9 +270,22 @@ ninguna de las dos y no está en el catálogo; la descripción de la arquitectur
    migración: no se declaró nunca. *Si entra, es una arquitectura más, y hay que decidir si su
    rima en los pares la acerca al romance heroico.*
 
-   Junto a ella conviene decidir la **silva arromanzada** o silva-romance, que el *Diccionario*
-   recoge (p. 395) y tampoco está: todos los versos pares con una misma rima **asonante**. Las
-   cuatro arquitecturas del catálogo son consonantes, así que ninguna la acoge.
+   **Es consonante**, como las otras tres de M&B: describen silvas de consonantes y su cuarto
+   tipo no cambia de régimen, solo de sitio las rimas. Cabría por tanto como quinta arquitectura
+   sin tocar la cabecera de la forma.
+
+4bis. **La silva arromanzada es otra cosa, y por eso se separa de la duda anterior.** El
+   *Diccionario* la recoge (entrada «silva arromanzada», p. 395): todos los versos pares con una
+   misma rima **asonante**. No es una arquitectura más sino **un régimen nuevo en la forma**: las
+   cuatro actuales son consonantes y la cabecera de la ficha anuncia «rima Consonante», de modo
+   que admitirla obligaría a que la silva declarara dos regímenes, como ya hacen la canción
+   petrarquista y el villancico. *Documentada aquí a la espera de decidir si entra; la afirmación
+   del* Diccionario *ya está registrada en la ficha.*
+
+   Y una tercera de la misma familia, para no perderla: la **silva 1.ª de M&B** es la que ellos
+   mismos dicen que «se podría llamar pareados de 7 y 11». Eso no abre duda —el catálogo la
+   recoge como `Consonante regular` y la relación con el pareado explica el corte— pero conviene
+   saber que el solape lo reconoce la fuente, no lo inventa el catálogo.
 
 5. **¿La silva exige rima?** El *Diccionario* admite como silva la combinación de 7 y 11 sin
    rima. El catálogo no, y la definición lo dice expresamente: «un pasaje de siete y once

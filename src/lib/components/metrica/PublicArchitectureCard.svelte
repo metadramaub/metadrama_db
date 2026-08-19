@@ -212,6 +212,8 @@
 			bandas: [],
 			enlaces: [],
 			cicla: esquema.cicla,
+			// Es la rima la que cicla aquí, no una medida repetida.
+			cicloSoloMetrico: false,
 			recortada: false,
 			tieneMedida: false,
 			tieneRima: true,

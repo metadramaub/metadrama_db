@@ -165,6 +165,14 @@ export type Rejilla = {
 	enlaces: EnlaceRejilla[];
 	/** Lo dibujado se repite hasta el final de la serie. */
 	cicla: boolean;
+	/**
+	 * El ⟳ viene solo de repetir una medida y no de una rima que vuelva.
+	 *
+	 * Importa para el perfil: una serie isosilábica sin rima declarada —el endecasílabo suelto,
+	 * la silva endecasilábica— dibuja su celda con ⟳, pero **no es una serie cíclica**, que es la
+	 * que arrastra rima de una vuelta a la siguiente.
+	 */
+	cicloSoloMetrico: boolean;
 	/** Se dibujaron menos columnas de las que tiene la unidad. */
 	recortada: boolean;
 	tieneMedida: boolean;
@@ -409,6 +417,8 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 
 	let columnas = 0;
 	let cicla = false;
+	/** El ⟳ viene solo de repetir una medida, no de una rima que vuelva. */
+	let cicloSoloMetrico = false;
 	if (esqueleto.length > 0) {
 		columnas = esqueleto.reduce((total, segmento) => total + segmento.versos, 0);
 		// Una parte final que se repite sin tope convierte el dibujo en un ciclo.
@@ -420,9 +430,16 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 		cicla = true;
 	} else if (metricoUnidad?.tipoSecuencia === 'secuencia' && columnasDelMetrico(metricoUnidad) > 0) {
 		columnas = columnasDelMetrico(metricoUnidad);
-	} else if (metricoUnidad?.tipoSecuencia === 'ciclo' && columnasDelMetrico(metricoUnidad) > 1) {
+		// Un ciclo métrico de una sola posición también se dibuja: es una celda con su ⟳, y dice
+		// lo que la arquitectura tiene de propio. Exigir más de una dejaba sin fila «Medida» a la
+		// silva endecasilábica y al endecasílabo suelto entero —una forma que se llama así y cuya
+		// ficha no decía «11» en ninguna parte—, porque su rima es abierta y no aporta columnas.
+		// **Repetir una medida no es tener un ciclo**: eso es isometría, y el perfil no debe
+		// leerlo como una serie cíclica, que es la que arrastra rima de una vuelta a la siguiente.
+	} else if (metricoUnidad?.tipoSecuencia === 'ciclo' && columnasDelMetrico(metricoUnidad) >= 1) {
 		columnas = columnasDelMetrico(metricoUnidad);
 		cicla = true;
+		cicloSoloMetrico = true;
 	}
 	if (columnas <= 0) return null;
 
@@ -549,6 +566,7 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 	return {
 		celdas,
 		filasDeRima,
+		cicloSoloMetrico,
 		bandas,
 		enlaces,
 		cicla,
@@ -596,6 +614,9 @@ export function perfilDeArquitectura(entrada: EntradaPerfil): PerfilDeArquitectu
 	if (estancias) return 'estancias_declaradas';
 	const rejilla = construirRejilla(entrada);
 	if (!rejilla) return 'serie_abierta';
+	// Un ⟳ que solo dice «todos los versos miden lo mismo» describe una serie abierta, no una
+	// cíclica: lo que no está fijado es su rima, que es justo lo que la hace abierta.
+	if (rejilla.cicloSoloMetrico) return 'serie_abierta';
 	if (rejilla.cicla) return 'serie_ciclica';
 	if (rejilla.bandas.some((banda) => banda.reutiliza !== null) || entrada.secciones.length > 1) {
 		return 'estrofa_compuesta';

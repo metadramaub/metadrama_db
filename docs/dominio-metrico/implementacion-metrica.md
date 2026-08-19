@@ -139,6 +139,25 @@ diga su densidad o deje calcularla por alguno de los dos.
 > distinto número de clases. La densidad y la **concentración de la rima** son dos cosas, y hoy
 > solo está modelada la primera.
 
+## La rima que vuelve se declara; la que se renueva, se deriva
+
+**`esquema_rima_enlaces` declara la conservación, y su ausencia significa renovación.** El
+romance enlaza el segundo verso de cada ciclo con el de la vuelta siguiente, y por eso la ficha
+imprime «El verso 2 conserva su rima en cada repetición». Cuando un ciclo **no** declara ningún
+enlace, sus clases valen solo dentro de la vuelta y se renuevan en la siguiente.
+
+Eso era hasta el 19 de agosto de 2026 un silencio, y un silencio no se distingue de un dato que
+falta: la silva de consonantes lo decía con una nota escrita a mano y las demás no lo decían de
+ninguna manera. Ahora la rejilla lo deriva e imprime «La rima se renueva en cada repetición».
+
+**La derivación exige que el ciclo rime**, y la condición no sobra: la disposición `suelta` de la
+endecha real es un ciclo `[----]…` con las cuatro posiciones sueltas, y hablar allí de renovar la
+rima no significaría nada. Son los dos únicos ciclos sin enlaces del catálogo y solo uno rima.
+
+Alcanza también a las unidades que se repiten sin ser cíclicas: la estancia de la canción vuelve
+con la misma **distribución** de rimas, no con las mismas rimas, y decirlo despeja una lectura
+equivocada de `abCabC:cdeeDfF` que la figura invita a hacer.
+
 ## Modalidad: frecuencia reconocida, no prescripción
 
 Lo dice **`modalidad`**, con la misma escala en las cinco tablas que la usan, y reporta lo que
