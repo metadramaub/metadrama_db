@@ -321,6 +321,27 @@ hacerlas antes obliga a hacerlas dos veces.
    detallado en la sección de su forma en
    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
 
+8quinquies. **Los ejemplos de verso no se han traído, y no hay dónde ponerlos.** El vocabulario
+   legado guarda un ejemplo real en `vocabularios.ejemplo`, y de los 119 términos de
+   `estrofa_tipo` **solo seis lo tienen**: copla de arte mayor, copla manriqueña, endecasílabo
+   suelto encadenado, novena, sextina y villancico. El de la sextina trae la permutación anotada
+   verso a verso —`(A) Al bello resplandor…`—, que es justo lo que ninguna figura puede dibujar.
+   **El catálogo nuevo no tiene ninguna columna ni tabla para ejemplos**: `ejemplo` existe solo en
+   `vocabularios`.
+
+   *Lo previsto por el IP es un botón de ejemplos en cada ficha, con ejemplos para todas las
+   formas y arquitecturas, no solo para esas seis.* Es decir: hay que **modelarlo** —dónde cuelga
+   un ejemplo, si de la forma, de la arquitectura o del esquema; cómo se guarda la anotación de
+   clases, que la sextina necesita— y luego poblarlo. Migrar los seis legados es lo de menos.
+
+8sexies. **La permutación de la sextina no se puede dibujar y hoy solo se lee.** La rejilla pinta
+   una estrofa y la colapsa con «×6», así que enseña `A B C D E F` en orden y no puede mostrar ni
+   que la estrofa siguiente las trae en otro orden ni que el remate las reúne dos por verso. Se
+   palió el 19 de agosto de 2026 sacando la descripción de la repetición de detrás de su icono,
+   que es donde vive esa explicación. *Dibujarlo de verdad —las seis estrofas con su permutación—
+   es una función aparte, y va con el punto anterior: el ejemplo anotado la enseña mejor que
+   cualquier figura.*
+
 8quater. **El cierre del terceto encadenado dejó de ser obligatorio y hay que revisar dos
    superficies.** Sus dos arquitecturas declaraban la sección de cierre con `repeticiones_min = 1`,
    de modo que el catálogo exigía un serventesio —o una redondilla cruzada— al final de toda
