@@ -80,6 +80,46 @@ function build(tables) {
 		vocabularios: get('vocabularios')
 	};
 
+	/**
+	 * Lo retirado no se audita.
+	 *
+	 * Hasta el 20 de agosto de 2026 esto no se notaba porque el catálogo nunca había retirado
+	 * nada: `activo` era `true` en todas las filas. Ese día se retiró la copla de pie quebrado
+	 * —nombraba un rasgo y no una estructura— y el informe siguió contándola entre las formas y
+	 * pasándole las comprobaciones. Un defecto en algo que ya no está en el catálogo no es un
+	 * defecto, y el recuento del inventario deja de cuadrar con la web.
+	 *
+	 * Se filtran forma y arquitectura, y con ellas todo lo que cuelga de una arquitectura: si no
+	 * se arrastrara la cascada, los esquemas y las secciones de la arquitectura retirada
+	 * seguirían examinándose sin dueño.
+	 */
+	model.formas = model.formas.filter((forma) => forma.activo !== false);
+	const formasVivas = new Set(model.formas.map((forma) => forma.forma_id));
+	model.configuraciones = model.configuraciones.filter(
+		(configuracion) =>
+			configuracion.activo !== false && formasVivas.has(configuracion.forma_id)
+	);
+	const configuracionesVivas = new Set(
+		model.configuraciones.map((configuracion) => configuracion.arquitectura_id)
+	);
+	for (const clave of [
+		'patronesMetricos',
+		'patronesRima',
+		'secciones',
+		'repeticiones',
+		'combinaciones',
+		'grupos',
+		'configuracionRasgos'
+	]) {
+		model[clave] = model[clave].filter((fila) =>
+			configuracionesVivas.has(fila.arquitectura_id)
+		);
+	}
+	model.relaciones = model.relaciones.filter(
+		(relacion) =>
+			formasVivas.has(relacion.forma_origen_id) && formasVivas.has(relacion.forma_destino_id)
+	);
+
 	model.formaPorId = index(model.formas, 'forma_id');
 	model.configuracionPorId = index(model.configuraciones, 'arquitectura_id');
 	model.patronMetricoPorId = index(model.patronesMetricos, 'esquema_metrico_id');

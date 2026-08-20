@@ -292,6 +292,16 @@
 				{rasgo.posicionesMax === 1 ? 'posición' : 'posiciones'}
 			</span>
 		{/if}
+		{#if rasgo.denominaciones.length > 0}
+			<!--
+				Cómo se llama la realización que tiene el rasgo, en línea y no dentro de la nota:
+				quien busca «novena de pie quebrado» tiene que encontrarla sin abrir nada. La nota
+				se conserva porque dice otra cosa — dónde cae el quiebro en esta arquitectura.
+			-->
+			<span class="text-[color:var(--muted-foreground)] italic">
+				· {rasgo.denominaciones.join(' · ')}
+			</span>
+		{/if}
 		{#if rasgo.nota}
 			<InlineNotePopover text={rasgo.nota} label={`Mostrar nota sobre ${rasgo.nombre}`} />
 		{/if}

@@ -163,6 +163,12 @@ export type PublicTrait = {
 	nota: string | null;
 	/** Cuántas posiciones puede ocupar como mucho: la copla real admite hasta dos quebrados. */
 	posicionesMax: number | null;
+	/**
+	 * Cómo se llama esta forma cuando presenta el rasgo. La novena con algún verso corto es la
+	 * «novena de pie quebrado», y ese nombre no es de la forma ni de una arquitectura suya: es
+	 * de la realización. La nota dice otra cosa —dónde cae el quiebro—, así que conviven.
+	 */
+	denominaciones: string[];
 };
 
 /**

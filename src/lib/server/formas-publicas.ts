@@ -128,7 +128,9 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 	);
 	const arquitecturasPorForma = agrupar(arquitecturas as any[], (row) => String(row.forma_id));
 	const denominacionesPorForma = agrupar(
-		(denominaciones as any[]).filter((row) => row.forma_id),
+		// `rasgo_id` es un matiz, no un destino: «Novena de pie quebrado» nombra la novena
+		// **cuando quiebra**, y en una lista de otros nombres se leería como incondicional.
+		(denominaciones as any[]).filter((row) => row.forma_id && !row.rasgo_id),
 		(row) => String(row.forma_id)
 	);
 	const tradicionesPorForma = agrupar(formasTradiciones as any[], (row) => String(row.forma_id));
@@ -424,7 +426,7 @@ export async function loadPublicForm(
 	const rasgosPor = porArquitectura(arquitecturaRasgos as any[]);
 	const repeticionesPor = porArquitectura(repeticiones as any[]);
 	const denominacionesPorArquitectura = porArquitectura(
-		(denominaciones as any[]).filter((row) => row.arquitectura_id)
+		(denominaciones as any[]).filter((row) => row.arquitectura_id && !row.rasgo_id)
 	);
 	// Un nombre puede colgar de un esquema de rima y no de la forma: «cuarteta» nombra la
 	/** Una parte con nombre propio puede llevar el suyo: el eslabón es también la «chiave». */
@@ -452,6 +454,25 @@ export async function loadPublicForm(
 			.slice()
 			.sort((a, b) => Number(Boolean(b.preferente)) - Number(Boolean(a.preferente)))
 			.map((d) => String(d.nombre));
+
+	/**
+	 * Cómo se llama una realización por el rasgo que la distingue.
+	 *
+	 * El nombre cuelga del rasgo **y** de un destino —la forma o una de sus arquitecturas—, de
+	 * modo que «Novena de pie quebrado» vale para las dos arquitecturas de la novena con una
+	 * sola fila, y un nombre que solo valiera para una podría colgar de ella. Estos nombres se
+	 * quedan fuera de las listas de «También llamada», que no saben decir la condición.
+	 */
+	const nombresDeRasgo = (rasgoId: string, arquitecturaId: string): string[] =>
+		(denominaciones as any[])
+			.filter(
+				(row) =>
+					String(row.rasgo_id ?? '') === rasgoId &&
+					(String(row.forma_id ?? '') === formaId ||
+						String(row.arquitectura_id ?? '') === arquitecturaId)
+			)
+			.sort((a, b) => Number(Boolean(b.preferente)) - Number(Boolean(a.preferente)))
+			.map((row) => String(row.nombre));
 
 	/** Los esquemas de rima de una arquitectura, ordenados por nombre porque la tabla no ordena. */
 	const mapearRima = (e: any): PublicRhymeScheme => {
@@ -864,7 +885,8 @@ export async function loadPublicForm(
 					: null,
 			modalidad: texto(fila.modalidad),
 			nota: texto(fila.nota),
-			posicionesMax: numero(fila.posiciones_max)
+			posicionesMax: numero(fila.posiciones_max),
+			denominaciones: nombresDeRasgo(String(fila.rasgo_id), arquitecturaId)
 		});
 
 		for (const [rasgoId, filas] of filasPorRasgo) {
@@ -1079,7 +1101,12 @@ export async function loadPublicForm(
 			.filter(
 				(row) =>
 					String(row.forma_id ?? '') === formaId ||
-					(row.arquitectura_id && arquitecturaDeId.has(String(row.arquitectura_id)))
+					(row.arquitectura_id && arquitecturaDeId.has(String(row.arquitectura_id))) ||
+					// Una fuente puede hablar de un rasgo y no de una forma: las seis monografías
+					// describen el pie quebrado sin que ninguna sea de la sextilla ni de la
+					// novena. La consulta pública ya trae las del rasgo si alguna arquitectura de
+					// esta forma lo declara; aquí solo hay que dejarlas pasar.
+					(row.rasgo_id && nombreRasgo.has(String(row.rasgo_id)))
 			)
 			.reduce((acc, row) => {
 				const id = String(row.fuente_id);
@@ -1095,7 +1122,9 @@ export async function loadPublicForm(
 					confianza: texto(row.confianza),
 					sobre: row.arquitectura_id
 						? (arquitecturaDeId.get(String(row.arquitectura_id)) ?? String(forma.nombre))
-						: String(forma.nombre)
+						: row.rasgo_id
+							? (nombreRasgo.get(String(row.rasgo_id)) ?? String(forma.nombre))
+							: String(forma.nombre)
 				});
 				acc.set(id, fuente);
 				return acc;
@@ -1104,7 +1133,7 @@ export async function loadPublicForm(
 	].sort((a, b) => (a.anio ?? 0) - (b.anio ?? 0));
 
 	const misDenominaciones = (denominaciones as any[])
-		.filter((row) => String(row.forma_id ?? '') === formaId)
+		.filter((row) => String(row.forma_id ?? '') === formaId && !row.rasgo_id)
 		.map((row) => String(row.nombre));
 
 	return {
