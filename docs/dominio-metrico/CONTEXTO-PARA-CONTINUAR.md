@@ -602,6 +602,23 @@ hacerlas antes obliga a hacerlas dos veces.
     no tiene forma donde caer. Es el precio conocido de la retirada, y el IP lo aceptó al
     decidirla.*
 
+13octies. **Revisar en conjunto lo permitido y lo opcional en los rasgos: cómo se muestran en
+    todas las fichas y qué relación tienen con lo que el editor pregunta.** Salió el 20 de agosto
+    de 2026 al leer la octava real, que era **la única ficha que mostraba los dos bloques a la
+    vez** —«Rasgos permitidos · Permitido» y «Rasgos · Opcional»— y donde se vio que dicen lo
+    mismo con dos palabras distintas. Se fundieron en uno para el lector, y el servidor conserva
+    la distinción, que es real pero **no es del lector sino del editor**: `permitidos` son los
+    rasgos sin pregunta en el formulario y `opcionales` los que tienen una que admite no
+    contestar; `excluyentes`, los que ofrecen varios valores y una sola respuesta.
+
+    *Lo que queda por revisar es el reparto entero, no la pantalla: **qué rasgos se preguntan y
+    cuáles no, y si eso responde a algún criterio**. Hoy conviven los cuatro repartos sin uno: el
+    dístico final de la octava real no se pregunta y el del endecasílabo suelto sí; el pie
+    quebrado se pregunta en la copla real y no en la redondilla; el final acentual se pregunta en
+    cinco arquitecturas y no en la alejandrina del sexteto. Cada caso se decidió por separado y
+    con razón local, pero nadie los ha mirado juntos.* Va con el pendiente anterior, que revisa
+    qué pregunta el editor cuando la rima no es fija: son la misma pregunta sobre dos dimensiones.
+
 ## Siguiente fase prevista
 
 La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración estructural
