@@ -744,6 +744,28 @@ migración de ese día no resuelve.
    la anotación y no del catálogo—, y afecta a más formas que esta. Queda planteada, sin tocar
    nada.*
 
+## Endecasílabo suelto
+
+*Prosa revisada el 20 de agosto de 2026.*
+
+1. **El pasaje sin rima con heptasílabos mezclados no cae en ninguna de las dos formas.** La
+   frontera entre el endecasílabo suelto y la silva está bien acotada y se comprobó contra el
+   dato: la silva declara la rima como condición —«un pasaje enteramente suelto no es una silva»—
+   y sus cuatro arquitecturas exigen densidad mayoritaria o total; el endecasílabo suelto es
+   endecasílabo puro, y su ayuda de editor manda a la silva en cuanto rima más de la mitad.
+
+   Queda una esquina entre las dos definiciones: **heptasílabos mezclados y sin rima**. No es
+   silva, porque la silva exige rima, y no es endecasílabo suelto, porque este es solo de once.
+   Navarro Tomás lo documenta en el teatro: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise
+   laureada*, de 1577, en endecasílabos sueltos, «donde además mezcló endecasílabos y
+   heptasílabos sueltos». Caparrós lo respalda desde la teoría —2014: «la forma más frecuente es
+   la serie de endecasílabos solos o con algún heptasílabo»; 2016: «series de endecasílabos,
+   heptasílabos y pentasílabos, solos o combinados entre sí»—.
+
+   *Puede ser una esquina teórica que no llegue a aparecer. Se anota **por si alguna de las dos
+   Nise entra en el corpus**: entonces habrá que decidir si el endecasílabo suelto gana una
+   arquitectura heterométrica o si la frontera con la silva se redibuja.*
+
 ## Octava real
 
 *Prosa y norma de rima revisadas el 20 de agosto de 2026.*
