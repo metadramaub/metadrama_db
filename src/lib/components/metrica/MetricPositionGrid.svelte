@@ -152,16 +152,6 @@
 		return clase !== clase.toLocaleLowerCase('es') && clase === clase.toLocaleUpperCase('es');
 	}
 
-	/**
-	 * El nombre de la disposición de la que habla el pie, y solo cuando hay más de una dibujada:
-	 * con una sola no hay ambigüedad que deshacer y nombrarla sería ruido.
-	 */
-	const deQueDisposicion = $derived(
-		rejilla.filasDeRima.length > 1
-			? (rejilla.filasDeRima.find((fila) => fila.esquemaRimaId === rejilla.esqueletoDe)?.nombre ??
-				null)
-			: null
-	);
 
 	const enlacesEntreRepeticiones = $derived(
 		rejilla.enlaces.filter((enlace) => enlace.sentido !== 'interior')
@@ -183,6 +173,41 @@
 			enlacesEntreRepeticiones.length === 0 &&
 			filasVisibles.some((fila) => fila.clases.some((clase) => clase.clase && !clase.suelto))
 	);
+
+	/**
+	 * Lo que el pie dice del esqueleto, en frases sueltas.
+	 *
+	 * Con **una** disposición dibujada van al pie, que es donde se leen mejor. Con **varias** el
+	 * pie miente por colocación: describen el esqueleto, que sale de una sola, y quedaban debajo
+	 * de todas. Entonces se recogen en la nota de **su** fila, que es donde se sabe a qué afectan.
+	 */
+	const frasesDelEsqueleto = $derived([
+		...(rejilla.cicla ? ['Se repite hasta el final de la serie.'] : []),
+		...(palabraFinal
+			? ['No hay rima: lo que vuelve de una estrofa a otra son las palabras finales.']
+			: []),
+		...(renuevaLaRima ? ['La rima se renueva en cada repetición.'] : []),
+		...enlacesEntreRepeticiones.map(
+			(enlace) =>
+				enlace.nota ??
+				(enlace.desde === enlace.hasta
+					? `El verso ${enlace.desde} conserva su rima en cada repetición.`
+					: `La rima del verso ${enlace.desde} vuelve en el verso ${enlace.hasta} de la repetición ${
+							enlace.sentido === 'adelante' ? 'siguiente' : 'anterior'
+						}.`)
+		)
+	]);
+	/** Con varias disposiciones, el pie deja de hablar y habla la nota de la fila que las causa. */
+	const esqueletoEnSuFila = $derived(rejilla.filasDeRima.length > 1);
+
+	/** La nota que se abre junto a una disposición: su glosa y, si es la del esqueleto, lo suyo. */
+	const notaDeFila = (esquemaRimaId: string): string | null => {
+		const partes = [
+			glosas[esquemaRimaId] ?? null,
+			...(esqueletoEnSuFila && esquemaRimaId === rejilla.esqueletoDe ? frasesDelEsqueleto : [])
+		].filter((parte): parte is string => Boolean(parte));
+		return partes.length > 0 ? partes.join(' ') : null;
+	};
 
 	/**
 	 * Dónde parte una banda que dibuja varias apariciones seguidas de la misma parte, en tanto
@@ -368,9 +393,9 @@
 					{/if}
 					<!-- La glosa de la disposición, junto a su nombre. Es de esta fila y de ninguna
 					     otra, así que no necesita ni botón aparte ni columna propia. -->
-					{#if glosas[fila.esquemaRimaId]}
+					{#if notaDeFila(fila.esquemaRimaId)}
 						<InlineNotePopover
-							text={glosas[fila.esquemaRimaId] ?? ''}
+							text={notaDeFila(fila.esquemaRimaId) ?? ''}
 							label={`Mostrar nota sobre ${fila.nombre ?? fila.notacion ?? 'esta disposición'}`}
 						/>
 					{/if}
@@ -471,44 +496,28 @@
 </div>
 
 <!--
-	El pie describe **el esqueleto**, y el esqueleto sale de una sola disposición: la que decide las
-	columnas, si el dibujo cicla y qué enlaces arrastra de una vuelta a la siguiente. Cuando la
-	arquitectura dibuja varias, ponerlo debajo de todas lo dejaba pareciendo de todas — la endecha
-	real admite cuatro disposiciones y solo la asonantada sostiene su rima, y sin embargo el «⟳ se
-	repite» y el «el verso 4 conserva su rima» quedaban al pie de las cuatro, sin decir de cuál
-	hablaban. Con más de una fila, el pie la nombra.
+	El pie describe **el esqueleto**, que sale de una sola disposición: la que decide las columnas,
+	si el dibujo cicla y qué enlaces arrastra de una vuelta a la siguiente. Por eso solo se imprime
+	aquí cuando se dibuja **una**; con varias quedaba debajo de todas sin decir de cuál hablaba, y
+	se recoge en la nota de su propia fila, que es donde se sabe a qué afecta. Lo que sí es del
+	dibujo entero —que se haya recortado— se queda abajo siempre.
+
+	El guion dice la verdad —la sextina no rima— pero deja al lector sin saber qué la sostiene
+	entonces. Lo que vuelve es la palabra, y por eso esa frase va también aquí, junto al dibujo, y
+	no solo en la fila «Repetición» que queda más abajo y tras un icono.
 -->
-{#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0 || palabraFinal)}
+{#if pie && !compacta && (rejilla.recortada || (!esqueletoEnSuFila && frasesDelEsqueleto.length > 0))}
 	<div class="mt-2 space-y-1 text-xs text-[color:var(--muted-foreground)]">
-		{#if deQueDisposicion}
-			<p class="italic">Lo que sigue vale para «{deQueDisposicion}»:</p>
-		{/if}
-		{#if rejilla.cicla}
+		{#if !esqueletoEnSuFila && rejilla.cicla}
 			<p><span aria-hidden="true">⟳</span> Se repite hasta el final de la serie.</p>
 		{/if}
 		{#if rejilla.recortada}
 			<p>Se dibujan las {columnas} primeras posiciones.</p>
 		{/if}
-		<!--
-			El guion dice la verdad —la sextina no rima— pero deja al lector sin saber qué la sostiene
-			entonces. Lo que vuelve es la palabra, y conviene decirlo aquí, junto al dibujo, y no solo
-			en la fila «Repetición» que queda más abajo y tras un icono.
-		-->
-		{#if palabraFinal}
-			<p>No hay rima: lo que vuelve de una estrofa a otra son las palabras finales.</p>
+		{#if !esqueletoEnSuFila}
+			{#each frasesDelEsqueleto.slice(rejilla.cicla ? 1 : 0) as frase, indice (indice)}
+				<p>{frase}</p>
+			{/each}
 		{/if}
-		{#if renuevaLaRima}
-			<p>La rima se renueva en cada repetición.</p>
-		{/if}
-		{#each enlacesEntreRepeticiones as enlace, indice (indice)}
-			<p>
-				{enlace.nota ??
-					(enlace.desde === enlace.hasta
-						? `El verso ${enlace.desde} conserva su rima en cada repetición.`
-						: `La rima del verso ${enlace.desde} vuelve en el verso ${enlace.hasta} de la repetición ${
-								enlace.sentido === 'adelante' ? 'siguiente' : 'anterior'
-							}.`)}
-			</p>
-		{/each}
 	</div>
 {/if}

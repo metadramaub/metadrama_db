@@ -622,6 +622,20 @@ hacerlas antes obliga a hacerlas dos veces.
     con razón local, pero nadie los ha mirado juntos.* Va con el pendiente anterior, que revisa
     qué pregunta el editor cuando la rima no es fija: son la misma pregunta sobre dos dimensiones.
 
+13nonies. **Retirar `formas_metricas.orden`.** Salió el 20 de agosto de 2026 al revisar la endecha
+    real, porque tres formas —cuarteto, endecha real y pareado— lo tienen en `null` y parecía que
+    eso las descolocaba en el catálogo. **No las descoloca, porque no lo lee nadie**: las dos
+    consultas públicas lo seleccionan y ordenan las formas por nombre, la página de `/formas`
+    ordena por nombre, y el tipo público de una forma ni siquiera lo lleva. Sus valores tampoco
+    responden a ningún criterio reconocible: décima, romance y terceto encadenado comparten el 10,
+    la redondilla —la forma más anotada del corpus— está en el 40, y hay huecos en 20, 30, 60, 80,
+    100, 160, 170, 270 y 300, probablemente de formas retiradas o fundidas.
+
+    *Es el mismo caso que `estado_revision`: columna seleccionada en todas partes y leída en
+    ninguna. **Cuidado al retirarla**: `arquitecturas_forma.orden` sí trabaja —`order by orden
+    nulls last, nombre` es lo que pone la principal delante— y `estructuras_secciones.orden`
+    también. Solo sobra la de las formas.*
+
 ## Siguiente fase prevista
 
 La ontología quedó revisada desde la base el 30 de julio de 2026 y la migración estructural
