@@ -284,9 +284,16 @@
 {/snippet}
 
 {#snippet rasgoLinea(rasgo: PublicTrait)}
+	<!--
+		Un rasgo de un solo valor se etiqueta con el nombre del rasgo y no con el del valor —lo
+		hace `opciones_eleccion_derivadas`, y en el editor es lo correcto: una casilla suelta debe
+		decir «Dístico final», no «Presente»—. Aquí eso imprimía «Dístico final: Dístico final».
+		Cuando el valor repite el nombre, se imprime solo el nombre.
+	-->
+	{@const valorPropio = rasgo.valor && rasgo.valor !== rasgo.nombre ? rasgo.valor : null}
 	<li>
-		{rasgo.nombre}{rasgo.valor ? ': ' : ''}{#if rasgo.valor}<span class="font-medium"
-				>{rasgo.valor}</span
+		{rasgo.nombre}{valorPropio ? ': ' : ''}{#if valorPropio}<span class="font-medium"
+				>{valorPropio}</span
 			>{/if}
 		{#if rasgo.modalidad}
 			<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
