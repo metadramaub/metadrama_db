@@ -785,15 +785,17 @@ migración de ese día no resuelve.
 
 ## Novena
 
-*Prosa revisada el 20 de agosto de 2026.*
+*Prosa revisada el 20 de agosto de 2026. Sin cuestiones abiertas.*
 
-1. **No tiene afirmación de Morley y Bruerton, y no he podido comprobar si la merece.** Son
-   quienes miden el corpus dramático, y su ausencia es informativa cuando ocurre: la afirmación de
-   M&B sobre la copla de arte mayor —«no la registran entre las formas empleadas por Lope»— y la
-   del sexteto son de las más útiles de sus fichas. **Solo cinco formas activas no tienen la
-   suya**: endecha real, novena, sextina estrofa, villancico y zéjel. Su texto **no está entre los
-   `.txt` de la bibliografía**, así que no se puede verificar desde aquí. *Conviene mirarlo en el
-   libro: si no registran la novena, decirlo vale tanto como decirlo en las otras dos.*
+Se anotó ese día que le faltaba la afirmación de Morley y Bruerton y que su texto no estaba entre
+los `.txt` de la bibliografía. **Sí estaba**: es `definiciones_Morley&Bruerton.md`, en `.md` y no
+en `.txt`, que es por lo que las búsquedas no lo encontraban. Leído, la ausencia era real y quedó
+registrada como afirmación: su repertorio de metros españoles no tiene ninguna estrofa de nueve
+versos, y reúne bajo «coplas» las estrofas cortas que no encajan en definiciones más específicas.
+
+**Conviene saberlo para el resto de la revisión**: el texto de Morley y Bruerton se busca en
+`docs/dominio-metrico/bibliografía/definiciones_Morley&Bruerton.md` —o en su copia dentro de
+`txt/`—, y no aparece si se filtra por extensión `.txt` como las otras cinco monografías.
 
 ## Octava real
 
