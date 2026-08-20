@@ -1441,3 +1441,21 @@ norma, unidades ni desviaciones, y una guarda en migración lo comprueba.*
    liberado» para el conjunto que no busca ninguna proporción aparente, y reserva «irregular»
    para otro caso. El catálogo conserva «Versificación irregular» por ser el término de las
    otras fuentes y del vocabulario legado. *Queda registrada la divergencia.*
+
+### Añadido en la revisión de la prosa, 20 de agosto de 2026
+
+**Nada se modela para ellos, y es deliberado.** En un tramo sin forma **todo vale** —cualquier
+medida, cualquier rima, cualquier rasgo, sin restricción—, de modo que no hay norma que declarar.
+Lo que el editor observe lo registrará entero cuando el Editor V2 se lo pida para estas dos
+entradas, que es un pendiente aparte.
+
+4. **Revisar las equivalencias de los tramos irregulares antes de migrarlos.** El vocabulario
+   legado distingue tres —`irregular_arte_mayor`, `irregular_arte_menor` e `irregular_mixto`— y
+   son de lo más anotado que hay: **nueve secuencias entre los tres, 313 versos**. El catálogo
+   nuevo tiene una sola entrada, y no va a tener más por lo dicho arriba.
+
+   *Antes de dar por buena la equivalencia conviene mirar caso por caso: **es posible que alguna
+   se anotara como irregular solo porque quien la anotó no encontró la forma precisa**, y que con
+   el catálogo nuevo y el demarcador sí aparezca. Las que sigan siendo irregulares tendrán que
+   registrar exactamente lo que se ve —medida, rima y rasgos de todo el pasaje—, y entonces el
+   arte del verso deja de necesitar tres términos distintos: se lee de lo registrado.*
