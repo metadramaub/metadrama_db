@@ -436,6 +436,59 @@ describe('catálogo público de formas', () => {
 		expect(resultado?.arquitecturas_[0].rasgos.opcionales).toEqual([]);
 	});
 
+	it('nombra la realización por su rasgo sin colar ese nombre entre los de la forma', async () => {
+		const rasgoId = 'pie-quebrado';
+		const rpc = vi.fn().mockResolvedValue({
+			data: {
+				...detalleVacio,
+				arquitecturaRasgos: [
+					{
+						arquitectura_id: arquitectura.arquitectura_id,
+						rasgo_id: rasgoId,
+						valor_id: null,
+						modalidad: 'admitida',
+						nota: 'El quiebro cae en la segunda mitad.',
+						posiciones_max: null
+					}
+				],
+				rasgos: [{ rasgo_id: rasgoId, nombre: 'Pie quebrado' }],
+				denominaciones: [
+					{
+						forma_id: forma.forma_id,
+						rasgo_id: rasgoId,
+						nombre: 'Novena de pie quebrado',
+						preferente: false
+					},
+					{ forma_id: forma.forma_id, rasgo_id: null, nombre: 'Copla novena', preferente: true }
+				],
+				afirmaciones: [
+					{
+						fuente_id: 'fuente-navarro',
+						forma_id: null,
+						arquitectura_id: null,
+						rasgo_id: rasgoId,
+						localizador: '§ 68',
+						resumen: 'Todas las estrofas de versos plenos tuvieron réplicas quebradas.',
+						confianza: 'alta'
+					}
+				],
+				fuentes: [{ fuente_id: 'fuente-navarro', cita: 'Navarro Tomás, 1972', anio: 1972 }]
+			},
+			error: null
+		});
+
+		const resultado = await loadPublicForm({ rpc }, 'villancico');
+		const rasgo = resultado?.arquitecturas_[0].rasgos.permitidos[0];
+
+		// El nombre se lee junto al rasgo, y la nota sigue diciendo lo suyo.
+		expect(rasgo?.denominaciones).toEqual(['Novena de pie quebrado']);
+		expect(rasgo?.nota).toBe('El quiebro cae en la segunda mitad.');
+		// Pero no se cuela entre los nombres de la forma, que no saben decir la condición.
+		expect(resultado?.denominaciones).toEqual(['Copla novena']);
+		// Y la afirmación que cuelga del rasgo se ve, rotulada con el rasgo y no con la forma.
+		expect(resultado?.fuentes[0].afirmaciones[0].sobre).toBe('Pie quebrado');
+	});
+
 	it('conserva el nombre propio del esquema y lista todas sus denominaciones', async () => {
 		const rpc = vi.fn().mockResolvedValue({
 			data: {

@@ -29,8 +29,9 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **27 formas y
-  2 tramos sin forma**: la medida de toda forma isosilábica es arquitectura y ya no se
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **26 formas y
+  2 tramos sin forma** —eran 27 hasta que la copla de pie quebrado se retiró el 20 de agosto de
+  2026, por nombrar un rasgo y no una estructura—: la medida de toda forma isosilábica es arquitectura y ya no se
   pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
   sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el
   nivel que le corresponde. Las formas con clasificación previa tienen ya su tradición; las
@@ -46,7 +47,7 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   del dato: cada forma con sus arquitecturas, esquemas, secciones, rasgos, denominaciones y
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
   cambiando el `scope_minimo` de la sección `formas`. No lleva texto redactado: si algo se
-  lee mal, está mal en el catálogo. El listado carga los 29 registros activos en una sola
+  lee mal, está mal en el catálogo. El listado carga los 28 registros activos en una sola
   consulta y los conserva para el filtrado en ejecución; cada ficha usa otra consulta agregada
   que mantiene los identificadores y la jerarquía padre-hijo de sus secciones.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
@@ -240,6 +241,7 @@ Llevan la prosa revisada, con su migración:
 | Lira y sexteto-lira | `20260819200000_la_lira_dice_de_donde_viene_su_nombre` (+ `20260819210000`, `20260819220000`) |
 | Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
 | Sextilla (segunda vuelta) | `20260820090000_la_sextilla_manriquena_dice_como_rima` |
+| Pie quebrado, en cinco formas | `20260820100000_el_pie_quebrado_es_un_rasgo_de_cada_estrofa` (+ `20260820110000`, `20260820120000`, `20260820130000`) |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
 en prosa lo que la figura dibuja, porque su función es que una forma se lea de corrido; las de la
@@ -541,6 +543,30 @@ hacerlas antes obliga a hacerlas dos veces.
     cerrada** con las disposiciones documentadas más «otra». La revisión debe recorrer el catálogo
     entero —qué arquitecturas dejan la rima abierta y cuáles preguntan por ella— y decidir una
     sola vez, porque hoy conviven las dos sin criterio.
+
+13septies. **Crear la octavilla, la oncena y la copla mixta.** Son estrofas de verdad, con nombre
+    en la bibliografía, y **las tres estaban tapadas por la copla de pie quebrado**: mientras esa
+    forma general cubría de cinco a doce versos, un pasaje de ocho u once versos quebrados tenía
+    dónde caer y nadie notaba que faltaba la estrofa. Al retirarla el 20 de agosto de 2026 el
+    hueco se hace visible, que es parte de la razón de retirarla.
+
+    - **Octavilla** (8, arte menor). Navarro Tomás la indiza como «octava de pie quebrado» y
+      describe sus disposiciones con ejemplo: `abba:cddc` en los *Proverbios* de Santillana,
+      `abba:acca` en Pero Guillén de Segovia, `abab:cddc` en el *Diálogo de Bías contra Fortuna*.
+      Quilis documenta además octavillas de octosílabos y tetrasílabos. Lo que el catálogo tiene
+      hoy es `octava_real`, que es de arte mayor y otra cosa.
+    - **Oncena** (11). Navarro: «La estrofa de once con quebrados **fue más corriente que la de
+      octosílabos plenos**», con el *Claro escuro* de Juan de Mena como modelo, `abaab:cdecde`,
+      repetido por Álvarez Gato, Gómez Manrique y Tapia.
+    - **Copla mixta** (7 a 12). Término de Navarro que recoge el *Diccionario*: «Combinación
+      estrófica que puede tener desde siete hasta doce versos octosílabos… dividida en dos
+      semiestrofas de distinta extensión o en dos sextillas». Es la que de verdad ocupaba el
+      terreno que la copla de pie quebrado fingía cubrir, y la única de las tres que no se
+      resuelve contando versos.
+
+    *Mientras no existan, un pasaje quebrado de ocho, once o doce versos que no sea doble sextilla
+    no tiene forma donde caer. Es el precio conocido de la retirada, y el IP lo aceptó al
+    decidirla.*
 
 ## Siguiente fase prevista
 

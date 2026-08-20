@@ -744,25 +744,34 @@ migración de ese día no resuelve.
    la anotación y no del catálogo—, y afecta a más formas que esta. Queda planteada, sin tocar
    nada.*
 
-## Copla de pie quebrado
+## Copla de pie quebrado — retirada el 20 de agosto de 2026
 
-*Revisada el 7 de agosto de 2026. Su ficha, compartida con las otras coplas y la sextilla, se
-retiró el 8 de agosto al quedar revisadas las cuatro; estas dudas venían de ahí.*
+*Fue forma del catálogo hasta esa fecha. Lo que sigue explica por qué dejó de serlo, porque el
+razonamiento vale para cualquier otro nombre que se organice por una propiedad y no por una
+estructura.*
 
-**Qué tiene hoy el catálogo:** una arquitectura, `octosilabica_con_quebrados`, y es la forma
-**general** del quebrado —la salida para las coplas que combinan octosílabos con versos más
-breves y no encajan en ninguna forma más específica—. Su unidad es un **rango de 5 a 12
-versos**, no una cifra fija, y su disposición de rima es abierta. De ahí que su pregunta tenga
-**24 opciones**: doce posiciones por dos medidas, generadas para el caso máximo porque el
-catálogo no puede saber cuántos versos tendrá cada copla.
+**Lo que era.** Una estrofa de cinco a doce versos, octosílabos con algún quebrado, disposición
+abierta. Esa extensión no era la de una estrofa: era el rango en que Morley y Bruerton
+encontraron quebrados en Lope.
 
-1. **Es la única forma del catálogo que puede desbordar, y conviene no olvidarlo.** Como la
-   unidad es un rango y las opciones cubren el máximo, el catálogo por sí solo no impide que se
-   responda sobre un verso que no existe —«el verso 11 es tetrasílabo» en una copla de cinco— ni
-   que se den dos medidas para la misma posición. La comprobación no cabe en el catálogo, donde
-   la unidad es un rango: está en **un disparador sobre las elecciones**, que solo puede
-   validarlo al guardar, cuando ya se sabe cuántos versos tiene esa realización. *No es una duda
-   abierta, es una fragilidad conocida que hay que recordar si se toca el modelo de elecciones.*
+**Por qué no podía ser una forma.** Las formas del catálogo se organizan por estructura —nivel,
+número de versos, arte, régimen de rima— y esta se organizaba por una **propiedad**, que el
+catálogo ya tenía como rasgo. De ahí que solapara con tres formas a la vez sin que nada dijera al
+editor cuál elegir: con la sextilla de pie quebrado en seis versos, con la copla real en diez
+—que declara el quebrado como admitido— y con la doble sextilla en doce. Y el nombre lo decía: el
+*Diccionario* define «copla» como «estrofa», de modo que «copla de pie quebrado» significa
+«estrofa con algún verso quebrado». Navarro Tomás lo zanja en su § 68: «En realidad, todas las
+estrofas de versos plenos tuvieron sus réplicas en variedades quebradas».
+
+**Qué quedó en su sitio.** El quebrado se declara ahora en cada estrofa, en tres niveles según lo
+que la tradición fije: arquitectura propia cuando fija las posiciones (sextilla), rasgo con
+pregunta de posiciones cuando el quiebro es corriente pero móvil (copla real), y rasgo a secas
+cuando está documentado y es raro (redondilla, novena). Sus cinco afirmaciones útiles pasaron al
+rasgo `pie_quebrado`, y el nombre a la arquitectura de pie quebrado de la sextilla, que es donde
+Quilis lo pone.
+
+**Lo que dejó abierto** está en pendientes: faltan la octavilla, la oncena y la copla mixta, que
+esta forma general tapaba.
 
 ## Copla real
 

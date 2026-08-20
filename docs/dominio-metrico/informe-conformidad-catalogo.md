@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-13 17:41
+Generado: 2026-08-20 10:32
 
-Inventario: 27 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 88 patrones de rima · 56 secciones · 62 grupos de elección · 403 opciones · 7 rasgos.
+Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 91 patrones de rima · 61 secciones · 61 grupos de elección · 403 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -100,7 +100,7 @@ Sin incidencias.
 
 ### D15 · Arquitectura sin régimen de rima declarado en ningún nivel — 0
 
-> El régimen —consonante, asonante, sin rima— se declara siempre, en el nivel que le corresponde: en la arquitectura cuando es uno solo, y en cada disposición cuando dentro de ella varía. El villancico lo declara abajo porque admite `abba` consonante junto a la asonantada `abcb`, y la canción sin rima porque su cuerpo no rima y su pareado final sí. Lo que no vale es que no esté en ninguno de los dos: es lo primero que hay que saber de una rima, y ocho arquitecturas lo callaban hasta el 12 de agosto de 2026.
+> El régimen —consonante, asonante, sin rima— se declara siempre, en el nivel que le corresponde: en la arquitectura cuando es uno solo, y en cada disposición cuando dentro de ella varía. El villancico lo declara abajo porque admite `abba` consonante junto a la asonantada `-a-a`, y la canción sin rima porque su cuerpo no rima y su pareado final sí. Lo que no vale es que no esté en ninguno de los dos: es lo primero que hay que saber de una rima, y ocho arquitecturas lo callaban hasta el 12 de agosto de 2026.
 
 Sin incidencias.
 
@@ -118,7 +118,6 @@ Sin incidencias.
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
 | cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
-| copla_de_pie_quebrado | estrofa | 1 | sí | conjunto, eleccion | patrón único | 1 | unidad |
 | copla_real | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | cuarteto | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | decima | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
@@ -131,7 +130,7 @@ Sin incidencias.
 | quintilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | redondilla | estrofa | 4 | sí | configuracion, posiciones | elección, patrón único | 3 | unidad |
 | romance | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
-| seguidilla | estrofa | 6 | sí | configuracion, eleccion, posiciones | patrón único | 1 | unidad |
+| seguidilla | estrofa | 7 | sí | configuracion, eleccion, posiciones | patrón único | 1 | unidad |
 | sexteto | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
 | sextilla | estrofa | 5 | sí | configuracion, posiciones | elección, patrón único, varios patrones sin pregunta | 1 | unidad |
@@ -149,8 +148,8 @@ Sin incidencias.
 | Vía | Formas |
 | --- | --- |
 | configuracion (8) | endecha_real, redondilla, romance, seguidilla, sexteto, sextilla, silva, terceto_encadenado |
-| conjunto (7) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, silva, villancico, zejel |
-| eleccion (7) | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, seguidilla, villancico, zejel |
+| conjunto (6) | cancion_petrarquista, copla_real, pareado, silva, villancico, zejel |
+| eleccion (6) | cancion_petrarquista, copla_real, pareado, seguidilla, villancico, zejel |
 | posiciones (23) | cancion_petrarquista, copla_de_arte_mayor, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, lira, novena, octava_real, quintilla, redondilla, romance, seguidilla, sexteto, sexteto_lira, sextilla, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
@@ -158,7 +157,7 @@ Sin incidencias.
 | Dimensión · alcance | Formas |
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
-| metro · unidad | cancion_petrarquista, copla_de_pie_quebrado, copla_real, pareado, seguidilla, villancico, zejel |
+| metro · unidad | cancion_petrarquista, copla_real, pareado, seguidilla, villancico, zejel |
 | rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_real, romance, sexteto_lira, silva, soneto, terceto |
 | repeticion · realizacion | villancico, zejel |
 | rima · secuencia | endecha_real |
@@ -168,7 +167,7 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| undefined | 88 | cancion_petrarquista×4, copla_de_arte_mayor×3, copla_de_pie_quebrado×1, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×7, lira×1, octava_real×1, pareado×2, quintilla×9, redondilla×7, romance×4, seguidilla×6, sexteto×4, sexteto_lira×3, sextilla×9, sextina_estrofa×1, silva×4, soneto×6, terceto×2, terceto_encadenado×2, villancico×6, zejel×1 |
+| undefined | 91 | cancion_petrarquista×4, copla_de_arte_mayor×3, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×7, lira×1, octava_real×1, pareado×2, quintilla×9, redondilla×7, romance×4, seguidilla×7, sexteto×5, sexteto_lira×3, sextilla×11, sextina_estrofa×1, silva×4, soneto×6, terceto×2, terceto_encadenado×2, villancico×6, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -178,7 +177,6 @@ Sin incidencias.
 | sexteto · dodecasilabica | 1 | control abierto de esquema |
 | sexteto · endecasilabica | 1 | control abierto de esquema |
 | cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema + restricciones cualitativas (1) |
-| copla_de_pie_quebrado · octosilabica_con_quebrados | 1 | patrón vacío, sin sustituto |
 | sextilla · heptasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · hexasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
@@ -197,6 +195,7 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
+| -a-a | seguidilla×3, villancico×2 |
 | aa | cancion_petrarquista, pareado×2 |
 | abab | redondilla×3, villancico×2 |
 | abba | redondilla×3, villancico×2 |
