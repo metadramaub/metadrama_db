@@ -242,6 +242,7 @@ Llevan la prosa revisada, con su migración:
 | Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
 | Sextilla (segunda vuelta) | `20260820090000_la_sextilla_manriquena_dice_como_rima` |
 | Copla real | `20260820150000_cada_fuente_habla_de_la_forma_que_describe` |
+| Octava real | `20260820160000_la_octava_real_acota_lo_que_deja_variar` |
 | Pie quebrado, en cinco formas | `20260820100000_el_pie_quebrado_es_un_rasgo_de_cada_estrofa` (+ `20260820110000`, `20260820120000`, `20260820130000`) |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
@@ -568,6 +569,13 @@ hacerlas antes obliga a hacerlas dos veces.
     entero —qué arquitecturas dejan la rima abierta y cuáles preguntan por ella— y decidir una
     sola vez, porque hoy conviven las dos sin criterio.
 
+    **Y con una tercera exigencia, decidida el 20 de agosto de 2026 al revisar la octava real:**
+    donde la norma deja la disposición **abierta o acotada**, el editor tiene que poder **declarar
+    un esquema que el catálogo no tenga**. La octava real acota tres clases de rima y deja variar
+    el orden de los seis primeros versos; si un pasaje trae una de esas variantes, hoy no hay
+    dónde escribirla. No es lo mismo que elegir entre las catalogadas: es poder añadir la que se
+    observa.
+
 13septies. **Crear la octavilla, la oncena y la copla mixta.** Son estrofas de verdad, con nombre
     en la bibliografía, y **las tres estaban tapadas por la copla de pie quebrado**: mientras esa
     forma general cubría de cinco a doce versos, un pasaje de ocho u once versos quebrados tenía
@@ -578,7 +586,9 @@ hacerlas antes obliga a hacerlas dos veces.
       describe sus disposiciones con ejemplo: `abba:cddc` en los *Proverbios* de Santillana,
       `abba:acca` en Pero Guillén de Segovia, `abab:cddc` en el *Diálogo de Bías contra Fortuna*.
       Quilis documenta además octavillas de octosílabos y tetrasílabos. Lo que el catálogo tiene
-      hoy es `octava_real`, que es de arte mayor y otra cosa.
+      hoy es `octava_real`, que es de arte mayor y otra cosa. **Y falta también la octava aguda**:
+      Caparrós 2014 enumera «la copla castellana, la octava real, la octava y la octavilla agudas»,
+      de modo que el hueco de las estrofas de ocho son tres formas y no una.
     - **Oncena** (11). Navarro: «La estrofa de once con quebrados **fue más corriente que la de
       octosílabos plenos**», con el *Claro escuro* de Juan de Mena como modelo, `abaab:cdecde`,
       repetido por Álvarez Gato, Gómez Manrique y Tapia.

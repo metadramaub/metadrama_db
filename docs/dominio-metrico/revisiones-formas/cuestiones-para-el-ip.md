@@ -744,6 +744,42 @@ migración de ese día no resuelve.
    la anotación y no del catálogo—, y afecta a más formas que esta. Queda planteada, sin tocar
    nada.*
 
+## Octava real
+
+*Prosa y norma de rima revisadas el 20 de agosto de 2026.*
+
+1. **La octava aguda y la octavilla aguda no están en el catálogo.** Domínguez Caparrós 2014 las
+   enumera junto a las que sí están: «la copla castellana, la octava real, **la octava y la
+   octavilla agudas**». Va con la octavilla que quedó pendiente al retirar la copla de pie
+   quebrado: son la misma laguna de las estrofas de ocho.
+
+## Los finales esdrújulos y agudos, en todas las formas o en unas pocas
+
+*Pregunta salida de la octava real, 20 de agosto de 2026, pero global.*
+
+El rasgo `final_acentual` marca la terminación sostenida en los finales de verso —esdrújula o
+aguda—, y **hoy se declara en seis arquitecturas sin un criterio que las una**. Contrastado el
+dato, hay un desajuste que se ve a simple vista:
+
+| Declara `esdrujulo` el catálogo | Tiene subtipo en el vocabulario legado |
+| --- | --- |
+| canción petrarquista · sin rima con pareado final | ✔ `cancion_sin_rima_de_esdrujulos` |
+| octava real | ✔ `octava_real_de_esdrujulos` |
+| sexteto-lira | ✔ `sexteto_lira_de_esdrujulos` |
+| terceto | ✔ `terceto_de_esdrujulos` |
+| **soneto** | **—** |
+| **—** | **`endecasilabo_suelto_de_esdrujulos`** |
+
+Es decir: el soneto lo declara sin término legado que lo respalde, y el endecasílabo suelto tiene
+el término y no lo declara. Y `agudo` lo declara una sola arquitectura, la alejandrina del
+sexteto, creada el 19 de agosto.
+
+*La pregunta es si esto se declara **en todas o casi todas las formas** —porque cualquier estrofa
+puede rimar en esdrújulos o en agudos, y entonces lo que el rasgo aporta es poder anotarlo cuando
+ocurre— o **solo donde una fuente o el corpus lo documenten**, y entonces hay que cerrar el
+desajuste en los dos sentidos. Ninguna de las seis monografías respalda hoy el rasgo en la octava
+real: lo que lo sostiene es el vocabulario legado.*
+
 ## Copla real
 
 *Prosa revisada el 20 de agosto de 2026.*

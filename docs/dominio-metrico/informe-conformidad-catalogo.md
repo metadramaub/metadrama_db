@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-20 11:36
+Generado: 2026-08-20 12:06
 
-Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 91 patrones de rima · 61 secciones · 61 grupos de elección · 403 opciones · 7 rasgos.
+Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 92 patrones de rima · 61 secciones · 61 grupos de elección · 403 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -125,7 +125,7 @@ Sin incidencias.
 | endecha_real | serie | 3 | sí | configuracion, posiciones | elección, patrón único | 4 | secuencia |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
-| octava_real | estrofa | 1 | sí | posiciones | patrón único | 1 | secuencia |
+| octava_real | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 1 | secuencia |
 | pareado | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
 | quintilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | redondilla | estrofa | 4 | sí | configuracion, posiciones | elección, patrón único | 3 | unidad |
@@ -167,7 +167,7 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| undefined | 91 | cancion_petrarquista×4, copla_de_arte_mayor×3, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×7, lira×1, octava_real×1, pareado×2, quintilla×9, redondilla×7, romance×4, seguidilla×7, sexteto×5, sexteto_lira×3, sextilla×11, sextina_estrofa×1, silva×4, soneto×6, terceto×2, terceto_encadenado×2, villancico×6, zejel×1 |
+| undefined | 92 | cancion_petrarquista×4, copla_de_arte_mayor×3, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×7, lira×1, octava_real×2, pareado×2, quintilla×9, redondilla×7, romance×4, seguidilla×7, sexteto×5, sexteto_lira×3, sextilla×11, sextina_estrofa×1, silva×4, soneto×6, terceto×2, terceto_encadenado×2, villancico×6, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -183,6 +183,7 @@ Sin incidencias.
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
 | cancion_petrarquista · sin_rima_con_pareado_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
+| octava_real · endecasilabica_consonante | 1 | restricciones cualitativas (1) |
 | quintilla · octosilabica_consonante | 1 | restricciones cualitativas (1) |
 | sextilla · doble_pie_quebrado | 1 | restricciones cualitativas (1) |
 | silva · consonante_irregular | 1 | restricciones cualitativas (1) |
