@@ -744,6 +744,41 @@ migración de ese día no resuelve.
    la anotación y no del catálogo—, y afecta a más formas que esta. Queda planteada, sin tocar
    nada.*
 
+## Copla real
+
+*Prosa revisada el 20 de agosto de 2026.*
+
+1. **La frecuencia de una disposición reutilizada no es la de la posición que ocupa.** Es un
+   problema del modelo, no de esta ficha. Las dos quintillas de la copla real reutilizan la
+   arquitectura de la quintilla, así que traen sus esquemas **con la frecuencia que tienen como
+   quintilla suelta**. Resultado: `aabba` sale «admitida» en la segunda mitad, donde Morley y
+   Bruerton dicen que en Lope es **siempre** esa; y `abaab` sale «admitida» donde Navarro dice que
+   el tipo `abaab:cdccd` «se destacó sobre las demás combinaciones hasta reconocerse como
+   representación característica de la estrofa». La novena tiene el mismo desajuste: Jauralde da
+   `abba:cdccd` como su realización destacada, y `cdccd` es otra vez `abaab`.
+
+   `modalidad` vive en `esquemas_rima`, que pertenece a **una** arquitectura, y no existe una
+   modalidad por *(sección, esquema)*. Afecta en principio a las **dieciocho reutilizaciones** del
+   catálogo —copla real, décima, novena, seguidilla, sextina, soneto y terceto encadenado—, y
+   muerde donde la forma que reutiliza tiene frecuencias propias documentadas.
+
+   *El IP decidió el 20 de agosto **decirlo en prosa y no tocar el modelo por ahora**, y así está
+   en la definición de la copla real. Queda pendiente arreglarlo bien.* Las salidas que se
+   barajaron: una tabla pequeña de modalidad por sección —dos filas para la copla real, dos para
+   la novena—, o dejar de reutilizar y duplicar los esquemas, que desharía la decisión de
+   reutilización cerrada el 13 de agosto y no se recomienda.
+
+2. **La copla real de cuatro y seis versos.** Jauralde advierte que «la forma 4-6 precede a la 5-5,
+   que solo se hace mayoritaria a finales del siglo XV». El catálogo solo tiene 5+5. *Es el mismo
+   criterio que quedó abierto en el sexteto y en la doble sextilla: modelar lo que las fuentes
+   describen aunque el corpus no lo traiga, o no.*
+
+3. **Pedir datos al editor de *El caballero de Olmedo*.** Es de las poquísimas formas con uso real
+   —tres secuencias, una quebrada de cincuenta versos y dos sin quebrar de sesenta, todas en esa
+   obra— y las anotaciones vienen del vocabulario legado, sin decir qué disposición tiene cada
+   quintilla ni dónde caen los quiebros. *Al revisar la obra conviene pedírselo: es el único sitio
+   donde el corpus puede contrastar lo que las fuentes dicen del emparejamiento.*
+
 ## Copla de pie quebrado — retirada el 20 de agosto de 2026
 
 *Fue forma del catálogo hasta esa fecha. Lo que sigue explica por qué dejó de serlo, porque el
