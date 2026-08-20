@@ -766,6 +766,23 @@ migración de ese día no resuelve.
    Nise entra en el corpus**: entonces habrá que decidir si el endecasílabo suelto gana una
    arquitectura heterométrica o si la frontera con la silva se redibuja.*
 
+## Pareado
+
+*Sin revisar. Dos cosas que salieron al revisar la endecha real, 20 de agosto de 2026.*
+
+1. **Su arquitectura declara un régimen arriba teniendo dos abajo, y el que declara es «Otras».**
+   `cualquier_medida` tiene `tipo_rima_id` puesto, y sus dos disposiciones `aa` son una consonante
+   y otra asonante. Es el mismo desajuste que la endecha real tenía y que se corrigió ese día:
+   contra el criterio del 12 de agosto —arriba si el régimen es uno, en cada disposición si
+   varía—. Además el régimen que declara se llama «Otras», que en la ficha se lee como si el
+   pareado rimara de una manera sin nombre. *Se arregla en su revisión.*
+
+2. **Sus dos disposiciones se llaman solo por el régimen**, «Asonante» y «Consonante», que es un
+   tercer estilo de nombre para la misma situación. La regla que el IP fijó ese día es que **cada
+   fila se lea sola**: el nombre nombra la disposición y su régimen. Aquí serían «Pareado
+   asonante» y «Pareado consonante». *Son los dos únicos casos del catálogo de dos disposiciones
+   con la misma notación; el otro, la cruzada de la endecha real, ya sigue la regla.*
+
 ## Octava real
 
 *Prosa y norma de rima revisadas el 20 de agosto de 2026.*
