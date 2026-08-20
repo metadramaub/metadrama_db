@@ -96,6 +96,11 @@
 	const medidaDeterminada = $derived(determinacionDeMedida(arquitectura));
 	const rimaDeterminada = $derived(determinacionDeRima(arquitectura));
 	const partesDeterminadas = $derived(determinacionDePartes(arquitectura));
+	/** Lo que puede darse sin ser norma, venga o no con pregunta para el editor. */
+	const permitidosYOpcionales = $derived([
+		...arquitectura.rasgos.permitidos,
+		...arquitectura.rasgos.opcionales
+	]);
 
 	/**
 	 * Las disposiciones agrupadas por la parte de la que son, en orden de lectura. El soneto
@@ -505,17 +510,25 @@
 										{/if}
 						<!-- Un esquema abierto sin restricciones **no es un defecto**: es una forma
 						     que no fija su disposición, y decirlo es informar, no fallar. El aviso
-						     de que falta el dato es de la arquitectura entera y va más abajo. -->
+						     de que falta el dato es de la arquitectura entera y va más abajo.
+
+						     Restricción y descripción dicen lo mismo por dos vías —qué acota la
+						     norma y qué deja variar— y se imprimían distinto: la primera en el
+						     texto corriente y la segunda atenuada y aparte, de modo que parecían
+						     de rango distinto. Van juntas. Y el aviso por defecto solo aparece
+						     cuando no hay ninguna de las dos: con descripción diría dos veces lo
+						     mismo. -->
 										{#if esquema.restricciones.length > 0}
 											{unirRestricciones(esquema.restricciones)}
-										{:else}
-											<span class="text-[color:var(--muted-foreground)]">
-												La disposición no está fijada.
-											</span>
 										{/if}
 										{#if esquema.descripcion}
-											<span class="block text-[color:var(--muted-foreground)]">
-												{@html renderInlineMarkdown(esquema.descripcion)}
+											{#if esquema.restricciones.length > 0}{' '}{/if}{@html renderInlineMarkdown(
+												esquema.descripcion
+											)}
+										{/if}
+										{#if esquema.restricciones.length === 0 && !esquema.descripcion}
+											<span class="text-[color:var(--muted-foreground)]">
+												La disposición no está fijada.
 											</span>
 										{/if}
 									</li>
@@ -610,12 +623,21 @@
 				</tr>
 			{/if}
 
-			{#if arquitectura.rasgos.permitidos.length > 0}
+			<!--
+				`permitidos` y `opcionales` se pintaban en dos bloques, «Rasgos permitidos ·
+				Permitido» y «Rasgos · Opcional», que dicen lo mismo con dos palabras distintas.
+				Lo que de verdad los separa no es del lector sino del editor: `opcionales` son los
+				que tienen una pregunta en el formulario y `permitidos` los que no. Para quien lee
+				la ficha, los dos son lo mismo —puede darse, con esta frecuencia—, y la modalidad
+				impresa al lado ya dice cuánto. Van en un solo bloque; el servidor conserva la
+				distinción, que sí le sirve al editor.
+			-->
+			{#if permitidosYOpcionales.length > 0}
 				<tr class="border-t border-[color:var(--border)]">
 					{@render dimension('Rasgos permitidos', { grado: 'permitido' })}
 					<td class="py-2.5 align-top">
 						<ul class="space-y-1">
-							{#each arquitectura.rasgos.permitidos as rasgo, i (`rp:${i}`)}
+							{#each permitidosYOpcionales as rasgo, i (`rp:${i}`)}
 								{@render rasgoLinea(rasgo)}
 							{/each}
 						</ul>
@@ -682,18 +704,6 @@
 				</tr>
 			{/each}
 
-			{#if arquitectura.rasgos.opcionales.length > 0}
-				<tr class="border-t border-[color:var(--border)]">
-					{@render dimension('Rasgos', { grado: 'opcional' })}
-					<td class="py-2.5 align-top">
-						<ul class="space-y-1">
-							{#each arquitectura.rasgos.opcionales as rasgo, i (`ro:${i}`)}
-								{@render rasgoLinea(rasgo)}
-							{/each}
-						</ul>
-					</td>
-				</tr>
-			{/if}
 		</tbody>
 	</table>
 </section>
