@@ -2492,6 +2492,7 @@ export type Database = {
         Row: {
           activo: boolean
           arte: string | null
+          composicion: string | null
           created_at: string
           descripcion: string | null
           metro_id: string
@@ -2507,6 +2508,7 @@ export type Database = {
         Insert: {
           activo?: boolean
           arte?: string | null
+          composicion?: string | null
           created_at?: string
           descripcion?: string | null
           metro_id?: string
@@ -2522,6 +2524,7 @@ export type Database = {
         Update: {
           activo?: boolean
           arte?: string | null
+          composicion?: string | null
           created_at?: string
           descripcion?: string | null
           metro_id?: string

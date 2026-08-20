@@ -242,7 +242,8 @@ Llevan la prosa revisada, con su migración:
 | Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
 | Sextilla (segunda vuelta) | `20260820090000_la_sextilla_manriquena_dice_como_rima` |
 | Copla real | `20260820150000_cada_fuente_habla_de_la_forma_que_describe` |
-| Octava real | `20260820160000_la_octava_real_acota_lo_que_deja_variar` |
+| Octava real | `20260820160000_la_octava_real_acota_lo_que_deja_variar` | (+ `20260820170000`, `20260820180000`)
+| Copla de arte mayor | `20260820190000_la_copla_de_arte_mayor_llega_al_teatro_como_arcaismo` (+ `20260820200000`) |
 | Pie quebrado, en cinco formas | `20260820100000_el_pie_quebrado_es_un_rasgo_de_cada_estrofa` (+ `20260820110000`, `20260820120000`, `20260820130000`) |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir

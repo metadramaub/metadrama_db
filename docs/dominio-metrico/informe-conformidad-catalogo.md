@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-20 12:30
+Generado: 2026-08-20 13:30
 
-Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 92 patrones de rima · 61 secciones · 61 grupos de elección · 403 opciones · 7 rasgos.
+Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 93 patrones de rima · 61 secciones · 61 grupos de elección · 404 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -167,7 +167,7 @@ Sin incidencias.
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| undefined | 92 | cancion_petrarquista×4, copla_de_arte_mayor×3, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×7, lira×1, octava_real×2, pareado×2, quintilla×9, redondilla×7, romance×4, seguidilla×7, sexteto×5, sexteto_lira×3, sextilla×11, sextina_estrofa×1, silva×4, soneto×6, terceto×2, terceto_encadenado×2, villancico×6, zejel×1 |
+| undefined | 93 | cancion_petrarquista×4, copla_de_arte_mayor×4, cuarteto×2, decima×2, endecasilabo_suelto×1, endecha_real×7, lira×1, octava_real×2, pareado×2, quintilla×9, redondilla×7, romance×4, seguidilla×7, sexteto×5, sexteto_lira×3, sextilla×11, sextina_estrofa×1, silva×4, soneto×6, terceto×2, terceto_encadenado×2, villancico×6, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
