@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-20 12:17
+Generado: 2026-08-20 12:30
 
 Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 92 patrones de rima · 61 secciones · 61 grupos de elección · 403 opciones · 7 rasgos.
 
@@ -177,13 +177,13 @@ Sin incidencias.
 | sexteto · dodecasilabica | 1 | control abierto de esquema |
 | sexteto · endecasilabica | 1 | control abierto de esquema |
 | cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema + restricciones cualitativas (1) |
+| octava_real · endecasilabica_consonante | 1 | patrón vacío, sin sustituto |
 | sextilla · heptasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · hexasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
 | cancion_petrarquista · sin_rima_con_pareado_final | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
-| octava_real · endecasilabica_consonante | 1 | restricciones cualitativas (1) |
 | quintilla · octosilabica_consonante | 1 | restricciones cualitativas (1) |
 | sextilla · doble_pie_quebrado | 1 | restricciones cualitativas (1) |
 | silva · consonante_irregular | 1 | restricciones cualitativas (1) |
