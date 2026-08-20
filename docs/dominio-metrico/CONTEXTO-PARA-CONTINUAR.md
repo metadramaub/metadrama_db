@@ -241,6 +241,7 @@ Llevan la prosa revisada, con su migración:
 | Lira y sexteto-lira | `20260819200000_la_lira_dice_de_donde_viene_su_nombre` (+ `20260819210000`, `20260819220000`) |
 | Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
 | Sextilla (segunda vuelta) | `20260820090000_la_sextilla_manriquena_dice_como_rima` |
+| Copla real | `20260820150000_cada_fuente_habla_de_la_forma_que_describe` |
 | Pie quebrado, en cinco formas | `20260820100000_el_pie_quebrado_es_un_rasgo_de_cada_estrofa` (+ `20260820110000`, `20260820120000`, `20260820130000`) |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
@@ -265,6 +266,13 @@ día: la escribían solo las pantallas del gestor mutable —retirado el 11 de a
 tocó cada fila, no un estado. **La revisión es la migración**, y queda en `git`. Cuidado al
 buscarla: `permissions.ts` y `/dashboard/vocabularios` mencionan un `estado_revision` que es otra
 cosa, una categoría del vocabulario legado.
+
+**Una afirmación no se reutiliza entre formas.** Cada fuente dice lo que dice **de cada forma**, y
+una misma afirmación servida a varias acaba hablando de otra estrofa en tres de ellas: pasó el 20
+de agosto de 2026 al mover al rasgo `pie_quebrado` la bibliografía de la copla de pie quebrado, y
+la ficha de la copla real amaneció con dos notas de fuente sobre la sextilla. Cuando una fuente
+documenta algo que toca a varias formas, **se integra en la afirmación que cada una ya tiene**, con
+lo que esa fuente dice de ella; si no dice nada de una forma, esa forma no lleva nota.
 
 **Que el auditor calle no prueba que la norma esté declarada.** El aviso `patron_rima_sin_regla`
 se apaga en cuanto la arquitectura tiene *o* una restricción, *o* una densidad, *o* un esquema
