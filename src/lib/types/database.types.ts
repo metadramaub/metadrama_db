@@ -23,7 +23,6 @@ export type Database = {
           created_by: string | null
           esquema_metrico_id: string | null
           esquema_rima_id: string | null
-          estado_revision: string
           forma_id: string | null
           fuente_id: string
           localizador: string | null
@@ -40,7 +39,6 @@ export type Database = {
           created_by?: string | null
           esquema_metrico_id?: string | null
           esquema_rima_id?: string | null
-          estado_revision?: string
           forma_id?: string | null
           fuente_id: string
           localizador?: string | null
@@ -57,7 +55,6 @@ export type Database = {
           created_by?: string | null
           esquema_metrico_id?: string | null
           esquema_rima_id?: string | null
-          estado_revision?: string
           forma_id?: string | null
           fuente_id?: string
           localizador?: string | null
@@ -209,7 +206,6 @@ export type Database = {
           created_by: string | null
           demarcable: boolean
           descripcion: string | null
-          estado_revision: string
           forma_id: string
           modalidad: string
           nombre: string
@@ -230,7 +226,6 @@ export type Database = {
           created_by?: string | null
           demarcable?: boolean
           descripcion?: string | null
-          estado_revision?: string
           forma_id: string
           modalidad?: string
           nombre: string
@@ -251,7 +246,6 @@ export type Database = {
           created_by?: string | null
           demarcable?: boolean
           descripcion?: string | null
-          estado_revision?: string
           forma_id?: string
           modalidad?: string
           nombre?: string
@@ -919,6 +913,7 @@ export type Database = {
           nombre: string
           origen_termino_id: string | null
           preferente: boolean
+          rasgo_id: string | null
           repeticion_id: string | null
           seccion_id: string | null
           slug_normalizado: string
@@ -937,6 +932,7 @@ export type Database = {
           nombre: string
           origen_termino_id?: string | null
           preferente?: boolean
+          rasgo_id?: string | null
           repeticion_id?: string | null
           seccion_id?: string | null
           slug_normalizado: string
@@ -955,6 +951,7 @@ export type Database = {
           nombre?: string
           origen_termino_id?: string | null
           preferente?: boolean
+          rasgo_id?: string | null
           repeticion_id?: string | null
           seccion_id?: string | null
           slug_normalizado?: string
@@ -1017,6 +1014,13 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "denominaciones_metricas_rasgo_id_fkey"
+            columns: ["rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgos_metricos"
+            referencedColumns: ["rasgo_id"]
           },
           {
             foreignKeyName: "denominaciones_metricas_repeticion_id_fkey"
@@ -1741,7 +1745,6 @@ export type Database = {
           created_at: string
           descripcion: string | null
           esquema_metrico_id: string
-          estado_revision: string
           medida_uniforme: boolean | null
           nombre: string | null
           seccion_id: string | null
@@ -1754,7 +1757,6 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           esquema_metrico_id?: string
-          estado_revision?: string
           medida_uniforme?: boolean | null
           nombre?: string | null
           seccion_id?: string | null
@@ -1767,7 +1769,6 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           esquema_metrico_id?: string
-          estado_revision?: string
           medida_uniforme?: boolean | null
           nombre?: string | null
           seccion_id?: string | null
@@ -1805,7 +1806,6 @@ export type Database = {
           created_at: string
           descripcion: string | null
           esquema_rima_id: string
-          estado_revision: string
           modalidad: string
           nombre: string | null
           notacion: string | null
@@ -1821,7 +1821,6 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           esquema_rima_id?: string
-          estado_revision?: string
           modalidad?: string
           nombre?: string | null
           notacion?: string | null
@@ -1837,7 +1836,6 @@ export type Database = {
           created_at?: string
           descripcion?: string | null
           esquema_rima_id?: string
-          estado_revision?: string
           modalidad?: string
           nombre?: string | null
           notacion?: string | null
@@ -1932,7 +1930,7 @@ export type Database = {
           nombre: string | null
           nota: string | null
           orden: number
-		  primera_realizacion_define_patron: boolean
+          primera_realizacion_define_patron: boolean
           repeticiones_max: number | null
           repeticiones_min: number | null
           seccion_id: string
@@ -1952,7 +1950,7 @@ export type Database = {
           nombre?: string | null
           nota?: string | null
           orden: number
-		  primera_realizacion_define_patron?: boolean
+          primera_realizacion_define_patron?: boolean
           repeticiones_max?: number | null
           repeticiones_min?: number | null
           seccion_id?: string
@@ -1972,7 +1970,7 @@ export type Database = {
           nombre?: string | null
           nota?: string | null
           orden?: number
-		  primera_realizacion_define_patron?: boolean
+          primera_realizacion_define_patron?: boolean
           repeticiones_max?: number | null
           repeticiones_min?: number | null
           seccion_id?: string
@@ -2040,7 +2038,6 @@ export type Database = {
           cantidad_max: number | null
           cantidad_min: number | null
           created_at: string
-          estado_revision: string
           forma_destino_id: string
           forma_origen_id: string
           nota: string | null
@@ -2053,7 +2050,6 @@ export type Database = {
           cantidad_max?: number | null
           cantidad_min?: number | null
           created_at?: string
-          estado_revision?: string
           forma_destino_id: string
           forma_origen_id: string
           nota?: string | null
@@ -2066,7 +2062,6 @@ export type Database = {
           cantidad_max?: number | null
           cantidad_min?: number | null
           created_at?: string
-          estado_revision?: string
           forma_destino_id?: string
           forma_origen_id?: string
           nota?: string | null
@@ -2112,7 +2107,6 @@ export type Database = {
           created_at: string
           created_by: string | null
           definicion: string | null
-          estado_revision: string
           forma_id: string
           nivel_estructural: string
           nombre: string
@@ -2128,7 +2122,6 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           definicion?: string | null
-          estado_revision?: string
           forma_id?: string
           nivel_estructural?: string
           nombre: string
@@ -2144,7 +2137,6 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           definicion?: string | null
-          estado_revision?: string
           forma_id?: string
           nivel_estructural?: string
           nombre?: string
@@ -2321,7 +2313,6 @@ export type Database = {
           created_at: string
           define_norma: boolean
           dimension: string
-          estado_revision: string
           grupo_eleccion_id: string
           orden: number | null
           permite_aplicar_global: boolean
@@ -2342,7 +2333,6 @@ export type Database = {
           created_at?: string
           define_norma?: boolean
           dimension: string
-          estado_revision?: string
           grupo_eleccion_id?: string
           orden?: number | null
           permite_aplicar_global?: boolean
@@ -2363,7 +2353,6 @@ export type Database = {
           created_at?: string
           define_norma?: boolean
           dimension?: string
-          estado_revision?: string
           grupo_eleccion_id?: string
           orden?: number | null
           permite_aplicar_global?: boolean
@@ -2505,7 +2494,6 @@ export type Database = {
           arte: string | null
           created_at: string
           descripcion: string | null
-          estado_revision: string
           metro_id: string
           nombre: string
           orden: number | null
@@ -2521,7 +2509,6 @@ export type Database = {
           arte?: string | null
           created_at?: string
           descripcion?: string | null
-          estado_revision?: string
           metro_id?: string
           nombre: string
           orden?: number | null
@@ -2537,7 +2524,6 @@ export type Database = {
           arte?: string | null
           created_at?: string
           descripcion?: string | null
-          estado_revision?: string
           metro_id?: string
           nombre?: string
           orden?: number | null
@@ -2916,7 +2902,6 @@ export type Database = {
           created_at: string
           demarcable: boolean
           descripcion: string | null
-          estado_revision: string
           nombre: string
           observabilidad: string
           rasgo_id: string
@@ -2929,7 +2914,6 @@ export type Database = {
           created_at?: string
           demarcable?: boolean
           descripcion?: string | null
-          estado_revision?: string
           nombre: string
           observabilidad?: string
           rasgo_id?: string
@@ -2942,7 +2926,6 @@ export type Database = {
           created_at?: string
           demarcable?: boolean
           descripcion?: string | null
-          estado_revision?: string
           nombre?: string
           observabilidad?: string
           rasgo_id?: string
@@ -3068,7 +3051,6 @@ export type Database = {
           arquitectura_id: string
           created_at: string
           descripcion: string | null
-          estado_revision: string
           extension_desde_seccion_id: string | null
           materializa_seccion_id: string | null
           modalidad: string
@@ -3082,7 +3064,6 @@ export type Database = {
           arquitectura_id: string
           created_at?: string
           descripcion?: string | null
-          estado_revision?: string
           extension_desde_seccion_id?: string | null
           materializa_seccion_id?: string | null
           modalidad?: string
@@ -3096,7 +3077,6 @@ export type Database = {
           arquitectura_id?: string
           created_at?: string
           descripcion?: string | null
-          estado_revision?: string
           extension_desde_seccion_id?: string | null
           materializa_seccion_id?: string | null
           modalidad?: string
@@ -3486,7 +3466,6 @@ export type Database = {
           created_at: string
           created_by: string | null
           descripcion: string | null
-          estado_revision: string
           nombre: string
           orden: number | null
           periodo_desde: number | null
@@ -3502,7 +3481,6 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           descripcion?: string | null
-          estado_revision?: string
           nombre: string
           orden?: number | null
           periodo_desde?: number | null
@@ -3518,7 +3496,6 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           descripcion?: string | null
-          estado_revision?: string
           nombre?: string
           orden?: number | null
           periodo_desde?: number | null
@@ -3553,7 +3530,6 @@ export type Database = {
           descripcion: string | null
           esquema_metrico_id: string
           esquema_rima_id: string
-          estado_revision: string
           modalidad: string
           nombre: string
           orden: number | null
@@ -3569,7 +3545,6 @@ export type Database = {
           descripcion?: string | null
           esquema_metrico_id: string
           esquema_rima_id: string
-          estado_revision?: string
           modalidad?: string
           nombre: string
           orden?: number | null
@@ -3585,7 +3560,6 @@ export type Database = {
           descripcion?: string | null
           esquema_metrico_id?: string
           esquema_rima_id?: string
-          estado_revision?: string
           modalidad?: string
           nombre?: string
           orden?: number | null
@@ -3855,7 +3829,6 @@ export type Database = {
           created_at: string | null
           define_norma: boolean | null
           dimension: string | null
-          estado_revision: string | null
           grupo_eleccion_id: string | null
           nombre: string | null
           orden: number | null
@@ -3985,6 +3958,7 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: boolean
       }
+      catalogo_metrico_publico: { Args: never; Returns: boolean }
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }
       get_catalogo_formas_publicas: { Args: never; Returns: Json }

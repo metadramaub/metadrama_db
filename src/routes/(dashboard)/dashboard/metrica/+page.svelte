@@ -43,7 +43,11 @@
 	);
 	const demarcatorReady = $derived(
 			data.issues.filter((issue: MetricCatalogIssue) => issue.level === 'error').length === 0 &&
-			data.stats.approvedForms > 0
+			// Antes se exigía además que hubiera formas «aprobadas». Ese estado se retiró el 20 de
+			// agosto de 2026: no lo escribía nadie desde que el gestor mutable desapareció, y lo
+			// que decía era el rastro de la última pantalla que tocó cada fila. La condición real
+			// es la que queda — que el catálogo tenga formas y ningún error.
+			data.stats.forms > 0
 	);
 
 	function resolveTab(value: string | null | undefined): ActiveTab {

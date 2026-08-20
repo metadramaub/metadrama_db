@@ -26,7 +26,6 @@ function arquitectura(id: string): MetricCatalogConfiguration {
 		tipo_rima_id: 'consonante',
 		unidad_versos_min: 6,
 		unidad_versos_max: 6,
-		estado_revision: 'revisada',
 		activo: true,
 		orden: 1,
 		origen_termino_id: null,
