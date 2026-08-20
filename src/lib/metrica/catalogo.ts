@@ -1,10 +1,3 @@
-export const METRIC_CATALOG_REVIEW_STATES = [
-	'borrador',
-	'revisada',
-	'aprobada',
-	'retirada'
-] as const;
-
 export const METRIC_STRUCTURAL_LEVELS = ['verso', 'estrofa', 'serie', 'composicion'] as const;
 
 export const METRIC_ENTRY_TYPES = ['forma', 'sin_forma'] as const;
@@ -35,7 +28,6 @@ export const METRIC_CHOICE_DIMENSIONS = [
 
 export const METRIC_CHOICE_SCOPES = ['secuencia', 'unidad', 'realizacion'] as const;
 
-export type MetricCatalogReviewState = (typeof METRIC_CATALOG_REVIEW_STATES)[number];
 export type MetricStructuralLevel = (typeof METRIC_STRUCTURAL_LEVELS)[number];
 export type MetricEntryType = (typeof METRIC_ENTRY_TYPES)[number];
 export type MetricModality = (typeof METRIC_MODALITIES)[number];
@@ -52,7 +44,6 @@ export type MetricCatalogForm = {
 	definicion: string | null;
 	nivel_estructural: MetricStructuralLevel;
 	tipo_registro: MetricEntryType;
-	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	orden: number | null;
 	origen_termino_id: string | null;
@@ -71,7 +62,6 @@ export type MetricCatalogConfiguration = {
 	tipo_rima_id: string | null;
 	unidad_versos_min: number | null;
 	unidad_versos_max: number | null;
-	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	orden: number | null;
 	origen_termino_id: string | null;
@@ -95,7 +85,6 @@ export type MetricCatalogTradition = {
 	slug: string;
 	nombre: string;
 	descripcion: string | null;
-	estado_revision: MetricCatalogReviewState;
 	activo: boolean;
 	formas: number;
 };
@@ -201,17 +190,9 @@ export type MetricCatalogPageData = {
 	issues: MetricCatalogIssue[];
 	stats: {
 		forms: number;
-		approvedForms: number;
 		configurations: number;
 	};
 };
-
-export function metricReviewStateLabel(state: MetricCatalogReviewState): string {
-	if (state === 'borrador') return 'Borrador';
-	if (state === 'revisada') return 'Revisada';
-	if (state === 'aprobada') return 'Aprobada';
-	return 'Retirada';
-}
 
 export function metricStructuralLevelLabel(level: MetricStructuralLevel): string {
 	if (level === 'verso') return 'Verso';

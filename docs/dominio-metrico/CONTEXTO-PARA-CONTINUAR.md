@@ -250,6 +250,22 @@ seguidilla son el modelo. La regla de no escribir lo derivado se aplica con seve
 prosa no usa lenguaje de base de datos ni da por supuesto el Siglo de Oro: el catálogo aspira a
 ser más general que el corpus.
 
+**Cómo se retira algo del catálogo.** Fijado el 20 de agosto de 2026, al retirar la primera
+forma. Una **forma** o una **arquitectura** se retiran con `activo = false`: es el interruptor
+real —lo filtran nueve funciones SQL y el cargador del editor—, y saca la fila de la ficha, del
+catálogo público y del demarcador de una vez, sin borrarla. Lo que **cuelga de una arquitectura**
+—esquemas, secciones, rasgos, grupos— se retira con ella y no lleva flag propio. Y un **esquema,
+una sección o una variedad sueltos se borran**: todas las claves ajenas de
+`elecciones_editor_metrico` son `on delete restrict`, así que la base impide sola borrar lo que
+una anotación use, que es una garantía más fuerte que un estado.
+
+`estado_revision` **ya no existe** en el dominio métrico. Se retiró de sus doce tablas ese mismo
+día: la escribían solo las pantallas del gestor mutable —retirado el 11 de agosto—, la leía un
+único filtro que nunca excluyó nada, y lo que guardaba era el rastro de la última pantalla que
+tocó cada fila, no un estado. **La revisión es la migración**, y queda en `git`. Cuidado al
+buscarla: `permissions.ts` y `/dashboard/vocabularios` mencionan un `estado_revision` que es otra
+cosa, una categoría del vocabulario legado.
+
 **Que el auditor calle no prueba que la norma esté declarada.** El aviso `patron_rima_sin_regla`
 se apaga en cuanto la arquitectura tiene *o* una restricción, *o* una densidad, *o* un esquema
 concreto — y un esquema concreto no dice nada de la disposición abierta, que es la que la norma

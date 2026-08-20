@@ -19,9 +19,9 @@ type QueryError = {
 };
 
 const FORM_SELECT =
-	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,activo,orden,origen_termino_id,updated_at';
 const CONFIGURATION_SELECT =
-	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,modalidad,tipo_rima_id,unidad_versos_min,unidad_versos_max,estado_revision,activo,orden,origen_termino_id,updated_at';
+	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,modalidad,tipo_rima_id,unidad_versos_min,unidad_versos_max,activo,orden,origen_termino_id,updated_at';
 
 function isMissingCatalogError(error: QueryError | null): boolean {
 	return error?.code === '42P01' || error?.code === 'PGRST205' || error?.code === 'PGRST204';
@@ -294,7 +294,6 @@ export async function loadMetricCatalog(
 			issues: [],
 			stats: {
 				forms: 0,
-				approvedForms: 0,
 				configurations: 0,
 			}
 		};
@@ -319,7 +318,7 @@ export async function loadMetricCatalog(
 			.order('nombre', { ascending: true }),
 		db
 			.from('tradiciones_metricas')
-			.select('tradicion_id,slug,nombre,descripcion,estado_revision,activo')
+			.select('tradicion_id,slug,nombre,descripcion,activo')
 			.order('nombre', { ascending: true }),
 		db.from('formas_tradiciones').select('tradicion_id,forma_id'),
 		db.from('esquemas_metricos').select('esquema_metrico_id,arquitectura_id'),
@@ -569,12 +568,6 @@ export async function loadMetricCatalog(
 		issues,
 		stats: {
 			forms: forms.filter((form) => form.activo && form.tipo_registro === 'forma').length,
-			approvedForms: forms.filter(
-				(form) =>
-					form.activo &&
-					form.tipo_registro === 'forma' &&
-					form.estado_revision === 'aprobada'
-			).length,
 			configurations: configurations.filter((configuration) => configuration.activo).length,
 		}
 	};
