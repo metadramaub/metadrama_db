@@ -719,6 +719,31 @@ tres disposiciones que la tradición nombra —alterna `ababab`, correlativa `ab
    rama a `incumple`.* Y `numero_clases` admite un solo valor, así que no puede expresar «dos o
    tres»: *necesitaría un rango, o un tipo nuevo.*
 
+### Añadido en la segunda vuelta, 20 de agosto de 2026
+
+Al revisar el sexteto salió el hilo manriqueño, y tirando de él aparecieron dos cosas que la
+migración de ese día no resuelve.
+
+3. **Las cuatro disposiciones históricas de la doble sextilla no se han creado.** Navarro Tomás
+   § 68 enumera con ejemplo y localizador la serie entera: `aab:aab-aab:aab` (Canc. Baena, con dos
+   rimas únicas), `aab:aab-bba:bba` (Villasandino, núm. 194), `aab:aab-ccd:ccd` (Juan de Mena,
+   núms. 49-50) y `abc:abc-def:def`, «que alcanzó fama permanente con las coplas de Jorge
+   Manrique». Hoy el catálogo declara solo la última y deja el resto en un esquema abierto con
+   restricción de regularidad. **No se han creado a propósito**: son cancioneriles del siglo XV y
+   no del corpus dramático, y es exactamente el caso que quedó abierto en el sexteto —modelar lo
+   que las fuentes describen aunque el corpus no lo traiga, o no hacerlo—. *Se decide junto con
+   aquel, no por separado.*
+
+4. **¿Merece la doble sextilla una arquitectura propia?** Es una duda que abre la descripción
+   nueva, escrita con tu criterio: la doble **no es estructuralmente distinta de la simple**, la
+   medida y la rima se organizan exactamente igual y las rimas de la primera no pasan a la
+   segunda; lo único que las enlaza es el sentido del texto. Si eso es así, una arquitectura de
+   doce versos está declarando como diferencia métrica algo que no lo es, y lo mismo podría
+   decirse de la copla castellana frente a la redondilla o de la copla real frente a la quintilla.
+   *La alternativa sería tratar el enlace de sentido como otra cosa —una repetición, o un dato de
+   la anotación y no del catálogo—, y afecta a más formas que esta. Queda planteada, sin tocar
+   nada.*
+
 ## Copla de pie quebrado
 
 *Revisada el 7 de agosto de 2026. Su ficha, compartida con las otras coplas y la sextilla, se

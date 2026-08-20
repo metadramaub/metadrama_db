@@ -239,6 +239,7 @@ Llevan la prosa revisada, con su migración:
 | Sextina (composición y estrofa) | `20260819190000_la_sextina_dice_que_lo_que_vuelve_es_la_palabra` |
 | Lira y sexteto-lira | `20260819200000_la_lira_dice_de_donde_viene_su_nombre` (+ `20260819210000`, `20260819220000`) |
 | Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
+| Sextilla (segunda vuelta) | `20260820090000_la_sextilla_manriquena_dice_como_rima` |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
 en prosa lo que la figura dibuja, porque su función es que una forma se lea de corrido; las de la
@@ -529,6 +530,17 @@ hacerlas antes obliga a hacerlas dos veces.
     comprobación permanente **D16** impide que una reutilización entre formas vuelva a quedar sin
     relación ontológica. No hace falta una tabla de relaciones entre arquitecturas para la
     composición: la propia sección ya ocupa ese nivel preciso.
+
+13sexies. **Revisar en todas las formas qué debe preguntar el editor cuando el esquema de rima no
+    es fijo.** Salió al revisar la sextilla el 20 de agosto de 2026 y no es un caso suelto: el
+    sexteto da al editor un grupo `esquema_rima_observado` en sus tres arquitecturas, y la
+    sextilla —el mismo caso, seis versos consonantes de disposición abierta— **no tiene ninguno**
+    en cuatro de sus cinco, la principal incluida; solo la doble de pie quebrado pregunta, y con
+    una casilla. Donde la norma deja abierta la disposición, el editor no puede registrar la que
+    vio. Hay dos salidas y no son equivalentes: **campo libre**, como el sexteto, o **lista
+    cerrada** con las disposiciones documentadas más «otra». La revisión debe recorrer el catálogo
+    entero —qué arquitecturas dejan la rima abierta y cuáles preguntan por ella— y decidir una
+    sola vez, porque hoy conviven las dos sin criterio.
 
 ## Siguiente fase prevista
 
