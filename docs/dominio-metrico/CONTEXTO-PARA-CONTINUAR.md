@@ -246,7 +246,8 @@ Llevan la prosa revisada, con su migración:
 | Copla de arte mayor | `20260820190000_la_copla_de_arte_mayor_llega_al_teatro_como_arcaismo` (+ `20260820200000`) |
 | Endecasílabo suelto | `20260820210000_el_endecasilabo_suelto_distingue_el_blanco_del_suelto` |
 | Endecha real | `20260820220000_la_endecha_real_ensena_sus_cuatro_disposiciones` | (+ `20260820230000`)
-| Pareado | `20260820240000_el_pareado_dice_para_que_sirve` |
+| Pareado | `20260820240000_el_pareado_dice_para_que_sirve` | (+ `20260820250000`)
+| Novena | `20260820260000_la_novena_dice_como_se_llama_y_quien_la_escribio` |
 | Pie quebrado, en cinco formas | `20260820100000_el_pie_quebrado_es_un_rasgo_de_cada_estrofa` (+ `20260820110000`, `20260820120000`, `20260820130000`) |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir

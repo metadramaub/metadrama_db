@@ -783,6 +783,18 @@ migración de ese día no resuelve.
    asonante» y «Pareado consonante». *Son los dos únicos casos del catálogo de dos disposiciones
    con la misma notación; el otro, la cruzada de la endecha real, ya sigue la regla.*
 
+## Novena
+
+*Prosa revisada el 20 de agosto de 2026.*
+
+1. **No tiene afirmación de Morley y Bruerton, y no he podido comprobar si la merece.** Son
+   quienes miden el corpus dramático, y su ausencia es informativa cuando ocurre: la afirmación de
+   M&B sobre la copla de arte mayor —«no la registran entre las formas empleadas por Lope»— y la
+   del sexteto son de las más útiles de sus fichas. **Solo cinco formas activas no tienen la
+   suya**: endecha real, novena, sextina estrofa, villancico y zéjel. Su texto **no está entre los
+   `.txt` de la bibliografía**, así que no se puede verificar desde aquí. *Conviene mirarlo en el
+   libro: si no registran la novena, decirlo vale tanto como decirlo en las otras dos.*
+
 ## Octava real
 
 *Prosa y norma de rima revisadas el 20 de agosto de 2026.*
