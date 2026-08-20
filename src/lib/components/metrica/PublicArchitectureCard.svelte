@@ -253,6 +253,8 @@
 			],
 			bandas: [],
 			enlaces: [],
+			// Aquí solo se dibuja una disposición, así que el esqueleto es suyo por definición.
+			esqueletoDe: esquema.id,
 			cicla: esquema.cicla,
 			// Es la rima la que cicla aquí, no una medida repetida.
 			cicloSoloMetrico: false,

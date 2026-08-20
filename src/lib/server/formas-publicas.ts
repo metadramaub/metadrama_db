@@ -638,6 +638,13 @@ export async function loadPublicForm(
 		}))
 	});
 
+	/** Las arquitecturas que declaran un régimen único: sus disposiciones no repiten el suyo. */
+	const arquitecturaDeclaraRegimen = new Set(
+		(arquitecturas as any[])
+			.filter((row) => row.tipo_rima_id)
+			.map((row) => String(row.arquitectura_id))
+	);
+
 	const rimaEntrada = (e: any, nombreSeccion: string | null): EsquemaRimaEntrada => ({
 		id: String(e.esquema_rima_id),
 		/**
@@ -652,6 +659,13 @@ export async function loadPublicForm(
 		notacion: texto(e.notacion),
 		seccion: nombreSeccion,
 		modalidad: texto(e.modalidad),
+		/**
+		 * Solo cuando la arquitectura no declara uno solo arriba: si lo declara, repetirlo en
+		 * cada fila sería ruido, porque todas comparten el mismo.
+		 */
+		tipoRima: arquitecturaDeclaraRegimen.has(String(e.arquitectura_id))
+			? null
+			: (e.tipo_rima_id ? (nombreTipoRima.get(String(e.tipo_rima_id)) ?? null) : null),
 		posiciones: (todasLasPosicionesPorEsquema.get(String(e.esquema_rima_id)) ?? []).map((p) => ({
 			bloque: Number(p.bloque ?? 1),
 			posicion: Number(p.posicion),

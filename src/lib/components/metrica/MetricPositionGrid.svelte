@@ -152,6 +152,17 @@
 		return clase !== clase.toLocaleLowerCase('es') && clase === clase.toLocaleUpperCase('es');
 	}
 
+	/**
+	 * El nombre de la disposición de la que habla el pie, y solo cuando hay más de una dibujada:
+	 * con una sola no hay ambigüedad que deshacer y nombrarla sería ruido.
+	 */
+	const deQueDisposicion = $derived(
+		rejilla.filasDeRima.length > 1
+			? (rejilla.filasDeRima.find((fila) => fila.esquemaRimaId === rejilla.esqueletoDe)?.nombre ??
+				null)
+			: null
+	);
+
 	const enlacesEntreRepeticiones = $derived(
 		rejilla.enlaces.filter((enlace) => enlace.sentido !== 'interior')
 	);
@@ -459,8 +470,19 @@
 	</div>
 </div>
 
+<!--
+	El pie describe **el esqueleto**, y el esqueleto sale de una sola disposición: la que decide las
+	columnas, si el dibujo cicla y qué enlaces arrastra de una vuelta a la siguiente. Cuando la
+	arquitectura dibuja varias, ponerlo debajo de todas lo dejaba pareciendo de todas — la endecha
+	real admite cuatro disposiciones y solo la asonantada sostiene su rima, y sin embargo el «⟳ se
+	repite» y el «el verso 4 conserva su rima» quedaban al pie de las cuatro, sin decir de cuál
+	hablaban. Con más de una fila, el pie la nombra.
+-->
 {#if pie && !compacta && (rejilla.cicla || rejilla.recortada || enlacesEntreRepeticiones.length > 0 || palabraFinal)}
 	<div class="mt-2 space-y-1 text-xs text-[color:var(--muted-foreground)]">
+		{#if deQueDisposicion}
+			<p class="italic">Lo que sigue vale para «{deQueDisposicion}»:</p>
+		{/if}
 		{#if rejilla.cicla}
 			<p><span aria-hidden="true">⟳</span> Se repite hasta el final de la serie.</p>
 		{/if}

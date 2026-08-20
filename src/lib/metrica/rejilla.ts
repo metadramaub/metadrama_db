@@ -63,6 +63,17 @@ export type EsquemaRimaEntrada = {
 	id: string;
 	nombre: string | null;
 	notacion: string | null;
+	/**
+	 * El régimen de **esta** disposición, cuando la arquitectura no declara uno solo arriba.
+	 *
+	 * La endecha real reparte tres entre sus cinco disposiciones —asonante, consonante y sin
+	 * rima—, y sin esto la ficha decía «según la disposición» y luego no lo decía en ninguna:
+	 * dos de sus filas dibujaban `abaB` sin nada que las distinguiera.
+	 *
+	 * Opcional porque quien no dibuja para el público —el demarcador, el resumen de la norma del
+	 * editor— no tiene régimen que enseñar y no debe verse obligado a inventarlo.
+	 */
+	tipoRima?: string | null;
 	/** Nombre de la sección cuya rima describe, cuando no es la de la unidad entera. */
 	seccion: string | null;
 	modalidad: string | null;
@@ -165,6 +176,16 @@ export type Rejilla = {
 	enlaces: EnlaceRejilla[];
 	/** Lo dibujado se repite hasta el final de la serie. */
 	cicla: boolean;
+	/**
+	 * De qué disposición sale el esqueleto: la que decide las columnas, si el dibujo cicla y qué
+	 * enlaces arrastra de una vuelta a la siguiente.
+	 *
+	 * Hace falta porque **una arquitectura puede dibujar varias disposiciones y solo una ciclar**.
+	 * La endecha real admite cuatro y solo la asonantada sostiene su rima; sin saber cuál es, el
+	 * «⟳ se repite» y el «el verso 4 conserva su rima» quedaban al pie de las cuatro, como si
+	 * valieran para todas.
+	 */
+	esqueletoDe: string | null;
 	/**
 	 * El ⟳ viene solo de repetir una medida y no de una rima que vuelva.
 	 *
@@ -511,6 +532,7 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 			nombre: esquema.nombre,
 			notacion: esquema.notacion,
 			modalidad: esquema.modalidad,
+			tipoRima: esquema.tipoRima ?? null,
 			parte,
 			desde,
 			hasta,
@@ -566,6 +588,7 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 	return {
 		celdas,
 		filasDeRima,
+		esqueletoDe: elegido?.id ?? null,
 		cicloSoloMetrico,
 		bandas,
 		enlaces,
