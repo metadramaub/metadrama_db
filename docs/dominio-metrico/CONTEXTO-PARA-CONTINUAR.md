@@ -247,7 +247,7 @@ Llevan la prosa revisada, con su migración:
 | Endecasílabo suelto | `20260820210000_el_endecasilabo_suelto_distingue_el_blanco_del_suelto` |
 | Endecha real | `20260820220000_la_endecha_real_ensena_sus_cuatro_disposiciones` | (+ `20260820230000`)
 | Pareado | `20260820240000_el_pareado_dice_para_que_sirve` | (+ `20260820250000`)
-| Novena | `20260820260000_la_novena_dice_como_se_llama_y_quien_la_escribio` |
+| Novena | `20260820260000_la_novena_dice_como_se_llama_y_quien_la_escribio` | (+ `20260820270000`)
 | Pie quebrado, en cinco formas | `20260820100000_el_pie_quebrado_es_un_rasgo_de_cada_estrofa` (+ `20260820110000`, `20260820120000`, `20260820130000`) |
 
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
@@ -279,6 +279,12 @@ de agosto de 2026 al mover al rasgo `pie_quebrado` la bibliografía de la copla 
 la ficha de la copla real amaneció con dos notas de fuente sobre la sextilla. Cuando una fuente
 documenta algo que toca a varias formas, **se integra en la afirmación que cada una ya tiene**, con
 lo que esa fuente dice de ella; si no dice nada de una forma, esa forma no lleva nota.
+
+**Las seis monografías están en `docs/dominio-metrico/bibliografía/`, pero una no es `.txt`.** El
+texto de Morley y Bruerton es `definiciones_Morley&Bruerton.md`; las otras cinco están en `txt/`
+con extensión `.txt`. Una búsqueda filtrada por `.txt` lo deja fuera y hace creer que su libro no
+está disponible — pasó el 20 de agosto al revisar la novena, y estuvo a punto de dejar sin
+registrar una ausencia que sí importaba.
 
 **Que el auditor calle no prueba que la norma esté declarada.** El aviso `patron_rima_sin_regla`
 se apaga en cuanto la arquitectura tiene *o* una restricción, *o* una densidad, *o* un esquema
