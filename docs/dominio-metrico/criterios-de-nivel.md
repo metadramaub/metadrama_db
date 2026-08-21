@@ -231,6 +231,41 @@ tipadas: número de clases, máximo de versos consecutivos con la misma rima, pr
 pareado final, admisión de versos sueltos. Un literal libre en una restricción genérica es
 siempre un rasgo mal ubicado (**D9**).
 
+#### Qué entra en el catálogo: la prueba de la norma
+
+Fijado por el IP el 22 de agosto de 2026, al ampliar el catálogo con las medidas que le faltaban.
+Responde a una pregunta que volvía en cada forma —**¿se declara lo que las fuentes describen aunque
+el corpus no lo traiga?**— y que se había resuelto forma a forma, con criterios distintos cada vez.
+
+Se intentó primero un **criterio cronológico** —cerrar el catálogo antes del modernismo, porque a
+partir de ahí el verso se libera y cualquier combinación aparece documentada en alguna parte— y no
+funciona solo, porque **una medida no es una norma**: que una quintilla hexasílaba solo la firme
+Juan Ramón Jiménez no la hace problemática. La regla que sí funciona mira **qué afirma cada
+declaración**:
+
+> **1 · La medida no compromete la norma.** Una arquitectura que solo cambia el metro no afirma
+> nada nuevo sobre la forma: una quintilla en hexasílabos sigue siendo cinco versos, dos clases
+> consonantes, sin tres seguidos ni pareado final. **Se declara cuando alguna fuente la documenta,
+> sin criterio de fecha**, y la ficha dice quién y cuándo. Cuesta una fila y afirma lo que cuesta.
+>
+> **2 · Lo que fija la norma sí se acota.** Una disposición de rima, una restricción, un régimen,
+> un rasgo definitorio o una forma nueva afirman **qué admite la tradición**. Ahí se exige que una
+> fuente **lo enuncie como regla o le dé nombre**. Un experimento del siglo XX contra la norma
+> vigente no funda norma, por documentado que esté.
+
+**La prueba que lo opera es una sola pregunta: ¿la fuente lo define o lo ensaya?** Y es verificable,
+porque las fuentes lo dicen con sus palabras. Dos casos que se deciden solos y que fijaron la regla:
+
+| Caso | Qué dice la fuente | Resultado |
+| --- | --- | --- |
+| **Silva arromanzada** | El *Diccionario* le da entrada propia: «Silva en que todos los versos pares llevan la misma rima asonante» | **Entra**: régimen nuevo, pero **definido y con nombre** |
+| **Décima asonante** | Ninguna fuente la registra. Jauralde dice que Jorge Guillén «**ensayaba** sobre ellas… al rimarlas en asonante en vez de en consonante, **que era lo tradicional**» | **Fuera**: ensayo declarado contra la norma vigente |
+
+**Un corolario sobre las realizaciones documentadas.** Una medida entra cuando la fuente le dedica
+**epígrafe y ejemplo**, no cuando la nombra de paso dentro de un experimento. Jauralde cuenta que
+Rubén Darío escribió «un poema a modo de escala métrica con décimas, empezando por décima de
+bisílabo, luego trisílabo, etc.»: eso documenta el experimento, no la décima bisílaba.
+
 #### Un rasgo admitido no cambia lo que la forma declara
 
 Fijado el 22 de agosto de 2026, al preguntar el IP si el pie quebrado se declararía en la

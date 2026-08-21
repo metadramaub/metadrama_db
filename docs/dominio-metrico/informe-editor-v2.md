@@ -20,6 +20,8 @@ Generado el 2026-08-21 desde la base enlazada.
 | Novena | redondilla_quintilla | 0 | 2 | 2 | 0 |
 | Octava real | endecasilabica_consonante | 1 | 0 | 0 | 0 |
 | Pareado | cualquier_medida | 0 | 2 | 2 | 0 |
+| Quintilla | heptasilabica | 0 | 1 | 1 | 0 |
+| Quintilla | hexasilabica | 0 | 1 | 1 | 0 |
 | Quintilla | octosilabica_consonante | 0 | 1 | 1 | 0 |
 | Redondilla | heptasilabica | 0 | 1 | 1 | 0 |
 | Redondilla | hexasilabica | 0 | 1 | 1 | 0 |
@@ -28,11 +30,14 @@ Generado el 2026-08-21 desde la base enlazada.
 | Romance | heptasilabica | 1 | 0 | 0 | 0 |
 | Romance | hexasilabica | 1 | 0 | 0 | 0 |
 | Romance | octosilabica | 1 | 0 | 0 | 0 |
+| Romance | pentasilabica | 1 | 0 | 0 | 0 |
+| Romance | tetrasilabica | 1 | 0 | 0 | 0 |
 | Seguidilla | gitana | 0 | 1 | 1 | 0 |
 | Sexteto | alejandrina | 0 | 1 | 1 | 0 |
 | Sexteto | dodecasilabica | 0 | 1 | 1 | 0 |
 | Sexteto | endecasilabica | 0 | 1 | 1 | 0 |
 | Sexteto-lira | heterometrica_consonante | 1 | 1 | 1 | 0 |
+| Silva | arromanzada | 1 | 0 | 0 | 0 |
 | Silva | consonante_irregular | 1 | 0 | 0 | 0 |
 | Silva | endecasilabica | 1 | 0 | 0 | 0 |
 | Silva | libre | 1 | 0 | 0 | 0 |
@@ -42,13 +47,17 @@ Generado el 2026-08-21 desde la base enlazada.
 | Villancico | estribillo_tras_primera_copla | 0 | 6 | 6 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**38 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**46 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
 - Canción petrarquista · regular_13_versos
 - Copla castellana · octosilabica
 - Copla de arte menor · octosilabica
 - Décima · aumentada
+- Décima · endecasilabica
 - Décima · espinela
+- Décima · heptasilabica
+- Décima · hexasilabica
+- Décima · pentasilabica
 - Lira · heptasilabica_endecasilabica
 - Octava aguda · decasilabica
 - Octava aguda · endecasilabica
@@ -73,13 +82,17 @@ Generado el 2026-08-21 desde la base enlazada.
 - Sextilla · heptasilabica
 - Sextilla · hexasilabica
 - Sextilla · octosilabica
+- Sextilla · pentasilabica
 - Sextilla · pie_quebrado
+- Sextilla · tetrasilabica
 - Sextilla enlazada · octosilabica_con_quebrado
 - Sextina · clasica
 - Sextina · doble_montemayor
 - Sextina · doble_petrarquista
 - Sextina · endecasilabica_sin_rima
 - Silva · consonante_regular
+- Terceto · hexasilabica
+- Terceto · octosilabica
 - Terceto encadenado · endecasilabica_consonante
 - Terceto encadenado · octosilabica_consonante
 
@@ -118,7 +131,7 @@ Sin incidencias.
 
 Sin incidencias.
 
-### E4 · Pregunta obligatoria que el editor no puede saltarse — 54
+### E4 · Pregunta obligatoria que el editor no puede saltarse — 59
 
 > Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.
 
@@ -143,6 +156,8 @@ Sin incidencias.
 | Novena · redondilla_quintilla | esquema_quintilla · rima · 8 opciones · alcance unidad |
 | Pareado · cualquier_medida | medida_del_pareado · metro · 18 opciones · alcance unidad |
 | Pareado · cualquier_medida | tipo_de_rima · rima · 2 opciones · alcance unidad |
+| Quintilla · heptasilabica | esquema_rima · rima · 8 opciones · alcance unidad |
+| Quintilla · hexasilabica | esquema_rima · rima · 8 opciones · alcance unidad |
 | Quintilla · octosilabica_consonante | esquema_rima · rima · 8 opciones · alcance unidad |
 | Redondilla · heptasilabica | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Redondilla · hexasilabica | disposicion_rima · rima · 2 opciones · alcance unidad |
@@ -151,11 +166,14 @@ Sin incidencias.
 | Romance · heptasilabica | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
 | Romance · hexasilabica | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
 | Romance · octosilabica | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
+| Romance · pentasilabica | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
+| Romance · tetrasilabica | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
 | Seguidilla · gitana | medida_tercer_verso · metro · 3 opciones · alcance unidad |
 | Sexteto · alejandrina | esquema_rima_observado · rima · 0 opciones · alcance unidad |
 | Sexteto · dodecasilabica | esquema_rima_observado · rima · 0 opciones · alcance unidad |
 | Sexteto · endecasilabica | esquema_rima_observado · rima · 0 opciones · alcance unidad |
 | Sexteto-lira · heterometrica_consonante | variedad · combinacion · 7 opciones · alcance unidad |
+| Silva · arromanzada | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
 | Silva · consonante_irregular | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
 | Silva · endecasilabica | organizacion_en_pareados · rasgo · 2 opciones · alcance secuencia |
 | Silva · libre | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |

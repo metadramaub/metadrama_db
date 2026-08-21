@@ -38,7 +38,7 @@ forma a forma produce criterios distintos para el mismo caso.
 | --- | --- | --- |
 | **`organizacion_en_pareados` mezcla dos magnitudes**: Morley y Bruerton cuentan versos *rimados*, pero la silva libre declara `ninguna` y sí rima —lo que no tiene es *pareados*—. Y al cuantificar, `habituales` y `predominantes` caerían en el mismo intervalo | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | **abierto**; el IP decidió el 9 de agosto no cuantificar hasta separar las dos magnitudes |
 | **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres | [Sexteto-lira](#sexteto-lira) 1 | **abierto**: decidir si el nivel se conserva |
-| **Qué repertorios están cerrados** —medidas y esquemas— y cuáles son recortes del corpus | [Sexteto](#sexteto) 2 · [Sextilla](#sextilla) 2 · [Quintilla](#quintilla) 1 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | **abierto** · ⇒ **A3** para las medidas |
+| **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | **abierto**. *El de las medidas se cerró el 22 de agosto de 2026: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
 | **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **C1** |
 | Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 3 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto** |
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
@@ -87,7 +87,8 @@ real: lo que lo sostiene es el vocabulario legado.*
 
 ## Silva
 
-**Qué tiene hoy:** cuatro arquitecturas consonantes situadas en dos ejes. `densidad_de_rima` dice
+**Qué tiene hoy:** cinco arquitecturas —cuatro consonantes y la arromanzada, que entró el 22 de
+agosto de 2026— situadas en dos ejes. `densidad_de_rima` dice
 cuántos versos riman —*ninguna · esporádica · mayoritaria · total*— y `organizacion_en_pareados` qué
 figura dibujan los que riman —*ninguna · ocasionales · habituales · predominantes · regulares*—.
 
@@ -133,12 +134,6 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    retórica: requeriría un esquema cíclico con posiciones, que ninguna silva tiene hoy.* Comprobado
    dos veces que **tampoco estaba en el vocabulario legado**: no se perdió al migrar, no se declaró
    nunca.
-
-4bis. **La silva arromanzada es otra cosa.** El *Diccionario* la recoge: todos los versos pares con
-   una misma rima **asonante**. No es una arquitectura más sino **un régimen nuevo en la forma**:
-   las cuatro actuales son consonantes y la cabecera anuncia «rima Consonante», de modo que
-   admitirla obligaría a la silva a declarar dos regímenes, como ya hacen la canción y el
-   villancico. *La afirmación ya está registrada; falta decidir si entra.*
 
 5. **¿La silva exige rima?** El *Diccionario* admite como silva la combinación de 7 y 11 sin rima.
    El catálogo no, y la definición lo dice: «un pasaje de siete y once enteramente suelto no es una
@@ -271,23 +266,18 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Quintilla
 
-1. **¿La quintilla es solo octosílaba?** Hoy sí. El *Diccionario* dice «octosílabos **o menores**» y
-   Jauralde documenta hexasilábicas y heptasilábicas. **Es la decisión que se tomó al revés en la
-   redondilla y en la sextilla**, que sí tienen las tres medidas. *Si se añaden, hay que decidir si
-   el repertorio de ocho esquemas vale para las tres.* ⇒ **A3**
-
-2. **Faltan quintillas con verso suelto, y quedan fuera por alcance.** Jauralde registra `abcab`,
+1. **Faltan quintillas con verso suelto, y quedan fuera por alcance.** Jauralde registra `abcab`,
    `abbca` y `abaca`, que él mismo describe como transgresión de las viejas normas. El catálogo
    declara `versos_sueltos: ninguno`. *Es una decisión de alcance del corpus, no una norma: si el
    corpus las trae, se recogen y se relaja la restricción, sin que eso desmienta nada.*
 
-3. **`min_alternancias: 2` no es la regla de las fuentes, y funciona igual.** La regla es «no más de
+2. **`min_alternancias: 2` no es la regla de las fuentes, y funciona igual.** La regla es «no más de
    dos versos seguidos con la misma rima», que se expresaría con `max_consecutivos: 2` —el tipo
    existe pero el auditor no lo evalúa, ⇒ **C3**—. Con lo declarado, `abbba` pasa el filtro. *Eso es
    lo que se quiere, porque el catálogo admite `abbba`; queda anotado para que nadie lo lea como un
    descuido.*
 
-4. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
+3. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
    `abbba` no lo numera nadie: lo registran como aparición suelta, que M&B atribuyen a errata o a
    adaptación expresiva. *Decisión del IP el 19 de agosto: se conserva el número 8, a la espera de
    ver si el corpus lo confirma. Si no aparece más, conviene renombrarlo para no atribuir a Navarro
@@ -300,11 +290,6 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    quinto**, y Jauralde documenta las sextillas de Ricardo Gil en esas mismas posiciones. Desde el
    18 de agosto lo dice la descripción de la arquitectura. *Si el corpus trae una así, ¿es una
    arquitectura más o una desviación de la existente?*
-
-2. **¿Las medidas 6, 7 y 8 son un repertorio cerrado?** Jauralde describe también **tetrasilábicas y
-   pentasilábicas**. *Decisión del IP el 18 de agosto: se quedan fuera por criterio de corpus. Queda
-   como posible ampliación, no como defecto: añadirla es copiar una arquitectura cambiando el
-   metro.* ⇒ **A3**
 
 3. **¿Nada distingue dos sextillas consecutivas de una copla manriqueña?** Los versos, las medidas y
    el tipo de rima son idénticos; lo único que cambia es si las rimas de la segunda mitad dependen
@@ -358,12 +343,9 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Terceto
 
-1. **¿Se amplía el terceto al tercetillo?** Caparrós 2014 precisa que «el terceto en versos de arte
-   menor recibe nombre propio: tercetillo, tercerilla o tercerillo». El catálogo solo tiene la
-   arquitectura endecasilábica. *Si entra, es una arquitectura más —y con denominación propia, que
-   es lo que la distingue de las demás medidas ausentes: aquí la tradición no solo la documenta, le
-   da nombre.* **La septilla lo espera**: su terceto es de arte menor y hoy no puede referenciarlo.
-   ⇒ **A3**
+*Sin cuestiones abiertas. El tercetillo entró el 22 de agosto de 2026 con sus dos medidas, su
+disposición monorrima y la asonancia que el* Diccionario *le admite; la septilla, que lo esperaba,
+ya lo referencia.*
 
 ## Lira, sexteto-lira y septeto-lira
 
@@ -531,10 +513,12 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Décima
 
-1. **Faltan medidas y falta un régimen.** Jauralde registra décimas **tetrasílabas, hexasílabas y
-   endecasílabas**, y además **décimas rimadas en asonante**. Lo que la décima añade de nuevo es que
-   aquí no falta solo una medida sino **un régimen**: una décima asonante no cabe en ninguna de sus
-   dos arquitecturas, y admitirla obligaría a la forma a declarar dos. ⇒ **A3**
+1. **¿Entra la décima asonante?** Quedó fuera el 22 de agosto de 2026 al aplicar el criterio de qué
+   compromete la norma: es un **régimen nuevo**, ninguna fuente lo registra con nombre ni
+   definición, y Jauralde lo presenta como ensayo de Jorge Guillén «al rimarlas en asonante en vez
+   de en consonante, **que era lo tradicional**». *Si el IP prefiere admitirla, la décima pasaría a
+   declarar dos regímenes, como la silva desde ese mismo día.* Las cuatro medidas que faltaban
+   —penta, hexa, hepta y endecasílaba— sí entraron: la hexasílaba la firma **Góngora**.
 
 2. **El editor no sabe anotar una aumentada entre décimas normales, y el catálogo dice que no es un
    error.** `secuencias_editor_metrico` lleva un solo `arquitectura_id` por secuencia, así que solo
@@ -575,12 +559,8 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Romance
 
-1. **Faltan los romancillos de cinco y de cuatro sílabas.** Jauralde extiende el nombre a los
-   pentasílabos y los tetrasílabos; el *Diccionario* lo dice de otro modo y apunta al mismo sitio:
-   romancillo es «el de versos de menos de ocho sílabas», que es un conjunto abierto. *El precedente
-   es el criterio cronológico con que se dejaron fuera las sextillas hexasílabas. La pregunta es si
-   vale también aquí —donde no se trata de disposiciones raras sino de dos medidas más de una serie
-   que el corpus usa a diario—.* ⇒ **A3**
+*Sin cuestiones abiertas. Las dos medidas que faltaban —pentasílaba y tetrasílaba— entraron el 22
+de agosto de 2026, con el criterio de que la medida no compromete la norma.*
 
 ## Endecha real
 
