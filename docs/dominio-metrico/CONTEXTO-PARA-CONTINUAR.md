@@ -404,32 +404,37 @@ Rouanet. Es material del corpus, y hasta hoy un paso entero anotado así no ten�
 Es la primera vez que el catálogo crea formas con un solo respaldo, y se hace por el criterio de
 exhaustividad: una fuente queda fuera de una forma solo cuando no la trata.*
 
-**A2ter. Dos preguntas abiertas sobre el pie quebrado.** Salieron al crear las enlazadas y no se
-resolvieron: son de criterio y las decide el IP.
+**A2ter. ~~Dos preguntas abiertas sobre el pie quebrado.~~ Resueltas el 22 de agosto de 2026**
+(`20260822040000`). Al preguntar el IP si el quiebro se declararía en la quintilla «sin transformar
+la medida en combinación de tal y quebrados», se comprobó que el catálogo tenía **tres aparatos
+distintos para el mismo rasgo**, y que cuatro de ellos los habían introducido las formas creadas
+esos dos días: copla castellana, copla de arte menor, septilla y oncena anunciaban «8 de base, con
+quebrados de 4» donde el quiebro es solo admitido, mientras la redondilla, con el mismo rasgo y la
+misma modalidad, decía «8».
 
-1. **¿Debe la quintilla admitir el pie quebrado por su cuenta?** Hoy no lo declara. El catálogo lo
-   puso en la copla real con esta nota: «la tradición no describe la quintilla quebrada como
-   estrofa suelta, sino como una de las dos mitades de la copla real». **Navarro Tomás dice otra
-   cosa** cuando recorre el período: «**la quintilla con verso inicial quebrado fue la estrofa más
-   usada por Castillejo**». Y la sextilla enlazada la lleva dentro, con ese mismo quiebro inicial,
-   que él atribuye expresamente a Castillejo. *Si la respuesta es que sí, el quiebro baja a la
-   quintilla y desaparece de dos sitios donde hoy está de prestado.*
+La regla quedó escrita en [criterios de nivel § 3.6](./criterios-de-nivel.md) y vale para cualquier
+rasgo: **lo definitorio se declara donde se fija —el quiebro de la sextilla quebrada, la copla
+manriqueña y las tres enlazadas va en las posiciones del esquema métrico— y lo admitido o habitual
+va solo como rasgo**, sin tocar lo que la forma declara. Una guarda lo sostiene sobre el catálogo
+entero.
 
-2. **Un rasgo que solo vale en una reutilización no tiene dónde vivir.** Es el mismo agujero de
-   modelo que [C1](#c--deudas-del-modelo-sin-urgencia), visto desde los rasgos en vez de desde la
-   modalidad. En la sextilla enlazada el quiebro cae **dentro de la quintilla reutilizada**, y en la
-   septilla enlazada dentro de su verso de enlace; pero `arquitectura_rasgos` cuelga de una
-   arquitectura, no de *(sección, rasgo)*, así que las dos lo declaran en la arquitectura de la
-   serie —donde es cierto, pero no dice en qué parte cae—. Mientras la pregunta 1 siga abierta esto
-   además hace de parche. *Las dos salidas son las de C1: una tabla pequeña por sección, o bajar el
-   rasgo a la forma reutilizada.*
+**Y la quintilla admite ya el pie quebrado**, con el dato que lo pedía y que **no estaba recogido en
+ninguna ficha**: Navarro Tomás, al resumir el período renacentista, escribe que «la quintilla con
+verso inicial quebrado fue la estrofa más usada por Castillejo». El catálogo sostenía lo contrario
+—que la tradición no la describe suelta y quebrada, sino como mitad de la copla real— y esa nota se
+corrigió.
 
-*Resueltas por el camino, y anotadas porque valen para la próxima serie que se cree: **una serie no
-declara la extensión de su unidad** —`rejilla.ts` descarta el esqueleto de secciones cuando el
-esquema es cíclico, y entonces una unidad fija manda sobre el ciclo y lo apaga
+*Lo que quedaba de la segunda pregunta —dónde vive un rasgo que solo vale dentro de una
+reutilización— **no era del quiebro sino del modelo**, y se funde en
+[C1](#c--deudas-del-modelo-sin-urgencia): en la sextilla enlazada el quiebro es definitorio y
+siempre en el mismo verso, y en la quintilla suelta es admitido, pero la reutilización no sabe
+decir «aquí es obligatorio». Es la modalidad heredada, vista desde los rasgos.*
+
+*Resueltas también por el camino, y anotadas porque valen para la próxima serie que se cree: **una
+serie no declara la extensión de su unidad** —`rejilla.ts` descarta el esqueleto de secciones cuando
+el esquema es cíclico, y entonces una unidad fija manda sobre el ciclo y lo apaga
 (`20260822010000`)—; y **el enlace entre vueltas se declara en positivo**, con
-`esquema_rima_enlaces`, o la ficha afirma lo contrario: sin él la rejilla imprimía «la rima se
-renueva en cada repetición» bajo las tres enlazadas (`20260822020000`).*
+`esquema_rima_enlaces`, o la ficha afirma lo contrario (`20260822020000`).*
 
 **A3. Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
 trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
@@ -507,7 +512,11 @@ desajuste. `modalidad` vive en `esquemas_rima`, que pertenece a **una** arquitec
 una modalidad por *(sección, esquema)*. Afecta en principio a las **dieciocho reutilizaciones** del
 catálogo —copla real, décima, novena, seguidilla, sextina, soneto y terceto encadenado— y muerde
 donde la forma que reutiliza tiene frecuencias propias documentadas. *El IP decidió el 20 de agosto
-decirlo en prosa y no tocar el modelo por ahora.* Las salidas barajadas: una tabla pequeña de
+decirlo en prosa y no tocar el modelo por ahora.* **Y tiene una segunda cara, la de los rasgos**,
+que se le sumó el 22 de agosto: en la sextilla enlazada el pie quebrado es definitorio y siempre en
+el mismo verso, mientras que en la quintilla que reutiliza es admitido, y `arquitectura_rasgos`
+cuelga de una arquitectura y no de *(sección, rasgo)*, así que la reutilización no sabe decir «aquí
+es obligatorio». Las dos caras se arreglan con la misma pieza. Las salidas barajadas: una tabla pequeña de
 modalidad por sección, o dejar de reutilizar y duplicar los esquemas —que desharía la decisión de
 reutilización cerrada el 13 de agosto y no se recomienda—.
 

@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-21 13:28
+Generado: 2026-08-21 13:44
 
 Inventario: 37 formas y 2 tramos sin forma · 73 configuraciones · 77 patrones métricos · 122 patrones de rima · 80 secciones · 63 grupos de elección · 408 opciones · 7 rasgos.
 
@@ -117,9 +117,9 @@ Sin incidencias.
 | Forma | Nivel | Cfg | Prot. | Medida vive en | Rima vive en | Grupos | Alcance |
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
 | cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
-| copla_castellana | estrofa | 1 | sí | conjunto, posiciones | varios patrones sin pregunta | 0 | — |
+| copla_castellana | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 0 | — |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
-| copla_de_arte_menor | estrofa | 1 | sí | conjunto, posiciones | varios patrones sin pregunta | 0 | — |
+| copla_de_arte_menor | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 0 | — |
 | copla_manriquena | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_real | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | cuarteto | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
@@ -130,7 +130,7 @@ Sin incidencias.
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
 | octava_aguda | estrofa | 6 | sí | configuracion, posiciones | varios patrones sin pregunta | 0 | — |
 | octava_real | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 1 | secuencia |
-| oncena | estrofa | 2 | sí | conjunto, posiciones | sin patrón | 0 | — |
+| oncena | estrofa | 2 | sí | posiciones | sin patrón | 0 | — |
 | pareado | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
 | quintilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | redondilla | estrofa | 3 | sí | configuracion, posiciones | elección | 3 | unidad |
@@ -139,7 +139,7 @@ Sin incidencias.
 | seguidilla | estrofa | 7 | sí | configuracion, eleccion, posiciones | patrón único | 1 | unidad |
 | septeto | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
 | septeto_lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| septilla | estrofa | 1 | sí | conjunto, posiciones | varios patrones sin pregunta | 0 | — |
+| septilla | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 0 | — |
 | septilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
 | sexteto | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
@@ -159,7 +159,7 @@ Sin incidencias.
 | Vía | Formas |
 | --- | --- |
 | configuracion (9) | endecha_real, octava_aguda, redondilla, romance, seguidilla, sexteto, sextilla, silva, terceto_encadenado |
-| conjunto (10) | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_real, oncena, pareado, septilla, silva, villancico, zejel |
+| conjunto (6) | cancion_petrarquista, copla_real, pareado, silva, villancico, zejel |
 | eleccion (6) | cancion_petrarquista, copla_real, pareado, seguidilla, villancico, zejel |
 | posiciones (34) | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, lira, novena, octava_aguda, octava_real, oncena, quintilla, redondilla, redondilla_enlazada, romance, seguidilla, septeto, septeto_lira, septilla, septilla_enlazada, sexteto, sexteto_lira, sextilla, sextilla_enlazada, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
 

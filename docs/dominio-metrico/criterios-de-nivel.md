@@ -231,6 +231,27 @@ tipadas: número de clases, máximo de versos consecutivos con la misma rima, pr
 pareado final, admisión de versos sueltos. Un literal libre en una restricción genérica es
 siempre un rasgo mal ubicado (**D9**).
 
+#### Un rasgo admitido no cambia lo que la forma declara
+
+Fijado el 22 de agosto de 2026, al preguntar el IP si el pie quebrado se declararía en la
+quintilla «sin transformar la medida en combinación de tal y quebrados». Al comprobarlo había
+**tres aparatos distintos para el mismo rasgo**, y cuatro formas anunciaban una medida mixta por
+norma donde el quiebro es solo una licencia. La regla:
+
+> **Rasgo definitorio** → lo que fija se declara donde se fija: el pie quebrado de la sextilla
+> quebrada, de la copla manriqueña y de las tres enlazadas va en las **posiciones del esquema
+> métrico**, que dicen en qué verso cae.
+> **Rasgo admitido o habitual** → va **solo como rasgo**. La medida, la rima y las partes siguen
+> siendo las de la forma, porque la licencia no es la norma.
+
+Vale para cualquier rasgo, no solo para el quiebro: un final esdrújulo admitido no convierte la
+rima en esdrújula, y una densidad admitida no cambia el régimen.
+
+**Una excepción, y no es de norma sino de registro:** la copla real declara además opciones
+métricas con rol y un grupo `posiciones_pie_quebrado`, para que el editor diga en qué versos cayó
+el quiebro. Eso responde a lo que hay que **preguntar** y no a lo que la forma **declara**; va con
+el pendiente que revisa el reparto entero de las preguntas de rasgo.
+
 ### 3.7 · Grado de especificación
 
 Son dos ejes independientes y no deben colapsarse en uno:
