@@ -331,7 +331,7 @@ antes y después, regla por regla.
 - La capa de observación con sus dos modos, y con ella la posibilidad de describir un tramo
   sin forma.
 - La corrección de los defectos de datos del informe, que necesita al IP: el triaje está en
-  [cuestiones para el IP](./cuestiones-por-forma-2026-08.md).
+  [cuestiones para el IP](../cuestiones-para-el-ip.md).
 - El sellado de la revisión del catálogo en cada anotación.
 - La reescritura del demarcador para que consuma rasgos y elecciones en lugar de su vector
   fijo de nueve.

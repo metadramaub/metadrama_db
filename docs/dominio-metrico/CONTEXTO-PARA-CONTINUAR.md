@@ -10,9 +10,8 @@ queda por hacer y enlaza la documentación detallada.
 > agosto de 2026; las seis lecturas transversales se cerraron el 10; y la prosa de esas 28 fichas
 > quedó revisada forma por forma el **21 de agosto**. Ese mismo día entraron seis formas nuevas,
 > escritas ya con el criterio de la revisión. El diario de ese proceso está
-> [archivado](./historico/revision-del-catalogo-2026-07-a-08.md); las decisiones por forma, con el
-> pasaje de la fuente que las sostiene, en
-> [cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md), también archivado.
+> [archivado](./historico/revision-del-catalogo-2026-07-a-08.md). Lo que sigue **sin decidir**, forma
+> por forma, está en [cuestiones para el IP](./cuestiones-para-el-ip.md), podado el 22 de agosto.
 >
 > **Lo que queda por hacer está en [qué queda pendiente](#qué-queda-pendiente)**, reordenado el 21
 > de agosto por lo que bloquea los dos hitos siguientes: migrar las secuencias ya anotadas y pasar
@@ -190,8 +189,8 @@ Leer solo lo necesario para la tarea:
    `npm run migracion:informe`, en [migracion/](./migracion/).
 8. La razón filológica de una forma concreta, solo si la tarea la toca: primero `/formas`, que se
    genera del dato, y si hace falta el porqué,
-   [cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md) —archivado, con el pasaje de
-   la fuente de cada decisión—.
+   [cuestiones para el IP](./cuestiones-para-el-ip.md), que reúne lo que sigue sin decidir con el
+   pasaje de la fuente de cada caso.
 
 [El vocabulario heredado](./historico/vocabulario-heredado.md) conserva los 119 términos
 anteriores con sus definiciones, rasgos, subtipos y destino actual. Es la referencia para
@@ -447,7 +446,7 @@ trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasíl
 menor, que la tradición llama tercetillo, tercerilla o tercerillo**). Salió una por una al revisar
 su prosa: *conviene decidirlo de una vez, y antes de migrar, porque una secuencia en una de esas
 medidas no encuentra arquitectura.* Cada caso, en la sección de su forma en
-[cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md).
+[cuestiones por forma](./cuestiones-para-el-ip.md).
 
 **A4. Las equivalencias de los tres tramos irregulares hay que mirarlas una a una.** Es posible que
 alguna sea que quien anotó no encontró la forma precisa, y que con el catálogo nuevo y el

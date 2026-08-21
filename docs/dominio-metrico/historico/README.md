@@ -12,12 +12,13 @@ Para el estado vigente: [el contexto](../CONTEXTO-PARA-CONTINUAR.md), el
 
 ### La revisión del catálogo, ya cerrada
 
-Terminó el 21 de agosto de 2026 y estos cuatro documentos se archivaron ese día.
+Terminó el 21 de agosto de 2026 y estos tres documentos se archivaron ese día. *El registro de
+cuestiones se archivó con ellos y **volvió a la carpeta viva el 22**, podado: seguía teniendo
+decisiones sin tomar. Está en [cuestiones para el IP](../cuestiones-para-el-ip.md).*
 
 | Documento | Qué conserva |
 | --- | --- |
 | [revision-del-catalogo-2026-07-a-08.md](./revision-del-catalogo-2026-07-a-08.md) | El diario del contraste de las 28 fichas con las seis monografías, y sobre todo **qué cambió en el modelo por el camino**, cambio a cambio. Es la trazabilidad de esa fase |
-| [cuestiones-por-forma-2026-08.md](./cuestiones-por-forma-2026-08.md) | Forma por forma, **el pasaje de la fuente y el razonamiento** con que se decidió cada cosa. Sus estados son del día en que se escribieron: lo que sigue abierto está en el contexto |
 | [decisiones-de-modelo-por-forma-2026-08.md](./decisiones-de-modelo-por-forma-2026-08.md) | Andamiaje que se escribió para vaciarse: los porqués de cada forma antes de mudarse al catálogo. Lo vigente se lee en `/formas` |
 | [poda-de-la-prosa.md](./poda-de-la-prosa.md) | La propuesta frase a frase de qué prosa dejó de aportar cuando la ficha empezó a dibujar la estructura. Cerrada en 0 de 191. Regenerable con `npm run poda:informe` |
 

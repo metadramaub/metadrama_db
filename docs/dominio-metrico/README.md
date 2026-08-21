@@ -30,6 +30,7 @@ en otro chat.
 | [Las fuentes del catálogo](./fuentes-del-catalogo.md) | Las seis monografías, por qué solo seis, dónde están los ficheros y cómo se cita cada una. **De lectura obligada antes de añadir o corregir una afirmación** |
 | [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md) | Los ocho criterios de redacción y qué se escribe en cada campo: definición, descripción, nota, afirmación |
 | [Contratos del registrador](./contratos-registrador-formas-revisadas.md) | Qué deriva y qué pregunta el editor en cada forma. Lo lee `npm run audit:metrica` |
+| [Cuestiones para el IP](./cuestiones-para-el-ip.md) | **Lo que sigue sin decidir y necesita criterio filológico**, forma por forma: qué admite cada una, hasta dónde llega su repertorio, si una realización documentada entra o se queda fuera |
 
 **Cómo se cambia el catálogo:** por migración, nunca desde el dashboard. El método —auditar la
 forma entera contra la base, presentar las decisiones juntas, una sola migración con guardas que
@@ -66,9 +67,6 @@ proceso que se conservan por su razonamiento y su trazabilidad. Los que más se 
 
 - [Revisión del catálogo, julio–agosto de 2026](./historico/revision-del-catalogo-2026-07-a-08.md) —
   el diario del contraste con las seis fuentes y **qué cambió en el modelo por el camino**.
-- [Cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md) — el pasaje de la fuente y el
-  razonamiento con que se decidió cada cosa, forma por forma. Lo que sigue abierto se promovió al
-  inventario de pendientes del contexto.
 - [Vocabulario heredado](./historico/vocabulario-heredado.md) — los 119 términos anteriores con sus
   definiciones, rasgos, subtipos y destino. **Es la referencia para comprobar si se perdió algo al
   migrar.**

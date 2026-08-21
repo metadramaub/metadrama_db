@@ -10,7 +10,7 @@ Estado: **abierto, a completar por el IP** · actualizado el 9 de agosto de 2026
 
 Desde el 4 de agosto de 2026 **no queda ninguna secuencia sin resolver**, y lo que sigue
 abierto no bloquea la migración: son decisiones de modelado sobre términos que casi nadie usa,
-más las [cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md).
+más las [cuestiones para el IP](./cuestiones-para-el-ip.md).
 
 > **Las cifras de uso cambiaron dos veces el 4 de agosto.** Primero al retirarse «Los
 > ramilletes de Madrid (prueba)», la obra de pruebas del proyecto, cuyos datos eran
