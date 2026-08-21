@@ -224,8 +224,8 @@ Llevan la prosa revisada, con su migración:
 
 | Forma | Migración |
 | --- | --- |
-| Villancico | `20260814090000_el_villancico_explica_sin_repetir_sus_partes` |
-| Zéjel | `20260814100000_el_zejel_deja_hablar_a_su_figura` |
+| Villancico | `20260814090000_el_villancico_explica_sin_repetir_sus_partes` (+ `20260821090000_el_villancico_separa_el_enlace_de_la_vuelta`, `20260821110000`) |
+| Zéjel | `20260814100000_el_zejel_deja_hablar_a_su_figura` (+ `20260821100000_el_zejel_dice_de_donde_viene_y_donde_pervive`) |
 | Seguidilla | `20260815090000_la_seguidilla_dice_lo_que_su_figura_no_dibuja` (+ `20260815091000`) |
 | Romance | `20260818090000_el_romance_deja_de_repetir_su_rejilla` |
 | Canción petrarquista | `20260818100000_la_cancion_ensena_por_dentro_la_estancia` |
@@ -654,6 +654,17 @@ hacerlas antes obliga a hacerlas dos veces.
     la asignación de cada una, ni si el reparto responde a un criterio, ni si «italiana» y
     «española» bastan para lo que hay. *La revisión debe recorrerlas todas y decidir si la
     ausencia es un dato o un hueco.*
+
+13undecies. **Revisar el formulario del villancico en el editor V2.** Salió el 21 de agosto de
+    2026 al revisar su prosa. La sección «Enlace o vuelta» estaba mal modelada —enlace y vuelta no
+    son dos nombres de lo mismo, ni el enlace es sin más el primer verso de la vuelta— y se
+    desdobló en dos partes planas dentro de la copla, «Enlace» y «Vuelta», con su grupo de medida
+    cada una: `medida_enlace_vuelta` pasó a `medida_enlace` y nació `medida_vuelta`. **Casi seguro
+    que algo falla en el editor**: el desdoblamiento cambia el árbol de partes, el número de
+    preguntas y los slugs de dos grupos, y el formulario no se ha vuelto a abrir desde entonces.
+    Se comprobó que ninguna elección anotada dependía de esas secciones —cero filas en
+    `elecciones_editor_metrico`—, así que no hay trabajo de editor en riesgo, pero la pantalla sí
+    hay que mirarla.
 
 ## Siguiente fase prevista
 

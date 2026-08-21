@@ -107,10 +107,10 @@ el título de la sección. El Diccionario, alfabético, se cita `s. v. «entrada
 | Sexteto-lira                    |       6 |            6 | revisada · es una lira de seis versos; el repertorio de tipologías no es cerrado |
 | Sextilla                        |       6 |            6 | revisada · sus disposiciones tienen nombre; el quebrado no siempre va en 3 y 6   |
 | Sextina (estrofa y composición) |       6 |            7 | revisada                                                                         |
-| Villancico                      |       5 |            5 | revisada · jerarquía pública corregida; normalización paramétrica aplazada       |
+| Villancico                      |       6 |            6 | revisada · el enlace deja de ser la vuelta: dos partes, no una                   |
 | Copla de pie quebrado           |       6 |            6 | revisada                                                                         |
 | Copla real                      |       6 |            6 | revisada · recuperado su respaldo; cuatro denominaciones                         |
-| Zéjel                           |       5 |            5 | revisada · Morley y Bruerton no lo tratan                                        |
+| Zéjel                           |       6 |            6 | revisada · pervive en las canciones del teatro; Morley y Bruerton no lo tratan   |
 | Endecasílabo suelto             |       6 |            6 | revisada · Morley y Bruerton dan el umbral del 50 %                              |
 | Versificación irregular         |       4 |            4 | tramo sin forma · revisado                                                       |
 | Verso aislado                   |       2 |            2 | tramo sin forma · revisado                                                       |
