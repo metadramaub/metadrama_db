@@ -91,7 +91,10 @@ No leas la carpeta entera: ese archivo dice qué documentos tocan según la tare
 **La revisión del catálogo está terminada, y con ella la de su prosa.** Las formas activas y los
 dos tramos sin forma se contrastaron con seis monografías hasta el 8 de agosto de 2026; las seis
 lecturas transversales sobre el catálogo entero se cerraron el 10; y **la prosa de las 28 fichas
-quedó revisada forma por forma el 21 de agosto**. Todo ese proceso está archivado en
+quedó revisada forma por forma el 21 de agosto**. Ese mismo día entraron **seis formas nuevas**
+—copla de arte menor, copla castellana, octava aguda, septilla, oncena y doble sextilla— al llenar
+el hueco de las estrofas de siete, ocho, once y doce versos: el catálogo tiene hoy **32 formas y 2
+tramos sin forma**. Todo ese proceso está archivado en
 [historico/](docs/dominio-metrico/historico/): el diario, en
 `revision-del-catalogo-2026-07-a-08.md`; el porqué de cada forma, con el pasaje de la fuente que
 lo sostiene, en `cuestiones-por-forma-2026-08.md`.
