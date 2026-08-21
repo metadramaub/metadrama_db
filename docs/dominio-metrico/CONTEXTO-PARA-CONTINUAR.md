@@ -404,29 +404,32 @@ Rouanet. Es material del corpus, y hasta hoy un paso entero anotado así no ten�
 Es la primera vez que el catálogo crea formas con un solo respaldo, y se hace por el criterio de
 exhaustividad: una fuente queda fuera de una forma solo cuando no la trata.*
 
-**A2ter. Dos cosas que dejaron abiertas las enlazadas.**
+**A2ter. Dos preguntas abiertas sobre el pie quebrado.** Salieron al crear las enlazadas y no se
+resolvieron: son de criterio y las decide el IP.
 
-- ~~**El catálogo no sabe declarar que la rima final de una unidad vuelve en la primera de la
-  siguiente.**~~ **Sí sabía, y el dato faltaba.** Al abrir la ficha, la rejilla imprimía bajo las
-  tres enlazadas «la rima se renueva en cada repetición», que es lo contrario de lo que las define.
-  No era un fallo del módulo: `MetricPositionGrid.svelte` deriva esa frase de un silencio razonado
-  —«el modelo declara la conservación en positivo, con `esquema_rima_enlaces`; la renovación era su
-  silencio»—, y lo que faltaba era el enlace, que el terceto encadenado y el romance ya usan. Las
-  tres lo declaran desde el 22 de agosto (`20260822020000`). *Lo único que queda es cosmético: la
-  rejilla no colorea la clase que viene de la vuelta anterior como enlazada, y el pie lo explica.*
+1. **¿Debe la quintilla admitir el pie quebrado por su cuenta?** Hoy no lo declara. El catálogo lo
+   puso en la copla real con esta nota: «la tradición no describe la quintilla quebrada como
+   estrofa suelta, sino como una de las dos mitades de la copla real». **Navarro Tomás dice otra
+   cosa** cuando recorre el período: «**la quintilla con verso inicial quebrado fue la estrofa más
+   usada por Castillejo**». Y la sextilla enlazada la lleva dentro, con ese mismo quiebro inicial,
+   que él atribuye expresamente a Castillejo. *Si la respuesta es que sí, el quiebro baja a la
+   quintilla y desaparece de dos sitios donde hoy está de prestado.*
 
-- **Una serie no declara la extensión de su unidad, y conviene saberlo antes de crear otra.** Las
-  tres enlazadas se crearon con `unidad_versos_min = unidad_versos_max`, y la ficha las pintó como
-  estrofas cerradas: `rejilla.ts` descarta el esqueleto de secciones cuando el esquema es cíclico,
-  y entonces **una unidad de extensión fija manda sobre el ciclo** y lo apaga. Se corrigió
-  (`20260822010000`) dejándolas en nulo, como el terceto encadenado. *Una comprobación de esa
-  migración lo sostiene: ninguna forma de nivel `serie` declara ya extensión de unidad.*
-- **¿Debe la quintilla admitir el pie quebrado por su cuenta?** Hoy no lo declara: el catálogo lo
-  puso en la copla real, con la nota de que «la tradición no describe la quintilla quebrada como
-  estrofa suelta, sino como una de las dos mitades de la copla real». **Navarro dice otra cosa**:
-  «la quintilla con verso inicial quebrado fue la estrofa más usada por Castillejo», y la sextilla
-  enlazada la lleva dentro. Mientras se decide, el quiebro se declara en la arquitectura de la
-  enlazada.
+2. **Un rasgo que solo vale en una reutilización no tiene dónde vivir.** Es el mismo agujero de
+   modelo que [C1](#c--deudas-del-modelo-sin-urgencia), visto desde los rasgos en vez de desde la
+   modalidad. En la sextilla enlazada el quiebro cae **dentro de la quintilla reutilizada**, y en la
+   septilla enlazada dentro de su verso de enlace; pero `arquitectura_rasgos` cuelga de una
+   arquitectura, no de *(sección, rasgo)*, así que las dos lo declaran en la arquitectura de la
+   serie —donde es cierto, pero no dice en qué parte cae—. Mientras la pregunta 1 siga abierta esto
+   además hace de parche. *Las dos salidas son las de C1: una tabla pequeña por sección, o bajar el
+   rasgo a la forma reutilizada.*
+
+*Resueltas por el camino, y anotadas porque valen para la próxima serie que se cree: **una serie no
+declara la extensión de su unidad** —`rejilla.ts` descarta el esqueleto de secciones cuando el
+esquema es cíclico, y entonces una unidad fija manda sobre el ciclo y lo apaga
+(`20260822010000`)—; y **el enlace entre vueltas se declara en positivo**, con
+`esquema_rima_enlaces`, o la ficha afirma lo contrario: sin él la rejilla imprimía «la rima se
+renueva en cada repetición» bajo las tres enlazadas (`20260822020000`).*
 
 **A3. Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
 trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
