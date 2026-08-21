@@ -24,14 +24,14 @@ decía «Ninguna u ocasionales», que era el subconjunto de grados admitidos y a
 `arquitectura_rasgos`; la de la copla de pie quebrado decía cuál era el metro dominante, que
 ahora lo dice `esquema_metrico_opciones.rol`; y la copla real sigue diciendo en prosa que solo
 uno o dos de sus diez versos pueden quebrarse, que aún no es dato. El inventario está en
-[el estado del catálogo](./revision-del-catalogo-estado.md#datos-asumidos-que-siguen-viviendo-en-prosa).
+[el estado del catálogo](./historico/revision-del-catalogo-2026-07-a-08.md#datos-asumidos-que-siguen-viviendo-en-prosa).
 
 `repeticiones_metricas.regla` no debe convertirse en un quinto depósito de prosa. Su nombre
 promete una restricción computable, pero hoy es texto libre. El efecto sí es ya dato de la
 repetición —`materializa_seccion_id` y `extension_desde_seccion_id`, que dejaron de vivir en la
 opción el 9 de agosto de 2026—; lo que queda es resolver qué dice `regla` y derivar de ella la
 explicación pública. Anotado como revisión transversal en
-[el estado del catálogo](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
+[el estado del catálogo](./historico/revision-del-catalogo-2026-07-a-08.md#defectos-del-modelo-aplazados).
 
 **La pregunta del editor no es otro sitio de prosa.** Desde que las opciones se derivan del
 catálogo, su etiqueta es el nombre de la entidad y su explicación es la `descripcion` de la
@@ -184,7 +184,7 @@ cierres posibles de un pasaje de sueltos—.
 
 **Al revisar puede aparecer que faltan más.** Si una descripción necesita nombrar una unidad
 que el catálogo no tiene, conviene anotarlo en
-[cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md) en vez de rodearla.
+[cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md) en vez de rodearla.
 
 ## Lo que queda por mirar en el barrido
 
@@ -208,5 +208,5 @@ que el catálogo no tiene, conviene anotarlo en
 ## El destino de `revisiones-formas/`
 
 Desaparecer. Lo descriptivo pasa al catálogo y se lee en la web; lo que quede abierto vive
-en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md). Hasta que una forma
+en [cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md). Hasta que una forma
 se revise, su ficha sigue siendo el único sitio donde está el porqué.

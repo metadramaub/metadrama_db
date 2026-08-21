@@ -1,10 +1,16 @@
 # Un solo sitio para cada pregunta
 
+> **Archivado el 21 de agosto de 2026.** El diagnóstico que motivó la pantalla nueva del editor
+> V2. Se aplicó el 11 de agosto y la pantalla lleva desde entonces en `develop`; se conserva
+> porque explica **por qué el formulario es como es**.
+>
+> Cómo quedó: [el primer corte](./editor-secuencias-v2-2026-08-11.md).
+
 Estado: **aplicado** · 11 de agosto de 2026
 
 > El IP eligió la **rejilla** entre las dos maneras que se maquetaron, y esa es la que está en
 > `develop`. Cómo quedó se describe en
-> [especificación histórica del primer corte](./historico/editor-secuencias-v2-2026-08-11.md#la-estructura-es-una-rejilla-y-no-se-pliega);
+> [especificación histórica del primer corte](./editor-secuencias-v2-2026-08-11.md#la-estructura-es-una-rejilla-y-no-se-pliega);
 > lo que sigue es el diagnóstico que lo motivó, que se conserva porque explica por qué la
 > pantalla es como es. **Lo que cambió respecto de lo que aquí se propone está al final.**
 

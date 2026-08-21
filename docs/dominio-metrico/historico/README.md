@@ -6,9 +6,30 @@ había antes. Sus cifras, sus listas y sus «pendiente de hacer» son del día e
 escribieron.
 
 Para el estado vigente: [el contexto](../CONTEXTO-PARA-CONTINUAR.md), el
-[estado de la revisión](../revision-del-catalogo-estado.md) y `npm run audit:metrica`.
+[índice del dominio](../README.md) y `npm run audit:metrica`.
 
 ## Qué hay aquí
+
+### La revisión del catálogo, ya cerrada
+
+Terminó el 21 de agosto de 2026 y estos cuatro documentos se archivaron ese día.
+
+| Documento | Qué conserva |
+| --- | --- |
+| [revision-del-catalogo-2026-07-a-08.md](./revision-del-catalogo-2026-07-a-08.md) | El diario del contraste de las 28 fichas con las seis monografías, y sobre todo **qué cambió en el modelo por el camino**, cambio a cambio. Es la trazabilidad de esa fase |
+| [cuestiones-por-forma-2026-08.md](./cuestiones-por-forma-2026-08.md) | Forma por forma, **el pasaje de la fuente y el razonamiento** con que se decidió cada cosa. Sus estados son del día en que se escribieron: lo que sigue abierto está en el contexto |
+| [decisiones-de-modelo-por-forma-2026-08.md](./decisiones-de-modelo-por-forma-2026-08.md) | Andamiaje que se escribió para vaciarse: los porqués de cada forma antes de mudarse al catálogo. Lo vigente se lee en `/formas` |
+| [poda-de-la-prosa.md](./poda-de-la-prosa.md) | La propuesta frase a frase de qué prosa dejó de aportar cuando la ficha empezó a dibujar la estructura. Cerrada en 0 de 191. Regenerable con `npm run poda:informe` |
+
+### El editor V2 y el registro
+
+| Documento | Qué conserva |
+| --- | --- |
+| [propuesta-editor-v2-2026-08-11.md](./propuesta-editor-v2-2026-08-11.md) | El diagnóstico que motivó la pantalla nueva: **por qué el formulario es como es** |
+| [editor-secuencias-v2-2026-08-11.md](./editor-secuencias-v2-2026-08-11.md) | Cómo quedó el primer corte: grupos de elección, escenarios aislados y contrato de la interfaz |
+| [que-guarda-el-registro-2026-08-01.md](./que-guarda-el-registro-2026-08-01.md) | Tres secuencias inventadas, fila a fila. **Su método vale; sus nombres de tabla ya no existen** |
+| [informe-editor-v2-2026-08-10.md](./informe-editor-v2-2026-08-10.md) | Qué le pedía el editor a cada forma el 10 de agosto. Se regenera al día con `node scripts/audit-editor-v2.mjs` |
+| [catalogo-publico-2026-08-12.md](./catalogo-publico-2026-08-12.md) | El razonamiento del día en que se rehízo la ficha pública dimensión a dimensión |
 
 ### El vocabulario legado y su reclasificación
 

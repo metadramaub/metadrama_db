@@ -21,7 +21,7 @@ Estado: documento explicativo del modelo implementado en `develop`
 Documentos relacionados:
 
 - [Propuesta conceptual](./propuesta-dominio-metrica.md)
-- [Arquitectura del dominio métrico](../arquitectura-dominio-metrica.md)
+- [Arquitectura del dominio métrico](../implementacion-metrica.md)
 - [Matriz de reclasificación](./matriz-reclasificacion-formas-metricas.md)
 
 ## 1. Propósito

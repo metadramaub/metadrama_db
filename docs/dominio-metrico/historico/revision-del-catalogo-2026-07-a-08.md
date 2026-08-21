@@ -1,5 +1,15 @@
 # Revisión del catálogo contra las fuentes · dónde vamos
 
+> **Archivado el 21 de agosto de 2026.** Este era el diario de la revisión del catálogo contra
+> las seis fuentes, y **la revisión terminó**: las 27 formas activas, los dos tramos sin forma y la
+> prosa de todas ellas quedaron cerradas el 21 de agosto. Se conserva porque explica **qué cambió
+> en el modelo y por qué**, forma por forma, y porque su relato es la trazabilidad de esos cambios.
+>
+> Lo vigente que salió de aquí: las fuentes y cómo se citan, en
+> [las fuentes del catálogo](../fuentes-del-catalogo.md); lo que queda por hacer, en
+> [el contexto](../CONTEXTO-PARA-CONTINUAR.md); el estado comprobable, en
+> `npm run audit:metrica`. **Sus cifras y sus «pendiente» son del día en que se escribieron.**
+
 Actualizado: 8 de agosto de 2026 · **27 formas revisadas de 27, y los dos tramos sin forma**
 
 > **La revisión filológica está terminada.** Las 27 formas activas y los dos tramos sin forma
@@ -134,7 +144,7 @@ agosto de 2026. Se hicieron sobre el catálogo entero, no forma por forma, y son
 | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | El concepto de variedad                       | Hecha el 9 de agosto                                                                                                       |
 | La automatización de las preguntas del editor | Hecha entre el 9 y el 10: se derivan respuestas y enunciados                                                               |
-| La reutilización de secciones                 | Hecha el 10, a cuenta del soneto. La regla está en [implementación](./implementacion-metrica.md#la-regla-de-reutilización) |
+| La reutilización de secciones                 | Hecha el 10, a cuenta del soneto. La regla está en [implementación](../implementacion-metrica.md#la-regla-de-reutilización) |
 | La modalidad y la primacía                    | Hecha el 10 de agosto                                                                                                      |
 | Las reglas de repetición                      | Hecha el 10 de agosto: `regla` se retiró                                                                                   |
 | El modelo de esquemas abiertos                | Hecha el 10 de agosto                                                                                                      |
@@ -145,7 +155,7 @@ qué»—. El maquetado del Editor V2 y la retirada del gestor mutable quedaron 
 agosto; el formulario se deriva del modelo y todos los cambios del catálogo pasan por migración.
 
 Las dudas filológicas que siguen abiertas están en
-[cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md), y muchas se responden
+[cuestiones para el IP](./cuestiones-por-forma-2026-08.md), y muchas se responden
 juntas dentro de esas lecturas.
 
 El territorio de los seis versos está cerrado —sexteto, sextilla y sexteto-lira—, y la lectura
@@ -199,7 +209,7 @@ importarlo con URL `file:///`, que en Windows es obligatorio para rutas absoluta
 
 ### Criterios de la prosa
 
-Están en [donde-vive-la-prosa.md](./donde-vive-la-prosa.md), son ocho y se aplican a todo lo
+Están en [donde-vive-la-prosa.md](../donde-vive-la-prosa.md), son ocho y se aplican a todo lo
 que se escribe en el catálogo. Los tres que más se olvidan:
 
 - **Una afirmación de fuente dice lo que dice la fuente.** No opina sobre el catálogo ni
@@ -287,7 +297,7 @@ filas. Lo que se hizo fue:
   la prosa que duplican, porque la norma habría desaparecido de la página.
 - **Ir a la bibliografía por los que no declaraban nada.** De cinco, tres estaban mudos con razón;
   la sextilla hexasílaba no, y lo que Navarro Tomás le documenta quedó registrado como afirmación
-  de fuente y planteado en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#sextilla).
+  de fuente y planteado en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md#sextilla).
 
 **Y la quintilla cerró la lectura demostrando para qué sirve todo esto.** Su criterio —«que no
 quede un verso sin rima»— vivía fuera del catálogo, y al formalizarlo se vio que **estaba
@@ -321,7 +331,7 @@ lectura, y deja una decisión de fondo para el IP.
 
 **Qué es una variedad, según el modelo.** «Parejas de esquema métrico y esquema de rima que el
 proyecto reconoce dentro de una arquitectura». Su prueba discriminante en
-[criterios-de-nivel.md](./criterios-de-nivel.md) es _«restringe qué parejas de esquemas reconoce
+[criterios-de-nivel.md](../criterios-de-nivel.md) es _«restringe qué parejas de esquemas reconoce
 el proyecto»_, y su contraprueba, _«si los dos ejes son libres, no hace falta»_. El esquema lo
 impone: `esquema_metrico_id` y `esquema_rima_id` son **ambos NOT NULL**, de modo que una
 variedad no puede existir sin sus dos patas. La definición es coherente en la tabla, en los
@@ -341,7 +351,7 @@ contraprueba:
   cualquier disposición. Las siete no salen de una restricción documentada sino del vocabulario
   legado, donde eran siete subtipos escritos uno a uno; y ninguna de las seis fuentes prohíbe
   combinación alguna —dos cierran su enumeración en «y otras»—. El detalle, con el mapa de las
-  quince casillas, en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#sexteto-lira).
+  quince casillas, en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md#sexteto-lira).
 
 **Lo que la lectura descarta.** Extender la variedad al resto del catálogo **no es viable**, y
 no por criterio sino por estructura: **las 25 preguntas de rima están todas en arquitecturas con
@@ -719,7 +729,7 @@ la sección «Tercetos» que ya existe, y la guarda lo paró: esa sección remit
 así que la pregunta habría pasado a ofrecer los esquemas del terceto suelto y se perdían siete de
 las 91 respuestas propuestas. No falta una clave foránea: falta decidir si el soneto tiene una
 sección de seis versos. Está en
-[cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto).
+[cuestiones para el IP](./cuestiones-por-forma-2026-08.md#soneto).
 
 ##### Y los tercetos del soneto, que no era lo que parecía
 
@@ -735,7 +745,7 @@ de tres, con las clases C, D y E compartidas entre ambos —que es justo lo que 
 de dos tercetos sueltos—.
 
 De ahí sale una regla general que faltaba escribir y que ya está en
-[implementación](./implementacion-metrica.md#la-regla-de-reutilización): **una sección que remite a
+[implementación](../implementacion-metrica.md#la-regla-de-reutilización): **una sección que remite a
 otra arquitectura hereda lo que la hace esa forma, y lo que la contenedora declara para ella gana
 sobre lo heredado**. Reutilizar una forma con rima propia no necesita ninguna pieza nueva.
 
@@ -856,7 +866,7 @@ SQL rotas: nada lo comprueba, porque nadie había intentado guardar esos valores
 excepcional` gradúan frecuencia y `definitoria` afirma necesidad. No siempre son excluyentes
   —la asonantada de la endecha real es constitutiva **y además** lo corriente, y hoy solo cabe
   decir una de las dos—. Pide partirse en dos columnas, y su sitio es
-  [la revisión de vocabularios](../revision-de-vocabularios.md).
+  [la revisión de vocabularios](../../revision-de-vocabularios.md).
 
 ### Datos asumidos que siguen viviendo en prosa
 
@@ -864,7 +874,7 @@ Barrido del 9 de agosto de 2026 sobre las notas y descripciones del catálogo, a
 buscar información que se dé por supuesta en texto sin haberse convertido en dato procesable.
 De 46 pasajes con aspecto de llevar dato, la mayoría **describen lo que el catálogo ya declara**
 —«Endecasílabos en las posiciones 1, 4 y 6»— y son redundancia, no carencia; el criterio de
-[dónde vive la prosa](./donde-vive-la-prosa.md) ya prohíbe escribir lo que la ficha deriva.
+[dónde vive la prosa](../donde-vive-la-prosa.md) ya prohíbe escribir lo que la ficha deriva.
 
 Los que sí señalan carencia:
 
@@ -874,7 +884,7 @@ Los que sí señalan carencia:
   propia, y hoy solo existen como frase.
 - **La simetría de la mudanza tampoco.** «Normalmente organizada en dos miembros simétricos»
   aparece en tres notas del villancico, y es justamente la duda 1 de esa forma en
-  [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#villancico).
+  [cuestiones para el IP](./cuestiones-por-forma-2026-08.md#villancico).
 - **El límite de dos quebrados de la copla real**, arriba.
 
 Y una redundancia recién creada, que conviene podar: la nota de la copla de pie quebrado dice
@@ -990,13 +1000,13 @@ resolver el significado general de la reutilización.
 **toma la caja por clase de rima**: de `-a-A` saca dos rimas donde hay una. La caja dice el arte
 del verso, no con quién rima —la lira escribe `aBabB` y son dos rimas, no cuatro—. En la endecha
 real hubo que corregirlo a mano. Volverá a pasar en cualquier rima entre arte menor y arte
-mayor. Está anotado en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+mayor. Está anotado en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md).
 
 **Y la caja tampoco vive en el slug.** Conviene tenerlo claro porque induce a error: la caja es
 dato —la mayúscula dice arte mayor— y se conserva en la columna `notacion`, `ABBAACCA`. Pero el
 **slug de un esquema de rima va siempre en minúsculas**, sin excepción en todo el catálogo: la
 octava real es `abababcc`, la lira `ababb`, el sexteto `ababcc`. Lo fija
-[la norma de nomenclatura](./historico/revision-nomenclatura.md) —«la notación en
+[la norma de nomenclatura](./revision-nomenclatura.md) —«la notación en
 minúsculas»—, que incluso renombró un slug de la canción petrarquista por llevar mayúsculas.
 
 Los slugs de caja mixta que sí existen están en **otras dos tablas**: `variedades_arquitectura`
@@ -1010,19 +1020,19 @@ obligaría a renombrar todos los esquemas de rima del catálogo a cambio de nada
 
 ## Documentos que acompañan a esta revisión
 
-- [criterios-de-nivel.md](./criterios-de-nivel.md) — **de lectura obligada** antes de decidir si
+- [criterios-de-nivel.md](../criterios-de-nivel.md) — **de lectura obligada** antes de decidir si
   algo es arquitectura, esquema, variedad o rasgo. Es lo que resuelve las dudas de fondo.
-- [donde-vive-la-prosa.md](./donde-vive-la-prosa.md) — los ocho criterios de redacción.
-- [contratos-registrador-formas-revisadas.md](./contratos-registrador-formas-revisadas.md) —
+- [donde-vive-la-prosa.md](../donde-vive-la-prosa.md) — los ocho criterios de redacción.
+- [contratos-registrador-formas-revisadas.md](../contratos-registrador-formas-revisadas.md) —
   qué deriva y qué pregunta el editor en cada forma revisada.
-- [revisiones-formas/cuestiones-para-el-ip.md](./revisiones-formas/cuestiones-para-el-ip.md) —
+- [revisiones-formas/cuestiones-para-el-ip.md](./cuestiones-por-forma-2026-08.md) —
   lo que sigue sin decidir. Se poda a medida que se resuelve.
-- [informe-conformidad-catalogo.md](./informe-conformidad-catalogo.md) — se regenera con
+- [informe-conformidad-catalogo.md](../informe-conformidad-catalogo.md) — se regenera con
   `npm run audit:metrica`.
-- [historico/plan-revision-del-catalogo.md](./historico/plan-revision-del-catalogo.md) — el
+- [historico/plan-revision-del-catalogo.md](./plan-revision-del-catalogo.md) — el
   diario de la fase A, ya cerrada: la normalización de nombres y la corrección de la caja de la
   rima. Archivado; su método vigente está fundido en este documento.
 
 Las fichas `.md` de `revisiones-formas/` **se han retirado todas**. Del directorio solo queda
-[cuestiones-para-el-ip.md](./revisiones-formas/cuestiones-para-el-ip.md), que no describe
+[cuestiones-para-el-ip.md](./cuestiones-por-forma-2026-08.md), que no describe
 formas sino decisiones pendientes. Lo descriptivo vive en el catálogo y se lee en `/formas`.

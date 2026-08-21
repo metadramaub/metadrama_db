@@ -21,8 +21,8 @@ npm run test           # vitest
 npm run lint           # eslint
 npm run db:push        # aplica migraciones al Supabase enlazado
 npm run db:types       # regenera src/lib/types/database.types.ts
-npm run audit:metrica  # audita el catálogo métrico contra los criterios de nivel
-npm run audit:campos   # comprueba que los campos editables del gestor existen como columna
+npm run audit:metrica  # audita el catálogo métrico contra los criterios de nivel (D1–D16)
+npm run audit:editor   # audita qué le pide el editor V2 a cada forma
 npm run poda:informe   # regenera la propuesta de poda de la prosa del catálogo
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
@@ -85,20 +85,23 @@ migrarán todas las secuencias que ahora dependen del vocabulario viejo. Hasta e
 todo el razonamiento vive en `docs/dominio-metrico/` porque el diseño sigue abierto.
 
 **Empieza por [docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md).**
-No leas los 20 documentos: ese archivo dice cuáles tocan según la tarea.
+No leas la carpeta entera: ese archivo dice qué documentos tocan según la tarea, y
+[el índice](docs/dominio-metrico/README.md) los agrupa por para qué sirven.
 
-**La revisión del catálogo está terminada.** Las 27 formas activas y los dos tramos sin forma se
-contrastaron con seis monografías hasta el 8 de agosto de 2026, y **las seis lecturas
-transversales sobre el catálogo entero quedaron cerradas el 10**: el concepto de variedad, la
-automatización de las preguntas del editor, la reutilización de secciones, la modalidad y la
-primacía, las reglas de repetición y el modelo de esquemas abiertos. El relato está en
-[docs/dominio-metrico/revision-del-catalogo-estado.md](docs/dominio-metrico/revision-del-catalogo-estado.md),
-que es el único sitio donde se lleva esa cuenta.
+**La revisión del catálogo está terminada, y con ella la de su prosa.** Las formas activas y los
+dos tramos sin forma se contrastaron con seis monografías hasta el 8 de agosto de 2026; las seis
+lecturas transversales sobre el catálogo entero se cerraron el 10; y **la prosa de las 28 fichas
+quedó revisada forma por forma el 21 de agosto**. Todo ese proceso está archivado en
+[historico/](docs/dominio-metrico/historico/): el diario, en
+`revision-del-catalogo-2026-07-a-08.md`; el porqué de cada forma, con el pasaje de la fuente que
+lo sostiene, en `cuestiones-por-forma-2026-08.md`.
 
-**Lo que queda pendiente está inventariado** en
+**Lo que queda pendiente está inventariado y ordenado por urgencia** en
 [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente),
-y el orden lo fijó el IP: **primero terminar el modelo; el editor V2, el gestor del catálogo y
-el demarcador, al final**, porque se derivan de él y hacerlos antes obliga a hacerlos dos veces.
+según lo que bloquea los dos hitos siguientes: **migrar las secuencias ya anotadas** del
+vocabulario legado —por equivalencias más revisión manual obra por obra— y **pasar el editor V2 a
+producción**. El bloque A son los casos en que una secuencia real no tendría dónde caer; el B,
+aquellos en que un editor no puede registrar lo que ve; el C, deudas del modelo sin urgencia.
 
 ## Reglas duras
 

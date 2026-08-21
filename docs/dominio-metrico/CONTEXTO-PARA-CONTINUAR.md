@@ -1,15 +1,21 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 10 de agosto de 2026
+Actualizado: 21 de agosto de 2026
 
-Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo y
-enlaza la documentación detallada; no sustituye las revisiones filológicas de cada forma.
+Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
+queda por hacer y enlaza la documentación detallada.
 
-> **La revisión del catálogo contra las fuentes está terminada** desde el 8 de agosto de 2026:
-> las 27 formas y los dos tramos sin forma. Lo que dejó hecho, lo que corrigió y lo que dejó
-> abierto vive en **[revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md)**. Lo
-> pendiente está inventariado en [qué queda pendiente](#qué-queda-pendiente): las seis lecturas
-> transversales se cerraron el 10 de agosto.
+> **La revisión del catálogo está terminada, y con ella la de su prosa.** Las 26 formas activas y
+> los dos tramos sin forma se contrastaron con las seis monografías hasta el 8 de agosto de 2026;
+> las seis lecturas transversales se cerraron el 10; y la prosa de las 28 fichas quedó revisada
+> forma por forma el **21 de agosto**. El diario de ese proceso está
+> [archivado](./historico/revision-del-catalogo-2026-07-a-08.md); las decisiones por forma, con el
+> pasaje de la fuente que las sostiene, en
+> [cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md), también archivado.
+>
+> **Lo que queda por hacer está en [qué queda pendiente](#qué-queda-pendiente)**, reordenado el 21
+> de agosto por lo que bloquea los dos hitos siguientes: migrar las secuencias ya anotadas y pasar
+> el editor V2 a producción.
 
 ## Estado actual
 
@@ -86,7 +92,7 @@ ciclos, no sumando composiciones.
   `MetricStructureEditor.svelte` las presenta. La [especificación que sirvió para construir la
   primera versión](./historico/editor-secuencias-v2-2026-08-11.md) queda archivada y no es una
   descripción vigente.
-- Por qué: [propuesta-editor-v2.md](./propuesta-editor-v2.md), con el diagnóstico medido y lo que
+- Por qué: [propuesta-editor-v2.md](./historico/propuesta-editor-v2-2026-08-11.md), con el diagnóstico medido y lo que
   cambió respecto de lo que se propuso.
 
 **No toca el modelo ni lo que se guarda**: cada realización conserva su propia respuesta, y
@@ -163,23 +169,22 @@ Leer solo lo necesario para la tarea:
    [especificación inicial](./historico/editor-secuencias-v2-2026-08-11.md) es histórica.
 4. [Contratos del registrador](./contratos-registrador-formas-revisadas.md): comportamiento
    mínimo de las formas revisadas.
-5. [Cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md): única lista
-   vigente de dudas filológicas.
-   5bis. [Equivalencias pendientes](./equivalencias-pendientes.md): **por qué** algunos términos
-   legados no declaran todavía su destino y qué decidió el IP sobre cada uno. Es lo que hay que
-   cerrar antes del backfill. **El estado —cuántos faltan, cuáles y cuánto se usan— no se
-   escribe: lo genera `npm run equivalencias:informe`** en
-   [informe-equivalencias.md](./informe-equivalencias.md).
-   5bis-1. [Estado de la revisión del catálogo](./revision-del-catalogo-estado.md): la revisión
-   filológica, **ya terminada**, y las lecturas transversales que dejó abiertas. Se mantiene al
-   día: es el único sitio donde se lleva esa cuenta.
-   5bis-2. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de
-   redacción que rigen todo lo que se escribe en el catálogo, y dónde va cada cosa —definición,
-   descripción, nota—.
-   5ter. [Cómo se migra una obra](./como-se-migra-una-obra.md): el procedimiento, escrito para
-   poder explicárselo a quien anotó cada obra. Los informes por obra se generan con
-   `npm run migracion:informe` y viven en [migracion/](./migracion/).
-6. La revisión específica de una forma, solo si la nueva tarea afecta a esa forma.
+5. [Las fuentes del catálogo](./fuentes-del-catalogo.md): las seis monografías, por qué solo seis,
+   dónde están los ficheros y cómo se cita cada una. **De lectura obligada antes de añadir o
+   corregir una afirmación.**
+6. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de redacción
+   y dónde va cada cosa —definición, descripción, nota, afirmación—.
+7. Para la migración de las secuencias, en este orden:
+   [el plan](./plan-migracion-anotaciones.md) → [cómo se migra una obra](./como-se-migra-una-obra.md)
+   → [equivalencias pendientes](./equivalencias-pendientes.md), que dice **por qué** algunos
+   términos legados no declaran todavía su destino. **El estado —cuántos faltan, cuáles y cuánto se
+   usan— no se escribe: lo genera `npm run equivalencias:informe`** en
+   [informe-equivalencias.md](./informe-equivalencias.md). Los informes por obra, con
+   `npm run migracion:informe`, en [migracion/](./migracion/).
+8. La razón filológica de una forma concreta, solo si la tarea la toca: primero `/formas`, que se
+   genera del dato, y si hace falta el porqué,
+   [cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md) —archivado, con el pasaje de
+   la fuente de cada decisión—.
 
 [El vocabulario heredado](./historico/vocabulario-heredado.md) conserva los 119 términos
 anteriores con sus definiciones, rasgos, subtipos y destino actual. Es la referencia para
@@ -207,20 +212,23 @@ relación se pide por consulta y el informe **se planta** si el modelo se queda 
 otra tabla del catálogo se convierte en vista, hay que hacer lo mismo: `--dump` sobre una copia
 local no puede verla.
 
-### La revisión de la prosa va forma por forma
+### Cómo se revisa y se cambia el catálogo
 
-Distinta de la revisión filológica y posterior a ella. Se audita una forma entera contra la base
-—definición, arquitecturas, esquemas, notas, denominaciones, relaciones y afirmaciones—, se
-contrasta con la ficha real de `/formas`, y se aplica **una sola migración por forma** para poder
-comprobar esa ficha antes de pasar a la siguiente. La norma de redacción es
-[dónde vive la prosa](./donde-vive-la-prosa.md).
+**El método, que sigue en vigor para cualquier cambio futuro.** Se audita una forma entera contra
+la base —definición, arquitecturas, esquemas, notas, denominaciones, relaciones y afirmaciones—,
+se contrasta con la ficha real de `/formas`, se presentan **todas las decisiones juntas** para que
+el IP las apruebe una a una, y se aplica **una sola migración por forma**, con guardas que
+comprueben los valores vivos exactos y ejecuten lo que tocan, para poder verificar esa ficha antes
+de pasar a la siguiente. La norma de redacción es
+[dónde vive la prosa](./donde-vive-la-prosa.md); las fuentes y cómo se citan, en
+[las fuentes del catálogo](./fuentes-del-catalogo.md).
 
 Se intentó primero como barrido global —hubo un informe de «segunda poda» con su generador— y no
 funcionó: un inventario de frases sueltas no deja ver la forma entera, y sus recuentos envejecían
 en cuanto se tocaba algo. Los tres documentos se retiraron el 18 de agosto de 2026; sus decisiones
 ya aplicadas están en las migraciones y en el historial de `git`.
 
-Llevan la prosa revisada, con su migración:
+**Terminada el 21 de agosto de 2026.** Las 28 fichas llevan la prosa revisada. Su rastro:
 
 | Forma | Migración |
 | --- | --- |
@@ -242,7 +250,7 @@ Llevan la prosa revisada, con su migración:
 | Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
 | Sextilla (segunda vuelta) | `20260820090000_la_sextilla_manriquena_dice_como_rima` |
 | Copla real | `20260820150000_cada_fuente_habla_de_la_forma_que_describe` |
-| Octava real | `20260820160000_la_octava_real_acota_lo_que_deja_variar` | (+ `20260820170000`, `20260820180000`)
+| Octava real | `20260820160000_la_octava_real_acota_lo_que_deja_variar` (+ `20260820170000`, `20260820180000`) |
 | Copla de arte mayor | `20260820190000_la_copla_de_arte_mayor_llega_al_teatro_como_arcaismo` (+ `20260820200000`) |
 | Endecasílabo suelto | `20260820210000_el_endecasilabo_suelto_distingue_el_blanco_del_suelto` |
 | Endecha real | `20260820220000_la_endecha_real_ensena_sus_cuatro_disposiciones` (+ `20260820230000`) |
@@ -281,11 +289,11 @@ la ficha de la copla real amaneció con dos notas de fuente sobre la sextilla. C
 documenta algo que toca a varias formas, **se integra en la afirmación que cada una ya tiene**, con
 lo que esa fuente dice de ella; si no dice nada de una forma, esa forma no lleva nota.
 
-**Las seis monografías están en `docs/dominio-metrico/bibliografía/`, pero una no es `.txt`.** El
-texto de Morley y Bruerton es `definiciones_Morley&Bruerton.md`; las otras cinco están en `txt/`
-con extensión `.txt`. Una búsqueda filtrada por `.txt` lo deja fuera y hace creer que su libro no
-está disponible — pasó el 20 de agosto al revisar la novena, y estuvo a punto de dejar sin
-registrar una ausencia que sí importaba.
+**Las seis monografías, dónde están y cómo se citan:**
+[las fuentes del catálogo](./fuentes-del-catalogo.md). Ahí va también el aviso que costó dos
+descuidos: el texto de Morley y Bruerton es `definiciones_Morley&Bruerton.md`, en `.md` y sin sus
+apellidos al principio, así que una búsqueda filtrada por `.txt` lo deja fuera y hace creer que su
+libro no está.
 
 **Que el auditor calle no prueba que la norma esté declarada.** El aviso `patron_rima_sin_regla`
 se apaga en cuanto la arquitectura tiene *o* una restricción, *o* una densidad, *o* un esquema
@@ -301,370 +309,238 @@ código.
 
 ## Qué queda pendiente
 
-Inventario hecho el 10 de agosto de 2026, al cerrar las seis lecturas transversales. Incluye lo
-registrado y lo que fue apareciendo por el camino. **El orden lo fija el IP: primero terminar el
-modelo, y las superficies —editor, gestor, demarcador— al final**, porque se derivan de él y
-hacerlas antes obliga a hacerlas dos veces.
+Inventario rehecho el **21 de agosto de 2026**, al terminar la revisión de la prosa. Lo cerrado ya
+no se lista: está en las migraciones, en `git` y en el
+[histórico](./historico/). Quedan **veinticuatro asuntos**, ordenados por lo que bloquea el
+próximo hito y no por el orden en que aparecieron.
 
-### Modelo
+**Los dos hitos que vienen, en este orden:**
 
-1. ~~**Un rasgo puede estar midiendo dos magnitudes.**~~ **Hecho el 10 de agosto de 2026.** Se
-   separó en `densidad_de_rima` —cuántos versos riman— y `organizacion_en_pareados` —qué figura
-   dibujan los que riman—. La silva y el endecasílabo suelto quedan en rangos disjuntos, que es
-   el umbral del 50 % de Morley y Bruerton, y una guarda impide que se solapen. Contado en
-   [el estado de la revisión](./revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
-2. ~~**`definitoria` no pertenece a la escala de la modalidad.**~~ **Cerrado el 10 de agosto.** No
-   eran dos ejes: la escala es de frecuencia y `definitoria` es su tope —lo que se da siempre—,
-   porque la norma métrica es resultado de la práctica y no al revés. De ahí salió un invariante
-   que ahora sostiene una guarda: **ninguna pregunta ofrece una definitoria junto a otra
-   modalidad**. Falló en un sitio, la endecha real, y se corrigió con las fuentes en la mano. El
-   razonamiento entero, en
-   [la revisión de vocabularios](../revision-de-vocabularios.md#un-cabo-que-result%C3%B3-no-serlo).
-3. ~~**Una restricción solo puede colgar de un esquema, no de una arquitectura.**~~ **Cerrado el
-   10 de agosto, y en contra de lo que decía este punto.** Con las once delante, **dos serían
-   falsas a nivel de arquitectura** —la exclusión de la sextilla se excluiría a sí misma, y el
-   «todos los versos sueltos» de la canción alcanzaría al pareado final, que rima— y ocho viven en
-   arquitecturas de un solo esquema, donde los dos niveles son indistinguibles. Lo que faltaba no
-   era una columna sino **una comprobación**: los concretos de una arquitectura cumplen el criterio
-   de su abierto, y ahora lo verifica `D13` de `npm run audit:metrica`. Las tres relaciones
-   posibles entre un abierto y sus hermanos, en
-   [el modelo aplicado](./implementacion-metrica.md#un-esquema-abierto-junto-a-otros-concretos).
-4. **La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** `[----]…` dice
-   cuatro versos sueltos y nadie los expandió. O se expanden o se admite que la notación baste
-   —pero entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—. _Espera además
-   una decisión del IP que puede retirarlo: Navarro Tomás y el Diccionario llaman endecha real a la
-   que no rima, y Jauralde dice que el nombre llegó cuando recibió rimas. Ver
-   [Endecha real](./revisiones-formas/cuestiones-para-el-ip.md#endecha-real) 4._
-5. ~~**`tipo` y `ambito` de las repeticiones están perfectamente correlacionados.**~~ **Cerrado el
-   10 de agosto, y el hueco era mayor.** Al mirarlo salió que `ambito` no era una columna de las
-   repeticiones sino **el antepasado grueso de `seccion_id`**: nació con cinco valores, se estrechó
-   a dos y quedó respondiendo «¿de una sección?» donde `seccion_id` responde «¿de cuál?». Donde
-   convivían se contradecían, y la ficha pública tenía que **adivinar** la parte. Se dio su sección
-   a los seis esquemas del villancico y a los cuatro métricos —`esquemas_metricos` ganó la columna—,
-   y `ambito` se retiró de las tres tablas: ahora se deriva.
-6. ~~**Seis columnas no distinguen nada.**~~ **Rehecho el inventario en vivo el 10 de agosto: no
-   eran seis del mismo problema, sino tres grupos.** Se retiraron las cuatro que duplicaban una
-   distinción ya codificada —`seleccionable` decía lo que dice `tipo_registro`, y `obligatorio`,
-   `obligatoria` y `tipo_enlace` decían lo que dice `modalidad`—. **`activo`, en las ocho tablas,
-   se queda**: no es una columna vacía sino un mecanismo de retirada sin estrenar, lo leen 17
-   objetos SQL, y el IP decidió resolverlo al fusionar con `main`. Anotado en
-   [la revisión de vocabularios](../revision-de-vocabularios.md#lo-que-se-hace-ahora-y-lo-que-espera).
-7. ~~**El aviso `patron_rima_sin_regla` se ha vuelto ruido.**~~ **Afinado el 10 de agosto** en el
-   auditor, y **llevado a la ficha el 18 de agosto de 2026**, que era donde seguía vivo el criterio
-   viejo: pintaba en rojo cualquier esquema abierto sin restricciones, sin mirar si la arquitectura
-   lo decía por otra vía. Al llevarlo apareció una cuarta manera que el apunte no recogía —**el
-   régimen `sin_rima`**, con el que no hay disposición que fijar—, y salió porque la sextina era la
-   única ficha que quedaba en rojo. Ahora el aviso es de la arquitectura, no del esquema, y un
-   esquema abierto sin restricciones dice «La disposición no está fijada», que informa en vez de
-   acusar. Dejar
-   la disposición abierta no es un defecto —es lo que hace una forma general—; lo es que la
-   arquitectura no diga nada más de su rima, y tiene tres maneras de decirlo: las restricciones del
-   esquema, la densidad declarada o unos esquemas concretos de los que se calcula. El aviso miraba
-   solo la primera. Los ocho dejan de saltar, y al callar el ruido **queda a la vista el único
-   acierto que tenía**: la `suelta` de la endecha real, un ciclo sin posiciones —punto 4—.
-8bis. **Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
-   trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
-   (hexa y heptasílabas), décima (tetra, hexa y endecasílabas, **y asonante**) y terceto (**arte
-   menor, que la tradición llama tercetillo, tercerilla o tercerillo**). Salió una por una al
-   revisar su prosa y ya son cuatro seguidas: *conviene decidirlo de una vez.* Cada caso está
-   detallado en la sección de su forma en
-   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+1. **Migrar las secuencias ya anotadas** del vocabulario legado al catálogo nuevo, por
+   equivalencias más revisión manual obra por obra. Marco:
+   [el plan de migración](./plan-migracion-anotaciones.md); procedimiento:
+   [cómo se migra una obra](./como-se-migra-una-obra.md); estado de las equivalencias:
+   [informe-equivalencias.md](./informe-equivalencias.md), que regenera
+   `npm run equivalencias:informe`.
+2. **Pasar el editor V2 a producción** para todo el equipo, sustituyendo al selector que hoy
+   escribe en `secuencias_metricas`.
 
-8quinquies. **Los ejemplos de verso no se han traído, y no hay dónde ponerlos.** El vocabulario
-   legado guarda un ejemplo real en `vocabularios.ejemplo`, y de los 119 términos de
-   `estrofa_tipo` **solo seis lo tienen**: copla de arte mayor, copla manriqueña, endecasílabo
-   suelto encadenado, novena, sextina y villancico. El de la sextina trae la permutación anotada
-   verso a verso —`(A) Al bello resplandor…`—, que es justo lo que ninguna figura puede dibujar.
-   **El catálogo nuevo no tiene ninguna columna ni tabla para ejemplos**: `ejemplo` existe solo en
-   `vocabularios`.
+**Nada de lo que sigue impide anotar hoy** con el editor actual, y el catálogo está limpio:
+`npm run audit:metrica` y `node scripts/audit-editor-v2.mjs` dan cero defectos, y las pruebas y
+`npm run check` pasan. Lo que sigue son deudas del modelo y huecos de cobertura.
 
-   *Lo previsto por el IP es un botón de ejemplos en cada ficha, con ejemplos para todas las
-   formas y arquitecturas, no solo para esas seis.* Es decir: hay que **modelarlo** —dónde cuelga
-   un ejemplo, si de la forma, de la arquitectura o del esquema; cómo se guarda la anotación de
-   clases, que la sextina necesita— y luego poblarlo. Migrar los seis legados es lo de menos.
+### A · Bloquean la migración de las secuencias
 
-8sexies. **La permutación de la sextina no se puede dibujar y hoy solo se lee.** La rejilla pinta
-   una estrofa y la colapsa con «×6», así que enseña `A B C D E F` en orden y no puede mostrar ni
-   que la estrofa siguiente las trae en otro orden ni que el remate las reúne dos por verso. Se
-   palió el 19 de agosto de 2026 sacando la descripción de la repetición de detrás de su icono,
-   que es donde vive esa explicación. *Dibujarlo de verdad —las seis estrofas con su permutación—
-   es una función aparte, y va con el punto anterior: el ejemplo anotado la enseña mejor que
-   cualquier figura.*
+Son los casos en que una secuencia real **no tendría dónde caer**. Conviene resolverlos antes de
+empezar, porque cada uno obliga a parar la migración de una obra a la mitad.
 
-8quater. **El cierre del terceto encadenado dejó de ser obligatorio y hay que revisar dos
-   superficies.** Sus dos arquitecturas declaraban la sección de cierre con `repeticiones_min = 1`,
-   de modo que el catálogo exigía un serventesio —o una redondilla cruzada— al final de toda
-   cadena, y no lo es: la serie puede terminar sin él. Corregido el 19 de agosto de 2026
-   (`20260819180000`). **Quedan por revisar el demarcador y el Editor V2**, que daban el cierre
-   por hecho. *No se tocaron a la vez para no salirse de la revisión del catálogo.*
+**A1. Las 27 equivalencias del vocabulario legado sin destino.** El razonamiento de por qué faltan
+y lo que ya decidió el IP están en
+[equivalencias-pendientes.md](./equivalencias-pendientes.md); las cifras, en el informe
+regenerable. *Es el primer paso: sin destino declarado, la secuencia no se puede convertir.*
 
-8ter. **El editor no sabe anotar una décima aumentada entre décimas normales.** El catálogo
-   sostiene que no es un error —lo dicen su descripción y Morley y Bruerton—, pero
-   `secuencias_editor_metrico` lleva una sola arquitectura por secuencia, así que solo cabe
-   partir el pasaje o registrarla como desviación `estructura` / `mayor_que_norma`, que es
-   anotarla como el error que no es. **⇒ Editor V2.**
+**A2. Faltan cuatro formas donde caer, y las cuatro son de verdad.** Estaban tapadas por la copla
+de pie quebrado: mientras esa forma general cubría de cinco a doce versos, un pasaje de ocho u
+once versos quebrados tenía dónde caer y nadie notaba el hueco. Al retirarla el 20 de agosto de
+2026 se hizo visible, que es parte de la razón de retirarla.
 
-8. **Dos cosas del soneto**, en
-   [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md#soneto): si sus cuartetos
-   podrían heredar la disposición del cuarteto y declarar la identidad con un enlace, y **la
-   restricción `max_consecutivos: 2` de sus tercetos**, que la fuente enuncia y el catálogo no
-   declara. Lo segundo cuesta dos piezas contadas allí: un esquema abierto de la sección
-   `terceto` y **la evaluación de ese tipo en el auditor**, que hoy no existe —`incumple` devuelve
-   `false` para `max_consecutivos`—. Es la misma pieza que echó en falta la sextilla, así que
-   arreglarla sirve a las dos.
-9. **Las 27 equivalencias del vocabulario legado sin destino**, en
-   [equivalencias-pendientes.md](./equivalencias-pendientes.md).
-10. ~~**El editor V2 aún no pregunta por realización.**~~ **Resuelto el 11 de agosto.** `alcance`
-    admite una respuesta por cada aparición de su sección y el editor construye esas filas. En el
-    villancico con estribillo posterior, la primera aparición declara el estribillo y la pregunta de
-    repetición empieza en el ciclo siguiente; el criterio se deriva de la relación entre la sección
-    materializada y la sección de la que toma su extensión.
-11. **¿Son una sola arquitectura las dos del villancico?** Tras quitar la duplicación del ciclo, lo
-    único que las separa es dónde aparece el estribillo por primera vez, y eso podría ser una
-    pregunta. Queda abierto por decisión del IP: el demarcador distingue por arquitectura. Ver
-    [Villancico](./revisiones-formas/cuestiones-para-el-ip.md#villancico) 6 y 7, donde va también la
-    norma que se perdió al simplificar.
-12bis. ~~**Ocho esquemas guardan la clase de rima en una caja y la notación en otra.**~~ **Cerrado
-    el 12 de agosto de 2026**, y salió al dibujar la rejilla. `clase_rima` decía `abba` donde
-    `notacion` dice `abbA`, y al revés: el zéjel guardaba `AABBBA` y publica `a(a) | [bbba]…`. La
-    notación acertaba en los ocho, comprobado contra su esquema métrico, y se corrigieron 23
-    posiciones. De ahí quedó escrito el criterio que faltaba —**la caja marca el arte del verso, no
-    una clase distinta**, [criterios de nivel § 3.3](./criterios-de-nivel.md)—, su comprobación
-    permanente `D14`, y el corolario de que `D13` no puede contar clases distinguiendo caja.
+- **Octavilla** (8, arte menor). Navarro Tomás la indiza como «octava de pie quebrado» y describe
+  sus disposiciones con ejemplo: `abba:cddc` en los *Proverbios* de Santillana, `abba:acca` en
+  Pero Guillén de Segovia, `abab:cddc` en el *Diálogo de Bías contra Fortuna*. Quilis documenta
+  además octavillas de octosílabos y tetrasílabos. Lo que el catálogo tiene hoy es `octava_real`,
+  que es de arte mayor y otra cosa.
+- **Octava aguda.** Caparrós 2014 enumera «la copla castellana, la octava real, la octava y la
+  octavilla agudas», de modo que el hueco de las estrofas de ocho son dos formas y no una.
+- **Oncena** (11). Navarro: «La estrofa de once con quebrados **fue más corriente que la de
+  octosílabos plenos**», con el *Claro escuro* de Juan de Mena como modelo, `abaab:cdecde`,
+  repetido por Álvarez Gato, Gómez Manrique y Tapia.
+- **Copla mixta** (7 a 12). Término de Navarro que recoge el *Diccionario*: «Combinación estrófica
+  que puede tener desde siete hasta doce versos octosílabos… dividida en dos semiestrofas de
+  distinta extensión o en dos sextillas». Es la que de verdad ocupaba el terreno que la copla de
+  pie quebrado fingía cubrir, y **la única de las cuatro que no se resuelve contando versos**.
 
-12ter. **Cinco esquemas abiertos no declaran ninguna restricción: pendientes de revisión contra las
-    fuentes.** Eran nueve; **los cuatro de la sextilla se cerraron el 18 de agosto de 2026**
-    (`20260818130000_la_sextilla_declara_lo_que_su_norma_acota`), y de paso dejaron escrito que
-    **la pregunta de este punto no siempre tiene respuesta en las fuentes**: a diferencia de la
-    quintilla, ninguna de las seis enuncia una regla para la sextilla —«varias combinaciones de
-    rima», «variadas disposiciones», «la disposición varía de una a otra composición»—, así que lo
-    declarable hubo que **derivarlo del repertorio documentado — y eso resultó ser un error**: se
-    declararon `versos_sueltos` y `min_alternancias`, y las ocho restricciones se retiraron el
-    mismo día (`20260818140000`). Quilis cierra su lista con un «etc.», de modo que **la
-    enumeración de una fuente no es una norma**, y sacar de ella un mínimo convierte una muestra
-    en ley. **Este apunte, tal como estaba escrito, empujaba a ese error**: la pregunta que propone
-    solo tiene respuesta cuando la fuente enuncia una regla, como en la quintilla. Cuando solo
-    enumera, el esquema abierto no declara nada y eso no es un hueco. Los detalles, en
-    [Sextilla](./revisiones-formas/cuestiones-para-el-ip.md#sextilla) 6. Quedan el sexteto
-    alejandrino, dodecasílabo y endecasílabo; la copla de pie quebrado; y la `suelta` de la endecha
-    real, que además es el punto 4. Texto original del apunte: Dicen «distribución variable» y nada más, así que la ficha no puede enseñar de ellos
-    ni un dibujo ni una norma —su fila de rima queda vacía, y ahí se ve—. Son el sexteto
-    alejandrino, dodecasílabo y endecasílabo; la sextilla octosilábica, heptasilábica, hexasilábica
-    y de pie quebrado; la copla de pie quebrado; y la `suelta` de la endecha real, que además es el
-    punto 4. La pregunta que hay que hacerle a cada fuente es la misma que respondió la quintilla:
-    **cuántas clases de rima, cuántas alternancias como mínimo y si admite versos sueltos**. Con eso
-    el esquema abierto pasa a declarar norma y `D13` puede contrastar contra él las disposiciones
-    concretas. Sale del barrido del 12 de agosto de 2026.
+*Mientras no existan, un pasaje quebrado de ocho, once o doce versos que no sea doble sextilla no
+tiene forma donde caer. Es el precio conocido de la retirada, y el IP lo aceptó al decidirla.*
 
-12quater. **La rejilla no sabe dibujar una unidad acotada: la convierte en ciclo.** Cuando
-    `unidad_versos_min` y `unidad_versos_max` existen pero difieren, `construirRejilla` cae en la
-    rama que toma las columnas del esquema de rima y **pone `cicla = true`**
-    (`src/lib/metrica/rejilla.ts`), de modo que la ficha imprimiría «⟳ Se repite hasta el final de
-    la serie» sobre una estrofa que no es una serie, y `perfilDeArquitectura` la clasificaría como
-    `serie_ciclica`. Salió el 15 de agosto de 2026 al querer abrir la seguidilla gitana a 3–4
-    versos, porque el Diccionario dice que «a veces puede presentarse sin su primer verso»: se
-    dejó en 4/4 y el dato quedó solo como afirmación. **El radio es hoy nulo** —la única otra
-    arquitectura con unidad acotada no fija, `copla_de_pie_quebrado/octosilabica_con_quebrados`,
-    tiene cero posiciones de rima y nunca llega a esa rama—, y por eso no urge: el IP decidió
-    aplazarlo porque esa gitana no aparece en el teatro que se analiza. El arreglo es una rama para
-    unidad acotada antes de la del ciclo, con su prueba en `rejilla.test.ts`.
+**A3. Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
+trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
+(hexa y heptasílabas), décima (tetra, hexa y endecasílabas, **y asonante**) y terceto (**arte
+menor, que la tradición llama tercetillo, tercerilla o tercerillo**). Salió una por una al revisar
+su prosa: *conviene decidirlo de una vez, y antes de migrar, porque una secuencia en una de esas
+medidas no encuentra arquitectura.* Cada caso, en la sección de su forma en
+[cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md).
 
-12quinquies. **Dos cosas de la seguidilla que quedaron anotadas y sin tocar** el 15 de agosto de
-    2026. La primera: el «Estribillo final» de la compuesta **duplica** la arquitectura «De tres
-    versos» —mismo 5-7-5, misma rima— en vez de referenciarla con
-    `arquitectura_referenciada_id`, como sí hace su «Cuerpo» con la simple; Navarro Tomás lo dice
-    literalmente, que la compuesta «suma la variedad de cuatro versos y la de tres». No se hizo
-    porque la reutilización añadiría bajo la parte una fila de rima `a-a` junto a la unitaria
-    `-a-ab-b`, con letras que chocan. La segunda: `tipo_seccion` vale `seguidilla_simple` en el
-    cuerpo de la compuesta y `cuerpo` en el de la chamberga, siendo dos secciones idénticas
-    —«Cuerpo», 4 versos, reutilizando la simple—. Ninguna de las dos es un defecto: `tipo_seccion`
-    solo se lee como etiqueta de reserva cuando `nombre` viene vacío, y aquí nunca llega a
-    dispararse. Se revisan y se unifican más adelante.
+**A4. Las equivalencias de los tres tramos irregulares hay que mirarlas una a una.** Es posible que
+alguna sea que quien anotó no encontró la forma precisa, y que con el catálogo nuevo y el
+demarcador sí la encuentre. Las que no, tendrán que **registrar exactamente lo que se ve** —medida,
+rima y rasgos de todo el pasaje o verso—, que es lo que el editor V2 tendrá que pedir para estas
+no formas. *No se modela nada para ellas porque todo vale: cualquier medida, cualquier rima,
+cualquier rasgo, sin restricción.*
 
-12. **Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
-    mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
-    misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo
-    cual funciona pero deja el caso sin decir. Si aparece un esquema que deba señalar sección **y**
-    servir a varias, habrá que emparejar por `tipo_seccion` en vez de por identidad.
+### B · Bloquean el editor V2 en producción
 
-14. ~~**La prosa de los niveles bajos repetía lo que la nueva ficha ya derivaba.**~~ **Cerrado el 13
-    de agosto de 2026.** El barrido iniciado el día 12 se revisó entrada a entrada con la base viva
-    y terminó en las migraciones `20260812270000`–`20260812330000`. No se podaron
-    `formas_metricas.definicion` ni `arquitecturas_forma.descripcion`, porque sitúan la forma; las
-    notas de enlaces, repeticiones, rasgos y relaciones se mejoraron sin vaciarlas. Las
-    atribuciones que podían perderse se trasladaron antes a `afirmaciones_fuentes_metricas` y se
-    contrastaron con los TXT originales cuando fue necesario. Una revisión retrospectiva añadió
-    dos que la poda había dejado solo en glosas: Jauralde sobre `ababa` como fórmula más simple y
-    antigua de la quintilla, y Navarro Tomás sobre `CDE CDE` como disposición preferida por
-    Garcilaso y Herrera (`20260812340000`).
+Son los casos en que un editor **no puede registrar lo que ve**, o en que la pantalla se apoya en
+algo que ya no es cierto.
 
-    El [informe regenerable](./historico/poda-de-la-prosa.md) queda en **0 frases pendientes de 191**. Las
-    prosas que se conservaron por decisión expresa —por ejemplo, la renovación de la clase de rima
-    en la silva consonante regular— están registradas en `scripts/informe-poda-prosa.mjs`; regenerar
-    el informe no vuelve a abrirlas. Sigue vigente la regla 1 de
-    [dónde vive la prosa](./donde-vive-la-prosa.md#las-tres-reglas): no escribir lo que la ficha
-    deriva.
+**B1. Qué pregunta el editor cuando la disposición de rima no es fija — y cómo declarar una que el
+catálogo no tenga.** Salió al revisar la sextilla el 20 de agosto de 2026 y no es un caso suelto:
+el sexteto da al editor un grupo `esquema_rima_observado` en sus tres arquitecturas, y la sextilla
+—el mismo caso, seis versos consonantes de disposición abierta— **no tiene ninguno** en cuatro de
+sus cinco, la principal incluida; solo la doble de pie quebrado pregunta, y con una casilla. Donde
+la norma deja abierta la disposición, el editor no puede registrar la que vio. Hay dos salidas y no
+son equivalentes: **campo libre**, como el sexteto, o **lista cerrada** con las disposiciones
+documentadas más «otra». La revisión debe recorrer el catálogo entero y decidir una sola vez,
+porque hoy conviven las dos sin criterio.
 
-### Superficies, después del modelo
+*Y con una tercera exigencia, decidida el 20 de agosto al revisar la octava real:* donde la norma
+deja la disposición **abierta o acotada**, el editor tiene que poder **declarar un esquema que el
+catálogo no tenga**. La octava real acota tres clases de rima y deja variar el orden de los seis
+primeros versos; si un pasaje trae una de esas variantes, hoy no hay dónde escribirla. No es lo
+mismo que elegir entre las catalogadas: es poder añadir la que se observa.
 
-10. ~~**El maquetado del editor V2.**~~ **Hecho el 11 de agosto de 2026**, y con el diseño que
-    estaba aprobado: estructura pintada a la izquierda, elecciones alineadas a la derecha, sin
-    clics para navegar. Se adelantó al resto de las superficies porque el formulario había dejado
-    de ser usable, no porque el modelo lo pidiera. Sigue derivándose del catálogo, así que cada
-    cambio del modelo lo cambia gratis. Ver [arriba](#el-editor-v2-ya-tiene-su-pantalla-nueva).
-11. ~~**Simplificar el gestor del catálogo.**~~ **Resuelto el 11 de agosto.** Se retiraron del
-    dashboard las pantallas mutables de forma, organización y referencia. `/formas` es la consulta
-    legible y los cambios, incluida la prosa, pasan por migración revisable.
-12. **Recompilar el demarcador** sobre la ontología en vez de su vector fijo de rasgos.
-13. ~~**Repaso visual del catálogo público**.~~ **Hecho el 12 de agosto de 2026, en dos tramos.**
-    Primero, la arquitectura dibujada **verso a verso** con una rejilla que comparten la ficha, el
-    demarcador y el recuadro de la norma del editor V2 —`src/lib/metrica/rejilla.ts`, con sus
-    pruebas—. Después, al verla en pantalla, **la ficha entera rehecha**: la figura se estaba
-    sumando a la prosa que ya la decía, y ahora la arquitectura se lee **dimensión a dimensión**
-    —extensión, medida, rima, partes, repetición, rasgos—, cada una marcada según la fije la norma,
-    la elija la realización o se observe al anotar
-    (`src/lib/components/metrica/PublicArchitectureCard.svelte`). La rima lleva sus partes dentro,
-    con su cuenta —«Cuartetos, se elige una de 2»—, el reparto dejó de ser una dimensión aparte
-    porque es de la rima, y la glosa de una disposición se abre como una columna de la rejilla en
-    vez de flotar, que se recortaba contra el contenedor con scroll. El razonamiento del día en que se hizo
-    quedó [archivado](./historico/catalogo-publico-2026-08-12.md); lo vigente vive donde se
-    comprueba: los moldes y los perfiles en `rejilla.ts` y sus pruebas, y por qué la pantalla es
-    así en el propio componente. De paso
-    cayeron los tres defectos que sangraban: el `undefined` del bloque «Repetición» —`regla` no es
-    una columna de `repeticiones_metricas`—, las alternativas que el demarcador contaba como
-    posiciones y las partes de un esquema con dos bloques iguales, que se fundían en una.
+**B2. Qué se pregunta y qué no en los rasgos.** Va con B1: es la misma pregunta sobre otra
+dimensión. Hoy conviven cuatro repartos sin criterio —el dístico final de la octava real no se
+pregunta y el del endecasílabo suelto sí; el pie quebrado se pregunta en la copla real y no en la
+redondilla; el final acentual se pregunta en cinco arquitecturas y no en la alejandrina del
+sexteto—. Cada caso se decidió por separado y con razón local, pero nadie los ha mirado juntos. El
+servidor distingue `permitidos` —rasgos sin pregunta—, `opcionales` —con pregunta que admite no
+contestar— y `excluyentes` —varios valores y una sola respuesta—; **la distinción es del editor, no
+del lector**, y por eso la ficha pública funde los dos primeros en un bloque desde el 20 de agosto.
 
-13bis. ~~**El régimen de rima no se enseñaba en ninguna ficha y ocho arquitecturas no lo
-    declaraban.**~~ **Cerrado el 12 de agosto de 2026.** No eran ocho huecos: `esquemas_rima`
-    también lo declara y lo tenía en 81 de 87, así que el dato vivía abajo. De ahí salió el
-    criterio —**se declara siempre, arriba si el régimen es uno y en cada disposición si dentro de
-    la arquitectura varía**, [§ 3.3](./criterios-de-nivel.md)—, su comprobación permanente `D15` y
-    la corrección de los seis que sí faltaban, con Navarro Tomás § 207, Jauralde y Morley y
-    Bruerton delante. El villancico y la canción sin rima **siguen sin declararlo arriba, y es lo
-    correcto**: mezclan regímenes.
+**B3. El formulario del villancico, después del desdoblamiento.** El 21 de agosto de 2026 la
+sección «Enlace o vuelta» se partió en dos partes planas dentro de la copla, «Enlace» y «Vuelta»,
+con su grupo de medida cada una: `medida_enlace_vuelta` pasó a `medida_enlace` y nació
+`medida_vuelta`. **Casi seguro que algo falla en la pantalla**: cambia el árbol de partes, el
+número de preguntas y los slugs de dos grupos, y el formulario no se ha vuelto a abrir. Se
+comprobó que ninguna elección anotada dependía de esas secciones —cero filas en
+`elecciones_editor_metrico`—, así que no hay trabajo de editor en riesgo.
 
-13ter. ~~**Revisar en conjunto las etiquetas que explican cómo se conoce cada dimensión en la
-    ficha pública.**~~ **Cerrado el 14 de agosto de 2026.** No era un eje de procedencia ni de
-    prescripción, sino de **grado de determinación**: qué permanece estable en una arquitectura y
-    qué concreta cada poema. La ficha deriva `Fijo`, `Acotado`, `Variable`, `Opcional`, `Permitido`,
-    `Abierto`, `No fijado` y `Fijado por la primera unidad` desde rangos, posiciones, restricciones
-    y grupos de elección; `modalidad` sigue diciendo por separado la frecuencia reconocida por la
-    teoría. La derivación vive en `src/lib/metrica/determinacion.ts`, sin columnas ni listas de
-    formas, y sus reglas estables están en
-    [el modelo aplicado](./implementacion-metrica.md#grado-de-determinaci%C3%B3n-qu%C3%A9-permanece-estable-en-la-arquitectura).
-    Al hacerla se corrigió además la clasificación de rasgos: las opciones obligatorias se leen del
-    grupo real, no del número de filas de `arquitectura_rasgos`.
+**B4. El cierre del terceto encadenado dejó de ser obligatorio y dos superficies lo dan por
+hecho.** Sus dos arquitecturas declaraban la sección de cierre con `repeticiones_min = 1`, de modo
+que el catálogo exigía un serventesio —o una redondilla cruzada— al final de toda cadena, y no lo
+es: la serie puede terminar sin él. Corregido en el dato el 19 de agosto de 2026 (`20260819180000`).
+**Quedan por revisar el demarcador y el editor V2.**
 
-13quater. **Revisar juntos el terceto y el terceto encadenado.** La poda conservó la distinción
-    vigente —el segundo enlaza la rima central de cada unidad con la siguiente y no se divide en
-    tercetos independientes—, pero el IP quiere volver sobre algún aspecto de ambas fichas. No se
-    abre ni se concreta durante la poda: queda anotado para una revisión específica posterior.
+**B5. El editor no sabe anotar una décima aumentada entre décimas normales.** El catálogo sostiene
+que no es un error —lo dicen su descripción y Morley y Bruerton—, pero `secuencias_editor_metrico`
+lleva **una sola arquitectura por secuencia**, así que solo cabe partir el pasaje o registrarla
+como desviación `estructura` / `mayor_que_norma`, que es anotarla como el error que no es.
 
-13quinquies. ~~**La reutilización de arquitecturas no siempre tenía su relación entre formas.**~~
-    **Cerrado el 13 de agosto de 2026.** Son dos niveles complementarios: `forma_relaciones`
-    declara el vínculo ontológico una sola vez y la ficha lo lee desde ambos extremos;
-    `estructuras_secciones.arquitectura_referenciada_id` señala qué realización concreta reutiliza
-    la sección. Se añadieron las relaciones del soneto con cuarteto y terceto, y las que faltaban
-    para novena, décima, terceto encadenado, cuarteto y redondilla (`20260812350000`–`360000`). La
-    comprobación permanente **D16** impide que una reutilización entre formas vuelva a quedar sin
-    relación ontológica. No hace falta una tabla de relaciones entre arquitecturas para la
-    composición: la propia sección ya ocupa ese nivel preciso.
+### C · Deudas del modelo, sin urgencia
 
-13sexies. **Revisar en todas las formas qué debe preguntar el editor cuando el esquema de rima no
-    es fijo.** Salió al revisar la sextilla el 20 de agosto de 2026 y no es un caso suelto: el
-    sexteto da al editor un grupo `esquema_rima_observado` en sus tres arquitecturas, y la
-    sextilla —el mismo caso, seis versos consonantes de disposición abierta— **no tiene ninguno**
-    en cuatro de sus cinco, la principal incluida; solo la doble de pie quebrado pregunta, y con
-    una casilla. Donde la norma deja abierta la disposición, el editor no puede registrar la que
-    vio. Hay dos salidas y no son equivalentes: **campo libre**, como el sexteto, o **lista
-    cerrada** con las disposiciones documentadas más «otra». La revisión debe recorrer el catálogo
-    entero —qué arquitecturas dejan la rima abierta y cuáles preguntan por ella— y decidir una
-    sola vez, porque hoy conviven las dos sin criterio.
+Ninguna impide migrar ni publicar. Se listan para que no se vuelvan a descubrir.
 
-    **Y con una tercera exigencia, decidida el 20 de agosto de 2026 al revisar la octava real:**
-    donde la norma deja la disposición **abierta o acotada**, el editor tiene que poder **declarar
-    un esquema que el catálogo no tenga**. La octava real acota tres clases de rima y deja variar
-    el orden de los seis primeros versos; si un pasaje trae una de esas variantes, hoy no hay
-    dónde escribirla. No es lo mismo que elegir entre las catalogadas: es poder añadir la que se
-    observa.
+**C1. La modalidad heredada por reutilización no es la de la posición que ocupa.** Las dos
+quintillas de la copla real reutilizan la arquitectura de la quintilla, así que traen sus esquemas
+**con la frecuencia que tienen como quintilla suelta**: `aabba` sale «admitida» en la segunda
+mitad, donde Morley y Bruerton dicen que en Lope es *siempre* esa. La novena tiene el mismo
+desajuste. `modalidad` vive en `esquemas_rima`, que pertenece a **una** arquitectura, y no existe
+una modalidad por *(sección, esquema)*. Afecta en principio a las **dieciocho reutilizaciones** del
+catálogo —copla real, décima, novena, seguidilla, sextina, soneto y terceto encadenado— y muerde
+donde la forma que reutiliza tiene frecuencias propias documentadas. *El IP decidió el 20 de agosto
+decirlo en prosa y no tocar el modelo por ahora.* Las salidas barajadas: una tabla pequeña de
+modalidad por sección, o dejar de reutilizar y duplicar los esquemas —que desharía la decisión de
+reutilización cerrada el 13 de agosto y no se recomienda—.
 
-13septies. **Crear la octavilla, la oncena y la copla mixta.** Son estrofas de verdad, con nombre
-    en la bibliografía, y **las tres estaban tapadas por la copla de pie quebrado**: mientras esa
-    forma general cubría de cinco a doce versos, un pasaje de ocho u once versos quebrados tenía
-    dónde caer y nadie notaba que faltaba la estrofa. Al retirarla el 20 de agosto de 2026 el
-    hueco se hace visible, que es parte de la razón de retirarla.
+**C2. La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** `[----]…` dice
+cuatro versos sueltos y nadie los expandió. O se expanden o se admite que la notación baste —pero
+entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—. *Espera además una
+decisión que puede retirarlo: Navarro Tomás y el Diccionario llaman endecha real a la que no rima,
+y Jauralde dice que el nombre llegó cuando recibió rimas.*
 
-    - **Octavilla** (8, arte menor). Navarro Tomás la indiza como «octava de pie quebrado» y
-      describe sus disposiciones con ejemplo: `abba:cddc` en los *Proverbios* de Santillana,
-      `abba:acca` en Pero Guillén de Segovia, `abab:cddc` en el *Diálogo de Bías contra Fortuna*.
-      Quilis documenta además octavillas de octosílabos y tetrasílabos. Lo que el catálogo tiene
-      hoy es `octava_real`, que es de arte mayor y otra cosa. **Y falta también la octava aguda**:
-      Caparrós 2014 enumera «la copla castellana, la octava real, la octava y la octavilla agudas»,
-      de modo que el hueco de las estrofas de ocho son tres formas y no una.
-    - **Oncena** (11). Navarro: «La estrofa de once con quebrados **fue más corriente que la de
-      octosílabos plenos**», con el *Claro escuro* de Juan de Mena como modelo, `abaab:cdecde`,
-      repetido por Álvarez Gato, Gómez Manrique y Tapia.
-    - **Copla mixta** (7 a 12). Término de Navarro que recoge el *Diccionario*: «Combinación
-      estrófica que puede tener desde siete hasta doce versos octosílabos… dividida en dos
-      semiestrofas de distinta extensión o en dos sextillas». Es la que de verdad ocupaba el
-      terreno que la copla de pie quebrado fingía cubrir, y la única de las tres que no se
-      resuelve contando versos.
+**C3. Dos huecos del auditor, y dos cosas del soneto que dependen de ellos.**
+`max_consecutivos` está en el `CHECK` de `esquema_rima_restricciones.tipo` pero `incumple`, en
+`scripts/audit-catalogo-metrico.mjs`, **no lo evalúa**: devuelve `false`. Y `numero_clases` admite
+un solo valor, así que no puede expresar «dos o tres»: necesitaría un rango o un tipo nuevo.
+*Arreglar lo primero es calcular la racha máxima en `resumir` y añadir una rama a `incumple`.* De
+ahí cuelgan las dos preguntas del soneto: si sus cuartetos podrían heredar la disposición del
+cuarteto declarando la identidad con un enlace, y la restricción `max_consecutivos: 2` de sus
+tercetos, que la fuente enuncia y el catálogo no declara. Es la misma pieza que echó en falta la
+sextilla.
 
-    *Mientras no existan, un pasaje quebrado de ocho, once o doce versos que no sea doble sextilla
-    no tiene forma donde caer. Es el precio conocido de la retirada, y el IP lo aceptó al
-    decidirla.*
+**C4. Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
+mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la
+misma clase. Hoy se resuelve no señalando ninguna —la ficha llega a ellos por su pregunta—, lo cual
+funciona pero deja el caso sin decir. Si aparece un esquema que deba señalar sección **y** servir a
+varias, habrá que emparejar por `tipo_seccion` en vez de por identidad.
 
-13octies. **Revisar en conjunto lo permitido y lo opcional en los rasgos: cómo se muestran en
-    todas las fichas y qué relación tienen con lo que el editor pregunta.** Salió el 20 de agosto
-    de 2026 al leer la octava real, que era **la única ficha que mostraba los dos bloques a la
-    vez** —«Rasgos permitidos · Permitido» y «Rasgos · Opcional»— y donde se vio que dicen lo
-    mismo con dos palabras distintas. Se fundieron en uno para el lector, y el servidor conserva
-    la distinción, que es real pero **no es del lector sino del editor**: `permitidos` son los
-    rasgos sin pregunta en el formulario y `opcionales` los que tienen una que admite no
-    contestar; `excluyentes`, los que ofrecen varios valores y una sola respuesta.
+**C5. Los tres esquemas abiertos del sexteto no declaran ninguna restricción.** Dicen «distribución
+variable» y nada más, así que su fila de rima queda vacía en la ficha. La pregunta que hay que
+hacerle a cada fuente es la que respondió la quintilla: cuántas clases de rima, cuántas
+alternancias como mínimo y si admite versos sueltos. *Ojo con el precedente de la sextilla:* sus
+cuatro esquemas se dejaron a propósito sin restricciones el 18 de agosto de 2026, porque las seis
+fuentes solo **enumeran** disposiciones —Quilis cierra su lista con un «etc.»— y sacar un mínimo de
+una enumeración convierte una muestra en ley. **La pregunta solo tiene respuesta cuando la fuente
+enuncia una regla.** Lo mismo vale para el esquema abierto de la octava real, que se dejó sin
+acotar el 20 de agosto por la misma razón.
 
-    *Lo que queda por revisar es el reparto entero, no la pantalla: **qué rasgos se preguntan y
-    cuáles no, y si eso responde a algún criterio**. Hoy conviven los cuatro repartos sin uno: el
-    dístico final de la octava real no se pregunta y el del endecasílabo suelto sí; el pie
-    quebrado se pregunta en la copla real y no en la redondilla; el final acentual se pregunta en
-    cinco arquitecturas y no en la alejandrina del sexteto. Cada caso se decidió por separado y
-    con razón local, pero nadie los ha mirado juntos.* Va con el pendiente anterior, que revisa
-    qué pregunta el editor cuando la rima no es fija: son la misma pregunta sobre dos dimensiones.
+**C6. La rejilla no sabe dibujar una unidad acotada: la convierte en ciclo.** Cuando
+`unidad_versos_min` y `unidad_versos_max` existen pero difieren, `construirRejilla` cae en la rama
+que toma las columnas del esquema de rima y **pone `cicla = true`** (`src/lib/metrica/rejilla.ts`),
+de modo que la ficha imprimiría «⟳ Se repite hasta el final de la serie» sobre una estrofa que no
+es una serie. **El radio es hoy nulo** y por eso no urge. El arreglo es una rama para unidad
+acotada antes de la del ciclo, con su prueba en `rejilla.test.ts`.
 
-13nonies. **Retirar `formas_metricas.orden`.** Salió el 20 de agosto de 2026 al revisar la endecha
-    real, porque tres formas —cuarteto, endecha real y pareado— lo tienen en `null` y parecía que
-    eso las descolocaba en el catálogo. **No las descoloca, porque no lo lee nadie**: las dos
-    consultas públicas lo seleccionan y ordenan las formas por nombre, la página de `/formas`
-    ordena por nombre, y el tipo público de una forma ni siquiera lo lleva. Sus valores tampoco
-    responden a ningún criterio reconocible: décima, romance y terceto encadenado comparten el 10,
-    la redondilla —la forma más anotada del corpus— está en el 40, y hay huecos en 20, 30, 60, 80,
-    100, 160, 170, 270 y 300, probablemente de formas retiradas o fundidas.
+**C7. No hay dónde guardar un ejemplo de verso.** El vocabulario legado guarda uno real en
+`vocabularios.ejemplo`, y de los 119 términos de `estrofa_tipo` **solo seis lo tienen**: copla de
+arte mayor, copla manriqueña, endecasílabo suelto encadenado, novena, sextina y villancico. El de
+la sextina trae la permutación anotada verso a verso, que es justo lo que ninguna figura puede
+dibujar. **El catálogo nuevo no tiene ninguna columna ni tabla para ejemplos.** Lo previsto por el
+IP es un botón de ejemplos en cada ficha, para todas las formas: hay que **modelarlo** —de qué
+cuelga un ejemplo, y cómo se guarda la anotación de clases— y luego poblarlo. Migrar los seis
+legados es lo de menos.
 
-    *Es el mismo caso que `estado_revision`: columna seleccionada en todas partes y leída en
-    ninguna. **Cuidado al retirarla**: `arquitecturas_forma.orden` sí trabaja —`order by orden
-    nulls last, nombre` es lo que pone la principal delante— y `estructuras_secciones.orden`
-    también. Solo sobra la de las formas.*
+**C8. La permutación de la sextina no se puede dibujar y hoy solo se lee.** La rejilla pinta una
+estrofa y la colapsa con «×6», así que enseña `A B C D E F` en orden y no puede mostrar ni que la
+estrofa siguiente las trae en otro orden ni que el remate las reúne dos por verso. Se palió el 19
+de agosto sacando la descripción de la repetición de detrás de su icono. *Dibujarlo de verdad es
+una función aparte, y va con C7: el ejemplo anotado la enseña mejor que cualquier figura.*
 
-13decies. **Revisar las tradiciones de todas las formas.** Salió el 20 de agosto de 2026 al
-    revisar el pareado, que no tiene ninguna asignada. **Cinco formas están sin tradición** —
-    cuarteto, endecha real, pareado y los dos tramos sin forma—, y en algunos casos con razón:
-    Jauralde sitúa el pareado «entre las formas originarias y primitivas de la poesía», que no es
-    ni italiana ni española. Pero eso no se ha comprobado forma por forma, y las tres tradiciones
-    del catálogo —italiana, española, y ninguna más— nunca se han mirado juntas: ni de dónde sale
-    la asignación de cada una, ni si el reparto responde a un criterio, ni si «italiana» y
-    «española» bastan para lo que hay. *La revisión debe recorrerlas todas y decidir si la
-    ausencia es un dato o un hueco.*
+**C9. Dos cosas de la seguidilla, anotadas y sin tocar.** El «Estribillo final» de la compuesta
+**duplica** la arquitectura «De tres versos» —mismo 5-7-5, misma rima— en vez de referenciarla con
+`arquitectura_referenciada_id`, como sí hace su «Cuerpo» con la simple; no se hizo porque la
+reutilización añadiría bajo la parte una fila de rima `a-a` junto a la unitaria `-a-ab-b`, con
+letras que chocan. Y `tipo_seccion` vale `seguidilla_simple` en el cuerpo de la compuesta y
+`cuerpo` en el de la chamberga, siendo dos secciones idénticas. *Ninguna de las dos es un defecto.*
 
-13undecies. **Revisar el formulario del villancico en el editor V2.** Salió el 21 de agosto de
-    2026 al revisar su prosa. La sección «Enlace o vuelta» estaba mal modelada —enlace y vuelta no
-    son dos nombres de lo mismo, ni el enlace es sin más el primer verso de la vuelta— y se
-    desdobló en dos partes planas dentro de la copla, «Enlace» y «Vuelta», con su grupo de medida
-    cada una: `medida_enlace_vuelta` pasó a `medida_enlace` y nació `medida_vuelta`. **Casi seguro
-    que algo falla en el editor**: el desdoblamiento cambia el árbol de partes, el número de
-    preguntas y los slugs de dos grupos, y el formulario no se ha vuelto a abrir desde entonces.
-    Se comprobó que ninguna elección anotada dependía de esas secciones —cero filas en
-    `elecciones_editor_metrico`—, así que no hay trabajo de editor en riesgo, pero la pantalla sí
-    hay que mirarla.
+**C10. ¿Son una sola arquitectura las dos del villancico?** Lo único que las separa es dónde
+aparece el estribillo por primera vez, y eso podría ser una pregunta. Queda abierto por decisión
+del IP: el demarcador distingue por arquitectura.
+
+**C11. Modelar lo que las fuentes describen aunque el corpus no lo traiga.** Es un solo criterio
+que asoma en cuatro sitios y se decide junto: el repertorio del **sexteto**, que las fuentes
+definen más ancho que el corpus; las **cuatro disposiciones históricas de la doble sextilla** que
+Navarro Tomás § 68 enumera con ejemplo y localizador y de las que el catálogo declara solo la
+última; la **copla real de cuatro y seis versos**, que Jauralde advierte que «precede a la 5-5, que
+solo se hace mayoritaria a finales del siglo XV» y el catálogo no tiene; y si **la doble sextilla
+merece arquitectura propia**, siendo que no es estructuralmente distinta de la simple —lo único que
+las enlaza es el sentido del texto—.
+
+**C12. Revisar juntos el terceto y el terceto encadenado.** La poda conservó la distinción vigente
+—el segundo enlaza la rima central de cada unidad con la siguiente y no se divide en tercetos
+independientes—, pero el IP quiere volver sobre algún aspecto de ambas fichas.
+
+**C13. Revisar las tradiciones de todas las formas.** **Cinco están sin tradición** —cuarteto,
+endecha real, pareado y los dos tramos sin forma—, y en algunos casos con razón: Jauralde sitúa el
+pareado «entre las formas originarias y primitivas de la poesía», que no es ni italiana ni
+española. Pero eso no se ha comprobado forma por forma, y las tres tradiciones del catálogo nunca
+se han mirado juntas: ni de dónde sale cada asignación, ni si el reparto responde a un criterio, ni
+si «italiana» y «española» bastan. *La revisión debe decidir si la ausencia es un dato o un hueco.*
+
+**C14. Retirar `formas_metricas.orden`.** **No lo lee nadie**: las dos consultas públicas lo
+seleccionan y ordenan por nombre, la página de `/formas` ordena por nombre, y el tipo público de
+una forma ni siquiera lo lleva. Sus valores tampoco responden a ningún criterio: décima, romance y
+terceto encadenado comparten el 10, la redondilla está en el 40, y hay huecos en 20, 30, 60, 80,
+100, 160, 170, 270 y 300. **Cuidado al retirarla**: `arquitecturas_forma.orden` sí trabaja —`order
+by orden nulls last, nombre` es lo que pone la principal delante— y `estructuras_secciones.orden`
+también. Solo sobra la de las formas.
+
+**C15. La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
+exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta en
+el teatro: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise laureada*, de 1577, en endecasílabos
+sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». *Se anota por si alguna de las
+dos entra en el corpus: entonces habrá que decidir si el endecasílabo suelto gana una arquitectura
+heterométrica o si la frontera con la silva se redibuja.*
 
 ## Siguiente fase prevista
 
@@ -679,20 +555,25 @@ se completó el 31. Lo que sigue:
 3. Contraste del catálogo por rasgos y no por nombres: **hecho**, y actuado. Lo que salió de
    ahí está aplicado; el razonamiento, en la
    [auditoría archivada](./historico/auditoria-catalogo.md).
-4. **Revisión del catálogo contra las fuentes: completa.** Las 27 formas activas y los dos
-   tramos sin forma están contrastados con las seis monografías, y las fichas `.md` de
-   `revisiones-formas/` se han retirado todas. El resultado y lo que dejó abierto están en
-   [revision-del-catalogo-estado.md](./revision-del-catalogo-estado.md). Destapó por el camino
-   defectos del modelo: los corregidos están aplicados y los aplazados eran **lecturas
-   transversales** sobre el catálogo entero.
+4. **Revisión del catálogo contra las fuentes: completa.** Las formas activas y los dos tramos sin
+   forma están contrastados con las seis monografías. El diario está
+   [archivado](./historico/revision-del-catalogo-2026-07-a-08.md). Destapó por el camino defectos
+   del modelo: los corregidos están aplicados y los aplazados eran **lecturas transversales** sobre
+   el catálogo entero.
 5. **Las seis lecturas transversales: completas** el 10 de agosto de 2026. El concepto de
    variedad, la automatización de las preguntas del editor, la reutilización de secciones, la
-   modalidad y la primacía, las reglas de repetición y el modelo de esquemas abiertos. Lo que
-   dejaron abierto está arriba, en [qué queda pendiente](#qué-queda-pendiente).
-6. Crear la capa de desviaciones sobre las secuencias reales.
-7. Recompilar el demarcador para que consuma la ontología en lugar de su vector fijo de
-   rasgos.
-8. Solo entonces, la [migración de las anotaciones](./plan-migracion-anotaciones.md).
+   modalidad y la primacía, las reglas de repetición y el modelo de esquemas abiertos.
+6. **Revisión de la prosa, forma por forma: completa** el 21 de agosto de 2026, en 28 fichas.
+7. **El demarcador ya consume la ontología**, no su vector fijo de rasgos: se recompila desde
+   `/dashboard/metrica` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. Queda
+   revisarlo tras dos cambios recientes —el cierre no obligatorio del terceto encadenado y la
+   retirada de la copla de pie quebrado—, en [B4](#b--bloquean-el-editor-v2-en-producción).
+8. **Lo que viene**, y en este orden: la
+   [migración de las anotaciones](./plan-migracion-anotaciones.md) por equivalencias más revisión
+   manual, y el paso del editor V2 a producción. Lo que hay que despejar antes está en
+   [qué queda pendiente](#qué-queda-pendiente), bloques A y B.
+9. Crear la capa de desviaciones sobre las secuencias reales:
+   [plan de desviaciones](./plan-desviaciones-y-caracterizaciones.md), decidido y no ejecutado.
 
 **Sobre los defectos del informe de conformidad**: el auditor tipifica ya **D1–D16** y termina en
 **0 defectos** contra la base viva. Incluye la correspondencia entre notación y clases de rima

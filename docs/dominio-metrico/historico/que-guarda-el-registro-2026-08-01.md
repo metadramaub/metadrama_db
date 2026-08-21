@@ -1,5 +1,14 @@
 # Qué guarda el registro
 
+> **Archivado el 21 de agosto de 2026.** Tres secuencias inventadas, fila a fila, para ver qué
+> escribía cada tabla. **Sus nombres de tabla ya no existen**: lo que aquí se llama
+> `realizaciones_metricas`, `elecciones_metricas`, `desviaciones_metricas` y `realizacion_resuelta`
+> son hoy las tablas `*_editor_metrico`, y una de sus tres formas de ejemplo —la copla de pie
+> quebrado— se retiró del catálogo el 20 de agosto de 2026.
+>
+> Se conserva por el método —qué capa escribe qué, y cómo eso alimenta después las fichas—, no por
+> sus nombres. Lo vigente: [el modelo aplicado](../implementacion-metrica.md).
+
 Estado: **propuesta** · 1 de agosto de 2026
 
 Tres secuencias inventadas, fila a fila, para ver qué escribe cada tabla y cómo eso alimenta

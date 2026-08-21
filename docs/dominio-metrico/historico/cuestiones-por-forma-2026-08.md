@@ -1,5 +1,15 @@
 # Cuestiones para el IP
 
+> **Archivado el 21 de agosto de 2026.** Era el registro de decisiones pendientes forma por forma
+> mientras duró la revisión del catálogo. La revisión terminó, y **lo que seguía abierto se
+> promovió al inventario de pendientes** de
+> [el contexto](../CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente), que es donde se lleva ahora la
+> cuenta.
+>
+> Se conserva porque cada apartado guarda **el pasaje de la fuente y el razonamiento** con que se
+> decidió cada cosa, y eso no está en ningún otro sitio. **Sus estados —«abierto», «pendiente»— son
+> del día en que se escribieron:** para saber qué sigue abierto, mirar el contexto.
+
 Actualizado: 9 de agosto de 2026
 
 Este archivo reúne solo decisiones pendientes. **Lo descriptivo ya no vive aquí ni en fichas
@@ -24,7 +34,7 @@ no volver a buscar.
    [informe de conformidad](../informe-conformidad-catalogo.md) no señala ningún defecto.
 2. **Lo que se decide junto, no forma por forma.** Varias dudas son la misma pregunta vista
    desde formas distintas y se responden en las
-   [lecturas transversales](../revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).
+   [lecturas transversales](./revision-del-catalogo-2026-07-a-08.md#defectos-del-modelo-aplazados).
    Están marcadas **⇒ transversal** con el nombre de la lectura que las absorbe.
 3. **Lo que es filología de una forma sola** y se puede decidir cuando se quiera.
 
@@ -933,7 +943,7 @@ quebrado es rasgo admitido, no definitorio.
    restringido porque las otras cinco fuentes describen libertad de disposición y el catálogo
    cubre más que a Lope. *Si se restringe, deja de ser una elección libre y pasa a ser una
    restricción entre dos preguntas, que el modelo hoy no sabe expresar; va con la
-   [auditoría de las preguntas](../revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).*
+   [auditoría de las preguntas](./revision-del-catalogo-2026-07-a-08.md#defectos-del-modelo-aplazados).*
 
 ## Novena
 
@@ -1268,7 +1278,7 @@ forma que concentra **7 de las 8 variedades de todo el catálogo**.
    *La decisión es del IP y toca al concepto entero de variedad, no solo a esta forma: si los
    dos ejes son libres, la [contraprueba del modelo](../criterios-de-nivel.md) dice que la
    variedad «no hace falta». Va con la
-   [lectura transversal](../revision-del-catalogo-estado.md#defectos-del-modelo-aplazados).*
+   [lectura transversal](./revision-del-catalogo-2026-07-a-08.md#defectos-del-modelo-aplazados).*
 2. ~~**¿A1 debe seguir marcada como preferente?**~~ **Resuelto por el IP el 9 de agosto de 2026:
    sí, se deja como está.** Navarro Tomás y Morley y Bruerton coinciden en que `aBaBcC` es la
    forma regular, de modo que la preferencia tiene respaldo bibliográfico. *Ya estaba así en el

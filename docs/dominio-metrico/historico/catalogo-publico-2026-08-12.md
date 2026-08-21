@@ -392,7 +392,7 @@ pero conviene saber que no la declaran ellas.
 **El villancico no tiene rejilla de unidad y el zéjel sí.** No es un fallo del dibujo: el zéjel
 declara un esquema de la unidad entera —cabeza, mudanza y vuelta, seis posiciones— y el villancico
 solo los de su mudanza. Es la misma asimetría que la [cuestión 6 y 7 del
-villancico](../revisiones-formas/cuestiones-para-el-ip.md#villancico).
+villancico](./cuestiones-por-forma-2026-08.md#villancico).
 
 **Y una que no venía del dibujo sino de ir a comprobarlo: el informe de conformidad llevaba un día
 diciendo «0 defectos» sin haber mirado ninguna opción.** `opciones_eleccion_metrica` dejó de ser

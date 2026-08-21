@@ -336,4 +336,4 @@ factuales sobre el corpus, no dilemas de modelado.
    descripción de la arquitectura o afirmación de fuente—, no en una ficha aparte. Las de
    `revisiones-formas/` están en retirada desde el 5 de agosto de 2026: lo descriptivo vive en
    el dato y se lee en `/formas`. Las excepciones justificadas que no caben en el dato van al
-   [registro de cuestiones](./revisiones-formas/cuestiones-para-el-ip.md).
+   [registro de cuestiones](./historico/cuestiones-por-forma-2026-08.md).

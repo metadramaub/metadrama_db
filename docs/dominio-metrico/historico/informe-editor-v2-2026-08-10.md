@@ -1,6 +1,11 @@
 # Qué le pide el editor a cada forma
 
-Generado el 2026-08-21 desde la base enlazada.
+> **Archivado el 21 de agosto de 2026.** Informe generado, y **generado antes de casi todos los
+> cambios del catálogo**: sus cifras son del 10 de agosto. Se regenera al día con
+> `node scripts/audit-editor-v2.mjs --markdown <destino>`, que además audita el formulario y
+> cuenta defectos.
+
+Generado el 2026-08-10 desde la base enlazada.
 
 ## 1 · Coste por forma
 
@@ -9,6 +14,7 @@ Generado el 2026-08-21 desde la base enlazada.
 | Canción petrarquista | estancias_consonantes_variables | 0 | 2 | 2 | 0 |
 | Canción petrarquista | sin_rima_con_pareado_final | 1 | 1 | 1 | 0 |
 | Copla de arte mayor | dodecasilabica_compuesta | 0 | 1 | 1 | 0 |
+| Copla de pie quebrado | octosilabica_con_quebrados | 0 | 1 | 1 | 0 |
 | Copla real | octosilabica_consonante | 0 | 3 | 3 | 0 |
 | Cuarteto | endecasilabica | 0 | 1 | 1 | 0 |
 | Endecasílabo suelto | endecasilabica | 4 | 0 | 0 | 0 |
@@ -38,11 +44,11 @@ Generado el 2026-08-21 desde la base enlazada.
 | Silva | libre | 1 | 0 | 0 | 0 |
 | Soneto | endecasilabica_consonante | 1 | 2 | 1 | 1 |
 | Terceto | endecasilabica_consonante | 1 | 1 | 1 | 0 |
-| Villancico | estribillo_inicial | 0 | 6 | 6 | 0 |
-| Villancico | estribillo_tras_primera_copla | 0 | 6 | 6 | 0 |
+| Villancico | estribillo_inicial | 0 | 5 | 5 | 0 |
+| Villancico | estribillo_tras_primera_copla | 0 | 5 | 5 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**22 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**21 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
 - Canción petrarquista · regular_13_versos
 - Décima · aumentada
@@ -53,7 +59,6 @@ Generado el 2026-08-21 desde la base enlazada.
 - Seguidilla · compuesta
 - Seguidilla · real
 - Seguidilla · simple
-- Seguidilla · simple_arromanzada
 - Seguidilla · tres_versos
 - Sextilla · heptasilabica
 - Sextilla · hexasilabica
@@ -102,7 +107,7 @@ Sin incidencias.
 
 Sin incidencias.
 
-### E4 · Pregunta obligatoria que el editor no puede saltarse — 54
+### E4 · Pregunta obligatoria que el editor no puede saltarse — 53
 
 > Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.
 
@@ -111,13 +116,14 @@ Sin incidencias.
 | Canción petrarquista · estancias_consonantes_variables | medida_estancia · metro · 40 opciones · alcance unidad |
 | Canción petrarquista · estancias_consonantes_variables | esquema_rima_estancia · rima · 0 opciones · alcance unidad |
 | Canción petrarquista · sin_rima_con_pareado_final | medida_estancia · metro · 40 opciones · alcance unidad |
-| Copla de arte mayor · dodecasilabica_compuesta | esquema_rima · rima · 4 opciones · alcance unidad |
+| Copla de arte mayor · dodecasilabica_compuesta | esquema_rima · rima · 3 opciones · alcance unidad |
+| Copla de pie quebrado · octosilabica_con_quebrados | medidas_pies_quebrados · metro · 24 opciones · alcance unidad |
 | Copla real · octosilabica_consonante | rima_primera_quintilla · rima · 8 opciones · alcance unidad |
 | Copla real · octosilabica_consonante | rima_segunda_quintilla · rima · 8 opciones · alcance unidad |
 | Cuarteto · endecasilabica | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Endecasílabo suelto · endecasilabica | organizacion_en_pareados · rasgo · 2 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
-| Endecha real · heptasilabica_con_endecasilabo | disposicion_rima · rima · 5 opciones · alcance secuencia |
+| Endecha real · heptasilabica_con_endecasilabo | disposicion_rima · rima · 4 opciones · alcance secuencia |
 | Endecha real · heptasilabica_con_endecasilabo | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
 | Endecha real · heptasilabica_con_endecasilabo_de_cinco | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
 | Endecha real · hexasilabica_con_endecasilabo | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
@@ -139,7 +145,7 @@ Sin incidencias.
 | Sexteto · alejandrina | esquema_rima_observado · rima · 0 opciones · alcance unidad |
 | Sexteto · dodecasilabica | esquema_rima_observado · rima · 0 opciones · alcance unidad |
 | Sexteto · endecasilabica | esquema_rima_observado · rima · 0 opciones · alcance unidad |
-| Sexteto-lira · heterometrica_consonante | variedad · combinacion · 7 opciones · alcance unidad |
+| Sexteto-lira · heterometrica_consonante | tipologia · combinacion · 7 opciones · alcance unidad |
 | Silva · consonante_irregular | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
 | Silva · endecasilabica | organizacion_en_pareados · rasgo · 2 opciones · alcance secuencia |
 | Silva · libre | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
@@ -149,14 +155,12 @@ Sin incidencias.
 | Villancico · estribillo_inicial | medida_cabeza · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | medida_mudanza · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | rima_mudanza · rima · 3 opciones · alcance unidad |
-| Villancico · estribillo_inicial | medida_enlace · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_inicial | medida_vuelta · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_inicial | represa_estribillo · repeticion · 2 opciones · alcance realizacion |
+| Villancico · estribillo_inicial | medida_enlace_vuelta · metro · 2 opciones · alcance unidad |
+| Villancico · estribillo_inicial | represa_estribillo · repeticion · 3 opciones · alcance realizacion |
 | Villancico · estribillo_tras_primera_copla | medida_mudanza · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_tras_primera_copla | medida_enlace · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_tras_primera_copla | medida_vuelta · metro · 2 opciones · alcance unidad |
+| Villancico · estribillo_tras_primera_copla | medida_enlace_vuelta · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_tras_primera_copla | rima_mudanza · rima · 3 opciones · alcance unidad |
-| Villancico · estribillo_tras_primera_copla | represa_estribillo · repeticion · 2 opciones · alcance realizacion |
+| Villancico · estribillo_tras_primera_copla | represa_estribillo · repeticion · 3 opciones · alcance realizacion |
 | Villancico · estribillo_tras_primera_copla | medida_estribillo · metro · 2 opciones · alcance unidad |
 | Zéjel · estribillo_y_coplas_monorrimas | medida_cabeza · metro · 2 opciones · alcance unidad |
 | Zéjel · estribillo_y_coplas_monorrimas | medida_mudanza · metro · 2 opciones · alcance unidad |
