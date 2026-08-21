@@ -26,7 +26,7 @@ días, y la versión de entonces está en
 | Qué es cada fenómeno del verso                | [La ontología](./ontologia-verso-espanol.md)                 |
 | En qué nivel se registra un hecho             | [Criterios de nivel](./criterios-de-nivel.md)                |
 | Qué decidió el proyecto sobre una forma       | El catálogo mismo, en `/formas`                              |
-| Por qué una forma es como es                  | [Cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md) |
+| Por qué una forma es como es                  | [Cuestiones por forma](./cuestiones-para-el-ip.md) |
 | Qué sigue pendiente                           | [CONTEXTO](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente) |
 
 ## Las decisiones que gobiernan el modelo
@@ -398,7 +398,7 @@ con el IP para el teatro del Siglo de Oro.
 | Verso libre y fluctuante         | Se tratan como tramos sin forma, no como formas. Si el corpus documentara alguno, sería una forma con su norma                                                                                                     |
 
 Las dudas todavía abiertas están en
-[cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md).
+[cuestiones para el IP](./cuestiones-para-el-ip.md).
 
 ## 4 · Cómo se recoge el dato
 

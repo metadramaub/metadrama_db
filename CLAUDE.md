@@ -96,10 +96,11 @@ de las estrofas de siete, ocho, once y doce versos —copla de arte menor, copla
 aguda, septilla, oncena y copla manriqueña—, y el 22 otras cinco al cerrar las de siete y las
 **estrofas enlazadas** que Navarro Tomás documenta en el teatro primitivo —septeto, septeto-lira,
 redondilla enlazada, sextilla enlazada y septilla enlazada—: el catálogo tiene hoy **37 formas y 2
-tramos sin forma**. Todo ese proceso está archivado en
-[historico/](docs/dominio-metrico/historico/): el diario, en
-`revision-del-catalogo-2026-07-a-08.md`; el porqué de cada forma, con el pasaje de la fuente que
-lo sostiene, en `cuestiones-por-forma-2026-08.md`.
+tramos sin forma**. El diario de ese proceso está archivado en
+[historico/](docs/dominio-metrico/historico/). **Lo que sigue sin decidir**, forma por forma y con
+el pasaje de la fuente de cada caso, está en
+[cuestiones para el IP](docs/dominio-metrico/cuestiones-para-el-ip.md): son decisiones
+filológicas, no técnicas, y las toma el IP.
 
 **Lo que queda pendiente está inventariado y ordenado por urgencia** en
 [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente),

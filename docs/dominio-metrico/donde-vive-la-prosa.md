@@ -184,7 +184,7 @@ cierres posibles de un pasaje de sueltos—.
 
 **Al revisar puede aparecer que faltan más.** Si una descripción necesita nombrar una unidad
 que el catálogo no tiene, conviene anotarlo en
-[cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md) en vez de rodearla.
+[cuestiones para el IP](./cuestiones-para-el-ip.md) en vez de rodearla.
 
 ## Lo que queda por mirar en el barrido
 
@@ -208,5 +208,5 @@ que el catálogo no tiene, conviene anotarlo en
 ## El destino de `revisiones-formas/`
 
 Desaparecer. Lo descriptivo pasa al catálogo y se lee en la web; lo que quede abierto vive
-en [cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md). Hasta que una forma
+en [cuestiones para el IP](./cuestiones-para-el-ip.md). Hasta que una forma
 se revise, su ficha sigue siendo el único sitio donde está el porqué.

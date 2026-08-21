@@ -10,7 +10,7 @@
 Por qué el catálogo está construido como está: qué se decidió tratar como forma, como
 arquitectura, como esquema o como rasgo, y qué se descartó por el camino.
 
-Estos textos vivían en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md),
+Estos textos vivían en [cuestiones para el IP](../cuestiones-para-el-ip.md),
 que es un registro de **lo que sigue sin decidir**. No eran dudas sino decisiones ya aplicadas
 en el dato, y hacían ruido allí. Se mudan aquí el 5 de agosto de 2026.
 

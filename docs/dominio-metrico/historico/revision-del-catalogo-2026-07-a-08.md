@@ -155,7 +155,7 @@ qué»—. El maquetado del Editor V2 y la retirada del gestor mutable quedaron 
 agosto; el formulario se deriva del modelo y todos los cambios del catálogo pasan por migración.
 
 Las dudas filológicas que siguen abiertas están en
-[cuestiones para el IP](./cuestiones-por-forma-2026-08.md), y muchas se responden
+[cuestiones para el IP](../cuestiones-para-el-ip.md), y muchas se responden
 juntas dentro de esas lecturas.
 
 El territorio de los seis versos está cerrado —sexteto, sextilla y sexteto-lira—, y la lectura
@@ -297,7 +297,7 @@ filas. Lo que se hizo fue:
   la prosa que duplican, porque la norma habría desaparecido de la página.
 - **Ir a la bibliografía por los que no declaraban nada.** De cinco, tres estaban mudos con razón;
   la sextilla hexasílaba no, y lo que Navarro Tomás le documenta quedó registrado como afirmación
-  de fuente y planteado en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md#sextilla).
+  de fuente y planteado en [cuestiones para el IP](../cuestiones-para-el-ip.md#sextilla).
 
 **Y la quintilla cerró la lectura demostrando para qué sirve todo esto.** Su criterio —«que no
 quede un verso sin rima»— vivía fuera del catálogo, y al formalizarlo se vio que **estaba
@@ -351,7 +351,7 @@ contraprueba:
   cualquier disposición. Las siete no salen de una restricción documentada sino del vocabulario
   legado, donde eran siete subtipos escritos uno a uno; y ninguna de las seis fuentes prohíbe
   combinación alguna —dos cierran su enumeración en «y otras»—. El detalle, con el mapa de las
-  quince casillas, en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md#sexteto-lira).
+  quince casillas, en [cuestiones para el IP](../cuestiones-para-el-ip.md#sexteto-lira).
 
 **Lo que la lectura descarta.** Extender la variedad al resto del catálogo **no es viable**, y
 no por criterio sino por estructura: **las 25 preguntas de rima están todas en arquitecturas con
@@ -729,7 +729,7 @@ la sección «Tercetos» que ya existe, y la guarda lo paró: esa sección remit
 así que la pregunta habría pasado a ofrecer los esquemas del terceto suelto y se perdían siete de
 las 91 respuestas propuestas. No falta una clave foránea: falta decidir si el soneto tiene una
 sección de seis versos. Está en
-[cuestiones para el IP](./cuestiones-por-forma-2026-08.md#soneto).
+[cuestiones para el IP](../cuestiones-para-el-ip.md#soneto).
 
 ##### Y los tercetos del soneto, que no era lo que parecía
 
@@ -884,7 +884,7 @@ Los que sí señalan carencia:
   propia, y hoy solo existen como frase.
 - **La simetría de la mudanza tampoco.** «Normalmente organizada en dos miembros simétricos»
   aparece en tres notas del villancico, y es justamente la duda 1 de esa forma en
-  [cuestiones para el IP](./cuestiones-por-forma-2026-08.md#villancico).
+  [cuestiones para el IP](../cuestiones-para-el-ip.md#villancico).
 - **El límite de dos quebrados de la copla real**, arriba.
 
 Y una redundancia recién creada, que conviene podar: la nota de la copla de pie quebrado dice
@@ -1000,7 +1000,7 @@ resolver el significado general de la reutilización.
 **toma la caja por clase de rima**: de `-a-A` saca dos rimas donde hay una. La caja dice el arte
 del verso, no con quién rima —la lira escribe `aBabB` y son dos rimas, no cuatro—. En la endecha
 real hubo que corregirlo a mano. Volverá a pasar en cualquier rima entre arte menor y arte
-mayor. Está anotado en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md).
+mayor. Está anotado en [cuestiones para el IP](../cuestiones-para-el-ip.md).
 
 **Y la caja tampoco vive en el slug.** Conviene tenerlo claro porque induce a error: la caja es
 dato —la mayúscula dice arte mayor— y se conserva en la columna `notacion`, `ABBAACCA`. Pero el
@@ -1025,7 +1025,7 @@ obligaría a renombrar todos los esquemas de rima del catálogo a cambio de nada
 - [donde-vive-la-prosa.md](../donde-vive-la-prosa.md) — los ocho criterios de redacción.
 - [contratos-registrador-formas-revisadas.md](../contratos-registrador-formas-revisadas.md) —
   qué deriva y qué pregunta el editor en cada forma revisada.
-- [revisiones-formas/cuestiones-para-el-ip.md](./cuestiones-por-forma-2026-08.md) —
+- [revisiones-formas/cuestiones-para-el-ip.md](../cuestiones-para-el-ip.md) —
   lo que sigue sin decidir. Se poda a medida que se resuelve.
 - [informe-conformidad-catalogo.md](../informe-conformidad-catalogo.md) — se regenera con
   `npm run audit:metrica`.
@@ -1034,5 +1034,5 @@ obligaría a renombrar todos los esquemas de rima del catálogo a cambio de nada
   rima. Archivado; su método vigente está fundido en este documento.
 
 Las fichas `.md` de `revisiones-formas/` **se han retirado todas**. Del directorio solo queda
-[cuestiones-para-el-ip.md](./cuestiones-por-forma-2026-08.md), que no describe
+[cuestiones-para-el-ip.md](../cuestiones-para-el-ip.md), que no describe
 formas sino decisiones pendientes. Lo descriptivo vive en el catálogo y se lee en `/formas`.
