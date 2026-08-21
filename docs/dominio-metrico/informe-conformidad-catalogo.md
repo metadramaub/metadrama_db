@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-20 22:02
+Generado: 2026-08-21 08:04
 
-Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 93 patrones de rima · 61 secciones · 61 grupos de elección · 404 opciones · 7 rasgos.
+Inventario: 26 formas y 2 tramos sin forma · 57 configuraciones · 61 patrones métricos · 93 patrones de rima · 63 secciones · 63 grupos de elección · 408 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -140,7 +140,7 @@ Sin incidencias.
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
 | terceto | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
-| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 10 | realizacion, unidad |
+| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 12 | realizacion, unidad |
 | zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 4 | realizacion, unidad |
 
 ### 2.2 · Reparto de la medida
