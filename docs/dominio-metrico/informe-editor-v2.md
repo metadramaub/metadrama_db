@@ -9,9 +9,9 @@ Generado el 2026-08-21 desde la base enlazada.
 | Canción petrarquista | estancias_consonantes_variables | 0 | 2 | 2 | 0 |
 | Canción petrarquista | sin_rima_con_pareado_final | 1 | 1 | 1 | 0 |
 | Copla de arte mayor | dodecasilabica_compuesta | 0 | 1 | 1 | 0 |
+| Copla manriqueña | doble_pie_quebrado | 0 | 1 | 1 | 0 |
 | Copla real | octosilabica_consonante | 0 | 3 | 3 | 0 |
 | Cuarteto | endecasilabica | 0 | 1 | 1 | 0 |
-| Doble sextilla | doble_pie_quebrado | 0 | 1 | 1 | 0 |
 | Endecasílabo suelto | endecasilabica | 4 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo | 2 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
@@ -42,7 +42,7 @@ Generado el 2026-08-21 desde la base enlazada.
 | Villancico | estribillo_tras_primera_copla | 0 | 6 | 6 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**32 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**38 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
 - Canción petrarquista · regular_13_versos
 - Copla castellana · octosilabica
@@ -58,17 +58,23 @@ Generado el 2026-08-21 desde la base enlazada.
 - Octava aguda · pentasilabica
 - Oncena · quintilla_sextilla
 - Oncena · sextilla_quintilla
+- Redondilla enlazada · octosilabica_con_quebrado
 - Seguidilla · chamberga
 - Seguidilla · compuesta
 - Seguidilla · real
 - Seguidilla · simple
 - Seguidilla · simple_arromanzada
 - Seguidilla · tres_versos
+- Septeto · compuesta
+- Septeto · endecasilabica
+- Septeto-lira · heterometrica_consonante
 - Septilla · octosilabica
+- Septilla enlazada · octosilabica_con_quebrado
 - Sextilla · heptasilabica
 - Sextilla · hexasilabica
 - Sextilla · octosilabica
 - Sextilla · pie_quebrado
+- Sextilla enlazada · octosilabica_con_quebrado
 - Sextina · clasica
 - Sextina · doble_montemayor
 - Sextina · doble_petrarquista
@@ -92,7 +98,7 @@ Sin incidencias.
 | Dónde | Cuál |
 | --- | --- |
 | Canción petrarquista · sin_rima_con_pareado_final | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
-| Doble sextilla · doble_pie_quebrado | esquema_rima · rima · 1 opciones · alcance unidad |
+| Copla manriqueña · doble_pie_quebrado | esquema_rima · rima · 1 opciones · alcance unidad |
 | Endecasílabo suelto · endecasilabica | distico_final · rasgo · 1 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | encadenamiento_interior · rasgo · 1 opciones · alcance secuencia |
 | Octava real · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |

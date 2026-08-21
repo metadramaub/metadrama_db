@@ -36,11 +36,12 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **32 formas
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **37 formas
   y 2 tramos sin forma**: eran 27, la copla de pie quebrado se retiró el 20 de agosto de 2026 por
-  nombrar un rasgo y no una estructura, y el 21 entraron seis —copla de arte menor, copla
-  castellana, octava aguda, septilla, oncena y doble sextilla— al llenar el hueco de las estrofas
-  de siete, ocho, once y doce versos. **La medida de toda forma isosilábica es arquitectura** y ya
+  nombrar un rasgo y no una estructura, el 21 entraron seis al llenar el hueco de las estrofas de
+  siete, ocho, once y doce versos —copla de arte menor, copla castellana, octava aguda, septilla,
+  oncena y copla manriqueña— y entre el 21 y el 22 otras cinco al cerrar las de siete y las
+  enlazadas —septeto, septeto-lira, redondilla enlazada, sextilla enlazada y septilla enlazada—. **La medida de toda forma isosilábica es arquitectura** y ya
   no se pregunta, y lo que era una forma para decir «N unidades de esta otra» —sexta rima, tercetos
   sin encadenar, pareados endecasílabos— vive en el nivel que le corresponde. *La doble sextilla y
   la redondilla doble volvieron a ser formas el 21 de agosto, y no por su nombre: cuando dos
@@ -59,7 +60,7 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
   cambiando el `scope_minimo` de la sección `formas`. No lleva texto redactado: si algo se
   lee mal, está mal en el catálogo. El listado carga en una sola consulta todos los registros
-  activos —34 desde el 21 de agosto de 2026— y los conserva para el filtrado en ejecución; cada
+  activos —39 desde el 22 de agosto de 2026— y los conserva para el filtrado en ejecución; cada
   ficha usa otra consulta agregada que mantiene los identificadores y la jerarquía padre-hijo de
   sus secciones.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
@@ -375,17 +376,57 @@ seguidilla— que la comprobación enumera.
 —septilla, novena, oncena y doble sextilla—, y una forma de rango repetiría el error de la copla de
 pie quebrado, que tapaba las estrofas reales mientras cubría el intervalo.*
 
-**A2bis. Dos estructuras que salieron leyendo y no se crearon.** Aparecieron al escribir la
-septilla y merecen decisión propia:
+**A2bis. ~~Dos estructuras que salieron leyendo y no se crearon.~~ Hecho el 21 y 22 de agosto de
+2026**, en cinco migraciones —`20260821200000` a `20260822000000`—. Al leer las fuentes para
+resolverlo resultaron ser cinco y no dos, y **dos de ellas son del corpus**. El catálogo pasa de 32
+formas a 37:
 
-- **La séptima de arte mayor de Quilis** (§ 5.4.6.1): siete versos de arte mayor cuya rima «queda a
-  gusto del poeta, con la sola condición de que tres versos no vayan seguidos de la misma rima».
-  Es otra articulación, no la de cuatro y tres, y hoy no tiene dónde caer.
-- **La septilla enlazada de Navarro** (§ 131): serie encadenada sobre base de quintilla —el primer
-  verso rima con el último de la estrofa anterior y el segundo, quebrado, con el siguiente—,
-  `abaab-bccdccd-defeef…`. **Está documentada en el teatro áureo**: en la *Propalladia* de Torres
-  Naharro y en los entremeses de Sebastián de Horozco. *De las dos, esta es la que puede aparecer
-  en el corpus.*
+- **Septeto** (7, arte mayor). La hermana mayor de la septilla, separada por la medida como el
+  sexteto de la sextilla: Jauralde dice que en las estrofas de siete «cabe también la distinción
+  según el tipo de verso que acojan». Dos arquitecturas: la endecasilábica de rima libre que
+  describen Quilis y el *Diccionario* —«con la única condición de que no rimen tres versos
+  seguidos»— y la compuesta, cuarteto más terceto. El **septeto agudo** va como rasgo.
+- **Septeto-lira** (7, heterométrico). Cierra la serie lira → sexteto-lira → septeto-lira, que el
+  catálogo tenía coja. Es la estrofa de la canción alirada, y el ejemplo que la documenta es de
+  **fray Luis de León**: `7a 11B 7a 11B 7b 7c 11C`.
+- **Las tres estrofas enlazadas** de Navarro Tomás § 131 —**redondilla enlazada**, **sextilla
+  enlazada** y **septilla enlazada**—, series en que la rima pasa de una estrofa a la siguiente.
+
+**Las enlazadas eran el hueco de verdad.** Navarro no las trata como curiosidad: «se hizo de varios
+modos el enlace de las estrofas, **no como mera gala métrica** […] **sino como recurso para dar a la
+versificación movimiento flexible y corrido**», y al recorrer el período concluye que **«el teatro
+dio preferencia a las estrofas octosílabas enlazadas de seis y siete versos»**. Las documenta en
+**la mayor parte de los pasos y entremeses de la *Turiana* de Timoneda**, en la *Propalladia* de
+Torres Naharro, en **los entremeses de Sebastián de Horozco** y en cuatro piezas de la colección
+Rouanet. Es material del corpus, y hasta hoy un paso entero anotado así no tenía dónde caer.
+
+*Las tres se apoyan en una sola fuente —las otras cinco no las tratan, y así consta en sus fichas—.
+Es la primera vez que el catálogo crea formas con un solo respaldo, y se hace por el criterio de
+exhaustividad: una fuente queda fuera de una forma solo cuando no la trata.*
+
+**A2ter. Dos cosas que dejaron abiertas las enlazadas.**
+
+- ~~**El catálogo no sabe declarar que la rima final de una unidad vuelve en la primera de la
+  siguiente.**~~ **Sí sabía, y el dato faltaba.** Al abrir la ficha, la rejilla imprimía bajo las
+  tres enlazadas «la rima se renueva en cada repetición», que es lo contrario de lo que las define.
+  No era un fallo del módulo: `MetricPositionGrid.svelte` deriva esa frase de un silencio razonado
+  —«el modelo declara la conservación en positivo, con `esquema_rima_enlaces`; la renovación era su
+  silencio»—, y lo que faltaba era el enlace, que el terceto encadenado y el romance ya usan. Las
+  tres lo declaran desde el 22 de agosto (`20260822020000`). *Lo único que queda es cosmético: la
+  rejilla no colorea la clase que viene de la vuelta anterior como enlazada, y el pie lo explica.*
+
+- **Una serie no declara la extensión de su unidad, y conviene saberlo antes de crear otra.** Las
+  tres enlazadas se crearon con `unidad_versos_min = unidad_versos_max`, y la ficha las pintó como
+  estrofas cerradas: `rejilla.ts` descarta el esqueleto de secciones cuando el esquema es cíclico,
+  y entonces **una unidad de extensión fija manda sobre el ciclo** y lo apaga. Se corrigió
+  (`20260822010000`) dejándolas en nulo, como el terceto encadenado. *Una comprobación de esa
+  migración lo sostiene: ninguna forma de nivel `serie` declara ya extensión de unidad.*
+- **¿Debe la quintilla admitir el pie quebrado por su cuenta?** Hoy no lo declara: el catálogo lo
+  puso en la copla real, con la nota de que «la tradición no describe la quintilla quebrada como
+  estrofa suelta, sino como una de las dos mitades de la copla real». **Navarro dice otra cosa**:
+  «la quintilla con verso inicial quebrado fue la estrofa más usada por Castillejo», y la sextilla
+  enlazada la lleva dentro. Mientras se decide, el quiebro se declara en la arquitectura de la
+  enlazada.
 
 **A3. Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
 trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
