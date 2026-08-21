@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-21 13:00
+Generado: 2026-08-21 13:28
 
 Inventario: 37 formas y 2 tramos sin forma · 73 configuraciones · 77 patrones métricos · 122 patrones de rima · 80 secciones · 63 grupos de elección · 408 opciones · 7 rasgos.
 
