@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 21 de agosto de 2026
+Actualizado: 22 de agosto de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
@@ -336,10 +336,11 @@ próximo hito y no por el orden en que aparecieron.
 `npm run audit:metrica` y `npm run audit:editor` dan cero defectos, y las pruebas y `npm run check`
 pasan. Lo que sigue son deudas del modelo y huecos de cobertura.
 
-*Puesto al día el **22 de agosto de 2026**. Del bloque A se cerraron los tres apuntes de cobertura
-—A2, A2bis y A2ter—, que dejaron **once formas nuevas** y dos criterios escritos: una arquitectura
-no cambia la extensión de la unidad de su forma, y un rasgo admitido no cambia lo que la forma
-declara. **Quedan tres asuntos en A, cinco en B y dieciséis en C.***
+*Puesto al día el **22 de agosto de 2026**. Del bloque A se cerraron los cuatro apuntes de
+cobertura —A2, A2bis, A2ter y A3—, que dejaron **once formas nuevas**, doce medidas y tres
+criterios escritos: una arquitectura no cambia la extensión de la unidad de su forma, un rasgo
+admitido no cambia lo que la forma declara, y la medida no compromete la norma mientras que lo que
+la fija se acota. **Quedan dos asuntos en A, cinco en B y dieciséis en C.***
 
 ### A · Bloquean la migración de las secuencias
 
@@ -440,13 +441,32 @@ el esquema es cíclico, y entonces una unidad fija manda sobre el ciclo y lo apa
 (`20260822010000`)—; y **el enlace entre vueltas se declara en positivo**, con
 `esquema_rima_enlaces`, o la ficha afirma lo contrario (`20260822020000`).*
 
-**A3. Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
-trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
-(hexa y heptasílabas), décima (tetra, hexa y endecasílabas, **y asonante**) y terceto (**arte
-menor, que la tradición llama tercetillo, tercerilla o tercerillo**). Salió una por una al revisar
-su prosa: *conviene decidirlo de una vez, y antes de migrar, porque una secuencia en una de esas
-medidas no encuentra arquitectura.* Cada caso, en la sección de su forma en
-[cuestiones por forma](./cuestiones-para-el-ip.md).
+**A3. ~~Cinco formas piden medidas que el catálogo no tiene.~~ Hecho el 22 de agosto de 2026**, en
+cinco migraciones —`20260822050000` a `20260822100000`—. Las cinco tenían la medida documentada por
+las fuentes y no declarada, y con ellas entró el **tercetillo**, que es el único caso de los cinco
+con respaldo en el corpus áureo: Jauralde lo documenta en los diálogos teatrales de Lope, y **la
+septilla lo estaba esperando** desde el día anterior con la única sección del catálogo sin la forma
+que la realiza.
+
+| Forma | Qué gana |
+| --- | --- |
+| **Terceto** | Octosilábica y hexasilábica, con el monorrimo `aaa` que la forma no tenía y la asonancia que el *Diccionario* le admite: **tercetillo**, tercerilla, tercerillo |
+| **Quintilla** | Heptasilábica y hexasilábica, con las nueve disposiciones y las tres restricciones que son la norma de la forma, no de una medida |
+| **Sextilla** | Pentasilábica y tetrasilábica, que el IP había dejado fuera el 18 de agosto y reabrió con el criterio nuevo |
+| **Romance** | Pentasilábica y tetrasilábica, con sus nombres de romancillo; el *Diccionario* define romancillo por extensión abierta, «menos de ocho sílabas» |
+| **Décima** | Penta, hexa, hepta y endecasilábica. **La hexasílaba la firma Góngora**, de modo que no es una prueba tardía |
+| **Silva** | La **arromanzada**, que no es medida sino régimen, y entra por tener entrada y definición propias en el *Diccionario* |
+
+**Lo que ordenó todo esto es un criterio nuevo**, escrito en
+[criterios de nivel § 3.6](./criterios-de-nivel.md), que responde a la pregunta que volvía en cada
+forma: **la medida no compromete la norma** y se declara cuando una fuente la documenta, sin
+criterio de fecha; **lo que fija la norma** —disposición, restricción, régimen, rasgo definitorio,
+forma nueva— exige que una fuente lo enuncie como regla o le dé nombre. La prueba es una sola
+pregunta: *¿la fuente lo define o lo ensaya?*
+
+*Por esa prueba quedó fuera la **décima asonante** —ninguna fuente la registra y Jauralde la
+presenta como ensayo de Jorge Guillén «en vez de en consonante, que era lo tradicional»— y entró la
+silva arromanzada, cuyo ejemplo es también del siglo XX pero tiene entrada y definición.*
 
 **A4. Las equivalencias de los tres tramos irregulares hay que mirarlas una a una.** Es posible que
 alguna sea que quien anotó no encontró la forma precisa, y que con el catálogo nuevo y el
