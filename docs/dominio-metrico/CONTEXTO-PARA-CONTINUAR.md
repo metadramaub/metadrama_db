@@ -334,8 +334,13 @@ próximo hito y no por el orden en que aparecieron.
    escribe en `secuencias_metricas`.
 
 **Nada de lo que sigue impide anotar hoy** con el editor actual, y el catálogo está limpio:
-`npm run audit:metrica` y `node scripts/audit-editor-v2.mjs` dan cero defectos, y las pruebas y
-`npm run check` pasan. Lo que sigue son deudas del modelo y huecos de cobertura.
+`npm run audit:metrica` y `npm run audit:editor` dan cero defectos, y las pruebas y `npm run check`
+pasan. Lo que sigue son deudas del modelo y huecos de cobertura.
+
+*Puesto al día el **22 de agosto de 2026**. Del bloque A se cerraron los tres apuntes de cobertura
+—A2, A2bis y A2ter—, que dejaron **once formas nuevas** y dos criterios escritos: una arquitectura
+no cambia la extensión de la unidad de su forma, y un rasgo admitido no cambia lo que la forma
+declara. **Quedan tres asuntos en A, cinco en B y dieciséis en C.***
 
 ### A · Bloquean la migración de las secuencias
 
@@ -590,9 +595,9 @@ que asoma en cuatro sitios y se decide junto: el repertorio del **sexteto**, que
 definen más ancho que el corpus; las **cuatro disposiciones históricas de la doble sextilla** que
 Navarro Tomás § 68 enumera con ejemplo y localizador y de las que el catálogo declara solo la
 última; la **copla real de cuatro y seis versos**, que Jauralde advierte que «precede a la 5-5, que
-solo se hace mayoritaria a finales del siglo XV» y el catálogo no tiene; y si **la doble sextilla
-merece arquitectura propia**, siendo que no es estructuralmente distinta de la simple —lo único que
-las enlaza es el sentido del texto—.
+solo se hace mayoritaria a finales del siglo XV» y el catálogo no tiene. *La cuarta pregunta de este apunte —si la doble sextilla merecía
+nivel propio— se cerró el 21 de agosto: es la **copla manriqueña**, forma, porque la articulación
+la separa de la sextilla aunque el enlace entre sus mitades sea de sentido y no de rima.*
 
 **C12. Revisar juntos el terceto y el terceto encadenado.** La poda conservó la distinción vigente
 —el segundo enlaza la rima central de cada unidad con la siguiente y no se divide en tercetos
@@ -613,6 +618,13 @@ terceto encadenado comparten el 10, la redondilla está en el 40, y hay huecos e
 by orden nulls last, nombre` es lo que pone la principal delante— y `estructuras_secciones.orden`
 también. Solo sobra la de las formas.
 
+**C15. La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
+exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta en
+el teatro: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise laureada*, de 1577, en endecasílabos
+sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». *Se anota por si alguna de las
+dos entra en el corpus: entonces habrá que decidir si el endecasílabo suelto gana una arquitectura
+heterométrica o si la frontera con la silva se redibuja.*
+
 **C16. La modalidad aguda alcanza a más formas de las que la declaran.** Salió el 21 de agosto de
 2026 al crear la octava aguda. Jauralde: «la modalidad aguda se extendió a otras muchas variedades
 estróficas, **como la sextilla y la décima**», y también a estrofas de arte mayor. El catálogo tiene
@@ -620,13 +632,6 @@ la pieza —el rasgo `final_acentual` con valor `agudo` y `posiciones_max`, que 
 ya usa así: «riman en agudo los versos tercero y sexto, que son los que cierran cada
 semiestrofa»—, pero solo lo declaran dos arquitecturas. *Falta una pasada que decida en qué formas
 se admite y con qué modalidad; va con B2, que revisa el reparto entero de los rasgos.*
-
-**C15. La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
-exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta en
-el teatro: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise laureada*, de 1577, en endecasílabos
-sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». *Se anota por si alguna de las
-dos entra en el corpus: entonces habrá que decidir si el endecasílabo suelto gana una arquitectura
-heterométrica o si la frontera con la silva se redibuja.*
 
 ## Siguiente fase prevista
 
