@@ -92,6 +92,28 @@ Se declara una sola vez y en un solo sitio:
 Cuando existen las dos vías no pueden contradecirse (**D4**). Una extensión fija se
 expresa igualando mínimo y máximo, no con un campo aparte.
 
+#### Una arquitectura no cambia la extensión de la unidad de su forma
+
+Fijado el 21 de agosto de 2026, al crear las estrofas de siete, ocho, once y doce versos. **Es un
+indicio, no una prohibición**: cuando una arquitectura declara una unidad de extensión distinta a
+la de sus hermanas, lo más probable es que no sea una arquitectura sino **otra forma escondida
+dentro de la primera**. Así estaban la copla de arte menor —`unidad = 8` dentro de la redondilla,
+que mide 4— y la doble sextilla —`unidad = 12` dentro de la sextilla, que mide 6—, mientras el
+mismo caso a diez versos ya eran dos formas, la décima y la copla real.
+
+Lo que decide de verdad es **la articulación**: cuántos miembros tiene la estrofa, de qué tamaño, y
+si comparten rima. La medida y la disposición son arquitectura. El nombre no decide nada — que la
+tradición llame «octavilla» a algo no lo convierte en forma, y que no le dé nombre no se lo quita.
+
+**Tres formas rompen el indicio con razón, y la comprobación las enumera** para que una cuarta se
+note (migración `20260821170000`):
+
+| Forma | Por qué |
+| --- | --- |
+| Décima | La *aumentada* estira el miembro final de cuatro versos a seis y aparece intercalada entre décimas normales: es la misma estrofa creciendo, y las fuentes la describen así |
+| Sextina | La doble de Montemayor y la doble petrarquista repiten la composición entera |
+| Seguidilla | La simple, la de tres versos, la compuesta, la chamberga y la gitana son la misma forma en extensiones que la tradición nombra por separado, y la compuesta contiene a la simple |
+
 ### 3.2 · Medida
 
 Se aplica la pregunta de la variación, no un criterio de nombre.

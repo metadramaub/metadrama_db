@@ -5,10 +5,11 @@ Actualizado: 21 de agosto de 2026
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
 
-> **La revisión del catálogo está terminada, y con ella la de su prosa.** Las 26 formas activas y
-> los dos tramos sin forma se contrastaron con las seis monografías hasta el 8 de agosto de 2026;
-> las seis lecturas transversales se cerraron el 10; y la prosa de las 28 fichas quedó revisada
-> forma por forma el **21 de agosto**. El diario de ese proceso está
+> **La revisión del catálogo está terminada, y con ella la de su prosa.** Las formas activas de
+> entonces —26— y los dos tramos sin forma se contrastaron con las seis monografías hasta el 8 de
+> agosto de 2026; las seis lecturas transversales se cerraron el 10; y la prosa de esas 28 fichas
+> quedó revisada forma por forma el **21 de agosto**. Ese mismo día entraron seis formas nuevas,
+> escritas ya con el criterio de la revisión. El diario de ese proceso está
 > [archivado](./historico/revision-del-catalogo-2026-07-a-08.md); las decisiones por forma, con el
 > pasaje de la fuente que las sostiene, en
 > [cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md), también archivado.
@@ -35,13 +36,17 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **26 formas y
-  2 tramos sin forma** —eran 27 hasta que la copla de pie quebrado se retiró el 20 de agosto de
-  2026, por nombrar un rasgo y no una estructura—: la medida de toda forma isosilábica es arquitectura y ya no se
-  pregunta, y lo que era una forma para decir «N unidades de esta otra» —doble sextilla,
-  sexta rima, tercetos sin encadenar, pareados endecasílabos, copla manriqueña— vive en el
-  nivel que le corresponde. Las formas con clasificación previa tienen ya su tradición; las
-  restantes no la tienen porque no hay de dónde tomarla.
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **32 formas
+  y 2 tramos sin forma**: eran 27, la copla de pie quebrado se retiró el 20 de agosto de 2026 por
+  nombrar un rasgo y no una estructura, y el 21 entraron seis —copla de arte menor, copla
+  castellana, octava aguda, septilla, oncena y doble sextilla— al llenar el hueco de las estrofas
+  de siete, ocho, once y doce versos. **La medida de toda forma isosilábica es arquitectura** y ya
+  no se pregunta, y lo que era una forma para decir «N unidades de esta otra» —sexta rima, tercetos
+  sin encadenar, pareados endecasílabos— vive en el nivel que le corresponde. *La doble sextilla y
+  la redondilla doble volvieron a ser formas el 21 de agosto, y no por su nombre: cuando dos
+  semiestrofas no comparten rima la articulación es otra, y eso es lo que decide —ver
+  [criterios de nivel § 3.1](./criterios-de-nivel.md).* Las formas con clasificación previa tienen
+  ya su tradición; las restantes no la tienen porque no hay de dónde tomarla.
 - `/dashboard/metrica` es la superficie de trabajo del dominio: contiene la guía, el Editor V2 de
   prueba, la anotación en sombra y la validación del demarcador. El gestor mutable se retiró el 11
   de agosto: el catálogo se consulta en `/formas` y todos sus cambios se hacen por migración.
@@ -53,9 +58,10 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   del dato: cada forma con sus arquitecturas, esquemas, secciones, rasgos, denominaciones y
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
   cambiando el `scope_minimo` de la sección `formas`. No lleva texto redactado: si algo se
-  lee mal, está mal en el catálogo. El listado carga los 28 registros activos en una sola
-  consulta y los conserva para el filtrado en ejecución; cada ficha usa otra consulta agregada
-  que mantiene los identificadores y la jerarquía padre-hijo de sus secciones.
+  lee mal, está mal en el catálogo. El listado carga en una sola consulta todos los registros
+  activos —34 desde el 21 de agosto de 2026— y los conserva para el filtrado en ejecución; cada
+  ficha usa otra consulta agregada que mantiene los identificadores y la jerarquía padre-hijo de
+  sus secciones.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
   las secuencias reales y no alimenta fichas, buscadores ni resúmenes públicos.
 - **La anotación en sombra funciona** desde el 4 de agosto de 2026, en la pestaña
@@ -228,7 +234,8 @@ funcionó: un inventario de frases sueltas no deja ver la forma entera, y sus re
 en cuanto se tocaba algo. Los tres documentos se retiraron el 18 de agosto de 2026; sus decisiones
 ya aplicadas están en las migraciones y en el historial de `git`.
 
-**Terminada el 21 de agosto de 2026.** Las 28 fichas llevan la prosa revisada. Su rastro:
+**Terminada el 21 de agosto de 2026.** Las 28 fichas que existían llevan la prosa revisada; las
+seis formas creadas ese mismo día nacieron ya con ella. Su rastro:
 
 | Forma | Migración |
 | --- | --- |
@@ -339,28 +346,46 @@ y lo que ya decidió el IP están en
 [equivalencias-pendientes.md](./equivalencias-pendientes.md); las cifras, en el informe
 regenerable. *Es el primer paso: sin destino declarado, la secuencia no se puede convertir.*
 
-**A2. Faltan cuatro formas donde caer, y las cuatro son de verdad.** Estaban tapadas por la copla
-de pie quebrado: mientras esa forma general cubría de cinco a doce versos, un pasaje de ocho u
-once versos quebrados tenía dónde caer y nadie notaba el hueco. Al retirarla el 20 de agosto de
-2026 se hizo visible, que es parte de la razón de retirarla.
+**A2. ~~Faltan formas de ocho, once y doce versos donde caer.~~ Hecho el 21 de agosto de 2026**,
+en seis migraciones —`20260821120000` a `20260821170000`—. El apunte estaba mal planteado: pedía
+«octavilla, oncena y copla mixta», y al contrastar las seis fuentes resultó que **«octavilla» es un
+nombre y no una forma**, que la estrofa que nombra **ya estaba en el catálogo escondida** dentro de
+la redondilla, y que faltaba además la de siete versos, que nadie había echado en falta. El
+catálogo pasa de 26 formas a 32:
 
-- **Octavilla** (8, arte menor). Navarro Tomás la indiza como «octava de pie quebrado» y describe
-  sus disposiciones con ejemplo: `abba:cddc` en los *Proverbios* de Santillana, `abba:acca` en
-  Pero Guillén de Segovia, `abab:cddc` en el *Diálogo de Bías contra Fortuna*. Quilis documenta
-  además octavillas de octosílabos y tetrasílabos. Lo que el catálogo tiene hoy es `octava_real`,
-  que es de arte mayor y otra cosa.
-- **Octava aguda.** Caparrós 2014 enumera «la copla castellana, la octava real, la octava y la
-  octavilla agudas», de modo que el hueco de las estrofas de ocho son dos formas y no una.
-- **Oncena** (11). Navarro: «La estrofa de once con quebrados **fue más corriente que la de
-  octosílabos plenos**», con el *Claro escuro* de Juan de Mena como modelo, `abaab:cdecde`,
-  repetido por Álvarez Gato, Gómez Manrique y Tapia.
-- **Copla mixta** (7 a 12). Término de Navarro que recoge el *Diccionario*: «Combinación estrófica
-  que puede tener desde siete hasta doce versos octosílabos… dividida en dos semiestrofas de
-  distinta extensión o en dos sextillas». Es la que de verdad ocupaba el terreno que la copla de
-  pie quebrado fingía cubrir, y **la única de las cuatro que no se resuelve contando versos**.
+- **Copla de arte menor** (8, dos semiestrofas que comparten una rima) — salió de
+  `redondilla · doble_enlazada`, que se retiró. Sus otros nombres: octavilla, octava de arte menor,
+  octava redondilla, redondilla de ocho versos.
+- **Copla castellana** (8, cuatro rimas y semiestrofas independientes) — la que de verdad faltaba:
+  Jauralde la llama «forma popularísima a lo largo de los siglos XVI y XVII».
+- **Octava aguda** (8, riman en agudo los versos que cierran cada semiestrofa) — con seis
+  arquitecturas por medida y «octavilla aguda» colgando de las de arte menor.
+- **Septilla** (7 = redondilla + terceto enlazado), también llamada copla mixta.
+- **Oncena** (11 = quintilla + sextilla, y la inversa), también llamada undécima.
+- **Doble sextilla** (12) — salió de `sextilla · doble_pie_quebrado`.
 
-*Mientras no existan, un pasaje quebrado de ocho, once o doce versos que no sea doble sextilla no
-tiene forma donde caer. Es el precio conocido de la retirada, y el IP lo aceptó al decidirla.*
+**El criterio que ordenó todo esto**, y que quedó escrito en
+[criterios de nivel § 3.1](./criterios-de-nivel.md): lo que hace forma aparte es la articulación
+—cuántos miembros, de qué tamaño y si comparten rima—; la medida y la disposición son
+arquitectura; el nombre no decide nada. Con un indicio duro: **una arquitectura no cambia la
+extensión de la unidad de su forma**, con tres excepciones documentadas —décima, sextina y
+seguidilla— que la comprobación enumera.
+
+*No se creó una «copla mixta» general de siete a doce versos: en Navarro es el rótulo de un grupo
+—septilla, novena, oncena y doble sextilla—, y una forma de rango repetiría el error de la copla de
+pie quebrado, que tapaba las estrofas reales mientras cubría el intervalo.*
+
+**A2bis. Dos estructuras que salieron leyendo y no se crearon.** Aparecieron al escribir la
+septilla y merecen decisión propia:
+
+- **La séptima de arte mayor de Quilis** (§ 5.4.6.1): siete versos de arte mayor cuya rima «queda a
+  gusto del poeta, con la sola condición de que tres versos no vayan seguidos de la misma rima».
+  Es otra articulación, no la de cuatro y tres, y hoy no tiene dónde caer.
+- **La septilla enlazada de Navarro** (§ 131): serie encadenada sobre base de quintilla —el primer
+  verso rima con el último de la estrofa anterior y el segundo, quebrado, con el siguiente—,
+  `abaab-bccdccd-defeef…`. **Está documentada en el teatro áureo**: en la *Propalladia* de Torres
+  Naharro y en los entremeses de Sebastián de Horozco. *De las dos, esta es la que puede aparecer
+  en el corpus.*
 
 **A3. Cinco formas piden medidas que el catálogo no tiene**, una pide además un régimen y otra
 trae nombre propio: romance (penta y tetrasílabos), sextilla (tetra y pentasílabas), quintilla
@@ -535,6 +560,14 @@ terceto encadenado comparten el 10, la redondilla está en el 40, y hay huecos e
 by orden nulls last, nombre` es lo que pone la principal delante— y `estructuras_secciones.orden`
 también. Solo sobra la de las formas.
 
+**C16. La modalidad aguda alcanza a más formas de las que la declaran.** Salió el 21 de agosto de
+2026 al crear la octava aguda. Jauralde: «la modalidad aguda se extendió a otras muchas variedades
+estróficas, **como la sextilla y la décima**», y también a estrofas de arte mayor. El catálogo tiene
+la pieza —el rasgo `final_acentual` con valor `agudo` y `posiciones_max`, que el sexteto alejandrino
+ya usa así: «riman en agudo los versos tercero y sexto, que son los que cierran cada
+semiestrofa»—, pero solo lo declaran dos arquitecturas. *Falta una pasada que decida en qué formas
+se admite y con qué modalidad; va con B2, que revisa el reparto entero de los rasgos.*
+
 **C15. La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
 exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta en
 el teatro: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise laureada*, de 1577, en endecasílabos
@@ -563,7 +596,8 @@ se completó el 31. Lo que sigue:
 5. **Las seis lecturas transversales: completas** el 10 de agosto de 2026. El concepto de
    variedad, la automatización de las preguntas del editor, la reutilización de secciones, la
    modalidad y la primacía, las reglas de repetición y el modelo de esquemas abiertos.
-6. **Revisión de la prosa, forma por forma: completa** el 21 de agosto de 2026, en 28 fichas.
+6. **Revisión de la prosa, forma por forma: completa** el 21 de agosto de 2026, en las 28 fichas
+   que existían. Las seis formas creadas ese día nacieron con la prosa ya escrita a ese criterio.
 7. **El demarcador ya consume la ontología**, no su vector fijo de rasgos: se recompila desde
    `/dashboard/metrica` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. Queda
    revisarlo tras dos cambios recientes —el cierre no obligatorio del terceto encadenado y la

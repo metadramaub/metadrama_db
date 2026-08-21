@@ -11,6 +11,7 @@ Generado el 2026-08-21 desde la base enlazada.
 | Copla de arte mayor | dodecasilabica_compuesta | 0 | 1 | 1 | 0 |
 | Copla real | octosilabica_consonante | 0 | 3 | 3 | 0 |
 | Cuarteto | endecasilabica | 0 | 1 | 1 | 0 |
+| Doble sextilla | doble_pie_quebrado | 0 | 1 | 1 | 0 |
 | Endecasílabo suelto | endecasilabica | 4 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo | 2 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
@@ -32,7 +33,6 @@ Generado el 2026-08-21 desde la base enlazada.
 | Sexteto | dodecasilabica | 0 | 1 | 1 | 0 |
 | Sexteto | endecasilabica | 0 | 1 | 1 | 0 |
 | Sexteto-lira | heterometrica_consonante | 1 | 1 | 1 | 0 |
-| Sextilla | doble_pie_quebrado | 0 | 1 | 1 | 0 |
 | Silva | consonante_irregular | 1 | 0 | 0 | 0 |
 | Silva | endecasilabica | 1 | 0 | 0 | 0 |
 | Silva | libre | 1 | 0 | 0 | 0 |
@@ -42,19 +42,29 @@ Generado el 2026-08-21 desde la base enlazada.
 | Villancico | estribillo_tras_primera_copla | 0 | 6 | 6 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**22 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**32 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
 - Canción petrarquista · regular_13_versos
+- Copla castellana · octosilabica
+- Copla de arte menor · octosilabica
 - Décima · aumentada
 - Décima · espinela
 - Lira · heptasilabica_endecasilabica
-- Redondilla · doble_enlazada
+- Octava aguda · decasilabica
+- Octava aguda · endecasilabica
+- Octava aguda · heptasilabica
+- Octava aguda · hexasilabica
+- Octava aguda · octosilabica
+- Octava aguda · pentasilabica
+- Oncena · quintilla_sextilla
+- Oncena · sextilla_quintilla
 - Seguidilla · chamberga
 - Seguidilla · compuesta
 - Seguidilla · real
 - Seguidilla · simple
 - Seguidilla · simple_arromanzada
 - Seguidilla · tres_versos
+- Septilla · octosilabica
 - Sextilla · heptasilabica
 - Sextilla · hexasilabica
 - Sextilla · octosilabica
@@ -82,11 +92,11 @@ Sin incidencias.
 | Dónde | Cuál |
 | --- | --- |
 | Canción petrarquista · sin_rima_con_pareado_final | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
+| Doble sextilla · doble_pie_quebrado | esquema_rima · rima · 1 opciones · alcance unidad |
 | Endecasílabo suelto · endecasilabica | distico_final · rasgo · 1 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | encadenamiento_interior · rasgo · 1 opciones · alcance secuencia |
 | Octava real · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Sexteto-lira · heterometrica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
-| Sextilla · doble_pie_quebrado | esquema_rima · rima · 1 opciones · alcance unidad |
 | Soneto · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Terceto · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 
