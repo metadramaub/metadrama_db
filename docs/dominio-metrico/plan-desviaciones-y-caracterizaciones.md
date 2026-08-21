@@ -203,4 +203,4 @@ del catálogo público y que `pct_cantado` depende de `cantado`, que se queda.
 12. **Las dos filas sin observación**, de la misma persona.
 13. **La pausa sintáctica de la espinela** roza el límite de lo que el proyecto declara
     fuera de su alcance, como el ritmo acentual. Merece una línea en
-    [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+    [cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md).

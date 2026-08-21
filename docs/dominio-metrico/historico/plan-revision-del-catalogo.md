@@ -3,7 +3,7 @@
 Archivado el 6 de agosto de 2026. Escrito el 5, antes de empezar la revisión.
 
 > **Este documento ya no dirige nada.** El método vigente y el estado de la revisión están en
-> [revision-del-catalogo-estado.md](../revision-del-catalogo-estado.md), donde se fundió lo que
+> [revision-del-catalogo-estado.md](./revision-del-catalogo-2026-07-a-08.md), donde se fundió lo que
 > seguía valiendo.
 >
 > Se conserva porque es **el diario de la fase A** —la normalización de nombres y la corrección

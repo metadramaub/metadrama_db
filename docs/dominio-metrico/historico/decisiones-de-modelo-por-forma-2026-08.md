@@ -1,9 +1,16 @@
 # Decisiones de modelo, forma por forma
 
+> **Archivado el 21 de agosto de 2026.** Este archivo era andamiaje: se escribió para vaciarse, a
+> medida que el porqué de cada forma se mudaba al catálogo —a su definición, a la descripción de su
+> arquitectura o a una afirmación de fuente—. Con la revisión de la prosa terminada, **ese traslado
+> está hecho** y lo que aquí queda es la versión anterior de esas explicaciones.
+>
+> Lo vigente se lee en `/formas`, que se genera del dato.
+
 Por qué el catálogo está construido como está: qué se decidió tratar como forma, como
 arquitectura, como esquema o como rasgo, y qué se descartó por el camino.
 
-Estos textos vivían en [cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md),
+Estos textos vivían en [cuestiones para el IP](./cuestiones-por-forma-2026-08.md),
 que es un registro de **lo que sigue sin decidir**. No eran dudas sino decisiones ya aplicadas
 en el dato, y hacían ruido allí. Se mudan aquí el 5 de agosto de 2026.
 
@@ -13,13 +20,13 @@ su apartado desaparece de aquí. Es andamiaje: si se deja estar, en unos meses n
 de saber qué sigue vigente y qué es residuo.
 
 Cuando el trabajo termine, esto debería quedar en cero. La justificación de las decisiones
-reales serán [la ontología](./ontologia-verso-espanol.md) y
-[la implementación](./implementacion-metrica.md) contrastadas con el catálogo, que es el modelo
+reales serán [la ontología](../ontologia-verso-espanol.md) y
+[la implementación](../implementacion-metrica.md) contrastadas con el catálogo, que es el modelo
 ya poblado: eso basta, y sobra el resto de documentos.
 
 **Si se cambia el modelo**, hay que revisar esos dos. La lista vigente de cambios aplicados y
 defectos aplazados vive únicamente en
-[el estado de la revisión](./revision-del-catalogo-estado.md); no se duplica aquí porque esta
+[el estado de la revisión](./revision-del-catalogo-2026-07-a-08.md); no se duplica aquí porque esta
 lista se vacía a medida que las formas quedan absorbidas en el catálogo.
 
 ## Zéjel

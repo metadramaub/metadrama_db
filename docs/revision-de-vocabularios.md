@@ -104,8 +104,10 @@ un humano lee y cuyas etiquetas están hoy incrustadas en TypeScript— serían:
 
 *La lista del 3 de agosto nombraba además `fijeza`, `comportamiento` y `grado_especificacion`, y
 **ninguno de los tres existe como columna**: los dos primeros nunca existieron —eran nombres que
-el gestor usaba y la base no aceptaba— y el tercero se retiró el 5 de agosto. Es el mismo fallo
-que `npm run audit:campos` vigila ahora en el gestor, aquí en un documento.*
+el gestor usaba y la base no aceptaba— y el tercero se retiró el 5 de agosto. Era el mismo fallo
+que vigilaba `npm run audit:campos`, retirado el 21 de agosto de 2026 con el gestor mutable que
+auditaba: hoy todo cambio del catálogo pasa por migración, y una columna inventada revienta al
+aplicarla.*
 
 Se quedarían en `CHECK` incluso dentro del catálogo: `estado_revision`, que es flujo y no
 vocabulario editorial, y `tipo` (`simple`/`compuesto` de los metros), que es estructura.

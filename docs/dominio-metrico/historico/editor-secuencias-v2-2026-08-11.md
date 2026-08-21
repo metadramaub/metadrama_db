@@ -184,7 +184,7 @@ Desde el 11 de agosto de 2026. Antes había **seis interruptores de plegado inde
 de modo que una misma pregunta podía aparecer en tres sitios según qué combinación estuviera
 abierta; de ahí salían tarjetas con cabecera y sin contenido y dos botones que llevaban al
 mismo sitio por caminos distintos. El diagnóstico y las dos alternativas que se estudiaron
-están en [propuesta-editor-v2.md](./propuesta-editor-v2.md).
+están en [propuesta-editor-v2.md](./propuesta-editor-v2-2026-08-11.md).
 
 **A la izquierda la secuencia dibujada verso a verso, a la derecha lo que hay que responder
 de cada parte.** Tres reglas la gobiernan:

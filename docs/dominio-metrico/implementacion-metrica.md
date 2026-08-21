@@ -22,11 +22,11 @@ días, y la versión de entonces está en
 | --------------------------------------------- | ------------------------------------------------------------ |
 | Qué tablas, columnas y restricciones existen  | La base: `npx supabase db dump --linked -f esquema.sql`      |
 | Si los datos son coherentes con los criterios | `npm run audit:metrica`                                      |
-| Si el gestor declara campos que no existen    | `npm run audit:campos`                                       |
+| Qué le pide el editor V2 a cada forma          | `npm run audit:editor`                                       |
 | Qué es cada fenómeno del verso                | [La ontología](./ontologia-verso-espanol.md)                 |
 | En qué nivel se registra un hecho             | [Criterios de nivel](./criterios-de-nivel.md)                |
 | Qué decidió el proyecto sobre una forma       | El catálogo mismo, en `/formas`                              |
-| Qué se revisó y qué quedó abierto             | [Estado de la revisión](./revision-del-catalogo-estado.md)   |
+| Por qué una forma es como es                  | [Cuestiones por forma](./historico/cuestiones-por-forma-2026-08.md) |
 | Qué sigue pendiente                           | [CONTEXTO](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente) |
 
 ## Las decisiones que gobiernan el modelo
@@ -398,7 +398,7 @@ con el IP para el teatro del Siglo de Oro.
 | Verso libre y fluctuante         | Se tratan como tramos sin forma, no como formas. Si el corpus documentara alguno, sería una forma con su norma                                                                                                     |
 
 Las dudas todavía abiertas están en
-[cuestiones para el IP](./revisiones-formas/cuestiones-para-el-ip.md).
+[cuestiones para el IP](./historico/cuestiones-por-forma-2026-08.md).
 
 ## 4 · Cómo se recoge el dato
 

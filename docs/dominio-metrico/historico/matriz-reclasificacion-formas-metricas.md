@@ -12,7 +12,7 @@ Documentos relacionados:
 
 - [Auditoría del vocabulario actual](./informe-auditoria-vocabulario-metrico.md)
 - [Propuesta conceptual](./propuesta-dominio-metrica.md)
-- [Arquitectura del dominio métrico](../arquitectura-dominio-metrica.md)
+- [Arquitectura del dominio métrico](../implementacion-metrica.md)
 
 ## 1. Cómo leer la matriz
 
