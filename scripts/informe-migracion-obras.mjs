@@ -71,6 +71,29 @@ const SQL_CARACTERIZACIONES = `
 
 const SQL_JORNADAS = `select obra_id, v_ini, v_fin from public.jornadas`;
 
+/**
+ * Qué le pide el catálogo nuevo a cada arquitectura. Solo lo obligatorio: no responder al final
+ * acentual o al dístico final no deja ningún hueco, y contarlas como huecos daba un retrato mucho
+ * peor que el real.
+ */
+const SQL_PREGUNTAS = `
+	select g.arquitectura_id, g.grupo_eleccion_id, g.nombre, g.alcance
+	from public.grupos_eleccion_metrica_resueltos g
+	join public.arquitecturas_forma a on a.arquitectura_id = g.arquitectura_id
+	where g.activo and a.activo and g.selecciones_min >= 1
+`;
+
+/**
+ * Lo que la migración ya sabe responder, y de dónde lo saca: `anotada` es lo que alguien miró
+ * verso a verso y se traslada; `derivada` se deduce del término legado y hay que revisarlo.
+ */
+const SQL_RESPUESTAS = `
+	select secuencia_id, grupo_eleccion_id, alcance, origen, count(*) as filas,
+		count(distinct unidad_v_ini) as estrofas
+	from public.propuesta_elecciones_secuencia
+	group by 1, 2, 3, 4
+`;
+
 // --------------------------------------------------------------------------
 // Redacción
 // --------------------------------------------------------------------------
@@ -295,18 +318,65 @@ function informeDeObra({
 		lineas.push('');
 	}
 
+	const incompletas = secuencias.filter((fila) => fila.faltan?.length > 0);
+	if (incompletas.length > 0) {
+		lineas.push('## Lo que hay que completar');
+		lineas.push('');
+		lineas.push(
+			`**${incompletas.length} de ${secuencias.length} secuencias** llegan al editor con algo sin`
+		);
+		lineas.push(
+			'responder. El resto se puede aceptar de un vistazo. Lo que falta aquí no lo arregla ninguna'
+		);
+		lineas.push('equivalencia: es lectura del texto.');
+		lineas.push('');
+		lineas.push('| Versos | Forma | Estrofas | Qué falta |');
+		lineas.push('| --- | --- | ---: | --- |');
+		for (const fila of incompletas) {
+			const unidad = Number(fila.unidad_versos_min);
+			const estrofas = unidad > 0 ? Math.floor(Number(fila.n_versos) / unidad) : '—';
+			lineas.push(
+				`| ${fila.v_ini}–${fila.v_fin} | ${fila.forma_propuesta ?? '—'} | ${estrofas} | ` +
+					`${fila.faltan.join(', ')} |`
+			);
+		}
+		lineas.push('');
+	}
+
 	lineas.push('## Secuencias');
 	lineas.push('');
-	lineas.push('| Versos | v | Término actual | Forma propuesta | Arquitectura | Además | Vía |');
-	lineas.push('| --- | ---: | --- | --- | --- | --- | --- |');
+	lineas.push(
+		'La columna **Propuesta** dice qué trae ya puesto el editor: lo *anotado* se miró verso a verso'
+	);
+	lineas.push(
+		'en su día y se traslada tal cual; lo *derivado* se deduce del término legado y hay que revisarlo.'
+	);
+	lineas.push('');
+	lineas.push(
+		'| Versos | v | Término actual | Forma propuesta | Arquitectura | Estado | Propuesta | Vía |'
+	);
+	lineas.push('| --- | ---: | --- | --- | --- | --- | --- | --- |');
 	for (const fila of secuencias) {
 		const via =
 			fila.via === 'ascendencia' ? `por ascendencia (${fila.heredado_de})` : ETIQUETA_VIA[fila.via];
+		const estado = fila.motivo_revision
+			? `**Revisar:** ${fila.motivo_revision}`
+			: fila.faltan?.length > 0
+				? `**falta:** ${fila.faltan.join(', ')}`
+				: fila.estado;
+		const plural = (n, singular, plural_) => `${n} ${n === 1 ? singular : plural_}`;
+		const propuesta =
+			[
+				fila.anotadas > 0 ? plural(fila.anotadas, 'anotada', 'anotadas') : null,
+				fila.derivadas > 0 ? plural(fila.derivadas, 'derivada', 'derivadas') : null
+			]
+				.filter(Boolean)
+				.join(' · ') || '—';
 		lineas.push(
 			`| ${fila.v_ini}–${fila.v_fin} | ${fila.n_versos} | ` +
 				`${fila.termino_legado ? `\`${fila.termino_legado}\`` : '—'} | ` +
 				`${fila.forma_propuesta ?? '—'} | ${fila.arquitectura_propuesta ?? '—'} | ` +
-				`${fila.motivo_revision ? `**Revisar:** ${fila.motivo_revision}` : fila.detalle ?? '—'} | ${via} |`
+				`${estado} | ${propuesta} | ${via} |`
 		);
 	}
 	lineas.push('');
@@ -359,6 +429,56 @@ const secuencias = query(SQL_SECUENCIAS);
 const subtipos = query(SQL_SUBTIPOS);
 const caracterizaciones = query(SQL_CARACTERIZACIONES);
 const jornadas = query(SQL_JORNADAS);
+const preguntas = query(SQL_PREGUNTAS);
+const respuestas = query(SQL_RESPUESTAS);
+
+// --------------------------------------------------------------------------
+// Qué le falta a cada secuencia
+//
+// El informe decía «directa · —» de una redondilla sin disposición, que es justo el agujero que
+// el editor tiene que tapar. Aquí se cruza lo que el catálogo pide con lo que la migración sabe
+// responder, y cada secuencia queda con su estado y con el nombre de lo que le falta.
+// --------------------------------------------------------------------------
+
+const preguntasPorArquitectura = new Map();
+for (const fila of preguntas) {
+	const lista = preguntasPorArquitectura.get(fila.arquitectura_id) ?? [];
+	lista.push(fila);
+	preguntasPorArquitectura.set(fila.arquitectura_id, lista);
+}
+
+const respuestasPorSecuencia = new Map();
+for (const fila of respuestas) {
+	const lista = respuestasPorSecuencia.get(fila.secuencia_id) ?? [];
+	lista.push(fila);
+	respuestasPorSecuencia.set(fila.secuencia_id, lista);
+}
+
+for (const fila of secuencias) {
+	const pedidas = preguntasPorArquitectura.get(fila.arquitectura_propuesta_id) ?? [];
+	const dadas = respuestasPorSecuencia.get(fila.secuencia_id) ?? [];
+	const respondidas = new Set(dadas.map((r) => r.grupo_eleccion_id));
+
+	fila.faltan = pedidas.filter((p) => !respondidas.has(p.grupo_eleccion_id)).map((p) => p.nombre);
+	fila.anotadas = dadas
+		.filter((r) => r.origen === 'anotada')
+		.reduce((total, r) => total + Number(r.filas), 0);
+	fila.derivadas = dadas
+		.filter((r) => r.origen === 'derivada')
+		.reduce((total, r) => total + Number(r.filas), 0);
+	fila.estrofasPropuestas = Math.max(
+		0,
+		...dadas.filter((r) => r.alcance === 'unidad').map((r) => Number(r.estrofas))
+	);
+
+	fila.estado = !fila.arquitectura_propuesta_id
+		? 'sin arquitectura'
+		: fila.faltan.length > 0
+			? 'incompleta'
+			: fila.anotadas > 0
+				? 'lista · con anotación'
+				: 'lista';
+}
 
 const agrupar = (filas, clave) => {
 	const grupos = new Map();
