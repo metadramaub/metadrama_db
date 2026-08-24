@@ -95,9 +95,9 @@ quedó revisada forma por forma el 21 de agosto**. Ese mismo día entraron **sei
 de las estrofas de siete, ocho, once y doce versos —copla de arte menor, copla castellana, octava
 aguda, septilla, oncena y copla manriqueña—, y el 22 otras cinco al cerrar las de siete y las
 **estrofas enlazadas** que Navarro Tomás documenta en el teatro primitivo —septeto, septeto-lira,
-redondilla enlazada, sextilla enlazada y septilla enlazada—, y el 24 de agosto **el cuarteto-lira y
-la octava-lira**, al sistematizar la serie alirada: el catálogo tiene hoy **39 formas y 2 tramos
-sin forma**. El diario de ese proceso está archivado en
+redondilla enlazada, sextilla enlazada y septilla enlazada—, y el 24 de agosto **las cuatro que le
+faltaban a la serie alirada** —cuarteto-lira, octava-lira, novena-lira y décima-lira—, al
+sistematizarla entera: el catálogo tiene hoy **41 formas y 2 tramos sin forma**. El diario de ese proceso está archivado en
 [historico/](docs/dominio-metrico/historico/). **Lo que sigue sin decidir**, forma por forma y con
 el pasaje de la fuente de cada caso, está en
 [cuestiones para el IP](docs/dominio-metrico/cuestiones-para-el-ip.md): son decisiones
