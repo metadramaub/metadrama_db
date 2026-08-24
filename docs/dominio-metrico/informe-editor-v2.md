@@ -12,6 +12,7 @@ Generado el 2026-08-24 desde la base enlazada.
 | Copla manriqueña | doble_pie_quebrado | 0 | 1 | 1 | 0 |
 | Copla real | octosilabica_consonante | 0 | 3 | 3 | 0 |
 | Cuarteto | endecasilabica | 0 | 1 | 1 | 0 |
+| Cuarteto-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
 | Endecasílabo suelto | endecasilabica | 4 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo | 2 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
@@ -19,6 +20,8 @@ Generado el 2026-08-24 desde la base enlazada.
 | Novena | quintilla_redondilla | 0 | 2 | 2 | 0 |
 | Novena | redondilla_quintilla | 0 | 2 | 2 | 0 |
 | Octava real | endecasilabica_consonante | 1 | 0 | 0 | 0 |
+| Octava-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
+| Pareado | alirado | 0 | 1 | 1 | 0 |
 | Pareado | cualquier_medida | 0 | 2 | 2 | 0 |
 | Quintilla | heptasilabica | 0 | 1 | 1 | 0 |
 | Quintilla | hexasilabica | 0 | 1 | 1 | 0 |
@@ -131,7 +134,7 @@ Sin incidencias.
 
 Sin incidencias.
 
-### E4 · Pregunta obligatoria que el editor no puede saltarse — 59
+### E4 · Pregunta obligatoria que el editor no puede saltarse — 62
 
 > Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.
 
@@ -144,6 +147,7 @@ Sin incidencias.
 | Copla real · octosilabica_consonante | rima_primera_quintilla · rima · 8 opciones · alcance unidad |
 | Copla real · octosilabica_consonante | rima_segunda_quintilla · rima · 8 opciones · alcance unidad |
 | Cuarteto · endecasilabica | disposicion_rima · rima · 2 opciones · alcance unidad |
+| Cuarteto-lira · heterometrica_consonante | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Endecasílabo suelto · endecasilabica | organizacion_en_pareados · rasgo · 2 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
 | Endecha real · heptasilabica_con_endecasilabo | disposicion_rima · rima · 5 opciones · alcance secuencia |
@@ -154,6 +158,8 @@ Sin incidencias.
 | Novena · quintilla_redondilla | esquema_redondilla · rima · 2 opciones · alcance unidad |
 | Novena · redondilla_quintilla | esquema_redondilla · rima · 2 opciones · alcance unidad |
 | Novena · redondilla_quintilla | esquema_quintilla · rima · 8 opciones · alcance unidad |
+| Octava-lira · heterometrica_consonante | disposicion_rima · rima · 2 opciones · alcance unidad |
+| Pareado · alirado | medida_del_pareado · metro · 4 opciones · alcance unidad |
 | Pareado · cualquier_medida | medida_del_pareado · metro · 18 opciones · alcance unidad |
 | Pareado · cualquier_medida | tipo_de_rima · rima · 2 opciones · alcance unidad |
 | Quintilla · heptasilabica | esquema_rima · rima · 8 opciones · alcance unidad |
@@ -172,7 +178,7 @@ Sin incidencias.
 | Sexteto · alejandrina | esquema_rima_observado · rima · 0 opciones · alcance unidad |
 | Sexteto · dodecasilabica | esquema_rima_observado · rima · 0 opciones · alcance unidad |
 | Sexteto · endecasilabica | esquema_rima_observado · rima · 0 opciones · alcance unidad |
-| Sexteto-lira · heterometrica_consonante | variedad · combinacion · 7 opciones · alcance unidad |
+| Sexteto-lira · heterometrica_consonante | variedad · combinacion · 8 opciones · alcance unidad |
 | Silva · arromanzada | vocales_asonancia · rasgo · 19 opciones · alcance secuencia |
 | Silva · consonante_irregular | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
 | Silva · endecasilabica | organizacion_en_pareados · rasgo · 2 opciones · alcance secuencia |
