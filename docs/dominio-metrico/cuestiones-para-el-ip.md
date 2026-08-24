@@ -349,10 +349,37 @@ ya lo referencia.*
 
 ## Lira, sexteto-lira y septeto-lira
 
-1. **Las formas aliradas se deciden aparte y en conjunto.** El IP tiene dudas sobre cómo integrar la
-   **octava lira**, la **novena lira** y las demás. *Es una decisión transversal —toca a la lira, al
-   sexteto-lira, al septeto-lira creado el 21 de agosto, a la canción alirada y probablemente al
-   sexteto— y de modelo, no de prosa.*
+1. ~~**Las formas aliradas se deciden aparte y en conjunto.**~~ **Resuelto en parte el 24 de agosto
+   de 2026.** Entraron el **cuarteto-lira** y la **octava-lira**, que son las que documenta el
+   *Diccionario* —la serie que acota «entre los cuatro y ocho versos»—, más la octava variedad del
+   sexteto-lira y el pareado alirado. La **novena-lira** y la **décima-lira** quedan para después de
+   B1: no las registra ninguna fuente, así que entrarán con la disposición abierta y será el editor
+   quien declare la que vea. *No es falta de apoyo: es que son el caso de rima abierta, y el sitio
+   donde se documentarán es esta base.*
+
+1bis. **Cuando la cabeza se repite pero no hay eslabón, ¿es canción o es alirada?** Es la única
+   pregunta que queda de la serie, y se la hizo el IP antes que nadie. Lo que separa una estancia de
+   canción de una estrofa alirada es **la ordenación**: fronte partida en dos piedi idénticos,
+   eslabón —el verso que abre la sirima repitiendo la rima que cerró la fronte— y sirima con rimas
+   nuevas. Pero **el eslabón no sirve de prueba**, porque el propio IP escribe que la sirima «suele»
+   empezar con chiave: es habitual, no constitutivo. Y **la prueba de los dos piedi sola no basta**:
+   aplicada al patrón `aBaBcDcDeE` que la edición de *Elisa Dido* llama «décima-estancia», da
+   `aB` + `aB` de fronte y `cDcDeE` de sirima, es decir, **la declara canción** — que es lo que el
+   IP consideraba forzado.
+
+   | Cabeza repetida | Eslabón | Veredicto |
+   |---|---|---|
+   | sí | sí | canción, sin discusión |
+   | no | no | alirada, sin discusión |
+   | sí | no | **zona gris** |
+
+   No hay un tercer rasgo formal que rompa el empate; lo que queda son criterios de grado —el
+   *Diccionario* llama a las aliradas «cortas y simétricas» y las acota en cuatro a ocho versos—.
+   *La propuesta técnica es que la base registre los tres rasgos —esquema observado, si la cabeza se
+   repite, si hay eslabón— y que la asignación quede como lectura declarada y revisable. Pero dónde
+   cae la zona gris lo decide el IP.* De ello dependen también las **canciones de 8, 9 y 15 versos**,
+   que hoy no se distinguen de una octava-lira o una décima-lira porque su arquitectura no tiene
+   modelada ninguna ordenación.
 
 2. **El sexteto simétrico `abC:abC` de san Juan de la Cruz no está.** Lo documenta Navarro Tomás en
    la *Llama de amor viva*: seis versos de siete y once, pero **sin pareado final**, de modo que

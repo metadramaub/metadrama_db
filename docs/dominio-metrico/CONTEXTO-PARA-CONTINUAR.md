@@ -520,18 +520,24 @@ cuarteto-lira y la octava-lira —las dos que documenta el *Diccionario*—, la 
 sexteto-lira y el pareado alirado. Quedan dos cosas, y las dos por la misma razón: **ninguna fuente
 las sostiene**.
 
-1. **Novena-lira y décima-lira.** El IP las propone por simetría del sistema, y el criterio se
-   aceptó. Pero **ninguna de las seis monografías las registra**, y el *Diccionario* acota la serie
-   expresamente: la unidad «oscila entre los cuatro y ocho versos». Sin fuente que fije su
-   disposición, entrarían con la rima abierta y sin dónde registrar la que se ve — que es
-   exactamente **B1**. Conviene hacerlas justo después de B1, no antes.
+1. **Novena-lira y décima-lira.** El IP las propone por simetría del sistema y el criterio se
+   aceptó. Ninguna de las seis monografías las registra —el *Diccionario* acota la serie «entre los
+   cuatro y ocho versos»—, **y eso no es un impedimento sino su naturaleza**: son el caso de rima
+   abierta, y el sitio donde se documentarán es esta base. Entran cuando **B1** dé al editor dónde
+   declarar una disposición que el catálogo no tiene; antes entrarían con una pregunta sin opciones,
+   que es defecto de auditoría.
 2. **La ordenación de la canción de estancias variables.** Hoy esa arquitectura tiene solo
-   «Estancia (5–20 vv)» y «Remate», sin fronte, piedi, eslabón ni sirima, de modo que una canción
-   de ocho versos sería indistinguible de una octava-lira. Darle esa ordenación exige fijar
-   horquillas —cuánto puede medir un pie, cuánto la sirima— y **ninguna fuente leída las da**.
-   Ninguno de los tres términos legados que dependen de ella —`cancion_de_8_versos`, `_9_`, `_15_`—
-   se ha usado nunca en una obra, así que no bloquea nada: se hace cuando el IP diga qué estancias
-   son.
+   «Estancia (5–20 vv)» y «Remate», sin fronte, piedi, eslabón ni sirima, de modo que una canción de
+   ocho versos es indistinguible de una octava-lira. Va con B1 por lo mismo: las partes y sus rimas
+   se declaran al anotar, no se fijan de antemano. Ninguno de los tres términos legados que dependen
+   de ella —`cancion_de_8_versos`, `_9_`, `_15_`— se ha usado nunca, así que no bloquea.
+
+*Y una pregunta filológica que ninguna de las dos cosas resuelve*, anotada en
+[cuestiones para el IP § Lira](./cuestiones-para-el-ip.md): **cuando la cabeza se repite pero no hay
+eslabón, ¿es canción o es alirada?** El eslabón no sirve de prueba —el IP escribe que la sirima
+«suele» empezar con chiave, luego es habitual, no constitutivo— y la prueba de los dos piedi sola
+declara canción al `aBaBcDcDeE` que la edición de *Elisa Dido* llama «décima-estancia». No hay
+tercer rasgo formal que rompa el empate.
 
 ### B · Bloquean el editor V2 en producción
 
