@@ -359,20 +359,29 @@ sus campos— y resultó que sabía bastante más de lo que declaraba:
 sin tocar ninguna reclamación existente, y **las secuencias con propuesta completa pasaron de 128 a
 167 de 263**.
 
-*Lo que queda de A1*, por orden:
+**La propuesta habla ya estrofa a estrofa.** La migración `20260824100000` quitó la cláusula que
+solo proponía las preguntas de alcance `unidad` cuando la secuencia medía exactamente una estrofa
+—y 42 de las preguntas activas son de ese alcance—. La vista da ahora **una fila por estrofa con su
+rango de versos**, que es el lenguaje del editor, y trae las **336 tipologías** de
+`secuencias_subtipos_estrofa`. La columna `origen` separa lo `anotado` —mirado verso a verso, se
+traslada— de lo `derivado`, que hay que revisar. **Las completas pasaron de 167 a 204 de 263.**
 
-1. **La propuesta por estrofa.** `propuesta_elecciones_secuencia` solo propone las preguntas de
-   alcance `unidad` cuando la secuencia mide **exactamente una estrofa**, y 42 de las preguntas
-   activas son de ese alcance. Por eso 24 redondillas y las 18 quintillas siguen incompletas. Hay
-   que dar una propuesta **por unidad**, con su rango de versos, y trasladar ahí las **336
-   tipologías** que `secuencias_subtipos_estrofa` ya guarda estrofa a estrofa. *Cuidado:
-   `posicion_unidad` es el verso dentro de la estrofa, no la estrofa; las estrofas son las unidades
-   de `realizaciones_editor_metrico`.*
-2. **El informe por obra**, que hoy dice «directa · —» y debe decir, secuencia a secuencia, qué está
-   resuelto, qué es propuesta a verificar y qué falta.
-3. **La precarga en el editor V2.** El endpoint `api/metrica/editor-pruebas` **ya acepta
-   `secuencia_id`** y valida el rango contra la secuencia real; falta que el editor entre por ahí
-   con la propuesta puesta.
+*Dos cosas que se aprendieron ahí y conviene no volver a descubrir:* `posicion_unidad` es **el verso
+dentro de la estrofa**, no la estrofa —las estrofas son las unidades de
+`realizaciones_editor_metrico`—; y **los rangos de estrofa los pone la anotación, no una división**:
+al dividir se perdían 38 tipologías y se borraban una estrofa de cuatro versos y otra de tres que
+alguien anotó como tales.
+
+**El informe por obra dice ya qué falta.** `npm run migracion:informe` abre cada obra con «Lo que
+hay que completar» y da, secuencia a secuencia, su estado y cuántas respuestas trae anotadas y
+cuántas derivadas.
+
+*Lo que queda de A1:*
+
+1. **La precarga en el editor V2.** El endpoint `api/metrica/editor-pruebas` **ya acepta
+   `secuencia_id`**, exige que sea eso o un escenario ficticio y valida el rango contra la secuencia
+   real; `secuencias_editor_metrico.secuencia_id` existe y está a cero. Falta que el editor entre
+   por ahí con la propuesta puesta, para que anotar sea aceptar o corregir.
 
 *Huecos que ninguna equivalencia arregla*, y que son trabajo de editor con el texto delante: las
 **37 secuencias de `redondilla` genérica** —el término no dice la disposición—, las **7 quintillas

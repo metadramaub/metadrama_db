@@ -1,6 +1,6 @@
 # Migración métrica · La tragedia del duque de Berganza
 
-Generado el 2026-08-07 por `npm run migracion:informe`. **No editar a mano:**
+Generado el 2026-08-24 por `npm run migracion:informe`. **No editar a mano:**
 se regenera y se pierde lo escrito. El procedimiento está en
 [cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
@@ -26,13 +26,28 @@ Resolución: 3 directas · 1 con rasgo propio · 1 por ascendencia · 0 sin dest
 | 185–197 (13 v) | `romance_a-e` | Ninguna arquitectura activa de «Romance» admite una secuencia de 13 versos. |
 | 198–199 (2 v) | `redondilla` | Ninguna arquitectura activa de «Redondilla» admite una secuencia de 2 versos. |
 
+## Lo que hay que completar
+
+**3 de 5 secuencias** llegan al editor con algo sin
+responder. El resto se puede aceptar de un vistazo. Lo que falta aquí no lo arregla ninguna
+equivalencia: es lectura del texto.
+
+| Versos | Forma | Estrofas | Qué falta |
+| --- | --- | ---: | --- |
+| 1–64 | Redondilla | 16 | Esquema de rima |
+| 129–184 | Redondilla | 14 | Esquema de rima |
+| 198–199 | Redondilla | 0 | Esquema de rima |
+
 ## Secuencias
 
-| Versos | v | Término actual | Forma propuesta | Arquitectura | Además | Vía |
-| --- | ---: | --- | --- | --- | --- | --- |
-| 1–64 | 64 | `redondilla` | Redondilla | Octosilábica | — | directa |
-| 65–128 | 64 | `octava_real_regular` | Octava real | Endecasilábica consonante | — | por ascendencia (octava_real) |
-| 129–184 | 56 | `redondilla` | Redondilla | Octosilábica | — | directa |
-| 185–197 | 13 | `romance_a-e` | Romance | Octosilábica | **Revisar:** Ninguna arquitectura activa de «Romance» admite una secuencia de 13 versos. | rasgo + forma del padre |
-| 198–199 | 2 | `redondilla` | Redondilla | Octosilábica | **Revisar:** Ninguna arquitectura activa de «Redondilla» admite una secuencia de 2 versos. | directa |
+La columna **Propuesta** dice qué trae ya puesto el editor: lo *anotado* se miró verso a verso
+en su día y se traslada tal cual; lo *derivado* se deduce del término legado y hay que revisarlo.
+
+| Versos | v | Término actual | Forma propuesta | Arquitectura | Estado | Propuesta | Vía |
+| --- | ---: | --- | --- | --- | --- | --- | --- |
+| 1–64 | 64 | `redondilla` | Redondilla | Octosilábica | **falta:** Esquema de rima | — | directa |
+| 65–128 | 64 | `octava_real_regular` | Octava real | Endecasilábica consonante | lista | — | por ascendencia (octava_real) |
+| 129–184 | 56 | `redondilla` | Redondilla | Octosilábica | **falta:** Esquema de rima | — | directa |
+| 185–197 | 13 | `romance_a-e` | Romance | Octosilábica | **Revisar:** Ninguna arquitectura activa de «Romance» admite una secuencia de 13 versos. | 1 derivada | rasgo + forma del padre |
+| 198–199 | 2 | `redondilla` | Redondilla | Octosilábica | **Revisar:** Ninguna arquitectura activa de «Redondilla» admite una secuencia de 2 versos. | — | directa |
 
