@@ -347,10 +347,41 @@ la fija se acota. **Quedan dos asuntos en A, cinco en B y dieciséis en C.***
 Son los casos en que una secuencia real **no tendría dónde caer**. Conviene resolverlos antes de
 empezar, porque cada uno obliga a parar la migración de una obra a la mitad.
 
-**A1. Las 27 equivalencias del vocabulario legado sin destino.** El razonamiento de por qué faltan
-y lo que ya decidió el IP están en
+**A1. Las equivalencias del vocabulario legado. En curso.** El razonamiento de por qué faltaban y
+lo que ya decidió el IP están en
 [equivalencias-pendientes.md](./equivalencias-pendientes.md); las cifras, en el informe
-regenerable. *Es el primer paso: sin destino declarado, la secuencia no se puede convertir.*
+regenerable.
+
+**El 24 de agosto de 2026 se revisó el vocabulario legado entero** —los 123 términos, su árbol y
+sus campos— y resultó que sabía bastante más de lo que declaraba:
+[revision-vocabulario-legado.md](./revision-vocabulario-legado.md). La migración
+`20260824090000` declaró diecinueve equivalencias nuevas por `equivalencias_respuestas_legadas`,
+sin tocar ninguna reclamación existente, y **las secuencias con propuesta completa pasaron de 128 a
+167 de 263**.
+
+*Lo que queda de A1*, por orden:
+
+1. **La propuesta por estrofa.** `propuesta_elecciones_secuencia` solo propone las preguntas de
+   alcance `unidad` cuando la secuencia mide **exactamente una estrofa**, y 42 de las preguntas
+   activas son de ese alcance. Por eso 24 redondillas y las 18 quintillas siguen incompletas. Hay
+   que dar una propuesta **por unidad**, con su rango de versos, y trasladar ahí las **336
+   tipologías** que `secuencias_subtipos_estrofa` ya guarda estrofa a estrofa. *Cuidado:
+   `posicion_unidad` es el verso dentro de la estrofa, no la estrofa; las estrofas son las unidades
+   de `realizaciones_editor_metrico`.*
+2. **El informe por obra**, que hoy dice «directa · —» y debe decir, secuencia a secuencia, qué está
+   resuelto, qué es propuesta a verificar y qué falta.
+3. **La precarga en el editor V2.** El endpoint `api/metrica/editor-pruebas` **ya acepta
+   `secuencia_id`** y valida el rango contra la secuencia real; falta que el editor entre por ahí
+   con la propuesta puesta.
+
+*Huecos que ninguna equivalencia arregla*, y que son trabajo de editor con el texto delante: las
+**37 secuencias de `redondilla` genérica** —el término no dice la disposición—, las **7 quintillas
+sin tipología anotada**, los dos esquemas de las **3 coplas reales** y las vocales de un
+romancillo.
+
+*Y un hueco del catálogo nuevo, no de la equivalencia:* el endecasílabo suelto no pregunta por el
+final acentual, de modo que `endecasilabo_suelto_de_esdrujulos` no tiene dónde caer. Es el único de
+los seis términos de esdrújulos que se quedó sin declarar.
 
 **A2. ~~Faltan formas de ocho, once y doce versos donde caer.~~ Hecho el 21 de agosto de 2026**,
 en seis migraciones —`20260821120000` a `20260821170000`—. El apunte estaba mal planteado: pedía
