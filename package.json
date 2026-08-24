@@ -20,7 +20,7 @@
 		"db:push": "npx supabase db push",
 		"db:seed": "npx supabase db push --include-seed --yes",
 		"db:types": "node scripts/gen-types.mjs",
-		"audit:metrica": "node scripts/audit-catalogo-metrico.mjs",
+		"audit:metrica": "node scripts/audit-catalogo-metrico.mjs --markdown docs/dominio-metrico/informe-conformidad-catalogo.md",
 		"migracion:informe": "node scripts/informe-migracion-obras.mjs",
 		"equivalencias:informe": "node scripts/informe-equivalencias.mjs",
 		"audit:editor": "node scripts/audit-editor-v2.mjs --markdown docs/dominio-metrico/informe-editor-v2.md",
