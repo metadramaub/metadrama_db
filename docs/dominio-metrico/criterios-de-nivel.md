@@ -202,6 +202,26 @@ terceto encadenado, los pareados de la silva—, que sí es una sola unidad.
 Las dos repeticiones no se confunden: la del pasaje se deriva del rango; la interna —los
 dos cuartetos del soneto, las seis estrofas de la sextina— pertenece a la arquitectura.
 
+**Una estancia se distingue de una estrofa por el eslabón.** *Decisión del IP el 24 de agosto de
+2026.* La canción y las estrofas aliradas tienen la misma materia —heptasílabos y endecasílabos
+consonantes, repetidos sin cambio— y se distinguen por cómo se ordena la unidad:
+
+> Es **estancia de canción** si la fronte se parte en dos piedi idénticos **y** la sirima empieza
+> con eslabón —el verso que retoma la rima con que se cerró la fronte—. Es **estrofa alirada** en
+> cualquier otro caso.
+
+El criterio se fijó porque el que se venía usando —«la alirada prescinde de la ordenación en fronte
+y sirima»— es cierto de lejos y no distingue nada de cerca. Aplicado al patrón `aBaBcDcDeE`, que la
+edición crítica de *Elisa Dido* llama «décima-estancia», da `aB` + `aB` de fronte y `cDcDeE` de
+sirima: **lo declararía canción**. Lo único que le falta frente al modelo petrarquista es el
+eslabón, de modo que era el eslabón lo que estaba decidiendo.
+
+Los dos planos no se confunden. **Estructuralmente el eslabón es opcional**, porque en la tradición
+italiana la chiave lo es y una canción sin ella no deja de serlo; lo que la decisión fija es **cómo
+se nombra por defecto** lo que no lo trae. Por eso el criterio es reversible: registrados por
+separado el esquema observado, si la cabeza se repite y si hay eslabón, una estancia larga sin
+chiave se encuentra con una consulta y se reclasifica.
+
 ### 3.5 · Composición y reutilización
 
 Cuando una sección realiza una arquitectura ya formalizada de otra forma, **se reutiliza;
