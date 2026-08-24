@@ -515,6 +515,24 @@ rima y rasgos de todo el pasaje o verso—, que es lo que el editor V2 tendrá q
 no formas. *No se modela nada para ellas porque todo vale: cualquier medida, cualquier rima,
 cualquier rasgo, sin restricción.*
 
+**A5. La serie alirada, lo que quedó fuera el 24 de agosto de 2026.** Ese día entraron el
+cuarteto-lira y la octava-lira —las dos que documenta el *Diccionario*—, la octava variedad del
+sexteto-lira y el pareado alirado. Quedan dos cosas, y las dos por la misma razón: **ninguna fuente
+las sostiene**.
+
+1. **Novena-lira y décima-lira.** El IP las propone por simetría del sistema, y el criterio se
+   aceptó. Pero **ninguna de las seis monografías las registra**, y el *Diccionario* acota la serie
+   expresamente: la unidad «oscila entre los cuatro y ocho versos». Sin fuente que fije su
+   disposición, entrarían con la rima abierta y sin dónde registrar la que se ve — que es
+   exactamente **B1**. Conviene hacerlas justo después de B1, no antes.
+2. **La ordenación de la canción de estancias variables.** Hoy esa arquitectura tiene solo
+   «Estancia (5–20 vv)» y «Remate», sin fronte, piedi, eslabón ni sirima, de modo que una canción
+   de ocho versos sería indistinguible de una octava-lira. Darle esa ordenación exige fijar
+   horquillas —cuánto puede medir un pie, cuánto la sirima— y **ninguna fuente leída las da**.
+   Ninguno de los tres términos legados que dependen de ella —`cancion_de_8_versos`, `_9_`, `_15_`—
+   se ha usado nunca en una obra, así que no bloquea nada: se hace cuando el IP diga qué estancias
+   son.
+
 ### B · Bloquean el editor V2 en producción
 
 Son los casos en que un editor **no puede registrar lo que ve**, o en que la pantalla se apoya en
