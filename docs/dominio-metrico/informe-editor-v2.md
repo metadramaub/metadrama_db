@@ -13,6 +13,7 @@ Generado el 2026-08-24 desde la base enlazada.
 | Copla real | octosilabica_consonante | 0 | 3 | 3 | 0 |
 | Cuarteto | endecasilabica | 0 | 1 | 1 | 0 |
 | Cuarteto-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
+| Décima-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
 | Endecasílabo suelto | endecasilabica | 4 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo | 2 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
@@ -50,7 +51,7 @@ Generado el 2026-08-24 desde la base enlazada.
 | Villancico | estribillo_tras_primera_copla | 0 | 6 | 6 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**46 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**47 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
 - Canción petrarquista · regular_13_versos
 - Copla castellana · octosilabica
@@ -62,6 +63,7 @@ Generado el 2026-08-24 desde la base enlazada.
 - Décima · hexasilabica
 - Décima · pentasilabica
 - Lira · heptasilabica_endecasilabica
+- Novena-lira · heterometrica_consonante
 - Octava aguda · decasilabica
 - Octava aguda · endecasilabica
 - Octava aguda · heptasilabica
@@ -107,7 +109,7 @@ Generado el 2026-08-24 desde la base enlazada.
 
 Sin incidencias.
 
-### E1b · Sí/no de una sola opción — 8
+### E1b · Sí/no de una sola opción — 9
 
 > Se cuentan aparte porque en pantalla no deben verse como una lista de una opción sino como una casilla. Son legítimas; lo que no vale es pintarlas como si hubiera algo que elegir.
 
@@ -115,6 +117,7 @@ Sin incidencias.
 | --- | --- |
 | Canción petrarquista · sin_rima_con_pareado_final | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Copla manriqueña · doble_pie_quebrado | esquema_rima · rima · 1 opciones · alcance unidad |
+| Décima-lira · heterometrica_consonante | disposicion_rima · rima · 1 opciones · alcance unidad |
 | Endecasílabo suelto · endecasilabica | distico_final · rasgo · 1 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | encadenamiento_interior · rasgo · 1 opciones · alcance secuencia |
 | Octava real · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |

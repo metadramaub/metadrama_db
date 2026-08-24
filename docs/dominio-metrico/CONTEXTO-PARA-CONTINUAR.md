@@ -520,17 +520,24 @@ cuarteto-lira y la octava-lira —las dos que documenta el *Diccionario*—, la 
 sexteto-lira y el pareado alirado. Quedan dos cosas, y las dos por la misma razón: **ninguna fuente
 las sostiene**.
 
-1. **Novena-lira y décima-lira.** El IP las propone por simetría del sistema y el criterio se
-   aceptó. Ninguna de las seis monografías las registra —el *Diccionario* acota la serie «entre los
-   cuatro y ocho versos»—, **y eso no es un impedimento sino su naturaleza**: son el caso de rima
-   abierta, y el sitio donde se documentarán es esta base. Entran cuando **B1** dé al editor dónde
-   declarar una disposición que el catálogo no tiene; antes entrarían con una pregunta sin opciones,
-   que es defecto de auditoría.
-2. **La ordenación de la canción de estancias variables.** Hoy esa arquitectura tiene solo
-   «Estancia (5–20 vv)» y «Remate», sin fronte, piedi, eslabón ni sirima, de modo que una canción de
-   ocho versos es indistinguible de una octava-lira. Va con B1 por lo mismo: las partes y sus rimas
-   se declaran al anotar, no se fijan de antemano. Ninguno de los tres términos legados que dependen
-   de ella —`cancion_de_8_versos`, `_9_`, `_15_`— se ha usado nunca, así que no bloquea.
+1. ~~**Novena-lira y décima-lira.**~~ **Hechas el mismo día.** No hacía falta esperar a B1: creí que
+   una forma sin disposición documentada tenía que elegir entre una pregunta vacía —defecto— o
+   ningún esquema de rima —también defecto, D2b—, y las dos salidas eran falsas. El catálogo ya
+   tenía el mecanismo: un **esquema de tipo `abierta`**, sin notación ni posiciones, que declara el
+   régimen y deja libre la disposición. Lo usan la quintilla, la silva libre y la sextilla. La
+   novena-lira entra así, sin pregunta; la décima-lira con la única disposición de la que hay
+   testimonio —`aBaBcDcDeE`, la «décima-estancia» de la edición de *Elisa Dido*— y la pregunta
+   **opcional**, para no obligar a elegirla a quien encuentre otra.
+2. ~~**La ordenación de la canción de estancias variables.**~~ **Hecha el mismo día.** Declara ya
+   fronte en dos piedi, eslabón y sirima, **con horquillas** en vez de medidas fijas, que es lo que
+   significa su nombre: lo que se repite sin cambio no son unas medidas sino la articulación. El
+   eslabón queda **opcional** ahí, y obligatorio en la regular de trece versos, donde forma parte de
+   su esquema fijo.
+
+*Lo que sigue esperando a B1* son las **preguntas**, no las formas: la novena-lira no tiene dónde
+registrar la disposición que se vea, ni la décima cuando no sea la documentada, ni la canción
+variable las medidas de sus partes. Es el mismo hueco de la sextilla y el sexteto, y se resuelve de
+una vez para todo el catálogo.
 
 *Y una pregunta filológica que ninguna de las dos cosas resuelve*, anotada en
 [cuestiones para el IP § Lira](./cuestiones-para-el-ip.md): **cuando la cabeza se repite pero no hay
