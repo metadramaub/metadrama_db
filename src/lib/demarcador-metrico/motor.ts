@@ -40,11 +40,26 @@ function restoNormalizado(valor: number, modulo: number): number {
 	return ((valor % modulo) + modulo) % modulo;
 }
 
+/** Los totales que las partes opcionales pueden añadir. Sin ellas, solo el cero. */
+function desplazamientosDe(evidencia: EvidenciaNormativa): number[] {
+	return evidencia.desplazamientos?.length ? evidencia.desplazamientos : [0];
+}
+
 function longitudValida(evidencia: EvidenciaNormativa, valor: number): boolean {
-	if (evidencia.minimo !== null && valor < evidencia.minimo) return false;
 	if (evidencia.maximo !== null && valor > evidencia.maximo) return false;
-	if (evidencia.modulo === null || evidencia.residuo === null) return true;
-	return restoNormalizado(valor - evidencia.residuo, evidencia.modulo) === 0;
+	if (evidencia.modulo === null || evidencia.residuo === null) {
+		return evidencia.minimo === null || valor >= evidencia.minimo;
+	}
+	// El mínimo se comprueba **dentro** de cada desplazamiento, no antes: una cadena de un solo
+	// terceto y su serventesio mide siete versos, y lo que tiene que llegar al mínimo de tres es
+	// el ciclo, no el total.
+	const modulo = evidencia.modulo;
+	const residuo = evidencia.residuo;
+	return desplazamientosDe(evidencia).some((desplazamiento) => {
+		const resto = valor - desplazamiento;
+		if (evidencia.minimo !== null && resto < evidencia.minimo) return false;
+		return restoNormalizado(resto - residuo, modulo) === 0;
+	});
 }
 
 function desviacionDeLongitud(
@@ -57,24 +72,36 @@ function desviacionDeLongitud(
 	const modulo = evidencia.modulo;
 	const residuo = evidencia.residuo;
 
+	// Con varios desplazamientos hay una longitud regular candidata por cada uno, y la que vale es
+	// la más cercana: la anterior más alta y la siguiente más baja.
+	const offsets = desplazamientosDe(evidencia);
+
 	const limiteAnterior = Math.min(observada - 1, maximo);
 	let regularAnterior: number | null = null;
 	if (limiteAnterior >= minimo) {
-		const candidata =
-			modulo !== null && residuo !== null
-				? limiteAnterior - restoNormalizado(limiteAnterior - residuo, modulo)
-				: limiteAnterior;
-		if (candidata >= minimo && longitudValida(evidencia, candidata)) regularAnterior = candidata;
+		for (const desplazamiento of offsets) {
+			const base = limiteAnterior - desplazamiento;
+			const candidata =
+				modulo !== null && residuo !== null
+					? base - restoNormalizado(base - residuo, modulo) + desplazamiento
+					: limiteAnterior;
+			if (candidata < minimo || !longitudValida(evidencia, candidata)) continue;
+			if (regularAnterior === null || candidata > regularAnterior) regularAnterior = candidata;
+		}
 	}
 
 	const limiteSiguiente = Math.max(observada + 1, minimo);
 	let regularSiguiente: number | null = null;
 	if (limiteSiguiente <= maximo) {
-		const candidata =
-			modulo !== null && residuo !== null
-				? limiteSiguiente + restoNormalizado(residuo - limiteSiguiente, modulo)
-				: limiteSiguiente;
-		if (candidata <= maximo && longitudValida(evidencia, candidata)) regularSiguiente = candidata;
+		for (const desplazamiento of offsets) {
+			const base = Math.max(limiteSiguiente - desplazamiento, minimo);
+			const candidata =
+				modulo !== null && residuo !== null
+					? base + restoNormalizado(residuo - base, modulo) + desplazamiento
+					: limiteSiguiente;
+			if (candidata > maximo || !longitudValida(evidencia, candidata)) continue;
+			if (regularSiguiente === null || candidata < regularSiguiente) regularSiguiente = candidata;
+		}
 	}
 
 	const diferencias = [regularAnterior, regularSiguiente]

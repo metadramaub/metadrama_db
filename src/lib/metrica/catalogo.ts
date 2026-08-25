@@ -78,6 +78,8 @@ export type MetricLengthRule = {
 	minimo_versos: number;
 	origen: 'unidad' | 'secciones_fijas' | 'secciones_repetibles' | 'ciclo_rima' | 'ciclo_metrico';
 	explicacion: string;
+	/** Lo que suman las partes opcionales. `[0]` cuando no hay ninguna. Ver `metric-length.ts`. */
+	desplazamientos: number[];
 };
 
 export type MetricCatalogTradition = {

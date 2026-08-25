@@ -23,6 +23,13 @@ export type EvidenciaNormativa = {
 	maximo: number | null;
 	modulo: number | null;
 	residuo: number | null;
+	/**
+	 * Lo que suman las partes opcionales de la arquitectura, cuando las tiene.
+	 *
+	 * Vacío o nulo equivale a `[0]`. El terceto encadenado trae `[0, 4]` porque su serventesio final
+	 * puede estar o no, y son dos congruencias —`3n` y `3n+4`— que un solo residuo no expresa.
+	 */
+	desplazamientos: number[] | null;
 	reglaLongitud: string | null;
 	modalidad: ModalidadEvidencia;
 	observabilidad: ObservabilidadEvidencia;

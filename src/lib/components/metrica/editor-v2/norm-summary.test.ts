@@ -47,7 +47,8 @@ describe('resumen de la norma', () => {
 				residuo_versos: 0,
 				minimo_versos: 4,
 				origen: 'unidad',
-				explicacion: 'unidades completas de 4 versos'
+				explicacion: 'unidades completas de 4 versos',
+				desplazamientos: [0]
 			},
 			domain: domain({
 				sections: [

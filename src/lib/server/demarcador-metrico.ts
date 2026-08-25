@@ -79,6 +79,7 @@ function evidenciaBase(
 		maximo: override.maximo ?? null,
 		modulo: override.modulo ?? null,
 		residuo: override.residuo ?? null,
+		desplazamientos: override.desplazamientos ?? null,
 		reglaLongitud: override.reglaLongitud ?? null,
 		modalidad: override.modalidad ?? 'definitoria',
 		observabilidad: override.observabilidad ?? 'directa',
@@ -146,7 +147,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		db
 			.from('arquitecturas_reglas_longitud')
 			.select(
-				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion,desplazamientos'
 			),
 		db.from('formas_metricas').select('forma_id,nivel_estructural')
 	]);
@@ -422,6 +423,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					maximo: lengthRule ? null : architecture.unidad_versos_max,
 					modulo: lengthRule?.modulo_versos ?? null,
 					residuo: lengthRule?.residuo_versos ?? null,
+					desplazamientos: lengthRule?.desplazamientos ?? null,
 					reglaLongitud: lengthRule?.explicacion ?? null,
 					observabilidad: 'directa',
 					coste: 0.28,
@@ -523,18 +525,33 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				section.versos_min !== null &&
 				section.versos_min === section.versos_max
 		);
-		const fixedClosureVerses = topSections
-			.filter(
-				(section) =>
-					section !== openSection &&
-					section.versos_min !== null &&
-					section.versos_min === section.versos_max &&
-					section.repeticiones_min === section.repeticiones_max
-			)
-			.reduce(
-				(total, section) =>
-					total + Number(section.versos_min) * Number(section.repeticiones_min ?? 1),
-				0
+		/**
+		 * El cierre de una serie, y si la norma lo exige o solo lo admite.
+		 *
+		 * Hasta el 19 de agosto de 2026 el serventesio del terceto encadenado era obligatorio y este
+		 * cómputo solo miraba secciones con `repeticiones_min === repeticiones_max`. Al volverse
+		 * opcional dejó de contar, `fixedClosureVerses` cayó a cero y **la evidencia desapareció**:
+		 * el demarcador perdió la pregunta que distingue la cadena que cierra de la que no. Ahora
+		 * cuentan las dos clases de cierre, y lo que cambia entre ellas es la modalidad —una
+		 * `admitida` puntúa poco y, sobre todo, **no penaliza el «no»**, que es lo que corresponde a
+		 * un cierre que la serie no está obligada a traer.
+		 */
+		const closureSections = topSections.filter(
+			(section) =>
+				section !== openSection &&
+				section.versos_min !== null &&
+				section.versos_min === section.versos_max &&
+				section.repeticiones_max !== null &&
+				Number(section.repeticiones_max) > 0
+		);
+		const fixedClosureVerses = closureSections.reduce(
+			(total, section) => total + Number(section.versos_min) * Number(section.repeticiones_max),
+			0
+		);
+		const closureIsRequired =
+			closureSections.length > 0 &&
+			closureSections.every(
+				(section) => Number(section.repeticiones_min ?? 0) === Number(section.repeticiones_max)
 			);
 		if (openSection && fixedClosureVerses > 0) {
 			agregarEvidencia(
@@ -542,12 +559,16 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				evidenciaBase({
 					dimension: `estructura:serie:${openSection.versos_min}:${fixedClosureVerses}`,
 					familiaCognitiva: 'estructura',
-					etiqueta: 'Serie con cierre',
-					pregunta: `¿Se observan grupos sucesivos de ${openSection.versos_min} versos y un cierre final de ${fixedClosureVerses}?`,
-					ayuda:
-						'Busca la articulación del pasaje; la pregunta no exige conocer el nombre de la forma.',
+					etiqueta: closureIsRequired ? 'Serie con cierre' : 'Serie con cierre opcional',
+					pregunta: closureIsRequired
+						? `¿Se observan grupos sucesivos de ${openSection.versos_min} versos y un cierre final de ${fixedClosureVerses}?`
+						: `¿Se observan grupos sucesivos de ${openSection.versos_min} versos, y termina el pasaje en un cierre final de ${fixedClosureVerses}?`,
+					ayuda: closureIsRequired
+						? 'Busca la articulación del pasaje; la pregunta no exige conocer el nombre de la forma.'
+						: 'Busca la articulación del pasaje. El cierre puede faltar sin que deje de ser esta forma, así que un «no» no la descarta.',
 					tipo: 'booleano',
 					valores: [valor('si', 'Sí')],
+					modalidad: closureIsRequired ? 'definitoria' : 'admitida',
 					observabilidad: 'especializada',
 					coste: 0.42,
 					orden: 24,

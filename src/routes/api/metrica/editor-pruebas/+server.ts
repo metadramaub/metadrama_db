@@ -254,7 +254,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		const { data: lengthRuleData, error: lengthRuleError } = await db
 			.from('arquitecturas_reglas_longitud')
 			.select(
-				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion,desplazamientos'
 			)
 			.eq('arquitectura_id', input.arquitectura_id)
 			.maybeSingle();

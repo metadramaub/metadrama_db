@@ -9,7 +9,8 @@ import {
 function rule(
 	modulo_versos: number,
 	residuo_versos: number,
-	minimo_versos: number
+	minimo_versos: number,
+	desplazamientos: number[] = [0]
 ): MetricLengthRule {
 	return {
 		arquitectura_id: 'configuracion',
@@ -18,7 +19,8 @@ function rule(
 		residuo_versos,
 		minimo_versos,
 		origen: 'unidad',
-		explicacion: `unidades de ${modulo_versos} versos`
+		explicacion: `unidades de ${modulo_versos} versos`,
+		desplazamientos
 	};
 }
 
@@ -40,10 +42,34 @@ describe('metric length validation', () => {
 		expect(isMetricLengthCompatible(romance, 10, 20)).toBe(false);
 	});
 
-	it('admite un resto estructural, como el cierre del terceto encadenado', () => {
-		const tercetoEncadenado = rule(3, 1, 4);
-		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 10)).toBe(true);
-		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 9)).toBe(false);
+	it('admite un resto estructural obligatorio', () => {
+		const conCierreFijo = rule(3, 1, 4);
+		expect(isMetricLengthCompatible(conCierreFijo, 1, 10)).toBe(true);
+		expect(isMetricLengthCompatible(conCierreFijo, 1, 9)).toBe(false);
+	});
+
+	/**
+	 * El caso que motivó los desplazamientos. El serventesio del terceto encadenado dejó de ser
+	 * obligatorio el 19 de agosto de 2026, de modo que la cadena mide `3n` **o** `3n+4`, y un solo
+	 * par de módulo y residuo solo puede expresar una de las dos. Antes del arreglo la regla decía
+	 * `3n` y el editor rechazaba con un 422 toda cadena terminada en serventesio.
+	 */
+	it('admite un cierre opcional, que son dos congruencias y no una', () => {
+		const tercetoEncadenado = rule(3, 0, 3, [0, 4]);
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 66)).toBe(true); // 22 tercetos
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 67)).toBe(true); // 21 y serventesio
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 7)).toBe(true); // uno y serventesio
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 3)).toBe(true); // uno suelto
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 68)).toBe(false); // ni una cosa ni otra
+		// Y el mínimo se cuenta sobre el ciclo, no sobre el total: un serventesio suelto, sin
+		// ninguna cadena delante, no es la forma.
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 4)).toBe(false);
+	});
+
+	it('trata una regla sin desplazamientos como si trajera solo el cero', () => {
+		const sinDeclarar = { ...rule(4, 0, 4), desplazamientos: [] as number[] };
+		expect(isMetricLengthCompatible(sinDeclarar, 1, 8)).toBe(true);
+		expect(isMetricLengthCompatible(sinDeclarar, 1, 9)).toBe(false);
 	});
 
 	it('explica cómo resolver una incompatibilidad sin permitir ignorarla', () => {
