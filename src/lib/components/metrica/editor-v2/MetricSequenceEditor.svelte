@@ -11,6 +11,7 @@
 	} from '$lib/metrica/catalogo';
 	import { metricFormLabel } from '$lib/metrica/catalogo';
 	import { metricLengthError } from '$lib/metrica/metric-length';
+	import { gruposHeredadosPorReutilizacion } from '$lib/metrica/reutilizacion';
 	import {
 		contradiceLaRelacion,
 		fijarValorObservado,
@@ -170,16 +171,35 @@
 					Number(a.orden ?? 999) - Number(b.orden ?? 999)
 			)
 	);
+	/**
+	 * Las preguntas de la arquitectura, y las que hereda de las que reutiliza.
+	 *
+	 * Una parte que declara ser otra arquitectura toma prestado su repertorio de rima cuando la
+	 * unidad no declara ya la suya y la parte no tiene nada propio. La regla vive en
+	 * `reutilizacion.ts` y es **la misma que aplica la ficha pública** para prestarlo: si las dos
+	 * superficies se separaran, una obra se leería de un modo en `/formas` y de otro al anotarla.
+	 *
+	 * Sin esto, las dos oncenas y el septeto compuesto no preguntan nada por su rima, y la copla
+	 * real y la novena solo preguntan porque alguien copió las preguntas a mano.
+	 */
 	const choiceGroupsForDraft = $derived(
-		props.catalog.domain.choiceGroups
-			.filter(
+		[
+			...props.catalog.domain.choiceGroups.filter(
 				(row: MetricCatalogDomainRow) =>
 					row.arquitectura_id === draft.arquitectura_id && row.activo
-			)
-			.sort(
-				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
-					Number(a.orden ?? 999) - Number(b.orden ?? 999)
-			)
+			),
+			...(draft.arquitectura_id
+				? gruposHeredadosPorReutilizacion(String(draft.arquitectura_id), {
+						secciones: props.catalog.domain.sections,
+						esquemas: props.catalog.domain.rhymePatterns,
+						posiciones: props.catalog.domain.rhymePositions,
+						grupos: props.catalog.domain.choiceGroups
+					})
+				: [])
+		].sort(
+			(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
+				Number(a.orden ?? 999) - Number(b.orden ?? 999)
+		)
 	);
 	const sequenceChoiceGroups = $derived(
 		choiceGroupsForDraft.filter((row: MetricCatalogDomainRow) => row.alcance === 'secuencia')
