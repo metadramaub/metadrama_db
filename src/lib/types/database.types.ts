@@ -676,13 +676,6 @@ export type Database = {
             foreignKeyName: "comentarios_internos_secuencia_id_fkey"
             columns: ["secuencia_id"]
             isOneToOne: false
-            referencedRelation: "propuesta_elecciones_secuencia"
-            referencedColumns: ["secuencia_id"]
-          },
-          {
-            foreignKeyName: "comentarios_internos_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
             referencedRelation: "propuesta_metrica_secuencia"
             referencedColumns: ["secuencia_id"]
           },
@@ -1278,13 +1271,6 @@ export type Database = {
             referencedColumns: ["grupo_eleccion_id"]
           },
           {
-            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "propuesta_elecciones_secuencia"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
             foreignKeyName: "elecciones_editor_metrico_metro_id_fkey"
             columns: ["metro_id"]
             isOneToOne: false
@@ -1392,13 +1378,6 @@ export type Database = {
             columns: ["grupo_eleccion_id"]
             isOneToOne: false
             referencedRelation: "grupos_eleccion_metrica_resueltos"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "propuesta_elecciones_secuencia"
             referencedColumns: ["grupo_eleccion_id"]
           },
           {
@@ -3186,13 +3165,6 @@ export type Database = {
             foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
             columns: ["secuencia_id"]
             isOneToOne: false
-            referencedRelation: "propuesta_elecciones_secuencia"
-            referencedColumns: ["secuencia_id"]
-          },
-          {
-            foreignKeyName: "secuencias_caracterizaciones_rango_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
             referencedRelation: "propuesta_metrica_secuencia"
             referencedColumns: ["secuencia_id"]
           },
@@ -3300,13 +3272,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "propuesta_metrica_secuencia"
             referencedColumns: ["forma_propuesta_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
-            referencedRelation: "propuesta_elecciones_secuencia"
-            referencedColumns: ["secuencia_id"]
           },
           {
             foreignKeyName: "secuencias_editor_metrico_secuencia_id_fkey"
@@ -3432,13 +3397,6 @@ export type Database = {
           v_ini?: number
         }
         Relationships: [
-          {
-            foreignKeyName: "secuencias_subtipos_estrofa_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
-            referencedRelation: "propuesta_elecciones_secuencia"
-            referencedColumns: ["secuencia_id"]
-          },
           {
             foreignKeyName: "secuencias_subtipos_estrofa_secuencia_id_fkey"
             columns: ["secuencia_id"]
@@ -3709,6 +3667,7 @@ export type Database = {
         Row: {
           arquitectura_id: string | null
           arquitectura_nombre: string | null
+          desplazamientos: number[] | null
           explicacion: string | null
           minimo_versos: number | null
           modulo_versos: number | null
@@ -3763,13 +3722,6 @@ export type Database = {
             columns: ["grupo_eleccion_id"]
             isOneToOne: false
             referencedRelation: "grupos_eleccion_metrica_resueltos"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "propuesta_elecciones_secuencia"
             referencedColumns: ["grupo_eleccion_id"]
           },
           {
@@ -3913,9 +3865,12 @@ export type Database = {
           alcance: string | null
           grupo_eleccion_id: string | null
           opcion_eleccion_id: string | null
+          origen: string | null
           pregunta: string | null
           respuesta: string | null
           secuencia_id: string | null
+          unidad_v_fin: number | null
+          unidad_v_ini: number | null
         }
         Relationships: []
       }
@@ -4108,6 +4063,7 @@ export type Database = {
       regla_longitud_arquitectura_metrica: {
         Args: { p_arquitectura_id: string }
         Returns: {
+          desplazamientos: number[]
           explicacion: string
           minimo_versos: number
           modulo_versos: number

@@ -26,6 +26,7 @@ function evidencia(
 		maximo: null,
 		modulo: null,
 		residuo: null,
+		desplazamientos: null,
 		reglaLongitud: null,
 		modalidad: 'definitoria',
 		observabilidad: 'directa',

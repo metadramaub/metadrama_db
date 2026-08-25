@@ -5,6 +5,17 @@ export function inclusiveMetricLength(start: number, end: number): number {
 	return Math.trunc(end) - Math.trunc(start) + 1;
 }
 
+/**
+ * Los totales que las partes opcionales de la arquitectura pueden añadir al bloque periódico.
+ *
+ * Una regla sin desplazamientos declarados equivale a `[0]`: la longitud es el ciclo y nada más.
+ * El terceto encadenado declara `[0, 4]` porque su serventesio final puede estar o no estar, y esas
+ * son dos congruencias distintas —`3n` y `3n+4`— que un solo par de módulo y residuo no expresa.
+ */
+export function metricLengthOffsets(rule: MetricLengthRule): number[] {
+	return rule.desplazamientos?.length ? rule.desplazamientos : [0];
+}
+
 export function isMetricLengthCompatible(
 	rule: MetricLengthRule | null | undefined,
 	start: number,
@@ -12,11 +23,14 @@ export function isMetricLengthCompatible(
 ): boolean {
 	if (!rule) return true;
 	const length = inclusiveMetricLength(start, end);
-	if (length < rule.minimo_versos) return false;
-	const remainder =
-		((length - rule.residuo_versos) % rule.modulo_versos + rule.modulo_versos) %
-		rule.modulo_versos;
-	return remainder === 0;
+	return metricLengthOffsets(rule).some((offset) => {
+		const resto = length - offset;
+		if (resto < rule.minimo_versos) return false;
+		const remainder =
+			((resto - rule.residuo_versos) % rule.modulo_versos + rule.modulo_versos) %
+			rule.modulo_versos;
+		return remainder === 0;
+	});
 }
 
 export function metricLengthError(

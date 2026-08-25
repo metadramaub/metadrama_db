@@ -584,11 +584,42 @@ número de preguntas y los slugs de dos grupos, y el formulario no se ha vuelto 
 comprobó que ninguna elección anotada dependía de esas secciones —cero filas en
 `elecciones_editor_metrico`—, así que no hay trabajo de editor en riesgo.
 
-**B4. El cierre del terceto encadenado dejó de ser obligatorio y dos superficies lo dan por
-hecho.** Sus dos arquitecturas declaraban la sección de cierre con `repeticiones_min = 1`, de modo
-que el catálogo exigía un serventesio —o una redondilla cruzada— al final de toda cadena, y no lo
-es: la serie puede terminar sin él. Corregido en el dato el 19 de agosto de 2026 (`20260819180000`).
-**Quedan por revisar el demarcador y el editor V2.**
+**B4. ~~El cierre del terceto encadenado dejó de ser obligatorio y dos superficies lo dan por
+hecho.~~ Hecho el 25 de agosto de 2026** (`20260825090000` y el código que va con ella). Las dos
+superficies estaban rotas, y una de ellas de un modo que nadie habría visto sin ejecutar la
+función.
+
+**La regla de longitud se dio la vuelta en silencio.** `regla_longitud_arquitectura_metrica`
+clasifica cada sección raíz en derivable o no, y contaba como no derivable toda sección con
+`repeticiones_min <> repeticiones_max`. Al pasar el serventesio a `0-1`, entró en ese saco, **la
+rama de secciones se descartó entera** y la función cayó hasta la de `ciclo_rima`, que solo ve el
+terceto:
+
+| | módulo | residuo | mínimo | admite |
+| --- | ---: | ---: | ---: | --- |
+| Antes del 19 de agosto | 3 | 1 | 7 | solo `3n+4` |
+| Del 19 al 25 de agosto | 3 | 0 | 3 | solo `3n` |
+| **Desde el 25** | **3** | **0** | **3** | **`3n` y `3n+4`** |
+
+**Ninguna de las dos primeras es correcta**, y con la segunda el endpoint del editor devolvía un
+**422** ante cualquier cadena terminada en serventesio: la secuencia 1 del escenario Prueba1 —67
+versos, 21 tercetos y su cierre— no se podía guardar. Un solo par de módulo y residuo no expresa
+dos congruencias, así que la función gana `desplazamientos integer[]` con lo que suman las partes
+**opcionales de extensión fija** —`{0,4}` aquí, `{0}` en las otras ochenta y nueve arquitecturas—,
+calculado como sumas de subconjuntos y no como un caso especial de una sola sección.
+
+**Y el demarcador había perdido la pregunta.** El cómputo del cierre en `demarcador-metrico.ts`
+exigía `repeticiones_min === repeticiones_max`; con el cierre opcional daba cero y la evidencia
+«Serie con cierre» **desaparecía del artefacto**. Ahora cuentan las dos clases de cierre y lo que
+cambia entre ellas es la modalidad: `admitida` cuando puede faltar, que puntúa poco y —lo que
+importa— **no penaliza el «no»**. Las dos correcciones tienen prueba de regresión.
+
+*Dos cosas que se aprendieron y conviene no volver a descubrir.* La primera: **una función que cae
+por una rama que no le toca sigue devolviendo algo plausible**, y por eso las guardas de la
+migración la llaman en vez de mirar el dato. La segunda: de esa función colgaba una **cadena de
+tres vistas** —`arquitecturas_reglas_longitud`, `propuesta_metrica_secuencia` y
+`propuesta_elecciones_secuencia`—, y el primer intento nombró las dos que se habían mirado y falló
+contra la tercera. La migración **recorre la cadena** y restaura verbatim lo que no cambia.
 
 **B5. El editor no sabe anotar una décima aumentada entre décimas normales.** El catálogo sostiene
 que no es un error —lo dicen su descripción y Morley y Bruerton—, pero `secuencias_editor_metrico`
@@ -747,9 +778,11 @@ se completó el 31. Lo que sigue:
 6. **Revisión de la prosa, forma por forma: completa** el 21 de agosto de 2026, en las 28 fichas
    que existían. Las seis formas creadas ese día nacieron con la prosa ya escrita a ese criterio.
 7. **El demarcador ya consume la ontología**, no su vector fijo de rasgos: se recompila desde
-   `/dashboard/metrica` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. Queda
-   revisarlo tras dos cambios recientes —el cierre no obligatorio del terceto encadenado y la
-   retirada de la copla de pie quebrado—, en [B4](#b--bloquean-el-editor-v2-en-producción).
+   `/dashboard/metrica` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. El cierre
+   no obligatorio del terceto encadenado se resolvió el 25 de agosto de 2026 —ver
+   [B4](#b--bloquean-el-editor-v2-en-producción)—; **queda por revisar la retirada de la copla de
+   pie quebrado**. Y los artefactos guardados están viejos: los cinco son del 2 de agosto,
+   revisión 2351 contra la 4318 viva, así que hay que recompilar.
 8. **Lo que viene**, y en este orden: la
    [migración de las anotaciones](./plan-migracion-anotaciones.md) por equivalencias más revisión
    manual, y el paso del editor V2 a producción. Lo que hay que despejar antes está en

@@ -326,7 +326,7 @@ export async function loadMetricCatalog(
 		db
 			.from('arquitecturas_reglas_longitud')
 			.select(
-				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion'
+				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion,desplazamientos'
 			),
 		db
 			.from('vocabularios')
