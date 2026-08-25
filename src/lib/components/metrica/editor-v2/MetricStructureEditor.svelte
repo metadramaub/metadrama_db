@@ -591,6 +591,36 @@
 		);
 	}
 
+	/**
+	 * Lo que el campo abierto necesita saber de la norma para no aceptar cualquier cosa.
+	 *
+	 * La extensión sale de la realización en la que se pregunta —la sección, cuando la pregunta es
+	 * de una parte—, y las disposiciones catalogadas, de las opciones que el propio grupo ofrece:
+	 * si lo escrito resulta ser una de ellas, se marca esa. El identificador que se devuelve es el
+	 * de la **opción**, no el del esquema, porque es lo que el editor guarda.
+	 */
+	function normaEsquemaDe(group: MetricCatalogDomainRow, unit: MetricUnitDraft) {
+		const groupId = String(group.grupo_eleccion_id);
+		const catalogados = optionsForGroup(groupId)
+			.filter((option: MetricCatalogDomainRow) => option.esquema_rima_id)
+			.map((option: MetricCatalogDomainRow) => {
+				const scheme = (props.schemes ?? []).find(
+					(candidate: MetricCatalogDomainRow) =>
+						String(candidate.esquema_rima_id) === String(option.esquema_rima_id)
+				);
+				return {
+					esquemaRimaId: String(option.opcion_eleccion_id),
+					notacion: scheme?.notacion ? String(scheme.notacion) : null,
+					regimen: null
+				};
+			});
+		return {
+			versos: unit.v_fin - unit.v_ini + 1,
+			regimen: null,
+			catalogados
+		};
+	}
+
 	function preguntaRespondida(pregunta: PreguntaEnFila): boolean {
 		const groupId = String(pregunta.group.grupo_eleccion_id);
 		if (pregunta.group.tipo_control === 'esquema_rima') {
@@ -1588,6 +1618,7 @@
 					}
 				: undefined}
 			options={optionsForGroup(groupId)}
+			normaEsquema={normaEsquemaDe(group, pregunta.owner)}
 			selectedIds={selectedChoiceIds(groupId, unit.realizacion_prueba_id)}
 			onChange={(ids) => setChoices(group, unit, ids)}
 			textValue={choiceTextValue(groupId, unit.realizacion_prueba_id)}
