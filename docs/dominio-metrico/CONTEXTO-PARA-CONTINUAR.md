@@ -851,13 +851,29 @@ española. Pero eso no se ha comprobado forma por forma, y las tres tradiciones 
 se han mirado juntas: ni de dónde sale cada asignación, ni si el reparto responde a un criterio, ni
 si «italiana» y «española» bastan. *La revisión debe decidir si la ausencia es un dato o un hueco.*
 
-**C14. Retirar `formas_metricas.orden`.** **No lo lee nadie**: las dos consultas públicas lo
-seleccionan y ordenan por nombre, la página de `/formas` ordena por nombre, y el tipo público de
-una forma ni siquiera lo lleva. Sus valores tampoco responden a ningún criterio: décima, romance y
-terceto encadenado comparten el 10, la redondilla está en el 40, y hay huecos en 20, 30, 60, 80,
-100, 160, 170, 270 y 300. **Cuidado al retirarla**: `arquitecturas_forma.orden` sí trabaja —`order
-by orden nulls last, nombre` es lo que pone la principal delante— y `estructuras_secciones.orden`
-también. Solo sobra la de las formas.
+**C14. ~~Retirar `formas_metricas.orden`.~~ Hecho el 25 de agosto de 2026** (`20260825400000`), y
+el catálogo público gana con ello **orden elegible y un buscador que prioriza el nombre**.
+
+La columna no la leía nadie: las dos consultas públicas la seleccionaban y las dos ordenaban las
+formas por nombre. `arquitecturas_forma.orden` y `estructuras_secciones.orden` sí trabajan y no se
+han tocado.
+
+**Lo que entra en su lugar es `unidad_versos`**, tomada de la **arquitectura principal** de cada
+forma: la décima son diez versos aunque su aumentada mida doce, y la seguidilla cuatro aunque su
+chamberga mida diez. Sale nulo donde no hay unidad —las siete series y las composiciones de
+extensión variable—, y eso no es un hueco: una serie no tiene número de versos.
+
+**La página ofrece tres órdenes** —alfabético, por número de versos y por tipo de estructura— y el
+buscador **ordena por dónde ha encontrado el término**: nombre exacto, nombre que empieza igual,
+nombre que lo contiene, y por último la definición. Buscar «lira» da la lira primero y no la primera
+por orden alfabético de todo lo que la mencione. La lógica vive en `src/lib/metrica/orden-formas.ts`
+con sus pruebas, fuera de la página, porque es lo único de esa pantalla que se equivoca en silencio.
+
+*Dos tropiezos que quedaron anotados en la migración porque se repiten solos.* **Transcribir a mano
+la cola de una función** para cambiarle tres líneas se inventó columnas y perdió una clave entera: se
+arma desde `pg_get_functiondef` y se sustituye solo el bloque que cambia. Y **la guarda preguntaba
+quién ordenaba por la columna y no quién la seleccionaba**, así que se dejó fuera la ficha, que la
+seleccionaba sin usarla; el `drop` falló contra un cuerpo que ya no la mencionaba.
 
 **C15. La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
 exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta en

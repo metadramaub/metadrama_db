@@ -2089,7 +2089,6 @@ export type Database = {
           forma_id: string
           nivel_estructural: string
           nombre: string
-          orden: number | null
           origen_termino_id: string | null
           slug: string
           tipo_registro: string
@@ -2104,7 +2103,6 @@ export type Database = {
           forma_id?: string
           nivel_estructural?: string
           nombre: string
-          orden?: number | null
           origen_termino_id?: string | null
           slug: string
           tipo_registro?: string
@@ -2119,7 +2117,6 @@ export type Database = {
           forma_id?: string
           nivel_estructural?: string
           nombre?: string
-          orden?: number | null
           origen_termino_id?: string | null
           slug?: string
           tipo_registro?: string
