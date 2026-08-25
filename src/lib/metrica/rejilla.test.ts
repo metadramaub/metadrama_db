@@ -487,4 +487,39 @@ describe('el perfil de una arquitectura', () => {
 		).toBe('composicion_con_estribillo');
 		expect(perfilDeArquitectura({ ...entrada({}), ...base, variedades: 7 })).toBe('combinatoria');
 	});
+
+	/**
+	 * C6. Una unidad acotada —mínimo y máximo declarados y distintos— no es una serie. La estancia
+	 * de la canción variable mide de cinco a veinte versos y tiene principio y fin. Antes del 25 de
+	 * agosto de 2026 el dibujo caía en la rama del ciclo, tomaba las columnas del esquema de rima y
+	 * ponía `cicla`, de modo que la ficha habría impreso «⟳ Se repite hasta el final de la serie»
+	 * sobre una estrofa que no lo hace.
+	 */
+	it('no convierte en ciclo una unidad acotada, y dibuja su mínimo', () => {
+		const rejilla = construirRejilla(
+			entrada({
+				unidadMin: 5,
+				unidadMax: 20,
+				metricos: [metricoIsosilabico('11')],
+				// Una rima abierta, sin posiciones: es lo que tienen las unidades de disposición
+				// variable, y lo que antes hacía caer el dibujo en la rama equivocada.
+				rimas: [rima('variable', '', { posiciones: [] })]
+			})
+		);
+		expect(rejilla).not.toBeNull();
+		expect(rejilla?.cicla).toBe(false);
+		expect(rejilla?.celdas).toHaveLength(5);
+	});
+
+	it('sigue ciclando cuando la unidad no declara tope y la rima da las columnas', () => {
+		const rejilla = construirRejilla(
+			entrada({
+				unidadMin: null,
+				unidadMax: null,
+				metricos: [metricoIsosilabico('8')],
+				rimas: [rima('pares', '[-a]…')]
+			})
+		);
+		expect(rejilla?.cicla).toBe(true);
+	});
 });

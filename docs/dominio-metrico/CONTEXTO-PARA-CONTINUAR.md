@@ -793,12 +793,17 @@ una enumeración convierte una muestra en ley. **La pregunta solo tiene respuest
 enuncia una regla.** Lo mismo vale para el esquema abierto de la octava real, que se dejó sin
 acotar el 20 de agosto por la misma razón.
 
-**C6. La rejilla no sabe dibujar una unidad acotada: la convierte en ciclo.** Cuando
-`unidad_versos_min` y `unidad_versos_max` existen pero difieren, `construirRejilla` cae en la rama
-que toma las columnas del esquema de rima y **pone `cicla = true`** (`src/lib/metrica/rejilla.ts`),
-de modo que la ficha imprimiría «⟳ Se repite hasta el final de la serie» sobre una estrofa que no
-es una serie. **El radio es hoy nulo** y por eso no urge. El arreglo es una rama para unidad
-acotada antes de la del ciclo, con su prueba en `rejilla.test.ts`.
+**C6. ~~La rejilla no sabe dibujar una unidad acotada: la convierte en ciclo.~~ Hecho el 25 de
+agosto de 2026.** Cuando `unidad_versos_min` y `unidad_versos_max` existían pero diferían,
+`construirRejilla` caía en la rama que toma las columnas del esquema de rima y ponía `cicla = true`,
+de modo que la ficha habría impreso «⟳ Se repite hasta el final de la serie» sobre una estrofa que no
+lo hace. Hay ya una rama para unidad acotada **antes** de la del ciclo: dibuja el mínimo, que es lo
+que toda realización tiene seguro. Con dos pruebas, la del caso y la que comprueba que una serie de
+verdad sigue ciclando.
+
+*Se arregló con el radio a cero —ninguna arquitectura activa declara hoy unidad acotada— porque era
+una trampa esperando a la primera que la declarara, y la estancia de la canción variable, que mide
+de cinco a veinte versos, es exactamente esa.*
 
 **C7. No hay dónde guardar un ejemplo de verso.** El vocabulario legado guarda uno real en
 `vocabularios.ejemplo`, y de los 119 términos de `estrofa_tipo` **solo seis lo tienen**: copla de

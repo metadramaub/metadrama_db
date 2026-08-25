@@ -435,6 +435,23 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 		entrada.unidadMin !== null && entrada.unidadMin === entrada.unidadMax
 			? entrada.unidadMin
 			: null;
+	/**
+	 * Una unidad **acotada**: la arquitectura declara mínimo y máximo, y difieren.
+	 *
+	 * No es lo mismo que una serie. La estancia de la canción variable mide de cinco a veinte versos
+	 * y no se repite hasta el final del pasaje: tiene principio y fin. Sin esta rama el dibujo caía
+	 * en la del ciclo —tomaba las columnas del esquema de rima y ponía `cicla`—, y la ficha habría
+	 * impreso «⟳ Se repite hasta el final de la serie» sobre una estrofa que no lo hace.
+	 *
+	 * Se dibuja el mínimo, que es lo que toda realización tiene seguro, y la ficha dice aparte hasta
+	 * dónde puede llegar.
+	 */
+	const unidadAcotada =
+		entrada.unidadMin !== null &&
+		entrada.unidadMax !== null &&
+		entrada.unidadMax > entrada.unidadMin
+			? entrada.unidadMin
+			: null;
 
 	let columnas = 0;
 	let cicla = false;
@@ -446,6 +463,9 @@ export function construirRejilla(entrada: EntradaRejilla): Rejilla | null {
 		cicla = esqueleto.some((segmento) => segmento.seccion.repeticionesMax === null);
 	} else if (unidadFija !== null) {
 		columnas = unidadFija;
+	} else if (unidadAcotada !== null) {
+		// Antes que la del ciclo, y a propósito: una unidad con tope no es una serie.
+		columnas = unidadAcotada;
 	} else if (elegido && elegido.posiciones.length > 0) {
 		columnas = elegido.posiciones.length;
 		cicla = true;
