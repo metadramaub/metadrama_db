@@ -375,12 +375,20 @@ uno**: tres de los siete rasgos ya cumplían la regla sin excepción en diecioch
 > posiciones se preguntan solo si el esquema no dice ya dónde caen**: si lo dice, la pregunta es si
 > el pasaje lo cumple, no dónde.
 >
-> **5 bis · Un techo que la fuente no da, no se declara.** `posiciones_max` lleva **solo el número
-> que una fuente enuncie como regla**. Cuando ninguna lo fija se queda vacío, que significa «sin
-> acotar», con un único límite que es de sentido de la forma y no de fuente: **nunca todos los versos
-> de la unidad**, porque una estrofa entera de quebrados no es una estrofa con quiebro sino otra
-> medida. El techo de registro del grupo se **deriva** entonces de la extensión de la unidad menos
-> uno, y se anota como derivado.
+> **5 bis · Un techo que la fuente no da, no se declara — pero decir dónde es decir cuántos.**
+> `posiciones_max` lleva **solo el número que se desprenda de una fuente**, y hay dos maneras de que
+> se desprenda:
+>
+> - la fuente **cuenta**: «puede incluir uno o dos versos de pie quebrado»;
+> - la fuente **sitúa**: «se documenta en el quinto verso», «caen en el octavo y en el undécimo».
+>   *Si sabemos exactamente dónde aparecen los quebrados, sabemos cuántos versos lo son.*
+>
+> Lo que **no** da techo es saber dónde **pueden** o **suelen** aparecer: «sin fijar en qué versos
+> cae», «alternando versos plenos y quebrados», «suele ser uno solo». Ahí no hay posiciones exactas y
+> por tanto tampoco máximo. La columna se queda vacía, que significa «sin acotar», con un único
+> límite que es de sentido de la forma y no de fuente: **nunca todos los versos de la unidad**,
+> porque una estrofa entera de quebrados no es una estrofa con quiebro sino otra medida. El techo de
+> registro del grupo se **deriva** entonces de la extensión menos uno, y se anota como derivado.
 
 **La segunda mitad de la regla 5 la puso el propio catálogo.** Dónde caen los finales agudos ya lo
 dice el esquema de rima: la octava aguda lo lleva escrito en su `---a---a`, que solo pone clase en
@@ -390,13 +398,24 @@ no puede deducir es **si** el pasaje los trae, porque es habitual o admitido: es
 pie quebrado va por posiciones justamente porque **ningún esquema lo fija** —la nota de la copla
 real dice que «la tradición no fija en qué verso»—.
 
-**Y la regla 5 bis salió de leer mal una fuente.** Cuatro formas anotan dónde se documenta el
-quiebro —«se documenta en el quinto verso», «caen en el octavo y en el undécimo»— y eso parecía dar
-el número. No lo da: dice **dónde**, no **cuántos como máximo**, y derivar un techo de un ejemplo es
-convertir la muestra en ley, que es lo que el catálogo se prohibió el 18 de agosto al revisar la
-sextilla. De las diez arquitecturas con quiebro no definitorio, **solo la copla real declara techo**,
-porque el *Diccionario* lo enuncia: sus dos semiestrofas «admiten algún verso quebrado
-(tetrasílabo)», uno por quintilla, que son dos.
+**La regla 5 bis se escribió mal y se corrigió el mismo día.** La primera versión decía que las
+notas del quiebro solo dicen *dónde* se documenta y no *cuántos* admite la forma, y que por eso
+ninguna daba techo. **Es verdad a medias**, y el IP puso la distinción que faltaba: una posición
+nombrada *es* un quiebro contado. «Se documenta en el quinto verso» dice uno; «caen en el octavo y en
+el undécimo» dicen dos. Lo que no cuenta es la alternancia ni el «suele».
+
+Aplicada a las diez arquitecturas con quiebro no definitorio, **siete declaran techo y tres no**:
+
+| Techo | Arquitecturas | Por qué |
+| ---: | --- | --- |
+| **2** | copla real, oncena ×2 | El *Diccionario* cuenta —«algún verso quebrado» por semiestrofa— y las oncenas sitúan dos versos cada una |
+| **1** | quintilla, septilla, novena ×2 | Un verso nombrado: el primero, el quinto. En el orden 5+4 de la novena no hay verso, pero la fuente habla de *el* quiebro en singular y declara el otro miembro pleno |
+| **—** | redondilla, copla castellana, copla de arte menor | «Sin fijar en qué versos cae» y «alternando versos plenos y quebrados»: dicen dónde **pueden** caer |
+
+*Lo que sí sigue en pie de la advertencia original*, y es lo que el catálogo se prohibió el 18 de
+agosto al revisar la sextilla: **la enumeración de una fuente no es una norma**. De que una fuente
+liste tres disposiciones no se sigue que la forma admita solo tres. Lo que aquí se deriva no es un
+repertorio sino una cuenta, y por eso funciona.
 
 *Un aviso sobre el vocabulario legado: **no es fuente**. Describe lo que alguien leyó en las seis y
 a veces se equivoca, así que sirve para encontrar el pasaje y no para respaldarlo.*
