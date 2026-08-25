@@ -99,21 +99,48 @@ function canonizar(limpio: string): string {
 	return salida;
 }
 
-function medir(limpio: string) {
+/** Una posición de un esquema, venga de una notación escrita o de las filas del catálogo. */
+export type PosicionMedible = {
+	/** La clase de rima. Vacía o nula si el verso va suelto. */
+	clase: string | null;
+	suelto?: boolean;
+};
+
+export type MedidaDisposicion = {
+	clases: number;
+	sueltos: number;
+	/** La racha más larga de versos seguidos con la misma rima. */
+	maxConsecutivos: number;
+	alternancias: number;
+};
+
+/**
+ * Lo que se puede contar de una disposición, y que las restricciones del catálogo contrastan.
+ *
+ * Vive aquí y no en el auditor porque **son la misma cuenta**: la que valida lo que un editor
+ * escribe y la que comprueba que un esquema catalogado cumple el criterio de su patrón abierto. Con
+ * dos implementaciones, un día dirían cosas distintas del mismo verso.
+ *
+ * Dos reglas que no son obvias y que las dos usan. **La clase no distingue caja**, porque `C` y `c`
+ * son la misma rima sobre un endecasílabo y sobre un heptasílabo. Y **un verso suelto corta la
+ * racha** en vez de continuarla: no pertenece a ninguna clase, así que dos sueltos seguidos no son
+ * dos versos que rimen entre sí.
+ */
+export function medirDisposicion(posiciones: PosicionMedible[]): MedidaDisposicion {
 	const clases = new Set<string>();
 	let sueltos = 0;
 	let maxConsecutivos = 0;
 	let corrida = 0;
 	let anterior = '';
 	let alternancias = 0;
-	for (const caracter of limpio) {
-		if (caracter === '-') {
+	for (const posicion of posiciones) {
+		const clave = posicion.suelto ? '' : (posicion.clase ?? '').toLowerCase();
+		if (!clave) {
 			sueltos += 1;
 			corrida = 0;
 			anterior = '';
 			continue;
 		}
-		const clave = caracter.toLowerCase();
 		clases.add(clave);
 		if (clave === anterior) {
 			corrida += 1;
@@ -125,6 +152,12 @@ function medir(limpio: string) {
 		if (corrida > maxConsecutivos) maxConsecutivos = corrida;
 	}
 	return { clases: clases.size, sueltos, maxConsecutivos, alternancias };
+}
+
+function medir(limpio: string): MedidaDisposicion {
+	return medirDisposicion(
+		[...limpio].map((caracter) => ({ clase: caracter === '-' ? null : caracter }))
+	);
 }
 
 /** Lo que la norma declara y lo escrito no cumple. Se avisa, no se bloquea. */

@@ -354,7 +354,7 @@ asuntos en A, tres en B —B5, B6 y B7, los tres menores— y dieciséis en C.**
 Son los casos en que una secuencia real **no tendría dónde caer**. Conviene resolverlos antes de
 empezar, porque cada uno obliga a parar la migración de una obra a la mitad.
 
-**A1. Las equivalencias del vocabulario legado. En curso.** El razonamiento de por qué faltaban y
+**A1. Las equivalencias del vocabulario legado. Cerrada la implementación; queda anotar.** El razonamiento de por qué faltaban y
 lo que ya decidió el IP están en
 [equivalencias-pendientes.md](./equivalencias-pendientes.md); las cifras, en el informe
 regenerable.
@@ -385,10 +385,24 @@ cuántas derivadas.
 
 *Lo que queda de A1:*
 
-1. **La precarga en el editor V2.** El endpoint `api/metrica/editor-pruebas` **ya acepta
-   `secuencia_id`**, exige que sea eso o un escenario ficticio y valida el rango contra la secuencia
-   real; `secuencias_editor_metrico.secuencia_id` existe y está a cero. Falta que el editor entre
-   por ahí con la propuesta puesta, para que anotar sea aceptar o corregir.
+1. **~~La precarga en el editor V2.~~ Estaba construida, y este inventario lo daba por pendiente.**
+   Comprobado en el código el 25 de agosto de 2026: `MetricShadowAnnotation.svelte` ya abre una
+   secuencia real sin empezar en blanco. Si la secuencia **se anotó antes**, recupera lo guardado y
+   no propone nada; si no, **construye el borrador desde la propuesta** —forma, arquitectura y rango,
+   las respuestas de alcance secuencia ya contestadas, y las de alcance unidad guardadas para cuando
+   el formulario materialice sus unidades, que en ese momento todavía no existen—. Lo dice el
+   comentario de su propia función: *«Abrir una secuencia real no empieza en blanco… El editor revisa,
+   no reanota»*. Llegó en tres commits —«La anotación en sombra usa ya el sistema de equivalencias
+   entero», «La propuesta llega también con las respuestas, no solo con la forma» y «Si se calcula,
+   se rellena: también las respuestas por unidad»— y este apunte no se puso al día.
+
+   **Dónde está, porque no es obvio:** en la pestaña **«Anotación en sombra»** de
+   `/dashboard/metrica`. No hay una zona de migrar aparte; es esa.
+
+   *Lo único cierto que quedaba de la nota vieja es que `secuencias_editor_metrico.secuencia_id`
+   **sigue a cero**, y eso no es código que falte: es que nadie ha anotado todavía una secuencia
+   real.* **Falta verlo funcionar en pantalla con una obra de verdad**, que es trabajo de editor y no
+   de implementación.
 
 *Huecos que ninguna equivalencia arregla*, y que son trabajo de editor con el texto delante: las
 **37 secuencias de `redondilla` genérica** —el término no dice la disposición—, las **7 quintillas
@@ -707,15 +721,30 @@ entonces deja de ser cierto que un esquema con posiciones sea lo cerrado—. *Es
 decisión que puede retirarlo: Navarro Tomás y el Diccionario llaman endecha real a la que no rima,
 y Jauralde dice que el nombre llegó cuando recibió rimas.*
 
-**C3. Dos huecos del auditor, y dos cosas del soneto que dependen de ellos.**
-`max_consecutivos` está en el `CHECK` de `esquema_rima_restricciones.tipo` pero `incumple`, en
-`scripts/audit-catalogo-metrico.mjs`, **no lo evalúa**: devuelve `false`. Y `numero_clases` admite
-un solo valor, así que no puede expresar «dos o tres»: necesitaría un rango o un tipo nuevo.
-*Arreglar lo primero es calcular la racha máxima en `resumir` y añadir una rama a `incumple`.* De
-ahí cuelgan las dos preguntas del soneto: si sus cuartetos podrían heredar la disposición del
-cuarteto declarando la identidad con un enlace, y la restricción `max_consecutivos: 2` de sus
-tercetos, que la fuente enuncia y el catálogo no declara. Es la misma pieza que echó en falta la
-sextilla.
+**C3. ~~Dos huecos del auditor~~ Uno cerrado el 25 de agosto de 2026; el otro sigue. Y dos cosas
+del soneto que dependían de ellos.**
+
+**`max_consecutivos` ya se evalúa.** Estaba en el `CHECK` de `esquema_rima_restricciones.tipo` desde
+el principio y `incumple` devolvía `false`, de modo que el catálogo podía declarar la restricción y
+nadie la leía. Ahora se cuenta la racha más larga de versos seguidos con la misma rima.
+
+*Y la cuenta no se escribió dos veces.* La misma medida —clases, sueltos, alternancias y racha— la
+necesitaban el auditor, sobre las filas de `esquema_rima_posiciones`, y el validador de lo que el
+editor escribe, sobre una notación. Vive una sola vez en
+**`src/lib/metrica/esquema-rima-escrito.ts`** (`medirDisposicion`), con sus pruebas, y el auditor la
+**importa**: con dos implementaciones, un día dirían cosas distintas del mismo verso. *El auditor
+cuenta los sueltos con más manga, y está comentado por qué: un esquema catalogado puede dar clase a
+un verso que no rima con ninguno, y para contrastar `versos_sueltos: ninguno` hay que verlo.*
+
+*Comprobado de punta a punta*, y no solo con pruebas unitarias: se declaró la restricción sobre el
+patrón abierto de la quintilla, se corrió el auditor —señaló `abbba` con «3 seguidos», que es
+exactamente el caso que su ficha llevaba anotado como no comprobable— y se retiró.
+
+**Lo que sigue abierto:** `numero_clases` admite un solo valor, así que no puede expresar «dos o
+tres»; necesitaría un rango o un tipo nuevo. Y con él las dos cosas del soneto: si sus cuartetos
+podrían heredar la disposición del cuarteto declarando la identidad con un enlace, y la restricción
+`max_consecutivos: 2` de sus tercetos, que la fuente enuncia y el catálogo no declara. **Esta
+segunda ya se puede declarar**: el auditor la comprobaría.
 
 **C4. Un esquema de rima solo puede señalar una sección, y a veces sirve a varias.** Los tres de la
 mudanza del villancico valen para `mudanza` y para `mudanza_inicial`, que son dos secciones de la

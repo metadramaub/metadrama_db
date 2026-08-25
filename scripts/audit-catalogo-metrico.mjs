@@ -18,6 +18,9 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dumpLinkedDatabase, readDump } from './lib/volcado.mjs';
 import { query } from './lib/consulta.mjs';
+// La cuenta de clases, rachas y sueltos es la misma que valida lo que el editor escribe. Vive
+// en `src/lib/metrica/` con sus pruebas, y aquí se importa en vez de repetirse.
+import { medirDisposicion } from '../src/lib/metrica/esquema-rima-escrito.ts';
 
 // --------------------------------------------------------------------------
 // Argumentos
@@ -523,20 +526,19 @@ const DEFECTOS = [
 					.slice()
 					.sort((a, b) => a.bloque - b.bloque || a.posicion - b.posicion);
 				if (posiciones.length === 0) return null;
-				// La caja de la clase marca el arte del verso, no una clase distinta: en la silva
-				// regular el pareado es `aA` y rima consigo mismo, y en la canción el eslabón `c`
-				// rima con el endecasílabo `C`. Contarlas aparte inventaba clases y alternancias.
+				const medida = medirDisposicion(
+					posiciones.map((p) => ({ clase: p.clase_rima, suelto: p.suelto === true }))
+				);
+				// **El auditor cuenta los sueltos con más manga que el editor.** Aquí un verso sin
+				// rima es también una clase que aparece una sola vez, esté marcado o no: un esquema
+				// catalogado puede dar clase a un verso que en realidad no rima con ninguno, y para
+				// contrastar `versos_sueltos: ninguno` hay que verlo. Lo que el editor escribe, en
+				// cambio, dice con un guion los que van sueltos, y ahí no hace falta deducirlo.
 				const clase = (p) => (p.clase_rima ?? '').toLocaleLowerCase('es');
 				const veces = new Map();
 				for (const p of posiciones) veces.set(clase(p), (veces.get(clase(p)) ?? 0) + 1);
-				let alternancias = 0;
-				for (let i = 1; i < posiciones.length; i += 1) {
-					if (clase(posiciones[i]) !== clase(posiciones[i - 1])) alternancias += 1;
-				}
 				return {
-					clases: veces.size,
-					alternancias,
-					// Un verso sin rima es una clase que aparece una sola vez, esté marcado o no.
+					...medida,
 					sueltos:
 						posiciones.filter((p) => p.suelto).length +
 						[...veces.values()].filter((n) => n === 1).length
@@ -547,6 +549,10 @@ const DEFECTOS = [
 				const numero = Number(restriccion.valor_numero);
 				if (restriccion.tipo === 'numero_clases') return resumen.clases !== numero;
 				if (restriccion.tipo === 'min_alternancias') return resumen.alternancias < numero;
+				// Añadido el 25 de agosto de 2026 (C3). Estaba en el `CHECK` del tipo desde el
+				// principio y esta función devolvía `false`, de modo que una restricción declarada
+				// no se comprobaba contra nada: el catálogo la escribía y nadie la leía.
+				if (restriccion.tipo === 'max_consecutivos') return resumen.maxConsecutivos > numero;
 				if (restriccion.tipo === 'versos_sueltos') {
 					if (restriccion.valor_texto === 'ninguno') return resumen.sueltos > 0;
 					if (restriccion.valor_texto === 'todos') return resumen.sueltos === 0;
@@ -580,7 +586,7 @@ const DEFECTOS = [
 						if (rotas.length === 0) continue;
 						hallazgos.push({
 							sujeto: etiqueta(model, arquitecturaId),
-							detalle: `${concreto.slug} incumple ${rotas.map((r) => r.tipo).join(', ')} de «${abierto.slug}» · ${resumen.clases} clases, ${resumen.alternancias} alternancias, ${resumen.sueltos} sueltos`
+							detalle: `${concreto.slug} incumple ${rotas.map((r) => r.tipo).join(', ')} de «${abierto.slug}» · ${resumen.clases} clases, ${resumen.alternancias} alternancias, ${resumen.sueltos} sueltos, ${resumen.maxConsecutivos} seguidos`
 						});
 					}
 				}

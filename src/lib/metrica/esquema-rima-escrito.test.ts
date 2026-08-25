@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { leerEsquemaEscrito, type EsquemaCatalogado } from './esquema-rima-escrito';
+import {
+	leerEsquemaEscrito,
+	medirDisposicion,
+	type EsquemaCatalogado
+} from './esquema-rima-escrito';
 
 const catalogo: EsquemaCatalogado[] = [
 	{ esquemaRimaId: 'redondilla-abba', notacion: 'abba', regimen: 'consonante' },
@@ -177,6 +181,54 @@ describe('cuando el régimen no se sabe', () => {
 		expect(leerEsquemaEscrito('abba', { versos: 4, catalogados: catalogo })).toMatchObject({
 			esquemaCatalogadoId: 'redondilla-abba',
 			avisos: []
+		});
+	});
+});
+
+describe('la medida de una disposición', () => {
+	/**
+	 * La comparte el auditor del catálogo, que la aplica sobre las filas de
+	 * `esquema_rima_posiciones` en vez de sobre una notación escrita. Estas pruebas valen para las
+	 * dos: si un día dijeran cosas distintas del mismo verso, el catálogo y el editor se separarían.
+	 */
+	it('cuenta la racha más larga de versos con la misma rima', () => {
+		expect(medirDisposicion([...'ababa'].map((c) => ({ clase: c })))).toMatchObject({
+			maxConsecutivos: 1
+		});
+		// El caso que la quintilla lleva anotado: `abbba` tiene tres seguidos y la regla de las
+		// fuentes es «no más de dos». Hasta el 25 de agosto de 2026 el auditor no lo evaluaba.
+		expect(medirDisposicion([...'abbba'].map((c) => ({ clase: c })))).toMatchObject({
+			maxConsecutivos: 3
+		});
+		expect(medirDisposicion([...'aabba'].map((c) => ({ clase: c })))).toMatchObject({
+			maxConsecutivos: 2
+		});
+	});
+
+	it('un verso suelto corta la racha en vez de continuarla', () => {
+		// Dos sueltos seguidos no son dos versos que rimen entre sí.
+		expect(
+			medirDisposicion([
+				{ clase: 'a' },
+				{ clase: null, suelto: true },
+				{ clase: null, suelto: true },
+				{ clase: 'a' }
+			])
+		).toMatchObject({ maxConsecutivos: 1, sueltos: 2, clases: 1 });
+	});
+
+	it('no distingue caja al identificar la clase', () => {
+		// La lira `aBabB`: el cuarto verso rima con el segundo y el quinto.
+		expect(medirDisposicion([...'aBabB'].map((c) => ({ clase: c })))).toMatchObject({
+			clases: 2,
+			maxConsecutivos: 2
+		});
+	});
+
+	it('trata como suelta la posición sin clase, aunque no venga marcada', () => {
+		expect(medirDisposicion([{ clase: 'a' }, { clase: '' }, { clase: 'a' }])).toMatchObject({
+			sueltos: 1,
+			clases: 1
 		});
 	});
 });
