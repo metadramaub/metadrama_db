@@ -279,11 +279,15 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    declara `versos_sueltos: ninguno`. *Es una decisión de alcance del corpus, no una norma: si el
    corpus las trae, se recogen y se relaja la restricción, sin que eso desmienta nada.*
 
-2. **`min_alternancias: 2` no es la regla de las fuentes, y funciona igual.** La regla es «no más de
-   dos versos seguidos con la misma rima», que se expresaría con `max_consecutivos: 2` —el tipo
-   existe pero el auditor no lo evalúa, ⇒ **C3**—. Con lo declarado, `abbba` pasa el filtro. *Eso es
-   lo que se quiere, porque el catálogo admite `abbba`; queda anotado para que nadie lo lea como un
-   descuido.*
+2. **`min_alternancias: 2` no es la regla de las fuentes, y ya se puede declarar la que sí lo es.**
+   La regla es «no más de dos versos seguidos con la misma rima», que se expresa con
+   `max_consecutivos: 2`. Se dejó el sucedáneo por dos motivos, y **el 25 de agosto de 2026
+   desaparecieron los dos**: el auditor no evaluaba ese tipo, y ahora lo evalúa; y declararlo habría
+   hecho que protestara por `abbba`, que rompe la regla con sus tres `b` seguidas, y ahora no
+   protesta porque D13 salta los esquemas `excepcional` —que es lo que `abbba` es—. *Comprobado: con
+   la restricción declarada el informe se queda en cero.* **La decisión es si se sustituye**, en las
+   tres medidas de la quintilla, y con ella si se retira `min_alternancias`, que dejaría de hacer
+   falta.
 
 3. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
    `abbba` no lo numera nadie: lo registran como aparición suelta, que M&B atribuyen a errata o a
