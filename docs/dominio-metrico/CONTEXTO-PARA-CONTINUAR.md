@@ -644,8 +644,11 @@ decisión lo prueba el zéjel: su vuelta, que no se tocó ese día, **sí** lo d
 formulario, porque la medida la pregunta su propio grupo; sí deja a la vuelta sin medida en todo lo
 que lee la sección —la rejilla, el recuadro de la norma y la ficha pública—. ⇒ **B7**
 
-**B7. La vuelta del villancico no declara su esquema métrico.** Una línea, cuando se toque el
-villancico. Ver B3.
+**B7. ~~La vuelta del villancico no declara su esquema métrico.~~ Hecho el 25 de agosto de 2026**
+(`20260825390000`). Las dos vueltas apuntan ya al mismo esquema que sus hermanas. *El porqué del
+descuido, que conviene no repetir:* al partir «Enlace o vuelta», el `enlace` se obtuvo
+**transformando** la sección que existía —y conservó su esquema— mientras que la `vuelta` se
+**insertó nueva**. Lo que se transforma hereda; lo que se inserta hay que dárselo entero.
 
 **B4. ~~El cierre del terceto encadenado dejó de ser obligatorio y dos superficies lo dan por
 hecho.~~ Hecho el 25 de agosto de 2026** (`20260825090000` y el código que va con ella). Las dos
