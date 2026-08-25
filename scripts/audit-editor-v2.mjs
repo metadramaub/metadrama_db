@@ -76,8 +76,11 @@ const DEFECTOS = [
 		id: 'E1',
 		titulo: 'Obligada a elegir la única opción',
 		criterio:
-			'Una pregunta con una sola opción y respuesta obligatoria no ofrece elección: el editor solo puede confirmar lo que el catálogo ya sabe, y eso se deriva. **No es el caso de la que admite cero respuestas**, que es un sí/no legítimo —«¿tiene final acentual destacado?»— donde marcarla o dejarla vacía es la respuesta.',
-		detectar: (p) => Number(p.opciones) === 1 && Number(p.selecciones_min ?? 0) > 0
+			'Una pregunta con una sola opción y respuesta obligatoria no ofrece elección: el editor solo puede confirmar lo que el catálogo ya sabe, y eso se deriva. **No es el caso de la que admite cero respuestas**, que es un sí/no legítimo —«¿tiene final acentual destacado?»— donde marcarla o dejarla vacía es la respuesta. **Tampoco lo es la que lleva salida abierta** (`opciones_y_esquema`, desde el 25 de agosto de 2026): ahí la única opción catalogada convive con el campo para declarar la que se observe, de modo que sí hay algo que decidir.',
+		detectar: (p) =>
+			Number(p.opciones) === 1 &&
+			Number(p.selecciones_min ?? 0) > 0 &&
+			p.tipo_control !== 'opciones_y_esquema'
 	},
 	{
 		id: 'E1b',
@@ -98,8 +101,11 @@ const DEFECTOS = [
 	{
 		id: 'E3',
 		titulo: 'Pregunta sin ninguna opción',
-		criterio: 'Una pregunta activa que no ofrece nada es una pregunta imposible de responder.',
-		detectar: (p) => Number(p.opciones) === 0 && p.tipo_control === 'opciones'
+		criterio:
+			'Una pregunta activa que no ofrece nada es una pregunta imposible de responder. Se exceptúan los controles que dejan escribir la respuesta —`esquema_rima` y `opciones_y_esquema`—, pero el híbrido sin ninguna opción sería un abierto mal declarado, y eso sí se cuenta.',
+		detectar: (p) =>
+			Number(p.opciones) === 0 &&
+			(p.tipo_control === 'opciones' || p.tipo_control === 'opciones_y_esquema')
 	},
 	{
 		id: 'E4',

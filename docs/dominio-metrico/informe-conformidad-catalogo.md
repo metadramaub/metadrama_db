@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-25 13:31
+Generado: 2026-08-25 13:45
 
-Inventario: 41 formas y 2 tramos sin forma · 91 configuraciones · 96 patrones métricos · 164 patrones de rima · 85 secciones · 72 grupos de elección · 491 opciones · 7 rasgos.
+Inventario: 41 formas y 2 tramos sin forma · 91 configuraciones · 96 patrones métricos · 164 patrones de rima · 85 secciones · 92 grupos de elección · 531 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -110,6 +110,12 @@ Sin incidencias.
 
 Sin incidencias.
 
+### D17 · Una unidad cuya rima no está fija y nadie pregunta — 0
+
+> Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema concreto. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.
+
+Sin incidencias.
+
 ## 2 · Homogeneidad de criterio
 
 ### 2.1 · Dónde vive cada dimensión, forma por forma
@@ -117,9 +123,9 @@ Sin incidencias.
 | Forma | Nivel | Cfg | Prot. | Medida vive en | Rima vive en | Grupos | Alcance |
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
 | cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
-| copla_castellana | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 0 | — |
+| copla_castellana | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
-| copla_de_arte_menor | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 0 | — |
+| copla_de_arte_menor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_manriquena | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_real | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | cuarteto | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
@@ -130,10 +136,10 @@ Sin incidencias.
 | endecha_real | serie | 3 | sí | configuracion, posiciones | elección, patrón único | 4 | secuencia |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | novena | estrofa | 2 | sí | posiciones | elección, sin patrón | 4 | unidad |
-| novena_lira | estrofa | 1 | sí | conjunto | patrón único | 0 | — |
-| octava_aguda | estrofa | 6 | sí | configuracion, posiciones | varios patrones sin pregunta | 0 | — |
+| novena_lira | estrofa | 1 | sí | conjunto | esquema libre | 1 | unidad |
+| octava_aguda | estrofa | 6 | sí | configuracion, posiciones | elección | 6 | unidad |
 | octava_lira | estrofa | 1 | sí | conjunto | elección | 1 | unidad |
-| octava_real | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 1 | secuencia |
+| octava_real | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | oncena | estrofa | 2 | sí | posiciones | sin patrón | 0 | — |
 | pareado | estrofa | 2 | sí | configuracion, conjunto, eleccion | elección, patrón único | 3 | unidad |
 | quintilla | estrofa | 3 | sí | configuracion, posiciones | elección | 3 | unidad |
@@ -141,19 +147,19 @@ Sin incidencias.
 | redondilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
 | romance | serie | 6 | sí | configuracion, posiciones | patrón único | 6 | secuencia |
 | seguidilla | estrofa | 7 | sí | configuracion, eleccion, posiciones | patrón único | 1 | unidad |
-| septeto | estrofa | 2 | sí | posiciones | patrón único | 0 | — |
+| septeto | estrofa | 2 | sí | posiciones | esquema libre, patrón único | 1 | unidad |
 | septeto_lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| septilla | estrofa | 1 | sí | posiciones | varios patrones sin pregunta | 0 | — |
+| septilla | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | septilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
-| sexteto | estrofa | 3 | sí | configuracion, posiciones | esquema libre | 3 | unidad |
+| sexteto | estrofa | 3 | sí | configuracion, posiciones | elección, esquema libre | 3 | unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
-| sextilla | estrofa | 6 | sí | configuracion, posiciones | patrón único, varios patrones sin pregunta | 0 | — |
+| sextilla | estrofa | 6 | sí | configuracion, posiciones | elección, esquema libre | 6 | unidad |
 | sextilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
 | sextina | composicion | 3 | sí | posiciones | sin patrón | 0 | — |
 | sextina_estrofa | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | silva | serie | 5 | sí | configuracion, conjunto, posiciones | patrón único | 4 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
-| terceto | estrofa | 3 | sí | configuracion, posiciones | elección, varios patrones sin pregunta | 2 | secuencia, unidad |
+| terceto | estrofa | 3 | sí | configuracion, posiciones | elección | 4 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
 | villancico | composicion | 2 | sí | conjunto, eleccion | elección | 12 | realizacion, unidad |
 | zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 4 | realizacion, unidad |
@@ -176,7 +182,7 @@ Sin incidencias.
 | rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_real, romance, sexteto_lira, silva, soneto, terceto |
 | repeticion · realizacion | villancico, zejel |
 | rima · secuencia | endecha_real |
-| rima · unidad | cancion_petrarquista, copla_de_arte_mayor, copla_manriquena, copla_real, cuarteto, cuarteto_lira, decima_lira, novena, octava_lira, pareado, quintilla, redondilla, sexteto, soneto, terceto, villancico |
+| rima · unidad | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, cuarteto_lira, decima_lira, novena, novena_lira, octava_aguda, octava_lira, octava_real, pareado, quintilla, redondilla, septeto, septilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
@@ -188,26 +194,26 @@ Sin incidencias.
 
 | Configuración | Patrones abiertos | Estrategia |
 | --- | ---: | --- |
-| sexteto · alejandrina | 1 | control abierto de esquema |
+| novena_lira · heterometrica_consonante | 1 | control abierto de esquema |
 | sexteto · dodecasilabica | 1 | control abierto de esquema |
-| sexteto · endecasilabica | 1 | control abierto de esquema |
+| sextilla · heptasilabica | 1 | control abierto de esquema |
+| sextilla · hexasilabica | 1 | control abierto de esquema |
+| sextilla · pentasilabica | 1 | control abierto de esquema |
+| sextilla · tetrasilabica | 1 | control abierto de esquema |
 | cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema + restricciones cualitativas (1) |
-| novena_lira · heterometrica_consonante | 1 | patrón vacío, sin sustituto |
+| septeto · endecasilabica | 1 | control abierto de esquema + restricciones cualitativas (1) |
 | octava_real · endecasilabica_consonante | 1 | patrón vacío, sin sustituto |
 | septeto · compuesta | 1 | patrón vacío, sin sustituto |
-| sextilla · heptasilabica | 1 | patrón vacío, sin sustituto |
-| sextilla · hexasilabica | 1 | patrón vacío, sin sustituto |
+| sexteto · alejandrina | 1 | patrón vacío, sin sustituto |
+| sexteto · endecasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
-| sextilla · pentasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
-| sextilla · tetrasilabica | 1 | patrón vacío, sin sustituto |
 | cancion_petrarquista · sin_rima_con_pareado_final | 1 | restricciones cualitativas (1) |
 | copla_manriquena · doble_pie_quebrado | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
 | quintilla · heptasilabica | 1 | restricciones cualitativas (1) |
 | quintilla · hexasilabica | 1 | restricciones cualitativas (1) |
 | quintilla · octosilabica_consonante | 1 | restricciones cualitativas (1) |
-| septeto · endecasilabica | 1 | restricciones cualitativas (1) |
 | silva · consonante_irregular | 1 | restricciones cualitativas (1) |
 | silva · endecasilabica | 1 | restricciones cualitativas (1) |
 | silva · libre | 1 | restricciones cualitativas (1) |

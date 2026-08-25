@@ -684,6 +684,55 @@ const DEFECTOS = [
 				detalle: `reutiliza «${faltante.destino}» en ${faltante.nombres.join(', ')} sin forma_relacion`
 			}));
 		}
+	},
+	{
+		id: 'D17',
+		titulo: 'Una unidad cuya rima no está fija y nadie pregunta',
+		criterio:
+			'Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema concreto. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.',
+		detectar(model) {
+			const conPregunta = new Set(
+				model.grupos
+					.filter((grupo) => grupo.dimension === 'rima' && grupo.activo !== false)
+					.map((grupo) => grupo.arquitectura_id)
+			);
+			// Una pregunta de combinación elige la pareja de esquema métrico y de rima a la vez:
+			// resuelve la disposición aunque no se llame pregunta de rima. Es el sexteto-lira, y
+			// que su nivel deba conservarse es cuestión abierta del IP, no un defecto.
+			const conVariedad = new Set(
+				model.grupos
+					.filter((grupo) => grupo.dimension === 'combinacion' && grupo.activo !== false)
+					.map((grupo) => grupo.arquitectura_id)
+			);
+			const reutilizadoras = new Set(
+				model.secciones
+					.filter((seccion) => seccion.arquitectura_referenciada_id)
+					.map((seccion) => seccion.arquitectura_id)
+			);
+
+			const faltan = [];
+			for (const configuracion of model.configuraciones) {
+				const forma = model.formaPorId.get(configuracion.forma_id);
+				if (!forma || forma.activo === false) continue;
+				if (forma.nivel_estructural === 'serie') continue;
+				if (conPregunta.has(configuracion.arquitectura_id)) continue;
+				if (conVariedad.has(configuracion.arquitectura_id)) continue;
+				if (reutilizadoras.has(configuracion.arquitectura_id)) continue;
+
+				const concretos = listOf(model.patronesRimaPorConfiguracion, configuracion.arquitectura_id)
+					.filter((patron) => patron.tipo_secuencia !== 'abierta');
+				if (concretos.length === 1) continue;
+
+				faltan.push({
+					sujeto: etiqueta(model, configuracion.arquitectura_id),
+					detalle:
+						concretos.length === 0
+							? 'no declara ninguna disposición ni pregunta cuál se observa'
+							: `declara ${concretos.length} disposiciones y no pregunta cuál se observa`
+				});
+			}
+			return faltan;
+		}
 	}
 ];
 
