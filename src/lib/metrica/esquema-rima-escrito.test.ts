@@ -157,3 +157,26 @@ describe('el esquema de rima que el editor escribe', () => {
 		});
 	});
 });
+
+describe('cuando el régimen no se sabe', () => {
+	/**
+	 * Regla 3 bis, por el otro lado. La octava aguda tiene `---a---a` consonante y `---a---a`
+	 * asonante. Si nadie ha dicho en cuál de los dos rima el pasaje, elegir una sería guardar la
+	 * que no es la mitad de las veces.
+	 */
+	it('no elige entre dos disposiciones que solo se separan por el régimen', () => {
+		const lectura = leerEsquemaEscrito('---a---a', { versos: 8, catalogados: catalogo });
+		expect(lectura).toMatchObject({ estado: 'ok', esquemaCatalogadoId: null });
+		expect(lectura).toHaveProperty(
+			'avisos',
+			expect.arrayContaining([expect.stringContaining('Elígela en la lista')])
+		);
+	});
+
+	it('sí elige cuando la notación es de una sola', () => {
+		expect(leerEsquemaEscrito('abba', { versos: 4, catalogados: catalogo })).toMatchObject({
+			esquemaCatalogadoId: 'redondilla-abba',
+			avisos: []
+		});
+	});
+});

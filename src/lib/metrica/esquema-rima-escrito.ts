@@ -215,13 +215,24 @@ export function leerEsquemaEscrito(
 	const regimen = opciones.regimen ?? null;
 
 	// Notación **y** régimen: la octava aguda tiene dos esquemas con la misma notación.
-	const casado =
-		(opciones.catalogados ?? []).find((candidato) => {
-			if (!candidato.notacion || esCiclo(candidato.notacion)) return false;
-			if (canonizar(limpiar(candidato.notacion)) !== canonica) return false;
-			if (candidato.regimen && regimen && candidato.regimen !== regimen) return false;
-			return true;
-		}) ?? null;
+	const mismaNotacion = (opciones.catalogados ?? []).filter((candidato) => {
+		if (!candidato.notacion || esCiclo(candidato.notacion)) return false;
+		return canonizar(limpiar(candidato.notacion)) === canonica;
+	});
+	const candidatos = regimen
+		? mismaNotacion.filter((candidato) => !candidato.regimen || candidato.regimen === regimen)
+		: mismaNotacion;
+
+	const avisos = comprobarRestricciones(opciones.restricciones ?? [], medida);
+
+	// Dos disposiciones catalogadas con la misma notación solo se separan por el régimen. Sin
+	// saberlo, **no se elige ninguna**: adivinar guardaría la mitad de las veces la que no es, y
+	// el editor tiene la lista delante para decirlo él.
+	if (candidatos.length > 1) {
+		avisos.push(
+			'El catálogo tiene más de una disposición con esta notación, y se distinguen por el régimen de rima. Elígela en la lista.'
+		);
+	}
 
 	return {
 		estado: 'ok',
@@ -229,7 +240,7 @@ export function leerEsquemaEscrito(
 		posiciones: limpio.length,
 		clases: medida.clases,
 		sueltos: medida.sueltos,
-		esquemaCatalogadoId: casado?.esquemaRimaId ?? null,
-		avisos: comprobarRestricciones(opciones.restricciones ?? [], medida)
+		esquemaCatalogadoId: candidatos.length === 1 ? candidatos[0].esquemaRimaId : null,
+		avisos
 	};
 }

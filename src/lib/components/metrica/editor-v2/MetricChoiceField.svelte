@@ -10,6 +10,11 @@
 		haveAlternativesByPosition,
 		isPartialPositionalSelection
 	} from './positional-options';
+	import {
+		leerEsquemaEscrito,
+		type EsquemaCatalogado,
+		type RestriccionRima
+	} from '$lib/metrica/esquema-rima-escrito';
 
 	const props = $props<{
 		group: MetricCatalogDomainRow;
@@ -48,6 +53,17 @@
 		compactNote?: string;
 		changeLabel?: string;
 		hideCompactAction?: boolean;
+		/**
+		 * Lo que hace falta para leer un esquema escrito a mano: cuánto mide la unidad, en qué
+		 * régimen rima y qué disposiciones tiene ya el catálogo. Sin esto el campo abierto acepta
+		 * cualquier cosa, que es lo que hacía hasta el 25 de agosto de 2026.
+		 */
+		normaEsquema?: {
+			versos?: number | null;
+			regimen?: string | null;
+			catalogados?: EsquemaCatalogado[];
+			restricciones?: RestriccionRima[];
+		};
 	}>();
 
 	const celda = $derived(props.variant === 'celda');
@@ -85,12 +101,59 @@
 			? Math.min(maximum, Math.max(1, props.positionLimit))
 			: maximum
 	);
+	/** Los dos controles que dejan escribir un esquema. El híbrido además ofrece la lista. */
+	const admiteEsquemaEscrito = $derived(
+		props.group.tipo_control === 'esquema_rima' ||
+			props.group.tipo_control === 'opciones_y_esquema'
+	);
+	/** El abierto puro: solo se escribe, no hay nada que elegir. */
 	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
+
+	/**
+	 * Lo escrito, leído contra la norma.
+	 *
+	 * Cuando resulta ser una de las disposiciones catalogadas, **se guarda como esa**: eso es lo que
+	 * mantiene comparable el dato entre quien la eligió de la lista y quien la escribió. Ver la
+	 * regla 3 de criterios de nivel § 3.3.
+	 */
+	const lecturaEscrita = $derived(
+		leerEsquemaEscrito(props.textValue ?? '', {
+			versos: props.normaEsquema?.versos ?? null,
+			regimen: props.normaEsquema?.regimen ?? null,
+			catalogados: props.normaEsquema?.catalogados ?? [],
+			restricciones: props.normaEsquema?.restricciones ?? []
+		})
+	);
+	const errorEscrito = $derived(
+		lecturaEscrita.estado === 'error' ? lecturaEscrita.mensaje : null
+	);
+	const avisosEscritos = $derived(
+		lecturaEscrita.estado === 'ok' ? lecturaEscrita.avisos : []
+	);
+
+	/**
+	 * Escribir una disposición que el catálogo ya tiene **elige esa opción** y vacía el campo: la
+	 * respuesta es la misma, y guardarla como texto la sacaría de las cuentas.
+	 */
+	function escribirEsquema(valor: string) {
+		props.onTextChange?.(valor);
+		const lectura = leerEsquemaEscrito(valor, {
+			versos: props.normaEsquema?.versos ?? null,
+			regimen: props.normaEsquema?.regimen ?? null,
+			catalogados: props.normaEsquema?.catalogados ?? []
+		});
+		if (lectura.estado === 'ok' && lectura.esquemaCatalogadoId) {
+			props.onChange([lectura.esquemaCatalogadoId]);
+			props.onTextChange?.('');
+			return;
+		}
+		if (valor.trim() && props.selectedIds.length > 0) props.onChange([]);
+	}
 
 	/** Un rasgo con un solo valor no es una elección entre alternativas: está o no está. */
 	const control = $derived(controlDePregunta(visibleOptions.length, minimum));
 	const showAsCheckbox = $derived(
-		!isRhymeScheme && !positional && maximum === 1 && optional && control === 'casilla'
+		!admiteEsquemaEscrito && !positional && maximum === 1 && optional && control === 'casilla'
 	);
 	const showAsList = $derived(
 		!celda &&
@@ -177,7 +240,9 @@
 		positionalAlternatives || positional || (!isRhymeScheme && maximum !== 1)
 	);
 	const answered = $derived(
-		isRhymeScheme
+		admiteEsquemaEscrito && Boolean((props.textValue ?? '').trim())
+			? true
+			: isRhymeScheme
 			? Boolean((props.textValue ?? '').trim())
 			: positionalAlternatives
 				? partialPositionalSelection
@@ -260,15 +325,7 @@
 			</div>
 		</div>
 	{:else if isRhymeScheme}
-		<input
-			type="text"
-			class="h-10 w-full border border-[color:var(--border)] bg-white px-3 font-mono text-sm tracking-wide"
-			value={props.textValue ?? ''}
-			placeholder="aBaBcC"
-			autocomplete="off"
-			spellcheck="false"
-			oninput={(event) => props.onTextChange?.(event.currentTarget.value)}
-		/>
+		{@render campoEsquemaEscrito('aBaBcC')}
 	{:else if showAsCheckbox}
 		{@const unica = visibleOptions[0]}
 		<label class="flex items-start gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
@@ -418,6 +475,21 @@
 		</div>
 	{/if}
 
+	<!--
+		La salida abierta del control híbrido. Va **debajo** de la lista y no en lugar de ella:
+		la norma acota un repertorio, y escribir es para lo que el repertorio no cubre. Si lo
+		escrito resulta ser una de las catalogadas, se marca esa y el campo se vacía solo.
+	-->
+	{#if props.group.tipo_control === 'opciones_y_esquema' && !collapsed}
+		<div class="mt-2 border-t border-[color:var(--border)] pt-2">
+			<p class="form-help mb-1">
+				¿Rima de otra manera? Escribe la disposición que has leído, una letra por verso y un
+				guion para el verso suelto.
+			</p>
+			{@render campoEsquemaEscrito('abcabc')}
+		</div>
+	{/if}
+
 	{#if props.showDescription && !collapsed && descripcionElegida}
 		<p class="form-help">{@html renderInlineMarkdown(descripcionElegida)}</p>
 	{/if}
@@ -443,3 +515,29 @@
 		{/if}
 	</div>
 </fieldset>
+
+{#snippet campoEsquemaEscrito(ejemplo: string)}
+	<input
+		type="text"
+		class={`h-10 w-full border bg-white px-3 font-mono text-sm tracking-wide ${
+			errorEscrito ? 'border-[color:var(--destructive)]' : 'border-[color:var(--border)]'
+		}`}
+		value={props.textValue ?? ''}
+		placeholder={ejemplo}
+		autocomplete="off"
+		spellcheck="false"
+		aria-invalid={errorEscrito ? 'true' : undefined}
+		oninput={(event) => escribirEsquema(event.currentTarget.value)}
+	/>
+	{#if errorEscrito}
+		<p class="mt-1 text-xs text-[color:var(--destructive)]">{errorEscrito}</p>
+	{/if}
+	<!--
+		Lo que rompe una restricción declarada se avisa y no se bloquea: un pasaje real puede
+		apartarse de su norma, y para eso está el registro de desviaciones.
+	-->
+	{#each avisosEscritos as aviso}
+		<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{aviso} Si es lo que dice el
+			texto, regístralo como desviación.</p>
+	{/each}
+{/snippet}
