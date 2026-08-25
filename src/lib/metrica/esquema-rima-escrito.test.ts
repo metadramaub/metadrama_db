@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
 	leerEsquemaEscrito,
+	componerEsquemaEscrito,
 	medirDisposicion,
+	separarRegimen,
 	type EsquemaCatalogado
 } from './esquema-rima-escrito';
 
@@ -230,5 +232,53 @@ describe('la medida de una disposición', () => {
 			sueltos: 1,
 			clases: 1
 		});
+	});
+});
+
+describe('la notación y su régimen viajan juntas', () => {
+	/**
+	 * Regla 3 bis. Donde el régimen varía dentro de la arquitectura, un esquema escrito no está
+	 * completo sin él, y la respuesta viaja en un solo campo de texto.
+	 */
+	it('separa lo escrito de su régimen', () => {
+		expect(separarRegimen('abcabc · asonante')).toEqual({
+			notacion: 'abcabc',
+			regimen: 'asonante'
+		});
+		expect(separarRegimen('abcabc')).toEqual({ notacion: 'abcabc', regimen: null });
+		expect(separarRegimen('  abba  ·  consonante ')).toEqual({
+			notacion: 'abba',
+			regimen: 'consonante'
+		});
+	});
+
+	it('compone solo cuando hay régimen que añadir', () => {
+		expect(componerEsquemaEscrito('abba', 'consonante')).toBe('abba · consonante');
+		// Donde el régimen no varía no se guarda: la ficha ya lo dice.
+		expect(componerEsquemaEscrito('abba', null)).toBe('abba');
+		expect(componerEsquemaEscrito('  ', 'consonante')).toBe('');
+	});
+
+	it('lee la forma guardada y casa con el esquema que le corresponde', () => {
+		expect(
+			leerEsquemaEscrito('---a---a · asonante', { versos: 8, catalogados: catalogo })
+		).toMatchObject({ esquemaCatalogadoId: 'aguda-asonante', regimen: 'asonante' });
+		expect(
+			leerEsquemaEscrito('---a---a · consonante', { versos: 8, catalogados: catalogo })
+		).toMatchObject({ esquemaCatalogadoId: 'aguda-consonante', regimen: 'consonante' });
+	});
+
+	it('lo escrito manda sobre el régimen que llegue por otro lado', () => {
+		expect(
+			leerEsquemaEscrito('---a---a · asonante', {
+				versos: 8,
+				regimen: 'consonante',
+				catalogados: catalogo
+			})
+		).toMatchObject({ esquemaCatalogadoId: 'aguda-asonante' });
+	});
+
+	it('rechaza un régimen sin disposición delante', () => {
+		expect(leerEsquemaEscrito(' · asonante', { versos: 8 })).toMatchObject({ estado: 'error' });
 	});
 });

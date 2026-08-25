@@ -11,7 +11,9 @@
 		isPartialPositionalSelection
 	} from './positional-options';
 	import {
+		componerEsquemaEscrito,
 		leerEsquemaEscrito,
+		separarRegimen,
 		type EsquemaCatalogado,
 		type RestriccionRima
 	} from '$lib/metrica/esquema-rima-escrito';
@@ -63,6 +65,11 @@
 			regimen?: string | null;
 			catalogados?: EsquemaCatalogado[];
 			restricciones?: RestriccionRima[];
+			/**
+			 * Los regímenes entre los que hay que elegir, **solo cuando varían dentro de la
+			 * arquitectura**. Donde la arquitectura declara uno solo se hereda y no se pregunta.
+			 */
+			regimenes?: { slug: string; etiqueta: string }[];
 		};
 	}>();
 
@@ -116,6 +123,15 @@
 	 * mantiene comparable el dato entre quien la eligió de la lista y quien la escribió. Ver la
 	 * regla 3 de criterios de nivel § 3.3.
 	 */
+	/**
+	 * La notación y el régimen se guardan juntos en un solo campo —`abcabc · asonante`— y en
+	 * pantalla son dos controles. Aquí se separan para pintarlos y se recomponen al escribir.
+	 */
+	const escrito = $derived(separarRegimen(props.textValue ?? ''));
+	const regimenesPosibles = $derived(props.normaEsquema?.regimenes ?? []);
+	/** Se pregunta solo si de verdad hay entre qué elegir. */
+	const preguntaElRegimen = $derived(admiteEsquemaEscrito && regimenesPosibles.length > 1);
+
 	const lecturaEscrita = $derived(
 		leerEsquemaEscrito(props.textValue ?? '', {
 			versos: props.normaEsquema?.versos ?? null,
@@ -135,6 +151,17 @@
 	 * Escribir una disposición que el catálogo ya tiene **elige esa opción** y vacía el campo: la
 	 * respuesta es la misma, y guardarla como texto la sacaría de las cuentas.
 	 */
+	/** Cambiar el régimen no borra la notación escrita, ni al revés. */
+	function escribirRegimen(regimen: string) {
+		escribirEsquema(componerEsquemaEscrito(escrito.notacion, regimen || null));
+	}
+
+	function escribirNotacion(notacion: string) {
+		escribirEsquema(
+			componerEsquemaEscrito(notacion, preguntaElRegimen ? escrito.regimen : null)
+		);
+	}
+
 	function escribirEsquema(valor: string) {
 		props.onTextChange?.(valor);
 		const lectura = leerEsquemaEscrito(valor, {
@@ -517,18 +544,39 @@
 </fieldset>
 
 {#snippet campoEsquemaEscrito(ejemplo: string)}
-	<input
-		type="text"
-		class={`h-10 w-full border bg-white px-3 font-mono text-sm tracking-wide ${
-			errorEscrito ? 'border-[color:var(--destructive)]' : 'border-[color:var(--border)]'
-		}`}
-		value={props.textValue ?? ''}
-		placeholder={ejemplo}
-		autocomplete="off"
-		spellcheck="false"
-		aria-invalid={errorEscrito ? 'true' : undefined}
-		oninput={(event) => escribirEsquema(event.currentTarget.value)}
-	/>
+	<div class={preguntaElRegimen ? 'flex gap-2' : ''}>
+		<input
+			type="text"
+			class={`h-10 w-full border bg-white px-3 font-mono text-sm tracking-wide ${
+				errorEscrito ? 'border-[color:var(--destructive)]' : 'border-[color:var(--border)]'
+			}`}
+			value={escrito.notacion}
+			placeholder={ejemplo}
+			autocomplete="off"
+			spellcheck="false"
+			aria-invalid={errorEscrito ? 'true' : undefined}
+			oninput={(event) => escribirNotacion(event.currentTarget.value)}
+		/>
+		<!--
+			El régimen solo se pregunta donde varía dentro de la arquitectura. La octava aguda tiene
+			`---a---a` consonante y `---a---a` asonante: sin esto, lo escrito no identifica cuál de
+			las dos se ha leído. Donde la arquitectura declara un régimen único se hereda y no hay
+			nada que preguntar.
+		-->
+		{#if preguntaElRegimen}
+			<select
+				class="h-10 shrink-0 border border-[color:var(--border)] bg-white px-2 text-sm"
+				value={escrito.regimen ?? ''}
+				aria-label="Régimen de rima"
+				onchange={(event) => escribirRegimen(event.currentTarget.value)}
+			>
+				<option value="">¿Cómo rima?</option>
+				{#each regimenesPosibles as regimen (regimen.slug)}
+					<option value={regimen.slug}>{regimen.etiqueta}</option>
+				{/each}
+			</select>
+		{/if}
+	</div>
 	{#if errorEscrito}
 		<p class="mt-1 text-xs text-[color:var(--destructive)]">{errorEscrito}</p>
 	{/if}

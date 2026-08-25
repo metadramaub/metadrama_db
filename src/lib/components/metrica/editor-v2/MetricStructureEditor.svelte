@@ -77,6 +77,11 @@
 		globalQuestions?: Snippet;
 		/** Cómo se llama la unidad que define la forma: su nombre, no «Unidad». */
 		unitLabel?: string;
+		/**
+		 * Los regímenes de rima entre los que elegir al escribir un esquema, y solo cuando la
+		 * arquitectura no declara uno único. Los calcula el contenedor, que ve el catálogo entero.
+		 */
+		rhymeRegimes?: { slug: string; etiqueta: string }[];
 	}>();
 
 	/** Por qué el número de versos no se puede tocar cuando la forma lo fija. */
@@ -617,7 +622,8 @@
 		return {
 			versos: unit.v_fin - unit.v_ini + 1,
 			regimen: null,
-			catalogados
+			catalogados,
+			regimenes: props.rhymeRegimes ?? []
 		};
 	}
 

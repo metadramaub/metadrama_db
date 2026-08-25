@@ -209,6 +209,40 @@
 			seRespondeDentroDeLaUnidad(row.alcance)
 		)
 	);
+	/**
+	 * Los regímenes de rima entre los que hay que elegir al escribir un esquema.
+	 *
+	 * **Solo cuando varían dentro de la arquitectura.** El § 3.3 dice que el régimen se declara
+	 * arriba cuando es uno —el soneto es consonante y se acabó— y abajo, en cada disposición, cuando
+	 * varía. Donde está arriba se hereda y no se pregunta; donde varía, un esquema escrito no está
+	 * completo sin él, porque la octava aguda tiene `---a---a` consonante y `---a---a` asonante y la
+	 * notación sola no dice cuál se ha leído.
+	 *
+	 * Se devuelve vacío también cuando abajo hay uno solo: no hay entre qué elegir.
+	 */
+	const rhymeRegimes = $derived.by(() => {
+		const arquitectura = props.catalog.domain.configurations?.find(
+			(row: MetricCatalogDomainRow) =>
+				String(row.arquitectura_id) === String(draft.arquitectura_id)
+		);
+		if (!draft.arquitectura_id || arquitectura?.tipo_rima_id) return [];
+		const terminos = new Map<string, string>();
+		for (const esquema of props.catalog.domain.rhymePatterns) {
+			if (String(esquema.arquitectura_id) !== String(draft.arquitectura_id)) continue;
+			if (!esquema.tipo_rima_id) continue;
+			const termino = props.catalog.domain.vocabularies?.find(
+				(row: MetricCatalogDomainRow) =>
+					String(row.termino_id) === String(esquema.tipo_rima_id)
+			);
+			if (!termino) continue;
+			const slug = String(termino.termino ?? '');
+			if (slug) terminos.set(slug, String(termino.etiqueta ?? termino.termino ?? slug));
+		}
+		return terminos.size > 1
+			? [...terminos].map(([slug, etiqueta]) => ({ slug, etiqueta }))
+			: [];
+	});
+
 	const dominantMetreSyllables = $derived.by(() => {
 		if (!draft.arquitectura_id) return null;
 		const patternIds = new Set(
@@ -1136,6 +1170,7 @@
 						<MetricStructureEditor
 							sequenceStart={draft.v_ini}
 							sections={sectionsForDraft}
+							{rhymeRegimes}
 							unitPlan={unitPlanForDraft}
 							groups={unitChoiceGroups}
 							options={choiceOptionsForDraft}
