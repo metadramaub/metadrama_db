@@ -38,11 +38,12 @@ forma a forma produce criterios distintos para el mismo caso.
 | --- | --- | --- |
 | **`organizacion_en_pareados` mezcla dos magnitudes**: Morley y Bruerton cuentan versos *rimados*, pero la silva libre declara `ninguna` y sí rima —lo que no tiene es *pareados*—. Y al cuantificar, `habituales` y `predominantes` caerían en el mismo intervalo | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | **abierto**; el IP decidió el 9 de agosto no cuantificar hasta separar las dos magnitudes |
 | **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres | [Sexteto-lira](#sexteto-lira) 1 | **abierto**: decidir si el nivel se conserva |
-| **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | **abierto**. *El de las medidas se cerró el 22 de agosto de 2026: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
+| **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | **abierto, y menos urgente desde el 25 de agosto de 2026**: con la salida abierta, un repertorio incompleto ya no pierde el dato —el editor declara lo que ve y el catálogo lo reconoce si ya lo tenía—. *El de las medidas se cerró el 22 de agosto: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
 | **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **C1** |
-| Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 3 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto** |
+| Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 3 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
+| **Cuántos versos admite quebrados cada forma.** Diez arquitecturas declaran el pie quebrado como licencia y **solo la copla real tiene techo** —dos, que enuncia el *Diccionario*—. En las otras nueve ninguna fuente da número: sus notas dicen *dónde* se documenta el quiebro, no cuántos admite la forma, y derivar un máximo de un ejemplo convertiría la muestra en ley | abajo | **abierto** desde el 25 de agosto de 2026 · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
 
 ### Los finales esdrújulos y agudos
 
@@ -50,19 +51,26 @@ El rasgo `final_acentual` marca la terminación sostenida en los finales de vers
 aguda—, y **se declara sin un criterio que una a las arquitecturas que lo llevan**. Contrastado el
 dato, hay un desajuste que se ve a simple vista:
 
+Contrastado de nuevo el 25 de agosto de 2026, al cerrar B2. **Seis arquitecturas declaran
+`esdrujulo` y las seis lo preguntan ya**; el desajuste que quedaba era el del endecasílabo suelto,
+que lo declaraba y no lo preguntaba, y se cerró ese día.
+
 | Declara `esdrujulo` el catálogo | Tiene subtipo en el vocabulario legado |
 | --- | --- |
 | canción petrarquista · sin rima con pareado final | ✔ `cancion_sin_rima_de_esdrujulos` |
 | octava real | ✔ `octava_real_de_esdrujulos` |
 | sexteto-lira | ✔ `sexteto_lira_de_esdrujulos` |
 | terceto | ✔ `terceto_de_esdrujulos` |
+| endecasílabo suelto | ✔ `endecasilabo_suelto_de_esdrujulos` |
 | **soneto** | **—** |
-| **—** | **`endecasilabo_suelto_de_esdrujulos`** |
 
-El soneto lo declara sin término legado que lo respalde, y el endecasílabo suelto tiene el término y
-no lo declara. Y desde el 21 de agosto de 2026 el valor `agudo` lo llevan además la octava aguda
-—donde es definitorio— y el septeto, mientras Jauralde dice que «la modalidad aguda se extendió a
-otras muchas variedades estróficas, **como la sextilla y la décima**».
+**Lo que queda del desajuste es una sola fila**: el soneto lo declara sin término legado que lo
+respalde. Las otras cinco se corresponden una a una con el vocabulario, y ninguno de los seis
+términos de esdrújulos se queda ya sin destino.
+
+Y el valor `agudo` lo llevan la octava aguda —donde es definitorio y no se pregunta, porque su
+propio esquema dice dónde cae—, el septeto y el sexteto alejandrino, mientras Jauralde dice que «la
+modalidad aguda se extendió a otras muchas variedades estróficas, **como la sextilla y la décima**».
 
 *La pregunta es si esto se declara **en todas o casi todas las formas** —porque cualquier estrofa
 puede rimar en esdrújulos o en agudos, y entonces lo que el rasgo aporta es poder anotarlo cuando

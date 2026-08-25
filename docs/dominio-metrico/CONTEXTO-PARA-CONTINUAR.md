@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 22 de agosto de 2026
+Actualizado: 25 de agosto de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
@@ -318,7 +318,7 @@ código.
 
 Inventario rehecho el **21 de agosto de 2026**, al terminar la revisión de la prosa. Lo cerrado ya
 no se lista: está en las migraciones, en `git` y en el
-[histórico](./historico/). Quedan **veinticuatro asuntos**, ordenados por lo que bloquea el
+[histórico](./historico/). Quedan **veintiún asuntos**, ordenados por lo que bloquea el
 próximo hito y no por el orden en que aparecieron.
 
 **Los dos hitos que vienen, en este orden:**
@@ -340,7 +340,14 @@ pasan. Lo que sigue son deudas del modelo y huecos de cobertura.
 cobertura —A2, A2bis, A2ter y A3—, que dejaron **once formas nuevas**, doce medidas y tres
 criterios escritos: una arquitectura no cambia la extensión de la unidad de su forma, un rasgo
 admitido no cambia lo que la forma declara, y la medida no compromete la norma mientras que lo que
-la fija se acota. **Quedan dos asuntos en A, cinco en B y dieciséis en C.***
+la fija se acota.*
+
+*Puesto al día otra vez el **25 de agosto de 2026**, al cerrar el bloque B casi entero: **B1, B2, B3
+y B4**. B1 y B2 eran el mismo problema en dos dimensiones y dejaron **cinco reglas y dos corolarios**
+escritos en criterios de nivel §§ 3.3 y 3.6, un tercer `tipo_control`, un normalizador de esquemas
+escritos, la herencia por reutilización compartida con la ficha, y un defecto nuevo en cada auditor.
+B3 se comprobó en pantalla y no estaba roto. B4 sí lo estaba, en dos superficies. **Quedan dos
+asuntos en A, tres en B —B5, B6 y B7, los tres menores— y dieciséis en C.***
 
 ### A · Bloquean la migración de las secuencias
 
@@ -551,38 +558,80 @@ tercer rasgo formal que rompa el empate.
 Son los casos en que un editor **no puede registrar lo que ve**, o en que la pantalla se apoya en
 algo que ya no es cierto.
 
-**B1. Qué pregunta el editor cuando la disposición de rima no es fija — y cómo declarar una que el
-catálogo no tenga.** Salió al revisar la sextilla el 20 de agosto de 2026 y no es un caso suelto:
-el sexteto da al editor un grupo `esquema_rima_observado` en sus tres arquitecturas, y la sextilla
-—el mismo caso, seis versos consonantes de disposición abierta— **no tiene ninguno** en cuatro de
-sus cinco, la principal incluida; solo la doble de pie quebrado pregunta, y con una casilla. Donde
-la norma deja abierta la disposición, el editor no puede registrar la que vio. Hay dos salidas y no
-son equivalentes: **campo libre**, como el sexteto, o **lista cerrada** con las disposiciones
-documentadas más «otra». La revisión debe recorrer el catálogo entero y decidir una sola vez,
-porque hoy conviven las dos sin criterio.
+**B1 y B2. ~~Qué pregunta el editor cuando la norma no fija la disposición de rima, y qué se
+pregunta y qué no en los rasgos.~~ Hechos el 25 de agosto de 2026**, en dieciséis migraciones
+—`20260825100000` a `20260825320000`— y el código que va con ellas. Eran el mismo problema en dos
+dimensiones, y al mirarlos juntos resultó que **no eran tres criterios sin decidir sino uno mal
+repartido**.
 
-*Y con una tercera exigencia, decidida el 20 de agosto al revisar la octava real:* donde la norma
-deja la disposición **abierta o acotada**, el editor tiene que poder **declarar un esquema que el
-catálogo no tenga**. La octava real acota tres clases de rima y deja variar el orden de los seis
-primeros versos; si un pasaje trae una de esas variantes, hoy no hay dónde escribirla. No es lo
-mismo que elegir entre las catalogadas: es poder añadir la que se observa.
+**El mapa, contrastado arquitectura por arquitectura.** De las noventa y una: treinta y ocho tenían
+la disposición fija y no se tocan; cuatro son series sin unidad, cuya rima se describe por rasgos y
+tampoco se tocan; cuatro estaban bien resueltas con campo libre; veintidós preguntaban con lista
+cerrada, sin poder declarar otra; y **veintitrés no dejaban registrar lo que un editor tiene
+delante** —once con repertorio catalogado y ninguna pregunta, doce con patrón abierto sin
+sustituto—.
 
-**B2. Qué se pregunta y qué no en los rasgos.** Va con B1: es la misma pregunta sobre otra
-dimensión. Hoy conviven cuatro repartos sin criterio —el dístico final de la octava real no se
-pregunta y el del endecasílabo suelto sí; el pie quebrado se pregunta en la copla real y no en la
-redondilla; el final acentual se pregunta en cinco arquitecturas y no en la alejandrina del
-sexteto—. Cada caso se decidió por separado y con razón local, pero nadie los ha mirado juntos. El
-servidor distingue `permitidos` —rasgos sin pregunta—, `opcionales` —con pregunta que admite no
-contestar— y `excluyentes` —varios valores y una sola respuesta—; **la distinción es del editor, no
-del lector**, y por eso la ficha pública funde los dos primeros en un bloque desde el 20 de agosto.
+**El criterio quedó escrito** en [criterios de nivel](./criterios-de-nivel.md): las reglas 1 a 3 bis
+en el § 3.3 y las 4 a 5 bis en el § 3.6. Lo que las ordena no es cuánto acota la norma sino **si hay
+unidad**: la disposición se pregunta si y solo si la hay, con un solo aparato de tres grados, y la
+respuesta admite siempre un esquema que el catálogo no tenga.
 
-**B3. El formulario del villancico, después del desdoblamiento.** El 21 de agosto de 2026 la
-sección «Enlace o vuelta» se partió en dos partes planas dentro de la copla, «Enlace» y «Vuelta»,
-con su grupo de medida cada una: `medida_enlace_vuelta` pasó a `medida_enlace` y nació
-`medida_vuelta`. **Casi seguro que algo falla en la pantalla**: cambia el árbol de partes, el
-número de preguntas y los slugs de dos grupos, y el formulario no se ha vuelto a abrir. Se
-comprobó que ninguna elección anotada dependía de esas secciones —cero filas en
-`elecciones_editor_metrico`—, así que no hay trabajo de editor en riesgo.
+*Lo que hizo falta debajo, y no estaba:*
+
+- **Un tercer `tipo_control`**, `opciones_y_esquema`: la lista de las catalogadas más la salida para
+  escribir la que se observe. Se prefirió a un booleano aparte porque `tipo_control` ya es el único
+  interruptor por el que ramifican el campo y el rótulo de la vista.
+- **Un normalizador** —`esquema-rima-escrito.ts`—, que valida contra la extensión de la unidad,
+  renombra las clases en orden de primera aparición y **casa lo escrito con el catálogo por notación
+  y régimen**, para que se guarde como el esquema que ya existe. Sin eso, `ABBACC` escrito y `abbacc`
+  elegido eran dos observaciones distintas del mismo hecho.
+- **La herencia por reutilización** —`reutilizacion.ts`—, con el predicado que **la ficha pública ya
+  usaba** y que ahora vive una sola vez. Presta en nueve secciones de treinta y cuatro y acierta en
+  las nueve: no presta a la copla castellana, cuya unidad declara los ocho versos, ni a la copla
+  real, cuyas partes ya tienen su pregunta; presta a las dos oncenas, al septeto compuesto y a la
+  estrofa de las tres sextinas.
+
+**Lo que cambió del catálogo, y es poco.** Veinticinco preguntas de rima pasaron a híbridas;
+veintidós nacieron. De los datos que afirman algo de las formas solo se movió el pie quebrado: nueve
+esquemas métricos ganaron su repertorio —octosílabo dominante, tetrasílabo y pentasílabo quebrados—
+y cuatro notas que afirmaban solo el tetrasílabo se separaron en dos cosas, lo documentado y lo
+admitido. Formas, arquitecturas, esquemas de rima, posiciones y secciones **no se tocaron**.
+
+*Tres cosas que se aprendieron y conviene no volver a descubrir.* **`opciones_eleccion_metrica` no
+es una tabla sino una vista** sobre `opciones_eleccion_derivadas()`, que filtraba por
+`tipo_control = 'opciones'` en seis ramas: el primer intento del reparto dejó las veinticinco
+preguntas sin lista y se paró en su propia guarda. **Las opciones no se crean, se derivan**, y la
+derivación ya trae los esquemas de la arquitectura que una sección reutiliza, que es como la copla
+real obtiene los ocho de la quintilla sin copiarlos. Y **`medida_uniforme` no dice si la estrofa es
+isosilábica** sino si, en un esquema con repertorio, la medida elegida vale para todo el pasaje: sin
+ponerlo a `false`, la pregunta del quiebro no derivaba ni una opción.
+
+**El auditor lo sostiene.** El métrico gana **D17** —una unidad cuya rima no está fija y nadie
+pregunta, que se cumple de cuatro maneras y basta una—, y el del editor corrige **E1** y **E3**, que
+eran anteriores al control híbrido y daban cuatro falsos positivos.
+
+*Queda una mitad de la regla 3 bis:* **preguntar el régimen junto a la notación** donde varía dentro
+de la arquitectura —trece arquitecturas: octava aguda ×6, terceto octosilábico y hexasilábico,
+pareado, villancico ×2, endecha real y canción sin rima—. Mientras no exista, el campo abierto no lo
+supone: ante dos disposiciones de la misma notación no elige ninguna y pide que se marque en la
+lista. ⇒ **B6**
+
+**B3. ~~El formulario del villancico, después del desdoblamiento.~~ Comprobado el 25 de agosto de
+2026: no está roto.** Se abrió una secuencia de villancico en el editor V2 y se recorrió el
+formulario entero. **Enlace y Vuelta salen como dos partes opcionales distintas** dentro de la copla,
+cada una con su «+ Añadir», su número de versos y su pregunta de medida; los rangos se recalculan al
+añadirlas; la mudanza ofrece sus tres disposiciones y la represa su modalidad. Sin errores de
+consola y sin guardar nada.
+
+*Sí quedó un descuido del desdoblamiento, y no rompe la pantalla:* la sección `vuelta` se insertó
+**sin `esquema_metrico_id`**, mientras sus cuatro hermanas —cabeza, mudanza, enlace y represa—
+apuntan a `conjunto-6-8`. Ocurre en las dos arquitecturas del villancico. Que es descuido y no
+decisión lo prueba el zéjel: su vuelta, que no se tocó ese día, **sí** lo declara. No afecta al
+formulario, porque la medida la pregunta su propio grupo; sí deja a la vuelta sin medida en todo lo
+que lee la sección —la rejilla, el recuadro de la norma y la ficha pública—. ⇒ **B7**
+
+**B7. La vuelta del villancico no declara su esquema métrico.** Una línea, cuando se toque el
+villancico. Ver B3.
 
 **B4. ~~El cierre del terceto encadenado dejó de ser obligatorio y dos superficies lo dan por
 hecho.~~ Hecho el 25 de agosto de 2026** (`20260825090000` y el código que va con ella). Las dos
@@ -625,6 +674,12 @@ contra la tercera. La migración **recorre la cadena** y restaura verbatim lo qu
 que no es un error —lo dicen su descripción y Morley y Bruerton—, pero `secuencias_editor_metrico`
 lleva **una sola arquitectura por secuencia**, así que solo cabe partir el pasaje o registrarla
 como desviación `estructura` / `mayor_que_norma`, que es anotarla como el error que no es.
+
+**B6. El control abierto no pregunta el régimen de rima.** Es lo que falta de la regla 3 bis del
+§ 3.3. Donde el régimen varía dentro de la arquitectura, un esquema escrito no está completo sin él,
+y hoy el campo solo recoge la notación. No bloquea a nadie —la lista sigue distinguiéndolos, porque
+la etiqueta derivada añade el régimen cuando la arquitectura no declara uno solo—, pero deja fuera
+del reconocimiento automático lo que se escriba a mano en esas trece.
 
 ### C · Deudas del modelo, sin urgencia
 
