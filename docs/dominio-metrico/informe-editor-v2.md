@@ -8,20 +8,20 @@ Generado el 2026-08-25 desde la base enlazada.
 | --- | --- | ---: | ---: | ---: | ---: |
 | Canción petrarquista | estancias_consonantes_variables | 0 | 2 | 2 | 0 |
 | Canción petrarquista | sin_rima_con_pareado_final | 1 | 1 | 1 | 0 |
-| Copla castellana | octosilabica | 0 | 1 | 1 | 0 |
+| Copla castellana | octosilabica | 0 | 2 | 2 | 0 |
 | Copla de arte mayor | dodecasilabica_compuesta | 0 | 1 | 1 | 0 |
-| Copla de arte menor | octosilabica | 0 | 1 | 1 | 0 |
+| Copla de arte menor | octosilabica | 0 | 2 | 2 | 0 |
 | Copla manriqueña | doble_pie_quebrado | 0 | 1 | 1 | 0 |
 | Copla real | octosilabica_consonante | 0 | 3 | 3 | 0 |
 | Cuarteto | endecasilabica | 0 | 1 | 1 | 0 |
 | Cuarteto-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
 | Décima-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
-| Endecasílabo suelto | endecasilabica | 4 | 0 | 0 | 0 |
+| Endecasílabo suelto | endecasilabica | 5 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo | 2 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
 | Endecha real | hexasilabica_con_endecasilabo | 1 | 0 | 0 | 0 |
-| Novena | quintilla_redondilla | 0 | 2 | 2 | 0 |
-| Novena | redondilla_quintilla | 0 | 2 | 2 | 0 |
+| Novena | quintilla_redondilla | 0 | 3 | 3 | 0 |
+| Novena | redondilla_quintilla | 0 | 3 | 3 | 0 |
 | Novena-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
 | Octava aguda | decasilabica | 0 | 1 | 1 | 0 |
 | Octava aguda | endecasilabica | 0 | 1 | 1 | 0 |
@@ -29,16 +29,18 @@ Generado el 2026-08-25 desde la base enlazada.
 | Octava aguda | hexasilabica | 0 | 1 | 1 | 0 |
 | Octava aguda | octosilabica | 0 | 1 | 1 | 0 |
 | Octava aguda | pentasilabica | 0 | 1 | 1 | 0 |
-| Octava real | endecasilabica_consonante | 1 | 1 | 1 | 0 |
+| Octava real | endecasilabica_consonante | 2 | 1 | 1 | 0 |
 | Octava-lira | heterometrica_consonante | 0 | 1 | 1 | 0 |
+| Oncena | quintilla_sextilla | 0 | 1 | 1 | 0 |
+| Oncena | sextilla_quintilla | 0 | 1 | 1 | 0 |
 | Pareado | alirado | 0 | 1 | 1 | 0 |
 | Pareado | cualquier_medida | 0 | 2 | 2 | 0 |
 | Quintilla | heptasilabica | 0 | 1 | 1 | 0 |
 | Quintilla | hexasilabica | 0 | 1 | 1 | 0 |
-| Quintilla | octosilabica_consonante | 0 | 1 | 1 | 0 |
+| Quintilla | octosilabica_consonante | 0 | 2 | 2 | 0 |
 | Redondilla | heptasilabica | 0 | 1 | 1 | 0 |
 | Redondilla | hexasilabica | 0 | 1 | 1 | 0 |
-| Redondilla | octosilabica | 0 | 1 | 1 | 0 |
+| Redondilla | octosilabica | 0 | 2 | 2 | 0 |
 | Romance | endecasilabica | 1 | 0 | 0 | 0 |
 | Romance | heptasilabica | 1 | 0 | 0 | 0 |
 | Romance | hexasilabica | 1 | 0 | 0 | 0 |
@@ -46,9 +48,10 @@ Generado el 2026-08-25 desde la base enlazada.
 | Romance | pentasilabica | 1 | 0 | 0 | 0 |
 | Romance | tetrasilabica | 1 | 0 | 0 | 0 |
 | Seguidilla | gitana | 0 | 1 | 1 | 0 |
-| Septeto | endecasilabica | 0 | 1 | 1 | 0 |
-| Septilla | octosilabica | 0 | 1 | 1 | 0 |
-| Sexteto | alejandrina | 0 | 1 | 1 | 0 |
+| Septeto | compuesta | 1 | 0 | 0 | 0 |
+| Septeto | endecasilabica | 1 | 1 | 1 | 0 |
+| Septilla | octosilabica | 0 | 2 | 2 | 0 |
+| Sexteto | alejandrina | 1 | 1 | 1 | 0 |
 | Sexteto | dodecasilabica | 0 | 1 | 1 | 0 |
 | Sexteto | endecasilabica | 0 | 1 | 1 | 0 |
 | Sexteto-lira | heterometrica_consonante | 1 | 1 | 1 | 0 |
@@ -70,7 +73,7 @@ Generado el 2026-08-25 desde la base enlazada.
 | Villancico | estribillo_tras_primera_copla | 0 | 6 | 6 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**28 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**25 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
 - Canción petrarquista · regular_13_versos
 - Décima · aumentada
@@ -80,8 +83,6 @@ Generado el 2026-08-25 desde la base enlazada.
 - Décima · hexasilabica
 - Décima · pentasilabica
 - Lira · heptasilabica_endecasilabica
-- Oncena · quintilla_sextilla
-- Oncena · sextilla_quintilla
 - Redondilla enlazada · octosilabica_con_quebrado
 - Seguidilla · chamberga
 - Seguidilla · compuesta
@@ -89,7 +90,6 @@ Generado el 2026-08-25 desde la base enlazada.
 - Seguidilla · simple
 - Seguidilla · simple_arromanzada
 - Seguidilla · tres_versos
-- Septeto · compuesta
 - Septeto-lira · heterometrica_consonante
 - Septilla enlazada · octosilabica_con_quebrado
 - Sextilla enlazada · octosilabica_con_quebrado
@@ -109,7 +109,7 @@ Generado el 2026-08-25 desde la base enlazada.
 
 Sin incidencias.
 
-### E1b · Sí/no de una sola opción — 9
+### E1b · Sí/no de una sola opción — 14
 
 > Se cuentan aparte porque en pantalla no deben verse como una lista de una opción sino como una casilla. Son legítimas; lo que no vale es pintarlas como si hubiera algo que elegir.
 
@@ -120,7 +120,12 @@ Sin incidencias.
 | Décima-lira · heterometrica_consonante | disposicion_rima · rima · 1 opciones · alcance unidad |
 | Endecasílabo suelto · endecasilabica | distico_final · rasgo · 1 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | encadenamiento_interior · rasgo · 1 opciones · alcance secuencia |
+| Endecasílabo suelto · endecasilabica | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Octava real · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
+| Octava real · endecasilabica_consonante | distico_final · rasgo · 1 opciones · alcance secuencia |
+| Septeto · compuesta | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
+| Septeto · endecasilabica | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
+| Sexteto · alejandrina | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Sexteto-lira · heterometrica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Soneto · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Terceto · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
