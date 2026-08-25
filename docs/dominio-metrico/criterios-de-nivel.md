@@ -1,6 +1,6 @@
 # Criterios de nivel del dominio métrico
 
-Estado: vigente · 30 de julio de 2026
+Estado: vigente · 30 de julio de 2026 · última regla añadida el 25 de agosto de 2026
 
 Este documento responde a una sola pregunta: **ante un hecho métrico observado, ¿en qué
 nivel del catálogo debe registrarse?** Presupone la
@@ -163,9 +163,56 @@ con el de la pregunta que lo ofrece. Si la pregunta distingue solo una parte, el
 debe modelar esa parte: los cuatro esquemas de tercetos del soneto pertenecen a la sección
 de los tercetos, no a la composición entera (**D5**).
 
-Cuando la norma no fija la disposición hay **una sola vía admitida**: preguntar el esquema
-observado como respuesta abierta, validada contra la extensión de la unidad. Los esquemas
-vacíos que solo ocupan un hueco en la interfaz no son admisibles (**D2**), y toda
+#### La disposición que la norma no fija
+
+Fijado por el IP el 25 de agosto de 2026, al recorrer las noventa y una arquitecturas del catálogo
+para resolver los pendientes B1 y B2. Hasta entonces convivían tres soluciones sin criterio —control
+abierto, lista cerrada y patrón vacío sin sustituto—, y **veintitrés arquitecturas no dejaban
+registrar lo que un editor tenía delante**.
+
+Lo que ordena el reparto no es cuánto acota la norma, sino esto otro: **la disposición se pregunta
+si y solo si hay unidad**, y la respuesta admite siempre un esquema que el catálogo no tenga.
+
+> **1 · Dónde se pregunta.** La disposición de rima se pregunta si y solo si la arquitectura tiene
+> una **unidad de extensión conocida** —estrofa, composición o sección repetible de una serie— y la
+> norma no la fija a un solo esquema. Una **serie sin unidad no pregunta esquema**: no hay dónde
+> escribirlo, y su rima se describe por rasgos del pasaje, como hacen el endecasílabo suelto y las
+> tres silvas abiertas.
+>
+> **2 · Un solo aparato, con tres grados.** La pregunta es siempre la misma —«¿cómo rima esta
+> unidad?»— y solo cambia cuánto acota la norma:
+>
+> | Lo que fija la norma | Qué ve el editor | `tipo_control` |
+> | --- | --- | --- |
+> | Un solo esquema | nada: lo dice la ficha | — |
+> | Un repertorio | la lista de los catalogados **y «otro, que se escribe»** | `opciones_y_esquema` |
+> | Solo el régimen y la extensión | únicamente se escribe | `esquema_rima` |
+>
+> **3 · Lo escrito se normaliza, y si ya existe se guarda como lo que existe.** La respuesta abierta
+> se valida contra la extensión de la unidad, contra el alfabeto de la notación y con las clases en
+> orden de primera aparición, respetando la caja. **Si coincide con un esquema catalogado se guarda
+> como ese esquema**, no como texto.
+>
+> **3 bis · Un esquema escrito no está completo sin su régimen.** La clave con que se casa lo
+> escrito con lo catalogado es la pareja **notación y régimen**, nunca la notación sola. Donde el
+> régimen varía dentro de la arquitectura, el control abierto lo pide junto a la notación; donde no
+> varía, se hereda de la arquitectura y no se pregunta.
+
+**Por qué la tercera regla no es un detalle de interfaz.** Sin ella cada esquema tecleado es un dato
+huérfano, y la regla de homogeneidad del apartado 4 deja de sostenerse: «número de disposiciones
+distintas por autor» significaría una cosa donde el editor eligió de una lista y otra donde escribió.
+Hasta el 25 de agosto de 2026 el único control abierto del catálogo era un campo de texto de 240
+caracteres **sin ninguna validación**, de modo que `ABBACC` escrito y `abbacc` elegido eran dos
+observaciones distintas de lo mismo.
+
+**Y por qué la tercera bis tampoco.** La octava aguda tiene dos esquemas con la misma notación
+—`---a---a` los dos— que solo se distinguen en consonante frente a asonante; al terceto le pasa
+igual con su `aaa` monorrimo. Casar por notación colapsaría esquemas que la tradición separa.
+
+*Lo que la regla no decide, y sigue siendo del IP: qué repertorios están cerrados. Con la salida
+abierta deja de ser urgente, porque un repertorio incompleto ya no pierde el dato.*
+
+Los esquemas vacíos que solo ocupan un hueco en la interfaz no son admisibles (**D2**), y toda
 arquitectura debe declarar de algún modo cómo se comporta su rima (**D2b**).
 
 **El régimen de rima se declara siempre, en el nivel que le corresponde.** Consonante, asonante o
@@ -302,10 +349,57 @@ norma donde el quiebro es solo una licencia. La regla:
 Vale para cualquier rasgo, no solo para el quiebro: un final esdrújulo admitido no convierte la
 rima en esdrújula, y una densidad admitida no cambia el régimen.
 
-**Una excepción, y no es de norma sino de registro:** la copla real declara además opciones
-métricas con rol y un grupo `posiciones_pie_quebrado`, para que el editor diga en qué versos cayó
-el quiebro. Eso responde a lo que hay que **preguntar** y no a lo que la forma **declara**; va con
-el pendiente que revisa el reparto entero de las preguntas de rasgo.
+**Lo que la forma declara y lo que hay que preguntarle al editor son dos cosas**, y esta regla
+gobierna solo la primera. La copla real declara además opciones métricas con rol y un grupo
+`posiciones_pie_quebrado`, para que el editor diga en qué versos cayó el quiebro. Hasta el 25 de
+agosto de 2026 eso constaba aquí como «una excepción»; **no lo es**: es el aparato normal, y lo que
+sigue dice cuándo se usa.
+
+#### Qué se pregunta de un rasgo, y qué no
+
+Fijado por el IP el 25 de agosto de 2026, con la regla de la disposición de rima del § 3.3 y por la
+misma razón: **es la misma pregunta sobre otra dimensión**. Convivían cuatro repartos sin criterio
+—el dístico final se preguntaba en el endecasílabo suelto y no en la octava real, el quiebro en la
+copla real y no en la redondilla, el final acentual en cinco arquitecturas y no en la alejandrina
+del sexteto—, y al mirarlos juntos resultó que **no eran cuatro criterios sino catorce excepciones a
+uno**: tres de los siete rasgos ya cumplían la regla sin excepción en dieciocho arquitecturas.
+
+> **4 · Un rasgo se pregunta si y solo si la norma no lo fija.** Fijado quiere decir que **todas** las
+> filas de ese rasgo en esa arquitectura son `definitoria` y declaran un solo valor. Cualquier otra
+> cosa —`habitual`, `admitida`, `excepcional`, o una `definitoria` que convive con alternativas— se
+> pregunta, y la pregunta ofrece **el abanico entero declarado, incluido el valor que sirve de
+> defecto**.
+>
+> **5 · El alcance sale de dónde vive el rasgo.** Rasgo del pasaje → alcance `secuencia`. Rasgo de
+> una posición dentro de la unidad → alcance `unidad`, con opciones posicionales. Pero **las
+> posiciones se preguntan solo si el esquema no dice ya dónde caen**: si lo dice, la pregunta es si
+> el pasaje lo cumple, no dónde.
+>
+> **5 bis · Un techo que la fuente no da, no se declara.** `posiciones_max` lleva **solo el número
+> que una fuente enuncie como regla**. Cuando ninguna lo fija se queda vacío, que significa «sin
+> acotar», con un único límite que es de sentido de la forma y no de fuente: **nunca todos los versos
+> de la unidad**, porque una estrofa entera de quebrados no es una estrofa con quiebro sino otra
+> medida. El techo de registro del grupo se **deriva** entonces de la extensión de la unidad menos
+> uno, y se anota como derivado.
+
+**La segunda mitad de la regla 5 la puso el propio catálogo.** Dónde caen los finales agudos ya lo
+dice el esquema de rima: la octava aguda lo lleva escrito en su `---a---a`, que solo pone clase en
+los versos cuarto y octavo, y el sexteto alejandrino en la `b` de su `AABCCB`. Preguntar las
+posiciones sería modelar el mismo hecho dos veces, que es lo que prohíbe el § 3.2. Lo que el editor
+no puede deducir es **si** el pasaje los trae, porque es habitual o admitido: eso es una casilla. El
+pie quebrado va por posiciones justamente porque **ningún esquema lo fija** —la nota de la copla
+real dice que «la tradición no fija en qué verso»—.
+
+**Y la regla 5 bis salió de leer mal una fuente.** Cuatro formas anotan dónde se documenta el
+quiebro —«se documenta en el quinto verso», «caen en el octavo y en el undécimo»— y eso parecía dar
+el número. No lo da: dice **dónde**, no **cuántos como máximo**, y derivar un techo de un ejemplo es
+convertir la muestra en ley, que es lo que el catálogo se prohibió el 18 de agosto al revisar la
+sextilla. De las diez arquitecturas con quiebro no definitorio, **solo la copla real declara techo**,
+porque el *Diccionario* lo enuncia: sus dos semiestrofas «admiten algún verso quebrado
+(tetrasílabo)», uno por quintilla, que son dos.
+
+*Un aviso sobre el vocabulario legado: **no es fuente**. Describe lo que alguien leyó en las seis y
+a veces se equivoca, así que sirve para encontrar el pasaje y no para respaldarlo.*
 
 ### 3.7 · Grado de especificación
 
@@ -333,6 +427,11 @@ unidad**; lo que es necesariamente único en el tramo, **por secuencia**.
 El criterio se aplica por igual a formas equivalentes. Dos estrofas isométricas repetibles
 no pueden preguntar la medida una por unidad y otra por secuencia salvo que el proyecto
 afirme expresamente que una de ellas no varía dentro de la tirada, y lo deje escrito.
+
+Para los rasgos, la regla 5 del § 3.6 lo dice con más detalle —dónde vive el rasgo decide el
+alcance, y las posiciones se preguntan solo si el esquema no las fija ya—. Y **qué** se pregunta,
+antes que con qué alcance, lo deciden la regla 4 para los rasgos y la regla 1 del § 3.3 para la
+disposición de rima.
 
 ## 4 · Regla de homogeneidad
 
@@ -410,9 +509,13 @@ factuales sobre el corpus, no dilemas de modelado.
    unidad: una secuencia puede contener varios sonetos con esquemas distintos.
 4. **Repertorio de quintilla.** ¿La copla real y la novena ofrecen exactamente los mismos
    ocho esquemas que la quintilla? Solo entonces puede reutilizarse una única fuente.
-5. **Pie quebrado.** Unificar en opciones de metro con posición obliga a decidir si el
-   quebrado admite medidas distintas del tetrasílabo en la copla real, como ya admite la
-   forma general.
+5. ~~**Pie quebrado.** Unificar en opciones de metro con posición obliga a decidir si el
+   quebrado admite medidas distintas del tetrasílabo en la copla real.~~ **Resuelto el 25 de agosto
+   de 2026:** el quiebro admite **tetrasílabo y pentasílabo en toda forma que lo declare**, no solo
+   en la copla real. Se abre a propósito en vez de cerrarlo al tetrasílabo, porque lo que ninguna
+   fuente fija no se acota, y porque el *Diccionario* cuenta el pentasílabo como el mismo fenómeno:
+   «si el verso tetrasílabo tiene cinco sílabas, hay que tener en cuenta la sinafía y compensación
+   entre versos». Cuántos versos pueden estarlo lo gobierna la regla 5 bis del § 3.6.
 6. **Promoción de los rasgos cualitativos.** Los dieciséis literales detectados deben
    convertirse en rasgos con valores y modalidad. Hay que decidir cuántos son
    —probablemente predominio de rima, organización en pareados, dístico final, pareados
