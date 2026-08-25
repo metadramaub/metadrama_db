@@ -17,6 +17,14 @@ export type PublicFormSummary = {
 	/** `forma` o `sin_forma`: los tramos sin forma no son formas comparables. */
 	tipoRegistro: string;
 	nivelEstructural: MetricStructuralLevel;
+	/**
+	 * Cuántos versos mide su unidad, tomada de la arquitectura principal.
+	 *
+	 * Nulo donde **no hay unidad**: las series y las composiciones de extensión variable. No es un
+	 * dato que falte, es que una serie no tiene número de versos, y quien ordene por él debe
+	 * dejarlas fuera de la cuenta en vez de tratarlas como si midieran cero.
+	 */
+	unidadVersos: number | null;
 	arquitecturas: number;
 	tradiciones: string[];
 	/** Los regímenes de rima que admite alguna de sus arquitecturas. */

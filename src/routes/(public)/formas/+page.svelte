@@ -1,6 +1,13 @@
 <script lang="ts">
 	import type { PublicFormSummary } from '$lib/metrica/formas-publicas.types';
 	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
+	import {
+		compararFormas,
+		laFormaCoincide,
+		normalizarBusqueda,
+		ORDENES_DE_FORMAS,
+		type OrdenFormas
+	} from '$lib/metrica/orden-formas';
 	import { renderInlineMarkdown } from '$lib/utils/markdown';
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
 	import Search from 'lucide-svelte/icons/search';
@@ -34,23 +41,22 @@
 		)
 	);
 
-	const normalizar = (texto: string) =>
-		texto
-			.normalize('NFD')
-			.replace(/[̀-ͯ]/g, '')
-			.toLocaleLowerCase('es');
+	const normalizar = normalizarBusqueda;
+
+	let orden = $state<OrdenFormas>('alfabetico');
 
 	const filtradas = $derived.by(() => {
 		const termino = normalizar(busqueda.trim());
-		return data.formas.filter((forma: PublicFormSummary) => {
-			if (nivel && forma.nivelEstructural !== nivel) return false;
-			if (tradicion && !forma.tradiciones.includes(tradicion)) return false;
-			if (rima && !forma.tiposRima.includes(rima)) return false;
-			if (!termino) return true;
-			return [forma.nombre, forma.definicion ?? '', ...forma.denominaciones].some((campo) =>
-				normalizar(campo).includes(termino)
+		return data.formas
+			.filter((forma: PublicFormSummary) => {
+				if (nivel && forma.nivelEstructural !== nivel) return false;
+				if (tradicion && !forma.tradiciones.includes(tradicion)) return false;
+				if (rima && !forma.tiposRima.includes(rima)) return false;
+				return laFormaCoincide(forma, termino);
+			})
+			.sort((a: PublicFormSummary, b: PublicFormSummary) =>
+				compararFormas(a, b, { orden, termino })
 			);
-		});
 	});
 
 	const hayFiltro = $derived(Boolean(busqueda.trim() || nivel || tradicion || rima));
@@ -60,6 +66,7 @@
 		nivel = null;
 		tradicion = null;
 		rima = null;
+		orden = 'alfabetico';
 	}
 
 	// Los tramos sin forma no son formas comparables y van aparte, no mezclados en la lista.
@@ -134,6 +141,31 @@
 				placeholder="Buscar por nombre, definición o denominación…"
 				bind:value={busqueda}
 			/>
+		</label>
+
+		<!--
+			El orden va junto al buscador y no entre los filtros, porque no filtra nada: cambia cómo
+			se recorre lo que ya hay. Cuando se está buscando algo, la relevancia manda sobre él —lo
+			que coincide con el nombre sale primero—, y el orden elegido desempata.
+		-->
+		<label class="mt-3 flex items-center gap-2 text-sm">
+			<span class="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
+				Ordenar
+			</span>
+			<select
+				class="h-9 border border-[color:var(--border)] bg-white px-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
+				bind:value={orden}
+			>
+				{#each ORDENES_DE_FORMAS as opcion (opcion.valor)}
+					<option value={opcion.valor}>{opcion.etiqueta}</option>
+				{/each}
+			</select>
+			{#if orden === 'versos'}
+				<span class="text-xs text-[color:var(--muted-foreground)]">
+					Las series y las composiciones de extensión variable no tienen número de versos y van
+					al final.
+				</span>
+			{/if}
 		</label>
 
 		<div class="mt-5 grid gap-5 border-t border-[color:var(--border)] pt-4 md:grid-cols-3">

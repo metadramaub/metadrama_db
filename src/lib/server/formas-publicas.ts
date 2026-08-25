@@ -141,6 +141,7 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 		definicion: texto(forma.definicion),
 		tipoRegistro: String(forma.tipo_registro),
 		nivelEstructural: String(forma.nivel_estructural) as MetricStructuralLevel,
+		unidadVersos: numero(forma.unidad_versos),
 		arquitecturas: (arquitecturasPorForma.get(String(forma.forma_id)) ?? []).length,
 		tradiciones: (tradicionesPorForma.get(String(forma.forma_id)) ?? [])
 			.map((row) => nombreTradicion.get(String(row.tradicion_id)))
@@ -1156,6 +1157,7 @@ export async function loadPublicForm(
 		definicion: texto(forma.definicion),
 		tipoRegistro: String(forma.tipo_registro),
 		nivelEstructural: String(forma.nivel_estructural) as MetricStructuralLevel,
+		unidadVersos: numero(forma.unidad_versos),
 		arquitecturas: misArquitecturas.length,
 		tradiciones: (formasTradiciones as any[])
 			.filter((row) => String(row.forma_id) === formaId)
