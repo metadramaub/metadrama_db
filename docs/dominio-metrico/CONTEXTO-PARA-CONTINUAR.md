@@ -692,11 +692,22 @@ que no es un error —lo dicen su descripción y Morley y Bruerton—, pero `sec
 lleva **una sola arquitectura por secuencia**, así que solo cabe partir el pasaje o registrarla
 como desviación `estructura` / `mayor_que_norma`, que es anotarla como el error que no es.
 
-**B6. El control abierto no pregunta el régimen de rima.** Es lo que falta de la regla 3 bis del
-§ 3.3. Donde el régimen varía dentro de la arquitectura, un esquema escrito no está completo sin él,
-y hoy el campo solo recoge la notación. No bloquea a nadie —la lista sigue distinguiéndolos, porque
-la etiqueta derivada añade el régimen cuando la arquitectura no declara uno solo—, pero deja fuera
-del reconocimiento automático lo que se escriba a mano en esas trece.
+**B6. ~~El control abierto no pregunta el régimen de rima.~~ Hecho el 25 de agosto de 2026.** Con
+esto se completa la regla 3 bis del § 3.3, y no ha hecho falta ninguna migración: es todo código.
+
+Donde el régimen varía dentro de la arquitectura, el campo abierto pinta ahora **un desplegable
+junto a la notación**. Las dos piezas se guardan en el mismo campo de texto —`abcabc · asonante`—
+con el punto medio de separador, que sirve porque **no pertenece al alfabeto de la notación** y no
+puede confundirse con parte del esquema. `separarRegimen` y `componerEsquemaEscrito` hacen las dos
+mitades, y la lectura entiende la forma guardada, de modo que un esquema escrito ayer con su régimen
+se reconoce hoy.
+
+**A quién se le pregunta lo decide el dato, no una lista.** Contado contra la base: **12
+arquitecturas** preguntan —octava aguda ×6, terceto octosilábico y hexasilábico, pareado, villancico
+×2 y endecha real— y **33 lo heredan**. Se preguntaba por trece, y la decimotercera se cayó sola con
+buen motivo: el **terceto endecasilábico** declara el régimen abajo, en sus dos disposiciones, pero
+las dos dicen `consonante`, así que no hay entre qué elegir. *Ahí queda un apunte de higiene: por el
+§ 3.3 ese régimen debería estar declarado arriba, en la arquitectura, porque es uno solo.*
 
 ### C · Deudas del modelo, sin urgencia
 

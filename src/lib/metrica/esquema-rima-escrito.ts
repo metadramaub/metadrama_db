@@ -47,6 +47,8 @@ export type LecturaEsquemaEscrito =
 			estado: 'ok';
 			/** La notación normalizada: clases en orden de primera aparición, caja conservada. */
 			canonica: string;
+			/** El régimen con el que se ha leído, venga de lo escrito o de la arquitectura. */
+			regimen: string | null;
 			posiciones: number;
 			clases: number;
 			sueltos: number;
@@ -66,6 +68,32 @@ const SEPARADORES = /[\s:|]/g;
 /** Un ciclo se escribe `[…]…` y describe una serie, que no tiene unidad y no se pregunta así. */
 function esCiclo(notacion: string): boolean {
 	return notacion.includes('[') || notacion.includes('…');
+}
+
+/**
+ * Cómo se guarda un esquema escrito cuando el catálogo no lo tiene: `abcabc · asonante`.
+ *
+ * **Un esquema escrito no está completo sin su régimen** (regla 3 bis del § 3.3), y la respuesta
+ * viaja en un solo campo de texto. El punto medio sirve de separador porque **no pertenece al
+ * alfabeto de la notación** —que admite letras, guion, y los separadores `:`, `|`, espacio y
+ * corchetes—, de modo que nunca puede confundirse con parte del esquema.
+ *
+ * Donde el régimen no varía dentro de la arquitectura no se pregunta ni se guarda: se hereda, y
+ * añadirlo sería repetir lo que la ficha ya dice.
+ */
+export const SEPARADOR_REGIMEN = ' · ';
+
+export function separarRegimen(texto: string): { notacion: string; regimen: string | null } {
+	const corte = texto.indexOf('·');
+	if (corte < 0) return { notacion: texto.trim(), regimen: null };
+	const regimen = texto.slice(corte + 1).trim();
+	return { notacion: texto.slice(0, corte).trim(), regimen: regimen || null };
+}
+
+export function componerEsquemaEscrito(notacion: string, regimen: string | null): string {
+	const limpio = notacion.trim();
+	if (!limpio || !regimen) return limpio;
+	return `${limpio}${SEPARADOR_REGIMEN}${regimen}`;
 }
 
 function limpiar(texto: string): string {
@@ -212,8 +240,16 @@ export function leerEsquemaEscrito(
 	texto: string | null | undefined,
 	opciones: OpcionesLectura = {}
 ): LecturaEsquemaEscrito {
-	const bruto = (texto ?? '').trim();
-	if (!bruto) return { estado: 'vacio' };
+	const crudo = (texto ?? '').trim();
+	if (!crudo) return { estado: 'vacio' };
+
+	// Lo escrito puede traer ya su régimen —`abcabc · asonante`—, y entonces manda sobre el que
+	// llegue por opciones: es el que el editor ha marcado junto a la notación.
+	const separado = separarRegimen(crudo);
+	const bruto = separado.notacion;
+	if (!bruto) {
+		return { estado: 'error', mensaje: 'Falta la disposición: se ha escrito solo el régimen.' };
+	}
 
 	if (esCiclo(bruto)) {
 		return {
@@ -245,7 +281,7 @@ export function leerEsquemaEscrito(
 
 	const canonica = canonizar(limpio);
 	const medida = medir(limpio);
-	const regimen = opciones.regimen ?? null;
+	const regimen = separado.regimen ?? opciones.regimen ?? null;
 
 	// Notación **y** régimen: la octava aguda tiene dos esquemas con la misma notación.
 	const mismaNotacion = (opciones.catalogados ?? []).filter((candidato) => {
@@ -270,6 +306,7 @@ export function leerEsquemaEscrito(
 	return {
 		estado: 'ok',
 		canonica,
+		regimen,
 		posiciones: limpio.length,
 		clases: medida.clases,
 		sueltos: medida.sueltos,
