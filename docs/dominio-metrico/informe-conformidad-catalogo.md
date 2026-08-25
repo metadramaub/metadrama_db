@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-25 16:22
+Generado: 2026-08-25 16:39
 
 Inventario: 41 formas y 2 tramos sin forma · 91 configuraciones · 96 patrones métricos · 164 patrones de rima · 85 secciones · 106 grupos de elección · 680 opciones · 7 rasgos.
 
@@ -88,7 +88,7 @@ Sin incidencias.
 
 ### D13 · Un esquema concreto contradice el criterio de su esquema abierto — 0
 
-> Cuando una arquitectura declara un esquema abierto con restricciones y además esquemas concretos sobre el mismo tramo, el abierto es la norma y los concretos son sus realizaciones documentadas: tienen que cumplirla. Se exceptúa el concreto que el propio criterio excluye —ahí el abierto no es la norma sino la alternativa que queda—, y los que ocupan otra sección, que no compiten con él sino que completan la estrofa.
+> Cuando una arquitectura declara un esquema abierto con restricciones y además esquemas concretos sobre el mismo tramo, el abierto es la norma y los concretos son sus realizaciones documentadas: tienen que cumplirla. Se exceptúan tres. El concreto que el propio criterio excluye —ahí el abierto no es la norma sino la alternativa que queda—; los que ocupan otra sección, que no compiten con él sino que completan la estrofa; y **los declarados `excepcional`**, que están en el catálogo precisamente porque se apartan de la norma y se registran igual.
 
 Sin incidencias.
 

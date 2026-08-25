@@ -740,6 +740,23 @@ un verso que no rima con ninguno, y para contrastar `versos_sueltos: ninguno` ha
 patrón abierto de la quintilla, se corrió el auditor —señaló `abbba` con «3 seguidos», que es
 exactamente el caso que su ficha llevaba anotado como no comprobable— y se retiró.
 
+**Y esa prueba destapó un segundo fallo, que el primero tapaba.** D13 exceptuaba dos cosas —el
+esquema que el criterio excluye y el que ocupa otra sección— y **no la modalidad**. Pero `abbba`
+está declarado `excepcional`: está en el catálogo *precisamente porque se aparta*, y su ficha lo
+dice —«no lo numera nadie: lo registran como aparición suelta, que M&B atribuyen a errata o a
+adaptación expresiva»—. Medirlo contra la norma y llamarlo defecto empujaba a una de dos cosas, y
+las dos peores: borrar el esquema, o no declarar la restricción para que no protestara. **Declarar
+algo excepcional es decir que no cumple la norma**, así que D13 lo salta.
+
+La excepción protege hoy a las **tres quintillas**, que son las únicas con esquemas excepcionales y
+patrón abierto con restricciones a la vez. Repetida la prueba con ella puesta, la restricción se
+declara y el informe sigue en cero.
+
+**Lo que eso desbloquea, y es una decisión filológica:** la ficha de la quintilla dice que
+`min_alternancias: 2` **no es la regla de las fuentes** —la regla es «no más de dos versos seguidos
+con la misma rima»— y que se expresaría con `max_consecutivos: 2`. Se dejó como estaba porque el
+auditor no evaluaba el tipo correcto. **Los dos motivos han desaparecido.** ⇒ decisión del IP.
+
 **Lo que sigue abierto:** `numero_clases` admite un solo valor, así que no puede expresar «dos o
 tres»; necesitaría un rango o un tipo nuevo. Y con él las dos cosas del soneto: si sus cuartetos
 podrían heredar la disposición del cuarteto declarando la identidad con un enlace, y la restricción

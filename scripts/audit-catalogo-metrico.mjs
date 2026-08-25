@@ -519,7 +519,7 @@ const DEFECTOS = [
 		id: 'D13',
 		titulo: 'Un esquema concreto contradice el criterio de su esquema abierto',
 		criterio:
-			'Cuando una arquitectura declara un esquema abierto con restricciones y además esquemas concretos sobre el mismo tramo, el abierto es la norma y los concretos son sus realizaciones documentadas: tienen que cumplirla. Se exceptúa el concreto que el propio criterio excluye —ahí el abierto no es la norma sino la alternativa que queda—, y los que ocupan otra sección, que no compiten con él sino que completan la estrofa.',
+			'Cuando una arquitectura declara un esquema abierto con restricciones y además esquemas concretos sobre el mismo tramo, el abierto es la norma y los concretos son sus realizaciones documentadas: tienen que cumplirla. Se exceptúan tres. El concreto que el propio criterio excluye —ahí el abierto no es la norma sino la alternativa que queda—; los que ocupan otra sección, que no compiten con él sino que completan la estrofa; y **los declarados `excepcional`**, que están en el catálogo precisamente porque se apartan de la norma y se registran igual.',
 		detectar(model) {
 			const resumir = (patron) => {
 				const posiciones = listOf(model.posicionesPorPatronRima, patron.esquema_rima_id)
@@ -576,6 +576,14 @@ const DEFECTOS = [
 					for (const concreto of patrones) {
 						if (concreto.tipo_secuencia === 'abierta') continue;
 						if (excluidos.has(concreto.esquema_rima_id)) continue;
+						// **Una disposición excepcional está en el catálogo porque se aparta.** El
+						// `abbba` de la quintilla no lo numera ninguna fuente: se registra como
+						// aparición suelta, que Morley y Bruerton atribuyen a errata o a adaptación
+						// expresiva. Medirla contra la norma y llamarla defecto empujaría a una de
+						// dos cosas, y las dos son peores: borrar el esquema, o no declarar la
+						// restricción para que no proteste. Declarar algo excepcional **es** decir
+						// que no cumple la norma.
+						if (concreto.modalidad === 'excepcional') continue;
 						// La sección dice de qué tramo habla cada esquema. Si difieren, son partes
 						// complementarias —el cuerpo y el pareado final de la canción— y no se miden
 						// con la misma vara.
