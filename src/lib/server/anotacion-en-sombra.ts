@@ -58,15 +58,16 @@ export async function loadShadowAnnotation(
 	const workRows = worksResponse.data ?? [];
 	const openedIds = new Set(workRows.map((row: any) => String(row.obra_id)));
 
-	// La vista entera son ~260 filas: cabe de sobra, y con ella se calculan a la vez las
+	// La propuesta entera son ~260 filas: cabe de sobra, y con ella se calculan a la vez las
 	// secuencias de las obras abiertas y las candidatas del selector.
+	//
+	// Las **respuestas propuestas** no van aquí, y esa ausencia es deliberada: ver más abajo.
 	const [
 		proposalResponse,
 		shadowResponse,
 		subtypeResponse,
 		characterizationResponse,
-		obrasResponse,
-		answersResponse
+		obrasResponse
 	] =
 		await Promise.all([
 			db
@@ -81,15 +82,11 @@ export async function loadShadowAnnotation(
 				.not('secuencia_id', 'is', null),
 			db.from('secuencias_subtipos_estrofa').select('secuencia_id'),
 			db.from('secuencias_caracterizaciones_rango').select('secuencia_id'),
-			db.from('obras').select('obra_id,titulo'),
-			db
-				.from('propuesta_elecciones_secuencia')
-				.select('secuencia_id,grupo_eleccion_id,pregunta,opcion_eleccion_id,respuesta,alcance')
+			db.from('obras').select('obra_id,titulo')
 		]);
 
 	throwQueryError('No se pudo cargar la propuesta métrica', proposalResponse.error);
 	throwQueryError('No se pudieron cargar las obras', obrasResponse.error);
-	throwQueryError('No se pudieron cargar las respuestas propuestas', answersResponse.error);
 	throwQueryError('No se pudieron cargar las anotaciones en sombra', shadowResponse.error);
 	throwQueryError('No se pudieron cargar los subtipos estróficos', subtypeResponse.error);
 	throwQueryError(
@@ -110,6 +107,42 @@ export async function loadShadowAnnotation(
 		}
 		return counts;
 	};
+	// ------------------------------------------------------------------ Las respuestas propuestas
+	//
+	// **Se piden aparte, después, y solo para las obras abiertas.** No es una optimización de
+	// adorno: esta pantalla llegó a dar un 500 —«canceling statement due to statement timeout»— y
+	// la causa era esta consulta.
+	//
+	// `propuesta_elecciones_secuencia` es la consulta más cara del proyecto: deriva el catálogo
+	// entero —seis ramas en `opciones_eleccion_derivadas()`— y además recalcula dentro
+	// `propuesta_metrica_secuencia`. Medida contra la base cuesta unos 750 ms; medida por
+	// PostgREST, **2 s de media y 5 de máximo**, porque iba en el mismo `Promise.all` que las otras
+	// cinco y las dos derivaciones pesadas competían entre sí. Contra un límite de 8 s por
+	// sentencia, ese margen no era un margen.
+	//
+	// Dos cambios, y el primero pesa más que el segundo:
+	//
+	// 1. **Va en su turno**, no en paralelo con la propuesta. El límite es por sentencia, así que
+	//    serializar no suma riesgo: lo reparte.
+	// 2. **Solo las secuencias que van a viajar al cliente**, que son las de las obras abiertas —hoy
+	//    66 de 263—. Si no hay ninguna obra abierta, la consulta no se hace.
+	//
+	// *Lo que esto no arregla:* el coste de derivar crece con el catálogo, no con las obras.
+	// Filtrar por secuencia apenas rebaja los milisegundos, porque el grueso es la derivación. Si el
+	// catálogo vuelve a crecer como creció en B1 y B2, hará falta guardar las opciones en vez de
+	// derivarlas cada vez. Se mide antes de decidirlo: hoy no hace falta.
+	const secuenciasAbiertas = (proposalResponse.data ?? [])
+		.filter((row: any) => openedIds.has(String(row.obra_id)))
+		.map((row: any) => String(row.secuencia_id));
+
+	const answersResponse = secuenciasAbiertas.length
+		? await db
+				.from('propuesta_elecciones_secuencia')
+				.select('secuencia_id,grupo_eleccion_id,pregunta,opcion_eleccion_id,respuesta,alcance')
+				.in('secuencia_id', secuenciasAbiertas)
+		: { data: [] as any[], error: null };
+	throwQueryError('No se pudieron cargar las respuestas propuestas', answersResponse.error);
+
 	const answersBySequence = new Map<string, ShadowAnswer[]>();
 	for (const row of answersResponse.data ?? []) {
 		const key = String(row.secuencia_id);
