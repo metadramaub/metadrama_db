@@ -4,7 +4,9 @@ import {
 	addMetricUnit,
 	addSectionInstance,
 	ensureRequiredMetricUnits,
+	hayUnidadConArquitecturaPropia,
 	metricUnitExtent,
+	partesDeLaRealizacion,
 	metricUnitPlan,
 	reflowMetricUnits,
 	syncRepeatedMetricUnits,
@@ -721,5 +723,162 @@ describe('la unidad envuelve a las secciones', () => {
 			v_ini: 7,
 			v_fin: 8
 		});
+	});
+});
+
+describe('una unidad con arquitectura propia', () => {
+	const unidad = (id: string, arquitectura_id: string | null = null) => ({
+		realizacion_prueba_id: id,
+		realizacion_padre_id: null,
+		seccion_id: null,
+		orden: 1,
+		v_ini: 1,
+		v_fin: 10,
+		etiqueta: '',
+		observaciones: '',
+		arquitectura_id
+	});
+
+	/**
+	 * B5. Con una décima aumentada intercalada, el rango deja de dividirse en unidades iguales:
+	 * derivarlas borraría la excepción en cuanto el editor recalculara.
+	 */
+	it('apaga la derivación de unidades desde el rango', () => {
+		expect(metricUnitPlan(fixedUnit(10), [], 'estrofa', [unidad('a')])).toMatchObject({
+			countFromRange: true
+		});
+		expect(
+			metricUnitPlan(fixedUnit(10), [], 'estrofa', [unidad('a'), unidad('b', 'aumentada')])
+		).toMatchObject({ countFromRange: false });
+	});
+
+	it('no la apaga una parte, solo una unidad entera', () => {
+		const parte = { ...unidad('c', 'aumentada'), realizacion_padre_id: 'a', seccion_id: 's' };
+		expect(metricUnitPlan(fixedUnit(10), [], 'estrofa', [unidad('a'), parte])).toMatchObject({
+			countFromRange: true
+		});
+	});
+
+	it('sin unidades se comporta como antes', () => {
+		expect(metricUnitPlan(fixedUnit(10), [], 'estrofa')).toMatchObject({ countFromRange: true });
+	});
+});
+
+/**
+ * La décima aumentada entre décimas normales, en pequeño.
+ *
+ * La espinela son tres partes —4 + 2 + 4— y la aumentada dos —4 + 8—. Aquí están las dos, cada
+ * una con su `arquitectura_id`, porque lo que se prueba es justamente que una unidad pueda
+ * dividirse por las de la suya y no por las de la secuencia.
+ */
+const seccionDe = (
+	arquitectura: string,
+	seccion: string,
+	nombre: string,
+	orden: number,
+	versos: number
+): MetricCatalogDomainRow => ({
+	seccion_id: seccion,
+	arquitectura_id: arquitectura,
+	seccion_padre_id: null,
+	tipo_seccion: 'bloque',
+	nombre,
+	orden,
+	repeticiones_min: 1,
+	repeticiones_max: 1,
+	versos_min: versos,
+	versos_max: versos
+});
+
+const espinela: MetricCatalogDomainRow[] = [
+	seccionDe('espinela', 'primera', 'Primera redondilla', 1, 4),
+	seccionDe('espinela', 'enlace', 'Enlace', 2, 2),
+	seccionDe('espinela', 'segunda', 'Segunda redondilla', 3, 4)
+];
+const aumentada: MetricCatalogDomainRow[] = [
+	seccionDe('aumentada', 'bloque1', 'Primer bloque', 1, 4),
+	seccionDe('aumentada', 'bloque2', 'Segundo bloque', 2, 8)
+];
+
+describe('una unidad puede declarar una arquitectura intercalada', () => {
+	it('reparte las partes de cada unidad según la arquitectura que declare', () => {
+		expect(
+			partesDeLaRealizacion(espinela, { seccion_id: null, arquitectura_id: null }, aumentada).map(
+				(section) => section.seccion_id
+			)
+		).toEqual(['primera', 'enlace', 'segunda']);
+		expect(
+			partesDeLaRealizacion(
+				espinela,
+				{ seccion_id: null, arquitectura_id: 'aumentada' },
+				aumentada
+			).map((section) => section.seccion_id)
+		).toEqual(['bloque1', 'bloque2']);
+	});
+
+	it('cambia las partes de la unidad marcada y deja intactas las demás', () => {
+		let units = ensureRequiredMetricUnits([], espinela, null, 1, [], [], aumentada);
+		units = addMetricUnit(units, espinela, null, 1);
+		const unidades = units.filter(
+			(unit) => unit.realizacion_padre_id === null && unit.seccion_id === null
+		);
+		expect(unidades).toHaveLength(2);
+
+		// La segunda se declara aumentada. La primera no se toca.
+		units = units.map((unit) =>
+			unit.realizacion_prueba_id === unidades[1].realizacion_prueba_id
+				? { ...unit, arquitectura_id: 'aumentada' }
+				: unit
+		);
+		units = ensureRequiredMetricUnits(units, espinela, null, 1, [], [], aumentada);
+
+		const partesDe = (unidadId: string) =>
+			units
+				.filter((unit) => unit.realizacion_padre_id === unidadId)
+				.map((unit) => unit.seccion_id);
+		expect(partesDe(unidades[0].realizacion_prueba_id)).toEqual([
+			'primera',
+			'enlace',
+			'segunda'
+		]);
+		// Las tres de la espinela se van; entran las dos suyas. Un filtro global las habría
+		// dejado, porque siguen siendo buenas para la otra unidad.
+		expect(partesDe(unidades[1].realizacion_prueba_id)).toEqual(['bloque1', 'bloque2']);
+	});
+
+	it('mide la unidad excepcional por sus propias secciones', () => {
+		let units = ensureRequiredMetricUnits([], espinela, null, 1, [], [], aumentada);
+		units = addMetricUnit(units, espinela, null, 1);
+		const unidades = units.filter(
+			(unit) => unit.realizacion_padre_id === null && unit.seccion_id === null
+		);
+		units = units.map((unit) =>
+			unit.realizacion_prueba_id === unidades[1].realizacion_prueba_id
+				? { ...unit, arquitectura_id: 'aumentada' }
+				: unit
+		);
+		units = ensureRequiredMetricUnits(units, espinela, null, 1, [], [], aumentada);
+
+		const conArquitectura = units.find((unit) => unit.arquitectura_id === 'aumentada');
+		// Diez versos la normal, doce la aumentada: el pasaje mide 22, no 20.
+		expect(unidades[0].seccion_id).toBeNull();
+		expect(conArquitectura).toMatchObject({ v_ini: 11, v_fin: 22 });
+		expect(units.find((unit) => unit.seccion_id === 'bloque2')).toMatchObject({
+			v_ini: 15,
+			v_fin: 22
+		});
+	});
+
+	it('no cuenta como excepción una unidad sin arquitectura propia', () => {
+		expect(hayUnidadConArquitecturaPropia([])).toBe(false);
+		const units = ensureRequiredMetricUnits([], espinela, null, 1, [], [], aumentada);
+		expect(hayUnidadConArquitecturaPropia(units)).toBe(false);
+		expect(
+			hayUnidadConArquitecturaPropia(
+				units.map((unit) =>
+					unit.seccion_id === null ? { ...unit, arquitectura_id: 'aumentada' } : unit
+				)
+			)
+		).toBe(true);
 	});
 });

@@ -31,6 +31,8 @@
 	import { metricStructureCoverage } from './structure-coverage';
 	import {
 		childrenOfSection,
+		hayUnidadConArquitecturaPropia,
+		partesDeLaRealizacion,
 		metricUnitPlan,
 		reflowMetricUnits,
 		sectionId as structuredSectionId,
@@ -52,6 +54,7 @@
 		metricDeviationRelations,
 		applyProposedUnitAnswers,
 		normalizeStructuredUnits,
+		seccionesIntercalables,
 		unitPlanFor,
 		METRIC_DEVIATION_DIMENSIONS,
 		type MetricDeviationDimension,
@@ -242,6 +245,68 @@
 			? [...terminos].map(([slug, etiqueta]) => ({ slug, etiqueta }))
 			: [];
 	});
+
+	/**
+	 * Las arquitecturas de la forma que el catálogo declara **intercalables**.
+	 *
+	 * Una arquitectura intercalable aparece entre realizaciones de otra de su misma forma sin que el
+	 * pasaje deje de ser esa forma: la décima aumentada entre décimas normales, que alarga su miembro
+	 * final de cuatro versos a seis y que Morley y Bruerton documentan así. **No es una desviación**,
+	 * y por eso no se registra como tal: la norma admite la estrofa larga.
+	 *
+	 * Se excluye la de la propia secuencia —una unidad no es excepción de sí misma— y sale vacío en
+	 * todas las formas menos una, que es donde el editor no ve nada de esto.
+	 */
+	const interleavedArchitectures = $derived(
+		!draft.forma_id
+			? []
+			: props.catalog.configurations
+					.filter(
+						(configuration: MetricCatalogConfiguration) =>
+							configuration.forma_id === draft.forma_id &&
+							configuration.activo &&
+							configuration.intercalable &&
+							configuration.arquitectura_id !== draft.arquitectura_id
+					)
+					.map((configuration: MetricCatalogConfiguration) => ({
+						arquitectura_id: String(configuration.arquitectura_id),
+						nombre: String(configuration.nombre),
+						descripcion: configuration.descripcion
+					}))
+	);
+
+	/** Las secciones de esas arquitecturas, para que la unidad marcada se dibuje por las suyas. */
+	const interleavedSections = $derived(
+		draft.arquitectura_id ? seccionesIntercalables(props.catalog, draft.arquitectura_id) : []
+	);
+
+	/**
+	 * Marcar o desmarcar una unidad como la excepción.
+	 *
+	 * Solo se toca esa unidad. Que el pasaje deje de dividirse en unidades iguales lo deduce el plan
+	 * —`metricUnitPlan` apaga `countFromRange` en cuanto hay una excepción—, y la longitud deja de
+	 * exigir la congruencia por el mismo motivo.
+	 */
+	function setUnitArchitecture(unit: MetricUnitDraft, arquitecturaId: string | null) {
+		const marcadas = draft.unidades.map((row: MetricUnitDraft) =>
+			row.realizacion_prueba_id === unit.realizacion_prueba_id
+				? { ...row, arquitectura_id: arquitecturaId }
+				: row
+		);
+		// **Marcar la excepción rehace la estructura de esa unidad.** La espinela tiene tres
+		// secciones y la aumentada dos: las viejas se van y entran las nuevas. Lo hace la misma
+		// función que normaliza al elegir arquitectura, para que no haya dos maneras de construir
+		// lo mismo. Y de paso apaga la derivación desde el rango, porque una tirada con una
+		// aumentada ya no mide un múltiplo de diez.
+		draft.unidades = normalizeStructuredUnits(
+			props.catalog,
+			marcadas,
+			draft.elecciones,
+			draft.arquitectura_id,
+			draft.v_ini,
+			draft.v_fin
+		);
+	}
 
 	const dominantMetreSyllables = $derived.by(() => {
 		if (!draft.arquitectura_id) return null;
@@ -755,12 +820,15 @@
 			return 'Verso aislado debe abarcar exactamente un verso.';
 		}
 		if (draft.v_fin < draft.v_ini) return 'El verso final no puede ser anterior al inicial.';
+		// Con una arquitectura intercalada, el pasaje no se divide en unidades iguales y la
+		// congruencia deja de valer: gobierna la cobertura del rango. Ver `metric-length.ts`.
 		const lengthError = metricLengthError(
 			selectedLengthRule,
 			draft.v_ini,
 			draft.v_fin,
 			selectedConfiguration?.nombre,
-			selectedForm?.nombre
+			selectedForm?.nombre,
+			hayUnidadConArquitecturaPropia(draft.unidades)
 		);
 		if (lengthError) return lengthError;
 		if (hasStructuredEditor && structureCoverage.state !== 'complete') {
@@ -774,7 +842,9 @@
 				return `La unidad ${unit.orden} queda fuera del rango de la secuencia.`;
 			}
 			const unitLength = unit.v_fin - unit.v_ini + 1;
-			const section = sectionsForDraft.find(
+			// La sección puede ser de una arquitectura intercalada: los dos bloques de la aumentada
+			// tienen extensión propia y hay que comprobarla igual que la de cualquier otra.
+			const section = [...sectionsForDraft, ...interleavedSections].find(
 				(row: MetricCatalogDomainRow) => structuredSectionId(row) === unit.seccion_id
 			);
 			if (section) {
@@ -785,7 +855,15 @@
 				) {
 					return `Revisa el número de versos de «${structuredSectionLabel(section)}».`;
 				}
-			} else if (unit.seccion_id === null && unitPlanForDraft?.extent) {
+			} else if (
+				unit.seccion_id === null &&
+				// **Una unidad que declara su propia arquitectura no mide lo que mide la de la
+				// secuencia.** La aumentada son doce versos donde la espinela exige diez, y exigirle
+				// los diez impedía guardar lo que la norma admite. Sus partes sí se comprueban, cada
+				// una contra la suya, en la rama de arriba.
+				!unit.arquitectura_id &&
+				unitPlanForDraft?.extent
+			) {
 				const { minimum, maximum } = unitPlanForDraft.extent;
 				if (unitLength < minimum || unitLength > maximum) {
 					return `La unidad ${unit.orden} debe tener entre ${minimum} y ${maximum} versos.`;
@@ -796,7 +874,11 @@
 		// de su unidad, las internas dentro de su sección superior.
 		if (hasStructuredEditor) {
 			for (const parent of draft.unidades) {
-				for (const child of childrenOfSection(sectionsForDraft, parent.seccion_id)) {
+				for (const child of partesDeLaRealizacion(
+					sectionsForDraft,
+					parent,
+					interleavedSections
+				)) {
 					const childTotal = draft.unidades.filter(
 						(unit: MetricUnitDraft) =>
 							unit.realizacion_padre_id === parent.realizacion_prueba_id &&
@@ -1050,6 +1132,7 @@
 						end={draft.v_fin}
 						configurationName={selectedConfiguration?.nombre}
 						formName={selectedForm?.nombre}
+						conArquitecturasPropias={hayUnidadConArquitecturaPropia(draft.unidades)}
 					/>
 					<div class="grid gap-3 lg:grid-cols-2">
 						<label class="form-field">
@@ -1179,6 +1262,9 @@
 							choices={draft.elecciones}
 							unitLabel={selectedForm?.nombre}
 							globalQuestions={hasCompositionMeasure ? compositionMeasure : undefined}
+							{interleavedArchitectures}
+							{interleavedSections}
+							onUnitArchitectureChange={setUnitArchitecture}
 							onUnitsChange={(units) => (draft.unidades = units)}
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}

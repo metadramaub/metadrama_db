@@ -13,9 +13,9 @@
 		isPartialPositionalSelection
 	} from './positional-options';
 	import {
-		addMetricUnit,
-		addSectionInstance,
-		reflowMetricUnits,
+		addMetricUnit as addMetricUnitBase,
+		addSectionInstance as addSectionInstanceBase,
+		reflowMetricUnits as reflowMetricUnitsBase,
 		removeMetricUnitTree,
 		sectionId,
 		sectionLabel,
@@ -82,7 +82,56 @@
 		 * arquitectura no declara uno único. Los calcula el contenedor, que ve el catálogo entero.
 		 */
 		rhymeRegimes?: { slug: string; etiqueta: string }[];
+		/**
+		 * Las arquitecturas de la forma que el catálogo declara **intercalables**: pueden aparecer
+		 * entre realizaciones de otra sin abrir otra secuencia. Hoy solo la décima aumentada. Vacío
+		 * en todas las demás formas, y entonces la fila no ofrece nada.
+		 */
+		interleavedArchitectures?: { arquitectura_id: string; nombre: string; descripcion: string | null }[];
+		/** Sus secciones, para dibujar y medir la unidad que declare una de ellas. */
+		interleavedSections?: MetricCatalogDomainRow[];
+		onUnitArchitectureChange?: (unit: MetricUnitDraft, arquitecturaId: string | null) => void;
 	}>();
+
+	// Las funciones del modelo que crean o recolocan realizaciones necesitan conocer las secciones
+	// intercaladas. Se envuelven con el mismo nombre —y la misma firma menos ese último
+	// argumento— para no repetir el dato en la decena de sitios desde donde se llaman.
+	const intercaladasDeLaForma = () => props.interleavedSections ?? [];
+	const reflowMetricUnits: typeof reflowMetricUnitsBase = (
+		units,
+		sections,
+		sequenceStart,
+		choices = [],
+		options = []
+	) =>
+		reflowMetricUnitsBase(
+			units,
+			sections,
+			sequenceStart,
+			choices,
+			options,
+			intercaladasDeLaForma()
+		);
+	const addSectionInstance: typeof addSectionInstanceBase = (
+		units,
+		sections,
+		targetSectionId,
+		parentUnitId,
+		sequenceStart,
+		choices = [],
+		options = []
+	) =>
+		addSectionInstanceBase(
+			units,
+			sections,
+			targetSectionId,
+			parentUnitId,
+			sequenceStart,
+			choices,
+			options,
+			intercaladasDeLaForma()
+		);
+	const addMetricUnit = addMetricUnitBase;
 
 	/** Por qué el número de versos no se puede tocar cuando la forma lo fija. */
 	const EXTENT_HELP =
@@ -96,7 +145,9 @@
 		units: props.units,
 		choices: props.choices,
 		unitPlan: props.unitPlan,
-		unitLabel: props.unitLabel ?? 'Unidad'
+		unitLabel: props.unitLabel ?? 'Unidad',
+		admiteArquitecturaIntercalada: (props.interleavedArchitectures ?? []).length > 0,
+		seccionesIntercaladas: props.interleavedSections ?? []
 	});
 
 	/**
@@ -1511,6 +1562,8 @@
 						</div>
 					{/if}
 
+					{@render excepcionDeLaUnidad(row)}
+
 					{#if row.preguntas.length === 0 && !row.lengthEditable}
 						<span class="text-sm text-[color:var(--muted-foreground)]">
 							{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
@@ -1639,4 +1692,40 @@
 				setPendingPositionsFor(groupId, unit.realizacion_prueba_id, positions)}
 		/>
 	</div>
+{/snippet}
+
+<!--
+	La excepción que el catálogo declara: una arquitectura de la misma forma que **aparece
+	intercalada** entre realizaciones de otra. Hoy solo la décima aumentada, que alarga su miembro
+	final de cuatro versos a seis y que Morley y Bruerton documentan entre décimas normales.
+
+	No es una desviación y no se registra como tal: la norma admite la estrofa larga. Marcarla apaga
+	la derivación de unidades desde el rango —una tirada con una aumentada mide `10n + 2`— y deja
+	que la cobertura gobierne, que es lo que ya hace en las formas con secciones.
+
+	La fila no ofrece nada donde la forma no declara ninguna intercalable, que son todas menos una.
+-->
+{#snippet excepcionDeLaUnidad(row: GridRealizacionRow)}
+	{#if (props.interleavedArchitectures ?? []).length > 0 && row.depth === 0}
+		<label class="mt-2 flex flex-wrap items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
+			<span>Esta unidad es</span>
+			<select
+				class="h-8 border border-[color:var(--border)] bg-white px-2 text-xs"
+				value={row.unit.arquitectura_id ?? ''}
+				onchange={(event) =>
+					props.onUnitArchitectureChange?.(
+						row.unit,
+						event.currentTarget.value || null
+					)}
+			>
+				<option value="">la arquitectura de la secuencia</option>
+				{#each props.interleavedArchitectures ?? [] as arquitectura (arquitectura.arquitectura_id)}
+					<option value={arquitectura.arquitectura_id}>{arquitectura.nombre}</option>
+				{/each}
+			</select>
+			{#if row.unit.arquitectura_id}
+				<span>Cuenta sus propios versos; el pasaje se comprueba por cobertura.</span>
+			{/if}
+		</label>
+	{/if}
 {/snippet}

@@ -564,9 +564,17 @@ ya lo referencia.*
    declarar dos regímenes, como la silva desde ese mismo día.* Las cuatro medidas que faltaban
    —penta, hexa, hepta y endecasílaba— sí entraron: la hexasílaba la firma **Góngora**.
 
-2. **El editor no sabe anotar una aumentada entre décimas normales, y el catálogo dice que no es un
-   error.** `secuencias_editor_metrico` lleva un solo `arquitectura_id` por secuencia, así que solo
-   caben dos salidas y ninguna dice lo que el catálogo sostiene. ⇒ **B5**
+2. **¿Debe poder intercalarse alguna otra forma, además de la décima aumentada?** El editor ya sabe
+   anotar una aumentada entre décimas normales: desde el 26 de agosto de 2026 una arquitectura puede
+   declararse `intercalable` y una unidad suelta puede adoptarla, sin registrarla como desviación,
+   porque no lo es. *Se abrió **solo para la décima**, por decisión del IP: si otras formas lo
+   necesitan se abrirán cuando alguien lo pida, para no complicar el editor —ni exponer a error a
+   los editores— en las cuarenta que no lo necesitan.* La duda queda anotada por si el IP conoce ya
+   algún caso: **una realización de otra forma que aparezca dentro de una tirada sin romperla**.
+
+   *Hay además un caso vecino que hoy no cabe y que el IP dejó explícitamente para el futuro:* que
+   lo intercalado sea de **otra forma**, como un pareado cerrando una tirada alirada. Hoy el
+   disparador exige que la arquitectura declarada sea de la misma forma que la secuencia.
 
 3. **¿El linaje debe limitarse a copla real, espinela y aumentada?** Es la única relación histórica
    declarada. *Ampliarlo obligaría a decidir qué otras formas de diez versos entran.*

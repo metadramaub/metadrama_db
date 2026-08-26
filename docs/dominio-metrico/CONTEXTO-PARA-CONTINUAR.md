@@ -346,8 +346,11 @@ la fija se acota.*
 y B4**. B1 y B2 eran el mismo problema en dos dimensiones y dejaron **cinco reglas y dos corolarios**
 escritos en criterios de nivel §§ 3.3 y 3.6, un tercer `tipo_control`, un normalizador de esquemas
 escritos, la herencia por reutilización compartida con la ficha, y un defecto nuevo en cada auditor.
-B3 se comprobó en pantalla y no estaba roto. B4 sí lo estaba, en dos superficies. **Quedan dos
-asuntos en A, tres en B —B5, B6 y B7, los tres menores— y dieciséis en C.***
+B3 se comprobó en pantalla y no estaba roto. B4 sí lo estaba, en dos superficies.*
+
+*Puesto al día el **26 de agosto de 2026**, al cerrar **B5** —la décima aumentada entre décimas
+normales, resuelta en la realización— y con él **el bloque B entero**. Quedan dos asuntos en A y
+dieciséis en C.*
 
 ### A · Bloquean la migración de las secuencias
 
@@ -687,10 +690,33 @@ tres vistas** —`arquitecturas_reglas_longitud`, `propuesta_metrica_secuencia` 
 `propuesta_elecciones_secuencia`—, y el primer intento nombró las dos que se habían mirado y falló
 contra la tercera. La migración **recorre la cadena** y restaura verbatim lo que no cambia.
 
-**B5. El editor no sabe anotar una décima aumentada entre décimas normales.** El catálogo sostiene
-que no es un error —lo dicen su descripción y Morley y Bruerton—, pero `secuencias_editor_metrico`
-lleva **una sola arquitectura por secuencia**, así que solo cabe partir el pasaje o registrarla
-como desviación `estructura` / `mayor_que_norma`, que es anotarla como el error que no es.
+**B5. ~~El editor no sabe anotar una décima aumentada entre décimas normales.~~ Hecho el 26 de
+agosto de 2026.** El catálogo sostenía que no es un error —lo dicen su descripción y Morley y
+Bruerton—, pero `secuencias_editor_metrico` lleva **una sola arquitectura por secuencia**, así que
+solo cabía partir el pasaje o registrarla como desviación `estructura` / `mayor_que_norma`, que es
+anotarla como el error que no es.
+
+**Se resolvió en la realización, no en la desviación,** por decisión del IP: conceptualmente la
+aumentada no se desvía de nada, porque la norma admite la estrofa larga. Una arquitectura declara
+ahora si es `intercalable` —hoy **solo la décima aumentada**, y a propósito: abrirlo a todas
+complicaría el editor para las cuarenta formas que no lo necesitan— y una realización de unidad
+puede declarar cuál adopta. Tres migraciones:
+
+- `20260825410000` — `arquitecturas_forma.intercalable` y `realizaciones_editor_metrico.arquitectura_id`, con un disparador que exige misma forma, arquitectura intercalable y solo en la realización de la unidad.
+- `20260825430000` — el guardado la recuerda.
+- `20260826090000` — **las dos guardas de estructura preguntan por la unidad, no por la secuencia.** Sin esto no se podía guardar: la espinela son tres secciones —4 + 2 + 4— y la aumentada dos —4 + 8—, y ninguna de las de una pertenece a la otra.
+
+En el editor, la unidad que puede ser excepción **deja de ser transparente** —si hay algo que
+decidir, hace falta una fila donde decidirlo— y se dibuja por las secciones de la arquitectura que
+declare. La regla de longitud calla mientras haya una excepción: una tirada con una aumentada mide
+`10n + 2` y exigirle múltiplos de diez sería avisar de lo que la norma admite. Quien comprueba el
+pasaje es entonces **la cobertura del rango**, como en las formas con secciones.
+
+*Y por el camino apareció un fallo que no era de B5 y afectaba a todas las secuencias:* al releer
+una secuencia guardada, `String(unit.seccion_id)` convertía el `null` de la unidad en la cadena
+`"null"`, de modo que **ninguna unidad se reconocía como tal** y el editor reconstruía la
+estructura desde el rango en vez de leerla. Se veía como rangos cambiados al reabrir; en la décima
+de 62 versos, que el rango no divide, se veía como una rejilla vacía.
 
 **B6. ~~El control abierto no pregunta el régimen de rima.~~ Hecho el 25 de agosto de 2026.** Con
 esto se completa la regla 3 bis del § 3.3, y no ha hecho falta ninguna migración: es todo código.

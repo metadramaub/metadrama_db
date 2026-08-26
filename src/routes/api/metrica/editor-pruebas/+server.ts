@@ -25,7 +25,13 @@ const unitSchema = z.object({
 	v_ini: z.number().int().positive(),
 	v_fin: z.number().int().positive(),
 	etiqueta: z.string().trim().max(240).nullable(),
-	observaciones: z.string().trim().max(10_000).nullable()
+	observaciones: z.string().trim().max(10_000).nullable(),
+	/**
+	 * La arquitectura de esta unidad cuando no es la de su secuencia: la décima aumentada entre
+	 * décimas normales. La base comprueba en un disparador que sea de la misma forma y esté
+	 * declarada intercalable, así que aquí solo se deja pasar.
+	 */
+	arquitectura_id: nullableUuid.optional()
 });
 
 const choiceSchema = z
@@ -264,11 +270,19 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 				'No se pudo comprobar la longitud de la secuencia.'
 			);
 		}
+		// **La congruencia no aplica cuando alguna unidad declara su propia arquitectura.** Una
+		// tirada de décimas con una aumentada mide `10n + 2` y no cabe en ninguna división exacta,
+		// y es lo que las fuentes documentan. Ahí gobierna la cobertura del rango, no el módulo.
+		const conArquitecturasPropias = (input.unidades ?? []).some(
+			(unidad) => Boolean(unidad.arquitectura_id) && unidad.realizacion_padre_id === null
+		);
 		const lengthError = metricLengthError(
 			(lengthRuleData as MetricLengthRule | null) ?? null,
 			rangeStart,
 			rangeEnd,
-			lengthRuleData?.arquitectura_nombre
+			lengthRuleData?.arquitectura_nombre,
+			undefined,
+			conArquitecturasPropias
 		);
 		if (lengthError) {
 			return json({ error: 'validation_error', message: lengthError }, { status: 422 });

@@ -19,9 +19,19 @@ export function metricLengthOffsets(rule: MetricLengthRule): number[] {
 export function isMetricLengthCompatible(
 	rule: MetricLengthRule | null | undefined,
 	start: number,
-	end: number
+	end: number,
+	/**
+	 * Si alguna unidad del pasaje declara una arquitectura distinta de la de su secuencia.
+	 *
+	 * **Entonces la congruencia no aplica.** La regla de longitud es una guarda para cuando el
+	 * editor *deriva* cuántas unidades hay dividiendo el rango; una tirada de décimas con una
+	 * aumentada mide `10n + 2` y no cabe en ninguna división exacta, pero es exactamente lo que las
+	 * fuentes documentan. Con excepciones, quien gobierna es la cobertura del rango, que el editor
+	 * ya calcula y ya enseña.
+	 */
+	conArquitecturasPropias = false
 ): boolean {
-	if (!rule) return true;
+	if (!rule || conArquitecturasPropias) return true;
 	const length = inclusiveMetricLength(start, end);
 	return metricLengthOffsets(rule).some((offset) => {
 		const resto = length - offset;
@@ -38,9 +48,10 @@ export function metricLengthError(
 	start: number,
 	end: number,
 	configurationName?: string,
-	formName?: string
+	formName?: string,
+	conArquitecturasPropias = false
 ): string | null {
-	if (!rule || isMetricLengthCompatible(rule, start, end)) return null;
+	if (!rule || isMetricLengthCompatible(rule, start, end, conArquitecturasPropias)) return null;
 	const length = inclusiveMetricLength(start, end);
 	const selectedName = [formName, configurationName].filter(Boolean).join(' · ');
 	const subject = selectedName ? `«${selectedName}» exige` : 'La configuración exige';

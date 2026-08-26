@@ -79,3 +79,27 @@ describe('metric length validation', () => {
 		expect(message).toContain('fuente presenta una laguna');
 	});
 });
+
+describe('la unidad que declara su propia arquitectura', () => {
+	/**
+	 * B5. Una tirada de décimas con una aumentada intercalada mide `10n + 2`, y la décima declara
+	 * módulo 10. La congruencia es una guarda para cuando el editor **deriva** cuántas unidades hay
+	 * dividiendo el rango; con una excepción deja de derivarlas, y gobierna la cobertura.
+	 *
+	 * Antes de esto, cinco décimas y una aumentada —62 versos— devolvían un 422 y no se podían
+	 * guardar. El catálogo sostiene que no es un error: lo dicen su descripción y Morley y Bruerton.
+	 */
+	it('no exige la congruencia cuando hay una arquitectura intercalada', () => {
+		const decima = rule(10, 0, 10);
+		expect(isMetricLengthCompatible(decima, 1, 62)).toBe(false);
+		expect(isMetricLengthCompatible(decima, 1, 62, true)).toBe(true);
+		expect(metricLengthError(decima, 1, 62, 'Espinela', 'Décima', true)).toBeNull();
+	});
+
+	it('sigue exigiéndola cuando todas las unidades son de la secuencia', () => {
+		const decima = rule(10, 0, 10);
+		expect(isMetricLengthCompatible(decima, 1, 60)).toBe(true);
+		expect(isMetricLengthCompatible(decima, 1, 62)).toBe(false);
+		expect(metricLengthError(decima, 1, 62, 'Espinela', 'Décima')).toContain('62 versos');
+	});
+});
