@@ -45,7 +45,6 @@ export type MetricCatalogForm = {
 	nivel_estructural: MetricStructuralLevel;
 	tipo_registro: MetricEntryType;
 	activo: boolean;
-	orden: number | null;
 	origen_termino_id: string | null;
 	updated_at: string;
 };

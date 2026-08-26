@@ -19,7 +19,7 @@ type QueryError = {
 };
 
 const FORM_SELECT =
-	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,activo,orden,origen_termino_id,updated_at';
+	'forma_id,slug,nombre,definicion,nivel_estructural,tipo_registro,activo,origen_termino_id,updated_at';
 const CONFIGURATION_SELECT =
 	'arquitectura_id,forma_id,slug,nombre,descripcion,principal,demarcable,modalidad,tipo_rima_id,unidad_versos_min,unidad_versos_max,activo,orden,origen_termino_id,updated_at';
 
