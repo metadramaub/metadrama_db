@@ -9,6 +9,16 @@ export type MetricUnitDraft = {
 	v_fin: number;
 	etiqueta: string;
 	observaciones: string;
+	/**
+	 * La arquitectura de esta unidad **cuando no es la de su secuencia**.
+	 *
+	 * Nulo es el caso corriente y significa «la de la secuencia». Lo llena la excepción que el
+	 * catálogo declara intercalable: la décima aumentada entre décimas normales, que alarga su
+	 * miembro final de cuatro versos a seis y que Morley y Bruerton documentan así. **No es una
+	 * desviación**: la norma admite la estrofa larga, y registrarla como apartamiento sería anotarla
+	 * como el error que no es.
+	 */
+	arquitectura_id?: string | null;
 };
 
 export type MetricChoiceDraft = {
@@ -101,18 +111,36 @@ export function metricUnitExtent(
  * contiene una sola unidad de extensión libre, y una arquitectura que no declara su unidad
  * ni describe sus partes no tiene nada que materializar.
  */
+/**
+ * Si alguna unidad declara una arquitectura distinta de la de su secuencia.
+ *
+ * Cuando la hay, **las unidades mandan sobre el rango**: una tirada de décimas con una aumentada
+ * mide `10n + 2` y no cabe en ninguna división exacta, así que dejar que el editor la derive
+ * borraría la excepción en cuanto se recalculara.
+ */
+export function hayUnidadConArquitecturaPropia(units: MetricUnitDraft[]): boolean {
+	return units.some((unit) => isMetricUnit(unit) && Boolean(unit.arquitectura_id));
+}
+
 export function metricUnitPlan(
 	configuration:
 		| { unidad_versos_min: number | null; unidad_versos_max: number | null }
 		| null
 		| undefined,
 	sections: MetricCatalogDomainRow[],
-	structuralLevel: string | null | undefined
+	structuralLevel: string | null | undefined,
+	units: MetricUnitDraft[] = []
 ): MetricUnitPlan | null {
 	if (structuralLevel === 'serie' || structuralLevel === 'verso') return null;
 	const extent = metricUnitExtent(configuration);
 	if (!extent && sections.length === 0) return null;
-	return { extent, countFromRange: extent !== null && extent.minimum === extent.maximum };
+	return {
+		extent,
+		countFromRange:
+			extent !== null &&
+			extent.minimum === extent.maximum &&
+			!hayUnidadConArquitecturaPropia(units)
+	};
 }
 
 function isMetricUnit(unit: MetricUnitDraft): boolean {
@@ -135,6 +163,40 @@ export function childrenOfSection(
 				numeric(a.orden, 999) - numeric(b.orden, 999) ||
 				sectionLabel(a).localeCompare(sectionLabel(b), 'es')
 		);
+}
+
+/**
+ * Las partes de una realización: las de su sección, o las raíz de la arquitectura que declara.
+ *
+ * Casi siempre es lo primero y `intercaladas` va vacío. La excepción es la unidad que se declara
+ * **otra arquitectura de su misma forma** —la décima aumentada entre décimas normales—: esa no se
+ * divide por las secciones de la secuencia, sino por las suyas. La espinela son 4 + 2 + 4; la
+ * aumentada, 4 + 8. Dibujar la aumentada con las secciones de la espinela le daba diez versos y
+ * dejaba el pasaje sin cubrir para siempre.
+ *
+ * Las secciones intercaladas viajan aparte y no mezcladas con las de la secuencia porque
+ * `rootSections` no sabría de cuál de las dos arquitecturas son las raíces.
+ */
+export function partesDeLaRealizacion(
+	sections: MetricCatalogDomainRow[],
+	unit: Pick<MetricUnitDraft, 'seccion_id' | 'arquitectura_id'>,
+	intercaladas: MetricCatalogDomainRow[] = []
+): MetricCatalogDomainRow[] {
+	if (unit.seccion_id !== null) {
+		// Una sección de la arquitectura intercalada busca sus hijas entre las suyas.
+		const propias = intercaladas.some((section) => sectionId(section) === unit.seccion_id)
+			? intercaladas
+			: sections;
+		return childrenOfSection(propias, unit.seccion_id);
+	}
+	if (unit.arquitectura_id) {
+		return rootSections(
+			intercaladas.filter(
+				(section) => String(section.arquitectura_id ?? '') === unit.arquitectura_id
+			)
+		);
+	}
+	return rootSections(sections);
 }
 
 export function rootSections(sections: MetricCatalogDomainRow[]): MetricCatalogDomainRow[] {
@@ -170,14 +232,15 @@ function appendRequiredDescendants(
 	units: MetricUnitDraft[],
 	parentUnit: MetricUnitDraft,
 	sections: MetricCatalogDomainRow[],
-	start: number
+	start: number,
+	intercaladas: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
 	let next = units;
-	for (const childSection of childrenOfSection(sections, parentUnit.seccion_id)) {
+	for (const childSection of partesDeLaRealizacion(sections, parentUnit, intercaladas)) {
 		for (let index = 0; index < sectionMinimum(childSection); index += 1) {
 			const child = defaultUnit(childSection, parentUnit.realizacion_prueba_id, start, 1);
 			next = [...next, child];
-			next = appendRequiredDescendants(next, child, sections, start);
+			next = appendRequiredDescendants(next, child, sections, start, intercaladas);
 		}
 	}
 	return next;
@@ -191,7 +254,8 @@ function appendUnit(
 	sequenceStart: number,
 	fallbackLength: number,
 	choices: MetricChoiceDraft[],
-	options: MetricCatalogDomainRow[]
+	options: MetricCatalogDomainRow[],
+	intercaladas: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
 	const unit = defaultUnit(section, parentUnitId, sequenceStart, fallbackLength);
 	unit.orden =
@@ -200,9 +264,17 @@ function appendUnit(
 		[...units, unit],
 		unit,
 		sections,
-		sequenceStart
+		sequenceStart,
+		intercaladas
 	);
-	return reflowMetricUnits(withRequiredChildren, sections, sequenceStart, choices, options);
+	return reflowMetricUnits(
+		withRequiredChildren,
+		sections,
+		sequenceStart,
+		choices,
+		options,
+		intercaladas
+	);
 }
 
 export function addSectionInstance(
@@ -212,11 +284,26 @@ export function addSectionInstance(
 	parentUnitId: string | null,
 	sequenceStart: number,
 	choices: MetricChoiceDraft[] = [],
-	options: MetricCatalogDomainRow[] = []
+	options: MetricCatalogDomainRow[] = [],
+	intercaladas: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
-	const section = sections.find((row) => sectionId(row) === targetSectionId);
+	// La sección puede ser de la arquitectura de la secuencia o de una intercalada: los dos
+	// bloques de la aumentada no están entre las secciones de la espinela.
+	const section =
+		sections.find((row) => sectionId(row) === targetSectionId) ??
+		intercaladas.find((row) => sectionId(row) === targetSectionId);
 	if (!section) return units;
-	return appendUnit(units, sections, section, parentUnitId, sequenceStart, 1, choices, options);
+	return appendUnit(
+		units,
+		sections,
+		section,
+		parentUnitId,
+		sequenceStart,
+		1,
+		choices,
+		options,
+		intercaladas
+	);
 }
 
 /**
@@ -306,16 +393,42 @@ export function ensureRequiredMetricUnits(
 	extent: MetricUnitExtent | null,
 	sequenceStart: number,
 	choices: MetricChoiceDraft[] = [],
-	options: MetricCatalogDomainRow[] = []
+	options: MetricCatalogDomainRow[] = [],
+	intercaladas: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
 	let next = [...units];
 	if (!next.some(isMetricUnit)) {
 		next = addMetricUnit(next, sections, extent, sequenceStart, choices, options);
 	}
 
+	// **Una unidad que cambia de arquitectura pierde las partes de la anterior.** La espinela
+	// tiene tres secciones y la aumentada dos: dejar las viejas colgando daría una unidad con
+	// cinco partes y el doble de versos. Se van aquí, y justo debajo se crean las nuevas.
+	//
+	// El descarte es **por padre**, no global: «Primera redondilla» sigue siendo buena para las
+	// otras cinco décimas de la tirada, y un filtro global la habría dejado también bajo la
+	// aumentada. Se compara cada realización con las partes que admite su propio padre.
+	if (intercaladas.length > 0) {
+		const admitidasPorPadre = new Map<string, Set<string>>(
+			next.map((parent) => [
+				parent.realizacion_prueba_id,
+				new Set(
+					partesDeLaRealizacion(sections, parent, intercaladas).map((childSection) =>
+						sectionId(childSection)
+					)
+				)
+			])
+		);
+		next = next.filter((unit) => {
+			if (unit.seccion_id === null || unit.realizacion_padre_id === null) return true;
+			const admitidas = admitidasPorPadre.get(unit.realizacion_padre_id);
+			return !admitidas || admitidas.has(unit.seccion_id);
+		});
+	}
+
 	// Cada unidad ya materializada debe contener las secciones que su interior exige.
 	for (const parent of [...next]) {
-		for (const childSection of childrenOfSection(sections, parent.seccion_id)) {
+		for (const childSection of partesDeLaRealizacion(sections, parent, intercaladas)) {
 			const existing = next.filter(
 				(unit) =>
 					unit.realizacion_padre_id === parent.realizacion_prueba_id &&
@@ -329,13 +442,14 @@ export function ensureRequiredMetricUnits(
 					parent.realizacion_prueba_id,
 					sequenceStart,
 					choices,
-					options
+					options,
+					intercaladas
 				);
 			}
 		}
 	}
 
-	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
+	return reflowMetricUnits(next, sections, sequenceStart, choices, options, intercaladas);
 }
 
 export function removeMetricUnitTree(
@@ -446,9 +560,15 @@ export function reflowMetricUnits(
 	sections: MetricCatalogDomainRow[],
 	sequenceStart: number,
 	choices: MetricChoiceDraft[] = [],
-	options: MetricCatalogDomainRow[] = []
+	options: MetricCatalogDomainRow[] = [],
+	intercaladas: MetricCatalogDomainRow[] = []
 ): MetricUnitDraft[] {
-	const sectionById = new Map(sections.map((section) => [sectionId(section), section]));
+	// Las secciones de una arquitectura intercalada entran en el índice como cualquier otra: sus
+	// realizaciones miden lo que su sección fija —los ocho versos del segundo bloque de la
+	// aumentada— y se ordenan por su `orden`. Sin ellas medirían lo que trajeran puesto.
+	const sectionById = new Map(
+		[...sections, ...intercaladas].map((section) => [sectionId(section), section])
+	);
 	const sectionOf = (unit: MetricUnitDraft) =>
 		unit.seccion_id ? sectionById.get(unit.seccion_id) : undefined;
 	const originalOrder = new Map(

@@ -167,6 +167,9 @@ export function unitPlanFor(
 	catalog: MetricCatalogForEditor,
 	configurationId: string,
 	sections: MetricCatalogDomainRow[]
+,
+	/** Las unidades ya materializadas: una con arquitectura propia apaga la derivación. */
+	units: MetricUnitDraft[] = []
 ): MetricUnitPlan | null {
 	const configuration =
 		catalog.configurations.find(
@@ -176,7 +179,7 @@ export function unitPlanFor(
 		? (catalog.forms.find((row: MetricCatalogForm) => row.forma_id === configuration.forma_id) ??
 			null)
 		: null;
-	return metricUnitPlan(configuration, sections, form?.nivel_estructural);
+	return metricUnitPlan(configuration, sections, form?.nivel_estructural, units);
 }
 
 /** Materializa las secciones que una respuesta por unidad hace aparecer. */
@@ -229,6 +232,38 @@ export function applyMaterializedSections(
  * casos el rango sigue siendo una declaración editorial independiente y nunca se reescribe
  * desde las unidades.
  */
+/**
+ * Las secciones de las arquitecturas **intercalables** de la misma forma.
+ *
+ * Se calculan aquí, junto a las de la secuencia, porque es el único sitio que ve el catálogo
+ * entero y la arquitectura elegida. Sale vacío en todas las formas menos la décima, que es la
+ * única que hoy declara una intercalable.
+ */
+export function seccionesIntercalables(
+	catalog: MetricCatalogForEditor,
+	configurationId: string
+): MetricCatalogDomainRow[] {
+	const propia = catalog.configurations.find(
+		(configuration) => String(configuration.arquitectura_id) === configurationId
+	);
+	if (!propia) return [];
+	const intercalables = new Set(
+		catalog.configurations
+			.filter(
+				(configuration) =>
+					configuration.forma_id === propia.forma_id &&
+					configuration.activo &&
+					configuration.intercalable &&
+					String(configuration.arquitectura_id) !== configurationId
+			)
+			.map((configuration) => String(configuration.arquitectura_id))
+	);
+	if (intercalables.size === 0) return [];
+	return catalog.domain.sections.filter((section) =>
+		intercalables.has(String(section.arquitectura_id ?? ''))
+	);
+}
+
 export function normalizeStructuredUnits(
 	catalog: MetricCatalogForEditor,
 	units: MetricUnitDraft[],
@@ -238,7 +273,10 @@ export function normalizeStructuredUnits(
 	sequenceEnd: number
 ): MetricUnitDraft[] {
 	const { sections, groups, options } = catalogParts(catalog, configurationId);
-	const plan = unitPlanFor(catalog, configurationId, sections);
+	const intercaladas = seccionesIntercalables(catalog, configurationId);
+	// Las unidades que ya hay deciden si el rango sigue mandando: una excepción intercalada apaga
+	// la derivación, y sin pasárselas el editor la borraría en el primer recálculo.
+	const plan = unitPlanFor(catalog, configurationId, sections, units);
 	if (!plan) return units;
 
 	let next: MetricUnitDraft[];
@@ -268,11 +306,19 @@ export function normalizeStructuredUnits(
 			).units;
 		}
 	} else {
-		next = ensureRequiredMetricUnits(units, sections, plan.extent, sequenceStart, choices, options);
+		next = ensureRequiredMetricUnits(
+			units,
+			sections,
+			plan.extent,
+			sequenceStart,
+			choices,
+			options,
+			intercaladas
+		);
 	}
 
 	next = applyMaterializedSections(next, sections, groups, options, choices, sequenceStart);
-	return reflowMetricUnits(next, sections, sequenceStart, choices, options);
+	return reflowMetricUnits(next, sections, sequenceStart, choices, options, intercaladas);
 }
 
 /** Una respuesta deducida del término legado que hay que colgar de las unidades. */
@@ -361,7 +407,14 @@ export function draftFromRows(
 		unidades: rows.units.filter(belongs).map((unit) => ({
 			realizacion_prueba_id: String(unit.realizacion_prueba_id),
 			realizacion_padre_id: id(unit.realizacion_padre_id),
-			seccion_id: String(unit.seccion_id),
+			// **`id`, no `String`.** La realización de la unidad no realiza ninguna sección, y
+			// `String(null)` daba la cadena «null»: con ella `isMetricUnit` no reconocía ni una
+			// sola unidad, así que al reabrir una secuencia el editor no la leía, la reconstruía
+			// desde el rango —y una tirada que el rango no divide se quedaba sin rejilla—.
+			seccion_id: id(unit.seccion_id),
+			// Y la arquitectura que declare, si declara alguna: sin esto la excepción intercalada
+			// se guardaba pero no se volvía a leer.
+			arquitectura_id: id(unit.arquitectura_id),
 			orden: Number(unit.orden),
 			v_ini: Number(unit.v_ini),
 			v_fin: Number(unit.v_fin),

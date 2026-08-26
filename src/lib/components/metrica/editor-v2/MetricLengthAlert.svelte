@@ -8,6 +8,12 @@
 		end: number;
 		configurationName?: string;
 		formName?: string;
+		/**
+		 * Si alguna unidad declara una arquitectura propia. Entonces la regla de longitud calla:
+		 * una tirada de décimas con una aumentada mide `10n + 2`, y exigirle múltiplos de diez
+		 * sería avisar de lo que la norma admite. Quien comprueba el pasaje es la cobertura.
+		 */
+		conArquitecturasPropias?: boolean;
 	}>();
 
 	const message = $derived(
@@ -16,7 +22,8 @@
 			props.start,
 			props.end,
 			props.configurationName,
-			props.formName
+			props.formName,
+			props.conArquitecturasPropias ?? false
 		)
 	);
 </script>

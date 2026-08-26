@@ -61,6 +61,11 @@ export type MetricCatalogConfiguration = {
 	tipo_rima_id: string | null;
 	unidad_versos_min: number | null;
 	unidad_versos_max: number | null;
+	/**
+	 * Si esta arquitectura aparece **intercalada** entre realizaciones de otra de su misma forma,
+	 * de modo que una secuencia puede contener las dos. Hoy solo la décima aumentada.
+	 */
+	intercalable: boolean;
 	activo: boolean;
 	orden: number | null;
 	origen_termino_id: string | null;

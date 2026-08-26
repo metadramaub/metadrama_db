@@ -414,6 +414,29 @@ extensión que la arquitectura declara para su unidad.
 > **Definición operativa de unidad.** La unidad es la realización que no cuelga de ninguna
 > otra y no realiza ninguna sección. Todo lo demás cuelga de ella.
 
+**Una sola arquitectura por secuencia, con una excepción declarada.** Desde el 26 de agosto de 2026
+una arquitectura puede marcarse `intercalable` en `arquitecturas_forma`, y entonces una unidad
+suelta puede adoptarla mediante `realizaciones_editor_metrico.arquitectura_id`. Es la **décima
+aumentada entre décimas normales** que documentan Morley y Bruerton: no es una desviación, porque la
+norma admite la estrofa larga, y registrarla como tal sería anotarla como el error que no es.
+
+Es deliberadamente estrecho. `validar_arquitectura_de_realizacion()` exige tres cosas: que la
+arquitectura declarada sea **de la misma forma** que la secuencia, que esté marcada `intercalable`,
+y que se declare **solo en la realización de la unidad**, nunca en una sección. Hoy la lleva una
+sola arquitectura del catálogo. *Que lo intercalado pueda ser de otra forma —un pareado cerrando una
+tirada alirada— queda para cuando alguien lo necesite.*
+
+Lo que esa declaración cambia aguas abajo:
+
+- **Las partes de esa unidad** son las secciones de la arquitectura que declara, no las de la
+  secuencia. La espinela son 4 + 2 + 4; la aumentada, 4 + 8.
+- **Las dos guardas de estructura** preguntan por la unidad y no por la secuencia. La de cada fila
+  sube por la cadena de realizaciones hasta encontrar la unidad; la del conjunto recorre unidad por
+  unidad y le pide las secciones de la suya.
+- **La regla de longitud calla.** Una tirada de décimas con una aumentada mide `10n + 2`, y exigirle
+  múltiplos de diez sería avisar de lo que la norma admite. Quien comprueba el pasaje pasa a ser la
+  **cobertura del rango**, como en cualquier forma con secciones.
+
 ### El procedimiento de nivel
 
 La ontología dice que una forma fija unas cosas y admite variación en otras. Este es el
@@ -741,6 +764,7 @@ Lo que de verdad valida un disparador, y solo eso:
 | Que una variedad apunte a esquemas de otra arquitectura                                                      | `variedades_arquitectura`                                   |
 | Que una respuesta del editor no esté entre las que su pregunta ofrece, o caiga en una posición que no existe | `elecciones_editor_metrico`                                 |
 | Que una unidad se salga del rango de su secuencia o rompa la estructura declarada                            | `realizaciones_editor_metrico`, `secuencias_editor_metrico` |
+| Que una unidad declare una arquitectura que no sea de su forma, que no sea intercalable, o que la declare una sección | `realizaciones_editor_metrico`, `arquitecturas_forma`       |
 | Que una desviación no se apoye en las entidades normalizadas del catálogo                                    | `desviaciones_editor_metrico`                               |
 
 Y dos automatismos que no impiden sino que mantienen: `sincronizar_posiciones_esquema_rima_fijo`

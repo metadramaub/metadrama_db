@@ -26,6 +26,7 @@ import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 import {
 	childrenOfSection,
+	partesDeLaRealizacion,
 	extensionSourceUnitFor,
 	rootSections,
 	sectionHasFixedLength,
@@ -51,6 +52,20 @@ export type GridRowContext = {
 	unitPlan: MetricUnitPlan | null;
 	/** Cómo se llama la unidad que define la forma: su nombre, no «Unidad». */
 	unitLabel: string;
+	/**
+	 * Si la forma tiene alguna arquitectura **intercalable**, de modo que una unidad suelta pueda
+	 * declararse excepción —la décima aumentada entre décimas normales—.
+	 *
+	 * Le importa a la rejilla porque decide si la fila de la unidad se pinta: una unidad sin nada
+	 * que decidir se vuelve transparente y deja subir a sus partes, y aquí sí hay algo que decidir.
+	 */
+	admiteArquitecturaIntercalada?: boolean;
+	/**
+	 * Las secciones de esas arquitecturas intercalables. La unidad que declara una se dibuja por
+	 * ellas y no por las de la secuencia: la aumentada son dos bloques de 4 y 8, no los tres de
+	 * la espinela.
+	 */
+	seccionesIntercaladas?: MetricCatalogDomainRow[];
 };
 
 /**
@@ -394,6 +409,10 @@ function lengthEditableFor(
 ): boolean {
 	if (childrenOfSection(context.sections, nodeSectionId(section)).length > 0) return false;
 	if (extensionReferenceFor(context, unit)) return false;
+	// **Una unidad que declara su propia arquitectura mide lo que mida esa**, no lo que fija la de
+	// la secuencia: la décima aumentada son doce versos entre décimas de diez. Su extensión la pone
+	// el editor y la comprueba la cobertura del rango.
+	if (!section && unit.arquitectura_id) return true;
 	return !nodeHasFixedLength(context, section);
 }
 
@@ -410,6 +429,8 @@ function notaFor(
 		const versos = unit.v_fin - unit.v_ini + 1;
 		return `${versos} ${versos === 1 ? 'verso' : 'versos'}, calculados desde «${sectionLabel(reference)}»`;
 	}
+	// Lo mismo en la nota: decir «10 versos fijos» sobre una aumentada de doce sería mentir.
+	if (!section && unit.arquitectura_id) return 'arquitectura propia de esta unidad';
 	if (nodeHasFixedLength(context, section)) {
 		const versos = nodeVerseMinimum(context, section);
 		return `${versos} ${versos === 1 ? 'verso' : 'versos'} fijos`;
@@ -492,7 +513,18 @@ function walk(
 ): void {
 	const targetSectionId = nodeSectionId(section);
 	const list = instancesOf(context.units, targetSectionId, parentUnitId);
-	const children = childrenOfSection(context.sections, targetSectionId);
+	const intercaladas = context.seccionesIntercaladas ?? [];
+	// Las partes de una realización dependen de **ella**, no solo de su sección: una unidad que
+	// declara ser otra arquitectura se divide por las de esa. `children` es el caso general, que
+	// vale para todo lo demás y para las decisiones que se toman antes de recorrer la lista.
+	const partesDe = (unit: MetricUnitDraft) =>
+		partesDeLaRealizacion(context.sections, unit, intercaladas);
+	const children = childrenOfSection(
+		intercaladas.some((seccion) => sectionId(seccion) === targetSectionId)
+			? intercaladas
+			: context.sections,
+		targetSectionId
+	);
 	const label = nodeLabel(context, section);
 	const blockKey = `${targetSectionId ?? 'unidad'}|${parentUnitId ?? 'raiz'}`;
 	const preguntasMaterializadoras = materializingQuestions(context, section, parentUnitId);
@@ -575,6 +607,12 @@ function walk(
 			//
 			// Un bloque que se puede repetir sí conserva la fila aunque por ahora haya uno: es la
 			// frontera que deja claro dónde acabará cada ciclo cuando se añada el siguiente.
+			// Y una unidad que puede declararse excepción **nunca** es transparente: ahí vive la
+			// única decisión que tiene, y sin fila no habría dónde tomarla.
+			const puedeSerExcepcion =
+				Boolean(context.admiteArquitecturaIntercalada) &&
+				section === null &&
+				parentUnitId === null;
 			const transparente =
 				children.length > 0 &&
 				list.length === 1 &&
@@ -582,6 +620,7 @@ function walk(
 				!lengthEditable &&
 				!removable &&
 				!accionesIndividuales &&
+				!puedeSerExcepcion &&
 				(section === null || !cuentaVisible);
 
 			if (!transparente) {
@@ -623,7 +662,7 @@ function walk(
 				});
 			}
 
-			for (const child of children) {
+			for (const child of partesDe(unit)) {
 				walk(context, child, unit.realizacion_prueba_id, transparente ? depth : depth + 1, out);
 			}
 		}
