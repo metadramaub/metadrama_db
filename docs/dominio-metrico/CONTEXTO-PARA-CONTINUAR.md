@@ -475,6 +475,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | — | copla castellana | «rango calculado desde sus partes» | — | *es F6, segunda repetición del mismo mensaje* | — | ya en F6 |
 | F16 | copla castellana | el quebrado es **rasgo opcional**, no medida esperada: ponerlo bajo «Medida» hace creer que hay que encontrarlo | **catálogo** | el rasgo `pie_quebrado` **ya está declarado** en las 10 arquitecturas —`admitida` en 8, `habitual` en las dos oncenas— pero **no tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo que se pregunta es `posiciones_pie_quebrado`, de dimensión `metro` | 10 arquitecturas de 8 formas (las mismas de F11) | **migración, sin aprobar** |
 | F17 | todas las de rima | «¿Rima de otra manera?» se muestra siempre, cuando solo hace falta si no vale ninguna predefinida | UI | `tipo_control: opciones_y_esquema` pinta las opciones **y** el campo libre a la vez, en vez de ofrecer «otra» como una opción más | 41 grupos en 37 arquitecturas | recogido |
+| F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 
 **F11, por qué las dos frases eran ciertas.** La definición del catálogo dice que la copla castellana
@@ -482,6 +483,20 @@ es de octosílabos y que «algún verso puede aparecer quebrado en cuatro sílab
 recoge tal cual: **una** posición de 8 —el ciclo— y un repertorio con roles, `dominante: 8` y
 `quebrado: 4, 5`. Leerlo por roles da la base y los quebrados; releerlo por posiciones da un 8 fijo.
 Lo que la norma fija es **la base**, no la medida de cada verso, así que el segundo renglón sobra.
+
+**F19, por qué parecía la excepción y es la norma.** El editor deriva las unidades del rango cuando
+la arquitectura tiene extensión de unidad **fija** (`unidad_versos_min = unidad_versos_max`), y
+entonces no ofrece botón: se añaden solas al alargar el rango. Contado sobre el catálogo activo:
+
+| | arquitecturas | formas | |
+|---|---|---|---|
+| unidad fija → **derivadas del rango, sin botón** | 65 | 30 | coplas, cuartetos, décimas, liras, octavas, quintillas, redondillas, sonetos, tercetos… |
+| serie o verso → sin plan de unidad | 20 | 8 | romance, silva, terceto encadenado, sueltos, enlazadas |
+| extensión abierta → **se añaden a mano** | 6 | 3 | canción petrarquista, villancico, zéjel |
+
+Así que la copla de arte mayor **se comporta como treinta de las cuarenta y una formas**: lo raro es
+lo otro. La impresión de excepción viene de haber recorrido la canción justo antes, que es de las
+tres que sí piden añadir. *Se cierra sin tocar nada, y queda anotado para no «arreglarlo» luego.*
 
 **F16, lo que dice el catálogo.** El IP tiene razón y el catálogo ya lo dice: el quebrado está
 declarado como **rasgo admitido** —no como parte de la medida—, y en las oncenas como *habitual*. Que
