@@ -29,6 +29,7 @@
 		type LocalFormDraft
 	} from '$lib/utils/local-form-draft';
 	import { displayTerm } from '$lib/utils/vocabulario';
+	import CaracterizacionesPorRango from './secuencias/CaracterizacionesPorRango.svelte';
 	import {
 		analyzeSequenceRangeConsistency,
 		collectRangeConsistencyIds
@@ -87,24 +88,6 @@
 		draft: LocalFormDraft<FormState>;
 	};
 
-	type CaracterizacionRangoItem = {
-		caracterizacion_rango_id: string;
-		secuencia_id: string;
-		tipo_caracterizacion_rango_id: string;
-		tipo_caracterizacion_rango_term: string;
-		tipo_caracterizacion_rango_parent_id: string | null;
-		v_ini: number;
-		v_fin: number;
-		observaciones: string | null;
-	};
-
-	type CaracterizacionRangoFormState = {
-		tipo_caracterizacion_rango_id: string;
-		v_ini: number;
-		v_fin: number;
-		observaciones: string;
-	};
-
 	type SubtipoItem = {
 		subtipo_secuencia_id: string;
 		secuencia_id: string;
@@ -146,20 +129,8 @@
 	let sidebarBaselineSnapshot = $state('');
 	let lastReportedPending = false;
 	const localDraftWriter = createLocalDraftWriter();
-	let caracterizacionesRango = $state<CaracterizacionRangoItem[]>([]);
-	let caracterizacionesRangoLoading = $state(false);
-	let caracterizacionesRangoRequestCounter = $state(0);
-	let caracterizacionRangoModalOpen = $state(false);
-	let caracterizacionRangoModalSaving = $state(false);
-	let caracterizacionRangoEditingId = $state<string | null>(null);
-	let caracterizacionRangoDeleteTargetId = $state<string | null>(null);
-	let deletingCaracterizacionRango = $state(false);
-	let caracterizacionRangoForm = $state<CaracterizacionRangoFormState>({
-		tipo_caracterizacion_rango_id: '',
-		v_ini: 1,
-		v_fin: 1,
-		observaciones: ''
-	});
+	/** El componente de caracterizaciones, para recargarlo y cerrarlo desde aquí. */
+	let caracterizaciones = $state<CaracterizacionesPorRango | null>(null);
 	let subtipos = $state<SubtipoItem[]>([]);
 	let subtiposLoading = $state(false);
 	let subtiposRequestCounter = $state(0);
@@ -176,13 +147,6 @@
 	});
 
 	function sortEstrofaOptions(options: typeof props.estrofaOptions) {
-		return [...options].sort(
-			(a, b) => (a.orden ?? Number.MAX_SAFE_INTEGER) - (b.orden ?? Number.MAX_SAFE_INTEGER) ||
-				a.termino.localeCompare(b.termino, 'es')
-		);
-	}
-
-	function sortCaracterizacionRangoOptions(options: typeof props.caracterizacionRangoOptions) {
 		return [...options].sort(
 			(a, b) => (a.orden ?? Number.MAX_SAFE_INTEGER) - (b.orden ?? Number.MAX_SAFE_INTEGER) ||
 				a.termino.localeCompare(b.termino, 'es')
@@ -237,13 +201,6 @@
 			parentId: option.termino_padre_id ?? null
 		}))
 	);
-	const caracterizacionRangoDropdownItems = $derived.by(() =>
-		sortCaracterizacionRangoOptions(props.caracterizacionRangoOptions).map((option) => ({
-			id: option.termino_id,
-			label: displayTerm(option),
-			parentId: option.termino_padre_id ?? null
-		}))
-	);
 	const intervencionItems = [
 		{ id: 'sin_intervencion', label: 'Sin intervención' },
 		{ id: 'exclusiva', label: 'Intervención exclusiva' },
@@ -251,50 +208,6 @@
 	];
 	const INTERVENCION_HELP =
 		'Indica si en esta secuencia métrica interviene verbalmente un personaje de este tipo. El dato se refiere al habla dentro de la secuencia, no a la presencia escénica.';
-	const caracterizacionRangoById = $derived.by(
-		() =>
-			new Map<string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>(
-				props.caracterizacionRangoOptions.map(
-					(
-						option: Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>
-					): readonly [string, Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>] => [
-						option.termino_id,
-						option
-					]
-				)
-			)
-	);
-	const selectedCaracterizacionRangoTerm = $derived.by(() => {
-		const term =
-			caracterizacionRangoById.get(caracterizacionRangoForm.tipo_caracterizacion_rango_id)?.termino ?? '';
-		return normalizeTerm(term);
-	});
-	const caracterizacionRangoRangeHelperText = $derived.by(() => {
-		if (selectedCaracterizacionRangoTerm === 'prosa') {
-			return 'Indica entre qué versos aparece la prosa (no numerada). Ej.: v_ini=56, v_fin=57.';
-		}
-		if (
-			selectedCaracterizacionRangoTerm === 'hipometrico' ||
-			selectedCaracterizacionRangoTerm === 'hipermetrico'
-		) {
-			return 'Esta caracterización aplica a un solo verso: usa el mismo número en V. ini y V. fin.';
-		}
-		if (
-			selectedCaracterizacionRangoTerm === 'cantado' ||
-			selectedCaracterizacionRangoTerm === 'rima_defectuosa' ||
-			selectedCaracterizacionRangoTerm === 'laguna'
-		) {
-			return 'Puedes marcar un solo verso (V. ini = V. fin) o un rango (V. ini < V. fin).';
-		}
-		if (
-			selectedCaracterizacionRangoTerm === 'mayoria_agudas' ||
-			selectedCaracterizacionRangoTerm === 'mayoria_esdrujulas'
-		) {
-			return 'Marca el tramo donde predominan esos finales acentuales dentro de la secuencia.';
-		}
-		return '';
-	});
-
 	function toSelectableEstrofaId(termId: string | null | undefined): string {
 		if (!termId) return '';
 		if (estrofaSelectableIds.has(termId)) return termId;
@@ -363,22 +276,6 @@
 			)
 	);
 
-	function getDefaultCaracterizacionRangoId() {
-		const firstSelectable = sortCaracterizacionRangoOptions(props.caracterizacionRangoOptions).find(
-			(option) => Boolean(option.termino_padre_id)
-		);
-		return firstSelectable?.termino_id ?? '';
-	}
-
-	function initialCaracterizacionRangoForm(): CaracterizacionRangoFormState {
-		return {
-			tipo_caracterizacion_rango_id: getDefaultCaracterizacionRangoId(),
-			v_ini: Number(form.v_ini) || 1,
-			v_fin: Number(form.v_ini) || 1,
-			observaciones: ''
-		};
-	}
-
 	function getDefaultSubtipoId() {
 		return subtipoOptionsForCurrentEstrofa[0]?.termino_id ?? '';
 	}
@@ -402,15 +299,6 @@
 		if (!id) return 'Pendiente';
 		const option = options.find((opt) => opt.termino_id === id);
 		return option ? displayTerm(option) : 'Pendiente';
-	}
-
-	function caracterizacionRangoLabelById(tipoCaracterizacionRangoId: string, fallback = '') {
-		const fromVocabulary = displayTerm(caracterizacionRangoById.get(tipoCaracterizacionRangoId));
-		return fromVocabulary || fallback || '--';
-	}
-
-	function sortCaracterizacionesRango(items: CaracterizacionRangoItem[]) {
-		return [...items].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
 	}
 
 	function sortSubtipos(items: SubtipoItem[]) {
@@ -616,10 +504,8 @@
 		if (props.readOnly) return;
 		editingId = null;
 		form = initialForm();
-		caracterizacionesRango = [];
 		subtipos = [];
-		caracterizacionRangoDeleteTargetId = null;
-		caracterizacionRangoModalOpen = false;
+		caracterizaciones?.cerrarModales();
 		subtipoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		sidebarOpen = true;
@@ -645,17 +531,15 @@
 				secuencia.intervencion_personajes_sobrenaturales as IntervencionValue | null,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
-		caracterizacionesRango = [];
 		subtipos = [];
-		caracterizacionRangoDeleteTargetId = null;
-		caracterizacionRangoModalOpen = false;
+		caracterizaciones?.cerrarModales();
 		subtipoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		sidebarOpen = true;
 		pendingSidebarAction = null;
 		setSidebarBaselineFromCurrent();
 		prepareLocalDraftRecovery();
-		void loadCaracterizacionesRangoForCurrentSecuencia();
+		void caracterizaciones?.recargar();
 		void loadSubtiposForCurrentSecuencia();
 	}
 
@@ -687,15 +571,10 @@
 		localDraftWriter.cancel();
 		sidebarOpen = false;
 		editingId = null;
-		caracterizacionesRango = [];
-		caracterizacionesRangoLoading = false;
-		caracterizacionesRangoRequestCounter += 1;
+		caracterizaciones?.cerrarModales();
 		subtipos = [];
 		subtiposLoading = false;
 		subtiposRequestCounter += 1;
-		caracterizacionRangoModalOpen = false;
-		caracterizacionRangoEditingId = null;
-		caracterizacionRangoDeleteTargetId = null;
 		subtipoModalOpen = false;
 		subtipoEditingId = null;
 		subtipoDeleteTargetId = null;
@@ -809,7 +688,7 @@
 			secuencias = next;
 			emitSecuenciasChange(next);
 			editingId = savedId;
-			void loadCaracterizacionesRangoForCurrentSecuencia();
+			void caracterizaciones?.recargar();
 			void loadSubtiposForCurrentSecuencia();
 		}
 
@@ -875,197 +754,6 @@
 			pushToast('error', 'No se pudo conectar con el servidor para eliminar la secuencia');
 		} finally {
 			deletingSequence = false;
-		}
-	}
-
-	async function loadCaracterizacionesRangoForCurrentSecuencia() {
-		if (!browser) return;
-		if (!editingId) {
-			caracterizacionesRango = [];
-			return;
-		}
-		caracterizacionesRangoLoading = true;
-		const requestId = ++caracterizacionesRangoRequestCounter;
-
-		const response = await fetch(`/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones`);
-		if (requestId !== caracterizacionesRangoRequestCounter) return;
-		caracterizacionesRangoLoading = false;
-
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			pushToast('error', body.message ?? 'No se pudieron cargar las caracterizaciones por rango');
-			return;
-		}
-
-		const payload = await response.json().catch(() => ({ items: [] }));
-		caracterizacionesRango = sortCaracterizacionesRango(
-			(payload.items ?? []) as CaracterizacionRangoItem[]
-		);
-	}
-
-	function validateCaracterizacionRangoForm(showToast = true) {
-		if (!editingId) {
-			if (showToast) {
-				pushToast('error', 'Guarda la secuencia antes de gestionar caracterizaciones por rango');
-			}
-			return false;
-		}
-		if (!caracterizacionRangoForm.tipo_caracterizacion_rango_id) {
-			if (showToast) pushToast('error', 'Selecciona un tipo de caracterización');
-			return false;
-		}
-		if (!caracterizacionRangoById.has(caracterizacionRangoForm.tipo_caracterizacion_rango_id)) {
-			if (showToast) pushToast('error', 'El tipo de caracterización seleccionado no es válido');
-			return false;
-		}
-
-		const vIni = Number(caracterizacionRangoForm.v_ini);
-		const vFin = Number(caracterizacionRangoForm.v_fin);
-		if (!Number.isFinite(vIni) || !Number.isFinite(vFin)) {
-			if (showToast) pushToast('error', 'Versos de caracterización inválidos');
-			return false;
-		}
-		if (vIni > vFin) {
-			if (showToast) pushToast('error', 'El verso inicial no puede ser mayor que el final');
-			return false;
-		}
-		if (vIni < Number(form.v_ini) || vFin > Number(form.v_fin)) {
-			if (showToast) {
-				pushToast(
-					'error',
-					`La caracterización debe quedar dentro del rango de la secuencia (${form.v_ini}-${form.v_fin})`
-				);
-			}
-			return false;
-		}
-
-		const tipoTerm = selectedCaracterizacionRangoTerm;
-		if (tipoTerm === 'prosa' && vIni >= vFin) {
-			if (showToast) pushToast('error', 'En prosa, v_ini debe ser menor que v_fin');
-			return false;
-		}
-		if ((tipoTerm === 'hipometrico' || tipoTerm === 'hipermetrico') && vIni !== vFin) {
-			if (showToast) pushToast('error', 'Hipométrico e hipermétrico solo admiten un verso');
-			return false;
-		}
-
-		return true;
-	}
-
-	function openCaracterizacionRangoCreateModal() {
-		if (props.readOnly || !editingId) return;
-		caracterizacionRangoEditingId = null;
-		caracterizacionRangoForm = initialCaracterizacionRangoForm();
-		caracterizacionRangoModalOpen = true;
-	}
-
-	function openCaracterizacionRangoEditModal(caracterizacion: CaracterizacionRangoItem) {
-		if (props.readOnly || !editingId) return;
-		caracterizacionRangoEditingId = caracterizacion.caracterizacion_rango_id;
-		caracterizacionRangoForm = {
-			tipo_caracterizacion_rango_id: caracterizacion.tipo_caracterizacion_rango_id,
-			v_ini: caracterizacion.v_ini,
-			v_fin: caracterizacion.v_fin,
-			observaciones: caracterizacion.observaciones ?? ''
-		};
-		caracterizacionRangoModalOpen = true;
-	}
-
-	function closeCaracterizacionRangoModal() {
-		if (caracterizacionRangoModalSaving) return;
-		caracterizacionRangoModalOpen = false;
-		caracterizacionRangoEditingId = null;
-		caracterizacionRangoForm = initialCaracterizacionRangoForm();
-	}
-
-	async function saveCaracterizacionRango() {
-		if (!browser) return;
-		if (props.readOnly || caracterizacionRangoModalSaving || !editingId) return;
-		if (!validateCaracterizacionRangoForm(true)) return;
-
-		caracterizacionRangoModalSaving = true;
-		const isEditing = Boolean(caracterizacionRangoEditingId);
-		const endpoint = isEditing
-			? `/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones/${caracterizacionRangoEditingId}`
-			: `/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones`;
-		const method = isEditing ? 'PATCH' : 'POST';
-
-		const response = await fetch(endpoint, {
-			method,
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				tipo_caracterizacion_rango_id: caracterizacionRangoForm.tipo_caracterizacion_rango_id,
-				v_ini: Number(caracterizacionRangoForm.v_ini),
-				v_fin: Number(caracterizacionRangoForm.v_fin),
-				observaciones: caracterizacionRangoForm.observaciones.trim() || null
-			})
-		});
-		caracterizacionRangoModalSaving = false;
-
-		if (!response.ok) {
-			const body = await response.json().catch(() => ({}));
-			const message =
-				body.details?.[0]?.message ??
-				body.message ??
-				(isEditing
-					? 'No se pudo actualizar la caracterización'
-					: 'No se pudo crear la caracterización');
-			pushToast('error', message);
-			return;
-		}
-
-		const payload = await response.json();
-		const saved = payload.caracterizacion as CaracterizacionRangoItem;
-		if (isEditing && caracterizacionRangoEditingId) {
-			caracterizacionesRango = sortCaracterizacionesRango(
-				caracterizacionesRango.map((item) =>
-					item.caracterizacion_rango_id === caracterizacionRangoEditingId ? saved : item
-				)
-			);
-		} else {
-			caracterizacionesRango = sortCaracterizacionesRango([...caracterizacionesRango, saved]);
-		}
-
-		closeCaracterizacionRangoModal();
-		props.onMetricaDirty?.();
-		pushToast('success', isEditing ? 'Caracterización actualizada' : 'Caracterización creada');
-	}
-
-	function openCaracterizacionRangoDeleteModal(caracterizacionRangoId: string) {
-		if (props.readOnly) return;
-		caracterizacionRangoDeleteTargetId = caracterizacionRangoId;
-	}
-
-	function closeCaracterizacionRangoDeleteModal() {
-		caracterizacionRangoDeleteTargetId = null;
-	}
-
-	async function removeCaracterizacionRango(caracterizacionRangoId: string) {
-		if (!browser) return;
-		if (props.readOnly || !editingId || deletingCaracterizacionRango) return;
-		deletingCaracterizacionRango = true;
-		try {
-			const response = await fetch(
-				`/api/obras/${props.obraId}/secuencias/${editingId}/caracterizaciones/${caracterizacionRangoId}`,
-				{
-					method: 'DELETE'
-				}
-			);
-			if (!response.ok) {
-				const body = await response.json().catch(() => ({}));
-				pushToast('error', body.message ?? 'No se pudo eliminar la caracterización');
-				return;
-			}
-			caracterizacionesRango = caracterizacionesRango.filter(
-				(row) => row.caracterizacion_rango_id !== caracterizacionRangoId
-			);
-			caracterizacionRangoDeleteTargetId = null;
-			props.onMetricaDirty?.();
-			pushToast('success', 'Caracterización eliminada');
-		} catch {
-			pushToast('error', 'No se pudo conectar con el servidor para eliminar la caracterización');
-		} finally {
-			deletingCaracterizacionRango = false;
 		}
 	}
 
@@ -1761,79 +1449,15 @@
 			</section>
 			{/if}
 
-			<section class="bg-white p-4">
-				<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-					<h4 class="form-section-title mb-0">Caracterizaciones por rango</h4>
-					<Button
-						variant="secondary"
-						onclick={openCaracterizacionRangoCreateModal}
-						disabled={props.readOnly || !editingId}
-					>
-						Añadir caracterización
-					</Button>
-				</div>
-
-				{#if !editingId}
-					<p class="form-help">Guarda la secuencia para añadir caracterizaciones por rango.</p>
-				{:else if caracterizacionesRangoLoading}
-					<p class="form-help">Cargando caracterizaciones por rango...</p>
-				{:else if caracterizacionesRango.length === 0}
-					<p class="form-help">Sin caracterizaciones por rango registradas en esta secuencia.</p>
-				{:else}
-					<div class="mt-3 overflow-x-auto">
-						<table class="min-w-full text-left text-xs">
-							<thead class="bg-[color:var(--muted)]">
-								<tr>
-									<th class="px-2 py-2">Tipo</th>
-									<th class="px-2 py-2">V_ini</th>
-									<th class="px-2 py-2">V_fin</th>
-									<th class="w-16 px-2 py-2"><span class="sr-only">Acciones</span></th>
-								</tr>
-							</thead>
-							<tbody>
-								{#each caracterizacionesRango as caracterizacion}
-									<tr class="border-t border-[color:var(--border)]">
-										<td class="px-2 py-2">
-											{caracterizacionRangoLabelById(
-												caracterizacion.tipo_caracterizacion_rango_id,
-												caracterizacion.tipo_caracterizacion_rango_term
-											)}
-										</td>
-										<td class="px-2 py-2">{caracterizacion.v_ini}</td>
-										<td class="px-2 py-2">{caracterizacion.v_fin}</td>
-										<td class="px-2 py-2">
-											<div class="flex items-center justify-end gap-1">
-												<button
-													type="button"
-													class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
-													aria-label="Editar caracterización"
-													onclick={() => openCaracterizacionRangoEditModal(caracterizacion)}
-													disabled={props.readOnly}
-												>
-													<Pencil size={15} />
-												</button>
-												<button
-													type="button"
-													class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
-													aria-label="Eliminar caracterización"
-													onclick={() =>
-														openCaracterizacionRangoDeleteModal(
-															caracterizacion.caracterizacion_rango_id
-														)}
-													disabled={props.readOnly}
-												>
-													<Trash2 size={15} />
-												</button>
-											</div>
-										</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					</div>
-				{/if}
-			</section>
-
+			<CaracterizacionesPorRango
+				bind:this={caracterizaciones}
+				obraId={props.obraId}
+				secuenciaId={editingId}
+				rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
+				opciones={props.caracterizacionRangoOptions}
+				readOnly={props.readOnly}
+				onMetricaDirty={props.onMetricaDirty}
+			/>
 
 			<section class="bg-white p-4">
 				<h4 class="form-section-title">
@@ -2045,110 +1669,6 @@
 	</aside>
 	{/if}
 
-	{#if caracterizacionRangoModalOpen}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-			<div class="card w-full max-w-2xl p-5">
-				<h3 class="text-lg font-semibold">
-					{caracterizacionRangoEditingId ? 'Editar caracterización' : 'Añadir caracterización'}
-				</h3>
-				<div class="mt-3 grid gap-3">
-					<label class="form-field">
-						<span class="form-label">Tipo *</span>
-						<CheckDropdown
-							multiple={false}
-							hierarchical={true}
-							collapsibleHierarchy={true}
-							showPathInTrigger={true}
-							allowSingleClear={false}
-							search={caracterizacionRangoDropdownItems.length > 8}
-							placeholder="Seleccionar tipo"
-							items={caracterizacionRangoDropdownItems}
-							disabled={props.readOnly || caracterizacionRangoModalSaving}
-							disableParentsWithChildren={true}
-							selectedIds={
-								caracterizacionRangoForm.tipo_caracterizacion_rango_id
-									? [caracterizacionRangoForm.tipo_caracterizacion_rango_id]
-									: []
-							}
-							onChange={(ids) => {
-								const nextId = ids[0] ?? '';
-								if (!nextId) return;
-								caracterizacionRangoForm = {
-									...caracterizacionRangoForm,
-									tipo_caracterizacion_rango_id: nextId
-								};
-							}}
-						/>
-					</label>
-
-					<div class="grid gap-3 sm:grid-cols-2">
-						<label class="form-field">
-							<span class="form-label">V. ini *</span>
-							<input
-								type="number"
-								bind:value={caracterizacionRangoForm.v_ini}
-								disabled={props.readOnly || caracterizacionRangoModalSaving}
-								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-							/>
-						</label>
-						<label class="form-field">
-							<span class="form-label">V. fin *</span>
-							<input
-								type="number"
-								bind:value={caracterizacionRangoForm.v_fin}
-								disabled={props.readOnly || caracterizacionRangoModalSaving}
-								class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-							/>
-						</label>
-					</div>
-
-										{#if caracterizacionRangoRangeHelperText}
-						<p class="rounded-md border border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
-							{caracterizacionRangoRangeHelperText}
-						</p>
-					{/if}
-
-					<label class="form-field">
-						<span class="form-label">
-							<span class="form-label-with-help">
-								Observaciones
-								<FieldHelpTooltip
-									text="Este contenido se publica en la ficha pública de la obra."
-									label="Visibilidad pública de observaciones de la caracterización"
-								/>
-							</span>
-						</span>
-						<MarkdownEditorLite
-							rows={3}
-							class="mt-1"
-							minHeightClass="min-h-24"
-							value={caracterizacionRangoForm.observaciones}
-							disabled={props.readOnly || caracterizacionRangoModalSaving}
-							onChange={(nextValue) => {
-								caracterizacionRangoForm = {
-									...caracterizacionRangoForm,
-									observaciones: nextValue
-								};
-							}}
-						/>
-					</label>
-				</div>
-				<div class="mt-4 flex justify-end gap-2">
-					<Button variant="secondary" onclick={closeCaracterizacionRangoModal}>Cancelar</Button>
-					<Button
-						variant="success"
-						disabled={props.readOnly}
-						loading={caracterizacionRangoModalSaving}
-						loadingLabel="Guardando…"
-						onclick={() => void saveCaracterizacionRango()}
-					>
-						Guardar
-					</Button>
-				</div>
-			</div>
-		</div>
-	{/if}
-
 	{#if subtipoModalOpen}
 		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 			<div class="card w-full max-w-2xl p-5">
@@ -2208,36 +1728,6 @@
 						onclick={() => void saveSubtipo()}
 					>
 						Guardar
-					</Button>
-				</div>
-			</div>
-		</div>
-	{/if}
-
-	{#if caracterizacionRangoDeleteTargetId}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-			<div class="card w-full max-w-md p-5">
-				<h3 class="text-lg font-semibold">Eliminar caracterización</h3>
-				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
-				<div class="mt-4 flex justify-end gap-2">
-					<Button
-						variant="secondary"
-						onclick={closeCaracterizacionRangoDeleteModal}
-						disabled={deletingCaracterizacionRango}
-					>
-						Cancelar
-					</Button>
-					<Button
-						variant="danger"
-						disabled={props.readOnly}
-						loading={deletingCaracterizacionRango}
-						loadingLabel="Eliminando…"
-						onclick={() => {
-							if (!caracterizacionRangoDeleteTargetId) return;
-							void removeCaracterizacionRango(caracterizacionRangoDeleteTargetId);
-						}}
-					>
-						Eliminar
 					</Button>
 				</div>
 			</div>
