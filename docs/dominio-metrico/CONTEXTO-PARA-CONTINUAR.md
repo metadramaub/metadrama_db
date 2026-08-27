@@ -510,6 +510,15 @@ solo se ofrecía cuando la unidad estaba **contestada entera**, que es justo cua
 Ahora una unidad abierta se pliega siempre, y al plegarla **se van con ella sus partes**, que se pintan
 como filas hermanas y antes se quedaban sueltas debajo.
 
+**El atajo no enseña lo que no es de todas.** Un fallo que costó encontrar y conviene no repetir:
+`MetricFamilyControl` **construye la selección nueva a partir de lo que se le pasa en `uniform`**, y
+sabe pintarse «mixto» cuando recibe nulo habiendo respuestas. Hubo un momento en que se le pasaba la
+respuesta **mayoritaria** para que se viera algo, y con un quebrado puesto en una sola copla el atajo
+lo mostraba como si fuera de todas y, al marcar dos más, partía de aquel y **escribía los tres en
+todas**. `uniform` va en nulo cuando no coinciden, y punto; cuántas coinciden se dice en el rótulo, que
+es donde no hace daño. De paso, aplicar por el atajo **borra las marcas de quebrado a medio poner** de
+cada unidad, que describían una respuesta que el atajo acaba de sobrescribir.
+
 **Los dos bloques van separados.** Lo que se responde una vez y lo que se lee unidad por unidad iban
 en el mismo recuadro y pegados, y así la respuesta común se leía como si fuera la primera unidad.
 
