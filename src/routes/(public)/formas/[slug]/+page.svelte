@@ -105,7 +105,7 @@
 				{/if}
 
 				{#if forma.tradiciones.length > 0 || forma.tiposRima.length > 0}
-					<dl class="mt-5 flex flex-wrap gap-x-8 gap-y-3 bg-[color:var(--gray-50)] px-4 py-3 text-sm">
+					<dl class="mt-5 flex flex-wrap gap-x-8 gap-y-3 border-y border-[color:var(--border)] py-3 text-sm">
 						{#if forma.tradiciones.length > 0}
 							<div class="flex items-baseline gap-2">
 								<dt class="text-xs font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
