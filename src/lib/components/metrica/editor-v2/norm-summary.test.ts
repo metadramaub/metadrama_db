@@ -390,4 +390,137 @@ describe('resumen de la norma', () => {
 			}
 		]);
 	});
+	/**
+	 * El caso que faltaba. La prueba de arriba alimenta solo las dos secciones de primer nivel de
+	 * esta misma arquitectura, así que pasaba mientras la implementación **no filtraba nada**: en la
+	 * base la estancia lleva dentro un fronte —con dos pies—, un eslabón y una sirima, y todas ellas
+	 * salían anunciadas como estructura de la secuencia, con cinco renglones «Estructura» seguidos.
+	 */
+	it('describe las partes de la unidad sin confundirlas con la estructura de la secuencia', () => {
+		const facts = metricNormFacts({
+			architectureId: 'a',
+			unitPlan: null,
+			lengthRule: null,
+			domain: domain({
+				sections: [
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'estancia',
+						nombre: 'Estancia',
+						orden: 1,
+						repeticiones_min: 3,
+						repeticiones_max: null,
+						versos_min: 5,
+						versos_max: 20,
+						primera_realizacion_define_patron: true
+					},
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'remate',
+						nombre: 'Remate o envío',
+						orden: 2,
+						repeticiones_min: 0,
+						repeticiones_max: 1,
+						versos_min: 1,
+						versos_max: 20
+					},
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'fronte',
+						seccion_padre_id: 'estancia',
+						nombre: 'Fronte',
+						orden: 1,
+						repeticiones_min: 1,
+						repeticiones_max: 1,
+						versos_min: 4,
+						versos_max: 18
+					},
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'pie1',
+						seccion_padre_id: 'fronte',
+						nombre: 'Primer pie',
+						orden: 1,
+						repeticiones_min: 1,
+						repeticiones_max: 1,
+						versos_min: 2,
+						versos_max: 9
+					},
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'pie2',
+						seccion_padre_id: 'fronte',
+						nombre: 'Segundo pie',
+						orden: 2,
+						repeticiones_min: 1,
+						repeticiones_max: 1,
+						versos_min: 2,
+						versos_max: 9
+					},
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'eslabon',
+						seccion_padre_id: 'estancia',
+						nombre: 'Eslabón',
+						orden: 2,
+						repeticiones_min: 0,
+						repeticiones_max: 1,
+						versos_min: 1,
+						versos_max: 1
+					},
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'sirima',
+						seccion_padre_id: 'estancia',
+						nombre: 'Sirima',
+						orden: 3,
+						repeticiones_min: 1,
+						repeticiones_max: 1,
+						versos_min: 1,
+						versos_max: 16
+					}
+				]
+			})
+		});
+
+		expect(facts).toEqual([
+			{
+				// En orden de árbol, y el eslabón dice que puede no estar.
+				label: 'Partes',
+				value:
+					'Fronte: 4–18 versos · Primer pie: 2–9 versos · Segundo pie: 2–9 versos · ' +
+					'Eslabón: 1 verso (opcional) · Sirima: 1–16 versos'
+			},
+			{
+				label: 'Estructura',
+				value: '3 o más estancias; 5–20 versos por estancia; la primera fija el patrón de las demás'
+			},
+			{ label: 'Parte opcional', value: 'Remate o envío: 1–20 versos' }
+		]);
+	});
+
+	/** Una sección que aparece una sola vez no es una serie, y decirlo en plural sobraba. */
+	it('no llama serie a una parte que aparece una sola vez', () => {
+		const facts = metricNormFacts({
+			architectureId: 'a',
+			unitPlan: null,
+			lengthRule: null,
+			domain: domain({
+				sections: [
+					{
+						arquitectura_id: 'a',
+						seccion_id: 'cabeza',
+						nombre: 'Cabeza',
+						orden: 1,
+						repeticiones_min: 1,
+						repeticiones_max: 1,
+						versos_min: 2,
+						versos_max: 4
+					}
+				]
+			})
+		});
+
+		expect(facts).toEqual([{ label: 'Parte', value: 'Cabeza: 2–4 versos' }]);
+	});
 });
