@@ -322,20 +322,20 @@
 	</li>
 {/snippet}
 
-<section class="border border-[color:var(--border)] p-5">
+<section class="min-w-0 border border-[color:var(--border)] bg-white p-5 shadow-sm md:p-6">
 	<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-		<h3 class="font-display text-xl">{arquitectura.nombre}</h3>
+		<h3 class="font-display text-2xl text-[color:var(--gray-900)]">{arquitectura.nombre}</h3>
 		<div class="flex flex-wrap items-center gap-1.5">
 			{#if arquitectura.principal}
 				<Badge
-					class="bg-[color:var(--gray-50)] text-[0.65rem] uppercase tracking-[0.06em] text-[color:var(--gray-700)]"
+					class="border border-[color:var(--gray-300)] bg-[color:var(--gray-50)] text-[0.65rem] uppercase tracking-[0.06em] text-[color:var(--gray-700)]"
 				>
 					Principal
 				</Badge>
 			{/if}
 			{#if arquitectura.modalidad}
 				<Badge
-					class="bg-white text-[0.65rem] capitalize tracking-[0.04em] text-[color:var(--muted-foreground)]"
+					class="border border-[color:var(--border)] bg-white text-[0.65rem] capitalize tracking-[0.04em] text-[color:var(--muted-foreground)]"
 				>
 					{arquitectura.modalidad}
 				</Badge>
@@ -352,7 +352,8 @@
 		</p>
 	{/if}
 
-	<table class="mt-4 w-full border-collapse text-sm">
+	<div class="mt-4 overflow-x-auto">
+	<table class="w-full min-w-[38rem] border-collapse text-sm">
 		<tbody>
 			<tr class="border-t border-[color:var(--border)]">
 				{@render dimension('Extensión', extensionDeterminada)}
@@ -715,4 +716,5 @@
 
 		</tbody>
 	</table>
+	</div>
 </section>

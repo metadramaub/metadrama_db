@@ -2,6 +2,8 @@
 	import type { PublicFormDetail, PublicFormRelation } from '$lib/metrica/formas-publicas.types';
 	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
 	import PublicArchitectureCard from '$lib/components/metrica/PublicArchitectureCard.svelte';
+	import PublicFormNavigation from '$lib/components/metrica/catalogo/PublicFormNavigation.svelte';
+	import PublicFormSectionHeader from '$lib/components/metrica/catalogo/PublicFormSectionHeader.svelte';
 	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
 	/**
 	 * Una enumeración en castellano: comas y una «y» final.
@@ -22,6 +24,14 @@
 	 */
 	const { data } = $props<{ data: { forma: PublicFormDetail } }>();
 	const forma = $derived(data.forma);
+	const navigationItems = $derived([
+		{ href: '#resumen', label: 'Resumen' },
+		...(forma.arquitecturas_.length > 0
+			? [{ href: '#arquitecturas', label: 'Arquitecturas' }]
+			: []),
+		...(forma.relaciones.length > 0 ? [{ href: '#relaciones', label: 'Relaciones' }] : []),
+		...(forma.fuentes.length > 0 ? [{ href: '#fuentes', label: 'Fuentes' }] : [])
+	]);
 
 	/**
 	 * Cómo se lee una relación entre formas. El catálogo la declara en una dirección, así que
@@ -61,102 +71,144 @@
 	{/if}
 </svelte:head>
 
-<article class="mx-auto w-full max-w-4xl px-4 py-10">
-	<nav class="text-sm text-[color:var(--muted-foreground)]">
-		<a class="hover:underline" href="/formas">Catálogo de formas</a>
+<article class="w-full">
+	<nav class="text-sm text-[color:var(--muted-foreground)]" aria-label="Migas de pan">
+		<a class="transition-colors hover:text-[color:var(--foreground)]" href="/formas">
+			Catálogo de formas
+		</a>
+		<span class="mx-2" aria-hidden="true">/</span>
+		<span class="text-[color:var(--foreground)]">{forma.nombre}</span>
 	</nav>
 
-	<header class="mt-4">
-		<h1 class="font-display text-3xl">{forma.nombre}</h1>
-		<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-			{forma.tipoRegistro === 'forma' ? 'Forma' : 'Tramo sin forma'} · {metricStructuralLevelLabel(
-				forma.nivelEstructural
-			)}{forma.tradiciones.length > 0
-				? ` · tradición ${enumerar(forma.tradiciones).toLowerCase()}`
-				: ''}{forma.tiposRima.length > 0 ? ` · rima ${forma.tiposRima.join(' o ')}` : ''}
-		</p>
-		{#if forma.definicion}
-			<p class="mt-4 max-w-3xl text-lg leading-8">{@html renderInlineMarkdown(forma.definicion)}</p>
-		{:else}
-			<p class="mt-4 text-[color:var(--muted-foreground)]">
-				Esta forma todavía no tiene definición en el catálogo.
-			</p>
-		{/if}
-	</header>
+	<div class="mt-6 lg:grid lg:grid-cols-[12rem_minmax(0,1fr)] lg:items-start lg:gap-10 xl:grid-cols-[14rem_minmax(0,1fr)] xl:gap-12">
+		<aside class="sticky top-0 z-20 bg-[color:var(--background)] lg:top-6 lg:z-auto">
+			<PublicFormNavigation items={navigationItems} />
+		</aside>
 
-	{#if forma.denominaciones.length > 0}
-		<section class="mt-8">
-			<h2 class="font-display text-xl">También llamada</h2>
-			<ul class="mt-2 space-y-1">
-				{#each forma.denominaciones as nombre (nombre)}
-					<li class="leading-7">{nombre}</li>
-				{/each}
-			</ul>
-		</section>
-	{/if}
+		<div class="min-w-0">
+			<header id="resumen" class="scroll-mt-20 border-b border-[color:var(--border)] pb-8 pt-7 lg:scroll-mt-6 lg:pt-0">
+				<p class="text-xs font-semibold uppercase tracking-[0.09em] text-[color:var(--muted-foreground)]">
+					{forma.tipoRegistro === 'forma' ? 'Forma métrica' : 'Tramo sin forma'}
+					<span class="mx-1.5 text-[color:var(--gray-300)]" aria-hidden="true">·</span>
+					{metricStructuralLevelLabel(forma.nivelEstructural)}
+				</p>
+				<h1 class="mt-3 max-w-4xl font-display text-4xl leading-tight text-[color:var(--gray-900)] md:text-5xl">
+					{forma.nombre}
+				</h1>
 
-	{#if forma.arquitecturas_.length > 0}
-		<section class="mt-10">
-			<h2 class="font-display text-2xl">
-				{forma.arquitecturas_.length === 1 ? 'Arquitectura' : 'Arquitecturas'}
-			</h2>
-			<p class="mt-2 max-w-3xl leading-7 text-[color:var(--muted-foreground)]">
-				Cada arquitectura es una manera de realizar la forma: su medida, su rima y sus partes.
-			</p>
+				{#if forma.denominaciones.length > 0}
+					<p class="mt-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
+						<span class="font-medium text-[color:var(--gray-700)]">Otras denominaciones:</span>
+						{forma.denominaciones.join(' · ')}
+					</p>
+				{/if}
 
-			<div class="mt-6 space-y-8">
-				{#each forma.arquitecturas_ as arquitectura (arquitectura.slug)}
-					<PublicArchitectureCard {arquitectura} />
-				{/each}
-			</div>
-		</section>
-	{/if}
-
-	{#if forma.relaciones.length > 0}
-		<section class="mt-10">
-			<h2 class="font-display text-2xl">Con qué se relaciona</h2>
-			<ul class="mt-4 space-y-3">
-				{#each forma.relaciones as relacion (`${relacion.slug}:${relacion.tipo}:${relacion.esOrigen}`)}
-					<li class="leading-7">
-						<span class="text-[color:var(--muted-foreground)]">{describirRelacion(relacion)}</span>
-						<a class="underline hover:no-underline" href="/formas/{relacion.slug}">
-							{relacion.nombre} · {metricStructuralLevelLabel(relacion.nivelEstructural)}
-						</a>
-						{#if relacion.nota}
-							<span class="block text-sm text-[color:var(--muted-foreground)]">
-								{@html renderInlineMarkdown(relacion.nota)}
-							</span>
+				{#if forma.tradiciones.length > 0 || forma.tiposRima.length > 0}
+					<dl class="mt-5 flex flex-wrap gap-x-8 gap-y-3 border-y border-[color:var(--border)] py-3 text-sm">
+						{#if forma.tradiciones.length > 0}
+							<div class="flex items-baseline gap-2">
+								<dt class="text-xs font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
+									Tradición
+								</dt>
+								<dd>{enumerar(forma.tradiciones)}</dd>
+							</div>
 						{/if}
-					</li>
-				{/each}
-			</ul>
-		</section>
-	{/if}
+						{#if forma.tiposRima.length > 0}
+							<div class="flex items-baseline gap-2">
+								<dt class="text-xs font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
+									Rima
+								</dt>
+								<dd>{forma.tiposRima.join(' o ')}</dd>
+							</div>
+						{/if}
+					</dl>
+				{/if}
 
-	{#if forma.fuentes.length > 0}
-		<section class="mt-10">
-			<h2 class="font-display text-2xl">Lo que dicen las fuentes</h2>
-			<ul class="mt-4 space-y-6">
-				{#each forma.fuentes as fuente, indice (indice)}
-					<li class="border-l-2 border-[color:var(--border)] pl-4">
-						<p class="text-sm text-[color:var(--muted-foreground)]">{fuente.cita}</p>
-						<ul class="mt-2 space-y-3">
-							{#each fuente.afirmaciones as afirmacion, i (i)}
-								<li>
-									{#if afirmacion.resumen}
-										<p class="leading-7">{@html renderInlineMarkdown(afirmacion.resumen)}</p>
-									{/if}
-									<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-										{afirmacion.localizador ?? 'Sin localizar'}{afirmacion.sobre !== forma.nombre
-											? ` · sobre ${afirmacion.sobre}`
-											: ''}
+				<div class="mt-6 max-w-4xl">
+					{#if forma.definicion}
+						<p class="text-[1.05rem] leading-8">{@html renderInlineMarkdown(forma.definicion)}</p>
+					{:else}
+						<p class="leading-7 text-[color:var(--muted-foreground)]">
+							Esta forma todavía no tiene definición en el catálogo.
+						</p>
+					{/if}
+				</div>
+			</header>
+
+			{#if forma.arquitecturas_.length > 0}
+				<section id="arquitecturas" class="scroll-mt-20 pt-12 lg:scroll-mt-6">
+					<PublicFormSectionHeader
+						title={forma.arquitecturas_.length === 1 ? 'Arquitectura' : 'Arquitecturas'}
+						description="Cada arquitectura es una manera de realizar la forma: su medida, su rima y sus partes."
+						count={forma.arquitecturas_.length}
+					/>
+
+					<div class="mt-6 space-y-8">
+						{#each forma.arquitecturas_ as arquitectura (arquitectura.slug)}
+							<PublicArchitectureCard {arquitectura} />
+						{/each}
+					</div>
+				</section>
+			{/if}
+
+			{#if forma.relaciones.length > 0}
+				<section id="relaciones" class="scroll-mt-20 pt-12 lg:scroll-mt-6">
+					<PublicFormSectionHeader
+						title="Relaciones con otras formas"
+						description="Vínculos estructurales e históricos declarados en el catálogo."
+					/>
+					<ul class="mt-5 divide-y divide-[color:var(--border)] border-y border-[color:var(--border)]">
+						{#each forma.relaciones as relacion (`${relacion.slug}:${relacion.tipo}:${relacion.esOrigen}`)}
+							<li class="py-4 leading-7">
+								<p>
+									<span class="text-[color:var(--muted-foreground)]">{describirRelacion(relacion)} </span>
+									<a class="font-medium underline underline-offset-4 hover:no-underline" href="/formas/{relacion.slug}">
+										{relacion.nombre}
+									</a>
+									<span class="text-sm text-[color:var(--muted-foreground)]">
+										· {metricStructuralLevelLabel(relacion.nivelEstructural)}
+									</span>
+								</p>
+								{#if relacion.nota}
+									<p class="mt-1 max-w-3xl text-sm text-[color:var(--muted-foreground)]">
+										{@html renderInlineMarkdown(relacion.nota)}
 									</p>
-								</li>
-							{/each}
-						</ul>
-					</li>
-				{/each}
-			</ul>
-		</section>
-	{/if}
+								{/if}
+							</li>
+						{/each}
+					</ul>
+				</section>
+			{/if}
+
+			{#if forma.fuentes.length > 0}
+				<section id="fuentes" class="scroll-mt-20 pt-12 lg:scroll-mt-6">
+					<PublicFormSectionHeader
+						title="Fuentes bibliográficas"
+						description="Testimonios bibliográficos de los que procede la información recogida en la ficha."
+					/>
+					<ul class="mt-6 space-y-7">
+						{#each forma.fuentes as fuente, indice (indice)}
+							<li class="border-l-2 border-[color:var(--gray-300)] pl-5">
+								<p class="text-sm font-medium text-[color:var(--gray-700)]">{fuente.cita}</p>
+								<ul class="mt-3 space-y-4">
+									{#each fuente.afirmaciones as afirmacion, i (i)}
+										<li>
+											{#if afirmacion.resumen}
+												<p class="max-w-4xl leading-7">{@html renderInlineMarkdown(afirmacion.resumen)}</p>
+											{/if}
+											<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+												{afirmacion.localizador ?? 'Sin localizar'}{afirmacion.sobre !== forma.nombre
+													? ` · sobre ${afirmacion.sobre}`
+													: ''}
+											</p>
+										</li>
+									{/each}
+								</ul>
+							</li>
+						{/each}
+					</ul>
+				</section>
+			{/if}
+		</div>
+	</div>
 </article>
