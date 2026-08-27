@@ -1,6 +1,10 @@
 # Revisión de los vocabularios
 
-Estado: **repartido** · inventario contrastado con la base el 10 de agosto de 2026
+Estado: **histórico** · inventario contrastado con la base el 10 de agosto de 2026
+
+Actualización del 28 de agosto de 2026: el demarcador versionado al que se alude más abajo fue
+retirado junto con sus tablas de configuración y versiones. El demarcador vigente se genera
+directamente desde el catálogo métrico.
 
 **Cuándo mirarlo.** Ya: hay una parte que se hace ahora y otra que espera a que el dominio
 métrico pase a `main`. El reparto está en [qué se hace ahora y qué espera a la
