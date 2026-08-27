@@ -111,8 +111,8 @@ Migrar lo ya anotado viene después: dejó de ser lo urgente el 26 de agosto de 
 
 **Lo demás que queda pendiente está inventariado** en
 [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
-El bloque A son los casos en que una secuencia real no tendría dónde caer; **el B está cerrado
-entero**; el C, deudas del modelo sin urgencia.
+El bloque A son los casos en que una secuencia real no tendría dónde caer; el B, aquellos en que un
+editor no puede registrar lo que ve; el C, deudas del modelo sin urgencia.
 
 ## Reglas duras
 

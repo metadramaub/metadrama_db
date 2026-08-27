@@ -471,7 +471,7 @@ por su número sepa que no siguen abiertos.
 | **C6** | la rejilla convertía en ciclo una unidad acotada | 25 ago |
 | **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
 
-Con B5 se cerró **el bloque B entero**. Quedan **tres asuntos en A** y **dieciséis en C**.
+Quedan **tres asuntos en A**, **uno en B** y **dieciséis en C**.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -577,10 +577,41 @@ tercer rasgo formal que rompa el empate.
 
 ### B · Bloquean el editor V2 en producción
 
-**Cerrado entero.** B1 a B7 están resueltos; el resumen de cada uno está en la tabla de arriba y el
-detalle, en los commits y en [criterios de nivel](./criterios-de-nivel.md). Lo que queda para que el
-V2 llegue a los editores ya no son deudas del modelo sino integración, y vive en
+**B1 a B7 están resueltos**; el resumen de cada uno está en la tabla de arriba y el detalle, en los
+commits y en [criterios de nivel](./criterios-de-nivel.md). El resto de lo que hace falta para que
+el V2 llegue a los editores no son deudas del modelo sino integración, y vive en
 [El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
+
+**B8. El metro no tiene la salida que sí tiene la rima.** Salió el 26 de agosto de 2026 al precisar
+el IP la regla que gobierna toda la anotación: **el editor elige algo que existe y añade una
+desviación si difiere, o —donde se admita— escribe exactamente lo que ve, metros y rimas exactos, y
+eso se guarda.** Escrito así, se ve que solo está hecha la mitad.
+
+Contado contra la base: **49 grupos** dejan escribir un esquema de rima —8 `esquema_rima` y 41
+`opciones_y_esquema`—, y los **27 grupos de metro son todos `opciones` cerradas**. Si la norma deja
+abiertas las medidas y el editor ve `11 7 7 11 7 11`, no tiene dónde ponerlo. Es el caso de la
+canción de estancias variables, señalado ya en A5 y que se quedó fuera de B2 porque entonces la
+pregunta se planteó como «entre qué medidas elegir» y no como «cuáles son las que veo».
+
+*Por qué esto no es opcional:* cuando quince editores escriban el mismo esquema, esa frecuencia es
+la señal de que **hay que incorporarlo al catálogo** y migrar las secuencias que lo usaban a apuntar
+al esquema nuevo. Sin la salida para el metro, esa vía de crecimiento solo funciona para la rima.
+
+Dos cosas más, de la misma familia, que se resuelven con ella:
+
+1. **Lo escrito se guarda como una cadena compuesta.** `valor_texto` lleva `abcabc · asonante`, y el
+   régimen a veces falta porque se hereda de la arquitectura.
+   [`esquema-rima-escrito.ts`](../../src/lib/metrica/esquema-rima-escrito.ts) ya calcula al escribir
+   la notación canónica, el régimen, las posiciones, las clases y los sueltos, **y se descarta todo
+   menos la cadena**. Con dos columnas —`notacion` y `regimen` ya resuelto— contar cuántos han
+   escrito el mismo esquema es un `GROUP BY`, y migrarlos después un `UPDATE` filtrado por esas dos.
+2. **La base no garantiza nada sobre lo escrito.** El único `CHECK` de la tabla impide elegir más de
+   una entidad; sobre `valor_texto`, nada. La normalización vive solo en el navegador, así que un
+   guion o un endpoint futuro pueden meter ruido que el análisis herede en silencio.
+
+*Lo que sí está bien resuelto y no hay que tocar:* si lo escrito resulta ser un esquema que el
+catálogo tiene, `MetricChoiceField` lo guarda como elección y no como texto, de modo que el recuento
+de esquemas escritos a mano no se ensucia con los que ya existen.
 
 ### C · Deudas del modelo, sin urgencia
 
@@ -787,9 +818,15 @@ nunca un pasaje anotado**: sus tres consumidores son la ficha de `/formas`, el d
 recuadro de la norma del editor. Nada cruza la norma con **las respuestas, las desviaciones y la
 arquitectura intercalada** de una secuencia concreta.
 
-Debe ser una **proyección precomputada y regenerable**, como los resúmenes públicos, y nunca una
-columna en la elección: así, al corregir un esquema, se recalcula y todo queda al día sin tocar una
-sola anotación. Tres casos que el ejemplo fácil no enseña y que tendrá que resolver: cuando el
+Debe ser una **proyección precomputada y regenerable**, como los resúmenes públicos. **Con las dos
+caras a la vez**, que es como se consulta y como se compara: el **nombre** por un lado —forma,
+arquitectura, variedad— y la **notación exacta** por otro, verso a verso, venga de un esquema del
+catálogo o de uno escrito a mano.
+
+*Y no puede construirse sobre `rejilla.ts`, aunque lo parezca.* Esa es **solo un recurso visual**:
+sus tipos son de dibujo —bandas, enlaces, celdas— y su campo `verso` está documentado como «orden de
+lectura dentro de lo dibujado», no el verso de la obra. Comparten la lectura del catálogo; la
+proyección necesita su propia derivación. Tres casos que el ejemplo fácil no enseña y que tendrá que resolver: cuando el
 editor **escribe un esquema que el catálogo no tiene** (`valor_texto`, lo que abrió B1), cuando el
 esquema es **abierto** y solo declara el régimen —quintilla, silva, sextilla—, y cuando la respuesta
 es **posicional**, como los versos quebrados.
