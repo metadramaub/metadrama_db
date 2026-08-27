@@ -666,6 +666,31 @@
 	const modoEfectivo = $derived(hayDivergencia ? 'una_a_una' : modoDeRespuesta);
 
 	/**
+	 * Las unidades de primer nivel, con el rótulo que les toca.
+	 *
+	 * Se sacan de `units` y no de las filas porque **hay unidades sin fila**: la décima aumentada es
+	 * «transparente» y sus dos bloques se dibujan a primer nivel, sin una fila que diga «décima
+	 * aumentada». Recorriendo filas, esa forma era la única que no enseñaba su anotación; recorriendo
+	 * unidades, todas se leen igual.
+	 */
+	const unidadesRaiz = $derived.by(() => {
+		const raices = props.units
+			.filter((unit: MetricUnitDraft) => !unit.realizacion_padre_id && !unit.seccion_id)
+			.sort((primera: MetricUnitDraft, segunda: MetricUnitDraft) => primera.v_ini - segunda.v_ini);
+		return raices.map((unit: MetricUnitDraft, indice: number) => {
+			const fila = rows.find(
+				(row: GridRow) =>
+					row.kind === 'realizacion' && row.unit.realizacion_id === unit.realizacion_id
+			);
+			const rotulo =
+				fila && fila.kind === 'realizacion'
+					? fila.label
+					: `${String(props.unitLabel ?? 'Unidad')}${raices.length > 1 ? ` ${indice + 1}` : ''}`;
+			return { unit, rotulo };
+		});
+	});
+
+	/**
 	 * **Si todo se responde arriba, abajo sobra la rejilla.**
 	 *
 	 * Respondido en conjunto, la lista unidad por unidad no dice nada que no se sepa: cuatro coplas
@@ -679,13 +704,18 @@
 	const listaCompacta = $derived(
 		modoEfectivo === 'conjunto' &&
 			rows.length > 0 &&
-			rows.some((row: GridRow) => row.kind === 'realizacion') &&
+			unidadesRaiz.length > 0 &&
 			rows.every((row: GridRow) => {
 				if (row.kind === 'acciones' || row.kind === 'pregunta') return false;
 				if (row.kind === 'fijas') return row.preguntas.length === 0;
 				if (row.lengthEditable) return false;
 				if (sectionDefinesPattern(row.section)) return false;
-				if (partesIntegradas(row).length > 0) return false;
+				// Las partes que se dibujan dentro de la fila —los dos bloques de la décima aumentada—
+				// no impiden compactar si no preguntan nada: son estructura, no trabajo pendiente. Sin
+				// esto, la aumentada era la única décima que no enseñaba su anotación.
+				if (partesIntegradas(row).some((parte: GridFijasRow) => parte.preguntas.length > 0)) {
+					return false;
+				}
 				if (partesFijasConRima(row).length > 0) return false;
 				return row.preguntas.every(
 					(pregunta: PreguntaEnFila) => familiaDe(pregunta.group) !== null
@@ -1810,24 +1840,22 @@
 			<!-- Una debajo de otra: en fila corrida no se distingue dónde acaba una copla y empieza la siguiente. -->
 			<ul class="px-3 py-2.5">
 				<!-- Solo las unidades de primer nivel: sus partes ya van dentro de su anotación. -->
-				{#each rows as row (row.key)}
-					{#if row.kind === 'realizacion' && !row.unit.realizacion_padre_id}
-						{@const notacion = notacionDeLaUnidad(row.unit)}
-						<li class="flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed">
-							<span>
-								{row.label}
-								<span class="tabular-nums text-[color:var(--muted-foreground)]">
-									vv. {row.unit.v_ini}–{row.unit.v_fin}
-								</span>
+				{#each unidadesRaiz as entrada (entrada.unit.realizacion_id)}
+					{@const notacion = notacionDeLaUnidad(entrada.unit)}
+					<li class="flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed">
+						<span>
+							{entrada.rotulo}
+							<span class="tabular-nums text-[color:var(--muted-foreground)]">
+								vv. {entrada.unit.v_ini}–{entrada.unit.v_fin}
 							</span>
-							<!-- La anotación va al lado y en pequeño: informa sin ocupar otra línea. -->
-							{#if notacion}
-								<span class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
-									{notacion}
-								</span>
-							{/if}
-						</li>
-					{/if}
+						</span>
+						<!-- La anotación va al lado y en pequeño: informa sin ocupar otra línea. -->
+						{#if notacion}
+							<span class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
+								{notacion}
+							</span>
+						{/if}
+					</li>
 				{/each}
 			</ul>
 		{:else}
