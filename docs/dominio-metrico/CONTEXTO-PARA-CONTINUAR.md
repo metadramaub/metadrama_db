@@ -385,13 +385,14 @@ once secuencias afectadas, que reciben ya su respuesta—.
 | 9 | **La checklist acepta la forma nueva** | y hubo que tocar los dos caminos que la calculan |
 | 10 | **La RLS y el catálogo público** | el catálogo se lee sin condiciones; los editores anotan su obra |
 
+| 11 | **Retirados el laboratorio, la sombra y el panel viejo** | 2 500 líneas menos, y con ellas la consulta de dos segundos |
+
 **Lo que queda:**
 
 | | paso | por qué |
 |---|---|---|
-| 11 | **Probar con un editor de verdad**, no como admin | la RLS se probó en la base, no en pantalla |
-| 12 | **Retirar la anotación en sombra y el laboratorio** | dejan de hacer falta, y con ellos se va la consulta de dos segundos |
-| 13 | **Retirar el panel lateral viejo** | deja de ser alcanzable |
+| 12 | **Probar con un editor de verdad**, no como admin | la RLS se probó en la base, no en pantalla |
+| 13 | **El recorrido forma por forma** | ver [Lo que sale de recorrer el formulario](#lo-que-sale-de-recorrer-el-formulario) |
 
 ### El replanteo de la migración, 27 de agosto de 2026
 
@@ -861,10 +862,10 @@ entero, y eso hoy está probado por la propia base:* `catalogo_metrico_estado` t
 V2 pase a `/dashboard/obras` habrá que relajar esa RLS** —un editor también necesitará el catálogo—,
 y ese día la llave de la caché deja de bastar: habrá que añadirle la visibilidad.
 
-**Lo que queda, y se resuelve solo.** La propuesta de la anotación en sombra sigue costando dos
-segundos, y no la cubre la caché porque depende de las secuencias. Pero **el 27 de agosto de 2026 la
-anotación en sombra dejó de ser el camino de la migración**, así que esa consulta se retira con ella
-y no hace falta arreglarla. Lo que sigue valiendo es el aviso de abajo. Dos salidas, y no son excluyentes: es una herramienta de
+**Cerrado el 27 de agosto de 2026.** La propuesta de la anotación en sombra costaba dos segundos y
+no la cubría la caché, porque depende de las secuencias. Al retirarse la anotación en sombra —dejó de
+ser el camino de la migración ese mismo día— se fue con ella. No hubo que arreglar nada. Lo que sigue
+valiendo es el aviso de abajo. Dos salidas, y no son excluyentes: es una herramienta de
 migración que **desaparece cuando la migración termine**, y mientras tanto puede materializarse lo
 derivado —`opciones_eleccion_metrica`, `grupos_eleccion_metrica_resueltos` y
 `arquitecturas_reglas_longitud`, entre las tres 880 filas— refrescándolo cuando cambie la revisión.
