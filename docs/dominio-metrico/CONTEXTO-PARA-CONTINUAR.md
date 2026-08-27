@@ -515,6 +515,44 @@ registra más que su extensión. Es el mismo hueco que **B8** en otra escala: do
 algo, alguien tiene que poder decir lo que ve. *Decisión del IP: si el remate debe declarar lo que
 las fuentes documenten, o preguntar como las demás.*
 
+#### Canción petrarquista · Estancias consonantes variables *(27 de agosto)*
+
+**El recuadro decía cinco veces «Estructura» — arreglado el mismo día.** No era cosa de esta forma:
+`variableSectionFacts` recorría **todas** las secciones en plano, sin mirar `seccion_padre_id`, así
+que las partes de dentro de la estancia —fronte, los dos pies, la sirima— salían anunciadas como
+estructura *de la secuencia*, al mismo nivel que la serie de estancias. Y una de ellas decía **«1
+Primeros pies; 2–9 versos por primer pie»**: plural para una parte que aparece una sola vez.
+
+Lo llamativo es que **la intención ya estaba escrita**: `metricNormGrid` sí filtra
+`!section.seccion_padre_id`, y la prueba de esta misma arquitectura solo alimenta las dos secciones
+de primer nivel y espera dos renglones. Pasaba porque nunca le daban las hijas. Ahora hay una prueba
+con el árbol entero, como está en la base.
+
+Queda como pedía el IP: **la unidad se describe una vez, con sus partes y lo que mide cada una**, y
+debajo la serie.
+
+| | antes | ahora |
+|---|---|---|
+| | 5 × «Estructura» + 2 × «Parte opcional» | **Partes** · Fronte 4–18 · Primer pie 2–9 · Segundo pie 2–9 · Eslabón 1 (opcional) · Sirima 1–16 |
+| | | **Estructura** · 3 o más estancias; 5–20 por estancia; la primera fija el patrón |
+| | | **Parte opcional** · Remate o envío: 1–20 versos |
+
+Van en **orden de árbol** —la estancia lleva un fronte, y el fronte dos pies—, y una parte que puede
+faltar lo dice, porque su ausencia no es una desviación. El título es «Partes fijas» solo cuando la
+norma las fija todas enteras. *Alcanza a 9 arquitecturas de 5 formas*, con 14 secciones hijas
+afectadas, y el plural roto eran 8 casos en 5 arquitecturas: comprobado en pantalla en la canción y
+en el villancico, donde «1 Cabezas; 2–4 versos por cabeza» pasa a **«Cabeza: 2–4 versos»**.
+
+**Lo que no se toca todavía.** El IP quiere además que la estancia modelo se vea **en la rejilla** con
+sus patrones, señalando qué es pie 1, pie 2, si hay eslabón y cuánto mide la sirima, y que debajo cada
+estancia diga solo de qué verso a qué verso va. Eso es **la segunda vez que sale lo mismo** —en la
+regular ya pidió quitar la letra de al lado de cada parte—, así que el asunto está maduro para
+decidirse, pero es la rejilla, que alcanza a las 41 formas, y se decide entero, no forma a forma.
+
+**F2, segunda aparición.** El remate tampoco deja especificar nada aquí. Ya no es una impresión de
+una forma: es la misma sección sin metro ni rima ni preguntas, en las dos arquitecturas de la
+canción. Sigue esperando al IP.
+
 ### Lo que va a `main`, no aquí
 
 La base es **la misma para las dos ramas**, así que un cambio de esquema hecho en `develop` aparece

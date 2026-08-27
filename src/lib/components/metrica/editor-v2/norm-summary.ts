@@ -31,28 +31,99 @@ function sectionName(sections: MetricCatalogDomainRow[], sectionId: string): str
 	return section?.nombre ? String(section.nombre) : null;
 }
 
-function fixedSectionSummary(sections: MetricCatalogDomainRow[]): string | null {
-	const parts = sections.flatMap((section) => {
-		const repetitionsMinimum = positiveInteger(section.repeticiones_min);
-		const repetitionsMaximum = positiveInteger(section.repeticiones_max);
-		const versesMinimum = positiveInteger(section.versos_min);
-		const versesMaximum = positiveInteger(section.versos_max);
-		if (
-			repetitionsMinimum === null ||
-			repetitionsMaximum !== repetitionsMinimum ||
-			versesMinimum === null ||
-			versesMaximum !== versesMinimum
-		) {
-			return [];
+/**
+ * Las secciones en orden de árbol: cada madre seguida de sus hijas, y cada nivel por su `orden`.
+ *
+ * Importa para leer la unidad: en la canción petrarquista la estancia lleva dentro un fronte —y el
+ * fronte, dos pies—, un eslabón y una sirima. En orden plano salían mezclados y no se veía qué está
+ * dentro de qué.
+ */
+function sectionsInTreeOrder(sections: MetricCatalogDomainRow[]): MetricCatalogDomainRow[] {
+	const ordered: MetricCatalogDomainRow[] = [];
+	const byParent = new Map<string, MetricCatalogDomainRow[]>();
+	for (const section of sections) {
+		const parent = section.seccion_padre_id ? String(section.seccion_padre_id) : '';
+		const siblings = byParent.get(parent) ?? [];
+		siblings.push(section);
+		byParent.set(parent, siblings);
+	}
+	for (const siblings of byParent.values()) {
+		siblings.sort((first, second) => Number(first.orden ?? 0) - Number(second.orden ?? 0));
+	}
+	const walk = (parent: string) => {
+		for (const section of byParent.get(parent) ?? []) {
+			ordered.push(section);
+			walk(String(section.seccion_id ?? ''));
 		}
+	};
+	walk('');
+	// Una hija cuya madre no esté en el lote no se pierde: se añade al final.
+	for (const section of sections) {
+		if (!ordered.includes(section)) ordered.push(section);
+	}
+	return ordered;
+}
+
+function sectionExtent(section: MetricCatalogDomainRow): string | null {
+	const repetitions = positiveInteger(section.repeticiones_min);
+	const repetitionsMaximum = positiveInteger(section.repeticiones_max);
+	const minimum = positiveInteger(section.versos_min);
+	const maximum = positiveInteger(section.versos_max);
+	if (minimum === null) return null;
+	const times =
+		repetitions !== null && repetitions === repetitionsMaximum && repetitions > 1
+			? `${repetitions} × `
+			: '';
+	if (maximum === minimum) {
+		return `${times}${minimum} ${minimum === 1 ? 'verso' : 'versos'}`;
+	}
+	return maximum === null
+		? `${times}${minimum} o más versos`
+		: `${times}${minimum}–${maximum} versos`;
+}
+
+/**
+ * **Las partes de la unidad, no la estructura de la secuencia.**
+ *
+ * Aquí entra todo lo que describe *por dentro* una unidad: las secciones hijas —estén fijadas o
+ * no— y las madres que la norma fija enteras. Lo que no entra es lo que se repite a lo largo de la
+ * secuencia, que es otra cosa y se cuenta aparte.
+ *
+ * Antes solo entraban las secciones **completamente fijas**, y las demás caían en
+ * `variableSectionFacts`, que las anunciaba como si fueran estructura de la secuencia. En la
+ * canción de estancias variables eso daba cinco renglones «Estructura» seguidos —fronte, los dos
+ * pies, la sirima y la estancia— y uno de ellos decía «1 Primeros pies; 2–9 versos por primer
+ * pie»: plural para una parte que aparece una vez, y a la altura equivocada. La unidad se describe
+ * una vez, con sus partes y lo que mide cada una; si el pasaje no encaja, eso es una desviación.
+ *
+ * Devuelve además si todas las partes están fijadas, porque de eso depende cómo se titula.
+ */
+function sectionPartsSummary(
+	sections: MetricCatalogDomainRow[]
+): { value: string; allFixed: boolean } | null {
+	const parts: string[] = [];
+	let allFixed = true;
+	for (const section of sectionsInTreeOrder(sections)) {
+		const isChild = Boolean(section.seccion_padre_id);
+		const repetitions = nonNegativeInteger(section.repeticiones_min);
+		const repetitionsMaximum = nonNegativeInteger(section.repeticiones_max);
+		const fixedWhole =
+			repetitions !== null &&
+			repetitions > 0 &&
+			repetitionsMaximum === repetitions &&
+			positiveInteger(section.versos_min) !== null &&
+			positiveInteger(section.versos_max) === positiveInteger(section.versos_min);
+		if (!isChild && !fixedWhole) continue;
+		const extent = sectionExtent(section);
+		if (!extent) continue;
+		if (!fixedWhole) allFixed = false;
 		const label = String(section.nombre || section.tipo_seccion || 'Parte');
-		return [
-			`${label}: ${repetitionsMinimum > 1 ? `${repetitionsMinimum} × ` : ''}${versesMinimum} ${
-				versesMinimum === 1 ? 'verso' : 'versos'
-			}`
-		];
-	});
-	return parts.length > 0 ? [...new Set(parts)].join(' · ') : null;
+		// Una parte que puede no estar se dice, porque su ausencia no es una desviación.
+		const optional = repetitions === 0 ? ' (opcional)' : '';
+		parts.push(`${label}: ${extent}${optional}`);
+	}
+	if (parts.length === 0) return null;
+	return { value: [...new Set(parts)].join(' · '), allFixed };
 }
 
 function pluralizeSectionName(value: unknown): string {
@@ -70,10 +141,15 @@ function verseRange(section: MetricCatalogDomainRow): string | null {
 	return `${minimum}–${maximum} versos`;
 }
 
-/** Partes variables que también forman parte de la norma, aunque no produzcan una serie fija. */
+/**
+ * Partes variables que también forman parte de la norma, aunque no produzcan una serie fija.
+ *
+ * **Solo las de primer nivel.** Una sección hija describe el interior de la unidad y se cuenta en
+ * `sectionPartsSummary`; anunciarla aquí la ponía al mismo nivel que la serie de estancias.
+ */
 function variableSectionFacts(sections: MetricCatalogDomainRow[]): MetricNormFact[] {
 	const facts: MetricNormFact[] = [];
-	for (const section of sections) {
+	for (const section of sections.filter((candidate) => !candidate.seccion_padre_id)) {
 		const repetitionsMinimum = nonNegativeInteger(section.repeticiones_min);
 		const repetitionsMaximum = nonNegativeInteger(section.repeticiones_max);
 		const verses = verseRange(section);
@@ -88,6 +164,12 @@ function variableSectionFacts(sections: MetricCatalogDomainRow[]): MetricNormFac
 		const name = String(section.nombre || section.tipo_seccion || 'Parte');
 		if (repetitionsMinimum === 0 && repetitionsMaximum === 1) {
 			facts.push({ label: 'Parte opcional', value: `${name}: ${verses}` });
+			continue;
+		}
+		// Una sección que aparece exactamente una vez no es una serie: es una parte. Decía «1
+		// Cabezas; 2–4 versos por cabeza», con el plural de una repetición que no existe.
+		if (repetitionsMinimum === 1 && repetitionsMaximum === 1) {
+			facts.push({ label: 'Parte', value: `${name}: ${verses}` });
 			continue;
 		}
 
@@ -641,8 +723,11 @@ export function metricNormFacts(args: {
 					: `${unitPlan.extent.minimum}–${unitPlan.extent.maximum} versos por unidad`
 		});
 	}
-	const structure = fixedSectionSummary(sections);
-	if (structure) facts.push({ label: 'Partes fijas', value: structure });
+	const parts = sectionPartsSummary(sections);
+	if (parts) {
+		// El título dice la verdad: «fijas» solo cuando la norma las fija todas enteras.
+		facts.push({ label: parts.allFixed ? 'Partes fijas' : 'Partes', value: parts.value });
+	}
 	facts.push(...variableSectionFacts(sections));
 	const roleMetre = roleBasedMetreSummary(architectureId, domain);
 	const openMetre = openMetreSummary(architectureId, domain, sections);
