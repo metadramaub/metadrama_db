@@ -65,7 +65,12 @@
 
 	let items = $state<CaracterizacionRangoItem[]>([]);
 	let cargando = $state(false);
-	let peticion = $state(0);
+	/**
+	 * El contador de peticiones **no es reactivo a propósito**: `++peticion` lo lee y lo escribe
+	 * dentro del efecto que recarga, y siendo `$state` eso bastaba para que el efecto se
+	 * reprogramara a sí mismo sin parar. Nadie lo pinta; solo sirve para comparar.
+	 */
+	let peticion = 0;
 	let modalAbierto = $state(false);
 	let guardando = $state(false);
 	let editandoId = $state<string | null>(null);
@@ -162,10 +167,21 @@
 	}
 
 	/**
-	 * Se recargan al cambiar de secuencia, y el contador descarta las respuestas que llegan tarde:
-	 * pasar deprisa de una secuencia a otra pintaba las de la anterior sobre las de la siguiente.
+	 * **Se recarga solo al cambiar de secuencia.** Pedírselo desde fuera no valía: quien abre otra
+	 * secuencia cambia `editingId` y llama en la misma vuelta, cuando el componente todavía no ha
+	 * visto la secuencia nueva, así que recargaba la anterior —o ninguna—. Mirando él su propia
+	 * propiedad, el orden deja de importar.
 	 */
-	export async function recargar() {
+	$effect(() => {
+		props.secuenciaId;
+		void recargar();
+	});
+
+	/**
+	 * El contador descarta las respuestas que llegan tarde: pasar deprisa de una secuencia a otra
+	 * pintaba las de la anterior sobre las de la siguiente.
+	 */
+	async function recargar() {
 		if (!browser) return;
 		if (!props.secuenciaId) {
 			items = [];
