@@ -3,6 +3,7 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
+	import { normalizeRhymeSymbol } from './rhyme-notation';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricFamilyControl from './MetricFamilyControl.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
@@ -736,6 +737,87 @@
 		}
 		modoDeRespuesta = 'conjunto';
 		unidadesPlegadas = new Set();
+	}
+
+	/**
+	 * **La anotación de una unidad, como se escribe siempre: `8a 8b 4c`.**
+	 *
+	 * Medida y rima van juntas porque así se lee el verso español, y porque separadas obligan a
+	 * cruzar dos series a ojo para saber que el quebrado es el que rima en «c». La caja de la letra
+	 * la decide la medida —minúscula hasta ocho sílabas, mayúscula por encima—, que es la
+	 * convención y ya la sabe `normalizeRhymeSymbol`.
+	 *
+	 * Devuelve `null` si no se puede armar: sin respuestas, o con una notación que no case verso a
+	 * verso con la unidad —los romances, por ejemplo, se anotan con puntos suspensivos—.
+	 */
+	function notacionDeLaUnidad(unit: MetricUnitDraft): string | null {
+		const versos = unit.v_fin - unit.v_ini + 1;
+		if (versos <= 0) return null;
+
+		const medidas = new Map<number, number>();
+		let base: number | null = null;
+		let letras: string[] | null = null;
+
+		for (const group of context.groups) {
+			const groupId = String(group.grupo_eleccion_id);
+			const alcanza = unitsForGroup(context, group).some(
+				(candidata: MetricUnitDraft) => candidata.realizacion_id === unit.realizacion_id
+			);
+			if (!alcanza) continue;
+			const elegidas = selectedChoiceIds(groupId, unit.realizacion_id);
+			const opciones = optionsForGroup(groupId);
+
+			if (group.dimension === 'metro') {
+				for (const opcion of opciones) {
+					const posible = Number(opcion.metro_base_silabas);
+					if (Number.isFinite(posible)) base = posible;
+				}
+				for (const opcion of opciones) {
+					if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
+					const posicion = Number(opcion.posicion_unidad);
+					const silabas = Number(opcion.metro_silabas);
+					if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
+						medidas.set(posicion, silabas);
+					}
+				}
+				continue;
+			}
+
+			if (group.dimension !== 'rima') continue;
+			const escrito = choiceTextValue(groupId, unit.realizacion_id).trim();
+			const catalogados = normaEsquemaDe(group, unit).catalogados;
+			const notacion =
+				opciones
+					.filter((opcion: MetricCatalogDomainRow) =>
+						elegidas.includes(String(opcion.opcion_eleccion_id))
+					)
+					.map(
+						(opcion: MetricCatalogDomainRow) =>
+							catalogados.find(
+								(candidato) => candidato.esquemaRimaId === String(opcion.opcion_eleccion_id)
+							)?.notacion
+					)
+					.find(Boolean) ?? (escrito || null);
+			if (!notacion) continue;
+			const seguidas = Array.from(String(notacion).replace(/\|/gu, ''));
+			// Una notación que no case verso a verso no se puede repartir por posiciones.
+			if (seguidas.length === versos) letras = seguidas;
+		}
+
+		if (letras === null && medidas.size === 0 && base === null) return null;
+
+		const piezas: string[] = [];
+		for (let posicion = 1; posicion <= versos; posicion += 1) {
+			const silabas = medidas.get(posicion) ?? base;
+			const letra = letras?.[posicion - 1] ?? '';
+			const simbolo =
+				letra && letra !== '-' && silabas !== null && silabas !== undefined
+					? normalizeRhymeSymbol(letra, silabas)
+					: letra;
+			piezas.push(`${silabas ?? ''}${simbolo}`);
+		}
+		const escrita = piezas.join(' ').trim();
+		return escrita ? escrita : null;
 	}
 
 	/** Si a esta unidad le llega alguna de las preguntas que se responden en común. */
@@ -1600,11 +1682,20 @@
 			<ul class="px-3 py-2.5">
 				{#each rows as row (row.key)}
 					{#if row.kind === 'realizacion'}
-						<li class="text-sm leading-relaxed">
-							{row.label}
-							<span class="tabular-nums text-[color:var(--muted-foreground)]">
-								vv. {row.unit.v_ini}–{row.unit.v_fin}
+						{@const notacion = notacionDeLaUnidad(row.unit)}
+						<li class="flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed">
+							<span>
+								{row.label}
+								<span class="tabular-nums text-[color:var(--muted-foreground)]">
+									vv. {row.unit.v_ini}–{row.unit.v_fin}
+								</span>
 							</span>
+							<!-- La anotación va al lado y en pequeño: informa sin ocupar otra línea. -->
+							{#if notacion}
+								<span class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
+									{notacion}
+								</span>
+							{/if}
 						</li>
 					{/if}
 				{/each}
@@ -1829,15 +1920,28 @@
 								Respuesta registrada en {parts.length} partes.
 							</span>
 						{:else}
-							{@render camposDeLaParte(
-								row.preguntas,
-								row.equivalentes,
-								true,
-								() => setUnidadPlegada(row.unit.realizacion_id, false),
-								undefined,
-								undefined,
-								true
-							)}
+							{@const notacion = notacionDeLaUnidad(row.unit)}
+							{@const restantes = notacion
+								? row.preguntas.filter(
+										(pregunta: PreguntaEnFila) =>
+											pregunta.group.dimension !== 'rima' &&
+											pregunta.group.dimension !== 'metro'
+									)
+								: row.preguntas}
+							{#if notacion}
+								<p class="text-sm tabular-nums">{notacion}</p>
+							{/if}
+							{#if restantes.length > 0}
+								{@render camposDeLaParte(
+									restantes,
+									row.equivalentes,
+									true,
+									() => setUnidadPlegada(row.unit.realizacion_id, false),
+									undefined,
+									undefined,
+									true
+								)}
+							{/if}
 						{/if}
 					{:else}
 					{#if parts.length > 0}
