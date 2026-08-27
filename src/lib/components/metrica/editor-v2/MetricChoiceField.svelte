@@ -324,14 +324,69 @@
 		return names.join(' · ');
 	});
 
+	/**
+	 * **La respuesta en notación, para leerla de un golpe.**
+	 *
+	 * Plegada, una unidad se lee mejor con la notación que con la prosa: `abab|cdcd` dice lo mismo
+	 * que «las dos cruzadas» sin gastar una línea, y `8·8·8·4·8·8·8·4` dice de un vistazo lo que
+	 * «quebrados: v. 4 (4 síl.), v. 8 (4 síl.) · los demás, 8 síl.» obliga a reconstruir verso a
+	 * verso. La prosa se queda donde se responde, que es donde hay que elegir.
+	 *
+	 * Devuelve `null` cuando la pregunta no tiene notación, y entonces vale el resumen de siempre.
+	 */
+	const notacionResumen = $derived.by(() => {
+		const selectedOptions = visibleOptions.filter((option: MetricCatalogDomainRow) =>
+			props.selectedIds.includes(String(option.opcion_eleccion_id))
+		);
+		// Un esquema escrito a mano ya viene en notación.
+		if (selectedOptions.length === 0 && props.textValue) return props.textValue;
+
+		if (positional) {
+			const base = Number(visibleOptions[0]?.metro_base_silabas);
+			if (!Number.isFinite(base) || visiblePositions.length === 0) return null;
+			const porPosicion = new Map<number, number>();
+			for (const option of selectedOptions) {
+				const posicion = Number(option.posicion_unidad);
+				const silabas = Number(option.metro_silabas);
+				if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
+					porPosicion.set(posicion, silabas);
+				}
+			}
+			return visiblePositions
+				.map((posicion: number) => String(porPosicion.get(posicion) ?? base))
+				.join('·');
+		}
+
+		// `catalogados` viene identificado por la **opción**, no por el esquema: es lo que el editor
+		// guarda, y así lo escribe quien construye la norma. Buscar por `esquema_rima_id` no
+		// encontraba nada y la rima caía al resumen en prosa.
+		const catalogados = props.normaEsquema?.catalogados ?? [];
+		const notaciones = selectedOptions
+			.map(
+				(option: MetricCatalogDomainRow) =>
+					catalogados.find(
+						(candidato: EsquemaCatalogado) =>
+							candidato.esquemaRimaId === String(option.opcion_eleccion_id)
+					)?.notacion
+			)
+			.filter((notacion: string | null | undefined): notacion is string => Boolean(notacion));
+		return notaciones.length > 0 ? [...new Set(notaciones)].join(' · ') : null;
+	});
+
+	/** «rima», «medida»: el nombre largo del grupo sobra cuando solo se está leyendo. */
+	const etiquetaResumen = $derived(
+		props.group.dimension === 'rima'
+			? 'rima'
+			: props.group.dimension === 'metro'
+				? 'medida'
+				: String(props.label ?? props.group.nombre).toLocaleLowerCase('es')
+	);
 </script>
 
 {#if collapsed && props.resumen}
 	<p class="text-sm leading-snug">
-		<span class="text-[color:var(--muted-foreground)]"
-			>{props.label ?? String(props.group.nombre)}:</span
-		>
-		{answerSummary}
+		<span class="text-[color:var(--muted-foreground)]">{etiquetaResumen}:</span>
+		<span class="tabular-nums">{notacionResumen ?? answerSummary}</span>
 	</p>
 {:else}
 <fieldset class="form-field">
