@@ -1,20 +1,26 @@
-# Migración métrica · Cegar para ver mejor
+# Migración métrica · Fuenteovejuna
 
 Generado el 2026-08-27 por `npm run migracion:informe`. **No editar a mano:**
 se regenera y se pierde lo escrito. El procedimiento está en
 [cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
 [equivalencias pendientes](../equivalencias-pendientes.md).
 
-- **Editor asignado:** Gabriel López
-- **Secuencias métricas:** 3
+- **Editor asignado:** David Merino Recalde
+- **Secuencias métricas:** 1
 - **Subtipos estróficos:** 0
-- **Caracterizaciones por rango:** 0
+- **Caracterizaciones por rango:** 1
 
-## Nada que consultar
+## Qué hay que consultar
 
-La equivalencia de todas las secuencias se resuelve sin ambigüedad.
+- **1 secuencia(s) sin equivalencia.** Es lo que hay que decidir con el editor.
 
-Resolución: 2 directas · 1 con rasgo propio · 0 por ascendencia · 0 sin destino · 0 sin forma declarada · 0 con longitud por revisar.
+Resolución: 0 directas · 0 con rasgo propio · 0 por ascendencia · 0 sin destino · 1 sin forma declarada · 0 con longitud por revisar.
+
+## Dudas, una por una
+
+| Versos | Término actual | Qué pasa |
+| --- | --- | --- |
+| 1–8 (8 v) | — | La secuencia no declara ninguna forma métrica. |
 
 ## Secuencias
 
@@ -27,7 +33,15 @@ en su día y se traslada tal cual; lo *derivado* se deduce del término legado y
 
 | # | Versos | v | Término actual | Forma propuesta | Arquitectura | Subtipos | Caracterizaciones | Estado | Propuesta | Vía |
 | ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1–244 | 244 | `redondilla_regular` | Redondilla | Octosilábica | — | — | lista | 61 derivadas | directa |
-| 2 | 245–420 | 176 | `romance_a-e` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 3 | 421–484 | 64 | `redondilla_regular` | Redondilla | Octosilábica | — | — | lista | 16 derivadas | directa |
+| 1 | 1–8 | 8 | — | — | — | — | `cantado` (3–5) | sin arquitectura | — | **no declara forma** |
+
+## Caracterizaciones por rango
+
+Buena parte de estas no son caracterizaciones sino **desviaciones**, y en el modelo nuevo
+se registran como tales. Las de medida —hipometría e hipermetría— no conservan el número
+de sílabas observado, así que hay que revisarlas con quien las anotó.
+
+| Tipo | Rangos |
+| --- | ---: |
+| `cantado` | 1 |
 
