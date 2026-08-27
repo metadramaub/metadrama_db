@@ -16,7 +16,7 @@
 		{/if}
 		<p class="mt-0.5 leading-6 text-[color:var(--foreground)]">
 			{#if source.titulo}<cite class="italic">{source.titulo}</cite>{/if}{#if source.anio}<span
-					class="text-[color:var(--muted-foreground)]"> · {source.anio}</span
+					class="text-[color:var(--muted-foreground)]">, {source.anio}</span
 				>{/if}
 		</p>
 		{#if source.publicacion}

@@ -327,12 +327,14 @@
 		<h3 class="font-display text-2xl text-[color:var(--gray-900)]">{arquitectura.nombre}</h3>
 		<div class="flex flex-wrap items-center gap-1.5">
 			{#if arquitectura.principal}
-				<Badge class="bg-[color:var(--gray-100)] text-[0.7rem] text-[color:var(--gray-700)]">
+				<Badge
+					class="!border-[color:var(--gray-800)] !bg-[color:var(--gray-800)] !text-white text-[0.66rem] uppercase tracking-[0.06em]"
+				>
 					Principal
 				</Badge>
 			{/if}
 			{#if arquitectura.modalidad}
-				<Badge class="bg-[color:var(--gray-100)] text-[0.7rem] capitalize text-[color:var(--gray-700)]">
+				<Badge class="border-transparent bg-[color:var(--gray-100)] text-[0.7rem] capitalize text-[color:var(--gray-700)]">
 					{arquitectura.modalidad}
 				</Badge>
 			{/if}
