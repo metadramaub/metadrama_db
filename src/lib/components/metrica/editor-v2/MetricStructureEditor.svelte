@@ -172,14 +172,7 @@
 	 */
 	let modoDeRespuesta = $state<'conjunto' | 'una_a_una'>('conjunto');
 
-	/**
-	 * Las unidades que el editor ha abierto para responderlas por su cuenta.
-	 *
-	 * Una unidad se abre también **sin marcarla**, en cuanto lo que responde deja de coincidir con
-	 * lo común: eso se lee del dato y no hace falta recordarlo. Esto guarda solo las que se han
-	 * abierto **antes** de responder nada distinto, que si no se cerrarían al instante.
-	 */
-	let unidadesAparte = $state(new Set<string>());
+
 	let unidadesPlegadas = $state(new Set<string>());
 	let pendingPositionsByAnswer = $state<Record<string, number[]>>({});
 	const unitShortName = $derived(
@@ -622,12 +615,39 @@
 	);
 
 	/**
-	 * Si una unidad debe abrirse: porque el modo lo pide, porque el editor la ha marcado, o
-	 * porque lo que responde ya no coincide con lo común.
+	 * **«En conjunto» significa todas iguales, sin letra pequeña.**
+	 *
+	 * Hubo una versión en la que, estando en conjunto, una unidad podía declararse aparte y abrirse
+	 * sola. Eran dos caminos para lo mismo —marcar una excepción y responder una a una— y dejaban
+	 * un «conjunto» que no lo era. Ahora, si alguna unidad responde algo distinto, **el modo es una
+	 * a una**, y el botón de conjunto no se puede pulsar mientras eso siga siendo verdad.
 	 */
-	function unidadAbierta(unit: MetricUnitDraft): boolean {
-		if (modoDeRespuesta === 'una_a_una') return true;
-		return unidadesAparte.has(unit.realizacion_id) || unidadesQueSeApartan.has(unit.realizacion_id);
+	const modoEfectivo = $derived(
+		unidadesQueSeApartan.size > 0 ? 'una_a_una' : modoDeRespuesta
+	);
+
+	function unidadAbierta(): boolean {
+		return modoEfectivo === 'una_a_una';
+	}
+
+	/**
+	 * Al pasar a una a una se pliegan todas.
+	 *
+	 * Seis coplas desplegadas con sus dos preguntas cada una no caben en la pantalla, y lo normal
+	 * es venir de una respuesta común y querer tocar una o dos.
+	 */
+	function elegirModo(id: string | null) {
+		if (id === 'una_a_una') {
+			modoDeRespuesta = 'una_a_una';
+			unidadesPlegadas = new Set(
+				props.units
+					.filter((unit: MetricUnitDraft) => esUnidadComun(unit))
+					.map((unit: MetricUnitDraft) => unit.realizacion_id)
+			);
+			return;
+		}
+		modoDeRespuesta = 'conjunto';
+		unidadesPlegadas = new Set();
 	}
 
 	/** Si a esta unidad le llega alguna de las preguntas que se responden en común. */
@@ -639,13 +659,6 @@
 				)
 			)
 		);
-	}
-
-	function alternarUnidadAparte(unit: MetricUnitDraft) {
-		const siguiente = new Set(unidadesAparte);
-		if (siguiente.has(unit.realizacion_id)) siguiente.delete(unit.realizacion_id);
-		else siguiente.add(unit.realizacion_id);
-		unidadesAparte = siguiente;
 	}
 
 	/** La familia a la que pertenece un grupo, si es de las que se responden en conjunto. */
@@ -875,6 +888,24 @@
 			esFilaPosicionalParcial(row) &&
 			row.preguntas.every(preguntaRespondida)
 		);
+	}
+
+	/**
+	 * Si una unidad está dentro de otra que se ha plegado.
+	 *
+	 * Sus partes se pintan como filas hermanas, no anidadas, así que plegar la unidad ocultaba sus
+	 * campos pero dejaba las partes sueltas debajo. Al plegar una copla se pliega entera.
+	 */
+	function filaOculta(row: GridRow): boolean {
+		let padre =
+			row.kind === 'realizacion' ? row.unit.realizacion_padre_id : row.parentUnitId;
+		while (padre) {
+			if (unidadesPlegadas.has(padre)) return true;
+			padre = props.units.find(
+				(candidate: MetricUnitDraft) => candidate.realizacion_id === padre
+			)?.realizacion_padre_id ?? null;
+		}
+		return false;
 	}
 
 	function setUnidadPlegada(unitId: string, plegada: boolean) {
@@ -1257,6 +1288,15 @@
 		</p>
 	{/if}
 
+	<!--
+		**Dos bloques separados, no uno corrido.**
+
+		Arriba, lo que se responde una vez y vale para toda la secuencia. Abajo, la secuencia leída
+		unidad por unidad. Iban dentro del mismo recuadro y pegados, y eso los hacía parecer una
+		lista continua: la respuesta común se leía como si fuera la primera unidad. Separarlos con
+		aire es lo que dice de qué va cada cosa.
+	-->
+	{#if hayZonaComun}
 	<div class="border border-[color:var(--border)]">
 		{#if hayAjustesDeComposicion}
 			<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
@@ -1321,18 +1361,26 @@
 				-->
 				<div class="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
 					<p class="form-grid-title">
-						{modoDeRespuesta === 'conjunto'
+						{modoEfectivo === 'conjunto'
 							? 'Respuestas de todas las unidades'
 							: 'Respuestas, unidad por unidad'}
 					</p>
 					{#if totalDeUnidades > 1}
 						<SegmentedChoice
 							items={[
-								{ id: 'conjunto', label: 'En conjunto' },
+								{
+									id: 'conjunto',
+									label: 'En conjunto',
+									disabled: unidadesQueSeApartan.size > 0,
+									title:
+										unidadesQueSeApartan.size > 0
+											? 'Hay unidades que responden algo distinto: en conjunto significa todas iguales.'
+											: 'Una respuesta para todas las unidades'
+								},
 								{ id: 'una_a_una', label: 'Una a una' }
 							]}
-							value={modoDeRespuesta}
-							onChange={(id) => (modoDeRespuesta = id === 'una_a_una' ? 'una_a_una' : 'conjunto')}
+							value={modoEfectivo}
+							onChange={elegirModo}
 							ariaLabel="Cómo responder las unidades"
 							size="sm"
 						/>
@@ -1344,14 +1392,14 @@
 					después ahorra mucho trabajo. Pero se anuncia como lo que es —un atajo— y se
 					atenúa, para que no compita con los campos de cada unidad, que son los que mandan.
 				-->
-				{#if modoDeRespuesta === 'una_a_una'}
+				{#if modoEfectivo === 'una_a_una'}
 					<p class="border-b border-[color:var(--border)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
 						Atajo: lo que respondas aquí se escribe en las {totalDeUnidades} unidades. Cada una
 						puede corregirse después, abajo.
 					</p>
 				{/if}
 
-				<div class={modoDeRespuesta === 'una_a_una' ? 'opacity-70' : ''}>
+				<div class={modoEfectivo === 'una_a_una' ? 'opacity-70' : ''}>
 					{#each comunes as pregunta (pregunta.key)}
 						{@const state = comunState(pregunta)}
 						<MetricGridRow
@@ -1387,20 +1435,23 @@
 				</div>
 			</div>
 		{/if}
+	</div>
+	{/if}
 
-		<!--
-			Se llamaba «verso a verso» y no lo es cuando lo que se lista son unidades: en una copla
-			castellana de dos coplas, lo que hay debajo son las dos coplas con sus partes, no
-			dieciséis versos.
-		-->
+	<!--
+		Se llamaba «verso a verso» y no lo es cuando lo que se lista son unidades: en una copla
+		castellana de dos coplas, lo que hay debajo son las dos coplas con sus partes, no dieciséis
+		versos.
+	-->
+	<div class={hayZonaComun ? 'mt-6 border border-[color:var(--border)]' : 'border border-[color:var(--border)]'}>
 		{#if rows.length > 0}
-			<p class="form-grid-title border-b border-t border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+			<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
 				{totalDeUnidades > 1 ? 'La secuencia, unidad por unidad' : 'La secuencia, verso a verso'}
 			</p>
 		{/if}
 
 		{#each rows as row (row.key)}
-			{#if !esParteIntegrada(row)}
+			{#if !esParteIntegrada(row) && !filaOculta(row)}
 			{#if row.kind === 'pregunta'}
 				<MetricGridRow label={row.label} depth={row.depth}>
 					{@render camposDeLaParte(row.preguntas)}
@@ -1477,8 +1528,22 @@
 				{@const otherQuestions = row.preguntas.filter(
 					(pregunta: PreguntaEnFila) => !partialQuestions.includes(pregunta)
 				)}
-				{@const plegable = parts.length > 0 ? puedePlegarCompuesta(row, parts) : puedePlegar(row)}
+				<!--
+					**Una unidad abierta se puede plegar aunque no esté respondida.**
+
+					Plegar solo se ofrecía cuando la unidad estaba contestada entera, que es justo
+					cuando menos falta hace. Respondiendo una a una, seis coplas desplegadas con sus
+					dos preguntas cada una no caben en la pantalla, y hasta contestarlas no había
+					manera de recogerlas.
+				-->
+				{@const abiertaPorModo =
+					comunes.length > 0 && esUnidadComun(row.unit) && unidadAbierta()}
+				{@const plegable =
+					abiertaPorModo || (parts.length > 0 ? puedePlegarCompuesta(row, parts) : puedePlegar(row))}
 				{@const plegada = plegable && unidadesPlegadas.has(row.unit.realizacion_id)}
+				{@const respondida =
+					row.preguntas.every(preguntaRespondida) &&
+					parts.every((part: GridFijasRow) => part.preguntas.every(preguntaRespondida))}
 				<MetricGridRow
 					label={row.label}
 					rango={`vv. ${row.unit.v_ini}–${row.unit.v_fin}`}
@@ -1490,37 +1555,6 @@
 						? () => setUnidadPlegada(row.unit.realizacion_id, !plegada)
 						: undefined}
 				>
-					<!--
-						**Declarar que esta unidad se aparta.**
-
-						En conjunto, una unidad se abre sola en cuanto responde algo distinto de lo
-						común. Pero para responder algo distinto hay que poder abrirla antes, y de
-						ahí esta acción: es el «elegir cuál difiere» que sustituye a un tercer modo.
-
-						Desaparece en «una a una», donde ya están todas abiertas, y en las unidades
-						que se apartan por su propia respuesta, que se explican solas.
-					-->
-					{#if modoDeRespuesta === 'conjunto' && comunes.length > 0 && esUnidadComun(row.unit)}
-						{#if unidadesQueSeApartan.has(row.unit.realizacion_id)}
-							<p class="text-xs text-amber-800">Responde algo distinto de las demás.</p>
-						{:else if unidadesAparte.has(row.unit.realizacion_id)}
-							<button
-								type="button"
-								class="link-action text-xs"
-								onclick={() => alternarUnidadAparte(row.unit)}
-							>
-								Volver a la respuesta común
-							</button>
-						{:else}
-							<button
-								type="button"
-								class="link-action text-xs"
-								onclick={() => alternarUnidadAparte(row.unit)}
-							>
-								Esta {unitShortName} responde otra cosa
-							</button>
-						{/if}
-					{/if}
 					{#if sectionDefinesPattern(row.section)}
 						{@const source = patternSource(row)}
 						{@const metroQuestion = patternQuestion(row, 'metro')}
@@ -1623,7 +1657,11 @@
 							</div>
 						</div>
 					{:else if plegada}
-						{#if parts.length > 0}
+						{#if !respondida}
+							<span class="text-sm text-[color:var(--muted-foreground)]">
+								Sin responder todavía.
+							</span>
+						{:else if parts.length > 0}
 							<span class="text-sm text-[color:var(--muted-foreground)]">
 								Respuesta registrada en {parts.length} partes.
 							</span>
@@ -1764,7 +1802,7 @@
 	{@const unit = pregunta.owner}
 	{@const estado = estadoDeRespuesta(context, group, unit)}
 	{@const familia = familiaDe(group)}
-	{@const abierta = unidadAbierta(unit)}
+	{@const abierta = unidadAbierta()}
 	{@const seAparta = familia !== null && unidadesQueSeApartan.has(unit.realizacion_id)}
 	{@const compacta = forceCompact}
 	<!--
@@ -1780,7 +1818,7 @@
 	-->
 	{#if familia === null || abierta}
 	<div>
-		{#if familia && seAparta && modoDeRespuesta === 'conjunto'}
+		{#if familia && seAparta}
 			<p class="mb-2 text-xs font-medium text-amber-800">
 				Esta {unitShortName} responde otra cosa que las demás
 			</p>

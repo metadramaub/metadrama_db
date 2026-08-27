@@ -496,10 +496,22 @@ dato, sin guardar nada que pueda desincronizarse:
 
 | | qué se ve |
 |---|---|
-| **En conjunto** | un campo por pregunta arriba, «en las N unidades». Abajo cada unidad es **una línea** con su rango y una acción, «esta copla responde otra cosa», que la abre |
-| **Una a una** | todas abiertas. El campo común sigue arriba, **anunciado como atajo y atenuado**, porque partir de lo corriente y matizar después ahorra trabajo |
+| **En conjunto** | un campo por pregunta arriba, «en las N unidades». Abajo cada unidad es **una línea** con su rango, y nada más |
+| **Una a una** | cada unidad con sus campos, **plegadas todas de entrada**. El campo común sigue arriba, **anunciado como atajo y atenuado**, porque partir de lo corriente y matizar después ahorra trabajo |
 
-Y una unidad se abre sola, sin marcarla, en cuanto lo que responde deja de coincidir con lo común.
+**«En conjunto» significa todas iguales, sin letra pequeña.** Hubo una versión intermedia en la que,
+estando en conjunto, una unidad podía declararse aparte y abrirse sola. El IP la descartó y tenía
+razón: eran **dos caminos para lo mismo** —marcar la excepción o responder una a una— y dejaban un
+«conjunto» que no lo era. Ahora, si alguna unidad responde algo distinto, **el modo es una a una** y el
+botón de conjunto no se puede pulsar mientras eso siga siendo verdad.
+
+**Y plegadas de entrada.** Seis coplas desplegadas con sus dos preguntas no caben en pantalla; plegar
+solo se ofrecía cuando la unidad estaba **contestada entera**, que es justo cuando menos falta hace.
+Ahora una unidad abierta se pliega siempre, y al plegarla **se van con ella sus partes**, que se pintan
+como filas hermanas y antes se quedaban sueltas debajo.
+
+**Los dos bloques van separados.** Lo que se responde una vez y lo que se lee unidad por unidad iban
+en el mismo recuadro y pegados, y así la respuesta común se leía como si fuera la primera unidad.
 
 **El primer intento tenía el interruptor en cada pregunta y estaba mal.** Al pedir «una a una» en la
 rima, los quebrados seguían plegados —y también varían de unidad en unidad—, el botón se repetía en
