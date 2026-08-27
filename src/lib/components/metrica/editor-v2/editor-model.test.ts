@@ -233,9 +233,9 @@ describe('cuántas unidades contiene el pasaje', () => {
 
 	it('conserva la identidad y las respuestas de las unidades existentes al ampliar el rango', () => {
 		const initial = syncRepeatedMetricUnits([], [], fixedExtent(5), 1, 10).units;
-		const initialIds = initial.map((unit) => unit.realizacion_prueba_id);
+		const initialIds = initial.map((unit) => unit.realizacion_id);
 		const secondChoice: MetricChoiceDraft = {
-			realizacion_prueba_id: initialIds[1],
+			realizacion_id: initialIds[1],
 			grupo_eleccion_id: 'esquema-rima',
 			opcion_eleccion_id: 'abbab',
 			observaciones: null
@@ -245,10 +245,10 @@ describe('cuántas unidades contiene el pasaje', () => {
 			secondChoice
 		]).units;
 
-		expect(expanded.slice(0, 2).map((unit) => unit.realizacion_prueba_id)).toEqual(initialIds);
-		expect(secondChoice.realizacion_prueba_id).toBe(expanded[1].realizacion_prueba_id);
-		expect(expanded[2].realizacion_prueba_id).not.toBe(initialIds[0]);
-		expect(expanded[2].realizacion_prueba_id).not.toBe(initialIds[1]);
+		expect(expanded.slice(0, 2).map((unit) => unit.realizacion_id)).toEqual(initialIds);
+		expect(secondChoice.realizacion_id).toBe(expanded[1].realizacion_id);
+		expect(expanded[2].realizacion_id).not.toBe(initialIds[0]);
+		expect(expanded[2].realizacion_id).not.toBe(initialIds[1]);
 	});
 
 	it('retira las unidades sobrantes al acortar el rango', () => {
@@ -257,7 +257,7 @@ describe('cuántas unidades contiene el pasaje', () => {
 
 		expect(reduced.compatible).toBe(true);
 		expect(reduced.units).toHaveLength(2);
-		expect(reduced.removedUnitIds).toEqual([initial[2].realizacion_prueba_id]);
+		expect(reduced.removedUnitIds).toEqual([initial[2].realizacion_id]);
 	});
 });
 
@@ -281,10 +281,10 @@ describe('la unidad envuelve a las secciones', () => {
 		// Las secciones raíz cuelgan de la unidad, no de la secuencia.
 		const unidad = unidadRaiz(units);
 		expect(units.find((unit) => unit.seccion_id === 'head')?.realizacion_padre_id).toBe(
-			unidad?.realizacion_prueba_id
+			unidad?.realizacion_id
 		);
 		expect(units.find((unit) => unit.seccion_id === 'ciclo')?.realizacion_padre_id).toBe(
-			unidad?.realizacion_prueba_id
+			unidad?.realizacion_id
 		);
 		expect(unidad).toMatchObject({ v_ini: 1, v_fin: 6 });
 		expect(units.find((unit) => unit.seccion_id === 'mudanza')).toMatchObject({
@@ -317,7 +317,7 @@ describe('la unidad envuelve a las secciones', () => {
 		});
 		expect(copla).toMatchObject({ v_ini: 3, v_fin: 6 });
 
-		units = addSectionInstance(units, sections, 'enlace', copla?.realizacion_prueba_id ?? null, 1);
+		units = addSectionInstance(units, sections, 'enlace', copla?.realizacion_id ?? null, 1);
 		expect(units.find((unit) => unit.seccion_id === 'enlace')).toMatchObject({
 			v_ini: 7,
 			v_fin: 7
@@ -334,7 +334,7 @@ describe('la unidad envuelve a las secciones', () => {
 			units,
 			sections,
 			'ciclo',
-			unidadRaiz(units)?.realizacion_prueba_id ?? null,
+			unidadRaiz(units)?.realizacion_id ?? null,
 			1
 		);
 		const coplas = units.filter((unit) => unit.seccion_id === 'copla');
@@ -343,7 +343,7 @@ describe('la unidad envuelve a las secciones', () => {
 		expect(coplas).toHaveLength(2);
 		expect(mudanzas).toHaveLength(2);
 		expect(mudanzas.map((unit) => unit.realizacion_padre_id)).toEqual(
-			coplas.map((unit) => unit.realizacion_prueba_id)
+			coplas.map((unit) => unit.realizacion_id)
 		);
 		expect(coplas.map((unit) => [unit.v_ini, unit.v_fin])).toEqual([
 			[3, 6],
@@ -356,7 +356,7 @@ describe('la unidad envuelve a las secciones', () => {
 		const ciclo = units.find((unit) => unit.seccion_id === 'ciclo');
 		const choices: MetricChoiceDraft[] = [
 			{
-				realizacion_prueba_id: ciclo?.realizacion_prueba_id ?? null,
+				realizacion_id: ciclo?.realizacion_id ?? null,
 				grupo_eleccion_id: 'repetition',
 				opcion_eleccion_id: 'total',
 				observaciones: null
@@ -366,7 +366,7 @@ describe('la unidad envuelve a las secciones', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			sections,
-			ciclo?.realizacion_prueba_id ?? null,
+			ciclo?.realizacion_id ?? null,
 			repetitionOptions,
 			['total'],
 			1,
@@ -382,7 +382,7 @@ describe('la unidad envuelve a las secciones', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			sections,
-			ciclo?.realizacion_prueba_id ?? null,
+			ciclo?.realizacion_id ?? null,
 			repetitionOptions,
 			['implicit'],
 			1,
@@ -475,13 +475,13 @@ describe('la unidad envuelve a las secciones', () => {
 			units,
 			postposedSections,
 			'ciclo-posterior',
-			unidadRaiz(units)?.realizacion_prueba_id ?? null,
+			unidadRaiz(units)?.realizacion_id ?? null,
 			1
 		);
 		const cycle = units.find((unit) => unit.seccion_id === 'ciclo-posterior');
 		const choices: MetricChoiceDraft[] = [
 			{
-				realizacion_prueba_id: cycle?.realizacion_prueba_id ?? null,
+				realizacion_id: cycle?.realizacion_id ?? null,
 				grupo_eleccion_id: 'repetition-posterior',
 				opcion_eleccion_id: 'total-posterior',
 				observaciones: null
@@ -491,7 +491,7 @@ describe('la unidad envuelve a las secciones', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			postposedSections,
-			cycle?.realizacion_prueba_id ?? null,
+			cycle?.realizacion_id ?? null,
 			[totalOption],
 			['total-posterior'],
 			1,
@@ -537,14 +537,14 @@ describe('la unidad envuelve a las secciones', () => {
 			activo: true
 		};
 		const choices: MetricChoiceDraft[] = ['ciclo-1', 'ciclo-2'].map((cycleId) => ({
-			realizacion_prueba_id: cycleId,
+			realizacion_id: cycleId,
 			grupo_eleccion_id: 'repeticion',
 			opcion_eleccion_id: 'total',
 			observaciones: null
 		}));
 		const units: MetricUnitDraft[] = [
 			{
-				realizacion_prueba_id: 'raiz',
+				realizacion_id: 'raiz',
 				realizacion_padre_id: null,
 				seccion_id: null,
 				orden: 1,
@@ -554,7 +554,7 @@ describe('la unidad envuelve a las secciones', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'ciclo-1',
+				realizacion_id: 'ciclo-1',
 				realizacion_padre_id: 'raiz',
 				seccion_id: 'ciclo',
 				orden: 2,
@@ -564,7 +564,7 @@ describe('la unidad envuelve a las secciones', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'estribillo-1',
+				realizacion_id: 'estribillo-1',
 				realizacion_padre_id: 'ciclo-1',
 				seccion_id: 'estribillo',
 				orden: 3,
@@ -574,7 +574,7 @@ describe('la unidad envuelve a las secciones', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'ciclo-2',
+				realizacion_id: 'ciclo-2',
 				realizacion_padre_id: 'raiz',
 				seccion_id: 'ciclo',
 				orden: 4,
@@ -584,7 +584,7 @@ describe('la unidad envuelve a las secciones', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'estribillo-2',
+				realizacion_id: 'estribillo-2',
 				realizacion_padre_id: 'ciclo-2',
 				seccion_id: 'estribillo',
 				orden: 5,
@@ -597,11 +597,11 @@ describe('la unidad envuelve a las secciones', () => {
 
 		const flowed = reflowMetricUnits(units, selfReferencedSections, 1, choices, [total]);
 
-		expect(flowed.find((unit) => unit.realizacion_prueba_id === 'estribillo-1')).toMatchObject({
+		expect(flowed.find((unit) => unit.realizacion_id === 'estribillo-1')).toMatchObject({
 			v_ini: 1,
 			v_fin: 3
 		});
-		expect(flowed.find((unit) => unit.realizacion_prueba_id === 'estribillo-2')).toMatchObject({
+		expect(flowed.find((unit) => unit.realizacion_id === 'estribillo-2')).toMatchObject({
 			v_ini: 4,
 			v_fin: 6
 		});
@@ -702,7 +702,7 @@ describe('la unidad envuelve a las secciones', () => {
 
 		const choices: MetricChoiceDraft[] = [
 			{
-				realizacion_prueba_id: cycle?.realizacion_prueba_id ?? null,
+				realizacion_id: cycle?.realizacion_id ?? null,
 				grupo_eleccion_id: 'repetition-zejel',
 				opcion_eleccion_id: 'total-zejel',
 				observaciones: null
@@ -711,7 +711,7 @@ describe('la unidad envuelve a las secciones', () => {
 		units = syncChoiceMaterializedSections(
 			units,
 			zejelSections,
-			cycle?.realizacion_prueba_id ?? null,
+			cycle?.realizacion_id ?? null,
 			[totalOption],
 			['total-zejel'],
 			1,
@@ -728,7 +728,7 @@ describe('la unidad envuelve a las secciones', () => {
 
 describe('una unidad con arquitectura propia', () => {
 	const unidad = (id: string, arquitectura_id: string | null = null) => ({
-		realizacion_prueba_id: id,
+		realizacion_id: id,
 		realizacion_padre_id: null,
 		seccion_id: null,
 		orden: 1,
@@ -826,7 +826,7 @@ describe('una unidad puede declarar una arquitectura intercalada', () => {
 
 		// La segunda se declara aumentada. La primera no se toca.
 		units = units.map((unit) =>
-			unit.realizacion_prueba_id === unidades[1].realizacion_prueba_id
+			unit.realizacion_id === unidades[1].realizacion_id
 				? { ...unit, arquitectura_id: 'aumentada' }
 				: unit
 		);
@@ -836,14 +836,14 @@ describe('una unidad puede declarar una arquitectura intercalada', () => {
 			units
 				.filter((unit) => unit.realizacion_padre_id === unidadId)
 				.map((unit) => unit.seccion_id);
-		expect(partesDe(unidades[0].realizacion_prueba_id)).toEqual([
+		expect(partesDe(unidades[0].realizacion_id)).toEqual([
 			'primera',
 			'enlace',
 			'segunda'
 		]);
 		// Las tres de la espinela se van; entran las dos suyas. Un filtro global las habría
 		// dejado, porque siguen siendo buenas para la otra unidad.
-		expect(partesDe(unidades[1].realizacion_prueba_id)).toEqual(['bloque1', 'bloque2']);
+		expect(partesDe(unidades[1].realizacion_id)).toEqual(['bloque1', 'bloque2']);
 	});
 
 	it('mide la unidad excepcional por sus propias secciones', () => {
@@ -853,7 +853,7 @@ describe('una unidad puede declarar una arquitectura intercalada', () => {
 			(unit) => unit.realizacion_padre_id === null && unit.seccion_id === null
 		);
 		units = units.map((unit) =>
-			unit.realizacion_prueba_id === unidades[1].realizacion_prueba_id
+			unit.realizacion_id === unidades[1].realizacion_id
 				? { ...unit, arquitectura_id: 'aumentada' }
 				: unit
 		);

@@ -286,7 +286,7 @@ la misma en todas las estancias y se responde una vez, mientras que la vuelta de
 darse entera tras una copla y en parte tras la siguiente. Lo que decide no es la estructura sino la
 declaración del grupo de elección.
 
-La respuesta por realización cuelga de `elecciones_editor_metrico.realizacion_prueba_id`, que ya
+La respuesta por realización cuelga de `anotacion_elecciones.realizacion_id`, que ya
 existía. _El editor V2 todavía no pregunta así y las trata como de unidad; el criterio está en un
 solo sitio, `src/lib/metrica/alcance.ts`._
 
@@ -416,7 +416,7 @@ extensión que la arquitectura declara para su unidad.
 
 **Una sola arquitectura por secuencia, con una excepción declarada.** Desde el 26 de agosto de 2026
 una arquitectura puede marcarse `intercalable` en `arquitecturas_forma`, y entonces una unidad
-suelta puede adoptarla mediante `realizaciones_editor_metrico.arquitectura_id`. Es la **décima
+suelta puede adoptarla mediante `anotacion_realizaciones.arquitectura_id`. Es la **décima
 aumentada entre décimas normales** que documentan Morley y Bruerton: no es una desviación, porque la
 norma admite la estrofa larga, y registrarla como tal sería anotarla como el error que no es.
 
@@ -738,9 +738,9 @@ desviación.
 | Tradición                                | `tradiciones_metricas` · `formas_tradiciones`                                                       |
 | Relación entre formas                    | `forma_relaciones`                                                                                  |
 | Arquitectura reutilizada por una sección | `estructuras_secciones.arquitectura_referenciada_id`                                                |
-| Realización de la unidad y sus secciones | `realizaciones_editor_metrico`                                                                      |
-| Respuesta registrada                     | `elecciones_editor_metrico`                                                                         |
-| Desviación                               | `desviaciones_editor_metrico`                                                                       |
+| Realización de la unidad y sus secciones | `anotacion_realizaciones`                                                                      |
+| Respuesta registrada                     | `anotacion_elecciones`                                                                         |
+| Desviación                               | `anotacion_desviaciones`                                                                       |
 
 Dos avisos de vocabulario. **Combinación** significa en la tradición hispánica la estrofa
 misma —Domínguez Caparrós titula así el capítulo dedicado a las estrofas castellanas— y
@@ -762,10 +762,10 @@ Lo que de verdad valida un disparador, y solo eso:
 | Que una forma con norma no tenga arquitectura, o que un tramo sin forma la tenga                             | `arquitecturas_forma`, `formas_metricas`                    |
 | Que un grupo de elección pregunte algo incoherente con su dimensión o su alcance                             | `grupos_eleccion_metrica`                                   |
 | Que una variedad apunte a esquemas de otra arquitectura                                                      | `variedades_arquitectura`                                   |
-| Que una respuesta del editor no esté entre las que su pregunta ofrece, o caiga en una posición que no existe | `elecciones_editor_metrico`                                 |
-| Que una unidad se salga del rango de su secuencia o rompa la estructura declarada                            | `realizaciones_editor_metrico`, `secuencias_editor_metrico` |
-| Que una unidad declare una arquitectura que no sea de su forma, que no sea intercalable, o que la declare una sección | `realizaciones_editor_metrico`, `arquitecturas_forma`       |
-| Que una desviación no se apoye en las entidades normalizadas del catálogo                                    | `desviaciones_editor_metrico`                               |
+| Que una respuesta del editor no esté entre las que su pregunta ofrece, o caiga en una posición que no existe | `anotacion_elecciones`                                 |
+| Que una unidad se salga del rango de su secuencia o rompa la estructura declarada                            | `anotacion_realizaciones`, `anotaciones_metricas` |
+| Que una unidad declare una arquitectura que no sea de su forma, que no sea intercalable, o que la declare una sección | `anotacion_realizaciones`, `arquitecturas_forma`       |
+| Que una desviación no se apoye en las entidades normalizadas del catálogo                                    | `anotacion_desviaciones`                               |
 
 Y dos automatismos que no impiden sino que mantienen: `sincronizar_posiciones_esquema_rima_fijo`
 deriva las posiciones de un esquema desde su notación, y `marcar_catalogo_metrico_actualizado`

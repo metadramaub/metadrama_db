@@ -97,7 +97,7 @@ hacen por esta vía; falta `soneto_regular_ABBAABBACDCDCD`, que es el más usado
 ### Se traslada desde la anotación, sin proponer nada
 
 Las **336 tipologías de quintilla** de `secuencias_subtipos_estrofa` van a
-`elecciones_editor_metrico.posicion_unidad`. La granularidad coincide: la pregunta «Esquema de
+`anotacion_elecciones.posicion_unidad`. La granularidad coincide: la pregunta «Esquema de
 rima» de la quintilla tiene `alcance = 'unidad'`. **No es una propuesta, es la anotación misma.**
 
 ### Los esdrújulos

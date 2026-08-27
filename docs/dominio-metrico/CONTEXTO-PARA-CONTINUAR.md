@@ -50,10 +50,10 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
 - `/dashboard/metrica` es la superficie de trabajo del dominio: contiene la guía, el Editor V2 de
   prueba, la anotación en sombra y la validación del demarcador. El gestor mutable se retiró el 11
   de agosto: el catálogo se consulta en `/formas` y todos sus cambios se hacen por migración.
-- **La respuesta guardada no depende del catálogo que la ofreció.** `elecciones_editor_metrico`
+- **La respuesta guardada no depende del catálogo que la ofreció.** `anotacion_elecciones`
   apunta al dato elegido —el esquema, el metro, el valor de rasgo, la repetición, la variedad—,
   no a una opción, y el catálogo se niega a borrar algo que una anotación use. Para leerla con
-  la opción que hoy la ofrece está `elecciones_editor_metrico_resueltas`.
+  la opción que hoy la ofrece está `anotacion_elecciones_resueltas`.
 - **El catálogo de formas se publica en `/formas`** desde el 4 de agosto de 2026, generado
   del dato: cada forma con sus arquitecturas, esquemas, secciones, rasgos, denominaciones y
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
@@ -66,8 +66,8 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   las secuencias reales y no alimenta fichas, buscadores ni resúmenes públicos.
 - **La anotación en sombra funciona** desde el 4 de agosto de 2026, en la pestaña
   «Anotación en sombra» de `/dashboard/metrica`. Una prueba puede señalar una secuencia real
-  con `secuencias_editor_metrico.secuencia_id`, sin que la secuencia cambie nada:
-  `obras_editor_metrico_v2` dice qué obras están abiertas, la vista
+  con `anotaciones_metricas.secuencia_id`, sin que la secuencia cambie nada:
+  `obras_anotacion_nueva` dice qué obras están abiertas, la vista
   `propuesta_metrica_secuencia` traduce cada `estrofa_tipo_id` a su forma y arquitectura
   —94,9 % de cobertura medida— y el formulario llega propuesto desde ahí, de modo que el
   editor revisa en vez de reanotar. El recuento de acuerdo entre modelos está en la misma
@@ -279,7 +279,7 @@ real —lo filtran nueve funciones SQL y el cargador del editor—, y saca la fi
 catálogo público y del demarcador de una vez, sin borrarla. Lo que **cuelga de una arquitectura**
 —esquemas, secciones, rasgos, grupos— se retira con ella y no lleva flag propio. Y un **esquema,
 una sección o una variedad sueltos se borran**: todas las claves ajenas de
-`elecciones_editor_metrico` son `on delete restrict`, así que la base impide sola borrar lo que
+`anotacion_elecciones` son `on delete restrict`, así que la base impide sola borrar lo que
 una anotación use, que es una garantía más fuerte que un estado.
 
 `estado_revision` **ya no existe** en el dominio métrico. Se retiró de sus doce tablas ese mismo
@@ -327,7 +327,7 @@ semana siguiente no obligue a nadie a seguir anotando con el vocabulario legado.
   lo viejo ya no aporta nada, **la columna se retira**. *No se escribe el término legado por
   equivalencia inversa: sería fabricar la deuda que se quiere dejar de fabricar.*
 - **`secuencias_metricas` no necesita ninguna columna nueva.** El vínculo ya existe y va en el
-  sentido correcto: lo lleva `secuencias_editor_metrico.secuencia_id`, con `on delete cascade`, y la
+  sentido correcto: lo lleva `anotaciones_metricas.secuencia_id`, con `on delete cascade`, y la
   tabla ya declara `CHECK (num_nonnulls(escenario_id, secuencia_id) = 1)` —o pertenece a un
   escenario de prueba, o a una secuencia real—. Se hizo pensando en esta mudanza. Añadir una columna
   del lado viejo duplicaría la relación y crearía dos sitios que mantener de acuerdo.
@@ -401,8 +401,8 @@ revisión demuestra ser admin o IP. Al abrir esa RLS hay que añadirle la visibi
 en este mismo paso, no después. ⇒ **C17**
 
 **Los nombres, en detalle.** Las tablas se llaman `*_editor_metrico` de cuando todo
-era un laboratorio, y `obras_editor_metrico_v2` lleva un «v2» que envejecerá mal. Cuando el sistema
-viejo muera, `secuencias_editor_metrico` será *la* tabla de la identidad métrica de una secuencia
+era un laboratorio, y `obras_anotacion_nueva` lleva un «v2» que envejecerá mal. Cuando el sistema
+viejo muera, `anotaciones_metricas` será *la* tabla de la identidad métrica de una secuencia
 con un nombre que ya no dirá nada.
 
 **Hoy tienen cero filas sobre secuencias reales** —solo dos secuencias de escenario—, así que este
@@ -414,17 +414,17 @@ Propuesta, pendiente del visto bueno del IP:
 
 | hoy | propuesta | qué guarda |
 |---|---|---|
-| `secuencias_editor_metrico` | `anotaciones_metricas` | la identidad métrica de un pasaje: qué forma y qué arquitectura |
-| `realizaciones_editor_metrico` | `anotacion_realizaciones` | el árbol de lo que hay verso a verso: cada unidad y sus partes |
-| `elecciones_editor_metrico` | `anotacion_elecciones` | las respuestas a las preguntas que hace la arquitectura |
-| `elecciones_editor_metrico_resueltas` | `anotacion_elecciones_resueltas` | *(vista)* esas respuestas más la opción que las ofrecía |
-| `desviaciones_editor_metrico` | `anotacion_desviaciones` | lo que el pasaje hace y la norma no admite |
-| `escenarios_editor_metrico` | `anotacion_escenarios_prueba` | el laboratorio: cajones de pruebas que no son obras |
-| `obras_editor_metrico_v2` | `obras_anotacion_nueva` | qué obras usan el editor nuevo |
+| `anotaciones_metricas` | `anotaciones_metricas` | la identidad métrica de un pasaje: qué forma y qué arquitectura |
+| `anotacion_realizaciones` | `anotacion_realizaciones` | el árbol de lo que hay verso a verso: cada unidad y sus partes |
+| `anotacion_elecciones` | `anotacion_elecciones` | las respuestas a las preguntas que hace la arquitectura |
+| `anotacion_elecciones_resueltas` | `anotacion_elecciones_resueltas` | *(vista)* esas respuestas más la opción que las ofrecía |
+| `anotacion_desviaciones` | `anotacion_desviaciones` | lo que el pasaje hace y la norma no admite |
+| `anotacion_escenarios_prueba` | `anotacion_escenarios_prueba` | el laboratorio: cajones de pruebas que no son obras |
+| `obras_anotacion_nueva` | `obras_anotacion_nueva` | qué obras usan el editor nuevo |
 
 **Las claves primarias van en el mismo viaje.** No son solo los nombres de tabla los que huelen a
-laboratorio: `secuencia_prueba_id`, `realizacion_prueba_id`, `eleccion_prueba_id` y
-`desviacion_prueba_id` están a punto de guardar anotaciones de verdad, y dejarlas obligaría a
+laboratorio: `anotacion_id`, `realizacion_id`, `eleccion_id` y
+`desviacion_id` están a punto de guardar anotaciones de verdad, y dejarlas obligaría a
 convivir con una tabla llamada `anotaciones_metricas` cuya clave se llama «id de prueba». Pasan a
 `anotacion_id`, `realizacion_id`, `eleccion_id` y `desviacion_id`, y con ellas las claves foráneas
 que las nombran.
@@ -445,7 +445,7 @@ que un editor escribe lo suyo y **no** lo ajeno.
 lo no métrico como `bodyExtra` y su contenedor ya dice que «se moverá tal cual al editor de obras»—.
 La secuencia real se sigue creando como hoy: rango y caracterizaciones en `secuencias_metricas`;
 solo la identidad métrica va a las tablas nuevas. **El interruptor es por obra**, con la tabla que
-hoy es `obras_editor_metrico_v2`: una obra apuntada ahí usa el V2, y las demás siguen con el editor
+hoy es `obras_anotacion_nueva`: una obra apuntada ahí usa el V2, y las demás siguen con el editor
 viejo hasta que se migren. Así nadie empieza una obra nueva con el vocabulario legado y no se
 interrumpe a quien está a mitad de una.
 
@@ -470,8 +470,8 @@ versos». **Alcanza a todas las formas**: no es del catálogo, es el campo. Tres
 2. **Los rangos de las desviaciones están peor.** Son `bind:value` **sin `min` siquiera**, así que
    admiten cero y negativos, y `validateDraft` **no las menciona en ninguna línea**: ni su rango ni
    que caigan dentro de la secuencia. Lo para la base, con un error crudo en vez de un aviso.
-3. **A `secuencias_metricas` le falta la restricción.** `realizaciones_editor_metrico`,
-   `desviaciones_editor_metrico`, `secuencias_editor_metrico`, `secuencias_caracterizaciones_rango`
+3. **A `secuencias_metricas` le falta la restricción.** `anotacion_realizaciones`,
+   `anotacion_desviaciones`, `anotaciones_metricas`, `secuencias_caracterizaciones_rango`
    y `secuencias_subtipos_estrofa` **todas** tienen `v_fin >= v_ini`; la de producción **no**. Hoy la
    sostiene solo el `refine` de zod del API. *Datos limpios: 0 invertidas de 263, ningún `n_versos`
    descuadrado.* Esa migración **va a `main`**, que es donde van los cambios de esa tabla.
@@ -566,7 +566,7 @@ traslada— de lo `derivado`, que hay que revisar. **Las completas pasaron de 16
 
 *Dos cosas que se aprendieron ahí y conviene no volver a descubrir:* `posicion_unidad` es **el verso
 dentro de la estrofa**, no la estrofa —las estrofas son las unidades de
-`realizaciones_editor_metrico`—; y **los rangos de estrofa los pone la anotación, no una división**:
+`anotacion_realizaciones`—; y **los rangos de estrofa los pone la anotación, no una división**:
 al dividir se perdían 38 tipologías y se borraban una estrofa de cuatro versos y otra de tres que
 alguien anotó como tales.
 
@@ -590,7 +590,7 @@ cuántas derivadas.
    **Dónde está, porque no es obvio:** en la pestaña **«Anotación en sombra»** de
    `/dashboard/metrica`. No hay una zona de migrar aparte; es esa.
 
-   *Lo único cierto que quedaba de la nota vieja es que `secuencias_editor_metrico.secuencia_id`
+   *Lo único cierto que quedaba de la nota vieja es que `anotaciones_metricas.secuencia_id`
    **sigue a cero**, y eso no es código que falte: es que nadie ha anotado todavía una secuencia
    real.* **Falta verlo funcionar en pantalla con una obra de verdad**, que es trabajo de editor y no
    de implementación.
@@ -863,7 +863,7 @@ alguien las mira. Medidas por PostgREST el 26 de agosto de 2026, con **680 opcio
 | `opciones_eleccion_metrica` | 62 ms | 1.221 ms |
 | `grupos_eleccion_metrica_resueltos` | 22 ms | 1.465 ms |
 | `arquitecturas_reglas_longitud` | 41 ms | 768 ms |
-| `elecciones_editor_metrico_resueltas` | 21 ms | 751 ms |
+| `anotacion_elecciones_resueltas` | 21 ms | 751 ms |
 | `propuesta_elecciones_secuencia` | 750 ms | 2.041 ms |
 
 El multiplicador de veinte no es la consulta: es que la pantalla dispara **unas treinta consultas en

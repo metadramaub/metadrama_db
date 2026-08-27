@@ -9,7 +9,7 @@ function unit(
 	parent: string | null = null
 ): MetricUnitDraft {
 	return {
-		realizacion_prueba_id: id,
+		realizacion_id: id,
 		realizacion_padre_id: parent,
 		seccion_id: null,
 		orden: 1,

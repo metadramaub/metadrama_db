@@ -93,7 +93,7 @@ export function defaultRelationFor(
 }
 
 export type MetricDeviationDraft = {
-	realizacion_prueba_id: string | null;
+	realizacion_id: string | null;
 	v_ini: number;
 	v_fin: number;
 	dimension: MetricDeviationDimension;
@@ -107,7 +107,7 @@ export type MetricDeviationDraft = {
 };
 
 export type MetricSequenceDraft = {
-	secuencia_prueba_id: string | null;
+	anotacion_id: string | null;
 	/**
 	 * De dónde cuelga la prueba: un escenario ficticio o una secuencia real que se anota en
 	 * sombra. Siempre uno de los dos, nunca los dos ni ninguno.
@@ -207,14 +207,14 @@ export function applyMaterializedSections(
 				.filter(
 					(choice: MetricChoiceDraft) =>
 						choice.grupo_eleccion_id === groupId &&
-						choice.realizacion_prueba_id === unit.realizacion_prueba_id &&
+						choice.realizacion_id === unit.realizacion_id &&
 						Boolean(choice.opcion_eleccion_id)
 				)
 				.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
 			next = syncChoiceMaterializedSections(
 				next,
 				sections,
-				unit.realizacion_prueba_id,
+				unit.realizacion_id,
 				groupOptions,
 				selected,
 				sequenceStart,
@@ -358,11 +358,11 @@ export function applyProposedUnitAnswers(
 			const answered = next.some(
 				(choice) =>
 					choice.grupo_eleccion_id === answer.grupo_eleccion_id &&
-					choice.realizacion_prueba_id === unit.realizacion_prueba_id
+					choice.realizacion_id === unit.realizacion_id
 			);
 			if (answered) continue;
 			next.push({
-				realizacion_prueba_id: unit.realizacion_prueba_id,
+				realizacion_id: unit.realizacion_id,
 				grupo_eleccion_id: answer.grupo_eleccion_id,
 				opcion_eleccion_id: answer.opcion_eleccion_id,
 				valor_texto: null,
@@ -388,14 +388,14 @@ export function draftFromRows(
 	sequence: MetricCatalogDomainRow,
 	rows: MetricSavedSequenceRows
 ): MetricSequenceDraft {
-	const sequenceId = String(sequence.secuencia_prueba_id);
+	const sequenceId = String(sequence.anotacion_id);
 	const belongs = (row: MetricCatalogDomainRow) =>
-		String(row.secuencia_prueba_id) === sequenceId;
+		String(row.anotacion_id) === sequenceId;
 	const text = (value: unknown): string => String(value ?? '');
 	const id = (value: unknown): string | null => (value ? String(value) : null);
 
 	return {
-		secuencia_prueba_id: sequenceId,
+		anotacion_id: sequenceId,
 		escenario_id: id(sequence.escenario_id),
 		secuencia_id: id(sequence.secuencia_id),
 		orden: Number(sequence.orden),
@@ -405,7 +405,7 @@ export function draftFromRows(
 		arquitectura_id: text(sequence.arquitectura_id),
 		observaciones: text(sequence.observaciones),
 		unidades: rows.units.filter(belongs).map((unit) => ({
-			realizacion_prueba_id: String(unit.realizacion_prueba_id),
+			realizacion_id: String(unit.realizacion_id),
 			realizacion_padre_id: id(unit.realizacion_padre_id),
 			// **`id`, no `String`.** La realización de la unidad no realiza ninguna sección, y
 			// `String(null)` daba la cadena «null»: con ella `isMetricUnit` no reconocía ni una
@@ -422,14 +422,14 @@ export function draftFromRows(
 			observaciones: text(unit.observaciones)
 		})),
 		elecciones: rows.choices.filter(belongs).map((choice) => ({
-			realizacion_prueba_id: id(choice.realizacion_prueba_id),
+			realizacion_id: id(choice.realizacion_id),
 			grupo_eleccion_id: String(choice.grupo_eleccion_id),
 			opcion_eleccion_id: id(choice.opcion_eleccion_id),
 			valor_texto: choice.valor_texto ? String(choice.valor_texto) : null,
 			observaciones: choice.observaciones ? String(choice.observaciones) : null
 		})),
 		desviaciones: rows.deviations.filter(belongs).map((deviation) => ({
-			realizacion_prueba_id: id(deviation.realizacion_prueba_id),
+			realizacion_id: id(deviation.realizacion_id),
 			v_ini: Number(deviation.v_ini),
 			v_fin: Number(deviation.v_fin),
 			dimension: deviation.dimension as MetricDeviationDimension,
@@ -447,7 +447,7 @@ export function draftFromRows(
 export function emptyDeviation(vIni: number, vFin: number): MetricDeviationDraft {
 	const dimension: MetricDeviationDimension = 'metro';
 	return {
-		realizacion_prueba_id: null,
+		realizacion_id: null,
 		v_ini: vIni,
 		v_fin: vFin,
 		dimension,

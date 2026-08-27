@@ -94,10 +94,10 @@ Retirarla exigió, por tanto, más que borrar nueve filas:
 1. Que una pregunta por unidad pueda no apuntar a ninguna sección: `seccion_id` a nulo
    cuando la pregunta se refiere a la unidad entera y no a una parte suya. Los ocho grupos
    lo tienen ya a nulo.
-2. Que `realizaciones_editor_metrico.seccion_id` admita nulo: la realización de la unidad
+2. Que `anotacion_realizaciones.seccion_id` admita nulo: la realización de la unidad
    no es la realización de una sección. Una restricción impide que una realización sin
    sección cuelgue de otra.
-3. Ajustar `validar_eleccion_editor_metrico` y `validar_unidad_editor_metrico`, que
+3. Ajustar `validar_anotacion_eleccion` y `validar_unidad_editor_metrico`, que
    emparejaban la sección del grupo con la de la unidad. Una pregunta sin sección se aplica
    ahora a la realización que no cuelga de ninguna otra.
 4. Sustituir en [editor-model.ts](../../../src/lib/components/metrica/editor-v2/editor-model.ts)
@@ -108,13 +108,13 @@ Retirarla exigió, por tanto, más que borrar nueve filas:
 
 Hicieron falta dos ajustes más, que el inventario previo no había anticipado:
 
-- `validar_estructura_secuencia_editor_metrico` comprobaba la repetición de las secciones
+- `validar_estructura_anotacion` comprobaba la repetición de las secciones
   raíz contra la secuencia entera, cuando lo que esa repetición declara es cuántas veces
   aparece la sección dentro de cada unidad. Sin corregirlo, las formas cuya sección raíz
   declaraba `1–1` —copla de arte mayor, sextilla doble, sextina— no
   habrían podido registrar más de una unidad por secuencia. La unidad envolvente lo dejó en
   su forma definitiva: cada sección se cuenta dentro de la realización que la contiene.
-- `guardar_secuencia_editor_metrico_prueba` emparejaba las preguntas por unidad con
+- `guardar_anotacion_metrica` emparejaba las preguntas por unidad con
   `grupo.seccion_id is null or grupo.seccion_id = unidad.seccion_id`, que con la sección
   nula habría aplicado la pregunta a cualquier realización, incluidas las partes internas.
 
@@ -139,7 +139,7 @@ por la unidad entera, que es lo que preguntaban.
 Queda una sola regla, sin excepciones: **la unidad es la realización que no cuelga de
 ninguna otra, y toda sección se realiza dentro de una unidad.** La restricción
 `(seccion_id is null) = (realizacion_padre_id is null)` la enuncia en la base, y
-`validar_estructura_secuencia_editor_metrico` cuenta cada sección dentro de la realización
+`validar_estructura_anotacion` cuenta cada sección dentro de la realización
 que la contiene, no dentro de la secuencia.
 
 ### 3.2 · El metro tiene dos representaciones
@@ -189,7 +189,7 @@ el esquema de rima y la medida por posición.
 ### 3.4 · Los tramos sin forma no tienen dónde describirse
 
 No es un hueco del catálogo sino de la capa de anotación: solo existe
-`desviaciones_editor_metrico`, que es comparativa por construcción —tiene
+`anotacion_desviaciones`, que es comparativa por construcción —tiene
 `relacion_norma` obligatorio—. Sin norma no hay nada con lo que comparar, así que hoy un
 tramo irregular no puede registrar ni sus metros.
 
@@ -225,15 +225,15 @@ Por eso el inventario importa:
 | Tipos generados | `database.types.ts` | Regenerar con `npm run db:types` |
 | Script de auditoría | `audit-catalogo-metrico.mjs` | Lee nombres de columna: se rompe si no entra a la vez |
 
-Las diecisiete funciones son: `guardar_secuencia_editor_metrico_prueba`,
+Las diecisiete funciones son: `guardar_anotacion_metrica`,
 `marcar_configuracion_metrica_principal`, `normalizar_extension_configuracion_metrica`,
 `normalizar_extensiones_al_cambiar_nivel_metrico`, `regla_longitud_configuracion_metrica`,
 `sincronizar_posiciones_patron_rima_fijo`, `validar_combinacion_patrones_configuracion`,
-`validar_configuracion_forma_no_editorial`, `validar_desviacion_editor_metrico`,
-`validar_eleccion_editor_metrico`, `validar_estructura_secuencia_editor_metrico`,
+`validar_configuracion_forma_no_editorial`, `validar_anotacion_desviacion`,
+`validar_anotacion_eleccion`, `validar_estructura_anotacion`,
 `validar_forma_salida_editorial`, `validar_grupo_eleccion_metrica`,
 `validar_opcion_eleccion_metrica`, `validar_posicion_opcion_eleccion_metrica`,
-`validar_secuencia_editor_metrico` y `validar_unidad_editor_metrico`.
+`validar_anotacion_metrica` y `validar_unidad_editor_metrico`.
 
 Dos de ellas se simplificaron en el bloque C: `regla_longitud_configuracion_metrica` deriva
 el múltiplo de la unidad declarada y solo recorre secciones cuando no hay unidad —es decir,

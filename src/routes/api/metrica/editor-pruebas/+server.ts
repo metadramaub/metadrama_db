@@ -16,7 +16,7 @@ const uuid = z.uuid();
 const nullableUuid = uuid.nullable();
 
 const unitSchema = z.object({
-	realizacion_prueba_id: uuid,
+	realizacion_id: uuid,
 	realizacion_padre_id: nullableUuid,
 	// La unidad no realiza ninguna sección: es la realización que no cuelga de ninguna otra.
 	// Solo sus partes declaran cuál realizan.
@@ -36,7 +36,7 @@ const unitSchema = z.object({
 
 const choiceSchema = z
 	.object({
-		realizacion_prueba_id: nullableUuid,
+		realizacion_id: nullableUuid,
 		grupo_eleccion_id: uuid,
 		opcion_eleccion_id: nullableUuid,
 		valor_texto: z.string().trim().min(1).max(240).nullable(),
@@ -51,7 +51,7 @@ const choiceSchema = z
 // solo se replica para rechazar pronto lo que la base rechazaría de todos modos: cinco
 // dimensiones y seis relaciones, sin sinónimos.
 const deviationSchema = z.object({
-	realizacion_prueba_id: nullableUuid,
+	realizacion_id: nullableUuid,
 	v_ini: z.number().int().positive(),
 	v_fin: z.number().int().positive(),
 	dimension: z.enum(['metro', 'rima', 'estructura', 'repeticion', 'rasgo']),
@@ -89,7 +89,7 @@ const requestSchema = z.discriminatedUnion('action', [
 	}),
 	z.object({
 		action: z.literal('save_sequence'),
-		secuencia_prueba_id: nullableUuid,
+		anotacion_id: nullableUuid,
 		// Una prueba cuelga de un escenario ficticio o anota una secuencia real. La
 		// exclusividad se comprueba en el handler para poder explicarla.
 		escenario_id: nullableUuid.default(null),
@@ -106,7 +106,7 @@ const requestSchema = z.discriminatedUnion('action', [
 	}),
 	z.object({
 		action: z.literal('delete_sequence'),
-		secuencia_prueba_id: uuid
+		anotacion_id: uuid
 	}),
 	z.object({
 		action: z.literal('open_work'),
@@ -147,7 +147,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	if (input.action === 'create_scenario') {
 		const { data, error } = await db
-			.from('escenarios_editor_metrico')
+			.from('anotacion_escenarios_prueba')
 			.insert({
 				nombre: input.nombre,
 				descripcion: input.descripcion,
@@ -162,7 +162,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	if (input.action === 'update_scenario') {
 		const { data, error } = await db
-			.from('escenarios_editor_metrico')
+			.from('anotacion_escenarios_prueba')
 			.update({
 				nombre: input.nombre,
 				descripcion: input.descripcion,
@@ -177,7 +177,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	if (input.action === 'delete_scenario') {
 		const { error } = await db
-			.from('escenarios_editor_metrico')
+			.from('anotacion_escenarios_prueba')
 			.delete()
 			.eq('escenario_id', input.escenario_id);
 		if (error) return databaseError(error, 'No se pudo eliminar el escenario.');
@@ -186,16 +186,16 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	if (input.action === 'delete_sequence') {
 		const { error } = await db
-			.from('secuencias_editor_metrico')
+			.from('anotaciones_metricas')
 			.delete()
-			.eq('secuencia_prueba_id', input.secuencia_prueba_id);
+			.eq('anotacion_id', input.anotacion_id);
 		if (error) return databaseError(error, 'No se pudo eliminar la secuencia de prueba.');
 		return json({ deleted: true });
 	}
 
 	if (input.action === 'open_work') {
 		const { data, error } = await db
-			.from('obras_editor_metrico_v2')
+			.from('obras_anotacion_nueva')
 			.upsert(
 				{ obra_id: input.obra_id, nota: input.nota, created_by: profile.userId },
 				{ onConflict: 'obra_id' }
@@ -209,7 +209,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	if (input.action === 'close_work') {
 		// Cerrar la obra no borra lo anotado: las pruebas siguen colgando de sus secuencias.
 		const { error } = await db
-			.from('obras_editor_metrico_v2')
+			.from('obras_anotacion_nueva')
 			.delete()
 			.eq('obra_id', input.obra_id);
 		if (error) return databaseError(error, 'No se pudo cerrar la obra.');
@@ -315,9 +315,9 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		}
 	}
 
-	const { data, error } = await db.rpc('guardar_secuencia_editor_metrico_prueba', {
+	const { data, error } = await db.rpc('guardar_anotacion_metrica', {
 		p_datos: { ...input, v_ini: rangeStart, v_fin: rangeEnd }
 	});
 	if (error) return databaseError(error, 'No se pudo guardar la secuencia métrica de prueba.');
-	return json({ secuencia_prueba_id: data });
+	return json({ anotacion_id: data });
 };

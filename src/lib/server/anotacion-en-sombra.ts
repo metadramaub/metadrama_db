@@ -39,7 +39,7 @@ export async function loadShadowAnnotation(
 	const db = client as UntypedSupabaseClient;
 
 	const worksResponse = await db
-		.from('obras_editor_metrico_v2')
+		.from('obras_anotacion_nueva')
 		.select('obra_id,nota,obras(titulo)')
 		.order('created_at', { ascending: true });
 
@@ -77,8 +77,8 @@ export async function loadShadowAnnotation(
 				)
 				.order('v_ini', { ascending: true }),
 			db
-				.from('secuencias_editor_metrico')
-				.select('secuencia_prueba_id,secuencia_id,forma_id,arquitectura_id')
+				.from('anotaciones_metricas')
+				.select('anotacion_id,secuencia_id,forma_id,arquitectura_id')
 				.not('secuencia_id', 'is', null),
 			db.from('secuencias_subtipos_estrofa').select('secuencia_id'),
 			db.from('secuencias_caracterizaciones_rango').select('secuencia_id'),
@@ -186,7 +186,7 @@ export async function loadShadowAnnotation(
 			respuestas: answersBySequence.get(secuenciaId) ?? [],
 			subtipos: subtypeCounts.get(secuenciaId) ?? 0,
 			caracterizaciones: characterizationCounts.get(secuenciaId) ?? 0,
-			pruebaId: shadow ? String(shadow.secuencia_prueba_id) : null,
+			pruebaId: shadow ? String(shadow.anotacion_id) : null,
 			formaAnotadaId: shadow?.forma_id ? String(shadow.forma_id) : null,
 			arquitecturaAnotadaId: shadow?.arquitectura_id ? String(shadow.arquitectura_id) : null
 		};

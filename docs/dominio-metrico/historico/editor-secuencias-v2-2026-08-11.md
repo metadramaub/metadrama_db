@@ -149,20 +149,20 @@ unidades equivalentes; el editor cambia únicamente las excepciones.
 
 ## Tablas exclusivas de prueba
 
-- `escenarios_editor_metrico`: sustituye temporalmente a una obra ficticia.
-- `secuencias_editor_metrico`: rango, forma y configuración de cada prueba.
-- `realizaciones_editor_metrico`: las unidades del pasaje y, dentro de ellas, coplas,
+- `anotacion_escenarios_prueba`: sustituye temporalmente a una obra ficticia.
+- `anotaciones_metricas`: rango, forma y configuración de cada prueba.
+- `anotacion_realizaciones`: las unidades del pasaje y, dentro de ellas, coplas,
   cabezas, estribillos, repeticiones del estribillo u otras secciones enlazadas
   jerárquicamente mediante
   `realizacion_padre_id`. Una realización sin `seccion_id` es la unidad que define la
   forma: no es parte de nada y no cuelga de ninguna otra. La equivalencia es estricta y la
   base la impone: una realización no realiza ninguna sección exactamente cuando no tiene
   realización superior.
-- `elecciones_editor_metrico`: respuesta general o por unidad.
-- `desviaciones_editor_metrico`: diferencias localizadas respecto de lo admitido.
+- `anotacion_elecciones`: respuesta general o por unidad.
+- `anotacion_desviaciones`: diferencias localizadas respecto de lo admitido.
 
 Todas tienen RLS para `admin` e `IP`. La función
-`guardar_secuencia_editor_metrico_prueba` guarda cada secuencia con sus unidades, elecciones
+`guardar_anotacion_metrica` guarda cada secuencia con sus unidades, elecciones
 y desviaciones en una transacción.
 
 ## Presentación
@@ -285,7 +285,7 @@ Se conservan dos usos que no son comentarios:
     configuración. La comprobación se deriva del catálogo y se repite en la base de datos.
 13. En una tirada de unidades fijas, el editor materializa silenciosamente una unidad por
     cada tramo: 48 versos de redondillas producen 12 filas de 4 versos en
-    `realizaciones_editor_metrico`. El formulario muestra el recuento, pero no obliga a
+    `anotacion_realizaciones`. El formulario muestra el recuento, pero no obliga a
     editar cada unidad si todas cumplen la misma norma. Cuántas unidades hay se deriva del
     rango y de la extensión declarada por la arquitectura, así que no se añaden ni se
     quitan a mano; con una unidad de extensión variable —la copla de pie quebrado— ocurre

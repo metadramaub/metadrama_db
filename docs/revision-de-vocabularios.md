@@ -232,7 +232,7 @@ catálogo. Falta comprobar contra la base si son la misma idea escrita dos veces
 homónimas. Es lo primero que hay que resolver.
 
 **El mapa dimensión × relación está duplicado.** Qué relaciones admite cada dimensión de una
-desviación vive a la vez en un `CHECK` de `desviaciones_editor_metrico` y en
+desviación vive a la vez en un `CHECK` de `anotacion_desviaciones` y en
 `DEVIATION_RELATIONS_BY_DIMENSION`, en `sequence-draft.ts`. Si esos dos enums pasan a
 `vocabularios`, el `CHECK` no puede seguir comparando texto: haría falta una tabla de enlace
 —que de paso quitaría la duplicación— o un trigger. Es el coste real de mover estos dos.
