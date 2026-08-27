@@ -2,6 +2,7 @@
 	import type { PublicFormSummary } from '$lib/metrica/formas-publicas.types';
 	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
 	import CatalogFilterGroup from '$lib/components/metrica/catalogo/CatalogFilterGroup.svelte';
+	import PublicFormSummaryCard from '$lib/components/metrica/catalogo/PublicFormSummaryCard.svelte';
 	import PublicHelpDialog from '$lib/components/public/PublicHelpDialog.svelte';
 	import PublicResourceHeader from '$lib/components/public/PublicResourceHeader.svelte';
 	import {
@@ -228,59 +229,7 @@
 	<ul class="space-y-3">
 		{#each formas as forma (forma.slug)}
 			<li>
-				<a
-					class="group block border border-[color:var(--border)] bg-white p-5 transition hover:border-[color:var(--gray-300)] hover:bg-[color:var(--gray-50)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
-					href="/formas/{forma.slug}"
-				>
-					<div class="flex items-start justify-between gap-5">
-						<div class="min-w-0">
-							<p class="text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-							{metricStructuralLevelLabel(forma.nivelEstructural)}
-							</p>
-							<h2 class="mt-1 font-display text-xl leading-tight">{forma.nombre}</h2>
-						</div>
-						<div class="flex shrink-0 items-center gap-3">
-						{#if forma.arquitecturas > 0}
-							<span class="border border-[color:var(--border)] bg-white px-2 py-1 text-xs text-[color:var(--muted-foreground)]">
-								{forma.arquitecturas}
-								{forma.arquitecturas === 1 ? 'arquitectura' : 'arquitecturas'}
-							</span>
-						{/if}
-							<ArrowRight
-								size={17}
-								class="text-[color:var(--gray-400)] transition-transform group-hover:translate-x-1 group-hover:text-[color:var(--foreground)]"
-								aria-hidden="true"
-							/>
-						</div>
-					</div>
-					{#if forma.definicion}
-						<p class="mt-3 max-w-3xl leading-7 text-[color:var(--gray-700)]">
-							{@html renderInlineMarkdown(forma.definicion)}
-						</p>
-					{/if}
-					{#if forma.denominaciones.length > 0}
-						<p class="mt-3 border-l-2 border-[color:var(--gray-200)] pl-3 text-sm text-[color:var(--muted-foreground)]">
-							<span class="font-medium text-[color:var(--gray-700)]">También</span>
-							· {forma.denominaciones.join(' · ')}
-						</p>
-					{/if}
-					{#if forma.tradiciones.length > 0 || forma.tiposRima.length > 0}
-						<div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-[color:var(--border)] pt-3 text-xs">
-							{#if forma.tradiciones.length > 0}
-								<p>
-									<span class="mr-2 uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">Tradición</span>
-									<span class="font-medium">{forma.tradiciones.join(' · ')}</span>
-								</p>
-							{/if}
-							{#if forma.tiposRima.length > 0}
-								<p>
-									<span class="mr-2 uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">Rima</span>
-									<span class="font-medium">{forma.tiposRima.join(' · ')}</span>
-								</p>
-							{/if}
-						</div>
-					{/if}
-				</a>
+				<PublicFormSummaryCard form={forma} />
 			</li>
 		{:else}
 			<li class="border border-[color:var(--border)] py-10 text-center text-[color:var(--muted-foreground)]">
