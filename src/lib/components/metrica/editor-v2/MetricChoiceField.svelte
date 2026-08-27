@@ -300,7 +300,9 @@
 	 * ahí. Sin base no hay serie que valga.
 	 */
 	function serieDeMedidas(): string | null {
-		const base = Number(visibleOptions[0]?.metro_base_silabas);
+		// Ojo con el cero: `Number(null)` lo devuelve y pasa por finito. No hay verso de 0 sílabas.
+		const crudo = Number(visibleOptions[0]?.metro_base_silabas);
+		const base = Number.isFinite(crudo) && crudo > 0 ? crudo : null;
 		if (visiblePositions.length === 0) return null;
 		const porPosicion = new Map<number, number>();
 		for (const option of visibleOptions) {
@@ -310,13 +312,22 @@
 			if (Number.isFinite(posicion) && Number.isFinite(silabas)) porPosicion.set(posicion, silabas);
 		}
 		const desde = patternStart;
-		const hasta = Number.isFinite(base) ? desde + patternLength - 1 : (visiblePositions.at(-1) ?? desde);
+		const hasta = base !== null ? desde + patternLength - 1 : (visiblePositions.at(-1) ?? desde);
 		const piezas: string[] = [];
+		let respondida = false;
 		for (let posicion = desde; posicion <= hasta; posicion += 1) {
-			const silabas = porPosicion.get(posicion) ?? (Number.isFinite(base) ? base : null);
-			if (silabas === null) return null;
+			const silabas = porPosicion.get(posicion) ?? base;
+			// Un verso sin contestar **y sin medida de base** se marca, no se calla: en las formas
+			// aliradas abiertas no hay base ninguna, y devolver nulo mandaba el resumen a enumerar
+			// nombres de opción, que es de donde veníamos.
+			if (silabas === null) {
+				piezas.push('·');
+				continue;
+			}
+			if (porPosicion.has(posicion)) respondida = true;
 			piezas.push(String(silabas));
 		}
+		if (!respondida && base === null) return null;
 		return piezas.length > 0 ? piezas.join(' ') : null;
 	}
 

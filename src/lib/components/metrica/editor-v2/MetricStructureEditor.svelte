@@ -835,8 +835,11 @@
 
 				if (group.dimension === 'metro') {
 					for (const opcion of opciones) {
+						// `Number(null)` es 0 y `Number.isFinite(0)` es cierto: sin esa condición, una
+						// forma sin medida de base —las aliradas abiertas no la tienen— se anotaba
+						// «0 0 0 0».
 						const posible = Number(opcion.metro_base_silabas);
-						if (Number.isFinite(posible)) base = posible;
+						if (Number.isFinite(posible) && posible > 0) base = posible;
 					}
 					for (const opcion of opciones) {
 						if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
