@@ -610,6 +610,35 @@ o con el orden invertido en la segunda») y que **la sextilla marca `abcabc` com
 manriqueña dos sextillas seguidas. El IP resolvió por ahí: `abcabc|defdef` pasa a **habitual**, la
 pregunta queda justificada y no hizo falta tocar código.
 
+**Revisado a fondo el 27 de agosto: `definitoria` sobre un esquema abierto no es un fallo de
+modelado.** El IP lo puso en duda con un argumento razonable —«definitoria es para el esquema único de
+una arquitectura; si puede tener varios, ninguno puede serlo»—, y lo que dice el modelo es más fino:
+`modalidad` es **una escala de frecuencia** y `definitoria` es su tope, «se da siempre: sin esto la
+arquitectura no sería la que es». Un esquema abierto con restricciones —consonante, regular— es
+exactamente algo que se cumple siempre.
+
+Lo que sí recoge la intuición del IP es la garantía que de ahí se sigue, y está escrita desde el 10 de
+agosto: **ninguna pregunta ofrece una definitoria entre sus opciones**. Una definitoria no es una
+alternativa que elegir sino la norma que las alternativas cumplen; lo que hay es *una definición y sus
+realizaciones*. **Comprobado en vivo: ninguna pregunta del catálogo ofrece una definitoria**, ni sola ni
+acompañada —y los esquemas abiertos no se ofrecen nunca, porque la función que deriva las opciones los
+excluye—.
+
+De hecho **la migración de la manriqueña era necesaria justo por eso**: su pregunta ofrecía
+`abcabc|defdef` marcado definitorio, y era la única del catálogo que rompía la garantía.
+
+El reparto de las 19 arquitecturas con abierto definitorio: **10 tienen solo el abierto** —canción
+petrarquista, novena-lira, septeto, sexteto, sextilla y silva— y **9 tienen abierto más nombrados**
+—quintilla ×3 con ocho cada una, sextilla octosilábica con cuatro, y cinco más con uno—. En las nueve,
+los nombrados son `habitual` o `admitida`, nunca definitorios. Y **una sola arquitectura tiene dos
+esquemas definitorios**: la canción «Sin rima, con pareado final», con `Cuerpo sin rima` y `Pareado
+consonante final`, que no compiten: **son de secciones distintas**, una que no rima y otra que rima
+`aa`.
+
+*Queda una deuda menor, sin urgencia:* la garantía **no la sostiene ninguna restricción ni disparador**.
+Se comprobó en la migración del 10 de agosto y se ha vuelto a comprobar hoy, pero nada impide volver a
+romperla.
+
 **Cómo se declara «puede haber otras», que preguntó el IP.** No con la ausencia de opciones, sino con
 un **esquema abierto** —`tipo_secuencia = 'abierta'`—, que la función que deriva las opciones **excluye
 a propósito**: no es una respuesta que elegir, es la norma contra la que se valida lo que se escriba a
