@@ -242,8 +242,9 @@
 		<section>
 			<h2 class="font-display text-2xl">Tramos sin forma</h2>
 			<p class="mt-2 max-w-3xl leading-7 text-[color:var(--muted-foreground)]">
-				No son formas comparables con las anteriores: son la salida que se elige cuando el
-				pasaje no responde a ninguna norma reconocible, y por eso no compiten con ellas.
+				Esta sección reúne los casos en que no puede reconocerse una forma métrica: pasajes de
+				versificación irregular y versos aislados. Se presentan aparte porque no comparten una
+				estructura formal comparable con las formas del catálogo.
 			</p>
 			<ul class="mt-5 grid gap-3 md:grid-cols-2">
 				{#each sinForma as forma (forma.slug)}
