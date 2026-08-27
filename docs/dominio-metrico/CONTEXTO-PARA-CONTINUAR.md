@@ -547,6 +547,25 @@ cada unidad, que describían una respuesta que el atajo acaba de sobrescribir.
   no, no se marca ninguna y arriba se lee «cada unidad responde una cosa distinta». El aviso, además,
   dice ahora «esta copla **es diferente a** las demás».
 
+**Respondido en conjunto, abajo solo van los rangos.** La rejilla unidad por unidad no decía nada que
+no se supiera: cuatro coplas iguales, cada una con sus dos redondillas, media pantalla para repetir lo
+mismo. Ahora, **cuando no queda nada que tocar ahí abajo**, la sección es una lista:
+
+```
+Copla castellana 1  vv. 1–8
+Copla castellana 2  vv. 9–16
+Copla castellana 3  vv. 17–24
+Copla castellana 4  vv. 25–32
+```
+
+Solo se compacta si de verdad no hay nada que responder: ninguna fila con pregunta propia, ninguna
+extensión editable, ningún patrón que se declare en la unidad y ninguna acción de añadir o quitar. En
+cuanto algo de eso aparece —o se pasa a una a una— vuelve la rejilla entera.
+
+Y **se quita «1 realización de 4 versos · la norma las fija enteras»** de las partes que no preguntan
+nada: repetido en cada redondilla de cada copla era media pantalla para decir lo que el rótulo de al
+lado ya deja ver.
+
 **Los dos bloques van separados.** Lo que se responde una vez y lo que se lee unidad por unidad iban
 en el mismo recuadro y pegados, y así la respuesta común se leía como si fuera la primera unidad.
 
