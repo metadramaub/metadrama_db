@@ -491,11 +491,14 @@ fija enteras». Con pintar cada parte con sus versos bastaría, y cada estancia 
 unidad, «13 versos · patrón fijo por la arquitectura» se quedaría en **«patrón fijo»**, y «rango
 calculado desde sus partes» **sobra**: es cierto y complica más de lo que ayuda.
 
-**De la cobertura.** Con el rango en 1–2 dice «39 de 2 versos», que se lee como un número al revés.
-*No lo es*: la estructura cubre 39 versos y el rango declara 2, y el aviso de debajo lo explica. Lo
-que engaña es que «X de Y» se lee como «X de un total de Y» y chirría cuando X es mayor.
+**De la cobertura — arreglado el mismo día.** Decía «39 de 2 versos», que se lee como un número al
+revés. *No lo era*: la estructura cubría 39 y el rango declaraba 2. Lo que engañaba es que «X de Y»
+se lee como «X de un total de Y» y chirría justo cuando X es mayor, que es cuando hay que leerlo.
+**Ahora los dos números van con su nombre** —«estructura 39 · rango 2»—, la frase de debajo los
+repite —«La estructura ocupa 39 versos y el rango declara 2: sobran 37»— y **el error de guardar dice
+lo mismo**, que antes daba un solo número. Cuando cuadran, sigue bastando «39 versos».
 
-*Las cuatro alcanzan a las 41 formas.* Ninguna se toca todavía.
+*Las otras tres alcanzan a las 41 formas.* No se tocan todavía.
 
 **F2. Una sección opcional puede no declarar ni su metro ni su rima, y nadie los pregunta.** Este sí
 es hueco del modelo, y sale de que **al añadir un remate solo se pregunta cuántos versos tiene**.
