@@ -519,6 +519,24 @@ todas**. `uniform` va en nulo cuando no coinciden, y punto; cuántas coinciden s
 es donde no hace daño. De paso, aplicar por el atajo **borra las marcas de quebrado a medio poner** de
 cada unidad, que describían una respuesta que el atajo acaba de sobrescribir.
 
+**Cuatro correcciones más, del 27 de agosto por la tarde.**
+
+- **El atajo se retira cuando ya no puede hablar por todas.** Con respuestas distintas se pintaba
+  vacío —como si ningún verso fuera quebrado— al lado de una nota que decía que las unidades conservan
+  respuestas distintas. Ahora, esa pregunta cambia el control por la frase, y sigue habiendo atajo en
+  las preguntas que sí coinciden: se decide **pregunta por pregunta**.
+- **Se puede volver a «en conjunto», avisando.** Estaba bloqueado mientras hubiera divergencia, o sea
+  para siempre: la única salida era cerrar la secuencia y rehacerla. Ahora pide confirmación y **borra
+  lo respondido aparte**, porque conjunto significa una sola respuesta para todas.
+- **Una unidad plegada se lee como texto.** «Esquema de rima: Las dos abrazadas · abba|cddc», no un
+  recuadro dentro de otro con el rótulo «Respuesta de esta copla». Y la acción de plegar baja **debajo**
+  del rótulo en vez de flotar a su derecha.
+- **Mayoría de verdad, o ninguna.** Con seis unidades, cinco respuestas distintas y dos iguales, la
+  «mayoritaria» eran esas dos y las otras cuatro salían marcadas como que se apartan *de las demás*,
+  que es falso: ahí no hay «las demás». Solo hay respuesta común si la comparte **más de la mitad**; si
+  no, no se marca ninguna y arriba se lee «cada unidad responde una cosa distinta». El aviso, además,
+  dice ahora «esta copla **es diferente a** las demás».
+
 **Los dos bloques van separados.** Lo que se responde una vez y lo que se lee unidad por unidad iban
 en el mismo recuadro y pegados, y así la respuesta común se leía como si fuera la primera unidad.
 

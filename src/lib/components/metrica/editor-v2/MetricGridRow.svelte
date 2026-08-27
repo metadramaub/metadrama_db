@@ -46,22 +46,15 @@
 		class={depth > 0 ? 'border-l border-[color:var(--border)] pl-3' : ''}
 		style={depth > 1 ? `margin-left:${(depth - 1) * 0.9}rem` : undefined}
 	>
-		<div class="flex items-start justify-between gap-2">
-			<span
-				class={`block text-sm leading-snug ${
-					variant === 'resumen'
-						? 'text-[color:var(--muted-foreground)]'
-						: 'font-medium text-[color:var(--foreground)]'
-				}`}
-			>
-				{props.label}
-			</span>
-			{#if props.actionLabel && props.onAction}
-				<button type="button" class="link-action shrink-0 text-xs" onclick={props.onAction}>
-					{props.actionLabel}
-				</button>
-			{/if}
-		</div>
+		<span
+			class={`block text-sm leading-snug ${
+				variant === 'resumen'
+					? 'text-[color:var(--muted-foreground)]'
+					: 'font-medium text-[color:var(--foreground)]'
+			}`}
+		>
+			{props.label}
+		</span>
 		{#if props.rango}
 			<span
 				class="block text-xs leading-snug tabular-nums text-[color:var(--muted-foreground)]"
@@ -76,6 +69,16 @@
 			>
 				{props.nota}
 			</span>
+		{/if}
+		<!--
+			La acción va **debajo** del rótulo, no enfrentada a él. Arriba, «Desplegar» quedaba
+			flotando a la derecha de una columna estrecha, lejos del nombre al que se refiere y
+			desalineado con todo lo demás.
+		-->
+		{#if props.actionLabel && props.onAction}
+			<button type="button" class="link-action mt-1 block text-xs" onclick={props.onAction}>
+				{props.actionLabel}
+			</button>
 		{/if}
 	</div>
 	<div class="flex min-w-0 flex-col gap-2">

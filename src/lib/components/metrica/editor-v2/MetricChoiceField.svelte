@@ -50,6 +50,14 @@
 		showDescription?: boolean;
 		/** Resume una respuesta común y deja el control completo para cuando se crea una excepción. */
 		compact?: boolean;
+		/**
+		 * Plegado, se lee como una línea de texto y no como un campo.
+		 *
+		 * Dentro de una unidad ya plegada, pintar cada respuesta con su recuadro, su rótulo y una
+		 * nota que dice «respuesta de esta copla» era un cuadro dentro de otro para decir dos
+		 * palabras. Ahí lo que hace falta es leer de un vistazo qué contestó la unidad.
+		 */
+		resumen?: boolean;
 		onExpand?: () => void;
 		/** Explica si el resumen procede de la respuesta común o de esta unidad. */
 		compactNote?: string;
@@ -318,6 +326,14 @@
 
 </script>
 
+{#if collapsed && props.resumen}
+	<p class="text-sm leading-snug">
+		<span class="text-[color:var(--muted-foreground)]"
+			>{props.label ?? String(props.group.nombre)}:</span
+		>
+		{answerSummary}
+	</p>
+{:else}
 <fieldset class="form-field">
 	<legend class="form-label">
 		<span class="form-label-with-help">
@@ -542,6 +558,7 @@
 		{/if}
 	</div>
 </fieldset>
+{/if}
 
 {#snippet campoEsquemaEscrito(ejemplo: string)}
 	<div class={preguntaElRegimen ? 'flex gap-2' : ''}>
