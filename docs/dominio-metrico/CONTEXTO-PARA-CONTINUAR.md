@@ -594,6 +594,12 @@ resúmenes distintos. La rejilla de la norma ya sabe qué mide y en qué clase r
 sus cortes. Lo respondido manda siempre: esto solo cubre huecos, y solo en unidades de primer nivel
 cuya extensión case con la rejilla.
 
+*Y una consecuencia que no se veía:* **la décima aumentada era la única que seguía sin enseñarla**. No
+por ser otra pantalla ni otro componente —es el mismo—, sino porque **su unidad es «transparente»**: no
+tiene fila propia y sus dos bloques se dibujan a primer nivel. La lista compacta recorría *filas*, así
+que no encontraba unidad que listar. Ahora recorre **unidades**, que es lo que quiere enseñar, y toma
+el rótulo de la fila cuando la hay. La aumentada se lee `8a 8b 8b 8a | 8a 8c 8c 8d 8d 8e 8e 8d`.
+
 **B8 cerrado en las cuatro aliradas abiertas, y una barra para todas las medidas.** El cuarteto-lira
 «mezcla endecasílabos y heptasílabos **en proporción variable**», y lo mismo la octava, la novena y la
 décima: su esquema declara el repertorio 7/11 y **ninguna posición**, porque la norma no fija cuál va
