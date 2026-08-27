@@ -332,6 +332,9 @@ export type PublicSourceClaim = {
 export type PublicSource = {
 	cita: string;
 	anio: number | null;
+	autoria?: string | null;
+	titulo?: string | null;
+	publicacion?: string | null;
 	afirmaciones: PublicSourceClaim[];
 };
 

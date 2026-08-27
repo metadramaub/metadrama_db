@@ -4,6 +4,7 @@
 	import PublicArchitectureCard from '$lib/components/metrica/PublicArchitectureCard.svelte';
 	import PublicFormNavigation from '$lib/components/metrica/catalogo/PublicFormNavigation.svelte';
 	import PublicFormSectionHeader from '$lib/components/metrica/catalogo/PublicFormSectionHeader.svelte';
+	import PublicSourceReference from '$lib/components/metrica/catalogo/PublicSourceReference.svelte';
 	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
 	/**
 	 * Una enumeración en castellano: comas y una «y» final.
@@ -86,7 +87,7 @@
 		</aside>
 
 		<div class="min-w-0">
-			<header id="resumen" class="scroll-mt-20 border-b border-[color:var(--border)] pb-8 pt-7 lg:scroll-mt-6 lg:pt-0">
+			<header id="resumen" class="scroll-mt-20 pb-8 pt-7 lg:scroll-mt-6 lg:pt-0">
 				<p class="text-xs font-semibold uppercase tracking-[0.09em] text-[color:var(--muted-foreground)]">
 					{forma.tipoRegistro === 'forma' ? 'Forma métrica' : 'Tramo sin forma'}
 					<span class="mx-1.5 text-[color:var(--gray-300)]" aria-hidden="true">·</span>
@@ -104,7 +105,7 @@
 				{/if}
 
 				{#if forma.tradiciones.length > 0 || forma.tiposRima.length > 0}
-					<dl class="mt-5 flex flex-wrap gap-x-8 gap-y-3 border-y border-[color:var(--border)] py-3 text-sm">
+					<dl class="mt-5 flex flex-wrap gap-x-8 gap-y-3 bg-[color:var(--gray-50)] px-4 py-3 text-sm">
 						{#if forma.tradiciones.length > 0}
 							<div class="flex items-baseline gap-2">
 								<dt class="text-xs font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
@@ -139,7 +140,7 @@
 				<section id="arquitecturas" class="scroll-mt-20 pt-12 lg:scroll-mt-6">
 					<PublicFormSectionHeader
 						title={forma.arquitecturas_.length === 1 ? 'Arquitectura' : 'Arquitecturas'}
-						description="Cada arquitectura es una manera de realizar la forma: su medida, su rima y sus partes."
+						description="Cada arquitectura describe una configuración posible de la forma y precisa su extensión, su medida, su rima, sus partes y los rasgos que admite."
 						count={forma.arquitecturas_.length}
 					/>
 
@@ -157,7 +158,7 @@
 						title="Relaciones con otras formas"
 						description="Vínculos estructurales e históricos declarados en el catálogo."
 					/>
-					<ul class="mt-5 divide-y divide-[color:var(--border)] border-y border-[color:var(--border)]">
+					<ul class="mt-5 divide-y divide-[color:var(--border)]">
 						{#each forma.relaciones as relacion (`${relacion.slug}:${relacion.tipo}:${relacion.esOrigen}`)}
 							<li class="py-4 leading-7">
 								<p>
@@ -188,9 +189,9 @@
 					/>
 					<ul class="mt-6 space-y-7">
 						{#each forma.fuentes as fuente, indice (indice)}
-							<li class="border-l-2 border-[color:var(--gray-300)] pl-5">
-								<p class="text-sm font-medium text-[color:var(--gray-700)]">{fuente.cita}</p>
-								<ul class="mt-3 space-y-4">
+							<li class="grid gap-4 border-l-2 border-[color:var(--gray-300)] pl-5 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8">
+								<PublicSourceReference source={fuente} />
+								<ul class="space-y-4">
 									{#each fuente.afirmaciones as afirmacion, i (i)}
 										<li>
 											{#if afirmacion.resumen}
