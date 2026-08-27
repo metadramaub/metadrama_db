@@ -15,6 +15,21 @@ type UntypedSupabaseClient = {
 const uuid = z.uuid();
 const nullableUuid = uuid.nullable();
 
+/**
+ * Un identificador **derivado**, que no es un UUID de los que genera la base.
+ *
+ * `opciones_eleccion_metrica` construye el suyo con `md5(...)::uuid` sobre el contenido de la
+ * opción, de modo que la misma opción conserva su identificador aunque el catálogo se regenere. Un
+ * hash no lleva los bits de versión ni de variante que exige la norma: **672 de las 680 opciones del
+ * catálogo no la cumplen**, y las ocho que sí es por azar.
+ *
+ * `z.uuid()` los rechazaba a todos —«Invalid UUID»— y con ellos cualquier respuesta que el editor
+ * eligiera de una lista. `z.guid()` comprueba la forma sin exigir la versión, que es lo que aquí
+ * corresponde: quien garantiza que ese identificador existe no es esta validación, sino la base,
+ * que resuelve la opción contra el catálogo al guardar.
+ */
+const derivedUuid = z.guid();
+
 const unitSchema = z.object({
 	realizacion_id: uuid,
 	realizacion_padre_id: nullableUuid,
@@ -38,7 +53,7 @@ const choiceSchema = z
 	.object({
 		realizacion_id: nullableUuid,
 		grupo_eleccion_id: uuid,
-		opcion_eleccion_id: nullableUuid,
+		opcion_eleccion_id: derivedUuid.nullable(),
 		valor_texto: z.string().trim().min(1).max(240).nullable(),
 		observaciones: z.string().trim().max(10_000).nullable()
 	})
