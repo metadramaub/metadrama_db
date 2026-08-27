@@ -6,7 +6,7 @@
 	}>();
 </script>
 
-<header class="border-b border-[color:var(--border)] pb-4">
+<header>
 	<div class="flex flex-wrap items-baseline justify-between gap-3">
 		<h2 class="font-display text-2xl text-[color:var(--gray-900)] md:text-3xl">{title}</h2>
 		{#if count !== undefined}

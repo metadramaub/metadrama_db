@@ -269,7 +269,10 @@ export async function loadPublicForm(
 				cita:
 					texto(row.cita) ??
 					[texto(row.autoria), texto(row.titulo), texto(row.anio)].filter(Boolean).join(', '),
-				anio: typeof row.anio === 'number' ? row.anio : null
+				anio: typeof row.anio === 'number' ? row.anio : null,
+				autoria: texto(row.autoria),
+				titulo: texto(row.titulo),
+				publicacion: texto(row.publicacion)
 			}
 		])
 	);
@@ -1129,6 +1132,9 @@ export async function loadPublicForm(
 				const fuente = acc.get(id) ?? {
 					cita: datos?.cita ?? 'Fuente sin referencia',
 					anio: datos?.anio ?? null,
+					autoria: datos?.autoria ?? null,
+					titulo: datos?.titulo ?? null,
+					publicacion: datos?.publicacion ?? null,
 					afirmaciones: []
 				};
 				fuente.afirmaciones.push({
