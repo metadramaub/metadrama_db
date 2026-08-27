@@ -28,6 +28,10 @@
 		type LocalFormDraft
 	} from '$lib/utils/local-form-draft';
 	import { displayTerm } from '$lib/utils/vocabulario';
+	import MetricSequenceEditor from '$lib/components/metrica/editor-v2/MetricSequenceEditor.svelte';
+	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
+	import { draftFromRows } from '$lib/components/metrica/editor-v2/sequence-draft';
+	import type { MetricCatalogForEditor } from '$lib/metrica/catalogo';
 	import CaracterizacionesDeLaSecuencia from './secuencias/CaracterizacionesDeLaSecuencia.svelte';
 	import CaracterizacionesPorRango from './secuencias/CaracterizacionesPorRango.svelte';
 	import {
@@ -60,6 +64,14 @@
 		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
 		// la lista de secuencias: hoy, las caracterizaciones por rango.
 		onMetricaDirty?: () => void;
+		/**
+		 * Si esta obra se anota con el catálogo nuevo. El interruptor es **por obra**, para que la
+		 * ola de editores que entra empiece con el editor V2 sin interrumpir a quien está a mitad de
+		 * una obra anotada con el vocabulario legado.
+		 */
+		usaAnotacionNueva?: boolean;
+		/** El catálogo métrico, solo cuando la obra lo usa. Sin él no hay editor nuevo que montar. */
+		catalogoMetrico?: MetricCatalogForEditor | null;
 	}>();
 
 	type IntervencionValue = 'sin_intervencion' | 'exclusiva' | 'compartida';
@@ -615,6 +627,32 @@
 		return true;
 	}
 
+	/**
+	 * Si esta obra se anota con el catálogo nuevo **y hay catálogo que darle**.
+	 *
+	 * Lo segundo no es paranoia: `loadMetricCatalog` devuelve vacío cuando faltan migraciones o
+	 * cuando quien mira no puede leer la revisión del catálogo, que hoy exige ser admin o IP. Sin
+	 * catálogo, el editor nuevo no puede pintar nada, y es mejor el panel de siempre que una
+	 * pantalla en blanco.
+	 */
+	const usaElEditorNuevo = $derived(
+		Boolean(props.usaAnotacionNueva) && Boolean(props.catalogoMetrico)
+	);
+
+	/**
+	 * El borrador que consume el editor V2, construido desde lo que ya hay anotado de esta secuencia.
+	 *
+	 * De momento arranca vacío: leer la anotación existente y volcarla llega con el guardado, que es
+	 * el paso siguiente. Lo que sí lleva es el rango, que es lo que el editor necesita para dividir
+	 * el pasaje en unidades.
+	 */
+	function borradorMetrico() {
+		return draftFromRows(
+			{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1, secuencia_id: editingId },
+			{ units: [], choices: [], deviations: [] }
+		);
+	}
+
 	function openDelete(secuenciaId: string) {
 		if (props.readOnly) return;
 		deleteTargetId = secuenciaId;
@@ -927,6 +965,41 @@
 />
 
 {#if sidebarOpen}
+	<!--
+		**Dos contenedores para el mismo formulario.** El editor V2 no cabe en el panel lateral: es una
+		rejilla verso a verso, las preguntas de cada unidad y las desviaciones, y trabajar ahí obliga a
+		desplazarse tanto que se pierde de vista el pasaje. Por eso las obras abiertas al catálogo
+		nuevo se anotan en el modal ancho, el mismo del editor de pruebas.
+
+		Las demás siguen con el panel de siempre hasta que se migren. Durante ese tiempo hay más
+		código, no menos, y es a propósito: no se interrumpe a quien está a mitad de una obra.
+	-->
+	{#if usaElEditorNuevo}
+		<MetricSequenceModal
+			titulo={editingId ? (props.readOnly ? 'Ver secuencia' : 'Editar secuencia') : 'Nueva secuencia'}
+			rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
+			posicion={editingId && editingIndex >= 0
+				? { indice: editingIndex + 1, total: orderedSecuencias.length }
+				: null}
+			alAnterior={() => void goToSecuencia(prevSecuencia)}
+			alSiguiente={() => void goToSecuencia(nextSecuencia)}
+			hayAnterior={Boolean(prevSecuencia)}
+			haySiguiente={Boolean(nextSecuencia)}
+			sucio={sidebarDirty}
+			guardando={sidebarSaving}
+			alEliminar={editingId && !props.readOnly ? () => openDelete(editingId as string) : null}
+			alCerrar={requestCloseSidebar}
+			alGuardar={() => void save()}
+		>
+			{#key editingId}
+				<MetricSequenceEditor
+					catalog={props.catalogoMetrico as MetricCatalogForEditor}
+					initialDraft={borradorMetrico()}
+					bodyExtra={restoDelFormulario}
+				/>
+			{/key}
+		</MetricSequenceModal>
+	{:else}
 	<aside
 		class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0"
 		inert={sidebarSaving}
@@ -986,99 +1059,8 @@
 		</div>
 
 		<div class="space-y-3">
-			<section class="bg-white p-4">
-				<h4 class="form-section-title">Métrica base</h4>
-				<div class="grid gap-3 sm:grid-cols-2">
-					<label class="form-field">
-						<span class="form-label">Verso inicial</span>
-						<input
-							type="number"
-							bind:value={form.v_ini}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-					<label class="form-field">
-						<span class="form-label">Verso final</span>
-						<input
-							type="number"
-							bind:value={form.v_fin}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-				</div>
-
-				<label class="form-field mt-3">
-					<span class="form-label">Estrofa</span>
-					<CheckDropdown
-						class="mt-1"
-						multiple={false}
-						hierarchical={true}
-						collapsibleHierarchy={true}
-						disableParentsWithChildren={true}
-						showPathInTrigger={true}
-						allowSingleClear
-						search={true}
-						placeholder="Pendiente — seleccionar"
-						items={estrofaDropdownItems}
-						selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
-						disabled={props.readOnly}
-						onChange={(ids) => {
-							const nextId = ids[0] ?? '';
-							form = {
-								...form,
-								estrofa_tipo_id: nextId
-							};
-						}}
-					/>
-				</label>
-			</section>
-
-			<CaracterizacionesPorRango
-				bind:this={caracterizaciones}
-				obraId={props.obraId}
-				secuenciaId={editingId}
-				rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
-				opciones={props.caracterizacionRangoOptions}
-				readOnly={props.readOnly}
-				onMetricaDirty={props.onMetricaDirty}
-			/>
-
-			<CaracterizacionesDeLaSecuencia
-				valores={{
-					intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
-					intervencion_figuras_donaire: form.intervencion_figuras_donaire,
-					intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
-					versos_partidos: form.versos_partidos,
-					inaugura_espacio: form.inaugura_espacio,
-					evocacion_metrica: form.evocacion_metrica,
-					evocacion_metrica_texto: form.evocacion_metrica_texto
-				}}
-				readOnly={props.readOnly}
-				alCambiar={(cambio) => (form = { ...form, ...cambio })}
-			/>
-
-			<section class="bg-white p-4">
-				<h4 class="form-section-title">Sinopsis argumental</h4>
-				<label class="form-field">
-					<span class="sr-only">Sinopsis argumental</span>
-					<MarkdownEditorLite
-						rows={3}
-						class="mt-1"
-						minHeightClass="min-h-28"
-						value={form.sinopsis}
-						disabled={props.readOnly}
-						onChange={(nextValue) => {
-							form = {
-								...form,
-								sinopsis: nextValue
-							};
-						}}
-					/>
-				</label>
-			</section>
-
+			{@render metricaBase()}
+			{@render restoDelFormulario()}
 		</div>
 
 		{#if editingId}
@@ -1099,6 +1081,7 @@
 			</div>
 		{/if}
 	</aside>
+	{/if}
 	{/if}
 
 	{#if deleteTargetId}
@@ -1154,5 +1137,107 @@
 	onRestore={restoreLocalDraft}
 />
 
+<!--
+	El cuerpo del formulario, partido en dos porque lo comparten dos contenedores.
 
+	En una obra que todavía se anota con el vocabulario legado, el panel lateral pinta los dos
+	seguidos. En una obra abierta al catálogo nuevo, **el editor V2 sustituye a `metricaBase`** y
+	`restoDelFormulario` baja debajo de él: lo que no es métrico no cambia por cambiar de vocabulario.
+-->
+{#snippet metricaBase()}
+			<section class="bg-white p-4">
+				<h4 class="form-section-title">Métrica base</h4>
+				<div class="grid gap-3 sm:grid-cols-2">
+					<label class="form-field">
+						<span class="form-label">Verso inicial</span>
+						<input
+							type="number"
+							bind:value={form.v_ini}
+							disabled={props.readOnly}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+					<label class="form-field">
+						<span class="form-label">Verso final</span>
+						<input
+							type="number"
+							bind:value={form.v_fin}
+							disabled={props.readOnly}
+							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
+						/>
+					</label>
+				</div>
 
+				<label class="form-field mt-3">
+					<span class="form-label">Estrofa</span>
+					<CheckDropdown
+						class="mt-1"
+						multiple={false}
+						hierarchical={true}
+						collapsibleHierarchy={true}
+						disableParentsWithChildren={true}
+						showPathInTrigger={true}
+						allowSingleClear
+						search={true}
+						placeholder="Pendiente — seleccionar"
+						items={estrofaDropdownItems}
+						selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
+						disabled={props.readOnly}
+						onChange={(ids) => {
+							const nextId = ids[0] ?? '';
+							form = {
+								...form,
+								estrofa_tipo_id: nextId
+							};
+						}}
+					/>
+				</label>
+			</section>
+{/snippet}
+
+{#snippet restoDelFormulario()}
+			<CaracterizacionesPorRango
+				bind:this={caracterizaciones}
+				obraId={props.obraId}
+				secuenciaId={editingId}
+				rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
+				opciones={props.caracterizacionRangoOptions}
+				readOnly={props.readOnly}
+				onMetricaDirty={props.onMetricaDirty}
+			/>
+
+			<CaracterizacionesDeLaSecuencia
+				valores={{
+					intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
+					intervencion_figuras_donaire: form.intervencion_figuras_donaire,
+					intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
+					versos_partidos: form.versos_partidos,
+					inaugura_espacio: form.inaugura_espacio,
+					evocacion_metrica: form.evocacion_metrica,
+					evocacion_metrica_texto: form.evocacion_metrica_texto
+				}}
+				readOnly={props.readOnly}
+				alCambiar={(cambio) => (form = { ...form, ...cambio })}
+			/>
+
+			<section class="bg-white p-4">
+				<h4 class="form-section-title">Sinopsis argumental</h4>
+				<label class="form-field">
+					<span class="sr-only">Sinopsis argumental</span>
+					<MarkdownEditorLite
+						rows={3}
+						class="mt-1"
+						minHeightClass="min-h-28"
+						value={form.sinopsis}
+						disabled={props.readOnly}
+						onChange={(nextValue) => {
+							form = {
+								...form,
+								sinopsis: nextValue
+							};
+						}}
+					/>
+				</label>
+			</section>
+
+{/snippet}
