@@ -528,9 +528,19 @@ cada unidad, que describían una respuesta que el atajo acaba de sobrescribir.
 - **Se puede volver a «en conjunto», avisando.** Estaba bloqueado mientras hubiera divergencia, o sea
   para siempre: la única salida era cerrar la secuencia y rehacerla. Ahora pide confirmación y **borra
   lo respondido aparte**, porque conjunto significa una sola respuesta para todas.
-- **Una unidad plegada se lee como texto.** «Esquema de rima: Las dos abrazadas · abba|cddc», no un
-  recuadro dentro de otro con el rótulo «Respuesta de esta copla». Y la acción de plegar baja **debajo**
-  del rótulo en vez de flotar a su derecha.
+- **Una unidad plegada se lee en notación**, no en prosa ni en un recuadro dentro de otro con el
+  rótulo «Respuesta de esta copla»:
+
+  ```
+  Copla castellana 1 · vv. 1–8
+    rima: abab|cddc
+    medida: 8·5·8·8·8·8·5·8
+  ```
+
+  `abab|cddc` dice lo mismo que «las dos cruzadas» sin gastar una línea, y la serie de medidas dice de
+  un vistazo lo que «quebrados: v. 2 (5 síl.), v. 7 (5 síl.) · los demás, 8 síl.» obliga a reconstruir
+  verso a verso. **La prosa se queda donde se responde**, que es donde hay que elegir. Y la acción de
+  plegar baja **debajo** del rótulo en vez de flotar a su derecha.
 - **Mayoría de verdad, o ninguna.** Con seis unidades, cinco respuestas distintas y dos iguales, la
   «mayoritaria» eran esas dos y las otras cuatro salían marcadas como que se apartan *de las demás*,
   que es falso: ahí no hay «las demás». Solo hay respuesta común si la comparte **más de la mitad**; si
