@@ -398,6 +398,28 @@ ya lo referencia.*
    que hoy no se distinguen de una octava-lira o una décima-lira porque su arquitectura no tiene
    modelada ninguna ordenación.
 
+1ter. **¿Dónde debe vivir la medida de una alirada: en la caja de la notación o en un esquema
+   métrico?** Salió el 26 de agosto de 2026 al contrastar la familia entera contra la base, y **el
+   catálogo hoy responde las dos cosas a la vez**:
+
+   | declaran su medida | cómo |
+   |---|---|
+   | lira | en la notación, `aBabB`, **y** en un esquema métrico `7 11 7 7 11` |
+   | septeto-lira | en un esquema métrico, `7 11 7 11 7 7 11`; su notación va en minúsculas |
+   | sexteto-lira | en **ocho variedades**, que cruzan tres notaciones con seis esquemas métricos |
+   | cuarteto-lira, octava-lira, novena-lira, décima-lira | **no la declaran**: ni variedades ni esquema métrico, solo `11/7` como medidas admitidas |
+
+   En la tradición alirada la caja *es* la medida —mayúscula el endecasílabo, minúscula el
+   heptasílabo—, y el editor ya puede escribirla así: la pregunta de rima de esas cuatro admite
+   escribir el esquema, y el normalizador conserva la caja verso a verso. **Así que el dato se puede
+   registrar; lo que falta es que el catálogo diga cuál de sus dos maneras es la buena**, porque de
+   eso depende cómo se llena el hueco de las cuatro.
+
+   *Y hay un motivo para no dejarlo correr:* como escribir `aBaB` no casa con el `abab` catalogado,
+   toda anotación de esas cuatro formas quedará como esquema escrito a mano, y el recuento de
+   esquemas repetidos —la señal para incorporar algo al catálogo— se disparará por lo que en
+   realidad es la norma. ⇒ **B8**
+
 2. **El sexteto simétrico `abC:abC` de san Juan de la Cruz no está.** Lo documenta Navarro Tomás en
    la *Llama de amor viva*: seis versos de siete y once, pero **sin pareado final**, de modo que
    ninguna de las siete variedades lo acoge y no cabe en la definición actual. *¿Es otra forma, una
