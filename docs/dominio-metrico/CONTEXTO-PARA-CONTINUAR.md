@@ -350,7 +350,7 @@ B3 se comprobó en pantalla y no estaba roto. B4 sí lo estaba, en dos superfici
 
 *Puesto al día el **26 de agosto de 2026**, al cerrar **B5** —la décima aumentada entre décimas
 normales, resuelta en la realización— y con él **el bloque B entero**. Quedan dos asuntos en A y
-dieciséis en C.*
+diecisiete en C.*
 
 ### A · Bloquean la migración de las secuencias
 
@@ -915,6 +915,49 @@ la pieza —el rasgo `final_acentual` con valor `agudo` y `posiciones_max`, que 
 ya usa así: «riman en agudo los versos tercero y sexto, que son los que cierran cada
 semiestrofa»—, pero solo lo declaran dos arquitecturas. *Falta una pasada que decida en qué formas
 se admite y con qué modalidad; va con B2, que revisa el reparto entero de los rasgos.*
+
+**C17. El catálogo se deriva en cada lectura, y eso no escala.** Cuatro de las «tablas» que lee el
+gestor no son tablas: son vistas sobre funciones SQL que recorren el catálogo entero cada vez que
+alguien las mira. Medidas por PostgREST el 26 de agosto de 2026, con **680 opciones y 107 grupos**:
+
+| vista derivada | contra la base | por PostgREST |
+|---|---|---|
+| `opciones_eleccion_metrica` | 62 ms | 1.221 ms |
+| `grupos_eleccion_metrica_resueltos` | 22 ms | 1.465 ms |
+| `arquitecturas_reglas_longitud` | 41 ms | 768 ms |
+| `elecciones_editor_metrico_resueltas` | 21 ms | 751 ms |
+| `propuesta_elecciones_secuencia` | 750 ms | 2.041 ms |
+
+El multiplicador de veinte no es la consulta: es que la pantalla dispara **unas treinta consultas en
+paralelo** contra una instancia compartida y compiten por su CPU. `/dashboard/metrica` llegó a
+tardar seis segundos y a dar un 500 por `statement timeout`.
+
+**Hecho ese mismo día, y resuelve la mitad grande:** el catálogo son 2.422 filas que solo cambian
+por migración, así que ya **no se reconstruye si su revisión no ha cambiado**
+(`catalogo_metrico_estado`). Medido sobre cinco cargas: la revisión se pregunta cinco veces y el
+catálogo, **cero**. Antes hizo falta que las veinticinco tablas subieran la revisión: dos no lo
+hacían —`fuentes_metricas` y `afirmaciones_fuentes_metricas`— y lo arregló `20260826100000`.
+
+*Que la caché pueda compartirse entre peticiones descansa en que quien pregunta ve el catálogo
+entero, y eso hoy está probado por la propia base:* `catalogo_metrico_estado` tiene RLS
+`auth_is_admin_or_ip()`, así que haber leído la revisión ya demuestra el permiso. **Cuando el editor
+V2 pase a `/dashboard/obras` habrá que relajar esa RLS** —un editor también necesitará el catálogo—,
+y ese día la llave de la caché deja de bastar: habrá que añadirle la visibilidad.
+
+**Lo que queda.** La propuesta de la anotación en sombra sigue costando dos segundos, y no la cubre
+la caché porque depende de las secuencias. Dos salidas, y no son excluyentes: es una herramienta de
+migración que **desaparece cuando la migración termine**, y mientras tanto puede materializarse lo
+derivado —`opciones_eleccion_metrica`, `grupos_eleccion_metrica_resueltos` y
+`arquitecturas_reglas_longitud`, entre las tres 880 filas— refrescándolo cuando cambie la revisión.
+*Materializar es seguro en cuanto al acceso: la RLS de esas tablas no filtra filas, es una puerta de
+todo o nada —`auth_is_admin_or_ip() or catalogo_metrico_publico()`—, así que la vista conserva su
+nombre y su regla y solo cambia de dónde lee.* Conviene medirlo con la caché ya puesta, para saber
+cuánto añade de verdad.
+
+*Un apunte que salió del plan de ejecución, por si vuelve a morder:*
+`regla_longitud_arquitectura_metrica` está en **plpgsql**, que Postgres no puede integrar en la
+consulta, así que la ejecuta fila a fila: **670 veces** en una sola carga de la propuesta. Reescrita
+en SQL sería inlineable.
 
 ## Siguiente fase prevista
 

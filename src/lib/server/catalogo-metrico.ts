@@ -261,6 +261,65 @@ export function buildIssues(input: {
 	return issues;
 }
 
+/** El catálogo sin el sandbox: lo único que se puede guardar entre peticiones. */
+type CatalogoCacheable = Omit<MetricCatalogPageData, 'editorSandbox'>;
+
+/**
+ * El catálogo construido, con la revisión con que se construyó.
+ *
+ * **Por qué se puede guardar en memoria del proceso y compartirlo entre peticiones.** Son unas
+ * 2.400 filas idénticas para todo el que las pide, que solo cambian cuando se aplica una
+ * migración; y quien pregunta por ellas es siempre admin o IP, que ven el catálogo entero. Eso
+ * último no es una suposición: `catalogo_metrico_estado` tiene RLS `auth_is_admin_or_ip()`, así
+ * que **haber podido leer la revisión ya es la prueba** de que quien llama lo ve todo. Si esa RLS
+ * se relaja alguna vez —hará falta cuando el editor V2 pase a `/dashboard/obras`, porque un editor
+ * también necesitará el catálogo—, esta llave deja de bastar y hay que añadirle la visibilidad.
+ *
+ * *Y no caduca por tiempo, sino por dato:* mientras la revisión no cambie, lo guardado es exacto.
+ */
+let catalogoEnMemoria: { revision: number; valor: CatalogoCacheable } | null = null;
+
+/**
+ * Olvida el catálogo guardado.
+ *
+ * No hace falta en el curso normal —la revisión sube sola por disparador en las veinticinco tablas
+ * del catálogo, y la petición siguiente lo reconstruye—, pero las pruebas necesitan poder empezar
+ * de cero.
+ */
+export function olvidarCatalogoMetricoEnMemoria(): void {
+	catalogoEnMemoria = null;
+}
+
+/**
+ * Lo que el editor de pruebas tiene escrito. **Nunca se guarda en memoria**: cambia cada vez que un
+ * editor toca algo, que es justo lo contrario del catálogo.
+ */
+async function cargarSandboxDelEditor(
+	db: UntypedSupabaseClient
+): Promise<MetricCatalogPageData['editorSandbox']> {
+	const responses = await Promise.all([
+		db.from('escenarios_editor_metrico').select('*').order('updated_at', { ascending: false }),
+		db.from('secuencias_editor_metrico').select('*').order('orden'),
+		db.from('realizaciones_editor_metrico').select('*').order('orden'),
+		// La respuesta guarda el dato del catálogo que se eligió, no la opción que lo ofrecía,
+		// para que las preguntas puedan regenerarse sin dejarla huérfana. La vista resuelve la
+		// opción de vuelta, que es lo que el formulario pinta y marca como seleccionado.
+		db.from('elecciones_editor_metrico_resueltas').select('*'),
+		db.from('desviaciones_editor_metrico').select('*').order('v_ini')
+	]);
+	for (const response of responses) {
+		throwQueryError('No se pudo cargar el editor métrico de prueba', response.error);
+	}
+	const [scenarios, sequences, units, choices, deviations] = responses;
+	return {
+		scenarios: scenarios.data ?? [],
+		sequences: sequences.data ?? [],
+		units: units.data ?? [],
+		choices: choices.data ?? [],
+		deviations: deviations.data ?? []
+	};
+}
+
 export async function loadMetricCatalog(
 	supabase: App.Locals['supabase']
 ): Promise<MetricCatalogPageData> {
@@ -299,6 +358,39 @@ export async function loadMetricCatalog(
 		};
 	}
 
+	// ------------------------------------------------------------------ La caché
+	//
+	// **Una consulta en vez de treinta.** Construir el catálogo son unas treinta consultas, cuatro
+	// de ellas vistas derivadas que recorren el catálogo entero por funciones SQL. Medidas por
+	// PostgREST, esas cuatro solas iban entre 750 y 1.500 ms cada una, porque salen todas a la vez
+	// y compiten por la CPU de la instancia; la pantalla llegó a tardar seis segundos y a dar un 500
+	// por `statement timeout`.
+	//
+	// Como el catálogo solo cambia por migración, basta con preguntar por su revisión —que ya se
+	// leía aquí arriba— y devolver lo construido si no ha cambiado.
+	const revision = Number(stateResponse.data?.revision ?? 1);
+	if (catalogoEnMemoria?.revision === revision) {
+		return { ...catalogoEnMemoria.valor, editorSandbox: await cargarSandboxDelEditor(db) };
+	}
+
+	const [catalogo, editorSandbox] = await Promise.all([
+		construirCatalogoMetrico(db, revision),
+		cargarSandboxDelEditor(db)
+	]);
+	catalogoEnMemoria = { revision, valor: catalogo };
+	return { ...catalogo, editorSandbox };
+}
+
+/**
+ * Lee el catálogo entero de la base y lo deja en la forma que consume la pantalla.
+ *
+ * Se llama **solo cuando la revisión ha cambiado**. Lo que devuelve se guarda tal cual, así que no
+ * debe modificarse después: quien lo reciba lo comparte con las peticiones siguientes.
+ */
+async function construirCatalogoMetrico(
+	db: UntypedSupabaseClient,
+	revision: number
+): Promise<CatalogoCacheable> {
 	const [
 		formsResponse,
 		configurationsResponse,
@@ -521,42 +613,15 @@ export async function loadMetricCatalog(
 			);
 
 	const issues = buildIssues({ forms, configurations, domain });
-	const editorSandboxResponses = await Promise.all([
-		db.from('escenarios_editor_metrico').select('*').order('updated_at', { ascending: false }),
-		db.from('secuencias_editor_metrico').select('*').order('orden'),
-		db.from('realizaciones_editor_metrico').select('*').order('orden'),
-		// La respuesta guarda el dato del catálogo que se eligió, no la opción que lo ofrecía,
-		// para que las preguntas puedan regenerarse sin dejarla huérfana. La vista resuelve la
-		// opción de vuelta, que es lo que el formulario pinta y marca como seleccionado.
-		db.from('elecciones_editor_metrico_resueltas').select('*'),
-		db.from('desviaciones_editor_metrico').select('*').order('v_ini')
-	]);
-	for (const response of editorSandboxResponses) {
-		throwQueryError('No se pudo cargar el editor métrico de prueba', response.error);
-	}
-	const [
-		editorScenariosResponse,
-		editorSequencesResponse,
-		editorUnitsResponse,
-		editorChoicesResponse,
-		editorDeviationsResponse
-	] = editorSandboxResponses;
 	return {
 		migrationPending: false,
 		migrationMessage: null,
-		revision: stateResponse.data?.revision ?? 1,
+		revision,
 		forms,
 		configurations,
 		lengthRules: (lengthRulesResponse.data ?? []) as MetricLengthRule[],
 		traditions,
 		domain,
-		editorSandbox: {
-			scenarios: editorScenariosResponse.data ?? [],
-			sequences: editorSequencesResponse.data ?? [],
-			units: editorUnitsResponse.data ?? [],
-			choices: editorChoicesResponse.data ?? [],
-			deviations: editorDeviationsResponse.data ?? []
-		},
 		options: {
 			rhymeTypes: toOptions('tipo_rima'),
 			// Los metros son ya entidades del dominio, no términos del vocabulario genérico.
