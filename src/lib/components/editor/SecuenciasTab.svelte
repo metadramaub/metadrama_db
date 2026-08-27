@@ -654,6 +654,23 @@
 	}
 
 	/**
+	 * El editor V2 es **el único sitio donde se edita el rango** de una secuencia, así que el
+	 * formulario tiene que seguirlo.
+	 *
+	 * No es un adorno: el guardado de la secuencia manda `form`, y la anotación manda el borrador. Si
+	 * se separan, mover el rango en el editor no llegaba a `secuencias_metricas` —se guardaba el
+	 * viejo— y la anotación quedaba describiendo otro pasaje. Y de paso lo siguen la cobertura, la
+	 * validación y el rango que acota las caracterizaciones.
+	 */
+	function recibirEstadoMetrico(estado: MetricSequenceEditorState) {
+		estadoMetrico = estado;
+		const { v_ini, v_fin } = estado.draft;
+		if (form.v_ini !== v_ini || form.v_fin !== v_fin) {
+			form = { ...form, v_ini, v_fin };
+		}
+	}
+
+	/**
 	 * El borrador vivo del editor métrico, que él devuelve en cada cambio.
 	 *
 	 * La pestaña no lo toca: solo lo guarda cuando se pulsa Guardar. Quien decide qué es válido es
@@ -1176,7 +1193,7 @@
 				<MetricSequenceEditor
 					catalog={props.catalogoMetrico as MetricCatalogForEditor}
 					initialDraft={borradorMetrico()}
-					onStateChange={(estado: MetricSequenceEditorState) => (estadoMetrico = estado)}
+					onStateChange={recibirEstadoMetrico}
 					bodyExtra={restoDelFormulario}
 				/>
 			{/key}
