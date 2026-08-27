@@ -58,15 +58,17 @@ const SQL_SECUENCIAS = `
 `;
 
 const SQL_SUBTIPOS = `
-	select sse.secuencia_id, v.termino
+	select sse.secuencia_id, v.termino, sse.v_ini, sse.v_fin
 	from public.secuencias_subtipos_estrofa sse
 	left join public.vocabularios v on v.termino_id = sse.subtipo_estrofa_id
+	order by sse.v_ini
 `;
 
 const SQL_CARACTERIZACIONES = `
-	select scr.secuencia_id, v.termino
+	select scr.secuencia_id, v.termino, scr.v_ini, scr.v_fin
 	from public.secuencias_caracterizaciones_rango scr
 	left join public.vocabularios v on v.termino_id = scr.tipo_caracterizacion_rango_id
+	order by scr.v_ini
 `;
 
 const SQL_JORNADAS = `select obra_id, v_ini, v_fin from public.jornadas`;
@@ -97,6 +99,26 @@ const SQL_RESPUESTAS = `
 // --------------------------------------------------------------------------
 // Redacción
 // --------------------------------------------------------------------------
+
+/**
+ * Los subtipos y las caracterizaciones de una secuencia, con su rango cuando no la ocupan entera.
+ *
+ * **El rango importa y por eso no se resume.** Una hipometría es de un verso concreto y una prosa
+ * ocupa un tramo: decir solo «hipométrico» obligaría a volver a la base justo para lo que hay que
+ * revisar con quien lo anotó.
+ */
+function enumerarRangos(filas, secuencia) {
+	if (!filas || filas.length === 0) return '—';
+	return filas
+		.map((fila) => {
+			const cubreLaSecuencia =
+				Number(fila.v_ini) === Number(secuencia.v_ini) &&
+				Number(fila.v_fin) === Number(secuencia.v_fin);
+			const nombre = fila.termino ? `\`${fila.termino}\`` : '—';
+			return cubreLaSecuencia ? nombre : `${nombre} (${fila.v_ini}–${fila.v_fin})`;
+		})
+		.join('<br>');
+}
 
 const ETIQUETA_VIA = {
 	directa: 'directa',
@@ -343,7 +365,31 @@ function informeDeObra({
 		lineas.push('');
 	}
 
+	// Se indexan por secuencia una sola vez: la tabla los mira fila a fila.
+	const subtiposPorSecuencia = new Map();
+	for (const fila of subtipos) {
+		const lista = subtiposPorSecuencia.get(fila.secuencia_id) ?? [];
+		lista.push(fila);
+		subtiposPorSecuencia.set(fila.secuencia_id, lista);
+	}
+	const caracterizacionesPorSecuencia = new Map();
+	for (const fila of caracterizaciones) {
+		const lista = caracterizacionesPorSecuencia.get(fila.secuencia_id) ?? [];
+		lista.push(fila);
+		caracterizacionesPorSecuencia.set(fila.secuencia_id, lista);
+	}
+
 	lineas.push('## Secuencias');
+	lineas.push('');
+	lineas.push(
+		'**Todo lo que la obra tiene anotado de cada secuencia**, salvo la sinopsis y los comentarios'
+	);
+	lineas.push(
+		'internos: así se puede recorrer la migración con el editor sin consultar la base. Los subtipos'
+	);
+	lineas.push(
+		'y las caracterizaciones llevan su rango entre paréntesis cuando no ocupan la secuencia entera.'
+	);
 	lineas.push('');
 	lineas.push(
 		'La columna **Propuesta** dice qué trae ya puesto el editor: lo *anotado* se miró verso a verso'
@@ -353,10 +399,12 @@ function informeDeObra({
 	);
 	lineas.push('');
 	lineas.push(
-		'| Versos | v | Término actual | Forma propuesta | Arquitectura | Estado | Propuesta | Vía |'
+		'| # | Versos | v | Término actual | Forma propuesta | Arquitectura | Subtipos | Caracterizaciones | Estado | Propuesta | Vía |'
 	);
-	lineas.push('| --- | ---: | --- | --- | --- | --- | --- | --- |');
+	lineas.push('| ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |');
+	let numero = 0;
 	for (const fila of secuencias) {
+		numero += 1;
 		const via =
 			fila.via === 'ascendencia' ? `por ascendencia (${fila.heredado_de})` : ETIQUETA_VIA[fila.via];
 		const estado = fila.motivo_revision
@@ -373,9 +421,11 @@ function informeDeObra({
 				.filter(Boolean)
 				.join(' · ') || '—';
 		lineas.push(
-			`| ${fila.v_ini}–${fila.v_fin} | ${fila.n_versos} | ` +
+			`| ${numero} | ${fila.v_ini}–${fila.v_fin} | ${fila.n_versos} | ` +
 				`${fila.termino_legado ? `\`${fila.termino_legado}\`` : '—'} | ` +
 				`${fila.forma_propuesta ?? '—'} | ${fila.arquitectura_propuesta ?? '—'} | ` +
+				`${enumerarRangos(subtiposPorSecuencia.get(fila.secuencia_id), fila)} | ` +
+				`${enumerarRangos(caracterizacionesPorSecuencia.get(fila.secuencia_id), fila)} | ` +
 				`${estado} | ${propuesta} | ${via} |`
 		);
 	}

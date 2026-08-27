@@ -33,6 +33,8 @@
 	import { draftFromRows } from '$lib/components/metrica/editor-v2/sequence-draft';
 	import type { MetricCatalogForEditor } from '$lib/metrica/catalogo';
 	import CaracterizacionesDeLaSecuencia from './secuencias/CaracterizacionesDeLaSecuencia.svelte';
+	import DeDondeVieneLaSecuencia from './secuencias/DeDondeVieneLaSecuencia.svelte';
+	import type { PropuestaDeSecuencia } from './secuencias/DeDondeVieneLaSecuencia.svelte';
 	import CaracterizacionesPorRango from './secuencias/CaracterizacionesPorRango.svelte';
 	import {
 		analyzeSequenceRangeConsistency,
@@ -453,6 +455,8 @@
 		pendingSidebarAction = null;
 		setSidebarBaselineFromCurrent();
 		prepareLocalDraftRecovery();
+		// Solo cuesta la consulta si la secuencia venía anotada con el vocabulario viejo.
+		if (secuencia.estrofa_tipo_id) void cargarPropuestas();
 	}
 
 	function requestOpenNew() {
@@ -626,6 +630,51 @@
 		sidebarSaving = false;
 		return true;
 	}
+
+	/**
+	 * De dónde viene cada secuencia que ya estaba anotada con el vocabulario legado.
+	 *
+	 * **Se pide una vez por obra y solo cuando hace falta**: la primera vez que se abre una secuencia
+	 * con término legado. La consulta que la responde deriva el catálogo entero, así que pedirla en
+	 * cada visita a la pestaña sería repetir el error que hacía caer `/dashboard/metrica`.
+	 */
+	let propuestas = $state<Map<string, PropuestaDeSecuencia> | null>(null);
+	let propuestasCargando = $state(false);
+
+	async function cargarPropuestas() {
+		if (!browser || propuestas || propuestasCargando) return;
+		propuestasCargando = true;
+		try {
+			const respuesta = await fetch(`/api/obras/${props.obraId}/secuencias/propuesta`);
+			if (!respuesta.ok) return;
+			const carga = await respuesta.json().catch(() => ({ items: [] }));
+			propuestas = new Map(
+				(carga.items ?? []).map((fila: PropuestaDeSecuencia & { secuencia_id: string }) => [
+					String(fila.secuencia_id),
+					fila
+				])
+			);
+		} catch {
+			// Es un mensaje de ayuda: si no llega, el editor sigue sirviendo igual.
+		} finally {
+			propuestasCargando = false;
+		}
+	}
+
+	/** La secuencia abierta, si venía anotada con el vocabulario viejo. */
+	const propuestaDeLaAbierta = $derived.by(() => {
+		if (!editingId) return null;
+		const secuencia = secuencias.find((row) => row.secuencia_id === editingId);
+		if (!secuencia?.estrofa_tipo_id) return null;
+		return propuestas?.get(editingId) ?? null;
+	});
+
+	/** Y si hay que ir a buscarla, para enseñar que se está buscando. */
+	const buscandoLaPropuesta = $derived.by(() => {
+		if (!editingId || propuestas) return false;
+		const secuencia = secuencias.find((row) => row.secuencia_id === editingId);
+		return Boolean(secuencia?.estrofa_tipo_id) && propuestasCargando;
+	});
 
 	/**
 	 * Si esta obra se anota con el catálogo nuevo **y hay catálogo que darle**.
@@ -991,6 +1040,14 @@
 			alCerrar={requestCloseSidebar}
 			alGuardar={() => void save()}
 		>
+			{#if propuestaDeLaAbierta || buscandoLaPropuesta}
+				<div class="px-5 pt-4">
+					<DeDondeVieneLaSecuencia
+						propuesta={propuestaDeLaAbierta}
+						cargando={buscandoLaPropuesta}
+					/>
+				</div>
+			{/if}
 			{#key editingId}
 				<MetricSequenceEditor
 					catalog={props.catalogoMetrico as MetricCatalogForEditor}
