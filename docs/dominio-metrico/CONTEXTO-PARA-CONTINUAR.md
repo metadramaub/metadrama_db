@@ -528,19 +528,17 @@ cada unidad, que describían una respuesta que el atajo acaba de sobrescribir.
 - **Se puede volver a «en conjunto», avisando.** Estaba bloqueado mientras hubiera divergencia, o sea
   para siempre: la única salida era cerrar la secuencia y rehacerla. Ahora pide confirmación y **borra
   lo respondido aparte**, porque conjunto significa una sola respuesta para todas.
-- **Una unidad plegada se lee en notación**, no en prosa ni en un recuadro dentro de otro con el
-  rótulo «Respuesta de esta copla»:
+- **Una unidad se lee en la anotación de siempre**, `8a 8b 8a 4b 8c 8d 8c 8d`, no en prosa ni en un
+  recuadro dentro de otro rotulado «Respuesta de esta copla». **Medida y rima van juntas**, como se
+  escribe el verso español: separadas obligan a cruzar dos series a ojo para saber que el quebrado es
+  el que rima en «b». La caja de la letra la decide la medida —minúscula hasta ocho sílabas, mayúscula
+  por encima—, que ya sabía hacer `normalizeRhymeSymbol`.
 
-  ```
-  Copla castellana 1 · vv. 1–8
-    rima: abab|cddc
-    medida: 8·5·8·8·8·8·5·8
-  ```
-
-  `abab|cddc` dice lo mismo que «las dos cruzadas» sin gastar una línea, y la serie de medidas dice de
-  un vistazo lo que «quebrados: v. 2 (5 síl.), v. 7 (5 síl.) · los demás, 8 síl.» obliga a reconstruir
-  verso a verso. **La prosa se queda donde se responde**, que es donde hay que elegir. Y la acción de
-  plegar baja **debajo** del rótulo en vez de flotar a su derecha.
+  Va en los dos sitios: en la lista compacta **al lado del rango y en pequeño**, sin gastar otra
+  línea, y dentro de la unidad plegada. Se arma solo si la notación casa verso a verso con la unidad
+  —un romance, con sus puntos suspensivos, no— y entonces vale el resumen de siempre. **La prosa se
+  queda donde se responde**, que es donde hay que elegir. Y la acción de plegar baja **debajo** del
+  rótulo en vez de flotar a su derecha.
 - **Mayoría de verdad, o ninguna.** Con seis unidades, cinco respuestas distintas y dos iguales, la
   «mayoritaria» eran esas dos y las otras cuatro salían marcadas como que se apartan *de las demás*,
   que es falso: ahí no hay «las demás». Solo hay respuesta común si la comparte **más de la mitad**; si
@@ -552,10 +550,8 @@ no se supiera: cuatro coplas iguales, cada una con sus dos redondillas, media pa
 mismo. Ahora, **cuando no queda nada que tocar ahí abajo**, la sección es una lista:
 
 ```
-Copla castellana 1  vv. 1–8
-Copla castellana 2  vv. 9–16
-Copla castellana 3  vv. 17–24
-Copla castellana 4  vv. 25–32
+Copla castellana 1  vv. 1–8     8a 8b 8a 4b 8c 8d 8c 8d
+Copla castellana 2  vv. 9–16    8a 8b 8a 4b 8c 8d 8c 8d
 ```
 
 Solo se compacta si de verdad no hay nada que responder: ninguna fila con pregunta propia, ninguna
