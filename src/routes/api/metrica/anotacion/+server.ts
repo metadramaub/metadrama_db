@@ -2,10 +2,9 @@ import { json } from '@sveltejs/kit';
 import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { requireEditorProfile } from '$lib/server/auth';
-import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
+import { validationErrorResponse } from '$lib/server/http';
 import type { MetricLengthRule } from '$lib/metrica/catalogo';
 import { metricLengthError } from '$lib/metrica/metric-length';
-import { canManageVocabularios } from '$lib/utils/permissions';
 
 type UntypedSupabaseClient = {
 	from: (table: string) => any;
@@ -88,21 +87,6 @@ const deviationSchema = z.object({
 
 const requestSchema = z.discriminatedUnion('action', [
 	z.object({
-		action: z.literal('create_scenario'),
-		nombre: z.string().trim().min(1).max(240),
-		descripcion: z.string().trim().max(10_000).nullable()
-	}),
-	z.object({
-		action: z.literal('update_scenario'),
-		escenario_id: uuid,
-		nombre: z.string().trim().min(1).max(240),
-		descripcion: z.string().trim().max(10_000).nullable()
-	}),
-	z.object({
-		action: z.literal('delete_scenario'),
-		escenario_id: uuid
-	}),
-	z.object({
 		action: z.literal('save_sequence'),
 		anotacion_id: nullableUuid,
 		// Una prueba cuelga de un escenario ficticio o anota una secuencia real. La
@@ -119,25 +103,7 @@ const requestSchema = z.discriminatedUnion('action', [
 		elecciones: z.array(choiceSchema).max(2_000),
 		desviaciones: z.array(deviationSchema).max(1_000)
 	}),
-	z.object({
-		action: z.literal('delete_sequence'),
-		anotacion_id: uuid
-	}),
-	z.object({
-		action: z.literal('open_work'),
-		obra_id: uuid,
-		nota: z.string().trim().max(2_000).nullable()
-	}),
-	z.object({
-		action: z.literal('close_work'),
-		obra_id: uuid
-	})
 ]);
-
-async function requireMetricManager(locals: App.Locals) {
-	const profile = await requireEditorProfile({ locals });
-	return canManageVocabularios(profile.roleTerm) ? profile : null;
-}
 
 function databaseError(error: { code?: string; message: string } | null, fallback: string) {
 	const message = error?.message ?? fallback;
@@ -149,87 +115,24 @@ function databaseError(error: { code?: string; message: string } | null, fallbac
 }
 
 export const POST: RequestHandler = async ({ locals, request }) => {
-	const profile = await requireMetricManager(locals);
-	if (!profile) {
-		return forbiddenResponse('Solo admin o IP pueden utilizar el editor métrico de prueba.');
-	}
+	/**
+	 * **Quién puede anotar qué lo decide la base, no este endpoint.**
+	 *
+	 * Aquí hubo una puerta de admin o IP, de cuando esto era un laboratorio. Desde que los editores
+	 * anotan sus obras, esa puerta las cerraba todas: el permiso depende de la obra —admin o IP con
+	 * cualquiera, editor con la suya— y eso lo sabe `guardar_anotacion_metrica`, que lo comprueba
+	 * con el mismo predicado que gobierna las políticas. Si dice que no, llega como 42501 y sale de
+	 * aquí como un 403.
+	 *
+	 * Basta entonces con exigir sesión, que es lo que impide que esto quede abierto a cualquiera.
+	 */
+	await requireEditorProfile({ locals });
 
 	const parsed = requestSchema.safeParse(await request.json().catch(() => ({})));
 	if (!parsed.success) return validationErrorResponse(parsed.error);
 
 	const db = locals.supabase as unknown as UntypedSupabaseClient;
 	const input = parsed.data;
-
-	if (input.action === 'create_scenario') {
-		const { data, error } = await db
-			.from('anotacion_escenarios_prueba')
-			.insert({
-				nombre: input.nombre,
-				descripcion: input.descripcion,
-				created_by: profile.userId,
-				updated_by: profile.userId
-			})
-			.select('*')
-			.single();
-		if (error) return databaseError(error, 'No se pudo crear el escenario.');
-		return json({ scenario: data }, { status: 201 });
-	}
-
-	if (input.action === 'update_scenario') {
-		const { data, error } = await db
-			.from('anotacion_escenarios_prueba')
-			.update({
-				nombre: input.nombre,
-				descripcion: input.descripcion,
-				updated_by: profile.userId
-			})
-			.eq('escenario_id', input.escenario_id)
-			.select('*')
-			.single();
-		if (error) return databaseError(error, 'No se pudo actualizar el escenario.');
-		return json({ scenario: data });
-	}
-
-	if (input.action === 'delete_scenario') {
-		const { error } = await db
-			.from('anotacion_escenarios_prueba')
-			.delete()
-			.eq('escenario_id', input.escenario_id);
-		if (error) return databaseError(error, 'No se pudo eliminar el escenario.');
-		return json({ deleted: true });
-	}
-
-	if (input.action === 'delete_sequence') {
-		const { error } = await db
-			.from('anotaciones_metricas')
-			.delete()
-			.eq('anotacion_id', input.anotacion_id);
-		if (error) return databaseError(error, 'No se pudo eliminar la secuencia de prueba.');
-		return json({ deleted: true });
-	}
-
-	if (input.action === 'open_work') {
-		const { data, error } = await db
-			.from('obras_anotacion_nueva')
-			.upsert(
-				{ obra_id: input.obra_id, nota: input.nota, created_by: profile.userId },
-				{ onConflict: 'obra_id' }
-			)
-			.select('*')
-			.single();
-		if (error) return databaseError(error, 'No se pudo abrir la obra al editor V2.');
-		return json({ work: data }, { status: 201 });
-	}
-
-	if (input.action === 'close_work') {
-		// Cerrar la obra no borra lo anotado: las pruebas siguen colgando de sus secuencias.
-		const { error } = await db
-			.from('obras_anotacion_nueva')
-			.delete()
-			.eq('obra_id', input.obra_id);
-		if (error) return databaseError(error, 'No se pudo cerrar la obra.');
-		return json({ deleted: true });
-	}
 
 	if (Number(input.escenario_id !== null) + Number(input.secuencia_id !== null) !== 1) {
 		return json(

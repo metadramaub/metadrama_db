@@ -801,7 +801,7 @@
 
 		let respuesta: Response;
 		try {
-			respuesta = await fetch('/api/metrica/editor-pruebas', {
+			respuesta = await fetch('/api/metrica/anotacion', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -1199,87 +1199,24 @@
 			{/key}
 		</MetricSequenceModal>
 	{:else}
-	<aside
-		class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-5 pt-0"
-		inert={sidebarSaving}
-		aria-busy={sidebarSaving}
-	>
-		<div class="sticky top-0 z-20 -mx-5 mb-4 flex items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--gray-50)] px-5 pb-3 pt-5">
-			<div class="flex min-w-0 items-center gap-2">
-				<h3 class="text-base font-semibold">
-					{#if editingId}
-						{props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
-					{:else}
-						Nueva secuencia
-					{/if}
-				</h3>
-				{#if editingId && editingIndex >= 0}
-					<div class="flex items-center gap-1">
-						<button
-							type="button"
-							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-							aria-label="Secuencia anterior"
-							onclick={() => void goToSecuencia(prevSecuencia)}
-							disabled={!prevSecuencia || sidebarSaving}
-						>
-							<ChevronLeft size={18} />
-						</button>
-						<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
-							{editingIndex + 1} / {orderedSecuencias.length}
-						</span>
-						<button
-							type="button"
-							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-							aria-label="Secuencia siguiente"
-							onclick={() => void goToSecuencia(nextSecuencia)}
-							disabled={!nextSecuencia || sidebarSaving}
-						>
-							<ChevronRight size={18} />
-						</button>
-					</div>
-				{/if}
-			</div>
-			<div class="flex items-center gap-2">
-				{#if sidebarDirty}
-					<span class="text-xs text-[color:var(--muted-foreground)]">Cambios sin guardar</span>
-				{/if}
-				<Button variant="secondary" onclick={requestCloseSidebar} disabled={sidebarSaving}>Cerrar</Button>
-				{#if !props.readOnly}
-					<Button
-						variant="success"
-						onclick={() => void save()}
-						loading={sidebarSaving}
-						loadingLabel="Guardando…"
-					>
-						Guardar
-					</Button>
-				{/if}
+		<!--
+			**Sin catálogo no hay editor.** `loadMetricCatalog` devuelve vacío si faltan migraciones,
+			así que esto solo se ve con la base a medio migrar. Aquí estuvo el panel lateral con el
+			selector del vocabulario legado, retirado el 27 de agosto de 2026: nadie va a anotar ya con
+			él, y dejarlo era mantener dos editores para que uno no se usara nunca.
+		-->
+		<div class="fixed inset-0 z-40 flex items-start justify-center bg-black/50 p-4">
+			<div class="card w-full max-w-lg p-5">
+				<h3 class="text-base font-semibold">No se puede anotar ahora mismo</h3>
+				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
+					El catálogo métrico no ha llegado a cargarse. Suele ser que faltan migraciones por
+					aplicar a esta base.
+				</p>
+				<div class="mt-4 flex justify-end">
+					<Button variant="secondary" onclick={requestCloseSidebar}>Cerrar</Button>
+				</div>
 			</div>
 		</div>
-
-		<div class="space-y-3">
-			{@render metricaBase()}
-			{@render restoDelFormulario()}
-		</div>
-
-		{#if editingId}
-			<div class="mt-4">
-				{#key editingId}
-					<InternalCommentsPanel
-						obraId={props.obraId}
-						canComment={Boolean(props.canComment)}
-						title="Comentarios internos de secuencia"
-						context={{ secuencia_id: editingId }}
-						collapsible={true}
-						defaultCollapsed={true}
-						collapseLabel="Ver"
-						focusComentarioId={props.focusComentarioId}
-						reloadKey={props.commentsReloadKey}
-					/>
-				{/key}
-			</div>
-		{/if}
-	</aside>
 	{/if}
 	{/if}
 
@@ -1337,63 +1274,12 @@
 />
 
 <!--
-	El cuerpo del formulario, partido en dos porque lo comparten dos contenedores.
+	Lo que no es métrico de una secuencia: caracterizaciones por rango, personajes y sinopsis.
 
-	En una obra que todavía se anota con el vocabulario legado, el panel lateral pinta los dos
-	seguidos. En una obra abierta al catálogo nuevo, **el editor V2 sustituye a `metricaBase`** y
-	`restoDelFormulario` baja debajo de él: lo que no es métrico no cambia por cambiar de vocabulario.
+	Va debajo del editor V2, dentro del mismo modal, porque **el editor lo rellena en la misma
+	pasada** y separarlo obligaría a abrir dos sitios para anotar una secuencia. Aquí hubo también un
+	fragmento con el selector del vocabulario legado; se retiró con el panel que lo pintaba.
 -->
-{#snippet metricaBase()}
-			<section class="bg-white p-4">
-				<h4 class="form-section-title">Métrica base</h4>
-				<div class="grid gap-3 sm:grid-cols-2">
-					<label class="form-field">
-						<span class="form-label">Verso inicial</span>
-						<input
-							type="number"
-							bind:value={form.v_ini}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-					<label class="form-field">
-						<span class="form-label">Verso final</span>
-						<input
-							type="number"
-							bind:value={form.v_fin}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-				</div>
-
-				<label class="form-field mt-3">
-					<span class="form-label">Estrofa</span>
-					<CheckDropdown
-						class="mt-1"
-						multiple={false}
-						hierarchical={true}
-						collapsibleHierarchy={true}
-						disableParentsWithChildren={true}
-						showPathInTrigger={true}
-						allowSingleClear
-						search={true}
-						placeholder="Pendiente — seleccionar"
-						items={estrofaDropdownItems}
-						selectedIds={form.estrofa_tipo_id ? [form.estrofa_tipo_id] : []}
-						disabled={props.readOnly}
-						onChange={(ids) => {
-							const nextId = ids[0] ?? '';
-							form = {
-								...form,
-								estrofa_tipo_id: nextId
-							};
-						}}
-					/>
-				</label>
-			</section>
-{/snippet}
-
 {#snippet restoDelFormulario()}
 			<CaracterizacionesPorRango
 				bind:this={caracterizaciones}
