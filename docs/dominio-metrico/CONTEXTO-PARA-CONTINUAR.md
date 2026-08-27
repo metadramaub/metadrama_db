@@ -473,12 +473,28 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
 | F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades», qué versos van quebrados— se entiende fatal | UI | — | toda forma con `permite_aplicar_global` | recogido |
 | — | copla castellana | «rango calculado desde sus partes» | — | *es F6, segunda repetición del mismo mensaje* | — | ya en F6 |
+| F16 | copla castellana | el quebrado es **rasgo opcional**, no medida esperada: ponerlo bajo «Medida» hace creer que hay que encontrarlo | **catálogo** | el rasgo `pie_quebrado` **ya está declarado** en las 10 arquitecturas —`admitida` en 8, `habitual` en las dos oncenas— pero **no tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo que se pregunta es `posiciones_pie_quebrado`, de dimensión `metro` | 10 arquitecturas de 8 formas (las mismas de F11) | **migración, sin aprobar** |
+| F17 | todas las de rima | «¿Rima de otra manera?» se muestra siempre, cuando solo hace falta si no vale ninguna predefinida | UI | `tipo_control: opciones_y_esquema` pinta las opciones **y** el campo libre a la vez, en vez de ofrecer «otra» como una opción más | 41 grupos en 37 arquitecturas | recogido |
+| F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 
 **F11, por qué las dos frases eran ciertas.** La definición del catálogo dice que la copla castellana
 es de octosílabos y que «algún verso puede aparecer quebrado en cuatro sílabas». El esquema lo
 recoge tal cual: **una** posición de 8 —el ciclo— y un repertorio con roles, `dominante: 8` y
 `quebrado: 4, 5`. Leerlo por roles da la base y los quebrados; releerlo por posiciones da un 8 fijo.
 Lo que la norma fija es **la base**, no la medida de cada verso, así que el segundo renglón sobra.
+
+**F16, lo que dice el catálogo.** El IP tiene razón y el catálogo ya lo dice: el quebrado está
+declarado como **rasgo admitido** —no como parte de la medida—, y en las oncenas como *habitual*. Que
+solo se vea bajo «Medida» es consecuencia de que **el rasgo está vacío**: sin valores no hay nada que
+ofrecer ni que resumir. Lo que el IP propone —preguntar primero «¿hay quebrados?» y solo entonces
+cuáles— es justamente lo que el rasgo permitiría en cuanto tenga sus dos valores. **Es una migración,
+y no está aprobada.**
+
+**F17 y F18 son la misma pantalla.** Escribir un esquema a mano y elegir uno predefinido marcando una
+desviación son cosas distintas, y hoy se ofrecen juntas y sin jerarquía. El IP añade que la frontera
+entre «desviación» y «esquema nuevo» la decide el editor, que no pasa nada porque luego se revisen, y
+que **el comprobador en vivo podría avisar de que lo escrito se parece mucho a un esquema existente**
+por si conviene elegir aquel y marcar la diferencia. Va con **B8** y con **F9**.
 
 **Lo comprobado en F8 y F9**, para no repetirlo: el catálogo **sí** declara el pareado —esquema
 «Pareado consonante final», posiciones 1 y 2, ambas clase `a`—, y «Cuerpo sin rima» es un esquema con
