@@ -69,7 +69,7 @@
 				(item: MetricCatalogForm) => item.forma_id === configuration?.forma_id
 			);
 		if (!form || !browser) return;
-		window.open(`/formas/${form.slug}`, '_blank', 'noopener,noreferrer');
+		window.open(`/recursos/catalogo-metrico/${form.slug}`, '_blank', 'noopener,noreferrer');
 	}
 
 </script>
@@ -94,7 +94,7 @@
 				</p>
 				<a
 					class="mt-2 inline-flex text-sm font-medium underline underline-offset-4"
-					href="/formas"
+					href="/recursos/catalogo-metrico"
 					target="_blank"
 					rel="noreferrer"
 				>
@@ -187,7 +187,7 @@
 						</p>
 						<a
 							class="mt-5 inline-flex bg-[color:var(--foreground)] px-4 py-2 text-sm font-medium text-[color:var(--background)]"
-							href="/demarcador"
+							href="/recursos/demarcador"
 							target="_blank"
 							rel="noreferrer"
 						>

@@ -30,8 +30,8 @@
 		'/catalogo': 'catalogo',
 		'/autores': 'autores',
 		'/laboratorio': 'laboratorio',
-		'/demarcador': 'demarcador',
-		'/formas': 'formas'
+		'/recursos/demarcador': 'demarcador',
+		'/recursos/catalogo-metrico': 'formas'
 	};
 
 	function navItemVisible(href: string | undefined): boolean {

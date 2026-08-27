@@ -101,7 +101,7 @@
 		</div>
 	{/if}
 
-	<!-- La misma rejilla que la ficha de `/formas`: una forma se ve igual dondequiera que se mire,
+	<!-- La misma rejilla que la ficha del catálogo métrico: una forma se ve igual dondequiera que se mire,
 	     y aquí sirve además para reconocerla en el pasaje que se está demarcando. -->
 	{#if arquitectura.hipotesis.presentacion.rejilla}
 		<div class="mt-4 border-t border-[color:var(--border)] pt-4">

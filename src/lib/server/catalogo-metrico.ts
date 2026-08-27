@@ -269,7 +269,7 @@ type CatalogoCacheable = Omit<MetricCatalogPageData, 'editorSandbox'>;
  *
  * **Por qué se puede guardar en memoria del proceso y compartirlo entre peticiones.** Son unas
  * 2.400 filas que solo cambian cuando se aplica una migración, y **son las mismas para todo el que
- * las pide**: desde el 27 de agosto de 2026 el catálogo métrico se lee sin condiciones —`/formas` y
+ * las pide**: desde el 27 de agosto de 2026 el catálogo métrico se lee sin condiciones y
  * el demarcador son recursos públicos, y el equipo editorial lo necesita para anotar—.
  *
  * *Esa razón sustituye a la que había aquí*, que era más frágil: que `catalogo_metrico_estado`

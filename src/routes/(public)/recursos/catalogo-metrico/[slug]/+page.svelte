@@ -66,7 +66,7 @@
 </script>
 
 <svelte:head>
-	<title>{forma.nombre} · Catálogo de formas · Versología</title>
+	<title>{forma.nombre} · Catálogo métrico · Versología</title>
 	{#if forma.definicion}
 		<meta name="description" content={stripMarkdown(forma.definicion)} />
 	{/if}
@@ -74,8 +74,8 @@
 
 <article class="w-full">
 	<nav class="text-sm text-[color:var(--muted-foreground)]" aria-label="Migas de pan">
-		<a class="transition-colors hover:text-[color:var(--foreground)]" href="/formas">
-			Catálogo de formas
+		<a class="transition-colors hover:text-[color:var(--foreground)]" href="/recursos/catalogo-metrico">
+			Catálogo métrico
 		</a>
 		<span class="mx-2" aria-hidden="true">/</span>
 		<span class="text-[color:var(--foreground)]">{forma.nombre}</span>
@@ -163,7 +163,7 @@
 							<li class="py-4 leading-7">
 								<p>
 									<span class="text-[color:var(--muted-foreground)]">{describirRelacion(relacion)} </span>
-									<a class="font-medium underline underline-offset-4 hover:no-underline" href="/formas/{relacion.slug}">
+									<a class="font-medium underline underline-offset-4 hover:no-underline" href="/recursos/catalogo-metrico/{relacion.slug}">
 										{relacion.nombre}
 									</a>
 									<span class="text-sm text-[color:var(--muted-foreground)]">

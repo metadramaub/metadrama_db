@@ -81,16 +81,16 @@
 		{#if formasVisible}
 			<article class="card flex min-h-[20rem] flex-col p-5">
 				<h2 class="font-display text-lg leading-tight text-[color:var(--gray-900)]">
-					CONSULTA EL CATÁLOGO DE FORMAS
+					CONSULTA EL CATÁLOGO MÉTRICO
 				</h2>
 				<p class="mt-3 flex-1 text-sm text-[color:var(--muted-foreground)]">
 					Cada forma métrica con sus arquitecturas, esquemas, rasgos y lo que dicen las fuentes.
 				</p>
 				<a
-					href="/formas"
+					href="/recursos/catalogo-metrico"
 					class="mt-5 border border-[color:var(--primary)] bg-[color:var(--primary)] px-3 py-2 text-center text-xs font-semibold tracking-[0.06em] text-[color:var(--gray-50)]"
 				>
-					FORMAS MÉTRICAS
+					CATÁLOGO MÉTRICO
 				</a>
 			</article>
 		{/if}
