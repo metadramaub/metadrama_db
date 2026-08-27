@@ -103,12 +103,16 @@ el pasaje de la fuente de cada caso, está en
 [cuestiones para el IP](docs/dominio-metrico/cuestiones-para-el-ip.md): son decisiones
 filológicas, no técnicas, y las toma el IP.
 
-**Lo que queda pendiente está inventariado y ordenado por urgencia** en
-[CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente),
-según lo que bloquea los dos hitos siguientes: **migrar las secuencias ya anotadas** del
-vocabulario legado —por equivalencias más revisión manual obra por obra— y **pasar el editor V2 a
-producción**. El bloque A son los casos en que una secuencia real no tendría dónde caer; el B,
-aquellos en que un editor no puede registrar lo que ve; el C, deudas del modelo sin urgencia.
+**El trabajo en curso es llevar el editor V2 a la pestaña de secuencias de las obras nuevas**, para
+que la ola de editores que entra no anote nada más con el vocabulario legado. El plan, paso a paso y
+con lo que ya está decidido, está en
+[El camino a develop](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-camino-a-develop-lista-para-la-ola-de-editores).
+Migrar lo ya anotado viene después: dejó de ser lo urgente el 26 de agosto de 2026.
+
+**Lo demás que queda pendiente está inventariado** en
+[CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
+El bloque A son los casos en que una secuencia real no tendría dónde caer; **el B está cerrado
+entero**; el C, deudas del modelo sin urgencia.
 
 ## Reglas duras
 

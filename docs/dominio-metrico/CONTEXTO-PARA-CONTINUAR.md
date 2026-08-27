@@ -314,6 +314,115 @@ porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en
 una a una ha descubierto defectos de presentación que no se veían ni en el catálogo ni en el
 código.
 
+## El camino a develop lista para la ola de editores
+
+*Escrito el 26 de agosto de 2026.* En una frase: **que un editor que entre a crear una obra nueva
+vea en su pestaña de secuencias el editor V2**, bebiendo del catálogo nuevo, y que la fusión de la
+semana siguiente no obligue a nadie a seguir anotando con el vocabulario legado.
+
+### Lo que ya está decidido
+
+- **Las obras nuevas dejan `secuencias_metricas.estrofa_tipo_id` vacío.** La identidad métrica vive
+  solo en el catálogo nuevo. Cuando se migren las anotadas con el sistema viejo y se compruebe que
+  lo viejo ya no aporta nada, **la columna se retira**. *No se escribe el término legado por
+  equivalencia inversa: sería fabricar la deuda que se quiere dejar de fabricar.*
+- **`secuencias_metricas` no necesita ninguna columna nueva.** El vínculo ya existe y va en el
+  sentido correcto: lo lleva `secuencias_editor_metrico.secuencia_id`, con `on delete cascade`, y la
+  tabla ya declara `CHECK (num_nonnulls(escenario_id, secuencia_id) = 1)` —o pertenece a un
+  escenario de prueba, o a una secuencia real—. Se hizo pensando en esta mudanza. Añadir una columna
+  del lado viejo duplicaría la relación y crearía dos sitios que mantener de acuerdo.
+- **El catálogo y el demarcador son zona pública.** No solo para que los editores trabajen: cuando
+  caiga el muro de «web en construcción», cualquiera podrá leerlos. El interruptor de
+  `/dashboard/publicacion` se conserva, pero **el dashboard no puede depender de él**.
+- **La publicación de obras, la vista previa y la precomputación se quedan como están.** Son legado
+  y se rehacen cuando todo esto esté terminado. Una obra recién empezada no se publica el primer
+  día, así que su perfil métrico vacío no bloquea a nadie.
+- **Lo que toca `secuencias_metricas` por dentro no se hace aquí.** Ver *Lo que va a `main`*.
+
+### Los pasos, en orden
+
+**1 · El catálogo, público de verdad.** Contado contra la base: de las **veintiséis** tablas del
+catálogo, **veintidós ya son públicas** —tienen `SELECT = catalogo_metrico_publico()`— y **tres no**:
+`catalogo_metrico_estado`, `metro_segmentos` y `repeticion_posiciones`. Las dos últimas son tablas de
+detalle de `metros` y `repeticiones_metricas`, que sí lo son: es un descuido, no una decisión.
+
+`catalogo_metrico_estado` es la que muerde hoy, porque `loadMetricCatalog` **se rinde si no puede
+leer la revisión**: un editor recibiría el catálogo vacío. Es solo un número de revisión y una
+versión de modelo.
+
+*Y una cosa más, que es de diseño y no de descuido:* que el dashboard funcione **no puede depender
+del interruptor público**. Hoy `catalogo_metrico_publico()` mira si la sección `formas` está activa
+para anónimos; si un admin la apaga, los editores se quedarían sin catálogo. La política debe ser
+«lo ve quien lo publica, quien lo edita, o cualquiera si está publicado», y para eso hace falta un
+`auth_is_editor()` que hoy no existe —solo hay `auth_is_admin_or_ip()`—.
+
+*Esto además rompe la llave de la caché del catálogo*, que hoy se apoya en que haber leído la
+revisión demuestra ser admin o IP. Al abrir esa RLS hay que añadirle la visibilidad a la llave. Va
+en este mismo paso, no después. ⇒ **C17**
+
+**2 · Los nombres, ahora que no hay datos.** Las tablas se llaman `*_editor_metrico` de cuando todo
+era un laboratorio, y `obras_editor_metrico_v2` lleva un «v2» que envejecerá mal. Cuando el sistema
+viejo muera, `secuencias_editor_metrico` será *la* tabla de la identidad métrica de una secuencia
+con un nombre que ya no dirá nada.
+
+**Hoy tienen cero filas sobre secuencias reales** —solo dos secuencias de escenario—, así que este
+es el momento más barato que va a haber. El coste medido: **31 objetos** en la base y **82
+ocurrencias** en 6 archivos de código. *Las 64 migraciones que las nombran no se tocan: una migración
+aplicada no se edita, y el renombrado es una migración nueva.*
+
+Propuesta, pendiente del visto bueno del IP:
+
+| hoy | propuesta |
+|---|---|
+| `secuencias_editor_metrico` | `anotaciones_metricas` |
+| `realizaciones_editor_metrico` | `anotacion_realizaciones` |
+| `elecciones_editor_metrico` | `anotacion_elecciones` |
+| `desviaciones_editor_metrico` | `anotacion_desviaciones` |
+| `elecciones_editor_metrico_resueltas` | `anotacion_elecciones_resueltas` |
+| `escenarios_editor_metrico` | `anotacion_escenarios_prueba` |
+| `obras_editor_metrico_v2` | `obras_anotacion_nueva` |
+
+**3 · Una anotación por secuencia.** Falta un `UNIQUE (secuencia_id)`: hoy nada impide que una
+secuencia real tenga dos anotaciones métricas.
+
+**4 · La anotación, abierta a los editores.** Las seis tablas tienen política `auth_is_admin_or_ip()`
+y ninguna otra: un editor no puede escribir ni una fila. Hay que abrirlas **con el alcance por obra
+asignada**, que es la regla que ya gobierna el resto del dashboard. Con guardas que ejecuten: probar
+que un editor escribe lo suyo y **no** lo ajeno.
+
+**5 · La pestaña de secuencias monta el V2.** `MetricSequenceEditor` es portátil por diseño —recibe
+lo no métrico como `bodyExtra` y su contenedor ya dice que «se moverá tal cual al editor de obras»—.
+La secuencia real se sigue creando como hoy: rango y caracterizaciones en `secuencias_metricas`;
+solo la identidad métrica va a las tablas nuevas. **El interruptor es por obra**, con la tabla que
+hoy es `obras_editor_metrico_v2`: una obra apuntada ahí usa el V2, y las demás siguen con el editor
+viejo hasta que se migren. Así nadie empieza una obra nueva con el vocabulario legado y no se
+interrumpe a quien está a mitad de una.
+
+**6 · La checklist acepta la forma nueva.** `hasPendingSequenceFields` declara pendiente toda
+secuencia con `estrofa_tipo_id` nulo, así que una obra anotada en V2 **no podría marcarse
+revisable**. Tiene que dar por satisfecho ese campo cuando la secuencia tiene forma en el catálogo
+nuevo. Sin esto los editores trabajan pero no cierran nada.
+
+### Lo que va a `main`, no aquí
+
+La base es **la misma para las dos ramas**, así que un cambio de esquema hecho en `develop` aparece
+en producción al instante. Por eso van directamente a `main`, y antes de fusionar:
+
+- Los cambios en los **campos propios de `secuencias_metricas`** —los que no son métricos:
+  caracterizaciones, personajes, sinopsis—.
+- La **revisión de los vocabularios generales** pendiente, inventariada en
+  [revisión de vocabularios](../revision-de-vocabularios.md).
+
+*El IP se plantea cerrar la web una semana para que nadie trabaje mientras se hace todo esto.* Es la
+manera limpia de evitar que un editor guarde a mitad de un renombrado o de una apertura de RLS.
+
+### Lo que queda para después de fusionar
+
+Que el perfil métrico, la ficha pública y la precomputación lean el catálogo nuevo. Hoy leen
+`estrofa_tipo_id`, así que una obra anotada solo en V2 tendrá **perfil métrico vacío**. No bloquea
+anotar; sí bloquea publicar esas obras. Los recomputes usan `left join` y `filter (… is not null)`,
+así que **degradan, no rompen**.
+
 ## Qué queda pendiente
 
 Inventario rehecho el **21 de agosto de 2026**, al terminar la revisión de la prosa. Lo cerrado ya
@@ -321,36 +430,37 @@ no se lista: está en las migraciones, en `git` y en el
 [histórico](./historico/). Quedan **veintiún asuntos**, ordenados por lo que bloquea el
 próximo hito y no por el orden en que aparecieron.
 
-**Los dos hitos que vienen, en este orden:**
+**Los dos hitos que vienen, en este orden.** *Se invirtió el 26 de agosto de 2026:* lo urgente
+dejó de ser migrar lo anotado y pasó a ser que **nadie anote nada más con el vocabulario legado**.
 
-1. **Migrar las secuencias ya anotadas** del vocabulario legado al catálogo nuevo, por
-   equivalencias más revisión manual obra por obra. Marco:
-   [el plan de migración](./plan-migracion-anotaciones.md); procedimiento:
+1. **Que el editor V2 sea el que ven los editores** al abrir una obra nueva. El plan está aquí
+   abajo, en [El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
+2. **Migrar las secuencias ya anotadas**, por equivalencias más revisión manual obra por obra.
+   Marco: [el plan de migración](./plan-migracion-anotaciones.md); procedimiento:
    [cómo se migra una obra](./como-se-migra-una-obra.md); estado de las equivalencias:
    [informe-equivalencias.md](./informe-equivalencias.md), que regenera
    `npm run equivalencias:informe`.
-2. **Pasar el editor V2 a producción** para todo el equipo, sustituyendo al selector que hoy
-   escribe en `secuencias_metricas`.
 
-**Nada de lo que sigue impide anotar hoy** con el editor actual, y el catálogo está limpio:
-`npm run audit:metrica` y `npm run audit:editor` dan cero defectos, y las pruebas y `npm run check`
-pasan. Lo que sigue son deudas del modelo y huecos de cobertura.
+**Nada de lo que sigue impide anotar hoy**, y el catálogo está limpio: `npm run audit:metrica` y
+`npm run audit:editor` dan cero defectos, y las pruebas, `npm run check` y `npm run lint` pasan.
 
-*Puesto al día el **22 de agosto de 2026**. Del bloque A se cerraron los cuatro apuntes de
-cobertura —A2, A2bis, A2ter y A3—, que dejaron **once formas nuevas**, doce medidas y tres
-criterios escritos: una arquitectura no cambia la extensión de la unidad de su forma, un rasgo
-admitido no cambia lo que la forma declara, y la medida no compromete la norma mientras que lo que
-la fija se acota.*
+**Lo cerrado no se cuenta dos veces.** Estos asuntos están resueltos y su detalle vive en los
+commits, en las migraciones y en el [histórico](./historico/); se listan solo para que quien busque
+por su número sepa que no siguen abiertos.
 
-*Puesto al día otra vez el **25 de agosto de 2026**, al cerrar el bloque B casi entero: **B1, B2, B3
-y B4**. B1 y B2 eran el mismo problema en dos dimensiones y dejaron **cinco reglas y dos corolarios**
-escritos en criterios de nivel §§ 3.3 y 3.6, un tercer `tipo_control`, un normalizador de esquemas
-escritos, la herencia por reutilización compartida con la ficha, y un defecto nuevo en cada auditor.
-B3 se comprobó en pantalla y no estaba roto. B4 sí lo estaba, en dos superficies.*
+| | qué era | cerrado |
+|---|---|---|
+| **A2, A2bis, A2ter, A3** | los cuatro huecos de cobertura: faltaban formas de siete, ocho, once y doce versos, dos estructuras que salieron leyendo, las dos preguntas del pie quebrado y cinco medidas | 21–22 ago |
+| **B1 y B2** | qué pregunta el editor cuando la norma no fija la disposición de rima o la medida. Dejaron **cinco reglas y dos corolarios** en [criterios de nivel](./criterios-de-nivel.md) §§ 3.3 y 3.6, un tercer `tipo_control`, un normalizador de esquemas escritos y un defecto nuevo en cada auditor | 25 ago |
+| **B3** | el villancico tras el desdoblamiento de «Enlace o vuelta»: comprobado en pantalla, no estaba roto | 25 ago |
+| **B4** | el cierre del terceto encadenado dejó de ser obligatorio y dos superficies lo daban por hecho | 25 ago |
+| **B5** | la décima aumentada entre décimas normales, resuelta en la realización | 26 ago |
+| **B6** | el control abierto no preguntaba el régimen de rima | 25 ago |
+| **B7** | la vuelta del villancico no declaraba su esquema métrico | 25 ago |
+| **C6** | la rejilla convertía en ciclo una unidad acotada | 25 ago |
+| **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
 
-*Puesto al día el **26 de agosto de 2026**, al cerrar **B5** —la décima aumentada entre décimas
-normales, resuelta en la realización— y con él **el bloque B entero**. Quedan dos asuntos en A y
-diecisiete en C.*
+Con B5 se cerró **el bloque B entero**. Quedan **tres asuntos en A** y **quince en C**.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -416,122 +526,6 @@ romancillo.
 final acentual, de modo que `endecasilabo_suelto_de_esdrujulos` no tiene dónde caer. Es el único de
 los seis términos de esdrújulos que se quedó sin declarar.
 
-**A2. ~~Faltan formas de ocho, once y doce versos donde caer.~~ Hecho el 21 de agosto de 2026**,
-en seis migraciones —`20260821120000` a `20260821170000`—. El apunte estaba mal planteado: pedía
-«octavilla, oncena y copla mixta», y al contrastar las seis fuentes resultó que **«octavilla» es un
-nombre y no una forma**, que la estrofa que nombra **ya estaba en el catálogo escondida** dentro de
-la redondilla, y que faltaba además la de siete versos, que nadie había echado en falta. El
-catálogo pasa de 26 formas a 32:
-
-- **Copla de arte menor** (8, dos semiestrofas que comparten una rima) — salió de
-  `redondilla · doble_enlazada`, que se retiró. Sus otros nombres: octavilla, octava de arte menor,
-  octava redondilla, redondilla de ocho versos.
-- **Copla castellana** (8, cuatro rimas y semiestrofas independientes) — la que de verdad faltaba:
-  Jauralde la llama «forma popularísima a lo largo de los siglos XVI y XVII».
-- **Octava aguda** (8, riman en agudo los versos que cierran cada semiestrofa) — con seis
-  arquitecturas por medida y «octavilla aguda» colgando de las de arte menor.
-- **Septilla** (7 = redondilla + terceto enlazado), también llamada copla mixta.
-- **Oncena** (11 = quintilla + sextilla, y la inversa), también llamada undécima.
-- **Doble sextilla** (12) — salió de `sextilla · doble_pie_quebrado`.
-
-**El criterio que ordenó todo esto**, y que quedó escrito en
-[criterios de nivel § 3.1](./criterios-de-nivel.md): lo que hace forma aparte es la articulación
-—cuántos miembros, de qué tamaño y si comparten rima—; la medida y la disposición son
-arquitectura; el nombre no decide nada. Con un indicio duro: **una arquitectura no cambia la
-extensión de la unidad de su forma**, con tres excepciones documentadas —décima, sextina y
-seguidilla— que la comprobación enumera.
-
-*No se creó una «copla mixta» general de siete a doce versos: en Navarro es el rótulo de un grupo
-—septilla, novena, oncena y doble sextilla—, y una forma de rango repetiría el error de la copla de
-pie quebrado, que tapaba las estrofas reales mientras cubría el intervalo.*
-
-**A2bis. ~~Dos estructuras que salieron leyendo y no se crearon.~~ Hecho el 21 y 22 de agosto de
-2026**, en cinco migraciones —`20260821200000` a `20260822000000`—. Al leer las fuentes para
-resolverlo resultaron ser cinco y no dos, y **dos de ellas son del corpus**. El catálogo pasa de 32
-formas a 37:
-
-- **Septeto** (7, arte mayor). La hermana mayor de la septilla, separada por la medida como el
-  sexteto de la sextilla: Jauralde dice que en las estrofas de siete «cabe también la distinción
-  según el tipo de verso que acojan». Dos arquitecturas: la endecasilábica de rima libre que
-  describen Quilis y el *Diccionario* —«con la única condición de que no rimen tres versos
-  seguidos»— y la compuesta, cuarteto más terceto. El **septeto agudo** va como rasgo.
-- **Septeto-lira** (7, heterométrico). Cierra la serie lira → sexteto-lira → septeto-lira, que el
-  catálogo tenía coja. Es la estrofa de la canción alirada, y el ejemplo que la documenta es de
-  **fray Luis de León**: `7a 11B 7a 11B 7b 7c 11C`.
-- **Las tres estrofas enlazadas** de Navarro Tomás § 131 —**redondilla enlazada**, **sextilla
-  enlazada** y **septilla enlazada**—, series en que la rima pasa de una estrofa a la siguiente.
-
-**Las enlazadas eran el hueco de verdad.** Navarro no las trata como curiosidad: «se hizo de varios
-modos el enlace de las estrofas, **no como mera gala métrica** […] **sino como recurso para dar a la
-versificación movimiento flexible y corrido**», y al recorrer el período concluye que **«el teatro
-dio preferencia a las estrofas octosílabas enlazadas de seis y siete versos»**. Las documenta en
-**la mayor parte de los pasos y entremeses de la *Turiana* de Timoneda**, en la *Propalladia* de
-Torres Naharro, en **los entremeses de Sebastián de Horozco** y en cuatro piezas de la colección
-Rouanet. Es material del corpus, y hasta hoy un paso entero anotado así no tenía dónde caer.
-
-*Las tres se apoyan en una sola fuente —las otras cinco no las tratan, y así consta en sus fichas—.
-Es la primera vez que el catálogo crea formas con un solo respaldo, y se hace por el criterio de
-exhaustividad: una fuente queda fuera de una forma solo cuando no la trata.*
-
-**A2ter. ~~Dos preguntas abiertas sobre el pie quebrado.~~ Resueltas el 22 de agosto de 2026**
-(`20260822040000`). Al preguntar el IP si el quiebro se declararía en la quintilla «sin transformar
-la medida en combinación de tal y quebrados», se comprobó que el catálogo tenía **tres aparatos
-distintos para el mismo rasgo**, y que cuatro de ellos los habían introducido las formas creadas
-esos dos días: copla castellana, copla de arte menor, septilla y oncena anunciaban «8 de base, con
-quebrados de 4» donde el quiebro es solo admitido, mientras la redondilla, con el mismo rasgo y la
-misma modalidad, decía «8».
-
-La regla quedó escrita en [criterios de nivel § 3.6](./criterios-de-nivel.md) y vale para cualquier
-rasgo: **lo definitorio se declara donde se fija —el quiebro de la sextilla quebrada, la copla
-manriqueña y las tres enlazadas va en las posiciones del esquema métrico— y lo admitido o habitual
-va solo como rasgo**, sin tocar lo que la forma declara. Una guarda lo sostiene sobre el catálogo
-entero.
-
-**Y la quintilla admite ya el pie quebrado**, con el dato que lo pedía y que **no estaba recogido en
-ninguna ficha**: Navarro Tomás, al resumir el período renacentista, escribe que «la quintilla con
-verso inicial quebrado fue la estrofa más usada por Castillejo». El catálogo sostenía lo contrario
-—que la tradición no la describe suelta y quebrada, sino como mitad de la copla real— y esa nota se
-corrigió.
-
-*Lo que quedaba de la segunda pregunta —dónde vive un rasgo que solo vale dentro de una
-reutilización— **no era del quiebro sino del modelo**, y se funde en
-[C1](#c--deudas-del-modelo-sin-urgencia): en la sextilla enlazada el quiebro es definitorio y
-siempre en el mismo verso, y en la quintilla suelta es admitido, pero la reutilización no sabe
-decir «aquí es obligatorio». Es la modalidad heredada, vista desde los rasgos.*
-
-*Resueltas también por el camino, y anotadas porque valen para la próxima serie que se cree: **una
-serie no declara la extensión de su unidad** —`rejilla.ts` descarta el esqueleto de secciones cuando
-el esquema es cíclico, y entonces una unidad fija manda sobre el ciclo y lo apaga
-(`20260822010000`)—; y **el enlace entre vueltas se declara en positivo**, con
-`esquema_rima_enlaces`, o la ficha afirma lo contrario (`20260822020000`).*
-
-**A3. ~~Cinco formas piden medidas que el catálogo no tiene.~~ Hecho el 22 de agosto de 2026**, en
-cinco migraciones —`20260822050000` a `20260822100000`—. Las cinco tenían la medida documentada por
-las fuentes y no declarada, y con ellas entró el **tercetillo**, que es el único caso de los cinco
-con respaldo en el corpus áureo: Jauralde lo documenta en los diálogos teatrales de Lope, y **la
-septilla lo estaba esperando** desde el día anterior con la única sección del catálogo sin la forma
-que la realiza.
-
-| Forma | Qué gana |
-| --- | --- |
-| **Terceto** | Octosilábica y hexasilábica, con el monorrimo `aaa` que la forma no tenía y la asonancia que el *Diccionario* le admite: **tercetillo**, tercerilla, tercerillo |
-| **Quintilla** | Heptasilábica y hexasilábica, con las nueve disposiciones y las tres restricciones que son la norma de la forma, no de una medida |
-| **Sextilla** | Pentasilábica y tetrasilábica, que el IP había dejado fuera el 18 de agosto y reabrió con el criterio nuevo |
-| **Romance** | Pentasilábica y tetrasilábica, con sus nombres de romancillo; el *Diccionario* define romancillo por extensión abierta, «menos de ocho sílabas» |
-| **Décima** | Penta, hexa, hepta y endecasilábica. **La hexasílaba la firma Góngora**, de modo que no es una prueba tardía |
-| **Silva** | La **arromanzada**, que no es medida sino régimen, y entra por tener entrada y definición propias en el *Diccionario* |
-
-**Lo que ordenó todo esto es un criterio nuevo**, escrito en
-[criterios de nivel § 3.6](./criterios-de-nivel.md), que responde a la pregunta que volvía en cada
-forma: **la medida no compromete la norma** y se declara cuando una fuente la documenta, sin
-criterio de fecha; **lo que fija la norma** —disposición, restricción, régimen, rasgo definitorio,
-forma nueva— exige que una fuente lo enuncie como regla o le dé nombre. La prueba es una sola
-pregunta: *¿la fuente lo define o lo ensaya?*
-
-*Por esa prueba quedó fuera la **décima asonante** —ninguna fuente la registra y Jauralde la
-presenta como ensayo de Jorge Guillén «en vez de en consonante, que era lo tradicional»— y entró la
-silva arromanzada, cuyo ejemplo es también del siglo XX pero tiene entrada y definición.*
-
 **A4. Las equivalencias de los tres tramos irregulares hay que mirarlas una a una.** Es posible que
 alguna sea que quien anotó no encontró la forma precisa, y que con el catálogo nuevo y el
 demarcador sí la encuentre. Las que no, tendrán que **registrar exactamente lo que se ve** —medida,
@@ -572,168 +566,10 @@ tercer rasgo formal que rompa el empate.
 
 ### B · Bloquean el editor V2 en producción
 
-Son los casos en que un editor **no puede registrar lo que ve**, o en que la pantalla se apoya en
-algo que ya no es cierto.
-
-**B1 y B2. ~~Qué pregunta el editor cuando la norma no fija la disposición de rima, y qué se
-pregunta y qué no en los rasgos.~~ Hechos el 25 de agosto de 2026**, en dieciséis migraciones
-—`20260825100000` a `20260825320000`— y el código que va con ellas. Eran el mismo problema en dos
-dimensiones, y al mirarlos juntos resultó que **no eran tres criterios sin decidir sino uno mal
-repartido**.
-
-**El mapa, contrastado arquitectura por arquitectura.** De las noventa y una: treinta y ocho tenían
-la disposición fija y no se tocan; cuatro son series sin unidad, cuya rima se describe por rasgos y
-tampoco se tocan; cuatro estaban bien resueltas con campo libre; veintidós preguntaban con lista
-cerrada, sin poder declarar otra; y **veintitrés no dejaban registrar lo que un editor tiene
-delante** —once con repertorio catalogado y ninguna pregunta, doce con patrón abierto sin
-sustituto—.
-
-**El criterio quedó escrito** en [criterios de nivel](./criterios-de-nivel.md): las reglas 1 a 3 bis
-en el § 3.3 y las 4 a 5 bis en el § 3.6. Lo que las ordena no es cuánto acota la norma sino **si hay
-unidad**: la disposición se pregunta si y solo si la hay, con un solo aparato de tres grados, y la
-respuesta admite siempre un esquema que el catálogo no tenga.
-
-*Lo que hizo falta debajo, y no estaba:*
-
-- **Un tercer `tipo_control`**, `opciones_y_esquema`: la lista de las catalogadas más la salida para
-  escribir la que se observe. Se prefirió a un booleano aparte porque `tipo_control` ya es el único
-  interruptor por el que ramifican el campo y el rótulo de la vista.
-- **Un normalizador** —`esquema-rima-escrito.ts`—, que valida contra la extensión de la unidad,
-  renombra las clases en orden de primera aparición y **casa lo escrito con el catálogo por notación
-  y régimen**, para que se guarde como el esquema que ya existe. Sin eso, `ABBACC` escrito y `abbacc`
-  elegido eran dos observaciones distintas del mismo hecho.
-- **La herencia por reutilización** —`reutilizacion.ts`—, con el predicado que **la ficha pública ya
-  usaba** y que ahora vive una sola vez. Presta en nueve secciones de treinta y cuatro y acierta en
-  las nueve: no presta a la copla castellana, cuya unidad declara los ocho versos, ni a la copla
-  real, cuyas partes ya tienen su pregunta; presta a las dos oncenas, al septeto compuesto y a la
-  estrofa de las tres sextinas.
-
-**Lo que cambió del catálogo, y es poco.** Veinticinco preguntas de rima pasaron a híbridas;
-veintidós nacieron. De los datos que afirman algo de las formas solo se movió el pie quebrado: nueve
-esquemas métricos ganaron su repertorio —octosílabo dominante, tetrasílabo y pentasílabo quebrados—
-y cuatro notas que afirmaban solo el tetrasílabo se separaron en dos cosas, lo documentado y lo
-admitido. Formas, arquitecturas, esquemas de rima, posiciones y secciones **no se tocaron**.
-
-*Tres cosas que se aprendieron y conviene no volver a descubrir.* **`opciones_eleccion_metrica` no
-es una tabla sino una vista** sobre `opciones_eleccion_derivadas()`, que filtraba por
-`tipo_control = 'opciones'` en seis ramas: el primer intento del reparto dejó las veinticinco
-preguntas sin lista y se paró en su propia guarda. **Las opciones no se crean, se derivan**, y la
-derivación ya trae los esquemas de la arquitectura que una sección reutiliza, que es como la copla
-real obtiene los ocho de la quintilla sin copiarlos. Y **`medida_uniforme` no dice si la estrofa es
-isosilábica** sino si, en un esquema con repertorio, la medida elegida vale para todo el pasaje: sin
-ponerlo a `false`, la pregunta del quiebro no derivaba ni una opción.
-
-**El auditor lo sostiene.** El métrico gana **D17** —una unidad cuya rima no está fija y nadie
-pregunta, que se cumple de cuatro maneras y basta una—, y el del editor corrige **E1** y **E3**, que
-eran anteriores al control híbrido y daban cuatro falsos positivos.
-
-*Queda una mitad de la regla 3 bis:* **preguntar el régimen junto a la notación** donde varía dentro
-de la arquitectura —trece arquitecturas: octava aguda ×6, terceto octosilábico y hexasilábico,
-pareado, villancico ×2, endecha real y canción sin rima—. Mientras no exista, el campo abierto no lo
-supone: ante dos disposiciones de la misma notación no elige ninguna y pide que se marque en la
-lista. ⇒ **B6**
-
-**B3. ~~El formulario del villancico, después del desdoblamiento.~~ Comprobado el 25 de agosto de
-2026: no está roto.** Se abrió una secuencia de villancico en el editor V2 y se recorrió el
-formulario entero. **Enlace y Vuelta salen como dos partes opcionales distintas** dentro de la copla,
-cada una con su «+ Añadir», su número de versos y su pregunta de medida; los rangos se recalculan al
-añadirlas; la mudanza ofrece sus tres disposiciones y la represa su modalidad. Sin errores de
-consola y sin guardar nada.
-
-*Sí quedó un descuido del desdoblamiento, y no rompe la pantalla:* la sección `vuelta` se insertó
-**sin `esquema_metrico_id`**, mientras sus cuatro hermanas —cabeza, mudanza, enlace y represa—
-apuntan a `conjunto-6-8`. Ocurre en las dos arquitecturas del villancico. Que es descuido y no
-decisión lo prueba el zéjel: su vuelta, que no se tocó ese día, **sí** lo declara. No afecta al
-formulario, porque la medida la pregunta su propio grupo; sí deja a la vuelta sin medida en todo lo
-que lee la sección —la rejilla, el recuadro de la norma y la ficha pública—. ⇒ **B7**
-
-**B7. ~~La vuelta del villancico no declara su esquema métrico.~~ Hecho el 25 de agosto de 2026**
-(`20260825390000`). Las dos vueltas apuntan ya al mismo esquema que sus hermanas. *El porqué del
-descuido, que conviene no repetir:* al partir «Enlace o vuelta», el `enlace` se obtuvo
-**transformando** la sección que existía —y conservó su esquema— mientras que la `vuelta` se
-**insertó nueva**. Lo que se transforma hereda; lo que se inserta hay que dárselo entero.
-
-**B4. ~~El cierre del terceto encadenado dejó de ser obligatorio y dos superficies lo dan por
-hecho.~~ Hecho el 25 de agosto de 2026** (`20260825090000` y el código que va con ella). Las dos
-superficies estaban rotas, y una de ellas de un modo que nadie habría visto sin ejecutar la
-función.
-
-**La regla de longitud se dio la vuelta en silencio.** `regla_longitud_arquitectura_metrica`
-clasifica cada sección raíz en derivable o no, y contaba como no derivable toda sección con
-`repeticiones_min <> repeticiones_max`. Al pasar el serventesio a `0-1`, entró en ese saco, **la
-rama de secciones se descartó entera** y la función cayó hasta la de `ciclo_rima`, que solo ve el
-terceto:
-
-| | módulo | residuo | mínimo | admite |
-| --- | ---: | ---: | ---: | --- |
-| Antes del 19 de agosto | 3 | 1 | 7 | solo `3n+4` |
-| Del 19 al 25 de agosto | 3 | 0 | 3 | solo `3n` |
-| **Desde el 25** | **3** | **0** | **3** | **`3n` y `3n+4`** |
-
-**Ninguna de las dos primeras es correcta**, y con la segunda el endpoint del editor devolvía un
-**422** ante cualquier cadena terminada en serventesio: la secuencia 1 del escenario Prueba1 —67
-versos, 21 tercetos y su cierre— no se podía guardar. Un solo par de módulo y residuo no expresa
-dos congruencias, así que la función gana `desplazamientos integer[]` con lo que suman las partes
-**opcionales de extensión fija** —`{0,4}` aquí, `{0}` en las otras ochenta y nueve arquitecturas—,
-calculado como sumas de subconjuntos y no como un caso especial de una sola sección.
-
-**Y el demarcador había perdido la pregunta.** El cómputo del cierre en `demarcador-metrico.ts`
-exigía `repeticiones_min === repeticiones_max`; con el cierre opcional daba cero y la evidencia
-«Serie con cierre» **desaparecía del artefacto**. Ahora cuentan las dos clases de cierre y lo que
-cambia entre ellas es la modalidad: `admitida` cuando puede faltar, que puntúa poco y —lo que
-importa— **no penaliza el «no»**. Las dos correcciones tienen prueba de regresión.
-
-*Dos cosas que se aprendieron y conviene no volver a descubrir.* La primera: **una función que cae
-por una rama que no le toca sigue devolviendo algo plausible**, y por eso las guardas de la
-migración la llaman en vez de mirar el dato. La segunda: de esa función colgaba una **cadena de
-tres vistas** —`arquitecturas_reglas_longitud`, `propuesta_metrica_secuencia` y
-`propuesta_elecciones_secuencia`—, y el primer intento nombró las dos que se habían mirado y falló
-contra la tercera. La migración **recorre la cadena** y restaura verbatim lo que no cambia.
-
-**B5. ~~El editor no sabe anotar una décima aumentada entre décimas normales.~~ Hecho el 26 de
-agosto de 2026.** El catálogo sostenía que no es un error —lo dicen su descripción y Morley y
-Bruerton—, pero `secuencias_editor_metrico` lleva **una sola arquitectura por secuencia**, así que
-solo cabía partir el pasaje o registrarla como desviación `estructura` / `mayor_que_norma`, que es
-anotarla como el error que no es.
-
-**Se resolvió en la realización, no en la desviación,** por decisión del IP: conceptualmente la
-aumentada no se desvía de nada, porque la norma admite la estrofa larga. Una arquitectura declara
-ahora si es `intercalable` —hoy **solo la décima aumentada**, y a propósito: abrirlo a todas
-complicaría el editor para las cuarenta formas que no lo necesitan— y una realización de unidad
-puede declarar cuál adopta. Tres migraciones:
-
-- `20260825410000` — `arquitecturas_forma.intercalable` y `realizaciones_editor_metrico.arquitectura_id`, con un disparador que exige misma forma, arquitectura intercalable y solo en la realización de la unidad.
-- `20260825430000` — el guardado la recuerda.
-- `20260826090000` — **las dos guardas de estructura preguntan por la unidad, no por la secuencia.** Sin esto no se podía guardar: la espinela son tres secciones —4 + 2 + 4— y la aumentada dos —4 + 8—, y ninguna de las de una pertenece a la otra.
-
-En el editor, la unidad que puede ser excepción **deja de ser transparente** —si hay algo que
-decidir, hace falta una fila donde decidirlo— y se dibuja por las secciones de la arquitectura que
-declare. La regla de longitud calla mientras haya una excepción: una tirada con una aumentada mide
-`10n + 2` y exigirle múltiplos de diez sería avisar de lo que la norma admite. Quien comprueba el
-pasaje es entonces **la cobertura del rango**, como en las formas con secciones.
-
-*Y por el camino apareció un fallo que no era de B5 y afectaba a todas las secuencias:* al releer
-una secuencia guardada, `String(unit.seccion_id)` convertía el `null` de la unidad en la cadena
-`"null"`, de modo que **ninguna unidad se reconocía como tal** y el editor reconstruía la
-estructura desde el rango en vez de leerla. Se veía como rangos cambiados al reabrir; en la décima
-de 62 versos, que el rango no divide, se veía como una rejilla vacía.
-
-**B6. ~~El control abierto no pregunta el régimen de rima.~~ Hecho el 25 de agosto de 2026.** Con
-esto se completa la regla 3 bis del § 3.3, y no ha hecho falta ninguna migración: es todo código.
-
-Donde el régimen varía dentro de la arquitectura, el campo abierto pinta ahora **un desplegable
-junto a la notación**. Las dos piezas se guardan en el mismo campo de texto —`abcabc · asonante`—
-con el punto medio de separador, que sirve porque **no pertenece al alfabeto de la notación** y no
-puede confundirse con parte del esquema. `separarRegimen` y `componerEsquemaEscrito` hacen las dos
-mitades, y la lectura entiende la forma guardada, de modo que un esquema escrito ayer con su régimen
-se reconoce hoy.
-
-**A quién se le pregunta lo decide el dato, no una lista.** Contado contra la base: **12
-arquitecturas** preguntan —octava aguda ×6, terceto octosilábico y hexasilábico, pareado, villancico
-×2 y endecha real— y **33 lo heredan**. Se preguntaba por trece, y la decimotercera se cayó sola con
-buen motivo: el **terceto endecasilábico** declara el régimen abajo, en sus dos disposiciones, pero
-las dos dicen `consonante`, así que no hay entre qué elegir. *Ahí queda un apunte de higiene: por el
-§ 3.3 ese régimen debería estar declarado arriba, en la arquitectura, porque es uno solo.*
+**Cerrado entero.** B1 a B7 están resueltos; el resumen de cada uno está en la tabla de arriba y el
+detalle, en los commits y en [criterios de nivel](./criterios-de-nivel.md). Lo que queda para que el
+V2 llegue a los editores ya no son deudas del modelo sino integración, y vive en
+[El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
 
 ### C · Deudas del modelo, sin urgencia
 
@@ -819,18 +655,6 @@ una enumeración convierte una muestra en ley. **La pregunta solo tiene respuest
 enuncia una regla.** Lo mismo vale para el esquema abierto de la octava real, que se dejó sin
 acotar el 20 de agosto por la misma razón.
 
-**C6. ~~La rejilla no sabe dibujar una unidad acotada: la convierte en ciclo.~~ Hecho el 25 de
-agosto de 2026.** Cuando `unidad_versos_min` y `unidad_versos_max` existían pero diferían,
-`construirRejilla` caía en la rama que toma las columnas del esquema de rima y ponía `cicla = true`,
-de modo que la ficha habría impreso «⟳ Se repite hasta el final de la serie» sobre una estrofa que no
-lo hace. Hay ya una rama para unidad acotada **antes** de la del ciclo: dibuja el mínimo, que es lo
-que toda realización tiene seguro. Con dos pruebas, la del caso y la que comprueba que una serie de
-verdad sigue ciclando.
-
-*Se arregló con el radio a cero —ninguna arquitectura activa declara hoy unidad acotada— porque era
-una trampa esperando a la primera que la declarara, y la estancia de la canción variable, que mide
-de cinco a veinte versos, es exactamente esa.*
-
 **C7. No hay dónde guardar un ejemplo de verso.** El vocabulario legado guarda uno real en
 `vocabularios.ejemplo`, y de los 119 términos de `estrofa_tipo` **solo seis lo tienen**: copla de
 arte mayor, copla manriqueña, endecasílabo suelto encadenado, novena, sextina y villancico. El de
@@ -876,30 +700,6 @@ pareado «entre las formas originarias y primitivas de la poesía», que no es n
 española. Pero eso no se ha comprobado forma por forma, y las tres tradiciones del catálogo nunca
 se han mirado juntas: ni de dónde sale cada asignación, ni si el reparto responde a un criterio, ni
 si «italiana» y «española» bastan. *La revisión debe decidir si la ausencia es un dato o un hueco.*
-
-**C14. ~~Retirar `formas_metricas.orden`.~~ Hecho el 25 de agosto de 2026** (`20260825400000`), y
-el catálogo público gana con ello **orden elegible y un buscador que prioriza el nombre**.
-
-La columna no la leía nadie: las dos consultas públicas la seleccionaban y las dos ordenaban las
-formas por nombre. `arquitecturas_forma.orden` y `estructuras_secciones.orden` sí trabajan y no se
-han tocado.
-
-**Lo que entra en su lugar es `unidad_versos`**, tomada de la **arquitectura principal** de cada
-forma: la décima son diez versos aunque su aumentada mida doce, y la seguidilla cuatro aunque su
-chamberga mida diez. Sale nulo donde no hay unidad —las siete series y las composiciones de
-extensión variable—, y eso no es un hueco: una serie no tiene número de versos.
-
-**La página ofrece tres órdenes** —alfabético, por número de versos y por tipo de estructura— y el
-buscador **ordena por dónde ha encontrado el término**: nombre exacto, nombre que empieza igual,
-nombre que lo contiene, y por último la definición. Buscar «lira» da la lira primero y no la primera
-por orden alfabético de todo lo que la mencione. La lógica vive en `src/lib/metrica/orden-formas.ts`
-con sus pruebas, fuera de la página, porque es lo único de esa pantalla que se equivoca en silencio.
-
-*Dos tropiezos que quedaron anotados en la migración porque se repiten solos.* **Transcribir a mano
-la cola de una función** para cambiarle tres líneas se inventó columnas y perdió una clave entera: se
-arma desde `pg_get_functiondef` y se sustituye solo el bloque que cambia. Y **la guarda preguntaba
-quién ordenaba por la columna y no quién la seleccionaba**, así que se dejó fuera la ficha, que la
-seleccionaba sin usarla; el `drop` falló contra un cuerpo que ya no la mencionaba.
 
 **C15. La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
 exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta en
