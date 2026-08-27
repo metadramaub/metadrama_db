@@ -157,7 +157,28 @@
 	 */
 	const respondePorPartes = $derived(usaRespuestasPorPartes(context));
 	const rows = $derived(buildGridRows(context));
-	const comunes = $derived(respondePorPartes ? [] : preguntasCompartidas(context));
+	/**
+	 * Las preguntas comunes, **en el mismo orden en que se leen abajo**.
+	 *
+	 * Abajo el orden lo manda la estructura: la copla real se pinta antes que sus dos quintillas, así
+	 * que sus quebrados salen antes que las rimas. Arriba mandaba el `orden` del catálogo, que pone
+	 * las rimas primero, y las dos listas decían lo mismo al revés. Se alinean a la estructura, que
+	 * es la que no se puede reordenar. Dentro de cada nivel sigue mandando el catálogo.
+	 */
+	const comunes = $derived(
+		(respondePorPartes ? [] : preguntasCompartidas(context))
+			.map((pregunta: PreguntaCompartida, indice: number) => ({ pregunta, indice }))
+			.sort((a, b) => {
+				const deSeccion = (entrada: { pregunta: PreguntaCompartida }) =>
+					entrada.pregunta.groups.every(
+						(group: MetricCatalogDomainRow) => group.seccion_id
+					)
+						? 1
+						: 0;
+				return deSeccion(a) - deSeccion(b) || a.indice - b.indice;
+			})
+			.map((entrada) => entrada.pregunta)
+	);
 	const opcionales = $derived(respondePorPartes ? [] : seccionesOpcionalesUniformes(context));
 	/**
 	 * **Cómo se está respondiendo, para todas las preguntas a la vez.**
@@ -728,9 +749,13 @@
 		confirmarConjunto = false;
 		if (id === 'una_a_una') {
 			modoDeRespuesta = 'una_a_una';
+			// Solo las de primer nivel: plegar también sus partes obligaba a desplegar dos veces —la
+			// copla y luego cada quintilla— para llegar a una respuesta.
 			unidadesPlegadas = new Set(
 				props.units
-					.filter((unit: MetricUnitDraft) => esUnidadComun(unit))
+					.filter(
+						(unit: MetricUnitDraft) => !unit.realizacion_padre_id && esUnidadComun(unit)
+					)
 					.map((unit: MetricUnitDraft) => unit.realizacion_id)
 			);
 			return;
@@ -755,68 +780,137 @@
 		if (versos <= 0) return null;
 
 		const medidas = new Map<number, number>();
+		const letras = new Map<number, string>();
+		const cortes = new Set<number>();
 		let base: number | null = null;
-		let letras: string[] | null = null;
 
-		for (const group of context.groups) {
-			const groupId = String(group.grupo_eleccion_id);
-			const alcanza = unitsForGroup(context, group).some(
-				(candidata: MetricUnitDraft) => candidata.realizacion_id === unit.realizacion_id
-			);
-			if (!alcanza) continue;
-			const elegidas = selectedChoiceIds(groupId, unit.realizacion_id);
-			const opciones = optionsForGroup(groupId);
-
-			if (group.dimension === 'metro') {
-				for (const opcion of opciones) {
-					const posible = Number(opcion.metro_base_silabas);
-					if (Number.isFinite(posible)) base = posible;
+		// **La copla y sus partes se leen juntas.** En la copla real la medida se responde en la
+		// copla y la rima en cada quintilla, que son unidades propias: por separado salían dos
+		// renglones —«8 8 8 8 8 8 8 8 8 8» y «a b a b a»— que hay que cruzar a ojo. Se recorre la
+		// unidad y todo lo que cuelga de ella, y cada respuesta se coloca en su sitio.
+		const rama: MetricUnitDraft[] = [unit];
+		for (const candidata of props.units) {
+			let padre = candidata.realizacion_padre_id;
+			while (padre) {
+				if (padre === unit.realizacion_id) {
+					rama.push(candidata);
+					// Donde empieza una parte se marca un corte, como el `|` de `abab|cddc`.
+					if (candidata.v_ini > unit.v_ini) cortes.add(candidata.v_ini - unit.v_ini + 1);
+					break;
 				}
-				for (const opcion of opciones) {
-					if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
-					const posicion = Number(opcion.posicion_unidad);
-					const silabas = Number(opcion.metro_silabas);
-					if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
-						medidas.set(posicion, silabas);
-					}
-				}
-				continue;
+				padre = props.units.find(
+					(otra: MetricUnitDraft) => otra.realizacion_id === padre
+				)?.realizacion_padre_id ?? null;
 			}
-
-			if (group.dimension !== 'rima') continue;
-			const escrito = choiceTextValue(groupId, unit.realizacion_id).trim();
-			const catalogados = normaEsquemaDe(group, unit).catalogados;
-			const notacion =
-				opciones
-					.filter((opcion: MetricCatalogDomainRow) =>
-						elegidas.includes(String(opcion.opcion_eleccion_id))
-					)
-					.map(
-						(opcion: MetricCatalogDomainRow) =>
-							catalogados.find(
-								(candidato) => candidato.esquemaRimaId === String(opcion.opcion_eleccion_id)
-							)?.notacion
-					)
-					.find(Boolean) ?? (escrito || null);
-			if (!notacion) continue;
-			const seguidas = Array.from(String(notacion).replace(/\|/gu, ''));
-			// Una notación que no case verso a verso no se puede repartir por posiciones.
-			if (seguidas.length === versos) letras = seguidas;
 		}
 
-		if (letras === null && medidas.size === 0 && base === null) return null;
+		// **Cada parte estrena letras.** Las quintillas de una copla real riman por separado, y sus
+		// esquemas se catalogan con letras propias: puestas una detrás de otra salían «8a 8b 8a 8b 8a
+		// | 8a 8b 8b 8a 8a», que se lee como si las dos mitades rimaran igual. Al venir la respuesta
+		// de una pregunta **de esa sección**, sus letras son locales y se renombran a las siguientes
+		// libres. Las de una pregunta de la unidad entera ya son globales y no se tocan.
+		const usadas = new Set<string>();
+		const abecedario = 'abcdefghijklmnopqrstuvwxyz';
+		function siguienteLibre(): string {
+			for (const letra of abecedario) {
+				if (!usadas.has(letra)) return letra;
+			}
+			return '?';
+		}
+
+		// Las partes, en el orden en que se leen, para que las letras corran de izquierda a derecha.
+		rama.sort((primera, segunda) => primera.v_ini - segunda.v_ini);
+
+		for (const parte of rama) {
+			const desplazamiento = parte.v_ini - unit.v_ini;
+			const suyos = parte.v_fin - parte.v_ini + 1;
+			for (const group of context.groups) {
+				const groupId = String(group.grupo_eleccion_id);
+				const alcanza = unitsForGroup(context, group).some(
+					(candidata: MetricUnitDraft) => candidata.realizacion_id === parte.realizacion_id
+				);
+				if (!alcanza) continue;
+				const elegidas = selectedChoiceIds(groupId, parte.realizacion_id);
+				const opciones = optionsForGroup(groupId);
+
+				if (group.dimension === 'metro') {
+					for (const opcion of opciones) {
+						const posible = Number(opcion.metro_base_silabas);
+						if (Number.isFinite(posible)) base = posible;
+					}
+					for (const opcion of opciones) {
+						if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
+						const posicion = Number(opcion.posicion_unidad);
+						const silabas = Number(opcion.metro_silabas);
+						if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
+							medidas.set(posicion + desplazamiento, silabas);
+						}
+					}
+					continue;
+				}
+
+				if (group.dimension !== 'rima') continue;
+				const escrito = choiceTextValue(groupId, parte.realizacion_id).trim();
+				const catalogados = normaEsquemaDe(group, parte).catalogados;
+				const notacion =
+					opciones
+						.filter((opcion: MetricCatalogDomainRow) =>
+							elegidas.includes(String(opcion.opcion_eleccion_id))
+						)
+						.map(
+							(opcion: MetricCatalogDomainRow) =>
+								catalogados.find(
+									(candidato) => candidato.esquemaRimaId === String(opcion.opcion_eleccion_id)
+								)?.notacion
+						)
+						.find(Boolean) ?? (escrito || null);
+				if (!notacion) continue;
+				const seguidas = Array.from(String(notacion).replace(/\|/gu, ''));
+				// Una notación que no case verso a verso no se puede repartir por posiciones.
+				if (seguidas.length !== suyos) continue;
+				// El `|` que el propio esquema trae también corta.
+				const renombre = new Map<string, string>();
+				const esDeSeccion = Boolean(group.seccion_id);
+				let recorrido = 0;
+				for (const signo of Array.from(String(notacion))) {
+					if (signo === '|') {
+						if (recorrido > 0) cortes.add(desplazamiento + recorrido + 1);
+						continue;
+					}
+					recorrido += 1;
+					let letra = signo;
+					if (letra !== '-') {
+						const clave = letra.toLocaleLowerCase('es');
+						if (esDeSeccion) {
+							if (!renombre.has(clave)) {
+								const libre = siguienteLibre();
+								usadas.add(libre);
+								renombre.set(clave, libre);
+							}
+							letra = renombre.get(clave) ?? letra;
+						} else {
+							usadas.add(clave);
+						}
+					}
+					letras.set(desplazamiento + recorrido, letra);
+				}
+			}
+		}
+
+		if (letras.size === 0 && medidas.size === 0 && base === null) return null;
 
 		const piezas: string[] = [];
 		for (let posicion = 1; posicion <= versos; posicion += 1) {
+			if (cortes.has(posicion) && piezas.length > 0) piezas.push('|');
 			const silabas = medidas.get(posicion) ?? base;
-			const letra = letras?.[posicion - 1] ?? '';
+			const letra = letras.get(posicion) ?? '';
 			const simbolo =
 				letra && letra !== '-' && silabas !== null && silabas !== undefined
 					? normalizeRhymeSymbol(letra, silabas)
 					: letra;
 			piezas.push(`${silabas ?? ''}${simbolo}`);
 		}
-		const escrita = piezas.join(' ').trim();
+		const escrita = piezas.join(' ').replace(/\s\|\s/gu, ' | ').trim();
 		return escrita ? escrita : null;
 	}
 
@@ -1680,8 +1774,9 @@
 		{#if listaCompacta}
 			<!-- Una debajo de otra: en fila corrida no se distingue dónde acaba una copla y empieza la siguiente. -->
 			<ul class="px-3 py-2.5">
+				<!-- Solo las unidades de primer nivel: sus partes ya van dentro de su anotación. -->
 				{#each rows as row (row.key)}
-					{#if row.kind === 'realizacion'}
+					{#if row.kind === 'realizacion' && !row.unit.realizacion_padre_id}
 						{@const notacion = notacionDeLaUnidad(row.unit)}
 						<li class="flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed">
 							<span>

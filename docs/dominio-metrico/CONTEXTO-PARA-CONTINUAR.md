@@ -476,7 +476,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
 | F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades»— se entiende fatal | UI | consecuencia de F12: lo que coincidía seguía pintando campo, con esa nota repetida por unidad | los mismos 77 grupos | **arreglado con F12** |
 | — | copla castellana | «rango calculado desde sus partes» | — | *es F6, segunda repetición del mismo mensaje* | — | ya en F6 |
-| F16 | copla castellana | el quebrado es **rasgo opcional**, no medida esperada: ponerlo bajo «Medida» hace creer que hay que encontrarlo | **catálogo** | el rasgo `pie_quebrado` **ya está declarado** en las 10 arquitecturas —`admitida` en 8, `habitual` en las dos oncenas— pero **no tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo que se pregunta es `posiciones_pie_quebrado`, de dimensión `metro` | 10 arquitecturas de 8 formas (las mismas de F11) | **migración, sin aprobar** |
+| F16 | copla castellana **y copla real** | el quebrado es **rasgo opcional**, no medida esperada: ponerlo bajo «Medida» hace creer que hay que encontrarlo; la definición de la copla real lo dice, «el quiebro, cuando lo hay» | **catálogo** | el rasgo `pie_quebrado` **ya está declarado** en las 10 arquitecturas —`admitida` en 8, `habitual` en las dos oncenas— pero **no tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo que se pregunta es `posiciones_pie_quebrado`, de dimensión `metro` | 10 arquitecturas de 8 formas (las mismas de F11) | **migración, sin aprobar** |
 | F17 | todas las de rima | «¿Rima de otra manera?» se muestra siempre, cuando solo hace falta si no vale ninguna predefinida | UI | `tipo_control: opciones_y_esquema` pinta las opciones **y** el campo libre a la vez, en vez de ofrecer «otra» como una opción más | 41 grupos en 37 arquitecturas | recogido |
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
@@ -586,6 +586,23 @@ También se rotula bien lo de abajo: era «la secuencia, verso a verso» y con v
 por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el aviso sobre las unidades
 futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
 en «una a una» bajan **las dos preguntas**, no solo la rima.
+
+**Lo que salió de la copla real, arreglado el mismo día.** Es la primera forma con **una unidad por
+sección**: la copla responde la medida y **cada quintilla su propia rima**. Eso destapó cuatro cosas:
+
+- **La anotación se partía en pedazos.** Salían tres renglones —«8 8 8 8 8 8 8 8 8 8», «a b a b a», «a
+  b b a a»— que había que cruzar a ojo. Ahora la anotación de una unidad **recoge lo que responden sus
+  partes** y sale entera: `8a 8b 8a 8b 8a | 8c 8d 8d 8c 8c`, con el corte donde empieza cada parte.
+- **Cada parte estrena letras.** Los esquemas de quintilla se catalogan con letras propias, así que
+  puestos uno detrás de otro daban «8a 8b 8a 8b 8a | 8a 8b 8b 8a 8a», que se lee como si las dos
+  mitades rimaran igual. Cuando la respuesta viene de una pregunta **de esa sección**, sus letras son
+  locales y se renombran a las siguientes libres; las de una pregunta de la unidad entera ya son
+  globales y no se tocan.
+- **Desplegar abre la unidad entera.** Se plegaban también las partes, así que llegar a la rima de una
+  quintilla costaba tres clics. Ahora solo se pliegan las unidades de primer nivel.
+- **El orden era el mismo al revés.** Arriba mandaba el `orden` del catálogo —las rimas primero— y
+  abajo manda la estructura —la copla antes que sus quintillas—. Se alinea a la estructura, que es la
+  que no se puede reordenar; dentro de cada nivel sigue mandando el catálogo.
 
 **F19, por qué parecía la excepción y es la norma.** El editor deriva las unidades del rango cuando
 la arquitectura tiene extensión de unidad **fija** (`unidad_versos_min = unidad_versos_max`), y
