@@ -268,12 +268,14 @@ type CatalogoCacheable = Omit<MetricCatalogPageData, 'editorSandbox'>;
  * El catálogo construido, con la revisión con que se construyó.
  *
  * **Por qué se puede guardar en memoria del proceso y compartirlo entre peticiones.** Son unas
- * 2.400 filas idénticas para todo el que las pide, que solo cambian cuando se aplica una
- * migración; y quien pregunta por ellas es siempre admin o IP, que ven el catálogo entero. Eso
- * último no es una suposición: `catalogo_metrico_estado` tiene RLS `auth_is_admin_or_ip()`, así
- * que **haber podido leer la revisión ya es la prueba** de que quien llama lo ve todo. Si esa RLS
- * se relaja alguna vez —hará falta cuando el editor V2 pase a `/dashboard/obras`, porque un editor
- * también necesitará el catálogo—, esta llave deja de bastar y hay que añadirle la visibilidad.
+ * 2.400 filas que solo cambian cuando se aplica una migración, y **son las mismas para todo el que
+ * las pide**: desde el 27 de agosto de 2026 el catálogo métrico se lee sin condiciones —`/formas` y
+ * el demarcador son recursos públicos, y el equipo editorial lo necesita para anotar—.
+ *
+ * *Esa razón sustituye a la que había aquí*, que era más frágil: que `catalogo_metrico_estado`
+ * fuera de admin o IP y por tanto haber leído la revisión demostrara verlo todo. Al abrirse la
+ * lectura eso dejó de ser cierto, pero la conclusión mejoró: si nadie ve un catálogo distinto, no
+ * hay nada que separar por visitante.
  *
  * *Y no caduca por tiempo, sino por dato:* mientras la revisión no cambie, lo guardado es exacto.
  */
