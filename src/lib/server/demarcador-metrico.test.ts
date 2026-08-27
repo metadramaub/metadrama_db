@@ -30,7 +30,10 @@ const payload = {
 		{ esquema_metrico_id: 'metro-gitana', metro_id: 'm12', posicion: 3, alternativa: 3, opcional: false },
 		{ esquema_metrico_id: 'metro-gitana', metro_id: 'm6', posicion: 4, alternativa: 1, opcional: false }
 	],
-	metricOptions: [],
+	metricOptions: [
+		{ esquema_metrico_id: 'metro-romance', metro_id: 'm8', orden: 1, rol: 'dominante' },
+		{ esquema_metrico_id: 'metro-romance', metro_id: 'm6', orden: 2, rol: 'quebrado' }
+	],
 	metres: [
 		{ metro_id: 'm6', slug: 'hexasilabo', nombre: 'Hexasílabo', silabas: 6 },
 		{ metro_id: 'm8', slug: 'octosilabo', nombre: 'Octosílabo', silabas: 8 },
@@ -94,6 +97,20 @@ describe('proyección del catálogo para el demarcador', () => {
 		expect(romance?.arquitecturaNombre).toBe('Octosilábica');
 		expect(romance?.nivelEstructural).toBe('serie');
 		expect(romance?.evidencias.find((item) => item.dimension === 'metro:grupo')?.valores[0].clave).toBe('arte_menor');
+		expect(romance?.evidencias.find((item) => item.dimension === 'metro:exacto')?.valores[0]).toEqual({
+			clave: '8',
+			etiqueta: '8 sílabas'
+		});
+		expect(
+			catalogo.hipotesis
+				.find((item) => item.formaId === 'soneto')
+				?.evidencias.find((item) => item.dimension === 'metro:grupo')?.valores[0].clave
+		).toBe('arte_mayor');
+		expect(
+			catalogo.hipotesis
+				.find((item) => item.arquitecturaId === 'gitana')
+				?.evidencias.find((item) => item.dimension === 'metro:grupo')?.valores[0].clave
+		).toBe('mixto');
 	});
 
 	it('no convierte un esquema de sección del soneto en patrón de la unidad completa', async () => {

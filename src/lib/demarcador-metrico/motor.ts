@@ -28,6 +28,13 @@ const FIABILIDAD: Record<ObservabilidadEvidencia, number> = {
 };
 
 const MAX_OPCIONES = 7;
+const MAX_OPCIONES_METRO_EXACTO = 12;
+
+const OPCIONES_GRUPO_METRO: ValorEvidencia[] = [
+	{ clave: 'arte_menor', etiqueta: 'Arte menor' },
+	{ clave: 'arte_mayor', etiqueta: 'Arte mayor' },
+	{ clave: 'mixto', etiqueta: 'Mixto' }
+];
 
 function evidenciaDe(
 	hipotesis: HipotesisMetrica,
@@ -299,6 +306,9 @@ function preguntasPosibles(
 			.map((respuesta) => respuesta.familiaCognitiva)
 	);
 	const definiciones = new Map<string, EvidenciaNormativa[]>();
+	const grupoMetroRespondido = respuestas.find(
+		(respuesta) => respuesta.dimension === 'metro:grupo' && respuesta.valor !== 'desconocido'
+	)?.valor;
 	for (const candidata of hipotesis) {
 		for (const evidencia of candidata.evidencias) {
 			if (evidencia.observabilidad === 'derivada' || respondidas.has(evidencia.dimension)) continue;
@@ -310,18 +320,30 @@ function preguntasPosibles(
 	}
 
 	const resultado: PreguntaDemarcador[] = [];
-	for (const [dimension, evidencias] of definiciones) {
-		const modelo = [...evidencias].sort((a, b) => a.orden - b.orden)[0];
+	for (const [dimension] of definiciones) {
+		const candidatasDimension =
+			dimension === 'metro:exacto' && typeof grupoMetroRespondido === 'string'
+				? hipotesis.filter((candidata) =>
+						evidenciaDe(candidata, 'metro:grupo')?.valores.some(
+							(valor) => valor.clave === grupoMetroRespondido
+						)
+					)
+				: hipotesis;
+		const evidenciasDimension = candidatasDimension
+			.map((candidata) => evidenciaDe(candidata, dimension))
+			.filter((evidencia): evidencia is EvidenciaNormativa => evidencia !== null);
+		if (evidenciasDimension.length === 0) continue;
+		const modelo = [...evidenciasDimension].sort((a, b) => a.orden - b.orden)[0];
 		const grupos = new Map<string, number>();
 		const arquitecturasPorForma = new Map<string, number>();
-		for (const candidata of hipotesis) {
+		for (const candidata of candidatasDimension) {
 			arquitecturasPorForma.set(
 				candidata.formaId,
 				(arquitecturasPorForma.get(candidata.formaId) ?? 0) + 1
 			);
 		}
 		let cobertura = 0;
-		for (const candidata of hipotesis) {
+		for (const candidata of candidatasDimension) {
 			const pesoForma = 1 / (arquitecturasPorForma.get(candidata.formaId) ?? 1);
 			const evidencia = evidenciaDe(candidata, dimension);
 			if (!evidencia) {
@@ -335,17 +357,22 @@ function preguntasPosibles(
 		if (grupos.size < 2) continue;
 
 		const opcionesPorClave = new Map<string, ValorEvidencia>();
-		for (const evidencia of evidencias) {
+		for (const evidencia of evidenciasDimension) {
 			for (const valor of evidencia.valores) opcionesPorClave.set(valor.clave, valor);
 		}
 		const opciones =
-			modelo.tipo === 'booleano'
+			dimension === 'metro:grupo'
+				? OPCIONES_GRUPO_METRO
+				: modelo.tipo === 'booleano'
 				? [
 						{ clave: 'si', etiqueta: 'Sí' },
 						{ clave: 'no', etiqueta: 'No' }
 					]
 				: [...opcionesPorClave.values()];
-		if (modelo.tipo !== 'numero' && (opciones.length < 2 || opciones.length > MAX_OPCIONES)) continue;
+		const maximoOpciones =
+			dimension === 'metro:exacto' ? MAX_OPCIONES_METRO_EXACTO : MAX_OPCIONES;
+		if (modelo.tipo !== 'numero' && (opciones.length < 2 || opciones.length > maximoOpciones))
+			continue;
 
 		const separacion = entropia([...grupos.values()]);
 		const proporcionCobertura = cobertura / Math.max(1, arquitecturasPorForma.size);
@@ -371,10 +398,18 @@ function preguntasPosibles(
 			id: `pregunta:${dimension}`,
 			dimension,
 			familiaCognitiva: modelo.familiaCognitiva,
-			pregunta: modelo.pregunta,
+			pregunta:
+				dimension === 'metro:exacto' && grupoMetroRespondido === 'mixto'
+					? '¿Qué medidas se combinan en los versos?'
+					: modelo.pregunta,
 			ayuda: modelo.ayuda,
 			tipo: modelo.tipo,
-			opciones: opciones.sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es', { numeric: true })),
+			opciones:
+				dimension === 'metro:grupo'
+					? opciones
+					: opciones.sort((a, b) =>
+							a.etiqueta.localeCompare(b.etiqueta, 'es', { numeric: true })
+						),
 			observabilidad: modelo.observabilidad,
 			coste: modelo.coste,
 			utilidad: Math.round(utilidad * 10000) / 10000
@@ -398,6 +433,13 @@ export function elegirPregunta(
 	const preguntas = preguntasPosibles(candidatas, respuestas, modo, formaObjetivoId);
 	if (respuestas.length === 0 && modo === 'guiado') {
 		return preguntas.find((pregunta) => pregunta.dimension === 'metro:grupo') ?? preguntas[0] ?? null;
+	}
+	const grupoMetroRespondido = respuestas.some(
+		(respuesta) => respuesta.dimension === 'metro:grupo' && respuesta.valor !== 'desconocido'
+	);
+	if (grupoMetroRespondido) {
+		const medidaExacta = preguntas.find((pregunta) => pregunta.dimension === 'metro:exacto');
+		if (medidaExacta) return medidaExacta;
 	}
 	return preguntas[0] ?? null;
 }

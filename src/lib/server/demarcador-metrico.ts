@@ -95,11 +95,11 @@ function etiquetaVocabulario(row: Row | undefined, fallback: string): string {
 
 function grupoMetro(silabas: number[]): ValorEvidencia {
 	const unicas = [...new Set(silabas)].sort((a, b) => a - b);
-	if (unicas.length !== 1)
-		return valor('combinada_variable', 'Combinación de medidas o medida variable');
-	if (unicas[0] <= 8) return valor('arte_menor', 'Arte menor (hasta 8 sílabas)');
-	if (unicas[0] === 11) return valor('endecasilabos', 'Endecasílabos (11 sílabas)');
-	return valor('otro_arte_mayor', 'Otro verso de arte mayor');
+	const tieneArteMenor = unicas.some((medida) => medida <= 8);
+	const tieneArteMayor = unicas.some((medida) => medida > 8);
+	if (tieneArteMenor && tieneArteMayor) return valor('mixto', 'Mixto');
+	if (tieneArteMenor) return valor('arte_menor', 'Arte menor');
+	return valor('arte_mayor', 'Arte mayor');
 }
 
 function esquemaRima(pattern: Row, positions: Row[]): string | null {
@@ -244,6 +244,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			.map((pattern) => [pattern.esquema_metrico_id, pattern.arquitectura_id])
 	);
 	const metresByArchitecture = new Map<string, Row[]>();
+	const dominantMetresByArchitecture = new Map<string, Row[]>();
 	const metricPositionsByPattern = new Map<string, Row[]>();
 	for (const row of (metricPositionsResponse.data ?? []) as Row[]) {
 		metricPositionsByPattern.set(row.esquema_metrico_id, [
@@ -268,6 +269,15 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		const current = metresByArchitecture.get(architectureId) ?? [];
 		if (!current.some((item) => item.metro_id === metre.metro_id)) current.push(metre);
 		metresByArchitecture.set(architectureId, current);
+	}
+	for (const row of (metricOptionsResponse.data ?? []) as Row[]) {
+		if (row.rol !== 'dominante') continue;
+		const architectureId = patternArchitecture.get(row.esquema_metrico_id);
+		const metre = metreById.get(row.metro_id);
+		if (!architectureId || !metre) continue;
+		const current = dominantMetresByArchitecture.get(architectureId) ?? [];
+		if (!current.some((item) => item.metro_id === metre.metro_id)) current.push(metre);
+		dominantMetresByArchitecture.set(architectureId, current);
 	}
 
 	const rhymePositionsByPattern = new Map<string, Row[]>();
@@ -367,16 +377,21 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		);
 		let metricDescription: string | null = null;
 		if (metres.length > 0) {
-			const syllables = metres.map((metre) => Number(metre.silabas));
+			const evidenceMetres = (
+				dominantMetresByArchitecture.get(architecture.arquitectura_id) ?? metres
+			).sort((a, b) => a.silabas - b.silabas);
+			const syllables = [
+				...new Set(evidenceMetres.map((metre) => Number(metre.silabas)))
+			].sort((a, b) => a - b);
 			agregarEvidencia(
 				evidencias,
 				evidenciaBase({
 					dimension: 'metro:grupo',
 					familiaCognitiva: 'metro',
-					etiqueta: 'Medida predominante',
-					pregunta: '¿Qué medida predomina en los versos?',
+					etiqueta: 'Tipo de verso',
+					pregunta: '¿Los versos son de arte menor, de arte mayor o mixtos?',
 					ayuda:
-						'No necesitas decidir la medida exacta: distingue entre arte menor, endecasílabos, otro arte mayor o una combinación.',
+						'Arte menor comprende hasta ocho sílabas y arte mayor, nueve o más. Elige «Mixto» cuando se combinan ambos.',
 					valores: [grupoMetro(syllables)],
 					observabilidad: 'directa',
 					coste: 0.12,
@@ -384,8 +399,14 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					fuente: 'esquema'
 				})
 			);
-			const exactLabel = metres.map((metre) => `${metre.silabas} sílabas`).join(' + ');
-			metricDescription = exactLabel;
+			const exactLabel =
+				syllables.length > 4
+					? 'Otra combinación o medida variable'
+					: syllables.map((measure) => `${measure} sílabas`).join(' + ');
+			metricDescription = [...new Set(metres.map((metre) => Number(metre.silabas)))]
+				.sort((a, b) => a - b)
+				.map((measure) => `${measure} sílabas`)
+				.join(' + ');
 			agregarEvidencia(
 				evidencias,
 				evidenciaBase({
