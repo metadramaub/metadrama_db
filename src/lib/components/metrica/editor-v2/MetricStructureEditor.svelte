@@ -576,14 +576,23 @@
 			total > 0 && answered === total && cuenta.size === 1
 				? mayoritaria.split('|').filter(Boolean)
 				: null;
+		/**
+		 * **Una mayoría de verdad, o ninguna.**
+		 *
+		 * Con seis unidades, cinco respuestas distintas y dos iguales, la «mayoritaria» serían esas
+		 * dos y las otras cuatro saldrían marcadas como que se apartan de las demás, que es falso:
+		 * ahí no hay «las demás». Solo hay respuesta común si la comparte **más de la mitad**.
+		 */
+		const hayComun = answered > 0 && repeticiones > total / 2;
 		return {
 			total,
 			answered,
 			uniform,
-			mayoritaria,
+			hayComun,
+			mayoritaria: hayComun ? mayoritaria : null,
 			// Sin ninguna respuesta no hay excepción: la pregunta está entera por contestar, y esa
 			// es la situación de partida de toda secuencia nueva.
-			excepciones: answered === 0 ? 0 : total - repeticiones
+			excepciones: hayComun ? total - repeticiones : 0
 		};
 	}
 
@@ -592,7 +601,7 @@
 		const apartadas = new Set<string>();
 		for (const pregunta of comunes) {
 			const estado = comunState(pregunta);
-			if (estado.answered === 0) continue;
+			if (!estado.hayComun) continue;
 			for (const group of pregunta.groups) {
 				for (const unit of unitsForGroup(context, group)) {
 					if (firmaComun(group, unit) !== estado.mayoritaria) {
@@ -621,9 +630,56 @@
 	 * un «conjunto» que no lo era. Ahora, si alguna unidad responde algo distinto, **el modo es una
 	 * a una**, y el botón de conjunto no se puede pulsar mientras eso siga siendo verdad.
 	 */
-	const modoEfectivo = $derived(
-		unidadesQueSeApartan.size > 0 ? 'una_a_una' : modoDeRespuesta
+	/** Si alguna pregunta no tiene ya una sola respuesta para todas. */
+	const hayDivergencia = $derived(
+		comunes.some((pregunta: PreguntaCompartida) => {
+			const estado = comunState(pregunta);
+			return estado.answered > 0 && estado.uniform === null;
+		})
 	);
+
+	const modoEfectivo = $derived(hayDivergencia ? 'una_a_una' : modoDeRespuesta);
+
+	/** Se pide confirmación antes de volver a conjunto, porque borra lo respondido aparte. */
+	let confirmarConjunto = $state(false);
+
+	/**
+	 * Deja las preguntas comunes sin responder en todas las unidades y vuelve a conjunto.
+	 *
+	 * Volver a «en conjunto» teniendo respuestas distintas **no puede** conservarlas: conjunto
+	 * significa una sola respuesta para todas. Antes esto era imposible —el botón se quedaba
+	 * bloqueado para siempre— y había que cerrar la secuencia y empezarla otra vez.
+	 */
+	function volverAConjunto() {
+		let nextChoices = [...props.choices];
+		let nextUnits = [...props.units];
+		const siguientesPendientes = { ...pendingPositionsByAnswer };
+		for (const pregunta of comunes) {
+			for (const group of pregunta.groups) {
+				const groupId = String(group.grupo_eleccion_id);
+				for (const unit of unitsForGroup(context, group)) {
+					nextChoices = escribirRespuesta(nextChoices, groupId, unit.realizacion_id, []);
+					nextUnits = syncChoiceMaterializedSections(
+						nextUnits,
+						props.sections,
+						unit.realizacion_id,
+						optionsForGroup(groupId),
+						[],
+						props.sequenceStart,
+						nextChoices,
+						props.options
+					);
+					delete siguientesPendientes[pendingAnswerKey(groupId, unit.realizacion_id)];
+				}
+			}
+		}
+		pendingPositionsByAnswer = siguientesPendientes;
+		props.onChoicesChange(nextChoices);
+		commitUnits(nextUnits);
+		modoDeRespuesta = 'conjunto';
+		unidadesPlegadas = new Set();
+		confirmarConjunto = false;
+	}
 
 	function unidadAbierta(): boolean {
 		return modoEfectivo === 'una_a_una';
@@ -636,6 +692,11 @@
 	 * es venir de una respuesta común y querer tocar una o dos.
 	 */
 	function elegirModo(id: string | null) {
+		if (id === 'conjunto' && hayDivergencia) {
+			confirmarConjunto = true;
+			return;
+		}
+		confirmarConjunto = false;
 		if (id === 'una_a_una') {
 			modoDeRespuesta = 'una_a_una';
 			unidadesPlegadas = new Set(
@@ -1381,11 +1442,7 @@
 								{
 									id: 'conjunto',
 									label: 'En conjunto',
-									disabled: unidadesQueSeApartan.size > 0,
-									title:
-										unidadesQueSeApartan.size > 0
-											? 'Hay unidades que responden algo distinto: en conjunto significa todas iguales.'
-											: 'Una respuesta para todas las unidades'
+									title: 'Una respuesta para todas las unidades'
 								},
 								{ id: 'una_a_una', label: 'Una a una' }
 							]}
@@ -1402,7 +1459,30 @@
 					después ahorra mucho trabajo. Pero se anuncia como lo que es —un atajo— y se
 					atenúa, para que no compita con los campos de cada unidad, que son los que mandan.
 				-->
-				{#if modoEfectivo === 'una_a_una'}
+				{#if confirmarConjunto}
+					<div class="border-b border-amber-300 bg-amber-50 px-3 py-2.5">
+						<p class="text-xs text-amber-950">
+							En conjunto significa una sola respuesta para todas. Volver borra lo que hayan
+							respondido las unidades por su cuenta y empieza de nuevo.
+						</p>
+						<div class="mt-2 flex flex-wrap gap-3">
+							<button
+								type="button"
+								class="h-8 bg-[color:var(--primary)] px-3 text-xs font-medium text-white"
+								onclick={volverAConjunto}
+							>
+								Borrar y responder en conjunto
+							</button>
+							<button
+								type="button"
+								class="link-action text-xs"
+								onclick={() => (confirmarConjunto = false)}
+							>
+								Cancelar
+							</button>
+						</div>
+					</div>
+				{:else if modoEfectivo === 'una_a_una' && !hayDivergencia}
 					<p class="border-b border-[color:var(--border)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
 						Atajo: lo que respondas aquí se escribe en las {totalDeUnidades} unidades. Cada una
 						puede corregirse después, abajo.
@@ -1421,6 +1501,22 @@
 									: `en ${state.total - state.excepciones} de ${state.total}`}
 							variant="comun"
 						>
+							{#if state.uniform === null && state.answered > 0}
+							<!--
+								**Un atajo que ya no puede hablar por todas se retira.**
+
+								Con respuestas distintas, el control se pintaba vacío —como si todos los
+								versos fueran de ocho— mientras una nota decía que las unidades conservan
+								respuestas distintas. Enseñar un estado falso al lado de la advertencia de
+								que es falso no ayuda a nadie: mejor no enseñarlo.
+							-->
+							<p class="text-sm text-[color:var(--muted-foreground)]">
+								{state.hayComun
+									? `Las unidades no responden lo mismo: ${state.excepciones} de ${state.total} se apartan.`
+									: 'Cada unidad responde una cosa distinta.'}
+								Se editan abajo, unidad por unidad.
+							</p>
+						{:else}
 							<div class="flex flex-wrap items-start gap-2">
 								<!--
 									**`uniform` va en nulo cuando las unidades no coinciden, y punto.**
@@ -1450,7 +1546,8 @@
 									/>
 								{/if}
 							</div>
-						</MetricGridRow>
+						{/if}
+					</MetricGridRow>
 					{/each}
 				</div>
 			</div>
@@ -1690,7 +1787,10 @@
 								row.preguntas,
 								row.equivalentes,
 								true,
-								() => setUnidadPlegada(row.unit.realizacion_id, false)
+								() => setUnidadPlegada(row.unit.realizacion_id, false),
+								undefined,
+								undefined,
+								true
 							)}
 						{/if}
 					{:else}
@@ -1782,9 +1882,10 @@
 	forceCompact = false,
 	onOpenUnit: (() => void) | undefined = undefined,
 	positionStart: number | undefined = undefined,
-	positionEnd: number | undefined = undefined
+	positionEnd: number | undefined = undefined,
+	comoResumen = false
 )}
-	<div class={preguntas.length > 1 ? 'metric-choice-group' : 'contents'}>
+	<div class={comoResumen ? 'space-y-1' : preguntas.length > 1 ? 'metric-choice-group' : 'contents'}>
 		{#each preguntas as pregunta (String(pregunta.group.grupo_eleccion_id))}
 			{@render campo(
 				pregunta,
@@ -1792,7 +1893,8 @@
 				forceCompact,
 				onOpenUnit,
 				positionStart,
-				positionEnd
+				positionEnd,
+				comoResumen
 			)}
 		{/each}
 	</div>
@@ -1815,7 +1917,8 @@
 	forceCompact = false,
 	onOpenUnit: (() => void) | undefined = undefined,
 	positionStart: number | undefined = undefined,
-	positionEnd: number | undefined = undefined
+	positionEnd: number | undefined = undefined,
+	comoResumen = false
 )}
 	{@const group = pregunta.group}
 	{@const groupId = String(group.grupo_eleccion_id)}
@@ -1840,7 +1943,7 @@
 	<div>
 		{#if familia && seAparta}
 			<p class="mb-2 text-xs font-medium text-amber-800">
-				Esta {unitShortName} responde otra cosa que las demás
+				Esta {unitShortName} es diferente a las demás
 			</p>
 		{/if}
 		<MetricChoiceField
@@ -1849,7 +1952,8 @@
 			label={pregunta.label}
 			showDescription={estado !== 'igual'}
 			compact={compacta}
-			compactNote={forceCompact ? `Respuesta de esta ${unitShortName}` : undefined}
+			resumen={comoResumen}
+			compactNote={forceCompact && !comoResumen ? `Respuesta de esta ${unitShortName}` : undefined}
 			changeLabel="Cambiar"
 			hideCompactAction={forceCompact}
 			onExpand={compacta ? () => onOpenUnit?.() : undefined}
