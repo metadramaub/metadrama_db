@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PublicFormSummary } from '$lib/metrica/formas-publicas.types';
 	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
+	import CatalogFilterGroup from '$lib/components/metrica/catalogo/CatalogFilterGroup.svelte';
 	import PublicHelpDialog from '$lib/components/public/PublicHelpDialog.svelte';
 	import PublicResourceHeader from '$lib/components/public/PublicResourceHeader.svelte';
 	import {
@@ -127,157 +128,101 @@
 		onHelp={() => (ayudaAbierta = true)}
 	/>
 
-	<section
-		class="border border-[color:var(--border)] bg-[color:var(--gray-50)] p-5"
-		aria-labelledby="filtros-formas"
-	>
-		<div class="flex flex-wrap items-start justify-between gap-3">
-			<div>
-				<h2
-					id="filtros-formas"
-					class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--gray-700)]"
-				>
-					Filtrar formas
-				</h2>
-				<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-					Combina la búsqueda con una estructura, una tradición y un régimen de rima.
-				</p>
-			</div>
-			{#if hayFiltro}
-				<button
-					type="button"
-					class="inline-flex items-center gap-1.5 text-xs font-medium text-[color:var(--muted-foreground)] underline decoration-[color:var(--gray-300)] underline-offset-4 hover:text-[color:var(--foreground)]"
-					onclick={limpiar}
-				>
-					<X size={13} aria-hidden="true" />
-					Quitar filtros
-				</button>
-			{/if}
-		</div>
+	<section aria-labelledby="filtros-formas">
+		<h2 id="filtros-formas" class="sr-only">Buscar y filtrar formas</h2>
 
-		<label class="relative mt-4 block">
+		<label class="relative block">
 			<span class="sr-only">Buscar una forma</span>
 			<Search
-				size={17}
-				class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[color:var(--muted-foreground)]"
+				size={19}
+				class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--muted-foreground)]"
 				aria-hidden="true"
 			/>
 			<input
 				type="search"
-				class="h-12 w-full border border-[color:var(--border)] bg-white pl-10 pr-4 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
+				class="h-14 w-full border border-[color:var(--gray-300)] bg-white pl-12 pr-4 text-base transition-colors placeholder:text-[color:var(--muted-foreground)] focus:border-[color:var(--gray-700)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
 				placeholder="Buscar por nombre, definición o denominación…"
 				bind:value={busqueda}
 			/>
 		</label>
 
-		<!--
-			El orden va junto al buscador y no entre los filtros, porque no filtra nada: cambia cómo
-			se recorre lo que ya hay. Cuando se está buscando algo, la relevancia manda sobre él —lo
-			que coincide con el nombre sale primero—, y el orden elegido desempata.
-		-->
-		<label class="mt-3 flex items-center gap-2 text-sm">
-			<span class="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
-				Ordenar
-			</span>
-			<select
-				class="h-9 border border-[color:var(--border)] bg-white px-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
-				bind:value={orden}
-			>
-				{#each ORDENES_DE_FORMAS as opcion (opcion.valor)}
-					<option value={opcion.valor}>{opcion.etiqueta}</option>
-				{/each}
-			</select>
-			{#if orden === 'versos'}
-				<span class="text-xs text-[color:var(--muted-foreground)]">
-					Las series y las composiciones de extensión variable no tienen número de versos y van
-					al final.
-				</span>
-			{/if}
-		</label>
-
-		<div class="mt-5 grid gap-5 border-t border-[color:var(--border)] pt-4 md:grid-cols-3">
+		<div class="mt-4 flex flex-col items-start gap-3 sm:flex-row sm:justify-between sm:gap-6">
+			<div class="w-full min-w-0 space-y-1.5">
 			{#if niveles.length > 1}
-				<fieldset>
-					<legend class="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
-						Estructura
-					</legend>
-					<div class="mt-2 flex flex-wrap gap-2">
-						{#each niveles as valor (valor)}
-							<button
-								type="button"
-								class={`min-h-9 border px-3 py-2 text-sm leading-4 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)] ${
-									nivel === valor
-										? 'border-[color:var(--gray-900)] bg-[color:var(--gray-900)] text-white'
-										: 'border-[color:var(--gray-300)] bg-white hover:border-[color:var(--gray-500)]'
-								}`}
-								aria-pressed={nivel === valor}
-								onclick={() => (nivel = nivel === valor ? null : valor)}
-							>
-								{metricStructuralLevelLabel(valor)}
-							</button>
-						{/each}
-					</div>
-				</fieldset>
+				<CatalogFilterGroup
+					id="filtro-estructura"
+					label="Estructura"
+					options={niveles.map((valor) => ({
+						value: valor,
+						label: metricStructuralLevelLabel(valor)
+					}))}
+					selected={nivel}
+					onSelect={(value) => (nivel = value as NivelEstructural | null)}
+				/>
 			{/if}
 			{#if tradiciones.length > 1}
-				<fieldset>
-					<legend class="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
-						Tradición
-					</legend>
-					<div class="mt-2 flex flex-wrap gap-2">
-						{#each tradiciones as valor (valor)}
-							<button
-								type="button"
-								class={`min-h-9 border px-3 py-2 text-sm leading-4 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)] ${
-									tradicion === valor
-										? 'border-[color:var(--gray-900)] bg-[color:var(--gray-900)] text-white'
-										: 'border-[color:var(--gray-300)] bg-white hover:border-[color:var(--gray-500)]'
-								}`}
-								aria-pressed={tradicion === valor}
-								onclick={() => (tradicion = tradicion === valor ? null : valor)}
-							>
-								{valor}
-							</button>
-						{/each}
-					</div>
-				</fieldset>
+				<CatalogFilterGroup
+					id="filtro-tradicion"
+					label="Tradición"
+					options={tradiciones.map((valor) => ({ value: valor, label: valor }))}
+					selected={tradicion}
+					onSelect={(value) => (tradicion = value)}
+				/>
 			{/if}
 			{#if rimas.length > 1}
-				<fieldset>
-					<legend class="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
-						Rima
-					</legend>
-					<div class="mt-2 flex flex-wrap gap-2">
-						{#each rimas as valor (valor)}
-							<button
-								type="button"
-								class={`min-h-9 border px-3 py-2 text-sm leading-4 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)] ${
-									rima === valor
-										? 'border-[color:var(--gray-900)] bg-[color:var(--gray-900)] text-white'
-										: 'border-[color:var(--gray-300)] bg-white hover:border-[color:var(--gray-500)]'
-								}`}
-								aria-pressed={rima === valor}
-								onclick={() => (rima = rima === valor ? null : valor)}
-							>
-								{valor}
-							</button>
-						{/each}
-					</div>
-				</fieldset>
+				<CatalogFilterGroup
+					id="filtro-rima"
+					label="Rima"
+					options={rimas.map((valor) => ({ value: valor, label: valor }))}
+					selected={rima}
+					onSelect={(value) => (rima = value)}
+				/>
+			{/if}
+			</div>
+			{#if hayFiltro}
+				<button
+					type="button"
+					class="inline-flex shrink-0 items-center gap-1.5 py-1 text-xs font-medium text-[color:var(--muted-foreground)] underline decoration-[color:var(--gray-300)] underline-offset-4 hover:text-[color:var(--foreground)]"
+					onclick={limpiar}
+				>
+					<X size={13} aria-hidden="true" />
+					Restablecer
+				</button>
 			{/if}
 		</div>
 
-		<p
-			class="mt-4 border-t border-[color:var(--border)] pt-3 text-sm text-[color:var(--muted-foreground)]"
-			aria-live="polite"
-		>
-			<span class="font-medium text-[color:var(--foreground)]">{formas.length}</span>{hayFiltro
-				? ` de ${totalFormas}`
-				: ''}
-			{formas.length === 1 ? ' forma' : ' formas'}{sinForma.length > 0
-				? ` · ${sinForma.length}${hayFiltro ? ` de ${totalSinForma}` : ''} ${sinForma.length === 1 ? 'tramo sin forma' : 'tramos sin forma'}`
-				: ''}
-		</p>
+		<div class="mt-5 flex flex-col gap-3 border-t border-[color:var(--border)] pt-3 sm:flex-row sm:items-start sm:justify-between">
+			<p class="text-sm text-[color:var(--muted-foreground)]" aria-live="polite">
+				<span class="font-medium text-[color:var(--foreground)]">{formas.length}</span>{hayFiltro
+					? ` de ${totalFormas}`
+					: ''}
+				{formas.length === 1 ? ' forma' : ' formas'}{sinForma.length > 0
+					? ` · ${sinForma.length}${hayFiltro ? ` de ${totalSinForma}` : ''} ${sinForma.length === 1 ? 'tramo sin forma' : 'tramos sin forma'}`
+					: ''}
+			</p>
+
+			<!-- La búsqueda ordena primero por relevancia; esta elección resuelve los empates. -->
+			<div class="sm:max-w-md sm:text-right">
+				<label class="flex items-center gap-2 text-sm sm:justify-end">
+					<span class="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
+						Ordenar
+					</span>
+					<select
+						class="h-8 border border-[color:var(--border)] bg-white px-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
+						bind:value={orden}
+					>
+						{#each ORDENES_DE_FORMAS as opcion (opcion.valor)}
+							<option value={opcion.valor}>{opcion.etiqueta}</option>
+						{/each}
+					</select>
+				</label>
+				{#if orden === 'versos'}
+					<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+						Las series y composiciones de extensión variable van al final.
+					</p>
+				{/if}
+			</div>
+		</div>
 	</section>
 
 	<ul class="space-y-3">
