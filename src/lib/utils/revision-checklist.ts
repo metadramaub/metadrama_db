@@ -48,6 +48,14 @@ type SecuenciaChecklistData = {
 	v_ini: number;
 	v_fin: number;
 	estrofa_tipo_id: string | null;
+	/**
+	 * Si la secuencia está anotada con el catálogo nuevo.
+	 *
+	 * Desde el 27 de agosto de 2026 toda obra se anota así, y esas secuencias dejan
+	 * `estrofa_tipo_id` vacío a propósito: su forma vive en `anotaciones_metricas`. Sin esto,
+	 * ninguna obra anotada de ahora en adelante podría marcarse revisable.
+	 */
+	tiene_anotacion_metrica?: boolean;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean | null;
 	evocacion_metrica: boolean | null;
@@ -89,8 +97,12 @@ function duplicateValues(values: number[]): number[] {
 }
 
 function hasPendingSequenceFields(secuencia: SecuenciaChecklistData): boolean {
+	// **La forma puede estar en cualquiera de los dos sitios.** En el vocabulario legado mientras
+	// dure la migración, o en el catálogo nuevo, que es donde va lo que se anote desde ahora. Faltar
+	// es no estar en ninguno.
+	const sinForma = secuencia.estrofa_tipo_id === null && !secuencia.tiene_anotacion_metrica;
 	return (
-		secuencia.estrofa_tipo_id === null ||
+		sinForma ||
 		secuencia.inaugura_espacio === null ||
 		secuencia.versos_partidos === null ||
 		secuencia.evocacion_metrica === null ||

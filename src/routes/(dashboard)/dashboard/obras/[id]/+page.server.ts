@@ -162,7 +162,20 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		editorAsignadoNombre: editorAsignadoResp.data?.nombre_completo ?? null,
 		jornadas,
 		cuadros,
-		secuencias,
+		/**
+		 * Cada secuencia dice si está anotada con el catálogo nuevo.
+		 *
+		 * Lo mira la checklist de revisión, que se calcula en el cliente: una secuencia anotada así
+		 * deja `estrofa_tipo_id` vacío a propósito, y sin esta marca la daría por incompleta y
+		 * ninguna obra podría cerrarse.
+		 */
+		secuencias: secuencias.map((fila) => ({
+			...fila,
+			tiene_anotacion_metrica: anotacionMetrica.secuencias.some(
+				(anotacion: { secuencia_id: string | null }) =>
+					anotacion.secuencia_id === fila.secuencia_id
+			)
+		})),
 		autoriaGroupCount,
 		resumenPublico,
 		vocabularios,
