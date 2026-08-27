@@ -865,11 +865,15 @@
 			hayUnidadConArquitecturaPropia(draft.unidades)
 		);
 		if (lengthError) return lengthError;
+		// El mismo recuento que pinta el recuadro de la cobertura, y dicho igual: los dos números con
+		// su nombre. Uno solo no basta —«rebasa el rango en 37 versos» no dice cuánto ocupa ni cuánto
+		// se declaró— y el editor llega aquí buscando cuál de los dos corregir.
 		if (hasStructuredEditor && structureCoverage.state !== 'complete') {
 			const difference = Math.abs(structureCoverage.difference);
+			const ocupa = `La estructura ocupa ${structureCoverage.coveredVerses} ${structureCoverage.coveredVerses === 1 ? 'verso' : 'versos'} y el rango declara ${structureCoverage.declaredVerses}`;
 			return structureCoverage.state === 'missing'
-				? `La estructura deja ${difference} ${difference === 1 ? 'verso' : 'versos'} del rango sin asignar.`
-				: `La estructura rebasa el rango declarado en ${difference} ${difference === 1 ? 'verso' : 'versos'}.`;
+				? `${ocupa}: ${difference === 1 ? 'falta 1 verso' : `faltan ${difference} versos`} por asignar.`
+				: `${ocupa}: ${difference === 1 ? 'sobra 1' : `sobran ${difference}`}.`;
 		}
 		for (const unit of draft.unidades) {
 			if (unit.v_fin < unit.v_ini || unit.v_ini < draft.v_ini || unit.v_fin > draft.v_fin) {
