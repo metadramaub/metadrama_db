@@ -68,12 +68,31 @@ export async function loadObraRevisionChecklist(
 		return { summary: null, errorMessage: cuadrosResult.error.message };
 	}
 
+	// Cuáles de estas secuencias están anotadas con el catálogo nuevo. Su forma no vive en
+	// `estrofa_tipo_id` sino en `anotaciones_metricas`, y para la checklist cuenta igual.
+	const secuencias = (secuenciasResult.data ?? []) as SecuenciaChecklistRow[];
+	const idsDeSecuencias = secuencias.map((fila) => fila.secuencia_id);
+	const anotadasResult = idsDeSecuencias.length
+		? await supabase
+				.from('anotaciones_metricas')
+				.select('secuencia_id')
+				.in('secuencia_id', idsDeSecuencias)
+		: { data: [], error: null };
+	const anotadas = new Set(
+		((anotadasResult.data ?? []) as { secuencia_id: string | null }[])
+			.map((fila) => fila.secuencia_id)
+			.filter((valor): valor is string => Boolean(valor))
+	);
+
 	return {
 		summary: buildRevisionChecklist({
 			obra,
 			jornadas,
 			cuadros: (cuadrosResult.data ?? []) as CuadroChecklistRow[],
-			secuencias: (secuenciasResult.data ?? []) as SecuenciaChecklistRow[],
+			secuencias: secuencias.map((fila) => ({
+				...fila,
+				tiene_anotacion_metrica: anotadas.has(fila.secuencia_id)
+			})),
 			autoriaGroupCount
 		}),
 		errorMessage: null

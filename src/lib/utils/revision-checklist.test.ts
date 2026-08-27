@@ -93,3 +93,32 @@ describe('revision checklist', () => {
 		).toMatchObject({ done: true, detail: '2 grupos de autoría' });
 	});
 });
+
+/**
+ * La forma de una secuencia puede estar en dos sitios.
+ *
+ * En el vocabulario legado, mientras dure la migración, o en el catálogo nuevo, que es donde va lo
+ * que se anote desde el 27 de agosto de 2026. Esas secuencias dejan `estrofa_tipo_id` vacío **a
+ * propósito**, y sin esta regla ninguna obra anotada de ahora en adelante podría marcarse revisable.
+ */
+describe('la forma puede venir del catálogo nuevo', () => {
+	it('no reclama la estrofa legada cuando la secuencia está anotada', () => {
+		const input = completeInput();
+		input.secuencias[0].estrofa_tipo_id = null;
+		input.secuencias[0].tiene_anotacion_metrica = true;
+
+		const summary = buildRevisionChecklist(input);
+		expect(summary.required.some((item) => /secuencia/i.test(item.label) && !item.done)).toBe(
+			false
+		);
+	});
+
+	it('la reclama cuando no está en ninguno de los dos sitios', () => {
+		const input = completeInput();
+		input.secuencias[0].estrofa_tipo_id = null;
+		input.secuencias[0].tiene_anotacion_metrica = false;
+
+		const summary = buildRevisionChecklist(input);
+		expect(summary.required.some((item) => /secuencia/i.test(item.label) && !item.done)).toBe(true);
+	});
+});
