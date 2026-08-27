@@ -581,7 +581,6 @@
 			answered,
 			uniform,
 			mayoritaria,
-			mayoritariaIds: mayoritaria.split('|').filter(Boolean),
 			// Sin ninguna respuesta no hay excepción: la pregunta está entera por contestar, y esa
 			// es la situación de partida de toda secuencia nueva.
 			excepciones: answered === 0 ? 0 : total - repeticiones
@@ -677,6 +676,17 @@
 	/** Responde en el acto en todas las unidades. Ya no hay que preparar nada y aplicarlo después. */
 	function aplicarComun(pregunta: PreguntaCompartida, slugs: string[]) {
 		const resultado = writeComunChoice(pregunta, slugs, [...props.choices], [...props.units]);
+		// Un verso marcado como quebrado en una unidad, al que aún le falta la medida, describe una
+		// respuesta que el atajo acaba de sobrescribir: se va con ella. Si no, la unidad reclamaba
+		// una medida para un quebrado que ya no está.
+		const siguientes = { ...pendingPositionsByAnswer };
+		for (const group of pregunta.groups) {
+			const groupId = String(group.grupo_eleccion_id);
+			for (const unit of unitsForGroup(context, group)) {
+				delete siguientes[pendingAnswerKey(groupId, unit.realizacion_id)];
+			}
+		}
+		pendingPositionsByAnswer = siguientes;
 		props.onChoicesChange(resultado.choices);
 		commitUnits(resultado.units);
 	}
@@ -1412,11 +1422,21 @@
 							variant="comun"
 						>
 							<div class="flex flex-wrap items-start gap-2">
+								<!--
+									**`uniform` va en nulo cuando las unidades no coinciden, y punto.**
+
+									El control construye la selección nueva a partir de lo que aquí se le
+									pasa, y sabe pintarse «mixto» cuando recibe nulo habiendo respuestas.
+									Hubo un momento en que se le pasaba la respuesta mayoritaria para que
+									se viera algo, y salió caro: con un quebrado puesto en una sola copla,
+									el atajo lo mostraba como si fuera de todas, y al marcar dos más
+									partía de aquel y escribía los tres en todas. Cuántas coinciden se
+									dice al lado, en el rótulo, que es donde no hace daño.
+								-->
 								<MetricFamilyControl
 									group={pregunta.groups[0]}
 									options={comunOptions(pregunta)}
-									uniform={state.uniform ??
-										(state.mayoritariaIds.length > 0 ? state.mayoritariaIds : null)}
+									uniform={state.uniform}
 									answered={state.answered}
 									realizaciones={state.total}
 									ariaLabel={pregunta.label}
