@@ -391,8 +391,10 @@ once secuencias afectadas, que reciben ya su respuesta—.
 
 | | paso | por qué |
 |---|---|---|
-| 12 | **Probar con un editor de verdad**, no como admin | la RLS se probó en la base, no en pantalla |
-| 13 | **El recorrido forma por forma** | ver [Lo que sale de recorrer el formulario](#lo-que-sale-de-recorrer-el-formulario) |
+| 12 | **Probado con una cuenta de editor** | el IP creó una obra y dos secuencias: funciona |
+
+Con eso **el camino a develop queda recorrido**. Lo que sigue es el recorrido forma por forma del
+formulario, en [Lo que sale de recorrer el formulario](#lo-que-sale-de-recorrer-el-formulario).
 
 ### El replanteo de la migración, 27 de agosto de 2026
 
@@ -439,7 +441,11 @@ las fichas lean todavía el modelo viejo deja de correr prisa.
 *Se abre el 26 de agosto de 2026.* Cada entrada dice a cuántas formas alcanza y en qué capa está el
 arreglo, comprobado contra la base antes de proponer nada.
 
-**F1. El rango de versos admite un final anterior al inicial, y toda la pantalla razona sobre él.**
+**F1. ~~El rango de versos admite un final anterior al inicial.~~ Hecho el 27 de agosto de 2026.**
+Mover el principio mueve el final conservando la longitud —decisión del IP—, el final no baja del
+principio, los rangos de las desviaciones se acotan al de la secuencia y el guardado los mira, y
+`secuencias_metricas` gana el `CHECK (v_fin >= v_ini)` que era la única tabla con rango en no tener.
+*El texto de abajo se conserva porque explica lo que se encontró.*
 Con 116–112 en una forma de trece versos, la cobertura dice «la estructura rebasa el rango en 39
 versos». **Alcanza a todas las formas**: no es del catálogo, es el campo. Tres capas:
 
