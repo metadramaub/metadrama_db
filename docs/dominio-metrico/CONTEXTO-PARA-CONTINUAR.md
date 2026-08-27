@@ -468,10 +468,10 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F9 | canción · sin rima | el `aa` del pareado no se guarda en la anotación | modelo | no hay grupo de elección de rima: el `aa` es norma del catálogo, no respuesta | 5 arquitecturas activas sin grupo de rima | con **B8** |
 | F10 | canción · sin rima | la medida verso a verso y el nº de versos del cuerpo son el mismo control, y los versos se van sumando | catálogo | grupo `medida_estancia`, `alcance: unidad`, 5–20 selecciones; la estancia tiene extensión abierta y no hay pregunta de longitud | 1 arquitectura | recogido |
 | F11 | copla castellana · octosilábica | «Medida: base de 8, quebrados 4 y 5» y debajo «Medida fija: 8» | UI | **un solo esquema leído dos veces**: `roleBasedMetreSummary` por roles y `fixedMetreSummary` por posiciones | 10 arquitecturas de 8 formas, todas iguales: base 8, quebrados 4 y 5, 1 posición | **arreglado** |
-| F12 | copla castellana | con 2 coplas, responder «en conjunto» deja las dos abiertas y editables a la vez | UI | el modo conjunto no colapsa las unidades ni bloquea su edición | toda forma con más de una unidad | recogido |
+| F12 | copla castellana | con 2 coplas, responder «en conjunto» deja las dos abiertas y editables a la vez | UI | **era una copia, no un modo**: el panel escribía la misma respuesta en cada unidad y se cerraba | 77 preguntas en 51 arquitecturas, **28 de 41 formas** | **arreglado** |
 | F13 | copla castellana | al elegir la rima no se ve desplegada verso a verso, en vertical | UI | — | toda forma con grupo de rima | recogido |
 | F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
-| F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades», qué versos van quebrados— se entiende fatal | UI | — | toda forma con `permite_aplicar_global` | recogido |
+| F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades»— se entiende fatal | UI | consecuencia de F12: lo que coincidía seguía pintando campo, con esa nota repetida por unidad | los mismos 77 grupos | **arreglado con F12** |
 | — | copla castellana | «rango calculado desde sus partes» | — | *es F6, segunda repetición del mismo mensaje* | — | ya en F6 |
 | F16 | copla castellana | el quebrado es **rasgo opcional**, no medida esperada: ponerlo bajo «Medida» hace creer que hay que encontrarlo | **catálogo** | el rasgo `pie_quebrado` **ya está declarado** en las 10 arquitecturas —`admitida` en 8, `habitual` en las dos oncenas— pero **no tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo que se pregunta es `posiciones_pie_quebrado`, de dimensión `metro` | 10 arquitecturas de 8 formas (las mismas de F11) | **migración, sin aprobar** |
 | F17 | todas las de rima | «¿Rima de otra manera?» se muestra siempre, cuando solo hace falta si no vale ninguna predefinida | UI | `tipo_control: opciones_y_esquema` pinta las opciones **y** el campo libre a la vez, en vez de ofrecer «otra» como una opción más | 41 grupos en 37 arquitecturas | recogido |
@@ -483,6 +483,26 @@ es de octosílabos y que «algún verso puede aparecer quebrado en cuatro sílab
 recoge tal cual: **una** posición de 8 —el ciclo— y un repertorio con roles, `dominante: 8` y
 `quebrado: 4, 5`. Leerlo por roles da la base y los quebrados; releerlo por posiciones da un 8 fijo.
 Lo que la norma fija es **la base**, no la medida de cada verso, así que el segundo renglón sobra.
+
+**F12 y F15, cómo quedan.** El diagnóstico era que «en conjunto» **no era un estado sino una acción**:
+se abría un panel, se preparaba una respuesta y al aplicarla se **copiaba** en cada unidad. Después no
+quedaba ningún «en conjunto», solo N respuestas iguales; por eso abajo seguía todo abierto con un
+«Coincide con las demás unidades» repetido, y por eso había que avisar de que lo aplicado «solo afecta
+a las unidades que existen ahora».
+
+Ahora el modo **se lee del propio dato** —no se guarda nada, así que no puede desincronizarse— y son
+tres:
+
+| estado | cuándo | qué se ve |
+|---|---|---|
+| **en conjunto** | todas responden lo mismo, o no ha respondido nadie | un campo arriba, «en las N unidades». Abajo cada unidad es **una línea** con su rango |
+| **mixto** | alguna se aparta | arriba, «en 5 de 6». Abajo **solo se abre la que se aparta**, marcada |
+| **una a una** | lo pide el editor, con un enlace | se abren todas; vuelve solo a conjunto si coinciden otra vez |
+
+Decidido con el IP: **el estado de partida es «en conjunto»** —30 de las 41 formas son N unidades
+iguales— y en mixto **abajo solo se abre la excepción**. Desaparecen el panel de preparación, el botón
+de aplicar y el aviso sobre las unidades futuras: si se añade una, deja de haber uniformidad y la
+pregunta lo dice sola. Comprobado en pantalla con dos coplas castellanas en los tres estados.
 
 **F19, por qué parecía la excepción y es la norma.** El editor deriva las unidades del rango cuando
 la arquitectura tiene extensión de unidad **fija** (`unidad_versos_min = unidad_versos_max`), y
