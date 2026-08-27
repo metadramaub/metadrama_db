@@ -582,58 +582,65 @@ commits y en [criterios de nivel](./criterios-de-nivel.md). El resto de lo que h
 el V2 llegue a los editores no son deudas del modelo sino integración, y vive en
 [El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
 
-**B8. Cuatro formas aliradas no declaran su medida, y sus hermanas sí.** *Escrito el 26 de agosto de
-2026, y **corregido el mismo día**: se planteó como «el metro no tiene la salida que sí tiene la
-rima» y, contrastado contra la base, no era eso.* La regla que gobierna la anotación, como la
-formuló el IP, es: **el editor elige algo que existe y añade una desviación si difiere, o —donde se
-admita— escribe exactamente lo que ve, y eso se guarda.**
+**B8. Las aliradas abiertas no pueden registrar el esquema de metro que se ve.** *Escrito el 26 de
+agosto de 2026 y **rehecho dos veces el mismo día**, las dos por leer mal el catálogo antes de
+preguntar. Queda anotado el recorrido porque el error es instructivo: ninguna de las dos lecturas
+falsas se sostuvo al contrastarla con la intención del IP.*
 
-**El editor puede escribir lo que ve, también la medida.** La pregunta de rima de estas formas es
-`opciones_y_esquema`, así que admite escribir `aBaB`; el normalizador **conserva la caja verso a
-verso** —«la caja es del verso, no de la clase»— y la comparación con el catálogo es sensible a
-ella, de modo que `aBaB` no queda absorbido por el `abab` catalogado. En la tradición alirada la
-caja *es* la medida, así que queda registrada.
+**La decisión de diseño, dicha por el IP:** el cuarteto, el septeto, la octava, la novena y la
+décima-lira son formas nuevas de las que **todavía no se sabe qué hay en el corpus**, así que se
+dejan **abiertas de metro y de rima** —salvo el esquema de rima de la décima-lira, que ya se
+conoce—, y **se quiere que registren exactamente el esquema de metro y exactamente el de rima**. La
+base es donde se van a documentar.
 
-**Lo que falla es el catálogo.** La familia se parte en dos, contado contra la base:
+Estado real, contado contra la base:
 
-| declaran su medida | no la declaran |
-|---|---|
-| lira `7 11 7 7 11`, septeto-lira `7 11 7 11 7 7 11`, sexteto-lira **ocho veces**, en variedades que cruzan tres notaciones con seis esquemas métricos | **cuarteto-lira, octava-lira, novena-lira y décima-lira**: cero variedades, ningún esquema métrico, solo `11/7` como medidas admitidas |
+| forma | rima | metro | preguntas |
+|---|---|---|---|
+| Cuarteto-lira | `abab`, `abba` *(admitidas)* | abierto, `11/7` | 1 de rima, **0 de metro** |
+| Octava-lira | `ababccdd`, `abcabcdd` *(admitidas)* | abierto, `11/7` | 1 de rima, **0 de metro** |
+| Novena-lira | **abierta**, sin notación | abierto, `11/7` | 1 de rima, **0 de metro** |
+| Décima-lira | `ababcdcdee` *(admitida)* | abierto, `11/7` | 1 de rima, **0 de metro** |
+| Septeto-lira | `ababbcc` *(habitual)* | **fijo** `7 11 7 11 7 7 11` | **0 y 0** |
 
-Las cuatro se crearon el **24 de agosto** al sistematizar la serie, y [A5](#a--bloquean-la-migración-de-las-secuencias)
-lo predijo con estas palabras: «la novena-lira no tiene dónde registrar la disposición que se vea».
+**La mitad de rima está hecha y la de metro no existe.** Escribir el esquema de rima lo resolvió B1
+—`opciones_y_esquema`, 41 grupos—. Para el metro no hay nada: los **27 grupos de metro del catálogo
+entero son `opciones` cerradas**, y no existe ningún `tipo_control` que admita escribir un esquema
+métrico. Un editor que vea `11 7 7 11` en un cuarteto-lira no tiene dónde ponerlo.
 
-**Y el propio mecanismo de crecimiento lo va a gritar.** Como escribir `aBaB` no casa con el `abab`
-catalogado, *toda* anotación de esas cuatro formas será un esquema escrito a mano, y el recuento de
-«cuántos han escrito el mismo» —la señal de que algo merece entrar al catálogo— se disparará por lo
-que en realidad **es la norma**. Eso no es un fallo del recuento: es el sistema diciendo dónde falta
-declarar.
+**Y la salida de rebote no vale.** En la tradición alirada la caja de la notación es la medida
+—`aBaB`—, y como el normalizador la conserva verso a verso, el dato *quedaría* registrado. Pero
+mezcla dos dimensiones en una respuesta, solo se sostiene en esta tradición —en una octava real las
+mayúsculas solo dicen arte mayor— y **no se puede contar ni comparar como metro**, que es
+justamente para lo que se registra. El IP pide el esquema de metro exacto, como dato propio.
 
-**Y deja al descubierto una inconsistencia del modelo:** el catálogo dice la medida **de dos
-maneras** —en la caja de la notación, como la lira, o en el esquema métrico de una variedad, como el
-sexteto-lira— y no hay escrito cuál es la canónica. Decidirlo es previo a llenar el hueco, porque
-determina cómo se llena. *Es decisión filológica y va a [cuestiones para el IP](./cuestiones-para-el-ip.md).*
+Lo que hace falta, con B1 de plantilla:
 
-*Que la medida viaje montada en la caja de la rima tiene un precio que la proyección de C18 hereda:*
-es una convención de **esta** tradición, no del modelo. En una octava real las mayúsculas solo dicen
-arte mayor.
+1. Un **`tipo_control` para escribir un esquema métrico** y su híbrido, espejo de `esquema_rima` y
+   `opciones_y_esquema`.
+2. Las **preguntas de metro** de estas formas.
+3. Un **normalizador de esquemas métricos escritos**, hermano de
+   [`esquema-rima-escrito.ts`](../../src/lib/metrica/esquema-rima-escrito.ts): validar `11 7 7 11`,
+   comprobar que el número de medidas cuadra con la extensión de la unidad, y **casar con los
+   esquemas métricos del catálogo**, para que uno que ya existe se guarde como elección y no como
+   texto —igual que hace hoy `MetricChoiceField` con la rima—.
+4. **Guardar lo escrito descompuesto**, no como cadena: sin eso, el recuento de «cuántos han escrito
+   el mismo esquema» —la señal para incorporarlo al catálogo y migrar las secuencias que lo usaban—
+   obliga a partir cadenas. Vale para las dos dimensiones a la vez.
 
-Dos cosas más, de la misma familia, que conviene resolver con ella:
+*El septeto-lira está fuera de línea con sus hermanas:* tiene el metro fijo y un único esquema de
+rima marcado `habitual` —«suele ser este», luego hay otros— y **no pregunta nada**, así que quien
+encuentre uno distinto no puede decirlo. El auditor no lo ve porque **D17 da por fijada la rima
+cuando hay un solo esquema concreto**, sin mirar la modalidad. Si va a quedar abierta como las
+demás, se le añaden las dos preguntas; y conviene decidir si D17 debe mirar también la modalidad.
 
-1. **Lo escrito se guarda como una cadena compuesta.** `valor_texto` lleva `abcabc · asonante`, y el
-   régimen a veces falta porque se hereda de la arquitectura.
-   [`esquema-rima-escrito.ts`](../../src/lib/metrica/esquema-rima-escrito.ts) ya calcula al escribir
-   la notación canónica, el régimen, las posiciones, las clases y los sueltos, **y se descarta todo
-   menos la cadena**. Con dos columnas —`notacion` y `regimen` ya resuelto— contar cuántos han
-   escrito el mismo esquema es un `GROUP BY`, y migrarlos después un `UPDATE` filtrado por esas dos.
-2. **La base no garantiza nada sobre lo escrito.** El único `CHECK` de la tabla impide elegir más de
-   una entidad; sobre `valor_texto`, nada. La normalización vive solo en el navegador, así que un
-   guion o un endpoint futuro pueden meter ruido que el análisis herede en silencio.
+*Lo que sí está bien y no hay que tocar:* las **ocho variedades del sexteto-lira** no son otra
+manera de declarar la medida, sino el mecanismo para emparejar esquema métrico y de rima **sin
+generar el producto cartesiano** de variedades. Es propio de esa forma. No hay ninguna
+inconsistencia de modelo que resolver, como llegué a escribir aquí.
 
-*Lo que sí está bien resuelto y no hay que tocar:* si lo escrito resulta ser un esquema que el
-catálogo tiene, `MetricChoiceField` lo guarda como elección y no como texto, de modo que el recuento
-de esquemas escritos a mano no se ensucia con los que ya existen. Y la **canción de estancias
-variables**, que se citó como segundo caso, **sí tiene pregunta de metro**: está cubierta.
+*Y la **canción de estancias variables**, que puse como segundo caso, sí tiene pregunta de metro:
+está cubierta.*
 
 ### C · Deudas del modelo, sin urgencia
 
