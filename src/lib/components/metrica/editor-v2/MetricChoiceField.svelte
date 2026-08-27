@@ -288,6 +288,51 @@
 	const collapsed = $derived(
 		answered && (props.compact || (!partialPositionalSelection && multiline && !expanded))
 	);
+	/**
+	 * La medida verso a verso, en notación: `8 8 4 8 8 4`.
+	 *
+	 * Es la única manera legible de resumir una respuesta posicional. Enumerando los nombres de las
+	 * opciones salía «Verso 3 · Tetrasílabo · Verso 6 · Tetrasílabo · Verso 9 · Tetrasílabo · Verso
+	 * 12 · Tetrasílabo», que ocupa cuatro renglones para decir lo que la serie dice en una línea, y
+	 * además esconde dónde están los ocho versos que no se preguntan.
+	 *
+	 * Las posiciones sin respuesta se rellenan con la medida de base, que es lo que la norma pone
+	 * ahí. Sin base no hay serie que valga.
+	 */
+	function serieDeMedidas(): string | null {
+		const base = Number(visibleOptions[0]?.metro_base_silabas);
+		if (visiblePositions.length === 0) return null;
+		const porPosicion = new Map<number, number>();
+		for (const option of visibleOptions) {
+			if (!props.selectedIds.includes(String(option.opcion_eleccion_id))) continue;
+			const posicion = Number(option.posicion_unidad);
+			const silabas = Number(option.metro_silabas);
+			if (Number.isFinite(posicion) && Number.isFinite(silabas)) porPosicion.set(posicion, silabas);
+		}
+		const desde = patternStart;
+		const hasta = Number.isFinite(base) ? desde + patternLength - 1 : (visiblePositions.at(-1) ?? desde);
+		const piezas: string[] = [];
+		for (let posicion = desde; posicion <= hasta; posicion += 1) {
+			const silabas = porPosicion.get(posicion) ?? (Number.isFinite(base) ? base : null);
+			if (silabas === null) return null;
+			piezas.push(String(silabas));
+		}
+		return piezas.length > 0 ? piezas.join(' ') : null;
+	}
+
+	/** De dónde a dónde llega la rejilla: el tramo de la unidad del que trata la pregunta. */
+	const patternStart = $derived(props.positionStart ?? 1);
+	const patternLength = $derived(
+		Math.max(
+			1,
+			(typeof props.positionLimit === 'number'
+				? props.positionLimit
+				: (visiblePositions.at(-1) ?? patternStart)) -
+				patternStart +
+				1
+		)
+	);
+
 	const answerSummary = $derived.by(() => {
 		const selectedOptions = visibleOptions
 			.filter((option: MetricCatalogDomainRow) =>
@@ -316,6 +361,11 @@
 					: ''
 			}`;
 		}
+		// Cualquier respuesta por posiciones se lee en serie, no enumerando nombres de opción.
+		if (positional) {
+			const serie = serieDeMedidas();
+			if (serie) return serie;
+		}
 		const names = selectedOptions.map((option: MetricCatalogDomainRow) => String(option.nombre));
 		const distinct = [...new Set(names)];
 		if (names.length > 1 && distinct.length === 1) {
@@ -341,21 +391,7 @@
 		// Un esquema escrito a mano ya viene en notación.
 		if (selectedOptions.length === 0 && props.textValue) return props.textValue;
 
-		if (positional) {
-			const base = Number(visibleOptions[0]?.metro_base_silabas);
-			if (!Number.isFinite(base) || visiblePositions.length === 0) return null;
-			const porPosicion = new Map<number, number>();
-			for (const option of selectedOptions) {
-				const posicion = Number(option.posicion_unidad);
-				const silabas = Number(option.metro_silabas);
-				if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
-					porPosicion.set(posicion, silabas);
-				}
-			}
-			return visiblePositions
-				.map((posicion: number) => String(porPosicion.get(posicion) ?? base))
-				.join('·');
-		}
+		if (positional) return serieDeMedidas();
 
 		// `catalogados` viene identificado por la **opción**, no por el esquema: es lo que el editor
 		// guarda, y así lo escribe quien construye la norma. Buscar por `esquema_rima_id` no
@@ -518,9 +554,17 @@
 			onChange={props.onChange}
 		/>
 	{:else if positionalAlternatives}
+		<!--
+			**La rejilla es la de la unidad, no la de las posiciones que preguntan.**
+
+			Se dibujaba tantas filas como opciones hubiera, empezando en la primera: con los quebrados
+			de la manriqueña, que van en los versos 3, 6, 9 y 12, salían cuatro filas seguidas —3, 4,
+			5 y 6— y los otros ocho versos no aparecían. Ahora se pinta la unidad entera y cada verso
+			sale con lo suyo: los que la norma deja abiertos preguntan, y los que fija se ven fijados.
+		-->
 		<MetricVersePatternField
-			length={visiblePositions.length}
-			positionStart={visiblePositions[0] ?? 1}
+			length={patternLength}
+			positionStart={patternStart}
 			options={visibleOptions}
 			selectedIds={props.selectedIds}
 			onMeasureChange={props.onChange}
