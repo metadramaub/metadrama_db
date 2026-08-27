@@ -158,11 +158,17 @@
 	const rows = $derived(buildGridRows(context));
 	const comunes = $derived(respondePorPartes ? [] : preguntasCompartidas(context));
 	const opcionales = $derived(respondePorPartes ? [] : seccionesOpcionalesUniformes(context));
-	let respuestasComunesAbiertas = $state(new Set<string>());
+	/**
+	 * Las preguntas que el editor ha decidido responder **una a una**.
+	 *
+	 * Es lo único que hace falta guardar en la pantalla: los otros dos estados —en conjunto y
+	 * mixto— **se leen del propio dato**, comparando lo que responde cada unidad. Así el modo no
+	 * puede desincronizarse de las respuestas, y añadir una unidad más no necesita ningún aviso:
+	 * deja de haber uniformidad y la pregunta pasa sola a mixto, mostrando la que falta.
+	 */
+	let preguntasUnaAUna = $state(new Set<string>());
 	let unidadesPlegadas = $state(new Set<string>());
 	let pendingPositionsByAnswer = $state<Record<string, number[]>>({});
-	let batchOpen = $state(false);
-	let batchDrafts = $state<Record<string, string[]>>({});
 	const unitShortName = $derived(
 		String(props.unitLabel ?? 'unidad').split(/\s+/)[0].toLocaleLowerCase('es')
 	);
@@ -170,14 +176,7 @@
 		(!respondePorPartes && Boolean(props.globalQuestions)) || opcionales.length > 0
 	);
 	const hayZonaComun = $derived(hayAjustesDeComposicion || comunes.length > 0);
-	const batchUnitCount = $derived.by(() =>
-		comunes.reduce(
-			(maximum: number, pregunta: PreguntaCompartida) =>
-				Math.max(maximum, comunState(pregunta).total),
-			0
-		)
-	);
-	const batchChangeCount = $derived(Object.keys(batchDrafts).length);
+
 
 	function pendingAnswerKey(groupId: string, unitId: string): string {
 		return `${groupId}|${unitId}`;
@@ -531,25 +530,93 @@
 	}
 
 	/** Qué han contestado las realizaciones a las que apunta: si coinciden y cuántas van. */
+	/** Lo que responde una unidad, por slug, para poder comparar entre grupos de la misma familia. */
+	function firmaComun(group: MetricCatalogDomainRow, unit: MetricUnitDraft): string {
+		return selectedChoiceIds(String(group.grupo_eleccion_id), unit.realizacion_id)
+			.map(optionSlugOf)
+			.sort()
+			.join('|');
+	}
+
+	/**
+	 * El estado de una pregunta compartida, leído de las respuestas.
+	 *
+	 * `mayoritaria` es la firma que más veces se repite —sin contar el vacío—, y `excepciones`,
+	 * cuántas unidades se apartan de ella. Con eso se decide qué se pinta abajo: si todas
+	 * coinciden, nada; si no, **solo las que se apartan**.
+	 */
 	function comunState(pregunta: PreguntaCompartida) {
-		const answers = new Set<string>();
+		const cuenta = new Map<string, number>();
 		let answered = 0;
 		let total = 0;
 		for (const group of pregunta.groups) {
-			const groupId = String(group.grupo_eleccion_id);
 			for (const unit of unitsForGroup(context, group)) {
 				total += 1;
-				const selected = selectedChoiceIds(groupId, unit.realizacion_id);
-				if (selected.length === 0) continue;
+				const firma = firmaComun(group, unit);
+				if (!firma) continue;
 				answered += 1;
-				answers.add(selected.map(optionSlugOf).sort().join('|'));
+				cuenta.set(firma, (cuenta.get(firma) ?? 0) + 1);
+			}
+		}
+		let mayoritaria = '';
+		let repeticiones = 0;
+		for (const [firma, veces] of cuenta) {
+			if (veces > repeticiones) {
+				mayoritaria = firma;
+				repeticiones = veces;
 			}
 		}
 		const uniform =
-			total > 0 && answered === total && answers.size === 1
-				? [...answers][0].split('|').filter(Boolean)
+			total > 0 && answered === total && cuenta.size === 1
+				? mayoritaria.split('|').filter(Boolean)
 				: null;
-		return { total, answered, uniform };
+		return {
+			total,
+			answered,
+			uniform,
+			mayoritaria,
+			mayoritariaIds: mayoritaria.split('|').filter(Boolean),
+			// Sin ninguna respuesta no hay excepción: la pregunta está entera por contestar, y esa
+			// es la situación de partida de toda secuencia nueva.
+			excepciones: answered === 0 ? 0 : total - repeticiones
+		};
+	}
+
+	/**
+	 * En qué estado está una pregunta compartida.
+	 *
+	 * `una_a_una` solo si el editor lo ha pedido; si no, lo dice el dato.
+	 */
+	function modoDeLaPregunta(pregunta: PreguntaCompartida): 'conjunto' | 'mixto' | 'una_a_una' {
+		if (preguntasUnaAUna.has(pregunta.key)) return 'una_a_una';
+		return comunState(pregunta).excepciones === 0 ? 'conjunto' : 'mixto';
+	}
+
+	function alternarUnaAUna(pregunta: PreguntaCompartida) {
+		const siguiente = new Set(preguntasUnaAUna);
+		if (siguiente.has(pregunta.key)) siguiente.delete(pregunta.key);
+		else siguiente.add(pregunta.key);
+		preguntasUnaAUna = siguiente;
+	}
+
+	/** La familia a la que pertenece un grupo, si es de las que se responden en conjunto. */
+	function familiaDe(group: MetricCatalogDomainRow): PreguntaCompartida | null {
+		const groupId = String(group.grupo_eleccion_id);
+		return (
+			comunes.find((comun: PreguntaCompartida) =>
+				comun.groups.some(
+					(miembro: MetricCatalogDomainRow) =>
+						String(miembro.grupo_eleccion_id) === groupId
+				)
+			) ?? null
+		);
+	}
+
+	/** Responde en el acto en todas las unidades. Ya no hay que preparar nada y aplicarlo después. */
+	function aplicarComun(pregunta: PreguntaCompartida, slugs: string[]) {
+		const resultado = writeComunChoice(pregunta, slugs, [...props.choices], [...props.units]);
+		props.onChoicesChange(resultado.choices);
+		commitUnits(resultado.units);
 	}
 
 	/**
@@ -593,58 +660,8 @@
 		return { choices: nextChoices, units: nextUnits };
 	}
 
-	function stagedComunChoice(
-		pregunta: PreguntaCompartida,
-		uniform: string[] | null
-	): string[] | null {
-		return Object.hasOwn(batchDrafts, pregunta.key) ? batchDrafts[pregunta.key] : uniform;
-	}
-
-	function stageComunChoice(pregunta: PreguntaCompartida, slugs: string[]) {
-		batchDrafts = { ...batchDrafts, [pregunta.key]: slugs };
-	}
-
-	function openBatch() {
-		batchDrafts = {};
-		batchOpen = true;
-	}
-
-	function closeBatch() {
-		batchDrafts = {};
-		batchOpen = false;
-	}
-
-	function applyBatch() {
-		let nextChoices = [...props.choices];
-		let nextUnits = [...props.units];
-		for (const pregunta of comunes) {
-			if (!Object.hasOwn(batchDrafts, pregunta.key)) continue;
-			const result = writeComunChoice(
-				pregunta,
-				batchDrafts[pregunta.key],
-				nextChoices,
-				nextUnits
-			);
-			nextChoices = result.choices;
-			nextUnits = result.units;
-		}
-		props.onChoicesChange(nextChoices);
-		commitUnits(nextUnits);
-		closeBatch();
-	}
-
-	function abrirRespuestaComun(groupId: string, unitId: string) {
-		respuestasComunesAbiertas = new Set(respuestasComunesAbiertas).add(`${groupId}|${unitId}`);
-	}
-
 	function tieneRespuestaComun(group: MetricCatalogDomainRow): boolean {
-		const groupId = String(group.grupo_eleccion_id);
-		return comunes.some((comun: PreguntaCompartida) =>
-			comun.groups.some(
-				(miembro: MetricCatalogDomainRow) =>
-					String(miembro.grupo_eleccion_id) === groupId
-			)
-		);
+		return familiaDe(group) !== null;
 	}
 
 	/**
@@ -1227,72 +1244,84 @@
 			{/each}
 		{/if}
 
+		<!--
+			**Responder en conjunto es un estado, no una acción.**
+
+			Antes esto era un panel que se abría, en el que se preparaba una respuesta y que al
+			aplicarla la **copiaba** en cada unidad y se cerraba. Después no quedaba ningún «en
+			conjunto»: quedaban seis respuestas idénticas, cada copla seguía pintando su campo con un
+			«Coincide con las demás unidades», y había que avisar de que lo aplicado «solo afecta a
+			las unidades que existen ahora», porque era una copia y no una regla.
+
+			Ahora el campo de aquí arriba **es** la respuesta de todas, y lo que se ve abajo depende
+			de si alguna se aparta. Nada que preparar, nada que confirmar, ningún aviso sobre el
+			futuro: si se añade una unidad, deja de haber uniformidad y la pregunta lo dice sola.
+		-->
 		{#if comunes.length > 0}
 			<div class={hayAjustesDeComposicion ? 'border-t border-[color:var(--border)]' : ''}>
-				<div class="flex flex-wrap items-center justify-between gap-3 bg-[color:var(--muted)] px-3 py-2">
-					<div>
-						<p class="form-grid-title">Edición de las unidades</p>
-						<p class="mt-0.5 text-xs font-normal normal-case tracking-normal text-[color:var(--muted-foreground)]">
-							{batchOpen
-								? `Preparando una respuesta para ${batchUnitCount} unidades actuales.`
-								: 'Las respuestas se editan abajo, unidad por unidad.'}
-						</p>
-					</div>
-					{#if batchOpen}
-						<button type="button" class="link-action" onclick={closeBatch}>Cancelar edición conjunta</button>
-					{:else}
-						<button type="button" class="link-action" onclick={openBatch}>
-							Aplicar una respuesta en conjunto
-						</button>
-					{/if}
-				</div>
-
-				{#if batchOpen}
-					<div class="border-t border-amber-300 bg-amber-50">
-						<p class="border-b border-amber-200 px-3 py-2 text-xs text-amber-950">
-							Solo afectará a las {batchUnitCount} unidades que existen ahora. Las que añadas después
-							quedarán sin responder hasta que las edites o vuelvas a aplicar una respuesta conjunta.
-						</p>
-						{#each comunes as pregunta (pregunta.key)}
-							{@const state = comunState(pregunta)}
-							<MetricGridRow label={pregunta.label} rango={`${state.total} unidades`} variant="comun">
-								<div class="flex flex-wrap items-start gap-2">
-									<MetricFamilyControl
-										group={pregunta.groups[0]}
-										options={comunOptions(pregunta)}
-										uniform={stagedComunChoice(pregunta, state.uniform)}
-										answered={state.answered}
-										realizaciones={state.total}
-										ariaLabel={pregunta.label}
-										positionLimit={comunPositionLimit(pregunta)}
-										onChoose={(slugs) => stageComunChoice(pregunta, slugs)}
+				<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+					Respuestas de todas las unidades
+				</p>
+				{#each comunes as pregunta (pregunta.key)}
+					{@const state = comunState(pregunta)}
+					{@const modo = modoDeLaPregunta(pregunta)}
+					<MetricGridRow
+						label={pregunta.label}
+						rango={modo === 'una_a_una'
+							? 'respondiendo una a una'
+							: state.answered === 0
+								? `${state.total} unidades`
+								: state.excepciones === 0
+									? `en las ${state.total} unidades`
+									: `en ${state.total - state.excepciones} de ${state.total}`}
+						variant="comun"
+					>
+						<div class="space-y-2">
+							<div class="flex flex-wrap items-start gap-2">
+								<MetricFamilyControl
+									group={pregunta.groups[0]}
+									options={comunOptions(pregunta)}
+									uniform={state.uniform ?? (state.mayoritariaIds.length > 0
+										? state.mayoritariaIds
+										: null)}
+									answered={state.answered}
+									realizaciones={state.total}
+									ariaLabel={pregunta.label}
+									positionLimit={comunPositionLimit(pregunta)}
+									onChoose={(slugs) => aplicarComun(pregunta, slugs)}
+								/>
+								{#if pregunta.help}
+									<FieldHelpTooltip
+										text={pregunta.help}
+										label={`Ayuda sobre «${pregunta.label}»`}
 									/>
-									{#if pregunta.help}
-										<FieldHelpTooltip
-											text={pregunta.help}
-											label={`Ayuda sobre «${pregunta.label}»`}
-										/>
-									{/if}
-								</div>
-							</MetricGridRow>
-						{/each}
-						<div class="flex flex-wrap items-center justify-end gap-3 border-t border-amber-200 px-3 py-2.5">
-							<span class="text-xs text-amber-900">
-								{batchChangeCount === 0
-									? 'Elige al menos una respuesta para aplicarla.'
-									: `${batchChangeCount} ${batchChangeCount === 1 ? 'respuesta preparada' : 'respuestas preparadas'}`}
-							</span>
-							<button
-								type="button"
-								class="h-9 bg-[color:var(--primary)] px-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
-								disabled={batchChangeCount === 0}
-								onclick={applyBatch}
-							>
-								Aplicar a las {batchUnitCount} unidades actuales
-							</button>
+								{/if}
+							</div>
+							<!--
+								El enlace solo aparece cuando hay más de una unidad a la que separar. Y
+								cuando ya hay excepciones no hace falta pedir nada: abajo están abiertas.
+							-->
+							{#if state.total > 1}
+								<button
+									type="button"
+									class="link-action text-xs"
+									onclick={() => alternarUnaAUna(pregunta)}
+								>
+									{modo === 'una_a_una'
+										? 'Volver a responder en conjunto'
+										: `Responder una a una las ${state.total} unidades`}
+								</button>
+							{/if}
+							{#if modo === 'mixto'}
+								<p class="text-xs text-amber-800">
+									{state.excepciones === 1
+										? `1 ${unitShortName} responde otra cosa y se abre abajo.`
+										: `${state.excepciones} unidades responden otra cosa y se abren abajo.`}
+								</p>
+							{/if}
 						</div>
-					</div>
-				{/if}
+					</MetricGridRow>
+				{/each}
 			</div>
 		{/if}
 
@@ -1635,26 +1664,29 @@
 	{@const groupId = String(group.grupo_eleccion_id)}
 	{@const unit = pregunta.owner}
 	{@const estado = estadoDeRespuesta(context, group, unit)}
-	{@const yaArriba = tieneRespuestaComun(group)}
-	{@const claveComun = `${groupId}|${unit.realizacion_id}`}
-	{@const comunAbierta = respuestasComunesAbiertas.has(claveComun)}
-	{@const compactaComun =
-		yaArriba && estado === 'igual' && !respuestasComunesAbiertas.has(claveComun)}
-	{@const compacta = forceCompact || compactaComun}
+	{@const familia = familiaDe(group)}
+	{@const modo = familia ? modoDeLaPregunta(familia) : null}
+	{@const seAparta =
+		familia !== null && firmaComun(group, unit) !== comunState(familia).mayoritaria}
+	{@const compacta = forceCompact}
 	<!--
-		La respuesta que coincide con todas sus equivalentes se resume para aligerar la lista.
-		La que solo coincide con algunas, la individual y la que falta se leen enteras.
+		**Lo que ya está respondido arriba no se repite aquí.**
+
+		Una pregunta que se responde en conjunto solo baja a la unidad cuando hay algo que mirar: o
+		la unidad se aparta de las demás, o el editor ha pedido responderlas una a una. Si todas
+		coinciden, la fila de la unidad se queda en su rótulo —«Copla 2 · vv. 9–16»— y la lista cabe
+		de un vistazo.
+
+		Antes bajaban siempre, resumidas con un «Coincide con las demás unidades» repetido tantas
+		veces como unidades hubiera, que es exactamente la línea que no aportaba nada.
 	-->
+	{#if familia === null || modo === 'una_a_una' || seAparta}
 	<div>
-		{#if yaArriba && !compactaComun}
+		{#if familia && seAparta && modo !== 'una_a_una'}
 			<p class="mb-2 text-xs font-medium text-amber-800">
-				{estado === 'compartida'
-					? 'Esta respuesta coincide en varias unidades, pero no en todas'
-					: estado === 'propia'
-					? `Respuesta diferente en esta ${unitShortName}`
-					: comunAbierta
-						? `Editando solo esta ${unitShortName}`
-						: `Esta ${unitShortName} está sin responder`}
+				{estado === 'sin_responder'
+					? `Esta ${unitShortName} está sin responder`
+					: `Esta ${unitShortName} responde otra cosa que las demás`}
 			</p>
 		{/if}
 		<MetricChoiceField
@@ -1663,26 +1695,17 @@
 			label={pregunta.label}
 			showDescription={estado !== 'igual'}
 			compact={compacta}
-			compactNote={compactaComun
-				? 'Coincide con las demás unidades'
-				: forceCompact
-					? `Respuesta de esta ${unitShortName}`
-					: undefined}
-			changeLabel={compactaComun ? `Editar esta ${unitShortName}` : 'Cambiar'}
+			compactNote={forceCompact ? `Respuesta de esta ${unitShortName}` : undefined}
+			changeLabel="Cambiar"
 			hideCompactAction={forceCompact}
-			onExpand={compacta
-				? () => {
-						onOpenUnit?.();
-						if (compactaComun) abrirRespuestaComun(groupId, unit.realizacion_id);
-					}
-				: undefined}
+			onExpand={compacta ? () => onOpenUnit?.() : undefined}
 			options={optionsForGroup(groupId)}
 			normaEsquema={normaEsquemaDe(group, pregunta.owner)}
 			selectedIds={selectedChoiceIds(groupId, unit.realizacion_id)}
 			onChange={(ids) => setChoices(group, unit, ids)}
 			textValue={choiceTextValue(groupId, unit.realizacion_id)}
 			onTextChange={(value) => setChoiceText(group, unit, value)}
-			onApplyAll={!respondePorPartes && !yaArriba && equivalentes > 1
+			onApplyAll={!respondePorPartes && familia === null && equivalentes > 1
 				? () => applyChoiceToEquivalentUnits(group, unit)
 				: undefined}
 			positionStart={positionStart}
@@ -1692,6 +1715,7 @@
 				setPendingPositionsFor(groupId, unit.realizacion_id, positions)}
 		/>
 	</div>
+	{/if}
 {/snippet}
 
 <!--
