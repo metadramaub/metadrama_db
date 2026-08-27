@@ -582,22 +582,43 @@ commits y en [criterios de nivel](./criterios-de-nivel.md). El resto de lo que h
 el V2 llegue a los editores no son deudas del modelo sino integración, y vive en
 [El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
 
-**B8. El metro no tiene la salida que sí tiene la rima.** Salió el 26 de agosto de 2026 al precisar
-el IP la regla que gobierna toda la anotación: **el editor elige algo que existe y añade una
-desviación si difiere, o —donde se admita— escribe exactamente lo que ve, metros y rimas exactos, y
-eso se guarda.** Escrito así, se ve que solo está hecha la mitad.
+**B8. Cuatro formas aliradas no declaran su medida, y sus hermanas sí.** *Escrito el 26 de agosto de
+2026, y **corregido el mismo día**: se planteó como «el metro no tiene la salida que sí tiene la
+rima» y, contrastado contra la base, no era eso.* La regla que gobierna la anotación, como la
+formuló el IP, es: **el editor elige algo que existe y añade una desviación si difiere, o —donde se
+admita— escribe exactamente lo que ve, y eso se guarda.**
 
-Contado contra la base: **49 grupos** dejan escribir un esquema de rima —8 `esquema_rima` y 41
-`opciones_y_esquema`—, y los **27 grupos de metro son todos `opciones` cerradas**. Si la norma deja
-abiertas las medidas y el editor ve `11 7 7 11 7 11`, no tiene dónde ponerlo. Es el caso de la
-canción de estancias variables, señalado ya en A5 y que se quedó fuera de B2 porque entonces la
-pregunta se planteó como «entre qué medidas elegir» y no como «cuáles son las que veo».
+**El editor puede escribir lo que ve, también la medida.** La pregunta de rima de estas formas es
+`opciones_y_esquema`, así que admite escribir `aBaB`; el normalizador **conserva la caja verso a
+verso** —«la caja es del verso, no de la clase»— y la comparación con el catálogo es sensible a
+ella, de modo que `aBaB` no queda absorbido por el `abab` catalogado. En la tradición alirada la
+caja *es* la medida, así que queda registrada.
 
-*Por qué esto no es opcional:* cuando quince editores escriban el mismo esquema, esa frecuencia es
-la señal de que **hay que incorporarlo al catálogo** y migrar las secuencias que lo usaban a apuntar
-al esquema nuevo. Sin la salida para el metro, esa vía de crecimiento solo funciona para la rima.
+**Lo que falla es el catálogo.** La familia se parte en dos, contado contra la base:
 
-Dos cosas más, de la misma familia, que se resuelven con ella:
+| declaran su medida | no la declaran |
+|---|---|
+| lira `7 11 7 7 11`, septeto-lira `7 11 7 11 7 7 11`, sexteto-lira **ocho veces**, en variedades que cruzan tres notaciones con seis esquemas métricos | **cuarteto-lira, octava-lira, novena-lira y décima-lira**: cero variedades, ningún esquema métrico, solo `11/7` como medidas admitidas |
+
+Las cuatro se crearon el **24 de agosto** al sistematizar la serie, y [A5](#a--bloquean-la-migración-de-las-secuencias)
+lo predijo con estas palabras: «la novena-lira no tiene dónde registrar la disposición que se vea».
+
+**Y el propio mecanismo de crecimiento lo va a gritar.** Como escribir `aBaB` no casa con el `abab`
+catalogado, *toda* anotación de esas cuatro formas será un esquema escrito a mano, y el recuento de
+«cuántos han escrito el mismo» —la señal de que algo merece entrar al catálogo— se disparará por lo
+que en realidad **es la norma**. Eso no es un fallo del recuento: es el sistema diciendo dónde falta
+declarar.
+
+**Y deja al descubierto una inconsistencia del modelo:** el catálogo dice la medida **de dos
+maneras** —en la caja de la notación, como la lira, o en el esquema métrico de una variedad, como el
+sexteto-lira— y no hay escrito cuál es la canónica. Decidirlo es previo a llenar el hueco, porque
+determina cómo se llena. *Es decisión filológica y va a [cuestiones para el IP](./cuestiones-para-el-ip.md).*
+
+*Que la medida viaje montada en la caja de la rima tiene un precio que la proyección de C18 hereda:*
+es una convención de **esta** tradición, no del modelo. En una octava real las mayúsculas solo dicen
+arte mayor.
+
+Dos cosas más, de la misma familia, que conviene resolver con ella:
 
 1. **Lo escrito se guarda como una cadena compuesta.** `valor_texto` lleva `abcabc · asonante`, y el
    régimen a veces falta porque se hereda de la arquitectura.
@@ -611,7 +632,8 @@ Dos cosas más, de la misma familia, que se resuelven con ella:
 
 *Lo que sí está bien resuelto y no hay que tocar:* si lo escrito resulta ser un esquema que el
 catálogo tiene, `MetricChoiceField` lo guarda como elección y no como texto, de modo que el recuento
-de esquemas escritos a mano no se ensucia con los que ya existen.
+de esquemas escritos a mano no se ensucia con los que ya existen. Y la **canción de estancias
+variables**, que se citó como segundo caso, **sí tiene pregunta de metro**: está cubierta.
 
 ### C · Deudas del modelo, sin urgencia
 
