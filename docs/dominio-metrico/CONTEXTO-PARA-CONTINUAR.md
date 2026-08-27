@@ -441,6 +441,16 @@ las fichas lean todavía el modelo viejo deja de correr prisa.
 *Se abre el 26 de agosto de 2026.* Cada entrada dice a cuántas formas alcanza y en qué capa está el
 arreglo, comprobado contra la base antes de proponer nada.
 
+**Cómo se recorre, acordado el 27 de agosto.** El editor pinta desde reglas genéricas, así que casi
+nada de lo que se vea es «de esta forma»: lo que parece que a una le sobra suele ser que la regla
+está mal planteada, y eso **solo se distingue después de tres o cuatro formas**. Así que:
+
+- **Los fallos se arreglan según aparecen** —un número mal, algo que no guarda—, porque dejarlos
+  ensucia el resto del recorrido.
+- **Lo demás se recoge y no se toca**, y se decide cuando el mismo asunto aparezca por segunda o
+  tercera vez. Arreglarlo con una sola forma delante acierta para esa y desajusta las otras cuarenta.
+- Y se separa aparte **lo que es hueco del modelo**, que necesita decisión del IP.
+
 **F1. ~~El rango de versos admite un final anterior al inicial.~~ Hecho el 27 de agosto de 2026.**
 Mover el principio mueve el final conservando la longitud —decisión del IP—, el final no baja del
 principio, los rangos de las desviaciones se acotan al de la secuencia y el guardado los mira, y
@@ -466,6 +476,41 @@ versos». **Alcanza a todas las formas**: no es del catálogo, es el campo. Tres
 forma deriva las unidades del rango, **arrastra el final conservando la longitud**; cuando no las
 deriva, el final se queda quieto y puede quedar detrás. La propuesta es hacerlo **igual siempre**,
 para que el editor se comporte de una sola manera.
+
+#### Canción petrarquista · Regular de 13 versos *(27 de agosto)*
+
+**Del recuadro de la norma.** Se llama «Normas de la arquitectura» y el IP lo llamaría
+**«Características esperadas»**, y lo quiere **desplegable**. Le sobran además tres cosas, y el
+motivo que da es el bueno: **la rejilla ya las dibuja, y mejor**. Las *partes fijas*, la *medida
+fija* y la *rima fija* se ven verso a verso en el dibujo; lo que el recuadro tiene que decir no es
+cuáles son, **sino que son fijas** —porque si el pasaje no encaja en esos esquemas, la arquitectura
+que toca es la de estancias consonantes variables, y eso es lo que hay que saber para elegir—.
+
+**De la rejilla.** Sobra información al lado de cada parte: «1 realización de 3 versos · la norma las
+fija enteras». Con pintar cada parte con sus versos bastaría, y cada estancia ocuparía menos. En la
+unidad, «13 versos · patrón fijo por la arquitectura» se quedaría en **«patrón fijo»**, y «rango
+calculado desde sus partes» **sobra**: es cierto y complica más de lo que ayuda.
+
+**De la cobertura.** Con el rango en 1–2 dice «39 de 2 versos», que se lee como un número al revés.
+*No lo es*: la estructura cubre 39 versos y el rango declara 2, y el aviso de debajo lo explica. Lo
+que engaña es que «X de Y» se lee como «X de un total de Y» y chirría cuando X es mayor.
+
+*Las cuatro alcanzan a las 41 formas.* Ninguna se toca todavía.
+
+**F2. Una sección opcional puede no declarar ni su metro ni su rima, y nadie los pregunta.** Este sí
+es hueco del modelo, y sale de que **al añadir un remate solo se pregunta cuántos versos tiene**.
+Contado contra la base, de las **once secciones opcionales** que hay en cuatro formas:
+
+| forma | secciones | declaran | preguntan |
+|---|---|---|---|
+| Terceto encadenado | serventesio y redondilla finales | metro **y** rima | no hace falta |
+| Villancico y zéjel | enlace, vuelta y repetición (6) | metro sí, rima no | 4 de 6 |
+| **Canción petrarquista** | **remate ×2 y eslabón** | **ninguno** | **no** |
+
+El remate de la regular admite **de 1 a 13 versos** y no dice nada de cómo son, así que anotarlo no
+registra más que su extensión. Es el mismo hueco que **B8** en otra escala: donde la norma no fija
+algo, alguien tiene que poder decir lo que ve. *Decisión del IP: si el remate debe declarar lo que
+las fuentes documenten, o preguntar como las demás.*
 
 ### Lo que va a `main`, no aquí
 
