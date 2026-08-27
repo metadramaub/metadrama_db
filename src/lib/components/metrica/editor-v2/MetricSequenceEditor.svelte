@@ -1307,6 +1307,7 @@
 							groups={unitChoiceGroups}
 							options={choiceOptionsForDraft}
 							schemes={props.catalog.domain.rhymePatterns}
+							rejilla={normGrid}
 							units={draft.unidades}
 							choices={draft.elecciones}
 							unitLabel={selectedForm?.nombre}
