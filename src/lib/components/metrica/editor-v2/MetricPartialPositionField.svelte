@@ -1,4 +1,5 @@
 <script lang="ts">
+	import MetricVerseBar from './MetricVerseBar.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import { shortPositionOptionLabel } from './positional-options';
 
@@ -126,11 +127,6 @@
 		return baseSyllables;
 	}
 
-	function barWidth(position: number): number {
-		const syllables = displayedSyllables(position);
-		if (!syllables || !baseSyllables) return 100;
-		return Math.max(30, Math.min(100, (syllables / baseSyllables) * 100));
-	}
 </script>
 
 <div class="space-y-3">
@@ -147,39 +143,29 @@
 			{@const selectedOption = selectedOptionAt(position)}
 			{@const pending = pendingPositions.includes(position)}
 			{@const broken = selectedOption !== null || pending}
-			<div class="grid min-w-0 items-center gap-2 sm:grid-cols-[4rem_minmax(9rem,1fr)_12rem]">
-				<span class="text-xs text-[color:var(--muted-foreground)]">Verso {position}</span>
-				<div class="relative h-9 overflow-hidden border border-[color:var(--border)] bg-white">
-					<div
-						class={`absolute inset-y-0 left-0 ${
-							broken ? 'bg-amber-100' : 'bg-[color:var(--muted)]'
-						}`}
-						style={`width: ${barWidth(position)}%`}
-					></div>
-					<span class="relative flex h-full items-center px-2 text-xs">
-						{#if selectedOption}
-							<span class="font-medium tabular-nums">
-								{Number(selectedOption.metro_silabas)} sílabas
-							</span>
-							<span class="ml-1.5 text-[0.65rem] font-medium uppercase tracking-wide text-amber-800">
-								Quebrado
-							</span>
-						{:else if pending}
-							<span class="font-medium">Pie quebrado</span>
-							<span class="ml-1.5 text-[0.65rem] font-medium uppercase tracking-wide text-amber-800">
-								Elige la medida
-							</span>
-						{:else if baseSyllables}
-							<span class="font-medium tabular-nums">{baseSyllables} sílabas</span>
-							<span class="ml-1.5 text-[0.65rem] font-medium uppercase tracking-wide text-[color:var(--muted-foreground)]">
-								Base
-							</span>
-						{:else}
-							Medida base
-						{/if}
-					</span>
-				</div>
-
+			<!--
+				La barra vive en `MetricVerseBar`, que es de donde salió: aquí se dibujó primero y
+				ahora la usa también la rejilla de medidas completas. Lo propio de esta pregunta son
+				los controles de la derecha —marcar el quiebro y deshacerlo—, no el dibujo.
+			-->
+			<MetricVerseBar
+				etiqueta={`Verso ${position}`}
+				silabas={selectedOption
+					? Number(selectedOption.metro_silabas)
+					: pending
+						? null
+						: baseSyllables}
+				maximo={baseSyllables}
+				variante={selectedOption ? 'elegida' : pending ? 'pendiente' : 'base'}
+				distintivo={selectedOption
+					? 'Quebrado'
+					: pending
+						? 'Elige la medida'
+						: baseSyllables
+							? 'Base'
+							: undefined}
+				texto={pending ? 'Pie quebrado' : baseSyllables ? undefined : 'Medida base'}
+			>
 				{#if broken}
 					<div class="flex min-w-0 items-center gap-2">
 						<div class="flex border border-[color:var(--border)] bg-white">
@@ -216,7 +202,7 @@
 						Marcar como quebrado
 					</button>
 				{/if}
-			</div>
+			</MetricVerseBar>
 		{/each}
 	</div>
 

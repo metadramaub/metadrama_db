@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
+	import MetricVerseBar from './MetricVerseBar.svelte';
 	import { normalizeRhymeSymbol } from './rhyme-notation';
 
 	const props = $props<{
@@ -41,6 +42,29 @@
 			props.options.map((option: MetricCatalogDomainRow) => Number(option.posicion_unidad))
 		).size
 	);
+
+	/**
+	 * Con qué se compara la anchura de cada barra.
+	 *
+	 * Con medida de base es esa base —la manriqueña, donde los quebrados han de verse más cortos que
+	 * los octosílabos—; sin ella, la mayor que ofrece el repertorio, para que en un cuarteto-lira el
+	 * endecasílabo llene la barra y el heptasílabo no.
+	 */
+	const medidaMayor = $derived.by(() => {
+		if (medidaDeBase !== null) return medidaDeBase;
+		let mayor = 0;
+		for (const option of props.options) {
+			const silabas = Number(option.metro_silabas);
+			if (Number.isFinite(silabas) && silabas > mayor) mayor = silabas;
+		}
+		return mayor > 0 ? mayor : null;
+	});
+
+	function silabasAt(position: number): number | null {
+		const elegida = selectedSyllables(position);
+		if (elegida !== null) return elegida;
+		return optionsAt(position).length === 0 ? medidaDeBase : null;
+	}
 
 	function optionsAt(position: number): MetricCatalogDomainRow[] {
 		return props.options.filter(
@@ -130,64 +154,56 @@
 </script>
 
 <div class="overflow-hidden border border-[color:var(--border)] bg-white">
+	<!-- La cabecera sigue la rejilla de la barra: verso, lo que mide y con qué se responde. -->
 	<div
-		class={`hidden border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] sm:grid ${
-			props.onRhymeChange || props.fixedRhymes
-				? 'grid-cols-[4.5rem_minmax(12rem,1fr)_7rem]'
-				: 'grid-cols-[4.5rem_minmax(12rem,1fr)]'
-		}`}
+		class="hidden border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] sm:grid sm:grid-cols-[4rem_minmax(9rem,1fr)_12rem]"
 	>
 		<span>Posición</span>
 		<span>Medida</span>
-		{#if props.onRhymeChange || props.fixedRhymes}<span>Rima</span>{/if}
+		<span>{props.onRhymeChange || props.fixedRhymes ? 'Medida y rima' : 'Elección'}</span>
 	</div>
 
 	{#each positions as position}
 		{@const choices = optionsAt(position)}
 		{@const selected = selectedAt(position)}
-		<div
-			class={`grid gap-2 border-b border-[color:var(--border)] px-3 py-2 last:border-b-0 sm:items-center ${
-				props.onRhymeChange || props.fixedRhymes
-					? 'sm:grid-cols-[4.5rem_minmax(12rem,1fr)_7rem]'
-					: 'sm:grid-cols-[4.5rem_minmax(12rem,1fr)]'
-			}`}
-		>
-			<span class="text-sm text-[color:var(--muted-foreground)]">Verso {position}</span>
-			<div class="flex min-w-0">
-				{#each choices as option (String(option.opcion_eleccion_id))}
-					{@const optionId = String(option.opcion_eleccion_id)}
-					<button
-						type="button"
-						class={`h-9 min-w-14 border border-r-0 px-4 text-sm font-medium last:border-r ${
-							selected === optionId
-								? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
-								: 'border-[color:var(--border)] bg-white hover:bg-[color:var(--muted)]'
-						}`}
-						disabled={props.readOnly}
-						aria-pressed={selected === optionId}
-						onclick={() => chooseMeasure(position, optionId)}
-					>
-						{syllables(option)}
-					</button>
-				{/each}
-				{#if choices.length === 0}
-					{#if medidaDeBase !== null}
-						<span
-							class="flex h-9 items-center gap-2 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 text-sm text-[color:var(--muted-foreground)]"
-						>
-							{medidaDeBase}
-							<span class="text-[0.65rem] uppercase tracking-wide">fijo</span>
-						</span>
-					{:else}
-						<span class="flex h-9 items-center text-sm text-[color:var(--muted-foreground)]">
-							Sin medidas disponibles
-						</span>
-					{/if}
-				{/if}
-			</div>
-
-			{#if props.onRhymeChange}
-				<label class="flex items-center gap-2 sm:block">
+		<!--
+			La fila es la barra: se ve lo que mide cada verso antes de leer el número. Es el mismo
+			dibujo que la pregunta de los pies quebrados, en un componente que usan las dos.
+		-->
+		<div class="border-b border-[color:var(--border)] px-3 py-2 last:border-b-0">
+			<MetricVerseBar
+				etiqueta={`Verso ${position}`}
+				silabas={silabasAt(position)}
+				maximo={medidaMayor}
+				variante={selected ? 'elegida' : choices.length === 0 ? 'base' : 'vacia'}
+				distintivo={choices.length === 0 && medidaDeBase !== null ? 'fijo' : undefined}
+				texto={choices.length === 0 && medidaDeBase === null
+					? 'Sin medidas disponibles'
+					: selected
+						? undefined
+						: 'Elige la medida'}
+			>
+				<div class="flex min-w-0 items-center gap-2">
+					<div class="flex min-w-0">
+						{#each choices as option (String(option.opcion_eleccion_id))}
+							{@const optionId = String(option.opcion_eleccion_id)}
+							<button
+								type="button"
+								class={`h-9 min-w-12 border border-r-0 px-3 text-sm font-medium last:border-r ${
+									selected === optionId
+										? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
+										: 'border-[color:var(--border)] bg-white hover:bg-[color:var(--muted)]'
+								}`}
+								disabled={props.readOnly}
+								aria-pressed={selected === optionId}
+								onclick={() => chooseMeasure(position, optionId)}
+							>
+								{syllables(option)}
+							</button>
+						{/each}
+					</div>
+				{#if props.onRhymeChange}
+					<label class="flex items-center gap-2 sm:block">
 					<span class="text-xs text-[color:var(--muted-foreground)] sm:sr-only">Rima</span>
 					<input
 						type="text"
@@ -198,11 +214,15 @@
 						autocomplete="off"
 						spellcheck="false"
 						oninput={(event) => changeRhyme(position, event.currentTarget.value)}
-					/>
-				</label>
-			{:else if props.fixedRhymes}
-				<span class="font-mono text-sm font-medium">{props.fixedRhymes[localIndex(position)] ?? '—'}</span>
-			{/if}
+						/>
+					</label>
+					{:else if props.fixedRhymes}
+						<span class="font-mono text-sm font-medium"
+							>{props.fixedRhymes[localIndex(position)] ?? '—'}</span
+						>
+					{/if}
+				</div>
+			</MetricVerseBar>
 		</div>
 	{/each}
 </div>

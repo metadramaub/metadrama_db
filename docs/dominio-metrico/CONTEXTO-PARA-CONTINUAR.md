@@ -587,6 +587,27 @@ por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el av
 futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
 en «una a una» bajan **las dos preguntas**, no solo la rima.
 
+**B8 cerrado en las cuatro aliradas abiertas, y una barra para todas las medidas.** El cuarteto-lira
+«mezcla endecasílabos y heptasílabos **en proporción variable**», y lo mismo la octava, la novena y la
+décima: su esquema declara el repertorio 7/11 y **ninguna posición**, porque la norma no fija cuál va
+dónde. No había pregunta de metro, así que **lo que el editor leía no se registraba en ninguna parte**.
+Con crear el grupo bastó —la función deriva dos opciones por verso—, igual que en la manriqueña.
+
+*El septeto-lira se queda fuera:* su esquema fija la medida verso a verso, `7 11 7 11 7 7 11`, y su
+definición la presenta como «la realización que la documenta». Si admite otras proporciones lo decide
+el IP. La lira fija sus cinco posiciones y el sexteto-lira resuelve la variación por variedades.
+
+**Y toda pregunta de medida se ve igual.** El dibujo de barras nació en los pies quebrados —ver el
+verso corto *más corto* dice de un vistazo lo que un número obliga a comparar— y ahora vive en
+`MetricVerseBar`, que usan las dos preguntas. Lo propio de cada una son los controles de la derecha, no
+el dibujo. La barra se escala contra la medida de base cuando la hay —así el quebrado se ve más corto
+que el octosílabo— y contra la mayor del repertorio cuando no —el endecasílabo llena y el heptasílabo
+no—.
+
+*Un fallo que salió al probarlo:* sin medida de base, `Number(null)` da `0` y pasa por finito, así que
+las aliradas se anotaban «0 0 0 0». Y el resumen de una respuesta a medias devolvía nulo y caía a
+enumerar nombres de opción; ahora marca con `·` los versos que faltan.
+
 **Lo que salió de la copla real, arreglado el mismo día.** Es la primera forma con **una unidad por
 sección**: la copla responde la medida y **cada quintilla su propia rima**. Eso destapó cuatro cosas:
 
