@@ -199,8 +199,8 @@ describe('el catálogo se guarda en memoria por su revisión', () => {
 		await loadMetricCatalog(baseDeMentira(4400, llamadas));
 		await loadMetricCatalog(baseDeMentira(4400, llamadas));
 
-		expect(llamadas.get('secuencias_editor_metrico')).toBe(2);
-		expect(llamadas.get('realizaciones_editor_metrico')).toBe(2);
-		expect(llamadas.get('elecciones_editor_metrico_resueltas')).toBe(2);
+		expect(llamadas.get('anotaciones_metricas')).toBe(2);
+		expect(llamadas.get('anotacion_realizaciones')).toBe(2);
+		expect(llamadas.get('anotacion_elecciones_resueltas')).toBe(2);
 	});
 });

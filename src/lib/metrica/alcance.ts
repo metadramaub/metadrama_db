@@ -10,7 +10,7 @@
  * lo haga se responde como si fuera de unidad, de modo que la pregunta sigue apareciendo y se
  * guarda una respuesta para toda la composición, que es lo que se guardaba antes. Cuando el editor
  * pregunte por realización, esta función deja de tratarlos igual y la respuesta pasa a colgar de
- * `elecciones_editor_metrico.realizacion_prueba_id`, que ya existe.
+ * `anotacion_elecciones.realizacion_id`, que ya existe.
  */
 export type AlcanceDePregunta = 'secuencia' | 'unidad' | 'realizacion';
 

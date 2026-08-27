@@ -212,7 +212,7 @@
 			.filter(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.realizacion_prueba_id === unitId &&
+					choice.realizacion_id === unitId &&
 					Boolean(choice.opcion_eleccion_id)
 			)
 			.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
@@ -223,7 +223,7 @@
 			props.choices.find(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.realizacion_prueba_id === unitId &&
+					choice.realizacion_id === unitId &&
 					Boolean(choice.valor_texto)
 			)?.valor_texto ?? ''
 		);
@@ -275,7 +275,7 @@
 		const measures = metro
 			? selectedChoiceIds(
 					String(metro.group.grupo_eleccion_id),
-					source.realizacion_prueba_id
+					source.realizacion_id
 				)
 					.map((optionId) => ({
 						position: Number(
@@ -291,7 +291,7 @@
 					.join('·')
 			: '';
 		const rhymeValue = rhyme
-			? choiceTextValue(String(rhyme.group.grupo_eleccion_id), source.realizacion_prueba_id).trim()
+			? choiceTextValue(String(rhyme.group.grupo_eleccion_id), source.realizacion_id).trim()
 			: '';
 		return [
 			`${length} ${length === 1 ? 'verso' : 'versos'}`,
@@ -304,10 +304,10 @@
 
 	function commitUnits(next: MetricUnitDraft[], previous = props.units) {
 		const remainingIds = new Set(
-			next.map((unit: MetricUnitDraft) => unit.realizacion_prueba_id)
+			next.map((unit: MetricUnitDraft) => unit.realizacion_id)
 		);
 		const removedIds = previous
-			.map((unit: MetricUnitDraft) => unit.realizacion_prueba_id)
+			.map((unit: MetricUnitDraft) => unit.realizacion_id)
 			.filter((unitId: string) => !remainingIds.has(unitId));
 		if (removedIds.length > 0) props.onUnitsRemoved(removedIds);
 		props.onUnitsChange(next);
@@ -317,7 +317,7 @@
 	// Responder
 	//
 	// Todas las respuestas se guardan igual que antes: una fila por realización en
-	// `elecciones_editor_metrico`. Lo único que cambia es desde dónde se escriben.
+	// `anotacion_elecciones`. Lo único que cambia es desde dónde se escriben.
 	// ------------------------------------------------------------------
 
 	function escribirRespuesta(
@@ -331,11 +331,11 @@
 				(choice: MetricChoiceDraft) =>
 					!(
 						choice.grupo_eleccion_id === groupId &&
-						choice.realizacion_prueba_id === unitId
+						choice.realizacion_id === unitId
 					)
 			),
 			...optionIds.map((optionId) => ({
-				realizacion_prueba_id: unitId,
+				realizacion_id: unitId,
 				grupo_eleccion_id: groupId,
 				opcion_eleccion_id: optionId,
 				valor_texto: null,
@@ -353,7 +353,7 @@
 		const nextChoices = escribirRespuesta(
 			props.choices,
 			groupId,
-			unit.realizacion_prueba_id,
+			unit.realizacion_id,
 			optionIds
 		);
 		props.onChoicesChange(nextChoices);
@@ -361,7 +361,7 @@
 			syncChoiceMaterializedSections(
 				props.units,
 				props.sections,
-				unit.realizacion_prueba_id,
+				unit.realizacion_id,
 				optionsForGroup(groupId),
 				optionIds,
 				props.sequenceStart,
@@ -386,7 +386,7 @@
 			nextChoices = escribirRespuesta(
 				nextChoices,
 				groupId,
-				unit.realizacion_prueba_id,
+				unit.realizacion_id,
 				optionIds
 			);
 		}
@@ -405,13 +405,13 @@
 				(choice: MetricChoiceDraft) =>
 					!(
 						choice.grupo_eleccion_id === groupId &&
-						choice.realizacion_prueba_id === unit.realizacion_prueba_id
+						choice.realizacion_id === unit.realizacion_id
 					)
 			),
 			...(normalized
 				? [
 						{
-							realizacion_prueba_id: unit.realizacion_prueba_id,
+							realizacion_id: unit.realizacion_id,
 							grupo_eleccion_id: groupId,
 							opcion_eleccion_id: null,
 							valor_texto: normalized,
@@ -437,13 +437,13 @@
 					(choice: MetricChoiceDraft) =>
 						!(
 							choice.grupo_eleccion_id === groupId &&
-							choice.realizacion_prueba_id === unit.realizacion_prueba_id
+							choice.realizacion_id === unit.realizacion_id
 						)
 				),
 				...(normalized.trim()
 					? [
 							{
-								realizacion_prueba_id: unit.realizacion_prueba_id,
+								realizacion_id: unit.realizacion_id,
 								grupo_eleccion_id: groupId,
 								opcion_eleccion_id: null,
 								valor_texto: normalized,
@@ -462,11 +462,11 @@
 		sourceUnit: MetricUnitDraft
 	) {
 		const groupId = String(group.grupo_eleccion_id);
-		const selected = selectedChoiceIds(groupId, sourceUnit.realizacion_prueba_id);
+		const selected = selectedChoiceIds(groupId, sourceUnit.realizacion_id);
 		const sourceChoices = props.choices.filter(
 			(choice: MetricChoiceDraft) =>
 				choice.grupo_eleccion_id === groupId &&
-				choice.realizacion_prueba_id === sourceUnit.realizacion_prueba_id
+				choice.realizacion_id === sourceUnit.realizacion_id
 		);
 		let nextChoices = [...props.choices];
 		let nextUnits = [...props.units];
@@ -477,18 +477,18 @@
 					(choice: MetricChoiceDraft) =>
 						!(
 							choice.grupo_eleccion_id === groupId &&
-							choice.realizacion_prueba_id === unit.realizacion_prueba_id
+							choice.realizacion_id === unit.realizacion_id
 						)
 				),
 				...sourceChoices.map((choice: MetricChoiceDraft) => ({
 					...choice,
-					realizacion_prueba_id: unit.realizacion_prueba_id
+					realizacion_id: unit.realizacion_id
 				}))
 			];
 			nextUnits = syncChoiceMaterializedSections(
 				nextUnits,
 				props.sections,
-				unit.realizacion_prueba_id,
+				unit.realizacion_id,
 				optionsForGroup(groupId),
 				selected,
 				props.sequenceStart,
@@ -539,7 +539,7 @@
 			const groupId = String(group.grupo_eleccion_id);
 			for (const unit of unitsForGroup(context, group)) {
 				total += 1;
-				const selected = selectedChoiceIds(groupId, unit.realizacion_prueba_id);
+				const selected = selectedChoiceIds(groupId, unit.realizacion_id);
 				if (selected.length === 0) continue;
 				answered += 1;
 				answers.add(selected.map(optionSlugOf).sort().join('|'));
@@ -575,13 +575,13 @@
 				nextChoices = escribirRespuesta(
 					nextChoices,
 					groupId,
-					unit.realizacion_prueba_id,
+					unit.realizacion_id,
 					optionIds
 				);
 				nextUnits = syncChoiceMaterializedSections(
 					nextUnits,
 					props.sections,
-					unit.realizacion_prueba_id,
+					unit.realizacion_id,
 					optionsForGroup(groupId),
 					optionIds,
 					props.sequenceStart,
@@ -681,9 +681,9 @@
 	function preguntaRespondida(pregunta: PreguntaEnFila): boolean {
 		const groupId = String(pregunta.group.grupo_eleccion_id);
 		if (pregunta.group.tipo_control === 'esquema_rima') {
-			return Boolean(choiceTextValue(groupId, pregunta.owner.realizacion_prueba_id).trim());
+			return Boolean(choiceTextValue(groupId, pregunta.owner.realizacion_id).trim());
 		}
-		const selected = selectedChoiceIds(groupId, pregunta.owner.realizacion_prueba_id);
+		const selected = selectedChoiceIds(groupId, pregunta.owner.realizacion_id);
 		const options = optionsForGroup(groupId);
 		if (isPartialPositionalSelection(pregunta.group, options)) {
 			return selected.length >= Number(pregunta.group.selecciones_min ?? 0);
@@ -725,7 +725,7 @@
 			.filter(
 				(candidate: GridRow): candidate is GridFijasRow =>
 					candidate.kind === 'fijas' &&
-					candidate.parentUnitId === row.unit.realizacion_prueba_id &&
+					candidate.parentUnitId === row.unit.realizacion_id &&
 					Boolean(candidate.section?.esquema_rima_id)
 			)
 			.sort((left: GridFijasRow, right: GridFijasRow) => left.v_ini - right.v_ini);
@@ -769,7 +769,7 @@
 			.filter(
 				(candidate: GridRow): candidate is GridFijasRow =>
 					candidate.kind === 'fijas' &&
-					candidate.parentUnitId === row.unit.realizacion_prueba_id &&
+					candidate.parentUnitId === row.unit.realizacion_id &&
 					candidate.preguntas.length > 0
 			)
 			.sort((left: GridFijasRow, right: GridFijasRow) => left.v_ini - right.v_ini);
@@ -828,7 +828,7 @@
 		for (const parent of parentInstancesOf(context, section)) {
 			const existing = nextUnits.filter(
 				(unit: MetricUnitDraft) =>
-					unit.realizacion_padre_id === parent.realizacion_prueba_id &&
+					unit.realizacion_padre_id === parent.realizacion_id &&
 					unit.seccion_id === targetSectionId
 			);
 			if (present && existing.length === 0) {
@@ -836,7 +836,7 @@
 					nextUnits,
 					props.sections,
 					targetSectionId,
-					parent.realizacion_prueba_id,
+					parent.realizacion_id,
 					props.sequenceStart,
 					props.choices,
 					props.options
@@ -846,7 +846,7 @@
 				for (const unit of existing) {
 					nextUnits = removeMetricUnitTree(
 						nextUnits,
-						unit.realizacion_prueba_id,
+						unit.realizacion_id,
 						props.sections,
 						props.sequenceStart,
 						props.choices,
@@ -880,7 +880,7 @@
 		if (!source) return { units, choices };
 		const length = source.v_fin - source.v_ini + 1;
 		let nextUnits = units.map((unit: MetricUnitDraft) =>
-			peers.some((peer) => peer.realizacion_prueba_id === unit.realizacion_prueba_id)
+			peers.some((peer) => peer.realizacion_id === unit.realizacion_id)
 				? { ...unit, v_fin: unit.v_ini + length - 1 }
 				: unit
 		);
@@ -894,7 +894,7 @@
 			const sourceChoices = choices.filter(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.realizacion_prueba_id === source.realizacion_prueba_id
+					choice.realizacion_id === source.realizacion_id
 			);
 			for (const target of peers.slice(1)) {
 				nextChoices = [
@@ -902,12 +902,12 @@
 						(choice: MetricChoiceDraft) =>
 							!(
 								choice.grupo_eleccion_id === groupId &&
-								choice.realizacion_prueba_id === target.realizacion_prueba_id
+								choice.realizacion_id === target.realizacion_id
 							)
 					),
 					...sourceChoices.map((choice: MetricChoiceDraft) => ({
 						...choice,
-						realizacion_prueba_id: target.realizacion_prueba_id
+						realizacion_id: target.realizacion_id
 					}))
 				];
 			}
@@ -966,7 +966,7 @@
 			for (const unit of current.slice(target)) {
 				nextUnits = removeMetricUnitTree(
 					nextUnits,
-					unit.realizacion_prueba_id,
+					unit.realizacion_id,
 					props.sections,
 					props.sequenceStart,
 					props.choices,
@@ -1030,10 +1030,10 @@
 	}
 
 	function removeInstance(unit: MetricUnitDraft) {
-		const removedIds = [...unitIdsInTree(props.units, unit.realizacion_prueba_id)];
+		const removedIds = [...unitIdsInTree(props.units, unit.realizacion_id)];
 		const remaining = removeMetricUnitTree(
 			props.units,
-			unit.realizacion_prueba_id,
+			unit.realizacion_id,
 			props.sections,
 			props.sequenceStart,
 			props.choices,
@@ -1073,7 +1073,7 @@
 		const maximum = verseMaximum(section);
 		const length = Math.max(minimum, maximum === null ? value : Math.min(maximum, value));
 		const changed = props.units.map((item: MetricUnitDraft) =>
-			item.realizacion_prueba_id === unit.realizacion_prueba_id
+			item.realizacion_id === unit.realizacion_id
 				? { ...item, v_fin: item.v_ini + length - 1 }
 				: item
 		);
@@ -1082,7 +1082,7 @@
 			props.onChoicesChange(
 				props.choices.filter(
 					(choice: MetricChoiceDraft) =>
-						choice.realizacion_prueba_id !== unit.realizacion_prueba_id ||
+						choice.realizacion_id !== unit.realizacion_id ||
 						!choice.opcion_eleccion_id ||
 						!sobran.has(choice.opcion_eleccion_id)
 				)
@@ -1109,17 +1109,17 @@
 		const maximum = verseMaximum(section);
 		const length = Math.max(minimum, maximum === null ? value : Math.min(maximum, value));
 		const peerIds = new Set(
-			patternUnits(row).map((unit: MetricUnitDraft) => unit.realizacion_prueba_id)
+			patternUnits(row).map((unit: MetricUnitDraft) => unit.realizacion_id)
 		);
 		const sobran = positionalChoicesBeyond(length);
 		const nextChoices = props.choices.filter(
 			(choice: MetricChoiceDraft) =>
-				!peerIds.has(choice.realizacion_prueba_id ?? '') ||
+				!peerIds.has(choice.realizacion_id ?? '') ||
 				!choice.opcion_eleccion_id ||
 				!sobran.has(choice.opcion_eleccion_id)
 		);
 		const changed = props.units.map((unit: MetricUnitDraft) =>
-			peerIds.has(unit.realizacion_prueba_id)
+			peerIds.has(unit.realizacion_id)
 				? { ...unit, v_fin: unit.v_ini + length - 1 }
 				: unit
 		);
@@ -1140,10 +1140,10 @@
 		const equivalentUnitIds = new Set(
 			props.units
 				.filter((unit: MetricUnitDraft) => unit.seccion_id === sourceUnit.seccion_id)
-				.map((unit: MetricUnitDraft) => unit.realizacion_prueba_id)
+				.map((unit: MetricUnitDraft) => unit.realizacion_id)
 		);
 		const changed = props.units.map((unit: MetricUnitDraft) =>
-			equivalentUnitIds.has(unit.realizacion_prueba_id)
+			equivalentUnitIds.has(unit.realizacion_id)
 				? { ...unit, v_fin: unit.v_ini + length - 1 }
 				: unit
 		);
@@ -1152,7 +1152,7 @@
 			props.onChoicesChange(
 				props.choices.filter(
 					(choice: MetricChoiceDraft) =>
-						!equivalentUnitIds.has(choice.realizacion_prueba_id ?? '') ||
+						!equivalentUnitIds.has(choice.realizacion_id ?? '') ||
 						!choice.opcion_eleccion_id ||
 						!sobran.has(choice.opcion_eleccion_id)
 				)
@@ -1175,7 +1175,7 @@
 		return props.units.some(
 			(unit: MetricUnitDraft) =>
 				unit.seccion_id === sourceUnit.seccion_id &&
-				unit.realizacion_prueba_id !== sourceUnit.realizacion_prueba_id &&
+				unit.realizacion_id !== sourceUnit.realizacion_id &&
 				unit.v_fin - unit.v_ini + 1 !== length
 		);
 	}
@@ -1381,7 +1381,7 @@
 					(pregunta: PreguntaEnFila) => !partialQuestions.includes(pregunta)
 				)}
 				{@const plegable = parts.length > 0 ? puedePlegarCompuesta(row, parts) : puedePlegar(row)}
-				{@const plegada = plegable && unidadesPlegadas.has(row.unit.realizacion_prueba_id)}
+				{@const plegada = plegable && unidadesPlegadas.has(row.unit.realizacion_id)}
 				<MetricGridRow
 					label={row.label}
 					rango={`vv. ${row.unit.v_ini}–${row.unit.v_fin}`}
@@ -1390,14 +1390,14 @@
 					variant={row.container || parts.length > 0 || fixedRhymeParts.length > 0 ? 'grupo' : 'normal'}
 					actionLabel={plegable ? (plegada ? 'Desplegar' : 'Plegar') : undefined}
 					onAction={plegable
-						? () => setUnidadPlegada(row.unit.realizacion_prueba_id, !plegada)
+						? () => setUnidadPlegada(row.unit.realizacion_id, !plegada)
 						: undefined}
 				>
 					{#if sectionDefinesPattern(row.section)}
 						{@const source = patternSource(row)}
 						{@const metroQuestion = patternQuestion(row, 'metro')}
 						{@const rhymeQuestion = patternQuestion(row, 'rima')}
-						{#if source.realizacion_prueba_id !== row.unit.realizacion_prueba_id}
+						{#if source.realizacion_id !== row.unit.realizacion_id}
 							<div class="border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2">
 								<p class="text-sm font-medium">{patternSummary(row)}</p>
 								<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
@@ -1441,14 +1441,14 @@
 											options={optionsForGroup(String(metroQuestion.group.grupo_eleccion_id))}
 											selectedIds={selectedChoiceIds(
 												String(metroQuestion.group.grupo_eleccion_id),
-												row.unit.realizacion_prueba_id
+												row.unit.realizacion_id
 											)}
 											onMeasureChange={(ids) =>
 												setPatternChoices(row, metroQuestion.group, ids)}
 											rhymeValue={rhymeQuestion
 												? choiceTextValue(
 														String(rhymeQuestion.group.grupo_eleccion_id),
-														row.unit.realizacion_prueba_id
+														row.unit.realizacion_id
 													)
 												: undefined}
 											onRhymeChange={rhymeQuestion
@@ -1482,7 +1482,7 @@
 								)}
 								selectedIds={selectedChoiceIds(
 									String(completePatternQuestion.group.grupo_eleccion_id),
-									row.unit.realizacion_prueba_id
+									row.unit.realizacion_id
 								)}
 								onMeasureChange={(ids) =>
 									setChoices(completePatternQuestion.group, row.unit, ids)}
@@ -1504,7 +1504,7 @@
 								row.preguntas,
 								row.equivalentes,
 								true,
-								() => setUnidadPlegada(row.unit.realizacion_prueba_id, false)
+								() => setUnidadPlegada(row.unit.realizacion_id, false)
 							)}
 						{/if}
 					{:else}
@@ -1636,7 +1636,7 @@
 	{@const unit = pregunta.owner}
 	{@const estado = estadoDeRespuesta(context, group, unit)}
 	{@const yaArriba = tieneRespuestaComun(group)}
-	{@const claveComun = `${groupId}|${unit.realizacion_prueba_id}`}
+	{@const claveComun = `${groupId}|${unit.realizacion_id}`}
 	{@const comunAbierta = respuestasComunesAbiertas.has(claveComun)}
 	{@const compactaComun =
 		yaArriba && estado === 'igual' && !respuestasComunesAbiertas.has(claveComun)}
@@ -1673,23 +1673,23 @@
 			onExpand={compacta
 				? () => {
 						onOpenUnit?.();
-						if (compactaComun) abrirRespuestaComun(groupId, unit.realizacion_prueba_id);
+						if (compactaComun) abrirRespuestaComun(groupId, unit.realizacion_id);
 					}
 				: undefined}
 			options={optionsForGroup(groupId)}
 			normaEsquema={normaEsquemaDe(group, pregunta.owner)}
-			selectedIds={selectedChoiceIds(groupId, unit.realizacion_prueba_id)}
+			selectedIds={selectedChoiceIds(groupId, unit.realizacion_id)}
 			onChange={(ids) => setChoices(group, unit, ids)}
-			textValue={choiceTextValue(groupId, unit.realizacion_prueba_id)}
+			textValue={choiceTextValue(groupId, unit.realizacion_id)}
 			onTextChange={(value) => setChoiceText(group, unit, value)}
 			onApplyAll={!respondePorPartes && !yaArriba && equivalentes > 1
 				? () => applyChoiceToEquivalentUnits(group, unit)
 				: undefined}
 			positionStart={positionStart}
 			positionLimit={positionEnd ?? unit.v_fin - unit.v_ini + 1}
-			pendingPositions={pendingPositionsFor(groupId, unit.realizacion_prueba_id)}
+			pendingPositions={pendingPositionsFor(groupId, unit.realizacion_id)}
 			onPendingPositionsChange={(positions) =>
-				setPendingPositionsFor(groupId, unit.realizacion_prueba_id, positions)}
+				setPendingPositionsFor(groupId, unit.realizacion_id, positions)}
 		/>
 	</div>
 {/snippet}

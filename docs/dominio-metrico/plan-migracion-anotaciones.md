@@ -114,7 +114,7 @@ Decidida el 3 de agosto de 2026. Es el ensayo: anotar secuencias **reales** con 
 nuevo sin que producción se entere, para validar a la vez el editor, el catálogo y el mapa
 de correspondencias.
 
-**Cómo se conecta.** `secuencias_editor_metrico` gana una columna `secuencia_id` nullable
+**Cómo se conecta.** `anotaciones_metricas` gana una columna `secuencia_id` nullable
 que apunta a `secuencias_metricas`. Todo el árbol nuevo —realizaciones, elecciones,
 desviaciones— sigue colgando de la prueba, no de la secuencia. La secuencia real no cambia
 ni una columna y **no sabe que la están anotando**. Se revierte borrando la columna.

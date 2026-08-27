@@ -289,7 +289,7 @@
 	 */
 	function setUnitArchitecture(unit: MetricUnitDraft, arquitecturaId: string | null) {
 		const marcadas = draft.unidades.map((row: MetricUnitDraft) =>
-			row.realizacion_prueba_id === unit.realizacion_prueba_id
+			row.realizacion_id === unit.realizacion_id
 				? { ...row, arquitectura_id: arquitecturaId }
 				: row
 		);
@@ -420,7 +420,7 @@
 			const options = optionsForGroup(groupId);
 			for (const unit of unitsForGroup(group)) {
 				total += 1;
-				const selected = selectedChoiceIds(groupId, unit.realizacion_prueba_id);
+				const selected = selectedChoiceIds(groupId, unit.realizacion_id);
 				if (selected.length === 0) continue;
 				answered += 1;
 				for (const optionId of selected) {
@@ -521,7 +521,7 @@
 			.filter(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.realizacion_prueba_id === unitId &&
+					choice.realizacion_id === unitId &&
 					Boolean(choice.opcion_eleccion_id)
 			)
 			.map((choice: MetricChoiceDraft) => choice.opcion_eleccion_id as string);
@@ -532,7 +532,7 @@
 			draft.elecciones.find(
 				(choice: MetricChoiceDraft) =>
 					choice.grupo_eleccion_id === groupId &&
-					choice.realizacion_prueba_id === unitId &&
+					choice.realizacion_id === unitId &&
 					Boolean(choice.valor_texto)
 			)?.valor_texto ?? ''
 		);
@@ -546,10 +546,10 @@
 		draft.elecciones = [
 			...draft.elecciones.filter(
 				(choice: MetricChoiceDraft) =>
-					!(choice.grupo_eleccion_id === groupId && choice.realizacion_prueba_id === unitId)
+					!(choice.grupo_eleccion_id === groupId && choice.realizacion_id === unitId)
 			),
 			...optionIds.map((optionId) => ({
-				realizacion_prueba_id: unitId,
+				realizacion_id: unitId,
 				grupo_eleccion_id: groupId,
 				opcion_eleccion_id: optionId,
 				valor_texto: null,
@@ -563,12 +563,12 @@
 		draft.elecciones = [
 			...draft.elecciones.filter(
 				(choice: MetricChoiceDraft) =>
-					!(choice.grupo_eleccion_id === groupId && choice.realizacion_prueba_id === unitId)
+					!(choice.grupo_eleccion_id === groupId && choice.realizacion_id === unitId)
 			),
 			...(normalized
 				? [
 						{
-							realizacion_prueba_id: unitId,
+							realizacion_id: unitId,
 							grupo_eleccion_id: groupId,
 							opcion_eleccion_id: null,
 							valor_texto: normalized,
@@ -582,7 +582,7 @@
 	function choiceCount(groupId: string, unitId: string | null): number {
 		return draft.elecciones.filter(
 			(choice: MetricChoiceDraft) =>
-				choice.grupo_eleccion_id === groupId && choice.realizacion_prueba_id === unitId
+				choice.grupo_eleccion_id === groupId && choice.realizacion_id === unitId
 		).length;
 	}
 
@@ -617,11 +617,11 @@
 						(choice: MetricChoiceDraft) =>
 							!(
 								choice.grupo_eleccion_id === groupId &&
-								choice.realizacion_prueba_id === unit.realizacion_prueba_id
+								choice.realizacion_id === unit.realizacion_id
 							)
 					),
 					...chosen.map((option: MetricCatalogDomainRow) => ({
-						realizacion_prueba_id: unit.realizacion_prueba_id,
+						realizacion_id: unit.realizacion_id,
 						grupo_eleccion_id: groupId,
 						opcion_eleccion_id: String(option.opcion_eleccion_id),
 						valor_texto: null,
@@ -767,11 +767,11 @@
 		const removed = new Set(unitIds);
 		draft.elecciones = draft.elecciones.filter(
 			(choice: MetricChoiceDraft) =>
-				!choice.realizacion_prueba_id || !removed.has(choice.realizacion_prueba_id)
+				!choice.realizacion_id || !removed.has(choice.realizacion_id)
 		);
 		draft.desviaciones = draft.desviaciones.map((deviation: MetricDeviationDraft) =>
-			deviation.realizacion_prueba_id && removed.has(deviation.realizacion_prueba_id)
-				? { ...deviation, realizacion_prueba_id: null }
+			deviation.realizacion_id && removed.has(deviation.realizacion_id)
+				? { ...deviation, realizacion_id: null }
 				: deviation
 		);
 	}
@@ -796,7 +796,7 @@
 			for (const unit of unitsForGroup(group)) {
 				total += 1;
 				if (
-					choiceCount(String(group.grupo_eleccion_id), unit.realizacion_prueba_id) >=
+					choiceCount(String(group.grupo_eleccion_id), unit.realizacion_id) >=
 					Number(group.selecciones_min)
 				) {
 					answered += 1;
@@ -881,7 +881,7 @@
 				)) {
 					const childTotal = draft.unidades.filter(
 						(unit: MetricUnitDraft) =>
-							unit.realizacion_padre_id === parent.realizacion_prueba_id &&
+							unit.realizacion_padre_id === parent.realizacion_id &&
 							unit.seccion_id === structuredSectionId(child)
 					).length;
 					const childMaximum = sectionMaximum(child);
@@ -918,14 +918,14 @@
 			for (const unit of applicableUnits) {
 				const total = choiceCount(
 					String(group.grupo_eleccion_id),
-					unit.realizacion_prueba_id
+					unit.realizacion_id
 				);
 				if (total < Number(group.selecciones_min) || total > Number(group.selecciones_max)) {
 					const unanswered = applicableUnits.every(
 						(candidate: MetricUnitDraft) =>
 							choiceCount(
 								String(group.grupo_eleccion_id),
-								candidate.realizacion_prueba_id
+								candidate.realizacion_id
 							) === 0
 					);
 					if (group.permite_aplicar_global && unanswered) {
@@ -1249,7 +1249,7 @@
 						unitCount={materializedUnitCount}
 					/>
 
-					{#key `${draft.secuencia_prueba_id ?? 'nueva'}-${draft.arquitectura_id}`}
+					{#key `${draft.anotacion_id ?? 'nueva'}-${draft.arquitectura_id}`}
 						<MetricStructureEditor
 							sequenceStart={draft.v_ini}
 							sections={sectionsForDraft}

@@ -4,7 +4,7 @@ import type { MetricUnitDraft } from './editor-model';
 
 function unit(id: string, overrides: Partial<MetricUnitDraft> = {}): MetricUnitDraft {
 	return {
-		realizacion_prueba_id: id,
+		realizacion_id: id,
 		realizacion_padre_id: null,
 		seccion_id: '',
 		orden: 1,
@@ -26,7 +26,7 @@ describe('applyProposedUnitAnswers', () => {
 		];
 		const result = applyProposedUnitAnswers(units, [], [{ grupo_eleccion_id: 'g1' }], [RESPUESTA]);
 		expect(result).toHaveLength(1);
-		expect(result[0].realizacion_prueba_id).toBe('u1');
+		expect(result[0].realizacion_id).toBe('u1');
 	});
 
 	it('una pregunta anclada en una sección va a las realizaciones de esa sección', () => {
@@ -38,7 +38,7 @@ describe('applyProposedUnitAnswers', () => {
 		];
 		const groups = [{ grupo_eleccion_id: 'g1', seccion_id: 'sec-tercetos' }];
 		const result = applyProposedUnitAnswers(units, [], groups, [RESPUESTA]);
-		expect(result.map((choice) => choice.realizacion_prueba_id)).toEqual(['terceto-1', 'terceto-2']);
+		expect(result.map((choice) => choice.realizacion_id)).toEqual(['terceto-1', 'terceto-2']);
 	});
 
 	/**
@@ -55,7 +55,7 @@ describe('applyProposedUnitAnswers', () => {
 		];
 		const groups = [{ grupo_eleccion_id: 'g1', seccion_tratada_id: 'sec-cuartetos' }];
 		const result = applyProposedUnitAnswers(units, [], groups, [RESPUESTA]);
-		expect(result.map((choice) => choice.realizacion_prueba_id)).toEqual(['soneto']);
+		expect(result.map((choice) => choice.realizacion_id)).toEqual(['soneto']);
 	});
 
 	/**
@@ -66,7 +66,7 @@ describe('applyProposedUnitAnswers', () => {
 		const units = [unit('u1')];
 		const previo = [
 			{
-				realizacion_prueba_id: 'u1',
+				realizacion_id: 'u1',
 				grupo_eleccion_id: 'g1',
 				opcion_eleccion_id: 'otra',
 				valor_texto: null,

@@ -184,7 +184,7 @@
 					opcion_eleccion_id: respuesta.opcionEleccionId
 				}));
 			openDraft = {
-				secuencia_prueba_id: null,
+				anotacion_id: null,
 				escenario_id: null,
 				secuencia_id: sequence.secuenciaId,
 				orden: 1,
@@ -195,7 +195,7 @@
 				observaciones: '',
 				unidades: [],
 				elecciones: respuestas.map((respuesta: ShadowAnswer) => ({
-					realizacion_prueba_id: null,
+					realizacion_id: null,
 					grupo_eleccion_id: respuesta.grupoEleccionId,
 					opcion_eleccion_id: respuesta.opcionEleccionId,
 					valor_texto: null,
@@ -302,7 +302,7 @@
 					observaciones: cleanText(deviation.observaciones)
 				}))
 			});
-			draft.secuencia_prueba_id = String(payload.secuencia_prueba_id);
+			draft.anotacion_id = String(payload.anotacion_id);
 			draftBaseline = JSON.stringify(draft);
 			pushToast('success', 'Anotación en sombra guardada.');
 			await invalidateAll();
@@ -320,7 +320,7 @@
 		}
 		sequenceSaving = true;
 		try {
-			await callApi({ action: 'delete_sequence', secuencia_prueba_id: sequence.pruebaId });
+			await callApi({ action: 'delete_sequence', anotacion_id: sequence.pruebaId });
 			if (openSequenceId === sequence.secuenciaId) closeEditor();
 			pushToast('success', 'Anotación descartada.');
 			await invalidateAll();

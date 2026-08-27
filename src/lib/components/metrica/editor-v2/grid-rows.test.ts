@@ -151,14 +151,14 @@ describe('quintilla · dos unidades de cinco versos', () => {
 		const [primera, segunda] = ctx.units;
 		ctx.choices = [
 			{
-				realizacion_prueba_id: primera.realizacion_prueba_id,
+				realizacion_id: primera.realizacion_id,
 				grupo_eleccion_id: 'g-quintilla',
 				opcion_eleccion_id: 'o-abaab',
 				valor_texto: null,
 				observaciones: null
 			},
 			{
-				realizacion_prueba_id: segunda.realizacion_prueba_id,
+				realizacion_id: segunda.realizacion_id,
 				grupo_eleccion_id: 'g-quintilla',
 				opcion_eleccion_id: 'o-abaab',
 				valor_texto: null,
@@ -185,14 +185,14 @@ describe('quintilla · dos unidades de cinco versos', () => {
 		const [primera, segunda, tercera] = ctx.units;
 		ctx.choices = [
 			...([primera, segunda].map((unit) => ({
-				realizacion_prueba_id: unit.realizacion_prueba_id,
+				realizacion_id: unit.realizacion_id,
 				grupo_eleccion_id: 'g-quintilla',
 				opcion_eleccion_id: 'o-abaab',
 				valor_texto: null,
 				observaciones: null
 			}))),
 			{
-				realizacion_prueba_id: tercera.realizacion_prueba_id,
+				realizacion_id: tercera.realizacion_id,
 				grupo_eleccion_id: 'g-quintilla',
 				opcion_eleccion_id: 'o-aabba',
 				valor_texto: null,
@@ -337,14 +337,14 @@ describe('pareado · dos dísticos', () => {
 		const ctx = pareado(116, 119);
 		ctx.choices = ctx.units.flatMap((unit) => [
 			{
-				realizacion_prueba_id: unit.realizacion_prueba_id,
+				realizacion_id: unit.realizacion_id,
 				grupo_eleccion_id: 'g-medida-pareado',
 				opcion_eleccion_id: 'p-v1-8',
 				valor_texto: null,
 				observaciones: null
 			},
 			{
-				realizacion_prueba_id: unit.realizacion_prueba_id,
+				realizacion_id: unit.realizacion_id,
 				grupo_eleccion_id: 'g-medida-pareado',
 				opcion_eleccion_id: 'p-v2-8',
 				valor_texto: null,
@@ -514,7 +514,7 @@ describe('soneto · tres seguidos', () => {
 		for (const row of rows) {
 			if (row.kind !== 'fijas') continue;
 			for (const pregunta of row.preguntas) {
-				expect(pregunta.owner.realizacion_prueba_id).toBe(unidad.realizacion_prueba_id);
+				expect(pregunta.owner.realizacion_id).toBe(unidad.realizacion_id);
 			}
 		}
 	});
@@ -726,7 +726,7 @@ function villancico(ciclos: number) {
 			units,
 			villancicoSecciones,
 			's-ciclo',
-			unidad.realizacion_prueba_id,
+			unidad.realizacion_id,
 			1,
 			[],
 			villancicoOpciones
@@ -740,7 +740,7 @@ function villancico(ciclos: number) {
 		choices = [
 			...choices,
 			{
-				realizacion_prueba_id: ciclo.realizacion_prueba_id,
+				realizacion_id: ciclo.realizacion_id,
 				grupo_eleccion_id: 'g-represa',
 				opcion_eleccion_id: 'o-represa-entera',
 				valor_texto: null,
@@ -750,7 +750,7 @@ function villancico(ciclos: number) {
 		units = syncChoiceMaterializedSections(
 			units,
 			villancicoSecciones,
-			ciclo.realizacion_prueba_id,
+			ciclo.realizacion_id,
 			villancicoOpciones.filter((option) => option.grupo_eleccion_id === 'g-represa'),
 			['o-represa-entera'],
 			1,
@@ -765,7 +765,7 @@ function villancico(ciclos: number) {
 			units,
 			villancicoSecciones,
 			's-enlace',
-			copla.realizacion_prueba_id,
+			copla.realizacion_id,
 			1,
 			choices,
 			villancicoOpciones
@@ -821,10 +821,10 @@ describe('canción petrarquista · la primera estancia declara el patrón', () =
 		selecciones_max: 1
 	};
 	const units: MetricUnitDraft[] = [
-		{ realizacion_prueba_id: 'cancion', realizacion_padre_id: null, seccion_id: null, orden: 1, v_ini: 1, v_fin: 18, etiqueta: '', observaciones: '' },
-		{ realizacion_prueba_id: 'e1', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 1, v_ini: 1, v_fin: 6, etiqueta: '', observaciones: '' },
-		{ realizacion_prueba_id: 'e2', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 2, v_ini: 7, v_fin: 12, etiqueta: '', observaciones: '' },
-		{ realizacion_prueba_id: 'e3', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 3, v_ini: 13, v_fin: 18, etiqueta: '', observaciones: '' }
+		{ realizacion_id: 'cancion', realizacion_padre_id: null, seccion_id: null, orden: 1, v_ini: 1, v_fin: 18, etiqueta: '', observaciones: '' },
+		{ realizacion_id: 'e1', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 1, v_ini: 1, v_fin: 6, etiqueta: '', observaciones: '' },
+		{ realizacion_id: 'e2', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 2, v_ini: 7, v_fin: 12, etiqueta: '', observaciones: '' },
+		{ realizacion_id: 'e3', realizacion_padre_id: 'cancion', seccion_id: 's-estancia', orden: 3, v_ini: 13, v_fin: 18, etiqueta: '', observaciones: '' }
 	];
 
 	it('distingue la estancia modelo de sus resultados heredados', () => {
@@ -952,7 +952,7 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 		expect(ciclos).toHaveLength(3);
 		for (const ciclo of ciclos) {
 			const suyas = ctx.choices.filter(
-				(choice) => choice.realizacion_prueba_id === ciclo.realizacion_prueba_id
+				(choice) => choice.realizacion_id === ciclo.realizacion_id
 			);
 			expect(suyas).toHaveLength(1);
 			expect(suyas[0].grupo_eleccion_id).toBe('g-represa');
@@ -962,7 +962,7 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 		expect(represas).toHaveLength(3);
 		expect(
 			represas.every((represa) =>
-				ciclos.some((ciclo) => ciclo.realizacion_prueba_id === represa.realizacion_padre_id)
+				ciclos.some((ciclo) => ciclo.realizacion_id === represa.realizacion_padre_id)
 			)
 		).toBe(true);
 	});
@@ -980,7 +980,7 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 		const ciclo = ctx.units.find((unit) => unit.seccion_id === 's-ciclo')!;
 		ctx.choices = [
 			{
-				realizacion_prueba_id: ciclo.realizacion_prueba_id,
+				realizacion_id: ciclo.realizacion_id,
 				grupo_eleccion_id: 'g-represa',
 				opcion_eleccion_id: 'o-represa-implicita',
 				valor_texto: null,
@@ -990,7 +990,7 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 		ctx.units = syncChoiceMaterializedSections(
 			ctx.units,
 			villancicoSecciones,
-			ciclo.realizacion_prueba_id,
+			ciclo.realizacion_id,
 			villancicoOpciones.filter((option) => option.grupo_eleccion_id === 'g-represa'),
 			['o-represa-implicita'],
 			1,
@@ -1011,8 +1011,8 @@ describe('villancico · estribillo inicial, tres ciclos', () => {
 			'  Repetición del estribillo · sin versos materializados · represa_estribillo'
 		);
 		const pregunta = rows[repeticion];
-		expect(pregunta.kind === 'pregunta' && pregunta.preguntas[0].owner.realizacion_prueba_id).toBe(
-			ciclo.realizacion_prueba_id
+		expect(pregunta.kind === 'pregunta' && pregunta.preguntas[0].owner.realizacion_id).toBe(
+			ciclo.realizacion_id
 		);
 	});
 });
@@ -1086,14 +1086,14 @@ describe('villancico · estribillo tras la primera copla', () => {
 			}
 		];
 		const choices: MetricChoiceDraft[] = ['ciclo-1', 'ciclo-2'].map((cycleId) => ({
-			realizacion_prueba_id: cycleId,
+			realizacion_id: cycleId,
 			grupo_eleccion_id: 'repeticion',
 			opcion_eleccion_id: 'total',
 			observaciones: null
 		}));
 		const units: MetricUnitDraft[] = [
 			{
-				realizacion_prueba_id: 'raiz',
+				realizacion_id: 'raiz',
 				realizacion_padre_id: null,
 				seccion_id: null,
 				orden: 1,
@@ -1103,7 +1103,7 @@ describe('villancico · estribillo tras la primera copla', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'ciclo-1',
+				realizacion_id: 'ciclo-1',
 				realizacion_padre_id: 'raiz',
 				seccion_id: 'ciclo',
 				orden: 2,
@@ -1113,7 +1113,7 @@ describe('villancico · estribillo tras la primera copla', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'estribillo-1',
+				realizacion_id: 'estribillo-1',
 				realizacion_padre_id: 'ciclo-1',
 				seccion_id: 'estribillo',
 				orden: 3,
@@ -1123,7 +1123,7 @@ describe('villancico · estribillo tras la primera copla', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'ciclo-2',
+				realizacion_id: 'ciclo-2',
 				realizacion_padre_id: 'raiz',
 				seccion_id: 'ciclo',
 				orden: 4,
@@ -1133,7 +1133,7 @@ describe('villancico · estribillo tras la primera copla', () => {
 				observaciones: ''
 			},
 			{
-				realizacion_prueba_id: 'estribillo-2',
+				realizacion_id: 'estribillo-2',
 				realizacion_padre_id: 'ciclo-2',
 				seccion_id: 'estribillo',
 				orden: 5,
@@ -1173,7 +1173,7 @@ describe('villancico · estribillo tras la primera copla', () => {
 			unitPlan: { extent: null, countFromRange: false },
 			unitLabel: 'Villancico'
 		});
-		expect(unitsForGroup(context, groups[0]).map((unit) => unit.realizacion_prueba_id)).toEqual([
+		expect(unitsForGroup(context, groups[0]).map((unit) => unit.realizacion_id)).toEqual([
 			'ciclo-2'
 		]);
 	});
@@ -1237,7 +1237,7 @@ describe('ninguna realización se queda sin pintar', () => {
 		for (const ctx of [quintilla(116, 155), soneto(1, 42), villancico(3)]) {
 			const rows = buildGridRows(ctx);
 			const enFilas = new Set(
-				rows.flatMap((row) => (row.kind === 'realizacion' ? [row.unit.realizacion_prueba_id] : []))
+				rows.flatMap((row) => (row.kind === 'realizacion' ? [row.unit.realizacion_id] : []))
 			);
 			const enResumen = rows.flatMap((row) =>
 				row.kind === 'fijas'
@@ -1246,15 +1246,15 @@ describe('ninguna realización se queda sin pintar', () => {
 								(unit: MetricUnitDraft) =>
 									unit.seccion_id === (row.section ? String(row.section.seccion_id) : null)
 							)
-							.map((unit: MetricUnitDraft) => unit.realizacion_prueba_id)
+							.map((unit: MetricUnitDraft) => unit.realizacion_id)
 					: []
 			);
 			// La copla es el único caso previsto de realización sin fila: no pregunta nada y su
 			// rango se lee en el de sus partes.
 			const sinPintar = ctx.units.filter(
 				(unit) =>
-					!enFilas.has(unit.realizacion_prueba_id) &&
-					!enResumen.includes(unit.realizacion_prueba_id)
+					!enFilas.has(unit.realizacion_id) &&
+					!enResumen.includes(unit.realizacion_id)
 			);
 			expect(
 				sinPintar.every((unit) => unit.seccion_id === 's-copla' || unit.seccion_id === null)

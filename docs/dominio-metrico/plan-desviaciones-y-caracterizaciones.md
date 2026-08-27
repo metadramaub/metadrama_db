@@ -154,11 +154,11 @@ están en una obra de pruebas. No se construye un mecanismo de rangos para los r
 
 ### Bloque A · Ahora, sin datos de por medio
 
-`desviaciones_editor_metrico` **está vacía**: cero filas. Cambiar su vocabulario no migra
+`anotacion_desviaciones` **está vacía**: cero filas. Cambiar su vocabulario no migra
 nada. Y conviene hacerlo ya, porque el laboratorio existe para que los editores prueben lo
 que se va a quedar.
 
-1. Migración sobre `desviaciones_editor_metrico`: quitar `combinacion` de la restricción de
+1. Migración sobre `anotacion_desviaciones`: quitar `combinacion` de la restricción de
    `dimension`; sustituir la de `relacion_norma` por los seis valores, renombrando
    `falta_elemento_esperado` a `falta` y `aparece_elemento_no_esperado` a `sobra`; añadir
    las tres invariantes como `check`.

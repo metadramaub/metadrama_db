@@ -333,7 +333,7 @@ export function targetUnitsForGroup(
 			(a, b) =>
 				a.v_ini - b.v_ini ||
 				a.orden - b.orden ||
-				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
+				a.realizacion_id.localeCompare(b.realizacion_id)
 		);
 	return groupStartsAfterFirstOccurrence(group, options) ? targets.slice(1) : targets;
 }
@@ -361,7 +361,7 @@ export function extensionReferenceFor(
 			context.choices.some(
 				(choice) =>
 					choice.opcion_eleccion_id === String(candidate.opcion_eleccion_id) &&
-					choice.realizacion_prueba_id === unit.realizacion_padre_id
+					choice.realizacion_id === unit.realizacion_padre_id
 			)
 	);
 	if (!option?.extension_desde_seccion_id) return null;
@@ -456,10 +456,10 @@ export function buildGridRows(context: GridRowContext): GridRow[] {
 
 /** La realización que no cuelga de ninguna otra: donde se guardan las preguntas de unidad. */
 function unidadDe(context: GridRowContext, unitId: string | null): MetricUnitDraft | null {
-	let actual = context.units.find((unit) => unit.realizacion_prueba_id === unitId) ?? null;
+	let actual = context.units.find((unit) => unit.realizacion_id === unitId) ?? null;
 	while (actual && actual.realizacion_padre_id !== null) {
 		actual =
-			context.units.find((unit) => unit.realizacion_prueba_id === actual!.realizacion_padre_id) ??
+			context.units.find((unit) => unit.realizacion_id === actual!.realizacion_padre_id) ??
 			null;
 	}
 	return actual;
@@ -485,7 +485,7 @@ function materializingQuestions(
 	parentUnitId: string | null
 ): PreguntaEnFila[] {
 	if (!section || !parentUnitId) return [];
-	const owner = context.units.find((unit) => unit.realizacion_prueba_id === parentUnitId);
+	const owner = context.units.find((unit) => unit.realizacion_id === parentUnitId);
 	if (!owner) return [];
 	const targetSectionId = sectionId(section);
 	return context.groups
@@ -493,7 +493,7 @@ function materializingQuestions(
 			(group) =>
 				seRespondeDentroDeLaUnidad(group.alcance) &&
 				unitsForGroup(context, group).some(
-					(unit) => unit.realizacion_prueba_id === owner.realizacion_prueba_id
+					(unit) => unit.realizacion_id === owner.realizacion_id
 				) &&
 				controlledSectionForGroup(context, group) === targetSectionId
 		)
@@ -626,7 +626,7 @@ function walk(
 			if (!transparente) {
 				out.push({
 					kind: 'realizacion',
-					key: unit.realizacion_prueba_id,
+					key: unit.realizacion_id,
 					unit,
 					section,
 					parentUnitId,
@@ -663,7 +663,7 @@ function walk(
 			}
 
 			for (const child of partesDe(unit)) {
-				walk(context, child, unit.realizacion_prueba_id, transparente ? depth : depth + 1, out);
+				walk(context, child, unit.realizacion_id, transparente ? depth : depth + 1, out);
 			}
 		}
 	}
@@ -785,7 +785,7 @@ export function presenciaDeSeccion(context: GridRowContext, section: MetricCatal
 	const conSeccion = parents.filter((parent) =>
 		context.units.some(
 			(unit) =>
-				unit.realizacion_padre_id === parent.realizacion_prueba_id &&
+				unit.realizacion_padre_id === parent.realizacion_id &&
 				unit.seccion_id === sectionId(section)
 		)
 	);
@@ -805,7 +805,7 @@ export function firmaDeRespuesta(
 ): string {
 	return choices
 		.filter(
-			(choice) => choice.grupo_eleccion_id === groupId && choice.realizacion_prueba_id === unitId
+			(choice) => choice.grupo_eleccion_id === groupId && choice.realizacion_id === unitId
 		)
 		.map((choice) => `${choice.opcion_eleccion_id ?? ''}:${choice.valor_texto ?? ''}`)
 		.sort()
@@ -824,12 +824,12 @@ export function estadoDeRespuesta(
 	unit: MetricUnitDraft
 ): EstadoDeRespuesta {
 	const groupId = String(group.grupo_eleccion_id);
-	const propia = firmaDeRespuesta(context.choices, groupId, unit.realizacion_prueba_id);
+	const propia = firmaDeRespuesta(context.choices, groupId, unit.realizacion_id);
 	if (!propia) return 'sin_responder';
 	const equivalentes = unitsForGroup(context, group);
 	if (equivalentes.length < 2) return 'unica';
 	const todas = equivalentes.map((candidate) =>
-		firmaDeRespuesta(context.choices, groupId, candidate.realizacion_prueba_id)
+		firmaDeRespuesta(context.choices, groupId, candidate.realizacion_id)
 	);
 	if (todas.every((firma) => firma === propia)) return 'igual';
 	return todas.filter((firma) => firma === propia).length > 1 ? 'compartida' : 'propia';

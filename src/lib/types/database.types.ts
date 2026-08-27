@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.1"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
@@ -136,6 +136,480 @@ export type Database = {
           },
         ]
       }
+      anotacion_desviaciones: {
+        Row: {
+          anotacion_id: string
+          created_at: string
+          desviacion_id: string
+          dimension: string
+          esquema_rima_observado_id: string | null
+          metro_observado_id: string | null
+          observaciones: string | null
+          realizacion_id: string | null
+          relacion_norma: string
+          repeticion_observada_id: string | null
+          seccion_observada_id: string | null
+          updated_at: string
+          v_fin: number
+          v_ini: number
+          valor_rasgo_observado_id: string | null
+        }
+        Insert: {
+          anotacion_id: string
+          created_at?: string
+          desviacion_id?: string
+          dimension: string
+          esquema_rima_observado_id?: string | null
+          metro_observado_id?: string | null
+          observaciones?: string | null
+          realizacion_id?: string | null
+          relacion_norma: string
+          repeticion_observada_id?: string | null
+          seccion_observada_id?: string | null
+          updated_at?: string
+          v_fin: number
+          v_ini: number
+          valor_rasgo_observado_id?: string | null
+        }
+        Update: {
+          anotacion_id?: string
+          created_at?: string
+          desviacion_id?: string
+          dimension?: string
+          esquema_rima_observado_id?: string | null
+          metro_observado_id?: string | null
+          observaciones?: string | null
+          realizacion_id?: string | null
+          relacion_norma?: string
+          repeticion_observada_id?: string | null
+          seccion_observada_id?: string | null
+          updated_at?: string
+          v_fin?: number
+          v_ini?: number
+          valor_rasgo_observado_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anotacion_desviaciones_anotacion_id_fkey"
+            columns: ["anotacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotaciones_metricas"
+            referencedColumns: ["anotacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_desviaciones_esquema_rima_observado_id_fkey"
+            columns: ["esquema_rima_observado_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_rima"
+            referencedColumns: ["esquema_rima_id"]
+          },
+          {
+            foreignKeyName: "anotacion_desviaciones_metro_observado_id_fkey"
+            columns: ["metro_observado_id"]
+            isOneToOne: false
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
+          },
+          {
+            foreignKeyName: "anotacion_desviaciones_realizacion_id_fkey"
+            columns: ["realizacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotacion_realizaciones"
+            referencedColumns: ["realizacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_desviaciones_repeticion_observada_id_fkey"
+            columns: ["repeticion_observada_id"]
+            isOneToOne: false
+            referencedRelation: "repeticiones_metricas"
+            referencedColumns: ["repeticion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_desviaciones_seccion_observada_id_fkey"
+            columns: ["seccion_observada_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_desviaciones_valor_rasgo_observado_id_fkey"
+            columns: ["valor_rasgo_observado_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+        ]
+      }
+      anotacion_elecciones: {
+        Row: {
+          anotacion_id: string
+          created_at: string
+          eleccion_id: string
+          esquema_metrico_id: string | null
+          esquema_rima_id: string | null
+          grupo_eleccion_id: string
+          metro_id: string | null
+          observaciones: string | null
+          posicion_unidad: number | null
+          realizacion_id: string | null
+          repeticion_id: string | null
+          seccion_id: string | null
+          valor_rasgo_id: string | null
+          valor_texto: string | null
+          variedad_id: string | null
+        }
+        Insert: {
+          anotacion_id: string
+          created_at?: string
+          eleccion_id?: string
+          esquema_metrico_id?: string | null
+          esquema_rima_id?: string | null
+          grupo_eleccion_id: string
+          metro_id?: string | null
+          observaciones?: string | null
+          posicion_unidad?: number | null
+          realizacion_id?: string | null
+          repeticion_id?: string | null
+          seccion_id?: string | null
+          valor_rasgo_id?: string | null
+          valor_texto?: string | null
+          variedad_id?: string | null
+        }
+        Update: {
+          anotacion_id?: string
+          created_at?: string
+          eleccion_id?: string
+          esquema_metrico_id?: string | null
+          esquema_rima_id?: string | null
+          grupo_eleccion_id?: string
+          metro_id?: string | null
+          observaciones?: string | null
+          posicion_unidad?: number | null
+          realizacion_id?: string | null
+          repeticion_id?: string | null
+          seccion_id?: string | null
+          valor_rasgo_id?: string | null
+          valor_texto?: string | null
+          variedad_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anotacion_elecciones_anotacion_id_fkey"
+            columns: ["anotacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotaciones_metricas"
+            referencedColumns: ["anotacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_esquema_metrico_id_fkey"
+            columns: ["esquema_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_metricos"
+            referencedColumns: ["esquema_metrico_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_esquema_rima_id_fkey"
+            columns: ["esquema_rima_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_rima"
+            referencedColumns: ["esquema_rima_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica_resueltos"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_realizacion_id_fkey"
+            columns: ["realizacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotacion_realizaciones"
+            referencedColumns: ["realizacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_repeticion_id_fkey"
+            columns: ["repeticion_id"]
+            isOneToOne: false
+            referencedRelation: "repeticiones_metricas"
+            referencedColumns: ["repeticion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_valor_rasgo_id_fkey"
+            columns: ["valor_rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_variedad_id_fkey"
+            columns: ["variedad_id"]
+            isOneToOne: false
+            referencedRelation: "variedades_arquitectura"
+            referencedColumns: ["variedad_id"]
+          },
+        ]
+      }
+      anotacion_escenarios_prueba: {
+        Row: {
+          created_at: string
+          created_by: string
+          descripcion: string | null
+          escenario_id: string
+          nombre: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          descripcion?: string | null
+          escenario_id?: string
+          nombre: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          descripcion?: string | null
+          escenario_id?: string
+          nombre?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anotacion_escenarios_prueba_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "anotacion_escenarios_prueba_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      anotacion_realizaciones: {
+        Row: {
+          anotacion_id: string
+          arquitectura_id: string | null
+          created_at: string
+          etiqueta: string | null
+          observaciones: string | null
+          orden: number
+          realizacion_id: string
+          realizacion_padre_id: string | null
+          seccion_id: string | null
+          updated_at: string
+          v_fin: number
+          v_ini: number
+        }
+        Insert: {
+          anotacion_id: string
+          arquitectura_id?: string | null
+          created_at?: string
+          etiqueta?: string | null
+          observaciones?: string | null
+          orden: number
+          realizacion_id: string
+          realizacion_padre_id?: string | null
+          seccion_id?: string | null
+          updated_at?: string
+          v_fin: number
+          v_ini: number
+        }
+        Update: {
+          anotacion_id?: string
+          arquitectura_id?: string | null
+          created_at?: string
+          etiqueta?: string | null
+          observaciones?: string | null
+          orden?: number
+          realizacion_id?: string
+          realizacion_padre_id?: string | null
+          seccion_id?: string | null
+          updated_at?: string
+          v_fin?: number
+          v_ini?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anotacion_realizaciones_anotacion_id_fkey"
+            columns: ["anotacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotaciones_metricas"
+            referencedColumns: ["anotacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_realizaciones_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_forma"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "anotacion_realizaciones_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_reglas_longitud"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "anotacion_realizaciones_realizacion_padre_id_fkey"
+            columns: ["realizacion_padre_id"]
+            isOneToOne: false
+            referencedRelation: "anotacion_realizaciones"
+            referencedColumns: ["realizacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_realizaciones_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+        ]
+      }
+      anotaciones_metricas: {
+        Row: {
+          anotacion_id: string
+          arquitectura_id: string | null
+          created_at: string
+          created_by: string
+          escenario_id: string | null
+          forma_id: string
+          observaciones: string | null
+          orden: number
+          secuencia_id: string | null
+          updated_at: string
+          updated_by: string
+          v_fin: number
+          v_ini: number
+        }
+        Insert: {
+          anotacion_id?: string
+          arquitectura_id?: string | null
+          created_at?: string
+          created_by?: string
+          escenario_id?: string | null
+          forma_id: string
+          observaciones?: string | null
+          orden?: number
+          secuencia_id?: string | null
+          updated_at?: string
+          updated_by?: string
+          v_fin: number
+          v_ini: number
+        }
+        Update: {
+          anotacion_id?: string
+          arquitectura_id?: string | null
+          created_at?: string
+          created_by?: string
+          escenario_id?: string | null
+          forma_id?: string
+          observaciones?: string | null
+          orden?: number
+          secuencia_id?: string | null
+          updated_at?: string
+          updated_by?: string
+          v_fin?: number
+          v_ini?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anotaciones_metricas_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_forma"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_reglas_longitud"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_escenario_id_fkey"
+            columns: ["escenario_id"]
+            isOneToOne: false
+            referencedRelation: "anotacion_escenarios_prueba"
+            referencedColumns: ["escenario_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: false
+            referencedRelation: "secuencias_metricas"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "anotaciones_metricas_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       arquitectura_rasgos: {
         Row: {
           arquitectura_id: string
@@ -207,6 +681,7 @@ export type Database = {
           demarcable: boolean
           descripcion: string | null
           forma_id: string
+          intercalable: boolean
           modalidad: string
           nombre: string
           orden: number | null
@@ -227,6 +702,7 @@ export type Database = {
           demarcable?: boolean
           descripcion?: string | null
           forma_id: string
+          intercalable?: boolean
           modalidad?: string
           nombre: string
           orden?: number | null
@@ -247,6 +723,7 @@ export type Database = {
           demarcable?: boolean
           descripcion?: string | null
           forma_id?: string
+          intercalable?: boolean
           modalidad?: string
           nombre?: string
           orden?: number | null
@@ -1038,110 +1515,6 @@ export type Database = {
           },
         ]
       }
-      desviaciones_editor_metrico: {
-        Row: {
-          created_at: string
-          desviacion_prueba_id: string
-          dimension: string
-          esquema_rima_observado_id: string | null
-          metro_observado_id: string | null
-          observaciones: string | null
-          realizacion_prueba_id: string | null
-          relacion_norma: string
-          repeticion_observada_id: string | null
-          seccion_observada_id: string | null
-          secuencia_prueba_id: string
-          updated_at: string
-          v_fin: number
-          v_ini: number
-          valor_rasgo_observado_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          desviacion_prueba_id?: string
-          dimension: string
-          esquema_rima_observado_id?: string | null
-          metro_observado_id?: string | null
-          observaciones?: string | null
-          realizacion_prueba_id?: string | null
-          relacion_norma: string
-          repeticion_observada_id?: string | null
-          seccion_observada_id?: string | null
-          secuencia_prueba_id: string
-          updated_at?: string
-          v_fin: number
-          v_ini: number
-          valor_rasgo_observado_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          desviacion_prueba_id?: string
-          dimension?: string
-          esquema_rima_observado_id?: string | null
-          metro_observado_id?: string | null
-          observaciones?: string | null
-          realizacion_prueba_id?: string | null
-          relacion_norma?: string
-          repeticion_observada_id?: string | null
-          seccion_observada_id?: string | null
-          secuencia_prueba_id?: string
-          updated_at?: string
-          v_fin?: number
-          v_ini?: number
-          valor_rasgo_observado_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "desviaciones_editor_metrico_esquema_rima_observado_id_fkey"
-            columns: ["esquema_rima_observado_id"]
-            isOneToOne: false
-            referencedRelation: "esquemas_rima"
-            referencedColumns: ["esquema_rima_id"]
-          },
-          {
-            foreignKeyName: "desviaciones_editor_metrico_metro_observado_id_fkey"
-            columns: ["metro_observado_id"]
-            isOneToOne: false
-            referencedRelation: "metros"
-            referencedColumns: ["metro_id"]
-          },
-          {
-            foreignKeyName: "desviaciones_editor_metrico_realizacion_prueba_id_fkey"
-            columns: ["realizacion_prueba_id"]
-            isOneToOne: false
-            referencedRelation: "realizaciones_editor_metrico"
-            referencedColumns: ["realizacion_prueba_id"]
-          },
-          {
-            foreignKeyName: "desviaciones_editor_metrico_repeticion_observada_id_fkey"
-            columns: ["repeticion_observada_id"]
-            isOneToOne: false
-            referencedRelation: "repeticiones_metricas"
-            referencedColumns: ["repeticion_id"]
-          },
-          {
-            foreignKeyName: "desviaciones_editor_metrico_seccion_observada_id_fkey"
-            columns: ["seccion_observada_id"]
-            isOneToOne: false
-            referencedRelation: "estructuras_secciones"
-            referencedColumns: ["seccion_id"]
-          },
-          {
-            foreignKeyName: "desviaciones_editor_metrico_secuencia_prueba_id_fkey"
-            columns: ["secuencia_prueba_id"]
-            isOneToOne: false
-            referencedRelation: "secuencias_editor_metrico"
-            referencedColumns: ["secuencia_prueba_id"]
-          },
-          {
-            foreignKeyName: "desviaciones_editor_metrico_valor_rasgo_observado_id_fkey"
-            columns: ["valor_rasgo_observado_id"]
-            isOneToOne: false
-            referencedRelation: "rasgo_valores"
-            referencedColumns: ["valor_id"]
-          },
-        ]
-      }
       editores: {
         Row: {
           activo: boolean | null
@@ -1186,138 +1559,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
-          },
-        ]
-      }
-      elecciones_editor_metrico: {
-        Row: {
-          created_at: string
-          eleccion_prueba_id: string
-          esquema_metrico_id: string | null
-          esquema_rima_id: string | null
-          grupo_eleccion_id: string
-          metro_id: string | null
-          observaciones: string | null
-          posicion_unidad: number | null
-          realizacion_prueba_id: string | null
-          repeticion_id: string | null
-          seccion_id: string | null
-          secuencia_prueba_id: string
-          valor_rasgo_id: string | null
-          valor_texto: string | null
-          variedad_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          eleccion_prueba_id?: string
-          esquema_metrico_id?: string | null
-          esquema_rima_id?: string | null
-          grupo_eleccion_id: string
-          metro_id?: string | null
-          observaciones?: string | null
-          posicion_unidad?: number | null
-          realizacion_prueba_id?: string | null
-          repeticion_id?: string | null
-          seccion_id?: string | null
-          secuencia_prueba_id: string
-          valor_rasgo_id?: string | null
-          valor_texto?: string | null
-          variedad_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          eleccion_prueba_id?: string
-          esquema_metrico_id?: string | null
-          esquema_rima_id?: string | null
-          grupo_eleccion_id?: string
-          metro_id?: string | null
-          observaciones?: string | null
-          posicion_unidad?: number | null
-          realizacion_prueba_id?: string | null
-          repeticion_id?: string | null
-          seccion_id?: string | null
-          secuencia_prueba_id?: string
-          valor_rasgo_id?: string | null
-          valor_texto?: string | null
-          variedad_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "elecciones_editor_metrico_esquema_metrico_id_fkey"
-            columns: ["esquema_metrico_id"]
-            isOneToOne: false
-            referencedRelation: "esquemas_metricos"
-            referencedColumns: ["esquema_metrico_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_esquema_rima_id_fkey"
-            columns: ["esquema_rima_id"]
-            isOneToOne: false
-            referencedRelation: "esquemas_rima"
-            referencedColumns: ["esquema_rima_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica_resueltos"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_metro_id_fkey"
-            columns: ["metro_id"]
-            isOneToOne: false
-            referencedRelation: "metros"
-            referencedColumns: ["metro_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_realizacion_prueba_id_fkey"
-            columns: ["realizacion_prueba_id"]
-            isOneToOne: false
-            referencedRelation: "realizaciones_editor_metrico"
-            referencedColumns: ["realizacion_prueba_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_repeticion_id_fkey"
-            columns: ["repeticion_id"]
-            isOneToOne: false
-            referencedRelation: "repeticiones_metricas"
-            referencedColumns: ["repeticion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_seccion_id_fkey"
-            columns: ["seccion_id"]
-            isOneToOne: false
-            referencedRelation: "estructuras_secciones"
-            referencedColumns: ["seccion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_secuencia_prueba_id_fkey"
-            columns: ["secuencia_prueba_id"]
-            isOneToOne: false
-            referencedRelation: "secuencias_editor_metrico"
-            referencedColumns: ["secuencia_prueba_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_valor_rasgo_id_fkey"
-            columns: ["valor_rasgo_id"]
-            isOneToOne: false
-            referencedRelation: "rasgo_valores"
-            referencedColumns: ["valor_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_variedad_id_fkey"
-            columns: ["variedad_id"]
-            isOneToOne: false
-            referencedRelation: "variedades_arquitectura"
-            referencedColumns: ["variedad_id"]
           },
         ]
       }
@@ -1414,51 +1655,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "variedades_arquitectura"
             referencedColumns: ["variedad_id"]
-          },
-        ]
-      }
-      escenarios_editor_metrico: {
-        Row: {
-          created_at: string
-          created_by: string
-          descripcion: string | null
-          escenario_id: string
-          nombre: string
-          updated_at: string
-          updated_by: string
-        }
-        Insert: {
-          created_at?: string
-          created_by?: string
-          descripcion?: string | null
-          escenario_id?: string
-          nombre: string
-          updated_at?: string
-          updated_by?: string
-        }
-        Update: {
-          created_at?: string
-          created_by?: string
-          descripcion?: string | null
-          escenario_id?: string
-          nombre?: string
-          updated_at?: string
-          updated_by?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "escenarios_editor_metrico_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "editores"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "escenarios_editor_metrico_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "editores"
-            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -2623,7 +2819,7 @@ export type Database = {
           },
         ]
       }
-      obras_editor_metrico_v2: {
+      obras_anotacion_nueva: {
         Row: {
           created_at: string
           created_by: string
@@ -2644,14 +2840,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "obras_editor_metrico_v2_created_by_fkey"
+            foreignKeyName: "obras_anotacion_nueva_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "editores"
             referencedColumns: ["user_id"]
           },
           {
-            foreignKeyName: "obras_editor_metrico_v2_obra_id_fkey"
+            foreignKeyName: "obras_anotacion_nueva_obra_id_fkey"
             columns: ["obra_id"]
             isOneToOne: true
             referencedRelation: "obras"
@@ -2914,70 +3110,6 @@ export type Database = {
         }
         Relationships: []
       }
-      realizaciones_editor_metrico: {
-        Row: {
-          created_at: string
-          etiqueta: string | null
-          observaciones: string | null
-          orden: number
-          realizacion_padre_id: string | null
-          realizacion_prueba_id: string
-          seccion_id: string | null
-          secuencia_prueba_id: string
-          updated_at: string
-          v_fin: number
-          v_ini: number
-        }
-        Insert: {
-          created_at?: string
-          etiqueta?: string | null
-          observaciones?: string | null
-          orden: number
-          realizacion_padre_id?: string | null
-          realizacion_prueba_id: string
-          seccion_id?: string | null
-          secuencia_prueba_id: string
-          updated_at?: string
-          v_fin: number
-          v_ini: number
-        }
-        Update: {
-          created_at?: string
-          etiqueta?: string | null
-          observaciones?: string | null
-          orden?: number
-          realizacion_padre_id?: string | null
-          realizacion_prueba_id?: string
-          seccion_id?: string | null
-          secuencia_prueba_id?: string
-          updated_at?: string
-          v_fin?: number
-          v_ini?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "realizaciones_editor_metrico_realizacion_padre_id_fkey"
-            columns: ["realizacion_padre_id"]
-            isOneToOne: false
-            referencedRelation: "realizaciones_editor_metrico"
-            referencedColumns: ["realizacion_prueba_id"]
-          },
-          {
-            foreignKeyName: "realizaciones_editor_metrico_seccion_id_fkey"
-            columns: ["seccion_id"]
-            isOneToOne: false
-            referencedRelation: "estructuras_secciones"
-            referencedColumns: ["seccion_id"]
-          },
-          {
-            foreignKeyName: "realizaciones_editor_metrico_secuencia_prueba_id_fkey"
-            columns: ["secuencia_prueba_id"]
-            isOneToOne: false
-            referencedRelation: "secuencias_editor_metrico"
-            referencedColumns: ["secuencia_prueba_id"]
-          },
-        ]
-      }
       repeticion_posiciones: {
         Row: {
           bloque: number
@@ -3178,118 +3310,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
-          },
-        ]
-      }
-      secuencias_editor_metrico: {
-        Row: {
-          arquitectura_id: string | null
-          created_at: string
-          created_by: string
-          escenario_id: string | null
-          forma_id: string
-          observaciones: string | null
-          orden: number
-          secuencia_id: string | null
-          secuencia_prueba_id: string
-          updated_at: string
-          updated_by: string
-          v_fin: number
-          v_ini: number
-        }
-        Insert: {
-          arquitectura_id?: string | null
-          created_at?: string
-          created_by?: string
-          escenario_id?: string | null
-          forma_id: string
-          observaciones?: string | null
-          orden?: number
-          secuencia_id?: string | null
-          secuencia_prueba_id?: string
-          updated_at?: string
-          updated_by?: string
-          v_fin: number
-          v_ini: number
-        }
-        Update: {
-          arquitectura_id?: string | null
-          created_at?: string
-          created_by?: string
-          escenario_id?: string | null
-          forma_id?: string
-          observaciones?: string | null
-          orden?: number
-          secuencia_id?: string | null
-          secuencia_prueba_id?: string
-          updated_at?: string
-          updated_by?: string
-          v_fin?: number
-          v_ini?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "secuencias_editor_metrico_arquitectura_id_fkey"
-            columns: ["arquitectura_id"]
-            isOneToOne: false
-            referencedRelation: "arquitecturas_forma"
-            referencedColumns: ["arquitectura_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_arquitectura_id_fkey"
-            columns: ["arquitectura_id"]
-            isOneToOne: false
-            referencedRelation: "arquitecturas_reglas_longitud"
-            referencedColumns: ["arquitectura_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "editores"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_escenario_id_fkey"
-            columns: ["escenario_id"]
-            isOneToOne: false
-            referencedRelation: "escenarios_editor_metrico"
-            referencedColumns: ["escenario_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_forma_id_fkey"
-            columns: ["forma_id"]
-            isOneToOne: false
-            referencedRelation: "formas_metricas"
-            referencedColumns: ["forma_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_forma_id_fkey"
-            columns: ["forma_id"]
-            isOneToOne: false
-            referencedRelation: "propuesta_metrica_secuencia"
-            referencedColumns: ["forma_propuesta_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
-            referencedRelation: "propuesta_metrica_secuencia"
-            referencedColumns: ["secuencia_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_secuencia_id_fkey"
-            columns: ["secuencia_id"]
-            isOneToOne: false
-            referencedRelation: "secuencias_metricas"
-            referencedColumns: ["secuencia_id"]
-          },
-          {
-            foreignKeyName: "secuencias_editor_metrico_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "editores"
-            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -3660,6 +3680,105 @@ export type Database = {
       }
     }
     Views: {
+      anotacion_elecciones_resueltas: {
+        Row: {
+          anotacion_id: string | null
+          created_at: string | null
+          eleccion_id: string | null
+          esquema_metrico_id: string | null
+          esquema_rima_id: string | null
+          grupo_eleccion_id: string | null
+          metro_id: string | null
+          observaciones: string | null
+          opcion_eleccion_id: string | null
+          posicion_unidad: number | null
+          realizacion_id: string | null
+          repeticion_id: string | null
+          seccion_id: string | null
+          valor_rasgo_id: string | null
+          valor_texto: string | null
+          variedad_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anotacion_elecciones_anotacion_id_fkey"
+            columns: ["anotacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotaciones_metricas"
+            referencedColumns: ["anotacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_esquema_metrico_id_fkey"
+            columns: ["esquema_metrico_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_metricos"
+            referencedColumns: ["esquema_metrico_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_esquema_rima_id_fkey"
+            columns: ["esquema_rima_id"]
+            isOneToOne: false
+            referencedRelation: "esquemas_rima"
+            referencedColumns: ["esquema_rima_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_eleccion_metrica_resueltos"
+            referencedColumns: ["grupo_eleccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_metro_id_fkey"
+            columns: ["metro_id"]
+            isOneToOne: false
+            referencedRelation: "metros"
+            referencedColumns: ["metro_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_realizacion_id_fkey"
+            columns: ["realizacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotacion_realizaciones"
+            referencedColumns: ["realizacion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_repeticion_id_fkey"
+            columns: ["repeticion_id"]
+            isOneToOne: false
+            referencedRelation: "repeticiones_metricas"
+            referencedColumns: ["repeticion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_valor_rasgo_id_fkey"
+            columns: ["valor_rasgo_id"]
+            isOneToOne: false
+            referencedRelation: "rasgo_valores"
+            referencedColumns: ["valor_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_variedad_id_fkey"
+            columns: ["variedad_id"]
+            isOneToOne: false
+            referencedRelation: "variedades_arquitectura"
+            referencedColumns: ["variedad_id"]
+          },
+        ]
+      }
       arquitecturas_reglas_longitud: {
         Row: {
           arquitectura_id: string | null
@@ -3672,105 +3791,6 @@ export type Database = {
           residuo_versos: number | null
         }
         Relationships: []
-      }
-      elecciones_editor_metrico_resueltas: {
-        Row: {
-          created_at: string | null
-          eleccion_prueba_id: string | null
-          esquema_metrico_id: string | null
-          esquema_rima_id: string | null
-          grupo_eleccion_id: string | null
-          metro_id: string | null
-          observaciones: string | null
-          opcion_eleccion_id: string | null
-          posicion_unidad: number | null
-          realizacion_prueba_id: string | null
-          repeticion_id: string | null
-          seccion_id: string | null
-          secuencia_prueba_id: string | null
-          valor_rasgo_id: string | null
-          valor_texto: string | null
-          variedad_id: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "elecciones_editor_metrico_esquema_metrico_id_fkey"
-            columns: ["esquema_metrico_id"]
-            isOneToOne: false
-            referencedRelation: "esquemas_metricos"
-            referencedColumns: ["esquema_metrico_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_esquema_rima_id_fkey"
-            columns: ["esquema_rima_id"]
-            isOneToOne: false
-            referencedRelation: "esquemas_rima"
-            referencedColumns: ["esquema_rima_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica_resueltos"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_metro_id_fkey"
-            columns: ["metro_id"]
-            isOneToOne: false
-            referencedRelation: "metros"
-            referencedColumns: ["metro_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_realizacion_prueba_id_fkey"
-            columns: ["realizacion_prueba_id"]
-            isOneToOne: false
-            referencedRelation: "realizaciones_editor_metrico"
-            referencedColumns: ["realizacion_prueba_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_repeticion_id_fkey"
-            columns: ["repeticion_id"]
-            isOneToOne: false
-            referencedRelation: "repeticiones_metricas"
-            referencedColumns: ["repeticion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_seccion_id_fkey"
-            columns: ["seccion_id"]
-            isOneToOne: false
-            referencedRelation: "estructuras_secciones"
-            referencedColumns: ["seccion_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_secuencia_prueba_id_fkey"
-            columns: ["secuencia_prueba_id"]
-            isOneToOne: false
-            referencedRelation: "secuencias_editor_metrico"
-            referencedColumns: ["secuencia_prueba_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_valor_rasgo_id_fkey"
-            columns: ["valor_rasgo_id"]
-            isOneToOne: false
-            referencedRelation: "rasgo_valores"
-            referencedColumns: ["valor_id"]
-          },
-          {
-            foreignKeyName: "elecciones_editor_metrico_variedad_id_fkey"
-            columns: ["variedad_id"]
-            isOneToOne: false
-            referencedRelation: "variedades_arquitectura"
-            referencedColumns: ["variedad_id"]
-          },
-        ]
       }
       grupos_eleccion_metrica_resueltos: {
         Row: {
@@ -3934,10 +3954,7 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
-      guardar_secuencia_editor_metrico_prueba: {
-        Args: { p_datos: Json }
-        Returns: string
-      }
+      guardar_anotacion_metrica: { Args: { p_datos: Json }; Returns: string }
       marcar_arquitectura_metrica_principal: {
         Args: { p_arquitectura_id: string }
         Returns: undefined
@@ -4076,7 +4093,7 @@ export type Database = {
         Args: { p_jornada_id: string; p_obra_id: string }
         Returns: string
       }
-      validar_estructura_secuencia_editor_metrico: {
+      validar_estructura_anotacion: {
         Args: { p_secuencia_id: string }
         Returns: undefined
       }

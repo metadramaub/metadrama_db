@@ -536,10 +536,10 @@ Aplicado el 9 de agosto (migraciones `20260809190000` y `20260809200000`). Era l
 poder generar las preguntas: mientras una respuesta guardara `opcion_eleccion_id`, **regenerar
 las opciones habría dejado huérfanas las respuestas**.
 
-Ahora `elecciones_editor_metrico` guarda **el dato del catálogo que se eligió** —un metro, un
+Ahora `anotacion_elecciones` guarda **el dato del catálogo que se eligió** —un metro, un
 esquema, un valor de rasgo, una variedad, una repetición— y la posición cuando la hay. La
 opción sigue existiendo y sigue siendo lo que el editor pinta; una vista,
-`elecciones_editor_metrico_resueltas`, la resuelve de vuelta, de modo que **el formulario no
+`anotacion_elecciones_resueltas`, la resuelve de vuelta, de modo que **el formulario no
 cambió**. La validación comprueba lo mismo que antes —que la elección esté admitida—, pero
 sobre la entidad: cuando las opciones se deriven, cambiará de fuente sin tocar lo guardado.
 
@@ -550,7 +550,7 @@ mudarse a `repeticiones_metricas` antes de poder retirar las opciones. Es exacta
 anota la transversal de las reglas de repetición, que queda así enlazada con esta.
 
 **Una lección de método.** El cambio pasó `db push`, `npm run check` y las 296 pruebas, y aun
-así estaba roto: un segundo disparador, `validar_posicion_eleccion_editor_metrico`, seguía
+así estaba roto: un segundo disparador, `validar_posicion_anotacion_eleccion`, seguía
 leyendo la columna retirada, y **cualquier intento de guardar habría fallado**. No lo detectó
 nada porque una función de PL/pgSQL no se compila hasta que se ejecuta y ninguna prueba escribe
 en esa tabla. Lo destapó una inserción de prueba contra la base. _Al tocar una tabla con
@@ -766,7 +766,7 @@ averías anteriores a este cambio**:
 - `obtener_catalogo_demarcador()` pedía `formas_metricas.grado_especificacion`, retirada el 5 de
   agosto. **La proyección del demarcador nuevo llevaba cinco días sin funcionar.** Pedía también
   `arquitectura_rasgos.valor_numero` y `valor_texto`, retiradas el 9.
-- `guardar_secuencia_editor_metrico_prueba()` usa `v_grupo.nombre` en los tres mensajes que le
+- `guardar_anotacion_metrica()` usa `v_grupo.nombre` en los tres mensajes que le
   dicen al editor qué pregunta está mal respondida. Habría reventado **solo al avisar de un
   fallo**, es decir, justo cuando hace falta el aviso.
 

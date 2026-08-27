@@ -1,7 +1,7 @@
 import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 export type MetricUnitDraft = {
-	realizacion_prueba_id: string;
+	realizacion_id: string;
 	realizacion_padre_id: string | null;
 	seccion_id: string | null;
 	orden: number;
@@ -22,7 +22,7 @@ export type MetricUnitDraft = {
 };
 
 export type MetricChoiceDraft = {
-	realizacion_prueba_id: string | null;
+	realizacion_id: string | null;
 	grupo_eleccion_id: string;
 	opcion_eleccion_id: string | null;
 	valor_texto?: string | null;
@@ -217,7 +217,7 @@ function defaultUnit(
 ): MetricUnitDraft {
 	const length = section ? sectionVerseMinimum(section) : fallbackLength;
 	return {
-		realizacion_prueba_id: crypto.randomUUID(),
+		realizacion_id: crypto.randomUUID(),
 		realizacion_padre_id: parentUnitId,
 		seccion_id: section ? sectionId(section) : null,
 		orden: 1,
@@ -238,7 +238,7 @@ function appendRequiredDescendants(
 	let next = units;
 	for (const childSection of partesDeLaRealizacion(sections, parentUnit, intercaladas)) {
 		for (let index = 0; index < sectionMinimum(childSection); index += 1) {
-			const child = defaultUnit(childSection, parentUnit.realizacion_prueba_id, start, 1);
+			const child = defaultUnit(childSection, parentUnit.realizacion_id, start, 1);
 			next = [...next, child];
 			next = appendRequiredDescendants(next, child, sections, start, intercaladas);
 		}
@@ -360,16 +360,16 @@ export function syncRepeatedMetricUnits(
 			(a, b) =>
 				a.orden - b.orden ||
 				a.v_ini - b.v_ini ||
-				a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
+				a.realizacion_id.localeCompare(b.realizacion_id)
 		);
 
 	let next = [...units];
 	const removedUnitIds = existingUnits
 		.slice(desiredCount)
-		.flatMap((unit) => [...unitIdsInTree(next, unit.realizacion_prueba_id)]);
+		.flatMap((unit) => [...unitIdsInTree(next, unit.realizacion_id)]);
 	if (removedUnitIds.length > 0) {
 		const removed = new Set(removedUnitIds);
-		next = next.filter((unit) => !removed.has(unit.realizacion_prueba_id));
+		next = next.filter((unit) => !removed.has(unit.realizacion_id));
 	}
 
 	for (let index = existingUnits.length; index < desiredCount; index += 1) {
@@ -411,7 +411,7 @@ export function ensureRequiredMetricUnits(
 	if (intercaladas.length > 0) {
 		const admitidasPorPadre = new Map<string, Set<string>>(
 			next.map((parent) => [
-				parent.realizacion_prueba_id,
+				parent.realizacion_id,
 				new Set(
 					partesDeLaRealizacion(sections, parent, intercaladas).map((childSection) =>
 						sectionId(childSection)
@@ -431,7 +431,7 @@ export function ensureRequiredMetricUnits(
 		for (const childSection of partesDeLaRealizacion(sections, parent, intercaladas)) {
 			const existing = next.filter(
 				(unit) =>
-					unit.realizacion_padre_id === parent.realizacion_prueba_id &&
+					unit.realizacion_padre_id === parent.realizacion_id &&
 					unit.seccion_id === sectionId(childSection)
 			).length;
 			for (let index = existing; index < sectionMinimum(childSection); index += 1) {
@@ -439,7 +439,7 @@ export function ensureRequiredMetricUnits(
 					next,
 					sections,
 					sectionId(childSection),
-					parent.realizacion_prueba_id,
+					parent.realizacion_id,
 					sequenceStart,
 					choices,
 					options,
@@ -468,15 +468,15 @@ export function removeMetricUnitTree(
 			if (
 				unit.realizacion_padre_id &&
 				removed.has(unit.realizacion_padre_id) &&
-				!removed.has(unit.realizacion_prueba_id)
+				!removed.has(unit.realizacion_id)
 			) {
-				removed.add(unit.realizacion_prueba_id);
+				removed.add(unit.realizacion_id);
 				changed = true;
 			}
 		}
 	}
 	return reflowMetricUnits(
-		units.filter((unit) => !removed.has(unit.realizacion_prueba_id)),
+		units.filter((unit) => !removed.has(unit.realizacion_id)),
 		sections,
 		sequenceStart,
 		choices,
@@ -513,7 +513,7 @@ export function extensionSourceUnitFor(
 			choices.some(
 				(choice) =>
 					choice.opcion_eleccion_id === String(option.opcion_eleccion_id) &&
-					choice.realizacion_prueba_id === unit.realizacion_padre_id
+					choice.realizacion_id === unit.realizacion_padre_id
 			)
 	);
 	if (!effectOption?.extension_desde_seccion_id) return null;
@@ -524,17 +524,17 @@ export function extensionSourceUnitFor(
 		units
 			.filter(
 				(candidate) =>
-					candidate.realizacion_prueba_id !== unit.realizacion_prueba_id &&
+					candidate.realizacion_id !== unit.realizacion_id &&
 					candidate.seccion_id === referenceSectionId &&
 					(availableUnitIds
-						? availableUnitIds.has(candidate.realizacion_prueba_id)
+						? availableUnitIds.has(candidate.realizacion_id)
 						: !selfReference || candidate.v_ini < unit.v_ini)
 			)
 			.sort(
 				(a, b) =>
 					a.v_ini - b.v_ini ||
 					a.orden - b.orden ||
-					a.realizacion_prueba_id.localeCompare(b.realizacion_prueba_id)
+					a.realizacion_id.localeCompare(b.realizacion_id)
 			)[0] ?? null
 	);
 }
@@ -572,9 +572,9 @@ export function reflowMetricUnits(
 	const sectionOf = (unit: MetricUnitDraft) =>
 		unit.seccion_id ? sectionById.get(unit.seccion_id) : undefined;
 	const originalOrder = new Map(
-		units.map((unit, index) => [unit.realizacion_prueba_id, unit.orden || index + 1])
+		units.map((unit, index) => [unit.realizacion_id, unit.orden || index + 1])
 	);
-	const updated = new Map(units.map((unit) => [unit.realizacion_prueba_id, { ...unit }]));
+	const updated = new Map(units.map((unit) => [unit.realizacion_id, { ...unit }]));
 	const visited = new Set<string>();
 	let nextOrder = 1;
 
@@ -582,8 +582,8 @@ export function reflowMetricUnits(
 		[...items].sort(
 			(a, b) =>
 				numeric(sectionOf(a)?.orden, 999) - numeric(sectionOf(b)?.orden, 999) ||
-				numeric(originalOrder.get(a.realizacion_prueba_id), 999) -
-					numeric(originalOrder.get(b.realizacion_prueba_id), 999)
+				numeric(originalOrder.get(a.realizacion_id), 999) -
+					numeric(originalOrder.get(b.realizacion_id), 999)
 		);
 
 	const flowUnit = (unitId: string, start: number): number => {
@@ -592,16 +592,16 @@ export function reflowMetricUnits(
 		const section = sectionOf(unit);
 		const children = sortInstances(
 			[...updated.values()].filter(
-				(candidate) => candidate.realizacion_padre_id === unit.realizacion_prueba_id
+				(candidate) => candidate.realizacion_padre_id === unit.realizacion_id
 			)
 		);
-		visited.add(unit.realizacion_prueba_id);
+		visited.add(unit.realizacion_id);
 		unit.orden = nextOrder;
 		nextOrder += 1;
 
 		if (children.length > 0) {
 			let cursor = start;
-			for (const child of children) cursor = flowUnit(child.realizacion_prueba_id, cursor);
+			for (const child of children) cursor = flowUnit(child.realizacion_id, cursor);
 			unit.v_ini = start;
 			unit.v_fin = Math.max(start, cursor - 1);
 			return unit.v_fin + 1;
@@ -619,13 +619,13 @@ export function reflowMetricUnits(
 	const roots = sortInstances(
 		[...updated.values()].filter((unit) => unit.realizacion_padre_id === null)
 	);
-	for (const root of roots) cursor = flowUnit(root.realizacion_prueba_id, cursor);
+	for (const root of roots) cursor = flowUnit(root.realizacion_id, cursor);
 
 	for (const orphan of sortInstances(
-		[...updated.values()].filter((unit) => !visited.has(unit.realizacion_prueba_id))
+		[...updated.values()].filter((unit) => !visited.has(unit.realizacion_id))
 	)) {
 		orphan.realizacion_padre_id = null;
-		cursor = flowUnit(orphan.realizacion_prueba_id, cursor);
+		cursor = flowUnit(orphan.realizacion_id, cursor);
 	}
 
 	return [...updated.values()].sort((a, b) => a.orden - b.orden);
@@ -693,9 +693,9 @@ export function unitIdsInTree(units: MetricUnitDraft[], rootUnitId: string): Set
 			if (
 				unit.realizacion_padre_id &&
 				ids.has(unit.realizacion_padre_id) &&
-				!ids.has(unit.realizacion_prueba_id)
+				!ids.has(unit.realizacion_id)
 			) {
-				ids.add(unit.realizacion_prueba_id);
+				ids.add(unit.realizacion_id);
 				changed = true;
 			}
 		}

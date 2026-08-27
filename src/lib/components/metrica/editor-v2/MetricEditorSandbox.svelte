@@ -124,7 +124,7 @@
 	const sequenceOverlapIssues = $derived(
 		analyzeSequenceRangeConsistency(
 			orderedSequences.map((row: MetricCatalogDomainRow) => ({
-				secuencia_id: String(row.secuencia_prueba_id),
+				secuencia_id: String(row.anotacion_id),
 				v_ini: Number(row.v_ini),
 				v_fin: Number(row.v_fin)
 			}))
@@ -153,10 +153,10 @@
 		liveDraft !== null && draftBaseline !== '' && JSON.stringify(liveDraft) !== draftBaseline
 	);
 	const editingIndex = $derived(
-		openDraft?.secuencia_prueba_id
+		openDraft?.anotacion_id
 			? orderedSequences.findIndex(
 					(row: MetricCatalogDomainRow) =>
-						String(row.secuencia_prueba_id) === openDraft?.secuencia_prueba_id
+						String(row.anotacion_id) === openDraft?.anotacion_id
 				)
 			: -1
 	);
@@ -213,7 +213,7 @@
 		const previous = scenarioSequences.at(-1);
 		const nextVerse = previous ? Number(previous.v_fin) + 1 : 1;
 		openDraft = {
-			secuencia_prueba_id: null,
+			anotacion_id: null,
 			escenario_id: selectedScenarioId,
 			// El laboratorio nunca anota una secuencia real: eso es la anotación en sombra.
 			secuencia_id: null,
@@ -258,7 +258,7 @@
 	}
 
 	function requestOpenSequence(row: MetricCatalogDomainRow) {
-		if (String(row.secuencia_prueba_id) === openDraft?.secuencia_prueba_id) return;
+		if (String(row.anotacion_id) === openDraft?.anotacion_id) return;
 		if (draftDirty) {
 			pendingAction = { kind: 'open', target: row };
 			return;
@@ -380,7 +380,7 @@
 					observaciones: cleanText(deviation.observaciones)
 				}))
 			});
-			draft.secuencia_prueba_id = String(payload.secuencia_prueba_id);
+			draft.anotacion_id = String(payload.anotacion_id);
 			draftBaseline = JSON.stringify(draft);
 			pushToast('success', 'Secuencia métrica de prueba guardada.');
 			await invalidateAll();
@@ -396,8 +396,8 @@
 		if (!window.confirm('¿Eliminar esta secuencia métrica de prueba?')) return;
 		sequenceSaving = true;
 		try {
-			await callApi({ action: 'delete_sequence', secuencia_prueba_id: sequenceId });
-			if (openDraft?.secuencia_prueba_id === sequenceId) closeSequence();
+			await callApi({ action: 'delete_sequence', anotacion_id: sequenceId });
+			if (openDraft?.anotacion_id === sequenceId) closeSequence();
 			pushToast('success', 'Secuencia de prueba eliminada.');
 			await invalidateAll();
 		} catch (error) {
@@ -537,14 +537,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each filteredSequences as sequence, index (String(sequence.secuencia_prueba_id))}
+					{#each filteredSequences as sequence, index (String(sequence.anotacion_id))}
 						<tr
 							class={`border-t ${
-								sequenceOverlapIds.has(String(sequence.secuencia_prueba_id))
+								sequenceOverlapIds.has(String(sequence.anotacion_id))
 									? 'border-[color:var(--danger)] bg-red-50'
 									: 'border-[color:var(--border)]'
 							} ${
-								openDraft?.secuencia_prueba_id === String(sequence.secuencia_prueba_id)
+								openDraft?.anotacion_id === String(sequence.anotacion_id)
 									? 'bg-[color:var(--muted)]'
 									: ''
 							}`}
@@ -576,7 +576,7 @@
 										type="button"
 										class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
 										aria-label="Eliminar secuencia"
-										onclick={() => void deleteSequenceById(String(sequence.secuencia_prueba_id))}
+										onclick={() => void deleteSequenceById(String(sequence.anotacion_id))}
 										disabled={sequenceSaving}
 									>
 										<Trash2 size={16} />
@@ -645,7 +645,7 @@
 				<div class="flex flex-wrap items-center justify-between gap-3">
 					<div class="flex min-w-0 items-center gap-3">
 						<h3 class="text-base font-semibold">
-							{openDraft.secuencia_prueba_id ? 'Editar secuencia' : 'Nueva secuencia'}
+							{openDraft.anotacion_id ? 'Editar secuencia' : 'Nueva secuencia'}
 						</h3>
 						{#if liveDraft}
 							{@const verses = liveDraft.v_fin - liveDraft.v_ini + 1}
@@ -697,10 +697,10 @@
 						{#if draftDirty}
 							<span class="text-xs text-[color:var(--muted-foreground)]">Cambios sin guardar</span>
 						{/if}
-						{#if openDraft.secuencia_prueba_id}
+						{#if openDraft.anotacion_id}
 							<Button
 								variant="danger"
-								onclick={() => void deleteSequenceById(openDraft!.secuencia_prueba_id as string)}
+								onclick={() => void deleteSequenceById(openDraft!.anotacion_id as string)}
 								disabled={sequenceSaving}
 							>
 								Eliminar
