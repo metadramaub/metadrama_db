@@ -471,7 +471,7 @@ por su número sepa que no siguen abiertos.
 | **C6** | la rejilla convertía en ciclo una unidad acotada | 25 ago |
 | **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
 
-Con B5 se cerró **el bloque B entero**. Quedan **tres asuntos en A** y **quince en C**.
+Con B5 se cerró **el bloque B entero**. Quedan **tres asuntos en A** y **dieciséis en C**.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -769,6 +769,33 @@ cuánto añade de verdad.
 `regla_longitud_arquitectura_metrica` está en **plpgsql**, que Postgres no puede integrar en la
 consulta, así que la ejecuta fila a fila: **670 veces** en una sola carga de la propuesta. Reescrita
 en SQL sería inlineable.
+
+**C18. Nadie proyecta una anotación a notación verso a verso, y es lo que pide la estilometría.**
+Salió el 26 de agosto de 2026 de una pregunta del IP: la respuesta de una unidad guarda
+`variedad_id` —«A2 · AbaBcC»— y no `11 7 7 11 7 11 / AbaBcC`.
+
+**Que no esté guardado es correcto y no se toca.** La variedad apunta a un esquema métrico y a uno
+de rima, y cada esquema tiene una fila por posición: la notación exacta se deriva, comprobado contra
+la base. Guardarla además en la elección crearía una segunda fuente de verdad, y el día que se
+corrija un esquema del catálogo —la revisión va por la 4413— los pasajes anotados antes conservarían
+la vieja, sin manera de distinguir «esto se corrigió» de «este pasaje era realmente distinto». Esa
+segunda distinción es justo para lo que existe `desviaciones`.
+
+**Lo que falta es la proyección.** [`rejilla.ts`](../../src/lib/metrica/rejilla.ts) ya produce el
+verso a verso —es pura, 678 líneas con 525 de pruebas—, pero **dibuja la norma de una arquitectura,
+nunca un pasaje anotado**: sus tres consumidores son la ficha de `/formas`, el demarcador y el
+recuadro de la norma del editor. Nada cruza la norma con **las respuestas, las desviaciones y la
+arquitectura intercalada** de una secuencia concreta.
+
+Debe ser una **proyección precomputada y regenerable**, como los resúmenes públicos, y nunca una
+columna en la elección: así, al corregir un esquema, se recalcula y todo queda al día sin tocar una
+sola anotación. Tres casos que el ejemplo fácil no enseña y que tendrá que resolver: cuando el
+editor **escribe un esquema que el catálogo no tiene** (`valor_texto`, lo que abrió B1), cuando el
+esquema es **abierto** y solo declara el régimen —quintilla, silva, sextilla—, y cuando la respuesta
+es **posicional**, como los versos quebrados.
+
+*No corre prisa para anotar —nada de esto bloquea a un editor—, pero sí es previo a poder comparar y
+cuantificar, que es para lo que se hace el catálogo nuevo.*
 
 ## Siguiente fase prevista
 
