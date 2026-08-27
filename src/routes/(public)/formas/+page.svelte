@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { PublicFormSummary } from '$lib/metrica/formas-publicas.types';
 	import { metricStructuralLevelLabel } from '$lib/metrica/catalogo';
+	import PublicHelpDialog from '$lib/components/public/PublicHelpDialog.svelte';
+	import PublicResourceHeader from '$lib/components/public/PublicResourceHeader.svelte';
 	import {
 		compararFormas,
 		laFormaCoincide,
@@ -24,6 +26,7 @@
 	let nivel = $state<NivelEstructural | null>(null);
 	let tradicion = $state<string | null>(null);
 	let rima = $state<string | null>(null);
+	let ayudaAbierta = $state(false);
 
 	/** Los valores que de verdad hay, no una lista escrita a mano que pueda quedarse vieja. */
 	const valoresUnicos = (elegir: (forma: PublicFormSummary) => string[]): string[] =>
@@ -90,18 +93,42 @@
 	/>
 </svelte:head>
 
-<section class="mx-auto w-full max-w-5xl px-4 py-10">
-	<header class="max-w-3xl">
-		<h1 class="font-display text-3xl">Catálogo de formas</h1>
-		<p class="mt-3 leading-7 text-[color:var(--muted-foreground)]">
-			Cada forma con sus arquitecturas, sus esquemas métricos y de rima, sus secciones y los
-			rasgos que admite. Es la misma descripción que usa el demarcador para identificar un
-			pasaje, así que lo que se lee aquí es exactamente lo que el sistema sabe.
-		</p>
-	</header>
+{#snippet descripcionCatalogo()}
+	<p>
+		Este catálogo reúne un amplio repertorio de las formas métricas documentadas en la poesía y
+		el teatro en verso españoles hasta las décadas finales del siglo XIX, antes de que se
+		intensificara la experimentación métrica. Su cobertura es especialmente detallada para los
+		siglos XVI y XVII, núcleo cronológico de METADRAMA; por eso, que una forma no aparezca no
+		significa que no exista ni que no esté documentada en otros periodos.
+	</p>
+	<p>
+		El catálogo es la base del análisis métrico del proyecto y se ha construido mediante el
+		contraste exhaustivo de seis obras de referencia, cuyos testimonios se han formalizado como
+		datos que describen la estructura de cada forma, sus posibles realizaciones y las relaciones
+		que mantiene con otras, lo que permite buscar, comparar y analizar computacionalmente el
+		dominio métrico dentro de un modelo que se amplía o precisa cuando el corpus plantea casos que
+		obligan a volver a las fuentes.
+	</p>
+	<p>
+		El <a
+			href="/demarcador"
+			class="font-medium text-[color:var(--foreground)] underline decoration-[color:var(--gray-300)] underline-offset-4 hover:decoration-[color:var(--foreground)]"
+		>demarcador</a> permite recorrer este conocimiento desde un pasaje concreto, pues contrasta lo
+		que se observa en él con los datos del catálogo para proponer las formas y arquitecturas más
+		compatibles.
+	</p>
+{/snippet}
+
+<section class="grid w-full gap-7">
+	<PublicResourceHeader
+		category="Recurso de consulta"
+		title="Catálogo de formas"
+		description={descripcionCatalogo}
+		onHelp={() => (ayudaAbierta = true)}
+	/>
 
 	<section
-		class="mt-8 border border-[color:var(--border)] bg-[color:var(--gray-50)] p-5"
+		class="border border-[color:var(--border)] bg-[color:var(--gray-50)] p-5"
 		aria-labelledby="filtros-formas"
 	>
 		<div class="flex flex-wrap items-start justify-between gap-3">
@@ -253,7 +280,7 @@
 		</p>
 	</section>
 
-	<ul class="mt-8 space-y-3">
+	<ul class="space-y-3">
 		{#each formas as forma (forma.slug)}
 			<li>
 				<a
@@ -318,7 +345,7 @@
 	</ul>
 
 	{#if sinForma.length > 0}
-		<section class="mt-12">
+		<section>
 			<h2 class="font-display text-2xl">Tramos sin forma</h2>
 			<p class="mt-2 max-w-3xl leading-7 text-[color:var(--muted-foreground)]">
 				No son formas comparables con las anteriores: son la salida que se elige cuando el
@@ -351,3 +378,106 @@
 		</section>
 	{/if}
 </section>
+
+<PublicHelpDialog
+	open={ayudaAbierta}
+	title="Cómo consultar el catálogo"
+	onClose={() => (ayudaAbierta = false)}
+>
+	<div class="space-y-6 text-sm leading-6 text-[color:var(--gray-700)]">
+		<section>
+			<h3 class="font-semibold text-[color:var(--foreground)]">Qué contiene</h3>
+			<p class="mt-1">
+				El catálogo reúne identidades métricas y describe las realizaciones estructurales que
+				admite cada una. Las fichas muestran su organización, sus esquemas, sus partes internas,
+				sus rasgos y los nombres documentados por las fuentes.
+			</p>
+		</section>
+
+		<section>
+			<h3 class="font-semibold text-[color:var(--foreground)]">Cómo se ha construido</h3>
+			<p class="mt-1">
+				Cada ficha se genera a partir del catálogo métrico formalizado con las fuentes
+				bibliográficas del proyecto. No es un resumen redactado aparte: el catálogo público, el
+				demarcador y el editor de secuencias leen la misma descripción estructurada.
+			</p>
+		</section>
+
+		<section>
+			<h3 class="font-semibold text-[color:var(--foreground)]">Fuentes utilizadas</h3>
+			<p class="mt-1">
+				El catálogo entero se contrastó de manera exhaustiva con seis monografías seleccionadas
+				por su autoridad académica. Cada afirmación bibliográfica de una ficha se vincula con la
+				fuente que la sostiene, incluso cuando varias coinciden sustancialmente.
+			</p>
+			<ul class="mt-3 list-disc space-y-1.5 pl-5">
+				<li>
+					Morley y Bruerton (1968), <cite>Cronología de las comedias de Lope de Vega</cite>.
+				</li>
+				<li>Quilis (1969), <cite>Métrica española</cite>.</li>
+				<li>Navarro Tomás (1972), <cite>Métrica española</cite>.</li>
+				<li>Domínguez Caparrós (2014), <cite>Métrica española</cite>.</li>
+				<li>
+					Domínguez Caparrós (2016), <cite>Diccionario de métrica española</cite>.
+				</li>
+				<li>Jauralde Pou (2020), <cite>Métrica española</cite>.</li>
+			</ul>
+		</section>
+
+		<section>
+			<h3 class="font-semibold text-[color:var(--foreground)]">Cómo consultarlo</h3>
+			<ul class="mt-1 list-disc space-y-1 pl-5">
+				<li>Busca por nombre, definición o denominación alternativa.</li>
+				<li>Combina los filtros de estructura, tradición y régimen de rima.</li>
+				<li>Abre una ficha para comparar sus arquitecturas y consultar su descripción completa.</li>
+				<li>Usa el demarcador si partes de un pasaje y todavía no sabes qué forma puede ser.</li>
+			</ul>
+		</section>
+
+		<section class="border-t border-[color:var(--border)] pt-5">
+			<h3 class="font-semibold text-[color:var(--foreground)]">Vocabulario básico</h3>
+			<dl class="mt-3 space-y-3">
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Forma</dt>
+					<dd>Identidad métrica reconocible, como el romance, la lira o el soneto.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Arquitectura</dt>
+					<dd>Realización estructural admitida dentro de una forma.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Esquema métrico</dt>
+					<dd>Orden o conjunto de medidas de los versos.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Esquema de rima</dt>
+					<dd>Organización de las correspondencias de rima y de los versos sueltos.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Sección</dt>
+					<dd>Parte interna con una función propia, como la mudanza, la vuelta o el remate.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Rasgo</dt>
+					<dd>Propiedad que puede definir, caracterizar o distinguir una realización.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Modalidad</dt>
+					<dd>Indica si una posibilidad es definitoria, habitual, admitida o excepcional.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Tradición</dt>
+					<dd>Ámbito histórico de procedencia documentado para la forma.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Denominación</dt>
+					<dd>Otro nombre documentado para la misma identidad métrica.</dd>
+				</div>
+				<div class="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+					<dt class="font-medium text-[color:var(--foreground)]">Tramo sin forma</dt>
+					<dd>Pasaje que no responde a una norma métrica reconocible o verso aislado.</dd>
+				</div>
+			</dl>
+		</section>
+	</div>
+</PublicHelpDialog>

@@ -5,6 +5,8 @@
 		ordenarFormas
 	} from '$lib/demarcador-metrico/motor';
 	import DemarcadorResultCard from '$lib/components/demarcador/DemarcadorResultCard.svelte';
+	import PublicHelpDialog from '$lib/components/public/PublicHelpDialog.svelte';
+	import PublicResourceHeader from '$lib/components/public/PublicResourceHeader.svelte';
 	import type {
 		CatalogoDemarcador,
 		ModoDemarcador,
@@ -19,7 +21,7 @@
 	let formaObjetivoId = $state<string | null>(null);
 	let formaPendienteId = $state('');
 	let respuestas = $state<RespuestaDemarcador[]>([]);
-	let instruccionesAbiertas = $state(false);
+	let ayudaAbierta = $state(false);
 	let afinamientoSolicitado = $state(false);
 	let numeroRespuesta = $state('');
 
@@ -92,17 +94,7 @@
 		numeroRespuesta = '';
 	}
 
-	function cerrarInstrucciones() {
-		instruccionesAbiertas = false;
-	}
-
-	function manejarTeclado(event: KeyboardEvent) {
-		if (event.key === 'Escape' && instruccionesAbiertas) cerrarInstrucciones();
-	}
-
 </script>
-
-<svelte:window onkeydown={manejarTeclado} />
 
 <svelte:head>
 	<title>Demarcador métrico | MetaDrama</title>
@@ -111,6 +103,13 @@
 		content="Herramienta para orientar la identificación de formas métricas mediante evidencias observables."
 	/>
 </svelte:head>
+
+{#snippet descripcionDemarcador()}
+	<p>
+		Contrasta lo que observas en el texto con las formas y arquitecturas del catálogo métrico.
+		Puedes comenzar desde cero o comprobar una identificación que ya tengas en mente.
+	</p>
+{/snippet}
 
 {#if data.accesoRestringido}
 	<section class="mx-auto max-w-3xl py-10">
@@ -127,29 +126,12 @@
 	</section>
 {:else}
 <section class="grid gap-7">
-	<header class="border-b border-[color:var(--border)] pb-6">
-		<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-			Herramienta de análisis
-		</p>
-		<div class="mt-2 flex flex-col items-start justify-between gap-4 sm:flex-row sm:gap-8">
-			<div>
-				<h1 class="font-display text-3xl text-[color:var(--gray-900)] md:text-4xl">
-					Demarcador métrico
-				</h1>
-				<p class="mt-3 max-w-3xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-					Contrasta lo que observas en el texto con las formas y arquitecturas del catálogo
-					métrico. Puedes comenzar desde cero o comprobar una identificación que ya tengas en mente.
-				</p>
-			</div>
-			<button
-				type="button"
-				class="shrink-0 border border-[color:var(--border)] bg-white px-4 py-2 text-sm font-semibold transition-colors hover:border-[color:var(--gray-800)]"
-				onclick={() => (instruccionesAbiertas = true)}
-			>
-				Cómo utilizarlo
-			</button>
-		</div>
-	</header>
+	<PublicResourceHeader
+		category="Herramienta de análisis"
+		title="Demarcador métrico"
+		description={descripcionDemarcador}
+		onHelp={() => (ayudaAbierta = true)}
+	/>
 
 	{#if !modo}
 		<div class="grid gap-5 lg:grid-cols-2">
@@ -342,56 +324,38 @@
 </section>
 {/if}
 
-{#if instruccionesAbiertas}
-	<div
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4 py-6"
-		role="presentation"
-		onclick={(event) => {
-			if (event.currentTarget === event.target) cerrarInstrucciones();
-		}}
-	>
-		<div
-			class="max-h-full w-full max-w-2xl overflow-y-auto border border-[color:var(--border)] bg-white p-5 shadow-xl sm:p-7"
-			role="dialog"
-			aria-modal="true"
-			aria-labelledby="instrucciones-demarcador-titulo"
-		>
-			<div class="flex items-start justify-between gap-5">
-				<div>
-					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">Instrucciones</p>
-					<h2 id="instrucciones-demarcador-titulo" class="font-display mt-2 text-2xl">Cómo utilizar el demarcador</h2>
-				</div>
-				<button type="button" class="border border-[color:var(--border)] px-3 py-1.5 text-sm font-medium" onclick={cerrarInstrucciones}>Cerrar</button>
-			</div>
-			<div class="mt-6 space-y-6 text-sm leading-6 text-[color:var(--gray-700)]">
-				<section>
-					<h3 class="font-semibold text-[color:var(--foreground)]">Dos maneras de empezar</h3>
-					<p class="mt-1"><strong>Identificar una forma</strong> parte de observaciones generales. <strong>Tengo una hipótesis</strong> comprueba una forma concreta sin favorecerla artificialmente en el resultado.</p>
-				</section>
-				<section>
-					<h3 class="font-semibold text-[color:var(--foreground)]">Responde solo por lo que ves</h3>
-					<ul class="mt-1 list-disc space-y-1 pl-5">
-						<li>Selecciona el pasaje que quieres identificar; puede contener una o varias unidades.</li>
-						<li>No necesitas decidir de antemano dónde termina cada unidad: el demarcador propondrá agrupaciones posibles.</li>
-						<li>«No sé» no afirma ni niega y reduce la prioridad de preguntas similares.</li>
-						<li>Una coincidencia preferente o admitida orienta, pero no se trata como una regla absoluta.</li>
-						<li>El recorrido se detiene si las precisiones restantes son difíciles y aportan poco.</li>
-					</ul>
-				</section>
-				<section>
-					<h3 class="font-semibold text-[color:var(--foreground)]">Conceptos básicos</h3>
-					<dl class="mt-2 grid gap-3 sm:grid-cols-[8rem_1fr]">
-						<dt class="font-medium text-[color:var(--foreground)]">Metro</dt><dd>Medida métrica de los versos, con sinalefas y ajustes acentuales.</dd>
-						<dt class="font-medium text-[color:var(--foreground)]">Pasaje</dt><dd>Fragmento completo seleccionado para el análisis; puede contener una estrofa, una serie, una composición o varias unidades consecutivas.</dd>
-						<dt class="font-medium text-[color:var(--foreground)]">Rima</dt><dd>Relación entre las terminaciones; puede ser consonante, asonante o ausente.</dd>
-						<dt class="font-medium text-[color:var(--foreground)]">Arquitectura</dt><dd>Una realización estructural admitida dentro de una forma. Nunca sustituye su nombre.</dd>
-					</dl>
-				</section>
-				<section class="border-t border-[color:var(--border)] pt-5">
-					<h3 class="font-semibold text-[color:var(--foreground)]">Interpretar la orientación</h3>
-					<p class="mt-1">«Muy compatible» significa que coinciden varias evidencias relevantes y hay una diferencia clara respecto de otras formas. Las demás formas no desaparecen: una variante, una excepción o un fragmento incompleto pueden cambiar la lectura.</p>
-				</section>
-			</div>
-		</div>
+<PublicHelpDialog
+	open={ayudaAbierta}
+	title="Cómo usar el demarcador"
+	onClose={() => (ayudaAbierta = false)}
+>
+	<div class="space-y-6 text-sm leading-6 text-[color:var(--gray-700)]">
+		<section>
+			<h3 class="font-semibold text-[color:var(--foreground)]">Dos maneras de empezar</h3>
+			<p class="mt-1"><strong>Identificar una forma</strong> parte de observaciones generales. <strong>Tengo una hipótesis</strong> comprueba una forma concreta sin favorecerla artificialmente en el resultado.</p>
+		</section>
+		<section>
+			<h3 class="font-semibold text-[color:var(--foreground)]">Responde solo por lo que ves</h3>
+			<ul class="mt-1 list-disc space-y-1 pl-5">
+				<li>Selecciona el pasaje que quieres identificar; puede contener una o varias unidades.</li>
+				<li>No necesitas decidir de antemano dónde termina cada unidad: el demarcador propondrá agrupaciones posibles.</li>
+				<li>«No sé» no afirma ni niega y reduce la prioridad de preguntas similares.</li>
+				<li>Una coincidencia preferente o admitida orienta, pero no se trata como una regla absoluta.</li>
+				<li>El recorrido se detiene si las precisiones restantes son difíciles y aportan poco.</li>
+			</ul>
+		</section>
+		<section>
+			<h3 class="font-semibold text-[color:var(--foreground)]">Conceptos básicos</h3>
+			<dl class="mt-2 grid gap-3 sm:grid-cols-[8rem_1fr]">
+				<dt class="font-medium text-[color:var(--foreground)]">Metro</dt><dd>Medida métrica de los versos, con sinalefas y ajustes acentuales.</dd>
+				<dt class="font-medium text-[color:var(--foreground)]">Pasaje</dt><dd>Fragmento completo seleccionado para el análisis; puede contener una estrofa, una serie, una composición o varias unidades consecutivas.</dd>
+				<dt class="font-medium text-[color:var(--foreground)]">Rima</dt><dd>Relación entre las terminaciones; puede ser consonante, asonante o ausente.</dd>
+				<dt class="font-medium text-[color:var(--foreground)]">Arquitectura</dt><dd>Una realización estructural admitida dentro de una forma. Nunca sustituye su nombre.</dd>
+			</dl>
+		</section>
+		<section class="border-t border-[color:var(--border)] pt-5">
+			<h3 class="font-semibold text-[color:var(--foreground)]">Interpretar la orientación</h3>
+			<p class="mt-1">«Muy compatible» significa que coinciden varias evidencias relevantes y hay una diferencia clara respecto de otras formas. Las demás formas no desaparecen: una variante, una excepción o un fragmento incompleto pueden cambiar la lectura.</p>
+		</section>
 	</div>
-{/if}
+</PublicHelpDialog>
