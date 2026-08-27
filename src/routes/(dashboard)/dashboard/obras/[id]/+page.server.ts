@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
+import { loadMetricCatalog } from '$lib/server/catalogo-metrico';
 import type { Tables } from '$lib/types/database.types';
 import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
 
@@ -77,6 +78,46 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		actualizadoEn: resumenRow?.actualizado_en ?? null
 	};
 
+	/**
+	 * ¿Esta obra se anota con el catálogo nuevo?
+	 *
+	 * El interruptor es **por obra** para que la ola de editores que entra empiece con el editor V2
+	 * sin interrumpir a quien está a mitad de una obra anotada con el vocabulario legado. Mientras
+	 * dure la migración conviven los dos.
+	 */
+	const anotacionNuevaResp = await locals.supabase
+		.from('obras_anotacion_nueva')
+		.select('obra_id')
+		.eq('obra_id', obra.obra_id)
+		.maybeSingle();
+	const usaAnotacionNueva = Boolean(anotacionNuevaResp.data);
+
+	/**
+	 * El catálogo métrico, **solo si esta obra lo necesita**.
+	 *
+	 * Son unas 2 400 filas que viajan al cliente, y en una obra que todavía se anota con el
+	 * vocabulario legado no las mira nadie. Cargarlo sale barato desde que se guarda en memoria del
+	 * servidor mientras su revisión no cambia, pero serializarlo no.
+	 *
+	 * *Se manda solo lo que el editor consume* —formas, arquitecturas, reglas de longitud y el
+	 * dominio—, no el laboratorio de pruebas que `loadMetricCatalog` trae además.
+	 *
+	 * **Hoy esto solo funciona para admin o IP**, porque leer la revisión del catálogo lo exige su
+	 * RLS. Abrirlo a los editores es el paso siguiente del camino a develop.
+	 */
+	const catalogoMetrico = usaAnotacionNueva
+		? await loadMetricCatalog(locals.supabase).then((catalogo) =>
+				catalogo.migrationPending
+					? null
+					: {
+							forms: catalogo.forms,
+							configurations: catalogo.configurations,
+							lengthRules: catalogo.lengthRules,
+							domain: catalogo.domain
+						}
+			)
+		: null;
+
 	const editorAsignadoResp = obra.editor_asignado
 		? await locals.supabase
 				.from('editores')
@@ -97,6 +138,8 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		secuencias,
 		autoriaGroupCount,
 		resumenPublico,
-		vocabularios
+		vocabularios,
+		usaAnotacionNueva,
+		catalogoMetrico
 	};
 };
