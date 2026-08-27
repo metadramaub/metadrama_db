@@ -3,8 +3,6 @@
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
 	import MetricCatalogGuide from '$lib/components/metrica/catalogo/MetricCatalogGuide.svelte';
-	import MetricEditorSandbox from '$lib/components/metrica/editor-v2/MetricEditorSandbox.svelte';
-	import MetricShadowAnnotation from '$lib/components/metrica/editor-v2/MetricShadowAnnotation.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import {
 		type MetricCatalogConfiguration,
@@ -16,12 +14,9 @@
 	type ActiveTab =
 		| 'guide'
 		| 'editor'
-		| 'shadow'
 		| 'validation';
 	const activeTabs = new Set<ActiveTab>([
 		'guide',
-		'editor',
-		'shadow',
 		'validation'
 	]);
 
@@ -30,8 +25,6 @@
 
 	const tabs = [
 		{ id: 'guide', label: 'Guía del modelo' },
-		{ id: 'editor', label: 'Editor de prueba' },
-		{ id: 'shadow', label: 'Anotación en sombra' },
 		{ id: 'validation', label: 'Validación y demarcador' }
 	];
 
@@ -140,10 +133,6 @@
 
 		{#if activeTab === 'guide'}
 			<MetricCatalogGuide />
-		{:else if activeTab === 'editor'}
-			<MetricEditorSandbox {data} />
-		{:else if activeTab === 'shadow'}
-			<MetricShadowAnnotation {data} />
 		{:else}
 			<div class="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(20rem,1fr)]">
 				<section class="space-y-4">
