@@ -100,8 +100,8 @@ const catalogo: CatalogoDemarcador = {
 				tipo: 'booleano'
 			})
 		]),
-		hipotesis('soneto', 'Soneto', 'Canónica', [
-			evidencia('metro:grupo', 'metro', 'endecasilabos', 'Endecasílabos', { orden: 1 }),
+			hipotesis('soneto', 'Soneto', 'Canónica', [
+				evidencia('metro:grupo', 'metro', 'arte_mayor', 'Arte mayor', { orden: 1 }),
 			evidencia('rima:tipo', 'rima', 'consonante', 'Consonante'),
 			evidencia('extension:versos', 'extension', '', 'Extensión', {
 				tipo: 'numero',
@@ -118,10 +118,63 @@ const catalogo: CatalogoDemarcador = {
 
 describe('motor ontológico del demarcador', () => {
 	it('abre el recorrido guiado con una agrupación amplia de la medida', () => {
-		expect(elegirPregunta(catalogo, [], 'guiado')).toMatchObject({
+		const pregunta = elegirPregunta(catalogo, [], 'guiado');
+		expect(pregunta).toMatchObject({
 			dimension: 'metro:grupo',
 			tipo: 'categoria'
 		});
+		expect(pregunta?.opciones).toEqual([
+			{ clave: 'arte_menor', etiqueta: 'Arte menor' },
+			{ clave: 'arte_mayor', etiqueta: 'Arte mayor' },
+			{ clave: 'mixto', etiqueta: 'Mixto' }
+		]);
+	});
+
+	it('concreta después la medida dentro del grupo elegido', () => {
+		const catalogoMedidas: CatalogoDemarcador = {
+			formas: [],
+			advertencias: [],
+			hipotesis: [
+				hipotesis('menor-7', 'Menor de siete', 'Heptasilábica', [
+					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:exacto', 'metro', '7', '7 sílabas')
+				]),
+				hipotesis('menor-8', 'Menor de ocho', 'Octosilábica', [
+					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:exacto', 'metro', '8', '8 sílabas')
+				]),
+				hipotesis('mayor-11', 'Mayor de once', 'Endecasilábica', [
+					evidencia('metro:grupo', 'metro', 'arte_mayor', 'Arte mayor', { orden: 1 }),
+					evidencia('metro:exacto', 'metro', '11', '11 sílabas')
+				]),
+				hipotesis('mayor-14', 'Mayor de catorce', 'Alejandrina', [
+					evidencia('metro:grupo', 'metro', 'arte_mayor', 'Arte mayor', { orden: 1 }),
+					evidencia('metro:exacto', 'metro', '14', '14 sílabas')
+				]),
+				hipotesis('mixta-7-11', 'Mixta de siete y once', 'Alirada', [
+					evidencia('metro:grupo', 'metro', 'mixto', 'Mixto', { orden: 1 }),
+					evidencia('metro:exacto', 'metro', '7+11', '7 sílabas + 11 sílabas')
+				]),
+				hipotesis('mixta-8-11', 'Mixta de ocho y once', 'Mixta', [
+					evidencia('metro:grupo', 'metro', 'mixto', 'Mixto', { orden: 1 }),
+					evidencia('metro:exacto', 'metro', '8+11', '8 sílabas + 11 sílabas')
+				])
+			]
+		};
+		const inicial = elegirPregunta(catalogoMedidas, [], 'guiado') as PreguntaDemarcador;
+		const arteMenor = crearRespuesta(inicial, 'arte_menor', 'Arte menor');
+		const siguienteMenor = elegirPregunta(catalogoMedidas, [arteMenor], 'guiado');
+
+		expect(siguienteMenor?.dimension).toBe('metro:exacto');
+		expect(siguienteMenor?.opciones.map((opcion) => opcion.clave)).toEqual(['7', '8']);
+
+		const mixto = crearRespuesta(inicial, 'mixto', 'Mixto');
+		const siguienteMixto = elegirPregunta(catalogoMedidas, [mixto], 'guiado');
+		expect(siguienteMixto).toMatchObject({
+			dimension: 'metro:exacto',
+			pregunta: '¿Qué medidas se combinan en los versos?'
+		});
+		expect(siguienteMixto?.opciones.map((opcion) => opcion.clave)).toEqual(['7+11', '8+11']);
 	});
 
 	it('rebaja una familia cognitiva después de No sé', () => {

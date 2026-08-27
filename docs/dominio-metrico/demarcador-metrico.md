@@ -158,9 +158,10 @@ U(q) = separación(q)
 - después de «No sé», las preguntas de la misma familia cognitiva se multiplican por `0,22`;
 - al comprobar una hipótesis, una pregunta definitoria suya se multiplica por `1,35`.
 
-En el recorrido guiado la entrada preferida es una agrupación amplia de la medida —arte
-menor, endecasílabos, otro arte mayor o combinación—, nunca una pregunta binaria arbitraria
-como «¿hay versos de once sílabas?».
+En el recorrido guiado la entrada es una clasificación sencilla: arte menor, arte mayor o
+mezcla de ambos. Si la respuesta permite distinguir medidas concretas entre las candidatas, la
+pregunta siguiente se limita a las que pertenecen al grupo elegido; en el caso mixto, ofrece las
+combinaciones documentadas en esas arquitecturas. «No sé» evita esa precisión inmediata.
 
 ## Criterio de parada
 
