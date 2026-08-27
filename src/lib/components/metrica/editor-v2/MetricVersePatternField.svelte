@@ -19,6 +19,29 @@
 		Array.from({ length: props.length }, (_, index) => (props.positionStart ?? 1) + index)
 	);
 
+	/**
+	 * La medida que la norma pone donde no pregunta nada.
+	 *
+	 * En la copla manriqueña la norma fija los ocho octosílabos y solo deja abiertos los cuatro
+	 * quebrados, así que el catálogo deriva opciones **únicamente** para esas cuatro posiciones. Las
+	 * otras ocho decían «sin medidas disponibles», que suena a que falta algo: no falta nada, están
+	 * decididas. Se pintan con su medida y sin poder tocarlas.
+	 */
+	const medidaDeBase = $derived.by(() => {
+		for (const option of props.options) {
+			const base = Number(option.metro_base_silabas);
+			if (Number.isFinite(base) && base > 0) return base;
+		}
+		return null;
+	});
+
+	/** Cuántos versos de la rejilla admiten más de una medida, que son los que hay que responder. */
+	const versosQuePreguntan = $derived(
+		new Set(
+			props.options.map((option: MetricCatalogDomainRow) => Number(option.posicion_unidad))
+		).size
+	);
+
 	function optionsAt(position: number): MetricCatalogDomainRow[] {
 		return props.options.filter(
 			(option: MetricCatalogDomainRow) => Number(option.posicion_unidad) === position
@@ -148,9 +171,18 @@
 					</button>
 				{/each}
 				{#if choices.length === 0}
-					<span class="flex h-9 items-center text-sm text-[color:var(--muted-foreground)]">
-						Sin medidas disponibles
-					</span>
+					{#if medidaDeBase !== null}
+						<span
+							class="flex h-9 items-center gap-2 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 text-sm text-[color:var(--muted-foreground)]"
+						>
+							{medidaDeBase}
+							<span class="text-[0.65rem] uppercase tracking-wide">fijo</span>
+						</span>
+					{:else}
+						<span class="flex h-9 items-center text-sm text-[color:var(--muted-foreground)]">
+							Sin medidas disponibles
+						</span>
+					{/if}
 				{/if}
 			</div>
 
@@ -175,8 +207,12 @@
 	{/each}
 </div>
 
+<!--
+	Se cuentan **los que preguntan**, no los versos de la unidad: en la manriqueña la norma fija ocho
+	de los doce, y decir «0 de 12» pedía una respuesta que nadie va a dar.
+-->
 <p class="text-xs text-[color:var(--muted-foreground)]">
-		{props.selectedIds.length} de {props.length} versos con medida
+		{props.selectedIds.length} de {versosQuePreguntan} versos con medida
 	{#if props.onRhymeChange}
 		· {Array.from(String(props.rhymeValue ?? '')).filter((char: string) => char.trim()).length} de {props.length} con rima
 	{/if}

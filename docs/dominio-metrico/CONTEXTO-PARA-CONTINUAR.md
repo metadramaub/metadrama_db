@@ -470,8 +470,8 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F11 | copla castellana · octosilábica | «Medida: base de 8, quebrados 4 y 5» y debajo «Medida fija: 8» | UI | **un solo esquema leído dos veces**: `roleBasedMetreSummary` por roles y `fixedMetreSummary` por posiciones | 10 arquitecturas de 8 formas, todas iguales: base 8, quebrados 4 y 5, 1 posición | **arreglado** |
 | F12 | copla castellana | con 2 coplas, responder «en conjunto» deja las dos abiertas y editables a la vez | UI | **era una copia, no un modo**: el panel escribía la misma respuesta en cada unidad y se cerraba | 77 preguntas en 51 arquitecturas, **28 de 41 formas** | **arreglado** |
 | F13 | copla castellana | al elegir la rima no se ve desplegada verso a verso, en vertical, y queda lejos de donde se resume cada parte | UI | — | toda forma con grupo de rima | recogido, **2.ª vez** |
-| F21 | copla manriqueña · de pie quebrado | hay que poder decir si los quebrados son de 4 o de 5, y no se pregunta | **catálogo** | el esquema **ya declara la alternativa** —posiciones 3, 6, 9 y 12 con `alternativa 1 = 4` y `alternativa 2 = 5`—, pero la arquitectura **no tiene ningún grupo de metro** | 2 arquitecturas: copla manriqueña (4 posiciones) y sextilla de pie quebrado (2) | **migración, sin aprobar** |
-| F22 | copla manriqueña · de pie quebrado | pregunta el esquema de rima, que es **definitorio**: si rima de otro modo no es manriqueña | **catálogo** | grupo `esquema_rima` con **una sola opción**, y esa opción es `modalidad: definitoria` | **1 arquitectura**: es la única activa cuya única opción de rima es definitoria | **IP** |
+| F21 | copla manriqueña · de pie quebrado | hay que poder decir si los quebrados son de 4 o de 5, y no se pregunta | **catálogo** | el esquema **ya declaraba la alternativa** —posiciones 3, 6, 9 y 12— pero la arquitectura no tenía grupo de metro | 2 arquitecturas: copla manriqueña (4 posiciones) y sextilla de pie quebrado (2) | **arreglado** |
+| F22 | copla manriqueña · de pie quebrado | pregunta el esquema de rima, que estaba marcado **definitorio** | **catálogo** | la marca era la equivocada, no la pregunta | 1 arquitectura | **arreglado** |
 | F20 | copla castellana | la estructura de dos redondillas debería verse **donde se declara la medida**, más visualmente | UI · rejilla | — | toda forma con partes dentro de la unidad | recogido, va con **F6** |
 | F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
 | F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades»— se entiende fatal | UI | consecuencia de F12: lo que coincidía seguía pintando campo, con esa nota repetida por unidad | los mismos 77 grupos | **arreglado con F12** |
@@ -601,21 +601,46 @@ Así que la copla de arte mayor **se comporta como treinta de las cuarenta y una
 lo otro. La impresión de excepción viene de haber recorrido la canción justo antes, que es de las
 tres que sí piden añadir. *Se cierra sin tocar nada, y queda anotado para no «arreglarlo» luego.*
 
-**F22, y la pregunta del IP: ¿admite otras?** Medido: de las seis arquitecturas activas que preguntan
-la rima teniendo **una sola opción**, la manriqueña es **la única** cuya opción es `definitoria`; en las
-otras cinco —décima-lira, octava real, los dos sextetos y la sextilla— es `habitual` o `admitida`, o
-sea que la norma no la fija y preguntar está bien. Así que la regla sale limpia: **no se pregunta la
-rima cuando la única opción es definitoria**, y hoy eso solo alcanza a la manriqueña.
+**F22, resuelto cambiando el dato y no la interfaz.** La manriqueña era la única arquitectura activa
+que preguntaba la rima teniendo una sola opción marcada `definitoria`; en las otras cinco que preguntan
+con una sola opción —décima-lira, octava real, los dos sextetos y la sextilla— es `habitual` o
+`admitida`, y ahí preguntar está bien. Dos cosas decían que la marca era la equivocada: la **propia
+definición** («la tradición documenta antes otras: sextillas de dos rimas repetidas en las dos mitades,
+o con el orden invertido en la segunda») y que **la sextilla marca `abcabc` como habitual** siendo la
+manriqueña dos sextillas seguidas. El IP resolvió por ahí: `abcabc|defdef` pasa a **habitual**, la
+pregunta queda justificada y no hizo falta tocar código.
 
-Pero hay dos cosas que **contradicen** que sea definitoria, y las decide el IP:
+**Cómo se declara «puede haber otras», que preguntó el IP.** No con la ausencia de opciones, sino con
+un **esquema abierto** —`tipo_secuencia = 'abierta'`—, que la función que deriva las opciones **excluye
+a propósito**: no es una respuesta que elegir, es la norma contra la que se valida lo que se escriba a
+mano. Es el patrón corriente del catálogo: **19 arquitecturas de 8 formas** lo tienen y en todas es
+`definitoria` —canción petrarquista, manriqueña, novena-lira, quintilla, septeto, sexteto, sextilla y
+silva—; solo se sale la octava real (`excepcional`) y el endecasílabo suelto con la silva (`habitual`).
 
-1. **La propia definición dice que hay otras.** «La tradición documenta antes otras: sextillas de dos
-   rimas repetidas en las dos mitades, o con el orden invertido en la segunda.» Si esas siguen siendo
-   manriqueña, tienen que entrar como opciones y el esquema deja de ser definitorio —y entonces sí se
-   pregunta—. Si no lo son, el esquema se queda y la pregunta se retira.
-2. **La sextilla marca lo mismo como habitual.** `abcabc` es `habitual` en la sextilla de pie quebrado
-   y `abcabc|defdef` es `definitoria` en la manriqueña, que es *dos sextillas seguidas*. La misma
-   disposición, con dos estatutos distintos.
+Así que el «Distribución consonante variable» de la manriqueña **sí hace falta y sí es definitorio**:
+declara el régimen consonante y una restricción de regularidad, y sin él la forma no diría que rima en
+consonante ni que las dos sextillas llevan rimas independientes. Lo que cambia de estatuto es la
+disposición nombrada, que es una realización de esa norma, no la norma.
+
+**F21, y de paso cuatro arreglos de pantalla.** El catálogo ya declaraba la alternativa —4 o 5 en las
+posiciones 3, 6, 9 y 12—, y `opciones_eleccion_derivadas()` **ya tenía la rama** que ofrece las
+posiciones de un esquema con más de un metro. O sea que bastó con **crear la pregunta**: las ocho
+opciones se derivan solas. Es por la medida, no por la posición —dónde van los quebrados lo dice la
+norma—, y con `selecciones_min = selecciones_max` no entra en el modo de «marcar excepciones», que es
+el de la copla castellana. Entra también la **sextilla de pie quebrado**, mismo hueco y mismo arreglo.
+
+Al probarlo salieron cuatro cosas de la pantalla, todas arregladas:
+
+- **Los versos que la norma fija se pintan fijados.** Decían «Sin medidas disponibles», que suena a que
+  falta algo: no falta, están decididos. Ahora salen con su medida y un `FIJO`.
+- **La rejilla es la de la unidad**, no la de las posiciones que preguntan. Se dibujaban tantas filas
+  como opciones hubiera y empezando por la primera: con quebrados en 3, 6, 9 y 12 salían las filas 3,
+  4, 5 y 6, y los otros ocho versos no aparecían.
+- **El contador cuenta lo que se pregunta.** «0 de 12 versos con medida» pedía respuesta para ocho
+  versos que nadie va a contestar; ahora dice «0 de 4».
+- **Una medida posicional se resume en notación.** Enumerando nombres salía «Verso 3 · Tetrasílabo ·
+  Verso 6 · Tetrasílabo · Verso 9 · Tetrasílabo · Verso 12 · Tetrasílabo», cuatro renglones que además
+  escondían los ocho versos no preguntados. Ahora: **`8 8 4 8 8 4 8 8 4 8 8 4`**.
 
 **F16, lo que dice el catálogo.** El IP tiene razón y el catálogo ya lo dice: el quebrado está
 declarado como **rasgo admitido** —no como parte de la medida—, y en las oncenas como *habitual*. Que
