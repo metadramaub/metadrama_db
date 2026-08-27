@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { untrack } from 'svelte';
-	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
-	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import Pencil from 'lucide-svelte/icons/pencil';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import Button from '$lib/components/ui/button.svelte';
@@ -25,6 +23,7 @@
 	import { pushToast } from '$lib/stores/toast';
 	import MetricSandboxLegacyFields from './MetricSandboxLegacyFields.svelte';
 	import MetricSequenceEditor from './MetricSequenceEditor.svelte';
+	import MetricSequenceModal from './MetricSequenceModal.svelte';
 	import type { MetricUnitDraft } from './editor-model';
 	import { draftFromRows } from './sequence-draft';
 	import type {
@@ -635,111 +634,38 @@
 </section>
 
 {#if openDraft}
-	<div class="fixed inset-0 z-40 flex items-start justify-center bg-black/50 p-4">
-		<div
-			class="flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden border border-[color:var(--border)] bg-[color:var(--gray-50)]"
-			inert={sequenceSaving}
-			aria-busy={sequenceSaving}
-		>
-			<div class="border-b border-[color:var(--border)] bg-white px-5 py-3">
-				<div class="flex flex-wrap items-center justify-between gap-3">
-					<div class="flex min-w-0 items-center gap-3">
-						<h3 class="text-base font-semibold">
-							{openDraft.anotacion_id ? 'Editar secuencia' : 'Nueva secuencia'}
-						</h3>
-						{#if liveDraft}
-							{@const verses = liveDraft.v_fin - liveDraft.v_ini + 1}
-							<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
-								vv. {liveDraft.v_ini}–{liveDraft.v_fin} · {verses}
-								{verses === 1 ? 'verso' : 'versos'}
-							</span>
-						{/if}
-						{#if editingIndex >= 0}
-							<div class="flex items-center gap-1">
-								<button
-									type="button"
-									class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-									aria-label="Secuencia anterior"
-									onclick={() => previousSequence && requestOpenSequence(previousSequence)}
-									disabled={!previousSequence || sequenceSaving}
-								>
-									<ChevronLeft size={18} />
-								</button>
-								<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
-									{editingIndex + 1} / {orderedSequences.length}
-								</span>
-								<button
-									type="button"
-									class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-									aria-label="Secuencia siguiente"
-									onclick={() => nextSequence && requestOpenSequence(nextSequence)}
-									disabled={!nextSequence || sequenceSaving}
-								>
-									<ChevronRight size={18} />
-								</button>
-							</div>
-						{/if}
-						<!-- Lo que falta se ve antes de pulsar Guardar, no después del aviso. -->
-						{#if editorState && editorState.total > 0}
-							<span
-								class={`whitespace-nowrap text-sm ${
-									editorState.answered < editorState.total
-										? 'text-[color:var(--primary)]'
-										: 'text-[color:var(--muted-foreground)]'
-								}`}
-							>
-								{editorState.answered} de {editorState.total}
-								{editorState.total === 1 ? 'respuesta' : 'respuestas'}
-							</span>
-						{/if}
-					</div>
-					<div class="flex items-center gap-2">
-						{#if draftDirty}
-							<span class="text-xs text-[color:var(--muted-foreground)]">Cambios sin guardar</span>
-						{/if}
-						{#if openDraft.anotacion_id}
-							<Button
-								variant="danger"
-								onclick={() => void deleteSequenceById(openDraft!.anotacion_id as string)}
-								disabled={sequenceSaving}
-							>
-								Eliminar
-							</Button>
-						{/if}
-						<Button variant="secondary" onclick={requestCloseSequence} disabled={sequenceSaving}>
-							Cerrar
-						</Button>
-						<Button
-							variant="success"
-							onclick={() => void saveSequence()}
-							disabled={sequenceSaving}
-							loading={sequenceSaving}
-							loadingLabel="Guardando…"
-						>
-							Guardar
-						</Button>
-					</div>
-				</div>
-				{#if errorMessage}
-					<p class="mt-2 border-l-4 border-red-500 bg-red-50 p-2 text-sm text-red-900">
-						{errorMessage}
-					</p>
-				{/if}
-			</div>
-
-			<div class="min-h-0 flex-1 overflow-y-auto">
-				{#key openToken}
-					<MetricSequenceEditor
-						{catalog}
-						initialDraft={openDraft}
-						onStateChange={handleEditorState}
-						bodyExtra={legacySequenceFields}
-						extraRailItems={LEGACY_RAIL_ITEMS}
-					/>
-				{/key}
-			</div>
-		</div>
-	</div>
+	<MetricSequenceModal
+		titulo={openDraft.anotacion_id ? 'Editar secuencia' : 'Nueva secuencia'}
+		rango={liveDraft ? { v_ini: liveDraft.v_ini, v_fin: liveDraft.v_fin } : null}
+		posicion={editingIndex >= 0
+			? { indice: editingIndex + 1, total: orderedSequences.length }
+			: null}
+		alAnterior={() => previousSequence && requestOpenSequence(previousSequence)}
+		alSiguiente={() => nextSequence && requestOpenSequence(nextSequence)}
+		hayAnterior={Boolean(previousSequence)}
+		haySiguiente={Boolean(nextSequence)}
+		respuestas={editorState
+			? { contestadas: editorState.answered, total: editorState.total }
+			: null}
+		sucio={draftDirty}
+		guardando={sequenceSaving}
+		error={errorMessage}
+		alEliminar={openDraft.anotacion_id
+			? () => void deleteSequenceById(openDraft!.anotacion_id as string)
+			: null}
+		alCerrar={requestCloseSequence}
+		alGuardar={() => void saveSequence()}
+	>
+		{#key openToken}
+			<MetricSequenceEditor
+				{catalog}
+				initialDraft={openDraft}
+				onStateChange={handleEditorState}
+				bodyExtra={legacySequenceFields}
+				extraRailItems={LEGACY_RAIL_ITEMS}
+			/>
+		{/key}
+	</MetricSequenceModal>
 {/if}
 
 {#snippet legacySequenceFields()}
