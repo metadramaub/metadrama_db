@@ -451,6 +451,28 @@ está mal planteada, y eso **solo se distingue después de tres o cuatro formas*
   tercera vez. Arreglarlo con una sola forma delante acierta para esa y desajusta las otras cuarenta.
 - Y se separa aparte **lo que es hueco del modelo**, que necesita decisión del IP.
 
+**El registro va en tabla**, no en prosa, para poder cruzarlo: lo que interesa al final no es la queja
+de una forma, sino **qué formas se comportan igual de cara al editor**. `Capa` dice dónde está el
+arreglo; `alcance` está contado contra la base, no estimado.
+
+| # | forma · arquitectura | síntoma | capa | causa | alcance | estado |
+|---|---|---|---|---|---|---|
+| F1 | todas | el rango admitía final anterior al inicial, y la pantalla razonaba sobre él | UI | sin `min` ni acotado | 41 formas | **arreglado** |
+| F2 | canción · regular y variables | el remate no declara metro ni rima, y no pregunta nada | catálogo | sección opcional sin esquemas ni grupo de elección | 3 secciones (las 3 de la canción, de 11 opcionales del catálogo) | **IP** |
+| F3 | canción · regular | «39 de 2 versos» se lee como número al revés | UI · redacción | la fórmula «X de Y» | 41 formas | **arreglado** |
+| F4 | canción · regular | el recuadro debería llamarse «características esperadas» y ser desplegable | UI | — | 41 formas | recogido |
+| F5 | canción · regular | sobran «partes fijas», «medida fija» y «rima fija»: la rejilla ya las dibuja, y lo que importa es *que* son fijas | UI | — | 41 formas | recogido |
+| F6 | canción · regular **y** variables | demasiada letra por parte en la rejilla; «patrón fijo» a secas; sobra «rango calculado desde sus partes»; la unidad modelo debería pintarse una vez y las demás decir solo vv. | UI · rejilla | — | 41 formas | **2.ª vez → maduro** |
+| F7 | canción · variables | cinco renglones «Estructura» seguidos y «1 Primeros pies» | UI | `variableSectionFacts` recorría las hijas en plano | 9 arquitecturas de 5 formas; 14 secciones hijas; plural roto en 8 casos | **arreglado** |
+| F8 | canción · sin rima | el pareado final no pinta su `aa` | UI · rejilla | `metricNormGrid` toma solo secciones madre; aquí los esquemas cuelgan de las hijas y la estancia no lleva ninguno | **1 caso en todo el catálogo**: es la única sección hija con posiciones de rima | pendiente |
+| F9 | canción · sin rima | el `aa` del pareado no se guarda en la anotación | modelo | no hay grupo de elección de rima: el `aa` es norma del catálogo, no respuesta | 5 arquitecturas activas sin grupo de rima | con **B8** |
+| F10 | canción · sin rima | la medida verso a verso y el nº de versos del cuerpo son el mismo control, y los versos se van sumando | catálogo | grupo `medida_estancia`, `alcance: unidad`, 5–20 selecciones; la estancia tiene extensión abierta y no hay pregunta de longitud | 1 arquitectura | recogido |
+
+**Lo comprobado en F8 y F9**, para no repetirlo: el catálogo **sí** declara el pareado —esquema
+«Pareado consonante final», posiciones 1 y 2, ambas clase `a`—, y «Cuerpo sin rima» es un esquema con
+cero posiciones, que es como se dice «no rima». Ninguna de las dos se pinta. Toda la arquitectura va
+**sin esquema métrico**: por eso la medida se pregunta verso a verso.
+
 **F1. ~~El rango de versos admite un final anterior al inicial.~~ Hecho el 27 de agosto de 2026.**
 Mover el principio mueve el final conservando la longitud —decisión del IP—, el final no baja del
 principio, los rangos de las desviaciones se acotan al de la secuencia y el guardado los mira, y
