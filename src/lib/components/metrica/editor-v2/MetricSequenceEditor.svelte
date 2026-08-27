@@ -673,6 +673,26 @@
 		);
 	}
 
+	/**
+	 * El rango de una desviación, acotado al de la secuencia y coherente consigo mismo.
+	 *
+	 * Se corrige mientras se escribe en vez de avisar después: una desviación fuera del pasaje que
+	 * describe no es un dato que haya que discutir, es un dedo.
+	 */
+	function fijarRangoDeDesviacion(
+		deviation: MetricDeviationDraft,
+		campo: 'v_ini' | 'v_fin',
+		valor: number
+	) {
+		const dentro = Math.min(Math.max(Number.isFinite(valor) ? valor : draft.v_ini, draft.v_ini), draft.v_fin);
+		if (campo === 'v_ini') {
+			deviation.v_ini = dentro;
+			if (deviation.v_fin < dentro) deviation.v_fin = dentro;
+			return;
+		}
+		deviation.v_fin = Math.max(dentro, deviation.v_ini);
+	}
+
 	function addDeviation() {
 		draft.desviaciones = [...draft.desviaciones, emptyDeviation(draft.v_ini, draft.v_fin)];
 	}
@@ -705,6 +725,16 @@
 		return contradiceLaRelacion(props.catalog.domain, deviation, normSyllables);
 	}
 
+	/**
+	 * **Mover el principio mueve el final, siempre.** La secuencia conserva su longitud y se
+	 * desplaza entera.
+	 *
+	 * Antes esto solo pasaba cuando la forma deriva sus unidades del rango; en las demás el final se
+	 * quedaba quieto y podía acabar **detrás** del principio. Con un rango imposible la pantalla
+	 * seguía calculando: en una forma de trece versos, 116–112 anunciaba que «la estructura rebasa el
+	 * rango en 39 versos». El error existía, pero solo al pulsar Guardar, cuando llevaba un rato
+	 * mintiendo.
+	 */
 	function updateSequenceStart(value: number) {
 		const previousLength = draft.v_fin - draft.v_ini + 1;
 		draft.v_ini = Math.max(1, value);
@@ -712,8 +742,8 @@
 			draft.v_fin = draft.v_ini;
 			return;
 		}
+		draft.v_fin = draft.v_ini + previousLength - 1;
 		if (hasDerivedUnitCount) {
-			draft.v_fin = draft.v_ini + previousLength - 1;
 			const { sections, options } = catalogParts(props.catalog, draft.arquitectura_id);
 			const synchronized = syncRepeatedMetricUnits(
 				draft.unidades,
@@ -740,12 +770,16 @@
 		);
 	}
 
+	/**
+	 * El final no puede quedar antes que el principio. El navegador ya lo rechaza con `min`, pero un
+	 * `input` admite que le escriban cualquier cosa: aquí se acota de verdad.
+	 */
 	function updateSequenceEnd(value: number) {
 		if (isIsolatedVerse) {
 			draft.v_fin = draft.v_ini;
 			return;
 		}
-		draft.v_fin = Math.max(1, value);
+		draft.v_fin = Math.max(draft.v_ini, value);
 		if (!hasDerivedUnitCount) return;
 		const { sections, options } = catalogParts(props.catalog, draft.arquitectura_id);
 		const synchronized = syncRepeatedMetricUnits(
@@ -902,6 +936,17 @@
 				}
 			}
 		}
+		// Las desviaciones no se miraban en ninguna línea, ni su rango ni que cayera dentro de la
+		// secuencia. Lo paraba la base, y el editor se comía un error crudo.
+		for (const deviation of draft.desviaciones) {
+			if (deviation.v_fin < deviation.v_ini) {
+				return 'Una desviación no puede terminar antes de donde empieza.';
+			}
+			if (deviation.v_ini < draft.v_ini || deviation.v_fin > draft.v_fin) {
+				return `Las desviaciones deben quedar dentro del rango de la secuencia (${draft.v_ini}–${draft.v_fin}).`;
+			}
+		}
+
 		for (const group of sequenceChoiceGroups) {
 			const total = choiceCount(String(group.grupo_eleccion_id), null);
 			if (total < Number(group.selecciones_min) || total > Number(group.selecciones_max)) {
@@ -1116,7 +1161,7 @@
 						<span class="form-label">Verso final</span>
 						<input
 							type="number"
-							min="1"
+							min={draft.v_ini}
 							class="h-10 w-full border border-[color:var(--border)] px-3 disabled:bg-[color:var(--muted)]"
 							value={draft.v_fin}
 							onchange={(event) => updateSequenceEnd(Number(event.currentTarget.value))}
@@ -1368,20 +1413,33 @@
 									</label>
 								{/if}
 							{/if}
+							<!--
+								Acotados al rango de la secuencia: una desviación es de un pasaje suyo. Iban
+								sin `min` siquiera, así que admitían cero y negativos, y nadie los miraba al
+								guardar: lo paraba la base, con un error crudo en vez de con un aviso.
+							-->
 							<label class="form-field">
 								<span class="form-label">V. inicial</span>
 								<input
 									type="number"
+									min={draft.v_ini}
+									max={draft.v_fin}
 									class="h-10 w-full border border-[color:var(--border)] px-2"
-									bind:value={deviation.v_ini}
+									value={deviation.v_ini}
+									onchange={(event) =>
+										fijarRangoDeDesviacion(deviation, 'v_ini', Number(event.currentTarget.value))}
 								/>
 							</label>
 							<label class="form-field">
 								<span class="form-label">V. final</span>
 								<input
 									type="number"
+									min={deviation.v_ini}
+									max={draft.v_fin}
 									class="h-10 w-full border border-[color:var(--border)] px-2"
-									bind:value={deviation.v_fin}
+									value={deviation.v_fin}
+									onchange={(event) =>
+										fijarRangoDeDesviacion(deviation, 'v_fin', Number(event.currentTarget.value))}
 								/>
 							</label>
 							<div class="flex items-end">
