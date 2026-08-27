@@ -56,7 +56,7 @@
 					<span class="block text-[color:var(--muted-foreground)]">
 						Se estructura como
 						{#if section.reutiliza.slug}
-							<a class="underline hover:no-underline" href="/formas/{section.reutiliza.slug}">
+							<a class="underline hover:no-underline" href="/recursos/catalogo-metrico/{section.reutiliza.slug}">
 								{section.reutiliza.nombre}
 							</a>
 						{:else}

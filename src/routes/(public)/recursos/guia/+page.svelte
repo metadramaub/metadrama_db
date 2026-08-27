@@ -1,5 +1,8 @@
 <section>
-	<h1 class="font-display text-3xl text-[color:var(--gray-900)]">GUÍA</h1>
+	<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+		Recursos
+	</p>
+	<h1 class="mt-2 font-display text-3xl text-[color:var(--gray-900)]">Guía</h1>
 	<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
 		Sección provisional.
 	</p>

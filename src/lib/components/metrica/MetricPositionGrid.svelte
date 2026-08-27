@@ -6,7 +6,7 @@
 	/**
 	 * La rejilla de posiciones, dibujada.
 	 *
-	 * Sirve a las tres superficies —la ficha de `/formas`, el demarcador y el recuadro de la norma
+	 * Sirve a las tres superficies —la ficha del catálogo métrico, el demarcador y el recuadro de la norma
 	 * del editor V2— con el mismo dibujo, para que una forma se vea igual dondequiera que se mire.
 	 * No sabe de dónde salen los datos: consume `Rejilla`, que es un tipo de presentación.
 	 *
@@ -479,7 +479,7 @@
 								<span class="block text-[color:var(--muted-foreground)]">
 									rima como
 									{#if banda.reutiliza.slug}
-										<a class="underline hover:no-underline" href="/formas/{banda.reutiliza.slug}">
+										<a class="underline hover:no-underline" href="/recursos/catalogo-metrico/{banda.reutiliza.slug}">
 											{banda.reutiliza.nombre}
 										</a>
 									{:else}

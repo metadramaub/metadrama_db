@@ -18,7 +18,7 @@
 	import X from 'lucide-svelte/icons/x';
 
 	/**
-	 * Catálogo de formas. Todo lo que se lee aquí sale del catálogo métrico: si algo está mal
+	 * Catálogo métrico. Todo lo que se lee aquí sale del catálogo métrico: si algo está mal
 	 * dicho, se corrige allí y esta página cambia sola.
 	 */
 	const { data } = $props<{ data: { formas: PublicFormSummary[] } }>();
@@ -88,7 +88,7 @@
 </script>
 
 <svelte:head>
-	<title>Catálogo de formas · Versología</title>
+	<title>Catálogo métrico · Versología</title>
 	<meta
 		name="description"
 		content="Las formas métricas del verso dramático español, con sus arquitecturas, esquemas y rasgos."
@@ -113,7 +113,7 @@
 	</p>
 	<p>
 		El <a
-			href="/demarcador"
+			href="/recursos/demarcador"
 			class="font-medium text-[color:var(--foreground)] underline decoration-[color:var(--gray-300)] underline-offset-4 hover:decoration-[color:var(--foreground)]"
 		>demarcador</a> permite recorrer este conocimiento desde un pasaje concreto, pues contrasta lo
 		que se observa en él con los datos del catálogo para proponer las formas y arquitecturas más
@@ -123,8 +123,8 @@
 
 <section class="grid w-full gap-7">
 	<PublicResourceHeader
-		category="Recurso de consulta"
-		title="Catálogo de formas"
+		category="Recursos"
+		title="Catálogo métrico"
 		description={descripcionCatalogo}
 		onHelp={() => (ayudaAbierta = true)}
 	/>
@@ -251,7 +251,7 @@
 					<li>
 						<a
 							class="group block h-full border border-[color:var(--border)] bg-white p-4 transition hover:border-[color:var(--gray-300)] hover:bg-[color:var(--gray-50)]"
-							href="/formas/{forma.slug}"
+							href="/recursos/catalogo-metrico/{forma.slug}"
 						>
 							<div class="flex items-start justify-between gap-4">
 								<h3 class="font-display text-lg">{forma.nombre}</h3>

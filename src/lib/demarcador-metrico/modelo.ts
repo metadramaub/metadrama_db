@@ -71,7 +71,7 @@ export type RasgoVisual = {
 
 export type PresentacionArquitectura = {
 	/**
-	 * La arquitectura dibujada verso a verso, con la misma rejilla que la ficha de `/formas`.
+	 * La arquitectura dibujada verso a verso, con la misma rejilla que la ficha del catálogo métrico.
 	 * Sustituye a la tira de casillas que el demarcador pintaba por su cuenta, que contaba las
 	 * alternativas de una posición como posiciones: la seguidilla gitana, que mide
 	 * 6-6-(10/11/12)-6, salía con doce casillas.

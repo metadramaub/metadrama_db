@@ -9,7 +9,7 @@
 
 <a
 	class="group block overflow-hidden border border-[color:var(--border)] bg-white transition duration-200 hover:border-[color:var(--gray-300)] hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
-	href="/formas/{props.form.slug}"
+	href="/recursos/catalogo-metrico/{props.form.slug}"
 >
 	<div class="p-5">
 		<div class="flex items-start justify-between gap-5">

@@ -180,7 +180,7 @@
 	 * Una parte que declara ser otra arquitectura toma prestado su repertorio de rima cuando la
 	 * unidad no declara ya la suya y la parte no tiene nada propio. La regla vive en
 	 * `reutilizacion.ts` y es **la misma que aplica la ficha pública** para prestarlo: si las dos
-	 * superficies se separaran, una obra se leería de un modo en `/formas` y de otro al anotarla.
+	 * superficies se separaran, una obra se leería de un modo en el catálogo y de otro al anotarla.
 	 *
 	 * Sin esto, las dos oncenas y el septeto compuesto no preguntan nada por su rima, y la copla
 	 * real y la novena solo preguntan porque alguien copió las preguntas a mano.
@@ -1269,7 +1269,7 @@
 			{/if}
 			{#if selectedConfiguration && selectedForm}
 				<div class="mt-3">
-					<MetricNormSummary facts={normFacts} rejilla={normGrid} catalogHref={`/formas/${selectedForm.slug}`} />
+					<MetricNormSummary facts={normFacts} rejilla={normGrid} catalogHref={`/recursos/catalogo-metrico/${selectedForm.slug}`} />
 				</div>
 			{/if}
 

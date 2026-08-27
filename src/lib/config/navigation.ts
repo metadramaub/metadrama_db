@@ -23,8 +23,8 @@ export const PUBLIC_NAV: NavGroup[] = [
 	{
 		label: 'RECURSOS',
 		items: [
-			{ label: 'DEMARCADOR', href: '/demarcador' },
-			{ label: 'FORMAS MÉTRICAS', href: '/formas' },
+			{ label: 'CATÁLOGO MÉTRICO', href: '/recursos/catalogo-metrico' },
+			{ label: 'DEMARCADOR', href: '/recursos/demarcador' },
 			{ label: 'GUÍA', href: '/recursos/guia' }
 		]
 	},
@@ -48,7 +48,8 @@ export const FOOTER_SECTIONS: FooterSection[] = [
 			{ label: 'CATÁLOGO', href: '/catalogo' },
 			{ label: 'AUTORES', href: '/autores' },
 			{ label: 'LABORATORIO', href: '/laboratorio' },
-			{ label: 'FORMAS MÉTRICAS', href: '/formas' },
+			{ label: 'CATÁLOGO MÉTRICO', href: '/recursos/catalogo-metrico' },
+			{ label: 'DEMARCADOR', href: '/recursos/demarcador' },
 			{ label: 'GUÍA', href: '/recursos/guia' }
 		]
 	},

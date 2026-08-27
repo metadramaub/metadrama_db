@@ -127,7 +127,7 @@
 {:else}
 <section class="grid gap-7">
 	<PublicResourceHeader
-		category="Herramienta de análisis"
+		category="Recursos"
 		title="Demarcador métrico"
 		description={descripcionDemarcador}
 		onHelp={() => (ayudaAbierta = true)}
