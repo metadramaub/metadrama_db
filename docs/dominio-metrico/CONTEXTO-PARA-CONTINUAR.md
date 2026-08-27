@@ -467,6 +467,18 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F8 | canción · sin rima | el pareado final no pinta su `aa` | UI · rejilla | `metricNormGrid` toma solo secciones madre; aquí los esquemas cuelgan de las hijas y la estancia no lleva ninguno | **1 caso en todo el catálogo**: es la única sección hija con posiciones de rima | pendiente |
 | F9 | canción · sin rima | el `aa` del pareado no se guarda en la anotación | modelo | no hay grupo de elección de rima: el `aa` es norma del catálogo, no respuesta | 5 arquitecturas activas sin grupo de rima | con **B8** |
 | F10 | canción · sin rima | la medida verso a verso y el nº de versos del cuerpo son el mismo control, y los versos se van sumando | catálogo | grupo `medida_estancia`, `alcance: unidad`, 5–20 selecciones; la estancia tiene extensión abierta y no hay pregunta de longitud | 1 arquitectura | recogido |
+| F11 | copla castellana · octosilábica | «Medida: base de 8, quebrados 4 y 5» y debajo «Medida fija: 8» | UI | **un solo esquema leído dos veces**: `roleBasedMetreSummary` por roles y `fixedMetreSummary` por posiciones | 10 arquitecturas de 8 formas, todas iguales: base 8, quebrados 4 y 5, 1 posición | **arreglado** |
+| F12 | copla castellana | con 2 coplas, responder «en conjunto» deja las dos abiertas y editables a la vez | UI | el modo conjunto no colapsa las unidades ni bloquea su edición | toda forma con más de una unidad | recogido |
+| F13 | copla castellana | al elegir la rima no se ve desplegada verso a verso, en vertical | UI | — | toda forma con grupo de rima | recogido |
+| F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
+| F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades», qué versos van quebrados— se entiende fatal | UI | — | toda forma con `permite_aplicar_global` | recogido |
+| — | copla castellana | «rango calculado desde sus partes» | — | *es F6, segunda repetición del mismo mensaje* | — | ya en F6 |
+
+**F11, por qué las dos frases eran ciertas.** La definición del catálogo dice que la copla castellana
+es de octosílabos y que «algún verso puede aparecer quebrado en cuatro sílabas». El esquema lo
+recoge tal cual: **una** posición de 8 —el ciclo— y un repertorio con roles, `dominante: 8` y
+`quebrado: 4, 5`. Leerlo por roles da la base y los quebrados; releerlo por posiciones da un 8 fijo.
+Lo que la norma fija es **la base**, no la medida de cada verso, así que el segundo renglón sobra.
 
 **Lo comprobado en F8 y F9**, para no repetirlo: el catálogo **sí** declara el pareado —esquema
 «Pareado consonante final», posiciones 1 y 2, ambas clase `a`—, y «Cuerpo sin rima» es un esquema con

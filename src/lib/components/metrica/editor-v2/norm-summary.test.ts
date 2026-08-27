@@ -523,4 +523,36 @@ describe('resumen de la norma', () => {
 
 		expect(facts).toEqual([{ label: 'Parte', value: 'Cabeza: 2–4 versos' }]);
 	});
+	/** El esquema de la copla castellana y otras nueve arquitecturas: una posición y roles. */
+	it('no cuenta dos veces un esquema que ya se ha leído por sus roles', () => {
+		const facts = metricNormFacts({
+			architectureId: 'a',
+			unitPlan: null,
+			lengthRule: null,
+			domain: domain({
+				verseModels: [
+					{ metro_id: 'm4', silabas: 4 },
+					{ metro_id: 'm5', silabas: 5 },
+					{ metro_id: 'm8', silabas: 8 }
+				],
+				metricPatterns: [
+					{ arquitectura_id: 'a', esquema_metrico_id: 'em', tipo_secuencia: 'ciclo' }
+				],
+				metricPositions: [{ esquema_metrico_id: 'em', posicion: 1, metro_id: 'm8' }],
+				metricOptions: [
+					{ esquema_metrico_id: 'em', metro_id: 'm8', rol: 'dominante' },
+					{ esquema_metrico_id: 'em', metro_id: 'm4', rol: 'quebrado' },
+					{ esquema_metrico_id: 'em', metro_id: 'm5', rol: 'quebrado' }
+				]
+			})
+		});
+
+		// Antes salía también «Medida fija: 8», que contradice al renglón de arriba.
+		expect(facts).toEqual([
+			{
+				label: 'Medida',
+				value: 'Base de 8 sílabas; los pies quebrados pueden medir 4 y 5'
+			}
+		]);
+	});
 });

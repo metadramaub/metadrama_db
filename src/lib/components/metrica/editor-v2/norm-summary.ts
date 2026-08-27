@@ -217,7 +217,9 @@ function naturalList(values: string[]): string {
  */
 function roleBasedMetreSummary(
 	architectureId: string,
-	domain: MetricCatalogDomainData
+	domain: MetricCatalogDomainData,
+	/** Se llena con los esquemas ya contados aquí, para que nadie los vuelva a contar. */
+	covered?: Set<string>
 ): string | null {
 	const entries: string[] = [];
 	for (const pattern of domain.metricPatterns.filter(
@@ -234,6 +236,7 @@ function roleBasedMetreSummary(
 			.filter((option) => option.rol === 'quebrado')
 			.map((option) => metreSyllables(domain.verseModels, id(option, 'metro_id')));
 		if (dominant.length === 0 || broken.length === 0) continue;
+		covered?.add(id(pattern, 'esquema_metrico_id'));
 		entries.push(
 			`Base de ${naturalList(dominant)} sílabas; los pies quebrados pueden medir ${naturalList(broken)}`
 		);
@@ -729,14 +732,20 @@ export function metricNormFacts(args: {
 		facts.push({ label: parts.allFixed ? 'Partes fijas' : 'Partes', value: parts.value });
 	}
 	facts.push(...variableSectionFacts(sections));
-	const roleMetre = roleBasedMetreSummary(architectureId, domain);
+	// **Un esquema con quebrados se cuenta una vez.** El de la copla castellana —y el de otras nueve
+	// arquitecturas— es uno solo: una posición de ocho sílabas y un repertorio con roles. Leído por
+	// roles decía «base de 8; los quebrados pueden medir 4 y 5», y releído por posiciones, «medida
+	// fija: 8». Las dos frases son ciertas y juntas se contradicen: lo que la norma fija es la base,
+	// no la medida de cada verso.
+	const metreCoveredByRole = new Set<string>();
+	const roleMetre = roleBasedMetreSummary(architectureId, domain, metreCoveredByRole);
 	const openMetre = openMetreSummary(architectureId, domain, sections);
 	const metre = fixedMetreSummary(
 		architectureId,
 		domain,
 		sections,
 		unitPlan,
-		variableSchemes.metric
+		new Set([...variableSchemes.metric, ...metreCoveredByRole])
 	);
 	if (roleMetre) facts.push({ label: 'Medida', value: roleMetre });
 	if (openMetre) facts.push({ label: 'Medida', value: openMetre });
