@@ -640,6 +640,34 @@
 
 	const modoEfectivo = $derived(hayDivergencia ? 'una_a_una' : modoDeRespuesta);
 
+	/**
+	 * **Si todo se responde arriba, abajo sobra la rejilla.**
+	 *
+	 * Respondido en conjunto, la lista unidad por unidad no dice nada que no se sepa: cuatro coplas
+	 * iguales, cada una con sus dos redondillas, ocupando media pantalla para repetir lo mismo. Basta
+	 * con saber **qué rango ocupa cada una**.
+	 *
+	 * Solo cuando de verdad no queda nada que tocar ahí abajo: ninguna fila con pregunta propia,
+	 * ninguna extensión editable, ningún patrón que se declare en la unidad y ninguna acción de
+	 * añadir o quitar. En cuanto algo de eso aparece, vuelve la rejilla entera.
+	 */
+	const listaCompacta = $derived(
+		modoEfectivo === 'conjunto' &&
+			rows.length > 0 &&
+			rows.some((row: GridRow) => row.kind === 'realizacion') &&
+			rows.every((row: GridRow) => {
+				if (row.kind === 'acciones' || row.kind === 'pregunta') return false;
+				if (row.kind === 'fijas') return row.preguntas.length === 0;
+				if (row.lengthEditable) return false;
+				if (sectionDefinesPattern(row.section)) return false;
+				if (partesIntegradas(row).length > 0) return false;
+				if (partesFijasConRima(row).length > 0) return false;
+				return row.preguntas.every(
+					(pregunta: PreguntaEnFila) => familiaDe(pregunta.group) !== null
+				);
+			})
+	);
+
 	/** Se pide confirmación antes de volver a conjunto, porque borra lo respondido aparte. */
 	let confirmarConjunto = $state(false);
 
@@ -1567,6 +1595,21 @@
 			</p>
 		{/if}
 
+		{#if listaCompacta}
+			<!-- Una debajo de otra: en fila corrida no se distingue dónde acaba una copla y empieza la siguiente. -->
+			<ul class="px-3 py-2.5">
+				{#each rows as row (row.key)}
+					{#if row.kind === 'realizacion'}
+						<li class="text-sm leading-relaxed">
+							{row.label}
+							<span class="tabular-nums text-[color:var(--muted-foreground)]">
+								vv. {row.unit.v_ini}–{row.unit.v_fin}
+							</span>
+						</li>
+					{/if}
+				{/each}
+			</ul>
+		{:else}
 		{#each rows as row (row.key)}
 			{#if !esParteIntegrada(row) && !filaOculta(row)}
 			{#if row.kind === 'pregunta'}
@@ -1590,12 +1633,15 @@
 					depth={row.depth}
 					variant={row.preguntas.length > 0 ? 'normal' : 'resumen'}
 				>
+					<!--
+						Cuando la parte no pregunta nada, no se dice nada. «1 realización de 4 versos · la
+						norma las fija enteras», repetido en cada redondilla de cada copla, era media
+						pantalla para decir lo que el rótulo de al lado —«Primera redondilla · vv. 1–4»— ya
+						deja ver. La extensión sigue explicándose donde importa: en las partes que sí
+						preguntan, por su `nota`.
+					-->
 					{#if row.preguntas.length > 0}
 						{@render camposDeLaParte(row.preguntas)}
-					{:else}
-						<span class="text-sm text-[color:var(--muted-foreground)]" title={EXTENT_HELP}>
-							{norma} · la norma las fija enteras
-						</span>
 					{/if}
 				</MetricGridRow>
 			{:else if row.kind === 'acciones'}
@@ -1873,6 +1919,7 @@
 			{/if}
 			{/if}
 		{/each}
+		{/if}
 	</div>
 </div>
 
