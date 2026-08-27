@@ -87,7 +87,7 @@
 		</aside>
 
 		<div class="min-w-0">
-			<header id="resumen" class="scroll-mt-20 pb-8 pt-7 lg:scroll-mt-6 lg:pt-0">
+			<header id="resumen" class="scroll-mt-20 pt-7 lg:scroll-mt-6 lg:pt-0">
 				<p class="text-xs font-semibold uppercase tracking-[0.09em] text-[color:var(--muted-foreground)]">
 					{forma.tipoRegistro === 'forma' ? 'Forma métrica' : 'Tramo sin forma'}
 					<span class="mx-1.5 text-[color:var(--gray-300)]" aria-hidden="true">·</span>
@@ -137,7 +137,7 @@
 			</header>
 
 			{#if forma.arquitecturas_.length > 0}
-				<section id="arquitecturas" class="scroll-mt-20 pt-12 lg:scroll-mt-6">
+				<section id="arquitecturas" class="mt-10 scroll-mt-20 border-t border-[color:var(--border)] pt-8 lg:scroll-mt-6">
 					<PublicFormSectionHeader
 						title={forma.arquitecturas_.length === 1 ? 'Arquitectura' : 'Arquitecturas'}
 						description="Cada arquitectura describe una configuración posible de la forma y precisa su extensión, su medida, su rima, sus partes y los rasgos que admite."
@@ -153,7 +153,7 @@
 			{/if}
 
 			{#if forma.relaciones.length > 0}
-				<section id="relaciones" class="scroll-mt-20 pt-12 lg:scroll-mt-6">
+				<section id="relaciones" class="mt-10 scroll-mt-20 border-t border-[color:var(--border)] pt-8 lg:scroll-mt-6">
 					<PublicFormSectionHeader
 						title="Relaciones con otras formas"
 						description="Vínculos estructurales e históricos declarados en el catálogo."
@@ -182,7 +182,7 @@
 			{/if}
 
 			{#if forma.fuentes.length > 0}
-				<section id="fuentes" class="scroll-mt-20 pt-12 lg:scroll-mt-6">
+				<section id="fuentes" class="mt-10 scroll-mt-20 border-t border-[color:var(--border)] pt-8 lg:scroll-mt-6">
 					<PublicFormSectionHeader
 						title="Fuentes bibliográficas"
 						description="Testimonios bibliográficos de los que procede la información recogida en la ficha."
