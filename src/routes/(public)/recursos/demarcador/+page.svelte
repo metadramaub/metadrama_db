@@ -106,8 +106,14 @@
 
 {#snippet descripcionDemarcador()}
 	<p>
-		Contrasta lo que observas en el texto con las formas y arquitecturas del catálogo métrico.
-		Puedes comenzar desde cero o comprobar una identificación que ya tengas en mente.
+		El demarcador ayuda a identificar la forma métrica de un pasaje a partir de rasgos que
+		pueden observarse en el texto, como su extensión, su medida, su rima o la organización de
+		sus partes.
+	</p>
+	<p>
+		Con esas respuestas consulta el catálogo métrico, ordena las formas y arquitecturas que
+		mejor encajan y explica las coincidencias y diferencias; puedes dejar que las preguntas
+		guíen el análisis o comenzar desde una forma concreta que quieras comprobar.
 	</p>
 {/snippet}
 
@@ -135,34 +141,40 @@
 
 	{#if !modo}
 		<div class="grid gap-5 lg:grid-cols-2">
-			<section class="card flex flex-col p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-					Recorrido guiado
-				</p>
-				<h2 class="font-display mt-3 text-2xl">Identificar una forma</h2>
+			<section class="flex flex-col border border-[color:var(--border)] bg-white p-6 shadow-sm">
+				<div class="flex items-start justify-between gap-4">
+					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+						Sin una forma en mente
+					</p>
+					<span class="font-display text-xl text-[color:var(--gray-300)]" aria-hidden="true">01</span>
+				</div>
+				<h2 class="font-display mt-5 text-2xl">Identificar desde el pasaje</h2>
 				<p class="mt-3 flex-1 text-sm leading-6 text-[color:var(--gray-700)]">
-					Empieza por observaciones accesibles. Las propiedades técnicas se deducen y solo se
-					preguntan cuando pueden aportar una diferencia clara.
+					Responde a preguntas breves sobre la extensión, la medida, la rima y la organización
+					del fragmento. Puedes elegir «No sé» cuando un rasgo no esté claro.
 				</p>
 				<button
 					type="button"
-					class="mt-6 bg-[color:var(--foreground)] px-4 py-3 text-sm font-semibold text-[color:var(--background)]"
+					class="mt-7 bg-[color:var(--foreground)] px-4 py-3 text-sm font-semibold text-[color:var(--background)] transition-colors hover:bg-[color:var(--gray-700)]"
 					onclick={() => comenzar('guiado')}
 				>
-					Empezar identificación
+					Comenzar recorrido guiado
 				</button>
 			</section>
 
-			<section class="card flex flex-col p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-					Comprobación
-				</p>
-				<h2 class="font-display mt-3 text-2xl">Tengo una hipótesis</h2>
+			<section class="flex flex-col border border-[color:var(--border)] bg-white p-6 shadow-sm">
+				<div class="flex items-start justify-between gap-4">
+					<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+						Con una forma en mente
+					</p>
+					<span class="font-display text-xl text-[color:var(--gray-300)]" aria-hidden="true">02</span>
+				</div>
+				<h2 class="font-display mt-5 text-2xl">Comprobar una hipótesis</h2>
 				<p class="mt-3 text-sm leading-6 text-[color:var(--gray-700)]">
-					Selecciona la forma que estás considerando. El demarcador priorizará sus rasgos
-					definitorios sin ocultar otras identificaciones posibles.
+					Elige la forma que estás considerando. Las preguntas se centrarán en los rasgos que
+					la distinguen, pero el resultado seguirá mostrando otras formas compatibles.
 				</p>
-				<label class="mt-5 text-sm font-medium" for="forma-objetivo">Forma que quieres comprobar</label>
+				<label class="mt-5 text-sm font-medium" for="forma-objetivo">Forma propuesta</label>
 				<select
 					id="forma-objetivo"
 					class="mt-2 w-full border border-[color:var(--border)] bg-white px-3 py-3 text-sm"
@@ -175,7 +187,7 @@
 				</select>
 				<button
 					type="button"
-					class="mt-3 border border-[color:var(--foreground)] px-4 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
+					class="mt-3 border border-[color:var(--foreground)] px-4 py-3 text-sm font-semibold transition-colors hover:bg-[color:var(--gray-50)] disabled:cursor-not-allowed disabled:opacity-40"
 					disabled={!formaPendienteId}
 					onclick={() => comenzar('hipotesis')}
 				>
@@ -319,7 +331,9 @@
 	{/if}
 
 	<footer class="border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
-		El resultado expresa compatibilidad con las evidencias declaradas en el catálogo. No sustituye el análisis métrico ni la revisión editorial.
+		Las propuestas indican qué formas encajan mejor con los rasgos introducidos y explican
+		por qué. Sirven para orientar la identificación de una composición, pero no garantizan por
+		sí solas un resultado correcto.
 	</footer>
 </section>
 {/if}
