@@ -635,9 +635,19 @@ esquemas definitorios**: la canción «Sin rima, con pareado final», con `Cuerp
 consonante final`, que no compiten: **son de secciones distintas**, una que no rima y otra que rima
 `aa`.
 
-*Queda una deuda menor, sin urgencia:* la garantía **no la sostiene ninguna restricción ni disparador**.
-Se comprobó en la migración del 10 de agosto y se ha vuelto a comprobar hoy, pero nada impide volver a
-romperla.
+**La garantía ya la sostiene la base**, desde el 27 de agosto. Se había comprobado dos veces —en agosto
+con la endecha real y hoy con la manriqueña— y las dos se dejó sin sostener. Ahora hay un disparador
+diferido en las cuatro tablas que pueden romperla —`esquemas_rima`, `repeticiones_metricas`,
+`variedades_arquitectura` y `grupos_eleccion_metrica`— y una función,
+`preguntas_que_ofrecen_una_definitoria()`, que devuelve los incumplimientos y se puede llamar a mano
+para auditar el catálogo.
+
+Es **más estricta que la frase de agosto**, que decía «junto a otra modalidad»: la manriqueña ofrecía la
+suya **sola** y estaba igual de mal, porque una pregunta cuya única opción ya la fija la norma es una
+pregunta que no debería existir. **Los rasgos quedan fuera a propósito**: en `arquitectura_rasgos`,
+`definitoria` dice que *el rasgo* caracteriza la arquitectura, no que un valor sea la norma, y entonces
+preguntar cuál de sus valores se lee es lo correcto —hoy pasa con la densidad de rima del endecasílabo
+suelto—.
 
 **Cómo se declara «puede haber otras», que preguntó el IP.** No con la ausencia de opciones, sino con
 un **esquema abierto** —`tipo_secuencia = 'abierta'`—, que la función que deriva las opciones **excluye
