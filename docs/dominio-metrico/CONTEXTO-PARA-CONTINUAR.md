@@ -338,6 +338,8 @@ semana siguiente no obligue a nadie a seguir anotando con el vocabulario legado.
   y se rehacen cuando todo esto esté terminado. Una obra recién empezada no se publica el primer
   día, así que su perfil métrico vacío no bloquea a nadie.
 - **Lo que toca `secuencias_metricas` por dentro no se hace aquí.** Ver *Lo que va a `main`*.
+- **~~El interruptor es por obra.~~ Retirado el 27 de agosto de 2026**, al repensar la migración:
+  todas las obras abren con el editor nuevo. Ver el replanteo, más abajo.
 - **Se prueba en la pestaña de secuencias de una obra, no en el laboratorio.** Decidido el 26 de
   agosto de 2026, y cambia el orden de todo lo que sigue. Probar en el sitio definitivo prueba **la
   integración de verdad** —las caracterizaciones, la sinopsis, la checklist, el API real—, que es
@@ -355,104 +357,72 @@ semana siguiente no obligue a nadie a seguir anotando con el vocabulario legado.
 
 ### Los pasos, en orden
 
-*Reordenados el 26 de agosto de 2026.* Antes empezaban por abrir la RLS; ahora empiezan por mover el
-editor, porque **para que el IP pruebe no hace falta abrir nada**: `loadMetricCatalog` solo exige
-poder leer la revisión del catálogo, y eso ya lo puede un admin. Abrir a los editores espera a que
-el formulario convenza.
+*Reordenados el 26 de agosto de 2026 y **repensados el 27**, cuando el IP replanteó la migración
+entera. Lo que sigue es el estado después de ese replanteo.*
 
-| | paso | por qué ahí |
+**Lo hecho, y probado en Fuenteovejuna:**
+
+| | paso | estado |
 |---|---|---|
-| 1 | **Los nombres y `UNIQUE (secuencia_id)`** | mientras no haya datos |
-| 2 | **Montar el V2 en la pestaña de secuencias**, para admin/IP | para probar en el sitio bueno |
-| 3 | **Las quejas del formulario, una a una** | ya en su sitio, y lo que se arregle se queda |
-| 4 | **La RLS y el catálogo público** | cuando el formulario esté como debe |
-| 5 | **La checklist acepta la forma nueva** | sin esto los editores no cierran nada |
-| 6 | **Retirar el editor de prueba** | cuando lo de obras esté probado |
+| 1 | **Los nombres**: seis tablas, una vista, nueve columnas, diez funciones | hecho el 26 ago |
+| 2 | **El contenedor**: `MetricSequenceModal`, compartido con el laboratorio | hecho el 26 ago |
+| 3 | **Los componentes de la pestaña** y la retirada de los subtipos | hecho el 26 ago |
+| 4 | **Montar el V2** en la pestaña de secuencias | hecho el 26 ago |
 
-Lo que sigue detalla cada uno.
+La pestaña pasó de **2 327 a 1 244 líneas**. `UNIQUE (secuencia_id)` no hizo falta: ya existía como
+índice parcial. Y las seis equivalencias de los subtipos de quintilla tampoco: la propuesta los
+resuelve por `esquemas_rima.origen_termino_id`, que los ocho llevan puesto —comprobado sobre las
+once secuencias afectadas, que reciben ya su respuesta—.
 
-**1 · Los nombres, ahora que no hay datos.** Ver la tabla de nombres más abajo.
+**Lo que queda:**
 
-**2 · Montar el V2 en la pestaña de secuencias.** Ver *La pestaña de secuencias monta el V2*.
-
-**3 · Las quejas del formulario.** Se recorre forma por forma en el editor real y, de cada cosa que
-no convence, se decide **si es la UI, si es el catálogo, si es cómo se registra la elección, o si el
-catálogo ya lo resuelve de otra manera y lo que falta es usarla** —esta cuarta salió de dos casos el
-mismo día en que se acordó el método—. Lo que va saliendo se apunta abajo, en
-[Lo que sale de recorrer el formulario](#lo-que-sale-de-recorrer-el-formulario).
-
-**4 · El catálogo, público de verdad.** Contado contra la base: de las **veintiséis** tablas del
-catálogo, **veintidós ya son públicas** —tienen `SELECT = catalogo_metrico_publico()`— y **tres no**:
-`catalogo_metrico_estado`, `metro_segmentos` y `repeticion_posiciones`. Las dos últimas son tablas de
-detalle de `metros` y `repeticiones_metricas`, que sí lo son: es un descuido, no una decisión.
-
-`catalogo_metrico_estado` es la que muerde hoy, porque `loadMetricCatalog` **se rinde si no puede
-leer la revisión**: un editor recibiría el catálogo vacío. Es solo un número de revisión y una
-versión de modelo.
-
-*Y una cosa más, que es de diseño y no de descuido:* que el dashboard funcione **no puede depender
-del interruptor público**. Hoy `catalogo_metrico_publico()` mira si la sección `formas` está activa
-para anónimos; si un admin la apaga, los editores se quedarían sin catálogo. La política debe ser
-«lo ve quien lo publica, quien lo edita, o cualquiera si está publicado», y para eso hace falta un
-`auth_is_editor()` que hoy no existe —solo hay `auth_is_admin_or_ip()`—.
-
-*Esto además rompe la llave de la caché del catálogo*, que hoy se apoya en que haber leído la
-revisión demuestra ser admin o IP. Al abrir esa RLS hay que añadirle la visibilidad a la llave. Va
-en este mismo paso, no después. ⇒ **C17**
-
-**Los nombres, en detalle.** Las tablas se llaman `*_editor_metrico` de cuando todo
-era un laboratorio, y `obras_anotacion_nueva` lleva un «v2» que envejecerá mal. Cuando el sistema
-viejo muera, `anotaciones_metricas` será *la* tabla de la identidad métrica de una secuencia
-con un nombre que ya no dirá nada.
-
-**Hoy tienen cero filas sobre secuencias reales** —solo dos secuencias de escenario—, así que este
-es el momento más barato que va a haber. El coste medido: **31 objetos** en la base y **82
-ocurrencias** en 6 archivos de código. *Las 64 migraciones que las nombran no se tocan: una migración
-aplicada no se edita, y el renombrado es una migración nueva.*
-
-Propuesta, pendiente del visto bueno del IP:
-
-| hoy | propuesta | qué guarda |
+| | paso | por qué |
 |---|---|---|
-| `anotaciones_metricas` | `anotaciones_metricas` | la identidad métrica de un pasaje: qué forma y qué arquitectura |
-| `anotacion_realizaciones` | `anotacion_realizaciones` | el árbol de lo que hay verso a verso: cada unidad y sus partes |
-| `anotacion_elecciones` | `anotacion_elecciones` | las respuestas a las preguntas que hace la arquitectura |
-| `anotacion_elecciones_resueltas` | `anotacion_elecciones_resueltas` | *(vista)* esas respuestas más la opción que las ofrecía |
-| `anotacion_desviaciones` | `anotacion_desviaciones` | lo que el pasaje hace y la norma no admite |
-| `anotacion_escenarios_prueba` | `anotacion_escenarios_prueba` | el laboratorio: cajones de pruebas que no son obras |
-| `obras_anotacion_nueva` | `obras_anotacion_nueva` | qué obras usan el editor nuevo |
+| 5 | **Retirar el interruptor por obra** y abrir todas con el editor nuevo | ver el replanteo, abajo |
+| 6 | **El término legado, a la vista al anotar** | que nadie anote a ciegas |
+| 7 | **La checklist acepta la forma nueva** | sin esto ninguna obra se cierra |
+| 8 | **La RLS y el catálogo público** | para que anoten los editores, no solo el IP |
+| 9 | **Retirar la anotación en sombra y el laboratorio** | dejan de hacer falta |
 
-**Las claves primarias van en el mismo viaje.** No son solo los nombres de tabla los que huelen a
-laboratorio: `anotacion_id`, `realizacion_id`, `eleccion_id` y
-`desviacion_id` están a punto de guardar anotaciones de verdad, y dejarlas obligaría a
-convivir con una tabla llamada `anotaciones_metricas` cuya clave se llama «id de prueba». Pasan a
-`anotacion_id`, `realizacion_id`, `eleccion_id` y `desviacion_id`, y con ellas las claves foráneas
-que las nombran.
+### El replanteo de la migración, 27 de agosto de 2026
 
-*`obras_anotacion_nueva` es la única que nace con fecha de caducidad:* mientras conviven los dos
-sistemas dice qué obras usan el nuevo, y **cuando se migre lo anotado deja de hacer falta** —lo
-usarán todas—. Se retira entonces, con la columna `estrofa_tipo_id`.
+**La anotación en sombra deja de ser el camino.** La decisión es del IP y el motivo es sólido:
+establecer equivalencias costó mucho, **faltan datos en casi todas las secuencias** —el catálogo
+nuevo captura cosas que el viejo no— y de todos modos el IP va a contactar con los editores uno a
+uno. Automatizar una propuesta que después hay que repasar entera no ahorra el repaso.
 
-**5 · Una anotación por secuencia.** Falta un `UNIQUE (secuencia_id)`: hoy nada impide que una
-secuencia real tenga dos anotaciones métricas.
+**En su lugar manda el informe por obra**, que ya existe y ya hace el trabajo: `npm run
+migracion:informe` genera uno por obra con la propuesta secuencia a secuencia, qué se funde en una,
+qué queda por completar —«esquema de rima» en cinco de veinticuatro en *Dido y Eneas*— y el aviso de
+que buena parte de las caracterizaciones por rango son en realidad **desviaciones**, y de que la
+hipometría no conserva las sílabas observadas. El IP y el editor lo recorren juntos, secuencia a
+secuencia.
 
-**6 · La anotación, abierta a los editores.** Las seis tablas tienen política `auth_is_admin_or_ip()`
-y ninguna otra: un editor no puede escribir ni una fila. Hay que abrirlas **con el alcance por obra
-asignada**, que es la regla que ya gobierna el resto del dashboard. Con guardas que ejecuten: probar
-que un editor escribe lo suyo y **no** lo ajeno.
+**De ahí se sigue que toda obra abre con el editor nuevo**, y que el interruptor por obra sobra.
 
-**La pestaña de secuencias monta el V2, en detalle.** `MetricSequenceEditor` es portátil por diseño —recibe
-lo no métrico como `bodyExtra` y su contenedor ya dice que «se moverá tal cual al editor de obras»—.
-La secuencia real se sigue creando como hoy: rango y caracterizaciones en `secuencias_metricas`;
-solo la identidad métrica va a las tablas nuevas. **El interruptor es por obra**, con la tabla que
-hoy es `obras_anotacion_nueva`: una obra apuntada ahí usa el V2, y las demás siguen con el editor
-viejo hasta que se migren. Así nadie empieza una obra nueva con el vocabulario legado y no se
-interrumpe a quien está a mitad de una.
+*Y que nada se pierde, que es lo que lo hace posible.* Lo anotado con el sistema viejo **no se
+borra**: `estrofa_tipo_id`, `secuencias_subtipos_estrofa` y `secuencias_caracterizaciones_rango` se
+quedan donde están, así que una obra ya anotada se puede rehacer sin perder de dónde venía.
+Comprobado además que **guardar no lo altera**: `toSelectableEstrofaId` engordaría un término hijo
+no seleccionable, pero ninguna de las 263 secuencias usa uno —los subtipos de quintilla viven en su
+propia tabla, no en `estrofa_tipo_id`—.
 
-**7 · La checklist acepta la forma nueva.** `hasPendingSequenceFields` declara pendiente toda
-secuencia con `estrofa_tipo_id` nulo, así que una obra anotada en V2 **no podría marcarse
-revisable**. Tiene que dar por satisfecho ese campo cuando la secuencia tiene forma en el catálogo
-nuevo. Sin esto los editores trabajan pero no cierran nada.
+**Lo que este replanteo se lleva por delante**, y no es poco:
+
+- **El interruptor `obras_anotacion_nueva`.** Sobra, y con él el enredo de que tres obras estuvieran
+  ya dentro por la anotación en sombra —*Dido y Eneas*, *Elisa Dido* y *Valor, agravio y mujer*—,
+  que significaba otra cosa.
+- **La anotación en sombra entera**, y con ella **la consulta de dos segundos** que daba el 500 en
+  `/dashboard/metrica`. Eso cierra la mitad que quedaba abierta de **C17** sin tocar nada más.
+- **El panel lateral viejo**, que deja de ser alcanzable: varios cientos de líneas.
+
+**Lo que queda por decidir, y es del IP:** al reabrir una secuencia ya anotada, ¿el editor trae la
+propuesta puesta para confirmarla, o arranca en blanco para anotar de cero mirando el informe? El
+argumento de que faltan datos en casi todas empuja a lo segundo, pero conviene decirlo.
+
+*Un efecto secundario que conviene tener presente y que juega a favor:* como `estrofa_tipo_id` no se
+borra al reanotar, **la zona pública sigue viva** del término legado mientras dure la transición. Que
+las fichas lean todavía el modelo viejo deja de correr prisa.
 
 ### Lo que sale de recorrer el formulario
 
@@ -882,8 +852,10 @@ entero, y eso hoy está probado por la propia base:* `catalogo_metrico_estado` t
 V2 pase a `/dashboard/obras` habrá que relajar esa RLS** —un editor también necesitará el catálogo—,
 y ese día la llave de la caché deja de bastar: habrá que añadirle la visibilidad.
 
-**Lo que queda.** La propuesta de la anotación en sombra sigue costando dos segundos, y no la cubre
-la caché porque depende de las secuencias. Dos salidas, y no son excluyentes: es una herramienta de
+**Lo que queda, y se resuelve solo.** La propuesta de la anotación en sombra sigue costando dos
+segundos, y no la cubre la caché porque depende de las secuencias. Pero **el 27 de agosto de 2026 la
+anotación en sombra dejó de ser el camino de la migración**, así que esa consulta se retira con ella
+y no hace falta arreglarla. Lo que sigue valiendo es el aviso de abajo. Dos salidas, y no son excluyentes: es una herramienta de
 migración que **desaparece cuando la migración termine**, y mientras tanto puede materializarse lo
 derivado —`opciones_eleccion_metrica`, `grupos_eleccion_metrica_resueltos` y
 `arquitecturas_reglas_longitud`, entre las tres 880 filas— refrescándolo cuando cambie la revisión.
