@@ -372,15 +372,26 @@ aplicada no se edita, y el renombrado es una migración nueva.*
 
 Propuesta, pendiente del visto bueno del IP:
 
-| hoy | propuesta |
-|---|---|
-| `secuencias_editor_metrico` | `anotaciones_metricas` |
-| `realizaciones_editor_metrico` | `anotacion_realizaciones` |
-| `elecciones_editor_metrico` | `anotacion_elecciones` |
-| `desviaciones_editor_metrico` | `anotacion_desviaciones` |
-| `elecciones_editor_metrico_resueltas` | `anotacion_elecciones_resueltas` |
-| `escenarios_editor_metrico` | `anotacion_escenarios_prueba` |
-| `obras_editor_metrico_v2` | `obras_anotacion_nueva` |
+| hoy | propuesta | qué guarda |
+|---|---|---|
+| `secuencias_editor_metrico` | `anotaciones_metricas` | la identidad métrica de un pasaje: qué forma y qué arquitectura |
+| `realizaciones_editor_metrico` | `anotacion_realizaciones` | el árbol de lo que hay verso a verso: cada unidad y sus partes |
+| `elecciones_editor_metrico` | `anotacion_elecciones` | las respuestas a las preguntas que hace la arquitectura |
+| `elecciones_editor_metrico_resueltas` | `anotacion_elecciones_resueltas` | *(vista)* esas respuestas más la opción que las ofrecía |
+| `desviaciones_editor_metrico` | `anotacion_desviaciones` | lo que el pasaje hace y la norma no admite |
+| `escenarios_editor_metrico` | `anotacion_escenarios_prueba` | el laboratorio: cajones de pruebas que no son obras |
+| `obras_editor_metrico_v2` | `obras_anotacion_nueva` | qué obras usan el editor nuevo |
+
+**Las claves primarias van en el mismo viaje.** No son solo los nombres de tabla los que huelen a
+laboratorio: `secuencia_prueba_id`, `realizacion_prueba_id`, `eleccion_prueba_id` y
+`desviacion_prueba_id` están a punto de guardar anotaciones de verdad, y dejarlas obligaría a
+convivir con una tabla llamada `anotaciones_metricas` cuya clave se llama «id de prueba». Pasan a
+`anotacion_id`, `realizacion_id`, `eleccion_id` y `desviacion_id`, y con ellas las claves foráneas
+que las nombran.
+
+*`obras_anotacion_nueva` es la única que nace con fecha de caducidad:* mientras conviven los dos
+sistemas dice qué obras usan el nuevo, y **cuando se migre lo anotado deja de hacer falta** —lo
+usarán todas—. Se retira entonces, con la columna `estrofa_tipo_id`.
 
 **3 · Una anotación por secuencia.** Falta un `UNIQUE (secuencia_id)`: hoy nada impide que una
 secuencia real tenga dos anotaciones métricas.
