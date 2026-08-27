@@ -469,7 +469,8 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F10 | canción · sin rima | la medida verso a verso y el nº de versos del cuerpo son el mismo control, y los versos se van sumando | catálogo | grupo `medida_estancia`, `alcance: unidad`, 5–20 selecciones; la estancia tiene extensión abierta y no hay pregunta de longitud | 1 arquitectura | recogido |
 | F11 | copla castellana · octosilábica | «Medida: base de 8, quebrados 4 y 5» y debajo «Medida fija: 8» | UI | **un solo esquema leído dos veces**: `roleBasedMetreSummary` por roles y `fixedMetreSummary` por posiciones | 10 arquitecturas de 8 formas, todas iguales: base 8, quebrados 4 y 5, 1 posición | **arreglado** |
 | F12 | copla castellana | con 2 coplas, responder «en conjunto» deja las dos abiertas y editables a la vez | UI | **era una copia, no un modo**: el panel escribía la misma respuesta en cada unidad y se cerraba | 77 preguntas en 51 arquitecturas, **28 de 41 formas** | **arreglado** |
-| F13 | copla castellana | al elegir la rima no se ve desplegada verso a verso, en vertical | UI | — | toda forma con grupo de rima | recogido |
+| F13 | copla castellana | al elegir la rima no se ve desplegada verso a verso, en vertical, y queda lejos de donde se resume cada parte | UI | — | toda forma con grupo de rima | recogido, **2.ª vez** |
+| F20 | copla castellana | la estructura de dos redondillas debería verse **donde se declara la medida**, más visualmente | UI · rejilla | — | toda forma con partes dentro de la unidad | recogido, va con **F6** |
 | F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
 | F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades»— se entiende fatal | UI | consecuencia de F12: lo que coincidía seguía pintando campo, con esa nota repetida por unidad | los mismos 77 grupos | **arreglado con F12** |
 | — | copla castellana | «rango calculado desde sus partes» | — | *es F6, segunda repetición del mismo mensaje* | — | ya en F6 |
@@ -490,19 +491,35 @@ quedaba ningún «en conjunto», solo N respuestas iguales; por eso abajo seguí
 «Coincide con las demás unidades» repetido, y por eso había que avisar de que lo aplicado «solo afecta
 a las unidades que existen ahora».
 
-Ahora el modo **se lee del propio dato** —no se guarda nada, así que no puede desincronizarse— y son
-tres:
+Ahora hay **un solo selector para toda la pantalla**, con **dos modos**, y el resto se lee del propio
+dato, sin guardar nada que pueda desincronizarse:
 
-| estado | cuándo | qué se ve |
-|---|---|---|
-| **en conjunto** | todas responden lo mismo, o no ha respondido nadie | un campo arriba, «en las N unidades». Abajo cada unidad es **una línea** con su rango |
-| **mixto** | alguna se aparta | arriba, «en 5 de 6». Abajo **solo se abre la que se aparta**, marcada |
-| **una a una** | lo pide el editor, con un enlace | se abren todas; vuelve solo a conjunto si coinciden otra vez |
+| | qué se ve |
+|---|---|
+| **En conjunto** | un campo por pregunta arriba, «en las N unidades». Abajo cada unidad es **una línea** con su rango y una acción, «esta copla responde otra cosa», que la abre |
+| **Una a una** | todas abiertas. El campo común sigue arriba, **anunciado como atajo y atenuado**, porque partir de lo corriente y matizar después ahorra trabajo |
 
-Decidido con el IP: **el estado de partida es «en conjunto»** —30 de las 41 formas son N unidades
-iguales— y en mixto **abajo solo se abre la excepción**. Desaparecen el panel de preparación, el botón
-de aplicar y el aviso sobre las unidades futuras: si se añade una, deja de haber uniformidad y la
-pregunta lo dice sola. Comprobado en pantalla con dos coplas castellanas en los tres estados.
+Y una unidad se abre sola, sin marcarla, en cuanto lo que responde deja de coincidir con lo común.
+
+**El primer intento tenía el interruptor en cada pregunta y estaba mal.** Al pedir «una a una» en la
+rima, los quebrados seguían plegados —y también varían de unidad en unidad—, el botón se repetía en
+cada fila y el de abajo seguía diciendo «responder una a una» cuando arriba ya se estaba en ese modo.
+**El modo es de la pantalla, no de cada pregunta.**
+
+**Y son dos modos, no tres.** «Mixto» no era algo que se eligiera: es lo que pasa cuando alguna unidad
+responde otra cosa. Lo que se elige es **cuál se aparta**, y eso se hace en la unidad.
+
+*Lo que se midió para decidirlo, porque la intuición decía lo contrario.* La única tabla con una
+respuesta por estrofa dentro de una misma secuencia son los subtipos de quintilla: **336 estrofas en
+11 secuencias**, de las que **solo 2 tienen todas las estrofas iguales**, y **100 de 336 —el 30 %— se
+apartan de la mayoritaria**; en una de 47 estrofas la mayoritaria es solo 21. Así que **no**, lo normal
+no es que difieran pocas, al menos en la rima —salvedad: son quintillas, de lo más variable, y la
+medida seguramente varía mucho menos—. Por eso «una a una» está a un clic y no escondida.
+
+También se rotula bien lo de abajo: era «la secuencia, verso a verso» y con varias unidades es **unidad
+por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el aviso sobre las unidades
+futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
+en «una a una» bajan **las dos preguntas**, no solo la rima.
 
 **F19, por qué parecía la excepción y es la norma.** El editor deriva las unidades del rango cuando
 la arquitectura tiene extensión de unidad **fija** (`unidad_versos_min = unidad_versos_max`), y

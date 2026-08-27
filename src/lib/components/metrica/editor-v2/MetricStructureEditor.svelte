@@ -159,14 +159,27 @@
 	const comunes = $derived(respondePorPartes ? [] : preguntasCompartidas(context));
 	const opcionales = $derived(respondePorPartes ? [] : seccionesOpcionalesUniformes(context));
 	/**
-	 * Las preguntas que el editor ha decidido responder **una a una**.
+	 * **Cómo se está respondiendo, para todas las preguntas a la vez.**
 	 *
-	 * Es lo único que hace falta guardar en la pantalla: los otros dos estados —en conjunto y
-	 * mixto— **se leen del propio dato**, comparando lo que responde cada unidad. Así el modo no
-	 * puede desincronizarse de las respuestas, y añadir una unidad más no necesita ningún aviso:
-	 * deja de haber uniformidad y la pregunta pasa sola a mixto, mostrando la que falta.
+	 * Hubo un intento con un interruptor por familia de preguntas, y estaba mal: al pedir «una a
+	 * una» en la rima, los quebrados —que también varían de unidad en unidad— seguían plegados, y
+	 * el botón se repetía en cada pregunta diciendo cosas distintas en cada una. El modo es de la
+	 * pantalla, no de cada pregunta.
+	 *
+	 * Solo hay dos, porque el tercero no era un modo sino una consecuencia: en conjunto, con
+	 * unidades que se apartan, es lo mismo que en conjunto. Lo que se elige es **qué unidad se
+	 * aparta**, no un modo aparte.
 	 */
-	let preguntasUnaAUna = $state(new Set<string>());
+	let modoDeRespuesta = $state<'conjunto' | 'una_a_una'>('conjunto');
+
+	/**
+	 * Las unidades que el editor ha abierto para responderlas por su cuenta.
+	 *
+	 * Una unidad se abre también **sin marcarla**, en cuanto lo que responde deja de coincidir con
+	 * lo común: eso se lee del dato y no hace falta recordarlo. Esto guarda solo las que se han
+	 * abierto **antes** de responder nada distinto, que si no se cerrarían al instante.
+	 */
+	let unidadesAparte = $state(new Set<string>());
 	let unidadesPlegadas = $state(new Set<string>());
 	let pendingPositionsByAnswer = $state<Record<string, number[]>>({});
 	const unitShortName = $derived(
@@ -582,21 +595,57 @@
 		};
 	}
 
+	/** Cuántas unidades se apartan de lo común, sumando todas las preguntas compartidas. */
+	const unidadesQueSeApartan = $derived.by(() => {
+		const apartadas = new Set<string>();
+		for (const pregunta of comunes) {
+			const estado = comunState(pregunta);
+			if (estado.answered === 0) continue;
+			for (const group of pregunta.groups) {
+				for (const unit of unitsForGroup(context, group)) {
+					if (firmaComun(group, unit) !== estado.mayoritaria) {
+						apartadas.add(unit.realizacion_id);
+					}
+				}
+			}
+		}
+		return apartadas;
+	});
+
+	/** Cuántas unidades hay en total, para rotular el selector. */
+	const totalDeUnidades = $derived.by(() =>
+		comunes.reduce(
+			(maximo: number, pregunta: PreguntaCompartida) =>
+				Math.max(maximo, comunState(pregunta).total),
+			0
+		)
+	);
+
 	/**
-	 * En qué estado está una pregunta compartida.
-	 *
-	 * `una_a_una` solo si el editor lo ha pedido; si no, lo dice el dato.
+	 * Si una unidad debe abrirse: porque el modo lo pide, porque el editor la ha marcado, o
+	 * porque lo que responde ya no coincide con lo común.
 	 */
-	function modoDeLaPregunta(pregunta: PreguntaCompartida): 'conjunto' | 'mixto' | 'una_a_una' {
-		if (preguntasUnaAUna.has(pregunta.key)) return 'una_a_una';
-		return comunState(pregunta).excepciones === 0 ? 'conjunto' : 'mixto';
+	function unidadAbierta(unit: MetricUnitDraft): boolean {
+		if (modoDeRespuesta === 'una_a_una') return true;
+		return unidadesAparte.has(unit.realizacion_id) || unidadesQueSeApartan.has(unit.realizacion_id);
 	}
 
-	function alternarUnaAUna(pregunta: PreguntaCompartida) {
-		const siguiente = new Set(preguntasUnaAUna);
-		if (siguiente.has(pregunta.key)) siguiente.delete(pregunta.key);
-		else siguiente.add(pregunta.key);
-		preguntasUnaAUna = siguiente;
+	/** Si a esta unidad le llega alguna de las preguntas que se responden en común. */
+	function esUnidadComun(unit: MetricUnitDraft): boolean {
+		return comunes.some((pregunta: PreguntaCompartida) =>
+			pregunta.groups.some((group: MetricCatalogDomainRow) =>
+				unitsForGroup(context, group).some(
+					(candidate: MetricUnitDraft) => candidate.realizacion_id === unit.realizacion_id
+				)
+			)
+		);
+	}
+
+	function alternarUnidadAparte(unit: MetricUnitDraft) {
+		const siguiente = new Set(unidadesAparte);
+		if (siguiente.has(unit.realizacion_id)) siguiente.delete(unit.realizacion_id);
+		else siguiente.add(unit.realizacion_id);
+		unidadesAparte = siguiente;
 	}
 
 	/** La familia a la que pertenece un grupo, si es de las que se responden en conjunto. */
@@ -1259,31 +1308,67 @@
 		-->
 		{#if comunes.length > 0}
 			<div class={hayAjustesDeComposicion ? 'border-t border-[color:var(--border)]' : ''}>
-				<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
-					Respuestas de todas las unidades
-				</p>
-				{#each comunes as pregunta (pregunta.key)}
-					{@const state = comunState(pregunta)}
-					{@const modo = modoDeLaPregunta(pregunta)}
-					<MetricGridRow
-						label={pregunta.label}
-						rango={modo === 'una_a_una'
-							? 'respondiendo una a una'
-							: state.answered === 0
+				<!--
+					**Un solo selector para toda la pantalla.**
+
+					Estuvo un rato con un interruptor por pregunta y era peor de lo que arreglaba: al
+					pedir «una a una» en la rima, los quebrados seguían plegados aunque también varían
+					de unidad en unidad, y el botón se repetía diciendo cosas distintas en cada fila.
+
+					Y son dos modos, no tres. «Mixto» no era algo que se eligiera: es lo que pasa
+					cuando alguna unidad responde otra cosa. Lo que se elige es **qué unidad se
+					aparta**, unidad por unidad, ahí abajo.
+				-->
+				<div class="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+					<p class="form-grid-title">
+						{modoDeRespuesta === 'conjunto'
+							? 'Respuestas de todas las unidades'
+							: 'Respuestas, unidad por unidad'}
+					</p>
+					{#if totalDeUnidades > 1}
+						<SegmentedChoice
+							items={[
+								{ id: 'conjunto', label: 'En conjunto' },
+								{ id: 'una_a_una', label: 'Una a una' }
+							]}
+							value={modoDeRespuesta}
+							onChange={(id) => (modoDeRespuesta = id === 'una_a_una' ? 'una_a_una' : 'conjunto')}
+							ariaLabel="Cómo responder las unidades"
+							size="sm"
+						/>
+					{/if}
+				</div>
+
+				<!--
+					En «una a una» el campo común sigue aquí, porque partir de lo corriente y matizar
+					después ahorra mucho trabajo. Pero se anuncia como lo que es —un atajo— y se
+					atenúa, para que no compita con los campos de cada unidad, que son los que mandan.
+				-->
+				{#if modoDeRespuesta === 'una_a_una'}
+					<p class="border-b border-[color:var(--border)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
+						Atajo: lo que respondas aquí se escribe en las {totalDeUnidades} unidades. Cada una
+						puede corregirse después, abajo.
+					</p>
+				{/if}
+
+				<div class={modoDeRespuesta === 'una_a_una' ? 'opacity-70' : ''}>
+					{#each comunes as pregunta (pregunta.key)}
+						{@const state = comunState(pregunta)}
+						<MetricGridRow
+							label={pregunta.label}
+							rango={state.answered === 0
 								? `${state.total} unidades`
 								: state.excepciones === 0
 									? `en las ${state.total} unidades`
 									: `en ${state.total - state.excepciones} de ${state.total}`}
-						variant="comun"
-					>
-						<div class="space-y-2">
+							variant="comun"
+						>
 							<div class="flex flex-wrap items-start gap-2">
 								<MetricFamilyControl
 									group={pregunta.groups[0]}
 									options={comunOptions(pregunta)}
-									uniform={state.uniform ?? (state.mayoritariaIds.length > 0
-										? state.mayoritariaIds
-										: null)}
+									uniform={state.uniform ??
+										(state.mayoritariaIds.length > 0 ? state.mayoritariaIds : null)}
 									answered={state.answered}
 									realizaciones={state.total}
 									ariaLabel={pregunta.label}
@@ -1297,37 +1382,20 @@
 									/>
 								{/if}
 							</div>
-							<!--
-								El enlace solo aparece cuando hay más de una unidad a la que separar. Y
-								cuando ya hay excepciones no hace falta pedir nada: abajo están abiertas.
-							-->
-							{#if state.total > 1}
-								<button
-									type="button"
-									class="link-action text-xs"
-									onclick={() => alternarUnaAUna(pregunta)}
-								>
-									{modo === 'una_a_una'
-										? 'Volver a responder en conjunto'
-										: `Responder una a una las ${state.total} unidades`}
-								</button>
-							{/if}
-							{#if modo === 'mixto'}
-								<p class="text-xs text-amber-800">
-									{state.excepciones === 1
-										? `1 ${unitShortName} responde otra cosa y se abre abajo.`
-										: `${state.excepciones} unidades responden otra cosa y se abren abajo.`}
-								</p>
-							{/if}
-						</div>
-					</MetricGridRow>
-				{/each}
+						</MetricGridRow>
+					{/each}
+				</div>
 			</div>
 		{/if}
 
+		<!--
+			Se llamaba «verso a verso» y no lo es cuando lo que se lista son unidades: en una copla
+			castellana de dos coplas, lo que hay debajo son las dos coplas con sus partes, no
+			dieciséis versos.
+		-->
 		{#if rows.length > 0}
 			<p class="form-grid-title border-b border-t border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
-				La secuencia, verso a verso
+				{totalDeUnidades > 1 ? 'La secuencia, unidad por unidad' : 'La secuencia, verso a verso'}
 			</p>
 		{/if}
 
@@ -1422,6 +1490,37 @@
 						? () => setUnidadPlegada(row.unit.realizacion_id, !plegada)
 						: undefined}
 				>
+					<!--
+						**Declarar que esta unidad se aparta.**
+
+						En conjunto, una unidad se abre sola en cuanto responde algo distinto de lo
+						común. Pero para responder algo distinto hay que poder abrirla antes, y de
+						ahí esta acción: es el «elegir cuál difiere» que sustituye a un tercer modo.
+
+						Desaparece en «una a una», donde ya están todas abiertas, y en las unidades
+						que se apartan por su propia respuesta, que se explican solas.
+					-->
+					{#if modoDeRespuesta === 'conjunto' && comunes.length > 0 && esUnidadComun(row.unit)}
+						{#if unidadesQueSeApartan.has(row.unit.realizacion_id)}
+							<p class="text-xs text-amber-800">Responde algo distinto de las demás.</p>
+						{:else if unidadesAparte.has(row.unit.realizacion_id)}
+							<button
+								type="button"
+								class="link-action text-xs"
+								onclick={() => alternarUnidadAparte(row.unit)}
+							>
+								Volver a la respuesta común
+							</button>
+						{:else}
+							<button
+								type="button"
+								class="link-action text-xs"
+								onclick={() => alternarUnidadAparte(row.unit)}
+							>
+								Esta {unitShortName} responde otra cosa
+							</button>
+						{/if}
+					{/if}
 					{#if sectionDefinesPattern(row.section)}
 						{@const source = patternSource(row)}
 						{@const metroQuestion = patternQuestion(row, 'metro')}
@@ -1665,9 +1764,8 @@
 	{@const unit = pregunta.owner}
 	{@const estado = estadoDeRespuesta(context, group, unit)}
 	{@const familia = familiaDe(group)}
-	{@const modo = familia ? modoDeLaPregunta(familia) : null}
-	{@const seAparta =
-		familia !== null && firmaComun(group, unit) !== comunState(familia).mayoritaria}
+	{@const abierta = unidadAbierta(unit)}
+	{@const seAparta = familia !== null && unidadesQueSeApartan.has(unit.realizacion_id)}
 	{@const compacta = forceCompact}
 	<!--
 		**Lo que ya está respondido arriba no se repite aquí.**
@@ -1680,13 +1778,11 @@
 		Antes bajaban siempre, resumidas con un «Coincide con las demás unidades» repetido tantas
 		veces como unidades hubiera, que es exactamente la línea que no aportaba nada.
 	-->
-	{#if familia === null || modo === 'una_a_una' || seAparta}
+	{#if familia === null || abierta}
 	<div>
-		{#if familia && seAparta && modo !== 'una_a_una'}
+		{#if familia && seAparta && modoDeRespuesta === 'conjunto'}
 			<p class="mb-2 text-xs font-medium text-amber-800">
-				{estado === 'sin_responder'
-					? `Esta ${unitShortName} está sin responder`
-					: `Esta ${unitShortName} responde otra cosa que las demás`}
+				Esta {unitShortName} responde otra cosa que las demás
 			</p>
 		{/if}
 		<MetricChoiceField
