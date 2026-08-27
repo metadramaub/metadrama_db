@@ -338,10 +338,50 @@ semana siguiente no obligue a nadie a seguir anotando con el vocabulario legado.
   y se rehacen cuando todo esto esté terminado. Una obra recién empezada no se publica el primer
   día, así que su perfil métrico vacío no bloquea a nadie.
 - **Lo que toca `secuencias_metricas` por dentro no se hace aquí.** Ver *Lo que va a `main`*.
+- **Se prueba en la pestaña de secuencias de una obra, no en el laboratorio.** Decidido el 26 de
+  agosto de 2026, y cambia el orden de todo lo que sigue. Probar en el sitio definitivo prueba **la
+  integración de verdad** —las caracterizaciones, la sinopsis, la checklist, el API real—, que es
+  justo lo que el editor de prueba no toca; y lo que se arregle ahí se queda. El IP probará con una
+  obra de pruebas en el editor normal.
+- **El laboratorio se retira el último**, no al mover. Mientras el camino nuevo no esté probado es
+  la red donde comparar; quitarlo el mismo día que se mueve es quedarse sin las dos cosas a la vez.
+- **El renombrado va antes de mover.** Hoy las tablas tienen **cero filas** sobre secuencias reales;
+  en cuanto se monte el V2 en una obra y se guarde, ya no. Sin datos es una migración y un `sed`.
+- **La web se cierra unos días** cambiando la contraseña de «web en construcción», para que nadie
+  guarde a mitad de un renombrado o de una apertura de RLS. *Pero eso protege a las personas, no al
+  esquema:* la base la comparten `develop` y `main`, y una columna retirada sigue retirada aunque no
+  entre nadie. Lo que protege a `main` estos días es que **cada migración sea reversible** y que **no
+  se retire ninguna columna** mientras dure. `estrofa_tipo_id` se queda hasta que lo viejo sobre.
 
 ### Los pasos, en orden
 
-**1 · El catálogo, público de verdad.** Contado contra la base: de las **veintiséis** tablas del
+*Reordenados el 26 de agosto de 2026.* Antes empezaban por abrir la RLS; ahora empiezan por mover el
+editor, porque **para que el IP pruebe no hace falta abrir nada**: `loadMetricCatalog` solo exige
+poder leer la revisión del catálogo, y eso ya lo puede un admin. Abrir a los editores espera a que
+el formulario convenza.
+
+| | paso | por qué ahí |
+|---|---|---|
+| 1 | **Los nombres y `UNIQUE (secuencia_id)`** | mientras no haya datos |
+| 2 | **Montar el V2 en la pestaña de secuencias**, para admin/IP | para probar en el sitio bueno |
+| 3 | **Las quejas del formulario, una a una** | ya en su sitio, y lo que se arregle se queda |
+| 4 | **La RLS y el catálogo público** | cuando el formulario esté como debe |
+| 5 | **La checklist acepta la forma nueva** | sin esto los editores no cierran nada |
+| 6 | **Retirar el editor de prueba** | cuando lo de obras esté probado |
+
+Lo que sigue detalla cada uno.
+
+**1 · Los nombres, ahora que no hay datos.** Ver la tabla de nombres más abajo.
+
+**2 · Montar el V2 en la pestaña de secuencias.** Ver *La pestaña de secuencias monta el V2*.
+
+**3 · Las quejas del formulario.** Se recorre forma por forma en el editor real y, de cada cosa que
+no convence, se decide **si es la UI, si es el catálogo, si es cómo se registra la elección, o si el
+catálogo ya lo resuelve de otra manera y lo que falta es usarla** —esta cuarta salió de dos casos el
+mismo día en que se acordó el método—. Lo que va saliendo se apunta abajo, en
+[Lo que sale de recorrer el formulario](#lo-que-sale-de-recorrer-el-formulario).
+
+**4 · El catálogo, público de verdad.** Contado contra la base: de las **veintiséis** tablas del
 catálogo, **veintidós ya son públicas** —tienen `SELECT = catalogo_metrico_publico()`— y **tres no**:
 `catalogo_metrico_estado`, `metro_segmentos` y `repeticion_posiciones`. Las dos últimas son tablas de
 detalle de `metros` y `repeticiones_metricas`, que sí lo son: es un descuido, no una decisión.
@@ -360,7 +400,7 @@ para anónimos; si un admin la apaga, los editores se quedarían sin catálogo. 
 revisión demuestra ser admin o IP. Al abrir esa RLS hay que añadirle la visibilidad a la llave. Va
 en este mismo paso, no después. ⇒ **C17**
 
-**2 · Los nombres, ahora que no hay datos.** Las tablas se llaman `*_editor_metrico` de cuando todo
+**Los nombres, en detalle.** Las tablas se llaman `*_editor_metrico` de cuando todo
 era un laboratorio, y `obras_editor_metrico_v2` lleva un «v2» que envejecerá mal. Cuando el sistema
 viejo muera, `secuencias_editor_metrico` será *la* tabla de la identidad métrica de una secuencia
 con un nombre que ya no dirá nada.
@@ -393,15 +433,15 @@ que las nombran.
 sistemas dice qué obras usan el nuevo, y **cuando se migre lo anotado deja de hacer falta** —lo
 usarán todas—. Se retira entonces, con la columna `estrofa_tipo_id`.
 
-**3 · Una anotación por secuencia.** Falta un `UNIQUE (secuencia_id)`: hoy nada impide que una
+**5 · Una anotación por secuencia.** Falta un `UNIQUE (secuencia_id)`: hoy nada impide que una
 secuencia real tenga dos anotaciones métricas.
 
-**4 · La anotación, abierta a los editores.** Las seis tablas tienen política `auth_is_admin_or_ip()`
+**6 · La anotación, abierta a los editores.** Las seis tablas tienen política `auth_is_admin_or_ip()`
 y ninguna otra: un editor no puede escribir ni una fila. Hay que abrirlas **con el alcance por obra
 asignada**, que es la regla que ya gobierna el resto del dashboard. Con guardas que ejecuten: probar
 que un editor escribe lo suyo y **no** lo ajeno.
 
-**5 · La pestaña de secuencias monta el V2.** `MetricSequenceEditor` es portátil por diseño —recibe
+**La pestaña de secuencias monta el V2, en detalle.** `MetricSequenceEditor` es portátil por diseño —recibe
 lo no métrico como `bodyExtra` y su contenedor ya dice que «se moverá tal cual al editor de obras»—.
 La secuencia real se sigue creando como hoy: rango y caracterizaciones en `secuencias_metricas`;
 solo la identidad métrica va a las tablas nuevas. **El interruptor es por obra**, con la tabla que
@@ -409,10 +449,37 @@ hoy es `obras_editor_metrico_v2`: una obra apuntada ahí usa el V2, y las demás
 viejo hasta que se migren. Así nadie empieza una obra nueva con el vocabulario legado y no se
 interrumpe a quien está a mitad de una.
 
-**6 · La checklist acepta la forma nueva.** `hasPendingSequenceFields` declara pendiente toda
+**7 · La checklist acepta la forma nueva.** `hasPendingSequenceFields` declara pendiente toda
 secuencia con `estrofa_tipo_id` nulo, así que una obra anotada en V2 **no podría marcarse
 revisable**. Tiene que dar por satisfecho ese campo cuando la secuencia tiene forma en el catálogo
 nuevo. Sin esto los editores trabajan pero no cierran nada.
+
+### Lo que sale de recorrer el formulario
+
+*Se abre el 26 de agosto de 2026.* Cada entrada dice a cuántas formas alcanza y en qué capa está el
+arreglo, comprobado contra la base antes de proponer nada.
+
+**F1. El rango de versos admite un final anterior al inicial, y toda la pantalla razona sobre él.**
+Con 116–112 en una forma de trece versos, la cobertura dice «la estructura rebasa el rango en 39
+versos». **Alcanza a todas las formas**: no es del catálogo, es el campo. Tres capas:
+
+1. **La UI deja llegar al estado imposible.** Los dos campos llevan `min="1"` y nada más:
+   `updateSequenceEnd` hace `Math.max(1, value)` sin mirar `v_ini`, y `updateSequenceStart` al
+   revés. `validateDraft` **sí** lo rechaza —«El verso final no puede ser anterior al inicial»—,
+   pero solo al pulsar Guardar, cuando la pantalla lleva un rato mintiendo.
+2. **Los rangos de las desviaciones están peor.** Son `bind:value` **sin `min` siquiera**, así que
+   admiten cero y negativos, y `validateDraft` **no las menciona en ninguna línea**: ni su rango ni
+   que caigan dentro de la secuencia. Lo para la base, con un error crudo en vez de un aviso.
+3. **A `secuencias_metricas` le falta la restricción.** `realizaciones_editor_metrico`,
+   `desviaciones_editor_metrico`, `secuencias_editor_metrico`, `secuencias_caracterizaciones_rango`
+   y `secuencias_subtipos_estrofa` **todas** tienen `v_fin >= v_ini`; la de producción **no**. Hoy la
+   sostiene solo el `refine` de zod del API. *Datos limpios: 0 invertidas de 263, ningún `n_versos`
+   descuadrado.* Esa migración **va a `main`**, que es donde van los cambios de esa tabla.
+
+*Queda una decisión del IP:* qué hace subir el verso inicial por encima del final. Hoy, cuando la
+forma deriva las unidades del rango, **arrastra el final conservando la longitud**; cuando no las
+deriva, el final se queda quieto y puede quedar detrás. La propuesta es hacerlo **igual siempre**,
+para que el editor se comporte de una sola manera.
 
 ### Lo que va a `main`, no aquí
 
