@@ -374,15 +374,24 @@ La pestaña pasó de **2 327 a 1 244 líneas**. `UNIQUE (secuencia_id)` no hizo 
 resuelve por `esquemas_rima.origen_termino_id`, que los ocho llevan puesto —comprobado sobre las
 once secuencias afectadas, que reciben ya su respuesta—.
 
+**Hecho también, el 27 de agosto:**
+
+| | paso | qué dejó |
+|---|---|---|
+| 5 | **Retirado el interruptor por obra** | toda obra abre con el editor nuevo, de la base y de la interfaz |
+| 6 | **El editor guarda la anotación** | y la relee al reabrir, para no crear una segunda |
+| 7 | **El término legado, a la vista** | dos líneas: sistema antiguo y propuesta nueva, sin rellenar nada |
+| 8 | **El informe, completo** | cada secuencia con todo lo anotado, salvo sinopsis y comentarios |
+| 9 | **La checklist acepta la forma nueva** | y hubo que tocar los dos caminos que la calculan |
+| 10 | **La RLS y el catálogo público** | el catálogo se lee sin condiciones; los editores anotan su obra |
+
 **Lo que queda:**
 
 | | paso | por qué |
 |---|---|---|
-| 5 | **Retirar el interruptor por obra** y abrir todas con el editor nuevo | ver el replanteo, abajo |
-| 6 | **El término legado, a la vista al anotar** | que nadie anote a ciegas |
-| 7 | **La checklist acepta la forma nueva** | sin esto ninguna obra se cierra |
-| 8 | **La RLS y el catálogo público** | para que anoten los editores, no solo el IP |
-| 9 | **Retirar la anotación en sombra y el laboratorio** | dejan de hacer falta |
+| 11 | **Probar con un editor de verdad**, no como admin | la RLS se probó en la base, no en pantalla |
+| 12 | **Retirar la anotación en sombra y el laboratorio** | dejan de hacer falta, y con ellos se va la consulta de dos segundos |
+| 13 | **Retirar el panel lateral viejo** | deja de ser alcanzable |
 
 ### El replanteo de la migración, 27 de agosto de 2026
 
