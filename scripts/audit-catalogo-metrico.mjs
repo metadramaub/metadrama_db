@@ -80,6 +80,7 @@ function build(tables) {
 		configuracionRasgos: get('arquitectura_rasgos'),
 		denominaciones: get('denominaciones_metricas'),
 		relaciones: get('forma_relaciones'),
+		metros: get('metros'),
 		vocabularios: get('vocabularios')
 	};
 
@@ -130,6 +131,7 @@ function build(tables) {
 	model.seccionPorId = index(model.secciones, 'seccion_id');
 	model.grupoPorId = index(model.grupos, 'grupo_eleccion_id');
 	model.rasgoPorId = index(model.rasgos, 'rasgo_id');
+	model.metroPorId = index(model.metros, 'metro_id');
 	model.terminoPorId = index(model.vocabularios, 'termino_id');
 
 	model.configuracionesPorForma = group(model.configuraciones, 'forma_id');
@@ -703,7 +705,7 @@ const DEFECTOS = [
 		id: 'D17',
 		titulo: 'Una unidad cuya rima no está fija y nadie pregunta',
 		criterio:
-			'Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema concreto. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.',
+			'Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema **definitorio**. Un único esquema marcado «habitual» o «admitida» no exime: decir que suele ser ese es decir que hay otros. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.',
 		detectar(model) {
 			const conPregunta = new Set(
 				model.grupos
@@ -735,14 +737,76 @@ const DEFECTOS = [
 
 				const concretos = listOf(model.patronesRimaPorConfiguracion, configuracion.arquitectura_id)
 					.filter((patron) => patron.tipo_secuencia !== 'abierta');
-				if (concretos.length === 1) continue;
+				// **Un solo esquema solo exime si es el que define la forma.** Marcarlo `habitual`
+				// o `admitida` es decir que hay otros, y entonces quien encuentre uno distinto
+				// necesita dónde decirlo. La regla miraba cuántos había y no qué decían.
+				if (concretos.length === 1 && concretos[0].modalidad === 'definitoria') continue;
 
 				faltan.push({
 					sujeto: etiqueta(model, configuracion.arquitectura_id),
 					detalle:
 						concretos.length === 0
 							? 'no declara ninguna disposición ni pregunta cuál se observa'
-							: `declara ${concretos.length} disposiciones y no pregunta cuál se observa`
+							: concretos.length === 1
+								? `declara una sola disposición, «${concretos[0].modalidad}», y no pregunta cuál se observa`
+								: `declara ${concretos.length} disposiciones y no pregunta cuál se observa`
+				});
+			}
+			return faltan;
+		}
+	},
+	{
+		id: 'D18',
+		titulo: 'Una unidad cuya medida no está fija y nadie pregunta',
+		criterio:
+			'El mismo principio que D17, en la otra dimensión: donde la norma admite varias medidas y no dice cuál va en cada verso, el editor tiene que poder decir cuál leyó. Exime que la arquitectura pregunte su metro, que lo resuelva una variedad —que empareja esquema métrico y de rima—, o que su estructura reutilice otras arquitecturas. Las series quedan fuera porque no tienen unidad. Una arquitectura cuyo esquema métrico fija cada posición no entra: ahí la medida no varía, y lo que se salga de ella es una desviación.',
+		detectar(model) {
+			const conPregunta = new Set(
+				model.grupos
+					.filter((grupo) => grupo.dimension === 'metro' && grupo.activo !== false)
+					.map((grupo) => grupo.arquitectura_id)
+			);
+			const conVariedad = new Set(
+				model.grupos
+					.filter((grupo) => grupo.dimension === 'combinacion' && grupo.activo !== false)
+					.map((grupo) => grupo.arquitectura_id)
+			);
+			const reutilizadoras = new Set(
+				model.secciones
+					.filter((seccion) => seccion.arquitectura_referenciada_id)
+					.map((seccion) => seccion.arquitectura_id)
+			);
+
+			const faltan = [];
+			for (const configuracion of model.configuraciones) {
+				const forma = model.formaPorId.get(configuracion.forma_id);
+				if (!forma || forma.activo === false) continue;
+				if (forma.nivel_estructural === 'serie') continue;
+				if (conPregunta.has(configuracion.arquitectura_id)) continue;
+				if (conVariedad.has(configuracion.arquitectura_id)) continue;
+				if (reutilizadoras.has(configuracion.arquitectura_id)) continue;
+
+				// «No fija la medida» es declarar un repertorio de medidas admitidas en vez de
+				// decir cuál va en cada verso. Es la serie alirada: endecasílabos y heptasílabos,
+				// y la disposición la pone cada estrofa.
+				const abiertos = listOf(
+					model.patronesMetricosPorConfiguracion,
+					configuracion.arquitectura_id
+				).filter(
+					(patron) => listOf(model.opcionesPorPatronMetrico, patron.esquema_metrico_id).length > 0
+				);
+				if (abiertos.length === 0) continue;
+
+				const medidas = new Set();
+				for (const patron of abiertos) {
+					for (const opcion of listOf(model.opcionesPorPatronMetrico, patron.esquema_metrico_id)) {
+						const metro = model.metroPorId?.get(opcion.metro_id);
+						if (metro?.silabas) medidas.add(String(metro.silabas));
+					}
+				}
+				faltan.push({
+					sujeto: etiqueta(model, configuracion.arquitectura_id),
+					detalle: `admite ${[...medidas].sort().join(' y ') || 'varias medidas'} y no pregunta cuál va en cada verso`
 				});
 			}
 			return faltan;
