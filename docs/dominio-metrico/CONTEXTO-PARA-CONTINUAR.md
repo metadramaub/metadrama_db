@@ -587,6 +587,13 @@ por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el av
 futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
 en «una a una» bajan **las dos preguntas**, no solo la rima.
 
+**Lo que la norma fija también se anota.** Una décima espinela no tiene nada que elegir, así que su
+resumen salía en blanco mientras el de una copla castellana traía su serie: dos formas anotadas y dos
+resúmenes distintos. La rejilla de la norma ya sabe qué mide y en qué clase rima cada verso, así que
+**rellena lo que nadie ha respondido** y la espinela se lee `8a 8b 8b 8a | 8a 8c | 8c 8d 8d 8c`, con
+sus cortes. Lo respondido manda siempre: esto solo cubre huecos, y solo en unidades de primer nivel
+cuya extensión case con la rejilla.
+
 **B8 cerrado en las cuatro aliradas abiertas, y una barra para todas las medidas.** El cuarteto-lira
 «mezcla endecasílabos y heptasílabos **en proporción variable**», y lo mismo la octava, la novena y la
 décima: su esquema declara el repertorio 7/11 y **ninguna posición**, porque la norma no fija cuál va

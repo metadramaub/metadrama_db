@@ -3,6 +3,7 @@
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
+	import type { FilaDeRima, Rejilla } from '$lib/metrica/rejilla';
 	import { normalizeRhymeSymbol } from './rhyme-notation';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricFamilyControl from './MetricFamilyControl.svelte';
@@ -64,6 +65,8 @@
 		options: MetricCatalogDomainRow[];
 		/** `esquemas_rima`: dice de qué sección habla una pregunta que se guarda en la unidad. */
 		schemes: MetricCatalogDomainRow[];
+		/** La norma dibujada verso a verso, para anotar también lo que no se pregunta. */
+		rejilla?: Rejilla | null;
 		units: MetricUnitDraft[];
 		choices: MetricChoiceDraft[];
 		unitPlan: MetricUnitPlan | null;
@@ -897,6 +900,35 @@
 					}
 					letras.set(desplazamiento + recorrido, letra);
 				}
+			}
+		}
+
+		// **Lo que la norma fija se anota igual.** Una décima espinela no tiene nada que elegir, y
+		// su resumen salía en blanco mientras el de una copla castellana traía su serie: dos formas
+		// anotadas, dos resúmenes distintos. La rejilla de la norma ya sabe qué mide y en qué clase
+		// rima cada verso, así que se usa para rellenar lo que nadie ha respondido. Lo respondido
+		// manda siempre: esto solo cubre huecos.
+		const rejilla = props.rejilla;
+		if (rejilla && !unit.realizacion_padre_id && rejilla.celdas.length === versos) {
+			for (const celda of rejilla.celdas) {
+				const fijada = celda.medida?.silabas;
+				if (fijada && !medidas.has(celda.verso)) {
+					const silabas = Number(fijada);
+					if (Number.isFinite(silabas) && silabas > 0) medidas.set(celda.verso, silabas);
+				}
+			}
+			// De todas las disposiciones que dibuja la arquitectura, la que da el esqueleto; y si no
+			// lo declara, la que la norma fija o la corriente.
+			const filas: FilaDeRima[] = rejilla.filasDeRima ?? [];
+			const esqueleto =
+				filas.find((fila: FilaDeRima) => fila.esquemaRimaId === rejilla.esqueletoDe) ??
+				filas.find((fila: FilaDeRima) => fila.modalidad === 'definitoria') ??
+				filas.find((fila: FilaDeRima) => fila.modalidad === 'habitual');
+			if (esqueleto) {
+				esqueleto.clases.forEach((clase: { clase: string | null }, indice: number) => {
+					const posicion = esqueleto.desde + indice;
+					if (clase.clase && !letras.has(posicion)) letras.set(posicion, clase.clase);
+				});
 			}
 		}
 
