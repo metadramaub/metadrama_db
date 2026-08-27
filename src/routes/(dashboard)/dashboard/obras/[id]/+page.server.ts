@@ -79,44 +79,71 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 	};
 
 	/**
-	 * ¿Esta obra se anota con el catálogo nuevo?
-	 *
-	 * El interruptor es **por obra** para que la ola de editores que entra empiece con el editor V2
-	 * sin interrumpir a quien está a mitad de una obra anotada con el vocabulario legado. Mientras
-	 * dure la migración conviven los dos.
-	 */
-	const anotacionNuevaResp = await locals.supabase
-		.from('obras_anotacion_nueva')
-		.select('obra_id')
-		.eq('obra_id', obra.obra_id)
-		.maybeSingle();
-	const usaAnotacionNueva = Boolean(anotacionNuevaResp.data);
-
-	/**
-	 * El catálogo métrico, **solo si esta obra lo necesita**.
-	 *
-	 * Son unas 2 400 filas que viajan al cliente, y en una obra que todavía se anota con el
-	 * vocabulario legado no las mira nadie. Cargarlo sale barato desde que se guarda en memoria del
-	 * servidor mientras su revisión no cambia, pero serializarlo no.
+	 * El catálogo métrico, que **toda obra necesita**: desde el 27 de agosto de 2026 todas se anotan
+	 * con él. Hubo un interruptor por obra mientras la anotación en sombra iba a ser el camino de la
+	 * migración; dejó de tener sentido cuando el IP decidió migrar a mano, con el informe delante.
 	 *
 	 * *Se manda solo lo que el editor consume* —formas, arquitecturas, reglas de longitud y el
-	 * dominio—, no el laboratorio de pruebas que `loadMetricCatalog` trae además.
+	 * dominio—, no el laboratorio de pruebas que `loadMetricCatalog` trae además. Leerlo sale barato
+	 * desde que se guarda en memoria del servidor mientras su revisión no cambia; lo que cuesta es
+	 * serializarlo, y por eso no viaja entero.
 	 *
-	 * **Hoy esto solo funciona para admin o IP**, porque leer la revisión del catálogo lo exige su
-	 * RLS. Abrirlo a los editores es el paso siguiente del camino a develop.
+	 * **Hoy esto solo llega a admin o IP**, porque leer la revisión del catálogo lo exige su RLS. Un
+	 * editor recibe `null` y la pestaña le enseña el panel de siempre en vez de una pantalla en
+	 * blanco. Abrir la RLS es el paso siguiente del camino a develop.
 	 */
-	const catalogoMetrico = usaAnotacionNueva
-		? await loadMetricCatalog(locals.supabase).then((catalogo) =>
-				catalogo.migrationPending
-					? null
-					: {
-							forms: catalogo.forms,
-							configurations: catalogo.configurations,
-							lengthRules: catalogo.lengthRules,
-							domain: catalogo.domain
-						}
-			)
-		: null;
+	const catalogoMetrico = await loadMetricCatalog(locals.supabase).then((catalogo) =>
+		catalogo.migrationPending
+			? null
+			: {
+					forms: catalogo.forms,
+					configurations: catalogo.configurations,
+					lengthRules: catalogo.lengthRules,
+					domain: catalogo.domain
+				}
+	);
+
+	/**
+	 * Lo que esta obra ya tiene anotado con el catálogo nuevo.
+	 *
+	 * Sin esto, reabrir una secuencia anotada arrancaría en blanco y guardar intentaría **crear una
+	 * segunda anotación** de la misma secuencia. Lo impediría el índice único, pero con un error
+	 * crudo en vez de con lo que el editor tenía escrito delante.
+	 *
+	 * Son tablas pequeñas y se filtran por las secuencias de esta obra, no por todas.
+	 */
+	const idsDeSecuencias = secuencias.map((fila) => fila.secuencia_id);
+	const anotacionesResp = idsDeSecuencias.length
+		? await locals.supabase
+				.from('anotaciones_metricas')
+				.select('*')
+				.in('secuencia_id', idsDeSecuencias)
+		: { data: [] };
+	const idsDeAnotaciones = (anotacionesResp.data ?? []).map(
+		(fila: { anotacion_id: string }) => fila.anotacion_id
+	);
+	const [realizacionesResp, eleccionesResp, desviacionesResp] = idsDeAnotaciones.length
+		? await Promise.all([
+				locals.supabase
+					.from('anotacion_realizaciones')
+					.select('*')
+					.in('anotacion_id', idsDeAnotaciones)
+					.order('orden'),
+				locals.supabase.from('anotacion_elecciones_resueltas').select('*').in('anotacion_id', idsDeAnotaciones),
+				locals.supabase
+					.from('anotacion_desviaciones')
+					.select('*')
+					.in('anotacion_id', idsDeAnotaciones)
+					.order('v_ini')
+			])
+		: [{ data: [] }, { data: [] }, { data: [] }];
+
+	const anotacionMetrica = {
+		secuencias: anotacionesResp.data ?? [],
+		unidades: realizacionesResp.data ?? [],
+		elecciones: eleccionesResp.data ?? [],
+		desviaciones: desviacionesResp.data ?? []
+	};
 
 	const editorAsignadoResp = obra.editor_asignado
 		? await locals.supabase
@@ -139,7 +166,7 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		autoriaGroupCount,
 		resumenPublico,
 		vocabularios,
-		usaAnotacionNueva,
-		catalogoMetrico
+		catalogoMetrico,
+		anotacionMetrica
 	};
 };

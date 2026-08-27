@@ -31,7 +31,11 @@
 	import MetricSequenceEditor from '$lib/components/metrica/editor-v2/MetricSequenceEditor.svelte';
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
 	import { draftFromRows } from '$lib/components/metrica/editor-v2/sequence-draft';
-	import type { MetricCatalogForEditor } from '$lib/metrica/catalogo';
+	import type {
+		MetricSequenceDraft,
+		MetricSequenceEditorState
+	} from '$lib/components/metrica/editor-v2/sequence-draft';
+	import type { MetricCatalogDomainRow, MetricCatalogForEditor } from '$lib/metrica/catalogo';
 	import CaracterizacionesDeLaSecuencia from './secuencias/CaracterizacionesDeLaSecuencia.svelte';
 	import DeDondeVieneLaSecuencia from './secuencias/DeDondeVieneLaSecuencia.svelte';
 	import type { PropuestaDeSecuencia } from './secuencias/DeDondeVieneLaSecuencia.svelte';
@@ -66,14 +70,15 @@
 		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
 		// la lista de secuencias: hoy, las caracterizaciones por rango.
 		onMetricaDirty?: () => void;
-		/**
-		 * Si esta obra se anota con el catálogo nuevo. El interruptor es **por obra**, para que la
-		 * ola de editores que entra empiece con el editor V2 sin interrumpir a quien está a mitad de
-		 * una obra anotada con el vocabulario legado.
-		 */
-		usaAnotacionNueva?: boolean;
-		/** El catálogo métrico, solo cuando la obra lo usa. Sin él no hay editor nuevo que montar. */
+		/** El catálogo métrico. Sin él no hay editor nuevo que montar, y se cae al panel de siempre. */
 		catalogoMetrico?: MetricCatalogForEditor | null;
+		/** Lo que esta obra ya tiene anotado con el catálogo nuevo, para releerlo al abrir. */
+		anotacionMetrica?: {
+			secuencias: MetricCatalogDomainRow[];
+			unidades: MetricCatalogDomainRow[];
+			elecciones: MetricCatalogDomainRow[];
+			desviaciones: MetricCatalogDomainRow[];
+		} | null;
 	}>();
 
 	type IntervencionValue = 'sin_intervencion' | 'exclusiva' | 'compartida';
@@ -616,6 +621,23 @@
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
 
+		// ------------------------------------------------------------------ La anotación métrica
+		//
+		// **Va después de la secuencia y no puede ir antes**: la anotación apunta a una secuencia
+		// real, así que necesita que exista. Por eso crear una secuencia la guarda ya como
+		// secuencia, y a partir de ahí cada cosa que se cambie se guarda por su lado.
+		//
+		// *Si esto falla, la secuencia ya está escrita.* No es una pérdida —el rango y las
+		// caracterizaciones quedan— pero sí un estado a medias, y el aviso tiene que decirlo con
+		// esas palabras para que quien anota sepa que basta con volver a guardar.
+		if (usaElEditorNuevo && estadoMetrico) {
+			const guardada = await guardarAnotacionMetrica(savedId, estadoMetrico);
+			if (!guardada) {
+				sidebarSaving = false;
+				return false;
+			}
+		}
+
 		localDraftWriter.cancel();
 		removeLocalDraft(submittedDraftKey);
 		setSidebarBaselineFromCurrent();
@@ -630,6 +652,14 @@
 		sidebarSaving = false;
 		return true;
 	}
+
+	/**
+	 * El borrador vivo del editor métrico, que él devuelve en cada cambio.
+	 *
+	 * La pestaña no lo toca: solo lo guarda cuando se pulsa Guardar. Quien decide qué es válido es
+	 * el propio editor, que además dice por qué no lo es.
+	 */
+	let estadoMetrico = $state<MetricSequenceEditorState | null>(null);
 
 	/**
 	 * De dónde viene cada secuencia que ya estaba anotada con el vocabulario legado.
@@ -677,29 +707,123 @@
 	});
 
 	/**
-	 * Si esta obra se anota con el catálogo nuevo **y hay catálogo que darle**.
+	 * Si hay catálogo que darle al editor nuevo.
 	 *
-	 * Lo segundo no es paranoia: `loadMetricCatalog` devuelve vacío cuando faltan migraciones o
-	 * cuando quien mira no puede leer la revisión del catálogo, que hoy exige ser admin o IP. Sin
-	 * catálogo, el editor nuevo no puede pintar nada, y es mejor el panel de siempre que una
-	 * pantalla en blanco.
+	 * **Todas las obras se anotan con él** desde el 27 de agosto de 2026, así que lo único que puede
+	 * faltar es el catálogo mismo: `loadMetricCatalog` devuelve vacío cuando faltan migraciones o
+	 * cuando quien mira no puede leer su revisión, que hoy exige ser admin o IP. Sin catálogo, el
+	 * editor nuevo no puede pintar nada, y es mejor el panel de siempre que una pantalla en blanco.
 	 */
-	const usaElEditorNuevo = $derived(
-		Boolean(props.usaAnotacionNueva) && Boolean(props.catalogoMetrico)
-	);
+	const usaElEditorNuevo = $derived(Boolean(props.catalogoMetrico));
 
 	/**
-	 * El borrador que consume el editor V2, construido desde lo que ya hay anotado de esta secuencia.
+	 * El borrador que consume el editor V2.
 	 *
-	 * De momento arranca vacío: leer la anotación existente y volcarla llega con el guardado, que es
-	 * el paso siguiente. Lo que sí lleva es el rango, que es lo que el editor necesita para dividir
-	 * el pasaje en unidades.
+	 * Si la secuencia ya tiene anotación, se relee entera —forma, arquitectura, realizaciones,
+	 * respuestas y desviaciones— para que guardar la **actualice** en vez de intentar crear una
+	 * segunda, que el índice único rechazaría. Si no la tiene, se arranca en blanco con el rango
+	 * puesto, que es lo que el editor necesita para dividir el pasaje en unidades.
+	 *
+	 * *El rango manda siempre sobre lo guardado*: si el editor acaba de moverlo, es ese el que vale.
 	 */
-	function borradorMetrico() {
-		return draftFromRows(
-			{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1, secuencia_id: editingId },
-			{ units: [], choices: [], deviations: [] }
-		);
+	function borradorMetrico(): MetricSequenceDraft {
+		const vIni = Number(form.v_ini) || 1;
+		const vFin = Number(form.v_fin) || 1;
+		const anotada = editingId
+			? (props.anotacionMetrica?.secuencias ?? []).find(
+					(fila: MetricCatalogDomainRow) => String(fila.secuencia_id) === editingId
+				)
+			: null;
+
+		if (anotada) {
+			const borrador = draftFromRows(anotada, {
+				units: props.anotacionMetrica?.unidades ?? [],
+				choices: props.anotacionMetrica?.elecciones ?? [],
+				deviations: props.anotacionMetrica?.desviaciones ?? []
+			});
+			return { ...borrador, v_ini: vIni, v_fin: vFin };
+		}
+
+		return {
+			anotacion_id: null,
+			escenario_id: null,
+			secuencia_id: editingId,
+			// `orden` es obligatorio y en una secuencia real no ordena nada: solo las anotaciones de
+			// escenario compiten por él. Se usa el sitio que ocupa en la obra, que al menos se lee.
+			orden: editingIndex >= 0 ? editingIndex + 1 : 1,
+			v_ini: vIni,
+			v_fin: vFin,
+			forma_id: '',
+			arquitectura_id: '',
+			observaciones: '',
+			unidades: [],
+			elecciones: [],
+			desviaciones: []
+		};
+	}
+
+	/**
+	 * Escribe la identidad métrica de una secuencia en las tablas de la anotación.
+	 *
+	 * Comparte endpoint con el editor de pruebas: `save_sequence` acepta `secuencia_id` —la real— o
+	 * `escenario_id`, y la base resuelve una u otra. No hacía falta inventar un camino nuevo.
+	 */
+	async function guardarAnotacionMetrica(
+		secuenciaId: string,
+		estado: MetricSequenceEditorState
+	): Promise<boolean> {
+		if (estado.error) {
+			pushToast('error', estado.error);
+			return false;
+		}
+		const borrador: MetricSequenceDraft = estado.draft;
+		const limpiar = (valor: string | null | undefined) => {
+			const texto = (valor ?? '').trim();
+			return texto.length > 0 ? texto : null;
+		};
+
+		let respuesta: Response;
+		try {
+			respuesta = await fetch('/api/metrica/editor-pruebas', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					action: 'save_sequence',
+					...borrador,
+					escenario_id: null,
+					secuencia_id: secuenciaId,
+					arquitectura_id: borrador.arquitectura_id || null,
+					observaciones: limpiar(borrador.observaciones),
+					unidades: borrador.unidades.map((unidad) => ({
+						...unidad,
+						etiqueta: limpiar(unidad.etiqueta),
+						observaciones: limpiar(unidad.observaciones)
+					})),
+					desviaciones: borrador.desviaciones.map((desviacion) => ({
+						...desviacion,
+						observaciones: limpiar(desviacion.observaciones)
+					}))
+				})
+			});
+		} catch {
+			pushToast(
+				'error',
+				'La secuencia se guardó, pero no se pudo conectar para guardar su anotación métrica. Vuelve a guardar.'
+			);
+			return false;
+		}
+
+		if (!respuesta.ok) {
+			const cuerpo = await respuesta.json().catch(() => ({}));
+			pushToast(
+				'error',
+				`La secuencia se guardó, pero su anotación métrica no: ${
+					cuerpo.details?.[0]?.message ?? cuerpo.message ?? 'error desconocido'
+				}. Vuelve a guardar.`
+			);
+			return false;
+		}
+		return true;
 	}
 
 	function openDelete(secuenciaId: string) {
@@ -1052,6 +1176,7 @@
 				<MetricSequenceEditor
 					catalog={props.catalogoMetrico as MetricCatalogForEditor}
 					initialDraft={borradorMetrico()}
+					onStateChange={(estado: MetricSequenceEditorState) => (estadoMetrico = estado)}
 					bodyExtra={restoDelFormulario}
 				/>
 			{/key}

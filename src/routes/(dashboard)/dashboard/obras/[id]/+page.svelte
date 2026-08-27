@@ -670,8 +670,8 @@
 			focusSecuenciaId={focusSecuenciaId}
 			focusComentarioId={focusComentarioId}
 			commentsReloadKey={commentsReloadKey}
-			usaAnotacionNueva={data.usaAnotacionNueva}
 			catalogoMetrico={data.catalogoMetrico}
+			anotacionMetrica={data.anotacionMetrica}
 			onSecuenciasChange={handleSecuenciasChange}
 			onMetricaDirty={handleMetricaDirty}
 			onPendingChangesChange={(pending) =>
