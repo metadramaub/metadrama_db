@@ -30,6 +30,7 @@
 	import { displayTerm } from '$lib/utils/vocabulario';
 	import MetricSequenceEditor from '$lib/components/metrica/editor-v2/MetricSequenceEditor.svelte';
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
+	import MetricPanelSection from '$lib/components/metrica/editor-v2/MetricPanelSection.svelte';
 	import { draftFromRows } from '$lib/components/metrica/editor-v2/sequence-draft';
 	import type {
 		MetricSequenceDraft,
@@ -676,6 +677,34 @@
 	 * La pestaña no lo toca: solo lo guarda cuando se pulsa Guardar. Quien decide qué es válido es
 	 * el propio editor, que además dice por qué no lo es.
 	 */
+	/**
+	 * Qué secciones del modal están desplegadas.
+	 *
+	 * **Solo la métrica de entrada**, que es donde empieza el trabajo: las cuatro abiertas obligan a
+	 * recorrer la pantalla entera para llegar a los comentarios. El raíl de la izquierda es su
+	 * índice y abre la que se pulsa.
+	 */
+	let seccionesAbiertas = $state(new Set<string>(['identificacion']));
+
+	function alternarSeccion(id: string) {
+		const siguiente = new Set(seccionesAbiertas);
+		if (siguiente.has(id)) siguiente.delete(id);
+		else siguiente.add(id);
+		seccionesAbiertas = siguiente;
+	}
+
+	function abrirSeccion(id: string) {
+		if (seccionesAbiertas.has(id)) return;
+		seccionesAbiertas = new Set(seccionesAbiertas).add(id);
+	}
+
+	/** Las secciones que no pinta el editor métrico, en el orden en que se leen. */
+	const seccionesDelModal = [
+		{ id: 'caracterizaciones', label: 'Caracterizaciones' },
+		{ id: 'sinopsis', label: 'Sinopsis' },
+		{ id: 'comentarios', label: 'Comentarios' }
+	];
+
 	let estadoMetrico = $state<MetricSequenceEditorState | null>(null);
 
 	/**
@@ -1195,6 +1224,12 @@
 					initialDraft={borradorMetrico()}
 					onStateChange={recibirEstadoMetrico}
 					bodyExtra={restoDelFormulario}
+					seccionAbierta={seccionesAbiertas.has('identificacion')}
+					alAlternarSeccion={() => alternarSeccion('identificacion')}
+					extraRailItems={seccionesDelModal.map((seccion) => ({
+						...seccion,
+						alAbrir: () => abrirSeccion(seccion.id)
+					}))}
 				/>
 			{/key}
 		</MetricSequenceModal>
@@ -1274,55 +1309,96 @@
 />
 
 <!--
-	Lo que no es métrico de una secuencia: caracterizaciones por rango, personajes y sinopsis.
+	Lo que no es métrico de una secuencia, repartido en las tres secciones que el raíl indexa:
+	caracterizaciones, sinopsis y comentarios.
 
 	Va debajo del editor V2, dentro del mismo modal, porque **el editor lo rellena en la misma
 	pasada** y separarlo obligaría a abrir dos sitios para anotar una secuencia. Aquí hubo también un
 	fragmento con el selector del vocabulario legado; se retiró con el panel que lo pintaba.
+
+	**Los comentarios volvieron el 28 de agosto de 2026.** Estaban al pie del panel lateral y se
+	fueron con él sin que nadie lo notara: la anotación perdió el sitio donde se discute, que es
+	justo lo que un equipo editorial necesita a mano mientras anota.
 -->
 {#snippet restoDelFormulario()}
-			<CaracterizacionesPorRango
-				bind:this={caracterizaciones}
-				obraId={props.obraId}
-				secuenciaId={editingId}
-				rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
-				opciones={props.caracterizacionRangoOptions}
-				readOnly={props.readOnly}
-				onMetricaDirty={props.onMetricaDirty}
-			/>
+	<MetricPanelSection
+		id="caracterizaciones"
+		titulo="Caracterizaciones"
+		abierta={seccionesAbiertas.has('caracterizaciones')}
+		alAlternar={() => alternarSeccion('caracterizaciones')}
+	>
+		<CaracterizacionesPorRango
+			bind:this={caracterizaciones}
+			obraId={props.obraId}
+			secuenciaId={editingId}
+			rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
+			opciones={props.caracterizacionRangoOptions}
+			readOnly={props.readOnly}
+			onMetricaDirty={props.onMetricaDirty}
+		/>
 
-			<CaracterizacionesDeLaSecuencia
-				valores={{
-					intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
-					intervencion_figuras_donaire: form.intervencion_figuras_donaire,
-					intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
-					versos_partidos: form.versos_partidos,
-					inaugura_espacio: form.inaugura_espacio,
-					evocacion_metrica: form.evocacion_metrica,
-					evocacion_metrica_texto: form.evocacion_metrica_texto
+		<CaracterizacionesDeLaSecuencia
+			valores={{
+				intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
+				intervencion_figuras_donaire: form.intervencion_figuras_donaire,
+				intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
+				versos_partidos: form.versos_partidos,
+				inaugura_espacio: form.inaugura_espacio,
+				evocacion_metrica: form.evocacion_metrica,
+				evocacion_metrica_texto: form.evocacion_metrica_texto
+			}}
+			readOnly={props.readOnly}
+			alCambiar={(cambio) => (form = { ...form, ...cambio })}
+		/>
+	</MetricPanelSection>
+
+	<MetricPanelSection
+		id="sinopsis"
+		titulo="Sinopsis"
+		abierta={seccionesAbiertas.has('sinopsis')}
+		alAlternar={() => alternarSeccion('sinopsis')}
+		resumen={form.sinopsis?.trim() ? 'Escrita' : 'Sin escribir'}
+	>
+		<label class="form-field">
+			<span class="sr-only">Sinopsis argumental</span>
+			<MarkdownEditorLite
+				rows={3}
+				class="mt-1"
+				minHeightClass="min-h-28"
+				value={form.sinopsis}
+				disabled={props.readOnly}
+				onChange={(nextValue) => {
+					form = {
+						...form,
+						sinopsis: nextValue
+					};
 				}}
-				readOnly={props.readOnly}
-				alCambiar={(cambio) => (form = { ...form, ...cambio })}
 			/>
+		</label>
+	</MetricPanelSection>
 
-			<section class="bg-white p-4">
-				<h4 class="form-section-title">Sinopsis argumental</h4>
-				<label class="form-field">
-					<span class="sr-only">Sinopsis argumental</span>
-					<MarkdownEditorLite
-						rows={3}
-						class="mt-1"
-						minHeightClass="min-h-28"
-						value={form.sinopsis}
-						disabled={props.readOnly}
-						onChange={(nextValue) => {
-							form = {
-								...form,
-								sinopsis: nextValue
-							};
-						}}
-					/>
-				</label>
-			</section>
-
+	<MetricPanelSection
+		id="comentarios"
+		titulo="Comentarios"
+		abierta={seccionesAbiertas.has('comentarios')}
+		alAlternar={() => alternarSeccion('comentarios')}
+		resumen={editingId ? null : 'Al guardar la secuencia'}
+	>
+		{#if editingId}
+			{#key editingId}
+				<InternalCommentsPanel
+					obraId={props.obraId}
+					canComment={Boolean(props.canComment)}
+					title="Comentarios internos de secuencia"
+					context={{ secuencia_id: editingId }}
+					focusComentarioId={props.focusComentarioId}
+					reloadKey={props.commentsReloadKey}
+				/>
+			{/key}
+		{:else}
+			<p class="text-sm text-[color:var(--muted-foreground)]">
+				Guarda la secuencia para poder comentarla.
+			</p>
+		{/if}
+	</MetricPanelSection>
 {/snippet}
