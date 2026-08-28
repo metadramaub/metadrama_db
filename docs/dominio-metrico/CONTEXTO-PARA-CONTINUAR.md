@@ -736,8 +736,11 @@ la separa de la sextilla aunque el enlace entre sus mitades sea de sentido y no 
 —el segundo enlaza la rima central de cada unidad con la siguiente y no se divide en tercetos
 independientes—, pero el IP quiere volver sobre algún aspecto de ambas fichas.
 
-**C13. Revisar las tradiciones de todas las formas.** **Cinco están sin tradición** —cuarteto,
-endecha real, pareado y los dos tramos sin forma—, y en algunos casos con razón: Jauralde sitúa el
+**C13. Revisar las tradiciones de todas las formas.** **Nueve están sin tradición**, contadas el 28 de
+agosto de 2026: cuarteto, endecha real, pareado, los dos tramos sin forma y **las cuatro liras nuevas**
+—cuarteto, novena, octava y décima—, que entraron el 24 de agosto sin asignarla. Eran cinco cuando se
+escribió esto, y la diferencia dice algo: **una forma nueva no recibe tradición si nadie se acuerda**.
+En algunos casos la ausencia es correcta: Jauralde sitúa el
 pareado «entre las formas originarias y primitivas de la poesía», que no es ni italiana ni
 española. Pero eso no se ha comprobado forma por forma, y las tres tradiciones del catálogo nunca
 se han mirado juntas: ni de dónde sale cada asignación, ni si el reparto responde a un criterio, ni
@@ -755,7 +758,9 @@ heterométrica o si la frontera con la silva se redibuja.*
 estróficas, **como la sextilla y la décima**», y también a estrofas de arte mayor. El catálogo tiene
 la pieza —el rasgo `final_acentual` con valor `agudo` y `posiciones_max`, que el sexteto alejandrino
 ya usa así: «riman en agudo los versos tercero y sexto, que son los que cierran cada
-semiestrofa»—, pero solo lo declaran dos arquitecturas. *Falta una pasada que decida en qué formas
+semiestrofa»—, pero contado el 28 de agosto de 2026 **la modalidad aguda solo la declaran tres
+formas**: la octava aguda —seis arquitecturas, definitoria—, el septeto —dos, admitida— y el sexteto
+—una, habitual—. Ni la sextilla ni la décima, que son las dos que Jauralde nombra. *Falta una pasada que decida en qué formas
 se admite y con qué modalidad; va con B2, que revisa el reparto entero de los rasgos.*
 
 **C17. El catálogo se deriva en cada lectura, y eso no escala.** Cuatro de las «tablas» que lee el

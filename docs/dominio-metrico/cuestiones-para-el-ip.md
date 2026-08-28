@@ -62,7 +62,7 @@ forma a forma produce criterios distintos para el mismo caso.
 
 | Cruce | Dónde | Estado |
 | --- | --- | --- |
-| **`organizacion_en_pareados` mezcla dos magnitudes**: Morley y Bruerton cuentan versos *rimados*, pero la silva libre declara `ninguna` y sí rima —lo que no tiene es *pareados*—. Y al cuantificar, `habituales` y `predominantes` caerían en el mismo intervalo | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | **abierto**; el IP decidió el 9 de agosto no cuantificar hasta separar las dos magnitudes |
+| **Cuantificar los grados de rima y de pareados.** *La condición que puso el IP el 9 de agosto —separar antes las dos magnitudes— **está cumplida**: hoy `densidad_de_rima` mide cuántos versos riman —ninguna · esporádica · mayoritaria · total— y `organizacion_en_pareados`, qué figura dibujan los que riman —ninguna · ocasionales · habituales · predominantes · regulares—. La silva libre lo demuestra: declara **pareados ninguna** y **densidad mayoritaria o total**, que es justo lo que antes no se podía decir.* Lo que sigue abierto es **ponerles cifras**: las fuentes solo dan dos cortes, el 50 % y el 99 %, así que `habituales` y `predominantes` caerían en el mismo intervalo. Y nada cuenta hoy los versos rimados de un pasaje | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | **abierto, y ya se puede decidir** |
 | **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres | [Sexteto-lira](#sexteto-lira) 1 | **abierto**: decidir si el nivel se conserva |
 | **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | **abierto, y menos urgente desde el 25 de agosto de 2026**: con la salida abierta, un repertorio incompleto ya no pierde el dato —el editor declara lo que ve y el catálogo lo reconoce si ya lo tenía—. *El de las medidas se cerró el 22 de agosto: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
 | **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **C1** |
@@ -143,13 +143,14 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    pregunta después. **Es la clase de caso que este modelo está hecho para resolver con datos**:
    cuando haya silvas anotadas, se mira si alguna cae en `predominantes` sin ser también otra cosa.
 
-3. **Los porcentajes no están en el dato, y al intentar recuperarlos aparece que el rasgo mide dos
-   magnitudes distintas.** Los cinco grados son cualitativos y las cifras viven solo en las
-   afirmaciones. Al intentar añadirles el intervalo salieron tres problemas:
+3. **Los porcentajes no están en el dato.** Los cinco grados son cualitativos y las cifras viven solo
+   en las afirmaciones. De los tres problemas que aparecieron al intentar añadirles el intervalo,
+   **el primero está resuelto**:
 
-   **a)** El rasgo mezcla «% de versos rimados» y «% de versos en pareado». M&B cuentan **versos
-   rimados**; la arquitectura `Silva · Libre` declara `ninguna` **y sí rima** —lo que no tiene es
-   pareados—. *Ponerle 0 % a ese grado afirmaría que la silva libre no rima, que es falso.*
+   **a)** ~~El rasgo mezcla «% de versos rimados» y «% de versos en pareado».~~ **Ya son dos rasgos
+   distintos**, y el caso que lo destapaba está bien modelado: `Silva · Libre` declara
+   `organizacion_en_pareados = ninguna` y a la vez `densidad_de_rima = mayoritaria o total`. No
+   tiene pareados **y** rima, y las dos cosas se dicen por separado.
    **b)** `habituales` y `predominantes` caerían en el mismo intervalo: las fuentes solo dan dos
    cortes, el 50 % y el 99 %. *Cuantificarlo exigiría inventar uno.*
    **c)** Nada cuenta los versos rimados: la anotación no registra hoy qué versos riman.
@@ -194,7 +195,8 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 1. **La restricción «predominan los sueltos» tiene umbral en la fuente y no está formalizado.** M&B
    clasifican un pasaje como sueltos «cuando el porcentaje de los versos rimados es menos de 50», y
    su silva 3.ª entre el 50 y el 98 %. El catálogo lo dice solo en palabras. *Va con [Silva](#silva)
-   3: el IP decidió no cuantificar hasta separar las dos magnitudes del rasgo.*
+   3, donde lo que faltaba —separar «cuánto rima» de «cuántos pareados hay»— ya está hecho: lo que
+   queda por decidir es si se cuantifica y con qué cortes.*
 
 2. **¿Se admiten series sueltas de otras medidas?** Esta forma es endecasilábica por definición.
    Caparrós documenta el heptasílabo sin rima de Francisco de la Torre y ocho octosílabos sueltos de
