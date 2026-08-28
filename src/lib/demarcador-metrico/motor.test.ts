@@ -100,8 +100,8 @@ const catalogo: CatalogoDemarcador = {
 				tipo: 'booleano'
 			})
 		]),
-			hipotesis('soneto', 'Soneto', 'Canónica', [
-				evidencia('metro:grupo', 'metro', 'arte_mayor', 'Arte mayor', { orden: 1 }),
+		hipotesis('soneto', 'Soneto', 'Canónica', [
+			evidencia('metro:grupo', 'metro', 'arte_mayor', 'Arte mayor', { orden: 1 }),
 			evidencia('rima:tipo', 'rima', 'consonante', 'Consonante'),
 			evidencia('extension:versos', 'extension', '', 'Extensión', {
 				tipo: 'numero',
@@ -137,26 +137,50 @@ describe('motor ontológico del demarcador', () => {
 			hipotesis: [
 				hipotesis('menor-7', 'Menor de siete', 'Heptasilábica', [
 					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'misma_medida', 'Una medida', { orden: 2 }),
 					evidencia('metro:exacto', 'metro', '7', '7 sílabas')
 				]),
 				hipotesis('menor-8', 'Menor de ocho', 'Octosilábica', [
 					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'misma_medida', 'Una medida', { orden: 2 }),
 					evidencia('metro:exacto', 'metro', '8', '8 sílabas')
+				]),
+				hipotesis('menor-5-7', 'Menor de cinco y siete', 'Heterométrica', [
+					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'varias_medidas', 'Varias medidas', {
+						orden: 2
+					}),
+					evidencia('metro:exacto', 'metro', '5+7', '7 y 5 sílabas')
+				]),
+				hipotesis('menor-6-8', 'Menor de seis y ocho', 'Heterométrica', [
+					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'varias_medidas', 'Varias medidas', {
+						orden: 2
+					}),
+					evidencia('metro:exacto', 'metro', '6+8', '8 y 6 sílabas')
 				]),
 				hipotesis('mayor-11', 'Mayor de once', 'Endecasilábica', [
 					evidencia('metro:grupo', 'metro', 'arte_mayor', 'Arte mayor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'misma_medida', 'Una medida', { orden: 2 }),
 					evidencia('metro:exacto', 'metro', '11', '11 sílabas')
 				]),
 				hipotesis('mayor-14', 'Mayor de catorce', 'Alejandrina', [
 					evidencia('metro:grupo', 'metro', 'arte_mayor', 'Arte mayor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'misma_medida', 'Una medida', { orden: 2 }),
 					evidencia('metro:exacto', 'metro', '14', '14 sílabas')
 				]),
 				hipotesis('mixta-7-11', 'Mixta de siete y once', 'Alirada', [
 					evidencia('metro:grupo', 'metro', 'mixto', 'Mixto', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'varias_medidas', 'Varias medidas', {
+						orden: 2
+					}),
 					evidencia('metro:exacto', 'metro', '7+11', '7 sílabas + 11 sílabas')
 				]),
 				hipotesis('mixta-8-11', 'Mixta de ocho y once', 'Mixta', [
 					evidencia('metro:grupo', 'metro', 'mixto', 'Mixto', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'varias_medidas', 'Varias medidas', {
+						orden: 2
+					}),
 					evidencia('metro:exacto', 'metro', '8+11', '8 sílabas + 11 sílabas')
 				])
 			]
@@ -165,14 +189,51 @@ describe('motor ontológico del demarcador', () => {
 		const arteMenor = crearRespuesta(inicial, 'arte_menor', 'Arte menor');
 		const siguienteMenor = elegirPregunta(catalogoMedidas, [arteMenor], 'guiado');
 
-		expect(siguienteMenor?.dimension).toBe('metro:exacto');
-		expect(siguienteMenor?.opciones.map((opcion) => opcion.clave)).toEqual(['7', '8']);
+		expect(siguienteMenor).toMatchObject({
+			dimension: 'metro:uniformidad'
+		});
+		expect(siguienteMenor?.opciones.map((opcion) => opcion.clave)).toEqual([
+			'misma_medida',
+			'varias_medidas'
+		]);
+		const mismaMedida = crearRespuesta(
+			siguienteMenor as PreguntaDemarcador,
+			'misma_medida',
+			'Sí, predomina una medida'
+		);
+		const medidaSimple = elegirPregunta(catalogoMedidas, [arteMenor, mismaMedida], 'guiado');
+		expect(medidaSimple).toMatchObject({
+			dimension: 'metro:exacto',
+			pregunta: '¿Cuántas sílabas tiene normalmente cada verso?'
+		});
+		expect(medidaSimple?.opciones.map((opcion) => opcion.clave)).toEqual(['7', '8']);
+
+		const variasMedidas = crearRespuesta(
+			siguienteMenor as PreguntaDemarcador,
+			'varias_medidas',
+			'No, aparecen varias medidas'
+		);
+		const combinacionMenor = elegirPregunta(catalogoMedidas, [arteMenor, variasMedidas], 'guiado');
+		expect(combinacionMenor).toMatchObject({
+			dimension: 'metro:exacto',
+			pregunta: '¿Qué medidas aparecen en el pasaje?'
+		});
+		expect(combinacionMenor?.opciones.map((opcion) => opcion.clave)).toEqual(['5+7', '6+8']);
+
+		const uniformidadDesconocida = crearRespuesta(
+			siguienteMenor as PreguntaDemarcador,
+			'desconocido',
+			'No sé'
+		);
+		expect(
+			elegirPregunta(catalogoMedidas, [arteMenor, uniformidadDesconocida], 'guiado')
+		).toBeNull();
 
 		const mixto = crearRespuesta(inicial, 'mixto', 'Mixto');
 		const siguienteMixto = elegirPregunta(catalogoMedidas, [mixto], 'guiado');
 		expect(siguienteMixto).toMatchObject({
 			dimension: 'metro:exacto',
-			pregunta: '¿Qué medidas se combinan en los versos?'
+			pregunta: '¿Qué medidas aparecen en el pasaje?'
 		});
 		expect(siguienteMixto?.opciones.map((opcion) => opcion.clave)).toEqual(['7+11', '8+11']);
 	});
@@ -228,30 +289,57 @@ describe('motor ontológico del demarcador', () => {
 			formas: [],
 			advertencias: [],
 			hipotesis: [
-				hipotesis('soneto', 'Soneto', 'Canónica', [
-					evidencia('extension:versos', 'extension', '', 'Extensión', {
-						tipo: 'numero', valores: [], minimo: 14, maximo: 14,
-						modulo: 14, residuo: 0, reglaLongitud: 'estructuras completas de 14 versos'
-					})
-				], { nivelEstructural: 'composicion', unidadVersos: 14 }),
-				hipotesis('terceto-encadenado', 'Terceto encadenado', 'Endecasilábico', [
-					evidencia('extension:versos', 'extension', '', 'Extensión', {
-						tipo: 'numero', valores: [], minimo: 4, maximo: null,
-						modulo: 3, residuo: 1,
-						reglaLongitud: 'bloques completos de 3 versos más 1 verso fijo'
-					})
-				], { nivelEstructural: 'serie' })
+				hipotesis(
+					'soneto',
+					'Soneto',
+					'Canónica',
+					[
+						evidencia('extension:versos', 'extension', '', 'Extensión', {
+							tipo: 'numero',
+							valores: [],
+							minimo: 14,
+							maximo: 14,
+							modulo: 14,
+							residuo: 0,
+							reglaLongitud: 'estructuras completas de 14 versos'
+						})
+					],
+					{ nivelEstructural: 'composicion', unidadVersos: 14 }
+				),
+				hipotesis(
+					'terceto-encadenado',
+					'Terceto encadenado',
+					'Endecasilábico',
+					[
+						evidencia('extension:versos', 'extension', '', 'Extensión', {
+							tipo: 'numero',
+							valores: [],
+							minimo: 4,
+							maximo: null,
+							modulo: 3,
+							residuo: 1,
+							reglaLongitud: 'bloques completos de 3 versos más 1 verso fijo'
+						})
+					],
+					{ nivelEstructural: 'serie' }
+				)
 			]
 		};
 		const pregunta = {
-			id: 'pregunta:extension:versos', dimension: 'extension:versos',
-			familiaCognitiva: 'extension', pregunta: '¿Cuántos versos tiene?', ayuda: '',
-			tipo: 'numero', opciones: [], observabilidad: 'directa', coste: 0.2, utilidad: 1
+			id: 'pregunta:extension:versos',
+			dimension: 'extension:versos',
+			familiaCognitiva: 'extension',
+			pregunta: '¿Cuántos versos tiene?',
+			ayuda: '',
+			tipo: 'numero',
+			opciones: [],
+			observabilidad: 'directa',
+			coste: 0.2,
+			utilidad: 1
 		} satisfies PreguntaDemarcador;
-		const resultados = ordenarFormas(
-			catalogoLongitudes,
-			[crearRespuesta(pregunta, 14, '14 versos')]
-		);
+		const resultados = ordenarFormas(catalogoLongitudes, [
+			crearRespuesta(pregunta, 14, '14 versos')
+		]);
 		const terceto = resultados.find((forma) => forma.formaId === 'terceto-encadenado');
 
 		expect(resultados[0].formaNombre).toBe('Soneto');
@@ -267,40 +355,82 @@ describe('motor ontológico del demarcador', () => {
 	it('interpreta 25 versos como cinco quintillas y como una serie encadenada regular', () => {
 		const metro = evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor');
 		const agrupacion = evidencia('estructura:agrupacion:5', 'estructura', 'si', 'Grupos de 5', {
-			tipo: 'booleano', orden: 9, coste: 0.2
+			tipo: 'booleano',
+			orden: 9,
+			coste: 0.2
 		});
 		const serie = evidencia('estructura:serie:3:4', 'estructura', 'si', 'Serie con cierre', {
-			tipo: 'booleano', orden: 24, coste: 0.42
+			tipo: 'booleano',
+			orden: 24,
+			coste: 0.42
 		});
 		const catalogoPasaje: CatalogoDemarcador = {
-			formas: [], advertencias: [], hipotesis: [
-				hipotesis('quintilla', 'Quintilla', 'Octosilábica consonante', [
-					metro,
-					evidencia('extension:versos', 'extension', '', 'Extensión del pasaje', {
-						tipo: 'numero', valores: [], minimo: 5, maximo: null, modulo: 5, residuo: 0,
-						reglaLongitud: 'unidades completas de 5 versos'
-					}),
-					agrupacion
-				], { unidadVersos: 5 }),
-				hipotesis('terceto-encadenado', 'Terceto encadenado', 'Octosilábico', [
-					metro,
-					evidencia('extension:versos', 'extension', '', 'Extensión del pasaje', {
-						tipo: 'numero', valores: [], minimo: 7, maximo: null, modulo: 3, residuo: 1,
-						reglaLongitud: 'bloques de 3 versos más el cierre'
-					}),
-					serie
-				], { nivelEstructural: 'serie' })
+			formas: [],
+			advertencias: [],
+			hipotesis: [
+				hipotesis(
+					'quintilla',
+					'Quintilla',
+					'Octosilábica consonante',
+					[
+						metro,
+						evidencia('extension:versos', 'extension', '', 'Extensión del pasaje', {
+							tipo: 'numero',
+							valores: [],
+							minimo: 5,
+							maximo: null,
+							modulo: 5,
+							residuo: 0,
+							reglaLongitud: 'unidades completas de 5 versos'
+						}),
+						agrupacion
+					],
+					{ unidadVersos: 5 }
+				),
+				hipotesis(
+					'terceto-encadenado',
+					'Terceto encadenado',
+					'Octosilábico',
+					[
+						metro,
+						evidencia('extension:versos', 'extension', '', 'Extensión del pasaje', {
+							tipo: 'numero',
+							valores: [],
+							minimo: 7,
+							maximo: null,
+							modulo: 3,
+							residuo: 1,
+							reglaLongitud: 'bloques de 3 versos más el cierre'
+						}),
+						serie
+					],
+					{ nivelEstructural: 'serie' }
+				)
 			]
 		};
 		const preguntaMetro = {
-			id: 'pregunta:metro:grupo', dimension: 'metro:grupo', familiaCognitiva: 'metro',
-			pregunta: '¿Qué medida predomina?', ayuda: '', tipo: 'categoria', opciones: [],
-			observabilidad: 'directa', coste: 0.1, utilidad: 1
+			id: 'pregunta:metro:grupo',
+			dimension: 'metro:grupo',
+			familiaCognitiva: 'metro',
+			pregunta: '¿Qué medida predomina?',
+			ayuda: '',
+			tipo: 'categoria',
+			opciones: [],
+			observabilidad: 'directa',
+			coste: 0.1,
+			utilidad: 1
 		} satisfies PreguntaDemarcador;
 		const preguntaExtension = {
-			id: 'pregunta:extension:versos', dimension: 'extension:versos', familiaCognitiva: 'extension',
-			pregunta: '¿Cuántos versos abarca?', ayuda: '', tipo: 'numero', opciones: [],
-			observabilidad: 'directa', coste: 0.2, utilidad: 1
+			id: 'pregunta:extension:versos',
+			dimension: 'extension:versos',
+			familiaCognitiva: 'extension',
+			pregunta: '¿Cuántos versos abarca?',
+			ayuda: '',
+			tipo: 'numero',
+			opciones: [],
+			observabilidad: 'directa',
+			coste: 0.2,
+			utilidad: 1
 		} satisfies PreguntaDemarcador;
 		const respuestas = [
 			crearRespuesta(preguntaMetro, 'arte_menor', 'Arte menor'),
@@ -311,10 +441,13 @@ describe('motor ontológico del demarcador', () => {
 		const terceto = resultados.find((forma) => forma.formaId === 'terceto-encadenado');
 
 		expect(quintilla?.arquitecturas[0].interpretacionLongitud).toMatchObject({
-			tipo: 'repeticion', unidades: 5, versosPorUnidad: 5
+			tipo: 'repeticion',
+			unidades: 5,
+			versosPorUnidad: 5
 		});
 		expect(terceto?.arquitecturas[0].interpretacionLongitud).toMatchObject({
-			tipo: 'serie', observada: 25
+			tipo: 'serie',
+			observada: 25
 		});
 		expect(elegirPregunta(catalogoPasaje, respuestas, 'guiado')?.dimension).toBe(
 			'estructura:agrupacion:5'
