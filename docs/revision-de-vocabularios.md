@@ -19,7 +19,7 @@ escrito que diga cuál toca en cada caso:
 | Sistema | Qué guarda | ¿Editable sin migración? |
 | --- | --- | --- |
 | `vocabularios` | `estrofa_tipo`, `caracterizacion_rango`, `tipo_comentario`, `estado`, roles… | Sí, desde `/dashboard/vocabularios` |
-| Tablas propias del catálogo | `metros`, `formas_metricas`, `esquemas_rima`, `rasgos_metricos`… | Sí, desde `/dashboard/metrica` |
+| Tablas propias del catálogo | `metros`, `formas_metricas`, `esquemas_rima`, `rasgos_metricos`… | No; se modifican mediante migraciones |
 | Restricciones `CHECK` | 49 enums repartidos por el esquema | No |
 
 El riesgo no es teórico. Renombrar un valor guardado como literal obliga a un `UPDATE` de

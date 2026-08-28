@@ -2,7 +2,6 @@ import type {
 	MetricCatalogConfiguration,
 	MetricCatalogDomainData,
 	MetricCatalogForm,
-	MetricCatalogIssue,
 	MetricCatalogOption,
 	MetricCatalogPageData,
 	MetricCatalogTradition,
@@ -80,185 +79,6 @@ function emptyEditorSandbox() {
 		choices: [],
 		deviations: []
 	};
-}
-
-export function buildIssues(input: {
-	forms: MetricCatalogForm[];
-	configurations: MetricCatalogConfiguration[];
-	domain: MetricCatalogDomainData;
-}): MetricCatalogIssue[] {
-	const issues: MetricCatalogIssue[] = [];
-	const configurationsByForm = new Map<string, MetricCatalogConfiguration[]>();
-
-	for (const configuration of input.configurations) {
-		configurationsByForm.set(configuration.forma_id, [
-			...(configurationsByForm.get(configuration.forma_id) ?? []),
-			configuration
-		]);
-	}
-
-	// Toda forma con norma declara al menos una arquitectura. Los tramos sin forma quedan
-	// fuera porque no tienen norma por diseño: «Verso aislado» y «Versificación irregular».
-	for (const form of input.forms.filter(
-		(item) => item.activo && item.tipo_registro !== 'sin_forma'
-	)) {
-		const configurations = (configurationsByForm.get(form.forma_id) ?? []).filter(
-			(configuration) => configuration.activo
-		);
-		if (configurations.length === 0) {
-			issues.push({
-				code: 'forma_sin_configuracion',
-				level: 'error',
-				entityId: form.forma_id,
-				label: form.nombre,
-				message: 'No tiene ninguna arquitectura activa.'
-			});
-			continue;
-		}
-	}
-
-	for (const configuration of input.configurations.filter(
-		(item) => item.activo && item.demarcable
-	)) {
-		const hasStructuredModel =
-			configuration.patrones_metro > 0 ||
-			configuration.esquemas_rima > 0 ||
-			configuration.tipo_rima_id !== null ||
-			configuration.unidad_versos_min !== null;
-		if (!hasStructuredModel) {
-			issues.push({
-				code: 'configuracion_sin_modelo',
-				level: 'warning',
-				entityId: configuration.arquitectura_id,
-				label: configuration.nombre,
-				message:
-					'Está marcada como demarcable, pero aún no tiene ningún dato estructurado. Puede ser válida si la apertura es intencional.'
-			});
-		}
-	}
-
-	const configurationById = new Map(
-		input.configurations.map((configuration) => [configuration.arquitectura_id, configuration])
-	);
-	const metricPositionPatternIds = new Set(
-		input.domain.metricPositions.map((row) => String(row.esquema_metrico_id))
-	);
-	const metricOptionPatternIds = new Set(
-		input.domain.metricOptions.map((row) => String(row.esquema_metrico_id))
-	);
-	const metricPatternsByConfiguration = new Map<
-		string,
-		MetricCatalogDomainData['metricPatterns']
-	>();
-	for (const pattern of input.domain.metricPatterns) {
-		const configurationId = String(pattern.arquitectura_id);
-		metricPatternsByConfiguration.set(configurationId, [
-			...(metricPatternsByConfiguration.get(configurationId) ?? []),
-			pattern
-		]);
-	}
-	for (const [configurationId, patterns] of metricPatternsByConfiguration) {
-		if (patterns.length < 2 || patterns.every((pattern) => String(pattern.nombre ?? '').trim())) {
-			continue;
-		}
-		const configuration = configurationById.get(configurationId);
-		if (!configuration) continue;
-		issues.push({
-			code: 'patron_metrico_sin_nombre',
-			level: 'warning',
-			entityId: configuration.arquitectura_id,
-			label: configuration.nombre,
-			message:
-				'Tiene varios esquemas métricos y alguno carece de nombre breve para distinguirlo en la interfaz.'
-		});
-	}
-	for (const pattern of input.domain.metricPatterns) {
-		const patternId = String(pattern.esquema_metrico_id);
-		const configuration = configurationById.get(String(pattern.arquitectura_id));
-		if (!configuration) continue;
-		if (
-			(pattern.tipo === 'secuencia_fija' || pattern.tipo === 'secuencia_repetible') &&
-			!metricPositionPatternIds.has(patternId)
-		) {
-			issues.push({
-				code: 'patron_metrico_sin_posiciones',
-				level: 'warning',
-				entityId: configuration.arquitectura_id,
-				label: configuration.nombre,
-				message: 'Tiene un esquema métrico ordenado sin posiciones declaradas.'
-			});
-		}
-		if (pattern.tipo === 'conjunto_permitido' && !metricOptionPatternIds.has(patternId)) {
-			issues.push({
-				code: 'patron_metrico_sin_opciones',
-				level: 'warning',
-				entityId: configuration.arquitectura_id,
-				label: configuration.nombre,
-				message: 'Tiene un conjunto de medidas permitidas sin ninguna medida declarada.'
-			});
-		}
-	}
-
-	const rhymePositionPatternIds = new Set(
-		input.domain.rhymePositions.map((row) => String(row.esquema_rima_id))
-	);
-	const rhymeRestrictionPatternIds = new Set(
-		input.domain.rhymeRestrictions.map((row) => String(row.esquema_rima_id))
-	);
-	const rhymeDensityTraitIds = new Set(
-		input.domain.traits
-			.filter((row) => String(row.slug) === 'densidad_de_rima')
-			.map((row) => String(row.rasgo_id))
-	);
-	const configurationsDeclaringRhymeDensity = new Set(
-		input.domain.configurationTraits
-			.filter((row) => rhymeDensityTraitIds.has(String(row.rasgo_id)))
-			.map((row) => String(row.arquitectura_id))
-	);
-	const configurationsWithConcreteRhyme = new Set(
-		input.domain.rhymePatterns
-			.filter((row) => row.tipo_secuencia !== 'abierta')
-			.map((row) => String(row.arquitectura_id))
-	);
-	for (const pattern of input.domain.rhymePatterns) {
-		const patternId = String(pattern.esquema_rima_id);
-		const configuration = configurationById.get(String(pattern.arquitectura_id));
-		if (!configuration) continue;
-		if (
-			(pattern.tipo_secuencia === 'secuencia' || pattern.tipo_secuencia === 'ciclo') &&
-			!rhymePositionPatternIds.has(patternId)
-		) {
-			issues.push({
-				code: 'patron_rima_sin_regla',
-				level: 'warning',
-				entityId: configuration.arquitectura_id,
-				label: configuration.nombre,
-				message:
-					'Tiene una secuencia de rima sin posiciones estructuradas. El esquema textual no basta para compilarla.'
-			});
-		}
-		// Un esquema abierto no fija la disposición, y eso por sí solo no es un defecto: es lo que
-		// hace una forma general. Solo lo es cuando la arquitectura entera no dice nada más de su
-		// rima, y tiene tres maneras de decirlo —las restricciones del propio esquema, la densidad
-		// declarada, o unos esquemas concretos que la realizan y de los que se calcula—.
-		if (
-			pattern.tipo_secuencia === 'abierta' &&
-			!rhymeRestrictionPatternIds.has(patternId) &&
-			!configurationsDeclaringRhymeDensity.has(String(pattern.arquitectura_id)) &&
-			!configurationsWithConcreteRhyme.has(String(pattern.arquitectura_id))
-		) {
-			issues.push({
-				code: 'patron_rima_sin_regla',
-				level: 'warning',
-				entityId: configuration.arquitectura_id,
-				label: configuration.nombre,
-				message:
-					'Deja la disposición abierta y no declara ninguna restricción, ni su densidad de rima, ni ningún esquema concreto: no dice nada de su rima salvo el tipo.'
-			});
-		}
-	}
-
-	return issues;
 }
 
 /** El catálogo sin el sandbox: lo único que se puede guardar entre peticiones. */
@@ -352,7 +172,6 @@ export async function loadMetricCatalog(
 			domain: emptyDomain(),
 			editorSandbox: emptyEditorSandbox(),
 			options: { rhymeTypes: [], metres: [] },
-			issues: [],
 			stats: {
 				forms: 0,
 				configurations: 0,
@@ -614,7 +433,6 @@ async function construirCatalogoMetrico(
 				a.label.localeCompare(b.label, 'es', { numeric: true })
 			);
 
-	const issues = buildIssues({ forms, configurations, domain });
 	return {
 		migrationPending: false,
 		migrationMessage: null,
@@ -632,7 +450,6 @@ async function construirCatalogoMetrico(
 				label: `${row.nombre} · ${row.silabas} sílabas${row.tipo === 'compuesto' ? ' (compuesto)' : ''}`
 			}))
 		},
-		issues,
 		stats: {
 			forms: forms.filter((form) => form.activo && form.tipo_registro === 'forma').length,
 			configurations: configurations.filter((configuration) => configuration.activo).length,

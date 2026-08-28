@@ -541,8 +541,9 @@ cuántas derivadas.
    entero», «La propuesta llega también con las respuestas, no solo con la forma» y «Si se calcula,
    se rellena: también las respuestas por unidad»— y este apunte no se puso al día.
 
-   **Dónde está, porque no es obvio:** en la pestaña **«Anotación en sombra»** de
-   `/dashboard/metrica`. No hay una zona de migrar aparte; es esa.
+   **Dónde se revisa ahora:** desde `/dashboard/obras`, al abrir una obra y entrar en su editor
+   métrico. La antigua pestaña **«Anotación en sombra»** de `/dashboard/metrica` se retiró junto
+   con ese panel.
 
    *Lo único cierto que quedaba de la nota vieja es que `anotaciones_metricas.secuencia_id`
    **sigue a cero**, y eso no es código que falte: es que nadie ha anotado todavía una secuencia
