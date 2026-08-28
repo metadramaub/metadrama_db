@@ -474,7 +474,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F22 | copla manriqueña · de pie quebrado | pregunta el esquema de rima, que estaba marcado **definitorio** | **catálogo** | la marca era la equivocada, no la pregunta | 1 arquitectura | **arreglado** |
 | F23 | endecasílabo suelto | los seleccionables se presentan como cinco preguntas seguidas, cada una con su caja, sus radios y una descripción larga | UI | ninguna jerarquía entre ellas; en esta forma **son la única manera de caracterizar la realización** y merecen otro tratamiento | toda forma cuya caracterización va por rasgos | recogido |
 | F24 | endecasílabo suelto | los textos de ayuda son de fuente, no de uso: «Morley y Bruerton cuentan un pasaje como suelto por debajo de ese umbral» | catálogo · prosa | las descripciones dicen de dónde sale el criterio, no qué mirar en el pasaje | los grupos con `ayuda_editor` y las opciones con `descripcion` | recogido |
-| F25 | endecasílabo suelto | la norma dice «Densidad de rima: Ninguna; obligatorio» y justo debajo la pregunta ofrece **Ninguna y Esporádica** | catálogo | `arquitectura_rasgos` marca el valor «Ninguna» como `definitoria` y «Esporádica» como `admitida`, y la pregunta ofrece las dos | **1 arquitectura**: es la única pregunta de rasgo del catálogo que ofrece un valor definitorio junto a otro | **IP** |
+| F25 | endecasílabo suelto | la norma decía «Densidad de rima: Ninguna; obligatorio» y la pregunta ofrecía **Ninguna y Esporádica** | catálogo | el valor «Ninguna» estaba marcado `definitoria`, y lo obligatorio es **el rasgo**, no el valor | 1 arquitectura, y la garantía se extiende a todos los rasgos | **arreglado** |
 | F20 | copla castellana | la estructura de dos redondillas debería verse **donde se declara la medida**, más visualmente | UI · rejilla | — | toda forma con partes dentro de la unidad | recogido, va con **F6** |
 | F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
 | F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades»— se entiende fatal | UI | consecuencia de F12: lo que coincidía seguía pintando campo, con esa nota repetida por unidad | los mismos 77 grupos | **arreglado con F12** |
@@ -596,14 +596,20 @@ la arquitectura», que no dice si es obligatorio, corriente o tolerado. Ahora di
 cajón de sastre desaparece: sin modalidad no se añade nada, y un renglón que no diría nada no se pinta.
 *Alcanza a 5 arquitecturas.*
 
-**F25 es la pregunta del IP, y toca lo decidido ayer.** La norma dice «Densidad de rima: Ninguna;
-obligatorio» y la pregunta de debajo ofrece **Ninguna** y **Esporádica**: arriba obligatorio, abajo
-elegible. Es **la única pregunta de rasgo del catálogo** en esa situación —`arquitectura_rasgos` marca
-«Ninguna» como `definitoria` y «Esporádica» como `admitida`—, y es **exactamente la forma que el
-disparador prohíbe para las realizaciones**. Los rasgos se dejaron fuera de él porque allí `definitoria`
-suele marcar *el rasgo*; pero aquí marca **un valor**, y entonces la garantía debería alcanzarle.
-*Decisión del IP: o «Esporádica» deja de ofrecerse, o «Ninguna» deja de ser definitoria —y entonces el
-disparador se extiende a los rasgos con `valor_id`—.*
+**F25, resuelto: lo obligatorio es el rasgo, no el valor.** La norma decía «Densidad de rima: Ninguna;
+obligatorio» y la pregunta de debajo ofrecía **Ninguna** y **Esporádica**. El IP lo zanjó con la
+distinción que faltaba: **que la densidad de rima cuente es lo que define al endecasílabo suelto**, y
+eso se dice marcando el *rasgo*; pero «ninguna» no puede ser definitoria, porque **un pasaje con rima
+esporádica sigue siendo endecasílabo suelto** —Morley y Bruerton lo cuentan como tal por debajo de la
+mitad de los versos—. Así que «ninguna» pasa a **habitual** y «esporádica» se queda **admitida**.
+
+**Y la garantía se extiende a los rasgos.** Se dejaron fuera el 27 de agosto porque en
+`arquitectura_rasgos` la modalidad suele marcar *el rasgo entero*, y entonces preguntar cuál de sus
+valores se lee es lo correcto. La distinción la hace el propio dato y no hubo que declararla: **una
+fila sin `valor_id` no casa con ninguna opción**, así que las definitorias de rasgo entero —cinco, y
+todas correctas— siguen pasando, y las que marcan un valor concreto quedan sujetas a la misma regla que
+una realización. Probado en los dos sentidos: el catálogo entero pasa, y volver a poner la marca se
+rechaza.
 
 **Lo que la norma fija también se anota.** Una décima espinela no tiene nada que elegir, así que su
 resumen salía en blanco mientras el de una copla castellana traía su serie: dos formas anotadas y dos
