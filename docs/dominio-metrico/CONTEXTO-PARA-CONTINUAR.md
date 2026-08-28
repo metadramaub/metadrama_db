@@ -472,6 +472,9 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F13 | copla castellana | al elegir la rima no se ve desplegada verso a verso, en vertical, y queda lejos de donde se resume cada parte | UI | — | toda forma con grupo de rima | recogido, **2.ª vez** |
 | F21 | copla manriqueña · de pie quebrado | hay que poder decir si los quebrados son de 4 o de 5, y no se pregunta | **catálogo** | el esquema **ya declaraba la alternativa** —posiciones 3, 6, 9 y 12— pero la arquitectura no tenía grupo de metro | 2 arquitecturas: copla manriqueña (4 posiciones) y sextilla de pie quebrado (2) | **arreglado** |
 | F22 | copla manriqueña · de pie quebrado | pregunta el esquema de rima, que estaba marcado **definitorio** | **catálogo** | la marca era la equivocada, no la pregunta | 1 arquitectura | **arreglado** |
+| F23 | endecasílabo suelto | los seleccionables se presentan como cinco preguntas seguidas, cada una con su caja, sus radios y una descripción larga | UI | ninguna jerarquía entre ellas; en esta forma **son la única manera de caracterizar la realización** y merecen otro tratamiento | toda forma cuya caracterización va por rasgos | recogido |
+| F24 | endecasílabo suelto | los textos de ayuda son de fuente, no de uso: «Morley y Bruerton cuentan un pasaje como suelto por debajo de ese umbral» | catálogo · prosa | las descripciones dicen de dónde sale el criterio, no qué mirar en el pasaje | los grupos con `ayuda_editor` y las opciones con `descripcion` | recogido |
+| F25 | endecasílabo suelto | la norma dice «Densidad de rima: Ninguna; obligatorio» y justo debajo la pregunta ofrece **Ninguna y Esporádica** | catálogo | `arquitectura_rasgos` marca el valor «Ninguna» como `definitoria` y «Esporádica» como `admitida`, y la pregunta ofrece las dos | **1 arquitectura**: es la única pregunta de rasgo del catálogo que ofrece un valor definitorio junto a otro | **IP** |
 | F20 | copla castellana | la estructura de dos redondillas debería verse **donde se declara la medida**, más visualmente | UI · rejilla | — | toda forma con partes dentro de la unidad | recogido, va con **F6** |
 | F14 | copla castellana | marcar quebrado pinta lo que ocupa el pie antes de saber cuánto mide | UI | se dibuja la extensión sin esperar a la medida elegida | las 10 de F11 | recogido |
 | F15 | copla castellana | el resumen de «aplicar a todas» —«coincide con las demás unidades»— se entiende fatal | UI | consecuencia de F12: lo que coincidía seguía pintando campo, con esa nota repetida por unidad | los mismos 77 grupos | **arreglado con F12** |
@@ -586,6 +589,21 @@ También se rotula bien lo de abajo: era «la secuencia, verso a verso» y con v
 por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el aviso sobre las unidades
 futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
 en «una a una» bajan **las dos preguntas**, no solo la rima.
+
+**Del endecasílabo suelto, un fallo arreglado y una pregunta para el IP.** `traitModality` **no
+contemplaba `habitual`**, así que caía al cajón de sastre y el dístico final se anunciaba «declarado por
+la arquitectura», que no dice si es obligatorio, corriente o tolerado. Ahora dice **«habitual»**, y el
+cajón de sastre desaparece: sin modalidad no se añade nada, y un renglón que no diría nada no se pinta.
+*Alcanza a 5 arquitecturas.*
+
+**F25 es la pregunta del IP, y toca lo decidido ayer.** La norma dice «Densidad de rima: Ninguna;
+obligatorio» y la pregunta de debajo ofrece **Ninguna** y **Esporádica**: arriba obligatorio, abajo
+elegible. Es **la única pregunta de rasgo del catálogo** en esa situación —`arquitectura_rasgos` marca
+«Ninguna» como `definitoria` y «Esporádica» como `admitida`—, y es **exactamente la forma que el
+disparador prohíbe para las realizaciones**. Los rasgos se dejaron fuera de él porque allí `definitoria`
+suele marcar *el rasgo*; pero aquí marca **un valor**, y entonces la garantía debería alcanzarle.
+*Decisión del IP: o «Esporádica» deja de ofrecerse, o «Ninguna» deja de ser definitoria —y entonces el
+disparador se extiende a los rasgos con `valor_id`—.*
 
 **Lo que la norma fija también se anota.** Una décima espinela no tiene nada que elegir, así que su
 resumen salía en blanco mientras el de una copla castellana traía su serie: dos formas anotadas y dos

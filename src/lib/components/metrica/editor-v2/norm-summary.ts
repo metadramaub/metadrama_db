@@ -244,11 +244,22 @@ function roleBasedMetreSummary(
 	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;
 }
 
+/**
+ * Cómo se dice en la norma lo que `modalidad` mide.
+ *
+ * **`habitual` faltaba**, y caía al cajón de sastre: el dístico final del endecasílabo suelto se
+ * anunciaba «declarado por la arquitectura», que no dice si es obligatorio, corriente o tolerado
+ * —o sea, nada—. Le pasaba a cinco arquitecturas.
+ *
+ * Y el cajón de sastre desaparece: si no hay modalidad, no hay nada que añadir. Rellenar con una
+ * frase que no informa es peor que callar.
+ */
 function traitModality(modality: unknown): string {
 	if (modality === 'definitoria') return 'Obligatorio';
+	if (modality === 'habitual') return 'Habitual';
 	if (modality === 'admitida') return 'Admitido';
 	if (modality === 'excluida') return 'No admitido';
-	return 'Declarado por la arquitectura';
+	return '';
 }
 
 /** Rasgos normativos estructurados: valores, modalidad y límites de posiciones. */
@@ -278,11 +289,14 @@ function architectureTraitFacts(
 		if (assignment.modalidad === 'admitida' && maximum !== null) {
 			parts.push(`admite hasta ${maximum} ${maximum === 1 ? 'posición' : 'posiciones'}`);
 		} else {
-			parts.push(traitModality(assignment.modalidad).toLocaleLowerCase('es'));
+			const modalidad = traitModality(assignment.modalidad);
+			if (modalidad) parts.push(modalidad.toLocaleLowerCase('es'));
 			if (maximum !== null) {
 				parts.push(`máximo de ${maximum} ${maximum === 1 ? 'posición' : 'posiciones'}`);
 			}
 		}
+		// Un renglón sin nada que decir no se pinta.
+		if (parts.length === 0) return [];
 		return [{ label: String(trait.nombre), value: parts.join('; ') }];
 	});
 }
