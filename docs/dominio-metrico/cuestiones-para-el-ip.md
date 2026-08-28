@@ -254,10 +254,6 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    identificar, y porque las fuentes presentan la cabeza inicial como el modelo y la otra como una
    modalidad.* ⇒ **C10**
 
-7. **El estribillo puede no aparecer nunca, y nada lo impide.** La estructura decía que es
-   obligatorio en el primer ciclo y opcional en los siguientes; con un solo ciclo no cabe
-   distinguirlo. *Nada lo validaba antes tampoco; si se quiere exigir, habrá que declararlo.*
-
 ## Zéjel
 
 1. **¿Una repetición parcial del estribillo es posibilidad admitida o desviación?** Hoy la represa
