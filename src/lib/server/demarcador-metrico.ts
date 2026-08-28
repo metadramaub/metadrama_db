@@ -132,6 +132,40 @@ function etiquetaConQuebrados(dominantes: number[], quebrados: number[]): string
 	return `${etiquetaPauta}, con algún verso de ${etiquetaExcepciones}`;
 }
 
+function listaNatural(valores: number[], conjuncion = 'y'): string {
+	const unicos = [...new Set(valores)].sort((a, b) => a - b).map(String);
+	if (unicos.length < 2) return unicos[0] ?? '';
+	return `${unicos.slice(0, -1).join(', ')} ${conjuncion} ${unicos.at(-1)}`;
+}
+
+/**
+ * Lectura humana del metro sin confundir la pauta con las variantes admitidas.
+ *
+ * Los roles proceden del catálogo. Si no existen, la presencia de varias posiciones permite
+ * distinguir una combinación estructurada de un simple conjunto de medidas posibles.
+ */
+function descripcionMetrica(args: {
+	dominantes: number[];
+	variantes: number[];
+	todas: number[];
+	tieneSecuencia: boolean;
+}): string | null {
+	if (args.todas.length === 0) return null;
+	if (args.dominantes.length > 0) {
+		const pauta =
+			args.dominantes.length === 1
+				? `Predominan los versos de ${args.dominantes[0]} sílabas`
+				: `La pauta combina versos de ${listaNatural(args.dominantes)} sílabas`;
+		return args.variantes.length > 0
+			? `${pauta}; admite también alguno de ${listaNatural(args.variantes, 'o')}.`
+			: `${pauta}.`;
+	}
+	if (args.todas.length === 1) return `${args.todas[0]} sílabas`;
+	return args.tieneSecuencia
+		? `Combina versos de ${listaNatural(args.todas)} sílabas.`
+		: `Admite versos de ${listaNatural(args.todas, 'o')} sílabas.`;
+}
+
 function esquemaRima(pattern: Row, positions: Row[]): string | null {
 	const notation = pattern.notacion?.trim();
 	if (notation) return notation;
@@ -471,10 +505,18 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					);
 				}
 			}
-			metricDescription = [...new Set(metres.map((metre) => Number(metre.silabas)))]
-				.sort((a, b) => a - b)
-				.map((measure) => `${measure} sílabas`)
-				.join(' + ');
+			const rootMetricPatterns = ((metricPatternsResponse.data ?? []) as Row[]).filter(
+				(pattern) => pattern.arquitectura_id === architecture.arquitectura_id && !pattern.seccion_id
+			);
+			metricDescription = descripcionMetrica({
+				dominantes: silabasUnicas(dominantMetres),
+				variantes: brokenSyllables,
+				todas: allSyllables,
+				tieneSecuencia: rootMetricPatterns.some((pattern) => {
+					const posiciones = metricPositionsByPattern.get(pattern.esquema_metrico_id) ?? [];
+					return new Set(posiciones.map((position) => Number(position.posicion))).size > 1;
+				})
+			});
 			agregarEvidencia(
 				evidencias,
 				evidenciaBase({

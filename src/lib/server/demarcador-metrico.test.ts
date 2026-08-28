@@ -339,6 +339,9 @@ describe('proyección del catálogo para el demarcador', () => {
 			clave: '6+8',
 			etiqueta: '8 sílabas, con algún verso de 6'
 		});
+		expect(romance?.presentacion.metro.descripcion).toBe(
+			'Predominan los versos de 8 sílabas; admite también alguno de 6.'
+		);
 		expect(
 			catalogo.hipotesis
 				.find((item) => item.formaId === 'soneto')
@@ -354,6 +357,10 @@ describe('proyección del catálogo para el demarcador', () => {
 				.find((item) => item.arquitecturaId === 'gitana')
 				?.evidencias.find((item) => item.dimension === 'metro:uniformidad')?.valores
 		).toEqual([{ clave: 'varias_medidas', etiqueta: 'No, aparecen varias medidas' }]);
+		expect(
+			catalogo.hipotesis.find((item) => item.arquitecturaId === 'gitana')?.presentacion.metro
+				.descripcion
+		).toBe('Combina versos de 6, 10, 11 y 12 sílabas.');
 	});
 
 	it('no convierte un esquema de sección del soneto en patrón de la unidad completa', async () => {

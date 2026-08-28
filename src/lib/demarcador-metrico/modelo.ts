@@ -171,6 +171,6 @@ export type FormaPuntuada = {
 	formaNombre: string;
 	formaDefinicion: string | null;
 	puntuacion: number;
-	nivel: 'muy_compatible' | 'compatible' | 'posible' | 'poco_compatible';
+	nivel: 'candidata' | 'alto' | 'medio' | 'bajo';
 	arquitecturas: HipotesisPuntuada[];
 };
