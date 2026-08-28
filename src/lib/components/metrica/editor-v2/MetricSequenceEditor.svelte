@@ -10,7 +10,7 @@
 		MetricLengthRule
 	} from '$lib/metrica/catalogo';
 	import { metricFormLabel } from '$lib/metrica/catalogo';
-	import { metricLengthError } from '$lib/metrica/metric-length';
+	import { metricLengthCycles, metricLengthError } from '$lib/metrica/metric-length';
 	import { gruposHeredadosPorReutilizacion } from '$lib/metrica/reutilizacion';
 	import {
 		contradiceLaRelacion,
@@ -389,6 +389,23 @@
 				).length
 			: 0
 	);
+	/**
+	 * Cuántas veces cabe el ciclo en el pasaje.
+	 *
+	 * Una serie no estrófica no materializa unidades, pero **sí sabemos cuántas veces se repite lo
+	 * que la dibuja**: la endecha real pide ciclos completos de cuatro versos, así que en veintiocho
+	 * caben siete. El dato ya existía y solo se usaba para el aviso de cuando el rango *no* cuadra;
+	 * decirlo también cuando cuadra es la mitad que faltaba.
+	 */
+	const ciclosDelPasaje = $derived(
+		metricLengthCycles(
+			selectedLengthRule,
+			draft.v_ini,
+			draft.v_fin,
+			hayUnidadConArquitecturaPropia(draft.unidades)
+		)
+	);
+
 	const structureCoverage = $derived(
 		metricStructureCoverage(draft.v_ini, draft.v_fin, draft.unidades)
 	);
@@ -1287,6 +1304,28 @@
 							onTextChange={(value) => setChoiceText(String(group.grupo_eleccion_id), null, value)}
 						/>
 					{/each}
+				</section>
+			{/if}
+
+			<!--
+				**Las series también dicen cuánto cabe.** No tienen recuadro de cobertura porque no
+				materializan unidades, y se quedaban sin decir nada de su extensión salvo cuando el
+				rango no cuadraba y saltaba el error. Aquí se dice en positivo.
+			-->
+			{#if !hasStructuredEditor && ciclosDelPasaje}
+				<section class="border-t border-[color:var(--border)] pt-5">
+					<div
+						class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2.5 text-sm"
+					>
+						<p class="font-medium">Ciclos del pasaje</p>
+						<p class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
+							{ciclosDelPasaje.ciclos}
+							{ciclosDelPasaje.ciclos === 1 ? 'ciclo' : 'ciclos'} de {ciclosDelPasaje.modulo}
+							{ciclosDelPasaje.modulo === 1 ? 'verso' : 'versos'}{ciclosDelPasaje.sobrantes > 0
+								? ` · y ${ciclosDelPasaje.sobrantes} ${ciclosDelPasaje.sobrantes === 1 ? 'verso más' : 'versos más'}`
+								: ''}
+						</p>
+					</div>
 				</section>
 			{/if}
 

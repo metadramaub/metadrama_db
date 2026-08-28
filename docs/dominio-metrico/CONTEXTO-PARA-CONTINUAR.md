@@ -472,6 +472,8 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F13 | copla castellana | al elegir la rima no se ve desplegada verso a verso, en vertical, y queda lejos de donde se resume cada parte | UI | — | toda forma con grupo de rima | recogido, **2.ª vez** |
 | F21 | copla manriqueña · de pie quebrado | hay que poder decir si los quebrados son de 4 o de 5, y no se pregunta | **catálogo** | el esquema **ya declaraba la alternativa** —posiciones 3, 6, 9 y 12— pero la arquitectura no tenía grupo de metro | 2 arquitecturas: copla manriqueña (4 posiciones) y sextilla de pie quebrado (2) | **arreglado** |
 | F22 | copla manriqueña · de pie quebrado | pregunta el esquema de rima, que estaba marcado **definitorio** | **catálogo** | la marca era la equivocada, no la pregunta | 1 arquitectura | **arreglado** |
+| F26 | endecha real · heptasilábica de cinco versos | pregunta las **vocales de la asonancia** en una arquitectura cuya rima es **solo consonante**, y además es obligatoria | **catálogo** | el grupo `vocales_asonancia` está puesto donde no hay asonancia que describir | 1 arquitectura (de 10 que lo preguntan; las otras 9 son correctas) | **migración, sin aprobar** |
+| F27 | endecha real · heptasilábica con endecasílabo final | pregunta la asonancia **elijas la rima que elijas**, incluidas «cruzada consonante» y «versos sueltos» | **modelo** | **no hay preguntas condicionales**: `grupos_eleccion_metrica` no tiene ninguna columna que haga depender una pregunta de otra respuesta | 1 arquitectura hoy, pero **12 admiten más de un régimen de rima** y les llegará | **IP** |
 | F23 | endecasílabo suelto | los seleccionables se presentan como cinco preguntas seguidas, cada una con su caja, sus radios y una descripción larga | UI | ninguna jerarquía entre ellas; en esta forma **son la única manera de caracterizar la realización** y merecen otro tratamiento | toda forma cuya caracterización va por rasgos | recogido |
 | F24 | endecasílabo suelto | los textos de ayuda son de fuente, no de uso: «Morley y Bruerton cuentan un pasaje como suelto por debajo de ese umbral» | catálogo · prosa | las descripciones dicen de dónde sale el criterio, no qué mirar en el pasaje | los grupos con `ayuda_editor` y las opciones con `descripcion` | recogido |
 | F25 | endecasílabo suelto | la norma decía «Densidad de rima: Ninguna; obligatorio» y la pregunta ofrecía **Ninguna y Esporádica** | catálogo | el valor «Ninguna» estaba marcado `definitoria`, y lo obligatorio es **el rasgo**, no el valor | 1 arquitectura, y la garantía se extiende a todos los rasgos | **arreglado** |
@@ -589,6 +591,25 @@ También se rotula bien lo de abajo: era «la secuencia, verso a verso» y con v
 por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el aviso sobre las unidades
 futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
 en «una a una» bajan **las dos preguntas**, no solo la rima.
+
+**De la endecha real: las series ya dicen cuánto cabe.** Una serie no estrófica no materializa
+unidades, así que **no tenía recuadro de cobertura** y no decía nada de su extensión —salvo cuando el
+rango no cuadraba y saltaba el error—. Pero el dato ya estaba: la regla de longitud declara el módulo,
+y era lo que sostenía ese aviso. Ahora se dice en positivo, **«Ciclos del pasaje · 7 ciclos de 4
+versos»**, y lo que aporten las partes opcionales se cuenta aparte —el terceto encadenado con
+serventesio final son «3 ciclos de 3 versos · y 4 versos más»—.
+
+**Y dos huecos que no se tocan.** El primero es de dato: la endecha **heptasilábica de cinco versos**
+tiene rima **solo consonante** y pregunta obligatoriamente las vocales de la asonancia. De las diez
+arquitecturas que preguntan `vocales_asonancia`, **nueve son correctas** —los seis romances, la silva
+arromanzada, la endecha hexasilábica— y esta no.
+
+El segundo es de modelo y da más de sí: la endecha **heptasilábica con endecasílabo final** admite
+**tres regímenes** —asonante, consonante y sin rima— y pregunta la asonancia **elijas lo que elijas**,
+también con «cruzada consonante» o «versos sueltos». Para no preguntarla haría falta que una pregunta
+pudiera **depender de otra respuesta**, y eso **el modelo no lo tiene**: `grupos_eleccion_metrica` no
+declara ninguna dependencia. Hoy solo muerde aquí, pero **12 arquitecturas activas admiten más de un
+régimen de rima** y el problema es suyo en cuanto se les pregunte algo que dependa del régimen.
 
 **Del endecasílabo suelto, un fallo arreglado y una pregunta para el IP.** `traitModality` **no
 contemplaba `habitual`**, así que caía al cajón de sastre y el dístico final se anunciaba «declarado por
