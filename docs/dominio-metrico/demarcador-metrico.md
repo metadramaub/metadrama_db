@@ -53,20 +53,20 @@ Cada evidencia conserva dos escalas del catálogo:
 
 ### Observabilidad
 
-| Valor | Uso |
-| --- | --- |
-| `directa` | Puede preguntarse en el recorrido ordinario. |
+| Valor           | Uso                                                              |
+| --------------- | ---------------------------------------------------------------- |
+| `directa`       | Puede preguntarse en el recorrido ordinario.                     |
 | `especializada` | Solo se pregunta cuando la ganancia esperada justifica el coste. |
-| `derivada` | No se pregunta; se obtiene de otras evidencias. |
+| `derivada`      | No se pregunta; se obtiene de otras evidencias.                  |
 
 ### Modalidad
 
-| Valor | Coincidencia | Contradicción |
-| --- | ---: | ---: |
-| `definitoria` | 1,00 | 1,25 |
-| `habitual` | 0,62 | 0,45 |
-| `admitida` | 0,28 | 0,10 |
-| `excepcional` | 0,12 | 0,00 |
+| Valor         | Coincidencia | Contradicción |
+| ------------- | -----------: | ------------: |
+| `definitoria` |         1,00 |          1,25 |
+| `habitual`    |         0,62 |          0,45 |
+| `admitida`    |         0,28 |          0,10 |
+| `excepcional` |         0,12 |          0,00 |
 
 La asimetría es deliberada. Contradecir una condición definitoria pesa más que confirmarla;
 no observar algo meramente admitido o excepcional apenas debe perjudicar una hipótesis.
@@ -159,9 +159,12 @@ U(q) = separación(q)
 - al comprobar una hipótesis, una pregunta definitoria suya se multiplica por `1,35`.
 
 En el recorrido guiado la entrada es una clasificación sencilla: arte menor, arte mayor o
-mezcla de ambos. Si la respuesta permite distinguir medidas concretas entre las candidatas, la
-pregunta siguiente se limita a las que pertenecen al grupo elegido; en el caso mixto, ofrece las
-combinaciones documentadas en esas arquitecturas. «No sé» evita esa precisión inmediata.
+mezcla de ambos. Cuando todavía hay candidatas con una sola medida y con varias, se pregunta si
+en general los versos siguen una misma medida. La formulación se refiere a la pauta del pasaje:
+un verso aislado que parezca hipométrico o hipermétrico no obliga a responder que se combinan
+varias medidas. Después se ofrecen únicamente medidas o combinaciones compatibles con las
+respuestas anteriores, sin pedir al usuario que decida si corresponden a una heterometría, un
+quebrado o una modalidad admitida. «No sé» evita esa precisión inmediata.
 
 ## Criterio de parada
 

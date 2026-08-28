@@ -102,6 +102,36 @@ function grupoMetro(silabas: number[]): ValorEvidencia {
 	return valor('arte_mayor', 'Arte mayor');
 }
 
+function silabasUnicas(metros: Row[]): number[] {
+	return [...new Set(metros.map((metro) => Number(metro.silabas)))].sort((a, b) => a - b);
+}
+
+function valorMedidas(silabas: number[], etiqueta?: string): ValorEvidencia {
+	const unicas = [...new Set(silabas)].sort((a, b) => a - b);
+	const visibles = [...unicas].sort((a, b) => b - a);
+	const etiquetaDerivada =
+		visibles.length > 4
+			? 'Otra combinación o medida variable'
+			: visibles.length === 1
+				? `${visibles[0]} sílabas`
+				: `${visibles.slice(0, -1).join(', ')} y ${visibles.at(-1)} sílabas`;
+	return valor(unicas.join('+'), etiqueta ?? etiquetaDerivada);
+}
+
+function etiquetaConQuebrados(dominantes: number[], quebrados: number[]): string {
+	const pauta = [...new Set(dominantes)].sort((a, b) => b - a);
+	const excepciones = [...new Set(quebrados)].sort((a, b) => a - b);
+	const etiquetaPauta =
+		pauta.length === 1
+			? `${pauta[0]} sílabas`
+			: `${pauta.slice(0, -1).join(', ')} y ${pauta.at(-1)} sílabas`;
+	const etiquetaExcepciones =
+		excepciones.length === 1
+			? `${excepciones[0]}`
+			: `${excepciones.slice(0, -1).join(', ')} o ${excepciones.at(-1)}`;
+	return `${etiquetaPauta}, con algún verso de ${etiquetaExcepciones}`;
+}
+
 function esquemaRima(pattern: Row, positions: Row[]): string | null {
 	const notation = pattern.notacion?.trim();
 	if (notation) return notation;
@@ -245,6 +275,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 	);
 	const metresByArchitecture = new Map<string, Row[]>();
 	const dominantMetresByArchitecture = new Map<string, Row[]>();
+	const brokenMetresByArchitecture = new Map<string, Row[]>();
 	const metricPositionsByPattern = new Map<string, Row[]>();
 	for (const row of (metricPositionsResponse.data ?? []) as Row[]) {
 		metricPositionsByPattern.set(row.esquema_metrico_id, [
@@ -271,13 +302,15 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		metresByArchitecture.set(architectureId, current);
 	}
 	for (const row of (metricOptionsResponse.data ?? []) as Row[]) {
-		if (row.rol !== 'dominante') continue;
+		if (row.rol !== 'dominante' && row.rol !== 'quebrado') continue;
 		const architectureId = patternArchitecture.get(row.esquema_metrico_id);
 		const metre = metreById.get(row.metro_id);
 		if (!architectureId || !metre) continue;
-		const current = dominantMetresByArchitecture.get(architectureId) ?? [];
+		const target =
+			row.rol === 'dominante' ? dominantMetresByArchitecture : brokenMetresByArchitecture;
+		const current = target.get(architectureId) ?? [];
 		if (!current.some((item) => item.metro_id === metre.metro_id)) current.push(metre);
-		dominantMetresByArchitecture.set(architectureId, current);
+		target.set(architectureId, current);
 	}
 
 	const rhymePositionsByPattern = new Map<string, Row[]>();
@@ -377,12 +410,12 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		);
 		let metricDescription: string | null = null;
 		if (metres.length > 0) {
-			const evidenceMetres = (
-				dominantMetresByArchitecture.get(architecture.arquitectura_id) ?? metres
-			).sort((a, b) => a.silabas - b.silabas);
-			const syllables = [
-				...new Set(evidenceMetres.map((metre) => Number(metre.silabas)))
-			].sort((a, b) => a - b);
+			const dominantMetres = dominantMetresByArchitecture.get(architecture.arquitectura_id) ?? [];
+			const brokenMetres = brokenMetresByArchitecture.get(architecture.arquitectura_id) ?? [];
+			const evidenceMetres = dominantMetres.length > 0 ? dominantMetres : metres;
+			const syllables = silabasUnicas(evidenceMetres);
+			const allSyllables = silabasUnicas(metres);
+			const brokenSyllables = silabasUnicas(brokenMetres);
 			agregarEvidencia(
 				evidencias,
 				evidenciaBase({
@@ -399,10 +432,45 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					fuente: 'esquema'
 				})
 			);
-			const exactLabel =
-				syllables.length > 4
-					? 'Otra combinación o medida variable'
-					: syllables.map((measure) => `${measure} sílabas`).join(' + ');
+			const uniformityValues: ValorEvidencia[] = [];
+			if (syllables.length === 1) {
+				uniformityValues.push(valor('misma_medida', 'Sí, predomina una medida'));
+			}
+			if (allSyllables.length > 1) {
+				uniformityValues.push(valor('varias_medidas', 'No, aparecen varias medidas'));
+			}
+			agregarEvidencia(
+				evidencias,
+				evidenciaBase({
+					dimension: 'metro:uniformidad',
+					familiaCognitiva: 'metro',
+					etiqueta: 'Regularidad de la medida',
+					pregunta: 'En general, ¿los versos siguen una misma medida?',
+					ayuda:
+						'Piensa en la pauta general del pasaje: un verso aislado que parezca tener una sílaba de más o de menos no convierte el conjunto en una combinación de medidas.',
+					valores: uniformityValues,
+					observabilidad: 'directa',
+					coste: 0.16,
+					orden: 2,
+					fuente: 'esquema'
+				})
+			);
+			const exactValues = [valorMedidas(syllables)];
+			if (dominantMetres.length > 0 && brokenSyllables.length > 0) {
+				for (const broken of brokenSyllables) {
+					exactValues.push(
+						valorMedidas([...syllables, broken], etiquetaConQuebrados(syllables, [broken]))
+					);
+				}
+				if (brokenSyllables.length > 1) {
+					exactValues.push(
+						valorMedidas(
+							[...syllables, ...brokenSyllables],
+							etiquetaConQuebrados(syllables, brokenSyllables)
+						)
+					);
+				}
+			}
 			metricDescription = [...new Set(metres.map((metre) => Number(metre.silabas)))]
 				.sort((a, b) => a - b)
 				.map((measure) => `${measure} sílabas`)
@@ -413,9 +481,10 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					dimension: 'metro:exacto',
 					familiaCognitiva: 'metro',
 					etiqueta: 'Medida exacta',
-					pregunta: '¿Cuál es la medida métrica de los versos?',
-					ayuda: 'Elige esta precisión solo si has realizado o comprobado el cómputo métrico.',
-					valores: [valor(syllables.join('+'), exactLabel)],
+					pregunta: '¿Qué medida siguen normalmente los versos?',
+					ayuda:
+						'Responde según la pauta general que has contado, sin cambiarla por un verso aislado que parezca irregular.',
+					valores: exactValues,
 					observabilidad: 'especializada',
 					coste: 0.55,
 					orden: 40,
