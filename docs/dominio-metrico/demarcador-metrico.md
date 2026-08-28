@@ -135,8 +135,11 @@ S(forma) = max S(arquitectura de la forma)
 Este máximo expresa que basta con que una realización estructural admitida sea compatible.
 También evita favorecer a las formas que tienen más arquitecturas.
 
-Las etiquetas «Muy compatible», «Compatible», «Posible» y «Poco compatible» expresan
-distancias relativas entre resultados. No son porcentajes ni probabilidades estadísticas.
+Con menos de tres respuestas concluyentes, las formas se presentan como **candidatas**: las
+coincidencias generales todavía son demasiado pobres para graduarlas. Después se emplean
+«Encaje alto», «Encaje medio» y «Encaje bajo». El grado alto exige además una ventaja de `0,75`
+respecto de la forma siguiente; un empate nunca puede producirlo. Son grados relativos de
+compatibilidad, no porcentajes ni probabilidades estadísticas.
 
 ## Selección de la siguiente pregunta
 
@@ -156,21 +159,28 @@ U(q) = separación(q)
 - `respondibilidad` procede de la observabilidad;
 - `coste` representa dificultad cognitiva o técnica;
 - después de «No sé», las preguntas de la misma familia cognitiva se multiplican por `0,22`;
+- repetir inmediatamente la misma familia cognitiva se multiplica por `0,45`, salvo la pregunta
+  general de uniformidad que sigue a la división inicial del metro;
 - al comprobar una hipótesis, una pregunta definitoria suya se multiplica por `1,35`.
+
+Tras la primera respuesta, la utilidad se calcula sobre las arquitecturas de las doce formas
+mejor situadas en ese momento, de modo que las formas muy alejadas no condicionen las preguntas
+siguientes.
 
 En el recorrido guiado la entrada es una clasificación sencilla: arte menor, arte mayor o
 mezcla de ambos. Cuando todavía hay candidatas con una sola medida y con varias, se pregunta si
 en general los versos siguen una misma medida. La formulación se refiere a la pauta del pasaje:
 un verso aislado que parezca hipométrico o hipermétrico no obliga a responder que se combinan
-varias medidas. Después se ofrecen únicamente medidas o combinaciones compatibles con las
-respuestas anteriores, sin pedir al usuario que decida si corresponden a una heterometría, un
-quebrado o una modalidad admitida. «No sé» evita esa precisión inmediata.
+varias medidas. A partir de ahí, la medida exacta vuelve a competir con la extensión, la rima,
+la repetición y la estructura: solo aparece si separa bien las candidatas pese a su mayor coste.
+Cuando se pregunta, se ofrecen únicamente medidas compatibles con las respuestas anteriores,
+sin pedir al usuario que interprete qué función cumple cada una. «No sé» evita esa precisión.
 
 ## Criterio de parada
 
 El recorrido se detiene provisionalmente cuando:
 
-- hay al menos dos respuestas concluyentes;
+- hay al menos tres respuestas concluyentes;
 - la primera hipótesis acumula al menos dos coincidencias;
 - su forma aventaja a la siguiente en `0,75` puntos;
 
@@ -189,6 +199,11 @@ Cada resultado debe mostrar:
 6. si la extensión no es regular, las longitudes regulares vecinas y los versos que faltan o
    sobran.
 
+Durante el recorrido, las candidatas se presentan resumidas y la explicación completa se abre
+solo a petición del usuario. La cabecera compara las dos primeras con las respuestas disponibles;
+si siguen empatadas, debe decirlo en vez de inventar una diferencia. El historial conserva las
+respuestas a la vista y permite retomar el recorrido desde cualquiera de ellas.
+
 La explicación de la arquitectura reúne solo información ya normalizada en el catálogo:
 
 - interpretación de la longitud del pasaje y número de unidades, si procede;
@@ -197,6 +212,10 @@ La explicación de la arquitectura reúne solo información ya normalizada en el
 - organización de secciones y repeticiones;
 - rasgos de la arquitectura con su modalidad;
 - otras arquitecturas disponibles dentro de la misma forma.
+
+La presentación del metro deriva los roles declarados por el catálogo: una medida dominante y
+otras medidas admitidas no se escriben como una suma. Cuando hay roles, se formula la pauta y las
+variantes por separado; solo una secuencia de posiciones distintas se presenta como combinación.
 
 La definición de la forma expresa lo común. El origen italiano del terceto encadenado
 endecasilábico y su adaptación octosilábica al metro español pertenecen a las descripciones de

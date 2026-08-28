@@ -246,6 +246,139 @@ describe('motor ontológico del demarcador', () => {
 		expect(siguiente?.familiaCognitiva).not.toBe('metro');
 	});
 
+	it('sale de la familia métrica cuando otra pregunta observable separa mejor', () => {
+		const catalogoDiverso: CatalogoDemarcador = {
+			formas: [],
+			advertencias: [],
+			hipotesis: [
+				hipotesis('cuatro', 'Forma de cuatro', 'Octosilábica', [
+					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'misma_medida', 'Una medida', { orden: 2 }),
+					evidencia('metro:exacto', 'metro', '8', '8 sílabas', {
+						observabilidad: 'especializada',
+						coste: 0.55
+					}),
+					evidencia('extension:versos', 'extension', '', 'Extensión', {
+						tipo: 'numero',
+						valores: [],
+						minimo: 4,
+						maximo: 4,
+						coste: 0.2
+					})
+				]),
+				hipotesis('ocho', 'Forma de ocho', 'Heptasilábica', [
+					evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor', { orden: 1 }),
+					evidencia('metro:uniformidad', 'metro', 'misma_medida', 'Una medida', { orden: 2 }),
+					evidencia('metro:exacto', 'metro', '7', '7 sílabas', {
+						observabilidad: 'especializada',
+						coste: 0.55
+					}),
+					evidencia('extension:versos', 'extension', '', 'Extensión', {
+						tipo: 'numero',
+						valores: [],
+						minimo: 8,
+						maximo: 8,
+						coste: 0.2
+					})
+				])
+			]
+		};
+		const grupo = {
+			id: 'grupo',
+			dimension: 'metro:grupo',
+			familiaCognitiva: 'metro',
+			pregunta: 'Grupo métrico',
+			ayuda: '',
+			tipo: 'categoria',
+			opciones: [],
+			observabilidad: 'directa',
+			coste: 0,
+			utilidad: 1
+		} satisfies PreguntaDemarcador;
+		const uniformidad = {
+			...grupo,
+			id: 'uniformidad',
+			dimension: 'metro:uniformidad',
+			pregunta: 'Uniformidad'
+		} satisfies PreguntaDemarcador;
+		const respuestaGrupo = crearRespuesta(grupo, 'arte_menor', 'Arte menor');
+		const respuestaUniformidad = crearRespuesta(
+			uniformidad,
+			'misma_medida',
+			'Sí, predomina una medida'
+		);
+
+		expect(
+			elegirPregunta(catalogoDiverso, [respuestaGrupo, respuestaUniformidad], 'guiado')?.dimension
+		).toBe('extension:versos');
+	});
+
+	it('no presenta un empate temprano como encaje alto', () => {
+		const evidencias = [
+			evidencia('metro:grupo', 'metro', 'arte_menor', 'Arte menor'),
+			evidencia('extension:versos', 'extension', '', 'Extensión', {
+				tipo: 'numero',
+				valores: [],
+				minimo: 8,
+				maximo: 8
+			}),
+			evidencia('rima:tipo', 'rima', 'consonante', 'Consonante')
+		];
+		const catalogoEmpatado: CatalogoDemarcador = {
+			formas: [],
+			advertencias: [],
+			hipotesis: [
+				hipotesis('a', 'Primera', 'Octosilábica', evidencias),
+				hipotesis('b', 'Segunda', 'Octosilábica', evidencias)
+			]
+		};
+		const preguntas: PreguntaDemarcador[] = [
+			{
+				id: 'metro',
+				dimension: 'metro:grupo',
+				familiaCognitiva: 'metro',
+				pregunta: 'Metro',
+				ayuda: '',
+				tipo: 'categoria',
+				opciones: [],
+				observabilidad: 'directa',
+				coste: 0,
+				utilidad: 1
+			},
+			{
+				id: 'extension',
+				dimension: 'extension:versos',
+				familiaCognitiva: 'extension',
+				pregunta: 'Extensión',
+				ayuda: '',
+				tipo: 'numero',
+				opciones: [],
+				observabilidad: 'directa',
+				coste: 0,
+				utilidad: 1
+			},
+			{
+				id: 'rima',
+				dimension: 'rima:tipo',
+				familiaCognitiva: 'rima',
+				pregunta: 'Rima',
+				ayuda: '',
+				tipo: 'categoria',
+				opciones: [],
+				observabilidad: 'directa',
+				coste: 0,
+				utilidad: 1
+			}
+		];
+		const resultados = ordenarFormas(catalogoEmpatado, [
+			crearRespuesta(preguntas[0], 'arte_menor', 'Arte menor'),
+			crearRespuesta(preguntas[1], 8, '8 versos'),
+			crearRespuesta(preguntas[2], 'consonante', 'Consonante')
+		]);
+
+		expect(resultados.map((resultado) => resultado.nivel)).toEqual(['medio', 'medio']);
+	});
+
 	it('sitúa Romance primero mediante evidencias concordantes sin eliminar alternativas', () => {
 		const metro = elegirPregunta(catalogo, [], 'guiado') as PreguntaDemarcador;
 		const respuestaMetro = crearRespuesta(metro, 'arte_menor', 'Arte menor');

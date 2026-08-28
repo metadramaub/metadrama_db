@@ -266,16 +266,21 @@ export function ordenarFormas(
 		);
 
 	const maxima = formas[0]?.puntuacion ?? 0;
+	const respuestasConcluyentes = respuestas.filter(
+		(respuesta) => respuesta.valor !== 'desconocido'
+	).length;
+	const ventajaPrincipal =
+		formas.length > 1 ? formas[0].puntuacion - formas[1].puntuacion : Number.POSITIVE_INFINITY;
 	return formas.map((forma, index) => {
 		const distancia = maxima - forma.puntuacion;
 		const nivel: FormaPuntuada['nivel'] =
-			index === 0 && forma.arquitecturas[0].coincidencias >= 2 && distancia === 0
-				? 'muy_compatible'
-				: distancia <= 0.45
-					? 'compatible'
-					: distancia <= 1.25
-						? 'posible'
-						: 'poco_compatible';
+			respuestasConcluyentes < 3
+				? 'candidata'
+				: index === 0 && forma.arquitecturas[0].coincidencias >= 2 && ventajaPrincipal >= 0.75
+					? 'alto'
+					: distancia <= 0.75
+						? 'medio'
+						: 'bajo';
 		return { ...forma, nivel };
 	});
 }
@@ -423,6 +428,8 @@ function preguntasPosibles(
 		const proporcionCobertura = cobertura / Math.max(1, arquitecturasPorForma.size);
 		const respondibilidad = FIABILIDAD[modelo.observabilidad];
 		const penalizacionDesconocida = familiasDesconocidas.has(modelo.familiaCognitiva) ? 0.22 : 1;
+		const penalizacionRepeticion =
+			respuestas.at(-1)?.familiaCognitiva === modelo.familiaCognitiva ? 0.45 : 1;
 		const impulsoObjetivo =
 			modo === 'hipotesis' &&
 			formaObjetivoId &&
@@ -439,6 +446,7 @@ function preguntasPosibles(
 			respondibilidad *
 			(1 - modelo.coste) *
 			penalizacionDesconocida *
+			penalizacionRepeticion *
 			impulsoObjetivo;
 		resultado.push({
 			id: `pregunta:${dimension}`,
@@ -482,7 +490,7 @@ export function elegirPregunta(
 		respuestas.length === 0
 			? catalogo.hipotesis
 			: formasOrdenadas
-					.filter((forma, index) => index < 12 || forma.nivel !== 'poco_compatible')
+					.slice(0, 12)
 					.flatMap((forma) => forma.arquitecturas.map((item) => item.hipotesis));
 	const preguntas = preguntasPosibles(candidatas, respuestas, modo, formaObjetivoId);
 	if (respuestas.length === 0 && modo === 'guiado') {
@@ -500,9 +508,6 @@ export function elegirPregunta(
 		if (!uniformidadRespondida) {
 			const uniformidad = preguntas.find((pregunta) => pregunta.dimension === 'metro:uniformidad');
 			if (uniformidad) return uniformidad;
-			const medidaExacta = preguntas.find((pregunta) => pregunta.dimension === 'metro:exacto');
-			if (medidaExacta) return medidaExacta;
-		} else if (uniformidadRespondida.valor !== 'desconocido') {
 			const medidaExacta = preguntas.find((pregunta) => pregunta.dimension === 'metro:exacto');
 			if (medidaExacta) return medidaExacta;
 		}
@@ -526,8 +531,8 @@ export function crearRespuesta(
 }
 
 export function etiquetaNivel(nivel: FormaPuntuada['nivel']): string {
-	if (nivel === 'muy_compatible') return 'Muy compatible';
-	if (nivel === 'compatible') return 'Compatible';
-	if (nivel === 'posible') return 'Posible';
-	return 'Poco compatible';
+	if (nivel === 'candidata') return 'Candidata';
+	if (nivel === 'alto') return 'Encaje alto';
+	if (nivel === 'medio') return 'Encaje medio';
+	return 'Encaje bajo';
 }
