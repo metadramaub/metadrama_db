@@ -3,7 +3,8 @@ import type { MetricLengthRule } from '$lib/metrica/catalogo';
 import {
 	inclusiveMetricLength,
 	isMetricLengthCompatible,
-	metricLengthError
+	metricLengthError,
+	metricLengthCycles
 } from './metric-length';
 
 function rule(
@@ -101,5 +102,31 @@ describe('la unidad que declara su propia arquitectura', () => {
 		expect(isMetricLengthCompatible(decima, 1, 60)).toBe(true);
 		expect(isMetricLengthCompatible(decima, 1, 62)).toBe(false);
 		expect(metricLengthError(decima, 1, 62, 'Espinela', 'Décima')).toContain('62 versos');
+	});
+});
+
+describe('metricLengthCycles', () => {
+	/** La endecha real: ciclos completos de cuatro versos. */
+	const endecha = rule(4, 0, 4);
+
+	it('cuenta cuántas veces cabe el ciclo', () => {
+		expect(metricLengthCycles(endecha, 1, 28)).toEqual({ ciclos: 7, modulo: 4, sobrantes: 0 });
+	});
+
+	it('calla cuando el rango no cumple la regla, que ya lo dice el error', () => {
+		expect(metricLengthCycles(endecha, 1, 30)).toBeNull();
+	});
+
+	/**
+	 * El terceto encadenado declara `[0, 4]` porque su serventesio final puede estar o no: catorce
+	 * versos son tres tercetos y el serventesio, y esos cuatro se cuentan aparte.
+	 */
+	it('separa lo que aportan las partes opcionales', () => {
+		const terceto = rule(3, 0, 3, [0, 4]);
+		expect(metricLengthCycles(terceto, 1, 13)).toEqual({ ciclos: 3, modulo: 3, sobrantes: 4 });
+	});
+
+	it('no cuenta ciclos cuando alguna unidad trae su propia arquitectura', () => {
+		expect(metricLengthCycles(endecha, 1, 28, true)).toBeNull();
 	});
 });

@@ -43,6 +43,40 @@ export function isMetricLengthCompatible(
 	});
 }
 
+/**
+ * Cuántas unidades caben en el pasaje, cuando la regla las cuenta por congruencia.
+ *
+ * Una serie no estrófica no tiene «unidades» que materializar, pero **sí sabemos cuántas veces se
+ * repite su ciclo**: la endecha real pide ciclos completos de cuatro versos, así que en veintiocho
+ * caben siete. El editor ya usaba ese dato para avisar cuando el rango no cuadra; enseñarlo también
+ * cuando cuadra es la mitad que faltaba.
+ *
+ * Devuelve `null` si no hay regla, si el rango no la cumple —el aviso de error ya lo dice— o si el
+ * ciclo no es un número de veces que contar.
+ */
+export function metricLengthCycles(
+	rule: MetricLengthRule | null | undefined,
+	start: number,
+	end: number,
+	conArquitecturasPropias = false
+): { ciclos: number; modulo: number; sobrantes: number } | null {
+	if (!rule || conArquitecturasPropias) return null;
+	if (!isMetricLengthCompatible(rule, start, end, conArquitecturasPropias)) return null;
+	const modulo = rule.modulo_versos;
+	if (!Number.isFinite(modulo) || modulo < 2) return null;
+	const length = inclusiveMetricLength(start, end);
+	for (const offset of metricLengthOffsets(rule)) {
+		const resto = length - offset;
+		if (resto < rule.minimo_versos) continue;
+		const remainder = ((resto - rule.residuo_versos) % modulo + modulo) % modulo;
+		if (remainder !== 0) continue;
+		const ciclos = (resto - rule.residuo_versos) / modulo;
+		if (ciclos < 1) continue;
+		return { ciclos, modulo, sobrantes: offset + rule.residuo_versos };
+	}
+	return null;
+}
+
 export function metricLengthError(
 	rule: MetricLengthRule | null | undefined,
 	start: number,
