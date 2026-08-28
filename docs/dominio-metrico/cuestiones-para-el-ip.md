@@ -62,11 +62,10 @@ forma a forma produce criterios distintos para el mismo caso.
 
 | Cruce | Dónde | Estado |
 | --- | --- | --- |
-| **Cuantificar los grados de rima y de pareados.** *La condición que puso el IP el 9 de agosto —separar antes las dos magnitudes— **está cumplida**: hoy `densidad_de_rima` mide cuántos versos riman —ninguna · esporádica · mayoritaria · total— y `organizacion_en_pareados`, qué figura dibujan los que riman —ninguna · ocasionales · habituales · predominantes · regulares—. La silva libre lo demuestra: declara **pareados ninguna** y **densidad mayoritaria o total**, que es justo lo que antes no se podía decir.* Lo que sigue abierto es **ponerles cifras**: las fuentes solo dan dos cortes, el 50 % y el 99 %, así que `habituales` y `predominantes` caerían en el mismo intervalo. Y nada cuenta hoy los versos rimados de un pasaje | [Silva](#silva) 3 · [Endecasílabo suelto](#endecasílabo-suelto) 1 | **abierto, y ya se puede decidir** |
 | **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres | [Sexteto-lira](#sexteto-lira) 1 | **abierto**: decidir si el nivel se conserva |
 | **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | **abierto, y menos urgente desde el 25 de agosto de 2026**: con la salida abierta, un repertorio incompleto ya no pierde el dato —el editor declara lo que ve y el catálogo lo reconoce si ya lo tenía—. *El de las medidas se cerró el 22 de agosto: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
 | **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **C1** |
-| Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 3 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
+| Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 1 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
 | **Cuántos versos admite quebrados la redondilla, la copla castellana y la copla de arte menor.** Las tres documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «alternando versos plenos y quebrados»—, así que ninguna da máximo. Las otras siete sí lo declaran desde el 25 de agosto de 2026: una posición nombrada es un quiebro contado | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
@@ -126,7 +125,7 @@ agosto de 2026— situadas en dos ejes. `densidad_de_rima` dice
 cuántos versos riman —*ninguna · esporádica · mayoritaria · total*— y `organizacion_en_pareados` qué
 figura dibujan los que riman —*ninguna · ocasionales · habituales · predominantes · regulares*—.
 
-0. **¿Dos de las cuatro silvas se diferencian solo por un valor de rasgo?**
+1. **¿Dos de las cuatro silvas se diferencian solo por un valor de rasgo?**
 
    | | esquema de rima | densidad | pareados |
    | --- | --- | --- | --- |
@@ -143,23 +142,7 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    pregunta después. **Es la clase de caso que este modelo está hecho para resolver con datos**:
    cuando haya silvas anotadas, se mira si alguna cae en `predominantes` sin ser también otra cosa.
 
-3. **Los porcentajes no están en el dato.** Los cinco grados son cualitativos y las cifras viven solo
-   en las afirmaciones. De los tres problemas que aparecieron al intentar añadirles el intervalo,
-   **el primero está resuelto**:
-
-   **a)** ~~El rasgo mezcla «% de versos rimados» y «% de versos en pareado».~~ **Ya son dos rasgos
-   distintos**, y el caso que lo destapaba está bien modelado: `Silva · Libre` declara
-   `organizacion_en_pareados = ninguna` y a la vez `densidad_de_rima = mayoritaria o total`. No
-   tiene pareados **y** rima, y las dos cosas se dicen por separado.
-   **b)** `habituales` y `predominantes` caerían en el mismo intervalo: las fuentes solo dan dos
-   cortes, el 50 % y el 99 %. *Cuantificarlo exigiría inventar uno.*
-   **c)** Nada cuenta los versos rimados: la anotación no registra hoy qué versos riman.
-
-   *Decisión del IP el 9 de agosto: **no se cuantifica ahora**. El problema no es ponerle cifras a
-   una escala, sino que un rasgo sirve a dos magnitudes; separarlas afecta a la vez a la silva, al
-   endecasílabo suelto y al pareado.*
-
-4. **¿Se recoge la silva 4.ª de Morley y Bruerton** —7 y 11 mezclados, **todas las rimas en los
+2. **¿Se recoge la silva 4.ª de Morley y Bruerton** —7 y 11 mezclados, **todas las rimas en los
    pares**—? **Es consonante**, como las otras tres, y cabría como quinta arquitectura sin tocar la
    cabecera. **No es ninguna de las cuatro que ya hay**: no es la `Consonante regular`, que son
    pareados; y no cabe en las abiertas porque `consonante-orden-libre` **no tiene posiciones**, de
@@ -170,14 +153,14 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    dos veces que **tampoco estaba en el vocabulario legado**: no se perdió al migrar, no se declaró
    nunca.
 
-5. **¿La silva exige rima?** El *Diccionario* admite como silva la combinación de 7 y 11 sin rima.
+3. **¿La silva exige rima?** El *Diccionario* admite como silva la combinación de 7 y 11 sin rima.
    El catálogo no, y la definición lo dice: «un pasaje de siete y once enteramente suelto no es una
    silva». La razón es de corpus y la respalda Navarro Tomás § 158: desde 1588 Lope intercalaba
    pareados en pasajes de 7 y 11 sueltos, así que en la comedia lo que separa la silva del pasaje
    suelto es que rime. *Por decisión del IP la lectura del* Diccionario *se conserva en las
    afirmaciones y no se codifica; conviene confirmar que el corte vale también en la heterométrica.*
 
-6. **Tres arquitecturas declaran una sección cuyo único contenido es el periodo.** La regla es que
+4. **Tres arquitecturas declaran una sección cuyo único contenido es el periodo.** La regla es que
    las secciones describen el **interior** de una unidad, así que una parte se justifica cuando el
    periodo existe por algo más que la rima:
 
@@ -191,12 +174,6 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    ciclo `[ABA]…` con dos enlaces es bastante particular como para mirarlo aparte.*
 
 ## Endecasílabo suelto
-
-1. **La restricción «predominan los sueltos» tiene umbral en la fuente y no está formalizado.** M&B
-   clasifican un pasaje como sueltos «cuando el porcentaje de los versos rimados es menos de 50», y
-   su silva 3.ª entre el 50 y el 98 %. El catálogo lo dice solo en palabras. *Va con [Silva](#silva)
-   3, donde lo que faltaba —separar «cuánto rima» de «cuántos pareados hay»— ya está hecho: lo que
-   queda por decidir es si se cuantifica y con qué cortes.*
 
 2. **¿Se admiten series sueltas de otras medidas?** Esta forma es endecasilábica por definición.
    Caparrós documenta el heptasílabo sin rima de Francisco de la Torre y ocho octosílabos sueltos de
@@ -338,11 +315,12 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Sextilla
 
-1. **¿La sextilla de pie quebrado es exactamente `8-8-4-8-8-4`?** La revisión lo desmintió: el
+1. **¿Es una arquitectura más la sextilla quebrada en segundo y quinto, o una desviación?** El
    *Diccionario* ilustra su entrada con una estrofa de Lucas Fernández quebrada en **segundo y
    quinto**, y Jauralde documenta las sextillas de Ricardo Gil en esas mismas posiciones. Desde el
-   18 de agosto lo dice la descripción de la arquitectura. *Si el corpus trae una así, ¿es una
-   arquitectura más o una desviación de la existente?*
+   18 de agosto lo dice la descripción de la arquitectura, y el esquema declara además que el
+   quebrado puede medir cuatro **o cinco** sílabas. *Falta decidir qué hacer cuando el corpus traiga
+   una quebrada en otras posiciones.*
 
 3. **¿Nada distingue dos sextillas consecutivas de una copla manriqueña?** Los versos, las medidas y
    el tipo de rima son idénticos; lo único que cambia es si las rimas de la segunda mitad dependen
@@ -457,11 +435,12 @@ que la documenta».*
 
 ## Sexteto-lira
 
-1. **¿Por qué esas siete combinaciones y no otras?**
+1. **¿Por qué esas ocho combinaciones y no otras?**
 
    **De dónde salen.** No de una restricción documentada, sino del vocabulario legado: eran siete
-   subtipos escritos uno a uno y la matriz de importación los mandó a `variedad`. Que sean siete de
-   quince es el resultado de tener siete filas.
+   subtipos escritos uno a uno y la matriz de importación los mandó a `variedad`. Que fueran siete de
+   quince era el resultado de tener siete filas —**y el 24 de agosto de 2026 entró una octava,
+   `A4 · aBaBCC`**, lo que confirma que la lista no cerraba nada: crecía al leer—.
 
    **Los dos ejes son libres.** Comprobado: las cinco secuencias de medidas y las tres disposiciones
    de rima son independientes, y nada impide combinarlas.
@@ -524,7 +503,8 @@ que la documenta».*
 
 ## Copla de arte mayor
 
-1. **¿Los tres esquemas son ahora un repertorio cerrado?** Los tres actuales enlazan los cuartetos,
+1. **¿Los cuatro esquemas son ahora un repertorio cerrado?** Los cuatro actuales —`ABBA:ACCA`
+   habitual, `ABAB:BCCB` y `ABBA:ACAC` admitidas y `ABBA:CDDC` excepcional— enlazan los cuartetos,
    que es lo que la norma exige, y una guarda impide declarar uno con más de tres clases. *La
    pregunta es si faltan otros enlazados que las fuentes no destaquen.*
 
