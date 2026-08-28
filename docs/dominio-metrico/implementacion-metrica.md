@@ -331,7 +331,7 @@ hermano, o la que habla del cuerpo de la estrofa y no de su pareado final—.
 
 | Capa                       | Qué guarda                                                        | Dónde                                                                                                  |
 | -------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| **Catálogo formal**        | Qué formas, arquitecturas, esquemas y rasgos reconoce el proyecto | 25 tablas, editadas hoy en `/dashboard/metrica`                                                        |
+| **Catálogo formal**        | Qué formas, arquitecturas, esquemas y rasgos reconoce el proyecto | 25 tablas, modificadas mediante migraciones revisables                                                 |
 | **Anotación editorial**    | Qué se identificó u observó en una secuencia concreta             | Solo en las tablas de prueba `*_editor_metrico`; las secuencias reales siguen en el vocabulario legado |
 | **Proyecciones derivadas** | Qué se publica, filtra, agrega o compila                          | Vistas y artefactos regenerables                                                                       |
 
@@ -778,10 +778,11 @@ entidad. Se leen del volcado del esquema, no de aquí.
 
 ## 10 · Proyecciones y consumidores
 
-**El dashboard del dominio** (`/dashboard/metrica`) reúne la guía, el Editor V2 de prueba, la
-anotación en sombra y la validación. No edita el catálogo: la lectura humana está en `/formas` y
-todo cambio —estructural o de prosa— pasa por una migración revisable. El antiguo gestor mutable
-se retiró después de encontrar vocabularios y listas de campos que la base nunca aceptó.
+**Los recursos públicos** reúnen la lectura humana del dominio: el catálogo está en
+`/recursos/catalogo-metrico`, el demarcador en `/recursos/demarcador` y la guía en
+`/recursos/guia`. La antigua página `/dashboard/metrica` se retiró porque ya no editaba ni auditaba
+el catálogo y duplicaba validaciones menos fiables que los scripts. Todo cambio —estructural o de
+prosa— pasa por una migración revisable.
 
 **El registrador de secuencias** pregunta lo mínimo: forma, arquitectura cuando hay más de una,
 las elecciones que el catálogo declara, las unidades internas donde la estructura las exige y las

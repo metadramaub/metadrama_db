@@ -78,13 +78,13 @@ Cada decisión se convierte en una migración de base de datos —nunca en una e
 y se anota en [equivalencias pendientes](./equivalencias-pendientes.md) con su fecha. Al
 regenerar el informe, esa duda desaparece.
 
-### 4 · Se anota en sombra y se contrasta
+### 4 · Se anota en la obra y se contrasta
 
-Con la obra ya sin dudas, se abre a la **anotación en sombra**: `/dashboard/metrica` →
-pestaña «Anotación en sombra» → «Abrir una obra».
+Con la obra ya sin dudas, se abre en `/dashboard/obras` y se revisan sus secuencias con el editor
+métrico nuevo.
 
-Ahí se anota con el modelo nuevo **sobre las secuencias reales**, sin que producción se
-entere: la secuencia real no cambia ni una columna y todo lo anotado cuelga aparte.
+La secuencia real no cambia sus columnas métricas legadas: la anotación nueva cuelga de sus tablas
+propias y puede contrastarse antes del backfill.
 
 El formulario llega con **la forma, la arquitectura y las respuestas que el término legado
 ya permitía deducir**: la asonancia de un romance, el esquema de los tercetos de un soneto,
