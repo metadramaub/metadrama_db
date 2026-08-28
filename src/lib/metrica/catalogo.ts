@@ -109,21 +109,6 @@ export type MetricCatalogOption = {
 	label: string;
 };
 
-export type MetricCatalogIssue = {
-	code:
-		| 'forma_sin_configuracion'
-		| 'forma_sin_principal'
-		| 'configuracion_sin_modelo'
-		| 'patron_metrico_sin_posiciones'
-		| 'patron_metrico_sin_opciones'
-		| 'patron_metrico_sin_nombre'
-		| 'patron_rima_sin_regla';
-	level: 'error' | 'warning' | 'info';
-	entityId: string;
-	label: string;
-	message: string;
-};
-
 export const METRIC_CATALOG_RESOURCES = [
 	'traditions',
 	'formTraditions',
@@ -193,7 +178,6 @@ export type MetricCatalogPageData = {
 		rhymeTypes: MetricCatalogOption[];
 		metres: MetricCatalogOption[];
 	};
-	issues: MetricCatalogIssue[];
 	stats: {
 		forms: number;
 		configurations: number;

@@ -24,7 +24,6 @@
 		panelLeftClose: IconComponent | null;
 		panelLeftOpen: IconComponent | null;
 		settings: IconComponent | null;
-		shapes: IconComponent | null;
 		userRound: IconComponent | null;
 	}>({
 		arrowLeft: null,
@@ -37,7 +36,6 @@
 		panelLeftClose: null,
 		panelLeftOpen: null,
 		settings: null,
-		shapes: null,
 		userRound: null
 	});
 	let iconsLoadFailed = $state(false);
@@ -55,7 +53,6 @@
 	const PanelLeftCloseIcon = $derived(icons.panelLeftClose);
 	const PanelLeftOpenIcon = $derived(icons.panelLeftOpen);
 	const SettingsIcon = $derived(icons.settings);
-	const ShapesIcon = $derived(icons.shapes);
 	const UserRoundIcon = $derived(icons.userRound);
 
 	const isAdminIp = $derived(
@@ -78,7 +75,6 @@
 					panelLeftCloseModule,
 					panelLeftOpenModule,
 					settingsModule,
-					shapesModule,
 					userRoundModule
 				] = await Promise.all([
 					import('lucide-svelte/icons/arrow-left'),
@@ -91,7 +87,6 @@
 					import('lucide-svelte/icons/panel-left-close'),
 					import('lucide-svelte/icons/panel-left-open'),
 					import('lucide-svelte/icons/settings'),
-					import('lucide-svelte/icons/shapes'),
 					import('lucide-svelte/icons/user-round')
 				]);
 
@@ -108,7 +103,6 @@
 					panelLeftClose: panelLeftCloseModule.default,
 					panelLeftOpen: panelLeftOpenModule.default,
 					settings: settingsModule.default,
-					shapes: shapesModule.default,
 					userRound: userRoundModule.default
 				};
 			} catch (error) {
@@ -274,22 +268,6 @@
 		</a>
 
 		{#if isAdminIp}
-			<a
-				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
-					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
-				}`}
-				href="/dashboard/metrica"
-				aria-label="Catálogo métrico"
-				title="Catálogo métrico"
-			>
-				{#if ShapesIcon}
-					<ShapesIcon size={16} aria-hidden="true" />
-				{:else}
-					<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
-				{/if}
-				<span class={collapsed ? 'md:sr-only' : ''}>Catálogo métrico</span>
-			</a>
-
 			<a
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
 					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
