@@ -96,7 +96,7 @@ ciclos, no sumando composiciones.
 **No toca el modelo ni lo que se guarda**: cada realización conserva su propia respuesta, y
 `npm run audit:editor` da la misma salida que antes. Qué filas se pintan vive en
 `grid-rows.ts`, aparte del componente, y las cuatro formas de referencia —quintilla, villancico,
-soneto y romance— están cubiertas en `grid-rows.test.ts`. **Falta que el IP la pruebe en pantalla
+soneto y romance— están cubiertas en `grid-rows.test.ts`. **Falta probarla en pantalla
 con datos reales.**
 
 ## Decisiones que gobiernan el modelo
@@ -399,7 +399,7 @@ registra más que su extensión. *Decisión del IP: si debe declarar lo que las 
 preguntar como las demás.*
 
 **F6 · La rejilla, madura para decidirse entera.** Va por la tercera aparición y acumula **F5, F8,
-F13, F14, F20 y F23**. Lo que el IP ha pedido, junto: que el recuadro se llame «características
+F13, F14, F20 y F23**. Lo pedido, junto: que el recuadro se llame «características
 esperadas» y sea desplegable; que no repita lo que la figura ya dibuja, porque lo que hay que saber
 es **que** algo es fijo, no cuál es —de eso depende elegir entre la regular y la de estancias
 variables—; que sobre la letra de al lado de cada parte; que la unidad modelo se pinte una vez y las
@@ -430,8 +430,8 @@ arquitecturas que hacen esa pregunta, las otras nueve son correctas. El segundo 
 **heptasilábica con endecasílabo final** admite **tres regímenes** y pregunta la asonancia se elija lo
 que se elija. Para callarla haría falta que **una pregunta dependiera de otra respuesta**, y eso no
 está en el modelo —`grupos_eleccion_metrica` no declara ninguna dependencia—. Hoy muerde ahí, pero
-**12 arquitecturas admiten más de un régimen**. *Es la cara técnica de una pregunta que el IP ya tenía
-abierta: «qué elecciones dependen de otras» ⇒ **C1**.*
+**12 arquitecturas admiten más de un régimen**. *Es la cara técnica de una pregunta ya abierta en
+cuestiones para el IP: «qué elecciones dependen de otras» ⇒ **C1**.*
 
 
 ### Lo que va a `main`, no aquí
@@ -803,7 +803,7 @@ consulta, así que la ejecuta fila a fila: **670 veces** en una sola carga de la
 en SQL sería inlineable.
 
 **C18. Nadie proyecta una anotación a notación verso a verso, y es lo que pide la estilometría.**
-Salió el 26 de agosto de 2026 de una pregunta del IP: la respuesta de una unidad guarda
+Salió el 26 de agosto de 2026 al revisar qué guarda una respuesta: la de una unidad guarda
 `variedad_id` —«A2 · AbaBcC»— y no `11 7 7 11 7 11 / AbaBcC`.
 
 **Que no esté guardado es correcto y no se toca.** La variedad apunta a un esquema métrico y a uno
