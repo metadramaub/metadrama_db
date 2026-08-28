@@ -5,7 +5,7 @@
 > por qué faltan y las decisiones del IP viven en
 > [equivalencias-pendientes.md](./equivalencias-pendientes.md), que sí es prosa propia.
 
-Generado el 2026-08-25.
+Generado el 2026-08-26.
 
 ## Resumen
 

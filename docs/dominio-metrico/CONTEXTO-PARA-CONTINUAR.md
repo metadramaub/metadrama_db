@@ -47,14 +47,15 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   semiestrofas no comparten rima la articulación es otra, y eso es lo que decide —ver
   [criterios de nivel § 3.1](./criterios-de-nivel.md).* Las formas con clasificación previa tienen
   ya su tradición; las restantes no la tienen porque no hay de dónde tomarla.
-- `/dashboard/metrica` es la superficie de trabajo del dominio: contiene la guía, el Editor V2 de
-  prueba, la anotación en sombra y la validación del demarcador. El gestor mutable se retiró el 11
-  de agosto: el catálogo se consulta en `/formas` y todos sus cambios se hacen por migración.
+- `/dashboard/metrica` se retiró el 28 de agosto: ya no editaba ni auditaba el catálogo y su
+  validación paralela producía avisos desactualizados. La ruta redirige al catálogo público; el
+  catálogo se consulta en `/recursos/catalogo-metrico`, el demarcador en
+  `/recursos/demarcador` y todos los cambios del dato se hacen por migración.
 - **La respuesta guardada no depende del catálogo que la ofreció.** `anotacion_elecciones`
   apunta al dato elegido —el esquema, el metro, el valor de rasgo, la repetición, la variedad—,
   no a una opción, y el catálogo se niega a borrar algo que una anotación use. Para leerla con
   la opción que hoy la ofrece está `anotacion_elecciones_resueltas`.
-- **El catálogo de formas se publica en `/formas`** desde el 4 de agosto de 2026, generado
+- **El catálogo de formas se publica en `/recursos/catalogo-metrico`**, generado
   del dato: cada forma con sus arquitecturas, esquemas, secciones, rasgos, denominaciones y
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
   cambiando el `scope_minimo` de la sección `formas`. No lleva texto redactado: si algo se
@@ -64,17 +65,8 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   sus secciones.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
   las secuencias reales y no alimenta fichas, buscadores ni resúmenes públicos.
-- **La anotación en sombra funciona** desde el 4 de agosto de 2026, en la pestaña
-  «Anotación en sombra» de `/dashboard/metrica`. Una prueba puede señalar una secuencia real
-  con `anotaciones_metricas.secuencia_id`, sin que la secuencia cambie nada:
-  `obras_anotacion_nueva` dice qué obras están abiertas, la vista
-  `propuesta_metrica_secuencia` traduce cada `estrofa_tipo_id` a su forma y arquitectura
-  —94,9 % de cobertura medida— y el formulario llega propuesto desde ahí, de modo que el
-  editor revisa en vez de reanotar. El recuento de acuerdo entre modelos está en la misma
-  pestaña; para ver una obra en los dos modelos se abre el editor de siempre en otra
-  pestaña, no hay pantalla doble. Es la fase 0 de
-  [el plan de migración](./plan-migracion-anotaciones.md).
-  **Nada de esto se ha visto todavía en pantalla con datos reales.**
+- La anotación en sombra se retiró. El editor métrico nuevo vive ya en las secuencias de cada obra;
+  el catálogo se carga allí y las propuestas del vocabulario legado se piden bajo demanda.
 - Las declaraciones métricas existentes en las obras siguen usando el vocabulario legado.
   Su migración se hará más adelante, cuando el IP haya validado el catálogo y el
   demarcador. Hay editores trabajando y esta frontera no debe adelantarse.
@@ -316,125 +308,28 @@ código.
 
 ## El camino a develop lista para la ola de editores
 
-*Escrito el 26 de agosto de 2026.* En una frase: **que un editor que entre a crear una obra nueva
-vea en su pestaña de secuencias el editor V2**, bebiendo del catálogo nuevo, y que la fusión de la
-semana siguiente no obligue a nadie a seguir anotando con el vocabulario legado.
+**Recorrido entre el 26 y el 28 de agosto de 2026.** El editor V2 es ya el que ven los editores al
+abrir cualquier obra: sustituyó al panel lateral, las tablas de la anotación se renombraron, el
+catálogo se abrió a todos los roles y el guardado pide permiso sobre la obra. **Los doce pasos están
+en `git`**; lo que quedó vivo de aquel plan es esto:
 
-### Lo que ya está decidido
-
-- **Las obras nuevas dejan `secuencias_metricas.estrofa_tipo_id` vacío.** La identidad métrica vive
-  solo en el catálogo nuevo. Cuando se migren las anotadas con el sistema viejo y se compruebe que
-  lo viejo ya no aporta nada, **la columna se retira**. *No se escribe el término legado por
-  equivalencia inversa: sería fabricar la deuda que se quiere dejar de fabricar.*
-- **`secuencias_metricas` no necesita ninguna columna nueva.** El vínculo ya existe y va en el
-  sentido correcto: lo lleva `anotaciones_metricas.secuencia_id`, con `on delete cascade`, y la
-  tabla ya declara `CHECK (num_nonnulls(escenario_id, secuencia_id) = 1)` —o pertenece a un
-  escenario de prueba, o a una secuencia real—. Se hizo pensando en esta mudanza. Añadir una columna
-  del lado viejo duplicaría la relación y crearía dos sitios que mantener de acuerdo.
-- **El catálogo y el demarcador son zona pública.** No solo para que los editores trabajen: cuando
-  caiga el muro de «web en construcción», cualquiera podrá leerlos. El interruptor de
-  `/dashboard/publicacion` se conserva, pero **el dashboard no puede depender de él**.
-- **La publicación de obras, la vista previa y la precomputación se quedan como están.** Son legado
-  y se rehacen cuando todo esto esté terminado. Una obra recién empezada no se publica el primer
-  día, así que su perfil métrico vacío no bloquea a nadie.
-- **Lo que toca `secuencias_metricas` por dentro no se hace aquí.** Ver *Lo que va a `main`*.
-- **~~El interruptor es por obra.~~ Retirado el 27 de agosto de 2026**, al repensar la migración:
-  todas las obras abren con el editor nuevo. Ver el replanteo, más abajo.
-- **Se prueba en la pestaña de secuencias de una obra, no en el laboratorio.** Decidido el 26 de
-  agosto de 2026, y cambia el orden de todo lo que sigue. Probar en el sitio definitivo prueba **la
-  integración de verdad** —las caracterizaciones, la sinopsis, la checklist, el API real—, que es
-  justo lo que el editor de prueba no toca; y lo que se arregle ahí se queda. El IP probará con una
-  obra de pruebas en el editor normal.
-- **El laboratorio se retira el último**, no al mover. Mientras el camino nuevo no esté probado es
-  la red donde comparar; quitarlo el mismo día que se mueve es quedarse sin las dos cosas a la vez.
-- **El renombrado va antes de mover.** Hoy las tablas tienen **cero filas** sobre secuencias reales;
-  en cuanto se monte el V2 en una obra y se guarde, ya no. Sin datos es una migración y un `sed`.
-- **La web se cierra unos días** cambiando la contraseña de «web en construcción», para que nadie
-  guarde a mitad de un renombrado o de una apertura de RLS. *Pero eso protege a las personas, no al
-  esquema:* la base la comparten `develop` y `main`, y una columna retirada sigue retirada aunque no
-  entre nadie. Lo que protege a `main` estos días es que **cada migración sea reversible** y que **no
-  se retire ninguna columna** mientras dure. `estrofa_tipo_id` se queda hasta que lo viejo sobre.
-
-### Los pasos, en orden
-
-*Reordenados el 26 de agosto de 2026 y **repensados el 27**, cuando el IP replanteó la migración
-entera. Lo que sigue es el estado después de ese replanteo.*
-
-**Lo hecho, y probado en Fuenteovejuna:**
-
-| | paso | estado |
-|---|---|---|
-| 1 | **Los nombres**: seis tablas, una vista, nueve columnas, diez funciones | hecho el 26 ago |
-| 2 | **El contenedor**: `MetricSequenceModal`, compartido con el laboratorio | hecho el 26 ago |
-| 3 | **Los componentes de la pestaña** y la retirada de los subtipos | hecho el 26 ago |
-| 4 | **Montar el V2** en la pestaña de secuencias | hecho el 26 ago |
-
-La pestaña pasó de **2 327 a 1 244 líneas**. `UNIQUE (secuencia_id)` no hizo falta: ya existía como
-índice parcial. Y las seis equivalencias de los subtipos de quintilla tampoco: la propuesta los
-resuelve por `esquemas_rima.origen_termino_id`, que los ocho llevan puesto —comprobado sobre las
-once secuencias afectadas, que reciben ya su respuesta—.
-
-**Hecho también, el 27 de agosto:**
-
-| | paso | qué dejó |
-|---|---|---|
-| 5 | **Retirado el interruptor por obra** | toda obra abre con el editor nuevo, de la base y de la interfaz |
-| 6 | **El editor guarda la anotación** | y la relee al reabrir, para no crear una segunda |
-| 7 | **El término legado, a la vista** | dos líneas: sistema antiguo y propuesta nueva, sin rellenar nada |
-| 8 | **El informe, completo** | cada secuencia con todo lo anotado, salvo sinopsis y comentarios |
-| 9 | **La checklist acepta la forma nueva** | y hubo que tocar los dos caminos que la calculan |
-| 10 | **La RLS y el catálogo público** | el catálogo se lee sin condiciones; los editores anotan su obra |
-
-| 11 | **Retirados el laboratorio, la sombra y el panel viejo** | 2 500 líneas menos, y con ellas la consulta de dos segundos |
-
-**Lo que queda:**
-
-| | paso | por qué |
-|---|---|---|
-| 12 | **Probado con una cuenta de editor** | el IP creó una obra y dos secuencias: funciona |
-
-Con eso **el camino a develop queda recorrido**. Lo que sigue es el recorrido forma por forma del
-formulario, en [Lo que sale de recorrer el formulario](#lo-que-sale-de-recorrer-el-formulario).
+- **Todas las obras se anotan con el catálogo nuevo.** No hay interruptor por obra: el que había
+  —`obras_anotacion_nueva`— dejó de gobernar nada y solo sobrevive hasta que se migre lo anotado.
+- **El editor V2 escribe únicamente en tablas `anotacion_*`.** No toca `secuencias_metricas.estrofa_tipo_id`,
+  ni fichas, ni buscadores, ni resúmenes. Esa frontera no se adelanta.
+- **Crear una secuencia la guarda ya**, con el rango y `estrofa_tipo_id` en nulo; a partir de ahí cada
+  parte guarda por su lado.
+- **Lo que falta antes de fusionar** está abajo, en [lo que va a `main`](#lo-que-va-a-main-no-aquí) y
+  en [lo que queda para después](#lo-que-queda-para-después-de-fusionar).
 
 ### El replanteo de la migración, 27 de agosto de 2026
 
-**La anotación en sombra deja de ser el camino.** La decisión es del IP y el motivo es sólido:
-establecer equivalencias costó mucho, **faltan datos en casi todas las secuencias** —el catálogo
-nuevo captura cosas que el viejo no— y de todos modos el IP va a contactar con los editores uno a
-uno. Automatizar una propuesta que después hay que repasar entera no ahorra el repaso.
+La anotación en sombra se retiró. El instrumento es **el informe por obra**
+—`npm run migracion:informe`—, que vuelca cada secuencia con todos sus datos, y la migración se hace
+**a mano con los editores**, obra por obra. Todas las obras abren ya con el editor nuevo, y al abrir
+una secuencia heredada se ve en una línea de dónde viene: *sistema antiguo: tal · propuesta nueva:
+tal*, que no rellena nada.
 
-**En su lugar manda el informe por obra**, que ya existe y ya hace el trabajo: `npm run
-migracion:informe` genera uno por obra con la propuesta secuencia a secuencia, qué se funde en una,
-qué queda por completar —«esquema de rima» en cinco de veinticuatro en *Dido y Eneas*— y el aviso de
-que buena parte de las caracterizaciones por rango son en realidad **desviaciones**, y de que la
-hipometría no conserva las sílabas observadas. El IP y el editor lo recorren juntos, secuencia a
-secuencia.
-
-**De ahí se sigue que toda obra abre con el editor nuevo**, y que el interruptor por obra sobra.
-
-*Y que nada se pierde, que es lo que lo hace posible.* Lo anotado con el sistema viejo **no se
-borra**: `estrofa_tipo_id`, `secuencias_subtipos_estrofa` y `secuencias_caracterizaciones_rango` se
-quedan donde están, así que una obra ya anotada se puede rehacer sin perder de dónde venía.
-Comprobado además que **guardar no lo altera**: `toSelectableEstrofaId` engordaría un término hijo
-no seleccionable, pero ninguna de las 263 secuencias usa uno —los subtipos de quintilla viven en su
-propia tabla, no en `estrofa_tipo_id`—.
-
-**Lo que este replanteo se lleva por delante**, y no es poco:
-
-- **El interruptor `obras_anotacion_nueva`.** Sobra, y con él el enredo de que tres obras estuvieran
-  ya dentro por la anotación en sombra —*Dido y Eneas*, *Elisa Dido* y *Valor, agravio y mujer*—,
-  que significaba otra cosa.
-- **La anotación en sombra entera**, y con ella **la consulta de dos segundos** que daba el 500 en
-  `/dashboard/metrica`. Eso cierra la mitad que quedaba abierta de **C17** sin tocar nada más.
-- **El panel lateral viejo**, que deja de ser alcanzable: varios cientos de líneas.
-
-**Lo que queda por decidir, y es del IP:** al reabrir una secuencia ya anotada, ¿el editor trae la
-propuesta puesta para confirmarla, o arranca en blanco para anotar de cero mirando el informe? El
-argumento de que faltan datos en casi todas empuja a lo segundo, pero conviene decirlo.
-
-*Un efecto secundario que conviene tener presente y que juega a favor:* como `estrofa_tipo_id` no se
-borra al reanotar, **la zona pública sigue viva** del término legado mientras dure la transición. Que
-las fichas lean todavía el modelo viejo deja de correr prisa.
 
 ### Lo que sale de recorrer el formulario
 
@@ -486,384 +381,12 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 
-**F11, por qué las dos frases eran ciertas.** La definición del catálogo dice que la copla castellana
-es de octosílabos y que «algún verso puede aparecer quebrado en cuatro sílabas». El esquema lo
-recoge tal cual: **una** posición de 8 —el ciclo— y un repertorio con roles, `dominante: 8` y
-`quebrado: 4, 5`. Leerlo por roles da la base y los quebrados; releerlo por posiciones da un 8 fijo.
-Lo que la norma fija es **la base**, no la medida de cada verso, así que el segundo renglón sobra.
+**Lo arreglado no se cuenta aquí.** La tabla dice qué era y a cuánto alcanzaba; el porqué de cada
+arreglo está en su commit, que es donde no se queda viejo. Lo que sigue es **solo lo que aún no se ha
+tocado** y necesita algo más que una fila.
 
-**F12 y F15, cómo quedan.** El diagnóstico era que «en conjunto» **no era un estado sino una acción**:
-se abría un panel, se preparaba una respuesta y al aplicarla se **copiaba** en cada unidad. Después no
-quedaba ningún «en conjunto», solo N respuestas iguales; por eso abajo seguía todo abierto con un
-«Coincide con las demás unidades» repetido, y por eso había que avisar de que lo aplicado «solo afecta
-a las unidades que existen ahora».
-
-Ahora hay **un solo selector para toda la pantalla**, con **dos modos**, y el resto se lee del propio
-dato, sin guardar nada que pueda desincronizarse:
-
-| | qué se ve |
-|---|---|
-| **En conjunto** | un campo por pregunta arriba, «en las N unidades». Abajo cada unidad es **una línea** con su rango, y nada más |
-| **Una a una** | cada unidad con sus campos, **plegadas todas de entrada**. El campo común sigue arriba, **anunciado como atajo y atenuado**, porque partir de lo corriente y matizar después ahorra trabajo |
-
-**«En conjunto» significa todas iguales, sin letra pequeña.** Hubo una versión intermedia en la que,
-estando en conjunto, una unidad podía declararse aparte y abrirse sola. El IP la descartó y tenía
-razón: eran **dos caminos para lo mismo** —marcar la excepción o responder una a una— y dejaban un
-«conjunto» que no lo era. Ahora, si alguna unidad responde algo distinto, **el modo es una a una** y el
-botón de conjunto no se puede pulsar mientras eso siga siendo verdad.
-
-**Y plegadas de entrada.** Seis coplas desplegadas con sus dos preguntas no caben en pantalla; plegar
-solo se ofrecía cuando la unidad estaba **contestada entera**, que es justo cuando menos falta hace.
-Ahora una unidad abierta se pliega siempre, y al plegarla **se van con ella sus partes**, que se pintan
-como filas hermanas y antes se quedaban sueltas debajo.
-
-**El atajo no enseña lo que no es de todas.** Un fallo que costó encontrar y conviene no repetir:
-`MetricFamilyControl` **construye la selección nueva a partir de lo que se le pasa en `uniform`**, y
-sabe pintarse «mixto» cuando recibe nulo habiendo respuestas. Hubo un momento en que se le pasaba la
-respuesta **mayoritaria** para que se viera algo, y con un quebrado puesto en una sola copla el atajo
-lo mostraba como si fuera de todas y, al marcar dos más, partía de aquel y **escribía los tres en
-todas**. `uniform` va en nulo cuando no coinciden, y punto; cuántas coinciden se dice en el rótulo, que
-es donde no hace daño. De paso, aplicar por el atajo **borra las marcas de quebrado a medio poner** de
-cada unidad, que describían una respuesta que el atajo acaba de sobrescribir.
-
-**Cuatro correcciones más, del 27 de agosto por la tarde.**
-
-- **El atajo se retira cuando ya no puede hablar por todas.** Con respuestas distintas se pintaba
-  vacío —como si ningún verso fuera quebrado— al lado de una nota que decía que las unidades conservan
-  respuestas distintas. Ahora, esa pregunta cambia el control por la frase, y sigue habiendo atajo en
-  las preguntas que sí coinciden: se decide **pregunta por pregunta**.
-- **Se puede volver a «en conjunto», avisando.** Estaba bloqueado mientras hubiera divergencia, o sea
-  para siempre: la única salida era cerrar la secuencia y rehacerla. Ahora pide confirmación y **borra
-  lo respondido aparte**, porque conjunto significa una sola respuesta para todas.
-- **Una unidad se lee en la anotación de siempre**, `8a 8b 8a 4b 8c 8d 8c 8d`, no en prosa ni en un
-  recuadro dentro de otro rotulado «Respuesta de esta copla». **Medida y rima van juntas**, como se
-  escribe el verso español: separadas obligan a cruzar dos series a ojo para saber que el quebrado es
-  el que rima en «b». La caja de la letra la decide la medida —minúscula hasta ocho sílabas, mayúscula
-  por encima—, que ya sabía hacer `normalizeRhymeSymbol`.
-
-  Va en los dos sitios: en la lista compacta **al lado del rango y en pequeño**, sin gastar otra
-  línea, y dentro de la unidad plegada. Se arma solo si la notación casa verso a verso con la unidad
-  —un romance, con sus puntos suspensivos, no— y entonces vale el resumen de siempre. **La prosa se
-  queda donde se responde**, que es donde hay que elegir. Y la acción de plegar baja **debajo** del
-  rótulo en vez de flotar a su derecha.
-- **Mayoría de verdad, o ninguna.** Con seis unidades, cinco respuestas distintas y dos iguales, la
-  «mayoritaria» eran esas dos y las otras cuatro salían marcadas como que se apartan *de las demás*,
-  que es falso: ahí no hay «las demás». Solo hay respuesta común si la comparte **más de la mitad**; si
-  no, no se marca ninguna y arriba se lee «cada unidad responde una cosa distinta». El aviso, además,
-  dice ahora «esta copla **es diferente a** las demás».
-
-**Respondido en conjunto, abajo solo van los rangos.** La rejilla unidad por unidad no decía nada que
-no se supiera: cuatro coplas iguales, cada una con sus dos redondillas, media pantalla para repetir lo
-mismo. Ahora, **cuando no queda nada que tocar ahí abajo**, la sección es una lista:
-
-```
-Copla castellana 1  vv. 1–8     8a 8b 8a 4b 8c 8d 8c 8d
-Copla castellana 2  vv. 9–16    8a 8b 8a 4b 8c 8d 8c 8d
-```
-
-Solo se compacta si de verdad no hay nada que responder: ninguna fila con pregunta propia, ninguna
-extensión editable, ningún patrón que se declare en la unidad y ninguna acción de añadir o quitar. En
-cuanto algo de eso aparece —o se pasa a una a una— vuelve la rejilla entera.
-
-Y **se quita «1 realización de 4 versos · la norma las fija enteras»** de las partes que no preguntan
-nada: repetido en cada redondilla de cada copla era media pantalla para decir lo que el rótulo de al
-lado ya deja ver.
-
-**Los dos bloques van separados.** Lo que se responde una vez y lo que se lee unidad por unidad iban
-en el mismo recuadro y pegados, y así la respuesta común se leía como si fuera la primera unidad.
-
-**El primer intento tenía el interruptor en cada pregunta y estaba mal.** Al pedir «una a una» en la
-rima, los quebrados seguían plegados —y también varían de unidad en unidad—, el botón se repetía en
-cada fila y el de abajo seguía diciendo «responder una a una» cuando arriba ya se estaba en ese modo.
-**El modo es de la pantalla, no de cada pregunta.**
-
-**Y son dos modos, no tres.** «Mixto» no era algo que se eligiera: es lo que pasa cuando alguna unidad
-responde otra cosa. Lo que se elige es **cuál se aparta**, y eso se hace en la unidad.
-
-*Lo que se midió para decidirlo, porque la intuición decía lo contrario.* La única tabla con una
-respuesta por estrofa dentro de una misma secuencia son los subtipos de quintilla: **336 estrofas en
-11 secuencias**, de las que **solo 2 tienen todas las estrofas iguales**, y **100 de 336 —el 30 %— se
-apartan de la mayoritaria**; en una de 47 estrofas la mayoritaria es solo 21. Así que **no**, lo normal
-no es que difieran pocas, al menos en la rima —salvedad: son quintillas, de lo más variable, y la
-medida seguramente varía mucho menos—. Por eso «una a una» está a un clic y no escondida.
-
-También se rotula bien lo de abajo: era «la secuencia, verso a verso» y con varias unidades es **unidad
-por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el aviso sobre las unidades
-futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
-en «una a una» bajan **las dos preguntas**, no solo la rima.
-
-**El modal se reparte en cuatro secciones plegables *(28 de agosto)*.** Reúne cosas que se anotan a la
-vez pero se miran por separado —**identificación métrica, caracterizaciones, sinopsis y
-comentarios**—, y desplegadas todas hay que recorrer la pantalla entera para llegar a la última. Ahora
-cada una se pliega y **solo la primera viene abierta**, que es donde empieza el trabajo. El raíl de la
-izquierda pasa a ser el **índice de las cuatro**: pulsar allí despliega la que toca y baja hasta ella,
-porque llevar a una sección plegada es llevar a un título.
-
-**Los comentarios habían desaparecido.** Vivían al pie del panel lateral y se fueron con él el 27 de
-agosto sin que nadie lo notara: la anotación se quedó sin el sitio donde se discute, que es justo lo
-que un equipo editorial necesita a mano mientras anota. Vuelven como sección propia; con la secuencia
-todavía sin guardar dicen que hay que guardarla primero.
-
-Y **«Plegar identificación» se sustituye por plegar la sección entera**: recogía solo el primer bloque
-de campos, y lo que hace falta al trabajar en la sinopsis o en los comentarios es quitar de en medio
-toda la métrica. Plegada, la sección enseña la forma elegida, para no tener que abrirla solo para ver
-cuál era.
-
-**De la endecha real: las series ya dicen cuánto cabe.** Una serie no estrófica no materializa
-unidades, así que **no tenía recuadro de cobertura** y no decía nada de su extensión —salvo cuando el
-rango no cuadraba y saltaba el error—. Pero el dato ya estaba: la regla de longitud declara el módulo,
-y era lo que sostenía ese aviso. Ahora se dice en positivo, **«Ciclos del pasaje · 7 ciclos de 4
-versos»**, y lo que aporten las partes opcionales se cuenta aparte —el terceto encadenado con
-serventesio final son «3 ciclos de 3 versos · y 4 versos más»—.
-
-**Y dos huecos que no se tocan.** El primero es de dato: la endecha **heptasilábica de cinco versos**
-tiene rima **solo consonante** y pregunta obligatoriamente las vocales de la asonancia. De las diez
-arquitecturas que preguntan `vocales_asonancia`, **nueve son correctas** —los seis romances, la silva
-arromanzada, la endecha hexasilábica— y esta no.
-
-El segundo es de modelo y da más de sí: la endecha **heptasilábica con endecasílabo final** admite
-**tres regímenes** —asonante, consonante y sin rima— y pregunta la asonancia **elijas lo que elijas**,
-también con «cruzada consonante» o «versos sueltos». Para no preguntarla haría falta que una pregunta
-pudiera **depender de otra respuesta**, y eso **el modelo no lo tiene**: `grupos_eleccion_metrica` no
-declara ninguna dependencia. Hoy solo muerde aquí, pero **12 arquitecturas activas admiten más de un
-régimen de rima** y el problema es suyo en cuanto se les pregunte algo que dependa del régimen.
-
-**Del endecasílabo suelto, un fallo arreglado y una pregunta para el IP.** `traitModality` **no
-contemplaba `habitual`**, así que caía al cajón de sastre y el dístico final se anunciaba «declarado por
-la arquitectura», que no dice si es obligatorio, corriente o tolerado. Ahora dice **«habitual»**, y el
-cajón de sastre desaparece: sin modalidad no se añade nada, y un renglón que no diría nada no se pinta.
-*Alcanza a 5 arquitecturas.*
-
-**F25, resuelto: lo obligatorio es el rasgo, no el valor.** La norma decía «Densidad de rima: Ninguna;
-obligatorio» y la pregunta de debajo ofrecía **Ninguna** y **Esporádica**. El IP lo zanjó con la
-distinción que faltaba: **que la densidad de rima cuente es lo que define al endecasílabo suelto**, y
-eso se dice marcando el *rasgo*; pero «ninguna» no puede ser definitoria, porque **un pasaje con rima
-esporádica sigue siendo endecasílabo suelto** —Morley y Bruerton lo cuentan como tal por debajo de la
-mitad de los versos—. Así que «ninguna» pasa a **habitual** y «esporádica» se queda **admitida**.
-
-**Y la garantía se extiende a los rasgos.** Se dejaron fuera el 27 de agosto porque en
-`arquitectura_rasgos` la modalidad suele marcar *el rasgo entero*, y entonces preguntar cuál de sus
-valores se lee es lo correcto. La distinción la hace el propio dato y no hubo que declararla: **una
-fila sin `valor_id` no casa con ninguna opción**, así que las definitorias de rasgo entero —cinco, y
-todas correctas— siguen pasando, y las que marcan un valor concreto quedan sujetas a la misma regla que
-una realización. Probado en los dos sentidos: el catálogo entero pasa, y volver a poner la marca se
-rechaza.
-
-**Lo que la norma fija también se anota.** Una décima espinela no tiene nada que elegir, así que su
-resumen salía en blanco mientras el de una copla castellana traía su serie: dos formas anotadas y dos
-resúmenes distintos. La rejilla de la norma ya sabe qué mide y en qué clase rima cada verso, así que
-**rellena lo que nadie ha respondido** y la espinela se lee `8a 8b 8b 8a | 8a 8c | 8c 8d 8d 8c`, con
-sus cortes. Lo respondido manda siempre: esto solo cubre huecos, y solo en unidades de primer nivel
-cuya extensión case con la rejilla.
-
-*Y una consecuencia que no se veía:* **la décima aumentada era la única que seguía sin enseñarla**. No
-por ser otra pantalla ni otro componente —es el mismo—, sino porque **su unidad es «transparente»**: no
-tiene fila propia y sus dos bloques se dibujan a primer nivel. La lista compacta recorría *filas*, así
-que no encontraba unidad que listar. Ahora recorre **unidades**, que es lo que quiere enseñar, y toma
-el rótulo de la fila cuando la hay. La aumentada se lee `8a 8b 8b 8a | 8a 8c 8c 8d 8d 8e 8e 8d`.
-
-**B8 cerrado en las cuatro aliradas abiertas, y una barra para todas las medidas.** El cuarteto-lira
-«mezcla endecasílabos y heptasílabos **en proporción variable**», y lo mismo la octava, la novena y la
-décima: su esquema declara el repertorio 7/11 y **ninguna posición**, porque la norma no fija cuál va
-dónde. No había pregunta de metro, así que **lo que el editor leía no se registraba en ninguna parte**.
-Con crear el grupo bastó —la función deriva dos opciones por verso—, igual que en la manriqueña.
-
-*El septeto-lira se queda fuera:* su esquema fija la medida verso a verso, `7 11 7 11 7 7 11`, y su
-definición la presenta como «la realización que la documenta». Si admite otras proporciones lo decide
-el IP. La lira fija sus cinco posiciones y el sexteto-lira resuelve la variación por variedades.
-
-**Y toda pregunta de medida se ve igual.** El dibujo de barras nació en los pies quebrados —ver el
-verso corto *más corto* dice de un vistazo lo que un número obliga a comparar— y ahora vive en
-`MetricVerseBar`, que usan las dos preguntas. Lo propio de cada una son los controles de la derecha, no
-el dibujo. La barra se escala contra la medida de base cuando la hay —así el quebrado se ve más corto
-que el octosílabo— y contra la mayor del repertorio cuando no —el endecasílabo llena y el heptasílabo
-no—.
-
-*Un fallo que salió al probarlo:* sin medida de base, `Number(null)` da `0` y pasa por finito, así que
-las aliradas se anotaban «0 0 0 0». Y el resumen de una respuesta a medias devolvía nulo y caía a
-enumerar nombres de opción; ahora marca con `·` los versos que faltan.
-
-**Lo que salió de la copla real, arreglado el mismo día.** Es la primera forma con **una unidad por
-sección**: la copla responde la medida y **cada quintilla su propia rima**. Eso destapó cuatro cosas:
-
-- **La anotación se partía en pedazos.** Salían tres renglones —«8 8 8 8 8 8 8 8 8 8», «a b a b a», «a
-  b b a a»— que había que cruzar a ojo. Ahora la anotación de una unidad **recoge lo que responden sus
-  partes** y sale entera: `8a 8b 8a 8b 8a | 8c 8d 8d 8c 8c`, con el corte donde empieza cada parte.
-- **Cada parte estrena letras.** Los esquemas de quintilla se catalogan con letras propias, así que
-  puestos uno detrás de otro daban «8a 8b 8a 8b 8a | 8a 8b 8b 8a 8a», que se lee como si las dos
-  mitades rimaran igual. Cuando la respuesta viene de una pregunta **de esa sección**, sus letras son
-  locales y se renombran a las siguientes libres; las de una pregunta de la unidad entera ya son
-  globales y no se tocan.
-- **Desplegar abre la unidad entera.** Se plegaban también las partes, así que llegar a la rima de una
-  quintilla costaba tres clics. Ahora solo se pliegan las unidades de primer nivel.
-- **El orden era el mismo al revés.** Arriba mandaba el `orden` del catálogo —las rimas primero— y
-  abajo manda la estructura —la copla antes que sus quintillas—. Se alinea a la estructura, que es la
-  que no se puede reordenar; dentro de cada nivel sigue mandando el catálogo.
-
-**F19, por qué parecía la excepción y es la norma.** El editor deriva las unidades del rango cuando
-la arquitectura tiene extensión de unidad **fija** (`unidad_versos_min = unidad_versos_max`), y
-entonces no ofrece botón: se añaden solas al alargar el rango. Contado sobre el catálogo activo:
-
-| | arquitecturas | formas | |
-|---|---|---|---|
-| unidad fija → **derivadas del rango, sin botón** | 65 | 30 | coplas, cuartetos, décimas, liras, octavas, quintillas, redondillas, sonetos, tercetos… |
-| serie o verso → sin plan de unidad | 20 | 8 | romance, silva, terceto encadenado, sueltos, enlazadas |
-| extensión abierta → **se añaden a mano** | 6 | 3 | canción petrarquista, villancico, zéjel |
-
-Así que la copla de arte mayor **se comporta como treinta de las cuarenta y una formas**: lo raro es
-lo otro. La impresión de excepción viene de haber recorrido la canción justo antes, que es de las
-tres que sí piden añadir. *Se cierra sin tocar nada, y queda anotado para no «arreglarlo» luego.*
-
-**F22, resuelto cambiando el dato y no la interfaz.** La manriqueña era la única arquitectura activa
-que preguntaba la rima teniendo una sola opción marcada `definitoria`; en las otras cinco que preguntan
-con una sola opción —décima-lira, octava real, los dos sextetos y la sextilla— es `habitual` o
-`admitida`, y ahí preguntar está bien. Dos cosas decían que la marca era la equivocada: la **propia
-definición** («la tradición documenta antes otras: sextillas de dos rimas repetidas en las dos mitades,
-o con el orden invertido en la segunda») y que **la sextilla marca `abcabc` como habitual** siendo la
-manriqueña dos sextillas seguidas. El IP resolvió por ahí: `abcabc|defdef` pasa a **habitual**, la
-pregunta queda justificada y no hizo falta tocar código.
-
-**Revisado a fondo el 27 de agosto: `definitoria` sobre un esquema abierto no es un fallo de
-modelado.** El IP lo puso en duda con un argumento razonable —«definitoria es para el esquema único de
-una arquitectura; si puede tener varios, ninguno puede serlo»—, y lo que dice el modelo es más fino:
-`modalidad` es **una escala de frecuencia** y `definitoria` es su tope, «se da siempre: sin esto la
-arquitectura no sería la que es». Un esquema abierto con restricciones —consonante, regular— es
-exactamente algo que se cumple siempre.
-
-Lo que sí recoge la intuición del IP es la garantía que de ahí se sigue, y está escrita desde el 10 de
-agosto: **ninguna pregunta ofrece una definitoria entre sus opciones**. Una definitoria no es una
-alternativa que elegir sino la norma que las alternativas cumplen; lo que hay es *una definición y sus
-realizaciones*. **Comprobado en vivo: ninguna pregunta del catálogo ofrece una definitoria**, ni sola ni
-acompañada —y los esquemas abiertos no se ofrecen nunca, porque la función que deriva las opciones los
-excluye—.
-
-De hecho **la migración de la manriqueña era necesaria justo por eso**: su pregunta ofrecía
-`abcabc|defdef` marcado definitorio, y era la única del catálogo que rompía la garantía.
-
-El reparto de las 19 arquitecturas con abierto definitorio: **10 tienen solo el abierto** —canción
-petrarquista, novena-lira, septeto, sexteto, sextilla y silva— y **9 tienen abierto más nombrados**
-—quintilla ×3 con ocho cada una, sextilla octosilábica con cuatro, y cinco más con uno—. En las nueve,
-los nombrados son `habitual` o `admitida`, nunca definitorios. Y **una sola arquitectura tiene dos
-esquemas definitorios**: la canción «Sin rima, con pareado final», con `Cuerpo sin rima` y `Pareado
-consonante final`, que no compiten: **son de secciones distintas**, una que no rima y otra que rima
-`aa`.
-
-**La garantía ya la sostiene la base**, desde el 27 de agosto. Se había comprobado dos veces —en agosto
-con la endecha real y hoy con la manriqueña— y las dos se dejó sin sostener. Ahora hay un disparador
-diferido en las cuatro tablas que pueden romperla —`esquemas_rima`, `repeticiones_metricas`,
-`variedades_arquitectura` y `grupos_eleccion_metrica`— y una función,
-`preguntas_que_ofrecen_una_definitoria()`, que devuelve los incumplimientos y se puede llamar a mano
-para auditar el catálogo.
-
-Es **más estricta que la frase de agosto**, que decía «junto a otra modalidad»: la manriqueña ofrecía la
-suya **sola** y estaba igual de mal, porque una pregunta cuya única opción ya la fija la norma es una
-pregunta que no debería existir. **Los rasgos quedan fuera a propósito**: en `arquitectura_rasgos`,
-`definitoria` dice que *el rasgo* caracteriza la arquitectura, no que un valor sea la norma, y entonces
-preguntar cuál de sus valores se lee es lo correcto —hoy pasa con la densidad de rima del endecasílabo
-suelto—.
-
-**Cómo se declara «puede haber otras», que preguntó el IP.** No con la ausencia de opciones, sino con
-un **esquema abierto** —`tipo_secuencia = 'abierta'`—, que la función que deriva las opciones **excluye
-a propósito**: no es una respuesta que elegir, es la norma contra la que se valida lo que se escriba a
-mano. Es el patrón corriente del catálogo: **19 arquitecturas de 8 formas** lo tienen y en todas es
-`definitoria` —canción petrarquista, manriqueña, novena-lira, quintilla, septeto, sexteto, sextilla y
-silva—; solo se sale la octava real (`excepcional`) y el endecasílabo suelto con la silva (`habitual`).
-
-Así que el «Distribución consonante variable» de la manriqueña **sí hace falta y sí es definitorio**:
-declara el régimen consonante y una restricción de regularidad, y sin él la forma no diría que rima en
-consonante ni que las dos sextillas llevan rimas independientes. Lo que cambia de estatuto es la
-disposición nombrada, que es una realización de esa norma, no la norma.
-
-**F21, y de paso cuatro arreglos de pantalla.** El catálogo ya declaraba la alternativa —4 o 5 en las
-posiciones 3, 6, 9 y 12—, y `opciones_eleccion_derivadas()` **ya tenía la rama** que ofrece las
-posiciones de un esquema con más de un metro. O sea que bastó con **crear la pregunta**: las ocho
-opciones se derivan solas. Es por la medida, no por la posición —dónde van los quebrados lo dice la
-norma—, y con `selecciones_min = selecciones_max` no entra en el modo de «marcar excepciones», que es
-el de la copla castellana. Entra también la **sextilla de pie quebrado**, mismo hueco y mismo arreglo.
-
-Al probarlo salieron cuatro cosas de la pantalla, todas arregladas:
-
-- **Los versos que la norma fija se pintan fijados.** Decían «Sin medidas disponibles», que suena a que
-  falta algo: no falta, están decididos. Ahora salen con su medida y un `FIJO`.
-- **La rejilla es la de la unidad**, no la de las posiciones que preguntan. Se dibujaban tantas filas
-  como opciones hubiera y empezando por la primera: con quebrados en 3, 6, 9 y 12 salían las filas 3,
-  4, 5 y 6, y los otros ocho versos no aparecían.
-- **El contador cuenta lo que se pregunta.** «0 de 12 versos con medida» pedía respuesta para ocho
-  versos que nadie va a contestar; ahora dice «0 de 4».
-- **Una medida posicional se resume en notación.** Enumerando nombres salía «Verso 3 · Tetrasílabo ·
-  Verso 6 · Tetrasílabo · Verso 9 · Tetrasílabo · Verso 12 · Tetrasílabo», cuatro renglones que además
-  escondían los ocho versos no preguntados. Ahora: **`8 8 4 8 8 4 8 8 4 8 8 4`**.
-
-**F16, lo que dice el catálogo.** El IP tiene razón y el catálogo ya lo dice: el quebrado está
-declarado como **rasgo admitido** —no como parte de la medida—, y en las oncenas como *habitual*. Que
-solo se vea bajo «Medida» es consecuencia de que **el rasgo está vacío**: sin valores no hay nada que
-ofrecer ni que resumir. Lo que el IP propone —preguntar primero «¿hay quebrados?» y solo entonces
-cuáles— es justamente lo que el rasgo permitiría en cuanto tenga sus dos valores. **Es una migración,
-y no está aprobada.**
-
-**F17 y F18 son la misma pantalla.** Escribir un esquema a mano y elegir uno predefinido marcando una
-desviación son cosas distintas, y hoy se ofrecen juntas y sin jerarquía. El IP añade que la frontera
-entre «desviación» y «esquema nuevo» la decide el editor, que no pasa nada porque luego se revisen, y
-que **el comprobador en vivo podría avisar de que lo escrito se parece mucho a un esquema existente**
-por si conviene elegir aquel y marcar la diferencia. Va con **B8** y con **F9**.
-
-**Lo comprobado en F8 y F9**, para no repetirlo: el catálogo **sí** declara el pareado —esquema
-«Pareado consonante final», posiciones 1 y 2, ambas clase `a`—, y «Cuerpo sin rima» es un esquema con
-cero posiciones, que es como se dice «no rima». Ninguna de las dos se pinta. Toda la arquitectura va
-**sin esquema métrico**: por eso la medida se pregunta verso a verso.
-
-**F1. ~~El rango de versos admite un final anterior al inicial.~~ Hecho el 27 de agosto de 2026.**
-Mover el principio mueve el final conservando la longitud —decisión del IP—, el final no baja del
-principio, los rangos de las desviaciones se acotan al de la secuencia y el guardado los mira, y
-`secuencias_metricas` gana el `CHECK (v_fin >= v_ini)` que era la única tabla con rango en no tener.
-*El texto de abajo se conserva porque explica lo que se encontró.*
-Con 116–112 en una forma de trece versos, la cobertura dice «la estructura rebasa el rango en 39
-versos». **Alcanza a todas las formas**: no es del catálogo, es el campo. Tres capas:
-
-1. **La UI deja llegar al estado imposible.** Los dos campos llevan `min="1"` y nada más:
-   `updateSequenceEnd` hace `Math.max(1, value)` sin mirar `v_ini`, y `updateSequenceStart` al
-   revés. `validateDraft` **sí** lo rechaza —«El verso final no puede ser anterior al inicial»—,
-   pero solo al pulsar Guardar, cuando la pantalla lleva un rato mintiendo.
-2. **Los rangos de las desviaciones están peor.** Son `bind:value` **sin `min` siquiera**, así que
-   admiten cero y negativos, y `validateDraft` **no las menciona en ninguna línea**: ni su rango ni
-   que caigan dentro de la secuencia. Lo para la base, con un error crudo en vez de un aviso.
-3. **A `secuencias_metricas` le falta la restricción.** `anotacion_realizaciones`,
-   `anotacion_desviaciones`, `anotaciones_metricas`, `secuencias_caracterizaciones_rango`
-   y `secuencias_subtipos_estrofa` **todas** tienen `v_fin >= v_ini`; la de producción **no**. Hoy la
-   sostiene solo el `refine` de zod del API. *Datos limpios: 0 invertidas de 263, ningún `n_versos`
-   descuadrado.* Esa migración **va a `main`**, que es donde van los cambios de esa tabla.
-
-*Queda una decisión del IP:* qué hace subir el verso inicial por encima del final. Hoy, cuando la
-forma deriva las unidades del rango, **arrastra el final conservando la longitud**; cuando no las
-deriva, el final se queda quieto y puede quedar detrás. La propuesta es hacerlo **igual siempre**,
-para que el editor se comporte de una sola manera.
-
-#### Canción petrarquista · Regular de 13 versos *(27 de agosto)*
-
-**Del recuadro de la norma.** Se llama «Normas de la arquitectura» y el IP lo llamaría
-**«Características esperadas»**, y lo quiere **desplegable**. Le sobran además tres cosas, y el
-motivo que da es el bueno: **la rejilla ya las dibuja, y mejor**. Las *partes fijas*, la *medida
-fija* y la *rima fija* se ven verso a verso en el dibujo; lo que el recuadro tiene que decir no es
-cuáles son, **sino que son fijas** —porque si el pasaje no encaja en esos esquemas, la arquitectura
-que toca es la de estancias consonantes variables, y eso es lo que hay que saber para elegir—.
-
-**De la rejilla.** Sobra información al lado de cada parte: «1 realización de 3 versos · la norma las
-fija enteras». Con pintar cada parte con sus versos bastaría, y cada estancia ocuparía menos. En la
-unidad, «13 versos · patrón fijo por la arquitectura» se quedaría en **«patrón fijo»**, y «rango
-calculado desde sus partes» **sobra**: es cierto y complica más de lo que ayuda.
-
-**De la cobertura — arreglado el mismo día.** Decía «39 de 2 versos», que se lee como un número al
-revés. *No lo era*: la estructura cubría 39 y el rango declaraba 2. Lo que engañaba es que «X de Y»
-se lee como «X de un total de Y» y chirría justo cuando X es mayor, que es cuando hay que leerlo.
-**Ahora los dos números van con su nombre** —«estructura 39 · rango 2»—, la frase de debajo los
-repite —«La estructura ocupa 39 versos y el rango declara 2: sobran 37»— y **el error de guardar dice
-lo mismo**, que antes daba un solo número. Cuando cuadran, sigue bastando «39 versos».
-
-*Las otras tres alcanzan a las 41 formas.* No se tocan todavía.
-
-**F2. Una sección opcional puede no declarar ni su metro ni su rima, y nadie los pregunta.** Este sí
-es hueco del modelo, y sale de que **al añadir un remate solo se pregunta cuántos versos tiene**.
-Contado contra la base, de las **once secciones opcionales** que hay en cuatro formas:
+**F2 · El remate, y las secciones opcionales que no declaran nada.** Contado contra la base, de las
+**once secciones opcionales** del catálogo:
 
 | forma | secciones | declaran | preguntan |
 |---|---|---|---|
@@ -872,47 +395,44 @@ Contado contra la base, de las **once secciones opcionales** que hay en cuatro f
 | **Canción petrarquista** | **remate ×2 y eslabón** | **ninguno** | **no** |
 
 El remate de la regular admite **de 1 a 13 versos** y no dice nada de cómo son, así que anotarlo no
-registra más que su extensión. Es el mismo hueco que **B8** en otra escala: donde la norma no fija
-algo, alguien tiene que poder decir lo que ve. *Decisión del IP: si el remate debe declarar lo que
-las fuentes documenten, o preguntar como las demás.*
+registra más que su extensión. *Decisión del IP: si debe declarar lo que las fuentes documenten, o
+preguntar como las demás.*
 
-#### Canción petrarquista · Estancias consonantes variables *(27 de agosto)*
+**F6 · La rejilla, madura para decidirse entera.** Va por la tercera aparición y acumula **F5, F8,
+F13, F14, F20 y F23**. Lo que el IP ha pedido, junto: que el recuadro se llame «características
+esperadas» y sea desplegable; que no repita lo que la figura ya dibuja, porque lo que hay que saber
+es **que** algo es fijo, no cuál es —de eso depende elegir entre la regular y la de estancias
+variables—; que sobre la letra de al lado de cada parte; que la unidad modelo se pinte una vez y las
+demás digan solo sus versos; y que la estructura se vea donde se declara la medida. **Alcanza a las
+41 formas y se decide entera, no forma a forma.**
 
-**El recuadro decía cinco veces «Estructura» — arreglado el mismo día.** No era cosa de esta forma:
-`variableSectionFacts` recorría **todas** las secciones en plano, sin mirar `seccion_padre_id`, así
-que las partes de dentro de la estancia —fronte, los dos pies, la sirima— salían anunciadas como
-estructura *de la secuencia*, al mismo nivel que la serie de estancias. Y una de ellas decía **«1
-Primeros pies; 2–9 versos por primer pie»**: plural para una parte que aparece una sola vez.
+**F8 y F9 · Lo comprobado, para no repetirlo.** El catálogo **sí** declara el pareado de la canción
+sin rima —esquema «Pareado consonante final», posiciones 1 y 2, ambas clase `a`—, y «Cuerpo sin rima»
+es un esquema con cero posiciones, que es como se dice «no rima». Ninguna de las dos se pinta, y
+ninguna se guarda: no hay grupo de rima, así que el `aa` es norma y no respuesta. Toda esa
+arquitectura va **sin esquema métrico**, y por eso la medida se pregunta verso a verso.
 
-Lo llamativo es que **la intención ya estaba escrita**: `metricNormGrid` sí filtra
-`!section.seccion_padre_id`, y la prueba de esta misma arquitectura solo alimenta las dos secciones
-de primer nivel y espera dos renglones. Pasaba porque nunca le daban las hijas. Ahora hay una prueba
-con el árbol entero, como está en la base.
+**F16 · El quebrado es un rasgo, y el rasgo está vacío.** Las diez arquitecturas con quebrados **ya
+declaran** `pie_quebrado` —`admitida` en ocho, `habitual` en las dos oncenas—, pero el rasgo **no
+tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo único
+visible es `posiciones_pie_quebrado`, de dimensión `metro`, y de ahí que todo acabe bajo «Medida».
+Preguntar primero «¿hay quebrados?» es lo que el rasgo permitiría en cuanto tenga sus dos valores.
+*Migración, sin aprobar.*
 
-Queda como pedía el IP: **la unidad se describe una vez, con sus partes y lo que mide cada una**, y
-debajo la serie.
+**F17 y F18 · La misma pantalla.** Escribir un esquema a mano y elegir uno predefinido marcando una
+desviación son cosas distintas, y hoy se ofrecen juntas y sin jerarquía. El IP añade que la frontera
+la decide el editor, que no pasa nada porque luego se revisen, y que **el comprobador en vivo podría
+avisar de que lo escrito se parece mucho a un esquema existente**. Va con **B8** cerrado y con **F9**.
 
-| | antes | ahora |
-|---|---|---|
-| | 5 × «Estructura» + 2 × «Parte opcional» | **Partes** · Fronte 4–18 · Primer pie 2–9 · Segundo pie 2–9 · Eslabón 1 (opcional) · Sirima 1–16 |
-| | | **Estructura** · 3 o más estancias; 5–20 por estancia; la primera fija el patrón |
-| | | **Parte opcional** · Remate o envío: 1–20 versos |
+**F26 y F27 · Los dos huecos de la endecha real.** El primero es de dato: la **heptasilábica de cinco
+versos** rima solo en consonante y pregunta obligatoriamente las vocales de la asonancia; de las diez
+arquitecturas que hacen esa pregunta, las otras nueve son correctas. El segundo es de modelo: la
+**heptasilábica con endecasílabo final** admite **tres regímenes** y pregunta la asonancia se elija lo
+que se elija. Para callarla haría falta que **una pregunta dependiera de otra respuesta**, y eso no
+está en el modelo —`grupos_eleccion_metrica` no declara ninguna dependencia—. Hoy muerde ahí, pero
+**12 arquitecturas admiten más de un régimen**. *Es la cara técnica de una pregunta que el IP ya tenía
+abierta: «qué elecciones dependen de otras» ⇒ **C1**.*
 
-Van en **orden de árbol** —la estancia lleva un fronte, y el fronte dos pies—, y una parte que puede
-faltar lo dice, porque su ausencia no es una desviación. El título es «Partes fijas» solo cuando la
-norma las fija todas enteras. *Alcanza a 9 arquitecturas de 5 formas*, con 14 secciones hijas
-afectadas, y el plural roto eran 8 casos en 5 arquitecturas: comprobado en pantalla en la canción y
-en el villancico, donde «1 Cabezas; 2–4 versos por cabeza» pasa a **«Cabeza: 2–4 versos»**.
-
-**Lo que no se toca todavía.** El IP quiere además que la estancia modelo se vea **en la rejilla** con
-sus patrones, señalando qué es pie 1, pie 2, si hay eslabón y cuánto mide la sirima, y que debajo cada
-estancia diga solo de qué verso a qué verso va. Eso es **la segunda vez que sale lo mismo** —en la
-regular ya pidió quitar la letra de al lado de cada parte—, así que el asunto está maduro para
-decidirse, pero es la rejilla, que alcanza a las 41 formas, y se decide entero, no forma a forma.
-
-**F2, segunda aparición.** El remate tampoco deja especificar nada aquí. Ya no es una impresión de
-una forma: es la misma sección sin metro ni rima ni preguntas, en las dos arquitecturas de la
-canción. Sigue esperando al IP.
 
 ### Lo que va a `main`, no aquí
 
@@ -970,8 +490,9 @@ por su número sepa que no siguen abiertos.
 | **B7** | la vuelta del villancico no declaraba su esquema métrico | 25 ago |
 | **C6** | la rejilla convertía en ciclo una unidad acotada | 25 ago |
 | **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
+| **B8** | las aliradas abiertas no podían registrar el metro que se ve; se les creó la pregunta, y con ella la de los quebrados de la manriqueña y la sextilla | 27 ago |
 
-Quedan **tres asuntos en A**, **uno en B** y **dieciséis en C**.
+Quedan **tres asuntos en A**, **ninguno en B** y **dieciséis en C**.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -1082,65 +603,14 @@ commits y en [criterios de nivel](./criterios-de-nivel.md). El resto de lo que h
 el V2 llegue a los editores no son deudas del modelo sino integración, y vive en
 [El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
 
-**B8. Las aliradas abiertas no pueden registrar el esquema de metro que se ve.** *Escrito el 26 de
-agosto de 2026 y **rehecho dos veces el mismo día**, las dos por leer mal el catálogo antes de
-preguntar. Queda anotado el recorrido porque el error es instructivo: ninguna de las dos lecturas
-falsas se sostuvo al contrastarla con la intención del IP.*
+**B8 se cerró el 27 de agosto de 2026.** El cuarteto, la octava, la novena y la décima liras
+declaraban su repertorio `7/11` y **ninguna posición** —la norma no fija cuál va dónde— pero no tenían
+pregunta de metro, así que la medida que el editor leía no se registraba. Ya la tienen: la función que
+deriva las opciones ofrece dos por verso. *El septeto-lira quedó fuera a propósito —su esquema sí fija
+la medida verso a verso— y si admite otras proporciones lo decide el IP.*
 
-**La decisión de diseño, dicha por el IP:** el cuarteto, el septeto, la octava, la novena y la
-décima-lira son formas nuevas de las que **todavía no se sabe qué hay en el corpus**, así que se
-dejan **abiertas de metro y de rima** —salvo el esquema de rima de la décima-lira, que ya se
-conoce—, y **se quiere que registren exactamente el esquema de metro y exactamente el de rima**. La
-base es donde se van a documentar.
+**No queda nada abierto en B.**
 
-Estado real, contado contra la base:
-
-| forma | rima | metro | preguntas |
-|---|---|---|---|
-| Cuarteto-lira | `abab`, `abba` *(admitidas)* | abierto, `11/7` | 1 de rima, **0 de metro** |
-| Octava-lira | `ababccdd`, `abcabcdd` *(admitidas)* | abierto, `11/7` | 1 de rima, **0 de metro** |
-| Novena-lira | **abierta**, sin notación | abierto, `11/7` | 1 de rima, **0 de metro** |
-| Décima-lira | `ababcdcdee` *(admitida)* | abierto, `11/7` | 1 de rima, **0 de metro** |
-| Septeto-lira | `ababbcc` *(habitual)* | **fijo** `7 11 7 11 7 7 11` | **0 y 0** |
-
-**La mitad de rima está hecha y la de metro no existe.** Escribir el esquema de rima lo resolvió B1
-—`opciones_y_esquema`, 41 grupos—. Para el metro no hay nada: los **27 grupos de metro del catálogo
-entero son `opciones` cerradas**, y no existe ningún `tipo_control` que admita escribir un esquema
-métrico. Un editor que vea `11 7 7 11` en un cuarteto-lira no tiene dónde ponerlo.
-
-**Y la salida de rebote no vale.** En la tradición alirada la caja de la notación es la medida
-—`aBaB`—, y como el normalizador la conserva verso a verso, el dato *quedaría* registrado. Pero
-mezcla dos dimensiones en una respuesta, solo se sostiene en esta tradición —en una octava real las
-mayúsculas solo dicen arte mayor— y **no se puede contar ni comparar como metro**, que es
-justamente para lo que se registra. El IP pide el esquema de metro exacto, como dato propio.
-
-Lo que hace falta, con B1 de plantilla:
-
-1. Un **`tipo_control` para escribir un esquema métrico** y su híbrido, espejo de `esquema_rima` y
-   `opciones_y_esquema`.
-2. Las **preguntas de metro** de estas formas.
-3. Un **normalizador de esquemas métricos escritos**, hermano de
-   [`esquema-rima-escrito.ts`](../../src/lib/metrica/esquema-rima-escrito.ts): validar `11 7 7 11`,
-   comprobar que el número de medidas cuadra con la extensión de la unidad, y **casar con los
-   esquemas métricos del catálogo**, para que uno que ya existe se guarde como elección y no como
-   texto —igual que hace hoy `MetricChoiceField` con la rima—.
-4. **Guardar lo escrito descompuesto**, no como cadena: sin eso, el recuento de «cuántos han escrito
-   el mismo esquema» —la señal para incorporarlo al catálogo y migrar las secuencias que lo usaban—
-   obliga a partir cadenas. Vale para las dos dimensiones a la vez.
-
-*El septeto-lira está fuera de línea con sus hermanas:* tiene el metro fijo y un único esquema de
-rima marcado `habitual` —«suele ser este», luego hay otros— y **no pregunta nada**, así que quien
-encuentre uno distinto no puede decirlo. El auditor no lo ve porque **D17 da por fijada la rima
-cuando hay un solo esquema concreto**, sin mirar la modalidad. Si va a quedar abierta como las
-demás, se le añaden las dos preguntas; y conviene decidir si D17 debe mirar también la modalidad.
-
-*Lo que sí está bien y no hay que tocar:* las **ocho variedades del sexteto-lira** no son otra
-manera de declarar la medida, sino el mecanismo para emparejar esquema métrico y de rima **sin
-generar el producto cartesiano** de variedades. Es propio de esa forma. No hay ninguna
-inconsistencia de modelo que resolver, como llegué a escribir aquí.
-
-*Y la **canción de estancias variables**, que puse como segundo caso, sí tiene pregunta de metro:
-está cubierta.*
 
 ### C · Deudas del modelo, sin urgencia
 
@@ -1343,6 +813,13 @@ corrija un esquema del catálogo —la revisión va por la 4413— los pasajes a
 la vieja, sin manera de distinguir «esto se corrigió» de «este pasaje era realmente distinto». Esa
 segunda distinción es justo para lo que existe `desviaciones`.
 
+**Avanzó el 28 de agosto de 2026, a medias.** El editor ya cruza la norma con las respuestas y
+escribe la anotación de cada unidad en notación corriente —`8a 8b 8a 4b 8c 8d 8c 8d`—, juntando medida
+y rima, repartiendo las letras cuando cada parte trae las suyas y rellenando con la norma lo que no se
+pregunta. **Pero vive en la pantalla**, en `MetricStructureEditor`: no está en un módulo puro, no
+recorre las desviaciones ni la arquitectura intercalada, y nadie puede pedirla desde fuera. Para la
+estilometría hace falta lo que sigue.
+
 **Lo que falta es la proyección.** [`rejilla.ts`](../../src/lib/metrica/rejilla.ts) ya produce el
 verso a verso —es pura, 678 líneas con 525 de pruebas—, pero **dibuja la norma de una arquitectura,
 nunca un pasaje anotado**: sus tres consumidores son la ficha de `/formas`, el demarcador y el
@@ -1364,6 +841,13 @@ es **posicional**, como los versos quebrados.
 
 *No corre prisa para anotar —nada de esto bloquea a un editor—, pero sí es previo a poder comparar y
 cuantificar, que es para lo que se hace el catálogo nuevo.*
+
+**C19. Separar y renombrar el cargador del catálogo que usa el editor.** Al retirarse
+`/dashboard/metrica`, `loadMetricCatalog` conserva el nombre y parte del contrato de la antigua
+pantalla, aunque sigue siendo imprescindible para el editor de secuencias de las obras. No es
+urgente: más adelante debe convertirse en un cargador explícito para el editor, devolver solo
+`MetricCatalogForEditor` y el estado de migración, y dejar de consultar los datos residuales de la
+antigua página.
 
 ## Siguiente fase prevista
 
@@ -1388,8 +872,8 @@ se completó el 31. Lo que sigue:
    modalidad y la primacía, las reglas de repetición y el modelo de esquemas abiertos.
 6. **Revisión de la prosa, forma por forma: completa** el 21 de agosto de 2026, en las 28 fichas
    que existían. Las seis formas creadas ese día nacieron con la prosa ya escrita a ese criterio.
-7. **El demarcador ya consume la ontología**, no su vector fijo de rasgos: se recompila desde
-   `/dashboard/metrica` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. El cierre
+7. **El demarcador ya consume la ontología**, no su vector fijo de rasgos: se compila al cargar
+   `/recursos/demarcador` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. El cierre
    no obligatorio del terceto encadenado se resolvió el 25 de agosto de 2026 —ver
    [B4](#b--bloquean-el-editor-v2-en-producción)—; **queda por revisar la retirada de la copla de
    pie quebrado**. Y los artefactos guardados están viejos: los cinco son del 2 de agosto,

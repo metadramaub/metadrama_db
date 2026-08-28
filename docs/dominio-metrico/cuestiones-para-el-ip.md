@@ -13,6 +13,28 @@ describe el catálogo: eso se lee en `/formas`, que se genera del dato y no pued
 > forma aparte, la de la densidad de la sextilla y la del grupo `tipologia` del sexteto-lira. Lo que
 > queda está comprobado abierto.
 
+## Lo urgente, si hay poco tiempo
+
+*Puesto el 28 de agosto de 2026, al recorrer el formulario forma por forma.* Cuatro cosas, en este
+orden. Las tres primeras **estorban a un editor hoy**; la cuarta es la que más trabajo desbloquea.
+
+1. **La endecha real de cinco versos no se puede guardar.** Rima **solo en consonante** y pregunta
+   obligatoriamente las **vocales de la asonancia**: la pregunta no se puede contestar con sentido y
+   sin contestarla el editor no guarda. De las diez arquitecturas que hacen esa pregunta, **las otras
+   nueve son correctas**. ⇒ [Endecha real](#endecha-real) 3
+2. **El remate de la canción no declara ni pregunta nada.** Se puede añadir, y lo único que queda
+   registrado es cuántos versos tiene. ⇒ [Canción petrarquista](#canción-petrarquista) 5
+3. **El quiebro se presenta como medida esperada y es un rasgo admitido.** El rasgo `pie_quebrado` ya
+   está declarado en las diez arquitecturas que lo admiten, pero **está vacío**, así que no puede
+   preguntarse «¿hay quebrados?» antes de pedir las medidas. ⇒ [Cruce de los quebrados](#las-que-cruzan-formas)
+4. **La rejilla de la norma, entera.** Es lo que más veces ha salido —seis quejas distintas en cinco
+   formas— y **no se decide forma a forma**: alcanza a las 41. El detalle está en
+   [F6](./CONTEXTO-PARA-CONTINUAR.md#lo-que-sale-de-recorrer-el-formulario).
+
+*Y una que no corre prisa pero conviene zanjar mientras se habla de esto:* si el **septeto-lira** es
+de medida fija —`7 11 7 11 7 7 11`, «la realización que la documenta»— o abierta como las otras cuatro
+aliradas. ⇒ [Lira, sexteto-lira y septeto-lira](#lira-sexteto-lira-y-septeto-lira)
+
 ## Cómo se lee, y qué relación tiene con los pendientes
 
 Hay **dos inventarios y no dicen lo mismo**:
@@ -43,6 +65,7 @@ forma a forma produce criterios distintos para el mismo caso.
 | Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 3 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
+| **Si el quiebro se pregunta como rasgo antes que como medida.** El rasgo `pie_quebrado` ya está declarado en las **diez** arquitecturas que lo admiten —`admitida` en ocho, `habitual` en las dos oncenas— pero **no tiene ningún valor**, así que no puede preguntarse «¿hay quebrados?» y todo acaba bajo «Medida», como si hubiera que salir a buscarlos | [Redondilla](#redondilla) · [Copla real](#copla-real) | **abierto** · ⇒ **F16** |
 | **Cuántos versos admite quebrados la redondilla, la copla castellana y la copla de arte menor.** Las tres documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «alternando versos plenos y quebrados»—, así que ninguna da máximo. Las otras siete sí lo declaran desde el 25 de agosto de 2026: una posición nombrada es un quiebro contado | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
 
 ### Los finales esdrújulos y agudos
@@ -208,6 +231,14 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    El catálogo lo exige con `define_norma`. M&B la describen como «versos de siete y once sílabas,
    agrupados en estrofas sin rima, excepto un pareado final», pero no añaden que el orden métrico
    sea idéntico entre estrofas, como sí hacen al definir la canción consonante.
+
+5. **El remate y el eslabón no declaran ni metro ni rima, y nadie se los pregunta.** Contado sobre el
+   catálogo, de las **once secciones opcionales** que hay en cuatro formas, las del terceto encadenado
+   declaran las dos cosas y las del villancico y el zéjel declaran el metro; **las tres de la canción
+   —dos remates y el eslabón— no declaran ninguna**. El remate de la regular admite **de 1 a 13
+   versos**, así que anotarlo no registra más que su extensión. *Si las fuentes documentan cómo son,
+   se declaran; si no, tendrán que preguntarse como se pregunta todo lo que la norma deja abierto.*
+   ⇒ **F2**
 
 ## Villancico
 
@@ -410,6 +441,14 @@ ya lo referencia.*
    la *Llama de amor viva*: seis versos de siete y once, pero **sin pareado final**, de modo que
    ninguna de las siete variedades lo acoge y no cabe en la definición actual. *¿Es otra forma, una
    variedad que obliga a ensanchar la definición, o queda fuera del corpus?* Va con el punto 1.
+
+**¿El septeto-lira es de medida fija o abierta?** *Salió el 27 de agosto de 2026.* Las otras cuatro
+aliradas —cuarteto, octava, novena y décima— declaran repertorio `7/11` **sin posiciones**, y desde
+ese día registran verso a verso lo que se lee. El septeto-lira, en cambio, **fija la medida**: `7 11 7
+11 7 7 11`. Pero su definición presenta esa disposición como «la realización que la documenta», que es
+lenguaje de una realización entre varias. *Si es abierta como sus hermanas, se le crea la misma
+pregunta y deja de fijar posiciones; si es fija, conviene que la definición no diga «la realización
+que la documenta».*
 
 ## Sexteto-lira
 
@@ -671,3 +710,15 @@ de agosto de 2026, con el criterio de que la medida no compromete la norma.*
    más anotado que hay: **nueve secuencias, 313 versos**. El catálogo nuevo tiene una sola entrada.
    *Es posible que alguna se anotara como irregular solo porque quien la anotó no encontró la forma
    precisa, y que con el catálogo nuevo y el demarcador sí aparezca.* ⇒ **A4**
+
+3. **La heptasilábica de cinco versos pregunta las vocales de la asonancia, y rima en consonante.**
+   Su único esquema es «Redondilla con endecasílabo», `abbaA` **consonante**, y sin embargo el grupo
+   `vocales_asonancia` está puesto ahí y es **obligatorio**: el editor no puede guardar sin contestar
+   una pregunta que no aplica. *Basta con retirar la pregunta de esa arquitectura; las otras nueve que
+   la hacen son de rima asonante y están bien.* ⇒ **F26**
+
+4. **La heptasilábica con endecasílabo final pregunta la asonancia elijas la rima que elijas.**
+   Admite **tres regímenes** —asonante, consonante y sin rima— y la pregunta de la asonancia se hace
+   igual con «cruzada consonante» o con «versos sueltos». *Callarla exige que una pregunta pueda
+   depender de otra respuesta, que es la cara técnica de [qué elecciones dependen de otras](#las-que-cruzan-formas).*
+   ⇒ **C1**, **F27**
