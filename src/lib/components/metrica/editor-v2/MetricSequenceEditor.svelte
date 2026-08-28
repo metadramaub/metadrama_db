@@ -85,7 +85,18 @@
 		 * Sus entradas en el mapa, para que el raíl cubra el formulario entero. Cada una es
 		 * un destino con su propio título, no un punto de la lista de lo métrico.
 		 */
-		extraRailItems?: { id: string; label: string }[];
+		/**
+		 * Las demás secciones del modal, para que el raíl sea el índice de todas y no solo de la
+		 * métrica. `alAbrir` las despliega antes de bajar hasta ellas: llevar a una sección plegada
+		 * es llevar a un título.
+		 */
+		extraRailItems?: { id: string; label: string; alAbrir?: () => void }[];
+		/**
+		 * Si la sección métrica está desplegada. La gobierna quien monta el modal, porque es una
+		 * sección entre varias y solo la primera viene abierta.
+		 */
+		seccionAbierta?: boolean;
+		alAlternarSeccion?: () => void;
 		/** Contenido suelto al final del raíl. */
 		railExtra?: import('svelte').Snippet;
 		/**
@@ -471,6 +482,8 @@
 		Boolean(draft.forma_id) && (isEditorialOutput || Boolean(draft.arquitectura_id))
 	);
 	const identificationOpen = $derived(!identificationResolved || identificationForced);
+	/** Sin quien la gobierne desde fuera, la sección métrica está siempre abierta. */
+	const seccionMetricaAbierta = $derived(props.seccionAbierta !== false);
 
 	/**
 	 * La identificación se lee en dos alturas: la forma, que es el dato que el editor
@@ -1072,7 +1085,10 @@
 		<button
 			type="button"
 			class="form-section-title mb-2 block w-full text-left hover:text-[color:var(--foreground)]"
-			onclick={() => goTo('identificacion')}
+			onclick={() => {
+				if (props.seccionAbierta === false) props.alAlternarSeccion?.();
+				goTo('identificacion');
+			}}
 		>
 			Identificación métrica
 		</button>
@@ -1136,7 +1152,10 @@
 			<button
 				type="button"
 				class="form-section-title mb-0 mt-5 block w-full text-left hover:text-[color:var(--foreground)]"
-				onclick={() => goTo(extra.id)}
+				onclick={() => {
+					extra.alAbrir?.();
+					goTo(extra.id);
+				}}
 			>
 				{extra.label}
 			</button>
@@ -1149,21 +1168,36 @@
 	<div class="min-w-0 space-y-4 bg-[color:var(--gray-50)] p-5">
 		<!-- El bloque métrico es un panel principal, al mismo nivel que caracterizaciones,
 		     sinopsis y comentarios. Sus títulos internos son subsecciones, no paneles hermanos. -->
+		<!--
+			**La métrica es una sección plegable, como las demás.** Su cabecera se llamaba «Versos y
+			forma» y llevaba un «Plegar identificación» que solo recogía el primer bloque de campos;
+			ahora lleva el nombre con el que la llama el raíl y pliega **la sección entera**, que es
+			lo que hace falta cuando se está trabajando en la sinopsis o en los comentarios.
+		-->
 		<section id="identificacion" class="border border-[color:var(--border)] bg-white">
 			<div
-				class="flex flex-wrap items-center justify-between gap-2 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-4 py-2.5"
+				class={`flex flex-wrap items-center justify-between gap-2 bg-[color:var(--muted)] px-4 py-2.5 ${
+					seccionMetricaAbierta ? 'border-b border-[color:var(--border)]' : ''
+				}`}
 			>
-				<h3 class="form-panel-title">Versos y forma</h3>
-				{#if identificationResolved && identificationForced}
-					<button
-						type="button"
-						class="link-action"
-						onclick={() => (identificationForced = false)}
-					>
-						Plegar identificación
-					</button>
-				{/if}
+				<h3 class="form-panel-title">Identificación métrica</h3>
+				<div class="flex items-baseline gap-3">
+					{#if !seccionMetricaAbierta && identificationForm}
+						<span class="text-xs text-[color:var(--muted-foreground)]">{identificationForm}</span>
+					{/if}
+					{#if props.alAlternarSeccion}
+						<button
+							type="button"
+							class="link-action text-xs"
+							aria-expanded={seccionMetricaAbierta}
+							onclick={() => props.alAlternarSeccion?.()}
+						>
+							{seccionMetricaAbierta ? 'Colapsar' : 'Desplegar'}
+						</button>
+					{/if}
+				</div>
 			</div>
+			{#if seccionMetricaAbierta}
 			<div class="space-y-6 p-4">
 			{#if identificationOpen}
 				<div class="space-y-3">
@@ -1531,10 +1565,12 @@
 			</section>
 		{/if}
 			</div>
+			{/if}
 		</section>
 
 		<!-- El resto de la secuencia: no es métrico, pero el editor lo rellena en la misma
-		     pasada, así que se ve en el mismo flujo y no en una columna aparte. -->
+		     pasada, así que se ve en el mismo flujo y no en una columna aparte. **Fuera de la
+		     sección métrica**, para que plegarla no se lo lleve por delante. -->
 		{@render props.bodyExtra?.()}
 	</div>
 </div>

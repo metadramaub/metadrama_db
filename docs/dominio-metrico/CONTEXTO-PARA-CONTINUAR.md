@@ -592,6 +592,23 @@ por unidad**. Desaparecen el panel de preparación, el botón de aplicar y el av
 futuras. Comprobado en pantalla con dos coplas castellanas: los dos modos, la marca por unidad y que
 en «una a una» bajan **las dos preguntas**, no solo la rima.
 
+**El modal se reparte en cuatro secciones plegables *(28 de agosto)*.** Reúne cosas que se anotan a la
+vez pero se miran por separado —**identificación métrica, caracterizaciones, sinopsis y
+comentarios**—, y desplegadas todas hay que recorrer la pantalla entera para llegar a la última. Ahora
+cada una se pliega y **solo la primera viene abierta**, que es donde empieza el trabajo. El raíl de la
+izquierda pasa a ser el **índice de las cuatro**: pulsar allí despliega la que toca y baja hasta ella,
+porque llevar a una sección plegada es llevar a un título.
+
+**Los comentarios habían desaparecido.** Vivían al pie del panel lateral y se fueron con él el 27 de
+agosto sin que nadie lo notara: la anotación se quedó sin el sitio donde se discute, que es justo lo
+que un equipo editorial necesita a mano mientras anota. Vuelven como sección propia; con la secuencia
+todavía sin guardar dicen que hay que guardarla primero.
+
+Y **«Plegar identificación» se sustituye por plegar la sección entera**: recogía solo el primer bloque
+de campos, y lo que hace falta al trabajar en la sinopsis o en los comentarios es quitar de en medio
+toda la métrica. Plegada, la sección enseña la forma elegida, para no tener que abrirla solo para ver
+cuál era.
+
 **De la endecha real: las series ya dicen cuánto cabe.** Una serie no estrófica no materializa
 unidades, así que **no tenía recuadro de cobertura** y no decía nada de su extensión —salvo cuando el
 rango no cuadraba y saltaba el error—. Pero el dato ya estaba: la regla de longitud declara el módulo,
