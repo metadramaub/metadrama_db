@@ -9,6 +9,8 @@
 	import PublicResourceHeader from '$lib/components/public/PublicResourceHeader.svelte';
 	import type {
 		CatalogoDemarcador,
+		FormaDemarcable,
+		FormaPuntuada,
 		ModoDemarcador,
 		PreguntaDemarcador,
 		RespuestaDemarcador
@@ -24,6 +26,9 @@
 	let ayudaAbierta = $state(false);
 	let afinamientoSolicitado = $state(false);
 	let numeroRespuesta = $state('');
+	let busquedaForma = $state('');
+	let mostrarSugerencias = $state(false);
+	let mostrarMasResultados = $state(false);
 
 	const formasOrdenadas = $derived(ordenarFormas(data.catalogo, respuestas));
 	const pregunta = $derived(
@@ -36,8 +41,11 @@
 			? formasOrdenadas[0].puntuacion - formasOrdenadas[1].puntuacion
 			: Number.POSITIVE_INFINITY
 	);
+	const respuestasConcluyentes = $derived(
+		respuestas.filter((respuesta) => respuesta.valor !== 'desconocido').length
+	);
 	const resultadoSuficiente = $derived(
-		respuestas.filter((respuesta) => respuesta.valor !== 'desconocido').length >= 2 &&
+		respuestasConcluyentes >= 3 &&
 		(formasOrdenadas[0]?.arquitecturas[0]?.coincidencias ?? 0) >= 2 &&
 		diferenciaPrincipal >= 0.75
 	);
@@ -46,8 +54,16 @@
 	);
 	const resultadosVisibles = $derived(
 		respuestas.length > 0
-			? formasOrdenadas.slice(0, resultadoSuficiente ? 3 : 5)
+			? formasOrdenadas.slice(0, mostrarMasResultados ? 8 : 3)
 			: []
+	);
+	const comparacionPrincipal = $derived(explicarComparacion(formasOrdenadas));
+	const formasSugeridas = $derived(
+		data.catalogo.formas
+			.filter((forma: FormaDemarcable) =>
+				normalizarBusqueda(forma.nombre).includes(normalizarBusqueda(busquedaForma))
+			)
+			.slice(0, 8)
 	);
 	const formaObjetivo = $derived(
 		formaObjetivoId
@@ -62,6 +78,7 @@
 		respuestas = [];
 		afinamientoSolicitado = false;
 		numeroRespuesta = '';
+		mostrarMasResultados = false;
 	}
 
 	function responder(
@@ -72,6 +89,7 @@
 		respuestas = [...respuestas, crearRespuesta(preguntaActual, valor, etiqueta)];
 		afinamientoSolicitado = false;
 		numeroRespuesta = '';
+		mostrarMasResultados = false;
 	}
 
 	function responderNumero(preguntaActual: PreguntaDemarcador) {
@@ -85,13 +103,62 @@
 		afinamientoSolicitado = false;
 	}
 
+	function editarRespuesta(indice: number) {
+		respuestas = respuestas.slice(0, indice);
+		afinamientoSolicitado = false;
+		numeroRespuesta = '';
+		mostrarMasResultados = false;
+	}
+
+	function normalizarBusqueda(texto: string): string {
+		return texto
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.toLocaleLowerCase('es')
+			.trim();
+	}
+
+	function seleccionarForma(formaId: string) {
+		const forma = data.catalogo.formas.find((item: FormaDemarcable) => item.id === formaId);
+		if (!forma) return;
+		formaPendienteId = forma.id;
+		busquedaForma = forma.nombre;
+		mostrarSugerencias = false;
+	}
+
+	function explicarComparacion(formas: FormaPuntuada[]): string | null {
+		if (respuestas.length === 0 || formas.length < 2) return null;
+		const primera = formas[0];
+		const segunda = formas[1];
+		const diferencia = primera.puntuacion - segunda.puntuacion;
+		if (diferencia < 0.75) {
+			return `${primera.formaNombre} y ${segunda.formaNombre} siguen muy próximas: las respuestas todavía no permiten distinguirlas con claridad.`;
+		}
+		const detallesSegunda = new Map(
+			segunda.arquitecturas[0].detalles.map((detalle) => [detalle.dimension, detalle.estado])
+		);
+		const razones = primera.arquitecturas[0].detalles
+			.filter(
+				(detalle) =>
+					detalle.estado === 'coincide' && detallesSegunda.get(detalle.dimension) !== 'coincide'
+			)
+			.slice(0, 2)
+			.map((detalle) => detalle.etiqueta.toLocaleLowerCase('es'));
+		return razones.length > 0
+			? `${primera.formaNombre} queda por delante de ${segunda.formaNombre} por ${razones.join(' y ')}.`
+			: `${primera.formaNombre} queda por delante, aunque todavía no hay una sola respuesta que la separe por sí misma de ${segunda.formaNombre}.`;
+	}
+
 	function reiniciar() {
 		modo = null;
 		formaObjetivoId = null;
 		formaPendienteId = '';
+		busquedaForma = '';
+		mostrarSugerencias = false;
 		respuestas = [];
 		afinamientoSolicitado = false;
 		numeroRespuesta = '';
+		mostrarMasResultados = false;
 	}
 
 </script>
@@ -175,16 +242,43 @@
 					la distinguen, pero el resultado seguirá mostrando otras formas compatibles.
 				</p>
 				<label class="mt-5 text-sm font-medium" for="forma-objetivo">Forma propuesta</label>
-				<select
-					id="forma-objetivo"
-					class="mt-2 w-full border border-[color:var(--border)] bg-white px-3 py-3 text-sm"
-					bind:value={formaPendienteId}
-				>
-					<option value="">Selecciona una forma</option>
-					{#each data.catalogo.formas as forma}
-						<option value={forma.id}>{forma.nombre}</option>
-					{/each}
-				</select>
+				<div class="relative mt-2">
+					<input
+						id="forma-objetivo"
+						type="search"
+						autocomplete="off"
+						placeholder="Escribe el nombre de una forma"
+						class="w-full border border-[color:var(--border)] bg-white px-3 py-3 text-sm"
+						bind:value={busquedaForma}
+						role="combobox"
+						aria-autocomplete="list"
+						onfocus={() => (mostrarSugerencias = true)}
+						oninput={() => {
+							formaPendienteId = '';
+							mostrarSugerencias = true;
+						}}
+						aria-controls="formas-sugeridas"
+						aria-expanded={mostrarSugerencias}
+					/>
+					{#if mostrarSugerencias}
+						<div
+							id="formas-sugeridas"
+							class="absolute inset-x-0 top-full z-20 max-h-64 overflow-y-auto border-x border-b border-[color:var(--border)] bg-white shadow-lg"
+						>
+							{#each formasSugeridas as forma}
+								<button
+									type="button"
+									class="block w-full border-t border-[color:var(--border)] px-3 py-2.5 text-left text-sm first:border-t-0 hover:bg-[color:var(--gray-50)]"
+									onclick={() => seleccionarForma(forma.id)}
+								>
+									{forma.nombre}
+								</button>
+							{:else}
+								<p class="px-3 py-3 text-sm text-[color:var(--muted-foreground)]">No se encontró ninguna forma.</p>
+							{/each}
+						</div>
+					{/if}
+				</div>
 				<button
 					type="button"
 					class="mt-3 border border-[color:var(--foreground)] px-4 py-3 text-sm font-semibold transition-colors hover:bg-[color:var(--gray-50)] disabled:cursor-not-allowed disabled:opacity-40"
@@ -210,8 +304,33 @@
 			</button>
 		</div>
 
+		{#if respuestas.length > 0}
+			<section class="border-y border-[color:var(--border)] py-3">
+				<div class="flex flex-wrap items-center gap-2">
+					<p class="mr-1 text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
+						Tus respuestas
+					</p>
+					{#each respuestas as respuesta, indice}
+						<button
+							type="button"
+							class="border border-[color:var(--border)] bg-white px-2.5 py-1.5 text-left text-xs transition-colors hover:border-[color:var(--foreground)]"
+							title={`Cambiar la respuesta ${indice + 1}: ${respuesta.pregunta}`}
+							onclick={() => editarRespuesta(indice)}
+						>
+							<span class="text-[color:var(--muted-foreground)]">{indice + 1}.</span>
+							{respuesta.etiqueta}
+							<span aria-hidden="true"> ×</span>
+						</button>
+					{/each}
+				</div>
+				<p class="mt-2 text-xs leading-5 text-[color:var(--muted-foreground)]">
+					Selecciona una respuesta para retomar el recorrido desde ese punto.
+				</p>
+			</section>
+		{/if}
+
 		<div class="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.35fr)]">
-			<div class="grid content-start gap-4">
+			<div class="grid content-start gap-4 lg:sticky lg:top-5 lg:self-start">
 				<section class="card p-5 sm:p-6">
 					{#if pregunta && !recorridoDetenido}
 						<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
@@ -264,11 +383,15 @@
 						</button>
 					{:else}
 						<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-							Resultado provisional
+							Orientación alcanzada
 						</p>
-						<h2 class="font-display mt-3 text-xl">Ya hay una orientación suficiente</h2>
+						<h2 class="font-display mt-3 text-xl">
+							{resultadoSuficiente
+								? 'Las candidatas principales ya se distinguen'
+								: 'No quedan preguntas que aporten una diferencia clara'}
+						</h2>
 						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-							El motor se detiene antes de pedir precisiones difíciles que aportarían poca información.
+							El recorrido se detiene antes de pedir precisiones difíciles que aportarían poca información.
 						</p>
 						{#if pregunta}
 							<button
@@ -296,7 +419,7 @@
 							class="border border-[color:var(--border)] px-3 py-2 text-sm font-medium"
 							onclick={() => comenzar(modo!)}
 						>
-							Reiniciar
+							Borrar respuestas
 						</button>
 					</div>
 				{/if}
@@ -308,11 +431,20 @@
 						Orientación
 					</p>
 					<h2 class="font-display mt-2 text-2xl">
-						{respuestas.length === 0 ? 'Todavía sin resultados' : 'Formas más compatibles'}
+						{respuestas.length === 0
+							? 'Todavía sin resultados'
+							: resultadoSuficiente
+								? 'Formas con mejor encaje'
+								: 'Candidatas según tus respuestas'}
 					</h2>
 					<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-						La forma aparece como identidad principal; la arquitectura solo precisa una realización estructural.
+						Al principio se muestran candidatas, no conclusiones. Los grados de encaje aparecen cuando hay evidencias suficientes para compararlas.
 					</p>
+					{#if comparacionPrincipal}
+						<p class="mt-3 border-l-2 border-[color:var(--foreground)] pl-3 text-sm leading-6">
+							{comparacionPrincipal}
+						</p>
+					{/if}
 				</div>
 
 				{#if resultadosVisibles.length > 0}
@@ -321,6 +453,15 @@
 							<DemarcadorResultCard {forma} {index} />
 						{/each}
 					</ol>
+					{#if formasOrdenadas.length > 3}
+						<button
+							type="button"
+							class="w-full border-t border-[color:var(--border)] px-5 py-3 text-sm font-semibold hover:bg-[color:var(--gray-50)]"
+							onclick={() => (mostrarMasResultados = !mostrarMasResultados)}
+						>
+							{mostrarMasResultados ? 'Mostrar solo las tres primeras' : 'Mostrar más candidatas'}
+						</button>
+					{/if}
 				{:else}
 					<p class="p-5 text-sm leading-6 text-[color:var(--muted-foreground)]">
 						La orientación aparecerá después de la primera respuesta. Ninguna respuesta descarta por sí sola una forma.
@@ -354,6 +495,7 @@
 				<li>Selecciona el pasaje que quieres identificar; puede contener una o varias unidades.</li>
 				<li>No necesitas decidir de antemano dónde termina cada unidad: el demarcador propondrá agrupaciones posibles.</li>
 				<li>«No sé» no afirma ni niega y reduce la prioridad de preguntas similares.</li>
+				<li>Las respuestas quedan visibles durante el recorrido; selecciona una para cambiarla y recalcular desde ese punto.</li>
 				<li>Una coincidencia preferente o admitida orienta, pero no se trata como una regla absoluta.</li>
 				<li>El recorrido se detiene si las precisiones restantes son difíciles y aportan poco.</li>
 			</ul>
@@ -369,7 +511,7 @@
 		</section>
 		<section class="border-t border-[color:var(--border)] pt-5">
 			<h3 class="font-semibold text-[color:var(--foreground)]">Interpretar la orientación</h3>
-			<p class="mt-1">«Muy compatible» significa que coinciden varias evidencias relevantes y hay una diferencia clara respecto de otras formas. Las demás formas no desaparecen: una variante, una excepción o un fragmento incompleto pueden cambiar la lectura.</p>
+			<p class="mt-1">Con pocas respuestas se muestran «Candidatas», porque una coincidencia general todavía dice poco. Los grados de encaje aparecen cuando se reúnen más evidencias y tienen en cuenta la distancia respecto de las demás formas. Una variante, una excepción o un fragmento incompleto pueden cambiar la lectura.</p>
 		</section>
 	</div>
 </PublicHelpDialog>
