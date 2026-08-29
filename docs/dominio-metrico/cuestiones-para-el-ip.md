@@ -69,7 +69,6 @@ forma a forma produce criterios distintos para el mismo caso.
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
 | **Cuántos versos admite quebrados la redondilla, la copla castellana y la copla de arte menor.** Las tres documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «alternando versos plenos y quebrados»—, así que ninguna da máximo. Las otras siete sí lo declaran desde el 25 de agosto de 2026: una posición nombrada es un quiebro contado | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
-| **La novena en orden 5+4 declara un quiebro que ninguna fuente ha documentado.** Su propia nota lo dice, y en la otra novena solo hay un caso. *Las cinco que sí lo tenían documentado se declararon el 29 de agosto de 2026* | [Quintilla](#quintilla) 4 · [Novena](#novena) | **abierto**: David propuso el 29 de agosto retirar el rasgo hasta que alguien lo lea ⇒ **F44** |
 
 ### Los finales esdrújulos y agudos
 
@@ -329,16 +328,12 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    los quiebros es la estructura: **son los que cierran cada terceto de la sextilla**, y con este
    orden la sextilla va delante.
 
-   **Queda una sola, y su nota dice que nadie la ha leído:**
-
-   | forma · arquitectura | lo que dice la nota |
-   |---|---|
-   | Novena · Quintilla + redondilla | «**ninguna fuente documenta un ejemplo con quebrado**. Por el patrón que sí se documenta, *caería* en el primer verso» |
-
-   *Declararla afirmaría más de lo que se sabe.* Lo lógico sería el primer verso —es el primero de la
-   quintilla, como en la quintilla suelta y como en el orden 4+5, donde cae en el quinto—, pero sigue
-   siendo una suposición. **David propuso el 29 de agosto retirar el rasgo hasta que alguien lo
-   documente**: en la otra novena hay un solo caso, y en esta ninguno.
+   **Y la novena en orden 5+4 dejó de admitir quiebro**, el mismo día. Su nota decía que ninguna
+   fuente documenta un ejemplo, y la posición salía de trasladar a este orden lo que sí se lee en el
+   otro. Se le retiraron la declaración del rasgo, la pregunta y los dos roles de quiebro: la
+   arquitectura afirma ahora nueve octosílabos, que es lo documentado. *El orden 4+5 conserva el
+   suyo, porque allí hay una realización leída.* Si aparece un ejemplo, se repone: el razonamiento y
+   los dos textos que se retiraron están en el comentario de la migración.
 
    *Y tres preguntan en todos los versos con razón*, porque su nota lo dice: la copla real —«la
    tradición no fija en qué verso»—, la redondilla —«sin fijar en qué versos cae»— y la copla de arte
