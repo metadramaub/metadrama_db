@@ -4,14 +4,16 @@ import {
 	inclusiveMetricLength,
 	isMetricLengthCompatible,
 	metricLengthError,
-	metricLengthCycles
+	metricLengthCycles,
+	metricLengthNoun
 } from './metric-length';
 
 function rule(
 	modulo_versos: number,
 	residuo_versos: number,
 	minimo_versos: number,
-	desplazamientos: number[] = [0]
+	desplazamientos: number[] = [0],
+	origen: MetricLengthRule['origen'] = 'unidad'
 ): MetricLengthRule {
 	return {
 		arquitectura_id: 'configuracion',
@@ -19,7 +21,7 @@ function rule(
 		modulo_versos,
 		residuo_versos,
 		minimo_versos,
-		origen: 'unidad',
+		origen,
 		explicacion: `unidades de ${modulo_versos} versos`,
 		desplazamientos
 	};
@@ -106,11 +108,16 @@ describe('la unidad que declara su propia arquitectura', () => {
 });
 
 describe('metricLengthCycles', () => {
-	/** La endecha real: ciclos completos de cuatro versos. */
-	const endecha = rule(4, 0, 4);
+	/** La endecha real: ciclos completos de rima de cuatro versos. */
+	const endecha = rule(4, 0, 4, [0], 'ciclo_rima');
 
-	it('cuenta cuántas veces cabe el ciclo', () => {
-		expect(metricLengthCycles(endecha, 1, 28)).toEqual({ ciclos: 7, modulo: 4, sobrantes: 0 });
+	it('cuenta cuántas veces cabe lo que se repite', () => {
+		expect(metricLengthCycles(endecha, 1, 28)).toEqual({
+			veces: 7,
+			modulo: 4,
+			sobrantes: 0,
+			origen: 'ciclo_rima'
+		});
 	});
 
 	it('calla cuando el rango no cumple la regla, que ya lo dice el error', () => {
@@ -122,11 +129,43 @@ describe('metricLengthCycles', () => {
 	 * versos son tres tercetos y el serventesio, y esos cuatro se cuentan aparte.
 	 */
 	it('separa lo que aportan las partes opcionales', () => {
-		const terceto = rule(3, 0, 3, [0, 4]);
-		expect(metricLengthCycles(terceto, 1, 13)).toEqual({ ciclos: 3, modulo: 3, sobrantes: 4 });
+		const terceto = rule(3, 0, 3, [0, 4], 'secciones_repetibles');
+		expect(metricLengthCycles(terceto, 1, 13)).toEqual({
+			veces: 3,
+			modulo: 3,
+			sobrantes: 4,
+			origen: 'secciones_repetibles'
+		});
 	});
 
-	it('no cuenta ciclos cuando alguna unidad trae su propia arquitectura', () => {
+	it('no cuenta nada cuando alguna unidad trae su propia arquitectura', () => {
 		expect(metricLengthCycles(endecha, 1, 28, true)).toBeNull();
+	});
+});
+
+/**
+ * La palabra la pone el dato. La lira cuenta **unidades** —así lo dice su propia `explicacion`— y
+ * llamarlas «ciclos» hacía que la cabecera y el cuerpo de la misma pantalla nombraran distinto una
+ * misma cosa. Además «ciclo» ya está tomado: es el bloque repetible del villancico.
+ */
+describe('metricLengthNoun', () => {
+	it('nombra cada origen como lo nombra el catálogo', () => {
+		expect(metricLengthNoun('unidad')).toEqual({ singular: 'unidad', plural: 'unidades' });
+		expect(metricLengthNoun('ciclo_rima')).toEqual({
+			singular: 'ciclo de rima',
+			plural: 'ciclos de rima'
+		});
+		expect(metricLengthNoun('ciclo_metrico')).toEqual({
+			singular: 'ciclo métrico',
+			plural: 'ciclos métricos'
+		});
+		expect(metricLengthNoun('secciones_fijas')).toEqual({
+			singular: 'estructura',
+			plural: 'estructuras'
+		});
+		expect(metricLengthNoun('secciones_repetibles')).toEqual({
+			singular: 'bloque',
+			plural: 'bloques'
+		});
 	});
 });
