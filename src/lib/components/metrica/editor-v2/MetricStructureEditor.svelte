@@ -563,14 +563,33 @@
 	/** Qué han contestado las realizaciones a las que apunta: si coinciden y cuántas van. */
 	/** Lo que responde una unidad, por slug, para poder comparar entre grupos de la misma familia. */
 	function firmaComun(group: MetricCatalogDomainRow, unit: MetricUnitDraft): string {
-		// El esquema abierto no tiene opciones: lo que responde la unidad es lo que se escribió.
-		if (String(group.tipo_control) === 'esquema_rima') {
-			return choiceTextValue(String(group.grupo_eleccion_id), unit.realizacion_id).trim();
-		}
-		return selectedChoiceIds(String(group.grupo_eleccion_id), unit.realizacion_id)
+		const groupId = String(group.grupo_eleccion_id);
+		const slugs = selectedChoiceIds(groupId, unit.realizacion_id)
 			.map(optionSlugOf)
 			.sort()
 			.join('|');
+		if (!admiteEscrito(group)) return slugs;
+		/**
+		 * Con esquema escrito la respuesta puede ser una cosa o la otra, así que la firma lleva las
+		 * dos. Se codifican **sin separador**: `abcabc|defdef` es una notación corriente y cualquier
+		 * carácter que se eligiera para partirlas puede aparecer dentro de una.
+		 */
+		const texto = choiceTextValue(groupId, unit.realizacion_id).trim();
+		if (!slugs && !texto) return '';
+		return JSON.stringify([slugs, texto]);
+	}
+
+	/** Lo contrario de `firmaComun`: qué eligieron y qué escribieron las unidades que coinciden. */
+	function leerFirma(firma: string): [string[], string] {
+		if (!firma.startsWith('[')) return [firma.split('|').filter(Boolean), ''];
+		const [slugs, texto] = JSON.parse(firma) as [string, string];
+		return [slugs.split('|').filter(Boolean), texto];
+	}
+
+	/** Los dos controles de rima que dejan escribir: el abierto puro y el de repertorio con salida. */
+	function admiteEscrito(group: MetricCatalogDomainRow): boolean {
+		const control = String(group.tipo_control);
+		return control === 'esquema_rima' || control === 'opciones_y_esquema';
 	}
 
 	/**
@@ -601,13 +620,11 @@
 				repeticiones = veces;
 			}
 		}
-		// Una notación como `abcabc|defdef` lleva barra: partirla la convertiría en dos respuestas.
-		const uniform =
-			total > 0 && answered === total && cuenta.size === 1
-				? pregunta.esquemaLibre
-					? [mayoritaria]
-					: mayoritaria.split('|').filter(Boolean)
-				: null;
+		// La firma de una pregunta con esquema escrito trae la elección y lo escrito, codificados.
+		const coinciden = total > 0 && answered === total && cuenta.size === 1;
+		const [elegido, escrito] = leerFirma(mayoritaria);
+		const uniform = coinciden ? elegido : null;
+		const textoUniforme = coinciden ? escrito : null;
 		/**
 		 * **Una mayoría de verdad, o ninguna.**
 		 *
@@ -620,6 +637,7 @@
 			total,
 			answered,
 			uniform,
+			textoUniforme,
 			hayComun,
 			mayoritaria: hayComun ? mayoritaria : null,
 			// Sin ninguna respuesta no hay excepción: la pregunta está entera por contestar, y esa
@@ -1059,6 +1077,14 @@
 			}
 		}
 		props.onChoicesChange(siguientes);
+	}
+
+	/** El campo de rima habla en identificadores de opción; la respuesta común viaja por slug. */
+	function idsComunes(pregunta: PreguntaCompartida, slugs: string[]): string[] {
+		const groupId = String(pregunta.groups[0]?.grupo_eleccion_id ?? '');
+		return optionsForGroup(groupId)
+			.filter((option: MetricCatalogDomainRow) => slugs.includes(String(option.slug)))
+			.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id));
 	}
 
 	/** Lo que hace falta para leer un esquema escrito: se toma de la primera unidad, que las representa. */
@@ -1846,7 +1872,7 @@
 									partía de aquel y escribía los tres en todas. Cuántas coinciden se
 									dice al lado, en el rótulo, que es donde no hace daño.
 								-->
-								{#if pregunta.esquemaLibre}
+								{#if pregunta.admiteEscrito}
 									<!--
 										**El mismo campo que usa cada unidad, no una copia.**
 
@@ -1854,6 +1880,10 @@
 										norma y su selector de régimen es exactamente lo que ya pasó una vez
 										con el control común, y acabaron divergiendo. El rótulo lo pone la
 										fila, así que el campo va sin el suyo.
+
+										Vale para los dos controles de rima. En el de repertorio con salida
+										abierta hacía falta igual: la octava real invita por escrito a
+										escribir otro esquema y en conjunto no había dónde.
 									-->
 									<div class="min-w-0 flex-1">
 										<MetricChoiceField
@@ -1863,9 +1893,9 @@
 											label={pregunta.label}
 											options={comunOptions(pregunta)}
 											normaEsquema={normaEsquemaComun(pregunta)}
-											selectedIds={[]}
-											onChange={() => {}}
-											textValue={state.uniform?.[0] ?? ''}
+											selectedIds={idsComunes(pregunta, state.uniform ?? [])}
+											onChange={(ids) => aplicarComun(pregunta, ids.map(optionSlugOf))}
+											textValue={state.textoUniforme ?? ''}
 											onTextChange={(value) => aplicarComunTexto(pregunta, value)}
 										/>
 									</div>

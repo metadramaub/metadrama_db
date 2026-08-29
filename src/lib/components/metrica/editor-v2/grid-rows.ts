@@ -162,14 +162,16 @@ export type PreguntaCompartida = {
 	/** Cuántas realizaciones responde a la vez. */
 	realizaciones: number;
 	/**
-	 * Si la respuesta se escribe en vez de elegirse.
+	 * Si la respuesta se puede escribir, además de o en vez de elegirse.
 	 *
-	 * El esquema de rima abierto no tiene opciones —ninguno de los ocho grupos del catálogo tiene
-	 * ni una— así que su respuesta es texto, no un slug. Se marca aquí porque el atajo de «en
-	 * conjunto» compara respuestas para saber si las unidades coinciden, y una notación como
-	 * `abcabc|defdef` no se puede meter en una firma separada por barras.
+	 * Son los dos controles de rima: el abierto puro —ocho grupos, ninguno con opciones— y el que
+	 * ofrece un repertorio **y** deja escribir otra cosa, que son 39 grupos más. En los dos casos la
+	 * respuesta puede ser texto, y eso cambia dos cosas: el atajo de «en conjunto» tiene que pintar
+	 * el campo escrito —si no, la ayuda que invita a escribir otro esquema miente— y la firma con la
+	 * que se comparan las unidades no puede separarse por barras, porque una notación como
+	 * `abcabc|defdef` lleva una.
 	 */
-	esquemaLibre: boolean;
+	admiteEscrito: boolean;
 };
 
 /**
@@ -751,12 +753,15 @@ export function preguntasCompartidas(context: GridRowContext): PreguntaCompartid
 		/**
 		 * **El esquema escrito también se responde en conjunto.**
 		 *
-		 * Estuvo excluido de aquí sin que nada dijera por qué: la razón era técnica —el control
-		 * común hablaba en slugs y esto es texto—, no que responder ocho sextillas iguales una a
-		 * una tuviera sentido. Alcanza a 8 arquitecturas de 5 formas: la novena-lira, el septeto,
-		 * el sexteto dodecasilábico, las cuatro sextillas y las estancias variables de la canción.
+		 * El abierto puro estuvo excluido de aquí sin que nada dijera por qué: la razón era técnica
+		 * —el control común hablaba en slugs y esto es texto—, no que responder ocho sextillas
+		 * iguales una a una tuviera sentido. Y el mixto entraba, pero pintado solo con su
+		 * repertorio: en la octava real la ayuda decía «marca ABABABCC si es el que lees, y si no,
+		 * escribe el que veas» y en conjunto no había dónde escribir.
 		 */
-		const esquemaLibre = String(group.tipo_control) === 'esquema_rima';
+		const admiteEscrito =
+			String(group.tipo_control) === 'esquema_rima' ||
+			String(group.tipo_control) === 'opciones_y_esquema';
 		// Las respuestas múltiples ordinarias no tienen un único valor que copiar. Las
 		// posicionales sí: se copia la serie completa, una respuesta por posición. Es el caso
 		// del pareado, cuya medida declara por separado sus dos versos.
@@ -770,7 +775,7 @@ export function preguntasCompartidas(context: GridRowContext): PreguntaCompartid
 			help: group.ayuda_editor ? String(group.ayuda_editor) : null,
 			groups: [],
 			realizaciones: 0,
-			esquemaLibre
+			admiteEscrito
 		};
 		family.groups.push(group);
 		family.realizaciones += destinatarias.length;
