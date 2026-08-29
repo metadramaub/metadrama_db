@@ -15,8 +15,8 @@ import {
  * - **septeto compuesto**: su unidad solo tiene un patrón abierto y vacío → hereda.
  */
 const secciones = [
-	{ seccion_id: 'oncena-quintilla', arquitectura_id: 'oncena', arquitectura_referenciada_id: 'quintilla' },
-	{ seccion_id: 'oncena-sextilla', arquitectura_id: 'oncena', arquitectura_referenciada_id: 'sextilla' },
+	{ seccion_id: 'oncena-quintilla', arquitectura_id: 'oncena', arquitectura_referenciada_id: 'quintilla', nombre: 'Quintilla' },
+	{ seccion_id: 'oncena-sextilla', arquitectura_id: 'oncena', arquitectura_referenciada_id: 'sextilla', nombre: 'Sextilla' },
 	{ seccion_id: 'castellana-1', arquitectura_id: 'castellana', arquitectura_referenciada_id: 'redondilla' },
 	{ seccion_id: 'castellana-2', arquitectura_id: 'castellana', arquitectura_referenciada_id: 'redondilla' },
 	{ seccion_id: 'real-1', arquitectura_id: 'copla-real', arquitectura_referenciada_id: 'quintilla' },
@@ -47,8 +47,8 @@ const posiciones = [
 ];
 
 const grupos = [
-	{ grupo_eleccion_id: 'g-quintilla', arquitectura_id: 'quintilla', dimension: 'rima', seccion_id: null, seccion_tratada_id: null, activo: true, alcance: 'unidad', tipo_control: 'opciones' },
-	{ grupo_eleccion_id: 'g-sextilla', arquitectura_id: 'sextilla', dimension: 'rima', seccion_id: null, seccion_tratada_id: null, activo: true, alcance: 'unidad', tipo_control: 'opciones_y_esquema' },
+	{ grupo_eleccion_id: 'g-quintilla', arquitectura_id: 'quintilla', dimension: 'rima', seccion_id: null, seccion_tratada_id: null, activo: true, alcance: 'unidad', tipo_control: 'opciones', nombre: 'Esquema de rima' },
+	{ grupo_eleccion_id: 'g-sextilla', arquitectura_id: 'sextilla', dimension: 'rima', seccion_id: null, seccion_tratada_id: null, activo: true, alcance: 'unidad', tipo_control: 'opciones_y_esquema', nombre: 'Esquema de rima' },
 	{ grupo_eleccion_id: 'g-cuarteto', arquitectura_id: 'cuarteto', dimension: 'rima', seccion_id: null, seccion_tratada_id: null, activo: true, alcance: 'unidad', tipo_control: 'opciones' },
 	// La copla real ya se copió las suyas a mano, apuntando a cada parte.
 	{ grupo_eleccion_id: 'g-real-1', arquitectura_id: 'copla-real', dimension: 'rima', seccion_id: 'real-1', seccion_tratada_id: null, activo: true, alcance: 'unidad', tipo_control: 'opciones' },
@@ -114,6 +114,22 @@ describe('la rima que una parte hereda de la arquitectura que reutiliza', () => 
 				tipo_control: 'opciones',
 				heredado_de: 'quintilla'
 			});
+		});
+
+		/**
+		 * Las dos partes de la oncena heredaban una pregunta llamada «Esquema de rima» a secas, y
+		 * todo lo que agrupa preguntas por su nombre las tomaba por la misma: se preguntaba el
+		 * repertorio de la primera parte y el de la segunda no se preguntaba nunca. Las copias a
+		 * mano no tenían el problema porque alguien las llamó «Primera quintilla · Esquema de rima».
+		 */
+		it('las nombra con la parte delante, como las copias a mano', () => {
+			const heredados = gruposHeredadosPorReutilizacion('oncena', catalogo);
+			expect(heredados.map((grupo) => grupo.nombre)).toEqual([
+				'Quintilla · Esquema de rima',
+				'Sextilla · Esquema de rima'
+			]);
+			// Y dos partes distintas no pueden acabar llamándose igual.
+			expect(new Set(heredados.map((grupo) => grupo.nombre)).size).toBe(heredados.length);
 		});
 
 		it('no trae preguntas de otra dimensión ni desactivadas', () => {

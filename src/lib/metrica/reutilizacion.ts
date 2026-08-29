@@ -26,6 +26,7 @@ export type FilaSeccion = {
 	seccion_id: unknown;
 	arquitectura_id: unknown;
 	arquitectura_referenciada_id?: unknown;
+	nombre?: unknown;
 };
 
 export type FilaEsquemaRima = {
@@ -45,6 +46,7 @@ export type FilaGrupo = {
 	seccion_id?: unknown;
 	seccion_tratada_id?: unknown;
 	activo?: unknown;
+	nombre?: unknown;
 };
 
 function id(valor: unknown): string {
@@ -122,6 +124,13 @@ export function seccionHeredaLaRima(
  *
  * Solo se heredan las preguntas que la arquitectura reutilizada hace **de su unidad**. Una que hable
  * de una parte suya describe un interior que aquí no se materializa, y no se trae.
+ *
+ * **Y se traen con el nombre de la parte delante**, que es lo único que le faltaba a la copia para
+ * ser indistinguible de las hechas a mano: la copla real llama a las suyas «Primera quintilla ·
+ * Esquema de rima» y la novena, «Quintilla · Esquema de rima». Sin el prefijo, las dos partes de la
+ * oncena heredaban una pregunta llamada «Esquema de rima» a secas, y todo lo que agrupa preguntas
+ * por su nombre las tomaba por la misma: se preguntaba el repertorio de la primera parte y el de la
+ * segunda no se preguntaba nunca. La fila que ya nombra la sección vuelve a quitar el prefijo.
  */
 export function gruposHeredadosPorReutilizacion(
 	arquitecturaId: string,
@@ -142,11 +151,17 @@ export function gruposHeredadosPorReutilizacion(
 			if (grupo.activo === false) continue;
 			if (id(grupo.dimension) !== 'rima') continue;
 			if (id(grupo.seccion_id) || id(grupo.seccion_tratada_id)) continue;
+			const nombreDeLaParte = id(seccion.nombre);
+			const nombre = id(grupo.nombre);
 			heredados.push({
 				...grupo,
 				arquitectura_id: arquitecturaId,
 				seccion_id: seccion.seccion_id,
 				alcance: 'unidad',
+				nombre:
+					nombreDeLaParte && nombre && !nombre.startsWith(`${nombreDeLaParte} · `)
+						? `${nombreDeLaParte} · ${nombre}`
+						: nombre || grupo.nombre,
 				heredado_de: referenciada
 			} as FilaGrupo);
 		}

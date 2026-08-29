@@ -768,7 +768,19 @@ export function preguntasCompartidas(context: GridRowContext): PreguntaCompartid
 		if (Number(group.selecciones_max ?? 1) !== 1 && !esPosicional) continue;
 		const destinatarias = unitsForGroup(context, group);
 		if (destinatarias.length < 2) continue;
-		const key = `${String(group.dimension)}|${String(group.nombre)}`;
+		/**
+		 * **El repertorio entra en la clave.**
+		 *
+		 * Una respuesta común se escribe por slug en todos los grupos de la familia, y
+		 * `writeComunChoice` se salta en silencio el grupo donde ese slug no existe. Así que dos
+		 * preguntas que se llamen igual pero ofrezcan cosas distintas no pueden ser la misma
+		 * familia: una de las dos se quedaría sin responder y nadie lo diría.
+		 */
+		const repertorio = opciones
+			.map((option) => String(option.slug))
+			.sort()
+			.join(',');
+		const key = `${String(group.dimension)}|${String(group.nombre)}|${repertorio}`;
 		const family = families.get(key) ?? {
 			key,
 			label: String(group.nombre),
