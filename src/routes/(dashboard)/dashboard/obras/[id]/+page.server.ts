@@ -99,6 +99,7 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 					forms: catalogo.forms,
 					configurations: catalogo.configurations,
 					lengthRules: catalogo.lengthRules,
+					rhymeTypes: catalogo.options.rhymeTypes,
 					domain: catalogo.domain
 				}
 	);

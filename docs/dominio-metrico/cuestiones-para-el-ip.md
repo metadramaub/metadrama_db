@@ -273,6 +273,16 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 # Estrofas de arte menor
 
+## Pareado
+
+1. **Una tirada de pareados alirados, ¿es una silva?** El pareado alirado combina heptasílabo y
+   endecasílabo y rima en consonante. Repetido, es exactamente lo que describe la silva consonante.
+   *Si son la misma cosa, el alirado no debería poder abarcar más de dos versos y hay que decirlo en
+   el catálogo; si no lo son, hay que saber qué los distingue, porque el editor hoy deja registrar
+   una tirada de veinte versos como diez pareados alirados.* La pregunta general —**qué formas no
+   admiten repetirse dentro de una secuencia**— el modelo no la sabe expresar: la regla de longitud
+   dice cuántos versos mide cada unidad y nada limita cuántas caben. ⇒ **F42**
+
 ## Redondilla
 
 1. **¿Puede alternar `abba` y `abab` dentro de una misma tirada?** Hoy sí: el esquema se elige por
