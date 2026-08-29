@@ -7,6 +7,7 @@
 		MetricCatalogDomainRow,
 		MetricCatalogForEditor,
 		MetricCatalogForm,
+		MetricCatalogOption,
 		MetricLengthRule
 	} from '$lib/metrica/catalogo';
 	import { metricFormLabel } from '$lib/metrica/catalogo';
@@ -244,17 +245,18 @@
 				String(row.arquitectura_id) === String(draft.arquitectura_id)
 		);
 		if (!draft.arquitectura_id || arquitectura?.tipo_rima_id) return [];
+		// Leía `domain.vocabularies`, que **no existe**: no está entre los recursos del dominio ni
+		// lo rellena nadie. Así que esta lista salía siempre vacía y el régimen de un esquema
+		// escrito no se ha podido preguntar nunca, en las doce arquitecturas que admiten más de uno.
 		const terminos = new Map<string, string>();
 		for (const esquema of props.catalog.domain.rhymePatterns) {
 			if (String(esquema.arquitectura_id) !== String(draft.arquitectura_id)) continue;
 			if (!esquema.tipo_rima_id) continue;
-			const termino = props.catalog.domain.vocabularies?.find(
-				(row: MetricCatalogDomainRow) =>
-					String(row.termino_id) === String(esquema.tipo_rima_id)
+			const termino = props.catalog.rhymeTypes?.find(
+				(row: MetricCatalogOption) => String(row.id) === String(esquema.tipo_rima_id)
 			);
 			if (!termino) continue;
-			const slug = String(termino.termino ?? '');
-			if (slug) terminos.set(slug, String(termino.etiqueta ?? termino.termino ?? slug));
+			if (termino.slug) terminos.set(termino.slug, termino.label || termino.slug);
 		}
 		return terminos.size > 1
 			? [...terminos].map(([slug, etiqueta]) => ({ slug, etiqueta }))
@@ -383,7 +385,8 @@
 					architectureId: draft.arquitectura_id,
 					domain: props.catalog.domain,
 					unitPlan: unitPlanForDraft,
-					lengthRule: selectedLengthRule
+					lengthRule: selectedLengthRule,
+					rhymeTypes: props.catalog.rhymeTypes
 				})
 			: []
 	);
@@ -391,7 +394,8 @@
 		draft.arquitectura_id
 			? metricNormGrid({
 					architectureId: draft.arquitectura_id,
-					domain: props.catalog.domain
+					domain: props.catalog.domain,
+					rhymeTypes: props.catalog.rhymeTypes
 				})
 			: null
 	);

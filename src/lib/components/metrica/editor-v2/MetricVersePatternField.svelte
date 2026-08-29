@@ -184,14 +184,20 @@
 						: 'Elige la medida'}
 			>
 				<div class="flex min-w-0 items-center gap-2">
-					<div class="flex min-w-0">
+					<!--
+						**Las alternativas envuelven.** Con dos medidas caben en una línea, pero el pareado
+						«de cualquier medida» ofrece **nueve por verso** y la fila se salía por la derecha.
+						Los bordes se solapan con `-mr-px` en vez de suprimirse, que es lo que deja el
+						aspecto de grupo unido **y** sobrevive al salto de línea.
+					-->
+					<div class="flex min-w-0 flex-wrap gap-y-1">
 						{#each choices as option (String(option.opcion_eleccion_id))}
 							{@const optionId = String(option.opcion_eleccion_id)}
 							<button
 								type="button"
-								class={`h-9 min-w-12 border border-r-0 px-3 text-sm font-medium last:border-r ${
+								class={`relative -mr-px h-9 min-w-12 border px-3 text-sm font-medium last:mr-0 ${
 									selected === optionId
-										? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
+										? 'z-10 border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
 										: 'border-[color:var(--border)] bg-white hover:bg-[color:var(--muted)]'
 								}`}
 								disabled={props.readOnly}

@@ -153,6 +153,15 @@ export type MetricCatalogForEditor = {
 	forms: MetricCatalogForm[];
 	configurations: MetricCatalogConfiguration[];
 	lengthRules: MetricLengthRule[];
+	/**
+	 * Los regímenes de rima, con su término y su etiqueta.
+	 *
+	 * Van aparte del dominio porque no son una tabla del catálogo sino términos del vocabulario
+	 * general, y el cargador ya los prepara. El editor los necesita para dos cosas: decir en la
+	 * norma que el pareado alirado rima en consonante, y preguntar el régimen cuando la
+	 * arquitectura admite más de uno y el esquema se escribe a mano.
+	 */
+	rhymeTypes: MetricCatalogOption[];
 	domain: MetricCatalogDomainData;
 };
 

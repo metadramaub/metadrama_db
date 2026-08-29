@@ -1,6 +1,7 @@
 import type {
 	MetricCatalogDomainData,
 	MetricCatalogDomainRow,
+	MetricCatalogOption,
 	MetricLengthRule
 } from '$lib/metrica/catalogo';
 import { construirRejilla, type Rejilla } from '$lib/metrica/rejilla';
@@ -620,14 +621,52 @@ function repetitionSummary(
  * demarcador. En el editor sirve para que quien anota vea la estructura que está reconociendo
  * mientras responde, sin salir de la pantalla ni traducir una frase a una figura.
  */
+/** Si la arquitectura declara un único régimen de rima para todas sus disposiciones. */
+function declaraRegimen(architectureId: string, domain: MetricCatalogDomainData): boolean {
+	return (domain.configurations ?? []).some(
+		(row: MetricCatalogDomainRow) =>
+			id(row, 'arquitectura_id') === architectureId && Boolean(row.tipo_rima_id)
+	);
+}
+
+/**
+ * «consonante», «asonante»: la etiqueta del término.
+ *
+ * Los regímenes no son una tabla del dominio sino términos del vocabulario, así que llegan aparte,
+ * en `MetricCatalogForEditor.rhymeTypes`. Sin ellos no se pinta nada: es preferible callar el
+ * régimen a inventarle un nombre.
+ */
+function nombreDelRegimen(
+	tipoRimaId: string,
+	rhymeTypes: MetricCatalogOption[]
+): string | null {
+	if (!tipoRimaId) return null;
+	const termino = rhymeTypes.find((row) => String(row.id) === tipoRimaId);
+	return termino?.label || termino?.slug || null;
+}
+
 export function metricNormGrid(args: {
 	architectureId: string;
 	domain: MetricCatalogDomainData;
+	rhymeTypes?: MetricCatalogOption[];
 }): Rejilla | null {
 	const { architectureId, domain } = args;
+	const rhymeTypes = args.rhymeTypes ?? [];
 	const syllables = (metreId: string): string | null => {
 		const metre = domain.verseModels.find((row) => id(row, 'metro_id') === metreId);
 		return metre?.silabas === null || metre?.silabas === undefined ? null : String(metre.silabas);
+	};
+	/**
+	 * El régimen de cada disposición, **solo cuando la arquitectura no declara uno arriba**.
+	 *
+	 * Es la misma regla que aplica la ficha pública en `formas-publicas.ts` y la que la función de
+	 * opciones aplica a las etiquetas: si lo declara la arquitectura, repetirlo en cada fila es
+	 * ruido; si varía, sin él el pareado enseña dos disposiciones llamadas «aa» y no se sabe cuál
+	 * es la asonante. `MetricPositionGrid` ya sabe pintarlo; aquí nadie se lo daba.
+	 */
+	const regimenDe = (pattern: MetricCatalogDomainRow): string | null => {
+		if (declaraRegimen(architectureId, domain)) return null;
+		return nombreDelRegimen(id(pattern, 'tipo_rima_id'), rhymeTypes);
 	};
 	const sections = domain.sections.filter(
 		(section) => id(section, 'arquitectura_id') === architectureId
@@ -681,6 +720,7 @@ export function metricNormGrid(args: {
 				notacion: pattern.notacion ? String(pattern.notacion) : null,
 				seccion: pattern.seccion_id ? sectionName(id(pattern, 'seccion_id')) : null,
 				modalidad: pattern.modalidad ? String(pattern.modalidad) : null,
+				tipoRima: regimenDe(pattern),
 				posiciones: domain.rhymePositions
 					.filter(
 						(position) => id(position, 'esquema_rima_id') === id(pattern, 'esquema_rima_id')
@@ -722,8 +762,10 @@ export function metricNormFacts(args: {
 	domain: MetricCatalogDomainData;
 	unitPlan: MetricUnitPlan | null;
 	lengthRule: MetricLengthRule | null;
+	rhymeTypes?: MetricCatalogOption[];
 }): MetricNormFact[] {
 	const { architectureId, domain, unitPlan, lengthRule } = args;
+	const rhymeTypes = args.rhymeTypes ?? [];
 	const sections = domain.sections.filter(
 		(section) => id(section, 'arquitectura_id') === architectureId
 	);
@@ -770,6 +812,25 @@ export function metricNormFacts(args: {
 		variableSchemes.metric
 	);
 	if (variableMetre) facts.push({ label: 'Medida variable', value: variableMetre });
+	/**
+	 * El régimen, dicho una vez, cuando la arquitectura lo declara arriba.
+	 *
+	 * El pareado alirado rima en consonante y la norma solo decía «Rima fija: aa»: que sea
+	 * consonante es la mitad de lo que hay que saber para reconocerlo. Donde el régimen varía no
+	 * sube aquí, sino a cada disposición de la rejilla, como en la ficha pública.
+	 */
+	const regimenDeclarado = declaraRegimen(architectureId, domain)
+		? nombreDelRegimen(
+				id(
+					(domain.configurations ?? []).find(
+						(row: MetricCatalogDomainRow) => id(row, 'arquitectura_id') === architectureId
+					) ?? {},
+					'tipo_rima_id'
+				),
+				rhymeTypes
+			)
+		: null;
+	if (regimenDeclarado) facts.push({ label: 'Régimen de rima', value: regimenDeclarado });
 	const rhyme = fixedRhymeSummary(
 		architectureId,
 		domain,

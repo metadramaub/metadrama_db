@@ -35,6 +35,70 @@ function domain(overrides: Partial<MetricCatalogDomainData> = {}): MetricCatalog
 	};
 }
 
+/**
+ * El pareado alirado rima en consonante y la norma solo decía «Rima fija: aa». El régimen se declara
+ * arriba cuando es uno —§ 3.3— y entonces sube a la norma; cuando varía, baja a cada disposición,
+ * que es donde lo pinta la rejilla y donde `MetricPositionGrid` ya sabía enseñarlo.
+ */
+describe('el régimen de rima', () => {
+	const regimenes = [
+		{ id: 't-cons', slug: 'consonante', label: 'Consonante' },
+		{ id: 't-ason', slug: 'asonante', label: 'Asonante' }
+	];
+
+	it('sube a la norma cuando la arquitectura declara uno solo', () => {
+		const facts = metricNormFacts({
+			architectureId: 'alirado',
+			unitPlan: null,
+			lengthRule: null,
+			rhymeTypes: regimenes,
+			domain: domain({
+				configurations: [{ arquitectura_id: 'alirado', tipo_rima_id: 't-cons' }],
+				rhymePatterns: [
+					{
+						arquitectura_id: 'alirado',
+						esquema_rima_id: 'e1',
+						notacion: 'aa',
+						modalidad: 'definitoria',
+						tipo_rima_id: 't-cons'
+					}
+				]
+			})
+		});
+		expect(facts).toContainEqual({ label: 'Régimen de rima', value: 'Consonante' });
+		expect(facts).toContainEqual({ label: 'Rima fija', value: 'aa' });
+	});
+
+	it('no lo repite arriba cuando cada disposición trae el suyo', () => {
+		const facts = metricNormFacts({
+			architectureId: 'cualquiera',
+			unitPlan: null,
+			lengthRule: null,
+			rhymeTypes: regimenes,
+			domain: domain({
+				configurations: [{ arquitectura_id: 'cualquiera', tipo_rima_id: null }],
+				rhymePatterns: [
+					{
+						arquitectura_id: 'cualquiera',
+						esquema_rima_id: 'e1',
+						notacion: 'aa',
+						modalidad: 'admitida',
+						tipo_rima_id: 't-ason'
+					},
+					{
+						arquitectura_id: 'cualquiera',
+						esquema_rima_id: 'e2',
+						notacion: 'aa',
+						modalidad: 'admitida',
+						tipo_rima_id: 't-cons'
+					}
+				]
+			})
+		});
+		expect(facts.some((fact) => fact.label === 'Régimen de rima')).toBe(false);
+	});
+});
+
 describe('resumen de la norma', () => {
 	it('muestra extensión, partes, posiciones métricas y rima definitoria', () => {
 		const facts = metricNormFacts({
