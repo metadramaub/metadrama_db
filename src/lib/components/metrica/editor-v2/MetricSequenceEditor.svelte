@@ -10,7 +10,11 @@
 		MetricLengthRule
 	} from '$lib/metrica/catalogo';
 	import { metricFormLabel } from '$lib/metrica/catalogo';
-	import { metricLengthCycles, metricLengthError } from '$lib/metrica/metric-length';
+	import {
+		metricLengthCycles,
+		metricLengthError,
+		metricLengthNoun
+	} from '$lib/metrica/metric-length';
 	import { gruposHeredadosPorReutilizacion } from '$lib/metrica/reutilizacion';
 	import {
 		contradiceLaRelacion,
@@ -401,20 +405,28 @@
 			: 0
 	);
 	/**
-	 * Cuántas veces cabe el ciclo en el pasaje.
+	 * Cuántas veces cabe en el pasaje lo que la arquitectura repite.
 	 *
 	 * Una serie no estrófica no materializa unidades, pero **sí sabemos cuántas veces se repite lo
 	 * que la dibuja**: la endecha real pide ciclos completos de cuatro versos, así que en veintiocho
 	 * caben siete. El dato ya existía y solo se usaba para el aviso de cuando el rango *no* cuadra;
 	 * decirlo también cuando cuadra es la mitad que faltaba.
 	 */
-	const ciclosDelPasaje = $derived(
+	const reparticionDelPasaje = $derived(
 		metricLengthCycles(
 			selectedLengthRule,
 			draft.v_ini,
 			draft.v_fin,
 			hayUnidadConArquitecturaPropia(draft.unidades)
 		)
+	);
+	/**
+	 * Cómo se llama lo contado. Sale del `origen` de la regla, que es donde el catálogo ya lo dice:
+	 * la lira cuenta **unidades** y el romance, **ciclos de rima**. Llamarlo «ciclos» a todo hacía
+	 * que la cabecera y el cuerpo de la misma pantalla nombraran distinto una misma cosa.
+	 */
+	const nombreDeLaReparticion = $derived(
+		reparticionDelPasaje ? metricLengthNoun(reparticionDelPasaje.origen) : null
 	);
 
 	const structureCoverage = $derived(
@@ -1346,17 +1358,23 @@
 				materializan unidades, y se quedaban sin decir nada de su extensión salvo cuando el
 				rango no cuadraba y saltaba el error. Aquí se dice en positivo.
 			-->
-			{#if !hasStructuredEditor && ciclosDelPasaje}
+			{#if !hasStructuredEditor && reparticionDelPasaje && nombreDeLaReparticion}
 				<section class="border-t border-[color:var(--border)] pt-5">
 					<div
 						class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2.5 text-sm"
 					>
-						<p class="font-medium">Ciclos del pasaje</p>
+						<p class="font-medium">
+							{nombreDeLaReparticion.plural.charAt(0).toUpperCase() +
+								nombreDeLaReparticion.plural.slice(1)} del pasaje
+						</p>
 						<p class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
-							{ciclosDelPasaje.ciclos}
-							{ciclosDelPasaje.ciclos === 1 ? 'ciclo' : 'ciclos'} de {ciclosDelPasaje.modulo}
-							{ciclosDelPasaje.modulo === 1 ? 'verso' : 'versos'}{ciclosDelPasaje.sobrantes > 0
-								? ` · y ${ciclosDelPasaje.sobrantes} ${ciclosDelPasaje.sobrantes === 1 ? 'verso más' : 'versos más'}`
+							{reparticionDelPasaje.veces}
+							{reparticionDelPasaje.veces === 1
+								? nombreDeLaReparticion.singular
+								: nombreDeLaReparticion.plural} de {reparticionDelPasaje.modulo}
+							{reparticionDelPasaje.modulo === 1 ? 'verso' : 'versos'}{reparticionDelPasaje.sobrantes >
+							0
+								? ` · y ${reparticionDelPasaje.sobrantes} ${reparticionDelPasaje.sobrantes === 1 ? 'verso más' : 'versos más'}`
 								: ''}
 						</p>
 					</div>
