@@ -64,7 +64,8 @@ forma a forma produce criterios distintos para el mismo caso.
 | --- | --- | --- |
 | **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres | [Sexteto-lira](#sexteto-lira) 1 | **abierto**: decidir si el nivel se conserva |
 | **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 | **abierto, y menos urgente desde el 25 de agosto de 2026**: con la salida abierta, un repertorio incompleto ya no pierde el dato —el editor declara lo que ve y el catálogo lo reconoce si ya lo tenía—. *El de las medidas se cerró el 22 de agosto: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
-| **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **C1** |
+| **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 · [Octava aguda](#octava-aguda) 1 | **abierto** · ⇒ **C1** |
+| **Cuándo se anotan las vocales de la asonancia.** Hoy solo se preguntan en el romance, la endecha real y la silva arromanzada: **9 arquitecturas de 27 que tienen alguna disposición asonante**. Las otras **18**, en cinco formas —octava aguda, seguidilla, terceto, pareado y villancico—, registran que rima en asonante y no cuál | [Octava aguda](#octava-aguda) 1 | **abierto**; y **12 de esas 27 no se arreglan añadiendo la pregunta**, porque mezclan disposiciones asonantes y no asonantes y se preguntaría también a quien eligió la consonante ⇒ **C1** |
 | Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 1 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
@@ -496,6 +497,20 @@ que la documenta».*
    grupos de cuatro versos según el contenido. *El catálogo ha tomado partido sin escribirlo: al no
    declarar secciones afirma que es una unidad de ocho. Si se declararan, habría que decidir si el
    corte es 6 + 2 —el pareado final— o 4 + 4.*
+
+## Octava aguda
+
+1. **Su disposición asonante no dice en qué vocales asuena.** Las seis arquitecturas admiten dos
+   esquemas, `---a---a` **aguda consonante** —habitual— y **aguda asonante** —admitida—, y ninguna
+   pregunta las vocales. En el romance sí se preguntan. *Si la asonancia es un dato del pasaje, aquí
+   se está perdiendo; si solo se anota donde la asonancia es constitutiva —el romance y su
+   familia—, entonces está bien y lo que falta es decirlo como criterio.* La misma pregunta alcanza
+   a la seguidilla, el terceto, el pareado y el villancico.
+   ⇒ [Las que cruzan formas](#las-que-cruzan-formas)
+
+   *Nota técnica, no filológica: aunque se decidiera que sí, no se puede añadir la pregunta tal
+   cual. La octava aguda admite las dos rimas, así que preguntaría las vocales también a quien
+   eligió la consonante, que es el fallo que ya tiene la endecha real.* ⇒ **C1**
 
 ## Copla de arte mayor
 
