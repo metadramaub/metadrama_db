@@ -380,7 +380,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F17 | todas las de rima | «¿Rima de otra manera?» se muestra siempre. Debe ser **una opción más del desplegable**; y donde el repertorio esté cerrado, **no salir en absoluto** | UI · y catálogo para lo segundo | `tipo_control: opciones_y_esquema` pinta las opciones **y** el campo libre a la vez. Qué repertorios están cerrados no lo decide la interfaz: es la cuestión que ya está planteada al IP | 41 grupos en 37 arquitecturas | recogido, **4.ª vez** (copla castellana, novena, novena-lira, octava aguda) |
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
-| F33 | octava aguda | admite disposición asonante y **no pregunta en qué vocales asuena**; el final agudo, que sí es obligatorio, va marcado y no se pregunta, y eso está bien | **catálogo · IP** | no es de esta forma: **9 de 27 arquitecturas con esquema asonante** preguntan las vocales, y las 18 restantes —octava aguda, seguidilla, terceto, pareado, villancico— no | 18 arquitecturas de 5 formas | **IP**, y **12 de ellas van con F27** |
+| F33 | octava aguda, seguidilla, terceto, pareado, villancico | tienen disposición asonante y **no preguntan en qué vocales asuena** | catálogo | **9 de 27 arquitecturas con esquema asonante** lo preguntan; las 18 restantes, no. El final agudo, que sí es obligatorio, va marcado y no se pregunta: eso está bien | 18 arquitecturas de 5 formas | **decidido el 29 de agosto: se anota en todas.** Migración pendiente, abajo |
 | F32 | novena-lira · heterométrica consonante | la primera columna de la rejilla de medidas lleva solo «Verso 3» y ocupa una banda entera; quizá el verso deba ir dentro de la barra | UI · rejilla | — | toda pregunta de medida verso a verso | recogido, va con **F6** |
 | F31 | novena-lira · heterométrica consonante | con más de una unidad, el esquema de rima se preguntaba **por novena** y no en conjunto | UI | `preguntasCompartidas` excluía `tipo_control = 'esquema_rima'` sin decir por qué: el control común hablaba en slugs y el esquema abierto es texto | **8 arquitecturas de 5 formas**: novena-lira, septeto, sexteto dodecasilábico, las 4 sextillas y las estancias variables de la canción | **arreglado** |
 | F30 | novena-lira · heterométrica consonante | con más de una unidad, la medida se preguntaba con **un desplegable por verso** en vez de con las barras | UI | `MetricFamilyControl` y `MetricChoiceField` habían divergido justo en lo que el primero existe para evitar: la misma pregunta, dos dibujos | las 34 preguntas de metro que admiten respuesta común, en 26 arquitecturas de 21 formas | **arreglado** |
@@ -390,6 +390,39 @@ arreglo; `alcance` está contado contra la base, no estimado.
 **Lo arreglado no se cuenta aquí.** La tabla dice qué era y a cuánto alcanzaba; el porqué de cada
 arreglo está en su commit, que es donde no se queda viejo. Lo que sigue es **solo lo que aún no se ha
 tocado** y necesita algo más que una fila.
+
+**F33 · La asonancia se anota siempre que la haya.** Decidido el 29 de agosto de 2026, y **no se
+migra suelto**: se hace de una vez cuando se resuelva el bloque de la rima, porque la mitad de los
+casos depende de que una pregunta pueda condicionarse a otra (**C1 · F27**).
+
+*Lo que ya está comprobado y no hay que volver a averiguar:*
+
+- **No hay que duplicar nada.** `vocales_asonancia` es **un solo rasgo** con sus 19 valores, y las 10
+  arquitecturas que hoy preguntan apuntan todas al mismo `rasgo_id`. Añadirlo en otra son dos filas:
+  una en `grupos_eleccion_metrica` y otra en `arquitectura_rasgos`.
+- **El modelo ya sabe ofrecer un subconjunto.** La rama de rasgo de `opciones_eleccion_derivadas()`
+  filtra `and (ar.valor_id is null or ar.valor_id = rv.valor_id)`: con `valor_id` en nulo ofrece los
+  19 —así lo declara el romance, modalidad `admitida`—, y con una fila por valor admitido, solo esos.
+- **Las nuevas filas van `admitida`**, nunca `definitoria`: el disparador
+  `definitoria_no_se_ofrece()` rechaza una definitoria que se ofrezca como opción.
+
+*Y lo que hay que hacer, en dos bloques:*
+
+| bloque | arquitecturas | qué |
+|---|---|---|
+| **se puede sin nada más** | **7**: las siete seguidillas —simple, compuesta, real, gitana, chamberga, de tres versos y simple arromanzada— | todos sus esquemas son asonantes, como el romance: pregunta obligatoria y los 19 valores |
+| **espera a C1** | **11**: octava aguda (6), villancico (2), terceto (2), pareado (1) | admiten asonante **y** consonante, así que la pregunta saldría también a quien eligió la consonante. Es el fallo de la endecha real |
+
+*Dos precisiones del contenido:*
+
+- **En la octava aguda solo van cuatro valores.** Es la única forma del catálogo que fija
+  `final_acentual = Agudo`, y **definitorio** en sus seis arquitecturas. Una asonancia aguda es de
+  **una sola vocal**, así que de los 19 solo aplican `a`, `e`, `i` y `o`; los otros quince son pares
+  y describen asonancias llanas.
+- **Falta el valor `u`.** *Virtud*, *salud*, *alud* asuenan en **ú** y no hay dónde decirlo. En el
+  romance casi no se nota porque su asonancia suele ser llana; en la octava aguda, donde toda
+  asonancia es aguda, falta una de las cinco vocales posibles. **Decidido añadirlo**, en la misma
+  migración.
 
 **F2 · El remate, y las secciones opcionales que no declaran nada.** Contado contra la base, de las
 **once secciones opcionales** del catálogo:
