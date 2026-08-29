@@ -1173,9 +1173,16 @@
 
 	function preguntaRespondida(pregunta: PreguntaEnFila): boolean {
 		const groupId = String(pregunta.group.grupo_eleccion_id);
-		if (pregunta.group.tipo_control === 'esquema_rima') {
-			return Boolean(choiceTextValue(groupId, pregunta.owner.realizacion_id).trim());
+		// **Un esquema escrito es una respuesta.** Se miraba solo en el control abierto puro, así
+		// que en el híbrido —39 grupos en 21 formas— quien escribía su disposición en vez de
+		// elegirla del repertorio seguía viendo la pregunta como pendiente.
+		if (
+			admiteEscrito(pregunta.group) &&
+			choiceTextValue(groupId, pregunta.owner.realizacion_id).trim()
+		) {
+			return true;
 		}
+		if (pregunta.group.tipo_control === 'esquema_rima') return false;
 		const selected = selectedChoiceIds(groupId, pregunta.owner.realizacion_id);
 		const options = optionsForGroup(groupId);
 		if (isPartialPositionalSelection(pregunta.group, options)) {

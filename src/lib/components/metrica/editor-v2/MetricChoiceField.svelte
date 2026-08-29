@@ -128,8 +128,19 @@
 		props.group.tipo_control === 'esquema_rima' ||
 			props.group.tipo_control === 'opciones_y_esquema'
 	);
-	/** El abierto puro: solo se escribe, no hay nada que elegir. */
-	const isRhymeScheme = $derived(props.group.tipo_control === 'esquema_rima');
+	/**
+	 * Cuando escribir es **todo** el control: no hay repertorio que ofrecer.
+	 *
+	 * Lo era el abierto puro, y lo es también el híbrido cuya arquitectura no tiene ninguna
+	 * disposición catalogada. La novena-lira es ese caso: su único esquema es «Distribución
+	 * variable», de secuencia `abierta`, y la función que deriva las opciones no ofrece las
+	 * abiertas. Sin esto, pasarla al control híbrido —para que las cuatro liras abiertas funcionen
+	 * igual— le habría puesto delante un desplegable vacío.
+	 */
+	const isRhymeScheme = $derived(
+		props.group.tipo_control === 'esquema_rima' ||
+			(admiteEsquemaEscrito && visibleOptions.length === 0)
+	);
 
 	/**
 	 * Lo escrito, leído contra la norma.
@@ -642,7 +653,8 @@
 		la norma acota un repertorio, y escribir es para lo que el repertorio no cubre. Si lo
 		escrito resulta ser una de las catalogadas, se marca esa y el campo se vacía solo.
 	-->
-	{#if props.group.tipo_control === 'opciones_y_esquema' && !collapsed}
+	<!-- Sin repertorio el campo escrito ya es el control entero, y no se pinta dos veces. -->
+	{#if props.group.tipo_control === 'opciones_y_esquema' && !isRhymeScheme && !collapsed}
 		<div class="mt-2 border-t border-[color:var(--border)] pt-2">
 			<p class="form-help mb-1">
 				¿Rima de otra manera? Escribe la disposición que has leído, una letra por verso y un
