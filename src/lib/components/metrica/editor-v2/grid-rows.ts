@@ -161,6 +161,15 @@ export type PreguntaCompartida = {
 	groups: MetricCatalogDomainRow[];
 	/** Cuántas realizaciones responde a la vez. */
 	realizaciones: number;
+	/**
+	 * Si la respuesta se escribe en vez de elegirse.
+	 *
+	 * El esquema de rima abierto no tiene opciones —ninguno de los ocho grupos del catálogo tiene
+	 * ni una— así que su respuesta es texto, no un slug. Se marca aquí porque el atajo de «en
+	 * conjunto» compara respuestas para saber si las unidades coinciden, y una notación como
+	 * `abcabc|defdef` no se puede meter en una firma separada por barras.
+	 */
+	esquemaLibre: boolean;
 };
 
 /**
@@ -733,13 +742,21 @@ export function preguntasCompartidas(context: GridRowContext): PreguntaCompartid
 	for (const group of context.groups) {
 		if (!seRespondeDentroDeLaUnidad(group.alcance)) continue;
 		if (!group.permite_aplicar_global) continue;
-		if (group.tipo_control === 'esquema_rima') continue;
 		const opciones = context.options.filter(
 			(option) =>
 				String(option.grupo_eleccion_id) === String(group.grupo_eleccion_id) && option.activo
 		);
 		const esPosicional =
 			opciones.length > 0 && opciones.every((option) => Number(option.posicion_unidad ?? 0) > 0);
+		/**
+		 * **El esquema escrito también se responde en conjunto.**
+		 *
+		 * Estuvo excluido de aquí sin que nada dijera por qué: la razón era técnica —el control
+		 * común hablaba en slugs y esto es texto—, no que responder ocho sextillas iguales una a
+		 * una tuviera sentido. Alcanza a 8 arquitecturas de 5 formas: la novena-lira, el septeto,
+		 * el sexteto dodecasilábico, las cuatro sextillas y las estancias variables de la canción.
+		 */
+		const esquemaLibre = String(group.tipo_control) === 'esquema_rima';
 		// Las respuestas múltiples ordinarias no tienen un único valor que copiar. Las
 		// posicionales sí: se copia la serie completa, una respuesta por posición. Es el caso
 		// del pareado, cuya medida declara por separado sus dos versos.
@@ -752,7 +769,8 @@ export function preguntasCompartidas(context: GridRowContext): PreguntaCompartid
 			label: String(group.nombre),
 			help: group.ayuda_editor ? String(group.ayuda_editor) : null,
 			groups: [],
-			realizaciones: 0
+			realizaciones: 0,
+			esquemaLibre
 		};
 		family.groups.push(group);
 		family.realizaciones += destinatarias.length;

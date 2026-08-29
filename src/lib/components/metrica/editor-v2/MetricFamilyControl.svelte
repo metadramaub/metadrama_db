@@ -12,6 +12,7 @@
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import { renderInlineMarkdown, stripMarkdown } from '$lib/utils/markdown';
 	import MetricPartialPositionField from './MetricPartialPositionField.svelte';
+	import MetricVersePatternField from './MetricVersePatternField.svelte';
 	import {
 		arePositionalOptions,
 		haveAlternativesByPosition,
@@ -69,23 +70,6 @@
 		);
 	}
 
-	function selectedAt(position: number): string {
-		return String(
-			optionsAt(position).find((option: MetricCatalogDomainRow) =>
-				props.uniform?.includes(String(option.slug))
-			)?.slug ?? ''
-		);
-	}
-
-	function changePosition(position: number, slug: string) {
-		const slugsAtPosition = new Set(
-			optionsAt(position).map((option: MetricCatalogDomainRow) => String(option.slug))
-		);
-		const next = (props.uniform ?? []).filter((current) => !slugsAtPosition.has(current));
-		if (slug) next.push(slug);
-		props.onChoose(next);
-	}
-
 	function togglePosition(option: MetricCatalogDomainRow, checked: boolean) {
 		const slug = String(option.slug);
 		const next = new Set(props.uniform ?? []);
@@ -94,10 +78,36 @@
 		props.onChoose([...next]);
 	}
 
-	function optionLabel(option: MetricCatalogDomainRow, position: number): string {
-		const label = String(option.nombre);
-		const prefix = `Verso ${position} · `;
-		return label.startsWith(prefix) ? label.slice(prefix.length) : label;
+	/**
+	 * La rejilla que se dibuja: los versos de una unidad, no solo los que preguntan.
+	 *
+	 * `positionLimit` es la unidad más corta a la que alcanza la respuesta común, y es justo lo que
+	 * hay que pintar: en la manriqueña salen los doce versos, con los ocho que la norma fija ya
+	 * puestos y los cuatro quebrados esperando medida.
+	 */
+	const longitudDeLaRejilla = $derived(
+		typeof props.positionLimit === 'number' && props.positionLimit > 0
+			? props.positionLimit
+			: (positions[positions.length - 1] ?? 0)
+	);
+
+	/** El campo de versos habla en identificadores de opción; aquí se responde por slug. */
+	const idsElegidos = $derived(
+		visibleOptions
+			.filter((option: MetricCatalogDomainRow) =>
+				props.uniform?.includes(String(option.slug))
+			)
+			.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id))
+	);
+
+	function elegirPorId(ids: string[]) {
+		const porId = new Map(
+			visibleOptions.map((option: MetricCatalogDomainRow) => [
+				String(option.opcion_eleccion_id),
+				String(option.slug)
+			])
+		);
+		props.onChoose(ids.map((id) => porId.get(id)).filter((slug): slug is string => Boolean(slug)));
 	}
 </script>
 
@@ -124,24 +134,20 @@
 			onChange={props.onChoose}
 		/>
 	{:else if positionalAlternatives}
-		<div class="grid gap-2 sm:grid-cols-2">
-			{#each positions as position}
-				<label class="grid min-w-0 items-center gap-2 sm:grid-cols-[4.5rem_1fr]">
-					<span class="text-sm text-[color:var(--muted-foreground)]">Verso {position}</span>
-					<select
-						class="h-9 min-w-0 border border-[color:var(--border)] bg-white px-3 text-sm"
-						value={selectedAt(position)}
-						aria-label={`${props.ariaLabel}, verso ${position}`}
-						onchange={(event) => changePosition(position, event.currentTarget.value)}
-					>
-						<option value="">Seleccionar medida</option>
-						{#each optionsAt(position) as option (String(option.opcion_eleccion_id))}
-							<option value={String(option.slug)}>{optionLabel(option, position)}</option>
-						{/each}
-					</select>
-				</label>
-			{/each}
-		</div>
+		<!--
+			**La misma rejilla de barras que la pregunta suelta.**
+
+			Aquí había un desplegable por verso, y en una novena-lira eran nueve desplegables
+			seguidos para elegir entre siete y once: la respuesta de una unidad se veía dibujada y la
+			de todas, no. Es la divergencia que este componente existe para evitar.
+		-->
+		<MetricVersePatternField
+			length={longitudDeLaRejilla}
+			positionStart={1}
+			options={visibleOptions}
+			selectedIds={idsElegidos}
+			onMeasureChange={elegirPorId}
+		/>
 	{:else if positional}
 		<div class="flex flex-wrap gap-2">
 			{#each visibleOptions as option (String(option.opcion_eleccion_id))}

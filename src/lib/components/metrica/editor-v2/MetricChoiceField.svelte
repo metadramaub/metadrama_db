@@ -43,6 +43,13 @@
 		 */
 		label?: string;
 		/**
+		 * Sin rótulo propio: la fila que lo contiene ya nombra la pregunta.
+		 *
+		 * Lo usa la respuesta común de la rejilla, donde el rótulo y el recuento —«en las 3
+		 * unidades»— van en la fila y repetirlos dentro sería decir dos veces lo mismo.
+		 */
+		sinRotulo?: boolean;
+		/**
 		 * La explicación que el catálogo deriva de la respuesta elegida. Es lo que la rejilla
 		 * se dejaría por el camino al comprimir las listas en desplegables, así que se
 		 * recupera debajo, y solo donde aporta: en la respuesta común y en la que diverge.
@@ -437,17 +444,19 @@
 	</p>
 {:else}
 <fieldset class="form-field">
-	<legend class="form-label">
-		<span class="form-label-with-help">
-			{props.label ?? String(props.group.nombre)}{optional ? '' : ' *'}
-			{#if props.group.ayuda_editor}
-				<FieldHelpTooltip
-					text={String(props.group.ayuda_editor)}
-					label={`Ayuda sobre «${String(props.group.nombre)}»`}
-				/>
-			{/if}
-		</span>
-	</legend>
+	{#if !props.sinRotulo}
+		<legend class="form-label">
+			<span class="form-label-with-help">
+				{props.label ?? String(props.group.nombre)}{optional ? '' : ' *'}
+				{#if props.group.ayuda_editor}
+					<FieldHelpTooltip
+						text={String(props.group.ayuda_editor)}
+						label={`Ayuda sobre «${String(props.group.nombre)}»`}
+					/>
+				{/if}
+			</span>
+		</legend>
+	{/if}
 
 	{#if collapsed}
 		<div class="border border-[color:var(--border)] bg-white text-sm">
