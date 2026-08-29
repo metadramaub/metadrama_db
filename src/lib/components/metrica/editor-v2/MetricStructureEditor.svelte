@@ -563,6 +563,10 @@
 	/** Qué han contestado las realizaciones a las que apunta: si coinciden y cuántas van. */
 	/** Lo que responde una unidad, por slug, para poder comparar entre grupos de la misma familia. */
 	function firmaComun(group: MetricCatalogDomainRow, unit: MetricUnitDraft): string {
+		// El esquema abierto no tiene opciones: lo que responde la unidad es lo que se escribió.
+		if (String(group.tipo_control) === 'esquema_rima') {
+			return choiceTextValue(String(group.grupo_eleccion_id), unit.realizacion_id).trim();
+		}
 		return selectedChoiceIds(String(group.grupo_eleccion_id), unit.realizacion_id)
 			.map(optionSlugOf)
 			.sort()
@@ -597,9 +601,12 @@
 				repeticiones = veces;
 			}
 		}
+		// Una notación como `abcabc|defdef` lleva barra: partirla la convertiría en dos respuestas.
 		const uniform =
 			total > 0 && answered === total && cuenta.size === 1
-				? mayoritaria.split('|').filter(Boolean)
+				? pregunta.esquemaLibre
+					? [mayoritaria]
+					: mayoritaria.split('|').filter(Boolean)
 				: null;
 		/**
 		 * **Una mayoría de verdad, o ninguna.**
@@ -1019,6 +1026,47 @@
 		pendingPositionsByAnswer = siguientes;
 		props.onChoicesChange(resultado.choices);
 		commitUnits(resultado.units);
+	}
+
+	/**
+	 * Lo mismo, cuando la respuesta se escribe en vez de elegirse.
+	 *
+	 * Va por separado de `writeComunChoice` porque no hay slug que copiar: se copia la notación,
+	 * ya normalizada, exactamente como la escribiría cada unidad por su cuenta.
+	 */
+	function aplicarComunTexto(pregunta: PreguntaCompartida, value: string) {
+		const normalized = normalizeRhymeScheme(value);
+		let siguientes = [...props.choices];
+		for (const group of pregunta.groups) {
+			const groupId = String(group.grupo_eleccion_id);
+			for (const unit of unitsForGroup(context, group)) {
+				siguientes = siguientes.filter(
+					(choice: MetricChoiceDraft) =>
+						!(
+							choice.grupo_eleccion_id === groupId &&
+							choice.realizacion_id === unit.realizacion_id
+						)
+				);
+				if (normalized) {
+					siguientes.push({
+						realizacion_id: unit.realizacion_id,
+						grupo_eleccion_id: groupId,
+						opcion_eleccion_id: null,
+						valor_texto: normalized,
+						observaciones: null
+					});
+				}
+			}
+		}
+		props.onChoicesChange(siguientes);
+	}
+
+	/** Lo que hace falta para leer un esquema escrito: se toma de la primera unidad, que las representa. */
+	function normaEsquemaComun(pregunta: PreguntaCompartida) {
+		const group = pregunta.groups[0];
+		if (!group) return undefined;
+		const unit = unitsForGroup(context, group)[0];
+		return unit ? normaEsquemaDe(group, unit) : undefined;
 	}
 
 	/**
@@ -1798,16 +1846,41 @@
 									partía de aquel y escribía los tres en todas. Cuántas coinciden se
 									dice al lado, en el rótulo, que es donde no hace daño.
 								-->
-								<MetricFamilyControl
-									group={pregunta.groups[0]}
-									options={comunOptions(pregunta)}
-									uniform={state.uniform}
-									answered={state.answered}
-									realizaciones={state.total}
-									ariaLabel={pregunta.label}
-									positionLimit={comunPositionLimit(pregunta)}
-									onChoose={(slugs) => aplicarComun(pregunta, slugs)}
-								/>
+								{#if pregunta.esquemaLibre}
+									<!--
+										**El mismo campo que usa cada unidad, no una copia.**
+
+										Escribir aquí un segundo campo de esquema con su lectura contra la
+										norma y su selector de régimen es exactamente lo que ya pasó una vez
+										con el control común, y acabaron divergiendo. El rótulo lo pone la
+										fila, así que el campo va sin el suyo.
+									-->
+									<div class="min-w-0 flex-1">
+										<MetricChoiceField
+											group={pregunta.groups[0]}
+											variant="celda"
+											sinRotulo
+											label={pregunta.label}
+											options={comunOptions(pregunta)}
+											normaEsquema={normaEsquemaComun(pregunta)}
+											selectedIds={[]}
+											onChange={() => {}}
+											textValue={state.uniform?.[0] ?? ''}
+											onTextChange={(value) => aplicarComunTexto(pregunta, value)}
+										/>
+									</div>
+								{:else}
+									<MetricFamilyControl
+										group={pregunta.groups[0]}
+										options={comunOptions(pregunta)}
+										uniform={state.uniform}
+										answered={state.answered}
+										realizaciones={state.total}
+										ariaLabel={pregunta.label}
+										positionLimit={comunPositionLimit(pregunta)}
+										onChoose={(slugs) => aplicarComun(pregunta, slugs)}
+									/>
+								{/if}
 								{#if pregunta.help}
 									<FieldHelpTooltip
 										text={pregunta.help}

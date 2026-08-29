@@ -15,6 +15,12 @@
 	 * —así los quebrados se ven más cortos que el resto—; en una forma abierta, la mayor del
 	 * repertorio, para que el endecasílabo llene y el heptasílabo no.
 	 */
+	/*
+	 * **La rejilla se estrecha hasta donde haga falta.** Reservaba `12rem` fijos para los controles
+	 * de la derecha, que en una forma alirada son dos botones de tres letras, y `9rem` mínimos para
+	 * la barra: dentro del modal eso se salía por la derecha. Ahora la columna de la barra puede
+	 * encogerse y la de los controles ocupa lo que ocupe.
+	 */
 	const props = $props<{
 		/** «Verso 3». */
 		etiqueta: string;
@@ -46,7 +52,7 @@
 	});
 </script>
 
-<div class="grid min-w-0 items-center gap-2 sm:grid-cols-[4rem_minmax(9rem,1fr)_12rem]">
+<div class="grid min-w-0 items-center gap-2 sm:grid-cols-[3rem_minmax(0,1fr)_auto]">
 	<span class="text-xs text-[color:var(--muted-foreground)]">{props.etiqueta}</span>
 	<div class="relative h-9 overflow-hidden border border-[color:var(--border)] bg-white">
 		<div

@@ -156,7 +156,7 @@
 <div class="overflow-hidden border border-[color:var(--border)] bg-white">
 	<!-- La cabecera sigue la rejilla de la barra: verso, lo que mide y con qué se responde. -->
 	<div
-		class="hidden border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] sm:grid sm:grid-cols-[4rem_minmax(9rem,1fr)_12rem]"
+		class="hidden border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] sm:grid sm:grid-cols-[3rem_minmax(0,1fr)_auto]"
 	>
 		<span>Posición</span>
 		<span>Medida</span>
