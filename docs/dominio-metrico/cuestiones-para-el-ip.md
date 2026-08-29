@@ -69,7 +69,7 @@ forma a forma produce criterios distintos para el mismo caso.
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
 | **Cuántos versos admite quebrados la redondilla, la copla castellana y la copla de arte menor.** Las tres documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «alternando versos plenos y quebrados»—, así que ninguna da máximo. Las otras siete sí lo declaran desde el 25 de agosto de 2026: una posición nombrada es un quiebro contado | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
-| **Dos arquitecturas sitúan el quiebro por inferencia, no por lectura.** La novena en orden 5+4 —«ninguna fuente documenta un ejemplo con quebrado… *caería* en el primero»— y la oncena en orden 6-5, cuya posición sale de trasladar la sextilla de pie quebrado al principio. *Las cuatro que sí lo tenían documentado se declararon el 29 de agosto de 2026* | [Quintilla](#quintilla) 4 | **abierto**: declararlo afirmaría más de lo que se sabe; no declararlo deja preguntando en nueve y once versos ⇒ **F44** |
+| **La novena en orden 5+4 declara un quiebro que ninguna fuente ha documentado.** Su propia nota lo dice, y en la otra novena solo hay un caso. *Las cinco que sí lo tenían documentado se declararon el 29 de agosto de 2026* | [Quintilla](#quintilla) 4 · [Novena](#novena) | **abierto**: David propuso el 29 de agosto retirar el rasgo hasta que alguien lo lea ⇒ **F44** |
 
 ### Los finales esdrújulos y agudos
 
@@ -321,16 +321,24 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    novena en orden 4+5 en el quinto —«el único caso que las fuentes documentan»— y la oncena en orden
    5+6 en el octavo y el undécimo, por el *Claro escuro* de Juan de Mena.
 
-   **Quedan dos que nombran un verso sin que nadie lo haya leído ahí:**
+   **La oncena en orden 6-5 entró después, el mismo día**, en el tercer verso y el sexto. El reparo
+   que la había dejado fuera —que la afirmación de fuente para ese orden recoge `ababba:babba` y
+   `abaaab:cdccd` *sin quebrados*— no valía: **un esquema de rima no declara medidas**, así que de
+   una notación de rima no se concluye que los versos fueran plenos. Y la misma fuente afirma que
+   «la estrofa de once con quebrados fue más corriente que la de octosílabos plenos». Lo que sitúa
+   los quiebros es la estructura: **son los que cierran cada terceto de la sextilla**, y con este
+   orden la sextilla va delante.
+
+   **Queda una sola, y su nota dice que nadie la ha leído:**
 
    | forma · arquitectura | lo que dice la nota |
    |---|---|
    | Novena · Quintilla + redondilla | «**ninguna fuente documenta un ejemplo con quebrado**. Por el patrón que sí se documenta, *caería* en el primer verso» |
-   | Oncena · Sextilla + quintilla | «con este orden los quiebros se documentan en el tercer verso y en el sexto» —pero la afirmación de fuente para 6-5 recoge `ababba:babba` y `abaaab:cdccd`, **sin quebrados**— |
 
-   *Declararlas afirmaría más de lo que se sabe; no declararlas deja preguntando en los nueve y en
-   los once versos.* En las dos la posición sale de trasladar a este orden lo que se lee en el otro,
-   que es razonable pero es inferencia nuestra.
+   *Declararla afirmaría más de lo que se sabe.* Lo lógico sería el primer verso —es el primero de la
+   quintilla, como en la quintilla suelta y como en el orden 4+5, donde cae en el quinto—, pero sigue
+   siendo una suposición. **David propuso el 29 de agosto retirar el rasgo hasta que alguien lo
+   documente**: en la otra novena hay un solo caso, y en esta ninguno.
 
    *Y tres preguntan en todos los versos con razón*, porque su nota lo dice: la copla real —«la
    tradición no fija en qué verso»—, la redondilla —«sin fijar en qué versos cae»— y la copla de arte
