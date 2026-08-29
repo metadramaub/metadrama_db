@@ -69,6 +69,7 @@ forma a forma produce criterios distintos para el mismo caso.
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
 | **Cuántos versos admite quebrados la redondilla, la copla castellana y la copla de arte menor.** Las tres documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «alternando versos plenos y quebrados»—, así que ninguna da máximo. Las otras siete sí lo declaran desde el 25 de agosto de 2026: una posición nombrada es un quiebro contado | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
+| **Siete arquitecturas nombran el verso del quiebro en su nota y lo preguntan en todos.** La prosa dice «el primer verso quebrado», «el quinto verso, el primero del terceto», «el tercer verso y el sexto»; el dato no lo declara, y el editor ofrece el quiebro en cada verso de la estrofa | [Quintilla](#quintilla) 4 | **abierto**; en seis de las siete el máximo declarado **ya coincide** con el número de versos que la nota nombra ⇒ **F44** |
 
 ### Los finales esdrújulos y agudos
 
@@ -313,7 +314,35 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    le toca. La descripción del patrón se reescribió en consecuencia. *Con esto ninguna arquitectura
    declara ya `min_alternancias`: era la única que lo usaba.*
 
-3. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
+4. **El quiebro se documenta en el primer verso, y se pregunta en los cinco.** La nota del catálogo
+   dice: «La tradición documenta la quintilla con el **primer verso** quebrado como estrofa suelta,
+   y no solo como mitad de una copla mayor: fue la más usada por Castillejo». El rasgo declara
+   `posiciones_max: 1` —un quiebro como mucho— pero **no dice cuál**, así que el editor lo ofrece en
+   los cinco versos.
+
+   *No es cosa de la quintilla.* De las once arquitecturas que preguntan el quiebro en todos los
+   versos, **siete nombran el verso en su prosa**:
+
+   | forma · arquitectura | lo que dice la nota | máximo |
+   |---|---|---|
+   | Quintilla · Octosilábica consonante | «el primer verso quebrado» | 1 |
+   | Septilla · Octosilábica | «el quinto verso, el primero del terceto» | 1 |
+   | Novena · Redondilla + quintilla | «el quinto verso de la estrofa. **Es el único caso que las fuentes documentan**» | 1 |
+   | Novena · Quintilla + redondilla | «caería en el primer verso de la estrofa» | 1 |
+   | Oncena · Sextilla + quintilla | «el tercer verso y el sexto» | 2 |
+   | Oncena · Quintilla + sextilla | «el octavo verso y el undécimo» | 2 |
+   | Copla castellana · Octosilábica | «el sexto verso, **y también** alternando versos plenos y quebrados» | — |
+
+   **En las seis primeras el máximo ya coincide con los versos que la nota nombra**, así que
+   declararlos no cambiaría lo que la forma afirma: solo dejaría de preguntar donde la tradición no
+   documenta nada. La copla castellana es distinta —nombra un verso *y* un patrón alterno, y no da
+   máximo—, y va con la cuestión de [las que cruzan formas](#las-que-cruzan-formas).
+
+   *Las otras tres que preguntan en todos los versos lo hacen con razón*, y su nota lo dice: la copla
+   real —«la tradición no fija en qué verso»—, la redondilla —«sin fijar en qué versos cae»— y la
+   copla de arte menor. ⇒ **F44**
+
+5. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
    `abbba` no lo numera nadie: lo registran como aparición suelta, que M&B atribuyen a errata o a
    adaptación expresiva. *Decisión del IP el 19 de agosto: se conserva el número 8, a la espera de
    ver si el corpus lo confirma. Si no aparece más, conviene renombrarlo para no atribuir a Navarro
