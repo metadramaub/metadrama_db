@@ -381,6 +381,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 | F36 | las cuatro liras abiertas | **preguntan su rima de tres maneras distintas**, habiéndose creado el mismo día como una sola serie | **catálogo** | cuarteto-lira y octava-lira: repertorio de 2 y salida abierta, **obligatoria**. Décima-lira: repertorio de 1 y salida abierta, **opcional**. Novena-lira: **sin repertorio**, solo campo escrito —y esa sí está justificada, porque su único esquema es «Distribución variable», de secuencia `abierta`, y la función de opciones no ofrece las abiertas— | 4 arquitecturas de 4 formas | **arreglado**: las cuatro con repertorio —el que haya—, salida abierta y respuesta obligatoria |
+| F39 | oncena · las dos, y septeto compuesto | **la rima heredada no se puede guardar**: el servidor la rechaza | **modelo** | la herencia por reutilización vive **solo en el cliente**. El grupo que inventa conserva el `grupo_eleccion_id` del prestamista, y `validar_anotacion_eleccion` lo busca con `and arquitectura_id = <la de la secuencia>`: no lo encuentra y da «El grupo de elección no pertenece a la arquitectura seleccionada». `guardar_anotacion_metrica` no lo remapea —no menciona la reutilización en ninguna línea— | **3 arquitecturas de 2 formas**, las mismas de F38 | pendiente de decidir |
 | F38 | oncena · las dos, **y septeto compuesto** | **solo preguntaba la rima de la primera parte**: la quintilla si la arquitectura es quintilla + sextilla, y la sextilla si es al revés | UI | las preguntas que una parte hereda de la arquitectura que reutiliza se traían **con el nombre pelado del prestamista**, «Esquema de rima», así que las dos partes se llamaban igual y todo lo que agrupa por nombre las tomaba por una sola. Las copiadas a mano de la copla real y la novena no lo sufrían porque alguien las llamó «Primera quintilla · Esquema de rima» | **3 arquitecturas de 2 formas** —las 2 oncenas y el septeto compuesto—, que son las que heredan en más de una parte, de 9 secciones que heredan en total | **arreglado** |
 | F37 | las 21 formas de rima con repertorio y salida | escribir el esquema a mano **no marcaba la pregunta como respondida**: la rejilla la seguía enseñando pendiente | UI | `preguntaRespondida` miraba el texto solo en el control abierto puro | los 39 grupos de `opciones_y_esquema`, en 36 arquitecturas de 21 formas | **arreglado** |
 | F35 | octava real · endecasilábica consonante | con más de una unidad, en conjunto **solo dejaba elegir del repertorio**, mientras la ayuda decía «si no, escribe el que veas» | UI | F31 abrió el camino escrito solo al esquema abierto puro; el de repertorio con salida seguía pintándose únicamente con sus opciones | **39 grupos en 36 arquitecturas de 21 formas**, que son todas las de `opciones_y_esquema` | **arreglado** |
@@ -428,6 +429,39 @@ casos depende de que una pregunta pueda condicionarse a otra (**C1 · F27**).
   romance casi no se nota porque su asonancia suele ser llana; en la octava aguda, donde toda
   asonancia es aguda, falta una de las cinco vocales posibles. **Decidido añadirlo**, en la misma
   migración.
+
+**F39 · La herencia por reutilización no llega al servidor.** Salió el 29 de agosto de 2026 al
+preguntarse por qué la copla real y la novena **copian a mano** una pregunta que podrían heredar.
+
+*La respuesta a eso es histórica y está bien:* el 31 de julio, el defecto D8 retiró los dieciséis
+esquemas duplicados y ancló las preguntas a su sección, porque **entonces ese anclaje era el
+mecanismo** —«es lo que autoriza a la opción a señalar un esquema de otra arquitectura»—. La
+herencia automática, que se inventa el grupo sin que exista fila, llegó el **25 de agosto**, casi un
+mes después, cuando la oncena y el septeto compuesto la necesitaron por no tener ninguna.
+
+*Y al comprobar si las seis copias se podían borrar apareció lo otro:* **nadie enseñó al servidor
+qué es heredar.** Ejecutada contra la base la primera comprobación del disparador —buscar el grupo
+en la arquitectura de la secuencia— **las seis preguntas heredadas dan cero**. Así que la oncena y
+el septeto compuesto no pueden guardar su rima, y **borrar las seis copias las dejaría igual**.
+
+*Lo comprobado, para no repetirlo:*
+
+- Las copias son idénticas a lo que se heredaría —repertorio, control y selecciones—, y **el
+  repertorio no puede separarse**: la rama de rima de `opciones_eleccion_derivadas()` resuelve los
+  esquemas con `coalesce(s.arquitectura_referenciada_id, a.arquitectura_id)`, así que un grupo
+  anclado a una parte que reutiliza la quintilla ya deriva los esquemas de la quintilla. Lo que sí
+  puede separarse es lo que vive en la fila: control, selecciones y ayuda.
+- **La ficha pública no lee esas filas.** `formas-publicas.ts` tiene su propia `rimaHeredada`, que
+  solo mira esquemas; como la copla real y la novena no declaran ninguno, **la ficha ya las trata
+  como heredadas**. Las dos superficies llevan tiempo diciendo cosas distintas, y la regla que
+  `reutilizacion.ts` dice guardar «una sola vez» está en realidad escrita dos veces, con condiciones
+  que no coinciden: la del editor mira además las preguntas, la de la ficha no.
+- Cero respuestas guardadas y cero equivalencias legadas en las seis.
+
+*Los dos caminos:* enseñar al servidor a resolver la herencia —`validar_anotacion_eleccion` acepta
+el grupo de la arquitectura que la parte reutiliza, y `seccion_id` se resuelve a la parte que lo
+toma prestado—, o **darle filas propias a la oncena y al septeto**, seis en total, como las tiene la
+copla real. Lo segundo funciona hoy y no toca ninguna función; lo primero es el mecanismo único.
 
 **F2 · El remate, y las secciones opcionales que no declaran nada.** Contado contra la base, de las
 **once secciones opcionales** del catálogo:
