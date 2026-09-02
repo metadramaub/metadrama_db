@@ -381,6 +381,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 | F36 | las cuatro liras abiertas | **preguntan su rima de tres maneras distintas**, habiéndose creado el mismo día como una sola serie | **catálogo** | cuarteto-lira y octava-lira: repertorio de 2 y salida abierta, **obligatoria**. Décima-lira: repertorio de 1 y salida abierta, **opcional**. Novena-lira: **sin repertorio**, solo campo escrito —y esa sí está justificada, porque su único esquema es «Distribución variable», de secuencia `abierta`, y la función de opciones no ofrece las abiertas— | 4 arquitecturas de 4 formas | **arreglado**: las cuatro con repertorio —el que haya—, salida abierta y respuesta obligatoria |
+| F59 | silva · endecasilábica | **la única pregunta de pareados del catálogo obliga a elegir entre los dos grados que el proyecto ha admitido que no sabe separar**: «Habituales — los pareados son frecuentes, aunque no obligatorios» y «Predominantes — los pareados organizan predominantemente la serie» | **IP** | es el punto b) de [Silva 3](./cuestiones-para-el-ip.md#silva): «las fuentes solo dan dos cortes, el 50 % y el 99 %», así que los dos grados caen en el mismo intervalo. Deja de ser una duda de modelado en cuanto un editor tiene la pregunta delante | 1 arquitectura, y es obligatoria | **IP**, y **urgente**: entra con la ola de editores |
 | F58 | sextina · las tres composiciones | «la secuencia, unidad por unidad» dice **solo «Sextina vv. 1-39»**, que es lo que ya pone la cabecera: ni es verso a verso ni pinta la estructura | UI | son composiciones que la norma fija enteras y que no preguntan nada, así que el listado no tiene nada que añadir. *Y quizá no haga falta que lo tenga: la estructura ya está en la norma de la arquitectura* | las composiciones de extensión fija | recogido, va con **F46** |
 | F57 | sextina · estrofa | **se puede elegir suelta**, y su definición dice que no se usa así: «fuera de ella la estrofa no se usa sola» | catálogo · modelo | nada impide elegir en el selector una forma que solo existe dentro de otra. Es **la única** del catálogo cuya definición lo dice, pero el modelo no sabe expresarlo | 1 forma hoy | **pendiente de decidir** |
 | F56 | sextilla · de pie quebrado | **la disposición en columnas queda rara** cuando una unidad lleva varias preguntas: se lee «Sextilla | Esquema de rima | Medida de los quebrados» en fila, como si fueran columnas de una tabla y no la pregunta de una estrofa | UI | — | toda unidad con más de una pregunta | recogido, va con **F46** |
@@ -484,7 +485,20 @@ copla real. Lo segundo funciona hoy y no toca ninguna función; lo primero es el
 
 **F46 · La norma de la arquitectura, entera.** Pedido por David el 29 de agosto de 2026, después de
 mover el pie quebrado de «Medida» a su rasgo: *«quiero hacerlo más sencillo después, organizarlo un
-poco mejor»*. No se decide forma a forma, y lo que ya está recogido apunta todo al mismo sitio:
+poco mejor»*. No se decide forma a forma, y lo que ya está recogido apunta todo al mismo sitio.
+
+**Y ese día quedó dicha la forma que debe tener**, que es lo que le faltaba a todo lo de abajo:
+
+> «Yo lo que quiero es que haya una zona de **qué se va a registrar**. Eso es para mí el resumen:
+> tenemos la norma, luego las elecciones, y al final qué se va a registrar sumando la norma más las
+> elecciones.»
+
+*Con eso el listado de abajo deja de ser «la secuencia, unidad por unidad» —que en una composición
+fija no tiene nada que añadir, **F58**— y pasa a ser la tercera zona: lo que va a quedar guardado.*
+La anotación en notación corriente que ya se escribe —`8a 8b 8a 4b | 8c 8d 8c 8d`— es justamente
+eso, la suma de las dos primeras, y hoy vive dentro del listado en vez de ser la zona.
+
+Lo que ya está recogido:
 
 | | qué se dijo | dónde salió |
 |---|---|---|
