@@ -51,7 +51,14 @@ const unitSchema = z.object({
 const choiceSchema = z
 	.object({
 		realizacion_id: nullableUuid,
-		grupo_eleccion_id: uuid,
+		/**
+		 * De qué habla la respuesta. **Sustituye al identificador de la pregunta**: lo que se guarda
+		 * es lo que la respuesta afirma —esta realización, en esta dimensión, es esta entidad— y la
+		 * pregunta se deriva de ahí. Ver `20260829220000_la_respuesta_se_describe_a_si_misma`.
+		 */
+		dimension: z.enum(['metro', 'rima', 'repeticion', 'rasgo', 'combinacion']),
+		/** La parte de la que habla, cuando se guarda en la unidad: el soneto y nadie más. */
+		seccion_tratada_id: nullableUuid.optional(),
 		opcion_eleccion_id: derivedUuid.nullable(),
 		valor_texto: z.string().trim().min(1).max(240).nullable(),
 		observaciones: z.string().trim().max(10_000).nullable()
