@@ -211,18 +211,27 @@ function naturalList(values: string[]): string {
 	return `${unique.slice(0, -1).join(', ')} y ${unique.at(-1)}`;
 }
 
-/** Con qué grado declara la arquitectura su pie quebrado, para decirlo donde se afirma. */
-function quebradoModality(architectureId: string, domain: MetricCatalogDomainData): string {
-	const trait = domain.traits.find(
-		(row: MetricCatalogDomainRow) => String(row.slug ?? '') === 'pie_quebrado'
+/**
+ * Lo que miden los pies quebrados de una arquitectura, leído de los roles de su esquema métrico.
+ *
+ * Se dice en el renglón del rasgo, que es donde vive el quiebro desde que se sacó de la medida.
+ * Las tres enlazadas no tienen roles —su quiebro está en las posiciones declaradas— y ahí no hay
+ * nada que añadir: su renglón dice que es obligatorio, que es lo que hay que saber.
+ */
+function quebradoMeasures(architectureId: string, domain: MetricCatalogDomainData): string[] {
+	const schemes = new Set(
+		domain.metricPatterns
+			.filter((row) => id(row, 'arquitectura_id') === architectureId)
+			.map((row) => id(row, 'esquema_metrico_id'))
 	);
-	if (!trait) return '';
-	const assignment = domain.configurationTraits.find(
-		(row: MetricCatalogDomainRow) =>
-			id(row, 'arquitectura_id') === architectureId &&
-			id(row, 'rasgo_id') === id(trait, 'rasgo_id')
-	);
-	return assignment ? String(assignment.modalidad ?? '') : '';
+	return [
+		...new Set(
+			domain.metricOptions
+				.filter((option) => option.rol === 'quebrado' && schemes.has(id(option, 'esquema_metrico_id')))
+				.map((option) => metreSyllables(domain.verseModels, id(option, 'metro_id')))
+				.filter(Boolean)
+		)
+	];
 }
 
 /**
@@ -253,25 +262,15 @@ function roleBasedMetreSummary(
 		if (dominant.length === 0 || broken.length === 0) continue;
 		covered?.add(id(pattern, 'esquema_metrico_id'));
 		/**
-		 * **Y si el quiebro es obligatorio o solo posible.**
+		 * **El quiebro no se dice aquí, sino en su rasgo.**
 		 *
-		 * Decía «Base de 8 sílabas; los pies quebrados pueden medir 4 y 5», que habla de cuánto
-		 * miden y calla lo otro: en la redondilla el quiebro es una licencia y en la manriqueña es
-		 * lo que la define, y las dos se leían igual. La modalidad tampoco aparecía por su cuenta,
-		 * porque un rasgo `admitida` sin límite de posiciones no sube a la norma —es dato de la
-		 * realización—, así que el único sitio donde se afirma el quiebro es este renglón.
+		 * Este renglón decía «Base de 8 sílabas; los pies quebrados pueden medir 4 y 5», y ponerlo
+		 * bajo «Medida» hacía leer el verso corto como parte de cómo mide la estrofa. En una
+		 * redondilla es raro: teóricamente es base de 8 con admitidos de menos, y en la práctica es
+		 * de 8 y ya. Lo que la medida fija es la base; que además pueda quebrarse es un rasgo, y
+		 * allí se dice con su grado —admitido, habitual, obligatorio— y con sus medidas.
 		 */
-		const modalidad = quebradoModality(architectureId, domain);
-		const medidas = `${naturalList(broken)} sílabas`;
-		entries.push(
-			modalidad === 'definitoria'
-				? `Base de ${naturalList(dominant)} sílabas, con pies quebrados de ${medidas}`
-				: modalidad === 'habitual'
-					? `Base de ${naturalList(dominant)} sílabas; lleva habitualmente pies quebrados, de ${medidas}`
-					: modalidad === 'admitida'
-						? `Base de ${naturalList(dominant)} sílabas; admite pies quebrados, de ${medidas}`
-						: `Base de ${naturalList(dominant)} sílabas; los pies quebrados pueden medir ${naturalList(broken)}`
-		);
+		entries.push(`Base de ${naturalList(dominant)} sílabas`);
 	}
 	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;
 }
@@ -302,13 +301,22 @@ function architectureTraitFacts(
 	return domain.configurationTraits.flatMap((assignment) => {
 		if (id(assignment, 'arquitectura_id') !== architectureId) return [];
 		const maximum = positiveInteger(assignment.posiciones_max);
-		// Los rasgos meramente admitidos son datos de la realización y ya aparecen en sus
-		// controles. Solo suben a la norma cuando acotan la elección con un límite exacto.
-		if (assignment.modalidad === 'admitida' && maximum === null) return [];
 		const trait = domain.traits.find(
 			(candidate) => id(candidate, 'rasgo_id') === id(assignment, 'rasgo_id')
 		);
 		if (!trait?.nombre) return [];
+		/**
+		 * El pie quebrado sube siempre, aunque solo esté admitido y sin límite.
+		 *
+		 * La regla de abajo vale para los rasgos que el editor observa y responde en su control.
+		 * El quiebro no: **cambia la medida de la estrofa**, y desde que seis arquitecturas
+		 * declaran dónde cae ni siquiera se pregunta en ellas. Si no subiera, la redondilla no
+		 * diría en ninguna parte que admite versos cortos.
+		 */
+		const esQuiebro = String(trait.slug ?? '') === 'pie_quebrado';
+		// Los rasgos meramente admitidos son datos de la realización y ya aparecen en sus
+		// controles. Solo suben a la norma cuando acotan la elección con un límite exacto.
+		if (assignment.modalidad === 'admitida' && maximum === null && !esQuiebro) return [];
 		const value = domain.traitValues.find(
 			(candidate) => id(candidate, 'valor_id') === id(assignment, 'valor_id')
 		);
@@ -326,6 +334,11 @@ function architectureTraitFacts(
 			if (maximum !== null) {
 				parts.push(`máximo de ${maximum} ${maximum === 1 ? 'posición' : 'posiciones'}`);
 			}
+		}
+		// Y lo que miden, que se leía en la medida y ahora se lee donde se afirma el quiebro.
+		if (esQuiebro) {
+			const medidas = quebradoMeasures(architectureId, domain);
+			if (medidas.length > 0) parts.push(`de ${medidas.join(' o ')} sílabas`);
 		}
 		// Un renglón sin nada que decir no se pinta.
 		if (parts.length === 0) return [];

@@ -75,16 +75,33 @@ describe('el grado del pie quebrado', () => {
 		}).find((fact) => fact.label === 'Medida')?.value;
 	}
 
-	it('dice que la redondilla lo admite y que la manriqueña lo lleva', () => {
-		expect(medida('admitida')).toBe('Base de 8 sílabas; admite pies quebrados, de 4 y 5 sílabas');
-		expect(medida('definitoria')).toBe('Base de 8 sílabas, con pies quebrados de 4 y 5 sílabas');
-		expect(medida('habitual')).toBe(
-			'Base de 8 sílabas; lleva habitualmente pies quebrados, de 4 y 5 sílabas'
-		);
+	function rasgo(modalidad: string | null) {
+		return metricNormFacts({
+			architectureId: 'a',
+			unitPlan: null,
+			lengthRule: null,
+			domain: conQuebrado(modalidad)
+		}).find((fact) => fact.label === 'Pie quebrado')?.value;
+	}
+
+	it('la medida dice la base y nada más', () => {
+		expect(medida('admitida')).toBe('Base de 8 sílabas');
+		expect(medida('definitoria')).toBe('Base de 8 sílabas');
 	});
 
-	it('sin declaración se queda como estaba, sin inventarle un grado', () => {
-		expect(medida(null)).toBe('Base de 8 sílabas; los pies quebrados pueden medir 4 y 5');
+	it('el grado y las medidas del quiebro van en su rasgo', () => {
+		expect(rasgo('admitida')).toBe('admitido; de 4 o 5 sílabas');
+		expect(rasgo('habitual')).toBe('habitual; de 4 o 5 sílabas');
+		expect(rasgo('definitoria')).toBe('obligatorio; de 4 o 5 sílabas');
+	});
+
+	/**
+	 * Un rasgo admitido sin límite de posiciones no sube a la norma, porque es dato de la
+	 * realización. El quiebro es la excepción: cambia la medida de la estrofa, y en seis
+	 * arquitecturas ni siquiera se pregunta desde que se declaró dónde cae.
+	 */
+	it('sube aunque solo esté admitido y sin límite', () => {
+		expect(rasgo('admitida')).toBeDefined();
 	});
 });
 
@@ -332,7 +349,7 @@ describe('resumen de la norma', () => {
 					{ esquema_metrico_id: 'em', metro_id: 'm4', rol: 'quebrado' },
 					{ esquema_metrico_id: 'em', metro_id: 'm5', rol: 'quebrado' }
 				],
-				traits: [{ rasgo_id: 'r', nombre: 'Pie quebrado' }],
+				traits: [{ rasgo_id: 'r', slug: 'pie_quebrado', nombre: 'Pie quebrado' }],
 				configurationTraits: [
 					{
 						arquitectura_id: 'a',
@@ -352,11 +369,11 @@ describe('resumen de la norma', () => {
 			},
 			{
 				label: 'Medida',
-				value: 'Base de 8 sílabas; los pies quebrados pueden medir 4 y 5'
+				value: 'Base de 8 sílabas'
 			},
 			{
 				label: 'Pie quebrado',
-				value: 'admite hasta 2 posiciones'
+				value: 'admite hasta 2 posiciones; de 4 o 5 sílabas'
 			}
 		]);
 	});
@@ -663,7 +680,7 @@ describe('resumen de la norma', () => {
 		expect(facts).toEqual([
 			{
 				label: 'Medida',
-				value: 'Base de 8 sílabas; los pies quebrados pueden medir 4 y 5'
+				value: 'Base de 8 sílabas'
 			}
 		]);
 	});
