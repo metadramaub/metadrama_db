@@ -381,6 +381,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 | F36 | las cuatro liras abiertas | **preguntan su rima de tres maneras distintas**, habiéndose creado el mismo día como una sola serie | **catálogo** | cuarteto-lira y octava-lira: repertorio de 2 y salida abierta, **obligatoria**. Décima-lira: repertorio de 1 y salida abierta, **opcional**. Novena-lira: **sin repertorio**, solo campo escrito —y esa sí está justificada, porque su único esquema es «Distribución variable», de secuencia `abierta`, y la función de opciones no ofrece las abiertas— | 4 arquitecturas de 4 formas | **arreglado**: las cuatro con repertorio —el que haya—, salida abierta y respuesta obligatoria |
+| F46 | todas | **la «Norma de la arquitectura» hay que rehacerla entera**: más sencilla y mejor organizada. No es una queja de una forma, es el recuadro | UI | se ha ido llenando renglón a renglón —extensión, partes, medida, rima, rasgos, restricciones— sin que nadie decida qué merece estar arriba, qué se lee mejor dibujado y qué sobra porque se responde debajo | 41 formas | **pendiente**, se decide de una vez con **F4, F5, F6, F13, F20, F23 y F32** |
 | F45 | redondilla, y las 15 que declaran el rasgo | el quiebro se afirmaba **bajo «Medida»** —«base de 8; los pies quebrados pueden medir 4 y 5»—, y ahí se lee como parte de cómo mide la estrofa. En una redondilla es raro: teóricamente es base de 8 con admitidos de menos, y en la práctica es de 8 y ya | UI | la medida decía cuánto miden y callaba el grado; y el rasgo no subía a la norma, porque uno `admitida` sin límite de posiciones se considera dato de la realización. Ahora la medida dice la base, y el quiebro va a su renglón con su grado y sus medidas | las 15 arquitecturas que declaran `pie_quebrado`, en sus tres grados | **arreglado** |
 | F44 | quintilla, septilla, las dos novenas y las dos oncenas | la nota **nombra el verso del quiebro** y el editor lo pregunta en todos | **catálogo** | hay dos mecanismos y estas están en el que no restringe: con `medida_uniforme = false` la derivación enumera `generate_series(1, unidad_versos_max)` y ofrece el quebrado en cada verso; con `medida_uniforme = null` y posiciones declaradas —manriqueña, sextilla de pie quebrado y las tres enlazadas— solo se ofrece donde se declara | **6 arquitecturas declaran ahora dónde cae el quiebro** —quintilla, septilla, novena 4+5, las dos oncenas y la copla castellana— y **1 dejó de admitirlo**, la novena 5+4, cuyo quiebro no lo documenta ninguna fuente. Quedan 3 preguntando en todos los versos, y su fuente lo justifica: copla real, redondilla y copla de arte menor | **arreglado** |
 | F43 | quintilla · octosilábica consonante | las ocho tipologías salían en el desplegable **desordenadas**: 4, 5, 3, 1, 7, 6, 2, 8 | catálogo · SQL | `opciones_eleccion_derivadas()` las ordenaba por notación —`aabab`, `aabba`, `abaab`…— y el número de la tipología, que es como se nombran y como las cita la bibliografía, no contaba | toda forma cuyas disposiciones llevan nombre; las que no lo llevan no se mueven | **arreglado** |
@@ -468,6 +469,26 @@ el septeto compuesto no pueden guardar su rima, y **borrar las seis copias las d
 el grupo de la arquitectura que la parte reutiliza, y `seccion_id` se resuelve a la parte que lo
 toma prestado—, o **darle filas propias a la oncena y al septeto**, seis en total, como las tiene la
 copla real. Lo segundo funciona hoy y no toca ninguna función; lo primero es el mecanismo único.
+
+**F46 · La norma de la arquitectura, entera.** Pedido por David el 29 de agosto de 2026, después de
+mover el pie quebrado de «Medida» a su rasgo: *«quiero hacerlo más sencillo después, organizarlo un
+poco mejor»*. No se decide forma a forma, y lo que ya está recogido apunta todo al mismo sitio:
+
+| | qué se dijo | dónde salió |
+|---|---|---|
+| **F4** | debería llamarse «características esperadas» y ser desplegable | canción · regular |
+| **F5** | dice en prosa lo que ya está dibujado o se ofrece debajo | canción, quintilla |
+| **F6** | demasiada letra por parte; la unidad modelo una vez y las demás solo su rango | canción · regular y variables |
+| **F13** | la rima, desplegada verso a verso y en vertical | copla castellana, novena-lira, octava-lira |
+| **F20** | la estructura de las partes, donde se declara la medida | copla castellana |
+| **F23** | los rasgos, no como cinco preguntas seguidas con su caja y su descripción | endecasílabo suelto |
+| **F32** | la primera columna de la rejilla lleva solo el número de verso | novena-lira, octava-lira |
+
+**Y lo que se ha ido arreglando por el camino ya dice por dónde va**: la medida se cuenta una sola
+vez (**F11**), el régimen de rima se dice una vez arriba o en cada disposición (**F40**), y el pie
+quebrado se afirma donde es un rasgo y no donde se mide (**F45**). *Son tres decisiones del mismo
+tipo —qué se dice, dónde y una sola vez— tomadas de una en una; el recuadro pide que se tomen
+juntas.*
 
 **F2 · El remate, y las secciones opcionales que no declaran nada.** Contado contra la base, de las
 **once secciones opcionales** del catálogo:
