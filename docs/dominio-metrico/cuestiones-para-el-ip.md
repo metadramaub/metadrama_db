@@ -406,6 +406,19 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 # Estrofas de arte mayor e italianas
 
+## Sextilla de pie quebrado
+
+1. **La variante con los quiebros en el segundo verso y el quinto.** La arquitectura declara los
+   suyos en el **tercero y el sexto**, que es la disposición manriqueña, y el rasgo es ahí
+   **definitorio**. Pero Navarro Tomás cita «las sextillas de Ricardo Gil, donde el tetrasílabo
+   quiebra el segundo verso y el quinto», y el *Diccionario* recoge también «una variante con los
+   quebrados en segundo y quinto lugar». *¿Es otra arquitectura de la misma forma, como los dos
+   órdenes de la oncena y la novena, o una desviación de esta?* Hoy solo se puede registrar como
+   desviación, porque las posiciones son definitorias.
+
+   *Sus tres disposiciones de rima sí se completaron el 29 de agosto de 2026*: ofrecía solo `abcabc`
+   y el *Diccionario* nombra `aabaab`, `aabccb` y `abcabc`.
+
 ## Sextina
 
 1. **Son las dos únicas formas del catálogo con tres tradiciones** —provenzal, italiana y española—.
