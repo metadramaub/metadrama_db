@@ -868,6 +868,19 @@ formas**: la octava aguda —seis arquitecturas, definitoria—, el septeto —d
 —una, habitual—. Ni la sextilla ni la décima, que son las dos que Jauralde nombra. *Falta una pasada que decida en qué formas
 se admite y con qué modalidad; va con B2, que revisa el reparto entero de los rasgos.*
 
+**Y al hacerla habrá que ver cómo se cruza con las vocales de la asonancia**, que lo apuntó David el
+29 de agosto de 2026 revisando el romance: **algunas asonancias son ya agudas por sí mismas**. De
+los 19 valores de `vocales_asonancia`, los **cuatro simples** —`a`, `e`, `i`, `o`— son las asonancias
+**agudas**, porque una rima aguda asuena en su única vocal tónica final; los **quince pares**
+—`o-e`, `a-a`, `u-o`…— son las **llanas y esdrújulas**, que asuenan en la tónica y la final. Esa
+relación no está declarada en ninguna parte, así que hoy se podría responder «final agudo» y a la
+vez una asonancia en par, que se contradicen.
+
+*Es la misma observación que ya obliga a la octava aguda a ofrecer solo cuatro valores* —ver
+**F33**—: allí el final agudo es definitorio y las quince asonancias llanas no aplican. Si los
+valores se clasificaran por su terminación, las dos cosas se sostendrían solas: la pregunta ofrecería
+lo que cabe y el rasgo no habría que responderlo dos veces.
+
 **C17. El catálogo se deriva en cada lectura, y eso no escala.** Cuatro de las «tablas» que lee el
 gestor no son tablas: son vistas sobre funciones SQL que recorren el catálogo entero cada vez que
 alguien las mira. Medidas por PostgREST el 26 de agosto de 2026, con **680 opciones y 107 grupos**:
