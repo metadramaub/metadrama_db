@@ -1108,8 +1108,10 @@ se completó el 31. Lo que sigue:
    `/recursos/demarcador` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. El cierre
    no obligatorio del terceto encadenado se resolvió el 25 de agosto de 2026 —ver
    [B4](#b--bloquean-el-editor-v2-en-producción)—; **queda por revisar la retirada de la copla de
-   pie quebrado**. Y los artefactos guardados están viejos: los cinco son del 2 de agosto,
-   revisión 2351 contra la 4318 viva, así que hay que recompilar.
+   pie quebrado**. Ya no hay artefacto que recompilar: el versionado se retiró el 28 de agosto de
+   2026 —envejecía sin avisar— y desde entonces el catálogo se compila en cada carga, así que sirve
+   siempre lo vivo. Comprobado el 2 de septiembre: 41 formas, 117 preguntas y 664 opciones, **las
+   seis heredadas incluidas**, con sus 28 opciones.
 8. **Lo que viene**, y en este orden: la
    [migración de las anotaciones](./plan-migracion-anotaciones.md) por equivalencias más revisión
    manual, y el paso del editor V2 a producción. Lo que hay que despejar antes está en

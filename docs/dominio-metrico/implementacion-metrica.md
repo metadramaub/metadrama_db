@@ -78,7 +78,7 @@ _Cómo se registra_
 
 _Qué se guarda y qué se calcula_
 
-17. **La base de datos es la fuente de verdad.** El artefacto del demarcador, las fichas públicas
+17. **La base de datos es la fuente de verdad.** El catálogo del demarcador, las fichas públicas
     y las redes son proyecciones regenerables.
 18. **El catálogo no guarda lo que puede calcular.** El formulario del editor no se escribe: sus
     respuestas y sus enunciados se derivan. Lo que no se pueda derivar no es una excepción que
@@ -335,7 +335,7 @@ hermano, o la que habla del cuerpo de la estrofa y no de su pareado final—.
 | **Anotación editorial**    | Qué se identificó u observó en una secuencia concreta             | Solo en las tablas de prueba `*_editor_metrico`; las secuencias reales siguen en el vocabulario legado |
 | **Proyecciones derivadas** | Qué se publica, filtra, agrega o compila                          | Vistas y artefactos regenerables                                                                       |
 
-La base normalizada es la fuente de verdad. El artefacto del demarcador, las fichas públicas y
+La base normalizada es la fuente de verdad. El catálogo del demarcador, las fichas públicas y
 las redes son proyecciones: se regeneran, no se corrigen a mano.
 
 ## 1 · Qué problema resolvió aquí
@@ -800,9 +800,9 @@ distribuciones, transiciones y tasas; que eso alimente un modelo de atribución 
 conclusión, porque hay que controlar forma, género, extensión, cronología y dependencia entre
 secuencias de una misma obra.
 
-**El demarcador** compila un artefacto versionado desde el catálogo, con la revisión con que se
-generó y la procedencia de cada regla. Ordena sus preguntas por capacidad de separar candidatas,
-solo pregunta lo observable y conserva candidatas ante un «no sé».
+**El demarcador** compila su catálogo **desde la base y en cada carga**, con la procedencia de
+cada regla. Ordena sus preguntas por capacidad de separar candidatas, solo pregunta lo observable
+y conserva candidatas ante un «no sé».
 
 **Los grafos y la interoperabilidad** se calculan, no se almacenan como relaciones canónicas.
 Para el tamaño del catálogo no hace falta una base de grafos.
@@ -810,8 +810,8 @@ Para el tamaño del catálogo no hace falta una base de grafos.
 ## 11 · Cuándo caduca un dato derivado
 
 `catalogo_metrico_estado.revision` sube con cada cambio del catálogo, y sirve para saber con qué
-revisión se calculó un resumen, marcar como obsoletas las proyecciones afectadas y recompilar el
-demarcador.
+revisión se calculó un resumen y marcar como obsoletas las proyecciones afectadas. El demarcador
+no hace falta recompilarlo: se compila al cargarse.
 
 Un cambio editorial —una etiqueta— se resuelve en lectura. Un cambio semántico obliga a invalidar
 o regenerar. **Pendiente: ninguna anotación registra todavía con qué revisión se guardó**, de
