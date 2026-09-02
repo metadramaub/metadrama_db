@@ -28,6 +28,8 @@
 		onApplyAll?: () => void;
 		positionStart?: number;
 		positionLimit?: number;
+		/** Lo que la norma fija en cada verso, desde `positionStart`. Ver `MetricVersePatternField`. */
+		medidasFijas?: (number | null)[];
 		pendingPositions?: number[];
 		onPendingPositionsChange?: (positions: number[]) => void;
 		/**
@@ -551,7 +553,31 @@
 				</button>
 			{/if}
 		</div>
-	{:else if maximum === 1}
+	{:else if positional && maximum === 1 && !partialPositionalSelection && !positionalAlternatives}
+		<!--
+			Posicional pero sin alternativas: no hay medidas que comparar, solo la posición.
+		-->
+		<div class="flex flex-wrap gap-2">
+			{#each visibleOptions as option (String(option.opcion_eleccion_id))}
+				<label
+					class={`flex min-h-10 min-w-10 cursor-pointer items-center justify-center border px-3 text-sm ${
+						props.selectedIds.includes(String(option.opcion_eleccion_id))
+							? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
+							: 'border-[color:var(--border)] bg-white'
+					}`}
+					title={String(option.nombre)}
+				>
+					<input
+						type="radio"
+						class="sr-only"
+						checked={props.selectedIds.includes(String(option.opcion_eleccion_id))}
+						onchange={() => props.onChange([String(option.opcion_eleccion_id)])}
+					/>
+					<span>{Number(option.posicion_unidad)}</span>
+				</label>
+			{/each}
+		</div>
+	{:else if maximum === 1 && !partialPositionalSelection && !positionalAlternatives}
 		<select
 			class={`w-full border bg-white px-3 text-sm ${
 				celda ? 'h-9 max-w-sm' : 'h-10'
@@ -596,6 +622,7 @@
 		<MetricVersePatternField
 			length={patternLength}
 			positionStart={patternStart}
+			medidasFijas={props.medidasFijas}
 			options={visibleOptions}
 			selectedIds={props.selectedIds}
 			onMeasureChange={props.onChange}

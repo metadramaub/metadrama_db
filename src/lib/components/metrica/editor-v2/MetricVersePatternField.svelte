@@ -11,6 +11,14 @@
 		onMeasureChange: (ids: string[]) => void;
 		rhymeValue?: string;
 		onRhymeChange?: (value: string) => void;
+		/**
+		 * Lo que la norma fija en cada verso, para los que no preguntan nada.
+		 *
+		 * Indexado desde `positionStart`. Sin esto solo se sabía la medida de base, que sale del rol
+		 * `dominante`; la seguidilla gitana no lo tiene —sus versos miden 6, 6, 11 y 6 declarados uno
+		 * a uno— y sus tres versos fijos decían «Sin medidas disponibles», que suena a que falta algo.
+		 */
+		medidasFijas?: (number | null)[];
 		/** Rima que la arquitectura ya fija: «—» en el cuerpo y «A» en el pareado. */
 		fixedRhymes?: string[];
 		readOnly?: boolean;
@@ -51,19 +59,29 @@
 	 * endecasílabo llene la barra y el heptasílabo no.
 	 */
 	const medidaMayor = $derived.by(() => {
-		if (medidaDeBase !== null) return medidaDeBase;
-		let mayor = 0;
+		let mayor = medidaDeBase ?? 0;
 		for (const option of props.options) {
 			const silabas = Number(option.metro_silabas);
 			if (Number.isFinite(silabas) && silabas > mayor) mayor = silabas;
 		}
+		// Las que la norma fija también cuentan: en la gitana el verso largo es el que no pregunta.
+		for (const fija of props.medidasFijas ?? []) {
+			if (typeof fija === 'number' && Number.isFinite(fija) && fija > mayor) mayor = fija;
+		}
 		return mayor > 0 ? mayor : null;
 	});
+
+	/** Lo que la norma pone en este verso, si lo pone. */
+	function medidaFijaAt(position: number): number | null {
+		const valor = props.medidasFijas?.[localIndex(position)];
+		return typeof valor === 'number' && Number.isFinite(valor) && valor > 0 ? valor : null;
+	}
 
 	function silabasAt(position: number): number | null {
 		const elegida = selectedSyllables(position);
 		if (elegida !== null) return elegida;
-		return optionsAt(position).length === 0 ? medidaDeBase : null;
+		if (optionsAt(position).length > 0) return null;
+		return medidaFijaAt(position) ?? medidaDeBase;
 	}
 
 	function optionsAt(position: number): MetricCatalogDomainRow[] {
@@ -176,8 +194,8 @@
 				silabas={silabasAt(position)}
 				maximo={medidaMayor}
 				variante={selected ? 'elegida' : choices.length === 0 ? 'base' : 'vacia'}
-				distintivo={choices.length === 0 && medidaDeBase !== null ? 'fijo' : undefined}
-				texto={choices.length === 0 && medidaDeBase === null
+				distintivo={choices.length === 0 && silabasAt(position) !== null ? 'fijo' : undefined}
+				texto={choices.length === 0 && silabasAt(position) === null
 					? 'Sin medidas disponibles'
 					: selected
 						? undefined
