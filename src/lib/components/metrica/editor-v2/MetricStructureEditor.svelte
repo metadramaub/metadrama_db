@@ -1088,6 +1088,35 @@
 		return escrita ? escrita : null;
 	}
 
+	/**
+	 * Lo que la norma fija en cada verso de una unidad, para el campo de medidas.
+	 *
+	 * Sale de `medidasDeLaUnidad`, que es la misma fuente que la anotación y la caja de las letras.
+	 * Se recorta al tramo del que trata la pregunta, porque una pregunta de sección habla de sus
+	 * versos y no de los de la unidad entera.
+	 */
+	function medidasFijasDe(
+		unit: MetricUnitDraft,
+		desde: number,
+		hasta: number
+	): (number | null)[] {
+		const { medidas, base } = medidasDeLaUnidad(unit);
+		const serie: (number | null)[] = [];
+		for (let posicion = desde; posicion <= hasta; posicion += 1) {
+			serie.push(medidas.get(posicion) ?? base);
+		}
+		return serie;
+	}
+
+	/** Lo mismo para el atajo: en conjunto todas responden igual, así que basta con la primera. */
+	function medidasFijasComunes(pregunta: PreguntaCompartida): (number | null)[] {
+		const primera = pregunta.groups
+			.flatMap((group: MetricCatalogDomainRow) => unitsForGroup(context, group))
+			.at(0);
+		if (!primera) return [];
+		return medidasFijasDe(primera, 1, comunPositionLimit(pregunta) ?? primera.v_fin - primera.v_ini + 1);
+	}
+
 	/** Si a esta unidad le llega alguna de las preguntas que se responden en común. */
 	function esUnidadComun(unit: MetricUnitDraft): boolean {
 		return comunes.some((pregunta: PreguntaCompartida) =>
@@ -2004,6 +2033,7 @@
 										realizaciones={state.total}
 										ariaLabel={pregunta.label}
 										positionLimit={comunPositionLimit(pregunta)}
+										medidasFijas={medidasFijasComunes(pregunta)}
 										onChoose={(slugs) => aplicarComun(pregunta, slugs)}
 									/>
 								{/if}
@@ -2476,6 +2506,11 @@
 				: undefined}
 			positionStart={positionStart}
 			positionLimit={positionEnd ?? unit.v_fin - unit.v_ini + 1}
+			medidasFijas={medidasFijasDe(
+				unit,
+				positionStart ?? 1,
+				positionEnd ?? unit.v_fin - unit.v_ini + 1
+			)}
 			pendingPositions={pendingPositionsFor(groupId, unit.realizacion_id)}
 			onPendingPositionsChange={(positions) =>
 				setPendingPositionsFor(groupId, unit.realizacion_id, positions)}

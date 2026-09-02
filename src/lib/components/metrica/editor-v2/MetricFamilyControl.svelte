@@ -31,6 +31,8 @@
 		onChoose: (slugs: string[]) => void;
 		ariaLabel: string;
 		positionLimit?: number;
+		/** Lo que la norma fija en cada verso. Ver `MetricVersePatternField`. */
+		medidasFijas?: (number | null)[];
 	} = $props();
 
 	const positional = $derived(arePositionalOptions(props.options));
@@ -144,6 +146,7 @@
 		<MetricVersePatternField
 			length={longitudDeLaRejilla}
 			positionStart={1}
+			medidasFijas={props.medidasFijas}
 			options={visibleOptions}
 			selectedIds={idsElegidos}
 			onMeasureChange={elegirPorId}
