@@ -136,6 +136,11 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    rasgo**. Y un rasgo es una respuesta *dentro* de una norma, no una norma: si dos arquitecturas no
    se distinguen más que por él, una de las dos es un nombre y no una realización estructural.
 
+   **Y la densidad tampoco las separa**, comprobado el 29 de agosto de 2026: las dos declaran
+   `mayoritaria` y `total` como admitidas, así que las dos toleran versos sueltos y ninguna exige que
+   rime todo. *De los tres ejes —esquema, medida y densidad— no las distingue ninguno; solo el valor
+   de pareados, que es lo que el editor no puede ver hasta haberlos contado.*
+
    *A favor de dejarlas:* las cuatro salen de los cuatro tipos de Morley y Bruerton, y el corpus
    todavía no ha hablado. *A favor de fundirlas:* el editor tiene que elegir entre dos arquitecturas
    cuya diferencia no puede observar antes de haber contado los pareados, que es lo que el rasgo
