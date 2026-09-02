@@ -845,6 +845,30 @@
 						etiqueta: limpiar(unidad.etiqueta),
 						observaciones: limpiar(unidad.observaciones)
 					})),
+					/**
+					 * **La respuesta viaja diciendo de qué habla**, no a qué pregunta contesta.
+					 *
+					 * El borrador sigue trabajando con preguntas, que es lo que necesita para pintar
+					 * el rótulo, el control y las opciones; lo que cambia es el cable. La dimensión y
+					 * la parte tratada se sacan de la pregunta que el editor tenía delante, incluidas
+					 * las que una parte toma prestadas de la arquitectura que reutiliza.
+					 */
+					elecciones: borrador.elecciones.map((eleccion) => {
+						const grupo = props.catalogoMetrico?.domain.choiceGroups.find(
+							(fila: MetricCatalogDomainRow) =>
+								String(fila.grupo_eleccion_id) === eleccion.grupo_eleccion_id
+						);
+						return {
+							realizacion_id: eleccion.realizacion_id,
+							dimension: String(grupo?.dimension ?? ''),
+							seccion_tratada_id: grupo?.seccion_tratada_id
+								? String(grupo.seccion_tratada_id)
+								: null,
+							opcion_eleccion_id: eleccion.opcion_eleccion_id,
+							valor_texto: eleccion.valor_texto ?? null,
+							observaciones: eleccion.observaciones
+						};
+					}),
 					desviaciones: borrador.desviaciones.map((desviacion) => ({
 						...desviacion,
 						observaciones: limpiar(desviacion.observaciones)

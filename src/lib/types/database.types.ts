@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -244,16 +244,17 @@ export type Database = {
         Row: {
           anotacion_id: string
           created_at: string
+          dimension: string
           eleccion_id: string
           esquema_metrico_id: string | null
           esquema_rima_id: string | null
-          grupo_eleccion_id: string
           metro_id: string | null
           observaciones: string | null
           posicion_unidad: number | null
           realizacion_id: string | null
           repeticion_id: string | null
           seccion_id: string | null
+          seccion_tratada_id: string | null
           valor_rasgo_id: string | null
           valor_texto: string | null
           variedad_id: string | null
@@ -261,16 +262,17 @@ export type Database = {
         Insert: {
           anotacion_id: string
           created_at?: string
+          dimension: string
           eleccion_id?: string
           esquema_metrico_id?: string | null
           esquema_rima_id?: string | null
-          grupo_eleccion_id: string
           metro_id?: string | null
           observaciones?: string | null
           posicion_unidad?: number | null
           realizacion_id?: string | null
           repeticion_id?: string | null
           seccion_id?: string | null
+          seccion_tratada_id?: string | null
           valor_rasgo_id?: string | null
           valor_texto?: string | null
           variedad_id?: string | null
@@ -278,16 +280,17 @@ export type Database = {
         Update: {
           anotacion_id?: string
           created_at?: string
+          dimension?: string
           eleccion_id?: string
           esquema_metrico_id?: string | null
           esquema_rima_id?: string | null
-          grupo_eleccion_id?: string
           metro_id?: string | null
           observaciones?: string | null
           posicion_unidad?: number | null
           realizacion_id?: string | null
           repeticion_id?: string | null
           seccion_id?: string | null
+          seccion_tratada_id?: string | null
           valor_rasgo_id?: string | null
           valor_texto?: string | null
           variedad_id?: string | null
@@ -315,20 +318,6 @@ export type Database = {
             referencedColumns: ["esquema_rima_id"]
           },
           {
-            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica_resueltos"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
             foreignKeyName: "anotacion_elecciones_metro_id_fkey"
             columns: ["metro_id"]
             isOneToOne: false
@@ -352,6 +341,13 @@ export type Database = {
           {
             foreignKeyName: "anotacion_elecciones_seccion_id_fkey"
             columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_seccion_tratada_id_fkey"
+            columns: ["seccion_tratada_id"]
             isOneToOne: false
             referencedRelation: "estructuras_secciones"
             referencedColumns: ["seccion_id"]
@@ -1489,6 +1485,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "esquemas_rima"
             referencedColumns: ["esquema_rima_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
+            columns: ["grupo_eleccion_id"]
+            isOneToOne: false
+            referencedRelation: "anotacion_elecciones_resueltas"
+            referencedColumns: ["grupo_eleccion_id"]
           },
           {
             foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
@@ -3567,6 +3570,7 @@ export type Database = {
         Row: {
           anotacion_id: string | null
           created_at: string | null
+          dimension: string | null
           eleccion_id: string | null
           esquema_metrico_id: string | null
           esquema_rima_id: string | null
@@ -3578,6 +3582,7 @@ export type Database = {
           realizacion_id: string | null
           repeticion_id: string | null
           seccion_id: string | null
+          seccion_tratada_id: string | null
           valor_rasgo_id: string | null
           valor_texto: string | null
           variedad_id: string | null
@@ -3605,20 +3610,6 @@ export type Database = {
             referencedColumns: ["esquema_rima_id"]
           },
           {
-            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "anotacion_elecciones_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica_resueltos"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
             foreignKeyName: "anotacion_elecciones_metro_id_fkey"
             columns: ["metro_id"]
             isOneToOne: false
@@ -3642,6 +3633,13 @@ export type Database = {
           {
             foreignKeyName: "anotacion_elecciones_seccion_id_fkey"
             columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "anotacion_elecciones_seccion_tratada_id_fkey"
+            columns: ["seccion_tratada_id"]
             isOneToOne: false
             referencedRelation: "estructuras_secciones"
             referencedColumns: ["seccion_id"]
@@ -3812,11 +3810,17 @@ export type Database = {
     }
     Functions: {
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
+      auth_puede_editar_obra: { Args: { p_obra_id: string }; Returns: boolean }
+      auth_puede_ver_obra: { Args: { p_obra_id: string }; Returns: boolean }
       can_view_obra_ficha_publica: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: boolean
       }
       catalogo_metrico_publico: { Args: never; Returns: boolean }
+      firma_de_eleccion: {
+        Args: { e: Database["public"]["Tables"]["anotacion_elecciones"]["Row"] }
+        Returns: string
+      }
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }
       get_catalogo_formas_publicas: { Args: never; Returns: Json }
@@ -3860,6 +3864,7 @@ export type Database = {
         Returns: string
       }
       numero_efectivo_from_perfil: { Args: { p_perfil: Json }; Returns: number }
+      obra_de_anotacion: { Args: { p_anotacion_id: string }; Returns: string }
       obra_publica_visible: { Args: { p_obra_id: string }; Returns: boolean }
       obra_publicada_asignada: {
         Args: { p_obra_id: string; p_user: string }
@@ -3904,6 +3909,7 @@ export type Database = {
           scope: string
         }[]
       }
+      preguntas_que_ofrecen_una_definitoria: { Args: never; Returns: string }
       recompute_all: { Args: never; Returns: undefined }
       recompute_autor_resumen: {
         Args: { p_autor_id: string }
@@ -3970,12 +3976,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -3999,11 +4005,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -4024,11 +4030,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -4049,11 +4055,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -4066,11 +4072,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
