@@ -1059,50 +1059,27 @@ urgente: más adelante debe convertirse en un cargador explícito para el editor
 `MetricCatalogForEditor` y el estado de migración, y dejar de consultar los datos residuales de la
 antigua página.
 
-**C20. La respuesta apunta a la pregunta, y podría describirse a sí misma.** Propuesto por David el
-29 de agosto de 2026 al revisar por qué la oncena no puede guardar su rima (**F39**). Hoy
-`anotacion_elecciones.grupo_eleccion_id` es **obligatorio**: una respuesta dice «soy la respuesta a
-*esta pregunta*». Si dijera **«esta realización, en la dimensión rima, es este esquema»**, la
-pregunta pasaría a ser presentación —derivable, como ya lo son el repertorio y el nombre— y **la
-reutilización no necesitaría ni una fila**.
+**C20. La respuesta se describe a sí misma. Hecho el 2 de septiembre de 2026.** Propuesto por
+David el 30 de agosto. La respuesta guardaba **a qué pregunta contesta**, y con eso el catálogo no se
+podía corregir sin arrastrar lo anotado. Ahora guarda **qué afirma** —la entidad—, **de qué habla**
+—la dimensión— y **de qué parte**, y la pregunta se deriva al leerla. El plan, con todo lo que se
+midió antes de empezar, está en [su documento](./plan-c20-la-respuesta-se-describe.md).
 
-*Es el último resto de cuando cada forma escribía a mano sus preguntas y sus respuestas.* Las
-respuestas posibles dejaron de escribirse el 9 y el 10 de agosto —`las_preguntas_se_generan_desde_el_catalogo`,
-`las_opciones_dejan_de_ser_una_tabla`, `se_retira_la_tabla_de_opciones_escritas_a_mano`— y los
-repertorios duplicados cayeron el 31 de julio con el defecto D8. La fila de la pregunta es lo que
-queda.
+Lo que trajo de paso, y que era el motivo de fondo: **las preguntas heredadas dejaron de inventarse
+en el cliente** —`reutilizacion.ts` desapareció— y pasaron al catálogo, en `preguntas_metricas`, con
+identidad derivada como ya la tenían las opciones. Con eso la oncena y el septeto compuesto pueden
+guardar su rima, que es **F39**. Y **el puente con el vocabulario legado** dice también a qué
+respuesta equivale, en vez de a qué pregunta, así que alcanza a las heredadas.
 
-*Las preguntas no desaparecerían*: seguirían declarando qué se pregunta, con qué control y cuántas
-respuestas. Lo único que cambia es a qué apunta la respuesta.
+Comprobado anotando en «Prueba» una forma de cada clase —sin preguntas, de rima simple, con partes,
+con ciclos, de variedad, de cinco rasgos sobre una misma realización y de esquema escrito a mano—:
+9 anotaciones y 21 respuestas, todas resolviendo a su pregunta. Desde ahora
+`npm run audit:anotaciones` vigila que un cambio del catálogo no deje ninguna sin ella, y dice en
+qué obra y quién la anotó.
 
-**¿Serviría la clave (realización, dimensión)?** Medido contra el catálogo: **8 arquitecturas tienen
-más de una pregunta de la misma dimensión**, y solo una choca de verdad.
+**Sigue pendiente** lo que el plan contaba como arreglo de paso: **F63**, dar sus preguntas a la
+versificación irregular y al verso aislado, que ahora ya se pueden hacer.
 
-| caso | preguntas | ¿choca? |
-|---|---|---|
-| villancico ×2 y zéjel, **metro** | 4, 4, 3 | **no**: son por sección, y cada sección es otra realización |
-| copla real y las dos novenas, **rima** | 2 cada una | **no**: por sección |
-| endecasílabo suelto, **rasgo** | 5 | **no**: la respuesta guarda `valor_rasgo_id`, y un valor pertenece a un solo rasgo |
-| **soneto**, rima | 2 | **sí** |
-
-El soneto usa `seccion_tratada_id` —la respuesta se guarda en la unidad pero habla de una parte—, así
-que sus cuartetos y tercetos caen en la misma realización. Haría falta una columna más en la
-respuesta, y en todo el catálogo hay **2 grupos** que la necesitan. *David apuntó el 29 de agosto que
-quizá se pueda codificar de otra manera —los cuartetos reutilizan la rima y los tercetos llevan
-rimas propias que no son las del terceto que reutilizan, y eso pide secciones macro— y que una
-excepción tampoco daría problema.*
-
-**Lo que costaría**, contado: 13 respuestas guardadas, todas de pruebas; 8 funciones SQL; 4 vistas;
-21 ficheros de código, 8 de ellos tests; 2 tablas con clave ajena. El grueso del cliente es mecánico.
-**Lo delicado son dos piezas**: `validar_anotacion_eleccion`, que pasaría a resolver la pregunta
-desde (arquitectura, realización, dimensión) —y ahí la reutilización sale gratis, porque la
-realización ya lleva `seccion_id` y la sección ya declara qué arquitectura reutiliza—; y
-**`equivalencias_respuestas_legadas`**, el puente con el vocabulario viejo, 26 filas sobre 14 grupos,
-del que depende migrar lo ya anotado.
-
-**Nunca será más barato que ahora**: nadie ha anotado nada con este sistema y no se ha migrado
-ninguna obra. Pero toca el camino de guardado y ese puente, así que no se hace entre dos formas del
-recorrido: necesita su propio plan.
 
 ## Siguiente fase prevista
 

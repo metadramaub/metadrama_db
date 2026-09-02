@@ -30,8 +30,8 @@ Además, dos depósitos fuera de `vocabularios`:
   decir estrofa a estrofa. Hoy guarda **336 filas** en **11 secuencias**, todas de quintilla.
 - **`equivalencias_respuestas_legadas`** — tabla ya construida que permite que **un término legado
   declare varias respuestas** del editor nuevo, sorteando el `UNIQUE` de `origen_termino_id`. Hoy
-  tiene 7 filas y está infrautilizada: es el mecanismo que faltaba para los términos que dicen más
-  de una cosa a la vez.
+  tiene **26 filas**, y desde C20 cada una **describe la respuesta** —arquitectura, dimensión,
+  parte y entidad— en vez de apuntar a una pregunta, así que alcanza también a las heredadas.
 
 ## El estado real de la migración
 
