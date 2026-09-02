@@ -127,6 +127,18 @@
 	const canComment = $derived(Boolean(data.capabilities?.canComment));
 
 	// --- Datos públicos precomputados (Fase 2 del plan de precomputación) ---
+	/**
+	 * **La edición está pausada mientras se prepara la migración métrica.**
+	 *
+	 * Se corta aquí, en la obra, y no en la base: cerrar por RLS desactivando al editor le impide
+	 * hasta leer su propio perfil, y la aplicación concluye que no lo tiene y le dice que pase su
+	 * UUID al administrador, que es falso. Así entra, ve su lista de obras y encuentra un aviso en
+	 * vez de una avería.
+	 *
+	 * **Es temporal y vive solo en `main`.** Se revierte —o se sobrescribe— cuando `develop` pase a
+	 * `main`. El administrador y el IP siguen trabajando con normalidad.
+	 */
+	const edicionPausada = $derived(data.profile.roleTerm === 'editor');
 	const isPublished = $derived(data.estadoTerm.trim().toLowerCase() === 'publicado');
 	const canPublishData = $derived(
 		data.profile.roleTerm === 'admin' ||
@@ -539,6 +551,21 @@
 
 </script>
 
+{#if edicionPausada}
+	<section>
+		<div class="mx-auto max-w-2xl border border-[color:var(--border)] bg-[color:var(--muted)] p-6">
+			<h1 class="text-2xl font-semibold">Edición pausada</h1>
+			<p class="mt-3 leading-7">
+				La anotación está detenida mientras se prepara el cambio al nuevo sistema métrico. Las
+				obras y lo ya anotado siguen ahí y no se pierde nada; solo no se puede editar por ahora.
+			</p>
+			<p class="mt-3 leading-7 text-[color:var(--muted-foreground)]">
+				Se avisará cuando vuelva a abrirse.
+			</p>
+			<a class="link-action mt-4 inline-block" href="/dashboard/obras">Volver a las obras</a>
+		</div>
+	</section>
+{:else}
 <section>
 	<div class="mb-4">
 		<h1 class="text-3xl font-semibold">{obraLive.titulo}</h1>
@@ -733,4 +760,5 @@
 	onCancel={cancelUnsavedChangesModal}
 	onDiscard={() => void confirmUnsavedChangesModal()}
 />
+{/if}
 
