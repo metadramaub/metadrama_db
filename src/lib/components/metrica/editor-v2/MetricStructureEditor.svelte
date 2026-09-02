@@ -980,10 +980,22 @@
 				filas.find((fila: FilaDeRima) => fila.modalidad === 'definitoria') ??
 				filas.find((fila: FilaDeRima) => fila.modalidad === 'habitual');
 			if (esqueleto) {
-				esqueleto.clases.forEach((clase: { clase: string | null }, indice: number) => {
-					const posicion = esqueleto.desde + indice;
-					if (clase.clase && !letras.has(posicion)) letras.set(posicion, clase.clase);
-				});
+				/**
+				 * **El verso suelto también se anota, con su raya.**
+				 *
+				 * Se saltaban los que no riman, así que la seguidilla compuesta salía «a a b b» en
+				 * vez de «- a - a b - b»: cuatro versos de siete escritos como si no existieran. La
+				 * raya es lo que la notación convencional pone ahí, y es lo que trae el catálogo en
+				 * `-a-ab-b`; el dato ya lo marca con `suelto`.
+				 */
+				esqueleto.clases.forEach(
+					(clase: { clase: string | null; suelto?: boolean }, indice: number) => {
+						const posicion = esqueleto.desde + indice;
+						if (letras.has(posicion)) return;
+						if (clase.clase) letras.set(posicion, clase.clase);
+						else if (clase.suelto) letras.set(posicion, '-');
+					}
+				);
 			}
 		}
 
