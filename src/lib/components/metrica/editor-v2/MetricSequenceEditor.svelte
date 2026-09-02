@@ -473,6 +473,27 @@
 	 * la lira cuenta **unidades** y el romance, **ciclos de rima**. Llamarlo «ciclos» a todo hacía
 	 * que la cabecera y el cuerpo de la misma pantalla nombraran distinto una misma cosa.
 	 */
+	/**
+	 * De qué son los versos que sobran, cuando la arquitectura declara un cierre opcional.
+	 *
+	 * El terceto encadenado mide `3n` o `3n+4`, y esos cuatro versos son su serventesio final. Las
+	 * dos congruencias son **excluyentes** —`3n ≡ 0` y `3n+4 ≡ 1` en módulo 3—, así que **el rango
+	 * ya decide si el cierre está**: en cuarenta versos la única lectura posible lo lleva, y en
+	 * treinta y nueve no cabe. Por eso no se pregunta; lo que faltaba era decir su nombre en vez de
+	 * «y 4 versos más», que obliga a adivinar qué son.
+	 */
+	const nombreDeLosSobrantes = $derived.by(() => {
+		const sobrantes = reparticionDelPasaje?.sobrantes ?? 0;
+		if (sobrantes <= 0) return null;
+		const cierre = sectionsForDraft.find(
+			(row: MetricCatalogDomainRow) =>
+				Number(row.repeticiones_min ?? 1) === 0 &&
+				Number(row.repeticiones_max ?? 1) === 1 &&
+				Number(row.versos_min) === sobrantes &&
+				Number(row.versos_max) === sobrantes
+		);
+		return cierre?.nombre ? String(cierre.nombre) : null;
+	});
 	const nombreDeLaReparticion = $derived(
 		reparticionDelPasaje ? metricLengthNoun(reparticionDelPasaje.origen) : null
 	);
@@ -1431,7 +1452,9 @@
 								: nombreDeLaReparticion.plural} de {reparticionDelPasaje.modulo}
 							{reparticionDelPasaje.modulo === 1 ? 'verso' : 'versos'}{reparticionDelPasaje.sobrantes >
 							0
-								? ` · y ${reparticionDelPasaje.sobrantes} ${reparticionDelPasaje.sobrantes === 1 ? 'verso más' : 'versos más'}`
+								? nombreDeLosSobrantes
+									? ` · y el ${nombreDeLosSobrantes.toLocaleLowerCase('es')}`
+									: ` · y ${reparticionDelPasaje.sobrantes} ${reparticionDelPasaje.sobrantes === 1 ? 'verso más' : 'versos más'}`
 								: ''}
 						</p>
 					</div>
