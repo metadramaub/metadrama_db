@@ -47,6 +47,7 @@ qué que el auditor calle no prueba que la norma esté declarada.
 | [Estado de las equivalencias](./informe-equivalencias.md) | `npm run equivalencias:informe` |
 | [Informes por obra](./migracion/) | `npm run migracion:informe` |
 | [Qué le pide el editor a cada forma](./informe-editor-v2.md) | `npm run audit:editor` — coste por forma y defectos del formulario |
+| [Lo anotado frente al catálogo](./informe-anotaciones.md) | `npm run audit:anotaciones` — dónde un cambio del catálogo dejó una respuesta sin pregunta; `--comprobar` prueba las sondas |
 
 Ninguno se edita a mano. `npm run audit:metrica` necesita Docker, porque vuelca la base.
 
