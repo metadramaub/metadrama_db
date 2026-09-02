@@ -278,6 +278,28 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 # Estrofas de arte menor
 
+4. **¿El estribillo del zéjel vuelve siempre, como el del villancico?** El 29 de agosto de 2026
+   se decidió que en el villancico **no puede faltar** —cuando la fuente antigua no lo copia es por
+   ahorro de espacio, y las ediciones modernas lo restituyen—, y su sección pasó a obligatoria en las
+   dos arquitecturas. *La pregunta es si el criterio alcanza al zéjel, y hay razones para dudarlo:*
+
+   - **Ninguna de sus seis afirmaciones incluye la repetición en el esquema.** Las cuatro que lo
+     describen dan `aa:bbba` y coinciden en cómo vuelve: Navarro Tomás, «un cuarto verso de vuelta
+     que rima con el estribillo»; Quilis, «un verso de vuelta que rima con el estribillo». **Lo que
+     vuelve es la rima**, por el verso de vuelta, y el esquema se cierra ahí. En el villancico, en
+     cambio, la repetición es una parte declarada.
+   - Las fuentes separan las dos formas precisamente por eso: se distinguen «por la forma de la
+     mudanza **y de la vuelta**».
+   - Y hay una consecuencia práctica. Las dos respuestas del zéjel son de **presencia** —«No, no
+     vuelve a aparecer» y «Sí, se repite entero»—, no de extensión como en el villancico. Con la
+     sección obligatoria habría que retirar la negativa y quedaría **una sola opción**, es decir,
+     dejaría de haber pregunta. Y «solo en parte» apenas significa nada en un estribillo de uno o
+     dos versos.
+
+   *El criterio del IP es sobre la ejecución y la transmisión, y en el villancico coincide con lo que
+   el esquema declara; en el zéjel iría contra lo que las fuentes escriben.* Hoy el zéjel es
+   coherente consigo mismo: sección `0-1` y una respuesta que permite decir que no.
+
 ## Pareado
 
 1. **Una tirada de pareados alirados, ¿es una silva?** El pareado alirado combina heptasílabo y
