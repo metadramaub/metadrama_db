@@ -33,6 +33,7 @@
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
 	import { metricNormFacts, metricNormGrid } from './norm-summary';
 	import { compactRhymeNotation } from './rhyme-notation';
+	import { stripMarkdown } from '$lib/utils/markdown';
 	import { metricStructureCoverage } from './structure-coverage';
 	import {
 		childrenOfSection,
@@ -1351,7 +1352,16 @@
 									>
 										<option value="">Seleccionar arquitectura</option>
 										{#each configurationsForDraft as configuration (configuration.arquitectura_id)}
-											<option value={configuration.arquitectura_id}>
+											<!--
+												La descripción es lo único que dice en qué se diferencian dos
+												arquitecturas de la misma forma, y no se veía en ninguna parte.
+												Aquí va sin ocupar sitio; **dónde debe leerse de verdad se
+												decide con la norma entera** —F61—.
+											-->
+											<option
+												value={configuration.arquitectura_id}
+												title={stripMarkdown(String(configuration.descripcion ?? ''))}
+											>
 												{configuration.nombre}
 											</option>
 										{/each}
