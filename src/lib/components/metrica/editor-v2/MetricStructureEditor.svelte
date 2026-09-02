@@ -259,8 +259,35 @@
 		);
 	}
 
-	function normalizeRhymeScheme(value: string): string {
-		return compactRhymeNotation(value);
+	/**
+	 * Lo que se guarda de un esquema escrito a mano.
+	 *
+	 * Quita la separación accidental **y pone cada letra en su caja**, que es minúscula hasta ocho
+	 * sílabas y mayúscula por encima. Antes solo quitaba espacios, con el argumento de que la caja
+	 * es del verso y hay que conservar la que se escribió; pero eso dejaba guardado `abab` en un
+	 * septeto de endecasílabos, donde el resumen enseñaba `ABAB`. **Si sabemos que es arte mayor no
+	 * hay nada que respetar**, y dos anotaciones de lo mismo dejan de quedar escritas distinto.
+	 *
+	 * Donde no se sabe cuánto mide un verso, su letra se queda como se escribió: eso pasa mientras
+	 * la medida está sin responder, y en cuanto se responde la caja se recompone al escribir.
+	 */
+	function normalizeRhymeScheme(value: string, unit?: MetricUnitDraft): string {
+		const compacto = compactRhymeNotation(value);
+		if (!unit) return compacto;
+		const { medidas, base } = medidasDeLaUnidad(unit);
+		if (medidas.size === 0 && base === null) return compacto;
+		let posicion = 0;
+		return Array.from(compacto)
+			.map((signo) => {
+				if (signo === '|') return signo;
+				posicion += 1;
+				if (signo === '-') return signo;
+				const silabas = medidas.get(posicion) ?? base;
+				return silabas === null || silabas === undefined
+					? signo
+					: normalizeRhymeSymbol(signo, silabas);
+			})
+			.join('');
 	}
 
 	function sectionDefinesPattern(section: MetricCatalogDomainRow | null): boolean {
@@ -429,7 +456,7 @@
 		value: string
 	) {
 		const groupId = String(group.grupo_eleccion_id);
-		const normalized = normalizeRhymeScheme(value);
+		const normalized = normalizeRhymeScheme(value, unit);
 		props.onChoicesChange([
 			...props.choices.filter(
 				(choice: MetricChoiceDraft) =>
@@ -833,14 +860,84 @@
 	 * Devuelve `null` si no se puede armar: sin respuestas, o con una notación que no case verso a
 	 * verso con la unidad —los romances, por ejemplo, se anotan con puntos suspensivos—.
 	 */
+	/** Las realizaciones que cuelgan de una unidad, ella incluida y en el orden en que se leen. */
+	function ramaDeLaUnidad(unit: MetricUnitDraft): MetricUnitDraft[] {
+		const rama: MetricUnitDraft[] = [unit];
+		for (const candidata of props.units) {
+			let padre = candidata.realizacion_padre_id;
+			while (padre) {
+				if (padre === unit.realizacion_id) {
+					rama.push(candidata);
+					break;
+				}
+				padre =
+					props.units.find((otra: MetricUnitDraft) => otra.realizacion_id === padre)
+						?.realizacion_padre_id ?? null;
+			}
+		}
+		return rama.sort((primera, segunda) => primera.v_ini - segunda.v_ini);
+	}
+
+	/**
+	 * Cuánto mide cada verso de una unidad: lo respondido, y lo que la norma fija donde no se pregunta.
+	 *
+	 * Vive aparte porque lo usan dos cosas que tienen que decir lo mismo: la anotación que se pinta
+	 * —`8a 8b 4c`— y la **caja de las letras al guardar** un esquema escrito a mano, que es
+	 * minúscula hasta ocho sílabas y mayúscula por encima. Si se separaran, el editor enseñaría
+	 * `ABAB` y la base guardaría `abab`.
+	 */
+	function medidasDeLaUnidad(unit: MetricUnitDraft): {
+		medidas: Map<number, number>;
+		base: number | null;
+	} {
+		const medidas = new Map<number, number>();
+		let base: number | null = null;
+		for (const parte of ramaDeLaUnidad(unit)) {
+			const desplazamiento = parte.v_ini - unit.v_ini;
+			for (const group of context.groups) {
+				if (group.dimension !== 'metro') continue;
+				const alcanza = unitsForGroup(context, group).some(
+					(candidata: MetricUnitDraft) => candidata.realizacion_id === parte.realizacion_id
+				);
+				if (!alcanza) continue;
+				const groupId = String(group.grupo_eleccion_id);
+				const elegidas = selectedChoiceIds(groupId, parte.realizacion_id);
+				for (const opcion of optionsForGroup(groupId)) {
+					// `Number(null)` es 0 y `Number.isFinite(0)` es cierto: sin esa condición, una
+					// forma sin medida de base —las aliradas abiertas no la tienen— se anotaba
+					// «0 0 0 0».
+					const posible = Number(opcion.metro_base_silabas);
+					if (Number.isFinite(posible) && posible > 0) base = posible;
+					if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
+					const posicion = Number(opcion.posicion_unidad);
+					const silabas = Number(opcion.metro_silabas);
+					if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
+						medidas.set(posicion + desplazamiento, silabas);
+					}
+				}
+			}
+		}
+		// Lo que la norma fija donde nadie responde. Lo respondido manda: esto solo cubre huecos.
+		const versos = unit.v_fin - unit.v_ini + 1;
+		const rejilla = props.rejilla;
+		if (rejilla && !unit.realizacion_padre_id && rejilla.celdas.length === versos) {
+			for (const celda of rejilla.celdas) {
+				const fijada = Number(celda.medida?.silabas);
+				if (!medidas.has(celda.verso) && Number.isFinite(fijada) && fijada > 0) {
+					medidas.set(celda.verso, fijada);
+				}
+			}
+		}
+		return { medidas, base };
+	}
+
 	function notacionDeLaUnidad(unit: MetricUnitDraft): string | null {
 		const versos = unit.v_fin - unit.v_ini + 1;
 		if (versos <= 0) return null;
 
-		const medidas = new Map<number, number>();
+		const { medidas, base } = medidasDeLaUnidad(unit);
 		const letras = new Map<number, string>();
 		const cortes = new Set<number>();
-		let base: number | null = null;
 
 		// **La copla y sus partes se leen juntas.** En la copla real la medida se responde en la
 		// copla y la rima en cada quintilla, que son unidades propias: por separado salían dos
@@ -891,25 +988,7 @@
 				const elegidas = selectedChoiceIds(groupId, parte.realizacion_id);
 				const opciones = optionsForGroup(groupId);
 
-				if (group.dimension === 'metro') {
-					for (const opcion of opciones) {
-						// `Number(null)` es 0 y `Number.isFinite(0)` es cierto: sin esa condición, una
-						// forma sin medida de base —las aliradas abiertas no la tienen— se anotaba
-						// «0 0 0 0».
-						const posible = Number(opcion.metro_base_silabas);
-						if (Number.isFinite(posible) && posible > 0) base = posible;
-					}
-					for (const opcion of opciones) {
-						if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
-						const posicion = Number(opcion.posicion_unidad);
-						const silabas = Number(opcion.metro_silabas);
-						if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
-							medidas.set(posicion + desplazamiento, silabas);
-						}
-					}
-					continue;
-				}
-
+				// La medida ya la trae `medidasDeLaUnidad`; aquí solo se reparte la rima.
 				if (group.dimension !== 'rima') continue;
 				const escrito = choiceTextValue(groupId, parte.realizacion_id).trim();
 				const catalogados = normaEsquemaDe(group, parte).catalogados;
@@ -965,13 +1044,6 @@
 		// manda siempre: esto solo cubre huecos.
 		const rejilla = props.rejilla;
 		if (rejilla && !unit.realizacion_padre_id && rejilla.celdas.length === versos) {
-			for (const celda of rejilla.celdas) {
-				const fijada = celda.medida?.silabas;
-				if (fijada && !medidas.has(celda.verso)) {
-					const silabas = Number(fijada);
-					if (Number.isFinite(silabas) && silabas > 0) medidas.set(celda.verso, silabas);
-				}
-			}
 			// De todas las disposiciones que dibuja la arquitectura, la que da el esqueleto; y si no
 			// lo declara, la que la norma fija o la corriente.
 			const filas: FilaDeRima[] = rejilla.filasDeRima ?? [];
@@ -1065,7 +1137,12 @@
 	 * ya normalizada, exactamente como la escribiría cada unidad por su cuenta.
 	 */
 	function aplicarComunTexto(pregunta: PreguntaCompartida, value: string) {
-		const normalized = normalizeRhymeScheme(value);
+		// En conjunto todas las unidades responden lo mismo, así que la caja se decide con la
+		// primera: si midieran distinto, la pregunta no sería común.
+		const primera = pregunta.groups
+			.flatMap((group: MetricCatalogDomainRow) => unitsForGroup(context, group))
+			.at(0);
+		const normalized = normalizeRhymeScheme(value, primera);
 		let siguientes = [...props.choices];
 		for (const group of pregunta.groups) {
 			const groupId = String(group.grupo_eleccion_id);
