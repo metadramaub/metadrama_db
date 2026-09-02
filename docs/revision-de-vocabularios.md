@@ -61,8 +61,6 @@ Los ocho de producción, con lo que de verdad son:
 | `comentarios_internos.seccion` | Las pestañas del editor de obra | No: es la interfaz |
 | `autores_resumen.alcance` | `publico · completo` | No |
 | `secciones_publicas.scope_minimo` | `anon · authenticated · admin_ip` | No |
-| `demarcador_versiones.estado` · `fuente_tipo` | Flujo de publicación del artefacto | No |
-| `demarcador_familias_config.politica` | `familia · variantes` | No |
 | `vocabularios.arte_metrico` · `tipo_forma` | Atributos del vocabulario legado | No |
 
 **Los tres de intervención son el único vocabulario editorial de producción**, comparten los

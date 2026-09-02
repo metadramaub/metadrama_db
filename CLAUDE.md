@@ -64,12 +64,12 @@ especificación de cómo se espera que se anote.
 Catálogo métrico, editor de secuencias V2 y demarcador nuevo. Es lo más reciente y lo que
 está en obras. **Convive con el sistema viejo sin tocarlo.**
 
-- `src/routes/(dashboard)/dashboard/metrica/` — gestor del catálogo, editor V2 y
-  compilación del demarcador
-- `src/lib/components/metrica/catalogo/` — gestor del catálogo
-- `src/lib/components/metrica/editor-v2/` — el editor V2
+- `src/routes/(public)/recursos/catalogo-metrico/` — el catálogo publicado, ficha por forma
+- `src/lib/components/metrica/catalogo/` — sus componentes
+- `src/lib/components/metrica/editor-v2/` — el editor V2, en la pestaña de secuencias
 - `src/lib/server/catalogo-metrico.ts`, `src/lib/metrica/`, `src/routes/api/metrica/`
-- `src/lib/demarcador-nuevo/`
+- `src/lib/demarcador-metrico/` y `src/lib/server/demarcador-metrico.ts` — el demarcador nuevo,
+  que compila su catálogo desde la base en cada carga de `/recursos/demarcador`
 - **`src/lib/metrica/rejilla.ts`** — la arquitectura dibujada verso a verso, y de dónde sale el
   perfil de cada una. Es puro y está probado; lo pinta
   `src/lib/components/metrica/MetricPositionGrid.svelte`, que consumen la ficha de `/formas`, el
@@ -146,7 +146,7 @@ trabajando; esta frontera no se adelanta.
 silencio. Para cambiar algo ya migrado, se escribe una migración nueva con sentencias
 idempotentes. Tras cambiar funciones de recompute, ejecutar `recompute_all()`.
 
-**La base de datos es la fuente de verdad.** Los precomputados, el artefacto del
+**La base de datos es la fuente de verdad.** Los precomputados, el catálogo del
 demarcador, las fichas y las redes son proyecciones regenerables. Si un documento y el SQL
 difieren, manda el SQL.
 
@@ -184,7 +184,7 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 
 | Esto | No es esto |
 |---|---|
-| `src/lib/demarcador/` — demarcador legado, sobre JSON estáticos | `src/lib/demarcador-nuevo/` — compilado desde el catálogo métrico |
+| `src/lib/demarcador/` — demarcador legado, sobre JSON estáticos | `src/lib/demarcador-metrico/` — el motor nuevo, sobre el catálogo |
 | `src/routes/(public)/catalogo/` — buscador público de obras | `src/lib/components/metrica/catalogo/` — gestor del catálogo métrico |
 | `src/lib/catalogo/` — filtros del buscador de obras | `src/lib/metrica/catalogo.ts` — tipos del catálogo métrico |
 | `src/routes/(public)/mockup/` — maqueta de diseño con datos falsos | la zona pública real |
