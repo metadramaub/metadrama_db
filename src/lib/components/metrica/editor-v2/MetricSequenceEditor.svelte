@@ -371,6 +371,49 @@
 			};
 		})
 	);
+	/**
+	 * Lo que cada variedad afirma, ya resuelto: su rima y lo que mide cada verso.
+	 *
+	 * Una variedad **reúne un esquema de rima y uno métrico** —el sexteto-lira tiene ocho, que
+	 * combinan tres disposiciones con seis medidas—, y el resumen de la secuencia solo sabía leer
+	 * preguntas de metro y de rima: elegir una variedad no cambiaba nada de lo que se veía. Se
+	 * resuelve aquí, que es donde vive el catálogo entero, y baja masticado.
+	 */
+	const varietiesForDraft = $derived.by(() => {
+		if (!draft.arquitectura_id) return [];
+		return props.catalog.domain.patternCombinations
+			.filter(
+				(row: MetricCatalogDomainRow) =>
+					String(row.arquitectura_id) === String(draft.arquitectura_id)
+			)
+			.map((row: MetricCatalogDomainRow) => {
+				const rima = props.catalog.domain.rhymePatterns.find(
+					(candidate: MetricCatalogDomainRow) =>
+						String(candidate.esquema_rima_id) === String(row.esquema_rima_id)
+				);
+				const posiciones = props.catalog.domain.metricPositions
+					.filter(
+						(candidate: MetricCatalogDomainRow) =>
+							String(candidate.esquema_metrico_id) === String(row.esquema_metrico_id)
+					)
+					.sort(
+						(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
+							Number(a.posicion ?? 0) - Number(b.posicion ?? 0)
+					);
+				return {
+					variedadId: String(row.variedad_id),
+					notacion: rima?.notacion ? String(rima.notacion) : null,
+					medidas: posiciones.map((posicion: MetricCatalogDomainRow) => {
+						const metre = props.catalog.domain.verseModels.find(
+							(candidate: MetricCatalogDomainRow) =>
+								String(candidate.metro_id) === String(posicion.metro_id)
+						);
+						const silabas = Number(metre?.silabas);
+						return Number.isFinite(silabas) && silabas > 0 ? silabas : null;
+					})
+				};
+			});
+	});
 	const unitPlanForDraft = $derived(
 		metricUnitPlan(selectedConfiguration, sectionsForDraft, selectedForm?.nivel_estructural)
 	);
@@ -1398,6 +1441,7 @@
 							sequenceStart={draft.v_ini}
 							sections={sectionsForDraft}
 							{rhymeRegimes}
+							varieties={varietiesForDraft}
 							unitPlan={unitPlanForDraft}
 							groups={unitChoiceGroups}
 							options={choiceOptionsForDraft}

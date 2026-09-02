@@ -65,6 +65,13 @@
 		options: MetricCatalogDomainRow[];
 		/** `esquemas_rima`: dice de qué sección habla una pregunta que se guarda en la unidad. */
 		schemes: MetricCatalogDomainRow[];
+		/**
+		 * Lo que afirma cada variedad, ya resuelto: su notación de rima y lo que mide cada verso.
+		 *
+		 * Una variedad reúne un esquema de rima y uno métrico, así que responderla dice las dos
+		 * cosas. Sin esto, elegir variedad no cambiaba nada en la anotación de la unidad.
+		 */
+		varieties?: { variedadId: string; notacion: string | null; medidas: (number | null)[] }[];
 		/** La norma dibujada verso a verso, para anotar también lo que no se pregunta. */
 		rejilla?: Rejilla | null;
 		units: MetricUnitDraft[];
@@ -860,6 +867,32 @@
 	 * Devuelve `null` si no se puede armar: sin respuestas, o con una notación que no case verso a
 	 * verso con la unidad —los romances, por ejemplo, se anotan con puntos suspensivos—.
 	 */
+	/** Lo que una variedad afirma, tal como baja resuelto del catálogo. */
+	type VariedadResuelta = {
+		variedadId: string;
+		notacion: string | null;
+		medidas: (number | null)[];
+	};
+
+	/** Las variedades que una realización ha respondido, ya resueltas. */
+	function variedadesElegidas(unit: MetricUnitDraft): VariedadResuelta[] {
+		const elegidas: VariedadResuelta[] = [];
+		for (const group of context.groups) {
+			if (String(group.dimension) !== 'combinacion') continue;
+			const groupId = String(group.grupo_eleccion_id);
+			const ids = selectedChoiceIds(groupId, unit.realizacion_id);
+			if (ids.length === 0) continue;
+			for (const opcion of optionsForGroup(groupId)) {
+				if (!ids.includes(String(opcion.opcion_eleccion_id))) continue;
+				const variedad = ((props.varieties ?? []) as VariedadResuelta[]).find(
+					(candidata: VariedadResuelta) => candidata.variedadId === String(opcion.variedad_id)
+				);
+				if (variedad) elegidas.push(variedad);
+			}
+		}
+		return elegidas;
+	}
+
 	/** Las realizaciones que cuelgan de una unidad, ella incluida y en el orden en que se leen. */
 	function ramaDeLaUnidad(unit: MetricUnitDraft): MetricUnitDraft[] {
 		const rama: MetricUnitDraft[] = [unit];
@@ -915,6 +948,18 @@
 						medidas.set(posicion + desplazamiento, silabas);
 					}
 				}
+			}
+		}
+		// **La variedad dice las dos cosas.** Responderla es elegir a la vez una disposición de rima
+		// y una serie de medidas; aquí se recoge la segunda.
+		for (const parte of ramaDeLaUnidad(unit)) {
+			const desplazamiento = parte.v_ini - unit.v_ini;
+			for (const variedad of variedadesElegidas(parte)) {
+				variedad.medidas.forEach((silabas: number | null, indice: number) => {
+					if (silabas === null) return;
+					const posicion = desplazamiento + indice + 1;
+					if (!medidas.has(posicion)) medidas.set(posicion, silabas);
+				});
 			}
 		}
 		// Lo que la norma fija donde nadie responde. Lo respondido manda: esto solo cubre huecos.
@@ -1042,6 +1087,22 @@
 		// anotadas, dos resúmenes distintos. La rejilla de la norma ya sabe qué mide y en qué clase
 		// rima cada verso, así que se usa para rellenar lo que nadie ha respondido. Lo respondido
 		// manda siempre: esto solo cubre huecos.
+		// **Y la rima que la variedad trae**, antes de caer en la norma: quien elige «A1 · aBaBcC»
+		// ya ha dicho cómo rima, y el resumen se quedaba mudo.
+		for (const parte of ramaDeLaUnidad(unit)) {
+			const desplazamiento = parte.v_ini - unit.v_ini;
+			for (const variedad of variedadesElegidas(parte)) {
+				const seguidas = Array.from(String(variedad.notacion ?? '').replace(/\|/gu, ''));
+				if (seguidas.length !== parte.v_fin - parte.v_ini + 1) continue;
+				seguidas.forEach((signo: string, indice: number) => {
+					const posicion = desplazamiento + indice + 1;
+					if (letras.has(posicion)) return;
+					letras.set(posicion, signo);
+					if (signo !== '-') usadas.add(signo.toLocaleLowerCase('es'));
+				});
+			}
+		}
+
 		const rejilla = props.rejilla;
 		if (rejilla && !unit.realizacion_padre_id && rejilla.celdas.length === versos) {
 			// De todas las disposiciones que dibuja la arquitectura, la que da el esqueleto; y si no
