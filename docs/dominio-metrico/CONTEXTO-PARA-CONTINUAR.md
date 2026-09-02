@@ -529,13 +529,19 @@ juntas.*
 
 | forma | secciones | declaran | preguntan |
 |---|---|---|---|
-| Terceto encadenado | serventesio y redondilla finales | metro **y** rima | no hace falta |
+| Terceto encadenado | serventesio y redondilla finales | metro **y** rima | ~~no hace falta~~ **sí hace falta** ⇒ **F62** |
 | Villancico y zéjel | enlace, vuelta y repetición (6) | metro sí, rima no | 4 de 6 |
 | **Canción petrarquista** | **remate ×2 y eslabón** | **ninguno** | **no** |
 
 El remate de la regular admite **de 1 a 13 versos** y no dice nada de cómo son, así que anotarlo no
 registra más que su extensión. *Decisión del IP: si debe declarar lo que las fuentes documenten, o
 preguntar como las demás.*
+
+**Corregido el 29 de agosto de 2026.** La fila del terceto encadenado decía «no hace falta» porque
+sus dos secciones opcionales **declaran metro y rima**, que es lo que esta tabla mide. Pero eso
+responde a *cómo son* y no a **si están**, que es lo único que no se puede derivar: la regla de
+longitud acepta `3n` y `3n+4`, así que el rango valida con serventesio o sin él. Y no se ve el hueco
+porque en una serie el editor de estructura ni siquiera se pinta. ⇒ **F62**
 
 **F6 · La rejilla, madura para decidirse entera.** Va por la tercera aparición y acumula **F5, F8,
 F13, F14, F20 y F23**. Lo pedido, junto: que el recuadro se llame «características
