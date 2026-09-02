@@ -211,6 +211,20 @@ function naturalList(values: string[]): string {
 	return `${unique.slice(0, -1).join(', ')} y ${unique.at(-1)}`;
 }
 
+/** Con qué grado declara la arquitectura su pie quebrado, para decirlo donde se afirma. */
+function quebradoModality(architectureId: string, domain: MetricCatalogDomainData): string {
+	const trait = domain.traits.find(
+		(row: MetricCatalogDomainRow) => String(row.slug ?? '') === 'pie_quebrado'
+	);
+	if (!trait) return '';
+	const assignment = domain.configurationTraits.find(
+		(row: MetricCatalogDomainRow) =>
+			id(row, 'arquitectura_id') === architectureId &&
+			id(row, 'rasgo_id') === id(trait, 'rasgo_id')
+	);
+	return assignment ? String(assignment.modalidad ?? '') : '';
+}
+
 /**
  * Algunos esquemas no fijan una secuencia completa, sino una medida dominante y las medidas
  * que pueden quebrarla. Es norma tan exacta como una posición fija y no debe desaparecer del
@@ -238,8 +252,25 @@ function roleBasedMetreSummary(
 			.map((option) => metreSyllables(domain.verseModels, id(option, 'metro_id')));
 		if (dominant.length === 0 || broken.length === 0) continue;
 		covered?.add(id(pattern, 'esquema_metrico_id'));
+		/**
+		 * **Y si el quiebro es obligatorio o solo posible.**
+		 *
+		 * Decía «Base de 8 sílabas; los pies quebrados pueden medir 4 y 5», que habla de cuánto
+		 * miden y calla lo otro: en la redondilla el quiebro es una licencia y en la manriqueña es
+		 * lo que la define, y las dos se leían igual. La modalidad tampoco aparecía por su cuenta,
+		 * porque un rasgo `admitida` sin límite de posiciones no sube a la norma —es dato de la
+		 * realización—, así que el único sitio donde se afirma el quiebro es este renglón.
+		 */
+		const modalidad = quebradoModality(architectureId, domain);
+		const medidas = `${naturalList(broken)} sílabas`;
 		entries.push(
-			`Base de ${naturalList(dominant)} sílabas; los pies quebrados pueden medir ${naturalList(broken)}`
+			modalidad === 'definitoria'
+				? `Base de ${naturalList(dominant)} sílabas, con pies quebrados de ${medidas}`
+				: modalidad === 'habitual'
+					? `Base de ${naturalList(dominant)} sílabas; lleva habitualmente pies quebrados, de ${medidas}`
+					: modalidad === 'admitida'
+						? `Base de ${naturalList(dominant)} sílabas; admite pies quebrados, de ${medidas}`
+						: `Base de ${naturalList(dominant)} sílabas; los pies quebrados pueden medir ${naturalList(broken)}`
 		);
 	}
 	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;

@@ -40,6 +40,54 @@ function domain(overrides: Partial<MetricCatalogDomainData> = {}): MetricCatalog
  * arriba cuando es uno —§ 3.3— y entonces sube a la norma; cuando varía, baja a cada disposición,
  * que es donde lo pinta la rejilla y donde `MetricPositionGrid` ya sabía enseñarlo.
  */
+/**
+ * En la redondilla el quiebro es una licencia y en la manriqueña es lo que la define, y el renglón
+ * de la medida las decía igual. La modalidad no aparece por su cuenta: un rasgo `admitida` sin
+ * límite de posiciones no sube a la norma, así que este renglón es el único sitio donde se afirma.
+ */
+describe('el grado del pie quebrado', () => {
+	function conQuebrado(modalidad: string | null) {
+		return domain({
+			metricPatterns: [{ arquitectura_id: 'a', esquema_metrico_id: 'em' }],
+			metricOptions: [
+				{ esquema_metrico_id: 'em', metro_id: 'm8', rol: 'dominante' },
+				{ esquema_metrico_id: 'em', metro_id: 'm4', rol: 'quebrado' },
+				{ esquema_metrico_id: 'em', metro_id: 'm5', rol: 'quebrado' }
+			],
+			verseModels: [
+				{ metro_id: 'm8', silabas: 8 },
+				{ metro_id: 'm4', silabas: 4 },
+				{ metro_id: 'm5', silabas: 5 }
+			],
+			traits: [{ rasgo_id: 'r', slug: 'pie_quebrado', nombre: 'Pie quebrado' }],
+			configurationTraits: modalidad
+				? [{ arquitectura_id: 'a', rasgo_id: 'r', modalidad }]
+				: []
+		});
+	}
+
+	function medida(modalidad: string | null) {
+		return metricNormFacts({
+			architectureId: 'a',
+			unitPlan: null,
+			lengthRule: null,
+			domain: conQuebrado(modalidad)
+		}).find((fact) => fact.label === 'Medida')?.value;
+	}
+
+	it('dice que la redondilla lo admite y que la manriqueña lo lleva', () => {
+		expect(medida('admitida')).toBe('Base de 8 sílabas; admite pies quebrados, de 4 y 5 sílabas');
+		expect(medida('definitoria')).toBe('Base de 8 sílabas, con pies quebrados de 4 y 5 sílabas');
+		expect(medida('habitual')).toBe(
+			'Base de 8 sílabas; lleva habitualmente pies quebrados, de 4 y 5 sílabas'
+		);
+	});
+
+	it('sin declaración se queda como estaba, sin inventarle un grado', () => {
+		expect(medida(null)).toBe('Base de 8 sílabas; los pies quebrados pueden medir 4 y 5');
+	});
+});
+
 describe('el régimen de rima', () => {
 	const regimenes = [
 		{ id: 't-cons', slug: 'consonante', label: 'Consonante' },
