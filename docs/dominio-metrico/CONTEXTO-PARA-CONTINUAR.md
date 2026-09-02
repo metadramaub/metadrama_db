@@ -381,6 +381,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 | F36 | las cuatro liras abiertas | **preguntan su rima de tres maneras distintas**, habiéndose creado el mismo día como una sola serie | **catálogo** | cuarteto-lira y octava-lira: repertorio de 2 y salida abierta, **obligatoria**. Décima-lira: repertorio de 1 y salida abierta, **opcional**. Novena-lira: **sin repertorio**, solo campo escrito —y esa sí está justificada, porque su único esquema es «Distribución variable», de secuencia `abierta`, y la función de opciones no ofrece las abiertas— | 4 arquitecturas de 4 formas | **arreglado**: las cuatro con repertorio —el que haya—, salida abierta y respuesta obligatoria |
+| F63 | versificación irregular y verso aislado | **no se les puede preguntar nada**, y lo único que se registra de ellas es una observación en texto libre | **modelo** | `grupos_eleccion_metrica.arquitectura_id` es **NOT NULL** y las dos son `sin_forma`: no tienen arquitectura, así que no hay dónde colgar una pregunta. No es que falten, es que el modelo no las sostiene | 2 tramos sin forma, y **9 secuencias ya anotadas con 197 versos** que pierden lo suyo al migrar | pendiente de decidir, abajo |
 | F62 | terceto encadenado · las dos | **no se puede decir si lleva serventesio final**, que el catálogo declara opcional —`repeticiones 0-1`, 4 versos— | UI · modelo | `metricUnitPlan` devuelve `null` cuando el nivel es `serie`, así que `hasStructuredEditor` es falso y **el editor de estructura no se pinta**, aunque la arquitectura declare secciones. La regla de longitud sí lo sabe —`desplazamientos [0, 4]`, «bloques completos de 3 versos, con un cierre opcional de 4»— de modo que el rango valida con o sin él y nada registra cuál | **2 arquitecturas** con sección opcional sin respuesta; y **4 series** declaran secciones que no se ven: las dos del terceto encadenado, la septilla y la sextilla enlazadas y la silva consonante regular | **arreglado sin preguntarlo**: el rango ya lo decide, así que se le pone nombre. Lo de ver la estructura de una serie sigue abierto, con **F46** |
 | F61 | todas | **la descripción de la arquitectura no se lee en ninguna parte**: elegir arquitectura es elegir un nombre. En la silva son cinco nombres, y dos se distinguen por un rasgo que la norma fija y por tanto no se pregunta | UI | el selector solo pinta `nombre`. Se le puso el texto en el `title` de cada opción, que no ocupa sitio, pero **dónde debe leerse de verdad se decide con la norma**: David apuntó que su sitio parece la zona de norma y no el selector. *Y son dos necesidades distintas: para **elegir** hace falta antes de escoger; para **entender lo escogido**, después* | 41 formas; solo la silva lo necesita de verdad | recogido, va con **F46** |
 | F60 | silva · las tres abiertas | «Medida: **versos de 7 y 11 sílabas**» se lee como si fuera una pauta —7-11, o quizá 11-7— cuando lo que declara es un **repertorio sin orden** | UI · redacción | la frase no dice que las medidas se mezclen libremente, y la rejilla dibuja el ciclo de rima de dos versos al lado, que refuerza la lectura de pareja. La prosa del catálogo sí lo dice: la arromanzada rima «sobre la **mezcla libre** de siete y once» | las 3 silvas abiertas, y toda arquitectura con repertorio métrico sin posiciones | recogido, va con **F46** |
@@ -523,6 +524,45 @@ vez (**F11**), el régimen de rima se dice una vez arriba o en cada disposición
 quebrado se afirma donde es un rasgo y no donde se mide (**F45**). *Son tres decisiones del mismo
 tipo —qué se dice, dónde y una sola vez— tomadas de una en una; el recuadro pide que se tomen
 juntas.*
+
+**F63 · Qué habría que preguntar en los dos tramos sin forma.** Revisado el 29 de agosto de 2026 a
+petición de David. Hoy no se pregunta nada, y no por descuido: **toda pregunta cuelga de una
+arquitectura** —`arquitectura_id` es `NOT NULL`— y estos dos no tienen ninguna, por definición. Lo
+único que queda de un pasaje irregular es una observación en texto libre, que no se puede contar.
+
+**Y hay una pérdida medida, no hipotética.** El vocabulario legado distinguía cuatro clases de
+irregular, y el corpus las usa:
+
+| término legado | secuencias | versos | ¿tiene equivalencia? |
+|---|---|---|---|
+| `irregular_mixto` | 6 | 147 | **no** |
+| `irregular_arte_menor` | 1 | 37 | **no** |
+| `irregular_arte_mayor` | 1 | 2 | **no** |
+| `irregular` | 1 | 11 | **no** |
+| `verso suelto` | 0 | 0 | **no** |
+
+De las 26 filas de `equivalencias_respuestas_legadas`, **ninguna es de estas**: todas son del
+endecasílabo suelto y una de la silva. Así que migrar esas nueve secuencias hoy **aplanaría las
+cuatro clases en una** y la distinción se perdería sin que nadie lo notara.
+
+**Lo que habría que preguntar, y de dónde sale:**
+
+- **Versificación irregular — de qué arte son sus versos**: menor, mayor o mixto. No es una taxonomía
+  inventada: es la que el corpus ya tiene anotada, y es el criterio que usa la propia definición
+  —«ni el número de sílabas obedece a igualdad o proporción»—. Una sola respuesta, y hace contable
+  una categoría cuyo valor es precisamente **poder volver a ella**: es la lista de lo que no se supo
+  clasificar.
+- **Verso aislado — cuánto mide**, que su definición da por observable —«con medida reconocible»— y
+  sin lo cual el dato no sirve para nada; y **de qué clase es**, que la definición enumera: el mote
+  con su glosa, y los proverbios, refranes y sentencias que el diálogo intercala.
+
+*Lo que no propongo:* una pregunta de «por qué no se reconoce la forma». Esa taxonomía no está en
+ninguna fuente ni en el vocabulario legado, y habría que inventarla.
+
+**Lo que costaría.** Es la decisión de fondo: o `arquitectura_id` deja de ser obligatorio en las
+preguntas, o los dos tramos sin forma reciben una arquitectura, que contradice su nombre. *La segunda
+es más pequeña y menos honesta; la primera toca la tabla de la que cuelga todo.* Va con **C20**, que
+replantea a qué apunta una respuesta.
 
 **F2 · El remate, y las secciones opcionales que no declaran nada.** Contado contra la base, de las
 **once secciones opcionales** del catálogo:
