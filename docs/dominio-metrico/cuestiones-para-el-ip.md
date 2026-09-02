@@ -68,7 +68,7 @@ forma a forma produce criterios distintos para el mismo caso.
 | Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 1 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
-| **Cuántos versos admite quebrados la redondilla, la copla castellana y la copla de arte menor.** Las tres documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «alternando versos plenos y quebrados»—, así que ninguna da máximo. Las otras siete sí lo declaran desde el 25 de agosto de 2026: una posición nombrada es un quiebro contado | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
+| **Cuántos versos admite quebrados la redondilla y la copla de arte menor.** Las dos documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «admite versos quebrados de cuatro sílabas»—, así que ninguna da máximo. *La copla castellana salió de aquí el 29 de agosto de 2026: § 65 sí nombra el suyo, el sexto* | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
 
 ### Los finales esdrújulos y agudos
 
@@ -335,9 +335,18 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    suyo, porque allí hay una realización leída.* Si aparece un ejemplo, se repone: el razonamiento y
    los dos textos que se retiraron están en el comentario de la migración.
 
-   *Y tres preguntan en todos los versos con razón*, porque su nota lo dice: la copla real —«la
-   tradición no fija en qué verso»—, la redondilla —«sin fijar en qué versos cae»— y la copla de arte
-   menor. La copla castellana queda aparte: nombra un verso **y** un patrón alterno, y no da máximo.
+   **Y la copla castellana se cerró también**, en el sexto verso. Su nota reunía dos pasajes que
+   hablan de cosas distintas: **§ 65**, que trata esta forma, dice que «Santillana la usa… con el
+   sexto verso quebrado, en el *Diálogo de Bías contra Fortuna* y en los *Gozos de Nuestra Señora*»;
+   **§ 5.4.7.4** explica de dónde sale un nombre —«cuando los octosílabos alternan con versos de
+   cuatro sílabas se originan las coplas de pie quebrado»— y cita la misma obra. La alternancia no es
+   una segunda realización de la castellana: es lo que afirma el rasgo desde que la copla de pie
+   quebrado dejó de ser una forma, «porque no es una estrofa: es una propiedad de cualquier estrofa
+   octosilábica».
+
+   *Y dos siguen preguntando en todos los versos con razón*, porque su fuente lo dice: la copla real
+   —«la tradición no fija en qué verso»—, la redondilla —«sin fijar en qué versos cae»— y la copla de
+   arte menor, cuya fuente dice «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**.
    ⇒ **F44**
 
 5. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
