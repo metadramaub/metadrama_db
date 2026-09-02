@@ -1443,69 +1443,71 @@ export type Database = {
       }
       equivalencias_respuestas_legadas: {
         Row: {
+          arquitectura_id: string
           created_at: string
+          dimension: string
           esquema_rima_id: string | null
-          grupo_eleccion_id: string
           metro_id: string | null
           nota: string | null
           posicion_unidad: number | null
           repeticion_id: string | null
+          seccion_id: string | null
+          seccion_tratada_id: string | null
           termino_id: string
           valor_rasgo_id: string | null
           variedad_id: string | null
         }
         Insert: {
+          arquitectura_id: string
           created_at?: string
+          dimension: string
           esquema_rima_id?: string | null
-          grupo_eleccion_id: string
           metro_id?: string | null
           nota?: string | null
           posicion_unidad?: number | null
           repeticion_id?: string | null
+          seccion_id?: string | null
+          seccion_tratada_id?: string | null
           termino_id: string
           valor_rasgo_id?: string | null
           variedad_id?: string | null
         }
         Update: {
+          arquitectura_id?: string
           created_at?: string
+          dimension?: string
           esquema_rima_id?: string | null
-          grupo_eleccion_id?: string
           metro_id?: string | null
           nota?: string | null
           posicion_unidad?: number | null
           repeticion_id?: string | null
+          seccion_id?: string | null
+          seccion_tratada_id?: string | null
           termino_id?: string
           valor_rasgo_id?: string | null
           variedad_id?: string | null
         }
         Relationships: [
           {
+            foreignKeyName: "equivalencias_respuestas_legadas_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_forma"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_reglas_longitud"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
             foreignKeyName: "equivalencias_respuestas_legadas_esquema_rima_id_fkey"
             columns: ["esquema_rima_id"]
             isOneToOne: false
             referencedRelation: "esquemas_rima"
             referencedColumns: ["esquema_rima_id"]
-          },
-          {
-            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "anotacion_elecciones_resueltas"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica"
-            referencedColumns: ["grupo_eleccion_id"]
-          },
-          {
-            foreignKeyName: "equivalencias_respuestas_legadas_grupo_eleccion_id_fkey"
-            columns: ["grupo_eleccion_id"]
-            isOneToOne: false
-            referencedRelation: "grupos_eleccion_metrica_resueltos"
-            referencedColumns: ["grupo_eleccion_id"]
           },
           {
             foreignKeyName: "equivalencias_respuestas_legadas_metro_id_fkey"
@@ -1520,6 +1522,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "repeticiones_metricas"
             referencedColumns: ["repeticion_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_seccion_id_fkey"
+            columns: ["seccion_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "equivalencias_respuestas_legadas_seccion_tratada_id_fkey"
+            columns: ["seccion_tratada_id"]
+            isOneToOne: false
+            referencedRelation: "estructuras_secciones"
+            referencedColumns: ["seccion_id"]
           },
           {
             foreignKeyName: "equivalencias_respuestas_legadas_termino_id_fkey"
@@ -3695,43 +3711,7 @@ export type Database = {
           tipo_control: string | null
           updated_at: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "grupos_eleccion_metrica_arquitectura_id_fkey"
-            columns: ["arquitectura_id"]
-            isOneToOne: false
-            referencedRelation: "arquitecturas_forma"
-            referencedColumns: ["arquitectura_id"]
-          },
-          {
-            foreignKeyName: "grupos_eleccion_metrica_arquitectura_id_fkey"
-            columns: ["arquitectura_id"]
-            isOneToOne: false
-            referencedRelation: "arquitecturas_reglas_longitud"
-            referencedColumns: ["arquitectura_id"]
-          },
-          {
-            foreignKeyName: "grupos_eleccion_metrica_rasgo_id_fkey"
-            columns: ["rasgo_id"]
-            isOneToOne: false
-            referencedRelation: "rasgos_metricos"
-            referencedColumns: ["rasgo_id"]
-          },
-          {
-            foreignKeyName: "grupos_eleccion_metrica_seccion_id_fkey"
-            columns: ["seccion_id"]
-            isOneToOne: false
-            referencedRelation: "estructuras_secciones"
-            referencedColumns: ["seccion_id"]
-          },
-          {
-            foreignKeyName: "grupos_eleccion_metrica_seccion_tratada_id_fkey"
-            columns: ["seccion_tratada_id"]
-            isOneToOne: false
-            referencedRelation: "estructuras_secciones"
-            referencedColumns: ["seccion_id"]
-          },
-        ]
+        Relationships: []
       }
       opciones_eleccion_metrica: {
         Row: {
@@ -3755,6 +3735,30 @@ export type Database = {
           updated_at: string | null
           valor_rasgo_id: string | null
           variedad_id: string | null
+        }
+        Relationships: []
+      }
+      preguntas_metricas: {
+        Row: {
+          activo: boolean | null
+          alcance: string | null
+          arquitectura_id: string | null
+          ayuda_editor: string | null
+          created_at: string | null
+          define_norma: boolean | null
+          dimension: string | null
+          grupo_eleccion_id: string | null
+          heredada_de: string | null
+          orden: number | null
+          permite_aplicar_global: boolean | null
+          rasgo_id: string | null
+          seccion_id: string | null
+          seccion_tratada_id: string | null
+          selecciones_max: number | null
+          selecciones_min: number | null
+          slug: string | null
+          tipo_control: string | null
+          updated_at: string | null
         }
         Relationships: []
       }
