@@ -502,6 +502,15 @@ idéntico y no habría ninguna pregunta.
 Una elección **nunca es una desviación**: `abba` y `abab` son dos respuestas ordinarias a la
 misma pregunta.
 
+**Y un esquema que el catálogo no recoge tampoco lo es.** La desviación es para un fallo evidente
+—un verso que no rima donde la forma exige que rime, una unidad a la que le faltan versos—, no para
+una disposición que sencillamente es otra. Por eso la salida abierta se ofrece en todas las
+preguntas de rima y no solo donde el repertorio esté abierto: lo escrito es la misma notación en
+los dos casos, y **si se aparta de la norma se sabe comparándolo con el repertorio**, que ya está en
+el catálogo. Registrar eso como desviación sería, además, imposible sin perder el dato: lo observado
+se nombra con una clave ajena a `esquemas_rima`, así que una notación que no esté catalogada solo
+cabría en prosa.
+
 ### La norma declarada por el pasaje
 
 Para las formas cuyo esquema lo fija su primera realización, el editor no elige entre

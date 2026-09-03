@@ -212,21 +212,37 @@
 			catalogados: props.normaEsquema?.catalogados ?? []
 		});
 		if (lectura.estado === 'ok' && lectura.esquemaCatalogadoId) {
-			// **Lo escrito ya estaba en el repertorio.** Se marca esa y se dice cuál, para que no
-			// quede lo mismo guardado de dos maneras y el editor sepa por qué se le ha movido la
-			// respuesta debajo del cursor.
-			reconocida =
-				visibleOptions.find(
-					(option: MetricCatalogDomainRow) =>
-						String(option.opcion_eleccion_id) === lectura.esquemaCatalogadoId
-				)?.nombre ?? null;
-			props.onChange([lectura.esquemaCatalogadoId]);
-			props.onTextChange?.('');
-			escribiendoOtra = false;
+			// **Lo escrito ya está en el repertorio, y aquí no se cambia nada solo.** Se comprueba
+			// mientras se teclea, así que a mitad de escribir se pasa por notaciones que existen sin
+			// que sean la que se quiere decir: cambiar la respuesta ahí obligaría a empezar de cero.
+			// Se avisa y se espera.
+			const nombre = visibleOptions.find(
+				(option: MetricCatalogDomainRow) =>
+					String(option.opcion_eleccion_id) === lectura.esquemaCatalogadoId
+			)?.nombre;
+			coincidencia = { id: lectura.esquemaCatalogadoId, nombre: String(nombre ?? ''), texto: valor };
 			return;
 		}
-		reconocida = null;
-		if (valor.trim() && props.selectedIds.length > 0) props.onChange([]);
+		coincidencia = null;
+	}
+
+	/** Se acepta el aviso: lo escrito era una del repertorio y se marca. */
+	function marcarCoincidencia() {
+		if (!coincidencia) return;
+		const id = coincidencia.id;
+		// **El texto se limpia primero.** La respuesta escrita y la elegida son la misma fila del
+		// borrador, así que vaciar el texto después de marcar la opción borraba lo recién marcado.
+		props.onTextChange?.('');
+		props.onChange([id]);
+		escribiendoOtra = false;
+		coincidencia = null;
+		descartada = null;
+	}
+
+	/** O no: se sigue escribiendo, y no se vuelve a avisar de lo mismo. */
+	function descartarCoincidencia() {
+		descartada = coincidencia?.texto ?? null;
+		coincidencia = null;
 	}
 
 	/**
@@ -238,7 +254,10 @@
 	 */
 	const OTRA = '__otra__';
 	let escribiendoOtra = $state(false);
-	let reconocida: string | null = $state(null);
+	/** Lo escrito coincide con una del repertorio; se dice y se espera respuesta. */
+	let coincidencia: { id: string; nombre: string; texto: string } | null = $state(null);
+	/** Lo que el editor ya dijo que no era, para no repetirle el aviso. */
+	let descartada: string | null = $state(null);
 	/** Se escribe cuando se ha pedido, o cuando se reabre una respuesta que ya venía escrita. */
 	const escribiendoEsquema = $derived(
 		escribiendoOtra || Boolean((props.textValue ?? '').trim())
@@ -249,12 +268,15 @@
 
 	function elegirOtra() {
 		escribiendoOtra = true;
-		reconocida = null;
+		coincidencia = null;
+		descartada = null;
 		if (props.selectedIds.length > 0) props.onChange([]);
 	}
 
 	function dejarDeEscribir() {
 		escribiendoOtra = false;
+		coincidencia = null;
+		descartada = null;
 		if ((props.textValue ?? '').trim()) props.onTextChange?.('');
 	}
 
@@ -792,10 +814,21 @@
 			{@render campoEsquemaEscrito('abcabc')}
 		</div>
 	{/if}
-	{#if reconocida && !collapsed}
-		<p class="form-help mt-1">
-			Eso es «{reconocida}», que ya está en el repertorio: se ha marcado esa.
-		</p>
+	{#if coincidencia && coincidencia.texto !== descartada && !collapsed}
+		<div
+			class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 border border-[color:var(--primary)] bg-[color:var(--muted)] px-3 py-2 text-sm"
+		>
+			<p class="min-w-0 flex-1">
+				Eso que has escrito es <strong>{coincidencia.nombre}</strong>, que ya está en el
+				repertorio.
+			</p>
+			<button type="button" class="link-action" onclick={marcarCoincidencia}>
+				Marcarla
+			</button>
+			<button type="button" class="link-action" onclick={descartarCoincidencia}>
+				Seguir escribiendo
+			</button>
+		</div>
 	{/if}
 
 	{#if props.showDescription && !collapsed && descripcionElegida}

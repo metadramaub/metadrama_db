@@ -808,6 +808,14 @@ la medida verso a verso— y si admite otras proporciones lo decide el IP.*
 
 Ninguna impide migrar ni publicar. Se listan para que no se vuelvan a descubrir.
 
+**C21. Las desviaciones no se han probado nunca.** Se puede abrir una desde el editor, pero **no hay
+ninguna anotada**: ni en pruebas. Hay que recorrerlas como se recorrió el formulario —crearlas,
+guardarlas, releerlas, ver cómo se leen en la ficha— antes de pedirle a nadie que las use. Al escribir
+F17 apareció ya una limitación que conviene mirar en ese repaso: lo observado se nombra con una clave
+ajena a las tablas del catálogo, así que **una desviación no puede registrar algo que el catálogo no
+tenga**; solo nombrarlo en prosa. Lo primero es decidir si eso es un límite aceptable —la desviación
+es para un fallo evidente, no para una variante— o un hueco que hay que llenar.
+
 **C1. La modalidad heredada por reutilización no es la de la posición que ocupa.** Las dos
 quintillas de la copla real reutilizan la arquitectura de la quintilla, así que traen sus esquemas
 **con la frecuencia que tienen como quintilla suelta**: `aabba` sale «admitida» en la segunda
