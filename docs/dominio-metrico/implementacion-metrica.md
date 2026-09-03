@@ -548,8 +548,9 @@ Un **tramo sin forma** declara que el análisis no reconoce una norma en ese pas
 categoría operativa: `versificación irregular` para dos o más versos, `verso aislado` para
 uno solo. No compite como candidato ni entra en los recuentos de diversidad de formas.
 
-**Tiene arquitecturas, y ninguna declara norma.** Son el sitio del que cuelgan sus dos preguntas
-—la medida de cada verso y la rima observada, las dos escritas de una vez— y, en la versificación
+**Tiene arquitecturas, y ninguna declara norma.** Son el sitio del que cuelgan sus preguntas
+—la medida de cada verso y, solo en la irregular, la rima observada; las dos escritas de una vez, y
+la rima no se pregunta de un verso solo porque un verso solo no rima con nada— y, en la versificación
 irregular, la manera de conservar el arte que el vocabulario legado ya distinguía: menor, mayor y
 mixta, cada una reclamando su término. Que no declaren norma se comprueba: `arquitectura_declara_norma`
 lista todo lo que una arquitectura puede afirmar, dos disparadores lo exigen en la propia fila y otros

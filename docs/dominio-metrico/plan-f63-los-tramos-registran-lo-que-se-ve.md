@@ -125,7 +125,8 @@ posición por verso del rango—.
 | Medida de cada verso | `metro` | una medida por verso | `11 7 11 11 7 7` |
 | Rima observada | `rima` | una letra por verso, guion para el suelto | `-a-ab b` |
 
-En el verso aislado son las mismas dos, de una posición: una medida y una letra o un guion.
+**El verso aislado solo pregunta la medida.** Un verso solo no rima con nada: si rimara con el
+anterior o con el siguiente, formaría parte de esa forma y es ahí donde habría que anotarlo.
 
 **Y no se pregunta nada más, porque lo demás se deriva** de esas dos series: el arte —menor, mayor o
 mixto—, cuántas medidas distintas hay, si el pasaje rima y con qué densidad, y si la serie tiene

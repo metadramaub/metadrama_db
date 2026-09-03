@@ -547,8 +547,10 @@
 			)
 	);
 
+	// Un tramo sin forma también elige arquitectura, así que la identificación se resuelve igual
+	// para todo: forma y arquitectura.
 	const identificationResolved = $derived(
-		Boolean(draft.forma_id) && (isEditorialOutput || Boolean(draft.arquitectura_id))
+		Boolean(draft.forma_id) && Boolean(draft.arquitectura_id)
 	);
 	const identificationOpen = $derived(!identificationResolved || identificationForced);
 	/** Sin quien la gobierne desde fuera, la sección métrica está siempre abierta. */
@@ -1148,9 +1150,6 @@
 				state: 'done'
 			});
 		}
-		if (isEditorialOutput && !draft.arquitectura_id) {
-			items.push({ id: 'observaciones', label: 'Observación', state: 'none' });
-		}
 		return items;
 	});
 </script>
@@ -1649,24 +1648,10 @@
 				</section>
 			{/if}
 
-			<!-- Aquí no hay observación libre: lo que el editor quiera anotar sobre esta
-			     secuencia va a los comentarios internos, que ya se anclan a ella, se tipifican
-			     y pueden hacerse públicos. Duplicarlo aquí partiría el mismo trabajo en dos. -->
-		{:else if isEditorialOutput}
-			<section id="observaciones" class="border-t border-[color:var(--border)] pt-5">
-				<h4 class="form-subsection-title">Observación opcional</h4>
-				<label class="form-field">
-					<span class="sr-only">Observación opcional</span>
-					<textarea
-						class="min-h-24 w-full border border-[color:var(--border)] p-3"
-						value={draft.observaciones}
-						oninput={(event) => (draft.observaciones = event.currentTarget.value)}
-						placeholder={isIsolatedVerse
-							? 'Solo si hace falta explicar por qué el verso no se integra en los tramos contiguos.'
-							: 'Solo si ayuda a describir por qué no se reconoce una forma del catálogo.'}
-					></textarea>
-				</label>
-			</section>
+			<!-- Aquí no hay observación libre, tampoco en un tramo sin forma: lo que el editor
+			     quiera anotar sobre esta secuencia va a los comentarios internos, que ya se anclan
+			     a ella, se tipifican y pueden hacerse públicos. Duplicarlo aquí partiría el mismo
+			     trabajo en dos. -->
 		{/if}
 			</div>
 			{/if}
