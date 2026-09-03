@@ -85,7 +85,7 @@ Las dos que **no** cambian, y que hay que comprobar que siguen igual: `get_catal
 y `obtener_catalogo_demarcador` filtran por `tipo_registro = 'forma'`, así que los tramos siguen sin
 salir ni en el catálogo público ni en el demarcador, tengan arquitectura o no.
 
-## Las cinco arquitecturas
+## Las cuatro arquitecturas
 
 **Versificación irregular**, una por arte, cada una reclamando su término:
 
@@ -94,13 +94,19 @@ salir ni en el catálogo público ni en el demarcador, tengan arquitectura o no.
 | De arte menor | `irregular_arte_menor` | 1 |
 | De arte mayor | `irregular_arte_mayor` | 1 |
 | Mixta | `irregular_mixto` | 6 |
-| Sin determinar | `irregular` | 1 |
 
-La cuarta existe para que **el término escueto también tenga destino**: sin ella, esa secuencia se
-quedaría fuera y la migración volvería a estar incompleta.
+**El término escueto, `irregular`, se queda sin destino a propósito.** Es una sola secuencia —*El
+mágico prodigioso*, vv. 2191–2201, obra asignada a Emma González Mesas— y antes de darle sitio hay
+que preguntar a quien la anotó por qué eligió el término madre y no uno de los tres específicos. Si
+fue por duda, su destino es otro que el de un pasaje que de verdad no se puede clasificar.
 
 **Verso aislado**, una sola —«De cualquier medida»— sin término legado que reclamar, porque no hay
 corpus viejo que recoger.
+
+**Y no hay una arquitectura por causa de la irregularidad.** Una laguna conocida no es un pasaje
+irregular: es una forma real a la que le faltan versos, y eso se registra como desviación. Fuera de
+ese caso, muchas veces un pasaje es irregular y punto, o no se sabe si es por el testimonio, así que
+clasificarlo por su causa obligaría al editor a afirmar lo que no puede saber.
 
 ## Qué se pregunta, y qué se deriva
 
@@ -132,8 +138,9 @@ caso que debe pasar y otro que debe fallar, porque un cuerpo entrecomillado no s
 2. **Añade `serie_medidas` a `tipo_control`** y lo acepta en `validar_anotacion_eleccion`, junto a
    `esquema_rima` y `opciones_y_esquema`, con la misma validación de longitud: tantas posiciones como
    versos.
-3. **Crea las cinco arquitecturas y sus diez preguntas**, con `origen_termino_id` donde toca.
-4. **Comprueba que las nueve secuencias legadas ya tienen destino**, contándolas.
+3. **Crea las cuatro arquitecturas y sus ocho preguntas**, con `origen_termino_id` donde toca.
+4. **Comprueba que ocho de las nueve secuencias legadas ya tienen destino**, contándolas. La novena
+   es la de `irregular` a secas, que espera respuesta de quien la anotó.
 
 ### 2 · El auditor y su criterio
 
@@ -150,23 +157,18 @@ esquema de rima abierto, con su validación de longitud.
 
 ### 4 · Comprobación
 
-1. Que las nueve secuencias legadas **tienen destino**: `propuesta_metrica_secuencia` las propone con
-   su arquitectura, y el informe por obra deja de dejarlas caer.
+1. Que ocho de las nueve secuencias legadas **tienen destino**: `propuesta_metrica_secuencia` las
+   propone con su arquitectura, y el informe por obra deja de dejarlas caer.
 2. Anotar en «Prueba» un pasaje irregular y un verso aislado, y comprobar en la base que las series
    se guardan y se releen.
 3. Que **el catálogo público y el demarcador siguen sin verlos**: los dos filtran por
    `tipo_registro = 'forma'`, así que las arquitecturas nuevas no deben aparecer en `/formas`, ni en
    `/recursos/catalogo-metrico`, ni en el catálogo del demarcador. Se comprueba, no se supone.
-4. `npm run audit:metrica`, que no debe encontrar defectos nuevos: **las cinco arquitecturas no
+4. `npm run audit:metrica`, que no debe encontrar defectos nuevos: **las cuatro arquitecturas no
    declaran norma, y varios criterios de nivel dan por hecho que una arquitectura la declara**.
 5. `npm run audit:anotaciones`, `npm run check`, `npm run test`.
 
 ## Lo que este plan no hace
 
-- **No pregunta si la irregularidad es del texto o de la transmisión** —una laguna, un testimonio
-  defectuoso—. Es lo único que no se deriva de las series y lo que separa «hemos encontrado algo» de
-  «este testimonio está roto», así que habrá que añadirlo; queda fuera porque una pregunta de rasgo
-  necesita que la arquitectura **declare el rasgo**, y eso es una declaración normativa: obligaría a
-  decidir ahora hasta dónde llega la relajación. Se hace cuando el dato lo pida.
 - **No migra nada.** Deja el destino puesto para cuando se migre.
 - **No proyecta las series a notación comparable**, que es C18 y va después.
