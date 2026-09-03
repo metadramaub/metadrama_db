@@ -131,6 +131,20 @@
 			props.group.tipo_control === 'opciones_y_esquema'
 	);
 	/**
+	 * La serie de medidas: una medida por verso, escrita de una vez.
+	 *
+	 * Es el registro de los tramos sin forma, que no tienen norma contra la que leer nada. Por eso
+	 * no pasa por lo del esquema de rima —régimen, disposiciones catalogadas, lectura contra la
+	 * norma—: aquí solo hay que contar que venga una medida por verso.
+	 */
+	const esSerieDeMedidas = $derived(props.group.tipo_control === 'serie_medidas');
+	const medidasEscritas = $derived(
+		(props.textValue ?? '').trim().split(/\s+/).filter(Boolean)
+	);
+	const faltanMedidas = $derived(
+		props.normaEsquema?.versos ? props.normaEsquema.versos - medidasEscritas.length : null
+	);
+	/**
 	 * Cuando escribir es **todo** el control: no hay repertorio que ofrecer.
 	 *
 	 * Lo era el abierto puro, y lo es también el híbrido cuya arquitectura no tiene ninguna
@@ -490,6 +504,26 @@
 					</button>
 				{/if}
 			</div>
+		</div>
+	{:else if esSerieDeMedidas}
+		<div class="space-y-1">
+			<input
+				type="text"
+				inputmode="numeric"
+				class="w-full border border-[color:var(--border)] px-3 py-2 text-sm"
+				value={props.textValue ?? ''}
+				placeholder={props.normaEsquema?.versos
+					? Array.from({ length: Math.min(props.normaEsquema.versos, 8) }, () => '11').join(' ')
+					: '11 7 11'}
+				oninput={(event) => props.onTextChange?.(event.currentTarget.value)}
+			/>
+			{#if faltanMedidas !== null && faltanMedidas !== 0}
+				<p class="text-xs text-[color:var(--muted-foreground)]">
+					{faltanMedidas > 0
+						? `Faltan ${faltanMedidas} ${faltanMedidas === 1 ? 'medida' : 'medidas'}`
+						: `Sobran ${-faltanMedidas} ${faltanMedidas === -1 ? 'medida' : 'medidas'}`}
+				</p>
+			{/if}
 		</div>
 	{:else if isRhymeScheme}
 		{@render campoEsquemaEscrito('aBaBcC')}

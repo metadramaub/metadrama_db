@@ -548,6 +548,14 @@ Un **tramo sin forma** declara que el análisis no reconoce una norma en ese pas
 categoría operativa: `versificación irregular` para dos o más versos, `verso aislado` para
 uno solo. No compite como candidato ni entra en los recuentos de diversidad de formas.
 
+**Tiene arquitecturas, y ninguna declara norma.** Son el sitio del que cuelgan sus dos preguntas
+—la medida de cada verso y la rima observada, las dos escritas de una vez— y, en la versificación
+irregular, la manera de conservar el arte que el vocabulario legado ya distinguía: menor, mayor y
+mixta, cada una reclamando su término. Que no declaren norma se comprueba: `arquitectura_declara_norma`
+lista todo lo que una arquitectura puede afirmar, dos disparadores lo exigen en la propia fila y otros
+seis impiden que nada normativo cuelgue de ella. **No se publican**: ni el catálogo, ni la ficha, ni
+el demarcador las enseñan.
+
 ## 5 · Cinco arquetipos del catálogo
 
 ### Estrofa repetible · redondilla
@@ -759,7 +767,7 @@ Lo que de verdad valida un disparador, y solo eso:
 
 | Qué se impide                                                                                                | Dónde                                                       |
 | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
-| Que una forma con norma no tenga arquitectura, o que un tramo sin forma la tenga                             | `arquitecturas_forma`, `formas_metricas`                    |
+| Que una forma con norma no tenga arquitectura, o que la arquitectura de un tramo sin forma declare norma      | `arquitecturas_forma`, `formas_metricas`, y las seis tablas normativas |
 | Que un grupo de elección pregunte algo incoherente con su dimensión o su alcance                             | `grupos_eleccion_metrica`                                   |
 | Que una variedad apunte a esquemas de otra arquitectura                                                      | `variedades_arquitectura`                                   |
 | Que una respuesta del editor no esté entre las que su pregunta ofrece, o caiga en una posición que no existe | `anotacion_elecciones`                                 |

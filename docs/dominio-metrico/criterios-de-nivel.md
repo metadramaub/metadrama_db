@@ -438,6 +438,10 @@ corresponde.
 De ahí que la taxonomía tenga una sola dirección posible: lo específico es subtipo de lo
 general, nunca al revés (**D10**).
 
+Y un **tramo sin forma** puede tener arquitecturas —de ellas cuelgan sus preguntas— pero
+ninguna declara norma: ni esquemas, ni secciones, ni rasgos, ni repeticiones, ni variedades, ni
+régimen de rima, ni límites de unidad, ni ser demarcable. Es la otra mitad de **D10**.
+
 ### 3.8 · Alcance de las preguntas
 
 Se deduce de la primera pregunta: lo que puede variar entre unidades se pregunta **por
