@@ -463,7 +463,12 @@
 		value: string
 	) {
 		const groupId = String(group.grupo_eleccion_id);
-		const normalized = normalizeRhymeScheme(value, unit);
+		// Una serie de medidas se escribe con espacios y con números: normalizarla como una
+		// notación de rima le quitaría precisamente lo que la separa en versos.
+		const normalized =
+			String(group.tipo_control ?? '') === 'serie_medidas'
+				? value.replace(/\s+/g, ' ').trimStart()
+				: normalizeRhymeScheme(value, unit);
 		props.onChoicesChange([
 			...props.choices.filter(
 				(choice: MetricChoiceDraft) =>
@@ -1232,7 +1237,12 @@
 		const primera = pregunta.groups
 			.flatMap((group: MetricCatalogDomainRow) => unitsForGroup(context, group))
 			.at(0);
-		const normalized = normalizeRhymeScheme(value, primera);
+		const esSerie = pregunta.groups.some(
+			(group: MetricCatalogDomainRow) => String(group.tipo_control ?? '') === 'serie_medidas'
+		);
+		const normalized = esSerie
+			? value.replace(/\s+/g, ' ').trimStart()
+			: normalizeRhymeScheme(value, primera);
 		let siguientes = [...props.choices];
 		for (const group of pregunta.groups) {
 			const groupId = String(group.grupo_eleccion_id);

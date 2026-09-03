@@ -658,7 +658,16 @@
 	}
 
 	function setChoiceText(groupId: string, unitId: string | null, value: string) {
-		const normalized = normalizeRhymeScheme(value);
+		// Una serie de medidas se escribe con espacios y con números: la normalización de la rima
+		// le quitaría precisamente lo que la separa en versos.
+		const esSerie = sequenceChoiceGroups.some(
+			(group: MetricCatalogDomainRow) =>
+				String(group.grupo_eleccion_id) === groupId &&
+				String(group.tipo_control ?? '') === 'serie_medidas'
+		);
+		const normalized = esSerie
+			? value.replace(/\s+/g, ' ').trimStart()
+			: normalizeRhymeScheme(value);
 		draft.elecciones = [
 			...draft.elecciones.filter(
 				(choice: MetricChoiceDraft) =>
@@ -750,14 +759,14 @@
 		draft.forma_id = formId;
 		identificationForced = true;
 		const form = props.catalog.forms.find((item: MetricCatalogForm) => item.forma_id === formId);
+		// Un tramo acota su rango —un verso el aislado, dos lo menos el irregular— y a partir de
+		// ahí se comporta como cualquier otra entrada: elige arquitectura y responde lo suyo.
 		if (form?.tipo_registro === 'sin_forma') {
-			resetForConfiguration('');
 			if (form.slug === 'verso_aislado') {
 				draft.v_fin = draft.v_ini;
 			} else if (form.slug === 'irregular' && draft.v_fin === draft.v_ini) {
 				draft.v_fin = draft.v_ini + 1;
 			}
-			return;
 		}
 		const configurations = props.catalog.configurations.filter(
 			(configuration: MetricCatalogConfiguration) =>
@@ -943,7 +952,7 @@
 		if (!draft.forma_id) {
 			return 'Selecciona una forma o una salida editorial.';
 		}
-		if (!isEditorialOutput && !draft.arquitectura_id) {
+		if (!draft.arquitectura_id) {
 			return 'Selecciona la arquitectura de la forma.';
 		}
 		if (selectedForm?.slug === 'irregular' && draft.v_fin - draft.v_ini + 1 < 2) {
@@ -1328,7 +1337,7 @@
 						</label>
 						<!-- Sin forma elegida no hay arquitectura que preguntar: el campo no se
 						     enseña apagado, sencillamente no existe todavía. -->
-						{#if draft.forma_id && !isEditorialOutput && configurationsForDraft.length === 1 && selectedConfiguration}
+						{#if draft.forma_id && configurationsForDraft.length === 1 && selectedConfiguration}
 							<div class="form-field">
 								<span class="form-label">Arquitectura</span>
 								<p class="text-sm leading-10">
@@ -1336,7 +1345,7 @@
 									<span class="text-[color:var(--muted-foreground)]">· única de esta forma</span>
 								</p>
 							</div>
-						{:else if draft.forma_id && !isEditorialOutput}
+						{:else if draft.forma_id}
 							{@const architectureLabel = 'Arquitectura *'}
 							{@const architectureItems = configurationsForDraft.map(
 								(configuration: MetricCatalogConfiguration) => ({
@@ -1414,6 +1423,14 @@
 							onChange={(ids) => setChoices(String(group.grupo_eleccion_id), null, ids)}
 							textValue={choiceTextValue(String(group.grupo_eleccion_id), null)}
 							onTextChange={(value) => setChoiceText(String(group.grupo_eleccion_id), null, value)}
+							normaEsquema={String(group.tipo_control ?? '') === 'serie_medidas'
+								? {
+										versos: draft.v_fin - draft.v_ini + 1,
+										regimen: null,
+										catalogados: [],
+										regimenes: []
+									}
+								: undefined}
 						/>
 					{/each}
 				</section>

@@ -1,6 +1,12 @@
 # F63 · Los tramos sin forma registran lo que se ve
 
-**Escrito el 3 de septiembre de 2026. Sin aplicar.**
+**Aplicado el 3 de septiembre de 2026.**
+
+*Al llevarlo a cabo aparecieron dos cosas que este plan no preveía, y se arreglaron con él:* la
+propuesta de migración **adivinaba el arte** del término escueto —al no traer arquitectura caía en su
+respaldo por compatibilidad y se quedaba con la primera, «De arte menor»—, y **la ficha pública pasó
+a pintar las tres arquitecturas** como si describieran una norma, diciendo «Rima · Fijo» de algo que
+no fija nada.
 
 La versificación irregular y el verso aislado no preguntan nada. Un editor los marca y ahí acaba el
 registro: se sabe dónde empieza y dónde acaba el pasaje, y nada más. Este plan les da qué registrar.

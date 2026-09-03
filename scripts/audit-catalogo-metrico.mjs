@@ -153,6 +153,29 @@ function build(tables) {
 
 const listOf = (map, key) => map.get(key) ?? [];
 
+/**
+ * Qué afirma una arquitectura sobre cómo es su forma, o `null` si no afirma nada.
+ *
+ * Es la misma lista que comprueba `arquitectura_declara_norma` en la base, y sirve para lo mismo:
+ * un tramo sin forma puede tener arquitecturas —necesita de dónde colgar sus preguntas— siempre
+ * que ninguna declare nada.
+ */
+function declaraNorma(model, configuracion) {
+	const id = configuracion.arquitectura_id;
+	if (listOf(model.patronesMetricosPorConfiguracion, id).length > 0) return 'esquemas métricos';
+	if (listOf(model.patronesRimaPorConfiguracion, id).length > 0) return 'esquemas de rima';
+	if (listOf(model.seccionesPorConfiguracion, id).length > 0) return 'secciones';
+	if (listOf(model.rasgosPorConfiguracion, id).length > 0) return 'rasgos';
+	if (listOf(model.repeticionesPorConfiguracion, id).length > 0) return 'repeticiones';
+	if (listOf(model.combinacionesPorConfiguracion, id).length > 0) return 'variedades';
+	if (configuracion.demarcable) return 'ser demarcable';
+	if (configuracion.tipo_rima_id) return 'un régimen de rima';
+	if (configuracion.unidad_versos_min !== null && configuracion.unidad_versos_min !== undefined) {
+		return 'límites de unidad';
+	}
+	return null;
+}
+
 function formaDeConfiguracion(model, configuracionId) {
 	const configuracion = model.configuracionPorId.get(configuracionId);
 	if (!configuracion) return null;
@@ -463,15 +486,19 @@ const DEFECTOS = [
 		id: 'D10',
 		titulo: 'Coherencia del tipo de registro y del grado de especificación',
 		criterio:
-			'Un tramo sin forma no tiene arquitectura. Y la taxonomía va en una sola dirección: lo específico es subtipo de lo general, nunca al revés.',
+			'Un tramo sin forma puede tener arquitecturas, porque de ellas cuelgan sus preguntas, pero ninguna declara norma. Y la taxonomía va en una sola dirección: lo específico es subtipo de lo general, nunca al revés.',
 		detectar(model) {
 			const hallazgos = [];
 			for (const forma of model.formas) {
-				if (
-					forma.tipo_registro === 'sin_forma' &&
-					listOf(model.configuracionesPorForma, forma.forma_id).length > 0
-				) {
-					hallazgos.push({ sujeto: forma.slug, detalle: 'tramo sin forma con arquitectura' });
+				if (forma.tipo_registro !== 'sin_forma') continue;
+				for (const configuracion of listOf(model.configuracionesPorForma, forma.forma_id)) {
+					const declara = declaraNorma(model, configuracion);
+					if (declara) {
+						hallazgos.push({
+							sujeto: forma.slug + ' · ' + configuracion.slug,
+							detalle: 'arquitectura de un tramo que declara ' + declara
+						});
+					}
 				}
 			}
 			return hallazgos;
