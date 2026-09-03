@@ -212,11 +212,50 @@
 			catalogados: props.normaEsquema?.catalogados ?? []
 		});
 		if (lectura.estado === 'ok' && lectura.esquemaCatalogadoId) {
+			// **Lo escrito ya estaba en el repertorio.** Se marca esa y se dice cuál, para que no
+			// quede lo mismo guardado de dos maneras y el editor sepa por qué se le ha movido la
+			// respuesta debajo del cursor.
+			reconocida =
+				visibleOptions.find(
+					(option: MetricCatalogDomainRow) =>
+						String(option.opcion_eleccion_id) === lectura.esquemaCatalogadoId
+				)?.nombre ?? null;
 			props.onChange([lectura.esquemaCatalogadoId]);
 			props.onTextChange?.('');
+			escribiendoOtra = false;
 			return;
 		}
+		reconocida = null;
 		if (valor.trim() && props.selectedIds.length > 0) props.onChange([]);
+	}
+
+	/**
+	 * La salida abierta, que es una opción más y no un campo siempre puesto.
+	 *
+	 * Estaba debajo de cada lista de rima —**49 preguntas en 42 arquitecturas de 26 formas**—
+	 * compitiendo con el repertorio que sí se usa casi siempre. Ahora se elige como se elige
+	 * cualquier otra respuesta, y el campo aparece detrás.
+	 */
+	const OTRA = '__otra__';
+	let escribiendoOtra = $state(false);
+	let reconocida: string | null = $state(null);
+	/** Se escribe cuando se ha pedido, o cuando se reabre una respuesta que ya venía escrita. */
+	const escribiendoEsquema = $derived(
+		escribiendoOtra || Boolean((props.textValue ?? '').trim())
+	);
+	const ofreceOtra = $derived(
+		props.group.tipo_control === 'opciones_y_esquema' && !isRhymeScheme && visibleOptions.length > 0
+	);
+
+	function elegirOtra() {
+		escribiendoOtra = true;
+		reconocida = null;
+		if (props.selectedIds.length > 0) props.onChange([]);
+	}
+
+	function dejarDeEscribir() {
+		escribiendoOtra = false;
+		if ((props.textValue ?? '').trim()) props.onTextChange?.('');
 	}
 
 	/** Un rasgo con un solo valor no es una elección entre alternativas: está o no está. */
@@ -246,6 +285,11 @@
 	);
 	function changeSingle(event: Event) {
 		const value = (event.currentTarget as HTMLSelectElement).value;
+		if (value === OTRA) {
+			elegirOtra();
+			return;
+		}
+		dejarDeEscribir();
 		props.onChange(value ? [value] : []);
 	}
 
@@ -563,8 +607,11 @@
 						type="radio"
 						class="mt-0.5"
 						name={String(props.group.grupo_eleccion_id)}
-						checked={props.selectedIds.includes(id)}
-						onchange={() => props.onChange([id])}
+						checked={props.selectedIds.includes(id) && !escribiendoEsquema}
+						onchange={() => {
+							dejarDeEscribir();
+							props.onChange([id]);
+						}}
 					/>
 					<span>
 						{String(option.nombre)}
@@ -576,6 +623,24 @@
 					</span>
 				</label>
 			{/each}
+			{#if ofreceOtra}
+				<label
+					class={`flex cursor-pointer items-start gap-2 border px-3 py-2 text-sm ${
+						escribiendoEsquema
+							? 'border-[color:var(--primary)] bg-[color:var(--muted)]'
+							: 'border-[color:var(--border)] bg-white'
+					}`}
+				>
+					<input
+						type="radio"
+						class="mt-0.5"
+						name={String(props.group.grupo_eleccion_id)}
+						checked={escribiendoEsquema}
+						onchange={elegirOtra}
+					/>
+					<span>Rima de otra manera</span>
+				</label>
+			{/if}
 			{#if optional}
 				<button
 					type="button"
@@ -620,7 +685,7 @@
 					? 'border-[color:var(--primary)]'
 					: 'border-[color:var(--border)]'
 			}`}
-			value={props.selectedIds[0] ?? ''}
+			value={escribiendoEsquema ? OTRA : (props.selectedIds[0] ?? '')}
 			onchange={changeSingle}
 		>
 			<option value="">
@@ -631,6 +696,9 @@
 					{String(option.nombre)}
 				</option>
 			{/each}
+			{#if ofreceOtra}
+				<option value={OTRA}>Rima de otra manera…</option>
+			{/if}
 		</select>
 	{:else if partialPositionalSelection}
 		<MetricPartialPositionField
@@ -710,19 +778,24 @@
 	{/if}
 
 	<!--
-		La salida abierta del control híbrido. Va **debajo** de la lista y no en lugar de ella:
-		la norma acota un repertorio, y escribir es para lo que el repertorio no cubre. Si lo
-		escrito resulta ser una de las catalogadas, se marca esa y el campo se vacía solo.
+		La salida abierta del control híbrido, **detrás de su opción**: la norma acota un repertorio
+		y escribir es para lo que el repertorio no cubre, así que no compite con la lista. Si lo
+		escrito resulta ser una de las catalogadas, se marca esa, se dice cuál y el campo se retira.
 	-->
 	<!-- Sin repertorio el campo escrito ya es el control entero, y no se pinta dos veces. -->
-	{#if props.group.tipo_control === 'opciones_y_esquema' && !isRhymeScheme && !collapsed}
+	{#if ofreceOtra && escribiendoEsquema && !collapsed}
 		<div class="mt-2 border-t border-[color:var(--border)] pt-2">
 			<p class="form-help mb-1">
-				¿Rima de otra manera? Escribe la disposición que has leído, una letra por verso y un
-				guion para el verso suelto.
+				Escribe la disposición que has leído, una letra por verso y un guion para el verso
+				suelto.
 			</p>
 			{@render campoEsquemaEscrito('abcabc')}
 		</div>
+	{/if}
+	{#if reconocida && !collapsed}
+		<p class="form-help mt-1">
+			Eso es «{reconocida}», que ya está en el repertorio: se ha marcado esa.
+		</p>
 	{/if}
 
 	{#if props.showDescription && !collapsed && descripcionElegida}
