@@ -385,8 +385,25 @@
 					: visiblePositions.length > 0 && props.selectedIds.length === visiblePositions.length
 				: props.selectedIds.length > 0 && props.selectedIds.length >= minimum
 	);
+	/**
+	 * Una respuesta posicional que puede quedarse vacía.
+	 *
+	 * Hoy es solo una: **el pie quebrado**, la única pregunta posicional del catálogo que no exige
+	 * respuesta. Es un rasgo admitido y raro —«el quiebro, cuando lo hay», dice la copla real— y su
+	 * rejilla de versos venía desplegada, ocupando lo mismo que la pregunta que define la estrofa.
+	 * Plegada dice lo que hay —«Ningún verso quebrado · todos, 8 síl.»— y se abre si hace falta.
+	 */
+	const posicionalOpcional = $derived(partialPositionalSelection && minimum === 0);
 	const collapsed = $derived(
-		answered && (props.compact || (!partialPositionalSelection && multiline && !expanded))
+		answered &&
+			(props.compact ||
+				(multiline && !expanded && (!partialPositionalSelection || posicionalOpcional)))
+	);
+	/** Sin nada marcado, «Cambiar» no dice nada: lo que se va a hacer es marcar. */
+	const accionColapsada = $derived(
+		posicionalOpcional && props.selectedIds.length === 0
+			? 'Marcar'
+			: (props.changeLabel ?? 'Cambiar')
 	);
 	/**
 	 * La medida verso a verso, en notación: `8 8 4 8 8 4`.
@@ -566,7 +583,7 @@
 						class="link-action"
 						onclick={() => (props.onExpand ? props.onExpand() : (expanded = true))}
 					>
-						{props.changeLabel ?? 'Cambiar'}
+						{accionColapsada}
 					</button>
 				{/if}
 			</div>
