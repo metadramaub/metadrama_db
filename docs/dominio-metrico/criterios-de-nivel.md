@@ -349,6 +349,13 @@ norma donde el quiebro es solo una licencia. La regla:
 Vale para cualquier rasgo, no solo para el quiebro: un final esdrújulo admitido no convierte la
 rima en esdrújula, y una densidad admitida no cambia el régimen.
 
+**Y lo que la licencia admite se declara ancho, a propósito.** Dos cosas que parecen desajustes y
+no lo son: el máximo de quebrados es siempre **los versos menos uno** —si se quebraran todos ya no
+sería la misma medida, sino otra forma—, y las medidas ofrecidas son **cuatro y cinco sílabas** en
+todas, porque es lo corriente en la mayoría. Ninguna fuente acota cuántos admite una copla de arte
+menor ni si su quiebro puede ser pentasílabo: la norma se describe amplia para cubrir lo que pueda
+aparecer, y es la anotación la que dirá qué se da de verdad.
+
 **Lo que la forma declara y lo que hay que preguntarle al editor son dos cosas**, y esta regla
 gobierna solo la primera. La copla real declara además opciones métricas con rol y un grupo
 `posiciones_pie_quebrado`, para que el editor diga en qué versos cayó el quiebro. Hasta el 25 de
