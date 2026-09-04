@@ -236,12 +236,16 @@
 		props.onChange([id]);
 		escribiendoOtra = false;
 		coincidencia = null;
-		descartada = null;
 	}
 
-	/** O no: se sigue escribiendo, y no se vuelve a avisar de lo mismo. */
+	/**
+	 * Enterado: se cierra el aviso y se sigue escribiendo.
+	 *
+	 * **No deja de contrastar.** Se cierra este aviso, y a la siguiente tecla se vuelve a mirar el
+	 * repertorio: si lo que queda escrito coincide otra vez, con esta o con otra, se dice otra vez.
+	 * Recordar lo descartado hacía que corregir una notación y volver sobre ella pasara en silencio.
+	 */
 	function descartarCoincidencia() {
-		descartada = coincidencia?.texto ?? null;
 		coincidencia = null;
 	}
 
@@ -256,8 +260,6 @@
 	let escribiendoOtra = $state(false);
 	/** Lo escrito coincide con una del repertorio; se dice y se espera respuesta. */
 	let coincidencia: { id: string; nombre: string; texto: string } | null = $state(null);
-	/** Lo que el editor ya dijo que no era, para no repetirle el aviso. */
-	let descartada: string | null = $state(null);
 	/** Se escribe cuando se ha pedido, o cuando se reabre una respuesta que ya venía escrita. */
 	const escribiendoEsquema = $derived(
 		escribiendoOtra || Boolean((props.textValue ?? '').trim())
@@ -269,14 +271,12 @@
 	function elegirOtra() {
 		escribiendoOtra = true;
 		coincidencia = null;
-		descartada = null;
 		if (props.selectedIds.length > 0) props.onChange([]);
 	}
 
 	function dejarDeEscribir() {
 		escribiendoOtra = false;
 		coincidencia = null;
-		descartada = null;
 		if ((props.textValue ?? '').trim()) props.onTextChange?.('');
 	}
 
@@ -814,19 +814,19 @@
 			{@render campoEsquemaEscrito('abcabc')}
 		</div>
 	{/if}
-	{#if coincidencia && coincidencia.texto !== descartada && !collapsed}
+	{#if coincidencia && !collapsed}
 		<div
 			class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 border border-[color:var(--primary)] bg-[color:var(--muted)] px-3 py-2 text-sm"
 		>
 			<p class="min-w-0 flex-1">
-				Eso que has escrito es <strong>{coincidencia.nombre}</strong>, que ya está en el
-				repertorio.
+				La disposición anotada coincide con <strong>{coincidencia.nombre}</strong>, que ya está
+				en el repertorio.
 			</p>
 			<button type="button" class="link-action" onclick={marcarCoincidencia}>
 				Marcarla
 			</button>
 			<button type="button" class="link-action" onclick={descartarCoincidencia}>
-				Seguir escribiendo
+				Intentar de nuevo
 			</button>
 		</div>
 	{/if}
