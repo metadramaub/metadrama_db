@@ -432,6 +432,33 @@
 			: null
 	);
 	const hasSequenceChoices = $derived(sequenceChoiceGroups.length > 0);
+
+	/**
+	 * Los rasgos que la forma admite y que nadie ha dicho que haya.
+	 *
+	 * **Un rasgo opcional sin responder no es una pregunta pendiente**: es una licencia que casi
+	 * nunca se usa. Puestos arriba, cinco de ellos —el endecasílabo suelto tiene cinco— se leen como
+	 * cinco cosas que hay que resolver, y hacen creer que el trabajo es mayor de lo que es. Bajan al
+	 * pie, en una línea, y suben en cuanto se dice que los hay.
+	 *
+	 * Lo que se ha dicho que hay se queda arriba, con los demás: ya no es una licencia sin usar sino
+	 * un dato de esta realización.
+	 */
+	let rasgosPedidos = $state<string[]>([]);
+	const rasgoSinTocar = (group: MetricCatalogDomainRow) => {
+		const groupId = String(group.grupo_eleccion_id);
+		if (Number(group.selecciones_min ?? 0) >= 1) return false;
+		if (rasgosPedidos.includes(groupId)) return false;
+		return (
+			selectedChoiceIds(groupId, null).length === 0 && !choiceTextValue(groupId, null).trim()
+		);
+	};
+	const preguntasDeSecuencia = $derived(
+		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) => !rasgoSinTocar(group))
+	);
+	const rasgosQueAdmite = $derived(
+		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) => rasgoSinTocar(group))
+	);
 	const materializedUnitCount = $derived(
 		unitPlanForDraft
 			? draft.unidades.filter(
@@ -1414,7 +1441,7 @@
 			{#if hasSequenceChoices}
 				<section id="secuencia" class="space-y-4 border-t border-[color:var(--border)] pt-5">
 					<h4 class="form-subsection-title mb-0">Datos de esta realización</h4>
-					{#each sequenceChoiceGroups as group (String(group.grupo_eleccion_id))}
+					{#each preguntasDeSecuencia as group (String(group.grupo_eleccion_id))}
 						<MetricChoiceField
 							{group}
 							options={optionsForGroup(String(group.grupo_eleccion_id))}
@@ -1432,6 +1459,28 @@
 								: undefined}
 						/>
 					{/each}
+
+					{#if rasgosQueAdmite.length > 0}
+						<!-- Cada rasgo con su propio botón: un «sí» al final de una lista de tres no dice
+						     a cuál se le dice que sí. -->
+						<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
+							<span class="text-[color:var(--muted-foreground)]">
+								{rasgosQueAdmite.length === 1
+									? 'Esta forma admite además, si lo hay:'
+									: 'Esta forma admite además, si los hay:'}
+							</span>
+							{#each rasgosQueAdmite as group (String(group.grupo_eleccion_id))}
+								<button
+									type="button"
+									class="border border-dashed border-[color:var(--border)] px-2 py-0.5 text-xs text-[color:var(--muted-foreground)] hover:border-[color:var(--primary)] hover:text-[color:var(--foreground)]"
+									onclick={() =>
+										(rasgosPedidos = [...rasgosPedidos, String(group.grupo_eleccion_id)])}
+								>
+									+ {String(group.nombre ?? group.slug ?? '').toLocaleLowerCase('es')}
+								</button>
+							{/each}
+						</div>
+					{/if}
 				</section>
 			{/if}
 
