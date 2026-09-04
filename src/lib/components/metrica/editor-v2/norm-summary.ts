@@ -10,6 +10,15 @@ import type { MetricUnitPlan } from './editor-model';
 export type MetricNormFact = {
 	label: string;
 	value: string;
+	/**
+	 * En qué estado está esa dimensión para quien anota.
+	 *
+	 * **Es lo único que necesita saber mientras responde**: de qué no tiene que ocuparse porque la
+	 * norma lo fija, qué declara el pasaje que tiene delante, y qué admite la forma sin exigirlo.
+	 * Sin el estado, el recuadro enumeraba a la vez lo fijo y lo elegible y el editor tenía que
+	 * adivinar cuál era cuál. Se omite en lo fijo, que es la mayoría.
+	 */
+	estado?: 'fija' | 'pasaje' | 'admite';
 };
 
 function id(row: MetricCatalogDomainRow, key: string): string {
@@ -342,7 +351,9 @@ function architectureTraitFacts(
 		}
 		// Un renglón sin nada que decir no se pinta.
 		if (parts.length === 0) return [];
-		return [{ label: String(trait.nombre), value: parts.join('; ') }];
+		// Un rasgo definitorio es norma; los demás son licencias que la forma admite.
+		const estado = assignment.modalidad === 'definitoria' ? undefined : ('admite' as const);
+		return [{ label: String(trait.nombre), value: parts.join('; '), estado }];
 	});
 }
 
@@ -580,10 +591,12 @@ function openRhymeSummary(
 			return [];
 		}
 		const subject = sectionName(sections, id(scheme, 'seccion_id'));
+		// **Con restricciones declaradas, el nombre basta.** El renglón de restricciones ya dice el
+		// criterio en corto —«2 clases de rima · sin versos sueltos · máximo 2 seguidos»—, y repetirlo
+		// aquí en prosa metía un párrafo entero del catálogo encima del desplegable que lo resuelve.
+		// La prosa larga sigue donde sirve: en la ficha, que está enlazada al pie.
 		const hasDetailedRestriction = domain.rhymeRestrictions.some(
-			(restriction) =>
-				id(restriction, 'esquema_rima_id') === id(scheme, 'esquema_rima_id') &&
-				Boolean(restriction.descripcion)
+			(restriction) => id(restriction, 'esquema_rima_id') === id(scheme, 'esquema_rima_id')
 		);
 		const description = String(
 			(hasDetailedRestriction ? scheme.nombre : scheme.descripcion) || scheme.nombre || ''
@@ -801,6 +814,61 @@ export function metricNormGrid(args: {
 	});
 }
 
+/** Cómo se llama en la norma lo que una pregunta resuelve. */
+const DIMENSION_EN_LA_NORMA: Record<string, string> = {
+	metro: 'Medida',
+	rima: 'Rima',
+	repeticion: 'Repetición',
+	combinacion: 'Variedad'
+};
+
+/**
+ * Lo que el pasaje declara porque hay una pregunta que lo resuelve.
+ *
+ * La norma solo describe lo que **ella** fija, así que una dimensión que se elige entre opciones
+ * catalogadas no dejaba rastro: la redondilla decía qué mide y en qué rima, y callaba que su
+ * disposición se elige, mientras la quintilla sí lo decía por tener además una salida abierta. Dos
+ * formas igual de sencillas, dos recuadros distintos, sin ninguna razón que el editor pueda ver.
+ *
+ * Los rasgos no entran: son licencias y van en su propio renglón.
+ */
+function dimensionesQueDeclaraElPasaje(
+	architectureId: string,
+	domain: MetricCatalogDomainData,
+	yaDichas: Set<string>
+): MetricNormFact[] {
+	const vistas = new Set<string>();
+	const delArquitectura = domain.choiceGroups.filter(
+		(group) =>
+			id(group, 'arquitectura_id') === architectureId &&
+			group.activo !== false &&
+			// Una pregunta que se puede dejar en blanco es una licencia, no una dimensión que el
+			// pasaje declare: el quiebro ya tiene su renglón entre lo que la forma admite.
+			Number(group.selecciones_min ?? 0) >= 1
+	);
+	return delArquitectura.flatMap((group) => {
+		const label = DIMENSION_EN_LA_NORMA[String(group.dimension ?? '')];
+		if (!label || yaDichas.has(label) || vistas.has(label)) return [];
+		// Una dimensión puede preguntarse por partes —los cuartetos y los tercetos del soneto—, y
+		// lo que se cuenta es todo lo que se ofrece para ella.
+		const hermanas = delArquitectura.filter((otra) => otra.dimension === group.dimension);
+		const opciones = domain.choiceOptions.filter((option) =>
+			hermanas.some((otra) => id(option, 'grupo_eleccion_id') === id(otra, 'grupo_eleccion_id'))
+		).length;
+		vistas.add(label);
+		return [
+			{
+				label,
+				value:
+					opciones > 1
+						? `${opciones} posibilidades documentadas`
+						: 'se declara al anotar el pasaje',
+				estado: 'pasaje' as const
+			}
+		];
+	});
+}
+
 export function metricNormFacts(args: {
 	architectureId: string;
 	domain: MetricCatalogDomainData;
@@ -848,14 +916,17 @@ export function metricNormFacts(args: {
 		new Set([...variableSchemes.metric, ...metreCoveredByRole])
 	);
 	if (roleMetre) facts.push({ label: 'Medida', value: roleMetre });
-	if (openMetre) facts.push({ label: 'Medida', value: openMetre });
+	// Una medida abierta no la fija la forma: la declara el pasaje que se anota.
+	if (openMetre) facts.push({ label: 'Medida', value: openMetre, estado: 'pasaje' });
 	if (metre) facts.push({ label: 'Medida fija', value: metre });
 	const variableMetre = sharedVariableMetreSummary(
 		architectureId,
 		domain,
 		variableSchemes.metric
 	);
-	if (variableMetre) facts.push({ label: 'Medida variable', value: variableMetre });
+	if (variableMetre) {
+		facts.push({ label: 'Medida', value: variableMetre, estado: 'pasaje' });
+	}
 	/**
 	 * El régimen, dicho una vez, cuando la arquitectura lo declara arriba.
 	 *
@@ -888,7 +959,7 @@ export function metricNormFacts(args: {
 		sections,
 		variableSchemes.rhyme
 	);
-	if (openRhyme) facts.push({ label: 'Rima', value: openRhyme });
+	if (openRhyme) facts.push({ label: 'Rima', value: openRhyme, estado: 'pasaje' });
 	const rhymeRestrictions = rhymeRestrictionSummary(
 		architectureId,
 		domain,
@@ -899,6 +970,13 @@ export function metricNormFacts(args: {
 	}
 	const repetition = repetitionSummary(architectureId, domain);
 	if (repetition) facts.push({ label: 'Repetición', value: repetition });
+	facts.push(
+		...dimensionesQueDeclaraElPasaje(
+			architectureId,
+			domain,
+			new Set(facts.filter((fact) => fact.estado === 'pasaje').map((fact) => fact.label))
+		)
+	);
 	facts.push(...architectureTraitFacts(architectureId, domain));
 	return facts;
 }
