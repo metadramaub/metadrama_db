@@ -898,6 +898,49 @@
 		confirmarConjunto = false;
 	}
 
+	/**
+	 * La secuencia entera en notación, cuando no hay ninguna pregunta que hacer.
+	 *
+	 * **Una composición fija no tenía nada que enseñar aquí**: la sextina decía «Sextina vv. 1–39»,
+	 * que es lo que ya pone la cabecera, y el listado no añadía nada. Lo que falta ahí no es una
+	 * pregunta sino la lectura que ninguna otra zona da: la norma y las respuestas hablan en
+	 * vocabulario del catálogo —«Tipología 3», «base de 8 sílabas»—, y esto habla en versos, que es
+	 * lo que el editor tiene delante en el libro. Es además donde se caza una respuesta equivocada.
+	 *
+	 * Solo cuando no hay preguntas: donde las hay, cada unidad ya escribe la suya.
+	 */
+	const sinNadaQuePreguntar = $derived(
+		comunes.length === 0 &&
+			rows.every((row: GridRow) => {
+				if (row.kind === 'pregunta' || row.kind === 'acciones') return false;
+				if (row.kind === 'fijas' || row.kind === 'realizacion') {
+					return row.preguntas.length === 0;
+				}
+				return true;
+			})
+	);
+
+
+	const notacionDeLaSecuencia = $derived.by(() => {
+		if (!sinNadaQuePreguntar) return null;
+		const raices = props.units
+			.filter((unit: MetricUnitDraft) => !unit.realizacion_padre_id)
+			.sort((primera: MetricUnitDraft, segunda: MetricUnitDraft) => primera.v_ini - segunda.v_ini);
+		const trozos = raices
+			.map((unit: MetricUnitDraft) => notacionDeLaUnidad(unit))
+			.filter((trozo: string | null): trozo is string => Boolean(trozo));
+		return trozos.length > 0 ? trozos.join(' | ') : null;
+	});
+
+	/**
+	 * Si el listado no tiene nada que añadir a la cabecera.
+	 *
+	 * La sextina decía «Sextina vv. 1–39», que es exactamente lo que ya pone arriba. Y no es que le
+	 * falte la notación: **no la tiene**, porque su rima es la repetición de seis palabras y no un
+	 * esquema de letras. Un bloque que solo repite el rango no se pinta.
+	 */
+	const listadoSinNadaQueDecir = $derived(sinNadaQuePreguntar && !notacionDeLaSecuencia);
+
 	function unidadAbierta(): boolean {
 		return mostrarUnidades;
 	}
@@ -2207,6 +2250,7 @@
 		castellana de dos coplas, lo que hay debajo son las dos coplas con sus partes, no dieciséis
 		versos.
 	-->
+	{#if !listadoSinNadaQueDecir}
 	<div class={hayZonaComun ? 'mt-6 border border-[color:var(--border)]' : 'border border-[color:var(--border)]'}>
 		{#if rows.length > 0}
 			<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
@@ -2214,7 +2258,9 @@
 			</p>
 		{/if}
 
-		{#if listaCompacta}
+		{#if notacionDeLaSecuencia}
+			<p class="px-3 py-2.5 text-sm tabular-nums">{notacionDeLaSecuencia}</p>
+		{:else if listaCompacta}
 			<!-- Una debajo de otra: en fila corrida no se distingue dónde acaba una copla y empieza la siguiente. -->
 			<ul class="px-3 py-2.5">
 				<!-- Solo las unidades de primer nivel: sus partes ya van dentro de su anotación. -->
@@ -2561,6 +2607,7 @@
 		{/each}
 		{/if}
 	</div>
+	{/if}
 </div>
 
 {#snippet camposDeLaParte(
