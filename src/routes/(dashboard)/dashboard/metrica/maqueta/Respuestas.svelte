@@ -32,6 +32,11 @@
 		return { general: grupos[0] ?? null, excepciones: grupos.slice(1) };
 	}
 
+	/** Los rasgos que la forma admite y que nadie ha marcado en ninguna unidad. */
+	const sinTocar = $derived(
+		props.escenario.preguntas.filter((pregunta) => pregunta.opcional && !contestada(pregunta))
+	);
+
 	let listados = $state<Record<string, boolean>>({});
 	const listado = (clave: string) => listados[clave] === true;
 </script>
@@ -51,7 +56,7 @@
 		Vale igual para una serie sin unidades, donde no hay ni excepciones ni lista.
 	-->
 	<div class="space-y-4 border border-[color:var(--border)] bg-white p-4">
-		{#each props.escenario.preguntas as pregunta (pregunta.rotulo)}
+		{#each props.escenario.preguntas.filter((pregunta) => !pregunta.opcional || contestada(pregunta)) as pregunta (pregunta.rotulo)}
 			{@const partes = reparto(pregunta)}
 			{@const unidades = unidadesDe(pregunta)}
 			<div class="space-y-1">
@@ -126,32 +131,57 @@
 							{listado(pregunta.rotulo) ? 'Ocultar' : 'Ver'} las {totalUnidades} unidades
 						</button>
 						{#if listado(pregunta.rotulo)}
-							<div
-								class="max-h-56 overflow-y-auto border border-[color:var(--border)] bg-[color:var(--gray-50)] p-2"
-							>
-								<div class="grid gap-x-4 gap-y-0.5 text-xs sm:grid-cols-2 lg:grid-cols-3">
-									{#each Array.from({ length: totalUnidades }, (_, indice) => indice + 1) as numero (numero)}
-										{@const unidad = unidades.find((fila) => fila.numero === numero)}
-										{@const excepcional =
-											unidad !== undefined &&
-											(pregunta.opcional || unidad.valor !== partes.general?.valor)}
-										<p class={excepcional ? 'font-medium' : 'text-[color:var(--muted-foreground)]'}>
-											<span class="tabular-nums">{numero}</span>
-											{#if unidad}
-												<span class="tabular-nums">· vv. {unidad.vIni}-{unidad.vFin}</span>
-												· {unidad.valor}
-											{:else}
-												· sin marcar
-											{/if}
-										</p>
-									{/each}
-								</div>
+							<div class="max-h-64 overflow-y-auto border border-[color:var(--border)]">
+								<table class="w-full text-xs">
+									<tbody>
+										{#each Array.from({ length: totalUnidades }, (_, indice) => indice + 1) as numero (numero)}
+											{@const unidad = unidades.find((fila) => fila.numero === numero)}
+											{@const excepcional =
+												unidad !== undefined &&
+												(pregunta.opcional || unidad.valor !== partes.general?.valor)}
+											<tr
+												class={`border-b border-[color:var(--border)] last:border-0 ${
+													excepcional ? 'bg-[color:var(--muted)]' : ''
+												}`}
+											>
+												<td class="w-12 px-3 py-1 text-right tabular-nums text-[color:var(--muted-foreground)]">
+													{numero}
+												</td>
+												<td class="w-28 px-3 py-1 tabular-nums text-[color:var(--muted-foreground)]">
+													{#if unidad}vv. {unidad.vIni}–{unidad.vFin}{/if}
+												</td>
+												<td class={`px-3 py-1 ${excepcional ? 'font-medium' : ''}`}>
+													{#if unidad}{unidad.valor}{:else}<span
+															class="text-[color:var(--muted-foreground)]">sin marcar</span
+														>{/if}
+												</td>
+											</tr>
+										{/each}
+									</tbody>
+								</table>
 							</div>
 						{/if}
 					{/if}
 				{/if}
 			</div>
 		{/each}
+
+		<!--
+			**Lo que la forma admite y nadie ha dicho que haya.**
+
+			Va al pie, en gris y en una línea: es lo que casi nunca se toca, y ponerlo arriba hace
+			creer que hay algo que buscar. Al decir que sí, pasa a comportarse como cualquier otra
+			pregunta —en todas las unidades, o solo en algunas—.
+		-->
+		{#if sinTocar.length > 0}
+			<p class="border-t border-[color:var(--border)] pt-3 text-sm text-[color:var(--muted-foreground)]">
+				Esta forma admite además
+				{#each sinTocar as pregunta, indice (pregunta.rotulo)}{#if indice > 0}, {/if}<span
+						class="text-[color:var(--foreground)]">{pregunta.rotulo.toLowerCase()}</span
+					>{/each}. ¿Hay alguno?
+				<button type="button" class="link-action ml-1">Sí</button>
+			</p>
+		{/if}
 	</div>
 {:else}
 	<!--

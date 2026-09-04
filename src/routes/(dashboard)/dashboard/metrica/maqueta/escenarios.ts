@@ -22,6 +22,13 @@ export type RespuestaUnidad = {
 	valor: string;
 };
 
+export type RenglonNorma = {
+	dimension: string;
+	/** `fija` no hay que decidirla; `elige` sí; `admite` es una licencia rara. */
+	estado: 'fija' | 'elige' | 'admite';
+	texto: string;
+};
+
 export type PreguntaEscenario = {
 	rotulo: string;
 	/** Qué se responde: una vez para toda la secuencia, o una vez por unidad. */
@@ -42,6 +49,7 @@ export type EscenarioMaqueta = {
 	porque: string;
 	forma: string;
 	partes: string[];
+	norma: RenglonNorma[];
 	preguntas: PreguntaEscenario[];
 };
 
@@ -67,6 +75,13 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'lo normal es que no varíe, y de pronto una abba entre abab',
 		forma: 'Redondilla',
 		partes: [],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'unidades completas de 4 versos' },
+			{ dimension: 'Medida', estado: 'fija', texto: 'octosílabo' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'consonante' },
+			{ dimension: 'Disposición de la rima', estado: 'elige', texto: 'dos documentadas' },
+			{ dimension: 'Pie quebrado', estado: 'admite', texto: 'de 4 o 5 sílabas' }
+		],
 		preguntas: [
 			{
 				rotulo: 'Esquema de rima',
@@ -88,6 +103,13 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'el patrón medido en El mágico prodigioso',
 		forma: 'Quintilla',
 		partes: [],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'unidades completas de 5 versos' },
+			{ dimension: 'Medida', estado: 'fija', texto: 'octosílabo' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'consonante' },
+			{ dimension: 'Disposición de la rima', estado: 'elige', texto: 'ocho documentadas; dos clases, sin verso suelto y sin tres seguidos iguales' },
+			{ dimension: 'Pie quebrado', estado: 'admite', texto: 'una posición, de 4 o 5 sílabas' }
+		],
 		preguntas: [
 			{
 				rotulo: 'Esquema de rima',
@@ -129,6 +151,13 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'el máximo real son 4 esquemas en 43 unidades',
 		forma: 'Quintilla',
 		partes: [],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'unidades completas de 5 versos' },
+			{ dimension: 'Medida', estado: 'fija', texto: 'octosílabo' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'consonante' },
+			{ dimension: 'Disposición de la rima', estado: 'elige', texto: 'ocho documentadas' },
+			{ dimension: 'Pie quebrado', estado: 'admite', texto: 'una posición, de 4 o 5 sílabas' }
+		],
 		preguntas: [
 			{
 				rotulo: 'Esquema de rima',
@@ -154,6 +183,12 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'la variedad combina medida y rima: dos respuestas en una',
 		forma: 'Sexteto-lira',
 		partes: [],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'unidades completas de 6 versos' },
+			{ dimension: 'Medida', estado: 'elige', texto: 'heptasílabos y endecasílabos, según la variedad' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'consonante' },
+			{ dimension: 'Variedad', estado: 'elige', texto: 'ocho combinaciones de medida y rima' }
+		],
 		preguntas: [
 			{
 				rotulo: 'Variedad',
@@ -174,6 +209,12 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'no hay unidad que recorrer: se responde una vez',
 		forma: 'Romance',
 		partes: [],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'serie abierta, sin unidad' },
+			{ dimension: 'Medida', estado: 'fija', texto: 'octosílabo' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'asonante en los pares' },
+			{ dimension: 'Vocales', estado: 'elige', texto: 'las veinte del repertorio' }
+		],
 		preguntas: [
 			{ rotulo: 'Vocales de la asonancia', alcance: 'secuencia', opcional: false, valor: 'e-o', opciones: VOCALES }
 		]
@@ -185,6 +226,16 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'cinco preguntas seguidas, y ninguna es una elección entre esquemas',
 		forma: 'Endecasílabo suelto',
 		partes: [],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'serie abierta, sin unidad' },
+			{ dimension: 'Medida', estado: 'fija', texto: 'endecasílabo' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'sin rima obligada' },
+			{ dimension: 'Densidad de rima', estado: 'elige', texto: 'ninguna, esporádica o mayoritaria' },
+			{ dimension: 'Organización en pareados', estado: 'elige', texto: 'ninguna, ocasionales o habituales' },
+			{ dimension: 'Dístico final', estado: 'admite', texto: '' },
+			{ dimension: 'Encadenamiento interior', estado: 'admite', texto: '' },
+			{ dimension: 'Final acentual', estado: 'admite', texto: 'esdrújulo' }
+		],
 		preguntas: [
 			{ rotulo: 'Densidad de rima', alcance: 'secuencia', opcional: false, valor: 'Esporádica', opciones: ['Ninguna', 'Esporádica', 'Mayoritaria'] },
 			{ rotulo: 'Organización en pareados', alcance: 'secuencia', opcional: false, valor: 'Ocasionales', opciones: ['Ninguna', 'Ocasionales', 'Habituales'] },
@@ -200,6 +251,13 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'las partes se repiten y cada ciclo responde lo suyo',
 		forma: 'Villancico',
 		partes: ['Cabeza', 'Mudanza', 'Vuelta', 'Repetición del estribillo'],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'cabeza y ciclos de mudanza, vuelta y estribillo' },
+			{ dimension: 'Medida', estado: 'elige', texto: 'hexasílabo u octosílabo, el mismo en todo' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'consonante' },
+			{ dimension: 'Rima de la mudanza', estado: 'elige', texto: 'tres documentadas' },
+			{ dimension: 'Repetición del estribillo', estado: 'elige', texto: 'entera o en parte' }
+		],
 		preguntas: [
 			{ rotulo: 'Cabeza · Medida de los versos', alcance: 'secuencia', opcional: false, valor: 'Octosílabo', opciones: ['Hexasílabo', 'Octosílabo'] },
 			{
@@ -233,6 +291,12 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 		porque: 'la norma lo fija todo: solo hay que marcar el rango',
 		forma: 'Redondilla enlazada',
 		partes: [],
+		norma: [
+			{ dimension: 'Extensión', estado: 'fija', texto: 'unidades completas de 4 versos, enlazadas' },
+			{ dimension: 'Medida', estado: 'fija', texto: 'octosílabo con quebrado' },
+			{ dimension: 'Régimen de rima', estado: 'fija', texto: 'consonante' },
+			{ dimension: 'Disposición de la rima', estado: 'fija', texto: 'abba, enlazando con la siguiente' }
+		],
 		preguntas: []
 	}
 ];
