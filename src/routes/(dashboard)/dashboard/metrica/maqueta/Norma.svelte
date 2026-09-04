@@ -37,10 +37,17 @@
 	</div>
 {:else if props.idea === 'N2'}
 	<!--
-		**N2 · Dos bloques: lo que ya está y lo que decides.**
+		**N2 · Lo que la norma fija, lo que dice el pasaje, y lo que no cabe en ninguna de las dos.**
 
-		Separa por lo único que le importa al editor mientras anota: de qué no tiene que ocuparse y
-		de qué sí. Lo fijo se resume en una frase corrida, porque no se consulta renglón a renglón.
+		Separa por lo único que le importa al editor mientras anota: de qué no tiene que ocuparse y de
+		qué sí. Lo fijo se resume en una frase corrida, porque no se consulta renglón a renglón.
+
+		**Y cierra la frase.** Un recuadro que dice qué admite la forma tiene que decir también qué
+		hacer con lo que no admite, porque si no el editor solo tiene dos salidas: forzar una respuesta
+		que no es la que leyó, o no anotar nada. Ese renglón es además donde se separan las dos cosas
+		que más se confunden: **una excepción es una respuesta legítima** —otra de las que la norma
+		admite, en algunas unidades—, y **una desviación es un apartamiento**: un verso que no rima
+		donde la forma lo exige, una unidad a la que le faltan versos.
 	-->
 	<div class="space-y-2 border border-[color:var(--border)] bg-white p-3 text-sm">
 		<p>
@@ -54,7 +61,7 @@
 		{#if eleccion.length > 0}
 			<p>
 				<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-					Lo decides tú
+					Lo dice el pasaje que anotas
 				</span><br />
 				{#each eleccion as fila (fila.dimension)}
 					<span class="block">
@@ -72,6 +79,11 @@
 					.join(', ')}.
 			</p>
 		{/if}
+		<p class="border-t border-[color:var(--border)] pt-2 text-xs text-[color:var(--muted-foreground)]">
+			Lo que no encaje en nada de esto no es otra respuesta: se registra como
+			<button type="button" class="link-action">desviación</button>.
+			<a class="link-action ml-1" href="/recursos/catalogo-metrico">Ver la ficha completa ↗</a>
+		</p>
 	</div>
 {:else}
 	<!--

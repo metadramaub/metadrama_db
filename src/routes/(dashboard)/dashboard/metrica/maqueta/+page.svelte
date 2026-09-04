@@ -88,7 +88,7 @@
 	</div>
 
 	<div class="grid gap-6 lg:grid-cols-3">
-		{#each [['N1', 'Una línea por dimensión'], ['N2', 'Lo que ya está y lo que decides'], ['N3', 'El criterio, pegado a su pregunta']] as [clave, nombre] (clave)}
+		{#each [['N1', 'Una línea por dimensión'], ['N2', 'Lo fijado, lo que dice el pasaje, y lo que no cabe'], ['N3', 'El criterio, pegado a su pregunta']] as [clave, nombre] (clave)}
 			<article class="space-y-2">
 				<h3 class="text-base font-semibold">{clave} · {nombre}</h3>
 				<Norma escenario={elegido} idea={clave as 'N1' | 'N2' | 'N3'} />
