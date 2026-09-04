@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
+	import Unidades from './Unidades.svelte';
+	import { ESCENARIOS } from './escenarios';
 
 	const { data } = $props();
 
@@ -114,6 +116,8 @@
 	);
 
 	let idea = $state<'A' | 'B' | 'C'>('A');
+	let escenario = $state(ESCENARIOS[2].id);
+	const escenarioElegido = $derived(ESCENARIOS.find((e) => e.id === escenario) ?? ESCENARIOS[0]);
 	/** Lo raro, plegado: en la maqueta se abre para poder verlo. */
 	let abiertos = $state<Record<string, boolean>>({});
 	const abierto = (clave: string) => abiertos[clave] === true;
@@ -322,6 +326,48 @@
 					</div>
 				</div>
 			{/if}
+		</article>
+	{/each}
+
+	<hr class="border-[color:var(--border)]" />
+
+	<div class="space-y-3">
+		<h2 class="text-xl font-semibold">Y ahora el caso que de verdad pesa</h2>
+		<p class="max-w-3xl text-sm leading-6">
+			Lo de arriba cubre <strong>una secuencia de una unidad</strong>, que en el corpus real son 24
+			secuencias y el <strong>2 % de los versos</strong>. Las de más de diez unidades son el 53 % de las
+			secuencias y el <strong>86 % de los versos</strong>, y la mayor tiene <strong>118</strong>. Ahí es
+			donde el formulario se rompe, así que es ahí donde hay que juzgar.
+		</p>
+		<p class="max-w-3xl text-sm leading-6">
+			Cuánto varían lo dicen las once secuencias que se anotaron unidad por unidad en el sistema
+			viejo: <strong>nunca son todas distintas</strong>. El máximo son cuatro esquemas en 43 unidades,
+			y siempre hay uno dominante. Aun así el caso imposible está abajo, porque lo que importa no es
+			qué pasa de costumbre sino qué pasa el día que aparezca.
+		</p>
+	</div>
+
+	<div class="flex flex-wrap gap-2">
+		{#each ESCENARIOS as candidato (candidato.id)}
+			<button
+				type="button"
+				class={`border px-3 py-1.5 text-left text-sm ${
+					escenario === candidato.id
+						? 'border-[color:var(--primary)] bg-[color:var(--muted)]'
+						: 'border-[color:var(--border)] bg-white'
+				}`}
+				onclick={() => (escenario = candidato.id)}
+			>
+				<span class="block font-medium">{candidato.nombre}</span>
+				<span class="block text-xs text-[color:var(--muted-foreground)]">{candidato.porque}</span>
+			</button>
+		{/each}
+	</div>
+
+	{#each [['A', 'A′ · Una respuesta y sus excepciones'], ['D', 'D · La tira'], ['E', 'E · Por respuesta, no por unidad']] as [clave, nombre] (clave)}
+		<article class="space-y-2">
+			<h3 class="text-base font-semibold">{nombre}</h3>
+			<Unidades escenario={escenarioElegido} idea={clave as 'A' | 'D' | 'E'} />
 		</article>
 	{/each}
 </section>
