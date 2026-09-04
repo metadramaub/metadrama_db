@@ -685,6 +685,66 @@
 		};
 	}
 
+	/**
+	 * Lo que se aparta de la respuesta común, agrupado por lo que responde.
+	 *
+	 * **Decir «7 de 52 se apartan» no basta para revisar nada.** Lo que hace falta saber es qué
+	 * responden esas siete y dónde están, y eso se lee agrupado: con cuarenta unidades y tres
+	 * respuestas, la pantalla tiene dos renglones, no cuarenta. Medido sobre el corpus, es siempre
+	 * así: el máximo de variedad son cuatro esquemas en 43 unidades, y siempre hay uno dominante.
+	 */
+	function excepcionesDe(pregunta: PreguntaCompartida, mayoritaria: string | null) {
+		if (!mayoritaria) return [];
+		const porFirma = new Map<string, MetricUnitDraft[]>();
+		for (const group of pregunta.groups) {
+			for (const unit of unitsForGroup(context, group)) {
+				const firma = firmaComun(group, unit);
+				if (firma === mayoritaria) continue;
+				const actuales = porFirma.get(firma) ?? [];
+				actuales.push(unit);
+				porFirma.set(firma, actuales);
+			}
+		}
+		return [...porFirma.entries()]
+			.map(([firma, unidades]) => ({
+				firma,
+				etiqueta: etiquetaDeFirma(pregunta, firma),
+				unidades,
+				rangos: rangosDeUnidades(unidades)
+			}))
+			.sort((a, b) => b.unidades.length - a.unidades.length);
+	}
+
+	/** Cómo se llama lo que una firma dice, para poder leerla sin descifrarla. */
+	function etiquetaDeFirma(pregunta: PreguntaCompartida, firma: string): string {
+		const [slugs, escrito] = leerFirma(firma);
+		if (escrito) return escrito;
+		if (slugs.length === 0) return 'sin responder';
+		const opciones = comunOptions(pregunta);
+		const nombres = slugs.map((slug) => {
+			const opcion = opciones.find(
+				(candidata: MetricCatalogDomainRow) => optionSlugOf(String(candidata.opcion_eleccion_id)) === slug
+			);
+			return opcion?.nombre ? String(opcion.nombre) : slug;
+		});
+		return nombres.join(' · ');
+	}
+
+	/** «vv. 91-95, 141-150» en vez de una lista de números. */
+	function rangosDeUnidades(unidades: MetricUnitDraft[]): string {
+		const ordenadas = [...unidades].sort((a, b) => a.v_ini - b.v_ini);
+		const tramos: { desde: number; hasta: number }[] = [];
+		for (const unidad of ordenadas) {
+			const ultimo = tramos.at(-1);
+			if (ultimo && unidad.v_ini === ultimo.hasta + 1) {
+				ultimo.hasta = unidad.v_fin;
+				continue;
+			}
+			tramos.push({ desde: unidad.v_ini, hasta: unidad.v_fin });
+		}
+		return 'vv. ' + tramos.map((tramo) => `${tramo.desde}-${tramo.hasta}`).join(', ');
+	}
+
 	/** Cuántas unidades se apartan de lo común, sumando todas las preguntas compartidas. */
 	const unidadesQueSeApartan = $derived.by(() => {
 		const apartadas = new Set<string>();
@@ -2049,12 +2109,27 @@
 								respuestas distintas. Enseñar un estado falso al lado de la advertencia de
 								que es falso no ayuda a nadie: mejor no enseñarlo.
 							-->
-							<p class="text-sm text-[color:var(--muted-foreground)]">
-								{state.hayComun
-									? `Las unidades no responden lo mismo: ${state.excepciones} de ${state.total} se apartan.`
-									: 'Cada unidad responde una cosa distinta.'}
-								Se editan abajo, unidad por unidad.
-							</p>
+							{#if state.hayComun}
+								{@const apartadas = excepcionesDe(pregunta, state.mayoritaria)}
+								<div class="text-sm">
+									<p class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+										Salvo {state.excepciones} de {state.total}
+									</p>
+									{#each apartadas as grupo (grupo.firma)}
+										<p class="leading-6">
+											<span class="font-medium">{grupo.etiqueta}</span>
+											<span class="text-[color:var(--muted-foreground)]">
+												· {grupo.unidades.length}
+												{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
+											>
+										</p>
+									{/each}
+								</div>
+							{:else}
+								<p class="text-sm text-[color:var(--muted-foreground)]">
+									Cada unidad responde una cosa distinta. Se editan abajo, unidad por unidad.
+								</p>
+							{/if}
 						{:else}
 							<div class="flex flex-wrap items-start gap-2">
 								<!--
