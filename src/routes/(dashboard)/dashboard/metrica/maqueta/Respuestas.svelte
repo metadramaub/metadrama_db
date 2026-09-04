@@ -32,6 +32,16 @@
 		return { general: grupos[0] ?? null, excepciones: grupos.slice(1) };
 	}
 
+	/**
+	 * Un rasgo que solo puede estar o no estar no es una elección entre alternativas.
+	 *
+	 * El dístico final tiene un único valor, «presente», así que pintarlo como desplegable obliga a
+	 * responderlo —no hay manera de dejarlo en blanco— y hace creer que hay algo que elegir. Es una
+	 * casilla: se marca o no se marca.
+	 */
+	const esCasilla = (pregunta: PreguntaEscenario) =>
+		pregunta.opcional && (pregunta.opciones?.length ?? 0) <= 1;
+
 	/** Los rasgos que la forma admite y que nadie ha marcado en ninguna unidad. */
 	const sinTocar = $derived(
 		props.escenario.preguntas.filter((pregunta) => pregunta.opcional && !contestada(pregunta))
@@ -62,7 +72,12 @@
 			<div class="space-y-1">
 				<span class="block text-sm font-medium">{pregunta.rotulo}</span>
 
-				{#if pregunta.alcance === 'secuencia'}
+				{#if pregunta.alcance === 'secuencia' && esCasilla(pregunta)}
+					<label class="flex items-center gap-2 text-sm">
+						<input type="checkbox" checked={Boolean(pregunta.valor)} />
+						<span>{pregunta.opciones?.[0] ?? 'presente'}</span>
+					</label>
+				{:else if pregunta.alcance === 'secuencia'}
 					<select class="h-10 w-full max-w-md border border-[color:var(--border)] px-3 text-sm">
 						<option>{pregunta.valor || 'Seleccionar una respuesta'}</option>
 						{#each pregunta.opciones ?? [] as opcion (opcion)}<option>{opcion}</option>{/each}
@@ -174,13 +189,25 @@
 			pregunta —en todas las unidades, o solo en algunas—.
 		-->
 		{#if sinTocar.length > 0}
-			<p class="border-t border-[color:var(--border)] pt-3 text-sm text-[color:var(--muted-foreground)]">
-				Esta forma admite además
-				{#each sinTocar as pregunta, indice (pregunta.rotulo)}{#if indice > 0}, {/if}<span
-						class="text-[color:var(--foreground)]">{pregunta.rotulo.toLowerCase()}</span
-					>{/each}. ¿Hay alguno?
-				<button type="button" class="link-action ml-1">Sí</button>
-			</p>
+			<!--
+				**Cada rasgo, su propia respuesta.**
+
+				Con un solo «sí» al final de la lista no se sabe a cuál de los tres se dice que sí. Van
+				como botones sueltos: el rótulo es el rasgo y pulsarlo es decir que lo hay.
+			-->
+			<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 border-t border-[color:var(--border)] pt-3 text-sm">
+				<span class="text-[color:var(--muted-foreground)]">
+					{sinTocar.length === 1 ? 'Admite además, si lo hay:' : 'Admite además, si los hay:'}
+				</span>
+				{#each sinTocar as pregunta (pregunta.rotulo)}
+					<button
+						type="button"
+						class="border border-dashed border-[color:var(--border)] px-2 py-0.5 text-xs text-[color:var(--muted-foreground)] hover:border-[color:var(--primary)] hover:text-[color:var(--foreground)]"
+					>
+						+ {pregunta.rotulo.toLowerCase()}
+					</button>
+				{/each}
+			</div>
 		{/if}
 	</div>
 {:else}
