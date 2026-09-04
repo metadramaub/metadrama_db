@@ -30,35 +30,57 @@
 
 <div class="space-y-2 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2.5 text-sm">
 	{#if fijadas.length > 0}
-		<p>
-			<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-				Ya está fijado
-			</span><br />
-			<span class="text-[color:var(--muted-foreground)]">
-				<!-- Bajo un rótulo que ya dice «ya está fijado», repetir «medida fija» o «partes fijas»
-				     en cada etiqueta sobra: la palabra la pone el rótulo. -->
-				{fijadas
-					.map((fact: MetricNormFact) => {
-						const etiqueta = fact.label.toLocaleLowerCase('es').replace(/ fijas?$/, '');
-						return `${etiqueta}: ${fact.value}`;
-					})
-					.join(' · ')}
-			</span>
-		</p>
+		<div>
+			<div class="flex flex-wrap items-baseline justify-between gap-x-4">
+				<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+					Ya está fijado
+				</span>
+				<a
+					class="link-action text-xs"
+					href={props.catalogHref}
+					target="_blank"
+					rel="noreferrer"
+				>
+					Ver ficha completa ↗
+				</a>
+			</div>
+			<!--
+				**Cada dato con su nombre encima, y aire entre ellos.**
+
+				Iban seguidos y separados por puntos volados, que es tan sutil que no hay jerarquía: para
+				saber qué mide una forma había que leer la línea entera. Así se busca el rótulo y se lee
+				el valor.
+			-->
+			<div class="mt-1 flex flex-wrap gap-x-6 gap-y-1.5">
+				{#each fijadas as fact (`${fact.label}:${fact.value}`)}
+					<span class="block">
+						<span class="block text-xs text-[color:var(--muted-foreground)]">
+							{fact.label.toLocaleLowerCase('es').replace(/ fijas?$/, '')}
+						</span>
+						<span>{fact.value}</span>
+					</span>
+				{/each}
+			</div>
+		</div>
 	{/if}
 
 	{#if delPasaje.length > 0}
-		<p>
+		<div class="border-t border-[color:var(--border)] pt-2">
 			<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
 				Lo dice el pasaje que anotas
-			</span><br />
-			{#each delPasaje as fact (`${fact.label}:${fact.value}`)}
-				<span class="block">
-					<span class="font-medium">{fact.label}</span>
-					<span class="text-[color:var(--muted-foreground)]"> · {fact.value}</span>
-				</span>
-			{/each}
-		</p>
+			</span>
+			<div class="mt-1 flex flex-wrap gap-x-6 gap-y-1.5">
+				{#each delPasaje as fact (`${fact.label}:${fact.value}`)}
+					<!-- La misma gramática que arriba: el nombre en gris encima, el dato debajo. -->
+					<span class="block">
+						<span class="block text-xs text-[color:var(--muted-foreground)]">
+							{fact.label.toLocaleLowerCase('es')}
+						</span>
+						<span>{fact.value}</span>
+					</span>
+				{/each}
+			</div>
+		</div>
 	{/if}
 
 	{#if admitidas.length > 0}
@@ -80,14 +102,10 @@
 
 		Un recuadro que dice qué admite una forma tiene que decir qué hacer con lo que no admite: sin
 		esto, al editor solo le quedan forzar una respuesta que no es la que leyó, o no anotar. Y es
-		el único sitio donde se separan las dos cosas que se confunden: **una excepción es una
-		respuesta legítima** —otra de las que la norma admite, en algunas unidades— y **una desviación
-		es un apartamiento**, un verso que no rima donde la forma lo exige.
+		donde se separan las dos cosas que se confunden: una excepción es una respuesta legítima —otra
+		de las que la norma admite— y una desviación es un apartamiento.
 	-->
-	<p class="border-t border-[color:var(--border)] pt-2 text-xs text-[color:var(--muted-foreground)]">
-		Lo que no encaje en nada de esto no es otra respuesta: se registra como desviación.
-		<a class="link-action ml-1" href={props.catalogHref} target="_blank" rel="noreferrer">
-			Ver la ficha completa ↗
-		</a>
+	<p class="text-xs text-[color:var(--muted-foreground)]">
+		Lo que no encaje aquí se registra como desviación.
 	</p>
 </div>
