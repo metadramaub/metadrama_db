@@ -5,85 +5,153 @@
 
 	const unidadesDe = (pregunta: PreguntaEscenario) => pregunta.porUnidad ?? [];
 	const gruposDe = (pregunta: PreguntaEscenario) => agrupar(unidadesDe(pregunta));
-	const totalDe = (pregunta: PreguntaEscenario) => unidadesDe(pregunta).length;
 	const contestada = (pregunta: PreguntaEscenario) =>
-		pregunta.alcance === 'secuencia' ? Boolean(pregunta.valor) : totalDe(pregunta) > 0;
+		pregunta.alcance === 'secuencia' ? Boolean(pregunta.valor) : unidadesDe(pregunta).length > 0;
+
+	/**
+	 * Cuántas unidades tiene la secuencia, que no es lo mismo que cuántas responden.
+	 *
+	 * Un rasgo opcional solo guarda las unidades que lo llevan, así que contar sus respuestas daría
+	 * «en las 2 unidades» de una tirada de 52. Lo que hay que decir es **2 de 52**.
+	 */
+	const totalUnidades = $derived(
+		Math.max(
+			0,
+			...props.escenario.preguntas.map((pregunta) => unidadesDe(pregunta).length)
+		)
+	);
+
+	/** Qué se responde en general, y qué se aparta. */
+	function reparto(pregunta: PreguntaEscenario) {
+		const grupos = gruposDe(pregunta);
+		if (pregunta.opcional) {
+			// En un rasgo opcional lo general es que no lo lleve, y lo que se guarda son las
+			// excepciones: no hay respuesta mayoritaria que elegir.
+			return { general: null, excepciones: grupos };
+		}
+		return { general: grupos[0] ?? null, excepciones: grupos.slice(1) };
+	}
+
+	let listados = $state<Record<string, boolean>>({});
+	const listado = (clave: string) => listados[clave] === true;
 </script>
 
 {#if props.escenario.preguntas.length === 0}
-	<div class="border border-[color:var(--border)] bg-white p-4 text-sm text-[color:var(--muted-foreground)]">
+	<div
+		class="border border-[color:var(--border)] bg-white p-4 text-sm text-[color:var(--muted-foreground)]"
+	>
 		Nada que responder: la norma lo fija todo. Solo hay que marcar dónde empieza y dónde acaba.
 	</div>
 {:else if props.idea === 'A'}
 	<!--
-		**A′ · Se responde una vez y se añaden excepciones.**
+		**A′ · Lo general arriba, las excepciones debajo, y el detalle a un clic.**
 
-		Vale igual para una serie que para cuarenta unidades, porque el eje no es la unidad sino la
-		pregunta: una respuesta arriba y, si algo se aparta, una línea por lo que se aparta. Lo
-		opcional que nadie ha tocado queda en un renglón al pie, sin ocupar sitio.
+		Tres renglones que dicen tres cosas distintas y se leen en ese orden: qué responde la
+		secuencia, qué se aparta, y —si hace falta comprobarlo— la lista entera unidad por unidad.
+		Vale igual para una serie sin unidades, donde no hay ni excepciones ni lista.
 	-->
-	<div class="border border-[color:var(--border)] bg-white">
-		<div class="space-y-4 p-4">
-			{#each props.escenario.preguntas.filter((pregunta) => !pregunta.opcional || contestada(pregunta)) as pregunta (pregunta.rotulo)}
-				{@const grupos = gruposDe(pregunta)}
-				<div>
-					<span class="mb-1 block text-sm font-medium">
-						{pregunta.rotulo}
-						{#if pregunta.alcance === 'unidad'}
-							<span class="font-normal text-[color:var(--muted-foreground)]">
-								· en las {totalDe(pregunta)} unidades</span
-							>
+	<div class="space-y-4 border border-[color:var(--border)] bg-white p-4">
+		{#each props.escenario.preguntas as pregunta (pregunta.rotulo)}
+			{@const partes = reparto(pregunta)}
+			{@const unidades = unidadesDe(pregunta)}
+			<div class="space-y-1">
+				<span class="block text-sm font-medium">{pregunta.rotulo}</span>
+
+				{#if pregunta.alcance === 'secuencia'}
+					<select class="h-10 w-full max-w-md border border-[color:var(--border)] px-3 text-sm">
+						<option>{pregunta.valor || 'Seleccionar una respuesta'}</option>
+						{#each pregunta.opciones ?? [] as opcion (opcion)}<option>{opcion}</option>{/each}
+					</select>
+				{:else}
+					<!-- Lo general. El rótulo va pegado al control para que no se lea como una
+					     respuesta más de la lista de abajo. -->
+					<div class="flex flex-wrap items-center gap-2">
+						<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+							{pregunta.opcional ? 'De partida' : 'En todas'}
+						</span>
+						{#if pregunta.opcional}
+							<span class="text-sm">Ninguna unidad lo lleva</span>
+						{:else}
+							<select class="h-9 min-w-56 border border-[color:var(--border)] px-2 text-sm">
+								<option>{partes.general?.valor ?? 'Seleccionar una respuesta'}</option>
+								{#each pregunta.opciones ?? [] as opcion (opcion)}<option>{opcion}</option>{/each}
+							</select>
 						{/if}
-					</span>
+						<span class="text-xs text-[color:var(--muted-foreground)]">
+							· {totalUnidades}
+							{totalUnidades === 1 ? 'unidad' : 'unidades'}
+						</span>
+					</div>
 
-					{#if pregunta.alcance === 'secuencia'}
-						<select class="h-10 w-full max-w-md border border-[color:var(--border)] px-3 text-sm">
-							<option>{pregunta.valor || 'Seleccionar una respuesta'}</option>
-							{#each pregunta.opciones ?? [] as opcion (opcion)}<option>{opcion}</option>{/each}
-						</select>
-					{:else}
-						<select class="h-10 w-full max-w-md border border-[color:var(--border)] px-3 text-sm">
-							<option>{grupos[0]?.valor ?? 'Seleccionar una respuesta'}</option>
-							{#each pregunta.opciones ?? [] as opcion (opcion)}<option>{opcion}</option>{/each}
-						</select>
-
-						{#if grupos.length > 1}
-							<div class="mt-2 border-l-2 border-[color:var(--primary)] pl-3 text-sm">
-								<p class="mb-1 text-[color:var(--muted-foreground)]">
-									{grupos.slice(1).reduce((suma, grupo) => suma + grupo.unidades.length, 0)} de {totalDe(
-										pregunta
-									)} se apartan:
+					<!-- Y lo que se aparta, con la misma forma siempre: cuántas, cuáles y dónde. -->
+					<div class="border-l-2 border-[color:var(--primary)] pl-3">
+						{#if partes.excepciones.length === 0}
+							<p class="text-sm text-[color:var(--muted-foreground)]">
+								Sin excepciones. <button type="button" class="link-action">Añadir una</button>
+							</p>
+						{:else}
+							<p class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+								Salvo {partes.excepciones.reduce(
+									(suma, grupo) => suma + grupo.unidades.length,
+									0
+								)} de {totalUnidades}
+							</p>
+							{#each partes.excepciones as grupo (grupo.valor)}
+								<p class="text-sm leading-6">
+									<strong>{grupo.valor}</strong>
+									<span class="text-[color:var(--muted-foreground)]">
+										· {grupo.unidades.length}
+										{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
+									>
+									<button type="button" class="link-action ml-1">quitar</button>
 								</p>
-								{#each grupos.slice(1) as grupo (grupo.valor)}
-									<p class="leading-6">
-										<strong>{grupo.valor}</strong>
-										<span class="text-[color:var(--muted-foreground)]">
-											· {grupo.unidades.length}
-											{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
-										>
-										<button type="button" class="link-action ml-1">quitar</button>
-									</p>
-								{/each}
+							{/each}
+							<button type="button" class="link-action text-sm">Añadir otra</button>
+						{/if}
+					</div>
+
+					<!--
+						**La lista entera, a un clic.**
+
+						Repetir cuarenta veces «ababa» no sirve para responder, pero sí para revisar de un
+						vistazo antes de dar la secuencia por buena. Va plegada y en una rejilla estrecha:
+						número, versos y respuesta.
+					-->
+					{#if unidades.length > 0 || !pregunta.opcional}
+						<button
+							type="button"
+							class="link-action text-xs"
+							onclick={() => (listados[pregunta.rotulo] = !listado(pregunta.rotulo))}
+						>
+							{listado(pregunta.rotulo) ? 'Ocultar' : 'Ver'} las {totalUnidades} unidades
+						</button>
+						{#if listado(pregunta.rotulo)}
+							<div
+								class="max-h-56 overflow-y-auto border border-[color:var(--border)] bg-[color:var(--gray-50)] p-2"
+							>
+								<div class="grid gap-x-4 gap-y-0.5 text-xs sm:grid-cols-2 lg:grid-cols-3">
+									{#each Array.from({ length: totalUnidades }, (_, indice) => indice + 1) as numero (numero)}
+										{@const unidad = unidades.find((fila) => fila.numero === numero)}
+										{@const excepcional =
+											unidad !== undefined &&
+											(pregunta.opcional || unidad.valor !== partes.general?.valor)}
+										<p class={excepcional ? 'font-medium' : 'text-[color:var(--muted-foreground)]'}>
+											<span class="tabular-nums">{numero}</span>
+											{#if unidad}
+												<span class="tabular-nums">· vv. {unidad.vIni}-{unidad.vFin}</span>
+												· {unidad.valor}
+											{:else}
+												· sin marcar
+											{/if}
+										</p>
+									{/each}
+								</div>
 							</div>
 						{/if}
-						<button type="button" class="link-action mt-1 text-sm">Añadir una excepción</button>
 					{/if}
-				</div>
-			{/each}
-		</div>
-
-		{#if props.escenario.preguntas.some((pregunta) => pregunta.opcional && !contestada(pregunta))}
-			<div class="border-t border-[color:var(--border)] bg-[color:var(--gray-50)] px-4 py-2 text-sm">
-				<span class="text-[color:var(--muted-foreground)]">
-					Esta forma admite además
-					{props.escenario.preguntas
-						.filter((pregunta) => pregunta.opcional && !contestada(pregunta))
-						.map((pregunta) => pregunta.rotulo.toLowerCase())
-						.join(', ')}. Ninguno marcado.
-				</span>
-				<button type="button" class="link-action ml-1">Marcar</button>
+				{/if}
 			</div>
-		{/if}
+		{/each}
 	</div>
 {:else}
 	<!--
@@ -98,8 +166,8 @@
 			<div class="border border-[color:var(--border)] bg-white">
 				<p class="border-b border-[color:var(--border)] px-4 py-2 text-sm font-medium">
 					{pregunta.rotulo}
-					{#if pregunta.opcional}<span
-							class="font-normal text-[color:var(--muted-foreground)]">· opcional</span
+					{#if pregunta.opcional}<span class="font-normal text-[color:var(--muted-foreground)]"
+							>· opcional</span
 						>{/if}
 				</p>
 				{#if pregunta.alcance === 'secuencia'}
@@ -132,7 +200,11 @@
 							{#each grupos as grupo (grupo.valor)}
 								<tr class="border-b border-[color:var(--border)] last:border-0">
 									<td class="px-4 py-1.5 font-medium">{grupo.valor}</td>
-									<td class="px-4 py-1.5 tabular-nums">{grupo.unidades.length}</td>
+									<td class="px-4 py-1.5 tabular-nums">
+										{grupo.unidades.length}{#if pregunta.opcional}<span
+												class="text-[color:var(--muted-foreground)]"> de {totalUnidades}</span
+											>{/if}
+									</td>
 									<td class="px-4 py-1.5 text-[color:var(--muted-foreground)]">{grupo.rangos}</td>
 									<td class="px-4 py-1.5 text-right">
 										<button type="button" class="link-action">ampliar</button>
