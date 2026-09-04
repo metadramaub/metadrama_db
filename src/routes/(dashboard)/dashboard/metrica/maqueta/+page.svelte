@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Norma from './Norma.svelte';
 	import Respuestas from './Respuestas.svelte';
 	import { ESCENARIOS } from './escenarios';
 
@@ -72,5 +73,26 @@
 			</p>
 			<Respuestas escenario={elegido} idea="E" />
 		</article>
+	</div>
+
+	<hr class="border-[color:var(--border)]" />
+
+	<div class="space-y-3">
+		<h2 class="text-xl font-semibold">Y cómo enseñar la norma sin meter ruido</h2>
+		<p class="max-w-3xl text-sm leading-6">
+			El recuadro de hoy enumera lo que el desplegable ya ofrece: pinta las ocho disposiciones de
+			la quintilla encima de la pregunta que las ofrece. Si la rima hay que elegirla, lo que hace
+			falta saber es <strong>que se elige y con qué criterio</strong>, no cuáles son. Y la rejilla
+			verso a verso, que es buena en la ficha pública y en el demarcador, aquí no ayuda a decidir.
+		</p>
+	</div>
+
+	<div class="grid gap-6 lg:grid-cols-3">
+		{#each [['N1', 'Una línea por dimensión'], ['N2', 'Lo que ya está y lo que decides'], ['N3', 'El criterio, pegado a su pregunta']] as [clave, nombre] (clave)}
+			<article class="space-y-2">
+				<h3 class="text-base font-semibold">{clave} · {nombre}</h3>
+				<Norma escenario={elegido} idea={clave as 'N1' | 'N2' | 'N3'} />
+			</article>
+		{/each}
 	</div>
 </section>
