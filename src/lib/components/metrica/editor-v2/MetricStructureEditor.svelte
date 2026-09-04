@@ -202,7 +202,16 @@
 	 * unidades que se apartan, es lo mismo que en conjunto. Lo que se elige es **qué unidad se
 	 * aparta**, no un modo aparte.
 	 */
-	let modoDeRespuesta = $state<'conjunto' | 'una_a_una'>('conjunto');
+	/**
+	 * Si la lista de unidades está abierta.
+	 *
+	 * **No es un modo de trabajo, es un detalle que se consulta.** Estuvo siendo lo primero —«en
+	 * conjunto» o «una a una»— y obligaba a elegir cómo responder antes de saber si haría falta:
+	 * lo corriente, medido sobre el corpus, es que cuarenta unidades respondan dos o tres cosas
+	 * con una dominante, así que se responde una vez y se corrige lo que se aparte. La lista sirve
+	 * para revisar y para corregir una unidad concreta, y por eso se abre; no para responder.
+	 */
+	let verUnidades = $state(false);
 
 
 	let unidadesPlegadas = $state(new Set<string>());
@@ -787,7 +796,8 @@
 		})
 	);
 
-	const modoEfectivo = $derived(hayDivergencia ? 'una_a_una' : modoDeRespuesta);
+	/** Con algo que se aparta la lista se enseña sola: es donde se corrige. */
+	const mostrarUnidades = $derived(verUnidades || hayDivergencia);
 
 	/**
 	 * Las unidades de primer nivel, con el rótulo que les toca.
@@ -826,7 +836,7 @@
 	 * añadir o quitar. En cuanto algo de eso aparece, vuelve la rejilla entera.
 	 */
 	const listaCompacta = $derived(
-		modoEfectivo === 'conjunto' &&
+		!mostrarUnidades &&
 			rows.length > 0 &&
 			unidadesRaiz.length > 0 &&
 			rows.every((row: GridRow) => {
@@ -883,13 +893,13 @@
 		pendingPositionsByAnswer = siguientesPendientes;
 		props.onChoicesChange(nextChoices);
 		commitUnits(nextUnits);
-		modoDeRespuesta = 'conjunto';
+		verUnidades = false;
 		unidadesPlegadas = new Set();
 		confirmarConjunto = false;
 	}
 
 	function unidadAbierta(): boolean {
-		return modoEfectivo === 'una_a_una';
+		return mostrarUnidades;
 	}
 
 	/**
@@ -898,14 +908,10 @@
 	 * Seis coplas desplegadas con sus dos preguntas cada una no caben en la pantalla, y lo normal
 	 * es venir de una respuesta común y querer tocar una o dos.
 	 */
-	function elegirModo(id: string | null) {
-		if (id === 'conjunto' && hayDivergencia) {
-			confirmarConjunto = true;
-			return;
-		}
+	function alternarUnidades() {
 		confirmarConjunto = false;
-		if (id === 'una_a_una') {
-			modoDeRespuesta = 'una_a_una';
+		if (!verUnidades) {
+			verUnidades = true;
 			// Solo las de primer nivel: plegar también sus partes obligaba a desplegar dos veces —la
 			// copla y luego cada quintilla— para llegar a una respuesta.
 			unidadesPlegadas = new Set(
@@ -917,7 +923,7 @@
 			);
 			return;
 		}
-		modoDeRespuesta = 'conjunto';
+		verUnidades = false;
 		unidadesPlegadas = new Set();
 	}
 
@@ -2019,37 +2025,21 @@
 		{#if comunes.length > 0}
 			<div class={hayAjustesDeComposicion ? 'border-t border-[color:var(--border)]' : ''}>
 				<!--
-					**Un solo selector para toda la pantalla.**
+					**Una sola manera de responder, y la lista como detalle.**
 
-					Estuvo un rato con un interruptor por pregunta y era peor de lo que arreglaba: al
-					pedir «una a una» en la rima, los quebrados seguían plegados aunque también varían
-					de unidad en unidad, y el botón se repetía diciendo cosas distintas en cada fila.
-
-					Y son dos modos, no tres. «Mixto» no era algo que se eligiera: es lo que pasa
-					cuando alguna unidad responde otra cosa. Lo que se elige es **qué unidad se
-					aparta**, unidad por unidad, ahí abajo.
+					Aquí hubo un interruptor de dos modos —«en conjunto» y «una a una»— que obligaba a
+					decidir cómo se iba a trabajar antes de saber si haría falta. Medido sobre el corpus,
+					no hace falta casi nunca: las secuencias de más de diez unidades son el 86 % de los
+					versos y **nunca responden todas cosas distintas**; el máximo son cuatro respuestas
+					en 43 unidades, con una dominante. Así que se responde una vez, lo que se aparta se
+					lee arriba, y la lista se abre para revisar o para corregir una unidad.
 				-->
 				<div class="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
-					<p class="form-grid-title">
-						{modoEfectivo === 'conjunto'
-							? 'Respuestas de todas las unidades'
-							: 'Respuestas, unidad por unidad'}
-					</p>
+					<p class="form-grid-title">Respuestas</p>
 					{#if totalDeUnidades > 1}
-						<SegmentedChoice
-							items={[
-								{
-									id: 'conjunto',
-									label: 'En conjunto',
-									title: 'Una respuesta para todas las unidades'
-								},
-								{ id: 'una_a_una', label: 'Una a una' }
-							]}
-							value={modoEfectivo}
-							onChange={elegirModo}
-							ariaLabel="Cómo responder las unidades"
-							size="sm"
-						/>
+						<button type="button" class="link-action text-xs" onclick={alternarUnidades}>
+							{mostrarUnidades ? 'Ocultar' : 'Ver'} las {totalDeUnidades} unidades
+						</button>
 					{/if}
 				</div>
 
@@ -2061,8 +2051,8 @@
 				{#if confirmarConjunto}
 					<div class="border-b border-amber-300 bg-amber-50 px-3 py-2.5">
 						<p class="text-xs text-amber-950">
-							En conjunto significa una sola respuesta para todas. Volver borra lo que hayan
-							respondido las unidades por su cuenta y empieza de nuevo.
+							Igualar todas deja una sola respuesta y borra lo que las unidades hayan respondido
+							por su cuenta.
 						</p>
 						<div class="mt-2 flex flex-wrap gap-3">
 							<button
@@ -2070,7 +2060,7 @@
 								class="h-8 bg-[color:var(--primary)] px-3 text-xs font-medium text-white"
 								onclick={volverAConjunto}
 							>
-								Borrar y responder en conjunto
+								Borrar e igualar todas
 							</button>
 							<button
 								type="button"
@@ -2081,14 +2071,27 @@
 							</button>
 						</div>
 					</div>
-				{:else if modoEfectivo === 'una_a_una' && !hayDivergencia}
+				{:else if hayDivergencia}
+					<!-- Con algo que se aparta, igualar todas es una acción que hay que poder pedir; y
+					     como borra lo que las unidades respondieron por su cuenta, se confirma. -->
 					<p class="border-b border-[color:var(--border)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
-						Atajo: lo que respondas aquí se escribe en las {totalDeUnidades} unidades. Cada una
-						puede corregirse después, abajo.
+						Hay unidades que responden otra cosa.
+						<button
+							type="button"
+							class="link-action ml-1"
+							onclick={() => (confirmarConjunto = true)}
+						>
+							Igualar todas
+						</button>
+					</p>
+				{:else if mostrarUnidades}
+					<p class="border-b border-[color:var(--border)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
+						Lo que respondas aquí se escribe en las {totalDeUnidades} unidades. Cada una puede
+						corregirse después, abajo.
 					</p>
 				{/if}
 
-				<div class={modoEfectivo === 'una_a_una' ? 'opacity-70' : ''}>
+				<div>
 					{#each comunes as pregunta (pregunta.key)}
 						{@const state = comunState(pregunta)}
 						<MetricGridRow
