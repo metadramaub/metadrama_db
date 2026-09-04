@@ -306,8 +306,9 @@ describe('resumen de la norma', () => {
 		expect(facts).toEqual([
 			{ label: 'Extensión', value: '6 versos por unidad' },
 			{
-				label: 'Medida variable',
-				value: 'Combina versos de 7 y 11 sílabas; la distribución depende de la variedad.'
+				label: 'Medida',
+				value: 'Combina versos de 7 y 11 sílabas; la distribución depende de la variedad.',
+				estado: 'pasaje'
 			}
 		]);
 	});
@@ -373,7 +374,8 @@ describe('resumen de la norma', () => {
 			},
 			{
 				label: 'Pie quebrado',
-				value: 'admite hasta 2 posiciones; de 4 o 5 sílabas'
+				value: 'admite hasta 2 posiciones; de 4 o 5 sílabas',
+				estado: 'admite'
 			}
 		]);
 	});
@@ -480,9 +482,14 @@ describe('resumen de la norma', () => {
 			{ label: 'Parte opcional', value: 'Remate o envío: 1–20 versos' },
 			{
 				label: 'Medida',
-				value: 'Estancia: versos de 7 y 11 sílabas; la primera fija la distribución de las demás'
+				value: 'Estancia: versos de 7 y 11 sílabas; la primera fija la distribución de las demás',
+				estado: 'pasaje'
 			},
-			{ label: 'Rima', value: 'Estancia: esquema consonante repetido entre estancias' },
+			{
+				label: 'Rima',
+				value: 'Estancia: esquema consonante repetido entre estancias',
+				estado: 'pasaje'
+			},
 			{
 				label: 'Restricciones de rima',
 				value: 'El esquema concreto es libre, pero vuelve idéntico en todas las estancias'

@@ -1406,7 +1406,7 @@
 			{/if}
 			{#if selectedConfiguration && selectedForm}
 				<div class="mt-3">
-					<MetricNormSummary facts={normFacts} rejilla={normGrid} catalogHref={`/recursos/catalogo-metrico/${selectedForm.slug}`} />
+					<MetricNormSummary facts={normFacts} catalogHref={`/recursos/catalogo-metrico/${selectedForm.slug}`} />
 				</div>
 			{/if}
 
