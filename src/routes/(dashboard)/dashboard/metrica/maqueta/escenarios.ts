@@ -1,187 +1,263 @@
 /**
- * Los escenarios de variación con los que se juzga una maqueta.
+ * Los casos con los que se juzga una manera de preguntar.
  *
- * **La maqueta anterior cubría el caso que casi no existe.** Medido sobre el corpus real: de las
- * 134 secuencias con unidad, solo 24 tienen una sola —el 2 % de los versos—, y las de más de diez
- * unidades son el 53 % de las secuencias y **el 86 % de los versos**. La mayor llega a 118 unidades.
+ * **La primera maqueta cubría el caso que casi no existe.** Medido sobre el corpus: de las 134
+ * secuencias con unidad, solo 24 tienen una sola —el 2 % de los versos—, y las de más de diez son
+ * el 53 % de las secuencias y **el 86 % de los versos**. La mayor llega a 118 unidades.
  *
- * Y cuánto varían se sabe por las 11 secuencias que los editores del sistema viejo anotaron unidad
- * por unidad: **nunca son todas distintas**. El máximo de variedad en todo el corpus son cuatro
- * esquemas en 43 unidades, y siempre hay uno dominante —52 unidades con 3 esquemas y el mayoritario
- * 32 veces; 42 con 3 y el mayoritario 36—.
+ * Cuánto varían lo dicen las once secuencias que el sistema viejo anotó unidad por unidad:
+ * **nunca son todas distintas**. El máximo del corpus son cuatro esquemas en 43 unidades, y siempre
+ * hay uno dominante. Aun así entra aquí el caso que no se ha visto, porque lo que hay que saber no
+ * es qué pasa de costumbre sino qué pasa el día que aparezca.
  *
- * Aun así aquí se incluye el caso que no se ha visto nunca —todas distintas, con quebrados
- * dispersos—, porque una maqueta que solo aguante lo corriente no sirve: lo que hay que saber es
- * qué pasa el día que aparezca.
+ * Y los casos no son todos estrofas repetibles: hay series que no tienen unidades, composiciones
+ * con partes y ciclos, y formas fijas que no preguntan nada. Una manera de preguntar que solo
+ * funcione en la quintilla no sirve.
  */
 
-export type UnidadMaqueta = {
+export type RespuestaUnidad = {
 	numero: number;
 	vIni: number;
 	vFin: number;
-	respuesta: string;
-	/** El verso quebrado de esta unidad, si lo hay. */
-	quebrado: number | null;
+	valor: string;
+};
+
+export type PreguntaEscenario = {
+	rotulo: string;
+	/** Qué se responde: una vez para toda la secuencia, o una vez por unidad. */
+	alcance: 'secuencia' | 'unidad';
+	opcional: boolean;
+	/** Con alcance de secuencia. */
+	valor?: string;
+	/** Con alcance de unidad, una entrada por unidad. */
+	porUnidad?: RespuestaUnidad[];
+	/** Lo que se ofrece, para que el desplegable no salga vacío. */
+	opciones?: string[];
 };
 
 export type EscenarioMaqueta = {
 	id: string;
 	nombre: string;
+	clase: string;
 	porque: string;
 	forma: string;
-	versosPorUnidad: number;
-	/** Las partes de la unidad, cuando la arquitectura las tiene. */
 	partes: string[];
-	unidades: UnidadMaqueta[];
+	preguntas: PreguntaEscenario[];
 };
 
-/** Construye las unidades a partir de la lista de respuestas, una por unidad. */
-function unidades(
-	respuestas: string[],
-	versosPorUnidad: number,
-	quebrados: Record<number, number> = {},
-	desde = 1
-): UnidadMaqueta[] {
-	return respuestas.map((respuesta, indice) => ({
+function porUnidad(valores: string[], versos: number, desde = 1): RespuestaUnidad[] {
+	return valores.map((valor, indice) => ({
 		numero: indice + 1,
-		vIni: desde + indice * versosPorUnidad,
-		vFin: desde + (indice + 1) * versosPorUnidad - 1,
-		respuesta,
-		quebrado: quebrados[indice + 1] ?? null
+		vIni: desde + indice * versos,
+		vFin: desde + (indice + 1) * versos - 1,
+		valor
 	}));
 }
 
 const repetir = (valor: string, veces: number) => Array.from({ length: veces }, () => valor);
 
-/** Las ocho tipologías de la quintilla, en el orden en que las ofrece el catálogo. */
-const TIPOLOGIAS = [
-	'ababa',
-	'abbab',
-	'abaab',
-	'aabab',
-	'aabba',
-	'abbaa',
-	'ababb',
-	'abbba'
-];
+const TIPOLOGIAS = ['ababa', 'abbab', 'abaab', 'aabab', 'aabba', 'abbaa', 'ababb', 'abbba'];
+const VOCALES = ['a-a', 'a-e', 'a-o', 'e-a', 'e-o', 'i-a', 'o-a', 'o-e'];
 
 export const ESCENARIOS: EscenarioMaqueta[] = [
 	{
-		id: 'una',
-		nombre: 'Una sola unidad',
-		porque: '24 secuencias · el 2 % de los versos',
-		forma: 'Quintilla',
-		versosPorUnidad: 5,
+		id: 'redondillas_estables',
+		nombre: 'Tirada de redondillas con una suelta',
+		clase: 'Estrofa repetible · 24 unidades',
+		porque: 'lo normal es que no varíe, y de pronto una abba entre abab',
+		forma: 'Redondilla',
 		partes: [],
-		unidades: unidades(['ababa'], 5)
+		preguntas: [
+			{
+				rotulo: 'Esquema de rima',
+				alcance: 'unidad',
+				opcional: false,
+				opciones: ['Abrazada · abba', 'Cruzada · abab'],
+				porUnidad: porUnidad(
+					[...repetir('abab', 14), 'abba', ...repetir('abab', 9)],
+					4
+				)
+			},
+			{ rotulo: 'Pie quebrado', alcance: 'unidad', opcional: true, porUnidad: [] }
+		]
 	},
 	{
-		id: 'doce_iguales',
-		nombre: 'Doce unidades, todas iguales',
-		porque: 'lo corriente en tirada corta',
-		forma: 'Quintilla',
-		versosPorUnidad: 5,
-		partes: [],
-		unidades: unidades(repetir('ababa', 12), 5)
-	},
-	{
-		id: 'cincuenta_real',
-		nombre: 'Cincuenta y dos unidades, tres esquemas',
+		id: 'quintillas_reales',
+		nombre: 'Cincuenta y dos quintillas, tres esquemas',
+		clase: 'Estrofa repetible · 52 unidades',
 		porque: 'el patrón medido en El mágico prodigioso',
 		forma: 'Quintilla',
-		versosPorUnidad: 5,
 		partes: [],
-		unidades: unidades(
-			[
-				...repetir('ababa', 18),
-				'abbab',
-				...repetir('ababa', 9),
-				'abbab',
-				'abbab',
-				...repetir('ababa', 5),
-				'aabba',
-				...repetir('ababa', 10),
-				'abbab',
-				'abbab',
-				'aabba',
-				...repetir('ababa', 3)
-			],
-			5
-		)
+		preguntas: [
+			{
+				rotulo: 'Esquema de rima',
+				alcance: 'unidad',
+				opcional: false,
+				opciones: TIPOLOGIAS,
+				porUnidad: porUnidad(
+					[
+						...repetir('ababa', 18),
+						'abbab',
+						...repetir('ababa', 9),
+						'abbab',
+						'abbab',
+						...repetir('ababa', 5),
+						'aabba',
+						...repetir('ababa', 10),
+						'abbab',
+						'abbab',
+						'aabba',
+						...repetir('ababa', 3)
+					],
+					5
+				)
+			},
+			{
+				rotulo: 'Pie quebrado',
+				alcance: 'unidad',
+				opcional: true,
+				porUnidad: porUnidad(repetir('', 52), 5)
+					.filter((unidad) => [7, 31].includes(unidad.numero))
+					.map((unidad) => ({ ...unidad, valor: 'v. 1 · tetrasílabo' }))
+			}
+		]
 	},
 	{
-		id: 'todas_distintas',
-		nombre: 'Doce unidades, todas distintas',
-		porque: 'no se ha visto nunca; el máximo real son 4 esquemas en 43 unidades',
+		id: 'quintillas_imposibles',
+		nombre: 'Doce quintillas, todas distintas',
+		clase: 'Estrofa repetible · el caso que no se ha visto',
+		porque: 'el máximo real son 4 esquemas en 43 unidades',
 		forma: 'Quintilla',
-		versosPorUnidad: 5,
 		partes: [],
-		unidades: unidades(
-			[...TIPOLOGIAS, ...TIPOLOGIAS.slice(0, 4)],
-			5,
-			{ 2: 1, 5: 1, 9: 1, 12: 1 }
-		)
+		preguntas: [
+			{
+				rotulo: 'Esquema de rima',
+				alcance: 'unidad',
+				opcional: false,
+				opciones: TIPOLOGIAS,
+				porUnidad: porUnidad([...TIPOLOGIAS, ...TIPOLOGIAS.slice(0, 4)], 5)
+			},
+			{
+				rotulo: 'Pie quebrado',
+				alcance: 'unidad',
+				opcional: true,
+				porUnidad: porUnidad(repetir('', 12), 5)
+					.filter((unidad) => [2, 5, 9, 12].includes(unidad.numero))
+					.map((unidad) => ({ ...unidad, valor: 'v. 1 · tetrasílabo' }))
+			}
+		]
 	},
 	{
-		id: 'quebrados',
-		nombre: 'Veinte unidades, quebrados sueltos',
-		porque: 'el rasgo raro repartido por la tirada',
-		forma: 'Quintilla',
-		versosPorUnidad: 5,
+		id: 'sexteto_lira',
+		nombre: 'Ocho sextetos-lira',
+		clase: 'Estrofa repetible · con variedad',
+		porque: 'la variedad combina medida y rima: dos respuestas en una',
+		forma: 'Sexteto-lira',
 		partes: [],
-		unidades: unidades(repetir('ababa', 20), 5, { 3: 1, 11: 1, 17: 1 })
+		preguntas: [
+			{
+				rotulo: 'Variedad',
+				alcance: 'unidad',
+				opcional: false,
+				opciones: ['A1 · aBaBcC', 'A2 · ABABcC', 'B1 · aBaBCC'],
+				porUnidad: porUnidad(
+					['A2', 'A2', 'A2', 'A1', 'A2', 'A2', 'A1', 'A2'].map((v) => `${v} · aBaBcC`),
+					6
+				)
+			}
+		]
 	},
 	{
-		id: 'copla_real',
-		nombre: 'Doce coplas reales, con sus dos partes',
-		porque: 'partes y muchas unidades a la vez',
-		forma: 'Copla real',
-		versosPorUnidad: 10,
-		partes: ['Primera quintilla', 'Segunda quintilla'],
-		unidades: unidades(
-			[
-				...repetir('ababa · ababa', 5),
-				'ababa · abbab',
-				...repetir('ababa · ababa', 3),
-				'abbab · ababa',
-				...repetir('ababa · ababa', 2)
-			],
-			10,
-			{ 7: 6 }
-		)
+		id: 'romance',
+		nombre: 'Romance de trescientos versos',
+		clase: 'Serie no estrófica · sin unidades',
+		porque: 'no hay unidad que recorrer: se responde una vez',
+		forma: 'Romance',
+		partes: [],
+		preguntas: [
+			{ rotulo: 'Vocales de la asonancia', alcance: 'secuencia', opcional: false, valor: 'e-o', opciones: VOCALES }
+		]
+	},
+	{
+		id: 'endecasilabo_suelto',
+		nombre: 'Endecasílabo suelto de doscientos versos',
+		clase: 'Serie no estrófica · cinco rasgos',
+		porque: 'cinco preguntas seguidas, y ninguna es una elección entre esquemas',
+		forma: 'Endecasílabo suelto',
+		partes: [],
+		preguntas: [
+			{ rotulo: 'Densidad de rima', alcance: 'secuencia', opcional: false, valor: 'Esporádica', opciones: ['Ninguna', 'Esporádica', 'Mayoritaria'] },
+			{ rotulo: 'Organización en pareados', alcance: 'secuencia', opcional: false, valor: 'Ocasionales', opciones: ['Ninguna', 'Ocasionales', 'Habituales'] },
+			{ rotulo: 'Dístico final', alcance: 'secuencia', opcional: true, valor: 'Presente', opciones: ['Presente'] },
+			{ rotulo: 'Encadenamiento interior', alcance: 'secuencia', opcional: true, valor: '', opciones: ['Presente'] },
+			{ rotulo: 'Final acentual', alcance: 'secuencia', opcional: true, valor: '', opciones: ['Esdrújulo'] }
+		]
+	},
+	{
+		id: 'villancico',
+		nombre: 'Villancico con tres ciclos',
+		clase: 'Composición · partes y ciclos',
+		porque: 'las partes se repiten y cada ciclo responde lo suyo',
+		forma: 'Villancico',
+		partes: ['Cabeza', 'Mudanza', 'Vuelta', 'Repetición del estribillo'],
+		preguntas: [
+			{ rotulo: 'Cabeza · Medida de los versos', alcance: 'secuencia', opcional: false, valor: 'Octosílabo', opciones: ['Hexasílabo', 'Octosílabo'] },
+			{
+				rotulo: 'Mudanza · Esquema de rima',
+				alcance: 'unidad',
+				opcional: false,
+				opciones: ['Mudanza en redondilla · abba', 'Mudanza en redondilla cruzada · abab'],
+				porUnidad: [
+					{ numero: 1, vIni: 5, vFin: 8, valor: 'abba' },
+					{ numero: 2, vIni: 14, vFin: 17, valor: 'abba' },
+					{ numero: 3, vIni: 23, vFin: 26, valor: 'abab' }
+				]
+			},
+			{
+				rotulo: 'Repetición del estribillo',
+				alcance: 'unidad',
+				opcional: false,
+				opciones: ['Se repite entero', 'Se repite solo en parte'],
+				porUnidad: [
+					{ numero: 1, vIni: 9, vFin: 12, valor: 'Se repite entero' },
+					{ numero: 2, vIni: 18, vFin: 21, valor: 'Se repite entero' },
+					{ numero: 3, vIni: 27, vFin: 30, valor: 'Se repite solo en parte' }
+				]
+			}
+		]
+	},
+	{
+		id: 'enlazada',
+		nombre: 'Redondilla enlazada de cuarenta versos',
+		clase: 'Serie enlazada · no pregunta nada',
+		porque: 'la norma lo fija todo: solo hay que marcar el rango',
+		forma: 'Redondilla enlazada',
+		partes: [],
+		preguntas: []
 	}
 ];
 
 export type Grupo = {
-	respuesta: string;
-	unidades: UnidadMaqueta[];
+	valor: string;
+	unidades: RespuestaUnidad[];
 	rangos: string;
 };
 
-/**
- * Las unidades agrupadas por lo que responden, de la más repetida a la menos.
- *
- * Es la operación que todas las maquetas del caso difícil necesitan: con cuarenta unidades y dos
- * respuestas, lo que hay que enseñar son las dos respuestas, no las cuarenta unidades.
- */
-export function agrupar(lista: UnidadMaqueta[]): Grupo[] {
-	const mapa = new Map<string, UnidadMaqueta[]>();
+/** Las unidades agrupadas por lo que responden, de la más repetida a la menos. */
+export function agrupar(lista: RespuestaUnidad[]): Grupo[] {
+	const mapa = new Map<string, RespuestaUnidad[]>();
 	for (const unidad of lista) {
-		const actual = mapa.get(unidad.respuesta) ?? [];
+		const actual = mapa.get(unidad.valor) ?? [];
 		actual.push(unidad);
-		mapa.set(unidad.respuesta, actual);
+		mapa.set(unidad.valor, actual);
 	}
 	return [...mapa.entries()]
-		.map(([respuesta, unidadesDelGrupo]) => ({
-			respuesta,
-			unidades: unidadesDelGrupo,
-			rangos: describirRangos(unidadesDelGrupo)
-		}))
+		.map(([valor, unidades]) => ({ valor, unidades, rangos: describirRangos(unidades) }))
 		.sort((a, b) => b.unidades.length - a.unidades.length);
 }
 
 /** «vv. 1-90, 106-110» en vez de dieciocho números sueltos. */
-export function describirRangos(lista: UnidadMaqueta[]): string {
+export function describirRangos(lista: RespuestaUnidad[]): string {
 	if (lista.length === 0) return '';
 	const tramos: { desde: number; hasta: number }[] = [];
 	for (const unidad of lista) {
