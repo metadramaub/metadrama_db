@@ -35,12 +35,14 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   pertenencia a una tradición no se tipifica y las denominaciones pueden nombrar una
   variedad y declararse posteriores. Arquitecturas y esquemas siguen una misma convención de
   nombre y slug, registrada en
-  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **37 formas
+  [la revisión de nomenclatura](./historico/revision-nomenclatura.md). El catálogo tiene **41 formas
   y 2 tramos sin forma**: eran 27, la copla de pie quebrado se retiró el 20 de agosto de 2026 por
   nombrar un rasgo y no una estructura, el 21 entraron seis al llenar el hueco de las estrofas de
   siete, ocho, once y doce versos —copla de arte menor, copla castellana, octava aguda, septilla,
   oncena y copla manriqueña— y entre el 21 y el 22 otras cinco al cerrar las de siete y las
-  enlazadas —septeto, septeto-lira, redondilla enlazada, sextilla enlazada y septilla enlazada—. **La medida de toda forma isosilábica es arquitectura** y ya
+  enlazadas —septeto, septeto-lira, redondilla enlazada, sextilla enlazada y septilla enlazada—, y
+  el 24 las cuatro que le faltaban a la serie alirada —cuarteto-lira, octava-lira, novena-lira y
+  décima-lira—. **La medida de toda forma isosilábica es arquitectura** y ya
   no se pregunta, y lo que era una forma para decir «N unidades de esta otra» —sexta rima, tercetos
   sin encadenar, pareados endecasílabos— vive en el nivel que le corresponde. *La doble sextilla y
   la redondilla doble volvieron a ser formas el 21 de agosto, y no por su nombre: cuando dos
@@ -60,7 +62,7 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   lo que dicen las fuentes. Nace en `admin_ip` y se abre desde `/dashboard/publicacion`
   cambiando el `scope_minimo` de la sección `formas`. No lleva texto redactado: si algo se
   lee mal, está mal en el catálogo. El listado carga en una sola consulta todos los registros
-  activos —39 desde el 22 de agosto de 2026— y los conserva para el filtrado en ejecución; cada
+  activos —43 desde el 24 de agosto de 2026— y los conserva para el filtrado en ejecución; cada
   ficha usa otra consulta agregada que mantiene los identificadores y la jerarquía padre-hijo de
   sus secciones.
 - El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
@@ -376,24 +378,24 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 | F36 | las cuatro liras abiertas | **preguntan su rima de tres maneras distintas**, habiéndose creado el mismo día como una sola serie | **catálogo** | cuarteto-lira y octava-lira: repertorio de 2 y salida abierta, **obligatoria**. Décima-lira: repertorio de 1 y salida abierta, **opcional**. Novena-lira: **sin repertorio**, solo campo escrito —y esa sí está justificada, porque su único esquema es «Distribución variable», de secuencia `abierta`, y la función de opciones no ofrece las abiertas— | 4 arquitecturas de 4 formas | **arreglado**: las cuatro con repertorio —el que haya—, salida abierta y respuesta obligatoria |
 | F67 | canción petrarquista · las 2 con `define_norma` | **guardar reventaba** con «column eleccion.opcion_eleccion_id does not exist» | **SQL** | `guardar_anotacion_metrica` construye la firma de las preguntas que declaran la norma con una columna que **no existe** en `anotacion_elecciones`: la añade la vista `anotacion_elecciones_resueltas`. El cuerpo entrecomillado no se revalida, así que compilaba, `db push` pasaba y las pruebas también; solo falla al ejecutarse, y solo donde hay `define_norma` | 3 preguntas en 2 arquitecturas de 1 forma | **arreglado** |
-| F66 | villancico · estribillo inicial | la medida se pregunta **parte por parte** —cabeza, mudanza, y enlace y vuelta si se añaden—, todas con el mismo hexasílabo/octosílabo, y en un villancico de cuatro ciclos son muchas veces la misma pregunta | UI | la zona común de medida excluye a propósito las composiciones que crecen por ciclos: «mezclar composición, sección y ciclo confundía más de lo que ahorraba». *La decisión se quedó corta* | villancico ×2 y zéjel | recogido, va con la revisión del formulario |
+| F66 | villancico · estribillo inicial | la medida se pregunta **parte por parte** —cabeza, mudanza, y enlace y vuelta si se añaden—, todas con el mismo hexasílabo/octosílabo, y en un villancico de cuatro ciclos son muchas veces la misma pregunta | UI | la zona común de medida excluye a propósito las composiciones que crecen por ciclos: «mezclar composición, sección y ciclo confundía más de lo que ahorraba». *La decisión se quedó corta* | villancico ×2 y zéjel | recogido; **la revisión del formulario del 4 de septiembre de 2026 no lo alcanzó** |
 | F65 | villancico y zéjel | **se abren en error**: una secuencia nueva de 2 versos monta ya una estructura de 6 y avisa «estructura 6 · rango 2 — sobran 4», antes de tocar nada | UI | la arquitectura materializa su ciclo mínimo al elegirla, y el rango recién creado no le llega | las 3 que crecen por ciclos | recogido |
 | F64 | villancico · estribillo inicial | la repetición del estribillo se declaraba **opcional** y la pregunta que la materializa es **obligatoria y sin respuesta negativa** —«se repite entero» o «solo en parte»—: un ciclo sin repetición no se podía ni declarar ni guardar | **catálogo** | **las dos arquitecturas de la forma se contradecían**: en «Estribillo tras la primera copla» la sección homóloga ya era `1-1`. El estribillo no puede faltar —es lo que define un villancico— y lo que varía es cuánto vuelve | 1 arquitectura; el zéjel declara lo mismo y queda aparte | **arreglado** |
 | F63 | versificación irregular y verso aislado | **no se les puede preguntar nada**, y lo único que se registra de ellas es una observación en texto libre | **modelo** | `grupos_eleccion_metrica.arquitectura_id` es **NOT NULL** y las dos son `sin_forma`: no tienen arquitectura, así que no hay dónde colgar una pregunta. No es que falten, es que el modelo no las sostiene | 2 tramos sin forma, y **9 secuencias ya anotadas con 197 versos** que hoy no tienen ningún destino al migrar | **hecho** el 3 de septiembre de 2026, según [su plan](./plan-f63-los-tramos-registran-lo-que-se-ve.md): tres arquitecturas por arte y una para el verso aislado, ninguna normativa, con dos preguntas escritas de una vez. Ocho de las nueve secuencias legadas ya tienen destino. Queda una consulta: por qué la de *El mágico prodigioso* vv. 2191–2201 se anotó con el término madre y no con uno de los tres específicos |
-| F62 | terceto encadenado · las dos | **no se puede decir si lleva serventesio final**, que el catálogo declara opcional —`repeticiones 0-1`, 4 versos— | UI · modelo | `metricUnitPlan` devuelve `null` cuando el nivel es `serie`, así que `hasStructuredEditor` es falso y **el editor de estructura no se pinta**, aunque la arquitectura declare secciones. La regla de longitud sí lo sabe —`desplazamientos [0, 4]`, «bloques completos de 3 versos, con un cierre opcional de 4»— de modo que el rango valida con o sin él y nada registra cuál | **2 arquitecturas** con sección opcional sin respuesta; y **4 series** declaran secciones que no se ven: las dos del terceto encadenado, la septilla y la sextilla enlazadas y la silva consonante regular | **arreglado sin preguntarlo**: el rango ya lo decide, así que se le pone nombre. Lo de ver la estructura de una serie sigue abierto, con **F46** |
-| F61 | todas | **la descripción de la arquitectura no se lee en ninguna parte**: elegir arquitectura es elegir un nombre. En la silva son cinco nombres, y dos se distinguen por un rasgo que la norma fija y por tanto no se pregunta | UI | el selector solo pinta `nombre`. Se le puso el texto en el `title` de cada opción, que no ocupa sitio, pero **dónde debe leerse de verdad se decide con la norma**: David apuntó que su sitio parece la zona de norma y no el selector. *Y son dos necesidades distintas: para **elegir** hace falta antes de escoger; para **entender lo escogido**, después* | 41 formas; solo la silva lo necesita de verdad | recogido, va con la revisión del formulario |
+| F62 | terceto encadenado · las dos | **no se puede decir si lleva serventesio final**, que el catálogo declara opcional —`repeticiones 0-1`, 4 versos— | UI · modelo | `metricUnitPlan` devuelve `null` cuando el nivel es `serie`, así que `hasStructuredEditor` es falso y **el editor de estructura no se pinta**, aunque la arquitectura declare secciones. La regla de longitud sí lo sabe —`desplazamientos [0, 4]`, «bloques completos de 3 versos, con un cierre opcional de 4»— de modo que el rango valida con o sin él y nada registra cuál | **2 arquitecturas** con sección opcional sin respuesta; y **4 series** declaran secciones que no se ven: las dos del terceto encadenado, la septilla y la sextilla enlazadas y la silva consonante regular | **arreglado sin preguntarlo**: el rango ya lo decide, así que se le pone nombre. Lo de ver la estructura de una serie **sigue abierto y hoy sin sitio**: la rejilla salió del recuadro al rehacer la norma (**F46**), así que ya no hay dónde mirarla en el editor |
+| F61 | todas | **la descripción de la arquitectura no se lee en ninguna parte**: elegir arquitectura es elegir un nombre. En la silva son cinco nombres, y dos se distinguen por un rasgo que la norma fija y por tanto no se pregunta | UI | el selector solo pinta `nombre`. Se le puso el texto en el `title` de cada opción, que no ocupa sitio, pero **dónde debe leerse de verdad se decide con la norma**: David apuntó que su sitio parece la zona de norma y no el selector. *Y son dos necesidades distintas: para **elegir** hace falta antes de escoger; para **entender lo escogido**, después* | 41 formas; solo la silva lo necesita de verdad | recogido; **la revisión del formulario se hizo el 4 de septiembre de 2026** y los tres de su misma zona se dejaron para verlos con la pantalla entera delante |
 | F59 | silva · endecasilábica | **la única pregunta de pareados del catálogo obliga a elegir entre dos grados que su prosa no separa**: «Habituales — los pareados son frecuentes, aunque no obligatorios» y «Predominantes — los pareados organizan predominantemente la serie» | catálogo · prosa | *no es una duda abierta*: el 28 de agosto de 2026 se decidió **no cuantificar los grados**, y la cuestión se retiró del documento del IP. Lo que queda es que la descripción es el único criterio que el editor tiene, y con estas dos no basta | 1 arquitectura, y la pregunta es obligatoria | pendiente, va con **F24** |
 | F57 | sextina · estrofa | **se puede elegir suelta**, y su definición dice que no se usa así: «fuera de ella la estrofa no se usa sola» | catálogo · modelo | nada impide elegir en el selector una forma que solo existe dentro de otra. Es **la única** del catálogo cuya definición lo dice, pero el modelo no sabe expresarlo | 1 forma hoy | **pendiente de decidir** |
-| F56 | sextilla · de pie quebrado | **la disposición en columnas queda rara** cuando una unidad lleva varias preguntas: se lee «Sextilla | Esquema de rima | Medida de los quebrados» en fila, como si fueran columnas de una tabla y no la pregunta de una estrofa | UI | — | toda unidad con más de una pregunta | recogido, va con la revisión del formulario |
+| F56 | sextilla · de pie quebrado | **la disposición en columnas queda rara** cuando una unidad lleva varias preguntas: se lee «Sextilla | Esquema de rima | Medida de los quebrados» en fila, como si fueran columnas de una tabla y no la pregunta de una estrofa | UI | — | toda unidad con más de una pregunta | recogido; **la revisión del formulario se hizo el 4 de septiembre de 2026** y los tres de su misma zona se dejaron para verlos con la pantalla entera delante |
 | F55 | sextilla · de pie quebrado | ofrecía **una sola disposición de rima**, `abcabc`, y las fuentes nombran tres | **catálogo** | el *Diccionario* la describe «con disposiciones `aabaab`, `aabccb` o `abcabc`», y Navarro Tomás llama a `abc:abc` «la más usual» y advierte que «el orden de las rimas varía de una composición a otra». No entra `ababab`, que las fuentes dan para la sextilla de octosílabos plenos | 1 arquitectura | **arreglado**: `abcabc` sigue habitual y entran las otras dos como admitidas |
-| F53 | sexteto-lira · heterométrica consonante | la rejilla dibuja **las tres disposiciones de rima y un solo esquema métrico**, teniendo seis, cuando las variedades son combinaciones de ambos | UI · rejilla | `construirRejilla` toma el métrico con `find(esquema => !esquema.seccion)`: **el primero que encuentre**, en silencio. Es la única arquitectura del catálogo con más de un esquema métrico de unidad, así que hasta ahora no se notaba | 1 arquitectura | recogido, va con la revisión del formulario |
+| F53 | sexteto-lira · heterométrica consonante | la rejilla dibuja **las tres disposiciones de rima y un solo esquema métrico**, teniendo seis, cuando las variedades son combinaciones de ambos | UI · rejilla | `construirRejilla` toma el métrico con `find(esquema => !esquema.seccion)`: **el primero que encuentre**, en silencio. Es la única arquitectura del catálogo con más de un esquema métrico de unidad, así que hasta ahora no se notaba | 1 arquitectura | recogido; **la revisión del formulario del 4 de septiembre de 2026 no lo alcanzó** |
 | F52 | sexteto-lira · heterométrica consonante | elegir una variedad **no cambiaba nada** en la anotación de la unidad | UI | el resumen solo leía preguntas de `metro` y de `rima`, y esta es de `combinacion`. Una variedad **reúne un esquema de rima y uno métrico**, así que responderla dice las dos cosas | 1 arquitectura hoy; toda pregunta de variedad | **arreglado** |
 | F51 | septeto-lira · heterométrica consonante | declara `ababbcc` como **habitual** y **no lo preguntaba**: se daba por hecho que el pasaje rima así, sin confirmarlo ni poder decir otra cosa | **catálogo** | de las arquitecturas activas sin pregunta de rima era la única en ese caso: el endecasílabo suelto y las dos silvas declaran esquemas `abierta` sin posiciones —no hay disposición que ofrecer— y el sexteto-lira elige su rima por la variedad | 1 arquitectura | **arreglado**: repertorio y salida abierta, como la décima-lira |
 | F50 | septeto · endecasilábica, y los 8 grupos de esquema abierto | **lo escrito se guarda tal cual**, y la convención de caja solo se aplica al pintar el resumen: escribir `abab` en una forma de endecasílabos guarda `abab` y enseña `ABAB` | modelo · UI | `compactRhymeNotation` solo quita espacios, y su comentario lo dice a propósito —«la caja de las letras también codifica la medida»—. Donde hay repertorio no importa, porque `canonizar` compara **sin distinguir caja** y lo guarda como la disposición catalogada; donde no lo hay, dos anotaciones de lo mismo quedan escritas distinto | los 8 grupos sin repertorio, en 5 formas | **arreglado**: se normaliza al guardar con la medida de cada verso, la misma que usa el resumen |
 | F49 | septeto · endecasilábica y compuesta, **y soneto** | el marcador del campo abierto dice `aBaBcC` en una forma **de endecasílabos**, donde la convención pide todo mayúsculas; y en la redondilla, de cuatro versos, dice `abcabc`, que son seis | UI | es un literal fijo del componente, igual para todas las formas; la medida de la unidad ya se conoce y podría escribirlo bien | los 8 grupos de esquema abierto y los 39 mixtos | recogido |
 | F48 | seguidilla · compuesta, chamberga y gitana | la anotación verso a verso **se saltaba los versos sueltos**: la compuesta salía «a a b b» en vez de «- a - a b - b» | UI | el resumen solo escribía las posiciones con clase de rima, y las sueltas —que el catálogo marca con `suelto` y escribe con raya en `-a-ab-b`— se caían | toda forma con versos sueltos en su esquema | **arreglado** |
 | F47 | seguidilla · gitana, y las 6 de F44 | dos rótulos que decían lo que no es: «Medida de cada verso» cuando **solo se pregunta uno**, y «Medida de cada verso» donde antes decía «Medida de los quebrados» | catálogo · SQL | la vista decidía el rótulo con `bool_and(rol = 'quebrado')`, que dejó de cumplirse al declarar las posiciones —ahora ofrecen también el octosílabo, que es la respuesta de que ahí no hay quiebro—; y no distinguía una pregunta de una sola posición | 12 preguntas de quiebro y 1 de verso único | **arreglado** |
-| F54 | todas | **el plegado unidad por unidad no funciona bien**; se revisa con el recorrido terminado | UI | — | 41 formas | recogido, va con la revisión del formulario |
+| F54 | todas | **el plegado unidad por unidad no funciona bien**; se revisa con el recorrido terminado | UI | — | 41 formas | recogido; **la revisión del formulario se hizo el 4 de septiembre de 2026** y los tres de su misma zona se dejaron para verlos con la pantalla entera delante |
 | F45 | redondilla, y las 15 que declaran el rasgo | el quiebro se afirmaba **bajo «Medida»** —«base de 8; los pies quebrados pueden medir 4 y 5»—, y ahí se lee como parte de cómo mide la estrofa. En una redondilla es raro: teóricamente es base de 8 con admitidos de menos, y en la práctica es de 8 y ya | UI | la medida decía cuánto miden y callaba el grado; y el rasgo no subía a la norma, porque uno `admitida` sin límite de posiciones se considera dato de la realización. Ahora la medida dice la base, y el quiebro va a su renglón con su grado y sus medidas | las 15 arquitecturas que declaran `pie_quebrado`, en sus tres grados | **arreglado** |
 | F44 | quintilla, septilla, las dos novenas y las dos oncenas | la nota **nombra el verso del quiebro** y el editor lo pregunta en todos | **catálogo** | hay dos mecanismos y estas están en el que no restringe: con `medida_uniforme = false` la derivación enumera `generate_series(1, unidad_versos_max)` y ofrece el quebrado en cada verso; con `medida_uniforme = null` y posiciones declaradas —manriqueña, sextilla de pie quebrado y las tres enlazadas— solo se ofrece donde se declara | **6 arquitecturas declaran ahora dónde cae el quiebro** —quintilla, septilla, novena 4+5, las dos oncenas y la copla castellana— y **1 dejó de admitirlo**, la novena 5+4, cuyo quiebro no lo documenta ninguna fuente. Quedan 3 preguntando en todos los versos, y su fuente lo justifica: copla real, redondilla y copla de arte menor | **arreglado** |
 | F43 | quintilla · octosilábica consonante | las ocho tipologías salían en el desplegable **desordenadas**: 4, 5, 3, 1, 7, 6, 2, 8 | catálogo · SQL | `opciones_eleccion_derivadas()` las ordenaba por notación —`aabab`, `aabba`, `abaab`…— y el número de la tipología, que es como se nombran y como las cita la bibliografía, no contaba | toda forma cuyas disposiciones llevan nombre; las que no lo llevan no se mueven | **arreglado** |
@@ -499,28 +501,58 @@ en vez de ayudarlo—:
   centímetros más abajo. En la quintilla eso quitó un párrafo entero del catálogo, que sigue
   donde sirve, en la ficha enlazada al pie.
 
-**Lo que queda es la otra mitad, el formulario**, y su forma también quedó dicha:
+Con el recuadro se cierran **F4, F5, F6, F13, F20, F32 y F60**, que pedían todos lo mismo por
+sitios distintos.
+
+**La otra mitad, el formulario. Hecha el 4 de septiembre de 2026**, en cuatro pasos —`4ac8479`,
+`b0ced58`, `981c9b1`, `e882491`—, sobre la misma maqueta y por la misma razón. Lo pedido era una
+tercera zona:
 
 > «Yo lo que quiero es que haya una zona de **qué se va a registrar**. Eso es para mí el resumen:
 > tenemos la norma, luego las elecciones, y al final qué se va a registrar sumando la norma más las
 > elecciones.»
 
-*Con eso el listado de abajo deja de ser «la secuencia, unidad por unidad» —que en una composición
-fija no tiene nada que añadir, **F58**— y pasa a ser la tercera zona: lo que va a quedar guardado.*
-La anotación en notación corriente que ya se escribe —`8a 8b 8a 4b | 8c 8d 8c 8d`— es justamente
-eso, la suma de las dos primeras, y hoy vive dentro del listado en vez de ser la zona.
+**Y esa zona no se hizo, por lo mismo que la abría.** Con la norma diciendo lo fijo y las respuestas
+lo elegido —con sus excepciones y sus rangos—, «qué se va a registrar» ya estaba dicho dos veces, y
+una tercera sería repetir en tres sitios la misma cosa, que es lo que se venía a quitar. Lo que
+faltaba no era una zona sino **contenido donde ya había hueco**: el listado enseña ahora la notación
+—`8a 8b 8a 4b | 8c 8d 8c 8d`— también cuando no tiene preguntas que mostrar. Es la única lectura en
+versos que da el editor, frente al vocabulario del catálogo de las otras dos zonas, y es donde se
+caza una respuesta equivocada: si se eligió `abbab` y el pasaje lee `abab`, ahí se ve.
 
-**La manera de responder también está decidida en la maqueta**: una respuesta para todas las
+| paso | qué |
+|---|---|
+| 1 | las excepciones, nombradas y situadas: qué responde, cuántas unidades y dónde |
+| 2 | el modo «en conjunto / una a una» desaparece; la lista es un detalle que se abre |
+| 3 | los rasgos que la forma admite no ocupan sitio hasta que los hay, cada uno con su botón |
+| 4 | el listado enseña la notación, o no se pinta |
+
+El tercero cierra **F23** —los seleccionables presentados como cinco preguntas seguidas, cada una
+con su caja, sus radios y su descripción larga: era exactamente esta pantalla— y el cuarto, **F58**.
+
+**La manera de responder venía decidida en la maqueta**: una respuesta para todas las
 unidades y las excepciones agrupadas debajo —«en todas: ababa · salvo 7 de 52»—, con la lista
 unidad por unidad a un clic. Se eligió sobre lo medido: de las 134 secuencias con unidad, las de
 más de diez son el 86 % de los versos, y **nunca son todas distintas**: el máximo del corpus son
 cuatro esquemas en 43 unidades.
 
-Lo que sigue recogido para cuando se aplique:
+**Dos cosas salieron distintas de lo previsto:**
+
+- **La sextina no es que le falte la notación: no la tiene.** Su rima es la repetición de seis
+  palabras, no un esquema de letras, así que no hay `8a 8b…` que escribir y el bloque solo repetía
+  la cabecera. Ahora no se pinta. Eso es F58, que se había recogido como un listado que no dice
+  nada y era en realidad un listado que no tiene nada que decir.
+- **Las unidades idénticas no se agrupan**, aunque estaba en el plan del cuarto paso: choca con lo
+  decidido en la maqueta —una fila por unidad, con su número, sus versos y su respuesta—, así que
+  tres quintillas iguales se leen en tres renglones iguales.
+
+**Falta la revisión en pantalla**, que no se ha hecho con los cuatro pasos puestos; y con ella, lo
+que David apuntó al verlos entrar en el editor y quedó para después. Sigue recogido lo que se ve
+mejor con todo delante:
 
 | | qué se dijo | dónde salió |
 |---|---|---|
-| **F54** | el plegado unidad por unidad no funciona bien | todas |
+| **F54** | el plegado unidad por unidad no funciona bien. *Puede haberse ido con el paso 2 —ese plegado era del modo que ya no existe—, pero no se ha comprobado* | todas |
 | **F56** | la disposición en columnas de una unidad con varias preguntas | sextilla de pie quebrado |
 | **F61** | dónde se lee la descripción de la arquitectura | todas, y la silva la necesita |
 
@@ -588,14 +620,6 @@ que ninguna longitud admite las dos lecturas y **el rango decide solo** —cuare
 serventesio, treinta y nueve no—. Lo que faltaba era decirlo: la caja del pasaje decía «y 4 versos
 más» y ahora dice «y el serventesio final». ⇒ **F62**
 
-**F6 · La rejilla, madura para decidirse entera.** Va por la tercera aparición y acumula **F5, F8,
-F13, F14, F20 y F23**. Lo pedido, junto: que el recuadro se llame «características
-esperadas» y sea desplegable; que no repita lo que la figura ya dibuja, porque lo que hay que saber
-es **que** algo es fijo, no cuál es —de eso depende elegir entre la regular y la de estancias
-variables—; que sobre la letra de al lado de cada parte; que la unidad modelo se pinte una vez y las
-demás digan solo sus versos; y que la estructura se vea donde se declara la medida. **Alcanza a las
-41 formas y se decide entera, no forma a forma.**
-
 **F8 y F9 · Lo comprobado, para no repetirlo.** El catálogo **sí** declara el pareado de la canción
 sin rima —esquema «Pareado consonante final», posiciones 1 y 2, ambas clase `a`—, y «Cuerpo sin rima»
 es un esquema con cero posiciones, que es como se dice «no rima». Ninguna de las dos se pinta, y
@@ -607,7 +631,9 @@ declaran** `pie_quebrado` —`admitida` en ocho, `habitual` en las dos oncenas�
 tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo único
 visible es `posiciones_pie_quebrado`, de dimensión `metro`, y de ahí que todo acabe bajo «Medida».
 Preguntar primero «¿hay quebrados?» es lo que el rasgo permitiría en cuanto tenga sus dos valores.
-*Migración, sin aprobar.*
+**No se le dieron.** El 4 de septiembre de 2026 se decidió al revés: preguntar el rasgo aparte sería
+preguntar lo que la respuesta de posiciones ya contiene. Lo que se arregló es dónde se lee —«Pie
+quebrado», en una línea y con su rejilla de versos plegada—, no de qué tabla sale.
 
 **F17 y F18 · La misma pantalla.** Escribir un esquema a mano y elegir uno predefinido marcando una
 desviación son cosas distintas, y hoy se ofrecen juntas y sin jerarquía. El IP añade que la frontera
