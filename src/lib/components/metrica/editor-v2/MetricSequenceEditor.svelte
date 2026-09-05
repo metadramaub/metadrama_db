@@ -26,9 +26,7 @@
 	} from './desviaciones';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
-	import MetricLengthAlert from './MetricLengthAlert.svelte';
 	import MetricNormSummary from './MetricNormSummary.svelte';
-	import MetricStructureCoverage from './MetricStructureCoverage.svelte';
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
 	import { metricNormFacts, metricNormGrid } from './norm-summary';
 	import { compactRhymeNotation } from './rhyme-notation';
@@ -1330,14 +1328,22 @@
 				</div>
 
 				<div class="mt-3 space-y-3">
-					<MetricLengthAlert
-						rule={selectedLengthRule}
-						start={draft.v_ini}
-						end={draft.v_fin}
-						configurationName={selectedConfiguration?.nombre}
-						formName={selectedForm?.nombre}
-						conArquitecturasPropias={hayUnidadConArquitecturaPropia(draft.unidades)}
-					/>
+					<!--
+						**Un solo aviso del rango, y en la cabecera.**
+
+						Había dos y llegaron a ser tres. Uno aquí, de la regla de longitud; otro
+						trescientos píxeles más abajo bajo el rótulo «Estructura», el de la cobertura,
+						con distinta redacción y aconsejando «ajusta las unidades», que en una quintilla
+						de doce versos no sirve —doce no es múltiplo de cinco y no hay unidades que
+						ajustar—; y el tercero, el que de verdad impide guardar, que **no se veía** hasta
+						pulsar el botón.
+
+						Son dos comprobaciones distintas —si el número de versos cabe en la forma, y si
+						la estructura materializada cubre lo declarado— pero para quien anota es una sola
+						pregunta: ¿por qué no puedo guardar esto? Se contesta una vez, **en la cabecera
+						del modal**, que es lo único que no se va de la pantalla al desplazarse y está
+						pegado a Guardar. Aquí abajo no se repite.
+					-->
 					<div class="grid gap-3 lg:grid-cols-2">
 						<label class="form-field">
 							<span class="form-label">Forma métrica *</span>
@@ -1515,12 +1521,12 @@
 			{/if}
 
 			{#if hasStructuredEditor}
+				<!--
+					**Sin rótulo.** «Estructura» encabezaba una sección cuyo único contenido propio era la
+					cobertura del rango, que ya no vive aquí. Lo que queda debajo son las respuestas y la
+					lectura de lo que va a guardarse, y las dos se nombran solas.
+				-->
 				<section id="estructura" class="space-y-4 border-t border-[color:var(--border)] pt-5">
-					<h4 class="form-subsection-title mb-0">Estructura</h4>
-					<MetricStructureCoverage
-						coverage={structureCoverage}
-						unitCount={materializedUnitCount}
-					/>
 
 					{#key `${draft.anotacion_id ?? 'nueva'}-${draft.arquitectura_id}`}
 						<MetricStructureEditor
@@ -1543,6 +1549,17 @@
 							onUnitsChange={(units) => (draft.unidades = units)}
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}
+							rangoSinCuadrar={structureCoverage.state !== 'complete' ||
+								Boolean(
+									metricLengthError(
+										selectedLengthRule,
+										draft.v_ini,
+										draft.v_fin,
+										selectedConfiguration?.nombre,
+										selectedForm?.nombre,
+										hayUnidadConArquitecturaPropia(draft.unidades)
+									)
+								)}
 						/>
 					{/key}
 				</section>

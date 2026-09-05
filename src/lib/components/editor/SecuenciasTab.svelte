@@ -1218,6 +1218,14 @@
 		código, no menos, y es a propósito: no se interrumpe a quien está a mitad de una obra.
 	-->
 	{#if usaElEditorNuevo}
+		<!--
+			**El botón dice por qué no puede guardar, y lo dice antes.**
+
+			El editor ya calculaba el motivo —`validateDraft`— y el modal ya tenía dónde enseñarlo,
+			pero nadie los conectaba: el aviso solo salía como aviso flotante **después** de pulsar
+			Guardar. Mientras tanto la pantalla enumeraba «qué se va a registrar» de un guardado que
+			iba a fallar.
+		-->
 		<MetricSequenceModal
 			titulo={editingId ? (props.readOnly ? 'Ver secuencia' : 'Editar secuencia') : 'Nueva secuencia'}
 			rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
@@ -1230,6 +1238,7 @@
 			haySiguiente={Boolean(nextSecuencia)}
 			sucio={sidebarDirty}
 			guardando={sidebarSaving}
+			error={estadoMetrico?.error ?? null}
 			alEliminar={editingId && !props.readOnly ? () => openDelete(editingId as string) : null}
 			alCerrar={requestCloseSidebar}
 			alGuardar={() => void save()}
