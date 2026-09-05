@@ -133,8 +133,20 @@ export type MetricSequenceEditorState = {
 	/** Preguntas obligatorias respondidas y totales. */
 	answered: number;
 	total: number;
-	/** Por qué no se puede guardar; nulo cuando está listo. */
+	/** Por qué no se puede guardar; nulo cuando está listo. Se dice al intentar guardar. */
 	error: string | null;
+	/**
+	 * Y de esos motivos, **solo el del rango**: que el número de versos no cabe en la forma, o que
+	 * la estructura no cubre lo declarado.
+	 *
+	 * Va aparte porque es el único que se enseña mientras se anota. Los demás —una pregunta sin
+	 * responder— son cosas que el editor **está haciendo**, y avisarle de que le faltan en cuanto
+	 * abre la secuencia es apremiarle por no haber terminado todavía; además sería desigual, porque
+	 * de lo que falta en caracterizaciones o en la sinopsis no se dice nada. El rango es distinto:
+	 * no es algo por terminar sino algo que está mal, y cuanto antes se vea, menos trabajo se hace
+	 * encima de un rango equivocado.
+	 */
+	errorDeRango: string | null;
 };
 
 export type MetricCatalogParts = {

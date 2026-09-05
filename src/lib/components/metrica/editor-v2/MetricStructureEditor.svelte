@@ -114,6 +114,21 @@
 		 * que sirve para comprobar la respuesta.
 		 */
 		rangoSinCuadrar?: boolean;
+		/**
+		 * Las preguntas cuya respuesta no cuelga de ninguna realización —los rasgos del pasaje—, para
+		 * pintarlas aquí, delante de las de unidad. Son respuestas como las demás y separarlas en una
+		 * sección propia era exponer la fontanería.
+		 */
+		preguntasDeSecuencia?: Snippet;
+		/**
+		 * Y las licencias de esas preguntas, para que salgan **en el mismo pie** que las de unidad.
+		 *
+		 * Puestas con sus campos salían arriba del todo —en el soneto, «+ final acentual» antes que
+		 * ninguna pregunta—, y quedaban dos pies diciendo lo mismo en la misma pantalla. El rótulo lo
+		 * pone el pie una vez, por eso esto son solo los botones y viene acompañado de cuántos son.
+		 */
+		licenciasDeSecuencia?: Snippet;
+		cuantasLicenciasDeSecuencia?: number;
 }>();
 
 	// Las funciones del modelo que crean o recolocan realizaciones necesitan conocer las secciones
@@ -879,34 +894,27 @@
 	});
 
 	/**
-	 * **Si todo se responde arriba, abajo sobra la rejilla.**
+	 * **Si abajo no queda nada que tocar, lo que va ahí es la lectura de lo que se guarda.**
 	 *
-	 * Respondido en conjunto, la lista unidad por unidad no dice nada que no se sepa: cuatro coplas
-	 * iguales, cada una con sus dos redondillas, ocupando media pantalla para repetir lo mismo. Basta
-	 * con saber **qué rango ocupa cada una**.
+	 * Lo que impide compactar es **estructura por decidir**: una extensión editable, un ciclo que se
+	 * añade o se quita, un patrón que se declara en la unidad. Eso hay que poder tocarlo, y una
+	 * lectura en versos no lo sustituye.
 	 *
-	 * Solo cuando de verdad no queda nada que tocar ahí abajo: ninguna fila con pregunta propia,
-	 * ninguna extensión editable, ningún patrón que se declare en la unidad y ninguna acción de
-	 * añadir o quitar. En cuanto algo de eso aparece, vuelve la rejilla entera.
+	 * **Que una parte tenga preguntas ya no cuenta.** Contaba cuando las preguntas se respondían
+	 * abajo; ahora se responden todas arriba, en la zona de respuestas, y el soneto era el caso que
+	 * lo delataba: sus dos esquemas viven en «Cuartetos» y «Tercetos», así que la lista se negaba a
+	 * compactar y enseñaba dos renglones de estructura —«2 realizaciones de 4 versos, fijas por la
+	 * forma»— donde lo que hacía falta era leer el soneto entero en notación.
 	 */
 	const listaCompacta = $derived(
 		rows.length > 0 &&
 			unidadesRaiz.length > 0 &&
 			rows.every((row: GridRow) => {
 				if (row.kind === 'acciones' || row.kind === 'pregunta') return false;
-				if (row.kind === 'fijas') return row.preguntas.length === 0;
+				if (row.kind === 'fijas') return true;
 				if (row.lengthEditable) return false;
 				if (sectionDefinesPattern(row.section)) return false;
-				// Las partes que se dibujan dentro de la fila —los dos bloques de la décima aumentada—
-				// no impiden compactar si no preguntan nada: son estructura, no trabajo pendiente. Sin
-				// esto, la aumentada era la única décima que no enseñaba su anotación.
-				if (partesIntegradas(row).some((parte: GridFijasRow) => parte.preguntas.length > 0)) {
-					return false;
-				}
-				if (partesFijasConRima(row).length > 0) return false;
-				return row.preguntas.every(
-					(pregunta: PreguntaEnFila) => familiaDe(pregunta.group) !== null
-				);
+				return true;
 			})
 	);
 
@@ -2232,7 +2240,7 @@
 			de si alguna se aparta. Nada que preparar, nada que confirmar, ningún aviso sobre el
 			futuro: si se añade una unidad, deja de haber uniformidad y la pregunta lo dice sola.
 		-->
-		{#if comunes.length > 0}
+		{#if comunes.length > 0 || props.preguntasDeSecuencia}
 			<div class={hayAjustesDeComposicion ? 'border-t border-[color:var(--border)]' : ''}>
 				<!--
 					**Una sola manera de responder, y ninguna lista que abrir.**
@@ -2249,6 +2257,12 @@
 				>
 					<p class="form-grid-title">Respuestas</p>
 				</div>
+
+				{#if props.preguntasDeSecuencia}
+					<div class="space-y-4 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
+						{@render props.preguntasDeSecuencia()}
+					</div>
+				{/if}
 
 				{#if confirmarConjunto}
 					<div class="border-b border-amber-300 bg-amber-50 px-3 py-2.5">
@@ -2537,15 +2551,17 @@
 					Cada una con su botón, porque un «sí» al final de una lista de tres no dice a cuál
 					se le está diciendo que sí.
 				-->
-				{#if rasgosQueAdmite.length > 0}
+				{#if rasgosQueAdmite.length + (props.cuantasLicenciasDeSecuencia ?? 0) > 0}
+					{@const cuantas = rasgosQueAdmite.length + (props.cuantasLicenciasDeSecuencia ?? 0)}
 					<div
 						class="flex flex-wrap items-center gap-2 border-t border-[color:var(--border)] px-3 py-2"
 					>
 						<span class="text-xs text-[color:var(--muted-foreground)]">
-							{rasgosQueAdmite.length === 1
+							{cuantas === 1
 								? 'Esta forma admite además, si lo hay:'
 								: 'Esta forma admite además, si los hay:'}
 						</span>
+						{@render props.licenciasDeSecuencia?.()}
 						{#each rasgosQueAdmite as pregunta (pregunta.key)}
 							<button
 								type="button"

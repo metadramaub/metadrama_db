@@ -975,6 +975,35 @@
 		return { total, answered };
 	});
 
+	/**
+	 * Lo que está mal en el rango, que es lo único que se dice mientras se anota.
+	 *
+	 * Las dos comprobaciones que miran el par de campos de arriba: si el número de versos cabe en la
+	 * forma y si la estructura materializada cubre lo declarado. `validateDraft` las incluye —y
+	 * unas cuantas más— para decidir si se puede guardar; esto es solo esa mitad.
+	 */
+	function errorDeRango(): string | null {
+		if (!draft.forma_id || !draft.arquitectura_id) return null;
+		if (draft.v_fin < draft.v_ini) return 'El verso final no puede ser anterior al inicial.';
+		const lengthError = metricLengthError(
+			selectedLengthRule,
+			draft.v_ini,
+			draft.v_fin,
+			selectedConfiguration?.nombre,
+			selectedForm?.nombre,
+			hayUnidadConArquitecturaPropia(draft.unidades)
+		);
+		if (lengthError) return lengthError;
+		if (hasStructuredEditor && structureCoverage.state !== 'complete') {
+			const difference = Math.abs(structureCoverage.difference);
+			const ocupa = `La estructura ocupa ${structureCoverage.coveredVerses} ${structureCoverage.coveredVerses === 1 ? 'verso' : 'versos'} y el rango declara ${structureCoverage.declaredVerses}`;
+			return structureCoverage.state === 'missing'
+				? `${ocupa}: ${difference === 1 ? 'falta 1 verso' : `faltan ${difference} versos`} por asignar.`
+				: `${ocupa}: ${difference === 1 ? 'sobra 1' : `sobran ${difference}`}.`;
+		}
+		return null;
+	}
+
 	function validateDraft(): string | null {
 		if (!draft.forma_id) {
 			return 'Selecciona una forma o una salida editorial.';
@@ -1132,7 +1161,8 @@
 			summary,
 			answered: questionProgress.answered,
 			total: questionProgress.total,
-			error: validateDraft()
+			error: validateDraft(),
+			errorDeRango: errorDeRango()
 		});
 	});
 
@@ -1145,7 +1175,9 @@
 
 	const railItems = $derived.by(() => {
 		const items: { id: string; label: string; state: 'done' | 'pending' | 'none' }[] = [];
-		if (hasSequenceChoices) {
+		// Los rasgos del pasaje solo tienen sección propia donde no hay estructura; donde la hay,
+		// viven dentro de la zona de respuestas y quien lleva ahí es la entrada de estructura.
+		if (hasSequenceChoices && !hasStructuredEditor) {
 			const pending = sequenceChoiceGroups.some(
 				(group: MetricCatalogDomainRow) =>
 					Number(group.selecciones_min) >= 1 &&
@@ -1153,7 +1185,7 @@
 			);
 			items.push({
 				id: 'secuencia',
-				label: 'Datos de esta realización',
+				label: 'Respuestas',
 				state: pending ? 'pending' : 'done'
 			});
 		}
@@ -1443,47 +1475,30 @@
 			{/if}
 
 		{#if draft.arquitectura_id}
-			{#if hasSequenceChoices}
-				<section id="secuencia" class="space-y-4 border-t border-[color:var(--border)] pt-5">
-					<h4 class="form-subsection-title mb-0">Datos de esta realización</h4>
-					{#each preguntasDeSecuencia as group (String(group.grupo_eleccion_id))}
-						<MetricChoiceField
-							{group}
-							options={optionsForGroup(String(group.grupo_eleccion_id))}
-							selectedIds={selectedChoiceIds(String(group.grupo_eleccion_id), null)}
-							onChange={(ids) => setChoices(String(group.grupo_eleccion_id), null, ids)}
-							textValue={choiceTextValue(String(group.grupo_eleccion_id), null)}
-							onTextChange={(value) => setChoiceText(String(group.grupo_eleccion_id), null, value)}
-							normaEsquema={String(group.tipo_control ?? '') === 'serie_medidas'
-								? {
-										versos: draft.v_fin - draft.v_ini + 1,
-										regimen: null,
-										catalogados: [],
-										regimenes: []
-									}
-								: undefined}
-						/>
-					{/each}
+			<!--
+				**Los rasgos son respuestas, y van con las demás.**
 
+				Vivían en su propia sección, «Datos de esta realización», encima del recuadro de la
+				norma, mientras las preguntas de cada unidad quedaban debajo. Lo que las separaba era
+				si la respuesta cuelga de la secuencia o de una realización, que es fontanería: para
+				quien anota las dos son lo mismo, lo que hay que contestar de este pasaje. Y dejaba
+				dos pies de licencias, uno en cada sitio, esperando a una forma que tuviera de los dos.
+
+				Donde hay estructura, estos campos entran en la zona de respuestas, delante de los de
+				unidad. Donde no la hay —el romance, el endecasílabo suelto—, son la zona entera.
+			-->
+			{#if hasSequenceChoices && !hasStructuredEditor}
+				<section id="secuencia" class="space-y-4 border-t border-[color:var(--border)] pt-5">
+					<h4 class="form-subsection-title mb-0">Respuestas</h4>
+					{@render camposDeLaSecuencia()}
 					{#if rasgosQueAdmite.length > 0}
-						<!-- Cada rasgo con su propio botón: un «sí» al final de una lista de tres no dice
-						     a cuál se le dice que sí. -->
-						<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
-							<span class="text-[color:var(--muted-foreground)]">
+						<div class="flex flex-wrap items-center gap-2">
+							<span class="text-xs text-[color:var(--muted-foreground)]">
 								{rasgosQueAdmite.length === 1
 									? 'Esta forma admite además, si lo hay:'
 									: 'Esta forma admite además, si los hay:'}
 							</span>
-							{#each rasgosQueAdmite as group (String(group.grupo_eleccion_id))}
-								<button
-									type="button"
-									class="border border-dashed border-[color:var(--border)] px-2 py-0.5 text-xs text-[color:var(--muted-foreground)] hover:border-[color:var(--primary)] hover:text-[color:var(--foreground)]"
-									onclick={() =>
-										(rasgosPedidos = [...rasgosPedidos, String(group.grupo_eleccion_id)])}
-								>
-									+ {String(group.nombre ?? group.slug ?? '').toLocaleLowerCase('es')}
-								</button>
-							{/each}
+							{@render licenciasDeLaSecuencia()}
 						</div>
 					{/if}
 				</section>
@@ -1548,6 +1563,9 @@
 							onUnitsChange={(units) => (draft.unidades = units)}
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}
+							preguntasDeSecuencia={preguntasDeSecuencia.length > 0 ? camposDeLaSecuencia : undefined}
+							licenciasDeSecuencia={rasgosQueAdmite.length > 0 ? licenciasDeLaSecuencia : undefined}
+							cuantasLicenciasDeSecuencia={rasgosQueAdmite.length}
 							rangoSinCuadrar={structureCoverage.state !== 'complete' ||
 								Boolean(
 									metricLengthError(
@@ -1769,4 +1787,38 @@
 			{/if}
 		</div>
 	</MetricGridRow>
+{/snippet}
+
+{#snippet camposDeLaSecuencia()}
+				{#each preguntasDeSecuencia as group (String(group.grupo_eleccion_id))}
+					<MetricChoiceField
+						{group}
+						options={optionsForGroup(String(group.grupo_eleccion_id))}
+						selectedIds={selectedChoiceIds(String(group.grupo_eleccion_id), null)}
+						onChange={(ids) => setChoices(String(group.grupo_eleccion_id), null, ids)}
+						textValue={choiceTextValue(String(group.grupo_eleccion_id), null)}
+						onTextChange={(value) => setChoiceText(String(group.grupo_eleccion_id), null, value)}
+						normaEsquema={String(group.tipo_control ?? '') === 'serie_medidas'
+							? {
+									versos: draft.v_fin - draft.v_ini + 1,
+									regimen: null,
+									catalogados: [],
+									regimenes: []
+								}
+							: undefined}
+					/>
+				{/each}
+
+{/snippet}
+
+{#snippet licenciasDeLaSecuencia()}
+	{#each rasgosQueAdmite as group (String(group.grupo_eleccion_id))}
+		<button
+			type="button"
+			class="border border-[color:var(--border)] bg-white px-2 py-1 text-xs hover:border-[color:var(--primary)]"
+			onclick={() => (rasgosPedidos = [...rasgosPedidos, String(group.grupo_eleccion_id)])}
+		>
+			+ {String(group.nombre ?? group.slug ?? '').toLocaleLowerCase('es')}
+		</button>
+	{/each}
 {/snippet}
