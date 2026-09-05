@@ -101,7 +101,20 @@
 		/** Sus secciones, para dibujar y medir la unidad que declare una de ellas. */
 		interleavedSections?: MetricCatalogDomainRow[];
 		onUnitArchitectureChange?: (unit: MetricUnitDraft, arquitecturaId: string | null) => void;
-	}>();
+		/**
+		 * Si el pasaje todavía no está repartido: o el número de versos no cabe en la forma, o la
+		 * estructura no cubre el rango declarado.
+		 *
+		 * **Es lo único que invalida la lectura de abajo.** Con una quintilla de doce versos, «qué se
+		 * va a registrar» enumeraba una unidad —las únicas cinco materializadas— y callaba los siete
+		 * restantes, así que prometía de más y enseñaba de menos.
+		 *
+		 * Que falte **responder** una pregunta no es lo mismo: la lectura sigue siendo fiel a lo que
+		 * hay, solo que incompleta, y esconderla mientras se contesta quita de la vista justamente lo
+		 * que sirve para comprobar la respuesta.
+		 */
+		rangoSinCuadrar?: boolean;
+}>();
 
 	// Las funciones del modelo que crean o recolocan realizaciones necesitan conocer las secciones
 	// intercaladas. Se envuelven con el mismo nombre —y la misma firma menos ese último
@@ -2573,7 +2586,25 @@
 			</p>
 		{/if}
 
-		{#if notacionDeLaSecuencia}
+		<!--
+			**Y si no se puede guardar, aquí no se enumera nada.**
+
+			«Qué se va a registrar» es una promesa, y con el rango sin cuadrar era falsa dos veces: el
+			guardado iba a fallar, y lo que enumeraba eran solo las unidades materializadas —una de
+			doce versos en la quintilla— como si fueran la lectura entera.
+
+			**Sin repetir el motivo**, que ya está dicho arriba en la cabecera y no se va de la
+			pantalla. Aquí solo hace falta saber por qué está vacío esto.
+		-->
+		{#if props.rangoSinCuadrar && (listaCompacta || notacionDeLaSecuencia)}
+			<p class="px-3 py-2.5 text-sm text-[color:var(--muted-foreground)]">
+				Cuando el rango cuadre, aquí se lee lo que va a quedar guardado.
+			</p>
+		{/if}
+
+		{#if props.rangoSinCuadrar && (listaCompacta || notacionDeLaSecuencia)}
+			<!-- Nada: lo que hubiera aquí sería una lectura incompleta presentada como definitiva. -->
+		{:else if notacionDeLaSecuencia}
 			<p class="px-3 py-2.5 text-sm tabular-nums">{notacionDeLaSecuencia}</p>
 		{:else if listaCompacta}
 			<!-- Una debajo de otra: en fila corrida no se distingue dónde acaba una copla y empieza la siguiente. -->
