@@ -698,13 +698,86 @@
 		seccionesAbiertas = new Set(seccionesAbiertas).add(id);
 	}
 
-	/** Las secciones que no pinta el editor métrico, en el orden en que se leen. */
-	const seccionesDelModal = [
-		{ id: 'caracterizaciones', label: 'Caracterizaciones' },
-		{ id: 'sinopsis', label: 'Sinopsis' },
-		{ id: 'comentarios', label: 'Comentarios' }
-	];
+	/**
+	 * Cuántos comentarios tiene cada secuencia de la obra.
+	 *
+	 * Se piden **una vez por obra** y se agrupan aquí: en toda la base hay cincuenta y dos
+	 * comentarios de secuencia repartidos en treinta y nueve, así que una consulta trae de sobra lo
+	 * de una obra entera y evita una por secuencia abierta. El panel de comentarios sigue cargando
+	 * los suyos cuando se despliega; esto es solo el número, para que el raíl lo diga sin abrir nada.
+	 */
+	let comentariosPorSecuencia = $state<Map<string, number>>(new Map());
 
+	async function contarComentarios(obraId: string) {
+		try {
+			const response = await fetch(`/api/obras/${obraId}/comentarios?limit=1000`);
+			if (!response.ok) return;
+			const payload = (await response.json()) as { items?: { secuencia_id: string | null }[] };
+			const cuenta = new Map<string, number>();
+			for (const comentario of payload.items ?? []) {
+				if (!comentario.secuencia_id) continue;
+				cuenta.set(comentario.secuencia_id, (cuenta.get(comentario.secuencia_id) ?? 0) + 1);
+			}
+			comentariosPorSecuencia = cuenta;
+		} catch {
+			// Sin el número el raíl se lee igual: es un dato de más, no una condición para anotar.
+		}
+	}
+
+	/**
+	 * Las caracterizaciones que cuentan para dar la secuencia por terminada.
+	 *
+	 * **Las de por rango no están**, y no por olvido: no son obligatorias nunca —lagunas, prosa,
+	 * versos cantados, hipometría son lo que se encuentre— y además se guardan por su cuenta, fuera
+	 * del `save()` de la secuencia. Contarlas sería pedir que se rellene lo que puede no existir.
+	 *
+	 * Las siete que sí cuentan admiten nulo en la base, así que «sin responder» se distingue de
+	 * «no»; la explicación de la evocación solo cuenta cuando se ha dicho que la hay.
+	 */
+	const CARACTERIZACIONES_QUE_CUENTAN = 6;
+	const caracterizacionesRespondidas = $derived.by(() => {
+		let hechas = 0;
+		for (const valor of [
+			form.intervencion_personajes_femeninos,
+			form.intervencion_figuras_donaire,
+			form.intervencion_personajes_sobrenaturales
+		]) {
+			if (valor !== null && valor !== undefined && String(valor).trim() !== '') hechas += 1;
+		}
+		for (const valor of [form.versos_partidos, form.inaugura_espacio, form.evocacion_metrica]) {
+			if (valor !== null && valor !== undefined) hechas += 1;
+		}
+		return hechas;
+	});
+
+	/**
+	 * Las secciones que no pinta el editor métrico, en el orden en que se leen.
+	 *
+	 * `detalle` es lo que el raíl dice al lado del nombre —«3 de 7», «sin escribir», «2»—: **informa,
+	 * no exige**. Ninguna de estas tres impide guardar, y lo normal es anotar por tandas.
+	 */
+	const seccionesDelModal = $derived([
+		{
+			id: 'caracterizaciones',
+			label: 'Caracterizaciones',
+			detalle: `${caracterizacionesRespondidas} de ${CARACTERIZACIONES_QUE_CUENTAN}`,
+			pendiente: caracterizacionesRespondidas < CARACTERIZACIONES_QUE_CUENTAN
+		},
+		{
+			id: 'sinopsis',
+			label: 'Sinopsis',
+			detalle: form.sinopsis?.trim() ? 'escrita' : 'sin escribir',
+			pendiente: !form.sinopsis?.trim()
+		},
+		{
+			id: 'comentarios',
+			label: 'Comentarios',
+			detalle: editingId
+				? String(comentariosPorSecuencia.get(editingId) ?? 0)
+				: 'al guardar',
+			pendiente: false
+		}
+	]);
 	let estadoMetrico = $state<MetricSequenceEditorState | null>(null);
 
 	/**
@@ -1000,6 +1073,17 @@
 		const flushLocalDraft = () => localDraftWriter.flush();
 		window.addEventListener('pagehide', flushLocalDraft);
 		return () => window.removeEventListener('pagehide', flushLocalDraft);
+	});
+
+	/**
+	 * Se cuenta al abrir la obra y cada vez que se escribe o se borra un comentario, que es cuando el
+	 * número deja de ser cierto. Se leen las dos dependencias antes de llamar, para que el efecto no
+	 * se suscriba de más a lo que la función toque por dentro.
+	 */
+	$effect(() => {
+		const obraId = props.obraId;
+		void props.commentsReloadKey;
+		void contarComentarios(obraId);
 	});
 </script>
 
