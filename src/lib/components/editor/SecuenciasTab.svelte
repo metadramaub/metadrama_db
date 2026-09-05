@@ -1219,12 +1219,17 @@
 	-->
 	{#if usaElEditorNuevo}
 		<!--
-			**El botón dice por qué no puede guardar, y lo dice antes.**
+			**Lo que está mal en el rango se dice mientras se anota; lo que falta, al guardar.**
 
-			El editor ya calculaba el motivo —`validateDraft`— y el modal ya tenía dónde enseñarlo,
-			pero nadie los conectaba: el aviso solo salía como aviso flotante **después** de pulsar
-			Guardar. Mientras tanto la pantalla enumeraba «qué se va a registrar» de un guardado que
-			iba a fallar.
+			El editor ya calculaba los dos y el modal ya tenía dónde enseñarlos, pero nadie los
+			conectaba: el aviso solo salía como aviso flotante después de pulsar Guardar, mientras la
+			pantalla enumeraba «qué se va a registrar» de un guardado que iba a fallar.
+
+			Arriba va **solo el del rango**. Que una pregunta esté sin responder no es un error: es
+			trabajo a medias, y decirlo desde que se abre la secuencia es apremiar por no haber
+			terminado —y hacerlo además de manera desigual, porque de lo que falta en
+			caracterizaciones o en la sinopsis no se dice nada—. El rango no es trabajo a medias: es
+			algo que está mal, y cuanto antes se vea, menos trabajo se hace encima de él.
 		-->
 		<MetricSequenceModal
 			titulo={editingId ? (props.readOnly ? 'Ver secuencia' : 'Editar secuencia') : 'Nueva secuencia'}
@@ -1238,7 +1243,7 @@
 			haySiguiente={Boolean(nextSecuencia)}
 			sucio={sidebarDirty}
 			guardando={sidebarSaving}
-			error={estadoMetrico?.error ?? null}
+			error={estadoMetrico?.errorDeRango ?? null}
 			alEliminar={editingId && !props.readOnly ? () => openDelete(editingId as string) : null}
 			alCerrar={requestCloseSidebar}
 			alGuardar={() => void save()}
