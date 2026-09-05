@@ -54,23 +54,19 @@
 	);
 	const positionalAlternatives = $derived(haveAlternativesByPosition(visibleOptions));
 	const partialPositionalSelection = $derived(
-		isPartialPositionalSelection(props.group, visibleOptions)
+		isPartialPositionalSelection(props.group, visibleOptions, props.positionLimit)
 	);
 	/** Un rasgo con un solo valor no es una elección entre alternativas: está o no está. */
 	const esCasilla = $derived(!positional && visibleOptions.length === 1);
 	/**
-	 * La respuesta posicional que puede quedarse vacía —hoy, el pie quebrado— tampoco se despliega
-	 * aquí.
+	 * **El quiebro ya no se pliega aquí.**
 	 *
-	 * Este control es el atajo que responde por todas las unidades a la vez, y una redondilla de
-	 * ocho versos ya son dos: la rejilla venía abierta con todos los versos de todas, para un rasgo
-	 * que lo normal es que no aparezca. Plegado dice que no hay ninguno y se abre si lo hay.
+	 * Tenía un estado previo —«Ningún verso quebrado · Marcar»— para no abrir una rejilla de versos
+	 * por un rasgo que lo normal es que no aparezca. Eso lo hace ahora el pie de la zona de
+	 * respuestas: mientras nadie diga que hay quiebro, la pregunta no está, está el botón
+	 * «+ pie quebrado». Plegarla además dejaba dos maneras de decir lo mismo, una dentro de la
+	 * otra.
 	 */
-	const posicionalOpcional = $derived(
-		partialPositionalSelection && Number(props.group.selecciones_min ?? 0) === 0
-	);
-	let desplegado = $state(false);
-	const plegado = $derived(posicionalOpcional && !desplegado && props.answered === 0);
 	const descripcion = $derived(
 		String(
 			props.options.find(
@@ -137,13 +133,6 @@
 			/>
 			<span>{String(first?.nombre ?? '')}</span>
 		</label>
-	{:else if plegado}
-		<div
-			class="flex flex-wrap items-baseline justify-between gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-		>
-			<span>Ningún verso quebrado</span>
-			<button type="button" class="link-action" onclick={() => (desplegado = true)}>Marcar</button>
-		</div>
 	{:else if partialPositionalSelection}
 		<MetricPartialPositionField
 			options={visibleOptions}

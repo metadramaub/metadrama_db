@@ -171,16 +171,19 @@
 	});
 </script>
 
-<div class="overflow-hidden border border-[color:var(--border)] bg-white">
-	<!-- La cabecera sigue la rejilla de la barra: verso, lo que mide y con qué se responde. -->
-	<div
-		class="hidden border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] sm:grid sm:grid-cols-[3rem_minmax(0,1fr)_auto]"
-	>
-		<span>Posición</span>
-		<span>Medida</span>
-		<span>{props.onRhymeChange || props.fixedRhymes ? 'Medida y rima' : 'Elección'}</span>
-	</div>
+<!--
+	**Una lista de versos, no una tabla.**
 
+	Esto llevaba una cabecera de tres columnas —«Posición · Medida · Elección»— dentro de una caja
+	con su borde. En el pareado son tres rótulos para dos filas, y en ninguna forma dicen nada que la
+	fila no diga ya: el verso lleva su número, la barra lo que mide y los botones son visiblemente lo
+	que se elige. Rotular una tabla de dos filas es lo que la hacía parecer una tabla.
+
+	**La barra se queda**, que es lo contrario del caso del quiebro: aquí *todos* los versos piden
+	medida, y verlas juntas enseña la forma medida de la estrofa —los siete y once alternos de la
+	lira— que es justo lo que se está respondiendo.
+-->
+<div>
 	{#each positions as position}
 		{@const choices = optionsAt(position)}
 		{@const selected = selectedAt(position)}
@@ -188,7 +191,7 @@
 			La fila es la barra: se ve lo que mide cada verso antes de leer el número. Es el mismo
 			dibujo que la pregunta de los pies quebrados, en un componente que usan las dos.
 		-->
-		<div class="border-b border-[color:var(--border)] px-3 py-2 last:border-b-0">
+		<div class="py-1">
 			<MetricVerseBar
 				etiqueta={`Verso ${position}`}
 				silabas={silabasAt(position)}

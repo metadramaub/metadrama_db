@@ -30,8 +30,6 @@
 		positionLimit?: number;
 		/** Lo que la norma fija en cada verso, desde `positionStart`. Ver `MetricVersePatternField`. */
 		medidasFijas?: (number | null)[];
-		pendingPositions?: number[];
-		onPendingPositionsChange?: (positions: number[]) => void;
 		/**
 		 * `celda` es la variante de la rejilla: una sola línea de alto, para que la fila de
 		 * cada realización quepa junto a las demás. Las alternativas se enseñan en un
@@ -109,7 +107,7 @@
 	);
 	const positionalAlternatives = $derived(haveAlternativesByPosition(visibleOptions));
 	const partialPositionalSelection = $derived(
-		isPartialPositionalSelection(props.group, visibleOptions)
+		isPartialPositionalSelection(props.group, visibleOptions, props.positionLimit)
 	);
 	const visiblePositions = $derived(
 		Array.from(
@@ -746,8 +744,6 @@
 			keyField="opcion_eleccion_id"
 			minimum={minimum}
 			maximum={effectiveMaximum}
-			pendingPositions={props.pendingPositions}
-			onPendingPositionsChange={props.onPendingPositionsChange}
 			ariaLabel={props.label ?? String(props.group.nombre)}
 			onChange={props.onChange}
 		/>
