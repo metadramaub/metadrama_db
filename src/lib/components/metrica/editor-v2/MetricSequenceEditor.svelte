@@ -1378,45 +1378,44 @@
 								</p>
 							</div>
 						{:else if draft.forma_id}
-							{@const architectureLabel = 'Arquitectura *'}
-							{@const architectureItems = configurationsForDraft.map(
-								(configuration: MetricCatalogConfiguration) => ({
-									id: configuration.arquitectura_id,
-									label: configuration.nombre
-								})
-							)}
+							<!--
+								**Siempre desplegable.**
+
+								Había dos controles para lo mismo: fichas cuando las arquitecturas eran tres o
+								menos y ninguna pasaba de veintiocho caracteres, y desplegable en los demás
+								casos. La quintilla caía justo en la frontera —«Octosilábica consonante» mide
+								veintitrés— y sus tres fichas no cabían en la fila, así que la tercera bajaba
+								sola; la sextilla, con seis, salía desplegable. La misma pregunta cambiaba de
+								forma al cambiar de forma métrica.
+
+								Las fichas se ganan el sitio con dos opciones de una palabra, y estos nombres
+								no lo son: «Estribillo tras la primera copla», «Sin rima, con pareado final».
+								Y el desplegable lleva además la descripción de cada arquitectura, que las
+								fichas no tenían dónde poner.
+							-->
 							<div class="form-field">
-								<span class="form-label">{architectureLabel}</span>
-								{#if configurationsForDraft.length > 0 && configurationsForDraft.length <= 3 && architectureItems.every((item: { label: string }) => item.label.length <= 28)}
-									<SegmentedChoice
-										items={architectureItems}
-										value={draft.arquitectura_id || null}
-										onChange={(id) => resetForConfiguration(id ?? '')}
-										ariaLabel={architectureLabel}
-									/>
-								{:else}
-									<select
-										class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
-										value={draft.arquitectura_id}
-										onchange={(event) => resetForConfiguration(event.currentTarget.value)}
-									>
-										<option value="">Seleccionar arquitectura</option>
-										{#each configurationsForDraft as configuration (configuration.arquitectura_id)}
-											<!--
-												La descripción es lo único que dice en qué se diferencian dos
-												arquitecturas de la misma forma, y no se veía en ninguna parte.
-												Aquí va sin ocupar sitio; **dónde debe leerse de verdad se
-												decide con la norma entera** —F61—.
-											-->
-											<option
-												value={configuration.arquitectura_id}
-												title={stripMarkdown(String(configuration.descripcion ?? ''))}
-											>
-												{configuration.nombre}
-											</option>
-										{/each}
-									</select>
-								{/if}
+								<span class="form-label">Arquitectura *</span>
+								<select
+									class="h-10 w-full border border-[color:var(--border)] bg-white px-3 text-sm"
+									value={draft.arquitectura_id}
+									onchange={(event) => resetForConfiguration(event.currentTarget.value)}
+								>
+									<option value="">Seleccionar arquitectura</option>
+									{#each configurationsForDraft as configuration (configuration.arquitectura_id)}
+										<!--
+											La descripción es lo único que dice en qué se diferencian dos
+											arquitecturas de la misma forma, y no se veía en ninguna parte. Aquí va
+											sin ocupar sitio; **dónde debe leerse de verdad se decide con la norma
+											entera** —F61—.
+										-->
+										<option
+											value={configuration.arquitectura_id}
+											title={stripMarkdown(String(configuration.descripcion ?? ''))}
+										>
+											{configuration.nombre}
+										</option>
+									{/each}
+								</select>
 							</div>
 						{:else if selectedForm}
 							<div class="bg-amber-50 p-3 text-sm leading-6 text-amber-950">
