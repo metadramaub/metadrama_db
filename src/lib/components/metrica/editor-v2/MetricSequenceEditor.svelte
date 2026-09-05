@@ -93,7 +93,14 @@
 		 * métrica. `alAbrir` las despliega antes de bajar hasta ellas: llevar a una sección plegada
 		 * es llevar a un título.
 		 */
-		extraRailItems?: { id: string; label: string; alAbrir?: () => void }[];
+		extraRailItems?: {
+			id: string;
+			label: string;
+			/** Lo que se dice al lado del nombre: «3 de 6», «sin escribir», «2». */
+			detalle?: string;
+			pendiente?: boolean;
+			alAbrir?: () => void;
+		}[];
 		/**
 		 * Si la sección métrica está desplegada. La gobierna quien monta el modal, porque es una
 		 * sección entre varias y solo la primera viene abierta.
@@ -960,17 +967,28 @@
 				answered += 1;
 			}
 		}
+		/**
+		 * **Se cuentan preguntas, no realizaciones.**
+		 *
+		 * Contaba un pendiente por cada unidad a la que alcanza la pregunta, y con eso una tirada de
+		 * cincuenta y dos quintillas decía «0 de 52» para una sola pregunta que se contesta de una
+		 * vez. El número asustaba y además describía una manera de trabajar que ya no existe: se
+		 * responde arriba, en todas, y lo que se aparta se declara aparte.
+		 *
+		 * Una pregunta está hecha cuando **no queda ninguna realización suya sin responder**, así que
+		 * las excepciones no añaden pendientes: son otra respuesta, no una respuesta menos.
+		 */
 		for (const group of unitChoiceGroups) {
 			if (Number(group.selecciones_min) < 1) continue;
-			for (const unit of unitsForGroup(group)) {
-				total += 1;
-				if (
+			const destinatarias = unitsForGroup(group);
+			if (destinatarias.length === 0) continue;
+			total += 1;
+			const todasRespondidas = destinatarias.every(
+				(unit: MetricUnitDraft) =>
 					choiceCount(String(group.grupo_eleccion_id), unit.realizacion_id) >=
 					Number(group.selecciones_min)
-				) {
-					answered += 1;
-				}
-			}
+			);
+			if (todasRespondidas) answered += 1;
 		}
 		return { total, answered };
 	});
@@ -1173,37 +1191,43 @@
 			?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
+	/**
+	 * El mapa de la secuencia: los destinos que hay en el cuerpo, con lo que falta en cada uno.
+	 *
+	 * **Informa, no limita.** Ninguna de estas cosas impide guardar —lo normal es anotar por
+	 * tandas— y por eso el estado se dice aquí, en el mapa, y no en el aviso rojo de la cabecera,
+	 * que se reserva para lo que de verdad está mal: el rango.
+	 *
+	 * Los rótulos son los que la pantalla lleva escritos. Antes decía «Datos de esta realización» y
+	 * «Estructura», que eran secciones de cuando las preguntas se repartían en dos sitios.
+	 */
 	const railItems = $derived.by(() => {
-		const items: { id: string; label: string; state: 'done' | 'pending' | 'none' }[] = [];
-		// Los rasgos del pasaje solo tienen sección propia donde no hay estructura; donde la hay,
-		// viven dentro de la zona de respuestas y quien lleva ahí es la entrada de estructura.
-		if (hasSequenceChoices && !hasStructuredEditor) {
-			const pending = sequenceChoiceGroups.some(
-				(group: MetricCatalogDomainRow) =>
-					Number(group.selecciones_min) >= 1 &&
-					choiceCount(String(group.grupo_eleccion_id), null) < Number(group.selecciones_min)
-			);
+		// La clave es el rótulo y no el destino: «Respuestas» y «Qué se va a registrar» llevan a la
+		// misma sección, y dos entradas con la misma clave rompen el `{#each}`.
+		const items: { id: string; label: string; detalle: string; state: 'done' | 'pending' }[] = [];
+		if (hasStructuredEditor || hasSequenceChoices) {
+			const total = questionProgress.total;
 			items.push({
-				id: 'secuencia',
+				id: hasStructuredEditor ? 'estructura' : 'secuencia',
 				label: 'Respuestas',
-				state: pending ? 'pending' : 'done'
+				detalle: total === 0 ? 'nada que responder' : `${questionProgress.answered} de ${total}`,
+				state: total > 0 && questionProgress.answered < total ? 'pending' : 'done'
 			});
 		}
 		if (hasStructuredEditor) {
 			items.push({
 				id: 'estructura',
-				label: materializedUnitCount > 1 ? `Estructura · ${materializedUnitCount} unidades` : 'Estructura',
-				state:
-					questionProgress.total > 0 && questionProgress.answered < questionProgress.total
-						? 'pending'
-						: 'done'
+				label: 'Qué se va a registrar',
+				detalle: '',
+				state: 'done'
 			});
 		}
 		// Lo que ya está en pantalla entra en el mapa, aunque se haya añadido a mano.
 		if (draft.desviaciones.length > 0) {
 			items.push({
 				id: 'desviaciones',
-				label: `Desviaciones · ${draft.desviaciones.length}`,
+				label: 'Desviaciones',
+				detalle: String(draft.desviaciones.length),
 				state: 'done'
 			});
 		}
@@ -1212,10 +1236,19 @@
 </script>
 
 <div class="grid min-h-0 lg:grid-cols-[15rem_minmax(0,1fr)]">
-	<!-- Raíl: el mapa de la secuencia. Dice dónde estás y qué falta, no pide datos. -->
+	<!--
+		Raíl: el mapa de la secuencia. Dice dónde estás y qué falta, no pide datos.
+
+		**La banda llega hasta abajo.** Con `h-fit` y `self-start` el fondo gris terminaba donde
+		acababa el texto del menú, a un tercio de la altura, y lo que quedaba debajo era una franja
+		blanca del ancho de la columna: no se leía como un lateral sino como un recuadro suelto
+		arriba a la izquierda. Ahora la columna se estira y lo que se queda quieto al desplazarse es
+		el contenido, dentro.
+	-->
 	<aside
-		class="border-b border-[color:var(--border)] bg-[color:var(--muted)] p-4 lg:sticky lg:top-0 lg:h-fit lg:self-start lg:border-b-0 lg:border-r"
+		class="border-b border-[color:var(--border)] bg-[color:var(--muted)] lg:border-b-0 lg:border-r"
 	>
+		<div class="p-4 lg:sticky lg:top-0">
 		<button
 			type="button"
 			class="form-section-title mb-2 block w-full text-left hover:text-[color:var(--foreground)]"
@@ -1241,7 +1274,7 @@
 
 		{#if railItems.length > 0}
 			<ul class="mt-2 space-y-1">
-				{#each railItems as item (item.id)}
+				{#each railItems as item (item.label)}
 					<li>
 						<button
 							type="button"
@@ -1252,32 +1285,22 @@
 								class={`mt-1 h-1.5 w-1.5 shrink-0 ${
 									item.state === 'pending'
 										? 'bg-[color:var(--primary)]'
-										: item.state === 'done'
-											? 'bg-[color:var(--muted-foreground)]'
-											: 'border border-[color:var(--muted-foreground)]'
+										: 'bg-[color:var(--muted-foreground)]'
 								}`}
 								aria-hidden="true"
 							></span>
-							<span class="text-[color:var(--muted-foreground)]">{item.label}</span>
+							<span class="min-w-0 flex-1 truncate text-[color:var(--muted-foreground)]">
+								{item.label}
+							</span>
+							{#if item.detalle}
+								<span class="shrink-0 text-xs tabular-nums text-[color:var(--muted-foreground)]">
+									{item.detalle}
+								</span>
+							{/if}
 						</button>
 					</li>
 				{/each}
 			</ul>
-		{/if}
-
-		<!-- La desviación es parte de identificar la secuencia, así que su acción vive aquí
-		     y no al final del raíl, suelta debajo del resto de secciones. -->
-		{#if draft.arquitectura_id && !isEditorialOutput}
-			<button
-				type="button"
-				class="link-action mt-2 block"
-				onclick={() => {
-					addDeviation();
-					goTo('desviaciones');
-				}}
-			>
-				Registrar una desviación
-			</button>
 		{/if}
 
 		<!-- El resto de la secuencia: cada bloque es un destino con su propio título, al
@@ -1285,17 +1308,33 @@
 		{#each props.extraRailItems ?? [] as extra (extra.id)}
 			<button
 				type="button"
-				class="form-section-title mb-0 mt-5 block w-full text-left hover:text-[color:var(--foreground)]"
+				class="mb-0 mt-5 flex w-full items-baseline gap-2 text-left hover:text-[color:var(--foreground)]"
 				onclick={() => {
 					extra.alAbrir?.();
 					goTo(extra.id);
 				}}
 			>
-				{extra.label}
+				{#if extra.detalle}
+					<span
+						class={`mt-1 h-1.5 w-1.5 shrink-0 ${
+							extra.pendiente
+								? 'bg-[color:var(--primary)]'
+								: 'bg-[color:var(--muted-foreground)]'
+						}`}
+						aria-hidden="true"
+					></span>
+				{/if}
+				<span class="form-section-title mb-0 min-w-0 flex-1">{extra.label}</span>
+				{#if extra.detalle}
+					<span class="shrink-0 text-xs tabular-nums text-[color:var(--muted-foreground)]">
+						{extra.detalle}
+					</span>
+				{/if}
 			</button>
 		{/each}
 
-		{@render props.railExtra?.()}
+			{@render props.railExtra?.()}
+		</div>
 	</aside>
 
 	<!-- Cuerpo: una cosa cada vez. Lo métrico va junto, bajo un solo título. -->
@@ -1581,6 +1620,31 @@
 					{/key}
 				</section>
 			{/if}
+
+			<!--
+				**Declarar una desviación es responder, no navegar.**
+
+				Vivía en el raíl, entre los destinos, y era la única entrada que en vez de llevar a un
+				sitio ejecutaba algo. Su lugar es el final de las respuestas: el recuadro de la norma
+				termina diciendo «lo que no encaje aquí se registra como desviación», y esto es
+				justamente aquí.
+			-->
+			{#if draft.arquitectura_id && !isEditorialOutput}
+				<p class="text-sm text-[color:var(--muted-foreground)]">
+					¿Hay algo que no encaja en la norma?
+					<button
+						type="button"
+						class="link-action ml-1"
+						onclick={() => {
+							addDeviation();
+							goTo('desviaciones');
+						}}
+					>
+						Registrar una desviación
+					</button>
+				</p>
+			{/if}
+
 
 			{#if draft.desviaciones.length > 0}
 				<section
