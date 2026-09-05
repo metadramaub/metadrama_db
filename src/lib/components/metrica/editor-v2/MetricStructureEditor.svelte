@@ -33,7 +33,6 @@
 		buildGridRows,
 		estadoDeRespuesta,
 		nodeLabel,
-		preguntasCompartidas,
 		presenciaDeSeccion,
 		parentInstancesOf,
 		seccionesOpcionalesUniformes,
@@ -43,9 +42,9 @@
 		type GridFijasRow,
 		type GridRealizacionRow,
 		type GridRow,
-		type PreguntaCompartida,
 		type PreguntaEnFila
 	} from './grid-rows';
+	import { preguntasDelFormulario, type PreguntaFormulario } from './preguntas-formulario';
 
 	/**
 	 * La estructura de la secuencia, como una rejilla: a la izquierda lo que el pasaje es
@@ -176,10 +175,10 @@
 	 * es la que no se puede reordenar. Dentro de cada nivel sigue mandando el catálogo.
 	 */
 	const comunes = $derived(
-		(respondePorPartes ? [] : preguntasCompartidas(context))
-			.map((pregunta: PreguntaCompartida, indice: number) => ({ pregunta, indice }))
+		preguntasDelFormulario(context)
+			.map((pregunta: PreguntaFormulario, indice: number) => ({ pregunta, indice }))
 			.sort((a, b) => {
-				const deSeccion = (entrada: { pregunta: PreguntaCompartida }) =>
+				const deSeccion = (entrada: { pregunta: PreguntaFormulario }) =>
 					entrada.pregunta.groups.every(
 						(group: MetricCatalogDomainRow) => group.seccion_id
 					)
@@ -189,6 +188,56 @@
 			})
 			.map((entrada) => entrada.pregunta)
 	);
+	/**
+	 * **Un rasgo opcional sin responder no es una pregunta pendiente.**
+	 *
+	 * Es la misma regla que ya gobierna los rasgos de la secuencia —el dístico final o el
+	 * encadenamiento del endecasílabo suelto—, y no llegaba aquí: aquel chip solo mira las
+	 * preguntas cuya respuesta no cuelga de ninguna realización, y **el pie quebrado es de
+	 * unidad**. Por eso la quintilla preguntaba siempre por un quiebro que casi nunca hay, en vez
+	 * de ofrecerlo al pie.
+	 *
+	 * El criterio es la opcionalidad y no el rasgo: `posiciones_pie_quebrado` no cuelga de ningún
+	 * `rasgo_id` —eso es lo que dice F16— pero declara `selecciones_min = 0`, que es lo que
+	 * significa «solo si lo hay». Son diez preguntas de unidad en el catálogo, nueve de ellas el
+	 * quiebro.
+	 */
+	let rasgosPedidos = $state<string[]>([]);
+	function esLicenciaSinUsar(pregunta: PreguntaFormulario): boolean {
+		if (pregunta.groups.some((group) => Number(group.selecciones_min ?? 0) >= 1)) return false;
+		if (!esLicencia(pregunta)) return false;
+		if (rasgosPedidos.includes(pregunta.key)) return false;
+		return comunState(pregunta).answered === 0;
+	}
+
+	/**
+	 * **Una licencia es lo que la forma admite, no todo lo que se puede dejar en blanco.**
+	 *
+	 * El primer predicado era solo la opcionalidad, y con eso el esquema de rima de la copla
+	 * manriqueña —que el catálogo declara `0-1`— bajaba al pie como «+ esquema de rima»: la pregunta
+	 * principal de la forma, escondida detrás de un botón. Una licencia es un **rasgo** que la forma
+	 * admite, y el quiebro, que lo es en todo menos en la columna: cuelga de `metro` porque su rasgo
+	 * no tiene valores, que es lo que dice F16.
+	 */
+	function esLicencia(pregunta: PreguntaFormulario): boolean {
+		return (
+			Number(pregunta.groups[0]?.selecciones_min ?? 0) === 0 &&
+			pregunta.groups.every(
+				(group) =>
+					String(group.dimension) === 'rasgo' ||
+					(String(group.dimension) === 'metro' && pregunta.esPosicional)
+			)
+		);
+	}
+	/** Lo que se pregunta arriba: todo menos las licencias que nadie ha dicho que se usen. */
+	const preguntasVisibles = $derived(
+		comunes.filter((pregunta: PreguntaFormulario) => !esLicenciaSinUsar(pregunta))
+	);
+	/** Y lo que se ofrece al pie, en una línea, con un botón cada uno. */
+	const rasgosQueAdmite = $derived(
+		comunes.filter((pregunta: PreguntaFormulario) => esLicenciaSinUsar(pregunta))
+	);
+
 	const opcionales = $derived(respondePorPartes ? [] : seccionesOpcionalesUniformes(context));
 	/**
 	 * **Cómo se está respondiendo, para todas las preguntas a la vez.**
@@ -215,7 +264,6 @@
 
 
 	let unidadesPlegadas = $state(new Set<string>());
-	let pendingPositionsByAnswer = $state<Record<string, number[]>>({});
 	const unitShortName = $derived(
 		String(props.unitLabel ?? 'unidad').split(/\s+/)[0].toLocaleLowerCase('es')
 	);
@@ -224,22 +272,6 @@
 	);
 	const hayZonaComun = $derived(hayAjustesDeComposicion || comunes.length > 0);
 
-
-	function pendingAnswerKey(groupId: string, unitId: string): string {
-		return `${groupId}|${unitId}`;
-	}
-
-	function pendingPositionsFor(groupId: string, unitId: string): number[] {
-		return pendingPositionsByAnswer[pendingAnswerKey(groupId, unitId)] ?? [];
-	}
-
-	function setPendingPositionsFor(groupId: string, unitId: string, positions: number[]) {
-		const key = pendingAnswerKey(groupId, unitId);
-		const next = { ...pendingPositionsByAnswer };
-		if (positions.length > 0) next[key] = positions;
-		else delete next[key];
-		pendingPositionsByAnswer = next;
-	}
 
 	function optionsForGroup(groupId: string): MetricCatalogDomainRow[] {
 		return props.options
@@ -591,7 +623,7 @@
 		);
 	}
 
-	function comunOptions(pregunta: PreguntaCompartida): MetricCatalogDomainRow[] {
+	function comunOptions(pregunta: PreguntaFormulario): MetricCatalogDomainRow[] {
 		return optionsForGroup(String(pregunta.groups[0]?.grupo_eleccion_id ?? ''));
 	}
 
@@ -599,11 +631,9 @@
 	 * Una respuesta común solo puede utilizar posiciones que existan en todas sus unidades.
 	 * Así una copla de cinco versos no recibe las doce posiciones máximas del catálogo.
 	 */
-	function comunPositionLimit(pregunta: PreguntaCompartida): number | undefined {
-		const lengths = pregunta.groups.flatMap((group: MetricCatalogDomainRow) =>
-			unitsForGroup(context, group).map(
-				(unit: MetricUnitDraft) => unit.v_fin - unit.v_ini + 1
-			)
+	function comunPositionLimit(pregunta: PreguntaFormulario): number | undefined {
+		const lengths = pregunta.destinatarias.map(
+			({ owner }) => owner.v_fin - owner.v_ini + 1
 		);
 		return lengths.length > 0 ? Math.min(...lengths) : undefined;
 	}
@@ -647,18 +677,16 @@
 	 * cuántas unidades se apartan de ella. Con eso se decide qué se pinta abajo: si todas
 	 * coinciden, nada; si no, **solo las que se apartan**.
 	 */
-	function comunState(pregunta: PreguntaCompartida) {
+	function comunState(pregunta: PreguntaFormulario) {
 		const cuenta = new Map<string, number>();
 		let answered = 0;
 		let total = 0;
-		for (const group of pregunta.groups) {
-			for (const unit of unitsForGroup(context, group)) {
-				total += 1;
-				const firma = firmaComun(group, unit);
-				if (!firma) continue;
-				answered += 1;
-				cuenta.set(firma, (cuenta.get(firma) ?? 0) + 1);
-			}
+		for (const { group, owner: unit } of pregunta.destinatarias) {
+			total += 1;
+			const firma = firmaComun(group, unit);
+			if (!firma) continue;
+			answered += 1;
+			cuenta.set(firma, (cuenta.get(firma) ?? 0) + 1);
 		}
 		let mayoritaria = '';
 		let repeticiones = 0;
@@ -681,11 +709,28 @@
 		 * ahí no hay «las demás». Solo hay respuesta común si la comparte **más de la mitad**.
 		 */
 		const hayComun = answered > 0 && repeticiones > total / 2;
+		/**
+		 * **Lo que responde la mayoría es lo que enseña «en todas», aunque alguna se aparte.**
+		 *
+		 * `uniform` solo tiene valor cuando coinciden todas, y con eso el control se vaciaba en
+		 * cuanto se declaraba la primera excepción: la pantalla decía «salvo 1 de 5 · abbab» encima
+		 * de un desplegable sin elegir, que es justo lo contrario de lo que había pasado.
+		 *
+		 * Enseñar la mayoritaria fue peligroso mientras responder arriba escribía en todas —marcar
+		 * un quebrado más partía del de una sola copla y lo extendía a las demás—. Ya no lo es:
+		 * responder arriba escribe **solo en las que siguen la norma**, así que lo que se ve es lo
+		 * que se va a tocar.
+		 */
+		const [generalSlugs, generalTexto] = hayComun
+			? leerFirma(mayoritaria)
+			: [uniform ?? [], textoUniforme ?? ''];
 		return {
 			total,
 			answered,
 			uniform,
 			textoUniforme,
+			generalSlugs,
+			generalTexto,
 			hayComun,
 			mayoritaria: hayComun ? mayoritaria : null,
 			// Sin ninguna respuesta no hay excepción: la pregunta está entera por contestar, y esa
@@ -702,17 +747,15 @@
 	 * respuestas, la pantalla tiene dos renglones, no cuarenta. Medido sobre el corpus, es siempre
 	 * así: el máximo de variedad son cuatro esquemas en 43 unidades, y siempre hay uno dominante.
 	 */
-	function excepcionesDe(pregunta: PreguntaCompartida, mayoritaria: string | null) {
+	function excepcionesDe(pregunta: PreguntaFormulario, mayoritaria: string | null) {
 		if (!mayoritaria) return [];
 		const porFirma = new Map<string, MetricUnitDraft[]>();
-		for (const group of pregunta.groups) {
-			for (const unit of unitsForGroup(context, group)) {
-				const firma = firmaComun(group, unit);
-				if (firma === mayoritaria) continue;
-				const actuales = porFirma.get(firma) ?? [];
-				actuales.push(unit);
-				porFirma.set(firma, actuales);
-			}
+		for (const { group, owner: unit } of pregunta.destinatarias) {
+			const firma = firmaComun(group, unit);
+			if (firma === mayoritaria) continue;
+			const actuales = porFirma.get(firma) ?? [];
+			actuales.push(unit);
+			porFirma.set(firma, actuales);
 		}
 		return [...porFirma.entries()]
 			.map(([firma, unidades]) => ({
@@ -725,7 +768,7 @@
 	}
 
 	/** Cómo se llama lo que una firma dice, para poder leerla sin descifrarla. */
-	function etiquetaDeFirma(pregunta: PreguntaCompartida, firma: string): string {
+	function etiquetaDeFirma(pregunta: PreguntaFormulario, firma: string): string {
 		const [slugs, escrito] = leerFirma(firma);
 		if (escrito) return escrito;
 		if (slugs.length === 0) return 'sin responder';
@@ -760,11 +803,9 @@
 		for (const pregunta of comunes) {
 			const estado = comunState(pregunta);
 			if (!estado.hayComun) continue;
-			for (const group of pregunta.groups) {
-				for (const unit of unitsForGroup(context, group)) {
-					if (firmaComun(group, unit) !== estado.mayoritaria) {
-						apartadas.add(unit.realizacion_id);
-					}
+			for (const { group, owner: unit } of pregunta.destinatarias) {
+				if (firmaComun(group, unit) !== estado.mayoritaria) {
+					apartadas.add(unit.realizacion_id);
 				}
 			}
 		}
@@ -774,7 +815,7 @@
 	/** Cuántas unidades hay en total, para rotular el selector. */
 	const totalDeUnidades = $derived.by(() =>
 		comunes.reduce(
-			(maximo: number, pregunta: PreguntaCompartida) =>
+			(maximo: number, pregunta: PreguntaFormulario) =>
 				Math.max(maximo, comunState(pregunta).total),
 			0
 		)
@@ -790,7 +831,7 @@
 	 */
 	/** Si alguna pregunta no tiene ya una sola respuesta para todas. */
 	const hayDivergencia = $derived(
-		comunes.some((pregunta: PreguntaCompartida) => {
+		comunes.some((pregunta: PreguntaFormulario) => {
 			const estado = comunState(pregunta);
 			return estado.answered > 0 && estado.uniform === null;
 		})
@@ -836,8 +877,7 @@
 	 * añadir o quitar. En cuanto algo de eso aparece, vuelve la rejilla entera.
 	 */
 	const listaCompacta = $derived(
-		!mostrarUnidades &&
-			rows.length > 0 &&
+		rows.length > 0 &&
 			unidadesRaiz.length > 0 &&
 			rows.every((row: GridRow) => {
 				if (row.kind === 'acciones' || row.kind === 'pregunta') return false;
@@ -870,11 +910,10 @@
 	function volverAConjunto() {
 		let nextChoices = [...props.choices];
 		let nextUnits = [...props.units];
-		const siguientesPendientes = { ...pendingPositionsByAnswer };
 		for (const pregunta of comunes) {
-			for (const group of pregunta.groups) {
+			for (const { group, owner: unit } of pregunta.destinatarias) {
 				const groupId = String(group.grupo_eleccion_id);
-				for (const unit of unitsForGroup(context, group)) {
+				{
 					nextChoices = escribirRespuesta(nextChoices, groupId, unit.realizacion_id, []);
 					nextUnits = syncChoiceMaterializedSections(
 						nextUnits,
@@ -886,11 +925,9 @@
 						nextChoices,
 						props.options
 					);
-					delete siguientesPendientes[pendingAnswerKey(groupId, unit.realizacion_id)];
 				}
 			}
 		}
-		pendingPositionsByAnswer = siguientesPendientes;
 		props.onChoicesChange(nextChoices);
 		commitUnits(nextUnits);
 		verUnidades = false;
@@ -1284,17 +1321,15 @@
 	}
 
 	/** Lo mismo para el atajo: en conjunto todas responden igual, así que basta con la primera. */
-	function medidasFijasComunes(pregunta: PreguntaCompartida): (number | null)[] {
-		const primera = pregunta.groups
-			.flatMap((group: MetricCatalogDomainRow) => unitsForGroup(context, group))
-			.at(0);
+	function medidasFijasComunes(pregunta: PreguntaFormulario): (number | null)[] {
+		const primera = pregunta.destinatarias.at(0)?.owner;
 		if (!primera) return [];
 		return medidasFijasDe(primera, 1, comunPositionLimit(pregunta) ?? primera.v_fin - primera.v_ini + 1);
 	}
 
 	/** Si a esta unidad le llega alguna de las preguntas que se responden en común. */
 	function esUnidadComun(unit: MetricUnitDraft): boolean {
-		return comunes.some((pregunta: PreguntaCompartida) =>
+		return comunes.some((pregunta: PreguntaFormulario) =>
 			pregunta.groups.some((group: MetricCatalogDomainRow) =>
 				unitsForGroup(context, group).some(
 					(candidate: MetricUnitDraft) => candidate.realizacion_id === unit.realizacion_id
@@ -1304,10 +1339,10 @@
 	}
 
 	/** La familia a la que pertenece un grupo, si es de las que se responden en conjunto. */
-	function familiaDe(group: MetricCatalogDomainRow): PreguntaCompartida | null {
+	function familiaDe(group: MetricCatalogDomainRow): PreguntaFormulario | null {
 		const groupId = String(group.grupo_eleccion_id);
 		return (
-			comunes.find((comun: PreguntaCompartida) =>
+			comunes.find((comun: PreguntaFormulario) =>
 				comun.groups.some(
 					(miembro: MetricCatalogDomainRow) =>
 						String(miembro.grupo_eleccion_id) === groupId
@@ -1317,19 +1352,18 @@
 	}
 
 	/** Responde en el acto en todas las unidades. Ya no hay que preparar nada y aplicarlo después. */
-	function aplicarComun(pregunta: PreguntaCompartida, slugs: string[]) {
-		const resultado = writeComunChoice(pregunta, slugs, [...props.choices], [...props.units]);
-		// Un verso marcado como quebrado en una unidad, al que aún le falta la medida, describe una
-		// respuesta que el atajo acaba de sobrescribir: se va con ella. Si no, la unidad reclamaba
-		// una medida para un quebrado que ya no está.
-		const siguientes = { ...pendingPositionsByAnswer };
-		for (const group of pregunta.groups) {
-			const groupId = String(group.grupo_eleccion_id);
-			for (const unit of unitsForGroup(context, group)) {
-				delete siguientes[pendingAnswerKey(groupId, unit.realizacion_id)];
-			}
-		}
-		pendingPositionsByAnswer = siguientes;
+	function aplicarComun(
+		pregunta: PreguntaFormulario,
+		slugs: string[],
+		soloEn: Set<string> | null = null
+	) {
+		const resultado = writeComunChoice(
+			pregunta,
+			slugs,
+			[...props.choices],
+			[...props.units],
+			soloEn
+		);
 		props.onChoicesChange(resultado.choices);
 		commitUnits(resultado.units);
 	}
@@ -1340,12 +1374,14 @@
 	 * Va por separado de `writeComunChoice` porque no hay slug que copiar: se copia la notación,
 	 * ya normalizada, exactamente como la escribiría cada unidad por su cuenta.
 	 */
-	function aplicarComunTexto(pregunta: PreguntaCompartida, value: string) {
+	function aplicarComunTexto(
+		pregunta: PreguntaFormulario,
+		value: string,
+		soloEn: Set<string> | null = null
+	) {
 		// En conjunto todas las unidades responden lo mismo, así que la caja se decide con la
 		// primera: si midieran distinto, la pregunta no sería común.
-		const primera = pregunta.groups
-			.flatMap((group: MetricCatalogDomainRow) => unitsForGroup(context, group))
-			.at(0);
+		const primera = pregunta.destinatarias.at(0)?.owner;
 		const esSerie = pregunta.groups.some(
 			(group: MetricCatalogDomainRow) => String(group.tipo_control ?? '') === 'serie_medidas'
 		);
@@ -1353,9 +1389,10 @@
 			? value.replace(/\s+/g, ' ').trimStart()
 			: normalizeRhymeScheme(value, primera);
 		let siguientes = [...props.choices];
-		for (const group of pregunta.groups) {
+		for (const { group, owner: unit } of pregunta.destinatarias) {
 			const groupId = String(group.grupo_eleccion_id);
-			for (const unit of unitsForGroup(context, group)) {
+			{
+				if (soloEn && !soloEn.has(unit.realizacion_id)) continue;
 				siguientes = siguientes.filter(
 					(choice: MetricChoiceDraft) =>
 						!(
@@ -1377,8 +1414,121 @@
 		props.onChoicesChange(siguientes);
 	}
 
+	/**
+	 * **Las unidades a las que apunta una pregunta, numeradas y en orden de verso.**
+	 *
+	 * Una excepción se declara señalando unidades, así que hace falta poder nombrarlas: «3 ·
+	 * vv. 11-15». El número es de la pregunta, no de la secuencia: una pregunta que solo alcanza
+	 * a las mudanzas numera mudanzas.
+	 */
+	function unidadesDe(pregunta: PreguntaFormulario) {
+		const filas: { unit: MetricUnitDraft; group: MetricCatalogDomainRow; firma: string }[] = [];
+		for (const { group, owner: unit } of pregunta.destinatarias) {
+			filas.push({ unit, group, firma: firmaComun(group, unit) });
+		}
+		filas.sort((primera, segunda) => primera.unit.v_ini - segunda.unit.v_ini);
+		return filas.map((fila, indice) => ({ ...fila, numero: indice + 1 }));
+	}
+
+	/**
+	 * **Las unidades que siguen la norma**: todas menos las que ya se apartan.
+	 *
+	 * Es lo que hace que «en todas» y «salvo» sean un solo mecanismo y no dos que se pisan. Sin
+	 * esto, cambiar la respuesta general borraba las excepciones declaradas, que es exactamente lo
+	 * que el editor acababa de decir que no eran.
+	 */
+	function siguenLaNorma(pregunta: PreguntaFormulario): Set<string> | null {
+		const state = comunState(pregunta);
+		if (!state.mayoritaria) return null;
+		const ids = new Set<string>();
+		for (const fila of unidadesDe(pregunta)) {
+			if (fila.firma === state.mayoritaria || !fila.firma) ids.add(fila.unit.realizacion_id);
+		}
+		return ids;
+	}
+
+	/** Responder arriba escribe en las que siguen la norma, y deja en paz a las que se apartan. */
+	function responderEnTodas(pregunta: PreguntaFormulario, slugs: string[]) {
+		aplicarComun(pregunta, slugs, siguenLaNorma(pregunta));
+	}
+
+	function responderEnTodasTexto(pregunta: PreguntaFormulario, value: string) {
+		aplicarComunTexto(pregunta, value, siguenLaNorma(pregunta));
+	}
+
+	/**
+	 * La excepción que se está declarando: qué responde y en qué unidades.
+	 *
+	 * Se lleva aparte de las respuestas hasta que se acepta, porque hasta entonces no es una
+	 * respuesta de nadie: media excepción escrita en la base son unidades respondiendo cosas que
+	 * el editor no ha terminado de decir.
+	 */
+	let excepcionAbierta = $state<string | null>(null);
+	let excepcionSlugs = $state<string[]>([]);
+	let excepcionTexto = $state('');
+	let excepcionUnidades = $state<string[]>([]);
+
+	function abrirExcepcion(pregunta: PreguntaFormulario) {
+		excepcionAbierta = pregunta.key;
+		excepcionSlugs = [];
+		excepcionTexto = '';
+		excepcionUnidades = [];
+	}
+
+	function cancelarExcepcion() {
+		excepcionAbierta = null;
+		excepcionSlugs = [];
+		excepcionTexto = '';
+		excepcionUnidades = [];
+	}
+
+	function alternarUnidadDeExcepcion(realizacionId: string) {
+		excepcionUnidades = excepcionUnidades.includes(realizacionId)
+			? excepcionUnidades.filter((id) => id !== realizacionId)
+			: [...excepcionUnidades, realizacionId];
+	}
+
+	/** Una excepción necesita las dos mitades: qué se responde y dónde. */
+	const excepcionCompleta = $derived(
+		excepcionUnidades.length > 0 && (excepcionSlugs.length > 0 || excepcionTexto.trim().length > 0)
+	);
+
+	function guardarExcepcion(pregunta: PreguntaFormulario) {
+		const ids = new Set(excepcionUnidades);
+		if (excepcionTexto.trim()) aplicarComunTexto(pregunta, excepcionTexto, ids);
+		else aplicarComun(pregunta, excepcionSlugs, ids);
+		cancelarExcepcion();
+	}
+
+	/**
+	 * Quitar una excepción es devolver esas unidades a lo que responde la norma, no vaciarlas.
+	 *
+	 * Vaciarlas dejaría la pregunta sin responder en dos coplas de cincuenta, que no es lo que
+	 * significa «quitar» aquí: significa que también responden lo de todas.
+	 */
+	function quitarExcepcion(pregunta: PreguntaFormulario, unidades: MetricUnitDraft[]) {
+		const state = comunState(pregunta);
+		if (!state.mayoritaria) return;
+		const [slugs, escrito] = leerFirma(state.mayoritaria);
+		const ids = new Set(unidades.map((unidad) => unidad.realizacion_id));
+		if (escrito) aplicarComunTexto(pregunta, escrito, ids);
+		else aplicarComun(pregunta, slugs, ids);
+	}
+
+	/**
+	 * Si la pregunta se lee como un punto de partida en vez de como una respuesta de todas.
+	 *
+	 * Una licencia no se responde «en todas»: se parte de que ninguna unidad la lleva y se dice en
+	 * cuáles aparece. Es la misma frontera que decide si la pregunta vive al pie o arriba, así que
+	 * se pregunta una sola vez —antes esto miraba si el control era posicional, y con eso la medida
+	 * de cada verso del pareado, que es obligatoria, se anunciaba como un punto de partida.
+	 */
+	function esDePartida(pregunta: PreguntaFormulario): boolean {
+		return esLicencia(pregunta);
+	}
+
 	/** El campo de rima habla en identificadores de opción; la respuesta común viaja por slug. */
-	function idsComunes(pregunta: PreguntaCompartida, slugs: string[]): string[] {
+	function idsComunes(pregunta: PreguntaFormulario, slugs: string[]): string[] {
 		const groupId = String(pregunta.groups[0]?.grupo_eleccion_id ?? '');
 		return optionsForGroup(groupId)
 			.filter((option: MetricCatalogDomainRow) => slugs.includes(String(option.slug)))
@@ -1386,10 +1536,10 @@
 	}
 
 	/** Lo que hace falta para leer un esquema escrito: se toma de la primera unidad, que las representa. */
-	function normaEsquemaComun(pregunta: PreguntaCompartida) {
+	function normaEsquemaComun(pregunta: PreguntaFormulario) {
 		const group = pregunta.groups[0];
 		if (!group) return undefined;
-		const unit = unitsForGroup(context, group)[0];
+		const unit = pregunta.destinatarias[0]?.owner;
 		return unit ? normaEsquemaDe(group, unit) : undefined;
 	}
 
@@ -1399,20 +1549,24 @@
 	 * opciones apuntando al mismo dato.
 	 */
 	function writeComunChoice(
-		pregunta: PreguntaCompartida,
+		pregunta: PreguntaFormulario,
 		slugs: string[],
 		baseChoices: MetricChoiceDraft[],
-		baseUnits: MetricUnitDraft[]
+		baseUnits: MetricUnitDraft[],
+		soloEn: Set<string> | null = null
 	): { choices: MetricChoiceDraft[]; units: MetricUnitDraft[] } {
 		let nextChoices = [...baseChoices];
 		let nextUnits = [...baseUnits];
-		for (const group of pregunta.groups) {
+		for (const { group, owner: unit } of pregunta.destinatarias) {
 			const groupId = String(group.grupo_eleccion_id);
 			const optionIds = optionsForGroup(groupId)
 				.filter((candidate: MetricCatalogDomainRow) => slugs.includes(String(candidate.slug)))
 				.map((option: MetricCatalogDomainRow) => String(option.opcion_eleccion_id));
+			// La respuesta viaja por slug porque cada grupo de la familia tiene sus propias
+			// opciones apuntando al mismo dato; donde ese slug no existe, no hay nada que escribir.
 			if (slugs.length > 0 && optionIds.length === 0) continue;
-			for (const unit of unitsForGroup(context, group)) {
+			{
+				if (soloEn && !soloEn.has(unit.realizacion_id)) continue;
 				nextChoices = escribirRespuesta(
 					nextChoices,
 					groupId,
@@ -2068,29 +2222,21 @@
 		{#if comunes.length > 0}
 			<div class={hayAjustesDeComposicion ? 'border-t border-[color:var(--border)]' : ''}>
 				<!--
-					**Una sola manera de responder, y la lista como detalle.**
+					**Una sola manera de responder, y ninguna lista que abrir.**
 
-					Aquí hubo un interruptor de dos modos —«en conjunto» y «una a una»— que obligaba a
-					decidir cómo se iba a trabajar antes de saber si haría falta. Medido sobre el corpus,
-					no hace falta casi nunca: las secuencias de más de diez unidades son el 86 % de los
-					versos y **nunca responden todas cosas distintas**; el máximo son cuatro respuestas
-					en 43 unidades, con una dominante. Así que se responde una vez, lo que se aparta se
-					lee arriba, y la lista se abre para revisar o para corregir una unidad.
+					Aquí hubo un interruptor de dos modos —«en conjunto» y «una a una»—, y después un
+					«ver las N unidades» que desplegaba una rejilla editable. Las dos cosas partían de que
+					apartarse era trabajar de otra manera. No lo es: medido sobre el corpus, las
+					secuencias de más de diez unidades son el 86 % de los versos y **nunca responden todas
+					cosas distintas** —el máximo son cuatro respuestas en 43 unidades, siempre con una
+					dominante—. Así que se responde una vez y se dice lo que se aparta, ahí mismo.
 				-->
-				<div class="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+				<div
+					class="border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2"
+				>
 					<p class="form-grid-title">Respuestas</p>
-					{#if totalDeUnidades > 1}
-						<button type="button" class="link-action text-xs" onclick={alternarUnidades}>
-							{mostrarUnidades ? 'Ocultar' : 'Ver'} las {totalDeUnidades} unidades
-						</button>
-					{/if}
 				</div>
 
-				<!--
-					En «una a una» el campo común sigue aquí, porque partir de lo corriente y matizar
-					después ahorra mucho trabajo. Pero se anuncia como lo que es —un atajo— y se
-					atenúa, para que no compita con los campos de cada unidad, que son los que mandan.
-				-->
 				{#if confirmarConjunto}
 					<div class="border-b border-amber-300 bg-amber-50 px-3 py-2.5">
 						<p class="text-xs text-amber-950">
@@ -2114,132 +2260,290 @@
 							</button>
 						</div>
 					</div>
-				{:else if hayDivergencia}
-					<!-- Con algo que se aparta, igualar todas es una acción que hay que poder pedir; y
-					     como borra lo que las unidades respondieron por su cuenta, se confirma. -->
-					<p class="border-b border-[color:var(--border)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
-						Hay unidades que responden otra cosa.
-						<button
-							type="button"
-							class="link-action ml-1"
-							onclick={() => (confirmarConjunto = true)}
-						>
-							Igualar todas
-						</button>
-					</p>
-				{:else if mostrarUnidades}
-					<p class="border-b border-[color:var(--border)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
-						Lo que respondas aquí se escribe en las {totalDeUnidades} unidades. Cada una puede
-						corregirse después, abajo.
-					</p>
 				{/if}
 
+				<!--
+					**El bloque de la maqueta, no una fila de la rejilla.**
+
+					Esto era una fila de dos columnas —rótulo a la izquierda, control a la derecha—, que
+					es la disposición de siempre, y por eso responder no cambiaba la pantalla. La maqueta
+					decidió otra cosa: cada pregunta es un bloque apilado que se lee en tres renglones
+					—qué responde la secuencia, qué se aparta y en qué unidades— y esos tres renglones
+					son el único sitio donde se anota. Se probó así sobre ocho casos medidos, del romance
+					sin unidades al villancico por ciclos.
+				-->
 				<div>
-					{#each comunes as pregunta (pregunta.key)}
+					{#each preguntasVisibles as pregunta (pregunta.key)}
 						{@const state = comunState(pregunta)}
-						<MetricGridRow
-							label={pregunta.label}
-							rango={state.answered === 0
-								? `${state.total} unidades`
-								: state.excepciones === 0
-									? `en las ${state.total} unidades`
-									: `en ${state.total - state.excepciones} de ${state.total}`}
-							variant="comun"
-						>
-							{#if state.uniform === null && state.answered > 0}
+						{@const apartadas = state.hayComun ? excepcionesDe(pregunta, state.mayoritaria) : []}
+						{@const dePartida = esDePartida(pregunta)}
+						{@const porUnidades = pregunta.alcance === 'unidad'}
+						<div class="space-y-1.5 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
+							<span class="block text-sm font-medium">{pregunta.rotulo}</span>
+
 							<!--
-								**Un atajo que ya no puede hablar por todas se retira.**
-
-								Con respuestas distintas, el control se pintaba vacío —como si todos los
-								versos fueran de ocho— mientras una nota decía que las unidades conservan
-								respuestas distintas. Enseñar un estado falso al lado de la advertencia de
-								que es falso no ayuda a nadie: mejor no enseñarlo.
+								Lo general. El rótulo del alcance va pegado al control para que no se lea como
+								una respuesta más de las de abajo: dice de quién habla lo que se está eligiendo.
 							-->
-							{#if state.hayComun}
-								{@const apartadas = excepcionesDe(pregunta, state.mayoritaria)}
-								<div class="text-sm">
-									<p class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-										Salvo {state.excepciones} de {state.total}
-									</p>
-									{#each apartadas as grupo (grupo.firma)}
-										<p class="leading-6">
-											<span class="font-medium">{grupo.etiqueta}</span>
-											<span class="text-[color:var(--muted-foreground)]">
-												· {grupo.unidades.length}
-												{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
-											>
-										</p>
-									{/each}
-								</div>
-							{:else}
-								<p class="text-sm text-[color:var(--muted-foreground)]">
-									Cada unidad responde una cosa distinta. Se editan abajo, unidad por unidad.
-								</p>
-							{/if}
-						{:else}
-							<div class="flex flex-wrap items-start gap-2">
+							<div class="flex flex-wrap items-center gap-2">
 								<!--
-									**`uniform` va en nulo cuando las unidades no coinciden, y punto.**
+									**Con una sola realización no hay «en todas».**
 
-									El control construye la selección nueva a partir de lo que aquí se le
-									pasa, y sabe pintarse «mixto» cuando recibe nulo habiendo respuestas.
-									Hubo un momento en que se le pasaba la respuesta mayoritaria para que
-									se viera algo, y salió caro: con un quebrado puesto en una sola copla,
-									el atajo lo mostraba como si fuera de todas, y al marcar dos más
-									partía de aquel y escribía los tres en todas. Cuántas coinciden se
-									dice al lado, en el rótulo, que es donde no hace daño.
+									«En todas» y el raíl de excepciones dicen que la respuesta vale para un
+									conjunto del que algo puede apartarse. Una quintilla suelta no tiene conjunto:
+									se responde y ya, como el romance. Es el caso que la maqueta no llegó a
+									recoger —24 de las 134 secuencias con unidad— y el que hacía ver aquí la
+									pantalla vieja.
 								-->
+								{#if porUnidades}
+									<span
+										class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+									>
+										{dePartida ? 'De partida' : 'En todas'}
+									</span>
+								{/if}
 								{#if pregunta.admiteEscrito}
-									<!--
-										**El mismo campo que usa cada unidad, no una copia.**
-
-										Escribir aquí un segundo campo de esquema con su lectura contra la
-										norma y su selector de régimen es exactamente lo que ya pasó una vez
-										con el control común, y acabaron divergiendo. El rótulo lo pone la
-										fila, así que el campo va sin el suyo.
-
-										Vale para los dos controles de rima. En el de repertorio con salida
-										abierta hacía falta igual: la octava real invita por escrito a
-										escribir otro esquema y en conjunto no había dónde.
-									-->
 									<div class="min-w-0 flex-1">
 										<MetricChoiceField
 											group={pregunta.groups[0]}
 											variant="celda"
 											sinRotulo
-											label={pregunta.label}
+											label={pregunta.rotulo}
 											options={comunOptions(pregunta)}
 											normaEsquema={normaEsquemaComun(pregunta)}
-											selectedIds={idsComunes(pregunta, state.uniform ?? [])}
-											onChange={(ids) => aplicarComun(pregunta, ids.map(optionSlugOf))}
-											textValue={state.textoUniforme ?? ''}
-											onTextChange={(value) => aplicarComunTexto(pregunta, value)}
+											selectedIds={idsComunes(pregunta, state.generalSlugs)}
+											onChange={(ids) => responderEnTodas(pregunta, ids.map(optionSlugOf))}
+											textValue={state.generalTexto}
+											onTextChange={(value) => responderEnTodasTexto(pregunta, value)}
 										/>
 									</div>
 								{:else}
 									<MetricFamilyControl
 										group={pregunta.groups[0]}
 										options={comunOptions(pregunta)}
-										uniform={state.uniform}
+										uniform={state.hayComun ? state.generalSlugs : state.uniform}
 										answered={state.answered}
 										realizaciones={state.total}
-										ariaLabel={pregunta.label}
+										ariaLabel={pregunta.rotulo}
 										positionLimit={comunPositionLimit(pregunta)}
 										medidasFijas={medidasFijasComunes(pregunta)}
-										onChoose={(slugs) => aplicarComun(pregunta, slugs)}
+										onChoose={(slugs) => responderEnTodas(pregunta, slugs)}
 									/>
 								{/if}
-								{#if pregunta.help}
-									<FieldHelpTooltip
-										text={pregunta.help}
-										label={`Ayuda sobre «${pregunta.label}»`}
-									/>
+								{#if porUnidades}
+									<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">
+										· {state.total}
+										{state.total === 1 ? 'unidad' : 'unidades'}
+									</span>
+								{/if}
+								{#if pregunta.ayuda}
+									<FieldHelpTooltip text={pregunta.ayuda} label={`Ayuda sobre «${pregunta.rotulo}»`} />
 								{/if}
 							</div>
-						{/if}
-					</MetricGridRow>
+
+							<!--
+								Y lo que se aparta, con la misma forma siempre: cuántas, cuáles y dónde. El raíl
+								está aunque no haya ninguna, porque es también donde se declara la primera: sin
+								él, apartarse obligaba a bajar a una lista y abrir una unidad.
+							-->
+							{#if porUnidades}
+							<div class="border-l-2 border-[color:var(--primary)] pl-3">
+								{#if apartadas.length === 0}
+									<p class="text-sm text-[color:var(--muted-foreground)]">
+										{#if state.answered > 0 && !state.hayComun}
+											Cada unidad responde una cosa distinta.
+										{:else}
+											Sin excepciones.
+										{/if}
+										{#if excepcionAbierta !== pregunta.key}
+											<button
+												type="button"
+												class="link-action ml-1"
+												onclick={() => abrirExcepcion(pregunta)}
+											>
+												Añadir una
+											</button>
+										{/if}
+									</p>
+								{:else}
+									<p class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+										Salvo {state.excepciones} de {state.total}
+									</p>
+									{#each apartadas as grupo (grupo.firma)}
+										<p class="text-sm leading-6">
+											<span class="font-medium">{grupo.etiqueta}</span>
+											<span class="text-[color:var(--muted-foreground)]">
+												· {grupo.unidades.length}
+												{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
+											>
+											<button
+												type="button"
+												class="link-action ml-1"
+												onclick={() => quitarExcepcion(pregunta, grupo.unidades)}
+											>
+												quitar
+											</button>
+										</p>
+									{/each}
+									{#if excepcionAbierta !== pregunta.key}
+										<button
+											type="button"
+											class="link-action text-sm"
+											onclick={() => abrirExcepcion(pregunta)}
+										>
+											Añadir otra
+										</button>
+									{/if}
+							{/if}
+							</div>
+
+							<!--
+								**Declarar la excepción es decir dos cosas: qué responde y dónde.**
+
+								Van juntas y no se guarda nada hasta que están las dos: media excepción escrita
+								son unidades respondiendo algo que nadie ha terminado de decir.
+
+								**Y va fuera del raíl**, no dentro. Metido ahí, un formulario con su recuadro, su
+								control y una lista de casillas quedaba anidado tres niveles bajo la pregunta y
+								empujaba las excepciones ya declaradas contra el margen. El raíl es para leer lo
+								que se aparta; esto es para declararlo.
+							-->
+							{#if excepcionAbierta === pregunta.key}
+								{@const filas = unidadesDe(pregunta)}
+								<div class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2.5">
+									<div class="flex flex-wrap items-center gap-2">
+										<span
+											class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+										>
+											Responden
+										</span>
+										{#if pregunta.admiteEscrito}
+											<div class="min-w-0 flex-1">
+												<MetricChoiceField
+													group={pregunta.groups[0]}
+													variant="celda"
+													sinRotulo
+													label={`Excepción de «${pregunta.rotulo}»`}
+													options={comunOptions(pregunta)}
+													normaEsquema={normaEsquemaComun(pregunta)}
+													selectedIds={idsComunes(pregunta, excepcionSlugs)}
+													onChange={(ids) => (excepcionSlugs = ids.map(optionSlugOf))}
+													textValue={excepcionTexto}
+													onTextChange={(value) => (excepcionTexto = value)}
+												/>
+											</div>
+										{:else}
+											<MetricFamilyControl
+												group={pregunta.groups[0]}
+												options={comunOptions(pregunta)}
+												uniform={excepcionSlugs}
+												answered={excepcionSlugs.length}
+												realizaciones={1}
+												ariaLabel={`Excepción de «${pregunta.rotulo}»`}
+												positionLimit={comunPositionLimit(pregunta)}
+												medidasFijas={medidasFijasComunes(pregunta)}
+												onChoose={(slugs) => (excepcionSlugs = slugs)}
+											/>
+										{/if}
+									</div>
+
+									<!--
+										**Las unidades, en fichas.**
+
+										Eran una lista de casillas con su número y su rango, una fila cada una: en la
+										quintilla de *El mágico prodigioso* son cincuenta y dos filas dentro de una
+										caja con su propio desplazamiento, para señalar siete. En fichas caben en
+										dos renglones y se ven de un vistazo las que ya están marcadas. El rango
+										sigue estando, en el título de cada ficha, que es donde hace falta: se
+										consulta al dudar de una, no al recorrerlas.
+									-->
+									<div class="mt-2 flex flex-wrap items-center gap-2">
+										<span
+											class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+										>
+											En
+										</span>
+										<div class="flex flex-wrap gap-1">
+											{#each filas as fila (fila.unit.realizacion_id)}
+												{@const marcada = excepcionUnidades.includes(fila.unit.realizacion_id)}
+												<button
+													type="button"
+													class={`min-h-7 min-w-8 border px-1.5 text-xs tabular-nums ${
+														marcada
+															? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
+															: 'border-[color:var(--border)] bg-white hover:border-[color:var(--primary)]'
+													}`}
+													aria-pressed={marcada}
+													title={`Unidad ${fila.numero} · vv. ${fila.unit.v_ini}–${fila.unit.v_fin}`}
+													onclick={() => alternarUnidadDeExcepcion(fila.unit.realizacion_id)}
+												>
+													{fila.numero}
+												</button>
+											{/each}
+										</div>
+									</div>
+
+									<div class="mt-2.5 flex flex-wrap items-center gap-3">
+										<button
+											type="button"
+											class="h-8 bg-[color:var(--primary)] px-3 text-xs font-medium text-white disabled:opacity-40"
+											disabled={!excepcionCompleta}
+											onclick={() => guardarExcepcion(pregunta)}
+										>
+											Añadir la excepción
+										</button>
+										<button type="button" class="link-action text-xs" onclick={cancelarExcepcion}>
+											Cancelar
+										</button>
+										{#if excepcionUnidades.length > 0}
+											<span class="text-xs text-[color:var(--muted-foreground)]">
+												{excepcionUnidades.length}
+												{excepcionUnidades.length === 1 ? 'unidad' : 'unidades'} · {rangosDeUnidades(
+													filas
+														.filter((fila) => excepcionUnidades.includes(fila.unit.realizacion_id))
+														.map((fila) => fila.unit)
+												)}
+											</span>
+										{/if}
+									</div>
+								</div>
+							{/if}
+							{/if}
+						</div>
 					{/each}
 				</div>
+
+				<!--
+					**Lo que la forma admite y nadie ha dicho que haya, al pie.**
+
+					Cinco licencias puestas arriba se leen como cinco cosas que resolver y hacen creer
+					que el trabajo es mayor de lo que es. Aquí abajo ocupan una línea, y suben con las
+					demás en cuanto se dice que las hay: entonces ya no son una licencia sin usar sino
+					un dato de esta realización.
+
+					Cada una con su botón, porque un «sí» al final de una lista de tres no dice a cuál
+					se le está diciendo que sí.
+				-->
+				{#if rasgosQueAdmite.length > 0}
+					<div
+						class="flex flex-wrap items-center gap-2 border-t border-[color:var(--border)] px-3 py-2"
+					>
+						<span class="text-xs text-[color:var(--muted-foreground)]">
+							{rasgosQueAdmite.length === 1
+								? 'Esta forma admite además, si lo hay:'
+								: 'Esta forma admite además, si los hay:'}
+						</span>
+						{#each rasgosQueAdmite as pregunta (pregunta.key)}
+							<button
+								type="button"
+								class="border border-[color:var(--border)] bg-white px-2 py-1 text-xs hover:border-[color:var(--primary)]"
+								onclick={() => (rasgosPedidos = [...rasgosPedidos, pregunta.key])}
+							>
+								+ {pregunta.rotulo.toLocaleLowerCase('es')}
+							</button>
+						{/each}
+					</div>
+				{/if}
 			</div>
 		{/if}
 	</div>
@@ -2253,8 +2557,19 @@
 	{#if !listadoSinNadaQueDecir}
 	<div class={hayZonaComun ? 'mt-6 border border-[color:var(--border)]' : 'border border-[color:var(--border)]'}>
 		{#if rows.length > 0}
+			<!--
+				**El rótulo dice lo que hay debajo, y debajo no siempre hay lo mismo.**
+
+				Donde la forma se lee entera en versos, esto es lo que va a quedar guardado. Donde crece
+				por partes —villancico, zéjel, canción— aquí abajo ya no se responde nada: **las
+				preguntas subieron todas a la zona de respuestas** y lo que queda es cómo se reparte el
+				pasaje —cuántos versos lleva la cabeza, cuántos ciclos hay, dónde acaba cada estancia—.
+				Se llamaba «la secuencia, parte por parte», que era su nombre cuando ahí se anotaba.
+			-->
 			<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
-				{totalDeUnidades > 1 ? 'La secuencia, unidad por unidad' : 'La secuencia, verso a verso'}
+				{listaCompacta || notacionDeLaSecuencia
+					? 'Qué se va a registrar'
+					: 'Cómo se reparte el pasaje'}
 			</p>
 		{/if}
 
@@ -2707,9 +3022,6 @@
 				positionStart ?? 1,
 				positionEnd ?? unit.v_fin - unit.v_ini + 1
 			)}
-			pendingPositions={pendingPositionsFor(groupId, unit.realizacion_id)}
-			onPendingPositionsChange={(positions) =>
-				setPendingPositionsFor(groupId, unit.realizacion_id, positions)}
 		/>
 	</div>
 	{/if}
