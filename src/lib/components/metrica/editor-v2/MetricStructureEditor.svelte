@@ -1558,6 +1558,46 @@
 		return esLicencia(pregunta);
 	}
 
+	/**
+	 * Las preguntas que hablan de una parte, para pintarlas dentro de ella.
+	 *
+	 * **Solo en la primera aparición.** En un villancico de tres ciclos la mudanza sale tres veces y
+	 * su pregunta es una sola que responde a las tres —«en todas · 3 unidades»—, así que repetir el
+	 * control en cada ciclo sería ofrecer tres veces la misma respuesta. Va en la primera y las demás
+	 * mudanzas se leen como lo que son: el reparto del pasaje.
+	 */
+	function preguntasDeLaParte(row: GridRow, indice: number): PreguntaFormulario[] {
+		if (!respondePorPartes) return [];
+		if (row.kind === 'acciones') return [];
+		const seccion = row.section ? String(row.section.seccion_id) : null;
+		if (!seccion) return [];
+		const primera = rows.findIndex(
+			(candidata: GridRow) =>
+				candidata.kind !== 'acciones' &&
+				candidata.section != null &&
+				String(candidata.section.seccion_id) === seccion
+		);
+		if (primera !== indice) return [];
+		return preguntasVisibles.filter(
+			(pregunta: PreguntaFormulario) => pregunta.seccionId === seccion
+		);
+	}
+
+	/** Y las que no hablan de ninguna parte, que siguen yendo en la lista. */
+	const preguntasSueltas = $derived(
+		respondePorPartes
+			? preguntasVisibles.filter(
+					(pregunta: PreguntaFormulario) =>
+						!rows.some(
+							(row: GridRow) =>
+								row.kind !== 'acciones' &&
+								row.section != null &&
+								String(row.section.seccion_id) === pregunta.seccionId
+						)
+				)
+			: preguntasVisibles
+	);
+
 	/** El campo de rima habla en identificadores de opción; la respuesta común viaja por slug. */
 	function idsComunes(pregunta: PreguntaFormulario, slugs: string[]): string[] {
 		const groupId = String(pregunta.groups[0]?.grupo_eleccion_id ?? '');
@@ -2297,13 +2337,6 @@
 					</div>
 				{/if}
 
-				{#if respondePorPartes && comunes.length > 0}
-					<p
-						class="border-b border-[color:var(--border)] px-3 pt-3 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
-					>
-						Y de cada parte
-					</p>
-				{/if}
 
 				{#if confirmarConjunto}
 					<div class="border-b border-amber-300 bg-amber-50 px-3 py-2.5">
@@ -2341,243 +2374,8 @@
 					sin unidades al villancico por ciclos.
 				-->
 				<div>
-					{#each preguntasVisibles as pregunta (pregunta.key)}
-						{@const state = comunState(pregunta)}
-						{@const apartadas = state.hayComun ? excepcionesDe(pregunta, state.mayoritaria) : []}
-						{@const dePartida = esDePartida(pregunta)}
-						{@const porUnidades = pregunta.alcance === 'unidad'}
-						<div class="space-y-1.5 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
-							<span class="block text-sm font-medium">{pregunta.rotulo}</span>
-
-							<!--
-								Lo general. El rótulo del alcance va pegado al control para que no se lea como
-								una respuesta más de las de abajo: dice de quién habla lo que se está eligiendo.
-							-->
-							<div class="flex flex-wrap items-center gap-2">
-								<!--
-									**Con una sola realización no hay «en todas».**
-
-									«En todas» y el raíl de excepciones dicen que la respuesta vale para un
-									conjunto del que algo puede apartarse. Una quintilla suelta no tiene conjunto:
-									se responde y ya, como el romance. Es el caso que la maqueta no llegó a
-									recoger —24 de las 134 secuencias con unidad— y el que hacía ver aquí la
-									pantalla vieja.
-								-->
-								{#if porUnidades}
-									<span
-										class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
-									>
-										{dePartida ? 'De partida' : 'En todas'}
-									</span>
-								{/if}
-								{#if pregunta.admiteEscrito}
-									<div class="min-w-0 flex-1">
-										<MetricChoiceField
-											group={pregunta.groups[0]}
-											variant="celda"
-											sinRotulo
-											label={pregunta.rotulo}
-											options={comunOptions(pregunta)}
-											normaEsquema={normaEsquemaComun(pregunta)}
-											selectedIds={idsComunes(pregunta, state.generalSlugs)}
-											onChange={(ids) => responderEnTodas(pregunta, ids.map(optionSlugOf))}
-											textValue={state.generalTexto}
-											onTextChange={(value) => responderEnTodasTexto(pregunta, value)}
-										/>
-									</div>
-								{:else}
-									<MetricFamilyControl
-										group={pregunta.groups[0]}
-										options={comunOptions(pregunta)}
-										uniform={state.hayComun ? state.generalSlugs : state.uniform}
-										answered={state.answered}
-										realizaciones={state.total}
-										ariaLabel={pregunta.rotulo}
-										positionLimit={comunPositionLimit(pregunta)}
-										medidasFijas={medidasFijasComunes(pregunta)}
-										onChoose={(slugs) => responderEnTodas(pregunta, slugs)}
-									/>
-								{/if}
-								{#if porUnidades}
-									<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">
-										· {state.total}
-										{state.total === 1 ? 'unidad' : 'unidades'}
-									</span>
-								{/if}
-								{#if pregunta.ayuda}
-									<FieldHelpTooltip text={pregunta.ayuda} label={`Ayuda sobre «${pregunta.rotulo}»`} />
-								{/if}
-							</div>
-
-							<!--
-								Y lo que se aparta, con la misma forma siempre: cuántas, cuáles y dónde. El raíl
-								está aunque no haya ninguna, porque es también donde se declara la primera: sin
-								él, apartarse obligaba a bajar a una lista y abrir una unidad.
-							-->
-							{#if porUnidades}
-							<div class="border-l-2 border-[color:var(--primary)] pl-3">
-								{#if apartadas.length === 0}
-									<p class="text-sm text-[color:var(--muted-foreground)]">
-										{#if state.answered > 0 && !state.hayComun}
-											Cada unidad responde una cosa distinta.
-										{:else}
-											Sin excepciones.
-										{/if}
-										{#if excepcionAbierta !== pregunta.key}
-											<button
-												type="button"
-												class="link-action ml-1"
-												onclick={() => abrirExcepcion(pregunta)}
-											>
-												Añadir una
-											</button>
-										{/if}
-									</p>
-								{:else}
-									<p class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-										Salvo {state.excepciones} de {state.total}
-									</p>
-									{#each apartadas as grupo (grupo.firma)}
-										<p class="text-sm leading-6">
-											<span class="font-medium">{grupo.etiqueta}</span>
-											<span class="text-[color:var(--muted-foreground)]">
-												· {grupo.unidades.length}
-												{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
-											>
-											<button
-												type="button"
-												class="link-action ml-1"
-												onclick={() => quitarExcepcion(pregunta, grupo.unidades)}
-											>
-												quitar
-											</button>
-										</p>
-									{/each}
-									{#if excepcionAbierta !== pregunta.key}
-										<button
-											type="button"
-											class="link-action text-sm"
-											onclick={() => abrirExcepcion(pregunta)}
-										>
-											Añadir otra
-										</button>
-									{/if}
-							{/if}
-							</div>
-
-							<!--
-								**Declarar la excepción es decir dos cosas: qué responde y dónde.**
-
-								Van juntas y no se guarda nada hasta que están las dos: media excepción escrita
-								son unidades respondiendo algo que nadie ha terminado de decir.
-
-								**Y va fuera del raíl**, no dentro. Metido ahí, un formulario con su recuadro, su
-								control y una lista de casillas quedaba anidado tres niveles bajo la pregunta y
-								empujaba las excepciones ya declaradas contra el margen. El raíl es para leer lo
-								que se aparta; esto es para declararlo.
-							-->
-							{#if excepcionAbierta === pregunta.key}
-								{@const filas = unidadesDe(pregunta)}
-								<div class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2.5">
-									<div class="flex flex-wrap items-center gap-2">
-										<span
-											class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
-										>
-											Responden
-										</span>
-										{#if pregunta.admiteEscrito}
-											<div class="min-w-0 flex-1">
-												<MetricChoiceField
-													group={pregunta.groups[0]}
-													variant="celda"
-													sinRotulo
-													label={`Excepción de «${pregunta.rotulo}»`}
-													options={comunOptions(pregunta)}
-													normaEsquema={normaEsquemaComun(pregunta)}
-													selectedIds={idsComunes(pregunta, excepcionSlugs)}
-													onChange={(ids) => (excepcionSlugs = ids.map(optionSlugOf))}
-													textValue={excepcionTexto}
-													onTextChange={(value) => (excepcionTexto = value)}
-												/>
-											</div>
-										{:else}
-											<MetricFamilyControl
-												group={pregunta.groups[0]}
-												options={comunOptions(pregunta)}
-												uniform={excepcionSlugs}
-												answered={excepcionSlugs.length}
-												realizaciones={1}
-												ariaLabel={`Excepción de «${pregunta.rotulo}»`}
-												positionLimit={comunPositionLimit(pregunta)}
-												medidasFijas={medidasFijasComunes(pregunta)}
-												onChoose={(slugs) => (excepcionSlugs = slugs)}
-											/>
-										{/if}
-									</div>
-
-									<!--
-										**Las unidades, en fichas.**
-
-										Eran una lista de casillas con su número y su rango, una fila cada una: en la
-										quintilla de *El mágico prodigioso* son cincuenta y dos filas dentro de una
-										caja con su propio desplazamiento, para señalar siete. En fichas caben en
-										dos renglones y se ven de un vistazo las que ya están marcadas. El rango
-										sigue estando, en el título de cada ficha, que es donde hace falta: se
-										consulta al dudar de una, no al recorrerlas.
-									-->
-									<div class="mt-2 flex flex-wrap items-center gap-2">
-										<span
-											class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
-										>
-											En
-										</span>
-										<div class="flex flex-wrap gap-1">
-											{#each filas as fila (fila.unit.realizacion_id)}
-												{@const marcada = excepcionUnidades.includes(fila.unit.realizacion_id)}
-												<button
-													type="button"
-													class={`min-h-7 min-w-8 border px-1.5 text-xs tabular-nums ${
-														marcada
-															? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
-															: 'border-[color:var(--border)] bg-white hover:border-[color:var(--primary)]'
-													}`}
-													aria-pressed={marcada}
-													title={`Unidad ${fila.numero} · vv. ${fila.unit.v_ini}–${fila.unit.v_fin}`}
-													onclick={() => alternarUnidadDeExcepcion(fila.unit.realizacion_id)}
-												>
-													{fila.numero}
-												</button>
-											{/each}
-										</div>
-									</div>
-
-									<div class="mt-2.5 flex flex-wrap items-center gap-3">
-										<button
-											type="button"
-											class="h-8 bg-[color:var(--primary)] px-3 text-xs font-medium text-white disabled:opacity-40"
-											disabled={!excepcionCompleta}
-											onclick={() => guardarExcepcion(pregunta)}
-										>
-											Añadir la excepción
-										</button>
-										<button type="button" class="link-action text-xs" onclick={cancelarExcepcion}>
-											Cancelar
-										</button>
-										{#if excepcionUnidades.length > 0}
-											<span class="text-xs text-[color:var(--muted-foreground)]">
-												{excepcionUnidades.length}
-												{excepcionUnidades.length === 1 ? 'unidad' : 'unidades'} · {rangosDeUnidades(
-													filas
-														.filter((fila) => excepcionUnidades.includes(fila.unit.realizacion_id))
-														.map((fila) => fila.unit)
-												)}
-											</span>
-										{/if}
-									</div>
-								</div>
-							{/if}
-							{/if}
-						</div>
+					{#each preguntasSueltas as pregunta (pregunta.key)}
+						{@render bloqueDePregunta(pregunta)}
 					{/each}
 				</div>
 
@@ -2849,8 +2647,17 @@
 			{/each}
 		</ul>
 	{:else}
-	{#each rows as row (row.key)}
+	{#each rows as row, indiceDeFila (row.key)}
 		{#if !esParteIntegrada(row) && !filaOculta(row)}
+		<!--
+			**Lo que se pregunta de una parte se lee dentro de la parte.**
+
+			En las formas por ciclos las preguntas iban en una lista aparte, debajo del reparto: la
+			medida de la cabeza lejos de la cabeza y las dos de la mudanza lejos de la mudanza. Aquí
+			cada una entra bajo la parte de la que habla —y bajo la que **trata**, no la que la aloja:
+			la modalidad de la represa cuelga del ciclo y habla de la repetición del estribillo—.
+		-->
+		{@const suyas = preguntasDeLaParte(row, indiceDeFila)}
 		{#if row.kind === 'pregunta'}
 			<MetricGridRow label={row.label} depth={row.depth}>
 				{@render camposDeLaParte(row.preguntas)}
@@ -3169,8 +2976,262 @@
 				{/if}
 			</MetricGridRow>
 		{/if}
+		{#if suyas.length > 0}
+			<div class="border-b border-[color:var(--border)] bg-[color:var(--muted)] pl-3 last:border-b-0">
+				{#each suyas as pregunta (pregunta.key)}
+					{@render bloqueDePregunta(pregunta, true)}
+				{/each}
+			</div>
+		{/if}
 		{/if}
 	{/each}
 	{/if}
 </div>
+{/snippet}
+
+
+<!--
+	El bloque de una pregunta. Vive en un `snippet` porque se pinta en dos sitios: en la lista de
+	la zona de respuestas y, en las formas por ciclos, dentro de la parte de la que habla.
+-->
+{#snippet bloqueDePregunta(pregunta: PreguntaFormulario, dentroDeSuParte = false)}
+	{@const state = comunState(pregunta)}
+	{@const apartadas = state.hayComun ? excepcionesDe(pregunta, state.mayoritaria) : []}
+	{@const dePartida = esDePartida(pregunta)}
+	{@const porUnidades = pregunta.alcance === 'unidad'}
+	<div class="space-y-1.5 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
+			<!-- Dentro de su parte, el nombre de la parte ya está encima: repetirlo sobra. -->
+		<span class="block text-sm font-medium">
+			{dentroDeSuParte ? pregunta.rotuloSinParte : pregunta.rotulo}
+		</span>
+
+		<!--
+			Lo general. El rótulo del alcance va pegado al control para que no se lea como
+			una respuesta más de las de abajo: dice de quién habla lo que se está eligiendo.
+		-->
+		<div class="flex flex-wrap items-center gap-2">
+			<!--
+				**Con una sola realización no hay «en todas».**
+
+				«En todas» y el raíl de excepciones dicen que la respuesta vale para un
+				conjunto del que algo puede apartarse. Una quintilla suelta no tiene conjunto:
+				se responde y ya, como el romance. Es el caso que la maqueta no llegó a
+				recoger —24 de las 134 secuencias con unidad— y el que hacía ver aquí la
+				pantalla vieja.
+			-->
+			{#if porUnidades}
+				<span
+					class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+				>
+					{dePartida ? 'De partida' : 'En todas'}
+				</span>
+			{/if}
+			{#if pregunta.admiteEscrito}
+				<div class="min-w-0 flex-1">
+					<MetricChoiceField
+						group={pregunta.groups[0]}
+						variant="celda"
+						sinRotulo
+						label={pregunta.rotulo}
+						options={comunOptions(pregunta)}
+						normaEsquema={normaEsquemaComun(pregunta)}
+						selectedIds={idsComunes(pregunta, state.generalSlugs)}
+						onChange={(ids) => responderEnTodas(pregunta, ids.map(optionSlugOf))}
+						textValue={state.generalTexto}
+						onTextChange={(value) => responderEnTodasTexto(pregunta, value)}
+					/>
+				</div>
+			{:else}
+				<MetricFamilyControl
+					group={pregunta.groups[0]}
+					options={comunOptions(pregunta)}
+					uniform={state.hayComun ? state.generalSlugs : state.uniform}
+					answered={state.answered}
+					realizaciones={state.total}
+					ariaLabel={pregunta.rotulo}
+					positionLimit={comunPositionLimit(pregunta)}
+					medidasFijas={medidasFijasComunes(pregunta)}
+					onChoose={(slugs) => responderEnTodas(pregunta, slugs)}
+				/>
+			{/if}
+			{#if porUnidades}
+				<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">
+					· {state.total}
+					{state.total === 1 ? 'unidad' : 'unidades'}
+				</span>
+			{/if}
+			{#if pregunta.ayuda}
+				<FieldHelpTooltip text={pregunta.ayuda} label={`Ayuda sobre «${pregunta.rotulo}»`} />
+			{/if}
+		</div>
+
+		<!--
+			Y lo que se aparta, con la misma forma siempre: cuántas, cuáles y dónde. El raíl
+			está aunque no haya ninguna, porque es también donde se declara la primera: sin
+			él, apartarse obligaba a bajar a una lista y abrir una unidad.
+		-->
+		{#if porUnidades}
+		<div class="border-l-2 border-[color:var(--primary)] pl-3">
+			{#if apartadas.length === 0}
+				<p class="text-sm text-[color:var(--muted-foreground)]">
+					{#if state.answered > 0 && !state.hayComun}
+						Cada unidad responde una cosa distinta.
+					{:else}
+						Sin excepciones.
+					{/if}
+					{#if excepcionAbierta !== pregunta.key}
+						<button
+							type="button"
+							class="link-action ml-1"
+							onclick={() => abrirExcepcion(pregunta)}
+						>
+							Añadir una
+						</button>
+					{/if}
+				</p>
+			{:else}
+				<p class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+					Salvo {state.excepciones} de {state.total}
+				</p>
+				{#each apartadas as grupo (grupo.firma)}
+					<p class="text-sm leading-6">
+						<span class="font-medium">{grupo.etiqueta}</span>
+						<span class="text-[color:var(--muted-foreground)]">
+							· {grupo.unidades.length}
+							{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
+						>
+						<button
+							type="button"
+							class="link-action ml-1"
+							onclick={() => quitarExcepcion(pregunta, grupo.unidades)}
+						>
+							quitar
+						</button>
+					</p>
+				{/each}
+				{#if excepcionAbierta !== pregunta.key}
+					<button
+						type="button"
+						class="link-action text-sm"
+						onclick={() => abrirExcepcion(pregunta)}
+					>
+						Añadir otra
+					</button>
+				{/if}
+		{/if}
+		</div>
+
+		<!--
+			**Declarar la excepción es decir dos cosas: qué responde y dónde.**
+
+			Van juntas y no se guarda nada hasta que están las dos: media excepción escrita
+			son unidades respondiendo algo que nadie ha terminado de decir.
+
+			**Y va fuera del raíl**, no dentro. Metido ahí, un formulario con su recuadro, su
+			control y una lista de casillas quedaba anidado tres niveles bajo la pregunta y
+			empujaba las excepciones ya declaradas contra el margen. El raíl es para leer lo
+			que se aparta; esto es para declararlo.
+		-->
+		{#if excepcionAbierta === pregunta.key}
+			{@const filas = unidadesDe(pregunta)}
+			<div class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2.5">
+				<div class="flex flex-wrap items-center gap-2">
+					<span
+						class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+					>
+						Responden
+					</span>
+					{#if pregunta.admiteEscrito}
+						<div class="min-w-0 flex-1">
+							<MetricChoiceField
+								group={pregunta.groups[0]}
+								variant="celda"
+								sinRotulo
+								label={`Excepción de «${pregunta.rotulo}»`}
+								options={comunOptions(pregunta)}
+								normaEsquema={normaEsquemaComun(pregunta)}
+								selectedIds={idsComunes(pregunta, excepcionSlugs)}
+								onChange={(ids) => (excepcionSlugs = ids.map(optionSlugOf))}
+								textValue={excepcionTexto}
+								onTextChange={(value) => (excepcionTexto = value)}
+							/>
+						</div>
+					{:else}
+						<MetricFamilyControl
+							group={pregunta.groups[0]}
+							options={comunOptions(pregunta)}
+							uniform={excepcionSlugs}
+							answered={excepcionSlugs.length}
+							realizaciones={1}
+							ariaLabel={`Excepción de «${pregunta.rotulo}»`}
+							positionLimit={comunPositionLimit(pregunta)}
+							medidasFijas={medidasFijasComunes(pregunta)}
+							onChoose={(slugs) => (excepcionSlugs = slugs)}
+						/>
+					{/if}
+				</div>
+
+				<!--
+					**Las unidades, en fichas.**
+
+					Eran una lista de casillas con su número y su rango, una fila cada una: en la
+					quintilla de *El mágico prodigioso* son cincuenta y dos filas dentro de una
+					caja con su propio desplazamiento, para señalar siete. En fichas caben en
+					dos renglones y se ven de un vistazo las que ya están marcadas. El rango
+					sigue estando, en el título de cada ficha, que es donde hace falta: se
+					consulta al dudar de una, no al recorrerlas.
+				-->
+				<div class="mt-2 flex flex-wrap items-center gap-2">
+					<span
+						class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+					>
+						En
+					</span>
+					<div class="flex flex-wrap gap-1">
+						{#each filas as fila (fila.unit.realizacion_id)}
+							{@const marcada = excepcionUnidades.includes(fila.unit.realizacion_id)}
+							<button
+								type="button"
+								class={`min-h-7 min-w-8 border px-1.5 text-xs tabular-nums ${
+									marcada
+										? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
+										: 'border-[color:var(--border)] bg-white hover:border-[color:var(--primary)]'
+								}`}
+								aria-pressed={marcada}
+								title={`Unidad ${fila.numero} · vv. ${fila.unit.v_ini}–${fila.unit.v_fin}`}
+								onclick={() => alternarUnidadDeExcepcion(fila.unit.realizacion_id)}
+							>
+								{fila.numero}
+							</button>
+						{/each}
+					</div>
+				</div>
+
+				<div class="mt-2.5 flex flex-wrap items-center gap-3">
+					<button
+						type="button"
+						class="h-8 bg-[color:var(--primary)] px-3 text-xs font-medium text-white disabled:opacity-40"
+						disabled={!excepcionCompleta}
+						onclick={() => guardarExcepcion(pregunta)}
+					>
+						Añadir la excepción
+					</button>
+					<button type="button" class="link-action text-xs" onclick={cancelarExcepcion}>
+						Cancelar
+					</button>
+					{#if excepcionUnidades.length > 0}
+						<span class="text-xs text-[color:var(--muted-foreground)]">
+							{excepcionUnidades.length}
+							{excepcionUnidades.length === 1 ? 'unidad' : 'unidades'} · {rangosDeUnidades(
+								filas
+									.filter((fila) => excepcionUnidades.includes(fila.unit.realizacion_id))
+									.map((fila) => fila.unit)
+							)}
+						</span>
+					{/if}
+				</div>
+			</div>
+		{/if}
+		{/if}
+	</div>
 {/snippet}
