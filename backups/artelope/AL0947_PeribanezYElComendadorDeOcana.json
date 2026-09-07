@@ -1,0 +1,815 @@
+{
+  "fuente": {
+    "repositorio": "ARTELOPE",
+    "fichero": "XML-TEI Play-texts/AL0947_PeribanezYElComendadorDeOcana.xml",
+    "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
+  },
+  "obra": {
+    "titulo": "PERIBAÑEZ Y EL COMENDADOR DE OCAÑA",
+    "autor": "Félix Lope de Vega y Carpio",
+    "fecha": null,
+    "total_versos": 3143,
+    "genero": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "v_ini": 1,
+      "v_fin": 1052
+    },
+    {
+      "numero": 2,
+      "v_ini": 1053,
+      "v_fin": 2090
+    },
+    {
+      "numero": 3,
+      "v_ini": 2091,
+      "v_fin": 3143
+    }
+  ],
+  "cuadros": [],
+  "escenas": [
+    {
+      "jornada": 1,
+      "numero": 1,
+      "v_ini": 1,
+      "v_fin": 165
+    },
+    {
+      "jornada": 1,
+      "numero": 2,
+      "v_ini": 166,
+      "v_fin": 201
+    },
+    {
+      "jornada": 1,
+      "numero": 3,
+      "v_ini": 202,
+      "v_fin": 207
+    },
+    {
+      "jornada": 1,
+      "numero": 4,
+      "v_ini": 208,
+      "v_fin": 225
+    },
+    {
+      "jornada": 1,
+      "numero": 5,
+      "v_ini": 226,
+      "v_fin": 271
+    },
+    {
+      "jornada": 1,
+      "numero": 6,
+      "v_ini": 272,
+      "v_fin": 283
+    },
+    {
+      "jornada": 1,
+      "numero": 7,
+      "v_ini": 284,
+      "v_fin": 289
+    },
+    {
+      "jornada": 1,
+      "numero": 8,
+      "v_ini": 290,
+      "v_fin": 358
+    },
+    {
+      "jornada": 1,
+      "numero": 9,
+      "v_ini": 359,
+      "v_fin": 365
+    },
+    {
+      "jornada": 1,
+      "numero": 10,
+      "v_ini": 366,
+      "v_fin": 384
+    },
+    {
+      "jornada": 1,
+      "numero": 11,
+      "v_ini": 385,
+      "v_fin": 513
+    },
+    {
+      "jornada": 1,
+      "numero": 12,
+      "v_ini": 514,
+      "v_fin": 523
+    },
+    {
+      "jornada": 1,
+      "numero": 13,
+      "v_ini": 524,
+      "v_fin": 559
+    },
+    {
+      "jornada": 1,
+      "numero": 14,
+      "v_ini": 560,
+      "v_fin": 662
+    },
+    {
+      "jornada": 1,
+      "numero": 15,
+      "v_ini": 663,
+      "v_fin": 766
+    },
+    {
+      "jornada": 1,
+      "numero": 16,
+      "v_ini": 767,
+      "v_fin": 786
+    },
+    {
+      "jornada": 1,
+      "numero": 17,
+      "v_ini": 787,
+      "v_fin": 820
+    },
+    {
+      "jornada": 1,
+      "numero": 18,
+      "v_ini": 821,
+      "v_fin": 842
+    },
+    {
+      "jornada": 1,
+      "numero": 19,
+      "v_ini": 843,
+      "v_fin": 901
+    },
+    {
+      "jornada": 1,
+      "numero": 20,
+      "v_ini": 902,
+      "v_fin": 908
+    },
+    {
+      "jornada": 1,
+      "numero": 21,
+      "v_ini": 909,
+      "v_fin": 943
+    },
+    {
+      "jornada": 1,
+      "numero": 22,
+      "v_ini": 944,
+      "v_fin": 966
+    },
+    {
+      "jornada": 1,
+      "numero": 23,
+      "v_ini": 967,
+      "v_fin": 997
+    },
+    {
+      "jornada": 1,
+      "numero": 24,
+      "v_ini": 998,
+      "v_fin": 1006
+    },
+    {
+      "jornada": 1,
+      "numero": 25,
+      "v_ini": 1007,
+      "v_fin": 1052
+    },
+    {
+      "jornada": 2,
+      "numero": 1,
+      "v_ini": 1053,
+      "v_fin": 1081
+    },
+    {
+      "jornada": 2,
+      "numero": 2,
+      "v_ini": 1082,
+      "v_fin": 1202
+    },
+    {
+      "jornada": 2,
+      "numero": 3,
+      "v_ini": 1203,
+      "v_fin": 1282
+    },
+    {
+      "jornada": 2,
+      "numero": 4,
+      "v_ini": 1283,
+      "v_fin": 1370
+    },
+    {
+      "jornada": 2,
+      "numero": 5,
+      "v_ini": 1371,
+      "v_fin": 1416
+    },
+    {
+      "jornada": 2,
+      "numero": 6,
+      "v_ini": 1417,
+      "v_fin": 1424
+    },
+    {
+      "jornada": 2,
+      "numero": 7,
+      "v_ini": 1425,
+      "v_fin": 1446
+    },
+    {
+      "jornada": 2,
+      "numero": 8,
+      "v_ini": 1447,
+      "v_fin": 1490
+    },
+    {
+      "jornada": 2,
+      "numero": 9,
+      "v_ini": 1491,
+      "v_fin": 1536
+    },
+    {
+      "jornada": 2,
+      "numero": 10,
+      "v_ini": 1537,
+      "v_fin": 1636
+    },
+    {
+      "jornada": 2,
+      "numero": 11,
+      "v_ini": 1637,
+      "v_fin": 1644
+    },
+    {
+      "jornada": 2,
+      "numero": 12,
+      "v_ini": 1645,
+      "v_fin": 1654
+    },
+    {
+      "jornada": 2,
+      "numero": 13,
+      "v_ini": 1655,
+      "v_fin": 1674
+    },
+    {
+      "jornada": 2,
+      "numero": 14,
+      "v_ini": 1675,
+      "v_fin": 1684
+    },
+    {
+      "jornada": 2,
+      "numero": 15,
+      "v_ini": 1685,
+      "v_fin": 1697
+    },
+    {
+      "jornada": 2,
+      "numero": 16,
+      "v_ini": 1698,
+      "v_fin": 1741
+    },
+    {
+      "jornada": 2,
+      "numero": 17,
+      "v_ini": 1742,
+      "v_fin": 1798
+    },
+    {
+      "jornada": 2,
+      "numero": 18,
+      "v_ini": 1799,
+      "v_fin": 1846
+    },
+    {
+      "jornada": 2,
+      "numero": 19,
+      "v_ini": 1847,
+      "v_fin": 1860
+    },
+    {
+      "jornada": 2,
+      "numero": 20,
+      "v_ini": 1861,
+      "v_fin": 1877
+    },
+    {
+      "jornada": 2,
+      "numero": 21,
+      "v_ini": 1878,
+      "v_fin": 1905
+    },
+    {
+      "jornada": 2,
+      "numero": 22,
+      "v_ini": 1906,
+      "v_fin": 1947
+    },
+    {
+      "jornada": 2,
+      "numero": 23,
+      "v_ini": 1948,
+      "v_fin": 1993
+    },
+    {
+      "jornada": 2,
+      "numero": 24,
+      "v_ini": 1994,
+      "v_fin": 2075
+    },
+    {
+      "jornada": 2,
+      "numero": 25,
+      "v_ini": 2076,
+      "v_fin": 2090
+    },
+    {
+      "jornada": 3,
+      "numero": 1,
+      "v_ini": 2091,
+      "v_fin": 2219
+    },
+    {
+      "jornada": 3,
+      "numero": 2,
+      "v_ini": 2220,
+      "v_fin": 2299
+    },
+    {
+      "jornada": 3,
+      "numero": 3,
+      "v_ini": 2300,
+      "v_fin": 2315
+    },
+    {
+      "jornada": 3,
+      "numero": 4,
+      "v_ini": 2316,
+      "v_fin": 2335
+    },
+    {
+      "jornada": 3,
+      "numero": 5,
+      "v_ini": 2336,
+      "v_fin": 2484
+    },
+    {
+      "jornada": 3,
+      "numero": 6,
+      "v_ini": 2485,
+      "v_fin": 2508
+    },
+    {
+      "jornada": 3,
+      "numero": 7,
+      "v_ini": 2509,
+      "v_fin": 2580
+    },
+    {
+      "jornada": 3,
+      "numero": 8,
+      "v_ini": 2581,
+      "v_fin": 2620
+    },
+    {
+      "jornada": 3,
+      "numero": 9,
+      "v_ini": 2621,
+      "v_fin": 2683
+    },
+    {
+      "jornada": 3,
+      "numero": 10,
+      "v_ini": 2684,
+      "v_fin": 2720
+    },
+    {
+      "jornada": 3,
+      "numero": 11,
+      "v_ini": 2721,
+      "v_fin": 2734
+    },
+    {
+      "jornada": 3,
+      "numero": 12,
+      "v_ini": 2735,
+      "v_fin": 2758
+    },
+    {
+      "jornada": 3,
+      "numero": 13,
+      "v_ini": 2759,
+      "v_fin": 2762
+    },
+    {
+      "jornada": 3,
+      "numero": 14,
+      "v_ini": 2763,
+      "v_fin": 2810
+    },
+    {
+      "jornada": 3,
+      "numero": 15,
+      "v_ini": 2811,
+      "v_fin": 2820
+    },
+    {
+      "jornada": 3,
+      "numero": 16,
+      "v_ini": 2821,
+      "v_fin": 2844
+    },
+    {
+      "jornada": 3,
+      "numero": 17,
+      "v_ini": 2845,
+      "v_fin": 2849
+    },
+    {
+      "jornada": 3,
+      "numero": 18,
+      "v_ini": 2850,
+      "v_fin": 2860
+    },
+    {
+      "jornada": 3,
+      "numero": 19,
+      "v_ini": 2861,
+      "v_fin": 2864
+    },
+    {
+      "jornada": 3,
+      "numero": 20,
+      "v_ini": 2865,
+      "v_fin": 2892
+    },
+    {
+      "jornada": 3,
+      "numero": 21,
+      "v_ini": 2893,
+      "v_fin": 2902
+    },
+    {
+      "jornada": 3,
+      "numero": 22,
+      "v_ini": 2903,
+      "v_fin": 2914
+    },
+    {
+      "jornada": 3,
+      "numero": 23,
+      "v_ini": 2915,
+      "v_fin": 2936
+    },
+    {
+      "jornada": 3,
+      "numero": 24,
+      "v_ini": 2937,
+      "v_fin": 2959
+    },
+    {
+      "jornada": 3,
+      "numero": 25,
+      "v_ini": 2960,
+      "v_fin": 2982
+    },
+    {
+      "jornada": 3,
+      "numero": 26,
+      "v_ini": 2983,
+      "v_fin": 2986
+    },
+    {
+      "jornada": 3,
+      "numero": 27,
+      "v_ini": 2987,
+      "v_fin": 3003
+    },
+    {
+      "jornada": 3,
+      "numero": 28,
+      "v_ini": 3004,
+      "v_fin": 3013
+    },
+    {
+      "jornada": 3,
+      "numero": 29,
+      "v_ini": 3014,
+      "v_fin": 3143
+    }
+  ],
+  "secuencias": [
+    {
+      "v_ini": 1,
+      "v_fin": 125,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 126,
+      "v_fin": 166,
+      "forma_fuente": "romancillo_o_endecha",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 167,
+      "v_fin": 225,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 226,
+      "v_fin": 271,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 272,
+      "v_fin": 513,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 514,
+      "v_fin": 523,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 524,
+      "v_fin": 559,
+      "forma_fuente": "lira",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 560,
+      "v_fin": 603,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 604,
+      "v_fin": 617,
+      "forma_fuente": "soneto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 618,
+      "v_fin": 662,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 663,
+      "v_fin": 786,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 787,
+      "v_fin": 908,
+      "forma_fuente": "endecasilabos_sueltos_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 909,
+      "v_fin": 944,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 945,
+      "v_fin": 1052,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1053,
+      "v_fin": 1202,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1203,
+      "v_fin": 1462,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1463,
+      "v_fin": 1480,
+      "forma_fuente": "copla_estructura_abierta",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1481,
+      "v_fin": 1556,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1557,
+      "v_fin": 1654,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1655,
+      "v_fin": 1738,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1739,
+      "v_fin": 1798,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1799,
+      "v_fin": 1846,
+      "forma_fuente": "endecasilabos_sueltos_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1847,
+      "v_fin": 1860,
+      "forma_fuente": "soneto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1861,
+      "v_fin": 1920,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1921,
+      "v_fin": 1932,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1933,
+      "v_fin": 1960,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1961,
+      "v_fin": 2090,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2091,
+      "v_fin": 2098,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2099,
+      "v_fin": 2219,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2220,
+      "v_fin": 2367,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2368,
+      "v_fin": 2456,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2457,
+      "v_fin": 2724,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2725,
+      "v_fin": 2734,
+      "forma_fuente": "copla_estructura_abierta",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2735,
+      "v_fin": 2914,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2915,
+      "v_fin": 2987,
+      "forma_fuente": "octava_real",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2988,
+      "v_fin": 3019,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 3020,
+      "v_fin": 3143,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    }
+  ],
+  "personajes": {
+    "donaire": null,
+    "sobrenaturales": null,
+    "eventos_sobrenaturales": null
+  },
+  "avisos": [
+    "ARTELOPE divide esta obra en «acto», no en «jornada»; se vuelca en el mismo campo.",
+    "El XML marca 79 escenas (<div2 type=\"scene\">), no cuadros: ARTELOPE no marca cuadros en ningún fichero del repositorio. Van en el campo «escenas»; «cuadros» queda vacío."
+  ]
+}
