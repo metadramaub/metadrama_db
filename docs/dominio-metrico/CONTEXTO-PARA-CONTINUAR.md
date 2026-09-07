@@ -663,10 +663,10 @@ que es cuando se puede mover un campo sin que nadie guarde a mitad.
   ficha dejó de publicarlas. Se pierde a propósito la distinción entre «no» y «pendiente»: una
   caracterización no se declara negativa.
 - **Lo que será desviación dejó de ofrecerse.** Las cinco irregularidades métricas y los dos finales
-  acentuales salieron del selector —`activo = false`—, según el reparto de
-  [el plan de desviaciones](./plan-desviaciones-y-caracterizaciones.md). **No se borró ninguna
+  acentuales salieron del selector —`activo = false`—. **No se borró ninguna
   fila**: las 209 que hay se siguen leyendo, corrigiendo y borrando; solo no se pueden volver a
-  elegir. El endpoint conserva el término retirado cuando la fila ya lo tenía, y el desplegable lo
+  elegir. A qué se traduce cada una cuando se migre está en
+  [el plan de migración](./plan-migracion-anotaciones.md#2bis--el-reparto-de-las-caracterizaciones-por-rango). El endpoint conserva el término retirado cuando la fila ya lo tenía, y el desplegable lo
   ofrece marcado «del sistema anterior», para que corregir un rango no responda «no está activo».
 - **El bloque dice lo que guarda.** «Caracterizaciones por rango» era un botón y una tabla vacía, y
   nadie sabía que los versos cantados se registran ahí. Ahora nombra lo que admite, armado del
@@ -1195,11 +1195,12 @@ se completó el 31. Lo que sigue:
    [migración de las anotaciones](./plan-migracion-anotaciones.md) por equivalencias más revisión
    manual, y el paso del editor V2 a producción. Lo que hay que despejar antes está en
    [qué queda pendiente](#qué-queda-pendiente), bloques A y B.
-9. Crear la capa de desviaciones sobre las secuencias reales:
-   [plan de desviaciones](./plan-desviaciones-y-caracterizaciones.md), **en ejecución**: lo que será
-   desviación ya no se ofrece en el selector, y el traslado de sus 209 filas va con la migración de
-   las anotaciones, porque una desviación cuelga de una anotación y esas secuencias aún no la
-   tienen.
+9. Crear la capa de desviaciones sobre las secuencias reales: **hecha**. El vocabulario y la tabla
+   están en la base desde el 3 de agosto de 2026, y el 7 de septiembre dejó de ofrecerse en el
+   selector lo que ahora es desviación. Queda el traslado de sus 209 filas, que va con la migración
+   de las anotaciones porque una desviación cuelga de una anotación, y esas secuencias aún no la
+   tienen: el reparto está
+   [en su plan](./plan-migracion-anotaciones.md#2bis--el-reparto-de-las-caracterizaciones-por-rango).
 
 **Sobre los defectos del informe de conformidad**: el auditor tipifica ya **D1–D16** y termina en
 **0 defectos** contra la base viva. Incluye la correspondencia entre notación y clases de rima
