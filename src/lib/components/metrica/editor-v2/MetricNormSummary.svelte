@@ -26,86 +26,119 @@
 	const admitidas = $derived(
 		props.facts.filter((fact: MetricNormFact) => fact.estado === 'admite')
 	);
+
+	let abierta = $state(false);
+	/** Qué hay dentro, para que plegada no sea una caja muda. */
+	const resumen = $derived.by(() => {
+		const trozos: string[] = [];
+		if (fijadas.length > 0) trozos.push(`${fijadas.length} fijados`);
+		if (delPasaje.length > 0) trozos.push(`${delPasaje.length} del pasaje`);
+		if (admitidas.length > 0) trozos.push(`${admitidas.length} admitidos`);
+		return trozos.join(' · ');
+	});
 </script>
 
-<div class="space-y-2 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2.5 text-sm">
-	{#if fijadas.length > 0}
-		<div>
-			<div class="flex flex-wrap items-baseline justify-between gap-x-4">
-				<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-					Ya está fijado
-				</span>
-				<a
-					class="link-action text-xs"
-					href={props.catalogHref}
-					target="_blank"
-					rel="noreferrer"
-				>
-					Ver ficha completa ↗
-				</a>
-			</div>
-			<!--
-				**Cada dato con su nombre encima, y aire entre ellos.**
-
-				Iban seguidos y separados por puntos volados, que es tan sutil que no hay jerarquía: para
-				saber qué mide una forma había que leer la línea entera. Así se busca el rótulo y se lee
-				el valor.
-			-->
-			<div class="mt-1 flex flex-wrap gap-x-6 gap-y-1.5">
-				{#each fijadas as fact (`${fact.label}:${fact.value}`)}
-					<span class="block">
-						<span class="block text-xs text-[color:var(--muted-foreground)]">
-							{fact.label.toLocaleLowerCase('es').replace(/ fijas?$/, '')}
-						</span>
-						<span>{fact.value}</span>
-					</span>
-				{/each}
-			</div>
-		</div>
-	{/if}
-
-	{#if delPasaje.length > 0}
-		<div class="border-t border-[color:var(--border)] pt-2">
-			<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
-				Lo dice el pasaje que anotas
-			</span>
-			<div class="mt-1 flex flex-wrap gap-x-6 gap-y-1.5">
-				{#each delPasaje as fact (`${fact.label}:${fact.value}`)}
-					<!-- La misma gramática que arriba: el nombre en gris encima, el dato debajo. -->
-					<span class="block">
-						<span class="block text-xs text-[color:var(--muted-foreground)]">
-							{fact.label.toLocaleLowerCase('es')}
-						</span>
-						<span>{fact.value}</span>
-					</span>
-				{/each}
-			</div>
-		</div>
-	{/if}
-
-	{#if admitidas.length > 0}
-		<p class="text-xs text-[color:var(--muted-foreground)]">
-			Admite además: {admitidas
-				.map((fact: MetricNormFact) => `${fact.label.toLocaleLowerCase('es')} (${fact.value})`)
-				.join(', ')}.
-		</p>
-	{/if}
-
-	{#if props.facts.length === 0}
-		<p class="text-[color:var(--muted-foreground)]">
-			La arquitectura no fija aquí más datos que los que se responden abajo.
-		</p>
-	{/if}
-
+<div class="border border-[color:var(--border)] bg-[color:var(--gray-50)] text-sm">
 	<!--
-		**El renglón que cierra la frase.**
+		**Plegada de partida, y con una línea que dice lo que hay dentro.**
 
-		Un recuadro que dice qué admite una forma tiene que decir qué hacer con lo que no admite: sin
-		esto, al editor solo le quedan forzar una respuesta que no es la que leyó, o no anotar. Y es
-		donde se separan las dos cosas que se confunden: una excepción es una respuesta legítima —otra
-		de las que la norma admite— y una desviación es un apartamiento.
+		La norma se consulta al empezar con una forma que no se domina, no en cada secuencia: quien
+		anota cincuenta quintillas seguidas la lee una vez. Abierta siempre, ocupaba media pantalla
+		por encima de lo único que hay que hacer, que son las respuestas.
+
+		Lo que se queda fuera es lo que se necesita sin abrirla: **el enlace a la ficha**, que va a
+		otro sitio y no a este recuadro, y cuántos datos hay de cada clase, para que plegada no sea
+		una caja muda.
 	-->
-	<p class="text-xs text-[color:var(--muted-foreground)]">
-		Lo que no encaje aquí se registra como desviación.
-	</p>
+	<div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-3 py-2">
+		<button
+			type="button"
+			class="flex min-w-0 items-center gap-1.5 text-left hover:text-[color:var(--foreground)]"
+			aria-expanded={abierta}
+			onclick={() => (abierta = !abierta)}
+		>
+			<svg
+				class={`h-3 w-3 shrink-0 text-[color:var(--muted-foreground)] transition-transform ${
+					abierta ? 'rotate-90' : ''
+				}`}
+				viewBox="0 0 12 12"
+				fill="none"
+				aria-hidden="true"
+			>
+				<path d="M4 2.5 8 6l-4 3.5" stroke="currentColor" stroke-width="1.5" />
+			</svg>
+			<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+				La norma
+			</span>
+			{#if !abierta && resumen}
+				<span class="truncate text-xs text-[color:var(--muted-foreground)]">· {resumen}</span>
+			{/if}
+		</button>
+		<a class="link-action shrink-0 text-xs" href={props.catalogHref} target="_blank" rel="noreferrer">
+			Ver ficha completa ↗
+		</a>
+	</div>
+
+	{#if abierta}
+		<div class="space-y-3 border-t border-[color:var(--border)] px-3 py-2.5">
+			{#if fijadas.length > 0}
+				<div>
+					<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+						Ya está fijado
+					</span>
+					<!--
+						**Una rejilla, no una fila que envuelve.**
+
+						Cada dato lleva su nombre encima, y eso estaba bien; lo que descuadraba era el
+						`flex-wrap`: «extensión · unidades completas de 5 versos» es cuatro veces más ancho
+						que «medida · 11», así que cada renglón partía por un sitio distinto y las
+						etiquetas no caían nunca en la misma vertical. En columnas se leen las etiquetas
+						en línea y se salta a la que interesa.
+					-->
+					<div class="mt-1 grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+						{#each fijadas as fact (`${fact.label}:${fact.value}`)}
+							<span class="block min-w-0">
+								<span class="block text-xs text-[color:var(--muted-foreground)]">
+									{fact.label.toLocaleLowerCase('es').replace(/ fijas?$/, '')}
+								</span>
+								<span>{fact.value}</span>
+							</span>
+						{/each}
+					</div>
+				</div>
+			{/if}
+
+			{#if delPasaje.length > 0}
+				<div class="border-t border-[color:var(--border)] pt-2.5">
+					<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+						Lo dice el pasaje que anotas
+					</span>
+					<div class="mt-1 grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+						{#each delPasaje as fact (`${fact.label}:${fact.value}`)}
+							<span class="block min-w-0">
+								<span class="block text-xs text-[color:var(--muted-foreground)]">
+									{fact.label.toLocaleLowerCase('es')}
+								</span>
+								<span>{fact.value}</span>
+							</span>
+						{/each}
+					</div>
+				</div>
+			{/if}
+
+			{#if admitidas.length > 0}
+				<p class="text-xs text-[color:var(--muted-foreground)]">
+					Admite además: {admitidas
+						.map((fact: MetricNormFact) => `${fact.label.toLocaleLowerCase('es')} (${fact.value})`)
+						.join(', ')}.
+				</p>
+			{/if}
+
+			{#if props.facts.length === 0}
+				<p class="text-[color:var(--muted-foreground)]">
+					La arquitectura no fija aquí más datos que los que se responden abajo.
+				</p>
+			{/if}
+		</div>
+	{/if}
 </div>

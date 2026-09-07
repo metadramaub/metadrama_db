@@ -1259,20 +1259,32 @@
 		>
 			Identificación métrica
 		</button>
-		{#if identificationForm}
-			<p class="text-base font-medium leading-snug text-[color:var(--foreground)]">
-				{identificationForm}
-			</p>
-			{#if identificationDetails}
-				<p class="mt-0.5 text-xs leading-snug text-[color:var(--muted-foreground)]">
-					{identificationDetails}
-				</p>
-			{/if}
-		{:else}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Sin forma elegida.</p>
-		{/if}
+		<!--
+			**La forma va por debajo de su título, no por encima.**
 
-		{#if railItems.length > 0}
+			Se pintaba en `text-base` y el rótulo de la sección en el tamaño pequeño de las cabeceras
+			del raíl, así que «Quintilla» era lo más grande de la columna y «Identificación métrica»
+			parecía su antetítulo. Es al revés: la sección manda y la forma es lo que hay dentro.
+
+			Y lo que hay dentro va **sangrado y con una guía a la izquierda**, para que se vea de un
+			vistazo que «Respuestas» y «Qué se va a registrar» pertenecen a esta sección y no son
+			hermanas de «Caracterizaciones».
+		-->
+		<div class="mt-1 border-l border-[color:var(--border)] pl-3">
+			{#if identificationForm}
+				<p class="text-sm font-medium leading-snug text-[color:var(--foreground)]">
+					{identificationForm}
+				</p>
+				{#if identificationDetails}
+					<p class="mt-0.5 text-xs leading-snug text-[color:var(--muted-foreground)]">
+						{identificationDetails}
+					</p>
+				{/if}
+			{:else}
+				<p class="text-sm text-[color:var(--muted-foreground)]">Sin forma elegida.</p>
+			{/if}
+
+			{#if railItems.length > 0}
 			<ul class="mt-2 space-y-1">
 				{#each railItems as item (item.label)}
 					<li>
@@ -1301,7 +1313,8 @@
 					</li>
 				{/each}
 			</ul>
-		{/if}
+			{/if}
+		</div>
 
 		<!-- El resto de la secuencia: cada bloque es un destino con su propio título, al
 		     mismo nivel que la métrica, porque son partes distintas del mismo formulario. -->
@@ -1359,13 +1372,29 @@
 						<span class="text-xs text-[color:var(--muted-foreground)]">{identificationForm}</span>
 					{/if}
 					{#if props.alAlternarSeccion}
+						<!--
+							**Un icono, no un verbo.** «Colapsar» y «Desplegar» son dos palabras largas que
+							cambian de una a otra y hay que leer para saber en qué estado está la sección; la
+							flecha lo dice apuntando, y no cambia de tamaño al pulsarla.
+						-->
 						<button
 							type="button"
-							class="link-action text-xs"
+							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
 							aria-expanded={seccionMetricaAbierta}
+							aria-label={seccionMetricaAbierta
+								? 'Colapsar identificación métrica'
+								: 'Desplegar identificación métrica'}
+							title={seccionMetricaAbierta ? 'Colapsar' : 'Desplegar'}
 							onclick={() => props.alAlternarSeccion?.()}
 						>
-							{seccionMetricaAbierta ? 'Colapsar' : 'Desplegar'}
+							<svg
+								class={`h-3.5 w-3.5 transition-transform ${seccionMetricaAbierta ? 'rotate-90' : ''}`}
+								viewBox="0 0 12 12"
+								fill="none"
+								aria-hidden="true"
+							>
+								<path d="M4 2.5 8 6l-4 3.5" stroke="currentColor" stroke-width="1.5" />
+							</svg>
 						</button>
 					{/if}
 				</div>
@@ -1527,7 +1556,7 @@
 				unidad. Donde no la hay —el romance, el endecasílabo suelto—, son la zona entera.
 			-->
 			{#if hasSequenceChoices && !hasStructuredEditor}
-				<section id="secuencia" class="space-y-4 border-t border-[color:var(--border)] pt-5">
+				<section id="secuencia" class="space-y-4 pt-4">
 					<h4 class="form-subsection-title mb-0">Respuestas</h4>
 					{@render camposDeLaSecuencia()}
 					{#if rasgosQueAdmite.length > 0}
@@ -1579,7 +1608,7 @@
 					cobertura del rango, que ya no vive aquí. Lo que queda debajo son las respuestas y la
 					lectura de lo que va a guardarse, y las dos se nombran solas.
 				-->
-				<section id="estructura" class="space-y-4 border-t border-[color:var(--border)] pt-5">
+				<section id="estructura" class="space-y-4 pt-4">
 
 					{#key `${draft.anotacion_id ?? 'nueva'}-${draft.arquitectura_id}`}
 						<MetricStructureEditor

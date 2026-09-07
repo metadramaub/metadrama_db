@@ -35,14 +35,24 @@
 			{#if !props.abierta && props.resumen}
 				<span class="text-xs text-[color:var(--muted-foreground)]">{props.resumen}</span>
 			{/if}
+			<!-- Un icono, no un verbo: la flecha dice el estado apuntando, sin obligar a leerlo. -->
 			<button
 				type="button"
-				class="link-action text-xs"
+				class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
 				aria-expanded={props.abierta}
 				aria-controls={`${props.id}-cuerpo`}
+				aria-label={`${props.abierta ? 'Colapsar' : 'Desplegar'} ${props.titulo}`}
+				title={props.abierta ? 'Colapsar' : 'Desplegar'}
 				onclick={props.alAlternar}
 			>
-				{props.abierta ? 'Colapsar' : 'Desplegar'}
+				<svg
+					class={`h-3.5 w-3.5 transition-transform ${props.abierta ? 'rotate-90' : ''}`}
+					viewBox="0 0 12 12"
+					fill="none"
+					aria-hidden="true"
+				>
+					<path d="M4 2.5 8 6l-4 3.5" stroke="currentColor" stroke-width="1.5" />
+				</svg>
 			</button>
 		</div>
 	</div>
