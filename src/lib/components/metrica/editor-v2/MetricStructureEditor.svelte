@@ -2344,18 +2344,26 @@
 					deriva del rango y la forma declara secciones raíz, que es lo que significa crecer por
 					ciclos.
 				-->
+				<!--
+					**Lo que es del pasaje entero va antes que su reparto.**
+
+					Se pintaba después, y en las formas por ciclos eso lo dejaba al final de la lista de
+					partes, detrás del «+ Añadir» del último ciclo: al pulsar «+ vocales de la asonancia»
+					la pregunta aparecía ahí abajo, entre la estructura, y desde el pie parecía que el
+					botón se hubiera limitado a desaparecer.
+				-->
+				{#if props.preguntasDeSecuencia}
+					<div class="space-y-4 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
+						{@render props.preguntasDeSecuencia()}
+					</div>
+				{/if}
+
 				{#if respondePorPartes}
 					<div class="border-b border-[color:var(--border)] px-3 py-3">
 						<p class="mb-2 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
 							El pasaje se reparte así
 						</p>
 						{@render repartoOLectura(true)}
-					</div>
-				{/if}
-
-				{#if props.preguntasDeSecuencia}
-					<div class="space-y-4 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
-						{@render props.preguntasDeSecuencia()}
 					</div>
 				{/if}
 
@@ -2979,11 +2987,17 @@
 
 				{@render excepcionDeLaUnidad(row)}
 
-				{#if preguntasEnLaFila(row.preguntas).length === 0 && !row.lengthEditable}
+				<!--
+					«Patrón fijo por la arquitectura» solo cuando la parte **no pregunta nada**. Con la
+					pregunta subida a su parte, la fila se quedaba sin controles y decía que la norma la
+					fijaba entera, que es falso: la mudanza pregunta medida y rima, solo que se leen unas
+					líneas más abajo.
+				-->
+				{#if row.preguntas.length === 0 && !row.lengthEditable}
 					<span class="text-sm text-[color:var(--muted-foreground)]">
 						{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
 					</span>
-				{:else}
+				{:else if preguntasEnLaFila(row.preguntas).length > 0}
 					{@render camposDeLaParte(preguntasEnLaFila(row.preguntas), row.equivalentes)}
 				{/if}
 
