@@ -776,6 +776,20 @@
 		draft.elecciones = next;
 	}
 
+	/**
+	 * Al elegir arquitectura, el rango se estira hasta lo que la estructura ocupa. **F65.**
+	 *
+	 * Las formas que crecen por ciclos materializan su ciclo mínimo en cuanto se las elige, y el
+	 * rango recién creado —dos versos— no les llegaba: el villancico y el zéjel se abrían con un
+	 * aviso en rojo, «la estructura ocupa 13 versos y el rango declara 2», antes de que el editor
+	 * tocara nada. Un error de partida no dice nada de lo que se está anotando y enseña a no leer
+	 * los avisos.
+	 *
+	 * **Solo al elegir, y solo hacia arriba.** No es sincronizar el rango con la estructura, que es
+	 * justo lo que no se hace —«ajusta las unidades o revisa el verso final; el rango no cambiará
+	 * automáticamente»—: es que el rango de una secuencia recién abierta todavía no dice nada, y
+	 * ponerlo donde la forma lo deja es lo que haría el editor a mano un segundo después.
+	 */
 	function resetForConfiguration(configurationId: string) {
 		draft.arquitectura_id = configurationId;
 		draft.unidades = normalizeStructuredUnits(
@@ -786,6 +800,11 @@
 			draft.v_ini,
 			draft.v_fin
 		);
+		const ultimo = draft.unidades.reduce(
+			(mayor: number, unit: MetricUnitDraft) => Math.max(mayor, unit.v_fin),
+			draft.v_ini - 1
+		);
+		if (ultimo > draft.v_fin) draft.v_fin = ultimo;
 		draft.elecciones = [];
 		draft.desviaciones = [];
 	}
