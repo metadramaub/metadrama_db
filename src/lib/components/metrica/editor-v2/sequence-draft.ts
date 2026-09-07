@@ -30,7 +30,6 @@ export type MetricDeviationDimension =
 	| 'rasgo';
 
 export type MetricDeviationRelation =
-	| 'diferente'
 	| 'falta'
 	| 'sobra'
 	| 'menor_que_norma'
@@ -51,7 +50,6 @@ export const METRIC_DEVIATION_DIMENSIONS: { value: MetricDeviationDimension; lab
  * cualquier otra cosa, la que se explica escribiendo. Ahora lo dicen.
  */
 const DEVIATION_RELATION_LABELS: Record<MetricDeviationRelation, string> = {
-	diferente: 'Es otro valor',
 	falta: 'Falta',
 	sobra: 'Sobra',
 	menor_que_norma: 'Mide menos que la norma',
@@ -61,22 +59,28 @@ const DEVIATION_RELATION_LABELS: Record<MetricDeviationRelation, string> = {
 
 /**
  * Qué relaciones con la norma tienen sentido en cada dimensión, en el mismo orden que la
- * restricción de la base. Ofrecerlas todas obliga al editor a descartar a mano opciones
- * que no significan nada ahí: una rima no es «menor que la norma» y un rasgo no se rompe.
+ * restricción de la base. Ofrecerlas todas obliga al editor a descartar a mano opciones que no
+ * significan nada ahí.
  *
  * La relación lleva siempre el hecho; el valor observado es precisión añadida, no una vía
- * alternativa. Por eso `metro` no ofrece «es otra»: una medida solo puede sobrar o faltar,
- * y cuál es exactamente se dice en el metro observado.
+ * alternativa. Por eso `metro` no ofrece «otra cosa» como manera de decir qué mide: una medida solo
+ * puede quedarse corta o pasarse, y cuál es exactamente se dice en el metro observado.
+ *
+ * **`diferente` —«es otro valor»— se retiró el 7 de septiembre de 2026**, junto con `menor` y
+ * `mayor` en repetición. Donde la respuesta se escribe, «es otro valor» ya es una respuesta; donde
+ * el repertorio es cerrado, un valor que no está no es una desviación de la obra sino una falta del
+ * catálogo, y eso lo decide el IP. Y el estribillo que vuelve con menos versos **es** «se repite
+ * solo en parte», que también es una respuesta. La base lo comprueba combinación a combinación.
  */
 const DEVIATION_RELATIONS_BY_DIMENSION: Record<
 	MetricDeviationDimension,
 	MetricDeviationRelation[]
 > = {
 	metro: ['menor_que_norma', 'mayor_que_norma', 'otra'],
-	rima: ['diferente', 'otra'],
-	estructura: ['falta', 'sobra', 'menor_que_norma', 'mayor_que_norma', 'diferente', 'otra'],
-	repeticion: ['falta', 'sobra', 'menor_que_norma', 'mayor_que_norma', 'diferente', 'otra'],
-	rasgo: ['falta', 'sobra', 'diferente', 'otra']
+	rima: ['otra'],
+	estructura: ['falta', 'sobra', 'menor_que_norma', 'mayor_que_norma', 'otra'],
+	repeticion: ['falta', 'sobra', 'otra'],
+	rasgo: ['falta', 'sobra', 'otra']
 };
 
 /** Sin dimensión no hay relaciones que ofrecer: primero se dice de qué habla la desviación. */

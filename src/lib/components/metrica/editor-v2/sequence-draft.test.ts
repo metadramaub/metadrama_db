@@ -13,11 +13,8 @@ describe('vocabulario de las desviaciones', () => {
 	});
 
 	it('ofrece solo las relaciones que significan algo en cada dimensión', () => {
-		const rima = metricDeviationRelations('rima').map((option) => option.value);
-		expect(rima).toContain('diferente');
-		// Una rima no tiene tamaño: no es mayor ni menor que la norma.
-		expect(rima).not.toContain('menor_que_norma');
-		expect(rima).not.toContain('mayor_que_norma');
+		// Una rima no tiene tamaño, y «es otro esquema» ya es una respuesta: solo queda «otra».
+		expect(metricDeviationRelations('rima').map((option) => option.value)).toEqual(['otra']);
 
 		const rasgo = metricDeviationRelations('rasgo').map((option) => option.value);
 		// Un rasgo está o no está; no tiene tamaño.
@@ -26,23 +23,37 @@ describe('vocabulario de las desviaciones', () => {
 		expect(rasgo).not.toContain('menor_que_norma');
 	});
 
-	it('el metro solo puede sobrar o faltar, nunca «ser otro»', () => {
+	it('el metro solo puede quedarse corto o pasarse', () => {
 		const metro = metricDeviationRelations('metro').map((option) => option.value);
 		expect(metro).toEqual(['menor_que_norma', 'mayor_que_norma', 'otra']);
-		// Cuál es exactamente se dice en el metro observado, no en la relación.
-		expect(metro).not.toContain('diferente');
+	});
+
+	/**
+	 * **Lo que se retiró el 7 de septiembre de 2026, y que no vuelva.**
+	 *
+	 * `diferente` describía un valor que el catálogo no tiene, y eso no es una desviación de la obra
+	 * sino una falta del catálogo. Y el estribillo que vuelve con menos versos es «se repite solo en
+	 * parte», que es una respuesta. La base rechaza las dos cosas; esto vigila que el formulario no
+	 * las ofrezca.
+	 */
+	it('no ofrece las relaciones retiradas', () => {
+		for (const dimension of METRIC_DEVIATION_DIMENSIONS) {
+			const values = metricDeviationRelations(dimension.value).map((option) => option.value);
+			expect(values).not.toContain('diferente');
+		}
+		const repeticion = metricDeviationRelations('repeticion').map((option) => option.value);
+		expect(repeticion).toEqual(['falta', 'sobra', 'otra']);
 	});
 
 	it('deja «Otra» disponible en todas, para lo que no encaje', () => {
 		for (const dimension of METRIC_DEVIATION_DIMENSIONS) {
 			const values = metricDeviationRelations(dimension.value).map((option) => option.value);
 			expect(values).toContain('otra');
-			expect(values.length).toBeGreaterThan(1);
 		}
 	});
 
 	it('conserva la relación al cambiar de dimensión si sigue aplicando', () => {
-		expect(defaultRelationFor('estructura', 'diferente')).toBe('diferente');
+		expect(defaultRelationFor('estructura', 'sobra')).toBe('sobra');
 	});
 
 	it('vacía la relación que deja de aplicar, en vez de elegir otra por el editor', () => {
