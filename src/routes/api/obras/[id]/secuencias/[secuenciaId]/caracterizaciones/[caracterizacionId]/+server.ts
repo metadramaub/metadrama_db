@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
-import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
+import { loadInternalVocabulario, loadInternalVocabularioTermById } from '$lib/server/catalogos-internos';
 import { validationErrorResponse } from '$lib/server/http';
 import { validateSecuenciaCaracterizacionRangoContext } from '$lib/server/secuencias-caracterizaciones-rango';
 import { secuenciaCaracterizacionRangoInputSchema } from '$lib/utils/validators';
@@ -90,12 +90,32 @@ async function loadSecuenciaRange(locals: App.Locals, obraId: string, secuenciaI
 	};
 }
 
+/**
+ * El tipo elegido, exigiendo que se ofrezca hoy salvo que la fila ya lo tuviera.
+ *
+ * Las irregularidades métricas dejaron de ofrecerse el 7 de septiembre de 2026 —su sitio es una
+ * desviación del catálogo nuevo— y sus filas siguen ahí hasta que se migren obra por obra. Sin
+ * `conservadoDe`, corregir el rango de una de ellas respondería «el tipo no está activo» y la fila
+ * quedaría intocable: no se puede elegir un término retirado, pero conservar el que ya se eligió no
+ * es elegirlo.
+ */
 async function loadTipoCaracterizacionRango(
 	locals: App.Locals,
-	tipoCaracterizacionRangoId: string
+	tipoCaracterizacionRangoId: string,
+	conservadoDe: string | null = null
 ) {
 	const tipos = await loadInternalVocabulario(locals.supabase, ['caracterizacion_rango']);
-	const tipo = tipos.find((item) => item.termino_id === tipoCaracterizacionRangoId);
+	let tipo = tipos.find((item) => item.termino_id === tipoCaracterizacionRangoId) ?? null;
+
+	if (!tipo && conservadoDe && conservadoDe === tipoCaracterizacionRangoId) {
+		const heredado = await loadInternalVocabularioTermById(
+			locals.supabase,
+			tipoCaracterizacionRangoId
+		);
+		if (heredado?.categoria === 'caracterizacion_rango') {
+			tipo = heredado;
+		}
+	}
 
 	if (!tipo) {
 		return {
@@ -117,7 +137,7 @@ async function ensureCaracterizacionBelongsToSecuencia(
 ) {
 	const { data, error } = await locals.supabase
 		.from('secuencias_caracterizaciones_rango')
-		.select('caracterizacion_rango_id')
+		.select('caracterizacion_rango_id,tipo_caracterizacion_rango_id')
 		.eq('secuencia_id', secuenciaId)
 		.eq('caracterizacion_rango_id', caracterizacionRangoId)
 		.maybeSingle();
@@ -125,16 +145,22 @@ async function ensureCaracterizacionBelongsToSecuencia(
 	if (error) {
 		return {
 			errorResponse: json({ error: 'db_error', message: error.message }, { status: 500 }),
-			caracterizacionRangoId: null
+			caracterizacionRangoId: null,
+			tipoActual: null
 		};
 	}
 	if (!data) {
 		return {
 			errorResponse: json({ error: 'not_found', message: 'Caracterización no encontrada' }, { status: 404 }),
-			caracterizacionRangoId: null
+			caracterizacionRangoId: null,
+			tipoActual: null
 		};
 	}
-	return { errorResponse: null, caracterizacionRangoId: data.caracterizacion_rango_id };
+	return {
+		errorResponse: null,
+		caracterizacionRangoId: data.caracterizacion_rango_id,
+		tipoActual: data.tipo_caracterizacion_rango_id
+	};
 }
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
@@ -161,7 +187,8 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	const tipoResult = await loadTipoCaracterizacionRango(
 		locals,
-		parsed.data.tipo_caracterizacion_rango_id
+		parsed.data.tipo_caracterizacion_rango_id,
+		ownershipResult.tipoActual
 	);
 	if (tipoResult.errorResponse) return tipoResult.errorResponse;
 	if (!tipoResult.tipo) {
