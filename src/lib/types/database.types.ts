@@ -3835,6 +3835,21 @@ export type Database = {
         Args: { e: Database["public"]["Tables"]["anotacion_elecciones"]["Row"] }
         Returns: string
       }
+      formas_de_la_obra: {
+        Args: { p_obra_id: string }
+        Returns: {
+          arquitectura_id: string
+          arquitectura_nombre: string
+          arquitectura_slug: string
+          forma_nombre: string
+          forma_slug: string
+          n_versos: number
+          secuencia_id: string
+          tipo_forma: string
+          v_fin: number
+          v_ini: number
+        }[]
+      }
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }
       get_catalogo_formas_publicas: { Args: never; Returns: Json }
@@ -3971,6 +3986,19 @@ export type Database = {
       validar_estructura_anotacion: {
         Args: { p_secuencia_id: string }
         Returns: undefined
+      }
+      vocabulario_metrico_publico: {
+        Args: never
+        Returns: {
+          categoria: string
+          etiqueta: string
+          nivel: number
+          orden: number
+          termino: string
+          termino_id: string
+          termino_padre_id: string
+          tipo_forma: string
+        }[]
       }
     }
     Enums: {

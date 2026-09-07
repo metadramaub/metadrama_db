@@ -165,9 +165,12 @@ resuelve en lectura (§1.9):
 
 ### 1.9 Slugs vs etiquetas
 
-Las tablas precomputadas guardan **`termino`** (slug, clave estable), **nunca `etiqueta`** (editable
-→ quedaría obsoleta al renombrar). La etiqueta visible se resuelve **en lectura** desde el
-vocabulario, vía un loader cacheado (TTL 60s, invalidado en mutaciones de vocabulario). *Riesgo
+Las tablas precomputadas guardan **slugs**, clave estable, **nunca la etiqueta** (editable →
+quedaría obsoleta al renombrar). El nombre visible se resuelve **en lectura**, vía un loader
+cacheado (TTL 60s). **Desde el 7 de septiembre de 2026 los nombres métricos vienen del catálogo**,
+no del vocabulario: `vocabulario_metrico_publico()` devuelve formas, arquitecturas, esquemas de rima
+y metros con la forma de una fila de vocabulario, para que ninguna superficie tenga que enterarse.
+Género y caracterizaciones siguen viniendo de `vocabularios`. *Riesgo
 conocido:* si se renombra un `termino`, los arrays quedan obsoletos hasta el siguiente recompute;
 se asume y, si hace falta, se fuerza `recompute_all()`.
 
