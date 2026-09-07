@@ -53,6 +53,17 @@ export type PreguntaFormulario = {
 	esPosicional: boolean;
 	/** El rasgo del que cuelga, cuando la pregunta materializa uno que la forma solo admite. */
 	rasgoId: string | null;
+	/**
+	 * De qué parte habla, para poder pintarla dentro de ella.
+	 *
+	 * Se toma **de la fila en que apareció**, no de las columnas del grupo. La modalidad de la
+	 * represa cuelga del ciclo por `seccion_id` y habla de la repetición del estribillo; quien ya
+	 * resolvió esa diferencia es `buildGridRows`, que la coloca en la fila de la repetición. Leerlo
+	 * del grupo la devolvía al ciclo.
+	 */
+	seccionId: string | null;
+	/** Y su enunciado sin el nombre de la parte, para cuando se lee dentro de ella. */
+	rotuloSinParte: string;
 };
 
 /** Los dos controles de rima que admiten texto escrito. */
@@ -126,6 +137,8 @@ export function preguntasDelFormulario(context: GridRowContext): PreguntaFormula
 
 	const recoger = (row: GridRow, preguntas: PreguntaEnFila[]) => {
 		const prefijo = prefijoDeParte(row);
+		const seccionId =
+			row.kind !== 'acciones' && row.section ? String(row.section.seccion_id) : null;
 		for (const pregunta of preguntas) {
 			const rotulo = prefijo ? `${prefijo} · ${pregunta.label}` : pregunta.label;
 			const groupId = String(pregunta.group.grupo_eleccion_id);
@@ -145,7 +158,9 @@ export function preguntasDelFormulario(context: GridRowContext): PreguntaFormula
 				alcance: 'secuencia' as const,
 				admiteEscrito: admiteEscrito(pregunta.group),
 				esPosicional: esPosicional(pregunta.group, context.options),
-				rasgoId: pregunta.group.rasgo_id ? String(pregunta.group.rasgo_id) : null
+				rasgoId: pregunta.group.rasgo_id ? String(pregunta.group.rasgo_id) : null,
+				seccionId,
+				rotuloSinParte: pregunta.label
 			};
 			if (
 				!familia.groups.some(
