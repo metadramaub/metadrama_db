@@ -298,7 +298,17 @@
 	const hayAjustesDeComposicion = $derived(
 		(!respondePorPartes && Boolean(props.globalQuestions)) || opcionales.length > 0
 	);
-	const hayZonaComun = $derived(hayAjustesDeComposicion || comunes.length > 0);
+	/**
+	 * Si hay zona de respuestas que pintar.
+	 *
+	 * **Las formas que crecen por ciclos cuentan aunque no tengan preguntas comunes**: su reparto vive
+	 * ahora dentro de esta zona, y sin esto la canción regular —que no pregunta nada, porque sus
+	 * partes no declaran nada, que es F2— se quedaba sin reparto y sin nada: la zona no se pintaba y
+	 * la de abajo ya no le corresponde.
+	 */
+	const hayZonaComun = $derived(
+		hayAjustesDeComposicion || comunes.length > 0 || respondePorPartes
+	);
 
 
 	function optionsForGroup(groupId: string): MetricCatalogDomainRow[] {
@@ -2240,7 +2250,7 @@
 			de si alguna se aparta. Nada que preparar, nada que confirmar, ningún aviso sobre el
 			futuro: si se añade una unidad, deja de haber uniformidad y la pregunta lo dice sola.
 		-->
-		{#if comunes.length > 0 || props.preguntasDeSecuencia}
+		{#if comunes.length > 0 || props.preguntasDeSecuencia || respondePorPartes}
 			<div class={hayAjustesDeComposicion ? 'border-t border-[color:var(--border)]' : ''}>
 				<!--
 					**Una sola manera de responder, y ninguna lista que abrir.**
@@ -2258,10 +2268,41 @@
 					<p class="form-grid-title">Respuestas</p>
 				</div>
 
+				<!--
+					**Primero cómo se reparte el pasaje, y después qué se responde de cada parte.**
+
+					En el villancico, el zéjel y la canción, el reparto vivía abajo, en una zona aparte, y
+					no era estructura contemplada: son decisiones del editor —cuántos versos lleva la
+					cabeza, si el ciclo trae enlace y vuelta, cuántos ciclos hay, qué patrón declara la
+					estancia modelo—. Y son **las que deciden cuántas preguntas hay arriba**: cuántas
+					mudanzas que medir, cuántas repeticiones que calificar. Tomarlas después de
+					contestarlas era leer la pantalla al revés.
+
+					Solo en esas tres. El criterio no es una lista de nombres: es que la unidad no se
+					deriva del rango y la forma declara secciones raíz, que es lo que significa crecer por
+					ciclos.
+				-->
+				{#if respondePorPartes}
+					<div class="border-b border-[color:var(--border)] px-3 py-3">
+						<p class="mb-2 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+							El pasaje se reparte así
+						</p>
+						{@render repartoOLectura(true)}
+					</div>
+				{/if}
+
 				{#if props.preguntasDeSecuencia}
 					<div class="space-y-4 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
 						{@render props.preguntasDeSecuencia()}
 					</div>
+				{/if}
+
+				{#if respondePorPartes && comunes.length > 0}
+					<p
+						class="border-b border-[color:var(--border)] px-3 pt-3 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+					>
+						Y de cada parte
+					</p>
 				{/if}
 
 				{#if confirmarConjunto}
@@ -2583,392 +2624,12 @@
 		castellana de dos coplas, lo que hay debajo son las dos coplas con sus partes, no dieciséis
 		versos.
 	-->
-	{#if !listadoSinNadaQueDecir}
-	<div class={hayZonaComun ? 'mt-6 border border-[color:var(--border)]' : 'border border-[color:var(--border)]'}>
-		{#if rows.length > 0}
-			<!--
-				**El rótulo dice lo que hay debajo, y debajo no siempre hay lo mismo.**
-
-				Donde la forma se lee entera en versos, esto es lo que va a quedar guardado. Donde crece
-				por partes —villancico, zéjel, canción— aquí abajo ya no se responde nada: **las
-				preguntas subieron todas a la zona de respuestas** y lo que queda es cómo se reparte el
-				pasaje —cuántos versos lleva la cabeza, cuántos ciclos hay, dónde acaba cada estancia—.
-				Se llamaba «la secuencia, parte por parte», que era su nombre cuando ahí se anotaba.
-			-->
-			<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
-				{listaCompacta || notacionDeLaSecuencia
-					? 'Qué se va a registrar'
-					: 'Cómo se reparte el pasaje'}
-			</p>
-		{/if}
-
-		<!--
-			**Y si no se puede guardar, aquí no se enumera nada.**
-
-			«Qué se va a registrar» es una promesa, y con el rango sin cuadrar era falsa dos veces: el
-			guardado iba a fallar, y lo que enumeraba eran solo las unidades materializadas —una de
-			doce versos en la quintilla— como si fueran la lectura entera.
-
-			**Sin repetir el motivo**, que ya está dicho arriba en la cabecera y no se va de la
-			pantalla. Aquí solo hace falta saber por qué está vacío esto.
-		-->
-		{#if props.rangoSinCuadrar && (listaCompacta || notacionDeLaSecuencia)}
-			<p class="px-3 py-2.5 text-sm text-[color:var(--muted-foreground)]">
-				Cuando el rango cuadre, aquí se lee lo que va a quedar guardado.
-			</p>
-		{/if}
-
-		{#if props.rangoSinCuadrar && (listaCompacta || notacionDeLaSecuencia)}
-			<!-- Nada: lo que hubiera aquí sería una lectura incompleta presentada como definitiva. -->
-		{:else if notacionDeLaSecuencia}
-			<p class="px-3 py-2.5 text-sm tabular-nums">{notacionDeLaSecuencia}</p>
-		{:else if listaCompacta}
-			<!-- Una debajo de otra: en fila corrida no se distingue dónde acaba una copla y empieza la siguiente. -->
-			<ul class="px-3 py-2.5">
-				<!-- Solo las unidades de primer nivel: sus partes ya van dentro de su anotación. -->
-				{#each unidadesRaiz as entrada (entrada.unit.realizacion_id)}
-					{@const notacion = notacionDeLaUnidad(entrada.unit)}
-					<li class="flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed">
-						<span>
-							{entrada.rotulo}
-							<span class="tabular-nums text-[color:var(--muted-foreground)]">
-								vv. {entrada.unit.v_ini}–{entrada.unit.v_fin}
-							</span>
-						</span>
-						<!-- La anotación va al lado y en pequeño: informa sin ocupar otra línea. -->
-						{#if notacion}
-							<span class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
-								{notacion}
-							</span>
-						{/if}
-					</li>
-				{/each}
-			</ul>
-		{:else}
-		{#each rows as row (row.key)}
-			{#if !esParteIntegrada(row) && !filaOculta(row)}
-			{#if row.kind === 'pregunta'}
-				<MetricGridRow label={row.label} depth={row.depth}>
-					{@render camposDeLaParte(row.preguntas)}
-				</MetricGridRow>
-			{:else if row.kind === 'fijas'}
-				<!--
-					«Cuartetos · 2 · vv. 1–8» se lee como «el cuarteto número 2». Cuántas hay va con
-					su sustantivo, del lado de la respuesta, y en femenino porque concuerda con
-					«realizaciones»: el catálogo no declara el género de los nombres de sección.
-				-->
-				{@const norma = `${row.cuantas} ${
-						row.cuantas === 1 ? 'realización' : 'realizaciones'
-					} de ${row.versos} ${row.versos === 1 ? 'verso' : 'versos'}`}
-				<MetricGridRow
-					label={row.label}
-					rango={`vv. ${row.v_ini}–${row.v_fin}`}
-					nota={row.preguntas.length > 0 ? `${norma}, fijas por la forma` : undefined}
-					notaAyuda={EXTENT_HELP}
-					depth={row.depth}
-					variant={row.preguntas.length > 0 ? 'normal' : 'resumen'}
-				>
-					<!--
-						Cuando la parte no pregunta nada, no se dice nada. «1 realización de 4 versos · la
-						norma las fija enteras», repetido en cada redondilla de cada copla, era media
-						pantalla para decir lo que el rótulo de al lado —«Primera redondilla · vv. 1–4»— ya
-						deja ver. La extensión sigue explicándose donde importa: en las partes que sí
-						preguntan, por su `nota`.
-					-->
-					{#if row.preguntas.length > 0}
-						{@render camposDeLaParte(row.preguntas)}
-					{/if}
-				</MetricGridRow>
-			{:else if row.kind === 'acciones'}
-				<MetricGridRow
-					label={row.modo === 'contar'
-						? `N.º de ${row.label.toLocaleLowerCase('es')}`
-						: row.label}
-					depth={row.depth}
-					variant="resumen"
-				>
-					{#if row.modo === 'contar'}
-						<input
-							type="number"
-							min={row.minimo}
-							max={row.maximo ?? undefined}
-							class="h-9 w-24 border border-[color:var(--border)] bg-white px-2"
-							value={row.cuantas}
-							aria-label={`Número de ${row.label.toLocaleLowerCase('es')}`}
-							onchange={(event) =>
-								setInstanceCount(
-									row.section,
-									row.parentUnitId,
-									row.minimo,
-									row.maximo,
-									Number(event.currentTarget.value)
-								)}
-						/>
-					{:else}
-						<button
-							type="button"
-							class="link-action self-start"
-							onclick={() =>
-								addInstance(
-									row.section ? String(row.section.seccion_id) : null,
-									row.parentUnitId
-								)}
-						>
-							+ Añadir
-						</button>
-					{/if}
-				</MetricGridRow>
-			{:else}
-				{@const parts = partesIntegradas(row)}
-				{@const fixedRhymeParts = partesFijasConRima(row)}
-				{@const completePatternQuestion = preguntaPosicionalCompleta(row)}
-				{@const partialQuestions = preguntasPosicionalesParciales(row)}
-				{@const otherQuestions = row.preguntas.filter(
-					(pregunta: PreguntaEnFila) => !partialQuestions.includes(pregunta)
-				)}
-				<!--
-					**Una unidad abierta se puede plegar aunque no esté respondida.**
-
-					Plegar solo se ofrecía cuando la unidad estaba contestada entera, que es justo
-					cuando menos falta hace. Respondiendo una a una, seis coplas desplegadas con sus
-					dos preguntas cada una no caben en la pantalla, y hasta contestarlas no había
-					manera de recogerlas.
-				-->
-				{@const abiertaPorModo =
-					comunes.length > 0 && esUnidadComun(row.unit) && unidadAbierta()}
-				{@const plegable =
-					abiertaPorModo || (parts.length > 0 ? puedePlegarCompuesta(row, parts) : puedePlegar(row))}
-				{@const plegada = plegable && unidadesPlegadas.has(row.unit.realizacion_id)}
-				{@const respondida =
-					row.preguntas.every(preguntaRespondida) &&
-					parts.every((part: GridFijasRow) => part.preguntas.every(preguntaRespondida))}
-				<MetricGridRow
-					label={row.label}
-					rango={`vv. ${row.unit.v_ini}–${row.unit.v_fin}`}
-					nota={row.nota}
-					depth={row.depth}
-					variant={row.container || parts.length > 0 || fixedRhymeParts.length > 0 ? 'grupo' : 'normal'}
-					actionLabel={plegable ? (plegada ? 'Desplegar' : 'Plegar') : undefined}
-					onAction={plegable
-						? () => setUnidadPlegada(row.unit.realizacion_id, !plegada)
-						: undefined}
-				>
-					{#if sectionDefinesPattern(row.section)}
-						{@const source = patternSource(row)}
-						{@const metroQuestion = patternQuestion(row, 'metro')}
-						{@const rhymeQuestion = patternQuestion(row, 'rima')}
-						{#if source.realizacion_id !== row.unit.realizacion_id}
-							<div class="border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2">
-								<p class="text-sm font-medium">{patternSummary(row)}</p>
-								<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
-									Resultado heredado de la estancia modelo. Si el testimonio no lo cumple,
-									registra una desviación.
-								</p>
-							</div>
-						{:else}
-							<div class="space-y-3">
-								<label class="flex items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
-									<span>N.º de versos</span>
-									<input
-										type="number"
-										min={verseMinimum(row.section)}
-										max={verseMaximum(row.section) ?? undefined}
-										class="h-9 w-24 border border-[color:var(--border)] bg-white px-2 text-sm"
-										value={row.unit.v_fin - row.unit.v_ini + 1}
-										onchange={(event) =>
-											setPatternLength(row, row.section, Number(event.currentTarget.value))}
-									/>
-									<span>Se aplicará a todas las estancias.</span>
-								</label>
-
-								{#if metroQuestion}
-									<div>
-										<p class="form-label mb-1.5 flex items-center gap-2">
-											<span>Patrón de la estancia <span aria-hidden="true">*</span></span>
-											{#if rhymeQuestion?.group.ayuda_editor}
-												<FieldHelpTooltip
-													text={String(rhymeQuestion.group.ayuda_editor)}
-													label="Ayuda sobre la notación de la rima"
-												/>
-											{/if}
-										</p>
-										<p class="mb-2 text-xs text-[color:var(--muted-foreground)]">
-											Elige la medida y la clase de rima de cada verso. Las demás estancias
-											repetirán esta disposición.
-										</p>
-										<MetricVersePatternField
-											length={row.unit.v_fin - row.unit.v_ini + 1}
-											options={optionsForGroup(String(metroQuestion.group.grupo_eleccion_id))}
-											selectedIds={selectedChoiceIds(
-												String(metroQuestion.group.grupo_eleccion_id),
-												row.unit.realizacion_id
-											)}
-											onMeasureChange={(ids) =>
-												setPatternChoices(row, metroQuestion.group, ids)}
-											rhymeValue={rhymeQuestion
-												? choiceTextValue(
-														String(rhymeQuestion.group.grupo_eleccion_id),
-														row.unit.realizacion_id
-													)
-												: undefined}
-											onRhymeChange={rhymeQuestion
-												? (value) => setPatternRhyme(row, rhymeQuestion.group, value)
-												: undefined}
-										/>
-									</div>
-								{/if}
-							</div>
-						{/if}
-
-						{#if row.removable}
-							<button
-								type="button"
-								class="link-action link-action--danger self-start"
-								onclick={() => removeInstance(row.unit)}
-							>
-								Quitar {nodeLabel(context, row.section).toLocaleLowerCase('es')}
-							</button>
-						{/if}
-					{:else if completePatternQuestion && fixedRhymeParts.length > 0}
-						<div class="space-y-3">
-							<p class="text-xs text-[color:var(--muted-foreground)]">
-								La medida y la rima se leen juntas. La rima ya está fijada por las partes de
-								la estancia; solo hay que indicar si cada verso mide 7 u 11 sílabas.
-							</p>
-							<MetricVersePatternField
-								length={row.unit.v_fin - row.unit.v_ini + 1}
-								options={optionsForGroup(
-									String(completePatternQuestion.group.grupo_eleccion_id)
-								)}
-								selectedIds={selectedChoiceIds(
-									String(completePatternQuestion.group.grupo_eleccion_id),
-									row.unit.realizacion_id
-								)}
-								onMeasureChange={(ids) =>
-									setChoices(completePatternQuestion.group, row.unit, ids)}
-								fixedRhymes={fixedRhymesFor(row, fixedRhymeParts)}
-							/>
-							<div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--muted-foreground)]">
-								{#each fixedRhymeParts as part (part.key)}
-									<span>{part.label}: vv. {part.v_ini}–{part.v_fin}</span>
-								{/each}
-							</div>
-						</div>
-					{:else if plegada}
-						{#if !respondida}
-							<span class="text-sm text-[color:var(--muted-foreground)]">
-								Sin responder todavía.
-							</span>
-						{:else if parts.length > 0}
-							<span class="text-sm text-[color:var(--muted-foreground)]">
-								Respuesta registrada en {parts.length} partes.
-							</span>
-						{:else}
-							{@const notacion = notacionDeLaUnidad(row.unit)}
-							{@const restantes = notacion
-								? row.preguntas.filter(
-										(pregunta: PreguntaEnFila) =>
-											pregunta.group.dimension !== 'rima' &&
-											pregunta.group.dimension !== 'metro'
-									)
-								: row.preguntas}
-							{#if notacion}
-								<p class="text-sm tabular-nums">{notacion}</p>
-							{/if}
-							{#if restantes.length > 0}
-								{@render camposDeLaParte(
-									restantes,
-									row.equivalentes,
-									true,
-									() => setUnidadPlegada(row.unit.realizacion_id, false),
-									undefined,
-									undefined,
-									true
-								)}
-							{/if}
-						{/if}
-					{:else}
-					{#if parts.length > 0}
-						{@render camposDeLaParte(otherQuestions, row.equivalentes)}
-						<div class="space-y-3">
-							{#each parts as part (part.key)}
-								<section class="border border-[color:var(--border)] bg-white">
-									<div class="border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
-										<p class="text-sm font-medium">{part.label}</p>
-										<p class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
-											vv. {part.v_ini}–{part.v_fin} · {part.versos} versos
-										</p>
-									</div>
-									<div class="space-y-4 p-3">
-										{@render camposDeLaParte(part.preguntas, row.equivalentes)}
-										{#each partialQuestions as pregunta (String(pregunta.group.grupo_eleccion_id))}
-											{@render campo(
-												pregunta,
-												row.equivalentes,
-												false,
-												undefined,
-												part.v_ini - row.unit.v_ini + 1,
-												part.v_fin - row.unit.v_ini + 1
-											)}
-										{/each}
-									</div>
-								</section>
-							{/each}
-						</div>
-					{:else}
-					{#if row.lengthEditable}
-						<div class="flex flex-wrap items-center gap-3">
-							<label class="flex items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
-								<span>N.º de versos</span>
-								<input
-									type="number"
-									min={verseMinimum(row.section)}
-									max={verseMaximum(row.section) ?? undefined}
-									class="h-9 w-24 border border-[color:var(--border)] bg-white px-2 text-sm"
-									value={row.unit.v_fin - row.unit.v_ini + 1}
-									onchange={(event) =>
-										setUnitLength(row.unit, row.section, Number(event.currentTarget.value))}
-								/>
-							</label>
-							{#if row.equivalentes > 1 && equivalentLengthDiffers(row.unit)}
-								<button
-									type="button"
-									class="link-action"
-									onclick={() => applyUnitLengthToEquivalentUnits(row.unit)}
-								>
-									Aplicar esta extensión a las {row.equivalentes} unidades
-								</button>
-							{/if}
-						</div>
-					{/if}
-
-					{@render excepcionDeLaUnidad(row)}
-
-					{#if row.preguntas.length === 0 && !row.lengthEditable}
-						<span class="text-sm text-[color:var(--muted-foreground)]">
-							{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
-						</span>
-					{:else}
-						{@render camposDeLaParte(row.preguntas, row.equivalentes)}
-					{/if}
-
-					{#if row.removable}
-						<button
-							type="button"
-							class="link-action link-action--danger self-start"
-							onclick={() => removeInstance(row.unit)}
-						>
-							Quitar {nodeLabel(context, row.section).toLocaleLowerCase('es')}
-						</button>
-					{/if}
-					{/if}
-					{/if}
-				</MetricGridRow>
-			{/if}
-			{/if}
-		{/each}
-		{/if}
-	</div>
+	<!--
+		**Donde la forma crece por ciclos, esto vive dentro de las respuestas.**
+		Ver el bloque de arriba: allí se explica por qué.
+	-->
+	{#if !listadoSinNadaQueDecir && !respondePorPartes}
+		{@render repartoOLectura(false)}
 	{/if}
 </div>
 
@@ -3108,4 +2769,408 @@
 			{/if}
 		</label>
 	{/if}
+{/snippet}
+
+
+<!--
+	**El reparto del pasaje y la lectura de lo que se guarda comparten sitio.**
+
+	Son la misma zona en dos estados: donde todo se responde arriba, aquí se lee la secuencia en
+	versos; donde la forma crece por ciclos, aquí se decide cómo se reparte. Está en un `snippet`
+	porque en las formas por ciclos se pinta **dentro** de las respuestas y en las demás debajo, y
+	tenerlo escrito dos veces sería garantía de que dejaran de parecerse.
+-->
+{#snippet repartoOLectura(dentro: boolean)}
+<div
+	class={dentro
+		? ''
+		: hayZonaComun
+			? 'mt-6 border border-[color:var(--border)]'
+			: 'border border-[color:var(--border)]'}
+>
+	<!-- Dentro de las respuestas el rótulo ya lo pone la zona: aquí sería decirlo dos veces. -->
+	{#if rows.length > 0 && !dentro}
+		<!--
+			**El rótulo dice lo que hay debajo, y debajo no siempre hay lo mismo.**
+
+			Donde la forma se lee entera en versos, esto es lo que va a quedar guardado. Donde crece
+			por partes —villancico, zéjel, canción— aquí abajo ya no se responde nada: **las
+			preguntas subieron todas a la zona de respuestas** y lo que queda es cómo se reparte el
+			pasaje —cuántos versos lleva la cabeza, cuántos ciclos hay, dónde acaba cada estancia—.
+			Se llamaba «la secuencia, parte por parte», que era su nombre cuando ahí se anotaba.
+		-->
+		<p class="form-grid-title border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+			{listaCompacta || notacionDeLaSecuencia
+				? 'Qué se va a registrar'
+				: 'Cómo se reparte el pasaje'}
+		</p>
+	{/if}
+
+	<!--
+		**Y si no se puede guardar, aquí no se enumera nada.**
+
+		«Qué se va a registrar» es una promesa, y con el rango sin cuadrar era falsa dos veces: el
+		guardado iba a fallar, y lo que enumeraba eran solo las unidades materializadas —una de
+		doce versos en la quintilla— como si fueran la lectura entera.
+
+		**Sin repetir el motivo**, que ya está dicho arriba en la cabecera y no se va de la
+		pantalla. Aquí solo hace falta saber por qué está vacío esto.
+	-->
+	{#if props.rangoSinCuadrar && (listaCompacta || notacionDeLaSecuencia)}
+		<p class="px-3 py-2.5 text-sm text-[color:var(--muted-foreground)]">
+			Cuando el rango cuadre, aquí se lee lo que va a quedar guardado.
+		</p>
+	{/if}
+
+	{#if props.rangoSinCuadrar && (listaCompacta || notacionDeLaSecuencia)}
+		<!-- Nada: lo que hubiera aquí sería una lectura incompleta presentada como definitiva. -->
+	{:else if notacionDeLaSecuencia}
+		<p class="px-3 py-2.5 text-sm tabular-nums">{notacionDeLaSecuencia}</p>
+	{:else if listaCompacta}
+		<!-- Una debajo de otra: en fila corrida no se distingue dónde acaba una copla y empieza la siguiente. -->
+		<ul class="px-3 py-2.5">
+			<!-- Solo las unidades de primer nivel: sus partes ya van dentro de su anotación. -->
+			{#each unidadesRaiz as entrada (entrada.unit.realizacion_id)}
+				{@const notacion = notacionDeLaUnidad(entrada.unit)}
+				<li class="flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed">
+					<span>
+						{entrada.rotulo}
+						<span class="tabular-nums text-[color:var(--muted-foreground)]">
+							vv. {entrada.unit.v_ini}–{entrada.unit.v_fin}
+						</span>
+					</span>
+					<!-- La anotación va al lado y en pequeño: informa sin ocupar otra línea. -->
+					{#if notacion}
+						<span class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
+							{notacion}
+						</span>
+					{/if}
+				</li>
+			{/each}
+		</ul>
+	{:else}
+	{#each rows as row (row.key)}
+		{#if !esParteIntegrada(row) && !filaOculta(row)}
+		{#if row.kind === 'pregunta'}
+			<MetricGridRow label={row.label} depth={row.depth}>
+				{@render camposDeLaParte(row.preguntas)}
+			</MetricGridRow>
+		{:else if row.kind === 'fijas'}
+			<!--
+				«Cuartetos · 2 · vv. 1–8» se lee como «el cuarteto número 2». Cuántas hay va con
+				su sustantivo, del lado de la respuesta, y en femenino porque concuerda con
+				«realizaciones»: el catálogo no declara el género de los nombres de sección.
+			-->
+			{@const norma = `${row.cuantas} ${
+					row.cuantas === 1 ? 'realización' : 'realizaciones'
+				} de ${row.versos} ${row.versos === 1 ? 'verso' : 'versos'}`}
+			<MetricGridRow
+				label={row.label}
+				rango={`vv. ${row.v_ini}–${row.v_fin}`}
+				nota={row.preguntas.length > 0 ? `${norma}, fijas por la forma` : undefined}
+				notaAyuda={EXTENT_HELP}
+				depth={row.depth}
+				variant={row.preguntas.length > 0 ? 'normal' : 'resumen'}
+			>
+				<!--
+					Cuando la parte no pregunta nada, no se dice nada. «1 realización de 4 versos · la
+					norma las fija enteras», repetido en cada redondilla de cada copla, era media
+					pantalla para decir lo que el rótulo de al lado —«Primera redondilla · vv. 1–4»— ya
+					deja ver. La extensión sigue explicándose donde importa: en las partes que sí
+					preguntan, por su `nota`.
+				-->
+				{#if row.preguntas.length > 0}
+					{@render camposDeLaParte(row.preguntas)}
+				{/if}
+			</MetricGridRow>
+		{:else if row.kind === 'acciones'}
+			<MetricGridRow
+				label={row.modo === 'contar'
+					? `N.º de ${row.label.toLocaleLowerCase('es')}`
+					: row.label}
+				depth={row.depth}
+				variant="resumen"
+			>
+				{#if row.modo === 'contar'}
+					<input
+						type="number"
+						min={row.minimo}
+						max={row.maximo ?? undefined}
+						class="h-9 w-24 border border-[color:var(--border)] bg-white px-2"
+						value={row.cuantas}
+						aria-label={`Número de ${row.label.toLocaleLowerCase('es')}`}
+						onchange={(event) =>
+							setInstanceCount(
+								row.section,
+								row.parentUnitId,
+								row.minimo,
+								row.maximo,
+								Number(event.currentTarget.value)
+							)}
+					/>
+				{:else}
+					<button
+						type="button"
+						class="link-action self-start"
+						onclick={() =>
+							addInstance(
+								row.section ? String(row.section.seccion_id) : null,
+								row.parentUnitId
+							)}
+					>
+						+ Añadir
+					</button>
+				{/if}
+			</MetricGridRow>
+		{:else}
+			{@const parts = partesIntegradas(row)}
+			{@const fixedRhymeParts = partesFijasConRima(row)}
+			{@const completePatternQuestion = preguntaPosicionalCompleta(row)}
+			{@const partialQuestions = preguntasPosicionalesParciales(row)}
+			{@const otherQuestions = row.preguntas.filter(
+				(pregunta: PreguntaEnFila) => !partialQuestions.includes(pregunta)
+			)}
+			<!--
+				**Una unidad abierta se puede plegar aunque no esté respondida.**
+
+				Plegar solo se ofrecía cuando la unidad estaba contestada entera, que es justo
+				cuando menos falta hace. Respondiendo una a una, seis coplas desplegadas con sus
+				dos preguntas cada una no caben en la pantalla, y hasta contestarlas no había
+				manera de recogerlas.
+			-->
+			{@const abiertaPorModo =
+				comunes.length > 0 && esUnidadComun(row.unit) && unidadAbierta()}
+			{@const plegable =
+				abiertaPorModo || (parts.length > 0 ? puedePlegarCompuesta(row, parts) : puedePlegar(row))}
+			{@const plegada = plegable && unidadesPlegadas.has(row.unit.realizacion_id)}
+			{@const respondida =
+				row.preguntas.every(preguntaRespondida) &&
+				parts.every((part: GridFijasRow) => part.preguntas.every(preguntaRespondida))}
+			<MetricGridRow
+				label={row.label}
+				rango={`vv. ${row.unit.v_ini}–${row.unit.v_fin}`}
+				nota={row.nota}
+				depth={row.depth}
+				variant={row.container || parts.length > 0 || fixedRhymeParts.length > 0 ? 'grupo' : 'normal'}
+				actionLabel={plegable ? (plegada ? 'Desplegar' : 'Plegar') : undefined}
+				onAction={plegable
+					? () => setUnidadPlegada(row.unit.realizacion_id, !plegada)
+					: undefined}
+			>
+				{#if sectionDefinesPattern(row.section)}
+					{@const source = patternSource(row)}
+					{@const metroQuestion = patternQuestion(row, 'metro')}
+					{@const rhymeQuestion = patternQuestion(row, 'rima')}
+					{#if source.realizacion_id !== row.unit.realizacion_id}
+						<div class="border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2">
+							<p class="text-sm font-medium">{patternSummary(row)}</p>
+							<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
+								Resultado heredado de la estancia modelo. Si el testimonio no lo cumple,
+								registra una desviación.
+							</p>
+						</div>
+					{:else}
+						<div class="space-y-3">
+							<label class="flex items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
+								<span>N.º de versos</span>
+								<input
+									type="number"
+									min={verseMinimum(row.section)}
+									max={verseMaximum(row.section) ?? undefined}
+									class="h-9 w-24 border border-[color:var(--border)] bg-white px-2 text-sm"
+									value={row.unit.v_fin - row.unit.v_ini + 1}
+									onchange={(event) =>
+										setPatternLength(row, row.section, Number(event.currentTarget.value))}
+								/>
+								<span>Se aplicará a todas las estancias.</span>
+							</label>
+
+							{#if metroQuestion}
+								<div>
+									<p class="form-label mb-1.5 flex items-center gap-2">
+										<span>Patrón de la estancia <span aria-hidden="true">*</span></span>
+										{#if rhymeQuestion?.group.ayuda_editor}
+											<FieldHelpTooltip
+												text={String(rhymeQuestion.group.ayuda_editor)}
+												label="Ayuda sobre la notación de la rima"
+											/>
+										{/if}
+									</p>
+									<p class="mb-2 text-xs text-[color:var(--muted-foreground)]">
+										Elige la medida y la clase de rima de cada verso. Las demás estancias
+										repetirán esta disposición.
+									</p>
+									<MetricVersePatternField
+										length={row.unit.v_fin - row.unit.v_ini + 1}
+										options={optionsForGroup(String(metroQuestion.group.grupo_eleccion_id))}
+										selectedIds={selectedChoiceIds(
+											String(metroQuestion.group.grupo_eleccion_id),
+											row.unit.realizacion_id
+										)}
+										onMeasureChange={(ids) =>
+											setPatternChoices(row, metroQuestion.group, ids)}
+										rhymeValue={rhymeQuestion
+											? choiceTextValue(
+													String(rhymeQuestion.group.grupo_eleccion_id),
+													row.unit.realizacion_id
+												)
+											: undefined}
+										onRhymeChange={rhymeQuestion
+											? (value) => setPatternRhyme(row, rhymeQuestion.group, value)
+											: undefined}
+									/>
+								</div>
+							{/if}
+						</div>
+					{/if}
+
+					{#if row.removable}
+						<button
+							type="button"
+							class="link-action link-action--danger self-start"
+							onclick={() => removeInstance(row.unit)}
+						>
+							Quitar {nodeLabel(context, row.section).toLocaleLowerCase('es')}
+						</button>
+					{/if}
+				{:else if completePatternQuestion && fixedRhymeParts.length > 0}
+					<div class="space-y-3">
+						<p class="text-xs text-[color:var(--muted-foreground)]">
+							La medida y la rima se leen juntas. La rima ya está fijada por las partes de
+							la estancia; solo hay que indicar si cada verso mide 7 u 11 sílabas.
+						</p>
+						<MetricVersePatternField
+							length={row.unit.v_fin - row.unit.v_ini + 1}
+							options={optionsForGroup(
+								String(completePatternQuestion.group.grupo_eleccion_id)
+							)}
+							selectedIds={selectedChoiceIds(
+								String(completePatternQuestion.group.grupo_eleccion_id),
+								row.unit.realizacion_id
+							)}
+							onMeasureChange={(ids) =>
+								setChoices(completePatternQuestion.group, row.unit, ids)}
+							fixedRhymes={fixedRhymesFor(row, fixedRhymeParts)}
+						/>
+						<div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--muted-foreground)]">
+							{#each fixedRhymeParts as part (part.key)}
+								<span>{part.label}: vv. {part.v_ini}–{part.v_fin}</span>
+							{/each}
+						</div>
+					</div>
+				{:else if plegada}
+					{#if !respondida}
+						<span class="text-sm text-[color:var(--muted-foreground)]">
+							Sin responder todavía.
+						</span>
+					{:else if parts.length > 0}
+						<span class="text-sm text-[color:var(--muted-foreground)]">
+							Respuesta registrada en {parts.length} partes.
+						</span>
+					{:else}
+						{@const notacion = notacionDeLaUnidad(row.unit)}
+						{@const restantes = notacion
+							? row.preguntas.filter(
+									(pregunta: PreguntaEnFila) =>
+										pregunta.group.dimension !== 'rima' &&
+										pregunta.group.dimension !== 'metro'
+								)
+							: row.preguntas}
+						{#if notacion}
+							<p class="text-sm tabular-nums">{notacion}</p>
+						{/if}
+						{#if restantes.length > 0}
+							{@render camposDeLaParte(
+								restantes,
+								row.equivalentes,
+								true,
+								() => setUnidadPlegada(row.unit.realizacion_id, false),
+								undefined,
+								undefined,
+								true
+							)}
+						{/if}
+					{/if}
+				{:else}
+				{#if parts.length > 0}
+					{@render camposDeLaParte(otherQuestions, row.equivalentes)}
+					<div class="space-y-3">
+						{#each parts as part (part.key)}
+							<section class="border border-[color:var(--border)] bg-white">
+								<div class="border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
+									<p class="text-sm font-medium">{part.label}</p>
+									<p class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
+										vv. {part.v_ini}–{part.v_fin} · {part.versos} versos
+									</p>
+								</div>
+								<div class="space-y-4 p-3">
+									{@render camposDeLaParte(part.preguntas, row.equivalentes)}
+									{#each partialQuestions as pregunta (String(pregunta.group.grupo_eleccion_id))}
+										{@render campo(
+											pregunta,
+											row.equivalentes,
+											false,
+											undefined,
+											part.v_ini - row.unit.v_ini + 1,
+											part.v_fin - row.unit.v_ini + 1
+										)}
+									{/each}
+								</div>
+							</section>
+						{/each}
+					</div>
+				{:else}
+				{#if row.lengthEditable}
+					<div class="flex flex-wrap items-center gap-3">
+						<label class="flex items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
+							<span>N.º de versos</span>
+							<input
+								type="number"
+								min={verseMinimum(row.section)}
+								max={verseMaximum(row.section) ?? undefined}
+								class="h-9 w-24 border border-[color:var(--border)] bg-white px-2 text-sm"
+								value={row.unit.v_fin - row.unit.v_ini + 1}
+								onchange={(event) =>
+									setUnitLength(row.unit, row.section, Number(event.currentTarget.value))}
+							/>
+						</label>
+						{#if row.equivalentes > 1 && equivalentLengthDiffers(row.unit)}
+							<button
+								type="button"
+								class="link-action"
+								onclick={() => applyUnitLengthToEquivalentUnits(row.unit)}
+							>
+								Aplicar esta extensión a las {row.equivalentes} unidades
+							</button>
+						{/if}
+					</div>
+				{/if}
+
+				{@render excepcionDeLaUnidad(row)}
+
+				{#if row.preguntas.length === 0 && !row.lengthEditable}
+					<span class="text-sm text-[color:var(--muted-foreground)]">
+						{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
+					</span>
+				{:else}
+					{@render camposDeLaParte(row.preguntas, row.equivalentes)}
+				{/if}
+
+				{#if row.removable}
+					<button
+						type="button"
+						class="link-action link-action--danger self-start"
+						onclick={() => removeInstance(row.unit)}
+					>
+						Quitar {nodeLabel(context, row.section).toLocaleLowerCase('es')}
+					</button>
+				{/if}
+				{/if}
+				{/if}
+			</MetricGridRow>
+		{/if}
+		{/if}
+	{/each}
+	{/if}
+</div>
 {/snippet}
