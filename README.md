@@ -93,6 +93,19 @@ Get-ChildItem -LiteralPath $dir | Select-Object Name,Length
 
 No aplicar migraciones si alguno de los archivos queda con `Length` 0 o si la CLI informa errores. En ese caso, revisar que Docker Desktop esté activo y repetir el proceso en una carpeta nueva.
 
+### Foto legible de lo anotado
+
+```sh
+npm run snapshot:obras
+```
+
+Escribe en `backups/obras/<marca de tiempo>/` un JSON por obra con todos sus campos y los de todo lo
+que cuelga de ella —secuencias, caracterizaciones, subtipos, jornadas, cuadros, atribuciones,
+comentarios y la anotación del catálogo nuevo—, con los términos del vocabulario resueltos a su
+nombre. **No sustituye a la copia**: la copia se restaura, esto se lee y se compara. Conviene antes
+de una migración que toque datos anotados, para poder responder después a qué decía una secuencia
+antes de tocarla.
+
 ### Snapshot del esquema actual (recomendado periódicamente)
 
 ```sh

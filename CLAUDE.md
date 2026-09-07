@@ -27,6 +27,7 @@ npm run audit:anotaciones  # comprueba que lo anotado sigue encajando con el cat
 npm run poda:informe   # regenera la propuesta de poda de la prosa del catálogo
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
+npm run snapshot:obras # foto fija, un JSON por obra, de todo lo anotado hoy (a backups/)
 ```
 
 ## Los tres subsistemas
@@ -104,10 +105,11 @@ el pasaje de la fuente de cada caso, está en
 [cuestiones para el IP](docs/dominio-metrico/cuestiones-para-el-ip.md): son decisiones
 filológicas, no técnicas, y las toma el IP.
 
-**El trabajo en curso es llevar el editor V2 a la pestaña de secuencias de las obras nuevas**, para
-que la ola de editores que entra no anote nada más con el vocabulario legado. El plan, paso a paso y
-con lo que ya está decidido, está en
-[El camino a develop](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-camino-a-develop-lista-para-la-ola-de-editores).
+**El editor V2 es ya el que ven los editores**, y `develop` se fusionó a `main` el 7 de septiembre
+de 2026. Con la edición pausada, el trabajo en curso son **los campos propios de la secuencia** —los
+que no son métricos— y, detrás, **rehacer la precomputación y la ficha** para que lean el catálogo
+nuevo. Estado y decisiones en
+[El editor V2 en producción](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-editor-v2-en-producción).
 Migrar lo ya anotado viene después: dejó de ser lo urgente el 26 de agosto de 2026.
 
 **Lo demás que queda pendiente está inventariado** en
@@ -150,8 +152,10 @@ idempotentes. Tras cambiar funciones de recompute, ejecutar `recompute_all()`.
 demarcador, las fichas y las redes son proyecciones regenerables. Si un documento y el SQL
 difieren, manda el SQL.
 
-**Ramas.** Se trabaja en `develop`. `main` es la versión desplegada y permanece estable.
-Ambas comparten el mismo Supabase: no hay proyecto de staging.
+**Ramas.** Se trabaja en `main`, que es la versión desplegada: `develop` se fusionó el 7 de
+septiembre de 2026. Hay un solo Supabase, sin proyecto de staging, así que **un cambio de esquema
+aparece en producción al instante**. Antes de una migración que toque datos anotados: copia completa
+—`README.md`— y `npm run snapshot:obras`, que deja un JSON legible por obra en `backups/`.
 
 ### Invariantes de la zona pública
 
