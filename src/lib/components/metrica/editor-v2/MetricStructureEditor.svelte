@@ -1693,6 +1693,42 @@
 	 * si lo escrito resulta ser una de ellas, se marca esa. El identificador que se devuelve es el
 	 * de la **opción**, no el del esquema, porque es lo que el editor guarda.
 	 */
+	/**
+	 * Cuántos versos abarca el esquema que pregunta este grupo. **F49.**
+	 *
+	 * Se tomaba la unidad entera, y en el soneto eso son catorce versos para una pregunta que habla
+	 * de sus dos cuartetos —ocho— o de sus dos tercetos —seis—. El número no solo escribe el
+	 * marcador del campo: **es con el que se comprueba lo escrito**, así que «ABBA ABBA» se leía
+	 * como si le faltaran seis letras.
+	 *
+	 * Cuando el grupo cuelga de una sección, se suman los versos de las realizaciones de esa sección
+	 * que caen dentro de la unidad.
+	 */
+	function versosDelEsquema(group: MetricCatalogDomainRow, unit: MetricUnitDraft): number {
+		const enteros = unit.v_fin - unit.v_ini + 1;
+		// El soneto declara la sección en `seccion_tratada_id`: sus dos esquemas se guardan en la
+		// unidad —hablan de cómo se entrelazan las rimas de los dos cuartetos, no de uno— pero es de
+		// la sección de la que hablan.
+		const seccionId = group.seccion_tratada_id
+			? String(group.seccion_tratada_id)
+			: group.seccion_id
+				? String(group.seccion_id)
+				: null;
+		if (!seccionId) return enteros;
+		const suyas = props.units.filter(
+			(candidata: MetricUnitDraft) =>
+				String(candidata.seccion_id ?? '') === seccionId &&
+				candidata.v_ini >= unit.v_ini &&
+				candidata.v_fin <= unit.v_fin
+		);
+		if (suyas.length === 0) return enteros;
+		return suyas.reduce(
+			(total: number, candidata: MetricUnitDraft) =>
+				total + (candidata.v_fin - candidata.v_ini + 1),
+			0
+		);
+	}
+
 	function normaEsquemaDe(group: MetricCatalogDomainRow, unit: MetricUnitDraft) {
 		const groupId = String(group.grupo_eleccion_id);
 		const catalogados = optionsForGroup(groupId)
@@ -1709,10 +1745,15 @@
 				};
 			});
 		return {
-			versos: unit.v_fin - unit.v_ini + 1,
+			versos: versosDelEsquema(group, unit),
 			regimen: null,
 			catalogados,
-			regimenes: props.rhymeRegimes ?? []
+			regimenes: props.rhymeRegimes ?? [],
+			/**
+			 * Lo que mide cada verso, para que el marcador del campo escrito se escriba en la caja
+			 * que le toca: mayúsculas donde el verso es de arte mayor. **F49.**
+			 */
+			medidas: medidasFijasDe(unit, 1, versosDelEsquema(group, unit))
 		};
 	}
 

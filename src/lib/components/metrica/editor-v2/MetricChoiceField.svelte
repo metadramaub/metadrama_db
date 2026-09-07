@@ -85,6 +85,8 @@
 			 * arquitectura**. Donde la arquitectura declara uno solo se hereda y no se pregunta.
 			 */
 			regimenes?: { slug: string; etiqueta: string }[];
+			/** Lo que mide cada verso, cuando la norma lo fija. Decide la caja de cada letra. */
+			medidas?: (number | null)[];
 		};
 	}>();
 
@@ -155,6 +157,29 @@
 		props.group.tipo_control === 'esquema_rima' ||
 			(admiteEsquemaEscrito && visibleOptions.length === 0)
 	);
+
+	/**
+	 * El marcador del campo de esquema, escrito para **esta** forma. **F49.**
+	 *
+	 * Era el literal `aBaBcC` en todas: en una redondilla proponía seis versos teniendo cuatro, y en
+	 * una forma de octosílabos proponía mayúsculas, que la convención reserva al arte mayor. Ahora
+	 * se arma con los versos que tiene la unidad y la caja que le toca a cada uno —mayúscula desde
+	 * nueve sílabas—, así que la quintilla ve `ababa` y el soneto `ABBA`.
+	 *
+	 * Si la norma no fija la medida de un verso, ese va en minúscula: es lo más frecuente y no
+	 * afirma nada que se guarde, porque un marcador no es una respuesta.
+	 */
+	const marcadorDeEsquema = $derived.by(() => {
+		const versos = Number(props.normaEsquema?.versos);
+		if (!Number.isFinite(versos) || versos < 1) return 'aBaBcC';
+		const medidas = props.normaEsquema?.medidas ?? [];
+		const letras = 'abcdefghijklmnopqrstuvwxyz';
+		return Array.from({ length: Math.min(versos, 12) }, (_, indice) => {
+			const letra = letras[indice % letras.length];
+			const silabas = Number(medidas[indice]);
+			return Number.isFinite(silabas) && silabas >= 9 ? letra.toUpperCase() : letra;
+		}).join('');
+	});
 
 	/**
 	 * Lo escrito, leído contra la norma.
@@ -607,7 +632,7 @@
 			{/if}
 		</div>
 	{:else if isRhymeScheme}
-		{@render campoEsquemaEscrito('aBaBcC')}
+		{@render campoEsquemaEscrito(marcadorDeEsquema)}
 	{:else if showAsCheckbox}
 		{@const unica = visibleOptions[0]}
 		<label class="flex items-start gap-2 border border-[color:var(--border)] bg-white px-3 py-2 text-sm">
@@ -824,7 +849,7 @@
 				Escribe la disposición que has leído, una letra por verso y un guion para el verso
 				suelto.
 			</p>
-			{@render campoEsquemaEscrito('abcabc')}
+			{@render campoEsquemaEscrito(marcadorDeEsquema)}
 		</div>
 	{/if}
 	{#if coincidencia && !collapsed}
