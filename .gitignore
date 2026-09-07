@@ -28,3 +28,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 /docs/dominio-metrico/bibliografía/
+__pycache__/

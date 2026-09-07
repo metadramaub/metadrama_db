@@ -1,31 +1,37 @@
 {
   "fuente": {
     "repositorio": "ARTELOPE",
-    "fichero": "XML-TEI Play-texts/AL0729_ElMarquesDeMantua.xml",
+    "url": "https://gitlab.com/artelope1/ARTELOPE",
+    "commit": "95684795a842b63312aebdad83d1234c1d225b22",
+    "fichero": "XML-TEI Play-texts/AL0926_ElVillanoEnSuRincon.xml",
+    "copia_local": "backups/artelope/xml/AL0926_ElVillanoEnSuRincon.xml",
+    "codificacion": "UTF-16LE, tal como lo publica ARTELOPE",
+    "sha256": "5f44d5c1ed54d775d79251629d9bdbd40a04bb55441e421d4914b38e19818819",
     "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
   },
   "obra": {
-    "titulo": "EL MARQUÉS DE MANTUA",
+    "titulo": "EL VILLANO EN SU RINCÓN",
     "autor": "Félix Lope de Vega y Carpio",
     "fecha": null,
-    "total_versos": 2876,
-    "genero": null
+    "total_versos": 2981,
+    "genero": null,
+    "autoria_fuente": "fiable"
   },
   "jornadas": [
     {
       "numero": 1,
       "v_ini": 1,
-      "v_fin": 945
+      "v_fin": 982
     },
     {
       "numero": 2,
-      "v_ini": 946,
-      "v_fin": 1936
+      "v_ini": 983,
+      "v_fin": 2018
     },
     {
       "numero": 3,
-      "v_ini": 1937,
-      "v_fin": 2876
+      "v_ini": 2019,
+      "v_fin": 2981
     }
   ],
   "cuadros": [],
@@ -33,456 +39,368 @@
   "secuencias": [
     {
       "v_ini": 1,
-      "v_fin": 10,
+      "v_fin": 351,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 352,
+      "v_fin": 427,
       "forma_fuente": "cancion",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 11,
-      "v_fin": 70,
+      "v_ini": 428,
+      "v_fin": 537,
       "forma_fuente": "decima",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 71,
-      "v_fin": 100,
+      "v_ini": 538,
+      "v_fin": 542,
       "forma_fuente": "quintilla",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 101,
-      "v_fin": 120,
+      "v_ini": 543,
+      "v_fin": 600,
       "forma_fuente": "decima",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 121,
-      "v_fin": 125,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 126,
-      "v_fin": 175,
-      "forma_fuente": "decima",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 176,
-      "v_fin": 180,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 181,
-      "v_fin": 210,
-      "forma_fuente": "decima",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 211,
-      "v_fin": 215,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 216,
-      "v_fin": 225,
-      "forma_fuente": "decima",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 226,
-      "v_fin": 240,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 241,
-      "v_fin": 260,
-      "forma_fuente": "decima",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 261,
-      "v_fin": 270,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 271,
-      "v_fin": 326,
-      "forma_fuente": "romance_tirada",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 327,
-      "v_fin": 376,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 377,
-      "v_fin": 415,
-      "forma_fuente": "sestina",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 416,
-      "v_fin": 590,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 591,
-      "v_fin": 604,
-      "forma_fuente": "soneto",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 605,
-      "v_fin": 892,
+      "v_ini": 601,
+      "v_fin": 684,
       "forma_fuente": "redondilla",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 893,
-      "v_fin": 945,
+      "v_ini": 685,
+      "v_fin": 740,
       "forma_fuente": "endecasilabos_sueltos_tirada",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 946,
-      "v_fin": 1205,
+      "v_ini": 741,
+      "v_fin": 770,
+      "forma_fuente": "quintilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 771,
+      "v_fin": 842,
+      "forma_fuente": "endecasilabos_sueltos_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 843,
+      "v_fin": 886,
       "forma_fuente": "redondilla",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 1206,
-      "v_fin": 1343,
+      "v_ini": 887,
+      "v_fin": 982,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 983,
+      "v_fin": 1258,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1259,
+      "v_fin": 1278,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1279,
+      "v_fin": 1286,
+      "forma_fuente": "copla_estructura_abierta",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1287,
+      "v_fin": 1308,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1309,
+      "v_fin": 1373,
+      "forma_fuente": "terceto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1374,
+      "v_fin": 1389,
+      "forma_fuente": "endecasilabos_sueltos_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1390,
+      "v_fin": 1515,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1516,
+      "v_fin": 1547,
+      "forma_fuente": "octava_real",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1548,
+      "v_fin": 1587,
+      "forma_fuente": "decima",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1588,
+      "v_fin": 1872,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1873,
+      "v_fin": 1884,
       "forma_fuente": "lira",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 1344,
-      "v_fin": 1363,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1364,
-      "v_fin": 1411,
-      "forma_fuente": "romance_tirada",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1412,
-      "v_fin": 1507,
-      "forma_fuente": "octava_real",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1508,
-      "v_fin": 1632,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1633,
-      "v_fin": 1666,
-      "forma_fuente": "romance_tirada",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1667,
-      "v_fin": 1722,
-      "forma_fuente": "octava_real",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1723,
-      "v_fin": 1733,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1734,
-      "v_fin": 1747,
-      "forma_fuente": "redondilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1748,
-      "v_fin": 1752,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1753,
-      "v_fin": 1820,
-      "forma_fuente": "romance_tirada",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1821,
-      "v_fin": 1844,
-      "forma_fuente": "redondilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1845,
-      "v_fin": 1904,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 1905,
+      "v_ini": 1885,
       "v_fin": 1936,
-      "forma_fuente": "romance_tirada",
+      "forma_fuente": "redondilla",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
       "v_ini": 1937,
-      "v_fin": 2064,
-      "forma_fuente": "redondilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2065,
-      "v_fin": 2132,
+      "v_fin": 2018,
       "forma_fuente": "romance_tirada",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2133,
-      "v_fin": 2172,
+      "v_ini": 2019,
+      "v_fin": 2034,
       "forma_fuente": "redondilla",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2173,
-      "v_fin": 2208,
+      "v_ini": 2035,
+      "v_fin": 2048,
+      "forma_fuente": "cancion_canzone",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2049,
+      "v_fin": 2076,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2077,
+      "v_fin": 2114,
       "forma_fuente": "romance_tirada",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2209,
-      "v_fin": 2224,
+      "v_ini": 2115,
+      "v_fin": 2166,
       "forma_fuente": "redondilla",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2225,
-      "v_fin": 2288,
-      "forma_fuente": "octava_real",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2289,
-      "v_fin": 2302,
-      "forma_fuente": "soneto",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2303,
-      "v_fin": 2374,
-      "forma_fuente": "redondilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2375,
-      "v_fin": 2391,
+      "v_ini": 2167,
+      "v_fin": 2197,
       "forma_fuente": "endecasilabos_sueltos_tirada",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2392,
-      "v_fin": 2495,
-      "forma_fuente": "cancion",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2496,
-      "v_fin": 2515,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2516,
-      "v_fin": 2525,
-      "forma_fuente": "decima",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2526,
-      "v_fin": 2530,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2531,
-      "v_fin": 2550,
-      "forma_fuente": "decima",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2551,
-      "v_fin": 2555,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2556,
-      "v_fin": 2565,
-      "forma_fuente": "decima",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2566,
-      "v_fin": 2570,
-      "forma_fuente": "quintilla",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2571,
-      "v_fin": 2612,
-      "forma_fuente": "romance_tirada",
-      "metro_fuente": null,
-      "esquema_rima_fuente": null,
-      "notas": null
-    },
-    {
-      "v_ini": 2613,
-      "v_fin": 2676,
+      "v_ini": 2198,
+      "v_fin": 2285,
       "forma_fuente": "redondilla",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2677,
-      "v_fin": 2780,
+      "v_ini": 2286,
+      "v_fin": 2313,
+      "forma_fuente": "endecasilabos_sueltos_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2314,
+      "v_fin": 2327,
+      "forma_fuente": "soneto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2328,
+      "v_fin": 2435,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2436,
+      "v_fin": 2493,
+      "forma_fuente": "endecasilabos_sueltos_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2494,
+      "v_fin": 2713,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2714,
+      "v_fin": 2727,
+      "forma_fuente": "soneto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2728,
+      "v_fin": 2783,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2784,
+      "v_fin": 2786,
+      "forma_fuente": "terceto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2787,
+      "v_fin": 2839,
       "forma_fuente": "octava_real",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2781,
-      "v_fin": 2860,
+      "v_ini": 2840,
+      "v_fin": 2869,
+      "forma_fuente": "endecasilabos_sueltos_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2870,
+      "v_fin": 2887,
+      "forma_fuente": "octava_real",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2888,
+      "v_fin": 2893,
+      "forma_fuente": "lira",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2894,
+      "v_fin": 2925,
       "forma_fuente": "romance_tirada",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
     },
     {
-      "v_ini": 2861,
-      "v_fin": 2876,
-      "forma_fuente": "octava_real",
+      "v_ini": 2926,
+      "v_fin": 2931,
+      "forma_fuente": "lira",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2932,
+      "v_fin": 2981,
+      "forma_fuente": "romance_tirada",
       "metro_fuente": null,
       "esquema_rima_fuente": null,
       "notas": null
