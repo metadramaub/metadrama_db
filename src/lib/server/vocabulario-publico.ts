@@ -10,13 +10,14 @@
 
 import { displayTerm } from '$lib/utils/vocabulario';
 
-/** Categorías de vocabulario que consumen las superficies públicas. */
-export const PUBLIC_VOCAB_CATEGORIES = [
-	'genero',
-	'estrofa_tipo',
-	'metro',
-	'caracterizacion_rango'
-] as const;
+/**
+ * Categorías que **siguen viniendo del vocabulario**: las que no son métricas.
+ *
+ * Las métricas —`estrofa_tipo` y `metro`— vienen ahora del catálogo, por
+ * `vocabulario_metrico_publico()`, y llegan con esos mismos nombres de categoría para que ninguna
+ * superficie tenga que enterarse: la ficha de autor y el buscador siguen pidiendo `estrofa_tipo`.
+ */
+export const PUBLIC_VOCAB_CATEGORIES = ['genero', 'caracterizacion_rango'] as const;
 
 export type PublicVocabularioTerm = {
 	termino_id: string;
@@ -48,16 +49,25 @@ export async function loadPublicVocabulario(
 		return vocabCache.value;
 	}
 
-	const { data, error } = await locals.supabase
-		.from('vocabularios')
-		.select('termino_id,termino,etiqueta,categoria,termino_padre_id,nivel,tipo_forma,orden')
-		.in('categoria', [...PUBLIC_VOCAB_CATEGORIES]);
+	const [general, metrico] = await Promise.all([
+		locals.supabase
+			.from('vocabularios')
+			.select('termino_id,termino,etiqueta,categoria,termino_padre_id,nivel,tipo_forma,orden')
+			.in('categoria', [...PUBLIC_VOCAB_CATEGORIES]),
+		locals.supabase.rpc('vocabulario_metrico_publico')
+	]);
 
-	if (error || !data) {
+	if (general.error || !general.data || metrico.error || !metrico.data) {
 		return [];
 	}
 
-	const value = data as PublicVocabularioTerm[];
+	// **El catálogo llega con la forma de una fila de vocabulario.** Las formas son las madres, y
+	// las arquitecturas y los esquemas de rima cuelgan de ellas: es la misma jerarquía de dos
+	// niveles que el buscador ya sabía agrupar.
+	const value = [
+		...(general.data as PublicVocabularioTerm[]),
+		...(metrico.data as PublicVocabularioTerm[])
+	];
 	vocabCache = { value, expiresAt: now + VOCAB_CACHE_TTL_MS };
 	return value;
 }
