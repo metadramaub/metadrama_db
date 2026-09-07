@@ -49,7 +49,10 @@ _Qué es el modelo_
    se equipara a `Versificación irregular` ni a `Verso aislado`.
 5. **El metro es una entidad del dominio**, con sus sílabas y, si es compuesto, sus hemistiquios y
    su cesura. El arte mayor o menor se deriva, no se almacena.
-6. **Las tradiciones son pertenencias muchos-a-muchos, sin herencia estructural.**
+6. **Las tradiciones son pertenencias muchos-a-muchos, sin herencia estructural.** La tabla lo
+   admite, pero desde el 7 de septiembre de 2026 **el catálogo declara una sola por forma, la más
+   relevante**: contar el paso posterior haría española a toda forma italiana. Solo los dos tramos
+   sin forma no declaran ninguna.
 7. **Los esquemas de rima separan su comportamiento computable de la notación legible.**
 8. **Un componente ya formalizado se reutiliza; no se copia.** La relación entre las formas se
    declara en `forma_relaciones`; la sección señala con `arquitectura_referenciada_id` qué

@@ -49,7 +49,8 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   la redondilla doble volvieron a ser formas el 21 de agosto, y no por su nombre: cuando dos
   semiestrofas no comparten rima la articulación es otra, y eso es lo que decide —ver
   [criterios de nivel § 3.1](./criterios-de-nivel.md).* Las formas con clasificación previa tienen
-  ya su tradición; las restantes no la tienen porque no hay de dónde tomarla.
+  ya su tradición; **desde el 7 de septiembre de 2026 la tienen todas menos los dos tramos sin
+  forma**, y cada una declara una sola, la más relevante.
 - `/dashboard/metrica` se retiró el 28 de agosto: ya no editaba ni auditaba el catálogo y su
   validación paralela producía avisos desactualizados. La ruta redirige al catálogo público; el
   catálogo se consulta en `/recursos/catalogo-metrico`, el demarcador en
@@ -999,15 +1000,21 @@ la separa de la sextilla aunque el enlace entre sus mitades sea de sentido y no 
 —el segundo enlaza la rima central de cada unidad con la siguiente y no se divide en tercetos
 independientes—, pero el IP quiere volver sobre algún aspecto de ambas fichas.
 
-**C13. Revisar las tradiciones de todas las formas.** **Nueve están sin tradición**, contadas el 28 de
-agosto de 2026: cuarteto, endecha real, pareado, los dos tramos sin forma y **las cuatro liras nuevas**
-—cuarteto, novena, octava y décima—, que entraron el 24 de agosto sin asignarla. Eran cinco cuando se
-escribió esto, y la diferencia dice algo: **una forma nueva no recibe tradición si nadie se acuerda**.
-En algunos casos la ausencia es correcta: Jauralde sitúa el
-pareado «entre las formas originarias y primitivas de la poesía», que no es ni italiana ni
-española. Pero eso no se ha comprobado forma por forma, y las tres tradiciones del catálogo nunca
-se han mirado juntas: ni de dónde sale cada asignación, ni si el reparto responde a un criterio, ni
-si «italiana» y «española» bastan. *La revisión debe decidir si la ausencia es un dato o un hueco.*
+**C13. Las tradiciones de todas las formas. Hecho el 7 de septiembre de 2026.** Se miraron juntas, y
+el reparto quedó en **una tradición por forma, la más relevante**. El criterio lo fijó David: si el
+paso posterior contara, toda forma italiana sería también española, porque todas se adaptaron aquí.
+De ahí salieron tres cosas: la **sextina** se queda en italiana —era la única con tres, escritas
+como genealogía— y con ella se retiró la tradición **provenzal**, que no clasificaba ninguna otra;
+las **siete** que no la tenían se buscaron en las fuentes —cuarteto y las cuatro liras, italianas;
+endecha real y pareado, españolas—; y **solo los dos tramos sin forma se quedan sin ninguna**, que
+es lo correcto. El razonamiento de cada una está en la migración
+`20260907150000_cada_forma_tiene_una_tradicion.sql`.
+
+*Queda una para el IP, y es la del pareado.* Se declara española porque Navarro Tomás lo documenta
+en castellano desde los orígenes y porque en el teatro funciona como estribillo y como remate, pero
+**Jauralde lo sitúa «entre las formas originarias y primitivas de la poesía»**, que no es ni
+italiana ni española. Si esa lectura pesa más, el catálogo necesitaría una tercera categoría para
+él solo, o admitir que una forma no la tenga.
 
 **C15. La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
 exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta en
