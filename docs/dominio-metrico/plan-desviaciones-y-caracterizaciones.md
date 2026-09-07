@@ -1,6 +1,14 @@
 # Plan · desviaciones, caracterizaciones y rasgos
 
-Estado: decidido, no ejecutado · 3 de agosto de 2026
+Estado: decidido el 3 de agosto de 2026 · **en ejecución desde el 7 de septiembre**
+
+> **Lo hecho el 7 de septiembre de 2026.** La decisión 1 se cumplió por el otro lado: la evocación
+> métrica se sumó a los fenómenos enunciativos, que se quedan. Y los términos de las decisiones 2, 3
+> y 10 —las cinco irregularidades y los dos finales acentuales— **dejaron de ofrecerse en el
+> selector**, sin borrar ninguna fila. Lo que falta de este plan es el traslado de esas 209 filas a
+> `anotacion_desviaciones`, que **no puede adelantarse**: `anotacion_desviaciones.anotacion_id` es
+> `not null`, así que una desviación cuelga de una anotación con su forma del catálogo nuevo, y esas
+> secuencias no la tienen todavía. Se hace obra por obra con la migración de las anotaciones.
 
 Este documento cierra el vocabulario de las desviaciones y reparte lo que hoy se registra
 como «caracterización por rango» entre sus tres destinos reales. Es una pieza concreta

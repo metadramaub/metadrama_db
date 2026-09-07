@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 25 de agosto de 2026
+Actualizado: 7 de septiembre de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
@@ -19,9 +19,10 @@ queda por hacer y enlaza la documentación detallada.
 
 ## Estado actual
 
-- Rama de trabajo: `develop`. `main` corresponde a la versión desplegada y debe
-  permanecer estable hasta decidir la integración.
-- `develop` y producción comparten Supabase. No se ha creado ni hace falta otro proyecto.
+- Rama de trabajo: `main`. **`develop` se fusionó el 7 de septiembre de 2026** y desde entonces el
+  trabajo continúa directamente sobre la rama desplegada; la edición de obras está **pausada a los
+  editores**, que es lo que hace seguro tocar el modelo sin cerrar la web.
+- Solo hay un Supabase. No se ha creado ni hace falta otro proyecto.
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
 - La versión del modelo y la última migración **no se anotan aquí**: quedan viejas en cuanto se
   aplica una migración más. Se consultan en la base —`select modelo_version from
@@ -308,12 +309,12 @@ porque vuelca la base—. Y conviene mirar la ficha servida, no solo el dato: en
 una a una ha descubierto defectos de presentación que no se veían ni en el catálogo ni en el
 código.
 
-## El camino a develop lista para la ola de editores
+## El editor V2 en producción
 
-**Recorrido entre el 26 y el 28 de agosto de 2026.** El editor V2 es ya el que ven los editores al
-abrir cualquier obra: sustituyó al panel lateral, las tablas de la anotación se renombraron, el
-catálogo se abrió a todos los roles y el guardado pide permiso sobre la obra. **Los doce pasos están
-en `git`**; lo que quedó vivo de aquel plan es esto:
+**Recorrido entre el 26 y el 28 de agosto de 2026, y fusionado a `main` el 7 de septiembre.** El
+editor V2 es ya el que ven los editores al abrir cualquier obra: sustituyó al panel lateral, las
+tablas de la anotación se renombraron, el catálogo se abrió a todos los roles y el guardado pide
+permiso sobre la obra. **Los doce pasos están en `git`**; lo que quedó vivo de aquel plan es esto:
 
 - **Todas las obras se anotan con el catálogo nuevo.** No hay interruptor por obra: el que había
   —`obras_anotacion_nueva`— dejó de gobernar nada y solo sobrevive hasta que se migre lo anotado.
@@ -321,8 +322,8 @@ en `git`**; lo que quedó vivo de aquel plan es esto:
   ni fichas, ni buscadores, ni resúmenes. Esa frontera no se adelanta.
 - **Crear una secuencia la guarda ya**, con el rango y `estrofa_tipo_id` en nulo; a partir de ahí cada
   parte guarda por su lado.
-- **Lo que falta antes de fusionar** está abajo, en [lo que va a `main`](#lo-que-va-a-main-no-aquí) y
-  en [lo que queda para después](#lo-que-queda-para-después-de-fusionar).
+- **Lo que sigue abierto** está abajo, en [los campos propios de la secuencia](#los-campos-propios-de-la-secuencia)
+  y en [la precomputación y la ficha](#la-precomputación-y-la-ficha).
 
 ### El replanteo de la migración, 27 de agosto de 2026
 
@@ -648,25 +649,58 @@ está en el modelo —`grupos_eleccion_metrica` no declara ninguna dependencia�
 cuestiones para el IP: «qué elecciones dependen de otras» ⇒ **C1**.*
 
 
-### Lo que va a `main`, no aquí
+### Los campos propios de la secuencia
 
-La base es **la misma para las dos ramas**, así que un cambio de esquema hecho en `develop` aparece
-en producción al instante. Por eso van directamente a `main`, y antes de fusionar:
+Los que no son métricos —caracterizaciones, personajes, sinopsis—. Se abren con la edición pausada,
+que es cuando se puede mover un campo sin que nadie guarde a mitad.
 
-- Los cambios en los **campos propios de `secuencias_metricas`** —los que no son métricos:
-  caracterizaciones, personajes, sinopsis—.
-- La **revisión de los vocabularios generales** pendiente, inventariada en
-  [revisión de vocabularios](../revision-de-vocabularios.md).
+**Hecho el 7 de septiembre de 2026:**
 
-*El IP se plantea cerrar la web una semana para que nadie trabaje mientras se hace todo esto.* Es la
-manera limpia de evitar que un editor guarde a mitad de un renombrado o de una apertura de RLS.
+- **La evocación métrica es un fenómeno enunciativo.** Vivía en dos columnas propias de la secuencia
+  y se preguntaba en su panel; es lo mismo que el canto y la prosa, y se anota por rango con ellos.
+  Sus seis filas se trasladaron con el rango completo de su secuencia, las columnas se borraron y la
+  ficha dejó de publicarlas. Se pierde a propósito la distinción entre «no» y «pendiente»: una
+  caracterización no se declara negativa.
+- **Lo que será desviación dejó de ofrecerse.** Las cinco irregularidades métricas y los dos finales
+  acentuales salieron del selector —`activo = false`—, según el reparto de
+  [el plan de desviaciones](./plan-desviaciones-y-caracterizaciones.md). **No se borró ninguna
+  fila**: las 209 que hay se siguen leyendo, corrigiendo y borrando; solo no se pueden volver a
+  elegir. El endpoint conserva el término retirado cuando la fila ya lo tenía, y el desplegable lo
+  ofrece marcado «del sistema anterior», para que corregir un rango no responda «no está activo».
+- **El bloque dice lo que guarda.** «Caracterizaciones por rango» era un botón y una tabla vacía, y
+  nadie sabía que los versos cantados se registran ahí. Ahora nombra lo que admite, armado del
+  vocabulario y no de una lista escrita.
 
-### Lo que queda para después de fusionar
+**Pendiente, decidido el 7 de septiembre:** que **el donaire, los personajes sobrenaturales y un
+«evento sobrenatural» nuevo se declaren en los datos de la obra**, y que la secuencia los muestre
+ya respondidos y bloqueados cuando la obra dice que no los hay, con el aviso de dónde se cambia. Los
+personajes femeninos se dan por presentes en toda obra y siguen preguntándose por secuencia. El
+evento se responde sí/no, como «versos partidos»: un evento ocurre o no ocurre, y la escala de
+intervención es de quien habla. El dato de la obra se puede sembrar de lo anotado —hay donaire en 6
+obras y sobrenaturales en 3, de las 12 que tienen secuencias—.
+
+**Sin abrir:** la **revisión de los vocabularios generales**, inventariada en
+[revisión de vocabularios](../revision-de-vocabularios.md).
+
+### La precomputación y la ficha
 
 Que el perfil métrico, la ficha pública y la precomputación lean el catálogo nuevo. Hoy leen
-`estrofa_tipo_id`, así que una obra anotada solo en V2 tendrá **perfil métrico vacío**. No bloquea
-anotar; sí bloquea publicar esas obras. Los recomputes usan `left join` y `filter (… is not null)`,
-así que **degradan, no rompen**.
+`estrofa_tipo_id`: los once agregados de `recompute_obra_resumen_metricas` entran por
+`secuencias_metricas → vocabularios → estrofa_tipo_metros`, y lo mismo `recompute_autor_resumen` y
+la ficha. Una obra anotada solo en V2 tiene **perfil métrico vacío**. No bloquea anotar; sí bloquea
+publicar esas obras. Los recomputes usan `left join` y `filter (… is not null)`, así que **degradan,
+no rompen**.
+
+Dos cosas que conviene saber antes de rehacerlo, comprobadas contra la base el 7 de septiembre de
+2026:
+
+- **El perfil no necesita las respuestas.** Nombre de forma, arte, tradición y metro salen del
+  catálogo por la arquitectura, no de `anotacion_elecciones`: con forma y arquitectura por secuencia
+  ya hay ficha.
+- **`propuesta_metrica_secuencia` resuelve 263 de las 276 secuencias legadas** a una forma del
+  catálogo nuevo y 262 a una arquitectura. Si la función nueva cae a esa vista cuando la secuencia
+  no tiene anotación, el corpus entero conserva perfil —provisional— mientras se migra, sin
+  conservar la precomputación vieja.
 
 ## Qué queda pendiente
 
@@ -1148,7 +1182,10 @@ se completó el 31. Lo que sigue:
    manual, y el paso del editor V2 a producción. Lo que hay que despejar antes está en
    [qué queda pendiente](#qué-queda-pendiente), bloques A y B.
 9. Crear la capa de desviaciones sobre las secuencias reales:
-   [plan de desviaciones](./plan-desviaciones-y-caracterizaciones.md), decidido y no ejecutado.
+   [plan de desviaciones](./plan-desviaciones-y-caracterizaciones.md), **en ejecución**: lo que será
+   desviación ya no se ofrece en el selector, y el traslado de sus 209 filas va con la migración de
+   las anotaciones, porque una desviación cuelga de una anotación y esas secuencias aún no la
+   tienen.
 
 **Sobre los defectos del informe de conformidad**: el auditor tipifica ya **D1–D16** y termina en
 **0 defectos** contra la base viva. Incluye la correspondencia entre notación y clases de rima

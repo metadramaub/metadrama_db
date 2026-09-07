@@ -104,13 +104,47 @@
 			.replaceAll(/[\s-]+/g, '_');
 	}
 
-	const opcionesDelDesplegable = $derived.by(() =>
-		ordenarOpciones(props.opciones).map((opcion: Opcion) => ({
+	/**
+	 * El término de una fila que ya no se ofrece, mientras se la edita.
+	 *
+	 * Las irregularidades métricas dejaron de ofrecerse el 7 de septiembre de 2026 porque su sitio
+	 * es una desviación del catálogo nuevo, pero **sus filas siguen ahí** hasta que se migren obra
+	 * por obra. Sin esto, abrir una de ellas encontraría el desplegable en blanco y guardarla
+	 * cambiaría el tipo sin querer.
+	 */
+	let terminoNoOfrecido = $state<{ id: string; label: string } | null>(null);
+
+	const opcionesDelDesplegable = $derived.by(() => {
+		const activas = ordenarOpciones(props.opciones).map((opcion: Opcion) => ({
 			id: opcion.termino_id,
 			label: displayTerm(opcion),
 			parentId: opcion.termino_padre_id ?? null
-		}))
-	);
+		}));
+		const heredado = terminoNoOfrecido;
+		if (!heredado || activas.some((opcion) => opcion.id === heredado.id)) {
+			return activas;
+		}
+		return [
+			...activas,
+			{ id: heredado.id, label: `${heredado.label} · del sistema anterior`, parentId: null }
+		];
+	});
+
+	/**
+	 * Lo que se anota aquí, dicho con los términos que hoy se ofrecen.
+	 *
+	 * Sin esta línea, el bloque es un botón y una tabla vacía: nada dice que los versos cantados o
+	 * la prosa se registran **aquí**, y el editor los buscaba en el panel de la secuencia. Se arma
+	 * del vocabulario y no de una lista escrita, para que no envejezca cuando el vocabulario cambie.
+	 */
+	const loQueSeAnotaAqui = $derived.by(() => {
+		const hojas = ordenarOpciones(props.opciones)
+			.filter((opcion: Opcion) => Boolean(opcion.termino_padre_id))
+			.map((opcion: Opcion) => displayTerm(opcion).toLocaleLowerCase('es'));
+		if (hojas.length === 0) return '';
+		if (hojas.length === 1) return hojas[0];
+		return `${hojas.slice(0, -1).join(', ')} y ${hojas[hojas.length - 1]}`;
+	});
 
 	const opcionPorId = $derived.by(
 		() => new Map<string, Opcion>(props.opciones.map((opcion: Opcion) => [opcion.termino_id, opcion]))
@@ -140,6 +174,9 @@
 			terminoElegido === 'laguna'
 		) {
 			return 'Puedes marcar un solo verso (V. ini = V. fin) o un rango (V. ini < V. fin).';
+		}
+		if (terminoElegido === 'evocacion_metrica') {
+			return 'Nace con la secuencia entera porque la evocación la afecta toda; acótala si empieza o acaba dentro.';
 		}
 		if (terminoElegido === 'mayoria_agudas' || terminoElegido === 'mayoria_esdrujulas') {
 			return 'Marca el tramo donde predominan esos finales acentuales dentro de la secuencia.';
@@ -257,6 +294,7 @@
 	export function abrirNueva() {
 		if (props.readOnly || !props.secuenciaId) return;
 		editandoId = null;
+		terminoNoOfrecido = null;
 		form = formInicial();
 		modalAbierto = true;
 	}
@@ -264,6 +302,14 @@
 	function abrirEdicion(caracterizacion: CaracterizacionRangoItem) {
 		if (props.readOnly || !props.secuenciaId) return;
 		editandoId = caracterizacion.caracterizacion_rango_id;
+		terminoNoOfrecido = props.opciones.some(
+			(opcion: Opcion) => opcion.termino_id === caracterizacion.tipo_caracterizacion_rango_id
+		)
+			? null
+			: {
+					id: caracterizacion.tipo_caracterizacion_rango_id,
+					label: caracterizacion.tipo_caracterizacion_rango_term
+				};
 		form = {
 			tipo_caracterizacion_rango_id: caracterizacion.tipo_caracterizacion_rango_id,
 			v_ini: caracterizacion.v_ini,
@@ -363,6 +409,12 @@
 			Añadir caracterización
 		</Button>
 	</div>
+
+	{#if loQueSeAnotaAqui}
+		<p class="form-help">
+			Aquí se registra qué ocurre dentro de la secuencia y en qué versos: {loQueSeAnotaAqui}.
+		</p>
+	{/if}
 
 	{#if !props.secuenciaId}
 		<p class="form-help">Guarda la secuencia para añadir caracterizaciones por rango.</p>
