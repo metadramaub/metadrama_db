@@ -4,9 +4,10 @@
     "url": "https://gitlab.com/artelope1/ARTELOPE",
     "commit": "95684795a842b63312aebdad83d1234c1d225b22",
     "fichero": "XML-TEI Play-texts/AL0575_LaDamaBoba.xml",
-    "copia_local": "backups/artelope/xml/AL0575_LaDamaBoba.xml",
+    "copia_local": "xml-lope/xml/AL0575_LaDamaBoba.xml",
     "codificacion": "UTF-16LE, tal como lo publica ARTELOPE",
     "sha256": "52de3e10d120a6c085ebc3d84b2eec9adb26863babf30809e63535bd109ada99",
+    "texto_plano": "xml-lope/txt/AL0575.txt",
     "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
   },
   "obra": {

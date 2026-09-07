@@ -260,9 +260,10 @@ def extraer(fichero):
             'url': 'https://gitlab.com/artelope1/ARTELOPE',
             'commit': COMMIT,
             'fichero': 'XML-TEI Play-texts/' + fichero,
-            'copia_local': 'backups/artelope/xml/' + fichero,
+            'copia_local': 'xml-lope/xml/' + fichero,
             'codificacion': 'UTF-16LE, tal como lo publica ARTELOPE',
             'sha256': hashlib.sha256(open(ruta, 'rb').read()).hexdigest(),
+            'texto_plano': 'xml-lope/txt/' + fichero.split('_')[0] + '.txt',
             'licencia': licencia,
         },
         'obra': {

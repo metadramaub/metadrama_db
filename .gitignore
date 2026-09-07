@@ -9,9 +9,7 @@ node_modules
 /build
 
 # Local database backups
-/backups/*
-# salvo la extracción de ARTELOPE, que sí se versiona
-!/backups/artelope/
+/backups/
 
 # OS
 .DS_Store

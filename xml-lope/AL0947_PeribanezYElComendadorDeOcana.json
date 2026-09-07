@@ -4,9 +4,10 @@
     "url": "https://gitlab.com/artelope1/ARTELOPE",
     "commit": "95684795a842b63312aebdad83d1234c1d225b22",
     "fichero": "XML-TEI Play-texts/AL0947_PeribanezYElComendadorDeOcana.xml",
-    "copia_local": "backups/artelope/xml/AL0947_PeribanezYElComendadorDeOcana.xml",
+    "copia_local": "xml-lope/xml/AL0947_PeribanezYElComendadorDeOcana.xml",
     "codificacion": "UTF-16LE, tal como lo publica ARTELOPE",
     "sha256": "1ed1f3e02a22beeced33b70ad2240d77a6451f2b17bef40970481a4cf640ad1c",
+    "texto_plano": "xml-lope/txt/AL0947.txt",
     "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
   },
   "obra": {
