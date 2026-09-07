@@ -114,6 +114,29 @@ def estadisticas(al):
     return None, None
 
 
+def cuadros(al, avisos):
+    """Los cuadros decididos a mano para esta obra, si ya se han decidido.
+
+    Un cuadro es un tramo entre dos vaciados totales del tablado: salen todos los que
+    están y entran otros, o los mismos. El fin de jornada es siempre fin de cuadro. Eso no
+    está en el XML de ARTELOPE, que no marca cuadros en ninguna obra, así que se lee la
+    obra y se anota aparte.
+    """
+    ruta = os.path.join(BASE, 'cuadros', al + '.json')
+    if not os.path.exists(ruta):
+        avisos.append('Los cuadros de esta obra todavía no se han decidido.')
+        return []
+    cs = json.load(open(ruta, encoding='utf-8'))['cuadros']
+    dudosos = [c['numero'] for c in cs if c.get('seguridad') == 'dudosa']
+    if dudosos:
+        avisos.append(
+            'En %d de los %d cuadros el vaciado del tablado no lo dice ninguna acotación y se '
+            'deduce del reparto: %s. Van marcados como dudosos.'
+            % (len(dudosos), len(cs), ', '.join('nº %s' % n for n in dudosos))
+        )
+    return cs
+
+
 def extraer(fichero):
     ruta = os.path.join(TEXTS, fichero)
     t = load(ruta)
@@ -275,7 +298,9 @@ def extraer(fichero):
             'autoria_fuente': autoria,
         },
         'jornadas': jornadas,
-        'cuadros': [],
+        # Los cuadros no salen del XML: ARTELOPE no los marca. Se deciden leyendo la obra
+        # y viven en cuadros/<AL>.json; aquí solo se recogen.
+        'cuadros': cuadros(al, avisos),
         'escenas': [{'jornada': int(a) if a and str(a).isdigit() else a,
                      'numero': int(n) if str(n).isdigit() else n, 'v_ini': i, 'v_fin': f}
                     for n, a, i, f in esc],

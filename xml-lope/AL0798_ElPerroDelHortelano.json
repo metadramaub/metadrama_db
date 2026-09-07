@@ -35,7 +35,86 @@
       "v_fin": 3384
     }
   ],
-  "cuadros": [],
+  "cuadros": [
+    {
+      "numero": 1,
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 339,
+      "espacio": "Patio y escalera del palacio de Diana, de noche",
+      "personajes_al_entrar": [
+        "TEODORO",
+        "TRISTÁN"
+      ],
+      "justificacion": "Tras despedir a los criados (v. 325, «Háganle tres reverencias y váyanse»), Diana queda sola y recita el soneto de los vv. 326-339. Su salida no está acotada: el vaciado se deduce de que lo siguiente es «Salen TEODORO y TRISTÁN».",
+      "seguridad": "dudosa"
+    },
+    {
+      "numero": 2,
+      "jornada": 1,
+      "v_ini": 340,
+      "v_fin": 1187,
+      "espacio": "Salón del palacio de Diana",
+      "personajes_al_entrar": [
+        "TEODORO",
+        "TRISTÁN"
+      ],
+      "justificacion": "Cadena ininterrumpida de entradas y salidas parciales; la acotación «Váyanse las dos. Queden la CONDESA y TEODORO» deja explícitamente a dos en escena hasta el fin de la jornada I (v. 1187), que cierra el cuadro por regla.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 3,
+      "jornada": 2,
+      "v_ini": 1188,
+      "v_fin": 2360,
+      "espacio": "Junto a la iglesia donde oye misa Diana y, sin vaciarse el tablado, el palacio",
+      "personajes_al_entrar": [
+        "FEDERICO",
+        "LEONIDO"
+      ],
+      "justificacion": "La jornada entera es un solo cuadro: la acotación «Todos se entren por la otra puerta y quede allí TEODORO» y las siguientes van encadenando el relevo sin que la escena quede nunca vacía, hasta el fin de la jornada II (v. 2360).",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 4,
+      "jornada": 3,
+      "v_ini": 2361,
+      "v_fin": 2730,
+      "espacio": "Una calle de Nápoles y, sin vaciarse el tablado, el palacio de Diana",
+      "personajes_al_entrar": [
+        "FEDERICO",
+        "RICARDO"
+      ],
+      "justificacion": "Tras el «Váyanse FEDERICO, RICARDO y CELIO» queda Tristán, luego Teodoro, luego Diana, y al final Marcela sola con su soneto (vv. 2717-2730). Su salida no está acotada.",
+      "seguridad": "dudosa"
+    },
+    {
+      "numero": 5,
+      "jornada": 3,
+      "v_ini": 2731,
+      "v_fin": 2986,
+      "espacio": "Casa del conde Ludovico y una calle de Nápoles",
+      "personajes_al_entrar": [
+        "CONDE LUDOVICO",
+        "CAMILO"
+      ],
+      "justificacion": "Entra Ludovico con Camilo sin relación con lo anterior, de donde se infiere que Marcela había salido. Cierra con «Váyanse y salgan TEODORO, de camino, y MARCELA» tras el v. 2986, que sí vacía el tablado explícitamente.",
+      "seguridad": "dudosa"
+    },
+    {
+      "numero": 6,
+      "jornada": 3,
+      "v_ini": 2987,
+      "v_fin": 3384,
+      "espacio": "Palacio de Diana",
+      "personajes_al_entrar": [
+        "TEODORO",
+        "MARCELA"
+      ],
+      "justificacion": "Desde la entrada de Teodoro y Marcela el reparto solo crece hasta el desenlace, sin que el tablado vuelva a quedar vacío (v. 3384).",
+      "seguridad": "clara"
+    }
+  ],
   "escenas": [],
   "secuencias": [
     {
@@ -525,6 +604,7 @@
     "eventos_sobrenaturales": null
   },
   "avisos": [
-    "ARTELOPE divide esta obra en «acto», no en «jornada»; se vuelca en el mismo campo."
+    "ARTELOPE divide esta obra en «acto», no en «jornada»; se vuelca en el mismo campo.",
+    "En 3 de los 6 cuadros el vaciado del tablado no lo dice ninguna acotación y se deduce del reparto: nº 1, nº 4, nº 5. Van marcados como dudosos."
   ]
 }
