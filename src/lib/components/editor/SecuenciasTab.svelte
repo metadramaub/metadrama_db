@@ -90,8 +90,6 @@
 		estrofa_tipo_id: string;
 		inaugura_espacio: boolean | null;
 		versos_partidos: boolean | null;
-		evocacion_metrica: boolean | null;
-		evocacion_metrica_texto: string;
 		intervencion_personajes_femeninos: IntervencionValue | null;
 		intervencion_figuras_donaire: IntervencionValue | null;
 		intervencion_personajes_sobrenaturales: IntervencionValue | null;
@@ -218,8 +216,6 @@
 			estrofa_tipo_id: '',
 			inaugura_espacio: null,
 			versos_partidos: null,
-			evocacion_metrica: null,
-			evocacion_metrica_texto: '',
 			intervencion_personajes_femeninos: null,
 			intervencion_figuras_donaire: null,
 			intervencion_personajes_sobrenaturales: null,
@@ -329,8 +325,6 @@
 			estrofa_tipo_id: source.estrofa_tipo_id,
 			inaugura_espacio: source.inaugura_espacio,
 			versos_partidos: source.versos_partidos,
-			evocacion_metrica: source.evocacion_metrica,
-			evocacion_metrica_texto: source.evocacion_metrica ? source.evocacion_metrica_texto.trim() : '',
 			intervencion_personajes_femeninos: source.intervencion_personajes_femeninos,
 			intervencion_figuras_donaire: source.intervencion_figuras_donaire,
 			intervencion_personajes_sobrenaturales: source.intervencion_personajes_sobrenaturales,
@@ -359,8 +353,6 @@
 			typeof candidate.estrofa_tipo_id === 'string' &&
 			(candidate.inaugura_espacio === null || typeof candidate.inaugura_espacio === 'boolean') &&
 			(candidate.versos_partidos === null || typeof candidate.versos_partidos === 'boolean') &&
-			(candidate.evocacion_metrica === null || typeof candidate.evocacion_metrica === 'boolean') &&
-			typeof candidate.evocacion_metrica_texto === 'string' &&
 			isIntervencionValue(candidate.intervencion_personajes_femeninos) &&
 			isIntervencionValue(candidate.intervencion_figuras_donaire) &&
 			isIntervencionValue(candidate.intervencion_personajes_sobrenaturales) &&
@@ -448,8 +440,6 @@
 			estrofa_tipo_id: toSelectableEstrofaId(secuencia.estrofa_tipo_id),
 			inaugura_espacio: secuencia.inaugura_espacio,
 			versos_partidos: secuencia.versos_partidos,
-			evocacion_metrica: secuencia.evocacion_metrica,
-			evocacion_metrica_texto: secuencia.evocacion_metrica_texto ?? '',
 			intervencion_personajes_femeninos: secuencia.intervencion_personajes_femeninos as IntervencionValue | null,
 			intervencion_figuras_donaire: secuencia.intervencion_figuras_donaire as IntervencionValue | null,
 			intervencion_personajes_sobrenaturales:
@@ -567,8 +557,7 @@
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					...form,
-					estrofa_tipo_id: form.estrofa_tipo_id || null,
-					evocacion_metrica_texto: form.evocacion_metrica ? form.evocacion_metrica_texto : null
+					estrofa_tipo_id: form.estrofa_tipo_id || null
 				})
 			});
 		} catch {
@@ -611,8 +600,6 @@
 			estrofa_tipo_id: toSelectableEstrofaId(savedSecuencia.estrofa_tipo_id),
 			inaugura_espacio: savedSecuencia.inaugura_espacio,
 			versos_partidos: savedSecuencia.versos_partidos,
-			evocacion_metrica: savedSecuencia.evocacion_metrica,
-			evocacion_metrica_texto: savedSecuencia.evocacion_metrica_texto ?? '',
 			intervencion_personajes_femeninos:
 				savedSecuencia.intervencion_personajes_femeninos as IntervencionValue | null,
 			intervencion_figuras_donaire:
@@ -744,7 +731,7 @@
 		]) {
 			if (valor !== null && valor !== undefined && String(valor).trim() !== '') hechas += 1;
 		}
-		for (const valor of [form.versos_partidos, form.inaugura_espacio, form.evocacion_metrica]) {
+		for (const valor of [form.versos_partidos, form.inaugura_espacio]) {
 			if (valor !== null && valor !== undefined) hechas += 1;
 		}
 		return hechas;
@@ -1039,7 +1026,7 @@
 	$effect(() => {
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.evocacion_metrica}|${form.evocacion_metrica_texto}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1465,9 +1452,7 @@
 				intervencion_figuras_donaire: form.intervencion_figuras_donaire,
 				intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
 				versos_partidos: form.versos_partidos,
-				inaugura_espacio: form.inaugura_espacio,
-				evocacion_metrica: form.evocacion_metrica,
-				evocacion_metrica_texto: form.evocacion_metrica_texto
+				inaugura_espacio: form.inaugura_espacio
 			}}
 			readOnly={props.readOnly}
 			alCambiar={(cambio) => (form = { ...form, ...cambio })}

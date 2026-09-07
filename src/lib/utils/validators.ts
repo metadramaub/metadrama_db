@@ -119,8 +119,6 @@ export const secuenciaInputSchema = z
 		estrofa_tipo_id: z.string().uuid('Estrofa no válida').nullable().default(null),
 		inaugura_espacio: z.boolean().nullable().default(null),
 		versos_partidos: z.boolean().nullable().default(null),
-		evocacion_metrica: z.boolean().nullable().default(null),
-		evocacion_metrica_texto: nullableText(2000),
 		intervencion_personajes_femeninos: z
 			.enum(['sin_intervencion', 'exclusiva', 'compartida'])
 			.nullable(),
@@ -133,10 +131,6 @@ export const secuenciaInputSchema = z
 		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
 	.strict()
-	.transform((input) => ({
-		...input,
-		evocacion_metrica_texto: input.evocacion_metrica ? input.evocacion_metrica_texto : null
-	}))
 	.refine((input) => input.v_ini <= input.v_fin, {
 		message: 'El verso inicial no puede ser mayor que el final',
 		path: ['v_ini']

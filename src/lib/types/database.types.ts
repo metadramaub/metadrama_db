@@ -3219,8 +3219,6 @@ export type Database = {
         Row: {
           created_at: string
           estrofa_tipo_id: string | null
-          evocacion_metrica: boolean | null
-          evocacion_metrica_texto: string | null
           inaugura_espacio: boolean | null
           intervencion_figuras_donaire: string | null
           intervencion_personajes_femeninos: string | null
@@ -3237,8 +3235,6 @@ export type Database = {
         Insert: {
           created_at?: string
           estrofa_tipo_id?: string | null
-          evocacion_metrica?: boolean | null
-          evocacion_metrica_texto?: string | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
           intervencion_personajes_femeninos?: string | null
@@ -3255,8 +3251,6 @@ export type Database = {
         Update: {
           created_at?: string
           estrofa_tipo_id?: string | null
-          evocacion_metrica?: boolean | null
-          evocacion_metrica_texto?: string | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
           intervencion_personajes_femeninos?: string | null
@@ -3813,6 +3807,10 @@ export type Database = {
       }
     }
     Functions: {
+      arquitectura_declara_norma: {
+        Args: { p_arquitectura_id: string }
+        Returns: boolean
+      }
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
       auth_puede_editar_obra: { Args: { p_obra_id: string }; Returns: boolean }
       auth_puede_ver_obra: { Args: { p_obra_id: string }; Returns: boolean }

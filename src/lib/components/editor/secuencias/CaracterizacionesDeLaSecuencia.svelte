@@ -1,7 +1,6 @@
 <script lang="ts">
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
-	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import NullableBooleanChoice from '$lib/components/ui/nullable-boolean-choice.svelte';
 
 	/**
@@ -9,7 +8,10 @@
 	 *
 	 * Son dos bloques que se leen como uno: **quién habla** —si intervienen personajes femeninos,
 	 * figuras de donaire o personajes sobrenaturales— y **qué le pasa al pasaje** —versos partidos,
-	 * si inaugura espacio, si el metro cambia por evocación—.
+	 * si inaugura espacio—.
+	 *
+	 * *La evocación métrica se fue de aquí el 7 de septiembre de 2026*: es un fenómeno enunciativo,
+	 * como el canto y la prosa, y se anota por rango con ellos.
 	 *
 	 * **No guarda nada.** A diferencia de las caracterizaciones por rango, estos campos van en el
 	 * `save()` de la secuencia junto con su rango, así que el componente solo enseña los valores y
@@ -27,8 +29,6 @@
 		intervencion_personajes_sobrenaturales: IntervencionValue | null;
 		versos_partidos: boolean | null;
 		inaugura_espacio: boolean | null;
-		evocacion_metrica: boolean | null;
-		evocacion_metrica_texto: string;
 	};
 
 	const props = $props<{
@@ -126,45 +126,5 @@
 				/>
 			</div>
 		</div>
-		<div class="form-field sm:col-span-2">
-			<span class="form-label">
-				<span class="form-label-with-help">
-					Evocación métrica
-					<FieldHelpTooltip
-						text="Selecciona 'Sí' cuando el cambio de metro se deba a que un personaje adopta, imita o reproduce la voz de otro personaje."
-						label="Ayuda sobre el campo Evocación métrica"
-					/>
-				</span>
-			</span>
-			<!--
-				Decir que no hay evocación borra su explicación. Si no, quedaría un texto describiendo
-				algo que la secuencia ya no declara, y el guardado lo enviaría igual.
-			-->
-			<NullableBooleanChoice
-				value={props.valores.evocacion_metrica}
-				ariaLabel="Evocación métrica"
-				disabled={props.readOnly}
-				onChange={(value: boolean | null) =>
-					props.alCambiar({
-						evocacion_metrica: value,
-						evocacion_metrica_texto:
-							value === true ? props.valores.evocacion_metrica_texto : ''
-					})}
-			/>
-		</div>
-		{#if props.valores.evocacion_metrica}
-			<label class="form-field sm:col-span-2">
-				<span class="form-label">Explicación de la evocación métrica</span>
-				<MarkdownEditorLite
-					rows={3}
-					class="mt-1"
-					minHeightClass="min-h-24"
-					value={props.valores.evocacion_metrica_texto}
-					disabled={props.readOnly}
-					onChange={(siguiente: string) =>
-						props.alCambiar({ evocacion_metrica_texto: siguiente })}
-				/>
-			</label>
-		{/if}
 	</div>
 </section>

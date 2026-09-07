@@ -59,8 +59,6 @@ export interface SecuenciaInput {
 	estrofa_tipo_id: string;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean | null;
-	evocacion_metrica: boolean | null;
-	evocacion_metrica_texto: string | null;
 	intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
 	intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
 	intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;

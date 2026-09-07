@@ -29,8 +29,6 @@ function completeInput(): RevisionChecklistInput {
 				estrofa_tipo_id: 'estrofa',
 				inaugura_espacio: false,
 				versos_partidos: false,
-				evocacion_metrica: false,
-				evocacion_metrica_texto: null,
 				intervencion_personajes_femeninos: 'sin_intervencion',
 				intervencion_figuras_donaire: 'sin_intervencion',
 				intervencion_personajes_sobrenaturales: 'sin_intervencion',
@@ -58,8 +56,7 @@ describe('revision checklist', () => {
 			v_ini: 101,
 			v_fin: 120,
 			versos_partidos: false,
-			evocacion_metrica: true,
-			evocacion_metrica_texto: ''
+			intervencion_figuras_donaire: null
 		});
 
 		const summary = buildRevisionChecklist(input);

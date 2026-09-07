@@ -20,8 +20,6 @@ export type EditorSecuenciaRow = Pick<
 	| 'estrofa_tipo_id'
 	| 'inaugura_espacio'
 	| 'versos_partidos'
-	| 'evocacion_metrica'
-	| 'evocacion_metrica_texto'
 	| 'intervencion_personajes_femeninos'
 	| 'intervencion_figuras_donaire'
 	| 'intervencion_personajes_sobrenaturales'

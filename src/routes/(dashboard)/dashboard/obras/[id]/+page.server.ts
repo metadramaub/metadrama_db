@@ -9,7 +9,7 @@ import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib
 const JORNADAS_EDITOR_SELECT = 'jornada_id,jornada_num,obra_id,v_ini,v_fin';
 const CUADROS_EDITOR_SELECT = 'cuadro_id,cuadro_num,jornada_id,v_ini,v_fin';
 const SECUENCIAS_EDITOR_SELECT =
-	'secuencia_id,obra_id,v_ini,v_fin,n_versos,estrofa_tipo_id,inaugura_espacio,versos_partidos,evocacion_metrica,evocacion_metrica_texto,intervencion_personajes_femeninos,intervencion_figuras_donaire,intervencion_personajes_sobrenaturales,sinopsis';
+	'secuencia_id,obra_id,v_ini,v_fin,n_versos,estrofa_tipo_id,inaugura_espacio,versos_partidos,intervencion_personajes_femeninos,intervencion_figuras_donaire,intervencion_personajes_sobrenaturales,sinopsis';
 
 export const load: PageServerLoad = async ({ locals, params, depends }) => {
 	depends(`dashboard:obra:${params.id}`);
