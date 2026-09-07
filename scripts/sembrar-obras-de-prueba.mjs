@@ -155,7 +155,9 @@ function planDeRealizaciones(arquitectura, vIni, vFin) {
 		return { unidades: [], problemas };
 	}
 	if (!abierta && versosDelRango % versosUnidad !== 0) {
-		problemas.push(`el rango (${versosDelRango} versos) no es múltiplo de la unidad (${versosUnidad})`);
+		problemas.push(
+			`el rango (${versosDelRango} versos) no es múltiplo de la unidad (${versosUnidad})`
+		);
 		return { unidades: [], problemas };
 	}
 
@@ -174,7 +176,9 @@ function planDeRealizaciones(arquitectura, vIni, vFin) {
 		arquitectura.secciones.some((seccion) => seccion.seccion_padre_id === raiz.seccion_id)
 	);
 	if (raices.length > 0 && (!derivables || conHijas)) {
-		problemas.push('sus partes no se derivan solas: se repiten sin cuenta, crecen o tienen partes dentro');
+		problemas.push(
+			'sus partes no se derivan solas: se repiten sin cuenta, crecen o tienen partes dentro'
+		);
 		return { unidades: [], problemas };
 	}
 	// **En una unidad abierta, las partes se repiten hasta llenar el pasaje.** Las estrofas enlazadas
@@ -213,22 +217,22 @@ function planDeRealizaciones(arquitectura, vIni, vFin) {
 
 		let cursor = inicio;
 		for (let ciclo = 0; ciclo < vueltasDeParte; ciclo += 1)
-		for (const seccion of raices) {
-			const versos = Number(seccion.versos_min);
-			for (let vuelta = 0; vuelta < Number(seccion.repeticiones_min); vuelta += 1) {
-				unidades.push({
-					realizacion_id: crypto.randomUUID(),
-					realizacion_padre_id: unidad.realizacion_id,
-					seccion_id: seccion.seccion_id,
-					orden: orden++,
-					v_ini: cursor,
-					v_fin: cursor + versos - 1,
-					etiqueta: null,
-					observaciones: null
-				});
-				cursor += versos;
+			for (const seccion of raices) {
+				const versos = Number(seccion.versos_min);
+				for (let vuelta = 0; vuelta < Number(seccion.repeticiones_min); vuelta += 1) {
+					unidades.push({
+						realizacion_id: crypto.randomUUID(),
+						realizacion_padre_id: unidad.realizacion_id,
+						seccion_id: seccion.seccion_id,
+						orden: orden++,
+						v_ini: cursor,
+						v_fin: cursor + versos - 1,
+						etiqueta: null,
+						observaciones: null
+					});
+					cursor += versos;
+				}
 			}
-		}
 	}
 
 	return { unidades, problemas };
@@ -384,7 +388,8 @@ function sondar(catalogo) {
 		const partes = arquitectura.secciones
 			.filter((seccion) => seccion.seccion_padre_id === null)
 			.reduce(
-				(total, seccion) => total + Number(seccion.versos_min || 0) * Number(seccion.repeticiones_min || 0),
+				(total, seccion) =>
+					total + Number(seccion.versos_min || 0) * Number(seccion.repeticiones_min || 0),
 				0
 			);
 		const vFin = versos > 0 ? versos : partes > 0 ? partes : 8;
@@ -445,10 +450,26 @@ const CARACTERIZACIONES = ['cantado', 'prosa', 'evocacion_metrica'];
  * anotada aparte, porque es una decisión y no un arreglo del sembrador.
  */
 const DESVIACIONES = [
-	{ dimension: 'metro', relacion_norma: 'menor_que_norma', observaciones: 'Verso de una sílaba menos que la norma.' },
-	{ dimension: 'metro', relacion_norma: 'mayor_que_norma', observaciones: 'Verso de una sílaba de más.' },
-	{ dimension: 'rima', relacion_norma: 'otra', observaciones: 'La rima no es la que la norma fija.' },
-	{ dimension: 'estructura', relacion_norma: 'falta', observaciones: 'Falta la parte final que la norma espera.' },
+	{
+		dimension: 'metro',
+		relacion_norma: 'menor_que_norma',
+		observaciones: 'Verso de una sílaba menos que la norma.'
+	},
+	{
+		dimension: 'metro',
+		relacion_norma: 'mayor_que_norma',
+		observaciones: 'Verso de una sílaba de más.'
+	},
+	{
+		dimension: 'rima',
+		relacion_norma: 'otra',
+		observaciones: 'La rima no es la que la norma fija.'
+	},
+	{
+		dimension: 'estructura',
+		relacion_norma: 'falta',
+		observaciones: 'Falta la parte final que la norma espera.'
+	},
 	{ dimension: 'repeticion', relacion_norma: 'sobra', observaciones: 'Una unidad de más.' },
 	{ dimension: 'rasgo', relacion_norma: 'otra', observaciones: 'Predominan los finales agudos.' }
 ];
@@ -461,13 +482,81 @@ const DESVIACIONES = [
  * que la ficha y la precomputación se enfrenten a las 86, y no a las ocho de siempre.
  */
 const OBRAS = [
-	{ clave: 'destino', titulo: 'La fuerza del destino en la corte (prueba)', autor: 'montalban', genero: 'comedia_o_tragicomedia', verosimil: [['romance'], ['redondilla'], ['soneto'], ['decima'], ['silva'], ['romance'], ['redondilla']] },
-	{ clave: 'sortija', titulo: 'El caballero de la sortija (prueba)', autor: 'montalban', genero: 'comedia_o_tragicomedia', verosimil: [['romance'], ['redondilla'], ['quintilla'], ['octava_real'], ['terceto'], ['seguidilla'], ['romance'], ['redondilla']] },
-	{ clave: 'fabia', titulo: 'Los engaños de Fabia (prueba)', autor: 'benavente', genero: 'comedia_o_tragicomedia', verosimil: [['romance'], ['redondilla'], ['lira'], ['decima'], ['sextilla'], ['pareado'], ['romance'], ['redondilla']] },
-	{ clave: 'exploracion_1', titulo: 'Exploración métrica I (prueba)', autor: 'benavente', genero: 'tragedia', lote: 0 },
-	{ clave: 'exploracion_2', titulo: 'Exploración métrica II (prueba)', autor: 'enciso', genero: 'auto_sacramental', lote: 1 },
-	{ clave: 'exploracion_3', titulo: 'Exploración métrica III (prueba)', autor: 'enciso', genero: 'entremés', lote: 2 },
-	{ clave: 'exploracion_4', titulo: 'Exploración métrica IV (prueba)', autor: 'cueva', genero: 'loa', lote: 3 }
+	{
+		clave: 'destino',
+		titulo: 'La fuerza del destino en la corte (prueba)',
+		autor: 'montalban',
+		genero: 'comedia_o_tragicomedia',
+		verosimil: [
+			['romance'],
+			['redondilla'],
+			['soneto'],
+			['decima'],
+			['silva'],
+			['romance'],
+			['redondilla']
+		]
+	},
+	{
+		clave: 'sortija',
+		titulo: 'El caballero de la sortija (prueba)',
+		autor: 'montalban',
+		genero: 'comedia_o_tragicomedia',
+		verosimil: [
+			['romance'],
+			['redondilla'],
+			['quintilla'],
+			['octava_real'],
+			['terceto'],
+			['seguidilla'],
+			['romance'],
+			['redondilla']
+		]
+	},
+	{
+		clave: 'fabia',
+		titulo: 'Los engaños de Fabia (prueba)',
+		autor: 'benavente',
+		genero: 'comedia_o_tragicomedia',
+		verosimil: [
+			['romance'],
+			['redondilla'],
+			['lira'],
+			['decima'],
+			['sextilla'],
+			['pareado'],
+			['romance'],
+			['redondilla']
+		]
+	},
+	{
+		clave: 'exploracion_1',
+		titulo: 'Exploración métrica I (prueba)',
+		autor: 'benavente',
+		genero: 'tragedia',
+		lote: 0
+	},
+	{
+		clave: 'exploracion_2',
+		titulo: 'Exploración métrica II (prueba)',
+		autor: 'enciso',
+		genero: 'auto_sacramental',
+		lote: 1
+	},
+	{
+		clave: 'exploracion_3',
+		titulo: 'Exploración métrica III (prueba)',
+		autor: 'enciso',
+		genero: 'entremés',
+		lote: 2
+	},
+	{
+		clave: 'exploracion_4',
+		titulo: 'Exploración métrica IV (prueba)',
+		autor: 'cueva',
+		genero: 'loa',
+		lote: 3
+	}
 ];
 
 const LOTES = 4;
@@ -484,7 +573,8 @@ function arquitecturasSembrables(catalogo) {
 		const partes = arquitectura.secciones
 			.filter((seccion) => seccion.seccion_padre_id === null)
 			.reduce(
-				(total, seccion) => total + Number(seccion.versos_min || 0) * Number(seccion.repeticiones_min || 0),
+				(total, seccion) =>
+					total + Number(seccion.versos_min || 0) * Number(seccion.repeticiones_min || 0),
 				0
 			);
 		const paso = versos > 0 ? versos : partes > 0 ? partes : 8;
@@ -505,12 +595,14 @@ function cargarVocabulario() {
 		   or categoria in ('genero', 'tipo_atribucion', 'modalidad_atribucion', 'composicion_autoria', 'caracterizacion_rango')
 	`);
 	const busca = (categoria, termino) =>
-		filas.find((fila) => fila.categoria === categoria && fila.termino === termino)?.termino_id ?? null;
+		filas.find((fila) => fila.categoria === categoria && fila.termino === termino)?.termino_id ??
+		null;
 	const generos = {};
 	const caracterizaciones = {};
 	for (const fila of filas) {
 		if (fila.categoria === 'genero') generos[fila.termino] = fila.termino_id;
-		if (fila.categoria === 'caracterizacion_rango') caracterizaciones[fila.termino] = fila.termino_id;
+		if (fila.categoria === 'caracterizacion_rango')
+			caracterizaciones[fila.termino] = fila.termino_id;
 	}
 	return {
 		estado_vista_previa: busca('estado', 'vista_previa'),
@@ -699,7 +791,9 @@ function sembrarObra(obra, autores, sembrables, admin) {
 
 		// Una caracterización por rango cada tres secuencias, rotando las tres que se ofrecen.
 		if (secuencia.orden % 3 === 1) {
-			const termino = CARACTERIZACIONES[secuencia.orden % CARACTERIZACIONES.length];
+			// `orden % 3 === 1` filtra las secuencias, así que `orden % 3` valdría siempre 1 y
+			// saldría siempre la misma: la que rota es la cuenta de las que pasan el filtro.
+			const termino = CARACTERIZACIONES[Math.floor(secuencia.orden / 3) % CARACTERIZACIONES.length];
 			sentencias.push(`
 				insert into public.secuencias_caracterizaciones_rango (secuencia_id, tipo_caracterizacion_rango_id, v_ini, v_fin, observaciones)
 				values (
@@ -725,7 +819,10 @@ function sembrarObra(obra, autores, sembrables, admin) {
 			// tiene que saber pintarla.
 			const suelta = tryQuery(`begin;\n${sentencias.join('\n')}\ncommit;`);
 			if (suelta.error) fallos.push(`${secuencia.arquitectura.forma}: ${suelta.error}`);
-			else fallos.push(`${secuencia.arquitectura.forma}: ${[...problemas, ...respuestas.problemas].join('; ')}`);
+			else
+				fallos.push(
+					`${secuencia.arquitectura.forma}: ${[...problemas, ...respuestas.problemas].join('; ')}`
+				);
 			continue;
 		}
 
@@ -775,12 +872,20 @@ function sembrarObra(obra, autores, sembrables, admin) {
 			fallos.push(
 				`${secuencia.arquitectura.forma} · ${secuencia.arquitectura.arquitectura}: ${guardado.error}`
 			);
+			// **La secuencia se escribe igual.** Todo iba en la misma transacción, así que un
+			// rechazo de la anotación se llevaba por delante la fila de la secuencia y dejaba a la
+			// obra con un hueco de versos. Una secuencia sin anotar es un caso real —hoy lo son las
+			// 276 del corpus— y la ficha tiene que saber pintarla.
+			const suelta = tryQuery(`begin;\n${sentencias.join('\n')}\ncommit;`);
+			if (suelta.error) fallos.push(`  y tampoco se pudo escribir la secuencia: ${suelta.error}`);
 		} else {
 			anotadas += 1;
 		}
 	}
 
-	console.log(`  ${obra.titulo}: ${secuencias.length} secuencias, ${anotadas} anotadas, ${totalVersos} versos`);
+	console.log(
+		`  ${obra.titulo}: ${secuencias.length} secuencias, ${anotadas} anotadas, ${totalVersos} versos`
+	);
 	for (const fallo of fallos) console.log(`      ${fallo}`);
 	return { obraId, fallos };
 }

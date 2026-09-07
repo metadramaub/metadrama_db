@@ -45,15 +45,29 @@ barato e independiente; partirlo evita reescribir la función métrica grande. E
 **recalcula entero al pulsar el botón**, no en el autosave; un trigger en `secuencias_metricas`
 (y tablas satélite) solo marca `metrica_sucia` (write barato).
 
-### 1.1 Resolución de forma (forma raíz)
+### 1.1 Resolución de forma
 
-La forma de una secuencia es el **padre** del `estrofa_tipo` si existe (p. ej. `romance_e-a` →
-`romance`); si no, la forma misma. Jerarquía real: **dos niveles** (padre → hijo) + `tipo_forma`
-(`forma_espanola` / `forma_italiana`); la rima del hijo va en `patron_especifico` ('e-a', 'i-o').
-Todas las medidas por forma usan esta **forma raíz**.
-> **`irregular`** es un `estrofa_tipo` real y aparece con normalidad en formas/tramos, pero **no es
-> una forma comparable** (denota pasaje métricamente irregular). No se toca en las medidas de datos;
-> habrá que tratarlo aparte al construir distancias entre formas (Fase 8).
+**Desde el 7 de septiembre de 2026 la forma de una secuencia es la que declara su anotación**, en
+`anotaciones_metricas`, y no el `estrofa_tipo` del vocabulario legado. El emparejamiento vive en un
+solo sitio, `formas_de_la_obra(obra)`, que devuelve por secuencia:
+
+| | |
+| --- | --- |
+| `forma_slug` | `formas_metricas.slug` — la forma. Sustituye a la «forma raíz», que era el término padre |
+| `arquitectura_slug` | `arquitecturas_forma.slug` — lo que antes era el término hijo: la realización concreta |
+| `tipo_forma` | `forma_espanola` / `forma_italiana`, **derivado de la tradición de la forma**, que es una y solo una |
+
+De ahí leen el recompute de la obra y los dos ayudantes del perfil de autor —`perfil_formas_rango` y
+`perfil_formas_hijos_rango`—, que antes repetían el join legado cada uno por su cuenta.
+
+> **Las obras aún no migradas no tienen perfil.** Una secuencia sin anotación no entra en el reparto
+> de formas ni en el número efectivo, y sus arrays de filtro salen vacíos. No es un fallo: es la
+> degradación decidida al sustituir la lectura anterior, y se deshace obra por obra al migrarlas. El
+> barcode sí las conserva, porque ahí lo que se dibuja es el pasaje.
+>
+> **La versificación irregular y el verso aislado** son ahora tramos sin forma del catálogo
+> (`tipo_registro = 'sin_forma'`), no formas: aparecen en tramos y en el reparto como cualquier
+> otra, pero no son comparables con ellas y habrá que tratarlas aparte al construir distancias.
 
 ### 1.2 Extensión y estructura
 
@@ -138,13 +152,16 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
 Guardan **slugs** (`termino`) para filtrar por solapamiento (`&&`/GIN). La etiqueta visible se
 resuelve en lectura (§1.9):
 - **`formas_presentes`** — formas raíz presentes.
-- **`tipos_forma_presentes`** — `forma_espanola` / `forma_italiana`.
-- **`metros_presentes`** — vía la tabla `estrofa_tipo_metros` (estrofa_tipo ↔ metro). **Cobertura
-  parcial**: en el seed solo romance↔octosílabo y silva↔hepta/endecasílabo; muchas formas aún sin
-  metro asignado → se aceptan vacíos, no se inventan.
+- **`tipos_forma_presentes`** — `forma_espanola` / `forma_italiana`, derivados de la tradición.
+- **`metros_presentes`** — **la unión de dos cosas**: los metros que la arquitectura fija en sus
+  esquemas y los que la anotación responde. Hacen falta las dos: la medida de toda forma isosilábica
+  es arquitectura y no se pregunta, así que con solo lo respondido una obra entera de redondillas se
+  quedaría sin metros.
 - **`variaciones_presentes`** — §1.5.
-- **`subtipos_presentes`** — subtipos de estrofa (p. ej. subquintillas) vía `secuencias_subtipos_estrofa`,
-  filtrables como las variaciones. En el catálogo cuelgan bajo su forma raíz en el selector jerárquico.
+- **`subtipos_presentes`** — **los esquemas de rima elegidos** (`esquemas_rima.slug`). Antes eran los
+  subtipos de estrofa de `secuencias_subtipos_estrofa`, 379 filas que eran todas esquemas de
+  quintilla: nombraban la disposición de la rima, que en el catálogo nuevo es una respuesta y no un
+  término aparte.
 
 ### 1.9 Slugs vs etiquetas
 
