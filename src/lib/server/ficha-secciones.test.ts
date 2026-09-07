@@ -73,8 +73,6 @@ function fullFicha(): PublicObraFichaPayload {
 					estrofa_tipo_forma: null,
 					inaugura_espacio: false,
 					versos_partidos: false,
-					evocacion_metrica: false,
-					evocacion_metrica_texto: null,
 					intervencion_personajes_femeninos: 'sin_intervencion',
 					intervencion_figuras_donaire: 'sin_intervencion',
 					intervencion_personajes_sobrenaturales: 'sin_intervencion',

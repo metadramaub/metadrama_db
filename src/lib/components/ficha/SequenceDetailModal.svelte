@@ -155,10 +155,6 @@
 						{/if}
 						<p><strong>Inaugura espacio:</strong> {formatNullableBoolean(props.secuencia.inaugura_espacio)}</p>
 						<p><strong>Versos partidos:</strong> {formatNullableBoolean(props.secuencia.versos_partidos)}</p>
-						<p><strong>Evocación métrica:</strong> {formatNullableBoolean(props.secuencia.evocacion_metrica)}</p>
-						{#if props.secuencia.evocacion_metrica && (props.secuencia.evocacion_metrica_texto ?? '').trim().length > 0}
-							<p><strong>Explicación de la evocación métrica:</strong> {props.secuencia.evocacion_metrica_texto}</p>
-						{/if}
 						{#if (props.secuencia.subtipos_estrofa ?? []).length > 0}
 							<div class="pt-1">
 								<strong>Subtipos de estrofa:</strong>

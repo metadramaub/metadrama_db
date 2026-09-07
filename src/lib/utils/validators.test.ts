@@ -60,8 +60,6 @@ describe('validators', () => {
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
 			versos_partidos: true,
-			evocacion_metrica: true,
-			evocacion_metrica_texto: 'Imita la voz métrica de otro personaje',
 			intervencion_personajes_femeninos: 'sin_intervencion',
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
@@ -77,8 +75,6 @@ describe('validators', () => {
 			estrofa_tipo_id: null,
 			inaugura_espacio: null,
 			versos_partidos: null,
-			evocacion_metrica: null,
-			evocacion_metrica_texto: null,
 			intervencion_personajes_femeninos: null,
 			intervencion_figuras_donaire: null,
 			intervencion_personajes_sobrenaturales: null,
@@ -99,8 +95,6 @@ describe('validators', () => {
 		expect(parsed.estrofa_tipo_id).toBe(null);
 		expect(parsed.inaugura_espacio).toBe(null);
 		expect(parsed.versos_partidos).toBe(null);
-		expect(parsed.evocacion_metrica).toBe(null);
-		expect(parsed.evocacion_metrica_texto).toBe(null);
 	});
 
 	it('rejects old intervention values in secuencia payload', () => {

@@ -58,8 +58,6 @@ type SecuenciaChecklistData = {
 	tiene_anotacion_metrica?: boolean;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean | null;
-	evocacion_metrica: boolean | null;
-	evocacion_metrica_texto: string | null;
 	intervencion_personajes_femeninos: string | null;
 	intervencion_figuras_donaire: string | null;
 	intervencion_personajes_sobrenaturales: string | null;
@@ -105,12 +103,9 @@ function hasPendingSequenceFields(secuencia: SecuenciaChecklistData): boolean {
 		sinForma ||
 		secuencia.inaugura_espacio === null ||
 		secuencia.versos_partidos === null ||
-		secuencia.evocacion_metrica === null ||
 		secuencia.intervencion_personajes_femeninos === null ||
 		secuencia.intervencion_figuras_donaire === null ||
-		secuencia.intervencion_personajes_sobrenaturales === null ||
-		(secuencia.evocacion_metrica === true &&
-			!(secuencia.evocacion_metrica_texto ?? '').trim())
+		secuencia.intervencion_personajes_sobrenaturales === null
 	);
 }
 
