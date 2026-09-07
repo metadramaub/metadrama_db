@@ -671,13 +671,17 @@ que es cuando se puede mover un campo sin que nadie guarde a mitad.
   nadie sabía que los versos cantados se registran ahí. Ahora nombra lo que admite, armado del
   vocabulario y no de una lista escrita.
 
-**Pendiente, decidido el 7 de septiembre:** que **el donaire, los personajes sobrenaturales y un
-«evento sobrenatural» nuevo se declaren en los datos de la obra**, y que la secuencia los muestre
-ya respondidos y bloqueados cuando la obra dice que no los hay, con el aviso de dónde se cambia. Los
-personajes femeninos se dan por presentes en toda obra y siguen preguntándose por secuencia. El
-evento se responde sí/no, como «versos partidos»: un evento ocurre o no ocurre, y la escala de
-intervención es de quien habla. El dato de la obra se puede sembrar de lo anotado —hay donaire en 6
-obras y sobrenaturales en 3, de las 12 que tienen secuencias—.
+- **Lo que no hay en la obra no se pregunta en cada secuencia.** El donaire, los personajes
+  sobrenaturales y un **evento sobrenatural** nuevo se declaran en los datos de la obra; al decir
+  que no, sus secuencias quedan respondidas y bloqueadas, con el aviso de dónde se cambia. La
+  declaración se sembró de lo anotado: 6 obras con donaire y 3 con personajes sobrenaturales, de las
+  12 que tienen secuencias. Los personajes femeninos se dan por presentes en toda obra y siguen
+  preguntándose por secuencia. El evento se responde sí/no, como «versos partidos»: ocurre o no
+  ocurre, y la escala de intervención es de quien habla. **La coherencia la sostienen dos
+  disparadores**, no la pantalla: una secuencia no puede declarar lo que su obra niega, y una obra
+  no puede negar lo que alguna secuencia declara —al negar, responde por las que callaban—.
+  `evento_sobrenatural` todavía no se agrega al resumen: su medida entra al rehacer la
+  precomputación, para no escribir dos veces la misma función.
 
 **Sin abrir:** la **revisión de los vocabularios generales**, inventariada en
 [revisión de vocabularios](../revision-de-vocabularios.md).

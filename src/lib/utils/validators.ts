@@ -62,7 +62,12 @@ export const obraDatosPatchSchema = z
 		fuente_fecha: z.string().trim().max(2000).nullable().optional().default(null),
 		fecha_inicio_metadrama: nullableYear,
 		fecha_fin_metadrama: nullableYear,
-		edicion: nullableText(20000)
+		edicion: nullableText(20000),
+		// Lo que la obra declara una vez para no repetirlo en cada secuencia. En blanco es
+		// «pendiente», y solo el «no» arrastra a las secuencias.
+		tiene_figuras_donaire: z.boolean().nullable().optional().default(null),
+		tiene_personajes_sobrenaturales: z.boolean().nullable().optional().default(null),
+		tiene_eventos_sobrenaturales: z.boolean().nullable().optional().default(null)
 	})
 	.superRefine((data, ctx) => {
 		if (
@@ -128,6 +133,8 @@ export const secuenciaInputSchema = z
 		intervencion_personajes_sobrenaturales: z
 			.enum(['sin_intervencion', 'exclusiva', 'compartida'])
 			.nullable(),
+		// Un evento ocurre o no ocurre: la escala de intervención es de quien habla.
+		evento_sobrenatural: z.boolean().nullable().default(null),
 		sinopsis: z.string().trim().nullable().optional().default(null)
 	})
 	.strict()

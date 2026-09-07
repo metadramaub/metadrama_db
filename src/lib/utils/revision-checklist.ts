@@ -61,6 +61,7 @@ type SecuenciaChecklistData = {
 	intervencion_personajes_femeninos: string | null;
 	intervencion_figuras_donaire: string | null;
 	intervencion_personajes_sobrenaturales: string | null;
+	evento_sobrenatural: boolean | null;
 	sinopsis: string | null;
 };
 
@@ -105,7 +106,8 @@ function hasPendingSequenceFields(secuencia: SecuenciaChecklistData): boolean {
 		secuencia.versos_partidos === null ||
 		secuencia.intervencion_personajes_femeninos === null ||
 		secuencia.intervencion_figuras_donaire === null ||
-		secuencia.intervencion_personajes_sobrenaturales === null
+		secuencia.intervencion_personajes_sobrenaturales === null ||
+		secuencia.evento_sobrenatural === null
 	);
 }
 

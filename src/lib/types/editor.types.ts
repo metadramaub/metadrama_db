@@ -23,5 +23,6 @@ export type EditorSecuenciaRow = Pick<
 	| 'intervencion_personajes_femeninos'
 	| 'intervencion_figuras_donaire'
 	| 'intervencion_personajes_sobrenaturales'
+	| 'evento_sobrenatural'
 	| 'sinopsis'
 >;

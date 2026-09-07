@@ -53,6 +53,25 @@ describe('validators', () => {
 		expect(result.success).toBe(false);
 	});
 
+	it('deja pendientes las tres declaraciones de la obra si no vienen', () => {
+		const parsed = obraDatosPatchSchema.parse({ titulo: 'Una obra' });
+		expect(parsed.tiene_figuras_donaire).toBe(null);
+		expect(parsed.tiene_personajes_sobrenaturales).toBe(null);
+		expect(parsed.tiene_eventos_sobrenaturales).toBe(null);
+	});
+
+	it('acepta que la obra declare lo que hay y lo que no', () => {
+		const parsed = obraDatosPatchSchema.parse({
+			titulo: 'Una obra',
+			tiene_figuras_donaire: false,
+			tiene_personajes_sobrenaturales: true,
+			tiene_eventos_sobrenaturales: null
+		});
+		expect(parsed.tiene_figuras_donaire).toBe(false);
+		expect(parsed.tiene_personajes_sobrenaturales).toBe(true);
+		expect(parsed.tiene_eventos_sobrenaturales).toBe(null);
+	});
+
 	it('accepts secuencia payload without metros', () => {
 		const result = secuenciaInputSchema.safeParse({
 			v_ini: 1,
@@ -95,6 +114,7 @@ describe('validators', () => {
 		expect(parsed.estrofa_tipo_id).toBe(null);
 		expect(parsed.inaugura_espacio).toBe(null);
 		expect(parsed.versos_partidos).toBe(null);
+		expect(parsed.evento_sobrenatural).toBe(null);
 	});
 
 	it('rejects old intervention values in secuencia payload', () => {

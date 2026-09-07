@@ -62,6 +62,7 @@ export interface SecuenciaInput {
 	intervencion_personajes_femeninos: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
 	intervencion_figuras_donaire: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
 	intervencion_personajes_sobrenaturales: 'sin_intervencion' | 'exclusiva' | 'compartida' | null;
+	evento_sobrenatural: boolean | null;
 	sinopsis: string | null;
 }
 

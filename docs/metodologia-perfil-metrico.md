@@ -91,9 +91,13 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
   forma** (error frecuente): es un término de `fenomenos_enunciativos` (hijo de `caracterizacion_rango`).
   Calcularlo desde la forma daría siempre 0.
 - **`variaciones_presentes`** (array) = términos de `caracterizacion_rango` usados en la obra, para
-  filtrar. Familias reales: `fenomenos_enunciativos` (cantado, prosa), `irregularidades_metricas`
-  (hipometrico, hipermetrico, rima_defectuosa, laguna), `final_acentual` (mayoria_agudas,
-  mayoria_esdrujulas). (Sustituye a la tabla `secuencias_variaciones`, ya inexistente.)
+  filtrar. (Sustituye a la tabla `secuencias_variaciones`, ya inexistente.)
+- **Lo que se ofrece hoy son solo fenómenos enunciativos**: `cantado`, `prosa` y
+  `evocacion_metrica`, que llegó el 7 de septiembre de 2026 desde dos columnas propias de la
+  secuencia. Las otras dos familias —`irregularidades_metricas` e `final_acentual`— siguen
+  **escritas en las filas ya anotadas pero retiradas del selector**: su sitio es una desviación o un
+  rasgo del catálogo nuevo. Así que este array mezcla dos vocabularios mientras dure la migración, y
+  se vaciará de irregularidades cuando termine.
 
 ### 1.6 Contexto dramático
 
@@ -104,6 +108,16 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
   agregado de obra.)
 - **`tiene_versos_partidos`** = `bool_or(versos_partidos)` sobre las secuencias; queda en `NULL` si alguna está pendiente.
 - **`tiene_cambio_espacio`** = `bool_or(inaugura_espacio)` sobre las secuencias; queda en `NULL` si alguna está pendiente.
+- **Lo que hay en la obra se declara en la obra**, desde el 7 de septiembre de 2026:
+  `obras.tiene_figuras_donaire`, `tiene_personajes_sobrenaturales` y `tiene_eventos_sobrenaturales`.
+  Decir que no cierra la pregunta de todas sus secuencias —las deja en `sin_intervencion` y
+  bloqueadas—, y dos disparadores impiden que una secuencia declare lo que su obra niega y que una
+  obra niegue lo que alguna secuencia declara. Los personajes femeninos no se declaran arriba: se
+  dan por presentes en toda obra.
+- **`secuencias_metricas.evento_sobrenatural`** (sí/no) registra que en el pasaje ocurra un milagro,
+  una aparición o una transformación, hable o no un personaje sobrenatural. **Todavía no se agrega
+  al resumen**: se le dará su medida al rehacer la precomputación sobre el catálogo nuevo, y no
+  antes, para no escribir dos veces la misma función.
 
 ### 1.7 Visualización: barcode métrico y cortes estructurales
 
