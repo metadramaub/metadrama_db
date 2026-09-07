@@ -35,6 +35,37 @@ Comprobado el 30 de julio de 2026 sobre la base enlazada:
 Antes de modificar estos datos se hará una copia de seguridad y un inventario de uso por
 UUID. Ninguna entrada utilizada se migrará mediante una regla genérica no revisada.
 
+## 2bis · El reparto de las caracterizaciones por rango
+
+Las caracterizaciones por rango se usaron para dos cosas, y al migrar cada fila va a un sitio
+distinto. El 7 de septiembre de 2026 se retiraron del selector las que no son de este mecanismo
+—no se puede volver a elegirlas—, pero **sus filas siguen escritas** y se trasladan aquí, obra por
+obra, porque una desviación cuelga de una anotación con su forma y esas secuencias todavía no la
+tienen.
+
+| Término | Filas | Destino |
+| --- | ---: | --- |
+| `hipermetrico` | 129 | desviación · `metro` · `mayor_que_norma` |
+| `hipometrico` | 56 | desviación · `metro` · `menor_que_norma` |
+| `rima_defectuosa` | 16 | desviación · `rima` · `otra` |
+| `laguna` | 2 | desviación · `estructura` · `falta` |
+| `mayoria_agudas` | 1 | rasgo `final_acentual` = `agudo` |
+| `mayoria_esdrujulas` | 1 | rasgo `final_acentual` = `esdrujulo` |
+| `patron_alternativo` | 8 | caso por caso: no era una categoría, era la falta de sitio para decir algo del comportamiento de la rima dentro de un romance |
+| `cantado` · `prosa` | 16 | **se quedan**: son fenómenos enunciativos y no métricos |
+
+**Las relaciones son las que la base admite**, que no son las seis del vocabulario: `metro` acepta
+`menor_que_norma`, `mayor_que_norma` y `otra`; `rima`, solo `otra`; `estructura`, `falta`, `sobra`,
+`menor_que_norma`, `mayor_que_norma` y `otra`; `repeticion` y `rasgo`, `falta`, `sobra` y `otra`.
+Que la rima se estrechara es deliberado: **casi cualquier forma admite ya escribir a mano un esquema
+que el catálogo no tiene**, así que decir «la rima es otra» dejó de ser la manera de registrar una
+disposición no catalogada, y la desviación de rima queda para lo que de verdad no cabe en un
+esquema.
+
+Aparte, las **379 filas de `secuencias_subtipos_estrofa`** son todas esquemas de quintilla
+—`quintilla_1_ababa` 266, `quintilla_5_aabba` 79 y cinco más—. Su traducción no tiene decisiones:
+una elección de `esquema_rima` sobre la arquitectura de la quintilla.
+
 ## 3 · Datos que pueden descartarse y regenerarse
 
 - `obras_resumen` y `autores_resumen`;
