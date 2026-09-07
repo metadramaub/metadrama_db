@@ -107,6 +107,9 @@ export function defaultRelationFor(
 ): MetricDeviationRelation | '' {
 	if (!dimension) return '';
 	const allowed = DEVIATION_RELATIONS_BY_DIMENSION[dimension];
+	// Con una sola relación posible no hay nada que elegir, y pedirlo sería un desplegable de un
+	// elemento: hoy es el caso de la rima, cuya única desviación posible se explica escribiendo.
+	if (allowed.length === 1) return allowed[0];
 	return current && allowed.includes(current) ? current : '';
 }
 

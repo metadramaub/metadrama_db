@@ -1712,10 +1712,38 @@
 								/>
 							</span>
 						</h4>
-						<button type="button" class="link-action" onclick={addDeviation}>Añadir otra</button>
 					</div>
 					{#each draft.desviaciones as deviation, deviationIndex}
-						<div class="grid gap-3 border border-[color:var(--border)] p-4 sm:grid-cols-2 xl:grid-cols-6">
+						{@const relaciones = metricDeviationRelations(deviation.dimension)}
+						<div class="border border-[color:var(--border)]">
+							<!--
+								**Quitar es del bloque entero, así que va en su cabecera.**
+
+								Estaba en medio de la tarjeta, en rojo y pegado a «V. final», donde parecía que
+								quitaba el verso final. Aquí arriba, con el número de la desviación al lado, se
+								ve de qué se está deshaciendo uno. Y numeradas, porque los avisos de lo que
+								falta hablan de «la desviación 2» y hasta ahora no había ninguna que llevara ese
+								número escrito.
+							-->
+							<div
+								class="flex flex-wrap items-baseline justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-4 py-2"
+							>
+								<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
+									Desviación{draft.desviaciones.length > 1 ? ` ${deviationIndex + 1}` : ''}
+								</span>
+								<button
+									type="button"
+									class="link-action link-action--danger text-xs"
+									onclick={() => {
+										draft.desviaciones = draft.desviaciones.filter(
+											(_: MetricDeviationDraft, index: number) => index !== deviationIndex
+										);
+									}}
+								>
+									Quitar
+								</button>
+							</div>
+							<div class="grid gap-3 p-4 sm:grid-cols-2 xl:grid-cols-6">
 							<label class="form-field">
 								<span class="form-label">Dimensión</span>
 								<select
@@ -1741,26 +1769,42 @@
 									{/each}
 								</select>
 							</label>
-							<label class="form-field xl:col-span-2">
-								<span class="form-label">Relación con la norma</span>
-								<select
-									class="h-10 w-full border border-[color:var(--border)] bg-white px-2 text-sm"
-									value={deviation.relacion_norma}
-									onchange={(event) => {
-										deviation.relacion_norma = event.currentTarget
-											.value as MetricDeviationDraft['relacion_norma'];
-										// «Falta» no admite valor observado: no había nada que observar.
-										if (deviation.relacion_norma === 'falta') setObserved(deviation, '');
-									}}
-								>
-									<option value="">
-										{deviation.dimension ? 'Qué le pasa…' : 'Elige antes la dimensión'}
-									</option>
-									{#each metricDeviationRelations(deviation.dimension) as option (option.value)}
-										<option value={option.value}>{option.label}</option>
-									{/each}
-								</select>
-							</label>
+							<!--
+								**Con una sola relación posible no se pregunta: se dice.**
+
+								A la rima solo le queda «otra cosa», porque cualquier esquema distinto ya es una
+								respuesta. Un desplegable de un elemento pide una decisión que no existe, así
+								que ahí va la frase y el trabajo pasa entero a la descripción.
+							-->
+							{#if relaciones.length === 1}
+								<div class="form-field xl:col-span-2">
+									<span class="form-label">Relación con la norma</span>
+									<p class="text-sm leading-10 text-[color:var(--muted-foreground)]">
+										{relaciones[0].label}
+									</p>
+								</div>
+							{:else}
+								<label class="form-field xl:col-span-2">
+									<span class="form-label">Relación con la norma</span>
+									<select
+										class="h-10 w-full border border-[color:var(--border)] bg-white px-2 text-sm"
+										value={deviation.relacion_norma}
+										onchange={(event) => {
+											deviation.relacion_norma = event.currentTarget
+												.value as MetricDeviationDraft['relacion_norma'];
+											// «Falta» no admite valor observado: no había nada que observar.
+											if (deviation.relacion_norma === 'falta') setObserved(deviation, '');
+										}}
+									>
+										<option value="">
+											{deviation.dimension ? 'Qué le pasa…' : 'Elige antes la dimensión'}
+										</option>
+										{#each relaciones as option (option.value)}
+											<option value={option.value}>{option.label}</option>
+										{/each}
+									</select>
+								</label>
+							{/if}
 							<!-- Lo observado: la precisión que hace analizable la desviación. Con
 							     «Falta» no hay nada que observar, y la base lo exige vacío. -->
 							<!--
@@ -1868,19 +1912,6 @@
 										fijarRangoDeDesviacion(deviation, 'v_fin', Number(event.currentTarget.value))}
 								/>
 							</label>
-							<div class="flex items-end">
-								<button
-									type="button"
-									class="link-action link-action--danger h-10"
-									onclick={() => {
-										draft.desviaciones = draft.desviaciones.filter(
-											(_: MetricDeviationDraft, index: number) => index !== deviationIndex
-										);
-									}}
-								>
-									Quitar
-								</button>
-							</div>
 							<label class="form-field sm:col-span-2 xl:col-span-6">
 								<span class="form-label">Descripción mínima de la diferencia</span>
 								<textarea
@@ -1888,8 +1919,18 @@
 									bind:value={deviation.observaciones}
 								></textarea>
 							</label>
+							</div>
 						</div>
 					{/each}
+					<!--
+						**Añadir va después de lo que hay, no encima.**
+
+						Estaba arriba, junto al rótulo de la sección, así que se ofrecía añadir una segunda
+						antes de haber leído la primera. Se añade cuando se ha terminado con la anterior.
+					-->
+					<button type="button" class="link-action" onclick={addDeviation}>
+						Añadir otra desviación
+					</button>
 				</section>
 			{/if}
 
