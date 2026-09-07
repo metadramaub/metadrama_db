@@ -404,24 +404,33 @@
 
 <section class="bg-white p-4">
 	<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-		<h4 class="form-section-title mb-0">Caracterizaciones por rango</h4>
+		<h4 class="form-section-title mb-0">
+			<span class="form-label-with-help">
+				Caracterizaciones por rango
+				{#if loQueSeAnotaAqui}
+					<FieldHelpTooltip
+						text={`Qué ocurre dentro de la secuencia y en qué versos: ${loQueSeAnotaAqui}. Cada una se marca con su propio rango, que puede ser un verso o todo el pasaje.`}
+						label="Ayuda sobre las caracterizaciones por rango"
+					/>
+				{/if}
+			</span>
+		</h4>
 		<Button variant="secondary" onclick={abrirNueva} disabled={props.readOnly || !props.secuenciaId}>
 			Añadir caracterización
 		</Button>
 	</div>
-
-	{#if loQueSeAnotaAqui}
-		<p class="form-help">
-			Aquí se registra qué ocurre dentro de la secuencia y en qué versos: {loQueSeAnotaAqui}.
-		</p>
-	{/if}
 
 	{#if !props.secuenciaId}
 		<p class="form-help">Guarda la secuencia para añadir caracterizaciones por rango.</p>
 	{:else if cargando}
 		<p class="form-help">Cargando caracterizaciones por rango...</p>
 	{:else if items.length === 0}
-		<p class="form-help">Sin caracterizaciones por rango registradas en esta secuencia.</p>
+		<!-- El vacío es el único momento en que hay que decir qué se guarda aquí: con filas delante,
+		     la tabla ya lo enseña. -->
+		<p class="form-help">
+			Sin caracterizaciones por rango{#if loQueSeAnotaAqui}. Aquí se registra qué ocurre dentro de
+				la secuencia y en qué versos: {loQueSeAnotaAqui}{/if}.
+		</p>
 	{:else}
 		<div class="mt-3 overflow-x-auto">
 			<table class="min-w-full text-left text-xs">

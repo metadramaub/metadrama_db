@@ -19,6 +19,7 @@
 	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { pushToast } from '$lib/stores/toast';
+	import { patchCurrentObra } from '$lib/stores/currentObra';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
 	import {
 		buildLocalDraftKey,
@@ -72,13 +73,13 @@
 		// la lista de secuencias: hoy, las caracterizaciones por rango.
 		onMetricaDirty?: () => void;
 		/**
-		 * Lo que la obra declara de una vez: si hay donaire, personajes sobrenaturales y eventos
-		 * sobrenaturales. Solo el «no» cierra la pregunta de cada secuencia.
+		 * Lo que la obra tiene marcado que no hay. Marcarlo cierra la pregunta en todas sus
+		 * secuencias; sin marcar, cada una la responde.
 		 */
-		declaradoEnLaObra?: {
-			donaire: boolean | null;
-			personajesSobrenaturales: boolean | null;
-			eventosSobrenaturales: boolean | null;
+		loQueNoHay?: {
+			donaire: boolean;
+			personajesSobrenaturales: boolean;
+			eventosSobrenaturales: boolean;
 		} | null;
 		/** El catálogo métrico. Sin él no hay editor nuevo que montar, y se cae al panel de siempre. */
 		catalogoMetrico?: MetricCatalogForEditor | null;
@@ -92,6 +93,128 @@
 	}>();
 
 	type IntervencionValue = 'sin_intervencion' | 'exclusiva' | 'compartida';
+
+	/**
+	 * Lo que no hay en la obra, y por eso abre esta pestaña: se marca **antes de anotar**.
+	 *
+	 * Vive aquí y no en los datos de la obra: allí está su identidad —título, género, fechas,
+	 * edición— y esto es un hecho de la dramaturgia que **solo usa esta pantalla**. Marcarlo con las
+	 * secuencias delante es lo que hace que se entienda.
+	 */
+	type ClaveDeclaracion =
+		| 'sin_figuras_donaire'
+		| 'sin_personajes_sobrenaturales'
+		| 'sin_eventos_sobrenaturales';
+
+	/**
+	 * **La pregunta no es simétrica, y por eso no se responde con sí y no.** Decir que no cierra la
+	 * pregunta en todas las secuencias; decir que sí no marcaría un sí en ninguna, solo dejaría de
+	 * cerrarla, que es lo que ya pasa mientras nadie diga nada. Con un sí y un no juntos, marcar sí
+	 * parece hacer lo contrario de marcar no, y no hace nada. Así que es una casilla: se marca para
+	 * dejar de preguntarlo, y se desmarca para volver a preguntarlo.
+	 */
+	const DECLARACIONES: Array<{
+		clave: ClaveDeclaracion;
+		etiqueta: string;
+		casilla: string;
+		ayuda: string;
+		loDeclaran: (secuencia: EditorSecuenciaRow) => boolean;
+	}> = [
+		{
+			clave: 'sin_figuras_donaire',
+			etiqueta: 'Figuras de donaire',
+			casilla: 'No hay en esta obra',
+			ayuda:
+				'La figura del donaire. Al marcar que no la hay, las secuencias dejan de preguntarlo y quedan en «sin intervención».',
+			loDeclaran: (secuencia) =>
+				secuencia.intervencion_figuras_donaire === 'exclusiva' ||
+				secuencia.intervencion_figuras_donaire === 'compartida'
+		},
+		{
+			clave: 'sin_personajes_sobrenaturales',
+			etiqueta: 'Personajes sobrenaturales',
+			casilla: 'No hay en esta obra',
+			ayuda:
+				'Personajes alegóricos, magos, demonios, santos que obran milagros, apariciones. Al marcar que no los hay, las secuencias dejan de preguntarlo.',
+			loDeclaran: (secuencia) =>
+				secuencia.intervencion_personajes_sobrenaturales === 'exclusiva' ||
+				secuencia.intervencion_personajes_sobrenaturales === 'compartida'
+		},
+		{
+			clave: 'sin_eventos_sobrenaturales',
+			etiqueta: 'Eventos sobrenaturales',
+			casilla: 'No ocurren en esta obra',
+			ayuda:
+				'Un milagro, una aparición, una transformación. Ocurren aunque no hable ningún personaje sobrenatural, y por eso se preguntan aparte.',
+			loDeclaran: (secuencia) => secuencia.evento_sobrenatural === true
+		}
+	];
+
+	// Viene abierto: es lo primero que hay que mirar al llegar. Una vez marcado, se pliega y no
+	// vuelve a ocupar sitio.
+	let declaracionesAbiertas = $state(true);
+
+	/** Cuántas secuencias lo declaran: es lo que impide cerrarlo, y conviene decir cuántas son. */
+	function cuantasLoDeclaran(declaracion: (typeof DECLARACIONES)[number]) {
+		return secuencias.filter((secuencia) => declaracion.loDeclaran(secuencia)).length;
+	}
+
+	let guardandoDeclaracion = $state<ClaveDeclaracion | null>(null);
+
+	/**
+	 * Al marcarlo, la base responde por las secuencias que callaban. Esto hace lo mismo con las que
+	 * la pantalla tiene en memoria, para no releerlas enteras ni dejarlas diciendo «pendiente» encima
+	 * de una respuesta que ya está guardada.
+	 */
+	function responderPorLasSecuencias(clave: ClaveDeclaracion) {
+		const next = secuencias.map((secuencia) => {
+			if (clave === 'sin_figuras_donaire' && secuencia.intervencion_figuras_donaire === null) {
+				return { ...secuencia, intervencion_figuras_donaire: 'sin_intervencion' };
+			}
+			if (
+				clave === 'sin_personajes_sobrenaturales' &&
+				secuencia.intervencion_personajes_sobrenaturales === null
+			) {
+				return { ...secuencia, intervencion_personajes_sobrenaturales: 'sin_intervencion' };
+			}
+			if (clave === 'sin_eventos_sobrenaturales' && secuencia.evento_sobrenatural === null) {
+				return { ...secuencia, evento_sobrenatural: false };
+			}
+			return secuencia;
+		});
+		secuencias = next;
+		emitSecuenciasChange(next);
+	}
+
+	const declaracionesActuales = $derived({
+		sin_figuras_donaire: props.loQueNoHay?.donaire ?? false,
+		sin_personajes_sobrenaturales: props.loQueNoHay?.personajesSobrenaturales ?? false,
+		sin_eventos_sobrenaturales: props.loQueNoHay?.eventosSobrenaturales ?? false
+	});
+
+	async function declarar(clave: ClaveDeclaracion, valor: boolean) {
+		if (props.readOnly || guardandoDeclaracion) return;
+		guardandoDeclaracion = clave;
+		const response = await fetch(`/api/obras/${props.obraId}/declaraciones`, {
+			method: 'PATCH',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ ...declaracionesActuales, [clave]: valor })
+		});
+		guardandoDeclaracion = null;
+
+		if (!response.ok) {
+			// Cuando alguna secuencia declara lo contrario, el mensaje del disparador dice qué quitar
+			// antes; se enseña tal cual y no se toca nada en pantalla.
+			const body = await response.json().catch(() => ({}));
+			pushToast('error', body.message ?? 'No se pudo guardar lo que la obra no tiene');
+			return;
+		}
+
+		const payload = await response.json();
+		patchCurrentObra(payload.obra);
+		if (valor) responderPorLasSecuencias(clave);
+		pushToast('success', 'Guardado');
+	}
 
 	type FormState = {
 		v_ini: number;
@@ -1091,6 +1214,50 @@
 </script>
 
 <section class="space-y-4">
+	<MetricPanelSection
+		id="declaraciones-obra"
+		titulo="Antes de anotar"
+		abierta={declaracionesAbiertas}
+		alAlternar={() => (declaracionesAbiertas = !declaracionesAbiertas)}
+	>
+		<div class="space-y-3 p-4">
+			<p class="form-help">
+				Marca lo que no hay en la obra y dejará de preguntarse en cada secuencia. Los personajes
+				femeninos se preguntan siempre.
+			</p>
+			<div class="grid gap-3 sm:grid-cols-3">
+				{#each DECLARACIONES as declaracion (declaracion.clave)}
+					{@const declarantes = cuantasLoDeclaran(declaracion)}
+					<div class="form-field min-w-0">
+						<span class="form-label">
+							<span class="form-label-with-help">
+								{declaracion.etiqueta}
+								<FieldHelpTooltip
+									text={declaracion.ayuda}
+									label={`Ayuda sobre ${declaracion.etiqueta.toLocaleLowerCase('es')}`}
+								/>
+							</span>
+						</span>
+						<label class="flex items-center gap-2 text-sm">
+							<input
+								type="checkbox"
+								checked={declaracionesActuales[declaracion.clave]}
+								disabled={props.readOnly || guardandoDeclaracion !== null || declarantes > 0}
+								onchange={(event) => declarar(declaracion.clave, event.currentTarget.checked)}
+							/>
+							{declaracion.casilla}
+						</label>
+						{#if declarantes > 0}
+							<span class="form-help">
+								{declarantes === 1 ? '1 secuencia lo declara' : `${declarantes} secuencias lo declaran`}
+							</span>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		</div>
+	</MetricPanelSection>
+
 	<div class="flex flex-wrap items-end justify-between gap-3 pb-3 pt-2">
 		<h2 class="text-lg font-semibold">Secuencias métricas</h2>
 		<div class="flex flex-wrap items-end gap-2">
@@ -1471,10 +1638,10 @@
 				inaugura_espacio: form.inaugura_espacio,
 				evento_sobrenatural: form.evento_sobrenatural
 			}}
-			declaradoEnLaObra={{
-				donaire: props.declaradoEnLaObra?.donaire ?? null,
-				personajesSobrenaturales: props.declaradoEnLaObra?.personajesSobrenaturales ?? null,
-				eventosSobrenaturales: props.declaradoEnLaObra?.eventosSobrenaturales ?? null
+			loQueNoHay={{
+				donaire: declaracionesActuales.sin_figuras_donaire,
+				personajesSobrenaturales: declaracionesActuales.sin_personajes_sobrenaturales,
+				eventosSobrenaturales: declaracionesActuales.sin_eventos_sobrenaturales
 			}}
 			readOnly={props.readOnly}
 			alCambiar={(cambio) => (form = { ...form, ...cambio })}

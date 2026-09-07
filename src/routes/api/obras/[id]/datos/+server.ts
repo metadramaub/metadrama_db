@@ -32,10 +32,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			fuente_fecha: payload.fuente_fecha,
 			fecha_inicio_metadrama: payload.fecha_inicio_metadrama,
 			fecha_fin_metadrama: payload.fecha_fin_metadrama,
-			edicion: payload.edicion,
-			tiene_figuras_donaire: payload.tiene_figuras_donaire,
-			tiene_personajes_sobrenaturales: payload.tiene_personajes_sobrenaturales,
-			tiene_eventos_sobrenaturales: payload.tiene_eventos_sobrenaturales
+			edicion: payload.edicion
 		})
 		.eq('obra_id', params.id)
 		.select('*')
