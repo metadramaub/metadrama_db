@@ -692,23 +692,27 @@ que es cuando se puede mover un campo sin que nadie guarde a mitad.
 
 ### La precomputación y la ficha
 
-Que el perfil métrico, la ficha pública y la precomputación lean el catálogo nuevo. Hoy leen
-`estrofa_tipo_id`: los once agregados de `recompute_obra_resumen_metricas` entran por
-`secuencias_metricas → vocabularios → estrofa_tipo_metros`, y lo mismo `recompute_autor_resumen` y
-la ficha. Una obra anotada solo en V2 tiene **perfil métrico vacío**. No bloquea anotar; sí bloquea
-publicar esas obras. Los recomputes usan `left join` y `filter (… is not null)`, así que **degradan,
-no rompen**.
+**Hecha el 7 de septiembre de 2026.** El perfil métrico lee ya el catálogo nuevo, y no queda una
+sola referencia al vocabulario legado en el recompute. Lo que había era el mismo join escrito seis
+veces —`secuencias_metricas → vocabularios` por `estrofa_tipo_id`—, y ahora hay un solo sitio:
+`formas_de_la_obra(obra)`, que dice qué forma, qué arquitectura y qué tradición realiza cada
+secuencia. De ella leen el recompute de la obra y los dos ayudantes del perfil de autor;
+`recompute_autor_resumen` no hubo que tocarlo.
 
-Dos cosas que conviene saber antes de rehacerlo, comprobadas contra la base el 7 de septiembre de
-2026:
+**Se sustituyó sin puente, y eso tiene consecuencia:** las 92 obras del corpus se quedan **sin
+perfil** hasta que se migren obra por obra. Los agregados degradan a vacío y no revientan —la guarda
+lo comprueba ejecutando el recompute sobre una obra de cada clase—, y el barcode conserva sus tramos
+porque ahí lo que se dibuja es el pasaje.
 
-- **El perfil no necesita las respuestas.** Nombre de forma, arte, tradición y metro salen del
-  catálogo por la arquitectura, no de `anotacion_elecciones`: con forma y arquitectura por secuencia
-  ya hay ficha.
-- **`propuesta_metrica_secuencia` resuelve 263 de las 276 secuencias legadas** a una forma del
-  catálogo nuevo y 262 a una arquitectura. Si la función nueva cae a esa vista cuando la secuencia
-  no tiene anotación, el corpus entero conserva perfil —provisional— mientras se migra, sin
-  conservar la precomputación vieja.
+Tres decisiones que se ven en la pantalla pública, explicadas en
+[la metodología](../metodologia-perfil-metrico.md), que es el documento canónico: el color del
+barcode sale de la tradición conservando los literales que la interfaz ya usaba; los metros son **la
+unión** de lo que la arquitectura fija y lo que la anotación responde, porque la medida de una forma
+isosilábica no se pregunta; y los subtipos pasan a ser los esquemas de rima elegidos.
+
+**Lo que queda de este frente** es el buscador: sus filtros se arman con los slugs del vocabulario
+legado, así que hasta que se migren las obras filtrarán sobre nombres que ya no aparecen en ningún
+resumen.
 
 ## Qué queda pendiente
 
