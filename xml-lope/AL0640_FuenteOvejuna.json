@@ -4,9 +4,10 @@
     "url": "https://gitlab.com/artelope1/ARTELOPE",
     "commit": "95684795a842b63312aebdad83d1234c1d225b22",
     "fichero": "XML-TEI Play-texts/AL0640_FuenteOvejuna.xml",
-    "copia_local": "backups/artelope/xml/AL0640_FuenteOvejuna.xml",
+    "copia_local": "xml-lope/xml/AL0640_FuenteOvejuna.xml",
     "codificacion": "UTF-16LE, tal como lo publica ARTELOPE",
     "sha256": "56a201b25f1443f315ffecd5dc65510b3a6a936fb071b51933ef4475a41ed1a8",
+    "texto_plano": "xml-lope/txt/AL0640.txt",
     "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
   },
   "obra": {

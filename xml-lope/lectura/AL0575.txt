@@ -1,0 +1,5393 @@
+
+
+===== ACTO 1 =====
+
+--- escena 1 ---
+
+[ACOTACIÓN] [Portal de una posada en Illescas.]
+
+[ACOTACIÓN] LISEO, caballero, y TURÍN, lacayo; los dos de camino.
+
+LISEO
+    1  ¡Qué lindas posadas! // TURÍN: ¡Frescas!
+
+LISEO
+    2  ¿No hay calor? // TURÍN: Chinches y ropa
+    3  tienen fama en toda Europa.
+
+LISEO
+    4  ¡Famoso lugar Illescas!
+    5  No hay en todos los que miras
+    6  quien le iguale. // TURÍN: Aun si supieses
+    7  la causa... // LISEO: ¿Cuál es? // TURÍN: Dos meses
+    8  de guindas y de mentiras.
+
+LISEO
+    9  Como aquí, Turín, se juntan
+   10  de la Corte y de Sevilla,
+   11  Andalucía y Castilla,
+   12  unos a otros preguntan,
+   13  unos de las Indias cuentan,
+   14  y otros con discursos largos
+   15  de provisiones y cargos,
+   16  cosas que el vulgo alimentan.
+   17  ¿No tomaste las medidas?
+
+TURÍN
+   18  Una docena tomé.
+
+LISEO
+   19  ¿Y imágenes? // TURÍN: Con la fe
+   20  que son de España admitidas,
+   21  por milagrosas en todo
+   22  cuanto en cualquiera ocasión
+   23  les pide la devoción
+   24  y el nombre. // LISEO: Pues, dese modo,
+   25  lleguen las postas, y vamos.
+
+TURÍN
+   26  ¿No has de comer? // LISEO: Aguardar
+   27  a que se guise es pensar
+   28  que a media noche llegamos;
+   29  y un desposado, Turín,
+   30  ha de llegar cuando pueda
+   31  lucir. // TURÍN: Muy atrás se queda
+   32  con el repuesto Marín;
+   33  pero yo traigo qué comas.
+
+LISEO
+   34  ¿Qué traes? // TURÍN: Ya lo verás.
+
+LISEO
+   35  Dilo. // TURÍN: ¡Guarda! // LISEO: Necio estás.
+
+TURÍN
+   36  ¿Desto pesadumbre tomas?
+
+LISEO
+   37  Pues, para decir lo que es...
+
+TURÍN
+   38  Hay a quien pesa de oír
+   39  su nombre. Basta decir
+   40  que tú lo sabrás después.
+
+LISEO
+   41  ¿Entretiénese la hambre
+   42  con saber qué ha de comer?
+
+TURÍN
+   43  Pues sábete que ha de ser...
+
+LISEO
+   44  ¡Presto! // TURÍN: ...tocino fiambre.
+
+LISEO
+   45  Pues, ¿a quién puede pesar
+   46  de oír nombre tan hidalgo?
+   47  Turín, si me has de dar algo,
+   48  ¿qué cosa me puedes dar
+   49  que tenga igual a ese nombre?
+
+TURÍN
+   50  Esto y una hermosa caja.
+
+LISEO
+   51  Dame de queso una raja;
+   52  que nunca el dulce es muy hombre.
+
+TURÍN
+   53  Esas liciones no son
+   54  de galán ni desposado.
+
+LISEO
+   55  Aún agora no he llegado.
+
+TURÍN
+   56  Las damas de Corte son
+   57  todas un fino cristal:
+   58  transparentes y divinas.
+
+LISEO
+   59  Turín, las más cristalinas
+   60  comerán. // TURÍN: ¡Es natural!
+   61  Pero esta hermosa Finea
+   62  con quien a casarte vas
+   63  comerá... // LISEO: Dilo. // TURÍN: No más
+   64  de azúcar, maná y jalea.
+   65  Pasaráse una semana
+   66  con dos puntos en el aire,
+   67  de azúcar. // LISEO: ¡Gentil donaire!
+
+TURÍN
+   68  ¿Qué piensas dar a su hermana?
+
+LISEO
+   69  A Nise, su hermana bella,
+   70  una rosa de diamantes,
+   71  que así tengan los amantes
+   72  tales firmezas con ella;
+   73  y una cadena también,
+   74  que compite con la rosa.
+
+TURÍN
+   75  Dicen que es también hermosa.
+
+LISEO
+   76  Mi esposa parece bien,
+   77  si doy crédito a la fama,
+   78  de su hermana poco sé;
+   79  pero basta que me dé
+   80  lo que más se estima y ama.
+
+TURÍN
+   81  ¡Bello golpe de dinero!
+
+LISEO
+   82  Son cuarenta mil ducados.
+
+TURÍN
+   83  ¡Bravo dote! // LISEO: Si contados
+   84  los llego a ver, como espero.
+
+TURÍN
+   85  De un macho con guarniciones
+   86  verdes y estribos de palo,
+   87  se apea un hidalgo. // LISEO: ¡Malo,
+   88  si la merienda me pones!
+
+--- escena 2 ---
+
+[ACOTACIÓN] LEANDRO, de camino.- [Dichos.]
+
+LEANDRO
+   89  Huésped, ¿habrá qué comer?
+
+LISEO
+   90  Seáis, señor, bien llegado.
+
+LEANDRO
+   91  Y vos en la misma hallado.
+
+LISEO
+   92  ¿A Madrid?... // LEANDRO: Dejéle ayer,
+   93  cansado de no salir
+   94  con pretensiones cansadas.
+
+LISEO
+   95  Esas van adjetivadas
+   96  con esperar y sufrir.
+   97  Holgara, por ir con vos,
+   98  lleváramos un camino.
+
+LEANDRO
+   99  Si vais a lo que imagino,
+  100  nunca lo permita Dios.
+
+LISEO
+  101  No llevo qué pretender;
+  102  a negocios hechos voy.
+  103  ¿Sois de ese lugar? // LEANDRO: Sí soy.
+
+LISEO
+  104  Luego podréis conocer
+  105  la persona que os nombrare.
+
+LEANDRO
+  106  Es Madrid una talega
+  107  de piezas, donde se anega
+  108  cuanto su máquina pare.
+  109  Los reyes, roques y arfiles
+  110  conocidas casas tienen;
+  111  los demás que van y vienen
+  112  son como peones viles:
+  113  todo es allí confusión.
+
+LISEO
+  114  No es Otavio pieza vil.
+
+LEANDRO
+  115  Si es quien yo pienso, es arfil,
+  116  y pieza de estimación.
+
+LISEO
+  117  Quien yo digo es padre noble
+  118  de dos hijas. // LEANDRO: Ya sé quién;
+  119  pero dijérades bien
+  120  que de una palma y de un roble.
+
+LISEO
+  121  ¿Cómo? // LEANDRO: Que entrambas lo son;
+  122  pues Nise bella es la palma;
+  123  Finea un roble, sin alma
+  124  y discurso de razón.
+  125  Nise es mujer tan discreta,
+  126  sabia, gallarda, entendida,
+  127  cuanto Finea encogida,
+  128  boba, indigna y imperfeta.
+  129  Y aun pienso que oí tratar
+  130  que la casaban...
+
+[ACOTACIÓN] [A TURÍN.]
+
+LEANDRO
+  131  Verdad es que no habrá muchas
+  132  que la puedan igualar
+  133  en el riquísimo dote;
+  134  mas, ¡ay de aquel desdichado
+  135  que espera una bestia al lado!
+  136  Pues más de algún marquesote,
+  137  a codicia del dinero,
+  138  pretende la bobería
+  139  desta dama, y a porfía
+  140  hacen su calle terrero.
+
+[ACOTACIÓN] [A TURÍN.]
+
+LISEO
+  141  Yo llevo lindo concierto.
+  142  ¡A gentiles vistas voy!
+
+[ACOTACIÓN] [A LISEO.]
+
+TURÍN
+  143  Disimula.
+
+[ACOTACIÓN] [A TURÍN.]
+
+LISEO
+  144  que apenas hablar acierto.
+  145  En fin, señor, ¿Nise es bella
+  146  y discreta?... // LEANDRO: Es celebrada
+  147  por única, y deseada,
+  148  por las partes que hay en ella,
+  149  de gente muy principal.
+
+LISEO
+  150  ¿Tan necia es esa Finea?
+
+LEANDRO
+  151  Mucho sentís que lo sea.
+
+LISEO
+  152  Contemplo, de sangre igual,
+  153  dos cosas tan desiguales...
+  154  Mas, ¿cómo en dote lo son?
+  155  Que, hermanas, fuera razón
+  156  que los tuvieran iguales.
+
+LEANDRO
+  157  Oigo decir que un hermano
+  158  de su padre la dejó
+  159  esta hacienda, porque vio
+  160  que sin ella fuera en vano
+  161  casarla con hombre igual
+  162  de su noble nacimiento,
+  163  supliendo el entendimiento
+  164  con el oro. // LISEO: Él hizo mal.
+
+LEANDRO
+  165  Antes bien, porque con esto
+  166  tan discreta vendrá a ser
+  167  como Nise. // TURÍN: ¿Has de comer?
+
+LISEO
+  168  Ponme lo que dices, presto,
+  169  aunque ya puedo escusallo.
+
+LEANDRO
+  170  ¿Mandáis, señor, otra cosa?
+
+LISEO
+  171  Serviros. ¡Qué linda esposa!
+
+[ACOTACIÓN] (Vase LEANDRO.)
+
+--- escena 3 ---
+
+[ACOTACIÓN] [TURÍN, LISEO.]
+
+TURÍN
+  172  ¿Qué haremos? // LISEO: Ponte a caballo,
+  173  que ya no quiero comer.
+
+TURÍN
+  174  No te aflijas, pues no es hecho.
+
+LISEO
+  175  Que me ha de matar, sospecho,
+  176  si es necia, y propia mujer.
+
+TURÍN
+  177  Como tú no digas «sí»,
+  178  ¿quién te puede cautivar?
+
+LISEO
+  179  Verla no me ha de matar,
+  180  aunque es basilisco en mí.
+
+TURÍN
+  181  No, señor. // LISEO: También advierte
+  182  que, siendo tan entendida
+  183  Nise, me dará la vida,
+  184  si ella me diere la muerte.
+
+[ACOTACIÓN] (Éntrense.)
+
+--- escena 4 ---
+
+[ACOTACIÓN] [Sala en casa de OTAVIO en Madrid.]
+
+[ACOTACIÓN] Salgan OTAVIO, viejo, y MISENO.
+
+OTAVIO
+  185  Esa fue la intención que tuvo Fabio.
+
+MISENO
+  186  Parece que os quejáis. // OTAVIO: ¡Bien mal emplea
+  187  mi hermano tanta hacienda! No fue sabio.
+  188  Bien es que Fabio, y que no sabio, sea.
+
+MISENO
+  189  Si en dejaros hacienda os hizo agravio,
+  190  vos propio lo juzgad. // OTAVIO: Dejó a Finea,
+  191  a título de simple, tan gran renta,
+  192  que a todos, hasta agora, nos sustenta.
+
+MISENO
+  193  Dejóla a la que más le parecía
+  194  de sus sobrinas. // OTAVIO: Vos andáis discreto;
+  195  pues, a quien heredó su bobería,
+  196  dejó su hacienda para el mismo efeto.
+
+MISENO
+  197  De Nise la divina gallardía,
+  198  las altas esperanzas y el conceto
+  199  os deben de tener apasionado.
+  200  ¿Quién duda que le sois más inclinado?
+
+OTAVIO
+  201  Mis hijas son entrambas; mas yo os juro
+  202  que me enfadan y cansan, cada una
+  203  por su camino, cuando más procuro
+  204  mostrar amor y inclinación a alguna.
+  205  Si ser Finea simple es caso duro,
+  206  ya lo suplen los bienes de Fortuna
+  207  y algunos que le dio Naturaleza,
+  208  siempre más liberal de la belleza;
+  209  pero ver tan discreta y arrogante
+  210  a Nise, más me pudre y martiriza,
+  211  y que de bien hablada y elegante
+  212  el vulgazo la aprueba y soleniza.
+  213  Si me casara agora (y no te espante
+  214  esta opinión, que alguno lo autoriza),
+  215  de dos extremos: boba o bachillera,
+  216  de la boba elección, sin duda, hiciera.
+
+MISENO
+  217  ¡No digáis tal, por Dios!; que están sujetas
+  218  a no acertar en nada. // OTAVIO: Eso es engaño;
+  219  que yo no trato aquí de las discretas:
+  220  solo a las bachilleras desengaño.
+  221  De una casada son partes perfetas
+  222  virtud y honestidad. // MISENO: Parir cadaño,
+  223  no dijérades mal, si es argumento
+  224  de que vos no queréis entendimiento.
+
+OTAVIO
+  225  Está la discreción de una casada
+  226  en amar y servir a su marido;
+  227  en vivir recogida y recatada,
+  228  honesta en el hablar y en el vestido;
+  229  en ser de la familia respetada,
+  230  en retirar la vista y el oído,
+  231  en enseñar los hijos, cuidadosa,
+  232  preciada más de limpia que de hermosa.
+  233  ¿Para qué quiero yo que, bachillera,
+  234  la que es propia mujer concetos diga?
+  235  Esto de Nise por casar me altera;
+  236  lo más, como lo menos, me fatiga.
+  237  Resuélvome en dos cosas que quisiera,
+  238  pues la virtud es bien que el medio siga:
+  239  que Finea supiera más que sabe,
+  240  y Nise menos. // MISENO: Habláis cuerdo y grave.
+
+OTAVIO
+  241  Si todos los extremos tienen vicio,
+  242  yo estoy, con justa causa, discontento.
+
+MISENO
+  243  Y, ¿qué hay de vuestro yerno? // OTAVIO: Aquí el oficio
+  244  de padre y dueño alarga el pensamiento:
+  245  caso a Finea, que es notable indicio
+  246  de las leyes del mundo, al oro atento.
+  247  Nise, tan sabia, docta y entendida,
+  248  apenas halla un hombre que la pida;
+  249  y por Finea, simple, por instantes
+  250  me solicitan tantos pretendientes
+  251  -del oro más que del ingenio amantes-,
+  252  que me cansan amigos y parientes.
+
+MISENO
+  253  Razones hay, al parecer, bastantes.
+
+[OTAVIO]
+  254  Una hallo yo, sin muchas aparentes,
+  255  y es el buscar un hombre en todo estado,
+  256  lo que le falta más, con más cuidado.
+
+MISENO
+  257  Eso no entiendo bien. // OTAVIO: Estadme atento.
+  258  Ningún hombre nacido a pensar viene
+  259  que le falta, Miseno, entendimiento,
+  260  y con esto no busca lo que tiene.
+  261  Ve que el oro le falta y el sustento,
+  262  y piensa que buscalle le conviene,
+  263  pues como ser la falta el oro entienda,
+  264  deja el entendimiento y busca hacienda.
+
+MISENO
+  265  ¡Piedad del cielo, que ningún nacido
+  266  se queje de faltarle entendimiento!
+
+OTAVIO
+  267  Pues a muchos, que nunca lo han creído,
+  268  les falta, y son sus obras argumento.
+
+MISENO
+  269  Nise es aquesta. // OTAVIO: Quítame el sentido
+  270  su desvanecimiento. // MISENO: Un casamiento
+  271  os traigo yo. // OTAVIO: Casémosla; que temo
+  272  alguna necedad, de tanto estremo.
+
+[ACOTACIÓN] [Vanse.]
+
+--- escena 5 ---
+
+[ACOTACIÓN] NISE y CELIA, criada.
+
+NISE
+  273  ¿Dióte el libro? // CELIA: Y tal, que obliga
+  274  a no abrille ni tocalle.
+
+NISE
+  275  Pues, ¿por qué? // CELIA: Por no ensucialle,
+  276  si quieres que te lo diga.
+  277  En cándido pergamino
+  278  vienen muchas flores de oro.
+
+NISE
+  279  Bien lo merece Eliodoro,
+  280  griego poeta divino.
+
+CELIA
+  281  ¿Poeta? Pues parecióme
+  282  prosa. // NISE: También hay poesía
+  283  en prosa. // CELIA: No lo sabía.
+  284  Miré el principio, y cansóme.
+
+NISE
+  285  Es que no se da a entender,
+  286  con el artificio griego,
+  287  hasta el quinto libro, y luego
+  288  todo se viene a saber
+  289  cuanto precede a los cuatro.
+
+CELIA
+  290  En fin, ¿es poeta en prosa?
+
+NISE
+  291  Y de una historia amorosa
+  292  digna de aplauso y teatro.
+  293  Hay dos prosas diferentes:
+  294  poética y historial.
+  295  La historial, lisa y leal,
+  296  cuenta verdades patentes,
+  297  con frase y términos claros;
+  298  la poética es hermosa,
+  299  varia, culta, licenciosa,
+  300  y escura aun a ingenios raros.
+  301  Tiene mil exornaciones
+  302  y retóricas figuras.
+
+CELIA
+  303  Pues, ¿de cosas tan escuras
+  304  juzgan tantos? // NISE: No le pones,
+  305  Celia, pequeña objeción;
+  306  pero así corre el engaño
+  307  del mundo.
+
+--- escena 6 ---
+
+[ACOTACIÓN] FINEA, dama, con unas cartillas, y RUFINO, maestro.- [Dichas.]
+
+FINEA
+  308  saldré con esa lición!
+
+CELIA
+  309  [Aparte a NISE.]Tu hermana, con su maestro.
+
+[ACOTACIÓN] [Aparte a NISE.]
+
+NISE
+  310  ¿Conoce las letras ya?
+
+CELIA
+  311  En los principios está.
+
+RUFINO
+  312  ¡Paciencia y no letras muestro!
+  313  ¿Qué es esta? // FINEA: Letra será.
+
+RUFINO
+  314  ¿Letra? // FINEA: Pues, ¿es otra cosa?
+
+RUFINO
+  315  No, sino el alba. [Aparte. ]¡Qué hermosa
+
+[ACOTACIÓN] [Aparte. ]
+  316  bestia! // FINEA: Bien, bien. Sí, ya, ya;
+  317  el alba debe de ser,
+  318  cuando andaba entre las coles.
+
+RUFINO
+  319  Ésta es ca. Los españoles
+  320  no la solemos poner
+  321  en nuestra lengua jamás.
+  322  Úsanla mucho alemanes
+  323  y flamencos. // FINEA: ¡Qué galanes
+  324  van todos estos detrás!
+
+RUFINO
+  325  Estas son letras también.
+
+FINEA
+  326  ¿Tantas hay? // RUFINO: Veintitrés son.
+
+FINEA
+  327  Ah[o]ra vaya de lición;
+  328  que yo lo diré muy bien.
+
+RUFINO
+  329  ¿Qué es esta? // FINEA: ¿Aquesta?... No sé.
+
+RUFINO
+  330  ¿Y esta? // FINEA: No sé qué responda.
+
+RUFINO
+  331  ¿Y esta? // FINEA: ¿Cuál? ¿Esta redonda?
+  332  ¡Letra! // RUFINO: ¡Bien! // FINEA: Luego, ¿acerté?
+
+RUFINO
+  333  ¡Linda bestia! // FINEA: ¡Así, así!
+  334  Bestia, ¡por Dios!, se llamaba;
+  335  pero no se me acordaba.
+
+RUFINO
+  336  Esta es erre, y esta es i.
+
+FINEA
+  337  Pues, ¿si tú lo traes errado...?
+
+NISE
+  338  (¡Con qué pesadumbre están!)
+
+RUFINO
+  339  Di aquí: b, a, n: ban.
+
+FINEA
+  340  ¿Dónde van? // RUFINO: ¡Gentil cuidado!
+
+FINEA
+  341  ¿Que se van, no me decías?
+
+RUFINO
+  342  Letras son; ¡míralas bien!
+
+FINEA
+  343  Ya miro. // RUFINO: B, e, n: ben.
+
+FINEA
+  344  ¿Adónde? // RUFINO: ¡Adonde en mis días
+  345  no te vuelva más a ver!
+
+FINEA
+  346  ¿Ven, no dices? Pues ya voy.
+
+RUFINO
+  347  ¡Perdiendo el jüicio estoy!
+  348  ¡Es imposible aprender!
+  349  ¡Vive Dios, que te he de dar
+  350  una palmeta! // FINEA: ¿Tú a mí?
+
+RUFINO
+  351  ¡Muestra la mano!
+
+[ACOTACIÓN] (Saca una palmatoria.)
+
+RUFINO
+  352  ¡Aprende a deletrear!
+
+FINEA
+  353  ¡Ay, perro! ¿Aquesto es palmeta?
+
+RUFINO
+  354  Pues, ¿qué pensabas? // FINEA: ¡Aguarda!...
+
+NISE
+  355  ¡Ella le mata! // CELIA: Ya tarda
+  356  tu favor, Nise discreta.
+
+RUFINO
+  357  ¡Ay, que me mata! // NISE: ¿Qué es esto?
+  358  ¿A tu maestro? // FINEA: Hame dado
+  359  causa. // NISE: ¿Cómo? // FINEA: Hame engañado.
+
+RUFINO
+  360  ¿Yo engañado? // NISE: ¡Dila presto!
+
+FINEA
+  361  Estaba aprendiendo aquí
+  362  la letra bestia y la ca...
+
+NISE
+  363  La primera sabes ya.
+
+FINEA
+  364  Es verdad: ya la aprendí.
+  365  Sacó un zoquete de palo
+  366  y al cabo una media bola;
+  367  pidióme la mano sola
+  368  (¡mira qué lindo regalo!),
+  369  y apenas me la tomó,
+  370  cuando, ¡zas!, la bola asienta,
+  371  que pica como pimienta,
+  372  y la mano me quebró.
+
+NISE
+  373  Cuando el discípulo ignora,
+  374  tiene el maestro licencia
+  375  de castigar. // FINEA: ¡Linda ciencia!
+
+RUFINO
+  376  Aunque me diese, señora,
+  377  vuestro padre cuanto tiene,
+  378  no he de darle otra lición.
+
+[ACOTACIÓN] [Vase.]
+
+--- escena 7 ---
+
+[ACOTACIÓN] [NISE, FINEA, CELIA.]
+
+CELIA
+  379  ¡Fuese! // NISE: No tienes razón:
+  380  sufrir y aprender conviene.
+
+FINEA
+  381  Pues, ¿las letras que allí están,
+  382  yo no las aprendo bien?
+  383  Vengo cuando dice ven,
+  384  y voy cuando dice van.
+  385  ¿Qué quiere, Nise, el maestro,
+  386  quebrándome la cabeza
+  387  con ban, bin, bon? // CELIA: [Aparte. ]¡Ella es pieza
+
+[ACOTACIÓN] [Aparte. ]
+  388  de rey! // NISE: Quiere el padre nuestro
+  389  que aprendamos. // FINEA: Ya yo sé
+  390  el Padrenuestro. // NISE: No digo
+  391  sino el nuestro; y el castigo,
+  392  por darte memoria fue.
+
+FINEA
+  393  Póngame un hilo en el dedo
+  394  y no aquel palo en la palma.
+
+CELIA
+  395  ¿Mas que se te sale el alma?
+  396  Si lo sabe... // FINEA: ¡Muerta quedo!
+  397  ¡Oh, Celia! No se lo digas,
+  398  y verás qué te daré.
+
+--- escena 8 ---
+
+[ACOTACIÓN] CLARA, criada.- [Dichas.]
+
+[ACOTACIÓN] [A FINEA.]
+
+CLARA
+  399  ¡Topé contigo, a la fe!
+
+NISE
+  400  Ya, Celia, las dos amigas
+  401  se han juntado. // CELIA: A nadie quiere
+  402  más, en todas las criadas.
+
+CLARA
+  403  ¡Dame albricias, tan bien dadas
+  404  como el suceso requiere!
+
+FINEA
+  405  Pues, ¿de qué son? // CLARA: Ya parió
+  406  nuestra gata la romana.
+
+FINEA
+  407  ¿Cierto, cierto? // CLARA: Esta mañana.
+
+FINEA
+  408  ¿Parió en el tejado? // CLARA: No.
+
+FINEA
+  409  Pues, ¿dónde? // CLARA: En el aposento;
+  410  que cierto se echó de ver
+  411  su entendimiento. // FINEA: Es mujer
+  412  notable. // CLARA: Escucha un momento.
+  413  Salía, por donde suele,
+  414  el Sol, muy galán y rico,
+  415  con la librea del rey,
+  416  colorado y amarillo;
+  417  andaban los carretones
+  418  quitándole el romadizo
+  419  que da la noche a Madrid,
+  420  aunque no sé quién me dijo
+  421  que era la calle Mayor
+  422  el soldado más antiguo,
+  423  pues nunca el mayor de Flandes
+  424  presentó tantos servicios;
+  425  pregonaban aguardiente,
+  426  agua biznieta del vino,
+  427  los hombres Carnestolendas,
+  428  todos naranjas y gritos.
+  429  Dormían las rentas grandes,
+  430  despertaban los oficios,
+  431  tocaban los boticarios
+  432  sus almireces a pino,
+  433  cuando la gata de casa
+  434  comenzó, con mil suspiros,
+  435  a decir: «¡Ay, ay, ay, ay!
+  436  ¡Que quiero parir, marido!»
+  437  Levantóse Hociquimocho,
+  438  y fue corriendo a decirlo
+  439  a sus parientes y deudos;
+  440  que deben de ser moriscos,
+  441  porque el lenguaje que hablaban,
+  442  en tiple de monacillos,
+  443  si no es jerigonza entre ellos,
+  444  no es español, ni latino.
+  445  Vino una gata vïuda,
+  446  con blanco y negro vestido
+  447  -sospecho que era su agüela-,
+  448  gorda y compuesta de hocico;
+  449  y, si lo que arrastra, honra,
+  450  como dicen los antiguos,
+  451  tan honrada es por la cola
+  452  como otros por sus oficios.
+  453  Trújole cierta manteca,
+  454  desayunóse y previno
+  455  en qué recebir el parto.
+  456  Hubo temerarios gritos:
+  457  no es burla; parió seis gatos
+  458  tan remendados y lindos,
+  459  que pudieran, a ser pías,
+  460  llevar el coche más rico.
+  461  Regocijados bajaron
+  462  de los tejados vecinos,
+  463  caballetes y terrados,
+  464  todos los deudos y amigos:
+  465  Lamicola, Arañizaldo,
+  466  Marfuz, Marramao, Micilo,
+  467  Tumba[h]ollín, Mico, Miturrio,
+  468  Rabicorto, Zapaquildo;
+  469  unos vestidos de pardo,
+  470  otros de blanco vestidos,
+  471  y otros con forros de martas,
+  472  en cueras y capotillos.
+  473  De negro vino a la fiesta
+  474  el gallardo Golosino,
+  475  luto que mostraba entonces
+  476  de su padre el gaticidio.
+  477  Cuál la morcilla presenta,
+  478  cuál el pez, cuál el cabrito,
+  479  cuál el gorrïón astuto,
+  480  cuál el simple palomino.
+  481  Trazando quedan agora,
+  482  para mejor regocijo
+  483  en el gatesco senado
+  484  correr gansos cinco a cinco.
+  485  Ven presto, que si los oyes,
+  486  dirás que parecen niños,
+  487  y darás a la parida
+  488  el parabién de los hijos.
+
+FINEA
+  489  ¡No me pudieras contar
+  490  caso, para el gusto mío,
+  491  de mayor contentamiento!
+
+CLARA
+  492  Camina. // FINEA: Tras ti camino.
+
+[ACOTACIÓN] [Vanse FINEA y CLARA.]
+
+--- escena 9 ---
+
+[ACOTACIÓN] [NISE, CELIA.]
+
+NISE
+  493  ¿Hay locura semejante?
+
+CELIA
+  494  ¿Y Clara es boba también?
+
+NISE
+  495  Por eso la quiere bien.
+
+CELIA
+  496  La semejanza es bastante;
+  497  aunque yo pienso que Clara
+  498  es más bellaca que boba.
+
+NISE
+  499  Con esto la engaña y roba.
+
+--- escena 10 ---
+
+[ACOTACIÓN] DUARDO, FENISO, LAURENCIO, caballeros.- [Dichas.]
+
+DUARDO
+  500  Aquí, como estrella clara,
+  501  a su hermosura nos guía.
+
+FENISO
+  502  Y aun es del sol su luz pura.
+
+LAURENCIO
+  503  ¡Oh, reina de la hermosura!
+
+DUARDO
+  504  ¡Oh, Nise! // FENISO: ¡Oh, señora mía!
+
+NISE
+  505  Caballeros... // LAURENCIO: Esta vez,
+  506  por vuestro ingenio gallardo,
+  507  de un soneto de Düardo
+  508  os hemos de hacer jüez.
+
+NISE
+  509  ¿A mí, que soy de Finea
+  510  hermana y sangre? // LAURENCIO: A vos sola,
+  511  que sois sibila española,
+  512  no Cumana ni Eritrea;
+  513  a vos, por quien ya las Gracias
+  514  son cuatro, y las Musas diez,
+  515  es justo haceros jüez.
+
+NISE
+  516  Si ignorancias, si desgracias
+  517  trujérades a juzgar,
+  518  era justa la elección.
+
+FENISO
+  519  Vuestra rara discreción,
+  520  imposible de alabar,
+  521  fue justamente elegida.
+  522  Oíd, señora, a Eduardo.
+
+NISE
+  523  ¡Vaya el soneto! Ya aguardo,
+  524  aunque, de indigna, corrida.
+
+DUARDO
+  525  La calidad elementar resiste
+  526  mi amor, que a la virtud celeste aspira,
+  527  y en las mentes angélicas se mira,
+  528  donde la idea del calor consiste.
+  529  No ya como elemento el fuego viste
+  530  el alma, cuyo vuelo al sol admira;
+  531  que de inferiores mundos se retira,
+  532  adonde el serafín ardiendo asiste.
+  533  No puede elementar fuego abrasarme.
+  534  La virtud celestial que vivifica,
+  535  envidia el verme a la suprema alzarme;
+  536  que donde el fuego angélico me aplica,
+  537  ¿cómo podrá mortal poder tocarme,
+  538  que eterno y fin contradición implica?
+
+NISE
+  539  Ni una palabra entendí.
+
+DUARDO
+  540  Pues en parte se leyera
+  541  que más de alguno dijera
+  542  por arrogancia: «Yo sí.»
+  543  La intención, o el argumento,
+  544  es pintar a quien ya llega
+  545  libre del amor, que ciega
+  546  con luz del entendimiento,
+  547  a la alta contemplación
+  548  de aquel puro amor sin fin,
+  549  donde es fuego el serafín.
+
+NISE
+  550  Argumento y intención
+  551  queda entendido. // LAURENCIO: ¡Profundos
+  552  conceptos! // NISE: ¡Mucho le esconden!
+
+DUARDO
+  553  Tres fuegos, que corresponden,
+  554  hermosa Nise, a tres mundos,
+  555  dan fundamento a los otros.
+
+NISE
+  556  ¡Bien los podéis declarar!
+
+DUARDO
+  557  Calidad elementar
+  558  es el calor en nosotros;
+  559  la celestial, es virtud
+  560  que calienta y que recrea,
+  561  y la angélica es la idea
+  562  del calor. // NISE: Con inquietud
+  563  escucho lo que no entiendo.
+
+DUARDO
+  564  El elemento en nosotros
+  565  es fuego. // NISE: ¿Entendéis vosotros?
+
+DUARDO
+  566  El puro sol que estáis viendo
+  567  en el cielo, fuego es,
+  568  y fuego el entendimiento
+  569  seráfico; pero siento
+  570  que así difieren los tres:
+  571  que el que elementar se llama,
+  572  abrasa cuando se aplica;
+  573  el celeste vivifica,
+  574  y el sobreceleste ama.
+
+NISE
+  575  No discurras, por tu vida;
+  576  vete a escuelas. // DUARDO: Donde estás,
+  577  lo son. // NISE: Yo no escucho más,
+  578  de no entenderte corrida.
+  579  ¡Escribe fácil! // DUARDO: Platón,
+  580  a lo que en cosas divinas
+  581  escribió, puso cortinas
+  582  que, tales como estas, son
+  583  matemáticas figuras
+  584  y enigmas. // NISE: ¡Oye, Laurencio!
+
+[ACOTACIÓN] [A DUARDO.]
+
+FENISO
+  585  Ella os ha puesto silencio.
+
+DUARDO
+  586  Temió las cosas escuras.
+
+FENISO
+  587  ¡Es mujer! // DUARDO: La claridad
+  588  a todos es agradable,
+  589  que se escriba o que se hable.
+
+NISE
+  590  [Aparte.]¿Cómo va de voluntad?
+
+[ACOTACIÓN] [Aparte.]
+
+LAURENCIO
+  591  Como quien la tiene en ti.
+
+NISE
+  592  Yo te la pago muy bien.
+  593  No traigas contigo quien
+  594  me eclipse el hablarte ansí.
+
+LAURENCIO
+  595  Yo, señora, no me atrevo,
+  596  por mi humildad, a tus ojos;
+  597  que, dando en viles despojos,
+  598  se afrenta el rayo de Febo;
+  599  pero, si quieres pasar
+  600  al alma, hallarásla rica
+  601  de la fe que amor publica.
+
+NISE
+  602  Un papel te quiero dar;
+  603  pero, ¿cómo podrá ser
+  604  que destos visto no sea?
+
+LAURENCIO
+  605  Si en lo que el alma desea
+  606  me quieres favorecer,
+  607  mano y papel podré aquí
+  608  asir juntos, atrevido,
+  609  como finjas que has caído.
+
+NISE
+  610  ¡Jesús!
+
+[ACOTACIÓN] [Hace NISE como que cae.]
+
+LAURENCIO
+  611  Con las obras respondiste.
+
+NISE
+  612  Esas responden mejor,
+  613  que no hay sin obras amor.
+
+LAURENCIO
+  614  Amor en obras consiste.
+
+NISE
+  615  Laurencio mío, adiós queda.
+  616  Düardo y Feniso, adiós.
+
+DUARDO
+  617  Que tanta ventura a vos
+  618  como hermosura os conceda.
+
+[ACOTACIÓN] [Vanse NISE y CELIA.]
+
+--- escena 11 ---
+
+[ACOTACIÓN] [DUARDO, LAURENCIO, FENISO.]
+
+[ACOTACIÓN] [A LAURENCIO.]
+
+DUARDO
+  619  ¿Qué os ha dicho del soneto
+  620  Nise? // LAURENCIO: Que es muy extremado.
+
+DUARDO
+  621  Habréis los dos murmurado,
+  622  que hacéis versos, en efeto.
+
+LAURENCIO
+  623  Ya no es menester hacellos
+  624  para saber murmurallos;
+  625  que se atreve a censurallos
+  626  quien no se atreve a entendellos.
+
+FENISO
+  627  Los dos tenemos que hacer.
+  628  Licencia nos podéis dar.
+
+DUARDO
+  629  Las leyes de no estorbar
+  630  queremos obedecer.
+
+LAURENCIO
+  631  ¡Malicia es esa! // FENISO: ¡No es tal!
+  632  La divina Nise es vuestra,
+  633  o, por lo menos, lo muestra.
+
+LAURENCIO
+  634  Pudiera, a tener igual.
+
+--- escena 12 ---
+
+[ACOTACIÓN] Despídanse, y quede solo LAURENCIO.
+
+LAURENCIO
+  635  Hermoso sois, sin duda, pensamiento,
+  636  y, aunque honesto también, con ser hermoso,
+  637  si es calidad del bien ser provechoso,
+  638  una parte de tres que os falta siento.
+  639  Nise, con un divino entendimiento,
+  640  os enriquece de un amor dichoso;
+  641  mas sois de dueño pobre, y es forzoso
+  642  que en la necesidad falte el contento.
+  643  Si el oro es blanco y centro del descanso,
+  644  y el descanso del gusto, yo os prometo
+  645  que tarda el navegar con viento manso.
+  646  Pensamiento, mudemos de sujeto;
+  647  si voy necio tras vos, y en ir me canso,
+  648  cuando vengáis tras mí, seréis discreto.
+
+--- escena 13 ---
+
+[ACOTACIÓN] Entre PEDRO, lacayo de LAURENCIO.- [LAURENCIO.]
+
+PEDRO
+  649  ¡Qué necio andaba en buscarte
+  650  fuera de aqueste lugar!
+
+LAURENCIO
+  651  Bien me pudieras hallar
+  652  con el alma en otra parte.
+
+PEDRO
+  653  Luego, ¿estás sin ella aquí?
+
+LAURENCIO
+  654  Ha podido un pensamiento
+  655  reducir su movimiento
+  656  desde mí, fuera de mí.
+  657  ¿No has visto que la saeta
+  658  del reloj en un lugar
+  659  firme siempre suele estar
+  660  aunque nunca está quïeta,
+  661  y tal vez está en la una,
+  662  y luego en las dos está?
+  663  Pues, así mi alma ya,
+  664  sin hacer mudanza alguna
+  665  de la casa en que me ves,
+  666  desde Nise que ha querido,
+  667  a las doce se ha subido,
+  668  que es número de interés.
+
+PEDRO
+  669  Pues, ¿cómo es esa mudanza?
+
+LAURENCIO
+  670  Como la saeta soy,
+  671  que desde la una voy
+  672  por lo que el círculo alcanza.
+  673  ¿Señalaba a Nise? // PEDRO: Sí.
+
+LAURENCIO
+  674  Pues ya señalo en Finea.
+
+PEDRO
+  675  ¿Eso quieres que te crea?
+
+LAURENCIO
+  676  ¿Por qué no, si hay causa? // PEDRO: Di.
+
+LAURENCIO
+  677  Nise es una sola hermosa,
+  678  Finea las doce son:
+  679  hora de más bendición,
+  680  más descansada y copiosa.
+  681  En las doce el oficial
+  682  descansa, y bástale ser
+  683  hora entonces de comer,
+  684  tan precisa y natural.
+  685  Quiero decir que Finea
+  686  hora de sustento es,
+  687  cuyo descanso ya ves
+  688  cuánto el hombre le desea.
+  689  Denme, pues, las doce a mí,
+  690  que soy pobre, con mujer
+  691  que, dándome de comer,
+  692  es la mejor para mí.
+  693  Nise es [ah]ora infortunada,
+  694  donde mi planeta airado,
+  695  de sextil y de cuadrado
+  696  me mira con frente armada.
+  697  Finea es [ah]ora dichosa,
+  698  donde Júpiter benigno
+  699  me está mirando de trino,
+  700  con aspecto y faz hermosa.
+  701  Doyme a entender que, poniendo
+  702  en Finea mis cuidados,
+  703  a cuarenta mil ducados
+  704  las manos voy previniendo.
+  705  Esta, Pedro, desde hoy
+  706  ha de ser empresa mía.
+
+PEDRO
+  707  Para probar tu osadía,
+  708  en una sospecha estoy.
+
+LAURENCIO
+  709  ¿Cuál? // PEDRO: Que te has de arrepentir
+  710  por ser simple esta mujer.
+
+LAURENCIO
+  711  ¿Quién has visto de comer,
+  712  de descansar y vestir
+  713  arrepentido jamás?
+  714  Pues esto viene con ella.
+
+PEDRO
+  715  A Nise, discreta y bella,
+  716  Laurencio, ¿dejar podrás
+  717  por una boba inorante?
+
+LAURENCIO
+  718  ¡Qué inorante majadero!
+  719  ¿No ves que el sol del dinero
+  720  va del ingenio adelante?
+  721  El que es pobre, ése es tenido
+  722  por simple; el rico, por sabio.
+  723  No hay en el nacer agravio,
+  724  por notable que haya sido,
+  725  que el dinero no lo encubra;
+  726  ni hay falta en naturaleza
+  727  que con la mucha pobreza
+  728  no se aumente y se descubra.
+  729  Desde hoy quiero enamorar
+  730  a Finea. // PEDRO: He sospechado
+  731  que a un ingenio tan cerrado
+  732  no hay puerta por donde entrar.
+
+LAURENCIO
+  733  Yo sé cuál. // PEDRO: ¡Yo no, por Dios!
+
+LAURENCIO
+  734  Clara, su boba criada.
+
+PEDRO
+  735  Sospecho que es más taimada
+  736  que boba. // LAURENCIO: Demos los dos
+  737  en enamorarlas. // PEDRO: Creo
+  738  que Clara será tercera
+  739  más fácil. // LAURENCIO: De esa manera,
+  740  seguro va mi deseo.
+
+PEDRO
+  741  Ellas vienen; disimula.
+
+LAURENCIO
+  742  Si puede ser en mi mano.
+
+PEDRO
+  743  ¡Que ha de poder un cristiano
+  744  enamorar una mula!
+
+LAURENCIO
+  745  Linda cara y talle tiene.
+
+PEDRO
+  746  ¡Así fuera el alma!
+
+--- escena 14 ---
+
+[ACOTACIÓN] FINEA y CLARA.- [Dichos.]
+
+LAURENCIO
+  747  conozco, hermosa señora,
+  748  que no solamente viene
+  749  el sol de las orientales
+  750  partes, pues de vuestros ojos
+  751  sale con rayos más rojos
+  752  y luces piramidales;
+  753  pero si, cuando salís
+  754  tan grande fuerza traéis,
+  755  al mediodía, ¿qué haréis?
+
+FINEA
+  756  Comer, como vos decís,
+  757  no pirámides ni peros,
+  758  sino cosas provechosas.
+
+LAURENCIO
+  759  Esas estrellas hermosas,
+  760  esos nocturnos luceros
+  761  me tienen fuera de mí.
+
+FINEA
+  762  Si vos andáis con estrellas,
+  763  ¿qué mucho que os traigan ellas
+  764  arromadizado ansí?
+  765  Acostaos siempre temprano,
+  766  y dormid con tocador.
+
+LAURENCIO
+  767  ¿No entendéis que os tengo amor
+  768  puro, honesto, limpio y llano?
+
+FINEA
+  769  ¿Qué es amor? // LAURENCIO: ¿Amor? Deseo.
+
+FINEA
+  770  ¿De qué? // LAURENCIO: De una cosa hermosa.
+
+FINEA
+  771  ¿Es oro? ¿Es diamante? ¿Es cosa
+  772  destas que muy lindas veo?
+
+LAURENCIO
+  773  No; sino de la hermosura
+  774  de una mujer como vos,
+  775  que, como lo ordena Dios,
+  776  para buen fin se procura;
+  777  y esta, que vos la tenéis,
+  778  engendra deseo en mí.
+
+FINEA
+  779  Y yo, ¿qué he de hacer aquí,
+  780  si sé que vos me queréis?
+
+LAURENCIO
+  781  Quererme. ¿No habéis oído
+  782  que amor con amor se paga?
+
+FINEA
+  783  No sé yo cómo se haga,
+  784  porque nunca yo he querido,
+  785  ni en la cartilla lo vi,
+  786  ni me lo enseñó mi madre.
+  787  Preguntarélo a mi padre...
+
+LAURENCIO
+  788  Esperaos, que no es ansí.
+
+FINEA
+  789  Pues, ¿cómo? // LAURENCIO: Destos mis ojos
+  790  saldrán unos rayos vivos,
+  791  como espíritus visivos,
+  792  de sangre y de fuego rojos,
+  793  que se entrarán por los vuestros.
+
+FINEA
+  794  No, señor; arriedro vaya
+  795  cosa en que espíritus haya.
+
+LAURENCIO
+  796  Son los espíritus nuestros,
+  797  que juntos se han de encender
+  798  y causar un dulce fuego
+  799  con que se pierde el sosiego,
+  800  hasta que se viene a ver
+  801  el alma en la posesión,
+  802  que es el fin del casamiento;
+  803  que con este santo intento
+  804  justos los amores son,
+  805  porque el alma que yo tengo
+  806  a vuestro pecho se pasa.
+
+FINEA
+  807  ¿Tanto pasa quien se casa?
+
+[ACOTACIÓN] [A CLARA.]
+
+PEDRO
+  808  Con él, como os digo, vengo
+  809  tan muerto por vuestro amor,
+  810  que aquesta ocasión busqué.
+
+CLARA
+  811  ¿Qué es amor, que no lo sé?
+
+PEDRO
+  812  ¿Amor? ¡Locura, furor!
+
+CLARA
+  813  Pues, ¿loca tengo de estar?
+
+PEDRO
+  814  Es una dulce locura,
+  815  por quien la mayor cordura
+  816  suelen los hombres trocar.
+
+CLARA
+  817  Yo, lo que mi ama hiciere,
+  818  eso haré. // PEDRO: Ciencia es amor,
+  819  que el más rudo labrador
+  820  a pocos cursos la adquiere.
+  821  En comenzando a querer,
+  822  enferma la voluntad
+  823  de una dulce enfermedad.
+
+CLARA
+  824  No me la mandes tener;
+  825  que no he tenido en mi vida
+  826  sino solos sabañones.
+
+FINEA
+  827  ¡Agrádanme las liciones!
+
+LAURENCIO
+  828  Tú verás, de mí querida,
+  829  cómo has de quererme aquí;
+  830  que es luz del entendimiento
+  831  amor. // FINEA: Lo del casamiento
+  832  me cuadra. // LAURENCIO: Y me importa a mí.
+
+FINEA
+  833  Pues, ¿llevaráme a su casa
+  834  y tendráme allá también?
+
+LAURENCIO
+  835  Sí, señora. // FINEA: Y, ¿eso es bien?
+
+LAURENCIO
+  836  Y muy justo en quien se casa.
+  837  Vuestro padre y vuestra madre
+  838  casados fueron ansí:
+  839  deso nacistes. // FINEA: ¿Yo? // LAURENCIO: Sí.
+
+FINEA
+  840  Cuando se casó mi padre,
+  841  ¿no estaba yo allí tampoco?
+
+LAURENCIO
+  842  [Aparte.]¿Hay semejante ignorancia?
+
+[ACOTACIÓN] [Aparte.]
+  843  Sospecho que esta ganancia
+  844  camina a volverme loco.
+
+FINEA
+  845  Mi padre pienso que viene.
+
+LAURENCIO
+  846  Pues voyme. Acordaos de mí.
+
+[ACOTACIÓN] [Vase.]
+
+FINEA
+  847  ¡Que me place! // CLARA: ¿Fuese? // PEDRO: Sí,
+  848  y seguirle me conviene.
+  849  Tenedme en vuestra memoria.
+
+[ACOTACIÓN] [Vase. ]
+
+CLARA
+  850  Si os vais, ¿cómo?
+
+--- escena 15 ---
+
+[ACOTACIÓN] CLARA, FINEA.
+
+FINEA
+  851  lo que es amor? ¡Quién pensara
+  852  tal cosa! // CLARA: No hay pepitoria
+  853  que tenga más menudencias
+  854  de manos, tripas y pies.
+
+FINEA
+  855  Mi padre, como lo ves,
+  856  anda en mil impertinencias.
+  857  Tratado me ha de casar
+  858  con un caballero indiano,
+  859  sevillano o toledano.
+  860  Dos veces me vino a hablar,
+  861  y esta postrera sacó
+  862  de una carta un naipecito
+  863  muy repulido y bonito,
+  864  y luego que le miró
+  865  me dijo: «Toma, Finea,
+  866  ese es tu marido.» Y fuese.
+  867  Yo, como, en fin, no supiese
+  868  esto de casar qué sea,
+  869  tomé el negro del marido,
+  870  que no tiene más de cara,
+  871  cuera y ropilla; mas, Clara,
+  872  ¿qué importa que sea pulido
+  873  este marido o quien es,
+  874  si todo el cuerpo no pasa
+  875  de la pretina? Que en casa
+  876  ninguno sin piernas ves.
+
+CLARA
+  877  ¡Pardiez, que tienes razón!
+  878  ¿Tiénesle ahí? // FINEA: Vesle aquí.
+
+[ACOTACIÓN] (Saca un retrato.)
+
+CLARA
+  879  ¡Buena cara y cuerpo! // FINEA: Sí;
+  880  mas no pasa del jubón.
+
+CLARA
+  881  Luego este no podrá andar.
+  882  ¡Ay, los ojitos que tiene!
+
+FINEA
+  883  Señor, con Nise... // CLARA: ¿Si viene
+  884  a casarte...? // FINEA: No hay casar;
+  885  que este que se va de aquí
+  886  tiene piernas, tiene traza.
+
+CLARA
+  887  Y más, que con perro caza;
+  888  que el mozo me muerde a mí.
+
+--- escena 16 ---
+
+[ACOTACIÓN] Entre OTAVIO con NISE.- [Dichas.]
+
+OTAVIO
+  889  Por la calle de Toledo
+  890  dicen que entró por la posta.
+
+NISE
+  891  Pues, ¿cómo no llega ya?
+
+OTAVIO
+  892  Algo, por dicha, acomoda.
+  893  Temblando estoy de Finea.
+
+NISE
+  894  Aquí está, señor, la novia.
+
+OTAVIO
+  895  Hija, ¿no sabes? // NISE: No sabe;
+  896  que esa es su desdicha toda.
+
+OTAVIO
+  897  Ya está en Madrid tu marido.
+
+FINEA
+  898  Siempre tu memoria es poca.
+  899  ¿No me lo diste en un naipe?
+
+OTAVIO
+  900  Esa es la figura sola,
+  901  que estaba en él retratado;
+  902  que lo vivo viene agora.
+
+--- escena 17 ---
+
+[ACOTACIÓN] Entre CELIA.- [Dichos.]
+
+CELIA
+  903  Aquí está el señor Liseo,
+  904  apeado de unas postas.
+
+OTAVIO
+  905  Mira, Finea, que estés
+  906  muy prudente y muy señora.
+  907  Llegad sillas y almohadas.
+
+--- escena 18 ---
+
+[ACOTACIÓN] LISEO, TURÍN y criados.- [Dichos.]
+
+LISEO
+  908  Esta licencia se toma
+  909  quien viene a ser hijo vuestro.
+
+OTAVIO
+  910  Y quien viene a darnos honra.
+
+LISEO
+  911  Agora, señor, decidme:
+  912  ¿Quién es de las dos mi esposa?
+
+FINEA
+  913  ¡Yo! ¿No lo ve? // LISEO: Bien merezco
+  914  los brazos. // FINEA: Luego, ¿no importa?
+
+OTAVIO
+  915  Bien le puedes abrazar.
+
+FINEA
+  916  ¡Clara...! // CLARA: ¡Señora...! // FINEA: ¡Aún agora
+  917  viene con piernas y pies!
+
+CLARA
+  918  Esto, ¿es burla o jerigonza?
+
+FINEA
+  919  El verle de medio arriba
+  920  me daba mayor congoja.
+
+OTAVIO
+  921  Abrazad vuestra cuñada.
+
+LISEO
+  922  No fue la fama engañosa,
+  923  que hablaba en vuestra hermosura.
+
+NISE
+  924  Soy muy vuestra servidora.
+
+LISEO
+  925  ¡Lo que es el entendimiento!
+  926  A toda España alborota.
+  927  La divina Nise os llaman;
+  928  sois discreta como hermosa,
+  929  y hermosa con mucho estremo.
+
+FINEA
+  930  Pues, ¿cómo requiebra a esotra,
+  931  si viene a ser mi marido?
+  932  ¿No es más necio? // OTAVIO: ¡Calla, loca!
+  933  Sentaos, hijos, por mi vida.
+
+LISEO
+  934  ¡Turín...! // TURÍN: ¿Señor? // LISEO: [Aparte.]¡Linda tonta!
+
+[ACOTACIÓN] [Aparte.]
+
+OTAVIO
+  935  ¿Cómo venís del camino?
+
+LISEO
+  936  Con los deseos enoja;
+  937  que siempre le hacen más largo.
+
+FINEA
+  938  Ese macho de la noria
+  939  pudiérais haber pedido,
+  940  que anda como una persona.
+
+NISE
+  941  Calla, hermana. // FINEA: Callad vos.
+
+NISE
+  942  Aunque hermosa y virtüosa,
+  943  es Finea de este humor.
+
+LISEO
+  944  Turín, ¿trajiste las joyas?
+
+TURÍN
+  945  No ha llegado nuestra gente.
+
+LISEO
+  946  ¡Qué de olvidos se perdonan
+  947  en un camino a criados!
+
+FINEA
+  948  ¿Joyas traéis? // TURÍN: [Aparte. ]Y le sobra
+
+[ACOTACIÓN] [Aparte. ]
+  949  de las joyas el principio,
+  950  tanto el jo se le acomoda.
+
+OTAVIO
+  951  Calor traéis. ¿Queréis algo?
+  952  ¿Qué os aflige? ¿Qué os congoja?
+
+LISEO
+  953  Agua quisiera pedir.
+
+OTAVIO
+  954  Haráos mal el agua sola.
+  955  Traigan una caja. // FINEA: A fe
+  956  que si, como viene agora,
+  957  fuera el sábado pasado,
+  958  que hicimos yo y esa moza
+  959  un menudo... // OTAVIO: ¡Calla, necia!
+
+FINEA
+  960  ...mucha especia, ¡linda cosa!
+
+[ACOTACIÓN] (Entren con agua, toalla, salva y una caja.)
+
+CELIA
+  961  El agua está aquí. // OTAVIO: Comed.
+
+LISEO
+  962  El verla, señor, provoca;
+  963  porque con su risa dice
+  964  que la beba y que no coma
+
+[ACOTACIÓN] (Beba.)
+
+FINEA
+  965  Él bebe como una mula.
+
+TURÍN
+  966  [Aparte. ]¡Buen requiebro!
+
+[ACOTACIÓN] [Aparte. ]
+
+OTAVIO
+  967  que estás hoy! ¡Calla, si quieres!
+
+FINEA
+  968  ¡Aun no habéis dejado gota!
+  969  Esperad; os limpiaré.
+
+OTAVIO
+  970  Pues, ¿tú le limpias? // FINEA: ¿Qué importa?
+
+LISEO
+  971  [Aparte.]¡Media barba me ha quitado!
+
+[ACOTACIÓN] [Aparte.]
+  972  ¡Lindamente me enamora!
+
+OTAVIO
+  973  Que descanséis es razón.
+  974  [Aparte.]Quiero, pues no se reporta,
+
+[ACOTACIÓN] [Aparte.]
+  975  llevarle de aquí a Finea.
+
+LISEO
+  976  [Aparte.]Tarde el descanso se cobra,
+
+[ACOTACIÓN] [Aparte.]
+  977  que en tal desdicha se pierde.
+
+OTAVIO
+  978  Ahora bien; entrad vosotras,
+  979  y aderezad su aposento.
+
+FINEA
+  980  Mi cama pienso que sobra
+  981  para los dos. // NISE: ¿Tú no ves
+  982  que no están hechas las bodas?
+
+FINEA
+  983  Pues, ¿qué importa? // NISE: Ven conmigo.
+
+FINEA
+  984  ¿Allá dentro? // NISE: Sí. // FINEA: Adiós. ¡Hola!
+
+LISEO
+  985  [Aparte.]Las del mar de mi desdicha
+
+[ACOTACIÓN] [Aparte.]
+  986  me anegan entre sus ondas.
+
+OTAVIO
+  987  Yo también, hijo, me voy,
+  988  para prevenir las cosas,
+  989  que, para que os desposéis
+  990  con más aplauso, me tocan.
+  991  Dios os guarde.
+
+[ACOTACIÓN] (Todos se van; queden LISEO y TURÍN.)
+
+--- escena 19 ---
+
+LISEO
+  992  de qué manera disponga
+  993  mi desventura. ¡Ay de mí!
+
+TURÍN
+  994  ¿Quieres quitarte las botas?
+
+LISEO
+  995  No, Turín; sino la vida.
+  996  ¿Hay boba tan espantosa?
+
+TURÍN
+  997  Lástima me ha dado a mí,
+  998  considerando que ponga
+  999  en un cuerpo tan hermoso
+ 1000  el cielo un alma tan loca.
+
+LISEO
+ 1001  Aunque estuviera casado
+ 1002  por poder, en causa propia
+ 1003  me pudiera descasar.
+ 1004  La ley es llana y notoria;
+ 1005  pues concertando mujer
+ 1006  con sentido, me desposan
+ 1007  con una bestia del campo,
+ 1008  con una villana tosca.
+
+TURÍN
+ 1009  Luego, ¿no te casarás?
+
+LISEO
+ 1010  ¡Mal haya la hacienda toda
+ 1011  que con tal pensión se adquiere,
+ 1012  que con tal censo se toma!
+ 1013  Demás que aquesta mujer,
+ 1014  si bien es hermosa y moza,
+ 1015  ¿qué puede parir de mí
+ 1016  sino tigres, leones y onzas?
+
+TURÍN
+ 1017  Eso es engaño, que vemos
+ 1018  por experiencias y historias,
+ 1019  mil hijos de padres sabios,
+ 1020  que de necios los deshonran.
+
+LISEO
+ 1021  Verdad es que Cicerón
+ 1022  tuvo a Marco Tulio en Roma,
+ 1023  que era un caballo, un camello.
+
+TURÍN
+ 1024  De la misma suerte consta
+ 1025  que de necios padres suele
+ 1026  salir una fénix sola.
+
+LISEO
+ 1027  Turín, por lo general,
+ 1028  y es consecuencia forzosa,
+ 1029  lo semejante se engendra.
+ 1030  Hoy la palabra se rompa;
+ 1031  rásguense cartas y firmas;
+ 1032  que ningún tesoro compra
+ 1033  la libertad. Aun si fuera
+ 1034  Nise... // TURÍN: ¡Oh, qué bien te reportas!
+ 1035  Dicen que si a un hombre airado,
+ 1036  que colérico se arroja,
+ 1037  le pusiesen un espejo,
+ 1038  en mirando en él la sombra
+ 1039  que representa su cara,
+ 1040  se tiempla y desapasiona;
+ 1041  así tú, como tu gusto
+ 1042  miraste en su hermana hermosa
+ 1043  -que el gusto es cara del alma,
+ 1044  pues su libertad se nombra-,
+ 1045  luego templaste la tuya.
+
+LISEO
+ 1046  Bien dices, porque ella sola
+ 1047  el enojo de su padre,
+ 1048  que, como ves, me alborota,
+ 1049  me puede quitar, Turín.
+
+TURÍN
+ 1050  ¿Que no hay que tratar de esotra?
+
+LISEO
+ 1051  Pues, ¿he de dejar la vida
+ 1052  por la muerte temerosa,
+ 1053  y por la noche enlutada
+ 1054  el sol que los cielos dora,
+ 1055  por los áspides las aves,
+ 1056  por las espinas las rosas,
+ 1057  y por un demonio un ángel?
+
+TURÍN
+ 1058  Digo que razón te sobra:
+ 1059  que no está el gusto en el oro;
+ 1060  que son el oro y las horas
+ 1061  muy diversas. // LISEO: Desde aquí
+ 1062  renuncio la dama boba.
+
+
+===== ACTO 2 =====
+
+--- escena 1 ---
+
+[ACOTACIÓN] [Sala que da a un parque, en casa de OTAVIO.]
+
+[ACOTACIÓN] DUARDO,LAURENCIO, FENISO.
+
+FENISO
+ 1063  En fin, ha pasado un mes
+ 1064  y no se casa Liseo.
+
+DUARDO
+ 1065  No siempre mueve el deseo
+ 1066  el codicioso interés.
+
+LAURENCIO
+ 1067  De Nise la enfermedad
+ 1068  ha sido causa bastante.
+
+FENISO
+ 1069  Ver a Finea ignorante
+ 1070  templará su voluntad.
+
+LAURENCIO
+ 1071  Menos lo está que solía.
+ 1072  Temo que amor ha de ser
+ 1073  artificioso a encender
+ 1074  piedra tan helada y fría.
+
+DUARDO
+ 1075  ¡Tales milagros ha hecho
+ 1076  en gente rústica amor!
+
+FENISO
+ 1077  No se tendrá por menor
+ 1078  dar alma a su rudo pecho.
+
+LAURENCIO
+ 1079  Amor, señores, ha sido
+ 1080  aquel ingenio profundo,
+ 1081  que llaman alma del mundo,
+ 1082  y es el dotor que ha tenido
+ 1083  la cátedra de las ciencias;
+ 1084  porque solo con amor
+ 1085  aprende el hombre mejor
+ 1086  sus divinas diferencias.
+ 1087  Así lo sintió Platón;
+ 1088  esto Aristóteles dijo;
+ 1089  que, como del cielo es hijo,
+ 1090  es todo contemplación.
+ 1091  De ella nació el admirarse,
+ 1092  y de admirarse nació
+ 1093  el filosofar, que dio
+ 1094  luz con que pudo fundarse
+ 1095  toda ciencia artificial.
+ 1096  Y a amor se ha de agradecer
+ 1097  que el deseo de saber
+ 1098  es al hombre natural.
+ 1099  Amor con fuerza süave
+ 1100  dio al hombre el saber sentir,
+ 1101  dio leyes para vivir
+ 1102  político, honesto y grave.
+ 1103  Amor repúblicas hizo;
+ 1104  que la concordia nació
+ 1105  de amor, con que a ser volvió
+ 1106  lo que la guerra deshizo.
+ 1107  Amor dio lengua a las aves,
+ 1108  vistió la tierra de frutos,
+ 1109  y, como prados enjutos,
+ 1110  rompió el mar con fuertes naves.
+ 1111  Amor enseñó a escribir
+ 1112  altos y dulces concetos,
+ 1113  como de su causa efetos.
+ 1114  Amor enseñó a vestir
+ 1115  al más rudo, al más grosero;
+ 1116  de la elegancia fue amor
+ 1117  el maestro; el inventor
+ 1118  fue de los versos primero;
+ 1119  la música se le debe
+ 1120  y la pintura. Pues, ¿quién
+ 1121  dejará de saber bien,
+ 1122  como sus efetos pruebe?
+ 1123  No dudo de que a Finea,
+ 1124  como ella comience a amar,
+ 1125  la deje amor de enseñar,
+ 1126  por imposible que sea.
+
+FENISO
+ 1127  Está bien pensado ansí,
+ 1128  y su padre lleva intento,
+ 1129  por dicha, en el casamiento,
+ 1130  que ame y sepa. // DUARDO: Y yo de aquí,
+ 1131  infamando amores locos,
+ 1132  en limpio vengo a sacar
+ 1133  que pocos deben de amar
+ 1134  en lugar que saben pocos.
+
+FENISO
+ 1135  ¡Linda malicia! // LAURENCIO: ¡Extremada!
+
+FENISO
+ 1136  ¡Difícil cosa es saber!
+
+LAURENCIO
+ 1137  Sí; pero fácil creer
+ 1138  que sabe, el que poco o nada.
+
+FENISO
+ 1139  ¡Qué divino entendimiento
+ 1140  tiene Nise! // DUARDO: ¡Celestial!
+
+FENISO
+ 1141  ¿Cómo, siendo necio el mal,
+ 1142  ha tenido atrevimiento
+ 1143  para hacerle estos agravios,
+ 1144  de tal ingenio desprecios?
+
+LAURENCIO
+ 1145  Porque de sufrir a necios
+ 1146  suelen enfermar los sabios.
+
+DUARDO
+ 1147  Ella viene. // FENISO: Y con razón
+ 1148  se alegra cuanto la mira.
+
+--- escena 2 ---
+
+[ACOTACIÓN] NISE,CELIA.- [Dichos.]
+
+NISE
+ 1149  [Aparte a CELIA.]Mucho la historia me admira.
+
+[ACOTACIÓN] [Aparte a CELIA.]
+
+CELIA
+ 1150  Amores pienso que son,
+ 1151  fundados en el dinero.
+
+NISE
+ 1152  Nunca fundó su valor
+ 1153  sobre dineros amor,
+ 1154  que busca el alma primero.
+
+DUARDO
+ 1155  Señora, a vuestra salud,
+ 1156  hoy cuantas cosas os ven
+ 1157  dan alegre parabién
+ 1158  y tienen vida y quietud;
+ 1159  que como vuestra virtud
+ 1160  era el sol que se la dio,
+ 1161  mientras el mal le eclipsó
+ 1162  también lo estuvieron ellas;
+ 1163  que hasta ver vuestras estrellas
+ 1164  fortuna el tiempo corrió.
+ 1165  Mas como la primavera
+ 1166  sale con pies de marfil,
+ 1167  y el vario velo sutil
+ 1168  tiende en la verde ribera,
+ 1169  corre el agua lisonjera
+ 1170  y están riñendo las flores
+ 1171  sobre tomar las colores,
+ 1172  así vos salís, trocando
+ 1173  el triste tiempo y sembrando
+ 1174  en campos de almas amores.
+
+FENISO
+ 1175  Ya se ríen estas fuentes,
+ 1176  y son perlas las que fueron
+ 1177  lágrimas, con que sintieron
+ 1178  esas estrellas ausentes;
+ 1179  y a las aves sus corrientes
+ 1180  hacen instrumentos claros
+ 1181  con que quieren celebraros.
+ 1182  Todo se anticipa a veros,
+ 1183  y todo intenta ofreceros
+ 1184  con lo que puede alegraros.
+ 1185  Pues si con veros hacéis
+ 1186  tales efetos agora,
+ 1187  donde no hay alma, señora,
+ 1188  más de la que vos ponéis,
+ 1189  en mí, ¿qué muestras haréis,
+ 1190  qué señales de alegría,
+ 1191  este venturoso día,
+ 1192  después de tantos enojos,
+ 1193  siendo vos sol de mis ojos,
+ 1194  siendo vos alma en la mía?
+
+LAURENCIO
+ 1195  A estar sin vida llegué
+ 1196  el tiempo que no os serví;
+ 1197  que fue lo más que sentí,
+ 1198  aunque sin mi culpa fue.
+ 1199  Yo vuestros males pasé,
+ 1200  como cuerpo que animáis;
+ 1201  vos movimiento me dais,
+ 1202  yo soy instrumento vuestro,
+ 1203  que en mi vida y salud muestro
+ 1204  todo lo que vos pasáis.
+ 1205  Parabién me den a mí
+ 1206  de la salud que hay en vos,
+ 1207  pues que pasamos los dos
+ 1208  el mismo mal en que os vi.
+ 1209  Solamente os ofendí,
+ 1210  aunque la disculpa os muestro,
+ 1211  en que este mal que fue nuestro,
+ 1212  solo tenerle debía,
+ 1213  no vos, que sois alma mía,
+ 1214  yo sí, que soy cuerpo vuestro.
+
+NISE
+ 1215  Pienso que de oposición
+ 1216  me dais los tres parabién.
+
+LAURENCIO
+ 1217  Y es bien, pues lo sois por quien
+ 1218  viven los que vuestros son.
+
+NISE
+ 1219  Divertíos, por mi vida,
+ 1220  cortándome algunas flores
+ 1221  los dos, pues con sus colores
+ 1222  la diferencia os convida
+ 1223  de este jardín, porque quiero
+ 1224  hablar a Laurencio un poco.
+
+DUARDO
+ 1225  Quien ama y sufre, o es loco
+ 1226  o necio. // FENISO: Tal premio espero.
+
+DUARDO
+ 1227  No son vanos mis recelos.
+
+FENISO
+ 1228  Ella le quiere. // DUARDO: Yo haré
+ 1229  un ramillete de fe,
+ 1230  pero sembrado de celos.
+
+[ACOTACIÓN] [Vanse DUARDO yFENISO.]
+
+--- escena 3 ---
+
+[ACOTACIÓN] LAURENCIO,NISE.
+
+LAURENCIO
+ 1231  Ya se han ido. ¿Podré yo,
+ 1232  Nise, con mis brazos darte
+ 1233  parabién de tu salud?
+
+NISE
+ 1234  ¡Desvía, fingido, fácil,
+ 1235  lisonjero, engañador,
+ 1236  loco, inconstante, mudable
+ 1237  hombre, que en un mes de ausencia
+ 1238  -que bien merece llamarse
+ 1239  ausencia la enfermedad-,
+ 1240  el pensamiento mudaste!
+ 1241  Pero mal dije en un mes,
+ 1242  porque puedes disculparte
+ 1243  con que creíste mi muerte,
+ 1244  y, si mi muerte pensaste,
+ 1245  con gracioso sentimiento,
+ 1246  pagaste el amor que sabes,
+ 1247  mudando el tuyo en Finea.
+
+LAURENCIO
+ 1248  ¿Qué dices? // NISE: Pero bien haces:
+ 1249  tú eres pobre, tú discreto,
+ 1250  ella rica y ignorante;
+ 1251  buscaste lo que no tienes,
+ 1252  y lo que tienes dejaste.
+ 1253  Discreción tienes, y en mí
+ 1254  la que celebrabas antes
+ 1255  dejas con mucha razón;
+ 1256  que dos ingenios iguales
+ 1257  no conocen superior;
+ 1258  y, por dicha, ¿imaginaste
+ 1259  que quisiera yo el imperio
+ 1260  que a los hombres debe darse?
+ 1261  El oro que no tenías,
+ 1262  tenerle solicitaste
+ 1263  enamorando a Finea.
+
+LAURENCIO
+ 1264  Escucha... // NISE: ¿Qué he de escucharte?
+
+LAURENCIO
+ 1265  ¿Quién te ha dicho que yo he sido
+ 1266  en un mes tan inconstante?
+
+NISE
+ 1267  ¿Parécete poco un mes?
+ 1268  Yo te disculpo, no hables;
+ 1269  que la Luna está en el cielo
+ 1270  sin intereses mortales,
+ 1271  y en un mes, y aun algo menos,
+ 1272  está creciente y menguante.
+ 1273  Tú en la tierra, y de Madrid,
+ 1274  donde hay tantos vendavales
+ 1275  de intereses en los hombres,
+ 1276  no fue milagro mudarte.
+ 1277  Dile, Celia, lo que has visto.
+
+CELIA
+ 1278  Ya, Laurencio, no te espantes
+ 1279  de que Nise, mi señora,
+ 1280  de esta manera te trate:
+ 1281  yo sé que has dicho a Finea
+ 1282  requiebros... // LAURENCIO: ¡Que me levantes,
+ 1283  Celia, tales testimonios!...
+
+CELIA
+ 1284  Tú sabes que son verdades;
+ 1285  y no solo tú a mi dueño
+ 1286  ingratamente pagaste,
+ 1287  pero tu Pedro, el que tiene
+ 1288  de tus secretos las llaves,
+ 1289  ama a Clara tiernamente.
+ 1290  ¿Quieres que más te declare?
+
+LAURENCIO
+ 1291  Tus celos han sido, Celia,
+ 1292  y quieres que yo los pague.
+ 1293  ¿Pedro a Clara, aquella boba?
+
+NISE
+ 1294  Laurencio, si le enseñaste,
+ 1295  ¿por qué te afrentas de aquello
+ 1296  en que de ciego no caes?
+ 1297  Astrólogo me pareces,
+ 1298  que siempre de ajenos males,
+ 1299  sin reparar en los suyos,
+ 1300  largos pronósticos hacen.
+ 1301  ¡Qué bien empleas tu ingenio!
+ 1302  «De Nise confieso el talle,
+ 1303  mas no es sólo el exterior
+ 1304  el que obliga a los que saben.»
+ 1305  ¡Oh, quién os oyera juntos!...
+ 1306  Debéis de hablar en romances,
+ 1307  porque un discreto y un necio
+ 1308  no pueden ser consonantes.
+ 1309  ¡Ay Laurencio, qué buen pago
+ 1310  de fe y amor tan notable!
+ 1311  Bien dicen que a los amigos,
+ 1312  prueba la cama y la cárcel.
+ 1313  Yo enfermé de mis tristezas,
+ 1314  y, de no verte ni hablarte,
+ 1315  sangráronme muchas veces.
+ 1316  ¡Bien me alegraste la sangre!
+ 1317  Por regalos tuyos tuve
+ 1318  mudanzas, traiciones, fraudes;
+ 1319  pero, pues tan duros fueron,
+ 1320  di que me diste diamantes.
+ 1321  Ahora bien: ¡esto cesó!
+
+LAURENCIO
+ 1322  ¡Oye, aguarda!... // NISE: ¿Que te aguarde?
+ 1323  Pretende tu rica boba,
+ 1324  aunque yo haré que se case
+ 1325  más presto que tú lo piensas.
+
+LAURENCIO
+ 1326  ¡Señora!...
+
+--- escena 4 ---
+
+[ACOTACIÓN] Entre LISEO, y asga LAURENCIO aNISE.- [Dichos.]
+
+[ACOTACIÓN] [Aparte.]
+
+LISEO
+ 1327  los desengaños; mas ya
+ 1328  no quiere amor que me engañe.
+
+NISE
+ 1329  ¡Suelta! // LAURENCIO: ¡No quiero! // LISEO: ¿Qué es esto?
+
+NISE
+ 1330  Dice Laurencio que rasgue
+ 1331  unos versos que me dio
+ 1332  de cierta dama ignorante,
+ 1333  y yo digo que no quiero.
+
+LAURENCIO
+ 1334  Tú podrá ser que lo alcances
+ 1335  de Nise; ruégalo tú.
+
+LISEO
+ 1336  Si algo tengo que rogarte,
+ 1337  haz algo por mis memorias
+ 1338  y rasga lo que tú sabes.
+
+NISE
+ 1339  ¡Dejadme los dos!
+
+[ACOTACIÓN] [Vanse NISE yCELIA.]
+
+--- escena 5 ---
+
+[ACOTACIÓN] [LAURENCIO yLISEO.]
+
+LISEO
+ 1340  Yo me espanto que te trate
+ 1341  con estos rigores Nise.
+
+LAURENCIO
+ 1342  Pues, Liseo, no te espantes:
+ 1343  que es defeto en los discretos
+ 1344  tal vez el no ser afables.
+
+LISEO
+ 1345  ¿Tienes qué hacer? // LAURENCIO: Poco o nada.
+
+LISEO
+ 1346  Pues vámonos esta tarde
+ 1347  por el Prado arriba. // LAURENCIO: Vamos
+ 1348  donde quiera que tú mandes.
+
+LISEO
+ 1349  Detrás de los Recoletos
+ 1350  quiero hablarte. // LAURENCIO: Si el hablarme
+ 1351  no es con las lenguas que dicen,
+ 1352  sino con lenguas que hacen,
+ 1353  aunque me espanto que sea,
+ 1354  dejaré caballo y pajes.
+
+LISEO
+ 1355  Bien puedes.
+
+[ACOTACIÓN] (Vase.)
+
+--- escena 6 ---
+
+[ACOTACIÓN] [LAURENCIO solo.]
+
+LAURENCIO
+ 1356  ¡Qué celoso y qué arrogante!
+ 1357  Finea es boba, y, sin duda,
+ 1358  de haberle contado nace
+ 1359  mis amores y papeles.
+ 1360  Ya para consejo es tarde;
+ 1361  que deudas y desafíos
+ 1362  a que los honrados salen,
+ 1363  para trampas se dilatan,
+ 1364  y no es bien que se dilaten.
+
+[ACOTACIÓN] [(Vase.)]
+
+--- escena 7 ---
+
+[ACOTACIÓN] Un MAESTRO de danzar y FINEA.
+
+MAESTRO
+ 1365  ¿Tan presto se cansa? // FINEA: Sí.
+ 1366  Y no quiero danzar más.
+
+MAESTRO
+ 1367  Como no danza a compás,
+ 1368  hase enfadado de sí.
+
+FINEA
+ 1369  ¡Por poco diera de hocicos,
+ 1370  saltando! Enfadada vengo.
+ 1371  ¿Soy yo urraca, que andar tengo
+ 1372  por casa, dando salticos?
+ 1373  Un paso, otro contrapaso,
+ 1374  floretas, otra floreta...
+ 1375  ¡Qué locura! // MAESTRO: [Aparte. ]¡Qué imperfeta
+
+[ACOTACIÓN] [Aparte. ]
+ 1376  cosa, en un hermoso vaso
+ 1377  poner la Naturaleza
+ 1378  licor de un alma tan ruda!
+ 1379  Con que yo salgo de duda
+ 1380  que no es alma la belleza.
+
+FINEA
+ 1381  Maestro... // MAESTRO: ¿Señora mía?...
+
+FINEA
+ 1382  Trae mañana un tamboril.
+
+MAESTRO
+ 1383  Ese es instrumento vil,
+ 1384  aunque de mucha alegría.
+
+FINEA
+ 1385  Que soy más aficionada
+ 1386  al cascabel os confieso.
+
+MAESTRO
+ 1387  Es muy de caballos eso.
+
+FINEA
+ 1388  Haced vos lo que me agrada,
+ 1389  que no es mucha rustiqueza
+ 1390  el traellos en los pies.
+ 1391  Harto peor pienso que es
+ 1392  traellos en la cabeza.
+
+MAESTRO
+ 1393  [Aparte.]Quiero seguirle el humor.
+
+[ACOTACIÓN] [Aparte.]
+ 1394  Yo haré lo que mandáis.
+
+FINEA
+ 1395  Id danzando cuando os vais.
+
+MAESTRO
+ 1396  Yo os agradezco el favor,
+ 1397  pero llevaré tras mí
+ 1398  mucha gente. // FINEA: Un pastelero,
+ 1399  un sastre y un zapatero,
+ 1400  ¿llevan la gente tras sí?
+
+MAESTRO
+ 1401  No; pero tampoco ellos
+ 1402  por la calle haciendo van
+ 1403  sus oficios. // FINEA: ¿No podrán,
+ 1404  si quieren? // MAESTRO: Podrán hacellos;
+ 1405  y yo no quiero danzar.
+
+FINEA
+ 1406  Pues no entréis aquí. // MAESTRO: No haré.
+
+FINEA
+ 1407  Ni quiero andar en un pie,
+ 1408  ni dar vueltas ni saltar.
+
+MAESTRO
+ 1409  Ni yo enseñar las que sueñan
+ 1410  disparates atrevidos.
+
+FINEA
+ 1411  No importa; que los maridos
+ 1412  son los que mejor enseñan.
+
+MAESTRO
+ 1413  ¿Han visto la mentecata?
+
+FINEA
+ 1414  ¿Qué es mentecata, villano?
+
+MAESTRO
+ 1415  ¡Señora, tened la mano!
+ 1416  Es una dama que trata
+ 1417  con gravedad y rigor
+ 1418  a quien la sirve. // FINEA: ¿Esa es?
+
+MAESTRO
+ 1419  Puesto que vuelve después
+ 1420  con más blandura y amor.
+
+FINEA
+ 1421  ¿Es eso cierto? // MAESTRO: ¿Pues no?
+
+FINEA
+ 1422  Yo os juro, aunque nunca ingrata,
+ 1423  que no hay mayor mentecata
+ 1424  en todo el mundo que yo.
+
+MAESTRO
+ 1425  El creer es cortesía;
+ 1426  adiós, que soy muy cortés.
+
+[ACOTACIÓN] (Váyase y entre CLARA.)
+
+--- escena 8 ---
+
+[ACOTACIÓN] [CLARA yFINEA.]
+
+CLARA
+ 1427  ¿Danzaste? // FINEA: ¿Ya no lo ves?
+ 1428  Persíguenme todo el día
+ 1429  con leer, con escribir,
+ 1430  con danzar, y todo es nada.
+ 1431  Sólo Laurencio me agrada.
+
+CLARA
+ 1432  ¿Cómo te podré decir
+ 1433  una desgracia notable?
+
+FINEA
+ 1434  Hablando; porque no hay cosa
+ 1435  de decir dificultosa,
+ 1436  a mujer que viva y hable.
+
+CLARA
+ 1437  Dormir en día de fiesta,
+ 1438  ¿es malo? // FINEA: Pienso que no;
+ 1439  aunque si Adán se durmió,
+ 1440  buena costilla le cuesta.
+
+CLARA
+ 1441  Pues si nació la mujer
+ 1442  de una dormida costilla,
+ 1443  que duerma no es maravilla.
+
+FINEA
+ 1444  Agora vengo a entender
+ 1445  sólo con esa advertencia,
+ 1446  por qué se andan tras nosotras
+ 1447  los hombres, y en unas y otras
+ 1448  hacen tanta diligencia;
+ 1449  que, si aquesto no es asilla,
+ 1450  deben de andar a buscar
+ 1451  su costilla, y no hay parar
+ 1452  hasta topar su costilla.
+
+CLARA
+ 1453  Luego si para el que amó
+ 1454  un año, y dos, harto bien,
+ 1455  ¿le dirán los que le ven
+ 1456  que su costilla topó?
+
+FINEA
+ 1457  A lo menos los casados.
+
+CLARA
+ 1458  ¡Sabia estás! // FINEA: Aprendo ya;
+ 1459  que me enseña amor quizá
+ 1460  con liciones de cuidados.
+
+CLARA
+ 1461  Volviendo al cuento, Laurencio
+ 1462  me dio un papel para ti.
+ 1463  Púseme a hilar -¡ay de mí,
+ 1464  cuánto provoca el silencio!-.
+ 1465  Metí en el copo el papel,
+ 1466  y como hilaba al candil
+ 1467  y es la estopa tan sutil
+ 1468  aprendióse el copo en él.
+ 1469  Cabezas hay disculpadas
+ 1470  cuando duermen sin cojines,
+ 1471  y sueños como rocines
+ 1472  que vienen con cabezadas.
+ 1473  Apenas el copo ardió,
+ 1474  cuando, puesta en él de pies,
+ 1475  me chamusqué; ya lo ves.
+
+FINEA
+ 1476  ¿Y el papel? // CLARA: Libre quedó,
+ 1477  como el Santo de Pajares.
+ 1478  Sobraron estos renglones,
+ 1479  en que hallarás más razones
+ 1480  que en mi cabeza aladares.
+
+FINEA
+ 1481  ¿Y no se podrán leer?
+
+CLARA
+ 1482  Toma, y lee. // FINEA: Yo sé poco.
+
+CLARA
+ 1483  ¡Dios libre de un fuego loco
+ 1484  la estopa de la mujer!
+
+--- escena 9 ---
+
+[ACOTACIÓN] Entre OTAVIO.- [Dichas.]
+
+OTAVIO
+ 1485  Yo pienso que me canso en enseñarla,
+ 1486  porque es querer labrar con vidro un pórfido;
+ 1487  ni el danzar ni el leer aprender puede,
+ 1488  aunque está menos ruda que solía.
+
+FINEA
+ 1489  ¡Oh padre mentecato y generoso,
+ 1490  bien seas venido! // OTAVIO: ¿Cómo mentecato?
+
+FINEA
+ 1491  Aquí el maestro de danzar me dijo
+ 1492  que era yo mentecata, y enojéme;
+ 1493  mas él me respondió que este vocablo
+ 1494  significaba una mujer que riñe,
+ 1495  y luego vuelve con amor notable;
+ 1496  y como vienes tú riñendo agora,
+ 1497  y has de mostrarme amor en breve rato,
+ 1498  quise también llamarte mentecato.
+
+OTAVIO
+ 1499  Pues hija, no creáis a todas gentes,
+ 1500  ni digáis ese nombre, que no es justo.
+
+FINEA
+ 1501  No lo haré más. Mas diga, señor padre:
+ 1502  ¿sabe leer? // OTAVIO: Pues, ¿eso me preguntas?
+
+FINEA
+ 1503  Tome, ¡por vida suya!, y éste lea.
+
+OTAVIO
+ 1504  ¿Este papel? // FINEA: Sí, padre. // OTAVIO: Oye, Finea:
+
+[ACOTACIÓN] (Lea ansí.)
+
+[PROSA] “Agradezco mucho la merced que me has hecho, aunque toda esta noche la he pasado con poco sosiego, pensando en tu hermosura.”
+
+FINEA
+ 1505  ¿No hay más?
+
+OTAVIO
+ 1506  No hay más; que está muy justamente
+ 1507  quemado lo demás. ¿Quién te le ha dado?
+
+FINEA
+ 1508  Laurencio, aquel discreto caballero
+ 1509  de la academia de mi hermana Nise,
+ 1510  que dice que me quiere con extremo.
+
+OTAVIO
+ 1511  [Aparte.]De su ignorancia, mi desdicha temo.
+
+[ACOTACIÓN] [Aparte.]
+ 1512  Esto trujo a mi casa el ser discreta
+ 1513  Nise: El galán, el músico, el poeta,
+ 1514  el lindo, el que se precia de oloroso,
+ 1515  el afeitado, el loco y el ocioso.
+ 1516  ¿Hate pasado más con este, acaso?
+
+FINEA
+ 1517  Ayer, en la escalera, al primer paso,
+ 1518  me dio un abrazo. // OTAVIO: [Aparte.]¡En buenos pasos anda
+
+[ACOTACIÓN] [Aparte.]
+ 1519  mi pobre honor, por una y otra banda!
+ 1520  La discreta, con necios en concetos,
+ 1521  y la boba, en amores con discretos.
+ 1522  A esta no hay llevarla por castigo,
+ 1523  y más que lo podrá entender su esposo.
+ 1524  Hija, sabed que estoy muy enojado.
+ 1525  No os dejéis abrazar. ¿Entendéis, hija?
+
+FINEA
+ 1526  Sí, señor padre; y cierto que me pesa,
+ 1527  aunque me pareció muy bien entonces.
+
+OTAVIO
+ 1528  Solo vuestro marido ha de ser digno
+ 1529  de esos abrazos.
+
+--- escena 10 ---
+
+[ACOTACIÓN] Entre TURÍN.- [Dichos.]
+
+OTAVIO
+ 1530  ¿De qué es la prisa tanta? // TURÍN: De que al campo
+ 1531  van a matarse mi señor Liseo
+ 1532  y Laurencio, ese hidalgo marquesote,
+ 1533  que desvanece a Nise con sonetos.
+
+OTAVIO
+ 1534  [Aparte.]¿Qué importa que los padres sean discretos,
+
+[ACOTACIÓN] [Aparte.]
+ 1535  si les falta a los hijos la obediencia?
+ 1536  Liseo habrá entendido la imprudencia
+ 1537  deste Laurencio atrevidillo y loco,
+ 1538  y que sirve a su esposa. ¡Caso estraño!
+ 1539  ¿Por dónde fueron? // TURÍN: Van, si no me engaño,
+ 1540  hacia los Recoletos Agustinos.
+
+OTAVIO
+ 1541  Pues ven tras mí. ¡Qué extraños desatinos!
+
+[ACOTACIÓN] (Váyanse OTAVIO y TURÍN.)
+
+--- escena 11 ---
+
+[ACOTACIÓN] [CLARA yFINEA.]
+
+CLARA
+ 1542  Parece que se ha enojado
+ 1543  tu padre. // FINEA: ¿Qué puedo hacer?
+
+CLARA
+ 1544  ¿Por qué le diste a leer
+ 1545  el papel? // FINEA: Ya me ha pesado.
+
+CLARA
+ 1546  Ya no puedes proseguir
+ 1547  la voluntad de Laurencio.
+
+FINEA
+ 1548  Clara, no la diferencio
+ 1549  con el dejar de vivir.
+ 1550  Yo no entiendo cómo ha sido
+ 1551  desde que el hombre me habló,
+ 1552  porque, si es que siento yo,
+ 1553  él me ha llevado el sentido.
+ 1554  Si duermo, sueño con él;
+ 1555  si como, le estoy pensando,
+ 1556  y si bebo, estoy mirando
+ 1557  en agua la imagen dél.
+ 1558  ¿No has visto de qué manera
+ 1559  muestra el espejo a quien mira
+ 1560  su rostro, que una mentira
+ 1561  le hace forma verdadera?
+ 1562  Pues lo mismo en vidro miro
+ 1563  que el cristal me representa.
+
+CLARA
+ 1564  A tus palabras atenta,
+ 1565  de tus mudanzas me admiro.
+ 1566  Parece que te transformas
+ 1567  en otra. // FINEA: En otro dirás.
+
+CLARA
+ 1568  Es maestro con quien más
+ 1569  para aprender te conformas.
+
+FINEA
+ 1570  Con todo eso, seré
+ 1571  obediente al padre mío;
+ 1572  fuera de que es desvarío
+ 1573  quebrar la palabra y fe.
+
+CLARA
+ 1574  Yo haré lo mismo. // FINEA: No impidas
+ 1575  el camino que llevabas.
+
+CLARA
+ 1576  ¿No ves que amé porque amabas,
+ 1577  y olvidaré porque olvidas?
+
+FINEA
+ 1578  Harto me pesa de amalle;
+ 1579  pero a ver mi daño vengo,
+ 1580  aunque sospecho que tengo
+ 1581  de olvidarme de olvidalle.
+
+[ACOTACIÓN] (Váyanse.)
+
+--- escena 12 ---
+
+[ACOTACIÓN] [Campo.]
+
+[ACOTACIÓN] Entren LISEO yLAURENCIO.
+
+LAURENCIO
+ 1582  Antes, Liseo, de sacar la espada,
+ 1583  quiero saber la causa que os obliga.
+
+LISEO
+ 1584  Pues bien será que la razón os diga.
+
+LAURENCIO
+ 1585  Liseo, si son celos de Finea,
+ 1586  mientras no sé que vuestra esposa sea,
+ 1587  bien puedo pretender, pues fui primero.
+
+LISEO
+ 1588  Disimuláis, a fe de caballero,
+ 1589  pues tan lejos lleváis el pensamiento
+ 1590  de amar una mujer tan inorante.
+
+LAURENCIO
+ 1591  Antes de que la quiera no os espante;
+ 1592  que soy tan pobre como bien nacido,
+ 1593  y quiero sustentarme con el dote.
+ 1594  Y que lo diga ansí no os alborote,
+ 1595  pues que vos, dilatando el casamiento,
+ 1596  habéis dado más fuerzas a mi intento,
+ 1597  y porque cuando llegan, obligadas,
+ 1598  a desnudarse en campo las espadas,
+ 1599  se han de tratar verdades llanamente;
+ 1600  que es hombre vil quien en el campo miente.
+
+LISEO
+ 1601  ¿Luego, no queréis bien a Nise? // LAURENCIO: A Nise
+ 1602  yo no puedo negar que no la quise;
+ 1603  mas su dote serán diez mil ducados,
+ 1604  y de cuarenta a diez, ya veis, van treinta,
+ 1605  y pasé de los diez a los cuarenta.
+
+LISEO
+ 1606  Siendo eso ansí, como de vos lo creo,
+ 1607  estad seguro que jamás Liseo
+ 1608  os quite la esperanza de Finea;
+ 1609  que aunque no es la ventura de la fea,
+ 1610  será de la ignorante la ventura;
+ 1611  que así Dios me la dé, que no la quiero,
+ 1612  pues desde que la vi, por Nise muero.
+
+LAURENCIO
+ 1613  ¿Por Nise? // LISEO: ¡Sí, por Dios! // LAURENCIO: Pues vuestra es Nise,
+ 1614  y con la antigüedad que yo la quise,
+ 1615  yo os doy sus esperanzas y favores;
+ 1616  mis deseos os doy y mis amores,
+ 1617  mis ansias, mis serenos, mis desvelos,
+ 1618  mis versos, mis sospechas y mis celos.
+ 1619  Entrad con esta runfla y dadle pique;
+ 1620  que no hará mucho en que de vos se pique.
+
+LISEO
+ 1621  Aunque con cartas tripuladas juegue,
+ 1622  aceto la merced, señor Laurencio,
+ 1623  que yo soy rico, y compraré mi gusto.
+ 1624  Nise es discreta, yo no quiero el oro;
+ 1625  hacienda tengo, su belleza adoro.
+
+LAURENCIO
+ 1626  Hacéis muy bien; que yo, que soy tan pobre,
+ 1627  el oro solicito que me sobre;
+ 1628  que aunque de entendimiento lo es Finea,
+ 1629  yo quiero que en mi casa alhaja sea.
+ 1630  ¿No están las escrituras de una renta
+ 1631  en un cajón de un escritorio, y rinden
+ 1632  aquello que se come todo el año?
+ 1633  ¿No está una casa principal tan firme
+ 1634  como de piedra, al fin yeso y ladrillo,
+ 1635  y renta mil ducados a su dueño?
+ 1636  Pues yo haré cuenta que es Finea una casa,
+ 1637  una escritura, un censo y una viña,
+ 1638  y seráme una renta con basquiña;
+ 1639  demás que, si me quiere, a mí me basta;
+ 1640  que no hay mayor ingenio que ser casta.
+
+LISEO
+ 1641  Yo os doy palabra de ayudaros tanto,
+ 1642  que venga a ser tan vuestra como creo.
+
+LAURENCIO
+ 1643  Y yo con Nise haré, por Dios, Liseo,
+ 1644  lo que veréis. // LISEO: Pues démonos las manos
+ 1645  de amigos, no fingidos cortesanos,
+ 1646  sino como si fuéramos de Grecia,
+ 1647  adonde tanto el amistad se precia.
+
+LAURENCIO
+ 1648  Yo seré vuestro Pílades. // LISEO: Yo, Orestes.
+
+--- escena 13 ---
+
+[ACOTACIÓN] Entren OTAVIO yTURÍN.- [Dichos.]
+
+OTAVIO
+ 1649  ¿Son estos? // TURÍN: Ellos son.
+
+OTAVIO
+ 1650  ¿Y esto es pendencia?
+
+TURÍN
+ 1651  Conocieron de lejos tu presencia.
+
+OTAVIO
+ 1652  ¡Caballeros...! // LISEO: Señor, seáis bien venido.
+
+OTAVIO
+ 1653  ¿Qué hacéis aquí? // LISEO: Como Laurencio ha sido
+ 1654  tan grande amigo mío, desde el día
+ 1655  que vine a vuestra casa, o a la mía,
+ 1656  venímonos a ver el campo solos,
+ 1657  tratando nuestras cosas igualmente.
+
+OTAVIO
+ 1658  De esa amistad me huelgo extrañamente.
+ 1659  Aquí vine a un jardín de un grande amigo,
+ 1660  y me holgaré de que volváis conmigo.
+
+LISEO
+ 1661  Será para los dos merced notable.
+
+FENISO
+ 1662  Vamos [a] acompañaros y serviros.
+
+OTAVIO
+ 1663  [Aparte.]Turín, ¿por qué razón me has engañado?
+
+[ACOTACIÓN] [Aparte.]
+
+TURÍN
+ 1664  Porque deben de haber disimulado,
+ 1665  y porque, en fin, las más de las pendencias
+ 1666  mueren por madurar; que a no ser esto,
+ 1667  no hubiera mundo ya. // OTAVIO: Pues, di, ¿tan presto
+ 1668  se pudo remediar? // TURÍN: ¿Qué más remedio
+ 1669  de no reñir que estar la vida en medio?
+
+[ACOTACIÓN] [Vanse.]
+
+--- escena 14 ---
+
+[ACOTACIÓN] [Sala en casa de OTAVIO.]
+
+[ACOTACIÓN] NISE yFINEA.
+
+NISE
+ 1670  De suerte te has engreído,
+ 1671  que te voy desconociendo.
+
+FINEA
+ 1672  De que eso digas me ofendo.
+ 1673  Yo soy la que siempre he sido.
+
+NISE
+ 1674  Yo te vi menos discreta.
+
+FINEA
+ 1675  Y yo más segura a ti.
+
+NISE
+ 1676  ¿Quién te va trocando ansí?
+ 1677  ¿Quién te da lición secreta?
+ 1678  Otra memoria es la tuya.
+ 1679  ¿Tomaste la anacardina?
+
+FINEA
+ 1680  Ni de Ana, ni Catalina,
+ 1681  he tomado lición suya.
+ 1682  Aquello que ser solía
+ 1683  soy; porque sólo he mudado
+ 1684  un poco de más cuidado.
+
+NISE
+ 1685  ¿No sabes que es prenda mía
+ 1686  Laurencio? // FINEA: ¿Quién te empeñó
+ 1687  a Laurencio? // NISE: Amor. // FINEA: ¿A fe?
+ 1688  Pues yo le desempeñé,
+ 1689  y el mismo amor me le dio.
+
+NISE
+ 1690  ¡Quitaréte dos mil vidas,
+ 1691  boba dichosa! // FINEA: No creas
+ 1692  que si a Laurencio deseas,
+ 1693  de Laurencio te dividas.
+ 1694  En mi vida supe más
+ 1695  de lo que él me ha dicho a mí:
+ 1696  eso sé y eso aprendí.
+
+NISE
+ 1697  Muy aprovechada estás;
+ 1698  mas de hoy más no ha de pasarte
+ 1699  por el pensamiento. // FINEA: ¿Quién?
+
+NISE
+ 1700  Laurencio. // FINEA: Dices muy bien.
+ 1701  No volverás a quejarte.
+
+NISE
+ 1702  Si los ojos puso en ti,
+ 1703  quítelos luego. // FINEA: Que sea
+ 1704  como tú quieres. // NISE: Finea,
+ 1705  déjame a Laurencio a mí.
+ 1706  Marido tienes. // FINEA: Yo creo
+ 1707  que no riñamos las dos.
+
+NISE
+ 1708  Quédate con Dios. // FINEA: Adiós.
+
+[ACOTACIÓN] (Váyase NISE.)
+
+--- escena 15 ---
+
+[ACOTACIÓN] Entre LAURENCIO.- [FINEA.]
+
+FINEA
+ 1709  ¡En qué confusión me veo!
+ 1710  ¿Hay mujer más desdichada?
+ 1711  Todos dan en perseguirme.
+
+LAURENCIO
+ 1712  [Aparte.]Detente en un punto firme,
+
+[ACOTACIÓN] [Aparte.]
+ 1713  fortuna veloz y airada,
+ 1714  que ya parece que quieres
+ 1715  ayudar mi pretensión.
+ 1716  ¡Oh, qué gallarda ocasión!
+ 1717  ¿Eres tú, mi bien? // FINEA: No esperes,
+ 1718  Laurencio, verme jamás.
+ 1719  Todos me riñen por ti.
+
+LAURENCIO
+ 1720  Pues, ¿qué te han dicho de mí?
+
+FINEA
+ 1721  Eso agora lo sabrás.
+ 1722  ¿Dónde está mi pensamiento?
+
+LAURENCIO
+ 1723  ¿Tu pensamiento? // FINEA: Sí. // LAURENCIO: En ti;
+ 1724  porque si estuviera en mí,
+ 1725  ya estuviera más contento.
+
+FINEA
+ 1726  ¿Vesle tú? // LAURENCIO: Yo no, jamás.
+
+FINEA
+ 1727  Mi hermana me dijo aquí
+ 1728  que no has de pasarme a mí
+ 1729  por el pensamiento más;
+ 1730  por eso allá te desvía,
+ 1731  y no me pases por él.
+
+LAURENCIO
+ 1732  [Aparte.]Piensa que yo estoy en él,
+
+[ACOTACIÓN] [Aparte.]
+ 1733  y echarme fuera querría.
+
+FINEA
+ 1734  Tras esto dice que en mí
+ 1735  pusiste los ojos... // LAURENCIO: Dice
+ 1736  verdad; no lo contradice
+ 1737  el alma que vive en ti.
+
+FINEA
+ 1738  Pues tú me has de quitar luego
+ 1739  los ojos que me pusiste.
+
+LAURENCIO
+ 1740  ¿Cómo, si en amor consiste?
+
+FINEA
+ 1741  Que me los quites, te ruego,
+ 1742  con ese lienzo, de aquí,
+ 1743  si yo los tengo en mis ojos.
+
+LAURENCIO
+ 1744  No más; cesen los enojos.
+
+FINEA
+ 1745  ¿No están en mis ojos? // LAURENCIO: Sí.
+
+FINEA
+ 1746  Pues limpia y quita los tuyos,
+ 1747  que no han de estar en los míos.
+
+LAURENCIO
+ 1748  ¡Qué graciosos desvaríos!
+
+FINEA
+ 1749  Ponlos a Nise en los suyos.
+
+LAURENCIO
+ 1750  Ya te limpio con el lienzo.
+
+FINEA
+ 1751  ¿Quitástelos? // LAURENCIO: ¿No lo ves?
+
+FINEA
+ 1752  Laurencio, no se los des,
+ 1753  que a sentir penas comienzo.
+ 1754  Pues más hay: que el padre mío
+ 1755  bravamente se ha enojado
+ 1756  del abrazo que me has dado.
+
+LAURENCIO
+ 1757  [Aparte.]¿Mas que hay otro desvarío?
+
+[ACOTACIÓN] [Aparte.]
+
+FINEA
+ 1758  También me le has de quitar;
+ 1759  no ha de reñirme por esto.
+
+LAURENCIO
+ 1760  ¿Cómo ha de ser? // FINEA: Siendo. Presto,
+ 1761  ¿no sabes desabrazar?
+
+LAURENCIO
+ 1762  El brazo derecho alcé;
+ 1763  tienes razón, ya me acuerdo,
+ 1764  y agora alzaré el izquierdo,
+ 1765  y el abrazo desharé.
+
+FINEA
+ 1766  ¿Estoy ya desabrazada?
+
+LAURENCIO
+ 1767  ¿No lo ves?
+
+--- escena 16 ---
+
+[ACOTACIÓN] Entre NISE.- [Dichos.]
+
+FINEA
+ 1768  Huélgome, Nise, también,
+ 1769  que ya no me dirás nada.
+ 1770  Ya Laurencio no me pasa
+ 1771  por el pensamiento a mí;
+ 1772  ya los ojos le volví,
+ 1773  pues que contigo se casa.
+ 1774  En el lienzo los llevó,
+ 1775  y ya me ha desabrazado.
+
+LAURENCIO
+ 1776  Tú sabrás lo que ha pasado,
+ 1777  con harta risa. // NISE: Aquí no.
+ 1778  Vamos los dos al jardín,
+ 1779  que tengo bien que riñamos.
+
+LAURENCIO
+ 1780  Donde tú quisieres vamos.
+
+[ACOTACIÓN] (Váyanse LAURENCIO y NISE.)
+
+--- escena 17 ---
+
+[ACOTACIÓN] [FINEA sola.]
+
+FINEA
+ 1781  Ella se le lleva, en fin.
+ 1782  ¿Qué es esto, que me da pena
+ 1783  de que se vaya con él?
+ 1784  Estoy por irme tras él.
+ 1785  ¿Qué es esto que me enajena
+ 1786  de mi propia libertad?
+ 1787  No me hallo sin Laurencio.
+ 1788  Mi padre es este; silencio.
+ 1789  Callad, lengua; ojos, hablad.
+
+--- escena 18 ---
+
+[ACOTACIÓN] Entre OTAVIO.- [FINEA.]
+
+OTAVIO
+ 1790  ¿Adónde está tu esposo? // FINEA: Yo pensaba
+ 1791  que lo primero, en viéndome, que hicieras
+ 1792  fuera saber de mí si te obedezco.
+
+OTAVIO
+ 1793  Pues eso, ¿a qué propósito? // FINEA: ¿Enojado
+ 1794  no me dijiste aquí que era mal hecho
+ 1795  abrazar a Laurencio? Pues agora
+ 1796  que me desabrazase le he rogado,
+ 1797  y el abrazo pasado me ha quitado.
+
+OTAVIO
+ 1798  ¿Hay cosa semejante? ¡Pues di, bestia!,
+ 1799  ¿otra vez le abrazabas? // FINEA: Que no es eso;
+ 1800  fue la primera alzado el brazo
+ 1801  derecho de Laurencio, aquel abrazo,
+ 1802  y agora levantó, que bien me acuerdo,
+ 1803  porque fuese al revés, el brazo izquierdo:
+ 1804  luego desabrazada estoy agora.
+
+OTAVIO
+ 1805  [Aparte.]Cuando pienso que sabe, más ignora;
+
+[ACOTACIÓN] [Aparte.]
+ 1806  ello es querer hacer lo que no quiso
+ 1807  Naturaleza. // FINEA: Diga, señor padre:
+ 1808  ¿cómo llaman aquello que se siente
+ 1809  cuando se va con otro lo que se ama?
+
+OTAVIO
+ 1810  Ese agravio de amor, celos se llama.
+
+FINEA
+ 1811  ¿Celos? // OTAVIO: Pues, ¿no lo ves, que son sus hijos?
+
+FINEA
+ 1812  El padre puede dar mil regocijos;
+ 1813  y es muy hombre de bien, mas desdichado
+ 1814  en que tan malos hijos ha criado.
+
+OTAVIO
+ 1815  [Aparte.]Luz va tiniendo ya. Pienso y bien pienso
+
+[ACOTACIÓN] [Aparte.]
+ 1816  que si amor la enseñase, aprendería.
+
+FINEA
+ 1817  ¿Con qué se quita el mal de celosía?
+
+OTAVIO
+ 1818  Con desenamorarse, si hay agravio,
+ 1819  que es el remedio más prudente y sabio;
+ 1820  que mientras hay amor ha de haber celos,
+ 1821  pensión que dieron a este bien los cielos.
+ 1822  ¿Adónde Nise está? // FINEA: Junto a la fuente
+ 1823  con Laurencio se fue. // OTAVIO: ¡Cansada cosa!
+ 1824  Aprenda noramala a hablar su prosa,
+ 1825  déjese de sonetos y canciones;
+ 1826  allá voy a romperle las razones.
+
+[ACOTACIÓN] (Váyase.)
+
+FINEA
+ 1827  ¿Por quién, en el mundo, pasa
+ 1828  esto que pasa por mí?
+ 1829  ¿Qué vi denantes, qué vi,
+ 1830  que así me enciende y me abrasa?
+ 1831  Celos dice el padre mío
+ 1832  que son. ¡Brava enfermedad!
+
+--- escena 19 ---
+
+[ACOTACIÓN] Entre LAURENCIO.- [FINEA.]
+
+LAURENCIO
+ 1833  [Aparte.]Huyendo su autoridad,
+
+[ACOTACIÓN] [Aparte.]
+ 1834  de enojarle me desvío;
+ 1835  aunque, en parte, le agradezco
+ 1836  que estorbase los enojos
+ 1837  de Nise. Aquí están los ojos
+ 1838  a cuyos rayos me ofrezco.
+ 1839  ¿Señora?... // FINEA: Estoy por no hablarte.
+ 1840  ¿Cómo te fuiste con Nise?
+
+LAURENCIO
+ 1841  No me fui porque yo quise.
+
+FINEA
+ 1842  Pues, ¿por qué? // LAURENCIO: Por no enojarte.
+
+FINEA
+ 1843  Pésame si no te veo,
+ 1844  y en viéndote ya querría
+ 1845  que te fueses, y a porfía
+ 1846  anda el temor y el deseo.
+ 1847  Yo estoy celosa de ti;
+ 1848  que ya sé lo que son celos;
+ 1849  que su duro nombre, ¡ay cielos!,
+ 1850  me dijo mi padre aquí;
+ 1851  mas también me dio el remedio.
+
+LAURENCIO
+ 1852  ¿Cuál es? // FINEA: Desenamorarme;
+ 1853  porque podré sosegarme
+ 1854  quitando el amor de en medio.
+
+LAURENCIO
+ 1855  Pues eso, ¿cómo ha de ser?
+
+FINEA
+ 1856  El que me puso el amor
+ 1857  me le quitará mejor.
+
+LAURENCIO
+ 1858  Un remedio suele haber.
+
+FINEA
+ 1859  ¿Cuál? // LAURENCIO: Los que vienen aquí
+ 1860  al remedio ayudarán.
+
+--- escena 20 ---
+
+[ACOTACIÓN] Entren PEDRO,DUARDO y FENISO.- [Dichos.]
+
+PEDRO
+ 1861  Finea y Laurencio están
+ 1862  juntos. // FENISO: Y él fuera de sí.
+
+LAURENCIO
+ 1863  Seáis los tres bien venidos
+ 1864  a la ocasión más gallarda
+ 1865  que se me pudo ofrecer;
+ 1866  y pues de los dos el alma
+ 1867  a sola Nise discreta
+ 1868  inclina las esperanzas,
+ 1869  oíd lo que con Finea
+ 1870  para mi remedio pasa.
+
+DUARDO
+ 1871  En esta casa parece,
+ 1872  según por los aires andas,
+ 1873  que te ha dado hechizos Circe:
+ 1874  nunca sales de esta casa.
+
+LAURENCIO
+ 1875  Yo voy con mi pensamiento
+ 1876  haciendo una rica traza
+ 1877  para hacer oro de alquimia.
+
+PEDRO
+ 1878  La salud y el tiempo gastas.
+ 1879  Igual sería, señor,
+ 1880  cansarte, pues todo cansa,
+ 1881  de pretender imposibles.
+
+LAURENCIO
+ 1882  ¡Calla, necio! // PEDRO: El nombre basta
+ 1883  para no callar jamás;
+ 1884  que nunca los necios callan.
+
+LAURENCIO
+ 1885  Aguardadme mientras hablo
+ 1886  a Finea. // DUARDO: Parte. // LAURENCIO: Hablaba,
+ 1887  Finea hermosa, a los tres,
+ 1888  para el remedio que aguardas.
+
+FINEA
+ 1889  ¡Quítame presto el amor,
+ 1890  que con sus celos me mata!
+
+LAURENCIO
+ 1891  Si dices delante destos
+ 1892  cómo me das la palabra
+ 1893  de ser mi esposa y mujer,
+ 1894  todos los celos se acaban.
+
+FINEA
+ 1895  ¿Eso no más? Yo lo haré.
+
+LAURENCIO
+ 1896  Pues tú misma a los tres llama.
+
+FINEA
+ 1897  ¡Feniso, Düardo, Pedro!
+
+LOS TRES
+ 1898  ¡Señora! // FINEA: Yo doy palabra
+ 1899  de ser esposa y mujer
+ 1900  de Laurencio. // DUARDO: ¡Cosa extraña!
+
+LAURENCIO
+ 1901  ¿Sois testigos desto? // LOS TRES: Sí.
+
+LAURENCIO
+ 1902  Pues haz cuenta que estás sana
+ 1903  del amor y de los celos
+ 1904  que tanta pena te daban.
+
+FINEA
+ 1905  ¡Dios te lo pague, Laurencio!
+
+LAURENCIO
+ 1906  Venid los tres a mi casa;
+ 1907  que tengo un notario allí.
+
+FENISO
+ 1908  Pues, ¿con Finea te casas?
+
+LAURENCIO
+ 1909  Sí, Feniso. // FENISO: ¿Y Nise bella?
+
+LAURENCIO
+ 1910  Troqué discreción por plata.
+
+--- escena 21 ---
+
+[ACOTACIÓN] Quede FINEA sola, y entren NISE y OTAVIO.
+
+NISE
+ 1911  Hablando estaba con él
+ 1912  cosas de poca importancia.
+
+OTAVIO
+ 1913  Mira, hija, que estas cosas
+ 1914  más deshonor que honor causan.
+
+NISE
+ 1915  Es un honesto mancebo
+ 1916  que de buenas letras trata,
+ 1917  y téngole por maestro.
+
+OTAVIO
+ 1918  No era tan blanco en Granada
+ 1919  Juan Latino, que la hija
+ 1920  de un Veinticuatro enseñaba;
+ 1921  y siendo negro y esclavo,
+ 1922  porque fue su madre esclava
+ 1923  del claro Duque de Sessa,
+ 1924  honor de España y de Italia,
+ 1925  se vino a casar con ella;
+ 1926  que Gramática estudiaba,
+ 1927  y la enseñó a conjugar
+ 1928  en llegando al amo, amas;
+ 1929  que así llama el matrimonio
+ 1930  el latín. // NISE: De eso me guarda
+ 1931  ser tu hija. // FINEA: ¿Murmuráis
+ 1932  de mis cosas? // OTAVIO: ¿Aquí estaba
+ 1933  esta loca? // FINEA: Ya no es tiempo
+ 1934  de reñirme. // OTAVIO: ¿Quién te habla?,
+ 1935  ¿quién te riñe? // FINEA: Nise y tú.
+ 1936  Pues sepan que agora acaba
+ 1937  de quitarme el amor todo
+ 1938  Laurencio, como la palma.
+
+OTAVIO
+ 1939  [Aparte.]¿Hay alguna bobería?
+
+[ACOTACIÓN] [Aparte.]
+
+FINEA
+ 1940  Díjome que se quitaba
+ 1941  el amor con que le diese
+ 1942  de su mujer la palabra;
+ 1943  y delante de testigos
+ 1944  se la he dado, y estoy sana
+ 1945  del amor y de los celos.
+
+OTAVIO
+ 1946  ¡Esto es cosa temeraria!
+ 1947  Esta, Nise, ha de quitarme
+ 1948  la vida. // NISE: ¿Palabra dabas
+ 1949  de mujer a ningún hombre?
+ 1950  ¿No sabes que estás casada?
+
+FINEA
+ 1951  ¿Para quitarme el amor,
+ 1952  qué importa? // OTAVIO: No entre en mi casa
+ 1953  Laurencio más. // NISE: Es error,
+ 1954  porque Laurencio la engaña:
+ 1955  que él y Liseo y lo dicen
+ 1956  no más de para enseñarla.
+
+OTAVIO
+ 1957  De esa manera, yo callo.
+
+FINEA
+ 1958  ¡Oh! Pues, ¿con eso nos tapa
+ 1959  la boca? // OTAVIO: Vente conmigo.
+
+FINEA
+ 1960  ¿A dónde? // OTAVIO: Donde te aguarda
+ 1961  un notario. // FINEA: Vamos. // OTAVIO: [Aparte.]Ven.
+
+[ACOTACIÓN] [Aparte.]
+ 1962  ¡Qué descanso de mis canas!
+
+[ACOTACIÓN] [Vanse.]
+
+[ACOTACIÓN] (NISE sola.)
+
+NISE
+ 1963  Hame contado Laurencio
+ 1964  que han tomado aquesta traza
+ 1965  Liseo y él, para ver
+ 1966  si aquella rudeza labran,
+ 1967  y no me parece mal.
+
+--- escena 22 ---
+
+[ACOTACIÓN] Entre LISEO.- [NISE.]
+
+LISEO
+ 1968  ¿Hate contado mis ansias
+ 1969  Laurencio, discreta Nise?
+
+NISE
+ 1970  ¿Qué me dices? ¿Sueñas o hablas?
+
+LISEO
+ 1971  Palabra me dio Laurencio
+ 1972  de ayudar mis esperanzas,
+ 1973  viendo que las pongo en ti.
+
+NISE
+ 1974  Pienso que de hablar te cansas
+ 1975  con tu esposa, o que se embota
+ 1976  en la dureza que labras
+ 1977  el cuchillo de tu gusto,
+ 1978  y, para volver a hablarla,
+ 1979  quieres darle un filo en mí.
+
+LISEO
+ 1980  Verdades son las que trata
+ 1981  contigo mi amor, no burlas.
+
+NISE
+ 1982  ¿Estás loco? // LISEO: Quien pensaba
+ 1983  casarse con quien lo era,
+ 1984  de pensarlo ha dado causa.
+ 1985  Yo he mudado pensamiento.
+
+NISE
+ 1986  ¡Qué necedad, qué inconstancia,
+ 1987  qué locura, error, traición
+ 1988  a mi padre y a mi hermana!
+ 1989  ¡Id en buen hora, Liseo!
+
+LISEO
+ 1990  ¿Desa manera me pagas
+ 1991  tan desatinado amor?
+
+NISE
+ 1992  Pues, si es desatino, ¡basta!
+
+--- escena 23 ---
+
+[ACOTACIÓN] Entre LAURENCIO.- [Dichos.]
+
+LAURENCIO
+ 1993  [Aparte.]Hablando están los dos solos.
+
+[ACOTACIÓN] [Aparte.]
+ 1994  Si Liseo se declara,
+ 1995  Nise ha de saber también
+ 1996  que mis lisonjas la engañan.
+ 1997  Creo que me ha visto ya.
+
+[ACOTACIÓN] (NISE dice, como que habla con LISEO.)
+
+NISE
+ 1998  ¡Oh, gloria de mi esperanza!
+
+LISEO
+ 1999  ¿Yo vuestra gloria, señora?
+
+NISE
+ 2000  Aunque dicen que me tratas
+ 2001  con traición, yo no lo creo;
+ 2002  que no lo consiente el alma.
+
+LISEO
+ 2003  ¿Traición, Nise? ¡Si en mi vida
+ 2004  mostrare amor a tu hermana,
+ 2005  me mate un rayo del cielo!
+
+LAURENCIO
+ 2006  [Aparte.]Es conmigo con quien habla
+
+[ACOTACIÓN] [Aparte.]
+ 2007  Nise, y presume Liseo
+ 2008  que le requiebra y regala.
+
+NISE
+ 2009  Quiérome quitar de aquí;
+ 2010  que con tal fuerza me engaña
+ 2011  amor, que diré locuras.
+
+LISEO
+ 2012  No os vais, ¡oh Nise gallarda!;
+ 2013  que después de los favores
+ 2014  quedará sin vida el alma.
+
+NISE
+ 2015  ¡Dejadme pasar!
+
+[ACOTACIÓN] [Vase.]
+
+--- escena 24 ---
+
+[ACOTACIÓN] [LISEO yLAURENCIO.]
+
+LISEO
+ 2016  estabas a mis espaldas?
+
+LAURENCIO
+ 2017  Agora entré. // LISEO: ¿Luego a ti
+ 2018  te hablaba y te requebraba,
+ 2019  aunque me miraba a mí,
+ 2020  aquella discreta ingrata?
+
+LAURENCIO
+ 2021  No tengas pena; las piedras
+ 2022  ablanda el curso del agua.
+ 2023  Yo sabré hacer que esta noche
+ 2024  puedas, en mi nombre, hablarla.
+ 2025  Esta es discreta, Liseo.
+ 2026  No podrás, si no la engañas,
+ 2027  quitalla del pensamiento
+ 2028  el imposible que aguarda;
+ 2029  porque yo soy de Finea.
+
+LISEO
+ 2030  Si mi remedio no trazas,
+ 2031  cuéntame loco de amor.
+
+LAURENCIO
+ 2032  Déjame el remedio, y calla;
+ 2033  porque burlar un discreto
+ 2034  es la vitoria más alta.
+
+
+===== ACTO 3 =====
+
+--- escena 1 ---
+
+[ACOTACIÓN] [FINEA sola.]
+
+FINEA
+ 2035  ¡Amor, divina invención
+ 2036  de conservar la belleza
+ 2037  de nuestra naturaleza,
+ 2038  o accidente o elección!
+ 2039  Extraños efetos son
+ 2040  los que de tu ciencia nacen,
+ 2041  pues las tinieblas deshacen,
+ 2042  pues hacen hablar los mudos,
+ 2043  pues los ingenios más rudos
+ 2044  sabios y discretos hacen.
+ 2045  No ha dos meses que vivía
+ 2046  a las bestias tan igual,
+ 2047  que aun el alma racional
+ 2048  parece que no tenía.
+ 2049  Con el animal sentía
+ 2050  y crecía con la planta;
+ 2051  la razón divina y santa
+ 2052  estaba eclipsada en mí,
+ 2053  hasta que en tus rayos vi,
+ 2054  a cúyo sol se levanta.
+ 2055  Tú desataste y rompiste
+ 2056  la escuridad de mi ingenio;
+ 2057  tú fuiste el divino genio
+ 2058  que me enseñaste, y me diste
+ 2059  la luz con que me pusiste
+ 2060  el nuevo ser en que estoy.
+ 2061  Mil gracias, amor, te doy,
+ 2062  pues me enseñaste tan bien,
+ 2063  que dicen cuantos me ven
+ 2064  que tan diferente soy.
+ 2065  A pura imaginación
+ 2066  de la fuerza de un deseo,
+ 2067  en los palacios me veo
+ 2068  de la divina razón.
+ 2069  ¡Tanto la contemplación
+ 2070  de un bien pudo levantarme!
+ 2071  Ya puedes del grado honrarme,
+ 2072  dándome a Laurencio, amor,
+ 2073  con quien pudiste mejor,
+ 2074  enamorada, enseñarme.
+
+--- escena 2 ---
+
+[ACOTACIÓN] CLARA.- [FINEA.]
+
+CLARA
+ 2075  En grande conversación
+ 2076  están de tu entendimiento.
+
+FINEA
+ 2077  Huélgome que esté contento
+ 2078  mi padre en esta ocasión.
+
+CLARA
+ 2079  Hablando está con Miseno
+ 2080  de cómo lees, escribes
+ 2081  y danzas; dice que vives
+ 2082  con otra alma en cuerpo ajeno.
+ 2083  Atribúyele al amor
+ 2084  de Liseo este milagro.
+
+FINEA
+ 2085  En otras aras consagro
+ 2086  mis votos, Clara, mejor:
+ 2087  Laurencio ha sido el maestro.
+
+CLARA
+ 2088  Como Pedro lo fue mío.
+
+FINEA
+ 2089  De verlos hablar me río
+ 2090  en este milagro nuestro.
+ 2091  ¡Gran fuerza tiene el amor,
+ 2092  catedrático divino!
+
+--- escena 3 ---
+
+[ACOTACIÓN] MISENO yOTAVIO.
+
+MISENO
+ 2093  Yo pienso que es el camino
+ 2094  de su remedio mejor.
+ 2095  Y ya, pues habéis llegado
+ 2096  a ver con entendimiento
+ 2097  a Finea, que es contento
+ 2098  nunca de vos esperado,
+ 2099  a Nise podéis casar
+ 2100  con este mozo gallardo.
+
+OTAVIO
+ 2101  Vos solamente a Düardo
+ 2102  pudiérades abonar.
+ 2103  Mozuelo me parecía
+ 2104  destos que se desvanecen,
+ 2105  a quien agora enloquecen
+ 2106  la arrogancia y la poesía.
+ 2107  No son gracias de marido
+ 2108  sonetos. Nise es tentada
+ 2109  de académica endiosada,
+ 2110  que a casa los ha traído.
+ 2111  ¿Quién le mete a una mujer
+ 2112  con Petrarca y Garcilaso,
+ 2113  siendo su Virgilio y Taso
+ 2114  hilar, labrar y coser?
+ 2115  Ayer sus librillos vi,
+ 2116  papeles y escritos varios;
+ 2117  pensé que devocionarios,
+ 2118  y desta suerte leí:
+ 2119  Historia de dos amantes,
+ 2120  sacada de lengua griega;
+ 2121  Rimas, de Lope de Vega;
+ 2122  Galatea, de Cervantes;
+ 2123  el Camões de Lisboa,
+ 2124  Los pastores de Belén,
+ 2125  Comedias de don Guillén
+ 2126  de Castro, Liras de Ochoa;
+ 2127  Canción que Luis Vélez dijo
+ 2128  en la academia del duque
+ 2129  de Pastrana; Obras de Luque;
+ 2130  Cartas de don Juan de Arguijo;
+ 2131  Cien sonetos de Liñán,
+ 2132  Obras de Herrera el divino,
+ 2133  el libro del Peregrino,
+ 2134  y El pícaro, de Alemán.
+ 2135  Mas, ¿qué os canso? Por mi vida,
+ 2136  que se los quise quemar.
+
+MISENO
+ 2137  Casalda y veréisla estar
+ 2138  ocupada y divertida
+ 2139  en el parir y el criar.
+
+OTAVIO
+ 2140  ¡Qué gentiles devociones!
+ 2141  Si Düardo hace canciones,
+ 2142  bien los podemos casar.
+
+MISENO
+ 2143  Es poeta caballero,
+ 2144  no temáis; hará por gusto
+ 2145  versos. // OTAVIO: Con mucho disgusto
+ 2146  los de Nise considero.
+ 2147  Temo, y en razón lo fundo,
+ 2148  si en esto da, que ha de haber
+ 2149  un don Quijote mujer
+ 2150  que dé que reir al mundo.
+
+--- escena 4 ---
+
+[ACOTACIÓN] Entren LISEO yNISE [y TURÍN.- Dichos.]
+
+LISEO
+ 2151  Trátasme con tal desdén,
+ 2152  que pienso que he de apelar
+ 2153  adonde sepan tratar
+ 2154  mis obligaciones bien;
+ 2155  pues advierte, Nise bella,
+ 2156  que Finea ya es sagrado;
+ 2157  que un amor tan desdeñado
+ 2158  puede hallar remedio en ella.
+ 2159  Tu desdén, que imaginé
+ 2160  que pudiera ser menor,
+ 2161  crece al paso de mi amor,
+ 2162  medra al lado de mi fe;
+ 2163  y su corto entendimiento
+ 2164  ha llegado a tal mudanza,
+ 2165  que puede dar esperanza
+ 2166  a mi loco pensamiento.
+ 2167  Pues, Nise, trátame bien;
+ 2168  u de Finea el favor
+ 2169  será sala en que mi amor
+ 2170  apele de tu desdén.
+
+NISE
+ 2171  Liseo, el hacerme fieros
+ 2172  fuera bien considerado
+ 2173  cuando yo te hubiera amado.
+
+LISEO
+ 2174  Los nobles y caballeros
+ 2175  como yo, se han de estimar,
+ 2176  no lo indigno de querer.
+
+NISE
+ 2177  El amor se ha de tener
+ 2178  adonde se puede hallar;
+ 2179  que como no es elección,
+ 2180  sino sólo un accidente,
+ 2181  tiénese donde se siente,
+ 2182  no donde fuera razón.
+ 2183  El amor no es calidad,
+ 2184  sino estrellas que conciertan
+ 2185  las voluntades que aciertan
+ 2186  a ser una voluntad.
+
+LISEO
+ 2187  Eso, señora, no es justo;
+ 2188  y no lo digo con celos,
+ 2189  que pongáis culpa a los cielos
+ 2190  de la bajeza del gusto.
+ 2191  A lo que se hace mal,
+ 2192  no es bien decir: «Fue mi estrella.»
+
+NISE
+ 2193  Yo no pongo culpa en ella,
+ 2194  ni en el curso celestial;
+ 2195  porque Laurencio es un hombre
+ 2196  tan hidalgo y caballero
+ 2197  que puede honrar... // LISEO: ¡Paso! // NISE: Quiero
+ 2198  que reverenciéis su nombre.
+
+LISEO
+ 2199  A no estar tan cerca Otavio...
+
+OTAVIO
+ 2200  ¡Oh, Liseo! // LISEO: ¡Oh, mi señor!
+
+NISE
+ 2201  [Aparte.]¡Que se ha de tener amor
+
+[ACOTACIÓN] [Aparte.]
+ 2202  por fuerza! ¡Notable agravio!
+
+--- escena 5 ---
+
+[ACOTACIÓN] Entre CELIA.- [Dichos.]
+
+CELIA
+ 2203  El maestro de danzar
+ 2204  a las dos llama a lición.
+
+OTAVIO
+ 2205  Él viene a buena ocasión.
+ 2206  Vaya un criado a llamar
+ 2207  los músicos, porque vea
+ 2208  Miseno a lo que ha llegado
+ 2209  Finea.
+
+--- escena 6 ---
+
+[ACOTACIÓN] [Músicos.- Dichos.]
+
+[ACOTACIÓN] [Aparte.]
+
+LISEO
+ 2210  hoy volveréis a Finea;
+ 2211  que muchas veces amor,
+ 2212  disfrazado en la venganza,
+ 2213  hace una justa mudanza
+ 2214  desde un desdén a un favor.
+
+CELIA
+ 2215  Los músicos y él venían.
+
+[ACOTACIÓN] (Entren los Músicos.)
+
+OTAVIO
+ 2216  ¡Muy bien venidos seáis!
+
+LISEO
+ 2217  [Aparte.]¡Hoy, pensamientos, vengáis
+
+[ACOTACIÓN] [Aparte.]
+ 2218  los agravios que os hacían!
+
+OTAVIO
+ 2219  Nise y Finea... // NISE: ¡Señor!...
+
+[OTAVIO]
+ 2220  Vaya aquí, por vida mía,
+ 2221  el baile del otro día.
+
+LISEO
+ 2222  [Aparte.]¡Todo es mudanzas amor!
+
+[ACOTACIÓN] [Aparte.]
+
+[ACOTACIÓN] (OTAVIO,MISENO y LISEO se sienten; los Músicos canten, y las dos bailen ansí.)
+
+MÚSICOS
+ 2223  Amor, cansado de ver
+ 2224  tanto interés en las damas,
+ 2225  y que, por desnudo y pobre,
+ 2226  ninguna favor le daba,
+ 2227  pasóse a las Indias,
+ 2228  vendió el aljaba,
+ 2229  que más quiere doblones
+ 2230  que vidas y almas.
+ 2231  Trató en las Indias Amor,
+ 2232  no en joyas, sedas y holandas,
+ 2233  sino en ser sutil tercero
+ 2234  de billetes y de cartas.
+ 2235  Volvió de las Indias
+ 2236  con oro y plata;
+ 2237  que el Amor bien vestido
+ 2238  rinde las damas.
+ 2239  Paseó la corte Amor
+ 2240  con mil cadenas y bandas;
+ 2241  las damas, como le vían,
+ 2242  desta manera le hablan:
+ 2243  ¿De dó viene, de dó viene?
+ 2244  -Viene de Panamá.-
+ 2245  ¿De dó viene el caballero?
+ 2246  -Viene de Panamá.-
+ 2247  Trancelín en el sombrero,
+ 2248  -Viene de Panamá.-
+ 2249  cadenita de oro al cuello,
+ 2250  -Viene de Panamá.-
+ 2251  en los brazos el grig[u]iesco,
+ 2252  -Viene de Panamá.-
+ 2253  las ligas con rapacejos,
+ 2254  -Viene de Panamá.-
+ 2255  zapatos al uso nuevo,
+ 2256  -Viene de Panamá.-
+ 2257  sotanilla a lo turquesco.
+ 2258  -Viene de Panamá.-
+ 2259  ¿De dó viene, de dó viene?
+ 2260  -Viene de Panamá.-
+ 2261  ¿De dó viene el hijo de algo?
+ 2262  -Viene de Panamá.-
+ 2263  Corto cuello y puños largos,
+ 2264  -Viene de Panamá.-
+ 2265  la daga en banda colgando,
+ 2266  -Viene de Panamá.-
+ 2267  guante de ámbar adobado,
+ 2268  -Viene de Panamá.-
+ 2269  gran jugador del vocablo,
+ 2270  -Viene de Panamá.-
+ 2271  no da dinero y da manos,
+ 2272  -Viene de Panamá.-
+ 2273  enfadoso mal criado;
+ 2274  -Viene de Panamá.-
+ 2275  es Amor, llámase indiano,
+ 2276  -Viene de Panamá.-
+ 2277  es chapetón castellano,
+ 2278  -Viene de Panamá.-
+ 2279  en criollo disfrazado.
+ 2280  -Viene de Panamá.-
+ 2281  ¿De dó viene, de dó viene?
+ 2282  -Viene de Panamá.-
+ 2283  ¡Oh, qué bien parece Amor
+ 2284  con las cadenas y galas!
+ 2285  Que solo el dar enamora,
+ 2286  porque es cifra de las gracias.
+ 2287  Niñas, doncellas y viejas
+ 2288  van a buscarle a su casa,
+ 2289  más importunas que moscas,
+ 2290  en viendo que hay miel de plata.
+ 2291  Sobre cuál le ha de querer,
+ 2292  de vivos celos se abrasan,
+ 2293  y alrededor de su puerta
+ 2294  unas tras otras le cantan:
+ 2295  ¡Deja las avellanicas, moro,
+ 2296  que yo me las varearé!
+ 2297  El Amor se ha vuelto godo,
+ 2298  -Que yo me las vareare.-
+ 2299  puños largos, cuello corto,
+ 2300  -Que yo me las varearé.-
+ 2301  sotanilla y liga de oro,
+ 2302  -Que yo me las varearé.-
+ 2303  sombrero y zapato romo,
+ 2304  -Que yo me las varearé.-
+ 2305  manga ancha, calzón angosto.
+ 2306  -Que yo me las varearé.-
+ 2307  Él habla mucho y da poco,
+ 2308  -Que yo me las varearé.-
+ 2309  es viejo, y dice que es mozo,
+ 2310  -Que yo me las varearé.-
+ 2311  es cobarde, y matamoros,
+ 2312  -Que yo me las varearé.-
+ 2313  Ya se descubrió los ojos.
+ 2314  -Que yo me las varearé.-
+ 2315  ¡Amor loco y amor loco!
+ 2316  -Que yo me las varearé.-
+ 2317  ¡Yo por vos, y vos por otro!
+ 2318  -Que yo me las varearé.-
+ 2319  Deja las avellanicas, moro,
+ 2320  que yo me las varearé.
+
+MISENO
+ 2321  ¡Gallardamente, por cierto!
+ 2322  Dad gracias al cielo, Otavio,
+ 2323  que os satisfizo el agravio.
+
+OTAVIO
+ 2324  Hagamos este concierto
+ 2325  de Düardo con [Nise].
+ 2326  Hijas, yo tengo que hablaros.
+
+FINEA
+ 2327  Yo nací para agradaros.
+
+OTAVIO
+ 2328  ¿Quién hay que mi dicha crea?
+
+--- escena 7 ---
+
+[ACOTACIÓN] Éntrense todos, y queden allí LISEO y TURÍN.
+
+LISEO
+ 2329  Oye, Turín. // TURÍN: ¿Qué me quieres?
+
+LISEO
+ 2330  Quiérote comunicar
+ 2331  un nuevo gusto. // TURÍN: Si es dar
+ 2332  sobre tu amor pareceres,
+ 2333  busca un letrado de amor.
+
+LISEO
+ 2334  Yo he mudado parecer.
+
+TURÍN
+ 2335  A ser dejar de querer
+ 2336  a Nise, fuera el mejor.
+
+LISEO
+ 2337  El mismo; porque Finea
+ 2338  me ha de vengar de su agravio.
+
+TURÍN
+ 2339  No te tengo por tan sabio
+ 2340  que tal discreción te crea.
+
+LISEO
+ 2341  De nuevo quiero tratar
+ 2342  mi casamiento. Allá voy.
+
+TURÍN
+ 2343  De tu parecer estoy.
+
+LISEO
+ 2344  Hoy me tengo de vengar.
+
+TURÍN
+ 2345  Nunca ha de ser el casarse
+ 2346  por vengarse de un desdén;
+ 2347  que nunca se casó bien
+ 2348  quien se casó por vengarse.
+ 2349  Porque es gallarda Finea
+ 2350  y porque el seso cobró
+ 2351  -pues de Nise no sé yo
+ 2352  que tan entendida sea-,
+ 2353  será bien casarte luego.
+
+LISEO
+ 2354  Miseno ha venido aquí.
+ 2355  Algo tratan contra mí.
+
+TURÍN
+ 2356  Que lo mires bien te ruego.
+
+LISEO
+ 2357  ¡No hay más! ¡A pedirla voy!
+
+[ACOTACIÓN] [Váyase LISEO.]
+
+TURÍN
+ 2358  El cielo tus pasos guíe
+ 2359  y del error te desvíe
+ 2360  en que yo por Celia estoy.
+ 2361  ¡Que enamore amor un hombre
+ 2362  como yo! ¡Amor desatina!
+ 2363  ¡Que una ninfa de cocina,
+ 2364  para blasón de su nombre,
+ 2365  ponga: «Aquí murió Turín
+ 2366  entre sartenes y cazos»!
+
+--- escena 8 ---
+
+[ACOTACIÓN] LAURENCIO yPEDRO.- [TURÍN.]
+
+LAURENCIO
+ 2367  Todo es poner embarazos
+ 2368  para que no llegue al fin.
+
+PEDRO
+ 2369  ¡Habla bajo, que hay escuchas!
+
+LAURENCIO
+ 2370  ¡Oh, Turín! // TURÍN: ¡Señor Laurencio...!
+
+LAURENCIO
+ 2371  ¿Tanta quietud y silencio?
+
+TURÍN
+ 2372  Hay obligaciones muchas
+ 2373  para callar un discreto,
+ 2374  y yo muy discreto soy.
+
+LAURENCIO
+ 2375  ¿Qué hay de Liseo? // TURÍN: A eso voy.
+ 2376  Fuese a casar. // PEDRO: ¡Buen secreto!
+
+TURÍN
+ 2377  Está tan enamorado
+ 2378  de la señora Finea,
+ 2379  si no es que venganza sea
+ 2380  de Nise, que me ha jurado
+ 2381  que luego se ha de casar.
+ 2382  Y es ido a pedirla a Otavio.
+
+LAURENCIO
+ 2383  ¿Podré yo llamarme a agravio?
+
+TURÍN
+ 2384  Pues, ¿él os puede agraviar?
+
+LAURENCIO
+ 2385  Las palabras, ¿suelen darse
+ 2386  para no cumplirlas? // TURÍN: No.
+
+LAURENCIO
+ 2387  De no casarse la dio.
+
+TURÍN
+ 2388  Él no la quiebra en casarse.
+
+LAURENCIO
+ 2389  ¿Cómo? // TURÍN: Porque él no se casa
+ 2390  con la que solía ser,
+ 2391  sino con otra mujer.
+
+LAURENCIO
+ 2392  ¿Cómo es otra? // TURÍN: Porque pasa
+ 2393  del no saber al saber;
+ 2394  y con saber le obligó.
+ 2395  ¿Mandáis otra cosa? // LAURENCIO: No.
+
+[TURÍN]
+ 2396  Pues adiós.
+
+[ACOTACIÓN] [Vase.]
+
+--- escena 9 ---
+
+[ACOTACIÓN] LAURENCIO yPEDRO.
+
+LAURENCIO
+ 2397  ¡Ay, Pedro! Lo que temí
+ 2398  y tenía sospechado
+ 2399  del ingenio que ha mostrado
+ 2400  Finea, se cumple aquí.
+ 2401  Como la ha visto Liseo
+ 2402  tan discreta, la afición
+ 2403  ha puesto en la discreción.
+
+PEDRO
+ 2404  Y en el oro algún deseo.
+ 2405  Cansóle la bobería.
+ 2406  la discreción le animó.
+
+--- escena 10 ---
+
+[ACOTACIÓN] Entre FINEA.- [Dichos.]
+
+FINEA
+ 2407  ¡Clara, Laurencio, me dio
+ 2408  nuevas de tanta alegría!
+ 2409  Luego a mi padre dejé,
+ 2410  y aunque ella me lo callara,
+ 2411  yo tengo quien me avisara,
+ 2412  que es el alma, que te ve
+ 2413  por mil vidros y cristales,
+ 2414  por donde quiera que vas,
+ 2415  porque en mis ojos estás
+ 2416  con memorias inmortales.
+ 2417  Todo este grande lugar
+ 2418  tiene colgado de espejos
+ 2419  mi amor, juntos y parejos,
+ 2420  para poderte mirar.
+ 2421  Si vuelvo el rostro allí, veo
+ 2422  tu imagen; si a estotra parte,
+ 2423  también; y ansí viene a darte
+ 2424  nombre de sol mi deseo;
+ 2425  que en cuantos espejos mira
+ 2426  y fuentes de pura plata,
+ 2427  su bello rostro retrata
+ 2428  y su luz divina espira.
+
+LAURENCIO
+ 2429  ¡Ay, Finea! ¡A Dios pluguiera
+ 2430  que nunca tu entendimiento
+ 2431  llegara, como ha llegado,
+ 2432  a la mudanza que veo!
+ 2433  Necio, me tuvo seguro,
+ 2434  y sospechoso discreto;
+ 2435  porque yo no te quería
+ 2436  para pedirte consejo.
+ 2437  ¿Qué libro esperaba yo
+ 2438  de tus manos? ¿En qué pleito
+ 2439  habías jamás de hacerme
+ 2440  información en derecho?
+ 2441  Inocente te quería,
+ 2442  porque una mujer cordero
+ 2443  es tusón de su marido,
+ 2444  que puede traerla al pecho.
+ 2445  Todas sabéis lo que basta
+ 2446  para casada, a lo menos;
+ 2447  no hay mujer necia en el mundo,
+ 2448  porque el no hablar no es defeto.
+ 2449  Hable la dama en la reja,
+ 2450  escriba, diga concetos
+ 2451  en el coche, en el estrado,
+ 2452  de amor, de engaños, de celos;
+ 2453  pero la casada sepa
+ 2454  de su familia el gobierno;
+ 2455  porque el más discreto hablar
+ 2456  no es sancto como el silencio.
+ 2457  Mira el daño que me vino
+ 2458  de transformarse tu ingenio,
+ 2459  pues va a pedirte, ¡ay de mí!,
+ 2460  para su mujer, Liseo.
+ 2461  Ya deja a Nise, tu hermana.
+ 2462  Él se casa. Yo soy muerto.
+ 2463  ¡Nunca, plega a Dios, hablaras!
+
+FINEA
+ 2464  ¿De qué me culpas, Laurencio?
+ 2465  A pura imaginación
+ 2466  del alto merecimiento
+ 2467  de tus prendas, aprendí
+ 2468  el que tú dices que tengo.
+ 2469  Por hablarte supe hablar,
+ 2470  vencida de tus requiebros;
+ 2471  por leer en tus papeles,
+ 2472  libros difíciles leo;
+ 2473  para responderte escribo.
+ 2474  No he tenido otro maestro
+ 2475  que amor; amor me ha enseñado.
+ 2476  Tú eres la ciencia que aprendo.
+ 2477  ¿De qué te quejas de mí?
+
+LAURENCIO
+ 2478  De mi desdicha me quejo;
+ 2479  pero, pues ya sabes tanto,
+ 2480  dame, señora, un remedio.
+
+FINEA
+ 2481  El remedio es fácil. // LAURENCIO: ¿Cómo?
+
+FINEA
+ 2482  Si, porque mi rudo ingenio,
+ 2483  que todos aborrecían,
+ 2484  se ha transformado en discreto,
+ 2485  Liseo me quiere bien,
+ 2486  con volver a ser tan necio
+ 2487  como primero le tuve,
+ 2488  me aborrecerá Liseo.
+
+LAURENCIO
+ 2489  Pues, ¿sabrás fingirte boba?
+
+FINEA
+ 2490  Sí; que lo fui mucho tiempo,
+ 2491  y el lugar donde se nace
+ 2492  saben andarle los ciegos.
+ 2493  Demás desto, las mujeres
+ 2494  naturaleza tenemos
+ 2495  tan pronta para fingir
+ 2496  o con amor o con miedo,
+ 2497  que, antes de nacer, fingimos.
+
+LAURENCIO
+ 2498  ¿Antes de nacer? // FINEA: Yo pienso
+ 2499  que en tu vida lo has oído.
+ 2500  Escucha. // LAURENCIO: Ya escucho atento.
+
+FINEA
+ 2501  Cuando estamos en el vientre
+ 2502  de nuestras madres, hacemos
+ 2503  entender a nuestros padres,
+ 2504  para engañar sus deseos,
+ 2505  que somos hijos varones;
+ 2506  y así verás que, contentos,
+ 2507  acuden a sus antojos
+ 2508  con amores, con requiebros,
+ 2509  y esperando el mayorazgo
+ 2510  tras tantos regalos hechos,
+ 2511  sale una hembra que corta
+ 2512  la esperanza del suceso.
+ 2513  Según esto, si pensaron
+ 2514  que era varón, y hembra vieron,
+ 2515  antes de nacer fingimos.
+
+LAURENCIO
+ 2516  Es evidente argumento;
+ 2517  pero yo veré si sabes
+ 2518  hacer, Finea, tan presto
+ 2519  mudanza de extremos tales.
+
+FINEA
+ 2520  Paso, que viene Liseo.
+
+LAURENCIO
+ 2521  Allí me voy a esconder.
+
+FINEA
+ 2522  Ve presto. // LAURENCIO: Sígueme, Pedro.
+
+PEDRO
+ 2523  En muchos peligros andas.
+
+LAURENCIO
+ 2524  Tal estoy, que no los siento.
+
+[ACOTACIÓN] [Escóndanse LAURENCIO y PEDRO.]
+
+--- escena 11 ---
+
+[ACOTACIÓN] Entre LISEO conTURÍN.- [FINEA.]
+
+LISEO
+ 2525  En fin, queda concertado.
+
+TURÍN
+ 2526  En fin, estaba del cielo
+ 2527  que fuese tu esposa. // LISEO: [Aparte.]Aquí
+
+[ACOTACIÓN] [Aparte.]
+ 2528  está mi primero dueño.
+ 2529  ¿No sabéis, señora mía,
+ 2530  cómo ha tratado Miseno
+ 2531  casar a Düardo y Nise,
+ 2532  y cómo yo también quiero
+ 2533  que se hagan nuestras bodas
+ 2534  con las suyas? // FINEA: No lo creo;
+ 2535  que Nise me ha dicho a mí
+ 2536  que está casada en secreto
+ 2537  con vos. // LISEO: ¿Conmigo? // FINEA: No sé
+ 2538  si érades vos u Oliveros.
+ 2539  ¿Quién sois vos? // LISEO: ¿Hay tal mudanza?
+
+FINEA
+ 2540  ¿Quién decís, que no me acuerdo?
+ 2541  Y si mudanza os parece,
+ 2542  ¿cómo no veis que en el cielo
+ 2543  cada mes hay nuevas lunas?
+
+LISEO
+ 2544  ¡Válgame el cielo! ¿Qué es esto?
+
+TURÍN
+ 2545  ¿Si le vuelve el mal pasado?
+
+FINEA
+ 2546  Pues, decidme: si tenemos
+ 2547  luna nueva cada mes,
+ 2548  ¿adónde están? ¿Qué se han hecho
+ 2549  las viejas de tantos años?
+ 2550  ¿Daisos por vencido? // LISEO: [Aparte.]Temo
+
+[ACOTACIÓN] [Aparte.]
+ 2551  que era locura su mal.
+
+FINEA
+ 2552  Guárdanlas para remiendos
+ 2553  de las que salen menguadas.
+ 2554  ¡Véis ahí que sois un necio!
+
+LISEO
+ 2555  Señora, mucho me admiro
+ 2556  de que ayer tan alto ingenio
+ 2557  mostrásedes. // FINEA: Pues, señor,
+ 2558  agora ha llegado al vuestro;
+ 2559  que la mayor discreción
+ 2560  es acomodarse al tiempo.
+
+LISEO
+ 2561  Eso dijo el mayor sabio.
+
+PEDRO
+ 2562  [Aparte.]Y esto escucha el mayor necio.
+
+[ACOTACIÓN] [Aparte.]
+
+LISEO
+ 2563  Quitado me habéis el gusto.
+
+FINEA
+ 2564  No he tocado a vos, por cierto;
+ 2565  mirad que se habrá caído.
+
+LISEO
+ 2566  [Aparte.]¡Linda ventura tenemos!
+
+[ACOTACIÓN] [Aparte.]
+ 2567  Pídole a Otavio a Finea,
+ 2568  y cuando a decirle vengo
+ 2569  el casamiento tratado,
+ 2570  hallo que a su ser se ha vuelto.
+ 2571  Volved, mi señora, en vos,
+ 2572  considerando que os quiero
+ 2573  por mi dueño, para siempre.
+
+FINEA
+ 2574  ¡Por mi dueña, majadero!
+
+LISEO
+ 2575  ¿Así tratáis un esclavo
+ 2576  que os da el alma? // FINEA: ¿Cómo es eso?
+
+LISEO
+ 2577  Que os doy el alma. // FINEA: ¿Qué es alma?
+
+LISEO
+ 2578  ¿Alma? El gobierno del cuerpo.
+
+FINEA
+ 2579  ¿Cómo es un alma? // LISEO: Señora,
+ 2580  como filósofo puedo
+ 2581  difinirla, no pintarla.
+
+FINEA
+ 2582  ¿No es alma la que en el peso
+ 2583  le pintan a San Miguel?
+
+LISEO
+ 2584  También a un ángel ponemos
+ 2585  alas y cuerpo, y, en fin,
+ 2586  es un espíritu bello.
+
+FINEA
+ 2587  ¿Hablan las almas? // LISEO: Las almas
+ 2588  obran por los instrumentos,
+ 2589  por los sentidos y partes
+ 2590  de que se organiza el cuerpo.
+
+FINEA
+ 2591  ¿Longaniza come el alma?...
+
+TURÍN
+ 2592  ¿En qué te cansas? // LISEO: No puedo
+ 2593  pensar sino que es locura.
+
+TURÍN
+ 2594  Pocas veces de los necios
+ 2595  se hacen los locos, señor.
+
+LISEO
+ 2596  Pues, ¿de quién? // TURÍN: De los discretos;
+ 2597  porque de diversas causas
+ 2598  nacen efetos diversos.
+
+LISEO
+ 2599  ¡Ay, Turín! Vuélvome a Nise.
+ 2600  Más quiero el entendimiento
+ 2601  que toda la voluntad.
+ 2602  Señora, pues mi deseo,
+ 2603  que era de daros mi alma,
+ 2604  no pudo tener efeto,
+ 2605  quedad con Dios. // FINEA: Soy medrosa
+ 2606  de las almas, porque temo
+ 2607  que de tres que andan pintadas,
+ 2608  puede ser la del infierno.
+ 2609  La noche de los difuntos
+ 2610  no saco de puro miedo
+ 2611  la cabeza de la ropa.
+
+TURÍN
+ 2612  Ella es loca sobre necio,
+ 2613  que es la peor guarnición.
+
+LISEO
+ 2614  Decirlo a su padre quiero.
+
+[ACOTACIÓN] (Váyanse.)
+
+--- escena 12 ---
+
+[ACOTACIÓN] LAURENCIO yPEDRO.- [FINEA.]
+
+LAURENCIO
+ 2615  ¿Puedo salir?... // FINEA: ¿Qué te dice?
+
+LAURENCIO
+ 2616  Que ha sido el mejor remedio
+ 2617  que pudiera imaginarse.
+
+FINEA
+ 2618  Sí; pero siento, en extremo,
+ 2619  volverme a boba, aun fingida.
+ 2620  Y, pues fingida lo siento,
+ 2621  los que son bobos de veras,
+ 2622  ¿cómo viven? // LAURENCIO: No sintiendo.
+
+PEDRO
+ 2623  Pues si un tonto ver pudiera
+ 2624  su entendimiento a un espejo,
+ 2625  ¿no fuera huyendo de sí?
+ 2626  La razón de estar contentos
+ 2627  es aquella confianza
+ 2628  de tenerse por discretos.
+
+FINEA
+ 2629  Háblame, Laurencio mío,
+ 2630  sutilmente, porque quiero
+ 2631  desquitarme de ser boba.
+
+--- escena 13 ---
+
+[ACOTACIÓN] Entren NISE yCELIA.- [Dichos.]
+
+NISE
+ 2632  Siempre Finea y Laurencio
+ 2633  juntos. Sin duda se tienen
+ 2634  amor. No es posible menos.
+
+CELIA
+ 2635  Yo sospecho que te engañan.
+
+NISE
+ 2636  Desde aquí los escuchemos.
+
+LAURENCIO
+ 2637  ¿Qué puede, hermosa Finea,
+ 2638  decirte el alma, aunque sale
+ 2639  de sí misma, que se iguale
+ 2640  a lo que mi amor desea?
+ 2641  Allá mis sentidos tienes:
+ 2642  escoge de lo sutil,
+ 2643  presumiendo que en abril
+ 2644  por amenos prados vienes.
+ 2645  Corta las diversas flores,
+ 2646  porque en mi imaginación,
+ 2647  tales los deseos son.
+
+NISE
+ 2648  Estos, Celia, ¿son amores,
+ 2649  o regalos de cuñado?
+
+CELIA
+ 2650  Regalos deben de ser;
+ 2651  pero no quisiera ver
+ 2652  cuñado tan regalado.
+
+FINEA
+ 2653  ¡Ay, Dios, si llegase día
+ 2654  en que viese mi esperanza
+ 2655  su posesión! // LAURENCIO: ¿Qué no alcanza
+ 2656  una amorosa porfía?
+
+PEDRO
+ 2657  Tu hermana, escuchando. // LAURENCIO: ¡Ay, cielos!
+
+FINEA
+ 2658  Vuélvome a boba. // LAURENCIO: Eso importa.
+
+FINEA
+ 2659  Vete. // NISE: Espérate, reporta
+ 2660  los pasos. // LAURENCIO: ¿Vendrás con celos?
+
+NISE
+ 2661  Celos son para sospechas;
+ 2662  traiciones son las verdades.
+
+LAURENCIO
+ 2663  ¡Qué presto te persüades
+ 2664  y de engaños te aprovechas!
+ 2665  ¿Querrás buscar ocasión
+ 2666  para querer a Liseo,
+ 2667  a quien ya tan cerca veo
+ 2668  de tu boda y posesión?
+ 2669  Bien haces, Nise; haces bien.
+ 2670  Levántame un testimonio,
+ 2671  porque deste matrimonio
+ 2672  a mí la culpa me den.
+ 2673  Y si te quieres casar,
+ 2674  déjame a mí.
+
+[ACOTACIÓN] [Váse.]
+
+NISE
+ 2675  ¡Vengo a quejarme, y te quejas!
+ 2676  ¿Aún no me dejas hablar?
+
+PEDRO
+ 2677  Tiene razón mi señor.
+ 2678  Cásate, y acaba ya.
+
+[ACOTACIÓN] [Vase.]
+
+--- escena 14 ---
+
+[ACOTACIÓN] [FINEA,NISE y CELIA.]
+
+NISE
+ 2679  ¿Qué es aquesto? // CELIA: Que se va
+ 2680  Pedro con el mismo humor,
+ 2681  y aquí viene bien que Pedro
+ 2682  es tan ruin como su amo.
+
+NISE
+ 2683  Ya le aborrezco y desamo.
+ 2684  ¡Qué bien con las quejas medro!
+ 2685  Pero fue linda invención
+ 2686  anticiparse a reñir.
+
+CELIA
+ 2687  Y el Pedro, ¿quién le vio ir
+ 2688  tan bellaco y socarrón?
+
+NISE
+ 2689  Y tú, que disimulando
+ 2690  estás la traición que has hecho,
+ 2691  lleno de engaños el pecho
+ 2692  con que me estás abrasando,
+ 2693  pues, como sirena, fuiste
+ 2694  medio pez, medio mujer,
+ 2695  pues de animal a saber
+ 2696  para mi daño veniste,
+ 2697  ¿piensas que le has de gozar?
+
+FINEA
+ 2698  ¿Tú me has dado pez a mí,
+ 2699  ni sirena, ni yo fui
+ 2700  jamás contigo a la mar?
+ 2701  ¡Anda, Nise, que estás loca!
+
+NISE
+ 2702  ¿Qué es esto? // CELIA: A tonta se vuelve.
+
+NISE
+ 2703  ¡A una cosa te resuelve!
+ 2704  Tanto el furor me provoca,
+ 2705  que el alma te he de sacar.
+
+FINEA
+ 2706  ¿Tienes cuenta de perdón?
+
+NISE
+ 2707  Téngola de tu traición;
+ 2708  pero no de perdonar.
+ 2709  ¿El alma piensas quitarme
+ 2710  en quien el alma tenía?
+ 2711  Dame el alma que solía,
+ 2712  traidora hermana, animarme.
+ 2713  Mucho debes de saber,
+ 2714  pues del alma me desalmas.
+
+FINEA
+ 2715  Todos me piden sus almas:
+ 2716  almario debo de ser.
+ 2717  Toda soy hurtos y robos.
+ 2718  Montes hay donde no hay gente:
+ 2719  yo me iré a meter serpiente.
+
+NISE
+ 2720  Que ya no es tiempo de bobos.
+ 2721  ¡Dame el alma!
+
+--- escena 15 ---
+
+[ACOTACIÓN] OTAVIO con FENISO y DUARDO.- [Dichas.]
+
+FINEA
+ 2722  Almas me piden a mí;
+ 2723  ¿soy yo Purgatorio? // NISE: ¡Sí!
+
+FINEA
+ 2724  Pues procura salir presto.
+
+OTAVIO
+ 2725  ¿No sabremos la ocasión
+ 2726  de vuestro enojo? // FINEA: Querer
+ 2727  Nise, a fuerza de saber,
+ 2728  pedir lo que no es razón.
+ 2729  Almas, sirenas y peces
+ 2730  dice que me ha dado a mí.
+
+OTAVIO
+ 2731  ¿Hase vuelto a boba? // NISE: Sí.
+
+OTAVIO
+ 2732  Tú pienso que la embobeces.
+
+FINEA
+ 2733  Ella me ha dado ocasión;
+ 2734  que me quita lo que es mío.
+
+OTAVIO
+ 2735  Se ha vuelto a su desvarío.
+ 2736  ¡Muerto soy! // FENISO: Desdichas son.
+
+DUARDO
+ 2737  ¿No decían que ya estaba
+ 2738  con mucho seso? // OTAVIO: ¡Ay de mí!
+
+NISE
+ 2739  Yo quiero hablar claro. // OTAVIO: Di.
+
+NISE
+ 2740  Todo tu daño se acaba
+ 2741  con mandar resueltamente
+ 2742  -pues, como padre, podrás,
+ 2743  y, aunque en todo, en esto más,
+ 2744  pues tu honor no lo consiente-,
+ 2745  que Laurencio no entre aquí.
+
+OTAVIO
+ 2746  ¿Por qué? // NISE: Porque él ha causado
+ 2747  que esta no se haya casado
+ 2748  y que yo te enoje a ti.
+
+OTAVIO
+ 2749  Pues, ¡eso es muy fácil cosa!
+
+NISE
+ 2750  Pues tu casa en paz tendrás.
+
+--- escena 16 ---
+
+[ACOTACIÓN] PEDRO y LAURENCIO.- [Dichos.]
+
+PEDRO
+ 2751  ¡Contento, en efeto, estás!
+
+LAURENCIO
+ 2752  ¡Invención maravillosa!
+
+CELIA
+ 2753  Ya Laurencio viene aquí.
+
+OTAVIO
+ 2754  Laurencio, cuando labré
+ 2755  esta casa, no pensé
+ 2756  que academia instituí;
+ 2757  ni cuando a Nise criaba
+ 2758  pensé que para poeta,
+ 2759  sino que a mujer perfecta,
+ 2760  con las letras la enseñaba.
+ 2761  Siempre alabé la opinión
+ 2762  de que a la mujer prudente,
+ 2763  con saber medianamente,
+ 2764  le sobra la discreción.
+ 2765  No quiero más poesías:
+ 2766  los sonetos se acabaron,
+ 2767  y las músicas cesaron;
+ 2768  que son ya breves mis días.
+ 2769  Por allá los podréis dar,
+ 2770  si os faltan telas y rasos;
+ 2771  que no hay tales Garcilasos
+ 2772  como dinero y callar.
+ 2773  Este venden por dos reales,
+ 2774  y tiene tantos sonetos,
+ 2775  elegantes y discretos,
+ 2776  que vos no los haréis tales.
+ 2777  Ya no habéis de entrar aquí
+ 2778  con este achaque. Id con Dios.
+
+LAURENCIO
+ 2779  Es muy justo, como vos
+ 2780  me deis a mi esposa a mí;
+ 2781  que vos hacéis vuestro gusto
+ 2782  en vuestra casa, y es bien
+ 2783  que en la mía yo también
+ 2784  haga lo que fuere justo.
+
+OTAVIO
+ 2785  ¿Qué mujer os tengo yo?
+
+LAURENCIO
+ 2786  Finea. // OTAVIO: ¿Estás loco? // LAURENCIO: Aquí
+ 2787  hay tres testigos del sí
+ 2788  que ha más de un mes que me dio.
+
+OTAVIO
+ 2789  ¿Quién son? // LAURENCIO: Düardo, Feniso
+ 2790  y Pedro. // OTAVIO: ¿Es esto verdad?
+
+FENISO
+ 2791  Ella, de su voluntad,
+ 2792  Otavio, dársele quiso.
+
+DUARDO
+ 2793  Así es verdad. // PEDRO: ¿No bastaba
+ 2794  que mi señor lo dijese?
+
+OTAVIO
+ 2795  Que, como simple, le diese
+ 2796  a un hombre que le engañaba,
+ 2797  no ha de valer. Di, Finea:
+ 2798  ¿no eres simple? // FINEA: Cuando quiero.
+
+OTAVIO
+ 2799  ¿Y cuando no? // FINEA: No. // OTAVIO: ¿Qué espero?
+ 2800  Mas, cuando simple no sea,
+ 2801  con Liseo está casada.
+ 2802  A la Justicia me voy.
+
+[ACOTACIÓN] (Váyase OTAVIO.)
+
+NISE
+ 2803  Ven, Celia, tras él; que estoy
+ 2804  celosa y desesperada.
+
+[ACOTACIÓN] (Y [váyanse] NISE y CELIA.)
+
+LAURENCIO
+ 2805  ¡Id, por Dios, tras él los dos!
+ 2806  No me suceda un disgusto.
+
+FENISO
+ 2807  Por vuestra amistad es justo.
+
+DUARDO
+ 2808  ¡Mal hecho ha sido, por Dios!
+
+FENISO
+ 2809  ¿Ya habláis como desposado
+ 2810  de Nise? // DUARDO: Piénsolo ser.
+
+[ACOTACIÓN] (Y [váyanse] DUARDO y FENISO.)
+
+--- escena 17 ---
+
+[ACOTACIÓN] LAURENCIO, FINEA; luego CLARA.
+
+LAURENCIO
+ 2811  Todo se ha echado a perder;
+ 2812  Nise mi amor le ha contado.
+ 2813  ¿Qué remedio puede haber,
+ 2814  si a verte no puedo entrar?
+
+FINEA
+ 2815  No salir. // LAURENCIO: ¿Dónde he de estar?
+
+FINEA
+ 2816  ¿Yo no te sabré esconder?
+
+LAURENCIO
+ 2817  ¿Dónde? // FINEA: En casa hay un desván
+ 2818  famoso para esconderte.
+ 2819  ¡Clara!
+
+[ACOTACIÓN] (Entre CLARA.)
+
+FINEA
+ 2820  que mis desdichas están
+ 2821  en tu mano. Con secreto
+ 2822  lleva a Laurencio al desván.
+
+CLARA
+ 2823  ¿Y a Pedro? // FINEA: También. // CLARA: Galán,
+ 2824  camine. // LAURENCIO: Yo te prometo
+ 2825  que voy temblando. // FINEA: ¿De qué?
+
+PEDRO
+ 2826  Clara, en llegando la hora
+ 2827  de muquir, di a tu señora
+ 2828  que algún sustento nos dé.
+
+CLARA
+ 2829  Otro comerá peor
+ 2830  que tú. // PEDRO: ¿Yo al desván? ¿Soy gato?
+
+[ACOTACIÓN] (Váyanse LAURENCIO, PEDRO y CLARA.)
+
+--- escena 18 ---
+
+[ACOTACIÓN] FINEA sola.
+
+FINEA
+ 2831  ¿Por qué de imposible trato,
+ 2832  este mi público amor?
+ 2833  En llegándose a saber
+ 2834  una voluntad, no hay cosa
+ 2835  más triste y escandalosa
+ 2836  para una honrada mujer.
+ 2837  Lo que tiene de secreto,
+ 2838  esto tiene amor de gusto.
+
+--- escena 19 ---
+
+[ACOTACIÓN] Entre OTAVIO.- [FINEA.]
+
+OTAVIO
+ 2839  [Aparte.]Harélo, aunque fuera justo
+
+[ACOTACIÓN] [Aparte.]
+ 2840  poner mi enojo en efeto.
+
+FINEA
+ 2841  ¿Vienes ya desenojado?
+
+OTAVIO
+ 2842  Por los que me lo han pedido.
+
+FINEA
+ 2843  Perdón mil veces te pido.
+
+OTAVIO
+ 2844  ¿Y Laurencio? // FINEA: Aquí ha jurado
+ 2845  no entrar en la Corte más.
+
+OTAVIO
+ 2846  ¿A dónde se fue? // FINEA: A Toledo.
+
+OTAVIO
+ 2847  ¡Bien hizo! // FINEA: No tengas miedo
+ 2848  que vuelva a Madrid jamás.
+
+OTAVIO
+ 2849  Hija, pues simple naciste,
+ 2850  y por milagros de amor
+ 2851  dejaste el pasado error,
+ 2852  ¿cómo el ingenio perdiste?
+
+FINEA
+ 2853  ¿Qué quiere, padre? A la fe,
+ 2854  de bobos no hay que fiar.
+
+OTAVIO
+ 2855  Yo lo pienso remediar.
+
+FINEA
+ 2856  ¿Cómo, si el otro se fue?
+
+OTAVIO
+ 2857  Pues te engañan fácilmente
+ 2858  los hombres, en viendo alguno,
+ 2859  te has de esconder; que ninguno
+ 2860  te ha de ver eternamente.
+
+FINEA
+ 2861  Pues, ¿dónde? // OTAVIO: En parte secreta.
+
+FINEA
+ 2862  ¿Será bien en un desván,
+ 2863  donde los gatos están?
+ 2864  ¿Quieres tú que allí me meta?
+
+OTAVIO
+ 2865  Adonde te diere gusto,
+ 2866  como ninguno te vea.
+
+FINEA
+ 2867  Pues, ¡alto! En el desván sea;
+ 2868  tú lo mandas, será justo.
+ 2869  Y advierte que lo has mandado.
+
+OTAVIO
+ 2870  ¡Una y mil veces!
+
+--- escena 20 ---
+
+[ACOTACIÓN] Entren LISEO yTURÍN.- [Dichos.]
+
+LISEO
+ 2871  con tantas veras a Nise,
+ 2872  mal puedo haberla olvidado.
+
+FINEA
+ 2873  Hombres vienen. Al desván,
+ 2874  padre, yo voy a esconderme.
+
+OTAVIO
+ 2875  Hija, Liseo no importa.
+
+FINEA
+ 2876  Al desván, padre: hombres vienen.
+
+OTAVIO
+ 2877  Pues, ¿no ves que son de casa?
+
+FINEA
+ 2878  No yerra quien obedece.
+ 2879  No me ha de ver hombre más,
+ 2880  sino quien mi esposo fuere.
+
+[ACOTACIÓN] (Váyase FINEA.)
+
+--- escena 21 ---
+
+[ACOTACIÓN] [LISEO yOTAVIO.]
+
+LISEO
+ 2881  Tus disgustos he sabido.
+
+OTAVIO
+ 2882  Soy padre... // LISEO: Remedio puedes
+ 2883  poner en aquestas cosas.
+
+OTAVIO
+ 2884  Ya le he puesto, con que dejen
+ 2885  mi casa los que la inquietan.
+
+LISEO
+ 2886  Pues, ¿de qué manera? // OTAVIO: Fuese
+ 2887  Laurencio a Toledo ya.
+
+LISEO
+ 2888  ¡Qué bien has hecho! // OTAVIO: ¿Y tú crees
+ 2889  vivir aquí, sin casarte?
+ 2890  Porque el mismo inconveniente
+ 2891  se sigue de que aquí estés.
+ 2892  Hoy hace, Liseo, dos meses
+ 2893  que me traes en palabras.
+
+LISEO
+ 2894  ¡Bien mi término agradeces!
+ 2895  Vengo a casar con Finea,
+ 2896  forzado de mis parientes,
+ 2897  y hallo una simple mujer.
+ 2898  ¿Que la quiera, Otavio, quieres?
+
+OTAVIO
+ 2899  Tienes razón. ¡Acabóse!
+ 2900  Pero es limpia, hermosa, y tiene
+ 2901  tanto doblón que podría
+ 2902  doblar el mármol más fuerte.
+ 2903  ¿Querías cuarenta mil
+ 2904  ducados con una Fénix?
+ 2905  ¿Es coja o manca Finea?
+ 2906  ¿Es ciega? Y, cuando lo fuese,
+ 2907  ¿hay falta en Naturaleza
+ 2908  que con oro no se afeite?
+
+LISEO
+ 2909  Dame a Nise. // OTAVIO: No ha dos horas
+ 2910  que Miseno la promete
+ 2911  a Düardo, en nombre mío;
+ 2912  y, pues hablo claramente,
+ 2913  hasta mañana a estas horas
+ 2914  te doy para que lo pienses;
+ 2915  porque, de no te casar,
+ 2916  para que en tu vida entres
+ 2917  por las puertas de mi casa
+ 2918  que tan enfadada tienes.
+ 2919  Haz cuenta que eres poeta.
+
+[ACOTACIÓN] (Váyase OTAVIO.)
+
+--- escena 22 ---
+
+[ACOTACIÓN] [LISEO yTURÍN.]
+
+LISEO
+ 2920  ¿Qué te dice? // TURÍN: Que te aprestes,
+ 2921  y con Finea te cases;
+ 2922  porque si veinte mereces,
+ 2923  por que sufras una boba
+ 2924  te añaden los otros veinte.
+ 2925  Si te dejas de casar,
+ 2926  te han de decir más de siete:
+ 2927  «¡Miren la bobada!» // LISEO: Vamos;
+ 2928  que mi temor se resuelve
+ 2929  de no se casar a bobas.
+
+TURÍN
+ 2930  Que se casa me parece
+ 2931  a bobas, quien sin dineros
+ 2932  en tanta costa se mete.
+
+[ACOTACIÓN] (Váyanse.)
+
+--- escena 23 ---
+
+[ACOTACIÓN] Entren FINEA yCLARA.
+
+FINEA
+ 2933  Hasta agora, bien nos va.
+
+CLARA
+ 2934  No hayas miedo que se entienda.
+
+FINEA
+ 2935  ¡Oh, cuánto a mi amada prenda
+ 2936  deben mis sentidos ya!
+
+CLARA
+ 2937  ¡Con la humildad que se pone
+ 2938  en el desván...! // FINEA: No te espantes;
+ 2939  que es propia casa de amantes,
+ 2940  aunque Laurencio perdone.
+
+CLARA
+ 2941  ¡Y quién no vive en desván
+ 2942  de cuantos hoy han nacido!...
+
+FINEA
+ 2943  Algún humilde que ha sido
+ 2944  de los que en lo bajo están.
+
+CLARA
+ 2945  ¡En el desván vive el hombre
+ 2946  que se tiene por más sabio
+ 2947  que Platón! // FINEA: Hácele agravio;
+ 2948  que fue divino su nombre.
+
+CLARA
+ 2949  ¡En el desván, el que anima
+ 2950  a grandezas su desprecio!
+ 2951  ¡En el desván más de un necio
+ 2952  que por discreto se estima!...
+
+FINEA
+ 2953  ¿Quieres que te diga yo
+ 2954  cómo es falta natural
+ 2955  de necios, no pensar mal
+ 2956  de sí mismos? // CLARA: ¿Cómo no?
+
+FINEA
+ 2957  La confianza secreta
+ 2958  tanto el sentido les roba,
+ 2959  que, cuando era yo muy boba,
+ 2960  me tuve por muy discreta;
+ 2961  y como es tan semejante
+ 2962  el saber con la humildad,
+ 2963  ya que tengo habilidad,
+ 2964  me tengo por ignorante.
+
+CLARA
+ 2965  ¡En el desván vive bien
+ 2966  un matador criminal,
+ 2967  cuya muerte natural
+ 2968  ninguno o pocos la ven!
+ 2969  ¡En el desván, de mil modos,
+ 2970  y sujeto a mil desgracias,
+ 2971  aquel que diciendo gracias
+ 2972  es desgraciado con todos!
+ 2973  ¡En el desván, una dama
+ 2974  que, creyendo a quien la inquieta,
+ 2975  por una hora de discreta,
+ 2976  pierde mil años de fama!
+ 2977  ¡En el desván, un preciado
+ 2978  de lindo, y es un caimán,
+ 2979  pero tiénele el desván,
+ 2980  como el espejo, engañado!
+ 2981  ¡En el desván, el que canta
+ 2982  con voz de carro de bueyes,
+ 2983  y el que viene de Muleyes
+ 2984  y a los godos se levanta!
+ 2985  ¡En el desván, el que escribe
+ 2986  versos legos y donados,
+ 2987  y el que, por vanos cuidados,
+ 2988  sujeto a peligros vive!
+ 2989  Finalmente... // FINEA: Espera un poco;
+ 2990  que viene mi padre aquí.
+
+--- escena 24 ---
+
+[ACOTACIÓN] OTAVIO,MISENO, DUARDO, FENISO.- [Dichas.]
+
+MISENO
+ 2991  ¿Eso le dijiste? // OTAVIO: Sí;
+ 2992  que a tal furor me provoco.
+ 2993  No ha de quedar, ¡vive el cielo!,
+ 2994  en mi casa quien me enoje.
+
+FENISO
+ 2995  Y es justo que se despoje
+ 2996  de tanto necio mozuelo.
+
+OTAVIO
+ 2997  Pidióme graciosamente
+ 2998  que con Nise le casase;
+ 2999  díjele que no pensase
+ 3000  en tal cosa eternamente,
+ 3001  y así estoy determinado.
+
+MISENO
+ 3002  Oíd, que está aquí Finea.
+
+OTAVIO
+ 3003  Hija, escucha... // FINEA: Cuando vea,
+ 3004  como me lo habéis mandado,
+ 3005  que estáis solo. // OTAVIO: Espera un poco,
+ 3006  que te he casado. // CLARA: ¡Que nombres
+ 3007  casamiento donde hay hombres!...
+
+OTAVIO
+ 3008  Luego, ¿tenéisme por loco?
+
+FINEA
+ 3009  No, padre; mas hay aquí
+ 3010  hombres, y voyme al desván.
+
+OTAVIO
+ 3011  Aquí por tu bien están.
+
+FENISO
+ 3012  Vengo a que os sirváis de mí.
+
+FINEA
+ 3013  ¡Jesús, señor! ¿No sabéis
+ 3014  lo que mi padre ha mandado?
+
+MISENO
+ 3015  Oye; que hemos concertado
+ 3016  que os caséis. // FINEA: ¡Gracia tenéis!
+ 3017  No ha de haber hija obediente
+ 3018  como yo. Voyme al desván.
+
+MISENO
+ 3019  Pues, ¿no es Feniso galán?
+
+FINEA
+ 3020  ¡Al desván, señor pariente!
+
+[ACOTACIÓN] (Váya[n]se FINEA [y CLARA.])
+
+--- escena 25 ---
+
+[ACOTACIÓN] [DUARDO,OTAVIO, MISENO.]
+
+DUARDO
+ 3021  ¿Cómo vos le habéis mandado
+ 3022  que de los hombres se esconda?
+
+OTAVIO
+ 3023  No sé, por Dios, qué os responda.
+ 3024  Con ella estoy enojado,
+ 3025  o con mi contraria estrella.
+
+MISENO
+ 3026  Ya viene Liseo aquí.
+ 3027  Determinaos. // OTAVIO: Yo, por mí,
+ 3028  ¿qué puedo decir sin ella?
+
+--- escena 26 ---
+
+[ACOTACIÓN] LISEO,NISE y TURÍN.- [Dichos. Después CELIA.]
+
+LISEO
+ 3029  Ya que me parto de ti,
+ 3030  sólo quiero que conozcas
+ 3031  lo que pierdo por quererte.
+
+NISE
+ 3032  Conozco que tu persona
+ 3033  merece ser estimada;
+ 3034  y como mi padre agora
+ 3035  venga bien en que seas mío,
+ 3036  yo me doy por tuya toda;
+ 3037  que en los agravios de amor
+ 3038  es la venganza gloriosa.
+
+LISEO
+ 3039  ¡Ay, Nise! ¡Nunca te vieran
+ 3040  mis ojos, pues fuiste sola
+ 3041  de mayor incendio en mí
+ 3042  que fue Elena para Troya!
+ 3043  Vine a casar con tu hermana,
+ 3044  y, en viéndote, Nise hermosa,
+ 3045  mi libertad salteaste,
+ 3046  del alma preciosa joya.
+ 3047  Nunca más el oro pudo
+ 3048  con su fuerza poderosa,
+ 3049  que ha derribado montañas
+ 3050  de costumbres generosas,
+ 3051  humillar mis pensamientos
+ 3052  a la bajeza que doran
+ 3053  los resplandores, que a veces
+ 3054  ciegan tan altas personas.
+ 3055  Nise, ¡duélete de mí,
+ 3056  ya que me voy! // TURÍN: Tiempla agora,
+ 3057  bella Nise, tus desdenes;
+ 3058  que se va amor por la posta
+ 3059  a la casa del agravio.
+
+NISE
+ 3060  Turín, las lágrimas solas
+ 3061  de un hombre han sido en el mundo
+ 3062  veneno para nosotras.
+ 3063  No han muerto tantas mujeres
+ 3064  de fuego, hierro y ponzoña,
+ 3065  como de lágrimas vuestras.
+
+TURÍN
+ 3066  Pues mira un hombre que llora.
+ 3067  ¿Eres tú bárbara tigre?
+ 3068  ¿Eres pantera? ¿Eres onza?
+ 3069  ¿Eres duende? ¿Eres lechuza?
+ 3070  ¿Eres Circe? ¿Eres Pandorga?
+ 3071  ¿Cuál de aquestas cosas eres,
+ 3072  que no estoy bien en historias?
+
+NISE
+ 3073  ¿No basta decir que estoy
+ 3074  rendida?
+
+[ACOTACIÓN] (Entre CELIA.)
+
+NISE
+ 3075  ¿Eres Celia? // CELIA: Sí. // NISE: ¿Qué quieres,
+ 3076  que ya todos se alborotan
+ 3077  de verte venir turbada?
+
+OTAVIO
+ 3078  Hija, ¿qué es esto? // CELIA: Una cosa
+ 3079  que os ha de poner cuidado.
+
+OTAVIO
+ 3080  ¿Cuidado? // CELIA: Yo vi que agora
+ 3081  llevaba Clara un tabaque
+ 3082  con dos perdices, dos lonjas,
+ 3083  dos gazapos, pan, toallas,
+ 3084  cuchillo, salero y bota.
+ 3085  Seguíla, y vi que al desván
+ 3086  caminaba... // OTAVIO: Celia loca,
+ 3087  para la boba sería.
+
+FENISO
+ 3088  ¡Qué bien que comen las bobas!
+
+OTAVIO
+ 3089  Ha dado en irse al desván,
+ 3090  porque hoy le dije a la tonta
+ 3091  que, para que no la engañen,
+ 3092  en viendo un hombre, se esconda.
+
+CELIA
+ 3093  Eso fuera, a no haber sido
+ 3094  para saberlo, curiosa.
+ 3095  Subí tras ella, y cerró
+ 3096  la puerta... // MISENO: Pues bien, ¿qué importa?
+
+CELIA
+ 3097  ¿No importa, si en aquel suelo,
+ 3098  como si fuera una alfombra
+ 3099  de las que la primavera
+ 3100  en prados fértiles borda,
+ 3101  tendió unos blancos manteles,
+ 3102  a quien hicieron corona
+ 3103  dos hombres, ella y Finea?
+
+OTAVIO
+ 3104  ¿Hombres? ¡Buena va mi honra!
+ 3105  ¿Conocístelos? // CELIA: No pude.
+
+FENISO
+ 3106  Mira bien si se te antoja,
+ 3107  Celia. // OTAVIO: No será Laurencio,
+ 3108  que está en Toledo. // DUARDO: Reporta
+ 3109  el enojo. Yo y Feniso
+ 3110  subiremos. // OTAVIO: ¡Reconozcan
+ 3111  la casa que han afrentado!
+
+[ACOTACIÓN] (Váyase OTAVIO.)
+
+--- escena 27 ---
+
+[ACOTACIÓN] [FENISO,NISE, DUARDO, LISEO.]
+
+FENISO
+ 3112  No suceda alguna cosa.
+
+NISE
+ 3113  No hará; que es cuerdo mi padre.
+
+DUARDO
+ 3114  Cierto que es divina joya
+ 3115  el entendimiento. // FENISO: Siempre
+ 3116  yerra, Düardo, el que ignora.
+ 3117  Desto os podéis alabar,
+ 3118  Nise, pues en toda Europa
+ 3119  no tiene igual vuestro ingenio.
+
+LISEO
+ 3120  Con su hermosura conforma.
+
+--- escena 28 ---
+
+[ACOTACIÓN] Salga, con la espada desnuda, OTAVIO siguiendo a LAURENCIO, FINEA, CLARA y PEDRO.- [Dichos.]
+
+OTAVIO
+ 3121  ¡Mil vidas he de quitar
+ 3122  a quien el honor me roba!
+
+LAURENCIO
+ 3123  ¡Detened la espada, Otavio!
+ 3124  Yo soy, que estoy con mi esposa.
+
+FENISO
+ 3125  ¿Es Laurencio? // LAURENCIO: ¿No lo veis?
+
+OTAVIO
+ 3126  ¿Quién pudiera ser agora,
+ 3127  sino Laurencio, mi infamia?
+
+FINEA
+ 3128  Pues, padre, ¿de qué se enoja?
+
+OTAVIO
+ 3129  ¡Oh infame! ¿No me dijiste
+ 3130  que el dueño de mi deshonra
+ 3131  estaba en Toledo? // FINEA: Padre,
+ 3132  si aqueste desván se nombra
+ 3133  «Toledo», verdad le dije.
+ 3134  Alto está, pero no importa;
+ 3135  que más lo estaba el Alcázar
+ 3136  y la Puente de Segovia,
+ 3137  y hubo Juanelos que a él
+ 3138  subieron agua sin sogas.
+ 3139  ¿Él, no me mandó esconder?
+ 3140  Pues suya es la culpa toda.
+ 3141  Sola en un desván, ¡mal año!
+ 3142  Ya sabe que soy medrosa...
+
+OTAVIO
+ 3143  ¡Cortaréle aquella lengua!
+ 3144  ¡Rasgaréle aquella boca!
+
+MISENO
+ 3145  Este es caso sin remedio.
+
+NISE
+ 3146  ¿Y la Clara socarrona
+ 3147  que llevaba los gazapos?
+
+CLARA
+ 3148  Mandómelo mi señora.
+
+MISENO
+ 3149  Otavio, vos sois discreto:
+ 3150  ya sabéis que tanto monta
+ 3151  cortar como desatar.
+
+OTAVIO
+ 3152  ¿Cuál me aconsejáis que escoja?
+
+MISENO
+ 3153  Desatar. // OTAVIO: Señor Feniso,
+ 3154  si la voluntad es obra,
+ 3155  recibid la voluntad.
+ 3156  Y vos, Düardo, la propia;
+ 3157  que Finea se ha casado,
+ 3158  y Nise, en fin, se conforma
+ 3159  con Liseo, que me ha dicho
+ 3160  que la quiere y que la adora.
+
+FENISO
+ 3161  Si fue, señor, su ventura,
+ 3162  ¡paciencia! Que el premio gozan
+ 3163  de sus justas esperanzas.
+
+LAURENCIO
+ 3164  Todo corre viento en popa.
+ 3165  ¿Daré a Finea la mano?
+
+OCTAVIO
+ 3166  Dádsela, boba ingeniosa.
+
+LISEO
+ 3167  ¿Y yo a Nise? // OCTAVIO: Vos también.
+
+LAURENCIO
+ 3168  Bien merezco esta vitoria,
+ 3169  pues le he dado entendimiento,
+ 3170  si ella me da la memoria
+ 3171  de cuarenta mil ducados.
+
+PEDRO
+ 3172  Y Pedro, ¿no es bien que coma
+ 3173  algún güeso, como perro,
+ 3174  de la mesa de estas bodas?
+
+FINEA
+ 3175  Clara es tuya. // TURÍN: Y yo, ¿nací
+ 3176  donde a los que nacen lloran,
+ 3177  y ríen a los que mueren?
+
+NISE
+ 3178  Celia, que fue tu devota,
+ 3179  será tu esposa, Turín.
+
+TURÍN
+ 3180  Mi bota será y mi novia.
+
+FENISO
+ 3181  Vos y yo sólo faltamos.
+ 3182  Dad acá esa mano hermosa.
+
+DUARDO
+ 3183  Al senado la pedid,
+ 3184  si nuestras faltas perdona;
+ 3185  que aquí, para los discretos,
+ 3186  da fin La comedia boba.

@@ -1,0 +1,5049 @@
+
+
+===== ACTO 1 =====
+
+[ACOTACIÓN] Salen TEODORO , con una capa guarnecida de noche, y TRISTÁN , criado. Vienen huyendo.
+
+TEODORO
+    1  Huye, Tristán, por aquí.
+
+TRISTÁN
+    2  Notable desdicha ha sido.
+
+TEODORO
+    3  ¿Si nos habrá conocido?
+
+TRISTÁN
+    4  No sé; presumo que sí.
+
+[ACOTACIÓN] (Váyanse y entre tras ellos DIANA , condesa de Belflor.)
+
+DIANA
+    5  ¡Ah, gentilhombre! ¡Esperad!
+    6  ¡Teneos! ¡Oíd! ¿Qué digo?
+    7  ¿Esto se ha de usar conmigo?
+    8  Volved, mirad, escuchad.
+    9  ¡Hola! ¿No hay aquí un crïado?
+   10  ¡Hola! ¿No hay un hombre aquí?
+   11  Pues no es sombralo que vi,
+   12  ni sueño que me ha burlado.
+   13  ¡Hola! ¿Todos duermen ya?
+
+[ACOTACIÓN] (Sale FABIO , criado.)
+
+FABIO
+   14  ¿Llama vuestra señoría?
+
+DIANA
+   15  Para la cólera mía
+   16  gusto esa flema me da.
+   17  Corred, necio, enhoramala,
+   18  pues merecéis este nombre,
+   19  y mirad quién es un hombre
+   20  que salió de aquesta sala.
+
+FABIO
+   21  ¿Desta sala? // DIANA: Caminad,
+   22  y responded con los pies.
+
+FABIO
+   23  Voy tras él. // DIANA: Sabed quién es.
+   24  ¿Hay tal traición, tal maldad?
+
+[ACOTACIÓN] (Sale OTAVIO .)
+
+OTAVIO
+   25  Aunque su voz escuchaba,
+   26  a tal hora no creía
+   27  que era vuestra señoría
+   28  quien tan aprisa llamaba.
+
+DIANA
+   29  ¡Muy lindo santelmo hacéis!
+   30  ¡Bien temprano os acostáis!
+   31  ¡Con la flema que llegáis!
+   32  ¡Qué despacio que os movéis!
+   33  Andan hombres en mi casa
+   34  a tal hora, y aun los siento
+   35  casi en mi propio aposento
+   36  que no sé yo dónde pasa
+   37  tan grande insolencia, Otavio,
+   38  y vós, muy a lo escudero,
+   39  cuando yo me desespero,
+   40  ¿ansí remediáis mi agravio?
+
+OTAVIO
+   41  Aunque su voz escuchaba
+   42  a tal hora, no creía
+   43  que era vuestra señoría
+   44  quien tan aprisa llamaba.
+
+DIANA
+   45  Volveos, que no soy yo;
+   46  acostaos, que os hará mal.
+
+[ACOTACIÓN] (Sale FABIO .)
+
+OTAVIO
+   47  Señora... // FABIO: No he visto tal;
+   48  como un gavilán partió.
+
+DIANA
+   49  ¿Viste las señas? // FABIO: ¿Qué señas?
+
+DIANA
+   50  ¿Una capa no llevaba
+   51  con oro? // FABIO: Cuando bajaba
+   52  la escalera... // DIANA: ¡Hermosas dueñas
+   53  sois los hombres de mi casa!
+
+FABIO
+   54  ... a la lámpara tiró
+   55  el sombrero y la mató;
+   56  con esto, los patiospasa,
+   57  y en lo escuro del portal
+   58  saca la espada y camina.
+
+DIANA
+   59  Vós sois muy lindo gallina.
+
+FABIO
+   60  ¿Qué querías? // DIANA: ¡Pesia tal!
+   61  Cerrar con él y matalle.
+
+OTAVIO
+   62  Si era hombre de valor,
+   63  ¿fuera bien echar tu honor
+   64  desde el portal a la calle?
+
+DIANA
+   65  De valor aquí, ¿por qué?
+
+OTAVIO
+   66  ¿Nadie en Nápoles te quiere
+   67  que, mientras casarse espere,
+   68  por donde puede te vee?
+   69  ¿No hay mil señores que están,
+   70  para casarse contigo,
+   71  ciegos de amor? Pues bien digo
+   72  si tú le viste galán
+   73  y Fabio tirar, bajando,
+   74  a la lámpara el sombrero.
+
+DIANA
+   75  Sin duda fue caballero
+   76  que, amando y solicitando,
+   77  vencerá con interés
+   78  mis crïados. ¡Qué crïados
+   79  tengo, Otavio, tan honrados!
+   80  Pero yo sabré quién es:
+   81  plumas llevaba el sombrero
+   82  y en la escalera ha de estar.
+   83  Ve por él. // FABIO: ¿Si le he de hallar?
+
+DIANA
+   84  ¡Pues claro está, majadero!
+   85  Que no había de bajarse
+   86  por él cuando huyendo fue.
+
+FABIO
+   87  Luz, señora, llevaré.
+
+DIANA
+   88  Si ello viene a averiguarse,
+   89  no me ha de quedar culpado
+   90  en casa. // OTAVIO: Muy bien harás,
+   91  pues, cuando segura estás,
+   92  te han puesto en este cuidado,
+   93  pero aunque es bachillería,
+   94  y más estando enojada,
+   95  hablarte en lo que te enfada,
+   96  esta tu injusta porfía
+   97  de no te querer casar
+   98  causa tantos desatinos,
+   99  solicitando caminos
+  100  que te obligasen a amar.
+
+DIANA
+  101  ¿Sabéis vós alguna cosa?
+
+OTAVIO
+  102  Yo, señora, no sé más
+  103  de que en opinión estás
+  104  de incasable, cuanto hermosa.
+  105  El condado de Belflor
+  106  pone a muchos en cuidado.
+
+[ACOTACIÓN] (Sale FABIO .)
+
+FABIO
+  107  Con el sombrero he topado,
+  108  mas no puede ser peor.
+
+DIANA
+  109  Muestra. ¿Qué es esto? // FABIO: No sé.
+  110  Este aquel galán tiró.
+
+DIANA
+  111  ¿Este? // OTAVIO: No le he visto yo
+  112  más sucio.
+
+FABIO
+  113  Pues este fue.
+
+DIANA
+  114  ¿Este hallaste? // FABIO: ¿Pues yo había
+  115  de engañarte? // OTAVIO: Buenas son
+  116  las plumas. // FABIO: Él es ladrón.
+
+OTAVIO
+  117  Sin duda a robar venía.
+
+DIANA
+  118  Hareisme perder el seso.
+
+FABIO
+  119  Este sombrero tiró.
+
+DIANA
+  120  Pues las plumas que vi yo,
+  121  y tantas que aun era exceso,
+  122  ¿en esto se resolvieron?
+
+FABIO
+  123  Como en la lámpara dio,
+  124  sin duda se las quemó
+  125  y como estopas ardieron.
+  126  ¿Ícaro al sol no subía
+  127  que, abrasándose las plumas,
+  128  cayó en las blancas espumas
+  129  del mar? Pues esto sería.
+  130  El sol la lámpara fue,
+  131  Ícaro el sombrero, y luego
+  132  las plumas deshizo el fuego
+  133  y en la escalera le hallé.
+
+DIANA
+  134  No estoy para burlas, Fabio;
+  135  hay aquí mucho que hacer.
+
+OTAVIO
+  136  Tiempo habrá para saber
+  137  la verdad. // DIANA: ¿Qué tiempo, Otavio?
+
+OTAVIO
+  138  Duerme agora, que mañana
+  139  lo puedes averiguar.
+
+DIANA
+  140  No me tengo de acostar,
+  141  no, ¡por vida de Dïana!,
+  142  hasta saber lo que ha sido.
+  143  Llama esas mujeres todas.
+
+OTAVIO
+  144  Muy bien la noche acomodas.
+
+DIANA
+  145  Del sueño, Otavio, me olvido
+  146  con el cuidado de ver
+  147  un hombre dentro en mi casa.
+
+OTAVIO
+  148  Saber después lo que pasa
+  149  fuera discreción, y hacer
+  150  secreta averiguación.
+
+DIANA
+  151  Sois, Otavio, muy discreto,
+  152  que dormir sobre un secreto
+  153  es notable discreción.
+
+[ACOTACIÓN] (Sale[n] FABIO , DOROTEA , MARCELA , ANARDA .)
+
+FABIO
+  154  Las que importan he traído,
+  155  que las damas no sabrán
+  156  lo que deseas, y están
+  157  rindiendo al sueño el sentido.
+  158  Las de tu cámara solas
+  159  estaban por acostar.
+
+ANARDA
+  160  De noche se altera el mar
+  161  y se enfurecen las olas.
+
+FABIO
+  162  ¿Quieres quedar sola? // DIANA: Sí,
+  163  salíos los dos allá.
+
+FABIO
+  164  ¡Bravo examen! // OTAVIO: Loca está.
+
+FABIO
+  165  Y sospechosa de mí.
+
+[ACOTACIÓN] [Vanse.]
+
+DIANA
+  166  Llégate aquí, Dorotea.
+
+DOROTEA
+  167  ¿Qué manda vuseñoría?
+
+DIANA
+  168  Que me dijeses querría
+  169  quién esta calle pasea.
+
+DOROTEA
+  170  Señora, el marqués Ricardo,
+  171  y algunas veces el conde
+  172  Paris. // DIANA: La verdad responde
+  173  de lo que decirte aguardo
+  174  si quieres tener remedio.
+
+DOROTEA
+  175  ¿Qué te puedo yo negar?
+
+DIANA
+  176  ¿Con quién los has visto hablar?
+
+DOROTEA
+  177  Si me pusieses en medio
+  178  de mil llamas, no podré
+  179  decir que, fuera de ti,
+  180  hablar con nadie los vi
+  181  que en aquesta casa esté.
+
+DIANA
+  182  ¿No te han dado algún papel?
+  183  ¿Ningún paje ha entrado aquí?
+
+DOROTEA
+  184  Jamás. // DIANA: Apártate allí.
+
+MARCELA
+  185  ¡Brava inquisición! // ANARDA: Crüel.
+
+DIANA
+  186  Oye, Anarda. // ANARDA: ¿Qué me mandas?
+
+DIANA
+  187  ¿Qué hombre es este que salió?
+
+ANARDA
+  188  ¿Hombre? // DIANA: Desta sala, y yo
+  189  sé los pasos en que andas.
+  190  ¿Quién le trajo a que me viese?
+  191  ¿Con quién habla de vosotras?
+
+ANARDA
+  192  No creas tú que en nosotras
+  193  tal atrevimiento hubiese.
+  194  ¿Hombre, para verte a ti,
+  195  había de osar traer
+  196  crïada tuya, ni hacer
+  197  esa traición contra ti?
+  198  No, señora, no lo entiendes.
+
+DIANA
+  199  Espera, apártate más,
+  200  porque a sospechar me das,
+  201  si engañarme no pretendes,
+  202  que por alguna crïada
+  203  este hombre ha entrado aquí.
+
+ANARDA
+  204  El verte, señora, ansí,
+  205  y justamente enojada,
+  206  dejada toda cautela
+  207  me obliga a decir verdad,
+  208  aunque contra el amistad
+  209  que profeso con Marcela.
+  210  Ella tiene a un hombre amor
+  211  y él se le tiene también,
+  212  mas nunca he sabido quién.
+
+DIANA
+  213  Negarlo, Anarda, es error.
+  214  Ya que confiesas lo más,
+  215  ¿para qué [m]e niegas lo menos?
+
+ANARDA
+  216  Para secretos ajenos
+  217  mucho tormento me das
+  218  sabiendo que soy mujer,
+  219  mas basta que hayas sabido
+  220  que por Marcela ha venido.
+  221  Bien te puedes recoger,
+  222  que es solo conversación
+  223  y ha poco que se comienza.
+
+DIANA
+  224  ¿Hay tan crüel desvergüenza?
+  225  ¡Buena andará la opinión
+  226  de una mujer por casar!
+  227  ¡Por el siglo, infame gente,
+  228  del Conde mi señor...! // ANARDA: Tente,
+  229  y déjame disculpar,
+  230  que no es de fuera de casa
+  231  el hombre que habla con ella,
+  232  ni para venir a vella
+  233  por esos peligros pasa.
+
+DIANA
+  234  En efeto ¿es mi crïado?
+
+ANARDA
+  235  Sí, señora. // DIANA: ¿Quién? // ANARDA: Teodoro.
+
+DIANA
+  236  ¿El secretario? // ANARDA: Yo ignoro
+  237  lo demás; sé que han hablado.
+
+DIANA
+  238  Retírate, Anarda, allí.
+
+ANARDA
+  239  Muestra aquí tu entendimiento.
+
+DIANA
+  240  Con más templanza me siento
+  241  sabiendo que no es por mí.
+  242  ¿Marcela? // MARCELA: ¿Señora? // DIANA: Escucha.
+
+MARCELA
+  243  ¿Qué mandas? // ([Aparte.]Temblando llego.
+
+[ACOTACIÓN] ([Aparte.]
+
+DIANA
+  244  ¿Eres tú de quién fïaba
+  245  mi honor y mis pensamientos?
+
+MARCELA
+  246  Pues ¿qué te han dicho de mí,
+  247  sabiendo tú que profeso
+  248  la lealtad que tú mereces?
+
+DIANA
+  249  ¿Tú lealtad? // MARCELA: ¿En qué te ofendo?
+
+DIANA
+  250  ¿No es ofensa que en mi casa
+  251  y dentro de mi aposento
+  252  entre un hombre a hablar contigo?
+
+MARCELA
+  253  Está Teodoro tan necio
+  254  que dondequiera me dice
+  255  dos docenas de requiebros.
+
+DIANA
+  256  ¿Dos docenas? ¡Bueno, a fe!
+  257  Bendiga el buen año el cielo,
+  258  pues se venden por docenas.
+
+MARCELA
+  259  Quiero decir que, en saliendo
+  260  o entrando, luego a la boca
+  261  traslada sus pensamientos.
+
+DIANA
+  262  ¿Traslada? ¡Término estraño!
+  263  ¿Y qué te dice? // MARCELA: No creo
+  264  que se me acuerde. // DIANA: Sí hará.
+
+MARCELA
+  265  Una vez dice: «Yo pierdo
+  266  el alma por esos ojos»;
+  267  otra: «Yo vivo por ellos;
+  268  esta noche no he dormido
+  269  desvelando mis deseos
+  270  en tu hermosura»; otra vez
+  271  me pide solo un cabello
+  272  para atarlos, porque estén
+  273  en su pensamiento quedos,
+  274  mas ¿para qué me preguntas
+  275  niñerías? // DIANA: Tú, a lo menos,
+  276  bien te huelgas. // MARCELA: No me pesa,
+  277  porque de Teodoro entiendo
+  278  que estos amores dirige
+  279  a fin tan justo y honesto
+  280  como el casarse conmigo.
+
+DIANA
+  281  Es el fin del casamiento
+  282  honesto blanco de amor.
+  283  ¿Quieres que yo trate desto?
+
+MARCELA
+  284  ¡Qué mayor bien para mí!
+  285  Pues ya, señora, que veo
+  286  tanta blandura en tu enojo
+  287  y tal nobleza en tu pecho,
+  288  te aseguro que le adoro,
+  289  porque es el mozo más cuerdo,
+  290  más prudente y entendido,
+  291  más amoroso y discreto,
+  292  que tiene aquesta ciudad.
+
+DIANA
+  293  Ya sé yo su entendimiento
+  294  del oficio en que me sirve.
+
+MARCELA
+  295  Es diferente el sujeto
+  296  de una carta, en que le pruebas
+  297  a dos títulos tus deudos,
+  298  o el verle hablar más de cerca,
+  299  en estilo dulce y tierno,
+  300  razones enamoradas.
+
+DIANA
+  301  Marcela, aunque me resuelvo
+  302  a que os caséis cuando sea
+  303  para ejecutarlo tiempo,
+  304  no puedo dejar de ser
+  305  quien soy, como ves que debo
+  306  a mi generoso nombre,
+  307  porque no fuera bien hecho
+  308  daros lugar en mi casa.
+  309  Sustentar mi enojo quiero;
+  310  pues que ya todos le saben,
+  311  tú podrás con más secreto
+  312  proseguir ese tu amor,
+  313  que en la ocasión yo me ofrezco
+  314  a ayudaros a los dos,
+  315  que Teodoro es hombre cuerdo
+  316  y se ha crïado en mi casa
+  317  y a ti, Marcela, te tengo
+  318  la obligación que tú sabes,
+  319  y no poco parentesco.
+
+MARCELA
+  320  A tus pies tienes tu hechura.
+
+DIANA
+  321  Vete. // MARCELA: Mil veces los beso.
+
+DIANA
+  322  Dejadme sola. // ANARDA: ¿Qué ha sido?
+
+MARCELA
+  323  Enojos en mi provecho.
+
+DOROTEA
+  324  ¿Sabe tus secretos ya?
+
+MARCELA
+  325  Sí sabe, y que son honestos.
+
+[ACOTACIÓN] (Háganle tres reverencias y váyanse.)
+
+DIANA
+  326  (Sola.) Mil veces he advertido en la belleza,
+
+[ACOTACIÓN] (Sola.)
+  327  gracia y entendimiento de Teodoro,
+  328  que, a no ser desigual a mi decoro,
+  329  estimara su ingenio y gentileza.
+  330  Es el amor común naturaleza,
+  331  mas yo tengo mi honor por más tesoro,
+  332  que los respetos de quien soy adoro
+  333  y aun el pensarlo tengo por bajeza.
+  334  La envidia bien sé yo que ha de quedarme,
+  335  que, si la suelen dar bienes ajenos,
+  336  bien tengo de qué pueda lamentarme,
+  337  porque quisiera yo que, por lo menos,
+  338  Teodoro fuera más para igualarme
+  339  o yo, para igualarle, fuera menos.
+
+[ACOTACIÓN] (Sale[n] TEODORO y TRISTÁN .)
+
+TEODORO
+  340  No he podido sosegar.
+
+TRISTÁN
+  341  Y aun es con mucha razón,
+  342  que ha de ser tu perdición
+  343  si lo llega a averiguar.
+  344  Díjete que la dejaras
+  345  acostar, y no quisiste.
+
+TEODORO
+  346  Nunca el amor se resiste.
+
+TRISTÁN
+  347  Tiras, pero no reparas.
+
+TEODORO
+  348  Los diestros lo hacen ansí.
+
+TRISTÁN
+  349  Bien sé yo que, si lo fueras,
+  350  el peligro conocieras.
+
+TEODORO
+  351  ¿Si me conoció? // TRISTÁN: No y sí,
+  352  que no conoció quién eras
+  353  y sospecha le quedó.
+
+TEODORO
+  354  Cuando Fabio me siguió
+  355  bajando las escaleras,
+  356  fue milagro no matalle.
+
+TRISTÁN
+  357  ¡Qué lindamente tiré
+  358  mi sombrero a la luz! // TEODORO: Fue
+  359  detenelle y deslumbralle,
+  360  porque si adelante pasa,
+  361  no le dejara pasar.
+
+TRISTÁN
+  362  Dije a la luz al bajar:
+  363  «Di que no somos de casa»,
+  364  y respondiome: «Mentís»;
+  365  alzo, y tirele el sombrero.
+  366  ¿Quedé agraviado? // TEODORO: Hoy espero
+  367  mi muerte. // TRISTÁN: Siempre decís
+  368  esas cosas los amantes
+  369  cuando menos pena os dan.
+
+TEODORO
+  370  Pues ¿qué puedo hacer, Tristán,
+  371  en peligros semejantes?
+
+TRISTÁN
+  372  Dejar de amar a Marcela,
+  373  pues la Condesa es mujer
+  374  que, si lo llega a saber,
+  375  no te ha de valer cautela
+  376  para no perder su casa.
+
+TEODORO
+  377  ¿Y no hay más, sino olvidar?
+
+TRISTÁN
+  378  Liciones te quiero dar
+  379  de cómo el amor se pasa.
+
+TEODORO
+  380  Ya comienzas desatinos.
+
+TRISTÁN
+  381  Con arte se vence todo;
+  382  oye, por tu vida, el modo
+  383  por tan fáciles caminos.
+  384  Primeramente has de hacer
+  385  resolución de olvidar,
+  386  sin pensar que has de tornar
+  387  eternamente a querer;
+  388  que si te queda esperanza
+  389  de volver, no habrá remedio
+  390  de olvidar, que si está en medio
+  391  la esperanza, no hay mudanza.
+  392  ¿Por qué piensas que no olvida
+  393  luego un hombre a una mujer?
+  394  Porque pensando volver
+  395  va entreteniendo la vida.
+  396  Ha de haber resolución
+  397  dentro del entendimiento,
+  398  con que cesa el movimiento
+  399  de aquella imaginación.
+  400  ¿No has visto faltar la cuerda
+  401  de un reloj y estarse quedas,
+  402  sin movimiento, las ruedas?
+  403  Pues desa suerte se acuerda
+  404  el que tienen las potencias
+  405  cuando la esperanza falta.
+
+TEODORO
+  406  ¿Y la memoria no salta
+  407  luego a hacer mil diligencias,
+  408  despertando el sentimiento
+  409  a que del bien no se prive?
+
+TRISTÁN
+  410  Es enemigo que vive
+  411  asido al entendimiento,
+  412  como dijo la canción
+  413  de aquel español poeta,
+  414  mas por eso es linda treta
+  415  vencer la imaginación.
+
+TEODORO
+  416  ¿Cómo? // TRISTÁN: Pensando defetos
+  417  y no gracias; que, olvidando,
+  418  defetos están pensando,
+  419  que no gracias, los discretos.
+  420  No la imagines vestida
+  421  con tan linda proporción
+  422  de cintura en el balcón
+  423  de unos chapines subida;
+  424  toda es vana arquitectura,
+  425  porque dijo un sabio un día
+  426  que a los sastres se debía
+  427  la mitad de la hermosura.
+  428  Como se ha de imaginar
+  429  una mujer semejante
+  430  es como un diciplinante
+  431  que le llevan a curar;
+  432  esto sí, que no adornada
+  433  del costoso faldellín.
+  434  Pensar defetos, en fin,
+  435  es medecina aprobada.
+  436  Si de acordarte que vías
+  437  alguna vez una cosa
+  438  que te pareció asquerosa
+  439  no comes en treinta días,
+  440  acordándote, señor,
+  441  de los defetos que tiene,
+  442  si a la memoria te viene,
+  443  se te quitará el amor.
+
+TEODORO
+  444  ¡Qué grosero cirujano!
+  445  ¡Qué rústica curación!
+  446  Los remedios al fin son
+  447  como de tu tosca mano.
+  448  Médico impírico eres;
+  449  no has estudiado, Tristán.
+  450  Yo no imagino que están
+  451  desa suerte las mujeres,
+  452  sino todas cristalinas,
+  453  como un vidro transparentes.
+
+TRISTÁN
+  454  Vidro, sí, muy bien lo sientes,
+  455  si a verlas quebrar caminas.
+  456  Mas si no piensas pensar
+  457  defetos, pensar te puedo,
+  458  porque ya he perdido el miedo
+  459  de que podrás olvidar.
+  460  ¡Pardiez! Yo quise una vez,
+  461  con esta cara que miras,
+  462  a una alforja de mentiras,
+  463  años, cinco veces diez,
+  464  y entre otros dos mil defetos
+  465  cierta barriga tenía
+  466  que encerrar dentro podía,
+  467  sin otros mil parapetos,
+  468  cuantos legajos de pliegos
+  469  algún escritorio apoya,
+  470  pues como el caballo en Troya
+  471  pudiera meter los griegos.
+  472  ¿No has oído que tenía
+  473  cierto lugar un nogal
+  474  que en el tronco un oficial
+  475  con mujer y hijos cabía
+  476  y aún no era la casa escasa?
+  477  Pues desa misma manera
+  478  en esta panza cupiera
+  479  un tejedor y su casa,
+  480  y queriéndola olvidar,
+  481  que debió de convenirme,
+  482  dio la memoria en decirme
+  483  que pensase en blanco azar,
+  484  en azucena y jazmín,
+  485  en marfil, en plata, en nieve
+  486  y en la cortina que debe
+  487  de llamarse el faldellín,
+  488  con que yo me deshacía.
+  489  Mas tomé más cuerdo acuerdo
+  490  y di en pensar como cuerdo
+  491  lo que más le parecía:
+  492  cestos de calabazones,
+  493  baúles viejos, maletas
+  494  de cartas para estafetas,
+  495  almofrejes y jergones,
+  496  con que se trocó en desdén
+  497  el amor y la esperanza
+  498  y olvidé la dicha panza
+  499  por siempre jamás amén,
+  500  que era tal que en los dobleces,
+  501  y no es mucho encarecer,
+  502  se pudieran esconder
+  503  cuatro manos de almireces.
+
+TEODORO
+  504  En las gracias de Marcela
+  505  no hay defetos que pensar.
+  506  Yo no la pienso olvidar.
+
+TRISTÁN
+  507  Pues a tu desgracia apela
+  508  y sigue tan loca empresa.
+
+TEODORO
+  509  Todo es gracias, ¿qué he de hacer?
+
+TRISTÁN
+  510  Pensarlas hasta perder
+  511  la gracia de la Condesa.
+
+[ACOTACIÓN] (Sale la CONDESA .)
+
+DIANA
+  512  Teodoro. // TEODORO: La misma es.
+
+DIANA
+  513  Escucha. // TEODORO: A tu hechura manda.
+
+TRISTÁN
+  514  [Aparte.]Si en averiguarlo anda,
+
+[ACOTACIÓN] [Aparte.]
+  515  de casa volamos tres.
+
+DIANA
+  516  Hame dicho cierta amiga
+  517  que desconfía de sí
+  518  que el papel que traigo aquí
+  519  le escriba. A hacerlo me obliga
+  520  la amistad, aunque yo ignoro,
+  521  Teodoro, cosas de amor,
+  522  y que le escribas, mejor,
+  523  vengo a decirte, Teodoro.
+  524  Toma y lee. // TEODORO: Si aquí,
+  525  señora, has puesto la mano,
+  526  igualarle fuera en vano
+  527  y fuera soberbia en mí.
+  528  Sin verle pedirte quiero
+  529  que a esa señora le envíes.
+
+DIANA
+  530  Léele. // TEODORO: Que desconfíes
+  531  me espanto. Aprender espero
+  532  estilo, que yo no sé,
+  533  que jamás traté de amor.
+
+DIANA
+  534  ¿Jamás, jamás? // TEODORO: Con temor
+  535  de mis defetos no amé,
+  536  que soy muy desconfïado.
+
+DIANA
+  537  Y se puede conocer
+  538  de que no te dejas ver,
+  539  pues que te vas rebozado.
+
+TEODORO
+  540  ¿Yo, señora? ¿Cuándo o cómo?
+
+DIANA
+  541  Dijéronme que salió
+  542  anoche acaso, y te vio
+  543  rebozado el mayordomo.
+
+TEODORO
+  544  Andaríamos burlando
+  545  Fabio y yo, como solemos,
+  546  que mil burlas nos hacemos.
+
+DIANA
+  547  Lee, lee. // TEODORO: Estoy pensando
+  548  que tengo algún envidioso.
+
+DIANA
+  549  Celoso podría ser.
+  550  Lee, lee. // TEODORO: Quiero ver
+  551  ese ingenio milagroso.
+
+[ACOTACIÓN] (Lea.)
+  552  «Amar por ver amar envidia ha sido,
+  553  y primero que amar estar celosa
+  554  es invención de amor maravillosa
+  555  y que por imposible se ha tenido.
+  556  De los celos mi amor ha procedido
+  557  por pesarme que, siendo más hermosa,
+  558  no fuese en ser amada tan dichosa
+  559  que hubiese lo que envidio merecido.
+  560  Estoy, sin ocasión, desconfïada,
+  561  celosa sin amor, aunque, sintiendo,
+  562  debo de amar, pues quiero ser amada.
+  563  Ni me dejo forzar, ni me defiendo;
+  564  darme quiero a entender sin decir nada:
+  565  entiéndame quien puede; yo me entiendo.»
+
+DIANA
+  566  ¿Qué dices? // TEODORO: Que si esto es
+  567  a propósito del dueño,
+  568  no he visto cosa mejor,
+  569  mas confieso que no entiendo
+  570  como puede ser que amor
+  571  venga a nacer de los celos,
+  572  pues que siempre fue su padre.
+
+DIANA
+  573  Porque esta dama sospecho
+  574  que se agradaba de ver
+  575  este galán sin deseo
+  576  y, viéndole ya empleado
+  577  en otro amor, con los celos
+  578  vino a amar y a desear.
+  579  ¿Puede ser? // Yo lo concedo;
+  580  mas ya esos celos, señora,
+  581  de algún principio nacieron,
+  582  y ese fue amor, que la causa
+  583  no nace de los efetos,
+  584  sino los efetos della.
+
+DIANA
+  585  No sé, Teodoro, esto siento
+  586  desta dama, pues me dijo
+  587  que nunca al tal caballero
+  588  tuvo más que inclinación
+  589  y, en viéndole amor, salieron
+  590  al camino de su honor
+  591  mil salteadores deseos
+  592  que le han desnudado el alma
+  593  del honesto pensamiento
+  594  con que pensaba vivir.
+
+TEODORO
+  595  Muy lindo papel has hecho.
+  596  Yo no me atrevo a igualarle.
+
+DIANA
+  597  Entra y prueba. // TEODORO: No me atrevo.
+
+DIANA
+  598  Haz esto, por vida mía.
+
+TEODORO
+  599  Vusiñoría con esto
+  600  quiere probar mi ignorancia.
+
+DIANA
+  601  Aquí aguardo; vuelve luego.
+
+TEODORO
+  602  Yo voy.
+
+[ACOTACIÓN] [Vase.]
+
+TRISTÁN
+  603  A ver lo que mandas vuelvo
+  604  con vergüenza destas calzas,
+  605  que el secretario, mi dueño,
+  606  anda salido estos días;
+  607  y hace mal un caballero,
+  608  sabiendo que su lacayo
+  609  le va sirviendo de espejo,
+  610  de lucero y de cortina,
+  611  en no traerle bien puesto.
+  612  Escalera del señor,
+  613  si va a caballo, un discreto
+  614  nos llamó, pues a su cara
+  615  se sube por nuestros cuerpos.
+  616  No debe de poder más.
+
+DIANA
+  617  ¿Juega? // TRISTÁN: ¡Pluguiera a los cielos!,
+  618  que a quien juega nunca faltan,
+  619  desto o de aquello, dineros.
+  620  Antiguamente los reyes
+  621  algún oficio aprendieron
+  622  por, si en la guerra o la mar
+  623  perdían su patria y reino,
+  624  saber con que sustentarse;
+  625  dichosos los que pequeños
+  626  aprendieron a jugar,
+  627  pues, en faltando, es el juego
+  628  un arte noble que gana,
+  629  con poca pena, el sustento.
+  630  Verás un grande pintor,
+  631  acrisolando el ingenio,
+  632  hacer una imagen viva
+  633  y decir el otro, necio,
+  634  que no vale diez escudos
+  635  y que el que juega, en diciendo
+  636  «paro», con salir la suerte,
+  637  le sale a ciento por ciento.
+
+DIANA
+  638  En fin ¿no juega? // TRISTÁN: Es cuitado.
+
+DIANA
+  639  A la cuenta, será cierto
+  640  tener amores. // TRISTÁN: ¿Amores?
+  641  ¡Oh, qué donaire! ¡Es un yelo!
+
+DIANA
+  642  Pues un hombre de su talle,
+  643  galán, discreto y mancebo,
+  644  ¿no tiene algunos amores
+  645  de honesto entretenimiento?
+
+TRISTÁN
+  646  Yo trato en paja y cebada,
+  647  no en papeles y requiebros.
+  648  De día te sirve aquí;
+  649  que está ocupado sospecho.
+
+DIANA
+  650  Pues ¿nunca sale de noche?
+
+TRISTÁN
+  651  No le acompaño, que tengo
+  652  una cadera quebrada.
+
+DIANA
+  653  ¿De qué, Tristán? // TRISTÁN: Bien te puedo
+  654  responder lo que responden
+  655  las mal casadas en viendo
+  656  cardenales en su cara
+  657  del mojicón de los celos:
+  658  «Rodé por las escaleras.»
+
+DIANA
+  659  ¿Rodaste? // TRISTÁN: Por largo trecho
+  660  con las costillas conté
+  661  los pasos. // DIANA: Forzoso es eso
+  662  si a la lámpara, Tristán,
+  663  le tirabas el sombrero.
+
+TRISTÁN
+  664  ¡Oste, puto! ¡Vive Dios
+  665  que se sabe todo el cuento!
+
+DIANA
+  666  ¿No respondes? // TRISTÁN: Por pensar
+  667  cuándo, pero ya me acuerdo:
+  668  anoche andaban en casa
+  669  unos murciélagos negros;
+  670  el sombrero los tiraba;
+  671  fuese a la luz uno dellos
+  672  y acerté, por dar en él,
+  673  en la lámpara, y tan presto
+  674  por la escalera rodé,
+  675  que los dos pies se me fueron.
+
+DIANA
+  676  Todo está muy bien pensado,
+  677  pero un libro de secretos
+  678  dice que es buena la sangre
+  679  para quitar el cabello,
+  680  desos murciégalos digo,
+  681  y haré yo sacarla luego,
+  682  si es cabello la ocasión,
+  683  para quitarla con ellos.
+
+TRISTÁN
+  684  ¡Vive Dios que hay chamusquina,
+  685  y que por murciegalero
+  686  me pone en una galera!
+
+DIANA
+  687  ¡Qué traigo de pensamientos!
+
+[ACOTACIÓN] (Sale FABIO .)
+
+FABIO
+  688  Aquí está el marqués Ricardo.
+
+DIANA
+  689  Poned esas sillas luego.
+
+[ACOTACIÓN] (Sale[n] RICARDO , marqués, y CELIO .)
+
+RICARDO
+  690  Con el cuidado que el amor, Dïana,
+  691  pone en un pecho que aquel fin desea,
+  692  que la mayor dificultad allana,
+  693  el mismo quiere que te adore y vea,
+  694  solicito mi causa, aunque por vana
+  695  esta ambición algún contrario crea
+  696  que, dando más lugar a su esperanza,
+  697  tendrá menos amor que confïanza.
+  698  Está vusiñoría tan hermosa
+  699  que estar buena el mirarla me asegura,
+  700  que en la mujer, y es bien pensada cosa,
+  701  la más cierta salud es la hermosura,
+  702  que en estando gallarda, alegre, airosa,
+  703  es necedad, es inorancia pura,
+  704  llegar a preguntarle si está buena,
+  705  que todo entendimiento la condena.
+  706  Sabiendo que lo estáis, como lo dice
+  707  la hermosura, Dïana, y la alegría,
+  708  de mí, si a la razón no contradice,
+  709  saber, señora, cómo estoy querría.
+
+DIANA
+  710  Que vuestra señoría solenice
+  711  lo que en Italia llaman gallardía
+  712  por hermosura es digno pensamiento
+  713  de su buen gusto y claro entendimiento;
+  714  que me pregunte cómo está, no creo
+  715  que soy tan dueño suyo que lo diga.
+
+RICARDO
+  716  Quien sabe de mi amor y mi deseo
+  717  el fin honesto, a este favor se obliga.
+  718  A vuestros deudos inclinados veo
+  719  para que en lo tratado se prosiga;
+  720  solo falta, señora, vuestro acuerdo,
+  721  porque sin él las esperanzas pierdo.
+  722  Si como soy señor de aquel estado,
+  723  que con igual nobleza heredé agora,
+  724  lo fuera desde el Sur más abrasado
+  725  a los primeros paños del Aurora,
+  726  si el oro de los hombres adorado,
+  727  las congeladas lágrimas que llora
+  728  el cielo o los diamantes orientales
+  729  que abrieron por el mar caminos tales
+  730  tuviera yo, lo mismo os ofreciera;
+  731  y no dudéis, señora, que pasara
+  732  a donde el sol apenas luz me diera,
+  733  como a solo serviros importara;
+  734  en campañas de sal pies de madera
+  735  por las remotas aguas estampara
+  736  hasta llegar a las australes playas,
+  737  del humano poder últimas rayas.
+
+DIANA
+  738  Creo, señor Marqués, el amor vuestro
+  739  y, satisfecha de nobleza tanta,
+  740  haré tratar el pensamiento nuestro,
+  741  si alconde Federico no le espanta.
+
+RICARDO
+  742  Bien sé que en trazas es el Conde diestro,
+  743  porque en ninguna cosa me adelanta;
+  744  mas yo fío de vós, que mi justicia
+  745  los ojos cegará de su malicia.
+
+[ACOTACIÓN] (Sale TEODORO .)
+
+TEODORO
+  746  Ya lo que mandas hice. // RICARDO: Si ocupada
+  747  vuseñoría está, no será justo
+  748  hurtarle el tiempo. // DIANA: No importara nada,
+  749  puesto que a Roma escribo. // RICARDO: No hay disgusto
+  750  como en día de cartas dilatada
+  751  visita. // DIANA: Sois discreto. // RICARDO: En daros gusto.
+  752  Celio, ¿qué te parece? // CELIO: Que quisiera
+  753  que ya tu justo amor premio tuviera.
+
+[ACOTACIÓN] (Vase RICARDO .)
+
+DIANA
+  754  ¿Escribiste? // TEODORO: Ya escribí,
+  755  aunque bien desconfïado,
+  756  mas soy mandado y forzado.
+
+DIANA
+  757  Muestra. // TEODORO: Lee. // DIANA: Dice así:
+
+[ACOTACIÓN] (Lee DIANA .)
+  758  «Querer por ver querer envidia fuera
+  759  si quien lo vio, sin ver amar, no amara,
+  760  porque antes de amar, no amar pensara,
+  761  después no amara, puesto que amar viera.
+  762  Amor que lo que agrada considera
+  763  en ajeno poder su amor declara,
+  764  que como la color sale a la cara,
+  765  sale a la lengua lo que al alma altera.
+  766  No digo más, porque lo más ofendo
+  767  desde lo menos, si es que desmerezco
+  768  porque del ser dichoso me defiendo.
+  769  Esto que entiendo solamente ofrezco,
+  770  que lo que no merezco no lo entiendo
+  771  por no dar a entender que lo merezco.
+
+DIANA
+  772  Muy bien guardaste el decoro.
+
+TEODORO
+  773  ¿Búrlaste? // DIANA: ¡Pluguiera a Dios!
+
+TEODORO
+  774  ¿Qué dices? // DIANA: Que de los dos
+  775  el tuyo vence, Teodoro.
+
+TEODORO
+  776  Pésame, pues no es pequeño
+  777  principio de aborrecer
+  778  un crïado el entender
+  779  que sabe más que su dueño.
+  780  De cierto rey se contó
+  781  que le dijo a un gran privado:
+  782  «Un papel me da cuidado,
+  783  y si bien le he escrito yo.
+  784  Quiero ver otro de vós
+  785  y el mejor escoger quiero.»
+  786  Escribiole el caballero
+  787  y fue el mejor de los dos.
+  788  Como vio que el Rey decía
+  789  que era su papel mejor,
+  790  fuese y díjole al mayor
+  791  hijo de tres que tenía:
+  792  «Vámonos del reino luego,
+  793  que en gran peligro estoy yo.»
+  794  El mozo le preguntó
+  795  la causa, turbado y ciego,
+  796  y respondiole: «Ha sabido
+  797  el Rey que yo sé más que él»,
+  798  que es lo que en aqueste papel
+  799  me puede haber sucedido.
+
+DIANA
+  800  No, Teodoro, que aunque digo
+  801  que es el tuyo más discreto,
+  802  es porque sigue el conceto
+  803  de la materia que sigo
+  804  y no para que presuma
+  805  tu pluma, que, si me agrada,
+  806  pierdo el estar confïada
+  807  de los puntos de mi pluma;
+  808  fuera de que soy mujer
+  809  a cualquier error sujeta,
+  810  y no sé si muy discreta,
+  811  como se echa de ver.
+  812  Desde lo menos aquí
+  813  dices que ofendes lo más
+  814  y amando; engañado estás,
+  815  porque en amor no es ansí,
+  816  que no ofende un desigual
+  817  amando, pues solo entiendo
+  818  que se ofende aborreciendo.
+
+TEODORO
+  819  Esa es razón natural.
+  820  Mas pintaron a Faetonte
+  821  y a Ícaro despeñados:
+  822  uno, en caballos dorados,
+  823  precipitado en un monte,
+  824  y otro, con alas de cera,
+  825  derretido en el crisol
+  826  del sol. // DIANA: No lo hiciera el sol
+  827  si, como es sol, mujer fuera.
+  828  Si alguna cosa sirvieres
+  829  alta, sírvela y confía,
+  830  que amor no es más que porfía;
+  831  no son piedras las mujeres.
+  832  Yo me llevo este papel,
+  833  que despacio me conviene
+  834  verle. // TEODORO: Mil errores tiene.
+
+DIANA
+  835  No hay error ninguno en él.
+
+TEODORO
+  836  Honras mi deseo; aquí
+  837  traigo el tuyo. // DIANA: Pues allá
+  838  le guarda, aunque bien será
+  839  rasgarle. // TEODORO: ¿Rasgarle? // DIANA: Sí,
+  840  que no importa que se pierda
+  841  si se puede perder más.
+
+[ACOTACIÓN] (Váyase.)
+
+TEODORO
+  842  Fuese. ¿Quién pensó jamás
+  843  de mujer tan noble y cuerda
+  844  este arrojarse tan presto
+  845  a dar su amor a entender?
+  846  Pero también puede ser
+  847  que yo me engañase en esto.
+  848  Mas no me ha dicho jamás,
+  849  ni a lo menos se me acuerda:
+  850  «Pues ¿qué importa que se pierda,
+  851  si se puede perder más?»
+  852  Perder más... Bien puede ser
+  853  por la mujer que decía...
+  854  Mas todo esbachillería,
+  855  y ella es la misma mujer.
+  856  Aunque no, que la Condesa
+  857  es tan discreta y tan varia
+  858  que es la cosa más contraria
+  859  de la ambición que profesa.
+  860  Sírvenla príncipes hoy
+  861  en Nápoles. ¿Qué no puedo
+  862  ser su esclavo? Tengo miedo,
+  863  que en grande peligro estoy.
+  864  Ella sabe que a Marcela
+  865  sirvo, pues aquí ha fundado
+  866  el engaño y me ha burlado.
+  867  Pero en vano se recela
+  868  mi temor, porque jamás
+  869  burlando salen colores.
+  870  ¿Y el decir con mil temores
+  871  que se puede perder más?
+  872  ¿Qué rosa al llorar la Aurora
+  873  hizo de las hojas ojos,
+  874  abriendo los labios rojos
+  875  con risa a ver cómo llora
+  876  como ella los puso en mí,
+  877  bañada en púrpura y grana,
+  878  o qué pálida manzana
+  879  se esmaltó de carmesí?
+  880  Lo que veo y lo que escucho
+  881  yo lo juzgo, o estoy loco,
+  882  para ser de veras, poco,
+  883  y para de burlas, mucho.
+  884  Mas teneos, pensamiento,
+  885  que os vais ya tras la grandeza,
+  886  aunque si digo belleza
+  887  bien sabéis vós que no miento,
+  888  que es bellísima Dïana
+  889  y es discreción sin igual.
+
+[ACOTACIÓN] (Sale MARCELA .)
+
+MARCELA
+  890  ¿Puedo hablarte? // TEODORO: Ocasión tal
+  891  mil imposibles allana,
+  892  que por ti, Marcela mía,
+  893  la muerte me es agradable.
+
+MARCELA
+  894  Como yo te vea y hable,
+  895  dos mil vidas perdería.
+  896  Estuve esperando el día
+  897  como el pajarillo solo
+  898  y, cuando vi que en el polo
+  899  que Apolo más presto dora
+  900  le despertaba la Aurora,
+  901  dije: «Yo veré mi Apolo.»
+  902  Grandes cosas han pasado,
+  903  que no se quiso acostar
+  904  la Condesa hasta dejar
+  905  satisfecho su cuidado;
+  906  amigas que han envidiado
+  907  mi dicha con deslealtad
+  908  le han contado la verdad,
+  909  que entre quien sirve, aunque veas
+  910  que hay amistad, no la creas,
+  911  porque es fingida amistad.
+  912  Todo lo sabe en efeto,
+  913  que si es Dïana la luna,
+  914  siempre a quien ama importuna,
+  915  salió y vio nuestro secreto;
+  916  pero será, te prometo,
+  917  para mayor bien, Teodoro,
+  918  que del honesto decoro
+  919  con que tratas de casarte
+  920  le di parte, y dije aparte
+  921  cuán tiernamente te adoro;
+  922  tus prendas le encarecí,
+  923  tu estilo, tu gentileza,
+  924  y ella entonces su grandeza
+  925  mostró tan piadosa en mí,
+  926  que se alegró de que en ti
+  927  hubiese los ojos puesto
+  928  y de casarnos muy presto
+  929  palabra también me dio,
+  930  luego que de mí entendió
+  931  que era tu amor tan honesto.
+  932  Yo pensé que se enojara
+  933  y la casa revolviera,
+  934  que a los dos nos despidiera
+  935  y a los demás castigara,
+  936  mas su sangre ilustre y clara
+  937  y aquel ingenio en efeto
+  938  tan prudente y tan perfeto
+  939  conoció lo que mereces.
+  940  ¡Oh, bien haya, amén mil veces,
+  941  quien sirve a señor discreto!
+
+TEODORO
+  942  ¿Que casarme prometió
+  943  contigo? // ¿Pones duda
+  944  que a su ilustre sangre acuda?
+  945  [Aparte.]Mi ignorancia me engañó.
+
+[ACOTACIÓN] [Aparte.]
+  946  ¡Qué necio pensaba yo
+  947  que hablaba en mí la Condesa!
+  948  De haber pensado me pesa
+  949  que pudo tenerme amor,
+  950  que nunca tan alto azor
+  951  se humilla a tan baja presa.
+
+MARCELA
+  952  ¿Qué murmuras entre ti?
+
+TEODORO
+  953  Marcela, conmigo habló,
+  954  pero no se declaró
+  955  en darme a entender que fui
+  956  el que embozado salí
+  957  anoche de su aposento.
+
+MARCELA
+  958  Fue discreto pensamiento
+  959  por no obligarse al castigo
+  960  de saber que hablé contigo,
+  961  si no lo es el casamiento,
+  962  que el castigo más piadoso
+  963  de dos que se quieren bien
+  964  es casarlos. // TEODORO: Dices bien,
+  965  y el remedio más honroso.
+
+MARCELA
+  966  ¿Querrás tú? // TEODORO: Seré dichoso.
+
+MARCELA
+  967  Confírmalo. // Con los brazos,
+  968  que son los rasgos y lazos
+  969  de la pluma del amor,
+  970  pues no hay rúbrica mejor
+  971  que la que firman los brazos.
+
+[ACOTACIÓN] (Sale la CONDESA .)
+
+DIANA
+  972  Esto se ha enmendado bien;
+  973  agora estoy muy contenta,
+  974  que siempre a quien reprehende
+  975  da gran gusto ver la enmienda.
+  976  No os turbéis, ni os alteréis.
+
+TEODORO
+  977  Dije, señora, a Marcela
+  978  que anoche salí de aquí
+  979  con tanto disgusto y pena
+  980  de que vuestra señoría
+  981  imaginase, en su ofensa,
+  982  este pensamiento honesto
+  983  para casarme con ella,
+  984  que me he pensado morir,
+  985  y dándome por respuesta
+  986  que mostrabas en casarnos
+  987  tu piedad y tu grandeza,
+  988  dile mis brazos, y advierte
+  989  que si mentirte quisiera
+  990  no me faltara un engaño,
+  991  pero no hay cosa que venza
+  992  como decir la verdad
+  993  a una persona discreta.
+
+DIANA
+  994  Teodoro, justo castigo
+  995  la deslealtad mereciera
+  996  de haber perdido el respeto
+  997  a mi casa, y la nobleza
+  998  que usé anoche con los dos
+  999  no es justo que parte sea
+ 1000  a que os atreváis ansí,
+ 1001  que en llegando a desvergüenza
+ 1002  el amor, no hay privilegio
+ 1003  que el castigo le defienda.
+ 1004  Mientras no os casáis los dos,
+ 1005  mejor estará Marcela
+ 1006  cerrada en un aposento,
+ 1007  que no quiero yo que os vean
+ 1008  juntos las demás crïadas
+ 1009  y que por ejemplo os tengan
+ 1010  para casárseme todas.
+ 1011  ¡Dorotea! ¡Ah, Dorotea!
+
+[ACOTACIÓN] (Sale DOROTEA .)
+
+DOROTEA
+ 1012  Señora... // DIANA: Toma esta llave
+ 1013  y en mi propia cuadra encierra
+ 1014  a Marcela, que estos días
+ 1015  podrá hacer labor en ella.
+ 1016  No diréis que esto es enojo.
+
+DOROTEA
+ 1017  ¿Qué es esto, Marcela? // MARCELA: Fuerza
+ 1018  de un poderoso tirano
+ 1019  y una rigurosa estrella.
+ 1020  ¡Enciérrame por Teodoro!
+
+DOROTEA
+ 1021  Cárcel aquí no la temas,
+ 1022  y para puertas de celos
+ 1023  tiene amor llave maestra.
+
+[ACOTACIÓN] (Váyanse las dos. Queden la CONDESA y TEODORO .)
+
+DIANA
+ 1024  En fin, Teodoro, ¿tú quieres
+ 1025  casarte? // TEODORO: Yo no quisiera
+ 1026  hacer cosa sin tu gusto;
+ 1027  y créeme que mi ofensa
+ 1028  no es tanta como te han dicho,
+ 1029  que bien sabes que con lengua
+ 1030  de escorpión pintan la envidia,
+ 1031  y que si Ovidio supiera
+ 1032  qué era servir, no en los campos,
+ 1033  no en las montañas desiertas
+ 1034  pintara su escura casa,
+ 1035  que aquí habita y aquí reina.
+
+DIANA
+ 1036  Luego ¿no es verdad que quieres
+ 1037  a Marcela? // TEODORO: Bien pudiera
+ 1038  vivir sin Marcela yo.
+
+DIANA
+ 1039  Pues díceme que por ella
+ 1040  pierdes el seso. // TEODORO: Es tan poco
+ 1041  que no es mucho que le pierda,
+ 1042  mas crea vusiñoría
+ 1043  que aunque Marcela merezca
+ 1044  esas finezas en mí,
+ 1045  no ha habido tantas finezas.
+
+DIANA
+ 1046  Pues ¿no le has dicho requiebros
+ 1047  tales que engañar pudieran
+ 1048  a mujer de más valor?
+
+TEODORO
+ 1049  Las palabras poco cuestan.
+
+DIANA
+ 1050  ¿Qué le has dicho, por mi vida?
+ 1051  ¿Cómo, Teodoro, requiebran
+ 1052  los hombres a las mujeres?
+
+TEODORO
+ 1053  Como quien ama y quien ruega,
+ 1054  vistiendo de mil mentiras
+ 1055  una verdad, y esa apenas.
+
+DIANA
+ 1056  Sí, pero ¿con qué palabras?
+
+TEODORO
+ 1057  Estrañamente me aprieta
+ 1058  vuseñoría: «Esos ojos,
+ 1059  le dije, esas niñas bellas,
+ 1060  son luz con que ven los míos,
+ 1061  y los corales y perlas
+ 1062  desa boca celestial...»
+
+DIANA
+ 1063  ¿Celestial? // TEODORO: Cosas como estas
+ 1064  son la cartilla, señora,
+ 1065  de quien ama y quien desea.
+
+DIANA
+ 1066  Mal gusto tienes, Teodoro.
+ 1067  No te espantes de que pierdas
+ 1068  hoy el crédito conmigo,
+ 1069  porque sé yo que en Marcela
+ 1070  hay más defetos que gracias.
+ 1071  Como la miro más cerca...
+ 1072  Sin esto, porque no es limpia,
+ 1073  no tengo pocas pendencias
+ 1074  con ella... Pero no quiero
+ 1075  desenamorarte della,
+ 1076  que bien pudiera decirte
+ 1077  cosas, pero aquí se quedan
+ 1078  sus gracias o sus desgracias,
+ 1079  que yo quiero que la quieras
+ 1080  y que os caséis en buen hora,
+ 1081  mas, pues de amador te precias,
+ 1082  dame consejo, Teodoro,
+ 1083  ansí a Marcela poseas,
+ 1084  para aquella amiga mía
+ 1085  que ha días que no sosiega
+ 1086  de amores de un hombre humilde,
+ 1087  porque si en quererle piensa,
+ 1088  ofende su autoridad,
+ 1089  y si de quererle deja,
+ 1090  pierde el jüicio de celos,
+ 1091  que el hombre, que no sospecha
+ 1092  tanto amor, anda cobarde,
+ 1093  aunque es discreto con ella.
+
+TEODORO
+ 1094  ¿Yo, señora, sé de amor?
+ 1095  No sé, por Dios, cómo pueda
+ 1096  aconsejarte. // DIANA: ¿No quieres,
+ 1097  como dices, a Marcela?
+ 1098  ¿No le has dicho esos requiebros?
+ 1099  Tuvieran lengua las puertas,
+ 1100  que ellas dijeran. // TEODORO: No hay cosa
+ 1101  que decir las puertas puedan.
+
+DIANA
+ 1102  Ea, que ya te sonrojas,
+ 1103  y lo que niega la lengua
+ 1104  confiesas con las colores.
+
+TEODORO
+ 1105  Si ella te lo ha dicho, es necia;
+ 1106  una mano le tomé
+ 1107  y no me quedé con ella,
+ 1108  que luego se la volví.
+ 1109  ¡No sé yo de qué se queja!
+
+DIANA
+ 1110  Sí, pero hay manos que son
+ 1111  como la paz de la Iglesia,
+ 1112  que siempre vuelven besadas.
+
+TEODORO
+ 1113  Es necísima Marcela.
+ 1114  Es verdad que me atreví,
+ 1115  pero con mucha vergüenza,
+ 1116  a que templase la boca
+ 1117  con nieve y con azucenas.
+
+DIANA
+ 1118  ¿Con azucenas y nieve?
+ 1119  Huelgo de saber que tiempla
+ 1120  ese emplasto el corazón.
+ 1121  Ahora bien, ¿qué me aconsejas?
+
+TEODORO
+ 1122  Que si esa dama que dices
+ 1123  hombre tan bajo desea,
+ 1124  y de quererle resulta
+ 1125  a su honor tanta bajeza,
+ 1126  haga que con un engaño,
+ 1127  sin que la conozca, pueda
+ 1128  gozarle. // DIANA: Queda el peligro
+ 1129  de presumir que lo entienda.
+ 1130  ¿No será mejor matarle?
+
+TEODORO
+ 1131  De Marco Aurelio se cuenta
+ 1132  que dio a su mujer Faustina,
+ 1133  para quitarle la pena,
+ 1134  sangre de un esgrimidor,
+ 1135  pero estas romanas pruebas
+ 1136  son buenas entre gentiles.
+
+DIANA
+ 1137  Bien dices, que no hay Lucrecias,
+ 1138  ni Torcatos, ni Virginios
+ 1139  en esta edad, y en aquella
+ 1140  hubo Faustinas, Teodoro,
+ 1141  Mesalinas y Popeas.
+ 1142  Escríbeme algún papel
+ 1143  que a este propósito sea,
+ 1144  y queda con Dios. ¡Ay, Dios!
+
+[ACOTACIÓN] (Caiga.)
+ 1145  ¡Caí! ¿Qué me miras? ¡Llega!
+ 1146  ¡Dame la mano! // TEODORO: El respeto
+ 1147  me detuvo de ofrecella.
+
+DIANA
+ 1148  ¡Qué graciosa grosería
+ 1149  que con la capa la ofrezcas!
+
+TEODORO
+ 1150  Así, cuando vas a misa,
+ 1151  te la da Otavio. // DIANA: Es aquella
+ 1152  mano que yo no le pido,
+ 1153  y debe de haber setenta
+ 1154  años que fue mano, y viene
+ 1155  amortajada por muerta.
+ 1156  Aguardar quien ha caído
+ 1157  a que se vista de seda
+ 1158  es como ponerse un jaco
+ 1159  quien ve al amigo en pendencia,
+ 1160  que mientras baja, le han muerto.
+ 1161  Demás que no es bien que tenga
+ 1162  nadie por más cortesía,
+ 1163  aunque melindres lo aprueban,
+ 1164  que una mano, si es honrada,
+ 1165  traiga la cara cubierta.
+
+TEODORO
+ 1166  Quiero estimar la merced
+ 1167  que me has hecho. // DIANA: Cuando seas
+ 1168  escudero la darás
+ 1169  en el ferreruelo envuelta,
+ 1170  que agora eres secretario,
+ 1171  con que te he dicho que tengas
+ 1172  secreta aquesta caída,
+ 1173  si levantarte deseas.
+
+[ACOTACIÓN] (Váyase.)
+
+TEODORO
+ 1174  ¿Puedo creer que aquesto es verdad? Puedo,
+ 1175  si miro que es mujer Dïana hermosa.
+ 1176  Pidió mi mano, y la color de rosa,
+ 1177  al dársela, robó del rostro el miedo.
+ 1178  Tembló, yo lo sentí; dudoso quedo.
+ 1179  ¿Qué haré? Seguir mi suerte venturosa,
+ 1180  si bien, por ser la empresa tan dudosa,
+ 1181  niego al temor lo que al valor concedo.
+ 1182  Mas dejar a Marcela es caso injusto,
+ 1183  que las mujeres no es razón que esperen
+ 1184  de nuestra obligación tanto disgusto.
+ 1185  Pero si ellas nos dejan cuando quieren
+ 1186  por cualquiera interés o nuevo gusto,
+ 1187  mueran también como los hombres mueren.
+
+
+===== ACTO 2 =====
+
+[ACOTACIÓN] Salen el CONDE FEDERICO y LEONIDO , criado.
+
+FEDERICO
+ 1188  ¿Aquí la viste? // LEONIDO: Aquí entró
+ 1189  como el alba por un prado,
+ 1190  que a su tapete bordado
+ 1191  la primera luz le dio;
+ 1192  y según la devoción,
+ 1193  no pienso que tardarán,
+ 1194  que conozco al capellán
+ 1195  y es más breve que es razón.
+
+FEDERICO
+ 1196  ¡Ay, si la pudiese hablar!
+
+LEONIDO
+ 1197  Siendo tú su primo, es cosa
+ 1198  acompañarla forzosa.
+
+FEDERICO
+ 1199  El pretenderme casar
+ 1200  ha hecho ya sospechoso
+ 1201  mi parentesco, Leonido,
+ 1202  que antes de haberla querido
+ 1203  nunca estuve temeroso.
+ 1204  Verás que un hombre visita
+ 1205  una dama libremente
+ 1206  por conocido o pariente
+ 1207  mientras no la solicita,
+ 1208  pero en llegando a querella,
+ 1209  aunque de todos se guarde,
+ 1210  menos entra, y más cobarde,
+ 1211  y apenas habla con ella.
+ 1212  Tal me ha sucedido a mí
+ 1213  con mi prima la Condesa,
+ 1214  tanto, que de amar me pesa,
+ 1215  pues lo más del bien perdí,
+ 1216  pues me estaba mejor vella
+ 1217  tan libre como solía.
+
+[ACOTACIÓN] (Sale[n] el MARQUÉS RICARDO y CELIO .)
+
+CELIO
+ 1218  A pie digo que salía,
+ 1219  y alguna gente con ella.
+
+RICARDO
+ 1220  Por estar la Iglesia enfrente
+ 1221  y por preciarse del talle
+ 1222  ha querido honrar la calle.
+
+CELIO
+ 1223  ¿No has visto por el Oriente
+ 1224  salir, serena mañana,
+ 1225  el sol con mil rayos de oro,
+ 1226  cuando dora el blanco Toro
+ 1227  que pace campos de grana
+ 1228  (que así llamaba un poeta
+ 1229  los primeros arreboles)?
+ 1230  Pues tal salió, con dos soles,
+ 1231  más hermosa y más perfecta,
+ 1232  la bellísima Dïana,
+ 1233  la condesa de Belflor.
+
+RICARDO
+ 1234  Mi amor te ha vuelto pintor
+ 1235  de tan serena mañana,
+ 1236  y hácesla sol con razón,
+ 1237  porque el sol, en sus caminos,
+ 1238  va pasando varios signos
+ 1239  que sus pretendientes son.
+ 1240  Mira que allí Federico
+ 1241  aguarda sus rayos de oro.
+
+CELIO
+ 1242  ¿Cuál de los dos será el Toro
+ 1243  a quien hoy al sol aplico?
+
+RICARDO
+ 1244  Él, por primera afición,
+ 1245  aunque del nombre se guarde,
+ 1246  que yo, para entrar más tarde,
+ 1247  seré el signo de León.
+ 1248  ¿Es aquel Ricardo? // LEONIDO: Él es.
+
+FEDERICO
+ 1249  Fuera maravilla rara
+ 1250  que deste puesto faltara.
+
+LEONIDO
+ 1251  ¡Gallardo viene el Marqués!
+
+FEDERICO
+ 1252  No pudieras decir más
+ 1253  si tú fueras el celoso.
+
+LEONIDO
+ 1254  ¿Celos tienes? // FEDERICO: ¿No es forzoso?
+ 1255  De alabarle me los das.
+
+LEONIDO
+ 1256  Si a nadie quiere Dïana,
+ 1257  ¿de qué los puedes tener?
+
+FEDERICO
+ 1258  De que le puede querer,
+ 1259  que es mujer. // LEONIDO: Sí, mas tan vana,
+ 1260  tan altiva y desdeñosa,
+ 1261  que a todos os asegura.
+
+FEDERICO
+ 1262  Es soberbia la hermosura.
+
+LEONIDO
+ 1263  No hay ingratitud hermosa.
+
+CELIO
+ 1264  Dïana sale, señor.
+
+RICARDO
+ 1265  Pues tendrá mi noche día.
+
+CELIO
+ 1266  ¿Hablarasla? // RICARDO: Eso querría,
+ 1267  si quiere el competidor.
+
+[ACOTACIÓN] (Salen OTAVIO , FABIO , TEODORO , la CONDESA y, detrás, MARCELA , DOROTEA , ANARDA , con mantos. Llegue el CONDE por un lado.)
+
+FEDERICO
+ 1268  Aquí aguardaba con deseo de veros.
+
+DIANA
+ 1269  Señor Conde, seáis muy bien hallado.
+
+RICARDO
+ 1270  Y yo, señora, con el mismo agora
+ 1271  a acompañaros vengo y a serviros.
+
+DIANA
+ 1272  Señor Marqués, ¿qué dicha es esta mía?
+ 1273  ¡Tanta merced...! // RICARDO: Bien debe a mi deseo
+ 1274  vuseñoría este cuidado. // FEDERICO: Creo
+ 1275  que no soy bien mirado y admitido.
+
+LEONIDO
+ 1276  Háblala, no te turbes. // FEDERICO: ¡Ay, Leonido!
+ 1277  Quien sabe que no gustan de escuchalle,
+ 1278  ¿de qué te admiras que se turbe y calle?
+
+[ACOTACIÓN] (Todos se entren por la otra puerta, acompañando a la CONDESA , y quede allí TEODORO .)
+
+TEODORO
+ 1279  Nuevo pensamiento mío
+ 1280  desvanecido en el viento,
+ 1281  que, con ser mi pensamiento,
+ 1282  de veros volar me río,
+ 1283  parad, detened el brío,
+ 1284  que os detengo y os provoco
+ 1285  porque, si el intento es loco,
+ 1286  de los dos lo mismo escucho,
+ 1287  aunque donde el premio es mucho
+ 1288  el atrevimiento es poco;
+ 1289  y si por disculpa dais
+ 1290  que es infinito el que espero,
+ 1291  averigüemos primero,
+ 1292  pensamiento, en qué os fundáis.
+ 1293  ¿Vós a quien servís amáis?
+ 1294  Diréis que ocasión tenéis
+ 1295  si a vuestros ojos creéis,
+ 1296  pues, pensamiento, decildes
+ 1297  que sobre pajas humildes
+ 1298  torre de diamante hacéis.
+ 1299  Si no me sucede bien,
+ 1300  quiero culparos a vós,
+ 1301  mas teniéndola los dos,
+ 1302  no es justo que culpa os den,
+ 1303  que podréis decir también,
+ 1304  cuando del alma os levanto
+ 1305  y de la altura me espanto
+ 1306  donde el amor os subió,
+ 1307  que el estar tan bajo yo
+ 1308  os hace a vós subir tanto.
+ 1309  Cuando algún hombre ofendido
+ 1310  al que le ofende defiende,
+ 1311  que dio la ocasión se entiende
+ 1312  del daño que os ha venido,
+ 1313  sed en buen hora atrevido,
+ 1314  que aunque los dos nos perdamos
+ 1315  esta disculpa llevamos:
+ 1316  que vós os perdéis por mí
+ 1317  y que yo tras vós me fui
+ 1318  sin saber adónde vamos.
+ 1319  Id en buen hora aunque os den
+ 1320  mil muertes por atrevido,
+ 1321  que no se llama perdido
+ 1322  el que se pierde tan bien.
+ 1323  Como otros dan parabién
+ 1324  de lo que hallan, estoy tal
+ 1325  que de perdición igual
+ 1326  os le doy, porque es perderse
+ 1327  también, que puede tenerse
+ 1328  envidia del mismo mal.
+
+[ACOTACIÓN] [Sale TRISTÁN .]
+
+TRISTÁN
+ 1329  Si en tantas lamentaciones
+ 1330  cabe un papel de Marcela,
+ 1331  que contigo se consuela
+ 1332  de sus pasadas prisiones,
+ 1333  bien te le daré sin porte,
+ 1334  porque a quien no ha menester
+ 1335  nadie le procura ver
+ 1336  a la usanza de la corte.
+ 1337  Cuando está en alto lugar
+ 1338  un hombre (¡y qué bien lo imitas!),
+ 1339  ¡qué le vienen de visitas
+ 1340  a molestar y a enfadar!,
+ 1341  pero si mudó de estado,
+ 1342  como es la Fortuna incierta,
+ 1343  todos huyen de su puerta
+ 1344  como si fuese apestado.
+ 1345  ¿Parécete que lavemos
+ 1346  en vinagre este papel?
+
+TEODORO
+ 1347  Contigo, necio, y con él
+ 1348  entrambas cosas tenemos.
+ 1349  Muestra, que vendrá lavado
+ 1350  si en tus manos ha venido.
+
+[ACOTACIÓN] (Lea.)
+ 1351  «A Teodoro, mi marido.»
+ 1352  ¿Marido? ¡Qué necio enfado!
+ 1353  ¡Qué necia cosa! // TRISTÁN: Es muy necia.
+
+TEODORO
+ 1354  Pregúntale a mi ventura
+ 1355  si subida a tanta altura
+ 1356  esas mariposas precia.
+
+TRISTÁN
+ 1357  Léele, por vida mía,
+ 1358  aunque ya estés tan divino,
+ 1359  que no se desprecia el vino
+ 1360  de los mosquitos que cría,
+ 1361  que yo sé cuando Marcela,
+ 1362  que llamas ya mariposa,
+ 1363  era águila caudalosa.
+
+TEODORO
+ 1364  El pensamiento que vuela
+ 1365  a los mismos cercos de oro
+ 1366  del sol tan baja la mira,
+ 1367  que aun de que la vee se admira.
+
+TRISTÁN
+ 1368  Hablas con justo decoro.
+ 1369  Mas ¿qué haremos del papel?
+ 1370  Esto. // ¿Rasgástele? // Sí.
+ 1371  ¿Por qué, señor? // Porque ansí
+ 1372  respondí más presto a él.
+
+TRISTÁN
+ 1373  Ese es injusto rigor.
+
+TEODORO
+ 1374  Ya soy otro, no te espantes.
+
+TRISTÁN
+ 1375  Basta, que sois los amantes
+ 1376  boticarios del amor,
+ 1377  que como ellos las recetas
+ 1378  vais ensartando papeles:
+ 1379  récipe celos crüeles,
+ 1380  agua de azules violetas;
+ 1381  récipe un desdén estraño,
+ 1382  sirupidel borrajorum
+ 1383  con que la sangre templorum
+ 1384  para asegurar el daño;
+ 1385  récipe ausencia, tomad
+ 1386  un emplasto para el pecho,
+ 1387  que os hiciera más provecho
+ 1388  estaros en la ciudad;
+ 1389  récipe de matrimonio:
+ 1390  allí es menester jarabes
+ 1391  y, tras diez días süaves,
+ 1392  purgalle con entimonio;
+ 1393  récipe signus celeste ,
+ 1394  que Capricornius dicetur ,
+ 1395  ese enfermo morïetur ,
+ 1396  si no es que paciencia preste;
+ 1397  récipe que de una tienda
+ 1398  joya o vestido sacabis,
+ 1399  con tabletas confortabis
+ 1400  la bolsa que tal emprenda.
+ 1401  A esta traza, finalmente,
+ 1402  van todo el año ensartando;
+ 1403  llega la paga: en pagando,
+ 1404  o viva o muera el doliente
+ 1405  se rasga todo papel;
+ 1406  tú la cuenta has acabado
+ 1407  y el de Marcela has rasgado
+ 1408  sin saber lo que hay en él.
+
+TEODORO
+ 1409  Ya tú debes de venir
+ 1410  con el vino que otras veces.
+
+TRISTÁN
+ 1411  Pienso que te desvaneces
+ 1412  con lo que intentas subir.
+
+TEODORO
+ 1413  Tristán, cuantos han nacido
+ 1414  su ventura han de tener;
+ 1415  no saberla conocer
+ 1416  es el no haberla tenido.
+ 1417  O morir en la porfía,
+ 1418  o ser conde de Belflor.
+
+TRISTÁN
+ 1419  César llamaron, señor,
+ 1420  a aquel duque que traía
+ 1421  escrito por gran blasón
+ 1422  «César o nada» y, en fin,
+ 1423  tuvo tan contrario el fin
+ 1424  que al fin de su pretensión
+ 1425  escribió una pluma airada:
+ 1426  «"César o nada", dijiste,
+ 1427  y todo, César, lo fuiste,
+ 1428  pues fuiste César y nada».
+
+TEODORO
+ 1429  Pues tomo, Tristán, la empresa,
+ 1430  y haga después la Fortuna
+ 1431  lo que quisiere.
+
+[ACOTACIÓN] (Salen MARCELA y DOROTEA .)
+
+DOROTEA
+ 1432  de tus desdichas le pesa
+ 1433  de todas las que servimos
+ 1434  a la Condesa, soy yo.
+
+MARCELA
+ 1435  En la prisión que me dio
+ 1436  tan justa amistad hicimos,
+ 1437  y yo me siento obligada
+ 1438  de suerte, mi Dorotea,
+ 1439  que no habrá amiga que sea
+ 1440  más de Marcela estimada.
+ 1441  Anarda piensaque yo
+ 1442  no sé cómo quiere a Fabio.
+ 1443  Pues della nació mi agravio,
+ 1444  que a la Condesa contó
+ 1445  los amores de Teodoro.
+
+DOROTEA
+ 1446  Teodoro está aquí. // MARCELA: ¡Mi bien!
+
+TEODORO
+ 1447  Marcela, el paso detén.
+
+MARCELA
+ 1448  ¿Cómo, mi bien, si te adoro,
+ 1449  cuando a mis ojos te ofreces?
+
+TEODORO
+ 1450  Mira lo que haces y dices,
+ 1451  que en palacio los tapices
+ 1452  han hablado algunas veces.
+ 1453  ¿De qué piensas que nació
+ 1454  hacer figuras en ellos?
+ 1455  De avisar que detrás dellos
+ 1456  siempre algún vivo escuchó.
+ 1457  Si un mudo, viendo matar
+ 1458  a un rey, su padre, dio voces,
+ 1459  figuras que no conoces
+ 1460  pintadas sabrán hablar.
+
+MARCELA
+ 1461  ¿Has leído mi papel?
+
+TEODORO
+ 1462  Sin leerle le he rasgado,
+ 1463  que estoy tan escarmentado
+ 1464  que rasgué mi amor con él.
+
+MARCELA
+ 1465  ¿Son los pedazos aquestos?
+
+TEODORO
+ 1466  Sí, Marcela. // MARCELA: ¿Y ya mi amor
+ 1467  has rasgado? // TEODORO: ¿No es mejor
+ 1468  que vernos por puntos puestos
+ 1469  en peligros tan estraños?
+ 1470  Si tú de mi intento estás,
+ 1471  no tratemos desto más
+ 1472  para escusar tantos daños.
+
+MARCELA
+ 1473  ¿Qué dices? // TEODORO: Que estoy dispuesto
+ 1474  a no darle más enojos
+ 1475  a la Condesa. // MARCELA: En los ojos
+ 1476  tuve muchas veces puesto
+ 1477  el temor desta verdad.
+
+TEODORO
+ 1478  Marcela, queda con Dios;
+ 1479  aquí acaba de los dos
+ 1480  el amor, no el amistad.
+
+DOROTEA
+ 1481  ¿Tú dices eso, Teodoro,
+ 1482  a Marcela? // TEODORO: Yo lo digo,
+ 1483  que soy de quietud amigo
+ 1484  y de guardar el decoro
+ 1485  a la casa que me ha dado
+ 1486  el ser que tengo. // MARCELA: Oye, advierte.
+
+TEODORO
+ 1487  Déjame. // MARCELA: ¿De aquesta suerte
+ 1488  me tratas? // TEODORO: ¡Qué necio enfado!
+
+[ACOTACIÓN] (Váyase.)
+
+MARCELA
+ 1489  ¡Ah Tristán, Tristán! // TRISTÁN: ¿Qué quieres?
+
+MARCELA
+ 1490  ¿Qué es esto? // TRISTÁN: Una mudancita,
+ 1491  que a las mujeres imita
+ 1492  Teodoro. // TRISTÁN: ¿Cuáles mujeres?
+
+TRISTÁN
+ 1493  Unas de azúcar y miel.
+
+MARCELA
+ 1494  Dile... // TRISTÁN: No me digas nada,
+ 1495  que soy vaina de esta espada,
+ 1496  nema de aqueste papel,
+ 1497  caja de aqueste sombrero,
+ 1498  fieltro deste caminante,
+ 1499  mudanza deste danzante,
+ 1500  día deste vario hebrero,
+ 1501  sombra deste cuerpo vano,
+ 1502  posta de aquesta estafeta,
+ 1503  rastro de aquesta cometa,
+ 1504  tempestad deste verano,
+ 1505  y finalmente yo soy
+ 1506  la uña de aqueste dedo,
+ 1507  que en cortándome no puedo
+ 1508  decir que con él estoy.
+
+[ACOTACIÓN] (Váyase.)
+
+MARCELA
+ 1509  ¿Qué sientes desto? // DOROTEA: No sé,
+ 1510  que a hablar no me atrevo. // MARCELA: ¿No?
+ 1511  Pues yo hablaré. // DOROTEA: Pues yo no.
+
+MARCELA
+ 1512  Pues yo sí. // DOROTEA: Mira que fue
+ 1513  bueno el aviso, Marcela,
+ 1514  de los tapices que miras.
+
+MARCELA
+ 1515  Amor en celosas iras
+ 1516  ningún peligro recela.
+ 1517  A no saber cuán altiva
+ 1518  es la Condesa, dijera
+ 1519  que Teodoro en algo espera,
+ 1520  porque no sin causa priva
+ 1521  tanto estos días Teodoro.
+
+DOROTEA
+ 1522  Calla, que estás enojada.
+
+MARCELA
+ 1523  Mas yo me veré vengada,
+ 1524  ni soy tan necia que ignoro
+ 1525  las tretas de hacer pesar.
+
+[ACOTACIÓN] (Sale FABIO .)
+
+FABIO
+ 1526  ¿Está el secretario aquí?
+
+MARCELA
+ 1527  ¿Es por burlarte de mí?
+
+FABIO
+ 1528  Por Dios, que le ando a buscar,
+ 1529  que le llama mi señora.
+
+MARCELA
+ 1530  Fabio, que sea o no sea,
+ 1531  pregúntale a Dorotea
+ 1532  cuál puse a Teodoro agora.
+ 1533  ¡No es majadero cansado
+ 1534  este secretario nuestro!
+
+FABIO
+ 1535  ¡Qué engaño tan necio el vuestro!
+ 1536  ¿Querréis que esté deslumbrado
+ 1537  de los que los dos tratáis?
+ 1538  ¿Es concierto de los dos?
+
+MARCELA
+ 1539  ¿Concierto? ¡Bueno! // FABIO: Por Dios,
+ 1540  que pienso que me engañáis.
+
+MARCELA
+ 1541  Confieso, Fabio, que oí
+ 1542  las locuras de Teodoro,
+ 1543  mas yo sé que a un hombre adoro
+ 1544  harto parecido a ti.
+
+FABIO
+ 1545  ¿A mí? // MARCELA: Pues ¿no te pareces
+ 1546  a ti? // FABIO: Pues ¿a mí, Marcela?
+
+MARCELA
+ 1547  Si te hablo con cautela,
+ 1548  Fabio, si no me enloqueces,
+ 1549  si tu talle no me agrada,
+ 1550  si no soy tuya, mi Fabio,
+ 1551  máteme el mayor agravio,
+ 1552  que es el querer despreciada.
+
+FABIO
+ 1553  Es engaño conocido
+ 1554  o tú te quieres morir,
+ 1555  pues quieres restitüir
+ 1556  el alma que me has debido.
+ 1557  Si es burla o es invención,
+ 1558  ¿a qué camina tu intento?
+
+DOROTEA
+ 1559  Fabio, ten atrevimiento
+ 1560  y aprovecha la ocasión,
+ 1561  que hoy te ha de querer Marcela
+ 1562  por fuerza. // FABIO: Por voluntad
+ 1563  fuera amor, fuera verdad.
+
+DOROTEA
+ 1564  Teodoro más alto vuela.
+ 1565  De Marcela se descarta.
+
+FABIO
+ 1566  Marcela, a buscarle voy.
+ 1567  Bueno en sus desdenes soy;
+ 1568  si amor te convierte en carta,
+ 1569  el sobrescrito a Teodoro,
+ 1570  y, en su ausencia, denla a Fabio;
+ 1571  mas yo perdono el agravio
+ 1572  aunque ofenda mi decoro,
+ 1573  y de espacio te hablaré
+ 1574  siempre tuyo en bien o en mal.
+
+[ACOTACIÓN] (Váyase.)
+
+DOROTEA
+ 1575  ¿Qué has hecho? // MARCELA: No sé; estoy tal
+ 1576  que de mí misma no sé.
+ 1577  ¿Anarda no quiere a Fabio?
+
+DOROTEA
+ 1578  Sí quiere. // MARCELA: Pues de los dos
+ 1579  me vengo, que amor es Dios
+ 1580  de la envidia y del agravio.
+
+[ACOTACIÓN] (Salen la CONDESA y ANARDA .)
+
+DIANA
+ 1581  Esta ha sido la ocasión.
+ 1582  No me reprehendas más.
+
+ANARDA
+ 1583  La disculpa que me das
+ 1584  me ha puesto en más confusión.
+ 1585  Marcela está aquí, señora,
+ 1586  hablando con Dorotea.
+
+DIANA
+ 1587  Pues no hay disgusto que sea
+ 1588  para mí mayor agora.
+ 1589  Salte allá fuera, Marcela.
+
+MARCELA
+ 1590  Vamos, Dorotea, de aquí.
+ 1591  Bien digo yo que de mí
+ 1592  o se enfada o se recela.
+
+[ACOTACIÓN] (Váyanse MARCELA y DOROTEA .)
+
+ANARDA
+ 1593  ¿Puédote hablar? // DIANA: Ya bien puedes.
+
+ANARDA
+ 1594  Los dos que de aquí se van
+ 1595  ciegos de tu amor están;
+ 1596  tú en desdeñarlos excedes
+ 1597  la condición de Anajarte,
+ 1598  la castidad de Lucrecia,
+ 1599  y quien a tantos desprecia...
+
+DIANA
+ 1600  Ya me canso de escucharte.
+
+ANARDA
+ 1601  ¿Con quién se piensa casar?
+ 1602  ¿No puede el marqués Ricardo,
+ 1603  por generoso y gallardo,
+ 1604  si no exceder, igualar
+ 1605  al más poderoso y rico?
+ 1606  ¿Y la más noble mujer
+ 1607  también no lo puede ser
+ 1608  de tu primo Federico?
+ 1609  ¿Por qué los has despedido
+ 1610  con tan estraño desprecio?
+
+DIANA
+ 1611  Porque uno es loco, otro necio,
+ 1612  y tú, en no haberme entendido,
+ 1613  más, Anarda, que los dos.
+ 1614  No los quiero porque quiero,
+ 1615  y quiero porque no espero
+ 1616  remedio. // ANARDA: ¡Válame Dios!
+ 1617  ¿Tú quieres? // DIANA: ¿No soy mujer?
+
+ANARDA
+ 1618  Sí, pero imagen de yelo
+ 1619  donde el mismo sol del cielo
+ 1620  podrá tocar y no arder.
+
+DIANA
+ 1621  Pues esos yelos, Anarda,
+ 1622  dieron todos a los pies
+ 1623  de un hombre humilde. // ANARDA: ¿Quién es?
+
+DIANA
+ 1624  La vergüenza me acobarda
+ 1625  que de mi propio valor
+ 1626  tengo; no diré su nombre.
+ 1627  Basta que sepas que es hombre
+ 1628  que puede infamar mi honor.
+
+ANARDA
+ 1629  Si Pasife quiso un toro,
+ 1630  Semíramis un caballo
+ 1631  y otras los monstros que callo
+ 1632  por no infamar su decoro,
+ 1633  ¿qué ofensa te puede hacer
+ 1634  querer hombre, sea quien fuere?
+
+DIANA
+ 1635  Quien quiere puede, si quiere,
+ 1636  como quiso, aborrecer.
+ 1637  Esto es lo mejor: yo quiero
+ 1638  no querer. // ANARDA: ¿Podrás? // DIANA: Podré,
+ 1639  que si cuando quise amé,
+ 1640  no amar en queriendo espero.
+
+[ACOTACIÓN] (Toquen dentro.)
+ 1641  ¿Quién canta? // ANARDA: Fabio con Clara.
+
+DIANA
+ 1642  Ojalá que me diviertan.
+
+ANARDA
+ 1643  Música y amor conciertan.
+ 1644  Bien en la canción repara.
+
+[ACOTACIÓN] (Canten dentro.)
+
+[VOCES]
+ 1645  ¡Oh, quién pudiera hacer, oh, quién hiciese,
+ 1646  que en no queriendo amar aborreciese!
+ 1647  ¡Oh, quién pudiera hacer, oh, quién hiciera,
+ 1648  que en no queriendo amor aborreciera!
+
+ANARDA
+ 1649  ¿Qué te dice la canción?
+ 1650  ¿No ves que te contradice?
+
+DIANA
+ 1651  Bien entiendo lo que dice,
+ 1652  mas yo sé mi condición,
+ 1653  y sé que estará en mi mano
+ 1654  como amar, aborrecer.
+
+ANARDA
+ 1655  Quien tiene tanto poder
+ 1656  pasa del límite humano.
+
+[ACOTACIÓN] (TEODORO entre.)
+
+TEODORO
+ 1657  Fabio me ha dicho, señora,
+ 1658  que le mandaste buscarme.
+
+DIANA
+ 1659  Horas ha que te deseo.
+
+TEODORO
+ 1660  Pues ya vengo a que me mandes,
+ 1661  y perdona si he faltado.
+
+DIANA
+ 1662  Ya has visto estos dos amantes,
+ 1663  estos dos mis pretendientes.
+
+TEODORO
+ 1664  Sí, señora. // DIANA: Buenos talles
+ 1665  tienen los dos. // TEODORO: Y muy buenos.
+
+DIANA
+ 1666  No quiero determinarme
+ 1667  sin tu consejo. ¿Con cuál
+ 1668  te parece que me case?
+
+TEODORO
+ 1669  Pues ¿qué consejo, señora,
+ 1670  puedo yo en las cosas darte
+ 1671  que consisten en tu gusto?
+ 1672  Cualquiera que quieras darme
+ 1673  por dueño será el mejor.
+
+DIANA
+ 1674  Mal pagas el estimarte
+ 1675  por consejero, Teodoro,
+ 1676  en caso tan importante.
+
+TEODORO
+ 1677  Señora, ¿en casa no hay viejos
+ 1678  que entienden de casos tales?
+ 1679  Otavio, tu mayordomo,
+ 1680  con experiencia lo sabe,
+ 1681  fuera de su larga edad.
+
+DIANA
+ 1682  Quiero yo que a ti te agrade
+ 1683  el dueño que has de tener.
+ 1684  ¿Tiene el Marqués mejor talle
+ 1685  que mi primo? // TEODORO: Sí, señora.
+
+DIANA
+ 1686  Pues elijo al Marqués; parte
+ 1687  y pídele las albricias.
+
+[ACOTACIÓN] (Váyase la CONDESA .)
+
+TEODORO
+ 1688  ¿Hay desdicha semejante?
+ 1689  ¿Hay resolución tan breve?
+ 1690  ¿Hay mudanza tan notable?
+ 1691  ¿Estos eran los intentos
+ 1692  que tuve? ¡Oh sol, abrasadme
+ 1693  las alas con que subí,
+ 1694  pues vuestro rayo deshace
+ 1695  las mal atrevidas plumas
+ 1696  a la belleza de un ángel!
+ 1697  Cayó Dïana en su error.
+ 1698  ¡Oh, qué mal hice en fïarme
+ 1699  de una palabra amorosa!
+ 1700  ¡Ay, cómo entre desiguales
+ 1701  mal se concierta el amor!
+ 1702  Pero ¿es mucho que me engañen
+ 1703  aquellos ojos a mí
+ 1704  si pudieran ser bastantes
+ 1705  a hacer engaños a Ulises?
+ 1706  De nadie puedo quejarme
+ 1707  sino de mí; pero, en fin,
+ 1708  ¿qué pierdo cuando me falte?
+ 1709  Haré cuenta que he tenido
+ 1710  algún acidente grave
+ 1711  y que mientras me duró
+ 1712  imaginé disparates.
+ 1713  No más; despedíos de ser,
+ 1714  ¡oh pensamiento arrogante!,
+ 1715  conde de Belflor. Volved
+ 1716  la proa al antigua margen;
+ 1717  queramos nuestra Marcela;
+ 1718  para vós Marcela baste.
+ 1719  Señoras busquen señores,
+ 1720  que amor se engendra de iguales,
+ 1721  y pues en aire nacistes,
+ 1722  quedad convertido en aire,
+ 1723  que donde méritos faltan
+ 1724  los que piensan subir caen.
+
+[ACOTACIÓN] (Sale FABIO .)
+
+FABIO
+ 1725  ¿Hablaste ya con mi señora? // TEODORO: Agora,
+ 1726  Fabio, la hablé, y estoy con gran contento
+ 1727  porque ya la Condesa, mi señora,
+ 1728  rinde su condición al casamiento.
+ 1729  Los dos que viste cada cual la adora,
+ 1730  mas ella, con su raro entendimiento,
+ 1731  al Marqués escogió. // FABIO: Discreta ha sido.
+
+TEODORO
+ 1732  Que gane las albricias me ha pedido,
+ 1733  mas yo, que soy tu amigo, quiero darte,
+ 1734  Fabio, aqueste provecho. Parte presto
+ 1735  y pídelas por mí. // FABIO: Si debo amarte
+ 1736  muestra la obligación en que me has puesto.
+ 1737  Voy como un rayo, y volveré a buscarte
+ 1738  satisfecho de ti, contento desto,
+ 1739  y alábese el Marqués, que ha sido empresa
+ 1740  de gran valor rendirse la Condesa.
+
+[ACOTACIÓN] (Váyase FABIO y sale TRISTÁN .)
+
+TRISTÁN
+ 1741  Turbado a buscarte vengo.
+ 1742  ¿Es verdad lo que me han dicho?
+
+TEODORO
+ 1743  ¡Ay, Tristán! Verdad será
+ 1744  si son desengaños míos.
+
+TRISTÁN
+ 1745  Ya, Teodoro, en las dos sillas
+ 1746  los dos batanes he visto
+ 1747  que molieron a Dïana,
+ 1748  pero que hubiese elegido
+ 1749  hasta agora no lo sé.
+
+TEODORO
+ 1750  Pues, Tristán, agora vino
+ 1751  ese tornasol mudable,
+ 1752  esa veleta, ese vidrio,
+ 1753  ese río junto al mar,
+ 1754  que vuelve atrás, aunque es río,
+ 1755  esa Dïana, esa luna,
+ 1756  esa mujer, ese hechizo,
+ 1757  ese monstro de mudanzas
+ 1758  que solo perderme quiso
+ 1759  por afrentar sus vitorias,
+ 1760  y que dijese me dijo
+ 1761  cuál de los dos me agradaba,
+ 1762  porque sin consejo mío
+ 1763  no se pensaba casar.
+ 1764  Quedé muerto, y tan perdido,
+ 1765  que no responder locuras
+ 1766  fue de mi locura indicio;
+ 1767  díjome, en fin, que el Marqués
+ 1768  le agradaba, y que yo mismo
+ 1769  fuese a pedir las albricias.
+
+TRISTÁN
+ 1770  ¿Ella, en fin, tiene marido?
+
+TEODORO
+ 1771  El marqués Ricardo. // TRISTÁN: Pienso,
+ 1772  que a no verte sin jüicio
+ 1773  y porque dar aflición
+ 1774  no es justo a los afligidos,
+ 1775  que agora te diera vaya
+ 1776  de aquel pensamiento altivo
+ 1777  con que a ser conde aspirabas.
+
+TEODORO
+ 1778  Si aspiré, Tristán, ya espiro.
+
+TRISTÁN
+ 1779  La culpa tienes de todo.
+
+TEODORO
+ 1780  No lo niego, que yo he sido
+ 1781  fácil en creer los ojos
+ 1782  de una mujer. // TRISTÁN: Yo te digo
+ 1783  que no hay vasos de veneno
+ 1784  a los mortales sentidos,
+ 1785  Teodoro, como los ojos
+ 1786  de una mujer. // TEODORO: De corrido
+ 1787  te juro, Tristán, que apenas
+ 1788  puedo levantar los míos.
+ 1789  Esto pasó, y el remedio
+ 1790  es sepultar en olvido
+ 1791  el suceso y el amor.
+
+TRISTÁN
+ 1792  ¡Qué arrepentido y contrito
+ 1793  has de volver a Marcela!
+
+TEODORO
+ 1794  Presto seremos amigos.
+
+[ACOTACIÓN] (Sale MARCELA .)
+
+MARCELA
+ 1795  ¡Qué mal que finge amor quien no le tiene!
+ 1796  ¡Qué mal puede olvidarse amor de un año!
+ 1797  Pues mientras más el pensamiento engaño,
+ 1798  más atrevido a la memoria viene.
+ 1799  Pero si es fuerza y al honor conviene,
+ 1800  remedio suele ser del desengaño
+ 1801  curar el propio amor amor estraño,
+ 1802  que no es poco remedio el que entretiene.
+ 1803  Mas, ¡ay!, que imaginar que puede amarse
+ 1804  en medio de otro amor es atreverse
+ 1805  a dar mayor venganza por vengarse.
+ 1806  Mejor es esperar que no perderse,
+ 1807  que suele alguna vez, pensando helarse,
+ 1808  amor con los remedios encenderse.
+
+TEODORO
+ 1809  ¿Marcela? // MARCELA: ¿Quién es? // TEODORO: Yo soy.
+ 1810  ¿Así te olvidas de mí?
+
+MARCELA
+ 1811  Y tan olvidada estoy
+ 1812  que a no imaginar en ti
+ 1813  fuera de mí misma voy,
+ 1814  porque si en mí misma fuera,
+ 1815  te imaginara y te viera,
+ 1816  que, para no imaginarte,
+ 1817  tengo el alma en otra parte,
+ 1818  aunque olvidarte no quiera.
+ 1819  ¿Cómo me osaste nombrar?
+ 1820  ¿Cómo cupo en esa boca
+ 1821  mi nombre? // TEODORO: Quise probar
+ 1822  tu firmeza, y es tan poca
+ 1823  que no me ha dado lugar.
+ 1824  Ya dicen que se empleó
+ 1825  tu cuidado en un sujeto
+ 1826  que mi amor sostituyó.
+
+MARCELA
+ 1827  Nunca, Teodoro, el discreto
+ 1828  mujer ni vidrio probó.
+ 1829  Mas no me des a entender
+ 1830  que prueba quisiste hacer;
+ 1831  yo te conozco, Teodoro,
+ 1832  unos pensamientos de oro
+ 1833  te hicieron enloquecer.
+ 1834  ¿Cómo te va? ¿No te salen
+ 1835  como tú los imaginas?
+ 1836  ¿No te cuestan lo que valen?
+ 1837  ¿No hay dichas que las divinas
+ 1838  partes de tu dueño igualen?
+ 1839  ¿Qué ha sucedido? ¿Qué tienes?
+ 1840  Turbado, Teodoro, vienes.
+ 1841  ¿Mudose aquel vendaval?
+ 1842  ¿Vuelves a buscartu igual,
+ 1843  o te burlas y entretienes?
+ 1844  Confieso que me holgaría
+ 1845  que dieses a mi esperanza,
+ 1846  Teodoro, un alegre día.
+
+TEODORO
+ 1847  Si le quieres con venganza,
+ 1848  ¿qué mayor, Marcela mía?
+ 1849  Pero mira que el amor
+ 1850  es hijo de la nobleza;
+ 1851  no muestres tanto rigor,
+ 1852  que es la venganza bajeza
+ 1853  indigna del vencedor.
+ 1854  Venciste; yo vuelvo a ti,
+ 1855  Marcela, que no salí
+ 1856  con aquel mi pensamiento.
+ 1857  Perdona el atrevimiento
+ 1858  si ha quedado amor en ti,
+ 1859  no porque no puede ser
+ 1860  proseguir las esperanzas
+ 1861  con que te pude ofender,
+ 1862  mas porque en estas mudanzas
+ 1863  memorias me hacen volver.
+ 1864  Sean, pues, estas memorias
+ 1865  parte a despertar la tuya,
+ 1866  pues confieso tus vitorias.
+ 1867  No quiera Dios que destruya
+
+MARCELA
+ 1868  los principios de tus glorias.
+ 1869  Sirve, bien haces; porfía,
+ 1870  no te rindas, que dirá
+ 1871  tu dueño que es cobardía.
+ 1872  Sigue tu dicha, que ya
+ 1873  voy prosiguiendo la mía.
+ 1874  No es agravio amar a Fabio
+ 1875  pues me dejaste, Teodoro,
+ 1876  sino el remedio más sabio,
+ 1877  que aunque el dueño no mejoro
+ 1878  basta vengar el agravio.
+ 1879  Y quédate a Dios, que ya
+ 1880  me cansa el hablar contigo,
+ 1881  no venga Fabio, que está
+ 1882  medio casado conmigo.
+
+TEODORO
+ 1883  Tenla, Tristán, que se va.
+
+TRISTÁN
+ 1884  Señora, señora, advierte
+ 1885  que no es volver a quererte
+ 1886  dejar de haberte querido:
+ 1887  disculpa el buscarte ha sido,
+ 1888  si ha sido culpa ofenderte.
+ 1889  Óyeme, Marcela, a mí.
+
+MARCELA
+ 1890  ¿Qué quieres, Tristán? // TRISTÁN: Espera.
+
+[ACOTACIÓN] (Salen la CONDESA y ANARDA .)
+
+DIANA
+ 1891  ¿Teodoro y Marcela aquí?
+
+ANARDA
+ 1892  Parece que el ver te altera
+ 1893  que estos dos se hablen ansí.
+
+DIANA
+ 1894  Toma, Anarda, esta antepuerta,
+ 1895  y cubrámonos las dos.
+ 1896  ([Aparte.]Amor con celos despierta.
+
+[ACOTACIÓN] ([Aparte.]
+
+MARCELA
+ 1897  ¡Déjame, Tristán, por Dios!
+
+ANARDA
+ 1898  Tristán a los dos concierta,
+ 1899  que deben de estar reñidos.
+
+DIANA
+ 1900  El alcahuete lacayo
+ 1901  me ha quitado los sentidos.
+
+TRISTÁN
+ 1902  No pasó más presto el rayo
+ 1903  que por sus ojos y oídos
+ 1904  pasó la necia belleza
+ 1905  desa mujer que le adora.
+ 1906  Ya desprecia su riqueza,
+ 1907  que más riqueza atesora
+ 1908  tu gallarda gentileza.
+ 1909  Haz cuenta que fue cometa
+ 1910  aquel amor. Ven acá,
+ 1911  Teodoro. // DIANA: ¡Brava estafeta
+ 1912  es el lacayo! // TEODORO: Si ya
+ 1913  Marcela, a Fabio sujeta,
+ 1914  dice que le tiene amor,
+ 1915  ¿por qué me llamas, Tristán?
+
+TRISTÁN
+ 1916  Otro enojado. // TEODORO: Mejor
+ 1917  los dos casarse podrán.
+
+TRISTÁN
+ 1918  ¿Tú también? ¡Bravo rigor!
+ 1919  Ea, acaba; llega, pues;
+ 1920  dame esa mano y después
+ 1921  que se hagan las amistades.
+
+TEODORO
+ 1922  Necio, ¿tú me persüades?
+
+TRISTÁN
+ 1923  Por mí quiero que le des
+ 1924  la mano esta vez, señora.
+
+TEODORO
+ 1925  ¿Cuándo he dicho yo a Marcela
+ 1926  que he tenido a nadie amor?
+ 1927  Y ella me ha dicho... // TRISTÁN: Es cautela
+ 1928  para vengar tu rigor.
+
+MARCELA
+ 1929  No es cautela, que es verdad.
+
+TRISTÁN
+ 1930  ¡Calla, boba! Ea, llegad.
+ 1931  ¡Qué necios estáis los dos!
+
+TEODORO
+ 1932  Yo rogaba; mas, por Dios,
+ 1933  que no he de hacer amistad.
+
+MARCELA
+ 1934  Pues a mí me pase un rayo.
+
+TRISTÁN
+ 1935  No jures. // MARCELA: Aunque le muestro
+ 1936  enojo, ya me desmayo.
+
+TRISTÁN
+ 1937  Pues tente firme. // DIANA: ¡Qué diestro
+ 1938  está el bellaco lacayo!
+
+MARCELA
+ 1939  Déjame, Tristán, que tengo
+ 1940  que hacer. // TEODORO: Déjala, Tristán.
+
+TRISTÁN
+ 1941  Por mí, vaya. // TEODORO: ¡Tenla! // MARCELA: ¡Vengo,
+ 1942  mi amor! // TRISTÁN: ¿Cómo no se van
+ 1943  ya? Que a ninguno detengo.
+
+MARCELA
+ 1944  ¡Ay, mi bien! No puedo irme.
+
+TEODORO
+ 1945  Ni yo, porque no es tan firme
+ 1946  ninguna roca en la mar.
+
+MARCELA
+ 1947  Los brazos te quiero dar.
+
+TEODORO
+ 1948  Y yo a los tuyos asirme.
+
+TRISTÁN
+ 1949  Si yo no era menester,
+ 1950  ¿por qué me hicistes cansar?
+
+ANARDA
+ 1951  ¿Desto gustas? // DIANA: Vengo a ver
+ 1952  lo poco que hay que fïar
+ 1953  de un hombre y una mujer.
+
+TEODORO
+ 1954  ¡Ay! ¡Qué me has dicho de afrentas!
+
+TRISTÁN
+ 1955  Yo he caído ya con veros
+ 1956  juntar las almas contentas,
+ 1957  que es desgracia de terceros
+ 1958  no se concertar las ventas.
+
+MARCELA
+ 1959  Si te trocare, mi bien,
+ 1960  por Fabio ni por el mundo,
+ 1961  que tus agravios me den
+ 1962  la muerte. // TEODORO: Hoy de nuevo fundo,
+ 1963  Marcela, mi amor también,
+ 1964  y si te olvidare digo
+ 1965  que me dé el cielo en castigo
+ 1966  el verte en brazos de Fabio.
+
+MARCELA
+ 1967  ¿Quieres deshacer mi agravio?
+
+TEODORO
+ 1968  ¿Qué no haré por ti y contigo?
+
+MARCELA
+ 1969  Di que todas las mujeres
+ 1970  son feas. // TEODORO: Contigo es claro.
+ 1971  Mira qué otra cosa quieres.
+
+MARCELA
+ 1972  En ciertos celos reparo,
+ 1973  ya que tan mi amigo eres,
+ 1974  que no importa que esté aquí
+ 1975  Tristán. // TRISTÁN: Bien podéis por mí,
+ 1976  aunque de mí mismo sea.
+
+MARCELA
+ 1977  Di que la Condesa es fea.
+
+TEODORO
+ 1978  Y un demonio para mí.
+
+MARCELA
+ 1979  ¿No es necia? // TEODORO: Por todo estremo.
+
+MARCELA
+ 1980  ¿No es bachillera? // TEODORO: Es cuitada.
+
+DIANA
+ 1981  Quiero estorbarlos, que temo
+ 1982  que no reparen en nada,
+ 1983  y aunque me yelo, me quemo.
+
+ANARDA
+ 1984  ¡Ay, señora, no hagas tal!
+
+TRISTÁN
+ 1985  Cuando queráis decir mal
+ 1986  de la Condesa y su talle,
+ 1987  a mí me oíd. // DIANA: ¿Escuchalle
+ 1988  podré desvergüenza igual?
+
+TRISTÁN
+ 1989  Lo primero... // DIANA: Yo no aguardo
+ 1990  a lo segundo, que fuera
+ 1991  necedad. // MARCELA: Voyme, Teodoro.
+
+[ACOTACIÓN] (Váyase con una reverencia MARCELA .)
+
+TRISTÁN
+ 1992  ¡La Condesa! // TEODORO: ¡La Condesa!
+
+DIANA
+ 1993  Teodoro. // TEODORO: Señora, advierte...
+
+TRISTÁN
+ 1994  [Aparte.]El cielo a tronar comienza;
+
+[ACOTACIÓN] [Aparte.]
+ 1995  no pienso aguardar los rayos.
+
+[ACOTACIÓN] (Vase TRISTÁN .)
+
+DIANA
+ 1996  Anarda, un bufete llega;
+ 1997  escribirame Teodoro
+ 1998  una carta de su letra,
+ 1999  pero notándola yo.
+
+TEODORO
+ 2000  [Aparte.]Todo el corazón me tiembla.
+
+[ACOTACIÓN] [Aparte.]
+ 2001  ¡Si oyó lo que hablado habemos!
+
+DIANA
+ 2002  [Aparte.]Bravamente amor despierta
+
+[ACOTACIÓN] [Aparte.]
+ 2003  con los celos a los ojos.
+ 2004  ¡Que aqueste amase a Marcela
+ 2005  y que yo no tenga partes
+ 2006  para que también me quiera!
+ 2007  ¡Que se burlasen de mí!
+
+TEODORO
+ 2008  [Aparte.]Ella murmura y se queja.
+
+[ACOTACIÓN] [Aparte.]
+ 2009  Bien digo yo que en palacio,
+ 2010  para que a callar aprenda,
+ 2011  tapices tienen oídos
+ 2012  y paredes tienen lenguas.
+
+[ACOTACIÓN] (Sale ANARDA con un bufetillo pequeño y recado de escribir.)
+
+ANARDA
+ 2013  Este pequeño he traído
+ 2014  y tu escribanía. // DIANA: Llega,
+ 2015  Teodoro, y toma la pluma.
+
+TEODORO
+ 2016  [Aparte.]Hoy me mata o me destierra.
+
+[ACOTACIÓN] [Aparte.]
+
+DIANA
+ 2017  Escribe. // TEODORO: Di. // DIANA: No estás bien
+ 2018  con la rodilla en la tierra.
+ 2019  Ponle, Anarda, una almohada.
+
+TEODORO
+ 2020  Yo estoy bien. // DIANA: Pónsela, necia.
+
+TEODORO
+ 2021  ([Aparte.]No me agrada este favor
+
+[ACOTACIÓN] ([Aparte.]
+ 2022  sobre enojos y sospechas,
+ 2023  que quien honra las rodillas
+ 2024  cortar quiere la cabeza.
+ 2025  Yo aguardo. // DIANA: Yo digo ansí.
+
+TEODORO
+ 2026  [Aparte.]Mil cruces hacer quisiera.
+
+[ACOTACIÓN] [Aparte.]
+
+[ACOTACIÓN] (Siéntese la CONDESA en una silla alta.)
+
+[ACOTACIÓN] (Ella diga y él vaya escribiendo.)
+
+[PROSA] «Cuando una mujer principal se ha declarado con un hombre humilde, es lo mucho el término de volver a hablar con otra, mas quien no estima su fortuna, quédese para necio.»
+
+TEODORO
+ 2027  ¿No dices más? // DIANA: Pues ¿qué más?
+ 2028  El papel, Teodoro, cierra.
+
+ANARDA
+ 2029  [Aparte a DIANA .]¿Qué es esto que haces, señora?
+
+[ACOTACIÓN] [Aparte a DIANA .]
+
+DIANA
+ 2030  Necedades de amor llenas.
+
+ANARDA
+ 2031  Pues ¿a quién tienes amor?
+
+DIANA
+ 2032  ¿Aún no le conoces, bestia?
+ 2033  Pues yo sé que le murmuran
+ 2034  de mi casa hasta las piedras.
+
+TEODORO
+ 2035  Ya el papel está cerrado.
+ 2036  Solo el sobrescrito resta.
+
+DIANA
+ 2037  Pon, Teodoro, para ti,
+ 2038  y no lo entienda Marcela,
+ 2039  que quizá le entenderás
+ 2040  cuando de espacio le leas.
+
+[ACOTACIÓN] (Váya[n]se y quede solo, y entre MARCELA .)
+
+TEODORO
+ 2041  ¿Hay confusión tan estraña?
+ 2042  ¡Que aquesta mujer me quiera
+ 2043  con pausas como sangría
+ 2044  y que tenga intercadencias
+ 2045  el pulso de amor tan grandes!
+
+MARCELA
+ 2046  ¿Qué te ha dicho la Condesa,
+ 2047  mi bien? Que he estado temblando
+ 2048  detrás de aquella antepuerta.
+
+TEODORO
+ 2049  Díjome que te quería
+ 2050  casar con Fabio, Marcela,
+ 2051  y este papel que escribí
+ 2052  es que despacha a su tierra
+ 2053  por los dineros del dote.
+
+MARCELA
+ 2054  ¿Qué dices? // TEODORO: Solo que sea
+ 2055  para bien y, pues te casas,
+ 2056  que de burlas ni de veras
+ 2057  tomes mi nombre en tu boca.
+
+MARCELA
+ 2058  Oye. // TEODORO: Es tarde para quejas.
+
+[ACOTACIÓN] (Váyase.)
+
+MARCELA
+ 2059  No, no puedo yo creer
+ 2060  que aquesta la ocasión sea.
+ 2061  Favores de aquesta loca
+ 2062  le han hecho dar esta vuelta,
+ 2063  que él está como arcaduz,
+ 2064  que cuando baja le llena
+ 2065  del agua de su favor
+ 2066  y cuando sube le mengua.
+ 2067  ¡Ay de mí, Teodoro ingrato,
+ 2068  que luego que su grandeza
+ 2069  te toca al arma me olvidas!
+ 2070  Cuando te quiere me dejas,
+ 2071  cuando te deja me quieres,
+ 2072  ¿quién ha de tener paciencia?
+
+[ACOTACIÓN] (Sale[n] el MARQUÉS y FABIO .)
+
+RICARDO
+ 2073  No pude, Fabio, detenerme un hora.
+ 2074  Por tal merced le besaré las manos.
+
+FABIO
+ 2075  Dile presto, Marcela, a mi señora
+ 2076  que está el Marqués aquí. // MARCELA: Celos tiranos,
+ 2077  celos crüeles, ¿qué queréis agora
+ 2078  tras tantos locos pensamientos vanos?
+
+FABIO
+ 2079  ¿No vas? // MARCELA: Ya voy. // FABIO: Pues dile que ha venido
+ 2080  nuestro nuevo señor y su marido.
+
+[ACOTACIÓN] (Vase MARCELA .)
+
+RICARDO
+ 2081  Id, Fabio, a mi posada, que mañana
+ 2082  os daré mil escudos y un caballo
+ 2083  de la casta mejor napolitana.
+
+FABIO
+ 2084  Sabré, si no servillo, celebrallo.
+
+RICARDO
+ 2085  Este es principio solo, que Dïana
+ 2086  os tiene por crïado y por vasallo
+ 2087  y yo por solo amigo. // FABIO: Esos pies beso.
+
+RICARDO
+ 2088  No pago ansí; la obligación confieso.
+
+[ACOTACIÓN] (Sale la CONDESA .)
+
+DIANA
+ 2089  ¿Vuseñoría aquí? // RICARDO: Pues ¿no era justo
+ 2090  si me enviáis con Fabio tal recado,
+ 2091  y que después de aquel mortal disgusto
+ 2092  me elegís por marido y por crïado?
+ 2093  Dadme esos pies, que de manera el gusto
+ 2094  de ver mi amor en tan dichoso estado
+ 2095  me vuelve loco, que le tengo en poco
+ 2096  si me contento con volverme loco.
+ 2097  ¿Cuándo pensé, señora, mereceros
+ 2098  ni llegar a más bien que desearos?
+
+DIANA
+ 2099  No acierto, aunque lo intento, a responderos.
+ 2100  ¿Yo he enviado a llamaros o es burlaros?
+
+RICARDO
+ 2101  Fabio, ¿qué es esto? // FABIO: ¿Pude yo traeros
+ 2102  sin ocasión agora, ni llamaros
+ 2103  menos que de Teodoro prevenido?
+
+DIANA
+ 2104  Señor Marqués, Teodoro culpa ha sido.
+ 2105  Oyome anteponer a Federico
+ 2106  vuestra persona, con ser primo hermano
+ 2107  y caballero generoso y rico,
+ 2108  y presumió que os daba ya la mano.
+ 2109  A vuestra señoría le suplico
+ 2110  perdone aquestos necios. // RICARDO: Fuera en vano
+ 2111  dar a Fabio perdón, si no estuviera
+ 2112  a donde vuestra imagen le valiera.
+ 2113  Bésoos los pies por el favor y espero
+ 2114  que ha de vencer mi amor esta porfía.
+
+[ACOTACIÓN] (Váyase el MARQUÉS .)
+
+DIANA
+ 2115  ¿Paréceos bien aquesto, majadero?
+
+FABIO
+ 2116  ¿Por qué me culpa a mí vuseñoría?
+
+DIANA
+ 2117  Llamad luego a Teodoro. ¡Qué ligero
+ 2118  este cansado pretensor venía
+ 2119  cuando me matan celos de Teodoro!
+
+FABIO
+ 2120  Perdí el caballo y mil escudos de oro.
+
+[ACOTACIÓN] (Váyase FABIO y quede la CONDESA sola.)
+
+DIANA
+ 2121  ¿Qué me quieres amor? ¿Ya no tenía
+ 2122  olvidado a Teodoro? ¿Qué me quieres?
+ 2123  Pero responderás que tú no eres,
+ 2124  sino tu sombra, que detrás venía.
+ 2125  ¡Oh, celos!, ¿qué no hará vuestra porfía?
+ 2126  Malos letrados sois con las mujeres,
+ 2127  pues jamás os pidieron pareceres
+ 2128  que pudiese el honor guardarse un día.
+ 2129  Yo quiero a un hombre bien, mas se me acuerda
+ 2130  que yo soy mar, y que es humilde barco,
+ 2131  y que es contra razón que el mar se pierda.
+ 2132  En gran peligro, amor, el alma embarco,
+ 2133  mas si tanto el honor tira la cuerda,
+ 2134  por Dios que temo que se rompa el arco.
+
+[ACOTACIÓN] (Sale[n] TEODORO y FABIO .)
+
+FABIO
+ 2135  Pensó matarme el Marqués,
+ 2136  pero, la verdad diciendo,
+ 2137  más sentí los mil escudos.
+
+TEODORO
+ 2138  Yo quiero darte un consejo.
+
+FABIO
+ 2139  ¿Cómo? // TEODORO: El conde Federico
+ 2140  estaba perdiendo el seso
+ 2141  porque el Marqués se casaba.
+ 2142  Parte y di que el casamiento
+ 2143  se ha deshecho, y te dará
+ 2144  esos mil escudos luego.
+
+FABIO
+ 2145  Voy como un rayo. // TEODORO: Camina.
+
+[ACOTACIÓN] [A DIANA .]
+ 2146  ¿Llamábasme? // DIANA: Bien ha hecho
+ 2147  ese necio en irse agora.
+
+TEODORO
+ 2148  Un hora he estado leyendo
+ 2149  tu papel y, bien mirado,
+ 2150  señora, tu pensamiento,
+ 2151  hallo que mi cobardía
+ 2152  procede de tu respeto,
+ 2153  pero que ya soy culpado
+ 2154  en tenerle, como necio,
+ 2155  a tus muchas diligencias,
+ 2156  y así, a decir me resuelvo
+ 2157  que te quiero, y que es disculpa
+ 2158  que con respeto te quiero.
+ 2159  Temblando estoy, no te espantes.
+
+DIANA
+ 2160  Teodoro, yo te lo creo.
+ 2161  ¿Por qué no me has de querer
+ 2162  si soy tu señora y tengo
+ 2163  tu voluntad obligada,
+ 2164  pues te estimo y favorezco
+ 2165  más que a los otros crïados?
+
+TEODORO
+ 2166  Ese lenguaje no entiendo.
+
+DIANA
+ 2167  No hay más que entender, Teodoro,
+ 2168  ni pasar el pensamiento
+ 2169  un átomo desta raya.
+ 2170  Enfrena cualquier deseo,
+ 2171  que de una mujer, Teodoro,
+ 2172  tan principal, y más siendo
+ 2173  tus méritos tan humildes,
+ 2174  basta un favor muy pequeño
+ 2175  para que toda la vida
+ 2176  vivas honrado y contento.
+
+TEODORO
+ 2177  Cierto que vuseñoría,
+ 2178  perdóneme si me atrevo,
+ 2179  tiene en el jüicio a veces,
+ 2180  que no en el entendimiento,
+ 2181  mil lúcidos intervalos.
+ 2182  ¿Para qué puede ser bueno
+ 2183  haberme dado esperanzas
+ 2184  que en tal estado me han puesto?
+ 2185  Pues del peso de mis dichas
+ 2186  caí, como sabe, enfermo
+ 2187  casi un mes en una cama
+ 2188  luego que tratamos desto.
+ 2189  Si cuando vee que me enfrío
+ 2190  se abrasa de vivo fuego,
+ 2191  y cuando vee que me abraso
+ 2192  se yela de puro yelo,
+ 2193  dejárame con Marcela.
+ 2194  Mas viénele bien el cuento
+ 2195  del perro del hortelano:
+ 2196  no quiere, abrasada en celos,
+ 2197  que me case con Marcela
+ 2198  y, en viendo que no la quiero,
+ 2199  vuelve a quitarme el jüicio
+ 2200  y a despertarme si duermo.
+ 2201  Pues coma o deje comer,
+ 2202  porque yo no me sustento
+ 2203  de esperanzas tan cansadas,
+ 2204  que si no, desde aquí vuelvo
+ 2205  a querer donde me quieren.
+
+DIANA
+ 2206  Eso no, Teodoro, advierto
+ 2207  que Marcela no ha de ser.
+ 2208  En otro cualquier sujeto
+ 2209  pon los ojos, que en Marcela
+ 2210  no hay remedio. // TEODORO: ¿No hay remedio?
+ 2211  Pues ¿quiere vuseñoría
+ 2212  que si me quiere y la quiero
+ 2213  han de aprobar voluntades?
+ 2214  ¿Tengo yo de tener puesto
+ 2215  a donde no tengo gusto
+ 2216  mi gusto por el ajeno?
+ 2217  Yo adoro a Marcela, y ella
+ 2218  me adora, y es muy honesto
+ 2219  este amor. // DIANA: ¡Pícaro infame!
+ 2220  ¡Haré yo que os maten luego!
+
+TEODORO
+ 2221  ¿Qué hace vuseñoría?
+
+DIANA
+ 2222  Daros por sucio y grosero
+ 2223  estos bofetones.
+
+[ACOTACIÓN] (Sale[n] FABIO y el CONDE FEDERICO .)
+
+FEDERICO
+ 2224  Bien dices, Fabio, no entremos.
+ 2225  Pero mejor es llegar.
+ 2226  Señora mía, ¿qué es esto?
+
+DIANA
+ 2227  No es nada; enojos que pasan
+ 2228  entre crïados y dueños.
+
+FEDERICO
+ 2229  ¿Quiere vuestra señoría
+ 2230  alguna cosa? // DIANA: No quiero
+ 2231  más de hablaros en las mías.
+
+FEDERICO
+ 2232  Quisiera venir a tiempo
+ 2233  que os hallara con más gusto.
+
+DIANA
+ 2234  Gusto, Federico, tengo,
+ 2235  que aquestas son niñerías.
+ 2236  Entrad y sabréis mi intento
+ 2237  en lo que toca al Marqués.
+
+[ACOTACIÓN] (Váyase DIANA .)
+
+FEDERICO
+ 2238  Fabio. // FABIO: ¿Señor? // FEDERICO: (Aparte.)Yo sospecho
+
+[ACOTACIÓN] (Aparte.)
+ 2239  que en estos disgustos hay
+ 2240  algunos gustos secretos.
+
+FABIO
+ 2241  No sé, por Dios; admirado
+ 2242  de ver, señor Conde, quedo
+ 2243  tratar tan mal a Teodoro,
+ 2244  cosa que jamás ha hecho
+ 2245  la Condesa, mi señora.
+
+FEDERICO
+ 2246  Bañole de sangre el lienzo.
+
+[ACOTACIÓN] (Váyanse FEDERICO y FABIO .)
+
+TEODORO
+ 2247  Si aquesto no es amor, ¿qué nombre quieres,
+ 2248  amor, que tengan desatinos tales?
+ 2249  Si así quieren mujeres principales,
+ 2250  furias las llamo yo, que no mujeres.
+ 2251  Si la grandeza escusa los placeres
+ 2252  que iguales pueden ser en desiguales,
+ 2253  ¿por qué, enemiga, de crueldad te vales
+ 2254  y por matar a quien adoras mueres?
+ 2255  ¡Oh mano poderosa de matarme!
+ 2256  ¡Quién te besara entonces, mano hermosa,
+ 2257  agradecido al dulce castigarme!
+ 2258  No te esperaba yo tan rigurosa,
+ 2259  pero si me castigas por tocarme,
+ 2260  tú sola hallaste gusto en ser celosa.
+
+[ACOTACIÓN] (Sale TRISTÁN .)
+
+TRISTÁN
+ 2261  Siempre tengo de venir
+ 2262  acabados los sucesos.
+ 2263  Parezco espada cobarde.
+
+TEODORO
+ 2264  ¡Ay, Tristán! // TRISTÁN: Señor, ¿qué es esto?
+ 2265  ¿Sangre en el lienzo? // TEODORO: Con sangre
+ 2266  quiere amor que de los celos
+ 2267  entre la letra. // TRISTÁN: Por Dios
+ 2268  que han sido celos muy necios.
+
+TEODORO
+ 2269  No te espantes, que está loca
+ 2270  de un amoroso deseo,
+ 2271  y como el ejecutarle
+ 2272  tiene su honor por desprecio,
+ 2273  quiere deshacer mi rostro,
+ 2274  porque es mi rostro el espejo
+ 2275  adonde mira su honor,
+ 2276  y véngase en verle feo.
+
+TRISTÁN
+ 2277  Señor, que Juana o Lucía
+ 2278  cierren conmigo por celos
+ 2279  y me rompan con las uñas
+ 2280  el cuello que ellas me dieron,
+ 2281  que me repelen y arañen
+ 2282  sobre averiguar por cierto
+ 2283  que les hice un peso falso,
+ 2284  vaya: es gente de pandero,
+ 2285  de media de cordellate
+ 2286  y de zapato frailesco,
+ 2287  pero que tan gran señora
+ 2288  se pierda tanto el respeto
+ 2289  a sí misma es vil acción.
+
+TEODORO
+ 2290  No sé, Tristán; pierdo el seso
+ 2291  de ver que me está adorando
+ 2292  y que me aborrece luego.
+ 2293  No quiere que sea suyo
+ 2294  ni de Marcela, y si dejo
+ 2295  de mirarla, luego busca
+ 2296  para hablarme algún enredo.
+ 2297  No dudes; naturalmente,
+ 2298  es del hortelano el perro:
+ 2299  ni come ni comer deja,
+ 2300  ni está fuera ni está dentro.
+
+TRISTÁN
+ 2301  Contáronme que un doctor,
+ 2302  catredático y maestro,
+ 2303  tenía un ama y un mozo
+ 2304  que siempre andaban riñendo;
+ 2305  reñían a la comida,
+ 2306  a la cena y hasta el sueño
+ 2307  le quitaban con sus voces,
+ 2308  que estudiar no había remedio.
+ 2309  Estando en lición un día,
+ 2310  fuele forzoso corriendo
+ 2311  volver a casa y, entrando
+ 2312  de improviso en su aposento,
+ 2313  vio el ama y mozo acostados
+ 2314  con amorosos requiebros,
+ 2315  y dijo: «¡Gracias a Dios
+ 2316  que una vez en paz os veo!»,
+ 2317  y esto imagino de entrambos,
+ 2318  aunque siempre andáis riñendo.
+
+[ACOTACIÓN] (Sale la CONDESA .)
+
+DIANA
+ 2319  Teodoro. // TEODORO: ¿Señora? // TRISTÁN: [Aparte.]¿Es duende
+
+[ACOTACIÓN] [Aparte.]
+ 2320  esta mujer? // DIANA: Solo vengo
+ 2321  a saber cómo te hallas.
+
+TEODORO
+ 2322  ¿Ya no lo ves? // DIANA: ¿Estás bueno?
+
+TEODORO
+ 2323  Bueno estoy. // DIANA: ¿Y no dirás:
+ 2324  «A tu servicio»? // TEODORO: No puedo
+ 2325  estar mucho en tu servicio
+ 2326  siendo tal el tratamiento.
+
+DIANA
+ 2327  ¡Qué poco sabes! // TEODORO: Tan poco
+ 2328  que te siento y no te entiendo,
+ 2329  pues no entiendo tus palabras
+ 2330  y tus bofetones siento.
+ 2331  Si no te quiero, te enfadas,
+ 2332  y enójaste si te quiero;
+ 2333  escríbesme si me olvido,
+ 2334  y si me acuerdo, te ofendo;
+ 2335  pretendes que yo te entienda,
+ 2336  y si te entiendo, soy necio.
+ 2337  Mátame o dame la vida:
+ 2338  da un medio a tantos estremos.
+
+DIANA
+ 2339  ¿Hícete sangre? // TEODORO: Pues no.
+
+DIANA
+ 2340  ¿Adónde tienes el lienzo?
+
+TEODORO
+ 2341  Aquí. // DIANA: Muestra. // TEODORO: ¿Para qué?
+
+DIANA
+ 2342  Para míesta sangre quiero.
+ 2343  Habla a Otavio, a quien agora
+ 2344  mandé que te diese luego
+ 2345  dos mil escudos, Teodoro.
+
+TEODORO
+ 2346  ¿Para qué? // DIANA: Para hacer lienzos.
+
+[ACOTACIÓN] (Váyase la CONDESA .)
+
+TEODORO
+ 2347  ¿Hay disparates iguales?
+
+TRISTÁN
+ 2348  ¿Qué encantamentos son estos?
+
+TEODORO
+ 2349  Dos mil escudos me ha dado.
+
+TRISTÁN
+ 2350  Bien puedes tomar al precio
+ 2351  otros cuatro bofetones.
+
+TEODORO
+ 2352  Dice que son para lienzos
+ 2353  y llevó el mío con sangre.
+
+TRISTÁN
+ 2354  Pagó la sangre y te ha hecho
+ 2355  doncella por las narices.
+
+TEODORO
+ 2356  No anda mal agora el perro,
+ 2357  pues después que muerde halaga.
+
+TRISTÁN
+ 2358  Todos aquestos estremos
+ 2359  han de parar en el ama
+ 2360  del doctor. // TEODORO: ¡Quiéralo el cielo!
+
+
+===== ACTO 3 =====
+
+[ACOTACIÓN] Salen FEDERICO y RICARDO .
+
+RICARDO
+ 2361  ¿Esto vistes? // FEDERICO: Esto vi.
+
+RICARDO
+ 2362  ¿Y que le dio bofetones?
+
+FEDERICO
+ 2363  El servir tiene ocasiones,
+ 2364  mas no lo son para mí,
+ 2365  que el poner una mujer
+ 2366  de aquellas prendas la mano
+ 2367  al rostro de un hombre es llano:
+ 2368  ¿qué otra ocasión puede haber?
+ 2369  Y bien veis que lo acredita
+ 2370  el andar tan mejorado.
+
+RICARDO
+ 2371  Ella es mujer, y él crïado.
+
+FEDERICO
+ 2372  Su perdición solicita
+ 2373  la fábula que pintó
+ 2374  el filósofo moral
+ 2375  de las dos ollas. ¡Qué igual
+ 2376  hoy a los dos la vistió!
+ 2377  Era de barro la una,
+ 2378  la otra de cobre o hïerro,
+ 2379  que un río a los pies de un cerro
+ 2380  llevó con varia fortuna;
+ 2381  desvïose la de barro
+ 2382  de la de cobre, temiendo
+ 2383  que la quebrase, y yo entiendo
+ 2384  pensamiento tan bizarro
+ 2385  del hombre y de la mujer,
+ 2386  hierro y barro; y no me espanto,
+ 2387  pues acercándose tanto
+ 2388  por fuerza se han de romper.
+
+RICARDO
+ 2389  La altivez y bizarría
+ 2390  de Dïana me admiró,
+ 2391  y bien puede ser que yo
+ 2392  viese y no viese aquel día.
+ 2393  Mas ver caballos y pajes
+ 2394  en Teodoro, y tantas galas,
+ 2395  ¿qué son, sino nuevas alas?
+ 2396  Pues crïados, oro y trajes
+ 2397  no los tuviera Teodoro
+ 2398  sin ocasión tan notable.
+
+FEDERICO
+ 2399  Antes que desto se hable
+ 2400  en Nápoles y el decoro
+ 2401  de vuestra sangre se ofenda,
+ 2402  sea o no sea verdad,
+ 2403  ha de morir. // RICARDO: Y es piedad
+ 2404  matarle, aunque ella lo entienda.
+
+FEDERICO
+ 2405  ¿Podrá ser? // RICARDO: Bien puede ser,
+ 2406  que hay en Nápoles quien vive
+ 2407  de eso, y en oro recibe
+ 2408  lo que en sangre ha de volver.
+ 2409  No hay más de buscar un bravo
+ 2410  y que le despache luego.
+
+FEDERICO
+ 2411  Por la brevedad os ruego.
+ 2412  Hoy tendrá su justo pago
+ 2413  semejante atrevimiento.
+
+FEDERICO
+ 2414  ¿Son bravos estos? // RICARDO: Sin duda.
+
+FEDERICO
+ 2415  El cielo ofendido ayuda
+ 2416  vuestro justo pensamiento.
+
+[ACOTACIÓN] (Salen FURIO , ANTONELO y LIRANO , lacayos, y TRISTÁN , vestido de nuevo.)
+
+FURIO
+ 2417  Pagar tenéis el vino en alboroque
+ 2418  del famoso vestido que os han dado.
+
+ANTONELO
+ 2419  Eso bien sabe el buen Tristán que es justo.
+
+TRISTÁN
+ 2420  Digo, señores, que de hacerlo gusto.
+
+LIRANO
+ 2421  ¡Bravo salió el vestido! // TRISTÁN: Todo aquesto
+ 2422  es cosa de chacota y zarandajas
+ 2423  respeto del lugar que tendré presto:
+ 2424  si no muda los bolos la Fortuna,
+ 2425  secretario he de ser del secretario.
+
+LIRANO
+ 2426  Mucha merced le hace la Condesa
+ 2427  a vuestro amo, Tristán. // TRISTÁN: Es su privanza,
+ 2428  es su mano derecha y es la puerta
+ 2429  por donde se entra a su favor. // ANTONELO: Dejemos
+ 2430  favores y fortunas, y bebamos.
+
+FURIO
+ 2431  En este tabernáculo sospecho
+ 2432  que hay lágrima famosa y malvasía.
+
+TRISTÁN
+ 2433  Probemos vino greco, que deseo
+ 2434  hablar en griego y con beberlo basta.
+
+RICARDO
+ 2435  Aquel moreno del color quebrado
+ 2436  me parece el más bravo, pues que todos
+ 2437  le estiman, hablan y hacen cortesía.
+ 2438  Celio. // CELIO: ¿Señor? // RICARDO: De aquellos gentiles hombres
+ 2439  llama al descolorido. // CELIO: [A TRISTÁN .]¡Ah, caballero!
+
+[ACOTACIÓN] [A TRISTÁN .]
+ 2440  Antes que se entre en esa santa ermita
+ 2441  el Marqués, mi señor, hablarle quiere.
+
+TRISTÁN
+ 2442  Camaradas, allí me llama un príncipe;
+ 2443  no puedo rehusar el ver qué manda.
+ 2444  Entren y tomen siete o ocho azumbres
+ 2445  y aperciban dos dedos de formache
+ 2446  en tanto que me informo de su gusto.
+
+ANTONELO
+ 2447  Pues despachad aprisa. // TRISTÁN: Iré volando.
+ 2448  [Al MARQUÉS .]¿Qué es lo que manda vuestra señoría?
+
+[ACOTACIÓN] [Al MARQUÉS .]
+
+RICARDO
+ 2449  El veros entre tanta valentía
+ 2450  nos ha obligado al conde Federico
+ 2451  y a mí para saber si seréis hombre
+ 2452  para matar un hombre. // TRISTÁN: [Aparte.]¡Vive el cielo
+
+[ACOTACIÓN] [Aparte.]
+ 2453  que son los pretendientes de mi ama
+ 2454  y que hay algún enredo! Fingir quiero.
+
+FEDERICO
+ 2455  ¿No respondéis? // TRISTÁN: Estaba imaginando
+ 2456  si vuestra señoría está burlando
+ 2457  de nuestro modo de vivir. ¡Pues vive
+ 2458  el que reparte fuerzas a los hombres,
+ 2459  que no hay en toda Nápoles espada
+ 2460  que no tiemble de solo el nombre mío!
+ 2461  ¿No conocéis a Héctor? Pues no hay Héctor
+ 2462  a donde está mi furibundo brazo,
+ 2463  que si él lo fue de Troya, yo de Italia.
+
+FEDERICO
+ 2464  Este es, Marqués, el hombre que buscamos.
+ 2465  Por vida de los dos que no burlamos,
+ 2466  sino que si tenéis conforme al nombre
+ 2467  el ánimo y queréis matar un hombre,
+ 2468  que os demos el dinero que quisiéredes.
+
+TRISTÁN
+ 2469  Con docientos escudos me contento,
+ 2470  y sea el diablo. // RICARDO: Yo os daré trecientos,
+ 2471  y despachalde aquesta noche. // TRISTÁN: El nombre
+ 2472  del hombre espero, y parte del dinero.
+
+RICARDO
+ 2473  ¿Conocéis a Dïana, la condesa
+ 2474  de Belflor? // TRISTÁN: Y en su casa tengo amigos.
+
+RICARDO
+ 2475  ¿Mataréis un crïado de su casa?
+
+TRISTÁN
+ 2476  Mataré los crïados y crïadas
+ 2477  y los mismos frisones de su coche.
+
+RICARDO
+ 2478  Pues a Teodoro habéis de dar la muerte.
+
+TRISTÁN
+ 2479  Eso ha de ser, señores, de otra suerte,
+ 2480  porque Teodoro, como yo he sabido,
+ 2481  no sale ya de noche, temeroso,
+ 2482  por ventura, de haberos ofendido;
+ 2483  que le sirva estos días me han pedido.
+ 2484  Dejádmele servir, y yo os ofrezco
+ 2485  de darle alguna noche dos mojadas
+ 2486  con que el pobrete in pace requïescat
+ 2487  y yo quede seguro y sin sospecha.
+ 2488  ¿Es algo lo que digo? // FEDERICO: No pudiera
+ 2489  hallarse en toda Nápoles un hombre
+ 2490  que tan seguramente le matara.
+ 2491  Servilde pues y, así, al descuido un día
+ 2492  pegalde, y acudid a nuestra casa.
+
+TRISTÁN
+ 2493  Yo he menester agora cien escudos.
+
+RICARDO
+ 2494  Cincuenta tengo en esta bolsa; luego
+ 2495  que yo os vea en su casa de Dïana,
+ 2496  os ofrezco los ciento, y muchos cientos.
+
+TRISTÁN
+ 2497  Eso de muchos cientos no me agrada.
+ 2498  Vayan vuseñoríasen buen hora,
+ 2499  que me aguardan Mastranzo, Rompemuros,
+ 2500  Mano de Hierro, Arfuz y Espantadiablos,
+ 2501  y no quiero que acaso piensen algo.
+
+RICARDO
+ 2502  Decís muy bien, adiós. // FEDERICO: ¡Qué gran ventura!
+
+RICARDO
+ 2503  A Teodoro contalde por difunto.
+
+FEDERICO
+ 2504  El bellacón, ¡qué bravo talle tiene!
+
+[ACOTACIÓN] (Váya[n]se FEDERICO , RICARDO y CELIO .)
+
+TRISTÁN
+ 2505  Avisar a Teodoro me conviene;
+ 2506  perdone el vino greco y los amigos.
+ 2507  A casa voy, que está de aquí muy lejos.
+ 2508  Mas este me parece que es Teodoro.
+
+[ACOTACIÓN] (Sale TEODORO .)
+ 2509  Señor ¿adónde vas? // TEODORO: Lo mismo ignoro,
+ 2510  porque de suerte estoy, Tristán amigo,
+ 2511  que no sé dónde voy ni quién me lleva.
+ 2512  Solo y sin alma, el pensamiento sigo,
+ 2513  que al sol me dice que la vista atreva.
+ 2514  ¿Ves cuánto ayer Dïana habló conmigo?
+ 2515  Pues hoy de aquel amor se halló tan nueva
+ 2516  que apenas juraras que me conoce,
+ 2517  porque Marcela de mi mal se goce.
+
+TRISTÁN
+ 2518  Vuelve hacia casa, que a los dos importa
+ 2519  que no nos vean juntos. // TEODORO: ¿De qué suerte?
+
+TRISTÁN
+ 2520  Por el camino te diré quién corta
+ 2521  los pasos dirigidos a tu muerte.
+
+TEODORO
+ 2522  ¿Mi muerte? Pues ¿por qué? // TRISTÁN: La voz reporta
+ 2523  y la ocasión de tu remedio advierte:
+ 2524  Ricardo y Federico me han hablado
+ 2525  y que te dé la muerte concertado.
+
+TEODORO
+ 2526  ¿Ellos a mí? // TRISTÁN: Por ciertos bofetones
+ 2527  el amor de tu dueño conjeturan,
+ 2528  y pensando que soy de los leones
+ 2529  que a tales homicidios se aventuran,
+ 2530  tu vida me han trocado a cien doblones
+ 2531  y con cincuenta escudos me aseguran.
+ 2532  Yo dije que un amigo me pedía
+ 2533  que te sirviese, y que hoy te serviría
+ 2534  donde más fácilmente te matase,
+ 2535  a efeto de guardarte desta suerte.
+
+TEODORO
+ 2536  ¡Pluguiera a Dios que alguno me quitase
+ 2537  la vida y me sacase desta muerte!
+
+TRISTÁN
+ 2538  ¿Tan loco estás? // TEODORO: ¿No quieres que me abrase
+ 2539  por tan dulce ocasión, Tristán? Advierte
+ 2540  que si Dïana algún camino hallara
+ 2541  de disculpa, conmigo se casara.
+ 2542  Teme su honor, y cuando más se abrasa
+ 2543  se yela y me desprecia. // TRISTÁN: Si te diese
+ 2544  remedio, ¿qué dirás? // TEODORO: Que a ti se pasa
+ 2545  de Ulises el espíritu. // TRISTÁN: Si fuese
+ 2546  tan ingenioso que a tu misma casa
+ 2547  un generoso padre te trajese
+ 2548  con que fueses igual a la Condesa,
+ 2549  ¿no saldrías, señor, con esta empresa?
+
+TEODORO
+ 2550  Eso es sin duda. // TRISTÁN: El conde Ludovico,
+ 2551  caballero ya viejo, habrá veinte años
+ 2552  que enviaba a Malta un hijo de tu nombre,
+ 2553  que era sobrino de su gran maestre;
+ 2554  cautiváronle moros de Biserta
+ 2555  y nunca supo dél muerto ni vivo.
+ 2556  Este ha de ser tu padre y tú su hijo,
+ 2557  y yo lo he de trazar. // TEODORO: Tristán, advierte
+ 2558  que puedes levantar alguna cosa
+ 2559  que nos cueste a los dos la honra y vida.
+
+TRISTÁN
+ 2560  A casa hemos llegado. A Dios te queda,
+ 2561  que tú serás marido de Dïana
+ 2562  antes que den las doce de mañana.
+
+[ACOTACIÓN] (Váyase TRISTÁN .)
+
+TEODORO
+ 2563  Bien al contrario pienso yo dar medio
+ 2564  a tanto mal, pues el amor bien sabe
+ 2565  que no tiene enemigo que le acabe
+ 2566  con más facilidad que tierra en medio.
+ 2567  Tierra quiero poner, pues que remedio
+ 2568  con ausentarme, amor, rigor tan grave,
+ 2569  pues no hay rayo tan fuerte que se alabe
+ 2570  que entró en la tierra, de tu ardor remedio.
+ 2571  Todos los que llegaron a este punto,
+ 2572  poniendo tierra en medio te olvidaron,
+ 2573  que en tierra, al fin, le resolvieron junto.
+ 2574  Y la razón que de olvidar hallaron
+ 2575  es que amor se confiesa por difunto,
+ 2576  pues que con tierra en medio le enterraron.
+
+[ACOTACIÓN] (Sale la CONDESA .)
+
+DIANA
+ 2577  ¿Estás ya más mejorado
+ 2578  de tus tristezas, Teodoro?
+
+TEODORO
+ 2579  Si en mis tristezas adoro,
+ 2580  sabré estimar mi cuidado.
+ 2581  No quiero yo mejorar
+ 2582  de la enfermedad que tengo,
+ 2583  pues solo a estar triste vengo
+ 2584  cuando imagino sanar.
+ 2585  ¡Bien hayan males que son
+ 2586  tan dulces para sufrir,
+ 2587  que se vee un hombre morir,
+ 2588  y estima su perdición!
+ 2589  Solo me pesa que ya
+ 2590  esté mi mal en estado,
+ 2591  que he de alejar mi cuidado
+ 2592  de donde su dueño está.
+
+DIANA
+ 2593  ¿Ausentarte? Pues ¿por qué?
+
+TEODORO
+ 2594  Quiérenme matar. // DIANA: Sí harán.
+
+TEODORO
+ 2595  Envidia a mi mal tendrán,
+ 2596  que bien al principio fue.
+ 2597  Con esta ocasión te pido
+ 2598  licencia para irme a España.
+
+DIANA
+ 2599  Será generosa hazaña
+ 2600  de un hombre tan entendido,
+ 2601  que con eso quitarás
+ 2602  la ocasión de tus enojos
+ 2603  y, aunque des agua a mis ojos,
+ 2604  honra a mi casa darás,
+ 2605  que desde aquel bofetón
+ 2606  Federico meha tratado
+ 2607  como celoso, y me ha dado
+ 2608  para dejarte ocasión.
+ 2609  Vete a España, que yo haré
+ 2610  que te den seis mil escudos.
+
+TEODORO
+ 2611  Haré tus contrarios mudos
+ 2612  con mi ausencia. Dame el pie.
+
+DIANA
+ 2613  Anda, Teodoro, no más.
+ 2614  Déjame, que soy mujer.
+
+TEODORO
+ 2615  Llora, mas ¿qué puedo hacer?
+
+DIANA
+ 2616  En fin, Teodoro, ¿te vas?
+
+TEODORO
+ 2617  Sí, señora. // DIANA: Espera... Vete...
+ 2618  Oye... // TEODORO: ¿Qué mandas? // DIANA: No, nada.
+ 2619  Vete. // TEODORO: Voyme. // DIANA: Estoy turbada.
+ 2620  ¿Hay tormento que inquïete
+ 2621  como una pasión de amor?
+ 2622  ¿No eres ido? // TEODORO: Ya, señora,
+ 2623  me voy. // DIANA: ¡Buena quedo agora!
+
+[ACOTACIÓN] (Vase TEODORO .)
+ 2624  ¡Maldígate Dios, honor!
+ 2625  Temeraria invención fuiste,
+ 2626  tan opuesta al propio gusto.
+ 2627  ¿Quién te inventó? Mas fue justo,
+ 2628  pues que tu freno resiste
+ 2629  tantas cosas tan mal hechas.
+
+[ACOTACIÓN] (Sale TEODORO .)
+
+TEODORO
+ 2630  Vuelvo a saber si hoy podré
+ 2631  partirme. // DIANA: Ni yo lo sé
+ 2632  ni tú, Teodoro, sospechas
+ 2633  que me pesa de mirarte,
+ 2634  pues que te vuelves aquí.
+
+TEODORO
+ 2635  Señora, vuelvo por mí,
+ 2636  que no estoy en otra parte,
+ 2637  y como me he de llevar,
+ 2638  vengo para que me des
+ 2639  a mí mismo. // DIANA: Si después
+ 2640  te has de volver a buscar,
+ 2641  no me pidas que te dé.
+ 2642  Pero vete, que el amor
+ 2643  lucha con mi noble honor
+ 2644  y vienes tú a ser traspié.
+ 2645  Vete, Teodoro, de aquí,
+ 2646  no te pidas, aunque puedas,
+ 2647  que yo sé que si te quedas
+ 2648  allá me llevas a mí.
+
+TEODORO
+ 2649  Quede vuestra señoría
+ 2650  con Dios. // DIANA: ¡Maldita ella sea,
+ 2651  pues me quita que yo sea
+ 2652  de quien el alma quería!
+
+[ACOTACIÓN] (Váyase [TEODORO ].)
+ 2653  ¡Buena quedo ya sin quien
+ 2654  era luz de aquestos ojos!
+ 2655  Pero sientan sus enojos:
+ 2656  quien mira mal, llore bien.
+ 2657  Ojos, pues os habéis puesto
+ 2658  en cosa tan desigual,
+ 2659  pagad el mirar tan mal,
+ 2660  que no soy la culpa desto;
+ 2661  mas no lloren, que también
+ 2662  tiempla el mal llorar los ojos,
+ 2663  pero sientan sus enojos:
+ 2664  quien mira mal, llore bien.
+ 2665  Aunque tendrán ya pensada
+ 2666  la disculpa para todo,
+ 2667  que el sol los pone en el lodo
+ 2668  y no se le pega nada,
+ 2669  luego bien es que no den
+ 2670  en llorar; cesad, mis ojos,
+ 2671  pero sientan sus enojos:
+ 2672  quien mira mal, llore bien.
+
+[ACOTACIÓN] (Sale MARCELA .)
+
+MARCELA
+ 2673  Si puede la confïanza
+ 2674  de los años de servirte
+ 2675  humildemente pedirte
+ 2676  lo que justamente alcanza,
+ 2677  a la mano te ha venido
+ 2678  la ocasión de mi remedio
+ 2679  y, poniendo tierra en medio,
+ 2680  no verme si te he ofendido.
+
+DIANA
+ 2681  ¿De tu remedio, Marcela?
+ 2682  ¿Cuál ocasión? Que aquí estoy.
+
+MARCELA
+ 2683  Dicen que se parte hoy,
+ 2684  por peligros que recela,
+ 2685  Teodoro a España, y con él
+ 2686  puedes, casada, enviarme,
+ 2687  pues no verme es remediarme.
+
+DIANA
+ 2688  ¿Sabes tú que querrá él?
+
+MARCELA
+ 2689  Pues ¿pidiérate yo a ti
+ 2690  sin tener satisfación
+ 2691  remedio en esta ocasión?
+
+DIANA
+ 2692  ¿Hasle hablado? // MARCELA: Y él a mí,
+ 2693  pidiéndome lo que digo.
+
+DIANA
+ 2694  [Aparte.]¡Qué a propósito me viene
+
+[ACOTACIÓN] [Aparte.]
+ 2695  esta desdicha! // MARCELA: Ya tiene
+ 2696  tratado aquesto conmigo
+ 2697  y el modo con que podemos
+ 2698  ir con más comodidad.
+
+DIANA
+ 2699  [Aparte.]¡Ay, necio honor!, perdonad,
+
+[ACOTACIÓN] [Aparte.]
+ 2700  que amor quiere hacer estremos.
+ 2701  Pero no será razón,
+ 2702  pues que podéis remediar
+ 2703  fácilmente este pesar.
+
+MARCELA
+ 2704  ¿No tomas resolución?
+
+DIANA
+ 2705  No podré vivir sin ti,
+ 2706  Marcela, y haces agravio
+ 2707  a mi amor, y aun al de Fabio,
+ 2708  que sé yo que adora en ti.
+ 2709  Yo te casaré con él;
+ 2710  deja partir a Teodoro.
+
+MARCELA
+ 2711  A Fabio aborrezco; adoro
+ 2712  a Teodoro. // DIANA: ([Aparte.]¡Qué crüel
+
+[ACOTACIÓN] ([Aparte.]
+ 2713  ocasión de declararme!
+ 2714  Mas teneos, loco amor.
+ 2715  Fabio te estará mejor.
+
+MARCELA
+ 2716  Señora... // DIANA: No hay replicarme.
+
+[ACOTACIÓN] (Váyase.)
+
+MARCELA
+ 2717  ¿Qué intentan imposibles mis sentidos
+ 2718  contra tanto poder determinados?
+ 2719  Que celos poderosos declarados
+ 2720  harán un desatino resistidos.
+ 2721  Volved, volved atrás, pasos perdidos,
+ 2722  que corréis a mi fin precipitados.
+ 2723  Árboles son amores desdichados
+ 2724  a quien el yelo marchitó floridos.
+ 2725  Alegraron el alma las colores
+ 2726  que el tirano dolor cubrió de luto,
+ 2727  que yela ajeno amor muchos amores,
+ 2728  y cuando de esperar daba tributo,
+ 2729  ¿qué importa la hermosura de las flores,
+ 2730  si se perdieron esperando el fruto?
+
+[ACOTACIÓN] (Sale[n] el CONDE LUDOVICO , viejo, y CAMILO .)
+
+CAMILO
+ 2731  Para tener sucesión
+ 2732  no te queda otro remedio.
+
+LUDOVICO
+ 2733  Hay muchos años en medio
+ 2734  que mis enemigos son,
+ 2735  y aunque tiene esa disculpa
+ 2736  el casarse en la vejez,
+ 2737  quiere el temor ser jüez
+ 2738  y ha de averiguar la culpa.
+ 2739  Y podría suceder
+ 2740  que sucesión no alcanzase
+ 2741  y casado me quedase;
+ 2742  y en un viejo una mujer
+ 2743  es en un olmo una yedra,
+ 2744  que aunque con tan varios lazos
+ 2745  la cubre de sus abrazos,
+ 2746  él se seca y ella medra.
+ 2747  Y tratarme casamientos
+ 2748  es traerme a la memoria,
+ 2749  Camilo, mi antigua historia
+ 2750  y renovar mis tormentos.
+ 2751  Esperando cada día
+ 2752  con engaños a Teodoro,
+ 2753  veinte años ha que le lloro.
+
+[ACOTACIÓN] (Sale un PAJE .)
+
+PAJE
+ 2754  Aquí a vuestra señoría
+ 2755  busca un griego mercader.
+
+[ACOTACIÓN] (Sale[n] TRISTÁN , vestido de armenio con un turbante, graciosamente, y FURIO con otro.)
+
+LUDOVICO
+ 2756  Di que entre. // TRISTÁN: Dadme esas manos
+ 2757  y los cielos soberanos,
+ 2758  con su divino poder,
+ 2759  os den el mayor consuelo
+ 2760  que esperáis. // LUDOVICO: Bien seáis venido,
+ 2761  mas ¿qué causa os ha traído
+ 2762  por este remoto suelo?
+
+TRISTÁN
+ 2763  De Constantinopla vine
+ 2764  a Chipre, y della a Venecia,
+ 2765  con una nave cargada
+ 2766  de ricas telas de Persia.
+ 2767  Acordeme de una historia
+ 2768  que algunos pasos me cuesta,
+ 2769  y con deseo de ver
+ 2770  a Nápoles, ciudad bella,
+ 2771  mientras allá mis crïados
+ 2772  van despachando las telas,
+ 2773  vine, como veis, aquí,
+ 2774  donde mis ojos confiesan
+ 2775  su grandeza y hermosura.
+
+LUDOVICO
+ 2776  ¿Tiene hermosura y grandeza
+ 2777  Nápoles? // TRISTÁN: Así es verdad.
+ 2778  Mi padre, señor, en Grecia
+ 2779  fue mercader, y en su trato
+ 2780  el de más ganancia era
+ 2781  comprar y vender esclavos,
+ 2782  y ansí en la feria de Azteclias
+ 2783  compró un niño, el más hermoso
+ 2784  que vio la naturaleza,
+ 2785  por testigo del poder
+ 2786  que le dio el cielo en la tierra.
+ 2787  Vendíanle algunos turcos
+ 2788  entre otra gente bien puesta
+ 2789  a unas galeras de Malta,
+ 2790  que las de un bajá turquescas
+ 2791  prendió en la Chafalonia.
+
+LUDOVICO
+ 2792  Camilo, el alma me altera.
+
+TRISTÁN
+ 2793  Aficionado al rapaz,
+ 2794  comprole y llevole a Armenia,
+ 2795  donde se crio conmigo
+ 2796  y una hermana. // LUDOVICO: Amigo, espera,
+ 2797  espera, que me traspasas
+ 2798  las entrañas. // TRISTÁN: [Aparte.]¡Qué bien entra!
+
+[ACOTACIÓN] [Aparte.]
+
+LUDOVICO
+ 2799  ¿Dijo cómo se llamaba?
+
+TRISTÁN
+ 2800  Teodoro. // LUDOVICO: ¡Ay cielo, qué fuerza
+ 2801  tiene la verdad! De oírte
+ 2802  lágrimas mis canas riegan.
+
+TRISTÁN
+ 2803  Serpalitonia, mi hermana,
+ 2804  y este mozo (nunca fuera
+ 2805  tan bello), con la ocasión
+ 2806  de la crïanza que engendra
+ 2807  el amor que todos saben,
+ 2808  se amaron desde la tierna
+ 2809  edad, y a deciséis años,
+ 2810  de mi padre en cierta ausencia,
+ 2811  ejecutaron su amor,
+ 2812  y creció de suerte en ella
+ 2813  que se le echaba de ver,
+ 2814  con cuyo temor se ausenta
+ 2815  Teodoro y, para parir,
+ 2816  a Serpalitonia deja.
+ 2817  Catiborrato, mi padre,
+ 2818  no sintió tanto la ofensa
+ 2819  como el dejarle Teodoro.
+ 2820  Murió, en efeto, de pena
+ 2821  y bautizamos su hijo,
+ 2822  que aquella parte de Armenia
+ 2823  tiene vuestra misma ley,
+ 2824  aunque es diferente iglesia.
+ 2825  Llamamos al bello niño
+ 2826  Terimaconio, que queda
+ 2827  un bello rapaz agora
+ 2828  en la ciudad de Tepecas.
+ 2829  Andando en Nápoles yo
+ 2830  mirando cosas diversas,
+ 2831  saqué un papel en que traje
+ 2832  deste Teodoro las señas
+ 2833  y, preguntando por él,
+ 2834  me dijo una esclava griega
+ 2835  que en mi posada servía:
+ 2836  «¿Cosa que ese mozo sea
+ 2837  el del conde Ludovico?»
+ 2838  Diome el alma una luz nueva,
+ 2839  y doy en que os he de hablar,
+ 2840  y por entrar en la vuestra,
+ 2841  entro, según me dijeron,
+ 2842  en casa de la condesa
+ 2843  de Belflor, y al primer hombre
+ 2844  que pregunto... // LUDOVICO: Ya me tiembla
+ 2845  el alma. // TRISTÁN: ... veo a Teodoro.
+
+LUDOVICO
+ 2846  ¿A Teodoro? // TRISTÁN: Él bien quisiera
+ 2847  hüirse, pero no pudo.
+ 2848  Dudé un poco, y era fuerza,
+ 2849  porque el estar ya barbado
+ 2850  tiene alguna diferencia.
+ 2851  Fui tras él, asile en fin,
+ 2852  hablome, aunque con vergüenza,
+ 2853  y dijo que no dijese
+ 2854  a nadie en casa quién era,
+ 2855  porque el haber sido esclavo
+ 2856  no diese alguna sospecha.
+ 2857  Díjele: «Si yo he sabido
+ 2858  que eres hijo en esta tierra
+ 2859  de un título, ¿por qué tienes
+ 2860  la esclavitud por bajeza?»
+ 2861  Hizo gran burla de mí
+ 2862  y yo, por ver si concuerda
+ 2863  tu historia con la que digo,
+ 2864  vine a verte, y a que tengas,
+ 2865  si es verdad que este es tu hijo,
+ 2866  con tu nieto alguna cuenta
+ 2867  o permitas que mi hermana
+ 2868  con él a Nápoles venga,
+ 2869  no para tratar casarse,
+ 2870  aunque le sobra nobleza,
+ 2871  mas porque Terimaconio
+ 2872  tan ilustre abuelo vea.
+
+LUDOVICO
+ 2873  Dame mil veces tus brazos,
+ 2874  que el alma con sus potencias
+ 2875  que es verdadera tu historia
+ 2876  en su regocijo muestran.
+ 2877  ¡Ay, hijo del alma mía,
+ 2878  tras tantos años de ausencia
+ 2879  hallado para mi bien!
+ 2880  Camilo, ¿qué me aconsejas?
+ 2881  ¿Iré a verle y conocerle?
+
+CAMILO
+ 2882  ¿Eso dudas? ¡Parte, vuela,
+ 2883  y añade vida en sus brazos
+ 2884  a los años de tus penas!
+
+LUDOVICO
+ 2885  Amigo, si quieres ir
+ 2886  conmigo, será más cierta
+ 2887  mi dicha; si descansar,
+ 2888  aquí aguardando te queda
+ 2889  y dente por tanto bien
+ 2890  toda mi casa y hacienda,
+ 2891  que no puedo detenerme.
+
+TRISTÁN
+ 2892  Yo dejé, puesto que cerca,
+ 2893  ciertos diamantes que traigo
+ 2894  y volveré cuando vuelvas.
+ 2895  Vamos de aquí, Mercaponios.
+
+FURIO
+ 2896  Vamos, señor. // TRISTÁN: Bien se entrecas
+ 2897  el engañifo. // FURIO: Muy bonis.
+
+TRISTÁN
+ 2898  Andemis. // CAMILO: ¡Estraña lengua!
+
+LUDOVICO
+ 2899  Vente, Camilo, tras mí.
+
+[ACOTACIÓN] (Váyanse el CONDE y CAMILO .)
+
+TRISTÁN
+ 2900  ¿Trasponen? // FURIO: El viejo vuela
+ 2901  sin aguardar coche o gente.
+
+TRISTÁN
+ 2902  ¿Cosa que esto verdad sea
+ 2903  y que este fuese Teodoro?
+
+FURIO
+ 2904  Mas si en mentira como esta
+ 2905  hubiese alguna verdad...
+
+TRISTÁN
+ 2906  Estas almalafas lleva,
+ 2907  que me importa desnudarme
+ 2908  porque ninguno me vea
+ 2909  de los que aquí me conocen.
+
+FURIO
+ 2910  Desnuda presto. // TRISTÁN: ¡Que pueda
+ 2911  esto el amor de los hijos!
+
+FURIO
+ 2912  ¿Adónde te aguardo? // TRISTÁN: Espera,
+ 2913  Furio, en la choza del olmo.
+
+FURIO
+ 2914  Adiós. // TRISTÁN: ¿Qué tesoro llega
+
+[ACOTACIÓN] (Váyase FURIO .)
+ 2915  al ingenio? Aquí debajo
+ 2916  traigo la capa revuelta,
+ 2917  que como medio sotana
+ 2918  me la puse porque hubiera
+ 2919  más lugar en el peligro
+ 2920  de dejar en una puerta,
+ 2921  con el armenio turbante,
+ 2922  las hopalandas greguescas.
+
+[ACOTACIÓN] (Salen RICARDO y FEDERICO .)
+
+FEDERICO
+ 2923  Digo que es este el matador valiente
+ 2924  que a Teodoro ha de dar muerte segura.
+
+RICARDO
+ 2925  ¡Ah, hidalgo!, ¿ansí se cumple entre la gente
+ 2926  que honor profesa y que opinión procura
+ 2927  lo que se prometió tan fácilmente?
+
+TRISTÁN
+ 2928  Señor... // FEDERICO: ¿Somos nosotros por ventura
+ 2929  de los iguales vuestros? // TRISTÁN: Sin oírme
+ 2930  no es justo que mi culpa se confirme.
+ 2931  Yo estoy sirviendo al mísero Teodoro,
+ 2932  que ha de morir por esta mano airada,
+ 2933  pero puede ofender vuestro decoro
+ 2934  públicamente ensangrentar mi espada.
+ 2935  Es la prudencia un celestial tesoro
+ 2936  y fue de los antiguos celebrada
+ 2937  por única virtud. Estén muy ciertos
+ 2938  que le pueden contar entre los muertos.
+ 2939  Estase melancólico de día
+ 2940  y de noche cerrado en su aposento,
+ 2941  que alguna cuidadosa fantasía
+ 2942  le debe de ocupar el pensamiento.
+ 2943  Déjenme a mí, que una mojada fría
+ 2944  pondrá silencio a su vital aliento,
+ 2945  y no se precipiten desa suerte,
+ 2946  que yo sé cuándo le he de dar la muerte.
+
+FEDERICO
+ 2947  Paréceme, Marqués, que el hombre acierta.
+ 2948  Ya que le sirve, ha comenzado el caso.
+ 2949  No dudéis, matarale. // RICARDO: Cosa es cierta.
+ 2950  Por muerto le contad. // FEDERICO: Hablemos paso.
+
+TRISTÁN
+ 2951  En tanto que esta muerte se concierta,
+ 2952  vusiñorías, ¿no tendrán acaso
+ 2953  cincuenta escudos? Que comprar querría
+ 2954  un rocín que volase el mismo día.
+
+RICARDO
+ 2955  Aquí los tengo yo. Tomad seguro
+ 2956  de que, en saliendo con aquesta empresa,
+ 2957  lo menos es pagaros. // TRISTÁN: Yo aventuro
+ 2958  la vida, que servir buenos profesa.
+ 2959  Con esto, adiós; que no me vean procuro
+ 2960  hablar desde el balcón de la Condesa
+ 2961  con vuestras señorías. // FEDERICO: Sois discreto.
+
+TRISTÁN
+ 2962  Ya lo verán al tiempo del efeto.
+
+FEDERICO
+ 2963  ¡Bravo es el hombre! // RICARDO: Astuto y ingenioso.
+
+FEDERICO
+ 2964  ¡Qué bien le ha de matar! // RICARDO: Notablemente.
+
+[ACOTACIÓN] (Sale CELIO .)
+
+CELIO
+ 2965  ¿Hay caso más estraño y fabuloso?
+
+FEDERICO
+ 2966  ¿Qué es esto, Celio? ¿Dónde vas? Detente.
+
+CELIO
+ 2967  Un suceso notable y riguroso
+ 2968  para los dos. ¿No veis aquella gente
+ 2969  que entra en casa del conde Ludovico?
+
+RICARDO
+ 2970  ¿Es muerto? // CELIO: Que me escuches te suplico.
+ 2971  A darle van el parabién, contentos
+ 2972  de haber hallado un hijo que ha perdido.
+
+RICARDO
+ 2973  Pues ¿qué puede ofender nuestros intentos
+ 2974  que le haya esa ventura sucedido?
+
+CELIO
+ 2975  ¿No importa a los secretos pensamientos
+ 2976  que con Dïana habéis los dos tenido
+ 2977  que sea aquel Teodoro, su crïado,
+ 2978  hijo del Conde? // FEDERICO: El alma me has turbado.
+
+RICARDO
+ 2979  ¿Hijo del Conde? Pues ¿de qué manera
+ 2980  se ha venido a saber? // CELIO: Es larga historia,
+ 2981  y cuéntanla tan varia que no hubiera
+ 2982  para tomarla tiempo ni memoria.
+
+FEDERICO
+ 2983  ¿A quién mayor desdicha sucediera?
+
+RICARDO
+ 2984  Trocose en pena mi esperada gloria.
+
+FEDERICO
+ 2985  Yo quiero ver lo que es. // RICARDO: Yo, Conde, os sigo.
+
+CELIO
+ 2986  Presto veréis que la verdad os digo.
+
+[ACOTACIÓN] (Váyanse y salgan TEODORO , de camino, y MARCELA .)
+
+MARCELA
+ 2987  En fin, Teodoro, ¿te vas?
+
+TEODORO
+ 2988  Tú eres causa desta ausencia,
+ 2989  que en desigual competencia
+ 2990  no resulta bien jamás.
+
+MARCELA
+ 2991  Disculpas tan falsas das
+ 2992  como tu engaño lo ha sido,
+ 2993  porque haberme aborrecido
+ 2994  y haber amado a Dïana
+ 2995  lleva tu esperanza vana
+ 2996  solo a procurar su olvido.
+
+TEODORO
+ 2997  ¿Yo a Dïana? // MARCELA: Niegas tarde,
+ 2998  Teodoro, el loco deseo
+ 2999  con que perdido te veo
+ 3000  de atrevido y de cobarde:
+ 3001  cobarde en que ella se guarde
+ 3002  el respeto que se debe,
+ 3003  y atrevido pues se atreve
+ 3004  tu bajeza a su valor,
+ 3005  que entre el honor y el amor
+ 3006  hay muchos montes de nieve.
+ 3007  Vengada quedo de ti,
+ 3008  aunque quedo enamorada,
+ 3009  porque olvidaré, vengada,
+ 3010  que el amor olvida ansí.
+ 3011  Si te acordares de mí,
+ 3012  imagina que te olvido
+ 3013  porque me quieras, que ha sido
+ 3014  siempre, porque suele hacer
+ 3015  que vuelva un hombre a querer
+ 3016  pensar que es aborrecido.
+
+TEODORO
+ 3017  ¡Qué de quimeras tan locas
+ 3018  para casarte con Fabio!
+
+MARCELA
+ 3019  Tú me casas, que al agravio
+ 3020  de tu desdén me provocas.
+
+[ACOTACIÓN] (Sale FABIO .)
+
+FABIO
+ 3021  Siendo las horas tan pocas
+ 3022  que aquí Teodoro ha de estar,
+ 3023  bien haces, Marcela, en dar
+ 3024  ese descanso a tus ojos.
+
+TEODORO
+ 3025  No te den celos enojos
+ 3026  que han de pasar tanto mar.
+
+FABIO
+ 3027  En fin ¿te vas? // TEODORO: ¿No lo ves?
+
+FABIO
+ 3028  Mi señora viene a verte.
+
+[ACOTACIÓN] (Sale[n] la CONDESA y DOROTEA y ANARDA .)
+
+DIANA
+ 3029  ¿Ya, Teodoro, desta suerte?
+
+TEODORO
+ 3030  Alas quisiera en los pies,
+ 3031  cuanto más, señora, espuelas.
+
+DIANA
+ 3032  ¡Hola! ¿Está esa ropa a punto?
+
+ANARDA
+ 3033  Todo está aprestado y junto.
+
+FABIO
+ 3034  En fin ¿se va? // MARCELA: ¿Y tú me celas?
+
+DIANA
+ 3035  Oye aquí aparte. // TEODORO: (Aparte los dos.)Aquí estoy
+
+[ACOTACIÓN] (Aparte los dos.)
+ 3036  a tu servicio. // DIANA: Teodoro,
+ 3037  tú te partes; yo te adoro.
+
+TEODORO
+ 3038  Por tus crueldades me voy.
+
+DIANA
+ 3039  Soy quien sabes, ¿qué he de hacer?
+
+TEODORO
+ 3040  ¿Lloras? // DIANA: No, que me ha caído
+ 3041  algo en los ojos. // TEODORO: ¿Si ha sido
+ 3042  amor? // DIANA: Sí debe de ser,
+ 3043  pero mucho antes cayó
+ 3044  y agora salir querría.
+
+TEODORO
+ 3045  Yo me voy, señora mía;
+ 3046  yo me voy, el alma no.
+ 3047  Sin ella tengo de ir,
+ 3048  no hago al serviros falta,
+ 3049  porque hermosura tan alta
+ 3050  con almas se ha de servir.
+ 3051  ¿Qué me mandáis? Porque yo
+ 3052  soy vuestro. // DIANA: ¡Qué triste día!
+
+TEODORO
+ 3053  Yo me voy, señora mía;
+ 3054  yo me voy, el alma no.
+
+DIANA
+ 3055  ¿Lloras? // TEODORO: No, que me ha caído
+ 3056  algo, como a ti, en los ojos.
+
+DIANA
+ 3057  Deben de ser mis enojos.
+
+TEODORO
+ 3058  Eso debe de haber sido.
+
+DIANA
+ 3059  Mil niñerías te he dado
+ 3060  que en un baúl hallarás.
+ 3061  Perdona, no pude más.
+ 3062  Si le abrieres, ten cuidado
+ 3063  de decir, como a despojos
+ 3064  de vitoria tan tirana:
+ 3065  «Aquestos puso Dïana
+ 3066  con lágrimas de sus ojos»
+
+ANARDA
+ 3067  [Aparte ANARDA y DOROTEA .]Perdidos los dos están.
+
+[ACOTACIÓN] [Aparte ANARDA y DOROTEA .]
+
+DOROTEA
+ 3068  ¡Qué mal se encubre el amor!
+
+ANARDA
+ 3069  Quedarse fuera mejor.
+ 3070  Manos y prendas se dan.
+
+DOROTEA
+ 3071  Dïana ha venido a ser
+ 3072  el perro del hortelano.
+
+ANARDA
+ 3073  Tarde le toma la mano.
+
+DOROTEA
+ 3074  O coma o deje comer.
+
+[ACOTACIÓN] (Sale[n] el CONDE LUDOVICO y CAMILO .)
+
+LUDOVICO
+ 3075  Bien puede el regocijo dar licencia,
+ 3076  Dïana ilustre, a un hombre de mis años
+ 3077  para entrar desta suerte a visitaros.
+
+DIANA
+ 3078  Señor Conde, ¿qué es esto? // LUDOVICO: ¿Pues vós sola
+ 3079  no sabéis lo que sabe toda Nápoles?
+ 3080  Que en un instante que llegó la nueva
+ 3081  apenas me han dejado por las calles,
+ 3082  ni he podido llegar a ver mi hijo.
+
+DIANA
+ 3083  ¿Qué hijo? Que no te entiendo el regocijo.
+
+LUDOVICO
+ 3084  ¿Nunca, vuseñoría, de mi historia
+ 3085  ha tenido noticia, y que ha veinte años
+ 3086  que enviaba un niño a Malta con su tío,
+ 3087  y que le cautivaron las galeras
+ 3088  de Alí Bajá? // DIANA: Sospecho que me han dicho
+ 3089  ese suceso vuestro. // LUDOVICO: Pues el cielo
+ 3090  me ha dado a conocer el hijo mío
+ 3091  después de mil fortunas que ha pasado.
+
+DIANA
+ 3092  Con justa causa, Conde, me habéis dado
+ 3093  tan buena nueva. // LUDOVICO: Vós, señora mía,
+ 3094  me habéis de dar en cambio de la nueva
+ 3095  el hijo mío que sirviéndoos vive,
+ 3096  bien descuidado de que soy su padre.
+ 3097  ¡Ay, si viviera su difunta madre!
+
+DIANA
+ 3098  ¿Vuestro hijo me sirve? ¿Es Fabio acaso?
+
+LUDOVICO
+ 3099  No, señora, no es Fabio, que es Teodoro.
+
+DIANA
+ 3100  ¿Teodoro? // LUDOVICO: Sí, señora. // TEODORO: ¿Cómo es esto?
+
+DIANA
+ 3101  Habla, Teodoro, si es tu padre el Conde.
+
+LUDOVICO
+ 3102  ¿Luego es aqueste? // TEODORO: Señor Conde, advierta
+ 3103  vuseñoría... // LUDOVICO: No hay qué advertir, hijo,
+ 3104  hijo de mis entrañas, sino solo
+ 3105  el morir en tus brazos. // DIANA: ¡Caso estraño!
+
+ANARDA
+ 3106  ¡Ay, señora! ¿Teodoro es caballero
+ 3107  tan principal y de tan alto estado?
+
+TEODORO
+ 3108  Señor, yo estoy sin alma de turbado.
+ 3109  ¿Hijo soy vuestro? // LUDOVICO: Cuando no tuviera
+ 3110  tanta seguridad, el verte fuera
+ 3111  de todas la mayor. ¡Qué parecido
+ 3112  a cuando mozo fui! // TEODORO: Los pies te pido
+ 3113  y te suplico. // LUDOVICO: No me digas nada,
+ 3114  que estoy fuera de mí. ¡Qué gallardía!
+ 3115  Dios te bendiga. ¡Qué real presencia!
+ 3116  ¡Qué bien que te escribió naturaleza
+ 3117  en la cara, Teodoro, la nobleza!
+ 3118  Vamos de aquí; ven luego, luego toma
+ 3119  posesión de mi casa y de mi hacienda;
+ 3120  ven a ver esas puertas coronadas
+ 3121  de las armas más nobles deste reino.
+
+TEODORO
+ 3122  Señor, yo estaba de partida a España,
+ 3123  y así me importa... // LUDOVICO: ¿Cómo a España? ¡Bueno!
+ 3124  España son mis brazos. // DIANA: Yo os suplico,
+ 3125  señor Conde, dejéis aquí a Teodoro
+ 3126  hasta que se reporte y en buen hábito
+ 3127  vaya a reconoceros como hijo,
+ 3128  que no quiero que salga de mi casa
+ 3129  con aqueste alboroto de la gente.
+
+LUDOVICO
+ 3130  Habláis como quien sois, tan cuerdamente.
+ 3131  Dejarle siento por un breve instante,
+ 3132  mas porque más rumor no se levante
+ 3133  me iré, rogando a vuestra señoría
+ 3134  que sin mi bien no me anochezca el día.
+
+DIANA
+ 3135  Palabra os doy. // LUDOVICO: Adiós, Teodoro mío.
+
+TEODORO
+ 3136  Mil veces beso vuestros pies. // LUDOVICO: Camilo,
+ 3137  venga la muerte agora. // CAMILO: ¡Qué gallardo
+ 3138  mancebo que es Teodoro! // LUDOVICO: Pensar poco
+ 3139  quiero este bien, por no volverme loco.
+
+[ACOTACIÓN] (Váyase el CONDE y lleguen todos los criados a TEODORO .)
+
+FABIO
+ 3140  Danos a todos las manos.
+
+ANARDA
+ 3141  Bien puedes, por gran señor.
+
+DOROTEA
+ 3142  Hacernos debes favor.
+
+MARCELA
+ 3143  Los señores que son llanos
+ 3144  conquistan las voluntades.
+ 3145  Los brazos nos puedes dar.
+
+DIANA
+ 3146  Apartaos, dadme lugar;
+ 3147  no le digáis necedades.
+ 3148  Deme vuestra señoría
+ 3149  las manos, señor Teodoro.
+
+TEODORO
+ 3150  Agora esos pies adoro
+ 3151  y sois más señora mía.
+
+DIANA
+ 3152  Salíos todos allá.
+ 3153  Dejadme con él un poco.
+
+MARCELA
+ 3154  ¿Qué dices, Fabio? // FABIO: Estoy loco.
+
+DOROTEA
+ 3155  ¿Qué te parece? // ANARDA: Que ya
+ 3156  mi ama no querrá ser
+ 3157  el perro del hortelano.
+
+DOROTEA
+ 3158  ¿Comerá ya? // ANARDA: ¿Pues no es llano?
+
+DOROTEA
+ 3159  Pues reviente de comer.
+
+[ACOTACIÓN] (Váyanse los criados.)
+
+DIANA
+ 3160  ¿No te vas a España? // TEODORO: ¿Yo?
+
+DIANA
+ 3161  ¿No dice vuseñoría:
+ 3162  «Yo me voy, señora mía;
+ 3163  yo me voy, el alma no»?
+
+TEODORO
+ 3164  ¿Burlas de ver los favores
+ 3165  de la Fortuna? // DIANA: Haz estremos.
+
+TEODORO
+ 3166  Con igualdad nos tratemos
+ 3167  como suelen los señores,
+ 3168  pues todos lo somos ya.
+
+DIANA
+ 3169  Otro me pareces. // TEODORO: Creo
+ 3170  que estás con menos deseo;
+ 3171  pena el ser tu igual te da.
+ 3172  Quisiérasme tu crïado,
+ 3173  porque es costumbre de amor
+ 3174  querer que sea inferior
+ 3175  lo amado. // DIANA: Estás engañado,
+ 3176  porque agora serás mío,
+ 3177  y esta noche he de casarme
+ 3178  contigo. // TEODORO: No hay más que darme.
+ 3179  Fortuna, tente. // DIANA: Confío
+ 3180  que no ha de haber en el mundo
+ 3181  tan venturosa mujer.
+ 3182  Vete a vestir. // TEODORO: Iré a ver
+ 3183  el mayorazgo que hoy fundo
+ 3184  y este padre que me hallé
+ 3185  sin saber cómo o por dónde.
+
+DIANA
+ 3186  Pues adiós, mi señor Conde.
+
+TEODORO
+ 3187  Adiós, Condesa. // DIANA: Oye. // TEODORO: ¿Qué?
+
+DIANA
+ 3188  ¿Qué? Pues ¿cómo? ¿A su señora
+ 3189  así responde un crïado?
+
+TEODORO
+ 3190  Está ya el juego trocado
+ 3191  y soy yo el señor agora.
+
+DIANA
+ 3192  Sepa que no me ha de dar
+ 3193  más celitos con Marcela,
+ 3194  aunque este golpe le duela.
+
+TEODORO
+ 3195  No nos solemos bajar
+ 3196  los señores a querer
+ 3197  las crïadas. // DIANA: Tenga cuenta
+ 3198  con lo que dice. // TEODORO: Es afrenta.
+
+DIANA
+ 3199  Pues ¿quién soy yo? // TEODORO: Mi mujer.
+
+[ACOTACIÓN] (Váyase.)
+
+DIANA
+ 3200  No hay más que desear. Tente, Fortuna,
+ 3201  como dijo Teodoro. Tente, tente.
+
+[ACOTACIÓN] (Salen FEDERICO y RICARDO .)
+
+RICARDO
+ 3202  ¿En tantos regocijos y alborotos
+ 3203  no se da parte a los amigos? // DIANA: Tanta
+ 3204  cuanta vuseñorías me pidieren.
+
+FEDERICO
+ 3205  De ser tan gran señor vuestro crïado
+ 3206  os las pedimos. // DIANA: Yo pensé, señores,
+ 3207  que las pedís, con que licencia os pido,
+ 3208  de ser Teodoro conde, y mi marido.
+
+[ACOTACIÓN] (Váyase la CONDESA .)
+
+RICARDO
+ 3209  ¿Qué os parece de aquesto? // FEDERICO: Estoy sin seso.
+
+RICARDO
+ 3210  ¡Oh, si le hubiera muerto este picaño!
+
+[ACOTACIÓN] (Sale TRISTÁN .)
+
+FEDERICO
+ 3211  ¿Veisle? Aquí viene. // TRISTÁN: Todo está en su punto.
+ 3212  ¡Brava cosa que pueda un lacaífero
+ 3213  ingenio alborotar a toda Nápoles!
+
+RICARDO
+ 3214  Tente, Tristán, o como te apellidas.
+
+TRISTÁN
+ 3215  Mi nombre natural es Quitavidas.
+
+FEDERICO
+ 3216  ¡Bien se ha echado de ver! // TRISTÁN: Hecho estuviera
+ 3217  a no ser conde de hoy acá este muerto.
+
+RICARDO
+ 3218  Pues ¿eso importa? // TRISTÁN: Al tiempo que el concierto
+ 3219  hice por los trecientos solamente,
+ 3220  era para matar, como fue llano,
+ 3221  un Teodoro crïado, mas no conde.
+ 3222  Teodoro conde es cosa diferente,
+ 3223  y es menester que el galardón se aumente,
+ 3224  que más costa tendrá matar un conde
+ 3225  que cuatro o seis crïados que están muertos,
+ 3226  unos de hambre, y otros de esperanzas,
+ 3227  y no pocos de envidia. // FEDERICO: ¿Cuánto quieres,
+ 3228  y mátale esta noche? // TRISTÁN: Mil escudos.
+
+RICARDO
+ 3229  Yo los prometo. // TRISTÁN: Alguna señal quiero.
+
+RICARDO
+ 3230  Esta cadena. // TRISTÁN: Cuenten el dinero.
+
+FEDERICO
+ 3231  Yo voy a prevenillo. // TRISTÁN: Yo a matalle.
+ 3232  ¿Oyen? // RICARDO: ¿Qué? ¿Quieres más? // TRISTÁN: Todo hombre calle.
+
+[ACOTACIÓN] (Váyanse, y entre TEODORO .)
+
+TEODORO
+ 3233  Desde aquí te he visto hablar
+ 3234  con aquellos matadores.
+
+TRISTÁN
+ 3235  Los dos necios son mayores
+ 3236  que tiene tan gran lugar.
+ 3237  Esta cadena me han dado,
+ 3238  mil escudos prometido
+ 3239  porque hoy te mate. // TEODORO: ¿Qué ha sido
+ 3240  esto que tienes trazado?
+ 3241  Que estoy temblando, Tristán.
+
+TRISTÁN
+ 3242  Si me vieras hablar griego,
+ 3243  me dieras, Teodoro, luego
+ 3244  más que estos locos me dan.
+ 3245  ¡Por vida mía, que es cosa
+ 3246  fácil el greguecizar!
+ 3247  Ello, en fin, no es más de hablar,
+ 3248  mas era cosa donosa
+ 3249  los nombres que les decía:
+ 3250  Azteclias, Catiborratos,
+ 3251  Serpelitonia, Xipatos,
+ 3252  Atecas, Filimoclía...
+ 3253  que esto debe de ser griego,
+ 3254  como ninguno lo entiende,
+ 3255  y en fin, por griego se vende.
+
+TEODORO
+ 3256  A mil pensamientos llego
+ 3257  que me causan gran tristeza,
+ 3258  pues si se sabe este engaño
+ 3259  no hay que esperar menos daño
+ 3260  que cortarme la cabeza.
+
+TRISTÁN
+ 3261  ¿Agora sales con eso?
+
+TEODORO
+ 3262  Demonio debes de ser.
+
+TRISTÁN
+ 3263  Deja la suerte correr
+ 3264  y espera el fin del suceso.
+
+TEODORO
+ 3265  La Condesa viene aquí.
+
+TRISTÁN
+ 3266  Yo me escondo; no me vea.
+
+[ACOTACIÓN] (Sale la CONDESA .)
+
+DIANA
+ 3267  ¿No eres ido a ver tu padre,
+ 3268  Teodoro? // TEODORO: Una grave pena
+ 3269  me detiene, y finalmente
+ 3270  vuelvo a pedirte licencia
+ 3271  para proseguir mi intento
+ 3272  de ir a España. // DIANA: Si Marcela
+ 3273  te ha vuelto a tocar al arma,
+ 3274  muy justa disculpa es esa.
+
+TEODORO
+ 3275  ¿Yo Marcela? // DIANA: Pues ¿qué tienes?
+
+TEODORO
+ 3276  No es cosa para ponerla
+ 3277  desde mi boca a tu oído.
+
+DIANA
+ 3278  Habla, Teodoro, aunque sea
+ 3279  mil veces contra mi honor.
+
+TEODORO
+ 3280  Tristán, a quien hoy pudiera
+ 3281  hacer el engaño estatuas,
+ 3282  la industria versos y Creta
+ 3283  rendir laberintos, viendo
+ 3284  mi amor, mi eterna tristeza,
+ 3285  sabiendo que Ludovico
+ 3286  perdió un hijo, esta quimera
+ 3287  ha levantado conmigo,
+ 3288  que soy hijo de la tierra
+ 3289  y no he conocido padre
+ 3290  más que mi ingenio, mis letras
+ 3291  y mi pluma. El Conde cree
+ 3292  que lo soy, y aunque pudiera
+ 3293  ser tu marido y tener
+ 3294  tanta dicha y tal grandeza,
+ 3295  mi nobleza natural
+ 3296  que te engañe no me deja
+ 3297  porque soy naturalmente
+ 3298  hombre que verdad profesa.
+ 3299  Con esto para ir a España
+ 3300  vuelvo a pedirte licencia,
+ 3301  que no quiero yo engañar
+ 3302  tu amor, tu sangre y tus prendas.
+
+DIANA
+ 3303  Discreto y necio has andado:
+ 3304  discreto en que tu nobleza
+ 3305  me has mostrado en declararte,
+ 3306  necio en pensar que lo sea
+ 3307  en dejarme de casar,
+ 3308  pues he hallado a tu bajeza
+ 3309  el color que yo quería,
+ 3310  que el gusto no está en grandezas,
+ 3311  sino en ajustarse al alma
+ 3312  aquello que se desea.
+ 3313  Yo me he de casar contigo,
+ 3314  y porque Tristán no pueda
+ 3315  decir aqueste secreto,
+ 3316  hoy haré que cuando duerma
+ 3317  en ese pozo de casa
+ 3318  le sepulten.
+
+[ACOTACIÓN] (Detrás del paño.)
+
+DIANA
+ 3319  ¿Quién habla aquí? // TRISTÁN: ¿Quién? Tristán,
+ 3320  que justamente se queja
+ 3321  de la ingratitud mayor
+ 3322  que de mujeres se cuenta.
+ 3323  Pues siendo yo vuestro gozo,
+ 3324  aunque nunca yo lo fuera,
+ 3325  ¿en el pozo me arrojáis?
+
+DIANA
+ 3326  ¿Qué? ¿Lo has oído? // TRISTÁN: No creas
+ 3327  que me pescarás el cuerpo.
+
+DIANA
+ 3328  Vuelve. // TRISTÁN: ¿Que vuelva? // DIANA: Que vuelvas.
+ 3329  Por el donaire te doy
+ 3330  palabra de que no tengas
+ 3331  mayor amiga en el mundo,
+ 3332  pero has de tener secreta
+ 3333  esta invención, pues es tuya.
+
+TRISTÁN
+ 3334  Si me importa que lo sea,
+ 3335  ¿no quieres que calle? // TEODORO: Escucha.
+ 3336  ¿Qué gente y qué grita es esta?
+
+[ACOTACIÓN] (Salen el CONDE LUDOVICO , FEDERICO , RICARDO , CAMILO , FABIO , ANARDA , DOROTEA , MARCELA .)
+
+RICARDO
+ 3337  Queremos acompañar
+ 3338  a vuestro hijo. // FEDERICO: La bella
+ 3339  Nápoles está esperando
+ 3340  que salga, junta a la puerta.
+
+[LUDOVICO]
+ 3341  Con licencia de Dïana
+ 3342  una carroza te espera,
+ 3343  Teodoro, y junta, a caballo,
+ 3344  de Nápoles la nobleza.
+ 3345  Ven, hijo, a tu propia casa.
+ 3346  Tras tantos años de ausencia,
+ 3347  verás adónde naciste.
+
+DIANA
+ 3348  Antes que salga y la vea
+ 3349  quiero, Conde, que sepáis
+ 3350  que soy su mujer. // LUDOVICO: Detenga
+ 3351  la Fortuna en tanto bien
+ 3352  con clavo de oro la rueda.
+ 3353  Dos hijos saco de aquí
+ 3354  si vine por uno. // FEDERICO: Llega,
+ 3355  Ricardo, y da el parabién.
+
+RICARDO
+ 3356  Darle, señores, pudiera
+ 3357  de la vida de Teodoro,
+ 3358  que celos de la Condesa
+ 3359  me hicieron que a este cobarde
+ 3360  diera, sin esta cadena,
+ 3361  por matarle mil escudos.
+ 3362  Haced que luego le prendan,
+ 3363  que es encubierto ladrón.
+
+TEODORO
+ 3364  Eso no, que no profesa
+ 3365  ser ladrón quien a su amo
+ 3366  defiende. // RICARDO: ¿No? Pues ¿quién era
+ 3367  este valiente fingido?
+
+TEODORO
+ 3368  Mi crïado, y porque tenga
+ 3369  premio el defender mi vida,
+ 3370  sin otras secretas deudas,
+ 3371  con licencia de Dïana
+ 3372  le caso con Dorotea,
+ 3373  pues que ya su señoría
+ 3374  casó con Fabio a Marcela.
+
+RICARDO
+ 3375  Yo doto a Marcela. // FEDERICO: Y yo
+ 3376  a Dorotea. // LUDOVICO: Bien. Queda
+ 3377  para mí, con hijo y casa,
+ 3378  el dote de la Condesa.
+
+TEODORO
+ 3379  Con esto, senado noble,
+ 3380  que a nadie digáis se os ruega
+ 3381  el secreto de Teodoro,
+ 3382  dando con licencia vuestra
+ 3383  de El perro del hortelano
+ 3384  fin la famosa comedia.

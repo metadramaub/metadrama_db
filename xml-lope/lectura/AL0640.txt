@@ -1,0 +1,3863 @@
+
+
+===== ACTO 1 =====
+
+[ACOTACIÓN] Salen el COMENDADOR , FLORES y ORTUÑO , criados.
+
+COMENDADOR
+    1  ¿Sabe el Maestre que estoy
+    2  en la villa? // FLORES: Ya lo sabe.
+
+ORTUÑO
+    3  Está, con la edad, más grave.
+
+COMENDADOR
+    4  ¿Y sabe también que soy
+    5  Fernán Gómez de Guzmán?
+
+FLORES
+    6  Es muchacho, no te asombre.
+
+COMENDADOR
+    7  Cuando no sepa mi nombre,
+    8  ¿no le sobra el que me dan
+    9  de Comendador Mayor?
+
+ORTUÑO
+   10  No falta quien le aconseje
+   11  que de ser cortés se aleje.
+
+COMENDADOR
+   12  Conquistará poco amor.
+   13  Es llave la cortesía
+   14  para abrir la voluntad;
+   15  y para la enemistad
+   16  la necia descortesía.
+
+ORTUÑO
+   17  Si supiese un descortés
+   18  cómo lo aborrecen todos
+   19  -y querrían de mil modos
+   20  poner la boca a sus pies-,
+   21  antes que serlo ninguno,
+   22  se dejaría morir.
+
+FLORES
+   23  ¡Qué cansado es de sufrir!
+   24  ¡Qué áspero y qué importuno!
+   25  Llaman la descortesía
+   26  necedad en los iguales,
+   27  porque es entre desiguales
+   28  linaje de tiranía.
+   29  Aquí no te toca nada:
+   30  que un muchacho aún no ha llegado
+   31  a saber qué es ser amado.
+
+COMENDADOR
+   32  La obligación de la espada
+   33  que se ciñó, el mismo día
+   34  que la cruz de Calatrava
+   35  le cubrió el pecho, bastaba
+   36  para aprender cortesía.
+
+FLORES
+   37  Si te han puesto mal con él,
+   38  presto le conocerás.
+
+ORTUÑO
+   39  Vuélvete, si en duda estás.
+
+COMENDADOR
+   40  Quiero ver lo que hay en él.
+
+[ACOTACIÓN] (Sale el MAESTRE DE CALATRAVA y acompañamiento.)
+
+MAESTRE
+   41  Perdonad, por vida mía,
+   42  Fernán Gómez de Guzmán;
+   43  que agora nueva me dan
+   44  que en la villa estáis. // COMENDADOR: Tenía
+   45  muy justa queja de vos;
+   46  que el amor y la crianza
+   47  me daban más confianza,
+   48  por ser, cual somos los dos,
+   49  vos Maestre en Calatrava,
+   50  yo vuestro Comendador
+   51  y muy vuestro servidor.
+
+MAESTRE
+   52  Seguro, Fernando, estaba
+   53  de vuestra buena venida.
+   54  Quiero volveros a dar
+   55  los brazos. // COMENDADOR: Debéisme honrar,
+   56  que he puesto por vos la vida
+   57  entre diferencias tantas,
+   58  hasta suplir vuestra edad
+   59  el Pontífice. // MAESTRE: Es verdad.
+   60  Y por las señales santas
+   61  que a los dos cruzan el pecho,
+   62  que os lo pago en estimaros,
+   63  y como a mi padre honraros.
+
+COMENDADOR
+   64  De vos estoy satisfecho.
+
+MAESTRE
+   65  ¿Qué hay de guerra por allá?
+
+COMENDADOR
+   66  Estad atento, y sabréis
+   67  la obligación que tenéis.
+
+MAESTRE
+   68  Decid que ya lo estoy, ya.
+
+COMENDADOR
+   69  Gran maestre don Rodrigo
+   70  Téllez Girón, que a tan alto
+   71  lugar os trajo el valor
+   72  de aquel vuestro padre claro,
+   73  que, de ocho años, en vos
+   74  renunció su maestrazgo,
+   75  que después por más seguro
+   76  juraron y confirmaron
+   77  Reyes y Comendadores,
+   78  dando el Pontífice santo
+   79  Pío segundo sus bulas,
+   80  y después las suyas Paulo
+   81  para que don Juan Pacheco,
+   82  gran Maestre de Santiago,
+   83  fuese vuestro coadjutor:
+   84  ya que es muerto, y que os han dado
+   85  el gobierno sólo a vos,
+   86  aunque de tan pocos años,
+   87  advertid que es honra vuestra
+   88  seguir en aqueste caso
+   89  la parte de vuestros deudos;
+   90  porque muerto Enrique cuarto,
+   91  quieren que al rey don Alonso
+   92  de Portugal, que ha heredado,
+   93  por su mujer, a Castilla,
+   94  obedezcan sus vasallos;
+   95  que aunque pretende lo mismo,
+   96  por Isabel, don Fernando,
+   97  gran príncipe de Aragón,
+   98  no con derecho tan claro
+   99  a vuestros deudos; que, en fin,
+  100  no presumen que hay engaño
+  101  en la sucesión de Juana,
+  102  a quien vuestro primo hermano
+  103  tiene agora en su poder.
+  104  Y así vengo a aconsejaros
+  105  que juntéis los caballeros
+  106  de Calatrava en Almagro,
+  107  y a Ciudad Real toméis,
+  108  que divide como paso
+  109  a Andalucía y Castilla,
+  110  para mirarlos a entrambos.
+  111  Poca gente es menester,
+  112  porque tiene por soldados
+  113  solamente sus vecinos
+  114  y algunos pocos hidalgos
+  115  que defienden a Isabel
+  116  y llaman Rey a Fernando.
+  117  Será bien que deis asombro,
+  118  Rodrigo, aunque niño, a cuantos
+  119  dicen que es grande esa cruz
+  120  para vuestros hombros flacos.
+  121  Mirad los condes de Urueña,
+  122  de quien venís, que mostrando
+  123  os están desde la fama
+  124  los laureles que ganaron;
+  125  los marqueses de Villena,
+  126  y otros capitanes, tantos,
+  127  que las alas de la fama
+  128  apenas pueden llevarlos.
+  129  Sacad esa blanca espada,
+  130  que habéis de hacer, peleando,
+  131  tan roja como la cruz;
+  132  porque no podré llamaros
+  133  Maestre de la cruz roja
+  134  que tenéis al pecho, en tanto
+  135  que tenéis la blanca espada;
+  136  que una al pecho y otra al lado,
+  137  entrambas han de ser rojas;
+  138  y vos, Girón soberano,
+  139  capa del templo inmortal
+  140  de vuestros claros pasados.
+
+MAESTRE
+  141  Fernán Gómez, estad cierto
+  142  que en esta parcialidad,
+  143  porque veo que es verdad,
+  144  con mis deudos me concierto.
+  145  Y si importa, como paso
+  146  a Ciudad Real, mi intento,
+  147  veréis que como violento
+  148  rayo sus muros abraso.
+  149  No porque es muerto mi tío,
+  150  piensen de mis pocos años
+  151  los propios y los extraños
+  152  que murió con él mi brío.
+  153  Sacaré la blanca espada,
+  154  para que quede su luz
+  155  de la color de la cruz,
+  156  de roja sangre bañada.
+  157  Vos, ¿adónde residís?
+  158  ¿Tenéis algunos soldados?
+
+COMENDADOR
+  159  Pocos, pero mis criados;
+  160  que si dellos os servís,
+  161  pelearán como leones.
+  162  Ya veis que en Fuente Ovejuna
+  163  hay gente humilde, y alguna
+  164  no enseñada en escuadrones,
+  165  sino en campos y labranzas.
+
+MAESTRE
+  166  ¿Allí residís? // COMENDADOR: Allí
+  167  de mi encomienda escogí
+  168  casa entre aquestas mudanzas.
+  169  Vuestra gente se registre;
+  170  que no quedará vasallo.
+
+MAESTRE
+  171  Hoy me veréis a caballo,
+  172  poner la lanza en el ristre.
+
+[ACOTACIÓN] (Vanse, y salen PASCUALA y LAURENCIA .)
+
+LAURENCIA
+  173  ¡Más que nunca acá volviera!
+
+PASCUALA
+  174  Pues a la he que pensé
+  175  que cuando te lo conté,
+  176  más pesadumbre te diera.
+
+LAURENCIA
+  177  ¡Plega al cielo que jamás
+  178  le vea en Fuente Ovejuna!
+
+PASCUALA
+  179  Yo, Laurencia, he visto alguna
+  180  tan brava, y pienso que más;
+  181  y tenía el corazón
+  182  brando como una manteca.
+
+LAURENCIA
+  183  Pues ¿hay encina tan seca
+  184  como esta mi condición?
+
+PASCUALA
+  185  Anda ya; que nadie diga:
+  186  de esta agua no beberé.
+
+LAURENCIA
+  187  ¡Voto al sol que lo diré,
+  188  aunque el mundo me desdiga!
+  189  ¿A qué efeto fuera bueno
+  190  querer a Fernando yo?
+  191  ¿Casárame con él? // PASCUALA: No.
+
+LAURENCIA
+  192  Luego la infamia condeno.
+  193  ¡Cuántas mozas en la villa,
+  194  del Comendador fiadas,
+  195  andan ya descalabradas!
+
+PASCUALA
+  196  Tendré yo por maravilla
+  197  que te escapes de su mano.
+
+LAURENCIA
+  198  Pues en vano es lo que ves,
+  199  porque ha que me sigue un mes,
+  200  y todo, Pascuala, en vano.
+  201  Aquel Flores, su alcahuete,
+  202  y Ortuño, aquel socarrón,
+  203  me mostraron un jubón,
+  204  una sarta y un copete.
+  205  Dijéronme tantas cosas
+  206  de Fernando, su señor,
+  207  que me pusieron temor;
+  208  mas no serán poderosas
+  209  para contrastar mi pecho.
+
+PASCUALA
+  210  ¿Dónde te hablaron? // LAURENCIA: Allá
+  211  en el arroyo, y habrá
+  212  seis días. // PASCUALA: Y yo sospecho
+  213  que te han de engañar, Laurencia.
+
+LAURENCIA
+  214  ¿A mí? // PASCUALA: Que no, sino al cura.
+
+LAURENCIA
+  215  Soy, aunque polla, muy dura
+  216  yo para su reverencia.
+  217  Pardiez, más precio poner,
+  218  Pascuala de madrugada,
+  219  un pedazo de lunada
+  220  al huego para comer,
+  221  con tanto zalacatón
+  222  de una rosca que yo amaso,
+  223  y hurtar a mi madre un vaso
+  224  del pegado canjilón;
+  225  y más precio al mediodía
+  226  ver la vaca entre las coles,
+  227  haciendo mil caracoles
+  228  con espumosa armonía;
+  229  y concertar, si el camino
+  230  me ha llegado a causar pena,
+  231  casar una berenjena
+  232  con otro tanto tocino;
+  233  y después un pasatarde,
+  234  mientras la cena se aliña,
+  235  de una cuerda de mi viña,
+  236  que Dios de pedrisco guarde;
+  237  y cenar un salpicón
+  238  con su aceite y su pimienta,
+  239  y irme a la cama contenta,
+  240  y al «inducas tentación»
+  241  rezalle mis devociones,
+  242  que cuantas raposerías,
+  243  con su amor y sus porfías,
+  244  tienen estos bellacones;
+  245  porque todo su cuidado,
+  246  después de darnos disgusto,
+  247  es anochecer con gusto
+  248  y amanecer con enfado.
+
+PASCUALA
+  249  Tienes, Laurencia, razón;
+  250  que en dejando de querer
+  251  más ingratos suelen ser
+  252  que al villano el gorrión.
+  253  En el invierno, que el frío
+  254  tiene los campos helados,
+  255  decienden de los tejados,
+  256  diciéndole «tío, tío»,
+  257  hasta llegar a comer
+  258  las migajas de la mesa;
+  259  mas luego que el frío cesa,
+  260  y el campo ven florecer,
+  261  no bajan diciendo «tío»,
+  262  del beneficio olvidados,
+  263  mas saltando en los tejados,
+  264  dicen: «judío, judío».
+  265  Pues tales los hombres son:
+  266  cuando nos han menester
+  267  somos su vida, su ser,
+  268  su alma, su corazón;
+  269  pero pasadas las ascuas,
+  270  las tías somos judías,
+  271  y en vez de llamarnos tías,
+  272  anda el nombre de las pascuas.
+
+LAURENCIA
+  273  No fiarse de ninguno.
+
+PASCUALA
+  274  Lo mismo digo, Laurencia.
+
+[ACOTACIÓN] (Salen MENGO , BARRILDO y FRONDOSO .)
+
+FRONDOSO
+  275  En aquesta diferencia
+  276  andas, Barrildo, importuno.
+
+BARRILDO
+  277  A lo menos aquí está
+  278  quien nos dirá lo más cierto.
+
+MENGO
+  279  Pues hagamos un concierto
+  280  antes que lleguéis allá,
+  281  y es, que si juzgan por mí,
+  282  me dé cada cual la prenda,
+  283  precio de aquesta contienda.
+
+BARRILDO
+  284  Desde aquí digo que sí.
+  285  Mas si pierdes, ¿qué darás?
+
+MENGO
+  286  Daré mi rabel de boj,
+  287  que vale más que una troj,
+  288  porque yo le estimo en más.
+
+BARRILDO
+  289  Soy contento. // FRONDOSO: Pues lleguemos.
+  290  Dios os guarde, hermosas damas.
+
+LAURENCIA
+  291  ¿Damas, Frondoso, nos llamas?
+
+FRONDOSO
+  292  Andar al uso queremos:
+  293  al bachiller, licenciado;
+  294  al ciego, tuerto; al bisojo,
+  295  bizco; resentido, al cojo,
+  296  y buen hombre al descuidado.
+  297  Al ignorante, sesudo;
+  298  al mal galán, soldadesca;
+  299  a la boca grande, fresca,
+  300  y al ojo pequeño, agudo.
+  301  Al pleitista, diligente;
+  302  gracioso, al entremetido;
+  303  al hablador, entendido,
+  304  y al insufrible, valiente.
+  305  Al cobarde, para poco;
+  306  al atrevido, bizarro;
+  307  compañero, al que es un jarro,
+  308  y desenfadado, al loco.
+  309  Gravedad, al descontento;
+  310  a la calva, autoridad;
+  311  donaire, a la necedad,
+  312  y al pie grande, buen cimiento.
+  313  Al buboso, resfriado;
+  314  comedido, al arrogante;
+  315  al ingenioso, constante;
+  316  al corcovado, cargado.
+  317  Esto al llamaros imito,
+  318  damas, sin pasar de aquí;
+  319  porque fuera hablar así
+  320  proceder en infinito.
+
+LAURENCIA
+  321  Allá, en la ciudad, Frondoso,
+  322  llámase por cortesía
+  323  de esa suerte; y a fe mía,
+  324  que hay otro más riguroso
+  325  y peor vocabulario
+  326  en las lenguas descorteses.
+
+FRONDOSO
+  327  Querría que lo dijeses.
+
+LAURENCIA
+  328  Es todo a esotro contrario:
+  329  al hombre grave, enfadoso;
+  330  venturoso, al descompuesto;
+  331  melancólico, al compuesto,
+  332  y al que reprehende, odioso.
+  333  Importuno, al que aconseja;
+  334  al liberal, moscatel;
+  335  al justiciero, cruel,
+  336  y al que es piadoso, madeja.
+  337  Al que es constante, villano;
+  338  al que es cortés, lisonjero;
+  339  hipócrita, al limosnero,
+  340  y pretendiente, al cristiano.
+  341  Al justo mérito, dicha;
+  342  a la verdad, imprudencia;
+  343  cobardía, a la paciencia,
+  344  y culpa, a lo que es desdicha.
+  345  Necia, a la mujer honesta;
+  346  mal hecha, a la hermosa y casta,
+  347  y a la honrada... Pero basta;
+  348  que esto basta por respuesta.
+
+MENGO
+  349  Digo que eres el dimuño.
+
+BARRILDO
+  350  Soncas que lo dice mal.
+
+MENGO
+  351  Apostaré que la sal
+  352  la echó el cura con el puño.
+
+LAURENCIA
+  353  ¿Qué contienda os ha traído
+  354  si no es que mal lo entendí?
+
+FRONDOSO
+  355  Oye, por tu vida. // LAURENCIA: Di.
+
+FRONDOSO
+  356  Préstame, Laurencia, oído.
+
+LAURENCIA
+  357  ¿Cómo prestado? Y aun dado.
+  358  Desde agora os doy el mío.
+
+FRONDOSO
+  359  En tu discreción confío.
+
+LAURENCIA
+  360  ¿Qué es lo que habéis apostado?
+
+FRONDOSO
+  361  Yo y Barrildo contra Mengo.
+
+LAURENCIA
+  362  ¿Qué dice Mengo? // BARRILDO: Una cosa
+  363  que, siendo cierta y forzosa,
+  364  la niega. // MENGO: A negarla vengo
+  365  porque yo sé que es verdad.
+
+LAURENCIA
+  366  ¿Qué dice? // BARRILDO: Que no hay amor.
+
+LAURENCIA
+  367  Generalmente, es rigor.
+
+BARRILDO
+  368  Es rigor y es necedad.
+  369  Sin amor, no se pudiera
+  370  ni aun el mundo conservar.
+
+MENGO
+  371  Yo no sé filosofar;
+  372  leer, ¡ojalá supiera!
+  373  Pero si los elementos
+  374  en discordia eterna viven,
+  375  y de los mismos reciben
+  376  nuestros cuerpos alimentos,
+  377  cólera y melancolía,
+  378  flema y sangre, claro está.
+
+BARRILDO
+  379  El mundo de acá y de allá,
+  380  Mengo, todo es armonía.
+  381  Armonía es puro amor,
+  382  porque el amor es concierto.
+
+MENGO
+  383  Del natural, os advierto
+  384  que yo no niego el valor.
+  385  Amor hay, y el que entre sí
+  386  gobierna todas las cosas,
+  387  correspondencias forzosas
+  388  de cuanto se mira aquí;
+  389  y yo jamás he negado
+  390  que cada cual tiene amor
+  391  correspondiente a su humor,
+  392  que le conserva en su estado.
+  393  Mi mano al golpe que viene
+  394  mi cara defenderá;
+  395  mi pie, huyendo, estorbará
+  396  el daño que el cuerpo tiene.
+  397  Cerraránse mis pestañas
+  398  si al ojo le viene mal,
+  399  porque es amor natural.
+
+PASCUALA
+  400  Pues ¿de qué nos desengañas?
+
+MENGO
+  401  De que nadie tiene amor
+  402  más que a su misma persona.
+
+PASCUALA
+  403  Tú mientes, Mengo, y perdona;
+  404  porque ¿es materia el rigor
+  405  con que un hombre a una mujer,
+  406  o un animal quiere y ama
+  407  su semejante? // MENGO: Eso llama
+  408  amor propio, y no querer.
+  409  ¿Qué es amor? // LAURENCIA: Es un deseo
+  410  de hermosura. // MENGO: Esa hermosura
+  411  ¿por qué el amor la procura?
+
+LAURENCIA
+  412  Para gozarla. // MENGO: Eso creo.
+  413  Pues ese gusto que intenta,
+  414  ¿no es para él mismo? // LAURENCIA: Es así.
+
+MENGO
+  415  Luego, ¿por quererse a sí
+  416  busca el bien que le contenta?
+
+LAURENCIA
+  417  Es verdad. // MENGO: Pues de ese modo
+  418  no hay amor, sino el que digo,
+  419  que por mi gusto le sigo,
+  420  y quiero dármele en todo.
+
+BARRILDO
+  421  Dijo el cura del lugar
+  422  cierto día en el sermón
+  423  que había cierto Platón
+  424  que nos enseñaba a amar;
+  425  que éste amaba el alma sola
+  426  y la virtud de lo amado.
+
+PASCUALA
+  427  En materia habéis entrado
+  428  que, por ventura, acrisola
+  429  los caletres de los sabios
+  430  en sus cademias y escuelas.
+
+LAURENCIA
+  431  Muy bien dice, y no te muelas,
+  432  en persuadir sus agravios.
+  433  Da gracias, Mengo, a los cielos,
+  434  que te hicieron sin amor.
+
+MENGO
+  435  ¿Amas tú? // LAURENCIA: Mi propio honor.
+
+FRONDOSO
+  436  Dios te castigue con celos.
+
+BARRILDO
+  437  ¿Quién gana? // PASCUALA: Con la quistión
+  438  podéis ir al sacristán,
+  439  porque él o el cura os darán
+  440  bastante satisfación.
+  441  Laurencia no quiere bien,
+  442  yo tengo poca experiencia.
+  443  ¿Cómo daremos sentencia?
+
+FRONDOSO
+  444  ¿Qué mayor que ese desdén?
+
+[ACOTACIÓN] (Sale FLORES .)
+
+FLORES
+  445  Dios guarde a la buena gente.
+
+PASCUALA
+  446  Éste es del Comendador
+  447  criado. // LAURENCIA: ¡Gentil azor!
+  448  ¿De adónde bueno, pariente?
+
+FLORES
+  449  ¿No me veis a lo soldado?
+
+LAURENCIA
+  450  ¿Viene don Fernando acá?
+
+FLORES
+  451  La guerra se acaba ya,
+  452  puesto que nos ha costado
+  453  alguna sangre y amigos.
+
+FRONDOSO
+  454  Contadnos cómo pasó.
+
+FLORES
+  455  ¿Quién lo dirá como yo,
+  456  siendo mis ojos testigos?
+  457  Para emprender la jornada
+  458  de esta ciudad, que ya tiene
+  459  nombre de Ciudad Real,
+  460  juntó el gallardo Maestre
+  461  dos mil lucidos infantes
+  462  de sus vasallos valientes
+  463  y trecientos de a caballo
+  464  de seglares y de freiles;
+  465  porque la cruz roja obliga
+  466  cuantos al pecho la tienen,
+  467  aunque sean de orden sacro;
+  468  mas contra moros, se entiende.
+  469  Salió el muchacho bizarro
+  470  con una casaca verde,
+  471  bordada de cifras de oro,
+  472  que sólo los brazaletes
+  473  por las mangas descubrían,
+  474  que seis alamares prenden.
+  475  Un corpulento bridón,
+  476  rucio rodado, que al Betis
+  477  bebió el agua, y en su orilla
+  478  despuntó la grama fértil;
+  479  el codón labrado en cintas
+  480  de ante, y el rizo copete
+  481  cogido en blancas lazadas,
+  482  que con las moscas de nieve
+  483  que bañan la blanca piel
+  484  iguales labores teje.
+  485  A su lado Fernán Gómez,
+  486  vuestro señor, en un fuerte
+  487  melado, de negros cabos,
+  488  puesto que con blanco bebe.
+  489  Sobre turca jacerina,
+  490  peto y espaldar luciente,
+  491  con naranjada casaca
+  492  que de oro y perlas guarnece.
+  493  El morrión, que coronado
+  494  con blancas plumas, parece
+  495  que del color naranjado
+  496  aquellos azares vierte;
+  497  ceñida al brazo una liga
+  498  roja y blanca, con que mueve
+  499  un fresno entero por lanza,
+  500  que hasta en Granada le temen.
+  501  La ciudad se puso en arma;
+  502  dicen que salir no quieren
+  503  de la corona real,
+  504  y el patrimonio defienden.
+  505  Entróla bien resistida,
+  506  y el Maestre a los rebeldes
+  507  y a los que entonces trataron
+  508  su honor injuriosamente,
+  509  mandó cortar las cabezas,
+  510  y a los de la baja plebe,
+  511  con mordazas en la boca,
+  512  azotar públicamente.
+  513  Queda en ella tan temido
+  514  y tan amado, que creen
+  515  que quien en tan pocos años
+  516  pelea, castiga y vence,
+  517  ha de ser en otra edad
+  518  rayo del África fértil,
+  519  que tantas lunas azules
+  520  a su roja cruz sujete.
+  521  Al Comendador y a todos
+  522  ha hecho tantas mercedes,
+  523  que el saco de la ciudad
+  524  el de su hacienda parece.
+  525  Mas ya la música suena:
+  526  recibilde alegremente,
+  527  que al triunfo, las voluntades,
+  528  son los mejores laureles.
+
+[ACOTACIÓN] (Salen el COMENDADOR y ORTUÑO ; MÚSICOS ; JUAN ROJO , ESTEBAN yALONSO , alcaldes.)
+
+[ACOTACIÓN] (Cantan.)
+
+[TODOS]
+  529  Sea bien venido
+  530  el Comendadore
+  531  de rendir las tierras
+  532  y matar los hombres.
+  533  ¡Vivan los Guzmanes!
+  534  ¡Vivan los Girones!
+  535  Si en las paces blando,
+  536  dulce en las razones.
+  537  Venciendo moricos
+  538  fuerte como un roble,
+  539  de Ciudad-Reale
+  540  viene vencedore;
+  541  que a Fuente Ovejuna
+  542  trae los sus pendones.
+  543  ¡Viva muchos años,
+  544  viva Fernán Gómez!
+
+COMENDADOR
+  545  Villa, yo os agradezco justamente
+  546  el amor que me habéis aquí mostrado.
+
+ALONSO
+  547  Aun no muestra una parte del que siente.
+  548  Pero ¿qué mucho que seáis amado,
+  549  mereciéndolo vos? // ESTEBAN: Fuente Ovejuna
+  550  y el regimiento que hoy habéis honrado,
+  551  que recibáis os ruega y importuna
+  552  un pequeño presente, que esos carros
+  553  traen, señor, no sin vergüenza alguna,
+  554  de voluntades y árboles bizarros
+  555  más que de ricos dones. Lo primero
+  556  traen dos cestas de polidos barros;
+  557  de gansos viene un ganadillo entero,
+  558  que sacan por las redes las cabezas
+  559  para cantar vueso valor guerrero.
+  560  Diez cebones en sal, valientes piezas,
+  561  sin otras menudencias y cecinas;
+  562  y, más que guantes de ámbar, sus cortezas.
+  563  Cien pares de capones y gallinas,
+  564  que han dejado viudos a sus gallos
+  565  en las aldeas que miráis vecinas.
+  566  Acá no tienen armas ni caballos
+  567  no jaeces bordados de oro puro,
+  568  si no es oro el amor de los vasallos.
+  569  Y porque digo puro, os aseguro
+  570  que vienen doce cueros, que aun en cueros
+  571  por enero podéis guardar un muro,
+  572  si de ellos aforráis vuestros guerreros,
+  573  mejor que de las armas aceradas;
+  574  que el vino suele dar lindos aceros.
+  575  De quesos y otras cosas no excusadas
+  576  no quiero daros cuenta: justo pecho
+  577  de voluntades que tenéis ganadas;
+  578  y a vos y a vuestra casa, buen provecho.
+
+COMENDADOR
+  579  Estoy muy agradecido.
+  580  Id, regimiento, en buena hora.
+
+ALONSO
+  581  Descansad, señor, agora,
+  582  y seáis muy bien venido;
+  583  que esta espadaña que veis
+  584  y juncia a vuestros umbrales,
+  585  fueran perlas orientales,
+  586  y mucho más merecéis,
+  587  a ser posible a la villa.
+
+COMENDADOR
+  588  Así lo creo señores.
+  589  Id con Dios. // ESTEBAN: Ea, cantores,
+  590  vaya otra vez la letrilla
+
+[ACOTACIÓN] (Cantan.)
+
+[TODOS]
+  591  Sea bien venido
+  592  el Comendadore
+  593  de rendir las tierras
+  594  y matar los hombres.
+
+[ACOTACIÓN] (Vanse.)
+
+COMENDADOR
+  595  Esperad vosotras dos.
+
+LAURENCIA
+  596  ¿Qué manda su señoría?
+
+COMENDADOR
+  597  ¡Desdenes el otro día,
+  598  pues, conmigo! ¡Bien, por Dios!
+
+LAURENCIA
+  599  ¿Habla contigo, Pascuala?
+
+PASCUALA
+  600  Conmigo no, ¡tirte ahuera!
+
+COMENDADOR
+  601  Con vos hablo, hermosa fiera,
+  602  y con esotra zagala.
+  603  ¿Mías no sois? // PASCUALA: Sí, señor;
+  604  mas no para casos tales.
+
+COMENDADOR
+  605  Entrad, pasad los umbrales;
+  606  hombres hay, no hayáis temor.
+
+LAURENCIA
+  607  Si los alcaldes entraran
+  608  (que de uno soy hija yo),
+  609  bien fuera entrar, mas si no...
+
+COMENDADOR
+  610  Flores... // FLORES: Señor... // COMENDADOR: ¿Qué reparan
+  611  en no hacer lo que les digo?
+
+FLORES
+  612  Entrá, pues. // LAURENCIA: No nos agarre.
+
+FLORES
+  613  Entrad; que sois necias. // PASCUALA: Harre,
+  614  que echaréis luego el postigo.
+
+FLORES
+  615  Entrad, que os quiere enseñar
+  616  lo que trae de la guerra.
+
+COMENDADOR
+  617  (Aparte a ORTUÑO .)Si entraren, Ortuño, cierra.
+
+[ACOTACIÓN] (Aparte a ORTUÑO .)
+
+LAURENCIA
+  618  Flores, dejadnos pasar.
+
+ORTUÑO
+  619  ¿También venís presentadas
+  620  con lo demás? // PASCUALA: ¡Bien a fe!
+  621  Desvíese, no le dé...
+
+FLORES
+  622  Basta; que son extremadas.
+
+LAURENCIA
+  623  ¿No basta a vueso señor
+  624  tanta carne presentada?
+
+ORTUÑO
+  625  La vuestra es la que le agrada.
+
+LAURENCIA
+  626  Reviente de mal dolor.
+
+[ACOTACIÓN] (Vanse.)
+
+FLORES
+  627  ¡Muy buen recado llevamos!
+  628  No se ha de poder sufrir
+  629  lo que nos ha de decir
+  630  cuando sin ellas nos vamos.
+
+ORTUÑO
+  631  Quien sirve se obliga a esto.
+  632  Si en algo desea medrar,
+  633  o con paciencia ha de estar,
+  634  o ha de despedirse presto.
+
+[ACOTACIÓN] (Vanse los dos, y salen el REY DON FERNANDO , la REINA DOÑA ISABEL , MANRIQUE y acompañamiento.)
+
+ISABEL
+  635  Digo, señor, que conviene
+  636  el no haber descuido en esto,
+  637  por ver a Alfonso en tal puesto,
+  638  y su ejército previene.
+  639  Y es bien ganar por la mano
+  640  antes que el daño veamos;
+  641  que si no lo remediamos,
+  642  el ser muy cierto está llano.
+
+REY
+  643  De Navarra y de Aragón
+  644  está el socorro seguro,
+  645  y de Castilla procuro
+  646  hacer la reformación
+  647  de modo, que el buen suceso
+  648  con la prevención se vea.
+
+ISABEL
+  649  Pues vuestra Majestad crea
+  650  que el buen fin consiste en eso.
+
+MANRIQUE
+  651  Aguardando tu licencia
+  652  dos regidores están
+  653  de Ciudad Real: ¿entrarán?
+
+REY
+  654  No les nieguen mi presencia.
+
+[ACOTACIÓN] (Salen dos REGIDORES de Ciudad Real.)
+
+REGIDOR 1º
+  655  Católico rey Fernando,
+  656  a quien ha enviado el cielo,
+  657  desde Aragón a Castilla,
+  658  para bien y amparo nuestro:
+  659  en nombre de Ciudad Real
+  660  a vuestro valor supremo
+  661  humildes nos presentamos,
+  662  real amparo pidiendo.
+  663  A mucha dicha tuvimos
+  664  tener títulos de vuestros;
+  665  pero pudo derribarnos
+  666  deste honor el hado adverso.
+  667  El famoso don Rodrigo
+  668  Téllez Girón, cuyo esfuerzo
+  669  es en valor extremado,
+  670  aunque es en la edad tan tierno,
+  671  Maestre de Calatrava,
+  672  él, ensanchar pretendiendo
+  673  el honor de la encomienda,
+  674  nos puso apretado cerco.
+  675  Con valor nos prevenimos
+  676  a su fuerza resistiendo,
+  677  tanto, que arroyos corrían
+  678  de la sangre de los muertos.
+  679  Tomó posesión, en fin,
+  680  pero no llegara a hacerlo,
+  681  a no le dar Fernán Gómez
+  682  orden, ayuda y consejo.
+  683  Él queda en la posesión,
+  684  y sus vasallos seremos,
+  685  suyos, a nuestro pesar,
+  686  a no remediarlo presto.
+
+REY
+  687  ¿Dónde queda Fernán Gómez?
+
+REGIDOR 1º
+  688  En Fuente Ovejuna creo,
+  689  por ser su villa, y tener
+  690  en ella casa y asiento.
+  691  Allí, con más libertad
+  692  de la que decir podemos,
+  693  tiene a los súbditos suyos
+  694  de todo contento ajenos.
+
+REY
+  695  ¿Tenéis algún capitán?
+
+REGIDOR 2º
+  696  Señor, el no haberle es cierto,
+  697  pues no escapó ningún noble
+  698  de preso, herido o de muerto.
+
+ISABEL
+  699  Ese caso no requiere
+  700  ser despacio remediado;
+  701  que es dar al contrario osado
+  702  el mismo valor que adquiere;
+  703  y puede el de Portugal,
+  704  hallando puerta segura,
+  705  entrar por Extremadura
+  706  y causarnos mucho mal.
+
+REY
+  707  Don Manrique, partid luego,
+  708  llevando dos compañías;
+  709  remediad sus demasías,
+  710  sin darles ningún sosiego.
+  711  El conde de Cabra ir puede
+  712  con vos; que es Córdoba osado,
+  713  a quien nombre de soldado
+  714  todo el mundo le concede;
+  715  que éste es el medio mejor
+  716  que la ocasión nos ofrece.
+
+MANRIQUE
+  717  El acuerdo me parece
+  718  como de tan gran valor.
+  719  Pondré límite a su exceso,
+  720  si el vivir en mí no cesa.
+
+ISABEL
+  721  Partiendo vos a la empresa,
+  722  seguro está el buen suceso.
+
+[ACOTACIÓN] (Vanse todos, y salen LAURENCIA y FRONDOSO .)
+
+LAURENCIA
+  723  A medio torcer los paños,
+  724  quise, atrevido Frondoso,
+  725  para no dar que decir,
+  726  desviarme del arroyo;
+  727  decir a tus demasías
+  728  que murmura el pueblo todo,
+  729  que me miras y te miro,
+  730  y todos nos traen sobre ojo.
+  731  Y como tú eres zagal,
+  732  de los que huellan, brioso,
+  733  y excediendo a los demás,
+  734  vistes bizarro y costoso,
+  735  en todo el lugar no hay moza,
+  736  o mozo en el prado o soto,
+  737  que no se afirme diciendo
+  738  que ya para en uno somos;
+  739  y esperan todos el día
+  740  que el sacristán Juan Chamorro
+  741  nos eche de la tribuna,
+  742  en dejando los piporros.
+  743  Y mejor sus trojes vean
+  744  de rubio trigo en agosto
+  745  atestadas y colmadas,
+  746  y sus tinajas de mosto,
+  747  que tal imaginación
+  748  me ha llegado a dar enojo:
+  749  ni me desvela ni aflige,
+  750  ni en ella el cuidado pongo.
+
+FRONDOSO
+  751  Tal me tienen tus desdenes,
+  752  bella Laurencia, que tomo,
+  753  en el peligro de verte,
+  754  la vida, cuando te oigo.
+  755  Si sabes que es mi intención
+  756  el desear ser tu esposo,
+  757  mal premio das a mi fe.
+
+LAURENCIA
+  758  Es que yo no sé dar otro.
+
+FRONDOSO
+  759  ¿Posible es que no te duelas
+  760  de verme tan cuidadoso
+  761  y que imaginando en ti,
+  762  ni bebo, duermo ni como?
+  763  ¿Posible es tanto rigor
+  764  en ese angélico rostro?
+  765  ¡Viven los cielos que rabio!
+
+LAURENCIA
+  766  Pues salúdate, Frondoso.
+
+FRONDOSO
+  767  Ya te pido yo salud,
+  768  y que ambos, como palomos,
+  769  estemos, juntos los picos,
+  770  con arrullos sonorosos,
+  771  después de darnos la Iglesia...
+
+LAURENCIA
+  772  Dilo a mi tío Juan Rojo;
+  773  que aunque no te quiero bien,
+  774  ya tengo algunos asomos.
+
+FRONDOSO
+  775  ¡Ay de mí! El señor es éste.
+
+LAURENCIA
+  776  Tirando viene a algún corzo.
+  777  Escóndete en esas ramas.
+
+FRONDOSO
+  778  ¡Y con qué celos me escondo!
+
+[ACOTACIÓN] (Sale el COMENDADOR .)
+
+COMENDADOR
+  779  No es malo venir siguiendo
+  780  un corcillo temeroso,
+  781  y topar tan bella gama.
+
+LAURENCIA
+  782  Aquí descansaba un poco
+  783  de haber lavado unos paños;
+  784  y así, al arroyo me torno,
+  785  si manda su señoría.
+
+COMENDADOR
+  786  Aquesos desdenes toscos
+  787  afrentan, bella Laurencia,
+  788  las gracias que el poderoso
+  789  cielo te dio, de tal suerte,
+  790  que vienes a ser un monstro.
+  791  Mas si otras veces pudiste
+  792  huir mi ruego amoroso,
+  793  agora no quiere el campo,
+  794  amigo secreto y solo;
+  795  que tú sola no has de ser
+  796  tan soberbia que tu rostro
+  797  huyas al señor que tienes,
+  798  teniéndome a mí en tan poco.
+  799  ¿No se rindió Sebastiana,
+  800  mujer de Pedro Redondo,
+  801  con ser casadas entrambas,
+  802  y la de Martín del Pozo,
+  803  habiendo apenas pasado
+  804  dos días del desposorio?
+
+LAURENCIA
+  805  Ésas, señor, ya tenían,
+  806  de haber andado con otros,
+  807  el camino de agradaros,
+  808  porque también muchos mozos
+  809  merecieron sus favores.
+  810  Id con Dios, tras vueso corzo;
+  811  que a no veros con la cruz,
+  812  os tuviera por demonio,
+  813  pues tanto me perseguís.
+
+COMENDADOR
+  814  ¡Qué estilo tan enfadoso!
+  815  Pongo la ballesta en tierra,
+  816  . . . . . . . . . . . . . . . . . . . . .
+  817  y a la práctica de manos
+  818  reduzgo melindres. // LAURENCIA: ¡Cómo!
+  819  ¿Eso hacéis? ¿Estáis en vos?
+
+[ACOTACIÓN] (Sale FRONDOSO y toma la ballesta.)
+
+COMENDADOR
+  820  No te defiendas. // FRONDOSO: (Aparte.)Si tomo
+
+[ACOTACIÓN] (Aparte.)
+  821  la ballesta, ¡vive el cielo
+  822  que no la ponga en el hombro!
+
+COMENDADOR
+  823  Acaba, ríndete. // LAURENCIA: ¡Cielos,
+  824  ayudadme agora! // COMENDADOR: Solos
+  825  estamos; no tengas miedo.
+
+FRONDOSO
+  826  Comendador generoso,
+  827  dejad la moza, o creed
+  828  que de mi agravio y enojo
+  829  será blanco vuestro pecho,
+  830  aunque la cruz me da asombro.
+
+COMENDADOR
+  831  ¡Perro, villano!... // FRONDOSO: No hay perro.
+  832  Huye, Laurencia. // LAURENCIA: Frondoso,
+  833  mira lo que haces. // FRONDOSO: Vete.
+
+[ACOTACIÓN] (Vase.)
+
+COMENDADOR
+  834  ¡Oh; mal haya el hombre loco,
+  835  que se desciñe la espada!
+  836  que, de no espantar medroso
+  837  la caza, me la quité.
+
+FRONDOSO
+  838  Pues, pardiez, señor, si toco
+  839  la nuez, que os he de apiolar.
+
+COMENDADOR
+  840  Ya es ida. Infame, alevoso,
+  841  suelta la ballesta luego.
+  842  Suéltala, villano. // FRONDOSO: ¿Cómo?
+  843  Que me quitaréis la vida.
+  844  Y advertid que amor es sordo,
+  845  y que no escucha palabras
+  846  el día que está en su trono.
+
+COMENDADOR
+  847  Pues ¿la espalda ha de volver
+  848  un hombre tan valeroso
+  849  a un villano? Tira, infame,
+  850  tira y guárdate; que rompo
+  851  las leyes de caballero.
+
+FRONDOSO
+  852  Eso no. Yo me conformo
+  853  con mi estado, y pues me es
+  854  guardar la vida forzoso,
+  855  con la ballesta me voy.
+
+COMENDADOR
+  856  ¡Peligro extraño y notorio!
+  857  Mas yo tomaré venganza
+  858  del agravio y del estorbo.
+  859  ¡Que no cerrara con él!
+  860  ¡Vive el cielo, que me corro!
+
+
+===== ACTO 2 =====
+
+[ACOTACIÓN] Salen ESTEBAN y el REGIDOR [CUADRADO].
+
+ESTEBAN
+  861  Así tenga salud, como parece,
+  862  que no se saque más agora el pósito.
+  863  El año apunta mal, y el tiempo crece,
+  864  y es mejor que el sustento esté en depósito,
+  865  aunque lo contradicen más de trece.
+
+REGIDOR
+  866  Yo siempre he sido, al fin, de este propósito,
+  867  en gobernar en paz esta república.
+
+ESTEBAN
+  868  Hagamos de ello a Fernán Gómez súplica.
+  869  No se puede sufrir que estos astrólogos
+  870  en las cosas futuras, y ignorantes
+  871  nos quieran persuadir con largos prólogos
+  872  los secretos a Dios sólo importantes.
+  873  ¡Bueno es que, presumiendo de teólogos,
+  874  hagan un tiempo el que después y antes!
+  875  Y pidiendo el presente lo importante,
+  876  al más sabio veréis más ignorante.
+  877  ¿Tienen ellos las nubes en su casa
+  878  y el proceder de las celestes lumbres?
+  879  ¿Por dónde ven lo que en el cielo pasa,
+  880  para darnos con ello pesadumbres?
+  881  Ellos en el sembrar nos ponen tasa:
+  882  daca el trigo, cebada y las legumbres,
+  883  calabazas, pepinos y mostazas...
+  884  Ellos son, a la fe, las calabazas.
+  885  Luego cuentan que muere una cabeza,
+  886  y después viene a ser en Transilvania;
+  887  que el vino será poco, y la cerveza
+  888  sobrará por las partes de Alemania;
+  889  que se helará en Gascuña la cereza,
+  890  y que habrá muchos tigres en Hircania.
+  891  Y al cabo, que se siembre o no se siembre
+  892  el año se remata por diciembre.
+
+[ACOTACIÓN] (Salen el licenciado LEONELO y BARRILDO.)
+
+LEONELO
+  893  A fe que no ganéis la palmatoria,
+  894  porque ya está ocupado el mentidero.
+
+BARRILDO
+  895  ¿Cómo os fue en Salamanca? // LEONELO: Es larga historia.
+
+BARRILDO
+  896  Un Bártulo seréis. // LEONELO: Ni aun un barbero.
+  897  Es, como digo, cosa muy notoria,
+  898  en esta facultad lo que os refiero.
+
+BARRILDO
+  899  Sin duda que venís buen estudiante.
+
+LEONELO
+  900  Saber he procurado lo importante
+
+BARRILDO
+  901  Después que vemos tanto libro impreso,
+  902  no hay nadie que de sabio no presuma.
+
+LEONELO
+  903  Antes que ignoran más siento por eso
+  904  por no se reducir a breve suma;
+  905  porque la confusión, con el exceso,
+  906  los intentos resuelve en vana espuma;
+  907  y aquel que de leer tiene más uso,
+  908  de ver letreros sólo está confuso.
+  909  No niego yo que de imprimir el arte
+  910  mil ingenios sacó de entre la jerga,
+  911  y que parece que en sagrada parte
+  912  sus obras guarda y contra el tiempo alberga;
+  913  éste las distribuye y las reparte.
+  914  Débese esta invención a Gutemberga,
+  915  un famoso tudesco de Maguncia,
+  916  en quien la fama su valor renuncia.
+  917  Mas muchos que opinión tuvieron grave,
+  918  por imprimir sus obras la perdieron;
+  919  tras esto, con el nombre del que sabe,
+  920  muchos sus ignorancias imprimieron.
+  921  Otros, en quien la baja envidia cabe,
+  922  sus locos desatinos escribieron,
+  923  y con nombre de aquel que aborrecían,
+  924  impresos por el mundo los envían.
+
+BARRILDO
+  925  No soy de esa opinión. // LEONELO: El ignorante
+  926  es justo que se vengue del letrado.
+
+BARRILDO
+  927  Leonelo, la impresión es importante.
+
+LEONELO
+  928  Sin ella muchos siglos se han pasado,
+  929  y no vemos que en éste se levante
+  930  ............................
+  931  un Jerónimo santo, un Agustino.
+
+BARRILDO
+  932  Dejadlo y asentaos, que estáis mohíno.
+
+[ACOTACIÓN] (Salen JUAN ROJO y otro LABRADOR.)
+
+JUAN ROJO
+  933  No hay en cuatro haciendas para un dote,
+  934  si es que las vistas han de ser al uso;
+  935  que el hombre que es curioso es bien que note
+  936  que en esto el barrio y vulgo anda confuso.
+
+LABRADOR
+  937  ¿Qué hay del Comendador? No os alborote.
+
+JUAN ROJO
+  938  ¡Cuál a Laurencia en ese campo puso!
+
+LABRADOR
+  939  ¿Quién fue cual él tan bárbaro y lascivo?
+  940  Colgado le vea yo de aquel olivo.
+
+[ACOTACIÓN] (Salen el COMENDADOR, ORTUÑO y FLORES.)
+
+COMENDADOR
+  941  Dios guarde la buena gente.
+
+REGIDOR
+  942  ¡Oh, señor! // COMENDADOR: Por vida mía,
+  943  que se estén. // ALONSO: Vusiñoría,
+  944  adonde suele se siente,
+  945  que en pie estaremos muy bien.
+
+COMENDADOR
+  946  Digo que se han de sentar.
+
+ESTEBAN
+  947  De los buenos es honrar,
+  948  que no es posible que den
+  949  honra los que no la tienen.
+
+COMENDADOR
+  950  Siéntense; hablaremos algo.
+
+ESTEBAN
+  951  ¿Vio vusiñoría el galgo?
+
+COMENDADOR
+  952  Alcalde, espantados vienen
+  953  esos criados de ver
+  954  tan notable ligereza.
+
+ESTEBAN
+  955  Es una extremada pieza.
+  956  Pardiez, que puede correr
+  957  al lado de un delincuente
+  958  o de un cobarde en quistión.
+
+COMENDADOR
+  959  Quisiera en esta ocasión
+  960  que le hiciérades pariente
+  961  a una liebre que por pies
+  962  por momentos se me va.
+
+ESTEBAN
+  963  Sí haré, par Dios. ¿Dónde está?
+
+COMENDADOR
+  964  Allá vuestra hija es.
+
+ESTEBAN
+  965  ¡Mi hija! // COMENDADOR: Sí. // ESTEBAN: Pues, ¿es buena
+  966  para alcanzada de vos?
+
+COMENDADOR
+  967  Reñilda, alcalde, por Dios.
+
+ESTEBAN
+  968  ¿Cómo? // COMENDADOR: Ha dado en darme pena.
+  969  Mujer hay, y principal,
+  970  de alguno que está en la plaza,
+  971  que dio, a la primera traza,
+  972  traza de verme. // ESTEBAN: Hizo mal;
+  973  y vos, señor, no andáis bien
+  974  en hablar tan libremente.
+
+COMENDADOR
+  975  ¡Oh, qué villano elocuente!
+  976  ¡Ah, Flores!, haz que le den
+  977  la Política, en que lea
+  978  de Aristóteles. // ESTEBAN: Señor,
+  979  debajo de vuestro honor
+  980  vivir el pueblo desea.
+  981  Mirad que en Fuente Ovejuna
+  982  hay gente muy principal.
+
+LEONELO
+  983  ¿Viose desvergüenza igual?
+
+COMENDADOR
+  984  Pues ¿he dicho cosa alguna
+  985  de que os pese, regidor?
+
+CUADRADO
+  986  Lo que decís es injusto;
+  987  no lo digáis, que no es justo
+  988  que nos quitéis el honor.
+
+COMENDADOR
+  989  ¿Vosotros honor tenéis?
+  990  ¡Qué freiles de Calatrava!
+
+CUADRADO
+  991  Alguno acaso se alaba
+  992  de la cruz que le ponéis,
+  993  que no es de sangre tan limpia.
+
+COMENDADOR
+  994  ¿Y ensúciola yo juntando
+  995  la mía a la vuestra? // CUADRADO: Cuando
+  996  que el mal más tiñe que alimpia.
+
+COMENDADOR
+  997  De cualquier suerte que sea,
+  998  vuestras mujeres se honran.
+
+ALONSO
+  999  Esas palabras deshonran;
+ 1000  las otras, no hay quien las crea.
+
+COMENDADOR
+ 1001  ¿Qué cansado villanaje!
+ 1002  ¡Ah! Bien hayan las ciudades;
+ 1003  que a hombres de calidades
+ 1004  no hay quien sus gustos ataje;
+ 1005  allá se precian casados
+ 1006  que visiten sus mujeres.
+
+ESTEBAN
+ 1007  No harán; que con esto quieres
+ 1008  que vivamos descuidados.
+ 1009  En las ciudades hay Dios,
+ 1010  y más presto quien castiga.
+
+COMENDADOR
+ 1011  Levantaos de aquí. // ALONSO: ¿Que diga
+ 1012  lo que escucháis por los dos?
+
+COMENDADOR
+ 1013  Salid de la plaza luego;
+ 1014  no quede ninguno aquí.
+
+ESTEBAN
+ 1015  Ya nos vamos. // COMENDADOR: Pues no ansí.
+
+FLORES
+ 1016  Que te reportes te ruego.
+
+COMENDADOR
+ 1017  Querrían hacer corrillo
+ 1018  los villanos en mi ausencia.
+
+ORTUÑO
+ 1019  Ten un poco de paciencia.
+
+COMENDADOR
+ 1020  De tanta me maravillo.
+ 1021  Cada uno de por sí
+ 1022  se vayan hasta sus casas.
+
+LEONELO
+ 1023  ¡Cielo! ¿Que por esto pasas?
+
+ESTEBAN
+ 1024  Ya yo me voy por aquí.
+
+[ACOTACIÓN] (Vanse.)
+
+COMENDADOR
+ 1025  ¿Qué os parece de esta gente?
+
+ORTUÑO
+ 1026  No sabes disimular
+ 1027  que no quieres escuchar
+ 1028  el disgusto que se siente.
+
+COMENDADOR
+ 1029  Éstos ¿se igualan conmigo?
+
+FLORES
+ 1030  Que no es aqueso igualarse.
+
+COMENDADOR
+ 1031  Y el villano ¿ha de quedarse
+ 1032  con ballesta y sin castigo?
+
+FLORES
+ 1033  Anoche pensé que estaba
+ 1034  a la puerta de Laurencia,
+ 1035  y a otro, que su presencia
+ 1036  y su capilla imitaba,
+ 1037  de oreja a oreja le di
+ 1038  un beneficio famoso.
+
+COMENDADOR
+ 1039  ¿Dónde estará aquel Frondoso?
+
+FLORES
+ 1040  Dicen que anda por ahí.
+
+COMENDADOR
+ 1041  ¡Por ahí se atreve a andar
+ 1042  hombre que matarme quiso!
+
+FLORES
+ 1043  Como el ave sin aviso,
+ 1044  o como el pez, viene a dar
+ 1045  al reclamo o al anzuelo.
+
+COMENDADOR
+ 1046  ¡Que a un capitán cuya espada
+ 1047  tiemblan Córdoba y Granada,
+ 1048  un labrador, un mozuelo
+ 1049  ponga una ballesta al pecho!
+ 1050  El mundo se acaba, Flores.
+
+FLORES
+ 1051  Como eso pueden amores.
+
+ORTUÑO
+ 1052  Y pues que vive, sospecho
+ 1053  que grande amistad le debes.
+
+COMENDADOR
+ 1054  Yo he disimulado, Ortuño;
+ 1055  que si no, de punta a puño,
+ 1056  antes de dos horas breves,
+ 1057  pasara todo el lugar;
+ 1058  que hasta que llegue ocasión
+ 1059  al freno de la razón
+ 1060  hago la venganza estar.-
+ 1061  ¿Qué hay de Pascuala? // FLORES: Responde
+ 1062  que anda agora por casarse.
+
+COMENDADOR
+ 1063  ¿Hasta allá quiere fiarse?
+
+FLORES
+ 1064  En fin, te remite donde
+ 1065  te pagarán de contado.
+
+COMENDADOR
+ 1066  ¿Qué hay de Olalla? // ORTUÑO: Una graciosa
+ 1067  respuesta. // COMENDADOR: Es moza briosa.
+ 1068  ¿Cómo? // ORTUÑO: Que su desposado
+ 1069  anda tras ella estos días
+ 1070  celoso de mis recados,
+ 1071  y de que con tus criados
+ 1072  a visitalla venías;
+ 1073  pero que si se descuida,
+ 1074  entrarás como primero.
+
+COMENDADOR
+ 1075  ¡Bueno, a fe de caballero!
+ 1076  Pero el villanejo cuida...
+
+ORTUÑO
+ 1077  Cuida, y anda por los aires.
+
+COMENDADOR
+ 1078  ¿Qué hay de Inés? // FLORES: ¿Cuál? // COMENDADOR: La de Antón.
+
+FLORES
+ 1079  Para cualquier ocasión
+ 1080  te ha ofrecido sus donaires.
+ 1081  Hablela por el corral,
+ 1082  por donde has de entrar si quieres.
+
+COMENDADOR
+ 1083  A las fáciles mujeres
+ 1084  quiero bien y pago mal.
+ 1085  Si éstas supiesen, ¡oh Flores!,
+ 1086  estimarse en lo que valen...
+
+FLORES
+ 1087  No hay disgustos que se igualen
+ 1088  a contrastar sus favores.
+ 1089  Rendirse presto desdice
+ 1090  de la esperanza del bien;
+ 1091  mas hay mujeres también,
+ 1092  y el filósofo lo dice,
+ 1093  que apetecen a los hombres
+ 1094  como la forma desea
+ 1095  la materia; y que esto sea
+ 1096  así, no hay de que te asombres.
+
+COMENDADOR
+ 1097  Un hombre de amores loco
+ 1098  huélgase que a su accidente
+ 1099  se le rindan fácilmente,
+ 1100  mas después las tiene en poco,
+ 1101  y el camino de olvidar
+ 1102  al hombre más obligado
+ 1103  es haber poco costado
+ 1104  lo que pudo desear.
+
+[ACOTACIÓN] (Sale CIMBRANOS.)
+
+CIMBRANOS
+ 1105  ¿Está aquí el Comendador?
+
+ORTUÑO
+ 1106  ¿No le ves en tu presencia?
+
+CIMBRANOS
+ 1107  ¡Oh, gallardo Fernán Gómez!
+ 1108  Trueca la verde montera
+ 1109  en el blanco morrïón
+ 1110  y el gabán en armas nuevas,
+ 1111  que el Maestre de Santiago
+ 1112  y el conde de Cabra cercan
+ 1113  a don Rodrigo Girón,
+ 1114  por la castellana reina,
+ 1115  en Ciudad Real; de suerte
+ 1116  que no es mucho que se pierda
+ 1117  lo que en Calatrava sabes
+ 1118  que tanta sangre le cuesta.
+ 1119  Ya divisan con las luces,
+ 1120  desde las altas almenas,
+ 1121  los castillos y leones
+ 1122  y barras aragonesas.
+ 1123  Y aunque el rey de Portugal
+ 1124  honrar a Girón quisiera,
+ 1125  no hará poco en que el Maestre
+ 1126  a Almagro con vida vuelva.
+ 1127  Ponte a caballo, señor;
+ 1128  que sólo con que te vean,
+ 1129  se volverán a Castilla.
+
+COMENDADOR
+ 1130  No prosigas; tente, espera.-
+ 1131  Haz, Ortuño, que en la plaza
+ 1132  toquen luego una trompeta.
+ 1133  ¿Qué soldados tengo aquí?
+
+ORTUÑO
+ 1134  Pienso que tienes cincuenta.
+
+COMENDADOR
+ 1135  Pónganse a caballo todos.
+
+CIMBRANOS
+ 1136  Si no caminas apriesa,
+ 1137  Ciudad Real es del rey.
+
+COMENDADOR
+ 1138  No hayas miedo que lo sea.
+
+[ACOTACIÓN] (Vanse, y salen MENGO, LAURENCIA y PASCUALA huyendo.)
+
+PASCUALA
+ 1139  No te apartes de nosotras.
+
+MENGO
+ 1140  Pues ¿a qué tenéis temor?
+
+LAURENCIA
+ 1141  Mengo, a la villa es mejor
+ 1142  que vamos unas con otras
+ 1143  pues no hay hombre ninguno,
+ 1144  por que no demos con él.
+
+MENGO
+ 1145  ¡Que este demonio cruel
+ 1146  no sea tan importuno!
+
+LAURENCIA
+ 1147  No nos deja a sol ni a sombra.
+
+MENGO
+ 1148  ¡Oh! rayo del cielo baje,
+ 1149  que sus locuras ataje.
+
+LAURENCIA
+ 1150  Sangrienta fiera le nombra;
+ 1151  arsénico y pestilencia
+ 1152  del lugar. // MENGO: Hanme contado
+ 1153  que Frondoso, aquí en el prado,
+ 1154  para librarte, Laurencia,
+ 1155  le puso al pecho una jara.
+
+LAURENCIA
+ 1156  Los hombres aborrecía,
+ 1157  Mengo; mas desde aquel día
+ 1158  los miro con otra cara.
+ 1159  ¡Gran valor tuvo Frondoso!
+ 1160  Pienso que le ha de costar
+ 1161  la vida. // MENGO: Que del lugar
+ 1162  se vaya, será forzoso.
+
+LAURENCIA
+ 1163  Aunque ya le quiero bien,
+ 1164  eso mismo le aconsejo;
+ 1165  mas recibe mi consejo
+ 1166  con ira, rabia y desdén;
+ 1167  y jura el Comendador
+ 1168  que le ha de colgar de un pie.
+
+PASCUALA
+ 1169  ¡Mal garrotillo le dé!
+
+MENGO
+ 1170  Mala pedrada es mejor.
+ 1171  ¡Voto al sol, si le tirara
+ 1172  con la que llevo al apero,
+ 1173  que al sonar el crujidero,
+ 1174  al casco se la encajara!
+ 1175  No fue Sábalo, el romano,
+ 1176  tan vicioso por jamás.
+
+LAURENCIA
+ 1177  Heliogábalo dirás,
+ 1178  más que una fiera inhumano.
+
+MENGO
+ 1179  Pero Galván, o quién fue,
+ 1180  que yo no entiendo de historia;
+ 1181  mas su cativa memoria
+ 1182  vencida de éste se ve.
+ 1183  ¿Hay hombre en naturaleza
+ 1184  como Fernán Gómez? // PASCUALA: No;
+ 1185  que parece que le dio
+ 1186  de una tigre la aspereza.
+
+[ACOTACIÓN] (Sale JACINTA.)
+
+JACINTA
+ 1187  Dadme socorro, por Dios,
+ 1188  si la amistad os obliga.
+
+LAURENCIA
+ 1189  ¿Qué es esto, Jacinta amiga?
+
+PASCUALA
+ 1190  Tuyas lo somos las dos.
+
+JACINTA
+ 1191  Del Comendador criados,
+ 1192  que van a Ciudad Real,
+ 1193  más de infamia natural
+ 1194  que de noble acero armados,
+ 1195  me quieren llevar a él.
+
+LAURENCIA
+ 1196  Pues Jacinta, Dios te libre;
+ 1197  que cuando contigo es libre,
+ 1198  conmigo será cruel.
+
+[ACOTACIÓN] (Vase.)
+
+PASCUALA
+ 1199  Jacinta, yo no soy hombre
+ 1200  que te puedo defender.
+
+[ACOTACIÓN] (Vase.)
+
+MENGO
+ 1201  Yo sí lo tengo de ser,
+ 1202  porque tengo el ser y el nombre.
+ 1203  Llégate, Jacinta, a mí.
+
+JACINTA
+ 1204  ¿Tienes armas? // MENGO: Las primeras
+ 1205  del mundo. // JACINTA: ¡Oh, si las tuvieras!
+
+MENGO
+ 1206  Piedras hay, Jacinta, aquí.
+
+[ACOTACIÓN] (Salen FLORES y ORTUÑO.)
+
+FLORES
+ 1207  ¿Por los pies pensabas irte?
+
+JACINTA
+ 1208  Mengo, ¡muerta soy! // MENGO: Señores...
+ 1209  ¡A estos pobres labradores!...
+
+ORTUÑO
+ 1210  Pues ¿tú quieres persuadirte
+ 1211  a defender la mujer?
+
+MENGO
+ 1212  Con los ruegos la defiendo;
+ 1213  que soy su deudo y pretendo
+ 1214  guardalla, si puede ser.
+
+FLORES
+ 1215  Quitalde luego la vida.
+
+MENGO
+ 1216  ¡Voto al sol, si me emberrincho,
+ 1217  y el cáñamo me descincho,
+ 1218  que la llevéis bien vendida!
+
+[ACOTACIÓN] (Salen el COMENDADOR y CIMBRANOS.)
+
+COMENDADOR
+ 1219  ¿Qué es eso? ¡A cosas tan viles
+ 1220  me habéis de hacer apear!
+
+FLORES
+ 1221  Gente de este vil lugar
+ 1222  (que ya es razón que aniquiles,
+ 1223  pues en nada te da gusto)
+ 1224  a nuestras armas se atreve.
+
+MENGO
+ 1225  Señor, si piedad os mueve
+ 1226  de soceso tan injusto,
+ 1227  castigad estos soldados,
+ 1228  que con vuestro nombre agora
+ 1229  roban una labradora
+ 1230  a esposo y padres honrados;
+ 1231  y dadme licencia a mí
+ 1232  que se la pueda llevar.
+
+COMENDADOR
+ 1233  Licencia les quiero dar...
+ 1234  para vengarse de ti.
+ 1235  Suelta la honda. // MENGO: ¡Señor!...
+
+COMENDADOR
+ 1236  Flores, Ortuño, Cimbranos,
+ 1237  con ella le atad las manos.
+
+MENGO
+ 1238  ¿Así volvéis por su honor?
+
+COMENDADOR
+ 1239  ¿Qué piensan Fuente Ovejuna
+ 1240  y sus villanos de mí?
+
+MENGO
+ 1241  Señor, ¿en qué os ofendí,
+ 1242  ni el pueblo en cosa ninguna?
+
+FLORES
+ 1243  ¿Ha de morir? // COMENDADOR: No ensuciéis
+ 1244  las armas; que habéis de honrar
+ 1245  en otro mejor lugar.
+
+ORTUÑO
+ 1246  ¿Qué mandas? // COMENDADOR: Que lo azotéis.
+ 1247  Llevalde, y en ese roble
+ 1248  le atad y le desnudad,
+ 1249  y con las riendas... // MENGO: ¡Piedad!
+ 1250  ¡Piedad, pues sois hombre noble!
+
+COMENDADOR
+ 1251  Azotalde hasta que salten
+ 1252  los hierros de las correas.
+
+MENGO
+ 1253  ¡Cielos! ¿A hazañas tan feas
+ 1254  queréis que castigos falten?
+
+[ACOTACIÓN] (Vanse.)
+
+COMENDADOR
+ 1255  Tú, villana, ¿por qué huyes?
+ 1256  ¿Es mejor un labrador
+ 1257  que un hombre de mi valor?
+
+JACINTA
+ 1258  ¡Harto bien me restituyes
+ 1259  el honor que me han quitado
+ 1260  en llevarme para ti!
+
+COMENDADOR
+ 1261  ¿En quererte llevar? // JACINTA: Sí;
+ 1262  porque tengo un padre honrado,
+ 1263  que si en alto nacimiento
+ 1264  no te iguala, en las costumbres
+ 1265  te vence. // COMENDADOR: Las pesadumbres
+ 1266  y el villano atrevimiento
+ 1267  no tiemplan bien un airado.
+ 1268  Tira por ahí. // JACINTA: ¿Con quién?
+
+COMENDADOR
+ 1269  Conmigo. // JACINTA: Míralo bien.
+
+COMENDADOR
+ 1270  Para tu mal lo he mirado.
+ 1271  Ya no mía, del bagaje
+ 1272  del ejército has de ser.
+
+JACINTA
+ 1273  No tiene el mundo poder
+ 1274  para hacerme, viva, ultraje.
+
+COMENDADOR
+ 1275  Ea, villana, camina.
+
+JACINTA
+ 1276  ¡Piedad, señor! // COMENDADOR: No hay piedad.
+
+JACINTA
+ 1277  Apelo de tu crueldad
+ 1278  a la justicia divina.
+
+[ACOTACIÓN] (Llévanla y vanse, y salen LAURENCIA y FRONDOSO.)
+
+LAURENCIA
+ 1279  ¿Cómo así a venir te atreves,
+ 1280  sin temer tu daño? // FRONDOSO: Ha sido
+ 1281  dar testimonio cumplido
+ 1282  de la afición que me debes.
+ 1283  Desde aquel recuesto vi
+ 1284  salir al Comendador,
+ 1285  y fiado en tu valor,
+ 1286  todo mi temor perdí.
+ 1287  Vaya donde no le vean
+ 1288  volver. // LAURENCIA: Tente en maldecir,
+ 1289  porque suele más vivir
+ 1290  al que la muerte desean.
+
+FRONDOSO
+ 1291  Si es eso, viva mil años,
+ 1292  y así se hará todo bien,
+ 1293  pues deseándole bien
+ 1294  estarán ciertos sus daños.
+ 1295  Laurencia, deseo saber
+ 1296  si vive en ti mi cuidado,
+ 1297  y si mi lealtad ha hallado
+ 1298  el puerto de merecer.
+ 1299  Mira que toda la villa
+ 1300  ya para en uno nos tiene;
+ 1301  y de cómo a ser no viene,
+ 1302  la villa se maravilla.
+ 1303  Los desdeñosos extremos
+ 1304  deja, y responde no o sí.
+
+LAURENCIA
+ 1305  Pues a la villa y a ti
+ 1306  respondo que lo seremos.
+
+FRONDOSO
+ 1307  Deja que tus plantas bese
+ 1308  por la merced recibida,
+ 1309  pues el cobrar nueva vida
+ 1310  por ella es bien que confiese.
+
+LAURENCIA
+ 1311  De cumplimientos acorta;
+ 1312  y para que mejor cuadre,
+ 1313  habla, Frondoso, a mi padre,
+ 1314  pues es lo que más importa,
+ 1315  que allí viene con mi tío;
+ 1316  y fía que ha de tener
+ 1317  ser, Frondoso, tu mujer,
+ 1318  buen suceso. // FRONDOSO: En Dios confío.
+
+[ACOTACIÓN] (Escóndese, y salen [los alcaldes] ESTEBAN [y ALONSO], y los regidores [CUADRADO y JUAN ROJO].)
+
+ALONSO
+ 1319  Fue su término de modo,
+ 1320  que la plaza alborotó:
+ 1321  en efeto, procedió
+ 1322  muy descomedido en todo.
+ 1323  No hay a quien admiración
+ 1324  sus demasías no den;
+ 1325  la pobre Jacinta es quien
+ 1326  pierde por su sinrazón.
+
+JUAN ROJO
+ 1327  Ya a los Católicos Reyes,
+ 1328  que este nombre les dan ya,
+ 1329  presto España les dará
+ 1330  la obediencia de sus leyes.
+ 1331  Ya sobre Ciudad Real,
+ 1332  contra el Girón que la tiene,
+ 1333  Santiago a caballo viene
+ 1334  por capitán general.
+ 1335  Pésame; que era Jacinta
+ 1336  doncella de buena pro.
+
+ALONSO
+ 1337  ¿Luego a Mengo le azotó?
+
+JUAN ROJO
+ 1338  No hay negra bayeta o tinta
+ 1339  como sus carnes están.
+
+ESTEBAN
+ 1340  Callad; que me siento arder,
+ 1341  viendo su mal proceder,
+ 1342  y el mal nombre que le dan.
+ 1343  Yo ¿para qué traigo aquí
+ 1344  este palo sin provecho?
+
+JUAN ROJO
+ 1345  Si sus criados lo han hecho,
+ 1346  ¿de qué os afligís ansí?
+
+ALONSO
+ 1347  ¿Queréis más? Que me contaron
+ 1348  que a la de Pedro Redondo
+ 1349  un día, que en lo más hondo
+ 1350  de este valle la encontraron,
+ 1351  después de sus insolencias,
+ 1352  a sus criados la dio.
+
+JUAN ROJO
+ 1353  Aquí hay gente: ¿quién es? // FRONDOSO: Yo,
+ 1354  que espero vuestras licencias.
+
+JUAN ROJO
+ 1355  Para mi casa, Frondoso,
+ 1356  licencia no es menester;
+ 1357  debes a tu padre el ser,
+ 1358  y a mí otro ser amoroso.
+ 1359  Hete criado, y te quiero
+ 1360  como a hijo. // FRONDOSO: Pues señor,
+ 1361  fiado en aquese amor,
+ 1362  de ti una merced espero.
+ 1363  Ya sabes de quién soy hijo.
+
+ESTEBAN
+ 1364  ¿Hate agraviado ese loco
+ 1365  de Fernán Gómez? // FRONDOSO: No poco.
+
+ESTEBAN
+ 1366  El corazón me lo dijo.
+
+FRONDOSO
+ 1367  Pues señor, con el seguro
+ 1368  del amor que habéis mostrado,
+ 1369  de Laurencia enamorado,
+ 1370  el ser su esposo procuro.
+ 1371  Perdona si en el pedir
+ 1372  mi lengua se ha adelantado;
+ 1373  que he sido en decirlo osado
+ 1374  como otro lo ha de decir.
+
+ESTEBAN
+ 1375  Vienes, Frondoso, a ocasión
+ 1376  que me alargarás la vida
+ 1377  por la cosa más temida
+ 1378  que siente mi corazón.
+ 1379  Agradezco, hijo, al cielo,
+ 1380  que así vuelvas por mi honor,
+ 1381  y agradézcole a tu amor
+ 1382  la limpieza de tu celo.
+ 1383  Mas como es justo, es razón
+ 1384  dar cuenta a tu padre de esto;
+ 1385  sólo digo que estoy presto,
+ 1386  en sabiendo su intención;
+ 1387  que yo dichoso me hallo
+ 1388  en que aqueso llegue a ser.
+
+CUADRADO
+ 1389  De la moza el parecer
+ 1390  tomad, antes de acetallo.
+
+ESTEBAN
+ 1391  No tengáis de eso cuidado,
+ 1392  que ya el caso está dispuesto:
+ 1393  antes de venir a esto,
+ 1394  entre ellos se ha concertado.
+ 1395  -En el dote, si advertís,
+ 1396  se puede agora tratar;
+ 1397  que por bien os pienso dar
+ 1398  algunos maravedís.
+
+FRONDOSO
+ 1399  Yo dote no he menester;
+ 1400  de eso no hay que entristeceros.
+
+JUAN ROJO
+ 1401  Pues que no la pide en cueros
+ 1402  lo podéis agradecer.
+
+ESTEBAN
+ 1403  Tomaré el parecer de ella;
+ 1404  si os parece, será bien.
+
+FRONDOSO
+ 1405  Justo es; que no hace bien
+ 1406  quien los gustos atropella.
+
+ESTEBAN
+ 1407  ¡Hija! ¡Laurencia!... // LAURENCIA: Señor...
+
+ESTEBAN
+ 1408  Mirad si digo bien yo.
+ 1409  ¡Ved qué presto respondió!-
+ 1410  Hija Laurencia, mi amor,
+ 1411  a preguntarle ha venido
+ 1412  (apártate aquí) si es bien
+ 1413  que a Gila, tu amiga, den
+ 1414  a Frondoso por marido,
+ 1415  que es un honrado zagal,
+ 1416  si le hay en Fuente Ovejuna...
+
+LAURENCIA
+ 1417  ¿Gila se casa? // ESTEBAN: Y si alguna
+ 1418  le merece y es su igual.
+
+LAURENCIA
+ 1419  Yo digo, señor, que sí.
+
+ESTEBAN
+ 1420  Sí; mas yo digo que es fea
+ 1421  y que harto mejor se emplea
+ 1422  Frondoso, Laurencia, en ti.
+
+LAURENCIA
+ 1423  ¿Aún no se te han olvidado
+ 1424  los donaires con la edad?
+
+ESTEBAN
+ 1425  ¿Quiéresle tú? // LAURENCIA: Voluntad
+ 1426  le he tenido y le he cobrado;
+ 1427  pero por lo que tú sabes...
+
+ESTEBAN
+ 1428  ¿Quieres tú que diga sí?
+
+LAURENCIA
+ 1429  Dilo tú, señor, por mí.
+
+ESTEBAN
+ 1430  ¿Yo? ¿Pues tengo yo las llaves?
+ 1431  Hecho está.- Ven, buscaremos
+ 1432  a mi compadre en la plaza.
+
+CUADRADO
+ 1433  Vamos. // ESTEBAN: Hijo, y en la traza
+ 1434  del dote, ¿qué le diremos?
+ 1435  Que yo bien te puedo dar
+ 1436  cuatro mil maravedís.
+
+FRONDOSO
+ 1437  Señor, ¿eso me decís?
+ 1438  Mi honor queréis agraviar.
+
+ESTEBAN
+ 1439  Anda, hijo, que eso es
+ 1440  cosa que pasa en un día;
+ 1441  que si no hay dote, a fe mía
+ 1442  que se echa menos después.
+
+[ACOTACIÓN] (Vanse, y quedan FRONDOSO y LAURENCIA.)
+
+LAURENCIA
+ 1443  Di, Frondoso, ¿estás contento?
+
+FRONDOSO
+ 1444  ¡Cómo si lo estoy! ¡Es poco,
+ 1445  pues que no me vuelvo loco
+ 1446  de gozo, del bien que siento!
+ 1447  Risa vierte el corazón
+ 1448  por los ojos de alegría,
+ 1449  viéndote, Laurencia mía,
+ 1450  en tal dulce posesión.
+
+[ACOTACIÓN] (Vanse, y salen el MAESTRE, el COMENDADOR, FLORES y ORTUÑO.)
+
+COMENDADOR
+ 1451  Huye, señor, que no hay otro remedio.
+
+MAESTRE
+ 1452  La flaqueza del muro lo ha causado,
+ 1453  y el poderoso ejército enemigo.
+
+COMENDADOR
+ 1454  Sangre les cuesta y infinitas vidas.
+
+MAESTRE
+ 1455  Y no se alabarán que en sus despojos
+ 1456  pondrán nuestro pendón de Calatrava,
+ 1457  que a honrar su empresa y los demás bastaba.
+
+COMENDADOR
+ 1458  Tus desinios, Girón, quedan perdidos.
+
+MAESTRE
+ 1459  ¿Qué puedo hacer, si la fortuna ciega
+ 1460  a quien hoy levantó mañana humilla?
+
+[ACOTACIÓN] (Dentro.)
+ 1461  ¡Vitoria por los Reyes de Castilla!
+
+MAESTRE
+ 1462  Ya coronan de luces las almenas,
+ 1463  y las ventanas de las torres altas
+ 1464  entoldan con pendones vitoriosos.
+
+COMENDADOR
+ 1465  Bien pudieran, de sangre que les cuesta.
+ 1466  A fe que es más tragedia que no fiesta.
+
+MAESTRE
+ 1467  Yo vuelvo a Calatrava, Fernán Gómez.
+
+COMENDADOR
+ 1468  Y yo a Fuente Ovejuna, mientras tratas
+ 1469  o seguir esta parte de tus deudos,
+ 1470  o reducir la tuya al Rey Católico.
+
+MAESTRE
+ 1471  Yo te diré por cartas lo que intento.
+
+COMENDADOR
+ 1472  El tiempo ha de enseñarte. // MAESTRE: ¡Ah, pocos años,
+ 1473  sujetos al rigor de sus engaños!
+
+[ACOTACIÓN] (Vanse.)
+
+[ACOTACIÓN] (Sale la boda, MÚSICOS, MENGO, FRONDOSO, LAURENCIA, PASCUALA, BARRILDO, ESTEBAN, ALONSO [y JUAN ROJO].)
+
+MÚSICOS
+ 1474  ¡Vivan muchos años
+ 1475  los desposados!
+ 1476  ¡Vivan muchos años!
+
+MENGO
+ 1477  A fe, que no os ha costado
+ 1478  mucho trabajo el cantar.
+
+BARRILDO
+ 1479  ¿Supiéraslo tú trovar
+ 1480  mejor que él está trovado?
+
+FRONDOSO
+ 1481  Mejor entiende de azotes
+ 1482  Mengo que de versos ya.
+
+MENGO
+ 1483  Alguno en el valle está,
+ 1484  para que no te alborotes,
+ 1485  a quien el Comendador...
+
+BARRILDO
+ 1486  No lo digas, por tu vida;
+ 1487  que este bárbaro homicida
+ 1488  a todos quita el honor.
+
+MENGO
+ 1489  Que me azotasen a mí
+ 1490  cien soldados aquel día...
+ 1491  sola una honda tenía;
+ 1492  harto desdichado fui.
+ 1493  Pero que le hayan echado
+ 1494  una melecina a un hombre,
+ 1495  que, aunque no diré su nombre,
+ 1496  todos saben que es honrado,
+ 1497  llena de tinta y de chinas,
+ 1498  ¿cómo se puede sufrir?
+
+BARRILDO
+ 1499  Haríalo por reír.
+
+MENGO
+ 1500  No hay risa con melecinas;
+ 1501  que aunque es cosa saludable...
+ 1502  yo me quiero morir luego.
+
+FRONDOSO
+ 1503  Vaya la copla, te ruego,
+ 1504  si es la copla razonable.
+
+MENGO
+ 1505  Vivan muchos años juntos
+ 1506  los novios, ruego a los cielos,
+ 1507  y por envidia ni celos
+ 1508  ni riñan ni anden en puntos.
+ 1509  Lleven a entrambos difuntos,
+ 1510  de puro vivir cansados.
+ 1511  ¡Vivan muchos años!
+
+FRONDOSO
+ 1512  ¡Maldiga el cielo el poeta
+ 1513  que tal coplón arrojó!
+
+BARRILDO
+ 1514  Fue muy presto... // MENGO: Pienso yo
+ 1515  una cosa de esta seta.
+ 1516  ¿No habéis visto un buñolero,
+ 1517  en el aceite abrasando
+ 1518  pedazos de masa echando
+ 1519  hasta llenarse el caldero?
+ 1520  ¿Que unos le salen hinchados,
+ 1521  otros tuertos y mal hechos,
+ 1522  ya zurdos y ya derechos,
+ 1523  ya fritos y ya quemados?
+ 1524  Pues así imagino yo
+ 1525  un poeta componiendo,
+ 1526  la materia previniendo,
+ 1527  que es quien la masa le dio.
+ 1528  Va arrojando verso aprisa
+ 1529  al caldero del papel,
+ 1530  confiado en que la miel
+ 1531  cubrirá la burla y risa.
+ 1532  Mas poniéndolo en el pecho,
+ 1533  apenas hay quien los tome;
+ 1534  tanto que sólo los come
+ 1535  el mismo que los ha hecho.
+
+BARRILDO
+ 1536  Déjate ya de locuras;
+ 1537  deja los novios hablar.
+
+LAURENCIA
+ 1538  Las manos nos da a besar.
+
+JUAN ROJO
+ 1539  Hija, ¿mi mano procuras?
+ 1540  Pídela a tu padre luego
+ 1541  para ti y para Frondoso.
+
+ESTEBAN
+ 1542  Rojo, a ella y a su esposo
+ 1543  que se la dé el cielo ruego,
+ 1544  con su larga bendición.
+
+FRONDOSO
+ 1545  Los dos a los dos la echad.
+
+JUAN ROJO
+ 1546  Ea, tañed y cantad,
+ 1547  pues que para en uno son.
+
+MÚSICOS
+ 1548  Al val de Fuente Ovejuna
+ 1549  la niña en cabello baja;
+ 1550  el caballero la sigue
+ 1551  de la Cruz de Calatrava.
+ 1552  Entre las ramas se esconde,
+ 1553  de vergonzosa y turbada;
+ 1554  fingiendo que no le ha visto,
+ 1555  pone delante las ramas.
+ 1556  «¿Para qué te ascondes,
+ 1557  niña gallarda?
+ 1558  Que mis linces deseos
+ 1559  paredes pasan.»
+ 1560  Acercóse el caballero
+ 1561  y ella, confusa y turbada,
+ 1562  hacer quiso celosías
+ 1563  de las intricadas ramas;
+ 1564  mas como quien tiene amor
+ 1565  los mares y las montañas
+ 1566  atraviesa fácilmente,
+ 1567  la dice tales palabras:
+ 1568  «¿Para qué te ascondes,
+ 1569  niña gallarda?
+ 1570  que mis linces deseos
+ 1571  paredes pasan.»
+
+[ACOTACIÓN] (Salen el COMENDADOR, FLORES, ORTUÑO y CIMBRANOS.)
+
+COMENDADOR
+ 1572  Estése la boda queda,
+ 1573  y no se alborote nadie.
+
+JUAN ROJO
+ 1574  No es juego aqueste, señor,
+ 1575  y basta que tú lo mandes.
+ 1576  ¿Quieres lugar? ¿Cómo vienes
+ 1577  con tu belicoso alarde?
+ 1578  ¿Venciste? Mas ¿qué pregunto?
+
+FRONDOSO
+ 1579  ¡Muerto soy! ¡Cielo, libradme!
+
+LAURENCIA
+ 1580  Huye por aquí, Frondoso.
+
+COMENDADOR
+ 1581  Eso no; prendelde, atalde.
+
+JUAN ROJO
+ 1582  Date, muchacho, a prisión.
+
+FRONDOSO
+ 1583  Pues ¿quieres tú que me maten?
+
+JUAN ROJO
+ 1584  ¿Por qué? // COMENDADOR: No soy hombre yo
+ 1585  que mato sin culpa a nadie;
+ 1586  que si lo fuera, le hubieran
+ 1587  pasado de parte a parte
+ 1588  esos soldados que traigo.
+ 1589  Llevarle mando a la cárcel,
+ 1590  donde la culpa que tiene
+ 1591  sentencie su mismo padre.
+
+PASCUALA
+ 1592  Señor, mirad que se casa.
+
+COMENDADOR
+ 1593  ¿Qué me obliga a que se case?
+ 1594  ¿No hay otra gente en el pueblo?
+
+PASCUALA
+ 1595  Si os ofendió, perdonadle,
+ 1596  por ser vos quien sois. // COMENDADOR: No es cosa,
+ 1597  Pascuala, en que yo soy parte.
+ 1598  Es esto contra el Maestre
+ 1599  Téllez Girón, que Dios guarde;
+ 1600  es contra toda su orden,
+ 1601  es su honor, y es importante
+ 1602  para el ejemplo el castigo;
+ 1603  que habrá otro día quien trate
+ 1604  de alzar el pendón contra él,
+ 1605  pues ya sabéis que una tarde
+ 1606  al Comendador mayor
+ 1607  (¡qué vasallos tan leales!)
+ 1608  puso una ballesta al pecho.
+
+ESTEBAN
+ 1609  Supuesto que el disculparle
+ 1610  ya puede tocar a un suegro,
+ 1611  no es mucho que en causas tales
+ 1612  se descomponga con vos
+ 1613  un hombre, en efecto, amante;
+ 1614  porque si vos pretendéis
+ 1615  su propia mujer quitarle,
+ 1616  ¿qué mucho que la defienda?
+
+COMENDADOR
+ 1617  Majadero sois, alcalde.
+
+ESTEBAN
+ 1618  Por vuestra virtud, señor.
+
+COMENDADOR
+ 1619  Nunca yo quise quitarle
+ 1620  su mujer, pues no lo era.
+
+ESTEBAN
+ 1621  Sí quisistes... -Y esto baste;
+ 1622  que Reyes hay en Castilla
+ 1623  que nuevas órdenes hacen
+ 1624  con que desórdenes quitan.
+ 1625  Y harán mal cuando descansen
+ 1626  de las guerras, en sufrir
+ 1627  en sus villas y lugares
+ 1628  a hombres tan poderosos
+ 1629  por traer cruces tan grandes;
+ 1630  póngasela el Rey al pecho,
+ 1631  que para pechos reales
+ 1632  es esa insignia y no más.
+
+COMENDADOR
+ 1633  ¡Hola! La vara quitalde.
+
+ESTEBAN
+ 1634  Tomad, señor, norabuena.
+
+COMENDADOR
+ 1635  Pues con ella quiero dalle,
+ 1636  como a caballo brioso.
+
+ESTEBAN
+ 1637  Por señor os sufro. Dadme.
+
+PASCUALA
+ 1638  ¡A un viejo de palos das!
+
+LAURENCIA
+ 1639  Si le das porque es mi padre,
+ 1640  ¿qué vengas en él de mí?
+
+COMENDADOR
+ 1641  Llevadla, y haced que guarden
+ 1642  su persona diez soldados.
+
+[ACOTACIÓN] (Vanse él y los suyos.)
+
+ESTEBAN
+ 1643  Justicia del cielo baje.
+
+[ACOTACIÓN] (Vase.)
+
+PASCUALA
+ 1644  Volvióse en luto la boda.
+
+[ACOTACIÓN] (Vase.)
+
+BARRILDO
+ 1645  ¿No hay aquí un hombre que hable?
+
+MENGO
+ 1646  Yo ya tengo mis azotes,
+ 1647  que aun se ven los cardenales
+ 1648  sin que un hombre vaya a Roma.
+ 1649  Prueben otros a enojarle.
+
+JUAN ROJO
+ 1650  Hablemos todos. // MENGO: Señores,
+ 1651  aquí todo el mundo calle.
+ 1652  Como ruedas de salmón
+ 1653  me puso los atabales.
+
+
+===== ACTO 3 =====
+
+[ACOTACIÓN] Salen ESTEBAN, ALONSO y BARRILDO.
+
+ESTEBAN
+ 1654  ¿No han venido a la junta? // BARRILDO: No han venido.
+
+ESTEBAN
+ 1655  Pues más apriesa nuestro daño corre.
+
+BARRILDO
+ 1656  Ya está lo más del pueblo prevenido.
+
+ESTEBAN
+ 1657  Frondoso con prisiones en la torre,
+ 1658  y mi hija Laurencia en tanto aprieto,
+ 1659  si la piedad de Dios no los socorre...
+
+[ACOTACIÓN] (Salen JUAN ROJO y el REGIDOR.)
+
+JUAN ROJO
+ 1660  ¿De qué dais voces, cuando importa tanto
+ 1661  a nuestro bien, Esteban, el secreto?
+
+ESTEBAN
+ 1662  Que doy tan pocas es mayor espanto.
+
+[ACOTACIÓN] (Sale MENGO.)
+
+MENGO
+ 1663  También vengo yo a hallarme en esta junta.
+
+ESTEBAN
+ 1664  Un hombre cuyas canas baña el llanto,
+ 1665  labradores honrados, os pregunta
+ 1666  qué obsequias debe hacer toda esa gente
+ 1667  a su patria sin honra, ya perdida.
+ 1668  Y si se llaman honras justamente,
+ 1669  ¿cómo se harán, si no hay entre nosotros
+ 1670  hombre a quien este bárbaro no afrente?
+ 1671  Respondedme; ¿hay alguno de vosotros
+ 1672  que no esté lastimado en honra y vida?
+ 1673  ¿No os lamentáis los unos y los otros?
+ 1674  Pues si ya la tenéis todos perdida,
+ 1675  ¿a qué aguardáis? ¿Qué desventura es ésta?
+
+JUAN ROJO
+ 1676  La mayor que en el mundo fue sufrida.
+ 1677  Mas pues ya se publica y manifiesta
+ 1678  que en paz tienen los reyes a Castilla
+ 1679  y su venida a Córdoba se apresta,
+ 1680  vayan dos regidores a la villa,
+ 1681  y echándose a sus pies pidan remedio.
+
+BARRILDO
+ 1682  En tanto que Fernando, aquel que humilla
+ 1683  a tantos enemigos, otro medio
+ 1684  será mejor, pues no podrá, ocupado,
+ 1685  hacernos bien, con tanta guerra en medio.
+
+REGIDOR
+ 1686  Si mi voto de vos fuera escuchado,
+ 1687  desamparar la villa doy por voto.
+
+JUAN ROJO
+ 1688  ¿Cómo es posible en tiempo limitado?
+
+MENGO
+ 1689  A la fe, que si entiende el alboroto,
+ 1690  que ha de costar la junta alguna vida.
+
+REGIDOR
+ 1691  Ya, todo el árbol de paciencia roto,
+ 1692  corre la nave de temor perdida.
+ 1693  La hija quitan con tan gran fiereza
+ 1694  a un hombre honrado, de quien es regida
+ 1695  la patria en que vivís, y en la cabeza
+ 1696  la vara quiebran tan injustamente.
+ 1697  ¿Qué esclavo se trató con más bajeza?
+
+JUAN ROJO
+ 1698  ¿Qué es lo que quieres tú que el pueblo intente?
+
+REGIDOR
+ 1699  Morir, o dar la muerte a los tiranos,
+ 1700  pues somos muchos, y ellos poca gente.
+
+BARRILDO
+ 1701  ¡Contra el señor las armas en las manos!
+
+ESTEBAN
+ 1702  El rey sólo es señor después del cielo,
+ 1703  y no bárbaros hombres inhumanos.
+ 1704  Si Dios ayuda nuestro justo celo,
+ 1705  ¿qué nos ha de costar? // MENGO: Mirad, señores,
+ 1706  que vais en estas cosas con recelo.
+ 1707  Puesto que por los simples labradores
+ 1708  estoy aquí, que más injurias pasan,
+ 1709  más cuerdo represento sus temores.
+
+JUAN ROJO
+ 1710  Si nuestras desventuras se compasan,
+ 1711  para perder las vidas, ¿qué aguardamos?
+ 1712  Las casas y las viñas nos abrasan:
+ 1713  tiranos son; a la venganza vamos.
+
+[ACOTACIÓN] (Sale LAURENCIA, desmelenada.)
+
+LAURENCIA
+ 1714  Dejadme entrar, que bien puedo
+ 1715  en consejo de los hombres;
+ 1716  que bien puede una mujer,
+ 1717  si no a dar voto a dar voces.
+ 1718  ¿Conocéisme? // ESTEBAN: ¡Santo Cielo!
+ 1719  ¿No es mi hija? // JUAN ROJO: ¿No conoces
+ 1720  a Laurencia? // LAURENCIA: Vengo tal,
+ 1721  que mi diferencia os pone
+ 1722  en contingencia quién soy.
+
+ESTEBAN
+ 1723  ¡Hija mía! // LAURENCIA: No me nombres
+ 1724  tu hija. // ESTEBAN: ¿Por qué, mis ojos?
+ 1725  ¿Por qué? // LAURENCIA: Por muchas razones,
+ 1726  y sean las principales,
+ 1727  porque dejas que me roben
+ 1728  tiranos sin que me vengues,
+ 1729  traidores sin que me cobres.
+ 1730  Aún no era yo de Frondoso,
+ 1731  para que digas que tome,
+ 1732  como marido, venganza;
+ 1733  que aquí por tu cuenta, corre;
+ 1734  que en tanto que de las bodas
+ 1735  no haya llegado la noche,
+ 1736  del padre, y no del marido,
+ 1737  la obligación presupone;
+ 1738  que en tanto que no me entregan
+ 1739  una joya, aunque la compre,
+ 1740  no ha de correr por mi cuenta
+ 1741  las guardas ni los ladrones.
+ 1742  Llevóme de vuestros ojos
+ 1743  a su casa Fernán Gómez:
+ 1744  la oveja al lobo dejáis,
+ 1745  como cobardes pastores.
+ 1746  ¡Qué dagas no vi en mi pecho!
+ 1747  ¡Qué desatinos enormes,
+ 1748  qué palabras, qué amenazas,
+ 1749  y qué delitos atroces,
+ 1750  por rendir mi castidad
+ 1751  a sus apetitos torpes!
+ 1752  Mis cabellos, ¿no lo dicen?
+ 1753  ¿No se ven aquí los golpes,
+ 1754  de la sangre y las señales?
+ 1755  ¿Vosotros sois hombres nobles?
+ 1756  ¿Vosotros padres y deudos?
+ 1757  ¿Vosotros, que no se os rompen
+ 1758  las entrañas de dolor,
+ 1759  de verme en tantos dolores?
+ 1760  Ovejas sois, bien lo dice
+ 1761  de Fuente Ovejuna el nombre.
+ 1762  Dadme unas armas a mí,
+ 1763  pues sois piedras, pues sois bronces,
+ 1764  pues sois jaspes, pues sois tigres...
+ 1765  -Tigres no, porque feroces
+ 1766  siguen quien roba sus hijos,
+ 1767  matando los cazadores
+ 1768  antes que entren por el mar
+ 1769  y por sus ondas se arrojen.
+ 1770  Liebres cobardes nacistes;
+ 1771  bárbaros sois, no españoles.
+ 1772  Gallinas, ¡vuestras mujeres
+ 1773  sufrís que otros hombres gocen!
+ 1774  Poneos ruecas en la cinta.
+ 1775  ¿Para qué os ceñís estoques?
+ 1776  ¡Vive Dios, que he de trazar
+ 1777  que solas mujeres cobren
+ 1778  la honra de estos tiranos,
+ 1779  la sangre de estos traidores,
+ 1780  y que os han de tirar piedras,
+ 1781  hilanderas, maricones,
+ 1782  amujerados, cobardes,
+ 1783  y que mañana os adornen
+ 1784  nuestras tocas y basquiñas,
+ 1785  solimanes y colores!
+ 1786  A Frondoso quiere ya,
+ 1787  sin sentencia, sin pregones,
+ 1788  colgar el Comendador
+ 1789  del almena de una torre;
+ 1790  de todos hará lo mismo;
+ 1791  y yo me huelgo, medio-hombres,
+ 1792  por que quede sin mujeres
+ 1793  esta villa honrada, y torne
+ 1794  aquel siglo de amazonas,
+ 1795  eterno espanto del orbe.
+
+ESTEBAN
+ 1796  Yo, hija, no soy de aquellos
+ 1797  que permiten que los nombres
+ 1798  con esos títulos viles.
+ 1799  Iré solo, si se pone
+ 1800  todo el mundo contra mí.
+
+JUAN ROJO
+ 1801  Y yo, por más que me asombre
+ 1802  la grandeza del contrario.
+
+REGIDOR
+ 1803  Muramos todos. // BARRILDO: Descoge
+ 1804  un lienzo al viento en un palo,
+ 1805  y mueran estos inormes.
+
+JUAN ROJO
+ 1806  ¿Qué orden pensáis tener?
+
+MENGO
+ 1807  Ir a matarle sin orden.
+ 1808  Juntad el pueblo a una voz;
+ 1809  que todos están conformes
+ 1810  en que los tiranos mueran.
+
+ESTEBAN
+ 1811  Tomad espadas, lanzones,
+ 1812  ballestas, chuzos y palos.
+
+MENGO
+ 1813  ¡Los Reyes nuestros señores
+ 1814  vivan! // TODOS: ¡Vivan muchos años!
+
+MENGO
+ 1815  ¡Mueran tiranos traidores!
+
+TODOS
+ 1816  ¡Traidores tiranos mueran!
+
+[ACOTACIÓN] (Vanse todos.)
+
+LAURENCIA
+ 1817  Caminad, que el cielo os oye.
+ 1818  -¡Ah, mujeres de la villa!
+ 1819  ¡Acudid, por que se cobre
+ 1820  vuestro honor, acudid todas!
+
+[ACOTACIÓN] Salen PASCUALA, JACINTA y otras mujeres.
+
+PASCUALA
+ 1821  ¿Qué es esto? ¿De qué das voces?
+
+LAURENCIA
+ 1822  ¿No veis cómo todos van
+ 1823  a matar a Fernán Gómez,
+ 1824  y hombres, mozos y muchachos,
+ 1825  furiosos, al hecho corren?
+ 1826  ¿Serán bien que solos ellos
+ 1827  de esta hazaña el honor gocen,
+ 1828  pues no son de las mujeres
+ 1829  sus agravios los menores?
+
+JACINTA
+ 1830  Di, pues, ¿qué es lo que pretendes?
+
+LAURENCIA
+ 1831  Que puestas todas en orden,
+ 1832  acometamos a un hecho
+ 1833  que dé espanto a todo el orbe.
+ 1834  Jacinta, tu grande agravio,
+ 1835  que sea cabo; responde
+ 1836  de una escuadra de mujeres.
+
+JACINTA
+ 1837  No son los tuyos menores.
+
+LAURENCIA
+ 1838  Pascuala, alférez serás.
+
+PASCUALA
+ 1839  Pues déjame que enarbole
+ 1840  en un asta la bandera:
+ 1841  verás si merezco el nombre.
+
+LAURENCIA
+ 1842  No hay espacio para eso,
+ 1843  pues la dicha nos socorre:
+ 1844  bien nos basta que llevemos
+ 1845  nuestras tocas por pendones.
+
+PASCUALA
+ 1846  Nombremos un capitán.
+
+LAURENCIA
+ 1847  Eso no. // PASCUALA: ¿Por qué? // LAURENCIA: Que adonde
+ 1848  asiste mi gran valor,
+ 1849  no hay Cides ni Rodamontes.
+
+[ACOTACIÓN] Vanse, y sale FRONDOSO, atadas las manos; FLORES, ORTUÑO, CIMBRANOS y el COMENDADOR.
+
+COMENDADOR
+ 1850  De ese cordel que de las manos sobra
+ 1851  quiero que le colguéis, por mayor pena.
+
+FRONDOSO
+ 1852  ¡Qué nombre, gran señor, tu sangre cobra!
+
+COMENDADOR
+ 1853  Colgalde luego en la primera almena.
+
+FRONDOSO
+ 1854  Nunca fue mi intención poner por obra
+ 1855  tu muerte entonces. // FLORES: Grande ruido suena.
+
+[ACOTACIÓN] (Ruido suene.)
+
+COMENDADOR
+ 1856  ¿Ruido? // FLORES: Y de manera que interrompen
+ 1857  tu justicia, señor. // ORTUÑO: Las puertas rompen.
+
+[ACOTACIÓN] (Ruido.)
+
+COMENDADOR
+ 1858  ¡La puerta de mi casa y siendo casa
+ 1859  de la encomienda! // FLORES: El pueblo junto viene.
+
+JUAN ROJO
+ 1860  (Dentro.)Rompe, derriba, hunde, quema, abrasa.
+
+[ACOTACIÓN] (Dentro.)
+
+ORTUÑO
+ 1861  Un popular motín mal se detiene.
+
+COMENDADOR
+ 1862  ¡El pueblo contra mí! // FLORES: La furia pasa
+ 1863  tan adelante, que las puertas tiene
+ 1864  echadas por la tierra. // COMENDADOR: Desatalde.
+ 1865  Templa, Frondoso, ese villano alcalde.
+
+FRONDOSO
+ 1866  Yo voy, señor; que amor les ha movido.
+
+[ACOTACIÓN] (Vase.)
+
+[ACOTACIÓN] (Dentro.)
+
+MENGO
+ 1867  ¡Vivan Fernando e Isabel, y mueran
+ 1868  los traidores! // FLORES: Señor, por Dios te pido
+ 1869  que no te hallen aquí. // COMENDADOR: Si perseveran,
+ 1870  este aposento es fuerte y defendido.
+ 1871  Ellos se volverán. // FLORES: Cuando se alteran
+ 1872  los pueblos agraviados, y resuelven,
+ 1873  nunca sin sangre o sin venganza vuelven.
+
+COMENDADOR
+ 1874  En esta puerta, así como rastrillo,
+ 1875  su furor con las armas defendamos.
+
+[ACOTACIÓN] (Dentro.)
+
+FRONDOSO
+ 1876  ¡Viva Fuente Ovejuna! // COMENDADOR: ¡Qué caudillo!
+ 1877  Estoy porque a su furia acometamos.
+
+FLORES
+ 1878  De la tuya, señor, me maravillo.
+
+ESTEBAN
+ 1879  Ya el tirano y los cómplices miramos.
+ 1880  ¡Fuente Ovejuna, y los tiranos mueran!
+
+[ACOTACIÓN] (Salen todos.)
+
+COMENDADOR
+ 1881  Pueblo, esperad. // TODOS: Agravios nunca esperan.
+
+COMENDADOR
+ 1882  Decídmelos a mí, que iré pagando
+ 1883  a fe de caballero esos errores.
+
+TODOS
+ 1884  ¡Fuente Ovejuna! ¡Viva el rey Fernando!
+ 1885  ¡Mueran malos cristianos y traidores!
+
+COMENDADOR
+ 1886  ¿No me queréis oír? Yo estoy hablando;
+ 1887  yo soy vuestro señor. // TODOS: Nuestros señores
+ 1888  son los Reyes Católicos. // COMENDADOR: Espera.
+
+TODOS
+ 1889  ¡Fuente Ovejuna, y Fernán Gómez muera!
+
+[ACOTACIÓN] (Vanse, y salen las mujeres, armadas.)
+
+LAURENCIA
+ 1890  Parad en este puesto de esperanzas
+ 1891  soldados atrevidos, no mujeres.
+
+PASCUALA
+ 1892  ¡Los que mujeres son en las venganzas!
+ 1893  ¡En él beban su sangre! ¿Es bien que esperes?
+
+JACINTA
+ 1894  Su cuerpo recojamos en las lanzas.
+
+PASCUALA
+ 1895  Todas son de esos mismos pareceres.
+
+[ACOTACIÓN] (Dentro.)
+
+ESTEBAN
+ 1896  ¡Muere, traidor Comendador! // COMENDADOR: Ya muero.
+ 1897  ¡Piedad, Señor, que tu clemencia espero!
+
+[ACOTACIÓN] (Dentro.)
+
+BARRILDO
+ 1898  Aquí está Flores. // MENGO: Dale a ese bellaco;
+ 1899  que ése fue el que me dio dos mil azotes.
+
+[ACOTACIÓN] (Dentro.)
+
+FRONDOSO
+ 1900  No me vengo si el alma no le saco.
+
+LAURENCIA
+ 1901  No excusamos entrar. // PASCUALA: No te alborotes.
+ 1902  Bien es guardar la puerta.
+
+[ACOTACIÓN] (Dentro.)
+
+BARRILDO
+ 1903  ¡Con lágrimas agora, marquesotes!
+
+LAURENCIA
+ 1904  Pascuala, yo entro dentro; que la espada
+ 1905  no ha de estar tan sujeta ni envainada.
+
+[ACOTACIÓN] (Vase.)
+
+[ACOTACIÓN] (Dentro.)
+
+BARRILDO
+ 1906  Aquí está Ortuño.
+
+[ACOTACIÓN] (Dentro.)
+
+[ACOTACIÓN] (Sale FLORES, huyendo, y MENGO tras él.)
+
+FLORES
+ 1907  ¡Mengo, piedad, que no soy yo el culpado!
+
+MENGO
+ 1908  Cuando ser alcahuete no bastara,
+ 1909  bastaba haberme el pícaro azotado.
+
+PASCUALA
+ 1910  Dánoslo a las mujeres, Mengo, para...
+ 1911  Acaba por tu vida. // MENGO: Ya está dado;
+ 1912  que no le quiero yo mayor castigo.
+
+PASCUALA
+ 1913  Vengaré tus azotes. // MENGO: Eso digo.
+
+JACINTA
+ 1914  ¡Ea, muera el traidor! // FLORES: ¡Entre mujeres!
+
+JACINTA
+ 1915  ¿No le viene muy ancho? // PASCUALA: ¿Aqueso lloras?
+
+JACINTA
+ 1916  Muere, concertador de sus placeres.
+
+PASCUALA
+ 1917  ¡Ea, muera el traidor! // FLORES: ¡Piedad, señoras!
+
+[ACOTACIÓN] (Sale ORTUÑO, huyendo de LAURENCIA.)
+
+ORTUÑO
+ 1918  Mira que no soy yo... // LAURENCIA: Ya sé quién eres.-
+ 1919  Entrad, teñid las armas vencedoras
+ 1920  en estos viles. // PASCUALA: Moriré matando.
+
+TODOS
+ 1921  ¡Fuente Ovejuna, y viva el rey Fernando!
+
+[ACOTACIÓN] (Vanse, y salen el REY DON FERNANDO y la REINA DOÑA ISABEL, y DON MANRIQUE, maestre.)
+
+MANRIQUE
+ 1922  De modo la prevención
+ 1923  fue, el efeto esperado
+ 1924  llegamos a ver logrado
+ 1925  con poca contradición.
+ 1926  Hubo poca resistencia;
+ 1927  y supuesto que la hubiera,
+ 1928  sin duda ninguna fuera
+ 1929  de poca o ninguna esencia.
+ 1930  Queda el de Cabra ocupado
+ 1931  en conservación del puesto,
+ 1932  por si volviere dispuesto
+ 1933  a él el contrario osado.
+
+REY
+ 1934  Discreto el acuerdo fue
+ 1935  y que asista es conveniente,
+ 1936  y reformando la gente,
+ 1937  el paso tomado esté.
+ 1938  Que con eso se asegura
+ 1939  no podernos hacer mal
+ 1940  Alfonso, que en Portugal
+ 1941  tomar la fuerza procura.
+ 1942  Y el de Cabra es bien que esté
+ 1943  en ese sitio asistente,
+ 1944  y como tan diligente,
+ 1945  muestras de su valor dé;
+ 1946  porque con esto asegura
+ 1947  el daño que nos recela,
+ 1948  y como fiel centinela,
+ 1949  el bien del reino procura.
+
+[ACOTACIÓN] (Sale FLORES, herido.)
+
+FLORES
+ 1950  Católico rey Fernando,
+ 1951  a quien el cielo concede
+ 1952  la corona de Castilla,
+ 1953  como varón excelente;
+ 1954  oye la mayor crueldad
+ 1955  que se ha visto entre las gentes
+ 1956  desde donde nace el sol
+ 1957  hasta donde se oscurece.
+
+REY
+ 1958  Repórtate. // FLORES: Rey supremo,
+ 1959  mis heridas no consienten
+ 1960  dilatar el triste caso,
+ 1961  por ser mi vida tan breve.
+ 1962  De Fuente Ovejuna vengo,
+ 1963  donde, con pecho inclemente,
+ 1964  los vecinos de la villa
+ 1965  a su señor dieron muerte.
+ 1966  Muerto Fernán Gómez queda
+ 1967  por sus súbditos aleves;
+ 1968  que vasallos indignados
+ 1969  con leve causa se atreven.
+ 1970  Con título de tirano
+ 1971  que le acumula la plebe,
+ 1972  a la fuerza de esta voz
+ 1973  el hecho fiero acometen;
+ 1974  y quebrantando su casa,
+ 1975  no atendiendo a que se ofrece
+ 1976  por la fe de caballero
+ 1977  a que pagará a quien debe,
+ 1978  no sólo no le escucharon,
+ 1979  pero con furia impaciente
+ 1980  rompen el cruzado pecho
+ 1981  con mil heridas crueles,
+ 1982  y por las altas ventanas
+ 1983  le hacen que al suelo vuele,
+ 1984  adonde en picas y espadas
+ 1985  le recogen las mujeres.
+ 1986  Llévanle a una casa muerto,
+ 1987  y, a porfía, quien más puede
+ 1988  mesa su barba y cabello
+ 1989  y apriesa su rostro hieren.
+ 1990  En efeto fue la furia
+ 1991  tan grande que en ellos crece,
+ 1992  que las mayores tajadas
+ 1993  las orejas a ser vienen.
+ 1994  Sus armas borran con picas
+ 1995  y a voces dicen que quieren
+ 1996  tus reales armas fijar,
+ 1997  porque aquéllas les ofenden.
+ 1998  Saqueáronle la casa,
+ 1999  cual si de enemigos fuese,
+ 2000  y gozosos entre todos
+ 2001  han repartido sus bienes.
+ 2002  Lo dicho he visto escondido,
+ 2003  porque mi infelice suerte
+ 2004  en tal trance no permite
+ 2005  que mi vida se perdiese;
+ 2006  y así estuve todo el día
+ 2007  hasta que la noche viene,
+ 2008  y salir pude escondido
+ 2009  para que cuenta te diese.
+ 2010  Haz, señor, pues eres justo,
+ 2011  que la justa pena lleven
+ 2012  de tan riguroso caso
+ 2013  los bárbaros delincuentes:
+ 2014  mira que su sangre a voces
+ 2015  pide que tu rigor prueben.
+
+REY
+ 2016  Estar puedes confiado
+ 2017  que sin castigo no queden.
+ 2018  El triste suceso ha sido
+ 2019  tal, que admirado me tiene,
+ 2020  y que vaya luego un juez
+ 2021  que lo averigüe conviene,
+ 2022  y castigue a los culpados
+ 2023  para ejemplo de las gentes.
+ 2024  Vaya un capitán con él,
+ 2025  por que seguridad lleve;
+ 2026  que tan grande atrevimiento
+ 2027  castigo ejemplar requiere;
+ 2028  y curad a este soldado
+ 2029  de las heridas que tiene.
+
+[ACOTACIÓN] (Vanse, y salen los labradores y labradoras, con la cabeza de Fernán Gómez en una lanza.)
+
+MÚSICOS
+ 2030  ¡Muchos años vivan
+ 2031  Isabel y Fernando,
+ 2032  y mueran los tiranos!
+
+BARRILDO
+ 2033  Diga su copla Frondoso.
+
+FRONDOSO
+ 2034  Ya va mi copla a la fe;
+ 2035  si le faltare algún pie,
+ 2036  enmiéndelo el más curioso.
+ 2037  ¡Vivan la bella Isabel,
+ 2038  y Fernando de Aragón,
+ 2039  pues que para en uno son,
+ 2040  él con ella, ella con él!
+ 2041  A los cielos San Miguel
+ 2042  lleve a los dos de las manos.
+ 2043  ¡Vivan muchos años,
+ 2044  y mueran los tiranos!
+
+LAURENCIA
+ 2045  Diga Barrildo. // BARRILDO: Ya va,
+ 2046  que a fe que la he pensado.
+
+PASCUALA
+ 2047  Si la dices con cuidado,
+ 2048  buena y rebuena será.
+
+BARRILDO
+ 2049  ¡Vivan los reyes famosos
+ 2050  muchos años, pues que tienen
+ 2051  la vitoria, y a ser vienen
+ 2052  nuestros dueños venturosos!
+ 2053  Salgan siempre vitoriosos
+ 2054  de gigantes y de enanos,
+ 2055  ¡y mueran los tiranos!
+
+MÚSICOS
+ 2056  ¡Muchos años vivan
+ 2057  Isabel y Fernando,
+ 2058  y mueran los tiranos!
+
+LAURENCIA
+ 2059  Diga Mengo. // FRONDOSO: Mengo diga.
+
+MENGO
+ 2060  Yo soy poeta donado.
+
+PASCUALA
+ 2061  Mejor dirás lastimado
+ 2062  el envés de la barriga.
+
+MENGO
+ 2063  Una mañana en domingo
+ 2064  me mandó azotar aquél,
+ 2065  de manera que el rabel
+ 2066  daba espantoso respingo;
+ 2067  pero agora que lo pringo,
+ 2068  ¡vivan los reyes cristiánigos,
+ 2069  y mueran los tiránigos!
+
+MÚSICOS
+ 2070  ¡Vivan muchos años!
+
+ESTEBAN
+ 2071  Quita la cabeza allá.
+
+MENGO
+ 2072  Cara tiene de ahorcado.
+
+[ACOTACIÓN] (Saca un escudo JUAN ROJO, con las armas [reales].)
+
+CUADRADO
+ 2073  Ya las armas han llegado.
+
+ESTEBAN
+ 2074  Mostrá las armas acá.
+
+JUAN ROJO
+ 2075  ¿Adónde se han de poner?
+
+CUADRADO
+ 2076  Aquí, en el ayuntamiento.
+
+ESTEBAN
+ 2077  ¡Bravo escudo! // BARRILDO: ¡Qué contento!
+
+FRONDOSO
+ 2078  Ya comienza a amanecer,
+ 2079  con este sol, nuestro día.
+
+ESTEBAN
+ 2080  ¡Vivan Castilla y León,
+ 2081  y las barras de Aragón,
+ 2082  y muera la tiranía!
+ 2083  Advertid, Fuente Ovejuna,
+ 2084  a las palabras de un viejo;
+ 2085  que el admitir su consejo
+ 2086  no ha dañado vez ninguna.
+ 2087  Los Reyes han de querer
+ 2088  averiguar este caso,
+ 2089  y más tan cerca del paso
+ 2090  y jornada que han de hacer.
+ 2091  Concertaos todos a una
+ 2092  en lo que habéis de decir.
+
+FRONDOSO
+ 2093  ¿Qué es tu consejo? // ESTEBAN: Morir
+ 2094  diciendo Fuente Ovejuna,
+ 2095  y a nadie saquen de aquí.
+
+FRONDOSO
+ 2096  Es el camino derecho.
+ 2097  Fuente Ovejuna lo ha hecho.
+
+ESTEBAN
+ 2098  ¿Queréis responder así?
+
+TODOS
+ 2099  Sí. // ESTEBAN: Ahora pues, yo quiero ser
+ 2100  agora el pesquisidor,
+ 2101  para ensayarnos mejor
+ 2102  en lo que habemos de hacer.
+ 2103  Sea Mengo el que esté puesto
+ 2104  en el tormento. // MENGO: ¿No hallaste
+ 2105  otro más flaco? // ESTEBAN: ¿Pensaste
+ 2106  que era de veras? // MENGO: Di presto.
+
+ESTEBAN
+ 2107  ¿Quién mató al Comendador?
+
+MENGO
+ 2108  Fuente Ovejuna lo hizo.
+
+ESTEBAN
+ 2109  Perro, ¿si te martirizo?
+
+MENGO
+ 2110  Aunque me matéis; señor.
+
+ESTEBAN
+ 2111  Confiesa, ladrón. // MENGO: Confieso.
+
+ESTEBAN
+ 2112  Pues ¿quién fue? // MENGO: Fuente Ovejuna.
+
+ESTEBAN
+ 2113  Dalde otra vuelta. // MENGO: Es ninguna.
+
+ESTEBAN
+ 2114  ¡Cagajón para el proceso!
+
+[ACOTACIÓN] (Sale el REGIDOR [CUADRADO].)
+
+REGIDOR
+ 2115  ¿Qué hacéis de esta suerte aquí?
+
+FRONDOSO
+ 2116  ¿Qué ha sucedido, Cuadrado?
+
+REGIDOR
+ 2117  Pesquisidor ha llegado.
+
+ESTEBAN
+ 2118  Echá todos por ahí.
+
+REGIDOR
+ 2119  Con él viene un capitán.
+
+ESTEBAN
+ 2120  Venga el diablo: ya sabéis
+ 2121  lo que responder tenéis.
+
+REGIDOR
+ 2122  El pueblo prendiendo van,
+ 2123  sin dejar alma ninguna.
+
+ESTEBAN
+ 2124  Que no hay que tener temor.
+ 2125  ¿Quién mató al Comendador,
+ 2126  Mengo? // MENGO: ¿Quién? ¡Fuente Ovejuna!
+
+[ACOTACIÓN] (Vanse, y salen el MAESTRE y un SOLDADO.)
+
+MAESTRE
+ 2127  ¡Que tal caso ha sucedido!
+ 2128  Infelice fue su suerte.
+ 2129  Estoy por darte la muerte
+ 2130  por la nueva que has traído.
+
+SOLDADO
+ 2131  Yo, señor, soy mensajero,
+ 2132  y enojarte no es mi intento.
+
+MAESTRE
+ 2133  ¡Que a tal tuvo atrevimiento
+ 2134  un pueblo enojado y fiero!
+ 2135  Iré con quinientos hombres,
+ 2136  y la villa he de asolar;
+ 2137  en ella no ha de quedar
+ 2138  ni aun memoria de los nombres.
+
+SOLDADO
+ 2139  Señor, tu enojo reporta;
+ 2140  porque ellos al Rey se han dado,
+ 2141  y no tener enojado
+ 2142  al Rey es lo que te importa.
+
+MAESTRE
+ 2143  ¿Cómo al Rey se pueden dar,
+ 2144  si de la encomienda son?
+
+SOLDADO
+ 2145  Con él sobre esa razón
+ 2146  podrás luego pleitear.
+
+MAESTRE
+ 2147  Por pleito ¿cuándo salió
+ 2148  lo que él le entregó en sus manos?
+ 2149  Son señores soberanos,
+ 2150  y tal reconozco yo.
+ 2151  Por saber que al Rey se han dado
+ 2152  me reportará mi enojo,
+ 2153  y ver su presencia escojo
+ 2154  por lo más bien acertado;
+ 2155  que puesto que tenga culpa
+ 2156  en casos de gravedad,
+ 2157  en todo mi poca edad
+ 2158  viene a ser quien me disculpa.
+ 2159  Con vergüenza voy; mas es
+ 2160  honor quien puede obligarme,
+ 2161  y importa no descuidarme
+ 2162  en tan honrado interés.
+
+[ACOTACIÓN] (Vanse; sale LAURENCIA sola.)
+
+LAURENCIA
+ 2163  Amando, recelar daño en lo amado,
+ 2164  nueva pena de amor se considera,
+ 2165  que quien en lo que ama daño espera
+ 2166  aumenta en el temor nuevo cuidado.
+ 2167  El firme pensamiento desvelado,
+ 2168  si le aflige el temor, fácil se altera;
+ 2169  que no es a firme fe pena ligera
+ 2170  ver llevar el temor el bien robado.
+ 2171  Mi esposo adoro; la ocasión que veo
+ 2172  al temor de su daño me condena,
+ 2173  si no le ayuda la felice suerte.
+ 2174  Al bien suyo se inclina mi deseo:
+ 2175  si está presente, está cierta mi pena;
+ 2176  si está en ausencia, está cierta mi muerte.
+
+[ACOTACIÓN] (Sale FRONDOSO.)
+
+FRONDOSO
+ 2177  ¡Mi Laurencia! // LAURENCIA: ¡Esposo amado!
+ 2178  ¿Cómo estar aquí te atreves?
+
+FRONDOSO
+ 2179  ¿Esas resistencias debes
+ 2180  a mi amoroso cuidado?
+
+LAURENCIA
+ 2181  Mi bien, procura guardarte,
+ 2182  porque tu daño recelo.
+
+FRONDOSO
+ 2183  No quiera, Laurencia, el cielo
+ 2184  que tal llegue a disgustarte.
+
+LAURENCIA
+ 2185  ¿No temes ver el rigor
+ 2186  que por los demás sucede,
+ 2187  y el furor con que procede
+ 2188  aqueste pesquisidor?
+ 2189  Procura guardar la vida.
+ 2190  Huye, tu daño no esperes.
+
+FRONDOSO
+ 2191  ¿Cómo que procure quieres
+ 2192  cosa tan mal recebida?
+ 2193  ¿Es bien que los demás deje
+ 2194  en el peligro presente
+ 2195  y de tu vista me ausente?
+ 2196  No me mandes que me aleje;
+ 2197  porque no es puesto en razón
+ 2198  que, por evitar mi daño,
+ 2199  sea con mi sangre extraño
+ 2200  en tan terrible ocasión.
+
+[ACOTACIÓN] (Voces dentro.)
+ 2201  Voces parece que he oído,
+ 2202  y son, si yo mal no siento,
+ 2203  de alguno que dan tormento.
+ 2204  Oye con atento oído.
+
+[ACOTACIÓN] (Dice dentro el JUEZ, y responden.)
+
+JUEZ
+ 2205  Decid la verdad, buen viejo.
+
+FRONDOSO
+ 2206  Un viejo, Laurencia mía,
+ 2207  atormentan. // LAURENCIA: ¡Qué porfía!
+
+ESTEBAN
+ 2208  Déjenme un poco. // JUEZ: Ya os dejo.
+ 2209  Decid, ¿quién mató a Fernando?
+
+ESTEBAN
+ 2210  Fuente Ovejuna lo hizo.
+
+LAURENCIA
+ 2211  Tu nombre, padre, eternizo.
+ 2212  .....................
+
+FRONDOSO
+ 2213  ¡Bravo caso! // JUEZ: Ese muchacho
+ 2214  aprieta. Perro, yo sé
+ 2215  que lo sabes. Di quién fue.
+ 2216  ¿Callas? Aprieta, borracho.
+
+NIÑO
+ 2217  Fuente Ovejuna, señor.
+
+JUEZ
+ 2218  ¡Por vida del Rey, villanos,
+ 2219  que os ahorque con mis manos!
+ 2220  ¿Quién mató al Comendador?
+
+FRONDOSO
+ 2221  ¡Que a un niño le den tormento
+ 2222  y niegue de aquesta suerte!
+
+LAURENCIA
+ 2223  ¡Bravo pueblo! // FRONDOSO: Bravo y fuerte.
+
+JUEZ
+ 2224  Esa mujer al momento
+ 2225  en ese potro tened.
+ 2226  Dale esa mancuerda luego.
+
+LAURENCIA
+ 2227  Ya está de cólera ciego.
+
+JUEZ
+ 2228  Que os he de matar, creed,
+ 2229  en ese potro, villanos.
+ 2230  ¿Quién mató al Comendador?
+
+PASCUALA
+ 2231  Fuente Ovejuna, señor.
+
+JUEZ
+ 2232  ¡Dale! // FRONDOSO: Pensamientos vanos.
+
+LAURENCIA
+ 2233  Pascuala niega, Frondoso.
+
+FRONDOSO
+ 2234  Niegan niños: ¿qué te espantas?
+
+JUEZ
+ 2235  Parece que los encantas.
+ 2236  ¡Aprieta! // PASCUALA: ¡Ay, cielo piadoso!
+
+JUEZ
+ 2237  ¡Aprieta, infame! ¿Estás sordo?
+
+PASCUALA
+ 2238  Fuente Ovejuna lo hizo.
+
+JUEZ
+ 2239  Traedme aquel más rollizo;
+ 2240  ese desnudo, ese gordo.
+
+LAURENCIA
+ 2241  ¡Pobre Mengo! Él es sin duda.
+
+FRONDOSO
+ 2242  Temo que ha de confesar.
+
+MENGO
+ 2243  ¡Ay, ay! // JUEZ: Comienza a apretar.
+
+MENGO
+ 2244  ¡Ay! // JUEZ: ¿Es menester ayuda?
+
+MENGO
+ 2245  ¡Ay, ay! // JUEZ: ¿Quién mató, villano,
+ 2246  al señor Comendador!
+
+MENGO
+ 2247  ¡Ay, yo lo diré señor!
+
+JUEZ
+ 2248  Afloja un poco la mano.
+
+FRONDOSO
+ 2249  Él confiesa. // JUEZ: Al palo aplica
+ 2250  la espalda. // MENGO: Quedo, que yo
+ 2251  lo diré. // JUEZ: ¿Quién lo mató?
+
+MENGO
+ 2252  Señor, Fuente Ovejunica.
+
+JUEZ
+ 2253  ¿Hay tan gran bellaquería?
+ 2254  Del dolor se están burlando.
+ 2255  En quien estaba esperando,
+ 2256  niega con mayor porfía.
+ 2257  Dejaldos; que estoy cansado.
+
+FRONDOSO
+ 2258  ¡Oh, Mengo, bien te haga Dios!
+ 2259  Temor que tuve de dos,
+ 2260  el tuyo me le ha quitado.
+
+[ACOTACIÓN] (Salen MENGO, BARRILDO y el REGIDOR.)
+
+BARRILDO
+ 2261  ¡Vítor, Mengo! // REGIDOR: Y con razón.
+
+BARRILDO
+ 2262  ¡Mengo, vítor! // FRONDOSO: Eso digo.
+
+MENGO
+ 2263  ¡Ay, ay! // BARRILDO: Toma, bebe, amigo.
+ 2264  Come. // MENGO: ¡Ay, ay! ¿Qué es? // BARRILDO: Diacitrón.
+
+MENGO
+ 2265  ¡Ay, ay! // FRONDOSO: Echa de beber.
+
+BARRILDO
+ 2266  De comer y beber va.
+
+FRONDOSO
+ 2267  Bien lo cuela. Bueno está.
+
+LAURENCIA
+ 2268  Dale otra vez de comer.
+
+MENGO
+ 2269  ¡Ay, ay! // BARRILDO: Ésta va por mí.
+
+LAURENCIA
+ 2270  Solemnemente lo embebe.
+
+FRONDOSO
+ 2271  El que bien niega bien bebe.
+
+REGIDOR
+ 2272  ¿Quieres otra? // MENGO: ¡Ay, ay! Sí, sí.
+
+FRONDOSO
+ 2273  Bebe, que bien lo mereces.
+
+LAURENCIA
+ 2274  A vez por vuelta las cuela.
+
+FRONDOSO
+ 2275  Arrópale, que se hiela.
+
+BARRILDO
+ 2276  ¿Quieres más? // MENGO: Sí, otras tres veces.
+ 2277  ¡Ay, ay! // FRONDOSO: Si hay vino pregunta.
+
+BARRILDO
+ 2278  Sí hay: bebe a tu placer;
+ 2279  que quien niega ha de beber.
+ 2280  ¿Qué tiene? // MENGO: Una cierta punta.
+ 2281  Vamos; que me arromadizo.
+
+FRONDOSO
+ 2282  Que vea que éste es mejor.
+ 2283  ¿Quién mató al Comendador?
+
+MENGO
+ 2284  Fuente Ovejunica lo hizo.
+
+[ACOTACIÓN] (Vanse.)
+
+FRONDOSO
+ 2285  Justo es que honores le den.
+ 2286  Pero, decidme, mi amor,
+ 2287  ¿quién mató al Comendador?
+
+LAURENCIA
+ 2288  Fuente Ovejuna, mi bien.
+
+FRONDOSO
+ 2289  ¿Quién le mató? // LAURENCIA: Dasme espanto.
+ 2290  Pues Fuente Ovejuna fue.
+
+FRONDOSO
+ 2291  Y yo ¿con qué te maté?
+
+LAURENCIA
+ 2292  ¿Con qué? Con quererte tanto.
+
+[ACOTACIÓN] (Vanse, y salen el REY y la REINA y MANRIQUE, luego.)
+
+ISABEL
+ 2293  No entendí, señor, hallaros
+ 2294  aquí, y es buena mi suerte.
+
+REY
+ 2295  En nueva gloria convierte
+ 2296  mi vista el bien de miraros.
+ 2297  Iba a Portugal de paso,
+ 2298  y llegar aquí fue fuerza.
+
+ISABEL
+ 2299  Vuestra majestad le tuerza,
+ 2300  siendo conveniente el caso.
+
+REY
+ 2301  ¿Cómo dejáis a Castilla?
+
+ISABEL
+ 2302  En paz queda, quieta y llana.
+
+REY
+ 2303  Siendo vos la que la allana
+ 2304  no lo tengo a maravilla.
+
+[ACOTACIÓN] (Sale DON MANRIQUE.)
+
+MANRIQUE
+ 2305  Para ver vuestra presencia
+ 2306  el Maestre de Calatrava,
+ 2307  que aquí de llegar acaba,
+ 2308  pide que le deis licencia.
+
+ISABEL
+ 2309  Verle tenía deseado.
+
+MANRIQUE
+ 2310  Mi fe, señora, os empeño,
+ 2311  que, aunque es en edad pequeño,
+ 2312  es valeroso soldado.
+
+[ACOTACIÓN] (Vase, y sale el MAESTRE.)
+
+MAESTRE
+ 2313  Rodrigo Téllez Girón,
+ 2314  que de loaros no acaba,
+ 2315  Maestre de Calatrava,
+ 2316  os pide, humilde, perdón.
+ 2317  Confieso que fui engañado,
+ 2318  y que excedí de lo justo
+ 2319  en cosas de vuestro gusto,
+ 2320  como mal aconsejado.
+ 2321  El consejo de Fernando
+ 2322  y el interés me engañó,
+ 2323  injusto fiel; y ansí, yo
+ 2324  perdón, humilde, os demando.
+ 2325  Y si recebir merezco
+ 2326  esta merced que suplico,
+ 2327  desde aquí me certifico
+ 2328  en que a serviros me ofrezco,
+ 2329  y que en aquesta jornada
+ 2330  de Granada, adonde vais,
+ 2331  os prometo que veáis
+ 2332  el valor que hay en mi espada;
+ 2333  donde sacándola apenas,
+ 2334  dándoles fieras congojas,
+ 2335  plantaré mis cruces rojas
+ 2336  sobre sus altas almenas;
+ 2337  y más quinientos soldados
+ 2338  en serviros emplearé,
+ 2339  junto con la firma y fe
+ 2340  de en mi vida disgustaros.
+
+REY
+ 2341  Alzad, Maestre, del suelo;
+ 2342  que siempre que hayáis venido
+ 2343  seréis muy bien recebido.
+
+MAESTRE
+ 2344  Sois de afligidos consuelo.
+
+ISABEL
+ 2345  Vos, con valor peregrino,
+ 2346  sabéis bien decir y hacer.
+
+MAESTRE
+ 2347  Vos sois una bella Ester,
+ 2348  y vos un Jerjes divino.
+
+[ACOTACIÓN] (Sale MANRIQUE.)
+
+MANRIQUE
+ 2349  Señor, el pesquisidor
+ 2350  que a Fuente Ovejuna ha ido,
+ 2351  con el despacho ha venido
+ 2352  a verse ante tu valor.
+
+REY
+ 2353  Sed juez de estos agresores.
+
+MAESTRE
+ 2354  Si a vos, señor, no mirara,
+ 2355  sin duda les enseñara
+ 2356  a matar Comendadores.
+
+REY
+ 2357  Eso ya no os toca a vos.
+
+ISABEL
+ 2358  Yo confieso que he de ver
+ 2359  el cargo en vuestro poder,
+ 2360  si me lo concede Dios.
+
+[ACOTACIÓN] (Sale el JUEZ.)
+
+JUEZ
+ 2361  A Fuente Ovejuna fui
+ 2362  de la suerte que has mandado,
+ 2363  y con especial cuidado
+ 2364  y diligencia asistí.
+ 2365  Haciendo averiguación
+ 2366  del cometido delito,
+ 2367  una hoja no se ha escrito
+ 2368  que sea en comprobación;
+ 2369  porque conformes a una,
+ 2370  con un valeroso pecho,
+ 2371  en pidiendo quién lo ha hecho,
+ 2372  responden: «Fuente Ovejuna.»
+ 2373  Trecientos he atormentado
+ 2374  con no pequeño rigor,
+ 2375  y te prometo, señor,
+ 2376  que más que esto no he sacado.
+ 2377  Hasta niños de diez años
+ 2378  al potro arrimé, y no ha sido
+ 2379  posible haberlo inquirido
+ 2380  ni por halagos ni engaños.
+ 2381  Y pues tan mal se acomoda
+ 2382  el poderlo averiguar,
+ 2383  o los has de perdonar,
+ 2384  o matar la villa toda.
+ 2385  Todos vienen ante ti
+ 2386  para más certificarte:
+ 2387  de ellos podrás informarte.
+
+REY
+ 2388  Que entren, pues vienen, les di.
+
+[ACOTACIÓN] (Salen los dos alcaldes, FRONDOSO, las mujeres y los villanos que quisieren.)
+
+LAURENCIA
+ 2389  ¿Aquestos los reyes son?
+
+FRONDOSO
+ 2390  Y en Castilla poderosos.
+
+LAURENCIA
+ 2391  Por mi fe, que son hermosos:
+ 2392  ¡bendígalos San Antón!
+
+ISABEL
+ 2393  ¿Los agresores son éstos?
+
+ESTEBAN
+ 2394  Fuente Ovejuna, señora,
+ 2395  que humildes llegan agora
+ 2396  para serviros dispuestos.
+ 2397  La sobrada tiranía
+ 2398  y el insufrible rigor
+ 2399  del muerto Comendador,
+ 2400  que mil insultos hacía,
+ 2401  fue el autor de tanto daño.
+ 2402  Las haciendas nos robaba
+ 2403  y las doncellas forzaba
+ 2404  siendo de piedad extraño.
+
+FRONDOSO
+ 2405  Tanto, que aquesta zagala,
+ 2406  que el cielo me ha concedido,
+ 2407  en que tan dichoso he sido
+ 2408  que nadie en dicha me iguala,
+ 2409  cuando conmigo casó,
+ 2410  aquella noche primera,
+ 2411  mejor que si suya fuera,
+ 2412  a su casa la llevó;
+ 2413  y a no saberse guardar
+ 2414  ella, que en virtud florece,
+ 2415  ya manifiesto parece
+ 2416  lo que pudiera pasar.
+
+MENGO
+ 2417  ¿No es ya tiempo que hable yo?
+ 2418  Si me dais licencia, entiendo
+ 2419  que os admiréis, sabiendo
+ 2420  del modo que me trató.
+ 2421  Porque quise defender
+ 2422  una moza de su gente,
+ 2423  que con término insolente
+ 2424  fuerza la querían hacer,
+ 2425  aquel perverso Nerón,
+ 2426  de manera me ha tratado,
+ 2427  que el reverso me ha dejado
+ 2428  como rueda de salmón.
+ 2429  Tocaron mis atabales
+ 2430  tres hombres con tal porfía,
+ 2431  que aun pienso que todavía
+ 2432  me duran los cardenales.
+ 2433  Gasté en este mal prolijo,
+ 2434  porque el cuero se me curta,
+ 2435  polvos de arrayán y murta
+ 2436  más que vale mi cortijo.
+
+ESTEBAN
+ 2437  Señor, tuyos ser queremos.
+ 2438  Rey nuestro eres natural,
+ 2439  y con título de tal
+ 2440  ya tus armas puesto habemos.
+ 2441  Esperamos tu clemencia,
+ 2442  y que veas, esperamos,
+ 2443  que en este caso te damos
+ 2444  por abono la inocencia.
+
+REY
+ 2445  Pues no puede averiguarse
+ 2446  el suceso por escrito,
+ 2447  aunque fue grave el delito,
+ 2448  por fuerza ha de perdonarse.
+ 2449  Y la villa es bien se quede
+ 2450  en mí, pues de mí se vale,
+ 2451  hasta ver si acaso sale
+ 2452  Comendador que la herede.
+
+FRONDOSO
+ 2453  Su Majestad habla, en fin,
+ 2454  como quien tanto ha acertado.
+ 2455  Y aquí, discreto senado,
+ 2456  Fuente Ovejuna da fin.
