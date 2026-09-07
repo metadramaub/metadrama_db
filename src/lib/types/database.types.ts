@@ -2639,10 +2639,10 @@ export type Database = {
           genero_id: string | null
           obra_id: string
           observaciones: string | null
+          sin_eventos_sobrenaturales: boolean
+          sin_figuras_donaire: boolean
+          sin_personajes_sobrenaturales: boolean
           slug: string
-          tiene_eventos_sobrenaturales: boolean | null
-          tiene_figuras_donaire: boolean | null
-          tiene_personajes_sobrenaturales: boolean | null
           titulo: string
           titulo_normalizado: string | null
           total_versos: number | null
@@ -2667,10 +2667,10 @@ export type Database = {
           genero_id?: string | null
           obra_id?: string
           observaciones?: string | null
+          sin_eventos_sobrenaturales?: boolean
+          sin_figuras_donaire?: boolean
+          sin_personajes_sobrenaturales?: boolean
           slug?: string
-          tiene_eventos_sobrenaturales?: boolean | null
-          tiene_figuras_donaire?: boolean | null
-          tiene_personajes_sobrenaturales?: boolean | null
           titulo: string
           titulo_normalizado?: string | null
           total_versos?: number | null
@@ -2695,10 +2695,10 @@ export type Database = {
           genero_id?: string | null
           obra_id?: string
           observaciones?: string | null
+          sin_eventos_sobrenaturales?: boolean
+          sin_figuras_donaire?: boolean
+          sin_personajes_sobrenaturales?: boolean
           slug?: string
-          tiene_eventos_sobrenaturales?: boolean | null
-          tiene_figuras_donaire?: boolean | null
-          tiene_personajes_sobrenaturales?: boolean | null
           titulo?: string
           titulo_normalizado?: string | null
           total_versos?: number | null

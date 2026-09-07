@@ -671,15 +671,18 @@ que es cuando se puede mover un campo sin que nadie guarde a mitad.
   nadie sabía que los versos cantados se registran ahí. Ahora nombra lo que admite, armado del
   vocabulario y no de una lista escrita.
 
-- **Lo que no hay en la obra no se pregunta en cada secuencia.** El donaire, los personajes
-  sobrenaturales y un **evento sobrenatural** nuevo se declaran en los datos de la obra; al decir
-  que no, sus secuencias quedan respondidas y bloqueadas, con el aviso de dónde se cambia. La
-  declaración se sembró de lo anotado: 6 obras con donaire y 3 con personajes sobrenaturales, de las
-  12 que tienen secuencias. Los personajes femeninos se dan por presentes en toda obra y siguen
-  preguntándose por secuencia. El evento se responde sí/no, como «versos partidos»: ocurre o no
-  ocurre, y la escala de intervención es de quien habla. **La coherencia la sostienen dos
-  disparadores**, no la pantalla: una secuencia no puede declarar lo que su obra niega, y una obra
-  no puede negar lo que alguna secuencia declara —al negar, responde por las que callaban—.
+- **Lo que no hay en la obra no se pregunta en cada secuencia.** Tres casillas —`sin_figuras_donaire`,
+  `sin_personajes_sobrenaturales`, `sin_eventos_sobrenaturales`— abren la pestaña de secuencias, en
+  un bloque plegable llamado «Antes de anotar»: se marca lo que la obra no tiene y deja de
+  preguntarse en cada secuencia, que quedan respondidas y bloqueadas con la nota «declarado para
+  toda la obra». Se sembraron de lo anotado, así que nadie vuelve sobre una obra terminada.
+  **Son casillas y no preguntas de tres estados, y eso es una decisión**: la pregunta no es
+  simétrica —marcar que no hay cierra la pregunta en todas; un «sí» no marcaría un sí en ninguna, y
+  puesto al lado del «no» parecía que lo haría—. Lo que afirma que las hay son las secuencias, y por
+  eso la casilla se bloquea, diciendo cuántas, cuando alguna lo declara. Los personajes femeninos se
+  dan por presentes en toda obra y siguen preguntándose por secuencia. El **evento sobrenatural** es
+  nuevo, no es el personaje, y se responde sí/no por secuencia: ocurre o no ocurre, y la escala de
+  intervención es de quien habla. **La coherencia la sostienen dos disparadores**, no la pantalla.
   `evento_sobrenatural` todavía no se agrega al resumen: su medida entra al rehacer la
   precomputación, para no escribir dos veces la misma función.
 

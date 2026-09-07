@@ -7,7 +7,6 @@
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
-	import NullableBooleanChoice from '$lib/components/ui/nullable-boolean-choice.svelte';
 	import {
 		OBRA_EDICION_BASE_HELP,
 		OBRA_EDICION_BASE_EJEMPLO_HTML,
@@ -40,38 +39,8 @@
 		fecha_inicio_metadrama: number | null;
 		fecha_fin_metadrama: number | null;
 		edicion: string;
-		tiene_figuras_donaire: boolean | null;
-		tiene_personajes_sobrenaturales: boolean | null;
-		tiene_eventos_sobrenaturales: boolean | null;
 	};
 
-	/**
-	 * Lo que se declara una vez para no repetirlo en cada secuencia.
-	 *
-	 * Decir que no arrastra: las secuencias quedan respondidas y bloqueadas, y la base lo sostiene
-	 * con un disparador. Por eso decir que no cuando alguna ya lo declara **falla al guardar** en
-	 * vez de borrarlo en silencio; el mensaje que llega dice qué quitar antes.
-	 */
-	const declaracionesDeLaObra = [
-		{
-			clave: 'tiene_figuras_donaire',
-			etiqueta: 'Hay figuras de donaire',
-			ayuda:
-				'Si la obra tiene figura del donaire. Al decir que no, ninguna secuencia la preguntará: todas quedarán en «sin intervención».'
-		},
-		{
-			clave: 'tiene_personajes_sobrenaturales',
-			etiqueta: 'Hay personajes sobrenaturales',
-			ayuda:
-				'Personajes alegóricos, magos, demonios, santos que obran milagros, apariciones. Al decir que no, ninguna secuencia lo preguntará.'
-		},
-		{
-			clave: 'tiene_eventos_sobrenaturales',
-			etiqueta: 'Ocurren eventos sobrenaturales',
-			ayuda:
-				'Un milagro, una aparición, una transformación. Ocurre aunque no hable ningún personaje sobrenatural, y por eso se pregunta aparte.'
-		}
-	] as const;
 
 	function toFormState(obra: Tables<'obras'>): FormState {
 		return {
@@ -83,10 +52,7 @@
 			fuente_fecha: obra.fuente_fecha,
 			fecha_inicio_metadrama: obra.fecha_inicio_metadrama,
 			fecha_fin_metadrama: obra.fecha_fin_metadrama,
-			edicion: obra.edicion ?? '',
-			tiene_figuras_donaire: obra.tiene_figuras_donaire,
-			tiene_personajes_sobrenaturales: obra.tiene_personajes_sobrenaturales,
-			tiene_eventos_sobrenaturales: obra.tiene_eventos_sobrenaturales
+			edicion: obra.edicion ?? ''
 		};
 	}
 
@@ -378,36 +344,6 @@
 					{/each}
 				{/if}
 			</div>
-		</div>
-	</div>
-
-	<div class="space-y-4">
-		<h2 class="text-lg font-semibold">Quién sale y qué ocurre</h2>
-		<p class="form-help">
-			Se responde una vez para toda la obra. Al decir que no, las secuencias lo dan por respondido
-			y no vuelven a preguntarlo. Los personajes femeninos no se declaran aquí: se preguntan
-			siempre, secuencia a secuencia.
-		</p>
-		<div class="grid gap-4 md:grid-cols-3">
-			{#each declaracionesDeLaObra as declaracion (declaracion.clave)}
-				<div class="form-field min-w-0">
-					<span class="form-label">
-						<span class="form-label-with-help">
-							{declaracion.etiqueta}
-							<FieldHelpTooltip
-								text={declaracion.ayuda}
-								label={`Ayuda sobre ${declaracion.etiqueta.toLocaleLowerCase('es')}`}
-							/>
-						</span>
-					</span>
-					<NullableBooleanChoice
-						value={form[declaracion.clave]}
-						ariaLabel={declaracion.etiqueta}
-						disabled={props.readOnly}
-						onChange={(value: boolean | null) => mutateField(declaracion.clave, value)}
-					/>
-				</div>
-			{/each}
 		</div>
 	</div>
 

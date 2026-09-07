@@ -62,12 +62,7 @@ export const obraDatosPatchSchema = z
 		fuente_fecha: z.string().trim().max(2000).nullable().optional().default(null),
 		fecha_inicio_metadrama: nullableYear,
 		fecha_fin_metadrama: nullableYear,
-		edicion: nullableText(20000),
-		// Lo que la obra declara una vez para no repetirlo en cada secuencia. En blanco es
-		// «pendiente», y solo el «no» arrastra a las secuencias.
-		tiene_figuras_donaire: z.boolean().nullable().optional().default(null),
-		tiene_personajes_sobrenaturales: z.boolean().nullable().optional().default(null),
-		tiene_eventos_sobrenaturales: z.boolean().nullable().optional().default(null)
+		edicion: nullableText(20000)
 	})
 	.superRefine((data, ctx) => {
 		if (
@@ -93,6 +88,21 @@ export const obraDatosPatchSchema = z
 			});
 		}
 	});
+
+/**
+ * Lo que no hay en la obra, marcado una vez para no responderlo en cada secuencia.
+ *
+ * Vive aparte de los datos de la obra porque se marca antes de anotar, en la pestaña de secuencias,
+ * que es donde se entiende y donde actúa. Son casillas, no preguntas de tres estados: marcarlas
+ * cierra la pregunta en todas las secuencias, y de eso se encarga la base.
+ */
+export const obraDeclaracionesPatchSchema = z
+	.object({
+		sin_figuras_donaire: z.boolean().default(false),
+		sin_personajes_sobrenaturales: z.boolean().default(false),
+		sin_eventos_sobrenaturales: z.boolean().default(false)
+	})
+	.strict();
 
 export const jornadaInputSchema = z
 	.object({

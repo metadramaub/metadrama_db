@@ -33,29 +33,28 @@
 	};
 
 	/**
-	 * Lo que la obra ya declaró, para no volver a preguntarlo aquí.
+	 * Lo que la obra tiene marcado que no hay, para no volver a preguntarlo aquí.
 	 *
-	 * Solo el **no** cierra la pregunta: si la obra dice que no hay figuras de donaire, la secuencia
-	 * lo enseña respondido y bloqueado, y dice dónde se cambia. En blanco —nadie lo ha declarado
-	 * todavía— la secuencia pregunta como siempre, que es lo que evita que una obra a medias deje de
-	 * poder anotarse.
+	 * Marcado, la secuencia lo enseña respondido y bloqueado, y el rótulo dice de dónde viene. Sin
+	 * marcar, pregunta como siempre: que nadie lo haya mirado todavía no es una ausencia, y una obra
+	 * a medias tiene que poder anotarse igual.
 	 */
-	type DeclaradoEnLaObra = {
-		donaire: boolean | null;
-		personajesSobrenaturales: boolean | null;
-		eventosSobrenaturales: boolean | null;
+	type LoQueNoHay = {
+		donaire: boolean;
+		personajesSobrenaturales: boolean;
+		eventosSobrenaturales: boolean;
 	};
 
 	const props = $props<{
 		valores: CaracterizacionesValues;
-		declaradoEnLaObra: DeclaradoEnLaObra;
+		loQueNoHay: LoQueNoHay;
 		readOnly?: boolean;
 		/** Se avisa campo a campo; el formulario entero lo gobierna quien monta esto. */
 		alCambiar: (cambio: Partial<CaracterizacionesValues>) => void;
 	}>();
 
 	const INTERVENCION_AYUDA =
-		'Indica si en esta secuencia métrica interviene verbalmente un personaje de este tipo. El dato se refiere al habla dentro de la secuencia, no a la presencia escénica.';
+		'Indica si en esta secuencia métrica interviene verbalmente un personaje de este tipo. El dato se refiere al habla dentro de la secuencia, no a la presencia escénica. Cuando la obra declara que no los hay, la respuesta viene dada y se cambia en «Datos de la obra».';
 
 	const opcionesDeIntervencion = [
 		{ id: 'sin_intervencion', label: 'Sin intervención' },
@@ -63,7 +62,14 @@
 		{ id: 'compartida', label: 'Intervención compartida' }
 	];
 
-	const AVISO_NEGADO = 'La obra declara que no los hay. Se cambia en «Datos de la obra».';
+	/**
+	 * Que la pregunta venga cerrada se dice en el rótulo, no en un renglón aparte.
+	 *
+	 * Un aviso debajo del campo era ambiguo con dos preguntas —no decía a cuál de las dos se
+	 * refería— y se salía de sitio junto a los botones del evento. En el rótulo va pegado a lo que
+	 * describe, ocupa una línea que ya existe, y el dónde se cambia vive en la ayuda de la sección.
+	 */
+	const NOTA_NEGADO = 'declarado para toda la obra';
 
 	// Los personajes femeninos se dan por presentes en toda obra del corpus, así que su pregunta no
 	// se puede cerrar desde arriba: no lleva declaración.
@@ -77,8 +83,20 @@
 		}
 	] as const;
 
-	function negadoEnLaObra(declaracion: keyof DeclaradoEnLaObra | null) {
-		return declaracion !== null && props.declaradoEnLaObra[declaracion] === false;
+	function negadoEnLaObra(declaracion: keyof LoQueNoHay | null) {
+		return declaracion !== null && props.loQueNoHay[declaracion] === true;
+	}
+
+	/**
+	 * Lo que enseña un control cerrado es la respuesta, no «pendiente».
+	 *
+	 * Al declarar la obra que no los hay, la base responde por sus secuencias —lo hace un
+	 * disparador—, pero esta pantalla puede tener todavía en memoria la fila de antes. Enseñar
+	 * «Pendiente» encima de una respuesta que ya existe es mentir sobre lo que hay guardado.
+	 */
+	function intervencionMostrada(campo: (typeof camposDeIntervencion)[number]) {
+		if (negadoEnLaObra(campo.declaracion)) return 'sin_intervencion';
+		return props.valores[campo.clave];
 	}
 </script>
 
@@ -95,7 +113,11 @@
 	<div class="grid gap-3 sm:grid-cols-2">
 		{#each camposDeIntervencion as campo (campo.clave)}
 			<label class="form-field">
-				<span class="form-label">{campo.etiqueta}</span>
+				<span class="form-label">
+					{campo.etiqueta}{#if negadoEnLaObra(campo.declaracion)}<span
+							class="text-[color:var(--muted-foreground)] font-normal"> · {NOTA_NEGADO}</span
+						>{/if}
+				</span>
 				<CheckDropdown
 					multiple={false}
 					search={false}
@@ -103,15 +125,12 @@
 					placeholder="Pendiente — seleccionar"
 					items={opcionesDeIntervencion}
 					disabled={props.readOnly || negadoEnLaObra(campo.declaracion)}
-					selectedIds={props.valores[campo.clave] ? [props.valores[campo.clave] as string] : []}
+					selectedIds={intervencionMostrada(campo) ? [intervencionMostrada(campo) as string] : []}
 					onChange={(ids: string[]) =>
 						props.alCambiar({
 							[campo.clave]: (ids[0] as IntervencionValue | undefined) ?? null
 						})}
 				/>
-				{#if negadoEnLaObra(campo.declaracion)}
-					<span class="form-help">{AVISO_NEGADO}</span>
-				{/if}
 			</label>
 		{/each}
 	</div>
@@ -161,22 +180,21 @@
 		<div class="form-field sm:col-span-2">
 			<span class="form-label">
 				<span class="form-label-with-help">
-					Evento sobrenatural
+					Evento sobrenatural{#if negadoEnLaObra('eventosSobrenaturales')}<span
+							class="text-[color:var(--muted-foreground)] font-normal"> · {NOTA_NEGADO}</span
+						>{/if}
 					<FieldHelpTooltip
-						text="Selecciona 'Sí' si en esta secuencia ocurre un milagro, una aparición o una transformación. Ocurre aunque no hable ningún personaje sobrenatural."
+						text="Selecciona 'Sí' si en esta secuencia ocurre un milagro, una aparición o una transformación. Ocurre aunque no hable ningún personaje sobrenatural. Cuando la obra declara que no los hay, la respuesta viene dada y se cambia en «Datos de la obra»."
 						label="Ayuda sobre el campo Evento sobrenatural"
 					/>
 				</span>
 			</span>
 			<NullableBooleanChoice
-				value={props.valores.evento_sobrenatural}
+				value={negadoEnLaObra('eventosSobrenaturales') ? false : props.valores.evento_sobrenatural}
 				ariaLabel="Evento sobrenatural"
 				disabled={props.readOnly || negadoEnLaObra('eventosSobrenaturales')}
 				onChange={(value: boolean | null) => props.alCambiar({ evento_sobrenatural: value })}
 			/>
-			{#if negadoEnLaObra('eventosSobrenaturales')}
-				<span class="form-help">{AVISO_NEGADO}</span>
-			{/if}
 		</div>
 	</div>
 </section>

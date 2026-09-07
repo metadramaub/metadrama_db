@@ -108,11 +108,13 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
   agregado de obra.)
 - **`tiene_versos_partidos`** = `bool_or(versos_partidos)` sobre las secuencias; queda en `NULL` si alguna está pendiente.
 - **`tiene_cambio_espacio`** = `bool_or(inaugura_espacio)` sobre las secuencias; queda en `NULL` si alguna está pendiente.
-- **Lo que hay en la obra se declara en la obra**, desde el 7 de septiembre de 2026:
-  `obras.tiene_figuras_donaire`, `tiene_personajes_sobrenaturales` y `tiene_eventos_sobrenaturales`.
-  Decir que no cierra la pregunta de todas sus secuencias —las deja en `sin_intervencion` y
-  bloqueadas—, y dos disparadores impiden que una secuencia declare lo que su obra niega y que una
-  obra niegue lo que alguna secuencia declara. Los personajes femeninos no se declaran arriba: se
+- **Lo que no hay en la obra se marca en la obra**, desde el 7 de septiembre de 2026:
+  `obras.sin_figuras_donaire`, `sin_personajes_sobrenaturales` y `sin_eventos_sobrenaturales`, tres
+  booleanos `not null` que son casillas y no preguntas: marcarlas cierra la pregunta en todas sus
+  secuencias —las deja en `sin_intervencion` y bloqueadas—, y sin marcar cada secuencia la responde.
+  **No existe el «sí»**: lo que afirma que las hay son las secuencias, y decirlo arriba no marcaría
+  un sí en ninguna. Dos disparadores impiden que una secuencia declare lo que su obra tiene marcado
+  y que una obra marque lo que alguna secuencia declara. Los personajes femeninos no se marcan: se
   dan por presentes en toda obra.
 - **`secuencias_metricas.evento_sobrenatural`** (sí/no) registra que en el pasaje ocurra un milagro,
   una aparición o una transformación, hable o no un personaje sobrenatural. **Todavía no se agrega

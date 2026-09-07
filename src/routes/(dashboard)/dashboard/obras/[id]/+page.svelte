@@ -697,10 +697,10 @@
 			focusSecuenciaId={focusSecuenciaId}
 			focusComentarioId={focusComentarioId}
 			commentsReloadKey={commentsReloadKey}
-			declaradoEnLaObra={{
-				donaire: obraLive.tiene_figuras_donaire,
-				personajesSobrenaturales: obraLive.tiene_personajes_sobrenaturales,
-				eventosSobrenaturales: obraLive.tiene_eventos_sobrenaturales
+			loQueNoHay={{
+				donaire: obraLive.sin_figuras_donaire,
+				personajesSobrenaturales: obraLive.sin_personajes_sobrenaturales,
+				eventosSobrenaturales: obraLive.sin_eventos_sobrenaturales
 			}}
 			catalogoMetrico={data.catalogoMetrico}
 			anotacionMetrica={data.anotacionMetrica}

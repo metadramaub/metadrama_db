@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
 	obraDatosPatchSchema,
+	obraDeclaracionesPatchSchema,
 	jornadaInputSchema,
 	secuenciaInputSchema,
 	secuenciaCaracterizacionRangoInputSchema,
@@ -53,23 +54,31 @@ describe('validators', () => {
 		expect(result.success).toBe(false);
 	});
 
-	it('deja pendientes las tres declaraciones de la obra si no vienen', () => {
-		const parsed = obraDatosPatchSchema.parse({ titulo: 'Una obra' });
-		expect(parsed.tiene_figuras_donaire).toBe(null);
-		expect(parsed.tiene_personajes_sobrenaturales).toBe(null);
-		expect(parsed.tiene_eventos_sobrenaturales).toBe(null);
+	it('lo que no se marca queda sin marcar', () => {
+		const parsed = obraDeclaracionesPatchSchema.parse({});
+		expect(parsed.sin_figuras_donaire).toBe(false);
+		expect(parsed.sin_personajes_sobrenaturales).toBe(false);
+		expect(parsed.sin_eventos_sobrenaturales).toBe(false);
 	});
 
-	it('acepta que la obra declare lo que hay y lo que no', () => {
-		const parsed = obraDatosPatchSchema.parse({
-			titulo: 'Una obra',
-			tiene_figuras_donaire: false,
-			tiene_personajes_sobrenaturales: true,
-			tiene_eventos_sobrenaturales: null
+	it('acepta marcar lo que la obra no tiene', () => {
+		const parsed = obraDeclaracionesPatchSchema.parse({
+			sin_figuras_donaire: true,
+			sin_personajes_sobrenaturales: false,
+			sin_eventos_sobrenaturales: true
 		});
-		expect(parsed.tiene_figuras_donaire).toBe(false);
-		expect(parsed.tiene_personajes_sobrenaturales).toBe(true);
-		expect(parsed.tiene_eventos_sobrenaturales).toBe(null);
+		expect(parsed.sin_figuras_donaire).toBe(true);
+		expect(parsed.sin_personajes_sobrenaturales).toBe(false);
+		expect(parsed.sin_eventos_sobrenaturales).toBe(true);
+	});
+
+	it('lo que no hay no viaja con los datos de la obra', () => {
+		const result = obraDatosPatchSchema.safeParse({
+			titulo: 'Una obra',
+			sin_figuras_donaire: true
+		});
+		expect(result.success).toBe(true);
+		expect(result.success && 'sin_figuras_donaire' in result.data).toBe(false);
 	});
 
 	it('accepts secuencia payload without metros', () => {
