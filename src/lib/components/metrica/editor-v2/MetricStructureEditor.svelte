@@ -1583,6 +1583,28 @@
 		);
 	}
 
+	/**
+	 * Las preguntas que la fila pinta por su cuenta.
+	 *
+	 * **En las formas por ciclos, ninguna de las que ya se leen en su parte.** La fila las pintaba
+	 * igual, así que la medida de la cabeza salía dos veces —una dentro de la fila y otra en el
+	 * bloque de debajo— y la de la mudanza tres: la del ciclo 1, la del ciclo 2 y el «en todas».
+	 *
+	 * Se quedan las que el modelo no recoge, que hoy son las de una sección que declara patrón: esas
+	 * las pinta el editor de patrón, aquí mismo.
+	 */
+	function preguntasEnLaFila(preguntas: PreguntaEnFila[]): PreguntaEnFila[] {
+		if (!respondePorPartes) return preguntas;
+		const subidas = new Set(
+			preguntasVisibles.flatMap((pregunta: PreguntaFormulario) =>
+				pregunta.groups.map((group: MetricCatalogDomainRow) => String(group.grupo_eleccion_id))
+			)
+		);
+		return preguntas.filter(
+			(pregunta: PreguntaEnFila) => !subidas.has(String(pregunta.group.grupo_eleccion_id))
+		);
+	}
+
 	/** Y las que no hablan de ninguna parte, que siguen yendo en la lista. */
 	const preguntasSueltas = $derived(
 		respondePorPartes
@@ -2660,7 +2682,7 @@
 		{@const suyas = preguntasDeLaParte(row, indiceDeFila)}
 		{#if row.kind === 'pregunta'}
 			<MetricGridRow label={row.label} depth={row.depth}>
-				{@render camposDeLaParte(row.preguntas)}
+				{@render camposDeLaParte(preguntasEnLaFila(row.preguntas))}
 			</MetricGridRow>
 		{:else if row.kind === 'fijas'}
 			<!--
@@ -2687,7 +2709,7 @@
 					preguntan, por su `nota`.
 				-->
 				{#if row.preguntas.length > 0}
-					{@render camposDeLaParte(row.preguntas)}
+					{@render camposDeLaParte(preguntasEnLaFila(row.preguntas))}
 				{/if}
 			</MetricGridRow>
 		{:else if row.kind === 'acciones'}
@@ -2876,13 +2898,15 @@
 						</span>
 					{:else}
 						{@const notacion = notacionDeLaUnidad(row.unit)}
-						{@const restantes = notacion
-							? row.preguntas.filter(
-									(pregunta: PreguntaEnFila) =>
-										pregunta.group.dimension !== 'rima' &&
-										pregunta.group.dimension !== 'metro'
-								)
-							: row.preguntas}
+						{@const restantes = preguntasEnLaFila(
+							notacion
+								? row.preguntas.filter(
+										(pregunta: PreguntaEnFila) =>
+											pregunta.group.dimension !== 'rima' &&
+											pregunta.group.dimension !== 'metro'
+									)
+								: row.preguntas
+						)}
 						{#if notacion}
 							<p class="text-sm tabular-nums">{notacion}</p>
 						{/if}
@@ -2900,7 +2924,7 @@
 					{/if}
 				{:else}
 				{#if parts.length > 0}
-					{@render camposDeLaParte(otherQuestions, row.equivalentes)}
+					{@render camposDeLaParte(preguntasEnLaFila(otherQuestions), row.equivalentes)}
 					<div class="space-y-3">
 						{#each parts as part (part.key)}
 							<section class="border border-[color:var(--border)] bg-white">
@@ -2911,7 +2935,7 @@
 									</p>
 								</div>
 								<div class="space-y-4 p-3">
-									{@render camposDeLaParte(part.preguntas, row.equivalentes)}
+									{@render camposDeLaParte(preguntasEnLaFila(part.preguntas), row.equivalentes)}
 									{#each partialQuestions as pregunta (String(pregunta.group.grupo_eleccion_id))}
 										{@render campo(
 											pregunta,
@@ -2955,12 +2979,12 @@
 
 				{@render excepcionDeLaUnidad(row)}
 
-				{#if row.preguntas.length === 0 && !row.lengthEditable}
+				{#if preguntasEnLaFila(row.preguntas).length === 0 && !row.lengthEditable}
 					<span class="text-sm text-[color:var(--muted-foreground)]">
 						{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
 					</span>
 				{:else}
-					{@render camposDeLaParte(row.preguntas, row.equivalentes)}
+					{@render camposDeLaParte(preguntasEnLaFila(row.preguntas), row.equivalentes)}
 				{/if}
 
 				{#if row.removable}
