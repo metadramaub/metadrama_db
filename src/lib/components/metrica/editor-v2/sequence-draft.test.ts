@@ -45,17 +45,23 @@ describe('vocabulario de las desviaciones', () => {
 		expect(defaultRelationFor('estructura', 'diferente')).toBe('diferente');
 	});
 
-	it('sustituye la relación que deja de aplicar en la dimensión nueva', () => {
-		// «Falta» vale en estructura, pero no en metro.
-		const siguiente = defaultRelationFor('metro', 'falta');
-		expect(siguiente).not.toBe('falta');
-		expect(metricDeviationRelations('metro').map((option) => option.value)).toContain(siguiente);
+	it('vacía la relación que deja de aplicar, en vez de elegir otra por el editor', () => {
+		// «Falta» vale en estructura, pero no en metro; y cambiar de dimensión no dice nada sobre la
+		// relación, así que se queda sin elegir en lugar de saltar a la primera de la lista.
+		expect(defaultRelationFor('metro', 'falta')).toBe('');
 	});
 
-	it('la desviación nueva nace con una relación que la base acepta', () => {
+	it('la desviación nueva no afirma nada: ni dimensión ni relación', () => {
 		const deviation = emptyDeviation(10, 14);
-		const permitidas = metricDeviationRelations(deviation.dimension).map((option) => option.value);
-		expect(permitidas).toContain(deviation.relacion_norma);
+		expect(deviation.dimension).toBe('');
+		expect(deviation.relacion_norma).toBe('');
+		// Y sin dimensión no hay relaciones que ofrecer: primero se dice de qué habla.
+		expect(metricDeviationRelations(deviation.dimension)).toEqual([]);
+	});
+
+	it('nace acotada al primer verso, no a la secuencia entera', () => {
+		const deviation = emptyDeviation(10, 14);
+		expect([deviation.v_ini, deviation.v_fin]).toEqual([10, 10]);
 	});
 
 	it('la desviación nueva nace sin valor observado', () => {
