@@ -35,7 +35,278 @@
       "v_fin": 3143
     }
   ],
-  "cuadros": [],
+  "cuadros": [
+    {
+      "numero": 1,
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 513,
+      "espacio": "Casa de Peribáñez en Ocaña, durante la boda",
+      "personajes_al_entrar": [
+        "EL CURA",
+        "INÉS",
+        "COSTANZA",
+        "CASILDA",
+        "PERIBÁÑEZ",
+        "MÚSICOS"
+      ],
+      "justificacion": "Los «Vanse todos, queden Casilda y el Comendador» (v. 290) y «Váyanse; queden Casilda y Peribáñez» (v. 384) son vaciados parciales. Tras el v. 513, «Éntrense» deja el tablado vacío y en el v. 514 salen el Comendador y Leonardo en otro lugar.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 2,
+      "jornada": 1,
+      "v_ini": 514,
+      "v_fin": 662,
+      "espacio": "Casa del Comendador en Ocaña",
+      "personajes_al_entrar": [
+        "EL COMENDADOR",
+        "LEONARDO"
+      ],
+      "justificacion": "El «Váyanse» del v. 523 no vacía la escena: el Comendador sigue hablando solo sin entrada nueva, señal de que solo salió Leonardo. Tras el v. 662, «Váyanse» sí la vacía.",
+      "seguridad": "dudosa"
+    },
+    {
+      "numero": 3,
+      "jornada": 1,
+      "v_ini": 663,
+      "v_fin": 786,
+      "espacio": "Casa de Casilda en Ocaña, preparativos para la fiesta de Toledo",
+      "personajes_al_entrar": [
+        "INÉS",
+        "COSTANZA",
+        "CASILDA"
+      ],
+      "justificacion": "Tras el v. 786, «Vanse todos» vacía el tablado y en el v. 787 entran el Comendador y Luján.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 4,
+      "jornada": 1,
+      "v_ini": 787,
+      "v_fin": 908,
+      "espacio": "Casa del Comendador en Ocaña",
+      "personajes_al_entrar": [
+        "EL COMENDADOR",
+        "LUJÁN"
+      ],
+      "justificacion": "Tras el v. 908, «Váyanse» vacía el tablado y en el v. 909 entran el Rey y el Condestable, ya en Toledo.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 5,
+      "jornada": 1,
+      "v_ini": 909,
+      "v_fin": 1052,
+      "espacio": "Toledo, junto al Alcázar, a la llegada del rey",
+      "personajes_al_entrar": [
+        "EL REY ENRIQUE",
+        "EL CONDESTABLE"
+      ],
+      "justificacion": "El elenco solo crece hasta el fin de la jornada I (v. 1052), que cierra el cuadro por regla.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 6,
+      "jornada": 2,
+      "v_ini": 1053,
+      "v_fin": 1202,
+      "espacio": "Ocaña, cabildo de la cofradía de San Roque",
+      "personajes_al_entrar": [
+        "BLAS",
+        "GIL",
+        "ANTÓN",
+        "BENITO"
+      ],
+      "justificacion": "Tras el v. 1202, «Éntrense» saca a los cofrades y en el v. 1203 entran el Comendador y Leonardo. El vaciado se apoya en un «Éntrense» sin nómina.",
+      "seguridad": "dudosa"
+    },
+    {
+      "numero": 7,
+      "jornada": 2,
+      "v_ini": 1203,
+      "v_fin": 1370,
+      "espacio": "Casa del Comendador en Ocaña",
+      "personajes_al_entrar": [
+        "EL COMENDADOR",
+        "LEONARDO"
+      ],
+      "justificacion": "Tras el v. 1370, «Vanse» vacía el tablado y en el v. 1371 entran Casilda e Inés.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 8,
+      "jornada": 2,
+      "v_ini": 1371,
+      "v_fin": 1654,
+      "espacio": "Casa de Peribáñez en Ocaña, de noche",
+      "personajes_al_entrar": [
+        "CASILDA",
+        "INÉS"
+      ],
+      "justificacion": "Casilda e Inés se retiran en el v. 1424 pero los segadores quedan dormidos en el portal, de modo que la escena no se vacía. Tras el v. 1654, «Éntrense todos relinchando» sí la vacía.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 9,
+      "jornada": 2,
+      "v_ini": 1655,
+      "v_fin": 1798,
+      "espacio": "Toledo, taller del pintor",
+      "personajes_al_entrar": [
+        "PERIBÁÑEZ",
+        "EL PINTOR",
+        "ANTÓN"
+      ],
+      "justificacion": "Peribáñez queda solo tras descubrir el retrato y sale con «Vase» en el v. 1798.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 10,
+      "jornada": 2,
+      "v_ini": 1799,
+      "v_fin": 1860,
+      "espacio": "Casa del Comendador en Ocaña",
+      "personajes_al_entrar": [
+        "LEONARDO",
+        "EL COMENDADOR"
+      ],
+      "justificacion": "Leonardo sale en el v. 1846 y el Comendador queda solo con su soneto; sale él también con «Vase» en el v. 1860.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 11,
+      "jornada": 2,
+      "v_ini": 1861,
+      "v_fin": 1947,
+      "espacio": "Campo cerca de Ocaña",
+      "personajes_al_entrar": [
+        "PERIBÁÑEZ",
+        "ANTÓN"
+      ],
+      "justificacion": "Antón se va en el v. 1877 y Peribáñez queda solo oyendo cantar a los segadores dentro; sale con «Éntrese» en el v. 1947.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 12,
+      "jornada": 2,
+      "v_ini": 1948,
+      "v_fin": 2090,
+      "espacio": "Casa de Peribáñez en Ocaña",
+      "personajes_al_entrar": [
+        "INÉS",
+        "CASILDA"
+      ],
+      "justificacion": "El elenco solo crece hasta el fin de la jornada II (v. 2090), que cierra el cuadro por regla.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 13,
+      "jornada": 3,
+      "v_ini": 2091,
+      "v_fin": 2315,
+      "espacio": "Ocaña, casa del Comendador",
+      "personajes_al_entrar": [
+        "EL COMENDADOR",
+        "LEONARDO"
+      ],
+      "justificacion": "Peribáñez marcha con su gente en el v. 2299 y el Comendador, que queda, sale con «Éntrase» en el v. 2315.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 14,
+      "jornada": 3,
+      "v_ini": 2316,
+      "v_fin": 2508,
+      "espacio": "Ocaña, calle y balcón de la casa de Peribáñez",
+      "personajes_al_entrar": [
+        "COSTANZA",
+        "CASILDA",
+        "INÉS"
+      ],
+      "justificacion": "Los labradores se van en el v. 2484 y quedan Leonardo e Inés, que salen con «Vanse» en el v. 2508; pero Costanza y Casilda se retiran del balcón sin acotación expresa.",
+      "seguridad": "dudosa"
+    },
+    {
+      "numero": 15,
+      "jornada": 3,
+      "v_ini": 2509,
+      "v_fin": 2620,
+      "espacio": "Casa del Comendador en Ocaña",
+      "personajes_al_entrar": [
+        "EL COMENDADOR",
+        "LUJÁN"
+      ],
+      "justificacion": "Tras el v. 2620, «Éntrense» saca a todos a la calle y en el v. 2621 aparece Peribáñez solo.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 16,
+      "jornada": 3,
+      "v_ini": 2621,
+      "v_fin": 2720,
+      "espacio": "Calle de Ocaña, de noche, ante la casa de Peribáñez",
+      "personajes_al_entrar": [
+        "PERIBÁÑEZ"
+      ],
+      "justificacion": "Tras el v. 2720, «Éntrense» mete en la casa a Peribáñez y Antón; en el v. 2721 salen a esa misma calle el Comendador, Luján y los músicos.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 17,
+      "jornada": 3,
+      "v_ini": 2721,
+      "v_fin": 2762,
+      "espacio": "Calle de Ocaña, de noche, ante la casa de Peribáñez",
+      "personajes_al_entrar": [
+        "EL COMENDADOR",
+        "LUJÁN",
+        "MÚSICOS"
+      ],
+      "justificacion": "El Comendador y Luján entran en la casa y quedan fuera los músicos (v. 2758), que comentan y se van con «Vanse» en el v. 2762.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 18,
+      "jornada": 3,
+      "v_ini": 2763,
+      "v_fin": 2892,
+      "espacio": "Interior de la casa de Peribáñez, de noche",
+      "personajes_al_entrar": [
+        "PERIBÁÑEZ"
+      ],
+      "justificacion": "Peribáñez y Casilda se retiran en el v. 2860, pero el Comendador herido queda en escena y llega Leonardo. Tras el v. 2892, «Váyanse» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 19,
+      "jornada": 3,
+      "v_ini": 2893,
+      "v_fin": 2914,
+      "espacio": "Portal de la casa de Peribáñez",
+      "personajes_al_entrar": [
+        "LUJÁN",
+        "INÉS",
+        "PERIBÁÑEZ",
+        "CASILDA"
+      ],
+      "justificacion": "Huyen Luján e Inés (v. 2900) y tras el v. 2914 «Váyanse» saca a Peribáñez y Casilda, que huyen a Toledo.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 20,
+      "jornada": 3,
+      "v_ini": 2915,
+      "v_fin": 3143,
+      "espacio": "Toledo, corte del rey Enrique III",
+      "personajes_al_entrar": [
+        "EL REY ENRIQUE",
+        "EL CONDESTABLE"
+      ],
+      "justificacion": "El elenco solo crece hasta el desenlace y el verso final de la comedia (v. 3143).",
+      "seguridad": "clara"
+    }
+  ],
   "escenas": [
     {
       "jornada": 1,
@@ -817,6 +1088,7 @@
   },
   "avisos": [
     "ARTELOPE divide esta obra en «acto», no en «jornada»; se vuelca en el mismo campo.",
-    "El XML marca 79 escenas (<div2 type=\"scene\">), no cuadros: ARTELOPE no marca cuadros en ningún fichero del repositorio. Van en el campo «escenas»; «cuadros» queda vacío."
+    "El XML marca 79 escenas (<div2 type=\"scene\">), no cuadros: ARTELOPE no marca cuadros en ningún fichero del repositorio. Van en el campo «escenas»; «cuadros» queda vacío.",
+    "En 3 de los 20 cuadros el vaciado del tablado no lo dice ninguna acotación y se deduce del reparto: nº 2, nº 6, nº 14. Van marcados como dudosos."
   ]
 }

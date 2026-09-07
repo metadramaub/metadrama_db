@@ -35,7 +35,147 @@
       "v_fin": 2981
     }
   ],
-  "cuadros": [],
+  "cuadros": [
+    {
+      "numero": 1,
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 280,
+      "espacio": "Camino en las afueras de París y un mesón cercano",
+      "personajes_al_entrar": [
+        "LISARDA",
+        "BELISA",
+        "OTÓN",
+        "FINARDO",
+        "MARÍN"
+      ],
+      "justificacion": "El «Vanse ellas» del v. 128 solo saca a las dos mujeres. Tras el v. 280, «Vanse. Salen JUAN LABRADOR, villano viejo, FILETO, BRUNO y SALVANO, labradores» vacía el tablado y lleva la acción a Miraflores.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 2,
+      "jornada": 1,
+      "v_ini": 281,
+      "v_fin": 684,
+      "espacio": "Casa y campos de Juan Labrador, en Miraflores",
+      "personajes_al_entrar": [
+        "JUAN LABRADOR",
+        "FILETO",
+        "BRUNO",
+        "SALVANO"
+      ],
+      "justificacion": "Feliciano se va tras el v. 642 y quedan Lisarda y Belisa, cuya salida no está acotada; el vaciado se deduce de que lo siguiente ocurre en la iglesia con el Rey y su séquito.",
+      "seguridad": "dudosa"
+    },
+    {
+      "numero": 3,
+      "jornada": 1,
+      "v_ini": 685,
+      "v_fin": 982,
+      "espacio": "La iglesia de Miraflores, donde el Rey oye misa",
+      "personajes_al_entrar": [
+        "REY DE FRANCIA",
+        "INFANTA",
+        "FINARDO",
+        "OTÓN",
+        "MARÍN"
+      ],
+      "justificacion": "Se van el Rey y la Infanta (v. 886) y luego Lisarda, Belisa y los villanos (v. 935), pero Finardo, Otón y Marín siguen en escena hasta el fin de la jornada I (v. 982), que cierra el cuadro por regla.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 4,
+      "jornada": 2,
+      "v_ini": 983,
+      "v_fin": 1110,
+      "espacio": "Palacio real, en la corte de Francia",
+      "personajes_al_entrar": [
+        "REY DE FRANCIA",
+        "FINARDO"
+      ],
+      "justificacion": "Tras el v. 1110, «Vanse. Sale BELISA, COSTANZA y LISARDA» vacía el tablado y abre otro lugar.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 5,
+      "jornada": 2,
+      "v_ini": 1111,
+      "v_fin": 1547,
+      "espacio": "El olmo de Miraflores y la casa de Juan Labrador",
+      "personajes_al_entrar": [
+        "BELISA",
+        "COSTANZA",
+        "LISARDA"
+      ],
+      "justificacion": "El elenco solo crece: Fileto y Feliciano, luego Bruno, Salvano y Tirso, luego Otón y Marín, y por fin Juan Labrador y el Alcaide. Tras el v. 1547, «Vanse. Sale el REY, en cuerpo» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 6,
+      "jornada": 2,
+      "v_ini": 1548,
+      "v_fin": 2018,
+      "espacio": "Casa de Juan Labrador, de noche, con el Rey disfrazado",
+      "personajes_al_entrar": [
+        "REY DE FRANCIA"
+      ],
+      "justificacion": "Hay entradas y salidas parciales —incluido el «Vanse todos y meten la mesa» del v. 1897—, pero el Rey no abandona el tablado en ningún momento, así que el cuadro se cierra por fin de la jornada II (v. 2018).",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 7,
+      "jornada": 3,
+      "v_ini": 2019,
+      "v_fin": 2197,
+      "espacio": "Olivares de Miraflores, durante el vareo de la aceituna",
+      "personajes_al_entrar": [
+        "FILETO",
+        "BRUNO",
+        "SALVANO"
+      ],
+      "justificacion": "Tras el v. 2197, «Vanse y salen el REY y FINARDO» vacía el tablado y lleva la acción a la corte.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 8,
+      "jornada": 3,
+      "v_ini": 2198,
+      "v_fin": 2327,
+      "espacio": "Palacio real, la corte de Francia",
+      "personajes_al_entrar": [
+        "REY DE FRANCIA",
+        "FINARDO"
+      ],
+      "justificacion": "Otón entra en el v. 2286 y sale en el v. 2313, quedando el Rey solo. Tras el v. 2327, «Vase y sale JUAN LABRADOR y FELICIANO» saca al único que quedaba.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 9,
+      "jornada": 3,
+      "v_ini": 2328,
+      "v_fin": 2493,
+      "espacio": "Casa de Juan Labrador, en Miraflores",
+      "personajes_al_entrar": [
+        "JUAN LABRADOR",
+        "FELICIANO"
+      ],
+      "justificacion": "Tras el v. 2493, el «Vanse» de Fileto y Bruno deja el tablado vacío y «Salen el REY y el ALMIRANTE» abre de nuevo la corte.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 10,
+      "jornada": 3,
+      "v_ini": 2494,
+      "v_fin": 2981,
+      "espacio": "Palacio real, la corte de Francia",
+      "personajes_al_entrar": [
+        "REY DE FRANCIA",
+        "ALMIRANTE"
+      ],
+      "justificacion": "El «Vanse todos» del v. 2603 no vacía la escena: Otón, Bruno y Fileto siguen hablando inmediatamente después. El tablado no vuelve a quedar vacío hasta el verso final (v. 2981).",
+      "seguridad": "clara"
+    }
+  ],
   "escenas": [],
   "secuencias": [
     {
@@ -413,6 +553,7 @@
     "eventos_sobrenaturales": null
   },
   "avisos": [
-    "ARTELOPE divide esta obra en «acto», no en «jornada»; se vuelca en el mismo campo."
+    "ARTELOPE divide esta obra en «acto», no en «jornada»; se vuelca en el mismo campo.",
+    "En 1 de los 10 cuadros el vaciado del tablado no lo dice ninguna acotación y se deduce del reparto: nº 2. Van marcados como dudosos."
   ]
 }

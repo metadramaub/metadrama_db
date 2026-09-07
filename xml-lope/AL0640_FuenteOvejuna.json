@@ -35,7 +35,254 @@
       "v_fin": 2456
     }
   ],
-  "cuadros": [],
+  "cuadros": [
+    {
+      "numero": 1,
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 172,
+      "espacio": "Almagro, en presencia del Maestre de Calatrava",
+      "personajes_al_entrar": [
+        "COMENDADOR",
+        "FLORES",
+        "ORTUÑO"
+      ],
+      "justificacion": "Tras el v. 172 la acotación «Vanse, y salen PASCUALA y LAURENCIA» vacía el tablado y traslada la acción a Fuente Ovejuna.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 2,
+      "jornada": 1,
+      "v_ini": 173,
+      "v_fin": 634,
+      "espacio": "Fuente Ovejuna: el arroyo, luego la calle y la casa del Comendador",
+      "personajes_al_entrar": [
+        "PASCUALA",
+        "LAURENCIA"
+      ],
+      "justificacion": "Ni las entradas sucesivas (Mengo, Barrildo y Frondoso tras el v. 274; Flores tras el v. 444; el Comendador con músicos y alcaldes tras el v. 528) ni el «Vanse» parcial de los alcaldes tras el v. 594 vacían la escena. Tras el v. 634, «Vanse los dos, y salen el REY DON FERNANDO, la REINA DOÑA ISABEL, MANRIQUE» la limpia.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 3,
+      "jornada": 1,
+      "v_ini": 635,
+      "v_fin": 722,
+      "espacio": "Corte de los Reyes Católicos",
+      "personajes_al_entrar": [
+        "REY FERNANDO",
+        "REINA ISABEL",
+        "MANRIQUE"
+      ],
+      "justificacion": "Tras el v. 722 la acotación «Vanse todos, y salen LAURENCIA y FRONDOSO» vacía el tablado y regresa a Fuente Ovejuna.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 4,
+      "jornada": 1,
+      "v_ini": 723,
+      "v_fin": 860,
+      "espacio": "Campo cerca de Fuente Ovejuna, junto al arroyo",
+      "personajes_al_entrar": [
+        "LAURENCIA",
+        "FRONDOSO"
+      ],
+      "justificacion": "El Comendador sale tras el v. 778 sin vaciar la escena; Frondoso se va solo tras el v. 833 y el Comendador queda en escena hasta el fin de la jornada I (v. 860), que cierra el cuadro por regla.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 5,
+      "jornada": 2,
+      "v_ini": 861,
+      "v_fin": 1138,
+      "espacio": "Plaza de Fuente Ovejuna",
+      "personajes_al_entrar": [
+        "ESTEBAN",
+        "REGIDOR"
+      ],
+      "justificacion": "El «Vanse» del v. 1024 solo saca a los villanos: el Comendador sigue hablando con Ortuño y Flores, y luego entra Cimbranos. Tras el v. 1138, «Vanse, y salen MENGO, LAURENCIA y PASCUALA huyendo» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 6,
+      "jornada": 2,
+      "v_ini": 1139,
+      "v_fin": 1278,
+      "espacio": "Campo cerca de Fuente Ovejuna",
+      "personajes_al_entrar": [
+        "MENGO",
+        "LAURENCIA",
+        "PASCUALA"
+      ],
+      "justificacion": "Laurencia y Pascuala se van solas (vv. 1198 y 1200) pero Mengo y Jacinta hacen de puente con Flores, Ortuño y el Comendador. Tras el v. 1278, «Llévanla y vanse, y salen LAURENCIA y FRONDOSO» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 7,
+      "jornada": 2,
+      "v_ini": 1279,
+      "v_fin": 1450,
+      "espacio": "Fuente Ovejuna: el campo y luego la casa de Esteban",
+      "personajes_al_entrar": [
+        "LAURENCIA",
+        "FRONDOSO"
+      ],
+      "justificacion": "Frondoso se esconde tras el v. 1318 sin salir del tablado, y la acotación tras el v. 1442 dice que «quedan Frondoso y Laurencia». Tras el v. 1450, «Vanse, y salen el MAESTRE, el COMENDADOR, FLORES y ORTUÑO» limpia la escena.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 8,
+      "jornada": 2,
+      "v_ini": 1451,
+      "v_fin": 1473,
+      "espacio": "Campo de batalla junto a Ciudad Real",
+      "personajes_al_entrar": [
+        "MAESTRE",
+        "COMENDADOR",
+        "FLORES",
+        "ORTUÑO"
+      ],
+      "justificacion": "Derrota y retirada del Maestre y el Comendador. Tras el v. 1473 la acotación «Vanse» vacía el tablado y da paso a la boda.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 9,
+      "jornada": 2,
+      "v_ini": 1474,
+      "v_fin": 1653,
+      "espacio": "Fuente Ovejuna, la boda de Frondoso y Laurencia",
+      "personajes_al_entrar": [
+        "MÚSICOS",
+        "MENGO",
+        "FRONDOSO",
+        "LAURENCIA",
+        "PASCUALA",
+        "BARRILDO",
+        "ESTEBAN",
+        "ALONSO",
+        "JUAN ROJO"
+      ],
+      "justificacion": "El «Vanse él y los suyos» del v. 1642 solo saca al Comendador y su gente; Barrildo, Mengo y Juan Rojo siguen en escena hasta el fin de la jornada II (v. 1653), que cierra el cuadro por regla.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 10,
+      "jornada": 3,
+      "v_ini": 1654,
+      "v_fin": 1849,
+      "espacio": "Fuente Ovejuna, junta del concejo y calle",
+      "personajes_al_entrar": [
+        "ESTEBAN",
+        "ALONSO",
+        "BARRILDO"
+      ],
+      "justificacion": "El «Vanse todos» del v. 1816 no incluye a Laurencia, que sigue hablando y llama a las mujeres. Tras el v. 1849, «Vanse, y sale FRONDOSO, atadas las manos» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 11,
+      "jornada": 3,
+      "v_ini": 1850,
+      "v_fin": 1889,
+      "espacio": "Casa del Comendador en Fuente Ovejuna",
+      "personajes_al_entrar": [
+        "FRONDOSO",
+        "FLORES",
+        "ORTUÑO",
+        "CIMBRANOS",
+        "COMENDADOR"
+      ],
+      "justificacion": "Tras el v. 1889 la acotación «Vanse, y salen las mujeres, armadas» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 12,
+      "jornada": 3,
+      "v_ini": 1890,
+      "v_fin": 1921,
+      "espacio": "Inmediaciones de la casa del Comendador",
+      "personajes_al_entrar": [
+        "LAURENCIA",
+        "PASCUALA",
+        "JACINTA"
+      ],
+      "justificacion": "Tras el v. 1921, «Vanse, y salen el REY DON FERNANDO y la REINA DOÑA ISABEL, y DON MANRIQUE» vacía el tablado y traslada la acción a la corte.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 13,
+      "jornada": 3,
+      "v_ini": 1922,
+      "v_fin": 2029,
+      "espacio": "Corte de los Reyes Católicos",
+      "personajes_al_entrar": [
+        "REY FERNANDO",
+        "REINA ISABEL",
+        "MANRIQUE"
+      ],
+      "justificacion": "Flores entra herido tras el v. 1949 sin vaciar la escena. Tras el v. 2029, «Vanse, y salen los labradores y labradoras, con la cabeza de Fernán Gómez en una lanza» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 14,
+      "jornada": 3,
+      "v_ini": 2030,
+      "v_fin": 2126,
+      "espacio": "Plaza de Fuente Ovejuna",
+      "personajes_al_entrar": [
+        "MÚSICOS",
+        "BARRILDO",
+        "FRONDOSO",
+        "LAURENCIA",
+        "PASCUALA",
+        "MENGO",
+        "ESTEBAN",
+        "JUAN ROJO",
+        "CUADRADO"
+      ],
+      "justificacion": "Tras el v. 2126, «Vanse, y salen el MAESTRE y un SOLDADO» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 15,
+      "jornada": 3,
+      "v_ini": 2127,
+      "v_fin": 2162,
+      "espacio": "Presencia del Maestre de Calatrava",
+      "personajes_al_entrar": [
+        "MAESTRE",
+        "SOLDADO"
+      ],
+      "justificacion": "Tras el v. 2162, «Vanse; sale LAURENCIA sola» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 16,
+      "jornada": 3,
+      "v_ini": 2163,
+      "v_fin": 2292,
+      "espacio": "Fuente Ovejuna",
+      "personajes_al_entrar": [
+        "LAURENCIA"
+      ],
+      "justificacion": "El tormento se oye dentro; los liberados entran tras el v. 2260 sin vaciar la escena, y el «Vanse» del v. 2284 deja a Frondoso y Laurencia. Tras el v. 2292, «Vanse, y salen el REY y la REINA y MANRIQUE» vacía el tablado.",
+      "seguridad": "clara"
+    },
+    {
+      "numero": 17,
+      "jornada": 3,
+      "v_ini": 2293,
+      "v_fin": 2456,
+      "espacio": "Corte de los Reyes Católicos",
+      "personajes_al_entrar": [
+        "REY FERNANDO",
+        "REINA ISABEL",
+        "MANRIQUE"
+      ],
+      "justificacion": "Desenlace: el Maestre, el pesquisidor y por fin el pueblo entran sin que el tablado se vacíe, hasta el verso final (v. 2456).",
+      "seguridad": "clara"
+    }
+  ],
   "escenas": [],
   "secuencias": [
     {
