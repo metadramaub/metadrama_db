@@ -20,6 +20,7 @@
 		contradiceLaRelacion,
 		fijarValorObservado,
 		medidaDeLaNorma,
+		medidaDominante,
 		notaDelMetroObservado,
 		opcionesObservadas,
 		valorObservado
@@ -844,12 +845,13 @@
 
 	const normSyllables = $derived(medidaDeLaNorma(props.catalog.domain, draft.arquitectura_id));
 
-	function observedOptions(dimension: MetricDeviationDimension) {
+	function observedOptions(dimension: MetricDeviationDimension | '') {
 		return opcionesObservadas(
 			props.catalog.domain,
 			dimension,
 			draft.arquitectura_id,
-			sectionsForDraft
+			sectionsForDraft,
+			medidaDominante(props.catalog.domain, draft.arquitectura_id)
 		);
 	}
 
@@ -1124,7 +1126,27 @@
 		}
 		// Las desviaciones no se miraban en ninguna línea, ni su rango ni que cayera dentro de la
 		// secuencia. Lo paraba la base, y el editor se comía un error crudo.
-		for (const deviation of draft.desviaciones) {
+		for (const [indice, deviation] of draft.desviaciones.entries()) {
+			/**
+			 * **Una desviación que no dice nada no es una desviación.**
+			 *
+			 * Comprobado contra la base: `dimensión` y `relación` bastan para que la fila entre, así
+			 * que se podía pulsar «Registrar una desviación», no tocar nada y guardar una fila que no
+			 * registra nada. Ahora hay que decir de qué habla, qué le pasa y —salvo que se precise el
+			 * valor observado— en qué consiste.
+			 */
+			const numero = draft.desviaciones.length > 1 ? ` ${indice + 1}` : '';
+			if (!deviation.dimension) {
+				return `Di de qué habla la desviación${numero}: metro, rima, estructura, repetición o rasgo.`;
+			}
+			if (!deviation.relacion_norma) {
+				return `Di qué le pasa a ${METRIC_DEVIATION_DIMENSIONS.find(
+					(option) => option.value === deviation.dimension
+				)?.label.toLocaleLowerCase('es')} en la desviación${numero}.`;
+			}
+			if (!valorObservado(deviation) && !deviation.observaciones.trim()) {
+				return `Describe en qué consiste la desviación${numero}, o precisa lo observado.`;
+			}
 			if (deviation.v_fin < deviation.v_ini) {
 				return 'Una desviación no puede terminar antes de donde empieza.';
 			}
@@ -1702,9 +1724,10 @@
 									onchange={(event) => {
 										const next = event.currentTarget.value as MetricDeviationDimension;
 										deviation.dimension = next;
-										// Al cambiar de dimensión, la relación elegida puede dejar de
-										// aplicar: se sustituye por la primera que sí lo hace. Y el
-										// valor observado se vacía, porque pertenecía a la otra.
+										// Al cambiar de dimensión, la relación se conserva si sigue
+										// aplicando y se vacía si no: elegirla por el editor es lo que
+										// hacía que la desviación afirmara algo que nadie ha dicho. Y el
+										// valor observado se va, porque pertenecía a la otra dimensión.
 										deviation.relacion_norma = defaultRelationFor(
 											next,
 											deviation.relacion_norma
@@ -1712,6 +1735,7 @@
 										setObserved(deviation, '');
 									}}
 								>
+									<option value="">De qué…</option>
 									{#each METRIC_DEVIATION_DIMENSIONS as option (option.value)}
 										<option value={option.value}>{option.label}</option>
 									{/each}
@@ -1729,6 +1753,9 @@
 										if (deviation.relacion_norma === 'falta') setObserved(deviation, '');
 									}}
 								>
+									<option value="">
+										{deviation.dimension ? 'Qué le pasa…' : 'Elige antes la dimensión'}
+									</option>
 									{#each metricDeviationRelations(deviation.dimension) as option (option.value)}
 										<option value={option.value}>{option.label}</option>
 									{/each}
@@ -1736,7 +1763,18 @@
 							</label>
 							<!-- Lo observado: la precisión que hace analizable la desviación. Con
 							     «Falta» no hay nada que observar, y la base lo exige vacío. -->
-							{#if deviation.relacion_norma !== 'falta'}
+							<!--
+								**La rima no ofrece nada que elegir.**
+
+								Ofrecía los esquemas de la propia arquitectura —«Tipología 1», «Tipología 2»…—
+								y elegir uno de ellos es decir que el pasaje rima como la norma admite, que es
+								una respuesta y no una desviación. Y desde que se puede escribir el esquema
+								—las 53 preguntas de rima del catálogo son `opciones_y_esquema` o
+								`esquema_rima`, todas— un esquema que el catálogo no tiene **también** es una
+								respuesta. No queda ningún caso que elegir aquí: una desviación de rima
+								—rima interna, rima donde la norma da versos por sueltos— se escribe.
+							-->
+							{#if deviation.relacion_norma !== 'falta' && deviation.dimension !== 'rima'}
 								{@const opciones = observedOptions(deviation.dimension)}
 								{#if opciones.length > 0}
 									<label class="form-field sm:col-span-2 xl:col-span-3">
@@ -1749,9 +1787,24 @@
 											onchange={(event) => setObserved(deviation, event.currentTarget.value)}
 										>
 											<option value="">Sin precisar</option>
-											{#each opciones as option (option.id)}
-												<option value={option.id}>{option.label}</option>
-											{/each}
+											<!--
+												**Agrupados por su rasgo.** Los treinta y cuatro valores salían
+												mezclados y en una sola lista: «a», «a-a», «Agudo»… Nadie puede saber
+												que «a-e» es una vocal de asonancia y «Agudo» un final acentual.
+											-->
+											{#if opciones.some((option) => option.grupo)}
+												{#each [...new Set(opciones.map((option) => option.grupo ?? '—'))] as grupo (grupo)}
+													<optgroup label={grupo}>
+														{#each opciones.filter((option) => (option.grupo ?? '—') === grupo) as option (option.id)}
+															<option value={option.id}>{option.label}</option>
+														{/each}
+													</optgroup>
+												{/each}
+											{:else}
+												{#each opciones as option (option.id)}
+													<option value={option.id}>{option.label}</option>
+												{/each}
+											{/if}
 										</select>
 										{#if observedMetreNote(deviation)}
 											<span
@@ -1769,6 +1822,22 @@
 										{/if}
 									</label>
 								{/if}
+							{/if}
+							<!--
+								**Lo que le falta se dice aquí, no en la cabecera.**
+
+								El aviso de arriba habla solo del rango, que es lo que está mal; esto es trabajo
+								a medias y se dice donde se está haciendo. Callado mientras no se haya elegido
+								dimensión: una desviación recién abierta está incompleta por definición y
+								decírselo al editor en el mismo instante en que pulsa el botón es regañarle por
+								no haber escrito todavía.
+							-->
+							{#if deviation.dimension && (!deviation.relacion_norma || (!valorObservado(deviation) && !deviation.observaciones.trim()))}
+								<p class="text-xs text-[color:var(--primary)] sm:col-span-2 xl:col-span-6">
+									{!deviation.relacion_norma
+										? 'Falta decir qué le pasa.'
+										: 'Falta describir en qué consiste, o precisar lo observado.'}
+								</p>
 							{/if}
 							<!--
 								Acotados al rango de la secuencia: una desviación es de un pasaje suyo. Iban

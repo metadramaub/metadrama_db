@@ -45,13 +45,18 @@ export const METRIC_DEVIATION_DIMENSIONS: { value: MetricDeviationDimension; lab
 	{ value: 'rasgo', label: 'Rasgo' }
 ];
 
+/**
+ * **«Es otra» y «Otra» eran indistinguibles**, y en rima salían las dos juntas. Una dice que lo que
+ * hay es otro valor de la misma clase —otro esquema, otro valor del rasgo— y la otra que es
+ * cualquier otra cosa, la que se explica escribiendo. Ahora lo dicen.
+ */
 const DEVIATION_RELATION_LABELS: Record<MetricDeviationRelation, string> = {
-	diferente: 'Es otra',
+	diferente: 'Es otro valor',
 	falta: 'Falta',
 	sobra: 'Sobra',
-	menor_que_norma: 'Menor que la norma',
-	mayor_que_norma: 'Mayor que la norma',
-	otra: 'Otra'
+	menor_que_norma: 'Mide menos que la norma',
+	mayor_que_norma: 'Mide más que la norma',
+	otra: 'Otra cosa, se explica abajo'
 };
 
 /**
@@ -74,30 +79,40 @@ const DEVIATION_RELATIONS_BY_DIMENSION: Record<
 	rasgo: ['falta', 'sobra', 'diferente', 'otra']
 };
 
+/** Sin dimensión no hay relaciones que ofrecer: primero se dice de qué habla la desviación. */
 export function metricDeviationRelations(
-	dimension: MetricDeviationDimension
+	dimension: MetricDeviationDimension | ''
 ): { value: MetricDeviationRelation; label: string }[] {
+	if (!dimension) return [];
 	return DEVIATION_RELATIONS_BY_DIMENSION[dimension].map((value) => ({
 		value,
 		label: DEVIATION_RELATION_LABELS[value]
 	}));
 }
 
-/** La relación que se elige sola cuando la actual deja de aplicar al cambiar de dimensión. */
+/**
+ * La relación que queda al cambiar de dimensión.
+ *
+ * **Se conserva la elegida si sigue valiendo, y si no se vacía**, en vez de saltar a la primera de
+ * la lista: cambiar de dimensión no es decir nada sobre la relación, y elegirla por el editor es lo
+ * que hacía que una desviación recién creada ya afirmase algo.
+ */
 export function defaultRelationFor(
-	dimension: MetricDeviationDimension,
-	current: MetricDeviationRelation
-): MetricDeviationRelation {
+	dimension: MetricDeviationDimension | '',
+	current: MetricDeviationRelation | ''
+): MetricDeviationRelation | '' {
+	if (!dimension) return '';
 	const allowed = DEVIATION_RELATIONS_BY_DIMENSION[dimension];
-	return allowed.includes(current) ? current : allowed[0];
+	return current && allowed.includes(current) ? current : '';
 }
 
 export type MetricDeviationDraft = {
 	realizacion_id: string | null;
 	v_ini: number;
 	v_fin: number;
-	dimension: MetricDeviationDimension;
-	relacion_norma: MetricDeviationRelation;
+	/** Vacío mientras el editor no haya dicho de qué habla la desviación. */
+	dimension: MetricDeviationDimension | '';
+	relacion_norma: MetricDeviationRelation | '';
 	metro_observado_id: string | null;
 	esquema_rima_observado_id: string | null;
 	seccion_observada_id: string | null;
@@ -456,15 +471,24 @@ export function draftFromRows(
 	};
 }
 
-export function emptyDeviation(vIni: number, vFin: number): MetricDeviationDraft {
-	const dimension: MetricDeviationDimension = 'metro';
+/**
+ * Una desviación recién abierta **no afirma nada**.
+ *
+ * Nacía con «Metro · Menor que la norma» puesto, que es una afirmación que el editor no ha hecho:
+ * bastaba con pulsar el botón y guardar para dejar escrito en la base que el metro de ese pasaje es
+ * menor que el de la norma. Ahora empieza en blanco y no se puede guardar hasta que diga qué pasa.
+ *
+ * El rango tampoco se presupone. Venía relleno con la secuencia entera —1 a 25 en una quintilla de
+ * cinco unidades— y una desviación de todo el pasaje es una contradicción: si todo se aparta, la
+ * forma elegida es otra. Empieza en el primer verso y se acota a mano.
+ */
+export function emptyDeviation(vIni: number, _vFin: number): MetricDeviationDraft {
 	return {
 		realizacion_id: null,
 		v_ini: vIni,
-		v_fin: vFin,
-		dimension,
-		// Se toma del mapa para que no pueda quedar una combinación que la base rechaza.
-		relacion_norma: DEVIATION_RELATIONS_BY_DIMENSION[dimension][0],
+		v_fin: vIni,
+		dimension: '',
+		relacion_norma: '',
 		metro_observado_id: null,
 		esquema_rima_observado_id: null,
 		seccion_observada_id: null,
