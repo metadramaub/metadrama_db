@@ -100,6 +100,12 @@ function prefijoDeParte(row: GridRow): string | null {
 	return section ? sectionLabel(section) : null;
 }
 
+/** Si la fila pertenece a una sección cuya primera realización declara el patrón de las demás. */
+function seccionDeclaraPatron(row: GridRow): boolean {
+	if (row.kind === 'acciones') return false;
+	return row.section?.primera_realizacion_define_patron === true;
+}
+
 function esPosicional(group: MetricCatalogDomainRow, options: MetricCatalogDomainRow[]): boolean {
 	const propias = options.filter(
 		(option) =>
@@ -155,6 +161,21 @@ export function preguntasDelFormulario(context: GridRowContext): PreguntaFormula
 
 	for (const row of buildGridRows(context)) {
 		if (row.kind === 'acciones') continue;
+		/**
+		 * **Lo que declara un patrón no se responde aquí.**
+		 *
+		 * En la canción de estancias variables, la primera estancia **declara** la medida y la rima
+		 * que las demás repiten, y eso lo pregunta el editor de patrón, en el reparto del pasaje, con
+		 * su propia rejilla de versos y su aviso de herencia. Subirlo además a la zona de respuestas
+		 * pintaba **la misma pregunta dos veces** —el mismo grupo, las mismas realizaciones— con dos
+		 * controles distintos y dos recuentos que no coincidían: «0 de 5 versos con medida» arriba y
+		 * «0 de 20» abajo.
+		 *
+		 * Y no es que sobre una de las dos por gusto: declarar el patrón que otras heredan no es
+		 * responder una vez por unidad, así que leerlo como «en todas · 3 unidades» dice algo que no
+		 * es. Se queda donde se entiende.
+		 */
+		if (seccionDeclaraPatron(row)) continue;
 		recoger(row, row.preguntas);
 	}
 
