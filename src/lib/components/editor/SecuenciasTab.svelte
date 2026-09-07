@@ -71,6 +71,15 @@
 		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
 		// la lista de secuencias: hoy, las caracterizaciones por rango.
 		onMetricaDirty?: () => void;
+		/**
+		 * Lo que la obra declara de una vez: si hay donaire, personajes sobrenaturales y eventos
+		 * sobrenaturales. Solo el «no» cierra la pregunta de cada secuencia.
+		 */
+		declaradoEnLaObra?: {
+			donaire: boolean | null;
+			personajesSobrenaturales: boolean | null;
+			eventosSobrenaturales: boolean | null;
+		} | null;
 		/** El catálogo métrico. Sin él no hay editor nuevo que montar, y se cae al panel de siempre. */
 		catalogoMetrico?: MetricCatalogForEditor | null;
 		/** Lo que esta obra ya tiene anotado con el catálogo nuevo, para releerlo al abrir. */
@@ -93,6 +102,7 @@
 		intervencion_personajes_femeninos: IntervencionValue | null;
 		intervencion_figuras_donaire: IntervencionValue | null;
 		intervencion_personajes_sobrenaturales: IntervencionValue | null;
+		evento_sobrenatural: boolean | null;
 		sinopsis: string;
 	};
 
@@ -219,6 +229,7 @@
 			intervencion_personajes_femeninos: null,
 			intervencion_figuras_donaire: null,
 			intervencion_personajes_sobrenaturales: null,
+			evento_sobrenatural: null,
 			sinopsis: ''
 		};
 	}
@@ -328,6 +339,7 @@
 			intervencion_personajes_femeninos: source.intervencion_personajes_femeninos,
 			intervencion_figuras_donaire: source.intervencion_figuras_donaire,
 			intervencion_personajes_sobrenaturales: source.intervencion_personajes_sobrenaturales,
+			evento_sobrenatural: source.evento_sobrenatural,
 			sinopsis: source.sinopsis.trim()
 		});
 	}
@@ -356,6 +368,8 @@
 			isIntervencionValue(candidate.intervencion_personajes_femeninos) &&
 			isIntervencionValue(candidate.intervencion_figuras_donaire) &&
 			isIntervencionValue(candidate.intervencion_personajes_sobrenaturales) &&
+			(candidate.evento_sobrenatural === null ||
+				typeof candidate.evento_sobrenatural === 'boolean') &&
 			typeof candidate.sinopsis === 'string'
 		);
 	}
@@ -444,6 +458,7 @@
 			intervencion_figuras_donaire: secuencia.intervencion_figuras_donaire as IntervencionValue | null,
 			intervencion_personajes_sobrenaturales:
 				secuencia.intervencion_personajes_sobrenaturales as IntervencionValue | null,
+			evento_sobrenatural: secuencia.evento_sobrenatural,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
 		caracterizaciones?.cerrarModales();
@@ -606,6 +621,7 @@
 				savedSecuencia.intervencion_figuras_donaire as IntervencionValue | null,
 			intervencion_personajes_sobrenaturales:
 				savedSecuencia.intervencion_personajes_sobrenaturales as IntervencionValue | null,
+			evento_sobrenatural: savedSecuencia.evento_sobrenatural,
 			sinopsis: savedSecuencia.sinopsis ?? ''
 		};
 
@@ -731,7 +747,7 @@
 		]) {
 			if (valor !== null && valor !== undefined && String(valor).trim() !== '') hechas += 1;
 		}
-		for (const valor of [form.versos_partidos, form.inaugura_espacio]) {
+		for (const valor of [form.versos_partidos, form.inaugura_espacio, form.evento_sobrenatural]) {
 			if (valor !== null && valor !== undefined) hechas += 1;
 		}
 		return hechas;
@@ -1026,7 +1042,7 @@
 	$effect(() => {
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.evento_sobrenatural}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1452,7 +1468,13 @@
 				intervencion_figuras_donaire: form.intervencion_figuras_donaire,
 				intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
 				versos_partidos: form.versos_partidos,
-				inaugura_espacio: form.inaugura_espacio
+				inaugura_espacio: form.inaugura_espacio,
+				evento_sobrenatural: form.evento_sobrenatural
+			}}
+			declaradoEnLaObra={{
+				donaire: props.declaradoEnLaObra?.donaire ?? null,
+				personajesSobrenaturales: props.declaradoEnLaObra?.personajesSobrenaturales ?? null,
+				eventosSobrenaturales: props.declaradoEnLaObra?.eventosSobrenaturales ?? null
 			}}
 			readOnly={props.readOnly}
 			alCambiar={(cambio) => (form = { ...form, ...cambio })}

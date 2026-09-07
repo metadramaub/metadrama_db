@@ -25,6 +25,7 @@ type SecuenciaChecklistRow = Pick<
 	| 'intervencion_personajes_femeninos'
 	| 'intervencion_figuras_donaire'
 	| 'intervencion_personajes_sobrenaturales'
+	| 'evento_sobrenatural'
 	| 'sinopsis'
 >;
 
@@ -40,7 +41,7 @@ export async function loadObraRevisionChecklist(
 		supabase
 			.from('secuencias_metricas')
 			.select(
-				'secuencia_id,v_ini,v_fin,estrofa_tipo_id,inaugura_espacio,versos_partidos,intervencion_personajes_femeninos,intervencion_figuras_donaire,intervencion_personajes_sobrenaturales,sinopsis'
+				'secuencia_id,v_ini,v_fin,estrofa_tipo_id,inaugura_espacio,versos_partidos,intervencion_personajes_femeninos,intervencion_figuras_donaire,intervencion_personajes_sobrenaturales,evento_sobrenatural,sinopsis'
 			)
 			.eq('obra_id', obra.obra_id)
 	]);

@@ -29,10 +29,26 @@
 		intervencion_personajes_sobrenaturales: IntervencionValue | null;
 		versos_partidos: boolean | null;
 		inaugura_espacio: boolean | null;
+		evento_sobrenatural: boolean | null;
+	};
+
+	/**
+	 * Lo que la obra ya declaró, para no volver a preguntarlo aquí.
+	 *
+	 * Solo el **no** cierra la pregunta: si la obra dice que no hay figuras de donaire, la secuencia
+	 * lo enseña respondido y bloqueado, y dice dónde se cambia. En blanco —nadie lo ha declarado
+	 * todavía— la secuencia pregunta como siempre, que es lo que evita que una obra a medias deje de
+	 * poder anotarse.
+	 */
+	type DeclaradoEnLaObra = {
+		donaire: boolean | null;
+		personajesSobrenaturales: boolean | null;
+		eventosSobrenaturales: boolean | null;
 	};
 
 	const props = $props<{
 		valores: CaracterizacionesValues;
+		declaradoEnLaObra: DeclaradoEnLaObra;
 		readOnly?: boolean;
 		/** Se avisa campo a campo; el formulario entero lo gobierna quien monta esto. */
 		alCambiar: (cambio: Partial<CaracterizacionesValues>) => void;
@@ -47,11 +63,23 @@
 		{ id: 'compartida', label: 'Intervención compartida' }
 	];
 
+	const AVISO_NEGADO = 'La obra declara que no los hay. Se cambia en «Datos de la obra».';
+
+	// Los personajes femeninos se dan por presentes en toda obra del corpus, así que su pregunta no
+	// se puede cerrar desde arriba: no lleva declaración.
 	const camposDeIntervencion = [
-		{ clave: 'intervencion_personajes_femeninos', etiqueta: 'Personajes femeninos' },
-		{ clave: 'intervencion_figuras_donaire', etiqueta: 'Figuras de donaire' },
-		{ clave: 'intervencion_personajes_sobrenaturales', etiqueta: 'Personajes sobrenaturales' }
+		{ clave: 'intervencion_personajes_femeninos', etiqueta: 'Personajes femeninos', declaracion: null },
+		{ clave: 'intervencion_figuras_donaire', etiqueta: 'Figuras de donaire', declaracion: 'donaire' },
+		{
+			clave: 'intervencion_personajes_sobrenaturales',
+			etiqueta: 'Personajes sobrenaturales',
+			declaracion: 'personajesSobrenaturales'
+		}
 	] as const;
+
+	function negadoEnLaObra(declaracion: keyof DeclaradoEnLaObra | null) {
+		return declaracion !== null && props.declaradoEnLaObra[declaracion] === false;
+	}
 </script>
 
 <section class="bg-white p-4">
@@ -74,13 +102,16 @@
 					allowSingleClear
 					placeholder="Pendiente — seleccionar"
 					items={opcionesDeIntervencion}
-					disabled={props.readOnly}
+					disabled={props.readOnly || negadoEnLaObra(campo.declaracion)}
 					selectedIds={props.valores[campo.clave] ? [props.valores[campo.clave] as string] : []}
 					onChange={(ids: string[]) =>
 						props.alCambiar({
 							[campo.clave]: (ids[0] as IntervencionValue | undefined) ?? null
 						})}
 				/>
+				{#if negadoEnLaObra(campo.declaracion)}
+					<span class="form-help">{AVISO_NEGADO}</span>
+				{/if}
 			</label>
 		{/each}
 	</div>
@@ -125,6 +156,27 @@
 					onChange={(value: boolean | null) => props.alCambiar({ inaugura_espacio: value })}
 				/>
 			</div>
+		</div>
+
+		<div class="form-field sm:col-span-2">
+			<span class="form-label">
+				<span class="form-label-with-help">
+					Evento sobrenatural
+					<FieldHelpTooltip
+						text="Selecciona 'Sí' si en esta secuencia ocurre un milagro, una aparición o una transformación. Ocurre aunque no hable ningún personaje sobrenatural."
+						label="Ayuda sobre el campo Evento sobrenatural"
+					/>
+				</span>
+			</span>
+			<NullableBooleanChoice
+				value={props.valores.evento_sobrenatural}
+				ariaLabel="Evento sobrenatural"
+				disabled={props.readOnly || negadoEnLaObra('eventosSobrenaturales')}
+				onChange={(value: boolean | null) => props.alCambiar({ evento_sobrenatural: value })}
+			/>
+			{#if negadoEnLaObra('eventosSobrenaturales')}
+				<span class="form-help">{AVISO_NEGADO}</span>
+			{/if}
 		</div>
 	</div>
 </section>

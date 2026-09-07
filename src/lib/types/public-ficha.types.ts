@@ -78,6 +78,7 @@ export interface PublicFichaSecuencia {
 	intervencion_personajes_femeninos: string | null;
 	intervencion_figuras_donaire: string | null;
 	intervencion_personajes_sobrenaturales: string | null;
+	evento_sobrenatural: boolean | null;
 	sinopsis: string | null;
 	jornada_id: string | null;
 	jornada_num: number | null;

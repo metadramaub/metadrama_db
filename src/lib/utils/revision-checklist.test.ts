@@ -32,6 +32,7 @@ function completeInput(): RevisionChecklistInput {
 				intervencion_personajes_femeninos: 'sin_intervencion',
 				intervencion_figuras_donaire: 'sin_intervencion',
 				intervencion_personajes_sobrenaturales: 'sin_intervencion',
+				evento_sobrenatural: false,
 				sinopsis: 'Sinopsis'
 			}
 		],
@@ -64,6 +65,15 @@ describe('revision checklist', () => {
 
 		expect(summary.pendingSequenceCount).toBe(2);
 		expect(item).toMatchObject({ done: false, detail: '2 secuencias pendientes' });
+	});
+
+	it('cuenta pendiente la secuencia que no dice si hay evento sobrenatural', () => {
+		const input = completeInput();
+		input.secuencias[0].evento_sobrenatural = null;
+
+		const summary = buildRevisionChecklist(input);
+
+		expect(summary.pendingSequenceCount).toBe(1);
 	});
 
 	it('detects jornadas without cuadros and duplicated numbering', () => {

@@ -176,6 +176,7 @@
 						<p><strong>Intervención de personajes femeninos:</strong> {formatIntervencionValue(props.secuencia.intervencion_personajes_femeninos)}</p>
 						<p><strong>Intervención de figuras de donaire:</strong> {formatIntervencionValue(props.secuencia.intervencion_figuras_donaire)}</p>
 						<p><strong>Intervención de personajes sobrenaturales:</strong> {formatIntervencionValue(props.secuencia.intervencion_personajes_sobrenaturales)}</p>
+						<p><strong>Evento sobrenatural:</strong> {formatNullableBoolean(props.secuencia.evento_sobrenatural)}</p>
 					</div>
 				</section>
 			</div>

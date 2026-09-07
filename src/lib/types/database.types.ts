@@ -2640,6 +2640,9 @@ export type Database = {
           obra_id: string
           observaciones: string | null
           slug: string
+          tiene_eventos_sobrenaturales: boolean | null
+          tiene_figuras_donaire: boolean | null
+          tiene_personajes_sobrenaturales: boolean | null
           titulo: string
           titulo_normalizado: string | null
           total_versos: number | null
@@ -2665,6 +2668,9 @@ export type Database = {
           obra_id?: string
           observaciones?: string | null
           slug?: string
+          tiene_eventos_sobrenaturales?: boolean | null
+          tiene_figuras_donaire?: boolean | null
+          tiene_personajes_sobrenaturales?: boolean | null
           titulo: string
           titulo_normalizado?: string | null
           total_versos?: number | null
@@ -2690,6 +2696,9 @@ export type Database = {
           obra_id?: string
           observaciones?: string | null
           slug?: string
+          tiene_eventos_sobrenaturales?: boolean | null
+          tiene_figuras_donaire?: boolean | null
+          tiene_personajes_sobrenaturales?: boolean | null
           titulo?: string
           titulo_normalizado?: string | null
           total_versos?: number | null
@@ -3219,6 +3228,7 @@ export type Database = {
         Row: {
           created_at: string
           estrofa_tipo_id: string | null
+          evento_sobrenatural: boolean | null
           inaugura_espacio: boolean | null
           intervencion_figuras_donaire: string | null
           intervencion_personajes_femeninos: string | null
@@ -3235,6 +3245,7 @@ export type Database = {
         Insert: {
           created_at?: string
           estrofa_tipo_id?: string | null
+          evento_sobrenatural?: boolean | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
           intervencion_personajes_femeninos?: string | null
@@ -3251,6 +3262,7 @@ export type Database = {
         Update: {
           created_at?: string
           estrofa_tipo_id?: string | null
+          evento_sobrenatural?: boolean | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
           intervencion_personajes_femeninos?: string | null

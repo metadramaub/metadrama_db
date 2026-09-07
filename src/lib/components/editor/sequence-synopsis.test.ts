@@ -25,6 +25,7 @@ function createSecuencia(overrides: Partial<SecuenciaRow> = {}): SecuenciaRow {
 			overrides.intervencion_personajes_femeninos ?? 'sin_intervencion',
 		intervencion_figuras_donaire:
 			overrides.intervencion_figuras_donaire ?? 'sin_intervencion',
+		evento_sobrenatural: overrides.evento_sobrenatural ?? false,
 		intervencion_personajes_sobrenaturales:
 			overrides.intervencion_personajes_sobrenaturales ?? 'sin_intervencion',
 		sinopsis: overrides.sinopsis ?? 'Sinopsis base',
