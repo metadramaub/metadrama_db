@@ -1,0 +1,289 @@
+{
+  "fuente": {
+    "repositorio": "ARTELOPE",
+    "fichero": "XML-TEI Play-texts/AL0882_SiNoVieranLasMujeres.xml",
+    "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
+  },
+  "obra": {
+    "titulo": "SI NO VIERAN LAS MUJERES",
+    "autor": "Félix Lope de Vega y Carpio",
+    "fecha": null,
+    "total_versos": 2972,
+    "genero": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "v_ini": 1,
+      "v_fin": 1014
+    },
+    {
+      "numero": 2,
+      "v_ini": 1015,
+      "v_fin": 2035
+    },
+    {
+      "numero": 3,
+      "v_ini": 2036,
+      "v_fin": 2972
+    }
+  ],
+  "cuadros": [],
+  "escenas": [],
+  "secuencias": [
+    {
+      "v_ini": 1,
+      "v_fin": 52,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 53,
+      "v_fin": 182,
+      "forma_fuente": "decima",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 183,
+      "v_fin": 266,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 267,
+      "v_fin": 562,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 563,
+      "v_fin": 576,
+      "forma_fuente": "soneto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 577,
+      "v_fin": 688,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 689,
+      "v_fin": 746,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 747,
+      "v_fin": 818,
+      "forma_fuente": "silva_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 819,
+      "v_fin": 1086,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1087,
+      "v_fin": 1100,
+      "forma_fuente": "soneto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1101,
+      "v_fin": 1264,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1265,
+      "v_fin": 1463,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1464,
+      "v_fin": 1508,
+      "forma_fuente": "silva_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1509,
+      "v_fin": 1540,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1541,
+      "v_fin": 1670,
+      "forma_fuente": "decima",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1671,
+      "v_fin": 1821,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1822,
+      "v_fin": 1881,
+      "forma_fuente": "decima",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 1882,
+      "v_fin": 2035,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2036,
+      "v_fin": 2075,
+      "forma_fuente": "octava_real",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2076,
+      "v_fin": 2089,
+      "forma_fuente": "soneto",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2090,
+      "v_fin": 2176,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2177,
+      "v_fin": 2279,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2280,
+      "v_fin": 2335,
+      "forma_fuente": "seguidilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2336,
+      "v_fin": 2375,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2376,
+      "v_fin": 2561,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2562,
+      "v_fin": 2591,
+      "forma_fuente": "sexteto_lira",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2592,
+      "v_fin": 2679,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2680,
+      "v_fin": 2725,
+      "forma_fuente": "pareados",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2726,
+      "v_fin": 2775,
+      "forma_fuente": "decima",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2776,
+      "v_fin": 2811,
+      "forma_fuente": "redondilla",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    },
+    {
+      "v_ini": 2812,
+      "v_fin": 2972,
+      "forma_fuente": "romance_tirada",
+      "metro_fuente": null,
+      "esquema_rima_fuente": null,
+      "notas": null
+    }
+  ],
+  "personajes": {
+    "donaire": null,
+    "sobrenaturales": null,
+    "eventos_sobrenaturales": null
+  },
+  "avisos": []
+}
