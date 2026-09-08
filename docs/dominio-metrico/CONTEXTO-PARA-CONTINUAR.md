@@ -885,12 +885,55 @@ Y sale en **dos versiones**:
   **trama** —rayado, punteado—, y **los nombres van fuera, en diagonal ascendente**, unidos a su
   tramo por una línea de guía.
 
-###### Lo que hace falta decidir antes
+*El espacio del cuadro no se registra ni se va a pedir a los editores* —decidido el 9 de septiembre
+de 2026—, así que el esquema de estructura es el de jornadas y cuadros, como el índice que ya
+enseña la pestaña de secuencias del dashboard.
 
-- **El cuadro no registra su espacio.** `cuadros` guarda `jornada_id, cuadro_num, v_ini, v_fin` y
-  nada más. Las cinco comedias canónicas sí tienen el espacio leído a mano —«Portal de una posada en
-  Illescas»— pero eso vive en `xml-lope/cuadros/`, fuera del modelo. Sin esa columna, el esquema de
-  estructura enseña dónde cambia el cuadro pero no adónde se cambia.
+###### Paso 5 · Enseñar lo que ya llega
+
+Nada de esto necesita cálculo ni consulta: **el dato ya viaja en la ficha y no lo pinta nadie**.
+
+- **Rasgos**: la asonancia de cada romance, la densidad de rima de la silva, el dístico final de una
+  tirada de sueltos. Son 182 respuestas que no se ven en ninguna pantalla.
+- **Desviaciones**: las lagunas, el verso hipométrico, la rima fuera del repertorio.
+- **Metros** y **esquemas de rima con su reparto** —«abrazada 46, cruzada 8»—, que ya llegan
+  contados por estrofa.
+- **Las partes de la unidad**: 826 realizaciones —estancia, fronte, pie, sirima, mudanza,
+  estribillo— que se escriben al anotar una canción o un villancico y no salen a ningún sitio.
+- **Versos cantados y prosa**, hoy solo visibles al abrir una secuencia.
+- **Espacios inaugurados**, **versos partidos** y en qué secuencias intervienen personajes
+  femeninos, figuras de donaire o sobrenaturales.
+
+*De «quién canta» se enseña lo que se sabe: la secuencia dice si interviene una mujer, un donaire o
+un sobrenatural, no quién canta, y el modelo no se cambia por esto.*
+
+###### Dónde va cada cosa
+
+La ficha tiene hoy cuatro pestañas —**Estructura métrica**, **Sinopsis**, **Observaciones**,
+**Bibliografía métrica**— y la primera lleva el código de barras y el reparto de formas. Meterle
+ahí diez bloques más la convierte en un rollo.
+
+**Lo que se propone** es que las pestañas nombren *preguntas del lector* y no *tipos de dato*:
+
+| pestaña | qué responde | qué lleva |
+|---|---|---|
+| **De un vistazo** | ¿qué obra es esta? | código de barras, reparto de formas, estructura de jornadas y cuadros, ficha técnica |
+| **Esquema métrico** | ¿qué hay en cada verso? | la lista verso a verso como en una edición crítica, con su exportación |
+| **Análisis** | ¿qué se puede decir de ella? | evolución por jornadas, españolas contra italianas, transiciones y patrones |
+| **Sinopsis** | ¿de qué va? | lo que ya hay |
+| **Observaciones** · **Bibliografía** | | lo que ya hay |
+
+Las dos alternativas, por si se prefieren: **dejar cuatro pestañas** y apilar los bloques nuevos
+dentro de «Estructura métrica», plegados; o **añadir solo «Análisis»** y meter los dos esquemas
+—métrico y de estructura— donde hoy está el código de barras.
+
+**Dentro de una secuencia** —el detalle que se abre al pinchar un tramo— el reparto sería:
+
+- *Datos base* recoge además el **metro** y el **reparto de esquemas de rima**.
+- Un bloque nuevo, **lo observado**: los rasgos y las desviaciones. Es lo que el editor anotó
+  mirando el texto y no lo que la forma prescribe, y por eso va junto y aparte.
+- Otro, **las partes**, solo cuando la secuencia las tiene: la canción, el villancico, la sextina y
+  el terceto encadenado. Una lista anidada con sus rangos.
 
 ## Qué queda pendiente
 
