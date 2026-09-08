@@ -16,7 +16,7 @@ export interface FooterSection {
 }
 
 export const PUBLIC_NAV: NavGroup[] = [
-	{ label: 'CATÁLOGO', href: '/catalogo' },
+	{ label: 'OBRAS', href: '/obras' },
 	{ label: 'AUTORES', href: '/autores' },
 	{ label: 'LABORATORIO', href: '/laboratorio' },
 	{ label: 'CÓMO CITARNOS', href: '/como-citarnos' },
@@ -45,7 +45,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
 	{
 		title: 'NAVEGACIÓN',
 		links: [
-			{ label: 'CATÁLOGO', href: '/catalogo' },
+			{ label: 'OBRAS', href: '/obras' },
 			{ label: 'AUTORES', href: '/autores' },
 			{ label: 'LABORATORIO', href: '/laboratorio' },
 			{ label: 'CATÁLOGO MÉTRICO', href: '/recursos/catalogo-metrico' },
