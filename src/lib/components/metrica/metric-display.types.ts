@@ -32,6 +32,39 @@ export interface MetricBarSubsegment {
 	label: string;
 }
 
+/**
+ * Una línea del esquema métrico: un pasaje con su forma y lo que se sabe de él.
+ *
+ * Es la unidad de «esquema métrico de un vistazo», la lista que las ediciones críticas ponen al
+ * principio y que aquí sale del dato anotado. `detalle` es lo que distingue una tirada de otra de
+ * la misma forma —la asonancia de un romance, el reparto de esquemas de una tirada de redondillas—,
+ * y por eso lo compone quien adapta y no este componente.
+ */
+export interface MetricSchemeEntry {
+	id: string;
+	v_ini: number;
+	v_fin: number;
+	n_versos: number;
+	forma: string;
+	colorKey?: string;
+	/** La arquitectura, que es el detalle dentro de la forma. */
+	arquitectura?: string | null;
+	/** Lo observado en esta tirada, ya redactado: «é-o», «abrazada 46 · cruzada 8». */
+	detalle?: string | null;
+	jornada?: number | null;
+	cuadro?: number | null;
+	/** La tirada sigue sonando después del cambio de cuadro. */
+	cuadroContinua?: boolean | null;
+}
+
+/** Una jornada con sus cuadros, para el esquema de estructura. */
+export interface StructureOutlineJornada {
+	numero: number;
+	v_ini: number;
+	v_fin: number;
+	cuadros: { numero: number; v_ini: number; v_fin: number }[];
+}
+
 /** Una porción de la distribución de formas (para el pie). */
 export interface MetricDistributionSlice {
 	/** Texto visible de la forma (p.ej. la etiqueta de la forma raíz). */
