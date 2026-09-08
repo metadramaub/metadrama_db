@@ -41,66 +41,72 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 348
+			"v_fin": 309
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 349,
-			"v_fin": 493
+			"v_ini": 310,
+			"v_fin": 565
 		},
 		{
 			"jornada": 1,
 			"numero": 3,
-			"v_ini": 494,
+			"v_ini": 566,
 			"v_fin": 899
 		},
 		{
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 900,
-			"v_fin": 1248
+			"v_fin": 1143
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1249,
-			"v_fin": 1360
+			"v_ini": 1144,
+			"v_fin": 1273
 		},
 		{
 			"jornada": 2,
 			"numero": 3,
-			"v_ini": 1361,
-			"v_fin": 1479
+			"v_ini": 1274,
+			"v_fin": 1416
 		},
 		{
 			"jornada": 2,
 			"numero": 4,
-			"v_ini": 1480,
+			"v_ini": 1417,
+			"v_fin": 1600
+		},
+		{
+			"jornada": 2,
+			"numero": 5,
+			"v_ini": 1601,
 			"v_fin": 1757
 		},
 		{
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 1758,
-			"v_fin": 1857
+			"v_fin": 1834
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
-			"v_ini": 1858,
-			"v_fin": 2262
+			"v_ini": 1835,
+			"v_fin": 2301
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2263,
-			"v_fin": 2433
+			"v_ini": 2302,
+			"v_fin": 2498
 		},
 		{
 			"jornada": 3,
 			"numero": 4,
-			"v_ini": 2434,
+			"v_ini": 2499,
 			"v_fin": 2573
 		},
 		{
@@ -360,11 +366,147 @@
 			"forma": "cancion_petrarquista",
 			"arquitectura": "estancias_consonantes_variables",
 			"unidades": 59,
+			"partes": [
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 5
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 5
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 5
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 5
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 5
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 5
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 5
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 5
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 5
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 5
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "remate",
+					"versos": 4
+				}
+			],
 			"secuencia": {},
 			"unidad": {
 				"Estancia · Medida de cada verso": {
-					"misma_en_todas": "Heptasílabo",
-					"posiciones": 20
+					"por_posicion": {
+						"1": "Verso 1 · Heptasílabo",
+						"2": "Verso 2 · Endecasílabo",
+						"3": "Verso 3 · Endecasílabo",
+						"4": "Verso 4 · Heptasílabo",
+						"5": "Verso 5 · Endecasílabo",
+						"6": "Verso 6 · Heptasílabo",
+						"7": "Verso 7 · Endecasílabo",
+						"8": "Verso 8 · Heptasílabo",
+						"9": "Verso 9 · Endecasílabo",
+						"10": "Verso 10 · Endecasílabo",
+						"11": "Verso 11 · Heptasílabo",
+						"12": "Verso 12 · Endecasílabo",
+						"13": "Verso 13 · Heptasílabo",
+						"14": "Verso 14 · Endecasílabo",
+						"15": "Verso 15 · Heptasílabo",
+						"16": "Verso 16 · Endecasílabo",
+						"17": "Verso 17 · Heptasílabo",
+						"18": "Verso 18 · Endecasílabo",
+						"19": "Verso 19 · Heptasílabo",
+						"20": "Verso 20 · Heptasílabo"
+					}
 				}
 			}
 		},
@@ -378,7 +520,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 47,
 			"secuencia": {
-				"Vocales de la asonancia": "i-o"
+				"Vocales de la asonancia": "a-a"
 			},
 			"unidad": {}
 		},
@@ -392,7 +534,7 @@
 			"arquitectura": "endecasilabica",
 			"unidades": 63,
 			"secuencia": {
-				"Organización en pareados": "Ninguna",
+				"Organización en pareados": "Ocasionales",
 				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
@@ -447,7 +589,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 17
+						"Cruzada · abab": 30
 					}
 				}
 			}
@@ -462,7 +604,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 40,
 			"secuencia": {
-				"Vocales de la asonancia": "o-o"
+				"Vocales de la asonancia": "a-o"
 			},
 			"unidad": {}
 		},
@@ -478,9 +620,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Abrazada · abba",
+					"dominante": "Cruzada · abab",
 					"excepciones": {
-						"Cruzada · abab": 3
+						"Abrazada · abba": 1
 					}
 				}
 			}
@@ -496,8 +638,8 @@
 			"unidades": 25,
 			"secuencia": {
 				"Organización en pareados": "Ninguna",
-				"Encadenamiento interior": "Encadenamiento interior",
-				"Densidad de rima": "Ninguna"
+				"Final acentual": "Esdrújulo",
+				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
 		},
@@ -515,7 +657,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 10
+						"Cruzada · abab": 9
 					}
 				}
 			}
@@ -563,7 +705,7 @@
 			"unidades": 30,
 			"secuencia": {
 				"Organización en pareados": "Ocasionales",
-				"Densidad de rima": "Esporádica"
+				"Densidad de rima": "Ninguna"
 			},
 			"unidad": {}
 		},
@@ -579,9 +721,10 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Tipología 1 · ababa",
+					"dominante": "Tipología 3 · abaab",
 					"excepciones": {
-						"Tipología 5 · aabba": 3
+						"Tipología 1 · ababa": 5,
+						"Tipología 5 · aabba": 2
 					}
 				}
 			}

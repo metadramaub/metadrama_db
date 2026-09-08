@@ -2,9 +2,9 @@
 
 La ciudad de los prodigios (prueba)     2939 vv ·  47 secuencias · 9 formas · 11 cuadros
 
-El padrino burlado (prueba)             2951 vv ·  38 secuencias · 10 formas · 13 cuadros
+El padrino burlado (prueba)             2951 vv ·  38 secuencias · 12 formas · 12 cuadros
 
-El remedio en la fortuna (prueba)       3020 vv ·  31 secuencias · 9 formas · 13 cuadros
+El remedio en la fortuna (prueba)       3020 vv ·  31 secuencias · 9 formas · 12 cuadros
 
 La monja de Ávila (prueba)              2720 vv ·  20 secuencias · 8 formas · 10 cuadros
 
@@ -16,13 +16,13 @@ El rey perseguido (prueba)              2577 vv ·  29 secuencias · 7 formas ·
 
 Las batuecas del duque (prueba)         2838 vv ·  33 secuencias · 6 formas · 13 cuadros
 
-La imperial de Otón (prueba)            2708 vv ·  28 secuencias · 7 formas · 12 cuadros
+La imperial de Otón (prueba)            2708 vv ·  28 secuencias · 7 formas · 13 cuadros
 
 El guante de doña Blanca (prueba)       2774 vv ·  38 secuencias · 6 formas · 11 cuadros
 
-El marqués desdichado (prueba)          2879 vv ·  57 secuencias · 10 formas · 11 cuadros
+El marqués desdichado (prueba)          2884 vv ·  57 secuencias · 10 formas · 11 cuadros
 
-Lo fingido y lo cierto (prueba)         3136 vv ·  38 secuencias · 12 formas · 11 cuadros
+Lo fingido y lo cierto (prueba)         3136 vv ·  38 secuencias · 12 formas · 12 cuadros
 
 ## La ciudad de los prodigios (prueba)
 
@@ -36,27 +36,27 @@ Cuadros: 11
 | 1 | 1-12 (12) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
 | 2 | 13-56 (44) | romance / octosilabica | Vocales de la asonancia: **o-a** |  |
 | 3 | 57-92 (36) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
-| 4 | 93-122 (30) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Endecasílabo** en sus 20 versos |
-| 5 | 123-186 (64) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
-| 6 | 187-291 (105) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 3 · abaab ×2, Tipología 5 · aabba ×3 |
-| 7 | 292-295 (4) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
-| 8 | 296-300 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 2 · abbab** |
+| 4 | 93-122 (30) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 4 + segundo_pie 4) + eslabon 1 + sirima 1)<br>2. estancia (fronte (primer_pie 4 + segundo_pie 4) + eslabon 1 + sirima 1)<br>3. estancia (fronte (primer_pie 4 + segundo_pie 4) + eslabon 1 + sirima 1) |
+| 5 | 123-186 (64) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
+| 6 | 187-291 (105) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 1 · ababa ×4, Tipología 2 · abbab ×2 |
+| 7 | 292-295 (4) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** |
+| 8 | 296-300 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
 | 9 | 301-304 (4) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
-| 10 | 305-326 (22) | romance / octosilabica | Vocales de la asonancia: **u-o** |  |
-| 11 | 327-330 (4) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
-| 12 | 331-362 (32) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
+| 10 | 305-326 (22) | romance / octosilabica | Vocales de la asonancia: **e-a** |  |
+| 11 | 327-330 (4) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** |
+| 12 | 331-362 (32) | romance / octosilabica | Vocales de la asonancia: **o-a** |  |
 | 13 | 363-366 (4) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
-| 14 | 367-430 (64) | romance / octosilabica | Vocales de la asonancia: **i-a** |  |
+| 14 | 367-430 (64) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
 | 15 | 431-434 (4) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
-| 16 | 435-654 (220) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×12 |
-| 17 | 655-670 (16) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
-| 18 | 671-732 (62) | romance / octosilabica | Vocales de la asonancia: **o-a** |  |
+| 16 | 435-654 (220) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 3 · abaab ×6 |
+| 17 | 655-670 (16) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
+| 18 | 671-732 (62) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
 | 19 | 733-771 (39) | terceto_encadenado / endecasilabica_consonante |  |  |
-| 20 | 772-803 (32) | romance / octosilabica | Vocales de la asonancia: **o-a** |  |
-| 21 | 804-831 (28) | romance / hexasilabica | Vocales de la asonancia: **i-o** |  |
-| 22 | 832-895 (64) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
+| 20 | 772-803 (32) | romance / octosilabica | Vocales de la asonancia: **o-o** |  |
+| 21 | 804-831 (28) | romance / hexasilabica | Vocales de la asonancia: **o-a** |  |
+| 22 | 832-895 (64) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
 | 23 | 896-1007 (112) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 24 | 1008-1072 (65) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×3 |
+| 24 | 1008-1072 (65) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 4 · aabab** · salvo Tipología 3 · abaab ×2, Tipología 1 · ababa ×3 |
 | 25 | 1073-1112 (40) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
 | 26 | 1113-1282 (170) | romance / octosilabica | Vocales de la asonancia: **e-o** |  |
 | 27 | 1283-1318 (36) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1 |
@@ -86,7 +86,7 @@ Cuadros: 11
 2951 versos · Juan Pérez de Montalbán · comedia_o_tragicomedia · 1610-1612 · esqueleto AL0787
 
 Jornadas: 1 (1-935) · 2 (936-1987) · 3 (1988-2951)
-Cuadros: 13
+Cuadros: 12
 
 | # | versos | forma / arquitectura | por secuencia | por unidad |
 |--:|:--|:--|:--|:--|
@@ -115,60 +115,60 @@ Cuadros: 13
 | 23 | 1792-1887 (96) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×6 |
 | 24 | 1888-1891 (4) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
 | 25 | 1892-1987 (96) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
-| 26 | 1988-1997 (10) | — |  |  |
+| 26 | 1988-1997 (10) | copla_real / octosilabica_consonante |  | Primera quintilla · Esquema de rima: **Tipología 1 · ababa**<br>Segunda quintilla · Esquema de rima: **Tipología 2 · abbab** |
 | 27 | 1998-2027 (30) | decima / espinela |  |  |
-| 28 | 2028-2203 (176) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×11 |
+| 28 | 2028-2203 (176) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
 | 29 | 2204-2315 (112) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 30 | 2316-2639 (324) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×20 |
+| 30 | 2316-2639 (324) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×12 |
 | 31 | 2640-2714 (75) | lira / heptasilabica_endecasilabica |  |  |
-| 32 | 2715-2716 (2) | verso_aislado / cualquier_medida |  |  |
+| 32 | 2715-2716 (2) | irregular / arte_menor |  |  |
 | 33 | 2717-2721 (5) | lira / heptasilabica_endecasilabica |  |  |
-| 34 | 2722-2727 (6) | verso_aislado / cualquier_medida |  |  |
+| 34 | 2722-2727 (6) | irregular / arte_menor |  |  |
 | 35 | 2728-2782 (55) | lira / heptasilabica_endecasilabica |  |  |
-| 36 | 2783-2822 (40) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×2, Tipología 5 · aabba ×3 |
-| 37 | 2823-2826 (4) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** |
-| 38 | 2827-2951 (125) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 2 · abbab** · salvo Tipología 1 · ababa ×5 |
+| 36 | 2783-2822 (40) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 5 · aabba ×2, Tipología 7 · ababb ×3 |
+| 37 | 2823-2826 (4) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
+| 38 | 2827-2951 (125) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 2 · abbab** · salvo Tipología 1 · ababa ×8, Tipología 3 · abaab ×2 |
 
 ## El remedio en la fortuna (prueba)
 
 3020 versos · Juan Pérez de Montalbán · comedia_o_tragicomedia · 1599-1603 · esqueleto AL0849
 
 Jornadas: 1 (1-1015) · 2 (1016-2083) · 3 (2084-3020)
-Cuadros: 13
+Cuadros: 12
 
 | # | versos | forma / arquitectura | por secuencia | por unidad |
 |--:|:--|:--|:--|:--|
-| 1 | 1-79 (79) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Heptasílabo** en sus 20 versos |
-| 2 | 80-255 (176) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×13 |
-| 3 | 256-355 (100) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 3 · abaab ×5 |
-| 4 | 356-399 (44) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Ninguna** |  |
+| 1 | 1-79 (79) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>2. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>3. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>4. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>5. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>6. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>7. remate 1 |
+| 2 | 80-255 (176) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×6 |
+| 3 | 256-355 (100) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×3 |
+| 4 | 356-399 (44) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Esporádica** |  |
 | 5 | 400-438 (39) | sextina / clasica |  |  |
-| 6 | 439-452 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima nuclear · CDC EDE**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
-| 7 | 453-896 (444) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×13 |
-| 8 | 897-937 (41) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
-| 9 | 938-1015 (78) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Heptasílabo** en sus 20 versos |
+| 6 | 439-452 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima cruzada · CDC DCD**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
+| 7 | 453-896 (444) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×20 |
+| 8 | 897-937 (41) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Ninguna** |  |
+| 9 | 938-1015 (78) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>2. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>3. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>4. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>5. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>6. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1) |
 | 10 | 1016-1303 (288) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×19 |
-| 11 | 1304-1317 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima nuclear · CDC EDE**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
+| 11 | 1304-1317 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima cruzada · CDC DCD**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
 | 12 | 1318-1333 (16) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1 |
 | 13 | 1334-1393 (60) | decima / espinela |  |  |
-| 14 | 1394-1645 (252) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×12 |
-| 15 | 1646-1744 (99) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Final acentual: **Esdrújulo**<br>Densidad de rima: **Esporádica** |  |
-| 16 | 1745-1819 (75) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 1 · ababa ×4 |
-| 17 | 1820-1899 (80) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
+| 14 | 1394-1645 (252) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×16 |
+| 15 | 1646-1744 (99) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Esporádica** |  |
+| 16 | 1745-1819 (75) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 8 · abbba ×5 |
+| 17 | 1820-1899 (80) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×6 |
 | 18 | 1900-1939 (40) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 19 | 1940-2055 (116) | romance / octosilabica | Vocales de la asonancia: **e-a** |  |
-| 20 | 2056-2083 (28) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Ninguna** |  |
+| 19 | 1940-2055 (116) | romance / octosilabica | Vocales de la asonancia: **a-e** |  |
+| 20 | 2056-2083 (28) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Esporádica** |  |
 | 21 | 2084-2131 (48) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 22 | 2132-2227 (96) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
-| 23 | 2228-2259 (32) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
-| 24 | 2260-2384 (125) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 2 · abbab** · salvo Tipología 6 · abbaa ×9, Tipología 3 · abaab ×1 |
-| 25 | 2385-2460 (76) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×4 |
-| 26 | 2461-2484 (24) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Heptasílabo** en sus 20 versos |
-| 27 | 2485-2592 (108) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
-| 28 | 2593-2676 (84) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
-| 29 | 2677-2860 (184) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×12 |
-| 30 | 2861-2924 (64) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
-| 31 | 2925-3020 (96) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×4 |
+| 22 | 2132-2227 (96) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
+| 23 | 2228-2259 (32) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
+| 24 | 2260-2384 (125) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 2 · abbab** · salvo Tipología 1 · ababa ×4 |
+| 25 | 2385-2460 (76) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** · salvo Abrazada · abba ×2 |
+| 26 | 2461-2484 (24) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 3 + segundo_pie 3) + eslabon 1 + sirima 1)<br>2. estancia (fronte (primer_pie 3 + segundo_pie 3) + eslabon 1 + sirima 1)<br>3. estancia (fronte (primer_pie 3 + segundo_pie 3) + eslabon 1 + sirima 1) |
+| 27 | 2485-2592 (108) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×9 |
+| 28 | 2593-2676 (84) | romance / octosilabica | Vocales de la asonancia: **e-a** |  |
+| 29 | 2677-2860 (184) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** · salvo Abrazada · abba ×10 |
+| 30 | 2861-2924 (64) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Encadenamiento interior: **Encadenamiento interior**<br>Densidad de rima: **Esporádica** |  |
+| 31 | 2925-3020 (96) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×6 |
 
 ## La monja de Ávila (prueba)
 
@@ -183,11 +183,11 @@ Cuadros: 10
 | 2 | 136-139 (4) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** |
 | 3 | 140-299 (160) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 3 · abaab** · salvo Tipología 1 · ababa ×6 |
 | 4 | 300-951 (652) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×52 |
-| 5 | 952-979 (28) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Endecasílabo** en sus 20 versos |
-| 6 | 980-1095 (116) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×10 |
+| 5 | 952-979 (28) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 4 + segundo_pie 4) + sirima 1)<br>2. estancia (fronte (primer_pie 4 + segundo_pie 4) + sirima 1)<br>3. estancia (fronte (primer_pie 4 + segundo_pie 4) + sirima 1)<br>4. remate 1 |
+| 6 | 980-1095 (116) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
 | 7 | 1096-1115 (20) | lira / heptasilabica_endecasilabica |  |  |
-| 8 | 1116-1177 (62) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
-| 9 | 1178-1589 (412) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** · salvo Abrazada · abba ×11 |
+| 8 | 1116-1177 (62) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Esporádica** |  |
+| 9 | 1178-1589 (412) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×10<br>Pie quebrado: **—** · salvo Verso 4 · Pentasílabo ×1 |
 | 10 | 1590-1784 (195) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×6 |
 | 11 | 1785-1868 (84) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
 | 12 | 1869-2027 (159) | terceto_encadenado / endecasilabica_consonante |  |  |
@@ -381,7 +381,7 @@ Cuadros: 13
 2708 versos · Juan de la Cueva · comedia_o_tragicomedia · 1596-1599 · esqueleto AL0683
 
 Jornadas: 1 (1-899) · 2 (900-1757) · 3 (1758-2708)
-Cuadros: 12
+Cuadros: 13
 
 | # | versos | forma / arquitectura | por secuencia | por unidad |
 |--:|:--|:--|:--|:--|
@@ -399,20 +399,20 @@ Cuadros: 12
 | 12 | 1351-1360 (10) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
 | 13 | 1361-1416 (56) | romance / octosilabica | Vocales de la asonancia: **a-o** |  |
 | 14 | 1417-1541 (125) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 1 · ababa ×8, Tipología 4 · aabab ×1 |
-| 15 | 1542-1600 (59) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Heptasílabo** en sus 20 versos |
-| 16 | 1601-1694 (94) | romance / octosilabica | Vocales de la asonancia: **i-o** |  |
-| 17 | 1695-1757 (63) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Esporádica** |  |
+| 15 | 1542-1600 (59) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 5 + segundo_pie 5) + sirima 1)<br>2. estancia (fronte (primer_pie 5 + segundo_pie 5) + sirima 1)<br>3. estancia (fronte (primer_pie 5 + segundo_pie 5) + sirima 1)<br>4. estancia (fronte (primer_pie 5 + segundo_pie 5) + sirima 1)<br>5. estancia (fronte (primer_pie 5 + segundo_pie 5) + sirima 1)<br>6. remate 4 |
+| 16 | 1601-1694 (94) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
+| 17 | 1695-1757 (63) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
 | 18 | 1758-1809 (52) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×4 |
 | 19 | 1810-1857 (48) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 20 | 1858-2221 (364) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×17 |
-| 21 | 2222-2301 (80) | romance / octosilabica | Vocales de la asonancia: **o-o** |  |
-| 22 | 2302-2341 (40) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
-| 23 | 2342-2366 (25) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Encadenamiento interior: **Encadenamiento interior**<br>Densidad de rima: **Ninguna** |  |
-| 24 | 2367-2498 (132) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×10 |
+| 20 | 1858-2221 (364) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×30 |
+| 21 | 2222-2301 (80) | romance / octosilabica | Vocales de la asonancia: **a-o** |  |
+| 22 | 2302-2341 (40) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** · salvo Abrazada · abba ×1 |
+| 23 | 2342-2366 (25) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Final acentual: **Esdrújulo**<br>Densidad de rima: **Esporádica** |  |
+| 24 | 2367-2498 (132) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×9 |
 | 25 | 2499-2533 (35) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
 | 26 | 2534-2573 (40) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 27 | 2574-2603 (30) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
-| 28 | 2604-2708 (105) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 5 · aabba ×3 |
+| 27 | 2574-2603 (30) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Ninguna** |  |
+| 28 | 2604-2708 (105) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 3 · abaab** · salvo Tipología 1 · ababa ×5, Tipología 5 · aabba ×2 |
 
 ## El guante de doña Blanca (prueba)
 
@@ -464,77 +464,77 @@ Cuadros: 11
 
 ## El marqués desdichado (prueba)
 
-2879 versos · Juan de la Cueva · comedia_o_tragicomedia · 1593-1598 · esqueleto AL0729
+2884 versos · Juan de la Cueva · comedia_o_tragicomedia · 1593-1598 · esqueleto AL0729
 
-Jornadas: 1 (1-945) · 2 (946-1939) · 3 (1940-2879)
+Jornadas: 1 (1-950) · 2 (951-1944) · 3 (1945-2884)
 Cuadros: 11
 
 | # | versos | forma / arquitectura | por secuencia | por unidad |
 |--:|:--|:--|:--|:--|
-| 1 | 1-10 (10) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Endecasílabo** en sus 20 versos |
-| 2 | 11-70 (60) | decima / espinela |  |  |
-| 3 | 71-100 (30) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×2, Tipología 7 · ababb ×3 |
-| 4 | 101-120 (20) | decima / espinela |  |  |
-| 5 | 121-125 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** |
-| 6 | 126-175 (50) | decima / espinela |  |  |
-| 7 | 176-180 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
-| 8 | 181-210 (30) | decima / espinela |  |  |
-| 9 | 211-215 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa**<br>**desviación** estructura/falta vv. 214-215 |
-| 10 | 216-225 (10) | decima / espinela |  |  |
-| 11 | 226-240 (15) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
-| 12 | 241-260 (20) | decima / espinela |  |  |
-| 13 | 261-270 (10) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
-| 14 | 271-326 (56) | romance / octosilabica | Vocales de la asonancia: **o-a** |  |
-| 15 | 327-376 (50) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 3 · abaab** · salvo Tipología 5 · aabba ×3 |
-| 16 | 377-415 (39) | sextina / clasica |  |  |
-| 17 | 416-590 (175) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 4 · aabab ×10, Tipología 7 · ababb ×3 |
-| 18 | 591-604 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima paralela · CDE CDE**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
-| 19 | 605-892 (288) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×24 |
-| 20 | 893-945 (53) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Esporádica** |  |
-| 21 | 946-1205 (260) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×16 |
-| 22 | 1206-1345 (140) | lira / heptasilabica_endecasilabica |  |  |
-| 23 | 1346-1365 (20) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 5 · aabba ×1 |
-| 24 | 1366-1413 (48) | romance / octosilabica | Vocales de la asonancia: **e-o** | **cantado** vv. 1366-1381 |
-| 25 | 1414-1509 (96) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
-| 26 | 1510-1634 (125) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 3 · abaab ×6 |
-| 27 | 1635-1668 (34) | romance / octosilabica | Vocales de la asonancia: **e** |  |
-| 28 | 1669-1724 (56) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 29 | 1725-1734 (10) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
-| 30 | 1735-1750 (16) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1<br>**desviación** metro/menor_que_norma vv. 1739-1739 |
-| 31 | 1751-1755 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
-| 32 | 1756-1823 (68) | romance / octosilabica | Vocales de la asonancia: **e-a** |  |
-| 33 | 1824-1847 (24) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×2 |
-| 34 | 1848-1907 (60) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×1 |
-| 35 | 1908-1939 (32) | romance / octosilabica | Vocales de la asonancia: **a-e** |  |
-| 36 | 1940-2067 (128) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
-| 37 | 2068-2135 (68) | romance / octosilabica | Vocales de la asonancia: **e-o** |  |
-| 38 | 2136-2175 (40) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
-| 39 | 2176-2211 (36) | romance / octosilabica | Vocales de la asonancia: **o-e** |  |
-| 40 | 2212-2227 (16) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1 |
-| 41 | 2228-2291 (64) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 42 | 2292-2305 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima cruzada · CDC DCD**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
-| 43 | 2306-2377 (72) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
-| 44 | 2378-2394 (17) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Ninguna** |  |
-| 45 | 2395-2498 (104) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: **Heptasílabo** en sus 20 versos |
-| 46 | 2499-2518 (20) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 5 · aabba ×1, Tipología 2 · abbab ×2 |
-| 47 | 2519-2528 (10) | decima / espinela |  |  |
-| 48 | 2529-2533 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** |
-| 49 | 2534-2553 (20) | decima / espinela |  |  |
-| 50 | 2554-2558 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
-| 51 | 2559-2568 (10) | decima / espinela |  |  |
-| 52 | 2569-2573 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** |
-| 53 | 2574-2615 (42) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
-| 54 | 2616-2679 (64) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
-| 55 | 2680-2783 (104) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
-| 56 | 2784-2863 (80) | romance / octosilabica | Vocales de la asonancia: **o** |  |
-| 57 | 2864-2879 (16) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
+| 1 | 1-15 (15) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 2 + segundo_pie 2) + sirima 1)<br>2. estancia (fronte (primer_pie 2 + segundo_pie 2) + sirima 1)<br>3. estancia (fronte (primer_pie 2 + segundo_pie 2) + sirima 1) |
+| 2 | 16-75 (60) | decima / espinela |  |  |
+| 3 | 76-105 (30) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 1 · ababa ×1 |
+| 4 | 106-125 (20) | decima / espinela |  |  |
+| 5 | 126-130 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** |
+| 6 | 131-180 (50) | decima / espinela |  |  |
+| 7 | 181-185 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
+| 8 | 186-215 (30) | decima / espinela |  |  |
+| 9 | 216-220 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa**<br>**desviación** estructura/falta vv. 219-220 |
+| 10 | 221-230 (10) | decima / espinela |  |  |
+| 11 | 231-245 (15) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 3 · abaab** |
+| 12 | 246-265 (20) | decima / espinela |  |  |
+| 13 | 266-275 (10) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 7 · ababb** |
+| 14 | 276-331 (56) | romance / octosilabica | Vocales de la asonancia: **e-o** |  |
+| 15 | 332-381 (50) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×3 |
+| 16 | 382-420 (39) | sextina / clasica |  |  |
+| 17 | 421-595 (175) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 3 · abaab** · salvo Tipología 5 · aabba ×8, Tipología 1 · ababa ×3 |
+| 18 | 596-609 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima paralela · CDE CDE**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
+| 19 | 610-897 (288) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** · salvo Abrazada · abba ×23 |
+| 20 | 898-950 (53) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
+| 21 | 951-1210 (260) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×18 |
+| 22 | 1211-1350 (140) | lira / heptasilabica_endecasilabica |  |  |
+| 23 | 1351-1370 (20) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 1 · ababa ×1, Tipología 3 · abaab ×2 |
+| 24 | 1371-1418 (48) | romance / octosilabica | Vocales de la asonancia: **o-e** | **cantado** vv. 1371-1386 |
+| 25 | 1419-1514 (96) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
+| 26 | 1515-1639 (125) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×5 |
+| 27 | 1640-1673 (34) | romance / octosilabica | Vocales de la asonancia: **a-o** |  |
+| 28 | 1674-1729 (56) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
+| 29 | 1730-1739 (10) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
+| 30 | 1740-1755 (16) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1<br>**desviación** metro/menor_que_norma vv. 1744-1744 |
+| 31 | 1756-1760 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** |
+| 32 | 1761-1828 (68) | romance / octosilabica | Vocales de la asonancia: **o-a** |  |
+| 33 | 1829-1852 (24) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1 |
+| 34 | 1853-1912 (60) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 8 · abbba** · salvo Tipología 1 · ababa ×2, Tipología 4 · aabab ×2 |
+| 35 | 1913-1944 (32) | romance / octosilabica | Vocales de la asonancia: **i-o** | **desviación** estructura/falta vv. 1917-1917 |
+| 36 | 1945-2072 (128) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×4 |
+| 37 | 2073-2140 (68) | romance / octosilabica | Vocales de la asonancia: **e-a** |  |
+| 38 | 2141-2180 (40) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
+| 39 | 2181-2216 (36) | romance / octosilabica | Vocales de la asonancia: **e-e** |  |
+| 40 | 2217-2232 (16) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** · salvo Abrazada · abba ×1 |
+| 41 | 2233-2296 (64) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
+| 42 | 2297-2310 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima cruzada · CDC DCD**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
+| 43 | 2311-2382 (72) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×2 |
+| 44 | 2383-2399 (17) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Ninguna** |  |
+| 45 | 2400-2503 (104) | cancion_petrarquista / estancias_consonantes_variables |  | Estancia · Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo · Verso 3 · Endecasílabo · Verso 4 · Heptasílabo · Verso 5 · Endecasílabo · Verso 6 · Heptasílabo · Verso 7 · Endecasílabo · Verso 8 · Heptasílabo · Verso 9 · Endecasílabo · Verso 10 · Endecasílabo · Verso 11 · Heptasílabo · Verso 12 · Endecasílabo · Verso 13 · Heptasílabo · Verso 14 · Endecasílabo · Verso 15 · Heptasílabo · Verso 16 · Endecasílabo · Verso 17 · Heptasílabo · Verso 18 · Endecasílabo · Verso 19 · Heptasílabo · Verso 20 · Heptasílabo<br>1. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>2. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>3. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>4. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>5. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>6. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>7. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1)<br>8. estancia (fronte (primer_pie 6 + segundo_pie 6) + sirima 1) |
+| 46 | 2504-2523 (20) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 5 · aabba ×1, Tipología 2 · abbab ×2 |
+| 47 | 2524-2533 (10) | decima / espinela |  |  |
+| 48 | 2534-2538 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** |
+| 49 | 2539-2558 (20) | decima / espinela |  |  |
+| 50 | 2559-2563 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** |
+| 51 | 2564-2573 (10) | decima / espinela |  |  |
+| 52 | 2574-2578 (5) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** |
+| 53 | 2579-2620 (42) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
+| 54 | 2621-2684 (64) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
+| 55 | 2685-2788 (104) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
+| 56 | 2789-2868 (80) | romance / octosilabica | Vocales de la asonancia: **o** |  |
+| 57 | 2869-2884 (16) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
 
 ## Lo fingido y lo cierto (prueba)
 
 3136 versos · Diego Jiménez de Enciso · comedia_o_tragicomedia · 1608-1612 · esqueleto AL0634
 
 Jornadas: 1 (1-995) · 2 (996-2109) · 3 (2110-3136)
-Cuadros: 11
+Cuadros: 12
 
 | # | versos | forma / arquitectura | por secuencia | por unidad |
 |--:|:--|:--|:--|:--|
@@ -549,7 +549,7 @@ Cuadros: 11
 | 9 | 1200-1298 (99) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Ninguna** |  |
 | 10 | 1299-1438 (140) | decima / espinela |  |  |
 | 11 | 1439-1470 (32) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 12 | 1471-1504 (34) | villancico / estribillo_tras_primera_copla |  | ciclo 1: mudanza 4 + copla 4 + enlace 1 + estribillo 3 + vuelta 1<br>ciclo 2: mudanza 4 + copla 4 + estribillo 3<br>ciclo 3: mudanza 4 + copla 3 + estribillo 3<br>**cantado** vv. 1471-1504 |
+| 12 | 1471-1504 (34) | villancico / estribillo_tras_primera_copla |  | Mudanza · Medida de los versos: **Hexasílabo**<br>Mudanza · Esquema de rima: **Mudanza en redondilla · abba · Consonante**<br>Vuelta · Medida de los versos: **Hexasílabo**<br>Enlace · Medida de los versos: **Hexasílabo**<br>Estribillo: **Se repite entero**<br>Estribillo · Medida de los versos: **Octosílabo**<br>1. ciclo_copla (copla (mudanza 4 + enlace 3 + vuelta 1) + estribillo 4)<br>2. ciclo_copla (copla (mudanza 4 + enlace 3) + estribillo 4)<br>3. ciclo_copla (copla (mudanza 4 + enlace 3) + estribillo 4)<br>**cantado** vv. 1471-1504 |
 | 13 | 1505-1590 (86) | romance / octosilabica | Vocales de la asonancia: **i-a** |  |
 | 14 | 1591-1602 (12) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba**<br>**prosa** vv. 1591-1596 |
 | 15 | 1603-1632 (30) | sextilla / pie_quebrado |  | Esquema de rima: **abcabc** · salvo aabccb ×1<br>Pie quebrado: **Pentasílabo** en sus 2 versos |
@@ -558,9 +558,9 @@ Cuadros: 11
 | 18 | 1760-1875 (116) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
 | 19 | 1876-1891 (16) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
 | 20 | 1892-2023 (132) | romance / octosilabica | Vocales de la asonancia: **o-o** |  |
-| 21 | 2024-2025 (2) | verso_aislado / cualquier_medida |  |  |
-| 22 | 2026-2109 (84) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
-| 23 | 2110-2112 (3) | verso_aislado / cualquier_medida |  |  |
+| 21 | 2024-2025 (2) | irregular / arte_menor |  |  |
+| 22 | 2026-2109 (84) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7<br>**desviación** estructura/falta vv. 2030-2031 |
+| 23 | 2110-2112 (3) | irregular / arte_menor |  |  |
 | 24 | 2113-2152 (40) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
 | 25 | 2153-2250 (98) | romance / octosilabica | Vocales de la asonancia: **i-a** | **desviación** metro/mayor_que_norma vv. 2157-2157 |
 | 26 | 2251-2338 (88) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
@@ -574,5 +574,5 @@ Cuadros: 11
 | 34 | 2863-2918 (56) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
 | 35 | 2919-2978 (60) | redondilla / octosilabica |  | Esquema de rima: **Cruzada · abab** · salvo Abrazada · abba ×2 |
 | 36 | 2979-2992 (14) | soneto / endecasilabica_consonante |  | Tercetos · Esquema de rima: **Tercetos de rima conclusiva · CDE DCE**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
-| 37 | 2993-3072 (80) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 6 · abbaa ×5, Tipología 8 · abbba ×3 |
+| 37 | 2993-3072 (80) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 6 · abbaa ×5, Tipología 8 · abbba ×3<br>**desviación** rasgo/sobra vv. 2997-3001 |
 | 38 | 3073-3136 (64) | romance / octosilabica | Vocales de la asonancia: **a-o** |  |

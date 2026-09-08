@@ -47,12 +47,12 @@
 			"jornada": 1,
 			"numero": 2,
 			"v_ini": 256,
-			"v_fin": 438
+			"v_fin": 419
 		},
 		{
 			"jornada": 1,
 			"numero": 3,
-			"v_ini": 439,
+			"v_ini": 420,
 			"v_fin": 896
 		},
 		{
@@ -65,54 +65,48 @@
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 1016,
-			"v_fin": 1311
-		},
-		{
-			"jornada": 2,
-			"numero": 2,
-			"v_ini": 1312,
 			"v_fin": 1364
 		},
 		{
 			"jornada": 2,
-			"numero": 3,
+			"numero": 2,
 			"v_ini": 1365,
-			"v_fin": 1782
+			"v_fin": 1819
 		},
 		{
 			"jornada": 2,
-			"numero": 4,
-			"v_ini": 1783,
-			"v_fin": 1939
-		},
-		{
-			"jornada": 2,
-			"numero": 5,
-			"v_ini": 1940,
+			"numero": 3,
+			"v_ini": 1820,
 			"v_fin": 2083
 		},
 		{
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 2084,
-			"v_fin": 2244
+			"v_fin": 2227
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
-			"v_ini": 2245,
-			"v_fin": 2484
+			"v_ini": 2228,
+			"v_fin": 2384
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2485,
-			"v_fin": 2635
+			"v_ini": 2385,
+			"v_fin": 2592
 		},
 		{
 			"jornada": 3,
 			"numero": 4,
-			"v_ini": 2636,
+			"v_ini": 2593,
+			"v_fin": 2769
+		},
+		{
+			"jornada": 3,
+			"numero": 5,
+			"v_ini": 2770,
 			"v_fin": 3020
 		}
 	],
@@ -126,11 +120,169 @@
 			"forma": "cancion_petrarquista",
 			"arquitectura": "estancias_consonantes_variables",
 			"unidades": 79,
+			"partes": [
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "remate",
+					"versos": 1
+				}
+			],
 			"secuencia": {},
 			"unidad": {
 				"Estancia · Medida de cada verso": {
-					"misma_en_todas": "Heptasílabo",
-					"posiciones": 20
+					"por_posicion": {
+						"1": "Verso 1 · Heptasílabo",
+						"2": "Verso 2 · Endecasílabo",
+						"3": "Verso 3 · Endecasílabo",
+						"4": "Verso 4 · Heptasílabo",
+						"5": "Verso 5 · Endecasílabo",
+						"6": "Verso 6 · Heptasílabo",
+						"7": "Verso 7 · Endecasílabo",
+						"8": "Verso 8 · Heptasílabo",
+						"9": "Verso 9 · Endecasílabo",
+						"10": "Verso 10 · Endecasílabo",
+						"11": "Verso 11 · Heptasílabo",
+						"12": "Verso 12 · Endecasílabo",
+						"13": "Verso 13 · Heptasílabo",
+						"14": "Verso 14 · Endecasílabo",
+						"15": "Verso 15 · Heptasílabo",
+						"16": "Verso 16 · Endecasílabo",
+						"17": "Verso 17 · Heptasílabo",
+						"18": "Verso 18 · Endecasílabo",
+						"19": "Verso 19 · Heptasílabo",
+						"20": "Verso 20 · Heptasílabo"
+					}
 				}
 			}
 		},
@@ -148,7 +300,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 13
+						"Cruzada · abab": 6
 					}
 				}
 			}
@@ -167,7 +319,7 @@
 				"Esquema de rima": {
 					"dominante": "Tipología 1 · ababa",
 					"excepciones": {
-						"Tipología 3 · abaab": 5
+						"Tipología 2 · abbab": 3
 					}
 				}
 			}
@@ -182,8 +334,8 @@
 			"arquitectura": "endecasilabica",
 			"unidades": 44,
 			"secuencia": {
-				"Organización en pareados": "Ocasionales",
-				"Densidad de rima": "Ninguna"
+				"Organización en pareados": "Ninguna",
+				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
 		},
@@ -211,7 +363,7 @@
 			"secuencia": {},
 			"unidad": {
 				"Tercetos · Esquema de rima": {
-					"dominante": "Tercetos de rima nuclear · CDC EDE",
+					"dominante": "Tercetos de rima cruzada · CDC DCD",
 					"excepciones": {}
 				},
 				"Cuartetos · Esquema de rima": {
@@ -234,7 +386,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 13
+						"Cruzada · abab": 20
 					}
 				}
 			}
@@ -249,8 +401,8 @@
 			"arquitectura": "endecasilabica",
 			"unidades": 41,
 			"secuencia": {
-				"Organización en pareados": "Ocasionales",
-				"Densidad de rima": "Esporádica"
+				"Organización en pareados": "Ninguna",
+				"Densidad de rima": "Ninguna"
 			},
 			"unidad": {}
 		},
@@ -263,11 +415,165 @@
 			"forma": "cancion_petrarquista",
 			"arquitectura": "estancias_consonantes_variables",
 			"unidades": 78,
+			"partes": [
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 6
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 6
+								}
+							]
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				}
+			],
 			"secuencia": {},
 			"unidad": {
 				"Estancia · Medida de cada verso": {
-					"misma_en_todas": "Heptasílabo",
-					"posiciones": 20
+					"por_posicion": {
+						"1": "Verso 1 · Heptasílabo",
+						"2": "Verso 2 · Endecasílabo",
+						"3": "Verso 3 · Endecasílabo",
+						"4": "Verso 4 · Heptasílabo",
+						"5": "Verso 5 · Endecasílabo",
+						"6": "Verso 6 · Heptasílabo",
+						"7": "Verso 7 · Endecasílabo",
+						"8": "Verso 8 · Heptasílabo",
+						"9": "Verso 9 · Endecasílabo",
+						"10": "Verso 10 · Endecasílabo",
+						"11": "Verso 11 · Heptasílabo",
+						"12": "Verso 12 · Endecasílabo",
+						"13": "Verso 13 · Heptasílabo",
+						"14": "Verso 14 · Endecasílabo",
+						"15": "Verso 15 · Heptasílabo",
+						"16": "Verso 16 · Endecasílabo",
+						"17": "Verso 17 · Heptasílabo",
+						"18": "Verso 18 · Endecasílabo",
+						"19": "Verso 19 · Heptasílabo",
+						"20": "Verso 20 · Heptasílabo"
+					}
 				}
 			}
 		},
@@ -302,7 +608,7 @@
 			"secuencia": {},
 			"unidad": {
 				"Tercetos · Esquema de rima": {
-					"dominante": "Tercetos de rima nuclear · CDC EDE",
+					"dominante": "Tercetos de rima cruzada · CDC DCD",
 					"excepciones": {}
 				},
 				"Cuartetos · Esquema de rima": {
@@ -356,7 +662,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 12
+						"Cruzada · abab": 16
 					}
 				}
 			}
@@ -371,8 +677,7 @@
 			"arquitectura": "endecasilabica",
 			"unidades": 99,
 			"secuencia": {
-				"Organización en pareados": "Ocasionales",
-				"Final acentual": "Esdrújulo",
+				"Organización en pareados": "Ninguna",
 				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
@@ -389,9 +694,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Tipología 5 · aabba",
+					"dominante": "Tipología 1 · ababa",
 					"excepciones": {
-						"Tipología 1 · ababa": 4
+						"Tipología 8 · abbba": 5
 					}
 				}
 			}
@@ -410,7 +715,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 7
+						"Cruzada · abab": 6
 					}
 				}
 			}
@@ -442,7 +747,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 58,
 			"secuencia": {
-				"Vocales de la asonancia": "e-a"
+				"Vocales de la asonancia": "a-e"
 			},
 			"unidad": {}
 		},
@@ -457,7 +762,7 @@
 			"unidades": 28,
 			"secuencia": {
 				"Organización en pareados": "Ninguna",
-				"Densidad de rima": "Ninguna"
+				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
 		},
@@ -492,7 +797,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 7
+						"Cruzada · abab": 5
 					}
 				}
 			}
@@ -506,9 +811,7 @@
 			"forma": "octava_real",
 			"arquitectura": "endecasilabica_consonante",
 			"unidades": 4,
-			"secuencia": {
-				"Final acentual": "Esdrújulo"
-			},
+			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
 					"dominante": "ABABABCC",
@@ -530,8 +833,7 @@
 				"Esquema de rima": {
 					"dominante": "Tipología 2 · abbab",
 					"excepciones": {
-						"Tipología 6 · abbaa": 9,
-						"Tipología 3 · abaab": 1
+						"Tipología 1 · ababa": 4
 					}
 				}
 			}
@@ -548,9 +850,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Abrazada · abba",
+					"dominante": "Cruzada · abab",
 					"excepciones": {
-						"Cruzada · abab": 4
+						"Abrazada · abba": 2
 					}
 				}
 			}
@@ -564,11 +866,111 @@
 			"forma": "cancion_petrarquista",
 			"arquitectura": "estancias_consonantes_variables",
 			"unidades": 24,
+			"partes": [
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 3
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 3
+								}
+							]
+						},
+						{
+							"seccion": "eslabon",
+							"versos": 1
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 3
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 3
+								}
+							]
+						},
+						{
+							"seccion": "eslabon",
+							"versos": 1
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				},
+				{
+					"seccion": "estancia",
+					"partes": [
+						{
+							"seccion": "fronte",
+							"partes": [
+								{
+									"seccion": "primer_pie",
+									"versos": 3
+								},
+								{
+									"seccion": "segundo_pie",
+									"versos": 3
+								}
+							]
+						},
+						{
+							"seccion": "eslabon",
+							"versos": 1
+						},
+						{
+							"seccion": "sirima",
+							"versos": 1
+						}
+					]
+				}
+			],
 			"secuencia": {},
 			"unidad": {
 				"Estancia · Medida de cada verso": {
-					"misma_en_todas": "Heptasílabo",
-					"posiciones": 20
+					"por_posicion": {
+						"1": "Verso 1 · Heptasílabo",
+						"2": "Verso 2 · Endecasílabo",
+						"3": "Verso 3 · Endecasílabo",
+						"4": "Verso 4 · Heptasílabo",
+						"5": "Verso 5 · Endecasílabo",
+						"6": "Verso 6 · Heptasílabo",
+						"7": "Verso 7 · Endecasílabo",
+						"8": "Verso 8 · Heptasílabo",
+						"9": "Verso 9 · Endecasílabo",
+						"10": "Verso 10 · Endecasílabo",
+						"11": "Verso 11 · Heptasílabo",
+						"12": "Verso 12 · Endecasílabo",
+						"13": "Verso 13 · Heptasílabo",
+						"14": "Verso 14 · Endecasílabo",
+						"15": "Verso 15 · Heptasílabo",
+						"16": "Verso 16 · Endecasílabo",
+						"17": "Verso 17 · Heptasílabo",
+						"18": "Verso 18 · Endecasílabo",
+						"19": "Verso 19 · Heptasílabo",
+						"20": "Verso 20 · Heptasílabo"
+					}
 				}
 			}
 		},
@@ -586,7 +988,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 7
+						"Cruzada · abab": 9
 					}
 				}
 			}
@@ -601,7 +1003,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 42,
 			"secuencia": {
-				"Vocales de la asonancia": "a-a"
+				"Vocales de la asonancia": "e-a"
 			},
 			"unidad": {}
 		},
@@ -617,9 +1019,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Abrazada · abba",
+					"dominante": "Cruzada · abab",
 					"excepciones": {
-						"Cruzada · abab": 12
+						"Abrazada · abba": 10
 					}
 				}
 			}
@@ -635,6 +1037,7 @@
 			"unidades": 64,
 			"secuencia": {
 				"Organización en pareados": "Ocasionales",
+				"Encadenamiento interior": "Encadenamiento interior",
 				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
@@ -653,7 +1056,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 4
+						"Cruzada · abab": 6
 					}
 				}
 			}

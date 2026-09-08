@@ -64,7 +64,10 @@ const EXTRAS = {
 		],
 		desviaciones: [
 			{ forma: 'redondilla', ocurrencia: 3, dimension: 'metro', relacion_norma: 'menor_que_norma', versos: 1, nota: 'Un verso hipométrico.' },
-			{ forma: 'quintilla', ocurrencia: 4, dimension: 'estructura', relacion_norma: 'falta', versos: 2, nota: 'Laguna: el testimonio ha perdido dos versos.' }
+			{ forma: 'quintilla', ocurrencia: 4, dimension: 'estructura', relacion_norma: 'falta', versos: 2, nota: 'Laguna: el testimonio ha perdido dos versos.' },
+			// **La laguna del romance es de un verso.** El romance rima los pares, así que cuando falta
+			// uno la asonancia se desplaza y la pérdida se ve sola; es el caso más corriente de todos.
+			{ forma: 'romance', ocurrencia: 5, dimension: 'estructura', relacion_norma: 'falta', versos: 1, nota: 'Laguna de un verso: la asonancia se desplaza a partir de aquí.' }
 		]
 	},
 	AL0634: {
@@ -74,11 +77,7 @@ const EXTRAS = {
 			ocurrencia: 1,
 			forma_sustituida: 'copla_de_arte_menor',
 			arquitectura: 'estribillo_tras_primera_copla',
-			ciclos: [
-				{ mudanza: 4, copla: 4, enlace: 1, estribillo: 3, vuelta: 1 },
-				{ mudanza: 4, copla: 4, estribillo: 3 },
-				{ mudanza: 4, copla: 3, estribillo: 3 }
-			]
+			versos: 34
 		},
 		caracterizaciones: [
 			{ villancico: true, tipo: 'cantado', nota: 'El villancico lo cantan los músicos.' },
@@ -86,7 +85,10 @@ const EXTRAS = {
 		],
 		desviaciones: [
 			{ forma: 'octava_real', ocurrencia: 2, dimension: 'rima', relacion_norma: 'otra', versos: 8, nota: 'Una octava con rima distinta de la del repertorio.' },
-			{ forma: 'romance', ocurrencia: 4, dimension: 'metro', relacion_norma: 'mayor_que_norma', versos: 1, nota: 'Un verso hipermétrico.' }
+			{ forma: 'romance', ocurrencia: 4, dimension: 'metro', relacion_norma: 'mayor_que_norma', versos: 1, nota: 'Un verso hipermétrico.' },
+			// Una redondilla a la que le faltan dos versos: queda un pareado suelto donde iba la copla.
+			{ forma: 'redondilla', ocurrencia: 8, dimension: 'estructura', relacion_norma: 'falta', versos: 2, nota: 'Laguna: a esta redondilla le faltan dos versos.' },
+			{ forma: 'quintilla', ocurrencia: 2, dimension: 'rasgo', relacion_norma: 'sobra', versos: 5, nota: 'Una quintilla con un rasgo que la norma no prevé.' }
 		]
 	}
 };
@@ -98,13 +100,6 @@ const AUTORES = [
 	{ clave: 'cueva', nombre: 'Juan de la Cueva', wikidata: 'Q164964' }
 ];
 
-/**
- * Del vocabulario de ARTELOPE al catálogo.
- *
- * ARTELOPE nombra la forma y nada más: dice «redondilla», no «octosilábica». La arquitectura la
- * ponemos nosotros, y va la habitual en la comedia salvo donde el número de versos mande otra cosa.
- * Un valor `null` significa que ese pasaje no se afirma como forma: va a tramo sin forma.
- */
 /**
  * Los pasajes que ARTELOPE deja sin clasificar y hemos mirado uno a uno.
  *
@@ -128,6 +123,14 @@ const AJUSTES = {
 	]
 };
 
+/**
+ * Del vocabulario de ARTELOPE al catálogo.
+ *
+ * ARTELOPE nombra la forma y nada más: dice «redondilla», no «octosilábica». La arquitectura la
+ * ponemos nosotros, y va la habitual en la comedia salvo donde el número de versos mande otra cosa.
+ * Un valor `null` significa que ese pasaje no se afirma como forma: va a tramo sin forma, y una
+ * cadena es una decisión que depende del largo del pasaje.
+ */
 const MAPA = {
 	redondilla: ['redondilla', 'octosilabica'],
 	cuarteta: ['redondilla', 'octosilabica'],
@@ -146,7 +149,9 @@ const MAPA = {
 	// **El «terceto» de la comedia es terceto encadenado.** Se ve en los propios largos: 39, 55, 58
 	// y 160 versos, que son cadenas de tercetos con —o sin— el serventesio de cierre.
 	terceto: ['terceto_encadenado', 'endecasilabica_consonante'],
-	// Lo normal es que sean la canción regular y ARTELOPE las haya llamado de dos maneras.
+	// Lo normal es que sean la canción regular y ARTELOPE las haya llamado de dos maneras. Pero por
+	// debajo de quince versos no cabe una canción —tres estancias de cinco es el mínimo—, así que un
+	// pasaje más corto es un fragmento y va a tramo irregular: ver `cancionPorLargo`.
 	cancion: ['cancion_petrarquista', 'estancias_consonantes_variables'],
 	cancion_canzone: ['cancion_petrarquista', 'estancias_consonantes_variables'],
 	sestina: ['sextina', 'clasica'],
@@ -158,10 +163,11 @@ const MAPA = {
 	pareados: ['pareado', 'cualquier_medida', 'Octosílabo'],
 	pareados_endecasilabos: ['pareado', 'cualquier_medida', 'Endecasílabo'],
 	pareado_hexasilabo: ['pareado', 'cualquier_medida', 'Hexasílabo'],
-	// Un verso solo entre dos formas no es un pasaje sin clasificar: es verso aislado, que el
-	// catálogo registra como tal.
-	verso_suelto: ['verso_aislado', 'cualquier_medida'],
-	_solo_sangrado_: null,
+	// El verso suelto se resuelve por su largo: ver `sueltoPorLargo`.
+	verso_suelto: 'por_largo',
+	// ARTELOPE marca así lo que solo va sangrado, sin decir qué es: se resuelve por el largo, igual
+	// que su cajón de coplas.
+	_solo_sangrado_: 'por_copla',
 	null: null
 };
 
@@ -179,6 +185,123 @@ function coplaPorLargo(versos) {
 	if (versos % 4 === 0) return ['redondilla', 'octosilabica'];
 	if (versos % 2 === 0) return ['pareado', 'cualquier_medida', 'Octosílabo'];
 	return null;
+}
+
+/**
+ * El verso suelto de ARTELOPE, que no siempre es un verso.
+ *
+ * La etiqueta marca lo que queda fuera de toda estrofa, y a veces son seis versos seguidos.
+ * **Verso aislado es exactamente un verso** —la base lo comprueba—, así que lo demás va a tramo
+ * irregular, que es lo que de verdad es: un pasaje del que no se afirma forma.
+ */
+function sueltoPorLargo(versos) {
+	if (versos === 1) return ['verso_aislado', 'cualquier_medida'];
+	return ['irregular', 'arte_menor'];
+}
+
+/**
+ * Lo mínimo que puede medir una forma para que sus partes quepan.
+ *
+ * La canción petrarquista repite la estancia tres veces por lo menos y ninguna baja de cinco
+ * versos: por debajo de quince no cabe una canción. Como las obras son inventadas, el pasaje
+ * **crece hasta que quepa** en vez de degradarse a tramo irregular, que era perder el ejemplo.
+ */
+const MINIMO = { cancion_petrarquista: 15, villancico: 7 };
+
+/**
+ * Las partes de las dos formas que crecen por ciclos, dichas árbol abajo.
+ *
+ * Son las únicas del catálogo cuyas partes tienen partes dentro, y por eso no hay regla que
+ * repartir: **la mudanza cuelga de la copla, no del ciclo**, y el pie del fronte, no de la estancia.
+ * Cuántos ciclos hay y cuánto ocupa cada parte lo decide quien anota, así que se dice aquí.
+ */
+function partesDe(forma, versos) {
+	if (forma === 'villancico') return ciclosDeVillancico(versos);
+	if (forma === 'cancion_petrarquista') return estanciasDeCancion(versos);
+	return null;
+}
+
+/**
+ * Un ciclo de villancico: copla —mudanza, y a veces enlace y vuelta— más su estribillo.
+ *
+ * La mudanza mide cuatro versos fijos y el estribillo de uno a cuatro, así que un ciclo mide entre
+ * 7 y 14 contando el enlace y la vuelta, que son opcionales y llegan a tres cada uno. Primero se
+ * decide **cuántos ciclos caben** y luego se reparte el pasaje entre ellos: ir cerrando ciclos de
+ * corrido dejaba siempre un rabo de tres o cuatro versos que no era ciclo ni era nada.
+ */
+function ciclosDeVillancico(versos) {
+	const cuantos = Math.ceil(versos / 14);
+	if (cuantos * 7 > versos) return null;
+	const base = Math.floor(versos / cuantos);
+	const sobra = versos - base * cuantos;
+
+	return Array.from({ length: cuantos }, (_, i) => {
+		const largo = base + (i < sobra ? 1 : 0);
+		const estribillo = Math.min(4, largo - 4);
+		const resto = largo - 4 - estribillo;
+		const enlace = Math.min(3, resto);
+		const vuelta = resto - enlace;
+		const copla = [{ seccion: 'mudanza', versos: 4 }];
+		if (enlace) copla.push({ seccion: 'enlace', versos: enlace });
+		if (vuelta) copla.push({ seccion: 'vuelta', versos: vuelta });
+		return {
+			seccion: 'ciclo_copla',
+			partes: [
+				{ seccion: 'copla', partes: copla },
+				{ seccion: 'estribillo', versos: estribillo }
+			]
+		};
+	});
+}
+
+/**
+ * Las estancias de una canción, que miden lo que quieran mientras midan todas igual.
+ *
+ * La canción petrarquista repite una estancia —fronte de dos pies, a veces un eslabón, y sirima—
+ * al menos tres veces, y puede cerrar con un remate más corto. Lo que aquí se calcula es un
+ * reparto posible del pasaje: tres estancias o más, ninguna de menos de cinco versos ni de más de
+ * veinte, y el resto al remate.
+ */
+function estanciasDeCancion(versos) {
+	let cuantas = Math.max(3, Math.round(versos / 13));
+	while (cuantas > 3 && Math.floor(versos / cuantas) < 5) cuantas -= 1;
+	const largo = Math.floor(versos / cuantas);
+	if (largo < 5 || largo > 20) return null;
+	const sobra = versos - largo * cuantas;
+	if (sobra > 20) return null;
+
+	// El fronte son dos pies iguales de dos a nueve versos; el eslabón, uno o ninguno; la sirima,
+	// lo que quede, entre uno y dieciséis.
+	let reparto = null;
+	for (let pie = Math.min(9, Math.floor(largo / 2)); pie >= 2 && !reparto; pie -= 1) {
+		for (const eslabon of [1, 0]) {
+			const sirima = largo - pie * 2 - eslabon;
+			if (sirima >= 1 && sirima <= 16 && pie * 2 >= 4 && pie * 2 <= 18) {
+				reparto = { pie, eslabon, sirima };
+				break;
+			}
+		}
+	}
+	if (!reparto) return null;
+
+	const estancia = () => {
+		const partes = [
+			{
+				seccion: 'fronte',
+				partes: [
+					{ seccion: 'primer_pie', versos: reparto.pie },
+					{ seccion: 'segundo_pie', versos: reparto.pie }
+				]
+			}
+		];
+		if (reparto.eslabon) partes.push({ seccion: 'eslabon', versos: reparto.eslabon });
+		partes.push({ seccion: 'sirima', versos: reparto.sirima });
+		return { seccion: 'estancia', partes };
+	};
+
+	const arbol = Array.from({ length: cuantas }, estancia);
+	if (sobra > 0) arbol.push({ seccion: 'remate', versos: sobra });
+	return arbol;
 }
 
 /** Azar reproducible: el mismo guion sale igual mañana. */
@@ -320,7 +443,9 @@ function respuestas(arq, unidades, rnd, medida) {
 			secuencia[g.nombre] = sortea(g.opciones, rnd).nombre;
 			continue;
 		}
-		if (g.alcance !== 'unidad') continue;
+		// `realizacion` es como `unidad`, pero la respuesta cae en una parte concreta: el estribillo
+		// del villancico se pregunta una vez por ciclo.
+		if (g.alcance !== 'unidad' && g.alcance !== 'realizacion') continue;
 		if (!obligatoria) {
 			// **El pie quebrado es rarísimo.** Está admitido en la redondilla y en la quintilla, y por
 			// eso el editor lo pregunta, pero en una comedia entera puede no aparecer ni una vez. La
@@ -348,6 +473,17 @@ function respuestas(arq, unidades, rnd, medida) {
 			// heptasílabo o endecasílabo en sus dos posiciones, así que parece isométrico y no lo es:
 			// mide 7 + 11, que es lo que lo define. Cuando el pasaje se ha mirado en el texto, la
 			// medida viene ya dada y no hay nada que deducir.
+			// **La estancia de una canción es alirada**: alterna heptasílabos y endecasílabos, y como
+			// las dos medidas se ofrecen en todas las posiciones parecería isométrica. Se responde
+			// alternando, que es lo que hace una canción.
+			if (arq.forma === 'cancion_petrarquista' && g.dimension === 'metro') {
+				unidad[g.nombre] = {
+					por_posicion: Object.fromEntries(
+						posiciones.map((p, i) => [p, `Verso ${p} · ${i % 2 === 0 ? 'Heptasílabo' : 'Endecasílabo'}`])
+					)
+				};
+				continue;
+			}
 			const isometrica =
 				!Array.isArray(medida) && new Set(repertorios).size === 1 && repertorios[0].includes('|');
 			if (Array.isArray(medida)) {
@@ -440,6 +576,8 @@ function guionDe(obra, catalogo) {
 			: fuente === 'copla_estructura_abierta'
 				? coplaPorLargo(versos)
 				: MAPA[fuente];
+		if (par === 'por_largo') par = sueltoPorLargo(versos);
+		if (par === 'por_copla') par = coplaPorLargo(versos);
 		if (par === undefined) {
 			avisos.push(`«${fuente}» no está en el mapa; vv. ${s.v_ini}-${s.v_fin} van sin forma`);
 			par = null;
@@ -464,7 +602,12 @@ function guionDe(obra, catalogo) {
 			// El rango se ajusta al módulo de la forma: la base rechaza una octava de 103 versos.
 			const unidades = Math.max(1, Math.round(versos / paso));
 			entrada.unidades = unidades;
-			entrada.versos = unidades * paso;
+			entrada.versos = Math.max(unidades * paso, MINIMO[arq.forma] ?? 0);
+			const partes = partesDe(arq.forma, entrada.versos);
+			if (partes) entrada.partes = partes;
+			else if (arq.forma === 'villancico' || arq.forma === 'cancion_petrarquista') {
+				avisos.push(`no se pudo repartir ${arq.forma} en ${entrada.versos} versos`);
+			}
 			Object.assign(entrada, respuestas(arq, unidades, rnd, par[2]));
 		}
 		// `arrastra` dice que lo que viene detrás se sigue cantando: en La madre Teresa el pareado
@@ -486,16 +629,15 @@ function guionDe(obra, catalogo) {
 		} else {
 			destino.forma = 'villancico';
 			destino.arquitectura = v.arquitectura;
-			destino.unidades = v.ciclos.length;
-			destino.versos = v.ciclos.reduce(
-				(t, c) => t + Object.values(c).reduce((a, b) => a + b, 0),
-				0
-			);
-			destino.secuencia = {};
-			destino.unidad = {};
-			// Las partes van dichas una a una: es la única forma del catálogo cuyas partes tienen
-			// partes dentro, y no hay manera de deducir el reparto de una regla.
-			destino.partes = v.ciclos;
+			destino.unidades = 1;
+			destino.versos = v.versos;
+			// **Y se le preguntan sus preguntas, no las de la forma que sustituye.** El villancico
+			// pregunta la rima de la mudanza, la del estribillo y la de la vuelta, cada una en su
+			// parte; dejarlas en blanco hacía que la base rechazara la anotación entera.
+			const suyo = catalogo.get(`villancico/${v.arquitectura}`);
+			Object.assign(destino, respuestas(suyo, 1, rnd));
+			destino.partes = partesDe('villancico', v.versos);
+			if (!destino.partes) avisos.push(`no se pudo repartir el villancico en ${v.versos} versos`);
 		}
 	}
 
@@ -632,13 +774,13 @@ function tabla(guion) {
 				return `${k}: **${v.dominante ?? '—'}**${sueltas ? ` · salvo ${sueltas}` : ''}`;
 			})
 			.join('<br>');
+		/** Las partes, dichas en una línea: `estancia (fronte (primer_pie 3 + segundo_pie 3) + …)`. */
+		const enLinea = (nodo) =>
+			nodo.partes
+				? `${nodo.seccion} (${nodo.partes.map(enLinea).join(' + ')})`
+				: `${nodo.seccion} ${nodo.versos}`;
 		const aparte = [
-			...(s.partes ?? []).map(
-				(c, i) =>
-					`ciclo ${i + 1}: ${Object.entries(c)
-						.map(([n, v]) => `${n} ${v}`)
-						.join(' + ')}`
-			),
+			...(s.partes ?? []).map((nodo, i) => `${i + 1}. ${enLinea(nodo)}`),
 			...(s.caracterizaciones ?? []).map(
 				(c) => `**${c.tipo}** vv. ${c.v_ini}-${c.v_fin}`
 			),
