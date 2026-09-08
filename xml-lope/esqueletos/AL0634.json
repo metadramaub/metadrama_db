@@ -1,0 +1,355 @@
+{
+ "fuente": {
+  "repositorio": "ARTELOPE",
+  "url": "https://gitlab.com/artelope1/ARTELOPE",
+  "commit": "95684795a842b63312aebdad83d1234c1d225b22",
+  "fichero": "XML-TEI Play-texts/AL0634_LoFingidoVerdadero.xml",
+  "copia_local": "xml-lope/xml/AL0634_LoFingidoVerdadero.xml",
+  "codificacion": "UTF-16LE, tal como lo publica ARTELOPE",
+  "sha256": "55b65f792f579bd6a6045a693958a50632932c2ab5dc60d711380bfacf014aa7",
+  "texto_plano": "xml-lope/txt/AL0634.txt",
+  "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
+ },
+ "obra": {
+  "titulo": "LO FINGIDO VERDADERO",
+  "autor": "Félix Lope de Vega y Carpio",
+  "fecha": null,
+  "total_versos": 3131,
+  "genero": null,
+  "autoria_fuente": "fiable"
+ },
+ "jornadas": [
+  {
+   "numero": 1,
+   "v_ini": 1,
+   "v_fin": 993
+  },
+  {
+   "numero": 2,
+   "v_ini": 994,
+   "v_fin": 2105
+  },
+  {
+   "numero": 3,
+   "v_ini": 2106,
+   "v_fin": 3131
+  }
+ ],
+ "cuadros": [],
+ "escenas": [],
+ "secuencias": [
+  {
+   "v_ini": 1,
+   "v_fin": 81,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 82,
+   "v_fin": 195,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 196,
+   "v_fin": 309,
+   "forma_fuente": "lira",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 310,
+   "v_fin": 669,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 670,
+   "v_fin": 717,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 718,
+   "v_fin": 826,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 827,
+   "v_fin": 993,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 994,
+   "v_fin": 1197,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1198,
+   "v_fin": 1296,
+   "forma_fuente": "endecasilabos_sueltos_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1297,
+   "v_fin": 1438,
+   "forma_fuente": "decima",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1439,
+   "v_fin": 1470,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1471,
+   "v_fin": 1494,
+   "forma_fuente": "copla_estructura_abierta",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1495,
+   "v_fin": 1580,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1581,
+   "v_fin": 1592,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1593,
+   "v_fin": 1622,
+   "forma_fuente": "sextilla_de_pie_quebrado",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1623,
+   "v_fin": 1687,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1688,
+   "v_fin": 1751,
+   "forma_fuente": "terceto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1752,
+   "v_fin": 1868,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1869,
+   "v_fin": 1884,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1885,
+   "v_fin": 2016,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2017,
+   "v_fin": 2018,
+   "forma_fuente": "verso_suelto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2019,
+   "v_fin": 2102,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2103,
+   "v_fin": 2105,
+   "forma_fuente": "verso_suelto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2106,
+   "v_fin": 2145,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2146,
+   "v_fin": 2243,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2244,
+   "v_fin": 2331,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2332,
+   "v_fin": 2345,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2346,
+   "v_fin": 2595,
+   "forma_fuente": "quintilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2596,
+   "v_fin": 2608,
+   "forma_fuente": "terceto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2609,
+   "v_fin": 2686,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2687,
+   "v_fin": 2750,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2751,
+   "v_fin": 2764,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2765,
+   "v_fin": 2856,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2857,
+   "v_fin": 2912,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2913,
+   "v_fin": 2973,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2974,
+   "v_fin": 2987,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2988,
+   "v_fin": 3067,
+   "forma_fuente": "quintilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 3068,
+   "v_fin": 3131,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  }
+ ],
+ "personajes": {
+  "donaire": null,
+  "sobrenaturales": null,
+  "eventos_sobrenaturales": null
+ },
+ "avisos": [
+  "ARTELOPE divide esta obra en «acto», no en «jornada»; se vuelca en el mismo campo.",
+  "Los cuadros de esta obra todavía no se han decidido."
+ ]
+}

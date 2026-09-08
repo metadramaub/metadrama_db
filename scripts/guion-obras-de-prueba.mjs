@@ -38,8 +38,58 @@ const OBRAS = [
 	{ esqueleto: 'AL2020', titulo: 'El rey perseguido (prueba)', autor: 'enciso', genero: 'tragedia', fecha: [1615, 1620] },
 	{ esqueleto: 'AL0519', titulo: 'Las batuecas del duque (prueba)', autor: 'enciso', genero: 'comedia_o_tragicomedia', fecha: [1600, 1605] },
 	{ esqueleto: 'AL0683', titulo: 'La imperial de Otón (prueba)', autor: 'cueva', genero: 'comedia_o_tragicomedia', fecha: [1596, 1599] },
-	{ esqueleto: 'AL0655', titulo: 'El guante de doña Blanca (prueba)', autor: 'cueva', genero: 'comedia_o_tragicomedia', fecha: [1607, 1611] }
+	{ esqueleto: 'AL0655', titulo: 'El guante de doña Blanca (prueba)', autor: 'cueva', genero: 'comedia_o_tragicomedia', fecha: [1607, 1611] },
+	// **Las dos raras.** Diez comedias corrientes se parecen mucho entre sí —eso es lo normal—, y
+	// dejan sin ejercitar lo que solo pasa de vez en cuando. Estas dos traen lo que a las otras les
+	// falta: una sextina, un villancico, versos cantados, un pasaje en prosa y unas desviaciones.
+	{ esqueleto: 'AL0729', titulo: 'El marqués desdichado (prueba)', autor: 'cueva', genero: 'comedia_o_tragicomedia', fecha: [1593, 1598] },
+	{ esqueleto: 'AL0634', titulo: 'Lo fingido y lo cierto (prueba)', autor: 'enciso', genero: 'comedia_o_tragicomedia', fecha: [1608, 1612] }
 ];
+
+/**
+ * Lo que se le añade a mano a las dos obras raras.
+ *
+ * Nada de esto sale de ARTELOPE, que solo etiqueta la estrofa: **el villancico no aparece en
+ * ninguna de las 365 comedias del repositorio** —ni él ni el zéjel—, y las caracterizaciones y las
+ * desviaciones son cosa nuestra. Se ponen aquí, contadas una a una, porque el objeto de estas dos
+ * obras es justamente que la precomputación y la ficha se topen con ellas.
+ *
+ * Las desviaciones van en los casos de verdad frecuentes: el verso corto o largo de más en una
+ * tirada, la laguna donde el testimonio ha perdido versos, y una rima que no está en el repertorio.
+ */
+const EXTRAS = {
+	AL0729: {
+		caracterizaciones: [
+			{ forma: 'romance', ocurrencia: 2, tipo: 'cantado', versos: 16, nota: 'Romance cantado por músicos dentro.' }
+		],
+		desviaciones: [
+			{ forma: 'redondilla', ocurrencia: 3, dimension: 'metro', relacion_norma: 'menor_que_norma', versos: 1, nota: 'Un verso hipométrico.' },
+			{ forma: 'quintilla', ocurrencia: 4, dimension: 'estructura', relacion_norma: 'falta', versos: 2, nota: 'Laguna: el testimonio ha perdido dos versos.' }
+		]
+	},
+	AL0634: {
+		// El villancico sustituye a una seguidilla o a un pasaje breve: se declara entero, ciclo a
+		// ciclo, porque es la única forma del catálogo cuyas partes tienen partes dentro.
+		villancico: {
+			ocurrencia: 1,
+			forma_sustituida: 'copla_de_arte_menor',
+			arquitectura: 'estribillo_tras_primera_copla',
+			ciclos: [
+				{ mudanza: 4, copla: 4, enlace: 1, estribillo: 3, vuelta: 1 },
+				{ mudanza: 4, copla: 4, estribillo: 3 },
+				{ mudanza: 4, copla: 3, estribillo: 3 }
+			]
+		},
+		caracterizaciones: [
+			{ villancico: true, tipo: 'cantado', nota: 'El villancico lo cantan los músicos.' },
+			{ forma: 'redondilla', ocurrencia: 5, tipo: 'prosa', versos: 6, nota: 'Pasaje en prosa dentro de la escena.' }
+		],
+		desviaciones: [
+			{ forma: 'octava_real', ocurrencia: 2, dimension: 'rima', relacion_norma: 'otra', versos: 8, nota: 'Una octava con rima distinta de la del repertorio.' },
+			{ forma: 'romance', ocurrencia: 4, dimension: 'metro', relacion_norma: 'mayor_que_norma', versos: 1, nota: 'Un verso hipermétrico.' }
+		]
+	}
+};
 
 const AUTORES = [
 	{ clave: 'montalban', nombre: 'Juan Pérez de Montalbán', wikidata: 'Q3100564' },
@@ -78,8 +128,13 @@ const MAPA = {
 	cancion_canzone: ['cancion_petrarquista', 'estancias_consonantes_variables'],
 	sestina: ['sextina', 'clasica'],
 	seguidilla: ['seguidilla', 'simple'],
-	pareados: ['pareado', 'cualquier_medida'],
-	pareados_endecasilabos: ['pareado', 'cualquier_medida'],
+	sextilla_de_pie_quebrado: ['sextilla', 'pie_quebrado'],
+	cuarteta_asonantada: ['redondilla', 'octosilabica'],
+	// **El pareado mide igual en sus dos versos**, y ARTELOPE dice cuál en la propia etiqueta salvo
+	// en `pareados` a secas, donde va el octosílabo por ser el metro del entorno en que aparecen.
+	pareados: ['pareado', 'cualquier_medida', 'Octosílabo'],
+	pareados_endecasilabos: ['pareado', 'cualquier_medida', 'Endecasílabo'],
+	pareado_hexasilabo: ['pareado', 'cualquier_medida', 'Hexasílabo'],
 	// Un verso solo entre dos formas no es un pasaje sin clasificar: es verso aislado, que el
 	// catálogo registra como tal.
 	verso_suelto: ['verso_aislado', 'cualquier_medida'],
@@ -99,7 +154,7 @@ function coplaPorLargo(versos) {
 	if (versos % 6 === 0) return ['sextilla', 'octosilabica'];
 	if (versos % 5 === 0) return ['quintilla', 'octosilabica_consonante'];
 	if (versos % 4 === 0) return ['redondilla', 'octosilabica'];
-	if (versos % 2 === 0) return ['pareado', 'cualquier_medida'];
+	if (versos % 2 === 0) return ['pareado', 'cualquier_medida', 'Octosílabo'];
 	return null;
 }
 
@@ -177,6 +232,22 @@ const pasoDe = (a) => Number(a.unidad_versos_min ?? 0) || Number(a.modulo_versos
 const PESO = { habitual: 60, definitoria: 40, admitida: 12, excepcional: 2 };
 
 /**
+ * Con qué asonancia se hace un romance.
+ *
+ * Las veinte del catálogo no se usan por igual, y no es cuestión de gusto: **rimar en aguda obliga
+ * a que todos los versos pares acaben en palabra aguda**, que en castellano son las menos, mientras
+ * que las llanas en `-a` y en `-o` tienen detrás medio diccionario. De ahí que `é-o` y `á-a` sean
+ * las asonancias corrientes de la comedia, que las agudas aparezcan de vez en cuando y en pasajes
+ * cortos, y que la `u` tónica sea casi imposible. Sortear las veinte a partes iguales llenaba las
+ * obras de romances agudos.
+ */
+const ASONANCIA = {
+	'e-o': 100, 'a-a': 95, 'e-a': 85, 'a-o': 80, 'o-a': 70, 'i-a': 55, 'e-e': 50,
+	'a-e': 45, 'o-e': 35, 'i-o': 30, 'o-o': 25, 'i-e': 20, 'u-a': 4, 'u-e': 3, 'u-o': 3,
+	a: 18, e: 16, o: 12, i: 4, u: 1
+};
+
+/**
  * Lo que la modalidad del catálogo no dice: **cuál se usa más en la comedia**.
  *
  * `modalidad` responde a si una disposición está admitida en la forma, no a con qué frecuencia
@@ -190,7 +261,8 @@ const FRECUENCIA_COMEDIA = {
 };
 
 function sortea(opciones, rnd) {
-	const peso = (o) => FRECUENCIA_COMEDIA[o.nombre] ?? PESO[o.modalidad] ?? 10;
+	const peso = (o) =>
+		ASONANCIA[o.nombre] ?? FRECUENCIA_COMEDIA[o.nombre] ?? PESO[o.modalidad] ?? 10;
 	const total = opciones.reduce((t, o) => t + peso(o), 0);
 	let corte = rnd() * total;
 	for (const o of opciones) {
@@ -214,7 +286,7 @@ function sortea(opciones, rnd) {
  * Y una pregunta que admite cero respuestas casi siempre se queda sin responder: el pie quebrado
  * de una redondilla es excepcional, y la siembra anterior lo marcaba en todas.
  */
-function respuestas(arq, unidades, rnd) {
+function respuestas(arq, unidades, rnd, medida) {
 	const secuencia = {};
 	const unidad = {};
 	for (const g of arq.grupos) {
@@ -227,16 +299,45 @@ function respuestas(arq, unidades, rnd) {
 		}
 		if (g.alcance !== 'unidad') continue;
 		if (!obligatoria) {
-			// Excepcional de verdad: alguna unidad suelta, en una de cada seis secuencias.
-			if (rnd() > 0.16) continue;
+			// **El pie quebrado es rarísimo.** Está admitido en la redondilla y en la quintilla, y por
+			// eso el editor lo pregunta, pero en una comedia entera puede no aparecer ni una vez. La
+			// siembra anterior lo marcaba en una de cada seis secuencias, que era un disparate.
+			if (rnd() > 0.02) continue;
 			unidad[g.nombre] = { dominante: null, excepciones: { [sortea(g.opciones, rnd).nombre]: 1 } };
 			continue;
 		}
-		// Cuando las opciones van por posición dentro de la estrofa —los cuartetos y los tercetos
-		// del soneto, la medida de cada verso del cuarteto-lira—, se responde una por posición.
-		const posiciones = new Set(g.opciones.map((o) => o.posicion_unidad ?? 0));
-		if (posiciones.size > 1) {
-			unidad[g.nombre] = { por_posicion: true };
+		// Cuando las opciones van por posición dentro de la estrofa —los cuartetos y los tercetos del
+		// soneto, la medida de cada verso—, se responde una por posición.
+		const posiciones = [...new Set(g.opciones.map((o) => o.posicion_unidad ?? 0))].sort();
+		if (posiciones.length > 1) {
+			// **Y si todas las posiciones ofrecen las mismas medidas, es que la estrofa es isométrica**
+			// y hay que responder la misma en todas: los dos versos de un pareado miden lo mismo. En
+			// una estrofa alirada, en cambio, cada posición ofrece la suya y se responde una a una.
+			const sufijo = (o) => o.nombre.replace(/^Verso \d+ · /, '');
+			const repertorios = posiciones.map((p) =>
+				g.opciones
+					.filter((o) => (o.posicion_unidad ?? 0) === p)
+					.map(sufijo)
+					.sort()
+					.join('|')
+			);
+			const isometrica = new Set(repertorios).size === 1 && repertorios[0].includes('|');
+			if (isometrica) {
+				const elegida =
+					medida && repertorios[0].split('|').includes(medida)
+						? medida
+						: sufijo(sortea(g.opciones.filter((o) => (o.posicion_unidad ?? 0) === posiciones[0]), rnd));
+				unidad[g.nombre] = { misma_en_todas: elegida, posiciones: posiciones.length };
+			} else {
+				unidad[g.nombre] = {
+					por_posicion: Object.fromEntries(
+						posiciones.map((p) => [
+							p,
+							sortea(g.opciones.filter((o) => (o.posicion_unidad ?? 0) === p), rnd).nombre
+						])
+					)
+				};
+			}
 			continue;
 		}
 		const dominante = sortea(g.opciones, rnd);
@@ -257,15 +358,33 @@ function respuestas(arq, unidades, rnd) {
 	return { secuencia, unidad };
 }
 
-/** Los cuadros: entre dos y cuatro por jornada, y siempre cortando donde acaba una secuencia. */
+/**
+ * Los cuadros, calibrados con las cinco comedias que se leyeron a mano.
+ *
+ * Un cuadro es un tramo entre dos vaciados del tablado, y de ahí salen dos cosas que las cinco
+ * canónicas enseñan y que no se pueden inventar a ojo:
+ *
+ * - **Son más hacia el final.** La dama boba va 2-4-3; Fuente Ovejuna, 4-5-8; Peribáñez, 5-7-8. La
+ *   acción se acelera y los cuadros se acortan.
+ * - **Siete de cada diez cortan donde acaba una secuencia, y tres no.** El cambio de cuadro suele
+ *   traer cambio de forma, pero una tirada de romance puede seguir sonando después de que el
+ *   tablado se vacíe. Fin de jornada, en cambio, es siempre fin de cuadro.
+ */
 function cuadrosDe(jornada, secuencias, rnd) {
 	const dentro = secuencias.filter((s) => s.v_ini >= jornada.v_ini && s.v_fin <= jornada.v_fin);
-	const cuantos = Math.min(2 + Math.floor(rnd() * 3), Math.max(1, dentro.length));
+	const holgura = [0, 2, 3, 4][jornada.numero] ?? 3; // I: 2-4, II: 3-5, III: 4-6
+	const cuantos = Math.min(holgura + Math.floor(rnd() * 3), Math.max(1, dentro.length));
 	const cortes = [];
 	for (let i = 1; i < cuantos; i += 1) {
 		const indice = Math.round((dentro.length * i) / cuantos) - 1;
 		const seq = dentro[Math.max(0, Math.min(dentro.length - 1, indice))];
-		if (seq && seq.v_fin < jornada.v_fin && !cortes.includes(seq.v_fin)) cortes.push(seq.v_fin);
+		if (!seq || seq.v_fin >= jornada.v_fin) continue;
+		// Tres de cada diez cortan dentro de una tirada, si es lo bastante larga para partirla.
+		const dentroDeLaTirada = rnd() < 0.45 && seq.versos >= 12;
+		const corte = dentroDeLaTirada
+			? seq.v_ini + Math.floor(seq.versos / 2)
+			: seq.v_fin;
+		if (!cortes.includes(corte)) cortes.push(corte);
 	}
 	const limites = [jornada.v_ini - 1, ...cortes, jornada.v_fin];
 	return limites.slice(0, -1).map((v, i) => ({ numero: i + 1, v_ini: v + 1, v_fin: limites[i + 1] }));
@@ -309,9 +428,35 @@ function guionDe(obra, catalogo) {
 			const unidades = Math.max(1, Math.round(versos / paso));
 			entrada.unidades = unidades;
 			entrada.versos = unidades * paso;
-			Object.assign(entrada, respuestas(arq, unidades, rnd));
+			Object.assign(entrada, respuestas(arq, unidades, rnd, par[2]));
 		}
 		secuencias.push(entrada);
+	}
+
+	const extras = EXTRAS[obra.esqueleto];
+	/** La enésima secuencia de una forma, que es como se señala un pasaje sin saber su número. */
+	const laDe = (forma, ocurrencia) =>
+		secuencias.filter((s) => s.forma === forma)[Math.max(0, (ocurrencia ?? 1) - 1)];
+
+	if (extras?.villancico) {
+		const v = extras.villancico;
+		const destino = laDe(v.forma_sustituida, v.ocurrencia);
+		if (!destino) {
+			avisos.push(`no hay ${v.ocurrencia}.ª secuencia de ${v.forma_sustituida} donde poner el villancico`);
+		} else {
+			destino.forma = 'villancico';
+			destino.arquitectura = v.arquitectura;
+			destino.unidades = v.ciclos.length;
+			destino.versos = v.ciclos.reduce(
+				(t, c) => t + Object.values(c).reduce((a, b) => a + b, 0),
+				0
+			);
+			destino.secuencia = {};
+			destino.unidad = {};
+			// Las partes van dichas una a una: es la única forma del catálogo cuyas partes tienen
+			// partes dentro, y no hay manera de deducir el reparto de una regla.
+			destino.partes = v.ciclos;
+		}
 	}
 
 	// **Los rangos se recosen.** Al ajustar cada tirada a su módulo se corren unos versos; las
@@ -346,6 +491,41 @@ function guionDe(obra, catalogo) {
 	const cuadros = jornadas.flatMap((j) =>
 		cuadrosDe(j, secuencias, rnd).map((c) => ({ jornada: j.numero, ...c }))
 	);
+
+	// Las caracterizaciones y las desviaciones se cuelgan al final, cuando los rangos ya son los
+	// definitivos: las dos señalan versos concretos dentro de una secuencia.
+	for (const c of extras?.caracterizaciones ?? []) {
+		const seq = c.villancico
+			? secuencias.find((s) => s.forma === 'villancico')
+			: laDe(c.forma, c.ocurrencia);
+		if (!seq) {
+			avisos.push(`no hay dónde poner la caracterización «${c.tipo}»`);
+			continue;
+		}
+		const largo = Math.min(c.versos ?? seq.versos, seq.versos);
+		(seq.caracterizaciones ??= []).push({
+			tipo: c.tipo,
+			v_ini: seq.v_ini,
+			v_fin: seq.v_ini + largo - 1,
+			observaciones: c.nota
+		});
+	}
+	for (const d of extras?.desviaciones ?? []) {
+		const seq = laDe(d.forma, d.ocurrencia);
+		if (!seq) {
+			avisos.push(`no hay dónde poner la desviación «${d.dimension}/${d.relacion_norma}»`);
+			continue;
+		}
+		// Dentro de la secuencia y nunca a caballo: la base lo comprueba.
+		const desde = seq.v_ini + Math.min(4, Math.max(0, seq.versos - (d.versos ?? 1)));
+		(seq.desviaciones ??= []).push({
+			dimension: d.dimension,
+			relacion_norma: d.relacion_norma,
+			v_ini: desde,
+			v_fin: Math.min(desde + (d.versos ?? 1) - 1, seq.v_fin),
+			observaciones: d.nota
+		});
+	}
 
 	return {
 		obra: {
@@ -388,16 +568,33 @@ function tabla(guion) {
 			.join('<br>');
 		const porUnidad = Object.entries(s.unidad ?? {})
 			.map(([k, v]) => {
-				if (v.por_posicion) return `${k}: una por posición`;
+				if (v.misma_en_todas) return `${k}: **${v.misma_en_todas}** en sus ${v.posiciones} versos`;
+				if (v.por_posicion)
+					return `${k}: ${Object.values(v.por_posicion).join(' · ')}`;
 				const sueltas = Object.entries(v.excepciones ?? {})
 					.map(([n, c]) => `${n} ×${c}`)
 					.join(', ');
 				return `${k}: **${v.dominante ?? '—'}**${sueltas ? ` · salvo ${sueltas}` : ''}`;
 			})
 			.join('<br>');
+		const aparte = [
+			...(s.partes ?? []).map(
+				(c, i) =>
+					`ciclo ${i + 1}: ${Object.entries(c)
+						.map(([n, v]) => `${n} ${v}`)
+						.join(' + ')}`
+			),
+			...(s.caracterizaciones ?? []).map(
+				(c) => `**${c.tipo}** vv. ${c.v_ini}-${c.v_fin}`
+			),
+			...(s.desviaciones ?? []).map(
+				(d) => `**desviación** ${d.dimension}/${d.relacion_norma} vv. ${d.v_ini}-${d.v_fin}`
+			)
+		].join('<br>');
 		lineas.push(
 			`| ${s.orden} | ${s.v_ini}-${s.v_fin} (${s.versos}) | ` +
-				`${s.forma ? `${s.forma} / ${s.arquitectura}` : '—'} | ${porSecuencia} | ${porUnidad} |`
+				`${s.forma ? `${s.forma} / ${s.arquitectura}` : '—'} | ${porSecuencia} | ` +
+				`${[porUnidad, aparte].filter(Boolean).join('<br>')} |`
 		);
 	}
 	return lineas.join('\n');

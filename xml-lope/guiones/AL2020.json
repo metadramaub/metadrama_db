@@ -41,24 +41,24 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 606
+			"v_fin": 510
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 607,
+			"v_ini": 511,
 			"v_fin": 894
 		},
 		{
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 895,
-			"v_fin": 1171
+			"v_fin": 1134
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1172,
+			"v_ini": 1135,
 			"v_fin": 1375
 		},
 		{
@@ -71,18 +71,36 @@
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 1928,
-			"v_fin": 2031
+			"v_fin": 1939
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
-			"v_ini": 2032,
-			"v_fin": 2411
+			"v_ini": 1940,
+			"v_fin": 1993
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2412,
+			"v_ini": 1994,
+			"v_fin": 2297
+		},
+		{
+			"jornada": 3,
+			"numero": 4,
+			"v_ini": 2298,
+			"v_fin": 2367
+		},
+		{
+			"jornada": 3,
+			"numero": 5,
+			"v_ini": 2368,
+			"v_fin": 2443
+		},
+		{
+			"jornada": 3,
+			"numero": 6,
+			"v_ini": 2444,
 			"v_fin": 2577
 		}
 	],
@@ -145,7 +163,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 164,
 			"secuencia": {
-				"Vocales de la asonancia": "o"
+				"Vocales de la asonancia": "e-o"
 			},
 			"unidad": {}
 		},
@@ -173,7 +191,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 33,
 			"secuencia": {
-				"Vocales de la asonancia": "i-e"
+				"Vocales de la asonancia": "e-o"
 			},
 			"unidad": {}
 		},
@@ -216,7 +234,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 89,
 			"secuencia": {
-				"Vocales de la asonancia": "a-e"
+				"Vocales de la asonancia": "a-a"
 			},
 			"unidad": {}
 		},
@@ -278,7 +296,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 86,
 			"secuencia": {
-				"Vocales de la asonancia": "i"
+				"Vocales de la asonancia": "e-a"
 			},
 			"unidad": {}
 		},
@@ -353,7 +371,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 146,
 			"secuencia": {
-				"Vocales de la asonancia": "u"
+				"Vocales de la asonancia": "o-a"
 			},
 			"unidad": {}
 		},
@@ -381,7 +399,7 @@
 			"arquitectura": "hexasilabica",
 			"unidades": 2,
 			"secuencia": {
-				"Vocales de la asonancia": "e-o"
+				"Vocales de la asonancia": "e-a"
 			},
 			"unidad": {}
 		},
@@ -409,7 +427,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 39,
 			"secuencia": {
-				"Vocales de la asonancia": "u-a"
+				"Vocales de la asonancia": "o-a"
 			},
 			"unidad": {}
 		},
@@ -429,12 +447,6 @@
 					"excepciones": {
 						"Cruzada · abab": 5
 					}
-				},
-				"Pie quebrado": {
-					"dominante": null,
-					"excepciones": {
-						"Verso 1 · Pentasílabo": 1
-					}
 				}
 			}
 		},
@@ -448,7 +460,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 67,
 			"secuencia": {
-				"Vocales de la asonancia": "o-e"
+				"Vocales de la asonancia": "a-a"
 			},
 			"unidad": {}
 		},
@@ -499,12 +511,6 @@
 					"excepciones": {
 						"Cruzada · abab": 1
 					}
-				},
-				"Pie quebrado": {
-					"dominante": null,
-					"excepciones": {
-						"Verso 4 · Pentasílabo": 1
-					}
 				}
 			}
 		},
@@ -518,7 +524,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 8,
 			"secuencia": {
-				"Vocales de la asonancia": "e-o"
+				"Vocales de la asonancia": "a-a"
 			},
 			"unidad": {}
 		},
@@ -532,7 +538,7 @@
 			"arquitectura": "consonante_irregular",
 			"unidades": 4,
 			"secuencia": {
-				"Densidad de rima": "Mayoritaria"
+				"Densidad de rima": "Total"
 			},
 			"unidad": {}
 		},
@@ -546,7 +552,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 65,
 			"secuencia": {
-				"Vocales de la asonancia": "e-o"
+				"Vocales de la asonancia": "e-a"
 			},
 			"unidad": {}
 		}
