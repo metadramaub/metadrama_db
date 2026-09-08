@@ -82,8 +82,12 @@ function fullFicha(): PublicObraFichaPayload {
 					jornada_num: 1,
 					cuadro_id: null,
 					cuadro_num: null,
+					cuadro_continua: false,
 					caracterizaciones_rango: [],
-					subtipos_estrofa: []
+					subtipos_estrofa: [],
+					rasgos: [],
+					metros: [],
+					desviaciones: []
 				}
 			],
 			distribucion_formas: [
