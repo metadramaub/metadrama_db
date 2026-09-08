@@ -853,11 +853,13 @@ que `rejilla.ts`, que es la que ha aguantado bien. Consume un tipo mínimo propi
 **Cómo se muestra**, en bloques nuevos de la ficha, cada uno con su sección para que respete
 `scope_minimo`:
 
-- **Esquema métrico de un vistazo**, como en una edición crítica: una línea por secuencia con su
-  rango y su forma, agrupadas por jornada y con los cortes de cuadro marcados. Es lo que un
-  filólogo copia y pega, y la base del PNG exportable.
-- **Esquema de estructura**: jornadas, sus cuadros y qué secuencias caen en cada uno, señalando
-  dónde una tirada sigue sonando después del corte.
+- **Esquema métrico de un vistazo** —`MetricScheme.svelte`, **hecho el 9 de septiembre de 2026**—:
+  una línea por secuencia con su rango, su forma y lo que la distingue de otra tirada de la misma
+  forma. Con él **las asonancias se ven por primera vez**. Los cortes de cuadro van sobre la fila
+  donde el cuadro empieza, no entre dos filas: cuando el tablado se vacía en mitad de una tirada no
+  hay hueco donde ponerlos, y esa es la fila de la que hay que avisar. Falta colgarle el PNG.
+- **Esquema de estructura** —`StructureOutline.svelte`, hecho el mismo día—: jornadas y sus
+  cuadros, el mismo índice que el dashboard enseña en la pestaña de secuencias.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
 - Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
