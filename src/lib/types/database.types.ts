@@ -2730,47 +2730,12 @@ export type Database = {
           },
         ]
       }
-      obras_anotacion_nueva: {
-        Row: {
-          created_at: string
-          created_by: string
-          nota: string | null
-          obra_id: string
-        }
-        Insert: {
-          created_at?: string
-          created_by?: string
-          nota?: string | null
-          obra_id: string
-        }
-        Update: {
-          created_at?: string
-          created_by?: string
-          nota?: string | null
-          obra_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "obras_anotacion_nueva_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "editores"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "obras_anotacion_nueva_obra_id_fkey"
-            columns: ["obra_id"]
-            isOneToOne: true
-            referencedRelation: "obras"
-            referencedColumns: ["obra_id"]
-          },
-        ]
-      }
       obras_resumen: {
         Row: {
           actualizado_en: string | null
           cuadros_tramos: Json | null
           densidad_transiciones: number | null
+          ficha: Json | null
           formas_presentes: string[] | null
           intervencion_donaire: string | null
           intervencion_femenina: string | null
@@ -2788,6 +2753,7 @@ export type Database = {
           perfil_formas: Json | null
           subtipos_presentes: string[] | null
           tiene_cambio_espacio: boolean | null
+          tiene_evento_sobrenatural: boolean
           tiene_versos_partidos: boolean | null
           tipos_forma_presentes: string[] | null
           total_versos: number | null
@@ -2798,6 +2764,7 @@ export type Database = {
           actualizado_en?: string | null
           cuadros_tramos?: Json | null
           densidad_transiciones?: number | null
+          ficha?: Json | null
           formas_presentes?: string[] | null
           intervencion_donaire?: string | null
           intervencion_femenina?: string | null
@@ -2815,6 +2782,7 @@ export type Database = {
           perfil_formas?: Json | null
           subtipos_presentes?: string[] | null
           tiene_cambio_espacio?: boolean | null
+          tiene_evento_sobrenatural?: boolean
           tiene_versos_partidos?: boolean | null
           tipos_forma_presentes?: string[] | null
           total_versos?: number | null
@@ -2825,6 +2793,7 @@ export type Database = {
           actualizado_en?: string | null
           cuadros_tramos?: Json | null
           densidad_transiciones?: number | null
+          ficha?: Json | null
           formas_presentes?: string[] | null
           intervencion_donaire?: string | null
           intervencion_femenina?: string | null
@@ -2842,6 +2811,7 @@ export type Database = {
           perfil_formas?: Json | null
           subtipos_presentes?: string[] | null
           tiene_cambio_espacio?: boolean | null
+          tiene_evento_sobrenatural?: boolean
           tiene_versos_partidos?: boolean | null
           tipos_forma_presentes?: string[] | null
           total_versos?: number | null
@@ -3831,6 +3801,10 @@ export type Database = {
         Returns: boolean
       }
       catalogo_metrico_publico: { Args: never; Returns: boolean }
+      ficha_publica_json: {
+        Args: { p_include_hidden?: boolean; p_obra_id: string }
+        Returns: Json
+      }
       firma_de_eleccion: {
         Args: { e: Database["public"]["Tables"]["anotacion_elecciones"]["Row"] }
         Returns: string

@@ -55,6 +55,11 @@ const PARA_QUE = {
 	actualizado_en: ['control', 'dashboard'],
 	jornadas_tramos: ['los cortes de jornada que se dibujan sobre el barcode', 'buscador'],
 	cuadros_tramos: ['los cortes de cuadro que se dibujan sobre el barcode', 'buscador'],
+	ficha: [
+		'**la ficha pública completa**, tal como la ve un anónimo: la construye `ficha_publica_json`',
+		'la ficha de una obra publicada'
+	],
+	tiene_evento_sobrenatural: ['bandera', 'buscador'],
 	obra_id: ['clave', '—'],
 	autor_id: ['clave', '—'],
 	alcance: ['qué obras entran en el agregado', 'perfil de autor'],
@@ -117,7 +122,7 @@ const REGISTRABLE = [
 	{
 		nombre: 'Evento sobrenatural',
 		cuantas: `select count(*) from public.secuencias_metricas where evento_sobrenatural`,
-		clave: 'evento_sobrenatural', columna: null
+		clave: 'evento_sobrenatural', columna: 'tiene_evento_sobrenatural'
 	},
 	{
 		nombre: 'Intervención de personajes femeninos',

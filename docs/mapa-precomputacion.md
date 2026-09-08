@@ -66,6 +66,8 @@ el problema que el paso 1 del plan viene a cerrar.
 | `subtipos_presentes` | ARRAY | filtro: esquemas de rima | buscador |
 | `jornadas_tramos` | jsonb | los cortes de jornada que se dibujan sobre el barcode | buscador |
 | `cuadros_tramos` | jsonb | los cortes de cuadro que se dibujan sobre el barcode | buscador |
+| `ficha` | jsonb | **la ficha pública completa**, tal como la ve un anónimo: la construye `ficha_publica_json` | la ficha de una obra publicada |
+| `tiene_evento_sobrenatural` | boolean | bandera | buscador |
 
 ## Qué guarda `autores_resumen`
 
@@ -105,7 +107,7 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 | Caracterizaciones por rango (cantado, prosa, evocación) | 241 | `pct_cantado` | sí |
 | Versos partidos | 275 | `tiene_versos_partidos` | sí |
 | Inaugura espacio | 163 | `tiene_cambio_espacio` | sí |
-| Evento sobrenatural | 44 | — | sí |
+| Evento sobrenatural | 44 | `tiene_evento_sobrenatural` | sí |
 | Intervención de personajes femeninos | 585 | `intervencion_femenina` | sí |
 | Intervención de figuras de donaire | 160 | `intervencion_donaire` | sí |
 | Intervención de personajes sobrenaturales | 80 | `intervencion_sobrenaturales` | sí |
