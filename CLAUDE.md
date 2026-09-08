@@ -28,8 +28,8 @@ npm run poda:informe   # regenera la propuesta de poda de la prosa del catálogo
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
 npm run snapshot:obras # foto fija, un JSON por obra, de todo lo anotado hoy (a backups/)
-npm run sembrar:pruebas # rehace las diez obras de prueba anotadas con el catálogo nuevo
-#   … y `--probe` dice qué arquitecturas se pueden sembrar solas y cuáles necesitan a alguien
+npm run guion:pruebas  # escribe en xml-lope/guiones/ lo que se va a anotar, sin tocar la base
+npm run aplicar:guiones # y lo escribe en la base, borrando antes las obras de prueba anteriores
 ```
 
 ## Los tres subsistemas

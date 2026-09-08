@@ -41,66 +41,72 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 492
+			"v_fin": 139
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 493,
+			"v_ini": 140,
+			"v_fin": 671
+		},
+		{
+			"jornada": 1,
+			"numero": 3,
+			"v_ini": 672,
+			"v_fin": 719
+		},
+		{
+			"jornada": 1,
+			"numero": 4,
+			"v_ini": 720,
 			"v_fin": 995
 		},
 		{
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 996,
-			"v_fin": 1488
+			"v_fin": 1455
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1489,
-			"v_fin": 1728
+			"v_ini": 1456,
+			"v_fin": 1618
 		},
 		{
 			"jornada": 2,
 			"numero": 3,
-			"v_ini": 1729,
+			"v_ini": 1619,
+			"v_fin": 1875
+		},
+		{
+			"jornada": 2,
+			"numero": 4,
+			"v_ini": 1876,
 			"v_fin": 2109
 		},
 		{
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 2110,
-			"v_fin": 2250
+			"v_fin": 2338
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
-			"v_ini": 2251,
-			"v_fin": 2352
-		},
-		{
-			"jornada": 3,
-			"numero": 3,
-			"v_ini": 2353,
+			"v_ini": 2339,
 			"v_fin": 2654
 		},
 		{
 			"jornada": 3,
-			"numero": 4,
+			"numero": 3,
 			"v_ini": 2655,
-			"v_fin": 2862
+			"v_fin": 2891
 		},
 		{
 			"jornada": 3,
-			"numero": 5,
-			"v_ini": 2863,
-			"v_fin": 2978
-		},
-		{
-			"jornada": 3,
-			"numero": 6,
-			"v_ini": 2979,
+			"numero": 4,
+			"v_ini": 2892,
 			"v_fin": 3136
 		}
 	],
@@ -302,26 +308,104 @@
 			"forma_fuente": "copla_estructura_abierta",
 			"forma": "villancico",
 			"arquitectura": "estribillo_tras_primera_copla",
-			"unidades": 3,
+			"unidades": 1,
 			"secuencia": {},
-			"unidad": {},
+			"unidad": {
+				"Mudanza · Medida de los versos": {
+					"dominante": "Hexasílabo",
+					"excepciones": {}
+				},
+				"Mudanza · Esquema de rima": {
+					"dominante": "Mudanza en redondilla · abba · Consonante",
+					"excepciones": {}
+				},
+				"Vuelta · Medida de los versos": {
+					"dominante": "Hexasílabo",
+					"excepciones": {}
+				},
+				"Enlace · Medida de los versos": {
+					"dominante": "Hexasílabo",
+					"excepciones": {}
+				},
+				"Estribillo": {
+					"dominante": "Se repite entero",
+					"excepciones": {}
+				},
+				"Estribillo · Medida de los versos": {
+					"dominante": "Octosílabo",
+					"excepciones": {}
+				}
+			},
 			"partes": [
 				{
-					"mudanza": 4,
-					"copla": 4,
-					"enlace": 1,
-					"estribillo": 3,
-					"vuelta": 1
+					"seccion": "ciclo_copla",
+					"partes": [
+						{
+							"seccion": "copla",
+							"partes": [
+								{
+									"seccion": "mudanza",
+									"versos": 4
+								},
+								{
+									"seccion": "enlace",
+									"versos": 3
+								},
+								{
+									"seccion": "vuelta",
+									"versos": 1
+								}
+							]
+						},
+						{
+							"seccion": "estribillo",
+							"versos": 4
+						}
+					]
 				},
 				{
-					"mudanza": 4,
-					"copla": 4,
-					"estribillo": 3
+					"seccion": "ciclo_copla",
+					"partes": [
+						{
+							"seccion": "copla",
+							"partes": [
+								{
+									"seccion": "mudanza",
+									"versos": 4
+								},
+								{
+									"seccion": "enlace",
+									"versos": 3
+								}
+							]
+						},
+						{
+							"seccion": "estribillo",
+							"versos": 4
+						}
+					]
 				},
 				{
-					"mudanza": 4,
-					"copla": 3,
-					"estribillo": 3
+					"seccion": "ciclo_copla",
+					"partes": [
+						{
+							"seccion": "copla",
+							"partes": [
+								{
+									"seccion": "mudanza",
+									"versos": 4
+								},
+								{
+									"seccion": "enlace",
+									"versos": 3
+								}
+							]
+						},
+						{
+							"seccion": "estribillo",
+							"versos": 4
+						}
+					]
 				}
 			],
 			"caracterizaciones": [
@@ -482,8 +566,8 @@
 			"v_fin": 2025,
 			"versos": 2,
 			"forma_fuente": "verso_suelto",
-			"forma": "verso_aislado",
-			"arquitectura": "cualquier_medida",
+			"forma": "irregular",
+			"arquitectura": "arte_menor",
 			"unidades": 2,
 			"secuencia": {},
 			"unidad": {}
@@ -505,7 +589,16 @@
 						"Cruzada · abab": 7
 					}
 				}
-			}
+			},
+			"desviaciones": [
+				{
+					"dimension": "estructura",
+					"relacion_norma": "falta",
+					"v_ini": 2030,
+					"v_fin": 2031,
+					"observaciones": "Laguna: a esta redondilla le faltan dos versos."
+				}
+			]
 		},
 		{
 			"orden": 23,
@@ -513,8 +606,8 @@
 			"v_fin": 2112,
 			"versos": 3,
 			"forma_fuente": "verso_suelto",
-			"forma": "verso_aislado",
-			"arquitectura": "cualquier_medida",
+			"forma": "irregular",
+			"arquitectura": "arte_menor",
 			"unidades": 3,
 			"secuencia": {},
 			"unidad": {}
@@ -777,7 +870,16 @@
 						"Tipología 8 · abbba": 3
 					}
 				}
-			}
+			},
+			"desviaciones": [
+				{
+					"dimension": "rasgo",
+					"relacion_norma": "sobra",
+					"v_ini": 2997,
+					"v_fin": 3001,
+					"observaciones": "Una quintilla con un rasgo que la norma no prevé."
+				}
+			]
 		},
 		{
 			"orden": 38,

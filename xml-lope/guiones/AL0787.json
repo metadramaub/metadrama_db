@@ -41,24 +41,18 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 236
+			"v_fin": 340
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 237,
-			"v_fin": 422
+			"v_ini": 341,
+			"v_fin": 557
 		},
 		{
 			"jornada": 1,
 			"numero": 3,
-			"v_ini": 423,
-			"v_fin": 677
-		},
-		{
-			"jornada": 1,
-			"numero": 4,
-			"v_ini": 678,
+			"v_ini": 558,
 			"v_fin": 935
 		},
 		{
@@ -83,12 +77,12 @@
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 1988,
-			"v_fin": 2013
+			"v_fin": 2027
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
-			"v_ini": 2014,
+			"v_ini": 2028,
 			"v_fin": 2315
 		},
 		{
@@ -107,12 +101,12 @@
 			"jornada": 3,
 			"numero": 5,
 			"v_ini": 2728,
-			"v_fin": 2822
+			"v_fin": 2803
 		},
 		{
 			"jornada": 3,
 			"numero": 6,
-			"v_ini": 2823,
+			"v_ini": 2804,
 			"v_fin": 2951
 		}
 	],
@@ -560,8 +554,20 @@
 			"v_fin": 1997,
 			"versos": 10,
 			"forma_fuente": "_solo_sangrado_",
-			"forma": null,
-			"arquitectura": null
+			"forma": "copla_real",
+			"arquitectura": "octosilabica_consonante",
+			"unidades": 1,
+			"secuencia": {},
+			"unidad": {
+				"Primera quintilla · Esquema de rima": {
+					"dominante": "Tipología 1 · ababa",
+					"excepciones": {}
+				},
+				"Segunda quintilla · Esquema de rima": {
+					"dominante": "Tipología 2 · abbab",
+					"excepciones": {}
+				}
+			}
 		},
 		{
 			"orden": 27,
@@ -589,7 +595,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 11
+						"Cruzada · abab": 7
 					}
 				}
 			}
@@ -625,7 +631,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 20
+						"Cruzada · abab": 12
 					}
 				}
 			}
@@ -648,8 +654,8 @@
 			"v_fin": 2716,
 			"versos": 2,
 			"forma_fuente": "verso_suelto",
-			"forma": "verso_aislado",
-			"arquitectura": "cualquier_medida",
+			"forma": "irregular",
+			"arquitectura": "arte_menor",
 			"unidades": 2,
 			"secuencia": {},
 			"unidad": {}
@@ -672,8 +678,8 @@
 			"v_fin": 2727,
 			"versos": 6,
 			"forma_fuente": "verso_suelto",
-			"forma": "verso_aislado",
-			"arquitectura": "cualquier_medida",
+			"forma": "irregular",
+			"arquitectura": "arte_menor",
 			"unidades": 6,
 			"secuencia": {},
 			"unidad": {}
@@ -704,8 +710,8 @@
 				"Esquema de rima": {
 					"dominante": "Tipología 1 · ababa",
 					"excepciones": {
-						"Tipología 2 · abbab": 2,
-						"Tipología 5 · aabba": 3
+						"Tipología 5 · aabba": 2,
+						"Tipología 7 · ababb": 3
 					}
 				}
 			}
@@ -722,7 +728,7 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Cruzada · abab",
+					"dominante": "Abrazada · abba",
 					"excepciones": {}
 				}
 			}
@@ -741,7 +747,8 @@
 				"Esquema de rima": {
 					"dominante": "Tipología 2 · abbab",
 					"excepciones": {
-						"Tipología 1 · ababa": 5
+						"Tipología 1 · ababa": 8,
+						"Tipología 3 · abaab": 2
 					}
 				}
 			}
