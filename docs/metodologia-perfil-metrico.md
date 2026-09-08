@@ -2,9 +2,9 @@
 
 > **Para qué sirve este documento.** Recoge las **decisiones metodológicas** detrás de los
 > datos precomputados (`obras_resumen`, `autores_resumen`): qué mide cada cosa, cómo se calcula
-> y, sobre todo, **por qué** se decidió así. El [plan de implementación](plan-precomputacion-implementacion.md)
-> dice *qué* se hace y *en qué estado* está; este dice *por qué* y con qué criterio, para poder
-> recordar y defender las decisiones cuando el corpus crezca o haya que revisarlas.
+> y, sobre todo, **por qué** se decidió así. El [mapa de la precomputación](mapa-precomputacion.md)
+> dice *dónde vive* cada dato hoy y se genera de la base; este dice *por qué* y con qué criterio,
+> para poder recordar y defender las decisiones cuando el corpus crezca o haya que revisarlas.
 >
 > **Fuente de verdad del cálculo precomputado:** las funciones SQL de las migraciones
 > (`recompute_obra_resumen`, `recompute_autor_resumen`). Si este documento y el SQL difieren,

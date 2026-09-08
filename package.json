@@ -23,6 +23,7 @@
 		"audit:metrica": "node scripts/audit-catalogo-metrico.mjs --markdown docs/dominio-metrico/informe-conformidad-catalogo.md",
 		"migracion:informe": "node scripts/informe-migracion-obras.mjs",
 		"snapshot:obras": "node scripts/snapshot-obras.mjs",
+		"precomputacion:informe": "node scripts/informe-precomputacion.mjs",
 		"guion:pruebas": "node scripts/guion-obras-de-prueba.mjs",
 		"aplicar:guiones": "node scripts/aplicar-guiones.mjs",
 		"equivalencias:informe": "node scripts/informe-equivalencias.mjs",
