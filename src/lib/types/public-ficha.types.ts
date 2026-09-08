@@ -54,12 +54,41 @@ export interface PublicFichaCaracterizacionRango {
 	observaciones: string | null;
 }
 
+/**
+ * Un esquema de rima de la tirada, con cuántas estrofas lo llevan.
+ *
+ * No es un rango: el esquema se responde una vez por estrofa, así que lo que dice algo es el
+ * reparto —«abrazada 64, cruzada 14»— y no dónde cae cada una.
+ */
 export interface PublicFichaSubtipoEstrofa {
-	subtipo_secuencia_id: string;
 	subtipo_estrofa_id: string;
 	subtipo_estrofa_term: string;
+	notacion: string | null;
+	unidades: number;
+}
+
+/** Un rasgo observado en la tirada: la asonancia del romance, la densidad de rima de la silva. */
+export interface PublicFichaRasgo {
+	rasgo_slug: string;
+	rasgo_term: string;
+	valor_slug: string;
+	valor_term: string;
+}
+
+/** La medida de los versos tal como se respondió, con cuántas estrofas la llevan. */
+export interface PublicFichaMetro {
+	metro_slug: string;
+	metro_term: string;
+	unidades: number;
+}
+
+/** Lo que se aparta de la norma: la laguna, el verso corto, la rima fuera del repertorio. */
+export interface PublicFichaDesviacion {
+	dimension: string;
+	relacion_norma: string;
 	v_ini: number;
 	v_fin: number;
+	observaciones: string | null;
 }
 
 export interface PublicFichaSecuencia {
@@ -84,8 +113,13 @@ export interface PublicFichaSecuencia {
 	jornada_num: number | null;
 	cuadro_id: string | null;
 	cuadro_num: number | null;
+	/** La tirada sigue sonando después del cambio de cuadro. */
+	cuadro_continua: boolean | null;
 	caracterizaciones_rango: PublicFichaCaracterizacionRango[];
 	subtipos_estrofa: PublicFichaSubtipoEstrofa[];
+	rasgos: PublicFichaRasgo[];
+	metros: PublicFichaMetro[];
+	desviaciones: PublicFichaDesviacion[];
 }
 
 export interface PublicFichaSinopsisMetricaSecuencia {
