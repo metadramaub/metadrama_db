@@ -2733,6 +2733,7 @@ export type Database = {
       obras_resumen: {
         Row: {
           actualizado_en: string | null
+          autores: string[]
           cuadros_tramos: Json | null
           densidad_transiciones: number | null
           ficha: Json | null
@@ -2762,6 +2763,7 @@ export type Database = {
         }
         Insert: {
           actualizado_en?: string | null
+          autores?: string[]
           cuadros_tramos?: Json | null
           densidad_transiciones?: number | null
           ficha?: Json | null
@@ -2791,6 +2793,7 @@ export type Database = {
         }
         Update: {
           actualizado_en?: string | null
+          autores?: string[]
           cuadros_tramos?: Json | null
           densidad_transiciones?: number | null
           ficha?: Json | null
@@ -3801,6 +3804,10 @@ export type Database = {
         Returns: boolean
       }
       catalogo_metrico_publico: { Args: never; Returns: boolean }
+      ficha_publica_base_json: {
+        Args: { p_include_hidden?: boolean; p_obra_id: string }
+        Returns: Json
+      }
       ficha_publica_json: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json

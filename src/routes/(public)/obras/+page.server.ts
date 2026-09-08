@@ -195,10 +195,15 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		};
 	}
 
+	// **Una sola consulta.** El resumen viene incrustado, así que la página no encadena una lectura
+	// por cada cosa que enseña: antes eran seis —la obra, su perfil métrico, y cuatro más para
+	// reconstruir quién firma— y ahora es esta. Su RLS es la misma que la del muro, de modo que
+	// incrustarlo no enseña ninguna obra que la consulta no fuera a devolver.
 	let query = locals.supabase
 		.from('obras')
 		.select(
-			'obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado'
+			'obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado,' +
+				'obras_resumen(autores,tramos,jornadas_tramos,cuadros_tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes)'
 		)
 		.eq('estado', publicadoId)
 		.order('titulo');
@@ -218,7 +223,8 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		throw error(500, `No se pudo cargar el catálogo público: ${dbError.message}`);
 	}
 
-	const obraRows = (data ?? []) as ObraRow[];
+	// Por `unknown`: la consulta incrusta el resumen y el tipo generado no lo reconoce en el `select`.
+	const obraRows = (data ?? []) as unknown as ObraRow[];
 	const obraIds = obraRows.map((obra) => obra.obra_id);
 	if (obraIds.length === 0) {
 		const filterOptions = emptyFilterOptions();
@@ -230,73 +236,6 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 			filterOptions,
 			initialFilters: parseCatalogFilters(url.searchParams, filterOptions, catalogVisibility)
 		};
-	}
-
-	const gruposResp = await locals.supabase
-		.from('grupos_atribucion')
-		.select('grupo_atribucion_id,obra_id')
-		.in('obra_id', obraIds);
-	const grupos = (gruposResp.data ?? []) as Array<
-		Pick<Tables<'grupos_atribucion'>, 'grupo_atribucion_id' | 'obra_id'>
-	>;
-	const grupoIds = grupos.map((grupo) => grupo.grupo_atribucion_id);
-
-	const atribucionesResp =
-		grupoIds.length > 0
-			? await locals.supabase
-					.from('atribuciones')
-					.select('atribucion_id,grupo_atribucion_id')
-					.in('grupo_atribucion_id', grupoIds)
-			: { data: [] as Pick<Tables<'atribuciones'>, 'atribucion_id' | 'grupo_atribucion_id'>[] };
-	const atribuciones = (atribucionesResp.data ?? []) as Pick<
-		Tables<'atribuciones'>,
-		'atribucion_id' | 'grupo_atribucion_id'
-	>[];
-	const atribucionesByGrupo = new Map<string, string[]>();
-	for (const atribucion of atribuciones) {
-		if (!atribucion.grupo_atribucion_id) continue;
-		const current = atribucionesByGrupo.get(atribucion.grupo_atribucion_id) ?? [];
-		current.push(atribucion.atribucion_id);
-		atribucionesByGrupo.set(atribucion.grupo_atribucion_id, current);
-	}
-	const atribucionToObra = new Map<string, string>();
-	for (const grupo of grupos) {
-		if (!grupo.obra_id) continue;
-		const atribucionIdsForGroup = atribucionesByGrupo.get(grupo.grupo_atribucion_id) ?? [];
-		if (atribucionIdsForGroup.length !== 1) continue;
-		atribucionToObra.set(atribucionIdsForGroup[0], grupo.obra_id);
-	}
-	const atribucionIds = [...atribucionToObra.keys()];
-
-	const atribucionAutoresResp =
-		atribucionIds.length > 0
-			? await locals.supabase
-					.from('atribucion_autores')
-					.select('atribucion_id,autor_id')
-					.in('atribucion_id', atribucionIds)
-			: { data: [] as Pick<Tables<'atribucion_autores'>, 'atribucion_id' | 'autor_id'>[] };
-	const atribucionAutores = (atribucionAutoresResp.data ?? []) as Pick<
-		Tables<'atribucion_autores'>,
-		'atribucion_id' | 'autor_id'
-	>[];
-
-	const authorIds = [...new Set(atribucionAutores.map((row) => row.autor_id))];
-	const autoresResp =
-		authorIds.length > 0
-			? await locals.supabase.from('autores').select('autor_id,nombre_completo,slug').in('autor_id', authorIds)
-			: { data: [] as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'slug'>[] };
-	const autores = (autoresResp.data ?? []) as Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'slug'>[];
-
-	const authorNameById = new Map(autores.map((row) => [row.autor_id, row.nombre_completo]));
-	const obraAutores = new Map<string, Set<string>>();
-	for (const link of atribucionAutores) {
-		const obraId = atribucionToObra.get(link.atribucion_id);
-		if (!obraId) continue;
-		const authorName = authorNameById.get(link.autor_id);
-		if (!authorName) continue;
-		const current = obraAutores.get(obraId) ?? new Set<string>();
-		current.add(authorName);
-		obraAutores.set(obraId, current);
 	}
 
 	// Vocabulario público cacheado (una sola fuente para género + facetas métricas).
@@ -316,6 +255,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		isCatalogPerfilMetricoVisible(catalogVisibility);
 	type ResumenRow = Pick<
 		Tables<'obras_resumen'>,
+		| 'autores'
 		| 'tramos'
 		| 'jornadas_tramos'
 		| 'cuadros_tramos'
@@ -328,29 +268,38 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		| 'variaciones_presentes'
 		| 'subtipos_presentes'
 	>;
-	const resumenByObra = new Map<string, ResumenRow>();
-	if (wantsMetric) {
-		const resumenResp = await locals.supabase
-			.from('obras_resumen')
-			.select(
-				'obra_id,tramos,jornadas_tramos,cuadros_tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes'
-			)
-			.in('obra_id', obraIds);
-		for (const row of (resumenResp.data ?? []) as Array<ResumenRow & { obra_id: string }>) {
-			resumenByObra.set(row.obra_id, row);
-		}
-	}
+	/**
+	 * El resumen de una obra, que llegó incrustado en la consulta.
+	 *
+	 * **Y no sale del servidor si su sección está apagada.** El perfil venía antes de una consulta
+	 * aparte que solo se hacía cuando era visible; ahora llega siempre —viaja con la obra—, así que
+	 * la puerta se pone aquí: una sección apagada devuelve `null`, no un `{#if}` en la pantalla.
+	 */
+	const resumenDe = (obra: ObraRow): ResumenRow | null => {
+		if (!wantsMetric) return null;
+		const incrustado = (obra as unknown as { obras_resumen?: ResumenRow | ResumenRow[] | null })
+			.obras_resumen;
+		return (Array.isArray(incrustado) ? incrustado[0] : incrustado) ?? null;
+	};
 
-	const obras: PublicCatalogObra[] = obraRows.map(
-		({ editor_asignado, genero_id, ...obra }): PublicCatalogObra => {
-			const resumen = resumenByObra.get(obra.obra_id) ?? null;
+	/** Quién firma, que no depende de la sección métrica. */
+	const autoresDe = (obra: ObraRow): string[] => {
+		const incrustado = (obra as unknown as { obras_resumen?: ResumenRow | ResumenRow[] | null })
+			.obras_resumen;
+		const fila = Array.isArray(incrustado) ? incrustado[0] : incrustado;
+		return [...(fila?.autores ?? [])].sort((a, b) => a.localeCompare(b, 'es'));
+	};
+
+	const obras: PublicCatalogObra[] = obraRows.map((fila): PublicCatalogObra => {
+		const { editor_asignado, genero_id, ...obra } = fila;
+			const resumen = resumenDe(fila);
 			return {
 				...obra,
 				genero_term: genero_id ? (generoTermById.get(genero_id) ?? null) : null,
 				es_obra_asignada: Boolean(viewer.userId) && editor_asignado === viewer.userId,
-				autoria_autores: [...(obraAutores.get(obra.obra_id) ?? new Set<string>())].sort((a, b) =>
-					a.localeCompare(b, 'es')
-				),
+				// **Quién firma viene guardado.** Solo cuenta el grupo de atribución con una sola
+				// propuesta, que es la regla que este mismo cargador aplicaba reconstruyéndola.
+				autoria_autores: autoresDe(fila),
 				tramos: (resumen?.tramos as CatalogTramo[] | null) ?? null,
 				jornadas_tramos: (resumen?.jornadas_tramos as CatalogStructureTramo[] | null) ?? null,
 				cuadros_tramos: (resumen?.cuadros_tramos as CatalogStructureTramo[] | null) ?? null,
