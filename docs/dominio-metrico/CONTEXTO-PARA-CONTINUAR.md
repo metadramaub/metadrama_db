@@ -825,6 +825,73 @@ El motivo es doble —velocidad y no depender de una cuenta gratuita de Supabase
 *Sobre «quién canta»: se mostrará lo que se sabe. Hoy la secuencia dice si interviene una mujer, un
 donaire o un sobrenatural, no quién canta, y el modelo no se cambia por esto.*
 
+**Los pasos 1, 2 y 3 están hechos** —9 de septiembre de 2026—. La ficha de una obra publicada se
+lee de `obras_resumen.ficha`, en vivo se queda la vista previa, y el buscador se resuelve con una
+sola consulta.
+
+###### Paso 4 · Los agregados, en el navegador
+
+**Nada de esto vuelve a la base.** Todo sale del JSON que la página ya tiene cargado, así que se
+calcula donde está el dato y no cuesta ni una consulta más.
+
+El cálculo vive en **un módulo puro y probado**, `src/lib/metrica/analisis-ficha.ts`, y los
+componentes solo pintan —la misma división que `rejilla.ts`, que es la que ha aguantado bien—. De
+la ficha salen:
+
+| medida | de dónde |
+|---|---|
+| perfil por jornada, y la evolución de cada forma | `jornada_num` × `estrofa_forma_slug` × `n_versos` |
+| españolas contra italianas, global y por jornada | `estrofa_tipo_forma` |
+| desglose forma → arquitectura → esquema | `estrofa_tipo_term` y `subtipos_estrofa[].unidades` |
+| transiciones entre formas y patrones repetidos | la serie de secuencias en orden |
+| largo de las tiradas: media, máxima, cuántas por forma | `n_versos` |
+| cuántos cambios de cuadro parten una tirada | `cuadro_continua` |
+| cantado y prosa: cuántos versos, en qué formas | `caracterizaciones_rango` |
+
+**Cómo se muestra**, en bloques nuevos de la ficha, cada uno con su sección para que respete
+`scope_minimo`:
+
+- **Esquema métrico de un vistazo**, como en una edición crítica: una línea por secuencia con su
+  rango y su forma, agrupadas por jornada y con los cortes de cuadro marcados. Es lo que un
+  filólogo copia y pega, y la base del PNG exportable.
+- **Esquema de estructura**: jornadas, sus cuadros y qué secuencias caen en cada uno, señalando
+  dónde una tirada sigue sonando después del corte.
+- **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
+  españolas contra italianas.
+- **Desglose del perfil**: el reparto de formas se abre y enseña dentro sus arquitecturas y sus
+  esquemas de rima con su porcentaje.
+- **Patrones**: dicho en prosa —«el romance sigue a la redondilla siete de cada nueve veces»— con la
+  matriz de transiciones al lado. Va **marcado como calculado**, y con las obras de prueba delante
+  no significa nada: sirve para diseñar la pantalla, no para afirmar.
+
+###### Exportar los diagramas en PNG
+
+Un utilitario compartido, porque lo van a usar todos los diagramas. Serializa el SVG, lo pinta en
+un lienzo al doble o al triple de tamaño y lo descarga. Dos avisos que son la causa de que esto
+salga mal casi siempre:
+
+- **Las variables CSS y las clases de Tailwind no sobreviven a `XMLSerializer`.** Hay que resolver
+  cada `fill` y cada `stroke` con `getComputedStyle` **antes** de serializar, o el PNG sale negro.
+- **La tipografía tampoco viaja.** O se empotra en base64 o el texto del PNG se dibuja con una pila
+  del sistema, que para un pie de imagen basta.
+
+Cada exportación lleva **pie y marca**: título de la obra, «Versología · versologia.metadrama.org»,
+el enlace permanente y la fecha de consulta, para que un diagrama suelto no pierda de dónde salió.
+
+Y sale en **dos versiones**:
+
+- **En color**, como en pantalla, con la leyenda de formas.
+- **En escala de grises, para imprimir.** Doce formas no se distinguen por tono: llevan además
+  **trama** —rayado, punteado—, y **los nombres van fuera, en diagonal ascendente**, unidos a su
+  tramo por una línea de guía.
+
+###### Lo que hace falta decidir antes
+
+- **El cuadro no registra su espacio.** `cuadros` guarda `jornada_id, cuadro_num, v_ini, v_fin` y
+  nada más. Las cinco comedias canónicas sí tienen el espacio leído a mano —«Portal de una posada en
+  Illescas»— pero eso vive en `xml-lope/cuadros/`, fuera del modelo. Sin esa columna, el esquema de
+  estructura enseña dónde cambia el cuadro pero no adónde se cambia.
+
 ## Qué queda pendiente
 
 Inventario rehecho el **21 de agosto de 2026**, al terminar la revisión de la prosa. Lo cerrado ya
