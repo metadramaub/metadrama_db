@@ -834,9 +834,11 @@ sola consulta.
 **Nada de esto vuelve a la base.** Todo sale del JSON que la página ya tiene cargado, así que se
 calcula donde está el dato y no cuesta ni una consulta más.
 
-El cálculo vive en **un módulo puro y probado**, `src/lib/metrica/analisis-ficha.ts`, y los
-componentes solo pintan —la misma división que `rejilla.ts`, que es la que ha aguantado bien—. De
-la ficha salen:
+El cálculo vive en **un módulo puro y probado**, `src/lib/metrica/analisis-ficha.ts` —**escrito el
+9 de septiembre de 2026**, con catorce pruebas—, y los componentes solo pintan: la misma división
+que `rejilla.ts`, que es la que ha aguantado bien. Consume un tipo mínimo propio y no
+`PublicFichaSecuencia`, para servir también al perfil de autor cuando llegue; la ficha se adapta a
+él en `ficha-metric-adapter`. De la ficha salen:
 
 | medida | de dónde |
 |---|---|
@@ -858,6 +860,10 @@ la ficha salen:
   dónde una tirada sigue sonando después del corte.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
+- Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
+  código de barras: consumen tipos de presentación propios y no la ficha, para poder servir después
+  al perfil de autor. `echarts` se queda donde ya está —el reparto de formas y el laboratorio— y no
+  se extiende.
 - **Desglose del perfil**: el reparto de formas se abre y enseña dentro sus arquitecturas y sus
   esquemas de rima con su porcentaje.
 - **Patrones**: dicho en prosa —«el romance sigue a la redondilla siete de cada nueve veces»— con la
@@ -927,13 +933,18 @@ Las dos alternativas, por si se prefieren: **dejar cuatro pestañas** y apilar l
 dentro de «Estructura métrica», plegados; o **añadir solo «Análisis»** y meter los dos esquemas
 —métrico y de estructura— donde hoy está el código de barras.
 
-**Dentro de una secuencia** —el detalle que se abre al pinchar un tramo— el reparto sería:
+**Las pestañas van así** —decidido el 9 de septiembre de 2026—, con las preguntas por nombre.
 
-- *Datos base* recoge además el **metro** y el **reparto de esquemas de rima**.
-- Un bloque nuevo, **lo observado**: los rasgos y las desviaciones. Es lo que el editor anotó
-  mirando el texto y no lo que la forma prescribe, y por eso va junto y aparte.
-- Otro, **las partes**, solo cuando la secuencia las tiene: la canción, el villancico, la sextina y
-  el terceto encadenado. Una lista anidada con sus rangos.
+**El detalle de una secuencia se rehace entero**, no se le añaden bloques: hoy es un cajón donde
+las cosas se fueron poniendo según llegaban, y con los rasgos, las desviaciones, el reparto de
+esquemas y las partes de la unidad encima no hay dónde meterlas. Lo que tiene que caber:
+
+- *Datos base*, con el **metro** y el **reparto de esquemas de rima**.
+- **Lo observado**: los rasgos y las desviaciones. Es lo que el editor anotó mirando el texto y no
+  lo que la forma prescribe, y por eso va junto y aparte.
+- **Las partes**, solo cuando la secuencia las tiene —canción, villancico, sextina, terceto
+  encadenado—: una lista anidada con sus rangos.
+- Lo que ya está: caracterizaciones por rango, personajes, sinopsis y aclaraciones públicas.
 
 ## Qué queda pendiente
 
