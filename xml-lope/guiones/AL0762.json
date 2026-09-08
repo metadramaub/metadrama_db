@@ -41,48 +41,72 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 174
+			"v_fin": 202
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 175,
-			"v_fin": 400
+			"v_ini": 203,
+			"v_fin": 523
 		},
 		{
 			"jornada": 1,
 			"numero": 3,
-			"v_ini": 401,
-			"v_fin": 780
-		},
-		{
-			"jornada": 1,
-			"numero": 4,
-			"v_ini": 781,
+			"v_ini": 524,
 			"v_fin": 1004
 		},
 		{
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 1005,
-			"v_fin": 1386
+			"v_fin": 1248
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1387,
+			"v_ini": 1249,
+			"v_fin": 1530
+		},
+		{
+			"jornada": 2,
+			"numero": 3,
+			"v_ini": 1531,
 			"v_fin": 2008
 		},
 		{
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 2009,
-			"v_fin": 2400
+			"v_fin": 2156
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
+			"v_ini": 2157,
+			"v_fin": 2224
+		},
+		{
+			"jornada": 3,
+			"numero": 3,
+			"v_ini": 2225,
+			"v_fin": 2400
+		},
+		{
+			"jornada": 3,
+			"numero": 4,
 			"v_ini": 2401,
+			"v_fin": 2496
+		},
+		{
+			"jornada": 3,
+			"numero": 5,
+			"v_ini": 2497,
+			"v_fin": 2656
+		},
+		{
+			"jornada": 3,
+			"numero": 6,
+			"v_ini": 2657,
 			"v_fin": 3017
 		}
 	],
@@ -103,12 +127,6 @@
 					"excepciones": {
 						"Tipología 1 · ababa": 6
 					}
-				},
-				"Pie quebrado": {
-					"dominante": null,
-					"excepciones": {
-						"Verso 1 · Pentasílabo": 1
-					}
 				}
 			}
 		},
@@ -121,7 +139,9 @@
 			"forma": "soneto",
 			"arquitectura": "endecasilabica_consonante",
 			"unidades": 1,
-			"secuencia": {},
+			"secuencia": {
+				"Final acentual": "Esdrújulo"
+			},
 			"unidad": {
 				"Tercetos · Esquema de rima": {
 					"dominante": "Tercetos de rima cruzada · CDC DCD",
@@ -224,7 +244,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 66,
 			"secuencia": {
-				"Vocales de la asonancia": "i-a"
+				"Vocales de la asonancia": "e-e"
 			},
 			"unidad": {}
 		},
@@ -257,7 +277,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 61,
 			"secuencia": {
-				"Vocales de la asonancia": "u"
+				"Vocales de la asonancia": "o-a"
 			},
 			"unidad": {}
 		},
@@ -290,7 +310,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 35,
 			"secuencia": {
-				"Vocales de la asonancia": "u-e"
+				"Vocales de la asonancia": "o-a"
 			},
 			"unidad": {}
 		},
@@ -359,7 +379,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 27,
 			"secuencia": {
-				"Vocales de la asonancia": "e"
+				"Vocales de la asonancia": "a-o"
 			},
 			"unidad": {}
 		},
@@ -392,7 +412,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 57,
 			"secuencia": {
-				"Vocales de la asonancia": "i-o"
+				"Vocales de la asonancia": "e-o"
 			},
 			"unidad": {}
 		},
@@ -454,7 +474,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 87,
 			"secuencia": {
-				"Vocales de la asonancia": "e-a"
+				"Vocales de la asonancia": "a-o"
 			},
 			"unidad": {}
 		},
@@ -543,7 +563,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 43,
 			"secuencia": {
-				"Vocales de la asonancia": "o-a"
+				"Vocales de la asonancia": "i"
 			},
 			"unidad": {}
 		},
@@ -625,12 +645,6 @@
 					"excepciones": {
 						"Cruzada · abab": 4
 					}
-				},
-				"Pie quebrado": {
-					"dominante": null,
-					"excepciones": {
-						"Verso 3 · Tetrasílabo": 1
-					}
 				}
 			}
 		},
@@ -656,7 +670,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 50,
 			"secuencia": {
-				"Vocales de la asonancia": "e-a"
+				"Vocales de la asonancia": "e-o"
 			},
 			"unidad": {}
 		},
@@ -674,7 +688,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 13
+						"Cruzada · abab": 15
 					}
 				}
 			}
@@ -689,7 +703,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 60,
 			"secuencia": {
-				"Vocales de la asonancia": "i"
+				"Vocales de la asonancia": "i-a"
 			},
 			"unidad": {}
 		}

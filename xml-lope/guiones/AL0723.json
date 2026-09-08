@@ -53,42 +53,48 @@
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 952,
-			"v_fin": 1095
+			"v_fin": 1038
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1096,
-			"v_fin": 1177
+			"v_ini": 1039,
+			"v_fin": 1147
 		},
 		{
 			"jornada": 2,
 			"numero": 3,
-			"v_ini": 1178,
-			"v_fin": 1589
+			"v_ini": 1148,
+			"v_fin": 1384
 		},
 		{
 			"jornada": 2,
 			"numero": 4,
-			"v_ini": 1590,
+			"v_ini": 1385,
 			"v_fin": 1868
 		},
 		{
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 1869,
-			"v_fin": 2466
+			"v_fin": 2095
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
-			"v_ini": 2467,
-			"v_fin": 2666
+			"v_ini": 2096,
+			"v_fin": 2664
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2667,
+			"v_ini": 2665,
+			"v_fin": 2675
+		},
+		{
+			"jornada": 3,
+			"numero": 4,
+			"v_ini": 2676,
 			"v_fin": 2720
 		}
 	],
@@ -180,7 +186,8 @@
 			"secuencia": {},
 			"unidad": {
 				"Estancia · Medida de cada verso": {
-					"por_posicion": true
+					"misma_en_todas": "Endecasílabo",
+					"posiciones": 20
 				}
 			}
 		},
@@ -198,7 +205,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 5
+						"Cruzada · abab": 10
 					}
 				}
 			}
@@ -225,7 +232,7 @@
 			"arquitectura": "endecasilabica",
 			"unidades": 62,
 			"secuencia": {
-				"Organización en pareados": "Ninguna",
+				"Organización en pareados": "Ocasionales",
 				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
@@ -242,15 +249,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Abrazada · abba",
+					"dominante": "Cruzada · abab",
 					"excepciones": {
-						"Cruzada · abab": 10
-					}
-				},
-				"Pie quebrado": {
-					"dominante": null,
-					"excepciones": {
-						"Verso 4 · Pentasílabo": 1
+						"Abrazada · abba": 11
 					}
 				}
 			}
@@ -396,11 +397,12 @@
 			"arquitectura": "cualquier_medida",
 			"unidades": 1,
 			"secuencia": {
-				"Vocales de la asonancia": "u-o"
+				"Vocales de la asonancia": "o-e"
 			},
 			"unidad": {
 				"Medida de cada verso": {
-					"por_posicion": true
+					"misma_en_todas": "Octosílabo",
+					"posiciones": 2
 				},
 				"Esquema de rima": {
 					"dominante": "aa · Consonante",
@@ -439,7 +441,8 @@
 			"secuencia": {},
 			"unidad": {
 				"Medida de cada verso": {
-					"por_posicion": true
+					"misma_en_todas": "Octosílabo",
+					"posiciones": 2
 				},
 				"Esquema de rima": {
 					"dominante": "aa · Consonante",

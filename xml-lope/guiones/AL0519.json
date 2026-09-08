@@ -41,36 +41,66 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 581
+			"v_fin": 570
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 582,
+			"v_ini": 571,
 			"v_fin": 941
 		},
 		{
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 942,
-			"v_fin": 1718
+			"v_fin": 1594
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1719,
+			"v_ini": 1595,
+			"v_fin": 1768
+		},
+		{
+			"jornada": 2,
+			"numero": 3,
+			"v_ini": 1769,
 			"v_fin": 1875
 		},
 		{
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 1876,
-			"v_fin": 2424
+			"v_fin": 1976
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
+			"v_ini": 1977,
+			"v_fin": 2251
+		},
+		{
+			"jornada": 3,
+			"numero": 3,
+			"v_ini": 2252,
+			"v_fin": 2424
+		},
+		{
+			"jornada": 3,
+			"numero": 4,
 			"v_ini": 2425,
+			"v_fin": 2623
+		},
+		{
+			"jornada": 3,
+			"numero": 5,
+			"v_ini": 2624,
+			"v_fin": 2731
+		},
+		{
+			"jornada": 3,
+			"numero": 6,
+			"v_ini": 2732,
 			"v_fin": 2838
 		}
 	],
@@ -218,7 +248,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 48,
 			"secuencia": {
-				"Vocales de la asonancia": "e"
+				"Vocales de la asonancia": "a-o"
 			},
 			"unidad": {}
 		},
@@ -401,7 +431,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 34,
 			"secuencia": {
-				"Vocales de la asonancia": "o"
+				"Vocales de la asonancia": "e-o"
 			},
 			"unidad": {}
 		},
@@ -491,7 +521,8 @@
 			},
 			"unidad": {
 				"Medida de cada verso": {
-					"por_posicion": true
+					"misma_en_todas": "Octosílabo",
+					"posiciones": 2
 				},
 				"Esquema de rima": {
 					"dominante": "aa · Asonante",
@@ -671,7 +702,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 31,
 			"secuencia": {
-				"Vocales de la asonancia": "i"
+				"Vocales de la asonancia": "e-a"
 			},
 			"unidad": {}
 		}
