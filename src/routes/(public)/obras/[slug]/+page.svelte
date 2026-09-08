@@ -3,12 +3,19 @@
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import CiteWorkButton from '$lib/components/ficha/CiteWorkButton.svelte';
 	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
+	import MetricScheme from '$lib/components/metrica/MetricScheme.svelte';
+	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
 	import FichaAutoriaBlock from '$lib/components/ficha/FichaAutoriaBlock.svelte';
 	import OrcidIcon from '$lib/components/icons/OrcidIcon.svelte';
 	import SequenceSynopsisView from '$lib/components/editor/SequenceSynopsisView.svelte';
-	import { secuenciasToBarSegments } from '$lib/components/ficha/ficha-metric-adapter';
+	import {
+		secuenciasToAnalizables,
+		secuenciasToBarSegments,
+		secuenciasToSchemeEntries
+	} from '$lib/components/ficha/ficha-metric-adapter';
+	import { fichaTecnica } from '$lib/metrica/analisis-ficha';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { isSectionVisible, FICHA_SECTION_IDS } from '$lib/secciones-publicas';
 	import type {
@@ -29,7 +36,12 @@
 
 	let { data } = $props<{ data: PageData }>();
 
-	type TabId = 'estructura' | 'sinopsis_metrica' | 'observaciones' | 'bibliografia';
+	type TabId =
+		| 'estructura'
+		| 'esquema'
+		| 'sinopsis_metrica'
+		| 'observaciones'
+		| 'bibliografia';
 	type MetricViewMode = 'obra_completa' | 'por_jornadas';
 	type PieValueMode = 'percent' | 'absolute';
 	type ResolvedPublicSequence = ResolvedSequenceStructure<SequenceModalPayload>;
@@ -86,7 +98,10 @@
 	});
 	const tabs = $derived.by(() => {
 		const items: { id: TabId; label: string }[] = [];
-		if (showMetrica) items.push({ id: 'estructura', label: 'Estructura métrica' });
+		// **Las pestañas nombran preguntas del lector, no tipos de dato.** «De un vistazo» contesta
+		// qué obra es esta; «Esquema métrico», qué hay en cada verso.
+		if (showMetrica) items.push({ id: 'estructura', label: 'De un vistazo' });
+		if (showMetrica) items.push({ id: 'esquema', label: 'Esquema métrico' });
 		if (showSinopsisMetrica) items.push({ id: 'sinopsis_metrica', label: 'Sinopsis' });
 		if (showObservaciones) items.push({ id: 'observaciones', label: 'Observaciones' });
 		if (showBibliografia) items.push({ id: 'bibliografia', label: 'Bibliografía métrica' });
@@ -270,6 +285,23 @@
 		if (selectedSequenceIndex < 0 || selectedSequenceIndex >= resolvedPublicSequences.length - 1) return;
 		selectedSequenceId = resolvedPublicSequences[selectedSequenceIndex + 1]?.sequence.secuencia_id ?? null;
 	}
+
+	const schemeEntries = $derived(secuenciasToSchemeEntries(secuenciasOrdenadas));
+	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
+	const tecnica = $derived(fichaTecnica(analizables));
+
+	/** Las jornadas con sus cuadros dentro, que es como se lee una comedia. */
+	const estructuraJornadas = $derived(
+		jornadas.map((jornada) => ({
+			numero: jornada.jornada_num,
+			v_ini: jornada.v_ini,
+			v_fin: jornada.v_fin,
+			cuadros: cuadros
+				.filter((cuadro) => cuadro.jornada_id === jornada.jornada_id)
+				.map((cuadro) => ({ numero: cuadro.cuadro_num, v_ini: cuadro.v_ini, v_fin: cuadro.v_fin }))
+				.sort((a, b) => a.numero - b.numero)
+		}))
+	);
 
 	const hasObservaciones = $derived((obra.observaciones ?? '').trim().length > 0);
 	const hasBibliografia = $derived((obra.bibliografia ?? '').trim().length > 0);
@@ -522,6 +554,44 @@
 									(hoveredForma = forma ? { groupId: profile.jornada.jornada_id, forma } : null)}
 							/>
 						{/each}
+					</div>
+				{/if}
+			</section>
+		{/if}
+	{:else if activeTab === 'esquema'}
+		{#if showMetrica}
+			<section class="space-y-6">
+				<div>
+					<h2 class="text-lg font-semibold">Esquema métrico</h2>
+					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+						Verso a verso, como en una edición crítica: {tecnica.secuencias} secuencias en
+						{tecnica.versos} versos, con {tecnica.formasDistintas} formas distintas.
+					</p>
+				</div>
+
+				{#if schemeEntries.length === 0}
+					<p class="text-sm text-[color:var(--muted-foreground)]">
+						No hay secuencias métricas registradas para esta obra.
+					</p>
+				{:else}
+					<div class="card p-4">
+						<MetricScheme
+							entries={schemeEntries}
+							colorByForma={colorByForma}
+							onOpen={openSequenceModal}
+						/>
+					</div>
+				{/if}
+
+				{#if estructuraJornadas.length > 0}
+					<div>
+						<h2 class="text-lg font-semibold">Estructura</h2>
+						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
+							Cómo está partida la obra en jornadas y cuadros.
+						</p>
+						<div class="card mt-3 p-4">
+							<StructureOutline jornadas={estructuraJornadas} totalVersos={totalVersos} />
+						</div>
 					</div>
 				{/if}
 			</section>
