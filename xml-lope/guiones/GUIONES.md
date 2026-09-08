@@ -14,7 +14,7 @@ La Roma encendida (prueba)              3065 vv ·  39 secuencias · 8 formas ·
 
 El rey perseguido (prueba)              2577 vv ·  29 secuencias · 7 formas · 11 cuadros
 
-Las batuecas del duque (prueba)         2838 vv ·  33 secuencias · 7 formas · 11 cuadros
+Las batuecas del duque (prueba)         2838 vv ·  33 secuencias · 6 formas · 13 cuadros
 
 La imperial de Otón (prueba)            2708 vv ·  28 secuencias · 7 formas · 12 cuadros
 
@@ -195,10 +195,10 @@ Cuadros: 10
 | 14 | 2163-2466 (304) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×20 |
 | 15 | 2467-2480 (14) | soneto / endecasilabica_consonante | Final acentual: **Esdrújulo** | Tercetos · Esquema de rima: **Tercetos de rima conclusiva · CDE DCE**<br>Cuartetos · Esquema de rima: **Cuartetos de rima abrazada · ABBA ABBA** |
 | 16 | 2481-2664 (184) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
-| 17 | 2665-2666 (2) | pareado / cualquier_medida | Vocales de la asonancia: **o-e** | Medida de cada verso: **Octosílabo** en sus 2 versos<br>Esquema de rima: **aa · Consonante** |
-| 18 | 2667-2682 (16) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1 |
-| 19 | 2683-2684 (2) | pareado / cualquier_medida |  | Medida de cada verso: **Octosílabo** en sus 2 versos<br>Esquema de rima: **aa · Consonante** |
-| 20 | 2685-2720 (36) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×2 |
+| 17 | 2665-2666 (2) | pareado / alirado |  | Medida de cada verso: Verso 1 · Heptasílabo · Verso 2 · Endecasílabo<br>**cantado** vv. 2665-2666 |
+| 18 | 2667-2682 (16) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1<br>**cantado** vv. 2667-2682 |
+| 19 | 2683-2684 (2) | pareado / cualquier_medida |  | Medida de cada verso: **Octosílabo** en sus 2 versos<br>Esquema de rima: **aa · Asonante** |
+| 20 | 2685-2720 (36) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×3 |
 
 ## Nadie se conoce a sí mismo (prueba)
 
@@ -338,7 +338,7 @@ Cuadros: 11
 2838 versos · Diego Jiménez de Enciso · comedia_o_tragicomedia · 1600-1605 · esqueleto AL0519
 
 Jornadas: 1 (1-941) · 2 (942-1875) · 3 (1876-2838)
-Cuadros: 11
+Cuadros: 13
 
 | # | versos | forma / arquitectura | por secuencia | por unidad |
 |--:|:--|:--|:--|:--|
@@ -364,17 +364,17 @@ Cuadros: 11
 | 20 | 1759-1777 (19) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ninguna**<br>Densidad de rima: **Esporádica** |  |
 | 21 | 1778-1797 (20) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×1 |
 | 22 | 1798-1853 (56) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
-| 23 | 1854-1875 (22) | pareado / cualquier_medida | Vocales de la asonancia: **a-a** | Medida de cada verso: **Octosílabo** en sus 2 versos<br>Esquema de rima: **aa · Asonante** · salvo aa · Consonante ×3 |
+| 23 | 1854-1875 (22) | romance / hexasilabica | Vocales de la asonancia: **a-a** | **cantado** vv. 1854-1875 |
 | 24 | 1876-1939 (64) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×2 |
 | 25 | 1940-2011 (72) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 26 | 2012-2251 (240) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×20 |
-| 27 | 2252-2296 (45) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 5 · aabba** · salvo Tipología 1 · ababa ×1 |
-| 28 | 2297-2424 (128) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×5 |
+| 26 | 2012-2251 (240) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×13 |
+| 27 | 2252-2296 (45) | quintilla / octosilabica_consonante |  | Esquema de rima: **Tipología 1 · ababa** · salvo Tipología 2 · abbab ×3 |
+| 28 | 2297-2424 (128) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×9 |
 | 29 | 2425-2542 (118) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Esporádica** |  |
-| 30 | 2543-2702 (160) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×6 |
-| 31 | 2703-2758 (56) | octava_real / endecasilabica_consonante |  | Esquema de rima: **ABABABCC** |
-| 32 | 2759-2776 (18) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Encadenamiento interior: **Encadenamiento interior**<br>Densidad de rima: **Esporádica** |  |
-| 33 | 2777-2838 (62) | romance / octosilabica | Vocales de la asonancia: **e-a** |  |
+| 30 | 2543-2702 (160) | redondilla / octosilabica |  | Esquema de rima: **Abrazada · abba** · salvo Cruzada · abab ×7 |
+| 31 | 2703-2758 (56) | octava_real / endecasilabica_consonante | Final acentual: **Esdrújulo** | Esquema de rima: **ABABABCC** |
+| 32 | 2759-2776 (18) | endecasilabo_suelto / endecasilabica | Organización en pareados: **Ocasionales**<br>Densidad de rima: **Ninguna** |  |
+| 33 | 2777-2838 (62) | romance / octosilabica | Vocales de la asonancia: **a-a** |  |
 
 ## La imperial de Otón (prueba)
 

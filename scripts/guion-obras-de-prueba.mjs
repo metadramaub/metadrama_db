@@ -105,6 +105,29 @@ const AUTORES = [
  * ponemos nosotros, y va la habitual en la comedia salvo donde el número de versos mande otra cosa.
  * Un valor `null` significa que ese pasaje no se afirma como forma: va a tramo sin forma.
  */
+/**
+ * Los pasajes que ARTELOPE deja sin clasificar y hemos mirado uno a uno.
+ *
+ * `copla_estructura_abierta` y `pareados` son sus cajones de sastre, y por el número de versos no
+ * se puede adivinar qué hay dentro. Estos cinco se han contado en el texto: se anotan por el verso
+ * que ocupan en la obra real, antes de que el guion recosa los rangos.
+ */
+const AJUSTES = {
+	// Veintidós hexasílabos cantados: eso es un romancillo, que es como el catálogo llama al
+	// romance hexasilábico. Van cantados, y por ahí entra el primer «cantado» de la serie.
+	AL0519: [{ desde: 1854, forma: 'romance', arquitectura: 'hexasilabica', cantado: true }],
+	AL0723: [
+		// Un heptasílabo y un endecasílabo: el pareado alirado, que es la única arquitectura del
+		// pareado que mide distinto en cada verso. Se canta, y sigue cantándose lo que viene después.
+		{ desde: 2660, forma: 'pareado', arquitectura: 'alirado', medida: ['Heptasílabo', 'Endecasílabo'], cantado: true, arrastra: true },
+		{ desde: 2678, forma: 'pareado', arquitectura: 'cualquier_medida', medida: 'Octosílabo' }
+	],
+	AL0787: [
+		{ desde: 235, forma: 'pareado', arquitectura: 'cualquier_medida', medida: 'Octosílabo' },
+		{ desde: 1243, forma: 'pareado', arquitectura: 'cualquier_medida', medida: 'Octosílabo' }
+	]
+};
+
 const MAPA = {
 	redondilla: ['redondilla', 'octosilabica'],
 	cuarteta: ['redondilla', 'octosilabica'],
@@ -321,8 +344,17 @@ function respuestas(arq, unidades, rnd, medida) {
 					.sort()
 					.join('|')
 			);
-			const isometrica = new Set(repertorios).size === 1 && repertorios[0].includes('|');
-			if (isometrica) {
+			// **Y una medida dicha verso a verso manda sobre la heurística.** El pareado alirado ofrece
+			// heptasílabo o endecasílabo en sus dos posiciones, así que parece isométrico y no lo es:
+			// mide 7 + 11, que es lo que lo define. Cuando el pasaje se ha mirado en el texto, la
+			// medida viene ya dada y no hay nada que deducir.
+			const isometrica =
+				!Array.isArray(medida) && new Set(repertorios).size === 1 && repertorios[0].includes('|');
+			if (Array.isArray(medida)) {
+				unidad[g.nombre] = {
+					por_posicion: Object.fromEntries(posiciones.map((p, i) => [p, `Verso ${p} · ${medida[i]}`]))
+				};
+			} else if (isometrica) {
 				const elegida =
 					medida && repertorios[0].split('|').includes(medida)
 						? medida
@@ -402,7 +434,12 @@ function guionDe(obra, catalogo) {
 	for (const s of esqueleto.secuencias) {
 		const versos = s.v_fin - s.v_ini + 1;
 		const fuente = s.forma_fuente ?? 'null';
-		let par = fuente === 'copla_estructura_abierta' ? coplaPorLargo(versos) : MAPA[fuente];
+		const ajuste = (AJUSTES[obra.esqueleto] ?? []).find((a) => a.desde === s.v_ini);
+		let par = ajuste
+			? [ajuste.forma, ajuste.arquitectura, ajuste.medida]
+			: fuente === 'copla_estructura_abierta'
+				? coplaPorLargo(versos)
+				: MAPA[fuente];
 		if (par === undefined) {
 			avisos.push(`«${fuente}» no está en el mapa; vv. ${s.v_ini}-${s.v_fin} van sin forma`);
 			par = null;
@@ -430,6 +467,9 @@ function guionDe(obra, catalogo) {
 			entrada.versos = unidades * paso;
 			Object.assign(entrada, respuestas(arq, unidades, rnd, par[2]));
 		}
+		// `arrastra` dice que lo que viene detrás se sigue cantando: en La madre Teresa el pareado
+		// alirado y los octosílabos que le siguen son el mismo canto.
+		if (ajuste?.cantado) entrada.se_canta = ajuste.arrastra ? 'y lo siguiente' : true;
 		secuencias.push(entrada);
 	}
 
@@ -491,6 +531,21 @@ function guionDe(obra, catalogo) {
 	const cuadros = jornadas.flatMap((j) =>
 		cuadrosDe(j, secuencias, rnd).map((c) => ({ jornada: j.numero, ...c }))
 	);
+
+	// Lo que se canta, marcado sobre los rangos ya definitivos.
+	for (const [i, s] of secuencias.entries()) {
+		if (!s.se_canta) continue;
+		const alcanza = s.se_canta === 'y lo siguiente' ? [s, secuencias[i + 1]] : [s];
+		for (const seq of alcanza.filter(Boolean)) {
+			(seq.caracterizaciones ??= []).push({
+				tipo: 'cantado',
+				v_ini: seq.v_ini,
+				v_fin: seq.v_fin,
+				observaciones: 'Pasaje cantado.'
+			});
+		}
+		delete s.se_canta;
+	}
 
 	// Las caracterizaciones y las desviaciones se cuelgan al final, cuando los rangos ya son los
 	// definitivos: las dos señalan versos concretos dentro de una secuencia.
