@@ -41,36 +41,36 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 139
+			"v_fin": 68
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 140,
+			"v_ini": 69,
+			"v_fin": 299
+		},
+		{
+			"jornada": 1,
+			"numero": 3,
+			"v_ini": 300,
 			"v_fin": 951
 		},
 		{
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 952,
-			"v_fin": 1038
+			"v_fin": 1095
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1039,
-			"v_fin": 1147
+			"v_ini": 1096,
+			"v_fin": 1589
 		},
 		{
 			"jornada": 2,
 			"numero": 3,
-			"v_ini": 1148,
-			"v_fin": 1384
-		},
-		{
-			"jornada": 2,
-			"numero": 4,
-			"v_ini": 1385,
+			"v_ini": 1590,
 			"v_fin": 1868
 		},
 		{
@@ -83,12 +83,12 @@
 			"jornada": 3,
 			"numero": 2,
 			"v_ini": 2096,
-			"v_fin": 2664
+			"v_fin": 2573
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2665,
+			"v_ini": 2574,
 			"v_fin": 2675
 		},
 		{
@@ -394,21 +394,25 @@
 			"versos": 2,
 			"forma_fuente": "copla_estructura_abierta",
 			"forma": "pareado",
-			"arquitectura": "cualquier_medida",
+			"arquitectura": "alirado",
 			"unidades": 1,
-			"secuencia": {
-				"Vocales de la asonancia": "o-e"
-			},
+			"secuencia": {},
 			"unidad": {
 				"Medida de cada verso": {
-					"misma_en_todas": "Octosílabo",
-					"posiciones": 2
-				},
-				"Esquema de rima": {
-					"dominante": "aa · Consonante",
-					"excepciones": {}
+					"por_posicion": {
+						"1": "Verso 1 · Heptasílabo",
+						"2": "Verso 2 · Endecasílabo"
+					}
 				}
-			}
+			},
+			"caracterizaciones": [
+				{
+					"tipo": "cantado",
+					"v_ini": 2665,
+					"v_fin": 2666,
+					"observaciones": "Pasaje cantado."
+				}
+			]
 		},
 		{
 			"orden": 18,
@@ -427,7 +431,15 @@
 						"Cruzada · abab": 1
 					}
 				}
-			}
+			},
+			"caracterizaciones": [
+				{
+					"tipo": "cantado",
+					"v_ini": 2667,
+					"v_fin": 2682,
+					"observaciones": "Pasaje cantado."
+				}
+			]
 		},
 		{
 			"orden": 19,
@@ -445,7 +457,7 @@
 					"posiciones": 2
 				},
 				"Esquema de rima": {
-					"dominante": "aa · Consonante",
+					"dominante": "aa · Asonante",
 					"excepciones": {}
 				}
 			}
@@ -464,7 +476,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 2
+						"Cruzada · abab": 3
 					}
 				}
 			}
