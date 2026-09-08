@@ -1,0 +1,357 @@
+{
+ "fuente": {
+  "repositorio": "ARTELOPE",
+  "url": "https://gitlab.com/artelope1/ARTELOPE",
+  "commit": "95684795a842b63312aebdad83d1234c1d225b22",
+  "fichero": "XML-TEI Play-texts/AL0787_ElPadrinoDesposado.xml",
+  "copia_local": "xml-lope/xml/AL0787_ElPadrinoDesposado.xml",
+  "codificacion": "UTF-16LE, tal como lo publica ARTELOPE",
+  "sha256": "fd89cf38b104c29558b204bcd2d1a15f45f3b46f36d21a407006d3bebed21ed9",
+  "texto_plano": "xml-lope/txt/AL0787.txt",
+  "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
+ },
+ "obra": {
+  "titulo": "EL PADRINO DESPOSADO",
+  "autor": "Félix Lope de Vega y Carpio",
+  "fecha": null,
+  "total_versos": 2954,
+  "genero": null,
+  "autoria_fuente": "fiable"
+ },
+ "jornadas": [
+  {
+   "numero": 1,
+   "v_ini": 1,
+   "v_fin": 965
+  },
+  {
+   "numero": 2,
+   "v_ini": 966,
+   "v_fin": 1986
+  },
+  {
+   "numero": 3,
+   "v_ini": 1987,
+   "v_fin": 2956
+  }
+ ],
+ "cuadros": [],
+ "escenas": [],
+ "secuencias": [
+  {
+   "v_ini": 1,
+   "v_fin": 185,
+   "forma_fuente": "quintilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 186,
+   "v_fin": 233,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 234,
+   "v_fin": 234,
+   "forma_fuente": "verso_suelto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 235,
+   "v_fin": 236,
+   "forma_fuente": "pareados",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 237,
+   "v_fin": 339,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 340,
+   "v_fin": 360,
+   "forma_fuente": "endecasilabos_sueltos_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 361,
+   "v_fin": 480,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 481,
+   "v_fin": 536,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 537,
+   "v_fin": 556,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 557,
+   "v_fin": 604,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 605,
+   "v_fin": 676,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 677,
+   "v_fin": 695,
+   "forma_fuente": "lira",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 696,
+   "v_fin": 919,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 920,
+   "v_fin": 933,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 934,
+   "v_fin": 1242,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1243,
+   "v_fin": 1244,
+   "forma_fuente": "pareados",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1245,
+   "v_fin": 1428,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1429,
+   "v_fin": 1476,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1477,
+   "v_fin": 1632,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1633,
+   "v_fin": 1687,
+   "forma_fuente": "endecasilabos_sueltos_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1688,
+   "v_fin": 1759,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1760,
+   "v_fin": 1790,
+   "forma_fuente": "endecasilabos_sueltos_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1791,
+   "v_fin": 1886,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1887,
+   "v_fin": 1890,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1891,
+   "v_fin": 1986,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1987,
+   "v_fin": 1996,
+   "forma_fuente": "_solo_sangrado_",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": "Etiqueta no métrica del XML: marca sangrado tipográfico, no una forma."
+  },
+  {
+   "v_ini": 1997,
+   "v_fin": 2026,
+   "forma_fuente": "decima",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2027,
+   "v_fin": 2202,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2203,
+   "v_fin": 2314,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2315,
+   "v_fin": 2638,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2639,
+   "v_fin": 2713,
+   "forma_fuente": "lira",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2714,
+   "v_fin": 2715,
+   "forma_fuente": "verso_suelto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2716,
+   "v_fin": 2721,
+   "forma_fuente": "lira",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2722,
+   "v_fin": 2727,
+   "forma_fuente": "verso_suelto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2728,
+   "v_fin": 2783,
+   "forma_fuente": "lira",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2784,
+   "v_fin": 2824,
+   "forma_fuente": "quintilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2825,
+   "v_fin": 2829,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2830,
+   "v_fin": 2956,
+   "forma_fuente": "quintilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  }
+ ],
+ "personajes": {
+  "donaire": null,
+  "sobrenaturales": null,
+  "eventos_sobrenaturales": null
+ },
+ "avisos": [
+  "El último verso lleva mal el número: va del 2953 al 2956, saltándose 2. El texto está entero; es una errata de un solo atributo, y el <extent> del encabezado la arrastra porque se calculó sobre el número mayor. No se corrige aquí.",
+  "El <extent> del teiHeader declara «2956 versos» y el fichero trae 2954 versos numerados (último: 2956).",
+  "Aparece la etiqueta de <lg> «_solo_sangrado_», que no nombra una forma métrica sino un sangrado.",
+  "Los cuadros de esta obra todavía no se han decidido."
+ ]
+}

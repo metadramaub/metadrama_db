@@ -1,0 +1,332 @@
+{
+ "fuente": {
+  "repositorio": "ARTELOPE",
+  "url": "https://gitlab.com/artelope1/ARTELOPE",
+  "commit": "95684795a842b63312aebdad83d1234c1d225b22",
+  "fichero": "XML-TEI Play-texts/AL0762_NadieSeConoce.xml",
+  "copia_local": "xml-lope/xml/AL0762_NadieSeConoce.xml",
+  "codificacion": "UTF-16LE, tal como lo publica ARTELOPE",
+  "sha256": "e727aa4f9f970520d919e1994b797787bee8c3e1aa8fbd92a034e8fd34198198",
+  "texto_plano": "xml-lope/txt/AL0762.txt",
+  "licencia": "El proyecto Artelope ofrece en la web textos completos sin ánimo de lucro y libres de derechos de lectura y de reproducción. En este último caso se ruega citar la procedencia: \"Oleza, Joan et al. Base de Datos y Argumentos del teatro de Lope de Vega. ARTELOPE. Publicación en web: http://artelope.uv.es\""
+ },
+ "obra": {
+  "titulo": "NADIE SE CONOCE",
+  "autor": "Félix Lope de Vega y Carpio",
+  "fecha": null,
+  "total_versos": 3015,
+  "genero": null,
+  "autoria_fuente": "fiable"
+ },
+ "jornadas": [
+  {
+   "numero": 1,
+   "v_ini": 1,
+   "v_fin": 1008
+  },
+  {
+   "numero": 2,
+   "v_ini": 1009,
+   "v_fin": 2012
+  },
+  {
+   "numero": 3,
+   "v_ini": 2013,
+   "v_fin": 3020
+  }
+ ],
+ "cuadros": [],
+ "escenas": [],
+ "secuencias": [
+  {
+   "v_ini": 1,
+   "v_fin": 130,
+   "forma_fuente": "quintilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 131,
+   "v_fin": 144,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 145,
+   "v_fin": 174,
+   "forma_fuente": "decima",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 175,
+   "v_fin": 202,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 203,
+   "v_fin": 216,
+   "forma_fuente": "decima",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 217,
+   "v_fin": 404,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 405,
+   "v_fin": 460,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 461,
+   "v_fin": 592,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 593,
+   "v_fin": 784,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 785,
+   "v_fin": 906,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 907,
+   "v_fin": 938,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 939,
+   "v_fin": 1008,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1009,
+   "v_fin": 1100,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1101,
+   "v_fin": 1156,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1157,
+   "v_fin": 1252,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1253,
+   "v_fin": 1306,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1307,
+   "v_fin": 1390,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1391,
+   "v_fin": 1504,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1505,
+   "v_fin": 1534,
+   "forma_fuente": "decima",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1535,
+   "v_fin": 1790,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1791,
+   "v_fin": 1838,
+   "forma_fuente": "octava_real",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 1839,
+   "v_fin": 2012,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2013,
+   "v_fin": 2104,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2105,
+   "v_fin": 2160,
+   "forma_fuente": "endecasilabos_sueltos_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2161,
+   "v_fin": 2220,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2221,
+   "v_fin": 2234,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2235,
+   "v_fin": 2320,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2321,
+   "v_fin": 2376,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2377,
+   "v_fin": 2404,
+   "forma_fuente": "soneto",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2405,
+   "v_fin": 2469,
+   "forma_fuente": "copla_estructura_abierta",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2470,
+   "v_fin": 2529,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2530,
+   "v_fin": 2609,
+   "forma_fuente": "decima",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2610,
+   "v_fin": 2709,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2710,
+   "v_fin": 2901,
+   "forma_fuente": "redondilla",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  },
+  {
+   "v_ini": 2902,
+   "v_fin": 3020,
+   "forma_fuente": "romance_tirada",
+   "metro_fuente": null,
+   "esquema_rima_fuente": null,
+   "notas": null
+  }
+ ],
+ "personajes": {
+  "donaire": null,
+  "sobrenaturales": null,
+  "eventos_sobrenaturales": null
+ },
+ "avisos": [
+  "El último verso lleva mal el número: va del 3014 al 3020, saltándose 5. El texto está entero; es una errata de un solo atributo, y el <extent> del encabezado la arrastra porque se calculó sobre el número mayor. No se corrige aquí.",
+  "El <extent> del teiHeader declara «3020 versos» y el fichero trae 3015 versos numerados (último: 3020).",
+  "Los cuadros de esta obra todavía no se han decidido."
+ ]
+}

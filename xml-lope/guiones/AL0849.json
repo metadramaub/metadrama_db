@@ -1,0 +1,640 @@
+{
+	"obra": {
+		"titulo": "El remedio en la fortuna (prueba)",
+		"autor": {
+			"clave": "montalban",
+			"nombre": "Juan Pérez de Montalbán",
+			"wikidata": "Q3100564"
+		},
+		"genero": "comedia_o_tragicomedia",
+		"fecha": [
+			1599,
+			1603
+		],
+		"total_versos": 3020,
+		"estado": "publicado"
+	},
+	"esqueleto": {
+		"id": "AL0849",
+		"procedencia": "ARTELOPE, https://gitlab.com/artelope1/ARTELOPE",
+		"nota": "Solo se toma la estructura: cuántas secuencias, de qué forma y de cuántos versos."
+	},
+	"jornadas": [
+		{
+			"numero": 1,
+			"v_ini": 1,
+			"v_fin": 1015
+		},
+		{
+			"numero": 2,
+			"v_ini": 1016,
+			"v_fin": 2083
+		},
+		{
+			"numero": 3,
+			"v_ini": 2084,
+			"v_fin": 3020
+		}
+	],
+	"cuadros": [
+		{
+			"jornada": 1,
+			"numero": 1,
+			"v_ini": 1,
+			"v_fin": 355
+		},
+		{
+			"jornada": 1,
+			"numero": 2,
+			"v_ini": 356,
+			"v_fin": 452
+		},
+		{
+			"jornada": 1,
+			"numero": 3,
+			"v_ini": 453,
+			"v_fin": 1015
+		},
+		{
+			"jornada": 2,
+			"numero": 1,
+			"v_ini": 1016,
+			"v_fin": 1744
+		},
+		{
+			"jornada": 2,
+			"numero": 2,
+			"v_ini": 1745,
+			"v_fin": 2083
+		},
+		{
+			"jornada": 3,
+			"numero": 1,
+			"v_ini": 2084,
+			"v_fin": 2259
+		},
+		{
+			"jornada": 3,
+			"numero": 2,
+			"v_ini": 2260,
+			"v_fin": 2484
+		},
+		{
+			"jornada": 3,
+			"numero": 3,
+			"v_ini": 2485,
+			"v_fin": 2676
+		},
+		{
+			"jornada": 3,
+			"numero": 4,
+			"v_ini": 2677,
+			"v_fin": 3020
+		}
+	],
+	"secuencias": [
+		{
+			"orden": 1,
+			"v_ini": 1,
+			"v_fin": 79,
+			"versos": 79,
+			"forma_fuente": "cancion",
+			"forma": "cancion_petrarquista",
+			"arquitectura": "estancias_consonantes_variables",
+			"unidades": 79,
+			"secuencia": {},
+			"unidad": {
+				"Estancia · Medida de cada verso": {
+					"por_posicion": true
+				}
+			}
+		},
+		{
+			"orden": 2,
+			"v_ini": 80,
+			"v_fin": 255,
+			"versos": 176,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 44,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 6
+					}
+				}
+			}
+		},
+		{
+			"orden": 3,
+			"v_ini": 256,
+			"v_fin": 355,
+			"versos": 100,
+			"forma_fuente": "quintilla",
+			"forma": "quintilla",
+			"arquitectura": "octosilabica_consonante",
+			"unidades": 20,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Tipología 1 · ababa",
+					"excepciones": {
+						"Tipología 2 · abbab": 3
+					}
+				}
+			}
+		},
+		{
+			"orden": 4,
+			"v_ini": 356,
+			"v_fin": 399,
+			"versos": 44,
+			"forma_fuente": "endecasilabos_sueltos_tirada",
+			"forma": "endecasilabo_suelto",
+			"arquitectura": "endecasilabica",
+			"unidades": 44,
+			"secuencia": {
+				"Organización en pareados": "Ninguna",
+				"Densidad de rima": "Esporádica"
+			},
+			"unidad": {}
+		},
+		{
+			"orden": 5,
+			"v_ini": 400,
+			"v_fin": 438,
+			"versos": 39,
+			"forma_fuente": "sestina",
+			"forma": "sextina",
+			"arquitectura": "clasica",
+			"unidades": 1,
+			"secuencia": {},
+			"unidad": {}
+		},
+		{
+			"orden": 6,
+			"v_ini": 439,
+			"v_fin": 452,
+			"versos": 14,
+			"forma_fuente": "soneto",
+			"forma": "soneto",
+			"arquitectura": "endecasilabica_consonante",
+			"unidades": 1,
+			"secuencia": {},
+			"unidad": {
+				"Tercetos · Esquema de rima": {
+					"dominante": "Tercetos de rima cruzada · CDC DCD",
+					"excepciones": {}
+				},
+				"Cuartetos · Esquema de rima": {
+					"dominante": "Cuartetos de rima abrazada · ABBA ABBA",
+					"excepciones": {}
+				}
+			}
+		},
+		{
+			"orden": 7,
+			"v_ini": 453,
+			"v_fin": 896,
+			"versos": 444,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 111,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 20
+					}
+				},
+				"Pie quebrado": {
+					"dominante": null,
+					"excepciones": {
+						"Verso 2 · Pentasílabo": 1
+					}
+				}
+			}
+		},
+		{
+			"orden": 8,
+			"v_ini": 897,
+			"v_fin": 937,
+			"versos": 41,
+			"forma_fuente": "endecasilabos_sueltos_tirada",
+			"forma": "endecasilabo_suelto",
+			"arquitectura": "endecasilabica",
+			"unidades": 41,
+			"secuencia": {
+				"Organización en pareados": "Ocasionales",
+				"Densidad de rima": "Esporádica"
+			},
+			"unidad": {}
+		},
+		{
+			"orden": 9,
+			"v_ini": 938,
+			"v_fin": 1015,
+			"versos": 78,
+			"forma_fuente": "cancion",
+			"forma": "cancion_petrarquista",
+			"arquitectura": "estancias_consonantes_variables",
+			"unidades": 78,
+			"secuencia": {},
+			"unidad": {
+				"Estancia · Medida de cada verso": {
+					"por_posicion": true
+				}
+			}
+		},
+		{
+			"orden": 10,
+			"v_ini": 1016,
+			"v_fin": 1303,
+			"versos": 288,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 72,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 11
+					}
+				}
+			}
+		},
+		{
+			"orden": 11,
+			"v_ini": 1304,
+			"v_fin": 1317,
+			"versos": 14,
+			"forma_fuente": "soneto",
+			"forma": "soneto",
+			"arquitectura": "endecasilabica_consonante",
+			"unidades": 1,
+			"secuencia": {},
+			"unidad": {
+				"Tercetos · Esquema de rima": {
+					"dominante": "Tercetos de rima cruzada · CDC DCD",
+					"excepciones": {}
+				},
+				"Cuartetos · Esquema de rima": {
+					"dominante": "Cuartetos de rima abrazada · ABBA ABBA",
+					"excepciones": {}
+				}
+			}
+		},
+		{
+			"orden": 12,
+			"v_ini": 1318,
+			"v_fin": 1333,
+			"versos": 16,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 4,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 1
+					}
+				}
+			}
+		},
+		{
+			"orden": 13,
+			"v_ini": 1334,
+			"v_fin": 1393,
+			"versos": 60,
+			"forma_fuente": "decima",
+			"forma": "decima",
+			"arquitectura": "espinela",
+			"unidades": 6,
+			"secuencia": {},
+			"unidad": {}
+		},
+		{
+			"orden": 14,
+			"v_ini": 1394,
+			"v_fin": 1645,
+			"versos": 252,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 63,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 17
+					}
+				}
+			}
+		},
+		{
+			"orden": 15,
+			"v_ini": 1646,
+			"v_fin": 1744,
+			"versos": 99,
+			"forma_fuente": "endecasilabos_sueltos_tirada",
+			"forma": "endecasilabo_suelto",
+			"arquitectura": "endecasilabica",
+			"unidades": 99,
+			"secuencia": {
+				"Organización en pareados": "Ninguna",
+				"Densidad de rima": "Ninguna"
+			},
+			"unidad": {}
+		},
+		{
+			"orden": 16,
+			"v_ini": 1745,
+			"v_fin": 1819,
+			"versos": 75,
+			"forma_fuente": "quintilla",
+			"forma": "quintilla",
+			"arquitectura": "octosilabica_consonante",
+			"unidades": 15,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Tipología 7 · ababb",
+					"excepciones": {
+						"Tipología 5 · aabba": 5
+					}
+				}
+			}
+		},
+		{
+			"orden": 17,
+			"v_ini": 1820,
+			"v_fin": 1899,
+			"versos": 80,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 20,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Cruzada · abab",
+					"excepciones": {
+						"Abrazada · abba": 3
+					}
+				}
+			}
+		},
+		{
+			"orden": 18,
+			"v_ini": 1900,
+			"v_fin": 1939,
+			"versos": 40,
+			"forma_fuente": "octava_real",
+			"forma": "octava_real",
+			"arquitectura": "endecasilabica_consonante",
+			"unidades": 5,
+			"secuencia": {
+				"Final acentual": "Esdrújulo"
+			},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "ABABABCC",
+					"excepciones": {}
+				}
+			}
+		},
+		{
+			"orden": 19,
+			"v_ini": 1940,
+			"v_fin": 2055,
+			"versos": 116,
+			"forma_fuente": "romance_tirada",
+			"forma": "romance",
+			"arquitectura": "octosilabica",
+			"unidades": 58,
+			"secuencia": {
+				"Vocales de la asonancia": "u"
+			},
+			"unidad": {}
+		},
+		{
+			"orden": 20,
+			"v_ini": 2056,
+			"v_fin": 2083,
+			"versos": 28,
+			"forma_fuente": "endecasilabos_sueltos_tirada",
+			"forma": "endecasilabo_suelto",
+			"arquitectura": "endecasilabica",
+			"unidades": 28,
+			"secuencia": {
+				"Organización en pareados": "Ninguna",
+				"Densidad de rima": "Esporádica"
+			},
+			"unidad": {}
+		},
+		{
+			"orden": 21,
+			"v_ini": 2084,
+			"v_fin": 2131,
+			"versos": 48,
+			"forma_fuente": "octava_real",
+			"forma": "octava_real",
+			"arquitectura": "endecasilabica_consonante",
+			"unidades": 6,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "ABABABCC",
+					"excepciones": {}
+				}
+			}
+		},
+		{
+			"orden": 22,
+			"v_ini": 2132,
+			"v_fin": 2227,
+			"versos": 96,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 24,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 3
+					}
+				}
+			}
+		},
+		{
+			"orden": 23,
+			"v_ini": 2228,
+			"v_fin": 2259,
+			"versos": 32,
+			"forma_fuente": "octava_real",
+			"forma": "octava_real",
+			"arquitectura": "endecasilabica_consonante",
+			"unidades": 4,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "ABABABCC",
+					"excepciones": {}
+				}
+			}
+		},
+		{
+			"orden": 24,
+			"v_ini": 2260,
+			"v_fin": 2384,
+			"versos": 125,
+			"forma_fuente": "quintilla",
+			"forma": "quintilla",
+			"arquitectura": "octosilabica_consonante",
+			"unidades": 25,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Tipología 1 · ababa",
+					"excepciones": {
+						"Tipología 5 · aabba": 6
+					}
+				}
+			}
+		},
+		{
+			"orden": 25,
+			"v_ini": 2385,
+			"v_fin": 2460,
+			"versos": 76,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 19,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 3
+					}
+				}
+			}
+		},
+		{
+			"orden": 26,
+			"v_ini": 2461,
+			"v_fin": 2484,
+			"versos": 24,
+			"forma_fuente": "cancion",
+			"forma": "cancion_petrarquista",
+			"arquitectura": "estancias_consonantes_variables",
+			"unidades": 24,
+			"secuencia": {},
+			"unidad": {
+				"Estancia · Medida de cada verso": {
+					"por_posicion": true
+				}
+			}
+		},
+		{
+			"orden": 27,
+			"v_ini": 2485,
+			"v_fin": 2592,
+			"versos": 108,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 27,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 5
+					}
+				}
+			}
+		},
+		{
+			"orden": 28,
+			"v_ini": 2593,
+			"v_fin": 2676,
+			"versos": 84,
+			"forma_fuente": "romance_tirada",
+			"forma": "romance",
+			"arquitectura": "octosilabica",
+			"unidades": 42,
+			"secuencia": {
+				"Vocales de la asonancia": "a-e"
+			},
+			"unidad": {}
+		},
+		{
+			"orden": 29,
+			"v_ini": 2677,
+			"v_fin": 2860,
+			"versos": 184,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 46,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Abrazada · abba",
+					"excepciones": {
+						"Cruzada · abab": 12
+					}
+				}
+			}
+		},
+		{
+			"orden": 30,
+			"v_ini": 2861,
+			"v_fin": 2924,
+			"versos": 64,
+			"forma_fuente": "endecasilabos_sueltos_tirada",
+			"forma": "endecasilabo_suelto",
+			"arquitectura": "endecasilabica",
+			"unidades": 64,
+			"secuencia": {
+				"Organización en pareados": "Ninguna",
+				"Densidad de rima": "Ninguna"
+			},
+			"unidad": {}
+		},
+		{
+			"orden": 31,
+			"v_ini": 2925,
+			"v_fin": 3020,
+			"versos": 96,
+			"forma_fuente": "redondilla",
+			"forma": "redondilla",
+			"arquitectura": "octosilabica",
+			"unidades": 24,
+			"secuencia": {},
+			"unidad": {
+				"Esquema de rima": {
+					"dominante": "Cruzada · abab",
+					"excepciones": {
+						"Abrazada · abba": 5
+					}
+				}
+			}
+		}
+	],
+	"avisos": []
+}
