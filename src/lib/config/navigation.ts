@@ -43,27 +43,12 @@ export const LOGIN_LINK: NavItem = { label: 'LOG IN', href: '/login' };
 
 export const FOOTER_SECTIONS: FooterSection[] = [
 	{
-		title: 'NAVEGACIÓN',
-		links: [
-			{ label: 'OBRAS', href: '/obras' },
-			{ label: 'AUTORES', href: '/autores' },
-			{ label: 'LABORATORIO', href: '/laboratorio' },
-			{ label: 'CATÁLOGO MÉTRICO', href: '/recursos/catalogo-metrico' },
-			{ label: 'DEMARCADOR', href: '/recursos/demarcador' },
-			{ label: 'GUÍA', href: '/recursos/guia' }
-		]
-	},
-	{
-		title: 'PROYECTO',
+		title: 'INFORMACIÓN',
 		links: [
 			{ label: 'ACERCA DE', href: '/proyecto/about' },
 			{ label: 'EQUIPO', href: '/proyecto/equipo' },
-			{ label: 'WEB METADRAMA', href: 'https://www.ub.edu/metadrama/', external: true },
+			{ label: 'CÓMO CITARNOS', href: '/como-citarnos' },
 			{ label: 'CONTACTO', href: '/proyecto/contacto' }
 		]
-	},
-	{
-		title: 'ACCESO',
-		links: [{ label: 'LOG IN', href: '/login' }]
 	}
 ];

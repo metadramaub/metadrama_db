@@ -3,6 +3,7 @@
 	import CatalogResultRow from '$lib/components/catalogo/CatalogResultRow.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import AuthorPortrait from '$lib/components/public/AuthorPortrait.svelte';
 	import {
 		buildPerfilSlices,
 		fiabilidadDeVersos,
@@ -94,15 +95,6 @@
 		return v.composicion_term === 'colaborada' ? 'en colaboración' : 'individual';
 	}
 
-	function initials(name: string): string {
-		return name
-			.split(/\s+/)
-			.filter(Boolean)
-			.slice(0, 2)
-			.map((part) => part[0]?.toLocaleUpperCase('es-ES') ?? '')
-			.join('');
-	}
-
 	// Filtro de texto + orden de las obras asociadas.
 	let titleQuery = $state('');
 	let sortBy = $state<'fecha' | 'titulo'>('fecha');
@@ -142,19 +134,7 @@
 	<header class="card overflow-hidden">
 		<div class="grid gap-0 md:grid-cols-[16rem_minmax(0,1fr)]">
 			<div class="aspect-[4/3] bg-[color:var(--muted)] md:aspect-auto md:min-h-64">
-				{#if data.wikidata?.image}
-					<img
-						src={data.wikidata.image.url}
-						alt={autor.nombre_completo}
-						class="h-full w-full object-cover"
-						loading="lazy"
-						referrerpolicy="no-referrer"
-					/>
-				{:else}
-					<div class="flex h-full w-full items-center justify-center text-4xl font-semibold text-[color:var(--muted-foreground)]">
-						{initials(autor.nombre_completo)}
-					</div>
-				{/if}
+				<AuthorPortrait src={data.wikidata?.image?.url} alt={autor.nombre_completo} />
 			</div>
 
 			<div class="flex min-w-0 flex-col justify-between gap-5 p-4 md:p-5">

@@ -5,6 +5,7 @@
 		type AutorListadoItem,
 		type FiabilidadNivel
 	} from '$lib/autores/perfil-autor';
+	import AuthorPortrait from '$lib/components/public/AuthorPortrait.svelte';
 	import MiniMetricDonut from '$lib/components/metrica/MiniMetricDonut.svelte';
 	import type { PageData } from './$types';
 
@@ -38,14 +39,6 @@
 			.trim();
 	}
 
-	function initials(name: string): string {
-		return name
-			.split(/\s+/)
-			.filter(Boolean)
-			.slice(0, 2)
-			.map((part) => part[0]?.toLocaleUpperCase('es-ES') ?? '')
-			.join('');
-	}
 </script>
 
 <section class="space-y-6">
@@ -85,19 +78,7 @@
 				<li class="card overflow-hidden">
 					<a class="block" href={`/autores/${autor.slug}`} aria-label={`Abrir perfil de ${autor.nombre_completo}`}>
 						<div class="aspect-[4/3] bg-[color:var(--gray-100)]">
-							{#if autor.imagen_wikidata}
-								<img
-									src={autor.imagen_wikidata.url}
-									alt={autor.nombre_completo}
-									class="h-full w-full object-cover"
-									loading="lazy"
-									referrerpolicy="no-referrer"
-								/>
-							{:else}
-								<div class="flex h-full w-full items-center justify-center bg-[color:var(--muted)] text-3xl font-semibold text-[color:var(--muted-foreground)]">
-									{initials(autor.nombre_completo)}
-								</div>
-							{/if}
+							<AuthorPortrait src={autor.imagen_wikidata?.url} alt={autor.nombre_completo} />
 						</div>
 					</a>
 
