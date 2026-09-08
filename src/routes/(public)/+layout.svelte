@@ -27,7 +27,7 @@
 	// Mapeo href -> seccion_id para las entradas de nav controlables por flag.
 	// Una entrada sin mapeo (proyecto, recursos, etc.) siempre se muestra.
 	const HREF_TO_SECTION: Record<string, string> = {
-		'/catalogo': 'catalogo',
+		'/obras': 'catalogo',
 		'/autores': 'autores',
 		'/laboratorio': 'laboratorio',
 		'/recursos/demarcador': 'demarcador',

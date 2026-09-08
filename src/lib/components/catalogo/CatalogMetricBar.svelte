@@ -25,10 +25,14 @@
 	);
 	const trackHeight = $derived(props.height ?? 14);
 
+	/** Lo que se dice de un tramo cuya secuencia todavía no declara forma. */
+	const SIN_FORMA = 'Sin forma anotada';
+
 	function prettyForma(slug: string): string {
 		return slug.replace(/[_-]+/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
 	}
-	function formaLabel(slug: string): string {
+	function formaLabel(slug: string | null): string {
+		if (!slug) return SIN_FORMA;
 		return props.formaLabels?.[slug] ?? prettyForma(slug);
 	}
 
@@ -39,7 +43,7 @@
 				v_ini: tramo.i,
 				v_fin: tramo.f,
 				forma: formaLabel(tramo.s),
-				colorKey: tramo.s,
+				colorKey: tramo.s ?? SIN_FORMA,
 				label: formaLabel(tramo.s),
 				n_versos: tramo.f - tramo.i + 1
 			})
@@ -49,7 +53,8 @@
 	const colorByForma = $derived.by(() => {
 		const map: Record<string, string> = {};
 		for (const tramo of props.tramos) {
-			if (!map[tramo.s]) map[tramo.s] = colorForForma({ slug: tramo.s, tipoForma: tramo.t });
+			const clave = tramo.s ?? SIN_FORMA;
+			if (!map[clave]) map[clave] = colorForForma({ slug: tramo.s ?? '', tipoForma: tramo.t });
 		}
 		return map;
 	});

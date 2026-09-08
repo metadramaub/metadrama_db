@@ -28,6 +28,8 @@ npm run poda:informe   # regenera la propuesta de poda de la prosa del catálogo
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
 npm run snapshot:obras # foto fija, un JSON por obra, de todo lo anotado hoy (a backups/)
+npm run sembrar:pruebas # rehace las diez obras de prueba anotadas con el catálogo nuevo
+#   … y `--probe` dice qué arquitecturas se pueden sembrar solas y cuáles necesitan a alguien
 ```
 
 ## Los tres subsistemas
@@ -52,8 +54,9 @@ especificación de cómo se espera que se anote.
 
 ### 2. Zona pública
 
-- `src/routes/(public)/` — portada, catálogo, ficha de obra, autores, laboratorio,
-  demarcador, proyecto, recursos, cómo citarnos
+- `src/routes/(public)/` — portada, obras —el buscador, con su vista simple en
+  `/obras/listado` y la ficha en `/obras/<slug>`—, autores, laboratorio, demarcador,
+  proyecto, recursos, cómo citarnos
 - `src/lib/server/public-obras.ts`, `ficha-secciones.ts`, `secciones-publicas.ts`
 - Se alimenta de **precomputados** (`obras_resumen`, `autores_resumen`), no de las tablas
   crudas. Se regeneran solo al pulsar «Actualizar datos públicos» en el dashboard; el
@@ -189,7 +192,7 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 | Esto | No es esto |
 |---|---|
 | `src/lib/demarcador/` — demarcador legado, sobre JSON estáticos | `src/lib/demarcador-metrico/` — el motor nuevo, sobre el catálogo |
-| `src/routes/(public)/catalogo/` — buscador público de obras | `src/lib/components/metrica/catalogo/` — gestor del catálogo métrico |
+| `src/routes/(public)/obras/` — buscador público de obras, antes `/catalogo` | `src/lib/components/metrica/catalogo/` — gestor del catálogo métrico |
 | `src/lib/catalogo/` — filtros del buscador de obras | `src/lib/metrica/catalogo.ts` — tipos del catálogo métrico |
 | `src/routes/(public)/mockup/` — maqueta de diseño con datos falsos | la zona pública real |
 

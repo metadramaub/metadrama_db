@@ -291,7 +291,7 @@
 <section class="space-y-6">
 	<Breadcrumb
 		items={[
-			{ label: 'Catálogo', href: '/catalogo' },
+			{ label: 'Obras', href: '/obras' },
 			{ label: obra.titulo, preserveCase: true }
 		]}
 	/>

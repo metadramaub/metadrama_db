@@ -13,7 +13,13 @@ export type CatalogSortId =
 export type CatalogTramo = {
 	i: number;
 	f: number;
-	s: string;
+	/**
+	 * La forma del tramo, **o nulo cuando la secuencia no la declara todavía**.
+	 *
+	 * Pasa en todo el corpus aún no migrado al catálogo nuevo: el pasaje existe y se dibuja, pero
+	 * no se sabe de qué es. Quien lo pinte tiene que contar con ello.
+	 */
+	s: string | null;
 	t: string | null;
 };
 
