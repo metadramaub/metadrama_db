@@ -19,9 +19,12 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	// El scope efectivo depende de ESTA obra: el editor asignado la ve como admin/IP.
 	// La RPC aplica el muro real de estado/visibilidad; esta consulta previa solo decide
 	// si el scope de secciones debe ser amplio para esta obra concreta.
+	// **La ficha precomputada viaja con la propia consulta de visibilidad.** Es la de una obra
+	// publicada, tal como la ve un anónimo, y viene ya con sus slugs: si está, no hace falta que la
+	// base la construya otra vez.
 	const obraVisibilityResp = await locals.supabase
 		.from('obras')
-		.select('obra_id,editor_asignado,visible_publico,estado')
+		.select('obra_id,editor_asignado,visible_publico,estado,obras_resumen(ficha)')
 		.eq('slug', params.slug)
 		.maybeSingle();
 
@@ -56,11 +59,31 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		) => Promise<{ data: unknown; error: { message: string } | null }>;
 	};
 
+	/**
+	 * La ficha guardada, si la obra está publicada.
+	 *
+	 * **En vivo se queda solo la vista previa**, que es lo único que justifica reconstruir la ficha
+	 * en cada visita: una obra sin publicar no tiene resumen. Lo guardado es la versión anónima, y
+	 * sirve igual a admin y a IP porque lo único que `include_hidden` cambia dentro de la ficha son
+	 * los comentarios, y esos se piden aparte de todos modos.
+	 *
+	 * **El muro no se salta leyendo la tabla**: `obras_resumen` lleva la misma doble puerta que la
+	 * función —`obra_publica_visible(obra_id)` para el anónimo, y la relajación para admin/IP y para
+	 * el editor asignado—, aplicada por RLS sobre esta misma consulta. Si alguien afloja esa
+	 * política, esto se convierte en un agujero.
+	 */
+	const resumen = (
+		obraVisibilityResp.data as { obras_resumen?: { ficha: unknown } | { ficha: unknown }[] | null }
+	).obras_resumen;
+	const fichaGuardada = (Array.isArray(resumen) ? resumen[0] : resumen)?.ficha ?? null;
+
 	const [fichaResp, comentariosResp] = await Promise.all([
-		supabase.rpc('get_obra_ficha_publica', {
-			p_obra_id: obraId,
-			p_include_hidden: includeHidden
-		}),
+		fichaGuardada
+			? Promise.resolve({ data: fichaGuardada, error: null })
+			: supabase.rpc('get_obra_ficha_publica', {
+					p_obra_id: obraId,
+					p_include_hidden: includeHidden
+				}),
 		supabase.rpc('get_obra_comentarios_publicos', {
 			p_obra_id: obraId,
 			p_include_hidden: includeHidden
