@@ -71,9 +71,11 @@ function cargarCatalogo() {
 		select
 			a.arquitectura_id, a.slug as arquitectura_slug, a.nombre as arquitectura,
 			a.unidad_versos_min, a.unidad_versos_max, a.principal,
-			f.forma_id, f.slug as forma_slug, f.nombre as forma, f.nivel_estructural, f.tipo_registro
+			f.forma_id, f.slug as forma_slug, f.nombre as forma, f.nivel_estructural, f.tipo_registro,
+			r.modulo_versos, r.minimo_versos
 		from public.arquitecturas_forma a
 		join public.formas_metricas f using (forma_id)
+		left join public.arquitecturas_reglas_longitud r using (arquitectura_id)
 		where a.activo and f.activo
 		order by f.nombre, a.orden
 	`);
@@ -163,39 +165,61 @@ function planDeRealizaciones(arquitectura, vIni, vFin) {
 
 	const pasoDeUnidad = abierta ? versosDelRango : versosUnidad;
 	const raices = arquitectura.secciones.filter((seccion) => seccion.seccion_padre_id === null);
-	// Una parte se deriva cuando ocupa un sitio calculable: extensión fija y un número de
-	// repeticiones que no varía —los dos cuartetos y los dos tercetos del soneto son 2-2—.
-	const derivables = raices.every(
-		(seccion) =>
-			Number(seccion.repeticiones_min) === Number(seccion.repeticiones_max) &&
-			Number(seccion.repeticiones_min) > 0 &&
-			Number(seccion.versos_min) === Number(seccion.versos_max) &&
-			Number(seccion.versos_min) > 0
-	);
 	const conHijas = raices.some((raiz) =>
 		arquitectura.secciones.some((seccion) => seccion.seccion_padre_id === raiz.seccion_id)
 	);
-	if (raices.length > 0 && (!derivables || conHijas)) {
+	if (conHijas) {
+		problemas.push('sus partes tienen partes dentro: eso lo decide quien anota');
+		return { unidades: [], problemas };
+	}
+
+	// **Una parte que se repite sin tope llena lo que sobra.** Es la cadena de tercetos del terceto
+	// encadenado: la unidad no declara extensión, la cadena se repite «1 o más» y el serventesio
+	// final es opcional. Se materializa lo que cada parte dice —cero, si es opcional— y la que no
+	// tiene tope ocupa el resto, que por eso tiene que caber justo.
+	const sinTope = raices.filter((seccion) => seccion.repeticiones_max === null);
+	if (sinTope.length > 1) {
 		problemas.push(
-			'sus partes no se derivan solas: se repiten sin cuenta, crecen o tienen partes dentro'
+			'tiene más de una parte sin tope de repeticiones: no hay una sola manera de repartirla'
 		);
 		return { unidades: [], problemas };
 	}
-	// **En una unidad abierta, las partes se repiten hasta llenar el pasaje.** Las estrofas enlazadas
-	// son series: su unidad no declara extensión y sus partes miden lo que mide una estrofa, así que
-	// en un pasaje de veinticuatro versos caben cuatro sextillas, no una.
-	let vueltasDeParte = 1;
-	if (raices.length > 0) {
-		const suma = raices.reduce(
-			(total, seccion) => total + Number(seccion.versos_min) * Number(seccion.repeticiones_min),
-			0
+
+	const medible = (seccion) =>
+		Number(seccion.versos_min) === Number(seccion.versos_max) && Number(seccion.versos_min) > 0;
+	if (raices.length > 0 && !raices.every(medible)) {
+		problemas.push(
+			'alguna de sus partes no tiene extensión fija: cuánto ocupa lo decide quien anota'
 		);
-		if (abierta && suma > 0 && pasoDeUnidad % suma === 0) {
-			vueltasDeParte = pasoDeUnidad / suma;
-		} else if (suma !== pasoDeUnidad) {
-			problemas.push(`sus partes suman ${suma} versos y la unidad mide ${pasoDeUnidad}`);
+		return { unidades: [], problemas };
+	}
+
+	const vueltas = new Map();
+	let ocupado = 0;
+	for (const seccion of raices) {
+		if (seccion.repeticiones_max === null) continue;
+		const veces = Number(seccion.repeticiones_min);
+		vueltas.set(seccion.seccion_id, veces);
+		ocupado += veces * Number(seccion.versos_min);
+	}
+
+	if (sinTope.length === 1) {
+		const seccion = sinTope[0];
+		const resto = pasoDeUnidad - ocupado;
+		const veces = resto / Number(seccion.versos_min);
+		if (resto <= 0 || !Number.isInteger(veces)) {
+			problemas.push(
+				`su parte repetible mide ${seccion.versos_min} versos y quedan ${resto} por repartir`
+			);
 			return { unidades: [], problemas };
 		}
+		vueltas.set(seccion.seccion_id, veces);
+		ocupado += resto;
+	}
+
+	if (raices.length > 0 && ocupado !== pasoDeUnidad) {
+		problemas.push(`sus partes ocupan ${ocupado} versos y la unidad mide ${pasoDeUnidad}`);
+		return { unidades: [], problemas };
 	}
 
 	const unidades = [];
@@ -216,23 +240,22 @@ function planDeRealizaciones(arquitectura, vIni, vFin) {
 		unidades.push(unidad);
 
 		let cursor = inicio;
-		for (let ciclo = 0; ciclo < vueltasDeParte; ciclo += 1)
-			for (const seccion of raices) {
-				const versos = Number(seccion.versos_min);
-				for (let vuelta = 0; vuelta < Number(seccion.repeticiones_min); vuelta += 1) {
-					unidades.push({
-						realizacion_id: crypto.randomUUID(),
-						realizacion_padre_id: unidad.realizacion_id,
-						seccion_id: seccion.seccion_id,
-						orden: orden++,
-						v_ini: cursor,
-						v_fin: cursor + versos - 1,
-						etiqueta: null,
-						observaciones: null
-					});
-					cursor += versos;
-				}
+		for (const seccion of raices) {
+			const versos = Number(seccion.versos_min);
+			for (let vuelta = 0; vuelta < (vueltas.get(seccion.seccion_id) ?? 0); vuelta += 1) {
+				unidades.push({
+					realizacion_id: crypto.randomUUID(),
+					realizacion_padre_id: unidad.realizacion_id,
+					seccion_id: seccion.seccion_id,
+					orden: orden++,
+					v_ini: cursor,
+					v_fin: cursor + versos - 1,
+					etiqueta: null,
+					observaciones: null
+				});
+				cursor += versos;
 			}
+		}
 	}
 
 	return { unidades, problemas };
@@ -245,7 +268,7 @@ function planDeRealizaciones(arquitectura, vIni, vFin) {
  * ejercite la ficha entera. Cuando la pregunta admite varias respuestas se dan las mínimas: lo que
  * interesa es que haya dato en cada dimensión, no llenar.
  */
-function planDeRespuestas(arquitectura, unidades, versosDeLaSecuencia) {
+function planDeRespuestas(arquitectura, unidades, versosDeLaSecuencia, giro = 0) {
 	const elecciones = [];
 	const problemas = [];
 
@@ -274,11 +297,18 @@ function planDeRespuestas(arquitectura, unidades, versosDeLaSecuencia) {
 		// en cuatro versos, pero la pregunta acepta tres respuestas como mucho: responder una por
 		// posición sin mirar el tope da «necesita entre 0 y 3 respuestas».
 		const tope = Number(grupo.selecciones_max) || Number.MAX_SAFE_INTEGER;
+		// **La misma forma no se responde siempre igual.** Una obra con ocho quintillas y las ocho
+		// en `ababa` no se parece a nada: el giro —el orden de la secuencia dentro de la obra—
+		// desplaza la elección dentro del repertorio, así que salen varias tipologías, varias
+		// variedades del sexteto-lira y varias disposiciones donde el catálogo ofrece más de una.
+		const desdeElGiro = (indice) => grupo.opciones[(indice + giro) % grupo.opciones.length];
 		const elegidas = escrita
 			? [null]
 			: (conPosiciones
 					? [...porPosicion.values()]
-					: grupo.opciones.slice(0, Math.min(cuantas, grupo.opciones.length))
+					: Array.from({ length: Math.min(cuantas, grupo.opciones.length) }, (_, indice) =>
+							desdeElGiro(indice)
+						)
 				).slice(0, tope);
 		if (!escrita && elegidas.length < cuantas) {
 			problemas.push(
@@ -441,6 +471,28 @@ const AUTORES = [
  * obras que no, porque las dos cosas pasan en el corpus.
  */
 const CARACTERIZACIONES = ['cantado', 'prosa', 'evocacion_metrica'];
+
+/**
+ * Prosa de relleno, para que los campos largos **ocupen lo que van a ocupar**.
+ *
+ * Una sinopsis de seis palabras y una bibliografía vacía hacen que la ficha se vea más holgada de
+ * lo que se verá nunca. Es lorem ipsum a propósito: nadie debe confundirlo con contenido.
+ */
+const LOREM = [
+	'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+	'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+	'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+	'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+	'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.'
+];
+
+/** Un párrafo de tantas frases, empezando por donde diga el giro, para que no se repitan todas. */
+function lorem(frases, giro = 0) {
+	return Array.from({ length: frases }, (_, indice) => LOREM[(indice + giro) % LOREM.length]).join(
+		' '
+	);
+}
 /**
  * Las desviaciones que se reparten, **con las relaciones que la base admite de verdad**.
  *
@@ -475,109 +527,197 @@ const DESVIACIONES = [
 ];
 
 /**
- * Las obras.
+ * Las obras, que son **comedias y no muestrarios**.
  *
- * Tres se parecen a una comedia —pocas formas, tiradas largas de romance— y cuatro **exploran el
- * catálogo**: entre ellas se reparten todas las arquitecturas que se pueden sembrar solas, de modo
- * que la ficha y la precomputación se enfrenten a las 86, y no a las ocho de siempre.
+ * La primera tanda eran cuatro «exploraciones» que repartían el catálogo entero a partes iguales:
+ * servían para saber que todo se puede guardar, y no se parecían a nada. Estas se calibran con el
+ * corpus de Lope —264.118 versos de redondilla, 87.315 de quintilla, 78.353 de romance, y luego
+ * octava real, sueltos, décima, terceto encadenado, lira, soneto y silva— de modo que **el grueso
+ * es siempre el mismo puñado de formas y cada obra trae además una rareza distinta**. Así el
+ * catálogo se recorre entre todas sin que ninguna parezca un inventario.
+ *
+ * Los pesos son porcentajes de versos y no hace falta que sumen cien: lo que falte se reparte.
+ * La extensión va entre 2.500 y 3.200 versos, que es lo que mide una comedia y lo único que la
+ * base va a analizar por ahora.
  */
+const NUCLEO = [
+	['redondilla', 30],
+	['quintilla', 14],
+	['romance', 22],
+	['octava_real', 6],
+	['endecasilabo_suelto', 5],
+	['decima', 5],
+	['terceto_encadenado', 4],
+	['soneto', 2]
+];
+
 const OBRAS = [
 	{
 		clave: 'destino',
+		sesgo: 0,
+		fecha: [1614, 1618],
 		titulo: 'La fuerza del destino en la corte (prueba)',
 		autor: 'montalban',
 		genero: 'comedia_o_tragicomedia',
-		verosimil: [
-			['romance'],
-			['redondilla'],
-			['soneto'],
-			['decima'],
-			['silva'],
-			['romance'],
-			['redondilla']
+		versos: 2980,
+		raras: [
+			['silva', 6],
+			['lira', 3]
 		]
 	},
 	{
 		clave: 'sortija',
+		sesgo: 1,
+		fecha: [1620, 1620],
 		titulo: 'El caballero de la sortija (prueba)',
 		autor: 'montalban',
 		genero: 'comedia_o_tragicomedia',
-		verosimil: [
-			['romance'],
-			['redondilla'],
-			['quintilla'],
-			['octava_real'],
-			['terceto'],
-			['seguidilla'],
-			['romance'],
-			['redondilla']
+		versos: 2740,
+		raras: [
+			['seguidilla', 4],
+			['pareado', 3]
 		]
 	},
 	{
 		clave: 'fabia',
+		sesgo: 2,
+		fecha: [1609, 1612],
 		titulo: 'Los engaños de Fabia (prueba)',
 		autor: 'benavente',
 		genero: 'comedia_o_tragicomedia',
-		verosimil: [
-			['romance'],
-			['redondilla'],
-			['lira'],
-			['decima'],
-			['sextilla'],
-			['pareado'],
-			['romance'],
-			['redondilla']
+		versos: 3120,
+		raras: [
+			['sextina', 4],
+			['terceto', 4]
 		]
 	},
 	{
-		clave: 'exploracion_1',
-		titulo: 'Exploración métrica I (prueba)',
+		clave: 'prodigio',
+		sesgo: 3,
+		fecha: [1623, 1625],
+		titulo: 'El prodigio de Aragón (prueba)',
 		autor: 'benavente',
+		genero: 'comedia_o_tragicomedia',
+		versos: 2860,
+		raras: [
+			['copla_real', 5],
+			['sexteto_lira', 3]
+		]
+	},
+	{
+		clave: 'firmeza',
+		sesgo: 4,
+		fecha: [1616, 1616],
+		titulo: 'La firmeza en el destierro (prueba)',
+		autor: 'enciso',
 		genero: 'tragedia',
-		lote: 0
+		versos: 3050,
+		raras: [
+			['octava_aguda', 4],
+			['endecha_real', 4]
+		]
 	},
 	{
-		clave: 'exploracion_2',
-		titulo: 'Exploración métrica II (prueba)',
+		clave: 'privanza',
+		sesgo: 5,
+		fecha: [1628, 1631],
+		titulo: 'La privanza y la caída (prueba)',
 		autor: 'enciso',
-		genero: 'auto_sacramental',
-		lote: 1
+		genero: 'tragedia',
+		versos: 2620,
+		raras: [
+			['copla_castellana', 5],
+			['cuarteto', 3]
+		]
 	},
 	{
-		clave: 'exploracion_3',
-		titulo: 'Exploración métrica III (prueba)',
-		autor: 'enciso',
-		genero: 'entremés',
-		lote: 2
-	},
-	{
-		clave: 'exploracion_4',
-		titulo: 'Exploración métrica IV (prueba)',
+		clave: 'peregrina',
+		sesgo: 6,
+		fecha: [1605, 1608],
+		titulo: 'La peregrina de Sevilla (prueba)',
 		autor: 'cueva',
-		genero: 'loa',
-		lote: 3
+		genero: 'comedia_o_tragicomedia',
+		versos: 3180,
+		raras: [
+			['sextilla', 4],
+			['septeto_lira', 3]
+		]
+	},
+	{
+		clave: 'burlas',
+		sesgo: 7,
+		visible: false,
+		fecha: [1632, 1635],
+		titulo: 'Las burlas del alcalde (prueba)',
+		autor: 'cueva',
+		genero: 'comedia_o_tragicomedia',
+		versos: 2560,
+		raras: [
+			['copla_de_arte_menor', 5],
+			['irregular', 2]
+		]
+	},
+	{
+		clave: 'santa',
+		sesgo: 8,
+		estado: 'vista_previa',
+		fecha: [1619, 1621],
+		titulo: 'La santa de las montañas (prueba)',
+		autor: 'montalban',
+		genero: 'comedia_o_tragicomedia',
+		versos: 3020,
+		raras: [
+			['oncena', 4],
+			['verso_aislado', 1]
+		]
+	},
+	{
+		clave: 'academia',
+		sesgo: 9,
+		fecha: [1626, 1629],
+		titulo: 'La academia de los desengaños (prueba)',
+		autor: 'enciso',
+		genero: 'comedia_o_tragicomedia',
+		versos: 2900,
+		raras: [
+			['decima_lira', 4],
+			['septilla', 4]
+		]
 	}
 ];
-
-const LOTES = 4;
 
 // --------------------------------------------------------------------------
 // La siembra
 // --------------------------------------------------------------------------
 
+/**
+ * Lo que ocupa una unidad de esta arquitectura, y por tanto el múltiplo al que hay que ajustar
+ * cualquier rango suyo.
+ *
+ * Si la unidad declara extensión, es esa. Si no —romance, silva, terceto encadenado—, manda **el
+ * módulo de su regla de longitud**, que es lo que la base comprueba: bloques de tres versos en el
+ * terceto encadenado, de cuatro en las enlazadas, de uno en el romance.
+ */
+function pasoDe(arquitectura) {
+	const versos = Number(arquitectura.unidad_versos_min ?? 0);
+	if (versos > 0) return versos;
+	const modulo = Number(arquitectura.modulo_versos ?? 0);
+	if (modulo > 0) return modulo;
+	const partes = arquitectura.secciones
+		.filter((seccion) => seccion.seccion_padre_id === null)
+		.reduce(
+			(total, seccion) =>
+				total + Number(seccion.versos_min || 0) * Number(seccion.repeticiones_min || 0),
+			0
+		);
+	return partes > 0 ? partes : 4;
+}
+
 /** Las arquitecturas que se siembran solas, en el orden en que las devuelve el catálogo. */
 function arquitecturasSembrables(catalogo) {
 	const sirven = [];
 	for (const arquitectura of catalogo.porArquitectura.values()) {
-		const versos = Number(arquitectura.unidad_versos_min ?? 0);
-		const partes = arquitectura.secciones
-			.filter((seccion) => seccion.seccion_padre_id === null)
-			.reduce(
-				(total, seccion) =>
-					total + Number(seccion.versos_min || 0) * Number(seccion.repeticiones_min || 0),
-				0
-			);
-		const paso = versos > 0 ? versos : partes > 0 ? partes : 8;
+		const paso = pasoDe(arquitectura);
 		const { unidades, problemas } = planDeRealizaciones(arquitectura, 1, paso);
 		if (problemas.length > 0) continue;
 		if (planDeRespuestas(arquitectura, unidades, paso).problemas.length > 0) continue;
@@ -592,6 +732,7 @@ function cargarVocabulario() {
 		select categoria, termino, termino_id
 		from public.vocabularios
 		where (categoria = 'estado' and termino = 'vista_previa')
+		   or (categoria = 'estado' and termino = 'publicado')
 		   or categoria in ('genero', 'tipo_atribucion', 'modalidad_atribucion', 'composicion_autoria', 'caracterizacion_rango')
 	`);
 	const busca = (categoria, termino) =>
@@ -606,6 +747,7 @@ function cargarVocabulario() {
 	}
 	return {
 		estado_vista_previa: busca('estado', 'vista_previa'),
+		estado_publicado: busca('estado', 'publicado'),
 		tipo_tradicional: busca('tipo_atribucion', 'tradicional'),
 		modalidad_unica: busca('modalidad_atribucion', 'unica'),
 		composicion_individual: busca('composicion_autoria', 'individual'),
@@ -656,50 +798,82 @@ function sembrarAutores() {
 }
 
 /**
- * Las secuencias de una obra, con sus rangos ya cerrados.
+ * Las secuencias de una obra: **tiradas de cada forma, repartidas por la obra**.
  *
- * Cada arquitectura ocupa entre una y tres unidades, para que el barcode de la ficha tenga tramos
- * de tamaños distintos y no una escalera regular.
+ * No se trata de que cada forma salga una vez, sino de que salga **como sale en una comedia**: el
+ * romance en tiradas largas, la redondilla repartida por todas partes, el soneto una vez y solo, y
+ * la rareza de la obra en un pasaje suelto. Por eso cada forma se parte en tantas tiradas como
+ * corresponde a su peso, y luego se barajan alternando para que ninguna quede pegada a sí misma.
+ *
+ * La extensión de cada tirada se ajusta al **módulo de la forma** —lo que su regla de longitud
+ * exige: bloques de tres versos en el terceto encadenado, de ocho en la octava— porque si no, la
+ * base rechaza el rango y con razón.
  */
 function secuenciasDe(obra, sembrables) {
-	// **Una comedia alterna las mismas pocas formas durante dos mil y pico versos**, y eso es lo que
-	// tiene que ver la ficha: un barcode con tiradas largas de romance y entradas cortas de las
-	// demás, no siete tramos de doce versos. Por eso las verosímiles recorren su repertorio cuatro
-	// veces y las de exploración una sola: allí lo que interesa es la variedad, no la extensión.
-	const repertorio = obra.verosimil
-		? obra.verosimil
-				.map(([forma, arquitectura]) =>
-					sembrables.find(
-						(a) => a.forma_slug === forma && (!arquitectura || a.arquitectura_slug === arquitectura)
-					)
-				)
-				.filter(Boolean)
-		: sembrables.filter((_, indice) => indice % LOTES === obra.lote);
-	const elegidas = obra.verosimil
-		? [...repertorio, ...repertorio, ...repertorio, ...repertorio]
-		: repertorio;
+	// **Dos comedias no reparten igual.** Con el mismo núcleo en las diez, las diez salían con
+	// diversidad 6,9 y forma dominante al 31 %: comparadas en el buscador parecían la misma obra.
+	// El sesgo mueve el peso de las tres frecuentes en direcciones distintas según la obra, que es
+	// lo que de verdad distingue a una comedia de redondillas de una de romances.
+	const sesgo = obra.sesgo ?? 0;
+	const nucleo = NUCLEO.map(([forma, peso], indice) => {
+		if (indice > 2) return [forma, peso];
+		const direccion = [1, -1, 0][(indice + sesgo) % 3];
+		return [forma, Math.max(4, Math.round(peso * (1 + direccion * 0.45)))];
+	});
+	const reparto = [...nucleo, ...(obra.raras ?? [])];
+	const tiradas = [];
+
+	for (const [formaSlug, peso] of reparto) {
+		const arquitectura = sembrables.find((a) => a.forma_slug === formaSlug);
+		if (!arquitectura) continue;
+
+		// **El verso aislado es un verso, y aparece una vez.** No tiene unidad ni módulo que repetir:
+		// es la excepción del catálogo, y la base lo comprueba.
+		if (formaSlug === 'verso_aislado') {
+			tiradas.push({ arquitectura, versos: 1, forma: formaSlug });
+			continue;
+		}
+
+		const versosDeLaForma = Math.round((obra.versos * peso) / 100);
+		// Cuanto más pesa una forma, en más sitios aparece; el soneto y las rarezas, una o dos veces.
+		const cuantasTiradas = Math.max(1, Math.min(9, Math.round(peso / 4)));
+		const porTirada = Math.max(arquitectura.paso, Math.round(versosDeLaForma / cuantasTiradas));
+
+		for (let numero = 0; numero < cuantasTiradas; numero += 1) {
+			// Se redondea al módulo por arriba, nunca por debajo del mínimo de una unidad.
+			const unidades = Math.max(1, Math.round(porTirada / arquitectura.paso));
+			tiradas.push({ arquitectura, versos: unidades * arquitectura.paso, forma: formaSlug });
+		}
+	}
+
+	// **Barajado por turnos.** Se van tomando tiradas de formas distintas, una de cada, hasta
+	// vaciarlas: lo que sale es la alternancia de una comedia y no un bloque por forma.
+	const porForma = new Map();
+	for (const tirada of tiradas) {
+		const lista = porForma.get(tirada.forma) ?? [];
+		lista.push(tirada);
+		porForma.set(tirada.forma, lista);
+	}
+	const ordenadas = [];
+	while (porForma.size > 0) {
+		for (const [forma, lista] of [...porForma.entries()]) {
+			const siguiente = lista.shift();
+			if (siguiente) ordenadas.push(siguiente);
+			if (lista.length === 0) porForma.delete(forma);
+		}
+	}
 
 	const secuencias = [];
 	let verso = 1;
 	let orden = 1;
-	for (const arquitectura of elegidas) {
-		// **El verso aislado es un verso.** No tiene unidad declarada, así que el paso calculado le
-		// da ocho; la base lo comprueba y no admite un rango mayor.
-		const suelto = arquitectura.forma_slug === 'verso_aislado';
-		// **Una tirada de romance no dura lo que una redondilla.** En las verosímiles, las formas de
-		// unidad abierta —romance, silva— ocupan pasajes largos, que es como se reparte una comedia;
-		// las estróficas, entradas de unas pocas unidades.
-		const abierta = !arquitectura.unidad_versos_min;
-		const base = (orden % 5) + (obra.verosimil ? 6 : 1);
-		const repeticiones = suelto ? 1 : obra.verosimil && abierta ? base * 5 : base;
-		const versos = suelto ? 1 : arquitectura.paso * repeticiones;
+	for (const tirada of ordenadas) {
 		secuencias.push({
 			orden: orden++,
 			v_ini: verso,
-			v_fin: verso + versos - 1,
-			arquitectura
+			v_fin: verso + tirada.versos - 1,
+			arquitectura: tirada.arquitectura
 		});
-		verso += versos;
+		verso += tirada.versos;
 	}
 	return secuencias;
 }
@@ -728,29 +902,53 @@ function sembrarObra(obra, autores, sembrables, admin) {
 		{ id: crypto.randomUUID(), numero: 3, v_ini: corte * 2 + 1, v_fin: totalVersos }
 	];
 
+	const cuadros = [];
+	for (const jornada of jornadas) {
+		const cuantos = 2 + (jornada.numero % 2);
+		const largo = Math.floor((jornada.v_fin - jornada.v_ini + 1) / cuantos);
+		for (let numero = 1; numero <= cuantos; numero += 1) {
+			cuadros.push({
+				jornadaId: jornada.id,
+				numero,
+				v_ini: jornada.v_ini + largo * (numero - 1),
+				v_fin: numero === cuantos ? jornada.v_fin : jornada.v_ini + largo * numero - 1
+			});
+		}
+	}
+
 	const cabecera = [
-		`insert into public.obras (obra_id, titulo, titulo_normalizado, estado, genero_id, total_versos, visible_publico, edicion, slug)
+		`insert into public.obras (
+			obra_id, titulo, titulo_normalizado, variantes_titulo, estado, genero_id, total_versos,
+			visible_publico, edicion, bibliografia, observaciones,
+			fecha_inicio_trad, fecha_fin_trad, fuente_fecha, slug
+		 )
 		 values (
 			${lit(obraId)}::uuid,
 			${lit(obra.titulo)},
 			public.metadrama_slugify(${lit(obra.titulo)}),
-			${lit(vocabulario.estado_vista_previa)}::uuid,
+			array[${lit(obra.titulo.replace(' (prueba)', '') + ', o el desengaño (prueba)')}]::text[],
+			${lit(obra.estado === 'vista_previa' ? vocabulario.estado_vista_previa : vocabulario.estado_publicado)}::uuid,
 			${lit(vocabulario.generos[obra.genero])}::uuid,
 			${totalVersos},
-			false,
-			'Edición inventada para pruebas.',
+			${obra.estado !== 'vista_previa' && obra.visible !== false},
+			${lit(`Edición inventada para pruebas. ${lorem(1, 3)}`)},
+			${lit(lorem(3, 1))},
+			${lit(lorem(2, 4))},
+			${obra.fecha[0]},
+			${obra.fecha[1]},
+			${lit('Datación inventada para pruebas.')},
 			public.next_obras_slug(${lit(obra.titulo)}, null)
 		 );`,
-		...jornadas.flatMap((jornada) => {
-			const mitad = Math.floor((jornada.v_ini + jornada.v_fin) / 2);
-			return [
+		...jornadas.map(
+			(jornada) =>
 				`insert into public.jornadas (jornada_id, obra_id, jornada_num, v_ini, v_fin)
-				 values (${lit(jornada.id)}::uuid, ${lit(obraId)}::uuid, ${jornada.numero}, ${jornada.v_ini}, ${jornada.v_fin});`,
-				`insert into public.cuadros (jornada_id, cuadro_num, v_ini, v_fin) values
-				 (${lit(jornada.id)}::uuid, 1, ${jornada.v_ini}, ${mitad}),
-				 (${lit(jornada.id)}::uuid, 2, ${mitad + 1}, ${jornada.v_fin});`
-			];
-		}),
+				 values (${lit(jornada.id)}::uuid, ${lit(obraId)}::uuid, ${jornada.numero}, ${jornada.v_ini}, ${jornada.v_fin});`
+		),
+		...cuadros.map(
+			(cuadro) =>
+				`insert into public.cuadros (jornada_id, cuadro_num, v_ini, v_fin)
+				 values (${lit(cuadro.jornadaId)}::uuid, ${cuadro.numero}, ${cuadro.v_ini}, ${cuadro.v_fin});`
+		),
 		`insert into public.grupos_atribucion (grupo_atribucion_id, obra_id)
 		 values (${lit(grupoId)}::uuid, ${lit(obraId)}::uuid);`,
 		`insert into public.atribuciones (atribucion_id, obra_id, tipo_atribucion_id, modalidad_atribucion_id, composicion_autoria_id, grupo_atribucion_id, perfil_metrico)
@@ -772,7 +970,12 @@ function sembrarObra(obra, autores, sembrables, admin) {
 		return null;
 	}
 
+	// **Inaugurar espacio es abrir cuadro.** Antes lo marcaba la primera secuencia y nada más, que
+	// no quiere decir nada; ahora coincide con los cortes que la ficha dibuja encima del barcode.
+	const aperturas = new Set(cuadros.map((cuadro) => cuadro.v_ini));
+
 	const fallos = [];
+	const medidas = [];
 	let anotadas = 0;
 	for (const secuencia of secuencias) {
 		const secuenciaId = crypto.randomUUID();
@@ -780,12 +983,12 @@ function sembrarObra(obra, autores, sembrables, admin) {
 			`insert into public.secuencias_metricas (secuencia_id, obra_id, v_ini, v_fin, n_versos, inaugura_espacio, versos_partidos, intervencion_personajes_femeninos, intervencion_figuras_donaire, intervencion_personajes_sobrenaturales, evento_sobrenatural, sinopsis)
 			 values (
 				${lit(secuenciaId)}::uuid, ${lit(obraId)}::uuid, ${secuencia.v_ini}, ${secuencia.v_fin}, ${secuencia.v_fin - secuencia.v_ini + 1},
-				${secuencia.orden === 1}, ${secuencia.orden % 4 === 0},
+				${aperturas.has(secuencia.v_ini)}, ${secuencia.orden % 4 === 0},
 				${lit(secuencia.orden % 3 === 0 ? 'exclusiva' : 'compartida')},
 				${lit(secuencia.orden % 5 === 0 ? 'compartida' : 'sin_intervencion')},
 				${lit(secuencia.orden % 7 === 0 ? 'exclusiva' : 'sin_intervencion')},
 				${secuencia.orden % 9 === 0},
-				${lit(`Pasaje ${secuencia.orden} de ${obra.titulo.replace(' (prueba)', '')}.`)}
+				${lit(`Pasaje ${secuencia.orden}. ${lorem(2, secuencia.orden)}`)}
 			 );`
 		];
 
@@ -799,7 +1002,7 @@ function sembrarObra(obra, autores, sembrables, admin) {
 				values (
 					${lit(secuenciaId)}::uuid,
 					${lit(vocabulario.caracterizaciones[termino])}::uuid,
-					${secuencia.v_ini}, ${Math.min(secuencia.v_ini + 1, secuencia.v_fin)},
+					${secuencia.v_ini}, ${Math.min(secuencia.v_ini + (secuencia.orden % 5) + 1, secuencia.v_fin)},
 					'Anotado por la siembra de prueba.'
 				);`);
 		}
@@ -812,7 +1015,8 @@ function sembrarObra(obra, autores, sembrables, admin) {
 		const respuestas = planDeRespuestas(
 			secuencia.arquitectura,
 			unidades,
-			secuencia.v_fin - secuencia.v_ini + 1
+			secuencia.v_fin - secuencia.v_ini + 1,
+			secuencia.orden
 		);
 		if (problemas.length > 0 || respuestas.problemas.length > 0) {
 			// La secuencia se escribe igual: una secuencia sin anotar es un caso real, y la ficha
@@ -832,8 +1036,10 @@ function sembrarObra(obra, autores, sembrables, admin) {
 						{
 							...DESVIACIONES[secuencia.orden % DESVIACIONES.length],
 							realizacion_id: null,
-							v_ini: secuencia.v_ini,
-							v_fin: secuencia.v_ini,
+							// Acotada al rango: una secuencia puede medir un solo verso —el verso
+							// aislado— y la base comprueba que la desviación caiga dentro.
+							v_ini: Math.min(secuencia.v_ini + (secuencia.orden % 7), secuencia.v_fin),
+							v_fin: Math.min(secuencia.v_ini + (secuencia.orden % 7), secuencia.v_fin),
 							metro_observado_id: null,
 							esquema_rima_observado_id: null,
 							seccion_observada_id: null,
@@ -861,13 +1067,17 @@ function sembrarObra(obra, autores, sembrables, admin) {
 		// **Todo lo de la secuencia va en la misma transacción**: la fila, su caracterización y la
 		// anotación. Y con ellas la identidad prestada, porque `set_config(..., true)` vive hasta que
 		// la transacción acaba y sin `auth.uid()` la función niega el permiso sobre la obra.
-		const guardado = tryQuery(`
+		const guion = `
 			begin;
 			select set_config('request.jwt.claims', json_build_object('sub', ${lit(admin)})::text, true);
 			${sentencias.join('\n')}
 			select public.guardar_anotacion_metrica(${lit(JSON.stringify(datos))}::jsonb);
 			commit;
-		`);
+		`;
+		medidas.push(
+			`${secuencia.arquitectura.forma}: ${unidades.length} realizaciones, ${respuestas.elecciones.length} respuestas, ${guion.length} caracteres`
+		);
+		const guardado = tryQuery(guion);
 		if (guardado.error) {
 			fallos.push(
 				`${secuencia.arquitectura.forma} · ${secuencia.arquitectura.arquitectura}: ${guardado.error}`
@@ -883,9 +1093,27 @@ function sembrarObra(obra, autores, sembrables, admin) {
 		}
 	}
 
-	console.log(
-		`  ${obra.titulo}: ${secuencias.length} secuencias, ${anotadas} anotadas, ${totalVersos} versos`
+	// **Lo que se dice escrito se cuenta.** Una transacción puede deshacerse sin que la CLI lo
+	// cuente como error, y entonces la obra queda con menos secuencias de las que dice el registro:
+	// se comprueba contra la base, que es la única que sabe lo que hay.
+	const escritas = Number(
+		scalar(`select count(*) from public.secuencias_metricas where obra_id = ${lit(obraId)}::uuid`)
 	);
+	const anotadasEnLaBase = Number(
+		scalar(
+			`select count(*) from public.anotaciones_metricas a join public.secuencias_metricas s using (secuencia_id) where s.obra_id = ${lit(obraId)}::uuid`
+		)
+	);
+
+	console.log(
+		`  ${obra.titulo}: ${escritas}/${secuencias.length} secuencias, ${anotadasEnLaBase} anotadas, ${totalVersos} versos`
+	);
+	if (escritas !== secuencias.length || anotadasEnLaBase !== escritas) {
+		console.log(
+			`      DESCUADRE: planeadas ${secuencias.length}, escritas ${escritas}, anotadas ${anotadasEnLaBase}`
+		);
+		for (const medida of medidas) console.log(`      ${medida}`);
+	}
 	for (const fallo of fallos) console.log(`      ${fallo}`);
 	return { obraId, fallos };
 }
