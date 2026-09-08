@@ -28,6 +28,7 @@ npm run poda:informe   # regenera la propuesta de poda de la prosa del catálogo
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
 npm run snapshot:obras # foto fija, un JSON por obra, de todo lo anotado hoy (a backups/)
+npm run precomputacion:informe  # regenera docs/mapa-precomputacion.md leyendo la base
 npm run guion:pruebas  # escribe en xml-lope/guiones/ lo que se va a anotar, sin tocar la base
 npm run aplicar:guiones # y lo escribe en la base, borrando antes las obras de prueba anteriores
 ```
@@ -213,9 +214,9 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
   [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md)
 - [docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md) — qué mide cada
   dato precomputado y por qué. Canónico: si añades una medida, se anota aquí.
-- [docs/precomputacion-estrategias.md](docs/precomputacion-estrategias.md) y
-  [docs/plan-precomputacion-implementacion.md](docs/plan-precomputacion-implementacion.md)
-  — decisiones y estado de la capa precomputada.
+- [docs/mapa-precomputacion.md](docs/mapa-precomputacion.md) — dónde vive cada dato: qué guarda el
+  resumen, qué devuelve la ficha y qué está anotado sin salir por ningún lado. **Se genera** con
+  `npm run precomputacion:informe`, leyendo la base y ejecutando la ficha, así que no envejece.
 - [docs/revision-de-vocabularios.md](docs/revision-de-vocabularios.md) — los tres sitios
   donde viven hoy los vocabularios y el inventario de los 60 enums en `CHECK`. Anotado, sin
   decidir: se revisa cuando el dominio métrico pase a `main`.
