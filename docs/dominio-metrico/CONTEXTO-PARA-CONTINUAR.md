@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 7 de septiembre de 2026
+Actualizado: 8 de septiembre de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
@@ -13,9 +13,14 @@ queda por hacer y enlaza la documentación detallada.
 > [archivado](./historico/revision-del-catalogo-2026-07-a-08.md). Lo que sigue **sin decidir**, forma
 > por forma, está en [cuestiones para el IP](./cuestiones-para-el-ip.md), podado el 22 de agosto.
 >
-> **Lo que queda por hacer está en [qué queda pendiente](#qué-queda-pendiente)**, reordenado el 21
-> de agosto por lo que bloquea los dos hitos siguientes: migrar las secuencias ya anotadas y pasar
-> el editor V2 a producción.
+> **Lo que queda por hacer está en [qué queda pendiente](#qué-queda-pendiente)**, reordenado el 8 de
+> septiembre de 2026 por lo que bloquea los dos hitos siguientes: **llevar la zona pública a lo
+> precomputado** —los cinco pasos del [plan pactado](#el-plan-pactado-en-cinco-pasos)— y migrar las
+> 263 secuencias que aún hablan el vocabulario legado.
+>
+> **Si vienes a trabajar en la ficha o en el buscador, empieza por
+> [el mapa de la precomputación](../mapa-precomputacion.md)**, que dice dato a dato dónde vive cada
+> cosa hoy.
 
 ## Estado actual
 
@@ -67,13 +72,20 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   activos —43 desde el 24 de agosto de 2026— y los conserva para el filtrado en ejecución; cada
   ficha usa otra consulta agregada que mantiene los identificadores y la jerarquía padre-hijo de
   sus secciones.
-- El editor V2 escribe únicamente en tablas `*_editor_metrico`. No crea obras, no modifica
-  las secuencias reales y no alimenta fichas, buscadores ni resúmenes públicos.
+- **La frontera cayó el 7 de septiembre de 2026, y en el sentido contrario al que se temía.** El
+  editor V2 escribe en las tablas `anotacion_*` —las `*_editor_metrico` se renombraron y ya no
+  existen— y **la zona pública lee solo de ahí**: el recompute, el buscador y la ficha pasaron al
+  catálogo nuevo sin puente al vocabulario legado. Lo que no ha cambiado es que el editor no toca
+  `secuencias_metricas.estrofa_tipo_id`.
+- **Consecuencia de esa sustitución:** las obras del corpus anotadas con el vocabulario legado se
+  quedan **sin perfil** hasta que se migren una a una. Quedan **263 secuencias** con
+  `estrofa_tipo_id`, repartidas en las 88 obras en borrador y las 5 en vista previa. La migración se
+  hará a mano con los editores, obra por obra.
+- **Estado de las obras hoy:** 88 en borrador, 5 en vista previa —las que estaban terminadas bajo el
+  sistema antiguo— y **12 publicadas, que son todas de prueba** y están anotadas con el catálogo
+  nuevo. Son las únicas que tienen perfil, y las únicas que se ven en `/obras`.
 - La anotación en sombra se retiró. El editor métrico nuevo vive ya en las secuencias de cada obra;
   el catálogo se carga allí y las propuestas del vocabulario legado se piden bajo demanda.
-- Las declaraciones métricas existentes en las obras siguen usando el vocabulario legado.
-  Su migración se hará más adelante, cuando el IP haya validado el catálogo y el
-  demarcador. Hay editores trabajando y esta frontera no debe adelantarse.
 
 ## El editor V2 ya tiene su pantalla nueva
 
@@ -100,8 +112,9 @@ ciclos, no sumando composiciones.
 **No toca el modelo ni lo que se guarda**: cada realización conserva su propia respuesta, y
 `npm run audit:editor` da la misma salida que antes. Qué filas se pintan vive en
 `grid-rows.ts`, aparte del componente, y las cuatro formas de referencia —quintilla, villancico,
-soneto y romance— están cubiertas en `grid-rows.test.ts`. **Falta probarla en pantalla
-con datos reales.**
+soneto y romance— están cubiertas en `grid-rows.test.ts`. **Probada con datos**: las doce obras de
+prueba de septiembre se anotaron pasando por el mismo validador que la pantalla, y de las 95
+arquitecturas del catálogo entraron todas las que se intentaron.
 
 ## Decisiones que gobiernan el modelo
 
@@ -319,8 +332,9 @@ permiso sobre la obra. **Los doce pasos están en `git`**; lo que quedó vivo de
 
 - **Todas las obras se anotan con el catálogo nuevo.** No hay interruptor por obra: el que había
   —`obras_anotacion_nueva`— dejó de gobernar nada y solo sobrevive hasta que se migre lo anotado.
-- **El editor V2 escribe únicamente en tablas `anotacion_*`.** No toca `secuencias_metricas.estrofa_tipo_id`,
-  ni fichas, ni buscadores, ni resúmenes. Esa frontera no se adelanta.
+- **El editor V2 escribe únicamente en tablas `anotacion_*`** y no toca
+  `secuencias_metricas.estrofa_tipo_id`. Lo que sí cambió el 7 de septiembre es el otro lado: la
+  ficha, el buscador y los resúmenes **leen ya solo esas tablas**.
 - **Crear una secuencia la guarda ya**, con el rango y `estrofa_tipo_id` en nulo; a partir de ahí cada
   parte guarda por su lado.
 - **Lo que sigue abierto** está abajo, en [los campos propios de la secuencia](#los-campos-propios-de-la-secuencia)
@@ -684,8 +698,9 @@ que es cuando se puede mover un campo sin que nadie guarde a mitad.
   dan por presentes en toda obra y siguen preguntándose por secuencia. El **evento sobrenatural** es
   nuevo, no es el personaje, y se responde sí/no por secuencia: ocurre o no ocurre, y la escala de
   intervención es de quien habla. **La coherencia la sostienen dos disparadores**, no la pantalla.
-  `evento_sobrenatural` todavía no se agrega al resumen: su medida entra al rehacer la
-  precomputación, para no escribir dos veces la misma función.
+  `evento_sobrenatural` sigue sin agregarse al resumen —comprobado el 8 de septiembre de 2026—: su
+  medida entra con el paso 1 del [plan de la precomputación](#el-plan-pactado-en-cinco-pasos), para
+  no escribir dos veces la misma función.
 
 **Sin abrir:** la **revisión de los vocabularios generales**, inventariada en
 [revisión de vocabularios](../revision-de-vocabularios.md).
@@ -714,6 +729,102 @@ isosilábica no se pregunta; y los subtipos pasan a ser los esquemas de rima ele
 legado, así que hasta que se migren las obras filtrarán sobre nombres que ya no aparecen en ningún
 resumen.
 
+#### Doce obras de prueba, y por qué hicieron falta
+
+**Hechas entre el 7 y el 8 de septiembre de 2026.** Rehecha la precomputación sobre el catálogo
+nuevo, no quedaba una sola obra con perfil: las 92 del corpus hablan el vocabulario legado. Sin
+datos no se podía ver si la ficha funcionaba, así que se sembraron obras.
+
+El primer intento —un generador que escribía directamente en la base— tardaba **tres cuartos de
+hora por vuelta** y producía obras que no se parecían a comedias: diez formas clavadas en todas,
+más variedad en la jornada I que en la III por construcción, secuencias que pisaban los finales de
+jornada. Lo que lo arregló fue **separar el plan de la escritura**:
+
+- **`npm run guion:pruebas`** escribe `xml-lope/guiones/`, un JSON por obra que dice en claro qué se
+  va a anotar —jornadas, cuadros y una línea por secuencia con su forma, su arquitectura y sus
+  respuestas—, **sin tocar la base**. Tarda segundos, así que se puede revisar y corregir a mano.
+- **`npm run aplicar:guiones`** lo ejecuta y no decide nada. Es idempotente.
+
+El **esqueleto sale de comedias reales de ARTELOPE** —`xml-lope/esqueletos/`, doce elegidas al azar
+entre las 365 del repositorio—, porque el reparto de formas, el largo de las tiradas y que ninguna
+secuencia pise el final de una jornada es justo lo que no se puede inventar a ojo. De ellas se toma
+solo la estructura: los títulos, los autores y las fechas son inventados y ningún verso del texto
+llega a la base. Lo que ARTELOPE no tiene —arquitectura, esquema de rima, asonancia, rasgos— se
+sortea del catálogo respetando lo que el catálogo declara.
+
+**Dos cosas que se aprendieron y valen más que las obras:**
+
+1. **El catálogo ya declara el alcance de cada pregunta.** `grupos_eleccion_metrica.alcance` vale
+   `secuencia`, `unidad` o `realizacion`: la asonancia se responde una vez para todo el romance, el
+   esquema de rima una vez por estrofa. Responder por unidad no era el error; el error era
+   **rotar** por el repertorio y **contestar todas las preguntas opcionales**. Una tirada real tiene
+   una disposición dominante y unas pocas unidades que se salen —las quintillas ya anotadas dicen
+   `ababa` 32, `aabba` 17, `abaab` 3—, y una pregunta que admite cero respuestas normalmente se
+   queda sin responder: había pie quebrado en las 1.751 redondillas de la primera siembra.
+2. **Windows corta la línea de comandos en 32.767 caracteres y lo que sobra se pierde sin error.**
+   El proceso arranca, no ejecuta nada y termina con éxito. Se midió: 34.258 caracteres
+   desaparecían, 27.224 pasaban. `scripts/lib/consulta.mjs` manda por fichero lo que pase de 8.000,
+   y eso protege a cualquier informe del proyecto.
+
+**El villancico entró en la base por primera vez** al hacerlo. Es la única forma del catálogo que
+nadie había guardado nunca, y lo que lo impedía era que sus partes tienen partes: la mudanza cuelga
+de la copla, no del ciclo. Lo mismo con la canción, cuyo primer pie cuelga del fronte.
+
+Resultado: **12 obras, 433 secuencias, todas anotadas**, con perfiles que se distinguen entre sí
+—de 6 a 12 formas, número efectivo de 2,67 a 6,67, forma dominante del 31 % al 66 %— y con los casos
+raros representados: una sextina, un villancico, versos cantados, un pasaje en prosa, dos lagunas,
+un hipométrico, un hipermétrico, una rima fuera del repertorio y un rasgo que sobra.
+
+**Advertencia para quien las use:** son datos inventados. Sirven para comprobar que la maquinaria
+calcula y dibuja; **no sirven para validar un hallazgo**, porque los patrones que se encuentren
+serán los del generador y no los de Lope.
+
+#### El mapa de la precomputación, y lo que queda por hacer
+
+**Levantado el 8 de septiembre de 2026** y guardado en
+[docs/mapa-precomputacion.md](../mapa-precomputacion.md): qué se guarda, qué se calcula en vivo, qué
+llega a la ficha y qué está anotado sin salir por ningún lado. De él salieron tres fallos, ya
+corregidos:
+
+- **Una secuencia pertenece al cuadro donde empieza.** Se exigía que cupiera entera, y como el
+  tablado se vacía muchas veces en mitad de una tirada —el 31 % de los cambios de cuadro de *Fuente
+  Ovejuna* y de *Peribáñez* caen ahí—, esas secuencias salían sin cuadro. Que la tirada siga sonando
+  después del corte va ahora en `cuadro_continua`, porque es un dato que medir y no un estorbo.
+- **Los esquemas de una tirada se cuentan, no se enumeran.** Llegaba una entrada por estrofa y el
+  código de barras se llenaba de rayas.
+- **`pct_cantado` guardaba una fracción** y se llama porcentaje.
+
+Y con ellos entraron en la ficha **los rasgos, los metros y las desviaciones**, que estaban
+anotados y no llegaban a ninguna pantalla: solo de asonancias había cincuenta y siete.
+
+##### El plan pactado, en cinco pasos
+
+Nace de una decisión del proyecto tomada el 8 de septiembre: **la ficha lee la base en vivo solo
+para las obras en vista previa; si está publicada, todo lo que la hace visible está precomputado.**
+El motivo es doble —velocidad y no depender de una cuenta gratuita de Supabase—, y lleva a que
+`obras_resumen` sea *la fuente estática que el navegador carga una vez*.
+
+1. **Una sola función productora.** Que una función construya el JSON de la ficha y que el recompute
+   **guarde ese mismo JSON** en la tabla. Hoy el recompute y la función de ficha se escriben en
+   paralelo, y eso obliga a escribir cada medida dos veces o a que las dos superficies se separen.
+   Con una sola productora son idénticas por construcción. Dentro del JSON entran también los
+   comentarios públicos y la identidad del editor de la ficha: se regeneran al pulsar «Actualizar
+   datos públicos», como todo lo demás. Fuera queda solo el **permiso** —quién mira—, porque no es
+   contenido: la tabla guarda lo que ve un anónimo.
+2. **La ficha lee la tabla si la obra está publicada**, y llama a la función en vivo solo en vista
+   previa, que es lo único que justifica el cálculo al vuelo.
+3. **`/obras` deja de mostrar las obras en vista previa** y lee solo lo precomputado. Se llega a
+   ellas desde el dashboard, así que el buscador se simplifica.
+4. **Los agregados se calculan en el navegador** a partir de ese JSON: evolución de cada forma por
+   jornadas, italianos contra españoles, transiciones entre formas y los patrones —qué forma sigue a
+   cuál, cómo evoluciona la proporción italiana a lo largo de la obra—. Cero operaciones contra
+   Supabase. Solo van a columna las magnitudes que `/obras` **filtra u ordena**.
+5. **Enseñar lo que ya llega y nadie pinta**: espacios inaugurados, versos cantados y prosa, y en
+   qué secuencias intervienen personajes femeninos, figuras de donaire o sobrenaturales.
+
+*Sobre «quién canta»: se mostrará lo que se sabe. Hoy la secuencia dice si interviene una mujer, un
+donaire o un sobrenatural, no quién canta, y el modelo no se cambia por esto.*
+
 ## Qué queda pendiente
 
 Inventario rehecho el **21 de agosto de 2026**, al terminar la revisión de la prosa. Lo cerrado ya
@@ -721,16 +832,18 @@ no se lista: está en las migraciones, en `git` y en el
 [histórico](./historico/). Quedan **veintiún asuntos**, ordenados por lo que bloquea el
 próximo hito y no por el orden en que aparecieron.
 
-**Los dos hitos que vienen, en este orden.** *Se invirtió el 26 de agosto de 2026:* lo urgente
-dejó de ser migrar lo anotado y pasó a ser que **nadie anote nada más con el vocabulario legado**.
+**Los dos hitos que vienen, en este orden.** *Actualizado el 8 de septiembre de 2026: el editor V2
+está en producción desde el 7, así que el primer hito se cumplió y entra otro en su lugar.*
 
-1. **Que el editor V2 sea el que ven los editores** al abrir una obra nueva. El plan está aquí
-   abajo, en [El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
-2. **Migrar las secuencias ya anotadas**, por equivalencias más revisión manual obra por obra.
-   Marco: [el plan de migración](./plan-migracion-anotaciones.md); procedimiento:
+1. **La zona pública sobre lo precomputado.** Es el trabajo en curso: los cinco pasos están en
+   [el plan pactado](#el-plan-pactado-en-cinco-pasos). Hay doce obras de prueba publicadas con las
+   que comprobarlo.
+2. **Migrar las secuencias ya anotadas** —263, en las 88 obras en borrador y las 5 en vista previa—,
+   por equivalencias más revisión manual obra por obra. Marco:
+   [el plan de migración](./plan-migracion-anotaciones.md); procedimiento:
    [cómo se migra una obra](./como-se-migra-una-obra.md); estado de las equivalencias:
    [informe-equivalencias.md](./informe-equivalencias.md), que regenera
-   `npm run equivalencias:informe`.
+   `npm run equivalencias:informe`. **Hasta que se haga, esas obras no tienen perfil.**
 
 **Nada de lo que sigue impide anotar hoy**, y el catálogo está limpio: `npm run audit:metrica` y
 `npm run audit:editor` dan cero defectos, y las pruebas, `npm run check` y `npm run lint` pasan.
@@ -752,7 +865,7 @@ por su número sepa que no siguen abiertos.
 | **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
 | **B8** | las aliradas abiertas no podían registrar el metro que se ve; se les creó la pregunta, y con ella la de los quebrados de la manriqueña y la sextilla | 27 ago |
 
-Quedan **tres asuntos en A**, **ninguno en B** y **dieciséis en C**.
+Quedan **tres asuntos en A** y **dieciséis en C**. **El bloque B se cerró entero** —eran los que impedían llevar el editor V2 a los editores— y se ha retirado de aquí: su resumen está en la tabla de arriba y el detalle, en los commits.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -856,22 +969,6 @@ eslabón, ¿es canción o es alirada?** El eslabón no sirve de prueba —el IP 
 «suele» empezar con chiave, luego es habitual, no constitutivo— y la prueba de los dos piedi sola
 declara canción al `aBaBcDcDeE` que la edición de *Elisa Dido* llama «décima-estancia». No hay
 tercer rasgo formal que rompa el empate.
-
-### B · Bloquean el editor V2 en producción
-
-**B1 a B7 están resueltos**; el resumen de cada uno está en la tabla de arriba y el detalle, en los
-commits y en [criterios de nivel](./criterios-de-nivel.md). El resto de lo que hace falta para que
-el V2 llegue a los editores no son deudas del modelo sino integración, y vive en
-[El camino a develop](#el-camino-a-develop-lista-para-la-ola-de-editores).
-
-**B8 se cerró el 27 de agosto de 2026.** El cuarteto, la octava, la novena y la décima liras
-declaraban su repertorio `7/11` y **ninguna posición** —la norma no fija cuál va dónde— pero no tenían
-pregunta de metro, así que la medida que el editor leía no se registraba. Ya la tienen: la función que
-deriva las opciones ofrece dos por verso. *El septeto-lira quedó fuera a propósito —su esquema sí fija
-la medida verso a verso— y si admite otras proporciones lo decide el IP.*
-
-**No queda nada abierto en B.**
-
 
 ### C · Deudas del modelo, sin urgencia
 
@@ -1190,15 +1287,17 @@ se completó el 31. Lo que sigue:
 7. **El demarcador ya consume la ontología**, no su vector fijo de rasgos: se compila al cargar
    `/recursos/demarcador` y `obtener_catalogo_demarcador()` lo sirve de `formas_metricas`. El cierre
    no obligatorio del terceto encadenado se resolvió el 25 de agosto de 2026 —ver
-   [B4](#b--bloquean-el-editor-v2-en-producción)—; **queda por revisar la retirada de la copla de
+   B4, cerrado ese día—; **queda por revisar la retirada de la copla de
    pie quebrado**. Ya no hay artefacto que recompilar: el versionado se retiró el 28 de agosto de
    2026 —envejecía sin avisar— y desde entonces el catálogo se compila en cada carga, así que sirve
    siempre lo vivo. Comprobado el 2 de septiembre: 41 formas, 117 preguntas y 664 opciones, **las
    seis heredadas incluidas**, con sus 28 opciones.
-8. **Lo que viene**, y en este orden: la
+8. **El editor V2 pasó a producción** el 7 de septiembre de 2026, y con él la precomputación y la
+   ficha al catálogo nuevo. **Lo que viene**, en este orden: llevar la zona pública a lo
+   precomputado —[el plan pactado](#el-plan-pactado-en-cinco-pasos)— y la
    [migración de las anotaciones](./plan-migracion-anotaciones.md) por equivalencias más revisión
-   manual, y el paso del editor V2 a producción. Lo que hay que despejar antes está en
-   [qué queda pendiente](#qué-queda-pendiente), bloques A y B.
+   manual. Lo que hay que despejar antes está en
+   [qué queda pendiente](#qué-queda-pendiente), bloque A.
 9. Crear la capa de desviaciones sobre las secuencias reales: **hecha**. El vocabulario y la tabla
    están en la base desde el 3 de agosto de 2026, y el 7 de septiembre dejó de ofrecerse en el
    selector lo que ahora es desviación. Queda el traslado de sus 209 filas, que va con la migración

@@ -58,15 +58,22 @@ especificación de cómo se espera que se anote.
   `/obras/listado` y la ficha en `/obras/<slug>`—, autores, laboratorio, demarcador,
   proyecto, recursos, cómo citarnos
 - `src/lib/server/public-obras.ts`, `ficha-secciones.ts`, `secciones-publicas.ts`
-- Se alimenta de **precomputados** (`obras_resumen`, `autores_resumen`), no de las tablas
-  crudas. Se regeneran solo al pulsar «Actualizar datos públicos» en el dashboard; el
-  autosave marca suciedad pero no recalcula. `recompute_all()` lo reconstruye todo.
+- El buscador se alimenta de **precomputados** (`obras_resumen`, `autores_resumen`), no de las
+  tablas crudas. Se regeneran solo al pulsar «Actualizar datos públicos» en el dashboard; el
+  autosave marca suciedad pero no recalcula. `recompute_all()` lo reconstruye todo, y **solo para
+  obras publicadas**.
+- **La ficha, en cambio, se calcula hoy en vivo** con
+  `get_obra_ficha_publica_base_without_slugs`, y por eso funciona la vista previa. Eso está
+  cambiando: lo pactado el 8 de septiembre de 2026 es que **en vivo se quede solo la vista previa** y
+  que una obra publicada esté enteramente precomputada. Los cinco pasos, en
+  [el contexto métrico](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-plan-pactado-en-cinco-pasos).
 - Qué mide cada dato precomputado y por qué: [docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md)
+- Dónde vive cada dato hoy, dato a dato: [docs/mapa-precomputacion.md](docs/mapa-precomputacion.md)
 
 ### 3. Dominio métrico nuevo — en construcción
 
 Catálogo métrico, editor de secuencias V2 y demarcador nuevo. Es lo más reciente y lo que
-está en obras. **Convive con el sistema viejo sin tocarlo.**
+está en obras. **Desde el 7 de septiembre de 2026 es también lo único que lee la zona pública.**
 
 - `src/routes/(public)/recursos/catalogo-metrico/` — el catálogo publicado, ficha por forma
 - `src/lib/components/metrica/catalogo/` — sus componentes
@@ -85,9 +92,9 @@ está en obras. **Convive con el sistema viejo sin tocarlo.**
   comentada en el propio componente**; el razonamiento del día en que se rehízo quedó en
   [histórico](docs/dominio-metrico/historico/catalogo-publico-2026-08-12.md).
 
-Cuando el editor V2 esté aprobado sustituirá al selector que hoy está en producción, y se
-migrarán todas las secuencias que ahora dependen del vocabulario viejo. Hasta entonces,
-todo el razonamiento vive en `docs/dominio-metrico/` porque el diseño sigue abierto.
+El editor V2 sustituyó ya al selector anterior; **queda migrar las secuencias que dependen del
+vocabulario viejo**, obra por obra y a mano con los editores. Todo el razonamiento vive en
+`docs/dominio-metrico/` porque el diseño sigue abierto.
 
 **Empieza por [docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md).**
 No leas la carpeta entera: ese archivo dice qué documentos tocan según la tarea, y
@@ -109,11 +116,12 @@ el pasaje de la fuente de cada caso, está en
 filológicas, no técnicas, y las toma el IP.
 
 **El editor V2 es ya el que ven los editores**, y `develop` se fusionó a `main` el 7 de septiembre
-de 2026. Con la edición pausada, el trabajo en curso son **los campos propios de la secuencia** —los
-que no son métricos— y, detrás, **rehacer la precomputación y la ficha** para que lean el catálogo
-nuevo. Estado y decisiones en
-[El editor V2 en producción](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-editor-v2-en-producción).
-Migrar lo ya anotado viene después: dejó de ser lo urgente el 26 de agosto de 2026.
+de 2026. Los campos propios de la secuencia y el paso de la precomputación y la ficha al catálogo
+nuevo se cerraron ese mismo día. **El trabajo en curso es llevar la zona pública a lo
+precomputado**: la ficha en vivo se queda solo para la vista previa, y una obra publicada estará
+enteramente precomputada. Los cinco pasos y el estado, en
+[el plan pactado](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-plan-pactado-en-cinco-pasos).
+Migrar lo ya anotado viene después.
 
 **Lo demás que queda pendiente está inventariado** en
 [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
@@ -141,11 +149,14 @@ al borrar una columna, y PL/pgSQL resuelve los campos de un `record` en ejecuci�
 ellas dejando el demarcador cinco días sin funcionar y otra todas las fichas de `/formas`. **Las
 guardas de las migraciones ejecutan lo que tocan**, no solo comprueban el dato.
 
-**La frontera entre lo viejo y lo nuevo.** Las secuencias reales de las obras usan
-`secuencias_metricas` con `estrofa_tipo_id` y el vocabulario métrico legado. El editor V2
-escribe **únicamente** en tablas `*_editor_metrico`: no crea obras, no toca
-`secuencias_metricas`, no alimenta fichas, buscadores ni resúmenes. Hay editores
-trabajando; esta frontera no se adelanta.
+**La frontera entre lo viejo y lo nuevo cayó el 7 de septiembre de 2026.** El editor V2 escribe en
+las tablas `anotacion_*` y **la zona pública lee solo de ahí**: el recompute, el buscador y la ficha
+pasaron al catálogo nuevo sin puente al vocabulario legado. Lo que no ha cambiado es que el editor
+no toca `secuencias_metricas.estrofa_tipo_id`. Quedan **263 secuencias** con el vocabulario legado
+—en las 88 obras en borrador y las 5 en vista previa— y **hasta que se migren no tienen perfil**.
+Las 12 obras publicadas son de prueba: se generan con `npm run guion:pruebas` y
+`npm run aplicar:guiones`, y **no sirven para validar un hallazgo**, solo para comprobar que la
+maquinaria calcula y dibuja.
 
 **Migraciones.** Una migración aplicada no se edita nunca — `db push` la ignora en
 silencio. Para cambiar algo ya migrado, se escribe una migración nueva con sentencias
