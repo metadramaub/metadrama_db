@@ -12,50 +12,75 @@ const NEUTRAL = '#8a8a8a';
 const WARM_BASE = '#d98b4a'; // ámbar medio: cálido para ESP sin mapear
 const COOL_BASE = '#3e6e9e'; // azul medio: frío para ITA sin mapear
 
-// Paleta curada por FRECUENCIA: las formas frecuentes (alto) reciben los matices
-// más separados y saturados dentro de su gama (máximo contraste entre ellas); las
-// medio/bajo rellenan con tonos más apagados u oscuros, distinguibles pero
-// secundarios. Cálidos confinados al arco rojo→ámbar (sin magentas ni amarillos
-// verdosos); fríos al arco cian→índigo (sin verdes ni violetas-rosados).
+// Paleta curada por FRECUENCIA: las formas frecuentes reciben los matices más separados y
+// saturados dentro de su gama (máximo contraste entre ellas); las demás rellenan con tonos más
+// apagados u oscuros, distinguibles pero secundarios. Cálidos confinados al arco rojo→ámbar (sin
+// magentas ni amarillos verdosos); fríos al arco cian→índigo (sin verdes ni violetas-rosados).
+//
+// **Están las 41 formas del catálogo y los dos tramos sin forma, y nada más.** Hasta el 7 de
+// septiembre de 2026 el mapa hablaba en slugs del vocabulario legado —`romancillo`,
+// `copla_de_pie_quebrado`, `pareado_endecasilabo`—, que ya no nombran ninguna forma; y las que
+// entraron al catálogo en agosto no tenían color, así que salían en el tono base de su gama y
+// todas iguales.
 const FORMA_COLOR_BY_SLUG: Record<string, string> = {
 	// --- Españolas (cálidos: rojo → naranja → ámbar) ---
-	// Frecuentes (alto): alternan matiz Y claridad (oscuro/claro/medio) para que
-	// dos contiguas nunca coincidan en luminosidad a la vez.
-	quintilla: '#b71c1c', // alto (rojo profundo, oscuro)
-	romance: '#ff9d3c', // alto (naranja claro)
-	redondilla: '#e07016', // alto (ámbar-naranja medio-oscuro)
-	// Medio: tonos intermedios más apagados, separados de las frecuentes.
-	decima: '#9c4a1a', // medio (terracota oscura)
-	villancico: '#cf9544', // medio (mostaza)
-	romancillo: '#d8b86a', // medio (ocre claro)
-	seguidilla: '#7a3014', // medio (caoba)
-	// Bajo: oscuros, como fondo.
-	copla_real: '#d23b2a', // bajo (rojo teja, separado de quintilla)
-	romance_heroico: '#5e1810', // bajo (granate)
-	copla_de_pie_quebrado: '#b08a5e', // bajo (canela apagado)
-	pareado_de_arte_menor: '#4a2a14', // bajo (marrón oscuro)
-	// Sin frecuencia en la tabla original: tonos cálidos libres del arco.
-	zejel: '#9c3415',
-	terceto_octosilabo: '#a86a2e',
-	irregular_arte_menor: '#7a5230',
+	// Las tres frecuentes se llevan los matices más separados y saturados, que son las que
+	// dominan cualquier barcode: alternan matiz Y claridad para no fundirse entre sí.
+	quintilla: '#b71c1c', // rojo profundo
+	romance: '#ff9d3c', // naranja claro
+	redondilla: '#e07016', // ámbar-naranja medio
+	// Medias.
+	decima: '#9c4a1a', // terracota oscura
+	seguidilla: '#7a3014', // caoba
+	villancico: '#cf9544', // mostaza
+	zejel: '#9c3415', // ladrillo
+	copla_real: '#d23b2a', // rojo teja
+	// Las coplas, en un tramo contiguo del arco para que se lean como familia.
+	copla_castellana: '#c25a2e',
+	copla_de_arte_mayor: '#8c2f12',
+	copla_de_arte_menor: '#b5613a',
+	copla_manriquena: '#d4762a',
+	// Las estróficas menos frecuentes.
+	novena: '#a33a20',
+	oncena: '#8a4726',
+	septilla: '#d2452a',
+	sextilla: '#a85c14',
+	pareado: '#6b2a10',
+	endecha_real: '#e0a86a',
+	// Las enlazadas, en tonos claros: son series, y en el barcode ocupan tiradas largas.
+	redondilla_enlazada: '#f0b070',
+	septilla_enlazada: '#c98a55',
+	sextilla_enlazada: '#e8c090',
 	// --- Italianas (fríos: cian → azul → índigo) ---
-	// Frecuentes (alto): alternan matiz Y claridad para que terceto/silva/soneto
-	// (azules contiguos) no se fundan. Cian claro / azul oscuro / índigo medio...
-	octava_real: '#22c9de', // alto (cian claro)
-	endecasilabo_suelto: '#1773a6', // alto (cian-azul oscuro)
-	terceto: '#5a8fe6', // alto (azul claro)
-	soneto: '#13427a', // alto (azul muy oscuro)
-	silva: '#5a4fd4', // alto (índigo medio)
-	// Medio: tonos intermedios, separados de las frecuentes.
-	cancion_petrarquista: '#8fc4e0', // medio (cian claro pálido)
-	sexteto_lira: '#2a2e7a', // medio (índigo oscuro)
-	pareado_endecasilabo: '#3a7d92', // medio (azul-teal grisáceo)
-	// Bajo: profundos o muy claros, como fondo.
-	sextina: '#1733a0', // bajo (azul profundo)
-	lira: '#b0a8e8', // bajo (lavanda pálido)
-	// --- Mixtas / irregulares (neutro) ---
+	// Frecuentes.
+	octava_real: '#22c9de', // cian claro
+	endecasilabo_suelto: '#1773a6', // cian-azul oscuro
+	terceto: '#5a8fe6', // azul claro
+	soneto: '#13427a', // azul muy oscuro
+	silva: '#5a4fd4', // índigo medio
+	terceto_encadenado: '#7aa8f0', // azul claro, hermano del terceto
+	// Medias.
+	cancion_petrarquista: '#8fc4e0',
+	octava_aguda: '#1a9ec4',
+	cuarteto: '#4aa8c9',
+	sexteto: '#0e5f8a',
+	septeto: '#2f8fbf',
+	// La serie alirada, en un tramo índigo contiguo: se reconoce como familia.
+	lira: '#b0a8e8',
+	cuarteto_lira: '#7fb7d9',
+	sexteto_lira: '#2a2e7a',
+	septeto_lira: '#5566a8',
+	octava_lira: '#3f5fb0',
+	novena_lira: '#6c74c4',
+	decima_lira: '#9aa8e0',
+	// Las sextinas, azul profundo.
+	sextina: '#1733a0',
+	sextina_estrofa: '#2a49b8',
+	// --- Tramos sin forma (neutro) ---
+	// **No llevan color de gama a propósito**: no pertenecen a ninguna tradición, y en el barcode
+	// tienen que leerse como lo que son, un pasaje del que no se afirma forma.
 	irregular: NEUTRAL,
-	irregular_mixto: NEUTRAL
+	verso_aislado: NEUTRAL
 };
 
 /** Normaliza una etiqueta o slug a la clave canónica del mapa. */
