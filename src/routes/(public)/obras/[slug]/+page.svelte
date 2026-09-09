@@ -11,6 +11,7 @@
 	import MetricRunTable from '$lib/components/metrica/MetricRunTable.svelte';
 	import MetricEnunciationSummary from '$lib/components/metrica/MetricEnunciationSummary.svelte';
 	import MetricDramaticArticulation from '$lib/components/metrica/MetricDramaticArticulation.svelte';
+	import MetricTransitions from '$lib/components/metrica/MetricTransitions.svelte';
 	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -32,7 +33,8 @@
 		perfilDeFormas,
 		perfilPorJornada,
 		tradicionesPorJornada,
-		tiradasPorForma
+		tiradasPorForma,
+		transiciones
 	} from '$lib/metrica/analisis-ficha';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { isSectionVisible, FICHA_SECTION_IDS } from '$lib/secciones-publicas';
@@ -347,6 +349,7 @@
 	const caracterizacionesEnunciativas = $derived(caracterizacionesDeLaObra(analizables));
 	const cortesCuadro = $derived(cortesDeCuadro(analizables, cuadros));
 	const extremosDeJornadas = $derived(cierreDeJornadas(analizables));
+	const transicionesDeLaObra = $derived(transiciones(analizables));
 
 	/** El orden de apilado es el del reparto de toda la obra, igual en todas las jornadas. */
 	const ordenDeFormas = $derived(
@@ -873,6 +876,10 @@
 
 				{#if tiradas.length > 0}
 					<MetricRunTable rows={tiradas} colorByForma={colorByForma} />
+				{/if}
+
+				{#if transicionesDeLaObra.length > 0}
+					<MetricTransitions rows={transicionesDeLaObra} />
 				{/if}
 
 				<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
