@@ -1005,10 +1005,14 @@ reordenar un punto hay que actualizar su estado y el punto de continuación, par
 vuelva a ser suficiente por sí solo. Se usa el prefijo `FP-` para no confundirlo con las incidencias
 `F1`, `F2`… del formulario métrico que aparecen antes en este documento.
 
-**Orden decidido el 9 de septiembre de 2026.** **FP-F1, FP-F3, FP-S1–FP-S5 y FP-U3 están
-corregidos**. **FP-F2** se deja expresamente para el final porque los comentarios fuera de secuencia
-no son urgentes. El punto de continuación es revisar visualmente el nuevo modal y después cerrar
-**FP-S6/FP-S7** o pasar al bloque **FP-G**. Las descargas quedan aparcadas.
+**Estado consolidado el 9 de septiembre de 2026**, después de los commits `67a432f` y `d1ca520`.
+**FP-F1, FP-F3, FP-S1–FP-S5, FP-D1, FP-D3 y FP-U3 están corregidos**. El núcleo del detalle de
+secuencia está terminado, pero el bloque **FP-S no está cerrado formalmente**: **FP-S6** espera un
+ejemplo publicado de canto o prosa con el que diseñar y validar su presentación, y **FP-S7** debe
+derivar `No se aplica` de la aplicabilidad declarada por el catálogo. **FP-F2** se mantiene para el
+final porque los comentarios fuera de secuencia no son urgentes. El siguiente paso es resolver
+**FP-S7** y decidir si se deja **FP-S6** en espera para pasar al bloque **FP-G**. Las descargas siguen
+aparcadas.
 
 **Correcciones de datos ya recibidos**
 
@@ -1027,7 +1031,7 @@ no son urgentes. El punto de continuación es revisar visualmente el nuevo modal
 | **FP-S3** | **Hecho**: muestra los rasgos observados agrupados por dimensión. |
 | **FP-S4** | **Hecho**: muestra las desviaciones con dimensión, relación con la norma, rango y observaciones. |
 | **FP-S5** | **Hecho**: el detalle se ha sustituido entero por una lectura vertical con cabecera identificativa, construcción métrica, lo observado, contexto dramático, sinopsis y aclaraciones; los bloques sin contenido no se crean y el pie permite navegar entre secuencias. La pasada responsive del 9 de septiembre porta el modal al `body`, cubre todo el viewport, limita la lectura de escritorio a 56 rem y jerarquiza la forma como título principal con la arquitectura subordinada en tamaño y tono. El contexto no repite jornada/cuadro: separa `Intervenciones` —donde exclusiva/compartida califican la intervención de cada tipo de personaje— de `Otras caracterizaciones`, con rótulos explicativos para versos repartidos, cambio de espacio y evento sobrenatural. |
-| **FP-S6** | Dar a canto y prosa una presentación legible, conservando rangos y observaciones. |
+| **FP-S6** | **En espera de datos verificables**: dar a canto y prosa una presentación legible, conservando rangos y observaciones. La consulta de fichas públicas del 9 de septiembre no encontró ninguna secuencia publicada con esas formas; no se cerrará inventando un caso. |
 | **FP-S7** | **Parcial**: el modal ya distingue `Sin dato` de `No`; queda resolver `No se aplica` a partir de la aplicabilidad definida por el catálogo. |
 
 **Fuera de las secuencias: datos disponibles o calculables**
@@ -1049,7 +1053,7 @@ no son urgentes. El punto de continuación es revisar visualmente el nuevo modal
 
 | código | pendiente |
 |---|---|
-| **FP-D1** | Incorporar las partes de la unidad —estancia, fronte, pie, sirima, mudanza, estribillo…— a la precomputación, los tipos y la interfaz. |
+| **FP-D1** | **Hecho**: la precomputación y los tipos conservan realización, sección, orden y rangos; el detalle reconstruye y presenta las partes materiales disponibles —por ejemplo, estancias, mudanzas y otras secciones— sin inventar rangos para divisiones tratadas solo por el catálogo. |
 | **FP-D2** | «Quién canta» no está modelado. No se considera un fallo actual: solo se abrirá si se decide un proyecto de datos específico. |
 | **FP-D3** | **Hecho**: se retiraron del contrato público los nombres heredados del modelo anterior y ahora el JSON, los tipos, el informe y la interfaz usan forma, arquitectura y esquemas de rima. La migración está aplicada, las fichas publicadas están regeneradas y el almacenamiento interno legado queda fuera de este cambio. |
 
@@ -1057,7 +1061,7 @@ no son urgentes. El punto de continuación es revisar visualmente el nuevo modal
 
 | código | pendiente |
 |---|---|
-| **FP-C1** | Revisar los nombres de las arquitecturas para que concuerden en género y número con su forma cuando se lean como una denominación completa. No es urgente. Mientras tanto, la ficha nunca muestra una arquitectura aislada: usa `Forma: Arquitectura`, por ejemplo, `Soneto: Endecasilábica consonante`. |
+| **FP-C1** | Revisar los nombres de las arquitecturas para que concuerden en género y número con su forma cuando se lean como una denominación completa. No es urgente. Mientras tanto, la ficha nunca muestra una arquitectura aislada: forma y arquitectura comparten el encabezado, con la forma como título principal y la arquitectura subordinada en tamaño y tono. |
 
 **Mejoras de interacción y lectura**
 
