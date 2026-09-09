@@ -1005,14 +1005,16 @@ reordenar un punto hay que actualizar su estado y el punto de continuación, par
 vuelva a ser suficiente por sí solo. Se usa el prefijo `FP-` para no confundirlo con las incidencias
 `F1`, `F2`… del formulario métrico que aparecen antes en este documento.
 
-**Estado consolidado el 9 de septiembre de 2026**, después de los commits `67a432f`, `d1ca520` y
-`2706816`. **FP-F1, FP-F3, FP-S1–FP-S6, FP-D1, FP-D3 y FP-U3 están corregidos**. El núcleo del
-detalle de secuencia está terminado. **FP-S7 no se implementa mientras no haya un caso real de
+**Estado consolidado el 9 de septiembre de 2026.** **FP-F1, FP-F3, FP-S1–FP-S6, FP-D1, FP-D3,
+FP-G1, FP-G2, FP-G4–FP-G10, FP-U2 y FP-U3 están corregidos**. El núcleo del detalle de secuencia y
+el bloque de análisis de obra están terminados. **FP-S7 no se implementa mientras no haya un caso real de
 inaplicabilidad**: los atajos de obra `sin_figuras_donaire`, `sin_personajes_sobrenaturales` y
 `sin_eventos_sobrenaturales` escriben «No» en todas sus secuencias, no convierten la pregunta en
 «No se aplica»; y las dimensiones métricas ajenas a una forma sencillamente no se muestran. **FP-F2**
-se mantiene para el final porque los comentarios fuera de secuencia no son urgentes. El siguiente
-paso es el bloque **FP-G**. Las descargas siguen aparcadas.
+se mantiene para el final porque los comentarios fuera de secuencia no son urgentes. **FP-G3 queda
+aplazado** hasta acordar qué constituye un patrón repetido y poder contrastarlo con un corpus
+publicado suficiente. El siguiente punto de decisión es el orden entre **FP-U1, FP-U4 y FP-U5**.
+Las descargas siguen aparcadas.
 
 **Correcciones de datos ya recibidos**
 
@@ -1040,13 +1042,13 @@ paso es el bloque **FP-G**. Las descargas siguen aparcadas.
 |---|---|
 | **FP-G1** | **Hecho**: `De un vistazo` muestra formas distintas, longitud media, tirada más larga con rango y las formas de apertura y cierre. No repite versos, jornadas, cuadros ni secuencias, que ya están en la cabecera; los índices de versos partidos, espacios y desviaciones pasan a FP-G8/U2. |
 | **FP-G2** | **Hecho**: `Análisis` presenta las transiciones entre secuencias consecutivas como pares legibles y ordenados por frecuencia. Las seis principales quedan a la vista, el resto se despliega y se aclara que el cálculo incluye los pasos entre jornadas. No se usa una red que dificulte la lectura. |
-| **FP-G3** | Detectar patrones métricos repetidos, con umbral decidido y la marca «calculado». |
+| **FP-G3** | **Aplazado**: no se detectan patrones hasta decidir una definición y un umbral defendibles. Conviene abordarlo con la futura comparación de corpus, no producir ahora una lista arbitraria a partir de una sola obra. |
 | **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con tiradas, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
 | **FP-G5** | **Hecho**: `Análisis` cuenta los límites reales entre cuadros dentro de cada jornada y distingue los que coinciden con un cambio de forma, parten una tirada o caen entre dos tiradas de la misma forma. Los cortes de jornada quedan fuera. Sustituye el cálculo anterior, cuyo denominador eran secuencias y no cambios de cuadro. |
 | **FP-G6** | **Hecho**: `Análisis` resume canto, prosa y evocación métrica con versos, porcentaje de la obra y formas en que aparecen. Las etiquetas públicas se normalizan y los rangos solapados no duplican versos; el bloque no se crea cuando la obra no contiene ninguno. |
 | **FP-G7** | **Hecho**: el bloque de articulación muestra con qué forma abre y cierra cada jornada, junto a la lectura de los cambios de cuadro. |
 | **FP-G8** | **Hecho junto con FP-U2**: `Esquema métrico` incorpora un único índice `Localizar en la obra`. Solo ofrece fenómenos presentes —canto, prosa, evocación, desviaciones, versos repartidos, cambios de espacio, intervenciones y eventos sobrenaturales—; al seleccionar uno muestra sus secuencias y abre su detalle. Canto, prosa y evocación conservan el rango específico, y las intervenciones indican si son exclusivas o compartidas. |
-| **FP-G9** | Mostrar `fuente_fecha` junto a la datación. |
+| **FP-G9** | **Hecho**: la fuente se ofrece bajo la datación mediante un control discreto y accesible. Al abrirlo conserva cursivas, listas y referencias separadas; no vuelca en la cabecera campos que en las obras reales pueden contener varias citas bibliográficas extensas. La auditoría del 9 de septiembre comprobó el formato contra la tabla viva antes de diseñarlo. |
 | **FP-G10** | **Hecho**: el correo de la cuenta del editor no se muestra y se retira también del JSON público y de las fichas precomputadas. Nombre público y ORCID bastan para firmar la ficha; un futuro contacto directo requerirá un campo propio y consentimiento expreso. |
 
 **Comparación futura con el corpus.** Transiciones, patrones y las demás medidas analíticas deben

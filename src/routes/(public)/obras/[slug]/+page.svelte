@@ -18,6 +18,7 @@
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
 	import FichaAutoriaBlock from '$lib/components/ficha/FichaAutoriaBlock.svelte';
+	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import OrcidIcon from '$lib/components/icons/OrcidIcon.svelte';
 	import SequenceSynopsisView from '$lib/components/editor/SequenceSynopsisView.svelte';
 	import {
@@ -158,6 +159,7 @@
 		if (fin !== null) return `${fin}`;
 		return '--';
 	});
+	const fuenteDatacion = $derived((obra.fuente_fecha ?? '').trim());
 	const variantesLabel = $derived((obra.variantes_titulo ?? []).join(' | '));
 	const editorOrcid = $derived((obra.autor_ficha_orcid_publico ?? '').trim());
 	const editorOrcidHref = $derived.by(() => {
@@ -529,7 +531,21 @@
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Datación
 				</dt>
-				<dd class="mt-1 font-semibold">{datacionLabel}</dd>
+				<dd class="mt-1 font-semibold">
+					{datacionLabel}
+					{#if fuenteDatacion}
+						<span class="mt-1 block font-normal">
+							<InlineNotePopover
+								text={fuenteDatacion}
+								label="Mostrar la fuente de la datación"
+								multilinea
+								claseBoton="text-left text-xs leading-5 text-[color:var(--muted-foreground)] underline decoration-dotted underline-offset-4 hover:text-[color:var(--foreground)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2"
+							>
+								{#snippet disparador()}Fuente de la datación{/snippet}
+							</InlineNotePopover>
+						</span>
+					{/if}
+				</dd>
 			</div>
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">

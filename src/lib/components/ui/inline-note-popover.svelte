@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Info from 'lucide-svelte/icons/info';
 	import { tick, type Snippet } from 'svelte';
-	import { renderInlineMarkdown } from '$lib/utils/markdown';
+	import { renderInlineMarkdown, renderMarkdown } from '$lib/utils/markdown';
 
 	/**
 	 * El disparador por defecto es el icono de información, que sirve para una nota colgada de
@@ -16,7 +16,8 @@
 		disparador,
 		claseRaiz = '',
 		estiloRaiz = '',
-		claseBoton = ''
+		claseBoton = '',
+		multilinea = false
 	}: {
 		text: string;
 		label?: string;
@@ -24,6 +25,7 @@
 		claseRaiz?: string;
 		estiloRaiz?: string;
 		claseBoton?: string;
+		multilinea?: boolean;
 	} = $props();
 
 	let root = $state<HTMLSpanElement | null>(null);
@@ -132,13 +134,19 @@
 	</button>
 	{#if abierto}
 		<span
-			class="fixed z-40 w-max min-w-52 max-w-[min(22rem,calc(100vw-1rem))] overflow-y-auto whitespace-normal break-words border border-[color:var(--border)] bg-white px-3 py-2 text-left text-xs font-normal normal-case leading-5 tracking-normal text-[color:var(--foreground)] shadow-md"
+			class="fixed z-40 w-max min-w-52 {multilinea
+				? 'max-w-[min(34rem,calc(100vw-1rem))]'
+				: 'max-w-[min(22rem,calc(100vw-1rem))]'} overflow-y-auto whitespace-normal break-words border border-[color:var(--border)] bg-white px-3 py-2 text-left text-xs font-normal normal-case leading-5 tracking-normal text-[color:var(--foreground)] shadow-md"
 			style={`left:${izquierda}px;top:${arriba}px${maxAlto === null ? '' : `;max-height:${maxAlto}px`}`}
 			role="tooltip"
 			data-side={lado}
 			bind:this={bubble}
 		>
-			{@html renderInlineMarkdown(text)}
+			{#if multilinea}
+				<span class="block space-y-2">{@html renderMarkdown(text)}</span>
+			{:else}
+				{@html renderInlineMarkdown(text)}
+			{/if}
 		</span>
 	{/if}
 </span>
