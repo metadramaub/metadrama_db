@@ -4,6 +4,7 @@
 	import CiteWorkButton from '$lib/components/ficha/CiteWorkButton.svelte';
 	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
 	import MetricScheme from '$lib/components/metrica/MetricScheme.svelte';
+	import MetricEvolutionChart from '$lib/components/metrica/MetricEvolutionChart.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
@@ -15,7 +16,12 @@
 		secuenciasToBarSegments,
 		secuenciasToSchemeEntries
 	} from '$lib/components/ficha/ficha-metric-adapter';
-	import { fichaTecnica } from '$lib/metrica/analisis-ficha';
+	import {
+		fichaTecnica,
+		perfilDeFormas,
+		perfilPorJornada,
+		tradicionesPorJornada
+	} from '$lib/metrica/analisis-ficha';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { isSectionVisible, FICHA_SECTION_IDS } from '$lib/secciones-publicas';
 	import type {
@@ -39,6 +45,7 @@
 	type TabId =
 		| 'estructura'
 		| 'esquema'
+		| 'analisis'
 		| 'sinopsis_metrica'
 		| 'observaciones'
 		| 'bibliografia';
@@ -114,6 +121,7 @@
 		// qué obra es esta; «Esquema métrico», qué hay en cada verso.
 		if (showMetrica) items.push({ id: 'estructura', label: 'De un vistazo' });
 		if (showMetrica) items.push({ id: 'esquema', label: 'Esquema métrico' });
+		if (showMetrica) items.push({ id: 'analisis', label: 'Análisis' });
 		if (showSinopsisMetrica) items.push({ id: 'sinopsis_metrica', label: 'Sinopsis' });
 		if (showObservaciones) items.push({ id: 'observaciones', label: 'Observaciones' });
 		if (showBibliografia) items.push({ id: 'bibliografia', label: 'Bibliografía métrica' });
@@ -308,6 +316,18 @@
 	);
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
 	const tecnica = $derived(fichaTecnica(analizables));
+
+	/** El orden de apilado es el del reparto de toda la obra, igual en todas las jornadas. */
+	const ordenDeFormas = $derived(
+		perfilDeFormas(analizables).map((peso) => ({ forma: peso.forma, colorKey: peso.colorKey }))
+	);
+	const evolucion = $derived(
+		perfilPorJornada(analizables).map((jornada) => ({
+			etiqueta: `Jornada ${jornada.jornada}`,
+			valores: jornada.formas.map((forma) => ({ colorKey: forma.colorKey, versos: forma.versos }))
+		}))
+	);
+	const tradiciones = $derived(tradicionesPorJornada(analizables));
 
 	/** Las jornadas con sus cuadros dentro, que es como se lee una comedia. */
 	const estructuraJornadas = $derived(
@@ -640,6 +660,56 @@
 						cuadros={cuadrosConRango}
 						onOpen={openSequenceModal}
 					/>
+				{/if}
+			</section>
+		{/if}
+	{:else if activeTab === 'analisis'}
+		{#if showMetrica}
+			<section class="space-y-8">
+				<div class="space-y-3">
+					<h2 class="text-lg font-semibold">Evolución por jornadas</h2>
+					{#if evolucion.length === 0}
+						<p class="text-sm text-[color:var(--muted-foreground)]">
+							Esta obra no tiene jornadas con secuencias anotadas.
+						</p>
+					{:else}
+						<MetricEvolutionChart
+							series={evolucion}
+							orden={ordenDeFormas}
+							colorByForma={colorByForma}
+							resaltada={hoveredForma?.forma ?? null}
+							onHoverForma={(forma) =>
+								(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
+						/>
+					{/if}
+				</div>
+
+				{#if tradiciones.length > 0}
+					<div class="space-y-3">
+						<h2 class="text-lg font-semibold">Españolas e italianas</h2>
+						<table class="w-full text-sm">
+							<thead>
+								<tr class="border-b border-[color:var(--border)] text-left text-xs uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+									<th scope="col" class="py-1 pr-4 font-semibold">Jornada</th>
+									<th scope="col" class="py-1 pr-4 text-right font-semibold">Españolas</th>
+									<th scope="col" class="py-1 pr-4 text-right font-semibold">Italianas</th>
+									<th scope="col" class="py-1 text-right font-semibold">Sin tradición</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each tradiciones as fila (fila.jornada)}
+									<tr class="border-b border-[color:var(--border)] tabular-nums">
+										<td class="py-1 pr-4">Jornada {fila.jornada}</td>
+										<td class="py-1 pr-4 text-right">{fila.espanola.porcentaje} %</td>
+										<td class="py-1 pr-4 text-right">{fila.italiana.porcentaje} %</td>
+										<td class="py-1 text-right text-[color:var(--muted-foreground)]">
+											{fila.sinTradicion.porcentaje} %
+										</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
 				{/if}
 			</section>
 		{/if}

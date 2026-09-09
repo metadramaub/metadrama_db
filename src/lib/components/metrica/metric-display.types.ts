@@ -65,6 +65,17 @@ export interface StructureOutlineJornada {
 	cuadros: { numero: number; v_ini: number; v_fin: number }[];
 }
 
+/**
+ * Una barra del gráfico de evolución: una jornada con lo que hay dentro.
+ *
+ * El componente no sabe qué es una jornada; recibe una etiqueta y unos valores. Así el mismo
+ * gráfico sirve para «por jornadas» en la ficha y para «por obras» en el perfil de autor.
+ */
+export interface MetricEvolutionSeries {
+	etiqueta: string;
+	valores: { colorKey: string; versos: number }[];
+}
+
 /** Una porción de la distribución de formas (para el pie). */
 export interface MetricDistributionSlice {
 	/** Texto visible de la forma (p.ej. la etiqueta de la forma raíz). */
