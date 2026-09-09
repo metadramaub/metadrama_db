@@ -8,6 +8,7 @@
 		SequenceModalPayload
 	} from '$lib/types/public-ficha.types';
 	import { renderMarkdown } from '$lib/utils/markdown';
+	import { enunciationPassageLabel, enunciationType } from '$lib/metrica/enunciation';
 	import type {
 		ResolvedSequenceStructure,
 		SequenceStructureTramo
@@ -114,32 +115,6 @@
 		return text.length > 0 ? `${text.charAt(0).toLocaleUpperCase('es')}${text.slice(1)}` : 'Sin dato';
 	}
 
-	function normalizedRangeTerm(value: string) {
-		return value
-			.normalize('NFD')
-			.replace(/[\u0300-\u036f]/g, '')
-			.replaceAll('_', ' ')
-			.trim()
-			.toLocaleLowerCase('es');
-	}
-
-	function isEnunciationRange(value: string) {
-		return ['cantado', 'prosa', 'evocacion metrica'].includes(normalizedRangeTerm(value));
-	}
-
-	function formatEnunciationRange(value: string) {
-		switch (normalizedRangeTerm(value)) {
-			case 'cantado':
-				return 'Pasaje cantado';
-			case 'prosa':
-				return 'Pasaje en prosa';
-			case 'evocacion metrica':
-				return 'Evocación métrica';
-			default:
-				return humanize(value);
-		}
-	}
-
 	function formatIntervencionValue(value: string | null) {
 		if (value === null) return 'Sin dato';
 		if (value === 'sin_intervencion') return 'No';
@@ -230,12 +205,12 @@
 	const deviations = $derived(props.secuencia?.desviaciones ?? []);
 	const enunciationRanges = $derived(
 		(props.secuencia?.caracterizaciones_rango ?? []).filter((item) =>
-			isEnunciationRange(item.tipo_caracterizacion_rango_term)
+			enunciationType(item.tipo_caracterizacion_rango_term) !== null
 		)
 	);
 	const otherRanges = $derived(
 		(props.secuencia?.caracterizaciones_rango ?? []).filter(
-			(item) => !isEnunciationRange(item.tipo_caracterizacion_rango_term)
+			(item) => enunciationType(item.tipo_caracterizacion_rango_term) === null
 		)
 	);
 	const hasObservedData = $derived(features.length > 0 || deviations.length > 0);
@@ -454,7 +429,7 @@
 									{#each enunciationRanges as caracterizacion (caracterizacion.caracterizacion_rango_id)}
 										<li class="rounded-lg border border-[color:var(--border)] bg-white px-4 py-3.5">
 											<div class="flex flex-wrap items-baseline justify-between gap-2">
-												<strong class="font-semibold">{formatEnunciationRange(caracterizacion.tipo_caracterizacion_rango_term)}</strong>
+								<strong class="font-semibold">{enunciationPassageLabel(caracterizacion.tipo_caracterizacion_rango_term)}</strong>
 												<span class="rounded-full bg-[color:var(--muted)] px-2 py-0.5 text-xs text-[color:var(--muted-foreground)]">vv. {caracterizacion.v_ini}–{caracterizacion.v_fin}</span>
 											</div>
 											{#if caracterizacion.observaciones?.trim()}
