@@ -891,9 +891,30 @@ el corte es un travesaño, no el tono; y salta el hueco entre tarjetas, o se le�
 **Y una regla de redacción**: nada de rótulos que expliquen lo que se está viendo. La frase «verso a
 verso, como en una edición crítica…» sobraba encima del esquema.
 
-**El gráfico de evolución está hecho** —`MetricEvolutionChart.svelte`, 9 de septiembre de 2026—, y
-con él estrena la ficha la pestaña **Análisis**: las jornadas en barras apiladas y el reparto entre
-españolas e italianas. Es el primero del lenguaje gráfico y fija tres cosas para los que vengan:
+**La pestaña Análisis está hecha** —9 de septiembre de 2026— con **tres gráficos que contestan tres
+preguntas distintas**, que es la lección de la tarde: un solo gráfico de «evolución» acababa
+diciendo lo mismo que los donuts de «De un vistazo», o sea composición.
+
+- **`MetricFormStrips`** — *dónde cae cada forma*: una fila por forma con sus tiradas donde caen de
+  verdad. Se llegó descartando un área apilada por ventanas, que parecía lo obvio: **dentro de una
+  obra no hay ventana buena**. Ancha —150 versos, lo que hace falta para suavizar una tirada media
+  de cien— esconde un soneto de catorce; estrecha, cada ventana contiene una secuencia y el área
+  converge al código de barras. *El área por ventanas es el gráfico del **corpus por años**, donde
+  cada punto es una obra entera y diluir un soneto es lo que se quiere medir: queda pendiente para
+  el laboratorio, cuando haya obras reales datadas.*
+- **`MetricSlopeChart`** — *cómo cambia una forma*: lo único que un apilado no puede, porque ahí el
+  tramo se mueve arriba y abajo empujado por los de debajo. Guías finas cada cinco puntos —casi
+  todas las formas quedan por debajo del veinte—, el cero dibujado **hueco** porque «no aparece» no
+  es «aparece poquísimo», y el nombre resaltando al pasar por encima.
+- **`MetricTraditionSplit`** — *de qué tradición es cada jornada*: columnas de dos partes. Una sola
+  línea con la proporción italiana obligaba a rellenar mentalmente que el resto era español, y
+  repetía el lenguaje de las pendientes. **Con dos categorías el apilado se lee perfectamente**: lo
+  que no se puede seguir en un apilado es una banda intermedia entre muchas.
+
+Y el reparto entre donut y apilado: **el donut para una sola composición** —la obra entera—, porque
+tres donuts uno al lado de otro es lo que nadie sabe comparar.
+
+El lenguaje gráfico fija además:
 
 - **Lo horizontal se reserva para lo secuencial.** El código de barras recorre la obra verso a
   verso, así que una barra apilada en horizontal se lee como si también fuera un recorrido. La
