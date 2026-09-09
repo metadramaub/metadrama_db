@@ -3834,6 +3834,7 @@ export type Database = {
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }
       get_catalogo_formas_publicas: { Args: never; Returns: Json }
+      get_equipo_publico: { Args: never; Returns: Json }
       get_forma_metrica_publica: { Args: { p_slug: string }; Returns: Json }
       get_forma_metrica_publica_jerarquica: {
         Args: { p_slug: string }
