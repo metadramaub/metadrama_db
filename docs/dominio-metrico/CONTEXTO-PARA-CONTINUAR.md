@@ -1058,6 +1058,46 @@ sin convertirse en el laboratorio: mostrará una referencia breve, nombrará el 
 del cálculo, y dejará la exploración transversal para la herramienta específica. Esta segunda capa
 no se calcula todavía ni usa las obras de prueba como si fueran el corpus.
 
+**Revisión de organización y lenguaje solicitada el 10 de septiembre de 2026.** Se hará en cambios
+pequeños y reversibles, uno por uno; esta nota no implica que estén implementados:
+
+- mover `Localizar en la obra` de `Esquema métrico` a `Análisis`: es una herramienta de lectura y
+  consulta analítica, mientras que el esquema debe contener solo el esquema;
+- mover el número de secuencias métricas desde `Estructura` en la cabecera hasta `Resumen métrico`;
+- auditar `tirada` en toda la ficha. La entidad general es **secuencia métrica**; `tirada` se reserva
+  para series estróficas o formas repetidas cuando el término describe de verdad su realización.
+  Un soneto puede ocupar una secuencia, pero no es una tirada;
+- completar el resumen con la **secuencia más corta**, además de media y máxima;
+- retirar los rótulos auxiliares `Calculado` y `Calculado a partir de las secuencias`;
+- añadir una lectura de la evolución por cuadros y jornadas: si las secuencias tienden a hacerse más
+  largas o cortas y si aumenta o disminuye la concentración/diversidad de formas. Antes de crear
+  otro cálculo, reutilizar y contrastar `numero_efectivo_formas` y `densidad_transiciones`, que ya
+  alimentan `/obras`, y decidir qué significa cada medida dentro de una sola obra.
+
+**Punto de continuación inmediato:** solo diagnosticar dónde se usa `tirada`, distinguir los usos
+terminológicamente válidos de los que deben pasar a `secuencia`, y presentar la propuesta antes de
+editar la interfaz o los nombres internos.
+
+**Diagnóstico de `tirada` —sin implementar todavía.** La ficha usa hoy el término como sinónimo
+general de la fila `secuencias_metricas`, y por eso alcanza indebidamente a sonetos y otras formas
+no seriadas. La corrección propuesta es:
+
+- cambiar a **secuencia** el resumen —media, máxima y futura mínima—, la tabla por forma y sus
+  recuentos, y la articulación con los cuadros (`cortan una secuencia`, `entre secuencias de la misma
+  forma`);
+- acompañar ese cambio en nombres internos hoy genéricos: `tiradaMasLarga`, `tiradasPorForma`, los
+  recuentos `tiradas`, las franjas de posición y `partenTirada`/`entreTiradasMismaForma`;
+- en el desglose de rasgos y esquemas, dejar de usar `tirada` como unidad de reserva cuando no llega
+  una realización: la reserva segura es `secuencia`;
+- **mantener tirada** cuando el texto nombra expresamente una serie métrica real —por ejemplo, una
+  tirada de romance, redondillas, quintillas o versos sueltos— y cuando el catálogo/realización
+  garantiza que esa es la unidad contada. No se sustituye mecánicamente en la documentación
+  histórica ni en explicaciones donde tiene ese sentido específico;
+- `cuadro_continua` puede conservar su nombre de contrato, que ya es neutral; deben corregirse los
+  comentarios y rótulos que interpretan automáticamente la secuencia como tirada.
+
+La propuesta necesita confirmación antes de tocar código o interfaz.
+
 **Datos que aún no llegan al JSON público**
 
 | código | pendiente |
