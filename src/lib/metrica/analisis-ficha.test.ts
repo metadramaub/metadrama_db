@@ -174,8 +174,34 @@ describe('tiradasPorForma', () => {
 });
 
 describe('cortesDeCuadro', () => {
-	it('mide cuántas tiradas parte un cambio de cuadro', () => {
-		expect(cortesDeCuadro(OBRA)).toEqual({ secuencias: 5, partidas: 1, coincidencia: 80 });
+	it('cuenta los límites reales y excluye la apertura de cada jornada', () => {
+		const cuadros = [
+			{ jornada_id: 'j1', cuadro_num: 1, v_ini: 1, v_fin: 50 },
+			{ jornada_id: 'j1', cuadro_num: 2, v_ini: 51, v_fin: 100 },
+			{ jornada_id: 'j1', cuadro_num: 3, v_ini: 101, v_fin: 160 },
+			{ jornada_id: 'j2', cuadro_num: 1, v_ini: 161, v_fin: 200 },
+			{ jornada_id: 'j2', cuadro_num: 2, v_ini: 201, v_fin: 240 },
+			{ jornada_id: 'j2', cuadro_num: 3, v_ini: 241, v_fin: 280 }
+		];
+		expect(cortesDeCuadro(OBRA, cuadros)).toEqual({
+			total: 4,
+			partenTirada: 2,
+			coincidenCambioForma: 2,
+			entreTiradasMismaForma: 0,
+			sinCobertura: 0
+		});
+	});
+
+	it('separa el límite entre dos tiradas de la misma forma', () => {
+		const secuencias = [secuencia({ v_ini: 1, n_versos: 10 }), secuencia({ v_ini: 11, n_versos: 10 })];
+		const cuadros = [
+			{ jornada_id: 'j1', cuadro_num: 1, v_ini: 1, v_fin: 10 },
+			{ jornada_id: 'j1', cuadro_num: 2, v_ini: 11, v_fin: 20 }
+		];
+		expect(cortesDeCuadro(secuencias, cuadros)).toMatchObject({
+			total: 1,
+			entreTiradasMismaForma: 1
+		});
 	});
 });
 
