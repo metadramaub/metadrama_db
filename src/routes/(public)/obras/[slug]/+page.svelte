@@ -7,6 +7,7 @@
 	import MetricFormStrips from '$lib/components/metrica/MetricFormStrips.svelte';
 	import MetricSlopeChart from '$lib/components/metrica/MetricSlopeChart.svelte';
 	import MetricTraditionSplit from '$lib/components/metrica/MetricTraditionSplit.svelte';
+	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
@@ -75,6 +76,11 @@
 	// ('obra' o el id de jornada) para que en modo por-jornadas solo ilumine el
 	// barcode/pie de esa jornada, no los de las demás.
 	let hoveredForma = $state<{ groupId: string; forma: string } | null>(null);
+	let barcodeExportTarget = $state<HTMLDivElement | null>(null);
+	let pieExportTarget = $state<HTMLDivElement | null>(null);
+	let stripsExportTarget = $state<HTMLDivElement | null>(null);
+	let slopeExportTarget = $state<HTMLDivElement | null>(null);
+	let traditionExportTarget = $state<HTMLDivElement | null>(null);
 
 	function formaForGroup(groupId: string): string | null {
 		return hoveredForma && hoveredForma.groupId === groupId ? hoveredForma.forma : null;
@@ -163,8 +169,8 @@
 			if (!map[key]) map[key] = colorForForma({ slug: key, tipoForma: item.forma_tipo_forma });
 		}
 		for (const secuencia of secuenciasOrdenadas) {
-			const key = secuencia.estrofa_forma_slug ?? secuencia.estrofa_forma_term;
-			if (!map[key]) map[key] = colorForForma({ slug: key, tipoForma: secuencia.estrofa_tipo_forma });
+			const key = secuencia.forma_slug ?? secuencia.forma_nombre;
+			if (!map[key]) map[key] = colorForForma({ slug: key, tipoForma: secuencia.tipo_forma });
 		}
 		return map;
 	});
@@ -217,15 +223,15 @@
 		for (const sequence of sequences) {
 			const versos = sequence.n_versos ?? 0;
 			if (versos <= 0) continue;
-			const colorKey = sequence.estrofa_forma_slug ?? sequence.estrofa_forma_term;
+			const colorKey = sequence.forma_slug ?? sequence.forma_nombre;
 			const current = byForma.get(colorKey);
 			if (current) {
 				current.versos += versos;
 			} else {
 				byForma.set(colorKey, {
-					forma: sequence.estrofa_forma_term,
+					forma: sequence.forma_nombre,
 					colorKey,
-					tipoForma: sequence.estrofa_tipo_forma,
+					tipoForma: sequence.tipo_forma,
 					versos
 				});
 			}
@@ -254,7 +260,7 @@
 	const sinopsisMetricaSequences = $derived.by(
 		(): PublicFichaSinopsisMetricaSecuencia[] => ficha.sinopsis_metrica?.secuencias ?? []
 	);
-	// Las secuencias de sinopsis ya traen estrofa_forma_slug/estrofa_tipo_forma
+	// Las secuencias de sinopsis ya traen forma_slug/tipo_forma
 	// desde la RPC, así que el color del borde sale directo (igual que barcode/pie).
 	const sinopsisMetricaGroups = $derived.by(() =>
 		buildSequenceSynopsisGroups({
@@ -276,6 +282,16 @@
 		selectedSequenceIndex < 0 ? null : (resolvedPublicSequences[selectedSequenceIndex] ?? null)
 	);
 	const selectedSequence = $derived.by(() => selectedSequenceStructure?.sequence ?? null);
+	const previousSequenceLabel = $derived.by(() =>
+		selectedSequenceIndex > 0
+			? (resolvedPublicSequences[selectedSequenceIndex - 1]?.sequence.forma_nombre ?? null)
+			: null
+	);
+	const nextSequenceLabel = $derived.by(() =>
+		selectedSequenceIndex >= 0 && selectedSequenceIndex < resolvedPublicSequences.length - 1
+			? (resolvedPublicSequences[selectedSequenceIndex + 1]?.sequence.forma_nombre ?? null)
+			: null
+	);
 
 	const comentariosPublicos = $derived<PublicFichaComentarioPublico[]>(
 		ficha.comentarios_publicos ?? []
@@ -324,6 +340,24 @@
 	const ordenDeFormas = $derived(
 		perfilDeFormas(analizables).map((peso) => ({ forma: peso.forma, colorKey: peso.colorKey }))
 	);
+	const diagramLegend = $derived(
+		ordenDeFormas.map(({ forma, colorKey }) => ({
+			label: forma,
+			color: colorByForma[colorKey] ?? colorForForma({ slug: colorKey, tipoForma: null })
+		}))
+	);
+	const traditionLegend = $derived([
+		{ label: 'Españolas', color: colorForForma({ slug: null, tipoForma: 'forma_espanola' }) },
+		{ label: 'Italianas', color: colorForForma({ slug: null, tipoForma: 'forma_italiana' }) },
+		{ label: 'Sin tradición', color: colorForForma({ slug: null, tipoForma: null }) }
+	]);
+	const exportMeta = (title: string, suffix: string, legend = diagramLegend) => ({
+		title,
+		workTitle: obra.titulo,
+		permalink: `/obras/${obra.slug}`,
+		filename: `${obra.slug}-${suffix}`,
+		legend
+	});
 	const evolucion = $derived(
 		perfilPorJornada(analizables).map((jornada) => ({
 			etiqueta: `Jornada ${jornada.jornada}`,
@@ -610,6 +644,7 @@
 						</div>
 					</div>
 
+					<div bind:this={barcodeExportTarget}>
 					{#if secuenciasOrdenadas.length === 0}
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							No hay secuencias métricas registradas para esta obra.
@@ -657,8 +692,19 @@
 							{/each}
 						</div>
 					{/if}
+					</div>
+					{#if secuenciasOrdenadas.length > 0}
+						<DiagramExportControls
+							target={barcodeExportTarget}
+							meta={exportMeta(
+								metricViewMode === 'obra_completa' ? 'Código de barras métrico' : 'Código de barras por jornadas',
+								metricViewMode === 'obra_completa' ? 'codigo-de-barras' : 'codigo-de-barras-por-jornadas'
+							)}
+						/>
+					{/if}
 				</div>
 
+				<div bind:this={pieExportTarget}>
 				{#if metricViewMode === 'obra_completa'}
 					<MetricDistributionPie
 						items={distribucionFormasSlices}
@@ -683,6 +729,16 @@
 							/>
 						{/each}
 					</div>
+				{/if}
+				</div>
+				{#if secuenciasOrdenadas.length > 0}
+					<DiagramExportControls
+						target={pieExportTarget}
+						meta={exportMeta(
+							metricViewMode === 'obra_completa' ? 'Perfil métrico' : 'Perfil métrico por jornadas',
+							metricViewMode === 'obra_completa' ? 'perfil-metrico' : 'perfil-metrico-por-jornadas'
+						)}
+					/>
 				{/if}
 			</section>
 		{/if}
@@ -716,14 +772,20 @@
 						En qué punto de la obra aparece cada forma. Las líneas verticales son los cambios de
 						jornada.
 					</p>
-					<MetricFormStrips
-						filas={franjas}
-						totalVersos={totalVersos}
-						colorByForma={colorByForma}
-						jornadas={jornadas.map((jornada) => jornada.v_ini)}
-						resaltada={hoveredForma?.forma ?? null}
-						onHoverForma={(forma) =>
-							(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
+					<div bind:this={stripsExportTarget}>
+						<MetricFormStrips
+							filas={franjas}
+							totalVersos={totalVersos}
+							colorByForma={colorByForma}
+							jornadas={jornadas.map((jornada) => jornada.v_ini)}
+							resaltada={hoveredForma?.forma ?? null}
+							onHoverForma={(forma) =>
+								(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
+						/>
+					</div>
+					<DiagramExportControls
+						target={stripsExportTarget}
+						meta={exportMeta('Dónde cae cada forma', 'distribucion-de-formas')}
 					/>
 				</div>
 
@@ -738,13 +800,19 @@
 							Hace falta más de una jornada anotada para poder comparar.
 						</p>
 					{:else}
-						<MetricSlopeChart
-							momentos={momentos}
-							series={pendientes}
-							colorByForma={colorByForma}
-							resaltada={hoveredForma?.forma ?? null}
-							onHoverForma={(forma) =>
-								(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
+						<div bind:this={slopeExportTarget}>
+							<MetricSlopeChart
+								momentos={momentos}
+								series={pendientes}
+								colorByForma={colorByForma}
+								resaltada={hoveredForma?.forma ?? null}
+								onHoverForma={(forma) =>
+									(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
+							/>
+						</div>
+						<DiagramExportControls
+							target={slopeExportTarget}
+							meta={exportMeta('Cómo cambia cada forma', 'evolucion-de-formas')}
 						/>
 					{/if}
 				</div>
@@ -757,7 +825,9 @@
 						</p>
 						<!-- La tabla cabe al lado: el gráfico se lee de un vistazo y ella da la cifra. -->
 						<div class="grid items-start gap-6 md:grid-cols-[minmax(0,30rem)_minmax(0,1fr)]">
-							<MetricTraditionSplit puntos={repartoDeTradiciones} />
+							<div bind:this={traditionExportTarget}>
+								<MetricTraditionSplit puntos={repartoDeTradiciones} />
+							</div>
 							<table class="w-full text-sm">
 								<thead>
 									<tr class="border-b border-[color:var(--border)] text-left text-xs uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
@@ -781,6 +851,10 @@
 								</tbody>
 							</table>
 						</div>
+						<DiagramExportControls
+							target={traditionExportTarget}
+							meta={exportMeta('Españolas e italianas', 'tradiciones-por-jornada', traditionLegend)}
+						/>
 					</div>
 				{/if}
 			</section>
@@ -833,6 +907,8 @@
 		total={secuenciasOrdenadas.length}
 		canPrev={selectedSequenceIndex > 0}
 		canNext={selectedSequenceIndex >= 0 && selectedSequenceIndex < secuenciasOrdenadas.length - 1}
+		previousLabel={previousSequenceLabel}
+		nextLabel={nextSequenceLabel}
 		onClose={closeSequenceModal}
 		onPrev={openPrevSequence}
 		onNext={openNextSequence}

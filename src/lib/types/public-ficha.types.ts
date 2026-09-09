@@ -54,32 +54,61 @@ export interface PublicFichaCaracterizacionRango {
 	observaciones: string | null;
 }
 
-/**
- * Un esquema de rima de la tirada, con cuántas estrofas lo llevan.
- *
- * No es un rango: el esquema se responde una vez por estrofa, así que lo que dice algo es el
- * reparto —«abrazada 64, cruzada 14»— y no dónde cae cada una.
- */
-export interface PublicFichaSubtipoEstrofa {
-	subtipo_estrofa_id: string;
-	subtipo_estrofa_term: string;
+/** Dónde se respondió algo dentro de la realización material de la arquitectura. */
+export interface PublicFichaRespuestaMetricaContexto {
+	eleccion_id: string;
+	realizacion_id: string | null;
+	realizacion_padre_id: string | null;
+	realizacion_orden: number | null;
+	realizacion_v_ini: number | null;
+	realizacion_v_fin: number | null;
+	/** Sección que la realización materializa; no es la sección tratada por la pregunta. */
+	realizacion_seccion_id: string | null;
+	realizacion_seccion_nombre: string | null;
+	realizacion_seccion_tipo: string | null;
+	realizacion_seccion_orden: number | null;
+	realizacion_seccion_repeticiones_min: number | null;
+	realizacion_seccion_repeticiones_max: number | null;
+	realizacion_seccion_arquitectura_referenciada_id: string | null;
+	observaciones: string | null;
+}
+
+/** Contexto adicional cuando la respuesta trata una sección concreta de la arquitectura. */
+export interface PublicFichaRespuestaMetricaSeccion extends PublicFichaRespuestaMetricaContexto {
+	seccion_id: string | null;
+	seccion_nombre: string | null;
+	seccion_orden: number | null;
+}
+
+/** Una respuesta de esquema de rima, sin desligarla de su realización ni de su sección. */
+export interface PublicFichaEsquemaRima extends PublicFichaRespuestaMetricaSeccion {
+	esquema_rima_id: string | null;
+	nombre: string | null;
 	notacion: string | null;
-	unidades: number;
+	posicion_unidad: number | null;
 }
 
 /** Un rasgo observado en la tirada: la asonancia del romance, la densidad de rima de la silva. */
-export interface PublicFichaRasgo {
+export interface PublicFichaRasgo extends PublicFichaRespuestaMetricaSeccion {
 	rasgo_slug: string;
-	rasgo_term: string;
+	rasgo_nombre: string;
 	valor_slug: string;
-	valor_term: string;
+	valor_nombre: string;
 }
 
 /** La medida de los versos tal como se respondió, con cuántas estrofas la llevan. */
-export interface PublicFichaMetro {
+export interface PublicFichaMetro extends PublicFichaRespuestaMetricaSeccion {
+	metro_id: string;
 	metro_slug: string;
-	metro_term: string;
-	unidades: number;
+	metro_nombre: string;
+	posicion_unidad: number | null;
+}
+
+/** Una variedad que empareja medida y rima dentro de una arquitectura. */
+export interface PublicFichaVariedad extends PublicFichaRespuestaMetricaContexto {
+	variedad_id: string;
+	variedad_slug: string;
+	variedad_nombre: string;
 }
 
 /** Lo que se aparta de la norma: la laguna, el verso corto, la rima fuera del repertorio. */
@@ -96,12 +125,14 @@ export interface PublicFichaSecuencia {
 	v_ini: number;
 	v_fin: number;
 	n_versos: number;
-	estrofa_tipo_id: string | null;
-	estrofa_tipo_term: string;
-	estrofa_forma_term: string;
+	forma_nombre: string;
 	/** Slug crudo de la forma raíz (clave estable de color, sin etiqueta). */
-	estrofa_forma_slug: string | null;
-	estrofa_tipo_forma: string | null;
+	forma_slug: string | null;
+	tipo_forma: string | null;
+	arquitectura_id: string | null;
+	arquitectura_slug: string | null;
+	arquitectura_nombre: string;
+	nivel_estructural: string | null;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean | null;
 	intervencion_personajes_femeninos: string | null;
@@ -116,9 +147,10 @@ export interface PublicFichaSecuencia {
 	/** La tirada sigue sonando después del cambio de cuadro. */
 	cuadro_continua: boolean | null;
 	caracterizaciones_rango: PublicFichaCaracterizacionRango[];
-	subtipos_estrofa: PublicFichaSubtipoEstrofa[];
+	esquemas_rima: PublicFichaEsquemaRima[];
 	rasgos: PublicFichaRasgo[];
 	metros: PublicFichaMetro[];
+	variedades: PublicFichaVariedad[];
 	desviaciones: PublicFichaDesviacion[];
 }
 
@@ -127,12 +159,13 @@ export interface PublicFichaSinopsisMetricaSecuencia {
 	v_ini: number;
 	v_fin: number;
 	n_versos: number | null;
-	estrofa_tipo_id: string | null;
-	estrofa_tipo_term: string;
+	arquitectura_id: string | null;
+	arquitectura_nombre: string;
+	forma_nombre: string;
 	/** Slug crudo de la forma raíz (clave estable de color, sin etiqueta). */
-	estrofa_forma_slug: string | null;
+	forma_slug: string | null;
 	/** tipo_forma de la forma raíz: 'forma_espanola' | 'forma_italiana'. */
-	estrofa_tipo_forma: string | null;
+	tipo_forma: string | null;
 	sinopsis: string | null;
 }
 

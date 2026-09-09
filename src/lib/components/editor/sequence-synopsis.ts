@@ -19,6 +19,13 @@ export type SequenceSynopsisSequenceLike = {
 	v_ini: number;
 	v_fin: number;
 	n_versos?: number | null;
+	/** Contrato público actual. */
+	arquitectura_id?: string | null;
+	arquitectura_nombre?: string | null;
+	forma_nombre?: string | null;
+	forma_slug?: string | null;
+	tipo_forma?: string | null;
+	/** Contrato del editor y del corpus legado. */
 	estrofa_tipo_id?: string | null;
 	estrofa_tipo_term?: string | null;
 	/** Etiqueta de la forma raíz, que es la que nombra el pasaje. */
@@ -176,7 +183,9 @@ function mapResolvedSequenceToCard(
 	// encadenado conserva los dos escalones de antes porque en el dashboard las secuencias no
 	// siempre traen la forma resuelta.
 	const estrofaLabel =
+		item.sequence.forma_nombre ??
 		item.sequence.estrofa_forma_term ??
+		item.sequence.arquitectura_nombre ??
 		item.sequence.estrofa_tipo_term ??
 		estrofaById.get(item.sequence.estrofa_tipo_id ?? '') ??
 		'Sin estrofa';
@@ -214,6 +223,9 @@ function resolveFormaRaiz(
 	sequence: SequenceSynopsisSequenceLike,
 	estrofaOptionById: Map<string, EstrofaOption>
 ): { slug: string | null; tipoForma: string | null } {
+	if (sequence.forma_slug) {
+		return { slug: sequence.forma_slug, tipoForma: sequence.tipo_forma ?? null };
+	}
 	if (sequence.estrofa_forma_slug) {
 		return {
 			slug: sequence.estrofa_forma_slug,

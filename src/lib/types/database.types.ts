@@ -3852,6 +3852,10 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
+      get_portada_publica: {
+        Args: { p_obra_destacada_id: string }
+        Returns: Json
+      }
       guardar_anotacion_metrica: { Args: { p_datos: Json }; Returns: string }
       marcar_arquitectura_metrica_principal: {
         Args: { p_arquitectura_id: string }

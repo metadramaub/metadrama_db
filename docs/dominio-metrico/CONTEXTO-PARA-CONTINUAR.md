@@ -19,8 +19,7 @@ queda por hacer y enlaza la documentación detallada.
 > 263 secuencias que aún hablan el vocabulario legado.
 >
 > **Si vienes a trabajar en la ficha o en el buscador, empieza por
-> [el mapa de la precomputación](../mapa-precomputacion.md)**, que dice dato a dato dónde vive cada
-> cosa hoy.
+> [el informe automático de la precomputación](../mapa-precomputacion.md).**
 
 ## Estado actual
 
@@ -707,27 +706,7 @@ que es cuando se puede mover un campo sin que nadie guarde a mitad.
 
 ### La precomputación y la ficha
 
-**Hecha el 7 de septiembre de 2026.** El perfil métrico lee ya el catálogo nuevo, y no queda una
-sola referencia al vocabulario legado en el recompute. Lo que había era el mismo join escrito seis
-veces —`secuencias_metricas → vocabularios` por `estrofa_tipo_id`—, y ahora hay un solo sitio:
-`formas_de_la_obra(obra)`, que dice qué forma, qué arquitectura y qué tradición realiza cada
-secuencia. De ella leen el recompute de la obra y los dos ayudantes del perfil de autor;
-`recompute_autor_resumen` no hubo que tocarlo.
-
-**Se sustituyó sin puente, y eso tiene consecuencia:** las 92 obras del corpus se quedan **sin
-perfil** hasta que se migren obra por obra. Los agregados degradan a vacío y no revientan —la guarda
-lo comprueba ejecutando el recompute sobre una obra de cada clase—, y el barcode conserva sus tramos
-porque ahí lo que se dibuja es el pasaje.
-
-Tres decisiones que se ven en la pantalla pública, explicadas en
-[la metodología](../metodologia-perfil-metrico.md), que es el documento canónico: el color del
-barcode sale de la tradición conservando los literales que la interfaz ya usaba; los metros son **la
-unión** de lo que la arquitectura fija y lo que la anotación responde, porque la medida de una forma
-isosilábica no se pregunta; y los subtipos pasan a ser los esquemas de rima elegidos.
-
-**Lo que queda de este frente** es el buscador: sus filtros se arman con los slugs del vocabulario
-legado, así que hasta que se migren las obras filtrarán sobre nombres que ya no aparecen en ningún
-resumen.
+[Informe automático de la precomputación](../mapa-precomputacion.md).
 
 #### Doce obras de prueba, y por qué hicieron falta
 
@@ -779,25 +758,7 @@ un hipométrico, un hipermétrico, una rima fuera del repertorio y un rasgo que 
 calcula y dibuja; **no sirven para validar un hallazgo**, porque los patrones que se encuentren
 serán los del generador y no los de Lope.
 
-#### El mapa de la precomputación, y lo que queda por hacer
-
-**Levantado el 8 de septiembre de 2026** y guardado en
-[docs/mapa-precomputacion.md](../mapa-precomputacion.md): qué se guarda, qué se calcula en vivo, qué
-llega a la ficha y qué está anotado sin salir por ningún lado. De él salieron tres fallos, ya
-corregidos:
-
-- **Una secuencia pertenece al cuadro donde empieza.** Se exigía que cupiera entera, y como el
-  tablado se vacía muchas veces en mitad de una tirada —el 31 % de los cambios de cuadro de *Fuente
-  Ovejuna* y de *Peribáñez* caen ahí—, esas secuencias salían sin cuadro. Que la tirada siga sonando
-  después del corte va ahora en `cuadro_continua`, porque es un dato que medir y no un estorbo.
-- **Los esquemas de una tirada se cuentan, no se enumeran.** Llegaba una entrada por estrofa y el
-  código de barras se llenaba de rayas.
-- **`pct_cantado` guardaba una fracción** y se llama porcentaje.
-
-Y con ellos entraron en la ficha **los rasgos, los metros y las desviaciones**, que estaban
-anotados y no llegaban a ninguna pantalla: solo de asonancias había cincuenta y siete.
-
-##### El plan pactado, en cinco pasos
+#### El plan pactado, en cinco pasos
 
 Nace de una decisión del proyecto tomada el 8 de septiembre: **la ficha lee la base en vivo solo
 para las obras en vista previa; si está publicada, todo lo que la hace visible está precomputado.**
@@ -829,7 +790,7 @@ donaire o un sobrenatural, no quién canta, y el modelo no se cambia por esto.*
 lee de `obras_resumen.ficha`, en vivo se queda la vista previa, y el buscador se resuelve con una
 sola consulta.
 
-###### Paso 4 · Los agregados, en el navegador
+##### Paso 4 · Los agregados, en el navegador
 
 **Nada de esto vuelve a la base.** Todo sale del JSON que la página ya tiene cargado, así que se
 calcula donde está el dato y no cuesta ni una consulta más.
@@ -842,9 +803,9 @@ que `rejilla.ts`, que es la que ha aguantado bien. Consume un tipo mínimo propi
 
 | medida | de dónde |
 |---|---|
-| perfil por jornada, y la evolución de cada forma | `jornada_num` × `estrofa_forma_slug` × `n_versos` |
-| españolas contra italianas, global y por jornada | `estrofa_tipo_forma` |
-| desglose forma → arquitectura → esquema | `estrofa_tipo_term` y `subtipos_estrofa[].unidades` |
+| perfil por jornada, y la evolución de cada forma | `jornada_num` × `forma_slug` × `n_versos` |
+| españolas contra italianas, global y por jornada | `tipo_forma` |
+| desglose forma → arquitectura → dimensiones observadas | `arquitectura_nombre`, `esquemas_rima`, `rasgos`, `metros` y `variedades` |
 | transiciones entre formas y patrones repetidos | la serie de secuencias en orden |
 | largo de las tiradas: media, máxima, cuántas por forma | `n_versos` |
 | cuántos cambios de cuadro parten una tirada | `cuadro_continua` |
@@ -961,7 +922,7 @@ Y después, el **paso 5**: enseñar lo que ya llega y nadie pinta.
   matriz de transiciones al lado. Va **marcado como calculado**, y con las obras de prueba delante
   no significa nada: sirve para diseñar la pantalla, no para afirmar.
 
-###### Exportar los diagramas en PNG
+##### Exportar los diagramas en PNG
 
 Un utilitario compartido, porque lo van a usar todos los diagramas. Serializa el SVG, lo pinta en
 un lienzo al doble o al triple de tamaño y lo descarga. Dos avisos que son la causa de que esto
@@ -986,7 +947,7 @@ Y sale en **dos versiones**:
 de 2026—, así que el esquema de estructura es el de jornadas y cuadros, como el índice que ya
 enseña la pestaña de secuencias del dashboard.
 
-###### Paso 5 · Enseñar lo que ya llega
+##### Paso 5 · Enseñar lo que ya llega
 
 Nada de esto necesita cálculo ni consulta: **el dato ya viaja en la ficha y no lo pinta nadie**.
 
@@ -1004,7 +965,7 @@ Nada de esto necesita cálculo ni consulta: **el dato ya viaja en la ficha y no 
 *De «quién canta» se enseña lo que se sabe: la secuencia dice si interviene una mujer, un donaire o
 un sobrenatural, no quién canta, y el modelo no se cambia por esto.*
 
-###### Dónde va cada cosa
+##### Dónde va cada cosa
 
 La ficha tiene hoy cuatro pestañas —**Estructura métrica**, **Sinopsis**, **Observaciones**,
 **Bibliografía métrica**— y la primera lleva el código de barras y el reparto de formas. Meterle
@@ -1036,6 +997,81 @@ esquemas y las partes de la unidad encima no hay dónde meterlas. Lo que tiene q
 - **Las partes**, solo cuando la secuencia las tiene —canción, villancico, sextina, terceto
   encadenado—: una lista anidada con sus rangos.
 - Lo que ya está: caracterizaciones por rango, personajes, sinopsis y aclaraciones públicas.
+
+##### Inventario vivo de la ficha pública
+
+Este inventario se mantiene **aquí**, no en una nota de sesión separada. Al cerrar, aplazar o
+reordenar un punto hay que actualizar su estado y el punto de continuación, para que el contexto
+vuelva a ser suficiente por sí solo. Se usa el prefijo `FP-` para no confundirlo con las incidencias
+`F1`, `F2`… del formulario métrico que aparecen antes en este documento.
+
+**Orden decidido el 9 de septiembre de 2026.** **FP-F1, FP-F3, FP-S1–FP-S5 y FP-U3 están
+corregidos**. **FP-F2** se deja expresamente para el final porque los comentarios fuera de secuencia
+no son urgentes. El punto de continuación es revisar visualmente el nuevo modal y después cerrar
+**FP-S6/FP-S7** o pasar al bloque **FP-G**. Las descargas quedan aparcadas.
+
+**Correcciones de datos ya recibidos**
+
+| código | pendiente | estado |
+|---|---|---|
+| **FP-F1** | El contrato entregaba los esquemas con nombres heredados y el detalle de secuencia esperaba un id y rangos antiguos. Debe decir «Esquemas de rima» y mostrar qué realización concreta se está contando. | **hecho**: contrato tipado con el dominio actual; cada respuesta conserva realización y sección, y el detalle recompone y nombra sonetos, estancias, mudanzas, tiradas u otras unidades reales |
+| **FP-F2** | La página solo pinta comentarios con `secuencia_id`; quedan fuera los generales y los ligados a jornada o cuadro. | **para el final** |
+| **FP-F3** | El perfil no es forma → «tipos de estrofa». Debe respetar forma → arquitectura → comportamiento observado de esa arquitectura: tipologías, esquemas, variedades, metros, rasgos u otras dimensiones solo cuando correspondan. En romance, «Octosilábica» es la arquitectura y las vocales de la asonancia son un rasgo suyo. En soneto, la base y el JSON deben conservar por separado las respuestas de Cuartetos y Tercetos, enlazadas con su realización y orden, para que la ficha pueda reconstruir al mostrar `ABBA ABBA CDC DCD` o `ABBA ABBA CDE CDE`. | **hecho**: el JSON conserva las respuestas descompuestas con realización, sección y orden; el perfil y el detalle las recomponen solo para presentarlas. La agrupación sigue el alcance del catálogo: una estancia repetida se cuenta como estancia; las secciones que referencian otra arquitectura se recomponen en su unidad raíz, como las dos quintillas de la copla real |
+
+**Dentro del detalle de cada secuencia**
+
+| código | pendiente |
+|---|---|
+| **FP-S1** | **Hecho**: muestra el metro o los metros y los versos que cubre realmente cada uno. |
+| **FP-S2** | **Hecho**: muestra el reparto de esquemas reconstruido en la escala real de la forma. |
+| **FP-S3** | **Hecho**: muestra los rasgos observados agrupados por dimensión. |
+| **FP-S4** | **Hecho**: muestra las desviaciones con dimensión, relación con la norma, rango y observaciones. |
+| **FP-S5** | **Hecho**: el detalle se ha sustituido entero por una lectura vertical con cabecera identificativa, construcción métrica, lo observado, contexto dramático, sinopsis y aclaraciones; los bloques sin contenido no se crean y el pie permite navegar entre secuencias. La pasada responsive del 9 de septiembre porta el modal al `body`, cubre todo el viewport, limita la lectura de escritorio a 56 rem y jerarquiza la forma como título principal con la arquitectura subordinada en tamaño y tono. El contexto no repite jornada/cuadro: separa `Intervenciones` —donde exclusiva/compartida califican la intervención de cada tipo de personaje— de `Otras caracterizaciones`, con rótulos explicativos para versos repartidos, cambio de espacio y evento sobrenatural. |
+| **FP-S6** | Dar a canto y prosa una presentación legible, conservando rangos y observaciones. |
+| **FP-S7** | **Parcial**: el modal ya distingue `Sin dato` de `No`; queda resolver `No se aplica` a partir de la aplicabilidad definida por el catálogo. |
+
+**Fuera de las secuencias: datos disponibles o calculables**
+
+| código | pendiente |
+|---|---|
+| **FP-G1** | Pintar la ficha técnica que ya se calcula: secuencias, formas distintas, longitud media, tirada más larga, apertura y cierre, versos partidos, espacios inaugurados y secuencias con desviaciones. |
+| **FP-G2** | Mostrar las transiciones entre formas. |
+| **FP-G3** | Detectar patrones métricos repetidos, con umbral decidido y la marca «calculado». |
+| **FP-G4** | Mostrar por forma número de tiradas, versos, longitud media, mínima y máxima. |
+| **FP-G5** | Mostrar cuántos cambios de cuadro coinciden con un cambio de forma y cuántos parten una tirada. |
+| **FP-G6** | Resumir canto y prosa en la obra: versos, porcentaje y formas en que aparecen. |
+| **FP-G7** | Mostrar con qué forma abre y cierra cada jornada. |
+| **FP-G8** | Crear un resumen navegable de espacios inaugurados, versos partidos e intervenciones femeninas, de donaire y sobrenaturales. |
+| **FP-G9** | Mostrar `fuente_fecha` junto a la datación. |
+| **FP-G10** | Decidir si `autor_ficha_email_publico` se muestra, se convierte en contacto o permanece oculto. |
+
+**Datos que aún no llegan al JSON público**
+
+| código | pendiente |
+|---|---|
+| **FP-D1** | Incorporar las partes de la unidad —estancia, fronte, pie, sirima, mudanza, estribillo…— a la precomputación, los tipos y la interfaz. |
+| **FP-D2** | «Quién canta» no está modelado. No se considera un fallo actual: solo se abrirá si se decide un proyecto de datos específico. |
+| **FP-D3** | **Hecho**: se retiraron del contrato público los nombres heredados del modelo anterior y ahora el JSON, los tipos, el informe y la interfaz usan forma, arquitectura y esquemas de rima. La migración está aplicada, las fichas publicadas están regeneradas y el almacenamiento interno legado queda fuera de este cambio. |
+
+**Normalización pendiente del catálogo**
+
+| código | pendiente |
+|---|---|
+| **FP-C1** | Revisar los nombres de las arquitecturas para que concuerden en género y número con su forma cuando se lean como una denominación completa. No es urgente. Mientras tanto, la ficha nunca muestra una arquitectura aislada: usa `Forma: Arquitectura`, por ejemplo, `Soneto: Endecasilábica consonante`. |
+
+**Mejoras de interacción y lectura**
+
+| código | pendiente |
+|---|---|
+| **FP-U1** | Conectar los gráficos de análisis con el filtro o la apertura de las secuencias correspondientes. |
+| **FP-U2** | Crear un índice navegable de secuencias con desviaciones, canto, versos partidos u otros fenómenos excepcionales. |
+| **FP-U3** | **Hecho**: cada cifra explica qué cuenta. Formas y arquitecturas usan versos; los rasgos dicen, por ejemplo, `340 vv. en 4 tiradas`; los esquemas y variedades nombran su alcance real (`sonetos`, `estancias`, `mudanzas`, `tiradas`…); los metros cuentan solo los versos efectivamente cubiertos por sus respuestas, no el total de la secuencia. |
+| **FP-U4** | Revisar los estados vacíos y la cobertura parcial de métrica, jornadas, sinopsis y anotaciones. |
+| **FP-U5** | **Parcial**: ya tiene foco inicial, cierre con `Escape`, restauración del foco, navegación con botones y flechas, cierre de 40 × 40 px con la X centrada y estados perceptibles de hover/activo/foco, disposición de pantalla completa en móvil y revisión visual de escritorio del overlay y los márgenes. Falta la comprobación visual final en móvil y decidir si se añade confinamiento completo del foco. |
+
+**Aparcado:** **FP-P1**, descarga PNG en color, está empezada pero no validada; **FP-P2**, versión
+en blanco y negro para impresión, queda para otro día. Ninguna de las dos forma parte del siguiente
+punto de continuación.
 
 ## Qué queda pendiente
 

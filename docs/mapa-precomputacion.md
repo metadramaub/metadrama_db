@@ -5,7 +5,7 @@
 > no puede saber —para qué sirve cada columna y quién la lee— vive en `scripts/informe-precomputacion.mjs`,
 > y una columna que nadie haya descrito sale marcada como **sin describir**.
 
-Regenerado el 8 de septiembre de 2026.
+Regenerado el 9 de septiembre de 2026.
 
 ## Las tres capas
 
@@ -17,14 +17,10 @@ Regenerado el 8 de septiembre de 2026.
 **2 · Lo precomputado.** `obras_resumen` y `autores_resumen`. Se rehacen al pulsar «Actualizar
 datos públicos» o con `recompute_all()`, y **solo para obras publicadas**.
 
-**3 · La ficha.** `get_obra_ficha_publica_base_without_slugs(obra, include_hidden)` lee hoy las
-tablas crudas en cada visita. Lo pactado el 8 de septiembre de 2026 es que **eso se quede solo para
-la vista previa** y que una obra publicada esté enteramente precomputada; los cinco pasos están en
-[el contexto métrico](dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-plan-pactado-en-cinco-pasos).
-
-Mientras las dos superficies se escriban por separado, **cada medida hay que escribirla dos veces**
-—en `recompute_obra_resumen_metricas` y en la función de ficha— o solo aparece en un sitio. Ese es
-el problema que el paso 1 del plan viene a cerrar.
+**3 · La ficha.** Si la obra está publicada, lee el JSON de `obras_resumen.ficha`; solo la vista
+previa ejecuta la función en vivo. `ficha_publica_json` es la única productora del JSON y el
+recompute guarda su resultado, de modo que la ficha precomputada y la vista previa comparten la
+misma construcción.
 
 ## Cuántas hay
 
@@ -68,6 +64,7 @@ el problema que el paso 1 del plan viene a cerrar.
 | `cuadros_tramos` | jsonb | los cortes de cuadro que se dibujan sobre el barcode | buscador |
 | `ficha` | jsonb | **la ficha pública completa**, tal como la ve un anónimo: la construye `ficha_publica_json` | la ficha de una obra publicada |
 | `tiene_evento_sobrenatural` | boolean | bandera | buscador |
+| `autores` | ARRAY | nombres de autoría preparados para filtrar y presentar | buscador, portada |
 
 ## Qué guarda `autores_resumen`
 
@@ -91,7 +88,7 @@ Ejecutada sobre la obra con más secuencias anotadas.
 
 Bloques: `obra`, `autoria`, `metrica`, `estructura`, `sinopsis_metrica`, `comentarios_publicos`.
 
-Y de cada secuencia: `v_fin`, `v_ini`, `metros`, `rasgos`, `n_versos`, `sinopsis`, `cuadro_id`, `cuadro_num`, `jornada_id`, `jornada_num`, `desviaciones`, `secuencia_id`, `cuadro_continua`, `estrofa_tipo_id`, `versos_partidos`, `inaugura_espacio`, `subtipos_estrofa`, `estrofa_tipo_term`, `estrofa_forma_slug`, `estrofa_forma_term`, `estrofa_tipo_forma`, `evento_sobrenatural`, `caracterizaciones_rango`, `intervencion_figuras_donaire`, `intervencion_personajes_femeninos`, `intervencion_personajes_sobrenaturales`.
+Y de cada secuencia: `v_fin`, `v_ini`, `metros`, `rasgos`, `n_versos`, `sinopsis`, `cuadro_id`, `cuadro_num`, `forma_slug`, `jornada_id`, `tipo_forma`, `variedades`, `jornada_num`, `desviaciones`, `forma_nombre`, `secuencia_id`, `esquemas_rima`, `arquitectura_id`, `cuadro_continua`, `versos_partidos`, `inaugura_espacio`, `arquitectura_slug`, `nivel_estructural`, `arquitectura_nombre`, `evento_sobrenatural`, `caracterizaciones_rango`, `intervencion_figuras_donaire`, `intervencion_personajes_femeninos`, `intervencion_personajes_sobrenaturales`.
 
 ## Lo que se puede registrar, y dónde aparece
 
@@ -102,6 +99,7 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 | Rasgos observados (asonancia, densidad de rima, final acentual) | 182 | — | sí |
 | Metro elegido por unidad | 446 | `metros_presentes` | sí |
 | Esquema de rima elegido por unidad | 5100 | `subtipos_presentes` | sí |
+| Variedad elegida dentro de una arquitectura | 1 | — | sí |
 | Desviaciones (lagunas, hipométricos, rima ajena) | 7 | — | sí |
 | Partes de la unidad (estancia, mudanza, sirima) | 826 | — | **no** |
 | Caracterizaciones por rango (cantado, prosa, evocación) | 241 | `pct_cantado` | sí |
