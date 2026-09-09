@@ -1043,7 +1043,7 @@ paso es el bloque **FP-G**. Las descargas siguen aparcadas.
 | **FP-G3** | Detectar patrones métricos repetidos, con umbral decidido y la marca «calculado». |
 | **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con tiradas, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
 | **FP-G5** | Mostrar cuántos cambios de cuadro coinciden con un cambio de forma y cuántos parten una tirada. |
-| **FP-G6** | Resumir canto y prosa en la obra: versos, porcentaje y formas en que aparecen. |
+| **FP-G6** | **Hecho**: `Análisis` resume canto, prosa y evocación métrica con versos, porcentaje de la obra y formas en que aparecen. Las etiquetas públicas se normalizan y los rangos solapados no duplican versos; el bloque no se crea cuando la obra no contiene ninguno. |
 | **FP-G7** | Mostrar con qué forma abre y cierra cada jornada. |
 | **FP-G8** | Crear un resumen navegable de espacios inaugurados, versos partidos e intervenciones femeninas, de donaire y sobrenaturales. |
 | **FP-G9** | Mostrar `fuente_fecha` junto a la datación. |

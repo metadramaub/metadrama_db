@@ -9,6 +9,7 @@
 	import MetricTraditionSplit from '$lib/components/metrica/MetricTraditionSplit.svelte';
 	import MetricWorkSummary from '$lib/components/metrica/MetricWorkSummary.svelte';
 	import MetricRunTable from '$lib/components/metrica/MetricRunTable.svelte';
+	import MetricEnunciationSummary from '$lib/components/metrica/MetricEnunciationSummary.svelte';
 	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -23,6 +24,7 @@
 	} from '$lib/components/ficha/ficha-metric-adapter';
 	import {
 		SIN_FORMA,
+		caracterizacionesDeLaObra,
 		fichaTecnica,
 		perfilDeFormas,
 		perfilPorJornada,
@@ -339,6 +341,7 @@
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
 	const tecnica = $derived(fichaTecnica(analizables));
 	const tiradas = $derived(tiradasPorForma(analizables));
+	const caracterizacionesEnunciativas = $derived(caracterizacionesDeLaObra(analizables));
 
 	/** El orden de apilado es el del reparto de toda la obra, igual en todas las jornadas. */
 	const ordenDeFormas = $derived(
@@ -865,6 +868,10 @@
 
 				{#if tiradas.length > 0}
 					<MetricRunTable rows={tiradas} colorByForma={colorByForma} />
+				{/if}
+
+				{#if caracterizacionesEnunciativas.length > 0}
+					<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
 				{/if}
 			</section>
 		{/if}
