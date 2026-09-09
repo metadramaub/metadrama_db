@@ -83,27 +83,29 @@
 					{@const banda = bandaDe(entrada)}
 					<tr class="metric-scheme__fila">
 						{#if hayBanda}
-							<!-- **La banda dice dónde cae el corte, no solo que cayó.** Cuando un cuadro abre en
-							     mitad de una tirada, el tramo se parte en la proporción de esa fila: es un
-							     porcentaje de su propia altura, así que da igual lo que la fila mida. Entre filas
-							     no hay escala de versos, ni debe haberla. -->
-							<td class="metric-scheme__banda-celda">
-								<span class="metric-scheme__banda">
+							<!-- **El cuadro se dice con palabras y se sitúa con una raya.** Un número de diez
+							     píxeles pegado a la banda de color no se lee: se lee «Cuadro 3». La raya de la
+							     derecha marca dónde cae el corte cuando cae en mitad de la tirada, que es lo
+							     único que el texto no puede decir por sí solo. -->
+							<td class="metric-scheme__cuadro-celda">
+								{#each banda.filter((t) => t.abre && t.numero !== null) as tramo (tramo.numero)}
+									<!-- **La etiqueta va a la altura del corte.** Puesta arriba de la fila caía
+									     dentro del cuadro anterior, que es lo contrario de lo que dice. -->
+									<span class="metric-scheme__cuadro-texto" style={`top:${tramo.desde * 100}%`}>
+										<span class="metric-scheme__cuadro-nombre">Cuadro {tramo.numero}</span>
+										{#if tramo.verso !== null && tramo.verso !== entrada.v_ini}
+											<span class="metric-scheme__cuadro-verso">desde el v. {tramo.verso}</span>
+										{/if}
+									</span>
+								{/each}
+								<span class="metric-scheme__regla">
 									{#each banda as tramo, i (i)}
 										<span
-											class="metric-scheme__banda-tramo"
+											class="metric-scheme__regla-tramo"
 											class:abre={tramo.abre}
+											class:suelto={tramo.numero === null}
 											style={`top:${tramo.desde * 100}%;height:${tramo.alto * 100}%`}
-											title={tramo.numero === null
-												? 'Fuera de cuadro'
-												: tramo.abre
-													? `Cuadro ${tramo.numero}, desde el v. ${tramo.verso}`
-													: `Cuadro ${tramo.numero}`}
-										>
-											{#if tramo.abre && tramo.numero !== null}
-												<span class="metric-scheme__banda-num">{tramo.numero}</span>
-											{/if}
-										</span>
+										></span>
 									{/each}
 								</span>
 							</td>
@@ -231,42 +233,77 @@
 		font-variant-numeric: tabular-nums;
 	}
 
-	/* La banda no lleva borde inferior: es lo que la hace continua de fila a fila. */
-	.metric-scheme__banda-celda {
-		width: 1.5rem;
-		padding: 0 0.5rem 0 0;
+	/* La columna del cuadro no lleva borde inferior: es lo que hace continua la raya. */
+	.metric-scheme__cuadro-celda {
+		position: relative;
+		/* `width: 1%` con `nowrap` es lo que hace que una columna ocupe **lo que mide su texto**:
+		   con un ancho fijo, la columna del detalle —que va al 100 %— la estrujaba y «Cuadro»
+		   partía en dos líneas. */
+		width: 1%;
+		/* La etiqueta va posicionada en absoluto, así que **ya no da ancho a la columna**: hay que
+		   reservarlo aquí o el texto se sale por la izquierda. */
+		min-width: 8.5rem;
+		white-space: nowrap;
+		padding: 0.3rem 1.6rem 0.3rem 0;
+		vertical-align: top;
 		border-bottom: 0 !important;
 	}
 
-	.metric-scheme__banda {
-		position: relative;
-		display: block;
-		width: 100%;
-		height: 100%;
-		min-height: 1.6rem;
+	.metric-scheme__cuadro-texto {
+		position: absolute;
+		right: 1.6rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.05rem;
+		text-align: right;
+		white-space: nowrap;
 	}
 
-	.metric-scheme__banda-tramo {
+	.metric-scheme__cuadro-nombre {
+		font-size: 0.6875rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.metric-scheme__cuadro-verso {
+		font-size: 0.6875rem;
+		color: var(--muted-foreground);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* La raya vive en el borde derecho de la columna y va de fila en fila sin cortarse. */
+	/* La raya va **separada de la banda de color**: pegadas parecían dos bandas de lo mismo. */
+	.metric-scheme__regla {
+		position: absolute;
+		top: 0;
+		right: 0.8rem;
+		bottom: 0;
+		width: 1px;
+	}
+
+	/* **La línea es la misma en todo el recorrido del cuadro.** Antes solo se oscurecía el trozo
+	   donde abría, así que se leía como una raya suelta en vez de como algo que cubre todas esas
+	   secuencias. Lo que marca el corte es el travesaño, no el tono. */
+	.metric-scheme__regla-tramo {
 		position: absolute;
 		left: 0;
 		width: 100%;
-		border-left: 3px solid var(--border);
+		background: var(--gray-800, currentColor);
 	}
 
-	/* Donde abre un cuadro, la línea se refuerza y se pone su número: el corte se ve caer
-	   exactamente donde cae, aunque sea en mitad de la fila. */
-	.metric-scheme__banda-tramo.abre {
-		border-left-color: var(--gray-800, currentColor);
-		border-top: 1px solid var(--gray-800, currentColor);
+	/* Un pasaje fuera de todo cuadro no lleva línea. */
+	.metric-scheme__regla-tramo.suelto {
+		background: transparent;
 	}
 
-	.metric-scheme__banda-num {
+	.metric-scheme__regla-tramo.abre::before {
+		content: '';
 		position: absolute;
 		top: 0;
-		left: 5px;
-		font-size: 0.625rem;
-		font-weight: 600;
-		line-height: 1;
-		color: var(--muted-foreground);
+		left: -3px;
+		width: 7px;
+		height: 1px;
+		background: var(--gray-800, currentColor);
 	}
 </style>

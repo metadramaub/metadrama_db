@@ -101,33 +101,48 @@
 		     dentro de una. Aquí se pinta a su altura real, que es un porcentaje de la propia
 		     tarjeta y por eso vale igual con una sinopsis larga que con una vacía. -->
 		{#if item.card.banda.length > 0}
-			<span class="relative w-6 shrink-0">
+			<span class="relative w-32 shrink-0 pr-4">
+				<!-- **El cuadro se dice con palabras y se sitúa con una raya**, como en el esquema métrico.
+				     La etiqueta va **a la altura del corte** y no arriba de la tarjeta, que es donde caía
+				     antes: puesta arriba quedaba dentro del cuadro anterior. Y la raya es la misma en todo
+				     el recorrido del cuadro, para que se lea que cubre todas esas secuencias; lo que marca
+				     el corte es el travesaño. -->
 				{#each item.card.banda as tramo, i (i)}
-					<span
-						class="absolute left-0 w-full border-l-[3px] border-[color:var(--border)]"
-						class:!border-l-[color:var(--gray-800)]={tramo.abre}
-						class:border-t={tramo.abre}
-						class:border-t-[color:var(--gray-800)]={tramo.abre}
-						style={`top:${tramo.desde * 100}%;height:${tramo.alto * 100}%`}
-						title={tramo.numero === null
-							? 'Fuera de cuadro'
-							: tramo.abre
+					{#if tramo.numero !== null}
+						<span
+							class="absolute right-1 w-px bg-[color:var(--gray-800)]"
+							style={`top:${tramo.desde * 100}%;height:${tramo.alto * 100}%`}
+							title={tramo.abre
 								? `Cuadro ${tramo.numero}, desde el v. ${tramo.verso}`
 								: `Cuadro ${tramo.numero}`}
-					>
-						{#if tramo.abre && tramo.numero !== null}
-							<span
-								class="absolute left-[5px] top-0 text-[0.625rem] font-semibold leading-none text-[color:var(--muted-foreground)]"
-							>
-								{tramo.numero}
+						>
+							{#if tramo.abre}
+								<span class="absolute -left-[3px] top-0 h-px w-[7px] bg-[color:var(--gray-800)]"></span>
+							{/if}
+						</span>
+					{/if}
+					{#if tramo.abre && tramo.numero !== null}
+						<span
+							class="absolute right-4 flex flex-col items-end gap-[1px] whitespace-nowrap text-right"
+							style={`top:${tramo.desde * 100}%`}
+						>
+							<span class="text-[0.6875rem] font-semibold uppercase tracking-[0.06em]">
+								Cuadro {tramo.numero}
 							</span>
-						{/if}
-					</span>
+							{#if tramo.verso !== null && tramo.verso !== item.card.vIni}
+								<span class="text-[0.6875rem] tabular-nums text-[color:var(--muted-foreground)]">
+									desde el v. {tramo.verso}
+								</span>
+							{/if}
+						</span>
+					{/if}
 				{/each}
 			</span>
 		{/if}
+		<!-- La banda de color va gruesa: es lo que identifica la forma de un vistazo, y a dos
+		     píxeles no se distinguía un azul de otro. -->
 		<article
-			class={`min-w-0 flex-1 border-l-2 py-4 pl-4 ${
+			class={`min-w-0 flex-1 border-l-[6px] py-4 pl-4 ${
 				borderColor
 					? item.card.hasSynopsis
 						? ''
@@ -150,24 +165,6 @@
 					{/if}
 				</div>
 
-				{#if item.card.spansMultipleCuadros}
-					<div class="border-l-2 border-dashed border-[color:var(--border)] bg-white/70 px-3 py-1.5 text-xs text-[color:var(--muted-foreground)]">
-						<div class="flex flex-wrap items-center gap-2">
-							<span class="font-semibold uppercase tracking-[0.08em]">Cambia</span>
-						{#if item.card.tramos[0]}
-							<span>{cuadroShortLabel(item.card.tramos[0].cuadroNum)} {tramoEndText(item.card.tramos[0].vFin)}</span>
-						{/if}
-						{#if item.card.tramos[1]}
-							<span>{tramoStartText(item.card.tramos[1].vIni)}, {cuadroShortLabel(item.card.tramos[1].cuadroNum)}</span>
-						{/if}
-						{#if item.card.tramos.length > 2}
-							{#each item.card.tramos.slice(2) as tramo}
-								<span>{cuadroShortLabel(tramo.cuadroNum)} / {tramo.vIni}-{tramo.vFin}</span>
-							{/each}
-						{/if}
-						</div>
-					</div>
-				{/if}
 			</header>
 
 			<div class="mt-3 px-3">
