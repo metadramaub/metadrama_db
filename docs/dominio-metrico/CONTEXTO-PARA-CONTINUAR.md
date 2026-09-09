@@ -927,8 +927,28 @@ El lenguaje gráfico fija además:
   `preserveAspectRatio="none"`, que estira el texto junto con las barras. Y las etiquetas van dentro
   del SVG a propósito, para que viajen con él al exportarlo a PNG.
 
-**Del paso 4 quedan dos cosas**: la **exportación en PNG** con sus dos versiones, y el **detalle de
-una secuencia**, que se rehace entero.
+**Dos cosas más que salieron de mirarlo en pantalla, y que valen para cualquier gráfico que venga:**
+
+- **Colocar etiquetas sin que se pisen tiene tres versiones y solo la tercera funciona.** Separarlas
+  hacia abajo evita el solape pero la pila se sale por el suelo; subir la pila entera saca la de
+  arriba por el techo —así desapareció la etiqueta de la redondilla, la que más pesa—. Lo que
+  funciona son **dos pasadas**, una hacia abajo separando y otra hacia arriba desde la última, con
+  tope en cada extremo.
+- **Cada gráfico lleva una línea que dice qué pregunta contesta, no cómo está dibujado.** Describir
+  el dibujo sobra cuando el dibujo está delante —esa es la regla de redacción de antes—, pero saber
+  qué se está mirando no sobra para quien no viene del oficio. Ahí se explican también las
+  convenciones propias: el círculo hueco, las líneas de jornada.
+
+**Del paso 4 quedan dos cosas**, en este orden:
+
+1. **La exportación en PNG**, con sus dos versiones —color con leyenda, y grises con trama y los
+   nombres fuera en diagonal— y su pie con marca. Los dos avisos técnicos, arriba en este mismo
+   plan: las variables CSS y la tipografía no sobreviven a `XMLSerializer`. Las etiquetas de los
+   gráficos se pusieron **dentro del SVG** precisamente para esto.
+2. **El detalle de una secuencia**, que **se rehace entero** y no se parchea: hoy es un cajón donde
+   las cosas se fueron poniendo según llegaban. Lo que tiene que caber está unas líneas más abajo.
+
+Y después, el **paso 5**: enseñar lo que ya llega y nadie pinta.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
 - Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
