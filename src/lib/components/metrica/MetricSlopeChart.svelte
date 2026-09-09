@@ -68,14 +68,19 @@
 	/**
 	 * Dónde se rotula cada forma: en su extremo derecho, apartándolas si se solapan.
 	 *
-	 * Sin esto, cuatro formas del 2 % se escriben una encima de otra y no se lee ninguna. Y con
-	 * esto solo, **la pila se sale por abajo**: seis formas pequeñas empujadas hacia abajo acaban
-	 * escribiéndose encima del nombre de la jornada. Por eso, después de separarlas, la pila entera
-	 * se sube lo que se haya pasado.
+	 * Sin separarlas, cuatro formas del 2 % se escriben una encima de otra. Separándolas solo hacia
+	 * abajo, la pila se sale por el suelo. Y subiendo la pila entera cuando eso pasa, **la de arriba
+	 * se sale por el techo**: así desapareció la etiqueta de la redondilla, que es la que más pesa.
+	 *
+	 * Lo que funciona son dos pasadas: una hacia abajo separando, otra hacia arriba desde la última
+	 * empujando lo que se haya salido, y un tope en cada extremo. Es lo mismo que hace cualquier
+	 * colocador de etiquetas, y no se descubre hasta que una se pierde.
 	 */
 	const etiquetas = $derived.by(() => {
 		const ALTO_LINEA = 15;
+		const TECHO = MARGEN_SUP + 6;
 		const SUELO = MARGEN_SUP + ALTO_UTIL;
+
 		const puestas = props.series
 			.map((serie: MetricSlopeSeries) => ({
 				serie,
@@ -84,15 +89,13 @@
 			}))
 			.sort((a: { y: number }, b: { y: number }) => a.y - b.y);
 
-		let ultima = -Infinity;
-		for (const puesta of puestas) {
-			puesta.y = Math.max(puesta.y, ultima + ALTO_LINEA);
-			ultima = puesta.y;
+		for (let i = 0; i < puestas.length; i += 1) {
+			const minimo = i === 0 ? TECHO : puestas[i - 1].y + ALTO_LINEA;
+			puestas[i].y = Math.max(puestas[i].y, minimo);
 		}
-
-		const sobra = ultima - SUELO;
-		if (sobra > 0) {
-			for (const puesta of puestas) puesta.y -= sobra;
+		for (let i = puestas.length - 1; i >= 0; i -= 1) {
+			const maximo = i === puestas.length - 1 ? SUELO : puestas[i + 1].y - ALTO_LINEA;
+			puestas[i].y = Math.min(puestas[i].y, maximo);
 		}
 		return puestas;
 	});
