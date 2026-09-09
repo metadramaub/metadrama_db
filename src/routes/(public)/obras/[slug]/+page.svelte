@@ -4,7 +4,9 @@
 	import CiteWorkButton from '$lib/components/ficha/CiteWorkButton.svelte';
 	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
 	import MetricScheme from '$lib/components/metrica/MetricScheme.svelte';
-	import MetricEvolutionChart from '$lib/components/metrica/MetricEvolutionChart.svelte';
+	import MetricFormStrips from '$lib/components/metrica/MetricFormStrips.svelte';
+	import MetricSlopeChart from '$lib/components/metrica/MetricSlopeChart.svelte';
+	import MetricTraditionSplit from '$lib/components/metrica/MetricTraditionSplit.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
@@ -17,6 +19,7 @@
 		secuenciasToSchemeEntries
 	} from '$lib/components/ficha/ficha-metric-adapter';
 	import {
+		SIN_FORMA,
 		fichaTecnica,
 		perfilDeFormas,
 		perfilPorJornada,
@@ -327,7 +330,46 @@
 			valores: jornada.formas.map((forma) => ({ colorKey: forma.colorKey, versos: forma.versos }))
 		}))
 	);
+
+	/** Cada forma con las tiradas que tiene, para ver dónde se concentra. */
+	const franjas = $derived(
+		perfilDeFormas(analizables).map((peso) => ({
+			forma: peso.forma,
+			colorKey: peso.colorKey,
+			porcentaje: peso.porcentaje,
+			tiradas: analizables
+				.filter((s) => (s.forma_slug ?? SIN_FORMA) === peso.colorKey)
+				.map((s) => ({ v_ini: s.v_ini, v_fin: s.v_fin }))
+		}))
+	);
 	const tradiciones = $derived(tradicionesPorJornada(analizables));
+
+	const momentos = $derived(evolucion.map((serie) => serie.etiqueta));
+
+	/**
+	 * Cada forma seguida jornada a jornada, en porcentaje de esa jornada.
+	 *
+	 * **Un cero es un dato**: quiere decir que la forma no está en esa jornada, y que aparezca en la
+	 * siguiente es una de las tres cosas que el gráfico viene a contestar.
+	 */
+	const pendientes = $derived(
+		ordenDeFormas.map(({ forma, colorKey }) => ({
+			forma,
+			colorKey,
+			valores: perfilPorJornada(analizables).map(
+				(jornada) => jornada.formas.find((f) => f.colorKey === colorKey)?.porcentaje ?? 0
+			)
+		}))
+	);
+
+	const repartoDeTradiciones = $derived(
+		tradiciones.map((fila) => ({
+			momento: `Jornada ${fila.jornada}`,
+			espanola: fila.espanola.porcentaje,
+			italiana: fila.italiana.porcentaje,
+			sinTradicion: fila.sinTradicion.porcentaje
+		}))
+	);
 
 	/** Las jornadas con sus cuadros dentro, que es como se lee una comedia. */
 	const estructuraJornadas = $derived(
@@ -667,15 +709,28 @@
 		{#if showMetrica}
 			<section class="space-y-8">
 				<div class="space-y-3">
-					<h2 class="text-lg font-semibold">Evolución por jornadas</h2>
-					{#if evolucion.length === 0}
+					<h2 class="text-lg font-semibold">Dónde cae cada forma</h2>
+					<MetricFormStrips
+						filas={franjas}
+						totalVersos={totalVersos}
+						colorByForma={colorByForma}
+						jornadas={jornadas.map((jornada) => jornada.v_ini)}
+						resaltada={hoveredForma?.forma ?? null}
+						onHoverForma={(forma) =>
+							(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
+					/>
+				</div>
+
+				<div class="space-y-3">
+					<h2 class="text-lg font-semibold">Cómo cambia cada forma</h2>
+					{#if momentos.length < 2}
 						<p class="text-sm text-[color:var(--muted-foreground)]">
-							Esta obra no tiene jornadas con secuencias anotadas.
+							Hace falta más de una jornada anotada para poder comparar.
 						</p>
 					{:else}
-						<MetricEvolutionChart
-							series={evolucion}
-							orden={ordenDeFormas}
+						<MetricSlopeChart
+							momentos={momentos}
+							series={pendientes}
 							colorByForma={colorByForma}
 							resaltada={hoveredForma?.forma ?? null}
 							onHoverForma={(forma) =>
@@ -687,6 +742,9 @@
 				{#if tradiciones.length > 0}
 					<div class="space-y-3">
 						<h2 class="text-lg font-semibold">Españolas e italianas</h2>
+						{#if repartoDeTradiciones.length > 0}
+							<MetricTraditionSplit puntos={repartoDeTradiciones} />
+						{/if}
 						<table class="w-full text-sm">
 							<thead>
 								<tr class="border-b border-[color:var(--border)] text-left text-xs uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">

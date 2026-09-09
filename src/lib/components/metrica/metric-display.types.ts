@@ -76,6 +76,27 @@ export interface MetricEvolutionSeries {
 	valores: { colorKey: string; versos: number }[];
 }
 
+/**
+ * Una forma seguida a lo largo de varios momentos, para el gráfico de pendientes.
+ *
+ * `valores` lleva un número por momento, en el mismo orden. **Un cero es un dato**: quiere decir
+ * que la forma no aparece en esa jornada, y que aparezca en la siguiente es de lo que el gráfico
+ * viene a informar.
+ */
+export interface MetricSlopeSeries {
+	forma: string;
+	colorKey: string;
+	valores: (number | null)[];
+}
+
+/** Una forma con las tiradas que tiene a lo largo de la obra, para las franjas. */
+export interface MetricStripRow {
+	forma: string;
+	colorKey: string;
+	porcentaje: number;
+	tiradas: { v_ini: number; v_fin: number }[];
+}
+
 /** Una porción de la distribución de formas (para el pie). */
 export interface MetricDistributionSlice {
 	/** Texto visible de la forma (p.ej. la etiqueta de la forma raíz). */
