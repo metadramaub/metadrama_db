@@ -1005,14 +1005,14 @@ reordenar un punto hay que actualizar su estado y el punto de continuación, par
 vuelva a ser suficiente por sí solo. Se usa el prefijo `FP-` para no confundirlo con las incidencias
 `F1`, `F2`… del formulario métrico que aparecen antes en este documento.
 
-**Estado consolidado el 9 de septiembre de 2026**, después de los commits `67a432f` y `d1ca520`.
-**FP-F1, FP-F3, FP-S1–FP-S5, FP-D1, FP-D3 y FP-U3 están corregidos**. El núcleo del detalle de
-secuencia está terminado, pero el bloque **FP-S no está cerrado formalmente**: **FP-S6** espera un
-ejemplo publicado de canto o prosa con el que diseñar y validar su presentación, y **FP-S7** debe
-derivar `No se aplica` de la aplicabilidad declarada por el catálogo. **FP-F2** se mantiene para el
-final porque los comentarios fuera de secuencia no son urgentes. El siguiente paso es resolver
-**FP-S7** y decidir si se deja **FP-S6** en espera para pasar al bloque **FP-G**. Las descargas siguen
-aparcadas.
+**Estado consolidado el 9 de septiembre de 2026**, después de los commits `67a432f`, `d1ca520` y
+`2706816`. **FP-F1, FP-F3, FP-S1–FP-S6, FP-D1, FP-D3 y FP-U3 están corregidos**. El núcleo del
+detalle de secuencia está terminado. **FP-S7 no se implementa mientras no haya un caso real de
+inaplicabilidad**: los atajos de obra `sin_figuras_donaire`, `sin_personajes_sobrenaturales` y
+`sin_eventos_sobrenaturales` escriben «No» en todas sus secuencias, no convierten la pregunta en
+«No se aplica»; y las dimensiones métricas ajenas a una forma sencillamente no se muestran. **FP-F2**
+se mantiene para el final porque los comentarios fuera de secuencia no son urgentes. El siguiente
+paso es el bloque **FP-G**. Las descargas siguen aparcadas.
 
 **Correcciones de datos ya recibidos**
 
@@ -1031,8 +1031,8 @@ aparcadas.
 | **FP-S3** | **Hecho**: muestra los rasgos observados agrupados por dimensión. |
 | **FP-S4** | **Hecho**: muestra las desviaciones con dimensión, relación con la norma, rango y observaciones. |
 | **FP-S5** | **Hecho**: el detalle se ha sustituido entero por una lectura vertical con cabecera identificativa, construcción métrica, lo observado, contexto dramático, sinopsis y aclaraciones; los bloques sin contenido no se crean y el pie permite navegar entre secuencias. La pasada responsive del 9 de septiembre porta el modal al `body`, cubre todo el viewport, limita la lectura de escritorio a 56 rem y jerarquiza la forma como título principal con la arquitectura subordinada en tamaño y tono. El contexto no repite jornada/cuadro: separa `Intervenciones` —donde exclusiva/compartida califican la intervención de cada tipo de personaje— de `Otras caracterizaciones`, con rótulos explicativos para versos repartidos, cambio de espacio y evento sobrenatural. |
-| **FP-S6** | **En espera de datos verificables**: dar a canto y prosa una presentación legible, conservando rangos y observaciones. La consulta de fichas públicas del 9 de septiembre no encontró ninguna secuencia publicada con esas formas; no se cerrará inventando un caso. |
-| **FP-S7** | **Parcial**: el modal ya distingue `Sin dato` de `No`; queda resolver `No se aplica` a partir de la aplicabilidad definida por el catálogo. |
+| **FP-S6** | **Hecho**: canto, prosa y evocación métrica se separan bajo `Enunciación`, con nombres legibles, rango y observaciones. La auditoría inicial era falsa porque buscó los slugs `cantado` y `prosa`, pero la ficha pública entrega las etiquetas `Cantado` y `Prosa`. El 9 de septiembre se contrastaron tabla viva, `ficha_publica_json(...)` y `obras_resumen.ficha`: coinciden los seis rangos de las cuatro obras de prueba publicadas. Se revisaron manualmente los dos casos de *Lo fingido y lo cierto* y los de *El marqués desdichado*, *La monja de Ávila* y *Las batuecas del duque*. |
+| **FP-S7** | **No se implementa por ahora**: el modal distingue `Sin dato` de `No`, pero no hay un caso demostrado que signifique `No se aplica`. Los atajos negativos de la obra rellenan respuestas negativas y no expresan inaplicabilidad. Reabrir solo si aparece un dato cuyo dominio distinga realmente esos tres estados. |
 
 **Fuera de las secuencias: datos disponibles o calculables**
 
