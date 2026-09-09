@@ -869,12 +869,21 @@ cabecera va sobre blanco**, lo demás sobre el fondo de la página; y **todo lo 
 ventana se cierra con Escape**, porque dos ventanas que se cierran distinto se sienten como dos
 aplicaciones.
 
-**Sin resolver: cómo se marca un cuadro que empieza dentro de una tirada.** Pasa en el 31 % de los
-cambios de cuadro, y hoy se resuelve de dos maneras distintas y ninguna convence: la sinopsis usa
-`cuadro_divider` y `cuadro_carryover` según dónde acabara la tarjeta anterior, y el esquema métrico
-pone la etiqueta sobre la primera fila del cuadro nuevo con un aviso. Las dos mienten en lo mismo:
-**el corte no cae en el límite de una fila**, y las dos lo cuentan como si cayera. Hace falta una
-sola solución para las dos superficies.
+**El cuadro que empieza dentro de una tirada se dibuja donde cae** —resuelto el 9 de septiembre de
+2026—. Pasa en el 31 % de los cambios de cuadro, y se resolvía de dos maneras distintas que
+mentían igual: la sinopsis elegía entre `cuadro_divider` y `cuadro_carryover` según dónde hubiera
+acabado la tarjeta anterior, y el esquema ponía la etiqueta sobre la fila siguiente. **El corte no
+cae en el límite de una fila.**
+
+Ahora hay una **banda a la izquierda** en las dos superficies, calculada por
+`src/lib/metrica/banda-de-cuadros.ts` —puro, nueve pruebas—. La objeción que llevó al diseño
+bueno: como cada fila mide lo que mide —una sinopsis larga ocupa el triple que una vacía—, no se
+puede mapear verso a píxel. Y no hace falta: **fuera de la fila partida la banda solo dice qué
+filas cubre cada cuadro, sin escala ninguna**, y la proporción se usa dentro de la fila que el
+corte parte, como porcentaje de su propia altura. Lo resuelve el navegador sin medir nada.
+
+Los dos avisos de la sinopsis se retiran, y con ellos el tipo `cuadro_divider`/`cuadro_carryover`:
+solo quedan tarjetas.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
 - Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
