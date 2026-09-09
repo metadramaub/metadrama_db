@@ -185,6 +185,22 @@ describe('caracterizacionesDeLaObra', () => {
 			{ tipo: 'cantado', versos: 16, porcentaje: 5.33, formas: ['Romance'] }
 		]);
 	});
+
+	it('normaliza las etiquetas públicas y no duplica rangos solapados', () => {
+		const secuencia = {
+			...OBRA[0],
+			caracterizaciones: [
+				{ tipo: 'Cantado', v_ini: 1, v_fin: 4 },
+				{ tipo: 'cantado', v_ini: 3, v_fin: 6 },
+				{ tipo: 'Evocación métrica', v_ini: 8, v_fin: 8 },
+				{ tipo: 'Laguna', v_ini: 9, v_fin: 9 }
+			]
+		};
+		expect(caracterizacionesDeLaObra([secuencia])).toEqual([
+			{ tipo: 'cantado', versos: 6, porcentaje: 6, formas: ['Redondilla'] },
+			{ tipo: 'evocacion_metrica', versos: 1, porcentaje: 1, formas: ['Redondilla'] }
+		]);
+	});
 });
 
 describe('fichaTecnica', () => {
