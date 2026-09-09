@@ -137,6 +137,13 @@
 						</span>
 					{/if}
 				{/each}
+				{#if item.card.banda[item.card.banda.length - 1]?.numero !== null}
+					<!-- **El hueco entre tarjetas también es cuadro.** Las tarjetas van separadas, así que
+					     la línea se partía en cada secuencia y no se leía como una sola: este tramo salta
+					     el hueco. Va en unidades absolutas y no en porcentaje, para no tocar la
+					     proporción con la que se sitúa el corte dentro de la tarjeta. -->
+					<span class="absolute right-1 h-1 w-px bg-[color:var(--gray-800)]" style="top:100%"></span>
+				{/if}
 			</span>
 		{/if}
 		<!-- La banda de color va gruesa: es lo que identifica la forma de un vistazo, y a dos
