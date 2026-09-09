@@ -6,6 +6,7 @@
 	} from '$lib/demarcador-metrico/motor';
 	import DemarcadorResultCard from '$lib/components/demarcador/DemarcadorResultCard.svelte';
 	import PublicHelpDialog from '$lib/components/public/PublicHelpDialog.svelte';
+	import PublicPageHeader from '$lib/components/public/PublicPageHeader.svelte';
 	import PublicResourceHeader from '$lib/components/public/PublicResourceHeader.svelte';
 	import type {
 		CatalogoDemarcador,
@@ -164,7 +165,7 @@
 </script>
 
 <svelte:head>
-	<title>Demarcador métrico | MetaDrama</title>
+	<title>Demarcador métrico | METADRAMA</title>
 	<meta
 		name="description"
 		content="Herramienta para orientar la identificación de formas métricas mediante evidencias observables."
@@ -185,20 +186,15 @@
 {/snippet}
 
 {#if data.accesoRestringido}
-	<section class="mx-auto max-w-3xl py-10">
-		<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-			Herramienta en pruebas
-		</p>
-		<h1 class="font-display mt-2 text-3xl text-[color:var(--gray-900)] md:text-4xl">
-			Demarcador métrico
-		</h1>
-		<p class="mt-5 text-base leading-7 text-[color:var(--gray-700)]">
-			Durante esta fase, el catálogo del demarcador solo está disponible para los perfiles que
-			administran el dominio métrico.
-		</p>
+	<section class="pb-16 pt-10 md:pb-24 md:pt-16">
+		<PublicPageHeader
+			eyebrow="RECURSOS"
+			title="Demarcador métrico"
+			description="Durante esta fase, el catálogo del demarcador solo está disponible para los perfiles que administran el dominio métrico."
+		/>
 	</section>
 {:else}
-<section class="grid gap-7">
+<section class="grid gap-7 pb-16 pt-10 md:pb-24 md:pt-16">
 	<PublicResourceHeader
 		category="Recursos"
 		title="Demarcador métrico"

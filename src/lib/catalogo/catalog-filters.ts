@@ -528,10 +528,16 @@ export function removeCatalogChip(
 	return { ...filters, densidadMin: defaults.densidadMin, densidadMax: defaults.densidadMax };
 }
 
-export function deriveCatalogBounds(obras: CatalogObraForFilters[]): CatalogFilterOptions['bounds'] {
+export function deriveCatalogDatacionBounds(
+	obras: Pick<CatalogObraForFilters, 'fecha_inicio_trad' | 'fecha_fin_trad'>[]
+): CatalogRangeBounds | null {
 	const dataciones = obras
 		.flatMap((obra) => [obra.fecha_inicio_trad, obra.fecha_fin_trad])
 		.filter((value): value is number => Number.isFinite(value));
+	return dataciones.length > 0 ? { min: Math.min(...dataciones), max: Math.max(...dataciones) } : null;
+}
+
+export function deriveCatalogBounds(obras: CatalogObraForFilters[]): CatalogFilterOptions['bounds'] {
 	const versos = obras
 		.map((obra) => obra.total_versos)
 		.filter((value): value is number => Number.isFinite(value));
@@ -540,7 +546,7 @@ export function deriveCatalogBounds(obras: CatalogObraForFilters[]): CatalogFilt
 		.filter((value): value is number => Number.isFinite(value ?? NaN));
 
 	return {
-		datacion: dataciones.length > 0 ? { min: Math.min(...dataciones), max: Math.max(...dataciones) } : null,
+		datacion: deriveCatalogDatacionBounds(obras),
 		versos: versos.length > 0 ? { min: Math.min(...versos), max: Math.max(...versos) } : null,
 		densidad:
 			densidades.length > 0

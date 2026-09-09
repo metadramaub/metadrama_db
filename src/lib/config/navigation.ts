@@ -34,7 +34,7 @@ export const PUBLIC_NAV: NavGroup[] = [
 			{ label: 'ACERCA DE', href: '/proyecto/about' },
 			{ label: 'EQUIPO', href: '/proyecto/equipo' },
 			{ label: 'WEB METADRAMA', href: 'https://www.ub.edu/metadrama/', external: true },
-			{ label: 'CONTACTO', href: '/proyecto/contacto' }
+			{ label: 'CONTACTO', href: '/contacto' }
 		]
 	}
 ];
@@ -48,7 +48,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
 			{ label: 'ACERCA DE', href: '/proyecto/about' },
 			{ label: 'EQUIPO', href: '/proyecto/equipo' },
 			{ label: 'CÓMO CITARNOS', href: '/como-citarnos' },
-			{ label: 'CONTACTO', href: '/proyecto/contacto' }
+			{ label: 'CONTACTO', href: '/contacto' }
 		]
 	}
 ];

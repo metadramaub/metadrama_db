@@ -98,30 +98,27 @@
 {#snippet descripcionCatalogo()}
 	<p>
 		Este catálogo reúne un amplio repertorio de las formas métricas documentadas en la poesía y
-		el teatro en verso españoles hasta las décadas finales del siglo XIX, antes de que se
-		intensificara la experimentación métrica. Su cobertura es especialmente detallada para los
-		siglos XVI y XVII, núcleo cronológico de METADRAMA; por eso, que una forma no aparezca no
-		significa que no exista ni que no esté documentada en otros periodos.
+		el teatro en verso españoles hasta las décadas finales del siglo XIX. Su cobertura es
+		especialmente detallada para los siglos XVI y XVII, núcleo cronológico de METADRAMA; por eso,
+		que una forma no aparezca no significa que no exista ni que no esté documentada en otros
+		periodos.
 	</p>
 	<p>
-		El catálogo es la base del análisis métrico del proyecto y se ha construido mediante el
-		contraste exhaustivo de seis obras de referencia, cuyos testimonios se han formalizado como
-		datos que describen la estructura de cada forma, sus posibles realizaciones y las relaciones
-		que mantiene con otras, lo que permite buscar, comparar y analizar computacionalmente el
-		dominio métrico dentro de un modelo que se amplía o precisa cuando el corpus plantea casos que
-		obligan a volver a las fuentes.
+		El catálogo constituye la base del análisis métrico del proyecto y formaliza la estructura de
+		cada forma, sus posibles realizaciones y las relaciones que mantiene con otras. Se trata de un
+		modelo que puede ampliarse o precisarse a medida que el corpus plantea nuevos casos.
 	</p>
 	<p>
 		El <a
 			href="/recursos/demarcador"
 			class="font-medium text-[color:var(--foreground)] underline decoration-[color:var(--gray-300)] underline-offset-4 hover:decoration-[color:var(--foreground)]"
-		>demarcador</a> permite recorrer este conocimiento desde un pasaje concreto, pues contrasta lo
-		que se observa en él con los datos del catálogo para proponer las formas y arquitecturas más
+		>demarcador</a> permite recorrer este conocimiento desde un pasaje concreto, pues contrasta sus
+		rasgos observables con los datos del catálogo para proponer las formas y arquitecturas más
 		compatibles.
 	</p>
 {/snippet}
 
-<section class="grid w-full gap-7">
+<section class="grid w-full gap-7 pb-16 pt-10 md:pb-24 md:pt-16">
 	<PublicResourceHeader
 		category="Recursos"
 		title="Catálogo métrico"
