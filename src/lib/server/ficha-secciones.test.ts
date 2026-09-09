@@ -20,7 +20,6 @@ function fullFicha(): PublicObraFichaPayload {
 			bibliografia: 'BIBLIOGRAFIA',
 			updated_at: null,
 			autor_ficha_publico: null,
-			autor_ficha_email_publico: null,
 			autor_ficha_orcid_publico: null,
 			estado_term: 'publicado',
 			visible_publico: true
