@@ -206,7 +206,6 @@ export interface PublicObraFichaPayload {
 		bibliografia: string | null;
 		updated_at: string | null;
 		autor_ficha_publico: string | null;
-		autor_ficha_email_publico: string | null;
 		autor_ficha_orcid_publico: string | null;
 		estado_term: string | null;
 		visible_publico: boolean | null;

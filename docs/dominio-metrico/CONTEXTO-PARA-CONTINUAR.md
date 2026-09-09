@@ -1047,7 +1047,14 @@ paso es el bloque **FP-G**. Las descargas siguen aparcadas.
 | **FP-G7** | Mostrar con qué forma abre y cierra cada jornada. |
 | **FP-G8** | Crear un resumen navegable de espacios inaugurados, versos partidos e intervenciones femeninas, de donaire y sobrenaturales. |
 | **FP-G9** | Mostrar `fuente_fecha` junto a la datación. |
-| **FP-G10** | Decidir si `autor_ficha_email_publico` se muestra, se convierte en contacto o permanece oculto. |
+| **FP-G10** | **Hecho**: el correo de la cuenta del editor no se muestra y se retira también del JSON público y de las fichas precomputadas. Nombre público y ORCID bastan para firmar la ficha; un futuro contacto directo requerirá un campo propio y consentimiento expreso. |
+
+**Comparación futura con el corpus.** Transiciones, patrones y las demás medidas analíticas deben
+poder añadir, cuando haya un corpus publicado suficiente, una referencia del tipo «en esta obra
+ocurre X; ocurre también en el Y % del corpus analizado». La ficha comparará la obra con el corpus
+sin convertirse en el laboratorio: mostrará una referencia breve, nombrará el universo y la fecha
+del cálculo, y dejará la exploración transversal para la herramienta específica. Esta segunda capa
+no se calcula todavía ni usa las obras de prueba como si fueran el corpus.
 
 **Datos que aún no llegan al JSON público**
 
