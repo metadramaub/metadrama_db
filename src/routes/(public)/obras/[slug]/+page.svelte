@@ -707,9 +707,15 @@
 		{/if}
 	{:else if activeTab === 'analisis'}
 		{#if showMetrica}
-			<section class="space-y-8">
+			<section class="space-y-10">
 				<div class="space-y-3">
 					<h2 class="text-lg font-semibold">Dónde cae cada forma</h2>
+					<!-- Una línea por gráfico, y **dice qué pregunta contesta, no cómo está dibujado**:
+					     describir el dibujo sobra cuando el dibujo está delante. -->
+					<p class="text-sm text-[color:var(--muted-foreground)]">
+						En qué punto de la obra aparece cada forma. Las líneas verticales son los cambios de
+						jornada.
+					</p>
 					<MetricFormStrips
 						filas={franjas}
 						totalVersos={totalVersos}
@@ -723,6 +729,10 @@
 
 				<div class="space-y-3">
 					<h2 class="text-lg font-semibold">Cómo cambia cada forma</h2>
+					<p class="text-sm text-[color:var(--muted-foreground)]">
+						Cuánto ocupa cada forma dentro de cada jornada, para ver si crece, se retira o
+						aparece. Un círculo hueco quiere decir que esa jornada no la usa.
+					</p>
 					{#if momentos.length < 2}
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							Hace falta más de una jornada anotada para poder comparar.
@@ -742,31 +752,35 @@
 				{#if tradiciones.length > 0}
 					<div class="space-y-3">
 						<h2 class="text-lg font-semibold">Españolas e italianas</h2>
-						{#if repartoDeTradiciones.length > 0}
+						<p class="text-sm text-[color:var(--muted-foreground)]">
+							De qué tradición métrica es cada jornada. La línea de puntos marca la mitad.
+						</p>
+						<!-- La tabla cabe al lado: el gráfico se lee de un vistazo y ella da la cifra. -->
+						<div class="grid items-start gap-6 md:grid-cols-[minmax(0,30rem)_minmax(0,1fr)]">
 							<MetricTraditionSplit puntos={repartoDeTradiciones} />
-						{/if}
-						<table class="w-full text-sm">
-							<thead>
-								<tr class="border-b border-[color:var(--border)] text-left text-xs uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-									<th scope="col" class="py-1 pr-4 font-semibold">Jornada</th>
-									<th scope="col" class="py-1 pr-4 text-right font-semibold">Españolas</th>
-									<th scope="col" class="py-1 pr-4 text-right font-semibold">Italianas</th>
-									<th scope="col" class="py-1 text-right font-semibold">Sin tradición</th>
-								</tr>
-							</thead>
-							<tbody>
-								{#each tradiciones as fila (fila.jornada)}
-									<tr class="border-b border-[color:var(--border)] tabular-nums">
-										<td class="py-1 pr-4">Jornada {fila.jornada}</td>
-										<td class="py-1 pr-4 text-right">{fila.espanola.porcentaje} %</td>
-										<td class="py-1 pr-4 text-right">{fila.italiana.porcentaje} %</td>
-										<td class="py-1 text-right text-[color:var(--muted-foreground)]">
-											{fila.sinTradicion.porcentaje} %
-										</td>
+							<table class="w-full text-sm">
+								<thead>
+									<tr class="border-b border-[color:var(--border)] text-left text-xs uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+										<th scope="col" class="py-1 pr-4 font-semibold">Jornada</th>
+										<th scope="col" class="py-1 pr-4 text-right font-semibold">Españolas</th>
+										<th scope="col" class="py-1 pr-4 text-right font-semibold">Italianas</th>
+										<th scope="col" class="py-1 text-right font-semibold">Sin tradición</th>
 									</tr>
-								{/each}
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									{#each tradiciones as fila (fila.jornada)}
+										<tr class="border-b border-[color:var(--border)] tabular-nums">
+											<td class="py-1 pr-4">Jornada {fila.jornada}</td>
+											<td class="py-1 pr-4 text-right">{fila.espanola.porcentaje} %</td>
+											<td class="py-1 pr-4 text-right">{fila.italiana.porcentaje} %</td>
+											<td class="py-1 text-right text-[color:var(--muted-foreground)]">
+												{fila.sinTradicion.porcentaje} %
+											</td>
+										</tr>
+									{/each}
+								</tbody>
+							</table>
+						</div>
 					</div>
 				{/if}
 			</section>
