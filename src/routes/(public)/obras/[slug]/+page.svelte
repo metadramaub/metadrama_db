@@ -627,13 +627,7 @@
 	{:else if activeTab === 'esquema'}
 		{#if showMetrica}
 			<section class="space-y-6">
-				<div>
-					<h2 class="text-lg font-semibold">Esquema métrico</h2>
-					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-						Verso a verso, como en una edición crítica: {tecnica.secuencias} secuencias en
-						{tecnica.versos} versos, con {tecnica.formasDistintas} formas distintas.
-					</p>
-				</div>
+				<h2 class="text-lg font-semibold">Esquema métrico</h2>
 
 				{#if schemeEntries.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">
