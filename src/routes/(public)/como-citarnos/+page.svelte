@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CitationCard from '$lib/components/public/CitationCard.svelte';
+	import PublicPageHeader from '$lib/components/public/PublicPageHeader.svelte';
 
 	const siteCitation =
 		'Gilabert, Gaston y David Merino Recalde, Versología: base de datos y herramientas de estilometría estrófica para el verso dramático [https://versologia.metadrama.org/], 2026.';
@@ -42,14 +43,14 @@ UR  - https://versologia.metadrama.org/
 ER  -`;
 </script>
 
-<section>
-	<h1 class="font-display text-3xl text-[color:var(--gray-900)]">CÓMO CITARNOS</h1>
-	<p class="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted-foreground)]">
-		Si utilizas Versología en tu investigación, cita el proyecto o el análisis consultado. De
-		este modo contribuyes a reconocer el trabajo realizado y a apoyar la continuidad del proyecto.
-	</p>
+<section class="pb-16 pt-10 md:pb-24 md:pt-16">
+	<PublicPageHeader
+		eyebrow="VERSOLOGÍA"
+		title="Cómo citarnos"
+		description="Si utilizas Versología en tu investigación, cita el proyecto o el análisis consultado. De este modo contribuyes a reconocer el trabajo realizado y a apoyar la continuidad del proyecto."
+	/>
 
-	<div class="mt-8 grid items-stretch gap-6 lg:grid-cols-2">
+	<div class="mt-12 grid items-stretch gap-6 lg:grid-cols-2">
 		<CitationCard
 			title="Cómo citar Versología"
 			citation={siteCitation}

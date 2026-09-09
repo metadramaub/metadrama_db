@@ -34,7 +34,7 @@
 
 	function citationText(): string {
 		const autor = (props.autorFicha ?? '').trim() || 'Autoría de ficha no indicada';
-		return `Análisis versológio de *${props.titulo}* en versologia.metadrama.ub. ${autor}. (${yearLabel()}). MetaDrama DB. Responsables del proyecto: Gastón Gilabert y David Merino Recalde. ${obraUrl()} (Consulta: ${accessDateLabel()}).`;
+		return `Análisis versológio de *${props.titulo}* en versologia.metadrama.ub. ${autor}. (${yearLabel()}). METADRAMA DB. Responsables del proyecto: Gastón Gilabert y David Merino Recalde. ${obraUrl()} (Consulta: ${accessDateLabel()}).`;
 	}
 
 	async function copyToClipboard() {

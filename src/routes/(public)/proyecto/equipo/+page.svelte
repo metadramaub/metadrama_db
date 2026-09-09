@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PublicPageHeader from '$lib/components/public/PublicPageHeader.svelte';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
@@ -23,18 +24,16 @@
 	<title>Equipo · Versología</title>
 	<meta
 		name="description"
-		content="Responsables y colaboradores de Versología, proyecto de MetaDrama."
+		content="Responsables y colaboradores de Versología, proyecto de METADRAMA."
 	/>
 </svelte:head>
 
 <section class="pb-16 pt-10 md:pb-24 md:pt-16">
-	<header class="max-w-3xl border-l-2 border-[color:var(--primary)] pl-5 md:pl-7">
-		<p class="text-[10px] font-semibold tracking-[0.2em] text-[color:var(--primary)]">PROYECTO</p>
-		<h1 class="font-display mt-3 text-4xl text-[color:var(--gray-900)] md:text-5xl">Equipo</h1>
-		<p class="mt-4 max-w-2xl text-sm leading-7 text-[color:var(--muted-foreground)]">
-			Responsables y colaboradores de Versología.
-		</p>
-	</header>
+	<PublicPageHeader
+		eyebrow="PROYECTO"
+		title="Equipo"
+		description="Responsables y colaboradores de Versología."
+	/>
 
 	<div class="mt-12 grid gap-4 lg:grid-cols-5">
 		<article

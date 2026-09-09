@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
+	import { pushToast } from '$lib/stores/toast';
 
 	let {
 		title,
@@ -19,9 +20,6 @@
 		children: Snippet;
 	}>();
 
-	let feedback = $state<string | null>(null);
-	let feedbackIsError = $state(false);
-	let feedbackTimer: ReturnType<typeof setTimeout> | undefined;
 	let formatMenu: HTMLDetailsElement;
 
 	onMount(() => {
@@ -47,16 +45,7 @@
 		};
 	});
 
-	function showFeedback(message: string, isError = false) {
-		feedback = message;
-		feedbackIsError = isError;
-		if (feedbackTimer) clearTimeout(feedbackTimer);
-		feedbackTimer = setTimeout(() => {
-			feedback = null;
-		}, 2400);
-	}
-
-	async function copyText(text: string, label: string) {
+	async function copyText(text: string, successMessage: string) {
 		try {
 			if (navigator.clipboard?.writeText) {
 				await navigator.clipboard.writeText(text);
@@ -70,10 +59,10 @@
 				document.execCommand('copy');
 				textArea.remove();
 			}
-			showFeedback(`${label} copiado`);
+			pushToast('success', successMessage);
 		} catch (error) {
 			console.error(error);
-			showFeedback('No se pudo copiar', true);
+			pushToast('error', 'No se pudo copiar');
 		} finally {
 			if (formatMenu) formatMenu.open = false;
 		}
@@ -87,7 +76,7 @@
 		link.download = `${filename}.${extension}`;
 		link.click();
 		URL.revokeObjectURL(url);
-		showFeedback(`${label} descargado`);
+		pushToast('success', `${label} descargado`);
 		if (formatMenu) formatMenu.open = false;
 	}
 </script>
@@ -108,7 +97,7 @@
 			<button
 				type="button"
 				class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-xs font-semibold tracking-[0.06em] text-white transition-colors hover:bg-[color:var(--gray-700)]"
-				onclick={() => copyText(citation, 'Cita')}
+				onclick={() => copyText(citation, 'Cita copiada')}
 			>
 				COPIAR CITA
 			</button>
@@ -125,7 +114,7 @@
 					<button
 						type="button"
 						class="px-3 py-2 text-left text-xs hover:bg-[color:var(--muted)]"
-						onclick={() => copyText(bibtex, 'BibTeX')}
+						onclick={() => copyText(bibtex, 'BibTeX copiado')}
 					>Copiar BibTeX</button>
 					<button
 						type="button"
@@ -140,12 +129,5 @@
 				</div>
 			</details>
 		</div>
-
-		<p
-			class={`mt-3 min-h-5 text-xs ${feedbackIsError ? 'text-[color:var(--danger)]' : 'text-[color:var(--success)]'}`}
-			aria-live="polite"
-		>
-			{feedback ?? ''}
-		</p>
 	</div>
 </article>

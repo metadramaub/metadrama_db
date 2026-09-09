@@ -49,8 +49,8 @@
 		Object.fromEntries(perfilSlices.map((slice) => [slice.slug, slice.color]))
 	);
 
-	// Desglose forma raíz → formas hijas: "sequences" sintéticas desde perfil_formas_hijos
-	// (cada hoja con su raíz como estrofa_forma_term), para que el pie reconstruya los
+	// Desglose forma raíz → arquitecturas: "sequences" sintéticas desde perfil_formas_hijos
+	// (cada hoja con su raíz como forma_nombre), para que el pie reconstruya los
 	// desplegables igual que la ficha de obra, sin secuencias reales.
 	const hijosPerfil = $derived<Record<string, number>>(resumen?.perfil_formas_hijos ?? {});
 	const pieSequences = $derived.by(() =>
@@ -59,8 +59,9 @@
 			.map(([childSlug, versos]) => {
 				const rootSlug = formaParents[childSlug] ?? childSlug;
 				return {
-					estrofa_forma_term: formaLabels[rootSlug] ?? prettyForma(rootSlug),
-					estrofa_tipo_term: formaLabels[childSlug] ?? prettyForma(childSlug),
+					forma_nombre: formaLabels[rootSlug] ?? prettyForma(rootSlug),
+					arquitectura_nombre: formaLabels[childSlug] ?? prettyForma(childSlug),
+					arquitectura_slug: childSlug,
 					n_versos: versos
 				};
 			})

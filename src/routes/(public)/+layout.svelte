@@ -105,7 +105,7 @@
 	<header class="border-b border-[color:var(--border)] bg-white">
 		<div class="mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-3 md:px-6">
 			<a href="/" class="shrink-0" aria-label="Ir al inicio">
-				<img src="/logo-metadrama.webp" alt="MetaDrama" class="h-10 w-auto md:h-11" />
+				<img src="/logo-metadrama.webp" alt="METADRAMA" class="h-10 w-auto md:h-11" />
 			</a>
 
 			<nav class="ml-auto hidden items-center gap-5 text-[11px] font-semibold tracking-[0.08em] lg:flex">
@@ -256,8 +256,8 @@
 			class="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 md:grid-cols-[minmax(0,2fr)_minmax(16rem,1fr)] md:items-center md:px-6"
 		>
 			<div class="grid max-w-2xl grid-cols-[auto_1px_minmax(0,1fr)] items-center gap-4 md:gap-5">
-				<a href="/" class="inline-block shrink-0" aria-label="Ir a la página de inicio de MetaDrama">
-					<img src="/logo-metadrama.webp" alt="MetaDrama" class="h-10 w-auto md:h-12" />
+				<a href="/" class="inline-block shrink-0" aria-label="Ir a la página de inicio de METADRAMA">
+					<img src="/logo-metadrama.webp" alt="METADRAMA" class="h-10 w-auto md:h-12" />
 				</a>
 				<div class="h-16 bg-[color:var(--primary)]" aria-hidden="true"></div>
 				<div class="min-w-0">

@@ -64,7 +64,7 @@
 </script>
 
 <svelte:head>
-	<title>Demarcador métrico | MetaDrama</title>
+	<title>Demarcador métrico | METADRAMA</title>
 	<meta
 		name="description"
 		content="Asistente de identificación de formas métricas por descarte."
