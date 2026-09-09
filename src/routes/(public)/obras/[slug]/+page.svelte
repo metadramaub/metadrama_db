@@ -47,6 +47,18 @@
 	type ResolvedPublicSequence = ResolvedSequenceStructure<SequenceModalPayload>;
 
 	let activeTab = $state<TabId>('estructura');
+	let estructuraAbierta = $state(false);
+
+	// Se cierra con Escape, como el detalle de secuencia: dos ventanas que se cierran distinto
+	// se sienten como dos aplicaciones.
+	$effect(() => {
+		if (!estructuraAbierta) return;
+		const alPulsar = (evento: KeyboardEvent) => {
+			if (evento.key === 'Escape') estructuraAbierta = false;
+		};
+		document.addEventListener('keydown', alPulsar);
+		return () => document.removeEventListener('keydown', alPulsar);
+	});
 	let metricViewMode = $state<MetricViewMode>('obra_completa');
 	let pieValueMode = $state<PieValueMode>('percent');
 	// Forma resaltada al pasar el ratón por la leyenda del pie. Se aísla por grupo
@@ -320,6 +332,35 @@
 	});
 </script>
 
+{#if estructuraAbierta}
+	<div class="fixed inset-0 z-[120]">
+		<button
+			type="button"
+			class="absolute inset-0 bg-black/40"
+			aria-label="Cerrar el desglose de la estructura"
+			onclick={() => (estructuraAbierta = false)}
+		></button>
+		<div
+			class="absolute inset-x-4 top-10 bottom-10 overflow-y-auto border border-[color:var(--border)] bg-white p-4 md:inset-x-1/4 md:p-6"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Estructura de la obra"
+		>
+			<div class="mb-4 flex items-center justify-between gap-3 border-b border-[color:var(--border)] pb-3">
+				<h2 class="text-lg font-semibold">Estructura</h2>
+				<button
+					type="button"
+					class="border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-2 py-1 text-xs font-semibold text-white"
+					onclick={() => (estructuraAbierta = false)}
+				>
+					Cerrar
+				</button>
+			</div>
+			<StructureOutline jornadas={estructuraJornadas} totalVersos={totalVersos} />
+		</div>
+	</div>
+{/if}
+
 <section class="space-y-6">
 	<Breadcrumb
 		items={[
@@ -385,12 +426,30 @@
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Estructura
 				</dt>
+				<!-- **El dato es el botón.** Los recuentos que ya están ahí abren el desglose, así que no
+				     hace falta ni un enlace debajo ni que la cabecera crezca: se pincha lo que se
+				     pregunta. Cómo está partida la obra es un dato de la obra, no del verso, y por eso
+				     vive aquí y no en el esquema métrico. -->
 				<dd class="mt-1 flex flex-wrap gap-2">
 					{#each estructuraItems as item}
-						<span class="border-l-2 border-[color:var(--border)] bg-[color:var(--gray-50)] px-2 py-1">
-							<span class="font-semibold">{item.value}</span>
-							<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
-						</span>
+						{#if estructuraJornadas.length > 0}
+							<button
+								type="button"
+								class="group border-l-2 border-[color:var(--gray-800)] bg-[color:var(--gray-50)] px-2 py-1 text-left hover:bg-[color:var(--gray-100)]"
+								title="Ver el desglose en jornadas y cuadros"
+								onclick={() => (estructuraAbierta = true)}
+							>
+								<span class="font-semibold underline decoration-[color:var(--border)] underline-offset-2 group-hover:decoration-current">
+									{item.value}
+								</span>
+								<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
+							</button>
+						{:else}
+							<span class="border-l-2 border-[color:var(--border)] bg-[color:var(--gray-50)] px-2 py-1">
+								<span class="font-semibold">{item.value}</span>
+								<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
+							</span>
+						{/if}
 					{/each}
 				</dd>
 			</div>
@@ -574,25 +633,11 @@
 						No hay secuencias métricas registradas para esta obra.
 					</p>
 				{:else}
-					<div class="card p-4">
-						<MetricScheme
-							entries={schemeEntries}
-							colorByForma={colorByForma}
-							onOpen={openSequenceModal}
-						/>
-					</div>
-				{/if}
-
-				{#if estructuraJornadas.length > 0}
-					<div>
-						<h2 class="text-lg font-semibold">Estructura</h2>
-						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-							Cómo está partida la obra en jornadas y cuadros.
-						</p>
-						<div class="card mt-3 p-4">
-							<StructureOutline jornadas={estructuraJornadas} totalVersos={totalVersos} />
-						</div>
-					</div>
+					<MetricScheme
+						entries={schemeEntries}
+						colorByForma={colorByForma}
+						onOpen={openSequenceModal}
+					/>
 				{/if}
 			</section>
 		{/if}

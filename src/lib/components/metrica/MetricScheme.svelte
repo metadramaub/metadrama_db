@@ -68,11 +68,16 @@
 			</h3>
 		{/if}
 
+		<!-- **Cada cosa en su columna.** El color iba pegado delante de los números y los empujaba,
+		     así que ninguna columna alineaba con la de arriba: con rangos de tres y de cuatro cifras
+		     el desajuste se ve a simple vista. -->
 		<table class="metric-scheme__tabla">
 			<thead class="sr-only">
 				<tr>
-					<th scope="col">Versos</th>
 					<th scope="col">Forma</th>
+					<th scope="col">Versos</th>
+					<th scope="col">Extensión</th>
+					<th scope="col">Nombre</th>
 					<th scope="col">Detalle</th>
 				</tr>
 			</thead>
@@ -81,7 +86,7 @@
 					{@const cuadro = abreCuadro(grupo.entradas, indice)}
 					{#if cuadro !== null}
 						<tr class="metric-scheme__corte">
-							<td colspan="3">
+							<td colspan="5">
 								Cuadro {cuadro}
 								{#if entrada.cuadro && indice > 0 && grupo.entradas[indice - 1]?.cuadroContinua}
 									<span class="metric-scheme__aviso">
@@ -92,11 +97,11 @@
 						</tr>
 					{/if}
 					<tr class="metric-scheme__fila">
-						<td class="metric-scheme__versos">
+						<td class="metric-scheme__color-celda">
 							<span class="metric-scheme__color" style={`background:${colorDe(entrada)}`}></span>
-							vv. {rango(entrada)}
-							<span class="metric-scheme__cuantos">({entrada.n_versos})</span>
 						</td>
+						<td class="metric-scheme__versos">vv. {rango(entrada)}</td>
+						<td class="metric-scheme__cuantos">({entrada.n_versos})</td>
 						<td class="metric-scheme__forma">
 							{#if props.onOpen}
 								<button type="button" onclick={() => props.onOpen?.(entrada.id)}>
@@ -154,6 +159,17 @@
 		border-bottom: 1px solid var(--border);
 	}
 
+	.metric-scheme__color-celda {
+		width: 0.75rem;
+		padding-right: 0.5rem;
+	}
+
+	.metric-scheme__color {
+		display: block;
+		width: 0.4rem;
+		height: 0.9rem;
+	}
+
 	/* Los rangos, en cifras tabulares y a la derecha: es como se comparan dos números. */
 	.metric-scheme__versos {
 		width: 1%;
@@ -163,16 +179,13 @@
 		color: var(--muted-foreground);
 	}
 
-	.metric-scheme__color {
-		display: inline-block;
-		width: 0.5rem;
-		height: 0.85rem;
-		margin-right: 0.4rem;
-		vertical-align: -0.1rem;
-	}
-
 	.metric-scheme__cuantos {
+		width: 1%;
+		white-space: nowrap;
+		text-align: right;
 		font-size: 0.75rem;
+		font-variant-numeric: tabular-nums;
+		color: var(--muted-foreground);
 	}
 
 	.metric-scheme__forma {
