@@ -859,7 +859,22 @@ que `rejilla.ts`, que es la que ha aguantado bien. Consume un tipo mínimo propi
   donde el cuadro empieza, no entre dos filas: cuando el tablado se vacía en mitad de una tirada no
   hay hueco donde ponerlos, y esa es la fila de la que hay que avisar. Falta colgarle el PNG.
 - **Esquema de estructura** —`StructureOutline.svelte`, hecho el mismo día—: jornadas y sus
-  cuadros, el mismo índice que el dashboard enseña en la pestaña de secuencias.
+  cuadros, el mismo índice que el dashboard enseña en la pestaña de secuencias. **No vive en el
+  esquema métrico**: cómo está partida la obra es un dato de la obra, no del verso, así que se abre
+  en ventana desde la cabecera, y el botón son los propios recuentos —«3 jornadas · 11 cuadros»—,
+  sin enlace aparte ni cabecera que crezca.
+
+**Dos reglas de pantalla que se sacaron de ahí** —9 de septiembre de 2026—: en la ficha **solo la
+cabecera va sobre blanco**, lo demás sobre el fondo de la página; y **todo lo que se abre en
+ventana se cierra con Escape**, porque dos ventanas que se cierran distinto se sienten como dos
+aplicaciones.
+
+**Sin resolver: cómo se marca un cuadro que empieza dentro de una tirada.** Pasa en el 31 % de los
+cambios de cuadro, y hoy se resuelve de dos maneras distintas y ninguna convence: la sinopsis usa
+`cuadro_divider` y `cuadro_carryover` según dónde acabara la tarjeta anterior, y el esquema métrico
+pone la etiqueta sobre la primera fila del cuadro nuevo con un aviso. Las dos mienten en lo mismo:
+**el corte no cae en el límite de una fila**, y las dos lo cuentan como si cayera. Hace falta una
+sola solución para las dos superficies.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
 - Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
