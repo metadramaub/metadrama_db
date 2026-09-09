@@ -883,7 +883,14 @@ filas cubre cada cuadro, sin escala ninguna**, y la proporción se usa dentro de
 corte parte, como porcentaje de su propia altura. Lo resuelve el navegador sin medir nada.
 
 Los dos avisos de la sinopsis se retiran, y con ellos el tipo `cuadro_divider`/`cuadro_carryover`:
-solo quedan tarjetas.
+solo quedan tarjetas. **Cómo se dibuja**, después de tres pasadas mirando la pantalla: el cuadro se
+nombra con palabras —«Cuadro 3 · desde el v. 420»— porque un número diminuto pegado a la banda de
+color no se leía; la etiqueta va **a la altura del corte** y no arriba de la fila, que la dejaba
+dentro del cuadro anterior; la línea es **la misma en todo el recorrido del cuadro**, y lo que marca
+el corte es un travesaño, no el tono; y salta el hueco entre tarjetas, o se leía partida.
+
+**Y una regla de redacción**: nada de rótulos que expliquen lo que se está viendo. La frase «verso a
+verso, como en una edición crítica…» sobraba encima del esquema.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
 - Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
