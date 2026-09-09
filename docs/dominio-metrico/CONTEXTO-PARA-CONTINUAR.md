@@ -1042,9 +1042,9 @@ paso es el bloque **FP-G**. Las descargas siguen aparcadas.
 | **FP-G2** | Mostrar las transiciones entre formas. |
 | **FP-G3** | Detectar patrones métricos repetidos, con umbral decidido y la marca «calculado». |
 | **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con tiradas, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
-| **FP-G5** | Mostrar cuántos cambios de cuadro coinciden con un cambio de forma y cuántos parten una tirada. |
+| **FP-G5** | **Hecho**: `Análisis` cuenta los límites reales entre cuadros dentro de cada jornada y distingue los que coinciden con un cambio de forma, parten una tirada o caen entre dos tiradas de la misma forma. Los cortes de jornada quedan fuera. Sustituye el cálculo anterior, cuyo denominador eran secuencias y no cambios de cuadro. |
 | **FP-G6** | **Hecho**: `Análisis` resume canto, prosa y evocación métrica con versos, porcentaje de la obra y formas en que aparecen. Las etiquetas públicas se normalizan y los rangos solapados no duplican versos; el bloque no se crea cuando la obra no contiene ninguno. |
-| **FP-G7** | Mostrar con qué forma abre y cierra cada jornada. |
+| **FP-G7** | **Hecho**: el bloque de articulación muestra con qué forma abre y cierra cada jornada, junto a la lectura de los cambios de cuadro. |
 | **FP-G8** | Crear un resumen navegable de espacios inaugurados, versos partidos e intervenciones femeninas, de donaire y sobrenaturales. |
 | **FP-G9** | Mostrar `fuente_fecha` junto a la datación. |
 | **FP-G10** | **Hecho**: el correo de la cuenta del editor no se muestra y se retira también del JSON público y de las fichas precomputadas. Nombre público y ORCID bastan para firmar la ficha; un futuro contacto directo requerirá un campo propio y consentimiento expreso. |
