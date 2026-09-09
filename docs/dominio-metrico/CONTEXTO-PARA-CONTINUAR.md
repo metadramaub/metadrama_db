@@ -1038,10 +1038,10 @@ paso es el bloque **FP-G**. Las descargas siguen aparcadas.
 
 | código | pendiente |
 |---|---|
-| **FP-G1** | Pintar la ficha técnica que ya se calcula: secuencias, formas distintas, longitud media, tirada más larga, apertura y cierre, versos partidos, espacios inaugurados y secuencias con desviaciones. |
+| **FP-G1** | **Hecho**: `De un vistazo` muestra formas distintas, longitud media, tirada más larga con rango y las formas de apertura y cierre. No repite versos, jornadas, cuadros ni secuencias, que ya están en la cabecera; los índices de versos partidos, espacios y desviaciones pasan a FP-G8/U2. |
 | **FP-G2** | Mostrar las transiciones entre formas. |
 | **FP-G3** | Detectar patrones métricos repetidos, con umbral decidido y la marca «calculado». |
-| **FP-G4** | Mostrar por forma número de tiradas, versos, longitud media, mínima y máxima. |
+| **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con tiradas, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
 | **FP-G5** | Mostrar cuántos cambios de cuadro coinciden con un cambio de forma y cuántos parten una tirada. |
 | **FP-G6** | Resumir canto y prosa en la obra: versos, porcentaje y formas en que aparecen. |
 | **FP-G7** | Mostrar con qué forma abre y cierra cada jornada. |
