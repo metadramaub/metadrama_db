@@ -12,6 +12,7 @@
 	import MetricEnunciationSummary from '$lib/components/metrica/MetricEnunciationSummary.svelte';
 	import MetricDramaticArticulation from '$lib/components/metrica/MetricDramaticArticulation.svelte';
 	import MetricTransitions from '$lib/components/metrica/MetricTransitions.svelte';
+	import MetricPhenomenaIndex from '$lib/components/metrica/MetricPhenomenaIndex.svelte';
 	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -47,6 +48,7 @@
 	import { formatRelative } from '$lib/utils/formatters';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { colorForForma } from '$lib/utils/metric-colors';
+	import { buildPhenomenaIndex } from '$lib/metrica/phenomena-index';
 	import type { MetricDistributionSlice } from '$lib/components/metrica/metric-display.types';
 	import {
 		resolveSequenceStructures,
@@ -350,6 +352,7 @@
 	const cortesCuadro = $derived(cortesDeCuadro(analizables, cuadros));
 	const extremosDeJornadas = $derived(cierreDeJornadas(analizables));
 	const transicionesDeLaObra = $derived(transiciones(analizables));
+	const phenomenaIndex = $derived(buildPhenomenaIndex(secuenciasOrdenadas));
 
 	/** El orden de apilado es el del reparto de toda la obra, igual en todas las jornadas. */
 	const ordenDeFormas = $derived(
@@ -762,6 +765,10 @@
 		{#if showMetrica}
 			<section class="space-y-6">
 				<h2 class="text-lg font-semibold">Esquema métrico</h2>
+
+				{#if phenomenaIndex.length > 0}
+					<MetricPhenomenaIndex groups={phenomenaIndex} onOpen={openSequenceModal} />
+				{/if}
 
 				{#if schemeEntries.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">
