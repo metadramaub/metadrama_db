@@ -20,6 +20,8 @@ export type SequenceSynopsisSequenceLike = {
 	n_versos?: number | null;
 	estrofa_tipo_id?: string | null;
 	estrofa_tipo_term?: string | null;
+	/** Etiqueta de la forma raíz, que es la que nombra el pasaje. */
+	estrofa_forma_term?: string | null;
 	/** Slug de la forma raíz (clave estable de color). */
 	estrofa_forma_slug?: string | null;
 	/** tipo_forma de la forma raíz (gama cálida/fría para el fallback de color). */
@@ -187,7 +189,12 @@ function mapResolvedSequenceToCard(
 	estrofaById: Map<string, string>,
 	estrofaOptionById: Map<string, EstrofaOption>
 ): SequenceSynopsisCard {
+	// **La forma nombra el pasaje; la arquitectura es el detalle.** Decía «Octosilábica consonante»
+	// donde tenía que decir «Quintilla», que es el mismo fallo que tenía el código de barras. El
+	// encadenado conserva los dos escalones de antes porque en el dashboard las secuencias no
+	// siempre traen la forma resuelta.
 	const estrofaLabel =
+		item.sequence.estrofa_forma_term ??
 		item.sequence.estrofa_tipo_term ??
 		estrofaById.get(item.sequence.estrofa_tipo_id ?? '') ??
 		'Sin estrofa';
