@@ -114,6 +114,32 @@
 		return text.length > 0 ? `${text.charAt(0).toLocaleUpperCase('es')}${text.slice(1)}` : 'Sin dato';
 	}
 
+	function normalizedRangeTerm(value: string) {
+		return value
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.replaceAll('_', ' ')
+			.trim()
+			.toLocaleLowerCase('es');
+	}
+
+	function isEnunciationRange(value: string) {
+		return ['cantado', 'prosa', 'evocacion metrica'].includes(normalizedRangeTerm(value));
+	}
+
+	function formatEnunciationRange(value: string) {
+		switch (normalizedRangeTerm(value)) {
+			case 'cantado':
+				return 'Pasaje cantado';
+			case 'prosa':
+				return 'Pasaje en prosa';
+			case 'evocacion metrica':
+				return 'Evocación métrica';
+			default:
+				return humanize(value);
+		}
+	}
+
 	function formatIntervencionValue(value: string | null) {
 		if (value === null) return 'Sin dato';
 		if (value === 'sin_intervencion') return 'No';
@@ -202,6 +228,16 @@
 	const metricParts = $derived(props.secuencia ? buildMetricParts(props.secuencia) : []);
 	const features = $derived(props.secuencia ? buildFeatureGroups(props.secuencia) : []);
 	const deviations = $derived(props.secuencia?.desviaciones ?? []);
+	const enunciationRanges = $derived(
+		(props.secuencia?.caracterizaciones_rango ?? []).filter((item) =>
+			isEnunciationRange(item.tipo_caracterizacion_rango_term)
+		)
+	);
+	const otherRanges = $derived(
+		(props.secuencia?.caracterizaciones_rango ?? []).filter(
+			(item) => !isEnunciationRange(item.tipo_caracterizacion_rango_term)
+		)
+	);
 	const hasObservedData = $derived(features.length > 0 || deviations.length > 0);
 	const hasMetricDetail = $derived(
 		schemes.length > 0 || metres.length > 0 || varieties.length > 0 || metricParts.length > 0
@@ -411,11 +447,30 @@
 							</ol>
 						{/if}
 
-						{#if props.secuencia.caracterizaciones_rango.length > 0}
-							<div class="mt-5">
-								<h4 class="mb-2 text-sm font-semibold">Caracterizaciones por rango</h4>
+						{#if enunciationRanges.length > 0}
+							<section class="mt-6">
+								<h4 class="mb-3 text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">Enunciación</h4>
+								<ol class="grid gap-2 sm:grid-cols-2">
+									{#each enunciationRanges as caracterizacion (caracterizacion.caracterizacion_rango_id)}
+										<li class="rounded-lg border border-[color:var(--border)] bg-white px-4 py-3.5">
+											<div class="flex flex-wrap items-baseline justify-between gap-2">
+												<strong class="font-semibold">{formatEnunciationRange(caracterizacion.tipo_caracterizacion_rango_term)}</strong>
+												<span class="rounded-full bg-[color:var(--muted)] px-2 py-0.5 text-xs text-[color:var(--muted-foreground)]">vv. {caracterizacion.v_ini}–{caracterizacion.v_fin}</span>
+											</div>
+											{#if caracterizacion.observaciones?.trim()}
+												<p class="mt-2 leading-5 text-[color:var(--muted-foreground)]">{caracterizacion.observaciones}</p>
+											{/if}
+										</li>
+									{/each}
+								</ol>
+							</section>
+						{/if}
+
+						{#if otherRanges.length > 0}
+							<div class="mt-6">
+								<h4 class="mb-2 text-sm font-semibold">Otras anotaciones por rango</h4>
 								<ol class="border-l border-[color:var(--border)] pl-4">
-									{#each props.secuencia.caracterizaciones_rango as caracterizacion (caracterizacion.caracterizacion_rango_id)}
+									{#each otherRanges as caracterizacion (caracterizacion.caracterizacion_rango_id)}
 										<li class="py-2">
 											<div class="flex flex-wrap items-baseline justify-between gap-2">
 												<span class="font-semibold">{caracterizacion.tipo_caracterizacion_rango_term}</span>
