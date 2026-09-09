@@ -60,6 +60,7 @@ const PARA_QUE = {
 		'la ficha de una obra publicada'
 	],
 	tiene_evento_sobrenatural: ['bandera', 'buscador'],
+	autores: ['nombres de autoría preparados para filtrar y presentar', 'buscador, portada'],
 	obra_id: ['clave', '—'],
 	autor_id: ['clave', '—'],
 	alcance: ['qué obras entran en el agregado', 'perfil de autor'],
@@ -91,7 +92,12 @@ const REGISTRABLE = [
 	{
 		nombre: 'Esquema de rima elegido por unidad',
 		cuantas: `select count(*) from public.anotacion_elecciones where esquema_rima_id is not null`,
-		clave: 'subtipos_estrofa', columna: 'subtipos_presentes'
+		clave: 'esquemas_rima', columna: 'subtipos_presentes'
+	},
+	{
+		nombre: 'Variedad elegida dentro de una arquitectura',
+		cuantas: `select count(*) from public.anotacion_elecciones where variedad_id is not null`,
+		clave: 'variedades', columna: null
 	},
 	{
 		nombre: 'Desviaciones (lagunas, hipométricos, rima ajena)',
@@ -185,14 +191,14 @@ const claves = query(`
 	select jsonb_object_keys(v) as k
 	from (
 		select set_config('request.jwt.claims', json_build_object('sub', ${lit(admin)})::text, false),
-		       public.get_obra_ficha_publica_base_without_slugs(${lit(obra)}::uuid, true) as v
+		       public.ficha_publica_json(${lit(obra)}::uuid, true) as v
 	) t
 `).map((r) => r.k);
 const clavesSecuencia = query(`
 	select jsonb_object_keys(v#>'{metrica,secuencias,0}') as k
 	from (
 		select set_config('request.jwt.claims', json_build_object('sub', ${lit(admin)})::text, false),
-		       public.get_obra_ficha_publica_base_without_slugs(${lit(obra)}::uuid, true) as v
+		       public.ficha_publica_json(${lit(obra)}::uuid, true) as v
 	) t
 `).map((r) => r.k);
 
@@ -219,7 +225,7 @@ const cuentas = {
 	legadas: scalar(`select count(*) from public.secuencias_metricas where estrofa_tipo_id is not null`),
 	sinCuadro: scalar(`
 		select count(*) from jsonb_array_elements(
-			public.get_obra_ficha_publica_base_without_slugs(${lit(obra)}::uuid, true)->'metrica'->'secuencias'
+			public.ficha_publica_json(${lit(obra)}::uuid, true)->'metrica'->'secuencias'
 		) s where s->>'cuadro_id' is null
 	`)
 };
@@ -245,14 +251,10 @@ Regenerado el ${hoy}.
 **2 · Lo precomputado.** \`obras_resumen\` y \`autores_resumen\`. Se rehacen al pulsar «Actualizar
 datos públicos» o con \`recompute_all()\`, y **solo para obras publicadas**.
 
-**3 · La ficha.** \`get_obra_ficha_publica_base_without_slugs(obra, include_hidden)\` lee hoy las
-tablas crudas en cada visita. Lo pactado el 8 de septiembre de 2026 es que **eso se quede solo para
-la vista previa** y que una obra publicada esté enteramente precomputada; los cinco pasos están en
-[el contexto métrico](dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-plan-pactado-en-cinco-pasos).
-
-Mientras las dos superficies se escriban por separado, **cada medida hay que escribirla dos veces**
-—en \`recompute_obra_resumen_metricas\` y en la función de ficha— o solo aparece en un sitio. Ese es
-el problema que el paso 1 del plan viene a cerrar.
+**3 · La ficha.** Si la obra está publicada, lee el JSON de \`obras_resumen.ficha\`; solo la vista
+previa ejecuta la función en vivo. \`ficha_publica_json\` es la única productora del JSON y el
+recompute guarda su resultado, de modo que la ficha precomputada y la vista previa comparten la
+misma construcción.
 
 ## Cuántas hay
 

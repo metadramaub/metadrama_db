@@ -6,6 +6,10 @@ import type {
 	MetricSchemeEntry
 } from '$lib/components/metrica/metric-display.types';
 import type { SecuenciaAnalizable } from '$lib/metrica/analisis-ficha';
+import {
+	buildSequenceRhymeSchemeOccurrences,
+	formatMetricCount
+} from '$lib/components/metrica/metric-distribution';
 
 /**
  * De la secuencia de la ficha a lo que el análisis necesita.
@@ -19,18 +23,21 @@ export function secuenciaToAnalizable(secuencia: PublicFichaSecuencia): Secuenci
 		v_ini: secuencia.v_ini,
 		v_fin: secuencia.v_fin,
 		n_versos: secuencia.n_versos,
-		forma_slug: secuencia.estrofa_forma_slug,
-		forma: secuencia.estrofa_forma_term ?? null,
-		arquitectura: secuencia.estrofa_tipo_term ?? null,
-		tradicion: secuencia.estrofa_tipo_forma,
+		forma_slug: secuencia.forma_slug,
+		forma: secuencia.forma_nombre ?? null,
+		arquitectura: secuencia.arquitectura_nombre ?? null,
+		tradicion: secuencia.tipo_forma,
 		jornada_num: secuencia.jornada_num,
 		cuadro_num: secuencia.cuadro_num,
 		cuadro_continua: secuencia.cuadro_continua,
-		esquemas: (secuencia.subtipos_estrofa ?? []).map((s) => ({
-			nombre: s.subtipo_estrofa_term,
-			unidades: s.unidades
+		esquemas: (secuencia.esquemas_rima ?? []).map((s) => ({
+			nombre: s.notacion ?? s.nombre ?? 'Esquema observado',
+			unidades: 1
 		})),
-		rasgos: (secuencia.rasgos ?? []).map((r) => ({ rasgo: r.rasgo_term, valor: r.valor_term })),
+		rasgos: (secuencia.rasgos ?? []).map((r) => ({
+			rasgo: r.rasgo_nombre,
+			valor: r.valor_nombre
+		})),
 		caracterizaciones: (secuencia.caracterizaciones_rango ?? []).map((c) => ({
 			tipo: c.tipo_caracterizacion_rango_term,
 			v_ini: c.v_ini,
@@ -58,17 +65,17 @@ export const secuenciasToAnalizables = (secuencias: PublicFichaSecuencia[]) =>
 export function detalleDeSecuencia(secuencia: PublicFichaSecuencia): string | null {
 	const partes: string[] = [];
 
-	for (const rasgo of secuencia.rasgos ?? []) partes.push(rasgo.valor_term);
+	for (const rasgo of secuencia.rasgos ?? []) partes.push(rasgo.valor_nombre);
 
-	const esquemas = secuencia.subtipos_estrofa ?? [];
-	if (esquemas.length === 1) {
-		partes.push(esquemas[0].subtipo_estrofa_term);
-	} else if (esquemas.length > 1) {
-		// Con el signo delante —«Tipología 5 5» se lee como un número partido en dos—, y **sin
-		// contar lo que solo pasa una vez**: los dos cuartetos de un soneto son uno, y «×1» sobra.
+	const esquemas = buildSequenceRhymeSchemeOccurrences(secuencia);
+	if (esquemas.length > 0) {
 		partes.push(
 			esquemas
-				.map((e) => (e.unidades > 1 ? `${e.subtipo_estrofa_term} ×${e.unidades}` : e.subtipo_estrofa_term))
+				.map((esquema) =>
+					esquema.cantidad > 1
+						? `${esquema.label} · ${formatMetricCount(esquema)}`
+						: esquema.label
+				)
 				.join(' · ')
 		);
 	}
@@ -91,9 +98,9 @@ export function secuenciaToSchemeEntry(secuencia: PublicFichaSecuencia): MetricS
 		v_ini: secuencia.v_ini,
 		v_fin: secuencia.v_fin,
 		n_versos: secuencia.n_versos,
-		forma: secuencia.estrofa_forma_term,
-		colorKey: secuencia.estrofa_forma_slug ?? secuencia.estrofa_forma_term,
-		arquitectura: secuencia.estrofa_tipo_term,
+		forma: secuencia.forma_nombre,
+		colorKey: secuencia.forma_slug ?? secuencia.forma_nombre,
+		arquitectura: secuencia.arquitectura_nombre,
 		detalle: detalleDeSecuencia(secuencia),
 		jornada: secuencia.jornada_num,
 		cuadro: secuencia.cuadro_num,
@@ -118,9 +125,9 @@ export function secuenciaToBarSegment(secuencia: PublicFichaSecuencia): MetricBa
 		id: secuencia.secuencia_id,
 		v_ini: secuencia.v_ini,
 		v_fin: secuencia.v_fin,
-		forma: secuencia.estrofa_forma_term,
-		colorKey: secuencia.estrofa_forma_slug ?? secuencia.estrofa_forma_term,
-		label: secuencia.estrofa_forma_term,
+		forma: secuencia.forma_nombre,
+		colorKey: secuencia.forma_slug ?? secuencia.forma_nombre,
+		label: secuencia.forma_nombre,
 		n_versos: secuencia.n_versos,
 		subsegments: []
 	};

@@ -57,8 +57,11 @@ export function applyFichaSectionVisibility(
 			v_ini: secuencia.v_ini,
 			v_fin: secuencia.v_fin,
 			n_versos: secuencia.n_versos,
-			estrofa_tipo_id: secuencia.estrofa_tipo_id,
-			estrofa_tipo_term: secuencia.estrofa_tipo_term,
+			arquitectura_id: secuencia.arquitectura_id,
+			arquitectura_nombre: secuencia.arquitectura_nombre,
+			forma_nombre: secuencia.forma_nombre,
+			forma_slug: secuencia.forma_slug,
+			tipo_forma: secuencia.tipo_forma,
 			sinopsis: secuencia.sinopsis
 		}))
 	};
