@@ -855,9 +855,8 @@ que `rejilla.ts`, que es la que ha aguantado bien. Consume un tipo mínimo propi
 
 - **Esquema métrico de un vistazo** —`MetricScheme.svelte`, **hecho el 9 de septiembre de 2026**—:
   una línea por secuencia con su rango, su forma y lo que la distingue de otra tirada de la misma
-  forma. Con él **las asonancias se ven por primera vez**. Los cortes de cuadro van sobre la fila
-  donde el cuadro empieza, no entre dos filas: cuando el tablado se vacía en mitad de una tirada no
-  hay hueco donde ponerlos, y esa es la fila de la que hay que avisar. Falta colgarle el PNG.
+  forma. Con él **las asonancias se ven por primera vez**. Los cuadros van en la banda de la
+  izquierda, que se explica más abajo. Falta colgarle el PNG.
 - **Esquema de estructura** —`StructureOutline.svelte`, hecho el mismo día—: jornadas y sus
   cuadros, el mismo índice que el dashboard enseña en la pestaña de secuencias. **No vive en el
   esquema métrico**: cómo está partida la obra es un dato de la obra, no del verso, así que se abre
@@ -891,6 +890,10 @@ el corte es un travesaño, no el tono; y salta el hueco entre tarjetas, o se le�
 
 **Y una regla de redacción**: nada de rótulos que expliquen lo que se está viendo. La frase «verso a
 verso, como en una edición crítica…» sobraba encima del esquema.
+
+**Del paso 4 quedan tres cosas**, en este orden: el **gráfico de evolución por jornadas** —el
+primero con `d3-scale` y SVG a mano, que fija el lenguaje gráfico del proyecto—, la **exportación
+en PNG** con sus dos versiones, y el **detalle de una secuencia**, que se rehace entero.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
 - Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
