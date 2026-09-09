@@ -895,8 +895,11 @@ verso, como en una edición crítica…» sobraba encima del esquema.
 con él estrena la ficha la pestaña **Análisis**: las jornadas en barras apiladas y el reparto entre
 españolas e italianas. Es el primero del lenguaje gráfico y fija tres cosas para los que vengan:
 
-- **Barras apiladas y no líneas**, porque lo que se compara es de qué está hecha cada jornada y no
-  cómo sube un número; y como el total de cada jornada no es el mismo, se apila al cien por cien.
+- **Lo horizontal se reserva para lo secuencial.** El código de barras recorre la obra verso a
+  verso, así que una barra apilada en horizontal se lee como si también fuera un recorrido. La
+  evolución es una acumulación de formas, sin orden que seguir: va **en columnas**.
+- **Apiladas al cien por cien**, porque lo que se compara es de qué está hecha cada jornada y sus
+  totales no son iguales: comparar alturas absolutas engañaría.
 - **El mismo orden de formas en todas las barras**, el del reparto global. Si cada jornada ordenara
   por su propio peso, los tramos bailarían y no se podría seguir ninguno.
 - **Un espacio de coordenadas ancho con escalado uniforme.** Dibujar en porcentaje obligaría a
