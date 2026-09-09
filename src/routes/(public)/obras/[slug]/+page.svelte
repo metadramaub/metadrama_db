@@ -299,6 +299,13 @@
 	}
 
 	const schemeEntries = $derived(secuenciasToSchemeEntries(secuenciasOrdenadas));
+
+	/** Los cuadros con su rango, numerados de corrido: la banda no sabe de jornadas. */
+	const cuadrosConRango = $derived(
+		[...cuadros]
+			.sort((a, b) => a.v_ini - b.v_ini)
+			.map((cuadro, indice) => ({ numero: indice + 1, v_ini: cuadro.v_ini, v_fin: cuadro.v_fin }))
+	);
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
 	const tecnica = $derived(fichaTecnica(analizables));
 
@@ -636,6 +643,7 @@
 					<MetricScheme
 						entries={schemeEntries}
 						colorByForma={colorByForma}
+						cuadros={cuadrosConRango}
 						onOpen={openSequenceModal}
 					/>
 				{/if}

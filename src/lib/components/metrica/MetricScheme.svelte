@@ -8,10 +8,13 @@
 	// como se comparan dos números.
 	import type { MetricSchemeEntry } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
+	import { bandaDeCuadros, type CuadroRango } from '$lib/metrica/banda-de-cuadros';
 
 	const props = $props<{
 		entries: MetricSchemeEntry[];
 		colorByForma: Record<string, string>;
+		/** Los cuadros con su rango, para dibujar la banda de la izquierda. */
+		cuadros?: CuadroRango[];
 		/** Agrupar por jornada, que es como se lee una comedia. */
 		agrupar?: boolean;
 		onOpen?: (id: string) => void;
@@ -40,19 +43,12 @@
 			.map(([jornada, entradas]) => ({ jornada, entradas }));
 	});
 
-	/**
-	 * Dónde se abre un cuadro, para marcarlo con una línea.
-	 *
-	 * **El corte va sobre la fila donde empieza el cuadro**, no entre dos filas: cuando el tablado
-	 * se vacía en mitad de una tirada no hay hueco entre filas donde ponerlo, y esa es justamente la
-	 * de la que hay que avisar.
-	 */
-	const abreCuadro = (entradas: MetricSchemeEntry[], indice: number) => {
-		if (indice === 0) return entradas[0]?.cuadro ?? null;
-		const previo = entradas[indice - 1]?.cuadro ?? null;
-		const actual = entradas[indice]?.cuadro ?? null;
-		return actual !== previo ? actual : null;
-	};
+	const cuadros = $derived((props.cuadros ?? []) as CuadroRango[]);
+	const hayBanda = $derived(cuadros.length > 0);
+
+	/** La banda de una fila: en qué cuadro está, y dónde la parte un corte si la parte. */
+	const bandaDe = (entrada: MetricSchemeEntry) =>
+		bandaDeCuadros(entrada.v_ini, entrada.v_fin, cuadros);
 
 	const rango = (entrada: MetricSchemeEntry) => `${entrada.v_ini}-${entrada.v_fin}`;
 </script>
@@ -74,6 +70,7 @@
 		<table class="metric-scheme__tabla">
 			<thead class="sr-only">
 				<tr>
+					<th scope="col">Cuadro</th>
 					<th scope="col">Forma</th>
 					<th scope="col">Versos</th>
 					<th scope="col">Extensión</th>
@@ -82,21 +79,35 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each grupo.entradas as entrada, indice (entrada.id)}
-					{@const cuadro = abreCuadro(grupo.entradas, indice)}
-					{#if cuadro !== null}
-						<tr class="metric-scheme__corte">
-							<td colspan="5">
-								Cuadro {cuadro}
-								{#if entrada.cuadro && indice > 0 && grupo.entradas[indice - 1]?.cuadroContinua}
-									<span class="metric-scheme__aviso">
-										— empieza dentro de la tirada anterior
-									</span>
-								{/if}
-							</td>
-						</tr>
-					{/if}
+				{#each grupo.entradas as entrada (entrada.id)}
+					{@const banda = bandaDe(entrada)}
 					<tr class="metric-scheme__fila">
+						{#if hayBanda}
+							<!-- **La banda dice dónde cae el corte, no solo que cayó.** Cuando un cuadro abre en
+							     mitad de una tirada, el tramo se parte en la proporción de esa fila: es un
+							     porcentaje de su propia altura, así que da igual lo que la fila mida. Entre filas
+							     no hay escala de versos, ni debe haberla. -->
+							<td class="metric-scheme__banda-celda">
+								<span class="metric-scheme__banda">
+									{#each banda as tramo, i (i)}
+										<span
+											class="metric-scheme__banda-tramo"
+											class:abre={tramo.abre}
+											style={`top:${tramo.desde * 100}%;height:${tramo.alto * 100}%`}
+											title={tramo.numero === null
+												? 'Fuera de cuadro'
+												: tramo.abre
+													? `Cuadro ${tramo.numero}, desde el v. ${tramo.verso}`
+													: `Cuadro ${tramo.numero}`}
+										>
+											{#if tramo.abre && tramo.numero !== null}
+												<span class="metric-scheme__banda-num">{tramo.numero}</span>
+											{/if}
+										</span>
+									{/each}
+								</span>
+							</td>
+						{/if}
 						<td class="metric-scheme__color-celda">
 							<span class="metric-scheme__color" style={`background:${colorDe(entrada)}`}></span>
 						</td>
@@ -160,14 +171,14 @@
 	}
 
 	.metric-scheme__color-celda {
-		width: 0.75rem;
-		padding-right: 0.5rem;
+		width: 1rem;
+		padding-right: 0.6rem;
 	}
 
 	.metric-scheme__color {
 		display: block;
-		width: 0.4rem;
-		height: 0.9rem;
+		width: 0.75rem;
+		height: 1rem;
 	}
 
 	/* Los rangos, en cifras tabulares y a la derecha: es como se comparan dos números. */
@@ -220,19 +231,42 @@
 		font-variant-numeric: tabular-nums;
 	}
 
-	.metric-scheme__corte > td {
-		padding: 0.6rem 0 0.15rem;
-		font-size: 0.6875rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--muted-foreground);
-		border-bottom: 1px solid var(--gray-800, currentColor);
+	/* La banda no lleva borde inferior: es lo que la hace continua de fila a fila. */
+	.metric-scheme__banda-celda {
+		width: 1.5rem;
+		padding: 0 0.5rem 0 0;
+		border-bottom: 0 !important;
 	}
 
-	.metric-scheme__aviso {
-		font-weight: 400;
-		letter-spacing: 0;
-		text-transform: none;
+	.metric-scheme__banda {
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 100%;
+		min-height: 1.6rem;
+	}
+
+	.metric-scheme__banda-tramo {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		border-left: 3px solid var(--border);
+	}
+
+	/* Donde abre un cuadro, la línea se refuerza y se pone su número: el corte se ve caer
+	   exactamente donde cae, aunque sea en mitad de la fila. */
+	.metric-scheme__banda-tramo.abre {
+		border-left-color: var(--gray-800, currentColor);
+		border-top: 1px solid var(--gray-800, currentColor);
+	}
+
+	.metric-scheme__banda-num {
+		position: absolute;
+		top: 0;
+		left: 5px;
+		font-size: 0.625rem;
+		font-weight: 600;
+		line-height: 1;
+		color: var(--muted-foreground);
 	}
 </style>
