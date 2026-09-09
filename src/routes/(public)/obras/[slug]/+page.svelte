@@ -7,6 +7,8 @@
 	import MetricFormStrips from '$lib/components/metrica/MetricFormStrips.svelte';
 	import MetricSlopeChart from '$lib/components/metrica/MetricSlopeChart.svelte';
 	import MetricTraditionSplit from '$lib/components/metrica/MetricTraditionSplit.svelte';
+	import MetricWorkSummary from '$lib/components/metrica/MetricWorkSummary.svelte';
+	import MetricRunTable from '$lib/components/metrica/MetricRunTable.svelte';
 	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -24,7 +26,8 @@
 		fichaTecnica,
 		perfilDeFormas,
 		perfilPorJornada,
-		tradicionesPorJornada
+		tradicionesPorJornada,
+		tiradasPorForma
 	} from '$lib/metrica/analisis-ficha';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
 	import { isSectionVisible, FICHA_SECTION_IDS } from '$lib/secciones-publicas';
@@ -335,6 +338,7 @@
 	);
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
 	const tecnica = $derived(fichaTecnica(analizables));
+	const tiradas = $derived(tiradasPorForma(analizables));
 
 	/** El orden de apilado es el del reparto de toda la obra, igual en todas las jornadas. */
 	const ordenDeFormas = $derived(
@@ -606,7 +610,8 @@
 
 	{#if activeTab === 'estructura'}
 		{#if showMetrica}
-			<section class="space-y-4">
+			<section class="space-y-6">
+				<MetricWorkSummary summary={tecnica} />
 				<div class="space-y-3">
 					<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 						<div class="flex flex-wrap items-center gap-2">
@@ -856,6 +861,10 @@
 							meta={exportMeta('Españolas e italianas', 'tradiciones-por-jornada', traditionLegend)}
 						/>
 					</div>
+				{/if}
+
+				{#if tiradas.length > 0}
+					<MetricRunTable rows={tiradas} colorByForma={colorByForma} />
 				{/if}
 			</section>
 		{/if}
