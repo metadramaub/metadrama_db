@@ -2,16 +2,19 @@
 	// Evolución de las formas por jornadas, REUTILIZABLE (ficha, y mañana el perfil de autor).
 	//
 	// **El primero del lenguaje gráfico del proyecto**, y por eso está hecho a mano con `d3-scale` y
-	// SVG en vez de con una librería de gráficos: lo que se dibuja aquí son proporciones de una obra
+	// SVG en vez de con una librería de gráficos: lo que se dibuja son proporciones de una obra
 	// dramática, con sus colores por tradición y sus nombres de forma, y eso no encaja en los
 	// valores por defecto de nadie. Las decisiones que fija:
 	//
-	// - **Barras apiladas y no líneas.** Lo que se compara es de qué está hecha cada jornada, no cómo
-	//   sube un número; y el total de cada jornada no es el mismo, así que se apila al 100 %.
-	// - **El orden de las formas es el mismo en las tres barras**, y es el del reparto global. Si
-	//   cada jornada ordenara por su propio peso, los tramos bailarían y no se podría seguir ninguno.
-	// - **Solo se rotula lo que cabe.** Un tramo de dos versos no lleva texto encima; se lee en el
-	//   pie o al pasar por encima.
+	// - **En columnas, no en barras horizontales.** Lo horizontal se reserva para lo secuencial: el
+	//   código de barras recorre la obra verso a verso, y una barra apilada en horizontal se lee como
+	//   si también fuera un recorrido. Aquí no hay orden que seguir —es una acumulación de formas—,
+	//   así que va en vertical y no se confunde con nada.
+	// - **Apiladas al cien por cien.** Lo que se compara es de qué está hecha cada jornada; sus
+	//   totales no son iguales y comparar alturas absolutas engañaría.
+	// - **El mismo orden de formas en todas las columnas**, el del reparto global. Si cada jornada
+	//   ordenara por su propio peso, los tramos bailarían y no se podría seguir ninguno con la vista.
+	// - **Las etiquetas van dentro del SVG**, para que viajen con él al exportarlo a PNG.
 	import { scaleLinear } from 'd3-scale';
 	import type { MetricEvolutionSeries } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
@@ -25,25 +28,33 @@
 		resaltada?: string | null;
 	}>();
 
-	// **Un espacio de coordenadas ancho y escalado uniforme.** Dibujar en porcentaje obligaría a
-	// `preserveAspectRatio="none"`, que estira el texto junto con las barras; con mil unidades de
-	// ancho el SVG escala entero y las letras salen proporcionadas.
-	const ANCHO = 1000;
-	const ALTO_BARRA = 42;
-	const HUECO = 18;
-	const MARGEN_IZQ = 96;
-	const MARGEN_DER = 8;
+	const ANCHO_COL = 110;
+	const HUECO = 54;
+	const ALTO_UTIL = 420;
+	const MARGEN_SUP = 14;
+	const MARGEN_IZQ = 46;
+	const MARGEN_INF = 40;
 
-	const escala = $derived(scaleLinear().domain([0, 100]).range([MARGEN_IZQ, ANCHO - MARGEN_DER]));
+	const ancho = $derived(
+		MARGEN_IZQ + props.series.length * ANCHO_COL + Math.max(0, props.series.length - 1) * HUECO + 8
+	);
+	const alto = MARGEN_SUP + ALTO_UTIL + MARGEN_INF;
 
-	const alto = $derived(props.series.length * (ALTO_BARRA + HUECO));
+	/** De porcentaje a coordenada: el cero abajo, que es como se lee una columna. */
+	const y = $derived(
+		scaleLinear()
+			.domain([0, 100])
+			.range([MARGEN_SUP + ALTO_UTIL, MARGEN_SUP])
+	);
+
+	const x = (columna: number) => MARGEN_IZQ + columna * (ANCHO_COL + HUECO);
 
 	const colorDe = (colorKey: string) =>
 		props.colorByForma[normalizeFormaKey(colorKey)] ?? 'var(--muted-foreground)';
 
-	/** Cada barra, ya apilada: de dónde a dónde va cada forma dentro de su jornada. */
-	const barras = $derived.by(() =>
-		props.series.map((serie: MetricEvolutionSeries, fila: number) => {
+	/** Cada columna, ya apilada: qué porción ocupa cada forma dentro de su jornada. */
+	const columnas = $derived.by(() =>
+		props.series.map((serie: MetricEvolutionSeries, indice: number) => {
 			const total = serie.valores.reduce((t, v) => t + v.versos, 0) || 1;
 			let acumulado = 0;
 			const tramos = props.orden
@@ -51,47 +62,45 @@
 					const versos = serie.valores.find((v) => v.colorKey === colorKey)?.versos ?? 0;
 					const desde = (acumulado / total) * 100;
 					acumulado += versos;
-					return {
-						forma,
-						colorKey,
-						versos,
-						desde,
-						ancho: (versos / total) * 100,
-						porcentaje: (versos / total) * 100
-					};
+					return { forma, colorKey, versos, desde, porcentaje: (versos / total) * 100 };
 				})
 				.filter((tramo: { versos: number }) => tramo.versos > 0);
-			return { serie, fila, tramos, total };
+			return { serie, indice, tramos, total };
 		})
 	);
 
-	const y = (fila: number) => fila * (ALTO_BARRA + HUECO);
+	const REFERENCIAS = [0, 25, 50, 75, 100];
 </script>
 
 <figure class="metric-evolution">
-	<svg
-		viewBox={`0 0 ${ANCHO} ${alto}`}
-		role="img"
-		aria-label="Evolución de las formas métricas por jornadas"
-	>
-		{#each barras as barra (barra.serie.etiqueta)}
-			<!-- La etiqueta va dentro del SVG para que viaje con él al exportarlo a PNG. -->
+	<svg viewBox={`0 0 ${ancho} ${alto}`} role="img" aria-label="Evolución de las formas por jornadas">
+		<!-- Las guías van detrás y muy tenues: sitúan sin competir con el color de las formas. -->
+		{#each REFERENCIAS as valor (valor)}
+			<line
+				class="metric-evolution__guia"
+				x1={MARGEN_IZQ - 6}
+				x2={ancho - 8}
+				y1={y(valor)}
+				y2={y(valor)}
+			/>
 			<text
-				class="metric-evolution__etiqueta"
-				x={MARGEN_IZQ - 8}
-				y={y(barra.fila) + ALTO_BARRA / 2}
+				class="metric-evolution__referencia"
+				x={MARGEN_IZQ - 10}
+				y={y(valor)}
 				text-anchor="end"
 				dominant-baseline="middle"
 			>
-				{barra.serie.etiqueta}
+				{valor}%
 			</text>
+		{/each}
 
-			{#each barra.tramos as tramo (tramo.colorKey)}
+		{#each columnas as columna (columna.serie.etiqueta)}
+			{#each columna.tramos as tramo (tramo.colorKey)}
 				<rect
-					x={escala(tramo.desde)}
-					y={y(barra.fila)}
-					width={Math.max(0, escala(tramo.desde + tramo.ancho) - escala(tramo.desde))}
-					height={ALTO_BARRA}
+					x={x(columna.indice)}
+					y={y(tramo.desde + tramo.porcentaje)}
+					width={ANCHO_COL}
+					height={Math.max(0, y(tramo.desde) - y(tramo.desde + tramo.porcentaje))}
 					fill={colorDe(tramo.colorKey)}
 					opacity={props.resaltada && props.resaltada !== tramo.colorKey ? 0.25 : 1}
 					role="presentation"
@@ -99,12 +108,21 @@
 					onmouseleave={() => props.onHoverForma?.(null)}
 				>
 					<title>
-						{barra.serie.etiqueta}: {tramo.forma}, {tramo.versos} versos ({tramo.porcentaje.toFixed(
+						{columna.serie.etiqueta}: {tramo.forma}, {tramo.versos} versos ({tramo.porcentaje.toFixed(
 							1
 						)} %)
 					</title>
 				</rect>
 			{/each}
+
+			<text
+				class="metric-evolution__etiqueta"
+				x={x(columna.indice) + ANCHO_COL / 2}
+				y={MARGEN_SUP + ALTO_UTIL + 24}
+				text-anchor="middle"
+			>
+				{columna.serie.etiqueta}
+			</text>
 		{/each}
 	</svg>
 </figure>
@@ -114,10 +132,23 @@
 		margin: 0;
 	}
 
+	/* Se deja crecer hasta un ancho cómodo y no más: estirado a toda la página, tres columnas
+	   quedarían absurdamente anchas y volverían a parecer una línea de tiempo. */
 	.metric-evolution svg {
 		display: block;
 		width: 100%;
+		max-width: 32rem;
 		height: auto;
+	}
+
+	.metric-evolution__guia {
+		stroke: var(--border);
+		stroke-width: 1;
+	}
+
+	.metric-evolution__referencia {
+		font-size: 13px;
+		fill: var(--muted-foreground);
 	}
 
 	.metric-evolution__etiqueta {
@@ -126,9 +157,5 @@
 		fill: var(--muted-foreground);
 		text-transform: uppercase;
 		letter-spacing: 0.4px;
-	}
-
-	.metric-evolution rect {
-		cursor: default;
 	}
 </style>
