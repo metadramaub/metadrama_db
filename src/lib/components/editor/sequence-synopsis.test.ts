@@ -71,14 +71,11 @@ describe('sequence-synopsis', () => {
 				vFin: 20
 			}
 		]);
-		expect(groups[0]?.items.map((item) => item.type)).toEqual(['cuadro_divider', 'card']);
-		expect(groups[0]?.items[0]).toMatchObject({
-			type: 'cuadro_divider',
-			cuadro: {
-				label: 'Cuadro 1',
-				rangeLabel: 'vv. 1-50'
-			}
-		});
+		// Solo tarjetas: dónde cambia el cuadro lo dice la banda, no un aviso entre tarjetas.
+		expect(groups[0]?.items.map((item) => item.type)).toEqual(['card']);
+		expect(groups[0]?.cards[0]?.banda).toEqual([
+			{ numero: 1, desde: 0, alto: 1, abre: false, verso: 1 }
+		]);
 	});
 
 	it('inserta un divisor nuevo cuando la siguiente secuencia empieza en otro cuadro', () => {
@@ -92,19 +89,10 @@ describe('sequence-synopsis', () => {
 			estrofaOptions: estrofasBase
 		});
 
-		expect(groups[0]?.items.map((item) => item.type)).toEqual([
-			'cuadro_divider',
-			'card',
-			'cuadro_divider',
-			'card'
-		]);
-		expect(groups[0]?.items[2]).toMatchObject({
-			type: 'cuadro_divider',
-			cuadro: {
-				label: 'Cuadro 2',
-				rangeLabel: 'vv. 51-100'
-			}
-		});
+		expect(groups[0]?.items.map((item) => item.type)).toEqual(['card', 'card']);
+		// Cada tarjeta cae entera en su cuadro, así que ninguna banda se parte.
+		expect(groups[0]?.cards.map((card) => card.banda.length)).toEqual([1, 1]);
+		expect(groups[0]?.cards[1]?.banda[0]).toMatchObject({ numero: 2 });
 	});
 
 	it('marca los cambios internos de cuadro sin partir la secuencia', () => {
@@ -122,10 +110,16 @@ describe('sequence-synopsis', () => {
 			'Cuadro 1 · vv. 40-50',
 			'Cuadro 2 · vv. 51-80'
 		]);
-		expect(groups[0]?.items.map((item) => item.type)).toEqual(['cuadro_divider', 'card']);
+		expect(groups[0]?.items.map((item) => item.type)).toEqual(['card']);
+		// **La banda se parte donde cae el corte.** La secuencia va del 40 al 80 —41 versos— y el
+		// cuadro 2 abre en el 51, o sea a los 11 versos: 11/41 de la altura de la tarjeta.
+		const banda = groups[0]?.cards[0]?.banda ?? [];
+		expect(banda.map((tramo) => tramo.numero)).toEqual([1, 2]);
+		expect(banda[1]?.desde).toBeCloseTo(11 / 41, 6);
+		expect(banda[1]).toMatchObject({ abre: true, verso: 51 });
 	});
 
-	it('usa mini carryover si el cuadro ya empezo dentro de la secuencia anterior', () => {
+	it('la tarjeta siguiente ya no repite el numero del cuadro que viene de antes', () => {
 		const groups = buildSequenceSynopsisGroups({
 			secuencias: [
 				createSecuencia({ secuencia_id: 'seq-1', v_ini: 40, v_fin: 80 }),
@@ -136,18 +130,11 @@ describe('sequence-synopsis', () => {
 			estrofaOptions: estrofasBase
 		});
 
-		expect(groups[0]?.items.map((item) => item.type)).toEqual([
-			'cuadro_divider',
-			'card',
-			'cuadro_carryover',
-			'card'
+		expect(groups[0]?.items.map((item) => item.type)).toEqual(['card', 'card']);
+		// La segunda arranca dentro del cuadro 2, que abrió en la primera: no lo abre, lo continúa.
+		expect(groups[0]?.cards[1]?.banda).toEqual([
+			{ numero: 2, desde: 0, alto: 1, abre: false, verso: 51 }
 		]);
-		expect(groups[0]?.items[2]).toMatchObject({
-			type: 'cuadro_carryover',
-			cuadro: {
-				label: 'Cuadro 2'
-			}
-		});
 		expect(groups[0]?.cards[1]?.startingCuadro.label).toBe('Cuadro 2');
 	});
 
@@ -197,19 +184,16 @@ describe('sequence-synopsis', () => {
 		});
 
 		expect(groups).toHaveLength(2);
-		expect(groups[0]?.items[0]).toMatchObject({
-			type: 'cuadro_divider',
-			cuadro: {
-				label: 'Sin cuadro',
-				rangeLabel: null
-			}
-		});
+		// Un pasaje fuera de todo cuadro tiene banda, pero sin número que poner.
+		expect(groups[0]?.cards[0]?.startingCuadro.label).toBe('Sin cuadro');
+		expect(groups[0]?.cards[0]?.banda).toEqual([
+			{ numero: null, desde: 0, alto: 1, abre: false, verso: null }
+		]);
 		expect(groups[1]?.label).toBe('Sin jornada');
 		expect(groups[1]?.items[0]).toMatchObject({
-			type: 'cuadro_divider',
-			cuadro: {
-				label: 'Sin cuadro',
-				rangeLabel: null
+			type: 'card',
+			card: {
+				startingCuadro: { label: 'Sin cuadro' }
 			}
 		});
 	});
