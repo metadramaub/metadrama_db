@@ -5,6 +5,7 @@ import {
 	type SequenceStructureTramo
 } from '$lib/utils/sequence-structure';
 import type { Tables } from '$lib/types/database.types';
+import { bandaDeCuadros, type TramoDeBanda } from '$lib/metrica/banda-de-cuadros';
 
 type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
 type CuadroRow = Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>;
@@ -45,28 +46,27 @@ export type SequenceSynopsisCard = {
 	formaTipoForma: string | null;
 	sinopsis: string | null;
 	hasSynopsis: boolean;
+	/** Dónde cae cada cambio de cuadro dentro de esta tarjeta, en proporción de su altura. */
+	banda: TramoDeBanda[];
 	startingCuadro: SequenceSynopsisCuadroRef;
 	endingCuadro: SequenceSynopsisCuadroRef;
 	spansMultipleCuadros: boolean;
 	tramos: SequenceSynopsisTramo[];
 };
 
-export type SequenceSynopsisGroupItem =
-	| {
-			type: 'cuadro_divider';
-			key: string;
-			cuadro: SequenceSynopsisCuadroRef;
-	  }
-	| {
-			type: 'cuadro_carryover';
-			key: string;
-			cuadro: SequenceSynopsisCuadroRef;
-	  }
-	| {
-			type: 'card';
-			key: string;
-			card: SequenceSynopsisCard;
-	  };
+/**
+ * Las tarjetas, y nada más.
+ *
+ * Antes había además dos clases de aviso —«inicia» y «sigue»— para decir dónde cambiaba el cuadro,
+ * y se elegía una u otra según dónde hubiera acabado la tarjeta anterior. Fallaba, y sobre todo
+ * mentía: **el corte no cae entre dos tarjetas**, cae dentro de una. Ahora lo dice la banda de la
+ * izquierda, que lo pinta a su altura real; el tipo se conserva para no romper a quien lo consuma.
+ */
+export type SequenceSynopsisGroupItem = {
+	type: 'card';
+	key: string;
+	card: SequenceSynopsisCard;
+};
 
 export type SequenceSynopsisJornadaGroup = {
 	jornadaId: string | null;
@@ -85,40 +85,11 @@ type BuildSequenceSynopsisGroupsArgs = {
 };
 
 function buildItems(cards: SequenceSynopsisCard[], groupKey: string): SequenceSynopsisGroupItem[] {
-	const items: SequenceSynopsisGroupItem[] = [];
-	let activeCuadroKey: string | null = null;
-	let previousCardEndedInDifferentCuadro = false;
-
-	for (const card of cards) {
-		if (previousCardEndedInDifferentCuadro && card.startingCuadro.key === activeCuadroKey) {
-			items.push({
-				type: 'cuadro_carryover',
-				key: `${groupKey}-cuadro_carryover-${card.secuenciaId}`,
-				cuadro: card.startingCuadro
-			});
-		} else if (card.startingCuadro.key !== activeCuadroKey) {
-			const type =
-				previousCardEndedInDifferentCuadro && card.startingCuadro.key !== 'sin-cuadro'
-					? 'cuadro_carryover'
-					: 'cuadro_divider';
-			items.push({
-				type,
-				key: `${groupKey}-${type}-${card.secuenciaId}`,
-				cuadro: card.startingCuadro
-			});
-		}
-
-		items.push({
-			type: 'card',
-			key: `${groupKey}-card-${card.secuenciaId}`,
-			card
-		});
-
-		activeCuadroKey = card.endingCuadro.key;
-		previousCardEndedInDifferentCuadro = card.spansMultipleCuadros;
-	}
-
-	return items;
+	return cards.map((card) => ({
+		type: 'card' as const,
+		key: `${groupKey}-card-${card.secuenciaId}`,
+		card
+	}));
 }
 
 export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArgs): SequenceSynopsisJornadaGroup[] {
@@ -129,11 +100,21 @@ export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArg
 	});
 	const estrofaById = new Map((args.estrofaOptions ?? []).map((option) => [option.termino_id, option.termino]));
 	const estrofaOptionById = new Map((args.estrofaOptions ?? []).map((option) => [option.termino_id, option]));
+	// Los cuadros con su rango, numerados de corrido: la banda no sabe de jornadas.
+	const rangosDeCuadro = [...(args.cuadros ?? [])]
+		.filter((cuadro) => cuadro.v_ini !== null && cuadro.v_fin !== null)
+		.sort((a, b) => (a.v_ini ?? 0) - (b.v_ini ?? 0))
+		.map((cuadro, indice) => ({
+			numero: cuadro.cuadro_num ?? indice + 1,
+			v_ini: cuadro.v_ini as number,
+			v_fin: cuadro.v_fin as number
+		}));
+
 	const groups = new Map<string, SequenceSynopsisJornadaGroup>();
 	const fallbackCards: SequenceSynopsisCard[] = [];
 
 	for (const item of resolved) {
-		const card = mapResolvedSequenceToCard(item, estrofaById, estrofaOptionById);
+		const card = mapResolvedSequenceToCard(item, estrofaById, estrofaOptionById, rangosDeCuadro);
 		if (!item.jornada.jornadaId) {
 			fallbackCards.push(card);
 			continue;
@@ -187,7 +168,8 @@ export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArg
 function mapResolvedSequenceToCard(
 	item: ResolvedSequenceStructure<SequenceSynopsisSequenceLike>,
 	estrofaById: Map<string, string>,
-	estrofaOptionById: Map<string, EstrofaOption>
+	estrofaOptionById: Map<string, EstrofaOption>,
+	rangosDeCuadro: { numero: number; v_ini: number; v_fin: number }[]
 ): SequenceSynopsisCard {
 	// **La forma nombra el pasaje; la arquitectura es el detalle.** Decía «Octosilábica consonante»
 	// donde tenía que decir «Quintilla», que es el mismo fallo que tenía el código de barras. El
@@ -215,6 +197,7 @@ function mapResolvedSequenceToCard(
 		formaTipoForma: forma.tipoForma,
 		sinopsis: item.sequence.sinopsis,
 		hasSynopsis: Boolean(item.sequence.sinopsis?.trim()),
+		banda: bandaDeCuadros(item.vIni, item.vFin, rangosDeCuadro),
 		startingCuadro: item.startingCuadro,
 		endingCuadro: item.endingCuadro,
 		spansMultipleCuadros: item.spansMultipleCuadros,

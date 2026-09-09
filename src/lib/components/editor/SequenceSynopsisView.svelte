@@ -93,32 +93,41 @@
 </script>
 
 {#snippet renderGroupItem(item: SequenceSynopsisGroupItem)}
-	{#if item.type === 'cuadro_divider'}
-		<div class="border-l-2 border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2">
-			<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
-				<span class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-					Inicia
-				</span>
-				<span class="font-semibold text-[color:var(--foreground)]">{item.cuadro.label}</span>
-				{#if item.cuadro.rangeLabel}
-					<span class="text-[color:var(--muted-foreground)]">{item.cuadro.rangeLabel}</span>
-				{/if}
-			</div>
-		</div>
-	{:else if item.type === 'cuadro_carryover'}
-		<div class="border-l-2 border-dashed border-[color:var(--border)] bg-[color:var(--gray-50)]/70 px-3 py-1.5">
-			<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm text-[color:var(--muted-foreground)]">
-				<span class="text-xs font-semibold uppercase tracking-[0.08em]">Sigue</span>
-				<span>{cuadroShortLabel(item.cuadro.cuadroNum)}</span>
-				{#if item.cuadro.vFin !== null}
-					<span>hasta v. {item.cuadro.vFin}</span>
-				{/if}
-			</div>
-		</div>
-	{:else}
-		{@const borderColor = cardBorderColor(item.card)}
+	{@const borderColor = cardBorderColor(item.card)}
+	<div class="flex items-stretch gap-2">
+		<!-- **La banda dice dónde cambia el cuadro, y dónde cae el cambio.** Antes eran dos avisos
+		     entre tarjetas —«inicia» y «sigue»— que elegían uno u otro según dónde hubiera acabado
+		     la anterior: fallaba, y además mentía, porque el corte no cae entre dos tarjetas sino
+		     dentro de una. Aquí se pinta a su altura real, que es un porcentaje de la propia
+		     tarjeta y por eso vale igual con una sinopsis larga que con una vacía. -->
+		{#if item.card.banda.length > 0}
+			<span class="relative w-6 shrink-0">
+				{#each item.card.banda as tramo, i (i)}
+					<span
+						class="absolute left-0 w-full border-l-[3px] border-[color:var(--border)]"
+						class:!border-l-[color:var(--gray-800)]={tramo.abre}
+						class:border-t={tramo.abre}
+						class:border-t-[color:var(--gray-800)]={tramo.abre}
+						style={`top:${tramo.desde * 100}%;height:${tramo.alto * 100}%`}
+						title={tramo.numero === null
+							? 'Fuera de cuadro'
+							: tramo.abre
+								? `Cuadro ${tramo.numero}, desde el v. ${tramo.verso}`
+								: `Cuadro ${tramo.numero}`}
+					>
+						{#if tramo.abre && tramo.numero !== null}
+							<span
+								class="absolute left-[5px] top-0 text-[0.625rem] font-semibold leading-none text-[color:var(--muted-foreground)]"
+							>
+								{tramo.numero}
+							</span>
+						{/if}
+					</span>
+				{/each}
+			</span>
+		{/if}
 		<article
-			class={`border-l-2 py-4 pl-4 ${
+			class={`min-w-0 flex-1 border-l-2 py-4 pl-4 ${
 				borderColor
 					? item.card.hasSynopsis
 						? ''
@@ -173,7 +182,7 @@
 				{/if}
 			</div>
 		</article>
-	{/if}
+	</div>
 {/snippet}
 
 {#if props.groups.length === 0}
