@@ -1039,7 +1039,7 @@ paso es el bloque **FP-G**. Las descargas siguen aparcadas.
 | código | pendiente |
 |---|---|
 | **FP-G1** | **Hecho**: `De un vistazo` muestra formas distintas, longitud media, tirada más larga con rango y las formas de apertura y cierre. No repite versos, jornadas, cuadros ni secuencias, que ya están en la cabecera; los índices de versos partidos, espacios y desviaciones pasan a FP-G8/U2. |
-| **FP-G2** | Mostrar las transiciones entre formas. |
+| **FP-G2** | **Hecho**: `Análisis` presenta las transiciones entre secuencias consecutivas como pares legibles y ordenados por frecuencia. Las seis principales quedan a la vista, el resto se despliega y se aclara que el cálculo incluye los pasos entre jornadas. No se usa una red que dificulte la lectura. |
 | **FP-G3** | Detectar patrones métricos repetidos, con umbral decidido y la marca «calculado». |
 | **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con tiradas, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
 | **FP-G5** | **Hecho**: `Análisis` cuenta los límites reales entre cuadros dentro de cada jornada y distingue los que coinciden con un cambio de forma, parten una tirada o caen entre dos tiradas de la misma forma. Los cortes de jornada quedan fuera. Sustituye el cálculo anterior, cuyo denominador eran secuencias y no cambios de cuadro. |
