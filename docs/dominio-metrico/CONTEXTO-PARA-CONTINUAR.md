@@ -891,9 +891,20 @@ el corte es un travesaño, no el tono; y salta el hueco entre tarjetas, o se le�
 **Y una regla de redacción**: nada de rótulos que expliquen lo que se está viendo. La frase «verso a
 verso, como en una edición crítica…» sobraba encima del esquema.
 
-**Del paso 4 quedan tres cosas**, en este orden: el **gráfico de evolución por jornadas** —el
-primero con `d3-scale` y SVG a mano, que fija el lenguaje gráfico del proyecto—, la **exportación
-en PNG** con sus dos versiones, y el **detalle de una secuencia**, que se rehace entero.
+**El gráfico de evolución está hecho** —`MetricEvolutionChart.svelte`, 9 de septiembre de 2026—, y
+con él estrena la ficha la pestaña **Análisis**: las jornadas en barras apiladas y el reparto entre
+españolas e italianas. Es el primero del lenguaje gráfico y fija tres cosas para los que vengan:
+
+- **Barras apiladas y no líneas**, porque lo que se compara es de qué está hecha cada jornada y no
+  cómo sube un número; y como el total de cada jornada no es el mismo, se apila al cien por cien.
+- **El mismo orden de formas en todas las barras**, el del reparto global. Si cada jornada ordenara
+  por su propio peso, los tramos bailarían y no se podría seguir ninguno.
+- **Un espacio de coordenadas ancho con escalado uniforme.** Dibujar en porcentaje obligaría a
+  `preserveAspectRatio="none"`, que estira el texto junto con las barras. Y las etiquetas van dentro
+  del SVG a propósito, para que viajen con él al exportarlo a PNG.
+
+**Del paso 4 quedan dos cosas**: la **exportación en PNG** con sus dos versiones, y el **detalle de
+una secuencia**, que se rehace entero.
 - **Evolución por jornadas**: barras apiladas con los colores de las formas, y encima la línea de
   españolas contra italianas.
 - Los gráficos se dibujan con **`d3-scale` y SVG a mano, en componentes reutilizables**, como el
