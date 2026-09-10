@@ -4,8 +4,10 @@ import {
 	caracterizacionesDeLaObra,
 	cierreDeJornadas,
 	cortesDeCuadro,
+	densidadDeTransiciones,
 	desgloseDeFormas,
 	evolucionPorJornada,
+	numeroEfectivoDeFormas,
 	fichaTecnica,
 	perfilDeFormas,
 	perfilDeTradiciones,
@@ -288,5 +290,41 @@ describe('evolucionPorJornada', () => {
 		const [punto] = evolucionPorJornada(conHueco);
 		expect(punto.formasDistintas).toBe(1);
 		expect(punto.numeroEfectivo).toBe(1);
+	});
+});
+
+describe('numeroEfectivoDeFormas y densidadDeTransiciones', () => {
+	it('vale el número de formas cuando todas pesan igual', () => {
+		const cuatro = [
+			secuencia({ v_ini: 1, n_versos: 25 }),
+			secuencia({ v_ini: 26, n_versos: 25, forma_slug: 'romance', forma: 'Romance' }),
+			secuencia({ v_ini: 51, n_versos: 25, forma_slug: 'lira', forma: 'Lira' }),
+			secuencia({ v_ini: 76, n_versos: 25, forma_slug: 'soneto', forma: 'Soneto' })
+		];
+		expect(numeroEfectivoDeFormas(cuatro)).toBeCloseTo(4, 6);
+	});
+
+	it('baja hacia uno cuando una forma domina', () => {
+		const dominada = [
+			secuencia({ v_ini: 1, n_versos: 990 }),
+			secuencia({ v_ini: 991, n_versos: 10, forma_slug: 'soneto', forma: 'Soneto' })
+		];
+		expect(numeroEfectivoDeFormas(dominada)).toBeLessThan(1.2);
+	});
+
+	it('deja fuera el pasaje sin forma anotada, como hace la precomputación', () => {
+		const conHueco = [
+			secuencia({ v_ini: 1, n_versos: 50 }),
+			secuencia({ v_ini: 51, n_versos: 50, forma_slug: null, forma: null })
+		];
+		expect(numeroEfectivoDeFormas(conHueco)).toBeCloseTo(1, 6);
+	});
+
+	it('cuenta las secuencias por cada cien versos', () => {
+		const obra = [
+			secuencia({ v_ini: 1, n_versos: 100 }),
+			secuencia({ v_ini: 101, n_versos: 100 })
+		];
+		expect(densidadDeTransiciones(obra)).toBeCloseTo(1, 6);
 	});
 });

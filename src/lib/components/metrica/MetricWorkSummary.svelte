@@ -12,6 +12,10 @@
 		secuencias: number;
 		formasDistintas: number;
 		mediaPorSecuencia: number;
+		/** Número efectivo de formas y secuencias por cada cien versos: las dos medidas con las que
+		 *  se ordena el catálogo de obras, dichas también aquí. */
+		diversidad: number;
+		densidad: number;
 		secuenciaMasLarga: SecuenciaDestacada;
 		secuenciaMasCorta: SecuenciaDestacada;
 		abre: string | null;
@@ -19,51 +23,50 @@
 	}
 
 	const props = $props<{ summary: TechnicalSummary }>();
+
+	const numero = (valor: number) =>
+		valor.toLocaleString('es', { maximumFractionDigits: 2 });
+
+	/** Las seis cifras, en el orden en que se preguntan. La unidad va pegada al número. */
+	const cifras = $derived([
+		{ etiqueta: 'Secuencias', valor: String(props.summary.secuencias) },
+		{ etiqueta: 'Formas distintas', valor: String(props.summary.formasDistintas) },
+		{ etiqueta: 'Longitud media', valor: `${props.summary.mediaPorSecuencia} vv.` },
+		{ etiqueta: 'Diversidad', valor: numero(props.summary.diversidad) },
+		{ etiqueta: 'Densidad', valor: `${numero(props.summary.densidad)} /100 vv.` }
+	]);
+
+	const rango = (s: NonNullable<SecuenciaDestacada>) =>
+		`${s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`} · ${s.n_versos} ${s.n_versos === 1 ? 'v.' : 'vv.'}`;
 </script>
 
-{#snippet destacada(secuencia: SecuenciaDestacada)}
-	{#if secuencia}
-		<dd class="mt-0.5 font-semibold">{secuencia.forma ?? 'Sin forma anotada'}</dd>
-		<dd class="text-xs text-[color:var(--muted-foreground)]">
-			{secuencia.v_ini === secuencia.v_fin
-				? `v. ${secuencia.v_ini}`
-				: `vv. ${secuencia.v_ini}–${secuencia.v_fin}`}
-			· {secuencia.n_versos}
-			{secuencia.n_versos === 1 ? 'v.' : 'vv.'}
-		</dd>
-	{:else}
-		<dd class="mt-0.5 text-[color:var(--muted-foreground)]">Sin datos</dd>
-	{/if}
-{/snippet}
+<!--
+	**Es un resumen y tiene que ocupar como un resumen.** En rejilla de celdas con borde ocupaba
+	media pantalla antes de llegar al primer gráfico, que es lo contrario de lo que hace falta arriba
+	de la ficha. Ahora son dos líneas: los números en una y las formas que la enmarcan en otra.
+-->
+<section
+	class="border border-[color:var(--border)] bg-white px-4 py-3 sm:px-5"
+	aria-labelledby="metric-summary-title"
+>
+	<h2 id="metric-summary-title" class="sr-only">Resumen métrico</h2>
 
-<section class="rounded-lg border border-[color:var(--border)] bg-white" aria-labelledby="metric-summary-title">
-	<div class="flex flex-wrap items-center justify-between gap-2 border-b border-[color:var(--border)] px-4 py-3 sm:px-5">
-		<h2 id="metric-summary-title" class="text-base font-semibold">Resumen métrico</h2>
-	</div>
-	<dl class="grid sm:grid-cols-2 lg:grid-cols-4">
-		<div class="px-4 py-3.5 sm:px-5">
-			<dt class="text-xs text-[color:var(--muted-foreground)]">Secuencias métricas</dt>
-			<dd class="mt-0.5 text-lg font-semibold tabular-nums">{props.summary.secuencias}</dd>
-		</div>
-		<div class="border-t border-[color:var(--border)] px-4 py-3.5 sm:border-l sm:border-t-0 sm:px-5">
-			<dt class="text-xs text-[color:var(--muted-foreground)]">Formas distintas</dt>
-			<dd class="mt-0.5 text-lg font-semibold tabular-nums">{props.summary.formasDistintas}</dd>
-		</div>
-		<div class="border-t border-[color:var(--border)] px-4 py-3.5 sm:border-l sm:border-t-0 sm:px-5 lg:border-l-0">
-			<dt class="text-xs text-[color:var(--muted-foreground)]">Longitud media</dt>
-			<dd class="mt-0.5 text-lg font-semibold tabular-nums">{props.summary.mediaPorSecuencia} vv.</dd>
-		</div>
-		<div class="border-t border-[color:var(--border)] px-4 py-3.5 sm:border-l sm:border-t-0 sm:px-5">
-			<dt class="text-xs text-[color:var(--muted-foreground)]">Secuencia más larga</dt>
-			{@render destacada(props.summary.secuenciaMasLarga)}
-		</div>
-		<div class="border-t border-[color:var(--border)] px-4 py-3.5 sm:border-l sm:border-t-0 sm:px-5">
-			<dt class="text-xs text-[color:var(--muted-foreground)]">Secuencia más corta</dt>
-			{@render destacada(props.summary.secuenciaMasCorta)}
-		</div>
+	<dl class="flex flex-wrap items-baseline gap-x-5 gap-y-1.5 text-sm">
+		{#each cifras as cifra (cifra.etiqueta)}
+			<div class="flex items-baseline gap-1.5">
+				<dt class="text-xs text-[color:var(--muted-foreground)]">{cifra.etiqueta}</dt>
+				<dd class="font-semibold tabular-nums">{cifra.valor}</dd>
+			</div>
+		{/each}
 	</dl>
-	<div class="grid gap-2 border-t border-[color:var(--border)] px-4 py-3 text-sm sm:grid-cols-2 sm:px-5">
-		<p><span class="text-[color:var(--muted-foreground)]">La obra abre con</span> <strong>{props.summary.abre ?? '—'}</strong></p>
-		<p><span class="text-[color:var(--muted-foreground)]">y cierra con</span> <strong>{props.summary.cierra ?? '—'}</strong></p>
-	</div>
+
+	<p class="mt-2 flex flex-wrap gap-x-5 gap-y-1 border-t border-[color:var(--border)] pt-2 text-xs text-[color:var(--muted-foreground)]">
+		<span>Abre con <strong class="text-[color:var(--gray-900)]">{props.summary.abre ?? '—'}</strong> y cierra con <strong class="text-[color:var(--gray-900)]">{props.summary.cierra ?? '—'}</strong></span>
+		{#if props.summary.secuenciaMasLarga}
+			<span>La más larga, <strong class="text-[color:var(--gray-900)]">{props.summary.secuenciaMasLarga.forma ?? 'sin forma anotada'}</strong> ({rango(props.summary.secuenciaMasLarga)})</span>
+		{/if}
+		{#if props.summary.secuenciaMasCorta}
+			<span>La más corta, <strong class="text-[color:var(--gray-900)]">{props.summary.secuenciaMasCorta.forma ?? 'sin forma anotada'}</strong> ({rango(props.summary.secuenciaMasCorta)})</span>
+		{/if}
+	</p>
 </section>
