@@ -30,8 +30,9 @@
 	const showMetricFilters = $derived(isCatalogMetricFiltersVisible(props.visibility));
 	const canShowDensidad = $derived(showMetricFilters && props.options.bounds.densidad !== null);
 
-	// Selector único de forma estrófica: formas raíz + subtipos anidados (jerarquía
-	// del vocabulario). La selección combinada se divide en las dos facetas reales.
+	// Selector único de forma estrófica: las formas y, anidados bajo cada una, los esquemas de
+	// rima que se han anotado en ella. La selección combinada se divide en las dos facetas reales
+	// —`formas_presentes` y `subtipos_presentes`— antes de filtrar.
 	const formaSelectorItems = $derived(buildFormaSelectorItems(props.options));
 	const formaSelectedIds = $derived([...props.filters.formas, ...props.filters.subtipos]);
 
@@ -45,9 +46,9 @@
 	}
 </script>
 
-<aside class="border border-[color:var(--border)] bg-white p-4">
-	<div class="flex items-center justify-between gap-3 border-b border-[color:var(--border)] pb-3">
-		<h2 class="font-display text-xl text-[color:var(--gray-900)]">Filtros</h2>
+<div class="bg-white p-4">
+	<!-- El título lo pone el cajón; aquí solo queda la salida de emergencia. -->
+	<div class="flex items-center justify-end gap-3 pb-1">
 		{#if props.hasActiveFilters}
 			<button
 				type="button"
@@ -62,17 +63,10 @@
 	<div class="space-y-5 pt-4">
 		{#if showBasicFilters}
 			<section class="space-y-4">
-				<label class="form-field">
-					<span class="form-label">Buscar</span>
-					<input
-						type="text"
-						value={props.filters.textQuery}
-						placeholder="Título o autor..."
-						class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-						oninput={(event) => update({ textQuery: event.currentTarget.value })}
-					/>
-				</label>
-
+				<!--
+					**Buscar no está aquí.** Es el filtro rápido y vive fuera del cajón, junto a los
+					resultados: es lo único que se usa sin abrir nada.
+				-->
 				<label class="form-field">
 					<span class="form-label">Ordenar por</span>
 					<CheckDropdown
@@ -204,11 +198,11 @@
 
 				{#if props.options.variaciones.length > 0}
 					<label class="form-field">
-						<span class="form-label">Variaciones / caracterizaciones</span>
+						<span class="form-label">Caracterizaciones</span>
 						<CheckDropdown
 							multiple={true}
 							search={props.options.variaciones.length > 8}
-							placeholder="Seleccionar variaciones"
+							placeholder="Seleccionar caracterizaciones"
 							items={props.options.variaciones}
 							selectedIds={props.filters.variaciones}
 							portal={true}
@@ -216,6 +210,26 @@
 						/>
 					</label>
 				{/if}
+
+				<!--
+					**Rasgos, todavía sin faceta.** Hay seis dimensiones anotadas —vocales de la
+					asonancia, final acentual, densidad de rima, organización en pareados, dístico
+					final y encadenamiento interior— y ninguna columna que las lleve a `obras_resumen`.
+					Crearla ahora sería deuda: cuando el buscador filtre sobre el JSON ya cargado, el
+					rasgo se filtra sin columna ninguna. Se deja a la vista y desactivado —es C26—
+					para que se entienda que el dato existe y aún no se puede cruzar.
+				-->
+				<div class="form-field opacity-60">
+					<span class="form-label">Rasgos</span>
+					<button
+						type="button"
+						disabled
+						class="w-full cursor-not-allowed border border-dashed border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-left text-sm text-[color:var(--muted-foreground)]"
+						title="Asonancia, final acentual, densidad de rima… Anotado, todavía sin filtro."
+					>
+						Asonancia, final acentual… — en preparación
+					</button>
+				</div>
 
 				{#if canShowDensidad && props.options.bounds.densidad}
 					<DualRange
@@ -232,4 +246,4 @@
 			</section>
 		{/if}
 	</div>
-</aside>
+</div>
