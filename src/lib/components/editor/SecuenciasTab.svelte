@@ -355,9 +355,32 @@
 		return maxVFin > 0 ? maxVFin + 1 : 1;
 	}
 
+	/**
+	 * Lo que la obra declara que no hay es **la respuesta** de la secuencia, no un hueco.
+	 *
+	 * La pantalla ya lo enseñaba así, pero solo al mirar: el formulario seguía en nulo y la fila se
+	 * guardaba sin responder. El disparador de la base responde por las secuencias que existían al
+	 * marcar la casilla, y como se marca antes de anotar, toda secuencia nacía después con el hueco:
+	 * el raíl contaba «4 de 6» y la revisión de la obra se quedaba bloqueada.
+	 */
+	function conLoQueLaObraDeclara(valores: FormState): FormState {
+		return {
+			...valores,
+			intervencion_figuras_donaire: props.loQueNoHay?.donaire
+				? 'sin_intervencion'
+				: valores.intervencion_figuras_donaire,
+			intervencion_personajes_sobrenaturales: props.loQueNoHay?.personajesSobrenaturales
+				? 'sin_intervencion'
+				: valores.intervencion_personajes_sobrenaturales,
+			evento_sobrenatural: props.loQueNoHay?.eventosSobrenaturales
+				? false
+				: valores.evento_sobrenatural
+		};
+	}
+
 	function initialForm(): FormState {
 		const suggestedStart = getSuggestedSecuenciaStart();
-		return {
+		return conLoQueLaObraDeclara({
 			v_ini: suggestedStart,
 			v_fin: suggestedStart + 1,
 			estrofa_tipo_id: '',
@@ -368,7 +391,7 @@
 			intervencion_personajes_sobrenaturales: null,
 			evento_sobrenatural: null,
 			sinopsis: ''
-		};
+		});
 	}
 
 	let form = $state<FormState>(initialForm());
@@ -602,7 +625,9 @@
 	function openEdit(secuencia: EditorSecuenciaRow) {
 		if (props.readOnly && !props.canComment) return;
 		editingId = secuencia.secuencia_id;
-		form = {
+		// Una secuencia guardada antes de este arreglo puede traer el hueco: abrirla lo cierra, y el
+		// primer guardado lo escribe.
+		form = conLoQueLaObraDeclara({
 			v_ini: secuencia.v_ini,
 			v_fin: secuencia.v_fin,
 			estrofa_tipo_id: toSelectableEstrofaId(secuencia.estrofa_tipo_id),
@@ -614,7 +639,7 @@
 				secuencia.intervencion_personajes_sobrenaturales as IntervencionValue | null,
 			evento_sobrenatural: secuencia.evento_sobrenatural,
 			sinopsis: secuencia.sinopsis ?? ''
-		};
+		});
 		estadoMetrico = null;
 		editorSessionKey += 1;
 		caracterizaciones?.cerrarModales();
