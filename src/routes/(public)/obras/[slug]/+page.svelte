@@ -474,7 +474,7 @@
 				]
 			},
 			{
-				grupo: 'La obra como pieza',
+				grupo: 'Otros análisis',
 				items: [
 					{ id: 'analisis-articulacion', label: 'Jornadas y cuadros', hay: true },
 					{
