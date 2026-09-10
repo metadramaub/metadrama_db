@@ -605,7 +605,11 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					valores: [
 						valor(vocabulary?.termino ?? rhymeTypeId, etiquetaVocabulario(vocabulary, rhymeTypeId))
 					],
-					observabilidad: 'especializada',
+					// **Directa, no especializada.** Distinguir asonante de consonante lo hace cualquiera
+					// que lea el pasaje en voz alta, y declararla especializada la penalizaba un 35 % en
+					// todos los recorridos: quedaba la última justo cuando es la que separa el romance de
+					// la sextilla o la silva del endecasílabo suelto.
+					observabilidad: 'directa',
 					coste: 0.42,
 					orden: 15,
 					fuente: 'norma'

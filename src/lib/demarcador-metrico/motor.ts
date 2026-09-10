@@ -327,6 +327,29 @@ function preguntasPosibles(
 	const uniformidadMetroOmitida = respuestas.some(
 		(respuesta) => respuesta.dimension === 'metro:uniformidad' && respuesta.valor === 'desconocido'
 	);
+	/**
+	 * **Quien puede contestar la organización interna ya sabe la forma.**
+	 *
+	 * `estructura:orden` ofrece una etiqueta por arquitectura —«Primera quintilla + Segunda
+	 * quintilla», «Cadena de tercetos + Serventesio final»—, así que sus opciones *son* la respuesta:
+	 * nombran la unidad completa. Y como cada arquitectura aporta una etiqueta distinta, su
+	 * separación es máxima y ganaba el primer puesto por delante del tipo de rima, que es lo que de
+	 * verdad distingue un romance de una sextilla. La pregunta que nadie puede contestar desplazaba
+	 * a la que resuelve.
+	 *
+	 * Se queda **solo para el modo hipótesis**, donde quien la usa ya trae una forma en la cabeza y
+	 * confirmar su orden interno sí añade algo.
+	 */
+	const ordenInternoFueraDeLugar = (dimension: string) =>
+		dimension === 'estructura:orden' && modo === 'guiado';
+
+	/**
+	 * Y en cualquier modo: si ya se ha dicho que **no hay secciones internas**, preguntar cuál se
+	 * reconoce es una contradicción. Pasaba de verdad en un recorrido de romance.
+	 */
+	const sinSeccionesDeclaradas = respuestas.some(
+		(respuesta) => respuesta.dimension === 'estructura:secciones' && respuesta.valor === 'no'
+	);
 	const evidenciaParaPregunta = (
 		candidata: HipotesisMetrica,
 		dimension: string
@@ -356,6 +379,8 @@ function preguntasPosibles(
 	const resultado: PreguntaDemarcador[] = [];
 	for (const [dimension] of definiciones) {
 		if (dimension === 'metro:exacto' && uniformidadMetroOmitida) continue;
+		if (dimension === 'estructura:orden' && (ordenInternoFueraDeLugar(dimension) || sinSeccionesDeclaradas))
+			continue;
 		const candidatasDimension = hipotesis.filter((candidata) => {
 			const dependeDelGrupo = dimension === 'metro:uniformidad' || dimension === 'metro:exacto';
 			if (!dependeDelGrupo) return true;
