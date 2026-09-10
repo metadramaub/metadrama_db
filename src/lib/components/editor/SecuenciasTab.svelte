@@ -1663,7 +1663,7 @@
 				<InternalCommentsPanel
 					obraId={props.obraId}
 					canComment={Boolean(props.canComment)}
-					title="Comentarios internos de secuencia"
+					title=""
 					context={{ secuencia_id: editingId }}
 					focusComentarioId={props.focusComentarioId}
 					reloadKey={props.commentsReloadKey}
