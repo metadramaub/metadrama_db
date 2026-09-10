@@ -73,7 +73,7 @@
 	{:else}
 		<ul class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
 			{#each filteredAutores as autor (autor.slug)}
-				{@const slices = buildPerfilSlices(autor.perfil_formas)}
+				{@const slices = buildPerfilSlices(autor.perfil_formas, data.formaLabels ?? {})}
 				{@const fiabilidad = fiabilidadDeVersos(autor.total_versos_autor)}
 				<li class="card overflow-hidden">
 					<a class="block" href={`/autores/${autor.slug}`} aria-label={`Abrir perfil de ${autor.nombre_completo}`}>

@@ -20,7 +20,7 @@
 	const obras = $derived<AutorPublicoObra[]>(data.obras);
 	const resumen = $derived(data.resumen);
 	const formaLabels = $derived<Record<string, string>>(data.formaLabels ?? {});
-	const formaParents = $derived<Record<string, string>>(data.formaParents ?? {});
+	const arquitecturaLabels = $derived<Record<string, string>>(data.arquitecturaLabels ?? {});
 
 	const variantesLabel = $derived((autor.variantes_nombre ?? []).join(' · '));
 
@@ -35,11 +35,11 @@
 		return links;
 	});
 
-	// Perfil agregado → donut (composición, no secuencia). Etiquetas vía vocabulario.
-	const perfilSlices = $derived.by(() => buildPerfilSlices(resumen?.perfil_formas));
+	// Perfil agregado → donut (composición, no secuencia). Nombres del catálogo métrico.
+	const perfilSlices = $derived.by(() => buildPerfilSlices(resumen?.perfil_formas, formaLabels));
 	const pieItems = $derived.by(() =>
 		perfilSlices.map((slice) => ({
-			forma: formaLabels[slice.slug] ?? slice.label,
+			forma: slice.label,
 			colorKey: slice.slug,
 			versos: slice.versos,
 			porcentaje: slice.pct
@@ -49,19 +49,31 @@
 		Object.fromEntries(perfilSlices.map((slice) => [slice.slug, slice.color]))
 	);
 
-	// Desglose forma raíz → arquitecturas: "sequences" sintéticas desde perfil_formas_hijos
-	// (cada hoja con su raíz como forma_nombre), para que el pie reconstruya los
-	// desplegables igual que la ficha de obra, sin secuencias reales.
+	// Desglose forma → arquitecturas: "sequences" sintéticas desde perfil_formas_hijos, una por
+	// par, para que el pie las agrupe con el mismo `buildDistributionGroups` que la ficha de obra.
+	//
+	// **La clave es `forma_slug/arquitectura_slug`.** El slug de la arquitectura no identifica nada
+	// por sí solo: `octosilabica` está en ocho formas y `endecasilabica` en otras ocho, así que
+	// agregado a secas sumaba en un mismo cubo los versos del romance, la redondilla y el terceto.
+	// La migración `20260910130000` lo corrigió en origen; aquí se tolera la clave antigua para que
+	// un resumen todavía sin recomputar no se pinte roto.
+	//
+	// `buildDistributionGroups` empareja por **nombre de forma**, así que el nombre que se pone
+	// aquí tiene que ser el mismo que lleva su porción del donut: los dos salen de `formaLabels`.
 	const hijosPerfil = $derived<Record<string, number>>(resumen?.perfil_formas_hijos ?? {});
 	const pieSequences = $derived.by(() =>
 		Object.entries(hijosPerfil)
 			.filter(([, versos]) => versos > 0)
-			.map(([childSlug, versos]) => {
-				const rootSlug = formaParents[childSlug] ?? childSlug;
+			.map(([clave, versos]) => {
+				const corte = clave.indexOf('/');
+				const formaSlug = corte > 0 ? clave.slice(0, corte) : null;
+				const arqSlug = corte > 0 ? clave.slice(corte + 1) : clave;
 				return {
-					forma_nombre: formaLabels[rootSlug] ?? prettyForma(rootSlug),
-					arquitectura_nombre: formaLabels[childSlug] ?? prettyForma(childSlug),
-					arquitectura_slug: childSlug,
+					forma_nombre: formaSlug
+						? (formaLabels[formaSlug] ?? prettyForma(formaSlug))
+						: prettyForma(arqSlug),
+					arquitectura_nombre: arquitecturaLabels[clave] ?? prettyForma(arqSlug),
+					arquitectura_slug: clave,
 					n_versos: versos
 				};
 			})
