@@ -69,7 +69,7 @@
 					</rect>
 				{/each}
 				<text class="metric-strips__cuantos" x={ANCHO - 4} y={y + ALTO_PISTA / 2}>
-					{fila.porcentaje.toFixed(1)}%
+					{fila.porcentaje.toFixed(2)}%
 				</text>
 			</g>
 		{/each}

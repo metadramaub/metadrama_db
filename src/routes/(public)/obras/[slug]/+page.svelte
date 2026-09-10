@@ -967,12 +967,12 @@
 				</div>
 
 				<!--
-					**Dos columnas para lo que se pregunta por jornadas.** Los dos gráficos son
-					estrechos por naturaleza —el de pendientes está limitado a 44 rem y el de columnas
-					mide lo que miden tres jornadas—, así que a lo ancho de la página cada uno dejaba
-					media pantalla vacía. Juntos se comparan, que es de lo que se trata.
+					**Un bloque por fila, aunque sobre ancho.** Se probaron dos columnas para aprovechar
+					la pantalla y se cortaba justo lo que hay que leer: la tabla de secuencias perdía sus
+					últimas columnas tras una barra de desplazamiento, y las transiciones quedaban en
+					«Red… → Rom…». El sumario de la izquierda ya recupera el alto que costaba recorrer la
+					pestaña; el ancho sobrante no vale lo que cuesta.
 				-->
-				<div class="grid items-start gap-8 xl:grid-cols-2">
 				<div id="analisis-como-cambia" class="space-y-3 scroll-mt-4">
 					<h2 class="text-lg font-semibold">El peso de cada forma en cada jornada</h2>
 					<p class="text-sm text-[color:var(--muted-foreground)]">
@@ -1019,42 +1019,34 @@
 						/>
 					</div>
 				{/if}
-				</div>
 
-				<!-- A todo lo ancho: es una tabla de cinco columnas y no un gráfico. -->
 				{#if evolucionDeLaObra.length > 1}
 					<div id="analisis-evolucion" class="scroll-mt-4">
 						<MetricEvolution puntos={evolucionDeLaObra} />
 					</div>
 				{/if}
 
-				<!-- Las dos tablas que describen el repertorio, una al lado de la otra. -->
-				<div class="grid items-start gap-8 xl:grid-cols-2">
-					{#if secuenciasPorFormaDeLaObra.length > 0}
-						<div id="analisis-secuencias" class="scroll-mt-4">
-							<MetricRunTable rows={secuenciasPorFormaDeLaObra} colorByForma={colorByForma} />
-						</div>
-					{/if}
-
-					{#if transicionesDeLaObra.length > 0}
-						<div id="analisis-transiciones" class="scroll-mt-4">
-							<MetricTransitions rows={transicionesDeLaObra} />
-						</div>
-					{/if}
-				</div>
-
-				<!-- Lo que mira la obra como pieza y no como verso. -->
-				<div class="grid items-start gap-8 xl:grid-cols-2">
-					<div id="analisis-articulacion" class="scroll-mt-4">
-						<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
+				{#if secuenciasPorFormaDeLaObra.length > 0}
+					<div id="analisis-secuencias" class="scroll-mt-4">
+						<MetricRunTable rows={secuenciasPorFormaDeLaObra} colorByForma={colorByForma} />
 					</div>
+				{/if}
 
-					{#if caracterizacionesEnunciativas.length > 0}
-						<div id="analisis-enunciacion" class="scroll-mt-4">
-							<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
-						</div>
-					{/if}
+				{#if transicionesDeLaObra.length > 0}
+					<div id="analisis-transiciones" class="scroll-mt-4">
+						<MetricTransitions rows={transicionesDeLaObra} />
+					</div>
+				{/if}
+
+				<div id="analisis-articulacion" class="scroll-mt-4">
+					<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
 				</div>
+
+				{#if caracterizacionesEnunciativas.length > 0}
+					<div id="analisis-enunciacion" class="scroll-mt-4">
+						<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
+					</div>
+				{/if}
 
 				<!-- Cierra la pestaña porque es lo único que no contesta una pregunta sino que
 				     lleva a un sitio: se usa después de haber leído, no antes. -->
