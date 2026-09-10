@@ -90,6 +90,10 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   anotación ya ligada a esa secuencia y la actualiza. Así un reintento después de un guardado
   parcial no intenta crear una segunda fila ni tropieza con
   `anotaciones_metricas_secuencia_unica`.
+- **Crear una secuencia no reinicia el editor métrico.** Su id pasa de nulo al definitivo antes de
+  guardar la anotación; el componente se remonta solo al abrir otra secuencia, no en ese cambio. La
+  anotación que acaba de confirmar se conserva también en memoria hasta la siguiente recarga, para
+  que forma, arquitectura y respuestas sigan al cerrar y reabrir el modal.
 
 ## El editor V2 ya tiene su pantalla nueva
 
