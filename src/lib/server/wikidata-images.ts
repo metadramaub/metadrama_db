@@ -16,6 +16,14 @@ type CacheEntry = {
 };
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+// Un fallo no es una respuesta: si Wikidata no contesta —o nos limita, que es lo habitual desde
+// las IP de Vercel— no sabemos si el autor tiene retrato. Se recuerda solo unos minutos, para no
+// insistir en cada carga, pero lo bastante poco como para que la foto vuelva sola.
+const FAILURE_CACHE_TTL_MS = 5 * 60 * 1000;
+const REQUEST_TIMEOUT_MS = 8000;
+// Wikimedia exige identificarse: sin User-Agent responde 403, y con uno genérico limita antes.
+const USER_AGENT = 'Versologia/1.0 (https://versologia.metadrama.org)';
+
 const cache = new Map<string, CacheEntry>();
 const pending = new Map<string, Promise<WikidataAuthorData | null>>();
 
@@ -89,8 +97,16 @@ async function fetchWikidataAuthorData(
 	wikidataId: string,
 	fetchFn: typeof fetch
 ): Promise<WikidataAuthorData | null> {
-	const response = await fetchFn(`https://www.wikidata.org/wiki/Special:EntityData/${wikidataId}.json`);
-	if (!response.ok) return null;
+	const response = await fetchFn(
+		`https://www.wikidata.org/wiki/Special:EntityData/${wikidataId}.json`,
+		{
+			headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
+			signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+		}
+	);
+	// Se lanza en vez de devolver null para que quien cachea distinga «no tiene imagen» de
+	// «no he podido preguntar».
+	if (!response.ok) throw new Error(`Wikidata respondio ${response.status} para ${wikidataId}`);
 
 	const claims = getClaims(await response.json(), wikidataId);
 	const commonsFile = extractCommonsFile(claims);
@@ -123,9 +139,10 @@ export async function getWikidataAuthorData(
 	if (existing) return existing;
 
 	const promise = fetchWikidataAuthorData(normalized, fetchFn)
-		.catch(() => null)
-		.then((value) => {
-			cache.set(normalized, { value, expiresAt: Date.now() + CACHE_TTL_MS });
+		.then((value) => ({ value, ttl: CACHE_TTL_MS }))
+		.catch(() => ({ value: null, ttl: FAILURE_CACHE_TTL_MS }))
+		.then(({ value, ttl }) => {
+			cache.set(normalized, { value, expiresAt: Date.now() + ttl });
 			pending.delete(normalized);
 			return value;
 		});
