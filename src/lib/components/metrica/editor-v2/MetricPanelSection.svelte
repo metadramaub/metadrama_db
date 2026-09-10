@@ -18,17 +18,24 @@
 		titulo: string;
 		abierta: boolean;
 		alAlternar: () => void;
+		/** Misma interacción, sin tarjeta ni divisores cuando ya vive dentro de otro panel. */
+		sinContenedor?: boolean;
 		/** Qué decir plegada, para no tener que abrirla solo para ver si tiene algo. */
 		resumen?: string | null;
 		children: Snippet;
 	}>();
 </script>
 
-<section id={props.id} class="border border-[color:var(--border)] bg-white">
-	<div
-		class={`flex flex-wrap items-center justify-between gap-2 bg-[color:var(--muted)] px-4 py-2.5 ${
-			props.abierta ? 'border-b border-[color:var(--border)]' : ''
-		}`}
+	<section
+		id={props.id}
+		class={props.sinContenedor ? 'space-y-4' : 'border border-[color:var(--border)] bg-white'}
+	>
+		<div
+			class={`flex flex-wrap items-center justify-between gap-2 ${
+				props.sinContenedor ? 'py-1' : 'bg-[color:var(--muted)] px-4 py-2.5'
+			} ${
+				!props.sinContenedor && props.abierta ? 'border-b border-[color:var(--border)]' : ''
+			}`}
 	>
 		<h3 class="form-panel-title">{props.titulo}</h3>
 		<div class="flex items-baseline gap-3">
@@ -57,7 +64,7 @@
 		</div>
 	</div>
 	{#if props.abierta}
-		<div id={`${props.id}-cuerpo`} class="space-y-4 p-4">
+		<div id={`${props.id}-cuerpo`} class={props.sinContenedor ? 'space-y-4' : 'space-y-4 p-4'}>
 			{@render props.children()}
 		</div>
 	{/if}

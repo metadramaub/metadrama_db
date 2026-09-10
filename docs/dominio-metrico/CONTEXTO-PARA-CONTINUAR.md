@@ -97,6 +97,9 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
 - La tabla del editor nombra la columna **Forma** y su filtro leen exclusivamente la anotación V2.
   Una secuencia sin `forma_id` nuevo figura como «Pendiente» aunque conserve una etiqueta en
   `estrofa_tipo_id`: ese vocabulario no se sincroniza, duplica ni consulta desde esta vista.
+- Las **desviaciones** exigen dimensión y relación con la norma; su descripción es recomendada,
+  no obligatoria. Se pliegan dentro del editor con el mismo control que las secciones del modal,
+  pero en variante plana para no sumar tarjetas ni líneas dentro del bloque métrico.
 
 ## El editor V2 ya tiene su pantalla nueva
 
