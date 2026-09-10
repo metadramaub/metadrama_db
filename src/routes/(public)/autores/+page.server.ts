@@ -35,5 +35,16 @@ export const load: PageServerLoad = async ({ fetch, locals }) => {
 		top_obras: autor.top_obras ?? [],
 		imagen_wikidata: await getWikidataImage(autor.wikidata_id, fetch)
 	}));
-	return { autores };
+
+	// El perfil guarda slugs del catálogo métrico; el nombre visible se resuelve aquí, igual que en
+	// la ficha del autor, para que las dos pantallas llamen a cada forma de la misma manera.
+	const { data: formasData } = await locals.supabase.from('formas_metricas').select('slug,nombre');
+	const formaLabels = Object.fromEntries(
+		((formasData ?? []) as Array<{ slug: string; nombre: string }>).map((forma) => [
+			forma.slug,
+			forma.nombre
+		])
+	);
+
+	return { autores, formaLabels };
 };

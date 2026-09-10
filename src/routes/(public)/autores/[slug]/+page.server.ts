@@ -47,9 +47,33 @@ export const load: PageServerLoad = async ({ fetch, locals, params }) => {
 	// guarda slugs; la etiqueta visible se resuelve en lectura.
 	const vocab = buildPublicVocabularioMaps(await loadPublicVocabulario(locals));
 	const generoLabels = vocab.labelBySlug.get('genero') ?? new Map<string, string>();
-	const formaLabels = Object.fromEntries(vocab.labelBySlug.get('estrofa_tipo') ?? new Map());
-	// Slug hijo → slug raíz, para reconstruir la jerarquía de formas en el desglose del perfil.
-	const formaParents = Object.fromEntries(vocab.parentSlugBySlug.get('estrofa_tipo') ?? new Map());
+
+	// **Los nombres salen del catálogo nuevo, no del vocabulario legado.** Desde el 7 de
+	// septiembre de 2026 el resumen guarda slugs de forma y de arquitectura; `estrofa_tipo` no
+	// los conoce, así que resolverlos ahí dejaba el slug crudo en pantalla. Las dos tablas las
+	// lee cualquiera: su política es `catalogo_metrico_publico()`.
+	const [formasResp, arquitecturasResp] = await Promise.all([
+		locals.supabase.from('formas_metricas').select('forma_id,slug,nombre'),
+		locals.supabase.from('arquitecturas_forma').select('forma_id,slug,nombre')
+	]);
+	const formaSlugById = new Map(
+		((formasResp.data ?? []) as Array<{ forma_id: string; slug: string; nombre: string }>).map(
+			(forma) => [forma.forma_id, forma.slug]
+		)
+	);
+	const formaLabels = Object.fromEntries(
+		((formasResp.data ?? []) as Array<{ slug: string; nombre: string }>).map((forma) => [
+			forma.slug,
+			forma.nombre
+		])
+	);
+	// El desglose viene con claves `forma_slug/arquitectura_slug`: el slug de la arquitectura no
+	// es único —`octosilabica` está en ocho formas—, así que la etiqueta se busca por el par.
+	const arquitecturaLabels = Object.fromEntries(
+		((arquitecturasResp.data ?? []) as Array<{ forma_id: string; slug: string; nombre: string }>)
+			.map((arq) => [`${formaSlugById.get(arq.forma_id) ?? ''}/${arq.slug}`, arq.nombre])
+			.filter(([clave]) => !clave.startsWith('/'))
+	);
 
 	const obras = payload.obras.map((obra) => ({
 		...obra,
@@ -63,7 +87,7 @@ export const load: PageServerLoad = async ({ fetch, locals, params }) => {
 		obras,
 		resumen,
 		formaLabels,
-		formaParents,
+		arquitecturaLabels,
 		canSeeAllPublished: viewer.canSeeAllPublished
 	};
 };

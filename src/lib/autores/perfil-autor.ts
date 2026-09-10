@@ -124,14 +124,24 @@ export function prettyForma(slug: string): string {
 	return slug.replace(/[_-]+/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
 }
 
-/** Convierte un perfil_formas {slug: versos} en slices ordenadas por peso. */
-export function buildPerfilSlices(perfil: Record<string, number> | null | undefined): PerfilFormaSlice[] {
+/**
+ * Convierte un perfil_formas {slug: versos} en slices ordenadas por peso.
+ *
+ * `labels` trae los nombres del catálogo métrico (slug → nombre). Sin ellos se prettifica el slug,
+ * que sirve de red pero pierde acentos y mayúsculas —«Zejel» por «Zéjel»—, así que las dos
+ * pantallas de autor los pasan. El nombre importa además porque el desglose del donut empareja por
+ * nombre de forma, igual que en la ficha de obra.
+ */
+export function buildPerfilSlices(
+	perfil: Record<string, number> | null | undefined,
+	labels: Record<string, string> = {}
+): PerfilFormaSlice[] {
 	const entries = Object.entries(perfil ?? {}).filter(([, versos]) => versos > 0);
 	const total = entries.reduce((sum, [, versos]) => sum + versos, 0);
 	return entries
 		.map(([slug, versos]) => ({
 			slug,
-			label: prettyForma(slug),
+			label: labels[slug] ?? prettyForma(slug),
 			versos,
 			pct: total > 0 ? (versos / total) * 100 : 0,
 			color: colorForForma({ slug })
