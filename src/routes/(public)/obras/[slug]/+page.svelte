@@ -34,7 +34,6 @@
 		cortesDeCuadro,
 		evolucionPorJornada,
 		fichaTecnica,
-		lecturaDeLaEvolucion,
 		perfilDeFormas,
 		perfilPorJornada,
 		tradicionesPorJornada,
@@ -420,38 +419,80 @@
 	);
 
 	const evolucionDeLaObra = $derived(evolucionPorJornada(analizables));
-	const lecturaEvolucion = $derived(lecturaDeLaEvolucion(analizables));
 
 	/**
-	 * Qué bloques tiene esta obra, para el índice de la pestaña.
+	 * Qué contiene esta obra, agrupado por la pregunta que contesta cada cosa.
 	 *
-	 * Se declara junto a los datos y no en la plantilla: cada entrada repite la condición con la que
-	 * su bloque se pinta, y tenerlas seguidas es lo que evita que el índice nombre algo que no está.
+	 * **Los grupos son del índice, no del contenido.** No hay encabezados de grupo en la página: los
+	 * ocho bloques van seguidos y cada uno lleva su propio título. El grupo sirve para orientarse en
+	 * el índice, que es donde hacía falta —ocho enlaces en fila son una lista, cinco grupos con lo
+	 * suyo dentro son un mapa—, y evita tener que rehacer la jerarquía de encabezados de cinco
+	 * componentes.
+	 *
+	 * Cada entrada repite la condición con la que su bloque se pinta, y por eso se declara aquí,
+	 * junto a los datos: así el índice no puede nombrar algo que no está.
 	 */
 	const indiceAnalisis = $derived.by(() =>
 		[
-			{ id: 'analisis-donde-cae', label: 'Dónde cae cada forma', hay: franjas.length > 0 },
-			{ id: 'analisis-como-cambia', label: 'Cómo cambia cada forma', hay: momentos.length >= 2 },
-			{ id: 'analisis-evolucion', label: 'Cómo cambia la obra', hay: evolucionDeLaObra.length > 1 },
-			{ id: 'analisis-tradiciones', label: 'Españolas e italianas', hay: tradiciones.length > 0 },
 			{
-				id: 'analisis-secuencias',
-				label: 'Secuencias de cada forma',
-				hay: secuenciasPorFormaDeLaObra.length > 0
+				grupo: 'El recorrido',
+				items: [{ id: 'analisis-donde-cae', label: 'Dónde cae cada forma', hay: franjas.length > 0 }]
 			},
 			{
-				id: 'analisis-transiciones',
-				label: 'Qué forma sigue a cuál',
-				hay: transicionesDeLaObra.length > 0
+				grupo: 'Jornada a jornada',
+				items: [
+					{
+						id: 'analisis-como-cambia',
+						label: 'El peso de cada forma',
+						hay: momentos.length >= 2
+					},
+					{
+						id: 'analisis-tradiciones',
+						label: 'Españolas e italianas',
+						hay: tradiciones.length > 0
+					},
+					{
+						id: 'analisis-evolucion',
+						label: 'Longitud y variedad',
+						hay: evolucionDeLaObra.length > 1
+					}
+				]
 			},
-			{ id: 'analisis-articulacion', label: 'Jornadas y cuadros', hay: true },
 			{
-				id: 'analisis-enunciacion',
-				label: 'Canto y prosa',
-				hay: caracterizacionesEnunciativas.length > 0
+				grupo: 'El repertorio',
+				items: [
+					{
+						id: 'analisis-secuencias',
+						label: 'Las secuencias de cada forma',
+						hay: secuenciasPorFormaDeLaObra.length > 0
+					},
+					{
+						id: 'analisis-transiciones',
+						label: 'Qué forma sigue a cuál',
+						hay: transicionesDeLaObra.length > 0
+					}
+				]
 			},
-			{ id: 'analisis-localizar', label: 'Localizar en la obra', hay: phenomenaIndex.length > 0 }
-		].filter((item) => item.hay)
+			{
+				grupo: 'La obra como pieza',
+				items: [
+					{ id: 'analisis-articulacion', label: 'Jornadas y cuadros', hay: true },
+					{
+						id: 'analisis-enunciacion',
+						label: 'Canto, prosa y evocación',
+						hay: caracterizacionesEnunciativas.length > 0
+					}
+				]
+			},
+			{
+				grupo: 'Ir a',
+				items: [
+					{ id: 'analisis-localizar', label: 'Localizar en la obra', hay: phenomenaIndex.length > 0 }
+				]
+			}
+		]
+			.map((grupo) => ({ ...grupo, items: grupo.items.filter((item) => item.hay) }))
+			.filter((grupo) => grupo.items.length > 0)
 	);
 
 	const repartoDeTradiciones = $derived(
@@ -839,24 +880,66 @@
 		{/if}
 	{:else if activeTab === 'analisis'}
 		{#if showMetrica}
-			<section class="space-y-10">
-				<!--
-					**La pestaña creció y hacía falta un índice.** Son nueve bloques que contestan nueve
-					preguntas distintas, y sin él hay que recorrerla entera para saber qué hay. Solo
-					lista lo que esta obra tiene: un bloque que no se pinta tampoco se nombra.
-				-->
-				{#if indiceAnalisis.length > 1}
-					<nav class="flex flex-wrap gap-2" aria-label="Secciones del análisis">
-						{#each indiceAnalisis as item (item.id)}
-							<a
-								href={`#${item.id}`}
-								class="border border-[color:var(--border)] bg-white px-2.5 py-1.5 text-xs text-[color:var(--gray-700)] hover:border-[color:var(--primary)] hover:text-[color:var(--primary)]"
+			<!--
+				**El índice es una columna al lado, no otra fila de pastillas.** Con chips debajo de las
+				pestañas había dos filas seguidas hablando el mismo idioma, y la segunda parecía un
+				segundo juego de pestañas. Como columna se lee por lo que es —un sumario— y se queda a
+				la vista mientras se recorre la pestaña, que era el problema de partida.
+
+				Por debajo de `xl` no hay sitio para la columna y se pliega en un desplegable, cerrado,
+				que no gasta alto ni imita a nada.
+			-->
+			<div class="grid gap-8 xl:grid-cols-[13rem_minmax(0,1fr)]">
+				{#if indiceAnalisis.length > 0}
+					<details class="border-b border-[color:var(--border)] pb-3 xl:hidden">
+						<summary class="cursor-pointer text-sm font-semibold">Ir a una sección</summary>
+						<div class="mt-3 space-y-3">
+							{#each indiceAnalisis as grupo (grupo.grupo)}
+								<div>
+									<p class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+										{grupo.grupo}
+									</p>
+									<ul class="mt-1 space-y-1">
+										{#each grupo.items as item (item.id)}
+											<li>
+												<a class="text-sm underline-offset-4 hover:underline" href={`#${item.id}`}>
+													{item.label}
+												</a>
+											</li>
+										{/each}
+									</ul>
+								</div>
+							{/each}
+						</div>
+					</details>
+
+					<nav
+						class="sticky top-4 hidden self-start border-l border-[color:var(--border)] pl-4 xl:block"
+						aria-label="Secciones del análisis"
+					>
+						{#each indiceAnalisis as grupo (grupo.grupo)}
+							<p
+								class="mt-4 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)] first:mt-0"
 							>
-								{item.label}
-							</a>
+								{grupo.grupo}
+							</p>
+							<ul class="mt-1.5 space-y-1.5">
+								{#each grupo.items as item (item.id)}
+									<li>
+										<a
+											class="block text-sm leading-snug text-[color:var(--gray-700)] underline-offset-4 hover:text-[color:var(--primary)] hover:underline"
+											href={`#${item.id}`}
+										>
+											{item.label}
+										</a>
+									</li>
+								{/each}
+							</ul>
 						{/each}
 					</nav>
 				{/if}
+
+			<section class="space-y-10">
 
 				<div id="analisis-donde-cae" class="space-y-3 scroll-mt-4">
 					<h2 class="text-lg font-semibold">Dónde cae cada forma</h2>
@@ -883,8 +966,15 @@
 					/>
 				</div>
 
+				<!--
+					**Dos columnas para lo que se pregunta por jornadas.** Los dos gráficos son
+					estrechos por naturaleza —el de pendientes está limitado a 44 rem y el de columnas
+					mide lo que miden tres jornadas—, así que a lo ancho de la página cada uno dejaba
+					media pantalla vacía. Juntos se comparan, que es de lo que se trata.
+				-->
+				<div class="grid items-start gap-8 xl:grid-cols-2">
 				<div id="analisis-como-cambia" class="space-y-3 scroll-mt-4">
-					<h2 class="text-lg font-semibold">Cómo cambia cada forma</h2>
+					<h2 class="text-lg font-semibold">El peso de cada forma en cada jornada</h2>
 					<p class="text-sm text-[color:var(--muted-foreground)]">
 						Cuánto ocupa cada forma dentro de cada jornada, para ver si crece, se retira o
 						aparece. Un círculo hueco quiere decir que esa jornada no la usa.
@@ -912,44 +1002,16 @@
 				</div>
 
 				{#if tradiciones.length > 0}
-				{#if evolucionDeLaObra.length > 1}
-					<div id="analisis-evolucion" class="scroll-mt-4">
-						<MetricEvolution puntos={evolucionDeLaObra} lectura={lecturaEvolucion} />
-					</div>
-				{/if}
-
 					<div id="analisis-tradiciones" class="space-y-3 scroll-mt-4">
-						<h2 class="text-lg font-semibold">Españolas e italianas</h2>
+						<h2 class="text-lg font-semibold">Españolas e italianas por jornada</h2>
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							De qué tradición métrica es cada jornada. La línea de puntos marca la mitad.
 						</p>
-						<!-- La tabla cabe al lado: el gráfico se lee de un vistazo y ella da la cifra. -->
-						<div class="grid items-start gap-6 md:grid-cols-[minmax(0,30rem)_minmax(0,1fr)]">
-							<div bind:this={traditionExportTarget}>
-								<MetricTraditionSplit puntos={repartoDeTradiciones} />
-							</div>
-							<table class="w-full text-sm">
-								<thead>
-									<tr class="border-b border-[color:var(--border)] text-left text-xs uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-										<th scope="col" class="py-1 pr-4 font-semibold">Jornada</th>
-										<th scope="col" class="py-1 pr-4 text-right font-semibold">Españolas</th>
-										<th scope="col" class="py-1 pr-4 text-right font-semibold">Italianas</th>
-										<th scope="col" class="py-1 text-right font-semibold">Sin tradición</th>
-									</tr>
-								</thead>
-								<tbody>
-									{#each tradiciones as fila (fila.jornada)}
-										<tr class="border-b border-[color:var(--border)] tabular-nums">
-											<td class="py-1 pr-4">Jornada {fila.jornada}</td>
-											<td class="py-1 pr-4 text-right">{fila.espanola.porcentaje} %</td>
-											<td class="py-1 pr-4 text-right">{fila.italiana.porcentaje} %</td>
-											<td class="py-1 text-right text-[color:var(--muted-foreground)]">
-												{fila.sinTradicion.porcentaje} %
-											</td>
-										</tr>
-									{/each}
-								</tbody>
-							</table>
+						<!-- Sin tabla al lado: el gráfico da la cifra dentro de cada tramo —a dos
+						     decimales, como todo porcentaje del proyecto— y repetirla en columnas no
+						     añadía nada. -->
+						<div bind:this={traditionExportTarget}>
+							<MetricTraditionSplit puntos={repartoDeTradiciones} />
 						</div>
 						<DiagramExportControls
 							target={traditionExportTarget}
@@ -957,28 +1019,42 @@
 						/>
 					</div>
 				{/if}
-
-				{#if secuenciasPorFormaDeLaObra.length > 0}
-					<div id="analisis-secuencias" class="scroll-mt-4">
-						<MetricRunTable rows={secuenciasPorFormaDeLaObra} colorByForma={colorByForma} />
-					</div>
-				{/if}
-
-				{#if transicionesDeLaObra.length > 0}
-					<div id="analisis-transiciones" class="scroll-mt-4">
-						<MetricTransitions rows={transicionesDeLaObra} />
-					</div>
-				{/if}
-
-				<div id="analisis-articulacion" class="scroll-mt-4">
-					<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
 				</div>
 
-				{#if caracterizacionesEnunciativas.length > 0}
-					<div id="analisis-enunciacion" class="scroll-mt-4">
-						<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
+				<!-- A todo lo ancho: es una tabla de cinco columnas y no un gráfico. -->
+				{#if evolucionDeLaObra.length > 1}
+					<div id="analisis-evolucion" class="scroll-mt-4">
+						<MetricEvolution puntos={evolucionDeLaObra} />
 					</div>
 				{/if}
+
+				<!-- Las dos tablas que describen el repertorio, una al lado de la otra. -->
+				<div class="grid items-start gap-8 xl:grid-cols-2">
+					{#if secuenciasPorFormaDeLaObra.length > 0}
+						<div id="analisis-secuencias" class="scroll-mt-4">
+							<MetricRunTable rows={secuenciasPorFormaDeLaObra} colorByForma={colorByForma} />
+						</div>
+					{/if}
+
+					{#if transicionesDeLaObra.length > 0}
+						<div id="analisis-transiciones" class="scroll-mt-4">
+							<MetricTransitions rows={transicionesDeLaObra} />
+						</div>
+					{/if}
+				</div>
+
+				<!-- Lo que mira la obra como pieza y no como verso. -->
+				<div class="grid items-start gap-8 xl:grid-cols-2">
+					<div id="analisis-articulacion" class="scroll-mt-4">
+						<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
+					</div>
+
+					{#if caracterizacionesEnunciativas.length > 0}
+						<div id="analisis-enunciacion" class="scroll-mt-4">
+							<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
+						</div>
+					{/if}
+				</div>
 
 				<!-- Cierra la pestaña porque es lo único que no contesta una pregunta sino que
 				     lleva a un sitio: se usa después de haber leído, no antes. -->
@@ -988,6 +1064,7 @@
 					</div>
 				{/if}
 			</section>
+			</div>
 		{/if}
 	{:else if activeTab === 'sinopsis_metrica'}
 		{#if showSinopsisMetrica}
