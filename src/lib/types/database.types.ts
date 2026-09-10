@@ -3925,6 +3925,8 @@ export type Database = {
         }[]
       }
       preguntas_que_ofrecen_una_definitoria: { Args: never; Returns: string }
+		finalizar_recompute_datos_publicos: { Args: never; Returns: number }
+		plan_recompute_datos_publicos: { Args: never; Returns: Json }
       recompute_all: { Args: never; Returns: undefined }
       recompute_autor_resumen: {
         Args: { p_autor_id: string }
