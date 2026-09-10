@@ -2,7 +2,7 @@
 	interface RunSummary {
 		forma: string;
 		colorKey: string;
-		tiradas: number;
+		secuencias: number;
 		versos: number;
 		media: number;
 		minima: number;
@@ -17,9 +17,9 @@
 
 <section class="space-y-3" aria-labelledby="metric-runs-title">
 	<div>
-		<h2 id="metric-runs-title" class="text-lg font-semibold">Cómo son las tiradas de cada forma</h2>
+		<h2 id="metric-runs-title" class="text-lg font-semibold">Cómo son las secuencias de cada forma</h2>
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-			Cuántas veces aparece cada forma y cuánto se extienden sus tiradas.
+			Cuántas secuencias ocupa cada forma y qué extensión tienen.
 		</p>
 	</div>
 	<div class="overflow-x-auto rounded-lg border border-[color:var(--border)] bg-white">
@@ -27,7 +27,7 @@
 			<thead>
 				<tr class="border-b border-[color:var(--border)] text-left text-xs text-[color:var(--muted-foreground)]">
 					<th scope="col" class="px-4 py-3 font-semibold">Forma</th>
-					<th scope="col" class="px-3 py-3 text-right font-semibold">Tiradas</th>
+					<th scope="col" class="px-3 py-3 text-right font-semibold">Secuencias</th>
 					<th scope="col" class="px-3 py-3 text-right font-semibold">Versos</th>
 					<th scope="col" class="px-3 py-3 text-right font-semibold">Media</th>
 					<th scope="col" class="px-4 py-3 text-right font-semibold">Mín.–máx.</th>
@@ -42,7 +42,7 @@
 								{row.forma}
 							</span>
 						</th>
-						<td class="px-3 py-2.5 text-right tabular-nums">{row.tiradas}</td>
+						<td class="px-3 py-2.5 text-right tabular-nums">{row.secuencias}</td>
 						<td class="px-3 py-2.5 text-right tabular-nums">{row.versos}</td>
 						<td class="px-3 py-2.5 text-right tabular-nums">{row.media} vv.</td>
 						<td class="px-4 py-2.5 text-right tabular-nums">{row.minima}–{row.maxima} vv.</td>

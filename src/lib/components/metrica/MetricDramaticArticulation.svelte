@@ -1,9 +1,9 @@
 <script lang="ts">
 	interface CuadroCuts {
 		total: number;
-		partenTirada: number;
+		partenSecuencia: number;
 		coincidenCambioForma: number;
-		entreTiradasMismaForma: number;
+		entreSecuenciasMismaForma: number;
 		sinCobertura: number;
 	}
 
@@ -36,12 +36,12 @@
 						<dd class="mt-1 text-xl font-semibold tabular-nums">{props.cuts.coincidenCambioForma}</dd>
 					</div>
 					<div>
-						<dt class="text-xs text-[color:var(--muted-foreground)]">Parten una tirada</dt>
-						<dd class="mt-1 text-xl font-semibold tabular-nums">{props.cuts.partenTirada}</dd>
+						<dt class="text-xs text-[color:var(--muted-foreground)]">Cortan una secuencia</dt>
+						<dd class="mt-1 text-xl font-semibold tabular-nums">{props.cuts.partenSecuencia}</dd>
 					</div>
 					<div>
 						<dt class="text-xs text-[color:var(--muted-foreground)]">Entre la misma forma</dt>
-						<dd class="mt-1 text-xl font-semibold tabular-nums">{props.cuts.entreTiradasMismaForma}</dd>
+						<dd class="mt-1 text-xl font-semibold tabular-nums">{props.cuts.entreSecuenciasMismaForma}</dd>
 					</div>
 				</dl>
 				<p class="mt-4 border-t border-[color:var(--border)] pt-3 text-xs text-[color:var(--muted-foreground)]">

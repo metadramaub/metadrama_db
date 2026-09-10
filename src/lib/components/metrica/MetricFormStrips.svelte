@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Dónde cae cada forma a lo largo de la obra. REUTILIZABLE y exportable como SVG puro.
-	// Cada tirada conserva su posición exacta: no hay ventanas ni interpolación.
+	// Cada secuencia conserva su posición exacta: no hay ventanas ni interpolación.
 	import { scaleLinear } from 'd3-scale';
 	import type { MetricStripRow } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
@@ -28,7 +28,7 @@
 	);
 	const colorDe = (colorKey: string) =>
 		props.colorByForma[normalizeFormaKey(colorKey)] ?? 'var(--muted-foreground)';
-	const anchoTirada = (vIni: number, vFin: number) => Math.max(2, escala(vFin + 1) - escala(vIni));
+	const anchoSecuencia = (vIni: number, vFin: number) => Math.max(2, escala(vFin + 1) - escala(vIni));
 </script>
 
 <figure class="metric-strips">
@@ -57,15 +57,15 @@
 						x1={escala(corte)} x2={escala(corte)} y1={y - 2} y2={y + ALTO_PISTA + 2}
 					/>
 				{/each}
-				{#each fila.tiradas as tirada (tirada.v_ini)}
+				{#each fila.secuencias as secuencia (secuencia.v_ini)}
 					<rect
-						x={escala(tirada.v_ini)}
+						x={escala(secuencia.v_ini)}
 						y={y}
-						width={anchoTirada(tirada.v_ini, tirada.v_fin)}
+						width={anchoSecuencia(secuencia.v_ini, secuencia.v_fin)}
 						height={ALTO_PISTA}
 						fill={colorDe(fila.colorKey)}
 					>
-						<title>{fila.forma}, vv. {tirada.v_ini}-{tirada.v_fin}</title>
+						<title>{fila.forma}, vv. {secuencia.v_ini}-{secuencia.v_fin}</title>
 					</rect>
 				{/each}
 				<text class="metric-strips__cuantos" x={ANCHO - 4} y={y + ALTO_PISTA / 2}>

@@ -36,7 +36,7 @@ export interface MetricBarSubsegment {
  * Una línea del esquema métrico: un pasaje con su forma y lo que se sabe de él.
  *
  * Es la unidad de «esquema métrico de un vistazo», la lista que las ediciones críticas ponen al
- * principio y que aquí sale del dato anotado. `detalle` es lo que distingue una tirada de otra de
+	 * principio y que aquí sale del dato anotado. `detalle` es lo que distingue una secuencia de otra de
  * la misma forma —la asonancia de un romance, el reparto de esquemas de una tirada de redondillas—,
  * y por eso lo compone quien adapta y no este componente.
  */
@@ -49,11 +49,11 @@ export interface MetricSchemeEntry {
 	colorKey?: string;
 	/** La arquitectura, que es el detalle dentro de la forma. */
 	arquitectura?: string | null;
-	/** Lo observado en esta tirada, ya redactado: «é-o», «abrazada 46 · cruzada 8». */
+	/** Lo observado en esta secuencia, ya redactado: «é-o», «abrazada 46 · cruzada 8». */
 	detalle?: string | null;
 	jornada?: number | null;
 	cuadro?: number | null;
-	/** La tirada sigue sonando después del cambio de cuadro. */
+	/** La secuencia continúa después del cambio de cuadro. */
 	cuadroContinua?: boolean | null;
 }
 
@@ -89,12 +89,12 @@ export interface MetricSlopeSeries {
 	valores: (number | null)[];
 }
 
-/** Una forma con las tiradas que tiene a lo largo de la obra, para las franjas. */
+/** Una forma con las secuencias que tiene a lo largo de la obra, para las franjas. */
 export interface MetricStripRow {
 	forma: string;
 	colorKey: string;
 	porcentaje: number;
-	tiradas: { v_ini: number; v_fin: number }[];
+	secuencias: { v_ini: number; v_fin: number }[];
 }
 
 /** Una porción de la distribución de formas (para el pie). */
