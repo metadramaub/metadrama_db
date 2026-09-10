@@ -145,7 +145,7 @@
 					<span class="form-label-with-help">
 						Versos partidos
 						<FieldHelpTooltip
-							text="Selecciona 'Sí' si en esta secuencia hay versos repartidos entre intervenciones de distintos personajes."
+							text="Selecciona 'Sí' si en esta secuencia hay versos partidos entre intervenciones de distintos personajes."
 							label="Ayuda sobre el campo Versos partidos"
 						/>
 					</span>

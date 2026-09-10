@@ -356,7 +356,13 @@
 	const cortesCuadro = $derived(cortesDeCuadro(analizables, cuadros));
 	const extremosDeJornadas = $derived(cierreDeJornadas(analizables));
 	const transicionesDeLaObra = $derived(transiciones(analizables));
-	const phenomenaIndex = $derived(buildPhenomenaIndex(secuenciasOrdenadas));
+	const phenomenaIndex = $derived(
+		buildPhenomenaIndex(secuenciasOrdenadas, {
+			sin_figuras_donaire: obra.sin_figuras_donaire ?? false,
+			sin_personajes_sobrenaturales: obra.sin_personajes_sobrenaturales ?? false,
+			sin_eventos_sobrenaturales: obra.sin_eventos_sobrenaturales ?? false
+		})
+	);
 
 	/** El orden de apilado es el del reparto de toda la obra, igual en todas las jornadas. */
 	const ordenDeFormas = $derived(
@@ -1052,7 +1058,11 @@
 				     lleva a un sitio: se usa después de haber leído, no antes. -->
 				{#if phenomenaIndex.length > 0}
 					<div id="analisis-localizar" class="scroll-mt-4">
-						<MetricPhenomenaIndex groups={phenomenaIndex} onOpen={openSequenceModal} />
+						<MetricPhenomenaIndex
+							groups={phenomenaIndex}
+							colorByForma={colorByForma}
+							onOpen={openSequenceModal}
+						/>
 					</div>
 				{/if}
 			</section>

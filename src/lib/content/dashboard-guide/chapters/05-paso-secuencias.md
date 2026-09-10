@@ -53,7 +53,7 @@ Los tres selectores comienzan en blanco. Si guardas la secuencia sin completarlo
 
 Tres marcas más sobre la secuencia:
 
-- **Versos partidos** (`pendiente/no/sí`): selecciona "sí" si hay versos repartidos entre intervenciones de distintos personajes.
+- **Versos partidos** (`pendiente/no/sí`): selecciona "sí" si hay versos partidos entre intervenciones de distintos personajes.
 - **Inaugura espacio** (`pendiente/no/sí`): selecciona "sí" si el inicio de la secuencia coincide, de forma evidente, con un cambio de espacio escénico.
 - **Evocación métrica** (`pendiente/no/sí`): selecciona "sí" cuando el cambio de metro se deba a que un personaje **adopta, imita o reproduce la voz de otro personaje**. Al hacerlo, se abre un campo **"Explicación de la evocación métrica"** (admite [Markdown](/dashboard/guia/ref-markdown)) para que expliques brevemente el caso.
 
