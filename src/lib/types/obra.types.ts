@@ -242,6 +242,7 @@ export interface ObraReviewersInput {
 export interface ObraAssignmentsResponse {
 	canManage: boolean;
 	editor_asignado: string | null;
+	datosPublicosPendientes?: boolean;
 	editorOptions: AssignmentEditorOption[];
 	assigned: AssignedReviewerSummary[];
 	candidates: AssignmentReviewerCandidate[];

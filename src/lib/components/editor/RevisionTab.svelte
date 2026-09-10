@@ -42,6 +42,7 @@
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
 		onPendingChangesChange?: (pending: boolean) => void;
+		onPublicDataDirty?: () => void;
 		onNavigateToTab?: (tab: RevisionTargetTab) => void;
 	}>();
 
@@ -351,6 +352,11 @@
 		applyAssignmentsPayload(payload);
 		patchCurrentObra({ editor_asignado: payload.editor_asignado ?? payload.editorAsignado ?? null });
 		showAssignmentsConfirmModal = false;
+		if (payload.datosPublicosPendientes) {
+			props.onPublicDataDirty?.();
+			pushToast('success', 'Asignaciones actualizadas. Hay cambios sin publicar en la ficha pública.');
+			return;
+		}
 		pushToast('success', 'Asignaciones editoriales actualizadas');
 	}
 
