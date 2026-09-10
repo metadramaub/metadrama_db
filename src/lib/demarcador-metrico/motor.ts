@@ -536,6 +536,22 @@ export function elegirPregunta(
 			const medidaExacta = preguntas.find((pregunta) => pregunta.dimension === 'metro:exacto');
 			if (medidaExacta) return medidaExacta;
 		}
+
+		/**
+		 * **Y en tercer lugar, la rima**, con la misma regla cableada que ya ordena el metro y por el
+		 * mismo motivo: es definitoria y la utilidad no la colocaba donde toca.
+		 *
+		 * Medida y rima son las dos cosas que cualquiera ve en un pasaje, y juntas separan casi todo
+		 * el catálogo. Dejada al cálculo quedaba la última —detrás de «cuántas sílabas» y «pie
+		 * quebrado», que la superan en separación aunque confirmen decenas de formas a la vez—, así
+		 * que un romance costaba siete preguntas cuando la rima lo resuelve en una: es lo único que lo
+		 * distingue de una sextilla octosílaba.
+		 */
+		const rimaRespondida = respuestas.some((respuesta) => respuesta.dimension === 'rima:tipo');
+		if (!rimaRespondida) {
+			const rima = preguntas.find((pregunta) => pregunta.dimension === 'rima:tipo');
+			if (rima) return rima;
+		}
 	}
 	return preguntas[0] ?? null;
 }
