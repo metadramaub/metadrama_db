@@ -128,8 +128,7 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
   secuencias —las deja en `sin_intervencion` y bloqueadas—, y sin marcar cada secuencia la responde.
   **No existe el «sí»**: lo que afirma que las hay son las secuencias, y decirlo arriba no marcaría
   un sí en ninguna. Dos disparadores impiden que una secuencia declare lo que su obra tiene marcado
-  y que una obra marque lo que alguna secuencia declara. Los personajes femeninos no se marcan: se
-  dan por presentes en toda obra.
+  y que una obra marque lo que alguna secuencia declara.
 - **`secuencias_metricas.evento_sobrenatural`** (sí/no) registra que en el pasaje ocurra un milagro,
   una aparición o una transformación, hable o no un personaje sobrenatural. **Todavía no se agrega
   al resumen**: se le dará su medida al rehacer la precomputación sobre el catálogo nuevo, y no
