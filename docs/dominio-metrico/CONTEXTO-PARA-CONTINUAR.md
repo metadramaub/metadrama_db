@@ -1615,6 +1615,18 @@ qué obra y quién la anotó.
 **Sigue pendiente** lo que el plan contaba como arreglo de paso: **F63**, dar sus preguntas a la
 versificación irregular y al verso aislado, que ahora ya se pueden hacer.
 
+**C22. Lo que la obra declara que no hay solo lo responde el editor.** El disparador
+`obra_declara_por_sus_secuencias` —migración `20260907140000_lo_que_no_hay_se_marca_una_vez.sql`—
+responde por **las secuencias que ya existían** al marcar la casilla, y no hay ninguno en el `insert`
+de `secuencias_metricas`. Como la casilla se marca *antes de anotar*, toda secuencia creada después
+nacía con el hueco: el raíl del editor contaba «4 de 6» y la revisión de la obra se quedaba
+bloqueada. **Arreglado el 10 de septiembre de 2026 en el editor y solo ahí**: el formulario arranca
+con la respuesta declarada —al crear y al abrir una secuencia que la traiga vacía— y el guardado la
+escribe. Se decidió no tocar la base porque hoy el editor es la única vía por la que nace una
+secuencia y las obras del corpus son de prueba. **Si vuelven a crearse obras por otra vía** —un
+seeder, una importación, un guion—, hay que añadir el disparador `before insert` que responda por lo
+declarado, y entonces revisar si quedaron filas a nulo.
+
 
 ## Siguiente fase prevista
 
