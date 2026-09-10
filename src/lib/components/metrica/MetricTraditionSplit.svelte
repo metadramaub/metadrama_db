@@ -93,16 +93,17 @@
 					height={altoParte}
 					fill={parte.color}
 				>
-					<title>{punto.momento}: {parte.nombre}, {parte.valor.toFixed(1)} %</title>
+					<title>{punto.momento}: {parte.nombre}, {parte.valor.toFixed(2)} %</title>
 				</rect>
-				<!-- El número va dentro de su parte, y solo si cabe: fuera se amontona con el vecino. -->
+				<!-- El número va dentro de su parte, y solo si cabe: fuera se amontona con el vecino.
+				     Dos decimales, que es la norma del proyecto para cualquier porcentaje. -->
 				{#if altoParte > 22}
 					<text
 						class="metric-tradition__valor"
 						x={x(indice) + ANCHO_COL / 2}
 						y={y(parte.desde + parte.valor / 2)}
 						text-anchor="middle"
-						dominant-baseline="middle">{parte.valor.toFixed(0)}%</text
+						dominant-baseline="middle">{parte.valor.toFixed(2)}%</text
 					>
 				{/if}
 			{/each}

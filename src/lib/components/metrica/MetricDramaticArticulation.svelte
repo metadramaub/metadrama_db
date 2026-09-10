@@ -18,7 +18,7 @@
 
 <section class="space-y-3" aria-labelledby="metric-articulation-title">
 	<div>
-		<h2 id="metric-articulation-title" class="text-lg font-semibold">Articulación de jornadas y cuadros</h2>
+		<h2 id="metric-articulation-title" class="text-lg font-semibold">Jornadas y cuadros</h2>
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 			Cómo se relacionan los límites dramáticos con el curso de las formas.
 		</p>

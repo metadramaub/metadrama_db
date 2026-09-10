@@ -17,7 +17,7 @@
 
 <section class="space-y-3" aria-labelledby="metric-runs-title">
 	<div>
-		<h2 id="metric-runs-title" class="text-lg font-semibold">Cómo son las secuencias de cada forma</h2>
+		<h2 id="metric-runs-title" class="text-lg font-semibold">Las secuencias de cada forma</h2>
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 			Cuántas secuencias ocupa cada forma y qué extensión tienen.
 		</p>

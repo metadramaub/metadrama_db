@@ -7,7 +7,6 @@ import {
 	desgloseDeFormas,
 	evolucionPorJornada,
 	fichaTecnica,
-	lecturaDeLaEvolucion,
 	perfilDeFormas,
 	perfilDeTradiciones,
 	perfilPorJornada,
@@ -289,23 +288,5 @@ describe('evolucionPorJornada', () => {
 		const [punto] = evolucionPorJornada(conHueco);
 		expect(punto.formasDistintas).toBe(1);
 		expect(punto.numeroEfectivo).toBe(1);
-	});
-
-	it('lee la tendencia comparando la primera jornada con la última', () => {
-		const lectura = lecturaDeLaEvolucion(obra);
-		expect(lectura?.longitud).toBe('baja');
-		expect(lectura?.diversidad).toBe('sube');
-	});
-
-	it('dice que se mantiene cuando el cambio no llega al umbral', () => {
-		const estable = [
-			secuencia({ v_ini: 1, n_versos: 100, jornada_num: 1 }),
-			secuencia({ v_ini: 101, n_versos: 105, jornada_num: 2 })
-		];
-		expect(lecturaDeLaEvolucion(estable)?.longitud).toBe('se mantiene');
-	});
-
-	it('no lee tendencia con una sola jornada', () => {
-		expect(lecturaDeLaEvolucion([secuencia({ v_ini: 1, n_versos: 10 })])).toBeNull();
 	});
 });

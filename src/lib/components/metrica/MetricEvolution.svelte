@@ -19,46 +19,23 @@
 		numeroEfectivo: number;
 	};
 
-	type Lectura = {
-		longitud: 'sube' | 'baja' | 'se mantiene';
-		diversidad: 'sube' | 'baja' | 'se mantiene';
-	} | null;
-
-	const props = $props<{ puntos: Punto[]; lectura: Lectura }>();
+	const props = $props<{ puntos: Punto[] }>();
 
 	const maxLongitud = $derived(Math.max(1, ...props.puntos.map((p: Punto) => p.longitudMedia)));
 	const maxDiversidad = $derived(Math.max(1, ...props.puntos.map((p: Punto) => p.numeroEfectivo)));
-
-	const FRASE_LONGITUD = {
-		sube: 'las secuencias se alargan',
-		baja: 'las secuencias se acortan',
-		'se mantiene': 'las secuencias mantienen su largo'
-	};
-	const FRASE_DIVERSIDAD = {
-		sube: 'el repertorio se diversifica',
-		baja: 'el repertorio se concentra',
-		'se mantiene': 'el repertorio no cambia de amplitud'
-	};
 
 	const romano = (n: number) => ['', 'I', 'II', 'III', 'IV', 'V'][n] ?? String(n);
 </script>
 
 <section class="space-y-3" aria-labelledby="metric-evolution-title">
 	<div>
-		<h2 id="metric-evolution-title" class="text-lg font-semibold">Cómo cambia a lo largo de la obra</h2>
+		<h2 id="metric-evolution-title" class="text-lg font-semibold">Longitud y variedad, jornada a jornada</h2>
 		<!-- Una línea que dice qué pregunta contesta, no cómo está dibujado. -->
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 			Si las tiradas se alargan o se acortan al avanzar, y si el repertorio de formas se abre o se
 			cierra.
 		</p>
 	</div>
-
-	{#if props.lectura}
-		<p class="border-l-2 border-[color:var(--gray-800)] bg-[color:var(--gray-50)] px-3 py-2 text-sm">
-			De la primera jornada a la última, <strong>{FRASE_LONGITUD[props.lectura.longitud]}</strong>
-			y <strong>{FRASE_DIVERSIDAD[props.lectura.diversidad]}</strong>.
-		</p>
-	{/if}
 
 	<div class="overflow-x-auto">
 		<table class="w-full min-w-[34rem] border-collapse text-sm">
@@ -107,13 +84,8 @@
 		</table>
 	</div>
 
-	<!--
-		Dicho en la pantalla y no solo en el código: tres jornadas son tres puntos, y de tres puntos
-		no sale una tendencia que sostener. Quien lo lea tiene que saberlo.
-	-->
 	<p class="text-xs text-[color:var(--muted-foreground)]">
 		<strong>Diversidad</strong> es el número efectivo de formas: cuántas formas equivaldrían al
-		reparto de esta jornada si todas pesaran lo mismo. Es la misma medida con la que se ordena el
-		catálogo de obras. Con tres jornadas la lectura describe esta obra; no afirma una tendencia.
+		reparto de esta jornada si todas pesaran lo mismo.
 	</p>
 </section>
