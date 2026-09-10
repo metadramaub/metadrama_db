@@ -9,6 +9,7 @@
 	import type { Tables } from '$lib/types/database.types';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
 	import type { AutoriaApiPayload } from '$lib/types/obra.types';
+	import type { MetricSequenceDraft } from '$lib/components/metrica/editor-v2/sequence-draft';
 	import { stateAllowsRangeEditing } from '$lib/utils/range-consistency';
 	import Button from '$lib/components/ui/button.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
@@ -193,6 +194,13 @@
 	let cuadrosLive = $state<EditorCuadroRow[]>(untrack(() => [...data.cuadros]));
 	let secuenciasLive = $state<EditorSecuenciaRow[]>(untrack(() => [...data.secuencias]));
 	let autoriaGroupCountLive = $state(untrack(() => data.autoriaGroupCount));
+	/**
+	 * Las anotaciones métricas confirmadas en esta visita, mientras `data` no las trae de vuelta.
+	 *
+	 * Vive aquí porque cambiar de pestaña desmonta la de secuencias: guardado allí, se perdía al
+	 * volver y la tabla decía «Pendiente» de una forma recién elegida hasta recargar la página.
+	 */
+	let anotacionesMetricasEnSesion = $state(new Map<string, MetricSequenceDraft>());
 
 	let channel: RealtimeChannel | null = null;
 	const UNSAVED_CHANGES_MESSAGE = 'Hay cambios sin guardar en esta pestaña.';
@@ -376,6 +384,12 @@
 	function handleSecuenciasChange(payload: EditorSecuenciaRow[]) {
 		secuenciasLive = [...payload];
 		if (resumenExiste) resumenSucia = true;
+	}
+
+	function handleAnotacionMetricaGuardada(secuenciaId: string, borrador: MetricSequenceDraft) {
+		const siguiente = new Map(anotacionesMetricasEnSesion);
+		siguiente.set(secuenciaId, borrador);
+		anotacionesMetricasEnSesion = siguiente;
 	}
 
 	function handleMetricaDirty() {
@@ -704,7 +718,9 @@
 			}}
 			catalogoMetrico={data.catalogoMetrico}
 			anotacionMetrica={data.anotacionMetrica}
+			anotacionesEnSesion={anotacionesMetricasEnSesion}
 			onSecuenciasChange={handleSecuenciasChange}
+			onAnotacionMetricaGuardada={handleAnotacionMetricaGuardada}
 			onMetricaDirty={handleMetricaDirty}
 			onPendingChangesChange={(pending) =>
 				handleEditorPendingChangesChange('secuencias', pending)}
