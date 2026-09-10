@@ -129,9 +129,68 @@ type MetricFacetOptions = {
  * visibles. Las etiquetas visibles y la jerarquía (subtipo → forma padre) se
  * resuelven desde el vocabulario cacheado (slug → etiqueta), sin consultas extra.
  */
+type CatalogoMetricoNombres = {
+	formaLabels: Map<string, string>;
+	metroLabels: Map<string, string>;
+	/** clave `forma_slug/esquema_slug` → nombre visible del esquema. */
+	esquemaLabels: Map<string, string>;
+};
+
+/**
+ * Los nombres de las facetas métricas, leídos de las tablas del catálogo.
+ *
+ * No se usa aquí el mapa de vocabulario porque **indexa por slug a secas** y en el nivel 2 eso
+ * pierde la mitad: 261 filas para 130 slugs distintos, con `octosilabica` en ocho formas y `abab`
+ * en siete. Las tres tablas las lee cualquiera —su política es `catalogo_metrico_publico()`—.
+ */
+async function loadCatalogoMetricoNombres(locals: App.Locals): Promise<CatalogoMetricoNombres> {
+	const [formasResp, metrosResp, esquemasResp] = await Promise.all([
+		locals.supabase.from('formas_metricas').select('forma_id,slug,nombre'),
+		locals.supabase.from('metros').select('slug,nombre'),
+		locals.supabase
+			.from('esquemas_rima')
+			.select('slug,nombre,notacion,arquitecturas_forma!inner(forma_id)')
+	]);
+
+	type FormaRow = { forma_id: string; slug: string; nombre: string };
+	type MetroRow = { slug: string; nombre: string };
+	type EsquemaRow = {
+		slug: string | null;
+		nombre: string | null;
+		notacion: string | null;
+		arquitecturas_forma: { forma_id: string } | { forma_id: string }[] | null;
+	};
+
+	const formas = (formasResp.data ?? []) as FormaRow[];
+	const formaSlugById = new Map(formas.map((forma) => [forma.forma_id, forma.slug]));
+	const formaLabels = new Map(formas.map((forma) => [forma.slug, forma.nombre]));
+	const metroLabels = new Map(
+		((metrosResp.data ?? []) as MetroRow[]).map((metro) => [metro.slug, metro.nombre])
+	);
+
+	const esquemaLabels = new Map<string, string>();
+	for (const esquema of (esquemasResp.data ?? []) as EsquemaRow[]) {
+		if (!esquema.slug) continue;
+		const arq = Array.isArray(esquema.arquitecturas_forma)
+			? esquema.arquitecturas_forma[0]
+			: esquema.arquitecturas_forma;
+		const formaSlug = arq ? formaSlugById.get(arq.forma_id) : undefined;
+		if (!formaSlug) continue;
+		// El nombre del catálogo cuando lo hay —«Cruzada», «Cuartetos de rima abrazada»— y la
+		// notación cuando no: un esquema sin nombre se reconoce por sus letras.
+		esquemaLabels.set(
+			`${formaSlug}/${esquema.slug}`,
+			esquema.nombre ?? esquema.notacion ?? esquema.slug
+		);
+	}
+
+	return { formaLabels, metroLabels, esquemaLabels };
+}
+
 function buildMetricFacetOptions(
 	obras: MetricFacetObra[],
-	vocabMaps: PublicVocabularioMaps
+	vocabMaps: PublicVocabularioMaps,
+	catalogo: CatalogoMetricoNombres
 ): MetricFacetOptions {
 	const uniqueSlugs = (pick: (o: MetricFacetObra) => string[] | null): Set<string> => {
 		const set = new Set<string>();
@@ -139,29 +198,28 @@ function buildMetricFacetOptions(
 		return set;
 	};
 
-	const estrofaLabels = vocabMaps.labelBySlug.get('estrofa_tipo') ?? new Map<string, string>();
-	const estrofaParents = vocabMaps.parentSlugBySlug.get('estrofa_tipo') ?? new Map<string, string>();
-
 	const toOptions = (slugs: Set<string>, labels: Map<string, string>): CatalogFilterOption[] =>
 		[...slugs]
 			.map((slug) => ({ id: slug, label: labels.get(slug) ?? slug }))
 			.sort((a, b) => a.label.localeCompare(b.label, 'es'));
 
 	return {
-		formas: toOptions(uniqueSlugs((o) => o.formas_presentes), estrofaLabels),
-		// Subtipos: llevan el slug de su forma raíz como parentId para anidarlos
-		// (p. ej. subquintillas bajo quintilla) en el selector único de forma.
+		formas: toOptions(uniqueSlugs((o) => o.formas_presentes), catalogo.formaLabels),
+		// **Esquemas de rima, no subtipos de estrofa.** La faceta cambió de contenido el 7 de
+		// septiembre de 2026 y de clave el 10, cuando pasó a `forma_slug/esquema_slug`: el slug del
+		// esquema no identifica uno —`abab` está en siete formas— y sin la forma no había manera de
+		// colgarlo de la suya. El `parentId` es esa forma, que es lo que anida el selector.
 		subtipos: [...uniqueSlugs((o) => o.subtipos_presentes)]
-			.map((slug) => ({
-				id: slug,
-				label: estrofaLabels.get(slug) ?? slug,
-				parentId: estrofaParents.get(slug) ?? null
+			.map((clave) => ({
+				id: clave,
+				label: catalogo.esquemaLabels.get(clave) ?? clave.slice(clave.indexOf('/') + 1),
+				parentId: clave.includes('/') ? clave.slice(0, clave.indexOf('/')) : null
 			}))
 			.sort((a, b) => a.label.localeCompare(b.label, 'es')),
-		metros: toOptions(
-			uniqueSlugs((o) => o.metros_presentes),
-			vocabMaps.labelBySlug.get('metro') ?? new Map<string, string>()
-		),
+		metros: toOptions(uniqueSlugs((o) => o.metros_presentes), catalogo.metroLabels),
+		// Las caracterizaciones —cantado, prosa— sí son vocabulario, y del vivo: es donde vive hoy
+		// `secuencias_caracterizaciones_rango`. No tiene nada que ver con el vocabulario métrico
+		// legado.
 		variaciones: toOptions(
 			uniqueSlugs((o) => o.variaciones_presentes),
 			vocabMaps.labelBySlug.get('caracterizacion_rango') ?? new Map<string, string>()
@@ -328,7 +386,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 
 	// Facetas métricas: etiquetas + jerarquía resueltas desde el vocabulario cacheado.
 	const metricFacets = wantsMetricFilters
-		? buildMetricFacetOptions(obras, vocabMaps)
+		? buildMetricFacetOptions(obras, vocabMaps, await loadCatalogoMetricoNombres(locals))
 		: { formas: [], metros: [], tiposForma: [], variaciones: [], subtipos: [] };
 
 	const filterOptions: CatalogFilterOptions = {
