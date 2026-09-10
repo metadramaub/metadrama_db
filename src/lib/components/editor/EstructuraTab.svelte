@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { onDestroy, onMount, untrack } from 'svelte';
-	import { ChevronLeft, ChevronRight, Eye, Pencil, Plus, Trash2 } from 'lucide-svelte';
+	import { Eye, Pencil, Plus, Trash2 } from 'lucide-svelte';
 	import type { EditorCuadroRow, EditorJornadaRow } from '$lib/types/editor.types';
 	import Button from '$lib/components/ui/button.svelte';
-	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import LocalDraftRecoveryModal from '$lib/components/editor/LocalDraftRecoveryModal.svelte';
 	import RangeConsistencyAlert from '$lib/components/editor/RangeConsistencyAlert.svelte';
@@ -66,7 +65,6 @@
 		draft: LocalFormDraft<StructureDraftValue>;
 	};
 	type PendingSidebarAction =
-		| { kind: 'close' }
 		| { kind: 'new-jornada' }
 		| { kind: 'new-cuadro'; jornada: EditorJornadaRow }
 		| { kind: 'jornada'; target: EditorJornadaRow }
@@ -109,38 +107,10 @@
 	function sortByVIni<T extends { v_ini: number }>(items: T[]): T[] {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini);
 	}
-	const orderedJornadas = $derived(sortByVIni(jornadas));
-	const orderedCuadros = $derived(sortByVIni(cuadros));
 	const structureOverlapIssues = $derived.by(() =>
 		analyzeStructureRangeConsistency(jornadas, cuadros)
 	);
 	const structureOverlapIds = $derived(collectRangeConsistencyIds(structureOverlapIssues));
-	const editingJornadaIndex = $derived(
-		editingJornadaId ? orderedJornadas.findIndex((item) => item.jornada_id === editingJornadaId) : -1
-	);
-	const editingCuadroIndex = $derived(
-		editingCuadroId ? orderedCuadros.findIndex((item) => item.cuadro_id === editingCuadroId) : -1
-	);
-	const prevJornada = $derived(
-		editingJornadaIndex > 0 ? orderedJornadas[editingJornadaIndex - 1] : null
-	);
-	const nextJornada = $derived(
-		editingJornadaIndex >= 0 && editingJornadaIndex < orderedJornadas.length - 1
-			? orderedJornadas[editingJornadaIndex + 1]
-			: null
-	);
-	const prevCuadro = $derived(editingCuadroIndex > 0 ? orderedCuadros[editingCuadroIndex - 1] : null);
-	const nextCuadro = $derived(
-		editingCuadroIndex >= 0 && editingCuadroIndex < orderedCuadros.length - 1
-			? orderedCuadros[editingCuadroIndex + 1]
-			: null
-	);
-	const jornadaDropdownItems = $derived(
-		sortByVIni(jornadas).map((jornada) => ({
-			id: jornada.jornada_id,
-			label: `Jornada ${jornada.jornada_num} (vv. ${jornada.v_ini}-${jornada.v_fin})`
-		}))
-	);
 	function getJornadaById(jornadaId: string) {
 		return jornadas.find((item) => item.jornada_id === jornadaId) ?? null;
 	}
@@ -191,19 +161,6 @@
 			cuadro_num: selectedJornadaId ? getCuadros(selectedJornadaId).length + 1 : 1,
 			v_ini: suggestedStart,
 			v_fin: suggestedStart + 1
-		};
-	}
-
-	function onCuadroJornadaChange(nextJornadaId: string) {
-		const nextJornada = getJornadaById(nextJornadaId);
-		const inCreationMode = sidebarMode === 'cuadro-new';
-		const suggestedStart = inCreationMode ? getSuggestedCuadroStart(nextJornadaId) : cuadroForm.v_ini;
-		cuadroForm = {
-			...cuadroForm,
-			jornada_id: nextJornadaId,
-			cuadro_num: nextJornadaId ? getCuadros(nextJornadaId).length + 1 : 1,
-			v_ini: inCreationMode ? suggestedStart : nextJornada?.v_ini ?? cuadroForm.v_ini,
-			v_fin: inCreationMode ? suggestedStart + 1 : nextJornada?.v_fin ?? cuadroForm.v_fin
 		};
 	}
 
@@ -490,6 +447,31 @@
 		return true;
 	}
 
+	async function saveInlineStructure() {
+		if (!sidebarMode) return;
+		const saved = await saveSidebar();
+		if (saved) performCloseSidebar();
+	}
+
+	function cancelInlineEdit() {
+		if (sidebarSaving) return;
+		localDraftWriter.cancel();
+		removeLocalDraft(localDraftKey());
+		performCloseSidebar();
+	}
+
+	function handleInlineRangeKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			event.preventDefault();
+			cancelInlineEdit();
+			return;
+		}
+		if (event.key === 'Enter' && !props.readOnly) {
+			event.preventDefault();
+			void saveInlineStructure();
+		}
+	}
+
 	function openNewJornada() {
 		if (props.readOnly) return;
 		editingJornadaId = null;
@@ -581,16 +563,6 @@
 		openEditCuadro(cuadro);
 	}
 
-	function goToJornada(target: EditorJornadaRow | null) {
-		if (!target || sidebarSaving) return;
-		requestOpenEditJornada(target);
-	}
-
-	function goToCuadro(target: EditorCuadroRow | null) {
-		if (!target || sidebarSaving) return;
-		requestOpenEditCuadro(target);
-	}
-
 	function clearFocusStructureQueryParams() {
 		if (!browser) return;
 		const currentUrl = new URL(window.location.href);
@@ -617,27 +589,11 @@
 		reportPendingChanges(false);
 	}
 
-	function requestCloseSidebar() {
-		if (props.readOnly) {
-			performCloseSidebar();
-			return;
-		}
-		if (!refreshSidebarDirty()) {
-			performCloseSidebar();
-			return;
-		}
-		pendingSidebarAction = { kind: 'close' };
-	}
-
 	function cancelPendingSidebarAction() {
 		pendingSidebarAction = null;
 	}
 
 	function executeSidebarAction(action: PendingSidebarAction) {
-		if (action.kind === 'close') {
-			performCloseSidebar();
-			return;
-		}
 		if (action.kind === 'new-jornada') {
 			openNewJornada();
 			return;
@@ -837,28 +793,69 @@
 					}`}
 				>
 					<div class="flex flex-wrap items-start justify-between gap-3">
-						<div class="min-w-0 text-sm">
-							<span class="font-semibold">Jornada {jornada.jornada_num}</span>
-							<span class="ml-2 text-xs text-[color:var(--muted-foreground)]">
-								vv. {jornada.v_ini}-{jornada.v_fin}
-							</span>
-						</div>
+						{#if sidebarMode === 'jornada-edit' && editingJornadaId === jornada.jornada_id}
+							<div class="flex min-w-0 flex-wrap items-end gap-3 text-sm">
+								<span class="pb-2 font-semibold">Jornada {jornada.jornada_num}</span>
+								<label class="grid gap-1">
+									<span class="text-xs text-[color:var(--muted-foreground)]">Verso inicial</span>
+									<input
+										type="number"
+										bind:value={jornadaForm.v_ini}
+										disabled={props.readOnly || sidebarSaving}
+										onkeydown={handleInlineRangeKeydown}
+										class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+									/>
+								</label>
+								<label class="grid gap-1">
+									<span class="text-xs text-[color:var(--muted-foreground)]">Verso final</span>
+									<input
+										type="number"
+										bind:value={jornadaForm.v_fin}
+										disabled={props.readOnly || sidebarSaving}
+										onkeydown={handleInlineRangeKeydown}
+										class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+									/>
+								</label>
+							</div>
+						{:else}
+							<div class="min-w-0 text-sm">
+								<span class="font-semibold">Jornada {jornada.jornada_num}</span>
+								<span class="ml-2 text-xs text-[color:var(--muted-foreground)]">
+									vv. {jornada.v_ini}-{jornada.v_fin}
+								</span>
+							</div>
+						{/if}
 						<div class="flex items-center gap-1">
-							<button
-								type="button"
-								class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
-								aria-label={props.readOnly ? 'Ver jornada' : 'Editar jornada'}
-								onclick={() => requestOpenEditJornada(jornada)}
-								disabled={props.readOnly && !props.canComment}
-							>
-								{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
-							</button>
+							{#if sidebarMode === 'jornada-edit' && editingJornadaId === jornada.jornada_id}
+								{#if !props.readOnly}
+									<Button
+										variant="success"
+										onclick={() => void saveInlineStructure()}
+										disabled={sidebarSaving}
+										loading={sidebarSaving}
+										loadingLabel="Guardando…"
+									>
+										Guardar
+									</Button>
+								{/if}
+								<Button variant="secondary" onclick={cancelInlineEdit} disabled={sidebarSaving}>Cancelar</Button>
+							{:else}
+								<button
+									type="button"
+									class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+									aria-label={props.readOnly ? 'Ver jornada' : 'Editar jornada'}
+									onclick={() => requestOpenEditJornada(jornada)}
+									disabled={props.readOnly && !props.canComment}
+								>
+									{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
+								</button>
+							{/if}
 							<button
 								type="button"
 								class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
 								aria-label="Eliminar jornada"
 								onclick={() => openDeleteJornada(jornada)}
-								disabled={props.readOnly}
+								disabled={props.readOnly || sidebarSaving}
 							>
 								<Trash2 size={16} />
 							</button>
@@ -873,44 +870,157 @@
 						{:else}
 							{#each getCuadros(jornada.jornada_id) as cuadro}
 								<div
-									class={`flex items-center justify-between gap-3 border-t px-3 py-2 text-sm first:border-t-0 ${
+									class={`border-t px-3 py-2 text-sm first:border-t-0 ${
 										structureOverlapIds.has(cuadro.cuadro_id)
 											? 'border-[color:var(--danger)] bg-red-50'
 											: 'border-[color:var(--border)]'
 									}`}
 								>
-									<div class="min-w-0">
-										<span class="font-medium">Cuadro {cuadro.cuadro_num}</span>
-										<span class="ml-2 text-xs text-[color:var(--muted-foreground)]">
-											vv. {cuadro.v_ini}-{cuadro.v_fin}
-										</span>
+									<div class="flex flex-wrap items-start justify-between gap-3">
+										{#if sidebarMode === 'cuadro-edit' && editingCuadroId === cuadro.cuadro_id}
+											<div class="flex min-w-0 flex-wrap items-end gap-3">
+												<span class="pb-2 font-medium">Cuadro {cuadro.cuadro_num}</span>
+												<label class="grid gap-1">
+													<span class="text-xs text-[color:var(--muted-foreground)]">Verso inicial</span>
+													<input
+														type="number"
+														bind:value={cuadroForm.v_ini}
+														disabled={props.readOnly || sidebarSaving}
+														onkeydown={handleInlineRangeKeydown}
+														class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+													/>
+												</label>
+												<label class="grid gap-1">
+													<span class="text-xs text-[color:var(--muted-foreground)]">Verso final</span>
+													<input
+														type="number"
+														bind:value={cuadroForm.v_fin}
+														disabled={props.readOnly || sidebarSaving}
+														onkeydown={handleInlineRangeKeydown}
+														class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+													/>
+												</label>
+											</div>
+										{:else}
+											<div class="min-w-0">
+												<span class="font-medium">Cuadro {cuadro.cuadro_num}</span>
+												<span class="ml-2 text-xs text-[color:var(--muted-foreground)]">
+													vv. {cuadro.v_ini}-{cuadro.v_fin}
+												</span>
+											</div>
+										{/if}
+										<div class="flex items-center gap-1">
+											{#if sidebarMode === 'cuadro-edit' && editingCuadroId === cuadro.cuadro_id}
+												{#if !props.readOnly}
+													<Button
+														variant="success"
+													onclick={() => void saveInlineStructure()}
+														disabled={sidebarSaving}
+														loading={sidebarSaving}
+														loadingLabel="Guardando…"
+													>
+														Guardar
+													</Button>
+												{/if}
+												<Button variant="secondary" onclick={cancelInlineEdit} disabled={sidebarSaving}>Cancelar</Button>
+											{:else}
+												<button
+													type="button"
+													class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+													aria-label={props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}
+													onclick={() => requestOpenEditCuadro(cuadro)}
+													disabled={props.readOnly && !props.canComment}
+												>
+													{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
+												</button>
+											{/if}
+											<button
+												type="button"
+												class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+												aria-label="Eliminar cuadro"
+												onclick={() => openDeleteCuadro(cuadro)}
+												disabled={props.readOnly || sidebarSaving}
+											>
+												<Trash2 size={16} />
+											</button>
+										</div>
 									</div>
-									<div class="flex items-center gap-1">
-										<button
-											type="button"
-											class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
-											aria-label={props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}
-											onclick={() => requestOpenEditCuadro(cuadro)}
-											disabled={props.readOnly && !props.canComment}
-										>
-											{#if props.readOnly}<Eye size={16} />{:else}<Pencil size={16} />{/if}
-										</button>
-										<button
-											type="button"
-											class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
-											aria-label="Eliminar cuadro"
-											onclick={() => openDeleteCuadro(cuadro)}
-											disabled={props.readOnly}
-										>
-											<Trash2 size={16} />
-										</button>
-									</div>
+									{#if sidebarMode === 'cuadro-edit' && editingCuadroId === cuadro.cuadro_id}
+										<div class="mt-3 border-t border-[color:var(--border)] pt-3">
+											{#key editingCuadroId}
+												<InternalCommentsPanel
+													obraId={props.obraId}
+													canComment={Boolean(props.canComment)}
+															title="Comentarios internos"
+															context={{ cuadro_id: editingCuadroId }}
+															focusComentarioId={props.focusComentarioId}
+															reloadKey={props.commentsReloadKey}
+												/>
+											{/key}
+										</div>
+									{/if}
 								</div>
 							{/each}
 						{/if}
 					</div>
 
-					<Button variant="ghost" onclick={() => requestOpenNewCuadro(jornada)} disabled={props.readOnly}>
+					{#if sidebarMode === 'cuadro-new' && cuadroForm.jornada_id === jornada.jornada_id}
+						<div class="border border-dashed border-[color:var(--border)] bg-white px-3 py-3 text-sm">
+							<div class="flex flex-wrap items-end justify-between gap-3">
+								<div class="flex min-w-0 flex-wrap items-end gap-3">
+									<label class="grid gap-1">
+										<span class="text-xs text-[color:var(--muted-foreground)]">Cuadro #</span>
+										<input
+											type="number"
+											bind:value={cuadroForm.cuadro_num}
+											min="1"
+											disabled={props.readOnly || sidebarSaving}
+											onkeydown={handleInlineRangeKeydown}
+											class="w-24 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+										/>
+									</label>
+									<label class="grid gap-1">
+										<span class="text-xs text-[color:var(--muted-foreground)]">Verso inicial</span>
+										<input
+											type="number"
+											bind:value={cuadroForm.v_ini}
+											disabled={props.readOnly || sidebarSaving}
+											onkeydown={handleInlineRangeKeydown}
+											class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+										/>
+									</label>
+									<label class="grid gap-1">
+										<span class="text-xs text-[color:var(--muted-foreground)]">Verso final</span>
+										<input
+											type="number"
+											bind:value={cuadroForm.v_fin}
+											disabled={props.readOnly || sidebarSaving}
+											onkeydown={handleInlineRangeKeydown}
+											class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+										/>
+									</label>
+								</div>
+								<div class="flex items-center gap-1">
+									<Button
+										variant="success"
+										onclick={() => void saveInlineStructure()}
+										disabled={props.readOnly || sidebarSaving}
+										loading={sidebarSaving}
+										loadingLabel="Guardando…"
+									>
+										Guardar
+									</Button>
+									<Button variant="secondary" onclick={cancelInlineEdit} disabled={sidebarSaving}>Cancelar</Button>
+								</div>
+							</div>
+						</div>
+					{/if}
+
+					<Button
+						variant="ghost"
+						onclick={() => requestOpenNewCuadro(jornada)}
+						disabled={props.readOnly || sidebarSaving}
+					>
 						<Plus size={16} />
 						Añadir cuadro
 					</Button>
@@ -919,214 +1029,69 @@
 		</div>
 	{/if}
 
-	<div class="flex justify-start">
-		<Button variant="primary-soft" onclick={requestOpenNewJornada} disabled={props.readOnly}>
-			<Plus size={16} />
-			Añadir jornada
-		</Button>
-	</div>
-</section>
-
-{#if sidebarMode}
-	<aside
-		class="fixed right-0 top-0 z-40 h-screen w-full max-w-xl overflow-y-auto border-l border-[color:var(--border)] bg-[color:var(--gray-50)] p-5"
-		inert={sidebarSaving}
-		aria-busy={sidebarSaving}
-	>
-		<div class="sticky top-0 z-10 mb-4 flex items-center justify-between gap-3 bg-[color:var(--gray-50)] pb-3">
-			<div class="flex min-w-0 items-center gap-2">
-				<h3 class="text-base font-semibold">
-					{#if sidebarMode === 'jornada-new'}Nueva jornada{/if}
-					{#if sidebarMode === 'jornada-edit'}{props.readOnly ? 'Ver jornada' : 'Editar jornada'}{/if}
-					{#if sidebarMode === 'cuadro-new'}Nuevo cuadro{/if}
-					{#if sidebarMode === 'cuadro-edit'}{props.readOnly ? 'Ver cuadro' : 'Editar cuadro'}{/if}
-				</h3>
-				{#if sidebarMode === 'jornada-edit' && editingJornadaIndex >= 0}
-					<div class="flex items-center gap-1">
-						<button
-							type="button"
-							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-							aria-label="Jornada anterior"
-							onclick={() => void goToJornada(prevJornada)}
-							disabled={!prevJornada || sidebarSaving}
-						>
-							<ChevronLeft size={18} />
-						</button>
-						<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
-							{editingJornadaIndex + 1} / {orderedJornadas.length}
-						</span>
-						<button
-							type="button"
-							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-							aria-label="Jornada siguiente"
-							onclick={() => void goToJornada(nextJornada)}
-							disabled={!nextJornada || sidebarSaving}
-						>
-							<ChevronRight size={18} />
-						</button>
-					</div>
-				{:else if sidebarMode === 'cuadro-edit' && editingCuadroIndex >= 0}
-					<div class="flex items-center gap-1">
-						<button
-							type="button"
-							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-							aria-label="Cuadro anterior"
-							onclick={() => void goToCuadro(prevCuadro)}
-							disabled={!prevCuadro || sidebarSaving}
-						>
-							<ChevronLeft size={18} />
-						</button>
-						<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
-							{editingCuadroIndex + 1} / {orderedCuadros.length}
-						</span>
-						<button
-							type="button"
-							class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] disabled:opacity-30"
-							aria-label="Cuadro siguiente"
-							onclick={() => void goToCuadro(nextCuadro)}
-							disabled={!nextCuadro || sidebarSaving}
-						>
-							<ChevronRight size={18} />
-						</button>
-					</div>
-				{/if}
-			</div>
-			<div class="flex items-center gap-2">
-				{#if sidebarDirty}
-					<span class="text-xs text-[color:var(--muted-foreground)]">Cambios sin guardar</span>
-				{/if}
-				<Button variant="secondary" onclick={requestCloseSidebar} disabled={sidebarSaving}>Cerrar</Button>
-				{#if !props.readOnly}
+	{#if sidebarMode === 'jornada-new'}
+		<div class="border border-dashed border-[color:var(--border)] bg-white px-3 py-3 text-sm">
+			<div class="flex flex-wrap items-end justify-between gap-3">
+				<div class="flex min-w-0 flex-wrap items-end gap-3">
+					<label class="grid gap-1">
+						<span class="text-xs text-[color:var(--muted-foreground)]">Jornada #</span>
+						<input
+							type="number"
+							bind:value={jornadaForm.jornada_num}
+							min="1"
+							disabled={props.readOnly || sidebarSaving}
+							onkeydown={handleInlineRangeKeydown}
+							class="w-24 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+						/>
+					</label>
+					<label class="grid gap-1">
+						<span class="text-xs text-[color:var(--muted-foreground)]">Verso inicial</span>
+						<input
+							type="number"
+							bind:value={jornadaForm.v_ini}
+							disabled={props.readOnly || sidebarSaving}
+							onkeydown={handleInlineRangeKeydown}
+							class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+						/>
+					</label>
+					<label class="grid gap-1">
+						<span class="text-xs text-[color:var(--muted-foreground)]">Verso final</span>
+						<input
+							type="number"
+							bind:value={jornadaForm.v_fin}
+							disabled={props.readOnly || sidebarSaving}
+							onkeydown={handleInlineRangeKeydown}
+							class="w-28 rounded-md border border-[color:var(--border)] bg-white px-2 py-1.5"
+						/>
+					</label>
+				</div>
+				<div class="flex items-center gap-1">
 					<Button
 						variant="success"
-						onclick={() => void saveSidebar()}
+						onclick={() => void saveInlineStructure()}
+						disabled={props.readOnly || sidebarSaving}
 						loading={sidebarSaving}
 						loadingLabel="Guardando…"
 					>
 						Guardar
 					</Button>
-				{/if}
+					<Button variant="secondary" onclick={cancelInlineEdit} disabled={sidebarSaving}>Cancelar</Button>
+				</div>
 			</div>
 		</div>
+	{/if}
 
-		<div class="grid gap-3">
-			{#if sidebarMode === 'jornada-new' || sidebarMode === 'jornada-edit'}
-				<div class="grid gap-3 sm:grid-cols-3">
-					<label class="form-field">
-						<span class="form-label">Jornada #</span>
-						<input
-							type="number"
-							bind:value={jornadaForm.jornada_num}
-							min="1"
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-					<label class="form-field">
-						<span class="form-label">Verso inicial</span>
-						<input
-							type="number"
-							bind:value={jornadaForm.v_ini}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-					<label class="form-field">
-						<span class="form-label">Verso final</span>
-						<input
-							type="number"
-							bind:value={jornadaForm.v_fin}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-				</div>
-			{:else}
-				<label class="form-field">
-					<span class="form-label">Jornada</span>
-					<CheckDropdown
-						multiple={false}
-						search={jornadaDropdownItems.length > 8}
-						placeholder="Seleccionar jornada"
-						items={jornadaDropdownItems}
-						disabled={props.readOnly}
-						selectedIds={cuadroForm.jornada_id ? [cuadroForm.jornada_id] : []}
-						onChange={(ids) => {
-							const nextJornadaId = ids[0] ?? '';
-							if (!nextJornadaId) return;
-							onCuadroJornadaChange(nextJornadaId);
-						}}
-					/>
-				</label>
-				<div class="grid gap-3 sm:grid-cols-3">
-					<label class="form-field">
-						<span class="form-label">Cuadro #</span>
-						<input
-							type="number"
-							bind:value={cuadroForm.cuadro_num}
-							min="1"
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-					<label class="form-field">
-						<span class="form-label">Verso inicial</span>
-						<input
-							type="number"
-							bind:value={cuadroForm.v_ini}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-					<label class="form-field">
-						<span class="form-label">Verso final</span>
-						<input
-							type="number"
-							bind:value={cuadroForm.v_fin}
-							disabled={props.readOnly}
-							class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						/>
-					</label>
-				</div>
-			{/if}
-		</div>
-
-		{#if sidebarMode === 'jornada-edit' && editingJornadaId}
-			<div class="mt-4">
-				{#key editingJornadaId}
-					<InternalCommentsPanel
-						obraId={props.obraId}
-						canComment={Boolean(props.canComment)}
-						title="Comentarios internos de jornada"
-						context={{ jornada_id: editingJornadaId }}
-						collapsible={true}
-						defaultCollapsed={true}
-						collapseLabel="Ver"
-						focusComentarioId={props.focusComentarioId}
-						reloadKey={props.commentsReloadKey}
-					/>
-				{/key}
-			</div>
-		{/if}
-		{#if sidebarMode === 'cuadro-edit' && editingCuadroId}
-			<div class="mt-4">
-				{#key editingCuadroId}
-					<InternalCommentsPanel
-						obraId={props.obraId}
-						canComment={Boolean(props.canComment)}
-						title="Comentarios internos de cuadro"
-						context={{ cuadro_id: editingCuadroId }}
-						collapsible={true}
-						defaultCollapsed={true}
-						collapseLabel="Ver"
-						focusComentarioId={props.focusComentarioId}
-						reloadKey={props.commentsReloadKey}
-					/>
-				{/key}
-			</div>
-		{/if}
-	</aside>
-{/if}
+	<div class="flex justify-start">
+		<Button
+			variant="primary-soft"
+			onclick={requestOpenNewJornada}
+			disabled={props.readOnly || sidebarSaving}
+		>
+			<Plus size={16} />
+			Añadir jornada
+		</Button>
+	</div>
+</section>
 
 {#if deleteTarget}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

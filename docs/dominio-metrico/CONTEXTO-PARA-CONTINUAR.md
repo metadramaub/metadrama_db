@@ -1123,10 +1123,19 @@ lo ya confirmado permanece guardado; una ejecución nueva construye otro plan co
   automáticamente: el botón individual «Actualizar datos públicos» sigue siendo la publicación
   explícita de la nueva identidad editorial.
 - Migraciones aplicadas: `20260910100000_invalidar_ficha_por_identidad_editorial.sql` y
-  `20260910110000_cola_recompute_datos_publicos.sql`. Commits: `fd786c1` y `3c6638c`; la interfaz y
-  este contexto se cerrarán en un tercer commit. Falta solo la verificación manual autenticada:
+  `20260910110000_cola_recompute_datos_publicos.sql`. Commits: `fd786c1`, `3c6638c` y `d1fef26`.
+  Falta solo la verificación manual autenticada:
   cambiar un editor en una obra publicada, confirmar el aviso pendiente, pulsar la actualización
   individual y comprobar en la ficha pública el nuevo nombre y ORCID.
+
+**Edición inline de estructura —implementada el 10 de septiembre de 2026.** En el dashboard de una
+obra, jornadas y cuadros se editan y se crean en el propio listado: una sola fila activa a la vez,
+con `Guardar` y `Cancelar`; `Escape` cancela y `Enter` guarda los campos numéricos. Se reutilizan
+sin cambios las validaciones y las mutaciones de estructura ya existentes. Los comentarios internos
+de un cuadro guardado se abren en una segunda línea amplia bajo su fila. El panel lateral se retiró
+por completo de esta pantalla. Se comprobó en *Demo obra* la edición consecutiva de jornadas y
+cuadros, las cancelaciones, las altas inline y la persistencia tras recargar; los valores de prueba
+se guardaron sin modificarlos.
 
 **Datos que aún no llegan al JSON público**
 
