@@ -70,63 +70,131 @@
 		patchSeccion(seccion, { scope_minimo: value });
 	}
 
-	let recomputeStatus = $state<'idle' | 'running' | 'done' | 'error'>('idle');
-	let recomputeMessage = $state('');
-
-	type RecomputeAllResponse = {
-		obrasResumen?: number | null;
-		obrasPublicadas?: number | null;
-		autoresPerfilMetrico?: number | null;
-		autoresVinculadosPublicados?: number | null;
-		obras?: number | null;
-		autores?: number | null;
-		message?: string;
+	type RecomputeKind = 'obra' | 'autor' | 'finalize';
+	type RecomputePlanItem = { id: string; label: string };
+	type RecomputePlanResponse = { obras?: RecomputePlanItem[]; autores?: RecomputePlanItem[] };
+	type RecomputeFailure = {
+		kind: RecomputeKind;
+		id: string;
+		label: string;
+		message: string;
 	};
 
-	function formatRecomputeMessage(body: RecomputeAllResponse): string {
-		const obrasResumen = body.obrasResumen ?? body.obras ?? null;
-		const autoresPerfilMetrico = body.autoresPerfilMetrico ?? body.autores ?? null;
-		const parts: string[] = [];
+	let recomputeStatus = $state<'idle' | 'running' | 'done' | 'partial' | 'error'>('idle');
+	let recomputeMessage = $state('');
+	let recomputeFailures = $state<RecomputeFailure[]>([]);
+	let recomputeProgress = $state({ obrasDone: 0, obrasTotal: 0, autoresDone: 0, autoresTotal: 0 });
 
-		if (typeof obrasResumen === 'number') {
-			parts.push(
-				`${obrasResumen} resúmenes de obra${typeof body.obrasPublicadas === 'number' ? ` (${body.obrasPublicadas} obras publicadas)` : ''}`
-			);
+	async function requestRecompute(action: 'plan' | RecomputeKind, payload: Record<string, string> = {}) {
+		const response = await fetch('/api/datos-publicos/recompute-all', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ action, ...payload })
+		});
+		const body = await response.json().catch(() => ({}));
+		if (!response.ok) {
+			throw new Error(body.message ?? `Error ${response.status}`);
 		}
-		if (typeof autoresPerfilMetrico === 'number') {
-			parts.push(`${autoresPerfilMetrico} perfiles métricos de autor`);
-		}
+		return body as RecomputePlanResponse;
+	}
 
-		const base = parts.length > 0 ? `Datos públicos recalculados: ${parts.join(' y ')}.` : 'Datos públicos recalculados.';
-		if (
-			typeof body.autoresVinculadosPublicados === 'number' &&
-			typeof autoresPerfilMetrico === 'number' &&
-			body.autoresVinculadosPublicados > autoresPerfilMetrico
-		) {
-			return `${base} Hay ${body.autoresVinculadosPublicados} autores vinculados a obras publicadas; solo los autores con unidades métricas inequívocas generan perfil.`;
+	function registerFailure(failure: RecomputeFailure) {
+		recomputeFailures = [...recomputeFailures, failure];
+	}
+
+	function advanceProgress(kind: Exclude<RecomputeKind, 'finalize'>) {
+		if (kind === 'obra') {
+			recomputeProgress = { ...recomputeProgress, obrasDone: recomputeProgress.obrasDone + 1 };
+			return;
 		}
-		return base;
+		recomputeProgress = { ...recomputeProgress, autoresDone: recomputeProgress.autoresDone + 1 };
+	}
+
+	async function processItems(items: RecomputePlanItem[], kind: Exclude<RecomputeKind, 'finalize'>) {
+		for (const item of items) {
+			try {
+				await requestRecompute(kind, kind === 'obra' ? { obraId: item.id } : { autorId: item.id });
+			} catch (error) {
+				registerFailure({
+					kind,
+					id: item.id,
+					label: item.label,
+					message: error instanceof Error ? error.message : 'Error desconocido'
+				});
+			} finally {
+				advanceProgress(kind);
+			}
+		}
+	}
+
+	async function finalizeRecompute() {
+		try {
+			await requestRecompute('finalize');
+		} catch (error) {
+			registerFailure({
+				kind: 'finalize',
+				id: 'finalize',
+				label: 'Limpieza final de perfiles de autor',
+				message: error instanceof Error ? error.message : 'Error desconocido'
+			});
+		}
+	}
+
+	function finishRecompute() {
+		recomputeStatus = recomputeFailures.length > 0 ? 'partial' : 'done';
+		recomputeMessage =
+			recomputeFailures.length > 0
+				? `Proceso terminado con ${recomputeFailures.length} incidencia${recomputeFailures.length === 1 ? '' : 's'}.`
+				: 'Datos públicos actualizados.';
 	}
 
 	async function recomputeAll() {
 		if (recomputeStatus === 'running') return;
 		recomputeStatus = 'running';
-		recomputeMessage = '';
+		recomputeMessage = 'Preparando el plan de recálculo…';
+		recomputeFailures = [];
+		recomputeProgress = { obrasDone: 0, obrasTotal: 0, autoresDone: 0, autoresTotal: 0 };
+
 		try {
-			const resp = await fetch('/api/datos-publicos/recompute-all', { method: 'POST' });
-			const body = await resp.json().catch(() => ({}));
-			if (!resp.ok) {
-				throw new Error(body.message ?? `Error ${resp.status}`);
-			}
-			recomputeStatus = 'done';
-			recomputeMessage = formatRecomputeMessage(body as RecomputeAllResponse);
-			setTimeout(() => {
-				if (recomputeStatus === 'done') recomputeStatus = 'idle';
-			}, 4000);
-		} catch (err) {
+			const plan = await requestRecompute('plan');
+			const obras = Array.isArray(plan.obras) ? plan.obras : [];
+			const autores = Array.isArray(plan.autores) ? plan.autores : [];
+			recomputeProgress = { obrasDone: 0, obrasTotal: obras.length, autoresDone: 0, autoresTotal: autores.length };
+			recomputeMessage = '';
+			await processItems(obras, 'obra');
+			await processItems(autores, 'autor');
+			await finalizeRecompute();
+			finishRecompute();
+		} catch (error) {
 			recomputeStatus = 'error';
-			recomputeMessage = err instanceof Error ? err.message : 'Error desconocido';
+			recomputeMessage = error instanceof Error ? error.message : 'No se pudo preparar el recálculo.';
 		}
+	}
+
+	async function retryFailures() {
+		if (recomputeStatus === 'running' || recomputeFailures.length === 0) return;
+		const pendingRetries = [...recomputeFailures];
+		recomputeStatus = 'running';
+		recomputeMessage = `Reintentando ${pendingRetries.length} incidencia${pendingRetries.length === 1 ? '' : 's'}…`;
+		recomputeFailures = [];
+
+		for (const failure of pendingRetries) {
+			try {
+				if (failure.kind === 'obra') {
+					await requestRecompute('obra', { obraId: failure.id });
+				} else if (failure.kind === 'autor') {
+					await requestRecompute('autor', { autorId: failure.id });
+				} else {
+					await requestRecompute('finalize');
+				}
+			} catch (error) {
+				registerFailure({
+					...failure,
+					message: error instanceof Error ? error.message : 'Error desconocido'
+				});
+			}
+		}
+		finishRecompute();
 	}
 </script>
 
@@ -215,11 +283,10 @@
 	<div class="card p-4">
 		<h2 class="font-display text-xl">Datos métricos precomputados</h2>
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-			Recalcula los datos métricos públicos (barcode, perfil de formas, filtros del catálogo) de
-			<strong>todas las obras publicadas</strong> y, encadenado, los <strong>perfiles métricos de
-			autor</strong>. Normalmente cada obra se actualiza con su propio botón al editarla (que también
-			refresca a sus autores); usa esto para una reconstrucción global tras un cambio que afecte a
-			todas (por ejemplo, renombrar formas en el vocabulario) o para poblar todo por primera vez.
+			Reconstruye los datos métricos públicos de todas las obras publicadas y, después, los perfiles
+			métricos de autor. Cada elemento se guarda por separado: si uno falla, los anteriores permanecen
+			actualizados y se puede reintentar solo ese elemento. Para una obra concreta, usa su botón de
+			actualización individual.
 		</p>
 		<div class="mt-3 flex flex-wrap items-center gap-3">
 			<button
@@ -230,11 +297,36 @@
 			>
 				{recomputeStatus === 'running' ? 'Recalculando...' : 'Recalcular todos los datos públicos'}
 			</button>
+			{#if recomputeFailures.length > 0 && recomputeStatus !== 'running'}
+				<button
+					type="button"
+					class="border border-[color:var(--border)] px-3 py-2 text-sm text-[color:var(--gray-900)] hover:bg-[color:var(--gray-50)]"
+					onclick={retryFailures}
+				>
+					Reintentar fallidos
+				</button>
+			{/if}
 			{#if recomputeStatus === 'done'}
 				<span class="text-sm text-emerald-700">{recomputeMessage}</span>
-			{:else if recomputeStatus === 'error'}
+			{:else if recomputeStatus === 'partial' || recomputeStatus === 'error'}
 				<span class="text-sm text-red-600">{recomputeMessage}</span>
 			{/if}
 		</div>
+		{#if recomputeStatus === 'running' || recomputeStatus === 'done' || recomputeStatus === 'partial'}
+			<p class="mt-3 text-sm text-[color:var(--muted-foreground)]">
+				Obras {recomputeProgress.obrasDone}/{recomputeProgress.obrasTotal} · Autores
+				{recomputeProgress.autoresDone}/{recomputeProgress.autoresTotal}
+			</p>
+		{/if}
+		{#if recomputeStatus === 'running' && recomputeMessage}
+			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{recomputeMessage}</p>
+		{/if}
+		{#if recomputeFailures.length > 0}
+			<ul class="mt-3 space-y-1 border-t border-[color:var(--border)] pt-3 text-sm text-red-700">
+				{#each recomputeFailures as failure (`${failure.kind}-${failure.id}`)}
+					<li><strong>{failure.label}:</strong> {failure.message}</li>
+				{/each}
+			</ul>
+		{/if}
 	</div>
 </section>

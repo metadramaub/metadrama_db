@@ -1099,6 +1099,35 @@ Las pruebas dirigidas del análisis de ficha y de la distribución métrica cubr
 los recuentos resultantes. Los usos específicos —por ejemplo, `tirada de redondillas`, `tirada de
 quintillas` o `tirada de décimas`— se conservan.
 
+**Recálculo público por elementos —implementado el 10 de septiembre de 2026.** El antiguo botón de
+`/dashboard/publicacion` llamaba una sola vez a `recompute_all()`. Bajo el límite de ocho segundos
+del rol `authenticated`, la función recorría las doce obras y los autores en una única transacción:
+el timeout cancelaba todo y no quedaba ninguna actualización parcial. Ahora el navegador prepara un
+plan y llama secuencialmente a `obra`, `autor` y `finalize`; cada llamada confirma una obra o un
+autor por separado. Muestra `Obras x/y · Autores x/y`, continúa tras los fallos y permite
+**Reintentar fallidos** sin repetir los elementos correctos. Recargar o cerrar detiene la cola, pero
+lo ya confirmado permanece guardado; una ejecución nueva construye otro plan completo.
+
+- `plan_recompute_datos_publicos()` devuelve solo las obras que siguen publicadas y los autores con
+  unidades métricas; `finalizar_recompute_datos_publicos()` limpia perfiles sin unidades. Ambas
+  comprueban admin/IP. El endpoint comprueba además el rol para **cada** acción y que una obra no
+  haya dejado de estar publicada antes de recalcularla.
+- La cola usa `recompute_obra_resumen` y `recompute_autor_resumen`, nunca
+  `recompute_obra_y_autores`, para no reconstruir al mismo autor varias veces. `recompute_all()` se
+  conserva para SQL y migraciones, con el permiso revocado a `authenticated` y retenido por
+  `service_role`.
+- Cambiar `editor_asignado` marca `obras_resumen.metrica_sucia = true`; el endpoint de asignaciones
+  devuelve `datosPublicosPendientes` y el dashboard muestra inmediatamente «Hay cambios sin
+  publicar». Un cambio del nombre público o del ORCID de un editor sincroniza
+  `autor_ficha_publico` en sus obras y las marca también como pendientes. Nada regenera la ficha
+  automáticamente: el botón individual «Actualizar datos públicos» sigue siendo la publicación
+  explícita de la nueva identidad editorial.
+- Migraciones aplicadas: `20260910100000_invalidar_ficha_por_identidad_editorial.sql` y
+  `20260910110000_cola_recompute_datos_publicos.sql`. Commits: `fd786c1` y `3c6638c`; la interfaz y
+  este contexto se cerrarán en un tercer commit. Falta solo la verificación manual autenticada:
+  cambiar un editor en una obra publicada, confirmar el aviso pendiente, pulsar la actualización
+  individual y comprobar en la ficha pública el nuevo nombre y ORCID.
+
 **Datos que aún no llegan al JSON público**
 
 | código | pendiente |
