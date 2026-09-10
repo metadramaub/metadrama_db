@@ -19,6 +19,8 @@
 	const autor = $derived(data.autor);
 	const obras = $derived<AutorPublicoObra[]>(data.obras);
 	const resumen = $derived(data.resumen);
+	// La prueba de fiabilidad queda disponible para reactivarla, pero no se muestra públicamente.
+	const mostrarFiabilidad = false;
 	const formaLabels = $derived<Record<string, string>>(data.formaLabels ?? {});
 	const arquitecturaLabels = $derived<Record<string, string>>(data.arquitecturaLabels ?? {});
 
@@ -95,6 +97,26 @@
 		media: 'Fiabilidad media',
 		alta: 'Fiabilidad alta'
 	};
+	const numeroEfectivoFormasMediano = $derived.by(() => {
+		const valores = obras
+			.filter(
+				(obra) =>
+					obra.sostiene_perfil &&
+					obra.numero_efectivo_formas !== null &&
+					obra.vinculos.some(
+						(vinculo) =>
+							vinculo.scope === 'obra' &&
+							vinculo.perfil_metrico &&
+							vinculo.composicion_term === 'individual'
+					)
+			)
+			.map((obra) => obra.numero_efectivo_formas as number)
+			.sort((a, b) => a - b);
+
+		if (valores.length === 0) return null;
+		const centro = Math.floor(valores.length / 2);
+		return valores.length % 2 === 1 ? valores[centro] : (valores[centro - 1] + valores[centro]) / 2;
+	});
 
 	function fmtNumeroEfectivo(value: number | null | undefined): string {
 		if (value === null || value === undefined) return '—';
@@ -188,7 +210,7 @@
 		<section class="card p-4 md:p-5">
 			<div class="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] pb-3">
 				<h2 class="font-display text-xl">Perfil métrico</h2>
-				{#if fiabilidad}
+				{#if mostrarFiabilidad && fiabilidad}
 					<span class="inline-flex items-center gap-1.5">
 						<span class={`border px-2 py-0.5 text-xs font-semibold ${fiabilidadStyle[fiabilidad]}`}>
 							{fiabilidadLabel[fiabilidad]}
@@ -234,11 +256,12 @@
 						Diversidad típica por obra
 						<FieldHelpTooltip
 							label="Ayuda: diversidad típica por obra"
-							text="Número efectivo de formas medio por obra completa: cómo de variada es, en promedio, una obra suya. Las jornadas sueltas no entran (serían muestra sesgada)."
+							text="Media y mediana del número efectivo de formas por obra completa. Las jornadas sueltas no entran (serían una muestra sesgada)."
 						/>
 					</dt>
-					<dd class="mt-1 font-semibold">
-						{fmtNumeroEfectivo(resumen.numero_efectivo_formas_medio)}
+					<dd class="mt-1 flex flex-wrap gap-x-3 gap-y-1 font-semibold">
+						<span>Media {fmtNumeroEfectivo(resumen.numero_efectivo_formas_medio)}</span>
+						<span>Mediana {fmtNumeroEfectivo(numeroEfectivoFormasMediano)}</span>
 					</dd>
 				</div>
 				<div>
@@ -271,7 +294,8 @@
 
 			<p class="mt-4 text-xs text-[color:var(--muted-foreground)]">
 				El perfil agrega solo las obras y jornadas de autoría individual segura (un solo autor),
-				ponderando por extensión. La <em>diversidad típica por obra</em> es la media por obra completa; la
+				ponderando por extensión. La <em>diversidad típica por obra</em> muestra la media y la mediana
+				por obra completa; la
 				<em>diversidad del repertorio</em>, sobre el total agregado.
 			</p>
 		</section>
