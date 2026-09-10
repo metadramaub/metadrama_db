@@ -13,6 +13,7 @@
 	import MetricDramaticArticulation from '$lib/components/metrica/MetricDramaticArticulation.svelte';
 	import MetricTransitions from '$lib/components/metrica/MetricTransitions.svelte';
 	import MetricPhenomenaIndex from '$lib/components/metrica/MetricPhenomenaIndex.svelte';
+	import MetricEvolution from '$lib/components/metrica/MetricEvolution.svelte';
 	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -31,7 +32,9 @@
 		caracterizacionesDeLaObra,
 		cierreDeJornadas,
 		cortesDeCuadro,
+		evolucionPorJornada,
 		fichaTecnica,
+		lecturaDeLaEvolucion,
 		perfilDeFormas,
 		perfilPorJornada,
 		tradicionesPorJornada,
@@ -414,6 +417,41 @@
 				(jornada) => jornada.formas.find((f) => f.colorKey === colorKey)?.porcentaje ?? 0
 			)
 		}))
+	);
+
+	const evolucionDeLaObra = $derived(evolucionPorJornada(analizables));
+	const lecturaEvolucion = $derived(lecturaDeLaEvolucion(analizables));
+
+	/**
+	 * Qué bloques tiene esta obra, para el índice de la pestaña.
+	 *
+	 * Se declara junto a los datos y no en la plantilla: cada entrada repite la condición con la que
+	 * su bloque se pinta, y tenerlas seguidas es lo que evita que el índice nombre algo que no está.
+	 */
+	const indiceAnalisis = $derived.by(() =>
+		[
+			{ id: 'analisis-donde-cae', label: 'Dónde cae cada forma', hay: franjas.length > 0 },
+			{ id: 'analisis-como-cambia', label: 'Cómo cambia cada forma', hay: momentos.length >= 2 },
+			{ id: 'analisis-evolucion', label: 'Cómo cambia la obra', hay: evolucionDeLaObra.length > 1 },
+			{ id: 'analisis-tradiciones', label: 'Españolas e italianas', hay: tradiciones.length > 0 },
+			{
+				id: 'analisis-secuencias',
+				label: 'Secuencias de cada forma',
+				hay: secuenciasPorFormaDeLaObra.length > 0
+			},
+			{
+				id: 'analisis-transiciones',
+				label: 'Qué forma sigue a cuál',
+				hay: transicionesDeLaObra.length > 0
+			},
+			{ id: 'analisis-articulacion', label: 'Jornadas y cuadros', hay: true },
+			{
+				id: 'analisis-enunciacion',
+				label: 'Canto y prosa',
+				hay: caracterizacionesEnunciativas.length > 0
+			},
+			{ id: 'analisis-localizar', label: 'Localizar en la obra', hay: phenomenaIndex.length > 0 }
+		].filter((item) => item.hay)
 	);
 
 	const repartoDeTradiciones = $derived(
@@ -802,7 +840,25 @@
 	{:else if activeTab === 'analisis'}
 		{#if showMetrica}
 			<section class="space-y-10">
-				<div class="space-y-3">
+				<!--
+					**La pestaña creció y hacía falta un índice.** Son nueve bloques que contestan nueve
+					preguntas distintas, y sin él hay que recorrerla entera para saber qué hay. Solo
+					lista lo que esta obra tiene: un bloque que no se pinta tampoco se nombra.
+				-->
+				{#if indiceAnalisis.length > 1}
+					<nav class="flex flex-wrap gap-2" aria-label="Secciones del análisis">
+						{#each indiceAnalisis as item (item.id)}
+							<a
+								href={`#${item.id}`}
+								class="border border-[color:var(--border)] bg-white px-2.5 py-1.5 text-xs text-[color:var(--gray-700)] hover:border-[color:var(--primary)] hover:text-[color:var(--primary)]"
+							>
+								{item.label}
+							</a>
+						{/each}
+					</nav>
+				{/if}
+
+				<div id="analisis-donde-cae" class="space-y-3 scroll-mt-4">
 					<h2 class="text-lg font-semibold">Dónde cae cada forma</h2>
 					<!-- Una línea por gráfico, y **dice qué pregunta contesta, no cómo está dibujado**:
 					     describir el dibujo sobra cuando el dibujo está delante. -->
@@ -827,7 +883,7 @@
 					/>
 				</div>
 
-				<div class="space-y-3">
+				<div id="analisis-como-cambia" class="space-y-3 scroll-mt-4">
 					<h2 class="text-lg font-semibold">Cómo cambia cada forma</h2>
 					<p class="text-sm text-[color:var(--muted-foreground)]">
 						Cuánto ocupa cada forma dentro de cada jornada, para ver si crece, se retira o
@@ -856,7 +912,13 @@
 				</div>
 
 				{#if tradiciones.length > 0}
-					<div class="space-y-3">
+				{#if evolucionDeLaObra.length > 1}
+					<div id="analisis-evolucion" class="scroll-mt-4">
+						<MetricEvolution puntos={evolucionDeLaObra} lectura={lecturaEvolucion} />
+					</div>
+				{/if}
+
+					<div id="analisis-tradiciones" class="space-y-3 scroll-mt-4">
 						<h2 class="text-lg font-semibold">Españolas e italianas</h2>
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							De qué tradición métrica es cada jornada. La línea de puntos marca la mitad.
@@ -897,23 +959,33 @@
 				{/if}
 
 				{#if secuenciasPorFormaDeLaObra.length > 0}
-					<MetricRunTable rows={secuenciasPorFormaDeLaObra} colorByForma={colorByForma} />
+					<div id="analisis-secuencias" class="scroll-mt-4">
+						<MetricRunTable rows={secuenciasPorFormaDeLaObra} colorByForma={colorByForma} />
+					</div>
 				{/if}
 
 				{#if transicionesDeLaObra.length > 0}
-					<MetricTransitions rows={transicionesDeLaObra} />
+					<div id="analisis-transiciones" class="scroll-mt-4">
+						<MetricTransitions rows={transicionesDeLaObra} />
+					</div>
 				{/if}
 
-				<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
+				<div id="analisis-articulacion" class="scroll-mt-4">
+					<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
+				</div>
 
 				{#if caracterizacionesEnunciativas.length > 0}
-					<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
+					<div id="analisis-enunciacion" class="scroll-mt-4">
+						<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
+					</div>
 				{/if}
 
 				<!-- Cierra la pestaña porque es lo único que no contesta una pregunta sino que
 				     lleva a un sitio: se usa después de haber leído, no antes. -->
 				{#if phenomenaIndex.length > 0}
-					<MetricPhenomenaIndex groups={phenomenaIndex} onOpen={openSequenceModal} />
+					<div id="analisis-localizar" class="scroll-mt-4">
+						<MetricPhenomenaIndex groups={phenomenaIndex} onOpen={openSequenceModal} />
+					</div>
 				{/if}
 			</section>
 		{/if}

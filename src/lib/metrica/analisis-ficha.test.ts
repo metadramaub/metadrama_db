@@ -5,7 +5,9 @@ import {
 	cierreDeJornadas,
 	cortesDeCuadro,
 	desgloseDeFormas,
+	evolucionPorJornada,
 	fichaTecnica,
+	lecturaDeLaEvolucion,
 	perfilDeFormas,
 	perfilDeTradiciones,
 	perfilPorJornada,
@@ -254,5 +256,56 @@ describe('cierreDeJornadas', () => {
 			{ jornada: 2, abre: 'Octava real', cierra: 'Redondilla' },
 			{ jornada: 3, abre: SIN_FORMA, cierra: SIN_FORMA }
 		]);
+	});
+});
+
+describe('evolucionPorJornada', () => {
+	// Jornada I: una sola forma en dos secuencias largas. Jornada III: cuatro formas repartidas en
+	// secuencias cortas. Es la obra que se acorta y se diversifica.
+	const obra: SecuenciaAnalizable[] = [
+		secuencia({ v_ini: 1, n_versos: 200, jornada_num: 1 }),
+		secuencia({ v_ini: 201, n_versos: 200, jornada_num: 1 }),
+		secuencia({ v_ini: 401, n_versos: 25, jornada_num: 3, forma_slug: 'romance', forma: 'Romance' }),
+		secuencia({ v_ini: 426, n_versos: 25, jornada_num: 3, forma_slug: 'soneto', forma: 'Soneto' }),
+		secuencia({ v_ini: 451, n_versos: 25, jornada_num: 3, forma_slug: 'lira', forma: 'Lira' }),
+		secuencia({ v_ini: 476, n_versos: 25, jornada_num: 3 })
+	];
+
+	it('mide longitud media y diversidad jornada a jornada', () => {
+		const puntos = evolucionPorJornada(obra);
+		expect(puntos.map((p) => p.jornada)).toEqual([1, 3]);
+		expect(puntos[0].longitudMedia).toBe(200);
+		expect(puntos[1].longitudMedia).toBe(25);
+		// Una sola forma: el número efectivo es 1. Cuatro a partes iguales: es 4.
+		expect(puntos[0].numeroEfectivo).toBe(1);
+		expect(puntos[1].numeroEfectivo).toBe(4);
+	});
+
+	it('no cuenta como forma el pasaje sin forma anotada', () => {
+		const conHueco = [
+			secuencia({ v_ini: 1, n_versos: 50, jornada_num: 1 }),
+			secuencia({ v_ini: 51, n_versos: 50, jornada_num: 1, forma_slug: null, forma: null })
+		];
+		const [punto] = evolucionPorJornada(conHueco);
+		expect(punto.formasDistintas).toBe(1);
+		expect(punto.numeroEfectivo).toBe(1);
+	});
+
+	it('lee la tendencia comparando la primera jornada con la última', () => {
+		const lectura = lecturaDeLaEvolucion(obra);
+		expect(lectura?.longitud).toBe('baja');
+		expect(lectura?.diversidad).toBe('sube');
+	});
+
+	it('dice que se mantiene cuando el cambio no llega al umbral', () => {
+		const estable = [
+			secuencia({ v_ini: 1, n_versos: 100, jornada_num: 1 }),
+			secuencia({ v_ini: 101, n_versos: 105, jornada_num: 2 })
+		];
+		expect(lecturaDeLaEvolucion(estable)?.longitud).toBe('se mantiene');
+	});
+
+	it('no lee tendencia con una sola jornada', () => {
+		expect(lecturaDeLaEvolucion([secuencia({ v_ini: 1, n_versos: 10 })])).toBeNull();
 	});
 });
