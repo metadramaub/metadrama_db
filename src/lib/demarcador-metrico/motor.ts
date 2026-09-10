@@ -6,12 +6,15 @@ import type {
 	HipotesisMetrica,
 	HipotesisPuntuada,
 	InterpretacionLongitud,
+	Discrepancia,
+	DetalleCompatibilidad,
 	ModoDemarcador,
 	ModalidadEvidencia,
 	ObservabilidadEvidencia,
 	PreguntaDemarcador,
 	RespuestaDemarcador,
-	ValorEvidencia
+	ValorEvidencia,
+	VeredictoHipotesis
 } from './modelo';
 
 const PESO_MODALIDAD: Record<ModalidadEvidencia, { coincide: number; contradice: number }> = {
@@ -59,9 +62,9 @@ function longitudValida(evidencia: EvidenciaNormativa, valor: number): boolean {
 	if (evidencia.modulo === null || evidencia.residuo === null) {
 		return evidencia.minimo === null || valor >= evidencia.minimo;
 	}
-	// El mínimo se comprueba **dentro** de cada desplazamiento, no antes: una cadena de un solo
-	// terceto y su serventesio mide siete versos, y lo que tiene que llegar al mínimo de tres es
-	// el ciclo, no el total.
+	// El mínimo se comprueba **dentro** de cada desplazamiento, no antes: una cadena de dos tercetos
+	// y su remate mide siete versos, y lo que tiene que llegar al mínimo de seis es la cadena, no
+	// el total.
 	const modulo = evidencia.modulo;
 	const residuo = evidencia.residuo;
 	return desplazamientosDe(evidencia).some((desplazamiento) => {
@@ -376,6 +379,26 @@ function preguntasPosibles(
 		}
 	}
 
+	/**
+	 * Lo que predice la hipótesis en cada dimensión, resuelto una vez.
+	 *
+	 * Cuando declara varias arquitecturas se toma la primera que cubre la dimensión: basta con que
+	 * una realización encaje para que la forma se sostenga, y por eso no se puede exigir que todas
+	 * predigan lo mismo.
+	 */
+	const clavesDelObjetivo = (() => {
+		if (modo !== 'hipotesis' || !formaObjetivoId) return null;
+		const suyas = hipotesis.filter((candidata) => candidata.formaId === formaObjetivoId);
+		if (suyas.length === 0) return null;
+		const claves = new Map<string, string>();
+		for (const candidata of suyas) {
+			for (const evidencia of candidata.evidencias) {
+				if (!claves.has(evidencia.dimension)) claves.set(evidencia.dimension, clavePredicha(evidencia));
+			}
+		}
+		return claves;
+	})();
+
 	const resultado: PreguntaDemarcador[] = [];
 	for (const [dimension] of definiciones) {
 		if (dimension === 'metro:exacto' && uniformidadMetroOmitida) continue;
@@ -449,22 +472,46 @@ function preguntasPosibles(
 		if (modelo.tipo !== 'numero' && (opciones.length < 2 || opciones.length > maximoOpciones))
 			continue;
 
-		const separacion = entropia([...grupos.values()]);
+		/**
+		 * **Separar el catálogo y separar dos formas no son lo mismo.**
+		 *
+		 * La entropía mide reparto de población: premia la pregunta que parte las candidatas por la
+		 * mitad. Eso es lo que hace falta para identificar, y es inútil para comprobar: una pregunta
+		 * que parte el catálogo pero en la que la hipótesis y su rival responden igual no decide
+		 * nada, y era justo la que salía primera.
+		 *
+		 * Al comprobar se mide **cuánta masa rival queda al otro lado de la hipótesis**: la
+		 * proporción de candidatas que predicen algo distinto de lo que predice ella. Uno es la
+		 * pregunta que la separa de todas; cero, la que no la separa de ninguna.
+		 *
+		 * Si la hipótesis no declara esta dimensión no hay nada que contrastar y se cae a la
+		 * entropía, que al menos ordena el resto.
+		 */
+		const clavePropia = clavesDelObjetivo?.get(dimension) ?? null;
+		const separacion =
+			clavePropia === null
+				? entropia([...grupos.values()])
+				: (() => {
+						let contraria = 0;
+						let total = 0;
+						for (const [clave, peso] of grupos) {
+							if (clave === '__sin_datos__') continue;
+							total += peso;
+							if (clave !== clavePropia) contraria += peso;
+						}
+						return total > 0 ? contraria / total : 0;
+					})();
 		const proporcionCobertura = cobertura / Math.max(1, arquitecturasPorForma.size);
 		const respondibilidad = FIABILIDAD[modelo.observabilidad];
 		const penalizacionDesconocida = familiasDesconocidas.has(modelo.familiaCognitiva) ? 0.22 : 1;
 		const penalizacionRepeticion =
 			respuestas.at(-1)?.familiaCognitiva === modelo.familiaCognitiva ? 0.45 : 1;
-		const impulsoObjetivo =
-			modo === 'hipotesis' &&
-			formaObjetivoId &&
-			hipotesis.some(
-				(candidata) =>
-					candidata.formaId === formaObjetivoId &&
-					evidenciaDe(candidata, dimension)?.modalidad === 'definitoria'
-			)
-				? 1.35
-				: 1;
+		// El impulso del 1,35 a las definitorias de la hipótesis se retira: premiaba lo que la
+		// *define* y no lo que la *distingue* —el endecasílabo es definitorio del soneto y de otras
+		// cuatro formas—, y la discriminación ya lo recoge donde de verdad importa. Además se lo
+		// comía cualquier entropía alta, que es la razón de que este recorrido no se distinguiera
+		// del guiado.
+		const impulsoObjetivo = 1;
 		const utilidad =
 			separacion *
 			proporcionCobertura *
@@ -504,6 +551,220 @@ function preguntasPosibles(
 	);
 }
 
+/**
+ * **Contra quién hay que contrastar una hipótesis.**
+ *
+ * Comprobar una forma no es clasificar un pasaje entre trescientas: es decidir entre esa forma y
+ * las pocas con las que se confunde. Mientras las preguntas se calculaban sobre las doce mejores
+ * del catálogo entero, el recorrido de comprobación era el guiado con otro nombre, porque la forma
+ * propuesta no entraba en el cálculo por ningún sitio.
+ *
+ * Los rivales salen de tres fuentes que se suman, y ninguna basta sola:
+ *
+ * 1. **Los declarados.** `forma_relaciones` tiene escrito el mapa de confusiones del proyecto
+ *    —«septeto y septeto-lira se separan por la medida»—, y eso vale desde la primera pregunta,
+ *    cuando todavía no hay respuestas que ordenen nada.
+ * 2. **Los que van bien ahora.** Lo que las respuestas hayan puesto arriba, aunque nadie lo
+ *    hubiera declarado pariente: una confusión real no siempre está prevista.
+ * 3. **Los estructuralmente próximos**, medidos sobre el propio catálogo: las formas que predicen
+ *    lo mismo que la hipótesis en más dimensiones. Cubre los huecos del mapa declarado, que
+ *    alcanza a 30 de las 43 formas activas.
+ *
+ * La hipótesis **siempre entra**, aunque las respuestas la hayan hundido. Antes, si caía del
+ * puesto doce, el recorrido dejaba de tratar sobre ella en silencio: abandonaba la hipótesis justo
+ * cuando estaba en apuros, que es cuando hay que ponerla a prueba.
+ */
+const RIVALES_MAXIMOS = 6;
+
+/** Cuántas dimensiones predicen lo mismo dos hipótesis, sobre las que ambas declaran. */
+function afinidadEstructural(a: HipotesisMetrica, b: HipotesisMetrica): number {
+	let comunes = 0;
+	let acuerdos = 0;
+	for (const evidencia of a.evidencias) {
+		const otra = evidenciaDe(b, evidencia.dimension);
+		if (!otra) continue;
+		comunes += 1;
+		if (evidencia.tipo === 'numero') {
+			if (clavePredicha(evidencia) === clavePredicha(otra)) acuerdos += 1;
+			continue;
+		}
+		const clavesA = new Set(evidencia.valores.map((valor) => valor.clave));
+		if (otra.valores.some((valor) => clavesA.has(valor.clave))) acuerdos += 1;
+	}
+	return comunes > 0 ? acuerdos / comunes : 0;
+}
+
+export function rivalesDe(
+	catalogo: CatalogoDemarcador,
+	formaObjetivoId: string,
+	respuestas: RespuestaDemarcador[]
+): Set<string> {
+	const rivales = new Set<string>([formaObjetivoId]);
+
+	let declarados = 0;
+	for (const relacion of catalogo.relaciones) {
+		if (relacion.origenId === formaObjetivoId) {
+			rivales.add(relacion.destinoId);
+			declarados += 1;
+		} else if (relacion.destinoId === formaObjetivoId) {
+			rivales.add(relacion.origenId);
+			declarados += 1;
+		}
+	}
+
+	const ordenadas = ordenarFormas(catalogo, respuestas);
+	if (respuestas.length > 0) {
+		for (const forma of ordenadas.slice(0, 4)) rivales.add(forma.formaId);
+	}
+
+	// **La afinidad estructural es el suplente, no un titular.** Solo entra cuando el catálogo no
+	// declara ningún contraste para esta forma —trece de las cuarenta y tres—, porque si no, ensancha
+	// el campo con parientes lejanos y devuelve el recorrido a donde estaba: comparando contra medio
+	// catálogo en vez de contra quien de verdad se confunde.
+	if (declarados === 0) {
+		const objetivo = catalogo.hipotesis.filter((item) => item.formaId === formaObjetivoId);
+		if (objetivo.length > 0) {
+			const afinidadPorForma = new Map<string, number>();
+			for (const candidata of catalogo.hipotesis) {
+				if (rivales.has(candidata.formaId)) continue;
+				const afinidad = Math.max(
+					...objetivo.map((propia) => afinidadEstructural(propia, candidata))
+				);
+				afinidadPorForma.set(
+					candidata.formaId,
+					Math.max(afinidadPorForma.get(candidata.formaId) ?? 0, afinidad)
+				);
+			}
+			const proximas = [...afinidadPorForma.entries()]
+				.filter(([, afinidad]) => afinidad >= 0.6)
+				.sort((a, b) => b[1] - a[1])
+				.slice(0, RIVALES_MAXIMOS - rivales.size + 1);
+			for (const [formaId] of proximas) rivales.add(formaId);
+		}
+	}
+
+	return rivales;
+}
+
+/**
+ * **Dónde discrepan dos normas**, que es lo único capaz de separarlas.
+ *
+ * Para una dimensión categórica hay discrepancia cuando los conjuntos de valores previstos no se
+ * tocan: si el soneto predice «consonante» y el rival también, preguntar la rima no decide nada por
+ * mucho que sea definitoria de las dos. Para la extensión se comparan las congruencias, que es lo
+ * que `clavePredicha` resume.
+ *
+ * Se devuelven también las **no observables** y las **ya respondidas**, porque sirven para explicar:
+ * «lo que las separaría es X, y X no se puede ver en este pasaje» es un resultado, no un silencio.
+ */
+export function discrepanciasEntre(
+	a: HipotesisMetrica,
+	b: HipotesisMetrica,
+	respondidas: Set<string>
+): Discrepancia[] {
+	const discrepancias: Discrepancia[] = [];
+	for (const evidencia of a.evidencias) {
+		const otra = evidenciaDe(b, evidencia.dimension);
+		if (!otra) continue;
+		const separa =
+			evidencia.tipo === 'numero' || otra.tipo === 'numero'
+				? clavePredicha(evidencia) !== clavePredicha(otra)
+				: !evidencia.valores.some((valor) =>
+						otra.valores.some((suyo) => suyo.clave === valor.clave)
+					);
+		if (!separa) continue;
+		discrepancias.push({
+			dimension: evidencia.dimension,
+			etiqueta: evidencia.etiqueta,
+			familiaCognitiva: evidencia.familiaCognitiva,
+			observable:
+				evidencia.observabilidad !== 'derivada' && otra.observabilidad !== 'derivada',
+			respondida: respondidas.has(evidencia.dimension)
+		});
+	}
+	return discrepancias;
+}
+
+/**
+ * En qué queda la hipótesis: se sostiene, se cae, o no hay manera de decidirlo mirando el pasaje.
+ *
+ * **Refutada** exige que *todas* sus arquitecturas contradigan algo que su norma fija, porque una
+ * forma se sostiene si alguna de sus realizaciones encaja —es la misma regla que
+ * `S(forma) = max S(arquitectura)`—.
+ *
+ * **Indecidible** es el final que faltaba: la hipótesis y su rival empatan y no queda ninguna
+ * discrepancia observable que preguntar. Decirlo vale más que seguir pidiendo precisiones que no
+ * van a decidir nada.
+ */
+export function veredictoDeHipotesis(
+	catalogo: CatalogoDemarcador,
+	formaObjetivoId: string,
+	respuestas: RespuestaDemarcador[]
+): VeredictoHipotesis {
+	const ordenadas = ordenarFormas(catalogo, respuestas);
+	const objetivo = ordenadas.find((forma) => forma.formaId === formaObjetivoId) ?? null;
+	// **El rival se busca dentro del contraste, no en la cabeza del catálogo.** El veredicto tiene
+	// que hablar de las mismas formas contra las que se está preguntando; si no, con cero respuestas
+	// nombraría a la primera por orden alfabético, que no es rival de nada.
+	const enContraste = rivalesDe(catalogo, formaObjetivoId, respuestas);
+	const rival =
+		ordenadas.find(
+			(forma) => forma.formaId !== formaObjetivoId && enContraste.has(forma.formaId)
+		) ??
+		ordenadas.find((forma) => forma.formaId !== formaObjetivoId) ??
+		null;
+	const respondidas = new Set(
+		respuestas.filter((respuesta) => respuesta.valor !== 'desconocido').map((r) => r.dimension)
+	);
+	const nota =
+		catalogo.relaciones.find(
+			(relacion) =>
+				rival !== null &&
+				((relacion.origenId === formaObjetivoId && relacion.destinoId === rival.formaId) ||
+					(relacion.destinoId === formaObjetivoId && relacion.origenId === rival.formaId))
+		)?.nota ?? null;
+
+	const base = { rival, nota, pendientes: [] as Discrepancia[], contradiceDefinitorias: [] as DetalleCompatibilidad[] };
+	if (!objetivo) return { ...base, estado: 'en_curso' };
+
+	const definitoriasRotas = (puntuada: (typeof objetivo)['arquitecturas'][number]) =>
+		puntuada.detalles.filter((detalle) => {
+			if (detalle.estado !== 'contradice') return false;
+			const evidencia = evidenciaDe(puntuada.hipotesis, detalle.dimension);
+			return evidencia?.modalidad === 'definitoria';
+		});
+	const rotasPorArquitectura = objetivo.arquitecturas.map(definitoriasRotas);
+	if (rotasPorArquitectura.length > 0 && rotasPorArquitectura.every((rotas) => rotas.length > 0)) {
+		return { ...base, estado: 'refutada', contradiceDefinitorias: rotasPorArquitectura[0] };
+	}
+
+	if (!rival) return { ...base, estado: 'en_curso' };
+
+	const pendientes = discrepanciasEntre(
+		objetivo.arquitecturas[0].hipotesis,
+		rival.arquitecturas[0].hipotesis,
+		respondidas
+	).filter((discrepancia) => discrepancia.observable && !discrepancia.respondida);
+
+	const concluyentes = respuestas.filter((respuesta) => respuesta.valor !== 'desconocido').length;
+	const ventaja = objetivo.puntuacion - rival.puntuacion;
+
+	/**
+	 * **Las discrepancias pendientes deciden los empates, no bloquean las victorias.**
+	 *
+	 * Exigir que no quedara ninguna para dar por sostenida una hipótesis dejaba el recorrido sin
+	 * final: dos formas casi siempre difieren en varias dimensiones —soneto y septeto, en media
+	 * docena—, y no hace falta preguntarlas todas cuando una ya va claramente delante. Lo que sí
+	 * necesita agotarlas es el empate: decir «no se pueden distinguir» solo es honesto cuando no
+	 * queda ninguna pregunta que las separase.
+	 */
+	if (concluyentes >= 3 && ventaja >= 0.75) return { ...base, pendientes, estado: 'sostenida' };
+	if (concluyentes >= 3 && pendientes.length === 0) {
+		return { ...base, pendientes, estado: 'indecidible' };
+	}
+	return { ...base, pendientes, estado: 'en_curso' };
+}
+
 export function elegirPregunta(
 	catalogo: CatalogoDemarcador,
 	respuestas: RespuestaDemarcador[],
@@ -511,14 +772,51 @@ export function elegirPregunta(
 	formaObjetivoId: string | null = null
 ): PreguntaDemarcador | null {
 	const formasOrdenadas = ordenarFormas(catalogo, respuestas);
-	const candidatas =
+
+	// **Comprobar restringe el campo; identificar lo abre.** Con una hipótesis sobre la mesa, las
+	// preguntas se calculan entre ella y sus rivales, y no entre las doce mejores del catálogo. El
+	// efecto llega más lejos que el orden: las opciones de cada pregunta se juntan de las candidatas
+	// que la declaran, así que estrechar el campo estrecha también las respuestas ofrecidas —«¿qué
+	// organización interna reconoces?» deja de listar siete organizaciones de formas ajenas.
+	const campoAbierto =
 		respuestas.length === 0
 			? catalogo.hipotesis
 			: formasOrdenadas
 					.slice(0, 12)
 					.flatMap((forma) => forma.arquitecturas.map((item) => item.hipotesis));
-	const preguntas = preguntasPosibles(candidatas, respuestas, modo, formaObjetivoId);
-	if (respuestas.length === 0 && modo === 'guiado') {
+	/**
+	 * **Una hipótesis refutada deja de gobernar el recorrido.**
+	 *
+	 * Si el pasaje ya contradice algo que la norma de la forma propuesta fija, seguir preguntando
+	 * por lo que la separa de sus rivales es perseguir a un muerto: la pregunta ha vuelto a ser
+	 * «¿cuál es, entonces?», que es clasificación abierta. Se pasa al campo y al criterio del
+	 * recorrido guiado, sin decírselo al motor dos veces.
+	 */
+	const refutada =
+		modo === 'hipotesis' && formaObjetivoId
+			? veredictoDeHipotesis(catalogo, formaObjetivoId, respuestas).estado === 'refutada'
+			: false;
+	const modoEfectivo: ModoDemarcador = refutada ? 'guiado' : modo;
+	const objetivoEfectivo = refutada ? null : formaObjetivoId;
+
+	const rivales =
+		modoEfectivo === 'hipotesis' && objetivoEfectivo
+			? rivalesDe(catalogo, objetivoEfectivo, respuestas)
+			: null;
+	const candidatas =
+		rivales && rivales.size > 1
+			? catalogo.hipotesis.filter((item) => rivales.has(item.formaId))
+			: campoAbierto;
+
+	// **Si el campo estrecho no da preguntas, se abre.** Una forma puede quedarse sin rivales —trece
+	// de las cuarenta y tres no tienen ninguna relación declarada, y la afinidad estructural puede no
+	// alcanzar a ninguna—, y entonces no hay nada que separar y el recorrido se quedaría mudo. Vale
+	// más una pregunta general que ninguna.
+	let preguntas = preguntasPosibles(candidatas, respuestas, modoEfectivo, objetivoEfectivo);
+	if (preguntas.length === 0 && candidatas !== campoAbierto) {
+		preguntas = preguntasPosibles(campoAbierto, respuestas, modoEfectivo, objetivoEfectivo);
+	}
+	if (respuestas.length === 0 && modoEfectivo === 'guiado') {
 		return (
 			preguntas.find((pregunta) => pregunta.dimension === 'metro:grupo') ?? preguntas[0] ?? null
 		);

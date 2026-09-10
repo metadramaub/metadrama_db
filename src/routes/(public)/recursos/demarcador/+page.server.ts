@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const { user } = await locals.safeGetSession();
 	if (!user) {
 		return {
-			catalogo: { formas: [], hipotesis: [], advertencias: [] },
+			catalogo: { formas: [], hipotesis: [], relaciones: [], advertencias: [] },
 			accesoRestringido: true
 		};
 	}

@@ -6,6 +6,7 @@ import type {
 	ModalidadEvidencia,
 	NivelEstructural,
 	ObservabilidadEvidencia,
+	RelacionEntreFormas,
 	ValorEvidencia
 } from '$lib/demarcador-metrico/modelo';
 import { construirRejilla } from '$lib/metrica/rejilla';
@@ -206,18 +207,27 @@ function familiaEleccion(dimension: string): EvidenciaNormativa['familiaCognitiv
 
 export async function cargarCatalogoDemarcador(client: unknown): Promise<CatalogoDemarcador> {
 	const db = client as DbClient;
-	const [projection, lengthRulesProjection, structuralLevelsProjection] = await Promise.all([
-		db.rpc('obtener_catalogo_demarcador'),
-		db
-			.from('arquitecturas_reglas_longitud')
-			.select(
-				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion,desplazamientos'
-			),
-		db.from('formas_metricas').select('forma_id,nivel_estructural')
-	]);
+	const [projection, lengthRulesProjection, structuralLevelsProjection, relationsProjection] =
+		await Promise.all([
+			db.rpc('obtener_catalogo_demarcador'),
+			db
+				.from('arquitecturas_reglas_longitud')
+				.select(
+					'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion,desplazamientos'
+				),
+			db.from('formas_metricas').select('forma_id,nivel_estructural'),
+			// **El mapa de confusiones del proyecto, escrito a mano y sin usar hasta ahora.** Va por
+			// separado y no dentro de `obtener_catalogo_demarcador()` para no tocar la función: es una
+			// tabla más, con la misma política pública que el resto del catálogo.
+			db
+				.from('forma_relaciones')
+				.select('forma_origen_id,forma_destino_id,tipo_relacion,nota')
+				.in('tipo_relacion', ['contrasta_con', 'derivada_de', 'relacionada_con'])
+		]);
 	fallo('No se pudo cargar la proyección pública del catálogo', projection.error);
 	fallo('No se pudieron cargar las reglas de longitud', lengthRulesProjection.error);
 	fallo('No se pudieron cargar los niveles estructurales', structuralLevelsProjection.error);
+	fallo('No se pudieron cargar las relaciones entre formas', relationsProjection.error);
 	const payload = (projection.data ?? {}) as Record<string, Row[]>;
 	payload.lengthRules = Array.isArray(lengthRulesProjection.data) ? lengthRulesProjection.data : [];
 	const responses = [
@@ -664,13 +674,16 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		/**
 		 * El cierre de una serie, y si la norma lo exige o solo lo admite.
 		 *
-		 * Hasta el 19 de agosto de 2026 el serventesio del terceto encadenado era obligatorio y este
-		 * cómputo solo miraba secciones con `repeticiones_min === repeticiones_max`. Al volverse
-		 * opcional dejó de contar, `fixedClosureVerses` cayó a cero y **la evidencia desapareció**:
-		 * el demarcador perdió la pregunta que distingue la cadena que cierra de la que no. Ahora
-		 * cuentan las dos clases de cierre, y lo que cambia entre ellas es la modalidad —una
+		 * Cuentan **las dos clases de cierre**, el exigido y el que solo se admite: mirar solo los de
+		 * `repeticiones_min === repeticiones_max` dejaba fuera al opcional, `fixedClosureVerses` caía
+		 * a cero y la evidencia desaparecía, con lo que el demarcador perdía la pregunta que
+		 * distingue la cadena que cierra de la que no. Lo que cambia entre ellas es la modalidad: una
 		 * `admitida` puntúa poco y, sobre todo, **no penaliza el «no»**, que es lo que corresponde a
 		 * un cierre que la serie no está obligada a traer.
+		 *
+		 * **La pregunta nombra el cierre en vez de solo contarlo.** «Un cierre final de 1» no
+		 * describe nada que se pueda buscar en la página; «un remate de 1 verso» sí. El nombre sale
+		 * de la sección, así que quien lo cambie en el catálogo lo cambia aquí.
 		 */
 		const closureSections = topSections.filter(
 			(section) =>
@@ -689,6 +702,15 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			closureSections.every(
 				(section) => Number(section.repeticiones_min ?? 0) === Number(section.repeticiones_max)
 			);
+		const closureName = closureSections
+			.map((section) => (section.nombre?.trim() || section.tipo_seccion) ?? '')
+			.filter(Boolean)
+			.join(' + ')
+			.toLocaleLowerCase('es');
+		const closureExtent = `${fixedClosureVerses} ${fixedClosureVerses === 1 ? 'verso' : 'versos'}`;
+		const closureLabel = closureName
+			? `un ${closureName} de ${closureExtent}`
+			: `un cierre final de ${closureExtent}`;
 		if (openSection && fixedClosureVerses > 0) {
 			agregarEvidencia(
 				evidencias,
@@ -697,8 +719,8 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					familiaCognitiva: 'estructura',
 					etiqueta: closureIsRequired ? 'Serie con cierre' : 'Serie con cierre opcional',
 					pregunta: closureIsRequired
-						? `¿Se observan grupos sucesivos de ${openSection.versos_min} versos y un cierre final de ${fixedClosureVerses}?`
-						: `¿Se observan grupos sucesivos de ${openSection.versos_min} versos, y termina el pasaje en un cierre final de ${fixedClosureVerses}?`,
+						? `¿Se observan grupos sucesivos de ${openSection.versos_min} versos y ${closureLabel} al final?`
+						: `¿Se observan grupos sucesivos de ${openSection.versos_min} versos, y termina el pasaje en ${closureLabel}?`,
 					ayuda: closureIsRequired
 						? 'Busca la articulación del pasaje; la pregunta no exige conocer el nombre de la forma.'
 						: 'Busca la articulación del pasaje. El cierre puede faltar sin que deje de ser esta forma, así que un «no» no la descarta.',
@@ -991,5 +1013,19 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		})
 		.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 
-	return { formas, hipotesis, advertencias };
+	const relaciones: RelacionEntreFormas[] = (
+		(relationsProjection.data ?? []) as Array<{
+			forma_origen_id: string;
+			forma_destino_id: string;
+			tipo_relacion: string;
+			nota: string | null;
+		}>
+	).map((fila) => ({
+		origenId: fila.forma_origen_id,
+		destinoId: fila.forma_destino_id,
+		tipo: fila.tipo_relacion,
+		nota: fila.nota?.trim() || null
+	}));
+
+	return { formas, hipotesis, relaciones, advertencias };
 }

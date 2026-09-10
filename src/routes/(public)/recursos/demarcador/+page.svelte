@@ -2,7 +2,8 @@
 	import {
 		crearRespuesta,
 		elegirPregunta,
-		ordenarFormas
+		ordenarFormas,
+		veredictoDeHipotesis
 	} from '$lib/demarcador-metrico/motor';
 	import DemarcadorResultCard from '$lib/components/demarcador/DemarcadorResultCard.svelte';
 	import PublicHelpDialog from '$lib/components/public/PublicHelpDialog.svelte';
@@ -57,14 +58,32 @@
 	 * Si ninguna candidata declara extensión no hay nada que esperar: el recorrido se detiene igual
 	 * cuando se acaban las preguntas.
 	 */
+	/**
+	 * **Comprobar termina en un veredicto sobre la hipótesis, no en un ranking.**
+	 *
+	 * Los finales de un contraste son tres —se sostiene, se cae, o no hay manera de decidirlo con lo
+	 * que se ve— y ninguno es «esta forma va por delante de esa otra». El tercero es el que faltaba:
+	 * cuando dos normas coinciden en todo lo observable, decirlo vale más que seguir pidiendo
+	 * precisiones que no van a decidir nada.
+	 */
+	const veredicto = $derived(
+		modo === 'hipotesis' && formaObjetivoId
+			? veredictoDeHipotesis(data.catalogo, formaObjetivoId, respuestas)
+			: null
+	);
+
 	const extensionResuelta = $derived(
 		respuestas.some((respuesta) => respuesta.familiaCognitiva === 'extension')
 	);
 	const resultadoSuficiente = $derived(
-		respuestasConcluyentes >= 3 &&
-		extensionResuelta &&
-		(formasOrdenadas[0]?.arquitecturas[0]?.coincidencias ?? 0) >= 2 &&
-		diferenciaPrincipal >= 0.75
+		veredicto
+			? veredicto.estado === 'sostenida' ||
+				veredicto.estado === 'refutada' ||
+				veredicto.estado === 'indecidible'
+			: respuestasConcluyentes >= 3 &&
+				extensionResuelta &&
+				(formasOrdenadas[0]?.arquitecturas[0]?.coincidencias ?? 0) >= 2 &&
+				diferenciaPrincipal >= 0.75
 	);
 	const recorridoDetenido = $derived(
 		Boolean(modo && (resultadoSuficiente || !pregunta) && !afinamientoSolicitado)
@@ -402,16 +421,51 @@
 						</button>
 					{:else}
 						<p class="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-							Orientación alcanzada
+							{veredicto ? 'Resultado del contraste' : 'Orientación alcanzada'}
 						</p>
-						<h2 class="font-display mt-3 text-xl">
-							{resultadoSuficiente
-								? 'Las candidatas principales ya se distinguen'
-								: 'No quedan preguntas que aporten una diferencia clara'}
-						</h2>
-						<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-							El recorrido se detiene antes de pedir precisiones difíciles que aportarían poca información.
-						</p>
+						{#if veredicto}
+							<h2 class="font-display mt-3 text-xl">
+								{veredicto.estado === 'sostenida'
+									? `${formaObjetivo?.formaNombre ?? 'La forma propuesta'} se sostiene`
+									: veredicto.estado === 'refutada'
+										? `El pasaje contradice ${formaObjetivo?.formaNombre ?? 'la forma propuesta'}`
+										: veredicto.estado === 'indecidible'
+											? `No se puede decidir entre ${formaObjetivo?.formaNombre ?? 'la forma propuesta'} y ${veredicto.rival?.formaNombre ?? 'su rival'}`
+											: 'Todavía queda algo que comprobar'}
+							</h2>
+							<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
+								{#if veredicto.estado === 'sostenida'}
+									Ninguna de las respuestas la contradice y no queda nada observable que la separe
+									de {veredicto.rival?.formaNombre ?? 'las demás'}.
+								{:else if veredicto.estado === 'refutada'}
+									Contradice {veredicto.contradiceDefinitorias
+										.map((detalle) => detalle.etiqueta.toLocaleLowerCase('es'))
+										.join(', ')}, que su norma fija. El recorrido sigue ahora sin darla por
+									supuesta.
+								{:else if veredicto.estado === 'indecidible'}
+									Las dos coinciden en todo lo que se puede observar en el pasaje. No es que falten
+									respuestas: es que ninguna pregunta las separaría.
+								{:else}
+									Quedan {veredicto.pendientes.length}
+									{veredicto.pendientes.length === 1 ? 'diferencia' : 'diferencias'} por comprobar.
+								{/if}
+							</p>
+							<!-- La nota del catálogo dice, escrita por el proyecto, qué separa ese par. -->
+							{#if veredicto.nota && veredicto.estado !== 'refutada'}
+								<p class="mt-3 border-l-2 border-[color:var(--primary)] pl-3 text-sm leading-6 text-[color:var(--gray-700)]">
+									{veredicto.nota}
+								</p>
+							{/if}
+						{:else}
+							<h2 class="font-display mt-3 text-xl">
+								{resultadoSuficiente
+									? 'Las candidatas principales ya se distinguen'
+									: 'No quedan preguntas que aporten una diferencia clara'}
+							</h2>
+							<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
+								El recorrido se detiene antes de pedir precisiones difíciles que aportarían poca información.
+							</p>
+						{/if}
 						{#if pregunta}
 							<button
 								type="button"
