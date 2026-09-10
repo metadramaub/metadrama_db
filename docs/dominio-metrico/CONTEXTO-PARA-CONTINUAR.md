@@ -1184,7 +1184,7 @@ punto de continuación.
 
 Inventario rehecho el **21 de agosto de 2026**, al terminar la revisión de la prosa. Lo cerrado ya
 no se lista: está en las migraciones, en `git` y en el
-[histórico](./historico/). Quedan **veintiún asuntos**, ordenados por lo que bloquea el
+[histórico](./historico/). Quedan **veinticuatro asuntos**, ordenados por lo que bloquea el
 próximo hito y no por el orden en que aparecieron.
 
 **Los dos hitos que vienen, en este orden.** *Actualizado el 8 de septiembre de 2026: el editor V2
@@ -1220,7 +1220,7 @@ por su número sepa que no siguen abiertos.
 | **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
 | **B8** | las aliradas abiertas no podían registrar el metro que se ve; se les creó la pregunta, y con ella la de los quebrados de la manriqueña y la sextilla | 27 ago |
 
-Quedan **tres asuntos en A** y **dieciséis en C**. **El bloque B se cerró entero** —eran los que impedían llevar el editor V2 a los editores— y se ha retirado de aquí: su resumen está en la tabla de arriba y el detalle, en los commits.
+Quedan **tres asuntos en A** y **veintiuno en C** —C13 y C20 están hechos y se conservan por su número—. **El bloque B se cerró entero** —eran los que impedían llevar el editor V2 a los editores— y se ha retirado de aquí: su resumen está en la tabla de arriba y el detalle, en los commits.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -1639,6 +1639,41 @@ quiere recuperar la función**, hay que guardar también el borrador métrico y 
 restaurar; si no, basta con esto. La pestaña de estructura sí lo conserva, y ahí funciona: su
 formulario es todo lo que hay que anotar.
 
+
+**C24. De dónde saldrá el dato público cuando el corpus crezca.** Decidido el 10 de septiembre de
+2026 que hay que estudiarlo a fondo, no que se haga: **recomputar en local y subir el JSON a
+Cloudflare**, de modo que las fichas y los perfiles se sirvan de ahí y Supabase quede para lo
+estrictamente necesario. Hoy no urge y el modelo actual aguanta, pero conviene entrar con los
+números delante, que se midieron ese día:
+
+| dato de `obras_resumen` | por obra |
+|---|---|
+| `perfil_formas` | ~170 B |
+| `tramos` | ~500 B, máximo 1 kB |
+| `ficha` | **~77 kB**, máximo 98 kB |
+
+De ahí salen tres cosas que conviene no volver a discutir desde cero:
+
+1. **Ninguna pantalla que recorra varias obras puede leer `ficha`.** Para las 365 de Lope son 28 MB.
+2. **Lo caro hoy no es leer, es recomputar.** `recompute_autor_resumen` toma `perfil_formas` ya
+   precomputado de cada obra pero llama a `perfil_formas_hijos_rango(obra)` **en vivo**, y esa
+   función baja a las tablas de anotación. Con seis obras no se nota; con trescientas y el límite de
+   ocho segundos del rol `authenticated` es el mismo muro contra el que chocó `recompute_all()`.
+3. **El arreglo que no cierra ninguna puerta**: que el tramo lleve también la arquitectura —hoy se
+   fusionan solo por forma, así que crecerían a ~700-800 B— y que el recompute del autor sea una
+   suma sobre `tramos`, sin volver a tocar las anotaciones. Con eso el recompute escala con el
+   número de obras y no con el de secuencias, y agregar en el navegador queda disponible sin coste
+   extra el día que se prefiera frescura sobre O(1).
+
+*El argumento del paso 4 —«los agregados se calculan en el navegador»— no se traslada tal cual al
+perfil de autor: allí valía porque el JSON ya estaba cargado, y aquí agregar en el navegador
+significa descargar obras que la página no necesita para nada más.*
+
+**C25. El desglose del autor se queda en dos niveles.** La ficha de obra baja a tres —forma →
+arquitectura → esquemas, rasgos, metros y variedades observados— y el perfil de autor solo a dos. No
+es el componente, que es el mismo `buildDistributionGroups`: es que `autores_resumen` guarda versos
+por forma y por arquitectura, y ninguna respuesta. Igualarlo pide que la precomputación del autor
+agregue también las respuestas de sus obras, y va con C24.
 
 ## Siguiente fase prevista
 
