@@ -26,8 +26,8 @@ export type EvidenciaNormativa = {
 	/**
 	 * Lo que suman las partes opcionales de la arquitectura, cuando las tiene.
 	 *
-	 * Vacío o nulo equivale a `[0]`. El terceto encadenado trae `[0, 4]` porque su serventesio final
-	 * puede estar o no, y son dos congruencias —`3n` y `3n+4`— que un solo residuo no expresa.
+	 * Vacío o nulo equivale a `[0]`. El terceto encadenado trae `[0, 1]` porque su remate final
+	 * puede estar o no, y son dos congruencias —`3n` y `3n+1`— que un solo residuo no expresa.
 	 */
 	desplazamientos: number[] | null;
 	reglaLongitud: string | null;
@@ -102,9 +102,26 @@ export type FormaDemarcable = {
 	}>;
 };
 
+/**
+ * Un par de formas que el catálogo declara confundibles, con lo que las separa dicho en prosa.
+ *
+ * Sale de `forma_relaciones`, donde el proyecto tiene escrito su propio mapa de confusiones: 17
+ * pares `contrasta_con` y 5 `derivada_de`, todos con nota. Es exactamente lo que el recorrido de
+ * comprobación necesita y hasta ahora no leía nadie —«en el endecasílabo suelto predominan los
+ * versos sin rima; en la silva endecasílaba predominan los rimados»—, así que sirve para dos cosas:
+ * para saber contra quién hay que contrastar, y para explicárselo a quien pregunta.
+ */
+export type RelacionEntreFormas = {
+	origenId: string;
+	destinoId: string;
+	tipo: 'contrasta_con' | 'derivada_de' | 'relacionada_con' | string;
+	nota: string | null;
+};
+
 export type CatalogoDemarcador = {
 	formas: FormaDemarcable[];
 	hipotesis: HipotesisMetrica[];
+	relaciones: RelacionEntreFormas[];
 	advertencias: string[];
 };
 
@@ -163,6 +180,41 @@ export type HipotesisPuntuada = {
 	interpretacionLongitud: InterpretacionLongitud | null;
 	desviacionLongitud: DesviacionLongitud | null;
 	detalles: DetalleCompatibilidad[];
+};
+
+/**
+ * Una dimensión en la que dos normas predicen cosas distintas: lo que de verdad separa dos formas.
+ *
+ * No es lo mismo que «definitoria». El endecasílabo es definitorio del soneto **y** de la octava
+ * real, la lira y el terceto encadenado: confirma la forma sin distinguirla de nada. Lo que
+ * distingue dos formas es dónde discrepan, y eso se calcula comparando lo que cada una predice.
+ */
+export type Discrepancia = {
+	dimension: string;
+	etiqueta: string;
+	familiaCognitiva: EvidenciaNormativa['familiaCognitiva'];
+	/** `false` cuando la dimensión es derivada: separa, pero no se puede preguntar. */
+	observable: boolean;
+	respondida: boolean;
+};
+
+/**
+ * En qué queda una hipótesis puesta a prueba.
+ *
+ * Los finales de un contraste son tres, y el ranking no es ninguno de ellos: la forma se sostiene,
+ * se cae, o no hay manera de decidirlo con lo que se puede ver en el pasaje. El tercero no es un
+ * fracaso —es el resultado más honesto cuando dos normas coinciden en todo lo observable— y hasta
+ * ahora no existía.
+ */
+export type VeredictoHipotesis = {
+	estado: 'en_curso' | 'sostenida' | 'refutada' | 'indecidible';
+	rival: FormaPuntuada | null;
+	/** Lo que todavía podría separarla de su rival más próximo, y aún no se ha preguntado. */
+	pendientes: Discrepancia[];
+	/** Lo que la contradice en algo que su norma fija. */
+	contradiceDefinitorias: DetalleCompatibilidad[];
+	/** La nota del catálogo sobre ese contraste, cuando el par está declarado. */
+	nota: string | null;
 };
 
 export type FormaPuntuada = {

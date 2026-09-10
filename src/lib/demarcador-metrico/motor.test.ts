@@ -72,6 +72,7 @@ function hipotesis(
 
 const catalogo: CatalogoDemarcador = {
 	formas: [],
+	relaciones: [],
 	advertencias: [],
 	hipotesis: [
 		hipotesis('romance', 'Romance', 'Octosilábica', [
@@ -133,6 +134,7 @@ describe('motor ontológico del demarcador', () => {
 	it('concreta después la medida dentro del grupo elegido', () => {
 		const catalogoMedidas: CatalogoDemarcador = {
 			formas: [],
+			relaciones: [],
 			advertencias: [],
 			hipotesis: [
 				hipotesis('menor-7', 'Menor de siete', 'Heptasilábica', [
@@ -249,6 +251,7 @@ describe('motor ontológico del demarcador', () => {
 	it('sale de la familia métrica cuando otra pregunta observable separa mejor', () => {
 		const catalogoDiverso: CatalogoDemarcador = {
 			formas: [],
+			relaciones: [],
 			advertencias: [],
 			hipotesis: [
 				hipotesis('cuatro', 'Forma de cuatro', 'Octosilábica', [
@@ -326,6 +329,7 @@ describe('motor ontológico del demarcador', () => {
 		];
 		const catalogoEmpatado: CatalogoDemarcador = {
 			formas: [],
+			relaciones: [],
 			advertencias: [],
 			hipotesis: [
 				hipotesis('a', 'Primera', 'Octosilábica', evidencias),
@@ -405,6 +409,7 @@ describe('motor ontológico del demarcador', () => {
 	it('ofrece siempre Sí y No en las preguntas booleanas', () => {
 		const catalogoBooleano: CatalogoDemarcador = {
 			formas: [],
+			relaciones: [],
 			advertencias: [],
 			hipotesis: catalogo.hipotesis.map((item) => ({
 				...item,
@@ -420,6 +425,7 @@ describe('motor ontológico del demarcador', () => {
 	it('calcula las longitudes regulares vecinas sin descartar una forma con desviación', () => {
 		const catalogoLongitudes: CatalogoDemarcador = {
 			formas: [],
+			relaciones: [],
 			advertencias: [],
 			hipotesis: [
 				hipotesis(
@@ -499,6 +505,7 @@ describe('motor ontológico del demarcador', () => {
 		});
 		const catalogoPasaje: CatalogoDemarcador = {
 			formas: [],
+			relaciones: [],
 			advertencias: [],
 			hipotesis: [
 				hipotesis(
