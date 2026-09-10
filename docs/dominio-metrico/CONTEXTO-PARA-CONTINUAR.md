@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 8 de septiembre de 2026
+Actualizado: 10 de septiembre de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
@@ -85,6 +85,11 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   nuevo. Son las únicas que tienen perfil, y las únicas que se ven en `/obras`.
 - La anotación en sombra se retiró. El editor métrico nuevo vive ya en las secuencias de cada obra;
   el catálogo se carga allí y las propuestas del vocabulario legado se piden bajo demanda.
+- **El guardado métrico de una secuencia real es idempotente por `secuencia_id`.** El formulario
+  sigue enviando `anotacion_id` al reabrir una anotación, pero el endpoint consulta primero la
+  anotación ya ligada a esa secuencia y la actualiza. Así un reintento después de un guardado
+  parcial no intenta crear una segunda fila ni tropieza con
+  `anotaciones_metricas_secuencia_unica`.
 
 ## El editor V2 ya tiene su pantalla nueva
 
