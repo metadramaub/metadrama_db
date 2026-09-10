@@ -94,6 +94,9 @@ catalogo_metrico_estado`— y en `supabase/migrations/`, ordenadas por nombre.
   guardar la anotación; el componente se remonta solo al abrir otra secuencia, no en ese cambio. La
   anotación que acaba de confirmar se conserva también en memoria hasta la siguiente recarga, para
   que forma, arquitectura y respuestas sigan al cerrar y reabrir el modal.
+- La tabla del editor nombra la columna **Forma** y su filtro leen exclusivamente la anotación V2.
+  Una secuencia sin `forma_id` nuevo figura como «Pendiente» aunque conserve una etiqueta en
+  `estrofa_tipo_id`: ese vocabulario no se sincroniza, duplica ni consulta desde esta vista.
 
 ## El editor V2 ya tiene su pantalla nueva
 

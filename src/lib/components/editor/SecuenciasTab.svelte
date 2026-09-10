@@ -242,16 +242,16 @@
 	let secuencias = $state(untrack(() => [...props.secuenciasInitial]));
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
-	let filtroEstrofa = $state('');
-	let filtroEstrofaDraft = $state('');
+	let filtroForma = $state('');
+	let filtroFormaDraft = $state('');
 
-	function aplicarFiltroEstrofa() {
-		filtroEstrofa = filtroEstrofaDraft;
+	function aplicarFiltroForma() {
+		filtroForma = filtroFormaDraft;
 	}
 
-	function limpiarFiltroEstrofa() {
-		filtroEstrofaDraft = '';
-		filtroEstrofa = '';
+	function limpiarFiltroForma() {
+		filtroFormaDraft = '';
+		filtroForma = '';
 	}
 	let deleteTargetId = $state<string | null>(null);
 	let deletingSequence = $state(false);
@@ -323,11 +323,10 @@
 		})
 	);
 	const estrofaSelectableIds = $derived.by(() => new Set(estrofaSelectableOptions.map((option) => option.termino_id)));
-	const estrofaDropdownItems = $derived.by(() =>
-		estrofaSelectableOptions.map((option) => ({
-			id: option.termino_id,
-			label: displayTerm(option),
-			parentId: option.termino_padre_id ?? null
+	const formaDropdownItems = $derived.by(() =>
+		(props.catalogoMetrico?.forms ?? []).map((forma) => ({
+			id: forma.forma_id,
+			label: forma.nombre
 		}))
 	);
 	function toSelectableEstrofaId(termId: string | null | undefined): string {
@@ -367,13 +366,28 @@
 
 	let form = $state<FormState>(initialForm());
 
-	function termById(
-		options: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>,
-		id: string | null
-	) {
-		if (!id) return 'Pendiente';
-		const option = options.find((opt) => opt.termino_id === id);
-		return option ? displayTerm(option) : 'Pendiente';
+	/**
+	 * La tabla lee solo la anotación V2: `estrofa_tipo_id` queda fuera de esta vista.
+	 * Mientras la página no se recarga, la última anotación confirmada vive en el borrador de esta
+	 * sesión; después, la misma respuesta llega en `props.anotacionMetrica`.
+	 */
+	function formaIdDeSecuencia(secuencia: EditorSecuenciaRow): string | null {
+		const formaEnSesion = borradoresMetricosEnSesion.get(secuencia.secuencia_id)?.forma_id;
+		const anotacionGuardada = (props.anotacionMetrica?.secuencias ?? []).find(
+			(fila: MetricCatalogDomainRow) => String(fila.secuencia_id) === secuencia.secuencia_id
+		);
+		return formaEnSesion ?? (anotacionGuardada?.forma_id ? String(anotacionGuardada.forma_id) : null);
+	}
+
+	function formaDeSecuencia(secuencia: EditorSecuenciaRow): string {
+		const formaId = formaIdDeSecuencia(secuencia);
+		if (formaId) {
+			return (
+				props.catalogoMetrico?.forms.find((forma) => forma.forma_id === formaId)?.nombre ??
+				'Forma registrada'
+			);
+		}
+		return 'Pendiente';
 	}
 
 	function sortSecuencias(items: EditorSecuenciaRow[]) {
@@ -399,7 +413,7 @@
 
 	const filteredSecuencias = $derived.by(() => {
 		return secuencias
-			.filter((secuencia) => !filtroEstrofa || secuencia.estrofa_tipo_id === filtroEstrofa)
+			.filter((secuencia) => !filtroForma || formaIdDeSecuencia(secuencia) === filtroForma)
 			.sort((a, b) => a.v_ini - b.v_ini);
 	});
 	// Todas las secuencias ordenadas, para numerar y navegar en el panel de edición.
@@ -781,11 +795,7 @@
 		removeLocalDraft(submittedDraftKey);
 		setSidebarBaselineFromCurrent();
 		pushToast('success', currentId ? 'Secuencia actualizada' : 'Secuencia creada');
-		if (
-			!currentId &&
-			filtroEstrofa &&
-			savedSecuencia.estrofa_tipo_id !== filtroEstrofa
-		) {
+		if (!currentId && filtroForma && formaIdDeSecuencia(savedSecuencia) !== filtroForma) {
 			pushToast('info', 'Secuencia creada. Está oculta por los filtros actuales.');
 		}
 		sidebarSaving = false;
@@ -1306,19 +1316,19 @@
 					showPathInTrigger={true}
 					allowSingleClear={true}
 					search={true}
-					placeholder="Filtrar por estrofa"
-					items={estrofaDropdownItems}
-					selectedIds={filtroEstrofaDraft ? [filtroEstrofaDraft] : []}
+					placeholder="Filtrar por forma"
+					items={formaDropdownItems}
+					selectedIds={filtroFormaDraft ? [filtroFormaDraft] : []}
 					onChange={(ids) => {
-						filtroEstrofaDraft = ids[0] ?? '';
+						filtroFormaDraft = ids[0] ?? '';
 					}}
 				/>
 			</div>
-			<Button variant="secondary" onclick={aplicarFiltroEstrofa}>Filtrar</Button>
+			<Button variant="secondary" onclick={aplicarFiltroForma}>Filtrar</Button>
 			<Button
 				variant="ghost"
-				onclick={limpiarFiltroEstrofa}
-				disabled={!filtroEstrofa && !filtroEstrofaDraft}
+				onclick={limpiarFiltroForma}
+				disabled={!filtroForma && !filtroFormaDraft}
 			>
 				Limpiar
 			</Button>
@@ -1380,7 +1390,7 @@
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_ini</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_fin</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">N_versos</th>
-							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Estrofa</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Forma</th>
 							<th class="sticky top-0 z-10 w-28 bg-[color:var(--muted)] px-3 py-2"><span class="sr-only">Acciones</span></th>
 						</tr>
 					</thead>
@@ -1404,7 +1414,7 @@
 									<td class="px-3 py-2">{secuencia.v_ini}</td>
 									<td class="px-3 py-2">{secuencia.v_fin}</td>
 									<td class="px-3 py-2">{secuencia.n_versos}</td>
-									<td class="px-3 py-2">{termById(props.estrofaOptions, secuencia.estrofa_tipo_id)}</td>
+									<td class="px-3 py-2">{formaDeSecuencia(secuencia)}</td>
 									<td class="px-3 py-2">
 										<div class="flex items-center justify-end gap-1">
 											<button
