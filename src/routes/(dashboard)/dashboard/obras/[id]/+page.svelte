@@ -750,6 +750,7 @@
 			focusComentarioId={focusComentarioId}
 			commentsReloadKey={commentsReloadKey}
 			onPendingChangesChange={handleRevisionPendingChangesChange}
+			onPublicDataDirty={handleMetricaDirty}
 			onNavigateToTab={handleTabChange}
 		/>
 	{/if}
@@ -768,4 +769,3 @@
 	onDiscard={() => void confirmUnsavedChangesModal()}
 />
 {/if}
-

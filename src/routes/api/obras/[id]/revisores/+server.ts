@@ -139,7 +139,8 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 		);
 	}
 
-	if (editorAsignado !== obra.editor_asignado) {
+	const editorCambio = editorAsignado !== obra.editor_asignado;
+	if (editorCambio) {
 		const { data: updatedObra, error: updateEditorError } = await locals.supabase
 			.from('obras')
 			.update({ editor_asignado: editorAsignado })
@@ -185,9 +186,20 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const payload = await loadReviewerData(locals, obra.obra_id, editorAsignado);
+	let datosPublicosPendientes = false;
+	if (editorCambio) {
+		const { data: resumen } = await locals.supabase
+			.from('obras_resumen')
+			.select('metrica_sucia')
+			.eq('obra_id', obra.obra_id)
+			.maybeSingle();
+		datosPublicosPendientes = Boolean(resumen?.metrica_sucia);
+	}
+
 	return json({
 		canManage: true,
 		...payload,
+		datosPublicosPendientes,
 		// Backward compatibility with old frontend fields.
 		editorAsignado: payload.editor_asignado
 	});
