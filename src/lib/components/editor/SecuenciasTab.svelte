@@ -746,13 +746,21 @@
 		}
 		const savedSecuencia = payload.secuencia as EditorSecuenciaRow;
 		const savedId = currentId ?? savedSecuencia.secuencia_id;
+		// **La respuesta es la fila de `secuencias_metricas` a secas**, y ahí no consta si la secuencia
+		// tiene anotación en el catálogo nuevo. Reemplazar la fila con ella perdía esa marca, y la
+		// checklist de revisión seguía contando pendientes hasta que se recargaba la página.
+		const filaGuardada: EditorSecuenciaRow = {
+			...savedSecuencia,
+			tiene_anotacion_metrica:
+				secuencias.find((item) => item.secuencia_id === savedId)?.tiene_anotacion_metrica ?? false
+		};
 
 		if (currentId) {
-			const next = secuencias.map((item) => (item.secuencia_id === currentId ? savedSecuencia : item));
+			const next = secuencias.map((item) => (item.secuencia_id === currentId ? filaGuardada : item));
 			secuencias = next;
 			emitSecuenciasChange(next);
 			} else {
-			const next = sortSecuencias([...secuencias, savedSecuencia]);
+			const next = sortSecuencias([...secuencias, filaGuardada]);
 			secuencias = next;
 			emitSecuenciasChange(next);
 			editingId = savedId;
@@ -789,6 +797,12 @@
 				sidebarSaving = false;
 				return false;
 			}
+			// Ya tiene forma: decírselo a la página evita que la revisión la cuente pendiente.
+			const conAnotacion = secuencias.map((item) =>
+				item.secuencia_id === savedId ? { ...item, tiene_anotacion_metrica: true } : item
+			);
+			secuencias = conAnotacion;
+			emitSecuenciasChange(conAnotacion);
 		}
 
 		localDraftWriter.cancel();
