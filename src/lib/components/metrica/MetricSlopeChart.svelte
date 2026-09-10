@@ -180,7 +180,7 @@
 					opacity={apagada ? 0.15 : 1}
 				>
 					<title>
-						{serie.forma}, {momento}: {valor === 0 ? 'no aparece' : `${valor.toFixed(1)} %`}
+						{serie.forma}, {momento}: {valor === 0 ? 'no aparece' : `${valor.toFixed(2)} %`}
 					</title>
 				</circle>
 			{/each}
