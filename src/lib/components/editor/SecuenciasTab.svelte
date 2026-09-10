@@ -68,6 +68,14 @@
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
 		onSecuenciasChange?: (items: EditorSecuenciaRow[]) => void;
+		/**
+		 * Las anotaciones confirmadas en esta visita, antes de que una recarga vuelva a traerlas.
+		 *
+		 * **Vive en la página y no aquí**: cambiar de pestaña desmonta este componente, y guardado
+		 * dentro se perdía al volver —la columna «Forma» decía «Pendiente» hasta recargar—.
+		 */
+		anotacionesEnSesion: Map<string, MetricSequenceDraft>;
+		onAnotacionMetricaGuardada?: (secuenciaId: string, borrador: MetricSequenceDraft) => void;
 		onPendingChangesChange?: (pending: boolean) => void;
 		// Señala que cambió algún dato que alimenta obras_resumen pero que NO altera
 		// la lista de secuencias: hoy, las caracterizaciones por rango.
@@ -269,8 +277,7 @@
 	 * nulo al id real y los datos de la página aún no incluyen su anotación.
 	 */
 	let editorSessionKey = $state(0);
-	/** Las anotaciones confirmadas en esta visita, antes de que una recarga vuelva a traerlas. */
-	let borradoresMetricosEnSesion = $state(new Map<string, MetricSequenceDraft>());
+	const borradoresMetricosEnSesion = $derived(props.anotacionesEnSesion);
 	const localDraftWriter = createLocalDraftWriter();
 	/** El componente de caracterizaciones, para recargarlo y cerrarlo desde aquí. */
 	let caracterizaciones = $state<CaracterizacionesPorRango | null>(null);
@@ -1143,14 +1150,12 @@
 			return false;
 		}
 
-		const siguiente = new Map(borradoresMetricosEnSesion);
-		siguiente.set(secuenciaId, {
+		props.onAnotacionMetricaGuardada?.(secuenciaId, {
 			...borrador,
 			anotacion_id:
 				typeof cuerpo?.anotacion_id === 'string' ? cuerpo.anotacion_id : borrador.anotacion_id,
 			secuencia_id: secuenciaId
 		});
-		borradoresMetricosEnSesion = siguiente;
 		return true;
 	}
 
