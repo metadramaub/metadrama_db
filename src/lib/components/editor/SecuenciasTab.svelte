@@ -263,6 +263,14 @@
 	let sidebarDirty = $state(false);
 	let sidebarBaselineSnapshot = $state('');
 	let lastReportedPending = false;
+	/**
+	 * El editor conserva su borrador internamente. Cambiar de secuencia tiene que remontarlo, pero
+	 * convertir una secuencia nueva en guardada no: durante ese primer guardado el `editingId` pasa de
+	 * nulo al id real y los datos de la página aún no incluyen su anotación.
+	 */
+	let editorSessionKey = $state(0);
+	/** Las anotaciones confirmadas en esta visita, antes de que una recarga vuelva a traerlas. */
+	let borradoresMetricosEnSesion = $state(new Map<string, MetricSequenceDraft>());
 	const localDraftWriter = createLocalDraftWriter();
 	/** El componente de caracterizaciones, para recargarlo y cerrarlo desde aquí. */
 	let caracterizaciones = $state<CaracterizacionesPorRango | null>(null);
@@ -561,6 +569,8 @@
 		if (props.readOnly) return;
 		editingId = null;
 		form = initialForm();
+		estadoMetrico = null;
+		editorSessionKey += 1;
 		caracterizaciones?.cerrarModales();
 		sidebarOpen = true;
 		pendingSidebarAction = null;
@@ -584,6 +594,8 @@
 			evento_sobrenatural: secuencia.evento_sobrenatural,
 			sinopsis: secuencia.sinopsis ?? ''
 		};
+		estadoMetrico = null;
+		editorSessionKey += 1;
 		caracterizaciones?.cerrarModales();
 		sidebarOpen = true;
 		pendingSidebarAction = null;
@@ -974,6 +986,15 @@
 	function borradorMetrico(): MetricSequenceDraft {
 		const vIni = Number(form.v_ini) || 1;
 		const vFin = Number(form.v_fin) || 1;
+		const borradorEnSesion = editingId ? borradoresMetricosEnSesion.get(editingId) : null;
+		if (borradorEnSesion) {
+			return {
+				...borradorEnSesion,
+				secuencia_id: editingId,
+				v_ini: vIni,
+				v_fin: vFin
+			};
+		}
 		const anotada = editingId
 			? (props.anotacionMetrica?.secuencias ?? []).find(
 					(fila: MetricCatalogDomainRow) => String(fila.secuencia_id) === editingId
@@ -1082,16 +1103,30 @@
 			return false;
 		}
 
+		const cuerpo = (await respuesta.json().catch(() => null)) as {
+			anotacion_id?: unknown;
+			message?: string;
+			details?: { message?: string }[];
+		} | null;
+
 		if (!respuesta.ok) {
-			const cuerpo = await respuesta.json().catch(() => ({}));
 			pushToast(
 				'error',
 				`La secuencia se guardó, pero su anotación métrica no: ${
-					cuerpo.details?.[0]?.message ?? cuerpo.message ?? 'error desconocido'
+					cuerpo?.details?.[0]?.message ?? cuerpo?.message ?? 'error desconocido'
 				}. Vuelve a guardar.`
 			);
 			return false;
 		}
+
+		const siguiente = new Map(borradoresMetricosEnSesion);
+		siguiente.set(secuenciaId, {
+			...borrador,
+			anotacion_id:
+				typeof cuerpo?.anotacion_id === 'string' ? cuerpo.anotacion_id : borrador.anotacion_id,
+			secuencia_id: secuenciaId
+		});
+		borradoresMetricosEnSesion = siguiente;
 		return true;
 	}
 
@@ -1510,7 +1545,7 @@
 					/>
 				</div>
 			{/if}
-			{#key editingId}
+			{#key editorSessionKey}
 				<MetricSequenceEditor
 					catalog={props.catalogoMetrico as MetricCatalogForEditor}
 					initialDraft={borradorMetrico()}
