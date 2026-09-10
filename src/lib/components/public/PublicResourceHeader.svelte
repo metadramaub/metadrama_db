@@ -6,6 +6,7 @@
 	const props = $props<{
 		category: string;
 		title: string;
+		badge?: string;
 		description: Snippet;
 		onHelp: () => void;
 	}>();
@@ -25,6 +26,7 @@
 <PublicPageHeader
 	eyebrow={props.category.toUpperCase()}
 	title={props.title}
+	badge={props.badge}
 	descriptionContent={props.description}
 	actions={helpAction}
 />
