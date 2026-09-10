@@ -28,6 +28,7 @@
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
 	import MetricNormSummary from './MetricNormSummary.svelte';
+	import MetricPanelSection from './MetricPanelSection.svelte';
 	import MetricStructureEditor from './MetricStructureEditor.svelte';
 	import { metricNormFacts, metricNormGrid } from './norm-summary';
 	import { compactRhymeNotation } from './rhyme-notation';
@@ -153,6 +154,8 @@
 
 	/** El editor ha vuelto a abrir la identificación ya resuelta para corregirla. */
 	let identificationForced = $state(false);
+	/** Las desviaciones son una sección secundaria: al añadir una se abre, pero puede plegarse. */
+	let desviacionesAbiertas = $state(false);
 
 	const configurationsForDraft = $derived(
 		props.catalog.configurations.filter(
@@ -857,6 +860,7 @@
 
 	function addDeviation() {
 		draft.desviaciones = [...draft.desviaciones, emptyDeviation(draft.v_ini, draft.v_fin)];
+		desviacionesAbiertas = true;
 	}
 
 	// El valor observado de una desviación vive en `desviaciones.ts`: son funciones puras y
@@ -1151,8 +1155,8 @@
 			 *
 			 * Comprobado contra la base: `dimensión` y `relación` bastan para que la fila entre, así
 			 * que se podía pulsar «Registrar una desviación», no tocar nada y guardar una fila que no
-			 * registra nada. Ahora hay que decir de qué habla, qué le pasa y —salvo que se precise el
-			 * valor observado— en qué consiste.
+			 * registra nada. Por eso hay que decir de qué habla y qué le pasa; la descripción añade
+			 * contexto y se recomienda, pero no impide guardar.
 			 */
 			const numero = draft.desviaciones.length > 1 ? ` ${indice + 1}` : '';
 			if (!deviation.dimension) {
@@ -1162,9 +1166,6 @@
 				return `Di qué le pasa a ${METRIC_DEVIATION_DIMENSIONS.find(
 					(option) => option.value === deviation.dimension
 				)?.label.toLocaleLowerCase('es')} en la desviación${numero}.`;
-			}
-			if (!valorObservado(deviation) && !deviation.observaciones.trim()) {
-				return `Describe en qué consiste la desviación${numero}, o precisa lo observado.`;
 			}
 			if (deviation.v_fin < deviation.v_ini) {
 				return 'Una desviación no puede terminar antes de donde empieza.';
@@ -1227,6 +1228,7 @@
 
 	/** Lleva la vista a un bloque del cuerpo desde el raíl. */
 	function goTo(anchor: string) {
+		if (anchor === 'desviaciones') desviacionesAbiertas = true;
 		document
 			.getElementById(anchor)
 			?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1717,24 +1719,24 @@
 
 
 			{#if draft.desviaciones.length > 0}
-				<section
+				<MetricPanelSection
 					id="desviaciones"
-					class="space-y-4 border-t border-[color:var(--border)] pt-5"
+					titulo="Desviaciones"
+					abierta={desviacionesAbiertas}
+					alAlternar={() => (desviacionesAbiertas = !desviacionesAbiertas)}
+					resumen={`${draft.desviaciones.length}`}
+					sinContenedor={true}
 				>
-					<div class="flex flex-wrap items-center justify-between gap-3">
-						<h4 class="form-subsection-title mb-0">
-							<span class="form-label-with-help">
-								Desviaciones
-								<FieldHelpTooltip
-									text="Solo lo que no encaja en ninguna de las respuestas anteriores. Que no haya ninguna significa que la realización cumple la norma, no que falte revisarla."
-									label="Ayuda sobre las desviaciones"
-								/>
-							</span>
-						</h4>
-					</div>
+					<p class="form-help flex items-center gap-1">
+						Solo lo que no encaja en ninguna de las respuestas anteriores.
+						<FieldHelpTooltip
+							text="Que no haya ninguna desviación significa que la realización cumple la norma, no que falte revisarla."
+							label="Ayuda sobre las desviaciones"
+						/>
+					</p>
 					{#each draft.desviaciones as deviation, deviationIndex}
 						{@const relaciones = metricDeviationRelations(deviation.dimension)}
-						<div class="border border-[color:var(--border)]">
+						<div class="space-y-3">
 							<!--
 								**Quitar es del bloque entero, así que va en su cabecera.**
 
@@ -1744,9 +1746,7 @@
 								falta hablan de «la desviación 2» y hasta ahora no había ninguna que llevara ese
 								número escrito.
 							-->
-							<div
-								class="flex flex-wrap items-baseline justify-between gap-3 border-b border-[color:var(--border)] bg-[color:var(--muted)] px-4 py-2"
-							>
+							<div class="flex flex-wrap items-baseline justify-between gap-3">
 								<span class="text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]">
 									Desviación{draft.desviaciones.length > 1 ? ` ${deviationIndex + 1}` : ''}
 								</span>
@@ -1762,7 +1762,7 @@
 									Quitar
 								</button>
 							</div>
-							<div class="grid gap-3 p-4 sm:grid-cols-2 xl:grid-cols-6">
+							<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
 							<label class="form-field">
 								<span class="form-label">Dimensión</span>
 								<select
@@ -1895,11 +1895,9 @@
 								decírselo al editor en el mismo instante en que pulsa el botón es regañarle por
 								no haber escrito todavía.
 							-->
-							{#if deviation.dimension && (!deviation.relacion_norma || (!valorObservado(deviation) && !deviation.observaciones.trim()))}
+							{#if deviation.dimension && !deviation.relacion_norma}
 								<p class="text-xs text-[color:var(--primary)] sm:col-span-2 xl:col-span-6">
-									{!deviation.relacion_norma
-										? 'Falta decir qué le pasa.'
-										: 'Falta describir en qué consiste, o precisar lo observado.'}
+									Falta decir qué le pasa.
 								</p>
 							{/if}
 							<!--
@@ -1932,9 +1930,10 @@
 								/>
 							</label>
 							<label class="form-field sm:col-span-2 xl:col-span-6">
-								<span class="form-label">Descripción mínima de la diferencia</span>
+								<span class="form-label">Descripción de la diferencia (recomendada)</span>
 								<textarea
 									class="min-h-20 w-full border border-[color:var(--border)] p-2"
+									placeholder="Aclara la diferencia si hace falta para leerla después"
 									bind:value={deviation.observaciones}
 								></textarea>
 							</label>
@@ -1950,7 +1949,7 @@
 					<button type="button" class="link-action" onclick={addDeviation}>
 						Añadir otra desviación
 					</button>
-				</section>
+				</MetricPanelSection>
 			{/if}
 
 			<!-- Aquí no hay observación libre, tampoco en un tramo sin forma: lo que el editor
