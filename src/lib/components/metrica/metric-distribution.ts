@@ -1,5 +1,5 @@
 // Construye la jerarquía real de la ficha: forma → arquitectura → respuestas observadas.
-// Cada dimensión se cuenta en su escala métrica: tiradas, versos o realizaciones concretas.
+// Cada dimensión se cuenta en su escala métrica: secuencias, versos o realizaciones concretas.
 import type { MetricDistributionSlice } from './metric-display.types';
 import type {
 	PublicFichaEsquemaRima,
@@ -12,9 +12,9 @@ import type {
 export interface MetricDistributionValue {
 	label: string;
 	cantidad: number;
-	/** Nombre singular de lo contado: tirada, soneto, estancia, verso... */
+	/** Nombre singular de lo contado: secuencia, soneto, estancia, verso... */
 	unidad: string;
-	/** Versos cubiertos; se usa además del número de tiradas en los rasgos. */
+	/** Versos cubiertos; se usa además del número de secuencias en los rasgos. */
 	versos: number;
 }
 
@@ -86,7 +86,7 @@ function responseScope(
 	row: PublicFichaRespuestaMetricaContexto
 ): ResponseScope {
 	const sequenceId = sequenceKey(sequence);
-	if (!row.realizacion_id) return { key: `tirada:${sequenceId}`, unit: 'tirada' };
+	if (!row.realizacion_id) return { key: `secuencia:${sequenceId}`, unit: 'secuencia' };
 
 	// Las secciones que reutilizan otra arquitectura son partes complementarias de la unidad raíz
 	// (por ejemplo, las dos quintillas de una copla real): se reconstruyen con su padre.
@@ -188,7 +188,7 @@ function featureDimensions(sequences: MetricDistributionSequence[]): MetricDistr
 				.map(([label, matchingSequences]): MetricDistributionValue => ({
 					label,
 					cantidad: matchingSequences.size,
-					unidad: 'tirada',
+					unidad: 'secuencia',
 					versos: [...matchingSequences.values()].reduce((total, value) => total + value, 0)
 				}))
 				.sort(

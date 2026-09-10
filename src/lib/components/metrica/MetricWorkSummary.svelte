@@ -2,7 +2,7 @@
 	interface TechnicalSummary {
 		formasDistintas: number;
 		mediaPorSecuencia: number;
-		tiradaMasLarga: {
+		secuenciaMasLarga: {
 			forma: string | null;
 			v_ini: number;
 			v_fin: number;
@@ -26,18 +26,18 @@
 			<dd class="mt-0.5 text-lg font-semibold tabular-nums">{props.summary.formasDistintas}</dd>
 		</div>
 		<div class="border-t border-[color:var(--border)] px-4 py-3.5 sm:border-l sm:border-t-0 sm:px-5">
-			<dt class="text-xs text-[color:var(--muted-foreground)]">Longitud media de las tiradas</dt>
+			<dt class="text-xs text-[color:var(--muted-foreground)]">Longitud media de las secuencias</dt>
 			<dd class="mt-0.5 text-lg font-semibold tabular-nums">{props.summary.mediaPorSecuencia} vv.</dd>
 		</div>
 		<div class="border-t border-[color:var(--border)] px-4 py-3.5 sm:border-l sm:border-t-0 sm:px-5">
-			<dt class="text-xs text-[color:var(--muted-foreground)]">Tirada más larga</dt>
-			{#if props.summary.tiradaMasLarga}
+			<dt class="text-xs text-[color:var(--muted-foreground)]">Secuencia más larga</dt>
+			{#if props.summary.secuenciaMasLarga}
 				<dd class="mt-0.5 font-semibold">
-					{props.summary.tiradaMasLarga.forma ?? 'Sin forma anotada'}
+					{props.summary.secuenciaMasLarga.forma ?? 'Sin forma anotada'}
 				</dd>
 				<dd class="text-xs text-[color:var(--muted-foreground)]">
-					vv. {props.summary.tiradaMasLarga.v_ini}–{props.summary.tiradaMasLarga.v_fin}
-					· {props.summary.tiradaMasLarga.n_versos} vv.
+					vv. {props.summary.secuenciaMasLarga.v_ini}–{props.summary.secuenciaMasLarga.v_fin}
+					· {props.summary.secuenciaMasLarga.n_versos} vv.
 				</dd>
 			{:else}
 				<dd class="mt-0.5 text-[color:var(--muted-foreground)]">Sin datos</dd>

@@ -127,8 +127,8 @@ describe('buildDistributionGroups', () => {
 			{
 				label: 'Vocales de la asonancia',
 				values: [
-					{ label: 'a-e', cantidad: 1, unidad: 'tirada', versos: 144 },
-					{ label: 'e-o', cantidad: 1, unidad: 'tirada', versos: 94 }
+					{ label: 'a-e', cantidad: 1, unidad: 'secuencia', versos: 144 },
+					{ label: 'e-o', cantidad: 1, unidad: 'secuencia', versos: 94 }
 				]
 			}
 		]);

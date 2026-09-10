@@ -85,7 +85,7 @@
 						{#if hayBanda}
 							<!-- **El cuadro se dice con palabras y se sitúa con una raya.** Un número de diez
 							     píxeles pegado a la banda de color no se lee: se lee «Cuadro 3». La raya de la
-							     derecha marca dónde cae el corte cuando cae en mitad de la tirada, que es lo
+							     derecha marca dónde cae el corte cuando cae en mitad de la secuencia, que es lo
 							     único que el texto no puede decir por sí solo. -->
 							<td class="metric-scheme__cuadro-celda">
 								{#each banda.filter((t) => t.abre && t.numero !== null) as tramo (tramo.numero)}

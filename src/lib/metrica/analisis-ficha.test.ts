@@ -9,7 +9,7 @@ import {
 	perfilDeFormas,
 	perfilDeTradiciones,
 	perfilPorJornada,
-	tiradasPorForma,
+	secuenciasPorForma,
 	transiciones,
 	type SecuenciaAnalizable
 } from './analisis-ficha';
@@ -135,7 +135,7 @@ describe('perfilDeTradiciones', () => {
 describe('desgloseDeFormas', () => {
 	it('pesa las arquitecturas en versos y los esquemas en estrofas', () => {
 		const redondilla = desgloseDeFormas(OBRA).find((d) => d.colorKey === 'redondilla')!;
-		expect(redondilla.tiradas).toBe(2);
+		expect(redondilla.secuencias).toBe(2);
 		expect(redondilla.arquitecturas).toEqual([
 			{ nombre: 'Octosilábica', versos: 180, porcentaje: 100 }
 		]);
@@ -166,10 +166,10 @@ describe('transiciones', () => {
 	});
 });
 
-describe('tiradasPorForma', () => {
+describe('secuenciasPorForma', () => {
 	it('da cuántas, la media y los extremos', () => {
-		const redondilla = tiradasPorForma(OBRA).find((t) => t.colorKey === 'redondilla')!;
-		expect(redondilla).toMatchObject({ tiradas: 2, versos: 180, media: 90, minima: 80, maxima: 100 });
+		const redondilla = secuenciasPorForma(OBRA).find((t) => t.colorKey === 'redondilla')!;
+		expect(redondilla).toMatchObject({ secuencias: 2, versos: 180, media: 90, minima: 80, maxima: 100 });
 	});
 });
 
@@ -185,14 +185,14 @@ describe('cortesDeCuadro', () => {
 		];
 		expect(cortesDeCuadro(OBRA, cuadros)).toEqual({
 			total: 4,
-			partenTirada: 2,
+			partenSecuencia: 2,
 			coincidenCambioForma: 2,
-			entreTiradasMismaForma: 0,
+			entreSecuenciasMismaForma: 0,
 			sinCobertura: 0
 		});
 	});
 
-	it('separa el límite entre dos tiradas de la misma forma', () => {
+	it('separa el límite entre dos secuencias de la misma forma', () => {
 		const secuencias = [secuencia({ v_ini: 1, n_versos: 10 }), secuencia({ v_ini: 11, n_versos: 10 })];
 		const cuadros = [
 			{ jornada_id: 'j1', cuadro_num: 1, v_ini: 1, v_fin: 10 },
@@ -200,7 +200,7 @@ describe('cortesDeCuadro', () => {
 		];
 		expect(cortesDeCuadro(secuencias, cuadros)).toMatchObject({
 			total: 1,
-			entreTiradasMismaForma: 1
+			entreSecuenciasMismaForma: 1
 		});
 	});
 });
@@ -243,7 +243,7 @@ describe('fichaTecnica', () => {
 			conVersosPartidos: 1,
 			conDesviaciones: 1
 		});
-		expect(t.tiradaMasLarga?.n_versos).toBe(100);
+		expect(t.secuenciaMasLarga?.n_versos).toBe(100);
 	});
 });
 

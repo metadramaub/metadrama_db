@@ -1040,11 +1040,11 @@ Las descargas siguen aparcadas.
 
 | código | pendiente |
 |---|---|
-| **FP-G1** | **Hecho**: `De un vistazo` muestra formas distintas, longitud media, tirada más larga con rango y las formas de apertura y cierre. No repite versos, jornadas, cuadros ni secuencias, que ya están en la cabecera; los índices de versos partidos, espacios y desviaciones pasan a FP-G8/U2. |
+| **FP-G1** | **Hecho**: `De un vistazo` muestra formas distintas, longitud media, secuencia más larga con rango y las formas de apertura y cierre. No repite versos, jornadas, cuadros ni secuencias, que ya están en la cabecera; los índices de versos partidos, espacios y desviaciones pasan a FP-G8/U2. |
 | **FP-G2** | **Hecho**: `Análisis` presenta las transiciones entre secuencias consecutivas como pares legibles y ordenados por frecuencia. Las seis principales quedan a la vista, el resto se despliega y se aclara que el cálculo incluye los pasos entre jornadas. No se usa una red que dificulte la lectura. |
 | **FP-G3** | **Aplazado**: no se detectan patrones hasta decidir una definición y un umbral defendibles. Conviene abordarlo con la futura comparación de corpus, no producir ahora una lista arbitraria a partir de una sola obra. |
-| **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con tiradas, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
-| **FP-G5** | **Hecho**: `Análisis` cuenta los límites reales entre cuadros dentro de cada jornada y distingue los que coinciden con un cambio de forma, parten una tirada o caen entre dos tiradas de la misma forma. Los cortes de jornada quedan fuera. Sustituye el cálculo anterior, cuyo denominador eran secuencias y no cambios de cuadro. |
+| **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con secuencias, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
+| **FP-G5** | **Hecho**: `Análisis` cuenta los límites reales entre cuadros dentro de cada jornada y distingue los que coinciden con un cambio de forma, cortan una secuencia o caen entre dos secuencias de la misma forma. Los cortes de jornada quedan fuera. Sustituye el cálculo anterior, cuyo denominador eran secuencias y no cambios de cuadro. |
 | **FP-G6** | **Hecho**: `Análisis` resume canto, prosa y evocación métrica con versos, porcentaje de la obra y formas en que aparecen. Las etiquetas públicas se normalizan y los rangos solapados no duplican versos; el bloque no se crea cuando la obra no contiene ninguno. |
 | **FP-G7** | **Hecho**: el bloque de articulación muestra con qué forma abre y cierra cada jornada, junto a la lectura de los cambios de cuadro. |
 | **FP-G8** | **Hecho junto con FP-U2**: `Esquema métrico` incorpora un único índice `Localizar en la obra`. Solo ofrece fenómenos presentes —canto, prosa, evocación, desviaciones, versos repartidos, cambios de espacio, intervenciones y eventos sobrenaturales—; al seleccionar uno muestra sus secuencias y abre su detalle. Canto, prosa y evocación conservan el rango específico, y las intervenciones indican si son exclusivas o compartidas. |
@@ -1064,7 +1064,7 @@ pequeños y reversibles, uno por uno; esta nota no implica que estén implementa
 - mover `Localizar en la obra` de `Esquema métrico` a `Análisis`: es una herramienta de lectura y
   consulta analítica, mientras que el esquema debe contener solo el esquema;
 - mover el número de secuencias métricas desde `Estructura` en la cabecera hasta `Resumen métrico`;
-- auditar `tirada` en toda la ficha. La entidad general es **secuencia métrica**; `tirada` se reserva
+- **hecho**: auditar `tirada` en toda la ficha. La entidad general es **secuencia métrica**; `tirada` se reserva
   para series estróficas o formas repetidas cuando el término describe de verdad su realización.
   Un soneto puede ocupar una secuencia, pero no es una tirada;
 - completar el resumen con la **secuencia más corta**, además de media y máxima;
@@ -1074,13 +1074,12 @@ pequeños y reversibles, uno por uno; esta nota no implica que estén implementa
   otro cálculo, reutilizar y contrastar `numero_efectivo_formas` y `densidad_transiciones`, que ya
   alimentan `/obras`, y decidir qué significa cada medida dentro de una sola obra.
 
-**Punto de continuación inmediato:** solo diagnosticar dónde se usa `tirada`, distinguir los usos
-terminológicamente válidos de los que deben pasar a `secuencia`, y presentar la propuesta antes de
-editar la interfaz o los nombres internos.
+**Punto de continuación inmediato:** elegir una sola de las restantes mejoras de esta revisión y
+resolverla por separado.
 
-**Diagnóstico de `tirada` —sin implementar todavía.** La ficha usa hoy el término como sinónimo
-general de la fila `secuencias_metricas`, y por eso alcanza indebidamente a sonetos y otras formas
-no seriadas. La corrección propuesta es:
+**Corrección de `tirada` —implementada el 10 de septiembre.** La ficha usaba el término como
+sinónimo general de la fila `secuencias_metricas`, y por eso alcanzaba indebidamente a sonetos y
+otras formas no seriadas. La corrección aplicada es:
 
 - cambiar a **secuencia** el resumen —media, máxima y futura mínima—, la tabla por forma y sus
   recuentos, y la articulación con los cuadros (`cortan una secuencia`, `entre secuencias de la misma
@@ -1096,7 +1095,9 @@ no seriadas. La corrección propuesta es:
 - `cuadro_continua` puede conservar su nombre de contrato, que ya es neutral; deben corregirse los
   comentarios y rótulos que interpretan automáticamente la secuencia como tirada.
 
-La propuesta necesita confirmación antes de tocar código o interfaz.
+Las pruebas dirigidas del análisis de ficha y de la distribución métrica cubren el vocabulario y
+los recuentos resultantes. Los usos específicos —por ejemplo, `tirada de redondillas`, `tirada de
+quintillas` o `tirada de décimas`— se conservan.
 
 **Datos que aún no llegan al JSON público**
 
@@ -1118,7 +1119,7 @@ La propuesta necesita confirmación antes de tocar código o interfaz.
 |---|---|
 | **FP-U1** | Conectar los gráficos de análisis con el filtro o la apertura de las secuencias correspondientes. |
 | **FP-U2** | **Hecho con FP-G8**: el índice navegable de fenómenos vive una sola vez, encima del esquema métrico, y no despliega de entrada listas potencialmente largas. |
-| **FP-U3** | **Hecho**: cada cifra explica qué cuenta. Formas y arquitecturas usan versos; los rasgos dicen, por ejemplo, `340 vv. en 4 tiradas`; los esquemas y variedades nombran su alcance real (`sonetos`, `estancias`, `mudanzas`, `tiradas`…); los metros cuentan solo los versos efectivamente cubiertos por sus respuestas, no el total de la secuencia. |
+| **FP-U3** | **Hecho**: cada cifra explica qué cuenta. Formas y arquitecturas usan versos; los rasgos dicen, por ejemplo, `340 vv. en 4 secuencias`; los esquemas y variedades nombran su alcance real (`sonetos`, `estancias`, `mudanzas`, `tiradas`…); los metros cuentan solo los versos efectivamente cubiertos por sus respuestas, no el total de la secuencia. |
 | **FP-U4** | Revisar los estados vacíos y la cobertura parcial de métrica, jornadas, sinopsis y anotaciones. |
 | **FP-U5** | **Parcial**: ya tiene foco inicial, cierre con `Escape`, restauración del foco, navegación con botones y flechas, cierre de 40 × 40 px con la X centrada y estados perceptibles de hover/activo/foco, disposición de pantalla completa en móvil y revisión visual de escritorio del overlay y los márgenes. Falta la comprobación visual final en móvil y decidir si se añade confinamiento completo del foco. |
 

@@ -35,7 +35,7 @@
 		perfilDeFormas,
 		perfilPorJornada,
 		tradicionesPorJornada,
-		tiradasPorForma,
+		secuenciasPorForma,
 		transiciones
 	} from '$lib/metrica/analisis-ficha';
 	import { buildSequenceSynopsisGroups } from '$lib/components/editor/sequence-synopsis';
@@ -349,7 +349,7 @@
 	);
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
 	const tecnica = $derived(fichaTecnica(analizables));
-	const tiradas = $derived(tiradasPorForma(analizables));
+	const secuenciasPorFormaDeLaObra = $derived(secuenciasPorForma(analizables));
 	const caracterizacionesEnunciativas = $derived(caracterizacionesDeLaObra(analizables));
 	const cortesCuadro = $derived(cortesDeCuadro(analizables, cuadros));
 	const extremosDeJornadas = $derived(cierreDeJornadas(analizables));
@@ -385,13 +385,13 @@
 		}))
 	);
 
-	/** Cada forma con las tiradas que tiene, para ver dónde se concentra. */
+	/** Cada forma con sus secuencias, para ver dónde se concentra. */
 	const franjas = $derived(
 		perfilDeFormas(analizables).map((peso) => ({
 			forma: peso.forma,
 			colorKey: peso.colorKey,
 			porcentaje: peso.porcentaje,
-			tiradas: analizables
+			secuencias: analizables
 				.filter((s) => (s.forma_slug ?? SIN_FORMA) === peso.colorKey)
 				.map((s) => ({ v_ini: s.v_ini, v_fin: s.v_fin }))
 		}))
@@ -897,8 +897,8 @@
 					</div>
 				{/if}
 
-				{#if tiradas.length > 0}
-					<MetricRunTable rows={tiradas} colorByForma={colorByForma} />
+				{#if secuenciasPorFormaDeLaObra.length > 0}
+					<MetricRunTable rows={secuenciasPorFormaDeLaObra} colorByForma={colorByForma} />
 				{/if}
 
 				{#if transicionesDeLaObra.length > 0}

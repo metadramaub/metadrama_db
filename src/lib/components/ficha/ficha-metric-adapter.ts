@@ -56,7 +56,7 @@ export const secuenciasToAnalizables = (secuencias: PublicFichaSecuencia[]) =>
 	secuencias.map(secuenciaToAnalizable);
 
 /**
- * Lo que distingue una tirada de otra de la misma forma, dicho en una línea.
+ * Lo que distingue una secuencia de otra de la misma forma, dicho en una línea.
  *
  * Es lo que hace útil el esquema métrico: dos romances seguidos no son lo mismo si uno asuena en
  * `é-o` y el otro en `á-a`, y una tirada de redondillas se describe por su reparto de esquemas.
@@ -117,7 +117,7 @@ export const secuenciasToSchemeEntries = (secuencias: PublicFichaSecuencia[]) =>
  * Rotulaba la arquitectura —«Octosilábica consonante» donde debía decir «Quintilla»—, que es el
  * detalle y no la identidad; la arquitectura se lee dentro, al abrir la secuencia. Y dibujaba una
  * raya por estrofa, porque el esquema de rima se responde una vez por unidad y llegaban setenta y
- * ocho entradas en una tirada de redondillas: el reparto de esquemas es un dato de la tirada, no
+ * ocho entradas en una tirada de redondillas: el reparto de esquemas es un dato de la secuencia, no
  * una subdivisión que pintar encima.
  */
 export function secuenciaToBarSegment(secuencia: PublicFichaSecuencia): MetricBarSegment {
