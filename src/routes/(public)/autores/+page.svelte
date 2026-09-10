@@ -12,6 +12,8 @@
 	let { data } = $props<{ data: PageData }>();
 
 	const autores = $derived(data.autores as AutorListadoItem[]);
+	// La prueba de fiabilidad queda disponible para reactivarla, pero no se muestra públicamente.
+	const mostrarFiabilidad = false;
 	let nameQuery = $state('');
 
 	const filteredAutores = $derived.by(() => {
@@ -103,10 +105,12 @@
 							<span title="Diversidad del repertorio (número efectivo de formas agregado)">
 								diversidad {fmtNumeroEfectivo(autor.numero_efectivo_formas_agregado)}
 							</span>
-							<span class="inline-flex items-center gap-1" title={`Fiabilidad ${fiabilidad}`}>
-								<span class={`inline-block h-2 w-2 rounded-full ${fiabilidadDot[fiabilidad]}`}></span>
-								{fiabilidad}
-							</span>
+							{#if mostrarFiabilidad}
+								<span class="inline-flex items-center gap-1" title={`Fiabilidad ${fiabilidad}`}>
+									<span class={`inline-block h-2 w-2 rounded-full ${fiabilidadDot[fiabilidad]}`}></span>
+									{fiabilidad}
+								</span>
+							{/if}
 						</div>
 
 						<div class="mt-5">

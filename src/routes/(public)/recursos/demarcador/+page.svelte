@@ -45,8 +45,24 @@
 	const respuestasConcluyentes = $derived(
 		respuestas.filter((respuesta) => respuesta.valor !== 'desconocido').length
 	);
+	/**
+	 * **No se cierra sin haber preguntado la extensión.**
+	 *
+	 * Las series —romance, silva, endecasílabo suelto— no tienen unidad que comprobar, así que
+	 * coinciden con menos evidencia que cualquier estrofa y se ponen las primeras enseguida. Con la
+	 * rima adelantada al tercer puesto, el recorrido llegaba al umbral antes de preguntar cuántos
+	 * versos abarca el pasaje, y entonces «arte menor + misma medida + asonante» declaraba romance
+	 * lo mismo a doscientos versos que a cuatro, donde lo más probable es una copla o una seguidilla.
+	 *
+	 * Si ninguna candidata declara extensión no hay nada que esperar: el recorrido se detiene igual
+	 * cuando se acaban las preguntas.
+	 */
+	const extensionResuelta = $derived(
+		respuestas.some((respuesta) => respuesta.familiaCognitiva === 'extension')
+	);
 	const resultadoSuficiente = $derived(
 		respuestasConcluyentes >= 3 &&
+		extensionResuelta &&
 		(formasOrdenadas[0]?.arquitecturas[0]?.coincidencias ?? 0) >= 2 &&
 		diferenciaPrincipal >= 0.75
 	);
