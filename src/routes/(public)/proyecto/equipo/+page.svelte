@@ -1,8 +1,10 @@
 <script lang="ts">
+	import X from 'lucide-svelte/icons/x';
 	import PublicPageHeader from '$lib/components/public/PublicPageHeader.svelte';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
+	let colaboradorConFichas = $state<PageData['colaboradores'][number] | null>(null);
 
 	function normalizeOrcid(value: string | null): string | null {
 		const identifier = value
@@ -18,7 +20,17 @@
 	function fichasLabel(total: number): string {
 		return total === 1 ? '1 ficha publicada' : `${total} fichas publicadas`;
 	}
+
+	function closeFichaList() {
+		colaboradorConFichas = null;
+	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') closeFichaList();
+	}
 </script>
+
+<svelte:window onkeydown={handleKeydown} />
 
 <svelte:head>
 	<title>Equipo · Versología</title>
@@ -35,9 +47,9 @@
 		description="Responsables y colaboradores de Versología."
 	/>
 
-	<div class="mt-12 grid gap-4 lg:grid-cols-5">
+	<div class="mt-12 grid gap-4 lg:grid-cols-2">
 		<article
-			class="flex min-h-64 flex-col justify-between border border-[color:var(--gray-800)] bg-[color:var(--gray-900)] p-7 text-white md:p-9 lg:col-span-2"
+			class="flex min-h-64 flex-col justify-between border border-[color:var(--gray-800)] bg-[color:var(--gray-900)] p-7 text-white md:p-9"
 		>
 			<p class="text-[10px] font-semibold tracking-[0.18em] text-[color:var(--primary)]">
 				INVESTIGADOR PRINCIPAL
@@ -46,7 +58,7 @@
 		</article>
 
 		<article
-			class="flex min-h-64 flex-col justify-between border border-[color:var(--border)] bg-white p-7 md:p-9 lg:col-span-3"
+			class="flex min-h-64 flex-col justify-between border border-[color:var(--border)] bg-white p-7 md:p-9"
 		>
 			<p class="text-[10px] font-semibold leading-5 tracking-[0.18em] text-[color:var(--primary)] lg:whitespace-nowrap">
 				DESARROLLO Y COORDINACIÓN DE LA BASE DE DATOS
@@ -77,7 +89,7 @@
 					{#each data.colaboradores as persona, index (persona.nombre_completo)}
 						{@const orcid = normalizeOrcid(persona.orcid)}
 						<li
-							class="flex min-h-40 flex-col justify-between border border-[color:var(--border)] bg-white p-6"
+							class="flex h-48 flex-col justify-between border border-[color:var(--border)] bg-white p-6"
 						>
 							<span class="text-[10px] font-semibold tracking-[0.16em] text-[color:var(--gray-400)]">
 								{String(index + 1).padStart(2, '0')}
@@ -101,25 +113,21 @@
 									</div>
 								</div>
 
-								{#if persona.obras.length > 0}
-									<div class="mt-6 border-t border-[color:var(--border)] pt-4">
-										<p class="text-[10px] font-semibold tracking-[0.14em] text-[color:var(--gray-400)]">
+								<div class="mt-6 border-t border-[color:var(--border)] pt-4">
+									{#if persona.obras.length > 0}
+										<button
+											type="button"
+											class="text-left text-[10px] font-semibold tracking-[0.14em] text-[color:var(--primary)] underline decoration-1 underline-offset-4 hover:text-[color:var(--foreground)]"
+											onclick={() => (colaboradorConFichas = persona)}
+										>
 											{fichasLabel(persona.total_obras)}
+										</button>
+									{:else}
+										<p class="text-[10px] font-semibold tracking-[0.14em] text-[color:var(--gray-400)]">
+											{fichasLabel(0)}
 										</p>
-										<ul class="mt-3 space-y-2">
-											{#each persona.obras as obra (obra.slug)}
-												<li>
-													<a
-														href={`/obras/${obra.slug}`}
-														class="font-display text-base text-[color:var(--gray-900)] underline decoration-[color:var(--gray-300)] underline-offset-4 hover:decoration-[color:var(--primary)]"
-													>
-														{obra.titulo}
-													</a>
-												</li>
-											{/each}
-										</ul>
-									</div>
-								{/if}
+									{/if}
+								</div>
 							</div>
 						</li>
 					{/each}
@@ -132,6 +140,54 @@
 		</div>
 	</section>
 </section>
+
+{#if colaboradorConFichas}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4 py-6"
+		role="presentation"
+		onclick={(event) => {
+			if (event.currentTarget === event.target) closeFichaList();
+		}}
+	>
+		<div
+			class="max-h-full w-full max-w-lg overflow-y-auto border border-[color:var(--border)] bg-white shadow-xl"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="fichas-publicadas-title"
+		>
+			<header class="sticky top-0 flex items-start justify-between gap-5 border-b border-[color:var(--border)] bg-white px-5 py-4 sm:px-7">
+				<div>
+					<p class="text-[10px] font-semibold tracking-[0.16em] text-[color:var(--primary)]">
+						FICHAS PUBLICADAS
+					</p>
+					<h2 id="fichas-publicadas-title" class="font-display mt-2 text-2xl text-[color:var(--gray-900)]">
+						{colaboradorConFichas.nombre_completo}
+					</h2>
+				</div>
+				<button
+					type="button"
+					class="inline-flex h-9 w-9 shrink-0 items-center justify-center border border-[color:var(--border)] text-[color:var(--muted-foreground)] transition-colors hover:border-[color:var(--gray-800)] hover:text-[color:var(--foreground)]"
+					onclick={closeFichaList}
+					aria-label="Cerrar fichas publicadas"
+				>
+					<X size={17} aria-hidden="true" />
+				</button>
+			</header>
+			<ul class="divide-y divide-[color:var(--border)] p-5 sm:p-7">
+				{#each colaboradorConFichas.obras as obra (obra.slug)}
+					<li>
+						<a
+							href={`/obras/${obra.slug}`}
+							class="block py-3 font-display text-lg text-[color:var(--gray-900)] underline decoration-[color:var(--gray-300)] underline-offset-4 hover:decoration-[color:var(--primary)]"
+						>
+							{obra.titulo}
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	</div>
+{/if}
 
 <style>
 	.collaborator-grid > li:not(:first-child) {
