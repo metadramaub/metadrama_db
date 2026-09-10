@@ -156,6 +156,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	// validar contra lo que mande el cliente comprobaría un rango que no se va a guardar.
 	let rangeStart = input.v_ini;
 	let rangeEnd = input.v_fin;
+	let anotacionId = input.anotacion_id;
 	if (input.secuencia_id) {
 		const { data: realSequence, error: realSequenceError } = await db
 			.from('secuencias_metricas')
@@ -173,6 +174,22 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		}
 		rangeStart = Number(realSequence.v_ini);
 		rangeEnd = Number(realSequence.v_fin);
+
+		/**
+		 * Una secuencia real solo puede tener una anotación métrica. El formulario suele traer su
+		 * identificador al reabrirla, pero después de un guardado parcial la página aún puede no
+		 * conocer la anotación que ya quedó creada. Para no intentar una segunda inserción, la
+		 * relación por `secuencia_id` es la autoridad en este camino.
+		 */
+		const { data: existingAnnotation, error: existingAnnotationError } = await db
+			.from('anotaciones_metricas')
+			.select('anotacion_id')
+			.eq('secuencia_id', input.secuencia_id)
+			.maybeSingle();
+		if (existingAnnotationError) {
+			return databaseError(existingAnnotationError, 'No se pudo leer la anotación métrica existente.');
+		}
+		anotacionId = existingAnnotation?.anotacion_id ?? null;
 	}
 
 	if (rangeEnd < rangeStart) {
@@ -241,7 +258,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 
 	const { data, error } = await db.rpc('guardar_anotacion_metrica', {
-		p_datos: { ...input, v_ini: rangeStart, v_fin: rangeEnd }
+		p_datos: { ...input, anotacion_id: anotacionId, v_ini: rangeStart, v_fin: rangeEnd }
 	});
 	if (error) return databaseError(error, 'No se pudo guardar la secuencia métrica de prueba.');
 	return json({ anotacion_id: data });
