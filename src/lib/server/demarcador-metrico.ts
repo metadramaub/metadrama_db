@@ -219,10 +219,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			// **El mapa de confusiones del proyecto, escrito a mano y sin usar hasta ahora.** Va por
 			// separado y no dentro de `obtener_catalogo_demarcador()` para no tocar la función: es una
 			// tabla más, con la misma política pública que el resto del catálogo.
-			db
-				.from('forma_relaciones')
-				.select('forma_origen_id,forma_destino_id,tipo_relacion,nota')
-				.in('tipo_relacion', ['contrasta_con', 'derivada_de', 'relacionada_con'])
+			db.from('forma_relaciones').select('forma_origen_id,forma_destino_id,tipo_relacion,nota')
 		]);
 	fallo('No se pudo cargar la proyección pública del catálogo', projection.error);
 	fallo('No se pudieron cargar las reglas de longitud', lengthRulesProjection.error);
@@ -1020,12 +1017,19 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			tipo_relacion: string;
 			nota: string | null;
 		}>
-	).map((fila) => ({
-		origenId: fila.forma_origen_id,
-		destinoId: fila.forma_destino_id,
-		tipo: fila.tipo_relacion,
-		nota: fila.nota?.trim() || null
-	}));
+	)
+		// El filtro va aquí y no en la consulta: son cuarenta filas en total, y así el cargador se
+		// mantiene dentro de `from().select()`, que es lo único que necesita saber quien lo dobla en
+		// las pruebas.
+		.filter((fila) =>
+			['contrasta_con', 'derivada_de', 'relacionada_con'].includes(fila.tipo_relacion)
+		)
+		.map((fila) => ({
+			origenId: fila.forma_origen_id,
+			destinoId: fila.forma_destino_id,
+			tipo: fila.tipo_relacion,
+			nota: fila.nota?.trim() || null
+		}));
 
 	return { formas, hipotesis, relaciones, advertencias };
 }
