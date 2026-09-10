@@ -1184,7 +1184,7 @@ punto de continuación.
 
 Inventario rehecho el **21 de agosto de 2026**, al terminar la revisión de la prosa. Lo cerrado ya
 no se lista: está en las migraciones, en `git` y en el
-[histórico](./historico/). Quedan **veinticuatro asuntos**, ordenados por lo que bloquea el
+[histórico](./historico/). Quedan **veinticinco asuntos**, ordenados por lo que bloquea el
 próximo hito y no por el orden en que aparecieron.
 
 **Los dos hitos que vienen, en este orden.** *Actualizado el 8 de septiembre de 2026: el editor V2
@@ -1220,7 +1220,7 @@ por su número sepa que no siguen abiertos.
 | **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
 | **B8** | las aliradas abiertas no podían registrar el metro que se ve; se les creó la pregunta, y con ella la de los quebrados de la manriqueña y la sextilla | 27 ago |
 
-Quedan **tres asuntos en A** y **veintiuno en C** —C13 y C20 están hechos y se conservan por su número—. **El bloque B se cerró entero** —eran los que impedían llevar el editor V2 a los editores— y se ha retirado de aquí: su resumen está en la tabla de arriba y el detalle, en los commits.
+Quedan **tres asuntos en A** y **veintidós en C** —C13 y C20 están hechos y se conservan por su número—. **El bloque B se cerró entero** —eran los que impedían llevar el editor V2 a los editores— y se ha retirado de aquí: su resumen está en la tabla de arriba y el detalle, en los commits.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -1674,6 +1674,28 @@ arquitectura → esquemas, rasgos, metros y variedades observados— y el perfil
 es el componente, que es el mismo `buildDistributionGroups`: es que `autores_resumen` guarda versos
 por forma y por arquitectura, y ninguna respuesta. Igualarlo pide que la precomputación del autor
 agregue también las respuestas de sus obras, y va con C24.
+
+**C26. Filtrar por rasgo o por esquema pide otro selector, y conviene esperar a C24.** Hoy filtrar
+por algo exige **una columna faceta** en `obras_resumen` —`formas_presentes`, `metros_presentes`,
+`subtipos_presentes`…—, porque la regla del paso 4 es que solo va a columna lo que `/obras` filtra u
+ordena. Para los **rasgos no hay columna**: habría que crearla, llenarla en el recompute y
+mantenerla. Y el plan pactado dice que `obras_resumen` acabe siendo *la fuente estática que el
+navegador carga una vez*: en ese mundo filtrar por rasgo es filtrar un array que ya está en memoria
+y **la columna sobra**. Construirla antes de C24 es fabricar deuda a sabiendas.
+
+Dos cosas que sí se pueden separar de esa espera:
+
+1. **El esquema de rima ya se puede filtrar hoy y está mal presentado.** `subtipos_presentes` dejó
+   de guardar subtipos de estrofa el 7 de septiembre de 2026 y guarda **esquemas de rima**; la
+   página los agrupa con un mapa plano de slugs, y ahí está el fallo: `vocabulario_metrico_publico()`
+   sirve ya el catálogo nuevo —**no** el vocabulario legado—, pero como filas de vocabulario
+   indexadas por slug a secas, y en el nivel 2 eso pierde la mitad: **261 filas para 130 slugs
+   distintos**, porque `octosilabica` está en ocho formas, `abab` en siete y `distribucion-variable`
+   en trece. Para cada slug repetido gana la última cargada. Es el mismo defecto que tenía el
+   desglose del autor, y se corrige igual: guardando el par en la faceta e indexando por él.
+2. **El selector no aguanta lo que viene.** Hoy es «formas + subtipos anidados» en un control único.
+   Cuando `/obras` filtre sobre el JSON cargado será multidimensional —forma, arquitectura, esquema,
+   rasgo, metro—, y eso es un rediseño de la pantalla, no un filtro más. Se decide junto con C24.
 
 ## Siguiente fase prevista
 

@@ -48,10 +48,15 @@ export const load: PageServerLoad = async ({ fetch, locals, params }) => {
 	const vocab = buildPublicVocabularioMaps(await loadPublicVocabulario(locals));
 	const generoLabels = vocab.labelBySlug.get('genero') ?? new Map<string, string>();
 
-	// **Los nombres salen del catálogo nuevo, no del vocabulario legado.** Desde el 7 de
-	// septiembre de 2026 el resumen guarda slugs de forma y de arquitectura; `estrofa_tipo` no
-	// los conoce, así que resolverlos ahí dejaba el slug crudo en pantalla. Las dos tablas las
-	// lee cualquiera: su política es `catalogo_metrico_publico()`.
+	// **Los nombres salen de las tablas del catálogo, no del mapa plano de slugs.**
+	//
+	// `vocabulario_metrico_publico()` ya sirve el catálogo nuevo —no el vocabulario legado—, pero
+	// lo entrega como filas de vocabulario y los mapas se construyen por slug a secas. En el nivel
+	// 2 eso pierde la mitad: **261 filas, 130 slugs distintos**, porque `octosilabica` está en ocho
+	// formas y `abab` en siete. Para cada slug repetido gana la última cargada, y de ahí salía una
+	// arquitectura colgada de una forma cualquiera. Aquí se leen las dos tablas y se indexa por el
+	// par, que es lo único que identifica una arquitectura. Las lee cualquiera: su política es
+	// `catalogo_metrico_publico()`.
 	const [formasResp, arquitecturasResp] = await Promise.all([
 		locals.supabase.from('formas_metricas').select('forma_id,slug,nombre'),
 		locals.supabase.from('arquitecturas_forma').select('forma_id,slug,nombre')
