@@ -440,13 +440,13 @@
 
 	const hasObservaciones = $derived((obra.observaciones ?? '').trim().length > 0);
 	const hasBibliografia = $derived((obra.bibliografia ?? '').trim().length > 0);
+	// **La estructura son jornadas y cuadros.** El recuento de secuencias métricas estaba aquí y no
+	// pertenece: cómo está partida la obra es un dato de la obra, y en cuántas tiradas está
+	// versificada es un dato del verso. Vive en el resumen métrico, con la longitud media y los
+	// extremos, que es lo que lo hace legible.
 	const estructuraItems = $derived.by(() => [
 		{ label: jornadas.length === 1 ? 'jornada' : 'jornadas', value: jornadas.length },
-		{ label: cuadros.length === 1 ? 'cuadro' : 'cuadros', value: cuadros.length },
-		{
-			label: secuenciasOrdenadas.length === 1 ? 'secuencia métrica' : 'secuencias métricas',
-			value: secuenciasOrdenadas.length
-		}
+		{ label: cuadros.length === 1 ? 'cuadro' : 'cuadros', value: cuadros.length }
 	]);
 
 	$effect(() => {
@@ -782,9 +782,8 @@
 			<section class="space-y-6">
 				<h2 class="text-lg font-semibold">Esquema métrico</h2>
 
-				{#if phenomenaIndex.length > 0}
-					<MetricPhenomenaIndex groups={phenomenaIndex} onOpen={openSequenceModal} />
-				{/if}
+				<!-- «Localizar en la obra» vive en Análisis: es una herramienta de consulta, y aquí
+				     sobra. Esta pestaña contesta qué hay en cada verso y no lleva nada más. -->
 
 				{#if schemeEntries.length === 0}
 					<p class="text-sm text-[color:var(--muted-foreground)]">
@@ -909,6 +908,12 @@
 
 				{#if caracterizacionesEnunciativas.length > 0}
 					<MetricEnunciationSummary rows={caracterizacionesEnunciativas} />
+				{/if}
+
+				<!-- Cierra la pestaña porque es lo único que no contesta una pregunta sino que
+				     lleva a un sitio: se usa después de haber leído, no antes. -->
+				{#if phenomenaIndex.length > 0}
+					<MetricPhenomenaIndex groups={phenomenaIndex} onOpen={openSequenceModal} />
 				{/if}
 			</section>
 		{/if}

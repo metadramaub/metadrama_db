@@ -1076,21 +1076,30 @@ no se calcula todavía ni usa las obras de prueba como si fueran el corpus.
 **Revisión de organización y lenguaje solicitada el 10 de septiembre de 2026.** Se hará en cambios
 pequeños y reversibles, uno por uno; esta nota no implica que estén implementados:
 
-- mover `Localizar en la obra` de `Esquema métrico` a `Análisis`: es una herramienta de lectura y
-  consulta analítica, mientras que el esquema debe contener solo el esquema;
-- mover el número de secuencias métricas desde `Estructura` en la cabecera hasta `Resumen métrico`;
+- **hecho**: mover `Localizar en la obra` de `Esquema métrico` a `Análisis` —cierra esa pestaña, por
+  ser lo único que no contesta una pregunta sino que lleva a un sitio—, de modo que el esquema
+  contiene solo el esquema;
+- **hecho**: mover el número de secuencias métricas desde `Estructura` en la cabecera hasta
+  `Resumen métrico`. La estructura son jornadas y cuadros —cómo está partida la obra—; en cuántas
+  secuencias está versificada es un dato del verso, y junto a la longitud media y los extremos se
+  lee;
 - **hecho**: auditar `tirada` en toda la ficha. La entidad general es **secuencia métrica**; `tirada` se reserva
   para series estróficas o formas repetidas cuando el término describe de verdad su realización.
   Un soneto puede ocupar una secuencia, pero no es una tirada;
-- completar el resumen con la **secuencia más corta**, además de media y máxima;
-- retirar los rótulos auxiliares `Calculado` y `Calculado a partir de las secuencias`;
+- **hecho**: completar el resumen con la **secuencia más corta**, además de media y máxima. Dice
+  tanto como la más larga: un verso suelto o un soneto entre tiradas de cien versos es justo lo que
+  la media esconde. De paso, una secuencia de un solo verso se nombra en singular —«v. 234 · 1 v.»—;
+- **hecho**: retirar los rótulos auxiliares `Calculado` y `Calculado a partir de las secuencias`;
 - añadir una lectura de la evolución por cuadros y jornadas: si las secuencias tienden a hacerse más
   largas o cortas y si aumenta o disminuye la concentración/diversidad de formas. Antes de crear
   otro cálculo, reutilizar y contrastar `numero_efectivo_formas` y `densidad_transiciones`, que ya
   alimentan `/obras`, y decidir qué significa cada medida dentro de una sola obra.
 
-**Punto de continuación inmediato:** elegir una sola de las restantes mejoras de esta revisión y
-resolverla por separado.
+**Punto de continuación inmediato:** de esa revisión queda **solo la lectura de la evolución** por
+cuadros y jornadas, y no es un cambio de sitio sino una decisión: antes de crear otro cálculo hay
+que acordar qué significan `numero_efectivo_formas` y `densidad_transiciones` **dentro de una sola
+obra** —hoy alimentan `/obras`, donde comparan obras entre sí— y si «se concentra» o «se
+diversifica» a lo largo de una obra es afirmable con lo que se mide.
 
 **Corrección de `tirada` —implementada el 10 de septiembre.** La ficha usaba el término como
 sinónimo general de la fila `secuencias_metricas`, y por eso alcanzaba indebidamente a sonetos y

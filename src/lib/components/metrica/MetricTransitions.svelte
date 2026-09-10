@@ -18,7 +18,6 @@
 				Transiciones entre secuencias consecutivas, incluidos los pasos de una jornada a otra.
 			</p>
 		</div>
-		<span class="text-xs text-[color:var(--muted-foreground)]">Calculado</span>
 	</div>
 
 	<ol class="grid gap-2 md:grid-cols-2">
