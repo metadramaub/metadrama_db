@@ -406,7 +406,7 @@
 							<section>
 								<h4 class="mb-3 text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">Otras caracterizaciones</h4>
 								<dl class="space-y-3">
-									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Versos repartidos entre intervenciones</dt><dd>{formatNullableBoolean(props.secuencia.versos_partidos)}</dd></div>
+									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Versos partidos entre intervenciones</dt><dd>{formatNullableBoolean(props.secuencia.versos_partidos)}</dd></div>
 									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Cambio de espacio al inicio</dt><dd>{formatNullableBoolean(props.secuencia.inaugura_espacio)}</dd></div>
 									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Evento sobrenatural</dt><dd>{formatNullableBoolean(props.secuencia.evento_sobrenatural)}</dd></div>
 								</dl>

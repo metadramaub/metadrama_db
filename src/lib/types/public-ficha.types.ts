@@ -209,6 +209,10 @@ export interface PublicObraFichaPayload {
 		autor_ficha_orcid_publico: string | null;
 		estado_term: string | null;
 		visible_publico: boolean | null;
+		/** Lo que la obra declara que no tiene: cierra la pregunta en todas sus secuencias. */
+		sin_figuras_donaire: boolean | null;
+		sin_personajes_sobrenaturales: boolean | null;
+		sin_eventos_sobrenaturales: boolean | null;
 	};
 	autoria: {
 		autores: PublicFichaAutor[];
