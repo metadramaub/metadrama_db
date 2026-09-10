@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { onDestroy, onMount, untrack } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import Eye from 'lucide-svelte/icons/eye';
@@ -13,7 +13,6 @@
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import NullableBooleanChoice from '$lib/components/ui/nullable-boolean-choice.svelte';
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
-	import LocalDraftRecoveryModal from '$lib/components/editor/LocalDraftRecoveryModal.svelte';
 	import RangeConsistencyAlert from '$lib/components/editor/RangeConsistencyAlert.svelte';
 	import SequenceSynopsisModal from '$lib/components/editor/SequenceSynopsisModal.svelte';
 	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
@@ -21,13 +20,6 @@
 	import { pushToast } from '$lib/stores/toast';
 	import { patchCurrentObra } from '$lib/stores/currentObra';
 	import type { EditorCuadroRow, EditorJornadaRow, EditorSecuenciaRow } from '$lib/types/editor.types';
-	import {
-		buildLocalDraftKey,
-		createLocalDraftWriter,
-		readLocalDraft,
-		removeLocalDraft,
-		type LocalFormDraft
-	} from '$lib/utils/local-form-draft';
 	import { displayTerm } from '$lib/utils/vocabulario';
 	import MetricSequenceEditor from '$lib/components/metrica/editor-v2/MetricSequenceEditor.svelte';
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
@@ -49,7 +41,6 @@
 
 	const props = $props<{
 		obraId: string;
-		draftOwnerId: string;
 		secuenciasInitial: EditorSecuenciaRow[];
 		jornadasInitial: EditorJornadaRow[];
 		cuadrosInitial: EditorCuadroRow[];
@@ -242,11 +233,6 @@
 		| { kind: 'new' }
 		| { kind: 'sequence'; target: EditorSecuenciaRow };
 
-	type DraftRecovery = {
-		key: string;
-		draft: LocalFormDraft<FormState>;
-	};
-
 	let secuencias = $state(untrack(() => [...props.secuenciasInitial]));
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
@@ -265,7 +251,6 @@
 	let deletingSequence = $state(false);
 	let sequenceSynopsisModalOpen = $state(false);
 	let pendingSidebarAction = $state<PendingSidebarAction | null>(null);
-	let draftRecovery = $state<DraftRecovery | null>(null);
 
 	let sidebarSaving = $state(false);
 	let sidebarDirty = $state(false);
@@ -278,7 +263,6 @@
 	 */
 	let editorSessionKey = $state(0);
 	const borradoresMetricosEnSesion = $derived(props.anotacionesEnSesion);
-	const localDraftWriter = createLocalDraftWriter();
 	/** El componente de caracterizaciones, para recargarlo y cerrarlo desde aquí. */
 	let caracterizaciones = $state<CaracterizacionesPorRango | null>(null);
 	let handledFocusSecuenciaId = $state<string | null>(null);
@@ -519,66 +503,6 @@
 		});
 	}
 
-	function localDraftKey(sourceEditingId: string | null = editingId): string {
-		return buildLocalDraftKey([
-			props.draftOwnerId,
-			props.obraId,
-			'secuencia',
-			sourceEditingId ?? 'nueva'
-		]);
-	}
-
-	function isFormState(value: unknown): value is FormState {
-		if (!value || typeof value !== 'object') return false;
-		const candidate = value as Partial<FormState>;
-		const isIntervencionValue = (intervencion: unknown) =>
-			intervencion === null ||
-			['sin_intervencion', 'exclusiva', 'compartida'].includes(String(intervencion));
-		return (
-			Number.isFinite(Number(candidate.v_ini)) &&
-			Number.isFinite(Number(candidate.v_fin)) &&
-			typeof candidate.estrofa_tipo_id === 'string' &&
-			(candidate.inaugura_espacio === null || typeof candidate.inaugura_espacio === 'boolean') &&
-			(candidate.versos_partidos === null || typeof candidate.versos_partidos === 'boolean') &&
-			isIntervencionValue(candidate.intervencion_personajes_femeninos) &&
-			isIntervencionValue(candidate.intervencion_figuras_donaire) &&
-			isIntervencionValue(candidate.intervencion_personajes_sobrenaturales) &&
-			(candidate.evento_sobrenatural === null ||
-				typeof candidate.evento_sobrenatural === 'boolean') &&
-			typeof candidate.sinopsis === 'string'
-		);
-	}
-
-	function prepareLocalDraftRecovery() {
-		draftRecovery = null;
-		if (!browser || props.readOnly) return;
-		const key = localDraftKey();
-		const draft = readLocalDraft<FormState>(key);
-		if (!draft) return;
-		if (!isFormState(draft.value)) {
-			removeLocalDraft(key);
-			return;
-		}
-		if (sidebarSnapshot(draft.value) === sidebarBaselineSnapshot) {
-			removeLocalDraft(key);
-			return;
-		}
-		draftRecovery = { key, draft };
-	}
-
-	function discardLocalDraft() {
-		if (!draftRecovery) return;
-		removeLocalDraft(draftRecovery.key);
-		draftRecovery = null;
-	}
-
-	function restoreLocalDraft() {
-		if (!draftRecovery) return;
-		form = { ...draftRecovery.draft.value };
-		draftRecovery = null;
-		pushToast('info', 'Borrador local recuperado. Pulsa Guardar para enviarlo a Supabase.');
-	}
-
 	function reportPendingChanges(pending: boolean) {
 		if (pending === lastReportedPending) return;
 		lastReportedPending = pending;
@@ -619,7 +543,6 @@
 		sidebarOpen = true;
 		pendingSidebarAction = null;
 		setSidebarBaselineFromCurrent();
-		prepareLocalDraftRecovery();
 	}
 
 	function openEdit(secuencia: EditorSecuenciaRow) {
@@ -646,7 +569,6 @@
 		sidebarOpen = true;
 		pendingSidebarAction = null;
 		setSidebarBaselineFromCurrent();
-		prepareLocalDraftRecovery();
 		// Solo cuesta la consulta si la secuencia venía anotada con el vocabulario viejo.
 		if (secuencia.estrofa_tipo_id) void cargarPropuestas();
 	}
@@ -676,14 +598,12 @@
 	}
 
 	function performCloseSidebar() {
-		localDraftWriter.cancel();
 		sidebarOpen = false;
 		editingId = null;
 		caracterizaciones?.cerrarModales();
 		sidebarDirty = false;
 		sidebarBaselineSnapshot = '';
 		pendingSidebarAction = null;
-		draftRecovery = null;
 		reportPendingChanges(false);
 	}
 
@@ -718,8 +638,6 @@
 	function discardAndContinue() {
 		const action = pendingSidebarAction;
 		if (!action) return;
-		localDraftWriter.cancel();
-		removeLocalDraft(localDraftKey());
 		pendingSidebarAction = null;
 		executeSidebarAction(action);
 	}
@@ -740,7 +658,6 @@
 
 		sidebarSaving = true;
 		const currentId = editingId;
-		const submittedDraftKey = localDraftKey(currentId);
 		const endpoint = currentId
 			? `/api/obras/${props.obraId}/secuencias/${currentId}`
 			: `/api/obras/${props.obraId}/secuencias`;
@@ -837,8 +754,6 @@
 			emitSecuenciasChange(conAnotacion);
 		}
 
-		localDraftWriter.cancel();
-		removeLocalDraft(submittedDraftKey);
 		setSidebarBaselineFromCurrent();
 		pushToast('success', currentId ? 'Secuencia actualizada' : 'Secuencia creada');
 		if (!currentId && filtroForma && formaIdDeSecuencia(savedSecuencia) !== filtroForma) {
@@ -1259,35 +1174,16 @@
 
 		if (!open || readOnly) {
 			sidebarDirty = false;
-			localDraftWriter.cancel();
 			reportPendingChanges(false);
 			return;
 		}
 
-		const currentSnapshot = sidebarSnapshot();
-		sidebarDirty = currentSnapshot !== sidebarBaselineSnapshot;
+		sidebarDirty = sidebarSnapshot() !== sidebarBaselineSnapshot;
 		reportPendingChanges(sidebarDirty);
-		if (draftRecovery) {
-			localDraftWriter.cancel();
-			return;
-		}
-		if (!sidebarDirty) {
-			localDraftWriter.cancel();
-			removeLocalDraft(localDraftKey());
-			return;
-		}
-		localDraftWriter.schedule(localDraftKey(), { ...form });
 	});
 
 	onDestroy(() => {
-		localDraftWriter.flush();
 		props.onPendingChangesChange?.(false);
-	});
-
-	onMount(() => {
-		const flushLocalDraft = () => localDraftWriter.flush();
-		window.addEventListener('pagehide', flushLocalDraft);
-		return () => window.removeEventListener('pagehide', flushLocalDraft);
 	});
 
 	/**
@@ -1680,13 +1576,6 @@
 	onCancel={cancelPendingSidebarAction}
 	onDiscard={discardAndContinue}
 	onSave={saveAndContinue}
-/>
-
-<LocalDraftRecoveryModal
-	open={Boolean(draftRecovery)}
-	savedAt={draftRecovery?.draft.savedAt}
-	onDiscard={discardLocalDraft}
-	onRestore={restoreLocalDraft}
 />
 
 <!--

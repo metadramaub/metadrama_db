@@ -700,7 +700,6 @@
 	{:else if currentTab === 'secuencias'}
 		<SecuenciasTab
 			obraId={obraLive.obra_id}
-			draftOwnerId={data.profile.userId}
 			secuenciasInitial={secuenciasLive}
 			jornadasInitial={jornadasLive}
 			cuadrosInitial={cuadrosLive}
