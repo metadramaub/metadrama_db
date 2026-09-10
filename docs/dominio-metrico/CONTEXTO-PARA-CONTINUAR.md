@@ -1627,6 +1627,18 @@ secuencia y las obras del corpus son de prueba. **Si vuelven a crearse obras por
 seeder, una importación, un guion—, hay que añadir el disparador `before insert` que responda por lo
 declarado, y entonces revisar si quedaron filas a nulo.
 
+**C23. La pestaña de secuencias se quedó sin borrador local, y falta decidir si vuelve.** Guardaba
+en `localStorage` lo que el editor tuviera escrito, para ofrecérselo al volver. Retirado el 10 de
+septiembre de 2026 porque **prometía más de lo que guardaba**: solo `form` —el rango, las
+caracterizaciones y la sinopsis—, y no la anotación métrica, que desde el editor V2 es el grueso de
+lo que se anota. Recuperarlo no devolvía la forma ni la arquitectura ni las respuestas, y ni siquiera
+el rango: al restaurar, el editor V2 no se enteraba y lo pisaba en su siguiente emisión. Encima
+aparecía casi siempre, porque la clave de una secuencia nueva es fija —`…:secuencia:nueva`—, cerrar
+sin guardar no la borraba, y guardar dejaba además un borrador huérfano bajo el id real. **Si se
+quiere recuperar la función**, hay que guardar también el borrador métrico y remontar el editor al
+restaurar; si no, basta con esto. La pestaña de estructura sí lo conserva, y ahí funciona: su
+formulario es todo lo que hay que anotar.
+
 
 ## Siguiente fase prevista
 
