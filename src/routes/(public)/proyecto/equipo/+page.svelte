@@ -122,10 +122,6 @@
 										>
 											{fichasLabel(persona.total_obras)}
 										</button>
-									{:else}
-										<p class="text-[10px] font-semibold tracking-[0.14em] text-[color:var(--gray-400)]">
-											{fichasLabel(0)}
-										</p>
 									{/if}
 								</div>
 							</div>
