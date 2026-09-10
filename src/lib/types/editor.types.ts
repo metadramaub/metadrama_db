@@ -25,4 +25,12 @@ export type EditorSecuenciaRow = Pick<
 	| 'intervencion_personajes_sobrenaturales'
 	| 'evento_sobrenatural'
 	| 'sinopsis'
->;
+> & {
+	/**
+	 * Si la secuencia está anotada con el catálogo nuevo. No es una columna: la estampa el `load` de
+	 * la obra cruzando `anotaciones_metricas`, y la checklist de revisión la mira para no dar por
+	 * incompleta una secuencia cuya forma vive ahí y no en `estrofa_tipo_id`. Quien reemplace una
+	 * fila con la respuesta de la API —que devuelve la tabla a secas— tiene que volver a ponerla.
+	 */
+	tiene_anotacion_metrica?: boolean;
+};
