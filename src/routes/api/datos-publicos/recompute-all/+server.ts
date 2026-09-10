@@ -4,115 +4,126 @@ import { requireEditorProfile } from '$lib/server/auth';
 import { forbiddenResponse } from '$lib/server/http';
 import { canManagePublicacion } from '$lib/utils/permissions';
 
-type PublicAttributionGroup = {
-	grupo_atribucion_id: string;
-};
+type RecomputeAction = 'plan' | 'obra' | 'autor' | 'finalize';
+type RecomputePlanItem = { id: string; label: string };
+type RecomputePlan = { obras: RecomputePlanItem[]; autores: RecomputePlanItem[] };
 
-type AttributionRow = {
-	atribucion_id: string;
-};
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-type AttributionAuthorRow = {
-	autor_id: string;
-};
-
-async function countDistinctPublicLinkedAuthors(locals: App.Locals, publishedObraIds: string[]) {
-	if (publishedObraIds.length === 0) return 0;
-
-	const jornadasResp = await locals.supabase
-		.from('jornadas')
-		.select('jornada_id')
-		.in('obra_id', publishedObraIds)
-		.limit(10000);
-	const jornadaIds = (jornadasResp.data ?? []).map((row) => row.jornada_id);
-
-	let gruposQuery = locals.supabase
-		.from('grupos_atribucion')
-		.select('grupo_atribucion_id')
-		.in('obra_id', publishedObraIds)
-		.limit(10000);
-
-	if (jornadaIds.length > 0) {
-		gruposQuery = locals.supabase
-			.from('grupos_atribucion')
-			.select('grupo_atribucion_id')
-			.or(`obra_id.in.(${publishedObraIds.join(',')}),jornada_id.in.(${jornadaIds.join(',')})`)
-			.limit(10000);
-	}
-
-	const gruposResp = await gruposQuery;
-	const grupoIds = ((gruposResp.data ?? []) as PublicAttributionGroup[]).map((row) => row.grupo_atribucion_id);
-	if (grupoIds.length === 0) return 0;
-
-	const atribucionesResp = await locals.supabase
-		.from('atribuciones')
-		.select('atribucion_id')
-		.in('grupo_atribucion_id', grupoIds)
-		.limit(20000);
-	const atribucionIds = ((atribucionesResp.data ?? []) as AttributionRow[]).map((row) => row.atribucion_id);
-	if (atribucionIds.length === 0) return 0;
-
-	const autoresResp = await locals.supabase
-		.from('atribucion_autores')
-		.select('autor_id')
-		.in('atribucion_id', atribucionIds)
-		.limit(20000);
-	return new Set(((autoresResp.data ?? []) as AttributionAuthorRow[]).map((row) => row.autor_id)).size;
+function isRecomputeAction(value: unknown): value is RecomputeAction {
+	return value === 'plan' || value === 'obra' || value === 'autor' || value === 'finalize';
 }
 
-/**
- * Recalcula obras_resumen (todas las obras publicadas) y, encadenado, autores_resumen
- * (perfiles métricos de autor). recompute_all hace ambas fases. Uso: reconstrucción tras
- * una inconsistencia o tras un cambio global (p. ej. renombrar formas en el vocabulario).
- * Solo admin/IP.
- */
-export const POST: RequestHandler = async ({ locals }) => {
-	const profile = await requireEditorProfile({ locals });
-	if (!canManagePublicacion(profile.roleTerm)) {
-		return forbiddenResponse('Solo admin o IP pueden recalcular todos los datos públicos.');
-	}
+function normalizePlanItem(value: unknown, labelKey: 'titulo' | 'nombre'): RecomputePlanItem | null {
+	if (!value || typeof value !== 'object') return null;
+	const item = value as Record<string, unknown>;
+	if (typeof item.id !== 'string' || !UUID_PATTERN.test(item.id)) return null;
+	const label = item[labelKey];
+	return { id: item.id, label: typeof label === 'string' && label.trim() ? label : item.id };
+}
 
-	const { error: rpcError } = await locals.supabase.rpc('recompute_all');
-	if (rpcError) {
-		return json(
-			{ error: 'db_error', message: `No se pudo recalcular: ${rpcError.message}` },
-			{ status: 500 }
-		);
-	}
+function normalizePlan(value: unknown): RecomputePlan | null {
+	if (!value || typeof value !== 'object') return null;
+	const plan = value as Record<string, unknown>;
+	if (!Array.isArray(plan.obras) || !Array.isArray(plan.autores)) return null;
 
-	const { data: publicadoEstado } = await locals.supabase
+	const obras = plan.obras
+		.map((item) => normalizePlanItem(item, 'titulo'))
+		.filter((item): item is RecomputePlanItem => item !== null);
+	const autores = plan.autores
+		.map((item) => normalizePlanItem(item, 'nombre'))
+		.filter((item): item is RecomputePlanItem => item !== null);
+
+	if (obras.length !== plan.obras.length || autores.length !== plan.autores.length) return null;
+	return { obras, autores };
+}
+
+async function loadPlan(locals: App.Locals): Promise<RecomputePlan | null> {
+	const { data, error } = await locals.supabase.rpc('plan_recompute_datos_publicos');
+	if (error) return null;
+	return normalizePlan(data);
+}
+
+async function isStillPublished(locals: App.Locals, obraId: string) {
+	const { data: publicado, error: publishedError } = await locals.supabase
 		.from('vocabularios')
 		.select('termino_id')
 		.eq('categoria', 'estado')
 		.eq('termino', 'publicado')
 		.maybeSingle();
+	if (publishedError || !publicado) return false;
 
-	const publishedObrasResp = publicadoEstado?.termino_id
-		? await locals.supabase
-				.from('obras')
-				.select('obra_id')
-				.eq('estado', publicadoEstado.termino_id)
-				.limit(10000)
-		: { data: [] };
-	const publishedObraIds = (publishedObrasResp.data ?? []).map((obra) => obra.obra_id);
+	const { data: obra, error: obraError } = await locals.supabase
+		.from('obras')
+		.select('obra_id')
+		.eq('obra_id', obraId)
+		.eq('estado', publicado.termino_id)
+		.maybeSingle();
+	return !obraError && Boolean(obra);
+}
 
-	const { count: obrasResumen } = await locals.supabase
-		.from('obras_resumen')
-		.select('obra_id', { count: 'exact', head: true });
-	const { count: autoresPerfilMetrico } = await locals.supabase
-		.from('autores_resumen')
-		.select('autor_id', { count: 'exact', head: true })
-		.eq('alcance', 'completo');
-	const autoresVinculadosPublicados = await countDistinctPublicLinkedAuthors(locals, publishedObraIds);
+export const POST: RequestHandler = async ({ locals, request }) => {
+	const profile = await requireEditorProfile({ locals });
+	if (!canManagePublicacion(profile.roleTerm)) {
+		return forbiddenResponse('Solo admin o IP pueden recalcular los datos públicos globales.');
+	}
 
-	return json({
-		ok: true,
-		// Backward compatible aliases used by older UI code.
-		obras: obrasResumen ?? null,
-		autores: autoresPerfilMetrico ?? null,
-		obrasResumen: obrasResumen ?? null,
-		obrasPublicadas: publishedObraIds.length,
-		autoresPerfilMetrico: autoresPerfilMetrico ?? null,
-		autoresVinculadosPublicados
-	});
+	const body = await request.json().catch(() => ({}));
+	const action = body?.action;
+	if (!isRecomputeAction(action)) {
+		return json({ error: 'validation_error', message: 'Acción de recálculo no válida.' }, { status: 422 });
+	}
+
+	if (action === 'plan') {
+		const plan = await loadPlan(locals);
+		if (!plan) {
+			return json({ error: 'db_error', message: 'No se pudo preparar el plan de recálculo.' }, { status: 500 });
+		}
+		return json({ ok: true, ...plan });
+	}
+
+	if (action === 'obra') {
+		const obraId = body?.obraId;
+		if (typeof obraId !== 'string' || !UUID_PATTERN.test(obraId)) {
+			return json({ error: 'validation_error', message: 'Obra no válida.' }, { status: 422 });
+		}
+		if (!(await isStillPublished(locals, obraId))) {
+			return json(
+				{ error: 'invalid_state', message: 'La obra ya no está publicada y no se ha recalculado.' },
+				{ status: 409 }
+			);
+		}
+
+		const { error } = await locals.supabase.rpc('recompute_obra_resumen', { p_obra_id: obraId });
+		if (error) {
+			return json({ error: 'db_error', message: `No se pudo recalcular la obra: ${error.message}` }, { status: 500 });
+		}
+		return json({ ok: true, action, obraId });
+	}
+
+	if (action === 'autor') {
+		const autorId = body?.autorId;
+		if (typeof autorId !== 'string' || !UUID_PATTERN.test(autorId)) {
+			return json({ error: 'validation_error', message: 'Autor no válido.' }, { status: 422 });
+		}
+		const plan = await loadPlan(locals);
+		if (!plan?.autores.some((autor) => autor.id === autorId)) {
+			return json(
+				{ error: 'invalid_state', message: 'El autor ya no tiene unidades métricas y no se ha recalculado.' },
+				{ status: 409 }
+			);
+		}
+
+		const { error } = await locals.supabase.rpc('recompute_autor_resumen', { p_autor_id: autorId });
+		if (error) {
+			return json({ error: 'db_error', message: `No se pudo recalcular el autor: ${error.message}` }, { status: 500 });
+		}
+		return json({ ok: true, action, autorId });
+	}
+
+	const { data: eliminados, error } = await locals.supabase.rpc('finalizar_recompute_datos_publicos');
+	if (error) {
+		return json({ error: 'db_error', message: `No se pudo cerrar el recálculo: ${error.message}` }, { status: 500 });
+	}
+	return json({ ok: true, action, autoresEliminados: eliminados });
 };
