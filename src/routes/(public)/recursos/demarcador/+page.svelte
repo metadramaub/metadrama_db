@@ -196,9 +196,9 @@
 {:else}
 <section class="grid gap-7 pb-16 pt-10 md:pb-24 md:pt-16">
 	<!--
-		**En pruebas, y dicho en la propia pantalla.** El orden de las preguntas y los grados de
-		encaje se están ajustando contra recorridos reales, así que quien lo use tiene que saber que
-		lo que responde hoy puede responderlo distinto mañana.
+		**El distintivo basta.** El orden de las preguntas y los grados de encaje se están ajustando
+		contra recorridos reales; decirlo con la palabra «Beta» junto al título ya avisa, y el pie de
+		la página advierte además de que las propuestas orientan y no concluyen.
 	-->
 	<PublicResourceHeader
 		category="Recursos"
@@ -208,11 +208,6 @@
 		onHelp={() => (ayudaAbierta = true)}
 	/>
 
-	<p class="border-l-2 border-[color:var(--primary)] bg-[color:var(--gray-50)] px-4 py-3 text-sm leading-6 text-[color:var(--gray-700)]">
-		<strong>Herramienta en pruebas.</strong> El orden de las preguntas y la manera de calcular el
-		encaje se siguen ajustando, así que un mismo pasaje puede dar resultados distintos de una
-		versión a otra. Sirve para orientar la identificación, nunca para cerrarla.
-	</p>
 
 	{#if !modo}
 		<div class="grid gap-5 lg:grid-cols-2">
