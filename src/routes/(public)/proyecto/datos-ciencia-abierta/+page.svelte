@@ -21,22 +21,17 @@
 	<div class="mt-12 border-b border-[color:var(--border)]">
 		<PublicSectionRow number="01" title="El recurso y sus métodos">
 			<p>
-				Versología reúne análisis métricos de obras del teatro áureo, perfiles de dramaturgos y
-				un catálogo de formas métricas. Las fichas públicas explicitan los datos de identificación
-				y el análisis que sostiene cada resultado.
-			</p>
-			<p>
-				El catálogo métrico documenta las categorías empleadas, mientras que las fichas permiten
-				seguir su aplicación en las obras publicadas. Esta trazabilidad es el punto de partida
-				para interpretar y reutilizar los resultados con contexto.
+				Versología reúne análisis métricos de obras del teatro áureo, perfiles de dramaturgos y recursos
+				sobre métrica como un catálogo de formas y un demarcador. Las fichas públicas explicitan los datos 
+				de identificación de cada una así como el origen de los datos. 
 			</p>
 		</PublicSectionRow>
 
 		<PublicSectionRow number="02" title="Cita y atribución">
 			<p>
-				Cita Versología al emplear el recurso y añade la ficha o el análisis concreto cuando sea
-				relevante para tu trabajo. Así se reconoce el trabajo editorial y se conserva el vínculo
-				entre los resultados reutilizados y su contexto.
+				Cita Versología al emplear el recurso y añade la ficha concreta cuando utilices un dato o un análisis
+				concreto para tu trabajo. Así se reconoce el trabajo del equipo y se conserva el vínculo
+				entre los resultados reutilizados y su contexto de origen.
 			</p>
 			<p>
 				La página <a
@@ -59,29 +54,24 @@
 				origen, indiques los cambios y distribuyas las adaptaciones bajo la misma licencia.
 			</p>
 			<p>
-				La licencia no sustituye las condiciones de los textos de partida, las imágenes ni otros
-				materiales de terceros. Antes de reutilizarlos, consulta su procedencia y las condiciones
-				específicas indicadas en la ficha correspondiente.
+				La licencia no sustituye las condiciones de los textos de partida (no difundidos por el proyecto), 
+				las imágenes ni otros posibles materiales de terceros. Antes de reutilizarlos, consulta su procedencia y las condiciones
+				específicas indicadas en cada caso.
 			</p>
 		</PublicSectionRow>
 
 		<PublicSectionRow number="04" title="Apertura y futuras publicaciones de datos">
 			<p>
 				El acceso público se ofrece actualmente a través de las fichas, el catálogo y las
-				visualizaciones del sitio. Cuando se publique un conjunto de datos descargable, se
-				documentarán su alcance, procedencia, versión, formato, licencia y forma de cita.
-			</p>
-			<p>
-				Esa documentación permitirá distinguir los datos creados por el proyecto de los materiales
-				de terceros, y facilitará una reutilización verificable y responsable.
+				visualizaciones de datos ofrecidas por el sitio. Cuando se publique un conjunto de datos descargable, se
+				documentarán su alcance, procedencia, versión, formato, licencia y forma de cita específicos.
 			</p>
 		</PublicSectionRow>
 
 		<PublicSectionRow number="05" title="Correcciones y contacto">
 			<p>
 				Si detectas un error, una omisión de procedencia o una duda sobre reutilización, ponte en
-				contacto con el equipo. Las observaciones ayudan a mantener la calidad documental del
-				recurso.
+				contacto con el equipo.
 			</p>
 			<p>
 				<a
