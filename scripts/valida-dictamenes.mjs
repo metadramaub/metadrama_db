@@ -23,6 +23,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { query } from './lib/consulta.mjs';
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const BIBLIOTECA = join(RAIZ, 'docs', 'dominio-metrico', 'bibliografía');
@@ -99,12 +100,29 @@ function main() {
 		process.exit(1);
 	}
 
+	/**
+	 * Todos los nombres que el catálogo da a cada forma, para comprobar los silencios.
+	 *
+	 * Una forma se llama de varias maneras, y un silencio que solo descarta una de ellas no está
+	 * comprobado: Navarro puede no decir «zéjel» y tratarlo como «cantiga de estribillo».
+	 */
+	const denominaciones = new Map();
+	for (const fila of query(
+		`select fo.nombre as forma, coalesce(array_agg(d.nombre) filter (where d.nombre is not null), '{}') as alias
+		 from formas_metricas fo
+		 left join denominaciones_metricas d on d.forma_id = fo.forma_id
+		 group by fo.nombre`
+	)) {
+		denominaciones.set(fila.forma, [fila.forma, ...(fila.alias ?? [])]);
+	}
+
 	const fuentes = new Map();
 	let comprobadas = 0;
 	let caidas = 0;
 
 	for (const fichero of readdirSync(carpeta).filter((f) => f.endsWith('.json'))) {
-		const anio = fichero.replace('.json', '');
+		// El nombre puede traer lote —`1972-3.json`—, y la fuente son los cuatro primeros dígitos.
+		const anio = fichero.slice(0, 4);
 		const ruta = FICHERO_DE_LA_FUENTE[anio];
 		if (!ruta || !existsSync(ruta)) {
 			console.log(`\n${fichero}: no sé contra qué fichero validarlo`);
@@ -140,6 +158,40 @@ function main() {
 						m[1]
 					])
 				: [['texto_original', d.texto_original]];
+
+			// Un silencio se comprueba al revés que una cita: no hay pasaje que localizar, sino
+			// **una ausencia que confirmar**. Si el dictamen declara qué términos buscó y no
+			// encontró, se vuelven a buscar aquí: es la única comprobación mecánica fuerte que
+			// admite este caso, y sin ella el validador apenas roza los silencios.
+			if (esSilencio) {
+				// Si el dictamen no declara qué buscó, se le impone una lista mejor que la suya:
+				// **todos los nombres que el catálogo da a esa forma**. Un silencio que se sostiene
+				// solo porque el verificador buscó un nombre y no se le ocurrieron los otros no es
+				// un silencio comprobado.
+				const forma = String(d.sobre ?? '')
+					.split('·')[0]
+					.trim();
+				const terminos = d.terminos_ausentes ?? denominaciones.get(forma) ?? [];
+				if (!d.terminos_ausentes && terminos.length) {
+					console.log(
+						`  ···  ${d.sobre ?? d.id}: silencio comprobado contra las denominaciones del catálogo`
+					);
+				}
+				if (!terminos.length) {
+					console.log(
+						`  ---  ${d.sobre ?? d.id}: silencio sin \`terminos_ausentes\`, no se puede comprobar por máquina`
+					);
+				}
+				for (const termino of terminos) {
+					comprobadas += 1;
+					const aparece = fuente.includes(normalizar(termino));
+					if (aparece) caidas += 1;
+					console.log(
+						`  ${aparece ? 'CAE ' : 'ok  '} ${d.sobre ?? d.id} · ausencia de «${termino}»: ` +
+							(aparece ? 'SÍ APARECE en la fuente' : 'confirmada')
+					);
+				}
+			}
 
 			const pruebas = [
 				...entrecomillados,
