@@ -4,26 +4,31 @@
 </script>
 
 <svelte:head>
-	<title>Datos, métodos y ciencia abierta · Versología</title>
+	<title>Datos, reutilización y ciencia abierta · Versología</title>
 	<meta
 		name="description"
-		content="Información sobre los datos, los métodos, la reutilización y las prácticas de ciencia abierta de Versología."
+		content="Información sobre los datos disponibles, su reutilización y las prácticas de ciencia abierta de Versología."
 	/>
 </svelte:head>
 
 <section class="pb-16 pt-10 md:pb-24 md:pt-16">
 	<PublicPageHeader
 		eyebrow="PROYECTO"
-		title="Datos, métodos y ciencia abierta"
-		description="Cómo documentamos el recurso, qué puede reutilizarse y qué información acompañará a sus futuras publicaciones de datos."
+		title="Datos, reutilización y ciencia abierta"
+		description="Qué datos están disponibles, cómo reutilizarlos y cómo se abrirán las futuras publicaciones de datos."
 	/>
 
 	<div class="mt-12 border-b border-[color:var(--border)]">
-		<PublicSectionRow number="01" title="El recurso y sus métodos">
+		<PublicSectionRow number="01" title="Datos disponibles y alcance actual">
 			<p>
-				Versología reúne análisis métricos de obras del teatro áureo, perfiles de dramaturgos y recursos
-				sobre métrica como un catálogo de formas y un demarcador. Las fichas públicas explicitan los datos 
-				de identificación de cada una así como el origen de los datos. 
+				Versología permite consultar en línea las fichas, los metadatos y los resultados de análisis
+				generados por el proyecto. Por ahora, estos datos se ofrecen exclusivamente a través de la web:
+				todavía no existe una publicación descargable y estable de los conjuntos de datos ni una API de
+				consulta.
+			</p>
+			<p>
+				En futuras fases, los datos se depositarán en un repositorio externo con DOI para permitir la cita
+				específica de cada ficha, y se facilitará una API para su consulta y reutilización.
 			</p>
 		</PublicSectionRow>
 
@@ -60,15 +65,7 @@
 			</p>
 		</PublicSectionRow>
 
-		<PublicSectionRow number="04" title="Apertura y futuras publicaciones de datos">
-			<p>
-				El acceso público se ofrece actualmente a través de las fichas, el catálogo y las
-				visualizaciones de datos ofrecidas por el sitio. Cuando se publique un conjunto de datos descargable, se
-				documentarán su alcance, procedencia, versión, formato, licencia y forma de cita específicos.
-			</p>
-		</PublicSectionRow>
-
-		<PublicSectionRow number="05" title="Correcciones y contacto">
+		<PublicSectionRow number="04" title="Correcciones y contacto">
 			<p>
 				Si detectas un error, una omisión de procedencia o una duda sobre reutilización, ponte en
 				contacto con el equipo.

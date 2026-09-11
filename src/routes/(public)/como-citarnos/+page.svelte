@@ -136,11 +136,11 @@ ER  -`;
 				<p>
 					Los textos de partida, imágenes y otros materiales de terceros conservan las condiciones
 					de su procedencia. Consulta la información de cada ficha antes de reutilizarlos. Para
-					conocer el alcance de los datos, los métodos y las prácticas de apertura del recurso,
+					conocer el alcance de los datos, las condiciones de reutilización y las prácticas de apertura del recurso,
 					visita <a
-						href="/proyecto/datos-ciencia-abierta"
+						href="/datos"
 						class="font-semibold text-[color:var(--primary)] underline decoration-1 underline-offset-2 hover:text-[color:var(--foreground)]"
-					>Datos, métodos y ciencia abierta</a
+					>Datos, reutilización y ciencia abierta</a
 					>.
 				</p>
 			</div>
