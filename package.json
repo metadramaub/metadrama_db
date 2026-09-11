@@ -29,7 +29,8 @@
 		"equivalencias:informe": "node scripts/informe-equivalencias.mjs",
 		"audit:editor": "node scripts/audit-editor-v2.mjs --markdown docs/dominio-metrico/informe-editor-v2.md",
 		"audit:anotaciones": "node scripts/audit-anotaciones.mjs --markdown docs/dominio-metrico/informe-anotaciones.md",
-		"poda:informe": "node scripts/informe-poda-prosa.mjs"
+		"poda:informe": "node scripts/informe-poda-prosa.mjs",
+		"audit:fuentes": "node scripts/audit-fuentes.mjs"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",
