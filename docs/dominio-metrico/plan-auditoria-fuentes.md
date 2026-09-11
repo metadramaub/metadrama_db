@@ -212,6 +212,24 @@ citado.
 que esa transcripción aparece de verdad en el fichero. Es lo que permite cotejar original y registro uno
 al lado del otro, que es como se ve el endurecimiento y la omisión: leyendo los dos.
 
+### Lo que solo se ve cruzando fichas
+
+Un verificador mira una afirmación y no puede ver lo que solo aparece al comparar varias. Hay al
+menos un defecto de esa clase, encontrado el 11 de septiembre de 2026 buscando una expresión en las
+267: **una explicación de una fuente copiada en fichas de otra**.
+
+La cláusula «su repertorio de enlaces entre estrofas es el de la gaya ciencia […] que Navarro Tomás
+distingue expresamente de estas series enlazadas» aparece en cuatro afirmaciones. En la de Navarro
+Tomás es legítima —es su terminología—. Las otras tres cuelgan del *Diccionario*, y **«gaya ciencia»
+no aparece en ese diccionario**: el razonamiento se importó de una fuente y se firmó con el
+localizador de otra. Dos verificadores distintos lo detectaron por su cuenta, cada uno en su lote,
+sin saber que había más casos.
+
+De ahí una comprobación para esta fase, que es mecánica y barata: **buscar las expresiones
+características de cada fuente en las afirmaciones de las demás**. No se trata de penalizar que dos
+fichas se parezcan —si una fuente explica dos formas juntas, deben parecerse—, sino de encontrar
+vocabulario que una fuente no usa puesto en su boca.
+
 ## 5. La otra mitad: lo que falta
 
 La regla de exhaustividad dice que toda fuente que trate una forma tiene su afirmación, y que el
