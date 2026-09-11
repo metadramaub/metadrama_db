@@ -37,6 +37,7 @@ const DICTAMENES = join(BASE, 'dictamenes');
 const HOJA = join(BASE, 'correcciones.md');
 const DECISIONES = join(BASE, 'decisiones.json');
 const MUESTRA = join(BASE, 'muestra-humana.json');
+const PROPUESTAS = join(BASE, 'propuestas.json');
 
 /** Los defectos que se arreglan sin discutir nada, frente a los que piden releer. */
 const MATERIALES = new Set([
@@ -168,6 +169,17 @@ function main() {
 		? new Map(JSON.parse(readFileSync(DECISIONES, 'utf-8')).map((d) => [`${d.fuente}·${d.id}`, d]))
 		: new Map();
 
+	/**
+	 * Lo que se propone escribir en su lugar, si ya está redactado.
+	 *
+	 * Aprobar un cambio es leer el texto viejo y el nuevo enfrentados, no reconstruir el cambio a
+	 * partir de un veredicto. Mientras una propuesta no esté redactada, la ficha lo dice en vez de
+	 * callarlo: **una corrección sin texto propuesto no está lista para migrar**.
+	 */
+	const propuestas = existsSync(PROPUESTAS)
+		? new Map(Object.entries(JSON.parse(readFileSync(PROPUESTAS, 'utf-8'))))
+		: new Map();
+
 	const cubos = {
 		fondo: [],
 		material: [],
@@ -231,7 +243,18 @@ function main() {
 			md.push('');
 			md.push(`**Dice la fuente:** ${limpia(d.texto_original)}`);
 			md.push('');
-			md.push(`**Registra el catálogo:** ${limpia(d.texto_registrado)}`);
+			md.push(`**Texto actual del catálogo:** ${limpia(d.texto_registrado)}`);
+			md.push('');
+			const propuesta = propuestas.get(d.id);
+			if (propuesta?.resumen) {
+				md.push(`**Texto propuesto:** ${limpia(propuesta.resumen)}`);
+			} else {
+				md.push('**Texto propuesto:** *(por redactar — sin esto no se migra)*');
+			}
+			if (propuesta?.localizador) {
+				md.push('');
+				md.push(`**Localizador:** \`${d.localizador_declarado}\` → \`${propuesta.localizador}\``);
+			}
 			if (d.por_que_ahi) {
 				md.push('');
 				md.push(`*Dónde se comprobó:* ${limpia(d.por_que_ahi, 300)}`);
@@ -286,6 +309,10 @@ function main() {
 		.sort((a, b) => a.fuente.localeCompare(b.fuente) || a.sobre.localeCompare(b.sobre));
 
 	writeFileSync(DECISIONES, `${JSON.stringify(registro, null, '\t')}\n`, 'utf-8');
+
+	const sinPropuesta = ORDEN.filter((c) => c !== 'observacion')
+		.flatMap((c) => cubos[c])
+		.filter((d) => !propuestas.get(d.id)?.resumen).length;
 
 	console.log(`${dictamenes.length} afirmaciones dictaminadas`);
 	for (const clave of [...ORDEN, 'confirmacion', 'limpio']) {

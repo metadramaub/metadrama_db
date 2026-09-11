@@ -1,0 +1,14 @@
+{
+	"9c4dd052": {
+		"forma": "Lira · Morley y Bruerton 1968",
+		"por_que": "El catálogo decía que «reservan el nombre de lira» para aBaBcC, y la fuente da ese esquema solo como el más corriente, enumera otros tres y dice expresamente que el nombre «también se aplica» a la estrofa de cinco versos. Endurecimiento y omisión, detectados por David al comprobar la muestra.",
+		"localizador": "Cap. V, «Liras», p. 40",
+		"resumen": "La definen como estrofa de seis versos de siete y once sílabas con tres rimas: los cuatro primeros llevan dos rimas y los dos últimos forman pareado con la tercera, y en Lope el último verso es endecasílabo. Dan `aBaBcC` como la forma más corriente —la que llaman «regular» en su libro— y registran además `abbacC`, `AabBcC` y `AabBCC`. Advierten que el nombre de lira «también se aplica» a la estrofa de cinco versos `aBabB`, que ellos rebautizan «quintilla de Fray Luis de León» para distinguirla. Y añaden que todas las liras «no son más que formas especializadas de la canzone»."
+	},
+	"97e53fc1": {
+		"forma": "Redondilla · Morley y Bruerton 1968",
+		"por_que": "El catálogo afirmaba que «no incluyen la cruzada, que tratan aparte». No podemos sostener que la traten en otra parte del libro, porque no hemos leído otra parte del libro: solo tenemos el capítulo V. La afirmación se acota a lo comprobable, que es que su definición no la recoge. Criterio de David, 11 de septiembre de 2026.",
+		"localizador": "Cap. V, «Redondilla», p. 38",
+		"resumen": "La definen como cuatro octosílabos `ABBA`, y anotan que «se encuentra ocasionalmente con versos de seis o siete sílabas». Su definición no recoge la disposición cruzada; el capítulo no dice si la tratan en otro lugar del libro."
+	}
+}
