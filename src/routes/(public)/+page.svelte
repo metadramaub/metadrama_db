@@ -163,7 +163,7 @@
 	<div class="mt-10 grid gap-4 lg:grid-flow-row-dense lg:grid-cols-12">
 		<a
 			href="/obras"
-			class="group flex min-h-80 flex-col justify-between overflow-hidden border border-[color:var(--border)] bg-white p-6 transition-colors hover:border-[color:var(--gray-500)] lg:col-span-8 lg:row-span-2 md:p-8"
+			class="group flex min-h-80 flex-col justify-between overflow-hidden border border-[color:var(--border)] bg-white p-6 transition-colors hover:border-[color:var(--gray-300)] lg:col-span-8 lg:row-span-2 md:p-8"
 		>
 			<div class="flex items-start justify-between gap-4">
 				<div>
@@ -195,7 +195,7 @@
 
 		<a
 			href="/autores"
-			class="group flex min-h-64 flex-col justify-between overflow-hidden border border-[color:var(--border)] bg-[color:var(--muted)] p-6 transition-colors hover:border-[color:var(--gray-500)] lg:col-span-4 md:p-8"
+			class="group flex min-h-64 flex-col justify-between overflow-hidden border border-[color:var(--border)] bg-[color:var(--muted)] p-6 transition-colors hover:border-[color:var(--gray-300)] lg:col-span-4 md:p-8"
 		>
 			<div class="flex items-start justify-between gap-4">
 				<div>
@@ -225,7 +225,7 @@
 
 		<a
 			href="/recursos/catalogo-metrico"
-			class="group flex min-h-52 flex-col justify-between border border-[color:var(--border)] bg-[color:var(--primary)] p-6 text-white transition-colors hover:border-[color:var(--gray-900)] lg:col-span-4"
+			class="group flex min-h-52 flex-col justify-between border border-[color:var(--border)] bg-[color:var(--primary)] p-6 text-white transition-colors hover:border-white/70 lg:col-span-4"
 		>
 			<div class="flex items-start justify-between gap-3">
 				<p class="text-[10px] font-semibold tracking-[0.16em]">CATÁLOGO MÉTRICO</p>
@@ -242,7 +242,7 @@
 
 		<a
 			href="/recursos/demarcador"
-			class="group flex min-h-64 flex-col justify-between border border-[color:var(--primary)] bg-white p-6 transition-colors hover:border-[color:var(--gray-900)] lg:col-span-5"
+			class="group flex min-h-64 flex-col justify-between border border-[color:var(--border)] bg-white p-6 transition-colors hover:border-[color:var(--gray-300)] lg:col-span-5"
 		>
 			<div class="flex items-start justify-between gap-3">
 				<p class="text-[10px] font-semibold tracking-[0.16em] text-[color:var(--primary)]">
@@ -266,7 +266,7 @@
 
 		<a
 			href="/recursos/guia"
-			class="group flex min-h-44 flex-col justify-between border border-[color:var(--border)] bg-[color:var(--muted)] p-6 transition-colors hover:border-[color:var(--gray-500)] lg:col-span-3"
+			class="group flex min-h-44 flex-col justify-between border border-[color:var(--border)] bg-[color:var(--muted)] p-6 transition-colors hover:border-[color:var(--gray-300)] lg:col-span-3"
 		>
 			<div class="flex items-start justify-between gap-3">
 				<p class="text-[10px] font-semibold tracking-[0.16em] text-[color:var(--primary)]">
@@ -283,7 +283,7 @@
 		</a>
 
 		<div
-			class="group relative flex min-h-56 flex-col justify-between border border-[color:var(--gray-800)] bg-[color:var(--gray-900)] p-6 text-white lg:col-span-4"
+			class="group relative flex min-h-56 flex-col justify-between border border-[color:var(--gray-800)] bg-[color:var(--gray-900)] p-6 text-white transition-colors hover:border-[color:var(--gray-600)] hover:bg-[color:var(--gray-800)] lg:col-span-4"
 		>
 			{#if laboratorioVisible}
 				<a class="absolute inset-0" href="/laboratorio" aria-label="Abrir el laboratorio"></a>
