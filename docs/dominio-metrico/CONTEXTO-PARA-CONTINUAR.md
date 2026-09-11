@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 10 de septiembre de 2026
+Actualizado: 11 de septiembre de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
@@ -190,7 +190,7 @@ Leer solo lo necesario para la tarea:
    de qué está hecho. Describe posibilidades, no este corpus. Lectura previa a todo lo demás.
    1bis. [El modelo métrico aplicado](./implementacion-metrica.md): qué parte se realiza, qué se
    restringe por el corpus, cómo se recoge el dato y **las dieciocho decisiones que lo gobiernan**.
-   1ter. [README del dominio](./README.md): índice de los diecinueve documentos.
+   1ter. [README del dominio](./README.md): índice de los veinte documentos.
 2. [Criterios de nivel](./criterios-de-nivel.md): en qué nivel se registra cada hecho
    métrico. De lectura obligada antes de formalizar o corregir una forma.
 3. Editor V2: el comportamiento vigente está en `src/lib/components/metrica/editor-v2/` y en
@@ -201,6 +201,9 @@ Leer solo lo necesario para la tarea:
 5. [Las fuentes del catálogo](./fuentes-del-catalogo.md): las seis monografías, por qué solo seis,
    dónde están los ficheros y cómo se cita cada una. **De lectura obligada antes de añadir o
    corregir una afirmación.**
+   5bis. [Plan de auditoría de las fuentes](./plan-auditoria-fuentes.md): cómo se comprueba que
+   las 267 afirmaciones ya escritas dicen lo que dicen sus fuentes y están donde declaran. Se
+   ejecuta por fases; **solo hay que leerlo si la tarea es esa**.
 6. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de redacción
    y dónde va cada cosa —definición, descripción, nota, afirmación—.
 7. Para la migración de las secuencias, en este orden:
@@ -274,7 +277,7 @@ seis formas creadas ese mismo día nacieron ya con ella. Su rastro:
 | Décima | `20260819150000_la_decima_explica_sus_nombres_y_su_pausa` |
 | Redondilla | `20260819160000_la_redondilla_dice_por_que_su_doble_es_una` |
 | Cuarteto | `20260819170000_el_cuarteto_dice_de_donde_le_vienen_sus_nombres` |
-| Terceto y terceto encadenado | `20260819180000_el_serventesio_final_no_es_obligatorio` |
+| Terceto y terceto encadenado | `20260911003500_el_cierre_del_encadenado_es_un_remate` |
 | Sextina (composición y estrofa) | `20260819190000_la_sextina_dice_que_lo_que_vuelve_es_la_palabra` |
 | Lira y sexteto-lira | `20260819200000_la_lira_dice_de_donde_viene_su_nombre` (+ `20260819210000`, `20260819220000`) |
 | Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
@@ -412,7 +415,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | F65 | villancico y zéjel | **se abren en error**: una secuencia nueva de 2 versos monta ya una estructura de 6 y avisa «estructura 6 · rango 2 — sobran 4», antes de tocar nada | UI | la arquitectura materializa su ciclo mínimo al elegirla, y el rango recién creado no le llega | las 3 que crecen por ciclos | **arreglado** el 7 de septiembre de 2026: al elegir arquitectura el rango se estira hasta lo que la estructura ocupa. Solo al elegir y solo hacia arriba: el rango de una secuencia recién abierta no dice nada todavía, pero uno ya escrito no se toca |
 | F64 | villancico · estribillo inicial | la repetición del estribillo se declaraba **opcional** y la pregunta que la materializa es **obligatoria y sin respuesta negativa** —«se repite entero» o «solo en parte»—: un ciclo sin repetición no se podía ni declarar ni guardar | **catálogo** | **las dos arquitecturas de la forma se contradecían**: en «Estribillo tras la primera copla» la sección homóloga ya era `1-1`. El estribillo no puede faltar —es lo que define un villancico— y lo que varía es cuánto vuelve | 1 arquitectura; el zéjel declara lo mismo y queda aparte | **arreglado** |
 | F63 | versificación irregular y verso aislado | **no se les puede preguntar nada**, y lo único que se registra de ellas es una observación en texto libre | **modelo** | `grupos_eleccion_metrica.arquitectura_id` es **NOT NULL** y las dos son `sin_forma`: no tienen arquitectura, así que no hay dónde colgar una pregunta. No es que falten, es que el modelo no las sostiene | 2 tramos sin forma, y **9 secuencias ya anotadas con 197 versos** que hoy no tienen ningún destino al migrar | **hecho** el 3 de septiembre de 2026, según [su plan](./plan-f63-los-tramos-registran-lo-que-se-ve.md): tres arquitecturas por arte y una para el verso aislado, ninguna normativa, con dos preguntas escritas de una vez. Ocho de las nueve secuencias legadas ya tienen destino. Queda una consulta: por qué la de *El mágico prodigioso* vv. 2191–2201 se anotó con el término madre y no con uno de los tres específicos |
-| F62 | terceto encadenado · las dos | **no se puede decir si lleva serventesio final**, que el catálogo declara opcional —`repeticiones 0-1`, 4 versos— | UI · modelo | `metricUnitPlan` devuelve `null` cuando el nivel es `serie`, así que `hasStructuredEditor` es falso y **el editor de estructura no se pinta**, aunque la arquitectura declare secciones. La regla de longitud sí lo sabe —`desplazamientos [0, 4]`, «bloques completos de 3 versos, con un cierre opcional de 4»— de modo que el rango valida con o sin él y nada registra cuál | **2 arquitecturas** con sección opcional sin respuesta; y **4 series** declaran secciones que no se ven: las dos del terceto encadenado, la septilla y la sextilla enlazadas y la silva consonante regular | **arreglado sin preguntarlo**: el rango ya lo decide, así que se le pone nombre. Lo de ver la estructura de una serie **sigue abierto y hoy sin sitio**: la rejilla salió del recuadro al rehacer la norma (**F46**), así que ya no hay dónde mirarla en el editor |
+| F62 | terceto encadenado · las dos | **no se puede decir si lleva remate final**, que el catálogo declara opcional —`repeticiones 0-1`, 1 verso— | UI · modelo | `metricUnitPlan` devuelve `null` cuando el nivel es `serie`, así que `hasStructuredEditor` es falso y **el editor de estructura no se pinta**, aunque la arquitectura declare secciones. La regla de longitud sí lo sabe —`desplazamientos [0, 1]`, «bloques completos de 3 versos, con un cierre opcional de 1 verso»— de modo que el rango valida con o sin él y nada registra cuál | **2 arquitecturas** con sección opcional sin respuesta; y **4 series** declaran secciones que no se ven: las dos del terceto encadenado, la septilla y la sextilla enlazadas y la silva consonante regular | **arreglado sin preguntarlo**: `3n ≡ 0` y `3n+1 ≡ 1` en módulo 3 son excluyentes, así que el rango ya decide si el remate está y solo faltaba ponerle nombre. Lo de ver la estructura de una serie **sigue abierto y hoy sin sitio**: la rejilla salió del recuadro al rehacer la norma (**F46**), así que ya no hay dónde mirarla en el editor |
 | F59 | silva · endecasilábica | **la única pregunta de pareados del catálogo obliga a elegir entre dos grados que su prosa no separa**: «Habituales — los pareados son frecuentes, aunque no obligatorios» y «Predominantes — los pareados organizan predominantemente la serie» | catálogo · prosa | *no es una duda abierta*: el 28 de agosto de 2026 se decidió **no cuantificar los grados**, y la cuestión se retiró del documento del IP. Lo que queda es que la descripción es el único criterio que el editor tiene, y con estas dos no basta | 1 arquitectura, y la pregunta es obligatoria | pendiente, va con **F24** |
 | F57 | sextina · estrofa | **se puede elegir suelta**, y su definición dice que no se usa así: «fuera de ella la estrofa no se usa sola» | catálogo · modelo | nada impide elegir en el selector una forma que solo existe dentro de otra. Es **la única** del catálogo cuya definición lo dice, pero el modelo no sabe expresarlo | 1 forma hoy | **pendiente de decidir** |
 | F55 | sextilla · de pie quebrado | ofrecía **una sola disposición de rima**, `abcabc`, y las fuentes nombran tres | **catálogo** | el *Diccionario* la describe «con disposiciones `aabaab`, `aabccb` o `abcabc`», y Navarro Tomás llama a `abc:abc` «la más usual» y advierte que «el orden de las rimas varía de una composición a otra». No entra `ababab`, que las fuentes dan para la sextilla de octosílabos plenos | 1 arquitectura | **arreglado**: `abcabc` sigue habitual y entran las otras dos como admitidas |
@@ -632,7 +635,7 @@ replantea a qué apunta una respuesta.
 
 | forma | secciones | declaran | preguntan |
 |---|---|---|---|
-| Terceto encadenado | serventesio y redondilla finales | metro **y** rima | ~~no hace falta~~ **sí hace falta** ⇒ **F62** |
+| Terceto encadenado | los dos remates finales | metro; la rima, en la nota | no hace falta ⇒ **F62** |
 | Villancico y zéjel | enlace, vuelta y repetición (6) | metro sí, rima no | 4 de 6 |
 | **Canción petrarquista** | **remate ×2 y eslabón** | **ninguno** | **no** |
 
@@ -640,13 +643,12 @@ El remate de la regular admite **de 1 a 13 versos** y no dice nada de cómo son,
 registra más que su extensión. *Decisión del IP: si debe declarar lo que las fuentes documenten, o
 preguntar como las demás.*
 
-**Corregido el 29 de agosto de 2026, y resuelto el mismo día.** La fila del terceto encadenado decía
-«no hace falta» porque sus dos secciones opcionales **declaran metro y rima**, que es lo que esta
-tabla mide; eso responde a *cómo son* y no a **si están**. Al ir a preguntarlo apareció que **no hace
-falta preguntarlo, pero por otra razón**: `3n ≡ 0` y `3n+4 ≡ 1` en módulo 3 son **excluyentes**, así
-que ninguna longitud admite las dos lecturas y **el rango decide solo** —cuarenta versos llevan
-serventesio, treinta y nueve no—. Lo que faltaba era decirlo: la caja del pasaje decía «y 4 versos
-más» y ahora dice «y el serventesio final». ⇒ **F62**
+**Por qué el terceto encadenado no necesita preguntarlo.** Sus dos secciones opcionales son remates
+de un verso, y de ellas el catálogo declara el metro —lo cubre el ciclo de una posición de la
+arquitectura— pero no la rima, que solo vive en su nota. Aun así no hace falta preguntar si el
+remate está: `3n ≡ 0` y `3n+1 ≡ 1` en módulo 3 son **excluyentes**, de modo que ninguna longitud
+admite las dos lecturas y **el rango decide solo** —cuarenta versos llevan remate, treinta y nueve
+no—. Lo único que faltaba era decirlo, y la caja del pasaje lo dice: «y el remate». ⇒ **F62**
 
 **F8 y F9 · Lo comprobado, para no repetirlo.** El catálogo **sí** declara el pareado de la canción
 sin rima —esquema «Pareado consonante final», posiciones 1 y 2, ambas clase `a`—, y «Cuerpo sin rima»

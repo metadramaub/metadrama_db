@@ -5,7 +5,7 @@
 > no puede saber —para qué sirve cada columna y quién la lee— vive en `scripts/informe-precomputacion.mjs`,
 > y una columna que nadie haya descrito sale marcada como **sin describir**.
 
-Regenerado el 9 de septiembre de 2026.
+Regenerado el 11 de septiembre de 2026.
 
 ## Las tres capas
 
@@ -26,11 +26,11 @@ misma construcción.
 
 | | |
 |---|--:|
-| obras | 105 |
-| obras publicadas | 12 |
+| obras | 107 |
+| obras publicadas | 11 |
 | filas en `obras_resumen` | 21 |
-| secuencias | 710 |
-| secuencias con anotación del catálogo nuevo | 446 |
+| secuencias | 713 |
+| secuencias con anotación del catálogo nuevo | 449 |
 | secuencias que aún hablan el vocabulario legado | 263 |
 
 ## Qué guarda `obras_resumen`
@@ -96,18 +96,18 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 
 | dato | filas hoy | columna del resumen | en la ficha |
 |---|--:|---|:--:|
-| Rasgos observados (asonancia, densidad de rima, final acentual) | 182 | — | sí |
+| Rasgos observados (asonancia, densidad de rima, final acentual) | 183 | — | sí |
 | Metro elegido por unidad | 446 | `metros_presentes` | sí |
 | Esquema de rima elegido por unidad | 5100 | `subtipos_presentes` | sí |
-| Variedad elegida dentro de una arquitectura | 1 | — | sí |
-| Desviaciones (lagunas, hipométricos, rima ajena) | 7 | — | sí |
+| Variedad elegida dentro de una arquitectura | 5 | — | sí |
+| Desviaciones (lagunas, hipométricos, rima ajena) | 8 | — | sí |
 | Partes de la unidad (estancia, mudanza, sirima) | 826 | — | **no** |
-| Caracterizaciones por rango (cantado, prosa, evocación) | 241 | `pct_cantado` | sí |
-| Versos partidos | 275 | `tiene_versos_partidos` | sí |
-| Inaugura espacio | 163 | `tiene_cambio_espacio` | sí |
+| Caracterizaciones por rango (cantado, prosa, evocación) | 242 | `pct_cantado` | sí |
+| Versos partidos | 276 | `tiene_versos_partidos` | sí |
+| Inaugura espacio | 164 | `tiene_cambio_espacio` | sí |
 | Evento sobrenatural | 44 | `tiene_evento_sobrenatural` | sí |
-| Intervención de personajes femeninos | 585 | `intervencion_femenina` | sí |
-| Intervención de figuras de donaire | 160 | `intervencion_donaire` | sí |
+| Intervención de personajes femeninos | 586 | `intervencion_femenina` | sí |
+| Intervención de figuras de donaire | 161 | `intervencion_donaire` | sí |
 | Intervención de personajes sobrenaturales | 80 | `intervencion_sobrenaturales` | sí |
 
 ## Comprobaciones

@@ -20,7 +20,7 @@ solo por tener datos normalizados: debe cumplir también este contrato.
 | Endecha real · hexasilábica | ciclo `6-6-6-11`, asonancia sostenida y hexasílabos sueltos | las vocales de la asonancia | múltiplo de 4 |
 | Cuarteto | 4 endecasílabos consonantes con dos rimas | disposición `ABBA` o `ABAB` | múltiplo de 4 |
 | Terceto | 3 endecasílabos, consonancia entre dos de los tres | qué verso queda suelto, `A-A` o `-AA`; final esdrújulo si caracteriza | múltiplo de 3 |
-| Terceto encadenado | encadenamiento y cierre en serventesio | la medida: endecasílaba u octosílaba | bloques de 3 más el verso final |
+| Terceto encadenado | encadenamiento y remate final opcional | la medida: endecasílaba u octosílaba | bloques de 3, desde dos, más el verso de remate |
 | Silva · consonante de orden libre | 7 y 11 sin orden fijo, consonancia y versos sueltos admitidos | cuánto organizan los pareados la serie | abierta |
 | Silva · consonante regular | ciclo `7 + 11` y pareados regulares | nada | múltiplo de 2 |
 | Silva · endecasilábica | 11 y consonancia | cuánto organizan los pareados la serie | abierta |

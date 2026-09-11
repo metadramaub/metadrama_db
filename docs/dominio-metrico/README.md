@@ -59,6 +59,7 @@ Ninguno se edita a mano. `npm run audit:metrica` necesita Docker, porque vuelca 
 | [Cómo se migra una obra](./como-se-migra-una-obra.md) | El procedimiento obra por obra, escrito para poder explicárselo a quien la anotó |
 | [Equivalencias pendientes](./equivalencias-pendientes.md) | **Por qué** algunos términos legados no declaran todavía su destino, y qué decidió el IP sobre cada uno. Hay que cerrarlo antes del backfill |
 | [Plan de F63: los tramos registran lo que se ve](./plan-f63-los-tramos-registran-lo-que-se-ve.md) | Da qué registrar a la versificación irregular y al verso aislado, y con ello destino a las 9 secuencias legadas que hoy se caen. Escrito, sin aplicar |
+| [Plan de auditoría de las fuentes](./plan-auditoria-fuentes.md) | Cómo se comprueba que las 267 afirmaciones dicen lo que dicen sus fuentes y están donde declaran: taxonomía de defectos, triple pasada ciega y errores sembrados para medir al auditor. Seis fases con criterio de salida. Escrito, sin iniciar |
 | [Demarcador métrico](./demarcador-metrico.md) | Contrato conceptual, matemática y decisiones de producto. Se actualiza cuando cambia el motor, no cuando cambia una forma |
 
 ## Histórico

@@ -52,9 +52,11 @@ redondillas no cambia de medida a mitad de camino: si cambia, empieza otra secue
 el romance tiene cuatro arquitecturas y no una pregunta por la medida.
 
 **Las estrofas básicas existen una vez y las formas complejas las reutilizan.** Los cuartetos
-del soneto son cuartetos, las dos mitades de la copla real son quintillas, la cadena del
-terceto encadenado cierra con un serventesio. Ninguna de esas formas copia el repertorio de
-la otra: lo referencia. Reutilizar es mecánico y no afirma parentesco; para eso están las
+del soneto son cuartetos y las dos mitades de la copla real son quintillas. Ninguna de esas
+formas copia el repertorio de la otra: lo referencia. **Reutilizar afirma estructura, no
+parecido**: el remate del terceto encadenado hace que la tirada final suene a serventesio y aun
+así no reutiliza el cuarteto, porque esa `C` viene encadenada del terceto anterior. Lo que solo
+se parece se dice en prosa y en una relación tipada. Reutilizar es mecánico y no afirma parentesco; para eso están las
 relaciones tipadas, que se declaran aparte y solo cuando son ciertas.
 
 **Se registran las combinaciones típicas y se nombra a las que han recibido nombre.** Lo

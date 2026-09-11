@@ -1,6 +1,6 @@
 # Qué le pide el editor a cada forma
 
-Generado el 2026-09-04 desde la base enlazada.
+Generado el 2026-09-10 desde la base enlazada.
 
 ## 1 · Coste por forma
 

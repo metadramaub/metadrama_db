@@ -52,20 +52,20 @@ describe('metric length validation', () => {
 	});
 
 	/**
-	 * El caso que motivó los desplazamientos. El serventesio del terceto encadenado dejó de ser
-	 * obligatorio el 19 de agosto de 2026, de modo que la cadena mide `3n` **o** `3n+4`, y un solo
-	 * par de módulo y residuo solo puede expresar una de las dos. Antes del arreglo la regla decía
-	 * `3n` y el editor rechazaba con un 422 toda cadena terminada en serventesio.
+	 * El caso que motivó los desplazamientos: el remate del terceto encadenado es opcional, así que
+	 * la cadena mide `3n` **o** `3n+1`, y un solo par de módulo y residuo solo puede expresar una de
+	 * las dos. Con la regla reducida a `3n`, el editor rechazaba con un 422 toda cadena rematada.
 	 */
 	it('admite un cierre opcional, que son dos congruencias y no una', () => {
-		const tercetoEncadenado = rule(3, 0, 3, [0, 4]);
+		const tercetoEncadenado = rule(3, 0, 6, [0, 1]);
 		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 66)).toBe(true); // 22 tercetos
-		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 67)).toBe(true); // 21 y serventesio
-		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 7)).toBe(true); // uno y serventesio
-		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 3)).toBe(true); // uno suelto
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 67)).toBe(true); // 22 y remate
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 6)).toBe(true); // dos tercetos
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 7)).toBe(true); // dos y remate
 		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 68)).toBe(false); // ni una cosa ni otra
-		// Y el mínimo se cuenta sobre el ciclo, no sobre el total: un serventesio suelto, sin
-		// ninguna cadena delante, no es la forma.
+		// El mínimo se cuenta sobre la cadena, no sobre el total, y la cadena necesita dos eslabones:
+		// tres versos son un terceto y cuatro, una estrofa cruzada. Ninguno de los dos es la serie.
+		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 3)).toBe(false);
 		expect(isMetricLengthCompatible(tercetoEncadenado, 1, 4)).toBe(false);
 	});
 
@@ -125,15 +125,15 @@ describe('metricLengthCycles', () => {
 	});
 
 	/**
-	 * El terceto encadenado declara `[0, 4]` porque su serventesio final puede estar o no: catorce
-	 * versos son tres tercetos y el serventesio, y esos cuatro se cuentan aparte.
+	 * El terceto encadenado declara `[0, 1]` porque su remate puede estar o no: trece versos son
+	 * cuatro tercetos y el remate, y ese verso se cuenta aparte.
 	 */
 	it('separa lo que aportan las partes opcionales', () => {
-		const terceto = rule(3, 0, 3, [0, 4], 'secciones_repetibles');
+		const terceto = rule(3, 0, 6, [0, 1], 'secciones_repetibles');
 		expect(metricLengthCycles(terceto, 1, 13)).toEqual({
-			veces: 3,
+			veces: 4,
 			modulo: 3,
-			sobrantes: 4,
+			sobrantes: 1,
 			origen: 'secciones_repetibles'
 		});
 	});
