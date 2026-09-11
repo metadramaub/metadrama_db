@@ -11,8 +11,10 @@
 			"veredicto": "conforme",
 			"pagina_que_afirma_el_dictamen": 38,
 			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
-			"hallazgo_humano": "Se podría usar su misma notación (AXA BXB) para indicar que no se encadena, como hacen ellos, pero no me parece grave.",
-			"coincide_con_el_dictamen": true
+			"hallazgo_humano": "Podría adoptarse la notación del propio M&B (AXA BXB) para marcar que no encadena. No afecta a la fidelidad.",
+			"coincide_con_el_dictamen": true,
+			"hallazgo_humano_original": "Se podría usar su misma notación (AXA BXB) para indicar que no se encadena, como hacen ellos, pero no me parece grave.",
+			"clasificacion": "prosa del catálogo · notación"
 		},
 		{
 			"id": "8dc1b345",
@@ -20,10 +22,12 @@
 			"sobre": "Sextilla enlazada",
 			"localizador_declarado": "Capítulo «Definición de las Formas Métricas», epígrafe «Coplas de pie quebrado»",
 			"veredicto": "conforme",
-			"pagina_que_afirma_el_dictamen": null,
+			"pagina_que_afirma_el_dictamen": 39,
 			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "La lectura es correcta. Queda anotado que nuestro catálogo trata el pie quebrado como rasgo que varias formas pueden llevar, no como un tipo de copla aparte, y eso condiciona cómo se lee lo que M&B llaman «coplas de pie quebrado».",
+			"coincide_con_el_dictamen": true,
+			"hallazgo_humano_original": "Es correcto, y en efecto la sextilla enlazada podría ser un tipo de compla con pie quebrado. Nuestro catálogo no distingue una copla de pie quebrado como tal, si no que admite el rasgo pie quebrado en diferentes formas que pueden llevarlo o no, no como diferentes tipos de copla (mayor, menor, castellana...), que no son algo distinto por tener pie quebrado. Que el corpus de M&B sea Lope es cierto.",
+			"clasificacion": "modelo · para el IP"
 		},
 		{
 			"id": "9c4dd052",
@@ -31,10 +35,12 @@
 			"sobre": "Lira",
 			"localizador_declarado": "Cap. V, «Liras»",
 			"veredicto": "conforme",
-			"pagina_que_afirma_el_dictamen": null,
+			"pagina_que_afirma_el_dictamen": 40,
 			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "El verificador dio conforme y no lo es. El catálogo dice que «reservan el nombre de lira para la estrofa de seis versos aBaBcC», y M&B dan aBaBcC solo como «la forma más corriente», enumerando además abbacC, AabBcC y AabBCC. Y dicen expresamente que «el nombre de lira también se aplica» a la de cinco versos, que ellos rebautizan solo «aquí»: no reservan nada. Hay que reescribir la afirmación.",
+			"coincide_con_el_dictamen": false,
+			"hallazgo_humano_original": "Correcto, aunque no solo reservan el nombre de lira para la estrofa de seis versos aBaBcC, también para los otros esquemas de 6 que mencionan como menos frecuentes.",
+			"clasificacion": "defecto no visto por el verificador · endurecimiento y omisión relevante"
 		},
 		{
 			"id": "d1ea2ecf",
@@ -42,10 +48,12 @@
 			"sobre": "Villancico",
 			"localizador_declarado": "Capítulo «Definición de las Formas Métricas», epígrafes «Metros Españoles», «Coplas» y «Canción (Canzone)»",
 			"veredicto": "conforme",
-			"pagina_que_afirma_el_dictamen": null,
+			"pagina_que_afirma_el_dictamen": 39,
 			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "El silencio es correcto. La frase de cierre —dónde «caería» una copla de villancico— es inferencia nuestra a partir de la definición de «coplas», no algo que digan M&B, y convendría enunciarla como posibilidad: «podría caer».",
+			"coincide_con_el_dictamen": true,
+			"hallazgo_humano_original": "'que es donde una copla de villancico caería' podría ser matizable a 'que es donde una copla de villancico podría caer', pero no me parece grave.",
+			"clasificacion": "prosa del catálogo · fuerza de una inferencia propia"
 		},
 		{
 			"id": "332a88fd",
@@ -122,5 +130,6 @@
 			"hallazgo_humano": "",
 			"coincide_con_el_dictamen": null
 		}
-	]
+	],
+	"nota_de_edicion": "Las respuestas de David se reescribieron el 11 de septiembre de 2026 para ajustarlas a la taxonomía, conservando su texto en hallazgo_humano_original. El único cambio de fondo es la lira: pasa a no coincidir, porque lo que David observó es un defecto y el verificador la había dado por conforme."
 }

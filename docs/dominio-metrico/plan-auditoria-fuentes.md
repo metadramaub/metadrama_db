@@ -131,7 +131,17 @@ Tres pasadas independientes que no se ven entre sí. Atacan cosas distintas y cu
   busca por su cuenta dónde lo dice la fuente, con `grep` sobre el txt y sin cargarlo entero. Si
   aterriza en otro sitio, el localizador está mal.
 
-**Si hay que recortar, se recorta B** y se deja solo en las fuentes de riesgo. A y C son el suelo.
+**La pasada B dejó de ser opcional el 11 de septiembre de 2026.** Se pensó recortarla por coste y
+correr solo A y C. La primera muestra humana lo desmintió: de cuatro afirmaciones comprobadas a
+mano, **una que el verificador había dado por conforme era un endurecimiento**. El catálogo decía
+que Morley y Bruerton «reservan el nombre de lira» para un esquema que ellos dan solo como el más
+corriente, enumerando otros tres, y que además admiten expresamente para la estrofa de cinco
+versos. Ninguna comprobación mecánica lo habría visto: las citas estaban bien y el resumen sonaba
+correcto.
+
+De ahí la regla: **un «conforme» de una sola pasada no basta**, porque el endurecimiento es
+invisible desde dentro del propio veredicto. A y C son el suelo; B es lo que sostiene las
+conformes, que son cuatro de cada cinco afirmaciones.
 
 Discrepancia entre pasadas → adjudicación con Opus, que ve las tres y el pasaje, nunca el
 razonamiento de los agentes sobre lo que *debería* decir un manual de métrica.
@@ -183,6 +193,13 @@ explicación de por qué es esa página o esa sección**, con lo que se vio al c
                   "cita_literal": "es posible, aunque no frecuente…", "linea": 12351 } ]
 }
 ```
+
+**Un silencio no tiene página, tiene ámbito.** No hay pasaje que señalar, así que declarar una
+página sería inventarse un sitio. Lo que el localizador debe decir es **qué se recorrió para
+concluir que no estaba**: `Cap. V, pp. 38-41` si la afirmación abarca el repertorio entero, o
+`Cap. V, «Metros Españoles», pp. 38-39` si solo alcanza esa parte. Es lo único comprobable de una
+ausencia, y además obliga a acotar: varias afirmaciones dicen «su repertorio» cuando en realidad
+solo se miraron los metros españoles, y por ahí se colaron los contraejemplos.
 
 **Una afirmación puede consistir en un silencio** —que una fuente no registre una forma—, y
 entonces no hay pasaje que transcribir: el dictamen enumera lo que esa fuente sí recoge en esa
