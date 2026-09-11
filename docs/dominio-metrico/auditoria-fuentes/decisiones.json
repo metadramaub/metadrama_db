@@ -1,0 +1,852 @@
+[
+	{
+		"id": "a6d9d28c",
+		"fuente": "Diccionario 2016",
+		"sobre": "Copla castellana",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e034cf96",
+		"fuente": "Diccionario 2016",
+		"sobre": "Copla de arte mayor",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e66e30cc",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Canción petrarquista",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "0b562394",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Copla de arte mayor",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"endurecimiento (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "9e2b7557",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Copla de arte mayor",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"omisión relevante (medio)",
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "2cc0d171",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Copla real",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"convención rota (leve)",
+			"omisión relevante (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "96a4a4bd",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Canción petrarquista",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "fce52a1e",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Copla castellana",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "bbd5db7e",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Copla de arte mayor",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7f74a91b",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Copla de arte menor",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e34d7ba1",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Copla manriqueña",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "2b540a21",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Copla real",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "339090a5",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Cuarteto",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)",
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "3ac1b32a",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Décima",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "bf669381",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Décima · Aumentada",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "0f1a65eb",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Endecasílabo suelto",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "9c4dd052",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Lira",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "eda23541",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Novena",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7f974dcf",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Octava real",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "074f0d3a",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Oncena",
+		"veredicto": "duda_filologica",
+		"cubo": "filologico",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "14228466",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Pareado",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "5b191115",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Quintilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "97e53fc1",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Redondilla",
+		"veredicto": "no confirmado",
+		"cubo": "fondo",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "409dee24",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Redondilla enlazada",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "2cb2f293",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Romance",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "40c2c354",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Seguidilla",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "3737944e",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Septeto",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "2aa77cd4",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Septeto-lira",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "cf1fd154",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Septilla",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4b2baf4c",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Septilla enlazada",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a71991db",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Sexteto",
+		"veredicto": "conforme",
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "943624e5",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Sexteto-lira",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "36050590",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Sextilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "8dc1b345",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Sextilla enlazada",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "f749bd50",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Sextina",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "0432c49f",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Silva",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a5822734",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Soneto",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e0c28298",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Terceto",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "80001779",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Terceto encadenado",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4ea9f5e6",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Versificación irregular",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "d1ea2ecf",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Villancico",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "f5e83325",
+		"fuente": "Morley y Bruerton 1968",
+		"sobre": "Zéjel",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "cfb377cd_placeholder_unused",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "__placeholder__",
+		"veredicto": "no confirmado",
+		"cubo": "fondo",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "d3241dd6",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Canción petrarquista",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "11ffbe13",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Copla castellana",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"atribución cruzada (grave)",
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "588025c8",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Copla de arte mayor",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "266ebff2",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Copla de arte menor",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e2cb5403",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Copla manriqueña",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "62e8c279",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Copla real",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4c7fbe60",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Cuarteto",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7fb1122d",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Cuarteto-lira",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7834edd3",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Décima",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "886b9735",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Endecasílabo suelto",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "f8d34b49",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Endecha real",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "55bd3353",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Endecha real · Heptasílaba con endecasílabo final",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "34fdc61d",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Endecha real · Heptasílaba con endecasílabo final",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "54afe78b",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Endecha real · Heptasílaba con endecasílabo final",
+		"veredicto": "conforme",
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "92a48925",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Endecha real · Heptasílaba de cinco versos",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7dfaccd6",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Lira",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"endurecimiento (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "d8f31c19",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Novena",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "ec3f5532",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Octava real",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "d3328f68",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Octava-lira",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "67814933",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Oncena",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e7df73d9",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Pareado",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"endurecimiento (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "142db9f5",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Quintilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "ce47ab90",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Quintilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "17b8a51f",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Redondilla",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a4c5f781",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Redondilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "db208cbc",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Redondilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "c5992665",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Redondilla enlazada",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "6e55564b",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Romance",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "22c63f36",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Seguidilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "2c90f723",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Seguidilla",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "dec0232d",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Seguidilla · De tres versos",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "738e37aa",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Seguidilla · Real",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "cabb1f04",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Septeto",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "cfb377cd",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Septeto-lira",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"omisión relevante (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "6b347966",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Septilla",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "8e712f47",
+		"fuente": "Quilis 1969",
+		"sobre": "Copla castellana",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "089f66ae",
+		"fuente": "Quilis 1969",
+		"sobre": "Copla de arte mayor",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	}
+]

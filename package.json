@@ -32,7 +32,8 @@
 		"poda:informe": "node scripts/informe-poda-prosa.mjs",
 		"audit:fuentes": "node scripts/audit-fuentes.mjs",
 		"valida:dictamenes": "node scripts/valida-dictamenes.mjs",
-		"estado:fuentes": "node scripts/estado-auditoria-fuentes.mjs"
+		"estado:fuentes": "node scripts/estado-auditoria-fuentes.mjs",
+		"correcciones:hoja": "node scripts/hoja-correcciones.mjs"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",
