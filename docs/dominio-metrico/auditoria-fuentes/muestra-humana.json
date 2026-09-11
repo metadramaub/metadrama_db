@@ -67,8 +67,10 @@
 				"coincide_con_lo_declarado": true
 			},
 			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "Comprobado: § 21, hoja 62 del PDF, página impresa 67. La afirmación acota bien —dice que Navarro «le da epígrafe propio con el nombre de terceto monorrimo»—, así que no se presenta como fuente sobre los tercetos en general. Dos cosas que no afectan al veredicto: convendría valorar si las citas de Navarro añaden la página además del §, porque el § solo obliga a buscar; y el libro tiene más entradas de TERCETO que esta forma no recoge, lo que es cuestión de exhaustividad (fase 4).",
+			"coincide_con_el_dictamen": true,
+			"clasificacion": "conforme · confirmada la paginación · dos pistas para otras fases",
+			"hallazgo_humano_original": "En efecto es la página 67 real del libro, 62 del PDF; y término 21. No sé si habría que añadir las páginas, además de la numeración del término, para que sea más fácil de localizar. Habla solo del monorrimo octosílabo, no de los tercetos en general, y no sé si nuestra entrada lo señala o hace como que es fuente de todos los tercetos. Hay más entradas para TERCETO en el libro, que parece que no se recuperaron."
 		},
 		{
 			"id": "8e712f47",
@@ -82,8 +84,10 @@
 				"coincide_con_lo_declarado": true
 			},
 			"que_comprobar": "Que el defecto es real y no una acusación de más.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "El veredicto de invención es falso: Quilis sí trata ambas formas en § 5.4.7.4, bajo «octavilla», que es denominación nuestra de la copla de arte menor. Las dos afirmaciones no son el mismo texto duplicado, como se dijo en un primer momento: comparten el arranque —el origen común que Quilis efectivamente da a las dos, así que tienen que decirlo— y luego cada una sigue por su lado. La de arte menor cierra con «Elige abab:bccb como ejemplo de la de tres rimas», que es el esquema que le toca. Lo que queda es que la afirmación de la castellana nunca cita el esquema que la distingue, el de rimas independientes entre las dos redondillas, que el OCR da como «abbecdde» y hay que leer en la imagen del escaneo; y que el material de pie quebrado que lleva encaja mejor en otra forma.",
+			"coincide_con_el_dictamen": false,
+			"clasificacion": "el verificador se equivocó · queda una omisión en la afirmación de la castellana",
+			"hallazgo_humano_original": "Es confuso. Quilis no trata ni la castellana ni la de arte menor, pero ambas se relacionan con la octavilla, que técnicamente sí es la de arte menor. Como están tan emparentadas, hemos usado octavilla también como fuente en Quilis para la castellana, que no comparte rima entre redondillas, porque efectivamente da un ejemplo en la que la segunda redondilla estrena rima."
 		},
 		{
 			"id": "e7c94f87",
