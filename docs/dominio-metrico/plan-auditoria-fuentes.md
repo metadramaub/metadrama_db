@@ -170,6 +170,7 @@ explicación de por qué es esa página o esa sección**, con lo que se vio al c
   "forma": "Octava real",
   "fuente": 2016,
   "localizador_declarado": "Entrada «octava real», p. 246",
+  "naturaleza": "cita | silencio",
 
   "por_que_ahi": "La entrada «octava real» abre en la línea 10384 del volcado. La hoja 259 del PDF lleva impreso el número 246 y contiene esa entrada.",
   "confirmacion_pdf": { "hoja": 259, "numero_impreso": 246, "coincide": true },
@@ -183,8 +184,15 @@ explicación de por qué es esa página o esa sección**, con lo que se vio al c
 }
 ```
 
-**`texto_original` se transcribe, no se resume**, y un script comprueba después que esa
-transcripción aparece de verdad en el fichero. Es lo que permite cotejar original y registro uno
+**Una afirmación puede consistir en un silencio** —que una fuente no registre una forma—, y
+entonces no hay pasaje que transcribir: el dictamen enumera lo que esa fuente sí recoge en esa
+zona de su repertorio y razona la ausencia. Por eso declara su `naturaleza`: de una cita se exige
+transcripción literal; de un silencio, el recuento de lo que hay. **Un silencio mal comprobado es
+tan falso como una cita inventada**, y comprobarlo exige leer el repertorio entero, no el epígrafe
+citado.
+
+**`texto_original` se transcribe, no se resume**, y `npm run valida:dictamenes` comprueba después
+que esa transcripción aparece de verdad en el fichero. Es lo que permite cotejar original y registro uno
 al lado del otro, que es como se ve el endurecimiento y la omisión: leyendo los dos.
 
 ## 5. La otra mitad: lo que falta

@@ -27,4 +27,6 @@ vite.config.ts.timestamp-*
 
 /docs/dominio-metrico/bibliografía/
 /docs/dominio-metrico/auditoria-fuentes/extractos/
+/docs/dominio-metrico/auditoria-fuentes/dictamenes/
+/docs/dominio-metrico/auditoria-fuentes/piloto/
 __pycache__/
