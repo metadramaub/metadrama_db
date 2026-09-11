@@ -785,7 +785,7 @@
 		"sobre": "Pareado",
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
-		"comprobado_a_mano": null,
+		"comprobado_a_mano": true,
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)"
@@ -1011,7 +1011,7 @@
 		"sobre": "Sextilla",
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
-		"comprobado_a_mano": null,
+		"comprobado_a_mano": true,
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1077,8 +1077,8 @@
 		"sobre": "Soneto",
 		"veredicto": "duda_filologica",
 		"veredicto_efectivo": "duda_filologica",
-		"comprobado_a_mano": null,
-		"cubo": "filologico",
+		"comprobado_a_mano": false,
+		"cubo": "fondo",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""

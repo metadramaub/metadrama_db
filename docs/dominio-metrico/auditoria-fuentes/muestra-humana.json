@@ -101,8 +101,10 @@
 				"coincide_con_lo_declarado": true
 			},
 			"que_comprobar": "Que el defecto es real y no una acusación de más.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "Confirmado el defecto: todo el material del quebrado —cuatro sílabas como medida general, el pentasílabo como alternativa, tres y cinco como menos corrientes— sale del § 69 «Regla del pie quebrado», p. 137, que no figura entre los §§ declarados. El contenido es fiel: Navarro dice literalmente que el quebrado de cinco «no ocurre en ninguna poesía de manera exclusiva, sino como forma alternativa y complementaria del tetrasílabo», que es la base de que el catálogo admita quebrado de cinco en toda forma que lo permita. Solo falta declarar el § 69. Dos apuntes que no afectan al veredicto: convendría valorar si las citas de Navarro añaden la página además del §, y el libro tiene más entradas de SEXTILLA que esta forma no recoge (exhaustividad, fase 4).",
+			"coincide_con_el_dictamen": true,
+			"hallazgo_humano_original": "Comprobado: § 22, hoja 63 del PDF, página impresa 68. La afirmación acota bien —dice que Navarro «le da epígrafe propio con el nombre de sextilla»—, así que no se presenta como fuente sobre las sextillas en general. Dos cosas que no afectan al veredicto: convendría valorar si las citas de Navarro añaden la página además del §, porque el § solo obliga a buscar; y el libro tiene más entradas de SEXTILLA que esta forma no recoge, lo que es cuestión de exhaustividad (fase 4). Lo de que los quebrados suelen ser de 4 pero también pueden ser 5 es algo que dice ahí y recogemos como general para todo el catálogo, cualquier quebrado que hemos permitido damos opción de 5, aunque otras fuentes no lo digan, por lo que ahí dice Navarro Tomás.",
+			"clasificacion": "defecto confirmado · localizador incompleto"
 		},
 		{
 			"id": "e7df73d9",
@@ -116,8 +118,10 @@
 				"coincide_con_lo_declarado": true
 			},
 			"que_comprobar": "Que el defecto es real y no una acusación de más.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "Confirmado: el catálogo endureció. Navarro escribe que el pareado narrativo «parece» casi enteramente desterrado de la métrica del siglo XV, y el catálogo lo da por hecho con «quedó».",
+			"coincide_con_el_dictamen": true,
+			"clasificacion": "defecto confirmado · endurecimiento",
+			"hallazgo_humano_original": "Sí, nuestro catálogo endureció de más."
 		},
 		{
 			"id": "022cea3a",
@@ -131,8 +135,10 @@
 				"coincide_con_lo_declarado": true
 			},
 			"que_comprobar": "Que está bien clasificada como cuestión de criterio y no como error.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "El dictamen la clasificó como duda filológica y no lo es: no hay nada que decidir, hay que escribir lo que dice la fuente. El § 107 dice que los sonetos de Santillana son «de mediados del siglo XV» y que «tal precedente era ignorado en la época de Boscán y Garcilaso»; en ningún punto cuantifica un siglo. El «anterior en un siglo al éxito de la forma» del catálogo es una precisión nuestra que la fuente no hace. Se corrige recogiendo las dos afirmaciones de Navarro tal cual.",
+			"coincide_con_el_dictamen": false,
+			"clasificacion": "no es duda filológica · es una precisión añadida que hay que corregir",
+			"hallazgo_humano_original": "'anterior en un siglo' es una exageración nuestra, habría que ser más precisos con lo que dice Navarro Tomás. Pero no me parece duda filológica, se corrige y ya."
 		}
 	],
 	"nota_de_edicion": "Las respuestas de David se reescribieron el 11 de septiembre de 2026 para ajustarlas a la taxonomía, conservando su texto en hallazgo_humano_original. El único cambio de fondo es la lira: pasa a no coincidir, porque lo que David observó es un defecto y el verificador la había dado por conforme."
