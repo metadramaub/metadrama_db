@@ -24,10 +24,10 @@
 			"veredicto": "conforme",
 			"pagina_que_afirma_el_dictamen": 39,
 			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
-			"hallazgo_humano": "La lectura es correcta. Queda anotado que nuestro catálogo trata el pie quebrado como rasgo que varias formas pueden llevar, no como un tipo de copla aparte, y eso condiciona cómo se lee lo que M&B llaman «coplas de pie quebrado».",
+			"hallazgo_humano": "La lectura es correcta y no hay nada que corregir ni que consultar. Queda como contexto: nuestro catálogo trata el pie quebrado como un rasgo que varias formas pueden llevar, no como un tipo de copla aparte, y por eso lo que M&B llaman «coplas de pie quebrado» no se corresponde con una sola forma nuestra.",
 			"coincide_con_el_dictamen": true,
 			"hallazgo_humano_original": "Es correcto, y en efecto la sextilla enlazada podría ser un tipo de compla con pie quebrado. Nuestro catálogo no distingue una copla de pie quebrado como tal, si no que admite el rasgo pie quebrado en diferentes formas que pueden llevarlo o no, no como diferentes tipos de copla (mayor, menor, castellana...), que no son algo distinto por tener pie quebrado. Que el corpus de M&B sea Lope es cierto.",
-			"clasificacion": "modelo · para el IP"
+			"clasificacion": "conforme · sin acción"
 		},
 		{
 			"id": "9c4dd052",
