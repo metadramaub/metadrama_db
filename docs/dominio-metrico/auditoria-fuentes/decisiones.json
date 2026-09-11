@@ -441,16 +441,6 @@
 		"nota": ""
 	},
 	{
-		"id": "cfb377cd_placeholder_unused",
-		"fuente": "Navarro Tomás 1972",
-		"sobre": "__placeholder__",
-		"veredicto": "no confirmado",
-		"cubo": "fondo",
-		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
-	},
-	{
 		"id": "d3241dd6",
 		"fuente": "Navarro Tomás 1972",
 		"sobre": "Canción petrarquista",
@@ -764,7 +754,7 @@
 		"fuente": "Navarro Tomás 1972",
 		"sobre": "Seguidilla",
 		"veredicto": "conforme",
-		"cubo": "observacion",
+		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -795,9 +785,11 @@
 		"id": "cabb1f04",
 		"fuente": "Navarro Tomás 1972",
 		"sobre": "Septeto",
-		"veredicto": "conforme",
-		"cubo": "observacion",
-		"defectos": [],
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"mezcla (grave)"
+		],
 		"estado": "pendiente",
 		"nota": ""
 	},
@@ -805,11 +797,9 @@
 		"id": "cfb377cd",
 		"fuente": "Navarro Tomás 1972",
 		"sobre": "Septeto-lira",
-		"veredicto": "defecto",
-		"cubo": "fondo",
-		"defectos": [
-			"omisión relevante (medio)"
-		],
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
 	},
@@ -817,11 +807,179 @@
 		"id": "6b347966",
 		"fuente": "Navarro Tomás 1972",
 		"sobre": "Septilla",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "eccebfab",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Septilla enlazada",
 		"veredicto": "defecto",
 		"cubo": "material",
 		"defectos": [
-			"convención rota (leve)"
+			"localizador falso (medio)"
 		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "feb6446a",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Sexteto",
+		"veredicto": "conforme",
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "6ac2be86",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Sexteto-lira",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e7c94f87",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Sextilla",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b3cc8411",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Sextilla · Hexasílaba",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "412ad16e",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Sextilla enlazada",
+		"veredicto": "defecto",
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (medio)",
+			"cita literal inexacta (medio)",
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b1ac8dc3",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Sextina",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a1e0457a",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Silva",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "022cea3a",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Soneto",
+		"veredicto": "duda_filologica",
+		"cubo": "filologico",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "332a88fd",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Terceto",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b51cb6b3",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Terceto encadenado",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "c1e62259",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Tercetos de rima paralela",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "778c9363",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Versificación irregular",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "fce5025f",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Verso aislado",
+		"veredicto": "conforme",
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "cfc21591",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Villancico",
+		"veredicto": "defecto",
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "45c3cae7",
+		"fuente": "Navarro Tomás 1972",
+		"sobre": "Zéjel",
+		"veredicto": "conforme",
+		"cubo": "confirmacion",
+		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
 	},
