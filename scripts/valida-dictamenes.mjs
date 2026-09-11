@@ -46,6 +46,8 @@ const FICHERO_DE_LA_FUENTE = {
 
 /** Umbral por debajo del cual una «transcripción» deja de serlo. */
 const UMBRAL = 0.75;
+/** Por debajo de esto ya no es ruido de OCR: es que el pasaje no está. */
+const SUELO = 0.55;
 const TIRA = 6;
 
 /**
@@ -56,14 +58,21 @@ const TIRA = 6;
  * que el catálogo destaca lo que le importa.
  */
 function normalizar(texto) {
-	return (texto ?? '')
-		.normalize('NFD')
-		.replace(/[̀-ͯ­]/g, '')
-		.toLowerCase()
-		.replace(/[-–—]\s*\n\s*/g, '')
-		.replace(/[*_«»""''(),.;:¡!¿?[\]]/g, ' ')
-		.replace(/\s+/g, ' ')
-		.trim();
+	return (
+		(texto ?? '')
+			// **Antes de tocar nada mas** se recompone la palabra partida al final de linea. El
+			// volcado divide con guion blando y sigue en la linea siguiente; si ese guion se quita
+			// suelto, queda un salto que luego pasa a espacio y la palabra acaba en dos trozos, con
+			// lo que caen las seis tiras que la contienen. Por ahi el validador daba por inventadas
+			// cuarenta y cuatro transcripciones que estaban en su fuente.
+			.replace(/[-­‐‑–—]\s*\r?\n\s*/g, '')
+			.normalize('NFD')
+			.replace(/[̀-ͯ­]/g, '')
+			.toLowerCase()
+			.replace(/[*_«»“”‘’(),.;:¡!¿?[\]]/g, ' ')
+			.replace(/\s+/g, ' ')
+			.trim()
+	);
 }
 
 /**
@@ -202,15 +211,30 @@ function main() {
 			}
 
 			for (const [etiqueta, texto] of pruebas) {
-				const { proporcion, tiras, perdidas } = proporcionHallada(texto, fuente);
+				let { proporcion, tiras, perdidas } = proporcionHallada(texto, fuente);
+				// Un `texto_original` puede mezclar la cita con el razonamiento de quien verifico
+				// -«esto dice el epigrafe integro; busque ademas tal cosa y no aparece»-. Entonces la
+				// mitad del campo no pretende ser transcripcion, y medirla entera acusa de inventar a
+				// quien solo explico lo que hizo. Si el campo trae comillas, **son ellas las que tienen
+				// que estar en la fuente**.
+				const citas = [...String(texto).matchAll(/[«"]([^»"]{12,})[»"]/g)].map((m) => m[1]);
+				if (proporcion < UMBRAL && citas.length) {
+					const soloCitas = citas.map((c) => proporcionHallada(c, fuente));
+					const media = soloCitas.reduce((n, r) => n + r.proporcion, 0) / soloCitas.length;
+					if (media > proporcion) {
+						proporcion = media;
+						tiras = soloCitas.reduce((n, r) => n + r.tiras, 0);
+						perdidas = soloCitas.flatMap((r) => r.perdidas ?? []);
+					}
+				}
 				comprobadas += 1;
 				const pasa = proporcion >= UMBRAL;
-				if (!pasa) caidas += 1;
-				const marca = pasa ? 'ok  ' : 'CAE ';
+				if (proporcion < SUELO) caidas += 1;
+				const marca = pasa ? 'ok  ' : proporcion >= SUELO ? 'ruido' : 'CAE ';
 				console.log(
 					`  ${marca} ${d.sobre ?? d.id} · ${etiqueta}: ${(proporcion * 100).toFixed(0)}% de ${tiras} tiras`
 				);
-				if (!pasa && perdidas?.length) {
+				if (proporcion < SUELO && perdidas?.length) {
 					console.log(`       no está en la fuente: «${perdidas[0]}…»`);
 				}
 			}
