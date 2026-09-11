@@ -339,8 +339,8 @@
 		"defectos": [
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911180000. Se retiró la generalización falsa y se declaró el ámbito con páginas."
 	},
 	{
 		"id": "2aa77cd4",
@@ -365,8 +365,8 @@
 		"defectos": [
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911180000. Se retiró la generalización falsa y se declaró el ámbito con páginas."
 	},
 	{
 		"id": "4b2baf4c",
