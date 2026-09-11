@@ -671,7 +671,11 @@ que la documenta».*
 
 2. **¿Cómo se representan las realizaciones tempranas en que redondilla y quintilla comparten una o
    dos clases de rima**, frente a las posteriores con rimas independientes? *Hoy las dos secciones
-   reutilizan repertorios independientes y no hay manera de declarar que comparten timbre.* ⇒ **C1**
+   reutilizan repertorios independientes y no hay manera de declarar que comparten timbre. El editor
+   trata cada respuesta como notación local y, al componer la novena, renumera la segunda parte con
+   letras nuevas. Esto evita aparentar enlaces inexistentes, pero si el texto sí enlaza ambas partes
+   obliga a falsear la anotación: hace falta modelar equivalencias de rima entre secciones o una
+   disposición global de la unidad.* **Es un bloqueo de registro, no solo de presentación.** ⇒ **C1**
 
 3. **¿Las ocho variedades de quintilla valen todas para la Copla novena** o deben restringirse según
    la documentación histórica? *Hoy se ofrecen las ocho, por reutilización.*

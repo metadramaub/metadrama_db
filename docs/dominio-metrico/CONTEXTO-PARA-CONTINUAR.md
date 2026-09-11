@@ -407,6 +407,7 @@ arreglo; `alcance` está contado contra la base, no estimado.
 | — | copla castellana | «rango calculado desde sus partes» | — | *es F6, segunda repetición del mismo mensaje* | — | ya en F6 |
 | F16 | copla castellana, copla real, novena, oncena, quintilla, redondilla **y septilla** | el quebrado es **rasgo opcional**, no medida esperada: ponerlo bajo «Medida» hace creer que hay que encontrarlo; la definición de la copla real lo dice, «el quiebro, cuando lo hay» | **catálogo** | el rasgo `pie_quebrado` **ya está declarado** en las 10 arquitecturas —`admitida` en 8, `habitual` en las dos oncenas— pero **no tiene ningún valor** en `rasgo_valores`, así que no puede preguntarse ni salir en la norma; lo que se pregunta es `posiciones_pie_quebrado`, de dimensión `metro` | 9 arquitecturas lo preguntan, de 15 que lo declaran | **arreglado** el 4 de septiembre de 2026: la pregunta se llama «Pie quebrado» y su rejilla de versos ya no viene desplegada, ni suelta ni en el control común de varias unidades. Se lee en una línea —«Ningún verso quebrado · todos, 8 síl. · Marcar»— y al responder, «Quebrados: v. 1 (4 síl.)». **No se le dio valor al rasgo**: preguntarlo aparte sería preguntar lo que la respuesta de posiciones ya contiene |
 | F17 | todas las de rima | «¿Rima de otra manera?» se muestra siempre. Debe ser **una opción más del desplegable**; y donde el repertorio esté cerrado, **no salir en absoluto** | UI | `tipo_control: opciones_y_esquema` pintaba las opciones **y** el campo libre a la vez | 49 preguntas en 42 arquitecturas de 26 formas | **arreglado**: es una opción más —«Rima de otra manera…»— y el campo aparece detrás. Y **no habrá repertorios cerrados**: se ofrece en todas, en vez de obligar a una desviación, porque el dato escrito es el mismo y saber si se aparta de la norma se deriva del repertorio |
+| F68 | novena · las dos arquitecturas, y cualquier forma compuesta con rima por partes | una rima que pasa de una parte a otra **no se puede registrar** | **modelo** | cada sección responde con notación local y el resumen renumera la siguiente con letras libres. Es correcto para miembros independientes y evita falsos enlaces, pero borra uno verdadero: las fuentes documentan novenas tempranas en que redondilla y quintilla comparten una o dos clases | hoy afecta de forma documentada a la novena; el mecanismo debe diseñarse para cualquier forma compuesta | **pendiente y bloqueante si aparece en el corpus**: la UI avisa de la renumeración, pero hace falta modelar equivalencias entre secciones o un esquema global de la unidad; cuestión Novena 2 · **C1** |
 | F19 | copla de arte mayor | no hay «añadir otra copla»: las unidades aparecen al alargar el rango | — | **no es fallo**: `countFromRange` se activa cuando la unidad tiene extensión fija, y eso es la mayoría del catálogo | **65 arquitecturas de 30 formas** derivan del rango; solo 3 formas se añaden a mano (canción, villancico, zéjel) | **cerrado** |
 | F18 | todas las de rima | esquema predefinido **con desviación** y esquema escrito a mano se ofrecen como si fueran lo mismo | modelo · UI | no hay nada que distinga los dos caminos ni que avise de que lo escrito se parece a un esquema ya existente | los mismos 37 | recogido, va con **F17** |
 | F36 | las cuatro liras abiertas | **preguntan su rima de tres maneras distintas**, habiéndose creado el mismo día como una sola serie | **catálogo** | cuarteto-lira y octava-lira: repertorio de 2 y salida abierta, **obligatoria**. Décima-lira: repertorio de 1 y salida abierta, **opcional**. Novena-lira: **sin repertorio**, solo campo escrito —y esa sí está justificada, porque su único esquema es «Distribución variable», de secuencia `abierta`, y la función de opciones no ofrece las abiertas— | 4 arquitecturas de 4 formas | **arreglado**: las cuatro con repertorio —el que haya—, salida abierta y respuesta obligatoria |
@@ -1211,8 +1212,10 @@ está en producción desde el 7, así que el primer hito se cumplió y entra otr
    [informe-equivalencias.md](./informe-equivalencias.md), que regenera
    `npm run equivalencias:informe`. **Hasta que se haga, esas obras no tienen perfil.**
 
-**Nada de lo que sigue impide anotar hoy**, y el catálogo está limpio: `npm run audit:metrica` y
-`npm run audit:editor` dan cero defectos, y las pruebas, `npm run check` y `npm run lint` pasan.
+**Nada de lo que sigue impide anotar hoy salvo A6 si aparece una rima compartida entre partes**;
+ese caso debe detenerse porque el modelo actual lo falsearía. El catálogo está limpio:
+`npm run audit:metrica` y `npm run audit:editor` dan cero defectos, y las pruebas, `npm run check` y
+`npm run lint` pasan.
 
 **Lo cerrado no se cuenta dos veces.** Estos asuntos están resueltos y su detalle vive en los
 commits, en las migraciones y en el [histórico](./historico/); se listan solo para que quien busque
@@ -1231,7 +1234,7 @@ por su número sepa que no siguen abiertos.
 | **C14** | retirada de `formas_metricas.orden`, y el orden del buscador | 25 ago |
 | **B8** | las aliradas abiertas no podían registrar el metro que se ve; se les creó la pregunta, y con ella la de los quebrados de la manriqueña y la sextilla | 27 ago |
 
-Quedan **tres asuntos en A** y **veintidós en C** —C13 y C20 están hechos y se conservan por su número—. **El bloque B se cerró entero** —eran los que impedían llevar el editor V2 a los editores— y se ha retirado de aquí: su resumen está en la tabla de arriba y el detalle, en los commits.
+Quedan **cuatro asuntos en A** y **veintidós en C** —C13 y C20 están hechos y se conservan por su número—. **El bloque B se cerró entero** —eran los que impedían llevar el editor V2 a los editores— y se ha retirado de aquí: su resumen está en la tabla de arriba y el detalle, en los commits.
 
 ### A · Bloquean la migración de las secuencias
 
@@ -1335,6 +1338,14 @@ eslabón, ¿es canción o es alirada?** El eslabón no sirve de prueba —el IP 
 «suele» empezar con chiave, luego es habitual, no constitutivo— y la prueba de los dos piedi sola
 declara canción al `aBaBcDcDeE` que la edición de *Elisa Dido* llama «décima-estancia». No hay
 tercer rasgo formal que rompa el empate.
+
+**A6. Las rimas compartidas entre partes de una forma compuesta no tienen destino.** La copla
+novena temprana puede enlazar la redondilla y la quintilla mediante una o dos clases de rima. El
+editor solo guarda un esquema local por sección y, al reunirlas, renumera la segunda con letras
+nuevas. Esa salida es deliberadamente segura para partes independientes, pero si el enlace existe
+lo elimina y falsea el registro. **No se debe migrar ni guardar un caso así como dos repertorios
+independientes.** Hace falta que el modelo permita declarar equivalencias de clase entre secciones
+o guardar una disposición global de la unidad; hasta entonces, el caso exige detener la anotación.
 
 ### C · Deudas del modelo, sin urgencia
 
