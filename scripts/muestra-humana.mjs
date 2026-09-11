@@ -28,6 +28,7 @@ const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const DICTAMENES = join(BASE, 'dictamenes');
 const SALIDA = join(BASE, 'muestra-humana.json');
+const HOJA = join(BASE, 'muestra-humana.md');
 
 /** Un generador con semilla: la misma cadena da siempre la misma tirada. */
 function generador(semilla) {
@@ -51,6 +52,113 @@ function baraja(lista, azar) {
 		[copia[i], copia[j]] = [copia[j], copia[i]];
 	}
 	return copia;
+}
+
+/**
+ * La hoja con la que un humano comprueba, partida en dos a propósito.
+ *
+ * La primera parte da lo que hay que juzgar —lo que el catálogo publica— y dónde mirarlo. La
+ * segunda, lo que dictaminó el verificador. **Están separadas porque el orden decide si esto es
+ * una comprobación o una ratificación**: quien lee primero el veredicto ajeno ya no juzga el
+ * pasaje, juzga si el otro lo copió bien.
+ */
+function hojaDeTrabajo(muestra, completos, semilla) {
+	const PDF = {
+		'Quilis 1969': 'Antonio_Quilis_Metrica_espanola.pdf',
+		'Navarro Tomás 1972': 'Tomas Navarro Tomas - Metrica Española - libgen.li.pdf',
+		'Domínguez Caparrós 2014': 'Domínguez Caparrós - 2014 - Métrica española.pdf',
+		'Diccionario 2016':
+			'Diccionario de métrica española{José Domínguez Caparrós}{107384004} libgen.li.pdf'
+	};
+	const md = [];
+	md.push('# Muestra humana · cómo se comprueba');
+	md.push('');
+	md.push(`Semilla del sorteo: \`${semilla}\`. **No leas la parte B hasta haber decidido la A**:`);
+	md.push('quien lee primero el veredicto ajeno deja de comprobar y pasa a ratificar.');
+	md.push('');
+	md.push(
+		'Para cada una: lee lo que publica el catálogo, abre la fuente por tu cuenta, y decide si'
+	);
+	md.push('la fuente sostiene eso. Después, y solo después, mira lo que dijo el verificador.');
+	md.push('');
+	md.push('## Parte A · lo que tienes que juzgar');
+	md.push('');
+	completos.forEach((d, i) => {
+		md.push(`### ${i + 1}. ${d.sobre} · ${d.fuente}`);
+		md.push('');
+		md.push(`**Dice el catálogo hoy:** ${String(d.texto_registrado ?? '').replace(/\s+/g, ' ')}`);
+		md.push('');
+		md.push(`**Localizador declarado:** ${d.localizador_declarado}`);
+		md.push('');
+		if (d.fuente === 'Morley y Bruerton 1968') {
+			md.push('Fuente: `docs/dominio-metrico/bibliografía/definiciones_Morley&Bruerton.md`.');
+			md.push('Es corto: ábrelo y busca el epígrafe. Y **léelo entero**, que varias de estas');
+			md.push(
+				'afirmaciones dicen lo que M&B *no* registran, y eso no se comprueba en un epígrafe.'
+			);
+		} else if (d.fuente === 'Jauralde Pou 2020') {
+			md.push('Fuente: el volcado en `bibliografía/txt/Jauralde-Pou-2020-metrica-espanola.txt`.');
+			md.push('No hay PDF: viene de un epub, y no tiene páginas que comprobar.');
+		} else {
+			const hoja = d.confirmacion_pdf?.hoja;
+			const num = d.confirmacion_pdf?.numero_impreso;
+			md.push(`Fuente: \`bibliografía/${PDF[d.fuente]}\`.`);
+			if (hoja) {
+				md.push('');
+				md.push(
+					`El dictamen afirma que el pasaje está en la **hoja ${hoja}** del PDF y que esa hoja`
+				);
+				md.push(
+					`lleva impreso el número **${num}**. Eso también se comprueba: ábrela y mira el número.`
+				);
+				md.push('');
+				md.push('```bash');
+				md.push(
+					`pdftotext -enc UTF-8 -f ${hoja} -l ${hoja} "docs/dominio-metrico/bibliografía/${PDF[d.fuente]}" -`
+				);
+				md.push('```');
+			}
+		}
+		md.push('');
+		md.push(
+			'**Tu juicio:** ¿sostiene la fuente lo que dice el catálogo? ¿Le añade algo, lo afirma'
+		);
+		md.push('con más fuerza de la que tiene, o se deja fuera algo que cambie la lectura?');
+		md.push('');
+		md.push('---');
+		md.push('');
+	});
+
+	md.push('## Parte B · lo que dictaminó el verificador');
+	md.push('');
+	md.push('Ahora sí. Si coincides, el verificador merece crédito en esa. Si no, quiero saberlo.');
+	md.push('');
+	completos.forEach((d, i) => {
+		md.push(`### ${i + 1}. ${d.sobre} · ${d.fuente} — **${d.veredicto}**`);
+		md.push('');
+		if (d.por_que_ahi)
+			md.push(`*Dónde dice haberlo visto:* ${String(d.por_que_ahi).replace(/\s+/g, ' ')}`);
+		md.push('');
+		md.push(
+			`*Transcribió del original:* ${String(d.texto_original ?? '')
+				.replace(/\s+/g, ' ')
+				.slice(0, 1200)}`
+		);
+		for (const f of d.defectos ?? []) {
+			md.push('');
+			md.push(
+				`*Defecto ${f.tipo} (${f.gravedad}):* ${String(f.explicacion ?? '').replace(/\s+/g, ' ')}`
+			);
+		}
+		if (d.observaciones) {
+			md.push('');
+			md.push(`*Observó:* ${String(d.observaciones).replace(/\s+/g, ' ')}`);
+		}
+		md.push('');
+		md.push('---');
+		md.push('');
+	});
+	return md.join(String.fromCharCode(10));
 }
 
 function main() {
@@ -90,6 +198,7 @@ function main() {
 
 	const azar = generador(semilla);
 	const muestra = [];
+	const completos = [];
 	for (const grupo of ['conforme', 'defecto', 'otro']) {
 		for (const d of baraja(grupos[grupo], azar).slice(0, reparto[grupo])) {
 			muestra.push({
@@ -108,6 +217,7 @@ function main() {
 				hallazgo_humano: '',
 				coincide_con_el_dictamen: null
 			});
+			completos.push(d);
 		}
 	}
 
@@ -123,10 +233,20 @@ function main() {
 		console.log(`   localizador: ${m.localizador_declarado}`);
 		if (m.pagina_que_afirma_el_dictamen?.hoja) {
 			const p = m.pagina_que_afirma_el_dictamen;
-			console.log(`   el dictamen dice: hoja ${p.hoja} del PDF, página impresa ${p.numero_impreso}`);
+			console.log(
+				`   el dictamen dice: hoja ${p.hoja} del PDF, página impresa ${p.numero_impreso}`
+			);
 		}
 		console.log(`   comprobar: ${m.que_comprobar}\n`);
 	}
+	writeFileSync(
+		HOJA,
+		`${hojaDeTrabajo(muestra, completos, semilla)}
+`,
+		'utf-8'
+	);
+	console.log(`
+La hoja para comprobar, en ${HOJA}`);
 	console.log(`Anota lo que veas en ${SALIDA}`);
 	if (!existsSync(DICTAMENES)) process.exitCode = 1;
 }
