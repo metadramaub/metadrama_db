@@ -31,7 +31,8 @@
 		"audit:anotaciones": "node scripts/audit-anotaciones.mjs --markdown docs/dominio-metrico/informe-anotaciones.md",
 		"poda:informe": "node scripts/informe-poda-prosa.mjs",
 		"audit:fuentes": "node scripts/audit-fuentes.mjs",
-		"valida:dictamenes": "node scripts/valida-dictamenes.mjs"
+		"valida:dictamenes": "node scripts/valida-dictamenes.mjs",
+		"estado:fuentes": "node scripts/estado-auditoria-fuentes.mjs"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",
