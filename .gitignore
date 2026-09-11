@@ -30,4 +30,5 @@ vite.config.ts.timestamp-*
 /docs/dominio-metrico/auditoria-fuentes/dictamenes/
 /docs/dominio-metrico/auditoria-fuentes/piloto/
 /docs/dominio-metrico/auditoria-fuentes/lotes/
+/docs/dominio-metrico/auditoria-fuentes/correcciones.md
 __pycache__/
