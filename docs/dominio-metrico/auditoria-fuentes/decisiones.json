@@ -100,8 +100,8 @@
 		"comprobado_a_mano": null,
 		"cubo": "observacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911190000. Enumeración del repertorio completada con las coplas de pie quebrado, retirada la negación en bloque y declarado el ámbito con páginas."
 	},
 	{
 		"id": "bbd5db7e",
@@ -126,8 +126,8 @@
 		"comprobado_a_mano": null,
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911190000. Enumeración del repertorio completada con las coplas de pie quebrado, retirada la negación en bloque y declarado el ámbito con páginas."
 	},
 	{
 		"id": "e34d7ba1",
@@ -227,8 +227,8 @@
 		"comprobado_a_mano": null,
 		"cubo": "observacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911190000. Enumeración del repertorio completada con las coplas de pie quebrado, retirada la negación en bloque y declarado el ámbito con páginas."
 	},
 	{
 		"id": "7f974dcf",
@@ -251,8 +251,8 @@
 		"comprobado_a_mano": null,
 		"cubo": "filologico",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911190000. Enumeración del repertorio completada con las coplas de pie quebrado, retirada la negación en bloque y declarado el ámbito con páginas."
 	},
 	{
 		"id": "14228466",
