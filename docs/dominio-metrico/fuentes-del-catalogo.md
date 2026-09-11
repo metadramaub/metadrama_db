@@ -29,6 +29,22 @@ estaba ahí. **Es copia a mano del capítulo V del volumen, y es fiel** —confi
 septiembre de 2026—, así que vale como original y no hay que ir al libro para contrastar una
 afirmación suya.
 
+**Y desde ese mismo día lleva las páginas**, que la copia original no traía: marcas `[p. 38]` a
+`[p. 41]`, que es lo que ocupa el capítulo V. Así que **Morley y Bruerton ya se citan con página**,
+y conviene, porque sin ella el localizador no se podía seguir: «Cap. V» a secas manda a diecinueve
+epígrafes. Reparto:
+
+| Página | Epígrafes |
+| --- | --- |
+| 38 | redondilla, quintilla, copla real, décima (espinela) |
+| 39 | romance, seguidilla, pareados, coplas, coplas de pie quebrado, silva, octavas (reales) |
+| 40 | soneto, tercetos (terza rima), tercetos (sin encadenar), liras, sueltos, canción (canzone) |
+| 41 | canción sin rima, pareados, sestina |
+
+**«Pareados» aparece dos veces**, y la página los distingue: el de la p. 39 es el octosílabo de los
+metros españoles y el de la p. 41 el endecasílabo de las formas italianas. Una afirmación que cite
+«Cap. V, «Pareados»» sin más no dice cuál de los dos.
+
 El directorio `bibliografía/` está fuera de git. Si faltan los volcados se regeneran con
 `pdftotext -layout -enc UTF-8`; el epub de Jauralde se extrajo descomprimiéndolo y limpiando
 etiquetas. **`metrica-clasificacion.pdf` no sirve para esto**: es un artículo sobre repertorios
