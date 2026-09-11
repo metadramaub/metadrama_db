@@ -47,6 +47,24 @@ confirmada no es una deuda interna: está en la web.
 Las convenciones de cita de cada una están en [las fuentes del catálogo](./fuentes-del-catalogo.md)
 y no se rediscuten aquí: la auditoría comprueba que se cumplen, no las cambia.
 
+### El volcado no es el libro
+
+**El `.txt` conserva bien el texto y reconstruye mal la estructura.** No es una cautela teórica:
+en la fase 0 mordió cuatro veces en una tarde. El volcado de Quilis fundía las dos columnas del
+libro línea a línea, de modo que una cita literal podía ser un empalme de dos columnas distintas
+—se regeneró—; en Caparrós 2014 los números del índice son indistinguibles de los pies de página;
+en Navarro el número va pegado al titulillo; y en Jauralde no hay páginas en absoluto.
+
+De ahí la regla: **el volcado sirve para encontrar el pasaje y para leer su letra; la página y la
+estructura se confirman en el PDF.** Un número de página que sale de un `.txt` es una inferencia
+de quien lo extrajo, no un dato del libro. Se comprueba con `pdftotext -f N -l N` sobre la hoja
+del PDF, o abriendo esa hoja, y **se anota qué número impreso se ha visto en ella**. Sin esa
+comprobación, una página no se da por buena.
+
+Cuidado con la diferencia entre **hoja del PDF y página impresa**: no coinciden —hay preliminares,
+y el PDF de Quilis escaneó pliegos de dos páginas—, así que el desfase se establece una vez por
+libro y se verifica leyendo el número en la hoja.
+
 ## 1. Qué cuenta como defecto
 
 Sin esta lista, dos verificadores devuelven veredictos que no se pueden comparar ni sumar.
@@ -141,22 +159,33 @@ Sin esta sección lo demás no vale nada: un agente puede inventar tanto como qu
 
 ### La ficha de dictamen
 
-Un fichero por afirmación, repetible por cualquiera:
+Una por afirmación, y **es el entregable de verdad**: no un veredicto suelto, sino lo que hace
+falta para que otro pueda rehacer el juicio sin repetir el trabajo ni fiarse de nadie. Los tres
+campos que la sostienen son el texto original literal, el texto que el catálogo registra y **la
+explicación de por qué es esa página o esa sección**, con lo que se vio al comprobarlo.
 
 ```json
 {
   "afirmacion_id": "…",
   "forma": "Octava real",
   "fuente": 2016,
-  "localizador": "Entrada «octava real», p. 246",
-  "extracto": { "fichero": "…txt", "linea_inicio": 12345, "linea_fin": 12380,
-                "pagina_declarada": 246, "pagina_hallada": 246 },
-  "pasadas": { "A": "conforme", "B": "omite el matiz de la rima", "C": "p. 246" },
+  "localizador_declarado": "Entrada «octava real», p. 246",
+
+  "por_que_ahi": "La entrada «octava real» abre en la línea 10384 del volcado. La hoja 259 del PDF lleva impreso el número 246 y contiene esa entrada.",
+  "confirmacion_pdf": { "hoja": 259, "numero_impreso": 246, "coincide": true },
+
+  "texto_original": "octava real. Estrofa de ocho versos endecasílabos, de los que riman en consonante… Es posible, aunque no frecuente, encontrar otra disposición de la rima de los seis primeros versos.",
+  "texto_registrado": "Advierte que «es posible, aunque no frecuente, encontrar otra disposición de la rima de los seis primeros versos»…",
+
   "veredicto": "conforme | defecto | duda_filologica",
   "defectos": [ { "tipo": "endurecimiento", "gravedad": "grave",
                   "cita_literal": "es posible, aunque no frecuente…", "linea": 12351 } ]
 }
 ```
+
+**`texto_original` se transcribe, no se resume**, y un script comprueba después que esa
+transcripción aparece de verdad en el fichero. Es lo que permite cotejar original y registro uno
+al lado del otro, que es como se ve el endurecimiento y la omisión: leyendo los dos.
 
 ## 5. La otra mitad: lo que falta
 
