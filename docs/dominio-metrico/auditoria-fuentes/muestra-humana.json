@@ -1,0 +1,126 @@
+{
+	"semilla": "2026-09-11",
+	"cuantas": 9,
+	"de": 95,
+	"muestra": [
+		{
+			"id": "e0c28298",
+			"fuente": "Morley y Bruerton 1968",
+			"sobre": "Terceto",
+			"localizador_declarado": "Cap. V, «Tercetos (sin encadenar)»",
+			"veredicto": "conforme",
+			"pagina_que_afirma_el_dictamen": null,
+			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "8dc1b345",
+			"fuente": "Morley y Bruerton 1968",
+			"sobre": "Sextilla enlazada",
+			"localizador_declarado": "Capítulo «Definición de las Formas Métricas», epígrafe «Coplas de pie quebrado»",
+			"veredicto": "conforme",
+			"pagina_que_afirma_el_dictamen": null,
+			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "9c4dd052",
+			"fuente": "Morley y Bruerton 1968",
+			"sobre": "Lira",
+			"localizador_declarado": "Cap. V, «Liras»",
+			"veredicto": "conforme",
+			"pagina_que_afirma_el_dictamen": null,
+			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "d1ea2ecf",
+			"fuente": "Morley y Bruerton 1968",
+			"sobre": "Villancico",
+			"localizador_declarado": "Capítulo «Definición de las Formas Métricas», epígrafes «Metros Españoles», «Coplas» y «Canción (Canzone)»",
+			"veredicto": "conforme",
+			"pagina_que_afirma_el_dictamen": null,
+			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "332a88fd",
+			"fuente": "Navarro Tomás 1972",
+			"sobre": "Terceto",
+			"localizador_declarado": "§ 21",
+			"veredicto": "conforme",
+			"pagina_que_afirma_el_dictamen": {
+				"hoja": 62,
+				"numero_impreso": 67,
+				"coincide_con_lo_declarado": true
+			},
+			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "8e712f47",
+			"fuente": "Quilis 1969",
+			"sobre": "Copla castellana",
+			"localizador_declarado": "§ 5.4.7.4",
+			"veredicto": "defecto",
+			"pagina_que_afirma_el_dictamen": {
+				"hoja": 55,
+				"numero_impreso": 108,
+				"coincide_con_lo_declarado": true
+			},
+			"que_comprobar": "Que el defecto es real y no una acusación de más.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "e7c94f87",
+			"fuente": "Navarro Tomás 1972",
+			"sobre": "Sextilla",
+			"localizador_declarado": "§§ 22, 38, 63 y 308",
+			"veredicto": "defecto",
+			"pagina_que_afirma_el_dictamen": {
+				"hoja": 63,
+				"numero_impreso": 68,
+				"coincide_con_lo_declarado": true
+			},
+			"que_comprobar": "Que el defecto es real y no una acusación de más.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "e7df73d9",
+			"fuente": "Navarro Tomás 1972",
+			"sobre": "Pareado",
+			"localizador_declarado": "§ 58",
+			"veredicto": "defecto",
+			"pagina_que_afirma_el_dictamen": {
+				"hoja": 118,
+				"numero_impreso": 124,
+				"coincide_con_lo_declarado": true
+			},
+			"que_comprobar": "Que el defecto es real y no una acusación de más.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		},
+		{
+			"id": "022cea3a",
+			"fuente": "Navarro Tomás 1972",
+			"sobre": "Soneto",
+			"localizador_declarado": "§ 107",
+			"veredicto": "duda_filologica",
+			"pagina_que_afirma_el_dictamen": {
+				"hoja": 198,
+				"numero_impreso": 205,
+				"coincide_con_lo_declarado": true
+			},
+			"que_comprobar": "Que está bien clasificada como cuestión de criterio y no como error.",
+			"hallazgo_humano": "",
+			"coincide_con_el_dictamen": null
+		}
+	]
+}
