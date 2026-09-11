@@ -25,7 +25,9 @@ refiere a la edición original.
 
 **El de Morley y Bruerton es `definiciones_Morley&Bruerton.md`**, en `.md` y sin sus apellidos al
 principio: las búsquedas por `.txt` no lo encuentran y ya se dio dos veces por ausente cuando
-estaba ahí.
+estaba ahí. **Es copia a mano del capítulo V del volumen, y es fiel** —confirmado el 11 de
+septiembre de 2026—, así que vale como original y no hay que ir al libro para contrastar una
+afirmación suya.
 
 El directorio `bibliografía/` está fuera de git. Si faltan los volcados se regeneran con
 `pdftotext -layout -enc UTF-8`; el epub de Jauralde se extrajo descomprimiéndolo y limpiando

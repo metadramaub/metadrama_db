@@ -1,18 +1,23 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-08-25 20:58
+Generado: 2026-09-10 22:47
 
-Inventario: 41 formas y 2 tramos sin forma · 91 configuraciones · 96 patrones métricos · 164 patrones de rima · 85 secciones · 106 grupos de elección · 680 opciones · 7 rasgos.
+Inventario: 41 formas y 2 tramos sin forma · 95 configuraciones · 96 patrones métricos · 166 patrones de rima · 85 secciones · 136 grupos de elección · 960 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
 ## 1 · Defectos
 
-### D1 · Configuración sin contenido normativo — 0
+### D1 · Configuración sin contenido normativo — 4
 
 > Una configuración debe declarar al menos un patrón, una sección o una variedad.
 
-Sin incidencias.
+| Sujeto | Detalle |
+| --- | --- |
+| verso_aislado · cualquier_medida | principal=true · demarcable=false |
+| irregular · mixta | principal=false · demarcable=false |
+| irregular · arte_mayor | principal=false · demarcable=false |
+| irregular · arte_menor | principal=false · demarcable=false |
 
 ### D2 · Patrón de rima sin contenido alguno — 0
 
@@ -20,11 +25,16 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D2b · Configuración sin ninguna declaración de rima ni de repetición — 0
+### D2b · Configuración sin ninguna declaración de rima ni de repetición — 4
 
 > Toda configuración debe declarar cómo se comporta la rima: un patrón propio, una sección que lo aporte o lo reutilice, o un patrón de repetición que ocupe su lugar.
 
-Sin incidencias.
+| Sujeto | Detalle |
+| --- | --- |
+| verso_aislado · cualquier_medida | 0 sección(es), sin patrón de rima accesible |
+| irregular · mixta | 0 sección(es), sin patrón de rima accesible |
+| irregular · arte_mayor | 0 sección(es), sin patrón de rima accesible |
+| irregular · arte_menor | 0 sección(es), sin patrón de rima accesible |
 
 ### D3 · Patrón métrico sin posiciones ni opciones — 0
 
@@ -32,11 +42,13 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D4 · La extensión de la unidad no se declara ni se puede derivar — 0
+### D4 · La extensión de la unidad no se declara ni se puede derivar — 1
 
 > Una arquitectura declara cuántos versos tiene su unidad, y entonces sus secciones no pueden sumar otra cosa; o la deja sin declarar, y entonces tiene que haber secciones de las que derivarla. Lo que no puede es no decirlo por ninguna de las dos vías.
 
-Sin incidencias.
+| Sujeto | Detalle |
+| --- | --- |
+| verso_aislado · cualquier_medida | no declara unidad y no tiene secciones de las que derivarla |
 
 ### D5 · La opción distingue menos posiciones que el patrón al que apunta — 0
 
@@ -70,7 +82,7 @@ Sin incidencias.
 
 ### D10 · Coherencia del tipo de registro y del grado de especificación — 0
 
-> Un tramo sin forma no tiene arquitectura. Y la taxonomía va en una sola dirección: lo específico es subtipo de lo general, nunca al revés.
+> Un tramo sin forma puede tener arquitecturas, porque de ellas cuelgan sus preguntas, pero ninguna declara norma. Y la taxonomía va en una sola dirección: lo específico es subtipo de lo general, nunca al revés.
 
 Sin incidencias.
 
@@ -80,11 +92,13 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D12 · Pregunta estructural con alcance de secuencia — 0
+### D12 · Pregunta estructural con alcance de secuencia — 1
 
 > Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad.
 
-Sin incidencias.
+| Sujeto | Detalle |
+| --- | --- |
+| verso_aislado · cualquier_medida | medida_de_cada_verso · dimensión metro · 0 opciones |
 
 ### D13 · Un esquema concreto contradice el criterio de su esquema abierto — 0
 
@@ -110,9 +124,17 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D17 · Una unidad cuya rima no está fija y nadie pregunta — 0
+### D17 · Una unidad cuya rima no está fija y nadie pregunta — 1
 
-> Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema concreto. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.
+> Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema **definitorio**. Un único esquema marcado «habitual» o «admitida» no exime: decir que suele ser ese es decir que hay otros. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.
+
+| Sujeto | Detalle |
+| --- | --- |
+| verso_aislado · cualquier_medida | no declara ninguna disposición ni pregunta cuál se observa |
+
+### D18 · Una unidad cuya medida no está fija y nadie pregunta — 0
+
+> El mismo principio que D17, en la otra dimensión: donde la norma admite varias medidas y no dice cuál va en cada verso, el editor tiene que poder decir cuál leyó. Exime que la arquitectura pregunte su metro, que lo resuelva una variedad —que empareja esquema métrico y de rima—, o que su estructura reutilice otras arquitecturas. Las series quedan fuera porque no tienen unidad. Una arquitectura cuyo esquema métrico fija cada posición no entra: ahí la medida no varía, y lo que se salga de ella es una desviación.
 
 Sin incidencias.
 
@@ -126,51 +148,51 @@ Sin incidencias.
 | copla_castellana | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección | 2 | unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_de_arte_menor | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección | 2 | unidad |
-| copla_manriquena | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
+| copla_manriquena | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección | 2 | unidad |
 | copla_real | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección, sin patrón | 3 | unidad |
 | cuarteto | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
-| cuarteto_lira | estrofa | 1 | sí | conjunto | elección | 1 | unidad |
+| cuarteto_lira | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
 | decima | estrofa | 6 | sí | configuracion, posiciones | patrón único | 0 | — |
-| decima_lira | estrofa | 1 | sí | conjunto | elección | 1 | unidad |
+| decima_lira | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
 | endecasilabo_suelto | serie | 1 | sí | posiciones | patrón único | 5 | secuencia |
 | endecha_real | serie | 3 | sí | configuracion, posiciones | elección, patrón único | 4 | secuencia |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| novena | estrofa | 2 | sí | conjunto, eleccion, posiciones | elección, sin patrón | 6 | unidad |
-| novena_lira | estrofa | 1 | sí | conjunto | esquema libre | 1 | unidad |
-| octava_aguda | estrofa | 6 | sí | configuracion, posiciones | elección | 6 | unidad |
-| octava_lira | estrofa | 1 | sí | conjunto | elección | 1 | unidad |
-| octava_real | estrofa | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
+| novena | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | elección, sin patrón | 5 | unidad |
+| novena_lira | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
+| octava_aguda | estrofa | 6 | sí | configuracion, posiciones | elección | 12 | secuencia, unidad |
+| octava_lira | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
+| octava_real | estrofa | 1 | sí | posiciones | elección | 2 | secuencia, unidad |
 | oncena | estrofa | 2 | sí | conjunto, eleccion, posiciones | sin patrón | 2 | unidad |
-| pareado | estrofa | 2 | sí | configuracion, conjunto, eleccion | elección, patrón único | 3 | unidad |
+| pareado | estrofa | 2 | sí | configuracion, conjunto, eleccion | elección, patrón único | 4 | secuencia, unidad |
 | quintilla | estrofa | 3 | sí | configuracion, conjunto, eleccion, posiciones | elección | 4 | unidad |
 | redondilla | estrofa | 3 | sí | configuracion, conjunto, eleccion, posiciones | elección | 4 | unidad |
 | redondilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
 | romance | serie | 6 | sí | configuracion, posiciones | patrón único | 6 | secuencia |
-| seguidilla | estrofa | 7 | sí | configuracion, eleccion, posiciones | patrón único | 1 | unidad |
+| seguidilla | estrofa | 7 | sí | configuracion, eleccion, posiciones | patrón único | 8 | secuencia, unidad |
 | septeto | estrofa | 2 | sí | posiciones | esquema libre, patrón único | 3 | secuencia, unidad |
-| septeto_lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
+| septeto_lira | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | septilla | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección | 2 | unidad |
 | septilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
 | sexteto | estrofa | 3 | sí | configuracion, posiciones | elección, esquema libre | 4 | secuencia, unidad |
 | sexteto_lira | estrofa | 1 | sí | posiciones | variedad | 2 | secuencia, unidad |
-| sextilla | estrofa | 6 | sí | configuracion, posiciones | elección, esquema libre | 6 | unidad |
+| sextilla | estrofa | 6 | sí | configuracion, conjunto, eleccion, posiciones | elección, esquema libre | 7 | unidad |
 | sextilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
 | sextina | composicion | 3 | sí | posiciones | sin patrón | 0 | — |
 | sextina_estrofa | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
 | silva | serie | 5 | sí | configuracion, conjunto, posiciones | patrón único | 4 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
-| terceto | estrofa | 3 | sí | configuracion, posiciones | elección | 4 | secuencia, unidad |
+| terceto | estrofa | 3 | sí | configuracion, posiciones | elección | 6 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
-| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 12 | realizacion, unidad |
+| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 14 | realizacion, secuencia, unidad |
 | zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 4 | realizacion, unidad |
 
 ### 2.2 · Reparto de la medida
 
 | Vía | Formas |
 | --- | --- |
-| configuracion (13) | decima, endecha_real, octava_aguda, pareado, quintilla, redondilla, romance, seguidilla, sexteto, sextilla, silva, terceto, terceto_encadenado |
-| conjunto (17) | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, septilla, silva, villancico, zejel |
-| eleccion (13) | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_real, novena, oncena, pareado, quintilla, redondilla, seguidilla, septilla, villancico, zejel |
+| configuracion (14) | decima, endecha_real, novena, octava_aguda, pareado, quintilla, redondilla, romance, seguidilla, sexteto, sextilla, silva, terceto, terceto_encadenado |
+| conjunto (19) | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, septilla, sextilla, silva, villancico, zejel |
+| eleccion (19) | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, seguidilla, septilla, sextilla, villancico, zejel |
 | posiciones (34) | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, lira, novena, octava_aguda, octava_real, oncena, quintilla, redondilla, redondilla_enlazada, romance, seguidilla, septeto, septeto_lira, septilla, septilla_enlazada, sexteto, sexteto_lira, sextilla, sextilla_enlazada, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
@@ -178,23 +200,23 @@ Sin incidencias.
 | Dimensión · alcance | Formas |
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
-| metro · unidad | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_real, novena, oncena, pareado, quintilla, redondilla, seguidilla, septilla, villancico, zejel |
-| rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_real, romance, septeto, sexteto, sexteto_lira, silva, soneto, terceto |
+| metro · secuencia | irregular, verso_aislado |
+| metro · unidad | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, seguidilla, septilla, sextilla, villancico, zejel |
+| rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_aguda, octava_real, pareado, romance, seguidilla, septeto, sexteto, sexteto_lira, silva, soneto, terceto, villancico |
 | repeticion · realizacion | villancico, zejel |
-| rima · secuencia | endecha_real |
-| rima · unidad | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, cuarteto_lira, decima_lira, novena, novena_lira, octava_aguda, octava_lira, octava_real, pareado, quintilla, redondilla, septeto, septilla, sexteto, sextilla, soneto, terceto, villancico |
+| rima · secuencia | endecha_real, irregular |
+| rima · unidad | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, cuarteto_lira, decima_lira, novena, novena_lira, octava_aguda, octava_lira, octava_real, pareado, quintilla, redondilla, septeto, septeto_lira, septilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| undefined | 164 | cancion_petrarquista×4, copla_castellana×4, copla_de_arte_mayor×4, copla_de_arte_menor×3, copla_manriquena×2, cuarteto×2, cuarteto_lira×2, decima×6, decima_lira×1, endecasilabo_suelto×1, endecha_real×7, lira×1, novena_lira×1, octava_aguda×12, octava_lira×2, octava_real×2, pareado×3, quintilla×27, redondilla×6, redondilla_enlazada×1, romance×6, seguidilla×7, septeto×2, septeto_lira×1, septilla×5, septilla_enlazada×1, sexteto×5, sexteto_lira×3, sextilla×11, sextilla_enlazada×1, sextina_estrofa×1, silva×5, soneto×6, terceto×10, terceto_encadenado×2, villancico×6, zejel×1 |
+| undefined | 166 | cancion_petrarquista×4, copla_castellana×4, copla_de_arte_mayor×4, copla_de_arte_menor×3, copla_manriquena×2, cuarteto×2, cuarteto_lira×2, decima×6, decima_lira×1, endecasilabo_suelto×1, endecha_real×7, lira×1, novena_lira×1, octava_aguda×12, octava_lira×2, octava_real×2, pareado×3, quintilla×27, redondilla×6, redondilla_enlazada×1, romance×6, seguidilla×7, septeto×2, septeto_lira×1, septilla×5, septilla_enlazada×1, sexteto×5, sexteto_lira×3, sextilla×13, sextilla_enlazada×1, sextina_estrofa×1, silva×5, soneto×6, terceto×10, terceto_encadenado×2, villancico×6, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
 | Configuración | Patrones abiertos | Estrategia |
 | --- | ---: | --- |
-| novena_lira · heterometrica_consonante | 1 | control abierto de esquema |
 | sexteto · dodecasilabica | 1 | control abierto de esquema |
 | sextilla · heptasilabica | 1 | control abierto de esquema |
 | sextilla · hexasilabica | 1 | control abierto de esquema |
@@ -202,6 +224,7 @@ Sin incidencias.
 | sextilla · tetrasilabica | 1 | control abierto de esquema |
 | cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema + restricciones cualitativas (1) |
 | septeto · endecasilabica | 1 | control abierto de esquema + restricciones cualitativas (1) |
+| novena_lira · heterometrica_consonante | 1 | patrón vacío, sin sustituto |
 | octava_real · endecasilabica_consonante | 1 | patrón vacío, sin sustituto |
 | septeto · compuesta | 1 | patrón vacío, sin sustituto |
 | sexteto · alejandrina | 1 | patrón vacío, sin sustituto |
@@ -237,5 +260,5 @@ Formas sin contrato editorial declarado (15): copla_castellana, copla_de_arte_me
 
 ---
 
-Total de defectos detectados: 0.
+Total de defectos detectados: 11.
 

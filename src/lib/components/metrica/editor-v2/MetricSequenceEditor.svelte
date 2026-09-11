@@ -500,11 +500,11 @@
 	/**
 	 * De qué son los versos que sobran, cuando la arquitectura declara un cierre opcional.
 	 *
-	 * El terceto encadenado mide `3n` o `3n+4`, y esos cuatro versos son su serventesio final. Las
-	 * dos congruencias son **excluyentes** —`3n ≡ 0` y `3n+4 ≡ 1` en módulo 3—, así que **el rango
-	 * ya decide si el cierre está**: en cuarenta versos la única lectura posible lo lleva, y en
-	 * treinta y nueve no cabe. Por eso no se pregunta; lo que faltaba era decir su nombre en vez de
-	 * «y 4 versos más», que obliga a adivinar qué son.
+	 * El terceto encadenado mide `3n` o `3n+1`, y ese verso de más es su remate final. Las dos
+	 * congruencias son **excluyentes** —`3n ≡ 0` y `3n+1 ≡ 1` en módulo 3—, así que **el rango ya
+	 * decide si el cierre está**: en cuarenta versos la única lectura posible lo lleva, y en treinta
+	 * y nueve no cabe. Por eso no se pregunta; lo que faltaba era decir su nombre en vez de «y 1
+	 * verso más», que obliga a adivinar qué es.
 	 */
 	const nombreDeLosSobrantes = $derived.by(() => {
 		const sobrantes = reparticionDelPasaje?.sobrantes ?? 0;

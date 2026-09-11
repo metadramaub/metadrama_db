@@ -218,7 +218,7 @@ const payload = {
 			nombre: 'Tercetos',
 			orden: 2
 		},
-		// El terceto se repite sin límite; el serventesio cierra, y puede faltar.
+		// El terceto se repite sin límite desde el segundo; el remate cierra, y puede faltar.
 		{
 			seccion_id: 'cadena-terceto',
 			arquitectura_id: 'cadena-11',
@@ -228,18 +228,18 @@ const payload = {
 			orden: 1,
 			versos_min: 3,
 			versos_max: 3,
-			repeticiones_min: 1,
+			repeticiones_min: 2,
 			repeticiones_max: null
 		},
 		{
 			seccion_id: 'cadena-cierre',
 			arquitectura_id: 'cadena-11',
 			seccion_padre_id: null,
-			tipo_seccion: 'serventesio',
-			nombre: 'Serventesio',
+			tipo_seccion: 'remate',
+			nombre: 'Remate',
 			orden: 2,
-			versos_min: 4,
-			versos_max: 4,
+			versos_min: 1,
+			versos_max: 1,
 			repeticiones_min: 0,
 			repeticiones_max: 1
 		}
@@ -287,10 +287,10 @@ const lengthRules = [
 		arquitectura_nombre: 'Endecasilábica',
 		modulo_versos: 3,
 		residuo_versos: 0,
-		minimo_versos: 3,
+		minimo_versos: 6,
 		origen: 'secciones_repetibles',
-		explicacion: 'bloques completos de 3 versos, con un cierre opcional de 4 versos',
-		desplazamientos: [0, 4]
+		explicacion: 'bloques completos de 3 versos, con un cierre opcional de 1 verso',
+		desplazamientos: [0, 1]
 	}
 ];
 
@@ -394,10 +394,10 @@ describe('proyección del catálogo para el demarcador', () => {
 	});
 
 	/**
-	 * B4. Hasta el 19 de agosto de 2026 el serventesio del terceto encadenado era obligatorio, y el
-	 * cómputo del cierre solo miraba secciones con `repeticiones_min === repeticiones_max`. Al
-	 * volverse opcional dejó de contar y **la evidencia desapareció del artefacto**: el demarcador
-	 * se quedó sin la pregunta que distingue la cadena que cierra de la que no.
+	 * B4. Un cierre opcional tiene `repeticiones_min` distinto de `repeticiones_max`, y el cómputo
+	 * que solo miraba los que los tienen iguales lo dejaba fuera: **la evidencia desaparecía del
+	 * artefacto** y el demarcador se quedaba sin la pregunta que distingue la cadena que cierra de
+	 * la que no.
 	 */
 	it('sigue preguntando por el cierre de una serie cuando el cierre es opcional', async () => {
 		const catalogo = await cargarCatalogoDemarcador(client);
@@ -406,11 +406,11 @@ describe('proyección del catálogo para el demarcador', () => {
 			evidencia.dimension.startsWith('estructura:serie:')
 		);
 		expect(cierre).toBeDefined();
-		expect(cierre?.dimension).toBe('estructura:serie:3:4');
+		expect(cierre?.dimension).toBe('estructura:serie:3:1');
 		// Y lo pregunta como lo que es: admitido, no exigido. Con esa modalidad un «no» apenas
 		// penaliza, que es lo que corresponde a una serie que puede terminar sin cierre.
 		expect(cierre?.modalidad).toBe('admitida');
-		expect(cierre?.pregunta).toContain('termina el pasaje en un cierre final de 4');
+		expect(cierre?.pregunta).toContain('termina el pasaje en un remate de 1 verso');
 		expect(cierre?.ayuda).toContain('no la descarta');
 	});
 
@@ -421,7 +421,7 @@ describe('proyección del catálogo para el demarcador', () => {
 			(evidencia) => evidencia.familiaCognitiva === 'extension'
 		);
 		expect(extension?.modulo).toBe(3);
-		expect(extension?.desplazamientos).toEqual([0, 4]);
+		expect(extension?.desplazamientos).toEqual([0, 1]);
 
 		// Y una forma sin partes opcionales no arrastra ninguno.
 		const romance = catalogo.hipotesis.find((item) => item.formaId === 'romance');
