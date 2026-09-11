@@ -509,8 +509,8 @@
 		"comprobado_a_mano": true,
 		"cubo": "observacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911200000. Enumeración completada y la inferencia propia enunciada como posibilidad; lo que la afirmación sostiene no cambió."
 	},
 	{
 		"id": "f5e83325",
@@ -521,8 +521,8 @@
 		"comprobado_a_mano": null,
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260911200000. Enumeración completada y la inferencia propia enunciada como posibilidad; lo que la afirmación sostiene no cambió."
 	},
 	{
 		"id": "d3241dd6",
