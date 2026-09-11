@@ -9,10 +9,10 @@
 			"sobre": "Terceto",
 			"localizador_declarado": "Cap. V, «Tercetos (sin encadenar)»",
 			"veredicto": "conforme",
-			"pagina_que_afirma_el_dictamen": null,
+			"pagina_que_afirma_el_dictamen": 38,
 			"que_comprobar": "Que el pasaje está donde dice y que el catálogo no le añade, endurece ni omite nada que cambie la lectura.",
-			"hallazgo_humano": "",
-			"coincide_con_el_dictamen": null
+			"hallazgo_humano": "Se podría usar su misma notación (AXA BXB) para indicar que no se encadena, como hacen ellos, pero no me parece grave.",
+			"coincide_con_el_dictamen": true
 		},
 		{
 			"id": "8dc1b345",
