@@ -376,6 +376,20 @@
 			.join('');
 	}
 
+	/**
+	 * Una respuesta escrita en una sección habla con letras locales, igual que sus opciones
+	 * catalogadas (`abba`, `abab`…). Al reunir las partes, el resumen conserva las coincidencias pero
+	 * les da las siguientes letras libres para no sugerir una rima entre miembros que el modelo no
+	 * puede declarar todavía.
+	 */
+	function esNotacionLocalEscrita(pregunta: PreguntaFormulario, value: string): boolean {
+		return Boolean(
+			value.trim() &&
+			pregunta.seccionId &&
+			pregunta.groups.some((group: MetricCatalogDomainRow) => group.dimension === 'rima')
+		);
+	}
+
 	function sectionDefinesPattern(section: MetricCatalogDomainRow | null): boolean {
 		return section?.primera_realizacion_define_patron === true;
 	}
@@ -904,6 +918,43 @@
 	});
 
 	/**
+	 * Marcas para distinguir de un vistazo las respuestas efectivas del listado final.
+	 *
+	 * Se agrupan por la notación que realmente se va a registrar, no por si la respuesta se introdujo
+	 * como general o como excepción. Así dos unidades separadas que llevan la misma tipología,
+	 * esquema o variedad reciben siempre el mismo color. La marca es solo una guía visual: la
+	 * notación que va al lado sigue siendo la información que identifica la respuesta.
+	 */
+	const marcasDeLectura = [
+		'border-l-sky-500',
+		'border-l-amber-500',
+		'border-l-violet-500',
+		'border-l-emerald-500',
+		'border-l-rose-500',
+		'border-l-cyan-600'
+	] as const;
+
+	const marcaDeUnidadEnLectura = $derived.by(() => {
+		const firmas = unidadesRaiz.map(({ unit }) => ({
+			unitId: unit.realizacion_id,
+			firma: notacionDeLaUnidad(unit) ?? ''
+		}));
+		const indicePorFirma = new Map<string, number>();
+		for (const { firma } of firmas) {
+			if (firma && !indicePorFirma.has(firma)) indicePorFirma.set(firma, indicePorFirma.size);
+		}
+		if (indicePorFirma.size <= 1) return new Map<string, string>();
+
+		return new Map(
+			firmas.flatMap(({ unitId, firma }) => {
+				const indice = indicePorFirma.get(firma);
+				if (indice === undefined) return [];
+				return [[unitId, marcasDeLectura[indice % marcasDeLectura.length]] as const];
+			})
+		);
+	});
+
+	/**
 	 * **Si abajo no queda nada que tocar, lo que va ahí es la lectura de lo que se guarda.**
 	 *
 	 * Lo que impide compactar es **estructura por decidir**: una extensión editable, un ciclo que se
@@ -1165,6 +1216,12 @@
 		const { medidas, base } = medidasDeLaUnidad(unit);
 		const letras = new Map<number, string>();
 		const cortes = new Set<number>();
+		/**
+		 * La rejilla contiene también la disposición habitual de una arquitectura, pero habitual no
+		 * significa elegida. Estas posiciones impiden que esa referencia se presente como respuesta
+		 * mientras la pregunta de rima siga vacía; el metro fijo sí puede leerse entretanto.
+		 */
+		const rimaPendiente = new Set<number>();
 
 		// **La copla y sus partes se leen juntas.** En la copla real la medida se responde en la
 		// copla y la rima en cada quintilla, que son unidades propias: por separado salían dos
@@ -1218,6 +1275,27 @@
 				// La medida ya la trae `medidasDeLaUnidad`; aquí solo se reparte la rima.
 				if (group.dimension !== 'rima') continue;
 				const escrito = choiceTextValue(groupId, parte.realizacion_id).trim();
+				if (elegidas.length === 0 && !escrito) {
+					const seccionTratadaId = group.seccion_tratada_id
+						? String(group.seccion_tratada_id)
+						: group.seccion_id
+							? String(group.seccion_id)
+							: null;
+					const tramos = seccionTratadaId
+						? props.units.filter(
+								(candidata: MetricUnitDraft) =>
+									String(candidata.seccion_id ?? '') === seccionTratadaId &&
+									candidata.v_ini >= parte.v_ini &&
+									candidata.v_fin <= parte.v_fin
+							)
+						: [parte];
+					for (const tramo of tramos.length > 0 ? tramos : [parte]) {
+						for (let verso = tramo.v_ini; verso <= tramo.v_fin; verso += 1) {
+							const posicion = verso - unit.v_ini + 1;
+							if (posicion >= 1 && posicion <= versos) rimaPendiente.add(posicion);
+						}
+					}
+				}
 				const catalogados = normaEsquemaDe(group, parte).catalogados;
 				const notacion =
 					opciones
@@ -1307,6 +1385,7 @@
 					(clase: { clase: string | null; suelto?: boolean }, indice: number) => {
 						const posicion = esqueleto.desde + indice;
 						if (letras.has(posicion)) return;
+						if (rimaPendiente.has(posicion)) return;
 						if (clase.clase) letras.set(posicion, clase.clase);
 						else if (clase.suelto) letras.set(posicion, '-');
 					}
@@ -1403,13 +1482,16 @@
 	 * Lo mismo, cuando la respuesta se escribe en vez de elegirse.
 	 *
 	 * Va por separado de `writeComunChoice` porque no hay slug que copiar: se copia la notación,
-	 * ya normalizada, exactamente como la escribiría cada unidad por su cuenta.
+	 * ya normalizada, exactamente como la escribiría cada unidad por su cuenta. Devuelve el
+	 * resultado para que la edición de una excepción pueda componer todos sus cambios antes de
+	 * comunicarlos al contenedor.
 	 */
-	function aplicarComunTexto(
+	function writeComunText(
 		pregunta: PreguntaFormulario,
 		value: string,
+		baseChoices: MetricChoiceDraft[],
 		soloEn: Set<string> | null = null
-	) {
+	): MetricChoiceDraft[] {
 		// En conjunto todas las unidades responden lo mismo, así que la caja se decide con la
 		// primera: si midieran distinto, la pregunta no sería común.
 		const primera = pregunta.destinatarias.at(0)?.owner;
@@ -1419,7 +1501,7 @@
 		const normalized = esSerie
 			? value.replace(/\s+/g, ' ').trimStart()
 			: normalizeRhymeScheme(value, primera);
-		let siguientes = [...props.choices];
+		let siguientes = [...baseChoices];
 		for (const { group, owner: unit } of pregunta.destinatarias) {
 			const groupId = String(group.grupo_eleccion_id);
 			{
@@ -1442,7 +1524,15 @@
 				}
 			}
 		}
-		props.onChoicesChange(siguientes);
+		return siguientes;
+	}
+
+	function aplicarComunTexto(
+		pregunta: PreguntaFormulario,
+		value: string,
+		soloEn: Set<string> | null = null
+	) {
+		props.onChoicesChange(writeComunText(pregunta, value, props.choices, soloEn));
 	}
 
 	/**
@@ -1498,12 +1588,27 @@
 	let excepcionSlugs = $state<string[]>([]);
 	let excepcionTexto = $state('');
 	let excepcionUnidades = $state<string[]>([]);
+	let excepcionOriginal = $state<{ firma: string; unidades: string[] } | null>(null);
 
 	function abrirExcepcion(pregunta: PreguntaFormulario) {
 		excepcionAbierta = pregunta.key;
 		excepcionSlugs = [];
 		excepcionTexto = '';
 		excepcionUnidades = [];
+		excepcionOriginal = null;
+	}
+
+	function editarExcepcion(
+		pregunta: PreguntaFormulario,
+		firma: string,
+		unidades: MetricUnitDraft[]
+	) {
+		const [slugs, texto] = leerFirma(firma);
+		excepcionAbierta = pregunta.key;
+		excepcionSlugs = slugs;
+		excepcionTexto = texto;
+		excepcionUnidades = unidades.map((unidad) => unidad.realizacion_id);
+		excepcionOriginal = { firma, unidades: [...excepcionUnidades] };
 	}
 
 	function cancelarExcepcion() {
@@ -1511,6 +1616,7 @@
 		excepcionSlugs = [];
 		excepcionTexto = '';
 		excepcionUnidades = [];
+		excepcionOriginal = null;
 	}
 
 	function alternarUnidadDeExcepcion(realizacionId: string) {
@@ -1525,9 +1631,37 @@
 	);
 
 	function guardarExcepcion(pregunta: PreguntaFormulario) {
-		const ids = new Set(excepcionUnidades);
-		if (excepcionTexto.trim()) aplicarComunTexto(pregunta, excepcionTexto, ids);
-		else aplicarComun(pregunta, excepcionSlugs, ids);
+		let siguientesElecciones = [...props.choices];
+		let siguientesUnidades = [...props.units];
+		const escribir = (slugs: string[], texto: string, ids: Set<string>) => {
+			if (texto.trim()) {
+				siguientesElecciones = writeComunText(pregunta, texto, siguientesElecciones, ids);
+				return;
+			}
+			const resultado = writeComunChoice(
+				pregunta,
+				slugs,
+				siguientesElecciones,
+				siguientesUnidades,
+				ids
+			);
+			siguientesElecciones = resultado.choices;
+			siguientesUnidades = resultado.units;
+		};
+
+		// Primero devuelve el grupo editado a la respuesta general; después escribe su nuevo estado.
+		// Así retirar una unidad de la excepción no la deja con la respuesta antigua.
+		if (excepcionOriginal) {
+			const state = comunState(pregunta);
+			if (state.mayoritaria) {
+				const [slugsGenerales, textoGeneral] = leerFirma(state.mayoritaria);
+				escribir(slugsGenerales, textoGeneral, new Set(excepcionOriginal.unidades));
+			}
+		}
+
+		escribir(excepcionSlugs, excepcionTexto, new Set(excepcionUnidades));
+		props.onChoicesChange(siguientesElecciones);
+		commitUnits(siguientesUnidades);
 		cancelarExcepcion();
 	}
 
@@ -1546,15 +1680,15 @@
 		else aplicarComun(pregunta, slugs, ids);
 	}
 
-	/**
-	 * Si la pregunta se lee como un punto de partida en vez de como una respuesta de todas.
-	 *
-	 * Una licencia no se responde «en todas»: se parte de que ninguna unidad la lleva y se dice en
-	 * cuáles aparece. Es la misma frontera que decide si la pregunta vive al pie o arriba, así que
-	 * se pregunta una sola vez —antes esto miraba si el control era posicional, y con eso la medida
-	 * de cada verso del pareado, que es obligatoria, se anunciaba como un punto de partida.
-	 */
-	function esDePartida(pregunta: PreguntaFormulario): boolean {
+	/** Retira una licencia opcional y todas las respuestas que la habían hecho visible. */
+	function quitarLicencia(pregunta: PreguntaFormulario) {
+		aplicarComun(pregunta, []);
+		rasgosPedidos = rasgosPedidos.filter((key) => key !== pregunta.key);
+		if (excepcionAbierta === pregunta.key) cancelarExcepcion();
+	}
+
+	/** Las licencias opcionales activadas se pueden retirar completas desde su cabecera. */
+	function esLicenciaOpcional(pregunta: PreguntaFormulario): boolean {
 		return esLicencia(pregunta);
 	}
 
@@ -2641,6 +2775,17 @@
 {/snippet}
 
 
+{#snippet avisoDeNotacionLocal(pregunta: PreguntaFormulario, value: string)}
+	{#if esNotacionLocalEscrita(pregunta, value)}
+		<p class="form-help mt-1 border-l-2 border-amber-500 pl-2">
+			Se conservará el patrón de coincidencias, pero las letras se sustituirán por las siguientes
+			libres para no atribuir rimas compartidas entre partes. Si las partes comparten alguna rima,
+			no guardes la secuencia y contacta para resolverlo.
+		</p>
+	{/if}
+{/snippet}
+
+
 <!--
 	**El reparto del pasaje y la lectura de lo que se guarda comparten sitio.**
 
@@ -2701,7 +2846,12 @@
 			<!-- Solo las unidades de primer nivel: sus partes ya van dentro de su anotación. -->
 			{#each unidadesRaiz as entrada (entrada.unit.realizacion_id)}
 				{@const notacion = notacionDeLaUnidad(entrada.unit)}
-				<li class="flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed">
+				{@const marca = marcaDeUnidadEnLectura.get(entrada.unit.realizacion_id)}
+				<li
+					class={`flex flex-wrap items-baseline gap-x-3 text-sm leading-relaxed ${
+						marca ? `border-l-2 pl-2 ${marca}` : ''
+					}`}
+				>
 					<span>
 						{entrada.rotulo}
 						<span class="tabular-nums text-[color:var(--muted-foreground)]">
@@ -3076,19 +3226,33 @@
 {#snippet bloqueDePregunta(pregunta: PreguntaFormulario, dentroDeSuParte = false)}
 	{@const state = comunState(pregunta)}
 	{@const apartadas = state.hayComun ? excepcionesDe(pregunta, state.mayoritaria) : []}
-	{@const dePartida = esDePartida(pregunta)}
+	{@const licenciaOpcional = esLicenciaOpcional(pregunta)}
 	{@const porUnidades = pregunta.alcance === 'unidad'}
 	<div class="space-y-1.5 border-b border-[color:var(--border)] px-3 py-3 last:border-b-0">
 			<!-- Dentro de su parte, el nombre de la parte ya está encima: repetirlo sobra. -->
-		<span class="block text-sm font-medium">
-			{dentroDeSuParte ? pregunta.rotuloSinParte : pregunta.rotulo}
-		</span>
+		<div class="flex items-start justify-between gap-3">
+			<span class="flex items-center gap-1.5 text-sm font-medium">
+				<span>{dentroDeSuParte ? pregunta.rotuloSinParte : pregunta.rotulo}</span>
+				{#if pregunta.ayuda}
+					<FieldHelpTooltip text={pregunta.ayuda} label={`Ayuda sobre «${pregunta.rotulo}»`} />
+				{/if}
+			</span>
+			{#if licenciaOpcional}
+				<button
+					type="button"
+					class="link-action shrink-0 text-xs"
+					onclick={() => quitarLicencia(pregunta)}
+				>
+					Quitar
+				</button>
+			{/if}
+		</div>
 
 		<!--
 			Lo general. El rótulo del alcance va pegado al control para que no se lea como
 			una respuesta más de las de abajo: dice de quién habla lo que se está eligiendo.
 		-->
-		<div class="flex flex-wrap items-center gap-2">
+		<div class="flex flex-wrap items-start gap-2">
 			<!--
 				**Con una sola realización no hay «en todas».**
 
@@ -3100,9 +3264,9 @@
 			-->
 			{#if porUnidades}
 				<span
-					class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
+					class="flex min-h-9 w-40 shrink-0 items-center text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
 				>
-					{dePartida ? 'De partida' : 'En todas'}
+					{state.total === 1 ? 'En la unidad' : `En todas · ${state.total} unidades`}
 				</span>
 			{/if}
 			{#if pregunta.admiteEscrito}
@@ -3119,6 +3283,7 @@
 						textValue={state.generalTexto}
 						onTextChange={(value) => responderEnTodasTexto(pregunta, value)}
 					/>
+					{@render avisoDeNotacionLocal(pregunta, state.generalTexto)}
 				</div>
 			{:else}
 				<MetricFamilyControl
@@ -3132,15 +3297,6 @@
 					medidasFijas={medidasFijasComunes(pregunta)}
 					onChoose={(slugs) => responderEnTodas(pregunta, slugs)}
 				/>
-			{/if}
-			{#if porUnidades}
-				<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">
-					· {state.total}
-					{state.total === 1 ? 'unidad' : 'unidades'}
-				</span>
-			{/if}
-			{#if pregunta.ayuda}
-				<FieldHelpTooltip text={pregunta.ayuda} label={`Ayuda sobre «${pregunta.rotulo}»`} />
 			{/if}
 		</div>
 
@@ -3182,6 +3338,13 @@
 						<button
 							type="button"
 							class="link-action ml-1"
+							onclick={() => editarExcepcion(pregunta, grupo.firma, grupo.unidades)}
+						>
+							editar
+						</button>
+						<button
+							type="button"
+							class="link-action ml-1"
 							onclick={() => quitarExcepcion(pregunta, grupo.unidades)}
 						>
 							quitar
@@ -3213,12 +3376,25 @@
 		-->
 		{#if excepcionAbierta === pregunta.key}
 			{@const filas = unidadesDe(pregunta)}
+			{@const unidadesDeLaEditada = new Set(excepcionOriginal?.unidades ?? [])}
+			{@const ocupadasPorOtraExcepcion = new Set(
+				filas
+					.filter((fila) =>
+						Boolean(
+							state.mayoritaria &&
+							fila.firma &&
+							fila.firma !== state.mayoritaria &&
+							!unidadesDeLaEditada.has(fila.unit.realizacion_id)
+						)
+					)
+					.map((fila) => fila.unit.realizacion_id)
+			)}
 			<div class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2.5">
 				<div class="flex flex-wrap items-center gap-2">
 					<span
 						class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
 					>
-						Responden
+						{excepcionOriginal ? 'Editar excepción' : 'Respuesta distinta'}
 					</span>
 					{#if pregunta.admiteEscrito}
 						<div class="min-w-0 flex-1">
@@ -3234,6 +3410,7 @@
 								textValue={excepcionTexto}
 								onTextChange={(value) => (excepcionTexto = value)}
 							/>
+							{@render avisoDeNotacionLocal(pregunta, excepcionTexto)}
 						</div>
 					{:else}
 						<MetricFamilyControl
@@ -3264,20 +3441,28 @@
 					<span
 						class="shrink-0 text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
 					>
-						En
+						En estas unidades
 					</span>
 					<div class="flex flex-wrap gap-1">
 						{#each filas as fila (fila.unit.realizacion_id)}
 							{@const marcada = excepcionUnidades.includes(fila.unit.realizacion_id)}
+							{@const ocupada = ocupadasPorOtraExcepcion.has(fila.unit.realizacion_id)}
 							<button
 								type="button"
 								class={`min-h-7 min-w-8 border px-1.5 text-xs tabular-nums ${
 									marcada
 										? 'border-[color:var(--primary)] bg-[color:var(--primary)] text-white'
+										: ocupada
+											? 'border-amber-500 bg-amber-50 text-amber-900 hover:border-[color:var(--primary)]'
 										: 'border-[color:var(--border)] bg-white hover:border-[color:var(--primary)]'
 								}`}
 								aria-pressed={marcada}
-								title={`Unidad ${fila.numero} · vv. ${fila.unit.v_ini}–${fila.unit.v_fin}`}
+								aria-label={`Unidad ${fila.numero}, versos ${fila.unit.v_ini} a ${fila.unit.v_fin}${
+									ocupada ? ', ya tiene otra excepción; al elegirla se sustituirá' : ''
+								}`}
+								title={`Unidad ${fila.numero} · vv. ${fila.unit.v_ini}–${fila.unit.v_fin}${
+									ocupada ? ' · ya tiene otra excepción; al elegirla se sustituirá' : ''
+								}`}
 								onclick={() => alternarUnidadDeExcepcion(fila.unit.realizacion_id)}
 							>
 								{fila.numero}
@@ -3285,6 +3470,11 @@
 						{/each}
 					</div>
 				</div>
+				{#if ocupadasPorOtraExcepcion.size > 0}
+					<p class="mt-1.5 text-xs text-amber-800">
+						Las unidades con borde ámbar ya tienen otra excepción. Si las eliges, se sustituirá.
+					</p>
+				{/if}
 
 				<div class="mt-2.5 flex flex-wrap items-center gap-3">
 					<button
@@ -3293,7 +3483,7 @@
 						disabled={!excepcionCompleta}
 						onclick={() => guardarExcepcion(pregunta)}
 					>
-						Añadir la excepción
+						{excepcionOriginal ? 'Guardar cambios' : 'Añadir la excepción'}
 					</button>
 					<button type="button" class="link-action text-xs" onclick={cancelarExcepcion}>
 						Cancelar
