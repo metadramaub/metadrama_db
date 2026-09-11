@@ -39,7 +39,16 @@ Esto salió de un piloto donde los verificadores se pasaron de severos. Léelo c
   reconoce para cada forma: búscalas todas.** Distingue «la fuente no dice esto» de «lo dice con
   otro nombre o desde otra clasificación»: lo segundo es `duda_filologica`, no defecto.
 - Ante la duda entre `defecto` y `duda_filologica`, elige `duda_filologica` y explica qué habría que
-  decidir.
+  decidir. **Pero `duda_filologica` es para lo que está sin decidir**, no para lo que el proyecto ya
+  decidió de otra manera que la fuente: eso último no es una duda, es una diferencia de modelo, y se
+  anota en `observaciones`.
+
+### Una diferencia de modelo no es una forma que falte
+
+El catálogo no clasifica como clasifican las fuentes, y eso está decidido. El caso que más confunde:
+**el pie quebrado es aquí un rasgo que varias formas pueden llevar, no un tipo de estrofa aparte.**
+Cuando una fuente dedica un epígrafe a «coplas de pie quebrado», no se corresponde con una sola
+forma nuestra, y que no exista esa forma no es un hueco del catálogo. No lo señales como falta.
 
 ## El PDF manda sobre el volcado
 
