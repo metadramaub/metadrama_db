@@ -36,6 +36,7 @@ const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const DICTAMENES = join(BASE, 'dictamenes');
 const HOJA = join(BASE, 'correcciones.md');
 const DECISIONES = join(BASE, 'decisiones.json');
+const MUESTRA = join(BASE, 'muestra-humana.json');
 
 /** Los defectos que se arreglan sin discutir nada, frente a los que piden releer. */
 const MATERIALES = new Set([
@@ -61,10 +62,39 @@ const MATERIALES = new Set([
 const SEÑALES_DE_DUDA =
 	/\bomit|\bno (dice|aparece|menciona|recoge|figura|está|consta)|\baña[dn]|\binvierte|\bsustituy|\bgeneraliza|\bcierra\b|\bamplía|\bdiscrepan|\binconsisten|\bno se puede confirmar|\bno pude|\bdebería|\bvalorar|\bincompleta|\bmatiz|\bsalvo que|\bqueda fuera|\bes una inferencia|\bes una glosa/i;
 
+/**
+ * El veredicto que vale, que no siempre es el del verificador.
+ *
+ * Donde un humano ha comprobado la afirmacion contra la fuente, **manda el humano**: para eso se
+ * hizo la muestra. Si dio la razon al verificador, no cambia nada; si discrepo, se invierte el
+ * veredicto, porque una discrepancia solo puede ir en dos direcciones —una conforme que era un
+ * defecto, o un defecto que no lo era—.
+ *
+ * Sin esto la hoja de correcciones se construiria sobre veredictos que ya sabemos falsos: se
+ * genera de los dictamenes, y el dictamen de una afirmacion comprobada sigue diciendo lo que dijo
+ * el agente.
+ */
+function veredictoEfectivo(d) {
+	const h = d.comprobacion_humana;
+	if (!h || h.coincide !== false) return d.veredicto;
+	if (d.veredicto === 'conforme') return 'defecto';
+	if (d.veredicto === 'defecto') return 'conforme';
+	return d.veredicto;
+}
+
 function cubo(d) {
-	if (d.veredicto === 'duda_filologica') return 'filologico';
-	if (d.veredicto === 'no confirmado') return 'fondo';
-	if (d.veredicto === 'defecto') {
+	// **Una discrepancia humana nunca se archiva.** Invertir el veredicto y seguir el curso normal
+	// enterraba hallazgos: al dar por conforme un defecto mal tipificado, la afirmacion caia en el
+	// monton de las que no piden nada, y con ella lo que el humano habia escrito. Discrepar no
+	// significa «lo contrario», significa «esto hay que releerlo».
+	if (d.comprobacion_humana && d.comprobacion_humana.coincide === false) return 'fondo';
+	const veredicto = veredictoEfectivo(d);
+	if (veredicto === 'duda_filologica') return 'filologico';
+	if (veredicto === 'no confirmado') return 'fondo';
+	if (veredicto === 'defecto') {
+		// Un defecto que solo ve un humano no trae la taxonomia rellena, y sin ella no se puede
+		// decir que sea material: va a fondo, que es donde se relee.
+		if (d.comprobacion_humana?.coincide === false && d.veredicto === 'conforme') return 'fondo';
 		const tipos = (d.defectos ?? []).map((f) => f.tipo);
 		return tipos.length && tipos.every((t) => MATERIALES.has(t)) ? 'material' : 'fondo';
 	}
@@ -115,7 +145,24 @@ function main() {
 	// que se deduplica por afirmación quedándose con el último dictamen leído.
 	const porId = new Map();
 	for (const d of todos) porId.set(`${d.fuente}·${d.id}`, d);
-	const dictamenes = [...porId.values()];
+	const humanas = existsSync(MUESTRA)
+		? new Map(
+				(JSON.parse(readFileSync(MUESTRA, 'utf-8')).muestra ?? [])
+					.filter((m) => m.coincide_con_el_dictamen !== null)
+					.map((m) => [
+						`${m.fuente}·${m.id}`,
+						{
+							coincide: m.coincide_con_el_dictamen,
+							hallazgo: m.hallazgo_humano,
+							clasificacion: m.clasificacion
+						}
+					])
+			)
+		: new Map();
+	const dictamenes = [...porId.values()].map((d) => ({
+		...d,
+		comprobacion_humana: humanas.get(`${d.fuente}·${d.id}`) ?? null
+	}));
 
 	const decisionesPrevias = existsSync(DECISIONES)
 		? new Map(JSON.parse(readFileSync(DECISIONES, 'utf-8')).map((d) => [`${d.fuente}·${d.id}`, d]))
@@ -164,6 +211,16 @@ function main() {
 				md.push(`> Ya decidido: **${previa.estado}**${previa.nota ? ` — ${previa.nota}` : ''}`);
 			}
 			md.push('');
+			if (d.comprobacion_humana) {
+				const h = d.comprobacion_humana;
+				md.push(
+					`> **Comprobado a mano.** ${h.coincide ? 'Confirma' : 'NO confirma'} el dictamen, que decia` +
+						` «${d.veredicto}». ${h.clasificacion ? `Clasificado como: ${h.clasificacion}.` : ''}`
+				);
+				md.push('>');
+				md.push(`> ${limpia(h.hallazgo, 900)}`);
+				md.push('');
+			}
 			for (const f of d.defectos ?? []) {
 				md.push(`- **${f.tipo}** (${f.gravedad}). ${limpia(f.explicacion, 500)}`);
 				if (f.cita_literal) md.push(`  - En la fuente: «${limpia(f.cita_literal, 300)}»`);
@@ -218,6 +275,8 @@ function main() {
 				fuente: d.fuente,
 				sobre: d.sobre,
 				veredicto: d.veredicto,
+				veredicto_efectivo: veredictoEfectivo(d),
+				comprobado_a_mano: d.comprobacion_humana ? d.comprobacion_humana.coincide : null,
 				cubo: cubo(d),
 				defectos: (d.defectos ?? []).map((f) => `${f.tipo} (${f.gravedad})`),
 				estado: previa?.estado ?? (cubo(d) === 'limpio' ? 'no requiere revisión' : 'pendiente'),
