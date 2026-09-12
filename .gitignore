@@ -34,5 +34,6 @@ vite.config.ts.timestamp-*
 /docs/dominio-metrico/auditoria-fuentes/dictamenes-b/
 /docs/dominio-metrico/auditoria-fuentes/correcciones.md
 /docs/dominio-metrico/auditoria-fuentes/cotejo.md
+/docs/dominio-metrico/auditoria-fuentes/cotejo.json
 /docs/dominio-metrico/auditoria-fuentes/muestra-humana.md
 __pycache__/

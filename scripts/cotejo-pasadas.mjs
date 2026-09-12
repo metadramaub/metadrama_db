@@ -28,6 +28,7 @@ const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const A = join(BASE, 'dictamenes');
 const B = join(BASE, 'dictamenes-b');
 const SALIDA = join(BASE, 'cotejo.md');
+const SALIDA_JSON = join(BASE, 'cotejo.json');
 
 /**
  * Las palabras con que una fuente se reserva.
@@ -210,6 +211,23 @@ function main() {
 	md.push('');
 
 	writeFileSync(SALIDA, `${md.join('\n')}\n`, 'utf-8');
+
+	// El mismo cotejo en JSON, sin transcripciones: lo lee el sorteo de la muestra humana para
+	// estratificar por senal, y asi lo que se manda comprobar no se elige a ojo.
+	const comoJson = filas.map((f) => ({
+		id: f.id,
+		sobre: f.sobre,
+		fuente: f.fuente,
+		veredictoA: f.veredictoA,
+		senales: {
+			matices: f.perdidas,
+			esquemas: f.esquemasFuera,
+			localizador: f.localizadorFalla,
+			noTrata: f.noTrata
+		},
+		senalada: marca(f) > 0
+	}));
+	writeFileSync(SALIDA_JSON, JSON.stringify(comoJson, null, '	') + String.fromCharCode(10), 'utf-8');
 
 	console.log(`${filas.length} afirmaciones cotejadas · ${conAviso.length} con aviso`);
 	console.log(`  ${filas.filter((f) => f.perdidas.length).length} con matices perdidos`);
