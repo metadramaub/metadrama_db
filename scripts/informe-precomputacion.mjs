@@ -63,7 +63,7 @@ const PARA_QUE = {
 	autores: ['nombres de autoría preparados para filtrar y presentar', 'buscador, portada'],
 	obra_id: ['clave', '—'],
 	autor_id: ['clave', '—'],
-	alcance: ['qué obras entran en el agregado', 'perfil de autor'],
+	alcance: ['qué obras entran; no implica por sí solo permiso de lectura', 'productores'],
 	n_obras_completas: ['recuento', 'perfil de autor'],
 	n_jornadas_sueltas: ['recuento', 'perfil de autor'],
 	total_versos_autor: ['recuento', 'perfil de autor'],
@@ -74,7 +74,7 @@ const PARA_QUE = {
 	tipo: ['familia del contrato JSON', 'servidor público'],
 	entidad_id: ['obra o autor al que pertenece, si procede', 'productores'],
 	version_esquema: ['versión explícita del contrato', 'productores y consumidores'],
-	payload: ['documento JSON servido como unidad', 'rutas públicas'],
+	payload: ['documento JSON servido como unidad', 'rutas públicas o laboratorio privado'],
 	sucio: ['hay cambios posteriores; se conserva la última versión coherente', 'cola y diagnóstico'],
 	generado_en: ['momento en que se reemplazó el artefacto', 'cola y diagnóstico']
 };
@@ -242,7 +242,11 @@ const artefactos = artefactosDisponibles
 	? query(`
 		select tipo, alcance, count(*)::int as cantidad,
 		       coalesce(sum(pg_column_size(payload)), 0)::bigint as bytes,
-		       count(*) filter (where sucio)::int as sucios
+		       count(*) filter (where sucio)::int as sucios,
+		       case
+		         when tipo = 'corpus_comparativas' or alcance = 'completo' then 'admin/IP'
+		         else 'público según RLS'
+		       end as acceso
 		from public.artefactos_publicos
 		group by tipo, alcance
 		order by tipo, alcance
@@ -306,8 +310,9 @@ Regenerado el ${hoy}.
 relacionales que usan los productores. Ya no son el contrato que consumen las páginas públicas.
 
 **3 · Los artefactos servibles.** \`artefactos_publicos\` guarda JSON versionados por consumidor:
-fichas y análisis de obra, fichas de autor, índices ligeros y comparativas del corpus. Sus claves
-tienen forma de ruta de objeto para poder trasladarlos a R2 sin cambiar el contrato.
+fichas y análisis de obra, fichas de autor, índices ligeros y comparativas del corpus. La matriz de
+comparativas es privada aunque su universo se llame \`publico\`; sus claves tienen forma de ruta de
+objeto para poder trasladarlos a R2 sin cambiar el contrato.
 
 **4 · La vista previa.** Solo una obra que aún no está publicada ejecuta \`ficha_publica_json\` en
 vivo. Al pulsar «Actualizar datos públicos», la cola reconstruye primero los artefactos de obra,
@@ -338,17 +343,17 @@ ${tablaDeColumnas('autores_resumen')}
 
 ${artefactosDisponibles ? tablaDeColumnas('artefactos_publicos') : '_La migración de artefactos todavía no está aplicada en esta base._'}
 
-| contrato | alcance | artefactos | tamaño de los payloads | sucios |
-|---|---|--:|--:|--:|
+| contrato | alcance | acceso | artefactos | tamaño de los payloads | sucios |
+|---|---|---|--:|--:|--:|
 ${
 	artefactos.length
 		? artefactos
 				.map(
 					(fila) =>
-						`| \`${fila.tipo}\` | ${fila.alcance} | ${fila.cantidad} | ${bytesLegibles(fila.bytes)} | ${fila.sucios} |`
+						`| \`${fila.tipo}\` | ${fila.alcance} | ${fila.acceso} | ${fila.cantidad} | ${bytesLegibles(fila.bytes)} | ${fila.sucios} |`
 				)
 				.join('\n')
-		: '| — | — | 0 | 0 B | 0 |'
+		: '| — | — | — | 0 | 0 B | 0 |'
 }
 
 ## Qué devuelve la ficha

@@ -3842,6 +3842,10 @@ export type Database = {
         Returns: boolean
       }
       catalogo_metrico_publico: { Args: never; Returns: boolean }
+      corpus_comparativas_artefacto_json: {
+        Args: { p_alcance: string }
+        Returns: Json
+      }
       ficha_publica_base_json: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
@@ -4054,6 +4058,7 @@ export type Database = {
         Args: { p_jornada_id: string; p_obra_id: string }
         Returns: string
       }
+      resumen_estadistico_json: { Args: { p_valores: number[] }; Returns: Json }
       validar_estructura_anotacion: {
         Args: { p_secuencia_id: string }
         Returns: undefined

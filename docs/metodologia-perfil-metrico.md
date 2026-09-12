@@ -341,9 +341,25 @@ obras al abrirse.
 
 `corpus/comparativas/{alcance}.json` se calcula únicamente desde artefactos `obra_analisis`
 coherentes de obras publicadas. Tiene dos universos: `publico`, solo con obras visibles, y
-`completo`, que incluye también las no visibles y queda restringido a admin/IP.
+`completo`, que incluye también las no visibles. **Los dos documentos son privados**: `publico`
+nombra el referente que usarán después las fichas, no un permiso de lectura. El contrato y el orden
+laboratorio → selección editorial → ficha están en
+[plan-comparativas-corpus.md](plan-comparativas-corpus.md).
 
-### 4.1 Transiciones entre formas
+### 4.1 Medidas generales y matriz de trabajo
+
+La V2 conserva una fila compacta por obra con sus valores, además de `n`, media, cuartiles, mediana,
+mínimo y máximo para las medidas escalares. Incluye diversidad efectiva, densidad de transiciones,
+longitud media de secuencia, número de formas, jornadas y secuencias, proporción italiana,
+proporción sin forma anotada y articulación entre cambios de cuadro y de secuencia. La fila permite
+que el laboratorio ensaye filtros y gráficos nuevos; los agregados evitan recalcular la distribución
+en cada vista.
+
+### 4.2 Formas y transiciones
+
+Para cada forma se guarda su prevalencia entre obras y tres distribuciones: peso en versos y número
+de secuencias, ambas incluyendo ceros, y longitud media de sus secuencias solo entre obras donde
+aparece. No se confunde así «forma ausente» con una secuencia de longitud cero.
 
 Para cada par ordenado `de → a` se guardan las obras que lo contienen, el número total de obras
 analizables y las apariciones totales. La distribución de apariciones por obra **incluye ceros**:
@@ -351,12 +367,21 @@ una obra que no usa el par pertenece al denominador y aporta 0. Así, la prevale
 qué proporción de obras aparece?» y media, mediana, cuartiles y máximo permiten situar el recuento
 de una obra concreta sin confundir frecuencia total con difusión por el corpus.
 
-### 4.2 Fenómenos por secuencia
+### 4.3 Fenómenos por secuencia
 
 Para versos partidos, cambios de espacio, eventos sobrenaturales e intervenciones se calcula primero
 en cada obra `Sí / (Sí + No)`. Una obra entra en la distribución de un fenómeno solo si tiene al
 menos una respuesta; lo no respondido no se convierte en `No`. El artefacto conserva el número de
 obras analizables y la media, mediana, cuartiles, mínimo y máximo de esas proporciones.
+
+### 4.4 Enunciación, cuadros y extremos de jornada
+
+Canto, prosa y evocación métrica se cuentan por versos tras fusionar rangos solapados o contiguos.
+El corpus conserva su presencia anotada entre obras y la distribución de su peso. La articulación
+dramática compara `cambios de cuadro con cambio de secuencia / cambios de cuadro con cobertura`;
+el matiz «cambia la secuencia pero continúa la misma forma» se conserva como diagnóstico, no como
+segundo agregado principal. Las formas de apertura, cierre y pareja apertura–cierre se cuentan por
+jornada y por obra, a la espera de comprobar en el laboratorio si producen patrones interpretables.
 
 Estas medidas son infraestructura, no interpretación: mientras el corpus visible esté formado por
 obras de prueba sirven para validar cálculo y presentación, no para sostener conclusiones.

@@ -18,8 +18,9 @@ Regenerado el 12 de septiembre de 2026.
 relacionales que usan los productores. Ya no son el contrato que consumen las páginas públicas.
 
 **3 · Los artefactos servibles.** `artefactos_publicos` guarda JSON versionados por consumidor:
-fichas y análisis de obra, fichas de autor, índices ligeros y comparativas del corpus. Sus claves
-tienen forma de ruta de objeto para poder trasladarlos a R2 sin cambiar el contrato.
+fichas y análisis de obra, fichas de autor, índices ligeros y comparativas del corpus. La matriz de
+comparativas es privada aunque su universo se llame `publico`; sus claves tienen forma de ruta de
+objeto para poder trasladarlos a R2 sin cambiar el contrato.
 
 **4 · La vista previa.** Solo una obra que aún no está publicada ejecuta `ficha_publica_json` en
 vivo. Al pulsar «Actualizar datos públicos», la cola reconstruye primero los artefactos de obra,
@@ -76,7 +77,7 @@ después los de autor y al final los índices y comparativas globales.
 | columna | tipo | qué es | quién la lee |
 |---|---|---|---|
 | `autor_id` | uuid | clave | — |
-| `alcance` | text | qué obras entran en el agregado | perfil de autor |
+| `alcance` | text | qué obras entran; no implica por sí solo permiso de lectura | productores |
 | `n_obras_completas` | integer | recuento | perfil de autor |
 | `n_jornadas_sueltas` | integer | recuento | perfil de autor |
 | `total_versos_autor` | integer | recuento | perfil de autor |
@@ -94,24 +95,24 @@ después los de autor y al final los índices y comparativas globales.
 | `clave` | text | ruta estable del artefacto y futura clave de objeto | servidor público |
 | `tipo` | text | familia del contrato JSON | servidor público |
 | `entidad_id` | uuid | obra o autor al que pertenece, si procede | productores |
-| `alcance` | text | qué obras entran en el agregado | perfil de autor |
+| `alcance` | text | qué obras entran; no implica por sí solo permiso de lectura | productores |
 | `version_esquema` | integer | versión explícita del contrato | productores y consumidores |
-| `payload` | jsonb | documento JSON servido como unidad | rutas públicas |
+| `payload` | jsonb | documento JSON servido como unidad | rutas públicas o laboratorio privado |
 | `sucio` | boolean | hay cambios posteriores; se conserva la última versión coherente | cola y diagnóstico |
 | `generado_en` | timestamp with time zone | momento en que se reemplazó el artefacto | cola y diagnóstico |
 
-| contrato | alcance | artefactos | tamaño de los payloads | sucios |
-|---|---|--:|--:|--:|
-| `autor_ficha` | completo | 4 | 16.0 KiB | 0 |
-| `autor_ficha` | publico | 4 | 16.0 KiB | 0 |
-| `autores_indice` | completo | 1 | 1.8 KiB | 0 |
-| `autores_indice` | publico | 1 | 1.8 KiB | 0 |
-| `corpus_comparativas` | completo | 1 | 2.9 KiB | 0 |
-| `corpus_comparativas` | publico | 1 | 2.9 KiB | 0 |
-| `obra_analisis` | publico | 11 | 571.9 KiB | 0 |
-| `obra_ficha` | publico | 11 | 841.9 KiB | 0 |
-| `obras_indice` | completo | 1 | 14.9 KiB | 0 |
-| `obras_indice` | publico | 1 | 14.9 KiB | 0 |
+| contrato | alcance | acceso | artefactos | tamaño de los payloads | sucios |
+|---|---|---|--:|--:|--:|
+| `autor_ficha` | completo | admin/IP | 4 | 16.0 KiB | 0 |
+| `autor_ficha` | publico | público según RLS | 4 | 16.0 KiB | 0 |
+| `autores_indice` | completo | admin/IP | 1 | 1.8 KiB | 0 |
+| `autores_indice` | publico | público según RLS | 1 | 1.8 KiB | 0 |
+| `corpus_comparativas` | completo | admin/IP | 1 | 25.5 KiB | 0 |
+| `corpus_comparativas` | publico | admin/IP | 1 | 25.5 KiB | 0 |
+| `obra_analisis` | publico | público según RLS | 11 | 590.4 KiB | 0 |
+| `obra_ficha` | publico | público según RLS | 11 | 841.9 KiB | 0 |
+| `obras_indice` | completo | admin/IP | 1 | 14.9 KiB | 0 |
+| `obras_indice` | publico | público según RLS | 1 | 14.9 KiB | 0 |
 
 ## Qué devuelve la ficha
 

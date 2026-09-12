@@ -1,7 +1,8 @@
 # Artefactos públicos JSON
 
-Implementado y aplicado el 12 de septiembre de 2026 por la migración
-`20260912100000_los_datos_publicos_son_artefactos_json.sql`.
+Implementado y aplicado el 12 de septiembre de 2026 por las migraciones
+`20260912100000_los_datos_publicos_son_artefactos_json.sql` y
+`20260912150000_el_corpus_comparativo_es_un_laboratorio_privado.sql`.
 
 ## Decisión
 
@@ -25,9 +26,11 @@ lectura/escritura y no otra remodelación de los datos.
 | `indices/obras/{alcance}.json` | tarjetas, ordenación y facetas | `/obras` |
 | `autores/{id}/ficha/{alcance}.json` | identidad, obras ligeras y perfil | `/autores/[slug]` |
 | `indices/autores/{alcance}.json` | tarjetas y obras principales | `/autores` |
-| `corpus/comparativas/{alcance}.json` | prevalencias y distribuciones | fichas y laboratorio |
+| `corpus/comparativas/{alcance}.json` | matriz compacta, prevalencias y distribuciones | laboratorio privado |
 
-`alcance` es `publico` o `completo`. Cada payload declara `schema_version`; la fila conserva además
+`alcance` es `publico` o `completo`. En los índices y fichas también determina quién puede leer; en
+`corpus_comparativas` describe solo el universo estadístico y **ambas variantes son privadas**. Cada
+payload declara `schema_version`; la fila conserva además
 `generado_en` y `sucio`. Marcar un artefacto como sucio no borra la última versión coherente: la web
 puede seguir sirviéndola mientras termina la actualización.
 
@@ -36,11 +39,14 @@ de aplicación, en `src/lib/types/public-artifacts.types.ts`. Una página no deb
 mano ni leer directamente `payload`: eso permitiría cambiar el soporte de almacenamiento en un solo
 lugar.
 
-Las comparativas guardan siempre el universo analizable y la ausencia de respuesta. Para una
-transición conservan obras con el patrón, total de obras, ocurrencias y distribución incluyendo
-ceros. Para fenómenos por secuencia conservan la distribución de proporciones por obra. Así se
-puede distinguir «no ocurre» de «no está anotado» y presentar media, mediana, cuartiles o percentil
-sin recalcular el corpus en cada ficha.
+Las comparativas V2 guardan una fila compacta por obra, distribuciones escalares, perfiles por
+forma, transiciones, fenómenos, enunciación y extremos de jornada. Conservan siempre el universo
+analizable y la ausencia de respuesta. Los ceros entran cuando la ausencia es un valor —una forma o
+una transición no aparecen—; una pregunta sin responder no se convierte en `No`.
+
+La matriz no se entregará a la ficha. Cuando el laboratorio haya validado qué referencias ayudan a
+leer una obra se generará una proyección pública pequeña por obra. El orden y las ideas de
+presentación están en [plan-comparativas-corpus.md](plan-comparativas-corpus.md).
 
 ## Flujo de actualización
 
@@ -68,11 +74,10 @@ deben escribirse en código.
 
 ## Continuación
 
-La infraestructura ya calcula comparativas de transiciones y de fenómenos por secuencia, pero las
-fichas todavía no presentan «esta obra frente al corpus». El siguiente trabajo de producto es
-decidir esa redacción y visualización, conectar el artefacto de comparativas con los componentes de
-análisis y reutilizarlo en el laboratorio. Después podrán añadirse métricas al contrato con una
-nueva `schema_version`, sin ensanchar `obras_resumen`.
+El siguiente trabajo de producto es hacer que el laboratorio privado consuma el contrato V2 y usarlo
+para evaluar medidas. Solo después se seleccionarán comparaciones para la ficha y se creará su
+proyección pública por obra. Las nuevas preguntas pueden ampliar los artefactos sin ensanchar
+`obras_resumen`.
 
 ## Paso futuro a R2
 
