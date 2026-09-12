@@ -46,6 +46,26 @@ export interface CuadroAnalizable {
 	v_fin: number;
 }
 
+export interface ReferenciaSecuenciaEnCorte {
+	secuencia_id: string;
+	v_ini: number;
+	v_fin: number;
+	forma: string;
+	colorKey: string;
+}
+
+export interface CambioDeSecuenciaEnCuadro {
+	limite: number;
+	anterior: ReferenciaSecuenciaEnCorte;
+	siguiente: ReferenciaSecuenciaEnCorte;
+	/** Matiz para el detalle: no divide el agregado principal. */
+	cambiaForma: boolean;
+}
+
+export interface SecuenciaPorCortesDeCuadro extends ReferenciaSecuenciaEnCorte {
+	cortes: number;
+}
+
 /** Una forma con su peso. */
 export interface PesoDeForma {
 	forma: string;
@@ -67,6 +87,13 @@ const porcentaje = (parte: number, total: number) =>
 
 const claveDe = (s: SecuenciaAnalizable) => s.forma_slug ?? SIN_FORMA;
 const nombreDe = (s: SecuenciaAnalizable) => s.forma ?? SIN_FORMA;
+const referenciaDe = (secuencia: SecuenciaAnalizable): ReferenciaSecuenciaEnCorte => ({
+	secuencia_id: secuencia.secuencia_id,
+	v_ini: secuencia.v_ini,
+	v_fin: secuencia.v_fin,
+	forma: nombreDe(secuencia),
+	colorKey: claveDe(secuencia)
+});
 
 /** Suma de versos de una lista de secuencias. */
 export const versosDe = (secuencias: SecuenciaAnalizable[]) =>
@@ -215,13 +242,31 @@ export function desgloseDeFormas(secuencias: SecuenciaAnalizable[]) {
  */
 export function transiciones(secuencias: SecuenciaAnalizable[]) {
 	const orden = [...secuencias].sort((a, b) => a.v_ini - b.v_ini);
-	const cuenta = new Map<string, { de: string; a: string; veces: number }>();
+	const cuenta = new Map<
+		string,
+		{
+			de: string;
+			deColorKey: string;
+			a: string;
+			aColorKey: string;
+			veces: number;
+			ocurrencias: {
+				anterior: ReferenciaSecuenciaEnCorte;
+				siguiente: ReferenciaSecuenciaEnCorte;
+			}[];
+		}
+	>();
 	for (let i = 1; i < orden.length; i += 1) {
-		const de = nombreDe(orden[i - 1]);
-		const a = nombreDe(orden[i]);
-		const clave = `${de} ${a}`;
-		const entrada = cuenta.get(clave) ?? { de, a, veces: 0 };
+		const anterior = orden[i - 1];
+		const siguiente = orden[i];
+		const de = nombreDe(anterior);
+		const deColorKey = claveDe(anterior);
+		const a = nombreDe(siguiente);
+		const aColorKey = claveDe(siguiente);
+		const clave = `${de}\u0000${a}`;
+		const entrada = cuenta.get(clave) ?? { de, deColorKey, a, aColorKey, veces: 0, ocurrencias: [] };
 		entrada.veces += 1;
+		entrada.ocurrencias.push({ anterior: referenciaDe(anterior), siguiente: referenciaDe(siguiente) });
 		cuenta.set(clave, entrada);
 	}
 	return [...cuenta.values()].sort(
@@ -270,10 +315,10 @@ export function cortesDeCuadro(
 	)].sort((a, b) => a - b);
 	const orden = [...secuencias].sort((a, b) => a.v_ini - b.v_ini);
 	let partenSecuencia = 0;
-	let coincidenCambioForma = 0;
-	let entreSecuenciasMismaForma = 0;
+	let cambiosSecuencia = 0;
 	let sinCobertura = 0;
-
+	const cambiosDeSecuencia: CambioDeSecuenciaEnCuadro[] = [];
+	const cortesPorSecuencia = new Map<string, number>();
 	for (const limite of limites) {
 		const anterior = orden.find((s) => s.v_ini <= limite - 1 && s.v_fin >= limite - 1);
 		const siguiente = orden.find((s) => s.v_ini <= limite && s.v_fin >= limite);
@@ -281,19 +326,32 @@ export function cortesDeCuadro(
 			sinCobertura += 1;
 		} else if (anterior.secuencia_id === siguiente.secuencia_id) {
 			partenSecuencia += 1;
-		} else if (claveDe(anterior) !== claveDe(siguiente)) {
-			coincidenCambioForma += 1;
+			cortesPorSecuencia.set(anterior.secuencia_id, (cortesPorSecuencia.get(anterior.secuencia_id) ?? 0) + 1);
 		} else {
-			entreSecuenciasMismaForma += 1;
+			cambiosSecuencia += 1;
+			cambiosDeSecuencia.push({
+				limite,
+				anterior: referenciaDe(anterior),
+				siguiente: referenciaDe(siguiente),
+				cambiaForma: claveDe(anterior) !== claveDe(siguiente)
+			});
 		}
 	}
+
+	const secuenciasPorCortes: SecuenciaPorCortesDeCuadro[] = orden
+		.map((secuencia) => ({
+			...referenciaDe(secuencia),
+			cortes: cortesPorSecuencia.get(secuencia.secuencia_id) ?? 0
+		}))
+		.sort((a, b) => b.cortes - a.cortes || a.v_ini - b.v_ini);
 
 	return {
 		total: limites.length,
 		partenSecuencia,
-		coincidenCambioForma,
-		entreSecuenciasMismaForma,
-		sinCobertura
+		cambiosSecuencia,
+		sinCobertura,
+		cambiosDeSecuencia,
+		secuenciasPorCortes
 	};
 }
 
@@ -412,7 +470,9 @@ export function cierreDeJornadas(secuencias: SecuenciaAnalizable[]) {
 		return {
 			jornada,
 			abre: suyas[0] ? nombreDe(suyas[0]) : null,
-			cierra: suyas.length > 0 ? nombreDe(suyas[suyas.length - 1]) : null
+			abreColorKey: suyas[0] ? claveDe(suyas[0]) : null,
+			cierra: suyas.length > 0 ? nombreDe(suyas[suyas.length - 1]) : null,
+			cierraColorKey: suyas.length > 0 ? claveDe(suyas[suyas.length - 1]) : null
 		};
 	});
 }

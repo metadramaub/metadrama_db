@@ -5,22 +5,25 @@
 > no puede saber —para qué sirve cada columna y quién la lee— vive en `scripts/informe-precomputacion.mjs`,
 > y una columna que nadie haya descrito sale marcada como **sin describir**.
 
-Regenerado el 11 de septiembre de 2026.
+Regenerado el 12 de septiembre de 2026.
 
-## Las tres capas
+## Las cuatro capas
 
 **1 · Lo anotado.** `secuencias_metricas` y, colgando de ella, `anotaciones_metricas` →
 `anotacion_realizaciones` (las unidades y sus partes), `anotacion_elecciones` (las respuestas) y
 `anotacion_desviaciones`. Aparte, `secuencias_caracterizaciones_rango`, y la estructura en
 `jornadas` y `cuadros`.
 
-**2 · Lo precomputado.** `obras_resumen` y `autores_resumen`. Se rehacen al pulsar «Actualizar
-datos públicos» o con `recompute_all()`, y **solo para obras publicadas**.
+**2 · El cálculo intermedio.** `obras_resumen` y `autores_resumen` conservan los agregados
+relacionales que usan los productores. Ya no son el contrato que consumen las páginas públicas.
 
-**3 · La ficha.** Si la obra está publicada, lee el JSON de `obras_resumen.ficha`; solo la vista
-previa ejecuta la función en vivo. `ficha_publica_json` es la única productora del JSON y el
-recompute guarda su resultado, de modo que la ficha precomputada y la vista previa comparten la
-misma construcción.
+**3 · Los artefactos servibles.** `artefactos_publicos` guarda JSON versionados por consumidor:
+fichas y análisis de obra, fichas de autor, índices ligeros y comparativas del corpus. Sus claves
+tienen forma de ruta de objeto para poder trasladarlos a R2 sin cambiar el contrato.
+
+**4 · La vista previa.** Solo una obra que aún no está publicada ejecuta `ficha_publica_json` en
+vivo. Al pulsar «Actualizar datos públicos», la cola reconstruye primero los artefactos de obra,
+después los de autor y al final los índices y comparativas globales.
 
 ## Cuántas hay
 
@@ -29,6 +32,8 @@ misma construcción.
 | obras | 107 |
 | obras publicadas | 11 |
 | filas en `obras_resumen` | 21 |
+| artefactos JSON | 36 |
+| artefactos pendientes de actualizar | 0 |
 | secuencias | 713 |
 | secuencias con anotación del catálogo nuevo | 449 |
 | secuencias que aún hablan el vocabulario legado | 263 |
@@ -82,6 +87,32 @@ misma construcción.
 | `actualizado_en` | timestamp with time zone | control | dashboard |
 | `perfil_formas_hijos` | jsonb | desglose por arquitectura | perfil de autor |
 
+## Qué guarda `artefactos_publicos`
+
+| columna | tipo | qué es | quién la lee |
+|---|---|---|---|
+| `clave` | text | ruta estable del artefacto y futura clave de objeto | servidor público |
+| `tipo` | text | familia del contrato JSON | servidor público |
+| `entidad_id` | uuid | obra o autor al que pertenece, si procede | productores |
+| `alcance` | text | qué obras entran en el agregado | perfil de autor |
+| `version_esquema` | integer | versión explícita del contrato | productores y consumidores |
+| `payload` | jsonb | documento JSON servido como unidad | rutas públicas |
+| `sucio` | boolean | hay cambios posteriores; se conserva la última versión coherente | cola y diagnóstico |
+| `generado_en` | timestamp with time zone | momento en que se reemplazó el artefacto | cola y diagnóstico |
+
+| contrato | alcance | artefactos | tamaño de los payloads | sucios |
+|---|---|--:|--:|--:|
+| `autor_ficha` | completo | 4 | 16.0 KiB | 0 |
+| `autor_ficha` | publico | 4 | 16.0 KiB | 0 |
+| `autores_indice` | completo | 1 | 1.8 KiB | 0 |
+| `autores_indice` | publico | 1 | 1.8 KiB | 0 |
+| `corpus_comparativas` | completo | 1 | 2.9 KiB | 0 |
+| `corpus_comparativas` | publico | 1 | 2.9 KiB | 0 |
+| `obra_analisis` | publico | 11 | 571.9 KiB | 0 |
+| `obra_ficha` | publico | 11 | 841.9 KiB | 0 |
+| `obras_indice` | completo | 1 | 14.9 KiB | 0 |
+| `obras_indice` | publico | 1 | 14.9 KiB | 0 |
+
 ## Qué devuelve la ficha
 
 Ejecutada sobre la obra con más secuencias anotadas.
@@ -96,10 +127,10 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 
 | dato | filas hoy | columna del resumen | en la ficha |
 |---|--:|---|:--:|
-| Rasgos observados (asonancia, densidad de rima, final acentual) | 183 | — | sí |
+| Rasgos observados (asonancia, densidad de rima, final acentual) | 184 | — | sí |
 | Metro elegido por unidad | 446 | `metros_presentes` | sí |
 | Esquema de rima elegido por unidad | 5100 | `subtipos_presentes` | sí |
-| Variedad elegida dentro de una arquitectura | 5 | — | sí |
+| Variedad elegida dentro de una arquitectura | 3 | — | sí |
 | Desviaciones (lagunas, hipométricos, rima ajena) | 8 | — | sí |
 | Partes de la unidad (estancia, mudanza, sirima) | 826 | — | **no** |
 | Caracterizaciones por rango (cantado, prosa, evocación) | 242 | `pct_cantado` | sí |

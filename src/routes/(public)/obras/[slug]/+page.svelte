@@ -14,6 +14,7 @@
 	import MetricTransitions from '$lib/components/metrica/MetricTransitions.svelte';
 	import MetricPhenomenaIndex from '$lib/components/metrica/MetricPhenomenaIndex.svelte';
 	import MetricEvolution from '$lib/components/metrica/MetricEvolution.svelte';
+	import MetricAnalysisHeading from '$lib/components/metrica/MetricAnalysisHeading.svelte';
 	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -401,7 +402,7 @@
 			porcentaje: peso.porcentaje,
 			secuencias: analizables
 				.filter((s) => (s.forma_slug ?? SIN_FORMA) === peso.colorKey)
-				.map((s) => ({ v_ini: s.v_ini, v_fin: s.v_fin }))
+				.map((s) => ({ secuencia_id: s.secuencia_id, v_ini: s.v_ini, v_fin: s.v_fin }))
 		}))
 	);
 	const tradiciones = $derived(tradicionesPorJornada(analizables));
@@ -948,13 +949,10 @@
 			<section class="space-y-10">
 
 				<div id="analisis-donde-cae" class="space-y-3 scroll-mt-4">
-					<h2 class="text-lg font-semibold">Dónde cae cada forma</h2>
-					<!-- Una línea por gráfico, y **dice qué pregunta contesta, no cómo está dibujado**:
-					     describir el dibujo sobra cuando el dibujo está delante. -->
-					<p class="text-sm text-[color:var(--muted-foreground)]">
-						En qué punto de la obra aparece cada forma. Las líneas verticales son los cambios de
-						jornada.
-					</p>
+					<MetricAnalysisHeading
+						title="Dónde cae cada forma"
+						description="En qué punto de la obra aparece cada forma. Las líneas verticales son los cambios de jornada."
+					/>
 					<div bind:this={stripsExportTarget}>
 						<MetricFormStrips
 							filas={franjas}
@@ -962,6 +960,7 @@
 							colorByForma={colorByForma}
 							jornadas={jornadas.map((jornada) => jornada.v_ini)}
 							resaltada={hoveredForma?.forma ?? null}
+							onOpenSequence={openSequenceModal}
 							onHoverForma={(forma) =>
 								(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
 						/>
@@ -980,11 +979,10 @@
 					pestaña; el ancho sobrante no vale lo que cuesta.
 				-->
 				<div id="analisis-como-cambia" class="space-y-3 scroll-mt-4">
-					<h2 class="text-lg font-semibold">El peso de cada forma en cada jornada</h2>
-					<p class="text-sm text-[color:var(--muted-foreground)]">
-						Cuánto ocupa cada forma dentro de cada jornada, para ver si crece, se retira o
-						aparece. Un círculo hueco quiere decir que esa jornada no la usa.
-					</p>
+					<MetricAnalysisHeading
+						title="El peso de cada forma en cada jornada"
+						description="Cuánto ocupa cada forma dentro de cada jornada, para ver si crece, se retira o aparece. Un círculo hueco quiere decir que esa jornada no la usa."
+					/>
 					{#if momentos.length < 2}
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							Hace falta más de una jornada anotada para poder comparar.
@@ -1009,10 +1007,10 @@
 
 				{#if tradiciones.length > 0}
 					<div id="analisis-tradiciones" class="space-y-3 scroll-mt-4">
-						<h2 class="text-lg font-semibold">Españolas e italianas por jornada</h2>
-						<p class="text-sm text-[color:var(--muted-foreground)]">
-							De qué tradición métrica es cada jornada. La línea de puntos marca la mitad.
-						</p>
+						<MetricAnalysisHeading
+							title="Españolas e italianas por jornada"
+							description="De qué tradición métrica es cada jornada. La línea de puntos marca la mitad."
+						/>
 						<!-- Sin tabla al lado: el gráfico da la cifra dentro de cada tramo —a dos
 						     decimales, como todo porcentaje del proyecto— y repetirla en columnas no
 						     añadía nada. -->
@@ -1040,12 +1038,17 @@
 
 				{#if transicionesDeLaObra.length > 0}
 					<div id="analisis-transiciones" class="scroll-mt-4">
-						<MetricTransitions rows={transicionesDeLaObra} />
+						<MetricTransitions rows={transicionesDeLaObra} onOpen={openSequenceModal} colorByForma={colorByForma} />
 					</div>
 				{/if}
 
 				<div id="analisis-articulacion" class="scroll-mt-4">
-					<MetricDramaticArticulation cuts={cortesCuadro} jornadas={extremosDeJornadas} />
+					<MetricDramaticArticulation
+						cuts={cortesCuadro}
+						jornadas={extremosDeJornadas}
+						colorByForma={colorByForma}
+						onOpen={openSequenceModal}
+					/>
 				</div>
 
 				{#if caracterizacionesEnunciativas.length > 0}

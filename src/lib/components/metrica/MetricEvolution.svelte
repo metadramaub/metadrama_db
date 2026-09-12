@@ -1,4 +1,5 @@
 <script lang="ts">
+	import MetricAnalysisHeading from './MetricAnalysisHeading.svelte';
 	// **Cómo cambia la obra de una jornada a otra**, en dos preguntas: si las secuencias se alargan
 	// o se acortan, y si el repertorio se concentra o se diversifica.
 	//
@@ -28,30 +29,27 @@
 </script>
 
 <section class="space-y-3" aria-labelledby="metric-evolution-title">
-	<div>
-		<h2 id="metric-evolution-title" class="text-lg font-semibold">Longitud y variedad, jornada a jornada</h2>
-		<!-- Una línea que dice qué pregunta contesta, no cómo está dibujado. -->
-		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-			Si las tiradas se alargan o se acortan al avanzar, y si el repertorio de formas se abre o se
-			cierra.
-		</p>
-	</div>
+	<MetricAnalysisHeading
+		id="metric-evolution-title"
+		title="Longitud y variedad, jornada a jornada"
+		description="Si las tiradas se alargan o se acortan al avanzar, y si el repertorio de formas se abre o se cierra."
+	/>
 
-	<div class="overflow-x-auto">
+	<div class="overflow-x-auto rounded-lg border border-[color:var(--border)] bg-white">
 		<table class="w-full min-w-[34rem] border-collapse text-sm">
 			<thead>
-				<tr class="border-b border-[color:var(--border)] text-left">
-					<th scope="col" class="py-2 pr-3 font-semibold">Jornada</th>
+				<tr class="border-b border-[color:var(--border)] text-left text-xs text-[color:var(--muted-foreground)]">
+					<th scope="col" class="py-2 pr-3 pl-4 font-semibold">Jornada</th>
 					<th scope="col" class="py-2 pr-3 font-semibold">Secuencias</th>
 					<th scope="col" class="py-2 pr-3 font-semibold">Longitud media</th>
 					<th scope="col" class="py-2 pr-3 font-semibold">Formas</th>
-					<th scope="col" class="py-2 font-semibold">Diversidad</th>
+					<th scope="col" class="py-2 pr-4 font-semibold">Diversidad</th>
 				</tr>
 			</thead>
 			<tbody>
 				{#each props.puntos as punto (punto.jornada)}
-					<tr class="border-b border-[color:var(--border)]">
-						<th scope="row" class="py-2 pr-3 text-left font-semibold">{romano(punto.jornada)}</th>
+					<tr class="border-b border-[color:var(--border)] last:border-b-0">
+						<th scope="row" class="py-2.5 pr-3 pl-4 text-left font-semibold">{romano(punto.jornada)}</th>
 						<td class="py-2 pr-3 tabular-nums">{punto.secuencias}</td>
 						<td class="py-2 pr-3">
 							<div class="flex items-center gap-2">
@@ -65,7 +63,7 @@
 							</div>
 						</td>
 						<td class="py-2 pr-3 tabular-nums">{punto.formasDistintas}</td>
-						<td class="py-2">
+						<td class="py-2 pr-4">
 							<div class="flex items-center gap-2">
 								<span class="w-12 tabular-nums">
 									{punto.numeroEfectivo.toLocaleString('es', { maximumFractionDigits: 2 })}

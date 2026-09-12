@@ -1,6 +1,6 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 11 de septiembre de 2026
+Actualizado: 12 de septiembre de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
@@ -13,10 +13,11 @@ queda por hacer y enlaza la documentación detallada.
 > [archivado](./historico/revision-del-catalogo-2026-07-a-08.md). Lo que sigue **sin decidir**, forma
 > por forma, está en [cuestiones para el IP](./cuestiones-para-el-ip.md), podado el 22 de agosto.
 >
-> **Lo que queda por hacer está en [qué queda pendiente](#qué-queda-pendiente)**, reordenado el 8 de
-> septiembre de 2026 por lo que bloquea los dos hitos siguientes: **llevar la zona pública a lo
-> precomputado** —los cinco pasos del [plan pactado](#el-plan-pactado-en-cinco-pasos)— y migrar las
-> 263 secuencias que aún hablan el vocabulario legado.
+> **La zona pública pasó a artefactos JSON el 12 de septiembre de 2026.** Los cinco pasos del
+> [plan pactado](#el-plan-pactado-en-cinco-pasos) están cerrados: solo la vista previa se calcula en
+> vivo; las fichas publicadas, índices, perfiles de autor y comparativas del corpus se materializan.
+> Lo que sigue es consumir esas comparativas en las fichas y el laboratorio, ampliar sus métricas
+> cuando se definan y migrar las 263 secuencias que aún hablan el vocabulario legado.
 >
 > **Si vienes a trabajar en la ficha o en el buscador, empieza por
 > [el informe automático de la precomputación](../mapa-precomputacion.md).**
@@ -27,6 +28,10 @@ queda por hacer y enlaza la documentación detallada.
   trabajo continúa directamente sobre la rama desplegada; la edición de obras está **pausada a los
   editores**, que es lo que hace seguro tocar el modelo sin cerrar la web.
 - Solo hay un Supabase. No se ha creado ni hace falta otro proyecto.
+- Los datos derivados públicos viven como JSON versionados en `artefactos_publicos`. Postgres los
+  aloja hoy; sus claves ya son rutas de objeto para que un futuro traslado a R2 no cambie contratos
+  ni consumidores. La decisión y el flujo están en
+  [arquitectura-artefactos-publicos.md](../arquitectura-artefactos-publicos.md).
 - El catálogo nuevo usa tablas aditivas y está separado del vocabulario métrico legado.
 - La versión del modelo y la última migración **no se anotan aquí**: quedan viejas en cuanto se
   aplica una migración más. Se consultan en la base —`select modelo_version from
@@ -776,42 +781,45 @@ un hipométrico, un hipermétrico, una rima fuera del repertorio y un rasgo que 
 calcula y dibuja; **no sirven para validar un hallazgo**, porque los patrones que se encuentren
 serán los del generador y no los de Lope.
 
-#### El plan pactado, en cinco pasos
+#### El plan pactado, completado en cinco pasos
 
-Nace de una decisión del proyecto tomada el 8 de septiembre: **la ficha lee la base en vivo solo
-para las obras en vista previa; si está publicada, todo lo que la hace visible está precomputado.**
-El motivo es doble —velocidad y no depender de una cuenta gratuita de Supabase—, y lleva a que
-`obras_resumen` sea *la fuente estática que el navegador carga una vez*.
+Nace de una decisión del proyecto tomada el 8 de septiembre y completada el 12: **la ficha lee la
+base en vivo solo para las obras en vista previa; si está publicada, todo lo que la hace visible
+está precomputado.** El motivo es doble —velocidad y no depender de una cuenta gratuita de
+Supabase—. La API estable ya no es una fila creciente de `obras_resumen`, sino un conjunto de
+[artefactos JSON con contrato y clave propios](../arquitectura-artefactos-publicos.md).
 
-1. **Una sola función productora.** Que una función construya el JSON de la ficha y que el recompute
-   **guarde ese mismo JSON** en la tabla. Hoy el recompute y la función de ficha se escriben en
-   paralelo, y eso obliga a escribir cada medida dos veces o a que las dos superficies se separen.
-   Con una sola productora son idénticas por construcción. Dentro del JSON entran también los
+1. **Una sola función productora.** Una función construye el JSON de la ficha y el recompute
+   **guarda ese mismo JSON** como artefacto. Así, la vista previa y el documento materializado son
+   idénticos por construcción. Dentro del JSON entran también los
    comentarios públicos y la identidad del editor de la ficha: se regeneran al pulsar «Actualizar
    datos públicos», como todo lo demás. Fuera queda solo el **permiso** —quién mira—, porque no es
    contenido: la tabla guarda lo que ve un anónimo.
-2. **La ficha lee la tabla si la obra está publicada**, y llama a la función en vivo solo en vista
+2. **La ficha lee el artefacto si la obra está publicada**, y llama a la función en vivo solo en vista
    previa, que es lo único que justifica el cálculo al vuelo.
-3. **`/obras` deja de mostrar las obras en vista previa** y lee solo lo precomputado. Se llega a
+3. **`/obras` no muestra las obras en vista previa** y lee solo el índice precomputado. Se llega a
    ellas desde el dashboard, así que el buscador se simplifica.
-4. **Los agregados se calculan en el navegador** a partir de ese JSON: evolución de cada forma por
-   jornadas, italianos contra españoles, transiciones entre formas y los patrones —qué forma sigue a
-   cuál, cómo evoluciona la proporción italiana a lo largo de la obra—. Cero operaciones contra
-   Supabase. Solo van a columna las magnitudes que `/obras` **filtra u ordena**.
-5. **Enseñar lo que ya llega y nadie pinta**: espacios inaugurados, versos cantados y prosa, y en
+4. **Los agregados de una ficha se calculan en el navegador** a partir de su JSON: evolución de cada
+   forma por jornadas, italianos contra españoles y transiciones entre formas. La comparación entre
+   obras usa el artefacto compacto de análisis y no recalcula el corpus al abrir cada ficha.
+5. **Se enseña lo que ya llega**: espacios inaugurados, versos cantados y prosa, y en
    qué secuencias intervienen personajes femeninos, figuras de donaire o sobrenaturales.
 
 *Sobre «quién canta»: se mostrará lo que se sabe. Hoy la secuencia dice si interviene una mujer, un
 donaire o un sobrenatural, no quién canta, y el modelo no se cambia por esto.*
 
-**Los pasos 1, 2 y 3 están hechos** —9 de septiembre de 2026—. La ficha de una obra publicada se
-lee de `obras_resumen.ficha`, en vivo se queda la vista previa, y el buscador se resuelve con una
-sola consulta.
+**Los cinco pasos están hechos.** Los tres primeros se cerraron el 9 de septiembre sobre
+`obras_resumen`; el 12 se sustituyó esa frontera por `artefactos_publicos`: la ficha publicada lee
+`obra_ficha`, la vista previa sigue en vivo, `/obras` y `/autores` leen índices ligeros y el análisis
+compacto por obra alimenta las comparativas del corpus. `obras_resumen` y `autores_resumen` quedan
+como cálculo intermedio y fallback de primer despliegue, no como API pública que deba crecer.
 
 ##### Paso 4 · Los agregados, en el navegador
 
-**Nada de esto vuelve a la base.** Todo sale del JSON que la página ya tiene cargado, así que se
-calcula donde está el dato y no cuesta ni una consulta más.
+En la ficha actual, estos agregados siguen saliendo del JSON que la página ya tiene cargado y se
+calculan en cliente. Los mismos hechos normalizados se materializan además en `obra_analisis` para
+comparar obras y alimentar el laboratorio sin descargar fichas completas ni bajar de nuevo a las
+tablas de anotación.
 
 El cálculo vive en **un módulo puro y probado**, `src/lib/metrica/analisis-ficha.ts` —**escrito el
 9 de septiembre de 2026**, con catorce pruebas—, y los componentes solo pintan: la misma división
@@ -1062,10 +1070,10 @@ Las descargas siguen aparcadas.
 | **FP-G2** | **Hecho**: `Análisis` presenta las transiciones entre secuencias consecutivas como pares legibles y ordenados por frecuencia. Las seis principales quedan a la vista, el resto se despliega y se aclara que el cálculo incluye los pasos entre jornadas. No se usa una red que dificulte la lectura. |
 | **FP-G3** | **Aplazado**: no se detectan patrones hasta decidir una definición y un umbral defendibles. Conviene abordarlo con la futura comparación de corpus, no producir ahora una lista arbitraria a partir de una sola obra. |
 | **FP-G4** | **Hecho**: `Análisis` incluye una tabla por forma con secuencias, versos, longitud media y extremos mínimo–máximo, usando la misma clave de color que los gráficos. |
-| **FP-G5** | **Hecho**: `Análisis` cuenta los límites reales entre cuadros dentro de cada jornada y distingue los que coinciden con un cambio de forma, cortan una secuencia o caen entre dos secuencias de la misma forma. Los cortes de jornada quedan fuera. Sustituye el cálculo anterior, cuyo denominador eran secuencias y no cambios de cuadro. |
+| **FP-G5** | **Hecho**: `Análisis` cuenta los límites reales entre cuadros dentro de cada jornada y los divide en dos agregados comparables: los que coinciden con un cambio de secuencia y los que parten una secuencia. Al desplegarlos permite localizar las secuencias, agrupa por forma y ordena por número de cortes, y señala únicamente la excepción en que cambia la secuencia pero continúa la misma forma. Los cortes de jornada quedan fuera. El listado por formas reutiliza el componente de `Localizar en la obra`; ninguno muestra sumas de versos, porque la extensión no es la variable contada. |
 | **FP-G6** | **Hecho**: `Análisis` resume canto, prosa y evocación métrica con versos, porcentaje de la obra y formas en que aparecen. Las etiquetas públicas se normalizan y los rangos solapados no duplican versos; el bloque no se crea cuando la obra no contiene ninguno. |
 | **FP-G7** | **Hecho**: el bloque de articulación muestra con qué forma abre y cierra cada jornada, junto a la lectura de los cambios de cuadro. |
-| **FP-G8** | **Hecho junto con FP-U2**: `Análisis` incorpora un único índice `Localizar en la obra`. Ocho fenómenos —canto, prosa, evocación, desviaciones, versos partidos, cambios de espacio, intervención de personajes y eventos sobrenaturales—, con los tres tipos de personaje reunidos en un solo grupo, como en el editor. **Cada fenómeno se agrupa por forma**, ordenadas por número de secuencias, y las secuencias concretas quedan replegadas dentro de cada forma: la pregunta que contesta el índice es en qué formas aparece más, no cuáles son las secuencias. Los campos que se responden —los tres de intervención y los tres booleanos— muestran también **dónde no ocurren**, con la vertiente negativa cerrada de inicio, y declaran cuántas secuencias siguen sin anotar. Canto, prosa y evocación conservan el rango específico. Cuando la obra declara que no tiene figuras de donaire, personajes sobrenaturales o eventos sobrenaturales, la rama lo dice una vez en lugar de listar las secuencias que el disparador respondió por ella: las tres marcas viajan en la ficha desde el 10 de septiembre de 2026. |
+| **FP-G8** | **Hecho junto con FP-U2**: `Análisis` incorpora un único índice `Localizar en la obra`. Ocho fenómenos —canto, prosa, evocación, desviaciones, versos partidos, cambios de espacio, intervención de personajes y eventos sobrenaturales—, con los tres tipos de personaje reunidos en un solo grupo, como en el editor. **Cada fenómeno se agrupa por forma**, ordenadas por número de secuencias, y las secuencias concretas quedan replegadas dentro de cada forma: la pregunta que contesta el índice es en qué formas aparece más, no cuáles son las secuencias. Al elegir un fenómeno aparecen todas sus respuestas como acordeones cerrados, mostrando solo etiqueta y contador. Un icono de confirmación identifica las positivas (`Sí`, `Exclusiva`, `Compartida`) y uno de ausencia las negativas (`No`, `Sin intervención`), sin usar claro/oscuro como código semántico. El chip resume las respuestas cuando hay una sola pregunta; los tres tipos de intervención se anuncian como tales. También se declara cuántas secuencias siguen sin anotar. Canto, prosa y evocación conservan el rango específico. Cuando la obra declara que no tiene figuras de donaire, personajes sobrenaturales o eventos sobrenaturales, la rama lo dice una vez en lugar de listar las secuencias que el disparador respondió por ella: las tres marcas viajan en la ficha desde el 10 de septiembre de 2026. |
 | **FP-G9** | **Hecho**: la fuente se ofrece bajo la datación mediante un control discreto y accesible. Al abrirlo conserva cursivas, listas y referencias separadas; no vuelca en la cabecera campos que en las obras reales pueden contener varias citas bibliográficas extensas. La auditoría del 9 de septiembre comprobó el formato contra la tabla viva antes de diseñarlo. |
 | **FP-G10** | **Hecho**: el correo de la cuenta del editor no se muestra y se retira también del JSON público y de las fichas precomputadas. Nombre público y ORCID bastan para firmar la ficha; un futuro contacto directo requerirá un campo propio y consentimiento expreso. |
 
@@ -1136,21 +1144,25 @@ autor por separado. Muestra `Obras x/y · Autores x/y`, continúa tras los fallo
 lo ya confirmado permanece guardado; una ejecución nueva construye otro plan completo.
 
 - `plan_recompute_datos_publicos()` devuelve solo las obras que siguen publicadas y los autores con
-  unidades métricas; `finalizar_recompute_datos_publicos()` limpia perfiles sin unidades. Ambas
-  comprueban admin/IP. El endpoint comprueba además el rol para **cada** acción y que una obra no
-  haya dejado de estar publicada antes de recalcularla.
-- La cola usa `recompute_obra_resumen` y `recompute_autor_resumen`, nunca
-  `recompute_obra_y_autores`, para no reconstruir al mismo autor varias veces. `recompute_all()` se
-  conserva para SQL y migraciones, con el permiso revocado a `authenticated` y retenido por
+  unidades métricas; `finalizar_recompute_datos_publicos()` limpia lo que ha salido del corpus y
+  reconstruye índices y comparativas. Las funciones y el endpoint comprueban admin/IP en cada paso
+  y que una obra no haya dejado de estar publicada antes de recalcularla.
+- La cola usa `recompute_obra_artefactos_global` y `recompute_autor_artefactos_global`: primero
+  actualiza el resumen intermedio y los JSON de cada obra, después agrega los autores desde esos
+  JSON compactos y al final publica los artefactos globales. Así no reconstruye al mismo autor
+  varias veces ni vuelve desde su ficha a todas las tablas de anotación. `recompute_all()` conserva
+  el mismo grafo para SQL y migraciones, con el permiso revocado a `authenticated` y retenido por
   `service_role`.
-- Cambiar `editor_asignado` marca `obras_resumen.metrica_sucia = true`; el endpoint de asignaciones
-  devuelve `datosPublicosPendientes` y el dashboard muestra inmediatamente «Hay cambios sin
-  publicar». Un cambio del nombre público o del ORCID de un editor sincroniza
-  `autor_ficha_publico` en sus obras y las marca también como pendientes. Nada regenera la ficha
-  automáticamente: el botón individual «Actualizar datos públicos» sigue siendo la publicación
-  explícita de la nueva identidad editorial.
-- Migraciones aplicadas: `20260910100000_invalidar_ficha_por_identidad_editorial.sql` y
-  `20260910110000_cola_recompute_datos_publicos.sql`. Commits: `fd786c1`, `3c6638c` y `d1fef26`.
+- Cambiar datos fuente marca `metrica_sucia` y los artefactos afectados como `sucio = true`, pero no
+  borra su payload: la web sirve la última versión coherente mientras la cola construye la nueva.
+  El endpoint de asignaciones devuelve `datosPublicosPendientes` y el dashboard muestra
+  inmediatamente «Hay cambios sin publicar». Un cambio del nombre público o del ORCID de un editor
+  sigue invalidando sus fichas. El botón individual «Actualizar datos públicos» es la publicación
+  explícita de la nueva versión.
+- Migraciones aplicadas: `20260910100000_invalidar_ficha_por_identidad_editorial.sql`,
+  `20260910110000_cola_recompute_datos_publicos.sql` y
+  `20260912100000_los_datos_publicos_son_artefactos_json.sql`. Commits anteriores: `fd786c1`,
+  `3c6638c` y `d1fef26`.
   Falta solo la verificación manual autenticada:
   cambiar un editor en una obra publicada, confirmar el aviso pendiente, pulsar la actualización
   individual y comprobar en la ficha pública el nuevo nombre y ORCID.
@@ -1199,12 +1211,14 @@ no se lista: está en las migraciones, en `git` y en el
 [histórico](./historico/). Quedan **veinticinco asuntos**, ordenados por lo que bloquea el
 próximo hito y no por el orden en que aparecieron.
 
-**Los dos hitos que vienen, en este orden.** *Actualizado el 8 de septiembre de 2026: el editor V2
-está en producción desde el 7, así que el primer hito se cumplió y entra otro en su lugar.*
+**Los dos hitos que vienen.** *Actualizado el 12 de septiembre de 2026: el editor V2 y la salida
+pública por artefactos están en producción; la infraestructura de comparación ya existe.*
 
-1. **La zona pública sobre lo precomputado.** Es el trabajo en curso: los cinco pasos están en
-   [el plan pactado](#el-plan-pactado-en-cinco-pasos). Hay doce obras de prueba publicadas con las
-   que comprobarlo.
+1. **Llevar las comparativas a la interfaz.** `corpus_comparativas` ya ofrece prevalencias y
+   distribuciones para transiciones y fenómenos; falta decidir qué lectura se muestra en cada
+   gráfico —«en esta obra», posición frente al corpus, denominador y ausencia de respuesta— y
+   reutilizar el mismo contrato en el laboratorio. Las 11 obras visibles siguen siendo de prueba:
+   sirven para comprobar cálculo y presentación, no para sostener resultados.
 2. **Migrar las secuencias ya anotadas** —263, en las 88 obras en borrador y las 5 en vista previa—,
    por equivalencias más revisión manual obra por obra. Marco:
    [el plan de migración](./plan-migracion-anotaciones.md); procedimiento:
@@ -1662,11 +1676,12 @@ restaurar; si no, basta con esto. La pestaña de estructura sí lo conserva, y a
 formulario es todo lo que hay que anotar.
 
 
-**C24. De dónde saldrá el dato público cuando el corpus crezca.** Decidido el 10 de septiembre de
-2026 que hay que estudiarlo a fondo, no que se haga: **recomputar en local y subir el JSON a
-Cloudflare**, de modo que las fichas y los perfiles se sirvan de ahí y Supabase quede para lo
-estrictamente necesario. Hoy no urge y el modelo actual aguanta, pero conviene entrar con los
-números delante, que se midieron ese día:
+**C24. De dónde saldrá el dato público cuando el corpus crezca —resuelto el 12 de septiembre de
+2026.** Los datos derivados se publican como JSON con clave y versión estables. Hoy viven en
+`artefactos_publicos.payload` (`jsonb`), porque el corpus cabe holgadamente en Postgres; esas mismas
+claves son rutas de objeto y permiten pasar a R2 después sin cambiar los contratos de lectura. La
+decisión completa está en [arquitectura-artefactos-publicos.md](../arquitectura-artefactos-publicos.md).
+Se mantienen como referencia los tamaños que motivaron la separación:
 
 | dato de `obras_resumen` | por obra |
 |---|---|
@@ -1674,36 +1689,30 @@ números delante, que se midieron ese día:
 | `tramos` | ~500 B, máximo 1 kB |
 | `ficha` | **~77 kB**, máximo 98 kB |
 
-De ahí salen tres cosas que conviene no volver a discutir desde cero:
+De ahí salieron tres reglas ya aplicadas:
 
-1. **Ninguna pantalla que recorra varias obras puede leer `ficha`.** Para las 365 de Lope son 28 MB.
-2. **Lo caro hoy no es leer, es recomputar.** `recompute_autor_resumen` toma `perfil_formas` ya
-   precomputado de cada obra pero llama a `perfil_formas_hijos_rango(obra)` **en vivo**, y esa
-   función baja a las tablas de anotación. Con seis obras no se nota; con trescientas y el límite de
-   ocho segundos del rol `authenticated` es el mismo muro contra el que chocó `recompute_all()`.
-3. **El arreglo que no cierra ninguna puerta**: que el tramo lleve también la arquitectura —hoy se
-   fusionan solo por forma, así que crecerían a ~700-800 B— y que el recompute del autor sea una
-   suma sobre `tramos`, sin volver a tocar las anotaciones. Con eso el recompute escala con el
-   número de obras y no con el de secuencias, y agregar en el navegador queda disponible sin coste
-   extra el día que se prefiera frescura sobre O(1).
+1. **Ninguna pantalla que recorra varias obras lee `ficha`.** `/obras` y `/autores` reciben índices
+   compactos propios; para las 365 de Lope, descargar fichas completas serían unos 28 MB.
+2. **El autor no vuelve a las anotaciones.** `recompute_autor_resumen` suma los hechos compactos de
+   `obra_analisis`; solo conserva un fallback de primer despliegue si todavía falta el artefacto.
+3. **Cada finalidad tiene un documento.** La ficha completa, el análisis por secuencias, los índices,
+   el perfil de autor y las comparativas pueden crecer y versionarse de forma independiente. No se
+   añaden columnas a `obras_resumen` para cada gráfico futuro.
 
 *El argumento del paso 4 —«los agregados se calculan en el navegador»— no se traslada tal cual al
 perfil de autor: allí valía porque el JSON ya estaba cargado, y aquí agregar en el navegador
 significa descargar obras que la página no necesita para nada más.*
 
-**C25. El desglose del autor se queda en dos niveles.** La ficha de obra baja a tres —forma →
-arquitectura → esquemas, rasgos, metros y variedades observados— y el perfil de autor solo a dos. No
-es el componente, que es el mismo `buildDistributionGroups`: es que `autores_resumen` guarda versos
-por forma y por arquitectura, y ninguna respuesta. Igualarlo pide que la precomputación del autor
-agregue también las respuestas de sus obras, y va con C24.
+**C25. El desglose del autor se queda por ahora en dos niveles.** La ficha de obra baja a tres
+—forma → arquitectura → esquemas, rasgos, metros y variedades observados— y el perfil visible del
+autor solo a dos. Ya no lo bloquea la arquitectura: `obra_analisis` contiene los hechos necesarios
+para agregar más dimensiones sin cargar fichas completas ni consultar anotaciones. Falta decidir
+qué dimensiones tienen sentido metodológico en un perfil de autor antes de ampliar su contrato.
 
-**C26. Filtrar por rasgo o por esquema pide otro selector, y conviene esperar a C24.** Hoy filtrar
-por algo exige **una columna faceta** en `obras_resumen` —`formas_presentes`, `metros_presentes`,
-`subtipos_presentes`…—, porque la regla del paso 4 es que solo va a columna lo que `/obras` filtra u
-ordena. Para los **rasgos no hay columna**: habría que crearla, llenarla en el recompute y
-mantenerla. Y el plan pactado dice que `obras_resumen` acabe siendo *la fuente estática que el
-navegador carga una vez*: en ese mundo filtrar por rasgo es filtrar un array que ya está en memoria
-y **la columna sobra**. Construirla antes de C24 es fabricar deuda a sabiendas.
+**C26. Filtrar por rasgo o por esquema pide otro selector.** C24 ya no lo bloquea: las facetas nuevas
+deben añadirse al contrato de `indices/obras/{alcance}.json`, no como columnas nuevas de
+`obras_resumen`. Sigue pendiente el rediseño multidimensional del control —forma, arquitectura,
+esquema, rasgo y metro— y la decisión de qué facetas merece la pena publicar.
 
 Dos cosas que sí se pueden separar de esa espera:
 
@@ -1716,8 +1725,8 @@ Dos cosas que sí se pueden separar de esa espera:
    en trece. Para cada slug repetido gana la última cargada. Es el mismo defecto que tenía el
    desglose del autor, y se corrige igual: guardando el par en la faceta e indexando por él.
 2. **El selector no aguanta lo que viene.** Hoy es «formas + subtipos anidados» en un control único.
-   Cuando `/obras` filtre sobre el JSON cargado será multidimensional —forma, arquitectura, esquema,
-   rasgo, metro—, y eso es un rediseño de la pantalla, no un filtro más. Se decide junto con C24.
+   El índice JSON permite filtrar en memoria, pero hacerlo multidimensional —forma, arquitectura,
+   esquema, rasgo, metro— sigue siendo un rediseño de la pantalla, no un filtro más.
 
 ## Siguiente fase prevista
 
@@ -1751,11 +1760,12 @@ se completó el 31. Lo que sigue:
    siempre lo vivo. Comprobado el 2 de septiembre: 41 formas, 117 preguntas y 664 opciones, **las
    seis heredadas incluidas**, con sus 28 opciones.
 8. **El editor V2 pasó a producción** el 7 de septiembre de 2026, y con él la precomputación y la
-   ficha al catálogo nuevo. **Lo que viene**, en este orden: llevar la zona pública a lo
-   precomputado —[el plan pactado](#el-plan-pactado-en-cinco-pasos)— y la
+   ficha al catálogo nuevo. **La zona pública pasó a artefactos JSON el 12 de septiembre** y el
+   [plan pactado](#el-plan-pactado-en-cinco-pasos) quedó cerrado. Lo que viene es presentar las
+   comparativas ya materializadas y abordar la
    [migración de las anotaciones](./plan-migracion-anotaciones.md) por equivalencias más revisión
-   manual. Lo que hay que despejar antes está en
-   [qué queda pendiente](#qué-queda-pendiente), bloque A.
+   manual. Lo que hay que despejar antes está en [qué queda pendiente](#qué-queda-pendiente), bloque
+   A.
 9. Crear la capa de desviaciones sobre las secuencias reales: **hecha**. El vocabulario y la tabla
    están en la base desde el 3 de agosto de 2026, y el 7 de septiembre dejó de ofrecerse en el
    selector lo que ahora es desviación. Queda el traslado de sus 209 filas, que va con la migración

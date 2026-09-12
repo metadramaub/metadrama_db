@@ -20,7 +20,9 @@ import {
 	type PublicVocabularioMaps
 } from '$lib/server/vocabulario-publico';
 import { loadPublicSections, requireSectionVisible } from '$lib/server/secciones-publicas';
+import { loadPublicArtifact, publicArtifactKeys } from '$lib/server/public-artifacts';
 import type { Tables } from '$lib/types/database.types';
+import type { ObrasIndexArtifactPayload } from '$lib/types/public-artifacts.types';
 
 type PublicCatalogObra = Pick<
 	Tables<'obras'>,
@@ -204,7 +206,10 @@ function buildMetricFacetOptions(
 			.sort((a, b) => a.label.localeCompare(b.label, 'es'));
 
 	return {
-		formas: toOptions(uniqueSlugs((o) => o.formas_presentes), catalogo.formaLabels),
+		formas: toOptions(
+			uniqueSlugs((o) => o.formas_presentes),
+			catalogo.formaLabels
+		),
 		// **Esquemas de rima, no subtipos de estrofa.** La faceta cambió de contenido el 7 de
 		// septiembre de 2026 y de clave el 10, cuando pasó a `forma_slug/esquema_slug`: el slug del
 		// esquema no identifica uno —`abab` está en siete formas— y sin la forma no había manera de
@@ -216,7 +221,10 @@ function buildMetricFacetOptions(
 				parentId: clave.includes('/') ? clave.slice(0, clave.indexOf('/')) : null
 			}))
 			.sort((a, b) => a.label.localeCompare(b.label, 'es')),
-		metros: toOptions(uniqueSlugs((o) => o.metros_presentes), catalogo.metroLabels),
+		metros: toOptions(
+			uniqueSlugs((o) => o.metros_presentes),
+			catalogo.metroLabels
+		),
 		// Las caracterizaciones —cantado, prosa— sí son vocabulario, y del vivo: es donde vive hoy
 		// `secuencias_caracterizaciones_rango`. No tiene nada que ver con el vocabulario métrico
 		// legado.
@@ -238,7 +246,9 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		loadPublicSections(locals),
 		getPublicadoEstadoId(locals)
 	]);
-	const catalogVisibility = withCatalogVisibilityDefaults(buildSectionVisibilityMap(sections, viewer.scope));
+	const catalogVisibility = withCatalogVisibilityDefaults(
+		buildSectionVisibilityMap(sections, viewer.scope)
+	);
 	setCatalogCacheHeaders(setHeaders, viewer.scope);
 
 	if (!publicadoId) {
@@ -253,36 +263,70 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		};
 	}
 
-	// **Una sola consulta.** El resumen viene incrustado, así que la página no encadena una lectura
-	// por cada cosa que enseña: antes eran seis —la obra, su perfil métrico, y cuatro más para
-	// reconstruir quién firma— y ahora es esta. Su RLS es la misma que la del muro, de modo que
-	// incrustarlo no enseña ninguna obra que la consulta no fuera a devolver.
-	let query = locals.supabase
-		.from('obras')
-		.select(
-			'obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado,' +
-				'obras_resumen(autores,tramos,jornadas_tramos,cuadros_tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes)'
-		)
-		.eq('estado', publicadoId)
-		.order('titulo');
+	// Anónimo y admin/IP consumen directamente el índice JSON de su alcance. Un editor normal
+	// conserva la consulta relacional porque su catálogo es una mezcla personal: corpus público +
+	// la obra no visible que tenga asignada. También sirve de fallback durante el primer despliegue.
+	const artifactScope = viewer.canSeeAllPublished ? 'completo' : 'publico';
+	const indexArtifact =
+		viewer.scope === 'authenticated'
+			? null
+			: await loadPublicArtifact<ObrasIndexArtifactPayload>(
+					locals.supabase,
+					publicArtifactKeys.obrasIndice(artifactScope)
+				);
 
-	// Muro: estado=publicado siempre (arriba). Sobre eso, una obra no visible solo la
-	// ven admin/IP (canSeeAllPublished) y el editor asignado a esa obra concreta.
-	if (!viewer.canSeeAllPublished) {
-		if (viewer.userId) {
-			query = query.or(`visible_publico.eq.true,editor_asignado.eq.${viewer.userId}`);
-		} else {
-			query = query.eq('visible_publico', true);
+	let obraRows: ObraRow[];
+	if (indexArtifact) {
+		obraRows = indexArtifact.payload.obras.map((item) => ({
+			obra_id: item.obra_id,
+			slug: item.slug,
+			titulo: item.titulo,
+			fecha_inicio_trad: item.fecha_inicio_trad,
+			fecha_fin_trad: item.fecha_fin_trad,
+			fecha_inicio_metadrama: item.fecha_inicio_metadrama,
+			fecha_fin_metadrama: item.fecha_fin_metadrama,
+			total_versos: item.total_versos,
+			genero_id: item.genero_id,
+			updated_at: item.updated_at,
+			visible_publico: item.visible_publico,
+			editor_asignado: null,
+			obras_resumen: {
+				autores: item.autores,
+				tramos: item.tramos,
+				jornadas_tramos: item.jornadas_tramos,
+				cuadros_tramos: item.cuadros_tramos,
+				numero_efectivo_formas: item.numero_efectivo_formas,
+				densidad_transiciones: item.densidad_transiciones,
+				n_formas_distintas: item.n_formas_distintas,
+				formas_presentes: item.formas_presentes,
+				metros_presentes: item.metros_presentes,
+				tipos_forma_presentes: item.tipos_forma_presentes,
+				variaciones_presentes: item.variaciones_presentes,
+				subtipos_presentes: item.subtipos_presentes
+			}
+		})) as unknown as ObraRow[];
+	} else {
+		let query = locals.supabase
+			.from('obras')
+			.select(
+				'obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado,' +
+					'obras_resumen(autores,tramos,jornadas_tramos,cuadros_tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes)'
+			)
+			.eq('estado', publicadoId)
+			.order('titulo');
+
+		if (!viewer.canSeeAllPublished) {
+			query = viewer.userId
+				? query.or(`visible_publico.eq.true,editor_asignado.eq.${viewer.userId}`)
+				: query.eq('visible_publico', true);
 		}
-	}
 
-	const { data, error: dbError } = await query.limit(500);
-	if (dbError) {
-		throw error(500, `No se pudo cargar el catálogo público: ${dbError.message}`);
+		const { data, error: dbError } = await query.limit(500);
+		if (dbError) {
+			throw error(500, `No se pudo cargar el catálogo público: ${dbError.message}`);
+		}
+		obraRows = (data ?? []) as unknown as ObraRow[];
 	}
-
-	// Por `unknown`: la consulta incrusta el resumen y el tipo generado no lo reconoce en el `select`.
-	const obraRows = (data ?? []) as unknown as ObraRow[];
 	const obraIds = obraRows.map((obra) => obra.obra_id);
 	if (obraIds.length === 0) {
 		const filterOptions = emptyFilterOptions();
@@ -350,30 +394,29 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 
 	const obras: PublicCatalogObra[] = obraRows.map((fila): PublicCatalogObra => {
 		const { editor_asignado, genero_id, ...obra } = fila;
-			const resumen = resumenDe(fila);
-			return {
-				...obra,
-				genero_term: genero_id ? (generoTermById.get(genero_id) ?? null) : null,
-				es_obra_asignada: Boolean(viewer.userId) && editor_asignado === viewer.userId,
-				// **Quién firma viene guardado.** Solo cuenta el grupo de atribución con una sola
-				// propuesta, que es la regla que este mismo cargador aplicaba reconstruyéndola.
-				autoria_autores: autoresDe(fila),
-				tramos: (resumen?.tramos as CatalogTramo[] | null) ?? null,
-				jornadas_tramos: (resumen?.jornadas_tramos as CatalogStructureTramo[] | null) ?? null,
-				cuadros_tramos: (resumen?.cuadros_tramos as CatalogStructureTramo[] | null) ?? null,
-				numero_efectivo_formas: resumen?.numero_efectivo_formas ?? null,
-				densidad_transiciones: resumen?.densidad_transiciones ?? null,
-				n_formas_distintas: resumen?.n_formas_distintas ?? null,
-				// Las facetas solo se serializan al cliente si el panel de filtros métricos
-				// es visible (respeta scope_minimo y evita payload innecesario).
-				formas_presentes: wantsMetricFilters ? (resumen?.formas_presentes ?? null) : null,
-				metros_presentes: wantsMetricFilters ? (resumen?.metros_presentes ?? null) : null,
-				tipos_forma_presentes: wantsMetricFilters ? (resumen?.tipos_forma_presentes ?? null) : null,
-				variaciones_presentes: wantsMetricFilters ? (resumen?.variaciones_presentes ?? null) : null,
-				subtipos_presentes: wantsMetricFilters ? (resumen?.subtipos_presentes ?? null) : null
-			};
-		}
-	);
+		const resumen = resumenDe(fila);
+		return {
+			...obra,
+			genero_term: genero_id ? (generoTermById.get(genero_id) ?? null) : null,
+			es_obra_asignada: Boolean(viewer.userId) && editor_asignado === viewer.userId,
+			// **Quién firma viene guardado.** Solo cuenta el grupo de atribución con una sola
+			// propuesta, que es la regla que este mismo cargador aplicaba reconstruyéndola.
+			autoria_autores: autoresDe(fila),
+			tramos: (resumen?.tramos as CatalogTramo[] | null) ?? null,
+			jornadas_tramos: (resumen?.jornadas_tramos as CatalogStructureTramo[] | null) ?? null,
+			cuadros_tramos: (resumen?.cuadros_tramos as CatalogStructureTramo[] | null) ?? null,
+			numero_efectivo_formas: resumen?.numero_efectivo_formas ?? null,
+			densidad_transiciones: resumen?.densidad_transiciones ?? null,
+			n_formas_distintas: resumen?.n_formas_distintas ?? null,
+			// Las facetas solo se serializan al cliente si el panel de filtros métricos
+			// es visible (respeta scope_minimo y evita payload innecesario).
+			formas_presentes: wantsMetricFilters ? (resumen?.formas_presentes ?? null) : null,
+			metros_presentes: wantsMetricFilters ? (resumen?.metros_presentes ?? null) : null,
+			tipos_forma_presentes: wantsMetricFilters ? (resumen?.tipos_forma_presentes ?? null) : null,
+			variaciones_presentes: wantsMetricFilters ? (resumen?.variaciones_presentes ?? null) : null,
+			subtipos_presentes: wantsMetricFilters ? (resumen?.subtipos_presentes ?? null) : null
+		};
+	});
 
 	const autorOptions: CatalogFilterOption[] = [...new Set(obras.flatMap((o) => o.autoria_autores))]
 		.sort((a, b) => a.localeCompare(b, 'es'))

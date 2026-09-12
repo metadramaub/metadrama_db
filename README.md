@@ -18,6 +18,9 @@ tras una contraseña global mientras el proyecto no se abre.
   — el dominio métrico nuevo (catálogo, editor V2, demarcador), que está en construcción.
 - **[docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md)** — qué mide
   cada dato precomputado de obra y autor, y por qué.
+- **[docs/arquitectura-artefactos-publicos.md](docs/arquitectura-artefactos-publicos.md)** — cómo se
+  materializan fichas, índices y comparativas como JSON y cómo podrá trasladarse ese almacenamiento
+  a R2 sin cambiar los contratos.
 
 El resto de este archivo cubre el arranque y la operativa de la base de datos.
 

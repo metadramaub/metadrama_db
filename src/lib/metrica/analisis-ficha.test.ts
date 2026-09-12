@@ -158,9 +158,17 @@ describe('desgloseDeFormas', () => {
 describe('transiciones', () => {
 	it('cuenta qué forma sigue a cuál **cruzando los cortes de jornada**', () => {
 		const pasos = transiciones(OBRA);
-		expect(pasos).toContainEqual({ de: 'Redondilla', a: 'Romance', veces: 1 });
+		expect(pasos.find((paso) => paso.de === 'Redondilla' && paso.a === 'Romance')).toMatchObject({
+			veces: 1,
+			ocurrencias: [
+				{
+					anterior: { secuencia_id: 's1', v_ini: 1, v_fin: 100 },
+					siguiente: { secuencia_id: 's101', v_ini: 101, v_fin: 160 }
+				}
+			]
+		});
 		// El paso de la jornada 2 a la 3 se cuenta como cualquier otro.
-		expect(pasos).toContainEqual({ de: 'Redondilla', a: SIN_FORMA, veces: 1 });
+		expect(pasos.find((paso) => paso.de === 'Redondilla' && paso.a === SIN_FORMA)).toMatchObject({ veces: 1 });
 		expect(pasos.reduce((t, p) => t + p.veces, 0)).toBe(OBRA.length - 1);
 	});
 
@@ -189,9 +197,29 @@ describe('cortesDeCuadro', () => {
 		expect(cortesDeCuadro(OBRA, cuadros)).toEqual({
 			total: 4,
 			partenSecuencia: 2,
-			coincidenCambioForma: 2,
-			entreSecuenciasMismaForma: 0,
-			sinCobertura: 0
+			cambiosSecuencia: 2,
+			sinCobertura: 0,
+			cambiosDeSecuencia: [
+				{
+					limite: 101,
+					anterior: { secuencia_id: 's1', v_ini: 1, v_fin: 100, forma: 'Redondilla', colorKey: 'redondilla' },
+					siguiente: { secuencia_id: 's101', v_ini: 101, v_fin: 160, forma: 'Romance', colorKey: 'romance' },
+					cambiaForma: true
+				},
+				{
+					limite: 201,
+					anterior: { secuencia_id: 's161', v_ini: 161, v_fin: 200, forma: 'Octava real', colorKey: 'octava_real' },
+					siguiente: { secuencia_id: 's201', v_ini: 201, v_fin: 280, forma: 'Redondilla', colorKey: 'redondilla' },
+					cambiaForma: true
+				}
+			],
+			secuenciasPorCortes: [
+				{ secuencia_id: 's1', v_ini: 1, v_fin: 100, forma: 'Redondilla', colorKey: 'redondilla', cortes: 1 },
+				{ secuencia_id: 's201', v_ini: 201, v_fin: 280, forma: 'Redondilla', colorKey: 'redondilla', cortes: 1 },
+				{ secuencia_id: 's101', v_ini: 101, v_fin: 160, forma: 'Romance', colorKey: 'romance', cortes: 0 },
+				{ secuencia_id: 's161', v_ini: 161, v_fin: 200, forma: 'Octava real', colorKey: 'octava_real', cortes: 0 },
+				{ secuencia_id: 's281', v_ini: 281, v_fin: 300, forma: SIN_FORMA, colorKey: SIN_FORMA, cortes: 0 }
+			]
 		});
 	});
 
@@ -203,7 +231,8 @@ describe('cortesDeCuadro', () => {
 		];
 		expect(cortesDeCuadro(secuencias, cuadros)).toMatchObject({
 			total: 1,
-			entreSecuenciasMismaForma: 1
+			cambiosSecuencia: 1,
+			cambiosDeSecuencia: [{ cambiaForma: false }]
 		});
 	});
 });
@@ -253,9 +282,9 @@ describe('fichaTecnica', () => {
 describe('cierreDeJornadas', () => {
 	it('dice con qué abre y con qué cierra cada jornada', () => {
 		expect(cierreDeJornadas(OBRA)).toEqual([
-			{ jornada: 1, abre: 'Redondilla', cierra: 'Romance' },
-			{ jornada: 2, abre: 'Octava real', cierra: 'Redondilla' },
-			{ jornada: 3, abre: SIN_FORMA, cierra: SIN_FORMA }
+			{ jornada: 1, abre: 'Redondilla', abreColorKey: 'redondilla', cierra: 'Romance', cierraColorKey: 'romance' },
+			{ jornada: 2, abre: 'Octava real', abreColorKey: 'octava_real', cierra: 'Redondilla', cierraColorKey: 'redondilla' },
+			{ jornada: 3, abre: SIN_FORMA, abreColorKey: SIN_FORMA, cierra: SIN_FORMA, cierraColorKey: SIN_FORMA }
 		]);
 	});
 });

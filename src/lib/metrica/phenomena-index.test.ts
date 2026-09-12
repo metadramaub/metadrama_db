@@ -44,7 +44,6 @@ describe('buildPhenomenaIndex', () => {
 			{
 				forma: 'Romance',
 				colorKey: 'romance',
-				versos: 4,
 				items: [{ id: 'c1', secuencia_id: 's1', v_ini: 105, v_fin: 108, detalle: null }]
 			}
 		]);
@@ -91,7 +90,7 @@ describe('buildPhenomenaIndex', () => {
 		expect(si.formas.map((forma) => forma.colorKey)).toEqual(['romance']);
 		expect(no.label).toBe('No');
 		expect(no.total).toBe(2);
-		expect(no.formas.map((forma) => forma.colorKey)).toEqual(['romance', 'redondilla']);
+		expect(no.formas.map((forma) => forma.colorKey)).toEqual(['redondilla', 'romance']);
 		expect(partidos?.ramas[0]?.pendientes).toBe(1);
 	});
 

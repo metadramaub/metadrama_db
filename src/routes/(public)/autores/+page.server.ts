@@ -1,7 +1,10 @@
 import type { PageServerLoad } from './$types';
 import { getWikidataImage } from '$lib/server/wikidata-images';
 import { requireSectionVisible } from '$lib/server/secciones-publicas';
+import { resolvePublicViewerContext } from '$lib/server/public-obras';
+import { loadPublicArtifact, publicArtifactKeys } from '$lib/server/public-artifacts';
 import type { AutorListadoItem } from '$lib/autores/perfil-autor';
+import type { AutoresIndexArtifactPayload } from '$lib/types/public-artifacts.types';
 
 async function mapWithConcurrency<T, U>(
 	items: T[],
@@ -26,11 +29,20 @@ async function mapWithConcurrency<T, U>(
 export const load: PageServerLoad = async ({ fetch, locals }) => {
 	await requireSectionVisible(locals, 'autores');
 
-	// El alcance (publico/completo) lo decide la RPC por rol; no se pasa flag.
-	const { data, error: rpcError } = await locals.supabase.rpc('get_autores_listado_publico');
+	const viewer = await resolvePublicViewerContext(locals);
+	const alcance = viewer.canSeeAllPublished ? 'completo' : 'publico';
+	const artifact = await loadPublicArtifact<AutoresIndexArtifactPayload>(
+		locals.supabase,
+		publicArtifactKeys.autoresIndice(alcance)
+	);
 
-	const rows = ((rpcError ? null : (data as AutorListadoItem[] | null)) ?? []) as AutorListadoItem[];
-	const autores = await mapWithConcurrency(rows, 6, async (autor) => ({
+	// Compatibilidad durante el primer despliegue, antes de que finalice la primera cola global.
+	let rows: AutorListadoItem[] | null = artifact?.payload.autores ?? null;
+	if (!rows) {
+		const { data, error: rpcError } = await locals.supabase.rpc('get_autores_listado_publico');
+		rows = ((rpcError ? null : (data as AutorListadoItem[] | null)) ?? []) as AutorListadoItem[];
+	}
+	const autores = await mapWithConcurrency(rows ?? [], 6, async (autor) => ({
 		...autor,
 		top_obras: autor.top_obras ?? [],
 		imagen_wikidata: await getWikidataImage(autor.wikidata_id, fetch)

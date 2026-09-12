@@ -59,15 +59,16 @@ especificación de cómo se espera que se anote.
   `/obras/listado` y la ficha en `/obras/<slug>`—, autores, laboratorio, demarcador,
   proyecto, recursos, cómo citarnos
 - `src/lib/server/public-obras.ts`, `ficha-secciones.ts`, `secciones-publicas.ts`
-- El buscador se alimenta de **precomputados** (`obras_resumen`, `autores_resumen`), no de las
-  tablas crudas. Se regeneran solo al pulsar «Actualizar datos públicos» en el dashboard; el
-  autosave marca suciedad pero no recalcula. `recompute_all()` lo reconstruye todo, y **solo para
-  obras publicadas**.
-- **La ficha, en cambio, se calcula hoy en vivo** con
-  `get_obra_ficha_publica_base_without_slugs`, y por eso funciona la vista previa. Eso está
-  cambiando: lo pactado el 8 de septiembre de 2026 es que **en vivo se quede solo la vista previa** y
-  que una obra publicada esté enteramente precomputada. Los cinco pasos, en
-  [el contexto métrico](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-plan-pactado-en-cinco-pasos).
+- La API estable de la zona pública son los documentos JSON de `artefactos_publicos`, no las tablas
+  crudas ni las columnas de `obras_resumen` / `autores_resumen`. Hay artefactos de ficha y análisis
+  por obra, ficha por autor, índices ligeros y comparativas del corpus. Los resúmenes anteriores
+  siguen como cálculo intermedio y fallback de primer despliegue.
+- Se regeneran al pulsar «Actualizar datos públicos» en el dashboard: la cola confirma obra por
+  obra, después autor por autor y al final reemplaza índices y comparativas. El autosave solo marca
+  suciedad y se sigue sirviendo el último JSON coherente durante el recálculo.
+- **Solo la vista previa se calcula en vivo.** Una obra publicada lee su artefacto de ficha; `/obras`
+  y `/autores` leen índices compactos, y las fichas de autor no descargan todas sus obras completas.
+  Contratos y flujo: [docs/arquitectura-artefactos-publicos.md](docs/arquitectura-artefactos-publicos.md).
 - Qué mide cada dato precomputado y por qué: [docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md)
 - Dónde vive cada dato hoy, dato a dato: [docs/mapa-precomputacion.md](docs/mapa-precomputacion.md)
 
@@ -118,11 +119,10 @@ filológicas, no técnicas, y las toma el IP.
 
 **El editor V2 es ya el que ven los editores**, y `develop` se fusionó a `main` el 7 de septiembre
 de 2026. Los campos propios de la secuencia y el paso de la precomputación y la ficha al catálogo
-nuevo se cerraron ese mismo día. **El trabajo en curso es llevar la zona pública a lo
-precomputado**: la ficha en vivo se queda solo para la vista previa, y una obra publicada estará
-enteramente precomputada. Los cinco pasos y el estado, en
-[el plan pactado](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#el-plan-pactado-en-cinco-pasos).
-Migrar lo ya anotado viene después.
+nuevo se cerraron ese mismo día. **La zona pública pasó a artefactos JSON el 12 de septiembre**:
+la ficha en vivo queda solo para la vista previa y las fichas publicadas, los índices, los perfiles
+de autor y las comparativas se materializan. Lo siguiente es consumir esas comparativas en las
+fichas y el laboratorio y migrar las anotaciones que aún hablan el vocabulario legado.
 
 **Lo demás que queda pendiente está inventariado** en
 [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
@@ -155,7 +155,7 @@ las tablas `anotacion_*` y **la zona pública lee solo de ahí**: el recompute, 
 pasaron al catálogo nuevo sin puente al vocabulario legado. Lo que no ha cambiado es que el editor
 no toca `secuencias_metricas.estrofa_tipo_id`. Quedan **263 secuencias** con el vocabulario legado
 —en las 88 obras en borrador y las 5 en vista previa— y **hasta que se migren no tienen perfil**.
-Las 12 obras publicadas son de prueba: se generan con `npm run guion:pruebas` y
+Las 11 obras publicadas y visibles son de prueba: se generan con `npm run guion:pruebas` y
 `npm run aplicar:guiones`, y **no sirven para validar un hallazgo**, solo para comprobar que la
 maquinaria calcula y dibuja.
 
@@ -163,7 +163,7 @@ maquinaria calcula y dibuja.
 silencio. Para cambiar algo ya migrado, se escribe una migración nueva con sentencias
 idempotentes. Tras cambiar funciones de recompute, ejecutar `recompute_all()`.
 
-**La base de datos es la fuente de verdad.** Los precomputados, el catálogo del
+**La base de datos es la fuente de verdad.** Los resúmenes y artefactos JSON, el catálogo del
 demarcador, las fichas y las redes son proyecciones regenerables. Si un documento y el SQL
 difieren, manda el SQL.
 
@@ -217,6 +217,8 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 - [docs/mapa-precomputacion.md](docs/mapa-precomputacion.md) — dónde vive cada dato: qué guarda el
   resumen, qué devuelve la ficha y qué está anotado sin salir por ningún lado. **Se genera** con
   `npm run precomputacion:informe`, leyendo la base y ejecutando la ficha, así que no envejece.
+- [docs/arquitectura-artefactos-publicos.md](docs/arquitectura-artefactos-publicos.md) — contrato de
+  los JSON públicos, orden de recomputación, fallbacks y futura salida a R2.
 - [docs/revision-de-vocabularios.md](docs/revision-de-vocabularios.md) — los tres sitios
   donde viven hoy los vocabularios y el inventario de los 60 enums en `CHECK`. Anotado, sin
   decidir: se revisa cuando el dominio métrico pase a `main`.

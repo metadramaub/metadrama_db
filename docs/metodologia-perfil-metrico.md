@@ -1,14 +1,16 @@
 # Metodología del perfil métrico (obra y autor)
 
 > **Para qué sirve este documento.** Recoge las **decisiones metodológicas** detrás de los
-> datos precomputados (`obras_resumen`, `autores_resumen`): qué mide cada cosa, cómo se calcula
+> datos precomputados (`obras_resumen`, `autores_resumen` y los JSON de
+> `artefactos_publicos`): qué mide cada cosa, cómo se calcula
 > y, sobre todo, **por qué** se decidió así. El [mapa de la precomputación](mapa-precomputacion.md)
 > dice *dónde vive* cada dato hoy y se genera de la base; este dice *por qué* y con qué criterio,
 > para poder recordar y defender las decisiones cuando el corpus crezca o haya que revisarlas.
 >
 > **Fuente de verdad del cálculo precomputado:** las funciones SQL de las migraciones
-> (`recompute_obra_resumen`, `recompute_autor_resumen`). Si este documento y el SQL difieren,
-> manda el SQL y se corrige aquí. Las distancias provisionales del laboratorio (§4) son una
+> (`recompute_obra_resumen`, `recompute_autor_resumen` y las productoras de artefactos). Si este
+> documento y el SQL difieren,
+> manda el SQL y se corrige aquí. Las distancias provisionales del laboratorio (§5) son una
 > excepción deliberada: se calculan en cliente desde `src/lib/laboratorio/distancias.ts`, sin
 > persistirse en tablas.
 >
@@ -21,6 +23,11 @@
 > Cada vez que se añada o cambie una medida, algoritmo o agregación (en obra, autor o lo que venga),
 > **anótese aquí** la definición y su justificación. Si una medida se calcula pero no está descrita
 > abajo, falta documentarla.
+
+La separación entre cálculo intermedio, artefacto por entidad e índices globales está documentada
+en [arquitectura-artefactos-publicos.md](arquitectura-artefactos-publicos.md). Los nombres de clave y
+los contratos JSON son parte de la interfaz pública interna; cambiar de Postgres a R2 no debe
+cambiar el significado de las medidas descritas aquí.
 
 ---
 
@@ -44,6 +51,11 @@ tablas satélite que se citan en cada medida.
 barato e independiente; partirlo evita reescribir la función métrica grande. El resumen se
 **recalcula entero al pulsar el botón**, no en el autosave; un trigger en `secuencias_metricas`
 (y tablas satélite) solo marca `metrica_sucia` (write barato).
+
+Desde el 12 de septiembre de 2026, el resumen es cálculo intermedio. La cola llama a
+`recompute_obra_artefactos_global`, que actualiza el resumen y publica por separado la ficha completa
+(`obra_ficha`) y los hechos compactos por secuencia (`obra_analisis`). La primera sirve la ficha; la
+segunda alimenta autores, comparativas y laboratorio sin transportar la ficha entera.
 
 ### 1.1 Resolución de forma
 
@@ -283,14 +295,19 @@ El perfil de un autor con 1 obra es ruido; con 30, robusto. Para marcarlo:
 
 ### 2.6 Mantenimiento e invalidación
 
-- **Botón "Actualizar datos públicos" de una obra** → recalcula esa obra **y** los autores
-  afectados (los que tienen alguna unidad mono-autor en ella). Vía `recompute_obra_y_autores`.
+- **Botón "Actualizar datos públicos" de una obra** → recalcula esa obra, sus artefactos, los
+  autores afectados (los que tienen alguna unidad mono-autor en ella) y los índices/comparativas
+  globales. La cola usa `recompute_obra_artefactos_global`, `recompute_autor_artefactos_global` y
+  `finalizar_recompute_datos_publicos`; `recompute_obra_y_autores` conserva el mismo grafo para uso
+  directo desde SQL.
 - **Cambiar `visible_publico` / `estado` de una obra** → marca a sus autores `metrica_sucia`
   (afecta solo al alcance `publico`). El recálculo ocurre en el **siguiente botón** o en
   `recompute_all`. *Por qué diferido:* coherente con la política de "visibilidad estable, no
   invalidar cachés"; los cambios de visibilidad son raros.
-- **`recompute_all`** reconstruye todas las obras y luego todos los autores una sola vez, y borra
-  filas de autores que ya no tienen ninguna unidad.
+- **`recompute_all`** reconstruye todas las obras y luego todos los autores una sola vez, borra
+  entidades que ya no pertenecen al corpus y publica al final los índices y comparativas.
+- Marcar un artefacto `sucio` no borra su payload. La lectura continúa con la última versión
+  coherente hasta que el recompute la sustituye atómicamente.
 
 ### 2.7 Qué NO se hace (y por qué)
 
@@ -314,12 +331,39 @@ Consecuencia directa del principio "no falsear" (§2.1):
 
 La ficha **muestra todas** las obras asociadas, pero **marca la naturaleza** de cada vínculo
 (segura / propuesta, scope obra / jornada, individual / colaborada) para no dar por cierta una
-autoría que no lo es. Las obras asociadas se resuelven **en vivo** y **filtradas por la
-visibilidad del visitante**; no se precomputan.
+autoría que no lo es. Desde el 12 de septiembre se publican, ya filtradas por alcance, dentro de
+`autores/{id}/ficha/{alcance}.json`; la ficha de autor no necesita consultar ni descargar todas sus
+obras al abrirse.
 
 ---
 
-## 4. Laboratorio: distancias provisionales entre obras
+## 4. Comparativas del corpus
+
+`corpus/comparativas/{alcance}.json` se calcula únicamente desde artefactos `obra_analisis`
+coherentes de obras publicadas. Tiene dos universos: `publico`, solo con obras visibles, y
+`completo`, que incluye también las no visibles y queda restringido a admin/IP.
+
+### 4.1 Transiciones entre formas
+
+Para cada par ordenado `de → a` se guardan las obras que lo contienen, el número total de obras
+analizables y las apariciones totales. La distribución de apariciones por obra **incluye ceros**:
+una obra que no usa el par pertenece al denominador y aporta 0. Así, la prevalencia responde «¿en
+qué proporción de obras aparece?» y media, mediana, cuartiles y máximo permiten situar el recuento
+de una obra concreta sin confundir frecuencia total con difusión por el corpus.
+
+### 4.2 Fenómenos por secuencia
+
+Para versos partidos, cambios de espacio, eventos sobrenaturales e intervenciones se calcula primero
+en cada obra `Sí / (Sí + No)`. Una obra entra en la distribución de un fenómeno solo si tiene al
+menos una respuesta; lo no respondido no se convierte en `No`. El artefacto conserva el número de
+obras analizables y la media, mediana, cuartiles, mínimo y máximo de esas proporciones.
+
+Estas medidas son infraestructura, no interpretación: mientras el corpus visible esté formado por
+obras de prueba sirven para validar cálculo y presentación, no para sostener conclusiones.
+
+---
+
+## 5. Laboratorio: distancias provisionales entre obras
 
 Primera versión implementada el **2026-06-22** en
 [`src/lib/laboratorio/distancias.ts`](../src/lib/laboratorio/distancias.ts). Es una capa
@@ -332,7 +376,7 @@ cliente sobre la **selección activa** de obras.
 > resultado final estable. La futura fase de distancias entre formas deberá sustituir parte de este
 > cálculo por una matriz `formas_distancia`.
 
-### 4.1 Distancia composicional
+### 5.1 Distancia composicional
 
 `distanciaComposicional(perfilA, perfilB)` compara dos perfiles `{forma_slug: n_versos}`:
 
@@ -350,7 +394,7 @@ que dos formas puedan ser métricamente próximas. Por eso se marca como **provi
 sustituirse por transporte óptimo o una medida equivalente cuando exista una matriz
 `formas_distancia`.
 
-### 4.2 Distancia secuencial
+### 5.2 Distancia secuencial
 
 `distanciaSecuencial(tramosA, tramosB, versosPorSimbolo = 25)` compara la **secuencia de formas** de
 dos obras a partir de los `tramos` del barcode (`{i, f, s, t}`). En la interfaz se presenta como
@@ -373,7 +417,7 @@ porque controla la granularidad de la discretización. El coste de sustitución 
 provisional: en una fase posterior debe ponderarse con `formas_distancia`, para que sustituir dos
 formas cercanas no cueste lo mismo que sustituir formas métricamente lejanas.
 
-### 4.3 Visualización actual
+### 5.3 Visualización actual
 
 Para una selección activa de `N` obras, el laboratorio calcula dos matrices `N × N`, simétricas y con
 diagonal 0:
@@ -411,7 +455,7 @@ Este gráfico temporal depende mucho de la selección activa y de la datación d
 como exploración de tendencias dentro del subconjunto elegido, no como evolución global del corpus
 salvo que la selección cubra el corpus de forma equilibrada.
 
-### 4.4 Qué NO se hace todavía
+### 5.4 Qué NO se hace todavía
 
 - No se combinan las dos distancias en un único score.
 - No se precomputan pares en una tabla `obras_similares`.

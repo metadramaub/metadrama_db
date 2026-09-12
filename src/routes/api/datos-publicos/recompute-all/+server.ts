@@ -14,7 +14,10 @@ function isRecomputeAction(value: unknown): value is RecomputeAction {
 	return value === 'plan' || value === 'obra' || value === 'autor' || value === 'finalize';
 }
 
-function normalizePlanItem(value: unknown, labelKey: 'titulo' | 'nombre'): RecomputePlanItem | null {
+function normalizePlanItem(
+	value: unknown,
+	labelKey: 'titulo' | 'nombre'
+): RecomputePlanItem | null {
 	if (!value || typeof value !== 'object') return null;
 	const item = value as Record<string, unknown>;
 	if (typeof item.id !== 'string' || !UUID_PATTERN.test(item.id)) return null;
@@ -71,13 +74,19 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const body = await request.json().catch(() => ({}));
 	const action = body?.action;
 	if (!isRecomputeAction(action)) {
-		return json({ error: 'validation_error', message: 'Acción de recálculo no válida.' }, { status: 422 });
+		return json(
+			{ error: 'validation_error', message: 'Acción de recálculo no válida.' },
+			{ status: 422 }
+		);
 	}
 
 	if (action === 'plan') {
 		const plan = await loadPlan(locals);
 		if (!plan) {
-			return json({ error: 'db_error', message: 'No se pudo preparar el plan de recálculo.' }, { status: 500 });
+			return json(
+				{ error: 'db_error', message: 'No se pudo preparar el plan de recálculo.' },
+				{ status: 500 }
+			);
 		}
 		return json({ ok: true, ...plan });
 	}
@@ -94,9 +103,14 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			);
 		}
 
-		const { error } = await locals.supabase.rpc('recompute_obra_resumen', { p_obra_id: obraId });
+		const { error } = await locals.supabase.rpc('recompute_obra_artefactos_global', {
+			p_obra_id: obraId
+		});
 		if (error) {
-			return json({ error: 'db_error', message: `No se pudo recalcular la obra: ${error.message}` }, { status: 500 });
+			return json(
+				{ error: 'db_error', message: `No se pudo recalcular la obra: ${error.message}` },
+				{ status: 500 }
+			);
 		}
 		return json({ ok: true, action, obraId });
 	}
@@ -109,21 +123,34 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		const plan = await loadPlan(locals);
 		if (!plan?.autores.some((autor) => autor.id === autorId)) {
 			return json(
-				{ error: 'invalid_state', message: 'El autor ya no tiene unidades métricas y no se ha recalculado.' },
+				{
+					error: 'invalid_state',
+					message: 'El autor ya no tiene unidades métricas y no se ha recalculado.'
+				},
 				{ status: 409 }
 			);
 		}
 
-		const { error } = await locals.supabase.rpc('recompute_autor_resumen', { p_autor_id: autorId });
+		const { error } = await locals.supabase.rpc('recompute_autor_artefactos_global', {
+			p_autor_id: autorId
+		});
 		if (error) {
-			return json({ error: 'db_error', message: `No se pudo recalcular el autor: ${error.message}` }, { status: 500 });
+			return json(
+				{ error: 'db_error', message: `No se pudo recalcular el autor: ${error.message}` },
+				{ status: 500 }
+			);
 		}
 		return json({ ok: true, action, autorId });
 	}
 
-	const { data: eliminados, error } = await locals.supabase.rpc('finalizar_recompute_datos_publicos');
+	const { data: eliminados, error } = await locals.supabase.rpc(
+		'finalizar_recompute_datos_publicos'
+	);
 	if (error) {
-		return json({ error: 'db_error', message: `No se pudo cerrar el recálculo: ${error.message}` }, { status: 500 });
+		return json(
+			{ error: 'db_error', message: `No se pudo cerrar el recálculo: ${error.message}` },
+			{ status: 500 }
+		);
 	}
 	return json({ ok: true, action, autoresEliminados: eliminados });
 };
