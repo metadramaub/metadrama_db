@@ -8,10 +8,12 @@ import {
 import { loadPublicSections } from '$lib/server/secciones-publicas';
 import { buildSectionVisibilityMap } from '$lib/secciones-publicas';
 import { applyFichaSectionVisibility } from '$lib/server/ficha-secciones';
+import { loadPublicArtifact, publicArtifactKeys } from '$lib/server/public-artifacts';
 import type {
 	PublicFichaComentarioPublico,
 	PublicObraFichaPayload
 } from '$lib/types/public-ficha.types';
+import type { ObraFichaArtifactPayload } from '$lib/types/public-artifacts.types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const viewer = await resolvePublicViewerContext(locals);
@@ -19,12 +21,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	// El scope efectivo depende de ESTA obra: el editor asignado la ve como admin/IP.
 	// La RPC aplica el muro real de estado/visibilidad; esta consulta previa solo decide
 	// si el scope de secciones debe ser amplio para esta obra concreta.
-	// **La ficha precomputada viaja con la propia consulta de visibilidad.** Es la de una obra
-	// publicada, tal como la ve un anónimo, y viene ya con sus slugs: si está, no hace falta que la
-	// base la construya otra vez.
 	const obraVisibilityResp = await locals.supabase
 		.from('obras')
-		.select('obra_id,editor_asignado,visible_publico,estado,obras_resumen(ficha)')
+		.select('obra_id,editor_asignado,visible_publico,estado')
 		.eq('slug', params.slug)
 		.maybeSingle();
 
@@ -60,22 +59,28 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	};
 
 	/**
-	 * La ficha guardada, si la obra está publicada.
-	 *
-	 * **En vivo se queda solo la vista previa**, que es lo único que justifica reconstruir la ficha
-	 * en cada visita: una obra sin publicar no tiene resumen. Lo guardado es la versión anónima, y
-	 * sirve igual a admin y a IP porque lo único que `include_hidden` cambia dentro de la ficha son
-	 * los comentarios, y esos se piden aparte de todos modos.
-	 *
-	 * **El muro no se salta leyendo la tabla**: `obras_resumen` lleva la misma doble puerta que la
-	 * función —`obra_publica_visible(obra_id)` para el anónimo, y la relajación para admin/IP y para
-	 * el editor asignado—, aplicada por RLS sobre esta misma consulta. Si alguien afloja esa
-	 * política, esto se convierte en un agujero.
+	 * La obra publicada se sirve desde su artefacto JSON. Si el despliegue aún no ha creado la
+	 * tabla o la primera cola no ha materializado esta clave, se conserva temporalmente la lectura
+	 * de `obras_resumen`. La vista previa sigue siendo la única ficha construida en vivo.
 	 */
-	const resumen = (
-		obraVisibilityResp.data as { obras_resumen?: { ficha: unknown } | { ficha: unknown }[] | null }
-	).obras_resumen;
-	const fichaGuardada = (Array.isArray(resumen) ? resumen[0] : resumen)?.ficha ?? null;
+	const isPublished = estadoTerm?.data?.termino?.trim().toLowerCase() === 'publicado';
+	let fichaGuardada: PublicObraFichaPayload | null = null;
+	if (isPublished) {
+		const artifact = await loadPublicArtifact<ObraFichaArtifactPayload>(
+			locals.supabase,
+			publicArtifactKeys.obraFicha(obraId)
+		);
+		fichaGuardada = artifact?.payload.ficha ?? null;
+
+		if (!fichaGuardada) {
+			const fallback = await locals.supabase
+				.from('obras_resumen')
+				.select('ficha')
+				.eq('obra_id', obraId)
+				.maybeSingle();
+			fichaGuardada = (fallback.data?.ficha as unknown as PublicObraFichaPayload | null) ?? null;
+		}
+	}
 
 	const [fichaResp, comentariosResp] = await Promise.all([
 		fichaGuardada
@@ -95,7 +100,10 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		throw error(500, `No se pudo cargar la ficha pública: ${rpcError.message}`);
 	}
 	if (comentariosResp.error) {
-		throw error(500, `No se pudieron cargar los comentarios públicos: ${comentariosResp.error.message}`);
+		throw error(
+			500,
+			`No se pudieron cargar los comentarios públicos: ${comentariosResp.error.message}`
+		);
 	}
 	if (!data) {
 		throw error(404, 'Obra no encontrada.');

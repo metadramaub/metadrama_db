@@ -69,7 +69,14 @@ const PARA_QUE = {
 	total_versos_autor: ['recuento', 'perfil de autor'],
 	numero_efectivo_formas_medio: ['diversidad media de sus obras', 'perfil de autor'],
 	numero_efectivo_formas_agregado: ['diversidad del conjunto', 'perfil de autor'],
-	perfil_formas_hijos: ['desglose por arquitectura', 'perfil de autor']
+	perfil_formas_hijos: ['desglose por arquitectura', 'perfil de autor'],
+	clave: ['ruta estable del artefacto y futura clave de objeto', 'servidor público'],
+	tipo: ['familia del contrato JSON', 'servidor público'],
+	entidad_id: ['obra o autor al que pertenece, si procede', 'productores'],
+	version_esquema: ['versión explícita del contrato', 'productores y consumidores'],
+	payload: ['documento JSON servido como unidad', 'rutas públicas'],
+	sucio: ['hay cambios posteriores; se conserva la última versión coherente', 'cola y diagnóstico'],
+	generado_en: ['momento en que se reemplazó el artefacto', 'cola y diagnóstico']
 };
 
 /**
@@ -82,27 +89,32 @@ const REGISTRABLE = [
 	{
 		nombre: 'Rasgos observados (asonancia, densidad de rima, final acentual)',
 		cuantas: `select count(*) from public.anotacion_elecciones where valor_rasgo_id is not null`,
-		clave: 'rasgos', columna: null
+		clave: 'rasgos',
+		columna: null
 	},
 	{
 		nombre: 'Metro elegido por unidad',
 		cuantas: `select count(*) from public.anotacion_elecciones where metro_id is not null`,
-		clave: 'metros', columna: 'metros_presentes'
+		clave: 'metros',
+		columna: 'metros_presentes'
 	},
 	{
 		nombre: 'Esquema de rima elegido por unidad',
 		cuantas: `select count(*) from public.anotacion_elecciones where esquema_rima_id is not null`,
-		clave: 'esquemas_rima', columna: 'subtipos_presentes'
+		clave: 'esquemas_rima',
+		columna: 'subtipos_presentes'
 	},
 	{
 		nombre: 'Variedad elegida dentro de una arquitectura',
 		cuantas: `select count(*) from public.anotacion_elecciones where variedad_id is not null`,
-		clave: 'variedades', columna: null
+		clave: 'variedades',
+		columna: null
 	},
 	{
 		nombre: 'Desviaciones (lagunas, hipométricos, rima ajena)',
 		cuantas: `select count(*) from public.anotacion_desviaciones`,
-		clave: 'desviaciones', columna: null
+		clave: 'desviaciones',
+		columna: null
 	},
 	{
 		nombre: 'Partes de la unidad (estancia, mudanza, sirima)',
@@ -113,37 +125,44 @@ const REGISTRABLE = [
 	{
 		nombre: 'Caracterizaciones por rango (cantado, prosa, evocación)',
 		cuantas: `select count(*) from public.secuencias_caracterizaciones_rango`,
-		clave: 'caracterizaciones_rango', columna: 'pct_cantado'
+		clave: 'caracterizaciones_rango',
+		columna: 'pct_cantado'
 	},
 	{
 		nombre: 'Versos partidos',
 		cuantas: `select count(*) from public.secuencias_metricas where versos_partidos`,
-		clave: 'versos_partidos', columna: 'tiene_versos_partidos'
+		clave: 'versos_partidos',
+		columna: 'tiene_versos_partidos'
 	},
 	{
 		nombre: 'Inaugura espacio',
 		cuantas: `select count(*) from public.secuencias_metricas where inaugura_espacio`,
-		clave: 'inaugura_espacio', columna: 'tiene_cambio_espacio'
+		clave: 'inaugura_espacio',
+		columna: 'tiene_cambio_espacio'
 	},
 	{
 		nombre: 'Evento sobrenatural',
 		cuantas: `select count(*) from public.secuencias_metricas where evento_sobrenatural`,
-		clave: 'evento_sobrenatural', columna: 'tiene_evento_sobrenatural'
+		clave: 'evento_sobrenatural',
+		columna: 'tiene_evento_sobrenatural'
 	},
 	{
 		nombre: 'Intervención de personajes femeninos',
 		cuantas: `select count(*) from public.secuencias_metricas where intervencion_personajes_femeninos <> 'sin_intervencion'`,
-		clave: 'intervencion_personajes_femeninos', columna: 'intervencion_femenina'
+		clave: 'intervencion_personajes_femeninos',
+		columna: 'intervencion_femenina'
 	},
 	{
 		nombre: 'Intervención de figuras de donaire',
 		cuantas: `select count(*) from public.secuencias_metricas where intervencion_figuras_donaire <> 'sin_intervencion'`,
-		clave: 'intervencion_figuras_donaire', columna: 'intervencion_donaire'
+		clave: 'intervencion_figuras_donaire',
+		columna: 'intervencion_donaire'
 	},
 	{
 		nombre: 'Intervención de personajes sobrenaturales',
 		cuantas: `select count(*) from public.secuencias_metricas where intervencion_personajes_sobrenaturales <> 'sin_intervencion'`,
-		clave: 'intervencion_personajes_sobrenaturales', columna: 'intervencion_sobrenaturales'
+		clave: 'intervencion_personajes_sobrenaturales',
+		columna: 'intervencion_sobrenaturales'
 	}
 ];
 
@@ -212,6 +231,33 @@ const inventario = REGISTRABLE.map((r) => {
 	return { ...r, cuantas, enFicha, enResumen };
 });
 
+const artefactosDisponibles =
+	Number(
+		scalar(`
+			select count(*) from information_schema.tables
+			where table_schema = 'public' and table_name = 'artefactos_publicos'
+		`)
+	) > 0;
+const artefactos = artefactosDisponibles
+	? query(`
+		select tipo, alcance, count(*)::int as cantidad,
+		       coalesce(sum(pg_column_size(payload)), 0)::bigint as bytes,
+		       count(*) filter (where sucio)::int as sucios
+		from public.artefactos_publicos
+		group by tipo, alcance
+		order by tipo, alcance
+	`)
+	: [];
+const totalArtefactos = artefactos.reduce((total, fila) => total + Number(fila.cantidad), 0);
+const totalArtefactosSucios = artefactos.reduce((total, fila) => total + Number(fila.sucios), 0);
+
+function bytesLegibles(value) {
+	const bytes = Number(value ?? 0);
+	if (bytes < 1024) return `${bytes} B`;
+	if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KiB`;
+	return `${(bytes / (1024 * 1024)).toFixed(1)} MiB`;
+}
+
 const cuentas = {
 	obras: scalar(`select count(*) from public.obras`),
 	publicadas: scalar(`
@@ -220,9 +266,13 @@ const cuentas = {
 		where v.termino = 'publicado'
 	`),
 	resumen: scalar(`select count(*) from public.obras_resumen`),
+	artefactos: totalArtefactos,
+	artefactosSucios: totalArtefactosSucios,
 	secuencias: scalar(`select count(*) from public.secuencias_metricas`),
 	anotadas: scalar(`select count(*) from public.anotaciones_metricas`),
-	legadas: scalar(`select count(*) from public.secuencias_metricas where estrofa_tipo_id is not null`),
+	legadas: scalar(
+		`select count(*) from public.secuencias_metricas where estrofa_tipo_id is not null`
+	),
 	sinCuadro: scalar(`
 		select count(*) from jsonb_array_elements(
 			public.ficha_publica_json(${lit(obra)}::uuid, true)->'metrica'->'secuencias'
@@ -230,7 +280,11 @@ const cuentas = {
 	`)
 };
 
-const hoy = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+const hoy = new Date().toLocaleDateString('es-ES', {
+	day: 'numeric',
+	month: 'long',
+	year: 'numeric'
+});
 
 const doc = `# Mapa de la precomputación
 
@@ -241,20 +295,23 @@ const doc = `# Mapa de la precomputación
 
 Regenerado el ${hoy}.
 
-## Las tres capas
+## Las cuatro capas
 
 **1 · Lo anotado.** \`secuencias_metricas\` y, colgando de ella, \`anotaciones_metricas\` →
 \`anotacion_realizaciones\` (las unidades y sus partes), \`anotacion_elecciones\` (las respuestas) y
 \`anotacion_desviaciones\`. Aparte, \`secuencias_caracterizaciones_rango\`, y la estructura en
 \`jornadas\` y \`cuadros\`.
 
-**2 · Lo precomputado.** \`obras_resumen\` y \`autores_resumen\`. Se rehacen al pulsar «Actualizar
-datos públicos» o con \`recompute_all()\`, y **solo para obras publicadas**.
+**2 · El cálculo intermedio.** \`obras_resumen\` y \`autores_resumen\` conservan los agregados
+relacionales que usan los productores. Ya no son el contrato que consumen las páginas públicas.
 
-**3 · La ficha.** Si la obra está publicada, lee el JSON de \`obras_resumen.ficha\`; solo la vista
-previa ejecuta la función en vivo. \`ficha_publica_json\` es la única productora del JSON y el
-recompute guarda su resultado, de modo que la ficha precomputada y la vista previa comparten la
-misma construcción.
+**3 · Los artefactos servibles.** \`artefactos_publicos\` guarda JSON versionados por consumidor:
+fichas y análisis de obra, fichas de autor, índices ligeros y comparativas del corpus. Sus claves
+tienen forma de ruta de objeto para poder trasladarlos a R2 sin cambiar el contrato.
+
+**4 · La vista previa.** Solo una obra que aún no está publicada ejecuta \`ficha_publica_json\` en
+vivo. Al pulsar «Actualizar datos públicos», la cola reconstruye primero los artefactos de obra,
+después los de autor y al final los índices y comparativas globales.
 
 ## Cuántas hay
 
@@ -263,6 +320,8 @@ misma construcción.
 | obras | ${cuentas.obras} |
 | obras publicadas | ${cuentas.publicadas} |
 | filas en \`obras_resumen\` | ${cuentas.resumen} |
+| artefactos JSON | ${cuentas.artefactos} |
+| artefactos pendientes de actualizar | ${cuentas.artefactosSucios} |
 | secuencias | ${cuentas.secuencias} |
 | secuencias con anotación del catálogo nuevo | ${cuentas.anotadas} |
 | secuencias que aún hablan el vocabulario legado | ${cuentas.legadas} |
@@ -274,6 +333,23 @@ ${tablaDeColumnas('obras_resumen')}
 ## Qué guarda \`autores_resumen\`
 
 ${tablaDeColumnas('autores_resumen')}
+
+## Qué guarda \`artefactos_publicos\`
+
+${artefactosDisponibles ? tablaDeColumnas('artefactos_publicos') : '_La migración de artefactos todavía no está aplicada en esta base._'}
+
+| contrato | alcance | artefactos | tamaño de los payloads | sucios |
+|---|---|--:|--:|--:|
+${
+	artefactos.length
+		? artefactos
+				.map(
+					(fila) =>
+						`| \`${fila.tipo}\` | ${fila.alcance} | ${fila.cantidad} | ${bytesLegibles(fila.bytes)} | ${fila.sucios} |`
+				)
+				.join('\n')
+		: '| — | — | 0 | 0 B | 0 |'
+}
 
 ## Qué devuelve la ficha
 
@@ -302,14 +378,16 @@ ${inventario
   pertenece al cuadro donde empieza, y que la tirada siga sonando después del corte se dice en
   \`cuadro_continua\`. Si esto sube, alguien ha vuelto a exigir que la secuencia quepa entera.
 - **Columnas sin describir:** ${
-		[...columnasResumen].filter((c) => !PARA_QUE[c]).length +
-		columnas('autores_resumen').filter((c) => !PARA_QUE[c.column_name]).length
-	}. Cada una es una medida que se añadió sin decir para qué sirve.
+	[...columnasResumen].filter((c) => !PARA_QUE[c]).length +
+	columnas('autores_resumen').filter((c) => !PARA_QUE[c.column_name]).length
+}. Cada una es una medida que se añadió sin decir para qué sirve.
 `;
 
 fs.writeFileSync(SALIDA, doc, 'utf8');
 console.log(`Escrito ${path.relative(RAIZ, SALIDA)}`);
-console.log(`  ${cuentas.anotadas} secuencias anotadas · ${cuentas.legadas} con vocabulario legado`);
+console.log(
+	`  ${cuentas.anotadas} secuencias anotadas · ${cuentas.legadas} con vocabulario legado`
+);
 const invisibles = inventario.filter((r) => r.cuantas > 0 && !r.enFicha);
 console.log(
 	invisibles.length === 0

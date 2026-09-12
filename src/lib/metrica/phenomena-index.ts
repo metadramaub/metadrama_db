@@ -47,7 +47,6 @@ export interface PhenomenonItem {
 export interface PhenomenonForm {
 	forma: string;
 	colorKey: string;
-	versos: number;
 	items: PhenomenonItem[];
 }
 
@@ -228,17 +227,14 @@ function facetOf(branchId: string, sequence: PhenomenonSequence): string | null 
 function groupByForm(entries: { forma: string; colorKey: string; item: PhenomenonItem }[]) {
 	const forms = new Map<string, PhenomenonForm>();
 	for (const entry of entries) {
-		const versos = entry.item.v_fin - entry.item.v_ini + 1;
 		const existing = forms.get(entry.colorKey);
 		if (existing) {
 			existing.items.push(entry.item);
-			existing.versos += versos;
 			continue;
 		}
 		forms.set(entry.colorKey, {
 			forma: entry.forma,
 			colorKey: entry.colorKey,
-			versos,
 			items: [entry.item]
 		});
 	}
@@ -247,7 +243,6 @@ function groupByForm(entries: { forma: string; colorKey: string; item: Phenomeno
 		.sort(
 			(a, b) =>
 				b.items.length - a.items.length ||
-				b.versos - a.versos ||
 				a.forma.localeCompare(b.forma, 'es')
 		);
 }

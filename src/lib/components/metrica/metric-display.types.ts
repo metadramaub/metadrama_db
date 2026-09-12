@@ -57,6 +57,33 @@ export interface MetricSchemeEntry {
 	cuadroContinua?: boolean | null;
 }
 
+/** Una secuencia localizable dentro de un grupo de forma. */
+export interface MetricSequenceGroupItem {
+	id: string;
+	secuencia_id: string;
+	v_ini: number;
+	v_fin: number;
+	detalle?: string | null;
+}
+
+/** Referencia mínima a una secuencia que puede abrirse desde un análisis. */
+export interface MetricSequenceReference {
+	secuencia_id: string;
+	v_ini: number;
+	v_fin: number;
+	forma: string;
+	colorKey: string;
+}
+
+/** Una forma que despliega las secuencias en las que aparece un dato. */
+export interface MetricSequenceFormGroup {
+	forma: string;
+	colorKey: string;
+	items: MetricSequenceGroupItem[];
+	/** Cuenta propia del fenómeno, nunca extensión en versos. */
+	detalle?: string | null;
+}
+
 /** Una jornada con sus cuadros, para el esquema de estructura. */
 export interface StructureOutlineJornada {
 	numero: number;
@@ -94,7 +121,7 @@ export interface MetricStripRow {
 	forma: string;
 	colorKey: string;
 	porcentaje: number;
-	secuencias: { v_ini: number; v_fin: number }[];
+	secuencias: { secuencia_id: string; v_ini: number; v_fin: number }[];
 }
 
 /** Una porción de la distribución de formas (para el pie). */

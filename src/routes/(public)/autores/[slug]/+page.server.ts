@@ -3,40 +3,55 @@ import type { PageServerLoad } from './$types';
 import { getWikidataAuthorData } from '$lib/server/wikidata-images';
 import { requireSectionVisible } from '$lib/server/secciones-publicas';
 import { resolvePublicViewerContext } from '$lib/server/public-obras';
+import { loadPublicArtifact, publicArtifactKeys } from '$lib/server/public-artifacts';
 import { buildPublicVocabularioMaps, loadPublicVocabulario } from '$lib/server/vocabulario-publico';
 import type { AutorPublicoPayload, AutorResumen } from '$lib/autores/perfil-autor';
+import type {
+	AutoresIndexArtifactPayload,
+	AutorFichaArtifactPayload
+} from '$lib/types/public-artifacts.types';
 
 export const load: PageServerLoad = async ({ fetch, locals, params }) => {
 	await requireSectionVisible(locals, 'autores');
 
 	const viewer = await resolvePublicViewerContext(locals);
-
-	// Identidad + obras asociadas (anon no puede leer `autores`: vía RPC SECURITY DEFINER).
-	// La RPC decide internamente si incluye obras no visibles (admin/IP); no se le pasa flag.
-	const { data: rpcData, error: rpcError } = await locals.supabase.rpc('get_autor_publico', {
-		p_slug: params.slug
-	});
-
-	if (rpcError) {
-		throw error(500, 'No se pudo cargar el autor.');
-	}
-	const payload = rpcData as AutorPublicoPayload | null;
-	if (!payload) {
-		throw error(404, 'Autor no encontrado.');
-	}
-
-	// Perfil métrico agregado: alcance por rol (RLS reparte; pedimos el que corresponde).
 	const alcance = viewer.canSeeAllPublished ? 'completo' : 'publico';
-	const { data: resumenData } = await locals.supabase
-		.from('autores_resumen')
-		.select(
-			'perfil_formas,perfil_formas_hijos,numero_efectivo_formas_medio,numero_efectivo_formas_agregado,total_versos_autor,n_obras_completas,n_jornadas_sueltas'
-		)
-		.eq('autor_id', payload.autor.autor_id)
-		.eq('alcance', alcance)
-		.maybeSingle();
 
-	const resumen = (resumenData as AutorResumen | null) ?? null;
+	// El índice resuelve slug → id sin abrir la tabla de autores; la ficha trae en un solo JSON la
+	// identidad, sus obras ligeras y el resumen métrico. Mientras se completa el primer despliegue,
+	// las dos lecturas antiguas se conservan como fallback.
+	const indexArtifact = await loadPublicArtifact<AutoresIndexArtifactPayload>(
+		locals.supabase,
+		publicArtifactKeys.autoresIndice(alcance)
+	);
+	const indexedAuthor = indexArtifact?.payload.autores.find((autor) => autor.slug === params.slug);
+	const fichaArtifact = indexedAuthor
+		? await loadPublicArtifact<AutorFichaArtifactPayload>(
+				locals.supabase,
+				publicArtifactKeys.autorFicha(indexedAuthor.autor_id, alcance)
+			)
+		: null;
+
+	let payload: AutorPublicoPayload | null = fichaArtifact?.payload ?? null;
+	let resumen: AutorResumen | null = fichaArtifact?.payload.resumen ?? null;
+	if (!payload) {
+		const { data: rpcData, error: rpcError } = await locals.supabase.rpc('get_autor_publico', {
+			p_slug: params.slug
+		});
+		if (rpcError) throw error(500, 'No se pudo cargar el autor.');
+		payload = rpcData as AutorPublicoPayload | null;
+		if (!payload) throw error(404, 'Autor no encontrado.');
+
+		const { data: resumenData } = await locals.supabase
+			.from('autores_resumen')
+			.select(
+				'perfil_formas,perfil_formas_hijos,numero_efectivo_formas_medio,numero_efectivo_formas_agregado,total_versos_autor,n_obras_completas,n_jornadas_sueltas'
+			)
+			.eq('autor_id', payload.autor.autor_id)
+			.eq('alcance', alcance)
+			.maybeSingle();
+		resumen = (resumenData as AutorResumen | null) ?? null;
+	}
 
 	// Sin nada que mostrar para un visitante normal: 404 (no delatar autores vacíos).
 	if (!viewer.canSeeAllPublished && payload.obras.length === 0 && !resumen) {

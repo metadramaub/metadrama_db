@@ -777,6 +777,39 @@ export type Database = {
           },
         ]
       }
+      artefactos_publicos: {
+        Row: {
+          alcance: string
+          clave: string
+          entidad_id: string | null
+          generado_en: string
+          payload: Json
+          sucio: boolean
+          tipo: string
+          version_esquema: number
+        }
+        Insert: {
+          alcance?: string
+          clave: string
+          entidad_id?: string | null
+          generado_en?: string
+          payload: Json
+          sucio?: boolean
+          tipo: string
+          version_esquema: number
+        }
+        Update: {
+          alcance?: string
+          clave?: string
+          entidad_id?: string | null
+          generado_en?: string
+          payload?: Json
+          sucio?: boolean
+          tipo?: string
+          version_esquema?: number
+        }
+        Relationships: []
+      }
       atribucion_autores: {
         Row: {
           atribucion_id: string
@@ -3792,6 +3825,7 @@ export type Database = {
       }
     }
     Functions: {
+      analisis_obra_publico_json: { Args: { p_obra_id: string }; Returns: Json }
       arquitectura_declara_norma: {
         Args: { p_arquitectura_id: string }
         Returns: boolean
@@ -3799,6 +3833,10 @@ export type Database = {
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
       auth_puede_editar_obra: { Args: { p_obra_id: string }; Returns: boolean }
       auth_puede_ver_obra: { Args: { p_obra_id: string }; Returns: boolean }
+      autor_ficha_artefacto_json: {
+        Args: { p_alcance: string; p_autor_id: string }
+        Returns: Json
+      }
       can_view_obra_ficha_publica: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: boolean
@@ -3808,10 +3846,19 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
+      ficha_publica_dominio_json: {
+        Args: { p_include_hidden?: boolean; p_obra_id: string }
+        Returns: Json
+      }
+      ficha_publica_enriquece_respuestas: {
+        Args: { p_items: Json }
+        Returns: Json
+      }
       ficha_publica_json: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
+      finalizar_recompute_datos_publicos: { Args: never; Returns: number }
       firma_de_eleccion: {
         Args: { e: Database["public"]["Tables"]["anotacion_elecciones"]["Row"] }
         Returns: string
@@ -3857,6 +3904,17 @@ export type Database = {
         Returns: Json
       }
       guardar_anotacion_metrica: { Args: { p_datos: Json }; Returns: string }
+      guardar_artefacto_publico: {
+        Args: {
+          p_alcance: string
+          p_clave: string
+          p_entidad_id: string
+          p_payload: Json
+          p_tipo: string
+          p_version_esquema?: number
+        }
+        Returns: undefined
+      }
       marcar_arquitectura_metrica_principal: {
         Args: { p_arquitectura_id: string }
         Returns: undefined
@@ -3905,6 +3963,15 @@ export type Database = {
           variedad_id: string
         }[]
       }
+      perfil_artefacto_obra_rango: {
+        Args: {
+          p_nivel?: string
+          p_obra_id: string
+          p_v_fin?: number
+          p_v_ini?: number
+        }
+        Returns: Json
+      }
       perfil_formas_hijos_rango: {
         Args: { p_obra_id: string; p_v_fin?: number; p_v_ini?: number }
         Returns: Json
@@ -3924,12 +3991,28 @@ export type Database = {
           scope: string
         }[]
       }
+      plan_recompute_datos_publicos: { Args: never; Returns: Json }
       preguntas_que_ofrecen_una_definitoria: { Args: never; Returns: string }
-		finalizar_recompute_datos_publicos: { Args: never; Returns: number }
-		plan_recompute_datos_publicos: { Args: never; Returns: Json }
       recompute_all: { Args: never; Returns: undefined }
+      recompute_artefactos_autor: {
+        Args: { p_autor_id: string }
+        Returns: undefined
+      }
+      recompute_artefactos_globales: { Args: never; Returns: undefined }
+      recompute_artefactos_obra: {
+        Args: { p_obra_id: string }
+        Returns: undefined
+      }
+      recompute_autor_artefactos_global: {
+        Args: { p_autor_id: string }
+        Returns: undefined
+      }
       recompute_autor_resumen: {
         Args: { p_autor_id: string }
+        Returns: undefined
+      }
+      recompute_obra_artefactos_global: {
+        Args: { p_obra_id: string }
         Returns: undefined
       }
       recompute_obra_resumen: {
