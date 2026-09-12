@@ -16,8 +16,10 @@ queda por hacer y enlaza la documentación detallada.
 > **La zona pública pasó a artefactos JSON el 12 de septiembre de 2026.** Los cinco pasos del
 > [plan pactado](#el-plan-pactado-en-cinco-pasos) están cerrados: solo la vista previa se calcula en
 > vivo; las fichas publicadas, índices, perfiles de autor y comparativas del corpus se materializan.
-> Lo que sigue es consumir esas comparativas en las fichas y el laboratorio, ampliar sus métricas
-> cuando se definan y migrar las 263 secuencias que aún hablan el vocabulario legado.
+> La matriz comparativa V2 es privada aunque su universo sea público. Lo que sigue es consumirla y
+> evaluar medidas en el laboratorio antes de proyectar una selección pequeña a las fichas, y migrar
+> las 263 secuencias que aún hablan el vocabulario legado. Plan:
+> [comparativas del corpus](../plan-comparativas-corpus.md).
 >
 > **Si vienes a trabajar en la ficha o en el buscador, empieza por
 > [el informe automático de la precomputación](../mapa-precomputacion.md).**
@@ -1077,12 +1079,13 @@ Las descargas siguen aparcadas.
 | **FP-G9** | **Hecho**: la fuente se ofrece bajo la datación mediante un control discreto y accesible. Al abrirlo conserva cursivas, listas y referencias separadas; no vuelca en la cabecera campos que en las obras reales pueden contener varias citas bibliográficas extensas. La auditoría del 9 de septiembre comprobó el formato contra la tabla viva antes de diseñarlo. |
 | **FP-G10** | **Hecho**: el correo de la cuenta del editor no se muestra y se retira también del JSON público y de las fichas precomputadas. Nombre público y ORCID bastan para firmar la ficha; un futuro contacto directo requerirá un campo propio y consentimiento expreso. |
 
-**Comparación futura con el corpus.** Transiciones, patrones y las demás medidas analíticas deben
+**Comparación futura con el corpus.** Transiciones, patrones y las demás medidas analíticas pueden
 poder añadir, cuando haya un corpus publicado suficiente, una referencia del tipo «en esta obra
 ocurre X; ocurre también en el Y % del corpus analizado». La ficha comparará la obra con el corpus
 sin convertirse en el laboratorio: mostrará una referencia breve, nombrará el universo y la fecha
-del cálculo, y dejará la exploración transversal para la herramienta específica. Esta segunda capa
-no se calcula todavía ni usa las obras de prueba como si fueran el corpus.
+del cálculo, y dejará la exploración transversal para la herramienta específica. El banco de
+trabajo V2 ya se calcula y es privado; la proyección pública por obra todavía no existe. Las obras de
+prueba validan la maquinaria, no se usan como si fueran un corpus histórico.
 
 **Revisión de organización y lenguaje solicitada el 10 de septiembre de 2026.** Se hará en cambios
 pequeños y reversibles, uno por uno; esta nota no implica que estén implementados:
@@ -1214,11 +1217,12 @@ próximo hito y no por el orden en que aparecieron.
 **Los dos hitos que vienen.** *Actualizado el 12 de septiembre de 2026: el editor V2 y la salida
 pública por artefactos están en producción; la infraestructura de comparación ya existe.*
 
-1. **Llevar las comparativas a la interfaz.** `corpus_comparativas` ya ofrece prevalencias y
-   distribuciones para transiciones y fenómenos; falta decidir qué lectura se muestra en cada
-   gráfico —«en esta obra», posición frente al corpus, denominador y ausencia de respuesta— y
-   reutilizar el mismo contrato en el laboratorio. Las 11 obras visibles siguen siendo de prueba:
-   sirven para comprobar cálculo y presentación, no para sostener resultados.
+1. **Avanzar el laboratorio comparativo.** `corpus_comparativas` V2 ofrece una matriz compacta por
+   obra y agregados generales, de formas, transiciones, fenómenos, enunciación, cuadros y extremos de
+   jornada. Primero debe sustituir la carga relacional del laboratorio y permitir ensayar qué
+   medidas son interpretables. Después se proyectará a cada ficha solo una selección pequeña. Las
+   11 obras visibles siguen siendo de prueba: sirven para comprobar cálculo y presentación, no para
+   sostener resultados. Decisiones: [plan-comparativas-corpus.md](../plan-comparativas-corpus.md).
 2. **Migrar las secuencias ya anotadas** —263, en las 88 obras en borrador y las 5 en vista previa—,
    por equivalencias más revisión manual obra por obra. Marco:
    [el plan de migración](./plan-migracion-anotaciones.md); procedimiento:
@@ -1761,8 +1765,9 @@ se completó el 31. Lo que sigue:
    seis heredadas incluidas**, con sus 28 opciones.
 8. **El editor V2 pasó a producción** el 7 de septiembre de 2026, y con él la precomputación y la
    ficha al catálogo nuevo. **La zona pública pasó a artefactos JSON el 12 de septiembre** y el
-   [plan pactado](#el-plan-pactado-en-cinco-pasos) quedó cerrado. Lo que viene es presentar las
-   comparativas ya materializadas y abordar la
+   [plan pactado](#el-plan-pactado-en-cinco-pasos) quedó cerrado. Lo que viene es explorar las
+   comparativas materializadas en el laboratorio privado, seleccionar después cuáles ayudan a leer
+   cada ficha y abordar la
    [migración de las anotaciones](./plan-migracion-anotaciones.md) por equivalencias más revisión
    manual. Lo que hay que despejar antes está en [qué queda pendiente](#qué-queda-pendiente), bloque
    A.

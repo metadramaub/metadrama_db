@@ -61,8 +61,9 @@ especificación de cómo se espera que se anote.
 - `src/lib/server/public-obras.ts`, `ficha-secciones.ts`, `secciones-publicas.ts`
 - La API estable de la zona pública son los documentos JSON de `artefactos_publicos`, no las tablas
   crudas ni las columnas de `obras_resumen` / `autores_resumen`. Hay artefactos de ficha y análisis
-  por obra, ficha por autor, índices ligeros y comparativas del corpus. Los resúmenes anteriores
-  siguen como cálculo intermedio y fallback de primer despliegue.
+  por obra, ficha por autor e índices ligeros. `corpus_comparativas` comparte el almacén, pero es un
+  banco de trabajo privado para admin/IP: su alcance `publico` nombra el universo, no su permiso.
+  Los resúmenes anteriores siguen como cálculo intermedio y fallback de primer despliegue.
 - Se regeneran al pulsar «Actualizar datos públicos» en el dashboard: la cola confirma obra por
   obra, después autor por autor y al final reemplaza índices y comparativas. El autosave solo marca
   suciedad y se sigue sirviendo el último JSON coherente durante el recálculo.
@@ -70,6 +71,8 @@ especificación de cómo se espera que se anote.
   y `/autores` leen índices compactos, y las fichas de autor no descargan todas sus obras completas.
   Contratos y flujo: [docs/arquitectura-artefactos-publicos.md](docs/arquitectura-artefactos-publicos.md).
 - Qué mide cada dato precomputado y por qué: [docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md)
+- Orden laboratorio → selección → ficha e ideas ya acordadas:
+  [docs/plan-comparativas-corpus.md](docs/plan-comparativas-corpus.md)
 - Dónde vive cada dato hoy, dato a dato: [docs/mapa-precomputacion.md](docs/mapa-precomputacion.md)
 
 ### 3. Dominio métrico nuevo — en construcción
@@ -121,8 +124,9 @@ filológicas, no técnicas, y las toma el IP.
 de 2026. Los campos propios de la secuencia y el paso de la precomputación y la ficha al catálogo
 nuevo se cerraron ese mismo día. **La zona pública pasó a artefactos JSON el 12 de septiembre**:
 la ficha en vivo queda solo para la vista previa y las fichas publicadas, los índices, los perfiles
-de autor y las comparativas se materializan. Lo siguiente es consumir esas comparativas en las
-fichas y el laboratorio y migrar las anotaciones que aún hablan el vocabulario legado.
+de autor y las comparativas se materializan. La matriz comparativa es privada; lo siguiente es
+consumirla y evaluarla en el laboratorio antes de proyectar una selección pequeña a las fichas, y
+migrar las anotaciones que aún hablan el vocabulario legado.
 
 **Lo demás que queda pendiente está inventariado** en
 [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
@@ -219,6 +223,8 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
   `npm run precomputacion:informe`, leyendo la base y ejecutando la ficha, así que no envejece.
 - [docs/arquitectura-artefactos-publicos.md](docs/arquitectura-artefactos-publicos.md) — contrato de
   los JSON públicos, orden de recomputación, fallbacks y futura salida a R2.
+- [docs/plan-comparativas-corpus.md](docs/plan-comparativas-corpus.md) — frontera entre el banco
+  comparativo privado y la selección pequeña que podrá mostrarse en cada ficha.
 - [docs/revision-de-vocabularios.md](docs/revision-de-vocabularios.md) — los tres sitios
   donde viven hoy los vocabularios y el inventario de los 60 enums en `CHECK`. Anotado, sin
   decidir: se revisa cuando el dominio métrico pase a `main`.
