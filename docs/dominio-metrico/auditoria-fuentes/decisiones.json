@@ -1,5 +1,17 @@
 [
 	{
+		"id": "cf2dcb07",
+		"fuente": "Diccionario 2016",
+		"sobre": "Canción petrarquista",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
 		"id": "a6d9d28c",
 		"fuente": "Diccionario 2016",
 		"sobre": "Copla castellana",
@@ -19,6 +31,702 @@
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
 		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "f0bfb1cc",
+		"fuente": "Diccionario 2016",
+		"sobre": "Copla de arte menor",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e69543b4",
+		"fuente": "Diccionario 2016",
+		"sobre": "Copla manriqueña",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "d06da334",
+		"fuente": "Diccionario 2016",
+		"sobre": "Copla real",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b4c150a8",
+		"fuente": "Diccionario 2016",
+		"sobre": "Cuarteto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "dd2e7616",
+		"fuente": "Diccionario 2016",
+		"sobre": "Cuarteto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "623199bd",
+		"fuente": "Diccionario 2016",
+		"sobre": "Cuarteto-lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "3254409a",
+		"fuente": "Diccionario 2016",
+		"sobre": "Cuarteto-lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "1a97e945",
+		"fuente": "Diccionario 2016",
+		"sobre": "Cuartetos de rima cruzada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "962207aa",
+		"fuente": "Diccionario 2016",
+		"sobre": "Décima",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "b9107b9b",
+		"fuente": "Diccionario 2016",
+		"sobre": "Décima",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b32dd1f7",
+		"fuente": "Diccionario 2016",
+		"sobre": "Endecasílabo suelto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e5868e5e",
+		"fuente": "Diccionario 2016",
+		"sobre": "Endecha real",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"omisión relevante (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4886c9d5",
+		"fuente": "Diccionario 2016",
+		"sobre": "Endecha real",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7ac4bf24",
+		"fuente": "Diccionario 2016",
+		"sobre": "Endecha real · Heptasílaba con endecasílabo final",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "49143d0f",
+		"fuente": "Diccionario 2016",
+		"sobre": "Lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "514e4cdd",
+		"fuente": "Diccionario 2016",
+		"sobre": "Novena",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "095ef92a",
+		"fuente": "Diccionario 2016",
+		"sobre": "Octava aguda",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "515d9993",
+		"fuente": "Diccionario 2016",
+		"sobre": "Octava real",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"omisión relevante (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a5a6805b",
+		"fuente": "Diccionario 2016",
+		"sobre": "Octava-lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4e0d8da8",
+		"fuente": "Diccionario 2016",
+		"sobre": "Oncena",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "0f28eef9",
+		"fuente": "Diccionario 2016",
+		"sobre": "Pareado",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "63e2a80d",
+		"fuente": "Diccionario 2016",
+		"sobre": "Quintilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7535361c",
+		"fuente": "Diccionario 2016",
+		"sobre": "Redondilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "a3ce6b87",
+		"fuente": "Diccionario 2016",
+		"sobre": "Redondilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "423b6dca",
+		"fuente": "Diccionario 2016",
+		"sobre": "Redondilla enlazada",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "3ee697ca",
+		"fuente": "Diccionario 2016",
+		"sobre": "Romance",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "008e03ef",
+		"fuente": "Diccionario 2016",
+		"sobre": "Romance",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "755cf2c2",
+		"fuente": "Diccionario 2016",
+		"sobre": "Romance · Heptasílabo",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "7fd372ca",
+		"fuente": "Diccionario 2016",
+		"sobre": "Seguidilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "8c5f0a5b",
+		"fuente": "Diccionario 2016",
+		"sobre": "Seguidilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "3d53c25d",
+		"fuente": "Diccionario 2016",
+		"sobre": "Seguidilla · Chamberga",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "bf1583ba",
+		"fuente": "Diccionario 2016",
+		"sobre": "Seguidilla · Compuesta",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "708ebd3f",
+		"fuente": "Diccionario 2016",
+		"sobre": "Seguidilla · Gitana",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "9907cf84",
+		"fuente": "Diccionario 2016",
+		"sobre": "Seguidilla · Simple arromanzada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "572ec834",
+		"fuente": "Diccionario 2016",
+		"sobre": "Septeto",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "51476304",
+		"fuente": "Diccionario 2016",
+		"sobre": "Septeto-lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "9499bbd8",
+		"fuente": "Diccionario 2016",
+		"sobre": "Septilla",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b55ae482",
+		"fuente": "Diccionario 2016",
+		"sobre": "Septilla enlazada",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"atribución cruzada (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "ce5d5f5c",
+		"fuente": "Diccionario 2016",
+		"sobre": "Sexteto",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"endurecimiento (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b8f138c4",
+		"fuente": "Diccionario 2016",
+		"sobre": "Sexteto-lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "9df9b891",
+		"fuente": "Diccionario 2016",
+		"sobre": "Sextilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "087b9c6b",
+		"fuente": "Diccionario 2016",
+		"sobre": "Sextilla · Hexasílaba",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "da0d0e2d",
+		"fuente": "Diccionario 2016",
+		"sobre": "Sextilla enlazada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "8769fc48",
+		"fuente": "Diccionario 2016",
+		"sobre": "Sextina",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "e71a72b3",
+		"fuente": "Diccionario 2016",
+		"sobre": "Silva",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "514aa1c0",
+		"fuente": "Diccionario 2016",
+		"sobre": "Silva",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "871a22ab",
+		"fuente": "Diccionario 2016",
+		"sobre": "Silva · Consonante regular",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b85a2577",
+		"fuente": "Diccionario 2016",
+		"sobre": "Silva · Libre",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a6221436",
+		"fuente": "Diccionario 2016",
+		"sobre": "Soneto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "edfba2df",
+		"fuente": "Diccionario 2016",
+		"sobre": "Soneto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "484e23f9",
+		"fuente": "Diccionario 2016",
+		"sobre": "Terceto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "c31cfc01",
+		"fuente": "Diccionario 2016",
+		"sobre": "Terceto encadenado",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "35e489c0",
+		"fuente": "Diccionario 2016",
+		"sobre": "Versificación irregular",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "aa1914ec",
+		"fuente": "Diccionario 2016",
+		"sobre": "Verso aislado",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "bdac1b06",
+		"fuente": "Diccionario 2016",
+		"sobre": "Villancico",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "5e28fc29",
+		"fuente": "Diccionario 2016",
+		"sobre": "Zéjel",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -329,6 +1037,138 @@
 		"nota": ""
 	},
 	{
+		"id": "f776aada",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Seguidilla",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7e08e2e3",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Septeto",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4ebe5647",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Septeto-lira",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"omisión relevante (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "afe1da83",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Septilla",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "11b899c3",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Septilla enlazada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "95628176",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Sexteto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "cf0381d4",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Sexteto-lira",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "c0160a43",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Sextilla",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"mezcla (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "274d62c8",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Sextilla enlazada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "31a59df9",
+		"fuente": "Domínguez Caparrós 2014",
+		"sobre": "Sextina",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
 		"id": "78ee9b2f",
 		"fuente": "Domínguez Caparrós 2014",
 		"sobre": "Silva",
@@ -419,6 +1259,36 @@
 		"nota": ""
 	},
 	{
+		"id": "4c90a1f0",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Canción petrarquista",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a691813f",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Copla castellana",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)",
+			"anclaje equivocado (medio)",
+			"cita literal inexacta (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
 		"id": "9e2b7557",
 		"fuente": "Jauralde Pou 2020",
 		"sobre": "Copla de arte mayor",
@@ -434,6 +1304,34 @@
 		"nota": ""
 	},
 	{
+		"id": "de48e693",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Copla de arte menor",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b436934c",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Copla manriqueña",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
 		"id": "2cc0d171",
 		"fuente": "Jauralde Pou 2020",
 		"sobre": "Copla real",
@@ -444,6 +1342,496 @@
 		"defectos": [
 			"convención rota (leve)",
 			"omisión relevante (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7453d194",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Cuarteto",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "49b4e370",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Décima",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"endurecimiento (grave)",
+			"atribución cruzada (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "387f50dd",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Endecasílabo suelto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e0a9f688",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Endecha real",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "f1a44360",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Endecha real · Heptasílaba con endecasílabo final",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)",
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "d4bf348a",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Endecha real · Hexasílaba con endecasílabo final",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)",
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4d50e967",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e20a8b27",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Novena",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"localizador falso (medio)",
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "19fc8274",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Octava aguda",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "0ffbdeb3",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Octava real",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "8b5581b0",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Oncena",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "880f3d66",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Pareado",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "a5faa793",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Quintilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "35a26a3d",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Redondilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "a6656e33",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Redondilla enlazada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "6e51316b",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Romance",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "f0aee128",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Romance · Endecasílabo",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "ac2eb17b",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Seguidilla",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)",
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "c63316b9",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Seguidilla · Real",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"mezcla (grave)",
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "ffa92b82",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Seguidilla · Simple arromanzada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "4848b0a0",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Septeto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "8d77881a",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Septeto-lira",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "90ca3952",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Septilla",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)",
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "e9a49c36",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Septilla enlazada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "2d0599a0",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Sexteto",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4751f45b",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Sexteto-lira",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b2e4dfe5",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Sextilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "45ed28a0",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Sextilla enlazada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "7d6ea13a",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Sextina",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"anclaje equivocado (medio)",
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "5d3cd719",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Silva",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"mezcla (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "31d4d03b",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Soneto",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)",
+			"convención rota (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "b3fb7d0b",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Terceto",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"cita literal inexacta (leve)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "fb1e1cda",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Terceto encadenado",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "e8dcfd50",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Tipología 1",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "1b182f52",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Versificación irregular",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "a18a04c2",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Villancico",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "e2c60b96",
+		"fuente": "Jauralde Pou 2020",
+		"sobre": "Zéjel",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"localizador falso (medio)",
+			"mezcla (grave)"
 		],
 		"estado": "pendiente",
 		"nota": ""
@@ -1539,6 +2927,18 @@
 		"nota": ""
 	},
 	{
+		"id": "e45bdc99",
+		"fuente": "Quilis 1969",
+		"sobre": "Canción petrarquista",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
 		"id": "8e712f47",
 		"fuente": "Quilis 1969",
 		"sobre": "Copla castellana",
@@ -1563,6 +2963,237 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "77da08e6",
+		"fuente": "Quilis 1969",
+		"sobre": "Copla de arte menor",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "45f13be6",
+		"fuente": "Quilis 1969",
+		"sobre": "Copla manriqueña",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"mezcla (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "9a15dd34",
+		"fuente": "Quilis 1969",
+		"sobre": "Copla real",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "57bb5d0f",
+		"fuente": "Quilis 1969",
+		"sobre": "Cuarteto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "0c07cb3f",
+		"fuente": "Quilis 1969",
+		"sobre": "Décima",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"endurecimiento (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "14578fe2",
+		"fuente": "Quilis 1969",
+		"sobre": "Endecasílabo suelto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "observacion",
+		"defectos": [],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "75d992b5",
+		"fuente": "Quilis 1969",
+		"sobre": "Endecha real",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "f4f86489",
+		"fuente": "Quilis 1969",
+		"sobre": "Lira",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"endurecimiento (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "22157a22",
+		"fuente": "Quilis 1969",
+		"sobre": "Novena",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "e708120e",
+		"fuente": "Quilis 1969",
+		"sobre": "Octava aguda",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)",
+			"anclaje equivocado (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "70a68314",
+		"fuente": "Quilis 1969",
+		"sobre": "Octava real",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "236c4eee",
+		"fuente": "Quilis 1969",
+		"sobre": "Oncena",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "fondo",
+		"defectos": [
+			"invención (grave)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "0df80a1a",
+		"fuente": "Quilis 1969",
+		"sobre": "Pareado",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "ab3c32ab",
+		"fuente": "Quilis 1969",
+		"sobre": "Quintilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "44ce6251",
+		"fuente": "Quilis 1969",
+		"sobre": "Redondilla",
+		"veredicto": "defecto",
+		"veredicto_efectivo": "defecto",
+		"comprobado_a_mano": null,
+		"cubo": "material",
+		"defectos": [
+			"localizador falso (medio)"
+		],
+		"estado": "pendiente",
+		"nota": ""
+	},
+	{
+		"id": "4029811d",
+		"fuente": "Quilis 1969",
+		"sobre": "Redondilla enlazada",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "76cc35e3",
+		"fuente": "Quilis 1969",
+		"sobre": "Romance",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "limpio",
+		"defectos": [],
+		"estado": "no requiere revisión",
+		"nota": ""
+	},
+	{
+		"id": "6cab6e9a",
+		"fuente": "Quilis 1969",
+		"sobre": "Seguidilla",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
+		"comprobado_a_mano": null,
+		"cubo": "confirmacion",
+		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
 	},
