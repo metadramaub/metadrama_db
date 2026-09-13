@@ -195,10 +195,10 @@
 			"veredicto_pasada_a": "defecto",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿El defecto es real, o se acusó de más?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null,
-			"revisado_por": null
+			"hallazgo_humano": "Mas grave de lo que dijo A, que lo llamo omision relevante. El catalogo afirma que Caparros describe la cancion alirada «sin dar epigrafe propio a la de siete versos, que si recoge en el Diccionario», y fallan tres cosas. El septeto lira si esta con nombre y definicion: «Puede adoptar la forma de septeto lira: endecasilabos y heptasilabos con rima consonante», con ejemplo de fray Luis, dentro de 10.2.6 «Septeto», pp. 199-200. El «apartado de la cancion alirada» no existe: la expresion aparece una sola vez en todo el libro, de pasada, al presentar el cuarteto lira. Y remite al Diccionario dentro de la voz de Caparros 2014, que es el patron de importacion cruzada. No es omision: es una ausencia afirmada que no existe, como en la octava aguda.",
+			"contenido_correcto": false,
+			"localizador_correcto": false,
+			"revisado_por": "Claude"
 		}
 	]
 }
