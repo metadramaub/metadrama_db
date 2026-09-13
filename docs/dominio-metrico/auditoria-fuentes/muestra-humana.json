@@ -24,9 +24,9 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Comprobada: sin problemas.",
+			"contenido_correcto": true,
+			"localizador_correcto": true
 		},
 		{
 			"id": "0f28eef9",
@@ -36,9 +36,9 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Comprobada: sin problemas.",
+			"contenido_correcto": true,
+			"localizador_correcto": true
 		},
 		{
 			"id": "cfb377cd",
@@ -48,9 +48,9 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "La frase «no da epígrafe a la de siete versos» es literalmente cierta —Navarro no le da nombre— pero induce a error: el § 161 dice «como desarrollo del mismo tipo métrico pueden considerarse la estrofa de siete versos, aBbCcAA», de Góngora, y la lectura ciega añade ABcACdC de Medrano. Sí la documenta, con esquema y autor. Además la frase sitúa la ausencia en «el período siguiente» (§ 229, Neoclasicismo), y la estrofa de siete versos está en el § 161, el del Siglo de Oro: el § 229 en efecto no la trata, pero no es lo que dice nuestra frase. Los tres §§ del localizador llevan a pasajes reales y sostienen el resto.",
+			"contenido_correcto": false,
+			"localizador_correcto": true
 		},
 		{
 			"id": "76cc35e3",
