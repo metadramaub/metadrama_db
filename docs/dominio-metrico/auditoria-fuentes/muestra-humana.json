@@ -14,7 +14,8 @@
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "El contenido es conforme. El localizador declara p. 189 y la definición está en la 188; en la 189 está el ejemplo que la sigue, que es probablemente lo que se anotó. Arreglo: pp. 188-189.",
 			"contenido_correcto": true,
-			"localizador_correcto": false
+			"localizador_correcto": false,
+			"revisado_por": "David"
 		},
 		{
 			"id": "d1ea2ecf",
@@ -26,7 +27,8 @@
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "Comprobada: sin problemas.",
 			"contenido_correcto": true,
-			"localizador_correcto": true
+			"localizador_correcto": true,
+			"revisado_por": "David"
 		},
 		{
 			"id": "0f28eef9",
@@ -38,7 +40,8 @@
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "Comprobada: sin problemas.",
 			"contenido_correcto": true,
-			"localizador_correcto": true
+			"localizador_correcto": true,
+			"revisado_por": "David"
 		},
 		{
 			"id": "cfb377cd",
@@ -50,7 +53,8 @@
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "La frase «no da epígrafe a la de siete versos» es literalmente cierta —Navarro no le da nombre— pero induce a error: el § 161 dice «como desarrollo del mismo tipo métrico pueden considerarse la estrofa de siete versos, aBbCcAA», de Góngora, y la lectura ciega añade ABcACdC de Medrano. Sí la documenta, con esquema y autor. Además la frase sitúa la ausencia en «el período siguiente» (§ 229, Neoclasicismo), y la estrofa de siete versos está en el § 161, el del Siglo de Oro: el § 229 en efecto no la trata, pero no es lo que dice nuestra frase. Los tres §§ del localizador llevan a pasajes reales y sostienen el resto.",
 			"contenido_correcto": false,
-			"localizador_correcto": true
+			"localizador_correcto": true,
+			"revisado_por": "David"
 		},
 		{
 			"id": "76cc35e3",
@@ -62,7 +66,8 @@
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "Conforme: lo que dice es cierto, está en las pp. 150-151 y cumple la norma —aporta un hecho localizado y no parafrasea la definición—. Lo que aparece al comprobarla no es un defecto suyo: la definición que Quilis da del romance (p. 145, «es una serie ilimitada de octosílabos, en los que solamente los pares tienen rima asonante o parcial») no está recogida en ninguna parte, y el mismo pasaje trae cinco innovaciones del romance culto barroco —cuartetas, asonante con casi completa exclusión de la total, tres formas de estribillo intercalado, estribillos populares y combinación de dos metros— que darían para otra afirmación. Conviene no leerlo como anomalía de esta fuente: el catálogo lleva una afirmación por fuente y forma casi siempre, y el romance suma 7, a la par del soneto y la décima. Si una afirmación por fuente basta para una forma central es decisión del proyecto, no defecto de esta ficha. Fase 4.",
 			"contenido_correcto": true,
-			"localizador_correcto": true
+			"localizador_correcto": true,
+			"revisado_por": "David"
 		},
 		{
 			"id": "f0aee128",
@@ -74,7 +79,8 @@
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "Conforme. Jauralde dice que el romance heroico «no aparece más que tardíamente» —segunda mitad del XVII— con ejemplos sueltos anteriores de Pellicer, y eso es lo que recogemos. El «a veces» que señala el cotejo es de otra parte del pasaje (los quiebros que lo acercan a la silva), no del hecho que registramos: señal floja. Lo que el pasaje da de más son hechos distintos, no precisiones de este —el cultivo neoclásico y decimonónico, los quiebros de Bécquer, y sobre todo que para Jauralde la frontera entre romance heroico, silva y madrigal es fluida y depende de la extensión y de si hay semiestrofas—: son otras afirmaciones, no una ampliación de esta. Fase 4.",
 			"contenido_correcto": true,
-			"localizador_correcto": true
+			"localizador_correcto": true,
+			"revisado_por": "David"
 		},
 		{
 			"id": "9e0a5051",
@@ -86,7 +92,8 @@
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "El contenido es cierto. Dos defectos. El localizador, «Apartado «Combinaciones estróficas castellanas»», es un título de capítulo y no un sitio —uno de los ocho no seguibles de la fase 0—: la variante está en la p. 187 y la definición general en la 185. Y hay duplicación parcial con la otra afirmación de Caparrós 2014 sobre el terceto (43424e08): las dos dan los tres nombres del arte menor, y lo único propio de esta es el ejemplo de «A Goya» de Rubén Darío. Leídas juntas en la ficha se pisan. Comprobado además el anclaje, que está bien: las dos cuelgan de la forma y deben seguir así, porque «arte menor» abarca dos de las tres arquitecturas del terceto —octosílabo y hexasílabo— y la norma solo permite colgar de una arquitectura lo que sea exclusivo de esa realización.",
 			"contenido_correcto": true,
-			"localizador_correcto": false
+			"localizador_correcto": false,
+			"revisado_por": "David"
 		},
 		{
 			"id": "9c4dd052",
@@ -96,9 +103,10 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Es la que David encontró en la primera ronda y aquí se confirma leyendo la fuente. Morley y Bruerton dicen «La forma más corriente, llamada «regular» en este libro, es aBaBcC. Otras formas son: abbacC, AabBcC, AabBCC, etc.», y el catálogo lo convierte en «reservan el nombre de lira para la estrofa de seis versos aBaBcC»: endurece «la más corriente» en exclusividad y se deja tres esquemas. Dicen además que el nombre «también se aplica» a la de cinco versos aBabB, que ellos rebautizan solo «aquí»: no reservan nada. Y el catálogo añade «canzone italiana» donde la fuente dice solo «canzone». El localizador lleva al epígrafe correcto, aunque desde que el fichero tiene páginas debería decir «Cap. V, «Liras», p. 40».",
+			"contenido_correcto": false,
+			"localizador_correcto": true,
+			"revisado_por": "Claude"
 		},
 		{
 			"id": "514aa1c0",
@@ -108,9 +116,10 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Contenido y localizador correctos: el catálogo es casi literal —«Silva en que todos los versos pares llevan la misma rima asonante», con «silva-romance» en OTROS TÉRMINOS— y la entrada está en la p. 395. Pero el ANCLAJE está mal, y eso no lo mira ninguna de las dos pasadas ni el cotejo. La silva tiene una arquitectura «Arromanzada», y esta afirmación trata exclusivamente esa realización, así que debería colgar de ella. Es además inconsistente con sus hermanas de la misma fuente: la de la silva de consonantes cuelga de «Consonante regular» y la de la silva libre de «Libre»; solo esta cuelga de la forma. Defecto de anclaje equivocado, invisible para toda la maquinaria y comprobable por máquina.",
+			"contenido_correcto": true,
+			"localizador_correcto": true,
+			"revisado_por": "Claude"
 		},
 		{
 			"id": "4b2baf4c",
@@ -120,9 +129,10 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Tres de las cuatro cosas que dice son ciertas y comprobadas: no la distinguen, sus coplas de pie quebrado van de cinco a doce versos y no atienden al enlace de rima entre estrofas. La cuarta no: «posterior al de los entremeses donde esta serie se documenta» no esta en la fuente y no puede estarlo, porque «entremes» aparece cero veces en Morley y Bruerton y diez en Navarro. Es mezcla: una contextualizacion nuestra dentro de la voz de la fuente, y la misma clausula esta copiada en la sextilla enlazada de M&B. Las otras cuatro afirmaciones que la mencionan son de Navarro, donde si esta sostenida. El localizador lleva al epigrafe correcto, aunque desde que el fichero tiene paginas deberia decir p. 39.",
+			"contenido_correcto": false,
+			"localizador_correcto": true,
+			"revisado_por": "Claude"
 		},
 		{
 			"id": "a6656e33",
@@ -132,9 +142,10 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Limpia. La afirmacion es una sola frase y la lectura ciega la confirma habiendo barrido el libro entero: en «Estrofas de cuatro versos» se define la redondilla simple y no aparece ningun fenomeno de enlace ni la denominacion en ningun punto. El apartado citado existe de verdad, que en esta fuente no es poca cosa. Unico afinado posible, de convencion y no de fidelidad: un silencio deberia declarar el ambito recorrido, y este cita el apartado donde la forma caeria; como Jauralde no tiene paginas y el apartado es informativo, no lo cuento como defecto.",
+			"contenido_correcto": true,
+			"localizador_correcto": true,
+			"revisado_por": "Claude"
 		},
 		{
 			"id": "0f2ce49b",
@@ -144,9 +155,10 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Limpia, y con el anclaje mas fino de los tres niveles: cuelga del esquema de rima «Asonancia en los versos pares» ([-a]...) del romance, que es exactamente lo que dice la fuente en la p. 223 —«con rima asonante entre todos los versos pares, y con los versos impares sueltos»—. Casi literal. Contraste util con la silva arromanzada, que teniendo arquitectura disponible se quedo colgada de la forma. La pasada A dejo como observacion que no es entidad con nombre propio en la fuente: cierto e irrelevante, el nivel estructural del catalogo no tiene por que estar nombrado por la fuente.",
+			"contenido_correcto": true,
+			"localizador_correcto": true,
+			"revisado_por": "Claude"
 		},
 		{
 			"id": "cfc21591",
@@ -156,9 +168,11 @@
 			"veredicto_pasada_a": "defecto",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿El defecto es real, o se acusó de más?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "La acusacion de la pasada A es correcta, no se paso. El § 494 dice literal: «El estribillo es una cuarteta heptasilaba, el cuerpo de la cancion consiste en una redondilla octosilaba», y el catalogo registra «una cuarteta octosilabica seguida por un estribillo en cuarteta hexasilaba»: invierte el orden, dice hexasilaba donde la fuente dice heptasilaba, y la llama «modalidad moderna general» cuando el § 446, el otro ejemplo moderno, califica el suyo de «ejemplo aislado de esta antigua forma de cancion en el presente periodo». El resto de la afirmacion, que es larga, esta bien documentado y los seis §§ y el apartado final llevan al pasaje correcto. El defecto es una sola clausula final.",
+			"contenido_correcto": false,
+			"localizador_correcto": true,
+			"revisado_por": "Claude",
+			"nota_correccion": "Corregida en produccion por la migracion 20260913120000."
 		},
 		{
 			"id": "e708120e",
@@ -168,9 +182,10 @@
 			"veredicto_pasada_a": "defecto",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿El defecto es real, o se acusó de más?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "La acusacion de A es correcta y es de las graves de verdad. El catalogo afirma que Quilis no separa la octava aguda «sin epigrafe ni nombre propio», y el § 5.4.7.3 se titula literalmente «Octava italiana u octava aguda», con esquema ABBC'DEEC, la precision de que el cuarto y octavo versos son agudos, el matiz de que «a veces» son heptasilabos, cronologia (Neoclasicismo, con mayor difusion en el Romanticismo) y ejemplo de Becquer. Es exactamente lo contrario de lo que afirmamos. El localizador ademas manda al § 5.4.7.4, que es el de la octavilla: deberia ser § 5.4.7.3, p. 107. Cuarta confirmacion independiente, contando el verificador de A, el del piloto y la lectura ciega.",
+			"contenido_correcto": false,
+			"localizador_correcto": false,
+			"revisado_por": "Claude"
 		},
 		{
 			"id": "4ebe5647",
@@ -182,7 +197,8 @@
 			"que_se_pregunta": "¿El defecto es real, o se acusó de más?",
 			"hallazgo_humano": "",
 			"contenido_correcto": null,
-			"localizador_correcto": null
+			"localizador_correcto": null,
+			"revisado_por": null
 		}
 	]
 }
