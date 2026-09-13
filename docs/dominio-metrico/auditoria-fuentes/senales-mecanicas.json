@@ -1,0 +1,2895 @@
+{
+	"generado": "2026-09-13",
+	"total": 267,
+	"anclaje": [
+		{
+			"id": "3ac1b32a",
+			"anio": 1968,
+			"forma": "Décima",
+			"nombra": "Espinela",
+			"nombra_por": [
+				"decima espinela"
+			],
+			"hermanas_ancladas": [
+				"bf669381 → Aumentada"
+			],
+			"peso": 2
+		},
+		{
+			"id": "008e03ef",
+			"anio": 2016,
+			"forma": "Romance",
+			"nombra": "Endecasílabo",
+			"nombra_por": [
+				"romance heroico"
+			],
+			"hermanas_ancladas": [
+				"755cf2c2 → Heptasílabo"
+			],
+			"peso": 2
+		},
+		{
+			"id": "9df9b891",
+			"anio": 2016,
+			"forma": "Sextilla",
+			"nombra": "De pie quebrado",
+			"nombra_por": [
+				"sextilla de pie quebrado",
+				"copla de pie quebrado"
+			],
+			"hermanas_ancladas": [
+				"087b9c6b → Hexasílaba"
+			],
+			"peso": 2
+		},
+		{
+			"id": "514aa1c0",
+			"anio": 2016,
+			"forma": "Silva",
+			"nombra": "Arromanzada",
+			"nombra_por": [
+				"silva arromanzada"
+			],
+			"hermanas_ancladas": [
+				"b85a2577 → Libre",
+				"871a22ab → Consonante regular"
+			],
+			"peso": 2
+		},
+		{
+			"id": "2cb2f293",
+			"anio": 1968,
+			"forma": "Romance",
+			"nombra": "Endecasílabo",
+			"nombra_por": [
+				"romance real",
+				"romance heroico"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "0432c49f",
+			"anio": 1968,
+			"forma": "Silva",
+			"nombra": "Consonante regular",
+			"nombra_por": [
+				"silva de consonantes"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "669606fe",
+			"anio": 1969,
+			"forma": "Sextilla",
+			"nombra": "De pie quebrado",
+			"nombra_por": [
+				"copla de pie quebrado"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "7834edd3",
+			"anio": 1972,
+			"forma": "Décima",
+			"nombra": "Espinela",
+			"nombra_por": [
+				"redondilla de diez versos"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "f8d34b49",
+			"anio": 1972,
+			"forma": "Endecha real",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"54afe78b → Heptasílaba con endecasílabo final",
+				"92a48925 → Heptasílaba de cinco versos",
+				"34fdc61d → Heptasílaba con endecasílabo final",
+				"55bd3353 → Heptasílaba con endecasílabo final"
+			],
+			"peso": 1
+		},
+		{
+			"id": "22c63f36",
+			"anio": 1972,
+			"forma": "Seguidilla",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"738e37aa → Real",
+				"dec0232d → De tres versos"
+			],
+			"peso": 1
+		},
+		{
+			"id": "2c90f723",
+			"anio": 1972,
+			"forma": "Seguidilla",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"738e37aa → Real",
+				"dec0232d → De tres versos"
+			],
+			"peso": 1
+		},
+		{
+			"id": "cabb1f04",
+			"anio": 1972,
+			"forma": "Septeto",
+			"nombra": "Compuesto",
+			"nombra_por": [
+				"septeto compuesto"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "e7c94f87",
+			"anio": 1972,
+			"forma": "Sextilla",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"b3cc8411 → Hexasílaba"
+			],
+			"peso": 1
+		},
+		{
+			"id": "3d5e92bb",
+			"anio": 2014,
+			"forma": "Redondilla",
+			"nombra": "Octosílaba",
+			"nombra_por": [
+				"redondilla mayor"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "c0160a43",
+			"anio": 2014,
+			"forma": "Sextilla",
+			"nombra": "De pie quebrado",
+			"nombra_por": [
+				"copla de pie quebrado"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "78ee9b2f",
+			"anio": 2014,
+			"forma": "Silva",
+			"nombra": "Consonante regular",
+			"nombra_por": [
+				"silva de consonantes"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "962207aa",
+			"anio": 2016,
+			"forma": "Décima",
+			"nombra": "Espinela",
+			"nombra_por": [
+				"decima espinela"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "b9107b9b",
+			"anio": 2016,
+			"forma": "Décima",
+			"nombra": "Espinela",
+			"nombra_por": [
+				"decima espinela"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "e5868e5e",
+			"anio": 2016,
+			"forma": "Endecha real",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"7ac4bf24 → Heptasílaba con endecasílabo final"
+			],
+			"peso": 1
+		},
+		{
+			"id": "4886c9d5",
+			"anio": 2016,
+			"forma": "Endecha real",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"7ac4bf24 → Heptasílaba con endecasílabo final"
+			],
+			"peso": 1
+		},
+		{
+			"id": "3ee697ca",
+			"anio": 2016,
+			"forma": "Romance",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"755cf2c2 → Heptasílabo"
+			],
+			"peso": 1
+		},
+		{
+			"id": "7fd372ca",
+			"anio": 2016,
+			"forma": "Seguidilla",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"3d53c25d → Chamberga",
+				"9907cf84 → Simple arromanzada",
+				"708ebd3f → Gitana",
+				"bf1583ba → Compuesta"
+			],
+			"peso": 1
+		},
+		{
+			"id": "8c5f0a5b",
+			"anio": 2016,
+			"forma": "Seguidilla",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"3d53c25d → Chamberga",
+				"9907cf84 → Simple arromanzada",
+				"708ebd3f → Gitana",
+				"bf1583ba → Compuesta"
+			],
+			"peso": 1
+		},
+		{
+			"id": "572ec834",
+			"anio": 2016,
+			"forma": "Septeto",
+			"nombra": "Compuesto",
+			"nombra_por": [
+				"septeto compuesto"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		},
+		{
+			"id": "e71a72b3",
+			"anio": 2016,
+			"forma": "Silva",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"b85a2577 → Libre",
+				"871a22ab → Consonante regular"
+			],
+			"peso": 1
+		},
+		{
+			"id": "e0a9f688",
+			"anio": 2020,
+			"forma": "Endecha real",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"d4bf348a → Hexasílaba con endecasílabo final",
+				"f1a44360 → Heptasílaba con endecasílabo final"
+			],
+			"peso": 1
+		},
+		{
+			"id": "6e51316b",
+			"anio": 2020,
+			"forma": "Romance",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"f0aee128 → Endecasílabo"
+			],
+			"peso": 1
+		},
+		{
+			"id": "ac2eb17b",
+			"anio": 2020,
+			"forma": "Seguidilla",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"ffa92b82 → Simple arromanzada",
+				"c63316b9 → Real"
+			],
+			"peso": 1
+		},
+		{
+			"id": "5d3cd719",
+			"anio": 2020,
+			"forma": "Silva",
+			"nombra": "Consonante regular",
+			"nombra_por": [
+				"silva de consonantes"
+			],
+			"hermanas_ancladas": [],
+			"peso": 1
+		}
+	],
+	"esquemas": [
+		{
+			"id": "cfb377cd",
+			"anio": 1972,
+			"forma": "Septeto-lira",
+			"pasada": "B",
+			"sin_rastro": 5,
+			"huerfanos": [
+				{
+					"esquema": "aBaBcC",
+					"donde": "hermana",
+					"en": [
+						"Sexteto · Endecasílabo",
+						"Sexteto-lira · Heterométrico consonante",
+						"Lira · 1968",
+						"Sexteto-lira · 1968"
+					]
+				},
+				{
+					"esquema": "aBaBCC",
+					"donde": "hermana",
+					"en": [
+						"Sexteto · Endecasílabo",
+						"Sexteto-lira · Heterométrico consonante",
+						"Lira · 1968",
+						"Sexteto-lira · 1968"
+					]
+				},
+				{
+					"esquema": "AbAbcC",
+					"donde": "hermana",
+					"en": [
+						"Sexteto · Endecasílabo",
+						"Sexteto-lira · Heterométrico consonante",
+						"Lira · 1968",
+						"Sexteto-lira · 1968"
+					]
+				},
+				{
+					"esquema": "AbbAcC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Sexteto · 1972",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "AabBCC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Silva · 1968",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "aBbCcAA",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABcACdC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abCabC",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "abCabCdD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				},
+				{
+					"esquema": "ABcABcDD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				},
+				{
+					"esquema": "abCabCcdD",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AbCAbCcdD",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "aBbacC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Sexteto · 1972",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "AbCDeE",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABAbCcDD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "6ac2be86",
+			"anio": 1972,
+			"forma": "Sexteto-lira",
+			"pasada": "B",
+			"sin_rastro": 5,
+			"huerfanos": [
+				{
+					"esquema": "aBbCcAA",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABcACdC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abCabCdD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				},
+				{
+					"esquema": "ABcABcDD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				},
+				{
+					"esquema": "abCabCcdD",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AbCAbCcdD",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AbCDeE",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AAbCCb",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto · Alejandrino",
+						"Sextilla · Octosílaba",
+						"Sextilla · De pie quebrado",
+						"Copla manriqueña · 1969"
+					]
+				},
+				{
+					"esquema": "AaBCcB",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto · Alejandrino",
+						"Sextilla · Octosílaba",
+						"Sextilla · De pie quebrado",
+						"Copla manriqueña · 1969"
+					]
+				},
+				{
+					"esquema": "AaBcCB",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto · Alejandrino",
+						"Sextilla · Octosílaba",
+						"Sextilla · De pie quebrado",
+						"Copla manriqueña · 1969"
+					]
+				}
+			]
+		},
+		{
+			"id": "c1e62259",
+			"anio": 1972,
+			"forma": "Soneto",
+			"pasada": "B",
+			"sin_rastro": 5,
+			"huerfanos": [
+				{
+					"esquema": "ABBAABBA",
+					"donde": "modelado",
+					"en": [
+						"a5822734 (1968)",
+						"1a97e945 (2016)",
+						"a6221436 (2016)"
+					]
+				},
+				{
+					"esquema": "CDCDCD",
+					"donde": "modelado",
+					"en": [
+						"Sexteto · 1968",
+						"a5822734 (1968)"
+					]
+				},
+				{
+					"esquema": "CDEDCE",
+					"donde": "modelado",
+					"en": [
+						"Sexteto · 1968",
+						"a0b8fde4 (1969)"
+					]
+				},
+				{
+					"esquema": "CDCEDE",
+					"donde": "modelado",
+					"en": [
+						"Sexteto · 1968"
+					]
+				},
+				{
+					"esquema": "CDEDEC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "CDCCDC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "CDEEDC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABABCBCDC",
+					"donde": "otra forma",
+					"en": [
+						"Terceto encadenado · 1968",
+						"Terceto encadenado · 1969"
+					]
+				},
+				{
+					"esquema": "ABACDCEFE",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AAABBBCCC",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "cfc21591",
+			"anio": 1972,
+			"forma": "Villancico",
+			"pasada": "B",
+			"sin_rastro": 5,
+			"huerfanos": [
+				{
+					"esquema": "abbcddccbb",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbcddcdbb",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbacddcee",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbacdcddeea",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbacddcca",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "62e8c279",
+			"anio": 1972,
+			"forma": "Copla real",
+			"pasada": "B",
+			"sin_rastro": 4,
+			"huerfanos": [
+				{
+					"esquema": "abaabbcbbc",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbabccddc",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ababacdcdc",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abaabedeed",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "0bd8c0d2",
+			"anio": 1969,
+			"forma": "Terceto",
+			"pasada": "B",
+			"sin_rastro": 3,
+			"huerfanos": [
+				{
+					"esquema": "ABACDCEFE",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABBCDDEFF",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AAABBBCCC",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "588025c8",
+			"anio": 1972,
+			"forma": "Copla de arte mayor",
+			"pasada": "B",
+			"sin_rastro": 3,
+			"huerfanos": [
+				{
+					"esquema": "ABABBCCB",
+					"donde": "modelado",
+					"en": [
+						"Copla de arte menor · 1969",
+						"Copla de arte menor · 1972",
+						"0b562394 (2014)",
+						"e034cf96 (2016)"
+					]
+				},
+				{
+					"esquema": "ABABABAB",
+					"donde": "otra forma",
+					"en": [
+						"Soneto · Endecasílabo consonante",
+						"Soneto · 2016"
+					]
+				},
+				{
+					"esquema": "ABBAABBA",
+					"donde": "otra forma",
+					"en": [
+						"Soneto · Endecasílabo consonante",
+						"Soneto · 1968",
+						"Soneto · 2016"
+					]
+				},
+				{
+					"esquema": "ABABBAAB",
+					"donde": "otra forma",
+					"en": [
+						"Copla de arte menor · 1972"
+					]
+				},
+				{
+					"esquema": "ABBACCA",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972",
+						"Septilla · 2014",
+						"Septilla · 2016"
+					]
+				},
+				{
+					"esquema": "ABBAACCAA",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABBAACCAC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABBAABBACC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABAABCDCCD",
+					"donde": "otra forma",
+					"en": [
+						"Copla real · 1969",
+						"Copla real · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "feb6446a",
+			"anio": 1972,
+			"forma": "Sexteto",
+			"pasada": "B",
+			"sin_rastro": 3,
+			"huerfanos": [
+				{
+					"esquema": "ABBACdD",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABCBDD",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AaBCbC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABBCCB",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · 1969",
+						"Sextilla · 1972"
+					]
+				},
+				{
+					"esquema": "ABCABC",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "ABcABc",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "b51cb6b3",
+			"anio": 1972,
+			"forma": "Terceto encadenado",
+			"pasada": "B",
+			"sin_rastro": 3,
+			"huerfanos": [
+				{
+					"esquema": "ABABCBCDC",
+					"donde": "hermana",
+					"en": [
+						"80001779 (1968)",
+						"5fc24618 (1969)"
+					]
+				},
+				{
+					"esquema": "aBBbCCcDD",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABACDCEFE",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AAABBBCCC",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "a5faa793",
+			"anio": 2020,
+			"forma": "Quintilla",
+			"pasada": "B",
+			"sin_rastro": 3,
+			"huerfanos": [
+				{
+					"esquema": "aabbc",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ababa",
+					"donde": "modelado",
+					"en": [
+						"Copla real · 1968",
+						"ab3c32ab (1969)",
+						"142db9f5 (1972)",
+						"e8dcfd50 (2020)"
+					]
+				},
+				{
+					"esquema": "aabba",
+					"donde": "modelado",
+					"en": [
+						"Copla real · 1968",
+						"Zéjel · 1972",
+						"ab3c32ab (1969)",
+						"142db9f5 (1972)"
+					]
+				},
+				{
+					"esquema": "abbaa",
+					"donde": "modelado",
+					"en": [
+						"Endecha real · Heptasílaba de cinco versos",
+						"Endecha real · 1972",
+						"142db9f5 (1972)"
+					]
+				},
+				{
+					"esquema": "aaabb",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abcaa",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "a18a04c2",
+			"anio": 2020,
+			"forma": "Villancico",
+			"pasada": "B",
+			"sin_rastro": 3,
+			"huerfanos": [
+				{
+					"esquema": "abBcddccbB",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "cddcca",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "cddcceea",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "e2cb5403",
+			"anio": 1972,
+			"forma": "Copla manriqueña",
+			"pasada": "A",
+			"sin_rastro": 2,
+			"huerfanos": [
+				{
+					"esquema": "abaabadefdef",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "aabadbccdccd",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abcabc",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "eccebfab",
+			"anio": 1972,
+			"forma": "Septilla enlazada",
+			"pasada": "A",
+			"sin_rastro": 2,
+			"huerfanos": [
+				{
+					"esquema": "abaabbccdccdd",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "efeeffgghggh",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "412ad16e",
+			"anio": 1972,
+			"forma": "Sextilla enlazada",
+			"pasada": "B",
+			"sin_rastro": 2,
+			"huerfanos": [
+				{
+					"esquema": "abbccddeeffg",
+					"donde": "otra forma",
+					"en": [
+						"Redondilla enlazada · 1972"
+					]
+				},
+				{
+					"esquema": "abbaa",
+					"donde": "otra forma",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Endecha real · Heptasílaba de cinco versos",
+						"Quintilla · Octosílaba consonante"
+					]
+				},
+				{
+					"esquema": "cddcc",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "effeeggffg",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "022cea3a",
+			"anio": 1972,
+			"forma": "Soneto",
+			"pasada": "B",
+			"sin_rastro": 2,
+			"huerfanos": [
+				{
+					"esquema": "ABBAABBA",
+					"donde": "modelado",
+					"en": [
+						"a5822734 (1968)",
+						"1a97e945 (2016)",
+						"a6221436 (2016)"
+					]
+				},
+				{
+					"esquema": "CDCDCD",
+					"donde": "modelado",
+					"en": [
+						"Sexteto · 1968",
+						"a5822734 (1968)"
+					]
+				},
+				{
+					"esquema": "CDECDE",
+					"donde": "modelado",
+					"en": [
+						"Sexteto · 1968",
+						"Oncena · 2020",
+						"a0b8fde4 (1969)",
+						"c1e62259 (1972)"
+					]
+				},
+				{
+					"esquema": "CDEDCE",
+					"donde": "modelado",
+					"en": [
+						"Sexteto · 1968",
+						"a0b8fde4 (1969)"
+					]
+				},
+				{
+					"esquema": "CDEDEC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "CDEEDC",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ABABABAB",
+					"donde": "modelado",
+					"en": [
+						"1a97e945 (2016)",
+						"a6221436 (2016)"
+					]
+				}
+			]
+		},
+		{
+			"id": "332a88fd",
+			"anio": 1972,
+			"forma": "Terceto",
+			"pasada": "B",
+			"sin_rastro": 2,
+			"huerfanos": [
+				{
+					"esquema": "ABABCBCDC",
+					"donde": "otra forma",
+					"en": [
+						"Terceto encadenado · 1968",
+						"Terceto encadenado · 1969"
+					]
+				},
+				{
+					"esquema": "ABACDCEFE",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "AAABBBCCC",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "e8dcfd50",
+			"anio": 2020,
+			"forma": "Quintilla",
+			"pasada": "B",
+			"sin_rastro": 2,
+			"huerfanos": [
+				{
+					"esquema": "aabba",
+					"donde": "modelado",
+					"en": [
+						"Copla real · 1968",
+						"Zéjel · 1972",
+						"ab3c32ab (1969)",
+						"142db9f5 (1972)"
+					]
+				},
+				{
+					"esquema": "abbaa",
+					"donde": "modelado",
+					"en": [
+						"Endecha real · Heptasílaba de cinco versos",
+						"Endecha real · 1972",
+						"142db9f5 (1972)"
+					]
+				},
+				{
+					"esquema": "aaabb",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbba",
+					"donde": "modelado",
+					"en": [
+						"5b191115 (1968)",
+						"a5faa793 (2020)"
+					]
+				},
+				{
+					"esquema": "abcab",
+					"donde": "hermana",
+					"en": [
+						"a5faa793 (2020)"
+					]
+				},
+				{
+					"esquema": "abbca",
+					"donde": "hermana",
+					"en": [
+						"a5faa793 (2020)"
+					]
+				},
+				{
+					"esquema": "abaca",
+					"donde": "hermana",
+					"en": [
+						"a5faa793 (2020)"
+					]
+				},
+				{
+					"esquema": "abcaa",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "8e712f47",
+			"anio": 1969,
+			"forma": "Copla castellana",
+			"pasada": "B",
+			"sin_rastro": 1,
+			"huerfanos": [
+				{
+					"esquema": "abbecdde",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ababbccb",
+					"donde": "otra forma",
+					"en": [
+						"Copla de arte mayor · Dodecasílaba compuesta",
+						"Copla de arte menor · 1969",
+						"Copla de arte menor · 1972",
+						"Copla de arte mayor · 2014"
+					]
+				}
+			]
+		},
+		{
+			"id": "77da08e6",
+			"anio": 1969,
+			"forma": "Copla de arte menor",
+			"pasada": "B",
+			"sin_rastro": 1,
+			"huerfanos": [
+				{
+					"esquema": "abbecdde",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "e708120e",
+			"anio": 1969,
+			"forma": "Octava aguda",
+			"pasada": "B",
+			"sin_rastro": 1,
+			"huerfanos": [
+				{
+					"esquema": "ABBCDEEC",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "d3241dd6",
+			"anio": 1972,
+			"forma": "Canción petrarquista",
+			"pasada": "B",
+			"sin_rastro": 1,
+			"huerfanos": [
+				{
+					"esquema": "ABCBACcddEEFeF",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abCabCcdeeDfF",
+					"donde": "modelado",
+					"en": [
+						"96a4a4bd (1968)"
+					]
+				}
+			]
+		},
+		{
+			"id": "17b8a51f",
+			"anio": 1972,
+			"forma": "Redondilla",
+			"pasada": "B",
+			"sin_rastro": 1,
+			"huerfanos": [
+				{
+					"esquema": "aabcaabcddefddef",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "e20a8b27",
+			"anio": 2020,
+			"forma": "Novena",
+			"pasada": "B",
+			"sin_rastro": 1,
+			"huerfanos": [
+				{
+					"esquema": "abbcddeff",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "96a4a4bd",
+			"anio": 1968,
+			"forma": "Canción petrarquista",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABCABCDD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "3ac1b32a",
+			"anio": 1968,
+			"forma": "Décima",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABBAACCDDC",
+					"donde": "modelado",
+					"en": []
+				},
+				{
+					"esquema": "ABBAACCDDEED",
+					"donde": "modelado",
+					"en": [
+						"bf669381 (1968)"
+					]
+				}
+			]
+		},
+		{
+			"id": "bf669381",
+			"anio": 1968,
+			"forma": "Décima",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABBAACCDDC",
+					"donde": "modelado",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "9c4dd052",
+			"anio": 1968,
+			"forma": "Lira",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbacC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Sexteto · 1972",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "AabBcC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Silva · 1968",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "AabBCC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Silva · 1968",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "aBabB",
+					"donde": "modelado",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Septeto-lira · 1968"
+					]
+				}
+			]
+		},
+		{
+			"id": "5b191115",
+			"anio": 1968,
+			"forma": "Quintilla",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABABA",
+					"donde": "modelado",
+					"en": [
+						"Copla real · 1968",
+						"ab3c32ab (1969)",
+						"142db9f5 (1972)",
+						"e8dcfd50 (2020)"
+					]
+				},
+				{
+					"esquema": "ABBAB",
+					"donde": "modelado",
+					"en": [
+						"Copla real · 1968",
+						"ab3c32ab (1969)",
+						"142db9f5 (1972)"
+					]
+				},
+				{
+					"esquema": "ABAAB",
+					"donde": "modelado",
+					"en": [
+						"Copla real · 1968",
+						"Oncena · 1972",
+						"Oncena · 2020",
+						"ab3c32ab (1969)"
+					]
+				},
+				{
+					"esquema": "AABAB",
+					"donde": "modelado",
+					"en": [
+						"ab3c32ab (1969)",
+						"142db9f5 (1972)"
+					]
+				},
+				{
+					"esquema": "AABBA",
+					"donde": "modelado",
+					"en": [
+						"Copla real · 1968",
+						"Zéjel · 1972",
+						"ab3c32ab (1969)",
+						"142db9f5 (1972)"
+					]
+				},
+				{
+					"esquema": "ABBAA",
+					"donde": "modelado",
+					"en": [
+						"Endecha real · Heptasílaba de cinco versos",
+						"Endecha real · 1972",
+						"142db9f5 (1972)"
+					]
+				}
+			]
+		},
+		{
+			"id": "2aa77cd4",
+			"anio": 1968,
+			"forma": "Septeto-lira",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbacC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Sexteto · 1972",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "AabBcC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Silva · 1968",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "AabBCC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Silva · 1968",
+						"Sexteto-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "943624e5",
+			"anio": 1968,
+			"forma": "Sexteto-lira",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aBabB",
+					"donde": "otra forma",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Lira · Heptasílaba y endecasílaba"
+					]
+				}
+			]
+		},
+		{
+			"id": "0432c49f",
+			"anio": 1968,
+			"forma": "Silva",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aAbBcCdD",
+					"donde": "otra forma",
+					"en": [
+						"Seguidilla · Chamberga"
+					]
+				}
+			]
+		},
+		{
+			"id": "d1ea2ecf",
+			"anio": 1968,
+			"forma": "Villancico",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abCabCcdeeDfF",
+					"donde": "otra forma",
+					"en": [
+						"Canción petrarquista · Regular de 13 versos",
+						"Canción petrarquista · 1968"
+					]
+				},
+				{
+					"esquema": "ABCABCDD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "f5e83325",
+			"anio": 1968,
+			"forma": "Zéjel",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abCabCcdeeDfF",
+					"donde": "otra forma",
+					"en": [
+						"Canción petrarquista · Regular de 13 versos",
+						"Canción petrarquista · 1968"
+					]
+				},
+				{
+					"esquema": "ABCABCDD",
+					"donde": "otra forma",
+					"en": [
+						"Octava-lira · Heterométrica consonante",
+						"Octava-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "45f13be6",
+			"anio": 1969,
+			"forma": "Copla manriqueña",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aabaab",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · Octosílaba",
+						"Sextilla · De pie quebrado",
+						"Sextilla · 1969",
+						"Sextilla · 2016"
+					]
+				},
+				{
+					"esquema": "abcabc",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "ababab",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto · 1972",
+						"Sextilla · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "0c07cb3f",
+			"anio": 1969,
+			"forma": "Décima",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbaaccddc",
+					"donde": "modelado",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "f4f86489",
+			"anio": 1969,
+			"forma": "Lira",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aBabB",
+					"donde": "modelado",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Septeto-lira · 1968"
+					]
+				}
+			]
+		},
+		{
+			"id": "4029811d",
+			"anio": 1969,
+			"forma": "Redondilla enlazada",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbaaccddc",
+					"donde": "otra forma",
+					"en": [
+						"Décima · Endecasílaba",
+						"Décima · Heptasílaba",
+						"Décima · Hexasílaba",
+						"Décima · Pentasílaba"
+					]
+				}
+			]
+		},
+		{
+			"id": "bb4835d1",
+			"anio": 1969,
+			"forma": "Septeto-lira",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aBabB",
+					"donde": "hermana",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Lira · Heptasílaba y endecasílaba"
+					]
+				},
+				{
+					"esquema": "aBaBcC",
+					"donde": "hermana",
+					"en": [
+						"Sexteto · Endecasílabo",
+						"Sexteto-lira · Heterométrico consonante",
+						"Lira · 1968",
+						"Sexteto-lira · 1968"
+					]
+				}
+			]
+		},
+		{
+			"id": "1d255c25",
+			"anio": 1969,
+			"forma": "Sexteto",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aabaab",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · Octosílaba",
+						"Sextilla · De pie quebrado",
+						"Sextilla · 1969",
+						"Sextilla · 2016"
+					]
+				},
+				{
+					"esquema": "abcabc",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "ababab",
+					"donde": "hermana",
+					"en": [
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sextilla · 1972",
+						"Sextilla · 2020"
+					]
+				}
+			]
+		},
+		{
+			"id": "96d366f5",
+			"anio": 1969,
+			"forma": "Sextilla enlazada",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aabaab",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · Octosílaba",
+						"Sextilla · De pie quebrado",
+						"Sextilla · 1969",
+						"Sextilla · 2016"
+					]
+				},
+				{
+					"esquema": "abcabc",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				},
+				{
+					"esquema": "ababab",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto · 1972",
+						"Sextilla · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "7834edd3",
+			"anio": 1972,
+			"forma": "Décima",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbaaccddc",
+					"donde": "modelado",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "f8d34b49",
+			"anio": 1972,
+			"forma": "Endecha real",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abcBdBeB",
+					"donde": "hermana",
+					"en": [
+						"54afe78b (1972)",
+						"55bd3353 (1972)"
+					]
+				},
+				{
+					"esquema": "abbaA",
+					"donde": "modelado",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Quintilla · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "34fdc61d",
+			"anio": 1972,
+			"forma": "Endecha real",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abcBdbeB",
+					"donde": "hermana",
+					"en": [
+						"54afe78b (1972)",
+						"55bd3353 (1972)"
+					]
+				}
+			]
+		},
+		{
+			"id": "55bd3353",
+			"anio": 1972,
+			"forma": "Endecha real",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbaA",
+					"donde": "modelado",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Quintilla · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "7dfaccd6",
+			"anio": 1972,
+			"forma": "Lira",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aBabB",
+					"donde": "modelado",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Septeto-lira · 1968"
+					]
+				}
+			]
+		},
+		{
+			"id": "cabb1f04",
+			"anio": 1972,
+			"forma": "Septeto",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbacca",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972",
+						"Septilla · 2014",
+						"Septilla · 2016"
+					]
+				},
+				{
+					"esquema": "abbaccb",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972"
+					]
+				},
+				{
+					"esquema": "ababcbc",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972"
+					]
+				},
+				{
+					"esquema": "abababb",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972"
+					]
+				},
+				{
+					"esquema": "ababccb",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "b3cc8411",
+			"anio": 1972,
+			"forma": "Sextilla",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aabaab",
+					"donde": "modelado",
+					"en": [
+						"669606fe (1969)",
+						"087b9c6b (2016)",
+						"9df9b891 (2016)"
+					]
+				},
+				{
+					"esquema": "ababab",
+					"donde": "modelado",
+					"en": [
+						"Sexteto · 1972",
+						"669606fe (1969)",
+						"e7c94f87 (1972)",
+						"b2e4dfe5 (2020)"
+					]
+				},
+				{
+					"esquema": "abcabc",
+					"donde": "modelado",
+					"en": [
+						"Sexteto-lira · 1972",
+						"669606fe (1969)",
+						"9df9b891 (2016)",
+						"b2e4dfe5 (2020)"
+					]
+				}
+			]
+		},
+		{
+			"id": "a1e0457a",
+			"anio": 1972,
+			"forma": "Silva",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aAbBcC",
+					"donde": "hermana",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Sexteto-lira · 1972",
+						"0432c49f (1968)"
+					]
+				}
+			]
+		},
+		{
+			"id": "5aa7f3eb",
+			"anio": 2014,
+			"forma": "Redondilla enlazada",
+			"pasada": "A",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABABCBCDC",
+					"donde": "otra forma",
+					"en": [
+						"Terceto encadenado · 1968",
+						"Terceto encadenado · 1969"
+					]
+				}
+			]
+		},
+		{
+			"id": "9e0a5051",
+			"anio": 2014,
+			"forma": "Terceto",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABABCBCDC",
+					"donde": "otra forma",
+					"en": [
+						"Terceto encadenado · 1968",
+						"Terceto encadenado · 1969"
+					]
+				}
+			]
+		},
+		{
+			"id": "3fd5381e",
+			"anio": 2014,
+			"forma": "Terceto encadenado",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABABCBCDC",
+					"donde": "hermana",
+					"en": [
+						"80001779 (1968)",
+						"5fc24618 (1969)"
+					]
+				}
+			]
+		},
+		{
+			"id": "a6d9d28c",
+			"anio": 2016,
+			"forma": "Copla castellana",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbacddc",
+					"donde": "hermana",
+					"en": [
+						"Copla de arte mayor · Dodecasílaba compuesta",
+						"Copla de arte mayor · 1972",
+						"11ffbe13 (1972)"
+					]
+				},
+				{
+					"esquema": "ababcdcd",
+					"donde": "hermana",
+					"en": [
+						"11ffbe13 (1972)"
+					]
+				},
+				{
+					"esquema": "abbacdcd",
+					"donde": "hermana",
+					"en": [
+						"11ffbe13 (1972)"
+					]
+				},
+				{
+					"esquema": "ababcddc",
+					"donde": "hermana",
+					"en": [
+						"11ffbe13 (1972)"
+					]
+				}
+			]
+		},
+		{
+			"id": "f0bfb1cc",
+			"anio": 2016,
+			"forma": "Copla de arte menor",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbacca",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972",
+						"Septilla · 2014",
+						"Septilla · 2016"
+					]
+				}
+			]
+		},
+		{
+			"id": "e69543b4",
+			"anio": 2016,
+			"forma": "Copla manriqueña",
+			"pasada": "A",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abcabc",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · De pie quebrado",
+						"Sextilla · Octosílaba",
+						"Sextilla · 1969",
+						"Sexteto-lira · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "962207aa",
+			"anio": 2016,
+			"forma": "Décima",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbaaccddc",
+					"donde": "modelado",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "b9107b9b",
+			"anio": 2016,
+			"forma": "Décima",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbaaccddc",
+					"donde": "modelado",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "a691813f",
+			"anio": 2020,
+			"forma": "Copla castellana",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbacddc",
+					"donde": "hermana",
+					"en": [
+						"Copla de arte mayor · Dodecasílaba compuesta",
+						"Copla de arte mayor · 1972",
+						"11ffbe13 (1972)"
+					]
+				},
+				{
+					"esquema": "ababcdcd",
+					"donde": "hermana",
+					"en": [
+						"11ffbe13 (1972)"
+					]
+				}
+			]
+		},
+		{
+			"id": "4d50e967",
+			"anio": 2020,
+			"forma": "Lira",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aBabB",
+					"donde": "modelado",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Septeto-lira · 1968"
+					]
+				}
+			]
+		},
+		{
+			"id": "b2e4dfe5",
+			"anio": 2020,
+			"forma": "Sextilla",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aabaabbbabba",
+					"donde": "otra forma",
+					"en": [
+						"Copla manriqueña · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "5d3cd719",
+			"anio": 2020,
+			"forma": "Silva",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aBABCC",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto · Endecasílabo",
+						"Sexteto-lira · Heterométrico consonante",
+						"Lira · 1968",
+						"Septeto-lira · 1968"
+					]
+				}
+			]
+		}
+	],
+	"sin_transcripcion": [],
+	"nombra_otra_fuente": [
+		{
+			"id": "7fb1122d",
+			"anio": 1972,
+			"forma": "Cuarteto-lira",
+			"citadas": [
+				{
+					"anio": 2016,
+					"marca": "diccionario",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "cabb1f04",
+			"anio": 1972,
+			"forma": "Septeto",
+			"citadas": [
+				{
+					"anio": 2016,
+					"marca": "diccionario",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "28847825",
+			"anio": 2014,
+			"forma": "Oncena",
+			"citadas": [
+				{
+					"anio": 2016,
+					"marca": "diccionario",
+					"mismo_autor": true
+				}
+			]
+		},
+		{
+			"id": "4ebe5647",
+			"anio": 2014,
+			"forma": "Septeto-lira",
+			"citadas": [
+				{
+					"anio": 2016,
+					"marca": "diccionario",
+					"mismo_autor": true
+				}
+			]
+		},
+		{
+			"id": "afe1da83",
+			"anio": 2014,
+			"forma": "Septilla",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "4886c9d5",
+			"anio": 2016,
+			"forma": "Endecha real",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "a5a6805b",
+			"anio": 2016,
+			"forma": "Octava-lira",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "423b6dca",
+			"anio": 2016,
+			"forma": "Redondilla enlazada",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "572ec834",
+			"anio": 2016,
+			"forma": "Septeto",
+			"citadas": [
+				{
+					"anio": 1969,
+					"marca": "quilis",
+					"mismo_autor": false
+				},
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "b55ae482",
+			"anio": 2016,
+			"forma": "Septilla enlazada",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "da0d0e2d",
+			"anio": 2016,
+			"forma": "Sextilla enlazada",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "aa1914ec",
+			"anio": 2016,
+			"forma": "Verso aislado",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "c63316b9",
+			"anio": 2020,
+			"forma": "Seguidilla",
+			"citadas": [
+				{
+					"anio": 1972,
+					"marca": "navarro tomas",
+					"mismo_autor": false
+				},
+				{
+					"anio": 2016,
+					"marca": "diccionario",
+					"mismo_autor": false
+				}
+			]
+		},
+		{
+			"id": "31d4d03b",
+			"anio": 2020,
+			"forma": "Soneto",
+			"citadas": [
+				{
+					"anio": 1969,
+					"marca": "quilis",
+					"mismo_autor": false
+				}
+			]
+		}
+	],
+	"tiradas_compartidas": [
+		{
+			"a": {
+				"id": "5e28fc29",
+				"anio": 2016,
+				"forma": "Zéjel"
+			},
+			"b": {
+				"id": "c08b7611",
+				"anio": 2014,
+				"forma": "Zéjel"
+			},
+			"ventanas": 24,
+			"palabras": 23,
+			"tirada": "y una estrofa dividida en un cuerpo o mudanza de tres versos monorrimos y un verso de vuelta que rima con el estribillo",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "0b562394",
+				"anio": 2014,
+				"forma": "Copla de arte mayor"
+			},
+			"b": {
+				"id": "e034cf96",
+				"anio": 2016,
+				"forma": "Copla de arte mayor"
+			},
+			"ventanas": 20,
+			"palabras": 16,
+			"tirada": "la define como combinacion de ocho versos de arte mayor con dos o tres rimas consonantes",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "35e489c0",
+				"anio": 2016,
+				"forma": "Versificación irregular"
+			},
+			"b": {
+				"id": "a2d4af6f",
+				"anio": 2014,
+				"forma": "Versificación irregular"
+			},
+			"ventanas": 10,
+			"palabras": 16,
+			"tirada": "la versificacion fluctuante la acentual la libre la de clausulas y los intentos de versificacion cuantitativa",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "3d5e851e",
+				"anio": 2014,
+				"forma": "Copla castellana"
+			},
+			"b": {
+				"id": "a6d9d28c",
+				"anio": 2016,
+				"forma": "Copla castellana"
+			},
+			"ventanas": 7,
+			"palabras": 13,
+			"tirada": "decires del final de la edad media en el teatro y en el",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "a6221436",
+				"anio": 2016,
+				"forma": "Soneto"
+			},
+			"b": {
+				"id": "ff6f74f9",
+				"anio": 2014,
+				"forma": "Soneto"
+			},
+			"ventanas": 5,
+			"palabras": 11,
+			"tirada": "define el soneto como poema de catorce versos de arte mayor",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "0b562394",
+				"anio": 2014,
+				"forma": "Copla de arte mayor"
+			},
+			"b": {
+				"id": "9e2b7557",
+				"anio": 2020,
+				"forma": "Copla de arte mayor"
+			},
+			"ventanas": 5,
+			"palabras": 10,
+			"tirada": "con dos o tres rimas consonantes distribuidas en dos cuartetos",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "cda0d43d",
+				"anio": 2014,
+				"forma": "Copla real"
+			},
+			"b": {
+				"id": "d06da334",
+				"anio": 2016,
+				"forma": "Copla real"
+			},
+			"ventanas": 5,
+			"palabras": 10,
+			"tirada": "semiestrofas pueden tener o no el mismo esquema de distribucion",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "6ac2be86",
+				"anio": 1972,
+				"forma": "Sexteto-lira"
+			},
+			"b": {
+				"id": "943624e5",
+				"anio": 1968,
+				"forma": "Sexteto-lira"
+			},
+			"ventanas": 4,
+			"palabras": 10,
+			"tirada": "la estrofa de seis versos de siete y once silabas",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "46e4606c",
+				"anio": 1969,
+				"forma": "Septilla enlazada"
+			},
+			"b": {
+				"id": "b55ae482",
+				"anio": 2016,
+				"forma": "Septilla enlazada"
+			},
+			"ventanas": 3,
+			"palabras": 9,
+			"tirada": "no la registra sus estrofas de siete versos son",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "cf2dcb07",
+				"anio": 2016,
+				"forma": "Canción petrarquista"
+			},
+			"b": {
+				"id": "e66e30cc",
+				"anio": 2014,
+				"forma": "Canción petrarquista"
+			},
+			"ventanas": 3,
+			"palabras": 9,
+			"tirada": "de un numero indeterminado de estancias tres como minimo",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "9e2b7557",
+				"anio": 2020,
+				"forma": "Copla de arte mayor"
+			},
+			"b": {
+				"id": "f7c945ff",
+				"anio": 2014,
+				"forma": "Copla de arte menor"
+			},
+			"ventanas": 3,
+			"palabras": 9,
+			"tirada": "con dos o tres rimas consonantes distribuidas en dos",
+			"mismo_autor": false,
+			"misma_forma": false
+		},
+		{
+			"a": {
+				"id": "ac2eb17b",
+				"anio": 2020,
+				"forma": "Seguidilla"
+			},
+			"b": {
+				"id": "f776aada",
+				"anio": 2014,
+				"forma": "Seguidilla"
+			},
+			"ventanas": 3,
+			"palabras": 9,
+			"tirada": "7 5 7 5 con asonancia en los pares",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "9499bbd8",
+				"anio": 2016,
+				"forma": "Septilla"
+			},
+			"b": {
+				"id": "afe1da83",
+				"anio": 2014,
+				"forma": "Septilla"
+			},
+			"ventanas": 3,
+			"palabras": 9,
+			"tirada": "de siete versos con el esquema abba cca y",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "71d1e7df",
+				"anio": 1969,
+				"forma": "Zéjel"
+			},
+			"b": {
+				"id": "c08b7611",
+				"anio": 2014,
+				"forma": "Zéjel"
+			},
+			"ventanas": 3,
+			"palabras": 8,
+			"tirada": "verso de vuelta que rima con el estribillo",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "5e28fc29",
+				"anio": 2016,
+				"forma": "Zéjel"
+			},
+			"b": {
+				"id": "71d1e7df",
+				"anio": 1969,
+				"forma": "Zéjel"
+			},
+			"ventanas": 3,
+			"palabras": 8,
+			"tirada": "verso de vuelta que rima con el estribillo",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "2aa77cd4",
+				"anio": 1968,
+				"forma": "Septeto-lira"
+			},
+			"b": {
+				"id": "6ac2be86",
+				"anio": 1972,
+				"forma": "Sexteto-lira"
+			},
+			"ventanas": 2,
+			"palabras": 8,
+			"tirada": "de seis versos de siete y once silabas",
+			"mismo_autor": false,
+			"misma_forma": false
+		},
+		{
+			"a": {
+				"id": "e034cf96",
+				"anio": 2016,
+				"forma": "Copla de arte mayor"
+			},
+			"b": {
+				"id": "f7c945ff",
+				"anio": 2014,
+				"forma": "Copla de arte menor"
+			},
+			"ventanas": 2,
+			"palabras": 8,
+			"tirada": "que una de las rimas sea comun a",
+			"mismo_autor": true,
+			"misma_forma": false
+		},
+		{
+			"a": {
+				"id": "7ac4bf24",
+				"anio": 2016,
+				"forma": "Endecha real"
+			},
+			"b": {
+				"id": "7e15f3f5",
+				"anio": 2014,
+				"forma": "Endecha real"
+			},
+			"ventanas": 2,
+			"palabras": 8,
+			"tirada": "de tres heptasilabos seguidos de un endecasilabo con",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "78f48b2b",
+				"anio": 2014,
+				"forma": "Quintilla"
+			},
+			"b": {
+				"id": "a3ce6b87",
+				"anio": 2016,
+				"forma": "Redondilla"
+			},
+			"ventanas": 2,
+			"palabras": 8,
+			"tirada": "que en los tratadistas del siglo de oro",
+			"mismo_autor": true,
+			"misma_forma": false
+		},
+		{
+			"a": {
+				"id": "31a59df9",
+				"anio": 2014,
+				"forma": "Sextina"
+			},
+			"b": {
+				"id": "8769fc48",
+				"anio": 2016,
+				"forma": "Sextina"
+			},
+			"ventanas": 2,
+			"palabras": 8,
+			"tirada": "39 endecasilabos en seis estrofas y un remate",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "7fd372ca",
+				"anio": 2016,
+				"forma": "Seguidilla"
+			},
+			"b": {
+				"id": "ac2eb17b",
+				"anio": 2020,
+				"forma": "Seguidilla"
+			},
+			"ventanas": 2,
+			"palabras": 8,
+			"tirada": "la real 10 6 10 6 y la",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "6ac2be86",
+				"anio": 1972,
+				"forma": "Sexteto-lira"
+			},
+			"b": {
+				"id": "96a4a4bd",
+				"anio": 1968,
+				"forma": "Canción petrarquista"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "versos de siete y once silabas en",
+			"mismo_autor": false,
+			"misma_forma": false
+		},
+		{
+			"a": {
+				"id": "11ffbe13",
+				"anio": 1972,
+				"forma": "Copla castellana"
+			},
+			"b": {
+				"id": "8e712f47",
+				"anio": 1969,
+				"forma": "Copla castellana"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "el dialogo de bias contra fortuna y",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "22c63f36",
+				"anio": 1972,
+				"forma": "Seguidilla"
+			},
+			"b": {
+				"id": "6cab6e9a",
+				"anio": 1969,
+				"forma": "Seguidilla"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "la gitana 6 6 10 11 6",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "4751f45b",
+				"anio": 2020,
+				"forma": "Sexteto-lira"
+			},
+			"b": {
+				"id": "cfb377cd",
+				"anio": 1972,
+				"forma": "Septeto-lira"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "de san juan de la cruz y",
+			"mismo_autor": false,
+			"misma_forma": false
+		},
+		{
+			"a": {
+				"id": "9e2b7557",
+				"anio": 2020,
+				"forma": "Copla de arte mayor"
+			},
+			"b": {
+				"id": "e034cf96",
+				"anio": 2016,
+				"forma": "Copla de arte mayor"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "la define como combinacion de ocho versos",
+			"mismo_autor": false,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "4715840b",
+				"anio": 2014,
+				"forma": "Décima"
+			},
+			"b": {
+				"id": "b9107b9b",
+				"anio": 2016,
+				"forma": "Décima"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "que tras el cuarto verso debe haber",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "9df9b891",
+				"anio": 2016,
+				"forma": "Sextilla"
+			},
+			"b": {
+				"id": "c0160a43",
+				"anio": 2014,
+				"forma": "Sextilla"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "estrofa de seis versos de arte menor",
+			"mismo_autor": true,
+			"misma_forma": true
+		},
+		{
+			"a": {
+				"id": "97c8c03c",
+				"anio": 2014,
+				"forma": "Villancico"
+			},
+			"b": {
+				"id": "bdac1b06",
+				"anio": 2016,
+				"forma": "Villancico"
+			},
+			"ventanas": 1,
+			"palabras": 7,
+			"tirada": "la estabilidad de la redondilla o cuarteta",
+			"mismo_autor": true,
+			"misma_forma": true
+		}
+	]
+}

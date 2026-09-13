@@ -35,7 +35,8 @@
 		"estado:fuentes": "node scripts/estado-auditoria-fuentes.mjs",
 		"correcciones:hoja": "node scripts/hoja-correcciones.mjs",
 		"muestra:humana": "node scripts/muestra-humana.mjs",
-		"cotejo:pasadas": "node scripts/cotejo-pasadas.mjs"
+		"cotejo:pasadas": "node scripts/cotejo-pasadas.mjs",
+		"senales:mecanicas": "node scripts/senales-mecanicas.mjs"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",

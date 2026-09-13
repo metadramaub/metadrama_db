@@ -6,6 +6,7 @@ node_modules
 .netlify
 .wrangler
 /.svelte-kit
+/svelte-kit
 /build
 
 # Local database backups
@@ -36,4 +37,5 @@ vite.config.ts.timestamp-*
 /docs/dominio-metrico/auditoria-fuentes/cotejo.md
 /docs/dominio-metrico/auditoria-fuentes/cotejo.json
 /docs/dominio-metrico/auditoria-fuentes/muestra-humana.md
+/docs/dominio-metrico/auditoria-fuentes/senales-mecanicas.md
 __pycache__/
