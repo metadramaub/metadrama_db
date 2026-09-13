@@ -251,6 +251,39 @@ en ninguna parte.
 **Ninguna de las dos debería publicarse sin fuente**, con su sección «Lo que dicen las fuentes»
 vacía, teniendo el pasaje localizado.
 
+### Las tres comprobaciones que miran la columna, no el texto
+
+`npm run senales:mecanicas`, sobre las **267**. Salieron de los tres huecos que dejó la muestra
+humana de la segunda ronda, y las tres buscan defectos que **no se ven leyendo una ficha sola**,
+que es lo único que se le pidió a A y a B.
+
+| | Qué busca | Señaladas |
+| --- | --- | --- |
+| 1 · Anclaje | Afirmación colgada de la forma que habla de una arquitectura | **29** de 267, 4 con las dos señales |
+| 2 · Esquemas huérfanos | Esquema que la fuente da, la ficha no registra y el catálogo no tiene en ninguna parte | **23** fichas con alguno sin rastro |
+| 3a · Nombra otra fuente | Autor o libro ajeno dentro de la voz de una fuente | **14** de 267 |
+| 3b · Tirada compartida | Siete palabras seguidas o más en afirmaciones de fuentes distintas | **29** pares |
+
+**El anclaje se mira por dos caminos y lo que vale es el cruce.** Uno: el texto nombra, con una
+denominación de dos palabras o más, una sola arquitectura de su forma —se exigen dos palabras
+porque «octosílaba» sale en cualquier página de métrica—. Otro: la misma fuente ancló otras
+afirmaciones de esa misma forma en arquitecturas y esta no. Las cuatro que dan las dos señales
+incluyen la silva arromanzada, que es el caso conocido: el comprobador encuentra lo que ya se
+sabía que estaba mal.
+
+**Los esquemas huérfanos se ordenan por dónde está el esquema**, no por si está. De los 178 que la
+fuente da y la ficha no registra, 39 están modelados en `esquemas_rima` de esa forma, 20 los
+registra una afirmación hermana y 59 aparecen colgando de otra forma: **nada de eso es trabajo**.
+Solo los 60 restantes, repartidos en 23 fichas, no están en ninguna parte del catálogo, y solo
+esos pueden ser una laguna. Es la clasificación que destapó la novena-lira.
+
+**La lectura de esquemas es el punto frágil de todo esto.** El alfabeto de rima usa `a`–`h`, y con
+esas ocho letras se escriben palabras españolas: la primera versión leía `decada` veinticinco
+veces, que era «de cada» unida por encima del espacio. `scripts/lib/esquemas.mjs` exige ahora tres
+letras a cada lado del espacio y descarta las palabras conocidas. **El cotejo de las dos pasadas
+se quedó con su lectura antigua a propósito**, porque de su salida se sorteó la muestra humana y
+cambiarla ahora movería los estratos de una muestra ya cerrada.
+
 ## 5. La otra mitad: lo que falta
 
 La regla de exhaustividad dice que toda fuente que trate una forma tiene su afirmación, y que el
