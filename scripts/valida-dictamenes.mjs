@@ -75,7 +75,13 @@ function normalizar(texto) {
 			.normalize('NFD')
 			.replace(/[̀-ͯ­]/g, '')
 			.toLowerCase()
+			// La barra y el guion largo sueltos marcan **cortes de verso**: es la convención con que
+			// se transcribe en línea un ejemplo que el libro imprime uno debajo de otro. El volcado
+			// no los trae, porque ahí los versos van en líneas de verdad, así que dejarlos rompe
+			// todas las tiras que cruzan de un verso al siguiente. Por ahí caían las entradas del
+			// diccionario que citan poemas: la transcripción era fiel y el validador la acusaba.
 			.replace(/[*_«»“”‘’(),.;:¡!¿?[\]]/g, ' ')
+			.replace(/(^|\s)[/|–—-]+(\s|$)/g, ' ')
 			.replace(/\s+/g, ' ')
 			.trim()
 	);
