@@ -230,6 +230,27 @@ características de cada fuente en las afirmaciones de las demás**. No se trata
 fichas se parezcan —si una fuente explica dos formas juntas, deben parecerse—, sino de encontrar
 vocabulario que una fuente no usa puesto en su boca.
 
+### Lo que las dos pasadas no pueden ver
+
+**Los lotes se construyeron desde las afirmaciones que existen**, así que una forma sin ninguna
+queda fuera de A y de B y ningún verificador la mira nunca. Hay dos así, y las dos son de la serie
+alirada: **Décima-lira y Novena-lira, con cero afirmaciones de las seis monografías**. Se crearon
+el 24 de agosto de 2026 al sistematizar la serie entera, por coherencia del sistema, y a estas dos
+no se les buscó fuente.
+
+Y al menos una la tiene, localizada ya: el **§ 161 de Navarro Tomás** documenta las estrofas
+aliradas de siete, ocho y nueve versos como desarrollos del sexteto, con sus esquemas y sus
+autores —`abCabCcdD` de Figueroa y `AbCAbCcdD` de Góngora para la de nueve—. El mismo pasaje que
+sostiene el septeto-lira sostiene la novena-lira, y de él solo se extrajo lo primero.
+
+Salió cotejando: al septeto-lira el cotejo le señaló dieciséis esquemas sin registrar, y al
+comprobar si estaban en las fichas vecinas resultó que **diez no están en ninguna afirmación
+alirada de Navarro**. Los esquemas huérfanos no eran ruido: eran pasajes que el catálogo no recoge
+en ninguna parte.
+
+**Ninguna de las dos debería publicarse sin fuente**, con su sección «Lo que dicen las fuentes»
+vacía, teniendo el pasaje localizado.
+
 ## 5. La otra mitad: lo que falta
 
 La regla de exhaustividad dice que toda fuente que trate una forma tiene su afirmación, y que el
