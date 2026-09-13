@@ -1,5 +1,6 @@
 {
 	"semilla": "2026-09-12",
+	"como_se_anota": "Dos juicios independientes por afirmación. contenido_correcto: ¿dice la fuente lo que el catálogo le atribuye, con la misma fuerza y sin dejarse nada que cambie la lectura? localizador_correcto: ¿lleva el localizador declarado al pasaje? Una afirmación puede ser correcta en contenido y llevar mal el localizador, que es el caso más frecuente de esta auditoría. Si no aplica —silencios sin página, fuentes sin paginar— déjalo en null y dilo en hallazgo_humano.",
 	"cuantas": 15,
 	"de": 226,
 	"muestra": [
@@ -11,8 +12,9 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
-			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"hallazgo_humano": "El contenido es conforme. El localizador declara p. 189 y la definición está en la 188; en la 189 está el ejemplo que la sigue, que es probablemente lo que se anotó. Arreglo: pp. 188-189.",
+			"contenido_correcto": true,
+			"localizador_correcto": false
 		},
 		{
 			"id": "d1ea2ecf",
@@ -23,7 +25,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "0f28eef9",
@@ -34,7 +37,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "cfb377cd",
@@ -45,7 +49,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "76cc35e3",
@@ -56,7 +61,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "f0aee128",
@@ -67,7 +73,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "9e0a5051",
@@ -78,7 +85,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "9c4dd052",
@@ -89,7 +97,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "514aa1c0",
@@ -100,7 +109,8 @@
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "4b2baf4c",
@@ -111,7 +121,8 @@
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "a6656e33",
@@ -122,7 +133,8 @@
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "0f2ce49b",
@@ -133,7 +145,8 @@
 			"senalada_por_el_cotejo": false,
 			"que_se_pregunta": "¿Está de verdad limpia, o se les pasó a las dos pasadas?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "cfc21591",
@@ -144,7 +157,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿El defecto es real, o se acusó de más?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "e708120e",
@@ -155,7 +169,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿El defecto es real, o se acusó de más?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		},
 		{
 			"id": "4ebe5647",
@@ -166,7 +181,8 @@
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿El defecto es real, o se acusó de más?",
 			"hallazgo_humano": "",
-			"coincide_con_las_pasadas": null
+			"contenido_correcto": null,
+			"localizador_correcto": null
 		}
 	]
 }
