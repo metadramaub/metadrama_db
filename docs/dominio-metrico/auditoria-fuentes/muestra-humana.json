@@ -84,9 +84,9 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "El contenido es cierto. Dos defectos. El localizador, «Apartado «Combinaciones estróficas castellanas»», es un título de capítulo y no un sitio —uno de los ocho no seguibles de la fase 0—: la variante está en la p. 187 y la definición general en la 185. Y hay duplicación parcial con la otra afirmación de Caparrós 2014 sobre el terceto (43424e08): las dos dan los tres nombres del arte menor, y lo único propio de esta es el ejemplo de «A Goya» de Rubén Darío. Leídas juntas en la ficha se pisan. Comprobado además el anclaje, que está bien: las dos cuelgan de la forma y deben seguir así, porque «arte menor» abarca dos de las tres arquitecturas del terceto —octosílabo y hexasílabo— y la norma solo permite colgar de una arquitectura lo que sea exclusivo de esa realización.",
+			"contenido_correcto": true,
+			"localizador_correcto": false
 		},
 		{
 			"id": "9c4dd052",
