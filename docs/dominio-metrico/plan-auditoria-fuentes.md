@@ -260,7 +260,7 @@ que es lo único que se le pidió a A y a B.
 | | Qué busca | Señaladas |
 | --- | --- | --- |
 | 1 · Anclaje | Afirmación colgada de la forma que habla de una arquitectura | **29** de 267, 4 con las dos señales |
-| 2 · Esquemas huérfanos | Esquema que la fuente da, la ficha no registra y el catálogo no tiene en ninguna parte | **23** fichas con alguno sin rastro |
+| 2 · Esquemas huérfanos | Esquema que la fuente da, la ficha no registra y el catálogo no tiene en ninguna parte | **25** fichas con alguno sin rastro |
 | 3a · Nombra otra fuente | Autor o libro ajeno dentro de la voz de una fuente | **14** de 267 |
 | 3b · Tirada compartida | Siete palabras seguidas o más en afirmaciones de fuentes distintas | **29** pares |
 
@@ -271,10 +271,10 @@ afirmaciones de esa misma forma en arquitecturas y esta no. Las cuatro que dan l
 incluyen la silva arromanzada, que es el caso conocido: el comprobador encuentra lo que ya se
 sabía que estaba mal.
 
-**Los esquemas huérfanos se ordenan por dónde está el esquema**, no por si está. De los 178 que la
-fuente da y la ficha no registra, 39 están modelados en `esquemas_rima` de esa forma, 20 los
-registra una afirmación hermana y 59 aparecen colgando de otra forma: **nada de eso es trabajo**.
-Solo los 60 restantes, repartidos en 23 fichas, no están en ninguna parte del catálogo, y solo
+**Los esquemas huérfanos se ordenan por dónde está el esquema**, no por si está. De los 203 que la
+fuente da y la ficha no registra, 40 están modelados en `esquemas_rima` de esa forma, 21 los
+registra una afirmación hermana y 67 aparecen colgando de otra forma: **nada de eso es trabajo**.
+Solo los 75 restantes, repartidos en 25 fichas, no están en ninguna parte del catálogo, y solo
 esos pueden ser una laguna. Es la clasificación que destapó la novena-lira.
 
 **La lectura de esquemas es el punto frágil de todo esto.** El alfabeto de rima usa `a`–`h`, y con
@@ -283,6 +283,8 @@ veces, que era «de cada» unida por encima del espacio. `scripts/lib/esquemas.m
 letras a cada lado del espacio y descarta las palabras conocidas. **El cotejo de las dos pasadas
 se quedó con su lectura antigua a propósito**, porque de su salida se sorteó la muestra humana y
 cambiarla ahora movería los estratos de una muestra ya cerrada.
+
+Las cifras son las del 13 de septiembre de 2026, con la pasada B ya completa sobre las 267.
 
 ## 5. La otra mitad: lo que falta
 

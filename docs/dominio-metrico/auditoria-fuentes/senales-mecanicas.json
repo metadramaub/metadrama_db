@@ -349,6 +349,70 @@
 	],
 	"esquemas": [
 		{
+			"id": "e2cb5403",
+			"anio": 1972,
+			"forma": "Copla manriqueña",
+			"pasada": "B",
+			"sin_rastro": 9,
+			"huerfanos": [
+				{
+					"esquema": "abaabadefdef",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbabbcddcdd",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abeabeddedde",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "aabaab",
+					"donde": "otra forma",
+					"en": [
+						"Sextilla · Octosílaba",
+						"Sextilla · De pie quebrado",
+						"Sextilla · 1969",
+						"Sextilla · 2016"
+					]
+				},
+				{
+					"esquema": "aabadbccdccd",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abeabcdefdef",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "aabaabedecde",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "aabaabccdede",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abeabedefdef",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "cabade",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
 			"id": "cfb377cd",
 			"anio": 1972,
 			"forma": "Septeto-lira",
@@ -473,6 +537,57 @@
 						"Octava-lira · Heterométrica consonante",
 						"Octava-lira · 1972"
 					]
+				}
+			]
+		},
+		{
+			"id": "eccebfab",
+			"anio": 1972,
+			"forma": "Septilla enlazada",
+			"pasada": "B",
+			"sin_rastro": 5,
+			"huerfanos": [
+				{
+					"esquema": "abbccddeeffg",
+					"donde": "otra forma",
+					"en": [
+						"Redondilla enlazada · 1972"
+					]
+				},
+				{
+					"esquema": "abbaa",
+					"donde": "otra forma",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Endecha real · Heptasílaba de cinco versos",
+						"Quintilla · Octosílaba consonante"
+					]
+				},
+				{
+					"esquema": "cddcc",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "effeeggffg",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abaabbccdccdd",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "efeeffgghggh",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "efeef",
+					"donde": "sin rastro",
+					"en": []
 				}
 			]
 		},
@@ -688,6 +803,42 @@
 				},
 				{
 					"esquema": "abaabedeed",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
+			"id": "d8f31c19",
+			"anio": 1972,
+			"forma": "Novena",
+			"pasada": "B",
+			"sin_rastro": 4,
+			"huerfanos": [
+				{
+					"esquema": "abbaaccaa",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "ababbccbb",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abbacdccd",
+					"donde": "hermana",
+					"en": [
+						"e20a8b27 (2020)"
+					]
+				},
+				{
+					"esquema": "ababbabacf",
+					"donde": "sin rastro",
+					"en": []
+				},
+				{
+					"esquema": "abaabcdcd",
 					"donde": "sin rastro",
 					"en": []
 				}
@@ -948,54 +1099,6 @@
 				},
 				{
 					"esquema": "cddcceea",
-					"donde": "sin rastro",
-					"en": []
-				}
-			]
-		},
-		{
-			"id": "e2cb5403",
-			"anio": 1972,
-			"forma": "Copla manriqueña",
-			"pasada": "A",
-			"sin_rastro": 2,
-			"huerfanos": [
-				{
-					"esquema": "abaabadefdef",
-					"donde": "sin rastro",
-					"en": []
-				},
-				{
-					"esquema": "aabadbccdccd",
-					"donde": "sin rastro",
-					"en": []
-				},
-				{
-					"esquema": "abcabc",
-					"donde": "otra forma",
-					"en": [
-						"Sextilla · De pie quebrado",
-						"Sextilla · Octosílaba",
-						"Sextilla · 1969",
-						"Sexteto-lira · 1972"
-					]
-				}
-			]
-		},
-		{
-			"id": "eccebfab",
-			"anio": 1972,
-			"forma": "Septilla enlazada",
-			"pasada": "A",
-			"sin_rastro": 2,
-			"huerfanos": [
-				{
-					"esquema": "abaabbccdccdd",
-					"donde": "sin rastro",
-					"en": []
-				},
-				{
-					"esquema": "efeeffgghggh",
 					"donde": "sin rastro",
 					"en": []
 				}
@@ -1267,6 +1370,20 @@
 			]
 		},
 		{
+			"id": "67814933",
+			"anio": 1972,
+			"forma": "Oncena",
+			"pasada": "B",
+			"sin_rastro": 1,
+			"huerfanos": [
+				{
+					"esquema": "abcabcdedde",
+					"donde": "sin rastro",
+					"en": []
+				}
+			]
+		},
+		{
 			"id": "17b8a51f",
 			"anio": 1972,
 			"forma": "Redondilla",
@@ -1391,6 +1508,22 @@
 						"Quintilla · Hexasílaba",
 						"Quintilla · Octosílaba consonante",
 						"Septeto-lira · 1968"
+					]
+				}
+			]
+		},
+		{
+			"id": "14228466",
+			"anio": 1968,
+			"forma": "Pareado",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aAbBcCdD",
+					"donde": "otra forma",
+					"en": [
+						"Seguidilla · Chamberga"
 					]
 				}
 			]
@@ -1925,6 +2058,34 @@
 			]
 		},
 		{
+			"id": "e7c94f87",
+			"anio": 1972,
+			"forma": "Sextilla",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "aabaab",
+					"donde": "modelado",
+					"en": [
+						"669606fe (1969)",
+						"087b9c6b (2016)",
+						"9df9b891 (2016)"
+					]
+				},
+				{
+					"esquema": "abbacc",
+					"donde": "otra forma",
+					"en": [
+						"Sexteto-lira · Heterométrico consonante",
+						"Sexteto-lira · 1968",
+						"Sexteto · 1972",
+						"Sexteto-lira · 1972"
+					]
+				}
+			]
+		},
+		{
 			"id": "b3cc8411",
 			"anio": 1972,
 			"forma": "Sextilla",
@@ -2000,6 +2161,23 @@
 		},
 		{
 			"id": "9e0a5051",
+			"anio": 2014,
+			"forma": "Terceto",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ABABCBCDC",
+					"donde": "otra forma",
+					"en": [
+						"Terceto encadenado · 1968",
+						"Terceto encadenado · 1969"
+					]
+				}
+			]
+		},
+		{
+			"id": "43424e08",
 			"anio": 2014,
 			"forma": "Terceto",
 			"pasada": "B",
@@ -2093,7 +2271,7 @@
 			"id": "e69543b4",
 			"anio": 2016,
 			"forma": "Copla manriqueña",
-			"pasada": "A",
+			"pasada": "B",
 			"sin_rastro": 0,
 			"huerfanos": [
 				{
@@ -2162,6 +2340,31 @@
 			]
 		},
 		{
+			"id": "de48e693",
+			"anio": 2020,
+			"forma": "Copla de arte menor",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abbacddc",
+					"donde": "otra forma",
+					"en": [
+						"Copla de arte mayor · Dodecasílaba compuesta",
+						"Copla castellana · 1972",
+						"Copla de arte mayor · 1972"
+					]
+				},
+				{
+					"esquema": "ababcdcd",
+					"donde": "otra forma",
+					"en": [
+						"Copla castellana · 1972"
+					]
+				}
+			]
+		},
+		{
 			"id": "4d50e967",
 			"anio": 2020,
 			"forma": "Lira",
@@ -2176,6 +2379,22 @@
 						"Quintilla · Hexasílaba",
 						"Quintilla · Octosílaba consonante",
 						"Septeto-lira · 1968"
+					]
+				}
+			]
+		},
+		{
+			"id": "ac2eb17b",
+			"anio": 2020,
+			"forma": "Seguidilla",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "ababccb",
+					"donde": "otra forma",
+					"en": [
+						"Septilla · 1972"
 					]
 				}
 			]
