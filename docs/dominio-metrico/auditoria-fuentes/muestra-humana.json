@@ -60,9 +60,9 @@
 			"veredicto_pasada_a": "conforme",
 			"senalada_por_el_cotejo": true,
 			"que_se_pregunta": "¿Es real lo que señala el cotejo, o el matiz no venía al caso?",
-			"hallazgo_humano": "",
-			"contenido_correcto": null,
-			"localizador_correcto": null
+			"hallazgo_humano": "Conforme: lo que dice es cierto, está en las pp. 150-151 y cumple la norma —aporta un hecho localizado y no parafrasea la definición—. Lo que aparece al comprobarla no es un defecto de esta afirmación sino un vacío de lectura: Quilis es la única fuente con UNA sola afirmación sobre el romance, y su definición de la forma (p. 145, «es una serie ilimitada de octosílabos, en los que solamente los pares tienen rima asonante o parcial») no está recogida en ninguna parte. El mismo pasaje de las pp. 150-151 trae además cinco innovaciones del romance culto barroco —cuartetas, asonante con casi completa exclusión de la total, tres formas de estribillo intercalado, estribillos populares y combinación de dos metros— que darían para otra afirmación. Va a fase 4.",
+			"contenido_correcto": true,
+			"localizador_correcto": true
 		},
 		{
 			"id": "f0aee128",
