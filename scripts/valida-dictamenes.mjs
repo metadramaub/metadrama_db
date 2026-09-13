@@ -15,9 +15,15 @@
  *
  * Lo que este script NO hace: decir si el dictamen acierta. Solo si sus pruebas existen.
  *
+ * **Vale para las dos pasadas.** La A guarda `dictamenes` y la B guarda `lecturas`, con otros
+ * nombres para lo mismo, pero la prueba es idéntica: una transcripción que dice venir de un libro
+ * tiene que estar en ese libro. Y en la B importa más todavía, porque de sus transcripciones
+ * cuelgan el cotejo de las dos pasadas y la lectura de esquemas: si una fuera inventada, lo
+ * inventado se propagaría a las dos.
+ *
  * Uso:
  *   node scripts/valida-dictamenes.mjs
- *   node scripts/valida-dictamenes.mjs --carpeta docs/dominio-metrico/auditoria-fuentes/dictamenes
+ *   node scripts/valida-dictamenes.mjs --carpeta docs/dominio-metrico/auditoria-fuentes/dictamenes-b
  */
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
@@ -99,6 +105,22 @@ function proporcionHallada(transcripcion, fuente) {
 	return { proporcion: halladas / total, tiras: total, perdidas };
 }
 
+/**
+ * Las entradas de un fichero, venga de la pasada que venga.
+ *
+ * La A escribe `dictamenes` y **declara** su `naturaleza` —«cita» o «silencio»—, porque a su
+ * verificador se le pidió juzgar. La B escribe `lecturas` y no juzga nada: su manera de decir que
+ * no hay pasaje que transcribir es `no_trata_esta_forma`. Se traduce a la misma palabra para no
+ * tener dos validadores que se separen en cuanto uno cambie.
+ */
+function entradas(datos) {
+	if (datos.dictamenes) return datos.dictamenes;
+	return (datos.lecturas ?? []).map((l) => ({
+		...l,
+		naturaleza: l.no_trata_esta_forma === true ? 'silencio' : 'cita'
+	}));
+}
+
 function main() {
 	const argv = process.argv.slice(2);
 	const indice = argv.indexOf('--carpeta');
@@ -139,10 +161,19 @@ function main() {
 		}
 		if (!fuentes.has(anio)) fuentes.set(anio, normalizar(readFileSync(ruta, 'utf-8')));
 		const fuente = fuentes.get(anio);
-		const datos = JSON.parse(readFileSync(join(carpeta, fichero), 'utf-8'));
+
+		// Un fichero puede estar escribiéndose ahora mismo —los lotes se despachan en paralelo—,
+		// y entonces no es JSON todavía. Eso no invalida a nadie: se dice y se sigue.
+		let datos;
+		try {
+			datos = JSON.parse(readFileSync(join(carpeta, fichero), 'utf-8'));
+		} catch (error) {
+			console.log(`\n${fichero}: no se puede leer (${error.message.slice(0, 60)})`);
+			continue;
+		}
 
 		console.log(`\n=== ${datos.fuente ?? anio} ===`);
-		for (const d of datos.dictamenes ?? []) {
+		for (const d of entradas(datos)) {
 			// Se valida la transcripción del original y cada cita que sostiene un defecto. Lo que
 			// el catálogo registra no se valida contra la fuente: **ese es justamente el texto que
 			// se está juzgando**, y si coincidiera del todo no habría nada que auditar.
