@@ -108,7 +108,14 @@ function main() {
 		const i = argv.indexOf(`--${nombre}`);
 		return i >= 0 ? argv[i + 1] : porDefecto;
 	};
-	const semilla = arg('semilla', new Date().toISOString().slice(0, 10));
+	// **La semilla se pega a la muestra que ya existe.** Por defecto era la fecha de hoy, así que
+	// regenerar la hoja al día siguiente sorteaba otras quince afirmaciones y le cambiaba el
+	// trabajo debajo a quien estuviera comprobándolas. Solo se tira de nuevo si se pide
+	// expresamente otra semilla.
+	const semillaPrevia = existsSync(SALIDA)
+		? JSON.parse(readFileSync(SALIDA, 'utf-8')).semilla
+		: null;
+	const semilla = arg('semilla', semillaPrevia ?? new Date().toISOString().slice(0, 10));
 	const cuantas = Number(arg('cuantas', 15));
 
 	if (!existsSync(COTEJO)) {
@@ -192,10 +199,12 @@ function main() {
 			md.push('```');
 			md.push('');
 		}
-		md.push(
-			'**Tu juicio:** ¿sostiene la fuente lo que dice el catálogo? ¿Le añade algo, lo afirma'
-		);
-		md.push('con más fuerza de la que tiene, o se deja fuera algo que cambie la lectura?');
+		md.push('**Tus dos juicios**, que son independientes:');
+		md.push('');
+		md.push('1. **El contenido.** ¿Dice la fuente lo que el catálogo le atribuye, con la misma');
+		md.push('   fuerza y sin dejarse nada que cambie la lectura?');
+		md.push('2. **El localizador.** ¿Lleva al pasaje? Una afirmación puede ser fiel y citar mal,');
+		md.push('   que es el caso más frecuente de esta auditoría.');
 		md.push('');
 		md.push('---');
 		md.push('');
@@ -238,6 +247,13 @@ function main() {
 		`${JSON.stringify(
 			{
 				semilla,
+				como_se_anota:
+					'Dos juicios independientes por afirmación. contenido_correcto: ¿dice la fuente lo que ' +
+					'el catálogo le atribuye, con la misma fuerza y sin dejarse nada que cambie la lectura? ' +
+					'localizador_correcto: ¿lleva el localizador declarado al pasaje? Una afirmación puede ' +
+					'ser correcta en contenido y llevar mal el localizador, que es el caso más frecuente de ' +
+					'esta auditoría. Si no aplica —silencios sin página, fuentes sin paginar— déjalo en null ' +
+					'y dilo en hallazgo_humano.',
 				cuantas: muestra.length,
 				de: enriquecido.length,
 				muestra: muestra.map((x) => ({
@@ -254,7 +270,8 @@ function main() {
 								? '¿Está de verdad limpia, o se les pasó a las dos pasadas?'
 								: '¿El defecto es real, o se acusó de más?',
 					hallazgo_humano: '',
-					coincide_con_las_pasadas: null
+					contenido_correcto: null,
+					localizador_correcto: null
 				}))
 			},
 			null,
