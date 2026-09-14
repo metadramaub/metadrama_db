@@ -37,7 +37,8 @@
 		"muestra:humana": "node scripts/muestra-humana.mjs",
 		"cotejo:pasadas": "node scripts/cotejo-pasadas.mjs",
 		"senales:mecanicas": "node scripts/senales-mecanicas.mjs",
-		"lotes:b": "node scripts/lotes-pasada-b.mjs"
+		"lotes:b": "node scripts/lotes-pasada-b.mjs",
+		"lotes:c": "node scripts/lotes-pasada-c.mjs"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",

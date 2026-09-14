@@ -1669,8 +1669,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": "Localizador corregido a «pp. 200 y 203» en la migración 20260914160000. QUEDA: la cita entrecomillada del recuento se come el primer término. El libro escribe «la copla de arte MAYOR, la copla de arte menor, la copla castellana, la octava real, la octava y la octavilla agudas». Cita inexacta, toca el texto."
+		"estado": "corregido",
+		"nota": "Migraciones 20260914160000 y 20260914180000. Localizador → «pp. 200 y 203», y se restituyó el primer término de la enumeración citada: el libro escribe «la copla de arte mayor, la copla de arte menor, la copla castellana, la octava real, la octava y la octavilla agudas»."
 	},
 	{
 		"id": "12fecf35",
