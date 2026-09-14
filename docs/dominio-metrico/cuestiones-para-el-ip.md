@@ -34,6 +34,10 @@ se anote mucho con ellas, porque cambiarlas después obliga a revisar lo anotado
    categoría aparte. ⇒ [Canción petrarquista](#canción-petrarquista) 1
 5. **Qué repertorios de esquema están cerrados y cuáles son recortes del corpus.** Afecta al sexteto,
    al soneto y a la copla de arte mayor a la vez. ⇒ [Las que cruzan formas](#las-que-cruzan-formas)
+6. **La estrofa sáfica no está en el catálogo y dos fuentes la subordinan al cuarteto-lira**, junto
+   con la estrofa de Francisco de la Torre. *Añadido el 18 de septiembre de 2026, al auditar las
+   fuentes: no es un matiz de una forma existente sino una que falta.*
+   ⇒ [Cuarteto-lira](#cuarteto-lira) 1
 
 *Y una que no toca el nivel pero deja un hueco al anotar:* **el remate y el eslabón de la canción no
 declaran ni medida ni rima**, así que de un remate leído solo queda registrado cuántos versos tiene.
@@ -518,6 +522,60 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 *Sin cuestiones abiertas. El tercetillo entró el 22 de agosto de 2026 con sus dos medidas, su
 disposición monorrima y la asonancia que el* Diccionario *le admite; la septilla, que lo esperaba,
 ya lo referencia.*
+
+## Cuarteto-lira
+
+Las dos salieron al escribir sus afirmaciones de Jauralde y de Caparrós 2014, el 18 de septiembre de
+2026.
+
+1. **La estrofa sáfica no existe en el catálogo, y dos fuentes la ponen debajo de esta forma.**
+   Comprobado contra la base: no hay forma, arquitectura, denominación ni variedad que la mencione.
+
+   **Domínguez Caparrós 2014, pp. 190-191**, la subordina expresamente:
+
+   > Dos tipos de cuarteto lira son **la estrofa sáfica y la estrofa de Francisco de la Torre**. La
+   > estrofa sáfica es la combinación de tres endecasílabos —generalmente del tipo sáfico— y un
+   > pentasílabo con acento en la primera sílaba. No lleva rima, aunque a veces se puede encontrar
+   > con ella, o con rima interna del segundo verso con una palabra del tercero.
+
+   Y añade que **la estrofa de Francisco de la Torre** «es una variante de la sáfica, de la que se
+   diferencia solo por tener el cuarto verso heptasílabo», con ejemplo de su «Oda 4». Da como
+   prototipo de la sáfica los «Sáficos» de Esteban Manuel de Villegas, en la segunda parte de *Las
+   eróticas o amatorias*.
+
+   **Jauralde Pou 2020, apartado «Cuartetos mixtos»**, la sitúa en el mismo sitio y le da esquema.
+   Define el género —«las diversas organizaciones estróficas formadas por endecasílabos y uno o dos
+   versos quebrados, que suelen ser heptasílabos o pentasílabos»— como derivado de las clásicas: «la
+   llamada estrofa de la Torre, **la estrofa sáfica**, la alcaica». Y del cuarteto-lira dice que se
+   remonta «e incluso a la estrofa sáfica (`11A 11B 11B 5a`) o a un intento de imitación de la
+   estrofa alcaica (`11A 11B 7b 7a`)».
+
+   *Las preguntas: si la sáfica debe ser forma propia, arquitectura del cuarteto-lira o variedad
+   suya; y si la de Francisco de la Torre la acompaña, siendo su variante de cuarto verso
+   heptasílabo. El dato de las dos fuentes es concorde en lo esencial —tres endecasílabos y un
+   verso corto final, sin rima— y discorde en la medida de ese verso: pentasílabo en Caparrós,
+   pentasílabo también en el esquema de Jauralde, y heptasílabo en la variante de la Torre.*
+
+   *Nota sobre el alcance: la sáfica ya había asomado al corregir el localizador de la seguidilla
+   —el apartado anterior al suyo, en la p. 191 de Caparrós, es la variante de la Torre—, así que no
+   es un hallazgo de una sola lectura.*
+
+2. **Jauralde relaciona el cuarteto-lira con la endecha real, y el catálogo no declara esa
+   relación.** En el mismo apartado:
+
+   > Cuando sobre la misma estructura de cuatro versos impares lo que domina es el heptasílabo sobre
+   > el endecasílabo **se prefiere hablar de cuartetos de endecha**. […] Podríamos seguir denominando
+   > quintetos de endecha a los que ofrecen la estructura 7 7 7 7 11, y así sucesivamente.
+
+   *Es decir: para Jauralde, cuarteto-lira y cuarteto de endecha son la misma estructura y lo que las
+   separa es qué medida domina. El catálogo tiene la **endecha real** como serie y el **cuarteto-lira**
+   como estrofa, sin relación declarada entre ellas. La pregunta es si procede una —`relacionada_con`
+   o `contrasta_con`— y si el criterio de Jauralde, la proporción de medidas, debe registrarse en
+   alguna parte: hoy las dos declaran «proporción variable» y nada distingue una realización de siete
+   dominante de otra de once dominante.*
+
+   *Y de paso, la escala que él sugiere —cuartetos, quintetos «y así sucesivamente» de endecha—
+   toca la misma serie que el punto 1bis de [Lira, sexteto-lira y septeto-lira](#lira-sexteto-lira-y-septeto-lira).*
 
 ## Lira, sexteto-lira y septeto-lira
 

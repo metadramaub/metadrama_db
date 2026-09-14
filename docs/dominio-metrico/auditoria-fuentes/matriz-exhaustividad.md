@@ -4,7 +4,7 @@ Generado por `node scripts/matriz-exhaustividad.mjs`. **No juzga nada**: dice cu
 afirmaciones tiene cada celda y cuántas veces nombra esa fuente a esa forma. El recuento de
 menciones cuenta cadenas, así que es una pista para saber dónde mirar, no un veredicto.
 
-43 unidades × 6 fuentes = **258 celdas**, de las que **26** están vacías.
+43 unidades × 6 fuentes = **258 celdas**, de las que **24** están vacías.
 
 ## Las que no tienen ninguna fuente
 
@@ -20,8 +20,6 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Sextina (sextina_estrofa) | 2014 | 23 | «Sextina» ×23 |
 | Sextina (sextina_estrofa) | 1972 | 14 | «Sextina» ×14 |
 | Sextina (sextina) | 2020 | 6 | «Sextina» ×6 |
-| Cuarteto-lira | 2020 | 5 | «Cuarteto-lira» ×4, «Cuarteto alirado» ×1 |
-| Cuarteto-lira | 2014 | 3 | «Cuarteto-lira» ×3 |
 | Versificación irregular | 1969 | 3 | «Versificación irregular» ×3 |
 
 ## El tablero
@@ -35,7 +33,7 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Copla manriqueña | **1** | **1** | **1** | **1** | **1** | **1** |
 | Copla real | **1** | **1** | **1** | **1** | **1** | **1** |
 | Cuarteto | **1** | **1** | **1** | **1** | **2** | **1** |
-| Cuarteto-lira | — | — | **1** | · 3 | **2** | · 5 |
+| Cuarteto-lira | — | — | **1** | **1** | **2** | **1** |
 | Décima | **2** | **1** | **1** | **1** | **2** | **1** |
 | Décima-lira | — | — | **1** | — | **1** | — |
 | Endecasílabo suelto | **1** | **1** | **1** | **1** | **1** | **1** |

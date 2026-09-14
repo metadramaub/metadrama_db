@@ -52,8 +52,8 @@ se aprueban en tandas, como el cubo material.
 | 2 | ~~Verso aislado · Quilis 1969~~ — **escrita**. Migración `20260918120000` |
 | 3 | ~~Verso aislado · Caparrós 2014~~ — **escrita** |
 | 4 | ~~Verso aislado · Jauralde 2020~~ — **escrita** |
-| 5 | Cuarteto-lira · Jauralde 2020 |
-| 6 | Cuarteto-lira · Caparrós 2014 |
+| 5 | ~~Cuarteto-lira · Jauralde 2020~~ — **escrita**. Migración `20260918140000` |
+| 6 | ~~Cuarteto-lira · Caparrós 2014~~ — **escrita** |
 | 7 | Sextina (composición) · Jauralde 2020 — bajo el epígrafe «Sexta rima» |
 | 8 | ~~Décima-lira · *Diccionario* 2016~~ — **escrita**, y con ella la de Navarro § 285 |
 | 9 | Versificación irregular · Quilis 1969 |
