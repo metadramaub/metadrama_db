@@ -43,9 +43,9 @@
 	},
 	"cabb1f04": {
 		"forma": "Septeto · Navarro Tomás 1972",
-		"localizador": "§ 67 e índice",
-		"por_que": "Dos cosas sobraban. La «septilla aguda» que la ficha ponía en el mismo aliento es otra estrofa: octosílaba, del siglo XIX, `aaé:bbbé`, en el § 308, p. 363. Y la última frase atribuía términos al Diccionario dentro de una ficha de Navarro. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Registra la estrofa de siete versos por su reparto 4-3, que indiza como «séptima o septilla de 4-3» y describe en octosílabos."
+		"localizador": "§ 460, «Séptima», pp. 473-474",
+		"por_que": "La ficha describía el reparto 4-3 **en octosílabos**, que es la septilla y ya está recogido en su ficha (6b347966). El septeto de arte mayor sí está en Navarro, pero en otro sitio: el § 460, «Séptima», donde lo define como «una estrofa endecasílaba de antigua tradición provenzal, compuesta de cuarteto y terceto». Sobraban además la «septilla aguda», que es otra estrofa del § 308, y una atribución de términos al Diccionario. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "Le da epígrafe propio como «Séptima»: «una estrofa endecasílaba de antigua tradición provenzal, compuesta de cuarteto y terceto», que presenta como modelo de la copla mixta octosílaba de la poesía castellana medieval. La documenta en *Adolescencia*, de Dionisio Ridruejo, «con la misma disposición `ABAB:CBC` de una cantiga de Macías en el *Cancionero de Baena*», y al final del *18 de julio*, de Alberti."
 	},
 	"11ffbe13": {
 		"forma": "Copla castellana · Navarro Tomás 1972",

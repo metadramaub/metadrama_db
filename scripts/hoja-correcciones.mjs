@@ -38,6 +38,7 @@
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { query } from './lib/consulta.mjs';
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
@@ -242,6 +243,15 @@ function main() {
 		console.error('No hay dictámenes todavía.');
 		process.exit(1);
 	}
+
+	// Lo que el catálogo dice **hoy**. La hoja se genera muchas veces a lo largo de la ronda, y
+	// entre una y otra se migran correcciones: el texto vigente tiene que salir de la base.
+	const enLaBase = new Map(
+		query(
+			`select left(afirmacion_id::text, 8) id, resumen, localizador
+			 from public.afirmaciones_fuentes_metricas;`
+		).map((x) => [x.id, x])
+	);
 
 	const pasadaB = leerPasadaB();
 	const cotejo = new Map((leer(COTEJO) ?? []).map((x) => [x.id, x.senales]));
@@ -469,19 +479,36 @@ function main() {
 			}
 
 			// ---- Antes y después
+			// **El texto actual se lee de la base, no del dictamen.** El `texto_registrado` del
+			// dictamen es el que tenía la afirmación el día que la juzgó la pasada A, y quedó
+			// congelado ahí: para todo lo ya corregido, enseñarlo como «actual» es enseñar el texto
+			// viejo a quien está aprobando el nuevo. Cuando los dos difieren se muestran los dos,
+			// cada uno con su nombre, porque el de A es el que explica los defectos que se citan
+			// más arriba.
+			const vigente = enLaBase.get(d.id);
 			md.push('**Texto actual del catálogo**');
 			md.push('');
-			md.push(limpia(d.texto_registrado));
+			md.push(limpia(vigente?.resumen ?? d.texto_registrado));
 			md.push('');
+			if (vigente && limpia(vigente.resumen) !== limpia(d.texto_registrado)) {
+				md.push('*Texto que juzgó la pasada A, ya sustituido:*');
+				md.push('');
+				md.push(limpia(d.texto_registrado));
+				md.push('');
+			}
 			const propuesta = propuestas.get(d.id);
 			md.push('**Texto propuesto**');
 			md.push('');
 			md.push(
-				propuesta?.resumen ? limpia(propuesta.resumen) : '*(por redactar — sin esto no se migra)*'
+				propuesta?.resumen
+					? limpia(propuesta.resumen)
+					: previa?.estado && previa.estado !== 'pendiente'
+						? '*(ya aplicado: el texto actual de arriba es el corregido)*'
+						: '*(por redactar — sin esto no se migra)*'
 			);
 			md.push('');
 			md.push(
-				`**Localizador:** \`${d.localizador_declarado ?? '—'}\`` +
+				`**Localizador:** \`${vigente?.localizador ?? d.localizador_declarado ?? '—'}\`` +
 					(propuesta?.localizador ? ` → \`${propuesta.localizador}\`` : '')
 			);
 			if (d.por_que_ahi) {
