@@ -1484,8 +1484,8 @@
 			"localizador falso (medio)",
 			"atribución cruzada (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917100000. Localizador → p. 205, comprobado en la hoja 202. Y el contraste no es con la décima espinela: la frase va antes de la definición y se refiere al ejemplo de décima antigua."
 	},
 	{
 		"id": "a721abb6",
@@ -1789,8 +1789,8 @@
 		"defectos": [
 			"mezcla (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917100000. Ataba a la p. 195 dos datos de dos sitios: lo del Siglo de Oro es la nota 174 de la p. 188 y ya está en la ficha del cuarteto. Entra la definición, que no teníamos."
 	},
 	{
 		"id": "3d5e92bb",
@@ -2072,8 +2072,8 @@
 		"defectos": [
 			"mezcla (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917100000. La regla de la sinafía del quebrado de cinco sílabas está en el § 4.4, el de la sílaba, no en el de las combinaciones estróficas. Se declara el segundo sitio."
 	},
 	{
 		"id": "274d62c8",
