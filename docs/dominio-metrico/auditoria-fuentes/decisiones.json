@@ -5315,8 +5315,8 @@
 		"defectos": [
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916100000. Pasa de citar a declarar un silencio: Quilis no registra la estrofa de ocho versos con cuatro rimas independientes. Sus dos esquemas de la octavilla comparten rima entre las mitades, leídos en el PDF, hoja 55, p. 108."
 	},
 	{
 		"id": "089f66ae",
@@ -5361,8 +5361,8 @@
 		},
 		"cubo": "observacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916100000. Se queda con la descripción entera de la octavilla, que es donde caen sus esquemas. Sale «junto a la copla castellana» y «la de tres rimas», que era taxonomía nuestra puesta en su boca."
 	},
 	{
 		"id": "45f13be6",
@@ -5385,8 +5385,8 @@
 		"defectos": [
 			"mezcla (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916100000. El esquema `aabccb` es el de «A sus ojos» de Unamuno, no el de las Coplas de Manrique, que Quilis marca verso a verso como `abcabc`."
 	},
 	{
 		"id": "9a15dd34",
@@ -5453,8 +5453,8 @@
 		"defectos": [
 			"endurecimiento (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916100000. Endurecimiento: se restituye el «generalmente» con que Quilis presenta el planteamiento en los cuatro primeros versos."
 	},
 	{
 		"id": "14578fe2",
@@ -5523,8 +5523,8 @@
 		"defectos": [
 			"endurecimiento (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916100000. Endurecimiento: la autoría de la lira es conjetura en la fuente —«parece que…»— y se daba como hecho."
 	},
 	{
 		"id": "22157a22",
@@ -5573,8 +5573,8 @@
 			"invención (grave)",
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916100000. La ficha decía que Quilis no la separa y sí la separa: § 5.4.7.3, «Octava italiana u octava aguda», p. 107."
 	},
 	{
 		"id": "70a68314",
@@ -5621,8 +5621,8 @@
 		"defectos": [
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916100000. La segunda mitad era falsa: no pasa «de las de diez a las de doce» porque tampoco hay estrofas de doce."
 	},
 	{
 		"id": "0df80a1a",
