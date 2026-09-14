@@ -2307,8 +2307,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «Apartados «Canción» y «Estancias»», resuelto con la pasada C y comprobado por mí en el volcado, encabezados 59735 y 60461."
 	},
 	{
 		"id": "a691813f",
@@ -2333,8 +2333,8 @@
 			"anclaje equivocado (medio)",
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «Apartados «Estrofas de ocho versos» y «Madrigal»», resuelto con la pasada C y comprobado por mí en el volcado, encabezados 53780 y 61003."
 	},
 	{
 		"id": "9e2b7557",
@@ -2382,8 +2382,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «Apartado «Estrofas de ocho versos»», resuelto con la pasada C y comprobado por mí en el volcado, línea de encabezado 53780."
 	},
 	{
 		"id": "b436934c",
@@ -2406,8 +2406,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «Apartado «Formas mixtas»», resuelto con la pasada C y comprobado por mí en el volcado, encabezado 55210."
 	},
 	{
 		"id": "2cc0d171",
@@ -2549,8 +2549,8 @@
 			"localizador falso (medio)",
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «Apartado «Cuartetos mixtos»», resuelto con la pasada C y comprobado por mí en el volcado, encabezado 42401."
 	},
 	{
 		"id": "d4bf348a",
@@ -2574,8 +2574,8 @@
 			"localizador falso (medio)",
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «Apartado «Cuartetos mixtos»», resuelto con la pasada C y comprobado por mí en el volcado, encabezado 42401."
 	},
 	{
 		"id": "4d50e967",
@@ -4927,8 +4927,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «§§ 131 y 154», resuelto con la pasada C y comprobado por mí en el volcado: la cláusula final es del § 154 «Resumen»."
 	},
 	{
 		"id": "feb6446a",
@@ -4995,8 +4995,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «§§ 22, 38, 63, 69 y 308», resuelto con la pasada C y comprobado por mí en el volcado: la regla del quebrado es el § 69, que no se citaba."
 	},
 	{
 		"id": "b3cc8411",
@@ -5043,8 +5043,8 @@
 			"cita literal inexacta (medio)",
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «§§ 131 y 154», resuelto con la pasada C y comprobado por mí en el volcado: la cláusula final es del § 154 «Resumen»."
 	},
 	{
 		"id": "b1ac8dc3",
@@ -5339,8 +5339,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «§ 5.4.7.1, p. 106», resuelto con la pasada C y comprobado por mí en el PDF, hoja 54, antes del pie «106»."
 	},
 	{
 		"id": "77da08e6",
@@ -5499,8 +5499,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «§ 6.4.1, p. 162», resuelto con la pasada C y comprobado por mí en el PDF, hoja 82: el pasaje va antes del pie «162». La C decía 161 y la B acertó."
 	},
 	{
 		"id": "f4f86489",
@@ -5691,8 +5691,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «§ 5.4.3.2, p. 95», resuelto con la pasada C y comprobado por mí en el PDF, hoja 48: el § va después del pie «94». Iba a confirmarse sin cambio y también estaba mal."
 	},
 	{
 		"id": "4029811d",
@@ -5982,8 +5982,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914200000. Localizador → «§ 6.3.4, pp. 129-130», resuelto con la pasada C y comprobado por mí en el PDF, hoja 65, entre los pies «128» y «129»."
 	},
 	{
 		"id": "8ef78bc8",
