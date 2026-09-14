@@ -50,7 +50,7 @@ El catálogo no clasifica como clasifican las fuentes, y eso está decidido. El 
 Cuando una fuente dedica un epígrafe a «coplas de pie quebrado», no se corresponde con una sola
 forma nuestra, y que no exista esa forma no es un hueco del catálogo. No lo señales como falta.
 
-## El PDF manda sobre el volcado
+## El original manda sobre el volcado
 
 El `.txt` conserva bien el texto y reconstruye mal la estructura. Sirve para **encontrar** un pasaje
 con `grep`; no sirve como prueba de en qué página está.
@@ -59,9 +59,14 @@ con `grep`; no sirve como prueba de en qué página está.
 - **La hoja del PDF no es la página impresa**, y el desfase no tiene por qué ser constante: en
   Navarro Tomás crece de +5 a +8 a lo largo del libro. Confírmalo leyendo el número impreso en la
   hoja, y dilo en `por_que_ahi`.
-- Dos fuentes no tienen PDF y no lo necesitan: **Morley y Bruerton** —una copia a mano del capítulo
-  V, fiel y confirmada, que vale como original— y **Jauralde Pou**, que viene de un epub sin
-  paginar, donde toda página citada es sospechosa por construcción.
+- **Jauralde Pou no tiene PDF pero sí original: el epub se abre y se lee** con `zipfile`, es XHTML.
+  No está paginado, así que toda página citada de él es sospechosa por construcción y lo que se
+  localiza es el epígrafe; a cambio conserva la jerarquía de encabezados que el `.txt` pierde al
+  aplanar los niveles y volcar las versalitas como «E STROFAS DE OCHO VERSOS». Cuando el libro
+  repite un título —hay un `h3` «Formas mixtas en septetos» y un `h6` «Formas mixtas»—, solo el
+  epub los distingue.
+- La única fuente sin original consultable es **Morley y Bruerton**, y no lo necesita: la copia a
+  mano del capítulo V es fiel y está confirmada, y vale como original.
 
 ## Los silencios
 

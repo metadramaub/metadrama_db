@@ -34,12 +34,19 @@ describir bien la fuente. Si lo haces con fidelidad, la comparación posterior h
    mal no te impide describir la fuente.
 6. Si la fuente **no trata** esa forma, dilo, y di qué buscaste: todas las denominaciones, y dónde.
 
-## El PDF manda sobre el volcado
+## El original manda sobre el volcado
 
-El `.txt` sirve para encontrar con `grep`; la página y la estructura se confirman en el PDF con
-`pdftotext -enc UTF-8 -f N -l N "<ruta>" -`. La hoja del PDF no es la página impresa, y el desfase
-no tiene por qué ser constante. Dos fuentes no tienen PDF y no lo necesitan: Morley y Bruerton —una
-copia a mano fiel del capítulo V— y Jauralde Pou, que viene de un epub sin paginar.
+El `.txt` sirve para encontrar con `grep`; la página y la estructura se confirman en el original. En
+los PDF, con `pdftotext -enc UTF-8 -f N -l N "<ruta>" -`: la hoja del PDF no es la página impresa, y
+el desfase no tiene por qué ser constante.
+
+**El epub de Jauralde Pou también es un original y se abre**: es un zip de XHTML, y se lee con
+`zipfile`. No tiene paginación —se cita por epígrafe—, pero conserva la jerarquía de encabezados que
+el volcado pierde: el `.txt` aplana los niveles y convierte las versalitas en «E STROFAS DE OCHO
+VERSOS», confundiendo un rótulo del cuerpo con un epígrafe real.
+
+La única fuente sin original consultable es Morley y Bruerton, y no lo necesita: hay una copia a
+mano fiel del capítulo V.
 
 ## La salida
 
