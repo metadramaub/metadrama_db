@@ -1,0 +1,3939 @@
+{
+	"generado": "2026-09-14",
+	"fuentes": [
+		{
+			"anio": 1968,
+			"autoria": "S. Griswold Morley y Courtney Bruerton",
+			"id": "b9a035c9-8771-460d-aa7d-b85f6c090e9d",
+			"titulo": "Cronología de las comedias de Lope de Vega"
+		},
+		{
+			"anio": 1969,
+			"autoria": "Antonio Quilis",
+			"id": "51c372ab-f61c-4942-abe6-d3330b54f4be",
+			"titulo": "Métrica española"
+		},
+		{
+			"anio": 1972,
+			"autoria": "Tomás Navarro Tomás",
+			"id": "1d62f1f2-37e2-4b78-a361-08d123f91f42",
+			"titulo": "Métrica española"
+		},
+		{
+			"anio": 2014,
+			"autoria": "José Domínguez Caparrós",
+			"id": "1f0765c9-3851-451b-9f63-55dbf9ac28fb",
+			"titulo": "Métrica española"
+		},
+		{
+			"anio": 2016,
+			"autoria": "José Domínguez Caparrós",
+			"id": "2e54db97-8085-40e3-8fab-87c96b5f7d59",
+			"titulo": "Diccionario de métrica española"
+		},
+		{
+			"anio": 2020,
+			"autoria": "Pablo Jauralde Pou",
+			"id": "2888f16d-7e95-40d2-9f1a-8d878f642fff",
+			"titulo": "Métrica española"
+		}
+	],
+	"filas": [
+		{
+			"id": "10d7f0d4-9f73-4674-bd88-0bc9d4a51775",
+			"nombre": "Canción petrarquista",
+			"slug": "cancion_petrarquista",
+			"tipo_registro": "forma",
+			"etiqueta": "Canción petrarquista",
+			"denominaciones": [
+				"Canción",
+				"Canción a la italiana",
+				"Canción extensa",
+				"Canción petrarquista"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Canción",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 28,
+					"porNombre": [
+						{
+							"nombre": "Canción",
+							"veces": 28
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 381,
+					"porNombre": [
+						{
+							"nombre": "Canción",
+							"veces": 381
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 53,
+					"porNombre": [
+						{
+							"nombre": "Canción",
+							"veces": 50
+						},
+						{
+							"nombre": "Canción petrarquista",
+							"veces": 2
+						},
+						{
+							"nombre": "Canción a la italiana",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 162,
+					"porNombre": [
+						{
+							"nombre": "Canción",
+							"veces": 139
+						},
+						{
+							"nombre": "Canción a la italiana",
+							"veces": 19
+						},
+						{
+							"nombre": "Canción extensa",
+							"veces": 2
+						},
+						{
+							"nombre": "Canción petrarquista",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 118,
+					"porNombre": [
+						{
+							"nombre": "Canción",
+							"veces": 115
+						},
+						{
+							"nombre": "Canción petrarquista",
+							"veces": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "d009c46f-af6f-47a3-a5f2-6f7dff1799f3",
+			"nombre": "Copla castellana",
+			"slug": "copla_castellana",
+			"tipo_registro": "forma",
+			"etiqueta": "Copla castellana",
+			"denominaciones": [
+				"Copla castellana"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 17,
+					"porNombre": [
+						{
+							"nombre": "Copla castellana",
+							"veces": 17
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Copla castellana",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Copla castellana",
+							"veces": 4
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Copla castellana",
+							"veces": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "15105265-5a6a-41ea-afbc-2d4f32d2014b",
+			"nombre": "Copla de arte mayor",
+			"slug": "copla_de_arte_mayor",
+			"tipo_registro": "forma",
+			"etiqueta": "Copla de arte mayor",
+			"denominaciones": [
+				"Antigua octava castellana",
+				"Copla de Juan de Mena",
+				"Copla de arte mayor",
+				"Octava de Juan de Mena",
+				"Octava de arte mayor"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Copla de arte mayor",
+							"veces": 2
+						},
+						{
+							"nombre": "Copla de Juan de Mena",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 12,
+					"porNombre": [
+						{
+							"nombre": "Copla de arte mayor",
+							"veces": 12
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Copla de arte mayor",
+							"veces": 4
+						},
+						{
+							"nombre": "Octava de arte mayor",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 19,
+					"porNombre": [
+						{
+							"nombre": "Copla de arte mayor",
+							"veces": 10
+						},
+						{
+							"nombre": "Octava de arte mayor",
+							"veces": 3
+						},
+						{
+							"nombre": "Antigua octava castellana",
+							"veces": 2
+						},
+						{
+							"nombre": "Copla de Juan de Mena",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Copla de arte mayor",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "0af71779-8556-446e-a6cc-c9ab7c2a179f",
+			"nombre": "Copla de arte menor",
+			"slug": "copla_de_arte_menor",
+			"tipo_registro": "forma",
+			"etiqueta": "Copla de arte menor",
+			"denominaciones": [
+				"Copla de arte menor",
+				"Octava de arte menor",
+				"Octava redondilla",
+				"Octavilla",
+				"Redondilla de ocho versos"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Octavilla",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 59,
+					"porNombre": [
+						{
+							"nombre": "Octavilla",
+							"veces": 47
+						},
+						{
+							"nombre": "Copla de arte menor",
+							"veces": 12
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 10,
+					"porNombre": [
+						{
+							"nombre": "Copla de arte menor",
+							"veces": 5
+						},
+						{
+							"nombre": "Octavilla",
+							"veces": 5
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 35,
+					"porNombre": [
+						{
+							"nombre": "Octavilla",
+							"veces": 23
+						},
+						{
+							"nombre": "Copla de arte menor",
+							"veces": 7
+						},
+						{
+							"nombre": "Octava de arte menor",
+							"veces": 2
+						},
+						{
+							"nombre": "Octava redondilla",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 23,
+					"porNombre": [
+						{
+							"nombre": "Octavilla",
+							"veces": 21
+						},
+						{
+							"nombre": "Copla de arte menor",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "188bf11c-61cb-4d8a-951b-fa503ec7f913",
+			"nombre": "Copla manriqueña",
+			"slug": "copla_manriquena",
+			"tipo_registro": "forma",
+			"etiqueta": "Copla manriqueña",
+			"denominaciones": [
+				"Copla de Jorge Manrique",
+				"Copla manriqueña",
+				"Doble sextilla",
+				"Estrofa manriqueña"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Copla de Jorge Manrique",
+							"veces": 1
+						},
+						{
+							"nombre": "Estrofa manriqueña",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 8,
+					"porNombre": [
+						{
+							"nombre": "Doble sextilla",
+							"veces": 7
+						},
+						{
+							"nombre": "Copla de Jorge Manrique",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Copla de Jorge Manrique",
+							"veces": 2
+						},
+						{
+							"nombre": "Estrofa manriqueña",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 14,
+					"porNombre": [
+						{
+							"nombre": "Copla de Jorge Manrique",
+							"veces": 10
+						},
+						{
+							"nombre": "Copla manriqueña",
+							"veces": 2
+						},
+						{
+							"nombre": "Estrofa manriqueña",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 7,
+					"porNombre": [
+						{
+							"nombre": "Doble sextilla",
+							"veces": 5
+						},
+						{
+							"nombre": "Estrofa manriqueña",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "04f3b8a4-cae2-4b49-8396-10a780d174e6",
+			"nombre": "Copla real",
+			"slug": "copla_real",
+			"tipo_registro": "forma",
+			"etiqueta": "Copla real",
+			"denominaciones": [
+				"Copla real",
+				"Décima falsa",
+				"Estancia real",
+				"Quintilla doble",
+				"Redondillas castellanas"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Copla real",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Copla real",
+							"veces": 4
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 20,
+					"porNombre": [
+						{
+							"nombre": "Copla real",
+							"veces": 20
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Copla real",
+							"veces": 4
+						},
+						{
+							"nombre": "Décima falsa",
+							"veces": 1
+						},
+						{
+							"nombre": "Quintilla doble",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 14,
+					"porNombre": [
+						{
+							"nombre": "Copla real",
+							"veces": 8
+						},
+						{
+							"nombre": "Décima falsa",
+							"veces": 2
+						},
+						{
+							"nombre": "Estancia real",
+							"veces": 2
+						},
+						{
+							"nombre": "Quintilla doble",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Copla real",
+							"veces": 3
+						},
+						{
+							"nombre": "Redondillas castellanas",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "489f3dbd-2dc4-4c68-89c9-328308145490",
+			"nombre": "Cuarteto",
+			"slug": "cuarteto",
+			"tipo_registro": "forma",
+			"etiqueta": "Cuarteto",
+			"denominaciones": [
+				"Cuarteto",
+				"Cuarteto de rima cruzada",
+				"Faleucio",
+				"Serventesio"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 17,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto",
+							"veces": 14
+						},
+						{
+							"nombre": "Serventesio",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 258,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto",
+							"veces": 251
+						},
+						{
+							"nombre": "Serventesio",
+							"veces": 7
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 21,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto",
+							"veces": 18
+						},
+						{
+							"nombre": "Serventesio",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 2,
+					"menciones": 68,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto",
+							"veces": 55
+						},
+						{
+							"nombre": "Serventesio",
+							"veces": 9
+						},
+						{
+							"nombre": "Cuarteto de rima cruzada",
+							"veces": 2
+						},
+						{
+							"nombre": "Faleucio",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 97,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto",
+							"veces": 94
+						},
+						{
+							"nombre": "Serventesio",
+							"veces": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "d3d07c8c-c2e4-461b-aa40-b625936cf351",
+			"nombre": "Cuarteto-lira",
+			"slug": "cuarteto_lira",
+			"tipo_registro": "forma",
+			"etiqueta": "Cuarteto-lira",
+			"denominaciones": [
+				"Cuarteto alirado",
+				"Cuarteto-lira"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto-lira",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 0,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto-lira",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 2,
+					"menciones": 9,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto-lira",
+							"veces": 6
+						},
+						{
+							"nombre": "Cuarteto alirado",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 0,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Cuarteto-lira",
+							"veces": 4
+						},
+						{
+							"nombre": "Cuarteto alirado",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "25b849f1-02d0-4f97-8636-8b43a5e04855",
+			"nombre": "Décima",
+			"slug": "decima",
+			"tipo_registro": "forma",
+			"etiqueta": "Décima",
+			"denominaciones": [
+				"Décima",
+				"Décima aumentada",
+				"Décima clásica",
+				"Décima espinela",
+				"Espinela",
+				"Redondilla de diez versos"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 2,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Décima",
+							"veces": 3
+						},
+						{
+							"nombre": "Décima aumentada",
+							"veces": 1
+						},
+						{
+							"nombre": "Espinela",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 23,
+					"porNombre": [
+						{
+							"nombre": "Décima",
+							"veces": 19
+						},
+						{
+							"nombre": "Décima espinela",
+							"veces": 2
+						},
+						{
+							"nombre": "Espinela",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 130,
+					"porNombre": [
+						{
+							"nombre": "Décima",
+							"veces": 118
+						},
+						{
+							"nombre": "Espinela",
+							"veces": 8
+						},
+						{
+							"nombre": "Décima clásica",
+							"veces": 3
+						},
+						{
+							"nombre": "Redondilla de diez versos",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 30,
+					"porNombre": [
+						{
+							"nombre": "Décima",
+							"veces": 21
+						},
+						{
+							"nombre": "Espinela",
+							"veces": 7
+						},
+						{
+							"nombre": "Décima espinela",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 2,
+					"menciones": 89,
+					"porNombre": [
+						{
+							"nombre": "Décima",
+							"veces": 71
+						},
+						{
+							"nombre": "Espinela",
+							"veces": 9
+						},
+						{
+							"nombre": "Décima espinela",
+							"veces": 7
+						},
+						{
+							"nombre": "Décima clásica",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 42,
+					"porNombre": [
+						{
+							"nombre": "Décima",
+							"veces": 41
+						},
+						{
+							"nombre": "Espinela",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "8fcdc19c-0792-48ee-96dd-f6123f95c1b2",
+			"nombre": "Décima-lira",
+			"slug": "decima_lira",
+			"tipo_registro": "forma",
+			"etiqueta": "Décima-lira",
+			"denominaciones": [
+				"Décima-estancia",
+				"Décima-lira"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 0,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Décima-estancia",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				}
+			]
+		},
+		{
+			"id": "b8462640-842d-43a6-a3f4-afaaff19b769",
+			"nombre": "Endecasílabo suelto",
+			"slug": "endecasilabo_suelto",
+			"tipo_registro": "forma",
+			"etiqueta": "Endecasílabo suelto",
+			"denominaciones": [
+				"Endecasílabo suelto",
+				"Poema de verso suelto",
+				"Verso blanco",
+				"Verso suelto"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Verso suelto",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 38,
+					"porNombre": [
+						{
+							"nombre": "Verso suelto",
+							"veces": 23
+						},
+						{
+							"nombre": "Endecasílabo suelto",
+							"veces": 15
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Verso suelto",
+							"veces": 6
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 17,
+					"porNombre": [
+						{
+							"nombre": "Verso suelto",
+							"veces": 13
+						},
+						{
+							"nombre": "Poema de verso suelto",
+							"veces": 2
+						},
+						{
+							"nombre": "Verso blanco",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 11,
+					"porNombre": [
+						{
+							"nombre": "Verso blanco",
+							"veces": 9
+						},
+						{
+							"nombre": "Verso suelto",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "102231bf-e963-4843-ab89-a94313c0e126",
+			"nombre": "Endecha real",
+			"slug": "endecha_real",
+			"tipo_registro": "forma",
+			"etiqueta": "Endecha real",
+			"denominaciones": [
+				"Cuarteto de endecha",
+				"Endecha endecasílaba",
+				"Endecha heroica",
+				"Endecha real"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 5,
+					"menciones": 10,
+					"porNombre": [
+						{
+							"nombre": "Endecha real",
+							"veces": 10
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Endecha real",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 3,
+					"menciones": 13,
+					"porNombre": [
+						{
+							"nombre": "Endecha real",
+							"veces": 6
+						},
+						{
+							"nombre": "Endecha heroica",
+							"veces": 3
+						},
+						{
+							"nombre": "Cuarteto de endecha",
+							"veces": 2
+						},
+						{
+							"nombre": "Endecha endecasílaba",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 3,
+					"menciones": 7,
+					"porNombre": [
+						{
+							"nombre": "Endecha real",
+							"veces": 7
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "187be9a5-f24c-4fde-a4dd-591e9e742c39",
+			"nombre": "Lira",
+			"slug": "lira",
+			"tipo_registro": "forma",
+			"etiqueta": "Lira",
+			"denominaciones": [
+				"Estrofa de fray Luis de León",
+				"Lira",
+				"Lira garcilasiana",
+				"Quinteto-lira",
+				"Quintilla de Fray Luis de León"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 3
+						},
+						{
+							"nombre": "Quintilla de Fray Luis de León",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 11,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 11
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 57,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 57
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 26,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 23
+						},
+						{
+							"nombre": "Estrofa de fray Luis de León",
+							"veces": 2
+						},
+						{
+							"nombre": "Lira garcilasiana",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 71,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 63
+						},
+						{
+							"nombre": "Estrofa de fray Luis de León",
+							"veces": 3
+						},
+						{
+							"nombre": "Lira garcilasiana",
+							"veces": 3
+						},
+						{
+							"nombre": "Quintilla de Fray Luis de León",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 84,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 79
+						},
+						{
+							"nombre": "Quinteto-lira",
+							"veces": 5
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "54e94efa-c638-4da8-ab2c-9e90f7ac0fc1",
+			"nombre": "Novena",
+			"slug": "novena",
+			"tipo_registro": "forma",
+			"etiqueta": "Novena",
+			"denominaciones": [
+				"Copla novena",
+				"Novena",
+				"Novena de pie quebrado"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Novena",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 18,
+					"porNombre": [
+						{
+							"nombre": "Novena",
+							"veces": 17
+						},
+						{
+							"nombre": "Novena de pie quebrado",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 16,
+					"porNombre": [
+						{
+							"nombre": "Novena",
+							"veces": 16
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 29,
+					"porNombre": [
+						{
+							"nombre": "Novena",
+							"veces": 29
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 29,
+					"porNombre": [
+						{
+							"nombre": "Novena",
+							"veces": 26
+						},
+						{
+							"nombre": "Copla novena",
+							"veces": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "01c1c1ef-c0b4-4060-ab29-5921f2216548",
+			"nombre": "Novena-lira",
+			"slug": "novena_lira",
+			"tipo_registro": "forma",
+			"etiqueta": "Novena-lira",
+			"denominaciones": [
+				"Novena-lira"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				}
+			]
+		},
+		{
+			"id": "91d4d1ae-bf78-4532-a0aa-fceabdbdb3a4",
+			"nombre": "Octava aguda",
+			"slug": "octava_aguda",
+			"tipo_registro": "forma",
+			"etiqueta": "Octava aguda",
+			"denominaciones": [
+				"Octava aguda",
+				"Octava italiana",
+				"Octavilla aguda",
+				"Octavilla italiana"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Octava italiana",
+							"veces": 3
+						},
+						{
+							"nombre": "Octava aguda",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 0,
+					"menciones": 29,
+					"porNombre": [
+						{
+							"nombre": "Octavilla aguda",
+							"veces": 16
+						},
+						{
+							"nombre": "Octava aguda",
+							"veces": 12
+						},
+						{
+							"nombre": "Octava italiana",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 8,
+					"porNombre": [
+						{
+							"nombre": "Octava aguda",
+							"veces": 3
+						},
+						{
+							"nombre": "Octavilla aguda",
+							"veces": 3
+						},
+						{
+							"nombre": "Octava italiana",
+							"veces": 1
+						},
+						{
+							"nombre": "Octavilla italiana",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 26,
+					"porNombre": [
+						{
+							"nombre": "Octava aguda",
+							"veces": 11
+						},
+						{
+							"nombre": "Octavilla aguda",
+							"veces": 7
+						},
+						{
+							"nombre": "Octava italiana",
+							"veces": 5
+						},
+						{
+							"nombre": "Octavilla italiana",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Octava aguda",
+							"veces": 2
+						},
+						{
+							"nombre": "Octavilla aguda",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "d07d21de-bef3-40f3-9573-ce5ac4639651",
+			"nombre": "Octava real",
+			"slug": "octava_real",
+			"tipo_registro": "forma",
+			"etiqueta": "Octava real",
+			"denominaciones": [
+				"Octava heroica",
+				"Octava real",
+				"Octava rima"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 9,
+					"porNombre": [
+						{
+							"nombre": "Octava real",
+							"veces": 5
+						},
+						{
+							"nombre": "Octava rima",
+							"veces": 4
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 36,
+					"porNombre": [
+						{
+							"nombre": "Octava real",
+							"veces": 29
+						},
+						{
+							"nombre": "Octava rima",
+							"veces": 6
+						},
+						{
+							"nombre": "Octava heroica",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 7,
+					"porNombre": [
+						{
+							"nombre": "Octava real",
+							"veces": 6
+						},
+						{
+							"nombre": "Octava rima",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 16,
+					"porNombre": [
+						{
+							"nombre": "Octava real",
+							"veces": 12
+						},
+						{
+							"nombre": "Octava heroica",
+							"veces": 2
+						},
+						{
+							"nombre": "Octava rima",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Octava real",
+							"veces": 3
+						},
+						{
+							"nombre": "Octava rima",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "840c1a87-6834-424c-a25b-c51f692de0af",
+			"nombre": "Octava-lira",
+			"slug": "octava_lira",
+			"tipo_registro": "forma",
+			"etiqueta": "Octava-lira",
+			"denominaciones": [
+				"Octava alirada",
+				"Octava-lira"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Octava alirada",
+							"veces": 4
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				}
+			]
+		},
+		{
+			"id": "bde4ebf9-09be-4229-9e12-9e6b51ff063e",
+			"nombre": "Oncena",
+			"slug": "oncena",
+			"tipo_registro": "forma",
+			"etiqueta": "Oncena",
+			"denominaciones": [
+				"Oncena",
+				"Undécima"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 9,
+					"porNombre": [
+						{
+							"nombre": "Undécima",
+							"veces": 5
+						},
+						{
+							"nombre": "Oncena",
+							"veces": 4
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Undécima",
+							"veces": 5
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 13,
+					"porNombre": [
+						{
+							"nombre": "Undécima",
+							"veces": 10
+						},
+						{
+							"nombre": "Oncena",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Oncena",
+							"veces": 5
+						},
+						{
+							"nombre": "Undécima",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "e11161c5-e184-4518-96b4-61a8b55413ea",
+			"nombre": "Pareado",
+			"slug": "pareado",
+			"tipo_registro": "forma",
+			"etiqueta": "Pareado",
+			"denominaciones": [
+				"Dístico",
+				"Pareado",
+				"Pareado alirado"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 14,
+					"porNombre": [
+						{
+							"nombre": "Pareado",
+							"veces": 11
+						},
+						{
+							"nombre": "Dístico",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 17,
+					"porNombre": [
+						{
+							"nombre": "Pareado",
+							"veces": 15
+						},
+						{
+							"nombre": "Dístico",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 242,
+					"porNombre": [
+						{
+							"nombre": "Pareado",
+							"veces": 191
+						},
+						{
+							"nombre": "Dístico",
+							"veces": 51
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 22,
+					"porNombre": [
+						{
+							"nombre": "Pareado",
+							"veces": 20
+						},
+						{
+							"nombre": "Dístico",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 55,
+					"porNombre": [
+						{
+							"nombre": "Pareado",
+							"veces": 48
+						},
+						{
+							"nombre": "Dístico",
+							"veces": 7
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 57,
+					"porNombre": [
+						{
+							"nombre": "Pareado",
+							"veces": 55
+						},
+						{
+							"nombre": "Dístico",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "4d6d8107-5f7f-4b22-a26e-676df130ffdf",
+			"nombre": "Quintilla",
+			"slug": "quintilla",
+			"tipo_registro": "forma",
+			"etiqueta": "Quintilla",
+			"denominaciones": [
+				"Quintilla"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Quintilla",
+							"veces": 5
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 7,
+					"porNombre": [
+						{
+							"nombre": "Quintilla",
+							"veces": 7
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 2,
+					"menciones": 118,
+					"porNombre": [
+						{
+							"nombre": "Quintilla",
+							"veces": 118
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 10,
+					"porNombre": [
+						{
+							"nombre": "Quintilla",
+							"veces": 10
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 25,
+					"porNombre": [
+						{
+							"nombre": "Quintilla",
+							"veces": 25
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 2,
+					"menciones": 33,
+					"porNombre": [
+						{
+							"nombre": "Quintilla",
+							"veces": 33
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "1affe499-c92d-4cf0-a0f6-46c76a26f88f",
+			"nombre": "Redondilla",
+			"slug": "redondilla",
+			"tipo_registro": "forma",
+			"etiqueta": "Redondilla",
+			"denominaciones": [
+				"Cuarteta",
+				"Redondilla",
+				"Redondilla mayor",
+				"Redondilla menor"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Redondilla",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 24,
+					"porNombre": [
+						{
+							"nombre": "Redondilla",
+							"veces": 18
+						},
+						{
+							"nombre": "Cuarteta",
+							"veces": 6
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 3,
+					"menciones": 438,
+					"porNombre": [
+						{
+							"nombre": "Redondilla",
+							"veces": 282
+						},
+						{
+							"nombre": "Cuarteta",
+							"veces": 155
+						},
+						{
+							"nombre": "Redondilla menor",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 2,
+					"menciones": 30,
+					"porNombre": [
+						{
+							"nombre": "Redondilla",
+							"veces": 23
+						},
+						{
+							"nombre": "Cuarteta",
+							"veces": 6
+						},
+						{
+							"nombre": "Redondilla mayor",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 2,
+					"menciones": 94,
+					"porNombre": [
+						{
+							"nombre": "Redondilla",
+							"veces": 58
+						},
+						{
+							"nombre": "Cuarteta",
+							"veces": 25
+						},
+						{
+							"nombre": "Redondilla menor",
+							"veces": 6
+						},
+						{
+							"nombre": "Redondilla mayor",
+							"veces": 5
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 81,
+					"porNombre": [
+						{
+							"nombre": "Redondilla",
+							"veces": 41
+						},
+						{
+							"nombre": "Cuarteta",
+							"veces": 39
+						},
+						{
+							"nombre": "Redondilla menor",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "e543239d-0da3-41bb-929e-f259076ec979",
+			"nombre": "Redondilla enlazada",
+			"slug": "redondilla_enlazada",
+			"tipo_registro": "forma",
+			"etiqueta": "Redondilla enlazada",
+			"denominaciones": [
+				"Redondilla enlazada"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				}
+			]
+		},
+		{
+			"id": "15a34e36-622e-4a1e-be7d-925124e05d9e",
+			"nombre": "Romance",
+			"slug": "romance",
+			"tipo_registro": "forma",
+			"etiqueta": "Romance",
+			"denominaciones": [
+				"Endecha",
+				"Romance",
+				"Romance endecha",
+				"Romance heroico",
+				"Romance mayor",
+				"Romance real",
+				"Romancillo heptasílabo",
+				"Romancillo hexasílabo",
+				"Romancillo pentasílabo",
+				"Romancillo tetrasílabo"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Romance",
+							"veces": 3
+						},
+						{
+							"nombre": "Endecha",
+							"veces": 1
+						},
+						{
+							"nombre": "Romance heroico",
+							"veces": 1
+						},
+						{
+							"nombre": "Romance real",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 56,
+					"porNombre": [
+						{
+							"nombre": "Romance",
+							"veces": 49
+						},
+						{
+							"nombre": "Endecha",
+							"veces": 5
+						},
+						{
+							"nombre": "Romance heroico",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 427,
+					"porNombre": [
+						{
+							"nombre": "Romance",
+							"veces": 346
+						},
+						{
+							"nombre": "Endecha",
+							"veces": 61
+						},
+						{
+							"nombre": "Romance heroico",
+							"veces": 15
+						},
+						{
+							"nombre": "Romancillo hexasílabo",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 2,
+					"menciones": 70,
+					"porNombre": [
+						{
+							"nombre": "Romance",
+							"veces": 64
+						},
+						{
+							"nombre": "Endecha",
+							"veces": 5
+						},
+						{
+							"nombre": "Romance heroico",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 3,
+					"menciones": 124,
+					"porNombre": [
+						{
+							"nombre": "Romance",
+							"veces": 90
+						},
+						{
+							"nombre": "Endecha",
+							"veces": 26
+						},
+						{
+							"nombre": "Romance heroico",
+							"veces": 3
+						},
+						{
+							"nombre": "Romance endecha",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 2,
+					"menciones": 87,
+					"porNombre": [
+						{
+							"nombre": "Romance",
+							"veces": 57
+						},
+						{
+							"nombre": "Endecha",
+							"veces": 23
+						},
+						{
+							"nombre": "Romance heroico",
+							"veces": 7
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "7baf2cc1-b4e5-43f6-9d7a-e2cd46b9856b",
+			"nombre": "Seguidilla",
+			"slug": "seguidilla",
+			"tipo_registro": "forma",
+			"etiqueta": "Seguidilla",
+			"denominaciones": [
+				"Bolero",
+				"Chamberga",
+				"Flamenca",
+				"Playera",
+				"Seguidilla",
+				"Seguiriya",
+				"Seguiriya de plañir"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Seguidilla",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 11,
+					"porNombre": [
+						{
+							"nombre": "Seguidilla",
+							"veces": 11
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 4,
+					"menciones": 207,
+					"porNombre": [
+						{
+							"nombre": "Seguidilla",
+							"veces": 196
+						},
+						{
+							"nombre": "Chamberga",
+							"veces": 6
+						},
+						{
+							"nombre": "Playera",
+							"veces": 4
+						},
+						{
+							"nombre": "Flamenca",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 28,
+					"porNombre": [
+						{
+							"nombre": "Seguidilla",
+							"veces": 25
+						},
+						{
+							"nombre": "Chamberga",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 6,
+					"menciones": 70,
+					"porNombre": [
+						{
+							"nombre": "Seguidilla",
+							"veces": 53
+						},
+						{
+							"nombre": "Chamberga",
+							"veces": 5
+						},
+						{
+							"nombre": "Seguiriya",
+							"veces": 4
+						},
+						{
+							"nombre": "Bolero",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 3,
+					"menciones": 36,
+					"porNombre": [
+						{
+							"nombre": "Seguidilla",
+							"veces": 33
+						},
+						{
+							"nombre": "Playera",
+							"veces": 2
+						},
+						{
+							"nombre": "Chamberga",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "11beb378-43a0-4c5b-bf00-798deaaa1baf",
+			"nombre": "Septeto",
+			"slug": "septeto",
+			"tipo_registro": "forma",
+			"etiqueta": "Septeto",
+			"denominaciones": [
+				"Septeto",
+				"Septeto agudo",
+				"Septina",
+				"Seteta",
+				"Séptima"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Séptima",
+							"veces": 5
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 27,
+					"porNombre": [
+						{
+							"nombre": "Séptima",
+							"veces": 27
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 27,
+					"porNombre": [
+						{
+							"nombre": "Séptima",
+							"veces": 22
+						},
+						{
+							"nombre": "Septeto",
+							"veces": 5
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 69,
+					"porNombre": [
+						{
+							"nombre": "Séptima",
+							"veces": 47
+						},
+						{
+							"nombre": "Septeto",
+							"veces": 16
+						},
+						{
+							"nombre": "Seteta",
+							"veces": 3
+						},
+						{
+							"nombre": "Septina",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 39,
+					"porNombre": [
+						{
+							"nombre": "Septeto",
+							"veces": 21
+						},
+						{
+							"nombre": "Séptima",
+							"veces": 18
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "c5666b30-055b-4d48-8e8b-29109ed4e258",
+			"nombre": "Septeto-lira",
+			"slug": "septeto_lira",
+			"tipo_registro": "forma",
+			"etiqueta": "Septeto-lira",
+			"denominaciones": [
+				"Lira de siete versos",
+				"Lira heptástica",
+				"Septeto alirado",
+				"Septeto-estancia",
+				"Septeto-lira"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Septeto-lira",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 12,
+					"porNombre": [
+						{
+							"nombre": "Septeto alirado",
+							"veces": 6
+						},
+						{
+							"nombre": "Lira heptástica",
+							"veces": 3
+						},
+						{
+							"nombre": "Septeto-estancia",
+							"veces": 2
+						},
+						{
+							"nombre": "Lira de siete versos",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Septeto-lira",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "7a0faa54-7a15-4945-9a3b-b228eef14664",
+			"nombre": "Septilla",
+			"slug": "septilla",
+			"tipo_registro": "forma",
+			"etiqueta": "Septilla",
+			"denominaciones": [
+				"Copla mixta",
+				"Septilla"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 16,
+					"porNombre": [
+						{
+							"nombre": "Copla mixta",
+							"veces": 9
+						},
+						{
+							"nombre": "Septilla",
+							"veces": 7
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Copla mixta",
+							"veces": 2
+						},
+						{
+							"nombre": "Septilla",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Copla mixta",
+							"veces": 3
+						},
+						{
+							"nombre": "Septilla",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 13,
+					"porNombre": [
+						{
+							"nombre": "Septilla",
+							"veces": 11
+						},
+						{
+							"nombre": "Copla mixta",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "89bb2c87-bddc-49c4-9685-ff62863a8c57",
+			"nombre": "Septilla enlazada",
+			"slug": "septilla_enlazada",
+			"tipo_registro": "forma",
+			"etiqueta": "Septilla enlazada",
+			"denominaciones": [
+				"Septilla enlazada"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Septilla enlazada",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				}
+			]
+		},
+		{
+			"id": "20fcf1bf-2aa8-4a6f-a190-db5f1a88f274",
+			"nombre": "Sexteto",
+			"slug": "sexteto",
+			"tipo_registro": "forma",
+			"etiqueta": "Sexteto",
+			"denominaciones": [
+				"Sexta rima",
+				"Sexteto",
+				"Sextina antigua",
+				"Sextina real"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Sexteto",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Sexta rima",
+							"veces": 2
+						},
+						{
+							"nombre": "Sexteto",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 101,
+					"porNombre": [
+						{
+							"nombre": "Sexteto",
+							"veces": 90
+						},
+						{
+							"nombre": "Sexta rima",
+							"veces": 11
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 10,
+					"porNombre": [
+						{
+							"nombre": "Sexteto",
+							"veces": 8
+						},
+						{
+							"nombre": "Sexta rima",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 43,
+					"porNombre": [
+						{
+							"nombre": "Sexteto",
+							"veces": 34
+						},
+						{
+							"nombre": "Sexta rima",
+							"veces": 4
+						},
+						{
+							"nombre": "Sextina antigua",
+							"veces": 3
+						},
+						{
+							"nombre": "Sextina real",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 64,
+					"porNombre": [
+						{
+							"nombre": "Sexteto",
+							"veces": 60
+						},
+						{
+							"nombre": "Sextina real",
+							"veces": 3
+						},
+						{
+							"nombre": "Sexta rima",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "ae1e40bd-8528-41b8-9edc-dbcf7153896b",
+			"nombre": "Sexteto-lira",
+			"slug": "sexteto_lira",
+			"tipo_registro": "forma",
+			"etiqueta": "Sexteto-lira",
+			"denominaciones": [
+				"Lira",
+				"Lira-sestina",
+				"Sexteto alirado",
+				"Sexteto-lira"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 13,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 11
+						},
+						{
+							"nombre": "Sexteto-lira",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 63,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 57
+						},
+						{
+							"nombre": "Sexteto-lira",
+							"veces": 6
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 25,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 23
+						},
+						{
+							"nombre": "Sexteto-lira",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 73,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 63
+						},
+						{
+							"nombre": "Sexteto-lira",
+							"veces": 5
+						},
+						{
+							"nombre": "Lira-sestina",
+							"veces": 3
+						},
+						{
+							"nombre": "Sexteto alirado",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 86,
+					"porNombre": [
+						{
+							"nombre": "Lira",
+							"veces": 79
+						},
+						{
+							"nombre": "Sexteto-lira",
+							"veces": 7
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "b2de4d5a-1174-4d0c-9d13-a2a4206a0e09",
+			"nombre": "Sextilla",
+			"slug": "sextilla",
+			"tipo_registro": "forma",
+			"etiqueta": "Sextilla",
+			"denominaciones": [
+				"Copla de pie quebrado",
+				"Sextilla",
+				"Sextilla alterna",
+				"Sextilla correlativa",
+				"Sextilla paralela",
+				"Sextilla simétrica"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 7,
+					"porNombre": [
+						{
+							"nombre": "Copla de pie quebrado",
+							"veces": 4
+						},
+						{
+							"nombre": "Sextilla",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 2,
+					"menciones": 116,
+					"porNombre": [
+						{
+							"nombre": "Sextilla",
+							"veces": 80
+						},
+						{
+							"nombre": "Copla de pie quebrado",
+							"veces": 25
+						},
+						{
+							"nombre": "Sextilla alterna",
+							"veces": 6
+						},
+						{
+							"nombre": "Sextilla simétrica",
+							"veces": 5
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 14,
+					"porNombre": [
+						{
+							"nombre": "Sextilla",
+							"veces": 10
+						},
+						{
+							"nombre": "Copla de pie quebrado",
+							"veces": 4
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 2,
+					"menciones": 31,
+					"porNombre": [
+						{
+							"nombre": "Sextilla",
+							"veces": 20
+						},
+						{
+							"nombre": "Copla de pie quebrado",
+							"veces": 5
+						},
+						{
+							"nombre": "Sextilla alterna",
+							"veces": 2
+						},
+						{
+							"nombre": "Sextilla correlativa",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 42,
+					"porNombre": [
+						{
+							"nombre": "Sextilla",
+							"veces": 35
+						},
+						{
+							"nombre": "Copla de pie quebrado",
+							"veces": 3
+						},
+						{
+							"nombre": "Sextilla alterna",
+							"veces": 2
+						},
+						{
+							"nombre": "Sextilla simétrica",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "48630faa-4968-4f17-b55f-2098736ec753",
+			"nombre": "Sextilla enlazada",
+			"slug": "sextilla_enlazada",
+			"tipo_registro": "forma",
+			"etiqueta": "Sextilla enlazada",
+			"denominaciones": [
+				"Sextilla enlazada"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Sextilla enlazada",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				}
+			]
+		},
+		{
+			"id": "5c7527be-75e8-44b3-bb5e-fbf62174c569",
+			"nombre": "Sextina",
+			"slug": "sextina",
+			"tipo_registro": "forma",
+			"etiqueta": "Sextina (sextina)",
+			"denominaciones": [
+				"Sextina"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 8,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 8
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 14,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 14
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 23,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 23
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 25,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 25
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 0,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 6
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "222649a8-001d-455b-adcb-58d4affba0d0",
+			"nombre": "Sextina",
+			"slug": "sextina_estrofa",
+			"tipo_registro": "forma",
+			"etiqueta": "Sextina (sextina_estrofa)",
+			"denominaciones": [
+				"Sextina"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 8,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 8
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 0,
+					"menciones": 14,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 14
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 0,
+					"menciones": 23,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 23
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 0,
+					"menciones": 25,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 25
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 6
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "590d40a4-5eb4-4992-b0cf-3edf0d379b83",
+			"nombre": "Silva",
+			"slug": "silva",
+			"tipo_registro": "forma",
+			"etiqueta": "Silva",
+			"denominaciones": [
+				"Canción libre",
+				"Silva",
+				"Silva arromanzada",
+				"Silva de consonantes",
+				"Silva imperfecta",
+				"Silva libre"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Silva",
+							"veces": 2
+						},
+						{
+							"nombre": "Silva de consonantes",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 12,
+					"porNombre": [
+						{
+							"nombre": "Silva",
+							"veces": 12
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 162,
+					"porNombre": [
+						{
+							"nombre": "Silva",
+							"veces": 152
+						},
+						{
+							"nombre": "Silva libre",
+							"veces": 4
+						},
+						{
+							"nombre": "Silva arromanzada",
+							"veces": 3
+						},
+						{
+							"nombre": "Silva de consonantes",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 2,
+					"menciones": 42,
+					"porNombre": [
+						{
+							"nombre": "Silva",
+							"veces": 39
+						},
+						{
+							"nombre": "Silva de consonantes",
+							"veces": 2
+						},
+						{
+							"nombre": "Silva arromanzada",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 4,
+					"menciones": 74,
+					"porNombre": [
+						{
+							"nombre": "Silva",
+							"veces": 58
+						},
+						{
+							"nombre": "Silva libre",
+							"veces": 6
+						},
+						{
+							"nombre": "Canción libre",
+							"veces": 3
+						},
+						{
+							"nombre": "Silva imperfecta",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 100,
+					"porNombre": [
+						{
+							"nombre": "Silva",
+							"veces": 96
+						},
+						{
+							"nombre": "Silva de consonantes",
+							"veces": 3
+						},
+						{
+							"nombre": "Silva arromanzada",
+							"veces": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "5094076a-b93a-4fc4-8b43-a32791b03196",
+			"nombre": "Soneto",
+			"slug": "soneto",
+			"tipo_registro": "forma",
+			"etiqueta": "Soneto",
+			"denominaciones": [
+				"Soneto"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Soneto",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 41,
+					"porNombre": [
+						{
+							"nombre": "Soneto",
+							"veces": 41
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 2,
+					"menciones": 194,
+					"porNombre": [
+						{
+							"nombre": "Soneto",
+							"veces": 194
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 73,
+					"porNombre": [
+						{
+							"nombre": "Soneto",
+							"veces": 73
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 3,
+					"menciones": 125,
+					"porNombre": [
+						{
+							"nombre": "Soneto",
+							"veces": 125
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 93,
+					"porNombre": [
+						{
+							"nombre": "Soneto",
+							"veces": 93
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "c0a062a4-3ee3-474d-a08f-eb466147e283",
+			"nombre": "Terceto",
+			"slug": "terceto",
+			"tipo_registro": "forma",
+			"etiqueta": "Terceto",
+			"denominaciones": [
+				"Tercerilla",
+				"Tercerillo",
+				"Tercetillo",
+				"Terceto"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Terceto",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 26,
+					"porNombre": [
+						{
+							"nombre": "Terceto",
+							"veces": 24
+						},
+						{
+							"nombre": "Tercerilla",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 183,
+					"porNombre": [
+						{
+							"nombre": "Terceto",
+							"veces": 183
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 2,
+					"menciones": 15,
+					"porNombre": [
+						{
+							"nombre": "Terceto",
+							"veces": 11
+						},
+						{
+							"nombre": "Tercetillo",
+							"veces": 2
+						},
+						{
+							"nombre": "Tercerilla",
+							"veces": 1
+						},
+						{
+							"nombre": "Tercerillo",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 57,
+					"porNombre": [
+						{
+							"nombre": "Terceto",
+							"veces": 48
+						},
+						{
+							"nombre": "Tercetillo",
+							"veces": 5
+						},
+						{
+							"nombre": "Tercerilla",
+							"veces": 2
+						},
+						{
+							"nombre": "Tercerillo",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 74,
+					"porNombre": [
+						{
+							"nombre": "Terceto",
+							"veces": 46
+						},
+						{
+							"nombre": "Tercetillo",
+							"veces": 28
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "76b9e1c9-c9ff-4280-afec-5d31d3347677",
+			"nombre": "Terceto encadenado",
+			"slug": "terceto_encadenado",
+			"tipo_registro": "forma",
+			"etiqueta": "Terceto encadenado",
+			"denominaciones": [
+				"Terceto encadenado"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Terceto encadenado",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 1,
+					"porNombre": [
+						{
+							"nombre": "Terceto encadenado",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				}
+			]
+		},
+		{
+			"id": "1ba6f164-41c7-4c94-a75d-cc629fc16048",
+			"nombre": "Villancico",
+			"slug": "villancico",
+			"tipo_registro": "forma",
+			"etiqueta": "Villancico",
+			"denominaciones": [
+				"Villancico"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 13,
+					"porNombre": [
+						{
+							"nombre": "Villancico",
+							"veces": 13
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 177,
+					"porNombre": [
+						{
+							"nombre": "Villancico",
+							"veces": 177
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 12,
+					"porNombre": [
+						{
+							"nombre": "Villancico",
+							"veces": 12
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 28,
+					"porNombre": [
+						{
+							"nombre": "Villancico",
+							"veces": 28
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 30,
+					"porNombre": [
+						{
+							"nombre": "Villancico",
+							"veces": 30
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "838d5dc2-f529-41ce-8b28-94e65e4279e7",
+			"nombre": "Zéjel",
+			"slug": "zejel",
+			"tipo_registro": "forma",
+			"etiqueta": "Zéjel",
+			"denominaciones": [
+				"Estrabot",
+				"Estribote",
+				"Zéjel"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 9,
+					"porNombre": [
+						{
+							"nombre": "Zéjel",
+							"veces": 9
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 144,
+					"porNombre": [
+						{
+							"nombre": "Zéjel",
+							"veces": 129
+						},
+						{
+							"nombre": "Estribote",
+							"veces": 15
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 17,
+					"porNombre": [
+						{
+							"nombre": "Zéjel",
+							"veces": 16
+						},
+						{
+							"nombre": "Estribote",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 19,
+					"porNombre": [
+						{
+							"nombre": "Zéjel",
+							"veces": 13
+						},
+						{
+							"nombre": "Estribote",
+							"veces": 4
+						},
+						{
+							"nombre": "Estrabot",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 9,
+					"porNombre": [
+						{
+							"nombre": "Zéjel",
+							"veces": 9
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "00f1532c-fc1f-4449-a304-ec071e70426e",
+			"nombre": "Versificación irregular",
+			"slug": "irregular",
+			"tipo_registro": "sin_forma",
+			"etiqueta": "Versificación irregular",
+			"denominaciones": [
+				"Versificación anisosilábica",
+				"Versificación irregular"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 0,
+					"menciones": 3,
+					"porNombre": [
+						{
+							"nombre": "Versificación irregular",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Versificación irregular",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 9,
+					"porNombre": [
+						{
+							"nombre": "Versificación irregular",
+							"veces": 8
+						},
+						{
+							"nombre": "Versificación anisosilábica",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 21,
+					"porNombre": [
+						{
+							"nombre": "Versificación irregular",
+							"veces": 19
+						},
+						{
+							"nombre": "Versificación anisosilábica",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Versificación irregular",
+							"veces": 4
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "fa1289ed-b854-4428-a575-55edf29b335a",
+			"nombre": "Verso aislado",
+			"slug": "verso_aislado",
+			"tipo_registro": "sin_forma",
+			"etiqueta": "Verso aislado",
+			"denominaciones": [
+				"Verso aislado",
+				"Verso único"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 0,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Verso aislado",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 0,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Verso aislado",
+							"veces": 4
+						},
+						{
+							"nombre": "Verso único",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 5,
+					"porNombre": [
+						{
+							"nombre": "Verso aislado",
+							"veces": 3
+						},
+						{
+							"nombre": "Verso único",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 0,
+					"menciones": 4,
+					"porNombre": [
+						{
+							"nombre": "Verso único",
+							"veces": 4
+						}
+					]
+				}
+			]
+		}
+	]
+}
