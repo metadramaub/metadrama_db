@@ -75,11 +75,17 @@ const MATERIALES = new Set([
 const SEÑALES_DE_DUDA =
 	/\bomit|\bno (dice|aparece|menciona|recoge|figura|está|consta)|\baña[dn]|\binvierte|\bsustituy|\bgeneraliza|\bcierra\b|\bamplía|\bdiscrepan|\binconsisten|\bno se puede confirmar|\bno pude|\bdebería|\bvalorar|\bincompleta|\bmatiz|\bsalvo que|\bqueda fuera|\bes una inferencia|\bes una glosa/i;
 
+/**
+ * Junta el texto en una línea y lo recorta a `n` caracteres. **Con `n = 0` no recorta nada**, que
+ * es lo que hace falta donde se enseña un texto para aprobarlo: sin esa salida, pedir «entero» con
+ * un cero devolvía la cadena vacía y un puntito suspensivo, y la hoja enseñaba el texto propuesto
+ * reducido a «…».
+ */
 const limpia = (t, n = 900) => {
 	const s = String(t ?? '')
 		.replace(/\s+/g, ' ')
 		.trim();
-	return s.length > n ? `${s.slice(0, n)}…` : s;
+	return n > 0 && s.length > n ? `${s.slice(0, n)}…` : s;
 };
 
 const leer = (ruta) => (existsSync(ruta) ? JSON.parse(readFileSync(ruta, 'utf-8')) : null);
@@ -485,15 +491,35 @@ function main() {
 			// viejo a quien está aprobando el nuevo. Cuando los dos difieren se muestran los dos,
 			// cada uno con su nombre, porque el de A es el que explica los defectos que se citan
 			// más arriba.
+			// **Estos tres bloques no se recortan nunca.** `limpia` corta por defecto a 900
+			// caracteres, y aquí eso significaba enseñar el texto propuesto con puntos suspensivos
+			// al final: nadie puede aprobar lo que no ve entero. Se recorta la prosa de los
+			// verificadores, que es larga y de la que basta el principio; no lo que se decide.
 			const vigente = enLaBase.get(d.id);
+			const actual = limpia(vigente?.resumen ?? d.texto_registrado, 0);
+			const deA = limpia(d.texto_registrado, 0);
 			md.push('**Texto actual del catálogo**');
 			md.push('');
-			md.push(limpia(vigente?.resumen ?? d.texto_registrado));
+			md.push(actual);
 			md.push('');
-			if (vigente && limpia(vigente.resumen) !== limpia(d.texto_registrado)) {
-				md.push('*Texto que juzgó la pasada A, ya sustituido:*');
-				md.push('');
-				md.push(limpia(d.texto_registrado));
+			if (vigente && actual !== deA) {
+				// Difieren por dos motivos muy distintos y conviene no confundirlos. Si la
+				// afirmación ya se corrigió, el de la pasada A es el texto viejo y hay que verlo,
+				// porque es el que explican los defectos de arriba. Si no se ha tocado, lo que
+				// pasa es que **el verificador retecleó nuestro texto en vez de copiarlo**: son
+				// nueve casos de los 199 sin corregir, todos de menos de doce caracteres de
+				// diferencia, y enseñar dos textos casi idénticos no ayuda a nadie.
+				const yaCorregida = previa?.estado && previa.estado !== 'pendiente';
+				if (yaCorregida) {
+					md.push('*Texto que juzgó la pasada A, ya sustituido:*');
+					md.push('');
+					md.push(deA);
+				} else {
+					md.push(
+						'> La pasada A trabajó sobre una copia de este texto con alguna variante menor de',
+						'> transcripción. Lo que se juzga es el de arriba.'
+					);
+				}
 				md.push('');
 			}
 			const propuesta = propuestas.get(d.id);
@@ -501,7 +527,7 @@ function main() {
 			md.push('');
 			md.push(
 				propuesta?.resumen
-					? limpia(propuesta.resumen)
+					? limpia(propuesta.resumen, 0)
 					: previa?.estado && previa.estado !== 'pendiente'
 						? '*(ya aplicado: el texto actual de arriba es el corregido)*'
 						: '*(por redactar — sin esto no se migra)*'
