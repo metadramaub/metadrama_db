@@ -31,6 +31,14 @@ export type PublicFormSummary = {
 	tiposRima: string[];
 	/** Nombres alternativos, para que el buscador los encuentre por ellos. */
 	denominaciones: string[];
+	/**
+	 * Si otra forma del catálogo se llama igual, y hay que decir el nivel para distinguirlas.
+	 *
+	 * Lo enseñan ya el ladillo de la ficha, la tarjeta del índice y la lista de relaciones, así que
+	 * esto solo hace falta **donde el nombre viaja solo**: el título de la pestaña, un marcador, un
+	 * resultado de buscador. Ahí «Sextina · Catálogo métrico» no dice cuál de las dos es.
+	 */
+	nombreAmbiguo: boolean;
 };
 
 export type PublicScheme = {

@@ -206,3 +206,24 @@ export function metricFormLabel(
 ): string {
 	return `${form.nombre} · ${metricStructuralLevelLabel(form.nivel_estructural)}`;
 }
+
+/**
+ * Qué nombres del catálogo llevan más de una forma.
+ *
+ * Hoy solo «Sextina»: la composición de treinta y nueve endecasílabos y la estrofa de seis que
+ * ella permuta. Son dos formas porque la estrofa no es un sexteto —no tiene rima, su identidad son
+ * las seis palabras finales— y porque las fuentes llaman «sextina» a las dos.
+ *
+ * Se calcula en vez de escribirse a mano para que **una homonimia nueva se desambigüe sola**, y
+ * para que las cuarenta y una fichas restantes no arrastren una coletilla que no necesitan: un
+ * «Redondilla · Estrofa» donde basta «Redondilla» es ruido repetido cuarenta y una veces.
+ */
+export function nombresRepetidos(forms: readonly { nombre: string }[]): Set<string> {
+	const vistos = new Set<string>();
+	const repetidos = new Set<string>();
+	for (const { nombre } of forms) {
+		if (vistos.has(nombre)) repetidos.add(nombre);
+		else vistos.add(nombre);
+	}
+	return repetidos;
+}

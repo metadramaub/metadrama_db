@@ -24,7 +24,7 @@ import type {
 	PublicTraits,
 	PublicVariety
 } from '$lib/metrica/formas-publicas.types';
-import type { MetricStructuralLevel } from '$lib/metrica/catalogo';
+import { nombresRepetidos, type MetricStructuralLevel } from '$lib/metrica/catalogo';
 import {
 	construirRejilla,
 	perfilDeArquitectura,
@@ -134,6 +134,7 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 		(row) => String(row.forma_id)
 	);
 	const tradicionesPorForma = agrupar(formasTradiciones as any[], (row) => String(row.forma_id));
+	const homonimas = nombresRepetidos((formas as any[]).map((f) => ({ nombre: String(f.nombre) })));
 
 	return (formas as any[]).map((forma) => ({
 		slug: String(forma.slug),
@@ -154,7 +155,8 @@ export async function loadPublicForms(client: unknown): Promise<PublicFormSummar
 		),
 		denominaciones: (denominacionesPorForma.get(String(forma.forma_id)) ?? []).map((row) =>
 			String(row.nombre)
-		)
+		),
+		nombreAmbiguo: homonimas.has(String(forma.nombre))
 	}));
 }
 
@@ -164,6 +166,10 @@ export async function loadPublicForm(
 	slug: string
 ): Promise<PublicFormDetail | null> {
 	const db = client as UntypedSupabaseClient;
+	const [jerarquia, catalogo] = await Promise.all([
+		cargarAgrupado(db, 'get_forma_metrica_publica_jerarquica', { p_slug: slug }),
+		cargarAgrupado(db, 'get_catalogo_formas_publicas')
+	]);
 	const {
 		formas,
 		arquitecturas,
@@ -192,11 +198,26 @@ export async function loadPublicForm(
 		restriccionesRima,
 		formasReferenciadas,
 		arquitecturasReutilizadas
-	} = await cargarAgrupado(db, 'get_forma_metrica_publica_jerarquica', { p_slug: slug });
+	} = jerarquia;
 
 	const forma = (formas as any[]).find((row) => String(row.slug) === slug);
 	if (!forma) return null;
 	const formaId = String(forma.forma_id);
+
+	/**
+	 * Si el nombre de esta forma lo lleva también otra.
+	 *
+	 * Hay que mirar el catálogo entero: la llamada de la ficha devuelve solo esta forma y aquellas
+	 * con las que se relaciona, de modo que una homónima **no emparentada** no aparecería. Hoy las
+	 * dos sextinas sí lo están, pero hacerlo depender de eso sería acertar por casualidad.
+	 *
+	 * Va en paralelo con la consulta de la ficha, así que no añade espera; y lo que trae —una línea
+	 * por forma— es pequeño al lado de una ficha con todas sus arquitecturas, esquemas, posiciones y
+	 * afirmaciones.
+	 */
+	const nombreAmbiguo = nombresRepetidos(
+		((catalogo.formas ?? []) as any[]).map((f) => ({ nombre: String(f.nombre) }))
+	).has(String(forma.nombre));
 
 	const nombreArquitectura = new Map(
 		(arquitecturas as any[]).map((row) => [String(row.arquitectura_id), String(row.nombre)])
@@ -1179,6 +1200,7 @@ export async function loadPublicForm(
 			nombreTipoRima
 		),
 		denominaciones: misDenominaciones,
+		nombreAmbiguo,
 		// Las relaciones se declaran en una dirección, pero interesan en las dos: el terceto
 		// encadenado dice que se construye con tercetos, y esa frase es tan útil leída desde el
 		// terceto como desde la serie.
