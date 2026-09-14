@@ -1396,8 +1396,8 @@
 		"id": "0b562394",
 		"fuente": "Domínguez Caparrós 2014",
 		"sobre": "Copla de arte mayor",
-		"veredicto": "defecto",
-		"veredicto_efectivo": "defecto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
 		"lectura_ciega": true,
 		"contradice_b": [],
@@ -1409,10 +1409,8 @@
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 2
 		},
-		"cubo": "fondo",
-		"defectos": [
-			"endurecimiento (grave)"
-		],
+		"cubo": "limpio",
+		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
 	},
@@ -4147,9 +4145,8 @@
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 1
 		},
-		"cubo": "fondo",
+		"cubo": "material",
 		"defectos": [
-			"atribución cruzada (grave)",
 			"cita literal inexacta (medio)"
 		],
 		"estado": "corregido",
@@ -5322,8 +5319,8 @@
 		"id": "089f66ae",
 		"fuente": "Quilis 1969",
 		"sobre": "Copla de arte mayor",
-		"veredicto": "defecto",
-		"veredicto_efectivo": "defecto",
+		"veredicto": "conforme",
+		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
 		"lectura_ciega": true,
 		"contradice_b": [],
@@ -5335,10 +5332,8 @@
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 0
 		},
-		"cubo": "material",
-		"defectos": [
-			"localizador falso (medio)"
-		],
+		"cubo": "limpio",
+		"defectos": [],
 		"estado": "corregido",
 		"nota": "Migración 20260914200000. Localizador → «§ 5.4.7.1, p. 106», resuelto con la pasada C y comprobado por mí en el PDF, hoja 54, antes del pie «106»."
 	},
