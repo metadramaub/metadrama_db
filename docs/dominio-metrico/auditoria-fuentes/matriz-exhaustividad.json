@@ -1743,7 +1743,8 @@
 			"etiqueta": "Octava-lira",
 			"denominaciones": [
 				"Octava alirada",
-				"Octava-lira"
+				"Octava-lira",
+				"Octeto-lira"
 			],
 			"celdas": [
 				{
@@ -1783,7 +1784,7 @@
 				},
 				{
 					"anio": 2020,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				}
@@ -3904,7 +3905,7 @@
 				},
 				{
 					"anio": 1969,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 3,
 					"porNombre": [
 						{
