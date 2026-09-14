@@ -14,7 +14,7 @@ Actualizado el 17 de septiembre de 2026.
 | 1 | Piloto sobre el *Diccionario* con errores sembrados | **cerrada** — se decidió seguir |
 | 2 | Navarro 1972 y Morley y Bruerton | **cerrada** |
 | 3 | Jauralde, Quilis, Caparrós 2014 | **cerrada** |
-| 4 | Exhaustividad, 43 formas | **auditada, sin escribir** |
+| 4 | Exhaustividad, 43 formas | **lagunas escritas**; quedan los silencios |
 | 5 | Informe y muestra humana | pendiente |
 
 Las tres pasadas están completas sobre las **267** afirmaciones: A y B sobre el catálogo entero, C
@@ -40,34 +40,35 @@ de lo demás. Por eso van primero.
       queda sin formas mudas**, y la guarda lo exige. Sus esquemas tampoco entran como esquemas de
       rima, por la misma razón que los de la novena.
 
-### 2 · Las nueve lagunas de la fase 4
+### 2 · Las nueve lagunas de la fase 4 — **cerradas**
 
-Localizadas y con el pasaje abierto en
-[fase-4-exhaustividad.md](./fase-4-exhaustividad.md). **Ninguna escrita.** Se redactan por fuente y
-se aprueban en tandas, como el cubo material.
+Las nueve están escritas, con el pasaje abierto y el localizador comprobado en el original. El
+recorrido está en [fase-4-exhaustividad.md](./fase-4-exhaustividad.md) y las migraciones van de
+`20260917210000` a `20260918210000`.
 
-| | forma · fuente |
-| --- | --- |
-| 1 | ~~Octava aguda · Navarro 1972~~ — **escrita**. Migración `20260918100000` |
-| 2 | ~~Verso aislado · Quilis 1969~~ — **escrita**. Migración `20260918120000` |
-| 3 | ~~Verso aislado · Caparrós 2014~~ — **escrita** |
-| 4 | ~~Verso aislado · Jauralde 2020~~ — **escrita** |
-| 5 | ~~Cuarteto-lira · Jauralde 2020~~ — **escrita**. Migración `20260918140000` |
-| 6 | ~~Cuarteto-lira · Caparrós 2014~~ — **escrita** |
-| 7 | Sextina (composición) · Jauralde 2020 — bajo el epígrafe «Sexta rima» |
-| 8 | ~~Décima-lira · *Diccionario* 2016~~ — **escrita**, y con ella la de Navarro § 285 |
-| 9 | Versificación irregular · Quilis 1969 |
+Lo que dejaron, además de las afirmaciones:
 
+- **Una forma nueva.** La [estrofa sáfica](../cuestiones-para-el-ip.md#cuarteto-lira) no existía en
+  el catálogo y cinco de las seis fuentes la documentan; Navarro le da sección propia en los seis
+  períodos que recorre. Entró con dos arquitecturas —la sáfica y la de Francisco de la Torre— y sus
+  cinco afirmaciones. El catálogo pasa de 43 unidades a 44.
+- **Dos formas que estaban mudas dejan de estarlo**: novena-lira y décima-lira. **Ninguna forma
+  activa del catálogo se queda hoy sin fuente**, y una guarda lo exige.
+- **Una relación nueva**, endecha real ↔ cuarteto-lira.
+- **Tres frases falsas retiradas** de la prosa publicada: las dos que afirmaban que ninguna fuente
+  describía a las liras de nueve y diez versos, y la que daba su esquema por único.
 
+### 3 · Los veinte silencios que faltan por escribir
 
-Y **los veinte silencios justificados**, que hay que dejar escritos para que la ficha pública
-distinga entre «no lo dice» y «no lo hemos mirado». Uno de ellos ya tiene nombre y razón: **Morley y
-Bruerton no dice nada de la octava aguda** porque no es un manual de métrica sino el repertorio de
-las formas que usa Lope, y esa es del siglo XVIII. Lo destapó la guarda de `20260918100000`, escrita
-pidiendo las seis voces cuando solo podían ser cinco. **El verso aislado es el segundo**, por la
-misma razón: su repertorio es de formas que Lope usa.
+Una fuente que calla no deja hueco en la ficha, y el lector no puede distinguir «no lo dice» de «no
+lo hemos mirado». Hay que registrarlos como afirmaciones.
 
-### 3 · Los dos cubos que quedan abiertos
+**Tres van ya identificados con su razón**, los tres de Morley y Bruerton —octava aguda, verso
+aislado y estrofa sáfica— y los tres por lo mismo: su repertorio es de las formas que usa Lope, y
+esas tres no lo son. Los destaparon las guardas, escritas pidiendo las seis voces donde solo podían
+ser cinco.
+
+### 4 · Los dos cubos que quedan abiertos
 
 De las 267, ya no cambia texto ninguna de **fondo** (33) ni de **material** (56 corregidas,
 17 desmentidas por la verificación). Quedan:
@@ -82,7 +83,7 @@ De las 267, ya no cambia texto ninguna de **fondo** (33) ni de **material** (56 
 Y **dos propuestas sin redactar**: `9c4dd052` (lira de Morley y Bruerton) y `cfb377cd`
 (septeto-lira de Navarro).
 
-### 4 · Fase 5: informe y muestra humana
+### 5 · Fase 5: informe y muestra humana
 
 Lo último. El informe ha de poder repetirlo un tercero sin fiarse de nosotros.
 

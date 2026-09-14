@@ -115,5 +115,11 @@
 				"resumen": "Lo encuadra —«el cuarteto lira, una de las estrofas de la canción alirada»— y lo define: «combina heptasílabos y endecasílabos que riman en consonante: `ABAB`, o `ABBA`. Puede encontrarse con rima asonante y con algún verso suelto». Lo ejemplifica con la elegía «A la patria» de Espronceda y, para la asonante en los pares, con la rima XVIII de Bécquer. Y le subordina dos estrofas clásicas: «dos tipos de cuarteto lira son la estrofa sáfica y la estrofa de Francisco de la Torre» —la sáfica, tres endecasílabos y un pentasílabo acentuado en la primera sílaba, normalmente sin rima; la de Francisco de la Torre, su variante con el cuarto verso heptasílabo—."
 			}
 		]
+	},
+	"sextina-jauralde": {
+		"forma": "Sextina (composición) · Jauralde Pou 2020",
+		"localizador": "Apartado «Sexta rima», entre las estrofas de seis versos",
+		"por_que": "Última laguna de la fase 4. Jauralde promete espacio aparte a la sextina y se lo da, pero bajo el epígrafe «Sexta rima», mientras que el que titula «Sextina real» describe otra estrofa. Comprobado en el epub, donde los dos son h3 y el volcado no los distingue. Aprobado por David.",
+		"resumen": "La cuenta entre «las variedades históricamente más importantes» a las que promete «espacio aparte», junto a la endecha real y la copla de pie quebrado. Ese espacio existe, pero **lo titula «Sexta rima»**, y bajo ese rótulo cita la definición de Domínguez Caparrós —«poema de treinta y nueve endecasílabos, dividido en seis estrofas de seis versos y un remate de tres versos. Los versos de cada una de las estrofas no riman entre sí, pero todos los versos repiten la misma palabra final de los versos de las otras estrofas en un orden distinto»— y sigue su historia: «utilizada por algunos poetas del siglo XVI, como Fernando de Herrera; retomada modernamente por algunos versificadores hábiles, como Gerardo Diego en su *Fábula de Equis y Zeda* o en el *Madrigal a Conchita Cintrón*», y anota que el uso de Jaime Gil de Biedma en *Apología y petición* «ha provocado su relativa frecuencia entre poetas actuales». El epígrafe «Sextina real», que lo precede, describe otra estrofa: el sexteto endecasílabo `ABABCC`."
 	}
 }
