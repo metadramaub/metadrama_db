@@ -139,5 +139,137 @@
 				"resumen": "Los llama **octetos-lira** y los trata entre las formas mixtas de las estrofas de ocho versos: «más escasos que las liras con menor número de versos, los octetos-lira aparecen en poetas más tardíos de nuestro Siglo de Oro, por ejemplo, en Quevedo (\"Sencilla significación de afecto amoroso…\") y Góngora». Transcribe de Góngora un octeto de medida `7 7 11 7 7 11 7 11`, y registra otra realización de José Martí, «octeto de seis heptasílabos rematados con dos endecasílabos»."
 			}
 		]
+	},
+	"silencios-a-f": {
+		"forma": "Los dieciocho silencios de las razones A a F",
+		"por_que": "Una fuente que calla no deja hueco en la ficha, y el lector no distingue «no lo dice» de «no lo hemos mirado». Seis razones, y cinco de ellas citables: cada fuente deja de enumerar aliradas donde empieza a llamarlas canción. Aprobado por David.",
+		"celdas": [
+			{
+				"razon": "A",
+				"anio": 1968,
+				"forma": "endecha_real",
+				"localizador": "Capítulo «Definición de las Formas Métricas»",
+				"resumen": "No la registra. Su repertorio no es el de la métrica española sino el de las formas que Lope usa en sus comedias, y lo componen veintiuna entradas entre las que esta no figura."
+			},
+			{
+				"razon": "A",
+				"anio": 1968,
+				"forma": "estrofa_safica",
+				"localizador": "Capítulo «Definición de las Formas Métricas»",
+				"resumen": "No la registra. Su repertorio no es el de la métrica española sino el de las formas que Lope usa en sus comedias, y lo componen veintiuna entradas entre las que esta no figura."
+			},
+			{
+				"razon": "A",
+				"anio": 1968,
+				"forma": "octava_aguda",
+				"localizador": "Capítulo «Definición de las Formas Métricas»",
+				"resumen": "No la registra. Su repertorio no es el de la métrica española sino el de las formas que Lope usa en sus comedias, y lo componen veintiuna entradas entre las que esta no figura."
+			},
+			{
+				"razon": "A",
+				"anio": 1968,
+				"forma": "verso_aislado",
+				"localizador": "Capítulo «Definición de las Formas Métricas»",
+				"resumen": "No la registra. Su repertorio no es el de la métrica española sino el de las formas que Lope usa en sus comedias, y lo componen veintiuna entradas entre las que esta no figura."
+			},
+			{
+				"razon": "B",
+				"anio": 1968,
+				"forma": "cuarteto_lira",
+				"localizador": "Capítulo «Definición de las Formas Métricas», epígrafes «Liras» y «Canción (Canzone)»",
+				"resumen": "No la registra por separado. Su entrada «Liras» describe la de seis versos y anota que «el nombre de lira también se aplica a una estrofa de 5 versos», sin enumerar otras extensiones, porque para ellos la cuestión no se plantea: «todas las liras no son más que formas especializadas de la *canzone*». Su canción, en efecto, son «versos de siete y once sílabas, agrupados en estrofas de 5 a 20 versos»."
+			},
+			{
+				"razon": "B",
+				"anio": 1968,
+				"forma": "octava_lira",
+				"localizador": "Capítulo «Definición de las Formas Métricas», epígrafes «Liras» y «Canción (Canzone)»",
+				"resumen": "No la registra por separado. Su entrada «Liras» describe la de seis versos y anota que «el nombre de lira también se aplica a una estrofa de 5 versos», sin enumerar otras extensiones, porque para ellos la cuestión no se plantea: «todas las liras no son más que formas especializadas de la *canzone*». Su canción, en efecto, son «versos de siete y once sílabas, agrupados en estrofas de 5 a 20 versos»."
+			},
+			{
+				"razon": "B",
+				"anio": 1968,
+				"forma": "novena_lira",
+				"localizador": "Capítulo «Definición de las Formas Métricas», epígrafes «Liras» y «Canción (Canzone)»",
+				"resumen": "No la registra por separado. Su entrada «Liras» describe la de seis versos y anota que «el nombre de lira también se aplica a una estrofa de 5 versos», sin enumerar otras extensiones, porque para ellos la cuestión no se plantea: «todas las liras no son más que formas especializadas de la *canzone*». Su canción, en efecto, son «versos de siete y once sílabas, agrupados en estrofas de 5 a 20 versos»."
+			},
+			{
+				"razon": "B",
+				"anio": 1968,
+				"forma": "decima_lira",
+				"localizador": "Capítulo «Definición de las Formas Métricas», epígrafes «Liras» y «Canción (Canzone)»",
+				"resumen": "No la registra por separado. Su entrada «Liras» describe la de seis versos y anota que «el nombre de lira también se aplica a una estrofa de 5 versos», sin enumerar otras extensiones, porque para ellos la cuestión no se plantea: «todas las liras no son más que formas especializadas de la *canzone*». Su canción, en efecto, son «versos de siete y once sílabas, agrupados en estrofas de 5 a 20 versos»."
+			},
+			{
+				"razon": "C",
+				"anio": 1969,
+				"forma": "cuarteto_lira",
+				"localizador": "§§ 5.4.4.3, 5.4.5.2 y 6.3.6",
+				"resumen": "No la registra. De la serie alirada trata solo dos extensiones, con epígrafe propio cada una: la lira de cinco versos, § 5.4.4.3, y el sexteto-lira, § 5.4.5.2. Lo que pasa de ahí queda en su canción, cuyas estrofas «normalmente oscilaban entre seis y doce» versos."
+			},
+			{
+				"razon": "C",
+				"anio": 1969,
+				"forma": "octava_lira",
+				"localizador": "§§ 5.4.4.3, 5.4.5.2 y 6.3.6",
+				"resumen": "No la registra. De la serie alirada trata solo dos extensiones, con epígrafe propio cada una: la lira de cinco versos, § 5.4.4.3, y el sexteto-lira, § 5.4.5.2. Lo que pasa de ahí queda en su canción, cuyas estrofas «normalmente oscilaban entre seis y doce» versos."
+			},
+			{
+				"razon": "C",
+				"anio": 1969,
+				"forma": "novena_lira",
+				"localizador": "§§ 5.4.4.3, 5.4.5.2 y 6.3.6",
+				"resumen": "No la registra. De la serie alirada trata solo dos extensiones, con epígrafe propio cada una: la lira de cinco versos, § 5.4.4.3, y el sexteto-lira, § 5.4.5.2. Lo que pasa de ahí queda en su canción, cuyas estrofas «normalmente oscilaban entre seis y doce» versos."
+			},
+			{
+				"razon": "C",
+				"anio": 1969,
+				"forma": "decima_lira",
+				"localizador": "§§ 5.4.4.3, 5.4.5.2 y 6.3.6",
+				"resumen": "No la registra. De la serie alirada trata solo dos extensiones, con epígrafe propio cada una: la lira de cinco versos, § 5.4.4.3, y el sexteto-lira, § 5.4.5.2. Lo que pasa de ahí queda en su canción, cuyas estrofas «normalmente oscilaban entre seis y doce» versos."
+			},
+			{
+				"razon": "D",
+				"anio": 2014,
+				"forma": "octava_lira",
+				"localizador": "pp. 190, 199-200 y 214",
+				"resumen": "No la registra. Nombra tres extensiones de la serie alirada —el cuarteto lira, el sexteto lira y el septeto lira— y no pasa de ahí: su estancia empieza en «no menos de nueve» versos."
+			},
+			{
+				"razon": "D",
+				"anio": 2014,
+				"forma": "novena_lira",
+				"localizador": "pp. 190, 199-200 y 214",
+				"resumen": "No la registra. Nombra tres extensiones de la serie alirada —el cuarteto lira, el sexteto lira y el septeto lira— y no pasa de ahí: su estancia empieza en «no menos de nueve» versos."
+			},
+			{
+				"razon": "D",
+				"anio": 2014,
+				"forma": "decima_lira",
+				"localizador": "pp. 190, 199-200 y 214",
+				"resumen": "No la registra. Nombra tres extensiones de la serie alirada —el cuarteto lira, el sexteto lira y el septeto lira— y no pasa de ahí: su estancia empieza en «no menos de nueve» versos."
+			},
+			{
+				"razon": "E",
+				"anio": 2016,
+				"forma": "novena_lira",
+				"localizador": "Entradas «canción alirada», p. 60, y «estancia», p. 163",
+				"resumen": "No la registra, y dice por qué: acota la canción alirada como aquella cuya unidad estrófica «oscila entre los cuatro y ocho versos», y enumera las cinco que la componen —cuarteto-lira, lira garcilasiana, sexteto-lira, septeto alirado y octava alirada—. Una estrofa de nueve queda fuera de esa horquilla, y en la suya entra la estancia, que define como de «no menos de nueve ni más de veinte» versos."
+			},
+			{
+				"razon": "F",
+				"anio": 2020,
+				"forma": "novena_lira",
+				"localizador": "Apartados «Cuartetos mixtos», «Formas mixtas» y «Estancias»",
+				"resumen": "No la registra. Enumera la serie alirada desde el cuarteto hasta el octeto-lira y se detiene ahí, porque a partir de esa extensión la llama de otra manera: define la estancia como estrofa de siete y once sílabas dispuestos de modo aleatorio, «normalmente por encima de los ocho versos (para diferenciarla de las liras)»."
+			},
+			{
+				"razon": "F",
+				"anio": 2020,
+				"forma": "decima_lira",
+				"localizador": "Apartados «Cuartetos mixtos», «Formas mixtas» y «Estancias»",
+				"resumen": "No la registra. Enumera la serie alirada desde el cuarteto hasta el octeto-lira y se detiene ahí, porque a partir de esa extensión la llama de otra manera: define la estancia como estrofa de siete y once sílabas dispuestos de modo aleatorio, «normalmente por encima de los ocho versos (para diferenciarla de las liras)»."
+			}
+		]
 	}
 }
