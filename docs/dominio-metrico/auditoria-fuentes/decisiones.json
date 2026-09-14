@@ -6,6 +6,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 3,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -18,6 +28,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 4,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -30,6 +50,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 3
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -42,6 +72,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (medio)"
@@ -56,6 +96,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -70,6 +122,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -82,6 +144,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -94,6 +166,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -106,7 +188,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -118,6 +212,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -130,6 +234,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -142,6 +256,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -154,6 +278,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -166,6 +300,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -178,6 +322,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"omisión relevante (medio)"
@@ -192,6 +346,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -206,6 +370,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -218,6 +392,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -230,6 +414,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -242,6 +436,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -254,6 +458,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"omisión relevante (medio)"
@@ -268,6 +482,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -280,6 +504,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -291,6 +525,16 @@
 		"sobre": "Pareado",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -303,6 +547,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -315,6 +569,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -327,6 +591,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -339,6 +613,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -353,6 +637,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -365,7 +659,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "observacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -377,6 +683,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -389,6 +705,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -401,6 +727,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -413,6 +749,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -425,6 +771,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -437,6 +793,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -449,6 +815,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -461,6 +837,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (medio)"
@@ -475,6 +861,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -487,6 +883,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (medio)"
@@ -501,6 +907,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"atribución cruzada (grave)"
@@ -515,6 +931,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)"
@@ -529,6 +955,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -541,6 +977,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -553,6 +999,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -567,6 +1023,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -579,6 +1045,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -591,6 +1067,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -602,6 +1088,16 @@
 		"sobre": "Silva",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -614,6 +1110,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (medio)"
@@ -628,6 +1134,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -640,6 +1156,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -652,6 +1178,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -664,6 +1200,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -676,6 +1222,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -688,6 +1244,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -700,6 +1266,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -712,6 +1288,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -724,6 +1310,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 2
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -735,6 +1331,16 @@
 		"sobre": "Asonancia en los versos pares",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -747,6 +1353,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -759,6 +1375,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 4,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -773,6 +1399,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 2
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)"
@@ -787,6 +1423,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 2
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -801,6 +1447,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -815,6 +1471,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"localizador falso (medio)",
@@ -830,7 +1496,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "observacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -842,6 +1520,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -854,6 +1542,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -866,6 +1564,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -877,7 +1585,19 @@
 		"sobre": "Endecha real · Heptasílaba con endecasílabo final",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -889,7 +1609,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -901,6 +1633,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -913,6 +1655,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -927,6 +1679,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -941,7 +1705,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -953,7 +1729,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -965,7 +1753,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -977,6 +1777,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"mezcla (grave)"
@@ -991,7 +1801,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -1003,6 +1825,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1015,7 +1847,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -1027,6 +1871,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1039,6 +1893,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1053,6 +1917,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1066,6 +1940,18 @@
 		"sobre": "Septeto-lira",
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"omisión relevante (medio)"
@@ -1080,6 +1966,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1094,7 +1990,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -1106,6 +2014,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1118,6 +2036,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1132,6 +2060,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"mezcla (grave)"
@@ -1146,7 +2084,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -1158,6 +2108,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1170,7 +2130,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -1182,6 +2154,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -1195,6 +2179,16 @@
 		"sobre": "Terceto",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1207,6 +2201,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -1221,6 +2225,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1233,6 +2247,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1245,6 +2269,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 2
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1259,6 +2293,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1273,6 +2317,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)",
@@ -1289,6 +2343,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 3
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"omisión relevante (medio)",
@@ -1304,6 +2368,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1318,6 +2392,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1332,6 +2416,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"convención rota (leve)",
@@ -1347,6 +2441,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -1361,6 +2465,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)",
@@ -1376,6 +2490,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1388,6 +2512,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1400,6 +2534,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)",
@@ -1415,6 +2559,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)",
@@ -1430,6 +2584,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1442,6 +2606,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 1,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"localizador falso (medio)",
@@ -1457,6 +2631,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1471,6 +2655,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1483,6 +2677,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1497,6 +2701,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -1511,6 +2725,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 7,
+			"esquemas_sin_rastro": 3,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1523,6 +2747,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1534,6 +2768,16 @@
 		"sobre": "Redondilla enlazada",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1546,6 +2790,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1557,6 +2811,16 @@
 		"sobre": "Romance · Endecasílabo",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1569,6 +2833,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 2
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)",
@@ -1584,6 +2858,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"mezcla (grave)",
@@ -1599,6 +2883,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 3,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1611,6 +2905,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1623,6 +2927,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1635,6 +2949,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)",
@@ -1650,7 +2974,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -1662,6 +2998,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -1676,6 +3022,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -1690,6 +3046,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1702,7 +3068,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -1714,6 +3092,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)",
@@ -1729,6 +3117,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"mezcla (grave)"
@@ -1743,6 +3141,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)",
@@ -1758,6 +3168,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (leve)"
@@ -1772,6 +3192,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 3,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1784,6 +3214,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 8,
+			"esquemas_sin_rastro": 2,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1796,6 +3236,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1808,6 +3258,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 4,
+			"esquemas_sin_rastro": 3,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -1820,6 +3280,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"localizador falso (medio)",
@@ -1835,6 +3305,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1847,6 +3327,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "corregido",
@@ -1859,6 +3349,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"convención rota (leve)"
@@ -1873,6 +3375,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "corregido",
@@ -1885,6 +3397,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1897,6 +3419,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1909,6 +3441,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)",
@@ -1924,6 +3468,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (medio)"
@@ -1938,6 +3492,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1950,6 +3514,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1961,6 +3535,16 @@
 		"sobre": "Lira",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 4,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1973,6 +3557,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "corregido",
@@ -1985,6 +3579,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -1997,6 +3601,16 @@
 		"veredicto": "duda_filologica",
 		"veredicto_efectivo": "duda_filologica",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "filologico",
 		"defectos": [],
 		"estado": "corregido",
@@ -2009,6 +3623,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"convención rota (leve)"
@@ -2023,6 +3647,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 7,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2035,6 +3669,16 @@
 		"veredicto": "no confirmado",
 		"veredicto_efectivo": "no confirmado",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2047,7 +3691,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -2059,6 +3715,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2071,6 +3737,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2083,6 +3759,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -2097,6 +3785,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2109,6 +3807,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -2122,6 +3830,16 @@
 		"sobre": "Septilla enlazada",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2134,6 +3852,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 5,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -2146,6 +3874,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2158,6 +3896,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2170,6 +3918,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2182,6 +3940,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2194,6 +3962,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2206,6 +3984,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2218,6 +4006,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2230,6 +4028,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2242,6 +4050,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2253,6 +4071,16 @@
 		"sobre": "Villancico",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "corregido",
@@ -2265,6 +4093,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "corregido",
@@ -2277,6 +4115,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 1,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2289,6 +4137,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"atribución cruzada (grave)",
@@ -2304,6 +4162,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 9,
+			"esquemas_sin_rastro": 3,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2316,6 +4184,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2328,6 +4206,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 10,
+			"esquemas_sin_rastro": 9,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -2342,6 +4230,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 4,
+			"esquemas_sin_rastro": 4,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2354,6 +4252,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -2368,6 +4276,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -2382,6 +4302,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2394,6 +4324,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2406,6 +4346,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2418,6 +4368,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2430,6 +4390,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2442,6 +4412,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -2454,6 +4434,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2466,6 +4456,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)"
@@ -2480,6 +4480,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 6,
+			"esquemas_sin_rastro": 4,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"convención rota (leve)"
@@ -2494,6 +4504,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2506,6 +4526,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2518,6 +4548,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 1,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -2532,6 +4572,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)"
@@ -2546,6 +4596,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2558,6 +4618,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2570,6 +4640,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 1,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2582,6 +4662,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2594,6 +4684,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2606,6 +4706,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2618,6 +4728,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 4,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -2632,6 +4754,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2644,6 +4776,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2656,6 +4798,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (medio)"
@@ -2670,6 +4822,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2682,6 +4844,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"fondo"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 5,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": true,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"mezcla (grave)"
@@ -2695,6 +4869,16 @@
 		"sobre": "Septeto-lira",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 16,
+			"esquemas_sin_rastro": 5,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2707,6 +4891,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2719,6 +4913,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 8,
+			"esquemas_sin_rastro": 5,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -2733,6 +4937,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 7,
+			"esquemas_sin_rastro": 3,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -2745,6 +4959,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 10,
+			"esquemas_sin_rastro": 5,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 3
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2757,6 +4981,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -2771,6 +5005,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2783,6 +5027,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 4,
+			"esquemas_sin_rastro": 2,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"cita literal inexacta (medio)",
@@ -2799,6 +5053,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2811,6 +5075,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2823,6 +5097,16 @@
 		"veredicto": "duda_filologica",
 		"veredicto_efectivo": "duda_filologica",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 7,
+			"esquemas_sin_rastro": 2,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "filologico",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2835,6 +5119,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 5,
+			"esquemas_sin_rastro": 2,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2847,6 +5141,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 4,
+			"esquemas_sin_rastro": 3,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2859,6 +5163,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 10,
+			"esquemas_sin_rastro": 5,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2871,6 +5185,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2883,7 +5207,20 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "observacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material",
+			"fondo"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "fondo",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -2894,6 +5231,16 @@
 		"sobre": "Villancico",
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 7,
+			"esquemas_sin_registrar": 7,
+			"esquemas_sin_rastro": 5,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -2908,6 +5255,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 5,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2920,6 +5277,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2932,6 +5299,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 1,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -2946,6 +5325,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -2960,6 +5349,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 1,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -2972,6 +5371,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"mezcla (grave)"
@@ -2986,6 +5395,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -2998,6 +5417,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3010,6 +5439,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)"
@@ -3024,6 +5463,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3036,6 +5485,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -3050,6 +5509,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"endurecimiento (grave)"
@@ -3064,7 +5533,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -3075,6 +5556,18 @@
 		"sobre": "Octava aguda",
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 1,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)",
@@ -3090,6 +5583,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3102,6 +5605,18 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "fondo",
 		"defectos": [
 			"invención (grave)"
@@ -3116,6 +5631,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3128,7 +5653,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -3140,6 +5677,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -3154,7 +5701,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "limpio",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
 		"nota": ""
@@ -3165,6 +5724,16 @@
 		"sobre": "Romance",
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3177,6 +5746,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3189,6 +5768,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3201,7 +5790,19 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
-		"cubo": "confirmacion",
+		"lectura_ciega": true,
+		"contradice_b": [
+			"material"
+		],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
+		"cubo": "material",
 		"defectos": [],
 		"estado": "pendiente",
 		"nota": ""
@@ -3213,6 +5814,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3225,6 +5836,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 1
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3237,6 +5858,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3249,6 +5880,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3261,6 +5902,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": true,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3273,6 +5924,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "confirmacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3285,6 +5946,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3297,6 +5968,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"localizador falso (medio)"
@@ -3311,6 +5992,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3323,6 +6014,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 0,
+			"esquemas_sin_registrar": 1,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -3337,6 +6038,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 3,
+			"esquemas_sin_rastro": 3,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "limpio",
 		"defectos": [],
 		"estado": "no requiere revisión",
@@ -3349,6 +6060,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
@@ -3361,6 +6082,16 @@
 		"veredicto": "defecto",
 		"veredicto_efectivo": "defecto",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 1,
+			"esquemas_sin_registrar": 0,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 0
+		},
 		"cubo": "material",
 		"defectos": [
 			"anclaje equivocado (medio)"
@@ -3375,6 +6106,16 @@
 		"veredicto": "conforme",
 		"veredicto_efectivo": "conforme",
 		"comprobado_a_mano": null,
+		"lectura_ciega": true,
+		"contradice_b": [],
+		"senales": {
+			"matices": 2,
+			"esquemas_sin_registrar": 2,
+			"esquemas_sin_rastro": 0,
+			"anclaje": false,
+			"nombra_otra_fuente": false,
+			"tiradas_compartidas": 2
+		},
 		"cubo": "observacion",
 		"defectos": [],
 		"estado": "pendiente",
