@@ -30,10 +30,11 @@ de lo demás. Por eso van primero.
 - [x] **Dos fichas tituladas «Sextina».** Resuelto sin tocar la base: el nombre lleva el nivel
       detrás solo cuando otra forma se llama igual, y solo donde el nombre viaja sin la página
       —título de pestaña y miga de pan—.
-- [ ] **La novena-lira y la frontera alirada/canción.** Abierto: los dos esquemas de nueve versos
-      de Navarro admiten lectura como canción y como alirada, y él los pone entre las aliradas. →
-      decisión filológica, abajo. Una parte no espera a esa decisión: la frase «ni le da nombre» de
-      su definición es falsa en cualquier caso.
+- [x] **La novena-lira deja de decir que ninguna fuente la describe.** Migración `20260917210000`:
+      gana su primera afirmación, la del § 161 de Navarro, con los dos esquemas **en la voz de la
+      fuente y no como esquemas de la arquitectura**, porque a qué forma pertenecen lo decide el IP.
+      La frontera alirada/canción queda documentada con lo que dice cada una de las seis en
+      [cuestiones para el IP](../cuestiones-para-el-ip.md), «Canción petrarquista» 6 a 8.
 - [ ] **La décima-lira y su esquema fijo.** Sin examinar todavía. Hay que aplicarle la misma prueba
       que a la novena antes de dar nada por laguna.
 
@@ -55,8 +56,7 @@ se aprueban en tandas, como el cubo material.
 | 8 | Décima-lira · *Diccionario* 2016 — **sin examinar**: aplicarle antes la prueba de la novena |
 | 9 | Versificación irregular · Quilis 1969 |
 
-Y una **décima**, la novena-lira · Navarro 1972, que **no es laguna hasta que el IP cierre la
-frontera** entre alirada y canción.
+
 
 Y **los veinte silencios justificados**, que hay que dejar escritos para que la ficha pública
 distinga entre «no lo dice» y «no lo hemos mirado».
