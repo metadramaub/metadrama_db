@@ -251,6 +251,19 @@ en ninguna parte.
 **Ninguna de las dos debería publicarse sin fuente**, con su sección «Lo que dicen las fuentes»
 vacía, teniendo el pasaje localizado.
 
+### Y un pasaje que nos toca de lleno y no recoge nadie
+
+La entrada «soneto» del *Diccionario* (pp. 409-410) cierra así: **«El soneto es una forma propia de
+la poesía lírica, y difícilmente se encontrará en las partes dialogadas del teatro.»** Es una
+afirmación sobre el soneto **en el teatro**, en una base de datos de verso dramático, y ninguna de
+las dos afirmaciones que cuelgan de esa entrada la recoge.
+
+Salió al releer a ciegas la del soneto —la única de las 267 cuya transcripción no era una
+transcripción, sino una nota que remitía a otra ficha—. La relectura confirmó que lo que sí
+recogíamos era exacto, palabra por palabra, y de paso enseñó lo que se había quedado fuera. **Es
+el argumento de la fase 4 en una línea: comprobar que una afirmación dice la verdad no comprueba
+que diga todo lo que la fuente dice de nosotros.**
+
 ### Las tres comprobaciones que miran la columna, no el texto
 
 `npm run senales:mecanicas`, sobre las **267**. Salieron de los tres huecos que dejó la muestra
