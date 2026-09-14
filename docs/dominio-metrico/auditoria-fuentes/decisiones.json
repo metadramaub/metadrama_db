@@ -262,14 +262,14 @@
 			"matices": 2,
 			"esquemas_sin_registrar": 1,
 			"esquemas_sin_rastro": 0,
-			"anclaje": true,
+			"anclaje": false,
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 0
 		},
 		"cubo": "limpio",
 		"defectos": [],
-		"estado": "no requiere revisión",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
 	},
 	{
 		"id": "b9107b9b",
@@ -284,14 +284,14 @@
 			"matices": 2,
 			"esquemas_sin_registrar": 1,
 			"esquemas_sin_rastro": 0,
-			"anclaje": true,
+			"anclaje": false,
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 1
 		},
 		"cubo": "observacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
 	},
 	{
 		"id": "b32dd1f7",
@@ -1094,14 +1094,14 @@
 			"matices": 0,
 			"esquemas_sin_registrar": 0,
 			"esquemas_sin_rastro": 0,
-			"anclaje": true,
+			"anclaje": false,
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 0
 		},
 		"cubo": "limpio",
 		"defectos": [],
-		"estado": "no requiere revisión",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
 	},
 	{
 		"id": "871a22ab",
@@ -3474,7 +3474,7 @@
 			"matices": 1,
 			"esquemas_sin_registrar": 2,
 			"esquemas_sin_rastro": 0,
-			"anclaje": true,
+			"anclaje": false,
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 0
 		},
@@ -3482,8 +3482,8 @@
 		"defectos": [
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
 	},
 	{
 		"id": "bf669381",
@@ -4308,14 +4308,14 @@
 			"matices": 2,
 			"esquemas_sin_registrar": 1,
 			"esquemas_sin_rastro": 0,
-			"anclaje": true,
+			"anclaje": false,
 			"nombra_otra_fuente": false,
 			"tiradas_compartidas": 0
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
 	},
 	{
 		"id": "886b9735",
