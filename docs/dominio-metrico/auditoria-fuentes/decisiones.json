@@ -4217,8 +4217,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917160000. La cita de apertura abre el rótulo «Doble sextilla» del § 67, la variedad de versos plenos; la manriqueña con quebrado es el § 68, de donde sale el resto de la ficha."
 	},
 	{
 		"id": "62e8c279",
@@ -4559,8 +4559,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917160000. «Su cultivo no prosperó hasta después de mediados de siglo» es del § 67 y estaba al final, con lo del § 68. Se mueve a su sitio y se cita como el libro la escribe."
 	},
 	{
 		"id": "e7df73d9",
@@ -4741,8 +4741,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917160000. La segunda frase no estaba en el § 25 ni en ninguna parte, y la cita que A proponía como su origen tampoco existe. Entra lo que el § 24 sí dice: que ha prevalecido la costumbre de imprimir los romances como composiciones octosilábicas."
 	},
 	{
 		"id": "22c63f36",
@@ -4809,8 +4809,8 @@
 		"defectos": [
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917160000. El ejemplo de Lope se citaba corrido y el original lo imprime con rayas, que son lo que marca los tres versos del 5-7-5."
 	},
 	{
 		"id": "738e37aa",
