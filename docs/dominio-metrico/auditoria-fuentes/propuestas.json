@@ -19,15 +19,15 @@
 	},
 	"e708120e": {
 		"forma": "Octava aguda · Quilis 1969",
-		"por_que": "La ficha decía que Quilis «no la separa de las demás estrofas de ocho versos» y que las trata todas bajo «octavilla». Es falso: le da epígrafe numerado y nombre propios. Comprobado en la hoja 54 del PDF, p. 107. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"por_que": "La ficha decía que Quilis «no la separa de las demás estrofas de ocho versos» y que las trata todas bajo «octavilla». Es falso: tiene epígrafe y nombre propios en el § 5.4.7.3, comprobado en la hoja 54 del PDF, p. 107. El texto nuevo se limita a decir lo que la fuente dice, sin señalar que sí le da epígrafe: las ausencias se señalan, las presencias se cuentan. Criterio de David, 15 de septiembre de 2026.",
 		"localizador": "§ 5.4.7.3, p. 107",
-		"resumen": "Le da epígrafe y nombre propios —«Octava italiana u octava aguda»—, la fecha en el Neoclasicismo con su mayor difusión en el Romanticismo, y da como combinación de rima `ABBC'DEEC`, con el cuarto y el octavo versos agudos y a veces heptasílabos en lugar de endecasílabos."
+		"resumen": "La llama «octava italiana u octava aguda», la fecha en el Neoclasicismo y sitúa su mayor difusión y popularidad en el Romanticismo. Da como combinación de su rima `ABBC'DEEC`, con el cuarto y el octavo versos agudos, y anota que a veces son heptasílabos en lugar de endecasílabos."
 	},
 	"8e712f47": {
 		"forma": "Copla castellana · Quilis 1969",
-		"por_que": "La ficha dice que Quilis la trata «bajo octavilla, junto a la copla de arte menor». Ninguno de los dos nombres —«copla castellana» y «copla de arte menor»— aparece una sola vez en el libro (grep sobre el volcado entero, 0 ocurrencias), ni en su índice terminológico. Lo que hay en el § 5.4.7.4 es UNA estrofa, la octavilla. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"localizador": "§ 5.4.7.4, pp. 107-108",
-		"resumen": "No emplea el nombre de copla castellana, ni el de copla de arte menor: su estrofa de ocho versos es la **octavilla**, que hace derivar de la duplicación de una redondilla o de la combinación de dos, porque durante la Edad Media la redondilla «no tuvo vida independiente». De su rima dice que «suele ser» `abbecdde` o `ababbccb`, y la ejemplifica con el Marqués de Santillana. En el mismo epígrafe trata aparte las coplas de pie quebrado, que nacen al alternar los octosílabos con versos de cuatro sílabas, muy difundidas en el siglo XV y principios del XVI, y cita el *Diálogo de Bías contra Fortuna* y los *Proverbios morales* de Santillana."
+		"por_que": "Quilis no describe la copla castellana. Ni ese nombre ni «copla de arte menor» aparecen en el libro, y los dos esquemas que da para su «octavilla» comparten una rima entre las dos mitades, que es justo lo que el catálogo usa para excluir la castellana. La afirmación pasa de citar a declarar un silencio. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"localizador": "§ 5.4.7.4, «Octavilla», pp. 108-109",
+		"resumen": "No la registra con ese nombre. Su estrofa de ocho versos es la **octavilla**, que hace derivar de la duplicación de una redondilla o de la combinación de dos, porque durante la Edad Media la redondilla «no tuvo vida independiente». De su rima dice que «suele ser» `abbecdde` o `ababbccb`, y la ejemplifica con el Marqués de Santillana, cuya estrofa realiza el segundo esquema. En el mismo epígrafe trata las coplas de pie quebrado, que nacen al alternar los octosílabos con versos de cuatro sílabas, muy difundidas en el siglo XV y principios del XVI, y cita el *Diálogo de Bías contra Fortuna* y los *Proverbios morales* de Santillana."
 	},
 	"45f13be6": {
 		"forma": "Copla manriqueña · Quilis 1969",
@@ -43,9 +43,9 @@
 	},
 	"f4f86489": {
 		"forma": "Lira · Quilis 1969",
-		"por_que": "Endurecimiento en un dato de autoría histórica, que es donde más importa el matiz: Quilis escribe «Parece que este tipo de estrofa fue ideada en Italia por BERNARDO DE TASSO, e introducida en España por GARCILASO DE LA VEGA», y la ficha lo daba como atribución firme. Comprobado en la línea 1189. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"por_que": "Endurecimiento en un dato de autoría histórica: Quilis escribe «Parece que…» y la ficha lo daba como atribución firme. El texto nuevo dice el dato con su cautela, sin explicar la corrección: quien lea la ficha no ha visto la versión anterior. Criterio de David, 15 de septiembre de 2026.",
 		"localizador": "pp. 100-101",
-		"resumen": "Da el origen de la estrofa como conjetura y no como hecho: «parece que este tipo de estrofa fue ideada en Italia por Bernardo de Tasso, e introducida en España por Garcilaso de la Vega»."
+		"resumen": "Da como origen posible de la estrofa a Bernardo de Tasso en Italia, y su introducción en España a Garcilaso de la Vega: «parece que este tipo de estrofa fue ideada en Italia por BERNARDO DE TASSO, e introducida en España por GARCILASO DE LA VEGA»."
 	},
 	"236c4eee": {
 		"forma": "Oncena · Quilis 1969",
