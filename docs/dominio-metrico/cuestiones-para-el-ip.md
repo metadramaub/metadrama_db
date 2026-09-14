@@ -227,37 +227,64 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    abierto; si no lo fijan, queda abierto de veras y habrá que registrarlo al anotar, como todo lo
    que la norma no fija.*
 
-6. **¿Basta el verso que repite rima para separar canción de alirada, o hace falta además una sirima
-   con cuerpo?** Salió al auditar las fuentes el 17 de septiembre de 2026, y es la misma frontera del
-   punto 3 vista desde arriba.
+6. **¿Dónde está la frontera entre estrofa alirada y canción?** Salió al auditar las fuentes el 17
+   de septiembre de 2026, y es la misma frontera del punto 3 vista de cerca.
 
-   El catálogo la pone en el **eslabón**, y lo modela como sección propia: la estancia regular es
-   `abCabC:cdeeDfF`, repartida en fronte (6) + eslabón (1) + sirima (6). La definición de la forma
-   dice que «cuando una estrofa de siete y once repite la cabeza pero no trae eslabón, **la tradición**
-   y este catálogo la llaman alirada y no canción».
+   **Lo que hace hoy el catálogo.** La pone en el **eslabón**, y lo modela como sección propia: la
+   estancia regular es `abCabC:cdeeDfF`, repartida en fronte (6) + eslabón (1) + sirima (6). La
+   definición de la canción dice que «cuando una estrofa de siete y once repite la cabeza pero no
+   trae eslabón, **la tradición** y este catálogo la llaman alirada y no canción». Se eligió porque
+   el proyecto necesita un criterio que no admita ambigüedad al anotar.
 
-   **La tradición que se invoca clasifica al revés un caso concreto.** El § 161 de Navarro Tomás se
-   titula «Estrofas aliradas» y dentro de él, tras las de ocho versos que el catálogo ya recoge como
-   octava-lira —`abCabCdD` de Jáuregui, `ABcABcDD` de Cervantes en *La entretenida*—, describe dos de
-   nueve como «**una nueva reelaboración de este modelo**»: `abCabCcdD`, de Figueroa, y `AbCAbCcdD`,
-   de Góngora. En las dos, el verso séptimo repite la rima con que se cierra la cabeza.
+   **Qué dice cada fuente.** Ninguna de las seis usa el eslabón como criterio, y las dos que lo
+   describen dicen expresamente que no lo es.
 
-   Aplicando la regla al pie de la letra, son canciones. Pero el argumento se sostiene mal por dos
-   sitios: **que una rima se repita no informa de nada** —la fronte repite `abC` por definición y la
-   sirima `cdeeDfF` repite la `e`—, y **lo que sigue al verso séptimo es `dD`**, el pareado final que
-   la octava-lira declara como «una condición que no falla», no una sirima de seis versos.
+   | fuente | qué establece |
+   | --- | --- |
+   | Morley y Bruerton 1968 | Ningún criterio. Su «Canción (Canzone)» son «versos de siete y once sílabas, agrupados en estrofas **de 5 a 20 versos**, con un tipo de rima fijo, idéntico en cada estrofa». Su ejemplo en endecasílabos, `ABCABCDD` de *Barlaán y Josafat*, tiene **ocho versos, pareado final y ningún eslabón**, y lo llaman canción |
+   | Quilis 1969, § 6.3.6 | Ningún criterio, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». La estrofa oscila «normalmente entre seis y doce» |
+   | Navarro Tomás 1972, § 161 | No enuncia ninguno. Su epígrafe «Estrofas aliradas» llega hasta las de **nueve versos**. Lo único que distingue es su notación: escribe la estancia con dos puntos —`abCabC: cdeeDfF`, la canción quinta de Herrera, § 157— y las aliradas sin ellos, la de nueve incluida |
+   | Domínguez Caparrós 2014, p. 214 | **La extensión**: la estancia tiene «no menos de nueve ni más de veinte, normalmente». Del eslabón dice que «**aunque no es obligatorio**, es frecuente» que la estancia se ajuste a fronte + eslabón + sirima |
+   | *Diccionario* 2016, s. v. «estancia» y «canción alirada» | Lo mismo, palabra por palabra. Y define la **canción alirada** como «**canción a la italiana** cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada no se opone a la canción, **es una canción** |
+   | Jauralde Pou 2020 | **La extensión**: la estancia son versos de 7 y 11 «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)» |
 
-   *Si se decide que hace falta sirima con cuerpo, estas dos son aliradas de nueve versos y la
-   novena-lira gana su primera fuente. Si se decide que basta el verso que repite, son canciones y
-   van a la arquitectura de estancias variables, no a la regular de trece. En cualquiera de los dos
-   casos hay que reescribir la frase «la tradición y este catálogo la llaman alirada», y la de la
-   novena-lira que dice que ninguna fuente «le da nombre».*
+   **Las tres que dan un criterio dan el mismo, y coinciden en el umbral: nueve versos.** Caparrós y
+   el *Diccionario*, «no menos de nueve»; Jauralde, «por encima de los ocho».
 
-7. **¿«Petrarquista» nombra la forma o solo la estancia de trece versos?** Si es lo segundo, la forma
-   debería llamarse «Canción» a secas y el apellido quedarse en esa arquitectura, para que la de
-   estancias variables no cargue con un nombre que no le corresponde. La definición ya advierte que
-   «"canción" a secas designa esta forma italiana, no la medieval del siglo XV», así que el nombre
-   corto está libre de ambigüedad dentro del catálogo.
+   **El caso que lo destapó cae justo en ese umbral.** El § 161 de Navarro, dentro de su epígrafe de
+   aliradas, describe dos estrofas de **nueve** versos como «una nueva reelaboración de este modelo»,
+   siendo el modelo las de ocho que el catálogo ya recoge como octava-lira: `abCabCcdD`, de Figueroa
+   en su imitación de *Oh, navis*, y `AbCAbCcdD`, en la poesía 120 de Góngora. Por extensión son
+   estancias —nueve versos— y por clasificación de Navarro son aliradas. **Los dos criterios chocan
+   exactamente ahí.**
+
+   *Y el choque no afecta solo a un caso: si el criterio pasa a ser la extensión, la **novena-lira**
+   (9) y la **décima-lira** (10) quedan dentro de lo que tres fuentes llaman estancia, mientras que
+   la octava-lira (8) y las menores siguen a salvo por debajo del umbral.*
+
+   *Las preguntas, entonces: si el criterio del catálogo debe seguir siendo el eslabón, que ninguna
+   fuente sostiene y dos niegan expresamente; si debe ser la extensión, que tres sostienen y sitúan
+   en nueve; o si debe ser mixto. Y en cualquier caso, la frase «la tradición y este catálogo la
+   llaman alirada» no puede quedarse: el criterio es del proyecto y conviene que la definición lo
+   diga como tal.*
+
+7. **¿«Petrarquista» nombra la forma o solo la estancia de trece versos?** Ninguna fuente lo reserva
+   para una extensión: las tres que usan el término lo aplican a la forma entera y lo glosan como
+   sinónimo. Caparrós 2014: «La canción **petrarquista o italiana** está compuesta de estancias». El
+   *Diccionario* lo trae como **entrada de remisión** —«canción petrarquista. canción a la italiana»—,
+   siendo «canción a la italiana» la entrada real. Jauralde: «La canción petrarquista **o italiana o,
+   sencillamente, canción**», y antes «con el término simple "canción" nos solemos referir a la
+   canción petrarquista».
+
+   *De modo que bajar el apellido a la arquitectura de trece versos sería invención nuestra. Lo que
+   sí tiene respaldo es al revés: «Canción» a secas es el epígrafe de Morley y Bruerton, el de Quilis
+   y el de Navarro, y Jauralde lo autoriza. Si se renombra la forma «Canción», «canción
+   petrarquista», «canción italiana» y «canción a la italiana» quedan como denominaciones suyas, y la
+   definición ya advierte de que el nombre corto no designa aquí la canción medieval del siglo XV.*
+
+8. **«Regular de 13 versos» es nombre de Morley y Bruerton, y conviene que se sepa.** Ellos lo
+   declaran: «El tipo más corriente en Lope, **llamado "regular" por nosotros**, tiene 13 versos como
+   sigue: `abCabC:cdeeDfF`». *La arquitectura lleva bien ese nombre; lo que no dice es de quién es.*
 
 ## Villancico
 

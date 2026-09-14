@@ -46,5 +46,13 @@
 		"localizador": "pp. 199-200",
 		"por_que": "Cuarta ficha de Caparrós con el localizador ajeno «Índice de estrofas», que es un epígrafe de Navarro Tomás. La pasada A la había dado por conforme; la encontró la guarda de 20260917170000. Su prosa es exacta y no se toca. Aprobado por David.",
 		"resumen": "No la registra. Al tratar las estrofas de siete versos no contempla que la rima pase de una a la siguiente."
+	},
+	"novena-lira": {
+		"forma": "Novena-lira · Navarro Tomás 1972",
+		"localizador": "§ 161, «Estrofas aliradas», pp. 256-257",
+		"por_que": "Primera laguna de la fase 4 que se escribe. La forma no tenía ninguna fuente y su definición decía que ninguna la describía «ni le daba nombre»; Navarro la describe dentro de su epígrafe «Estrofas aliradas». Los dos esquemas van en la afirmación y no como esquemas de rima de la arquitectura, porque a qué forma pertenecen depende de dónde se ponga la frontera entre alirada y canción, que decide el IP. Aprobado por David.",
+		"resumen": "La describe dentro de su epígrafe «Estrofas aliradas» y la presenta como «una nueva reelaboración de este modelo», siendo el modelo las dos estrofas aliradas de ocho versos que acaba de describir —la de Jáuregui en su traducción de *Sic te, dive*, `abCabCdD`, y la de Cervantes en una escena de *La entretenida*, `ABcABcDD`—. Da dos disposiciones de nueve: `abCabCcdD`, que Francisco de Figueroa emplea en su imitación de la oda horaciana *Oh, navis*, y `AbCAbCcdD`, la misma bajo otra forma, en la poesía 120 de Góngora.",
+		"definicion": "Estrofa de nueve versos que mezcla endecasílabos y heptasílabos en proporción variable y rima en consonante, sin que la norma fije cómo se reparten las rimas. Pertenece a la serie de las estrofas aliradas: tiene la materia de la canción italiana —siete y once consonantes, repetidos sin cambio de una estrofa a otra— y no se ordena como una estancia, porque no trae eslabón. Navarro Tomás la describe entre las estrofas aliradas y documenta dos disposiciones.",
+		"descripcion_arquitectura": "Nueve versos de siete y once sílabas en proporción variable, con rima consonante. La norma no fija ni cuántos versos son de cada medida ni cómo se reparten las rimas, de modo que lo único que declara son la extensión, la materia y el régimen."
 	}
 }
