@@ -170,8 +170,15 @@ function queDecidir(d, clave) {
 	if (clave === 'observacion') return 'Mirar si el matiz señalado tiene que entrar en la ficha.';
 	const tipos = new Set((d.defectos ?? []).map((f) => f.tipo));
 	const roces = contradiceB(d).map((r) => r.que);
+	// **«Anclaje equivocado» se ha usado en dos sentidos, y solo uno es el de la taxonomía.**
+	// El plan lo define como colgar de la forma o la arquitectura que no es —un cambio de columna,
+	// sin tocar prosa—. Pero los dieciocho dictámenes que lo llevan describen otra cosa: una
+	// cláusula de la afirmación viene de un § o una página distintos de los que se citan. Eso es de
+	// la familia del localizador, y arreglarlo obliga a partir el localizador o a recortar la
+	// afirmación: **sí se toca el texto**. Mientras los dictámenes no se reetiqueten, la ficha dice
+	// lo que hay que hacer de verdad en vez de repetir la etiqueta.
 	if (tipos.has('anclaje equivocado'))
-		return 'Cambiar de qué cuelga la afirmación. La prosa no se toca.';
+		return 'Parte de la afirmación viene de otro pasaje: partir el localizador o recortar el texto.';
 	if (tipos.has('localizador falso') || roces.length)
 		return 'Corregir el localizador. La prosa no se toca.';
 	return 'Arreglo material: se corrige sin juicio de por medio.';

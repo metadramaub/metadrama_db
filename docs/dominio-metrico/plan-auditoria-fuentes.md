@@ -87,6 +87,13 @@ Sin esta lista, dos verificadores devuelven veredictos que no se pueden comparar
    Cuenta doble cuando lo callado contradice al catálogo.
 8. **Anclaje equivocado.** Cuelga de la forma o la arquitectura que no es.
 
+   **Cuidado: esta etiqueta se ha usado en dos sentidos y solo uno es este.** Las dieciocho
+   afirmaciones que la llevan no cuelgan de la fila equivocada: lo que describen es que **una
+   cláusula viene de un § o una página distintos de los que se citan**, que es de la familia del
+   localizador y obliga a partir el localizador o a recortar el texto. El defecto de columna —el
+   que aquí se define— **no lo detectó ningún verificador**: lo encontró la comprobación mecánica
+   de anclaje, y el caso que lo destapó fue la silva arromanzada.
+
 **Leves — formales**
 
 9. **Convención rota.** Cita por página una fuente que se cita por §, o llama «Entrada» a un
