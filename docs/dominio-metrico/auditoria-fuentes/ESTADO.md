@@ -40,11 +40,20 @@ de lo demás. Por eso van primero.
       queda sin formas mudas**, y la guarda lo exige. Sus esquemas tampoco entran como esquemas de
       rima, por la misma razón que los de la novena.
 
-### 2 · Las nueve lagunas de la fase 4 — **cerradas**
+### 2 · Las lagunas de la fase 4 — **once, y quedan dos por escribir**
 
-Las nueve están escritas, con el pasaje abierto y el localizador comprobado en el original. El
-recorrido está en [fase-4-exhaustividad.md](./fase-4-exhaustividad.md) y las migraciones van de
+Nueve están escritas, con el pasaje abierto y el localizador comprobado en el original. El recorrido
+está en [fase-4-exhaustividad.md](./fase-4-exhaustividad.md) y las migraciones van de
 `20260917210000` a `20260918210000`.
+
+**Dos aparecieron al clasificar los silencios, y faltan:**
+
+- **Versificación irregular · Quilis 1969**, §§ 3.0 y 6.4.4. Estaba en la lista de nueve y no se
+  escribió: error de recuento.
+- **Octava-lira · Jauralde 2020**, apartado «Formas mixtas» de las estrofas de ocho versos. **Esta no
+  la vio nadie**: la llama «octetos-lira», y «octeto» no es ninguna de las denominaciones del
+  catálogo, de modo que el contador de menciones no podía encontrarla. Es el tercer fallo del método
+  por el mismo motivo, tras «cuarteto lira» sin guion y «Novena-lira» como nombre nuestro.
 
 Lo que dejaron, además de las afirmaciones:
 
