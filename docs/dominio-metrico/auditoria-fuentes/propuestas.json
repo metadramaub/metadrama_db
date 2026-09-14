@@ -99,5 +99,21 @@
 				"resumen": "Le da epígrafe propio. Plantea la objeción —«si definimos la estrofa como agrupación de versos, no podría existir la estrofa de un solo verso, como no podría denominarse verso a uno solo, si es que no se ha extraído de un conjunto»— y la resuelve: «el verso único puede funcionar como estrofa y como poema, en cada caso, porque se relaciona *in absentia* con versos semejantes». Sitúa su procedencia: «la mayoría de las veces, con todo, el verso único pertenece al género prepoético de los motes, emblemas, refranes, sentencias, pie de glosa, estribillo, etc.». Y distingue el verso suelto que ocupa el lugar de una estrofa dentro de un poema, «muy frecuente en poesía contemporánea», del poema de un solo verso, del que da repertorio por medidas, del bisílabo al endecasílabo y más allá."
 			}
 		]
+	},
+	"cuarteto-lira": {
+		"forma": "Cuarteto-lira · Jauralde 2020 y Caparrós 2014",
+		"por_que": "Dos lagunas de la fase 4. La forma pasa de tres afirmaciones —Navarro y dos del Diccionario— a cinco. Localizadores comprobados en el epub (encabezado h6 propio) y en el PDF (hojas 187 y 188, pies 190 y 191). Aprobado por David.",
+		"afirmaciones": [
+			{
+				"anio": 2020,
+				"localizador": "Apartado «Cuartetos mixtos»",
+				"resumen": "Lo trata dentro de los cuartetos mixtos, que define como las estrofas de endecasílabos con uno o dos versos quebrados —heptasílabos o pentasílabos— derivadas de las clásicas: «la llamada estrofa de la Torre, la estrofa sáfica, la alcaica». Del cuarteto-lira dice que es «combinación de heptasílabos y endecasílabos, con rimas preferentemente consonánticas», y le traza genealogía: «se remontan a las versiones horacianas de fray Luis de León y Medrano; e incluso a la estrofa sáfica (`11A 11B 11B 5a`) o a un intento de imitación de la estrofa alcaica (`11A 11B 7b 7a`)», con larga vida después, recuperados por los poetas del siglo XVIII y explorados en sus posibilidades sonoras durante el Romanticismo. Sobre su uso teatral: «particularmente efectivos fueron sus quiebros para amoldarse a los diálogos teatrales…; hasta Campoamor los empleó para algunas de sus famosas composiciones». Y distingue por la proporción de las medidas: «cuando sobre la misma estructura de cuatro versos impares lo que domina es el heptasílabo sobre el endecasílabo se prefiere hablar de cuartetos de endecha»."
+			},
+			{
+				"anio": 2014,
+				"localizador": "pp. 190-191",
+				"resumen": "Lo encuadra —«el cuarteto lira, una de las estrofas de la canción alirada»— y lo define: «combina heptasílabos y endecasílabos que riman en consonante: `ABAB`, o `ABBA`. Puede encontrarse con rima asonante y con algún verso suelto». Lo ejemplifica con la elegía «A la patria» de Espronceda y, para la asonante en los pares, con la rima XVIII de Bécquer. Y le subordina dos estrofas clásicas: «dos tipos de cuarteto lira son la estrofa sáfica y la estrofa de Francisco de la Torre» —la sáfica, tres endecasílabos y un pentasílabo acentuado en la primera sílaba, normalmente sin rima; la de Francisco de la Torre, su variante con el cuarto verso heptasílabo—."
+			}
+		]
 	}
 }
