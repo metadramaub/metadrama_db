@@ -3365,8 +3365,8 @@
 		"defectos": [
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasadas B y C y mi propia lectura del capítulo V: Morley y Bruerton no registran la copla de arte mayor. El silencio es correcto y el localizador también: un silencio se declara por ámbito, y el ámbito es el capítulo. El defecto de «convención rota» que le puso la pasada A aplica a un silencio una regla que es de las citas."
 	},
 	{
 		"id": "7f74a91b",
@@ -3705,8 +3705,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C leyendo el capítulo V entero: no hay rastro de redondilla enlazada ni de variante encadenada. Corrobora el silencio, que ya daban por bueno las pasadas A y B."
 	},
 	{
 		"id": "2cb2f293",
@@ -6028,8 +6028,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915090000. → «§ 6.3.5, pp. 132-133»: la frase del Barroco está en la 133. Comprobado en la hoja 67, que trae las dos páginas."
 	},
 	{
 		"id": "0bd8c0d2",
@@ -6096,8 +6096,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915090000. → «§§ 6.3.1, p. 121, y 6.3.2, p. 127»: la comparación con el zéjel cierra el § del zéjel, no el del villancico. Comprobado en las hojas 61 y 64."
 	},
 	{
 		"id": "71d1e7df",
