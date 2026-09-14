@@ -1035,8 +1035,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916230000. Tercera ficha con la cláusula copiada sobre el repertorio de enlaces, y la única de las tres que estaba en el cubo de las conformes: la encontró la guarda de la migración anterior al exigir que el catálogo quedara sin rastro de la frase falsa."
 	},
 	{
 		"id": "8769fc48",
