@@ -7,14 +7,20 @@
 	},
 	"97e53fc1": {
 		"forma": "Redondilla · Morley y Bruerton 1968",
-		"por_que": "El catálogo afirmaba que «no incluyen la cruzada, que tratan aparte». No podemos sostener que la traten en otra parte del libro, porque no hemos leído otra parte del libro: solo tenemos el capítulo V. La afirmación se acota a lo comprobable, que es que su definición no la recoge. Criterio de David, 11 de septiembre de 2026.",
+		"por_que": "El catálogo afirmaba que «no incluyen la cruzada, que tratan aparte», y eso no se puede sostener: de Morley y Bruerton solo tenemos el capítulo V. La afirmación se acota a lo comprobable, que es que su definición no la recoge, y se para ahí: lo que no sabemos no se escribe. Texto fijado por David el 15 de septiembre de 2026.",
 		"localizador": "Cap. V, «Redondilla», p. 38",
-		"resumen": "La definen como cuatro octosílabos `ABBA`, y anotan que «se encuentra ocasionalmente con versos de seis o siete sílabas». Su definición no recoge la disposición cruzada; el capítulo no dice si la tratan en otro lugar del libro."
+		"resumen": "La definen como cuatro octosílabos `ABBA`, y anotan que «se encuentra ocasionalmente con versos de seis o siete sílabas». Su definición no recoge la disposición cruzada."
 	},
 	"cfb377cd": {
 		"forma": "Septeto-lira · Navarro Tomás 1972",
 		"por_que": "Decía que Navarro no da epígrafe a la estrofa de siete versos, lo que es cierto pero deja entender que no la documenta. Sí lo hace, en el § 161 y con dos esquemas. Comprobado por David en la muestra humana del 13 de septiembre de 2026.",
 		"localizador": "§§ 161, 162 y 229",
 		"resumen": "Trata las estrofas aliradas como familia y no forma por forma. Sigue la lira de Garcilaso y de fray Luis, que da por poco empleada en el Siglo de Oro después de las canciones de san Juan de la Cruz, y documenta su entrada en el teatro con Juan de la Cueva, Rey de Artieda y Jerónimo Bermúdez, y en Cervantes con la canción de Lenio de *La Galatea*. **No le da nombre ni epígrafe propio a la estrofa de siete versos, pero la documenta**: dice que «como desarrollo del mismo tipo métrico pueden considerarse la estrofa de siete versos, `aBbCcAA`», que Góngora aplicó al «métrico llanto» de la *Soledad segunda*, y la combinación semejante `ABcACdC` de las traducciones horacianas de Medrano. En el período siguiente registra el sexteto de heptasílabos y endecasílabos con pareado final y hasta octavas aliradas, sin volver sobre la de siete."
+	},
+	"e708120e": {
+		"forma": "Octava aguda · Quilis 1969",
+		"por_que": "La ficha decía que Quilis «no la separa de las demás estrofas de ocho versos» y que las trata todas bajo «octavilla». Es falso: le da epígrafe numerado y nombre propios. Comprobado en la hoja 54 del PDF, p. 107. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"localizador": "§ 5.4.7.3, p. 107",
+		"resumen": "Le da epígrafe y nombre propios —«Octava italiana u octava aguda»—, la fecha en el Neoclasicismo con su mayor difusión en el Romanticismo, y da como combinación de rima `ABBC'DEEC`, con el cuarto y el octavo versos agudos y a veces heptasílabos en lugar de endecasílabos."
 	}
 }
