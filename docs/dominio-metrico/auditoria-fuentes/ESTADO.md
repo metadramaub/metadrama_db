@@ -48,7 +48,7 @@ se aprueban en tandas, como el cubo material.
 
 | | forma · fuente |
 | --- | --- |
-| 1 | Octava aguda · Navarro 1972 — doce secciones y una frase sobre el teatro |
+| 1 | ~~Octava aguda · Navarro 1972~~ — **escrita**. Migración `20260918100000` |
 | 2 | Verso aislado · Quilis 1969 |
 | 3 | Verso aislado · Caparrós 2014 |
 | 4 | Verso aislado · Jauralde 2020 |
@@ -61,7 +61,10 @@ se aprueban en tandas, como el cubo material.
 
 
 Y **los veinte silencios justificados**, que hay que dejar escritos para que la ficha pública
-distinga entre «no lo dice» y «no lo hemos mirado».
+distinga entre «no lo dice» y «no lo hemos mirado». Uno de ellos ya tiene nombre y razón: **Morley y
+Bruerton no dice nada de la octava aguda** porque no es un manual de métrica sino el repertorio de
+las formas que usa Lope, y esa es del siglo XVIII. Lo destapó la guarda de `20260918100000`, escrita
+pidiendo las seis voces cuando solo podían ser cinco.
 
 ### 3 · Los dos cubos que quedan abiertos
 

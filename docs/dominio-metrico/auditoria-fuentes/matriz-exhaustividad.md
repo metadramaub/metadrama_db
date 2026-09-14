@@ -4,7 +4,7 @@ Generado por `node scripts/matriz-exhaustividad.mjs`. **No juzga nada**: dice cu
 afirmaciones tiene cada celda y cuántas veces nombra esa fuente a esa forma. El recuento de
 menciones cuenta cadenas, así que es una pista para saber dónde mirar, no un veredicto.
 
-43 unidades × 6 fuentes = **258 celdas**, de las que **30** están vacías.
+43 unidades × 6 fuentes = **258 celdas**, de las que **29** están vacías.
 
 ## Las que no tienen ninguna fuente
 
@@ -16,7 +16,6 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 
 | forma | fuente | menciones | dónde |
 | --- | --- | --- | --- |
-| Octava aguda | 1972 | 29 | «Octavilla aguda» ×16, «Octava aguda» ×12, «Octava italiana» ×1 |
 | Sextina (sextina_estrofa) | 2016 | 25 | «Sextina» ×25 |
 | Sextina (sextina_estrofa) | 2014 | 23 | «Sextina» ×23 |
 | Sextina (sextina_estrofa) | 1972 | 14 | «Sextina» ×14 |
@@ -47,7 +46,7 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Lira | **1** | **1** | **1** | **1** | **1** | **1** |
 | Novena | **1** | **1** | **1** | **1** | **1** | **1** |
 | Novena-lira | — | — | **1** | — | — | — |
-| Octava aguda | — | **1** | · 29 | **1** | **1** | **1** |
+| Octava aguda | — | **1** | **1** | **1** | **1** | **1** |
 | Octava real | **1** | **1** | **1** | **1** | **1** | **1** |
 | Octava-lira | — | — | **1** | — | **1** | — |
 | Oncena | **1** | **1** | **1** | **1** | **1** | **1** |

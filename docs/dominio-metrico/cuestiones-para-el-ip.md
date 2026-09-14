@@ -644,6 +644,37 @@ que la documenta».*
    o el catálogo modela lo que las fuentes describen aunque el corpus no lo traiga —y entonces faltan
    cosas en otras formas—, o modela solo lo anotable, y entonces esta declaración sobra.* ⇒ **C11**
 
+## Octava aguda
+
+Salió al escribir la afirmación de Navarro Tomás, el 18 de septiembre de 2026, y es la única de las
+seis fuentes que recorre la forma metro por metro.
+
+1. **Navarro la documenta en dos medidas que el catálogo no tiene.** Las seis arquitecturas de la
+   ficha van del endecasílabo al pentasílabo, y él da testimonio por encima y por debajo:
+
+   | medida | dónde |
+   | --- | --- |
+   | **eneasílaba** | Su «Índice de estrofas» define la rama mayor como «conjunto de ocho versos **de nueve o más sílabas**», y el § 342 documenta «la Avellaneda en cinco octavas agudas de *La cruz*», en eneasílabo dactílico |
+   | **trisílaba** | § 272: Sánchez Barbero, en la cantata *Lucha entre la ley y el derecho*, «en cuatro octavillas agudas cuyas semiestrofas terminan alternativamente en las palabras *amor*, *honor*» |
+
+   *La eneasílaba además deja un hueco lógico: la ficha separa las dos ramas por el arte del verso y
+   el corte cae hoy entre el decasílabo y el octosílabo, sin que ninguna arquitectura recoja el
+   nueve, que es donde la propia fuente pone la frontera.*
+
+2. **¿Y el esquema de semiestrofas monorrimas?** `aaaé:bbbé` está documentado dos veces —Nervo en
+   *La mal pagada canción*, § 381, y Díaz Mirón en *Ecce homo*, § 434, «a base de tres versos
+   monorrimos en cada semiestrofa»— y no figura entre los esquemas de rima de ninguna de las seis
+   arquitecturas. *Entraría como `admitida`, según la regla del 17 de septiembre, cuando se aborde
+   la tanda de esquemas.*
+
+3. **El nombre de italiana queda en discusión abierta dentro de la ficha.** Quilis la llama «octava
+   italiana u octava aguda» y Caparrós dice que en arte menor se llama «octavilla aguda u octava
+   italiana»; Navarro objeta en su índice que «el calificativo de italianas que suele darse a la
+   octava y octavilla agudas no las distingue de la octava real, también de origen italiano».
+   *Las tres voces están recogidas tal como cada una lo dice, que es lo que la sección hace. Si
+   alguna vez se decide que una disparidad así merezca un párrafo que la resuma antes de las seis
+   fuentes, este es el primer caso del catálogo que lo pediría.*
+
 ## Octava real
 
 1. **¿Una estrofa o dos?** Caparrós 2014 remite a la discusión de Lázaro Carreter sobre si la octava
