@@ -543,6 +543,31 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    mismo camino. *La duda es si «tradición» quiere decir aquí el origen remoto o la vía por la que
    entra en la métrica española.* ⇒ **C13**
 
+**Añadido el 18 de septiembre de 2026, al cerrar la fase 4 de la auditoría de fuentes.**
+
+**La estrofa se apoya en una sola de las seis fuentes.** Al registrar los silencios quedó a la vista
+que cinco definen la sextina **como composición** y no dan entidad propia a la estrofa de seis que la
+forma:
+
+| fuente | qué hace |
+| --- | --- |
+| Quilis 1969, § 5.4.5.1 | **La aísla**: «llama sextina a la estrofa de seis endecasílabos que forma parte, junto con otras cinco y un terceto, de la composición» |
+| Morley y Bruerton 1968 | define «Sestina» como «una forma de *canzone* que consiste en seis estrofas de seis endecasílabos cada una» |
+| Navarro Tomás 1972 | «composición formada por seis estrofas de seis endecasílabos sueltos cada una» |
+| Domínguez Caparrós 2014 | «un poema de treinta y nueve endecasílabos, dividido en seis estrofas de seis versos y un remate de tres» |
+| *Diccionario* 2016 | igual, y **usa el nombre además para otra cosa**: su segundo sentido remite a «sexteto» |
+| Jauralde Pou 2020 | usa «sextina real» para el sexteto `ABABCC`, que es otra estrofa |
+
+**La forma no se discute, y la razón es estructural antes que filológica**: la sextina se declara
+`compuesta_por` esta estrofa, de modo que sin ella la composición no estaría formada por nada. Es
+argumento de David, del día en que se cerraron los silencios.
+
+*Lo que queda para el IP es con qué apoyo se publica. Es el mismo caso que la derivación de la
+septilla desde la séptima endecasílaba, sostenida también por un solo testimonio, y allí la nota de
+la relación lo dice con su nombre: «es el único de los seis manuales que ordena la pareja». La
+pregunta es si la definición de la estrofa debe decir lo mismo —que solo Quilis la aísla— o si basta
+con que la sección de fuentes lo enseñe al ponerlas juntas.*
+
 ## Terceto
 
 *Sin cuestiones abiertas. El tercetillo entró el 22 de agosto de 2026 con sus dos medidas, su

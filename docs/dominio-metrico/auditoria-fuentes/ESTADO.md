@@ -14,7 +14,7 @@ Actualizado el 17 de septiembre de 2026.
 | 1 | Piloto sobre el *Diccionario* con errores sembrados | **cerrada** — se decidió seguir |
 | 2 | Navarro 1972 y Morley y Bruerton | **cerrada** |
 | 3 | Jauralde, Quilis, Caparrós 2014 | **cerrada** |
-| 4 | Exhaustividad, 43 formas | **lagunas escritas**; quedan los silencios |
+| 4 | Exhaustividad, 44 formas | **cerrada** |
 | 5 | Informe y muestra humana | pendiente |
 
 Las tres pasadas están completas sobre las **267** afirmaciones: A y B sobre el catálogo entero, C
@@ -66,17 +66,21 @@ Lo que dejaron, además de las afirmaciones:
 - **Un hallazgo para el IP**: cada fuente deja de enumerar aliradas donde empieza a llamarlas
   canción, y dos de ellas ponen la juntura en el mismo sitio, el 8/9.
 
-### 3 · Los veintidós silencios que faltan por escribir
+### 3 · Los silencios — **escritos, y con ellos cierra la fase 4**
 
-Una fuente que calla no deja hueco en la ficha, y el lector no puede distinguir «no lo dice» de «no
-lo hemos mirado». Hay que registrarlos como afirmaciones.
+**264 celdas y ninguna vacía.** Ninguna forma del catálogo tiene ya un hueco sin explicar frente a
+ninguna de sus seis fuentes, y la migración `20260919120000` lo exige en una guarda.
 
-**Tres van ya identificados con su razón**, los tres de Morley y Bruerton —octava aguda, verso
-aislado y estrofa sáfica— y los tres por lo mismo: su repertorio es de las formas que usa Lope, y
-esas tres no lo son. Los destaparon las guardas, escritas pidiendo las seis voces donde solo podían
-ser cinco.
+Veintidós silencios, en siete razones, y **seis de las siete son citables**: lo que parecía ausencia
+resultó ser una frontera que cada libro declara. **Ninguna fuente calla por olvido sobre la serie
+alirada: cada una deja de enumerarla en el punto en que empieza a llamarla canción.** La primera
+redacción decía de las trece lo mismo —«no la registra»— y era falsa por omisión.
 
-### 4 · Los dos cubos que quedan abiertos
+La única razón puramente negativa son las cuatro celdas de Morley y Bruerton en formas que le son
+ajenas, y ahí el motivo también es suyo: su repertorio no es el de la métrica española sino el de
+las formas que Lope usa.
+
+### 4 · Los cubos que quedan abiertos
 
 De las 267, ya no cambia texto ninguna de **fondo** (33) ni de **material** (56 corregidas,
 17 desmentidas por la verificación). Quedan:

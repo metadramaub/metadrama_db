@@ -4,7 +4,7 @@ Generado por `node scripts/matriz-exhaustividad.mjs`. **No juzga nada**: dice cu
 afirmaciones tiene cada celda y cuántas veces nombra esa fuente a esa forma. El recuento de
 menciones cuenta cadenas, así que es una pista para saber dónde mirar, no un veredicto.
 
-44 unidades × 6 fuentes = **264 celdas**, de las que **4** están vacías.
+44 unidades × 6 fuentes = **264 celdas**, de las que **0** están vacías.
 
 ## Las que no tienen ninguna fuente
 
@@ -16,9 +16,6 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 
 | forma | fuente | menciones | dónde |
 | --- | --- | --- | --- |
-| Sextina (sextina_estrofa) | 2016 | 25 | «Sextina» ×25 |
-| Sextina (sextina_estrofa) | 2014 | 23 | «Sextina» ×23 |
-| Sextina (sextina_estrofa) | 1972 | 14 | «Sextina» ×14 |
 
 ## El tablero
 
@@ -58,7 +55,7 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Sexteto-lira | **1** | **1** | **1** | **1** | **1** | **1** |
 | Sextilla | **1** | **1** | **2** | **1** | **2** | **1** |
 | Sextilla enlazada | **1** | **1** | **1** | **1** | **1** | **1** |
-| Sextina (sextina_estrofa) | — | **1** | · 14 | · 23 | · 25 | **1** |
+| Sextina (sextina_estrofa) | **1** | **1** | **1** | **1** | **1** | **1** |
 | Sextina (sextina) | **1** | **1** | **1** | **1** | **1** | **1** |
 | Silva | **1** | **1** | **1** | **2** | **4** | **1** |
 | Soneto | **1** | **1** | **2** | **1** | **3** | **1** |
