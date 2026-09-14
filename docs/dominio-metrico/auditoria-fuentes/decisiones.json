@@ -2358,8 +2358,8 @@
 			"omisión relevante (medio)",
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916200000. Nómina cerrada: el original deja «Santillana, Mena, Imperial…» con puntos suspensivos. Y se restituye el patrón rítmico concreto, «óoo ó en cada hemistiquio»."
 	},
 	{
 		"id": "de48e693",
@@ -2431,8 +2431,8 @@
 			"convención rota (leve)",
 			"omisión relevante (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916200000. Nómina cerrada: «Juan del Encina, Castillejo, Hurtado de Mendoza, Cervantes…». Y se recupera el motivo del quebrado tardío, «para jugar con variedades distintas»."
 	},
 	{
 		"id": "7453d194",
@@ -2480,8 +2480,8 @@
 			"endurecimiento (grave)",
 			"atribución cruzada (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916200000. Endurecimiento: «se suele señalar que la inventó Vicente Espinel». Y se retira la atribución a Guillén de una caracterización que es narración de Jauralde."
 	},
 	{
 		"id": "387f50dd",
@@ -2621,8 +2621,8 @@
 			"localizador falso (medio)",
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916200000. El de Castillejo no era «el único ejemplo con quebrado»: entran las diez novenas de Avellaneda en La Cruz. Y «§ 2.5.7» no es un apartado del libro."
 	},
 	{
 		"id": "19fc8274",
@@ -2873,8 +2873,8 @@
 			"mezcla (grave)",
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916200000. Sor Juana no ató el nombre al 10-6-10-6, que es el ejemplo modernista de Gabriel y Galán; y la frase sobre el Diccionario y Navarro Tomás no está en Jauralde."
 	},
 	{
 		"id": "ffa92b82",
@@ -3131,8 +3131,8 @@
 		"defectos": [
 			"mezcla (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916200000. «Se adoptó como variedad teatral» está en «Estrofas de pareados»: se declara el segundo sitio y se recoge que el nombre se extiende a los ovillejos."
 	},
 	{
 		"id": "31d4d03b",
