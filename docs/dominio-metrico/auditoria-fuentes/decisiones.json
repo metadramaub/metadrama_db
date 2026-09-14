@@ -86,8 +86,8 @@
 		"defectos": [
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917140000. La cita se comía «redondilla», que dice a qué se refiere «la primera»."
 	},
 	{
 		"id": "e69543b4",
@@ -851,8 +851,8 @@
 		"defectos": [
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917140000. La cita del septeto agudo estaba fundida y recortada sin marcarlo, y se perdía el caso de los tres versos agudos, que ahora entra."
 	},
 	{
 		"id": "51476304",
@@ -897,8 +897,8 @@
 		"defectos": [
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917140000. La cita suprimía el inciso «—rara vez versos de arte mayor—», que es lo que acota la copla mixta al arte menor."
 	},
 	{
 		"id": "b55ae482",
@@ -1124,8 +1124,8 @@
 		"defectos": [
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917140000. La cita perdía el arranque de la frase y un «de». La página, la 397, ya era correcta."
 	},
 	{
 		"id": "b85a2577",
