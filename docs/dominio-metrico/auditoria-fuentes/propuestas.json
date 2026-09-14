@@ -10,5 +10,23 @@
 		"por_que": "Decía que Navarro no da epígrafe a la estrofa de siete versos, lo que es cierto pero deja entender que no la documenta. Sí lo hace, en el § 161 y con dos esquemas. Comprobado por David en la muestra humana del 13 de septiembre de 2026.",
 		"localizador": "§§ 161, 162 y 229",
 		"resumen": "Trata las estrofas aliradas como familia y no forma por forma. Sigue la lira de Garcilaso y de fray Luis, que da por poco empleada en el Siglo de Oro después de las canciones de san Juan de la Cruz, y documenta su entrada en el teatro con Juan de la Cueva, Rey de Artieda y Jerónimo Bermúdez, y en Cervantes con la canción de Lenio de *La Galatea*. **No le da nombre ni epígrafe propio a la estrofa de siete versos, pero la documenta**: dice que «como desarrollo del mismo tipo métrico pueden considerarse la estrofa de siete versos, `aBbCcAA`», que Góngora aplicó al «métrico llanto» de la *Soledad segunda*, y la combinación semejante `ABcACdC` de las traducciones horacianas de Medrano. En el período siguiente registra el sexteto de heptasílabos y endecasílabos con pareado final y hasta octavas aliradas, sin volver sobre la de siete."
+	},
+	"78f48b2b": {
+		"forma": "Quintilla · Domínguez Caparrós 2014",
+		"localizador": "p. 195",
+		"por_que": "La ficha ataba a la p. 195 dos datos de dos sitios. Lo que dice la 195 es que «la quintilla, antiguamente llamada también redondilla, es una combinación de cinco versos octosílabos, o menores, con dos rimas consonantes distintas», y nada más sobre el nombre. Lo de los tratadistas del Siglo de Oro es la nota 174 de la p. 188, anclada al epígrafe de la redondilla — y ya está recogida en la ficha del cuarteto de esta misma fuente, que la cita por su página. Aquí se queda lo que la 195 sostiene. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "Advierte que la quintilla se llamó antiguamente también redondilla, y la define como combinación de cinco versos octosílabos, o menores, con dos rimas consonantes distintas."
+	},
+	"c0160a43": {
+		"forma": "Sextilla · Domínguez Caparrós 2014",
+		"localizador": "pp. 196-198, y § 4.4, pp. 65-66",
+		"por_que": "La regla de la sinafía o compensación cuando el quebrado tiene cinco sílabas no está en el capítulo de las combinaciones estróficas sino en el de la sílaba, § 4.4, que la ilustra precisamente con las Coplas de Jorge Manrique. El dato es de la sextilla de pie quebrado, así que basta con declarar el segundo sitio. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "Llama sextilla a toda estrofa de seis versos de arte menor con rima consonante. La ejemplifica con las sextillas octosílabas del *Martín Fierro*, de José Hernández, cuyo esquema escribe `- a a b b a`: el primer verso queda sin rima. El poema de Manuel Machado que cita en heptasílabos rima `aababa`. Describe la copla de Jorge Manrique como copla de pie quebrado de esquema 8a 8b 4c 8a 8b 4c, y explica aparte, en el capítulo de la sílaba, que cuando el quebrado tiene cinco sílabas métricas la medida se resuelve por sinafía o compensación con el octosílabo anterior. Recoge que se ha considerado también estrofa de doce versos cuando el sentido enlaza dos sextillas, aunque las rimas son siempre distintas en cada una."
+	},
+	"cda0d43d": {
+		"forma": "Copla real · Domínguez Caparrós 2014",
+		"localizador": "p. 205",
+		"por_que": "Dos cosas. El localizador señalaba la p. 199, que trata el septeto; la copla real se define en la 205, comprobado en la hoja 202. Y el contraste que la ficha atribuía a la décima espinela no es con ella: la frase «nótese que, a diferencia de la copla real, en este ejemplo hay una rima común a las dos partes de la estrofa» va antes de la definición y se refiere al ejemplo de décima antigua que acaba de dar. La espinela no aparece ahí. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "La define como combinación de diez octosílabos agrupados en dos quintillas con rimas consonantes independientes, y precisa que las dos semiestrofas pueden tener o no el mismo esquema de distribución. Recoge que a veces se la llama quintilla doble y décima falsa, la sitúa en el grupo de las coplas medievales y afirma que su cultivo llega hasta el Siglo de Oro. Al ejemplificar una décima antigua anota el contraste: «nótese que, a diferencia de la copla real, en este ejemplo hay una rima común a las dos partes de la estrofa»."
 	}
 }
