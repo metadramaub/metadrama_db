@@ -4152,8 +4152,8 @@
 			"atribución cruzada (grave)",
 			"cita literal inexacta (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916140000. Fuera la frase de Lope y los monólogos, que no está en el § 65 sino en el § 176 y hablando del perqué. Y la cita recupera el «éstas» del original."
 	},
 	{
 		"id": "588025c8",
@@ -4266,8 +4266,8 @@
 		"defectos": [
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916140000. Invención: «en el corpus áureo la relación es la inversa» no está en el § 463, que trata la poesía del siglo XX de cabo a rabo. Entra el `AbBa` de Guillén, que sí dice."
 	},
 	{
 		"id": "7fb1122d",
@@ -4292,8 +4292,8 @@
 		"defectos": [
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916140000. Invención: «cuarteto alirado» no aparece ninguna vez en el libro. Su índice de estrofas la titula «Cuarteto-lira», con definición y esquemas. El localizador remitía además al Diccionario dentro de una ficha de Navarro."
 	},
 	{
 		"id": "7834edd3",
@@ -4470,8 +4470,8 @@
 		"defectos": [
 			"endurecimiento (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916140000. Endurecimiento: «últimamente parece renacer con nueva vitalidad»."
 	},
 	{
 		"id": "d8f31c19",
@@ -4586,8 +4586,8 @@
 		"defectos": [
 			"endurecimiento (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916140000. Endurecimiento: «parece casi enteramente desterrado». Se añade la excepción que él anota, el Razonamiento de don Alfonso Enríquez."
 	},
 	{
 		"id": "142db9f5",
@@ -4860,8 +4860,8 @@
 		"defectos": [
 			"mezcla (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916140000. Describía el reparto 4-3 en octosílabos, que es la septilla. El septeto de arte mayor está en el § 460, «Séptima»: estrofa endecasílaba provenzal de cuarteto y terceto, modelo de la copla mixta octosílaba."
 	},
 	{
 		"id": "cfb377cd",
