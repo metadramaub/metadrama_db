@@ -49,9 +49,9 @@ se aprueban en tandas, como el cubo material.
 | | forma · fuente |
 | --- | --- |
 | 1 | ~~Octava aguda · Navarro 1972~~ — **escrita**. Migración `20260918100000` |
-| 2 | Verso aislado · Quilis 1969 |
-| 3 | Verso aislado · Caparrós 2014 |
-| 4 | Verso aislado · Jauralde 2020 |
+| 2 | ~~Verso aislado · Quilis 1969~~ — **escrita**. Migración `20260918120000` |
+| 3 | ~~Verso aislado · Caparrós 2014~~ — **escrita** |
+| 4 | ~~Verso aislado · Jauralde 2020~~ — **escrita** |
 | 5 | Cuarteto-lira · Jauralde 2020 |
 | 6 | Cuarteto-lira · Caparrós 2014 |
 | 7 | Sextina (composición) · Jauralde 2020 — bajo el epígrafe «Sexta rima» |
@@ -64,7 +64,8 @@ Y **los veinte silencios justificados**, que hay que dejar escritos para que la 
 distinga entre «no lo dice» y «no lo hemos mirado». Uno de ellos ya tiene nombre y razón: **Morley y
 Bruerton no dice nada de la octava aguda** porque no es un manual de métrica sino el repertorio de
 las formas que usa Lope, y esa es del siglo XVIII. Lo destapó la guarda de `20260918100000`, escrita
-pidiendo las seis voces cuando solo podían ser cinco.
+pidiendo las seis voces cuando solo podían ser cinco. **El verso aislado es el segundo**, por la
+misma razón: su repertorio es de formas que Lope usa.
 
 ### 3 · Los dos cubos que quedan abiertos
 

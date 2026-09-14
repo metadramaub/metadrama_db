@@ -673,7 +673,8 @@ seis fuentes que recorre la forma metro por metro.
    octava y octavilla agudas no las distingue de la octava real, también de origen italiano».
    *Las tres voces están recogidas tal como cada una lo dice, que es lo que la sección hace. Si
    alguna vez se decide que una disparidad así merezca un párrafo que la resuma antes de las seis
-   fuentes, este es el primer caso del catálogo que lo pediría.*
+   fuentes, este es el primer caso del catálogo que lo pediría. El segundo es el **verso aislado**,
+   donde las cuatro voces responden cosas distintas a la pregunta de si un verso solo es verso.*
 
 ## Octava real
 
