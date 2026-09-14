@@ -82,18 +82,51 @@ las formas que Lope usa.
 
 ### 4 · Los cubos que quedan abiertos
 
-De las 267, ya no cambia texto ninguna de **fondo** (33) ni de **material** (56 corregidas,
-17 desmentidas por la verificación). Quedan:
-
 | cubo | pendientes | qué son |
 | --- | --- | --- |
-| confirmación | 57 | comprobaciones, no correcciones de texto |
-| observación | 50 | notas |
+| confirmación | 57 | **en curso**, ver abajo |
+| observación | 50 | notas que hay que decidir si entran |
 | limpio | 1 | |
 | filológico | 1 | decisión del IP |
 
 Y **dos propuestas sin redactar**: `9c4dd052` (lira de Morley y Bruerton) y `cfb377cd`
 (septeto-lira de Navarro).
+
+#### El cubo de confirmación no estaba comprobado
+
+La hoja lo describe como «conformes sin ninguna divergencia señalada, **no piden decisión**». Al
+abrirlo el 18 de septiembre de 2026 resultó que **41 de las 57 llevan alguna señal mecánica**: los
+dos lectores coincidieron y lo que mira la columna vio otra cosa.
+
+| señal | fichas |
+| --- | --- |
+| matices —la fuente matiza y la ficha puede no hacerlo— | 27 |
+| esquemas que la fuente da y la ficha no registra | 21 |
+| tiradas compartidas con otra fuente | 13 |
+| esquemas sin rastro en el catálogo | 7 |
+| anclaje | 4 |
+| nombra otra fuente | 1 |
+
+Y las pasadas que han tenido son **A y B las 57, C ninguna**.
+
+**Lo que se ha hecho con eso:**
+
+- **Una cuarta comprobación mecánica**, `npm run senal:endurecimiento`. La señal de «matices» venía
+  de la pasada B —solo existía si el lector ciego se fijaba—, así que no distinguía «la fuente no
+  matiza» de «B no lo anotó». La comprobación nueva no pregunta a nadie: empareja el resumen con las
+  oraciones del pasaje que comparten con él una tirada de seis palabras, y mira si matizan donde el
+  resumen no matiza. **Cubre 153 de las 267 y señala 21.** De tres comprobadas a mano, dos eran
+  endurecimientos reales —el sexteto-lira de Navarro y la novena de Caparrós—.
+- **La pasada C sobre las 57**, que es donde está a cero.
+
+**Lo que queda fuera del alcance mecánico y necesita una lectura dirigida: 114 de las 267** —39 de
+este cubo— que no comparten con su pasaje ninguna tirada de seis palabras, porque parafrasean en vez
+de reutilizar el léxico de la fuente. Ahí la comprobación no puede decir nada.
+
+*Y una decisión de método, tomada el 18 de septiembre: **no se repite la pasada B sobre las 57**. Ya
+la pasaron, y una lectura más no añade verdad por sí sola —B se equivocó en tres de las cuatro veces
+que disintió—. Lo que añade alcance es preguntar algo distinto, que es lo que hacen la comprobación
+nueva y la pasada C.*
 
 ### 5 · Fase 5: informe y muestra humana
 

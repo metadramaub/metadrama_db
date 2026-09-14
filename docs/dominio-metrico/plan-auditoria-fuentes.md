@@ -283,6 +283,15 @@ que es lo único que se le pidió a A y a B.
 | 2 · Esquemas huérfanos | Esquema que la fuente da, la ficha no registra y el catálogo no tiene en ninguna parte | **25** fichas con alguno sin rastro |
 | 3a · Nombra otra fuente | Autor o libro ajeno dentro de la voz de una fuente | **14** de 267 |
 | 3b · Tirada compartida | Siete palabras seguidas o más en afirmaciones de fuentes distintas | **29** pares |
+| 4 · Endurecimiento | La fuente matiza en la frase que la ficha resume y la ficha no | **21** de 267 |
+
+**La cuarta se añadió el 18 de septiembre de 2026**, `npm run senal:endurecimiento`, y nació de un
+hueco: la señal de endurecimiento venía hasta entonces de la pasada B, de modo que solo existía si
+el lector ciego se fijaba —y no distinguía «la fuente no matiza» de «B no lo anotó»—. Empareja el
+resumen con las oraciones del pasaje que comparten con él una tirada de seis palabras, y mira si
+matizan donde el resumen no matiza. **Cubre 153 de las 267**; las otras 114 parafrasean sin reutilizar
+el léxico de la fuente y quedan fuera de alcance, lo que también es un dato: son las que solo puede
+comprobar una lectura.
 
 **El anclaje se mira por dos caminos y lo que vale es el cruce.** Uno: el texto nombra, con una
 denominación de dos palabras o más, una sola arquitectura de su forma —se exigen dos palabras
