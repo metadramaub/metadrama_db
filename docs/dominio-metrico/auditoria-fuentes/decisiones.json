@@ -5222,8 +5222,8 @@
 		},
 		"cubo": "fondo",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916180000. Se retiró «El verso único queda así integrado en una composición mayor sin pertenecer a la estrofa que lo glosa», que es lectura nuestra y no está en el § 76. En la misma migración salió el mote de la definición de la forma: el ejemplo vive ahora en la fuente, que es donde se le puede poner nombre y página."
 	},
 	{
 		"id": "cfc21591",
