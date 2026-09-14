@@ -10,5 +10,35 @@
 		"por_que": "Decía que Navarro no da epígrafe a la estrofa de siete versos, lo que es cierto pero deja entender que no la documenta. Sí lo hace, en el § 161 y con dos esquemas. Comprobado por David en la muestra humana del 13 de septiembre de 2026.",
 		"localizador": "§§ 161, 162 y 229",
 		"resumen": "Trata las estrofas aliradas como familia y no forma por forma. Sigue la lira de Garcilaso y de fray Luis, que da por poco empleada en el Siglo de Oro después de las canciones de san Juan de la Cruz, y documenta su entrada en el teatro con Juan de la Cueva, Rey de Artieda y Jerónimo Bermúdez, y en Cervantes con la canción de Lenio de *La Galatea*. **No le da nombre ni epígrafe propio a la estrofa de siete versos, pero la documenta**: dice que «como desarrollo del mismo tipo métrico pueden considerarse la estrofa de siete versos, `aBbCcAA`», que Góngora aplicó al «métrico llanto» de la *Soledad segunda*, y la combinación semejante `ABcACdC` de las traducciones horacianas de Medrano. En el período siguiente registra el sexteto de heptasílabos y endecasílabos con pareado final y hasta octavas aliradas, sin volver sobre la de siete."
+	},
+	"e5868e5e": {
+		"forma": "Endecha real · Diccionario 2016",
+		"localizador": "Entrada «endecha», p. 148",
+		"por_que": "Dos omisiones en una entrada de seis líneas. La fuente admite tres variantes de verso y la ficha recogía dos: faltaban los «pareados de doce sílabas». Y al decir que pueden hallarse endechas en otras formas métricas, el original da los ejemplos —«redondillas o versos sueltos»— que la ficha suprimía. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "La endecha, sin más, es poema de asunto triste en forma de romancillo heptasílabo «generalmente», aunque admite también versos de cinco o de seis sílabas, o pareados de doce. Y como el nombre «se refiere más bien al asunto propio del poema», dice que es posible encontrar endechas en otras formas métricas, «redondillas o versos sueltos, por ejemplo»."
+	},
+	"515d9993": {
+		"forma": "Octava real · Diccionario 2016",
+		"localizador": "Entrada «octava real», p. 246",
+		"por_que": "La fuente documenta dos tradiciones —«asociada a la poesía épica o a la lírica de tono elevado»— y la ficha recogía solo la primera, dando la impresión de una asociación exclusivamente épica. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "Advierte que «es posible, aunque no frecuente, encontrar otra disposición de la rima de los seis primeros versos». Añade que la estrofa suele subdividirse en dos grupos de cuatro versos según su contenido, y que está «tradicionalmente asociada a la poesía épica o a la lírica de tono elevado»."
+	},
+	"423b6dca": {
+		"forma": "Redondilla enlazada · Diccionario 2016",
+		"localizador": "Entradas «copla encadenada», «copla capfinida» y «sexteto enlazado»",
+		"por_que": "El silencio es correcto, pero la explicación era falsa: el repertorio de enlaces del Diccionario no se agota en la gaya ciencia. Tiene entrada propia para el «sexteto enlazado», que atribuye a Navarro Tomás, y para el «terceto enlazado». Nuestra propia ficha del sexteto ya decía que tipifica «el enlazado», así que el catálogo se contradecía a sí mismo. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "No la registra. Sí tiene entradas para el enlace entre estrofas en otras medidas —el «sexteto enlazado», que atribuye a Navarro Tomás, y el «terceto enlazado»— y para la copla encadenada de la gaya ciencia, «estrofa en la que hay lexaprén», con «copla capfinida» y «canción de coleo» como otros términos. Ninguna de ellas es una redondilla enlazada."
+	},
+	"b55ae482": {
+		"forma": "Septilla enlazada · Diccionario 2016",
+		"localizador": "Entradas «séptima», «copla encadenada» y «sexteto enlazado»",
+		"por_que": "Igual que en la redondilla enlazada: el silencio es correcto y la explicación no. Ni la entrada «séptima» ni «copla encadenada» mencionan a Navarro Tomás, y el diccionario sí registra el enlace entre estrofas en otras medidas. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "No la registra: su entrada «séptima» no recoge ninguna variedad enlazada y no hay «septeto enlazado» ni equivalente. Sí tiene entrada para el enlace entre estrofas en otras medidas —el «sexteto enlazado», que atribuye a Navarro Tomás, y el «terceto enlazado»— y para la copla encadenada de la gaya ciencia, «estrofa en la que hay lexaprén»."
+	},
+	"ce5d5f5c": {
+		"forma": "Sexteto · Diccionario 2016",
+		"localizador": "Entradas «sexteto» y «sexta rima»",
+		"por_que": "Endurecimiento: la fuente escribe «la introducción de heptasílabos —especialmente a partir del Romanticismo», o sea un fenómeno posible antes y más frecuente desde entonces, y la ficha lo daba como origen fijado en el Romanticismo. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"resumen": "Define el sexteto como estrofa de seis versos de arte mayor, normalmente endecasílabos, con rima consonante que puede adoptar variadas disposiciones, y advierte que a veces el término se aplica también a la estrofa compuesta en versos de arte menor. La sexta rima es el sexteto de endecasílabos que rima el primero con el tercero, el segundo con el cuarto y el quinto con el sexto, con modificaciones posibles del esquema y la introducción de heptasílabos «**especialmente** a partir del Romanticismo». Tipifica además el sexteto agudo, el alterno, el correlativo, el enlazado, el libre y el simétrico."
 	}
 }
