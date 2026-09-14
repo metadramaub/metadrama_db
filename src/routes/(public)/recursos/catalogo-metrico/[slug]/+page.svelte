@@ -15,7 +15,6 @@
 	const enumerar = (partes: string[]): string =>
 		partes.length < 2 ? (partes[0] ?? '') : `${partes.slice(0, -1).join(', ')} y ${partes.at(-1)}`;
 
-
 	/**
 	 * Ficha de una forma, generada del catálogo. No hay texto redactado aquí: si algo falta o se
 	 * lee mal, falta o está mal en el catálogo, y esta página sirve justamente para detectarlo.
@@ -25,6 +24,21 @@
 	 */
 	const { data } = $props<{ data: { forma: PublicFormDetail } }>();
 	const forma = $derived(data.forma);
+	/**
+	 * El nombre con el nivel detrás **solo cuando otra forma se llama igual**.
+	 *
+	 * En la página el nivel ya está: en el ladillo sobre el título y detrás de cada relación. Aquí
+	 * hace falta en los dos sitios donde el nombre sale de la página y viaja solo —el título de la
+	 * pestaña, que es también lo que guarda un marcador y lo que enseña un buscador, y la miga de
+	 * pan, que se lee sin mirar arriba—. Con dos fichas tituladas «Sextina», ninguno de los dos
+	 * decía cuál.
+	 */
+	const nombreConNivel = $derived(
+		forma.nombreAmbiguo
+			? `${forma.nombre} · ${metricStructuralLevelLabel(forma.nivelEstructural)}`
+			: forma.nombre
+	);
+
 	const navigationItems = $derived([
 		{ href: '#resumen', label: 'Resumen' },
 		...(forma.arquitecturas_.length > 0
@@ -66,7 +80,7 @@
 </script>
 
 <svelte:head>
-	<title>{forma.nombre} · Catálogo métrico · Versología</title>
+	<title>{nombreConNivel} · Catálogo métrico · Versología</title>
 	{#if forma.definicion}
 		<meta name="description" content={stripMarkdown(forma.definicion)} />
 	{/if}
@@ -78,7 +92,7 @@
 			Catálogo métrico
 		</a>
 		<span class="mx-2" aria-hidden="true">/</span>
-		<span class="text-[color:var(--foreground)]">{forma.nombre}</span>
+		<span class="text-[color:var(--foreground)]">{nombreConNivel}</span>
 	</nav>
 
 	<div class="mt-6 lg:grid lg:grid-cols-[12rem_minmax(0,1fr)] lg:items-start lg:gap-10 xl:grid-cols-[14rem_minmax(0,1fr)] xl:gap-12">

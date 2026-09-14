@@ -23,6 +23,7 @@ function forma(
 		tradiciones: [],
 		tiposRima: [],
 		denominaciones: [],
+		nombreAmbiguo: false,
 		...extra
 	};
 }
