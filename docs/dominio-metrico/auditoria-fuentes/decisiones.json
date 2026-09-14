@@ -112,8 +112,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914220000. → «copla de Jorge Manrique», p. 90, y «copla mixta», p. 91. Comprobado en el PDF: la manriqueña es una remisión pura y la cita de la ficha es literal de «copla mixta»."
 	},
 	{
 		"id": "d06da334",
@@ -360,8 +360,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914220000. La p. 150 estaba bien; faltaba la entrada de remisión «cuarteto de endecha (Navarro Tomás)», p. 98, que es donde está la atribución. Comprobado en el PDF."
 	},
 	{
 		"id": "7ac4bf24",
@@ -1013,8 +1013,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914220000. Entrada «lay» → p. 215, comprobada en la hoja 217. La 148 es «endecha»."
 	},
 	{
 		"id": "da0d0e2d",
@@ -2691,8 +2691,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914220000. → «Estrofas de once versos», comprobado como línea de encabezado. «Oncena» no es un epígrafe."
 	},
 	{
 		"id": "880f3d66",
@@ -2715,8 +2715,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914220000. → «Estrofas de pareados», comprobado como línea de encabezado. «Estrofas de dos versos» no existe en el libro."
 	},
 	{
 		"id": "a5faa793",
@@ -2964,8 +2964,8 @@
 			"localizador falso (medio)",
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914220000. → «Estrofas de ocho versos» y «Septillas octosilábicas», los dos comprobados como encabezados. Ninguno de los dos títulos anteriores existía."
 	},
 	{
 		"id": "e9a49c36",
@@ -2988,8 +2988,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C: no encuentra la septilla enlazada en ninguna parte de Jauralde, lo que corrobora el silencio que ya declaraba la lectura ciega. El localizador «Estrofas de siete versos» sí es un encabezado real del libro. No se toca."
 	},
 	{
 		"id": "2d0599a0",
