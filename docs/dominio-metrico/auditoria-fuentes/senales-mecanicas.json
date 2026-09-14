@@ -3,19 +3,6 @@
 	"total": 267,
 	"anclaje": [
 		{
-			"id": "3ac1b32a",
-			"anio": 1968,
-			"forma": "Décima",
-			"nombra": "Espinela",
-			"nombra_por": [
-				"decima espinela"
-			],
-			"hermanas_ancladas": [
-				"bf669381 → Aumentada"
-			],
-			"peso": 2
-		},
-		{
 			"id": "008e03ef",
 			"anio": 2016,
 			"forma": "Romance",
@@ -39,20 +26,6 @@
 			],
 			"hermanas_ancladas": [
 				"087b9c6b → Hexasílaba"
-			],
-			"peso": 2
-		},
-		{
-			"id": "514aa1c0",
-			"anio": 2016,
-			"forma": "Silva",
-			"nombra": "Arromanzada",
-			"nombra_por": [
-				"silva arromanzada"
-			],
-			"hermanas_ancladas": [
-				"b85a2577 → Libre",
-				"871a22ab → Consonante regular"
 			],
 			"peso": 2
 		},
@@ -91,32 +64,21 @@
 			"peso": 1
 		},
 		{
-			"id": "7834edd3",
-			"anio": 1972,
-			"forma": "Décima",
-			"nombra": "Espinela",
-			"nombra_por": [
-				"redondilla de diez versos"
-			],
-			"hermanas_ancladas": [],
-			"peso": 1
-		},
-		{
 			"id": "f8d34b49",
 			"anio": 1972,
 			"forma": "Endecha real",
 			"nombra": null,
 			"nombra_por": [],
 			"hermanas_ancladas": [
-				"54afe78b → Heptasílaba con endecasílabo final",
-				"92a48925 → Heptasílaba de cinco versos",
 				"34fdc61d → Heptasílaba con endecasílabo final",
-				"55bd3353 → Heptasílaba con endecasílabo final"
+				"54afe78b → Heptasílaba con endecasílabo final",
+				"55bd3353 → Heptasílaba con endecasílabo final",
+				"92a48925 → Heptasílaba de cinco versos"
 			],
 			"peso": 1
 		},
 		{
-			"id": "22c63f36",
+			"id": "2c90f723",
 			"anio": 1972,
 			"forma": "Seguidilla",
 			"nombra": null,
@@ -128,7 +90,7 @@
 			"peso": 1
 		},
 		{
-			"id": "2c90f723",
+			"id": "22c63f36",
 			"anio": 1972,
 			"forma": "Seguidilla",
 			"nombra": null,
@@ -195,29 +157,7 @@
 			"peso": 1
 		},
 		{
-			"id": "962207aa",
-			"anio": 2016,
-			"forma": "Décima",
-			"nombra": "Espinela",
-			"nombra_por": [
-				"decima espinela"
-			],
-			"hermanas_ancladas": [],
-			"peso": 1
-		},
-		{
-			"id": "b9107b9b",
-			"anio": 2016,
-			"forma": "Décima",
-			"nombra": "Espinela",
-			"nombra_por": [
-				"decima espinela"
-			],
-			"hermanas_ancladas": [],
-			"peso": 1
-		},
-		{
-			"id": "e5868e5e",
+			"id": "4886c9d5",
 			"anio": 2016,
 			"forma": "Endecha real",
 			"nombra": null,
@@ -228,7 +168,7 @@
 			"peso": 1
 		},
 		{
-			"id": "4886c9d5",
+			"id": "e5868e5e",
 			"anio": 2016,
 			"forma": "Endecha real",
 			"nombra": null,
@@ -250,29 +190,29 @@
 			"peso": 1
 		},
 		{
-			"id": "7fd372ca",
-			"anio": 2016,
-			"forma": "Seguidilla",
-			"nombra": null,
-			"nombra_por": [],
-			"hermanas_ancladas": [
-				"3d53c25d → Chamberga",
-				"9907cf84 → Simple arromanzada",
-				"708ebd3f → Gitana",
-				"bf1583ba → Compuesta"
-			],
-			"peso": 1
-		},
-		{
 			"id": "8c5f0a5b",
 			"anio": 2016,
 			"forma": "Seguidilla",
 			"nombra": null,
 			"nombra_por": [],
 			"hermanas_ancladas": [
-				"3d53c25d → Chamberga",
 				"9907cf84 → Simple arromanzada",
 				"708ebd3f → Gitana",
+				"3d53c25d → Chamberga",
+				"bf1583ba → Compuesta"
+			],
+			"peso": 1
+		},
+		{
+			"id": "7fd372ca",
+			"anio": 2016,
+			"forma": "Seguidilla",
+			"nombra": null,
+			"nombra_por": [],
+			"hermanas_ancladas": [
+				"9907cf84 → Simple arromanzada",
+				"708ebd3f → Gitana",
+				"3d53c25d → Chamberga",
 				"bf1583ba → Compuesta"
 			],
 			"peso": 1
@@ -295,8 +235,9 @@
 			"nombra": null,
 			"nombra_por": [],
 			"hermanas_ancladas": [
-				"b85a2577 → Libre",
-				"871a22ab → Consonante regular"
+				"871a22ab → Consonante regular",
+				"514aa1c0 → Arromanzada",
+				"b85a2577 → Libre"
 			],
 			"peso": 1
 		},
@@ -683,8 +624,8 @@
 					"donde": "modelado",
 					"en": [
 						"a5822734 (1968)",
-						"1a97e945 (2016)",
-						"a6221436 (2016)"
+						"a6221436 (2016)",
+						"1a97e945 (2016)"
 					]
 				},
 				{
@@ -1152,8 +1093,8 @@
 					"donde": "modelado",
 					"en": [
 						"a5822734 (1968)",
-						"1a97e945 (2016)",
-						"a6221436 (2016)"
+						"a6221436 (2016)",
+						"1a97e945 (2016)"
 					]
 				},
 				{
@@ -1196,8 +1137,8 @@
 					"esquema": "ABABABAB",
 					"donde": "modelado",
 					"en": [
-						"1a97e945 (2016)",
-						"a6221436 (2016)"
+						"a6221436 (2016)",
+						"1a97e945 (2016)"
 					]
 				}
 			]
@@ -1930,33 +1871,6 @@
 			]
 		},
 		{
-			"id": "f8d34b49",
-			"anio": 1972,
-			"forma": "Endecha real",
-			"pasada": "B",
-			"sin_rastro": 0,
-			"huerfanos": [
-				{
-					"esquema": "abcBdBeB",
-					"donde": "hermana",
-					"en": [
-						"54afe78b (1972)",
-						"55bd3353 (1972)"
-					]
-				},
-				{
-					"esquema": "abbaA",
-					"donde": "modelado",
-					"en": [
-						"Quintilla · Heptasílaba",
-						"Quintilla · Hexasílaba",
-						"Quintilla · Octosílaba consonante",
-						"Quintilla · 1972"
-					]
-				}
-			]
-		},
-		{
 			"id": "34fdc61d",
 			"anio": 1972,
 			"forma": "Endecha real",
@@ -1980,6 +1894,33 @@
 			"pasada": "B",
 			"sin_rastro": 0,
 			"huerfanos": [
+				{
+					"esquema": "abbaA",
+					"donde": "modelado",
+					"en": [
+						"Quintilla · Heptasílaba",
+						"Quintilla · Hexasílaba",
+						"Quintilla · Octosílaba consonante",
+						"Quintilla · 1972"
+					]
+				}
+			]
+		},
+		{
+			"id": "f8d34b49",
+			"anio": 1972,
+			"forma": "Endecha real",
+			"pasada": "B",
+			"sin_rastro": 0,
+			"huerfanos": [
+				{
+					"esquema": "abcBdBeB",
+					"donde": "hermana",
+					"en": [
+						"54afe78b (1972)",
+						"55bd3353 (1972)"
+					]
+				},
 				{
 					"esquema": "abbaA",
 					"donde": "modelado",
