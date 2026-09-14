@@ -54,5 +54,23 @@
 		"resumen": "La describe dentro de su epígrafe «Estrofas aliradas» y la presenta como «una nueva reelaboración de este modelo», siendo el modelo las dos estrofas aliradas de ocho versos que acaba de describir —la de Jáuregui en su traducción de *Sic te, dive*, `abCabCdD`, y la de Cervantes en una escena de *La entretenida*, `ABcABcDD`—. Da dos disposiciones de nueve: `abCabCcdD`, que Francisco de Figueroa emplea en su imitación de la oda horaciana *Oh, navis*, y `AbCAbCcdD`, la misma bajo otra forma, en la poesía 120 de Góngora.",
 		"definicion": "Estrofa de nueve versos que mezcla endecasílabos y heptasílabos en proporción variable y rima en consonante, sin que la norma fije cómo se reparten las rimas. Pertenece a la serie de las estrofas aliradas: tiene la materia de la canción italiana —siete y once consonantes, repetidos sin cambio de una estrofa a otra— y no se ordena como una estancia, porque no trae eslabón. Navarro Tomás la describe entre las estrofas aliradas y documenta dos disposiciones.",
 		"descripcion_arquitectura": "Nueve versos de siete y once sílabas en proporción variable, con rima consonante. La norma no fija ni cuántos versos son de cada medida ni cómo se reparten las rimas, de modo que lo único que declara son la extensión, la materia y el régimen."
+	},
+	"decima-lira": {
+		"forma": "Décima-lira · Diccionario 2016 y Navarro Tomás 1972",
+		"por_que": "Segunda laguna de la fase 4. Era la última forma del catálogo sin ninguna fuente y su definición decía que ninguna la describía. El Diccionario le dedica entrada propia y Navarro documenta una estrofa de diez versos de siete y once en nota a su § de la estancia. Los dos la llaman estancia y no lira, pero el ejemplo del Diccionario no repite cabeza ni trae eslabón, de modo que por la regla del catálogo cae del lado alirado sin discusión. Aprobado por David.",
+		"definicion": "Estrofa de diez versos que mezcla endecasílabos y heptasílabos y rima en consonante. Pertenece a la serie de las estrofas aliradas: tiene la materia de la canción italiana y no se ordena como una estancia, porque no trae eslabón —el verso que abriría la segunda mitad retomando la rima con que se cerró la primera—. Es la de la serie que más se confunde con una canción, hasta el punto de que la tradición crítica la llama «décima-estancia»: el patrón `aBaBcDcDeE` que recoge el catálogo repite la cabeza como lo haría una fronte partida en dos piedi, y solo la ausencia de eslabón la separa de una estancia de diez versos.",
+		"descripcion_arquitectura": "Diez versos de siete y once sílabas con rima consonante. La norma no fija la proporción de cada medida ni el reparto de las rimas; el catálogo recoge un patrón documentado y admite que aparezcan otros.",
+		"afirmaciones": [
+			{
+				"anio": 2016,
+				"localizador": "Entrada «décima-estancia», p. 110",
+				"resumen": "Le da entrada propia bajo el nombre «décima-estancia», que atribuye a Navarro Tomás —quien no lo emplea en su *Métrica española*, ni en el texto ni en su «Índice de estrofas»—, y la define como «combinación estrófica de diez versos, heptasílabos y endecasílabos, rimados en consonante. Ni el número de endecasílabos y heptasílabos, ni el orden de las rimas están preestablecidos». La ejemplifica con una estrofa de Esteban Manuel de Villegas cuyas cinco rimas se entrelazan a lo largo de los diez versos sin repetir disposición. Cierra la entrada anotando que «puede constituir una estrofa de la canción a la italiana»."
+			},
+			{
+				"anio": 1972,
+				"localizador": "§ 285, «Estancia», pp. 350-351",
+				"resumen": "En su epígrafe sobre la estancia, al seguir su decadencia en el Romanticismo, anota en nota al pie que el mexicano José Joaquín Pesado empleó en sus *Consejos de un padre a su hija* «una estancia de diez versos pareados, `AaBBCCddEE`»."
+			}
+		]
 	}
 }
