@@ -16,41 +16,5 @@
 		"localizador": "§ 76, «Glosa», pp. 149-150",
 		"por_que": "La segunda frase —«El verso único queda así integrado en una composición mayor sin pertenecer a la estrofa que lo glosa»— es una lectura nuestra, no una frase del pasaje. Se retira. PENDIENTE DE APROBACIÓN DEL TEXTO.",
 		"resumen": "Al describir la glosa explica que la del mote comprendía regularmente tres partes y que la primera era el mote, en un solo verso, seguido de una paráfrasis breve en redondilla o quintilla que terminaba repitiéndolo."
-	},
-	"4c7fbe60": {
-		"forma": "Cuarteto · Navarro Tomás 1972",
-		"localizador": "§ 463",
-		"por_que": "«En el corpus áureo la relación es la inversa, porque la abrazada es la del soneto» no está en el § 463 ni en ninguna otra parte: el § entero trata la poesía del siglo XX y no menciona el Siglo de Oro ni el soneto. Leído completo en el volcado, líneas 22768-22777. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Observa que en la poesía del siglo XX «se ha mantenido su ejercicio, aunque en menor grado que en los períodos romántico y modernista», y que el tipo más frecuente es el de endecasílabos plenos con rimas cruzadas, `ABAB`, frente a la variedad abrazada, que documenta con menos ejemplos. Registra además el empleo de esa variedad con endecasílabos y heptasílabos alternos, `AbBa`, en Jorge Guillén."
-	},
-	"7fb1122d": {
-		"forma": "Cuarteto-lira · Navarro Tomás 1972",
-		"localizador": "§ 505, «Índice de estrofas», p. 533",
-		"por_que": "«Cuarteto alirado» no aparece ninguna vez en el libro, y el localizador remitía además al Diccionario dentro de una ficha de Navarro. Lo que sí hay es una entrada suya titulada «Cuarteto-lira», el mismo nombre que usa este catálogo. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "La llama cuarteto-lira, y la define como «combinación de cuatro versos de once y siete sílabas, `AbAb`, `aBaB`, `ABaB`, `AbBA`, etc.», con remisiones a seis períodos, del Renacimiento al Posmodernismo."
-	},
-	"7dfaccd6": {
-		"forma": "Lira · Navarro Tomás 1972",
-		"localizador": "§ 462",
-		"por_que": "Endurecimiento: Navarro escribe «Últimamente parece renacer con nueva vitalidad» y la ficha lo daba como constatación. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Sigue el rastro de la lira renacentista hasta el siglo XX: la emplearon García Lorca en una oda de homenaje a fray Luis de León y el argentino Ricardo E. Molinari, y añade que «últimamente **parece** renacer con nueva vitalidad en repetidas manifestaciones»."
-	},
-	"e7df73d9": {
-		"forma": "Pareado · Navarro Tomás 1972",
-		"localizador": "§ 58",
-		"por_que": "Endurecimiento: la fuente escribe «parece casi enteramente desterrado» y la ficha decía «quedó casi enteramente desterrado». Se aprovecha para recoger la excepción que él mismo anota a continuación. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Registra el pareado octosílabo en estribillos de canciones, en máximas o proverbios intercalados en algunos decires, y en motes y divisas. Del pareado narrativo de la poesía juglaresca, restringido entre los poetas de clerecía, dice que «**parece** casi enteramente desterrado de la métrica del siglo XV», y anota que se halla por excepción en el *Razonamiento que fizo don Alfonso Enríquez fablando con él mesmo*."
-	},
-	"cabb1f04": {
-		"forma": "Septeto · Navarro Tomás 1972",
-		"localizador": "§ 460, «Séptima», pp. 473-474",
-		"por_que": "La ficha describía el reparto 4-3 **en octosílabos**, que es la septilla y ya está recogido en su ficha (6b347966). El septeto de arte mayor sí está en Navarro, pero en otro sitio: el § 460, «Séptima», donde lo define como «una estrofa endecasílaba de antigua tradición provenzal, compuesta de cuarteto y terceto». Sobraban además la «septilla aguda», que es otra estrofa del § 308, y una atribución de términos al Diccionario. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Le da epígrafe propio como «Séptima»: «una estrofa endecasílaba de antigua tradición provenzal, compuesta de cuarteto y terceto», que presenta como modelo de la copla mixta octosílaba de la poesía castellana medieval. La documenta en *Adolescencia*, de Dionisio Ridruejo, «con la misma disposición `ABAB:CBC` de una cantiga de Macías en el *Cancionero de Baena*», y al final del *18 de julio*, de Alberti."
-	},
-	"11ffbe13": {
-		"forma": "Copla castellana · Navarro Tomás 1972",
-		"localizador": "§ 65",
-		"por_que": "La frase de Lope y los monólogos no está en el § 65 ni en las otras dos apariciones de la copla castellana en el libro: el único pasaje que une a Lope con el monólogo octosílabo es el § 176, y allí habla del perqué, otra estrofa. Y la cita entrecomillada se comía el «éstas» del original. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "La define como ocho octosílabos en dos grupos de cuatro **con cuatro rimas, como pareja de redondillas independientes**, y enumera las cuatro disposiciones: las dos mitades cruzadas, `abab:cdcd`; las dos abrazadas, `abba:cddc`; o combinadas, `abab:cddc` y `abba:cdcd`. La sigue históricamente: no hay ningún ejemplo en el *Cancionero de Baena* de 1445; Santillana la usa en las coplas sobre el Condestable y, con el sexto verso quebrado, en el *Diálogo de Bías contra Fortuna* y en los *Gozos de Nuestra Señora*; en el *Cancionero general* de 1511 ya supera a la de arte menor, y «llegaron éstas a ser de uso tan familiar en el siglo XVI que recibieron el nombre de coplas castellanas». Observa además lo que su falta de enlace implica: «suprimido el enlace de la rima, la unión de las semiestrofas quedaba reducida a un simple efecto de representación gráfica»."
 	}
 }
