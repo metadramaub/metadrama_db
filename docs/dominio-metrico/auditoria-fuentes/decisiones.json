@@ -1510,8 +1510,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C y comprobación en el PDF: la p. 188 es correcta. En la hoja 185, con el pie «188», están el cuerpo y la nota 174, que es lo que la afirmación recoge. La pasada B se equivocaba."
 	},
 	{
 		"id": "4715840b",
@@ -1670,7 +1670,7 @@
 			"localizador falso (medio)"
 		],
 		"estado": "pendiente",
-		"nota": ""
+		"nota": "Localizador corregido a «pp. 200 y 203» en la migración 20260914160000. QUEDA: la cita entrecomillada del recuento se come el primer término. El libro escribe «la copla de arte MAYOR, la copla de arte menor, la copla castellana, la octava real, la octava y la octavilla agudas». Cita inexacta, toca el texto."
 	},
 	{
 		"id": "12fecf35",
@@ -1980,8 +1980,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914160000. Localizador → «pp. 201-202», resuelto con la pasada C y comprobado en el PDF (hoja 198, pie «201»). La pasada B lo situaba en el epígrafe del septeto y se equivocaba."
 	},
 	{
 		"id": "11b899c3",
@@ -2170,8 +2170,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914160000. Localizador → «pp. 218 y 221»: la afirmación está repartida. La pasada B decía que la p. 218 era todavía la sextina; en la hoja 215 están el pie «218» y el epígrafe «• Soneto»."
 	},
 	{
 		"id": "9e0a5051",
