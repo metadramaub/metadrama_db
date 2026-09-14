@@ -1765,8 +1765,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "La p. 228 es correcta: el dato está en la nota 196 de esa página. La lectura ciega la dio por falsa porque buscó la definición del pareado, que no es lo que la ficha dice."
 	},
 	{
 		"id": "78f48b2b",
@@ -1905,8 +1905,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917120000. pp. 191-194 → pp. 192-195: la 191 es el final de la estrofa sáfica y la gitana está en la 195."
 	},
 	{
 		"id": "7e08e2e3",
@@ -2453,8 +2453,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "La pasada A le puso «anclaje equivocado» y la localización ciega lo desmiente: las dos mitades de la ficha describen la misma frase del libro, «al cuarteto endecasilábico cruzado (ABAB) se lo suele denominar serventesio». El localizador es correcto."
 	},
 	{
 		"id": "49b4e370",
@@ -2643,8 +2643,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917120000. Cuarta y última ficha con «Octavillas y octavas», que no es un epígrafe. Repartida en tres apartados."
 	},
 	{
 		"id": "0ffbdeb3",
@@ -3010,8 +3010,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917120000. Se añade «Pentadecasílabos»: los sextetos de esa medida están en el capítulo del verso, no en el de las estrofas de seis."
 	},
 	{
 		"id": "4751f45b",
@@ -3635,8 +3635,8 @@
 		"defectos": [
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917120000. «Pareados» es epígrafe dos veces en el capítulo V; la página desambigua cuál, el octosílabo de la p. 39."
 	},
 	{
 		"id": "5b191115",
@@ -4491,8 +4491,8 @@
 		"defectos": [
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917120000. Los dos títulos del localizador no existen en el original: se cita por § numerado, §§ 67 y 68."
 	},
 	{
 		"id": "ec3f5532",
@@ -5799,8 +5799,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "El localizador apunta a la lira y al sexteto-lira, que es exactamente lo que acota la ausencia de una estrofa alirada de siete. La localización ciega lo confirma: «septeto» y «alirad» no aparecen en Quilis."
 	},
 	{
 		"id": "f3015660",
