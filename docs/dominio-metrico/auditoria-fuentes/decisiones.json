@@ -3681,8 +3681,8 @@
 		},
 		"cubo": "fondo",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": "Decisión de David, 11 sep 2026: no podemos afirmar que traten la cruzada «aparte», porque no hemos leído otra parte del libro. Si no aparece otro esquema de redondilla en esas páginas, la afirmación se acota a lo comprobable. Va en el bloque de correcciones de M&B."
+		"estado": "corregido",
+		"nota": "Migración 20260915160000. Se retiró «que tratan aparte», que afirmaba un tratamiento en otro lugar del libro que este material no permite sostener: de Morley y Bruerton solo tenemos el capítulo V. Texto fijado por David el 11 de septiembre de 2026."
 	},
 	{
 		"id": "409dee24",
