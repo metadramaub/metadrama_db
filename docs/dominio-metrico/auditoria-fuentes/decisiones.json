@@ -336,8 +336,8 @@
 		"defectos": [
 			"omisión relevante (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916220000. Dos omisiones en una entrada de seis líneas: los «pareados de doce sílabas» y los ejemplos «redondillas o versos sueltos»."
 	},
 	{
 		"id": "4886c9d5",
@@ -472,8 +472,8 @@
 		"defectos": [
 			"omisión relevante (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916220000. La fuente asocia la octava real «a la poesía épica o a la lírica de tono elevado» y solo recogíamos la primera."
 	},
 	{
 		"id": "a5a6805b",
@@ -627,8 +627,8 @@
 		"defectos": [
 			"invención (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916220000. El silencio era correcto y la explicación falsa: el Diccionario sí registra el enlace entre estrofas, con entradas para «sexteto enlazado» y «terceto enlazado»."
 	},
 	{
 		"id": "3ee697ca",
@@ -921,8 +921,8 @@
 		"defectos": [
 			"atribución cruzada (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916220000. Igual que la redondilla enlazada: el silencio se mantiene y sale la explicación de que su único enlace es el de la gaya ciencia."
 	},
 	{
 		"id": "ce5d5f5c",
@@ -945,8 +945,8 @@
 		"defectos": [
 			"endurecimiento (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260916220000. Endurecimiento: la introducción de heptasílabos es «especialmente a partir del Romanticismo», no «desde el Romanticismo»."
 	},
 	{
 		"id": "b8f138c4",
