@@ -216,13 +216,27 @@ function leerPasadaA() {
 			continue;
 		}
 		for (const d of datos.dictamenes ?? []) {
-			todos.push({ ...d, fuente: datos.fuente ?? fichero.slice(0, 4), fichero });
+			todos.push({ ...d, fuente: datos.fuente ?? fichero.slice(0, 4), fichero, lote: datos.lote });
 		}
 	}
 	// Un mismo lote pudo escribirse dos veces —un intento que se cortó y su relanzamiento—, así
-	// que se deduplica por afirmación quedándose con el último dictamen leído.
+	// que se deduplica por afirmación.
+	//
+	// **Y el piloto no gana nunca.** Tres afirmaciones tienen dos dictámenes: el del piloto, que
+	// corrió antes que nada con errores sembrados, y el del lote que las auditó después. Quedarse
+	// con el último leído en orden alfabético daba el del piloto —`2014.json` va detrás de
+	// `2014-1.json`—, que además juzgó un texto anterior: en dos de los tres casos el piloto decía
+	// «defecto» y el lote «conforme», y la copla de arte mayor de Caparrós llevaba semanas en el
+	// cubo de fondo por un endurecimiento que ya estaba corregido cuando pasó el verificador de
+	// verdad.
 	const porId = new Map();
-	for (const d of todos) porId.set(`${d.fuente}·${d.id}`, d);
+	for (const d of todos) {
+		const clave = `${d.fuente}·${d.id}`;
+		const previo = porId.get(clave);
+		const esDeLote = (x) => x.lote !== null && x.lote !== undefined;
+		if (previo && esDeLote(previo) && !esDeLote(d)) continue;
+		porId.set(clave, d);
+	}
 	return [...porId.values()];
 }
 
