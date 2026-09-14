@@ -738,13 +738,13 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
 				{
 					"anio": 1969,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -950,13 +950,13 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
 				{
 					"anio": 1969,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -968,7 +968,7 @@
 				},
 				{
 					"anio": 2014,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -985,7 +985,7 @@
 				},
 				{
 					"anio": 2020,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				}
@@ -1098,7 +1098,7 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -1182,7 +1182,7 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -1480,13 +1480,13 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
 				{
 					"anio": 1969,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -1498,19 +1498,19 @@
 				},
 				{
 					"anio": 2014,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
 				{
 					"anio": 2016,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
 				{
 					"anio": 2020,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				}
@@ -1531,7 +1531,7 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -1749,13 +1749,13 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
 				{
 					"anio": 1969,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -1767,7 +1767,7 @@
 				},
 				{
 					"anio": 2014,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -3981,7 +3981,7 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},

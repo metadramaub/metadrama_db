@@ -4,7 +4,7 @@ Generado por `node scripts/matriz-exhaustividad.mjs`. **No juzga nada**: dice cu
 afirmaciones tiene cada celda y cuántas veces nombra esa fuente a esa forma. El recuento de
 menciones cuenta cadenas, así que es una pista para saber dónde mirar, no un veredicto.
 
-44 unidades × 6 fuentes = **264 celdas**, de las que **22** están vacías.
+44 unidades × 6 fuentes = **264 celdas**, de las que **4** están vacías.
 
 ## Las que no tienen ninguna fuente
 
@@ -31,18 +31,18 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Copla manriqueña | **1** | **1** | **1** | **1** | **1** | **1** |
 | Copla real | **1** | **1** | **1** | **1** | **1** | **1** |
 | Cuarteto | **1** | **1** | **1** | **1** | **2** | **1** |
-| Cuarteto-lira | — | — | **1** | **1** | **2** | **1** |
+| Cuarteto-lira | **1** | **1** | **1** | **1** | **2** | **1** |
 | Décima | **2** | **1** | **1** | **1** | **2** | **1** |
-| Décima-lira | — | — | **1** | — | **1** | — |
+| Décima-lira | **1** | **1** | **1** | **1** | **1** | **1** |
 | Endecasílabo suelto | **1** | **1** | **1** | **1** | **1** | **1** |
-| Endecha real | — | **1** | **5** | **1** | **3** | **3** |
-| Estrofa sáfica | — | **1** | **1** | **1** | **1** | **1** |
+| Endecha real | **1** | **1** | **5** | **1** | **3** | **3** |
+| Estrofa sáfica | **1** | **1** | **1** | **1** | **1** | **1** |
 | Lira | **1** | **1** | **1** | **1** | **1** | **1** |
 | Novena | **1** | **1** | **1** | **1** | **1** | **1** |
-| Novena-lira | — | — | **1** | — | — | — |
-| Octava aguda | — | **1** | **1** | **1** | **1** | **1** |
+| Novena-lira | **1** | **1** | **1** | **1** | **1** | **1** |
+| Octava aguda | **1** | **1** | **1** | **1** | **1** | **1** |
 | Octava real | **1** | **1** | **1** | **1** | **1** | **1** |
-| Octava-lira | — | — | **1** | — | **1** | **1** |
+| Octava-lira | **1** | **1** | **1** | **1** | **1** | **1** |
 | Oncena | **1** | **1** | **1** | **1** | **1** | **1** |
 | Pareado | **1** | **1** | **1** | **1** | **1** | **1** |
 | Quintilla | **1** | **1** | **2** | **1** | **1** | **2** |
@@ -67,6 +67,6 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Villancico | **1** | **1** | **1** | **1** | **1** | **1** |
 | Zéjel | **1** | **1** | **1** | **1** | **1** | **1** |
 | Versificación irregular | **1** | **1** | **1** | **1** | **1** | **1** |
-| Verso aislado | — | **1** | **1** | **1** | **1** | **1** |
+| Verso aislado | **1** | **1** | **1** | **1** | **1** | **1** |
 
 Negrita: afirmaciones. `· n`: sin afirmación, pero la fuente la nombra n veces. `—`: silencio limpio.
