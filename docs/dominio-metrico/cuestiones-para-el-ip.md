@@ -577,6 +577,21 @@ Las dos salieron al escribir sus afirmaciones de Jauralde y de Caparrós 2014, e
    *Y de paso, la escala que él sugiere —cuartetos, quintetos «y así sucesivamente» de endecha—
    toca la misma serie que el punto 1bis de [Lira, sexteto-lira y septeto-lira](#lira-sexteto-lira-y-septeto-lira).*
 
+   **La relación quedó declarada el 18 de septiembre de 2026** (migración `20260918160000`), sin
+   fundir las dos formas. Lo que sigue abierto es el punto siguiente.
+
+3. **Nada en la base distingue hoy una realización del cuarteto-lira con siete dominante de otra con
+   once dominante**, y sin eso el criterio de Jauralde no se puede aplicar al anotar aunque se
+   acepte. Su arquitectura, «Heterométrico consonante», declara proporción variable **sin
+   posiciones**: dice que mezcla siete y once, y no cuántos de cada uno ni en qué orden. Un editor
+   que lea `7 7 7 11` y otro que lea `11 11 11 7` registran hoy lo mismo.
+
+   *Es el mismo hueco que la novena-lira, la décima-lira y la canción de estancias variables tienen
+   con sus disposiciones, y que el catálogo tiene apuntado como pendiente de B1: falta dónde
+   registrar la disposición observada cuando la norma no la fija. Si se resuelve ahí, este caso se
+   resuelve con él; si no, el criterio de Jauralde queda como lectura que el catálogo no puede
+   guardar.*
+
 ## Lira, sexteto-lira y septeto-lira
 
 1. ~~**Las formas aliradas se deciden aparte y en conjunto.**~~ **Resuelto en parte el 24 de agosto
