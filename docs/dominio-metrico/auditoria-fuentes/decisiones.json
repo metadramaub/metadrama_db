@@ -3458,8 +3458,8 @@
 			"anclaje equivocado (medio)",
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915100000. Decía que el cuarteto asoma «en su descripción de los sueltos» y asoma en «Tercetos (sin encadenar)», p. 40: es la única vez que la palabra aparece en el capítulo. Localizador de «Cap. V» a secas al epígrafe y la página. Aprobado por David."
 	},
 	{
 		"id": "3ac1b32a",
