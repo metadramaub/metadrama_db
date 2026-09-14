@@ -320,6 +320,10 @@ decide nada**, y conviene saber por qué, porque falló dos veces en la propia f
   cero teniendo el epígrafe delante. Arreglado tratando el guion como espacio.
 - **«Novena-lira» no aparece en ningún libro**, porque es nombre nuestro para algo que Navarro
   describe sin bautizar. Eso no tiene arreglo mecánico.
+- **«Octeto-lira» era un sinónimo que el catálogo no tenía.** Jauralde llama así a la octava-lira, y
+  como el contador busca las denominaciones registradas, dio cero y la celda pasó por silencio. Se
+  arregló registrando la denominación, pero el fallo vuelve cada vez que una fuente use un nombre
+  que no esté: **el contador mide lo que el catálogo sabe llamar, no lo que el libro dice.**
 
 De ahí que cada celda vacía se abra una a una, y que el resultado de cada una sea una de tres cosas:
 laguna, falso positivo del contador, o silencio justificado que hay que **dejar escrito** —la ficha

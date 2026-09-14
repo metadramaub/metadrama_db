@@ -121,5 +121,23 @@
 		"localizador": "Apartado «Sexta rima», entre las estrofas de seis versos",
 		"por_que": "Última laguna de la fase 4. Jauralde promete espacio aparte a la sextina y se lo da, pero bajo el epígrafe «Sexta rima», mientras que el que titula «Sextina real» describe otra estrofa. Comprobado en el epub, donde los dos son h3 y el volcado no los distingue. Aprobado por David.",
 		"resumen": "La cuenta entre «las variedades históricamente más importantes» a las que promete «espacio aparte», junto a la endecha real y la copla de pie quebrado. Ese espacio existe, pero **lo titula «Sexta rima»**, y bajo ese rótulo cita la definición de Domínguez Caparrós —«poema de treinta y nueve endecasílabos, dividido en seis estrofas de seis versos y un remate de tres versos. Los versos de cada una de las estrofas no riman entre sí, pero todos los versos repiten la misma palabra final de los versos de las otras estrofas en un orden distinto»— y sigue su historia: «utilizada por algunos poetas del siglo XVI, como Fernando de Herrera; retomada modernamente por algunos versificadores hábiles, como Gerardo Diego en su *Fábula de Equis y Zeda* o en el *Madrigal a Conchita Cintrón*», y anota que el uso de Jaime Gil de Biedma en *Apología y petición* «ha provocado su relativa frecuencia entre poetas actuales». El epígrafe «Sextina real», que lo precede, describe otra estrofa: el sexteto endecasílabo `ABABCC`."
+	},
+	"dos-lagunas-tardias": {
+		"forma": "Versificación irregular · Quilis 1969 y Octava-lira · Jauralde 2020",
+		"por_que": "Las dos aparecieron al clasificar los silencios. La de Quilis estaba en la lista de nueve y no se escribió. La de Jauralde no la vio nadie: llama «octetos-lira» a la octava-lira, y «octeto» no era denominación del catálogo. Localizadores comprobados: Quilis hojas 20 y 85 del PDF (pies 39 y 168); Jauralde por epígrafe en el epub. Aprobado por David.",
+		"afirmaciones": [
+			{
+				"anio": 1969,
+				"forma": "irregular",
+				"localizador": "§§ 3.0, p. 39, y 6.4.4, p. 168",
+				"resumen": "La define por oposición y le da nombre: «a la versificación regular o silábica se contrapone la versificación irregular o libre, en la que el número de sílabas es totalmente indeterminado, pero que puede manifestarse bajo un cierto ritmo acentual (versificación rítmica) o bajo agrupaciones periódicas de ciertos grupos fónicos (versificación periódica)». Le dedica después un apartado propio, «Poemas de versos libres», donde enumera cinco rasgos —«ausencia de estrofas; ausencia de rima; ausencia de medida en los versos; ruptura sintáctica de la frase; aislamiento de la palabra»— y advierte que «todavía falta un estudio de conjunto y profundo sobre este tipo de poemas»."
+			},
+			{
+				"anio": 2020,
+				"forma": "octava_lira",
+				"localizador": "Apartado «Formas mixtas», entre las estrofas de ocho versos",
+				"resumen": "Los llama **octetos-lira** y los trata entre las formas mixtas de las estrofas de ocho versos: «más escasos que las liras con menor número de versos, los octetos-lira aparecen en poetas más tardíos de nuestro Siglo de Oro, por ejemplo, en Quevedo (\"Sencilla significación de afecto amoroso…\") y Góngora». Transcribe de Góngora un octeto de medida `7 7 11 7 7 11 7 11`, y registra otra realización de José Martí, «octeto de seis heptasílabos rematados con dos endecasílabos»."
+			}
+		]
 	}
 }

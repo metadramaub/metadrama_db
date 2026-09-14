@@ -40,20 +40,17 @@ de lo demás. Por eso van primero.
       queda sin formas mudas**, y la guarda lo exige. Sus esquemas tampoco entran como esquemas de
       rima, por la misma razón que los de la novena.
 
-### 2 · Las lagunas de la fase 4 — **once, y quedan dos por escribir**
+### 2 · Las lagunas de la fase 4 — **once, cerradas**
 
-Nueve están escritas, con el pasaje abierto y el localizador comprobado en el original. El recorrido
-está en [fase-4-exhaustividad.md](./fase-4-exhaustividad.md) y las migraciones van de
-`20260917210000` a `20260918210000`.
+Todas escritas, con el pasaje abierto y el localizador comprobado en el original. El recorrido está
+en [fase-4-exhaustividad.md](./fase-4-exhaustividad.md) y las migraciones van de `20260917210000` a
+`20260918230000`.
 
-**Dos aparecieron al clasificar los silencios, y faltan:**
-
-- **Versificación irregular · Quilis 1969**, §§ 3.0 y 6.4.4. Estaba en la lista de nueve y no se
-  escribió: error de recuento.
-- **Octava-lira · Jauralde 2020**, apartado «Formas mixtas» de las estrofas de ocho versos. **Esta no
-  la vio nadie**: la llama «octetos-lira», y «octeto» no es ninguna de las denominaciones del
-  catálogo, de modo que el contador de menciones no podía encontrarla. Es el tercer fallo del método
-  por el mismo motivo, tras «cuarteto lira» sin guion y «Novena-lira» como nombre nuestro.
+Empezaron siendo nueve. **Dos aparecieron al clasificar los silencios**, y la segunda enseña algo
+del método: Jauralde llama «octetos-lira» a la octava-lira, y «octeto» no era ninguna de las
+denominaciones del catálogo, de modo que el contador de menciones dio cero y la celda pasó por
+silencio. Es el tercer fallo por la misma causa, tras el guion de «cuarteto lira» y el nombre propio
+de «Novena-lira», que es nuestro y de nadie más. La denominación ya está registrada.
 
 Lo que dejaron, además de las afirmaciones:
 
@@ -66,8 +63,10 @@ Lo que dejaron, además de las afirmaciones:
 - **Una relación nueva**, endecha real ↔ cuarteto-lira.
 - **Tres frases falsas retiradas** de la prosa publicada: las dos que afirmaban que ninguna fuente
   describía a las liras de nueve y diez versos, y la que daba su esquema por único.
+- **Un hallazgo para el IP**: cada fuente deja de enumerar aliradas donde empieza a llamarlas
+  canción, y dos de ellas ponen la juntura en el mismo sitio, el 8/9.
 
-### 3 · Los veinte silencios que faltan por escribir
+### 3 · Los veintidós silencios que faltan por escribir
 
 Una fuente que calla no deja hueco en la ficha, y el lector no puede distinguir «no lo dice» de «no
 lo hemos mirado». Hay que registrarlos como afirmaciones.
