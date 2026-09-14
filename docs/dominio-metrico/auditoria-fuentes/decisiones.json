@@ -1125,7 +1125,7 @@
 			"cita literal inexacta (medio)"
 		],
 		"estado": "corregido",
-		"nota": "Migración 20260917140000. La cita perdía el arranque de la frase y un «de». La página, la 397, ya era correcta."
+		"nota": "Migración 20260917140000. La cita perdía el arranque de la frase y un «de». La página, la 397, ya era correcta. Migración 20260917150000: se retira además «de ahí que esta arquitectura, sola entre las cuatro, declare el pareado como parte de su esquema de rima», que habla del catálogo y no de la fuente, y que la descripción de la arquitectura ya dice mejor. Criterio de David."
 	},
 	{
 		"id": "b85a2577",
