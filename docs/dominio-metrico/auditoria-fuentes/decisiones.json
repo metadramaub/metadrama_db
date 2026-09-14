@@ -2002,8 +2002,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "no requiere revisión",
-		"nota": " Pendiente: lleva el mismo localizador ajeno «Índice de estrofas» que las otras tres de Caparrós y la pasada A no lo vio. Lo encontró la guarda de 20260917170000. Su apartado es el 10.2.6, pp. 199-200. A la espera de que David apruebe el cambio."
+		"estado": "corregido",
+		"nota": "Migración 20260917190000. Localizador «Índice de estrofas» (epígrafe de Navarro) → «pp. 199-200», el apartado 10.2.6. La prosa es exacta y no se toca. Lo encontró la guarda de 20260917170000, no la auditoría: la pasada A lo había dado por conforme. Aprobado por David."
 	},
 	{
 		"id": "95628176",
@@ -3180,8 +3180,8 @@
 		"defectos": [
 			"cita literal inexacta (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917190000. Se parafrasea la segunda cita. Abierto el epub —original de esta fuente, no conversión—, la edición de Cátedra imprime «así, ejemplo, en comedias de Lope»: el volcado era fiel y el lapsus es del libro. Nuestra ficha daba una tercera versión que no existe en ninguna parte. La cita larga del tercetillo monorrimo se comprobó exacta contra el epub y no se toca. Queda anotado, sin tocar, que termina en «a partir del modernismo» cuando la frase del libro sigue, sin marca de corte: convención rota leve. Texto aprobado por David."
 	},
 	{
 		"id": "fb1e1cda",

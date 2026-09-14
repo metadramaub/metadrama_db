@@ -35,13 +35,22 @@ Solo dónde está lo que dice, y si está repartido en más de un sitio, en cuá
    libro.
 6. Si el mismo contenido aparece en dos sitios, se dicen los dos y cuál es el desarrollo principal.
 
-## El PDF manda sobre el volcado
+## El original manda sobre el volcado
 
-El `.txt` sirve para encontrar con `grep`; la página y la estructura se confirman en el PDF con
-`pdftotext -enc UTF-8 -f N -l N "<ruta>" -`. La hoja del PDF no es la página impresa, y el desfase
-no tiene por qué ser constante. Dos fuentes no tienen PDF y no lo necesitan: Morley y Bruerton —una
-copia a mano fiel del capítulo V— y Jauralde Pou, que viene de un epub sin paginar, donde lo que se
-localiza es el epígrafe.
+El `.txt` sirve para encontrar con `grep`; la página y la estructura se confirman en el original.
+En los PDF, con `pdftotext -enc UTF-8 -f N -l N "<ruta>" -`: la hoja del PDF no es la página
+impresa, y el desfase no tiene por qué ser constante.
+
+**El epub de Jauralde Pou también es un original y se abre**: es un zip de XHTML, y se lee con
+`zipfile` sin convertir nada. No tiene paginación, así que se sigue localizando por epígrafe, pero
+conserva algo que el volcado pierde: **la jerarquía de encabezados**. El `.txt` aplana los niveles y
+convierte las versalitas en «E STROFAS DE OCHO VERSOS», de modo que un rótulo del cuerpo del texto y
+un epígrafe real se confunden. En el epub se distinguen por su etiqueta, y eso importa cuando el
+libro repite un título: hay un `h3` «Formas mixtas en septetos» y un `h6` «Formas mixtas» que son
+sitios distintos.
+
+La única fuente sin original consultable es Morley y Bruerton, y no lo necesita: lo que hay es una
+copia a mano fiel del capítulo V.
 
 ## La salida
 
