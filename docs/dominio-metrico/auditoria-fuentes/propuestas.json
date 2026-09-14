@@ -10,41 +10,5 @@
 		"por_que": "Decía que Navarro no da epígrafe a la estrofa de siete versos, lo que es cierto pero deja entender que no la documenta. Sí lo hace, en el § 161 y con dos esquemas. Comprobado por David en la muestra humana del 13 de septiembre de 2026.",
 		"localizador": "§§ 161, 162 y 229",
 		"resumen": "Trata las estrofas aliradas como familia y no forma por forma. Sigue la lira de Garcilaso y de fray Luis, que da por poco empleada en el Siglo de Oro después de las canciones de san Juan de la Cruz, y documenta su entrada en el teatro con Juan de la Cueva, Rey de Artieda y Jerónimo Bermúdez, y en Cervantes con la canción de Lenio de *La Galatea*. **No le da nombre ni epígrafe propio a la estrofa de siete versos, pero la documenta**: dice que «como desarrollo del mismo tipo métrico pueden considerarse la estrofa de siete versos, `aBbCcAA`», que Góngora aplicó al «métrico llanto» de la *Soledad segunda*, y la combinación semejante `ABcACdC` de las traducciones horacianas de Medrano. En el período siguiente registra el sexteto de heptasílabos y endecasílabos con pareado final y hasta octavas aliradas, sin volver sobre la de siete."
-	},
-	"5d3cd719": {
-		"forma": "Silva · Jauralde Pou 2020",
-		"localizador": "Apartados «Silva», en «Series», y «Estrofas de pareados»",
-		"por_que": "«Se adoptó como variedad teatral» no está en el epígrafe «Silva» sino en «Estrofas de pareados», donde habla de los pareados de 7-11 que acaban llamándose silva de consonantes. El dato es de la silva, así que basta con declarar el segundo sitio. Se aprovecha para recoger lo que la misma frase dice y no teníamos: que el nombre se extendió a los ovillejos. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Describe la silva primitiva como heptasílabos y endecasílabos con rima consonante dispuesta de manera aleatoria, y sitúa su origen a comienzos del siglo XVII, con Quevedo antes de las *Soledades*. Registra que la combinación de siete y once acabó llamándose silva de consonantes —nombre que «a su vez extiende su denominación a los ovillejos»— y que se adoptó también como variedad teatral, y que la silva moderna, de base 4-7-11-14, es normalmente de versos blancos."
-	},
-	"9e2b7557": {
-		"forma": "Copla de arte mayor · Jauralde Pou 2020",
-		"localizador": "Apartado «Coplas de arte mayor»",
-		"por_que": "El original da el patrón rítmico concreto y lo predica de los dos hemistiquios —«óoo ó en cada hemistiquio»— y la ficha lo sustituía por «un hemistiquio de ritmo marcado». Y cerraba con «y» una nómina que el original deja abierta con puntos suspensivos. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "La define como combinación de ocho versos con dos o tres rimas consonantes distribuidas en dos cuartetos que se enlazan por la misma rima de los versos cuarto y quinto. Precisa que, dada la estructura rítmica del verso —«óoo ó **en cada hemistiquio**, con una o dos sílabas antes y después»—, su número de sílabas varía entre diez y dieciséis. Señala que con ella escribieron los grandes poemas del siglo XV «Santillana, Mena, Imperial…», y deja la nómina abierta."
-	},
-	"2cc0d171": {
-		"forma": "Copla real · Jauralde Pou 2020",
-		"localizador": "Apartado «Copla real»",
-		"por_que": "Una nómina que el original deja abierta se cerraba con «y». Y el quebrado tardío se recogía como algo que le pasó a la forma, cuando el original lo enmarca como recurso buscado: «para jugar con variedades distintas». PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "La describe como combinación de diez octosílabos en dos semiestrofas unidas por tres o cuatro rimas, aparecida a lo largo del siglo XV, quizá como elaboración de las coplas castellanas y de arte menor. Advierte que las semiestrofas no son necesariamente iguales y que la forma 4-6 precede a la 5-5, que solo se hace mayoritaria a finales del siglo XV. Afirma que es quizá la copla de mayor vigencia durante el periodo áureo, cuando se llamaron redondillas castellanas y fue «estrofa preferida por Juan del Encina, Castillejo, Hurtado de Mendoza, Cervantes…», con la nómina abierta, «sobre todo por su uso en los tablados». Y que «a la larga terminó por quebrar alguno de sus versos **para jugar con variedades distintas**»."
-	},
-	"49b4e370": {
-		"forma": "Décima · Jauralde Pou 2020",
-		"localizador": "Apartado «Estrofas de diez versos»",
-		"por_que": "Endurecimiento: «se suele señalar que la inventó Vicente Espinel» se daba como hecho. Y atribución cruzada: la caracterización de la asonancia como ensayo frente a lo tradicional es narración de Jauralde sobre lo que hizo Guillén, no una autodescripción suya. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Recorre la historia de la estrofa: aparición tardía, «muy a finales del siglo XVI», porque «**se suele señalar** que la inventó Vicente Espinel en sus *Diversas rimas* (1591)», y el nombre de espinela desde *La Dorotea* de Lope; popularísima desde entonces «para todo tipo de circunstancias, incluyendo los parlamentos teatrales». **Le documenta cuatro medidas además de la octosílaba, cada una con ejemplo**: hexasilábica con estribillo en **Góngora**, endecasilábica en la *Elegía moral a la Virtud* de **Meléndez Valdés** y en las «baladas» de Rubén Darío, pentasilábica en Concha Méndez y heptasilábica en Luis García Montero. Registra también experimentos que no son realizaciones de la forma: la escala métrica de Darío «empezando por décima de bisílabo, luego trisílabo», las décimas en verso blanco y las asonantadas de Jorge Guillén en *Cántico*, que presenta como ensayo sobre la estrofa —«al rimarlas en asonante en vez de en consonante, que era lo tradicional»—."
-	},
-	"e20a8b27": {
-		"forma": "Novena · Jauralde Pou 2020",
-		"localizador": "Apartados «Estrofas» y «Estrofas de nueve versos»",
-		"por_que": "«§ 2.5.7» no es un apartado: Jauralde no numera secciones, y esa cadena es en otras partes notación de esquemas acentuales. Y el ejemplo de Castillejo no es «el único con quebrado»: en el mismo epígrafe están las diez novenas de Avellaneda en La Cruz. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Denomina «copla novena» a la unión de redondilla y quintilla y la documenta como forma abundante en los cancioneros del siglo XV, con `abba:cdccd` como realización destacada: así el *Diálogo entre el amor y un viejo* de Rodrigo Cota, y también Cervantes en *El Laberinto de amor* y Villamediana. Señala que el orden inicial fue redondilla más quintilla (4+5) y que la forma derivó a juegos de rima más complicados hasta aislar cada semiestrofa y ensayar variantes, incluida la de 5+4. Atribuye a Cristóbal de Castillejo cierta preferencia por la novena y da de él un ejemplo con quebrado que abre la quintilla final, «8a 8b 8b 8a 4c 8c 8d 8d 8c»; registra además las diez novenas de Avellaneda en *La Cruz*, de endecasílabos quebrados en cuarta posición por un heptasílabo y con rimas totales, `ABBa:CDCCD`."
-	},
-	"c63316b9": {
-		"forma": "Seguidilla · Real · Jauralde Pou 2020",
-		"localizador": "Apartados «Otros cuartetos mixtos» y «Seguidillas»",
-		"por_que": "La ficha ataba el nombre de sor Juana al esquema 10-6-10-6 y añadía una frase sobre el Diccionario y Navarro Tomás que no está en Jauralde en ninguna forma. Él lo dice en dos sitios y de otra manera. PENDIENTE DE APROBACIÓN DEL TEXTO.",
-		"resumen": "Recoge el nombre en dos sitios. En las combinaciones de seis y diez sílabas dice que «sor Juana Inés de la Cruz llamó a una de estas combinaciones \"seguidilla real\", por imitación de la endecha real, y las compuso con garbo», y añade que reaparecen en el modernismo, con un ejemplo de Gabriel y Galán en `10A+6b+10C+6b`. Y en el apartado de las seguidillas vuelve a nombrarla identificándola con la gitana: «seguidilla real, como la denomina sor Juana Inés de la Cruz, o gitana, en la terminología de Augusto Ferrán»."
 	}
 }
