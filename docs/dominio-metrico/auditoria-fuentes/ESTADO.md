@@ -35,8 +35,10 @@ de lo demás. Por eso van primero.
       fuente y no como esquemas de la arquitectura**, porque a qué forma pertenecen lo decide el IP.
       La frontera alirada/canción queda documentada con lo que dice cada una de las seis en
       [cuestiones para el IP](../cuestiones-para-el-ip.md), «Canción petrarquista» 6 a 8.
-- [ ] **La décima-lira y su esquema fijo.** Sin examinar todavía. Hay que aplicarle la misma prueba
-      que a la novena antes de dar nada por laguna.
+- [x] **La décima-lira gana sus dos fuentes.** Migración `20260917230000`: la entrada
+      «décima-estancia» del *Diccionario* y la nota del § 285 de Navarro. **Con ella el catálogo se
+      queda sin formas mudas**, y la guarda lo exige. Sus esquemas tampoco entran como esquemas de
+      rima, por la misma razón que los de la novena.
 
 ### 2 · Las nueve lagunas de la fase 4
 
@@ -53,7 +55,7 @@ se aprueban en tandas, como el cubo material.
 | 5 | Cuarteto-lira · Jauralde 2020 |
 | 6 | Cuarteto-lira · Caparrós 2014 |
 | 7 | Sextina (composición) · Jauralde 2020 — bajo el epígrafe «Sexta rima» |
-| 8 | Décima-lira · *Diccionario* 2016 — **sin examinar**: aplicarle antes la prueba de la novena |
+| 8 | ~~Décima-lira · *Diccionario* 2016~~ — **escrita**, y con ella la de Navarro § 285 |
 | 9 | Versificación irregular · Quilis 1969 |
 
 
@@ -159,6 +161,11 @@ estrofa alirada de nueve versos bajo ese epígrafe. Esa frase no puede quedarse 
 
 ## Apartado aparte · Para la revisión del catálogo, no para esta
 
+- **Un comentario de cabecera en la sección de fuentes, cuando las seis disientan.** Idea de David
+  del 17 de septiembre: si en alguna forma la disparidad entre fuentes fuera grande, la ficha
+  pública podría llevar bajo el epígrafe «Lo que dicen las fuentes» un párrafo que la resuma, antes
+  de las seis voces. No hace falta todavía; el caso que lo sugirió —alirada frente a canción— se
+  resuelve documentando cada voz por separado.
 - **La canción petrarquista registra una sola arquitectura regular.** Si los esquemas de Navarro
   entran, habrá más.
 - **El informe de la fase 4 cita pasajes de los seis libros.** Está en la historia del repositorio,

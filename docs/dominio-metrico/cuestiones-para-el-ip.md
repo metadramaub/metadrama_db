@@ -524,10 +524,15 @@ ya lo referencia.*
 1. ~~**Las formas aliradas se deciden aparte y en conjunto.**~~ **Resuelto en parte el 24 de agosto
    de 2026.** Entraron el **cuarteto-lira** y la **octava-lira**, que son las que documenta el
    *Diccionario* —la serie que acota «entre los cuatro y ocho versos»—, más la octava variedad del
-   sexteto-lira y el pareado alirado. La **novena-lira** y la **décima-lira** quedan para después de
-   B1: no las registra ninguna fuente, así que entrarán con la disposición abierta y será el editor
-   quien declare la que vea. *No es falta de apoyo: es que son el caso de rima abierta, y el sitio
-   donde se documentarán es esta base.*
+   sexteto-lira y el pareado alirado. La **novena-lira** y la **décima-lira** entraron con la
+   disposición abierta, para que sea el editor quien declare la que vea.
+
+   **Corrección del 17 de septiembre de 2026, al auditar las fuentes:** se dijo aquí que «no las
+   registra ninguna fuente», y era falso. Navarro Tomás describe dos estrofas de nueve versos dentro
+   de su § 161, «Estrofas aliradas»; el *Diccionario* dedica entrada propia a la «décima-estancia»,
+   p. 110; y Navarro documenta además una de diez en nota a su § 285. Las tres están recogidas ya en
+   las fichas de fuentes de las dos formas. *Lo que sí sigue en pie es que sus esquemas no se han
+   declarado como esquemas de rima: eso depende del punto siguiente.*
 
 1bis. **Cuando la cabeza se repite pero no hay eslabón, ¿es canción o es alirada?** Es la única
    pregunta que queda de la serie, y se la hizo el IP antes que nadie. Lo que separa una estancia de
@@ -552,6 +557,11 @@ ya lo referencia.*
    cae la zona gris lo decide el IP.* De ello dependen también las **canciones de 8, 9 y 15 versos**,
    que hoy no se distinguen de una octava-lira o una décima-lira porque su arquitectura no tiene
    modelada ninguna ordenación.
+
+   **Lo que dice cada una de las seis fuentes sobre esta frontera está recogido en
+   [«Canción petrarquista» 6](#canción-petrarquista)**, con sus citas. En una línea: ninguna usa el
+   eslabón como criterio, dos niegan expresamente que sea obligatorio, y las tres que dan criterio
+   dan la extensión y la sitúan en nueve versos.
 
 1ter. **¿El septeto-lira debe quedar abierto como sus hermanas nuevas?** El IP decidió el 26 de
    agosto de 2026 dejar **abiertas de metro y de rima** las formas aliradas nuevas —cuarteto,
