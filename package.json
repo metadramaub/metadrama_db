@@ -32,6 +32,7 @@
 		"poda:informe": "node scripts/informe-poda-prosa.mjs",
 		"audit:fuentes": "node scripts/audit-fuentes.mjs",
 		"valida:dictamenes": "node scripts/valida-dictamenes.mjs",
+		"matriz:exhaustividad": "node scripts/matriz-exhaustividad.mjs",
 		"estado:fuentes": "node scripts/estado-auditoria-fuentes.mjs",
 		"correcciones:hoja": "node scripts/hoja-correcciones.mjs",
 		"muestra:humana": "node scripts/muestra-humana.mjs",
