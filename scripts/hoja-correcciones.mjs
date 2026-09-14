@@ -1,27 +1,35 @@
 /**
  * La hoja de correcciones: qué habría que tocar en «Lo que dicen las fuentes», y por qué.
  *
- * Se lee de los dictámenes ya emitidos y **no cambia nada**: propone. Ninguna corrección del
- * catálogo se aplica sin que David la haya visto y aprobado, y las que son cuestión filológica
+ * Se lee de todo lo que la auditoría ha producido y **no cambia nada**: propone. Ninguna corrección
+ * del catálogo se aplica sin que David la haya visto y aprobado, y las que son cuestión filológica
  * no las decide él sino el IP.
+ *
+ * **Cada afirmación es una ficha que se basta a sí misma.** Es el punto entero de este fichero: la
+ * auditoría dejó cuatro documentos —el dictamen de la pasada A, la lectura ciega de la B, el cotejo
+ * de las dos y las señales mecánicas— y decidir sobre una sola afirmación obligaba a abrir los
+ * cuatro y la base. Con 31 de fondo y 53 materiales eso son cientos de saltos, y cada salto es una
+ * ocasión de decidir con la información a medias, que es justamente el vicio que esta auditoría
+ * persigue. Aquí va todo junto, en el mismo orden siempre, para que la vista lo aprenda.
  *
  * Reparte cada afirmación según lo que pide de quien la lea, que no es lo mismo en todas:
  *
  * - **De fondo.** La fuente dice algo distinto o más matizado de lo que el catálogo le atribuye,
  *   o no se ha podido confirmar. Hay que releer y reescribir.
  * - **Material.** Un dato que está mal y cuya corrección no exige juicio: una comilla que no es
- *   textual, un § que no es el que contiene el pasaje, un localizador que nadie puede seguir.
+ *   textual, un § que no es el que contiene el pasaje, un localizador que nadie puede seguir, una
+ *   afirmación colgada de donde no toca.
  * - **Filológico.** No hay error: hay una decisión que el proyecto no ha tomado. Va al IP.
- * - **Solo observación.** Conforme, pero el verificador señaló que el catálogo se aparta del
- *   original sin mentir —omite un matiz, invierte el orden, cierra una lista abierta—. **Aquí va
- *   lo que hay que mirar «a la mínima duda».**
- * - **Conforme con la comprobación anotada.** El verificador dejó constancia de qué cotejó y no
- *   señala ninguna divergencia. Se lista en una línea, no pide decisión.
+ * - **Solo observación.** Conforme, pero algo señala que el catálogo se aparta del original sin
+ *   mentir —omite un matiz, invierte el orden, cierra una lista abierta—. **Aquí va lo que hay que
+ *   mirar «a la mínima duda».**
+ * - **Conforme con la comprobación anotada.** Se dejó constancia de qué se cotejó y no hay
+ *   divergencia. Se lista en una línea, no pide decisión.
  * - **Conforme y sin nada anotado.** No se revisa: si nada apunta a que esté mal, no hay por dónde
  *   empezar a dudar. Se cuenta, para que se vea cuánto es.
  *
  * La hoja lleva transcripciones de las seis monografías, así que **no entra en el repositorio**.
- * Lo que sí se guarda es `decisiones.json`, que solo tiene identificadores y veredictos.
+ * Lo que sí se guarda es `decisiones.json`, que solo tiene identificadores, veredictos y señales.
  *
  * Uso:
  *   node scripts/hoja-correcciones.mjs
@@ -34,6 +42,9 @@ import { fileURLToPath } from 'node:url';
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const DICTAMENES = join(BASE, 'dictamenes');
+const DICTAMENES_B = join(BASE, 'dictamenes-b');
+const COTEJO = join(BASE, 'cotejo.json');
+const MECANICAS = join(BASE, 'senales-mecanicas.json');
 const HOJA = join(BASE, 'correcciones.md');
 const DECISIONES = join(BASE, 'decisiones.json');
 const MUESTRA = join(BASE, 'muestra-humana.json');
@@ -63,6 +74,15 @@ const MATERIALES = new Set([
 const SEÑALES_DE_DUDA =
 	/\bomit|\bno (dice|aparece|menciona|recoge|figura|está|consta)|\baña[dn]|\binvierte|\bsustituy|\bgeneraliza|\bcierra\b|\bamplía|\bdiscrepan|\binconsisten|\bno se puede confirmar|\bno pude|\bdebería|\bvalorar|\bincompleta|\bmatiz|\bsalvo que|\bqueda fuera|\bes una inferencia|\bes una glosa/i;
 
+const limpia = (t, n = 900) => {
+	const s = String(t ?? '')
+		.replace(/\s+/g, ' ')
+		.trim();
+	return s.length > n ? `${s.slice(0, n)}…` : s;
+};
+
+const leer = (ruta) => (existsSync(ruta) ? JSON.parse(readFileSync(ruta, 'utf-8')) : null);
+
 /**
  * El veredicto que vale, que no siempre es el del verificador.
  *
@@ -83,12 +103,49 @@ function veredictoEfectivo(d) {
 	return d.veredicto;
 }
 
+/**
+ * Lo que la lectura ciega contradice de la pasada A.
+ *
+ * Mientras la B estuvo incompleta, el reparto en cubos se hizo solo con A, y eso dejaba fuera de
+ * la revisión el caso más interesante de todos: **la afirmación que A dio por conforme y B
+ * desmiente**. Son dos y muy distintas entre sí:
+ *
+ * - B dice que el localizador no lleva al pasaje y A no anotó ningún «localizador falso». Es un
+ *   arreglo sin juicio, así que basta con que baje a material.
+ * - B dice que la fuente **no trata esa forma** cuando la afirmación del catálogo pretende ser una
+ *   cita. O falla la lectura o falla la ficha, y en cualquiera de los dos casos hay que releer.
+ */
+function contradiceB(d) {
+	if (!d.b) return [];
+	const roces = [];
+	const yaSabido = (d.defectos ?? []).some((f) => f.tipo === 'localizador falso');
+	if (d.b.el_localizador_lleva_al_pasaje === false && !yaSabido) {
+		roces.push({
+			cubo: 'material',
+			que: `la lectura ciega dice que el localizador no lleva al pasaje${
+				d.b.donde_esta_de_verdad ? `, sino a: ${limpia(d.b.donde_esta_de_verdad, 220)}` : ''
+			}`
+		});
+	}
+	if (d.b.no_trata_esta_forma === true && String(d.naturaleza ?? '').toLowerCase() === 'cita') {
+		roces.push({
+			cubo: 'fondo',
+			que: 'la lectura ciega dice que la fuente **no trata esta forma**, y la ficha la cita como si la tratara'
+		});
+	}
+	return roces;
+}
+
 function cubo(d) {
 	// **Una discrepancia humana nunca se archiva.** Invertir el veredicto y seguir el curso normal
 	// enterraba hallazgos: al dar por conforme un defecto mal tipificado, la afirmacion caia en el
 	// monton de las que no piden nada, y con ella lo que el humano habia escrito. Discrepar no
 	// significa «lo contrario», significa «esto hay que releerlo».
 	if (d.comprobacion_humana && d.comprobacion_humana.coincide === false) return 'fondo';
+
+	const roces = contradiceB(d);
+	if (roces.some((r) => r.cubo === 'fondo')) return 'fondo';
+
 	const veredicto = veredictoEfectivo(d);
 	if (veredicto === 'duda_filologica') return 'filologico';
 	if (veredicto === 'no confirmado') return 'fondo';
@@ -99,9 +156,25 @@ function cubo(d) {
 		const tipos = (d.defectos ?? []).map((f) => f.tipo);
 		return tipos.length && tipos.every((t) => MATERIALES.has(t)) ? 'material' : 'fondo';
 	}
+	if (roces.length) return 'material';
+
 	const nota = String(d.observaciones ?? '').trim();
 	if (nota.length <= 30) return 'limpio';
 	return SEÑALES_DE_DUDA.test(nota) ? 'observacion' : 'confirmacion';
+}
+
+/** Una sola línea que diga qué hay que hacer con esta ficha. Es lo que se lee primero. */
+function queDecidir(d, clave) {
+	if (clave === 'filologico') return 'Lo decide el IP: no hay error, hay una convención sin fijar.';
+	if (clave === 'fondo') return 'Releer la fuente y reescribir el resumen.';
+	if (clave === 'observacion') return 'Mirar si el matiz señalado tiene que entrar en la ficha.';
+	const tipos = new Set((d.defectos ?? []).map((f) => f.tipo));
+	const roces = contradiceB(d).map((r) => r.que);
+	if (tipos.has('anclaje equivocado'))
+		return 'Cambiar de qué cuelga la afirmación. La prosa no se toca.';
+	if (tipos.has('localizador falso') || roces.length)
+		return 'Corregir el localizador. La prosa no se toca.';
+	return 'Arreglo material: se corrige sin juicio de por medio.';
 }
 
 const TITULOS = {
@@ -113,19 +186,10 @@ const TITULOS = {
 
 const ORDEN = ['fondo', 'material', 'filologico', 'observacion'];
 
-const limpia = (t, n = 900) => {
-	const s = String(t ?? '')
-		.replace(/\s+/g, ' ')
-		.trim();
-	return s.length > n ? `${s.slice(0, n)}…` : s;
-};
+// ══════════════════════════════════════════════════════════════ Reunir las cuatro fuentes
 
-function main() {
-	if (!existsSync(DICTAMENES)) {
-		console.error('No hay dictámenes todavía.');
-		process.exit(1);
-	}
-
+/** Los dictámenes de la pasada A, deduplicados por afirmación. */
+function leerPasadaA() {
 	const todos = [];
 	for (const fichero of readdirSync(DICTAMENES)
 		.filter((f) => f.endsWith('.json'))
@@ -141,11 +205,59 @@ function main() {
 			todos.push({ ...d, fuente: datos.fuente ?? fichero.slice(0, 4), fichero });
 		}
 	}
-
 	// Un mismo lote pudo escribirse dos veces —un intento que se cortó y su relanzamiento—, así
 	// que se deduplica por afirmación quedándose con el último dictamen leído.
 	const porId = new Map();
 	for (const d of todos) porId.set(`${d.fuente}·${d.id}`, d);
+	return [...porId.values()];
+}
+
+/** Las lecturas ciegas, por identificador. */
+function leerPasadaB() {
+	const porId = new Map();
+	if (!existsSync(DICTAMENES_B)) return porId;
+	for (const f of readdirSync(DICTAMENES_B)
+		.filter((x) => x.endsWith('.json'))
+		.sort()) {
+		let datos;
+		try {
+			datos = JSON.parse(readFileSync(join(DICTAMENES_B, f), 'utf-8'));
+		} catch {
+			continue;
+		}
+		for (const l of datos.lecturas ?? []) porId.set(l.id, l);
+	}
+	return porId;
+}
+
+function main() {
+	if (!existsSync(DICTAMENES)) {
+		console.error('No hay dictámenes todavía.');
+		process.exit(1);
+	}
+
+	const pasadaB = leerPasadaB();
+	const cotejo = new Map((leer(COTEJO) ?? []).map((x) => [x.id, x.senales]));
+
+	const mecanicas = leer(MECANICAS);
+	const anclaje = new Map((mecanicas?.anclaje ?? []).map((x) => [x.id, x]));
+	const huerfanos = new Map(
+		(mecanicas?.esquemas ?? [])
+			.filter((x) => x.sin_rastro)
+			.map((x) => [x.id, x.huerfanos.filter((h) => h.donde === 'sin rastro').map((h) => h.esquema)])
+	);
+	const ajenas = new Map((mecanicas?.nombra_otra_fuente ?? []).map((x) => [x.id, x.citadas]));
+	const tiradas = new Map();
+	for (const t of mecanicas?.tiradas_compartidas ?? []) {
+		for (const [uno, otro] of [
+			[t.a, t.b],
+			[t.b, t.a]
+		]) {
+			if (!tiradas.has(uno.id)) tiradas.set(uno.id, []);
+			tiradas.get(uno.id).push({ con: otro, palabras: t.palabras, tirada: t.tirada });
+		}
+	}
+
 	const humanas = existsSync(MUESTRA)
 		? new Map(
 				(JSON.parse(readFileSync(MUESTRA, 'utf-8')).muestra ?? [])
@@ -160,9 +272,12 @@ function main() {
 					])
 			)
 		: new Map();
-	const dictamenes = [...porId.values()].map((d) => ({
+
+	const dictamenes = leerPasadaA().map((d) => ({
 		...d,
-		comprobacion_humana: humanas.get(`${d.fuente}·${d.id}`) ?? null
+		comprobacion_humana: humanas.get(`${d.fuente}·${d.id}`) ?? null,
+		b: pasadaB.get(d.id) ?? null,
+		cotejo: cotejo.get(d.id) ?? null
 	}));
 
 	const decisionesPrevias = existsSync(DECISIONES)
@@ -190,20 +305,49 @@ function main() {
 	};
 	for (const d of dictamenes) cubos[cubo(d)].push(d);
 
+	// Un número correlativo por ficha, para que el índice y la entrada se encuentren sin depender
+	// de cómo cada visor construya los anclajes de los títulos.
+	let n = 0;
+	for (const clave of ORDEN) for (const d of cubos[clave]) d.numero = n += 1;
+
 	// ---------------------------------------------------------------- La hoja
 	const hoy = new Date().toISOString().slice(0, 10);
 	const md = [];
+	const pendientes = ORDEN.reduce((t, c) => t + cubos[c].length, 0);
+
 	md.push('# Hoja de correcciones de «Lo que dicen las fuentes»');
 	md.push('');
 	md.push(`Generada el ${hoy} con \`npm run correcciones:hoja\`. **No se edita a mano** y **no`);
 	md.push('cambia nada en la base**: propone, y cada cambio lo aprueba David antes de migrarse.');
 	md.push('');
 	md.push(
-		`De **${dictamenes.length}** afirmaciones dictaminadas, **${ORDEN.reduce((n, c) => n + cubos[c].length, 0)}** piden`,
-		`mirada y **${cubos.confirmacion.length + cubos.limpio.length}** salieron conformes sin ninguna divergencia señalada. Estas no se revisan:`,
+		`De **${dictamenes.length}** afirmaciones, **${pendientes}** piden mirada y`,
+		`**${cubos.confirmacion.length + cubos.limpio.length}** salieron conformes sin ninguna divergencia señalada. Estas no se revisan:`,
 		'si nada apunta a que estén mal, no hay por dónde empezar a dudar.'
 	);
 	md.push('');
+	md.push('**Cada ficha se basta a sí misma.** Trae, siempre en este orden: qué hay que decidir,');
+	md.push('qué señaló cada pasada, lo que dice la fuente leída de las dos maneras, lo que el');
+	md.push('catálogo dice hoy y lo que se propone decir. No hace falta abrir nada más.');
+	md.push('');
+
+	// ---- Índice
+	md.push('## Índice');
+	md.push('');
+	for (const clave of ORDEN) {
+		if (!cubos[clave].length) continue;
+		md.push(`**${TITULOS[clave]} — ${cubos[clave].length}**`);
+		md.push('');
+		for (const d of cubos[clave]) {
+			const previa = decisionesPrevias.get(`${d.fuente}·${d.id}`);
+			const hecho = previa?.estado && previa.estado !== 'pendiente';
+			md.push(
+				`- ${hecho ? '~~' : ''}**${d.numero}** · ${d.sobre} · ${d.fuente}${hecho ? '~~' : ''}` +
+					`${hecho ? ` — ya ${previa.estado}` : ` — ${queDecidir(d, clave)}`}`
+			);
+		}
+		md.push('');
+	}
 
 	for (const clave of ORDEN) {
 		const lista = cubos[clave];
@@ -216,49 +360,129 @@ function main() {
 		}
 		for (const d of lista) {
 			const previa = decisionesPrevias.get(`${d.fuente}·${d.id}`);
-			md.push(`### ${d.sobre} · ${d.fuente}`);
+			md.push(`### ${d.numero} · ${d.sobre} · ${d.fuente}`);
 			md.push('');
-			md.push(`\`${d.id}\` · localizador declarado: **${d.localizador_declarado ?? '—'}**`);
+			md.push(`\`${d.id}\``);
+			md.push('');
 			if (previa?.estado && previa.estado !== 'pendiente') {
-				md.push(`> Ya decidido: **${previa.estado}**${previa.nota ? ` — ${previa.nota}` : ''}`);
+				md.push(`> ✔ **Ya ${previa.estado}.**${previa.nota ? ` ${previa.nota}` : ''}`);
+				md.push('');
 			}
+			md.push(`**Qué hay que decidir:** ${queDecidir(d, clave)}`);
 			md.push('');
+
+			// ---- Qué señaló cada quien
+			md.push('**Quién señala qué**');
+			md.push('');
+			md.push(
+				`- *Pasada A* — **${veredictoEfectivo(d)}**` +
+					(veredictoEfectivo(d) !== d.veredicto ? ` (el verificador dijo «${d.veredicto}»)` : '')
+			);
+			for (const f of d.defectos ?? []) {
+				md.push(`   - **${f.tipo}** (${f.gravedad}). ${limpia(f.explicacion, 500)}`);
+				if (f.cita_literal) md.push(`      - En la fuente: «${limpia(f.cita_literal, 300)}»`);
+			}
+			if (d.observaciones && String(d.observaciones).trim().length > 30) {
+				md.push(`   - *Observó:* ${limpia(d.observaciones, 500)}`);
+			}
+
+			if (!d.b) {
+				md.push('- *Lectura ciega* — **no la hay.** Esta ficha tiene un solo par de ojos.');
+			} else {
+				const roces = contradiceB(d);
+				md.push(
+					`- *Lectura ciega* — localizador ${
+						d.b.el_localizador_lleva_al_pasaje === false ? '**no lleva al pasaje**' : 'correcto'
+					}${d.b.no_trata_esta_forma === true ? ' · **dice que la fuente no trata esta forma**' : ''}`
+				);
+				if (d.b.donde_esta_de_verdad) {
+					md.push(`   - Está en: ${limpia(d.b.donde_esta_de_verdad, 300)}`);
+				}
+				for (const r of roces) md.push(`   - **Contradice a la pasada A:** ${r.que}`);
+			}
+
+			const s = d.cotejo;
+			if (s?.matices?.length) {
+				md.push(
+					`- *Cotejo* — matices que la fuente tiene y el catálogo no: ${s.matices.join(', ')}`
+				);
+			}
+			if (s?.esquemas?.length) {
+				md.push(
+					`- *Cotejo* — esquemas que la fuente da y la ficha no registra: \`${s.esquemas.join('`, `')}\``
+				);
+			}
+			if (anclaje.has(d.id)) {
+				const a = anclaje.get(d.id);
+				md.push(
+					`- *Anclaje* — ${a.nombra ? `nombra solo la arquitectura «${a.nombra}»` : ''}` +
+						`${a.nombra && a.hermanas_ancladas.length ? '; ' : ''}` +
+						`${a.hermanas_ancladas.length ? `hermanas de la misma fuente sí ancladas: ${a.hermanas_ancladas.join(', ')}` : ''}`
+				);
+			}
+			if (huerfanos.has(d.id)) {
+				md.push(
+					`- *Esquemas huérfanos* — sin rastro en ninguna parte del catálogo: \`${huerfanos.get(d.id).join('`, `')}\``
+				);
+			}
+			if (ajenas.has(d.id)) {
+				md.push(
+					`- *Vocabulario* — la ficha nombra otra fuente: ${ajenas
+						.get(d.id)
+						.map((c) => `**${c.marca}** (${c.anio}${c.mismo_autor ? ', mismo autor' : ''})`)
+						.join(', ')}`
+				);
+			}
+			for (const t of tiradas.get(d.id) ?? []) {
+				md.push(
+					`- *Vocabulario* — comparte **${t.palabras} palabras seguidas** con \`${t.con.id}\` (${t.con.anio} ${t.con.forma})` +
+						`<br>      «…${t.tirada}…»`
+				);
+			}
 			if (d.comprobacion_humana) {
 				const h = d.comprobacion_humana;
 				md.push(
-					`> **Comprobado a mano.** ${h.coincide ? 'Confirma' : 'NO confirma'} el dictamen, que decia` +
-						` «${d.veredicto}». ${h.clasificacion ? `Clasificado como: ${h.clasificacion}.` : ''}`
+					`- *Comprobado a mano* — ${h.coincide ? 'confirma' : '**NO confirma**'} el dictamen.` +
+						`${h.clasificacion ? ` Clasificado: ${h.clasificacion}.` : ''}`
 				);
-				md.push('>');
-				md.push(`> ${limpia(h.hallazgo, 900)}`);
+				md.push(`   - ${limpia(h.hallazgo, 900)}`);
+			}
+			md.push('');
+
+			// ---- Las dos lecturas de la fuente
+			md.push(`**Dice la fuente** *(transcripción de la pasada A)*`);
+			md.push('');
+			md.push(limpia(d.texto_original));
+			md.push('');
+			if (d.b?.lo_que_dice_la_fuente) {
+				md.push('**Dice la fuente** *(lectura ciega, sin ver el catálogo)*');
+				md.push('');
+				md.push(limpia(d.b.lo_que_dice_la_fuente, 1400));
 				md.push('');
 			}
-			for (const f of d.defectos ?? []) {
-				md.push(`- **${f.tipo}** (${f.gravedad}). ${limpia(f.explicacion, 500)}`);
-				if (f.cita_literal) md.push(`  - En la fuente: «${limpia(f.cita_literal, 300)}»`);
-			}
-			if (d.observaciones && String(d.observaciones).trim().length > 30) {
-				md.push(`- *Observación del verificador:* ${limpia(d.observaciones, 500)}`);
-			}
+
+			// ---- Antes y después
+			md.push('**Texto actual del catálogo**');
 			md.push('');
-			md.push(`**Dice la fuente:** ${limpia(d.texto_original)}`);
-			md.push('');
-			md.push(`**Texto actual del catálogo:** ${limpia(d.texto_registrado)}`);
+			md.push(limpia(d.texto_registrado));
 			md.push('');
 			const propuesta = propuestas.get(d.id);
-			if (propuesta?.resumen) {
-				md.push(`**Texto propuesto:** ${limpia(propuesta.resumen)}`);
-			} else {
-				md.push('**Texto propuesto:** *(por redactar — sin esto no se migra)*');
-			}
-			if (propuesta?.localizador) {
-				md.push('');
-				md.push(`**Localizador:** \`${d.localizador_declarado}\` → \`${propuesta.localizador}\``);
-			}
+			md.push('**Texto propuesto**');
+			md.push('');
+			md.push(
+				propuesta?.resumen ? limpia(propuesta.resumen) : '*(por redactar — sin esto no se migra)*'
+			);
+			md.push('');
+			md.push(
+				`**Localizador:** \`${d.localizador_declarado ?? '—'}\`` +
+					(propuesta?.localizador ? ` → \`${propuesta.localizador}\`` : '')
+			);
 			if (d.por_que_ahi) {
 				md.push('');
 				md.push(`*Dónde se comprobó:* ${limpia(d.por_que_ahi, 300)}`);
 			}
+			md.push('');
+			md.push('---');
 			md.push('');
 		}
 	}
@@ -266,9 +490,8 @@ function main() {
 	md.push(`## Conformes, con la comprobación anotada — ${cubos.confirmacion.length}`);
 	md.push('');
 	md.push(
-		'El verificador dejó constancia de qué cotejó, pero no señala ninguna divergencia. **No piden',
-		'decisión.** Se resumen en una línea por si quieres tirar del hilo de alguna; el dictamen',
-		'entero está en `dictamenes/`.'
+		'Se dejó constancia de qué se cotejó, pero no hay ninguna divergencia señalada. **No piden',
+		'decisión.** Se resumen en una línea por si quieres tirar del hilo de alguna.'
 	);
 	md.push('');
 	for (const d of cubos.confirmacion) {
@@ -287,12 +510,13 @@ function main() {
 
 	// ---------------------------------------------------- El registro de decisiones
 	//
-	// Sin una línea de las fuentes: solo identificadores, veredicto y en qué estado está la
-	// decisión. Por eso este sí entra en el repositorio, y es el rastro de qué aprobó un humano.
+	// Sin una línea de las fuentes: solo identificadores, veredicto, señales y en qué estado está
+	// la decisión. Por eso este sí entra en el repositorio, y es el rastro de qué aprobó un humano.
 	const registro = dictamenes
 		.map((d) => {
 			const clave = `${d.fuente}·${d.id}`;
 			const previa = decisionesPrevias.get(clave);
+			const c = cubo(d);
 			return {
 				id: d.id,
 				fuente: d.fuente,
@@ -300,9 +524,19 @@ function main() {
 				veredicto: d.veredicto,
 				veredicto_efectivo: veredictoEfectivo(d),
 				comprobado_a_mano: d.comprobacion_humana ? d.comprobacion_humana.coincide : null,
-				cubo: cubo(d),
+				lectura_ciega: Boolean(d.b),
+				contradice_b: contradiceB(d).map((r) => r.cubo),
+				senales: {
+					matices: d.cotejo?.matices?.length ?? 0,
+					esquemas_sin_registrar: d.cotejo?.esquemas?.length ?? 0,
+					esquemas_sin_rastro: huerfanos.get(d.id)?.length ?? 0,
+					anclaje: anclaje.has(d.id),
+					nombra_otra_fuente: ajenas.has(d.id),
+					tiradas_compartidas: (tiradas.get(d.id) ?? []).length
+				},
+				cubo: c,
 				defectos: (d.defectos ?? []).map((f) => `${f.tipo} (${f.gravedad})`),
-				estado: previa?.estado ?? (cubo(d) === 'limpio' ? 'no requiere revisión' : 'pendiente'),
+				estado: previa?.estado ?? (c === 'limpio' ? 'no requiere revisión' : 'pendiente'),
 				nota: previa?.nota ?? ''
 			};
 		})
@@ -310,14 +544,15 @@ function main() {
 
 	writeFileSync(DECISIONES, `${JSON.stringify(registro, null, '\t')}\n`, 'utf-8');
 
-	const sinPropuesta = ORDEN.filter((c) => c !== 'observacion')
-		.flatMap((c) => cubos[c])
-		.filter((d) => !propuestas.get(d.id)?.resumen).length;
+	const sinLectura = dictamenes.filter((d) => !d.b).length;
+	const movidas = dictamenes.filter((d) => contradiceB(d).length).length;
 
-	console.log(`${dictamenes.length} afirmaciones dictaminadas`);
+	console.log(`${dictamenes.length} afirmaciones`);
 	for (const clave of [...ORDEN, 'confirmacion', 'limpio']) {
 		console.log(`  ${String(cubos[clave].length).padStart(3)}  ${clave}`);
 	}
+	console.log(`\n${movidas} afirmaciones donde la lectura ciega contradice a la pasada A`);
+	if (sinLectura) console.log(`${sinLectura} sin lectura ciega`);
 	console.log(`\nHoja en ${HOJA}`);
 	console.log(`Registro de decisiones en ${DECISIONES}`);
 }
