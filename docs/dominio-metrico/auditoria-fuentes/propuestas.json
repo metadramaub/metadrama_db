@@ -22,5 +22,35 @@
 		"por_que": "La ficha decía que Quilis «no la separa de las demás estrofas de ocho versos» y que las trata todas bajo «octavilla». Es falso: le da epígrafe numerado y nombre propios. Comprobado en la hoja 54 del PDF, p. 107. PENDIENTE DE APROBACIÓN DEL TEXTO.",
 		"localizador": "§ 5.4.7.3, p. 107",
 		"resumen": "Le da epígrafe y nombre propios —«Octava italiana u octava aguda»—, la fecha en el Neoclasicismo con su mayor difusión en el Romanticismo, y da como combinación de rima `ABBC'DEEC`, con el cuarto y el octavo versos agudos y a veces heptasílabos en lugar de endecasílabos."
+	},
+	"8e712f47": {
+		"forma": "Copla castellana · Quilis 1969",
+		"por_que": "La ficha dice que Quilis la trata «bajo octavilla, junto a la copla de arte menor». Ninguno de los dos nombres —«copla castellana» y «copla de arte menor»— aparece una sola vez en el libro (grep sobre el volcado entero, 0 ocurrencias), ni en su índice terminológico. Lo que hay en el § 5.4.7.4 es UNA estrofa, la octavilla. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"localizador": "§ 5.4.7.4, pp. 107-108",
+		"resumen": "No emplea el nombre de copla castellana, ni el de copla de arte menor: su estrofa de ocho versos es la **octavilla**, que hace derivar de la duplicación de una redondilla o de la combinación de dos, porque durante la Edad Media la redondilla «no tuvo vida independiente». De su rima dice que «suele ser» `abbecdde` o `ababbccb`, y la ejemplifica con el Marqués de Santillana. En el mismo epígrafe trata aparte las coplas de pie quebrado, que nacen al alternar los octosílabos con versos de cuatro sílabas, muy difundidas en el siglo XV y principios del XVI, y cita el *Diálogo de Bías contra Fortuna* y los *Proverbios morales* de Santillana."
+	},
+	"45f13be6": {
+		"forma": "Copla manriqueña · Quilis 1969",
+		"por_que": "El esquema `aabccb` que la ficha atribuye a las Coplas de Manrique es el de una variante moderna: Quilis lo da para «A sus ojos», de Unamuno, con los quebrados en el segundo y el quinto verso. El de «¿Qué se hicieron las damas…» lo marca él verso a verso y es `abcabc`. Comprobado en el volcado, líneas 1240-1243. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"localizador": "§ 5.4.5.4",
+		"resumen": "Lo trata como la variante más conocida de la sextilla y le da tres nombres a la vez: «Copla de pie quebrado, Copla de Jorge Manrique o Estrofa manriqueña». La describe como estrofa de seis versos que difiere de la sextilla común en que el tercero y el sexto son tetrasílabos en lugar de octosílabos, y le reconoce «antigua tradición románica», con las primeras muestras castellanas en el Arcipreste de Hita. Cita «¿Qué se hicieron las damas…», cuyo esquema marca verso a verso como `abcabc`, y recoge como variante moderna la de Unamuno en *A sus ojos*, con los quebrados en el segundo y el quinto y rima `aabccb`. La agrupación de doce no recibe en su exposición nombre ni epígrafe propio."
+	},
+	"0c07cb3f": {
+		"forma": "Décima · Quilis 1969",
+		"por_que": "Endurecimiento: Quilis escribe «Generalmente, el tema de la estrofa se plantea en los cuatro primeros versos» y la ficha lo recogía como si fuera siempre así. Comprobado en la línea 1295 del volcado. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"localizador": "p. 110",
+		"resumen": "Describe la estrofa como dos redondillas de rima abrazada, abba y cddc, unidas por dos versos de enlace que repiten la rima última de la primera y la primera de la segunda. Añade que **generalmente** el tema se plantea en los cuatro primeros versos y que la transición del pensamiento cae en el quinto, y que por su perfección se ha comparado la estrofa con el soneto."
+	},
+	"f4f86489": {
+		"forma": "Lira · Quilis 1969",
+		"por_que": "Endurecimiento en un dato de autoría histórica, que es donde más importa el matiz: Quilis escribe «Parece que este tipo de estrofa fue ideada en Italia por BERNARDO DE TASSO, e introducida en España por GARCILASO DE LA VEGA», y la ficha lo daba como atribución firme. Comprobado en la línea 1189. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"localizador": "pp. 100-101",
+		"resumen": "Da el origen de la estrofa como conjetura y no como hecho: «parece que este tipo de estrofa fue ideada en Italia por Bernardo de Tasso, e introducida en España por Garcilaso de la Vega»."
+	},
+	"236c4eee": {
+		"forma": "Oncena · Quilis 1969",
+		"por_que": "La primera mitad es cierta —«oncena» y «undécima» no aparecen en el libro— pero la segunda es falsa: no pasa «de las de diez a las de doce», porque tampoco hay estrofas de doce. Su clasificación por número de versos termina en las de diez y el libro sigue con el capítulo del poema. Comprobado: «doce versos» tiene 0 ocurrencias. PENDIENTE DE APROBACIÓN DEL TEXTO.",
+		"localizador": "§ 5.4, «Formas estróficas», que termina en el § 5.4.8",
+		"resumen": "No registra las estrofas de once versos. Su clasificación por número de versos termina en las de diez —copla real, décima y ovillejo— y de ahí pasa al capítulo del poema, sin epígrafe para las de once ni para las de doce."
 	}
 }
