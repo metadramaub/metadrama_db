@@ -227,6 +227,38 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    abierto; si no lo fijan, queda abierto de veras y habrá que registrarlo al anotar, como todo lo
    que la norma no fija.*
 
+6. **¿Basta el verso que repite rima para separar canción de alirada, o hace falta además una sirima
+   con cuerpo?** Salió al auditar las fuentes el 17 de septiembre de 2026, y es la misma frontera del
+   punto 3 vista desde arriba.
+
+   El catálogo la pone en el **eslabón**, y lo modela como sección propia: la estancia regular es
+   `abCabC:cdeeDfF`, repartida en fronte (6) + eslabón (1) + sirima (6). La definición de la forma
+   dice que «cuando una estrofa de siete y once repite la cabeza pero no trae eslabón, **la tradición**
+   y este catálogo la llaman alirada y no canción».
+
+   **La tradición que se invoca clasifica al revés un caso concreto.** El § 161 de Navarro Tomás se
+   titula «Estrofas aliradas» y dentro de él, tras las de ocho versos que el catálogo ya recoge como
+   octava-lira —`abCabCdD` de Jáuregui, `ABcABcDD` de Cervantes en *La entretenida*—, describe dos de
+   nueve como «**una nueva reelaboración de este modelo**»: `abCabCcdD`, de Figueroa, y `AbCAbCcdD`,
+   de Góngora. En las dos, el verso séptimo repite la rima con que se cierra la cabeza.
+
+   Aplicando la regla al pie de la letra, son canciones. Pero el argumento se sostiene mal por dos
+   sitios: **que una rima se repita no informa de nada** —la fronte repite `abC` por definición y la
+   sirima `cdeeDfF` repite la `e`—, y **lo que sigue al verso séptimo es `dD`**, el pareado final que
+   la octava-lira declara como «una condición que no falla», no una sirima de seis versos.
+
+   *Si se decide que hace falta sirima con cuerpo, estas dos son aliradas de nueve versos y la
+   novena-lira gana su primera fuente. Si se decide que basta el verso que repite, son canciones y
+   van a la arquitectura de estancias variables, no a la regular de trece. En cualquiera de los dos
+   casos hay que reescribir la frase «la tradición y este catálogo la llaman alirada», y la de la
+   novena-lira que dice que ninguna fuente «le da nombre».*
+
+7. **¿«Petrarquista» nombra la forma o solo la estancia de trece versos?** Si es lo segundo, la forma
+   debería llamarse «Canción» a secas y el apellido quedarse en esa arquitectura, para que la de
+   estancias variables no cargue con un nombre que no le corresponde. La definición ya advierte que
+   «"canción" a secas designa esta forma italiana, no la medieval del siglo XV», así que el nombre
+   corto está libre de ambigüedad dentro del catálogo.
+
 ## Villancico
 
 1. **¿Se segmenta la mudanza de cuatro versos en dos miembros simétricos?** Las fuentes la describen

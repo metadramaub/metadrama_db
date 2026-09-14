@@ -1,7 +1,11 @@
 # Plan de auditoría de las afirmaciones de las fuentes
 
-Estado: **escrito el 11 de septiembre de 2026, sin iniciar.** Se ejecuta por fases y cada una
-tiene criterio de salida: se puede parar entre dos sin dejar nada a medias.
+Escrito el 11 de septiembre de 2026. **Qué queda por hacer y en qué orden está en
+[ESTADO.md](./auditoria-fuentes/ESTADO.md)**, que se actualiza al cerrar cada cosa; este documento
+describe el método y no se reescribe cada semana.
+
+Se ejecuta por fases y cada una tiene criterio de salida: se puede parar entre dos sin dejar nada a
+medias.
 
 La sección «Lo que dicen las fuentes» de cada forma se construyó buscando en los volcados `.txt`
 de las seis monografías y consultando después el PDF para dar con la página o el epígrafe. **Nadie
@@ -10,9 +14,9 @@ haya quedado fuera lo que importaba.** Este plan lo comprueba de manera que el r
 enseñarse: cada veredicto lleva su fragmento literal y su posición en el fichero, y quien dude
 puede repetir la comprobación sin fiarse de nosotros.
 
-## Lo que hay hoy
+## Lo que había al empezar
 
-Contado contra la base el 11 de septiembre de 2026, no copiado de ningún documento.
+Contado contra la base el 11 de septiembre de 2026, antes de tocar nada.
 
 | Fuente | Afirmaciones | Con página | Con § | Con epígrafe o entrada |
 | --- | --- | --- | --- | --- |
@@ -24,14 +28,10 @@ Contado contra la base el 11 de septiembre de 2026, no copiado de ningún docume
 | Jauralde Pou 2020 | 43 | 0 | 3 | 41 |
 | | **267** | **82** | | |
 
-Cuelgan de una forma 238, de una arquitectura 23 y de un esquema de rima 6. La `confianza` dice
-`alta` en 264 y `media` en 3, así que hoy ese campo no distingue nada.
+**43 formas activas y 223 pares forma-fuente cubiertos de los 258 posibles.**
 
-**43 formas activas y 223 pares forma-fuente cubiertos de los 258 posibles**: quedan 35 celdas
-vacías, y dos formas —**Décima-lira** y **Novena-lira**— sin ninguna fuente.
-
-Todo esto se publica hoy en `/formas`, en la sección `#fuentes` de cada ficha. Una invención
-confirmada no es una deuda interna: está en la web.
+Todo esto se publica en `/formas`, en la sección `#fuentes` de cada ficha. Una invención confirmada
+no es una deuda interna: está en la web. Por eso se audita.
 
 ## Sobre qué se contrasta cada fuente
 
@@ -309,11 +309,22 @@ Las cifras son las del 13 de septiembre de 2026, con la pasada B ya completa sob
 ## 5. La otra mitad: lo que falta
 
 La regla de exhaustividad dice que toda fuente que trate una forma tiene su afirmación, y que el
-silencio de una fuente también se registra. Eso no se audita por afirmación sino **por forma**: 43
-unidades. Para cada una se toman sus denominaciones del catálogo, se buscan en las seis y se listan
-todos los pasajes que la mencionan; cada pasaje ha de estar cubierto por una afirmación o quedar
-justificado por escrito. **Las 35 celdas vacías son el punto de partida y las dos formas sin
-ninguna fuente, lo primero.**
+silencio de una fuente también se registra. Eso no se audita por afirmación —una afirmación que no
+existe no se puede leer— sino **por forma**: 43 unidades × 6 fuentes = 258 celdas.
+
+Lo dibuja `npm run matriz:exhaustividad`, que cuenta para cada celda vacía cuántas veces nombra esa
+fuente a esa forma bajo cualquiera de sus denominaciones. **Ese recuento ordena el trabajo y no
+decide nada**, y conviene saber por qué, porque falló dos veces en la propia fase 4:
+
+- **«cuarteto lira» sin guion no contaba como «Cuarteto-lira»**, y la celda de Caparrós 2014 salía a
+  cero teniendo el epígrafe delante. Arreglado tratando el guion como espacio.
+- **«Novena-lira» no aparece en ningún libro**, porque es nombre nuestro para algo que Navarro
+  describe sin bautizar. Eso no tiene arreglo mecánico.
+
+De ahí que cada celda vacía se abra una a una, y que el resultado de cada una sea una de tres cosas:
+laguna, falso positivo del contador, o silencio justificado que hay que **dejar escrito** —la ficha
+pública enseña seis fuentes y el lector no puede distinguir entre «no lo dice» y «no lo hemos
+mirado»—.
 
 ## 6. Las fases
 
@@ -326,12 +337,12 @@ ninguna fuente, lo primero.**
 | 4 | Exhaustividad, 43 formas | matriz forma × fuente completa, con cada hueco justificado |
 | 5 | Informe, correcciones propuestas y muestra humana | informe firmado y repetible por un tercero |
 
-La fase 1 existe para decidir si merece la pena seguir: **si el piloto devuelve cero defectos
-graves en la fuente más fácil de comprobar**, quizá baste con auditar entera la de más riesgo y
-muestrear las demás.
+**En qué fase estamos y qué falta de ella: [ESTADO.md](./auditoria-fuentes/ESTADO.md).**
 
-Se empieza por el Diccionario y no por lo más sospechoso porque es donde la máquina puede decir
-quién tiene razón, y eso es lo que calibra el método antes de gastarlo.
+La fase 1 existía para decidir si merecía la pena seguir. Se siguió.
+
+Se empezó por el Diccionario y no por lo más sospechoso porque es donde la máquina puede decir quién
+tiene razón, y eso es lo que calibra el método antes de gastarlo.
 
 ## 7. Modelos y coste
 
@@ -352,20 +363,29 @@ regenera los niveles 0 y 1, como los demás informes del proyecto, **para que no
 Si al final quiere dejarse constancia en la base de qué se verificó y cuándo, eso es una migración
 y se decide aparte, cuando haya resultados que registrar.
 
-## 9. Lo que ya se sabe que va a doler
+## 9. Qué dolió de verdad
 
-**Las seis páginas de Navarro Tomás.** [Las fuentes del catálogo](./fuentes-del-catalogo.md)
-documenta que ese libro no se cita por página porque el volcado no las conserva. Que seis
-afirmaciones la lleven significa que salieron de otro sitio. Puede que del PDF, correctamente;
-puede que no. **Es la primera prueba que hay que hacer y es barata.**
+Las cuatro sospechas con que se escribió el plan —las seis páginas de Navarro, las tres de Jauralde,
+los pliegos dobles de Quilis y el endurecimiento invisible— resultaron ciertas las cuatro y se
+resolvieron. Lo que no se había previsto es esto, que es lo que hay que recordar:
 
-**Las tres páginas de Jauralde.** Mismo caso y peor: el epub no tiene paginación ninguna.
+**Ninguna pasada es fiable sola.** La B se equivocó en tres de las cuatro veces que disintió de la
+A; la C dio tres páginas erróneas de Quilis seguidas; y la A llegó a **inventarse una cita de la
+fuente** para acusar a una ficha de inventársela. Solo abrir el libro decide. De ahí que la tercera
+lectura sea política fija y no recurso excepcional.
 
-**Los pliegos dobles de Quilis.** `localizar` devuelve pares de números y el PDF escaneó dos
-páginas por hoja. Hay 15 afirmaciones con página ahí, y el riesgo de estar una fuera no es
-desdeñable.
+**Las guardas encuentran lo que nadie pensó en buscar.** Una guarda que solo iba a comprobar que una
+cláusula falsa desaparecía del catálogo encontró una cuarta ficha con ella, sentada en el cubo de
+las conformes. De ahí que las guardas cuenten antes de tocar y afirmen el invariante, en vez de
+comparar con totales contados a mano —que también fallaron—.
 
-**El endurecimiento no se ve leyendo.** Es el defecto que la pasada A puede pasar por alto
-tranquilamente, porque el resumen sigue siendo verdad *a medias*. Si en el piloto los sembrados de
-ese tipo no se cazan, hay que aceptar que la pasada B es obligatoria en las seis fuentes y que el
-coste sube.
+**Los defectos vienen en familia.** Una cláusula se escribe una vez y se copia a las fichas
+hermanas: «pp. 205 y ss.» ×5, «Octavillas y octavas» ×4, «Índice de estrofas» ×4 —un epígrafe de
+Navarro dentro de fichas de Caparrós—. Y el catálogo parte a veces un solo pasaje de una fuente
+entre dos de sus formas, de modo que cada ficha describe el contenido de la otra: pasó con la
+octavilla de Quilis y con la séptima y la septilla de Navarro.
+
+**El original manda, y el epub también es original.** Durante semanas las instrucciones dijeron que
+el de Jauralde «no hacía falta». Sí hacía: conserva la jerarquía de encabezados que el `.txt` aplana
+—vuelca las versalitas como «E STROFAS DE OCHO VERSOS»— y sin ella no se distingue un rótulo del
+cuerpo de un epígrafe real, ni dos epígrafes que el libro repite.

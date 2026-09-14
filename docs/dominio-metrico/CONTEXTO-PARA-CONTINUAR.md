@@ -209,8 +209,9 @@ Leer solo lo necesario para la tarea:
    dónde están los ficheros y cómo se cita cada una. **De lectura obligada antes de añadir o
    corregir una afirmación.**
    5bis. [Plan de auditoría de las fuentes](./plan-auditoria-fuentes.md): cómo se comprueba que
-   las 267 afirmaciones ya escritas dicen lo que dicen sus fuentes y están donde declaran. Se
-   ejecuta por fases; **solo hay que leerlo si la tarea es esa**.
+   las 267 afirmaciones ya escritas dicen lo que dicen sus fuentes y están donde declaran, y
+   [su estado](./auditoria-fuentes/ESTADO.md), que es lo que dice qué falta y en qué orden.
+   **Solo hay que leerlos si la tarea es esa**; entonces, el estado primero.
 6. [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md): los ocho criterios de redacción
    y dónde va cada cosa —definición, descripción, nota, afirmación—.
 7. Para la migración de las secuencias, en este orden:
