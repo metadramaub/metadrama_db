@@ -271,5 +271,31 @@
 				"resumen": "No la registra. Enumera la serie alirada desde el cuarteto hasta el octeto-lira y se detiene ahí, porque a partir de esa extensión la llama de otra manera: define la estancia como estrofa de siete y once sílabas dispuestos de modo aleatorio, «normalmente por encima de los ocho versos (para diferenciarla de las liras)»."
 			}
 		]
+	},
+	"silencios-sextina": {
+		"forma": "Sextina (estrofa) · los cuatro silencios",
+		"por_que": "Cuatro fuentes tratan la sextina como composición y no dan entidad propia a la estrofa de seis que la forma. Cada una lo hace de una manera, y el Diccionario además usa el nombre para otra cosa. Páginas comprobadas en el original. Aprobado por David.",
+		"celdas": [
+			{
+				"anio": 1968,
+				"localizador": "Capítulo «Definición de las Formas Métricas», epígrafe «Sestina»",
+				"resumen": "No le da entidad propia. Define la composición —«una forma de *canzone* que consiste en seis estrofas de seis endecasílabos cada una. Las palabras finales de la primera estrofa se repiten en cada una de las otras, pero el orden de las palabras no es igual en ninguna, ni ninguna de las palabras finales riman en ninguna estrofa»— y describe la estrofa solo como su componente, sin nombrarla aparte."
+			},
+			{
+				"anio": 1972,
+				"localizador": "«Índice de estrofas», s. v. «Sextina», p. 535",
+				"resumen": "No le da entidad propia. Su «Índice de estrofas» define la sextina como «composición formada por seis estrofas de seis endecasílabos sueltos cada una, en las que se repiten como terminación de los versos las mismas seis palabras bajo seis combinaciones distintas», de modo que la estrofa queda descrita dentro de la composición y no como unidad con nombre."
+			},
+			{
+				"anio": 2014,
+				"localizador": "p. 216",
+				"resumen": "No le da entidad propia. Define la sextina como «un poema de treinta y nueve endecasílabos, dividido en seis estrofas de seis versos y un remate de tres», y describe su estrofa de seis solo al enunciar la regla con que se permutan las palabras finales de una a otra."
+			},
+			{
+				"anio": 2016,
+				"localizador": "Entrada «sextina», p. 391",
+				"resumen": "No le da entidad propia, y además usa el nombre para otra cosa. Su entrada recoge dos sentidos: el primero es la composición, «poema de treinta y nueve endecasílabos, dividido en seis estrofas de seis versos y un remate de tres versos», cuya estrofa describe solo como parte; el segundo remite a «**sexteto**», es decir, a la estrofa de seis versos en general, que no es la estrofa sin rima cuyas palabras finales permuta la composición."
+			}
+		]
 	}
 }

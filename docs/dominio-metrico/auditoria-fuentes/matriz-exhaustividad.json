@@ -3212,7 +3212,7 @@
 			"celdas": [
 				{
 					"anio": 1968,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 0,
 					"porNombre": []
 				},
@@ -3229,7 +3229,7 @@
 				},
 				{
 					"anio": 1972,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 14,
 					"porNombre": [
 						{
@@ -3240,7 +3240,7 @@
 				},
 				{
 					"anio": 2014,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 23,
 					"porNombre": [
 						{
@@ -3251,7 +3251,7 @@
 				},
 				{
 					"anio": 2016,
-					"afirmaciones": 0,
+					"afirmaciones": 1,
 					"menciones": 25,
 					"porNombre": [
 						{
