@@ -1693,8 +1693,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917170000. Se retira la nota 180 (es de la copla castellana, un párrafo antes) y el localizador pasa a «pp. 202-203», que es donde empieza y acaba la octava de *La Araucana*. Texto aprobado por David."
 	},
 	{
 		"id": "28847825",
@@ -1717,8 +1717,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917170000. Se retira el remite al *Diccionario* —comparar fuentes es trabajo de la sección— y el localizador ajeno «Índice de estrofas». El silencio gana prueba literal en la p. 207. Texto aprobado por David."
 	},
 	{
 		"id": "9ca15634",
@@ -1859,8 +1859,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917170000. Localizador «Índice de estrofas» (epígrafe de Navarro) → «pp. 185 y 188»: la 185 define el único encadenamiento que admite, el del terceto, y la 188 la redondilla con `abba` fijo. Texto aprobado por David."
 	},
 	{
 		"id": "5d77150b",
@@ -2003,7 +2003,7 @@
 		"cubo": "material",
 		"defectos": [],
 		"estado": "no requiere revisión",
-		"nota": ""
+		"nota": " Pendiente: lleva el mismo localizador ajeno «Índice de estrofas» que las otras tres de Caparrós y la pasada A no lo vio. Lo encontró la guarda de 20260917170000. Su apartado es el 10.2.6, pp. 199-200. A la espera de que David apruebe el cambio."
 	},
 	{
 		"id": "95628176",
@@ -2096,8 +2096,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260917170000. Localizador «Índice de estrofas» → «pp. 196-198», que es el apartado entero de las estrofas de seis versos. Gana prueba literal: «pero las rimas siempre son distintas en cada sextilla». Texto aprobado por David."
 	},
 	{
 		"id": "31a59df9",

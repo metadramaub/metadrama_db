@@ -10,5 +10,35 @@
 		"por_que": "Decía que Navarro no da epígrafe a la estrofa de siete versos, lo que es cierto pero deja entender que no la documenta. Sí lo hace, en el § 161 y con dos esquemas. Comprobado por David en la muestra humana del 13 de septiembre de 2026.",
 		"localizador": "§§ 161, 162 y 229",
 		"resumen": "Trata las estrofas aliradas como familia y no forma por forma. Sigue la lira de Garcilaso y de fray Luis, que da por poco empleada en el Siglo de Oro después de las canciones de san Juan de la Cruz, y documenta su entrada en el teatro con Juan de la Cueva, Rey de Artieda y Jerónimo Bermúdez, y en Cervantes con la canción de Lenio de *La Galatea*. **No le da nombre ni epígrafe propio a la estrofa de siete versos, pero la documenta**: dice que «como desarrollo del mismo tipo métrico pueden considerarse la estrofa de siete versos, `aBbCcAA`», que Góngora aplicó al «métrico llanto» de la *Soledad segunda*, y la combinación semejante `ABcACdC` de las traducciones horacianas de Medrano. En el período siguiente registra el sexteto de heptasílabos y endecasílabos con pareado final y hasta octavas aliradas, sin volver sobre la de siete."
+	},
+	"b3fb7d0b": {
+		"forma": "Terceto · Jauralde Pou 2020",
+		"localizador": "Apartado «Estrofas de tres versos»",
+		"por_que": "La segunda cita no coincidía con la fuente. Abierto el epub —que es el original de esta fuente, no el volcado—, lo que la edición imprime es «así, ejemplo, en comedias de Lope», con un «por» que falta en el propio libro. Citar un lapsus de la edición como si fuera la redacción del autor no aporta nada, así que se parafrasea. Aprobado por David.",
+		"resumen": "Es quien lo sitúa en el corpus de este catálogo: **«el tercetillo monorrimo es frecuente en composiciones medievales de base octosilábica o hexasilábica (como el zéjel, el villancico, normal como estribillo, con uno de sus versos quebrado, etc.), raro en los Siglos de Oro, cuando solo se utiliza para diálogos teatrales (por Lope de Vega y otros autores), y nuevamente variado y frecuente a partir del modernismo»**. Del terceto autónomo añade que, tras la poesía medieval tardía y los cancioneros, aparece en ejemplos sueltos, y cita entre ellos comedias de Lope, antes de que los modernistas recuperen la estrofa."
+	},
+	"12fecf35": {
+		"forma": "Octava real · Domínguez Caparrós 2014",
+		"localizador": "pp. 202-203",
+		"por_que": "La nota 180 no es de la octava real: su marcador va pegado al final de los esquemas de rima de la copla castellana, un párrafo antes, y el párrafo de la octava real no lleva ninguno. Aprobado por David.",
+		"resumen": "La define como combinación de ocho endecasílabos consonantes de esquema ABABABCC y recoge «octava rima» y «octava heroica» como sus otros nombres. La ejemplifica con el comienzo de *La Araucana* de Ercilla."
+	},
+	"28847825": {
+		"forma": "Oncena · Domínguez Caparrós 2014",
+		"localizador": "p. 207",
+		"por_que": "El localizador «Índice de estrofas» es un epígrafe de Navarro Tomás y no existe en este libro. Y la ficha remitía al Diccionario dentro de la voz de Caparrós. El silencio gana en cambio una prueba literal, en la p. 207. Aprobado por David.",
+		"resumen": "No le dedica epígrafe: su recorrido de las combinaciones estróficas termina en las de diez versos, y al cerrarlo anota que «no son frecuentes los esquemas fijos de estrofas más allá de los diez versos»."
+	},
+	"5aa7f3eb": {
+		"forma": "Redondilla enlazada · Domínguez Caparrós 2014",
+		"localizador": "pp. 185 y 188",
+		"por_que": "Mismo localizador importado de Navarro. Se sustituye por las dos páginas donde se comprueba la ausencia. Aprobado por David.",
+		"resumen": "No la registra. Su recorrido de las combinaciones estróficas no contempla series en que la rima pase de una estrofa a la siguiente, fuera del terceto encadenado, que define en la p. 185; su redondilla, en la 188, la define con esquema fijo `abba` y sin variante enlazada."
+	},
+	"274d62c8": {
+		"forma": "Sextilla enlazada · Domínguez Caparrós 2014",
+		"localizador": "pp. 196-198",
+		"por_que": "Mismo localizador importado. El silencio gana una prueba literal: al tratar la copla de Jorge Manrique dice que las rimas siempre son distintas en cada sextilla. El apartado de las estrofas de seis versos va de la 196 a la 198: la 199 ya es el septeto. Aprobado por David.",
+		"resumen": "No la registra. Su recorrido de las estrofas de seis versos no contempla que la rima pase de una a la siguiente: al tratar la copla de Jorge Manrique dice que se ha considerado también como estrofa de doce versos, «pero las rimas siempre son distintas en cada sextilla»."
 	}
 }
