@@ -673,8 +673,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915150000. Solo la página: «romance heroico» está en la 369, no en la 368. El contenido es correcto: el heptasílabo está documentado en la entrada «endecha», que el localizador ya declaraba, y la pasada C lo dio por no encontrado buscando solo dentro de «romancillo»."
 	},
 	{
 		"id": "755cf2c2",
@@ -1956,8 +1956,8 @@
 		"defectos": [
 			"omisión relevante (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915140000. Se retiró «que sí recoge en el *Diccionario*»: es una afirmación sobre otro libro metida en la voz de este. Aprobado por David."
 	},
 	{
 		"id": "afe1da83",
@@ -2848,8 +2848,8 @@
 			"localizador falso (medio)",
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915140000. Enumeraba la gitana y «la real 10-6-10-6» como dos variedades: Jauralde dice que son la misma estrofa —«seguidilla real, como la denomina sor Juana, o gitana, en la terminología de Augusto Ferrán»— y el 10-6-10-6 es de otro capítulo. Aprobado por David."
 	},
 	{
 		"id": "c63316b9",
@@ -3036,8 +3036,8 @@
 		"defectos": [
 			"anclaje equivocado (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915150000. Se añade «Quinteto-lira». Estuvo a punto de tratarse como invención y no lo es: el libro dice que las variedades del sexteto-lira «ya está[n] en las traducciones luisianas o en Llama de amor viva», pero lo dice en el capítulo de la lira de cinco versos."
 	},
 	{
 		"id": "b2e4dfe5",
@@ -3158,8 +3158,8 @@
 			"invención (grave)",
 			"convención rota (leve)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915140000. Se retiró «donde Quilis da CDC DCD». La sección ya compara por sí sola al poner las seis fuentes juntas; decirlo dentro de una se lee como si lo dijera ella. Aprobado por David."
 	},
 	{
 		"id": "b3fb7d0b",
