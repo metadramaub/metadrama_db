@@ -33,6 +33,8 @@ vite.config.ts.timestamp-*
 /docs/dominio-metrico/auditoria-fuentes/lotes/
 /docs/dominio-metrico/auditoria-fuentes/lotes-b/
 /docs/dominio-metrico/auditoria-fuentes/dictamenes-b/
+/docs/dominio-metrico/auditoria-fuentes/dictamenes-c/
+/docs/dominio-metrico/auditoria-fuentes/lotes-c/
 /docs/dominio-metrico/auditoria-fuentes/correcciones.md
 /docs/dominio-metrico/auditoria-fuentes/cotejo.md
 /docs/dominio-metrico/auditoria-fuentes/cotejo.json
