@@ -1389,8 +1389,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914140000. Localizador → «p. 202», comprobado en el PDF hoja por hoja por el número impreso al pie. No se tocó la prosa."
 	},
 	{
 		"id": "0b562394",
@@ -1437,8 +1437,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914140000. Localizador → «p. 201», comprobado en el PDF hoja por hoja por el número impreso al pie. No se tocó la prosa."
 	},
 	{
 		"id": "cde408cf",
@@ -1461,8 +1461,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914140000. Localizador → «pp. 196-197», comprobado en el PDF hoja por hoja por el número impreso al pie. No se tocó la prosa."
 	},
 	{
 		"id": "cda0d43d",
@@ -1931,8 +1931,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914140000. Localizador → «p. 199», comprobado en el PDF hoja por hoja por el número impreso al pie. No se tocó la prosa."
 	},
 	{
 		"id": "4ebe5647",
@@ -2050,8 +2050,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914140000. Localizador → «p. 199», comprobado en el PDF hoja por hoja por el número impreso al pie. No se tocó la prosa."
 	},
 	{
 		"id": "c0160a43",
@@ -2283,8 +2283,8 @@
 		"defectos": [
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260914140000. Localizador → «pp. 210-211», comprobado en el PDF hoja por hoja por el número impreso al pie. No se tocó la prosa."
 	},
 	{
 		"id": "4c90a1f0",
