@@ -49,6 +49,28 @@ const PASADAS = [
 		 * trata esa forma: entonces no hay pasaje que transcribir y lo que se guarda es el silencio.
 		 */
 		vale: (x) => Boolean(String(x.texto_original ?? '').trim()) || x.no_trata_esta_forma === true
+	},
+	{
+		nombre: 'C · localización ciega',
+		lotes: join(BASE, 'lotes-c'),
+		resultados: join(BASE, 'dictamenes-c'),
+		campo: 'localizaciones',
+		instrucciones: 'instrucciones-verificador-c.md',
+		/**
+		 * Una localización vale si propone un sitio **o** si declara no haber encontrado el pasaje.
+		 * Lo segundo no es un fallo: en una afirmación que sostiene un silencio, no encontrar nada
+		 * es la respuesta, y viene con la lista de lo que se buscó.
+		 */
+		vale: (x) =>
+			Boolean(String(x.localizador_que_propongo ?? '').trim()) ||
+			Boolean(String(x.no_encontrado ?? '').trim()),
+		/**
+		 * **La C no se mide contra las 267.** Las otras dos tienen que cubrir el catálogo entero;
+		 * esta se lanza solo donde el localizador está en duda, porque una tercera opinión únicamente
+		 * decide algo si hay algo que decidir. Su universo son las afirmaciones repartidas en sus
+		 * lotes, y `npm run lotes:c` es quien dice cuáles faltan por repartir.
+		 */
+		soloDondeHayDuda: true
 	}
 ];
 
@@ -81,9 +103,11 @@ function censo() {
 function repasar(pasada) {
 	const pendientes = [];
 	const hechas = new Set();
+	const repartidas = new Set();
 	const veredictos = new Map();
 
-	if (!existsSync(pasada.lotes)) return { pendientes, hechas, veredictos, huboLotes: false };
+	if (!existsSync(pasada.lotes))
+		return { pendientes, hechas, repartidas, veredictos, huboLotes: false };
 
 	console.log(`\n══ Pasada ${pasada.nombre}`);
 	console.log('lote        afirmaciones  resultado');
@@ -94,6 +118,7 @@ function repasar(pasada) {
 		.sort()) {
 		const lote = leerJson(join(pasada.lotes, fichero));
 		const cuantas = lote.datos?.afirmaciones?.length ?? 0;
+		for (const a of lote.datos?.afirmaciones ?? []) repartidas.add(a.id);
 		const ruta = join(pasada.resultados, fichero);
 
 		if (!existsSync(ruta)) {
@@ -135,7 +160,7 @@ function repasar(pasada) {
 		}
 	}
 
-	return { pendientes, hechas, veredictos, huboLotes: true };
+	return { pendientes, hechas, repartidas, veredictos, huboLotes: true };
 }
 
 function main() {
@@ -143,10 +168,16 @@ function main() {
 	const repasos = PASADAS.map((p) => ({ pasada: p, ...repasar(p) }));
 
 	console.log(`\n══ Cobertura sobre las ${afirmaciones.length} afirmaciones del catálogo`);
-	for (const { pasada, hechas } of repasos) {
-		const faltan = afirmaciones.filter((a) => !hechas.has(a.id));
+	for (const { pasada, hechas, repartidas } of repasos) {
+		// Las dos primeras se miden contra el catálogo entero; la C, contra lo que se le ha
+		// repartido, porque solo se lanza donde el localizador está en duda.
+		const universo = pasada.soloDondeHayDuda
+			? afirmaciones.filter((a) => repartidas.has(a.id))
+			: afirmaciones;
+		const faltan = universo.filter((a) => !hechas.has(a.id));
 		console.log(
-			`\n${pasada.nombre}: ${afirmaciones.length - faltan.length} de ${afirmaciones.length}`
+			`\n${pasada.nombre}: ${universo.length - faltan.length} de ${universo.length}` +
+				(pasada.soloDondeHayDuda ? ' repartidas · no se mide contra las 267' : '')
 		);
 		if (!faltan.length) {
 			console.log('   completa.');
@@ -158,7 +189,12 @@ function main() {
 			`   faltan ${faltan.length}: ` +
 				[...porAnio].map(([anio, n]) => `${n} de ${anio}`).join(' · ')
 		);
-		console.log(`   ${faltan.map((a) => `${a.id} ${a.sobre}`).join(' · ')}`);
+		// La lista de identificadores sirve para ir a buscarlos; más de una veintena deja de
+		// servir y tapa el resto del informe.
+		const muestra = faltan.slice(0, 20).map((a) => `${a.id} ${a.sobre}`);
+		console.log(
+			`   ${muestra.join(' · ')}${faltan.length > muestra.length ? ` … y ${faltan.length - muestra.length} más` : ''}`
+		);
 	}
 
 	const veredictos = repasos.find((r) => r.pasada.campo === 'dictamenes')?.veredictos;
@@ -168,8 +204,11 @@ function main() {
 
 	console.log('');
 	let algo = false;
-	for (const { pasada, pendientes, hechas } of repasos) {
-		const sinLote = afirmaciones.filter((a) => !hechas.has(a.id)).length;
+	for (const { pasada, pendientes, hechas, repartidas } of repasos) {
+		const universo = pasada.soloDondeHayDuda
+			? afirmaciones.filter((a) => repartidas.has(a.id))
+			: afirmaciones;
+		const sinLote = universo.filter((a) => !hechas.has(a.id)).length;
 		if (!pendientes.length && !sinLote) continue;
 		algo = true;
 		if (pendientes.length) {
@@ -180,14 +219,19 @@ function main() {
 		if (sinLote && !pendientes.length) {
 			console.log(
 				`Pasada ${pasada.nombre.slice(0, 1)}: hay afirmaciones sin lote que las reclame. ` +
-					'Con `npm run lotes:b -- --escribe` se reparten las que le falten a la B.'
+					`Con \`npm run lotes:${pasada.campo === 'lecturas' ? 'b' : 'c'} -- --escribe\` se reparten las que falten.`
 			);
 		}
 		console.log(
 			`   Sus instrucciones, palabra por palabra, en \`docs/dominio-metrico/auditoria-fuentes/${pasada.instrucciones}\`.`
 		);
 	}
-	if (!algo) console.log('Las dos pasadas están completas sobre el catálogo entero.');
+	if (!algo)
+		console.log(
+			'Las tres pasadas están completas: las dos primeras sobre el catálogo entero, y la',
+			'localización ciega sobre todo lo que se le ha repartido. `npm run lotes:c` dice si queda',
+			'alguna afirmación con el localizador en duda sin repartir.'
+		);
 	else
 		console.log(
 			'\n**Se relanzan con ese texto exacto**: un lote verificado con otras instrucciones no es\ncomparable con los demás.'
