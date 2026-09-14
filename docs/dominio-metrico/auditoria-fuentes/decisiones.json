@@ -178,8 +178,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "623199bd",
@@ -246,8 +246,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "962207aa",
@@ -404,8 +404,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "514e4cdd",
@@ -448,8 +448,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "515d9993",
@@ -494,8 +494,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "4e0d8da8",
@@ -516,8 +516,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "0f28eef9",
@@ -537,8 +537,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "63e2a80d",
@@ -603,8 +603,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "423b6dca",
@@ -717,8 +717,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "8c5f0a5b",
@@ -739,8 +739,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "3d53c25d",
@@ -783,8 +783,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "708ebd3f",
@@ -1146,8 +1146,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Pasada C, 19 de septiembre de 2026. Defecto encontrado por la localización ciega y comprobado después en el original. Migración 20260919160000."
 	},
 	{
 		"id": "a6221436",
@@ -1168,8 +1168,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "edfba2df",
@@ -1212,8 +1212,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "c31cfc01",
@@ -1234,8 +1234,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "35e489c0",
@@ -1256,8 +1256,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "aa1914ec",
@@ -1322,8 +1322,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "0f2ce49b",
@@ -1530,8 +1530,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "3fd5381e",
@@ -1574,8 +1574,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "7e15f3f5",
@@ -1835,8 +1835,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "5aa7f3eb",
@@ -2118,8 +2118,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Pasada C, 19 de septiembre de 2026. Defecto encontrado por la localización ciega y comprobado después en el original. Migración 20260919160000."
 	},
 	{
 		"id": "78ee9b2f",
@@ -2189,8 +2189,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "43424e08",
@@ -2235,8 +2235,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "97c8c03c",
@@ -2500,8 +2500,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "e0a9f688",
@@ -2594,8 +2594,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "e20a8b27",
@@ -2665,8 +2665,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Pasada C, 19 de septiembre de 2026. Defecto encontrado por la localización ciega y comprobado después en el original. Migración 20260919160000."
 	},
 	{
 		"id": "8b5581b0",
@@ -2735,8 +2735,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "35a26a3d",
@@ -2778,8 +2778,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "6e51316b",
@@ -2915,8 +2915,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "8d77881a",
@@ -3056,8 +3056,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "45ed28a0",
@@ -3429,8 +3429,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Pasada C, 19 de septiembre de 2026. Defecto encontrado por la localización ciega y comprobado después en el original. Migración 20260919160000."
 	},
 	{
 		"id": "339090a5",
@@ -3502,8 +3502,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "0f1a65eb",
@@ -3589,8 +3589,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "074f0d3a",
@@ -3747,8 +3747,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "3737944e",
@@ -3795,8 +3795,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "cf1fd154",
@@ -3884,8 +3884,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "36050590",
@@ -3994,8 +3994,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Pasada C, 19 de septiembre de 2026. Defecto encontrado por la localización ciega y comprobado después en el original. Migración 20260919160000."
 	},
 	{
 		"id": "e0c28298",
@@ -4016,8 +4016,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Pasada C, 19 de septiembre de 2026. Defecto encontrado por la localización ciega y comprobado después en el original. Migración 20260919160000."
 	},
 	{
 		"id": "80001779",
@@ -4060,8 +4060,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "d1ea2ecf",
@@ -4377,8 +4377,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "34fdc61d",
@@ -4649,8 +4649,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "a4c5f781",
@@ -4785,8 +4785,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "dec0232d",
@@ -4831,8 +4831,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "cabb1f04",
@@ -4878,8 +4878,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "6b347966",
@@ -4900,8 +4900,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "eccebfab",
@@ -4968,8 +4968,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "e7c94f87",
@@ -5014,8 +5014,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "412ad16e",
@@ -5128,8 +5128,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "b51cb6b3",
@@ -5150,8 +5150,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "c1e62259",
@@ -5172,8 +5172,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "778c9363",
@@ -5194,8 +5194,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "fce5025f",
@@ -5264,8 +5264,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "e45bdc99",
@@ -5286,8 +5286,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "8e712f47",
@@ -5753,8 +5753,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "17f41e6d",
@@ -5775,8 +5775,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Pasada C, 19 de septiembre de 2026. Defecto encontrado por la localización ciega y comprobado después en el original. Migración 20260919160000."
 	},
 	{
 		"id": "bb4835d1",
@@ -5909,8 +5909,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "96d366f5",
@@ -5931,8 +5931,8 @@
 		},
 		"cubo": "confirmacion",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
 	},
 	{
 		"id": "de35cf04",
