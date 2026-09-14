@@ -2847,7 +2847,7 @@
 			"anclaje equivocado (medio)"
 		],
 		"estado": "corregido",
-		"nota": "Migración 20260915140000. Enumeraba la gitana y «la real 10-6-10-6» como dos variedades: Jauralde dice que son la misma estrofa —«seguidilla real, como la denomina sor Juana, o gitana, en la terminología de Augusto Ferrán»— y el 10-6-10-6 es de otro capítulo. Aprobado por David."
+		"nota": "Citaba el apartado «Formas mixtas en cuartetos y septetos», que no existe en Jauralde: el libro tiene «Formas mixtas en septetos» y «Formas mixtas», y el localizador fundía los dos. No lo encontró ninguna pasada, sino el cotejo de los cincuenta localizadores de Jauralde contra los 214 encabezados reales del epub. Migración 20260919160000."
 	},
 	{
 		"id": "c63316b9",

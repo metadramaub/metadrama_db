@@ -92,41 +92,54 @@ las formas que Lope usa.
 Y **dos propuestas sin redactar**: `9c4dd052` (lira de Morley y Bruerton) y `cfb377cd`
 (septeto-lira de Navarro).
 
-#### El cubo de confirmación no estaba comprobado
+#### El cubo de confirmación · **cerrado, y no estaba limpio**
 
-La hoja lo describe como «conformes sin ninguna divergencia señalada, **no piden decisión**». Al
-abrirlo el 18 de septiembre de 2026 resultó que **41 de las 57 llevan alguna señal mecánica**: los
-dos lectores coincidieron y lo que mira la columna vio otra cosa.
+La hoja lo describía como «conformes sin ninguna divergencia señalada, **no piden decisión**». No lo
+eran: **41 de las 57 llevaban alguna señal mecánica**, y de las tres pasadas habían tenido A y B las
+cincuenta y siete, **C ninguna**.
 
-| señal | fichas |
+Pasada la C sobre las 57, salen **ocho defectos**, migrados en tres tandas separadas:
+
+| | |
 | --- | --- |
-| matices —la fuente matiza y la ficha puede no hacerlo— | 27 |
-| esquemas que la fuente da y la ficha no registra | 21 |
-| tiradas compartidas con otra fuente | 13 |
-| esquemas sin rastro en el catálogo | 7 |
-| anclaje | 4 |
-| nombra otra fuente | 1 |
+| `20260919160000` | seis invenciones y dos epígrafes que no existen |
+| `20260919170000` | 22 localizadores ganan la página impresa |
+| `20260919180000` | 7 dicen ya que la afirmación está repartida |
 
-Y las pasadas que han tenido son **A y B las 57, C ninguna**.
+**Lo que se retiró** fueron cosas puestas en la voz de una fuente: la glosa «X es el verso sin rima»
+que Morley y Bruerton no enuncian, la sigla `AB-DE-CF` que no aparece ni una vez en Caparrós, y dos
+fichas que explicaban el catálogo desde dentro de una fuente.
 
-**Lo que se ha hecho con eso:**
+**Y dos hallazgos de método:**
 
-- **Una cuarta comprobación mecánica**, `npm run senal:endurecimiento`. La señal de «matices» venía
-  de la pasada B —solo existía si el lector ciego se fijaba—, así que no distinguía «la fuente no
-  matiza» de «B no lo anotó». La comprobación nueva no pregunta a nadie: empareja el resumen con las
-  oraciones del pasaje que comparten con él una tirada de seis palabras, y mira si matizan donde el
-  resumen no matiza. **Cubre 153 de las 267 y señala 21.** De tres comprobadas a mano, dos eran
-  endurecimientos reales —el sexteto-lira de Navarro y la novena de Caparrós—.
-- **La pasada C sobre las 57**, que es donde está a cero.
+- **La guarda del `AB-DE-CF` identificó al donante.** Escrita para exigir que la sigla no quedara en
+  ninguna ficha, falló señalando una segunda: la sextina de Quilis. Pero ahí es correcta, porque es
+  notación suya. La sigla no se inventó, **se copió de una ficha a otra** — y es la primera vez que
+  el copiar-pegar aparece con origen identificado.
+- **Un epígrafe inventado que ninguna pasada vio.** «Formas mixtas en cuartetos y septetos» no existe
+  en Jauralde; salió de cotejar sus cincuenta localizadores contra los 214 encabezados reales del
+  epub. Esa comprobación no está escrita como script y convendría que lo estuviera.
 
-**Lo que queda fuera del alcance mecánico y necesita una lectura dirigida: 114 de las 267** —39 de
-este cubo— que no comparten con su pasaje ninguna tirada de seis palabras, porque parafrasean en vez
-de reutilizar el léxico de la fuente. Ahí la comprobación no puede decir nada.
+**Lo que la C confirma**, que es la mayor parte: 44 de las 57 bien localizadas, dos silencios
+confirmados por agotamiento y **siete páginas de Navarro Tomás**, cuya paginación el plan marcaba
+como «lo primero que hay que probar».
 
-*Y una decisión de método, tomada el 18 de septiembre: **no se repite la pasada B sobre las 57**. Ya
-la pasaron, y una lectura más no añade verdad por sí sola —B se equivocó en tres de las cuatro veces
-que disintió—. Lo que añade alcance es preguntar algo distinto, que es lo que hacen la comprobación
-nueva y la pasada C.*
+*Y cuatro falsos positivos suyos, que sostienen la regla: la C tampoco decide sola.*
+
+#### Lo que queda de los cubos
+
+| cubo | pendientes | qué son |
+| --- | --- | --- |
+| observación | 50 | notas que hay que decidir si entran |
+| limpio | 1 | |
+| filológico | 1 | decisión del IP |
+
+Y **dos propuestas sin redactar**: `9c4dd052` (lira de Morley y Bruerton) y `cfb377cd`
+(septeto-lira de Navarro).
+
+**Lo que sigue fuera del alcance mecánico: 114 de las 267** no comparten con su pasaje ninguna tirada
+de seis palabras, porque parafrasean en vez de reutilizar el léxico de la fuente. Son las que solo
+puede ver una lectura, y la tanda dirigida sigue pendiente.
 
 ### 5 · Fase 5: informe y muestra humana
 
