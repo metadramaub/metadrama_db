@@ -1167,6 +1167,115 @@
 			]
 		},
 		{
+			"id": "b7106a0b-e0a6-441c-b637-6f2f68dd1712",
+			"nombre": "Estrofa sáfica",
+			"slug": "estrofa_safica",
+			"tipo_registro": "forma",
+			"etiqueta": "Estrofa sáfica",
+			"denominaciones": [
+				"Estrofa de Francisco de la Torre",
+				"Estrofa de la Torre",
+				"Estrofa sáfica",
+				"Oda sáfica",
+				"Sáfico-adónico"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 0,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 2,
+					"porNombre": [
+						{
+							"nombre": "Estrofa sáfica",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 38,
+					"porNombre": [
+						{
+							"nombre": "Estrofa sáfica",
+							"veces": 25
+						},
+						{
+							"nombre": "Estrofa de la Torre",
+							"veces": 8
+						},
+						{
+							"nombre": "Estrofa de Francisco de la Torre",
+							"veces": 3
+						},
+						{
+							"nombre": "Oda sáfica",
+							"veces": 1
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 7,
+					"porNombre": [
+						{
+							"nombre": "Estrofa sáfica",
+							"veces": 4
+						},
+						{
+							"nombre": "Estrofa de Francisco de la Torre",
+							"veces": 3
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 19,
+					"porNombre": [
+						{
+							"nombre": "Estrofa de Francisco de la Torre",
+							"veces": 6
+						},
+						{
+							"nombre": "Estrofa sáfica",
+							"veces": 6
+						},
+						{
+							"nombre": "Estrofa de la Torre",
+							"veces": 3
+						},
+						{
+							"nombre": "Oda sáfica",
+							"veces": 2
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 1,
+					"menciones": 13,
+					"porNombre": [
+						{
+							"nombre": "Estrofa sáfica",
+							"veces": 11
+						},
+						{
+							"nombre": "Estrofa de la Torre",
+							"veces": 2
+						}
+					]
+				}
+			]
+		},
+		{
 			"id": "187be9a5-f24c-4fde-a4dd-591e9e742c39",
 			"nombre": "Lira",
 			"slug": "lira",
@@ -3091,79 +3200,6 @@
 			]
 		},
 		{
-			"id": "5c7527be-75e8-44b3-bb5e-fbf62174c569",
-			"nombre": "Sextina",
-			"slug": "sextina",
-			"tipo_registro": "forma",
-			"etiqueta": "Sextina (sextina)",
-			"denominaciones": [
-				"Sextina"
-			],
-			"celdas": [
-				{
-					"anio": 1968,
-					"afirmaciones": 1,
-					"menciones": 0,
-					"porNombre": []
-				},
-				{
-					"anio": 1969,
-					"afirmaciones": 1,
-					"menciones": 8,
-					"porNombre": [
-						{
-							"nombre": "Sextina",
-							"veces": 8
-						}
-					]
-				},
-				{
-					"anio": 1972,
-					"afirmaciones": 1,
-					"menciones": 14,
-					"porNombre": [
-						{
-							"nombre": "Sextina",
-							"veces": 14
-						}
-					]
-				},
-				{
-					"anio": 2014,
-					"afirmaciones": 1,
-					"menciones": 23,
-					"porNombre": [
-						{
-							"nombre": "Sextina",
-							"veces": 23
-						}
-					]
-				},
-				{
-					"anio": 2016,
-					"afirmaciones": 1,
-					"menciones": 25,
-					"porNombre": [
-						{
-							"nombre": "Sextina",
-							"veces": 25
-						}
-					]
-				},
-				{
-					"anio": 2020,
-					"afirmaciones": 0,
-					"menciones": 6,
-					"porNombre": [
-						{
-							"nombre": "Sextina",
-							"veces": 6
-						}
-					]
-				}
-			]
-		},
-		{
 			"id": "222649a8-001d-455b-adcb-58d4affba0d0",
 			"nombre": "Sextina",
 			"slug": "sextina_estrofa",
@@ -3226,6 +3262,79 @@
 				{
 					"anio": 2020,
 					"afirmaciones": 1,
+					"menciones": 6,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 6
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "5c7527be-75e8-44b3-bb5e-fbf62174c569",
+			"nombre": "Sextina",
+			"slug": "sextina",
+			"tipo_registro": "forma",
+			"etiqueta": "Sextina (sextina)",
+			"denominaciones": [
+				"Sextina"
+			],
+			"celdas": [
+				{
+					"anio": 1968,
+					"afirmaciones": 1,
+					"menciones": 0,
+					"porNombre": []
+				},
+				{
+					"anio": 1969,
+					"afirmaciones": 1,
+					"menciones": 8,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 8
+						}
+					]
+				},
+				{
+					"anio": 1972,
+					"afirmaciones": 1,
+					"menciones": 14,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 14
+						}
+					]
+				},
+				{
+					"anio": 2014,
+					"afirmaciones": 1,
+					"menciones": 23,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 23
+						}
+					]
+				},
+				{
+					"anio": 2016,
+					"afirmaciones": 1,
+					"menciones": 25,
+					"porNombre": [
+						{
+							"nombre": "Sextina",
+							"veces": 25
+						}
+					]
+				},
+				{
+					"anio": 2020,
+					"afirmaciones": 0,
 					"menciones": 6,
 					"porNombre": [
 						{
