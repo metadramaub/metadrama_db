@@ -78,5 +78,26 @@
 		"localizador": "«Índice de estrofas», s. vv. «Octava aguda» y «Octavilla aguda», y §§ 227, 245, 288, 309 y 381",
 		"por_que": "La mayor laguna de la fase 4: 29 menciones y ninguna afirmación. Navarro le da epígrafe propio a cada una de las dos ramas en cada período y entrada doble en su índice, que remite a doce secciones. Aprobado por David.",
 		"resumen": "Trata por separado las dos ramas y les da nombre y epígrafe propios: «octava aguda» las de nueve o más sílabas y «octavilla aguda» las de ocho o menos, con sección para cada una en el Neoclasicismo y en el Romanticismo, y para la octavilla también en el Modernismo. Da el esquema de las dos, `ABBÉ:CDDÉ` y `abbé:cddé`, y recoge sus variedades: en la endecasílaba, las que enlazan las semiestrofas por la rima, `ABBÉ:ACCÉ` y `ABBÉ:CBBÉ`, y la de heptasílabos agudos en los versos cuarto y octavo, `ABBé:CDDé`, «hecha famosa por Pastor Díaz en *La mariposa negra*»; en la octavilla, la de versos primero y quinto sueltos —«que había de convertirse en el esquema más corriente»—, la de todos rimados, `abbé:accé`, la alterna `abaé:cdcé` y la de semiestrofas monorrimas, `aaaé:bbbé`. A la endecasílaba, «cultivada especialmente por Salvador Bermúdez de Castro, se le llamó también **bermudina**». Y objeta al nombre de italiana: «el calificativo de italianas que suele darse a la octava y octavilla agudas no las distingue de la octava real, también de origen italiano». La documenta en toda la escala del verso, del endecasílabo al trisílabo: en eneasílabos dactílicos, «la Avellaneda en cinco octavas agudas de *La cruz*» (§ 342); en hexasílabos, Lista en su traducción del salmo *Domini est terra* (§ 269); en pentasílabos, *Amor aldeano* de Moratín padre (§ 270); y en trisílabos, Sánchez Barbero, «en cuatro octavillas agudas cuyas semiestrofas terminan alternativamente en las palabras *amor*, *honor*» (§ 272). Sobre su uso teatral: «el teatro no solía emplear la octavilla aguda sino en números cantables como el himno del drama *Baltasar*, II, 4, de la Avellaneda, y el coro de *Saúl*, III, 1, de la misma autora, o en pasajes líricos, como la carta de don Juan a doña Inés en *Don Juan Tenorio*, III, 3, de Zorrilla»."
+	},
+	"verso-aislado": {
+		"forma": "Verso aislado · Quilis 1969, Caparrós 2014 y Jauralde 2020",
+		"por_que": "Tres lagunas de la fase 4 en el mismo tramo sin forma, que pasa de dos fuentes a cinco. Las tres tratan el verso aislado de frente y con nuestro mismo término o con «verso único». Localizadores comprobados en el PDF (Quilis hoja 44, pie 87; Caparrós hojas 33 y 181) y en el epub (encabezado h5 propio). Aprobado por David.",
+		"afirmaciones": [
+			{
+				"anio": 1969,
+				"localizador": "§ 5.0, p. 87",
+				"resumen": "Abre con él el capítulo de la estrofa, para negarle entidad: «un verso aislado no es realmente nada, ni siquiera un verso: es una sentencia o un enunciado de cualquier tipo. Para que un verso pueda ser considerado como tal, tiene que estar con otro u otros versos, en función de una unidad superior a ellos mismos que llamamos estrofa»."
+			},
+			{
+				"anio": 2014,
+				"localizador": "pp. 36 y 184",
+				"resumen": "Lo trata como problema declarado, con nota bibliográfica propia que remite a D. Devoto, y le da respuesta: «parece imprescindible, para la existencia del verso, el que se inserte en una serie. Habría que decir entonces que, en el caso del verso aislado, este **se integra en el recuerdo de un patrón e implica, por tanto, una serie**». Recoge además, en nota, que «el verso único es para Navarro Tomás \"como un embrión de estrofa\"», y que Jauralde condiciona el verso a la aparición de un elemento reiterado, de modo que la preceptiva clásica reservaba «para el verso solitario, pues no lo era, el nombre de mote, lema, sentencia, etc.»."
+			},
+			{
+				"anio": 2020,
+				"localizador": "Apartado «Estrofas o poemas de un solo verso»",
+				"resumen": "Le da epígrafe propio. Plantea la objeción —«si definimos la estrofa como agrupación de versos, no podría existir la estrofa de un solo verso, como no podría denominarse verso a uno solo, si es que no se ha extraído de un conjunto»— y la resuelve: «el verso único puede funcionar como estrofa y como poema, en cada caso, porque se relaciona *in absentia* con versos semejantes». Sitúa su procedencia: «la mayoría de las veces, con todo, el verso único pertenece al género prepoético de los motes, emblemas, refranes, sentencias, pie de glosa, estribillo, etc.». Y distingue el verso suelto que ocupa el lugar de una estrofa dentro de un poema, «muy frecuente en poesía contemporánea», del poema de un solo verso, del que da repertorio por medidas, del bisílabo al endecasílabo y más allá."
+			}
+		]
 	}
 }

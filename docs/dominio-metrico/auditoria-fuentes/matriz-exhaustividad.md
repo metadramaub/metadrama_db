@@ -4,7 +4,7 @@ Generado por `node scripts/matriz-exhaustividad.mjs`. **No juzga nada**: dice cu
 afirmaciones tiene cada celda y cuántas veces nombra esa fuente a esa forma. El recuento de
 menciones cuenta cadenas, así que es una pista para saber dónde mirar, no un veredicto.
 
-43 unidades × 6 fuentes = **258 celdas**, de las que **29** están vacías.
+43 unidades × 6 fuentes = **258 celdas**, de las que **26** están vacías.
 
 ## Las que no tienen ninguna fuente
 
@@ -21,11 +21,8 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Sextina (sextina_estrofa) | 1972 | 14 | «Sextina» ×14 |
 | Sextina (sextina) | 2020 | 6 | «Sextina» ×6 |
 | Cuarteto-lira | 2020 | 5 | «Cuarteto-lira» ×4, «Cuarteto alirado» ×1 |
-| Verso aislado | 2014 | 5 | «Verso aislado» ×4, «Verso único» ×1 |
-| Verso aislado | 2020 | 4 | «Verso único» ×4 |
 | Cuarteto-lira | 2014 | 3 | «Cuarteto-lira» ×3 |
 | Versificación irregular | 1969 | 3 | «Versificación irregular» ×3 |
-| Verso aislado | 1969 | 2 | «Verso aislado» ×2 |
 
 ## El tablero
 
@@ -73,6 +70,6 @@ Ordenadas por menciones. Cada una es un silencio que hay que justificar o una la
 | Villancico | **1** | **1** | **1** | **1** | **1** | **1** |
 | Zéjel | **1** | **1** | **1** | **1** | **1** | **1** |
 | Versificación irregular | **1** | · 3 | **1** | **1** | **1** | **1** |
-| Verso aislado | — | · 2 | **1** | · 5 | **1** | · 4 |
+| Verso aislado | — | **1** | **1** | **1** | **1** | **1** |
 
 Negrita: afirmaciones. `· n`: sin afirmación, pero la fuente la nombra n veces. `—`: silencio limpio.
