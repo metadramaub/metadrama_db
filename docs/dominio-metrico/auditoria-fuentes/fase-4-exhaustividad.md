@@ -16,13 +16,14 @@ las 33.
 
 | | celdas |
 | --- | --- |
-| **Lagunas confirmadas** — la fuente trata la forma y no hay afirmación | **10** |
+| **Lagunas confirmadas** — la fuente trata la forma y no hay afirmación | **9** |
+| Abiertas a una decisión filológica | 1 |
 | Falsos positivos del contador — la mención es de otra forma | 3 |
 | Silencios justificados — la fuente no trata la forma | 20 |
 
 ---
 
-## Las diez lagunas
+## Las nueve lagunas, y una que no lo es todavía
 
 Cada una con el pasaje localizado. **Ninguna se ha escrito todavía en el catálogo.**
 
@@ -108,20 +109,28 @@ la sextina desde nuestra ficha aterrizará en la estrofa que no es**, y eso es e
 afirmación de fuente tiene que avisar. Nuestra otra ficha —la sextina como estrofa— ya registra la
 mitad del enredo: dice que su «sextina real» es la sexta rima. Falta la otra mitad.
 
-### 8 · Novena-lira · Navarro Tomás 1972 — la forma sin ninguna fuente
+### 8 · Novena-lira · Navarro Tomás 1972 — **abierta, no es laguna todavía**
 
-De las 43 unidades, **dos no tienen ni una sola afirmación**, y esta es la que no debía estar ahí.
-El contador da cero menciones porque «Novena-lira» es nuestro nombre y no el de nadie: Navarro
-describe la estrofa sin bautizarla. En el **§ 161, «Estrofas aliradas»**, al enumerar los
-desarrollos del tipo métrico más allá del sexteto, llega a nueve versos y da dos esquemas con autor
-y obra:
+De las 43 unidades, **dos no tienen ni una sola afirmación**, y esta es una. El contador da cero
+menciones porque «Novena-lira» es nuestro nombre y no el de nadie: Navarro describe la estrofa sin
+bautizarla. **Es la prueba de que el cero del contador no significa silencio**, sino que el catálogo
+y el libro no usan el mismo nombre.
+
+En el **§ 161, «Estrofas aliradas»**, tras las dos de ocho versos que el catálogo ya recoge como
+octava-lira, describe dos de nueve como «una nueva reelaboración de este modelo»:
 
 - `abCabCcdD`, de Francisco de Figueroa, en su imitación de la oda horaciana *Oh, navis*;
 - `AbCAbCcdD`, la misma bajo otra forma, en la poesía 120 de Góngora.
 
-**Es la prueba de que el cero del contador no significa silencio**, sino que el catálogo y el libro
-no usan el mismo nombre. Y deja a la vista un segundo asunto: nuestra novena-lira no registra
-ningún esquema de rima —su arquitectura dice «distribución variable»— teniendo dos documentados.
+**Pero no se puede escribir todavía**, porque en las dos el verso séptimo repite la rima con que se
+cierra la cabeza, y la regla del catálogo asigna eso a la canción. Navarro las pone entre las
+aliradas; nuestra regla las saca. **Es la frontera que el proyecto cerró por necesidad de precisión
+y que las fuentes no cierran**, y se decide arriba: va a
+[cuestiones para el IP](../cuestiones-para-el-ip.md), «Canción petrarquista» 6.
+
+Lo que no espera a esa decisión: la definición de la forma dice que ninguna fuente «la describe **ni
+le da nombre**», y Navarro describe una estrofa alirada de nueve versos bajo ese epígrafe. Esa frase
+hay que reescribirla se decida lo que se decida.
 
 ### 9 · Décima-lira · *Diccionario* 2016 — la otra forma sin ninguna fuente
 
@@ -179,8 +188,10 @@ Tres cosas que la fase destapa y que no se arreglan escribiendo una fuente.
 catálogo público hay **dos fichas tituladas «Sextina»** y nada en el título las separa. Es la misma
 ambigüedad que en Jauralde nos costó un epígrafe.
 
-**2 · La novena-lira no registra los esquemas que su fuente le da.** Navarro documenta `abCabCcdD` y
-`AbCAbCcdD`; la arquitectura dice «distribución variable».
+**2 · La novena-lira depende de dónde se ponga la frontera con la canción.** Si esos dos esquemas de
+Navarro son aliradas, la forma gana fuente y dos esquemas —como `admitida`, nunca `definitoria`: la
+distribución sigue siendo variable y solo se documenta lo encontrado—. Si son canciones, van a la
+arquitectura de estancias variables de la canción petrarquista.
 
 **3 · La décima-lira registra un esquema fijo que su fuente niega.** Nuestro `ababcdcdee` frente al
 «ni el número… ni el orden de las rimas están preestablecidos» del *Diccionario*. Además, el
