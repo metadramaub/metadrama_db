@@ -3082,8 +3082,8 @@
 		},
 		"cubo": "material",
 		"defectos": [],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "no requiere revisión",
+		"nota": "Pasada C: no encuentra la sextilla enlazada en Jauralde tras repasar los epígrafes de la familia de seis versos uno por uno y buscar «enlazad» y «encadenad» en todo el volcado. Corrobora el silencio, y su localizador —«Estrofas de seis versos»— sí es un encabezado real."
 	},
 	{
 		"id": "7d6ea13a",
@@ -3107,8 +3107,8 @@
 			"anclaje equivocado (medio)",
 			"localizador falso (medio)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915120000. → «Sextina real» y «Sexta rima». La sextina propiamente dicha la trata Jauralde bajo «Sexta rima», citando la definición de Domínguez Caparrós; ese pasaje no contiene la palabra «sextina», así que buscarla no lleva a él."
 	},
 	{
 		"id": "5d3cd719",
@@ -3295,8 +3295,8 @@
 			"localizador falso (medio)",
 			"mezcla (grave)"
 		],
-		"estado": "pendiente",
-		"nota": ""
+		"estado": "corregido",
+		"nota": "Migración 20260915120000. → «Zéjel», «Estrofas con estribillo» y «Estrofas mayores formadas por tercetos o por tercetillos»: sus tres aserciones están en tres sitios. «Villancico» no es un epígrafe del libro."
 	},
 	{
 		"id": "96a4a4bd",
