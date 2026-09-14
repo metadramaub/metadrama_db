@@ -272,6 +272,32 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    llaman alirada» no puede quedarse: el criterio es del proyecto y conviene que la definición lo
    diga como tal.*
 
+   **Lo confirman los silencios, y por otro camino.** Al justificar, en la fase 4, por qué tal
+   fuente no registra tal estrofa alirada, resultó que **ninguna calla por olvido: cada una deja de
+   enumerar aliradas en el punto en que empieza a llamarlas canción**. Morley y Bruerton lo dicen
+   con todas las letras —«**todas las liras no son más que formas especializadas de la
+   *canzone***»—, y Jauralde también, al definir la estancia como estrofa de 7 y 11 «normalmente
+   **por encima de los ocho versos (para diferenciarla de las liras)**».
+
+   | fuente | su serie alirada llega a | su canción o estancia empieza en |
+   | --- | --- | --- |
+   | Morley y Bruerton 1968 | 6, y anota la de 5 | 5 — «estrofas de 5 a 20 versos»: **se solapan enteras** |
+   | Quilis 1969 | 6 — §§ 5.4.4.3 «Lira» y 5.4.5.2 «Sexteto-lira» | «normalmente oscilaban entre seis y doce»: **se solapan** |
+   | Domínguez Caparrós 2014 | 7 — cuarteto, sexteto y septeto lira | 9 — «no menos de nueve ni más de veinte» |
+   | *Diccionario* 2016 | 8 — «entre los cuatro y ocho versos» | 9 — «no menos de nueve»: **encajan sin hueco** |
+   | Jauralde Pou 2020 | 8 — cuarteto, quinteto, sexteto, septeto y octeto-lira | 9 — «por encima de los ocho»: **encajan, y lo declara** |
+   | Navarro Tomás 1972 | 9 — § 161 | — |
+
+   *Dos fuentes reparten las dos series sin hueco ni solapamiento, y las dos ponen la juntura en el
+   **8/9**. Otras dos las solapan del todo, de modo que para ellas la pregunta no se plantea: una
+   estrofa alirada **es** una canción. Y Navarro, que llega a nueve, es el único que mete una
+   alirada en el tramo que las dos primeras ya reservan a la estancia — que es exactamente el caso
+   que abre este punto.*
+
+   *Si el criterio pasara a ser la extensión con el corte en 8/9, las seis fuentes quedarían
+   conformes salvo Navarro, y las dos que hoy solapan no lo contradirían: no dicen dónde acaba la
+   alirada, dicen que toda alirada es canción.*
+
 7. **¿«Petrarquista» nombra la forma o solo la estancia de trece versos?** Ninguna fuente lo reserva
    para una extensión: las tres que usan el término lo aplican a la forma entera y lo glosan como
    sinónimo. Caparrós 2014: «La canción **petrarquista o italiana** está compuesta de estancias». El
