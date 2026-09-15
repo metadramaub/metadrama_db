@@ -1664,6 +1664,7 @@
 					obraId={props.obraId}
 					canComment={Boolean(props.canComment)}
 					title=""
+					sinContenedor={true}
 					context={{ secuencia_id: editingId }}
 					focusComentarioId={props.focusComentarioId}
 					reloadKey={props.commentsReloadKey}

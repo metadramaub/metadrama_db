@@ -448,26 +448,49 @@
 	 * **Un rasgo opcional sin responder no es una pregunta pendiente**: es una licencia que casi
 	 * nunca se usa. Puestos arriba, cinco de ellos —el endecasílabo suelto tiene cinco— se leen como
 	 * cinco cosas que hay que resolver, y hacen creer que el trabajo es mayor de lo que es. Bajan al
-	 * pie, en una línea, y suben en cuanto se dice que los hay.
+	 * pie, en una línea, y allí se despliegan en cuanto se dice que los hay.
 	 *
-	 * Lo que se ha dicho que hay se queda arriba, con los demás: ya no es una licencia sin usar sino
-	 * un dato de esta realización.
+	 * Lo que se ha dicho que hay conserva el mismo sitio: ya no es solo el botón, sino el campo con
+	 * su respuesta y la acción para retirarlo.
 	 */
 	let rasgosPedidos = $state<string[]>([]);
+	const esLicenciaDeSecuencia = (group: MetricCatalogDomainRow) =>
+		Number(group.selecciones_min ?? 0) === 0 &&
+		(String(group.dimension) === 'rasgo' || Boolean(group.rasgo_id));
 	const rasgoSinTocar = (group: MetricCatalogDomainRow) => {
 		const groupId = String(group.grupo_eleccion_id);
-		if (Number(group.selecciones_min ?? 0) >= 1) return false;
+		if (!esLicenciaDeSecuencia(group)) return false;
 		if (rasgosPedidos.includes(groupId)) return false;
 		return (
 			selectedChoiceIds(groupId, null).length === 0 && !choiceTextValue(groupId, null).trim()
 		);
 	};
 	const preguntasDeSecuencia = $derived(
-		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) => !rasgoSinTocar(group))
+		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) => !esLicenciaDeSecuencia(group))
+	);
+	/**
+	 * Una licencia activada sigue en el pie donde se añadió. Antes pasaba a
+	 * `preguntasDeSecuencia` y reaparecía encima de todas las preguntas de unidad, un salto que no
+	 * sufrían las licencias de unidad como el pie quebrado.
+	 */
+	const licenciasActivasDeSecuencia = $derived(
+		sequenceChoiceGroups.filter(
+			(group: MetricCatalogDomainRow) =>
+				esLicenciaDeSecuencia(group) && !rasgoSinTocar(group)
+		)
 	);
 	const rasgosQueAdmite = $derived(
 		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) => rasgoSinTocar(group))
 	);
+
+	function quitarLicenciaDeSecuencia(group: MetricCatalogDomainRow) {
+		const groupId = String(group.grupo_eleccion_id);
+		draft.elecciones = draft.elecciones.filter(
+			(choice: MetricChoiceDraft) =>
+				!(choice.grupo_eleccion_id === groupId && choice.realizacion_id === null)
+		);
+		rasgosPedidos = rasgosPedidos.filter((id) => id !== groupId);
+	}
 	const materializedUnitCount = $derived(
 		unitPlanForDraft
 			? draft.unidades.filter(
@@ -1602,6 +1625,7 @@
 				<section id="secuencia" class="space-y-4 pt-4">
 					<h4 class="form-subsection-title mb-0">Respuestas</h4>
 					{@render camposDeLaSecuencia()}
+					{@render licenciasActivasDeLaSecuencia()}
 					{#if rasgosQueAdmite.length > 0}
 						<div class="flex flex-wrap items-center gap-2">
 							<span class="text-xs text-[color:var(--muted-foreground)]">
@@ -1675,6 +1699,9 @@
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}
 							preguntasDeSecuencia={preguntasDeSecuencia.length > 0 ? camposDeLaSecuencia : undefined}
+							rasgosActivosDeSecuencia={licenciasActivasDeSecuencia.length > 0
+								? licenciasActivasDeLaSecuencia
+								: undefined}
 							licenciasDeSecuencia={rasgosQueAdmite.length > 0 ? licenciasDeLaSecuencia : undefined}
 							cuantasLicenciasDeSecuencia={rasgosQueAdmite.length}
 							rangoSinCuadrar={structureCoverage.state !== 'complete' ||
@@ -2010,26 +2037,49 @@
 	</MetricGridRow>
 {/snippet}
 
-{#snippet camposDeLaSecuencia()}
-				{#each preguntasDeSecuencia as group (String(group.grupo_eleccion_id))}
-					<MetricChoiceField
-						{group}
-						options={optionsForGroup(String(group.grupo_eleccion_id))}
-						selectedIds={selectedChoiceIds(String(group.grupo_eleccion_id), null)}
-						onChange={(ids) => setChoices(String(group.grupo_eleccion_id), null, ids)}
-						textValue={choiceTextValue(String(group.grupo_eleccion_id), null)}
-						onTextChange={(value) => setChoiceText(String(group.grupo_eleccion_id), null, value)}
-						normaEsquema={String(group.tipo_control ?? '') === 'serie_medidas'
-							? {
-									versos: draft.v_fin - draft.v_ini + 1,
-									regimen: null,
-									catalogados: [],
-									regimenes: []
-								}
-							: undefined}
-					/>
-				{/each}
+{#snippet campoDeLaSecuencia(group: MetricCatalogDomainRow)}
+	<MetricChoiceField
+		{group}
+		options={optionsForGroup(String(group.grupo_eleccion_id))}
+		selectedIds={selectedChoiceIds(String(group.grupo_eleccion_id), null)}
+		onChange={(ids) => setChoices(String(group.grupo_eleccion_id), null, ids)}
+		textValue={choiceTextValue(String(group.grupo_eleccion_id), null)}
+		onTextChange={(value) => setChoiceText(String(group.grupo_eleccion_id), null, value)}
+		normaEsquema={String(group.tipo_control ?? '') === 'serie_medidas'
+			? {
+					versos: draft.v_fin - draft.v_ini + 1,
+					regimen: null,
+					catalogados: [],
+					regimenes: []
+				}
+			: undefined}
+	/>
+{/snippet}
 
+{#snippet camposDeLaSecuencia()}
+	{#each preguntasDeSecuencia as group (String(group.grupo_eleccion_id))}
+		{@render campoDeLaSecuencia(group)}
+	{/each}
+
+{/snippet}
+
+{#snippet licenciasActivasDeLaSecuencia()}
+	<div class="space-y-3">
+		{#each licenciasActivasDeSecuencia as group (String(group.grupo_eleccion_id))}
+			<div class="flex items-start justify-between gap-3">
+				<div class="min-w-0 flex-1">
+					{@render campoDeLaSecuencia(group)}
+				</div>
+				<button
+					type="button"
+					class="link-action shrink-0 text-xs"
+					onclick={() => quitarLicenciaDeSecuencia(group)}
+				>
+					Quitar
+				</button>
+			</div>
+		{/each}
+	</div>
 {/snippet}
 
 {#snippet licenciasDeLaSecuencia()}

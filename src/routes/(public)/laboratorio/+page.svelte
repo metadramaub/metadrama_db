@@ -1,814 +1,595 @@
 <script lang="ts">
-	import EChart from '$lib/components/charts/EChart.svelte';
+	import LaboratoryDistributionChart from '$lib/components/laboratorio/LaboratoryDistributionChart.svelte';
+	import LaboratoryFocusedWorkSummary from '$lib/components/laboratorio/LaboratoryFocusedWorkSummary.svelte';
+	import LaboratoryMetricHeader from '$lib/components/laboratorio/LaboratoryMetricHeader.svelte';
+	import LaboratoryMetricNav from '$lib/components/laboratorio/LaboratoryMetricNav.svelte';
+	import LaboratoryReadingKey from '$lib/components/laboratorio/LaboratoryReadingKey.svelte';
+	import LaboratoryRelationMap from '$lib/components/laboratorio/LaboratoryRelationMap.svelte';
+	import LaboratorySampleBar from '$lib/components/laboratorio/LaboratorySampleBar.svelte';
+	import MetricAnalysisHeading from '$lib/components/metrica/MetricAnalysisHeading.svelte';
+	import MetricFormLabel from '$lib/components/metrica/MetricFormLabel.svelte';
+	import PublicPageHeader from '$lib/components/public/PublicPageHeader.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import Tabs from '$lib/components/ui/tabs.svelte';
 	import {
-		distanciaComposicional,
-		distanciaSecuencial,
-		type PerfilFormas,
-		type TramoSecuencial
-	} from '$lib/laboratorio/distancias';
-	import { colorForMetricKey } from '$lib/utils/metric-colors';
-	import type { EChartsOption } from 'echarts';
+		formatLaboratoryFraction,
+		formatLaboratoryValue,
+		LABORATORY_METRICS,
+		summarizeLaboratoryValues
+	} from '$lib/laboratorio/metricas';
+	import type { CorpusComparisonWork } from '$lib/types/public-artifacts.types';
+	import { colorForForma } from '$lib/utils/metric-colors';
+	import ArrowRight from 'lucide-svelte/icons/arrow-right';
+	import Info from 'lucide-svelte/icons/info';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
 
-	type Obra = PageData['obras'][number];
-	type DistanceMode = 'composicional' | 'secuencial';
-	type FormPointRow = {
-		forma: string;
-		totalVersos: number;
-		values: Array<{
-			versos: number;
-			proportion: number;
-		}>;
-	};
-	type EvolutionPoint = {
-		bin: number;
+	type ExplorationView = 'medidas' | 'formas' | 'transiciones';
+	type FormRow = {
+		id: string;
 		label: string;
-		totalVersos: number;
-		formVerses: Map<string, number>;
+		tipo: string | null;
+		works: number;
+		diffusion: number;
+		medianShare: number;
+		sequences: number;
+	};
+	type TransitionRow = {
+		id: string;
+		from: string;
+		to: string;
+		works: number;
+		diffusion: number;
+		occurrences: number;
+		meanWhenPresent: number;
 	};
 
-	const obras = $derived<Obra[]>(data.obras);
-	let selectedIds = $state<string[]>([]);
-	let activeMode = $state<DistanceMode>('composicional');
-	let focalId = $state('');
-	let versosPorSimbolo = $state(25);
-	let obraSearch = $state('');
-	let authorSelection = $state('');
-	let selectedEvolutionForms = $state<string[]>([]);
-	let evolutionFormsInitialized = $state(false);
+	const corpus = $derived(data.corpus);
+	const allWorks = $derived<CorpusComparisonWork[]>(corpus?.obras ?? []);
 
-	const selectedObras = $derived.by((): Obra[] =>
-		obras.filter((obra: Obra) => selectedIds.includes(obra.obra_id))
+	let activeView = $state<ExplorationView>('medidas');
+	let selectedMetricId = $state('numero_efectivo_formas');
+	let selectedAuthors = $state<string[]>([]);
+	let dateFrom = $state('');
+	let dateTo = $state('');
+	let situatedWorkId = $state('');
+
+	const authorItems = $derived.by(() =>
+		[...new Set(allWorks.flatMap((work) => work.autores))]
+			.map((author) => ({
+				id: author,
+				label: author,
+				description: `${allWorks.filter((work) => work.autores.includes(author)).length} obras`
+			}))
+			.sort((a, b) => a.label.localeCompare(b.label, 'es'))
 	);
-	const filteredObras = $derived.by((): Obra[] => {
-		const query = normalizeText(obraSearch);
-		if (!query) return obras;
-		return obras.filter((obra: Obra) => {
-			const haystack = normalizeText(`${obra.titulo} ${obra.autoria_autores.join(' ')}`);
-			return haystack.includes(query);
+
+	const sampleWorks = $derived.by(() => {
+		const from = parseYear(dateFrom);
+		const to = parseYear(dateTo);
+		return allWorks.filter((work) => {
+			if (selectedAuthors.length > 0 && !work.autores.some((author) => selectedAuthors.includes(author))) {
+				return false;
+			}
+			if (from === null && to === null) return true;
+			const start = work.fecha_inicio_trad ?? work.fecha_inicio_metadrama;
+			const end = work.fecha_fin_trad ?? work.fecha_fin_metadrama ?? start;
+			if (start === null && end === null) return false;
+			if (from !== null && (end ?? start ?? -Infinity) < from) return false;
+			if (to !== null && (start ?? end ?? Infinity) > to) return false;
+			return true;
 		});
 	});
-	const authorOptions = $derived.by(() =>
-		[...new Set(obras.flatMap((obra: Obra) => obra.autoria_autores))]
-			.map((name) => ({
-				name,
-				count: obras.filter((obra: Obra) => obra.autoria_autores.includes(name)).length
-			}))
-			.sort((a, b) => a.name.localeCompare(b.name, 'es'))
-	);
 
-	$effect(() => {
-		if (selectedObras.length === 0) {
-			focalId = '';
-			return;
+	const selectedMetric = $derived(
+		LABORATORY_METRICS.find((metric) => metric.id === selectedMetricId) ?? LABORATORY_METRICS[0]
+	);
+	const metricRows = $derived.by(() =>
+		sampleWorks.map((work) => ({ work, reading: selectedMetric.read(work) }))
+	);
+	const metricSummary = $derived(
+		summarizeLaboratoryValues(metricRows.map((row) => row.reading.value))
+	);
+	const chartRows = $derived(
+		metricRows
+			.filter((row) => row.reading.value !== null)
+			.map((row) => ({
+				id: row.work.obra_id,
+				title: row.work.titulo,
+				authors: row.work.autores.join(', ') || 'Autoría sin identificar',
+				value: row.reading.value as number
+			}))
+	);
+	const orderedMetricRows = $derived(
+		[...metricRows].sort(
+			(a, b) =>
+				(b.reading.value ?? -Infinity) - (a.reading.value ?? -Infinity) ||
+				a.work.titulo.localeCompare(b.work.titulo, 'es')
+		)
+	);
+	const situatedWork = $derived(
+		sampleWorks.find((work) => work.obra_id === situatedWorkId) ?? null
+	);
+	const situatedWorkItems = $derived(
+		[...sampleWorks]
+			.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es'))
+			.map((work) => ({
+				id: work.obra_id,
+				label: work.titulo,
+				description: `${work.autores.join(', ') || 'Autoría sin identificar'} · ${dateLabel(work)}`
+			}))
+	);
+	const situatedReading = $derived(
+		situatedWork ? selectedMetric.read(situatedWork) : { value: null }
+	);
+	const situatedPosition = $derived.by(() => {
+		const value = situatedReading.value;
+		const values = metricRows
+			.map((row) => row.reading.value)
+			.filter((entry): entry is number => entry !== null && Number.isFinite(entry));
+		if (value === null || !Number.isFinite(value)) {
+			return { location: 'Sin dato para esta obra', rank: '—' };
 		}
-		if (!selectedObras.some((obra) => obra.obra_id === focalId)) {
-			focalId = selectedObras[0]?.obra_id ?? '';
+		if (values.length === 0) return { location: 'Sin datos comparables', rank: '—' };
+
+		const higher = values.filter((entry) => entry > value).length;
+		const equal = values.filter((entry) => entry === value).length;
+		const firstRank = higher + 1;
+		const lastRank = higher + equal;
+		const rank =
+			equal > 1
+				? `${firstRank}–${lastRank} de ${values.length} (empate)`
+				: `${firstRank} de ${values.length}`;
+
+		if (metricSummary.minimum === metricSummary.maximum) {
+			return { location: 'Sin variación en la muestra', rank };
 		}
+		if (value === metricSummary.maximum) return { location: 'Máximo observado', rank };
+		if (value === metricSummary.minimum) return { location: 'Mínimo observado', rank };
+		if (metricSummary.q1 !== null && value < metricSummary.q1) {
+			return { location: 'Por debajo del rango central', rank };
+		}
+		if (metricSummary.q3 !== null && value > metricSummary.q3) {
+			return { location: 'Por encima del rango central', rank };
+		}
+		return { location: 'Dentro del rango central', rank };
 	});
 
-	const matrices = $derived.by(() => buildMatrices(selectedObras, versosPorSimbolo));
-	const activeMatrix = $derived(
-		activeMode === 'composicional' ? matrices.composicional : matrices.secuencial
+	const formRows = $derived.by((): FormRow[] => buildFormRows(sampleWorks));
+	const colorByForma = $derived(
+		Object.fromEntries(
+			formRows.map((row) => [row.id, colorForForma({ slug: row.id, tipoForma: row.tipo })])
+		)
 	);
-	const nearestComposicional = $derived.by(() =>
-		nearestFor(focalId, selectedObras, matrices.composicional)
-	);
-	const nearestSecuencial = $derived.by(() =>
-		nearestFor(focalId, selectedObras, matrices.secuencial)
-	);
-	const formPointRows = $derived.by(() => buildFormPointRows(selectedObras));
-	const formPointChartOption = $derived.by(() =>
-		buildFormPointChartOption(selectedObras, formPointRows)
-	);
-	const formPointChartHeight = $derived(
-		`${Math.max(18, Math.min(48, formPointRows.length * 2 + 8))}rem`
-	);
-	const evolutionFormOptions = $derived.by(() =>
-		formPointRows.map((row: FormPointRow) => ({
-			forma: row.forma,
-			label: formLabel(row.forma),
-			totalVersos: row.totalVersos
+	const formMapPoints = $derived(
+		formRows.map((row) => ({
+			id: row.id,
+			label: row.label,
+			x: row.diffusion * 100,
+			y: row.medianShare * 100,
+			color: colorByForma[row.id],
+			detail: `${row.works} de ${sampleWorks.length} obras · mediana ${formatPercent(row.medianShare)} donde aparece`
 		}))
 	);
-	const evolutionPoints = $derived.by(() => buildEvolutionPoints(selectedObras));
-	const evolutionChartOption = $derived.by(() =>
-		buildEvolutionChartOption(evolutionPoints, selectedEvolutionForms)
+
+	const transitionRows = $derived.by((): TransitionRow[] => buildTransitionRows(sampleWorks));
+	const transitionMapPoints = $derived(
+		transitionRows.map((row) => ({
+			id: row.id,
+			label: `${humanize(row.from)} → ${humanize(row.to)}`,
+			x: row.diffusion * 100,
+			y: row.meanWhenPresent,
+			detail: `${row.works} de ${sampleWorks.length} obras · ${row.occurrences} apariciones en total`
+		}))
 	);
 
-	$effect(() => {
-		const validForms = new Set(evolutionFormOptions.map((option) => option.forma));
-		const filtered = selectedEvolutionForms.filter((forma) => validForms.has(forma));
-		if (filtered.length !== selectedEvolutionForms.length) {
-			selectedEvolutionForms = filtered;
-		}
-		if (!evolutionFormsInitialized && evolutionFormOptions.length > 0) {
-			selectedEvolutionForms = evolutionFormOptions.slice(0, 5).map((option) => option.forma);
-			evolutionFormsInitialized = true;
-		}
-		if (evolutionFormOptions.length === 0) {
-			evolutionFormsInitialized = false;
-		}
-	});
+	const formattedGeneratedAt = $derived(
+		data.generatedAt
+			? new Intl.DateTimeFormat('es', { dateStyle: 'medium', timeStyle: 'short' }).format(
+					new Date(data.generatedAt)
+				)
+			: null
+	);
 
-	function buildMatrices(rows: Obra[], step: number) {
-		const composicional = rows.map(() => rows.map(() => 0));
-		const secuencial = rows.map(() => rows.map(() => 0));
-
-		for (let i = 0; i < rows.length; i += 1) {
-			for (let j = i + 1; j < rows.length; j += 1) {
-				const comp = distanciaComposicional(
-					rows[i].perfil_formas as PerfilFormas,
-					rows[j].perfil_formas as PerfilFormas
-				);
-				const seq = distanciaSecuencial(
-					rows[i].tramos as TramoSecuencial[],
-					rows[j].tramos as TramoSecuencial[],
-					step
-				);
-				composicional[i][j] = comp;
-				composicional[j][i] = comp;
-				secuencial[i][j] = seq;
-				secuencial[j][i] = seq;
-			}
-		}
-
-		return { composicional, secuencial };
+	function parseYear(value: string): number | null {
+		if (!value.trim()) return null;
+		const parsed = Number(value);
+		return Number.isFinite(parsed) ? parsed : null;
 	}
 
-	function nearestFor(focusId: string, rows: Obra[], matrix: number[][]) {
-		const focusIndex = rows.findIndex((obra) => obra.obra_id === focusId);
-		if (focusIndex < 0) return [];
-		return rows
-			.map((obra, index) => ({ obra, distance: matrix[focusIndex]?.[index] ?? 0, index }))
-			.filter((item) => item.index !== focusIndex)
-			.sort((a, b) => a.distance - b.distance || a.obra.titulo.localeCompare(b.obra.titulo, 'es'));
+	function resetSample() {
+		selectedAuthors = [];
+		dateFrom = '';
+		dateTo = '';
 	}
 
-	function buildFormPointRows(rows: Obra[]): FormPointRow[] {
-		const totalsByForma = new Map<string, number>();
-		const totalsByObra = rows.map((obra: Obra) => perfilTotal(obra.perfil_formas as PerfilFormas));
-
-		for (const obra of rows) {
-			for (const [forma, versos] of Object.entries(obra.perfil_formas as PerfilFormas)) {
-				if (!Number.isFinite(versos) || versos <= 0) continue;
-				totalsByForma.set(forma, (totalsByForma.get(forma) ?? 0) + versos);
-			}
-		}
-
-		return [...totalsByForma.entries()]
-			.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'es'))
-			.map(([forma, totalVersos]) => ({
-				forma,
-				totalVersos,
-				values: rows.map((obra: Obra, index) => {
-					const versos = Number((obra.perfil_formas as PerfilFormas)[forma] ?? 0);
-					const total = totalsByObra[index] ?? 0;
-					return {
-						versos,
-						proportion: total > 0 && versos > 0 ? versos / total : 0
-					};
-				})
-			}));
+	function selectMetric(id: string) {
+		selectedMetricId = id;
 	}
 
-	function buildFormPointChartOption(rows: Obra[], formRows: FormPointRow[]): EChartsOption {
-		const xLabels = rows.map((obra: Obra) => shortTitle(obra.titulo));
-		const yLabels = formRows.map((row: FormPointRow) => formLabel(row.forma)).reverse();
-		const data = formRows.flatMap((row: FormPointRow, rowIndex) =>
-			row.values
-				.map((point, obraIndex) => ({
-					value: [
-						obraIndex,
-						formRows.length - rowIndex - 1,
-						point.versos,
-						Number((point.proportion * 100).toFixed(2))
-					],
-					obra: rows[obraIndex]?.titulo ?? '',
-					forma: formLabel(row.forma),
-					color: formColor(row.forma),
-					versos: point.versos,
-					proportion: point.proportion
-				}))
-				.filter((point) => point.versos > 0)
-		);
-
-		return {
-			aria: {
-				enabled: true
-			},
-			grid: {
-				top: 24,
-				right: 28,
-				bottom: rows.length > 5 ? 92 : 54,
-				left: 128,
-				containLabel: true
-			},
-			tooltip: {
-				trigger: 'item',
-				confine: true,
-				formatter: (params: unknown) => {
-					const dataPoint = (params as { data?: (typeof data)[number] }).data;
-					if (!dataPoint) return '';
-					return [
-						`<strong>${dataPoint.forma}</strong>`,
-						dataPoint.obra,
-						`${dataPoint.versos} versos`,
-						`${formatPercent(dataPoint.proportion)}`
-					].join('<br />');
-				}
-			},
-			xAxis: {
-				type: 'category',
-				data: xLabels,
-				axisLabel: {
-					interval: 0,
-					rotate: rows.length > 5 ? 45 : 0,
-					color: '#374151',
-					fontSize: 11
-				},
-				axisTick: {
-					alignWithLabel: true
-				},
-				splitLine: {
-					show: true,
-					lineStyle: {
-						color: '#e5e7eb'
-					}
-				}
-			},
-			yAxis: {
-				type: 'category',
-				data: yLabels,
-				axisLabel: {
-					color: '#374151',
-					fontSize: 11,
-					width: 112,
-					overflow: 'truncate'
-				},
-				splitLine: {
-					show: true,
-					lineStyle: {
-						color: '#e5e7eb'
-					}
-				}
-			},
-			dataZoom:
-				rows.length > 10
-					? [
-							{
-								type: 'slider',
-								xAxisIndex: 0,
-								height: 18,
-								bottom: 18,
-								start: 0,
-								end: Math.min(100, (10 / rows.length) * 100)
-							}
-						]
-					: undefined,
-			series: [
-				{
-					name: 'Peso de la forma',
-					type: 'scatter',
-					data,
-					symbolSize: (value: unknown) => {
-						const proportion = Array.isArray(value) ? Number(value[3]) / 100 : 0;
-						return 8 + Math.sqrt(Math.max(0, Math.min(1, proportion))) * 34;
-					},
-					itemStyle: {
-						color: (params: unknown) => {
-							const dataPoint = (params as { data?: (typeof data)[number] }).data;
-							return dataPoint?.color ?? '#8a8a8a';
-						},
-						opacity: 0.82
-					},
-					emphasis: {
-						scale: true,
-						itemStyle: {
-							opacity: 1
-						}
-					}
-				}
-			]
-		};
-	}
-
-	function buildEvolutionPoints(rows: Obra[]): EvolutionPoint[] {
-		const byBin = new Map<number, { totalVersos: number; formVerses: Map<string, number> }>();
-
-		for (const obra of rows) {
-			const year = obra.fecha_inicio_trad ?? obra.fecha_fin_trad;
-			if (year === null) continue;
-			const bin = Math.floor(year / 5) * 5;
-			const perfil = obra.perfil_formas as PerfilFormas;
-			const total = perfilTotal(perfil);
-			if (total <= 0) continue;
-
-			const current = byBin.get(bin) ?? { totalVersos: 0, formVerses: new Map<string, number>() };
-			current.totalVersos += total;
-			for (const [forma, versos] of Object.entries(perfil)) {
-				if (!Number.isFinite(versos) || versos <= 0) continue;
-				current.formVerses.set(forma, (current.formVerses.get(forma) ?? 0) + versos);
-			}
-			byBin.set(bin, current);
-		}
-
-		return [...byBin.entries()]
-			.sort((a, b) => a[0] - b[0])
-			.map(([bin, value]) => ({
-				bin,
-				label: `${bin}-${bin + 4}`,
-				totalVersos: value.totalVersos,
-				formVerses: value.formVerses
-			}));
-	}
-
-	function buildEvolutionChartOption(points: EvolutionPoint[], forms: string[]): EChartsOption {
-		return {
-			aria: {
-				enabled: true
-			},
-			grid: {
-				top: 28,
-				right: 26,
-				bottom: 42,
-				left: 54,
-				containLabel: true
-			},
-			tooltip: {
-				trigger: 'axis',
-				confine: true,
-				valueFormatter: (value: unknown) => `${Number(value).toFixed(1)}%`
-			},
-			legend: {
-				type: 'scroll',
-				top: 0,
-				textStyle: {
-					fontSize: 11
-				}
-			},
-			xAxis: {
-				type: 'category',
-				data: points.map((point) => point.label),
-				axisLabel: {
-					color: '#374151',
-					fontSize: 11
-				}
-			},
-			yAxis: {
-				type: 'value',
-				min: 0,
-				max: 100,
-				axisLabel: {
-					formatter: '{value}%',
-					color: '#374151',
-					fontSize: 11
-				},
-				splitLine: {
-					lineStyle: {
-						color: '#e5e7eb'
-					}
-				}
-			},
-			series: forms.map((forma) => ({
-				name: formLabel(forma),
-				type: 'line',
-				smooth: false,
-				symbol: 'circle',
-				symbolSize: 7,
-				lineStyle: {
-					color: formColor(forma),
-					width: 2
-				},
-				itemStyle: {
-					color: formColor(forma)
-				},
-				data: points.map((point) => {
-					const versos = point.formVerses.get(forma) ?? 0;
-					return point.totalVersos > 0 ? Number(((versos / point.totalVersos) * 100).toFixed(2)) : 0;
-				})
-			}))
-		};
-	}
-
-	function toggleSelected(id: string) {
-		selectedIds = selectedIds.includes(id)
-			? selectedIds.filter((selectedId) => selectedId !== id)
-			: [...selectedIds, id];
-	}
-
-	function selectAuthorProduction(authorName: string) {
-		authorSelection = authorName;
-		if (!authorName) return;
-		selectedIds = obras
-			.filter((obra: Obra) => obra.autoria_autores.includes(authorName))
-			.map((obra: Obra) => obra.obra_id);
-	}
-
-	function clearSelection() {
-		selectedIds = [];
-		authorSelection = '';
-	}
-
-	function toggleEvolutionForm(forma: string) {
-		selectedEvolutionForms = selectedEvolutionForms.includes(forma)
-			? selectedEvolutionForms.filter((selectedForma) => selectedForma !== forma)
-			: [...selectedEvolutionForms, forma];
-	}
-
-	function selectTopEvolutionForms(count: number) {
-		selectedEvolutionForms = evolutionFormOptions.slice(0, count).map((option) => option.forma);
-		evolutionFormsInitialized = true;
-	}
-
-	function clearEvolutionForms() {
-		selectedEvolutionForms = [];
-		evolutionFormsInitialized = true;
-	}
-
-	function normalizeText(value: string): string {
-		return value
-			.normalize('NFD')
-			.replace(/\p{Diacritic}/gu, '')
-			.toLocaleLowerCase('es');
-	}
-
-	function perfilTotal(perfil: PerfilFormas): number {
-		return Object.values(perfil).reduce(
-			(sum, versos) => sum + (Number.isFinite(versos) && versos > 0 ? versos : 0),
-			0
-		);
-	}
-
-	function shortTitle(title: string): string {
-		return title.length > 18 ? `${title.slice(0, 17)}…` : title;
-	}
-
-	function formatDistance(value: number): string {
-		return value.toFixed(3);
+	function humanize(value: string): string {
+		const normalized = value.replaceAll('_', ' ').replaceAll('-', ' ');
+		return normalized.charAt(0).toLocaleUpperCase('es') + normalized.slice(1);
 	}
 
 	function formatPercent(value: number): string {
-		return `${(value * 100).toFixed(value >= 0.1 ? 0 : 1)}%`;
+		return `${(value * 100).toLocaleString('es', { maximumFractionDigits: 2 })} %`;
 	}
 
-	function formLabel(slug: string): string {
-		return slug.replace(/_/g, ' ');
+	function dateLabel(work: CorpusComparisonWork): string {
+		const start = work.fecha_inicio_trad ?? work.fecha_inicio_metadrama;
+		const end = work.fecha_fin_trad ?? work.fecha_fin_metadrama;
+		if (start === null && end === null) return 's. f.';
+		if (start === end || end === null) return String(start);
+		if (start === null) return String(end);
+		return `${start}–${end}`;
 	}
 
-	function formColor(slug: string): string {
-		return colorForMetricKey(slug);
-	}
+	function buildFormRows(works: CorpusComparisonWork[]): FormRow[] {
+		const forms = new Map<
+			string,
+			{ tipo: string | null; workIds: Set<string>; shares: number[]; sequences: number }
+		>();
 
-	function cellStyle(value: number): string {
-		const clamped = Math.max(0, Math.min(1, value));
-		const hue = 142 - clamped * 142;
-		const lightness = 94 - clamped * 40;
-		const color = clamped > 0.62 ? '#ffffff' : 'var(--gray-900)';
-		return `background:hsl(${hue} 55% ${lightness}%);color:${color};`;
-	}
-
-	function datacionLabel(obra: Obra): string {
-		if (obra.fecha_inicio_trad === null && obra.fecha_fin_trad === null) return 's. f.';
-		if (obra.fecha_inicio_trad === obra.fecha_fin_trad || obra.fecha_fin_trad === null) {
-			return String(obra.fecha_inicio_trad);
+		for (const work of works) {
+			for (const [id, entry] of Object.entries(work.perfil_formas)) {
+				if (id === 'sin-forma-anotada' || entry.versos <= 0) continue;
+				const current = forms.get(id) ?? {
+					tipo: entry.tipo_forma,
+					workIds: new Set<string>(),
+					shares: [],
+					sequences: 0
+				};
+				current.tipo ??= entry.tipo_forma;
+				current.workIds.add(work.obra_id);
+				current.shares.push(entry.proporcion_versos ?? 0);
+				current.sequences += entry.secuencias;
+				forms.set(id, current);
+			}
 		}
-		if (obra.fecha_inicio_trad === null) return String(obra.fecha_fin_trad);
-		return `${obra.fecha_inicio_trad}-${obra.fecha_fin_trad}`;
+
+		return [...forms.entries()]
+			.map(([id, value]) => {
+				const summary = summarizeLaboratoryValues(value.shares);
+				return {
+					id,
+					label: humanize(id),
+					tipo: value.tipo,
+					works: value.workIds.size,
+					diffusion: works.length > 0 ? value.workIds.size / works.length : 0,
+					medianShare: summary.median ?? 0,
+					sequences: value.sequences
+				};
+			})
+			.sort((a, b) => b.works - a.works || b.medianShare - a.medianShare || a.label.localeCompare(b.label, 'es'));
+	}
+
+	function buildTransitionRows(works: CorpusComparisonWork[]): TransitionRow[] {
+		const transitions = new Map<
+			string,
+			{ from: string; to: string; workIds: Set<string>; occurrences: number }
+		>();
+
+		for (const work of works) {
+			for (const transition of work.transiciones) {
+				const id = `${transition.de}→${transition.a}`;
+				const current = transitions.get(id) ?? {
+					from: transition.de,
+					to: transition.a,
+					workIds: new Set<string>(),
+					occurrences: 0
+				};
+				current.workIds.add(work.obra_id);
+				current.occurrences += transition.veces;
+				transitions.set(id, current);
+			}
+		}
+
+		return [...transitions.entries()]
+			.map(([id, value]) => ({
+				id,
+				from: value.from,
+				to: value.to,
+				works: value.workIds.size,
+				diffusion: works.length > 0 ? value.workIds.size / works.length : 0,
+				occurrences: value.occurrences,
+				meanWhenPresent:
+					value.workIds.size > 0 ? value.occurrences / value.workIds.size : 0
+			}))
+			.sort(
+				(a, b) =>
+					b.works - a.works ||
+					b.occurrences - a.occurrences ||
+					a.id.localeCompare(b.id, 'es')
+			);
 	}
 </script>
 
-<section class="space-y-6">
-	<header class="flex flex-wrap items-end justify-between gap-4">
-		<div>
-			<h1 class="font-display text-3xl text-[color:var(--gray-900)]">Laboratorio</h1>
-		</div>
-		<div class="text-sm text-[color:var(--muted-foreground)]">
-			{selectedObras.length} de {obras.length} obras
-		</div>
-	</header>
+<section class="space-y-8">
+	<PublicPageHeader
+		eyebrow="HERRAMIENTA DE INVESTIGACIÓN"
+		title="Laboratorio"
+		badge="Corpus de prueba"
+		description="Construye una muestra y examina cómo se distribuyen las medidas, las formas y las relaciones métricas. Los resultados describen el corpus disponible: todavía no son conclusiones sobre el teatro español."
+	/>
 
-	{#if obras.length === 0}
-		<div class="card p-6 text-sm text-[color:var(--muted-foreground)]">
-			No hay obras con perfil métrico disponible para el laboratorio.
+	{#if !corpus}
+		<div class="border-l-2 border-[color:var(--warning)] bg-white px-5 py-4 text-sm">
+			<p class="font-semibold">El banco comparativo todavía no está disponible.</p>
+			<p class="mt-1 text-[color:var(--muted-foreground)]">
+				Actualiza la precomputación global para materializar el artefacto V2 del laboratorio.
+			</p>
 		</div>
 	{:else}
-		<div class="grid gap-5 lg:grid-cols-[18rem_minmax(0,1fr)]">
-			<aside class="card h-fit p-4">
-				<div class="flex items-center justify-between gap-2">
-					<h2 class="font-display text-lg">Selección</h2>
-					<button
-						type="button"
-						class="text-xs font-semibold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
-						onclick={clearSelection}
-					>
-						Limpiar
-					</button>
+		<div class="space-y-5">
+			<div class="flex flex-wrap items-center justify-between gap-3 text-xs text-[color:var(--muted-foreground)]">
+				<p>
+					Universo: <strong class="font-semibold text-[color:var(--foreground)]">{data.alcance === 'completo' ? 'todas las obras publicadas' : 'obras publicadas y visibles'}</strong>
+				</p>
+				<p>
+					{#if data.stale}<span class="mr-2 font-semibold text-[color:var(--warning)]">Actualización pendiente</span>{/if}
+					{#if formattedGeneratedAt}Generado {formattedGeneratedAt}{/if}
+				</p>
+			</div>
+
+			<LaboratorySampleBar
+				works={sampleWorks}
+				totalWorks={allWorks.length}
+				{authorItems}
+				{selectedAuthors}
+				{dateFrom}
+				{dateTo}
+				metricCoverage={activeView === 'medidas' ? metricSummary.n : undefined}
+				onAuthorsChange={(ids) => (selectedAuthors = ids)}
+				onDateFromChange={(value) => (dateFrom = value)}
+				onDateToChange={(value) => (dateTo = value)}
+				onReset={resetSample}
+			/>
+
+			<div class="border-b border-[color:var(--border)]">
+				<div class="flex flex-wrap gap-x-7 gap-y-2" aria-label="Espacios del laboratorio">
+					<span class="border-b-2 border-[color:var(--primary)] pb-3 text-sm font-semibold">Explorar</span>
+					<span class="pb-3 text-sm text-[color:var(--muted-foreground)]">Comparar grupos</span>
+					<span class="pb-3 text-sm text-[color:var(--muted-foreground)]">Afinidades</span>
 				</div>
-				<div class="mt-3 space-y-3">
-					<label class="block text-xs font-semibold text-[color:var(--muted-foreground)]">
-						<span>Buscar obra</span>
-						<input
-							type="search"
-							bind:value={obraSearch}
-							placeholder="Título o autor"
-							class="mt-1 w-full border border-[color:var(--border)] bg-white px-2 py-1.5 text-sm font-normal text-[color:var(--foreground)]"
-						/>
-					</label>
-					<label class="block text-xs font-semibold text-[color:var(--muted-foreground)]">
-						<span>Producción de autor</span>
-						<select
-							value={authorSelection}
-							class="mt-1 w-full border border-[color:var(--border)] bg-white px-2 py-1.5 text-sm font-normal text-[color:var(--foreground)]"
-							onchange={(event) => selectAuthorProduction(event.currentTarget.value)}
-						>
-							<option value="">Seleccionar autor</option>
-							{#each authorOptions as author (author.name)}
-								<option value={author.name}>{author.name} ({author.count})</option>
-							{/each}
-						</select>
-					</label>
-				</div>
-				<div class="mt-4 max-h-[32rem] space-y-1 overflow-y-auto pr-1">
-					{#each filteredObras as obra (obra.obra_id)}
-						<label class="flex cursor-pointer items-start gap-2 border border-transparent px-2 py-1.5 text-sm hover:border-[color:var(--border)]">
-							<input
-								type="checkbox"
-								class="mt-1"
-								checked={selectedIds.includes(obra.obra_id)}
-								onchange={() => toggleSelected(obra.obra_id)}
-							/>
-							<span class="min-w-0">
-								<span class="block truncate font-medium">{obra.titulo}</span>
-								<span class="text-xs text-[color:var(--muted-foreground)]">
-									{datacionLabel(obra)}
-									{#if obra.autoria_autores.length > 0}
-										· {obra.autoria_autores.join(', ')}
-									{/if}
-								</span>
-							</span>
-						</label>
-					{/each}
-					{#if filteredObras.length === 0}
-						<p class="px-2 py-3 text-sm text-[color:var(--muted-foreground)]">
-							No hay obras que coincidan con la búsqueda.
-						</p>
-					{/if}
-				</div>
-			</aside>
+			</div>
 
 			<div class="space-y-6">
-				<section class="space-y-4 border border-[color:var(--border)] bg-white/75 p-4">
-					<div class="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] pb-3">
-						<h2 class="font-display text-xl text-[color:var(--gray-900)]">Distancias</h2>
-						<div class="flex flex-wrap items-center gap-3">
-							<div class="inline-flex border border-[color:var(--border)] bg-white">
-								<button
-									type="button"
-									class={`px-3 py-2 text-sm font-semibold ${activeMode === 'composicional' ? 'bg-[color:var(--gray-900)] text-white' : 'text-[color:var(--gray-800)]'}`}
-									onclick={() => (activeMode = 'composicional')}
-								>
-									Composicional
-								</button>
-								<button
-									type="button"
-									class={`border-l border-[color:var(--border)] px-3 py-2 text-sm font-semibold ${activeMode === 'secuencial' ? 'bg-[color:var(--gray-900)] text-white' : 'text-[color:var(--gray-800)]'}`}
-									onclick={() => (activeMode = 'secuencial')}
-								>
-									Secuencial
-								</button>
-							</div>
-
-							<label class="flex flex-wrap items-center gap-2 text-sm text-[color:var(--muted-foreground)]">
-								<span>Resolución secuencial</span>
-								<span class="inline-flex items-center gap-2">
-									<input
-										type="number"
-										min="1"
-										step="1"
-										bind:value={versosPorSimbolo}
-										class="w-20 border border-[color:var(--border)] bg-white px-2 py-1 text-right text-[color:var(--foreground)]"
-									/>
-									<span>versos por bloque</span>
-								</span>
-							</label>
+				<div class="space-y-4">
+					<MetricAnalysisHeading
+						title="Explorar la muestra"
+						description="Elige qué observar y, si quieres, señala una obra para situarla dentro de la misma muestra."
+					/>
+					<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+						<label class="block w-full text-sm sm:max-w-sm">
+							<span class="font-medium">Obra de referencia <span class="font-normal text-[color:var(--muted-foreground)]">(opcional)</span></span>
+							<CheckDropdown
+								class="mt-1"
+								multiple={false}
+								items={situatedWorkItems}
+								selectedIds={situatedWork ? [situatedWork.obra_id] : []}
+								placeholder="Ninguna obra destacada"
+								search={true}
+								portal={true}
+								allowSingleClear={true}
+								onChange={(ids) => (situatedWorkId = ids[0] ?? '')}
+							/>
+						</label>
+						<div class="sm:max-w-max">
+							<Tabs
+								tabs={[
+									{ id: 'medidas', label: 'Medidas' },
+									{ id: 'formas', label: 'Formas' },
+									{ id: 'transiciones', label: 'Transiciones' }
+								]}
+								active={activeView}
+								onChange={(id) => (activeView = id as ExplorationView)}
+							/>
 						</div>
 					</div>
+				</div>
 
-					{#if selectedObras.length < 2}
-						<p class="mt-4 text-sm text-[color:var(--muted-foreground)]">
-							Selecciona al menos dos obras para calcular distancias.
-						</p>
-					{:else}
-						<div class="mt-4 overflow-x-auto">
-							<table class="min-w-full border-collapse text-xs">
-								<thead>
-									<tr>
-										<th class="sticky left-0 z-10 border border-[color:var(--border)] bg-white p-2 text-left font-semibold">
-											Obra
-										</th>
-										{#each selectedObras as obra (obra.obra_id)}
-											<th
-												class="border border-[color:var(--border)] bg-[color:var(--muted)] p-2 text-left font-semibold"
-												title={obra.titulo}
-											>
-												{shortTitle(obra.titulo)}
-											</th>
+				{#if sampleWorks.length === 0}
+					<div class="border-y border-[color:var(--border)] py-10 text-center text-sm text-[color:var(--muted-foreground)]">
+						Ninguna obra coincide con la muestra. Amplía o restablece los filtros.
+					</div>
+				{:else if activeView === 'medidas'}
+					<div class="grid items-start gap-6 lg:grid-cols-[15rem_minmax(0,1fr)]">
+						<LaboratoryMetricNav selectedId={selectedMetric.id} onSelect={selectMetric} />
+
+						<section class="min-w-0 border border-[color:var(--border)] bg-white" aria-labelledby="selected-metric-title">
+							<LaboratoryMetricHeader metric={selectedMetric} titleId="selected-metric-title" />
+							{#if situatedWork}
+								<LaboratoryFocusedWorkSummary
+									work={situatedWork}
+									metric={selectedMetric}
+									reading={situatedReading}
+									position={situatedPosition}
+									date={dateLabel(situatedWork)}
+								/>
+							{/if}
+
+							<div class="px-5 py-4">
+								<dl class="flex flex-wrap gap-x-7 gap-y-2 border-b border-[color:var(--border)] pb-4">
+									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Obras con dato</dt><dd class="mt-0.5 font-semibold tabular-nums">{metricSummary.n} de {sampleWorks.length}</dd></div>
+									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Mediana</dt><dd class="mt-0.5 font-semibold tabular-nums">{formatLaboratoryValue(metricSummary.median, selectedMetric)}</dd></div>
+									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Rango central</dt><dd class="mt-0.5 font-semibold tabular-nums">{formatLaboratoryValue(metricSummary.q1, selectedMetric)}–{formatLaboratoryValue(metricSummary.q3, selectedMetric)}</dd></div>
+									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Extremos</dt><dd class="mt-0.5 font-semibold tabular-nums">{formatLaboratoryValue(metricSummary.minimum, selectedMetric)}–{formatLaboratoryValue(metricSummary.maximum, selectedMetric)}</dd></div>
+								</dl>
+
+								{#if chartRows.length > 0}
+									<LaboratoryDistributionChart
+										rows={chartRows}
+										metric={selectedMetric}
+										q1={metricSummary.q1}
+										median={metricSummary.median}
+										q3={metricSummary.q3}
+										focusedId={situatedWork?.obra_id ?? null}
+										formatValue={(value) => formatLaboratoryValue(value, selectedMetric)}
+									/>
+								{/if}
+							</div>
+
+							<div class="overflow-x-auto border-t border-[color:var(--border)]">
+								<table class="min-w-full text-sm">
+									<thead class="bg-[color:var(--gray-50)] text-left text-xs text-[color:var(--muted-foreground)]">
+										<tr>
+											<th class="px-5 py-2.5 font-medium">Obra</th>
+											<th class="px-3 py-2.5 font-medium">Datación</th>
+											<th class="px-5 py-2.5 text-right font-medium">Valor</th>
+										</tr>
+									</thead>
+									<tbody class="divide-y divide-[color:var(--border)]">
+									{#each orderedMetricRows as row (row.work.obra_id)}
+										{@const fraction = formatLaboratoryFraction(row.reading, selectedMetric)}
+										<tr class={situatedWork?.obra_id === row.work.obra_id ? 'bg-[color:var(--muted)]' : ''}>
+											<td class="px-5 py-2.5">
+												<button type="button" class="text-left" onclick={() => (situatedWorkId = situatedWork?.obra_id === row.work.obra_id ? '' : row.work.obra_id)}>
+														<span class="block font-medium">{row.work.titulo}</span>
+														<span class="block text-xs text-[color:var(--muted-foreground)]">{row.work.autores.join(', ') || 'Autoría sin identificar'}</span>
+													</button>
+												</td>
+												<td class="whitespace-nowrap px-3 py-2.5 text-xs text-[color:var(--muted-foreground)]">{dateLabel(row.work)}</td>
+												<td class="px-5 py-2.5 text-right">
+													<span class="font-semibold tabular-nums">{formatLaboratoryValue(row.reading.value, selectedMetric)}</span>
+													{#if fraction}
+														<span class="ml-2 whitespace-nowrap text-xs tabular-nums text-[color:var(--muted-foreground)]">{fraction}</span>
+													{/if}
+												</td>
+											</tr>
 										{/each}
+									</tbody>
+								</table>
+							</div>
+						</section>
+					</div>
+				{:else if activeView === 'formas'}
+					<section class="border border-[color:var(--border)] bg-white">
+						<header class="border-b border-[color:var(--border)] px-5 py-4">
+							<MetricAnalysisHeading
+								title="Difusión y peso de las formas"
+								description="La difusión indica en cuántas obras aparece una forma; el peso es su proporción mediana de versos solo entre las obras que la usan."
+							/>
+							<LaboratoryReadingKey
+								title="Cómo leer este análisis"
+								items={[
+									{ label: 'Difusión', value: 'Obras con la forma ÷ obras de la muestra' },
+									{ label: 'Peso mediano', value: '% de versos, solo donde aparece' },
+									{ label: 'Secuencias', value: 'Recuento total en la muestra' }
+								]}
+								note="El porcentaje de peso sí describe versos; la difusión describe obras. El recuento de secuencias no se normaliza y aumenta al ampliar la muestra."
+							/>
+						</header>
+						<div class="px-4 py-4 sm:px-5">
+							<LaboratoryRelationMap
+								points={formMapPoints}
+								xLabel="Obras donde aparece"
+								yLabel="Peso mediano (%)"
+								ariaLabel="Mapa de difusión y peso de las formas métricas"
+							/>
+						</div>
+						<div class="overflow-x-auto border-t border-[color:var(--border)]">
+							<table class="min-w-full text-sm">
+								<thead class="bg-[color:var(--gray-50)] text-left text-xs text-[color:var(--muted-foreground)]">
+									<tr>
+										<th class="px-5 py-2.5 font-medium">Forma</th>
+										<th class="px-3 py-2.5 text-right font-medium">Difusión</th>
+										<th class="px-3 py-2.5 text-right font-medium">Peso mediano</th>
+										<th class="px-5 py-2.5 text-right font-medium">Secuencias</th>
+										{#if situatedWork}<th class="px-5 py-2.5 text-right font-medium">En la obra</th>{/if}
 									</tr>
 								</thead>
-								<tbody>
-									{#each selectedObras as row, i (row.obra_id)}
-										<tr>
-											<th
-												class="sticky left-0 z-10 max-w-48 border border-[color:var(--border)] bg-white p-2 text-left font-semibold"
-												title={row.titulo}
-											>
-												{shortTitle(row.titulo)}
-											</th>
-											{#each selectedObras as col, j (col.obra_id)}
-												{@const value = activeMatrix[i]?.[j] ?? 0}
-												<td
-													class="border border-white p-2 text-center font-mono"
-													style={cellStyle(value)}
-													title={`${row.titulo} / ${col.titulo}: ${formatDistance(value)}`}
-												>
-													{formatDistance(value)}
+								<tbody class="divide-y divide-[color:var(--border)]">
+									{#each formRows as row (row.id)}
+										{@const workForm = situatedWork?.perfil_formas[row.id]}
+										<tr class={workForm ? 'bg-[color:var(--gray-50)]' : ''}>
+											<td class="px-5 py-2.5"><MetricFormLabel forma={row.label} colorKey={row.id} {colorByForma} className="font-medium" /></td>
+											<td class="px-3 py-2.5 text-right tabular-nums"><strong>{row.works}</strong><span class="text-xs text-[color:var(--muted-foreground)]">/{sampleWorks.length}</span></td>
+											<td class="px-3 py-2.5 text-right tabular-nums">{formatPercent(row.medianShare)}</td>
+											<td class="px-5 py-2.5 text-right tabular-nums">{row.sequences}</td>
+											{#if situatedWork}
+												<td class="px-5 py-2.5 text-right tabular-nums">
+													{#if workForm}
+														<strong>{formatPercent(workForm.proporcion_versos ?? 0)}</strong>
+														<span class="ml-2 whitespace-nowrap text-xs text-[color:var(--muted-foreground)]">{workForm.secuencias} sec.</span>
+													{:else}
+														<span class="text-xs text-[color:var(--muted-foreground)]">No aparece</span>
+													{/if}
 												</td>
-											{/each}
+											{/if}
 										</tr>
 									{/each}
 								</tbody>
 							</table>
 						</div>
-
-						<div class="mt-6 border-t border-[color:var(--border)] pt-4">
-							<div class="flex flex-wrap items-center justify-between gap-3">
-								<h3 class="font-display text-lg">Obras más cercanas</h3>
-								<select
-									bind:value={focalId}
-									class="max-w-full border border-[color:var(--border)] bg-white px-2 py-1.5 text-sm"
-									aria-label="Obra de referencia"
-								>
-									{#each selectedObras as obra (obra.obra_id)}
-										<option value={obra.obra_id}>{obra.titulo}</option>
-									{/each}
-								</select>
-							</div>
-
-							<div class="mt-4 grid gap-4 md:grid-cols-2">
-								<div>
-									<h4 class="text-sm font-semibold">Por composición</h4>
-									<ol class="mt-2 divide-y divide-[color:var(--border)] border border-[color:var(--border)]">
-										{#each nearestComposicional as item (item.obra.obra_id)}
-											<li class="flex items-center justify-between gap-3 px-3 py-2 text-sm">
-												<a class="min-w-0 truncate hover:underline" href={`/obras/${item.obra.slug}`}>
-													{item.obra.titulo}
-												</a>
-												<span class="font-mono text-xs text-[color:var(--muted-foreground)]">
-													{formatDistance(item.distance)}
-												</span>
-											</li>
-										{/each}
-									</ol>
-								</div>
-
-								<div>
-									<h4 class="text-sm font-semibold">Por secuencia</h4>
-									<ol class="mt-2 divide-y divide-[color:var(--border)] border border-[color:var(--border)]">
-										{#each nearestSecuencial as item (item.obra.obra_id)}
-											<li class="flex items-center justify-between gap-3 px-3 py-2 text-sm">
-												<a class="min-w-0 truncate hover:underline" href={`/obras/${item.obra.slug}`}>
-													{item.obra.titulo}
-												</a>
-												<span class="font-mono text-xs text-[color:var(--muted-foreground)]">
-													{formatDistance(item.distance)}
-												</span>
-											</li>
-										{/each}
-									</ol>
-								</div>
-							</div>
+					</section>
+				{:else}
+					<section class="border border-[color:var(--border)] bg-white">
+						<header class="border-b border-[color:var(--border)] px-5 py-4">
+							<MetricAnalysisHeading
+								title="Difusión y frecuencia de las transiciones"
+								description="La difusión indica en cuántas obras aparece cada paso; la frecuencia media se calcula solo entre las obras que lo contienen."
+							/>
+							<LaboratoryReadingKey
+								title="Cómo leer este análisis"
+								items={[
+									{ label: 'Difusión', value: 'Obras con la transición ÷ obras de la muestra' },
+									{ label: 'Media donde aparece', value: 'Apariciones ÷ obras que la contienen' },
+									{ label: 'Total', value: 'Recuento de apariciones en la muestra' }
+								]}
+								note="El único porcentaje es la difusión entre obras. La media y el total cuentan apariciones de la transición, no versos ni secuencias completas."
+							/>
+						</header>
+						<div class="px-4 py-4 sm:px-5">
+							<LaboratoryRelationMap
+								points={transitionMapPoints}
+								xLabel="Obras donde aparece"
+								yLabel="Apariciones por obra usuaria"
+								ariaLabel="Mapa de difusión y frecuencia de las transiciones métricas"
+							/>
 						</div>
-					{/if}
-				</section>
-
-				<section class="space-y-6">
-					<div>
-						<h2 class="font-display text-xl text-[color:var(--gray-900)]">Gráficas</h2>
-					</div>
-
-					<div class="space-y-3 border border-[color:var(--border)] bg-white/75 p-4">
-						<h3 class="text-base font-semibold">Formas por obra</h3>
-						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-							Cada punto muestra el peso de una forma métrica dentro de una obra seleccionada.
-						</p>
-
-						{#if selectedObras.length === 0}
-							<p class="text-sm text-[color:var(--muted-foreground)]">
-								Selecciona una o más obras para ver sus formas métricas.
-							</p>
-						{:else if formPointRows.length === 0}
-							<p class="text-sm text-[color:var(--muted-foreground)]">
-								Las obras seleccionadas no tienen perfil de formas disponible.
-							</p>
-						{:else}
-							<div class="overflow-x-auto">
-								<div class="min-w-[44rem]">
-									<EChart
-										option={formPointChartOption}
-										height={formPointChartHeight}
-										ariaLabel="Gráfico de puntos de formas métricas por obra"
-									/>
-								</div>
-							</div>
-						{/if}
-					</div>
-
-					<div class="space-y-3 border border-[color:var(--border)] bg-white/75 p-4">
-						<h3 class="text-base font-semibold">Evolución por quinquenios</h3>
-						<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-							Porcentaje de versos de cada forma, agrupando las obras seleccionadas en bloques de cinco años.
-						</p>
-
-						{#if selectedObras.length === 0}
-							<p class="text-sm text-[color:var(--muted-foreground)]">
-								Selecciona obras con datación para ver la evolución de sus formas métricas.
-							</p>
-						{:else if evolutionPoints.length === 0}
-							<p class="text-sm text-[color:var(--muted-foreground)]">
-								Las obras seleccionadas no tienen datación suficiente para agrupar por quinquenios.
-							</p>
-						{:else}
-							<div class="grid gap-4 xl:grid-cols-[16rem_minmax(0,1fr)]">
-								<div>
-								<div class="flex items-center justify-between gap-2">
-									<h3 class="text-sm font-semibold">Formas</h3>
-									<button
-										type="button"
-										class="text-xs font-semibold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
-										onclick={clearEvolutionForms}
-									>
-										Limpiar
-									</button>
-								</div>
-								<div class="mt-2 flex flex-wrap gap-2">
-									<button
-										type="button"
-										class="border border-[color:var(--border)] px-2 py-1 text-xs font-semibold"
-										onclick={() => selectTopEvolutionForms(5)}
-									>
-										Top 5
-									</button>
-									<button
-										type="button"
-										class="border border-[color:var(--border)] px-2 py-1 text-xs font-semibold"
-										onclick={() => selectTopEvolutionForms(10)}
-									>
-										Top 10
-									</button>
-								</div>
-								<div class="mt-3 max-h-72 space-y-1 overflow-y-auto pr-1">
-									{#each evolutionFormOptions as option (option.forma)}
-										<label class="flex cursor-pointer items-center gap-2 px-2 py-1 text-sm hover:bg-[color:var(--muted)]">
-											<input
-												type="checkbox"
-												checked={selectedEvolutionForms.includes(option.forma)}
-												onchange={() => toggleEvolutionForm(option.forma)}
-											/>
-											<span
-												class="inline-block h-3 w-3 shrink-0 rounded-sm"
-												style={`background:${formColor(option.forma)};`}
-											></span>
-											<span class="min-w-0 flex-1 truncate capitalize">{option.label}</span>
-											<span class="font-mono text-xs text-[color:var(--muted-foreground)]">
-												{option.totalVersos}
-											</span>
-										</label>
+						<div class="overflow-x-auto border-t border-[color:var(--border)]">
+							<table class="min-w-full text-sm">
+								<thead class="bg-[color:var(--gray-50)] text-left text-xs text-[color:var(--muted-foreground)]">
+									<tr>
+										<th class="px-5 py-2.5 font-medium">Transición</th>
+										<th class="px-3 py-2.5 text-right font-medium">Difusión</th>
+										<th class="px-3 py-2.5 text-right font-medium">Media donde aparece</th>
+										<th class="px-5 py-2.5 text-right font-medium">Total</th>
+										{#if situatedWork}<th class="px-5 py-2.5 text-right font-medium">En la obra</th>{/if}
+									</tr>
+								</thead>
+								<tbody class="divide-y divide-[color:var(--border)]">
+									{#each transitionRows as row (row.id)}
+										{@const workTransition = situatedWork?.transiciones.find((transition) => transition.de === row.from && transition.a === row.to)}
+										<tr class={workTransition ? 'bg-[color:var(--gray-50)]' : ''}>
+											<td class="px-5 py-2.5"><div class="grid grid-cols-[minmax(0,1fr)_1rem_minmax(0,1fr)] items-center gap-2"><MetricFormLabel forma={humanize(row.from)} colorKey={row.from} {colorByForma} className="font-medium" /><ArrowRight class="h-4 w-4 text-[color:var(--muted-foreground)]" aria-hidden="true" /><MetricFormLabel forma={humanize(row.to)} colorKey={row.to} {colorByForma} className="font-medium" /></div></td>
+											<td class="px-3 py-2.5 text-right tabular-nums"><strong>{row.works}</strong><span class="text-xs text-[color:var(--muted-foreground)]">/{sampleWorks.length}</span></td>
+											<td class="px-3 py-2.5 text-right tabular-nums">{row.meanWhenPresent.toLocaleString('es', { maximumFractionDigits: 2 })}</td>
+											<td class="px-5 py-2.5 text-right font-semibold tabular-nums">{row.occurrences}</td>
+											{#if situatedWork}
+												<td class="px-5 py-2.5 text-right tabular-nums">
+													{#if workTransition}
+														<strong>{workTransition.veces}</strong> <span class="text-xs text-[color:var(--muted-foreground)]">{workTransition.veces === 1 ? 'vez' : 'veces'}</span>
+													{:else}
+														<span class="text-xs text-[color:var(--muted-foreground)]">No aparece</span>
+													{/if}
+												</td>
+											{/if}
+										</tr>
 									{/each}
-								</div>
-							</div>
-
-								<div class="min-w-0">
-									{#if selectedEvolutionForms.length === 0}
-										<p class="text-sm text-[color:var(--muted-foreground)]">
-											Selecciona una o más formas para dibujar el gráfico.
-										</p>
-									{:else}
-										<EChart
-											option={evolutionChartOption}
-											height="24rem"
-											ariaLabel="Gráfico de líneas de evolución de formas métricas por quinquenio"
-										/>
-									{/if}
-								</div>
-							</div>
-						{/if}
-					</div>
-				</section>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				{/if}
 			</div>
+
+			<p class="flex items-start gap-2 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
+				<Info class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+				Los filtros usan el solapamiento con el intervalo de datación tradicional; si no existe, recurren a la datación de METADRAMA. Las formas ausentes cuentan como cero solo cuando el denominador de la medida lo exige.
+			</p>
 		</div>
 	{/if}
 </section>

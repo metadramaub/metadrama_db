@@ -374,6 +374,14 @@ en cada obra `Sí / (Sí + No)`. Una obra entra en la distribución de un fenóm
 menos una respuesta; lo no respondido no se convierte en `No`. El artefacto conserva el número de
 obras analizables y la media, mediana, cuartiles, mínimo y máximo de esas proporciones.
 
+Esta proporción expresa **incidencia entre secuencias respondidas**, no extensión ni intensidad
+interna. Los booleanos solo afirman que el fenómeno aparece en algún punto de la secuencia: no
+registran cuántos casos contiene ni qué versos afecta. Por ello una secuencia positiva de cien versos
+no pesa más que otra de quince, y tampoco se pondera por su longitud. En las intervenciones,
+`exclusiva`, `compartida` y `sin_intervencion` son categorías de participación en la secuencia, no
+cantidades de parlamento. Solo las caracterizaciones por rango de §4.4 permiten calcular extensión
+real en versos.
+
 ### 4.4 Enunciación, cuadros y extremos de jornada
 
 Canto, prosa y evocación métrica se cuentan por versos tras fusionar rangos solapados o contiguos.
@@ -388,101 +396,54 @@ obras de prueba sirven para validar cálculo y presentación, no para sostener c
 
 ---
 
-## 5. Laboratorio: distancias provisionales entre obras
+## 5. Laboratorio comparativo
 
-Primera versión implementada el **2026-06-22** en
-[`src/lib/laboratorio/distancias.ts`](../src/lib/laboratorio/distancias.ts). Es una capa
-**exploratoria y no persistida**: no crea tablas, no añade endpoint específico y no materializa
-similitudes. La página del laboratorio carga obras publicadas con `perfil_formas` y `tramos` desde
-`obras_resumen`, aplica la misma lógica de visibilidad que el catálogo y calcula las distancias en
-cliente sobre la **selección activa** de obras.
+La renovación iniciada el **2026-09-12** carga exclusivamente
+`corpus/comparativas/{alcance}.json`; ya no consulta todas las obras ni usa `obras_resumen` como
+matriz transversal. Los filtros de autoría y datación construyen una **muestra activa** en cliente y
+todas las lecturas declaran su unidad, base de cálculo y cobertura.
 
-> **Estado metodológico:** estas distancias sirven para exploración y diagnóstico visual, no como
-> resultado final estable. La futura fase de distancias entre formas deberá sustituir parte de este
-> cálculo por una matriz `formas_distancia`.
+### 5.1 Explorar y situar en una misma muestra
 
-### 5.1 Distancia composicional
+La vista **Explorar** ofrece tres familias y una obra de referencia opcional:
 
-`distanciaComposicional(perfilA, perfilB)` compara dos perfiles `{forma_slug: n_versos}`:
+- **Medidas:** distribución por obra, mediana, rango central `q1–q3`, extremos, `n` y tabla ordenada;
+  si se señala una obra, añade su valor, fracción, posición y puesto y la destaca en el gráfico.
+- **Formas:** relación entre difusión —obras en las que aparece— y peso mediano en versos solo entre
+  las obras que la usan; el total de secuencias se mantiene como recuento no normalizado. Con obra
+  de referencia, la tabla indica su peso y número de secuencias sin añadir un total de versos.
+- **Transiciones:** relación entre difusión y número medio de apariciones solo entre las obras que
+  contienen el par ordenado, además del total de apariciones en la muestra. Con obra de referencia,
+  la tabla distingue las transiciones presentes y su recuento de las ausentes.
 
-1. normaliza cada perfil a proporciones, dividiendo los versos de cada forma por el total de versos
-   con forma asignada;
-2. alinea ambos perfiles sobre la **unión** de formas presentes, dando peso 0 a las formas ausentes;
-3. calcula la **divergencia de Jensen-Shannon** con logaritmo en base 2:
-   `JS(P,Q) = 1/2 KL(P,M) + 1/2 KL(Q,M)`, con `M = 1/2(P+Q)`;
-4. devuelve un valor acotado en `[0,1]`: `0` significa perfiles idénticos y `1`, distribuciones sin
-   solapamiento.
+Las medidas se tipan en [`src/lib/laboratorio/metricas.ts`](../src/lib/laboratorio/metricas.ts). Un
+porcentaje puede representar versos, secuencias respondidas u otros casos cubiertos; por eso la UI no
+usa el símbolo `%` sin explicar también numerador y denominador. Los fenómenos anotados como presencia
+por secuencia nunca se convierten en intensidad ni extensión interna.
 
-*Por qué esta medida provisional:* Jensen-Shannon es simétrica, está acotada y funciona bien para
-perfiles de proporciones. Pero trata todas las formas como categorías igualmente separadas: no sabe
-que dos formas puedan ser métricamente próximas. Por eso se marca como **provisional**; deberá
-sustituirse por transporte óptimo o una medida equivalente cuando exista una matriz
-`formas_distancia`.
+La obra señalada forma parte del referente y la posición se recalcula al cambiar los filtros. El
+orden no implica valoración y no se traduce automáticamente en «típica» o «rara». La selección es
+estado compartido entre las tres familias, no una segunda implementación de sus gráficos. Con un
+corpus de prueba, estas posiciones sirven para verificar el método y la interfaz, no para formular
+conclusiones históricas.
 
-### 5.2 Distancia secuencial
+### 5.2 Perfil comparativo futuro
 
-`distanciaSecuencial(tramosA, tramosB, versosPorSimbolo = 25)` compara la **secuencia de formas** de
-dos obras a partir de los `tramos` del barcode (`{i, f, s, t}`). En la interfaz se presenta como
-**tamaño de bloque**: cada bloque representa aproximadamente ese número de versos:
+Si la selección de obra llega a justificar una lectura simultánea de varias medidas, se construirá un
+perfil comparativo como componente propio y vista secundaria. No será una suma de desviaciones ni un
+índice global de rareza: deberá conservar unidades, denominadores y cobertura y presentar pequeñas
+distribuciones comparables con la obra señalada. La ficha pública recibirá solo una selección
+editorial de esas comparaciones, no el perfil investigador completo.
 
-1. discretiza cada tramo en una cadena de bloques, repitiendo `s` aproximadamente
-   `round((f - i + 1) / versosPorSimbolo)` veces;
-2. garantiza un mínimo de 1 bloque por tramo para que los tramos cortos no desaparezcan;
-3. calcula una distancia de edición **Levenshtein** entre las dos cadenas, con coste uniforme de
-   inserción, borrado y sustitución;
-4. normaliza por la longitud de la cadena más larga para devolver un valor en `[0,1]`.
+### 5.3 Siguientes espacios
 
-*Qué capta:* a diferencia de `perfil_formas`, conserva una lectura aproximada del orden y la
-duración relativa de los bloques métricos. Por ejemplo, dos obras con las mismas formas pero pesos
-invertidos (`romance` largo + `redondilla` corta frente a `romance` corto + `redondilla` larga)
-deben separarse aunque compartan vocabulario.
+**Comparar grupos** y **Afinidades** siguen pendientes. Comparar grupos deberá declarar tamaños,
+cobertura y unidad antes de enfrentar periodos, autorías o géneros. Afinidades no tendrá un score
+global opaco: separará al menos composición del repertorio y orden secuencial, y explicará qué rasgos
+acercan o separan las obras.
 
-*Parámetros provisionales:* `versosPorSimbolo` queda configurable en la interfaz del laboratorio
-porque controla la granularidad de la discretización. El coste de sustitución uniforme también es
-provisional: en una fase posterior debe ponderarse con `formas_distancia`, para que sustituir dos
-formas cercanas no cueste lo mismo que sustituir formas métricamente lejanas.
-
-### 5.3 Visualización actual
-
-Para una selección activa de `N` obras, el laboratorio calcula dos matrices `N × N`, simétricas y con
-diagonal 0:
-
-- **matriz composicional**, usando `perfil_formas`;
-- **matriz secuencial**, usando `tramos` y el valor configurable de `versosPorSimbolo`.
-
-Se muestran como dos mapas de calor separados, en pestañas independientes. No se calcula ni se
-muestra una distancia global combinada. La vista de **obras más cercanas** a una obra de referencia
-también se separa por criterio: una lista ordenada por distancia composicional y otra por distancia
-secuencial, siempre con el valor numérico de distancia junto al título.
-
-La página añade además un gráfico de puntos **forma × obra** sobre la selección activa, implementado
-con ECharts:
-
-- cada fila es una forma métrica presente en alguna obra seleccionada;
-- cada columna es una obra seleccionada;
-- el tamaño del punto representa el peso proporcional de esa forma dentro de la obra, calculado
-  desde `perfil_formas`.
-
-Este gráfico no es una distancia: sirve para inspeccionar visualmente qué formas explican las
-proximidades o separaciones que aparecen en las matrices.
-
-También incorpora un gráfico de evolución por **quinquenios**:
-
-- cada obra se asigna a un bloque de cinco años usando `fecha_inicio_trad` y, si falta, `fecha_fin_trad`;
-- dentro de cada quinquenio se suman los versos de las obras seleccionadas;
-- cada serie representa una forma métrica;
-- el valor mostrado es el porcentaje de versos de esa forma sobre el total de versos métricos del
-  quinquenio;
-- la interfaz permite seleccionar qué formas entran en el gráfico, con accesos rápidos al top 5 y
-  top 10 por volumen en la selección.
-
-Este gráfico temporal depende mucho de la selección activa y de la datación disponible. Debe leerse
-como exploración de tendencias dentro del subconjunto elegido, no como evolución global del corpus
-salvo que la selección cubra el corpus de forma equilibrada.
-
-### 5.4 Qué NO se hace todavía
-
-- No se combinan las dos distancias en un único score.
-- No se precomputan pares en una tabla `obras_similares`.
-- No se calcula proyección UMAP ni reducción dimensional.
-- No se comparan autores por distancia: sigue vigente la cautela de §2.7.
+El módulo [`src/lib/laboratorio/distancias.ts`](../src/lib/laboratorio/distancias.ts) conserva el
+prototipo anterior de Jensen–Shannon y Levenshtein como antecedente técnico, pero ya no describe la
+interfaz activa. Antes de reutilizarlo habrá que revisar la granularidad de los tramos y decidir si la
+distancia entre formas requiere una matriz específica. No se precomputan todavía pares de obras,
+UMAP ni distancias entre autores; para estos últimos sigue vigente la cautela de §2.7.

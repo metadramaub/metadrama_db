@@ -120,6 +120,8 @@
 		 * sección propia era exponer la fontanería.
 		 */
 		preguntasDeSecuencia?: Snippet;
+		/** Rasgos opcionales de secuencia ya activados, conservados junto al pie donde se añadieron. */
+		rasgosActivosDeSecuencia?: Snippet;
 		/**
 		 * Y las licencias de esas preguntas, para que salgan **en el mismo pie** que las de unidad.
 		 *
@@ -2583,6 +2585,12 @@
 						{@render bloqueDePregunta(pregunta)}
 					{/each}
 				</div>
+
+				{#if props.rasgosActivosDeSecuencia}
+					<div class="border-t border-[color:var(--border)] px-3 py-3">
+						{@render props.rasgosActivosDeSecuencia()}
+					</div>
+				{/if}
 
 				<!--
 					**Lo que la forma admite y nadie ha dicho que haya, al pie.**

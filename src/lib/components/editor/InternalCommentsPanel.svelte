@@ -23,6 +23,8 @@
 		obraId: string;
 		canComment?: boolean;
 		title?: string;
+		/** Omite la tarjeta exterior cuando el panel ya vive dentro de una sección con contenedor. */
+		sinContenedor?: boolean;
 		emptyText?: string;
 		context?: CommentContext;
 		section?: ComentarioSeccion;
@@ -70,6 +72,7 @@
 
 	const canComment = $derived(Boolean(props.canComment));
 	const canCollapse = $derived(Boolean(props.collapsible));
+	const panelTitle = $derived(props.title === '' ? null : (props.title ?? 'Comentarios internos'));
 	const visibleComments = $derived(showAllComments ? comments : comments.slice(0, 5));
 	const collapseBadgeLabel = $derived.by(() => {
 		if (!initialLoadResolved) return '…';
@@ -496,39 +499,43 @@
 	</div>
 {/snippet}
 
-<div class="card p-4">
-	<div class="mb-3 flex items-center justify-between gap-2">
-		<h3 class="text-lg font-semibold">{props.title ?? 'Comentarios internos'}</h3>
-		<div class="flex flex-wrap items-center justify-end gap-2">
-			{#if props.headerActionLabel && props.onHeaderAction}
-				<Button variant="secondary" class="gap-2" onclick={props.onHeaderAction}>
-					<span>{props.headerActionLabel}</span>
-					{#if headerActionBadgeLabel !== null}
+<div class={props.sinContenedor ? '' : 'card p-4'}>
+	{#if panelTitle || props.headerActionLabel || comments.length > 5 || canCollapse}
+		<div class="mb-3 flex items-center justify-between gap-2">
+			{#if panelTitle}
+				<h3 class="text-lg font-semibold">{panelTitle}</h3>
+			{/if}
+			<div class="flex flex-wrap items-center justify-end gap-2">
+				{#if props.headerActionLabel && props.onHeaderAction}
+					<Button variant="secondary" class="gap-2" onclick={props.onHeaderAction}>
+						<span>{props.headerActionLabel}</span>
+						{#if headerActionBadgeLabel !== null}
+							<span
+								class={`inline-flex min-w-6 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold leading-none ${headerActionBadgeClass}`}
+							>
+								{headerActionBadgeLabel}
+							</span>
+						{/if}
+					</Button>
+				{/if}
+				{#if !collapsed && comments.length > 5}
+					<Button variant="ghost" onclick={() => (showAllComments = !showAllComments)}>
+						{showAllComments ? 'Ver menos' : 'Ver todos'}
+					</Button>
+				{/if}
+				{#if canCollapse}
+					<Button variant="secondary" class="gap-2" onclick={() => (collapsed = !collapsed)}>
+						<span>{collapsed ? (props.collapseLabel ?? 'Ver') : 'Ocultar'}</span>
 						<span
-							class={`inline-flex min-w-6 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold leading-none ${headerActionBadgeClass}`}
+							class={`inline-flex min-w-6 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold leading-none ${collapseBadgeClass}`}
 						>
-							{headerActionBadgeLabel}
+							{collapseBadgeLabel}
 						</span>
-					{/if}
-				</Button>
-			{/if}
-			{#if !collapsed && comments.length > 5}
-				<Button variant="ghost" onclick={() => (showAllComments = !showAllComments)}>
-					{showAllComments ? 'Ver menos' : 'Ver todos'}
-				</Button>
-			{/if}
-			{#if canCollapse}
-				<Button variant="secondary" class="gap-2" onclick={() => (collapsed = !collapsed)}>
-					<span>{collapsed ? (props.collapseLabel ?? 'Ver') : 'Ocultar'}</span>
-					<span
-						class={`inline-flex min-w-6 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold leading-none ${collapseBadgeClass}`}
-					>
-						{collapseBadgeLabel}
-					</span>
-				</Button>
-			{/if}
+					</Button>
+				{/if}
+			</div>
 		</div>
-	</div>
+	{/if}
 
 	{#if !collapsed}
 		<div class={canComment ? 'mb-3' : ''}>
