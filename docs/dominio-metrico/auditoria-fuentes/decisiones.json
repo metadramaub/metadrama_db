@@ -113,7 +113,7 @@
    "anclaje equivocado (medio)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260914220000. → «copla de Jorge Manrique», p. 90, y «copla mixta», p. 91. Comprobado en el PDF: la manriqueña es una remisión pura y la cita de la ficha es literal de «copla mixta»."
+  "nota": "Migración 20260914220000. → «copla de Jorge Manrique», p. 90, y «copla mixta», p. 91. Comprobado en el PDF: la manriqueña es una remisión pura y la cita de la ficha es literal de «copla mixta». 20-IX-2026: recobrado el rango entero de la «copla mixta», «desde siete hasta doce versos octosílabos —rara vez versos de arte mayor—». Migración 20260920200000."
  },
  {
   "id": "d06da334",
@@ -1955,7 +1955,7 @@
    "omisión relevante (medio)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260915140000. Se retiró «que sí recoge en el *Diccionario*»: es una afirmación sobre otro libro metida en la voz de este. Aprobado por David."
+  "nota": "Migración 20260915140000. Se retiró «que sí recoge en el *Diccionario*»: es una afirmación sobre otro libro metida en la voz de este. Aprobado por David. 20-IX-2026: la ficha daba por silencio lo que no lo era. Caparrós nombra, define y ejemplifica el septeto lira en la p. 200, dentro del § 10.2.6; y la canción alirada, que la ficha decía que «describe», aparece una sola vez en todo el libro, de pasada. Reescrita y localizada. Migración 20260920220000."
  },
  {
   "id": "afe1da83",
@@ -3247,7 +3247,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: la ficha es fiel, comprobadas sus dos mitades en el epub. Solo el localizador era irresoluble, porque el libro tiene dos encabezados de verso libre y «Apartado sobre el verso libre» no decía cuál. Migración 20260920220000."
  },
  {
   "id": "a18a04c2",
@@ -3481,7 +3481,7 @@
    "cita literal inexacta (medio)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
+  "nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa. 20-IX-2026: «se puede considerar» se daba como lectura firme de M&B, faltaba la reserva «pero la 6 es muy poco frecuente sola» y sobraba la comparación con Domínguez Caparrós, que es nuestra. Migración 20260920200000."
  },
  {
   "id": "bf669381",
@@ -3658,7 +3658,7 @@
   "cubo": "observacion",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "Leída en las tres pasadas, con la C de localización ciega incluida. Nada que corregir."
+  "nota": "Leída en las tres pasadas, con la C de localización ciega incluida. Nada que corregir. 20-IX-2026: «lo atribuyen a» por «dicen que puede deberse a», que es como M&B lo escriben. Migración 20260920200000."
  },
  {
   "id": "97e53fc1",
@@ -4536,7 +4536,7 @@
   "cubo": "observacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Solo localizador: gana la página o el § que le faltaba, leído en el original por la pasada C. Migración 20260920140000."
+  "nota": "Solo localizador: gana la página o el § que le faltaba, leído en el original por la pasada C. Migración 20260920140000. 20-IX-2026: el § 229 dice que esas combinaciones «pueden» considerarse octavas aliradas y la ficha decía «deben» — justo la frase que el catálogo usa como criterio frente a la estancia, que está con el IP. Sale también la coletilla «Es el criterio que separa…», que no está en el libro, y entra la filiación con el ABcABcDD de La entretenida. Migración 20260920200000."
  },
  {
   "id": "67814933",
@@ -4584,7 +4584,7 @@
    "endurecimiento (grave)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260916140000. Endurecimiento: «parece casi enteramente desterrado». Se añade la excepción que él anota, el Razonamiento de don Alfonso Enríquez."
+  "nota": "Migración 20260916140000. Endurecimiento: «parece casi enteramente desterrado». Se añade la excepción que él anota, el Razonamiento de don Alfonso Enríquez. 20-IX-2026: «Registra» por «dice que es frecuente», que es como empieza el § 58. Migración 20260920200000."
  },
  {
   "id": "142db9f5",
@@ -5357,7 +5357,7 @@
   "cubo": "observacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Migración 20260916100000. Se queda con la descripción entera de la octavilla, que es donde caen sus esquemas. Sale «junto a la copla castellana» y «la de tres rimas», que era taxonomía nuestra puesta en su boca."
+  "nota": "Migración 20260916100000. Se queda con la descripción entera de la octavilla, que es donde caen sus esquemas. Sale «junto a la copla castellana» y «la de tres rimas», que era taxonomía nuestra puesta en su boca. 20-IX-2026: un «pero» de Quilis convertido en «porque». Entra además «estrofas de uso frecuente en los cancioneros del siglo XV». Migración 20260920200000."
  },
  {
   "id": "45f13be6",
@@ -5471,7 +5471,7 @@
   "cubo": "observacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Solo localizador: gana la página o el § que le faltaba, leído en el original por la pasada C. Migración 20260920140000."
+  "nota": "Solo localizador: gana la página o el § que le faltaba, leído en el original por la pasada C. Migración 20260920140000. 20-IX-2026: Quilis dice que los versi sciolti «pueden ser debidas» a la imitación latina o a la música, y la ficha daba las dos causas por ciertas. Migración 20260920200000."
  },
  {
   "id": "75d992b5",
@@ -6114,6 +6114,6 @@
   "cubo": "observacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Solo localizador: gana la página o el § que le faltaba, leído en el original por la pasada C. Migración 20260920140000."
+  "nota": "Solo localizador: gana la página o el § que le faltaba, leído en el original por la pasada C. Migración 20260920140000. 20-IX-2026: recobrado «aunque modificado y adecuado a la métrica románica», que califica la derivación que la ficha afirma. Migración 20260920200000."
  }
 ]
