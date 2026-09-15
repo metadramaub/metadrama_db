@@ -271,21 +271,9 @@ estrofa alirada de nueve versos bajo ese epígrafe. Esa frase no puede quedarse 
 
 ## Apartado aparte · Para la revisión del catálogo, no para esta
 
-- **Los tercetos del soneto: tres fuentes, tres «disposiciones clásicas» distintas.** Salió al
-  comprobar, por la cautela nueva del § 107, si las modalidades del soneto estaban bien. Las de los
-  **cuartetos sí lo están** —`ABBA ABBA` habitual y `ABAB ABAB` excepcional es exactamente
-  «uniformemente con raras excepciones», y coincide con lo que dice el *Diccionario*—. Las de los
-  **tercetos no se sostienen igual**: el catálogo asciende `CDC DCD` a **habitual** y deja
-  `CDE CDE`, `CDE DCE` y `CDC EDE` en **admitida**, pero
-  · Quilis llama clásico a `ABBA-ABBA-CDC-DCD` y lo da por favorito de Petrarca,
-  · **Jauralde llama forma clásica a `ABBA ABBA CDE DCE`**,
-  · Navarro pone `CDE CDE` como preferida de Garcilaso y de Herrera, y su repertorio final da
-    `CDE:CDE` y `CDC:DCD` juntas como las «preferentes»,
-  · y Morley y Bruerton dan las cuatro seguidas, sin jerarquía, advirtiendo que hay más.
-  O sea que el ascenso de una sola no lo respalda ninguna fuente por encima de las otras. Las
-  salidas razonables son dejarlas las cuatro `admitida`, o subir las cuatro, o mantener una y
-  escribir por qué. **Es decisión de catálogo y toca al editor y al demarcador**, así que no se hace
-  aquí.
+- **Los tercetos del soneto** están en [cuestiones para el IP](../cuestiones-para-el-ip.md#soneto),
+  punto 2: tres fuentes llaman clásica a tres disposiciones distintas y el catálogo asciende una
+  sola a `habitual`. Los cuartetos, en cambio, están bien y la ficha de Navarro lo sostiene.
 
 - **La quinta comprobación mecánica, y ya sabe qué buscar.** Recorrer las entradas del *Diccionario*
   con sentidos numerados y cotejar cuáles recoge la ficha. En el cubo de observación acertó tres de
