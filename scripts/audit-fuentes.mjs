@@ -50,9 +50,15 @@ const FUENTES = {
 	1968: {
 		nombre: 'Morley y Bruerton 1968',
 		fichero: join(BIBLIOTECA, 'definiciones_Morley&Bruerton.md'),
-		anclas: ['epigrafe'],
-		pagina: false,
-		nota: 'Copia a mano del capítulo V, confirmada fiel. Vale como original.'
+		anclas: ['epigrafe', 'pagina'],
+		pagina: true,
+		// **Esta copia sí está paginada, y la otra no.** La de `txt/` va sin marcas y era a la que
+		// miraban las instrucciones; un verificador de la pasada C encontró esta, con `[p. 38]` a
+		// `[p. 41]`, y con ella las 45 afirmaciones de la fuente ganaron página el 19 de septiembre.
+		// Mientras el perfil no lo supiera, el informe acusaba a esas 45 de citar una página que no
+		// podía comprobarse, y los tres silencios que citan el capítulo entero se quedaban sin pasaje.
+		marca_pagina: /^\[p\. (\d+)\]$/,
+		nota: 'Copia a mano del capítulo V, con marcas [p. 38] a [p. 41]. Vale como original.'
 	},
 	1969: {
 		nombre: 'Quilis 1969',
@@ -130,18 +136,30 @@ function pesarLosPies(lineas) {
 	return pies;
 }
 
+/** Las páginas de una fuente que las marca a mano, como la copia del capítulo V. */
+function marcasDePagina(lineas, patron) {
+	const marcas = [];
+	lineas.forEach((linea, indice) => {
+		const m = patron.exec(linea.trim());
+		if (m) marcas.push({ linea: indice + 1, pagina: Number(m[1]) });
+	});
+	return marcas;
+}
+
 /**
- * Un volcado, con sus pies de página y sus bloques de hoja.
+ * Un volcado, con sus páginas y sus bloques de hoja.
  *
  * `pdftotext` separa las hojas con un salto de página; los bloques se conservan porque dicen
  * cuántas páginas impresas lleva cada hoja —dos en Quilis, cuyo PDF escaneó pliegos dobles—,
- * pero **quien manda para situar un pasaje es el pie**, no el bloque.
+ * pero **quien manda para situar un pasaje es el número**, no el bloque.
  */
-function leerVolcado(ruta) {
+function leerVolcado(ruta, perfil) {
 	if (!existsSync(ruta)) return null;
 	const texto = readFileSync(ruta, 'utf-8');
 	const lineas = texto.split(/\r?\n/);
-	const pies = pesarLosPies(lineas);
+	// Una fuente con marca explícita la lleva **a la cabeza** de su página, no al pie.
+	const alPie = !perfil?.marca_pagina;
+	const pies = alPie ? pesarLosPies(lineas) : marcasDePagina(lineas, perfil.marca_pagina);
 	const bloques = [];
 	let inicio = 1;
 	for (const bloque of texto.split('\f')) {
@@ -156,7 +174,7 @@ function leerVolcado(ruta) {
 		});
 		inicio += suyas.length;
 	}
-	return { ruta, lineas, bloques, pies };
+	return { ruta, lineas, bloques, pies, alPie };
 }
 
 /**
@@ -169,6 +187,16 @@ function leerVolcado(ruta) {
  * **el primer número que aparece de ella en adelante**.
  */
 function paginasDeLinea(volcado, linea) {
+	// Con marca a la cabeza la cuenta se invierte: la página de una línea es **la última marca que
+	// quedó por encima**. Aplicar aquí la regla del pie daba a todo el capítulo V la página siguiente.
+	if (volcado.alPie === false) {
+		let ultima = null;
+		for (const p of volcado.pies) {
+			if (p.linea > linea) break;
+			ultima = p;
+		}
+		return ultima ? [ultima.pagina] : [];
+	}
 	const siguiente = volcado.pies.find((p) => p.linea >= linea);
 	return siguiente ? [siguiente.pagina] : [];
 }
@@ -563,7 +591,7 @@ function main() {
 
 	const volcados = {};
 	for (const [anio, perfil] of Object.entries(FUENTES))
-		volcados[anio] = leerVolcado(perfil.fichero);
+		volcados[anio] = leerVolcado(perfil.fichero, perfil);
 	const indiceNavarro = indiceDeNavarro(volcados[1972]);
 
 	const dictamenes = filas.map((fila) => {
