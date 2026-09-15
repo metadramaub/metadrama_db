@@ -19,7 +19,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "a6d9d28c",
@@ -383,7 +383,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "49143d0f",
@@ -427,7 +427,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "095ef92a",
@@ -922,7 +922,7 @@
    "atribución cruzada (grave)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260916220000. Igual que la redondilla enlazada: el silencio se mantiene y sale la explicación de que su único enlace es el de la gaya ciencia."
+  "nota": "Migración 20260916220000. Igual que la redondilla enlazada: el silencio se mantiene y sale la explicación de que su único enlace es el de la gaya ciencia. 20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "ce5d5f5c",
@@ -1036,7 +1036,7 @@
   "cubo": "confirmacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Migración 20260916230000. Tercera ficha con la cláusula copiada sobre el repertorio de enlaces, y la única de las tres que estaba en el cubo de las conformes: la encontró la guarda de la migración anterior al exigir que el catálogo quedara sin rastro de la frase falsa."
+  "nota": "Migración 20260916230000. Tercera ficha con la cláusula copiada sobre el repertorio de enlaces, y la única de las tres que estaba en el cubo de las conformes: la encontró la guarda de la migración anterior al exigir que el catálogo quedara sin rastro de la frase falsa. 20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "8769fc48",
@@ -1301,7 +1301,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "5e28fc29",
@@ -1742,7 +1742,7 @@
   "cubo": "material",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "dd27b5da",
@@ -1814,7 +1814,7 @@
   "cubo": "material",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "e6c8f474",
@@ -2479,7 +2479,7 @@
    "atribución cruzada (grave)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260916200000. Endurecimiento: «se suele señalar que la inventó Vicente Espinel». Y se retira la atribución a Guillén de una caracterización que es narración de Jauralde."
+  "nota": "Migración 20260916200000. Endurecimiento: «se suele señalar que la inventó Vicente Espinel». Y se retira la atribución a Guillén de una caracterización que es narración de Jauralde. 20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "387f50dd",
@@ -2758,7 +2758,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "a6656e33",
@@ -3203,7 +3203,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "e8dcfd50",
@@ -3863,7 +3863,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: la ficha copiaba los cuatro esquemas del sexteto del soneto —CDCDCD, CDECDE, CDEDCE, CDCEDE—, que no son de esta forma sino de la que el catálogo modela como dos tercetos, y que ya estaban en la ficha del soneto de esta misma fuente. Sale también «No figura entre las estrofas del repertorio dramático», porque ese repertorio no existe en el capítulo V. Migración 20260921100000."
  },
  {
   "id": "943624e5",
@@ -4312,7 +4312,7 @@
   "cubo": "confirmacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
+  "nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa. 20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "886b9735",
@@ -4492,7 +4492,7 @@
    "convención rota (leve)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260917120000. Los dos títulos del localizador no existen en el original: se cita por § numerado, §§ 67 y 68."
+  "nota": "Migración 20260917120000. Los dos títulos del localizador no existen en el original: se cita por § numerado, §§ 67 y 68. 20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "ec3f5532",
@@ -5543,7 +5543,7 @@
   "cubo": "material",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "e708120e",
@@ -5639,7 +5639,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
  },
  {
   "id": "ab3c32ab",
