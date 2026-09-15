@@ -19,7 +19,7 @@ Actualizado el 20 de septiembre de 2026.
 
 Las tres pasadas están completas sobre las **267** afirmaciones: A y B sobre el catálogo entero, C
 sobre las 108 que se le han repartido —las 58 de la primera tanda, las 50 del cubo de observación—.
-**48 migraciones aplicadas** desde el 11 de septiembre.
+**49 migraciones aplicadas** desde el 11 de septiembre.
 
 ## Lo que queda, en orden
 
@@ -146,7 +146,7 @@ corpus es Lope, posterior al de los entremeses», «la silva dramática nace, po
 palabras con que un verificador señala una divergencia, y son las mismas que usa cuando ve que la
 ficha ha añadido algo suyo.
 
-**Y cuatro cosas que enseñó:**
+**Y cinco cosas que enseñó:**
 
 - **Las entradas del *Diccionario* con sentidos numerados.** Tres fichas perdían lo mismo, y siempre
   lo que llevaba número: «serventesio 2 → cuarteta», «sextilla 2 → sexteto», «verso libre, 2». Con
@@ -159,6 +159,12 @@ ficha ha añadido algo suyo.
 - **Una excepción borrada que toca lo abierto.** Navarro dice que la quinta canción de Garcilaso
   está «compuesta en liras», dentro del epígrafe de la estancia. La ficha se la había comido, y cae
   justo en la frontera alirada/canción que espera al IP.
+- **Y una frase que viajaba en tres.** «Es la única fuente que la describe» abría **las tres**
+  estrofas enlazadas de Navarro Tomás. Las otras dos estaban fuera del cubo —en el de material y
+  dadas por corregidas—, de modo que ninguna pasada volvería a mirarlas: las encontró la guarda
+  puesta para comprobar que la frase había salido de la primera, y salieron con ella en
+  `20260920160000`. Es la misma familia de copiar-pegar que dio el `AB-DE-CF`, y **la segunda vez
+  que una guarda encuentra lo que nadie pensó en buscar**.
 
 #### Lo que queda de los cubos
 
@@ -259,11 +265,6 @@ estrofa alirada de nueve versos bajo ese epígrafe. Esa frase no puede quedarse 
 - **La quinta comprobación mecánica, y ya sabe qué buscar.** Recorrer las entradas del *Diccionario*
   con sentidos numerados y cotejar cuáles recoge la ficha. En el cubo de observación acertó tres de
   tres; con la sextina, cuatro.
-- **«Es la única fuente que la describe» sigue en dos fichas más.** Al comprobar que la frase había
-  salido de `c5992665` apareció idéntica en `eccebfab` (septilla enlazada) y `412ad16e` (sextilla
-  enlazada), las dos de Navarro Tomás y las dos **fuera de este cubo**: están en el de material y
-  dadas por corregidas. Es la misma familia de copiar-pegar, con tres hermanas esta vez. Pendiente
-  de decidir si se retiran igual.
 - **Una ficha de Morley y Bruerton habla todavía en singular**, `40c2c354` («La caracteriza»), fuera
   de este cubo. Las otras dos se arreglaron el 20 de septiembre.
 - **El *Diccionario* cita de dos maneras.** Quedan ocho fichas con «s. v.» frente a las 53 que usan
