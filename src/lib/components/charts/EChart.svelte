@@ -33,6 +33,8 @@
 				components.DataZoomComponent,
 				components.GridComponent,
 				components.LegendComponent,
+				components.MarkAreaComponent,
+				components.MarkLineComponent,
 				components.TitleComponent,
 				components.TooltipComponent,
 				renderers.CanvasRenderer,

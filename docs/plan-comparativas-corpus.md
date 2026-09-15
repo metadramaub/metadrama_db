@@ -57,16 +57,35 @@ pregunta concreta justifican y con qué unidad deben contarse.
 
 ## Qué ensayar en el laboratorio
 
+**Estado a 13 de septiembre de 2026:** ya están activas la exploración de medidas, formas y
+transiciones y la selección opcional de una obra de referencia dentro de esas mismas vistas. Se evitó
+una pestaña separada para no duplicar gráficos y mantenimiento. Comparar grupos y afinidades son los
+siguientes espacios de trabajo; un perfil comparativo multimedida solo se separará si llega a tener
+una función investigadora propia.
+
 - distribuciones y puntos por obra para cada medida, mostrando siempre `n` y cobertura;
-- selección de una obra para ver qué rasgos explican su posición, sin convertirlos en una
-  clasificación automática de «normal» o «rara»;
+- selección opcional de una obra, compartida por las vistas exploratorias, para ver qué rasgos
+  explican su posición sin convertirlos en una clasificación automática de «normal» o «rara»;
 - perfiles de formas y tradición por periodo, autoría o género;
-- transiciones por difusión entre obras y por intensidad dentro de las obras que las usan;
+- transiciones por difusión entre obras y por frecuencia dentro de las obras que las usan;
 - relación entre cortes dramáticos y cortes métricos;
 - fenómenos por secuencia y enunciación, separando ausencia, respuesta negativa y falta de dato;
 - aperturas y cierres de jornada solo si aparecen patrones repetidos y no coincidencias aisladas;
 - más adelante, arquitecturas y elecciones internas de las formas, una vez fijada su unidad de
   comparación.
+
+Las visualizaciones no aplicarán «difusión e intensidad» como pareja universal. Cada medida declara
+primero su nivel y solo admite las agregaciones que ese dato sostiene:
+
+- las formas y las caracterizaciones anotadas por rango permiten hablar de extensión en versos;
+- las transiciones y los cambios de espacio permiten contar acontecimientos o límites;
+- versos partidos y eventos sobrenaturales solo permiten hablar de presencia e incidencia entre
+  secuencias respondidas, no de cantidad ni de versos afectados dentro de cada secuencia;
+- exclusiva, compartida y sin intervención son categorías de secuencia, no grados de participación.
+
+La longitud de una secuencia positiva puede mostrarse como contexto, pero nunca usarse para ponderar
+un fenómeno cuya extensión interna no se anota. Toda medida del laboratorio tendrá tipo de medición,
+unidad, denominador, política de ausencias y advertencia metodológica cuando corresponda.
 
 ## Selección prevista para la ficha
 
@@ -80,7 +99,8 @@ los gráficos existentes:
 - **Cambios de cuadro:** comparar solo la proporción de cambios de cuadro que coinciden con un
   cambio de secuencia;
 - **Localizar en la obra:** al elegir versos partidos, espacio, sobrenatural o intervenciones,
-  comparar una vez la proporción positiva entre respuestas, antes de sus acordeones;
+  comparar una vez la proporción de secuencias positivas entre las respondidas, antes de sus
+  acordeones, sin presentarla como proporción de versos ni como intensidad interna;
 - **Enunciación:** para cada tipo presente, distinguir difusión entre obras e intensidad dentro de
   las obras donde aparece;
 - **Aperturas y cierres:** como máximo una observación sobre un patrón repetido e infrecuente, nunca
