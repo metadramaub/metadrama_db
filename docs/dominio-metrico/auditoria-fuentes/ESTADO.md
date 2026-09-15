@@ -19,7 +19,7 @@ Actualizado el 20 de septiembre de 2026.
 
 Las tres pasadas están completas sobre las **267** afirmaciones: A y B sobre el catálogo entero, C
 sobre las 108 que se le han repartido —las 58 de la primera tanda, las 50 del cubo de observación—.
-**49 migraciones aplicadas** desde el 11 de septiembre.
+**50 migraciones aplicadas** desde el 11 de septiembre. **No queda ninguna afirmación pendiente.**
 
 ## Lo que queda, en orden
 
@@ -81,15 +81,24 @@ La única razón puramente negativa son las cuatro celdas de Morley y Bruerton e
 ajenas, y ahí el motivo también es suyo: su repertorio no es el de la métrica española sino el de
 las formas que Lope usa.
 
-### 4 · Los cubos que quedan abiertos
+### 4 · Los cubos · **todos cerrados**
 
-Los dos que estaban abiertos, confirmación y observación, **están cerrados y ninguno estaba
-limpio**. Lo que queda son dos afirmaciones sueltas y una propuesta:
+**Las 267 afirmaciones están resueltas: 149 corregidas y 118 sin nada que corregir.** Los dos cubos
+grandes, confirmación y observación, se abrieron los últimos y **ninguno estaba limpio**.
 
-| cubo | pendientes | qué son |
-| --- | --- | --- |
-| limpio | 1 | |
-| filológico | 1 | decisión del IP |
+Las dos últimas cayeron el 20 de septiembre, y las dos enseñaron algo:
+
+- **`0b562394` · Copla de arte mayor · Caparrós — no había nada que corregir.** Estaba atascada
+  porque recibió **dos dictámenes de la pasada A y se contradicen**: uno la acusa de endurecimiento
+  grave citándola como «Establece como **únicas** distribuciones posibles», y la ficha dice «Da como
+  distribuciones **más frecuentes**» desde la migración `20260808170000`, del 8 de agosto, anterior a
+  la auditoría. **El verificador citó mal el catálogo, no la fuente.** Es un modo de fallo que no
+  estaba previsto: toda la arquitectura contrasta la fuente contra la ficha dando por supuesto que
+  la ficha al menos se lee bien.
+  **Está acotado**, y comprobado: solo 3 de las 267 recibieron dos dictámenes A, solo esta los tiene
+  discordes, y de las 118 dadas por limpias **ninguna** tiene una cita de A que no case con su ficha.
+  Y el procedimiento lo paró solo: la contradicción la dejó aparcada en vez de migrada.
+- **`022cea3a` · Soneto · Navarro — no era filológica.** Ver `20260920180000`.
 
 Y **una propuesta sin redactar**: `cfb377cd` (septeto-lira de Navarro). La otra, `9c4dd052`, se
 redactó al cerrar el cubo de observación.
@@ -261,6 +270,22 @@ sale de aplicar nuestra regla al pie de la letra.
 estrofa alirada de nueve versos bajo ese epígrafe. Esa frase no puede quedarse como está.
 
 ## Apartado aparte · Para la revisión del catálogo, no para esta
+
+- **Los tercetos del soneto: tres fuentes, tres «disposiciones clásicas» distintas.** Salió al
+  comprobar, por la cautela nueva del § 107, si las modalidades del soneto estaban bien. Las de los
+  **cuartetos sí lo están** —`ABBA ABBA` habitual y `ABAB ABAB` excepcional es exactamente
+  «uniformemente con raras excepciones», y coincide con lo que dice el *Diccionario*—. Las de los
+  **tercetos no se sostienen igual**: el catálogo asciende `CDC DCD` a **habitual** y deja
+  `CDE CDE`, `CDE DCE` y `CDC EDE` en **admitida**, pero
+  · Quilis llama clásico a `ABBA-ABBA-CDC-DCD` y lo da por favorito de Petrarca,
+  · **Jauralde llama forma clásica a `ABBA ABBA CDE DCE`**,
+  · Navarro pone `CDE CDE` como preferida de Garcilaso y de Herrera, y su repertorio final da
+    `CDE:CDE` y `CDC:DCD` juntas como las «preferentes»,
+  · y Morley y Bruerton dan las cuatro seguidas, sin jerarquía, advirtiendo que hay más.
+  O sea que el ascenso de una sola no lo respalda ninguna fuente por encima de las otras. Las
+  salidas razonables son dejarlas las cuatro `admitida`, o subir las cuatro, o mantener una y
+  escribir por qué. **Es decisión de catálogo y toca al editor y al demarcador**, así que no se hace
+  aquí.
 
 - **La quinta comprobación mecánica, y ya sabe qué buscar.** Recorrer las entradas del *Diccionario*
   con sentidos numerados y cotejar cuáles recoge la ficha. En el cubo de observación acertó tres de
