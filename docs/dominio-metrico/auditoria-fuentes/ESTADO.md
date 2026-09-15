@@ -4,7 +4,7 @@
 [plan](../plan-auditoria-fuentes.md) dice qué es cada fase y cómo se comprueba; aquí está qué queda
 por hacer y en qué orden. Se actualiza al cerrar cada cosa: lo terminado se borra, no se tacha.
 
-Actualizado el 17 de septiembre de 2026.
+Actualizado el 20 de septiembre de 2026.
 
 ## Dónde estamos
 
@@ -18,7 +18,8 @@ Actualizado el 17 de septiembre de 2026.
 | 5 | Informe y muestra humana | pendiente |
 
 Las tres pasadas están completas sobre las **267** afirmaciones: A y B sobre el catálogo entero, C
-sobre las 58 que se le repartieron. **42 migraciones aplicadas.**
+sobre las 108 que se le han repartido —las 58 de la primera tanda, las 50 del cubo de observación—.
+**48 migraciones aplicadas** desde el 11 de septiembre.
 
 ## Lo que queda, en orden
 
@@ -82,15 +83,16 @@ las formas que Lope usa.
 
 ### 4 · Los cubos que quedan abiertos
 
+Los dos que estaban abiertos, confirmación y observación, **están cerrados y ninguno estaba
+limpio**. Lo que queda son dos afirmaciones sueltas y una propuesta:
+
 | cubo | pendientes | qué son |
 | --- | --- | --- |
-| confirmación | 57 | **en curso**, ver abajo |
-| observación | 50 | notas que hay que decidir si entran |
 | limpio | 1 | |
 | filológico | 1 | decisión del IP |
 
-Y **dos propuestas sin redactar**: `9c4dd052` (lira de Morley y Bruerton) y `cfb377cd`
-(septeto-lira de Navarro).
+Y **una propuesta sin redactar**: `cfb377cd` (septeto-lira de Navarro). La otra, `9c4dd052`, se
+redactó al cerrar el cubo de observación.
 
 #### El cubo de confirmación · **cerrado, y no estaba limpio**
 
@@ -126,16 +128,46 @@ como «lo primero que hay que probar».
 
 *Y cuatro falsos positivos suyos, que sostienen la regla: la C tampoco decide sola.*
 
+#### El cubo de observación · **cerrado, y tampoco estaba limpio**
+
+Cincuenta afirmaciones descritas por la hoja como «conformes, pero con algo anotado». De las tres
+pasadas habían tenido A y B las cincuenta y **C ninguna**: el mismo agujero que el cubo anterior.
+Pasada la C y leídas las cincuenta notas una a una, **39 pedían algo** y once estaban limpias.
+
+| | |
+| --- | --- |
+| `20260920100000` | nueve glosas salen de la voz de la fuente, y una singular se hace plural |
+| `20260920120000` | once fichas recobran lo que la fuente decía y ellas callaban |
+| `20260920140000` | treinta y un localizadores, cuatro de ellos equivocados |
+
+**La familia mayor vuelve a ser la misma**: una frase del catálogo puesta en boca del libro —«su
+corpus es Lope, posterior al de los entremeses», «la silva dramática nace, por tanto, de…», «Es la
+única fuente que la describe»—. No es casualidad: la heurística que reparte los cubos busca las
+palabras con que un verificador señala una divergencia, y son las mismas que usa cuando ve que la
+ficha ha añadido algo suyo.
+
+**Y cuatro cosas que enseñó:**
+
+- **Las entradas del *Diccionario* con sentidos numerados.** Tres fichas perdían lo mismo, y siempre
+  lo que llevaba número: «serventesio 2 → cuarteta», «sextilla 2 → sexteto», «verso libre, 2». Con
+  la sextina de dos días antes son cuatro. **Es una regla, no una casualidad**, y está apuntada como
+  quinta comprobación mecánica.
+- **Una glosa que no lo era.** «Las estrofas enlazadas llevan esa misma quintilla dentro» parecía
+  inferencia del catalogador; el § 131 lo dice con esas palabras. Cortarla habría perdido fuente.
+- **Lo que la ficha ya tenía.** La escansión que el septeto-lira atribuía al *Diccionario* es su
+  propia arquitectura —`7-11-7-11-7-7-11` y `ababbcc`— repetida con firma ajena debajo.
+- **Una excepción borrada que toca lo abierto.** Navarro dice que la quinta canción de Garcilaso
+  está «compuesta en liras», dentro del epígrafe de la estancia. La ficha se la había comido, y cae
+  justo en la frontera alirada/canción que espera al IP.
+
 #### Lo que queda de los cubos
 
 | cubo | pendientes | qué son |
 | --- | --- | --- |
-| observación | 50 | notas que hay que decidir si entran |
 | limpio | 1 | |
 | filológico | 1 | decisión del IP |
 
-Y **dos propuestas sin redactar**: `9c4dd052` (lira de Morley y Bruerton) y `cfb377cd`
-(septeto-lira de Navarro).
+Y **una propuesta sin redactar**: `cfb377cd` (septeto-lira de Navarro).
 
 **Lo que sigue fuera del alcance mecánico: 114 de las 267** no comparten con su pasaje ninguna tirada
 de seis palabras, porque parafrasean en vez de reutilizar el léxico de la fuente. Son las que solo
@@ -223,6 +255,22 @@ sale de aplicar nuestra regla al pie de la letra.
 estrofa alirada de nueve versos bajo ese epígrafe. Esa frase no puede quedarse como está.
 
 ## Apartado aparte · Para la revisión del catálogo, no para esta
+
+- **La quinta comprobación mecánica, y ya sabe qué buscar.** Recorrer las entradas del *Diccionario*
+  con sentidos numerados y cotejar cuáles recoge la ficha. En el cubo de observación acertó tres de
+  tres; con la sextina, cuatro.
+- **«Es la única fuente que la describe» sigue en dos fichas más.** Al comprobar que la frase había
+  salido de `c5992665` apareció idéntica en `eccebfab` (septilla enlazada) y `412ad16e` (sextilla
+  enlazada), las dos de Navarro Tomás y las dos **fuera de este cubo**: están en el de material y
+  dadas por corregidas. Es la misma familia de copiar-pegar, con tres hermanas esta vez. Pendiente
+  de decidir si se retiran igual.
+- **Una ficha de Morley y Bruerton habla todavía en singular**, `40c2c354` («La caracteriza»), fuera
+  de este cubo. Las otras dos se arreglaron el 20 de septiembre.
+- **El *Diccionario* cita de dos maneras.** Quedan ocho fichas con «s. v.» frente a las 53 que usan
+  «Entrada», y quince sin página. Es trabajo de consistencia, no de auditoría.
+- **`22c63f36` enumera «series arromanzadas» entre los tipos con nombre.** La pasada C avisa de que
+  en el § 498 aparece como ejemplo suelto de García Lorca, no como categoría de la seguidilla. El
+  texto se cerró sin tocar eso; queda por mirar.
 
 - **Un comentario de cabecera en la sección de fuentes, cuando las seis disientan.** Idea de David
   del 17 de septiembre: si en alguna forma la disparidad entre fuentes fuera grande, la ficha
