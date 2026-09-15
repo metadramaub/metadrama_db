@@ -1411,8 +1411,8 @@
   },
   "cubo": "limpio",
   "defectos": [],
-  "estado": "pendiente",
-  "nota": ""
+  "estado": "no requiere revisión",
+  "nota": "Nada que corregir: la ficha dice «Da como distribuciones más frecuentes», que es lo que dice la fuente. Estuvo pendiente porque recibió dos dictámenes de la pasada A y se contradicen: el de dictamenes/2014.json la acusa de endurecimiento grave citándola como «Establece como únicas distribuciones posibles», texto que la ficha nunca tuvo —lo escribió así la migración 20260808170000 del 8 de agosto, antes de la auditoría, y nadie lo ha tocado—. Es decir, el verificador citó mal el catálogo, no la fuente. Comprobado que el fallo no alcanza a ninguna otra: de las 117 dadas por «no requiere revisión», ninguna tiene una cita de A que no case con su ficha."
  },
  {
   "id": "f7c945ff",
@@ -5106,8 +5106,8 @@
   },
   "cubo": "filologico",
   "defectos": [],
-  "estado": "pendiente",
-  "nota": ""
+  "estado": "corregido",
+  "nota": "No era filológica. «Anterior en un siglo» no está en el § 107 y no cuadra —de mediados del XV a 1526, que es como el propio libro fecha a Boscán con Navagiero, van unos setenta y cinco años—; el nexo causal «es lo que hace» era nuestro; y se había caído Petrarca, modelo directo de Boscán y Garcilaso según la frase siguiente. Entra además la cautela con que Navarro fija el orden de rimas de los cuartetos, «uniformemente con raras excepciones» ABBA:ABBA. Migración 20260920180000."
  },
  {
   "id": "332a88fd",
