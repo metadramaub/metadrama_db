@@ -843,7 +843,29 @@ seis fuentes que recorre la forma metro por metro.
    el auditor. El grupo pasaría de cuatro opciones a cinco, y esa quinta es justo la salida que esta
    duda pide.* ⇒ **C3**
 
-2. **¿Estrambote y sonetillo se incorporarán solo si aparecen en el corpus?** Quilis describe el
+2. **¿Qué disposición de tercetos merece ser la habitual, si cada fuente elige una distinta?** Hoy
+   el catálogo asciende `CDC DCD` a **habitual** y deja `CDE CDE`, `CDE DCE` y `CDC EDE` en
+   **admitida**. Al comprobar las modalidades del soneto —a raíz de la cautela con que Navarro fija
+   las de los cuartetos— resulta que **ninguna fuente respalda ese ascenso por encima de las otras**:
+
+   | fuente | a cuál llama clásica o preferida |
+   | --- | --- |
+   | Quilis 1969 | `ABBA-ABBA-CDC-DCD`, «esquema clásico», y la da por favorita de Petrarca |
+   | Jauralde 2020 | `ABBA ABBA CDE DCE`, «forma clásica» |
+   | Navarro 1972 | `CDE CDE` es la preferida de Garcilaso y de Herrera, y su repertorio final da `CDE:CDE` y `CDC:DCD` juntas como las «preferentes» |
+   | Morley y Bruerton 1968 | las cuatro seguidas, sin jerarquía, advirtiendo que hay más |
+   | *Diccionario* 2016 | no lista ninguna: da la regla, que es el punto 1 |
+
+   Tres salidas: dejar las cuatro en `admitida`; subirlas las cuatro a `habitual`; o mantener una y
+   escribir en la ficha por qué. *No es un arreglo de auditoría: la modalidad decide lo que el editor
+   V2 ofrece al anotar y lo que el demarcador compila, así que cambiarla se nota en las dos puntas.*
+
+   **En los cuartetos no hay nada que decidir**, y conviene decirlo para que no se arrastre la duda:
+   `ABBA ABBA` habitual y `ABAB ABAB` excepcional es exactamente lo que dicen las dos fuentes que se
+   pronuncian —Navarro, «uniformemente con raras excepciones»; el *Diccionario*, «lo normal», pero
+   «posibles otras distribuciones, especialmente la que obedece al esquema ABAB ABAB»—.
+
+3. **¿Estrambote y sonetillo se incorporarán solo si aparecen en el corpus?** Quilis describe el
    estrambote como uno o varios tercetos añadidos, con la condición de que el verso que sigue al
    decimocuarto sea un **heptasílabo que rime con él** —`ABBA ABBA CDE CDE eFF`—, y lo ejemplifica
    con el «Voto a Dios que me espanta esta grandeza» de Cervantes. *Es el más probable de los dos en
