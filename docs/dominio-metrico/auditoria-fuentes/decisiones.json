@@ -1036,7 +1036,7 @@
   "cubo": "confirmacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Migración 20260916230000. Tercera ficha con la cláusula copiada sobre el repertorio de enlaces, y la única de las tres que estaba en el cubo de las conformes: la encontró la guarda de la migración anterior al exigir que el catálogo quedara sin rastro de la frase falsa. 20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
+  "nota": "Migración 20260916230000. Tercera ficha con la cláusula copiada sobre el repertorio de enlaces, y la única de las tres que estaba en el cubo de las conformes: la encontró la guarda de la migración anterior al exigir que el catálogo quedara sin rastro de la frase falsa. 20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000. 21-IX-2026: «describe la sextilla como estrofa cerrada sobre sí misma» era glosa nuestra; el Diccionario no usa esa expresión. La sustituye el recorrido de sus cuatro variedades, que es lo que sostiene el silencio. Migración 20260921120000."
  },
  {
   "id": "8769fc48",
@@ -5243,7 +5243,7 @@
    "invención (grave)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260913120000. Se retiró la «modalidad moderna general» —que Navarro no dice y contradice en los §§ 446 y 494— y se recogió en su lugar lo que los dos ejemplos modernos sí dicen. Comprobado en el PDF al revisar la muestra humana."
+  "nota": "Migración 20260913120000. Se retiró la «modalidad moderna general» —que Navarro no dice y contradice en los §§ 446 y 494— y se recogió en su lugar lo que los dos ejemplos modernos sí dicen. Comprobado en el PDF al revisar la muestra humana. 21-IX-2026: la ficha daba «estribillos de dos a siete versos», tomando el siete del ejemplo de Góngora, cuando unas líneas más abajo, en el mismo § 212, Navarro escribe que los estribillos de sor Juana son «de muy diversa extensión entre dos y dieciséis versos». Rango cerrado a menos de la mitad, y ninguna comprobación mecánica podía verlo porque el número que la ficha daba sí está en el pasaje. Sale además el § 274 del localizador: existe, pero la ficha no toma nada de él. Migración 20260921120000."
  },
  {
   "id": "45c3cae7",
