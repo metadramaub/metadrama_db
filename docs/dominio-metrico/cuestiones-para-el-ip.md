@@ -388,10 +388,23 @@ figura dibujan los que riman —_ninguna · ocasionales · habituales · predomi
    la misma disyuntiva que la vuelta —donde se optó por lo contrario, dejarla abierta— y conviene
    revisarlas juntas si algún día se unifica el criterio._
 
-4. **¿Se restringe la arquitectura de estribillo posterior?** Representa una familia funcional
-   abierta, pero la fuente que la sustenta describe algo concreto: una cuarteta octosilábica seguida
-   de un estribillo en cuarteta hexasílaba. _Restringirla la haría verificable; dejarla abierta
-   permite registrar realizaciones que la fuente no describe._
+4. **Ninguna fuente describe la arquitectura de estribillo posterior.** Buscado en los seis libros
+   el 16 de septiembre de 2026: **las cinco que describen la forma ponen el estribillo al principio**,
+   y el _Diccionario_ lo dice con esa palabra —«un estribillo **inicial** —llamado cabeza,
+   villancico, letra o tema— de dos, tres o cuatro versos»—, con su ejemplo empezando por la cabeza.
+   Caparrós, «cabeza **inicial** de dos, tres o cuatro versos». Jauralde resume la secuencia como
+   «cabeza, estrofa y repetición total o parcial de la cabeza». **Y no aparece en ninguno ni la
+   cabeza pospuesta ni un villancico que empiece por la copla.**
+
+   _Hasta el 16 de septiembre de 2026 este apunte decía que «la fuente que la sustenta describe algo
+   concreto: una cuarteta octosilábica seguida de un estribillo en cuarteta hexasílaba». Esa
+   descripción no está en ninguna de las seis afirmaciones del villancico ni la he encontrado en los
+   libros; lo más parecido es un zéjel del_ Cancionero de Barbieri _que Navarro describe con
+   «mudanzas heptasílabas… estribillo octosílabo y las vueltas hexasílabas», que no es esto._
+
+   _Así que la pregunta no es si restringirla sino de dónde salió, y va con el punto 6. Si la
+   arquitectura está porque el corpus la trae, es un hallazgo nuestro y conviene que la ficha lo
+   diga; si está por una lectura que no quedó registrada, hay que recuperarla o retirarla._
 
 5. **¿Debe el editor registrar por separado la rima del estribillo y la del enlace y la vuelta?**
    Hoy pregunta por la rima de la mudanza, pero no conserva las rimas concretas de las otras partes;
@@ -415,11 +428,19 @@ figura dibujan los que riman —_ninguna · ocasionales · habituales · predomi
    Tomás «documenta además la variante con la mudanza reducida a dos versos, `aa:bba`». _Relajar la
    mudanza toca el núcleo de la definición._
 
-   **Cuidado con una inferencia nuestra:** hasta el 16 de septiembre de 2026 este apunte añadía
-   «también en el Siglo de Oro». La afirmación verificada documenta la variante en una frase y, en
-   otra distinta, dice que «en el Siglo de Oro la tradición persistía principalmente en la lírica
-   devota y en las canciones del teatro». **Unir las dos es nuestro.** Puede que el § 211 lo diga;
-   hay que abrirlo antes de volver a escribirlo así.
+   **Comprobado en el libro el 16 de septiembre de 2026**, y la variante está fechada: el § 211 es el
+   del Siglo de Oro, y dice que «además de la forma regular… aparece también **entre las canciones de
+   la Noche Buena, de Gómez de Tejada, la variante con las mudanzas reducidas a dos versos**, ya
+   registrada en los períodos anteriores, `aa:bba`», con su texto: «Que si voy y no vengo, vengo…».
+
+   **Y la nota de ese mismo párrafo trae una tercera reducción que el catálogo no tiene**: `a:bba`,
+   «con mudanza de dos versos **y uno de estribillo**», en la letrilla satírica de Trillo y Figueroa
+   «Que la casada hermosa…». _Si se relaja la mudanza, esta pregunta si se relaja también el
+   estribillo, que hoy es de uno o dos versos y ahí queda en uno._
+
+   _Un aviso sobre el volcado: el cuerpo del § imprime la forma regular como `aa:bbab` y su propia
+   nota como `aa:bbba`. Las dos no pueden ser; la del catálogo y la de las otras fuentes es
+   `aa:bbba`._
 
 3. **¿Y el zéjel en arte mayor?** Hoy el esquema métrico ofrece 6 u 8 sílabas. Navarro Tomás
    registra dos zéjeles en arte mayor en el _Cancionero de Baena_, y variantes que modifican
@@ -868,13 +889,22 @@ seis fuentes que recorre la forma metro por metro.
    **admitida**. Y lo que pasa no es que nadie lo respalde, sino algo más incómodo: **cada fuente
    eleva una distinta, y el catálogo eligió la de Quilis sin decirlo**:
 
-   | fuente                 | a cuál llama clásica o preferida                                                                                                  |
-   | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-   | Quilis 1969            | `ABBA-ABBA-CDC-DCD`, «esquema clásico», y la da por favorita de Petrarca                                                          |
-   | Jauralde 2020          | `ABBA ABBA CDE DCE`, «forma clásica»                                                                                              |
-   | Navarro 1972           | `CDE CDE` es la preferida de Garcilaso y de Herrera, y su repertorio final da `CDE:CDE` y `CDC:DCD` juntas como las «preferentes» |
-   | Morley y Bruerton 1968 | las cuatro seguidas, sin jerarquía, advirtiendo que hay más                                                                       |
-   | _Diccionario_ 2016     | no lista ninguna: da la regla, que es el punto 1                                                                                  |
+   | fuente                 | a cuál llama clásica o preferida                                                                                                                                                                                                                                                   |
+   | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | Quilis 1969            | `ABBA-ABBA-CDC-DCD`, «esquema clásico», y la da por favorita de Petrarca                                                                                                                                                                                                           |
+   | Jauralde 2020          | `ABBA ABBA CDE DCE`, «forma clásica»                                                                                                                                                                                                                                               |
+   | Navarro 1972           | **Las dos, y lo dice dos veces.** Su glosario: «los tercetos han usado **preferentemente** las combinaciones `CDE:CDE` y `CDC:DCD`». Y al tratar los sonetos de Santillana: «las dos combinaciones que **en general han predominado**; en 27 casos, `CDC:DCD`, y en 14, `CDE:CDE`» |
+   | Morley y Bruerton 1968 | las cuatro seguidas, sin jerarquía, advirtiendo que hay más                                                                                                                                                                                                                        |
+   | _Diccionario_ 2016     | no lista ninguna: da la regla, que es el punto 1                                                                                                                                                                                                                                   |
+
+   **Y Navarro reparte por autores**, comprobado en el libro el 16 de septiembre de 2026, § 107:
+   Garcilaso usó «en primer lugar, `CDE:CDE`; en segundo, `CDE:DCE`; en tercero, `CDC:DCD`»;
+   «Gutierre de Cetina mostró mayor predilección por `CDC:DCD`, y **Herrera, como Garcilaso, por
+   `CDE:CDE`**»; y las más frecuentes en Boscán son «`CDC:DCD`, `CDE:CDE` y `CDE:DCE`».
+
+   _Lo que las fuentes dibujan no es una preferida sino **dos que predominan**, `CDC:DCD` y
+   `CDE:CDE`, con las otras dos por debajo. La modalidad del catálogo no recoge esa forma: hoy una
+   está arriba y tres abajo._
 
    _Hasta el 16 de septiembre de 2026 este apunte decía que «ninguna fuente respalda ese ascenso», y
    su propia tabla lo desmiente dos líneas más abajo: Quilis llama a `CDC-DCD` «esquema clásico» y
