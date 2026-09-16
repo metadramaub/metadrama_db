@@ -7,7 +7,7 @@
 >
 > Lo vigente que salió de aquí: las fuentes y cómo se citan, en
 > [las fuentes del catálogo](../fuentes-del-catalogo.md); lo que queda por hacer, en
-> [el contexto](../CONTEXTO-PARA-CONTINUAR.md); el estado comprobable, en
+> [PENDIENTES](../../PENDIENTES.md); el estado comprobable, en
 > `npm run audit:metrica`. **Sus cifras y sus «pendiente» son del día en que se escribieron.**
 
 Actualizado: 8 de agosto de 2026 · **27 formas revisadas de 27, y los dos tramos sin forma**
@@ -1036,3 +1036,37 @@ obligaría a renombrar todos los esquemas de rima del catálogo a cambio de nada
 Las fichas `.md` de `revisiones-formas/` **se han retirado todas**. Del directorio solo queda
 [cuestiones-para-el-ip.md](../cuestiones-para-el-ip.md), que no describe
 formas sino decisiones pendientes. Lo descriptivo vive en el catálogo y se lee en `/formas`.
+
+## Una migración por forma, el rastro de la revisión de la prosa
+
+**Terminada el 21 de agosto de 2026.** Las 28 fichas que existían llevan la prosa revisada; las
+seis formas creadas ese mismo día nacieron ya con ella. Su rastro:
+
+| Forma | Migración |
+| --- | --- |
+| Villancico | `20260814090000_el_villancico_explica_sin_repetir_sus_partes` (+ `20260821090000_el_villancico_separa_el_enlace_de_la_vuelta`, `20260821110000`) |
+| Zéjel | `20260814100000_el_zejel_deja_hablar_a_su_figura` (+ `20260821100000_el_zejel_dice_de_donde_viene_y_donde_pervive`) |
+| Seguidilla | `20260815090000_la_seguidilla_dice_lo_que_su_figura_no_dibuja` (+ `20260815091000`) |
+| Romance | `20260818090000_el_romance_deja_de_repetir_su_rejilla` |
+| Canción petrarquista | `20260818100000_la_cancion_ensena_por_dentro_la_estancia` |
+| Sextilla | `20260818130000_la_sextilla_declara_lo_que_su_norma_acota` (+ `20260818140000`) |
+| Quintilla | `20260819090000_la_quintilla_se_define_por_lo_que_evita` (+ `20260819100000`) |
+| Silva | `20260819110000_la_silva_dice_donde_acaba_y_que_la_separa_del_pareado` (+ `20260819120000`, `20260819130000`) |
+| Soneto | `20260819140000_el_soneto_dice_la_regla_de_sus_tercetos` |
+| Décima | `20260819150000_la_decima_explica_sus_nombres_y_su_pausa` |
+| Redondilla | `20260819160000_la_redondilla_dice_por_que_su_doble_es_una` |
+| Cuarteto | `20260819170000_el_cuarteto_dice_de_donde_le_vienen_sus_nombres` |
+| Terceto y terceto encadenado | `20260911003500_el_cierre_del_encadenado_es_un_remate` |
+| Sextina (composición y estrofa) | `20260819190000_la_sextina_dice_que_lo_que_vuelve_es_la_palabra` |
+| Lira y sexteto-lira | `20260819200000_la_lira_dice_de_donde_viene_su_nombre` (+ `20260819210000`, `20260819220000`) |
+| Sexteto | `20260819230000_el_sexteto_declara_lo_que_su_norma_deja_libre` |
+| Sextilla (segunda vuelta) | `20260820090000_la_sextilla_manriquena_dice_como_rima` |
+| Copla real | `20260820150000_cada_fuente_habla_de_la_forma_que_describe` |
+| Octava real | `20260820160000_la_octava_real_acota_lo_que_deja_variar` (+ `20260820170000`, `20260820180000`) |
+| Copla de arte mayor | `20260820190000_la_copla_de_arte_mayor_llega_al_teatro_como_arcaismo` (+ `20260820200000`) |
+| Endecasílabo suelto | `20260820210000_el_endecasilabo_suelto_distingue_el_blanco_del_suelto` |
+| Endecha real | `20260820220000_la_endecha_real_ensena_sus_cuatro_disposiciones` (+ `20260820230000`) |
+| Pareado | `20260820240000_el_pareado_dice_para_que_sirve` (+ `20260820250000`) |
+| Novena | `20260820260000_la_novena_dice_como_se_llama_y_quien_la_escribio` (+ `20260820270000`) |
+| Tramos sin forma | `20260820280000_los_dos_tramos_sin_forma_se_reconocen_entre_si` |
+| Pie quebrado, en cinco formas | `20260820100000_el_pie_quebrado_es_un_rasgo_de_cada_estrofa` (+ `20260820110000`, `20260820120000`, `20260820130000`) |

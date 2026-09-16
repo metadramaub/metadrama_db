@@ -38,4 +38,4 @@ Se retira el bloque de `main` y se despliega. No hay nada que deshacer en la bas
 
 Que la ola de editores que entra **no anote nada más con el vocabulario legado**, y que lo que haya
 que migrar esté cerrado y contado. Ver
-[CONTEXTO-PARA-CONTINUAR](./dominio-metrico/CONTEXTO-PARA-CONTINUAR.md).
+[PENDIENTES](./PENDIENTES.md).

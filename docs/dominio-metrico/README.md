@@ -5,16 +5,24 @@ Actualizado: 16 de septiembre de 2026
 Esta carpeta reúne la ontología, los criterios, el modelo aplicado y los planes del dominio
 métrico de Versología, separado del vocabulario genérico del proyecto.
 
-> **El catálogo quedó revisado el 21 de agosto de 2026 y auditado contra sus fuentes en
-> septiembre**: cuatro pasadas de lectura y cuatro comprobaciones mecánicas sobre las 267
-> afirmaciones de «Lo que dicen las fuentes», con cincuenta y siete migraciones de corrección. El
-> editor V2 está en producción desde el 7 de septiembre. **Lo que viene es migrar las secuencias
-> ya anotadas** desde el vocabulario legado. Lo pendiente está en
-> [qué queda pendiente](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
+> **El catálogo métrico está terminado.** Se revisó forma por forma en agosto de 2026 y se auditó
+> contra sus seis fuentes en septiembre; lo que viene es **migrar las secuencias ya anotadas** desde
+> el vocabulario legado. Lo que falta, de todo el proyecto, está en una sola lista:
+> [PENDIENTES](../PENDIENTES.md).
 
-**Leer primero:** [Contexto para continuar el trabajo](./CONTEXTO-PARA-CONTINUAR.md). Estado
-operativo, qué queda por hacer, fronteras de seguridad y ruta de lectura para retomar el proyecto
-en otro chat.
+**Por dónde empezar**, según la tarea —solo lo necesario, no la carpeta entera—:
+
+| Si vas a… | Lee, en este orden |
+| --- | --- |
+| entender el dominio | [la ontología](./ontologia-verso-espanol.md) → [el modelo aplicado](./implementacion-metrica.md) |
+| formalizar o corregir una forma | [criterios de nivel](./criterios-de-nivel.md) → [cómo se cambia el catálogo](./como-se-cambia-el-catalogo.md) → [dónde vive la prosa](./donde-vive-la-prosa.md) |
+| añadir o corregir una afirmación de fuente | [las fuentes del catálogo](./fuentes-del-catalogo.md) → [cómo se cambia el catálogo](./como-se-cambia-el-catalogo.md) |
+| tocar el editor V2 | `src/lib/components/metrica/editor-v2/` y sus pruebas; la persistencia, en [el modelo aplicado](./implementacion-metrica.md) |
+| migrar las secuencias de una obra | [el plan](./plan-migracion-anotaciones.md) → [cómo se migra una obra](./como-se-migra-una-obra.md) → [equivalencias pendientes](./equivalencias-pendientes.md) |
+| saber la razón filológica de una forma | primero [`/formas`](https://versologia.metadrama.org/formas), que se genera del dato; si hace falta el porqué, [cuestiones para el IP](./cuestiones-para-el-ip.md) |
+
+**El estado no se escribe aquí**: cuántas formas hay, cuántas secuencias faltan o qué defectos
+quedan se consultan en la base y con los informes de más abajo.
 
 ## Qué es el dominio
 
@@ -30,16 +38,10 @@ en otro chat.
 | --- | --- |
 | [Criterios de nivel](./criterios-de-nivel.md) | Ante un hecho observado, en qué nivel se registra: forma, arquitectura, esquema, variedad o rasgo. **De lectura obligada antes de formalizar o corregir una forma** |
 | [Las fuentes del catálogo](./fuentes-del-catalogo.md) | Las seis monografías, por qué solo seis, dónde están los ficheros y cómo se cita cada una. **De lectura obligada antes de añadir o corregir una afirmación** |
+| [Cómo se cambia el catálogo](./como-se-cambia-el-catalogo.md) | El método: por migración y nunca desde el dashboard. Auditar la forma entera contra la base, presentar las decisiones juntas, una sola migración con guardas que ejecuten lo que tocan, verificar la ficha. Con las reglas que costó aprender: cómo se retira algo, por qué una afirmación no se reutiliza entre formas y por qué que el auditor calle no prueba nada |
 | [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md) | Los ocho criterios de redacción y qué se escribe en cada campo: definición, descripción, nota, afirmación |
 | [Contratos del registrador](./contratos-registrador-formas-revisadas.md) | Qué deriva y qué pregunta el editor en cada forma. Lo lee `npm run audit:metrica` |
 | [Cuestiones para el IP](./cuestiones-para-el-ip.md) | **Lo que sigue sin decidir y necesita criterio filológico**, forma por forma: qué admite cada una, hasta dónde llega su repertorio, si una realización documentada entra o se queda fuera |
-
-**Cómo se cambia el catálogo:** por migración, nunca desde el dashboard. El método —auditar la
-forma entera contra la base, presentar las decisiones juntas, una sola migración con guardas que
-ejecuten lo que tocan, y verificar la ficha— está en
-[el contexto](./CONTEXTO-PARA-CONTINUAR.md#cómo-se-revisa-y-se-cambia-el-catálogo), con las reglas
-que costó aprender: cómo se retira algo, por qué una afirmación no se reutiliza entre formas y por
-qué que el auditor calle no prueba que la norma esté declarada.
 
 ## Lo que se comprueba solo
 
@@ -75,6 +77,10 @@ proceso que se conservan por su razonamiento y su trazabilidad. Los que más se 
 - [Vocabulario heredado](./historico/vocabulario-heredado.md) — los 119 términos anteriores con sus
   definiciones, rasgos, subtipos y destino. **Es la referencia para comprobar si se perdió algo al
   migrar.**
+- [El editor V2, el recorrido del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md) —
+  por qué el formulario pregunta lo que pregunta, incidencia a incidencia.
+- [La precomputación y la ficha pública](./historico/ficha-publica-2026-09.md) — qué se probó en
+  pantalla, qué se descartó y con qué razón.
 - [Qué guarda el registro](./historico/que-guarda-el-registro-2026-08-01.md) — tres secuencias
   inventadas, fila a fila. Su método vale; sus nombres de tabla ya no.
 

@@ -47,7 +47,7 @@ declaran ni medida ni rima**, así que de un remate leído solo queda registrado
 
 Hay **dos inventarios y no dicen lo mismo**:
 
-- **[Qué queda pendiente](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente)** es lo que el proyecto
+- **[PENDIENTES](../PENDIENTES.md)** es lo que el proyecto
   tiene que **hacer**, ordenado por lo que bloquea los dos hitos siguientes. Ahí van las deudas del
   modelo, los huecos de cobertura y lo que el editor no sabe registrar.
 - **Este archivo** es lo que hay que **decidir**, y la decisión es filológica: qué admite una forma,

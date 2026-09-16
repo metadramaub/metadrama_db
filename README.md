@@ -14,8 +14,10 @@ tras una contraseña global mientras el proyecto no se abre.
 
 - **[CLAUDE.md](CLAUDE.md)** — mapa del proyecto: los tres subsistemas, dónde vive cada
   cosa, las reglas duras y qué documentación leer según la tarea. Es la puerta de entrada.
-- **[docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md)**
-  — el dominio métrico nuevo (catálogo, editor V2, demarcador), que está en construcción.
+- **[docs/PENDIENTES.md](docs/PENDIENTES.md)** — la única lista de pendientes del proyecto: qué
+  falta, qué bloquea y dónde está el detalle de cada cosa.
+- **[docs/dominio-metrico/README.md](docs/dominio-metrico/README.md)** — el dominio métrico nuevo
+  (catálogo, editor V2, demarcador). Dice, por tarea, qué leer y en qué orden.
 - **[docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md)** — qué mide
   cada dato precomputado de obra y autor, y por qué.
 - **[docs/arquitectura-artefactos-publicos.md](docs/arquitectura-artefactos-publicos.md)** — cómo se
