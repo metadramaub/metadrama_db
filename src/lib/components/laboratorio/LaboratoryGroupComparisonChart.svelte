@@ -181,8 +181,8 @@
 <LaboratoryPercentageScaleNote scale={axisScale} />
 
 <p class="mt-2 text-xs leading-5 text-[color:var(--muted-foreground)]">
-	El eje horizontal muestra el valor de la medida. Las dos franjas horizontales solo separan los grupos:
-	no ordenan las obras ni representan otra magnitud. Un punto mayor reúne obras con exactamente el mismo valor.
+	El valor se lee en horizontal; A y B son solo franjas de separación. Las obras con el mismo valor
+	comparten un punto mayor.
 </p>
 
 <div class="mt-1 flex flex-wrap items-center justify-end gap-4 text-[11px] text-[color:var(--muted-foreground)]">

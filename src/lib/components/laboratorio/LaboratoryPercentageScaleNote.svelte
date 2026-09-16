@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Info from 'lucide-svelte/icons/info';
+	import ZoomIn from 'lucide-svelte/icons/zoom-in';
 	import type { LaboratoryAxisScale } from '$lib/laboratorio/chart-scale';
 
 	const props = $props<{ scale: LaboratoryAxisScale }>();
@@ -12,10 +12,10 @@
 
 {#if props.scale.expandedPercentage}
 	<p class="mt-2 flex items-start gap-1.5 text-xs leading-5 text-[color:var(--muted-foreground)]">
-		<Info class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+		<ZoomIn class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
 		<span>
-			<strong class="font-semibold text-[color:var(--foreground)]">Escala ampliada: 0–{percentage(props.scale.maximum)}.</strong>
-			El máximo observado es {percentage(props.scale.maximumObserved)}; el porcentaje sigue referido al 100 % del denominador indicado.
+			<strong class="font-semibold text-[color:var(--foreground)]">Eje ampliado hasta {percentage(props.scale.maximum)}</strong>
+			para hacer legibles valores pequeños; máximo observado: {percentage(props.scale.maximumObserved)}.
 		</span>
 	</p>
 {/if}

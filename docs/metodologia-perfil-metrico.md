@@ -419,15 +419,14 @@ La vista **Explorar** ofrece tres familias y una obra de referencia opcional:
   la tabla distingue las transiciones presentes y su recuento de las ausentes.
 
 Las medidas se tipan en [`src/lib/laboratorio/metricas.ts`](../src/lib/laboratorio/metricas.ts). Un
-porcentaje puede representar versos, secuencias respondidas u otros casos cubiertos; por eso la UI no
-usa el símbolo `%` sin explicar también numerador y denominador. Los fenómenos anotados como presencia
-por secuencia nunca se convierten en intensidad ni extensión interna.
+porcentaje puede representar versos, secuencias respondidas u otros casos cubiertos; por eso la ayuda de
+cada medida identifica la unidad y la base de cálculo. Los fenómenos anotados como presencia por
+secuencia nunca se convierten en intensidad ni extensión interna.
 
 Los ejes porcentuales empiezan siempre en cero. Si el máximo observado es bajo, usan un techo redondo
 de `0,5`, `1`, `2`, `5`, `10`, `20` o `50 %` en lugar de prolongarse automáticamente hasta `100 %`.
-Ese zoom se declara como **escala ampliada**, muestra el máximo observado y recuerda que el denominador
-sigue siendo el `100 %`; nunca se aplica una escala automática silenciosa basada exactamente en el
-máximo de la muestra.
+Ese zoom se declara junto al gráfico y muestra el máximo observado; nunca se aplica una escala
+automática silenciosa basada exactamente en el máximo de la muestra.
 
 La obra señalada forma parte del referente y la posición se recalcula al cambiar los filtros. El
 orden no implica valoración y no se traduce automáticamente en «típica» o «rara». La selección es

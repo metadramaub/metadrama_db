@@ -24,7 +24,7 @@
 	import type { CorpusComparisonWork } from '$lib/types/public-artifacts.types';
 	import { colorForForma } from '$lib/utils/metric-colors';
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
-	import Info from 'lucide-svelte/icons/info';
+	import CircleAlert from 'lucide-svelte/icons/circle-alert';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
@@ -267,8 +267,8 @@
 	}
 
 	function dateLabel(work: CorpusComparisonWork): string {
-		const start = work.fecha_inicio_trad ?? work.fecha_inicio_metadrama;
-		const end = work.fecha_fin_trad ?? work.fecha_fin_metadrama;
+		const start = work.fecha_inicio_trad;
+		const end = work.fecha_fin_trad;
 		if (start === null && end === null) return 's. f.';
 		if (start === end || end === null) return String(start);
 		if (start === null) return String(end);
@@ -296,8 +296,8 @@
 		return works.filter((work) => {
 			if (authors.length > 0 && !work.autores.some((author) => authors.includes(author))) return false;
 			if (from === null && to === null) return true;
-			const start = work.fecha_inicio_trad ?? work.fecha_inicio_metadrama;
-			const end = work.fecha_fin_trad ?? work.fecha_fin_metadrama ?? start;
+			const start = work.fecha_inicio_trad;
+			const end = work.fecha_fin_trad ?? start;
 			if (start === null && end === null) return false;
 			if (from !== null && (end ?? start ?? -Infinity) < from) return false;
 			if (to !== null && (start ?? end ?? Infinity) > to) return false;
@@ -561,16 +561,15 @@
 						<header class="border-b border-[color:var(--border)] px-5 py-4">
 							<MetricAnalysisHeading
 								title="Difusión y peso de las formas"
-								description="La difusión indica en cuántas obras aparece una forma; el peso es su proporción mediana de versos solo entre las obras que la usan."
+								description="Sitúa cada forma según cuánto se extiende por el corpus y cuánto pesa dentro de las obras que la usan."
 							/>
 							<LaboratoryReadingKey
-								title="Cómo leer este análisis"
+								title="Qué representa cada valor"
 								items={[
-									{ label: 'Difusión', value: 'Obras con la forma ÷ obras de la muestra' },
-									{ label: 'Peso mediano', value: '% de versos, solo donde aparece' },
-									{ label: 'Secuencias', value: 'Recuento total en la muestra' }
+									{ label: 'Difusión', value: 'Obras de la muestra en que aparece' },
+									{ label: 'Peso mediano', value: '% de versos donde aparece' },
+									{ label: 'Secuencias', value: 'Apariciones acumuladas en la muestra' }
 								]}
-								note="El porcentaje de peso sí describe versos; la difusión describe obras. El recuento de secuencias no se normaliza y aumenta al ampliar la muestra."
 							/>
 						</header>
 						<div class="px-4 py-4 sm:px-5">
@@ -621,16 +620,15 @@
 						<header class="border-b border-[color:var(--border)] px-5 py-4">
 							<MetricAnalysisHeading
 								title="Difusión y frecuencia de las transiciones"
-								description="La difusión indica en cuántas obras aparece cada paso; la frecuencia media se calcula solo entre las obras que lo contienen."
+								description="Sitúa cada paso métrico según su extensión por el corpus y la frecuencia con que reaparece donde se usa."
 							/>
 							<LaboratoryReadingKey
-								title="Cómo leer este análisis"
+								title="Qué representa cada valor"
 								items={[
-									{ label: 'Difusión', value: 'Obras con la transición ÷ obras de la muestra' },
-									{ label: 'Media donde aparece', value: 'Apariciones ÷ obras que la contienen' },
-									{ label: 'Total', value: 'Recuento de apariciones en la muestra' }
+									{ label: 'Difusión', value: 'Obras de la muestra en que aparece' },
+									{ label: 'Media donde aparece', value: 'Apariciones por obra que la contiene' },
+									{ label: 'Total', value: 'Apariciones acumuladas en la muestra' }
 								]}
-								note="El único porcentaje es la difusión entre obras. La media y el total cuentan apariciones de la transición, no versos ni secuencias completas."
 							/>
 						</header>
 						<div class="px-4 py-4 sm:px-5">
@@ -736,12 +734,12 @@
 					{:else}
 						{#if groupsAreEqual}
 							<p class="flex items-start gap-2 border-l-2 border-[color:var(--warning)] bg-white px-4 py-3 text-sm leading-6">
-								<Info class="mt-1 h-3.5 w-3.5 shrink-0 text-[color:var(--warning)]" aria-hidden="true" />
+								<CircleAlert class="mt-1 h-3.5 w-3.5 shrink-0 text-[color:var(--warning)]" aria-hidden="true" />
 								Los dos grupos contienen las mismas obras. Añade algún filtro para producir una comparación distinta.
 							</p>
 						{:else if groupOverlapCount > 0}
 							<p class="flex items-start gap-2 border-l-2 border-[color:var(--primary)] bg-white px-4 py-3 text-sm leading-6">
-								<Info class="mt-1 h-3.5 w-3.5 shrink-0 text-[color:var(--primary)]" aria-hidden="true" />
+								<CircleAlert class="mt-1 h-3.5 w-3.5 shrink-0 text-[color:var(--primary)]" aria-hidden="true" />
 								{groupOverlapCount} {groupOverlapCount === 1 ? 'obra pertenece' : 'obras pertenecen'} a ambos grupos. Se muestra en las dos distribuciones y los grupos no deben leerse como muestras independientes.
 							</p>
 						{/if}
@@ -771,7 +769,9 @@
 
 									<div class="mt-4 flex flex-col gap-1 border-y border-[color:var(--border)] py-3 sm:flex-row sm:items-baseline sm:justify-between">
 										<div>
-											<p class="text-xs text-[color:var(--muted-foreground)]">Diferencia de medianas</p>
+											<p class="text-xs text-[color:var(--muted-foreground)]">
+												Diferencia de medianas{#if selectedMetric.unit === 'porcentaje'} (puntos porcentuales){/if}
+											</p>
 											<p class="font-semibold">Grupo A − Grupo B</p>
 										</div>
 										<p class="text-xl font-semibold tabular-nums">{formatLaboratoryDifference(groupMedianDifference, selectedMetric)}</p>
@@ -789,9 +789,8 @@
 										<p class="py-8 text-center text-sm text-[color:var(--muted-foreground)]">Ninguno de los dos grupos tiene datos para esta medida.</p>
 									{/if}
 
-									<p class="mt-4 flex items-start gap-2 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
-										<Info class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-										La comparación es descriptiva. No calcula significación estadística ni corrige el posible solapamiento entre grupos. En porcentajes, la diferencia se expresa en puntos porcentuales.
+									<p class="mt-4 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
+										Comparación descriptiva de la muestra activa; no evalúa la significación estadística de la diferencia.
 									</p>
 								</div>
 							</section>
@@ -799,11 +798,6 @@
 					{/if}
 				</div>
 			{/if}
-
-			<p class="flex items-start gap-2 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
-				<Info class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-				Los filtros usan el solapamiento con el intervalo de datación tradicional; si no existe, recurren a la datación de METADRAMA. Las formas ausentes cuentan como cero solo cuando el denominador de la medida lo exige.
-			</p>
 		</div>
 	{/if}
 </section>

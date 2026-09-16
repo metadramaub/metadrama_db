@@ -4,7 +4,7 @@
 	const props = $props<{
 		title?: string;
 		items: Array<{ label: string; value: string }>;
-		note: string;
+		note?: string;
 		caution?: string;
 	}>();
 </script>
@@ -24,7 +24,9 @@
 					</div>
 				{/each}
 			</dl>
-			<p class="mt-2 max-w-4xl text-xs leading-5 text-[color:var(--muted-foreground)]">{props.note}</p>
+			{#if props.note}
+				<p class="mt-2 max-w-4xl text-xs leading-5 text-[color:var(--muted-foreground)]">{props.note}</p>
+			{/if}
 			{#if props.caution}
 				<p class="mt-1 text-xs leading-5 text-[color:var(--foreground)]">{props.caution}</p>
 			{/if}
