@@ -1,14 +1,16 @@
 # Dominio métrico
 
-Actualizado: 21 de agosto de 2026
+Actualizado: 16 de septiembre de 2026
 
 Esta carpeta reúne la ontología, los criterios, el modelo aplicado y los planes del dominio
 métrico de Versología, separado del vocabulario genérico del proyecto.
 
-> **La revisión del catálogo terminó el 21 de agosto de 2026**, y con ella la de su prosa. Lo que
-> viene son dos hitos: **migrar las secuencias ya anotadas** desde el vocabulario legado y **pasar
-> el editor V2 a producción**. Lo que hay que despejar antes está inventariado y ordenado por
-> urgencia en [qué queda pendiente](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
+> **El catálogo quedó revisado el 21 de agosto de 2026 y auditado contra sus fuentes en
+> septiembre**: cuatro pasadas de lectura y cuatro comprobaciones mecánicas sobre las 267
+> afirmaciones de «Lo que dicen las fuentes», con cincuenta y siete migraciones de corrección. El
+> editor V2 está en producción desde el 7 de septiembre. **Lo que viene es migrar las secuencias
+> ya anotadas** desde el vocabulario legado. Lo pendiente está en
+> [qué queda pendiente](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
 
 **Leer primero:** [Contexto para continuar el trabajo](./CONTEXTO-PARA-CONTINUAR.md). Estado
 operativo, qué queda por hacer, fronteras de seguridad y ruta de lectura para retomar el proyecto
