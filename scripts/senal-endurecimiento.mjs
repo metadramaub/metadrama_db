@@ -29,10 +29,13 @@
  * hay a qué anclarse y el defecto, si lo hay, tiene que encontrarlo una lectura. Lo que decide, como
  * siempre, es abrir el libro.
  *
- *   node scripts/senal-endurecimiento.mjs [--todas]
+ *   node scripts/senal-endurecimiento.mjs [--cubos]
  *
- * Sin argumentos mira las que la hoja de correcciones tiene por conformes con comprobación
- * anotada, que es donde el defecto puede haberse quedado escondido. Con `--todas`, las 267.
+ * **Mira todas las afirmaciones del catálogo.** Durante la auditoría miraba por defecto solo las de
+ * los cubos «confirmación» y «limpio», que era donde el defecto podía haberse quedado escondido; se
+ * invirtió el 16 de septiembre de 2026, al terminar aquella. Los cubos son el reparto de un trabajo
+ * cerrado: una afirmación escrita después no está en ninguno, así que con ese filtro esta señal
+ * pasó a mirar 104 de 306 y a no ver nunca nada nuevo. `--cubos` recupera el recorte de entonces.
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -97,7 +100,7 @@ function cautelas(texto) {
 
 // ─────────────────────────────────────────────────────────────────── Los datos
 
-const soloConformes = !process.argv.includes('--todas');
+const soloConformes = process.argv.includes('--cubos');
 
 const decisiones = (() => {
 	const crudo = JSON.parse(readFileSync(BASE + 'decisiones.json', 'utf-8'));
@@ -208,7 +211,7 @@ L.push('palabras— y se mira si matizan donde el resumen no matiza.');
 L.push('**Son candidatos, no veredictos**: lo que decide es abrir el libro.');
 L.push('');
 L.push(
-	`Miradas **${mirados.length}** afirmaciones${soloConformes ? ' de los cubos «conforme» y «limpio»' : ' (todas)'}. **${señalados.length}** resumen una oración que matiza sin recoger la cautela. Otras **${sinAncla}** quedan fuera por no compartir con su pasaje ninguna tirada de ${TIRADA} palabras: ahí no hay a qué anclarse.`
+	`Miradas **${mirados.length}** afirmaciones${soloConformes ? ' de los cubos «conforme» y «limpio» de la auditoría de septiembre' : ' del catálogo (todas)'}. **${señalados.length}** resumen una oración que matiza sin recoger la cautela. Otras **${sinAncla}** quedan fuera por no compartir con su pasaje ninguna tirada de ${TIRADA} palabras: ahí no hay a qué anclarse.`
 );
 L.push('');
 L.push('| forma | fuente | localizador | cautelas del pasaje |');

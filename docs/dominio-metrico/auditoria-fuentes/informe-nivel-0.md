@@ -1,6 +1,6 @@
 # Auditoría de las fuentes · nivel 0
 
-Generado el 2026-09-15 con `npm run audit:fuentes`. **No se edita a mano.**
+Generado el 2026-09-16 con `npm run audit:fuentes`. **No se edita a mano.**
 
 **Este script no dictamina.** Prepara el trabajo: sitúa cada afirmación en su volcado,
 extrae el pasaje y dice de cuáles no ha sabido. Se intentó que juzgara y no sirve —cada
@@ -11,7 +11,7 @@ afirmación resuelva no dice nada sobre si es cierta, y que no resuelva tampoco 
 sea falsa.** Eso lo deciden los verificadores con el texto delante, que es la fase
 siguiente del [plan](../plan-auditoria-fuentes.md).
 
-De **306** afirmaciones resuelven su localizador **304**.
+De **306** afirmaciones resuelven su localizador **306**.
 
 ## Por fuente
 
@@ -20,13 +20,13 @@ De **306** afirmaciones resuelven su localizador **304**.
 | Morley y Bruerton 1968 | 45 | 45 | 17 | Copia a mano del capítulo V, con marcas [p. 38] a [p. 41]. Vale como original. |
 | Quilis 1969 | 44 | 44 | 2 | Regenerado sin -layout el 11 de septiembre de 2026. Dos páginas impresas por hoja. |
 | Navarro Tomás 1972 | 56 | 56 | 9 | El § está en el cuerpo y el índice mapea § → página impresa. |
-| Domínguez Caparrós 2014 | 48 | 47 | 5 | Volcado paginado y a una columna. |
-| Diccionario 2016 | 63 | 63 | 0 | El fichero dice 1999 en su nombre pero es la 3.ª edición de 2016. |
-| Jauralde Pou 2020 | 50 | 49 | 1 | Viene de un epub sin paginar: no hay página que comprobar. |
+| Domínguez Caparrós 2014 | 48 | 48 | 7 | Volcado paginado y a una columna. |
+| Diccionario 2016 | 63 | 63 | 2 | El fichero dice 1999 en su nombre pero es la 3.ª edición de 2016. |
+| Jauralde Pou 2020 | 50 | 50 | 0 | Viene de un epub sin paginar: no hay página que comprobar. |
 
 ## Lo que el verificador tendrá que resolver a mano
 
-**34** afirmaciones llegan a la verificación con algo sin resolver.
+**37** afirmaciones llegan a la verificación con algo sin resolver.
 No son defectos: son los casos en que el script no ha sabido situar el pasaje por sí
 solo, y el verificador tendrá que buscarlo y **explicar por qué es esa página o esa
 sección**.
@@ -62,11 +62,14 @@ sección**.
 | Navarro Tomás 1972 | Verso aislado | § 76, «Glosa», pp. 149-150 | declara p. 149 y el pasaje cae en 147 |
 | Navarro Tomás 1972 | Zéjel | §§ 14, pp. 50-51; 92, pp. 168-169; y 211, pp. 286-287 | declara p. 50 y el pasaje cae en 49 |
 | Domínguez Caparrós 2014 | Canción petrarquista | § 11.1.2, pp. 214-215 | declara p. 214 y el pasaje cae en 12 |
-| Domínguez Caparrós 2014 | Septeto-lira | Apartado de la canción alirada | localizador no seguible: no da página, § ni epígrafe entrecomillado |
+| Domínguez Caparrós 2014 | Pareado | § 10.2.1, p. 184 | declara p. 184 y el pasaje cae en 11 |
+| Domínguez Caparrós 2014 | Redondilla | § 8.3.5, p. 138 | declara p. 138 y el pasaje cae en 11 |
+| Domínguez Caparrós 2014 | Septeto-lira | §§ 10.2.3 y 10.2.6, pp. 190 y 199-200 | declara p. 190 y el pasaje cae en 12 |
 | Domínguez Caparrós 2014 | Sexteto | § 10.2.5, pp. 197-199 | declara p. 197 y el pasaje cae en 12 |
 | Domínguez Caparrós 2014 | Sextilla | pp. 196-198, y § 4.4, pp. 65-66 | declara p. 196 y el pasaje cae en 10 |
 | Domínguez Caparrós 2014 | Encadenamiento consonante | § 10.2.2, p. 185 | declara p. 185 y el pasaje cae en 11 |
-| Jauralde Pou 2020 | Versificación irregular | Apartado sobre el verso libre | localizador no seguible: no da página, § ni epígrafe entrecomillado |
+| Diccionario 2016 | Canción petrarquista | Entradas «canción a la italiana», pp. 61-63, «canción alirada», pp. 60-61, y «estancia», pp. 163-164 | declara p. 61 y el pasaje cae en 437 |
+| Diccionario 2016 | Novena | Entrada «novena», p. 240 | declara p. 240 y el pasaje cae en 130 |
 
 ### Localizadores que nadie puede seguir
 
@@ -75,8 +78,6 @@ Esto sí es un defecto, y no hace falta leer la fuente para verlo: **«Índice d
 afirmación de ser falsa; impiden comprobarla, que para una sección titulada «Lo que dicen
 las fuentes» es igual de grave.
 
-- **Septeto-lira** · Domínguez Caparrós 2014 · «Apartado de la canción alirada»
-- **Versificación irregular** · Jauralde Pou 2020 · «Apartado sobre el verso libre»
 
 ## Qué se extrajo
 
