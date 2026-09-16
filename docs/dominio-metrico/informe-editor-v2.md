@@ -1,6 +1,6 @@
 # Qué le pide el editor a cada forma
 
-Generado el 2026-09-10 desde la base enlazada.
+Generado el 2026-09-16 desde la base enlazada.
 
 ## 1 · Coste por forma
 
@@ -20,6 +20,7 @@ Generado el 2026-09-10 desde la base enlazada.
 | Endecha real | heptasilabica_con_endecasilabo | 2 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
 | Endecha real | hexasilabica_con_endecasilabo | 1 | 0 | 0 | 0 |
+| Estrofa sáfica | safica | 0 | 1 | 1 | 0 |
 | Novena | quintilla_redondilla | 0 | 2 | 2 | 0 |
 | Novena | redondilla_quintilla | 0 | 3 | 3 | 0 |
 | Novena-lira | heterometrica_consonante | 0 | 2 | 2 | 0 |
@@ -84,7 +85,7 @@ Generado el 2026-09-10 desde la base enlazada.
 | Villancico | estribillo_tras_primera_copla | 1 | 6 | 6 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**18 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**19 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
 - Canción petrarquista · regular_13_versos
 - Décima · aumentada
@@ -93,6 +94,7 @@ Generado el 2026-09-10 desde la base enlazada.
 - Décima · heptasilabica
 - Décima · hexasilabica
 - Décima · pentasilabica
+- Estrofa sáfica · de_la_torre
 - Lira · heptasilabica_endecasilabica
 - Redondilla enlazada · octosilabica_con_quebrado
 - Septilla enlazada · octosilabica_con_quebrado
@@ -146,7 +148,7 @@ Sin incidencias.
 | --- | --- |
 | Novena-lira · heterometrica_consonante | esquema_rima · rima · 0 opciones · alcance unidad |
 
-### E4 · Pregunta obligatoria que el editor no puede saltarse — 110
+### E4 · Pregunta obligatoria que el editor no puede saltarse — 111
 
 > Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.
 
@@ -172,6 +174,7 @@ Sin incidencias.
 | Endecha real · heptasilabica_con_endecasilabo | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Endecha real · heptasilabica_con_endecasilabo_de_cinco | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Endecha real · hexasilabica_con_endecasilabo | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
+| Estrofa sáfica · safica | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Novena · quintilla_redondilla | esquema_quintilla · rima · 8 opciones · alcance unidad |
 | Novena · quintilla_redondilla | esquema_redondilla · rima · 2 opciones · alcance unidad |
 | Novena · redondilla_quintilla | esquema_redondilla · rima · 2 opciones · alcance unidad |
