@@ -1,0 +1,184 @@
+# Pendientes
+
+**La única lista de pendientes del proyecto.** Lo que se hace se borra de aquí: no se tacha ni se
+archiva «por si acaso», porque para mirar atrás está `git` y está el
+[histórico](./dominio-metrico/historico/).
+
+Cada asunto ocupa pocas líneas: **qué falta, qué bloquea y dónde está el detalle**. Cuando un asunto
+necesita un plan largo, vive en su propio documento y aquí solo se le nombra.
+
+Lo que **no** va en esta lista: las decisiones filológicas, que son del IP y están en
+[cuestiones para el IP](./dominio-metrico/cuestiones-para-el-ip.md); y los informes generados, que
+no son estado porque se rehacen con un comando.
+
+> **Mientras dure la mudanza**, el razonamiento largo de los asuntos del dominio métrico sigue en
+> [CONTEXTO-PARA-CONTINUAR](./dominio-metrico/CONTEXTO-PARA-CONTINUAR.md), que se está vaciando. Cada
+> entrada dice dónde mirar.
+
+---
+
+## Los dos hitos
+
+**1 · Avanzar el laboratorio comparativo.** `corpus_comparativas` V2 ofrece la matriz por obra y los
+agregados. Debe sustituir la carga relacional del laboratorio y servir para ensayar qué medidas son
+interpretables, antes de proyectar una selección pequeña a las fichas. Las 11 obras visibles son de
+prueba: valen para comprobar cálculo y presentación, no para sostener resultados.
+→ [plan de comparativas](./plan-comparativas-corpus.md)
+
+**2 · Migrar las secuencias ya anotadas.** 263, en las 88 obras en borrador y las 5 en vista previa.
+Por equivalencias más revisión manual obra por obra. **Hasta que se haga, esas obras no tienen
+perfil.**
+→ [plan de migración](./dominio-metrico/plan-migracion-anotaciones.md) ·
+[cómo se migra una obra](./dominio-metrico/como-se-migra-una-obra.md) ·
+estado con `npm run equivalencias:informe`
+
+---
+
+## A · Bloquean la migración de las secuencias
+
+Casos en que una secuencia real **no tendría dónde caer**. Cada uno obliga a parar la migración de
+una obra a la mitad.
+
+**A1 · Huecos que ninguna equivalencia arregla.** Trabajo de editor con el texto delante: 37
+secuencias de `redondilla` genérica, 7 quintillas sin tipología, los dos esquemas de 3 coplas reales
+y las vocales de un romancillo. Y uno del catálogo: el endecasílabo suelto no pregunta por el final
+acentual, así que `endecasilabo_suelto_de_esdrujulos` no tiene dónde caer.
+→ [equivalencias pendientes](./dominio-metrico/equivalencias-pendientes.md)
+
+**A2 · Ver la precarga funcionando con una obra de verdad.** El editor abre ya una secuencia real
+sin empezar en blanco, pero `anotaciones_metricas.secuencia_id` sigue a cero porque nadie ha anotado
+todavía una secuencia heredada. Es trabajo de editor, no de implementación.
+
+**A3 · Las equivalencias de los tres tramos irregulares, una a una.** Alguna puede ser que quien
+anotó no encontrara la forma precisa y con el catálogo nuevo sí la encuentre. Las que no, tendrán que
+registrar exactamente lo que se ve.
+
+**A4 · Las preguntas que la serie alirada no tiene.** La novena-lira no tiene dónde registrar la
+disposición que se vea, ni la décima cuando no sea la documentada, ni la canción variable las medidas
+de sus partes. Es el mismo hueco de la sextilla y el sexteto, y se resuelve de una vez para todo el
+catálogo.
+
+**A5 · Las rimas compartidas entre partes de una forma compuesta no tienen destino.** El editor
+guarda un esquema local por sección y al reunirlas renumera la segunda con letras nuevas; si el
+enlace existe, lo borra. **Un caso así no se debe migrar ni guardar: hay que detener la anotación.**
+Hace falta declarar equivalencias de clase entre secciones, o una disposición global de la unidad.
+
+---
+
+## B · El catálogo y su modelo
+
+**B1 · Registrar una disposición que el catálogo no tiene.** El hueco que A4 nombra desde la serie
+alirada y que alcanza también a la sextilla y al sexteto.
+
+**B2 · El reparto de los rasgos, revisado entero.** Con él, la modalidad aguda: Jauralde dice que se
+extendió «a otras muchas variedades estróficas, como la sextilla y la décima», y hoy solo la declaran
+la octava aguda, el septeto y el sexteto. Y hay que decidir cómo se cruza con las vocales de la
+asonancia, porque los cuatro valores simples —`a`, `e`, `i`, `o`— **son** las asonancias agudas y los
+quince pares las llanas, relación que no está declarada: hoy se puede responder «final agudo» y una
+asonancia en par, que se contradicen.
+
+**B3 · La modalidad y los rasgos heredados por reutilización no son los de la posición que ocupan.**
+`aabba` sale «admitida» en la segunda quintilla de la copla real, donde M&B dicen que en Lope es
+siempre esa; y en la sextilla enlazada el pie quebrado es definitorio y en la quintilla que reutiliza,
+admitido. Afecta a las 18 reutilizaciones. *El IP decidió el 20 de agosto decirlo en prosa y no tocar
+el modelo por ahora.*
+
+**B4 · `numero_clases` admite un solo valor**, así que no puede expresar «dos o tres». Con él, las dos
+cosas del soneto: si sus cuartetos pueden heredar la disposición del cuarteto, y la restricción
+`max_consecutivos: 2` de sus tercetos, que la fuente enuncia y el catálogo no declara —**esta segunda
+ya se puede declarar**, el auditor la comprobaría.
+
+**B5 · Los esquemas abiertos sin restricciones**: los tres del sexteto y el de la octava real. La
+pregunta a cada fuente es la que respondió la quintilla —cuántas clases, cuántas alternancias, si
+admite sueltos—, pero **solo tiene respuesta cuando la fuente enuncia una regla**: de una enumeración
+no se saca un mínimo.
+
+**B6 · Un esquema de rima solo puede señalar una sección**, y los tres de la mudanza del villancico
+sirven a dos. Hoy no señalan ninguna y funciona; si aparece uno que deba señalar sección y servir a
+varias, habrá que emparejar por `tipo_seccion`.
+
+**B7 · No hay dónde guardar un ejemplo de verso.** El IP quiere un botón de ejemplos en cada ficha.
+Hay que modelarlo —de qué cuelga, cómo se guarda la anotación de clases— y luego poblarlo. Con él se
+resuelve dibujar la permutación de la sextina, que hoy solo se lee.
+
+**B8 · La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** O se expanden las
+posiciones o se admite que la notación baste. *Puede retirarlo una decisión del IP sobre qué es una
+endecha real.*
+
+**B9 · Dos cosas de la seguidilla, anotadas y sin tocar.** El «Estribillo final» de la compuesta
+duplica una arquitectura en vez de referenciarla, y `tipo_seccion` vale distinto en dos secciones
+idénticas. *Ninguna es un defecto.*
+
+**B10 · Las desviaciones no se han probado nunca.** Se puede abrir una desde el editor y no hay
+ninguna anotada, ni en pruebas. Hay que recorrerlas antes de pedirle a nadie que las use. Y decidir
+si es límite aceptable que **una desviación no pueda registrar algo que el catálogo no tenga**.
+
+---
+
+## C · Rendimiento y arquitectura
+
+**C1 · El catálogo se deriva en cada lectura.** Cuatro «tablas» del gestor son vistas sobre funciones
+que recorren el catálogo entero. La caché por revisión resolvió la mitad grande; queda materializar
+lo derivado —880 filas entre tres vistas— y medirlo con la caché puesta. *Cuando el editor V2 relaje
+la RLS de `catalogo_metrico_estado`, la llave de la caché dejará de bastar: habrá que añadirle la
+visibilidad.*
+
+**C2 · Nadie proyecta una anotación a notación verso a verso**, y es lo que pide la estilometría. El
+editor ya la escribe, pero **vive en la pantalla**: no es un módulo puro, no recorre las desviaciones
+ni la arquitectura intercalada. Hace falta una **proyección precomputada y regenerable**, con el
+nombre y la notación exacta a la vez. *No puede construirse sobre `rejilla.ts`, que es un recurso
+visual.* No bloquea anotar, pero es previo a comparar y cuantificar.
+
+**C3 · Separar y renombrar `loadMetricCatalog`.** Conserva el nombre y parte del contrato de la
+pantalla retirada. Debe devolver solo `MetricCatalogForEditor` y el estado de migración.
+
+**C4 · Lo que la obra declara que no hay solo lo responde el editor.** Arreglado ahí y solo ahí,
+porque hoy es la única vía por la que nace una secuencia. **Si vuelven a crearse obras por otra vía**
+—un seeder, una importación—, hay que añadir el disparador `before insert`.
+
+**C5 · La pestaña de secuencias se quedó sin borrador local**, y falta decidir si vuelve.
+
+**C6 · El desglose del autor se queda en dos niveles**, y **filtrar por rasgo o por esquema pide otro
+selector**: hoy es «formas + subtipos anidados» en un control único que no aguanta lo que viene.
+
+---
+
+## D · Lo que dejó la auditoría de fuentes
+
+La auditoría está terminada: 267 afirmaciones resueltas y 57 migraciones. Su relato está en
+[ESTADO.md](./dominio-metrico/auditoria-fuentes/ESTADO.md) y el método en
+[el plan](./dominio-metrico/plan-auditoria-fuentes.md).
+
+**D1 · Fase 5: informe y muestra humana.** El cierre: que un tercero pueda repetir la auditoría sin
+fiarse de nosotros.
+
+**D2 · Los 75 esquemas que las fuentes dan y el catálogo no tiene.** Forma por forma y con el libro
+abierto: el volcado de Navarro lee la `c` como `e` y algunas cadenas son varias estrofas seguidas.
+**La lista mecánica no es una lista de trabajo.**
+
+**D3 · Las 23 afirmaciones que matizan sobre formas con esquema definitorio.** Lo único del inventario
+de divergencias que apunta a desacuerdo real, no a silencio.
+→ [divergencias con las fuentes](./dominio-metrico/divergencias-con-las-fuentes.md)
+
+**D4 · Las 19 denominaciones** sin eco en su fuente o sin fuente declarada.
+
+**D5 · Tres comprobaciones mecánicas escritas a medias.** Las entradas del *Diccionario* con sentidos
+numerados —acertó seis de seis sin existir—, la señal de endurecimiento invertida para detectar
+cuándo la ficha ablanda a la fuente, y el cotejo de los epígrafes de Jauralde contra el epub.
+
+**D6 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
+limpio que quedó sin decidir.
+
+**D7 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
+apoyándose en unas afirmaciones que la auditoría corrigió después en más de cien puntos.
+
+---
+
+## E · Fuera del dominio métrico
+
+**E1 · Los sesenta enums en `CHECK`** y los tres sitios donde viven los vocabularios.
+→ [revisión de vocabularios](./revision-de-vocabularios.md)
+
+**E2 · Reabrir la edición de obras**, pausada desde el 2 de septiembre para que el corpus anotado
+con el vocabulario legado deje de crecer. Se levanta cuando termine el hito 2.
+→ [la pausa](./edicion-pausada.md)
