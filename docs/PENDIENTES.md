@@ -187,8 +187,7 @@ si hay que repetirlo, en [el plan](./dominio-metrico/plan-auditoria-fuentes.md).
 **E1 · Fase 5: informe y muestra humana.** El cierre: que un tercero pueda repetir la auditoría sin
 fiarse de nosotros.
 
-**E2 · Los 75 esquemas que las fuentes dan y el catálogo no tiene**, 60 de ellos de Navarro
-Tomás, en 23 fichas. Forma por forma y con el libro abierto: el volcado de Navarro lee la `c` como
+**E2 · Los 66 esquemas que las fuentes dan y el catálogo no tiene**, en 22 fichas. Forma por forma y con el libro abierto: el volcado de Navarro lee la `c` como
 `e` y algunas cadenas son varias estrofas seguidas. **La lista mecánica no es una lista de
 trabajo.** *Cuando se aborde, entran como esquemas de la arquitectura con modalidad `admitida`,
 nunca `definitoria`* —decidido el 17 de septiembre—: la distribución sigue siendo variable y lo que
@@ -201,14 +200,18 @@ de divergencias que apunta a desacuerdo real, no a silencio.
 
 **E4 · Las 19 denominaciones** sin eco en su fuente o sin fuente declarada.
 
-**E5 · Tres comprobaciones mecánicas escritas a medias.** Las entradas del *Diccionario* con sentidos
+**E5 · Once candidatas a endurecimiento**, que `npm run senal:endurecimiento` señala sobre las 306
+afirmaciones: resumen una oración con cautela —«podía», «pueden», «generalmente», «frecuente»— sin
+recogerla. Son candidatas, no veredictos: lo decide abrir el libro.
+
+**E6 · Tres comprobaciones mecánicas escritas a medias.** Las entradas del *Diccionario* con sentidos
 numerados —acertó seis de seis sin existir—, la señal de endurecimiento invertida para detectar
 cuándo la ficha ablanda a la fuente, y el cotejo de los epígrafes de Jauralde contra el epub.
 
-**E6 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
+**E7 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
 limpio que quedó sin decidir.
 
-**E7 · Cuatro cabos de consistencia**, ninguno de auditoría. `40c2c354` habla de Morley y Bruerton
+**E8 · Cuatro cabos de consistencia**, ninguno de auditoría. `40c2c354` habla de Morley y Bruerton
 en singular —«La caracteriza»—, y sus dos hermanas ya se arreglaron. El *Diccionario* se cita de dos
 maneras: ocho fichas con «s. v.» frente a 53 con «Entrada», y quince sin página. `22c63f36` enumera
 «series arromanzadas» entre los tipos con nombre de la seguidilla, y en el § 498 aparece como
@@ -216,7 +219,7 @@ ejemplo suelto de García Lorca, no como categoría. Y queda la idea de **un pá
 «Lo que dicen las fuentes» para cuando las seis disientan mucho**: no hace falta todavía, porque el
 caso que la sugirió se resolvió documentando cada voz por separado.
 
-**E8 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
+**E9 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
 apoyándose en unas afirmaciones que la auditoría corrigió después en más de cien puntos.
 
 ---
