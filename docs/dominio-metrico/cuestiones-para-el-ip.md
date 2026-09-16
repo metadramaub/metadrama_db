@@ -388,23 +388,26 @@ figura dibujan los que riman —_ninguna · ocasionales · habituales · predomi
    la misma disyuntiva que la vuelta —donde se optó por lo contrario, dejarla abierta— y conviene
    revisarlas juntas si algún día se unifica el criterio._
 
-4. **Ninguna fuente describe la arquitectura de estribillo posterior.** Buscado en los seis libros
-   el 16 de septiembre de 2026: **las cinco que describen la forma ponen el estribillo al principio**,
-   y el _Diccionario_ lo dice con esa palabra —«un estribillo **inicial** —llamado cabeza,
-   villancico, letra o tema— de dos, tres o cuatro versos»—, con su ejemplo empezando por la cabeza.
-   Caparrós, «cabeza **inicial** de dos, tres o cuatro versos». Jauralde resume la secuencia como
-   «cabeza, estrofa y repetición total o parcial de la cabeza». **Y no aparece en ninguno ni la
-   cabeza pospuesta ni un villancico que empiece por la copla.**
+4. **La arquitectura de estribillo posterior se quedó sin la fuente que la sostenía.** Lo que el
+   catálogo le atribuía —«como modalidad moderna general, una cuarteta octosilábica seguida por un
+   estribillo en cuarteta hexasílaba»— **resultó falso y se retiró el 13 de septiembre de 2026**
+   (`20260913120000`): la pasada A comprobó que Navarro Tomás no lo dice en ninguno de los seis §§
+   citados y que lo que sí dice lo contradice —en la _Gacela_ de Lorca «el estribillo es una cuarteta
+   **heptasílaba**» y **va delante**, y el otro ejemplo moderno lo llama «ejemplo aislado de esta
+   antigua forma de canción en el presente período»—.
 
-   _Hasta el 16 de septiembre de 2026 este apunte decía que «la fuente que la sustenta describe algo
-   concreto: una cuarteta octosilábica seguida de un estribillo en cuarteta hexasílaba». Esa
-   descripción no está en ninguna de las seis afirmaciones del villancico ni la he encontrado en los
-   libros; lo más parecido es un zéjel del_ Cancionero de Barbieri _que Navarro describe con
-   «mudanzas heptasílabas… estribillo octosílabo y las vueltas hexasílabas», que no es esto._
+   **La arquitectura, en cambio, sigue activa**, y es anterior: nació el 29 de julio de 2026, antes
+   de que se escribiera esa afirmación. Así que no la creó la lectura falsa, pero **tampoco la
+   sostiene ninguna otra**: buscado en los seis libros, las cinco fuentes que describen la forma
+   ponen el estribillo al principio, y el _Diccionario_ usa esa palabra —«un estribillo **inicial**
+   —llamado cabeza, villancico, letra o tema—»—. Ni cabeza pospuesta ni villancico que empiece por
+   la copla aparecen en ninguno.
 
-   _Así que la pregunta no es si restringirla sino de dónde salió, y va con el punto 6. Si la
-   arquitectura está porque el corpus la trae, es un hallazgo nuestro y conviene que la ficha lo
-   diga; si está por una lectura que no quedó registrada, hay que recuperarla o retirarla._
+   _La pregunta, entonces, no es si restringirla sino si se queda. Si el corpus la trae, es hallazgo
+   nuestro y la ficha debería decirlo así; si no la trae nadie, sobra. Va con el punto 6, que
+   pregunta si las dos arquitecturas son una sola: ese punto dice hoy que «las fuentes presentan la
+   cabeza inicial como el modelo y la otra como una modalidad», y esa «otra» era justamente la
+   modalidad retirada._
 
 5. **¿Debe el editor registrar por separado la rima del estribillo y la del enlace y la vuelta?**
    Hoy pregunta por la rima de la mudanza, pero no conserva las rimas concretas de las otras partes;
