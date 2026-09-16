@@ -1,5 +1,11 @@
 # Fase 4 · Exhaustividad
 
+> **La fase se cerró: no queda ninguna celda vacía**, y una guarda lo exige. Este informe es el
+> recorrido de las que lo estaban, con el libro abierto; **sus recuentos son del día en que se
+> escribió** —hablaba de 43 unidades y de 33 celdas vacías— y no describen el catálogo de hoy. Qué
+> salió de todo ello está en el
+> [registro de la auditoría](../historico/auditoria-de-fuentes-2026-09.md).
+
 Las tres pasadas anteriores comprobaron que cada afirmación dice la verdad. **Comprobar que una
 afirmación dice la verdad no comprueba que diga todo lo que la fuente dice de nosotros**, ni que
 existan las afirmaciones que faltan. Esta fase audita lo que el catálogo no dice.

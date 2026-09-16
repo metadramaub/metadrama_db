@@ -62,7 +62,6 @@ Ninguno se edita a mano. `npm run audit:metrica` necesita Docker, porque vuelca 
 | [Plan de migración de las anotaciones](./plan-migracion-anotaciones.md) | El marco: condiciones previas, fases y criterios de aceptación. No iniciado |
 | [Cómo se migra una obra](./como-se-migra-una-obra.md) | El procedimiento obra por obra, escrito para poder explicárselo a quien la anotó |
 | [Equivalencias pendientes](./equivalencias-pendientes.md) | **Por qué** algunos términos legados no declaran todavía su destino, y qué decidió el IP sobre cada uno. Hay que cerrarlo antes del backfill |
-| [Plan de F63: los tramos registran lo que se ve](./plan-f63-los-tramos-registran-lo-que-se-ve.md) | Da qué registrar a la versificación irregular y al verso aislado, y con ello destino a las 9 secuencias legadas que hoy se caen. Escrito, sin aplicar |
 | [Plan de auditoría de las fuentes](./plan-auditoria-fuentes.md) | El método, por si hay que repetirlo: taxonomía de defectos, pasadas ciegas y errores sembrados para medir al auditor. **La auditoría terminó**; qué enseñó, en el [registro](./historico/auditoria-de-fuentes-2026-09.md) |
 | [Demarcador métrico](./demarcador-metrico.md) | Contrato conceptual, matemática y decisiones de producto. Se actualiza cuando cambia el motor, no cuando cambia una forma |
 
@@ -80,6 +79,10 @@ proceso que se conservan por su razonamiento y su trazabilidad. Los que más se 
   por qué el formulario pregunta lo que pregunta, incidencia a incidencia.
 - [La precomputación y la ficha pública](./historico/ficha-publica-2026-09.md) — qué se probó en
   pantalla, qué se descartó y con qué razón.
+- [Los tramos sin forma registran lo que se ve](./historico/f63-los-tramos-registran-lo-que-se-ve.md)
+  — qué se le pregunta a un pasaje del que no se reconoce la norma, y por qué esas preguntas.
+- [La respuesta se describe a sí misma](./historico/c20-la-respuesta-se-describe.md) — por qué una
+  respuesta guardada apunta al dato y no a la pregunta que la ofreció.
 - [Qué guarda el registro](./historico/que-guarda-el-registro-2026-08-01.md) — tres secuencias
   inventadas, fila a fila. Su método vale; sus nombres de tabla ya no.
 

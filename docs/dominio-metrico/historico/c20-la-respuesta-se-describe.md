@@ -1,6 +1,12 @@
 # C20 · La respuesta se describe a sí misma
 
-**Escrito el 29 de agosto de 2026, sin aplicar.** Cambia **a qué apunta una respuesta guardada**. Hoy
+> **Archivado el 16 de septiembre de 2026: está aplicado.** `anotacion_elecciones` apunta hoy al
+> dato elegido —`esquema_rima_id`, `metro_id`, `valor_rasgo_id`, `variedad_id`…— junto a la
+> realización y la dimensión, y no guarda ninguna columna que apunte a una opción del catálogo.
+> Comprobado contra el esquema de la base. Se conserva porque **explica por qué el modelo tiene esa
+> forma**; sus recuentos son del día en que se escribió.
+
+**Escrito el 29 de agosto de 2026.** Cambia **a qué apunta una respuesta guardada**. Hoy
 dice «soy la respuesta a *esta pregunta*»; pasará a decir «**esta realización, en la dimensión rima,
 es este esquema**».
 

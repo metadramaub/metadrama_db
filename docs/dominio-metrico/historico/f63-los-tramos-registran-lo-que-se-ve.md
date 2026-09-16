@@ -1,5 +1,9 @@
 # F63 · Los tramos sin forma registran lo que se ve
 
+> **Archivado el 16 de septiembre de 2026: se aplicó el 3 de septiembre.** Se conserva porque
+> explica **qué se le pregunta a un pasaje del que no se reconoce la norma, y por qué esas
+> preguntas y no otras**. Lo que quedó abierto está en [PENDIENTES](../../PENDIENTES.md), A3.
+
 **Aplicado el 3 de septiembre de 2026.**
 
 *Al llevarlo a cabo aparecieron dos cosas que este plan no preveía, y se arreglaron con él:* la
@@ -59,7 +63,7 @@ nada normativo**: ni esquema métrico, ni esquema de rima, ni secciones, ni regl
 rasgos; `demarcable = false`, `tipo_rima_id` nulo y sin límites de unidad.
 
 Esa definición no contradice lo que el catálogo entiende por un tramo: «declara que **no hay norma**
-para ese tramo» ([criterios de nivel](./criterios-de-nivel.md)). Lo que cambia no es qué es un
+para ese tramo» ([criterios de nivel](../criterios-de-nivel.md)). Lo que cambia no es qué es un
 tramo, sino dónde se guarda esa ausencia de norma.
 
 **Por qué hace falta.** Dos razones, y las dos son de mecanismo:
@@ -84,7 +88,7 @@ tienen arquitectura, no solo las dos guardas. Están inventariadas:
 | `validar_arquitectura_de_forma_con_norma` · disparador sobre `arquitecturas_forma` | la arquitectura no es de un tramo | si lo es, no declara norma |
 | `validar_anotacion_metrica` · disparador sobre `anotaciones_metricas` | una anotación de tramo **no trae** `arquitectura_id` | que la arquitectura sea suya, como en cualquier forma. *Sus otras dos reglas se conservan: el verso aislado abarca un verso y la irregular al menos dos* |
 | `validar_anotacion_eleccion` | una respuesta escrita exige `tipo_control` de rima | acepta también `serie_medidas`, con la misma validación de longitud |
-| **D10** en `audit-catalogo-metrico.mjs` y en [criterios de nivel](./criterios-de-nivel.md) | «un tramo sin forma no tiene arquitectura» | «no tiene arquitectura **normativa**»: el defecto salta si declara algo |
+| **D10** en `audit-catalogo-metrico.mjs` y en [criterios de nivel](../criterios-de-nivel.md) | «un tramo sin forma no tiene arquitectura» | «no tiene arquitectura **normativa**»: el defecto salta si declara algo |
 | `changeForm` en `MetricSequenceEditor.svelte` | vacía la configuración al elegir un tramo | le ofrece sus arquitecturas |
 
 Las dos que **no** cambian, y que hay que comprobar que siguen igual: `get_catalogo_formas_publicas`
@@ -151,7 +155,7 @@ caso que debe pasar y otro que debe fallar, porque un cuerpo entrecomillado no s
 
 ### 2 · El auditor y su criterio
 
-**D10 cambia de enunciado**, en el script y en [criterios de nivel](./criterios-de-nivel.md): de «un
+**D10 cambia de enunciado**, en el script y en [criterios de nivel](../criterios-de-nivel.md): de «un
 tramo sin forma no tiene arquitectura» a «no tiene arquitectura normativa», detectando lo que la
 guarda nueva prohíbe. Si no se cambia, el informe pasa de 0 defectos a 5 el día que se aplique la
 migración.
