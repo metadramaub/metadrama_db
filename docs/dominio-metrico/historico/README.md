@@ -5,7 +5,7 @@ conservan por su razonamiento y su trazabilidad: explican por qué el modelo es 
 había antes. Sus cifras, sus listas y sus «pendiente de hacer» son del día en que se
 escribieron.
 
-Para el estado vigente: [el contexto](../CONTEXTO-PARA-CONTINUAR.md), el
+Para el estado vigente: [el índice del dominio](../README.md), el
 [índice del dominio](../README.md) y `npm run audit:metrica`.
 
 ## Qué hay aquí

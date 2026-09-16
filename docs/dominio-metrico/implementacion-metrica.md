@@ -27,7 +27,7 @@ días, y la versión de entonces está en
 | En qué nivel se registra un hecho             | [Criterios de nivel](./criterios-de-nivel.md)                |
 | Qué decidió el proyecto sobre una forma       | El catálogo mismo, en `/formas`                              |
 | Por qué una forma es como es                  | [Cuestiones por forma](./cuestiones-para-el-ip.md) |
-| Qué sigue pendiente                           | [CONTEXTO](./CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente) |
+| Qué sigue pendiente                           | [PENDIENTES](../PENDIENTES.md) |
 
 ## Las decisiones que gobiernan el modelo
 

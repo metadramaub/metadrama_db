@@ -9,7 +9,7 @@
 
 Escrito el 12 de agosto de 2026 e **implementado ese mismo día**. Inventario y diseño del **repaso
 visual del catálogo público** —punto 13 de
-[lo que queda pendiente](../CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente)—, extendido al
+[lo que queda pendiente](../../PENDIENTES.md)—, extendido al
 demarcador y al recuadro de la norma del editor V2, porque las tres superficies pintan lo mismo y
 lo pintaban distinto.
 

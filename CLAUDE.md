@@ -101,9 +101,8 @@ El editor V2 sustituyó ya al selector anterior; **queda migrar las secuencias q
 vocabulario viejo**, obra por obra y a mano con los editores. Todo el razonamiento vive en
 `docs/dominio-metrico/` porque el diseño sigue abierto.
 
-**Empieza por [docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md).**
-No leas la carpeta entera: ese archivo dice qué documentos tocan según la tarea, y
-[el índice](docs/dominio-metrico/README.md) los agrupa por para qué sirven.
+**Empieza por [el índice del dominio](docs/dominio-metrico/README.md).** No leas la carpeta
+entera: ese archivo dice, por tarea, qué hay que leer y en qué orden.
 
 **La revisión del catálogo está terminada, y con ella la de su prosa.** Las formas activas y los
 dos tramos sin forma se contrastaron con seis monografías hasta el 8 de agosto de 2026; las seis
@@ -129,7 +128,7 @@ consumirla y evaluarla en el laboratorio antes de proyectar una selección peque
 migrar las anotaciones que aún hablan el vocabulario legado.
 
 **Lo demás que queda pendiente está inventariado** en
-[CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md#qué-queda-pendiente).
+[docs/PENDIENTES.md](docs/PENDIENTES.md), la única lista del proyecto.
 El bloque A son los casos en que una secuencia real no tendría dónde caer; el B, aquellos en que un
 editor no puede registrar lo que ve; el C, deudas del modelo sin urgencia.
 
@@ -215,7 +214,7 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 ## Documentación
 
 - `docs/dominio-metrico/` — el dominio métrico nuevo. Entrada:
-  [CONTEXTO-PARA-CONTINUAR.md](docs/dominio-metrico/CONTEXTO-PARA-CONTINUAR.md)
+  [README.md](docs/dominio-metrico/README.md)
 - [docs/metodologia-perfil-metrico.md](docs/metodologia-perfil-metrico.md) — qué mide cada
   dato precomputado y por qué. Canónico: si añades una medida, se anota aquí.
 - [docs/mapa-precomputacion.md](docs/mapa-precomputacion.md) — dónde vive cada dato: qué guarda el

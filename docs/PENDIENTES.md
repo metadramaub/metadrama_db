@@ -11,10 +11,6 @@ Lo que **no** va en esta lista: las decisiones filológicas, que son del IP y es
 [cuestiones para el IP](./dominio-metrico/cuestiones-para-el-ip.md); y los informes generados, que
 no son estado porque se rehacen con un comando.
 
-> **Mientras dure la mudanza**, el razonamiento largo de los asuntos del dominio métrico sigue en
-> [CONTEXTO-PARA-CONTINUAR](./dominio-metrico/CONTEXTO-PARA-CONTINUAR.md), que se está vaciando. Cada
-> entrada dice dónde mirar.
-
 ---
 
 ## Los dos hitos
@@ -143,42 +139,81 @@ selector**: hoy es «formas + subtipos anidados» en un control único que no ag
 
 ---
 
-## D · Lo que dejó la auditoría de fuentes
+## D · La ficha pública
+
+Lo que quedó abierto al cerrar el inventario de la ficha. Su relato punto por punto, con lo que se
+descartó y por qué, está en el [histórico](./dominio-metrico/historico/ficha-publica-2026-09.md).
+
+**D1 · Los gráficos de análisis no llevan a ninguna parte.** Un tramo del código de barras o una
+barra de la evolución debería abrir o filtrar las secuencias que cuenta. Hoy solo se miran.
+
+**D2 · La lectura de la evolución a lo largo de la obra.** No es dibujar otro gráfico: es decidir
+antes qué significan `numero_efectivo_formas` y `densidad_transiciones` **dentro de una sola obra**
+—hoy sirven para comparar obras entre sí en `/obras`— y si «se concentra» o «se diversifica» es
+afirmable con lo que se mide.
+
+**D3 · Los comentarios que no cuelgan de una secuencia no se pintan.** La ficha solo muestra los
+que llevan `secuencia_id`; quedan fuera los generales y los ligados a una jornada o un cuadro.
+
+**D4 · Los slugs de las arquitecturas.** Los nombres se corrigieron el 10 de septiembre; los slugs
+no, porque viajan en el JSON de la ficha y en las URLs del catálogo y renombrarlos pide recompute y
+repaso de enlaces. Dos desajustes esperan ese día: `terceto/endecasilabica_consonante` se llama
+«Endecasílabo», y los slugs dicen `octosilabica` donde el nombre dice «Octosílabo». Y falta decidir
+cómo nombrar la única arquitectura del endecasílabo suelto, que ya lo dice todo en el nombre de su
+forma.
+
+**D5 · La exportación en grises, para imprimir.** La de color existe; doce formas no se distinguen
+por tono en papel, así que la versión impresa pide trama —rayado, punteado— y los nombres fuera, en
+diagonal, unidos a su tramo por una línea de guía.
+
+**D6 · Estados vacíos y cobertura parcial**, en métrica, jornadas, sinopsis y anotaciones: qué
+enseña la ficha de una obra a medio anotar.
+
+**D7 · El modal de secuencia, lo que le falta de accesibilidad**: comprobación visual en móvil y
+decidir si se confina el foco del todo.
+
+**D8 · Los patrones repetidos.** *Aplazado a propósito*: no se detecta ninguno hasta acordar qué
+es un patrón y con qué umbral, y hasta tener corpus publicado suficiente para contrastarlo. Con una
+obra delante, cualquier lista sería arbitraria.
+
+---
+
+## E · Lo que dejó la auditoría de fuentes
 
 La auditoría está terminada: 267 afirmaciones resueltas y 57 migraciones. Su relato está en
 [ESTADO.md](./dominio-metrico/auditoria-fuentes/ESTADO.md) y el método en
 [el plan](./dominio-metrico/plan-auditoria-fuentes.md).
 
-**D1 · Fase 5: informe y muestra humana.** El cierre: que un tercero pueda repetir la auditoría sin
+**E1 · Fase 5: informe y muestra humana.** El cierre: que un tercero pueda repetir la auditoría sin
 fiarse de nosotros.
 
-**D2 · Los 75 esquemas que las fuentes dan y el catálogo no tiene.** Forma por forma y con el libro
+**E2 · Los 75 esquemas que las fuentes dan y el catálogo no tiene.** Forma por forma y con el libro
 abierto: el volcado de Navarro lee la `c` como `e` y algunas cadenas son varias estrofas seguidas.
 **La lista mecánica no es una lista de trabajo.**
 
-**D3 · Las 23 afirmaciones que matizan sobre formas con esquema definitorio.** Lo único del inventario
+**E3 · Las 23 afirmaciones que matizan sobre formas con esquema definitorio.** Lo único del inventario
 de divergencias que apunta a desacuerdo real, no a silencio.
 → [divergencias con las fuentes](./dominio-metrico/divergencias-con-las-fuentes.md)
 
-**D4 · Las 19 denominaciones** sin eco en su fuente o sin fuente declarada.
+**E4 · Las 19 denominaciones** sin eco en su fuente o sin fuente declarada.
 
-**D5 · Tres comprobaciones mecánicas escritas a medias.** Las entradas del *Diccionario* con sentidos
+**E5 · Tres comprobaciones mecánicas escritas a medias.** Las entradas del *Diccionario* con sentidos
 numerados —acertó seis de seis sin existir—, la señal de endurecimiento invertida para detectar
 cuándo la ficha ablanda a la fuente, y el cotejo de los epígrafes de Jauralde contra el epub.
 
-**D6 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
+**E6 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
 limpio que quedó sin decidir.
 
-**D7 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
+**E7 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
 apoyándose en unas afirmaciones que la auditoría corrigió después en más de cien puntos.
 
 ---
 
-## E · Fuera del dominio métrico
+## F · Fuera del dominio métrico
 
-**E1 · Los sesenta enums en `CHECK`** y los tres sitios donde viven los vocabularios.
+**F1 · Los sesenta enums en `CHECK`** y los tres sitios donde viven los vocabularios.
 → [revisión de vocabularios](./revision-de-vocabularios.md)
 
-**E2 · Reabrir la edición de obras**, pausada desde el 2 de septiembre para que el corpus anotado
+**F2 · Reabrir la edición de obras**, pausada desde el 2 de septiembre para que el corpus anotado
 con el vocabulario legado deje de crecer. Se levanta cuando termine el hito 2.
 → [la pausa](./edicion-pausada.md)
