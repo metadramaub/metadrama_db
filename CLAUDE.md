@@ -105,32 +105,21 @@ vocabulario viejo**, obra por obra y a mano con los editores. Todo el razonamien
 entera: ese archivo dice, por tarea, qué hay que leer y en qué orden.
 
 **La revisión del catálogo está terminada, y con ella la de su prosa.** Las formas activas y los
-dos tramos sin forma se contrastaron con seis monografías hasta el 8 de agosto de 2026; las seis
-lecturas transversales sobre el catálogo entero se cerraron el 10; y **la prosa de las 28 fichas
-quedó revisada forma por forma el 21 de agosto**. Ese mismo día entraron **seis formas nuevas** al llenar el hueco
-de las estrofas de siete, ocho, once y doce versos —copla de arte menor, copla castellana, octava
-aguda, septilla, oncena y copla manriqueña—, y el 22 otras cinco al cerrar las de siete y las
-**estrofas enlazadas** que Navarro Tomás documenta en el teatro primitivo —septeto, septeto-lira,
-redondilla enlazada, sextilla enlazada y septilla enlazada—, y el 24 de agosto **las cuatro que le
-faltaban a la serie alirada** —cuarteto-lira, octava-lira, novena-lira y décima-lira—, al
-sistematizarla entera: el catálogo tiene hoy **41 formas y 2 tramos sin forma**. El diario de ese proceso está archivado en
-[historico/](docs/dominio-metrico/historico/). **Lo que sigue sin decidir**, forma por forma y con
-el pasaje de la fuente de cada caso, está en
+dos tramos sin forma se contrastaron con seis monografías, y la prosa quedó escrita forma por forma
+en agosto de 2026; en septiembre se auditó además que cada afirmación de «Lo que dicen las fuentes»
+diga lo que su libro dice. El diario de todo ello está en
+[historico/](docs/dominio-metrico/historico/); el método que sigue en vigor, en
+[cómo se cambia el catálogo](docs/dominio-metrico/como-se-cambia-el-catalogo.md). **Lo que sigue
+sin decidir**, forma por forma y con el pasaje de la fuente de cada caso, está en
 [cuestiones para el IP](docs/dominio-metrico/cuestiones-para-el-ip.md): son decisiones
 filológicas, no técnicas, y las toma el IP.
 
-**El editor V2 es ya el que ven los editores**, y `develop` se fusionó a `main` el 7 de septiembre
-de 2026. Los campos propios de la secuencia y el paso de la precomputación y la ficha al catálogo
-nuevo se cerraron ese mismo día. **La zona pública pasó a artefactos JSON el 12 de septiembre**:
-la ficha en vivo queda solo para la vista previa y las fichas publicadas, los índices, los perfiles
-de autor y las comparativas se materializan. La matriz comparativa es privada; lo siguiente es
-consumirla y evaluarla en el laboratorio antes de proyectar una selección pequeña a las fichas, y
-migrar las anotaciones que aún hablan el vocabulario legado.
+**Cuántas formas hay, cuántas secuencias faltan por migrar y cuántas obras están publicadas no se
+escribe aquí.** Son los datos que más cambian y los que más caro salen si mienten: este archivo
+llegó a decir 41 formas habiendo 44. Se consultan en la base y en los informes que la leen.
 
-**Lo demás que queda pendiente está inventariado** en
-[docs/PENDIENTES.md](docs/PENDIENTES.md), la única lista del proyecto.
-El bloque A son los casos en que una secuencia real no tendría dónde caer; el B, aquellos en que un
-editor no puede registrar lo que ve; el C, deudas del modelo sin urgencia.
+**Todo lo que queda por hacer está en [docs/PENDIENTES.md](docs/PENDIENTES.md)**, la única lista
+del proyecto. Lo que se hace se borra de ahí.
 
 ## Reglas duras
 
@@ -156,11 +145,11 @@ guardas de las migraciones ejecutan lo que tocan**, no solo comprueban el dato.
 **La frontera entre lo viejo y lo nuevo cayó el 7 de septiembre de 2026.** El editor V2 escribe en
 las tablas `anotacion_*` y **la zona pública lee solo de ahí**: el recompute, el buscador y la ficha
 pasaron al catálogo nuevo sin puente al vocabulario legado. Lo que no ha cambiado es que el editor
-no toca `secuencias_metricas.estrofa_tipo_id`. Quedan **263 secuencias** con el vocabulario legado
-—en las 88 obras en borrador y las 5 en vista previa— y **hasta que se migren no tienen perfil**.
-Las 11 obras publicadas y visibles son de prueba: se generan con `npm run guion:pruebas` y
-`npm run aplicar:guiones`, y **no sirven para validar un hallazgo**, solo para comprobar que la
-maquinaria calcula y dibuja.
+no toca `secuencias_metricas.estrofa_tipo_id`. Las secuencias que siguen con el vocabulario legado
+—en las obras en borrador y en vista previa— **no tienen perfil hasta que se migren**; cuántas
+quedan lo dice `npm run equivalencias:informe`. **Las obras publicadas y visibles son todas de
+prueba**: se generan con `npm run guion:pruebas` y `npm run aplicar:guiones`, y **no sirven para
+validar un hallazgo**, solo para comprobar que la maquinaria calcula y dibuja.
 
 **Migraciones.** Una migración aplicada no se edita nunca — `db push` la ignora en
 silencio. Para cambiar algo ya migrado, se escribe una migración nueva con sentencias
